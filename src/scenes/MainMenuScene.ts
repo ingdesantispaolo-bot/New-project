@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
+import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { startScene } from "../core/SceneNavigator";
@@ -23,6 +24,7 @@ const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
 export class MainMenuScene extends Phaser.Scene {
   private readonly layout = mapLayoutSystem.getMainMenuLayout();
   private selectedDifficulty?: DifficultyLevel;
+  private transitioning = false;
 
   constructor() {
     super("MainMenuScene");
@@ -30,6 +32,7 @@ export class MainMenuScene extends Phaser.Scene {
 
   create(): void {
     saveSystem.load();
+    playerSystem.load();
     this.selectedDifficulty ??= this.loadSelectedDifficulty();
     audioManager.playMusic("menuMusic");
     this.drawBackground();
@@ -58,6 +61,12 @@ export class MainMenuScene extends Phaser.Scene {
       wordWrap: { width: copy.width ?? 620 },
       lineSpacing: 5,
     });
+    this.add.text(102, 300, `Giocatore: ${playerSystem.getActivePlayer().name}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "17px",
+      color: "#f6c85f",
+      fontStyle: "bold",
+    });
 
     const newMission = this.rect("menu:newMission", { x: 250, y: 374, width: 260 });
     new Button(this, newMission.x, newMission.y, "Nuova Missione", () => {
@@ -75,6 +84,22 @@ export class MainMenuScene extends Phaser.Scene {
       width: procedural.width,
       fill: 0x173b36,
       fontSize: 18,
+    });
+    new Button(this, 552, 522, "Giocatori", () => {
+      void startScene(this, "PlayerReportScene");
+    }, {
+      width: 206,
+      height: 46,
+      fill: 0x263743,
+      fontSize: 16,
+    });
+    new Button(this, 552, 596, "Classifiche", () => {
+      void startScene(this, "LeaderboardScene");
+    }, {
+      width: 206,
+      height: 46,
+      fill: 0x263743,
+      fontSize: 16,
     });
 
     this.add.text(820, 166, "Allenamento focus", {
@@ -175,15 +200,43 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   private startMissionGame(): void {
+    if (this.transitioning) return;
+    this.transitioning = true;
+    this.showBusy("Preparo una missione validata...");
     saveSystem.load();
-    this.createProceduralRun("libera", this.activeDifficulty(), "mission");
-    void startScene(this, "ProceduralMissionScene");
+    this.time.delayedCall(40, () => {
+      this.createProceduralRun("libera", this.activeDifficulty(), "mission");
+      void startScene(this, "ProceduralMissionScene");
+    });
   }
 
   private startFocusTraining(focus: ProceduralSpecialization): void {
+    if (this.transitioning) return;
+    this.transitioning = true;
+    this.showBusy("Costruisco il percorso focus...");
     saveSystem.load();
-    this.createProceduralRun(focus, this.activeDifficulty(), "training");
-    void startScene(this, "ProceduralMissionScene");
+    this.time.delayedCall(40, () => {
+      this.createProceduralRun(focus, this.activeDifficulty(), "training");
+      void startScene(this, "ProceduralMissionScene");
+    });
+  }
+
+  private showBusy(label: string): void {
+    const blocker = this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.28).setDepth(900);
+    const panel = this.add.rectangle(640, 360, 430, 112, 0x09151f, 0.96).setStrokeStyle(2, 0x6be7d6, 0.65).setDepth(901);
+    const text = this.add.text(640, 346, label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "21px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setOrigin(0.5).setDepth(902);
+    const detail = this.add.text(640, 382, "Seed, solver e validator stanno preparando contenuti risolvibili.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+    }).setOrigin(0.5).setDepth(902);
+    blocker.setInteractive();
+    this.tweens.add({ targets: [panel, text, detail], alpha: { from: 0.78, to: 1 }, duration: 180, yoyo: true, repeat: -1 });
   }
 
   private createProceduralRun(

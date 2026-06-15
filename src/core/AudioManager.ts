@@ -64,6 +64,7 @@ export class AudioManager {
     this.unlockInstalled = true;
     const unlock = (): void => {
       this.unlock();
+      window.setTimeout(() => this.preloadResponsiveSfx(), 0);
       window.removeEventListener("pointerdown", unlock);
       window.removeEventListener("touchend", unlock);
       window.removeEventListener("keydown", unlock);
@@ -91,8 +92,12 @@ export class AudioManager {
   }
 
   play(key: SoundKey): void {
-    const sound = this.getSound(key);
-    sound.play();
+    try {
+      const sound = this.getSound(key);
+      sound.play();
+    } catch {
+      // Audio must never block input responsiveness.
+    }
   }
 
   playOutcome(outcome: OutcomeSound): void {
@@ -144,6 +149,16 @@ export class AudioManager {
     });
     this.sounds.set(key, sound);
     return sound;
+  }
+
+  private preloadResponsiveSfx(): void {
+    (["click", "success", "error", "hint", "scan"] as SoundKey[]).forEach((key) => {
+      try {
+        this.getSound(key).load();
+      } catch {
+        // Preload is opportunistic.
+      }
+    });
   }
 }
 

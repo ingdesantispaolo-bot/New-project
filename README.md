@@ -57,6 +57,7 @@ Guida completa: `docs/TABLET_AND_DEPLOY.md`.
 - Missione 3 “La Fabbrica dei Numeri” con macchine industriali, filtri pari/multipli, trasformazioni e ordini di produzione.
 - Missione 4 “Archivio delle Parole” con messaggi corrotti, filtro indizi, istruzione bilingue e rapporto finale.
 - `localStorage` per salvataggio.
+- Profili giocatore locali con report personale e classifiche top 20 per esercizio, missione e focus.
 - AudioManager Howler con suoni sintetici placeholder.
 - Supporto tablet landscape, overlay orientamento, touch target ampliati, manifest PWA e service worker leggero.
 
@@ -72,3 +73,12 @@ Guida completa: `docs/TABLET_AND_DEPLOY.md`.
 - Competenze: `src/data/competencies.ts`
 
 Le scene leggono questi dati e aggiornano flag/competenze tramite `MissionEngine`, `SaveSystem` e `CompetencyTracker`.
+
+## Giocatori e classifiche
+
+Dal menu principale:
+
+- `Giocatori`: crea o seleziona profili locali e legge il report del giocatore attivo.
+- `Classifiche`: mostra i migliori 20 risultati salvati nel browser per missione, focus ed esercizio.
+
+I dati sono salvati in `localStorage` con chiave separata dal salvataggio principale. Non serve backend nella versione attuale; in futuro `PlayerSystem` potrà essere sostituito con un adapter remoto.

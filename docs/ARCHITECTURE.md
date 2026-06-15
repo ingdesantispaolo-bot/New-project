@@ -21,6 +21,8 @@
 - `NumberFactoryScene`: missione industriale con ordini numerici, macchine, filtri, traccia-espressione e completamento dati-driven.
 - `WordArchiveScene`: missione linguistica con restauro messaggi, filtro indizi, istruzione bilingue e rapporto finale.
 - `ProceduralMissionScene`: missione esplorativa generata da seed con hotspot, puzzle validati, diario procedurale e dipendenze sistemiche tra segnale, circuito, terminale, inglese, robot e porta.
+- `PlayerReportScene`: selezione giocatori, report personale, punti forti e ultimi risultati.
+- `LeaderboardScene`: classifiche locali filtrabili per esercizio, missione e focus.
 - `CircuitPuzzleScene`: puzzle elettronico.
 - `MathLockScene`: serratura numerica.
 - `RobotCodingScene`: puzzle coding a griglia.
@@ -42,6 +44,7 @@
 - `AssetPipeline`: descrive asset di produzione, provenienza, runtime key e formato ottimizzato.
 - `SceneNavigator`: carica dinamicamente missioni e puzzle quando servono, riducendo il bundle iniziale.
 - `MapLayoutSystem`: legge layout Tiled JSON e permette di spostare hotspot, pannelli, macchine, piante e carte fuori dal codice scena.
+- `PlayerSystem`: gestisce profili giocatore locali, risultati storici e classifiche top 20 per esercizio, missione e focus.
 
 ## Rendering E Asset Pipeline
 
@@ -97,6 +100,15 @@ Il salvataggio vive in `localStorage` con chiave `eli-quest-save-v1`. Contiene:
 - run procedurale corrente con seed, difficoltà, missione generata, puzzle risolti e indizi usati.
 - stato interno della Serra: turno, pianta selezionata, valori sensori, salute e storico grafico;
 - stato interno della Fabbrica: ordine corrente, valore del nucleo, espressione, macchine attraversate e ordini completati.
+
+I dati multi-giocatore vivono in una chiave separata, `eli-quest-players-v1`, per non rompere il salvataggio esistente. Contengono:
+
+- profili giocatore;
+- giocatore attivo;
+- risultati storici attribuiti al profilo;
+- risultati normalizzati per classifica: categoria, chiave, difficoltà, punteggio, tempo, indizi, tentativi e seed.
+
+Le classifiche sono locali al browser/tablet. Sono già modellate come record serializzabili, quindi un backend futuro potrà sincronizzarle senza cambiare le scene.
 
 ## Espandibilita
 

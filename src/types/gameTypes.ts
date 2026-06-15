@@ -10,6 +10,8 @@ export type SceneKey =
   | "RobotCodingScene"
   | "MathLockScene"
   | "JournalScene"
+  | "LeaderboardScene"
+  | "PlayerReportScene"
   | "ProceduralMissionScene";
 
 export type SaveData = {

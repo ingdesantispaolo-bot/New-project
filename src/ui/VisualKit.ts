@@ -121,47 +121,68 @@ export class VisualKit {
   }
 
   private static pointerParallax(scene: Phaser.Scene, target: Phaser.GameObjects.Image, strength: number): void {
-    let tween: Phaser.Tweens.Tween | undefined;
+    if (!this.shouldUsePointerParallax()) {
+      return;
+    }
+    let frame = 0;
+    let nextX = target.x;
+    let nextY = target.y;
     const onMove = (pointer: Phaser.Input.Pointer): void => {
       const dx = Phaser.Math.Clamp((pointer.x - 640) / 640, -1, 1);
       const dy = Phaser.Math.Clamp((pointer.y - 360) / 360, -1, 1);
-      tween?.stop();
-      tween = scene.tweens.add({
-        targets: target,
-        x: 640 - dx * strength,
-        y: 360 - dy * strength * 0.72,
-        duration: 480,
-        ease: "Sine.easeOut",
+      nextX = 640 - dx * strength;
+      nextY = 360 - dy * strength * 0.72;
+      if (frame !== 0) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        if (!target.scene || !target.active) return;
+        target.x += (nextX - target.x) * 0.18;
+        target.y += (nextY - target.y) * 0.18;
       });
     };
     scene.input.on("pointermove", onMove);
     scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       scene.input.off("pointermove", onMove);
-      tween?.stop();
+      if (frame !== 0) window.cancelAnimationFrame(frame);
     });
   }
 
   private static pointerParallaxTarget(scene: Phaser.Scene, target: Phaser.GameObjects.Components.Transform, strength: number): void {
-    let tween: Phaser.Tweens.Tween | undefined;
+    if (!this.shouldUsePointerParallax()) {
+      return;
+    }
+    let frame = 0;
     const baseX = target.x;
     const baseY = target.y;
+    let nextX = baseX;
+    let nextY = baseY;
     const onMove = (pointer: Phaser.Input.Pointer): void => {
       const dx = Phaser.Math.Clamp((pointer.x - 640) / 640, -1, 1);
       const dy = Phaser.Math.Clamp((pointer.y - 360) / 360, -1, 1);
-      tween?.stop();
-      tween = scene.tweens.add({
-        targets: target,
-        x: baseX - dx * strength,
-        y: baseY - dy * strength * 0.62,
-        duration: 520,
-        ease: "Sine.easeOut",
+      nextX = baseX - dx * strength;
+      nextY = baseY - dy * strength * 0.62;
+      if (frame !== 0) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        target.x += (nextX - target.x) * 0.16;
+        target.y += (nextY - target.y) * 0.16;
       });
     };
     scene.input.on("pointermove", onMove);
     scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       scene.input.off("pointermove", onMove);
-      tween?.stop();
+      if (frame !== 0) window.cancelAnimationFrame(frame);
     });
+  }
+
+  private static shouldUsePointerParallax(): boolean {
+    if (typeof window === "undefined") {
+      return false;
+    }
+    const coarsePointer = window.matchMedia?.("(pointer: coarse)").matches ?? false;
+    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+    const smallViewport = Math.min(window.innerWidth, window.innerHeight) < 760;
+    return !coarsePointer && !reducedMotion && !smallViewport;
   }
 
   private static productionParallax(scene: Phaser.Scene, paletteName: Palette): void {

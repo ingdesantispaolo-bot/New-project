@@ -2,6 +2,7 @@ import type { JournalEntry } from "../types/gameTypes";
 import type { MissionDefinition, MissionObjective, ObjectiveStatus } from "../types/missionTypes";
 import { competencyTracker } from "./CompetencyTracker";
 import { EventBus, GameEvents } from "./EventBus";
+import { playerSystem } from "./PlayerSystem";
 import { formatDuration, proceduralScoring } from "./ProceduralScoring";
 import { proceduralRunRules } from "./ProceduralRunRules";
 import { saveSystem } from "./SaveSystem";
@@ -173,6 +174,14 @@ export class MissionEngine {
           bestTimeMs: record.bestTimeMs,
         },
       });
+      playerSystem.recordProceduralRun({
+        ...run,
+        completedAt,
+        trainingResult: {
+          ...result,
+          bestTimeMs: record.bestTimeMs,
+        },
+      });
       saveSystem.addJournalEntry({
         id: `training-summary-${run.seed}`,
         title: "Allenamento completato",
@@ -190,6 +199,7 @@ export class MissionEngine {
       return;
     }
     saveSystem.updateProceduralRun({ completedAt });
+    playerSystem.recordProceduralRun({ ...run, completedAt });
     const elapsed = new Date(completedAt).getTime() - new Date(run.startedAt).getTime();
     const focus = proceduralRunRules.focusFor(run);
     saveSystem.completeMission(run.mission.id);

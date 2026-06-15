@@ -36,6 +36,9 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     super(scene, x, y);
     const size = options.size ?? 88;
     const tint = stateColor(options.state);
+    const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
+    let lastTapAt = 0;
+    let pressed = false;
     const glow = scene.add.image(0, 0, "soft-glow").setTint(tint).setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : 0.04).setScale(size / 58);
     const ring = scene.add.image(0, 0, "holo-ring").setTint(tint).setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : 0.18).setScale(size / 78);
     const glyph = drawDeviceGlyph(scene, options.kind, tint, options.state, size * 0.72);
@@ -66,20 +69,42 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     this.setSize(hitSize, hitSize);
     this.setInteractive(new Phaser.Geom.Rectangle(-hitSize / 2, -hitSize / 2, hitSize, hitSize * 1.18), Phaser.Geom.Rectangle.Contains);
     this.on("pointerover", () => {
+      if (!supportsHover || pressed) return;
       if (options.state !== "locked") {
         ring.setAlpha(0.66);
         glow.setAlpha(0.26);
         tag.setAlpha(1);
-        scene.tweens.add({ targets: this, scale: 1.045, duration: 100 });
+        scene.tweens.killTweensOf(this);
+        scene.tweens.add({ targets: this, scale: 1.045, duration: 80 });
       }
     });
     this.on("pointerout", () => {
+      if (pressed) return;
       ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : 0.18);
       glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : 0.04);
       tag.setAlpha(options.state === "active" ? 1 : 0.76);
-      scene.tweens.add({ targets: this, scale: 1, duration: 100 });
+      scene.tweens.killTweensOf(this);
+      scene.tweens.add({ targets: this, scale: 1, duration: 80 });
     });
-    this.on("pointerdown", options.onClick);
+    this.on("pointerdown", () => {
+      const now = performance.now();
+      if (now - lastTapAt < 180) return;
+      lastTapAt = now;
+      pressed = true;
+      scene.tweens.killTweensOf(this);
+      ring.setAlpha(options.state === "locked" ? 0.12 : 0.74);
+      glow.setAlpha(options.state === "locked" ? 0.08 : 0.3);
+      tag.setAlpha(1);
+      this.setScale(0.985);
+      scene.time.delayedCall(16, () => {
+        if (!this.scene || !this.active) return;
+        options.onClick();
+        pressed = false;
+        if (!this.scene || !this.active) return;
+        scene.tweens.killTweensOf(this);
+        scene.tweens.add({ targets: this, scale: 1, duration: 70 });
+      });
+    });
 
     if (options.state === "ready" || options.state === "active") {
       scene.tweens.add({

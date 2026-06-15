@@ -129,6 +129,7 @@ export class PlayerSystem {
 
   load(): PlayerStore {
     this.store = this.loadStore();
+    this.persist();
     return this.store;
   }
 
@@ -192,7 +193,7 @@ export class PlayerSystem {
     if (mode === "mission") {
       nextResults.push({
         id: createId("result"),
-        sourceKey: `${run.seed}:${completedAt}:mission:${run.mission.id}`,
+        sourceKey: `${active.id}:${run.seed}:${completedAt}:mission:${run.mission.id}`,
         playerId: active.id,
         playerName: active.name,
         category: "mission",
@@ -213,7 +214,7 @@ export class PlayerSystem {
       const focus = proceduralRunRules.focusFor(run);
       nextResults.push({
         id: createId("result"),
-        sourceKey: `${run.seed}:${completedAt}:focus:${focus}`,
+        sourceKey: `${active.id}:${run.seed}:${completedAt}:focus:${focus}`,
         playerId: active.id,
         playerName: active.name,
         category: "focus",
@@ -234,7 +235,7 @@ export class PlayerSystem {
       const key = basePuzzleKey(score.puzzleId);
       nextResults.push({
         id: createId("result"),
-        sourceKey: `${run.seed}:${completedAt}:exercise:${score.puzzleId}`,
+        sourceKey: `${active.id}:${run.seed}:${completedAt}:exercise:${score.puzzleId}`,
         playerId: active.id,
         playerName: active.name,
         category: "exercise",

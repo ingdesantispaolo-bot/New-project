@@ -31,8 +31,8 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   create(): void {
-    saveSystem.load();
     playerSystem.load();
+    saveSystem.load();
     this.selectedDifficulty ??= this.loadSelectedDifficulty();
     audioManager.playMusic("menuMusic");
     this.drawBackground();
@@ -74,6 +74,7 @@ export class MainMenuScene extends Phaser.Scene {
     }, { width: newMission.width });
     const continueButton = this.rect("menu:continue", { x: 250, y: 448, width: 260 });
     new Button(this, continueButton.x, continueButton.y, "Continua", () => {
+      playerSystem.load();
       saveSystem.load();
       void startScene(this, this.getContinueScene());
     }, { width: continueButton.width });
@@ -102,68 +103,76 @@ export class MainMenuScene extends Phaser.Scene {
       fontSize: 16,
     });
 
-    this.add.text(820, 166, "Allenamento focus", {
+    VisualKit.glassPanel(this, 792, 128, 430, 500, "academy", 0.72);
+    this.add.text(828, 164, "Allenamento focus", {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(820, 204, "Scegli prima il livello, poi un focus. Qui non perdi vite: si misurano miglior tempo, voto finale e crescita della materia scelta.", {
+    this.add.text(828, 202, "Scegli livello e materia. Qui non perdi vite: contano tempo, precisione e uso degli aiuti.", {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#c7dce7",
-      wordWrap: { width: 330 },
+      wordWrap: { width: 360 },
       lineSpacing: 5,
     });
-    this.add.text(820, 266, `Livello selezionato: ${selected}/8 - ${difficultyModel.describe(selected)}.`, {
+    this.add.text(828, 266, `Livello selezionato: ${selected}/8`, {
       fontFamily: "Inter, Arial",
-      fontSize: "13px",
+      fontSize: "15px",
       color: "#f6c85f",
-      wordWrap: { width: 330 },
+      fontStyle: "bold",
+    });
+    this.add.text(828, 290, difficultyModel.describe(selected), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      wordWrap: { width: 360 },
       lineSpacing: 4,
     });
     focusOptions.forEach((focus, index) => {
-      const x = 908 + (index % 2) * 168;
-      const y = 326 + Math.floor(index / 2) * 62;
+      const x = 926 + (index % 2) * 188;
+      const y = 354 + Math.floor(index / 2) * 58;
       new Button(this, x, y, focus.label, () => {
         this.startFocusTraining(focus.id);
       }, {
-        width: 150,
-        height: 42,
+        width: 166,
+        height: 44,
         fill: focus.id === "libera" ? 0x263743 : 0x173b36,
-        fontSize: 12,
+        fontSize: 13,
       });
     });
 
-    this.add.text(820, 510, "Livello allenamento", {
+    this.add.text(828, 520, "Livello allenamento", {
       fontFamily: "Inter, Arial",
       fontSize: "20px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(820, 538, `Consigliato: ${recommended}/8. Puoi scegliere liberamente da 1 a 8; il valore resta salvato per i prossimi focus.`, {
+    this.add.text(828, 548, `Consigliato: ${recommended}/8. Puoi scegliere liberamente da 1 a 8.`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7dce7",
-      wordWrap: { width: 350 },
+      wordWrap: { width: 360 },
       lineSpacing: 4,
     });
     for (let level = 1; level <= 8; level += 1) {
-      new Button(this, 842 + (level - 1) * 44, 606, String(level), () => {
+      new Button(this, 852 + (level - 1) * 45, 598, String(level), () => {
         this.selectDifficulty(level as DifficultyLevel);
       }, {
-        width: 34,
-        height: 32,
+        width: 38,
+        height: 36,
         fill: selected === level ? 0x1f5a51 : 0x142736,
         stroke: selected === level ? 0xf6c85f : 0x6be7d6,
         fontSize: 14,
       });
     }
 
-    this.add.text(884, 656, `Generazione controllata: seed, solver, validator | Livello scelto ${selected}/8`, {
+    this.add.text(828, 642, `Seed, solver e validator | Livello scelto ${selected}/8`, {
       fontFamily: "Inter, Arial",
-      fontSize: "15px",
+      fontSize: "13px",
       color: "#7da2af",
+      wordWrap: { width: 380 },
     });
     VisualKit.vignette(this);
   }
@@ -171,18 +180,14 @@ export class MainMenuScene extends Phaser.Scene {
   private drawBackground(): void {
     this.cameras.main.setBackgroundColor("#071018");
     VisualKit.background(this, "academy");
-    VisualKit.glassPanel(this, 820, 170, 360, 390, "academy", 0.5);
-    VisualKit.frame(this, 790, 140, 420, 450, "academy");
     const portal = this.rect("menu:portal", { x: 998, y: 360, width: 360, height: 390 });
-    this.add.circle(portal.x, portal.y, 118, 0x6be7d6, 0.08).setStrokeStyle(4, 0x6be7d6, 0.74);
-    this.add.circle(portal.x, portal.y, 62, 0xf6c85f, 0.18).setStrokeStyle(2, 0xf6c85f, 0.46);
-    this.add.rectangle(portal.x, portal.y, 250, 18, 0x6be7d6, 0.18);
-    this.add.rectangle(portal.x, portal.y, 18, 250, 0xf6c85f, 0.12);
+    this.add.circle(portal.x, portal.y, 118, 0x6be7d6, 0.035).setStrokeStyle(2, 0x6be7d6, 0.22);
+    this.add.circle(portal.x, portal.y, 62, 0xf6c85f, 0.055).setStrokeStyle(1, 0xf6c85f, 0.18);
     this.tweens.add({
-      targets: this.add.circle(portal.x, portal.y, 155, 0x6be7d6, 0.02).setStrokeStyle(1, 0x6be7d6, 0.24),
+      targets: this.add.circle(portal.x, portal.y, 155, 0x6be7d6, 0.012).setStrokeStyle(1, 0x6be7d6, 0.12),
       scale: 1.08,
-      alpha: 0.36,
-      duration: 2400,
+      alpha: 0.18,
+      duration: 2800,
       yoyo: true,
       repeat: -1,
     });
@@ -275,7 +280,9 @@ export class MainMenuScene extends Phaser.Scene {
   private loadSelectedDifficulty(): DifficultyLevel {
     try {
       const stored = localStorage.getItem(TRAINING_DIFFICULTY_KEY);
-      const parsed = Number(stored);
+      const playerStored = localStorage.getItem(this.trainingDifficultyKey());
+      const effectiveStored = playerStored ?? stored;
+      const parsed = Number(effectiveStored);
       if (Number.isFinite(parsed)) {
         return difficultyModel.normalize(parsed);
       }
@@ -289,6 +296,7 @@ export class MainMenuScene extends Phaser.Scene {
     this.selectedDifficulty = level;
     try {
       localStorage.setItem(TRAINING_DIFFICULTY_KEY, String(level));
+      localStorage.setItem(this.trainingDifficultyKey(), String(level));
     } catch {
       // The current scene state is still enough for this session.
     }
@@ -301,5 +309,9 @@ export class MainMenuScene extends Phaser.Scene {
       return 1;
     }
     return Math.min(8, run.completedAt ? run.difficulty + 1 : run.difficulty) as DifficultyLevel;
+  }
+
+  private trainingDifficultyKey(): string {
+    return `${TRAINING_DIFFICULTY_KEY}:${playerSystem.getActivePlayer().id}`;
   }
 }

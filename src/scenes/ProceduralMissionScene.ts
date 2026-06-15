@@ -273,77 +273,81 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private openCircuit(): void {
     const puzzle = this.currentCircuitPuzzle();
     const model = CircuitConsole.fromPuzzle(puzzle);
-    const overlay = this.createOverlay(model.title, 648);
-    overlay.add(this.add.text(48, 70, model.difficultyLabel.toUpperCase(), {
+    const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
+    overlay.add(this.add.text(48, 72, model.difficultyLabel.toUpperCase(), {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
+      fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(48, 94, model.symptom, {
+    overlay.add(this.add.text(48, 100, model.symptom, {
       fontFamily: "Inter, Arial",
-      fontSize: "15px",
+      fontSize: "17px",
       color: "#f7d37a",
-      wordWrap: { width: 700 },
+      wordWrap: { width: 800 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.rectangle(400, 152, 704, 88, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.text(64, 122, "Scopo didattico", {
+    overlay.add(this.add.rectangle(456, 158, 816, 58, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.22));
+    overlay.add(this.add.text(64, 138, "Scopo della diagnosi", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(64, 144, `${model.learningPurpose}\nDomanda: ${model.diagnosticQuestion}`, {
+    overlay.add(this.add.text(64, 158, `${model.learningPurpose} Domanda: ${model.diagnosticQuestion}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
-      wordWrap: { width: 510 },
+      wordWrap: { width: 760 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(610, 126, model.conceptTags.slice(0, 4).map((tag) => `#${tag}`).join("\n"), {
+    overlay.add(this.add.rectangle(1010, 132, 304, 112, 0x07151d, 0.78).setStrokeStyle(1, 0x6be7d6, 0.18));
+    overlay.add(this.add.text(876, 90, "Concetti osservati", {
       fontFamily: "Inter, Arial",
-      fontSize: "11px",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(876, 116, model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
       color: "#f7d37a",
-      wordWrap: { width: 120 },
+      wordWrap: { width: 260 },
       lineSpacing: 3,
     }));
 
     this.drawCircuitDiagnostic(overlay);
-
-    const diagnosticText = this.circuitInspected
-      ? this.formatTesterReadings(model)
-      : `Prima usa il tester. Non è un indizio gratuito: è lo strumento corretto del tecnico.\nMetodo: ${model.diagnosticPlan.join(" -> ")}`;
-    overlay.add(this.add.text(48, 410, diagnosticText, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: this.circuitInspected ? "#d9eaf1" : "#9aaab0",
-      wordWrap: { width: 700 },
-      lineSpacing: 3,
-    }));
+    this.drawCircuitSidePanel(overlay, model);
 
     if (!this.circuitInspected) {
-      overlay.add(new Button(this, 400, 586, "Leggi tester", () => {
+      overlay.add(new Button(this, 1010, 588, "Leggi tester", () => {
         this.circuitInspected = true;
         audioManager.playOutcome("neutral");
         feedbackSystem.publish("Tester collegato: ora collega ogni misura a una causa, senza tentare riparazioni a caso.", "info");
         this.openCircuit();
-      }, { width: 250, height: 48, fill: 0x173b36 }));
+      }, { width: 250, height: 52, fill: 0x173b36 }));
       return;
     }
 
-    overlay.add(this.add.text(52, 478, "Scegli solo interventi dimostrati dalle misure. Le opzioni sono plausibili: una scelta inutile riduce qualità e tempo.", {
+    overlay.add(this.add.rectangle(452, 488, 816, 46, 0x07151d, 0.74).setStrokeStyle(1, 0xf6c85f, 0.2));
+    overlay.add(this.add.text(64, 474, "Interventi disponibili", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(64, 496, "Seleziona solo le riparazioni dimostrate dal tester. Una riparazione inutile riduce qualita, tempo e affidabilita del log.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9aaab0",
-      wordWrap: { width: 690 },
+      wordWrap: { width: 760 },
     }));
 
     model.repairChoices.forEach((fault, index) => {
       const selected = this.selectedRepairs.has(fault);
-      const col = index % 3;
-      const row = Math.floor(index / 3);
-      overlay.add(new Button(this, 156 + col * 244, 520 + row * 44, `${selected ? "[x] " : ""}${repairLabels[fault]}`, () => {
+      const col = index % 4;
+      const row = Math.floor(index / 4);
+      overlay.add(new Button(this, 142 + col * 200, 548 + row * 44, `${selected ? "[x] " : ""}${repairLabels[fault]}`, () => {
         if (selected) {
           this.selectedRepairs.delete(fault);
         } else {
@@ -351,9 +355,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
         }
         audioManager.play("click");
         this.openCircuit();
-      }, { width: 210, height: 36, fontSize: 11, fill: selected ? 0x173b36 : 0x142736 }));
+      }, { width: 176, height: 38, fontSize: 11, fill: selected ? 0x173b36 : 0x142736 }));
     });
-    overlay.add(new Button(this, 400, 614, "Testa circuito", () => {
+    overlay.add(new Button(this, 1010, 604, "Testa circuito", () => {
       const required = new Set(puzzle.requiredRepairs);
       const exact = this.selectedRepairs.size === required.size && [...this.selectedRepairs].every((fault) => required.has(fault));
       if (exact) {
@@ -372,7 +376,90 @@ export class ProceduralMissionScene extends Phaser.Scene {
         ? `Manca ancora una causa: ${faultLabels[missing[0]]}.`
         : `Hai aggiunto un intervento non necessario: ${faultLabels[extra[0]]}.`;
       this.animateCircuitTest(false, () => this.handleIncorrectAnswer(`${message} ${this.nextPedagogicHint(puzzle, puzzle.hints[0] ?? "Rileggi il tester e collega sintomo a causa.")}`));
-    }, { width: 250, height: 38, fill: 0x173b36 }));
+    }, { width: 250, height: 52, fill: 0x173b36 }));
+  }
+
+  private drawCircuitSidePanel(overlay: Phaser.GameObjects.Container, model: CircuitConsoleModel): void {
+    const x = 856;
+    const y = 188;
+    overlay.add(this.add.rectangle(x, y, 330, 268, 0x07151d, 0.84).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(x + 18, y + 16, this.circuitInspected ? "Letture tester" : "Metodo tecnico", {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+
+    if (!this.circuitInspected) {
+      overlay.add(this.add.text(x + 18, y + 48, "Prima misura, poi ripara. Il tester serve a distinguere una causa reale da una prova casuale.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#d9eaf1",
+        wordWrap: { width: 288 },
+        lineSpacing: 5,
+      }));
+      model.diagnosticPlan.slice(0, 4).forEach((step, index) => {
+        const rowY = y + 122 + index * 34;
+        overlay.add(this.add.circle(x + 28, rowY + 7, 9, 0xf6c85f, 0.18).setStrokeStyle(1, 0xf6c85f, 0.7));
+        overlay.add(this.add.text(x + 25, rowY, String(index + 1), {
+          fontFamily: "Inter, Arial",
+          fontSize: "10px",
+          color: "#f7d37a",
+          fontStyle: "bold",
+        }).setOrigin(0.5, 0));
+        overlay.add(this.add.text(x + 48, rowY - 2, step, {
+          fontFamily: "Inter, Arial",
+          fontSize: "11px",
+          color: "#c7dce7",
+          wordWrap: { width: 242 },
+          lineSpacing: 2,
+        }));
+      });
+      return;
+    }
+
+    const readingLabels: Record<NonNullable<GeneratedCircuitPuzzle["testerReadings"]>[number]["reading"], string> = {
+      continuita: "continuità",
+      interrotto: "interrotto",
+      "polarita-inversa": "polarità inversa",
+      "non-stabile": "non stabile",
+      corto: "corto",
+      "tensione-bassa": "tensione bassa",
+      "soglia-fuori-range": "soglia fuori range",
+      "carica-bassa": "carica bassa",
+    };
+    model.testerReadings.slice(0, 5).forEach((reading, index) => {
+      const rowY = y + 50 + index * 39;
+      overlay.add(this.add.rectangle(x + 18, rowY - 4, 294, 34, 0x102533, 0.7).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.14));
+      overlay.add(this.add.text(x + 30, rowY, `${reading.from} -> ${reading.to}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "10px",
+        color: "#f5fbff",
+        fontStyle: "bold",
+        wordWrap: { width: 130 },
+      }));
+      overlay.add(this.add.text(x + 162, rowY, readingLabels[reading.reading], {
+        fontFamily: "Inter, Arial",
+        fontSize: "10px",
+        color: reading.reading === "continuita" ? "#9ff5e9" : "#f7d37a",
+        fontStyle: "bold",
+      }));
+      overlay.add(this.add.text(x + 30, rowY + 15, reading.note, {
+        fontFamily: "Inter, Arial",
+        fontSize: "9px",
+        color: "#9aaab0",
+        wordWrap: { width: 270 },
+      }));
+    });
+
+    const guide = model.componentGuide.slice(0, 2).map((component) => `${component.label}: ${component.check}`).join("\n");
+    overlay.add(this.add.text(x + 18, y + 244, guide, {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#9aaab0",
+      wordWrap: { width: 288 },
+      lineSpacing: 2,
+    }));
   }
 
   private formatTesterReadings(model: CircuitConsoleModel): string {
@@ -2030,11 +2117,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return score;
   }
 
-  private createOverlay(title: string, height: number): Phaser.GameObjects.Container {
+  private createOverlay(
+    title: string,
+    height: number,
+    layout: { x?: number; y?: number; width?: number } = {},
+  ): Phaser.GameObjects.Container {
     this.clearOverlay();
-    const overlay = this.add.container(240, 68);
-    overlay.add(SceneChrome.consolePanel(this, 0, 0, 800, height, title, "lab"));
-    overlay.add(new Button(this, 716, 40, "X", () => this.clearOverlay(), {
+    const width = layout.width ?? 800;
+    const defaultY = height > 660 ? 10 : 68;
+    const overlay = this.add.container(layout.x ?? 240, layout.y ?? defaultY);
+    overlay.add(SceneChrome.consolePanel(this, 0, 0, width, height, title, "lab"));
+    overlay.add(new Button(this, width - 84, 40, "X", () => this.clearOverlay(), {
       width: 48,
       height: 40,
       fontSize: 18,

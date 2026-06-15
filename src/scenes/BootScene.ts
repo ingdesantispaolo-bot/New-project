@@ -8,8 +8,8 @@ export class BootScene extends Phaser.Scene {
   }
 
   create(): void {
-    saveSystem.load();
     playerSystem.load();
+    saveSystem.load();
     this.scene.start("PreloadScene");
   }
 }

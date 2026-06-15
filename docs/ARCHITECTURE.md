@@ -89,26 +89,33 @@ Le scene non dovrebbero possedere lo stato permanente. Completano azioni chiaman
 
 ## Salvataggi
 
-Il salvataggio vive in `localStorage` con chiave `eli-quest-save-v1`. Contiene:
+Il salvataggio vive in `localStorage` con una chiave separata per giocatore:
+`eli-quest-save-v1:player:<playerId>`. Il vecchio salvataggio globale `eli-quest-save-v1`
+viene migrato una sola volta sul profilo attivo per non perdere le run gia iniziate. Ogni
+salvataggio contiene:
 
 - missione attiva;
 - missioni completate;
 - inventario;
 - flag narrativi;
 - punteggi competenze;
-- diario.
+- diario;
 - run procedurale corrente con seed, difficoltà, missione generata, puzzle risolti e indizi usati.
 - stato interno della Serra: turno, pianta selezionata, valori sensori, salute e storico grafico;
 - stato interno della Fabbrica: ordine corrente, valore del nucleo, espressione, macchine attraversate e ordini completati.
+- record allenamento del profilo attivo: miglior tempo, ultimo voto, ultimo punteggio e numero run per focus/livello.
 
-I dati multi-giocatore vivono in una chiave separata, `eli-quest-players-v1`, per non rompere il salvataggio esistente. Contengono:
+I dati multi-giocatore vivono nella chiave `eli-quest-players-v1`. Contengono:
 
 - profili giocatore;
 - giocatore attivo;
 - risultati storici attribuiti al profilo;
 - risultati normalizzati per classifica: categoria, chiave, difficoltà, punteggio, tempo, indizi, tentativi e seed.
 
-Le classifiche sono locali al browser/tablet. Sono già modellate come record serializzabili, quindi un backend futuro potrà sincronizzarle senza cambiare le scene.
+Le classifiche sono condivise tra i profili dello stesso browser/tablet, ma ogni riga mantiene
+`playerId` e nome del giocatore. Le run correnti, missioni, diario, competenze e record allenamento
+restano invece separati per profilo. Sono già modellati come record serializzabili, quindi un backend
+futuro potrà sincronizzarli senza cambiare le scene.
 
 ## Espandibilita
 

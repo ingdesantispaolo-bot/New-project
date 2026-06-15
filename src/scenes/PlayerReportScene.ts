@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { formatDuration } from "../core/ProceduralScoring";
 import { playerSystem, type PlayerResult } from "../core/PlayerSystem";
+import { saveSystem } from "../core/SaveSystem";
 import { startScene } from "../core/SceneNavigator";
 import { Button } from "../ui/Button";
 import { VisualKit } from "../ui/VisualKit";
@@ -12,6 +13,7 @@ export class PlayerReportScene extends Phaser.Scene {
 
   create(): void {
     playerSystem.load();
+    saveSystem.load();
     this.cameras.main.setBackgroundColor("#071018");
     VisualKit.background(this, "archive");
     VisualKit.vignette(this);
@@ -72,6 +74,7 @@ export class PlayerReportScene extends Phaser.Scene {
       const selected = player.id === activeId;
       new Button(this, x + 158, y + 130 + index * 50, player.name, () => {
         playerSystem.setActivePlayer(player.id);
+        saveSystem.load();
         this.scene.restart();
       }, {
         width: 252,
@@ -86,6 +89,7 @@ export class PlayerReportScene extends Phaser.Scene {
       const name = globalThis.prompt?.("Nome del nuovo giocatore");
       if (name !== undefined && name !== null) {
         playerSystem.createPlayer(name);
+        saveSystem.newGame();
         this.scene.restart();
       }
     }, {

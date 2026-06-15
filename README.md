@@ -74,11 +74,11 @@ Guida completa: `docs/TABLET_AND_DEPLOY.md`.
 
 Le scene leggono questi dati e aggiornano flag/competenze tramite `MissionEngine`, `SaveSystem` e `CompetencyTracker`.
 
-## Giocatori e classifiche
+## Giocatori, salvataggi e classifiche
 
 Dal menu principale:
 
 - `Giocatori`: crea o seleziona profili locali e legge il report del giocatore attivo.
 - `Classifiche`: mostra i migliori 20 risultati salvati nel browser per missione, focus ed esercizio.
 
-I dati sono salvati in `localStorage` con chiave separata dal salvataggio principale. Non serve backend nella versione attuale; in futuro `PlayerSystem` potrà essere sostituito con un adapter remoto.
+Ogni profilo ha un salvataggio separato per run in corso, diario, competenze, record allenamento e progressi. Le classifiche sono locali al browser/tablet e mostrano i migliori risultati attribuiti ai diversi giocatori. Non serve backend nella versione attuale; in futuro `PlayerSystem` e `SaveSystem` potranno essere sostituiti con adapter remoti.

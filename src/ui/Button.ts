@@ -32,8 +32,8 @@ export class Button extends Phaser.GameObjects.Container {
     const fill = options.fill ?? 0x173244;
     const hoverFill = options.hoverFill ?? 0x23556a;
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
-    const actionDelayMs = options.actionDelayMs ?? 16;
-    const cooldownMs = options.cooldownMs ?? 140;
+    const actionDelayMs = options.actionDelayMs ?? 0;
+    const cooldownMs = options.cooldownMs ?? 90;
     let lastClickAt = 0;
     let pressed = false;
 
@@ -61,28 +61,23 @@ export class Button extends Phaser.GameObjects.Container {
       text.setWordWrapWidth(options.wordWrapWidth ?? width - 22, true);
     }
 
-    const hitZone = scene.add.rectangle(0, 0, Math.max(width, 56), Math.max(height, 52), 0xffffff, 0.001);
+    const hitZone = scene.add.zone(0, 0, Math.max(width, 56), Math.max(height, 52)).setOrigin(0.5);
     this.add([shadow, this.background, this.highlight, text, hitZone]);
     this.setSize(width, height);
-    const hitWidth = Math.max(width, 56);
-    const hitHeight = Math.max(height, 52);
-    hitZone.setInteractive(
-      new Phaser.Geom.Rectangle(-hitWidth / 2, -hitHeight / 2, hitWidth, hitHeight),
-      Phaser.Geom.Rectangle.Contains,
-    )
+    hitZone.setInteractive({ useHandCursor: true })
       .on("pointerover", () => {
         if (!supportsHover || pressed) return;
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
         scene.tweens.killTweensOf(this);
-        scene.tweens.add({ targets: this, scale: 1.018, duration: 70 });
+        this.setScale(1.012);
       })
       .on("pointerout", () => {
         if (pressed) return;
         this.background.setFillStyle(fill, 0.96);
         this.highlight.setAlpha(0.72);
         scene.tweens.killTweensOf(this);
-        scene.tweens.add({ targets: this, scale: 1, duration: 70 });
+        this.setScale(1);
       })
       .on("pointerdown", () => {
         const now = performance.now();
@@ -94,7 +89,7 @@ export class Button extends Phaser.GameObjects.Container {
         this.highlight.setAlpha(1);
         this.setScale(0.985);
         audioManager.play("click");
-        scene.time.delayedCall(actionDelayMs, () => {
+        const runAction = () => {
           if (!this.scene || !this.active) return;
           onClick();
           pressed = false;
@@ -110,7 +105,12 @@ export class Button extends Phaser.GameObjects.Container {
               this.highlight.setAlpha(0.72);
             },
           });
-        });
+        };
+        if (actionDelayMs <= 0) {
+          runAction();
+        } else {
+          scene.time.delayedCall(actionDelayMs, runAction);
+        }
       });
 
     scene.add.existing(this);

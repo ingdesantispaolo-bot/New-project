@@ -3,8 +3,10 @@ import type { ProceduralRunSave } from "../procedural/ProceduralTypes";
 import { firstMissionId } from "../data/missions";
 import { competencies } from "../data/competencies";
 import { EventBus, GameEvents } from "./EventBus";
+import { playerSystem } from "./PlayerSystem";
 
 const SAVE_KEY = "eli-quest-save-v1";
+const LEGACY_MIGRATION_KEY = `${SAVE_KEY}:legacy-migrated`;
 
 function createDefaultCompetencies(): Record<string, number> {
   return Object.fromEntries(competencies.map((competency) => [competency.id, 0]));
@@ -14,9 +16,19 @@ export class SaveSystem {
   private saveData: SaveData = this.createNewSave();
 
   load(): SaveData {
-    const raw = localStorage.getItem(SAVE_KEY);
+    const key = this.storageKey();
+    let raw = localStorage.getItem(key);
+    if (!raw && !localStorage.getItem(LEGACY_MIGRATION_KEY)) {
+      const legacy = localStorage.getItem(SAVE_KEY);
+      if (legacy) {
+        raw = legacy;
+        localStorage.setItem(key, legacy);
+        localStorage.setItem(LEGACY_MIGRATION_KEY, "1");
+      }
+    }
     if (!raw) {
       this.saveData = this.createNewSave();
+      this.persist();
       return this.saveData;
     }
 
@@ -25,6 +37,7 @@ export class SaveSystem {
       this.saveData = {
         ...this.createNewSave(),
         ...parsed,
+        playerId: this.activePlayerId(),
         competencies: {
           ...createDefaultCompetencies(),
           ...parsed.competencies,
@@ -65,6 +78,7 @@ export class SaveSystem {
       }
     } catch {
       this.saveData = this.createNewSave();
+      this.persist();
     }
 
     return this.saveData;
@@ -187,7 +201,8 @@ export class SaveSystem {
 
   private persist(): void {
     try {
-      localStorage.setItem(SAVE_KEY, JSON.stringify(this.saveData));
+      this.saveData.playerId = this.activePlayerId();
+      localStorage.setItem(this.storageKey(), JSON.stringify(this.saveData));
     } catch {
       // Some browsers block or cap localStorage; keep the in-memory run alive.
     }
@@ -197,6 +212,7 @@ export class SaveSystem {
   private createNewSave(): SaveData {
     return {
       version: 1,
+      playerId: this.activePlayerId(),
       activeMissionId: firstMissionId,
       exerciseSeed: this.createExerciseSeed(),
       completedMissionIds: [],
@@ -217,6 +233,18 @@ export class SaveSystem {
       entropy[1] = Math.floor(performance.now() * 1000) >>> 0;
     }
     return `EX-${entropy[0].toString(36)}-${entropy[1].toString(36)}`.toUpperCase();
+  }
+
+  private activePlayerId(): string {
+    try {
+      return playerSystem.getActivePlayer().id;
+    } catch {
+      return "default";
+    }
+  }
+
+  private storageKey(): string {
+    return `${SAVE_KEY}:player:${this.activePlayerId()}`;
   }
 }
 

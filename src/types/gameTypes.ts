@@ -16,6 +16,7 @@ export type SceneKey =
 
 export type SaveData = {
   version: number;
+  playerId?: string;
   activeMissionId: string;
   exerciseSeed: string;
   completedMissionIds: string[];

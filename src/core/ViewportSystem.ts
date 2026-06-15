@@ -15,6 +15,8 @@ export class ViewportSystem {
     window.addEventListener("resize", () => this.update(), { passive: true });
     window.addEventListener("orientationchange", () => window.setTimeout(() => this.update(), 120), { passive: true });
     document.addEventListener("visibilitychange", () => this.update(), { passive: true });
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
+    document.addEventListener("dragstart", (event) => event.preventDefault());
     audioManager.installUnlockListeners();
     this.registerServiceWorker();
   }

@@ -64,11 +64,11 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     }).setOrigin(0.5, 0));
 
     tag.setAlpha(options.state === "active" ? 1 : 0.76);
-    const hitZone = scene.add.rectangle(0, 0, Math.max(size, 76), Math.max(size, 76) * 1.18, 0xffffff, 0.001);
+    const hitZone = scene.add.zone(0, 0, Math.max(size, 76), Math.max(size, 76) * 1.18).setOrigin(0.5);
     this.add([glow, ring, glyph, marker, status, tag, hitZone]);
     const hitSize = Math.max(size, 76);
     this.setSize(hitSize, hitSize);
-    hitZone.setInteractive(new Phaser.Geom.Rectangle(-hitSize / 2, -hitSize * 0.59, hitSize, hitSize * 1.18), Phaser.Geom.Rectangle.Contains);
+    hitZone.setInteractive({ useHandCursor: options.state !== "locked" });
     hitZone.on("pointerover", () => {
       if (!supportsHover || pressed) return;
       if (options.state !== "locked") {
@@ -76,7 +76,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
         glow.setAlpha(0.26);
         tag.setAlpha(1);
         scene.tweens.killTweensOf(this);
-        scene.tweens.add({ targets: this, scale: 1.045, duration: 80 });
+        this.setScale(1.035);
       }
     });
     hitZone.on("pointerout", () => {
@@ -85,7 +85,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : 0.04);
       tag.setAlpha(options.state === "active" ? 1 : 0.76);
       scene.tweens.killTweensOf(this);
-      scene.tweens.add({ targets: this, scale: 1, duration: 80 });
+      this.setScale(1);
     });
     hitZone.on("pointerdown", () => {
       const now = performance.now();
@@ -97,14 +97,15 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       glow.setAlpha(options.state === "locked" ? 0.08 : 0.3);
       tag.setAlpha(1);
       this.setScale(0.985);
-      scene.time.delayedCall(16, () => {
+      const runAction = () => {
         if (!this.scene || !this.active) return;
         options.onClick();
         pressed = false;
         if (!this.scene || !this.active) return;
         scene.tweens.killTweensOf(this);
         scene.tweens.add({ targets: this, scale: 1, duration: 70 });
-      });
+      };
+      runAction();
     });
 
     if (options.state === "ready" || options.state === "active") {

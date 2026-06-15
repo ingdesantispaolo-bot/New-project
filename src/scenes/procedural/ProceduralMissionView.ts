@@ -7,6 +7,7 @@ import { Button } from "../../ui/Button";
 import { SceneChrome } from "../../ui/SceneChrome";
 import {
   pendingProceduralPuzzleLabel,
+  isProceduralHotspotSolved,
   proceduralHotspotKind,
   proceduralHotspotPosition,
   proceduralRequiredPuzzleIds,
@@ -161,7 +162,7 @@ export class ProceduralMissionView {
       scene,
       ordered,
       (hotspot) => proceduralHotspotPosition(hotspot, SceneChrome.layout.stage),
-      (puzzleId) => Boolean(puzzleId && run.solvedPuzzleIds.includes(puzzleId)),
+      (_puzzleId, hotspot) => isProceduralHotspotSolved(hotspot, run.solvedPuzzleIds),
       theme.propTheme,
     );
     ordered.forEach((hotspot) => {

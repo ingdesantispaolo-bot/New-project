@@ -77,7 +77,7 @@ class PropRenderer {
     scene: Phaser.Scene,
     hotspots: GeneratedRoomHotspot[],
     positionFor: (hotspot: GeneratedRoomHotspot) => { x: number; y: number },
-    solved: (puzzleId: string | undefined) => boolean,
+    solved: (puzzleId: string | undefined, hotspot: GeneratedRoomHotspot) => boolean,
     propTheme: ProceduralPropTheme = "lab",
   ): void {
     hotspots.forEach((hotspot) => {
@@ -87,7 +87,7 @@ class PropRenderer {
         return;
       }
       const point = positionFor(hotspot);
-      this.drawProp(scene, key, point.x, point.y, hotspot.id === "door" ? 120 : 104, solved(hotspot.puzzleId) ? "complete" : "ready");
+      this.drawProp(scene, key, point.x, point.y, hotspot.id === "door" ? 120 : 104, solved(hotspot.puzzleId, hotspot) ? "complete" : "ready");
     });
   }
 

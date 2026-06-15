@@ -61,11 +61,12 @@ export class Button extends Phaser.GameObjects.Container {
       text.setWordWrapWidth(options.wordWrapWidth ?? width - 22, true);
     }
 
-    this.add([shadow, this.background, this.highlight, text]);
+    const hitZone = scene.add.rectangle(0, 0, Math.max(width, 56), Math.max(height, 52), 0xffffff, 0.001);
+    this.add([shadow, this.background, this.highlight, text, hitZone]);
     this.setSize(width, height);
     const hitWidth = Math.max(width, 56);
     const hitHeight = Math.max(height, 52);
-    this.setInteractive(
+    hitZone.setInteractive(
       new Phaser.Geom.Rectangle(-hitWidth / 2, -hitHeight / 2, hitWidth, hitHeight),
       Phaser.Geom.Rectangle.Contains,
     )

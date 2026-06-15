@@ -64,11 +64,12 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     }).setOrigin(0.5, 0));
 
     tag.setAlpha(options.state === "active" ? 1 : 0.76);
-    this.add([glow, ring, glyph, marker, status, tag]);
+    const hitZone = scene.add.rectangle(0, 0, Math.max(size, 76), Math.max(size, 76) * 1.18, 0xffffff, 0.001);
+    this.add([glow, ring, glyph, marker, status, tag, hitZone]);
     const hitSize = Math.max(size, 76);
     this.setSize(hitSize, hitSize);
-    this.setInteractive(new Phaser.Geom.Rectangle(-hitSize / 2, -hitSize / 2, hitSize, hitSize * 1.18), Phaser.Geom.Rectangle.Contains);
-    this.on("pointerover", () => {
+    hitZone.setInteractive(new Phaser.Geom.Rectangle(-hitSize / 2, -hitSize * 0.59, hitSize, hitSize * 1.18), Phaser.Geom.Rectangle.Contains);
+    hitZone.on("pointerover", () => {
       if (!supportsHover || pressed) return;
       if (options.state !== "locked") {
         ring.setAlpha(0.66);
@@ -78,7 +79,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
         scene.tweens.add({ targets: this, scale: 1.045, duration: 80 });
       }
     });
-    this.on("pointerout", () => {
+    hitZone.on("pointerout", () => {
       if (pressed) return;
       ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : 0.18);
       glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : 0.04);
@@ -86,7 +87,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       scene.tweens.killTweensOf(this);
       scene.tweens.add({ targets: this, scale: 1, duration: 80 });
     });
-    this.on("pointerdown", () => {
+    hitZone.on("pointerdown", () => {
       const now = performance.now();
       if (now - lastTapAt < 180) return;
       lastTapAt = now;

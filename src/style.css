@@ -30,7 +30,6 @@ body {
     radial-gradient(circle at 24% 18%, rgba(44, 217, 197, 0.18), transparent 28%),
     radial-gradient(circle at 76% 72%, rgba(255, 179, 71, 0.12), transparent 30%),
     linear-gradient(135deg, #071018 0%, #11202d 48%, #0a1117 100%);
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   position: fixed;
   inset: 0;
 }

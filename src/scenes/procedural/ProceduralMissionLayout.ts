@@ -75,16 +75,26 @@ export function proceduralHotspotState(
   allSolved: boolean,
 ): DeviceState {
   const key = proceduralHotspotKey(hotspot);
+  const solved = isProceduralHotspotSolved(hotspot, solvedPuzzleIds);
   if (key === "door") {
     return allSolved ? "ready" : "locked";
   }
   if (!key) {
     return "ready";
   }
-  if (solvedPuzzleIds.includes(key)) {
+  if (solved) {
     return "complete";
   }
   return "active";
+}
+
+export function isProceduralHotspotSolved(hotspot: GeneratedRoomHotspot, solvedPuzzleIds: string[]): boolean {
+  if (hotspot.puzzleId) {
+    const kind = puzzleKindFromId(hotspot.puzzleId);
+    return solvedPuzzleIds.some((id) => id === hotspot.puzzleId || id === kind);
+  }
+  const key = proceduralHotspotKey(hotspot);
+  return Boolean(key && solvedPuzzleIds.some((id) => id === key || id.startsWith(`${key}-`)));
 }
 
 export function proceduralRequiredPuzzleIds(objectives: Array<{ id: string }>): string[] {
@@ -112,11 +122,16 @@ export function pendingProceduralPuzzleLabel(solvedPuzzleIds: string[], required
     english: "decodifica il comando",
     robot: "guida il robot",
   };
-  const pending = requiredIds.find((id) => !solvedPuzzleIds.includes(id));
+  const pending = requiredIds.find((id) => !isProceduralPuzzleSolved(id, solvedPuzzleIds));
   return pending ? labels[puzzleKindFromId(pending)] : "apri la porta finale";
 }
 
 export function puzzleKindFromId(id: string): ProceduralPuzzleId {
   const kind = proceduralPuzzleOrder.find((candidate) => id === candidate || id.startsWith(`${candidate}-`));
   return kind ?? "language";
+}
+
+export function isProceduralPuzzleSolved(id: string, solvedPuzzleIds: string[]): boolean {
+  const kind = puzzleKindFromId(id);
+  return solvedPuzzleIds.some((solvedId) => solvedId === id || solvedId === kind || (id === kind && solvedId.startsWith(`${kind}-`)));
 }

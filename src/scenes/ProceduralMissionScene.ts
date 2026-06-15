@@ -33,7 +33,7 @@ import { LanguageRepairConsole, type LanguageRepairModel } from "./procedural/co
 import { MathTerminal, type MathTerminalModel } from "./procedural/components/MathTerminal";
 import { MissionDependencyGraph } from "./procedural/components/MissionDependencyGraph";
 import { RobotConsole } from "./procedural/components/RobotConsole";
-import { proceduralPuzzleOrder, proceduralRequiredPuzzleIds, puzzleKindFromId, type ProceduralPuzzleId } from "./procedural/ProceduralMissionLayout";
+import { isProceduralPuzzleSolved, proceduralPuzzleOrder, proceduralRequiredPuzzleIds, puzzleKindFromId, type ProceduralPuzzleId } from "./procedural/ProceduralMissionLayout";
 import { ProceduralMissionView } from "./procedural/ProceduralMissionView";
 
 const commandLabels: Record<GridCommand, string> = {
@@ -1807,7 +1807,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private isSolved(puzzleId: string): boolean {
-    return this.run.solvedPuzzleIds.includes(puzzleId);
+    return isProceduralPuzzleSolved(puzzleId, this.run.solvedPuzzleIds);
   }
 
   private allPuzzlesSolved(): boolean {

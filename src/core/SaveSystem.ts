@@ -1,0 +1,223 @@
+import type { GreenhouseRunSave, JournalEntry, NumberFactoryRunSave, SaveData, TrainingRecord } from "../types/gameTypes";
+import type { ProceduralRunSave } from "../procedural/ProceduralTypes";
+import { firstMissionId } from "../data/missions";
+import { competencies } from "../data/competencies";
+import { EventBus, GameEvents } from "./EventBus";
+
+const SAVE_KEY = "eli-quest-save-v1";
+
+function createDefaultCompetencies(): Record<string, number> {
+  return Object.fromEntries(competencies.map((competency) => [competency.id, 0]));
+}
+
+export class SaveSystem {
+  private saveData: SaveData = this.createNewSave();
+
+  load(): SaveData {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) {
+      this.saveData = this.createNewSave();
+      return this.saveData;
+    }
+
+    try {
+      const parsed = JSON.parse(raw) as SaveData;
+      this.saveData = {
+        ...this.createNewSave(),
+        ...parsed,
+        competencies: {
+          ...createDefaultCompetencies(),
+          ...parsed.competencies,
+        },
+        exerciseSeed: parsed.exerciseSeed ?? this.createExerciseSeed(),
+        flags: {
+          ...parsed.flags,
+        },
+        journalEntries: parsed.journalEntries ?? [],
+        proceduralRun: parsed.proceduralRun,
+        trainingRecords: parsed.trainingRecords ?? {},
+        greenhouseRun: parsed.greenhouseRun,
+        numberFactoryRun: parsed.numberFactoryRun,
+      };
+      if (
+        this.saveData.flags.mission1Complete &&
+        !this.saveData.flags.mission2Complete &&
+        this.saveData.activeMissionId === firstMissionId
+      ) {
+        this.saveData.activeMissionId = "mission-02-serra-biologica";
+        this.persist();
+      }
+      if (
+        this.saveData.flags.mission2Complete &&
+        !this.saveData.flags.mission3Complete &&
+        this.saveData.activeMissionId !== "mission-03-fabbrica-numeri"
+      ) {
+        this.saveData.activeMissionId = "mission-03-fabbrica-numeri";
+        this.persist();
+      }
+      if (
+        this.saveData.flags.mission3Complete &&
+        !this.saveData.flags.mission4Complete &&
+        this.saveData.activeMissionId !== "mission-04-archivio-parole"
+      ) {
+        this.saveData.activeMissionId = "mission-04-archivio-parole";
+        this.persist();
+      }
+    } catch {
+      this.saveData = this.createNewSave();
+    }
+
+    return this.saveData;
+  }
+
+  newGame(): SaveData {
+    this.saveData = this.createNewSave();
+    this.persist();
+    return this.saveData;
+  }
+
+  get data(): SaveData {
+    return this.saveData;
+  }
+
+  setFlag(flag: string, value = true): void {
+    this.saveData.flags[flag] = value;
+    this.persist();
+  }
+
+  addInventoryItem(itemId: string): void {
+    if (!this.saveData.inventory.includes(itemId)) {
+      this.saveData.inventory.push(itemId);
+      this.persist();
+      EventBus.emit(GameEvents.InventoryChanged, this.saveData.inventory);
+    }
+  }
+
+  addJournalEntry(entry: JournalEntry): void {
+    if (!this.saveData.journalEntries.some((existing) => existing.id === entry.id)) {
+      this.saveData.journalEntries.push(entry);
+      this.persist();
+    }
+  }
+
+  completeMission(missionId: string): void {
+    if (!this.saveData.completedMissionIds.includes(missionId)) {
+      this.saveData.completedMissionIds.push(missionId);
+      this.persist();
+    }
+  }
+
+  setActiveMission(missionId: string): void {
+    this.saveData.activeMissionId = missionId;
+    this.persist();
+  }
+
+  setProceduralRun(run: ProceduralRunSave): void {
+    this.saveData.proceduralRun = run;
+    this.persist();
+  }
+
+  upsertTrainingRecord(record: Omit<TrainingRecord, "runs">): TrainingRecord {
+    const previous = this.saveData.trainingRecords?.[record.key];
+    const bestImproved = !previous || record.bestTimeMs < previous.bestTimeMs;
+    const next: TrainingRecord = {
+      key: record.key,
+      focus: record.focus,
+      difficulty: record.difficulty,
+      bestTimeMs: bestImproved ? record.bestTimeMs : previous.bestTimeMs,
+      bestGrade: bestImproved ? record.bestGrade : previous.bestGrade,
+      bestScore: bestImproved ? record.bestScore : previous.bestScore,
+      lastTimeMs: record.lastTimeMs,
+      lastGrade: record.lastGrade,
+      lastScore: record.lastScore,
+      completedAt: record.completedAt,
+      runs: (previous?.runs ?? 0) + 1,
+    };
+    this.saveData.trainingRecords = {
+      ...(this.saveData.trainingRecords ?? {}),
+      [record.key]: next,
+    };
+    this.persist();
+    return next;
+  }
+
+  setGreenhouseRun(run: GreenhouseRunSave | undefined): void {
+    this.saveData.greenhouseRun = run;
+    this.persist();
+  }
+
+  setNumberFactoryRun(run: NumberFactoryRunSave | undefined): void {
+    this.saveData.numberFactoryRun = run;
+    this.persist();
+  }
+
+  updateProceduralRun(update: Partial<ProceduralRunSave>): void {
+    if (!this.saveData.proceduralRun) {
+      return;
+    }
+    this.saveData.proceduralRun = {
+      ...this.saveData.proceduralRun,
+      ...update,
+    };
+    this.persist();
+  }
+
+  markProceduralPuzzleSolved(puzzleId: string): void {
+    const run = this.saveData.proceduralRun;
+    if (!run || run.solvedPuzzleIds.includes(puzzleId)) {
+      return;
+    }
+    this.updateProceduralRun({ solvedPuzzleIds: [...run.solvedPuzzleIds, puzzleId] });
+  }
+
+  incrementProceduralHints(): void {
+    const run = this.saveData.proceduralRun;
+    if (!run) {
+      return;
+    }
+    this.updateProceduralRun({ hintsUsed: run.hintsUsed + 1 });
+  }
+
+  updateCompetency(id: string, amount: number): void {
+    const current = this.saveData.competencies[id] ?? 0;
+    this.saveData.competencies[id] = Math.min(100, Math.max(0, current + amount));
+    this.persist();
+    EventBus.emit(GameEvents.CompetencyChanged, id, this.saveData.competencies[id]);
+  }
+
+  private persist(): void {
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(this.saveData));
+    } catch {
+      // Some browsers block or cap localStorage; keep the in-memory run alive.
+    }
+    EventBus.emit(GameEvents.SaveChanged, this.saveData);
+  }
+
+  private createNewSave(): SaveData {
+    return {
+      version: 1,
+      activeMissionId: firstMissionId,
+      exerciseSeed: this.createExerciseSeed(),
+      completedMissionIds: [],
+      inventory: [],
+      competencies: createDefaultCompetencies(),
+      flags: {},
+      journalEntries: [],
+      trainingRecords: {},
+    };
+  }
+
+  private createExerciseSeed(): string {
+    const entropy = new Uint32Array(2);
+    if (globalThis.crypto?.getRandomValues) {
+      globalThis.crypto.getRandomValues(entropy);
+    } else {
+      entropy[0] = Date.now() >>> 0;
+      entropy[1] = Math.floor(performance.now() * 1000) >>> 0;
+    }
+    return `EX-${entropy[0].toString(36)}-${entropy[1].toString(36)}`.toUpperCase();
+  }
+}
+
+export const saveSystem = new SaveSystem();

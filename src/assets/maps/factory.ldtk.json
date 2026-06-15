@@ -1,0 +1,34 @@
+{
+  "identifier": "factory-production-draft",
+  "worldGridWidth": 1280,
+  "worldGridHeight": 720,
+  "levels": [
+    {
+      "identifier": "FabbricaNumeri",
+      "pxWid": 1280,
+      "pxHei": 720,
+      "layerInstances": [
+        {
+          "__identifier": "GameplayLayout",
+          "entityInstances": [
+            { "__identifier": "Header", "px": [640, 90], "width": 1160, "height": 100, "fieldInstances": [{ "__identifier": "id", "__value": "factory:header" }] },
+            { "__identifier": "Machine", "px": [150, 210], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:0" }] },
+            { "__identifier": "Machine", "px": [330, 210], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:1" }] },
+            { "__identifier": "Machine", "px": [510, 210], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:2" }] },
+            { "__identifier": "Machine", "px": [690, 210], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:3" }] },
+            { "__identifier": "Machine", "px": [150, 500], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:4" }] },
+            { "__identifier": "Machine", "px": [330, 500], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:5" }] },
+            { "__identifier": "Machine", "px": [510, 500], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:6" }] },
+            { "__identifier": "Machine", "px": [690, 500], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:7" }] },
+            { "__identifier": "Machine", "px": [420, 355], "width": 142, "height": 92, "fieldInstances": [{ "__identifier": "id", "__value": "factory:machine:8" }] },
+            { "__identifier": "Core", "px": [420, 355], "width": 96, "height": 96, "fieldInstances": [{ "__identifier": "id", "__value": "factory:core" }] },
+            { "__identifier": "ControlPanel", "px": [820, 280], "width": 420, "height": 340, "fieldInstances": [{ "__identifier": "id", "__value": "factory:controlPanel" }] },
+            { "__identifier": "Button", "px": [912, 590], "width": 168, "height": 44, "fieldInstances": [{ "__identifier": "id", "__value": "factory:scanLine" }] },
+            { "__identifier": "Button", "px": [1098, 590], "width": 168, "height": 44, "fieldInstances": [{ "__identifier": "id", "__value": "factory:resetCore" }] },
+            { "__identifier": "Button", "px": [998, 646], "width": 228, "height": 48, "fieldInstances": [{ "__identifier": "id", "__value": "factory:checkOrder" }] }
+          ]
+        }
+      ]
+    }
+  ]
+}

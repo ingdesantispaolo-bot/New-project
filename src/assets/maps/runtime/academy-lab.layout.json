@@ -1,0 +1,86 @@
+{
+  "objects": {
+    "final-door": {
+      "x": 760,
+      "y": 214,
+      "width": 32,
+      "height": 32,
+      "radius": 72
+    },
+    "terminal": {
+      "x": 1072,
+      "y": 276,
+      "width": 32,
+      "height": 32,
+      "radius": 62
+    },
+    "electric-panel": {
+      "x": 470,
+      "y": 286,
+      "width": 32,
+      "height": 32,
+      "radius": 56
+    },
+    "robot": {
+      "x": 560,
+      "y": 500,
+      "width": 32,
+      "height": 32,
+      "radius": 56
+    },
+    "journal-station": {
+      "x": 820,
+      "y": 575,
+      "width": 32,
+      "height": 32,
+      "radius": 38
+    },
+    "corrupted-message": {
+      "x": 910,
+      "y": 502,
+      "width": 32,
+      "height": 32,
+      "radius": 42
+    },
+    "workbench": {
+      "x": 430,
+      "y": 514,
+      "width": 32,
+      "height": 32,
+      "radius": 36
+    },
+    "nora-core": {
+      "x": 1120,
+      "y": 486,
+      "width": 32,
+      "height": 32,
+      "radius": 38
+    },
+    "observation-window": {
+      "x": 1120,
+      "y": 180,
+      "width": 32,
+      "height": 32,
+      "radius": 42
+    },
+    "floor-trace": {
+      "x": 686,
+      "y": 590,
+      "width": 32,
+      "height": 32,
+      "radius": 34
+    },
+    "LightBeam": {
+      "x": 310,
+      "y": 120,
+      "width": 32,
+      "height": 32
+    },
+    "DustLayer": {
+      "x": 640,
+      "y": 360,
+      "width": 32,
+      "height": 32
+    }
+  }
+}

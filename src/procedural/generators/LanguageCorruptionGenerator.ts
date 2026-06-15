@@ -1,0 +1,92 @@
+import { languageTemplates } from "../../data/procedural/languageTemplates";
+import type { LanguageTemplate } from "../../data/procedural/languageTemplates";
+import type { GeneratedLanguagePuzzle } from "../ProceduralTypes";
+import type { Random } from "../Random";
+
+export class LanguageCorruptionGenerator {
+  generate(random: Random, difficultyLevel = 1, preferredTemplateIds: string[] = []): GeneratedLanguagePuzzle {
+    const eligibleTemplates = languageTemplates.filter((template) => (template.minDifficulty ?? 1) <= difficultyLevel);
+    const floor = Math.max(1, difficultyLevel - 2);
+    const focusedTemplates = eligibleTemplates.filter((template) => (template.minDifficulty ?? 1) >= floor);
+    const pool = focusedTemplates.length > 0 ? focusedTemplates : eligibleTemplates.length > 0 ? eligibleTemplates : languageTemplates;
+    const preferredPool = preferredTemplateIds.length > 0
+      ? (eligibleTemplates.length > 0 ? eligibleTemplates : languageTemplates).filter((template) => preferredTemplateIds.includes(template.id))
+      : [];
+    const template = random.pick(preferredPool.length > 0 ? preferredPool : pool);
+    const options = random.shuffle([template.repaired, ...template.distractors]);
+    return this.buildPuzzle(template, options, difficultyLevel);
+  }
+
+  private buildPuzzle(template: LanguageTemplate, options: string[], difficultyLevel: number): GeneratedLanguagePuzzle {
+    const conceptTags = template.conceptTags ?? this.defaultConceptTags(template.id);
+    const optionFeedback = this.buildOptionFeedback(template);
+    return {
+      id: `language-${template.id}`,
+      title: template.title,
+      corrupted: template.corrupted,
+      repaired: template.repaired,
+      options,
+      diagnosticSteps: template.diagnosticSteps,
+      hints: template.hints,
+      competencies: this.competenciesFor(template.id),
+      difficultyLabel: `Livello ${Math.max(1, Math.min(8, difficultyLevel))} - ${this.levelName(difficultyLevel)}`,
+      conceptTags,
+      learningPurpose: template.learningPurpose ?? `Allena ${conceptTags.join(", ")} dentro un messaggio tecnico da rendere eseguibile.`,
+      repairGoal: template.repairGoal ?? "Trasforma il log corrotto in una frase chiara, corretta e utile al sistema.",
+      method: template.method ?? "Trova soggetto e azione, controlla accordi e connettivi, poi verifica che il significato tecnico non cambi.",
+      optionFeedback,
+    };
+  }
+
+  fallback(): GeneratedLanguagePuzzle {
+    const template = languageTemplates[0];
+    return { ...this.buildPuzzle(template, [template.repaired, ...template.distractors], 1), id: "language-fallback" };
+  }
+
+  private buildOptionFeedback(template: LanguageTemplate): Record<string, string> {
+    const feedback: Record<string, string> = {};
+    template.distractors.forEach((option, index) => {
+      feedback[option] = template.distractorFeedback?.[option]
+        ?? `Questa versione sembra plausibile, ma non supera il controllo ${index + 1}: ${template.diagnosticSteps[index % template.diagnosticSteps.length]} ${template.hints[index % template.hints.length]}`;
+    });
+    feedback[template.repaired] = "Riparazione coerente: grammatica, significato tecnico e ordine operativo restano allineati.";
+    return feedback;
+  }
+
+  private defaultConceptTags(templateId: string): string[] {
+    if (["single-generator", "north-sensor", "sealed-door", "unstable-log", "robot-report"].includes(templateId)) {
+      return ["accordo", "soggetto", "coesione"];
+    }
+    if (["cause-effect-cooling", "useful-vs-noise"].includes(templateId)) {
+      return ["causa-effetto", "connettivi", "informazioni utili"];
+    }
+    if (templateId === "pronoun-reference") {
+      return ["pronomi", "riferimenti", "ambiguita"];
+    }
+    if (templateId === "conditional-alert") {
+      return ["negazione", "condizione", "sicurezza"];
+    }
+    if (templateId === "technical-summary") {
+      return ["ordine logico", "sequenza", "coesione"];
+    }
+    if (templateId === "lexical-precision") {
+      return ["lessico tecnico", "precisione", "significato"];
+    }
+    return ["comprensione", "grammatica", "coerenza"];
+  }
+
+  private competenciesFor(templateId: string): string[] {
+    const base = ["italiano.comprensione", "italiano.grammatica", "pensieroCritico"];
+    if (["lexical-precision", "useful-vs-noise", "technical-summary"].includes(templateId)) {
+      return [...base, "italiano.lessico"];
+    }
+    return base;
+  }
+
+  private levelName(level: number): string {
+    if (level <= 2) return "accordi fondamentali";
+    if (level <= 4) return "coerenza e riferimenti";
+    if (level <= 6) return "condizioni e ordine logico";
+    return "lessico tecnico e precisione";
+  }
+}

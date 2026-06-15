@@ -1,0 +1,29 @@
+{
+  "identifier": "greenhouse-production-draft",
+  "worldGridWidth": 1280,
+  "worldGridHeight": 720,
+  "levels": [
+    {
+      "identifier": "SerraBiologica",
+      "pxWid": 1280,
+      "pxHei": 720,
+      "layerInstances": [
+        {
+          "__identifier": "GameplayLayout",
+          "entityInstances": [
+            { "__identifier": "Header", "px": [640, 82], "width": 1160, "height": 88, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:header" }] },
+            { "__identifier": "PlantPod", "px": [190, 420], "width": 170, "height": 286, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:plant:0" }] },
+            { "__identifier": "PlantPod", "px": [420, 410], "width": 180, "height": 302, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:plant:1" }] },
+            { "__identifier": "PlantPod", "px": [650, 424], "width": 170, "height": 286, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:plant:2" }] },
+            { "__identifier": "DataPanel", "px": [820, 288], "width": 420, "height": 326, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:dataPanel" }] },
+            { "__identifier": "ObjectivePanel", "px": [820, 130], "width": 420, "height": 136, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:objectivePanel" }] },
+            { "__identifier": "Graph", "px": [1018, 506], "width": 168, "height": 96, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:graph" }] },
+            { "__identifier": "SensorTable", "px": [842, 444], "width": 330, "height": 104, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:sensorTable" }] },
+            { "__identifier": "Button", "px": [882, 600], "width": 168, "height": 44, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:readSensors" }] },
+            { "__identifier": "Button", "px": [1098, 600], "width": 168, "height": 44, "fieldInstances": [{ "__identifier": "id", "__value": "greenhouse:advanceTurn" }] }
+          ]
+        }
+      ]
+    }
+  ]
+}

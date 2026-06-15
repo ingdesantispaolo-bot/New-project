@@ -1,0 +1,26 @@
+{
+  "name": "eli-quest-accademia-missioni",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:lan": "vite --host 0.0.0.0",
+    "build": "tsc && vite build",
+    "assets:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs && node scripts/build-visual-assets.mjs && node scripts/build-console-assets.mjs && node scripts/build-prop-assets.mjs && node scripts/process-painted-prop-sheet.mjs && node scripts/build-audio-assets.mjs && node scripts/optimize-assets.mjs",
+    "assets:optimize": "node scripts/optimize-assets.mjs",
+    "maps:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "preview:lan": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "howler": "^2.2.4",
+    "phaser": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/howler": "^2.2.12",
+    "sharp": "^0.34.5",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  }
+}

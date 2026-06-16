@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
+import { buildInfo } from "../core/BuildInfo";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
@@ -183,6 +184,11 @@ export class MainMenuScene extends Phaser.Scene {
       color: "#7da2af",
       wordWrap: { width: 380 },
     });
+    this.add.text(1210, 690, `build ${buildInfo.ref}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#7da2af",
+    }).setOrigin(1, 0.5).setAlpha(0.8);
     VisualKit.vignette(this);
     this.scheduleResponsivenessWarmup();
   }

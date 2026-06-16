@@ -286,6 +286,7 @@ export type GeneratedMusicPuzzle = {
   staffPosition: number;
   ledgerLines: number[];
   timeLimitMs: number;
+  answerMode: "note-name" | "note-and-octave";
   choices: Array<{
     id: string;
     label: string;

@@ -157,6 +157,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const focus = proceduralRunRules.focusFor(run);
     const puzzles = run.mission.puzzles as Partial<ProceduralRunSave["mission"]["puzzles"]>;
     const hasMusicPuzzle = Boolean(puzzles.music);
+    const hasModernMusicPuzzle = Boolean(puzzles.music?.answerMode);
     const hasMusicObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "music");
     const hasMusicHotspot = run.mission.map.hotspots.some((hotspot) => {
       const id = hotspot.puzzleId ?? hotspot.id;
@@ -167,10 +168,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       && run.mission.focusChallenges.every((challenge) => challenge.kind === "music"),
     );
     if (focus === "musica") {
-      return !(hasMusicPuzzle && hasMusicObjective && hasMusicHotspot && hasMusicFocusSeries);
+      return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot && hasMusicFocusSeries);
     }
     if (mode === "mission" || focus === "libera") {
-      return !(hasMusicPuzzle && hasMusicObjective && hasMusicHotspot);
+      return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot);
     }
     return false;
   }
@@ -1653,7 +1654,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(56, 104, "Obiettivo: riconosci la nota scritta sul pentagramma. Il numero indica l'ottava: Do4 è il Do centrale, La4 è il La sopra il Do centrale.", {
+    overlay.add(this.add.text(56, 104, this.musicPromptText(puzzle), {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#d9eaf1",
@@ -1683,8 +1684,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
           this.solvePuzzle(puzzleId, puzzle.competencies);
           return;
         }
-        this.handleIncorrectAnswer(choice.feedback);
-      }, { width: 220, height: 54, fontSize: 17, fill: choice.isCorrect ? 0x173b36 : 0x263743 }));
+        this.handleMusicMistake(choice.feedback);
+      }, { width: 220, height: 54, fontSize: puzzle.answerMode === "note-name" ? 22 : 16, fill: 0x263743, hoverFill: 0x23556a }));
     });
 
     this.addMethodStrip(overlay, 56, 572, 520, "Metodo", puzzle.methodSteps);
@@ -1723,14 +1724,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(this.add.text(centerX - 260, centerY + 108, [
       `Posizione: ${puzzle.staffPosition % 2 === 0 ? "linea" : "spazio"}`,
       puzzle.ledgerLines.length > 0 ? `Linee addizionali: ${puzzle.ledgerLines.length}` : "Nessuna linea addizionale",
-      "Risposta: nome nota + ottava",
+      puzzle.answerMode === "note-name" ? "Risposta: nome della nota" : "Risposta: nome nota + ottava",
     ].join("  |  "), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
       wordWrap: { width: 520 },
     }));
-    overlay.add(this.add.text(centerX - 260, centerY + 132, "Ottava: il numero distingue note con lo stesso nome in registri diversi. Per ora non serve riconoscere il suono: basta leggere la posizione.", {
+    overlay.add(this.add.text(centerX - 260, centerY + 132, this.musicModeExplanation(puzzle), {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
@@ -1767,6 +1768,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#f7d37a",
       wordWrap: { width: 450 },
     }));
+  }
+
+  private musicPromptText(puzzle: GeneratedMusicPuzzle): string {
+    if (puzzle.answerMode === "note-name") {
+      return "Obiettivo: riconosci il nome della nota il più rapidamente possibile. Guarda la chiave, trova la nota guida e conta linee/spazi.";
+    }
+    return "Obiettivo: riconosci nome e ottava. Il numero indica il registro: Do4 è il Do centrale; La4 è il La sopra il Do centrale.";
+  }
+
+  private musicModeExplanation(puzzle: GeneratedMusicPuzzle): string {
+    if (puzzle.answerMode === "note-name") {
+      return "Modalità rapida: conta la posizione e scegli solo il nome della nota. L'ottava verrà allenata nei livelli avanzati.";
+    }
+    return "Modalità avanzata: stesso nome in registri diversi non basta; controlla anche le linee addizionali per scegliere l'ottava.";
   }
 
   private drawMusicClef(overlay: Phaser.GameObjects.Container, clef: GeneratedMusicPuzzle["clef"], x: number, y: number): void {
@@ -2196,6 +2211,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.clearOverlay();
     feedbackSystem.publish(`${message} L'esercizio resta disponibile: puoi rientrare e riprovare con un timer nuovo.`, "warning");
     this.time.delayedCall(520, () => this.scene.restart());
+  }
+
+  private handleMusicMistake(message: string): void {
+    this.recordPuzzleMistake();
+    if (proceduralRunRules.modeFor(this.run) === "mission") {
+      this.loseMissionLife(message);
+      return;
+    }
+    audioManager.playOutcome("wrong");
+    outcomeFeedback.play(this, "warning", "Riconta");
+    feedbackSystem.publish(message, "warning");
   }
 
   private loseMissionLife(reason: string): void {

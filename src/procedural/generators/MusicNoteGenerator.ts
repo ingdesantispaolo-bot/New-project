@@ -42,7 +42,8 @@ export class MusicNoteGenerator {
     const clef = this.pickClef(random, difficultyLevel);
     const note = random.pick(this.notePool(difficultyLevel, clef));
     const staffPosition = clef === "treble" ? note.treblePosition : note.bassPosition;
-    const choices = this.buildChoices(random, note, clef, staffPosition);
+    const answerMode = difficultyLevel >= 7 ? "note-and-octave" : "note-name";
+    const choices = this.buildChoices(random, note, clef, staffPosition, answerMode);
     return {
       id: `music-${clef}-${note.name.toLowerCase()}${note.octave}-${staffPosition}`,
       title: clef === "treble" ? "Lettura note - chiave di violino" : "Lettura note - chiave di basso",
@@ -52,15 +53,20 @@ export class MusicNoteGenerator {
       staffPosition,
       ledgerLines: this.ledgerLinesFor(staffPosition),
       timeLimitMs: this.timeLimitMs(difficultyLevel, this.outsideStaffDistance(staffPosition)),
+      answerMode,
       choices,
       hints: this.hintsFor(clef, staffPosition, note),
       competencies: ["musica.pentagramma", `musica.${clef === "treble" ? "chiaveViolino" : "chiaveBasso"}`, "musica.letturaNote"],
       difficultyLabel: `Livello ${difficultyLevel}/8 - ${this.levelName(difficultyLevel)}`,
-      learningPurpose: "Riconoscere una nota sul pentagramma usando chiave, posizione, spazi, linee e linee addizionali.",
+      learningPurpose: answerMode === "note-name"
+        ? "Riconoscere rapidamente il nome della nota sul pentagramma."
+        : "Riconoscere rapidamente nome e registro della nota, includendo l'ottava.",
       method: clef === "treble"
         ? "In chiave di violino parti dal Sol sulla seconda linea o dal Do centrale sotto il pentagramma, poi conta linee e spazi."
         : "In chiave di basso parti dal Fa sulla quarta linea o dal Do centrale sopra il pentagramma, poi conta linee e spazi.",
-      methodSteps: ["identifica la chiave", "trova nota di riferimento", "conta linee/spazi", "controlla linee addizionali"],
+      methodSteps: answerMode === "note-name"
+        ? ["chiave", "nota guida", "linea/spazio", "nome nota"]
+        : ["chiave", "nota guida", "linee addizionali", "nome + ottava"],
       conceptTags: [
         clef === "treble" ? "chiave di violino" : "chiave di basso",
         this.ledgerLinesFor(staffPosition).length > 0 ? "linee addizionali" : "pentagramma",
@@ -116,27 +122,44 @@ export class MusicNoteGenerator {
     return position % 2 === 0;
   }
 
-  private buildChoices(random: Random, note: MusicNote, clef: MusicClef, staffPosition: number): GeneratedMusicPuzzle["choices"] {
-    const correct = this.noteLabel(note);
+  private buildChoices(
+    random: Random,
+    note: MusicNote,
+    clef: MusicClef,
+    staffPosition: number,
+    answerMode: GeneratedMusicPuzzle["answerMode"],
+  ): GeneratedMusicPuzzle["choices"] {
+    const correct = this.noteLabel(note, answerMode);
     const nearby = diatonicNotes
       .filter((candidate) => candidate !== note)
       .map((candidate) => ({
         candidate,
+        label: this.noteLabel(candidate, answerMode),
         distance: Math.abs((clef === "treble" ? candidate.treblePosition : candidate.bassPosition) - staffPosition),
       }))
+      .filter((item) => item.label !== correct)
       .sort((a, b) => a.distance - b.distance)
       .slice(0, 8);
-    const picked = random.shuffle(nearby).slice(0, 3).map(({ candidate }) => candidate);
+    const picked: Array<{ candidate: MusicNote; label: string }> = [];
+    const usedLabels = new Set([correct]);
+    for (const item of random.shuffle(nearby)) {
+      if (usedLabels.has(item.label)) continue;
+      usedLabels.add(item.label);
+      picked.push({ candidate: item.candidate, label: item.label });
+      if (picked.length === 3) break;
+    }
     const choices = [
       {
         id: "correct",
         label: correct,
         isCorrect: true,
-        feedback: `Corretto: la nota è ${correct}. Hai letto chiave, posizione e linee addizionali senza confondere l'ottava.`,
+        feedback: answerMode === "note-name"
+          ? `Corretto: la nota è ${correct}. Hai riconosciuto la posizione sul pentagramma.`
+          : `Corretto: la nota è ${correct}. Hai letto chiave, posizione e ottava.`,
       },
-      ...picked.map((candidate, index) => ({
+      ...picked.map(({ candidate, label }, index) => ({
         id: `distractor-${index}`,
-        label: this.noteLabel(candidate),
+        label,
         isCorrect: false,
         feedback: this.feedbackFor(note, candidate, clef),
       })),
@@ -155,8 +178,8 @@ export class MusicNoteGenerator {
       : "Hai scelto una nota più bassa: riconta verso l'alto alternando linea e spazio.";
   }
 
-  private noteLabel(note: MusicNote): string {
-    return `${note.name} (ottava ${note.octave})`;
+  private noteLabel(note: MusicNote, answerMode: GeneratedMusicPuzzle["answerMode"]): string {
+    return answerMode === "note-name" ? note.name : `${note.name} (ottava ${note.octave})`;
   }
 
   private ledgerLinesFor(position: number): number[] {
@@ -176,8 +199,8 @@ export class MusicNoteGenerator {
     return [
       `Prima guarda la chiave: il punto di riferimento è ${anchor}.`,
       `La nota è ${direction}: conta ogni passaggio linea-spazio senza saltare.`,
-      `Controllo finale: le linee addizionali cambiano anche l'ottava; qui la risposta completa è una nota con numero di ottava.`,
-      `Soluzione guidata: il nome è ${note.name}, ottava ${note.octave}.`,
+      "Controllo finale: nei livelli base scegli il nome della nota; nei livelli avanzati compare anche l'ottava.",
+      "Se sei indecisa, riparti dalla nota guida della chiave e conta ogni riga/spazio senza saltare.",
     ];
   }
 

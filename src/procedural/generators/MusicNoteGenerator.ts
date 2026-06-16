@@ -117,7 +117,7 @@ export class MusicNoteGenerator {
   }
 
   private buildChoices(random: Random, note: MusicNote, clef: MusicClef, staffPosition: number): GeneratedMusicPuzzle["choices"] {
-    const correct = `${note.name}${note.octave}`;
+    const correct = this.noteLabel(note);
     const nearby = diatonicNotes
       .filter((candidate) => candidate !== note)
       .map((candidate) => ({
@@ -132,11 +132,11 @@ export class MusicNoteGenerator {
         id: "correct",
         label: correct,
         isCorrect: true,
-        feedback: `Corretto: la nota è ${correct}. Hai letto chiave, posizione e linee addizionali senza cambiare ottava.`,
+        feedback: `Corretto: la nota è ${correct}. Hai letto chiave, posizione e linee addizionali senza confondere l'ottava.`,
       },
       ...picked.map((candidate, index) => ({
         id: `distractor-${index}`,
-        label: `${candidate.name}${candidate.octave}`,
+        label: this.noteLabel(candidate),
         isCorrect: false,
         feedback: this.feedbackFor(note, candidate, clef),
       })),
@@ -153,6 +153,10 @@ export class MusicNoteGenerator {
     return pickedPos < correctPos
       ? "Hai scelto una nota più alta: riconta verso il basso alternando linea e spazio."
       : "Hai scelto una nota più bassa: riconta verso l'alto alternando linea e spazio.";
+  }
+
+  private noteLabel(note: MusicNote): string {
+    return `${note.name} (ottava ${note.octave})`;
   }
 
   private ledgerLinesFor(position: number): number[] {

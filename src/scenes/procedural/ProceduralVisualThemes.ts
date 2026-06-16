@@ -6,6 +6,7 @@ import type { ChromePalette, ChromeRect } from "../../ui/SceneChrome";
 import { VisualKit } from "../../ui/VisualKit";
 
 export type ProceduralPropTheme = "lab" | "greenhouse" | "factory" | "archive" | "academy" | "circuit";
+type LevelMotif = "trace" | "circuit" | "bio" | "archive" | "factory" | "map" | "reactor" | "core";
 
 export type ProceduralVisualTheme = {
   id:
@@ -31,6 +32,11 @@ export type ProceduralVisualTheme = {
   secondary: number;
   dark: number;
   focus: ProceduralSpecialization;
+  motif: LevelMotif;
+  density: number;
+  depth: number;
+  motion: number;
+  atmosphereLabel: string;
 };
 
 const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" | "focus">> = {
@@ -48,6 +54,11 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     accent: 0x6be7d6,
     secondary: 0xf6c85f,
     dark: 0x071018,
+    motif: "trace",
+    density: 1,
+    depth: 1,
+    motion: 1,
+    atmosphereLabel: "Ingresso chiaro: poche tracce, dispositivi distanti, lettura guidata.",
   },
   2: {
     id: "circuit-workshop",
@@ -63,6 +74,11 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     accent: 0x6be7d6,
     secondary: 0xffb36b,
     dark: 0x061019,
+    motif: "circuit",
+    density: 2,
+    depth: 2,
+    motion: 2,
+    atmosphereLabel: "Banco tecnico: piste, tester e componenti in vista.",
   },
   3: {
     id: "glass-greenhouse",
@@ -78,6 +94,11 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     accent: 0x70d68a,
     secondary: 0xf7d37a,
     dark: 0x06130f,
+    motif: "bio",
+    density: 3,
+    depth: 3,
+    motion: 2,
+    atmosphereLabel: "Ambiente vivo: dati e conseguenze cambiano insieme.",
   },
   4: {
     id: "interference-archive",
@@ -93,6 +114,11 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     accent: 0x9f8cff,
     secondary: 0xf7d37a,
     dark: 0x0a0d18,
+    motif: "archive",
+    density: 4,
+    depth: 3,
+    motion: 3,
+    atmosphereLabel: "Rumore informativo: frammenti utili e falsi indizi convivono.",
   },
   5: {
     id: "number-factory",
@@ -108,6 +134,11 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     accent: 0xf6c85f,
     secondary: 0x8aa6b0,
     dark: 0x0b0f14,
+    motif: "factory",
+    density: 5,
+    depth: 4,
+    motion: 4,
+    atmosphereLabel: "Produzione numerica: ogni macchina modifica il flusso.",
   },
   6: {
     id: "cartography-room",
@@ -123,6 +154,11 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     accent: 0x4c7dff,
     secondary: 0x6be7d6,
     dark: 0x071018,
+    motif: "map",
+    density: 6,
+    depth: 5,
+    motion: 4,
+    atmosphereLabel: "Spazio misurabile: assi, coordinate e percorsi diventano strumenti.",
   },
   7: {
     id: "logic-reactor",
@@ -138,6 +174,11 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     accent: 0x6be7d6,
     secondary: 0xc94b55,
     dark: 0x050b12,
+    motif: "reactor",
+    density: 7,
+    depth: 6,
+    motion: 5,
+    atmosphereLabel: "Vincoli incrociati: il sistema reagisce a ogni scelta.",
   },
   8: {
     id: "academy-core",
@@ -153,6 +194,11 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     accent: 0xf7d37a,
     secondary: 0x9f8cff,
     dark: 0x0a0d18,
+    motif: "core",
+    density: 8,
+    depth: 7,
+    motion: 6,
+    atmosphereLabel: "Sintesi finale: tutti i linguaggi della missione si sovrappongono.",
   },
 };
 
@@ -192,6 +238,8 @@ export function drawProceduralStageAtmosphere(
   const progress = requiredCount > 0 ? Phaser.Math.Clamp(solvedCount / requiredCount, 0, 1) : 0;
   const random = new Random(`${seed}:${theme.id}:${theme.focus}:visual`);
   drawStageBase(scene, rect, theme, progress);
+  drawLevelDepthBackplate(scene, rect, theme, progress);
+  drawLevelFloorMotif(scene, rect, theme, random.fork("floor"), progress);
   drawSeededWallArchitecture(scene, rect, theme, random.fork("architecture"), progress);
   drawSeededCableLoom(scene, rect, theme, random.fork("cables"), progress);
   drawSeededLightRig(scene, rect, theme, random.fork("lights"), progress);
@@ -205,6 +253,7 @@ export function drawProceduralStageAtmosphere(
   if (theme.id === "academy-core") drawAcademyCore(scene, rect, theme);
   drawSeededFocusOverprint(scene, rect, theme, random.fork("focus"));
   drawSeededForegroundDepth(scene, rect, theme, random.fork("foreground"), progress);
+  drawProgressionConstellation(scene, rect, theme, progress);
   drawLevelPlate(scene, rect, theme, progress);
 }
 
@@ -218,6 +267,133 @@ function drawStageBase(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralV
   g.fillRoundedRect(rect.x + 52, rect.y + 72, (rect.width - 104) * Math.max(0.08, progress), 5, 3);
   g.fillStyle(theme.secondary, 0.28);
   g.fillRoundedRect(rect.x + 52, rect.y + 72, 54, 5, 3);
+}
+
+function drawLevelDepthBackplate(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralVisualTheme, progress: number): void {
+  const g = scene.add.graphics();
+  const cx = rect.x + rect.width / 2;
+  const top = rect.y + 88;
+  const bottom = rect.y + rect.height - 78;
+  const nearInset = 44;
+  const farWidth = rect.width * (0.22 + theme.depth * 0.018);
+  const alpha = 0.012 + theme.depth * 0.004 + progress * 0.012;
+
+  g.fillStyle(theme.accent, alpha);
+  g.fillTriangle(cx, top, rect.x + nearInset, bottom, rect.x + rect.width - nearInset, bottom);
+  g.lineStyle(1, theme.accent, 0.045 + theme.depth * 0.008);
+  g.strokeTriangle(cx, top, rect.x + nearInset, bottom, rect.x + rect.width - nearInset, bottom);
+
+  const corridorBands = 3 + Math.floor(theme.depth / 2);
+  for (let index = 0; index < corridorBands; index += 1) {
+    const t = (index + 1) / (corridorBands + 1);
+    const y = Phaser.Math.Linear(top + 20, bottom - 18, t);
+    const half = Phaser.Math.Linear(farWidth, rect.width / 2 - nearInset, t);
+    g.lineStyle(1, index === theme.level % corridorBands ? theme.secondary : theme.accent, 0.04 + t * 0.05);
+    g.lineBetween(cx - half, y, cx + half, y);
+  }
+
+  g.lineStyle(2, theme.secondary, 0.035 + progress * 0.02);
+  g.lineBetween(rect.x + 54, bottom, cx - farWidth * 0.45, top + 18);
+  g.lineBetween(rect.x + rect.width - 54, bottom, cx + farWidth * 0.45, top + 18);
+}
+
+function drawLevelFloorMotif(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  const g = scene.add.graphics();
+  const left = rect.x + 78;
+  const right = rect.x + rect.width - 78;
+  const top = rect.y + 112;
+  const bottom = rect.y + rect.height - 98;
+  const midY = rect.y + rect.height * 0.55;
+  const motifAlpha = 0.11 + theme.density * 0.012 + progress * 0.035;
+
+  g.lineStyle(1, theme.accent, motifAlpha);
+  if (theme.motif === "trace") {
+    const points = [
+      { x: left + 12, y: bottom - 18 },
+      { x: left + 150, y: midY + 42 },
+      { x: rect.x + rect.width * 0.48, y: midY - 24 },
+      { x: right - 124, y: top + 88 },
+      { x: right - 12, y: top + 42 },
+    ];
+    points.slice(1).forEach((point, index) => {
+      const prev = points[index];
+      g.lineBetween(prev.x, prev.y, point.x, point.y);
+    });
+    points.forEach((point, index) => {
+      g.fillStyle(index <= Math.ceil(progress * 4) ? theme.secondary : theme.accent, 0.18);
+      g.fillCircle(point.x, point.y, 6 + index);
+    });
+  } else if (theme.motif === "circuit") {
+    for (let index = 0; index < 6; index += 1) {
+      const y = top + 28 + index * 42;
+      const x1 = left + random.integer(0, 64);
+      const x2 = right - random.integer(0, 82);
+      g.lineBetween(x1, y, x2, y);
+      g.strokeCircle(x1 + 84, y, 10);
+      g.strokeRoundedRect(x2 - 70, y - 12, 46, 24, 5);
+      if (index % 2 === 0) g.lineBetween(x2 - 24, y, x2 - 24, y + 32);
+    }
+  } else if (theme.motif === "bio") {
+    for (let index = 0; index < 7; index += 1) {
+      const x = left + index * ((right - left) / 6);
+      g.strokeEllipse(x, midY + Math.sin(index) * 32, 42, 76);
+      g.lineBetween(x, midY + 34, x + random.integer(-28, 28), midY - 40);
+      g.fillStyle(index / 7 < progress ? theme.secondary : theme.accent, 0.09);
+      g.fillEllipse(x, midY + Math.sin(index) * 32, 32, 54);
+    }
+  } else if (theme.motif === "archive") {
+    for (let index = 0; index < 9; index += 1) {
+      const x = left + random.integer(0, right - left - 74);
+      const y = top + random.integer(0, bottom - top - 42);
+      g.strokeRoundedRect(x, y, 62, 34, 4);
+      g.lineBetween(x + 9, y + 11, x + 52, y + 11);
+      g.lineBetween(x + 9, y + 21, x + random.integer(30, 55), y + 21);
+    }
+  } else if (theme.motif === "factory") {
+    g.lineStyle(4, theme.secondary, 0.13 + progress * 0.04);
+    g.lineBetween(left, midY + 90, right, midY + 90);
+    for (let index = 0; index < 8; index += 1) {
+      const x = left + index * ((right - left) / 7);
+      g.lineStyle(2, theme.accent, motifAlpha);
+      g.strokeCircle(x, midY + 90, 18 + (index % 3) * 4);
+      g.lineBetween(x - 14, midY + 90, x + 14, midY + 90);
+      g.lineBetween(x, midY + 76, x, midY + 104);
+    }
+  } else if (theme.motif === "map") {
+    for (let x = left; x <= right; x += 52) g.lineBetween(x, top, x, bottom);
+    for (let y = top; y <= bottom; y += 42) g.lineBetween(left, y, right, y);
+    g.lineStyle(3, theme.secondary, 0.2);
+    g.lineBetween(left + 40, bottom - 32, left + 188, bottom - 122);
+    g.lineBetween(left + 188, bottom - 122, right - 148, top + 90);
+    g.lineBetween(right - 148, top + 90, right - 28, top + 50);
+  } else if (theme.motif === "reactor") {
+    const cx = rect.x + rect.width / 2;
+    const cy = rect.y + rect.height / 2 + 18;
+    for (let index = 0; index < 6; index += 1) {
+      g.lineStyle(2, index % 2 ? theme.secondary : theme.accent, 0.09 + index * 0.012);
+      g.strokeCircle(cx, cy, 48 + index * 34);
+    }
+    for (let index = 0; index < 8; index += 1) {
+      const angle = (Math.PI * 2 * index) / 8;
+      g.lineBetween(cx, cy, cx + Math.cos(angle) * 240, cy + Math.sin(angle) * 180);
+    }
+  } else {
+    const cx = rect.x + rect.width / 2;
+    for (let index = 0; index < 6; index += 1) {
+      const x = cx - 190 + index * 76;
+      g.lineStyle(2, index % 2 ? theme.secondary : theme.accent, 0.11);
+      g.lineBetween(x, top + 12, x + 18, bottom - 16);
+      g.strokeRoundedRect(x - 22, top + 24 + (index % 2) * 34, 54, bottom - top - 70, 12);
+    }
+    g.fillStyle(theme.secondary, 0.075 + progress * 0.05);
+    g.fillCircle(cx, midY, 78);
+  }
 }
 
 function drawSeededWallArchitecture(
@@ -403,6 +579,25 @@ function drawSeededFocusOverprint(scene: Phaser.Scene, rect: ChromeRect, theme: 
       g.strokeCircle(x, y, 9);
       g.lineBetween(x, y + 9, x, y + 30);
     }
+  } else if (theme.focus === "musica") {
+    const staffTop = rect.y + 104;
+    const staffLeft = rect.x + 78;
+    const staffRight = rect.x + rect.width - 92;
+    g.lineStyle(1, theme.accent, 0.12);
+    for (let staff = 0; staff < 2; staff += 1) {
+      const yBase = staffTop + staff * 142;
+      for (let line = 0; line < 5; line += 1) {
+        g.lineBetween(staffLeft, yBase + line * 10, staffRight, yBase + line * 10);
+      }
+      for (let note = 0; note < 6; note += 1) {
+        const x = staffLeft + 72 + note * 88 + random.integer(-14, 14);
+        const y = yBase + random.integer(-10, 50);
+        g.fillStyle(note % 2 ? theme.secondary : theme.accent, 0.16);
+        g.fillEllipse(x, y, 18, 12);
+        g.lineStyle(1, note % 2 ? theme.secondary : theme.accent, 0.16);
+        g.lineBetween(x + 8, y, x + 8, y - 34);
+      }
+    }
   }
 }
 
@@ -423,6 +618,37 @@ function drawSeededForegroundDepth(
   g.fillRect(rect.x + 36, rect.y + rect.height - 24, rect.width - 72, 4);
 }
 
+function drawProgressionConstellation(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralVisualTheme, progress: number): void {
+  const g = scene.add.graphics();
+  const y = rect.y + rect.height - 46;
+  const startX = rect.x + 92;
+  const gap = (rect.width - 184) / 7;
+  const activeLevel = theme.level;
+  g.lineStyle(2, theme.accent, 0.1);
+  g.lineBetween(startX, y, startX + gap * 7, y);
+  for (let index = 1; index <= 8; index += 1) {
+    const x = startX + (index - 1) * gap;
+    const reached = index < activeLevel;
+    const current = index === activeLevel;
+    const color = reached || current ? theme.secondary : 0x6b7d84;
+    const alpha = current ? 0.82 : reached ? 0.48 : 0.22;
+    g.fillStyle(color, alpha);
+    g.fillCircle(x, y, current ? 7 : 5);
+    g.lineStyle(1, color, alpha + 0.1);
+    g.strokeCircle(x, y, current ? 16 + progress * 8 : 10);
+  }
+  scene.add.text(startX - 16, y + 14, "1", {
+    fontFamily: "Inter, Arial",
+    fontSize: "9px",
+    color: "#9aaab0",
+  }).setAlpha(0.72);
+  scene.add.text(startX + gap * 7 - 4, y + 14, "8", {
+    fontFamily: "Inter, Arial",
+    fontSize: "9px",
+    color: "#9aaab0",
+  }).setAlpha(0.72);
+}
+
 function drawLevelPlate(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralVisualTheme, progress: number): void {
   scene.add.text(rect.x + 26, rect.y + 44, `LIVELLO ${theme.level} - ${theme.levelName}`.toUpperCase(), {
     fontFamily: "Inter, Arial",
@@ -436,6 +662,12 @@ function drawLevelPlate(scene: Phaser.Scene, rect: ChromeRect, theme: Procedural
     color: progress >= 1 ? "#f7d37a" : "#9aaab0",
     fontStyle: "bold",
   }).setOrigin(0, 0);
+  scene.add.text(rect.x + 26, rect.y + 62, theme.atmosphereLabel, {
+    fontFamily: "Inter, Arial",
+    fontSize: "10px",
+    color: "#9aaab0",
+    wordWrap: { width: rect.width - 224 },
+  }).setAlpha(0.82);
 }
 
 function drawTraceRoom(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralVisualTheme): void {

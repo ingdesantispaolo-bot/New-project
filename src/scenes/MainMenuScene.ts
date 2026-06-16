@@ -96,7 +96,7 @@ export class MainMenuScene extends Phaser.Scene {
       fill: 0x173b36,
       fontSize: 18,
     });
-    new Button(this, 552, 522, "Giocatori", () => {
+    new Button(this, 552, 522, "Registro", () => {
       void startScene(this, "PlayerReportScene");
     }, {
       width: 206,

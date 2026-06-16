@@ -186,18 +186,24 @@ export class LeaderboardScene extends Phaser.Scene {
         fontSize: "12px",
         color,
       });
-      this.add.text(x + 552, rowY, `${result.score}`, {
+      this.add.text(x + 546, rowY, result.grade ? `${result.grade}/10` : "-", {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color,
         fontStyle: "bold",
       });
-      this.add.text(x + 632, rowY, formatDuration(result.elapsedMs), {
+      this.add.text(x + 622, rowY, `${result.score}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color,
+        fontStyle: "bold",
+      });
+      this.add.text(x + 692, rowY, formatDuration(result.elapsedMs), {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color: "#d9eaf1",
       });
-      this.add.text(x + 724, rowY, `${result.hintsUsed}`, {
+      this.add.text(x + 770, rowY, `${result.hintsUsed}`, {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color: "#d9eaf1",
@@ -212,9 +218,10 @@ export class LeaderboardScene extends Phaser.Scene {
       { x: 50, text: "Giocatore" },
       { x: 220, text: "Prova" },
       { x: 464, text: "Liv." },
-      { x: 524, text: "Punti" },
-      { x: 604, text: "Tempo" },
-      { x: 696, text: "Indizi" },
+      { x: 518, text: "Voto" },
+      { x: 594, text: "Punti" },
+      { x: 664, text: "Tempo" },
+      { x: 742, text: "Indizi" },
     ].forEach((item) => {
       this.add.text(x + item.x, y - 3, item.text, {
         fontFamily: "Inter, Arial",

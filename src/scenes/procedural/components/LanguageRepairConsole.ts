@@ -39,24 +39,26 @@ export class LanguageRepairConsole {
   }
 
   static addHeader(scene: Phaser.Scene, overlay: Phaser.GameObjects.Container, model: LanguageRepairModel): void {
-    overlay.add(scene.add.text(48, 82, model.difficultyLabel.toUpperCase(), {
+    overlay.add(scene.add.text(56, 76, model.difficultyLabel.toUpperCase(), {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
+      fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(scene.add.text(48, 106, `Segnale danneggiato: "${model.corrupted}"`, {
+    const corruptedSize = model.corrupted.length > 118 ? 14 : model.corrupted.length > 86 ? 15 : 17;
+    overlay.add(scene.add.text(56, 106, `Segnale danneggiato: "${model.corrupted}"`, {
       fontFamily: "Inter, Arial",
-      fontSize: "18px",
+      fontSize: `${corruptedSize}px`,
       color: "#f7d37a",
-      wordWrap: { width: 700 },
+      wordWrap: { width: 1060, useAdvancedWrap: true },
+      lineSpacing: 4,
     }));
-    overlay.add(scene.add.text(48, 166, model.instruction, {
+    overlay.add(scene.add.text(56, 172, model.instruction, {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
+      fontSize: "13px",
       color: "#d9eaf1",
-      wordWrap: { width: 700 },
-      lineSpacing: 5,
+      wordWrap: { width: 1060, useAdvancedWrap: true },
+      lineSpacing: 4,
     }));
   }
 }

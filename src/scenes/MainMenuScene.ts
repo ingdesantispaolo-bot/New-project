@@ -4,7 +4,7 @@ import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
-import { startScene } from "../core/SceneNavigator";
+import { prefetchCoreScenes, startScene } from "../core/SceneNavigator";
 import { difficultyModel } from "../procedural/DifficultyModel";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization } from "../procedural/ProceduralTypes";
@@ -78,6 +78,14 @@ export class MainMenuScene extends Phaser.Scene {
       saveSystem.load();
       void startScene(this, this.getContinueScene());
     }, { width: continueButton.width });
+    new Button(this, 552, 448, "Atlante matematica", () => {
+      void startScene(this, "MathStudyScene");
+    }, {
+      width: 206,
+      height: 46,
+      fill: 0x263743,
+      fontSize: 15,
+    });
     const journal = this.rect("menu:journal", { x: 250, y: 522, width: 260 });
     new Button(this, journal.x, journal.y, "Diario Seed", () => this.scene.start("JournalScene"), { width: journal.width });
     const procedural = this.rect("menu:procedural", { x: 250, y: 596, width: 300 });
@@ -175,6 +183,7 @@ export class MainMenuScene extends Phaser.Scene {
       wordWrap: { width: 380 },
     });
     VisualKit.vignette(this);
+    this.scheduleResponsivenessWarmup();
   }
 
   private drawBackground(): void {
@@ -313,5 +322,56 @@ export class MainMenuScene extends Phaser.Scene {
 
   private trainingDifficultyKey(): string {
     return `${TRAINING_DIFFICULTY_KEY}:${playerSystem.getActivePlayer().id}`;
+  }
+
+  private scheduleResponsivenessWarmup(): void {
+    const warmup = (): void => {
+      this.warmRuntimeTextures();
+      prefetchCoreScenes(this);
+      audioManager.preloadEssentialAudio();
+      audioManager.preloadAmbientAudio();
+      this.time.delayedCall(160, () => {
+        if (!this.scene.isActive()) {
+          return;
+        }
+        try {
+          proceduralDirector.generateFreshMission(this.activeDifficulty(), ["libera"]);
+        } catch {
+          // Background warm-up must never block the first real mission.
+        }
+      });
+    };
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      window.requestIdleCallback(warmup, { timeout: 900 });
+    } else {
+      this.time.delayedCall(120, warmup);
+    }
+  }
+
+  private warmRuntimeTextures(): void {
+    const keys = [
+      "bg-lab-painted",
+      "bg-archive-painted",
+      "bg-factory-painted",
+      "bg-greenhouse-painted",
+      "console-lab",
+      "painted-circuit-panel",
+      "painted-terminal",
+      "painted-robot-dock",
+      "painted-message-console",
+      "painted-door-lab",
+      "painted-nora-core",
+      "holo-ring",
+      "soft-glow",
+      "spark-core",
+    ];
+    const warmers = keys
+      .filter((key) => this.textures.exists(key))
+      .map((key, index) => this.add.image(-180 - index * 6, -180, key).setAlpha(0.01).setScale(0.04));
+    if (this.textures.exists("eli-atlas")) {
+      warmers.push(this.add.image(-260, -180, "eli-atlas", "particle-diamond").setAlpha(0.01).setScale(0.04));
+      warmers.push(this.add.image(-270, -180, "eli-atlas", "robot-core").setAlpha(0.01).setScale(0.04));
+    }
+    this.time.delayedCall(180, () => warmers.forEach((item) => item.destroy()));
   }
 }

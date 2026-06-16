@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { audioManager } from "../core/AudioManager";
 import academyPaintedBgUrl from "../assets/images/academy-painted-bg.webp";
 import archivePaintedBgUrl from "../assets/images/archive-painted-bg.webp";
 import archiveConsoleUrl from "../assets/images/console-archive.webp";
@@ -104,6 +105,35 @@ export class PreloadScene extends Phaser.Scene {
     graphics.generateTexture("spark-core", 16, 16);
     graphics.destroy();
 
+    this.warmCriticalTextures();
+    audioManager.preloadEssentialAudio();
     this.scene.start("MainMenuScene");
+  }
+
+  private warmCriticalTextures(): void {
+    const keys = [
+      "bg-academy-painted",
+      "bg-lab-painted",
+      "console-lab",
+      "painted-circuit-panel",
+      "painted-terminal",
+      "painted-robot-dock",
+      "painted-message-console",
+      "painted-door-lab",
+      "painted-nora-core",
+      "soft-glow",
+      "holo-ring",
+      "spark-core",
+    ];
+    const warmers = keys
+      .filter((key) => this.textures.exists(key))
+      .map((key, index) => this.add.image(-128 - index * 4, -128, key).setAlpha(0.01).setScale(0.05));
+    if (this.textures.exists("eli-atlas")) {
+      warmers.push(this.add.image(-180, -180, "eli-atlas", "particle-diamond").setAlpha(0.01).setScale(0.05));
+      warmers.push(this.add.image(-188, -188, "eli-atlas", "robot-core").setAlpha(0.01).setScale(0.05));
+    }
+    this.time.delayedCall(120, () => {
+      warmers.forEach((item) => item.destroy());
+    });
   }
 }

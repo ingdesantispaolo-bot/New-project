@@ -894,4 +894,427 @@ export const mathTemplates: MathTemplate[] = [
       };
     },
   },
+  {
+    id: "lcm-beacon-sync",
+    title: "Sincronizzazione beacon",
+    narrative: "Due beacon lampeggiano con ritmi diversi: la porta si apre solo quando tornano insieme.",
+    minComplexity: 4,
+    archetype: "vincolo",
+    competencies: ["matematica.multipliDivisori", "matematica.logica", "matematica.controlloErrore"],
+    curriculumTags: ["mcm", "multipli", "sincronizzazione"],
+    build: (_a, b, c) => {
+      const first = c % 2 === 0 ? 6 : 8;
+      const second = b % 2 === 0 ? 9 : 12;
+      const max = first * second;
+      let sync = Math.max(first, second);
+      while (sync <= max && (sync % first !== 0 || sync % second !== 0)) sync += 1;
+      return {
+        prompt: `Il beacon A lampeggia ogni ${first} secondi, il beacon B ogni ${second} secondi. Dopo quanti secondi lampeggiano insieme per la prima volta?`,
+        answer: sync,
+        hints: [
+          "Cerca un numero che sia multiplo di entrambi gli intervalli.",
+          `Elenca i multipli di ${first} e controlla quali sono anche multipli di ${second}.`,
+          "Il primo multiplo comune è il tempo di sincronizzazione.",
+        ],
+        steps: [`multipli di ${first}`, `multipli di ${second}`, `primo multiplo comune = ${sync}`],
+      };
+    },
+  },
+  {
+    id: "gcd-cable-bundles",
+    title: "Fasci di cavi",
+    narrative: "Il magazzino vuole dividere due scorte in pacchi uguali senza avanzi.",
+    minComplexity: 5,
+    archetype: "vincolo",
+    competencies: ["matematica.multipliDivisori", "matematica.logica", "problemSolving"],
+    curriculumTags: ["MCD", "divisori", "ripartizione senza resto"],
+    build: (a, b, c) => {
+      const unit = c % 2 === 0 ? 6 : 4;
+      const red = unit * (Math.max(4, Math.floor(a / 3)));
+      const blue = unit * (Math.max(5, Math.floor(b / 3)));
+      let gcd = Math.min(red, blue);
+      while (gcd > 1 && (red % gcd !== 0 || blue % gcd !== 0)) gcd -= 1;
+      return {
+        prompt: `Ci sono ${red} cavi rossi e ${blue} cavi blu. Vuoi creare il massimo numero possibile di gruppi identici, senza lasciare cavi fuori. Quanti gruppi uguali puoi creare?`,
+        answer: gcd,
+        hints: [
+          "Serve un numero che divida entrambe le quantità senza resto.",
+          "Il numero massimo di gruppi identici è il massimo comune divisore.",
+          `Controlla i divisori comuni di ${red} e ${blue}.`,
+        ],
+        steps: [`divisori comuni di ${red} e ${blue}`, `MCD = ${gcd}`, `numero massimo di gruppi uguali = ${gcd}`],
+      };
+    },
+  },
+  {
+    id: "fraction-successive-shares",
+    title: "Quote successive",
+    narrative: "Due reparti prelevano quote in momenti diversi: la seconda quota si calcola su ciò che resta.",
+    minComplexity: 5,
+    archetype: "frazioni",
+    competencies: ["matematica.frazioni", "matematica.controlloErrore", "problemSolving"],
+    curriculumTags: ["frazioni successive", "resto", "problemi a piu passaggi"],
+    build: (a, b, c) => {
+      const total = (a + b + c) * 4;
+      const first = total / 4;
+      const afterFirst = total - first;
+      const second = afterFirst / 3;
+      const remaining = afterFirst - second;
+      return {
+        prompt: `La riserva contiene ${total} unita. Il primo reparto usa un quarto della riserva. Poi il secondo reparto usa un terzo di ciò che resta. Quante unita rimangono?`,
+        answer: remaining,
+        hints: [
+          "La seconda frazione non si calcola sul totale iniziale.",
+          `Prima trova un quarto di ${total}.`,
+          "Poi calcola un terzo del nuovo resto.",
+        ],
+        steps: [`${total} / 4 = ${first}`, `${total} - ${first} = ${afterFirst}`, `${afterFirst} / 3 = ${second}`, `${afterFirst} - ${second} = ${remaining}`],
+      };
+    },
+  },
+  {
+    id: "percent-reverse-charge",
+    title: "Carica prima dello sconto",
+    narrative: "Il registro mostra una carica dopo una perdita percentuale: devi ricostruire il valore iniziale.",
+    minComplexity: 7,
+    archetype: "percentuali",
+    competencies: ["matematica.percentuali", "matematica.proporzionalita", "matematica.controlloErrore"],
+    curriculumTags: ["percentuali inverse", "valore iniziale", "proporzione"],
+    build: (_a, b, c) => {
+      const percentLeft = c % 2 === 0 ? 75 : 80;
+      const final = (Math.max(5, Math.floor(b / 2)) * percentLeft);
+      const initial = (final * 100) / percentLeft;
+      return {
+        prompt: `Dopo una perdita, resta il ${percentLeft}% della carica iniziale. Il display mostra ${final} unita. Qual era la carica iniziale?`,
+        answer: initial,
+        hints: [
+          `Se ${final} è il ${percentLeft}%, non devi togliere ancora una percentuale.`,
+          `Dividi per ${percentLeft} e moltiplica per 100.`,
+          "Controlla: il valore iniziale deve essere maggiore del valore finale.",
+        ],
+        steps: [`${final} / ${percentLeft} = ${final / percentLeft}`, `${final / percentLeft} x 100 = ${initial}`],
+      };
+    },
+  },
+  {
+    id: "scale-map-route",
+    title: "Mappa in scala",
+    narrative: "La planimetria compatta le distanze: il robot deve convertire la mappa in metri reali.",
+    minComplexity: 5,
+    archetype: "proporzione",
+    competencies: ["matematica.proporzionalita", "matematica.misure", "matematica.geometria"],
+    curriculumTags: ["scale", "conversione", "proporzioni"],
+    build: (_a, b, c) => {
+      const scale = c % 2 === 0 ? 5 : 10;
+      const mapCm = Math.max(6, Math.floor(b / 2));
+      const meters = mapCm * scale;
+      return {
+        prompt: `Sulla mappa 1 cm corrisponde a ${scale} metri reali. Il corridoio misura ${mapCm} cm sulla mappa. Quanti metri reali percorre il robot?`,
+        answer: meters,
+        hints: [
+          "La scala indica quanti metri reali vale ogni centimetro disegnato.",
+          `Ogni cm vale ${scale} m.`,
+          `Moltiplica ${mapCm} per ${scale}.`,
+        ],
+        steps: [`1 cm -> ${scale} m`, `${mapCm} x ${scale} = ${meters}`],
+      };
+    },
+  },
+  {
+    id: "robot-speed-time",
+    title: "Velocita del carrello",
+    narrative: "Il carrello non teletrasporta: distanza, velocità e tempo devono essere coerenti.",
+    minComplexity: 6,
+    archetype: "proporzione",
+    competencies: ["matematica.proporzionalita", "matematica.funzioni", "matematica.misure"],
+    curriculumTags: ["velocita", "tempo", "distanza"],
+    build: (a, _b, c) => {
+      const speed = Math.max(3, c + 2);
+      const time = Math.max(4, Math.floor(a / 4));
+      const distance = speed * time;
+      return {
+        prompt: `Un carrello si muove a ${speed} metri al secondo per ${time} secondi. Quanti metri percorre?`,
+        answer: distance,
+        hints: [
+          "Se la velocità è costante, distanza = velocità x tempo.",
+          `Ogni secondo aggiunge ${speed} metri.`,
+          `Ripeti per ${time} secondi.`,
+        ],
+        steps: [`distanza = ${speed} x ${time}`, `${speed} x ${time} = ${distance}`],
+      };
+    },
+  },
+  {
+    id: "unit-conversion-sensor",
+    title: "Sensore in centimetri",
+    narrative: "Il terminale rifiuta dati con unità miste: prima bisogna convertirli.",
+    minComplexity: 3,
+    archetype: "lettura-dati",
+    competencies: ["matematica.misure", "matematica.calcolo", "matematica.controlloErrore"],
+    curriculumTags: ["unita di misura", "centimetri e metri", "somma coerente"],
+    build: (_a, b, c) => {
+      const meters = Math.max(2, c);
+      const centimeters = Math.max(30, Math.floor(b / 2) * 10);
+      const totalCm = meters * 100 + centimeters;
+      return {
+        prompt: `Un cavo misura ${meters} metri e un secondo tratto misura ${centimeters} centimetri. Il terminale vuole il totale in centimetri. Che valore inserisci?`,
+        answer: totalCm,
+        hints: [
+          "Prima converti tutto nella stessa unità.",
+          `${meters} metri = ${meters * 100} centimetri.`,
+          `Poi aggiungi ${centimeters} centimetri.`,
+        ],
+        steps: [`${meters} m = ${meters * 100} cm`, `${meters * 100} + ${centimeters} = ${totalCm}`],
+      };
+    },
+  },
+  {
+    id: "triangle-angle-console",
+    title: "Angolo mancante",
+    narrative: "Tre bracci formano un triangolo: il terminale deve sapere l'angolo rimasto.",
+    minComplexity: 4,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.calcolo", "matematica.controlloErrore"],
+    curriculumTags: ["angoli", "triangoli", "somma interna"],
+    build: (a, b, c) => {
+      const angleA = 40 + (c % 4) * 5;
+      const angleB = 50 + (Math.floor(b / 3) % 5) * 4;
+      const missing = 180 - angleA - angleB;
+      return {
+        prompt: `Due angoli di un triangolo misurano ${angleA}° e ${angleB}°. Quanto misura il terzo angolo?`,
+        answer: missing,
+        hints: [
+          "La somma degli angoli interni di un triangolo è 180°.",
+          `Somma prima ${angleA} e ${angleB}.`,
+          "Il terzo angolo è ciò che manca per arrivare a 180°.",
+        ],
+        steps: [`${angleA} + ${angleB} = ${angleA + angleB}`, `180 - ${angleA + angleB} = ${missing}`],
+      };
+    },
+  },
+  {
+    id: "prism-volume-crate",
+    title: "Volume del contenitore",
+    narrative: "La fabbrica deve sapere quante unità entrano in una cassa, non solo quanto è lungo il bordo.",
+    minComplexity: 6,
+    archetype: "geometria",
+    competencies: ["matematica.geometria3D", "matematica.geometria", "matematica.misure"],
+    curriculumTags: ["volume", "parallelepipedo", "geometria solida"],
+    build: (_a, b, c) => {
+      const length = Math.max(4, c + 3);
+      const width = Math.max(3, Math.floor(b / 5));
+      const height = 2 + (c % 4);
+      const volume = length * width * height;
+      return {
+        prompt: `Una cassa misura ${length} x ${width} x ${height}. Quante unita cubiche contiene?`,
+        answer: volume,
+        hints: [
+          "Il volume di un parallelepipedo è lunghezza x larghezza x altezza.",
+          `Prima calcola ${length} x ${width}.`,
+          `Poi moltiplica per l'altezza ${height}.`,
+        ],
+        steps: [`${length} x ${width} = ${length * width}`, `${length * width} x ${height} = ${volume}`],
+      };
+    },
+  },
+  {
+    id: "circle-perimeter-approx",
+    title: "Anello di sicurezza",
+    narrative: "Il nucleo circolare richiede un bordo protettivo: il sistema usa pi greco approssimato a 3.",
+    minComplexity: 7,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.misure", "matematica.controlloErrore"],
+    curriculumTags: ["cerchio", "circonferenza", "approssimazione"],
+    build: (_a, _b, c) => {
+      const radius = Math.max(4, c + 3);
+      const circumference = 2 * 3 * radius;
+      return {
+        prompt: `Un anello circolare ha raggio ${radius}. Usando π ≈ 3, quanto misura circa la circonferenza?`,
+        answer: circumference,
+        hints: [
+          "La circonferenza è 2 x π x r.",
+          "Qui il sistema chiede π approssimato a 3.",
+          `Calcola 2 x 3 x ${radius}.`,
+        ],
+        steps: [`2 x 3 x ${radius} = ${circumference}`],
+      };
+    },
+  },
+  {
+    id: "relative-temperature-net",
+    title: "Bilancio termico",
+    narrative: "Nel laboratorio le temperature sotto zero sono informazioni utili: devi controllare il saldo finale.",
+    minComplexity: 5,
+    archetype: "vincolo",
+    competencies: ["matematica.numeriRelativi", "matematica.calcolo", "matematica.logica"],
+    curriculumTags: ["numeri relativi", "variazione", "linea dei numeri"],
+    build: (a, b, c) => {
+      const start = -Math.max(5, c + 3);
+      const fall = Math.max(3, Math.floor(b / 5));
+      const rise = Math.max(Math.abs(start) + fall + 2, Math.floor(a / 2));
+      const final = start + rise - fall;
+      return {
+        prompt: `La camera è a ${start}°. Si riscalda di ${rise}° e poi perde ${fall}°. Quale temperatura finale legge il sistema?`,
+        answer: final,
+        hints: [
+          "Parti da un numero negativo e muoviti sulla linea dei numeri.",
+          `Riscaldarsi di ${rise} significa aggiungere ${rise}.`,
+          `Perdere ${fall} gradi significa sottrarre ${fall}.`,
+        ],
+        steps: [`${start} + ${rise} = ${start + rise}`, `${start + rise} - ${fall} = ${final}`],
+      };
+    },
+  },
+  {
+    id: "inequality-safe-load",
+    title: "Carico massimo sicuro",
+    narrative: "La piattaforma può aggiungere capsule solo finché non supera il limite di sicurezza.",
+    minComplexity: 7,
+    archetype: "vincolo",
+    competencies: ["matematica.equazioni", "matematica.algebra", "matematica.controlloErrore"],
+    curriculumTags: ["disequazioni", "massimo intero", "vincolo"],
+    build: (a, b, c) => {
+      const weightEach = Math.max(3, c + 2);
+      const fixed = Math.max(8, Math.floor(a / 2));
+      const maxCapsules = Math.max(4, Math.floor(b / 3));
+      const limit = fixed + weightEach * maxCapsules + (weightEach - 1);
+      return {
+        prompt: `La piattaforma pesa già ${fixed}. Ogni capsula aggiunge ${weightEach}. Il limite è ${limit}. Qual è il massimo numero intero di capsule che puoi caricare senza superare il limite?`,
+        answer: maxCapsules,
+        hints: [
+          `Prima togli il peso fisso ${fixed} dal limite.`,
+          `Poi dividi lo spazio rimasto per il peso di una capsula: ${weightEach}.`,
+          "Devi prendere il massimo intero che non supera il limite.",
+        ],
+        steps: [`${limit} - ${fixed} = ${limit - fixed}`, `${limit - fixed} / ${weightEach} = ${(limit - fixed) / weightEach}`, `massimo intero = ${maxCapsules}`],
+      };
+    },
+  },
+  {
+    id: "fraction-equation-balance",
+    title: "Equazione con quota",
+    narrative: "La bilancia nasconde un valore diviso in quote: devi ricostruire l'intero.",
+    minComplexity: 8,
+    archetype: "equazione-primo-grado",
+    competencies: ["matematica.equazioni", "matematica.frazioni", "matematica.algebra"],
+    curriculumTags: ["equazioni con frazioni", "operazioni inverse", "incognita"],
+    build: (_a, b, c) => {
+      const x = Math.max(12, (c + 5) * 3);
+      const addend = Math.max(4, Math.floor(b / 4));
+      const result = x / 3 + addend;
+      return {
+        prompt: `La bilancia mostra x/3 + ${addend} = ${result}. Quale valore ha x?`,
+        answer: x,
+        hints: [
+          `Prima togli ${addend} da entrambi i lati.`,
+          `Resta x/3 = ${result - addend}.`,
+          "Per annullare la divisione per 3, moltiplica per 3.",
+        ],
+        steps: [`x/3 + ${addend} = ${result}`, `x/3 = ${result - addend}`, `x = ${result - addend} x 3 = ${x}`],
+      };
+    },
+  },
+  {
+    id: "negative-coordinate-route",
+    title: "Coordinate sotto zero",
+    narrative: "La mappa dell'ala ovest usa coordinate negative: attraversare lo zero conta come movimento.",
+    minComplexity: 7,
+    archetype: "coordinate",
+    competencies: ["matematica.numeriRelativi", "matematica.geometria", "matematica.logica"],
+    curriculumTags: ["coordinate negative", "piano cartesiano", "distanza su griglia"],
+    build: (_a, b, c) => {
+      const x1 = -Math.max(2, c);
+      const y1 = Math.max(2, c - 1);
+      const x2 = Math.max(3, Math.floor(b / 4));
+      const y2 = y1 - 3;
+      const distance = Math.abs(x2 - x1) + Math.abs(y2 - y1);
+      return {
+        prompt: `Il robot parte da (${x1}, ${y1}) e arriva a (${x2}, ${y2}) senza diagonali. Quanti passi minimi servono?`,
+        answer: distance,
+        hints: [
+          "Conta lo spostamento in x attraversando anche lo zero.",
+          `Da ${x1} a ${x2} ci sono ${Math.abs(x2 - x1)} passi orizzontali.`,
+          `Poi aggiungi i ${Math.abs(y2 - y1)} passi verticali.`,
+        ],
+        steps: [`dx = |${x2} - (${x1})| = ${Math.abs(x2 - x1)}`, `dy = |${y2} - ${y1}| = ${Math.abs(y2 - y1)}`, `${Math.abs(x2 - x1)} + ${Math.abs(y2 - y1)} = ${distance}`],
+      };
+    },
+  },
+  {
+    id: "similar-triangles-scale",
+    title: "Triangoli in scala",
+    narrative: "Una proiezione ingrandisce un triangolo: tutti i lati devono crescere con lo stesso fattore.",
+    minComplexity: 7,
+    archetype: "proporzione",
+    competencies: ["matematica.proporzionalita", "matematica.geometria", "problemSolving"],
+    curriculumTags: ["similitudine", "fattore di scala", "proporzioni"],
+    build: (_a, b, c) => {
+      const smallSide = Math.max(3, c + 2);
+      const scale = Math.max(2, Math.min(5, Math.floor(b / 5)));
+      const bigKnown = smallSide * scale;
+      const secondSmall = smallSide + 2;
+      const secondBig = secondSmall * scale;
+      return {
+        prompt: `In due triangoli simili, un lato passa da ${smallSide} a ${bigKnown}. Un altro lato del triangolo piccolo misura ${secondSmall}. Quanto misura il lato corrispondente nel triangolo grande?`,
+        answer: secondBig,
+        hints: [
+          "Trova prima il fattore di scala.",
+          `${bigKnown} / ${smallSide} = ${scale}.`,
+          `Applica lo stesso fattore a ${secondSmall}.`,
+        ],
+        steps: [`fattore = ${bigKnown} / ${smallSide} = ${scale}`, `${secondSmall} x ${scale} = ${secondBig}`],
+      };
+    },
+  },
+  {
+    id: "outlier-mean-repair",
+    title: "Dato anomalo",
+    narrative: "Un sensore impazzito altera la media: devi riconoscere l'effetto del dato anomalo.",
+    minComplexity: 7,
+    archetype: "statistica",
+    competencies: ["matematica.statistica", "matematica.grafici", "pensieroCritico"],
+    curriculumTags: ["media", "dato anomalo", "lettura critica"],
+    build: (_a, _b, c) => {
+      const normal = Math.max(8, c + 7);
+      const outlier = normal + 30;
+      const meanWith = Math.round((normal * 4 + outlier) / 5);
+      const meanWithout = normal;
+      const difference = meanWith - meanWithout;
+      return {
+        prompt: `Cinque letture sono ${normal}, ${normal}, ${normal}, ${normal}, ${outlier}. Di quanto la media con il dato anomalo supera la media delle quattro letture stabili?`,
+        answer: difference,
+        hints: [
+          "Le quattro letture stabili hanno media uguale al loro valore.",
+          "Calcola la media includendo anche il dato anomalo.",
+          "La domanda chiede la differenza tra le due medie.",
+        ],
+        steps: [`media stabile = ${normal}`, `media con anomalia = (${normal} x 4 + ${outlier}) / 5 = ${meanWith}`, `${meanWith} - ${normal} = ${difference}`],
+      };
+    },
+  },
+  {
+    id: "histogram-total-frequency",
+    title: "Istogramma del terminale",
+    narrative: "Il terminale mostra barre, non un numero unico: devi sommare frequenze coerenti.",
+    minComplexity: 4,
+    archetype: "statistica",
+    competencies: ["matematica.statistica", "matematica.grafici", "matematica.calcolo"],
+    curriculumTags: ["frequenze", "istogramma", "somma dati"],
+    build: (a, b, c) => {
+      const f1 = Math.max(3, c + 1);
+      const f2 = Math.max(4, Math.floor(a / 5));
+      const f3 = Math.max(5, Math.floor(b / 5));
+      const total = f1 + f2 + f3;
+      return {
+        prompt: `L'istogramma registra tre barre con frequenze ${f1}, ${f2} e ${f3}. Quante osservazioni totali sono state raccolte?`,
+        answer: total,
+        hints: [
+          "Le frequenze indicano quante osservazioni cadono in ogni barra.",
+          "Il totale è la somma delle frequenze.",
+          "Non devi fare la media: la domanda chiede quante osservazioni ci sono.",
+        ],
+        steps: [`${f1} + ${f2} + ${f3} = ${total}`],
+      };
+    },
+  },
 ];

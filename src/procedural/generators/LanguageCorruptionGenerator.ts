@@ -57,36 +57,72 @@ export class LanguageCorruptionGenerator {
     if (["single-generator", "north-sensor", "sealed-door", "unstable-log", "robot-report"].includes(templateId)) {
       return ["accordo", "soggetto", "coesione"];
     }
+    if (["apostrophe-accent", "ha-a-control"].includes(templateId)) {
+      return ["ortografia", "accenti", "apostrofi"];
+    }
     if (["cause-effect-cooling", "useful-vs-noise"].includes(templateId)) {
       return ["causa-effetto", "connettivi", "informazioni utili"];
     }
-    if (templateId === "pronoun-reference") {
+    if (["pronoun-reference", "direct-indirect-pronouns"].includes(templateId)) {
       return ["pronomi", "riferimenti", "ambiguita"];
+    }
+    if (["relative-clause", "relative-cui"].includes(templateId)) {
+      return ["frase relativa", "soggetto", "reggenza"];
     }
     if (templateId === "conditional-alert") {
       return ["negazione", "condizione", "sicurezza"];
     }
-    if (templateId === "technical-summary") {
+    if (["technical-summary", "sequence-before-after"].includes(templateId)) {
       return ["ordine logico", "sequenza", "coesione"];
     }
-    if (templateId === "lexical-precision") {
+    if (["punctuation-safety"].includes(templateId)) {
+      return ["punteggiatura", "condizione", "chiarezza"];
+    }
+    if (["source-reliability", "thesis-evidence"].includes(templateId)) {
+      return ["pensiero critico", "tesi e prova", "fonte"];
+    }
+    if (["lexical-precision", "nominalization-precision", "register-formal"].includes(templateId)) {
       return ["lessico tecnico", "precisione", "significato"];
+    }
+    if (["passive-active"].includes(templateId)) {
+      return ["forma passiva", "agente", "accordo"];
+    }
+    if (["reported-speech-log"].includes(templateId)) {
+      return ["discorso indiretto", "reggenza", "soglia"];
+    }
+    if (["main-idea-summary"].includes(templateId)) {
+      return ["sintesi", "informazioni utili", "causa-effetto"];
+    }
+    if (["period-hypothesis"].includes(templateId)) {
+      return ["periodo ipotetico", "congiuntivo", "condizionale"];
+    }
+    if (["implicit-subject"].includes(templateId)) {
+      return ["subordinata implicita", "soggetto", "chiarezza"];
     }
     return ["comprensione", "grammatica", "coerenza"];
   }
 
   private competenciesFor(templateId: string): string[] {
     const base = ["italiano.comprensione", "italiano.grammatica", "pensieroCritico"];
-    if (["lexical-precision", "useful-vs-noise", "technical-summary"].includes(templateId)) {
+    if (["lexical-precision", "nominalization-precision", "register-formal", "useful-vs-noise"].includes(templateId)) {
       return [...base, "italiano.lessico"];
+    }
+    if (["main-idea-summary", "technical-summary", "source-reliability", "thesis-evidence"].includes(templateId)) {
+      return [...base, "italiano.scritturaBreve", "italiano.argomentazione"];
+    }
+    if (["punctuation-safety", "apostrophe-accent", "ha-a-control"].includes(templateId)) {
+      return [...base, "italiano.punteggiatura"];
+    }
+    if (["pronoun-reference", "direct-indirect-pronouns", "relative-clause", "relative-cui", "implicit-subject"].includes(templateId)) {
+      return [...base, "italiano.coesione"];
     }
     return base;
   }
 
   private levelName(level: number): string {
-    if (level <= 2) return "accordi fondamentali";
-    if (level <= 4) return "coerenza e riferimenti";
-    if (level <= 6) return "condizioni e ordine logico";
-    return "lessico tecnico e precisione";
+    if (level <= 2) return "ortografia e accordi fondamentali";
+    if (level <= 4) return "connettivi, pronomi e coerenza";
+    if (level <= 6) return "frasi complesse e sintesi";
+    return "argomentazione, registro e precisione";
   }
 }

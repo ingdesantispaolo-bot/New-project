@@ -57,6 +57,14 @@ export class AudioManager {
     Howler.mute(muted);
   }
 
+  preloadEssentialAudio(): void {
+    this.preloadKeys(["click", "success", "error", "hint", "scan", "panelOpen"]);
+  }
+
+  preloadAmbientAudio(): void {
+    this.preloadKeys(["menuMusic", "labAmbience"]);
+  }
+
   installUnlockListeners(): void {
     if (this.unlockInstalled || typeof window === "undefined") {
       return;
@@ -152,7 +160,11 @@ export class AudioManager {
   }
 
   private preloadResponsiveSfx(): void {
-    (["click", "success", "error", "hint", "scan"] as SoundKey[]).forEach((key) => {
+    this.preloadKeys(["click", "success", "error", "hint", "scan"]);
+  }
+
+  private preloadKeys(keys: SoundKey[]): void {
+    keys.forEach((key) => {
       try {
         this.getSound(key).load();
       } catch {

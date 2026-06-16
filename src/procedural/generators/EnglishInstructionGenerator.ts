@@ -166,10 +166,20 @@ export class EnglishInstructionGenerator {
 
   private defaultConceptTags(templateId: string): string[] {
     if (["green-not-red", "small-key"].includes(templateId)) return ["action verbs", "do not", "object choice"];
+    if (["where-is-core"].includes(templateId)) return ["prepositions", "spatial reading", "technical nouns"];
+    if (["who-can-open"].includes(templateId)) return ["question words", "can", "permission"];
     if (["main-switch", "left-before-blue", "measure-before-switch", "after-robot-dock"].includes(templateId)) return ["sequence", "before/after", "procedure"];
+    if (["simple-vs-now"].includes(templateId)) return ["present simple", "present continuous", "now"];
+    if (["past-log-today"].includes(templateId)) return ["past simple", "present state", "time markers"];
+    if (["some-any-fuses"].includes(templateId)) return ["some/no", "quantity", "prohibition"];
+    if (["frequency-adverbs"].includes(templateId)) return ["frequency adverbs", "when", "cause/effect"];
+    if (["going-to-scan"].includes(templateId)) return ["future plan", "going to", "after"];
+    if (["pronoun-reference"].includes(templateId)) return ["pronouns", "it/them", "singular/plural"];
     if (["only-if-stable", "below-threshold"].includes(templateId)) return ["if/otherwise", "condition", "threshold"];
     if (["unless-blue-blinks", "until-door-unlocks"].includes(templateId)) return ["unless/until", "exception", "waiting"];
-    if (["compare-two-signals"].includes(templateId)) return ["comparison", "adjectives", "sequence"];
+    if (["compare-two-signals", "which-route-safest"].includes(templateId)) return ["comparison", "adjectives", "sequence"];
+    if (["relative-drawer"].includes(templateId)) return ["relative clause", "that", "technical nouns"];
+    if (["may-must-not", "passive-reattach-wire"].includes(templateId)) return ["modal verbs", "passive", "safety"];
     return ["operational English", "condition", "safe action"];
   }
 
@@ -221,14 +231,30 @@ export class EnglishInstructionGenerator {
     if (text.includes("cause")) glossary.push({ term: "cause", meaning: "causa" });
     if (text.includes("dimmer")) glossary.push({ term: "dimmer", meaning: "meno luminoso" });
     if (text.includes("brighter")) glossary.push({ term: "brighter", meaning: "più luminoso" });
+    if (text.includes("under")) glossary.push({ term: "under", meaning: "sotto" });
+    if (text.includes("between")) glossary.push({ term: "between", meaning: "tra" });
+    if (text.includes("usually")) glossary.push({ term: "usually", meaning: "di solito" });
+    if (text.includes("often")) glossary.push({ term: "often", meaning: "spesso" });
+    if (text.includes("rarely")) glossary.push({ term: "rarely", meaning: "raramente" });
+    if (text.includes("safest")) glossary.push({ term: "safest", meaning: "il più sicuro" });
+    if (text.includes("may")) glossary.push({ term: "may", meaning: "può / permesso" });
+    if (text.includes("has been")) glossary.push({ term: "has been", meaning: "è stato / forma passiva" });
+    if (text.includes("yesterday")) glossary.push({ term: "yesterday", meaning: "ieri" });
+    if (text.includes("offline")) glossary.push({ term: "offline", meaning: "non attivo" });
+    if (text.includes("some")) glossary.push({ term: "some", meaning: "alcuni / un po'" });
+    if (text.includes("no spare")) glossary.push({ term: "no spare", meaning: "nessun ricambio" });
+    if (text.includes("going to")) glossary.push({ term: "going to", meaning: "ha in programma di" });
+    if (text.includes("them")) glossary.push({ term: "them", meaning: "li / loro" });
     return glossary.slice(0, 5);
   }
 
   private competenciesFor(templateId: string): string[] {
     const base = ["inglese.istruzioni", "pensieroCritico"];
-    if (["sensor-below-threshold", "compare-two-signals", "between-limits"].includes(templateId)) return [...base, "inglese.scientifico"];
-    if (["unless-blue-blinks", "until-door-unlocks", "only-if-stable", "not-until-pressure-drops"].includes(templateId)) return [...base, "inglese.bilingue"];
-    if (["cause-report", "procedure-debug-charge", "must-should-cable", "replace-only-damaged"].includes(templateId)) return [...base, "inglese.bilingue"];
+    if (["sensor-below-threshold", "compare-two-signals", "between-limits", "which-route-safest"].includes(templateId)) return [...base, "inglese.scientifico", "inglese.dati"];
+    if (["where-is-core", "replace-only-damaged", "relative-drawer", "some-any-fuses"].includes(templateId)) return [...base, "inglese.lessico"];
+    if (["who-can-open", "simple-vs-now", "past-log-today", "frequency-adverbs", "going-to-scan", "pronoun-reference", "may-must-not", "passive-reattach-wire", "must-should-cable"].includes(templateId)) return [...base, "inglese.grammatica", "inglese.comprensione"];
+    if (["unless-blue-blinks", "until-door-unlocks", "only-if-stable", "not-until-pressure-drops"].includes(templateId)) return [...base, "inglese.bilingue", "inglese.grammatica"];
+    if (["cause-report", "procedure-debug-charge"].includes(templateId)) return [...base, "inglese.bilingue", "inglese.comprensione"];
     return base;
   }
 

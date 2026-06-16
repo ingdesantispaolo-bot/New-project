@@ -81,6 +81,31 @@ export const competencies: CompetencyDefinition[] = [
     description: "Usare quadrati, potenze e radici in misure e codici.",
   },
   {
+    id: "matematica.numeriRelativi",
+    label: "Numeri relativi",
+    description: "Usare valori positivi e negativi in variazioni, temperature e bilanci.",
+  },
+  {
+    id: "matematica.proporzionalita",
+    label: "Proporzionalita",
+    description: "Riconoscere rapporti costanti, scale, velocita e trasformazioni proporzionali.",
+  },
+  {
+    id: "matematica.misure",
+    label: "Misure e unita",
+    description: "Convertire e confrontare misure senza perdere il significato fisico.",
+  },
+  {
+    id: "matematica.equazioni",
+    label: "Equazioni e disequazioni",
+    description: "Isolare incognite e trovare valori massimi o minimi compatibili con vincoli.",
+  },
+  {
+    id: "matematica.geometria3D",
+    label: "Geometria solida",
+    description: "Usare volumi e dimensioni di solidi semplici in problemi concreti.",
+  },
+  {
     id: "coding.sequenze",
     label: "Sequenze di comandi",
     description: "Ordinare istruzioni per ottenere un comportamento previsto.",
@@ -136,6 +161,21 @@ export const competencies: CompetencyDefinition[] = [
     description: "Sintetizzare informazioni utili in un rapporto chiaro e operativo.",
   },
   {
+    id: "italiano.punteggiatura",
+    label: "Punteggiatura funzionale",
+    description: "Usare punteggiatura, accenti e apostrofi per rendere chiaro il significato.",
+  },
+  {
+    id: "italiano.coesione",
+    label: "Coesione del testo",
+    description: "Collegare soggetti, pronomi, relative e subordinate senza ambiguità.",
+  },
+  {
+    id: "italiano.argomentazione",
+    label: "Tesi e prove",
+    description: "Distinguere opinioni, ipotesi, prove e conclusioni proporzionate.",
+  },
+  {
     id: "inglese.istruzioni",
     label: "Inglese operativo",
     description: "Capire istruzioni brevi utili per agire.",
@@ -149,6 +189,26 @@ export const competencies: CompetencyDefinition[] = [
     id: "inglese.bilingue",
     label: "Istruzioni bilingui",
     description: "Collegare comandi inglesi a decisioni operative in italiano.",
+  },
+  {
+    id: "inglese.grammatica",
+    label: "Grammatica inglese funzionale",
+    description: "Usare tempi verbali, modali, pronomi e connettivi per capire una procedura.",
+  },
+  {
+    id: "inglese.lessico",
+    label: "Lessico inglese in contesto",
+    description: "Capire parole tecniche e scolastiche dal contesto operativo.",
+  },
+  {
+    id: "inglese.comprensione",
+    label: "Comprensione inglese",
+    description: "Selezionare informazioni utili da istruzioni, log e brevi testi in inglese.",
+  },
+  {
+    id: "inglese.dati",
+    label: "Dati e misure in inglese",
+    description: "Interpretare soglie, quantità, confronti e misure scritte in inglese.",
   },
   {
     id: "scienze.osservazione",

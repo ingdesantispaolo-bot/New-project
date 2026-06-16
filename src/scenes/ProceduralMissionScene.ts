@@ -236,38 +236,38 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private openLanguage(): void {
     const puzzle = this.currentLanguagePuzzle();
     const model = LanguageRepairConsole.fromPuzzle(puzzle, this.languageAnalyzed);
-    const overlay = this.createOverlay(model.title, 648);
+    const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
     LanguageRepairConsole.addHeader(this, overlay, model);
     this.addLanguageBrief(overlay, model);
     if (!this.languageAnalyzed) {
-      overlay.add(new Button(this, 400, 588, "Analizza struttura", () => {
+      overlay.add(new Button(this, 866, 586, "Analizza struttura", () => {
         this.languageAnalyzed = true;
         audioManager.playOutcome("neutral");
         outcomeFeedback.play(this, "info", "Analisi del segnale");
         feedbackSystem.publish(`Analisi avviata: ${model.method}`, "info");
         this.openLanguage();
-      }, { width: 300, height: 48, fill: 0x173b36 }));
+      }, { width: 310, height: 52, fill: 0x173b36 }));
       return;
     }
     model.options.forEach((option, index) => {
-      const y = 324 + index * 40;
-      overlay.add(new Button(this, 400, y, option, () => {
+      const y = 330 + index * 48;
+      overlay.add(new Button(this, 866, y, option, () => {
         if (option === model.correctAnswer) {
           this.solvePuzzle(this.currentPuzzleId("language"), puzzle.competencies);
           return;
         }
         this.handleIncorrectAnswer(model.optionFeedback[option] ?? model.hints[Math.min(index, model.hints.length - 1)]);
-      }, { width: 668, height: 36, fontSize: 12 }));
+      }, { width: 540, height: 40, fontSize: 11, wordWrapWidth: 506 }));
     });
-    this.addMethodStrip(overlay, 56, 534, 688, "Metodo", [
+    this.addMethodStrip(overlay, 56, 590, 520, "Metodo", [
       "soggetto reale",
       "accordi e connettivi",
       "significato operativo",
     ]);
-    overlay.add(new Button(this, 400, 616, "Indizio mirato", () => {
+    overlay.add(new Button(this, 866, 620, "Indizio mirato", () => {
       this.useHint(this.nextPedagogicHint(puzzle, model.hints[Math.min(this.run.hintsUsed, model.hints.length - 1)]));
       this.openLanguage();
-    }, { width: 240, height: 38, fontSize: 13, fill: 0x263743 }));
+    }, { width: 250, height: 40, fontSize: 13, fill: 0x263743 }));
   }
 
   private openCircuit(): void {
@@ -1433,10 +1433,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private openEnglish(): void {
     const puzzle = this.currentEnglishPuzzle();
-    const overlay = this.createOverlay(puzzle.title, 700);
-    overlay.add(this.add.text(56, 82, (puzzle.difficultyLabel ?? "Livello 1 - comandi e divieti").toUpperCase(), {
+    const overlay = this.createOverlay(puzzle.title, 660, { x: 40, y: 30, width: 1200 });
+    const instructionSize = puzzle.instruction.length > 122 ? 16 : puzzle.instruction.length > 96 ? 18 : puzzle.instruction.length > 72 ? 20 : 22;
+    overlay.add(this.add.text(56, 78, (puzzle.difficultyLabel ?? "Livello 1 - comandi e divieti").toUpperCase(), {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
+      fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
@@ -1444,53 +1445,146 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
-      wordWrap: { width: 688 },
+      wordWrap: { width: 1030 },
     }));
-    overlay.add(this.add.text(56, 132, puzzle.instruction, {
+    overlay.add(this.add.text(56, 136, puzzle.instruction, {
       fontFamily: "Inter, Arial",
-      fontSize: "22px",
+      fontSize: `${instructionSize}px`,
       color: "#f5fbff",
-      wordWrap: { width: 680 },
-      lineSpacing: 2,
+      wordWrap: { width: 1040 },
+      lineSpacing: 4,
     }));
-    this.addEnglishBrief(overlay, puzzle);
-    overlay.add(this.add.text(56, 352, this.englishAnalyzed
-      ? puzzle.diagnosticSteps.map((step, index) => `${index + 1}. ${step}`).join("\n")
-      : "Prima decodifica il comando: individua verbo, oggetto, condizione e parole che limitano l'azione.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: this.englishAnalyzed ? "#9ff5e9" : "#d9eaf1",
-      wordWrap: { width: 680 },
-      lineSpacing: 5,
-    }));
+    this.drawEnglishChallengePanel(overlay, puzzle);
+    this.drawEnglishSupportPanel(overlay, puzzle);
+    this.drawEnglishReasoningPanel(overlay, puzzle);
+
     if (!this.englishAnalyzed) {
-      overlay.add(new Button(this, 400, 654, "Decodifica comando", () => {
+      overlay.add(new Button(this, 866, 574, "Decodifica comando", () => {
         this.englishAnalyzed = true;
         audioManager.playOutcome("neutral");
         outcomeFeedback.play(this, "info", "Comando decodificato");
         feedbackSystem.publish(`Decodifica avviata: ${puzzle.method ?? "cerca verbo, oggetto, condizione e divieto."}`, "info");
         this.openEnglish();
-      }, { width: 290, height: 48, fill: 0x173b36 }));
+      }, { width: 310, height: 52, fill: 0x173b36 }));
       return;
     }
     puzzle.choices.forEach((choice, index) => {
-      overlay.add(new Button(this, 400, 438 + index * 44, choice.label, () => {
+      overlay.add(new Button(this, 866, 402 + index * 50, choice.label, () => {
         if (choice.isCorrect) {
           this.solvePuzzle(this.currentPuzzleId("english"), puzzle.competencies);
           return;
         }
         this.handleIncorrectAnswer(choice.feedback);
-      }, { width: 560, height: 36, fontSize: 13, fill: 0x263743 }));
+      }, { width: 540, height: 42, fontSize: 13, fill: 0x263743 }));
     });
-    this.addMethodStrip(overlay, 56, 606, 688, "Metodo", puzzle.methodSteps ?? [
+    this.addMethodStrip(overlay, 56, 596, 520, "Metodo", puzzle.methodSteps ?? [
       "verbo d'azione",
       "oggetto e quantità",
       "condizione, limite o divieto",
     ]);
-    overlay.add(new Button(this, 400, 678, "Indizio mirato", () => {
+    overlay.add(new Button(this, 866, 620, "Indizio mirato", () => {
       this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
       this.openEnglish();
-    }, { width: 240, height: 30, fontSize: 12, fill: 0x263743 }));
+    }, { width: 250, height: 40, fontSize: 13, fill: 0x263743 }));
+  }
+
+  private drawEnglishChallengePanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
+    overlay.add(this.add.rectangle(316, 288, 520, 170, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(76, 218, "Sfida", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(76, 242, puzzle.taskPrompt ?? puzzle.commandGoal ?? "Trasforma l'istruzione inglese in una procedura sicura.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: 462 },
+      lineSpacing: 3,
+    }));
+    const source = puzzle.sourceText ? (puzzle.sourceText.length > 124 ? `${puzzle.sourceText.slice(0, 121)}...` : puzzle.sourceText) : undefined;
+    if (source) {
+      overlay.add(this.add.text(76, 296, source, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#f5fbff",
+        wordWrap: { width: 462 },
+        lineSpacing: 3,
+      }));
+    }
+    overlay.add(this.add.text(76, source ? 348 : 328, `Scopo: ${puzzle.learningPurpose ?? "Allena inglese operativo dentro una decisione tecnica."}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9aaab0",
+      wordWrap: { width: 462 },
+      lineSpacing: 2,
+    }));
+  }
+
+  private drawEnglishSupportPanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
+    overlay.add(this.add.rectangle(866, 288, 540, 170, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(614, 218, "Parole chiave e dati", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(614, 242, (puzzle.conceptTags ?? []).slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      wordWrap: { width: 500 },
+      lineSpacing: 3,
+    }));
+
+    const dataPoints = (puzzle.dataPoints ?? []).slice(0, 3);
+    if (dataPoints.length > 0) {
+      dataPoints.forEach((point, index) => {
+        const y = 284 + index * 28;
+        overlay.add(this.add.rectangle(618, y - 4, 494, 24, 0x132835, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
+        overlay.add(this.add.text(630, y, `${point.label}: ${point.value}${point.note ? ` | ${point.note}` : ""}`, {
+          fontFamily: "Inter, Arial",
+          fontSize: "11px",
+          color: "#d9eaf1",
+          wordWrap: { width: 470 },
+        }));
+      });
+      return;
+    }
+
+    const glossary = (puzzle.glossary ?? []).slice(0, 5);
+    glossary.forEach((item, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      overlay.add(this.add.text(626 + col * 236, 288 + row * 34, `${item.term}: ${item.meaning}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#d9eaf1",
+        wordWrap: { width: 216 },
+        lineSpacing: 2,
+      }));
+    });
+  }
+
+  private drawEnglishReasoningPanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
+    overlay.add(this.add.rectangle(316, 478, 520, 150, 0x07151d, 0.82).setStrokeStyle(1, 0x6be7d6, 0.22));
+    overlay.add(this.add.text(76, 414, this.englishAnalyzed ? "Ragionamento" : "Prima della risposta", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    const text = this.englishAnalyzed
+      ? puzzle.diagnosticSteps.slice(0, 4).map((step, index) => `${index + 1}. ${step}`).join("\n")
+      : `Decodifica il comando: cerca verbo, oggetto, condizione e parole che limitano l'azione.\nMetodo: ${puzzle.method ?? "leggi prima l'azione, poi divieti e condizioni."}`;
+    overlay.add(this.add.text(76, 440, text, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: this.englishAnalyzed ? "#9ff5e9" : "#d9eaf1",
+      wordWrap: { width: 470 },
+      lineSpacing: 5,
+    }));
   }
 
   private openRobot(): void {
@@ -2138,32 +2232,56 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private addLanguageBrief(overlay: Phaser.GameObjects.Container, model: LanguageRepairModel): void {
-    overlay.add(this.add.rectangle(400, 258, 704, 74, 0x07151d, 0.82).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(62, 230, "Obiettivo di riparazione", {
+    overlay.add(this.add.rectangle(316, 326, 520, 188, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(76, 246, "Obiettivo di riparazione", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(62, 250, model.repairGoal, {
+    overlay.add(this.add.text(76, 270, model.repairGoal, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
-      wordWrap: { width: 520 },
+      wordWrap: { width: 456, useAdvancedWrap: true },
       lineSpacing: 3,
     }));
-    overlay.add(this.add.text(612, 246, model.conceptTags.slice(0, 3).map((tag) => `#${tag}`).join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      wordWrap: { width: 120 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(62, 286, `Scopo: ${model.learningPurpose}`, {
+    overlay.add(this.add.text(76, 342, `Scopo: ${model.learningPurpose}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
-      wordWrap: { width: 660 },
+      wordWrap: { width: 456, useAdvancedWrap: true },
+      lineSpacing: 2,
+    }));
+
+    overlay.add(this.add.rectangle(866, 256, 540, 66, 0x07151d, 0.78).setStrokeStyle(1, 0x6be7d6, 0.2));
+    overlay.add(this.add.text(614, 232, "Concetti allenati", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(614, 254, model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      wordWrap: { width: 500, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+
+    overlay.add(this.add.rectangle(316, 498, 520, 134, 0x07151d, 0.78).setStrokeStyle(1, 0xf6c85f, 0.24));
+    overlay.add(this.add.text(76, 444, "Controllo di qualità", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(76, 468, model.method, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: 456, useAdvancedWrap: true },
+      lineSpacing: 4,
     }));
   }
 

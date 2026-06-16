@@ -198,11 +198,11 @@ export class PuzzleGenerator {
 
   private mathArchetypesForStep(step: number): Array<NonNullable<GeneratedMission["puzzles"]["math"]["archetype"]>> {
     return [
-      ["calcolo-diretto", "frazioni", "percentuali"],
-      ["sequenza", "statistica", "coordinate", "lettura-dati"],
-      ["vincolo", "proporzione", "geometria", "probabilita"],
-      ["ragionamento-inverso", "pre-algebra", "equazione-primo-grado", "funzione-lineare"],
-      ["diagnosi-errore", "potenze-radici", "geometria", "sistemi-lineari", "probabilita"],
+      ["calcolo-diretto", "frazioni", "percentuali", "lettura-dati"],
+      ["sequenza", "statistica", "coordinate", "lettura-dati", "vincolo"],
+      ["vincolo", "proporzione", "geometria", "probabilita", "percentuali", "frazioni"],
+      ["ragionamento-inverso", "pre-algebra", "equazione-primo-grado", "funzione-lineare", "coordinate", "statistica"],
+      ["diagnosi-errore", "potenze-radici", "geometria", "sistemi-lineari", "probabilita", "equazione-primo-grado", "funzione-lineare", "proporzione"],
     ][Math.min(step, 4)] as Array<NonNullable<GeneratedMission["puzzles"]["math"]["archetype"]>>;
   }
 
@@ -218,21 +218,21 @@ export class PuzzleGenerator {
 
   private languageTemplatesForStep(step: number): string[] {
     return [
-      ["single-generator", "north-sensor", "sealed-door", "unstable-log"],
-      ["cause-effect-cooling", "useful-vs-noise", "sequence-before-after"],
-      ["pronoun-reference", "robot-report", "relative-clause"],
-      ["conditional-alert", "technical-summary", "punctuation-safety", "source-reliability"],
-      ["lexical-precision", "nominalization-precision"],
+      ["single-generator", "north-sensor", "sealed-door", "unstable-log", "apostrophe-accent", "ha-a-control"],
+      ["cause-effect-cooling", "useful-vs-noise", "sequence-before-after", "direct-indirect-pronouns", "concessive-although"],
+      ["pronoun-reference", "robot-report", "relative-clause", "relative-cui", "punctuation-safety"],
+      ["conditional-alert", "technical-summary", "source-reliability", "passive-active", "reported-speech-log", "main-idea-summary"],
+      ["lexical-precision", "nominalization-precision", "thesis-evidence", "register-formal", "period-hypothesis", "implicit-subject"],
     ][Math.min(step, 4)];
   }
 
   private englishTemplatesForStep(step: number): string[] {
     return [
-      ["green-not-red", "small-key", "main-switch"],
-      ["left-before-blue", "inspect-record-reset", "measure-before-switch"],
-      ["procedure-debug-charge", "sensor-below-threshold", "at-least-three-pulses"],
-      ["only-if-stable", "compare-two-signals", "neither-red-nor-yellow", "replace-only-damaged"],
-      ["cause-report", "between-limits", "unless-blue-blinks", "until-door-unlocks", "not-until-pressure-drops", "must-should-cable"],
+      ["green-not-red", "small-key", "main-switch", "where-is-core", "who-can-open"],
+      ["left-before-blue", "inspect-record-reset", "measure-before-switch", "simple-vs-now", "past-log-today", "some-any-fuses"],
+      ["procedure-debug-charge", "sensor-below-threshold", "at-least-three-pulses", "frequency-adverbs"],
+      ["only-if-stable", "compare-two-signals", "neither-red-nor-yellow", "replace-only-damaged", "which-route-safest", "relative-drawer", "going-to-scan"],
+      ["cause-report", "between-limits", "unless-blue-blinks", "until-door-unlocks", "not-until-pressure-drops", "must-should-cable", "may-must-not", "passive-reattach-wire", "pronoun-reference"],
     ][Math.min(step, 4)];
   }
 

@@ -4,6 +4,7 @@ import { firstMissionId } from "../data/missions";
 import { competencies } from "../data/competencies";
 import { EventBus, GameEvents } from "./EventBus";
 import { playerSystem } from "./PlayerSystem";
+import { proceduralRunRules } from "./ProceduralRunRules";
 
 const SAVE_KEY = "eli-quest-save-v1";
 const LEGACY_MIGRATION_KEY = `${SAVE_KEY}:legacy-migrated`;
@@ -48,10 +49,13 @@ export class SaveSystem {
         },
         journalEntries: parsed.journalEntries ?? [],
         proceduralRun: parsed.proceduralRun,
+        proceduralMissionRun: parsed.proceduralMissionRun,
+        proceduralTrainingRun: parsed.proceduralTrainingRun,
         trainingRecords: parsed.trainingRecords ?? {},
         greenhouseRun: parsed.greenhouseRun,
         numberFactoryRun: parsed.numberFactoryRun,
       };
+      this.migrateProceduralSlots();
       if (
         this.saveData.flags.mission1Complete &&
         !this.saveData.flags.mission2Complete &&
@@ -128,6 +132,44 @@ export class SaveSystem {
 
   setProceduralRun(run: ProceduralRunSave): void {
     this.saveData.proceduralRun = run;
+    this.setProceduralSlot(run);
+    this.persist();
+  }
+
+  setActiveProceduralRun(run: ProceduralRunSave): void {
+    this.saveData.proceduralRun = this.resumeRunTimer(run);
+    this.setProceduralSlot(this.saveData.proceduralRun);
+    this.persist();
+  }
+
+  getProceduralMissionRun(): ProceduralRunSave | undefined {
+    return this.saveData.proceduralMissionRun;
+  }
+
+  getProceduralTrainingRun(): ProceduralRunSave | undefined {
+    return this.saveData.proceduralTrainingRun;
+  }
+
+  hasResumableProceduralRun(mode: "mission" | "training"): boolean {
+    const run = mode === "mission" ? this.saveData.proceduralMissionRun : this.saveData.proceduralTrainingRun;
+    return Boolean(run && !run.completedAt && !run.failedAt);
+  }
+
+  pauseActiveProceduralRun(): void {
+    const run = this.saveData.proceduralRun;
+    if (!run || run.completedAt || run.failedAt) {
+      return;
+    }
+    const mode = proceduralRunRules.modeFor(run);
+    const pausedRemainingMs = mode === "mission" && run.deadlineAt
+      ? Math.max(0, proceduralRunRules.remainingMs(run))
+      : run.pausedRemainingMs;
+    const paused = {
+      ...run,
+      pausedRemainingMs,
+    };
+    this.saveData.proceduralRun = paused;
+    this.setProceduralSlot(paused);
     this.persist();
   }
 
@@ -173,6 +215,7 @@ export class SaveSystem {
       ...this.saveData.proceduralRun,
       ...update,
     };
+    this.setProceduralSlot(this.saveData.proceduralRun);
     this.persist();
   }
 
@@ -221,6 +264,39 @@ export class SaveSystem {
       flags: {},
       journalEntries: [],
       trainingRecords: {},
+    };
+  }
+
+  private migrateProceduralSlots(): void {
+    const run = this.saveData.proceduralRun;
+    if (run) {
+      const mode = proceduralRunRules.modeFor(run);
+      if (mode === "mission" && !this.saveData.proceduralMissionRun) {
+        this.saveData.proceduralMissionRun = run;
+      }
+      if (mode === "training" && !this.saveData.proceduralTrainingRun) {
+        this.saveData.proceduralTrainingRun = run;
+      }
+    }
+  }
+
+  private setProceduralSlot(run: ProceduralRunSave): void {
+    const mode = proceduralRunRules.modeFor(run);
+    if (mode === "mission") {
+      this.saveData.proceduralMissionRun = run;
+    } else {
+      this.saveData.proceduralTrainingRun = run;
+    }
+  }
+
+  private resumeRunTimer(run: ProceduralRunSave): ProceduralRunSave {
+    if (proceduralRunRules.modeFor(run) !== "mission" || run.completedAt || run.failedAt || !run.pausedRemainingMs) {
+      return run;
+    }
+    return {
+      ...run,
+      deadlineAt: new Date(Date.now() + Math.max(0, run.pausedRemainingMs)).toISOString(),
+      pausedRemainingMs: undefined,
     };
   }
 

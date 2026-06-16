@@ -25,6 +25,8 @@ export type SaveData = {
   flags: Record<string, boolean>;
   journalEntries: JournalEntry[];
   proceduralRun?: ProceduralRunSave;
+  proceduralMissionRun?: ProceduralRunSave;
+  proceduralTrainingRun?: ProceduralRunSave;
   trainingRecords?: Record<string, TrainingRecord>;
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;

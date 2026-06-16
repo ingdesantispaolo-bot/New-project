@@ -104,7 +104,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this,
       this.run,
       () => this.regenerate(),
-      () => this.scene.start("MainMenuScene"),
+      () => {
+        this.pauseRunIfLeaving();
+        this.scene.start("MainMenuScene");
+      },
     );
     this.objectiveText = hud.objectiveText;
     this.progressText = hud.progressText;
@@ -116,9 +119,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
     EventBus.on(GameEvents.Feedback, this.handleFeedback, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       EventBus.off(GameEvents.Feedback, this.handleFeedback, this);
+      this.pauseRunIfLeaving();
     });
 
     feedbackSystem.publish(`Stanza generata. Scegli una console da stabilizzare. Seed: ${this.run.seed}.`, "info");
+  }
+
+  private pauseRunIfLeaving(): void {
+    const activeRun = saveSystem.data.proceduralRun;
+    if (!activeRun || activeRun.completedAt || activeRun.failedAt) {
+      return;
+    }
+    saveSystem.pauseActiveProceduralRun();
   }
 
   private ensureRun(): ProceduralRunSave {
@@ -217,7 +229,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!run.maxLives) update.maxLives = proceduralRunRules.maxLives;
     if (!run.lives) update.lives = proceduralRunRules.maxLives;
     if (!run.timeLimitMs) update.timeLimitMs = timeLimitMs;
-    if (!run.deadlineAt) update.deadlineAt = proceduralRunRules.deadlineFrom(run.startedAt, timeLimitMs);
+    if (run.pausedRemainingMs && !run.completedAt && !run.failedAt) {
+      update.deadlineAt = new Date(Date.now() + Math.max(0, run.pausedRemainingMs)).toISOString();
+      update.pausedRemainingMs = undefined;
+    } else if (!run.deadlineAt) {
+      update.deadlineAt = proceduralRunRules.deadlineFrom(run.startedAt, timeLimitMs);
+    }
     if (Object.keys(update).length > 0) {
       saveSystem.updateProceduralRun(update);
       return saveSystem.data.proceduralRun ?? { ...run, ...update };

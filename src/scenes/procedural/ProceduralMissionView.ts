@@ -37,9 +37,21 @@ export class ProceduralMissionView {
     );
 
     SceneChrome.section(scene, layout.left, mode === "training" ? "Allenamento" : "Missione");
+    const focus = proceduralRunRules.focusFor(run);
+    scene.add.rectangle(layout.left.x + 18, layout.left.y + 48, layout.left.width - 36, 32, mode === "training" ? 0x1f5a51 : 0x173244, 0.82)
+      .setOrigin(0)
+      .setStrokeStyle(1, mode === "training" ? 0xf6c85f : 0x6be7d6, 0.45);
+    scene.add.text(layout.left.x + 34, layout.left.y + 57, mode === "training"
+      ? `STAI FACENDO: FOCUS ${proceduralRunRules.focusFor(run).toUpperCase()}`
+      : "STAI FACENDO: MISSIONE", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: mode === "training" ? "#f7d37a" : "#9ff5e9",
+      fontStyle: "bold",
+    });
     scene.add.text(layout.left.x + 18, layout.left.y + 58, [
       `${requiredIds.length} console da stabilizzare.`,
-      mode === "training" ? "Percorso focus: esercizi della materia scelta." : "Ordine libero: puoi iniziare da qualsiasi console.",
+      mode === "training" ? `Percorso focus: esercizi di ${focus}.` : "Ordine libero: puoi iniziare da qualsiasi console.",
       "La porta si apre solo quando il sistema è completo.",
     ].join("\n"), {
       fontFamily: "Inter, Arial",
@@ -47,7 +59,7 @@ export class ProceduralMissionView {
       color: "#d9eaf1",
       wordWrap: { width: layout.left.width - 36 },
       lineSpacing: 5,
-    });
+    }).setY(layout.left.y + 92);
 
     scene.add.rectangle(layout.left.x + 22, layout.left.y + 164, layout.left.width - 44, 116, 0x07151d, 0.72)
       .setOrigin(0)

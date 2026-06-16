@@ -6,6 +6,7 @@ import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { prefetchCoreScenes, startScene } from "../core/SceneNavigator";
+import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { difficultyModel } from "../procedural/DifficultyModel";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization } from "../procedural/ProceduralTypes";
@@ -36,10 +37,12 @@ export class MainMenuScene extends Phaser.Scene {
     playerSystem.load();
     saveSystem.load();
     this.selectedDifficulty ??= this.loadSelectedDifficulty();
-    audioManager.playMusic("menuMusic");
+    audioManager.stopMusic();
     this.drawBackground();
     const recommended = this.recommendedDifficulty();
     const selected = this.activeDifficulty();
+    const missionRun = saveSystem.getProceduralMissionRun();
+    const trainingRun = saveSystem.getProceduralTrainingRun();
 
     const title = this.rect("menu:title", { x: 96, y: 92 });
     const subtitle = this.rect("menu:subtitle", { x: 102, y: 172 });
@@ -69,17 +72,29 @@ export class MainMenuScene extends Phaser.Scene {
       color: "#f6c85f",
       fontStyle: "bold",
     });
+    this.add.text(102, 326, [
+      `Missione: ${this.resumeLabel(missionRun, "mission")}`,
+      `Focus: ${this.resumeLabel(trainingRun, "training")}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      wordWrap: { width: 610 },
+      lineSpacing: 3,
+    });
 
     const newMission = this.rect("menu:newMission", { x: 250, y: 374, width: 260 });
     new Button(this, newMission.x, newMission.y, "Nuova Missione", () => {
       this.startMissionGame();
     }, { width: newMission.width });
     const continueButton = this.rect("menu:continue", { x: 250, y: 448, width: 260 });
-    new Button(this, continueButton.x, continueButton.y, "Continua", () => {
-      playerSystem.load();
-      saveSystem.load();
-      void startScene(this, this.getContinueScene());
-    }, { width: continueButton.width });
+    new Button(this, continueButton.x, continueButton.y, this.isResumable(missionRun) ? "Riprendi Missione" : "Avvia Missione", () => {
+      this.resumeMissionGame();
+    }, {
+      width: continueButton.width,
+      fill: this.isResumable(missionRun) ? 0x1f5a51 : 0x263743,
+      stroke: this.isResumable(missionRun) ? 0xf6c85f : 0x6be7d6,
+    });
     new Button(this, 552, 448, "Atlante matematica", () => {
       void startScene(this, "MathStudyScene");
     }, {
@@ -133,6 +148,17 @@ export class MainMenuScene extends Phaser.Scene {
       color: "#f6c85f",
       fontStyle: "bold",
     });
+    if (this.isResumable(trainingRun)) {
+      new Button(this, 1092, 272, "Riprendi focus", () => {
+        this.resumeFocusTraining();
+      }, {
+        width: 170,
+        height: 38,
+        fill: 0x1f5a51,
+        stroke: 0xf6c85f,
+        fontSize: 13,
+      });
+    }
     this.add.text(828, 290, difficultyModel.describe(selected), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -148,7 +174,8 @@ export class MainMenuScene extends Phaser.Scene {
       }, {
         width: 114,
         height: 44,
-        fill: focus.id === "libera" ? 0x263743 : 0x173b36,
+        fill: this.isSameFocus(trainingRun, focus.id) ? 0x1f5a51 : 0x173b36,
+        stroke: this.isSameFocus(trainingRun, focus.id) ? 0xf6c85f : 0x6be7d6,
         fontSize: 11,
       });
     });
@@ -213,36 +240,76 @@ export class MainMenuScene extends Phaser.Scene {
     return { ...fallback, ...this.layout[id] };
   }
 
-  private getContinueScene(): string {
-    if (!saveSystem.data.proceduralRun || saveSystem.data.proceduralRun.completedAt || saveSystem.data.proceduralRun.failedAt) {
-      this.createProceduralRun("libera", this.activeDifficulty(), "mission");
-    }
-    return "ProceduralMissionScene";
-  }
-
   private startMissionGame(): void {
     if (this.transitioning) return;
     this.transitioning = true;
-    this.showBusy("Preparo una missione validata...");
+    const clearBusy = this.showBusy("Preparo una missione validata...");
     saveSystem.load();
     this.time.delayedCall(40, () => {
-      this.createProceduralRun("libera", this.activeDifficulty(), "mission");
-      void startScene(this, "ProceduralMissionScene");
+      try {
+        saveSystem.pauseActiveProceduralRun();
+        this.createProceduralRun("libera", this.activeDifficulty(), "mission");
+        void startScene(this, "ProceduralMissionScene");
+      } catch {
+        clearBusy();
+        this.transitioning = false;
+        this.showMenuError("Non sono riuscito a preparare la missione. Riprova tra un istante.");
+      }
     });
+  }
+
+  private resumeMissionGame(): void {
+    if (this.transitioning) return;
+    saveSystem.load();
+    const run = saveSystem.getProceduralMissionRun();
+    if (!this.isResumable(run)) {
+      this.startMissionGame();
+      return;
+    }
+    this.transitioning = true;
+    saveSystem.pauseActiveProceduralRun();
+    saveSystem.setActiveProceduralRun(run);
+    void startScene(this, "ProceduralMissionScene");
   }
 
   private startFocusTraining(focus: ProceduralSpecialization): void {
     if (this.transitioning) return;
+    const previousTraining = saveSystem.getProceduralTrainingRun();
+    if (this.isSameFocus(previousTraining, focus) && this.isResumable(previousTraining)) {
+      this.resumeFocusTraining();
+      return;
+    }
     this.transitioning = true;
-    this.showBusy("Costruisco il percorso focus...");
+    const clearBusy = this.showBusy("Costruisco il percorso focus...");
     saveSystem.load();
     this.time.delayedCall(40, () => {
-      this.createProceduralRun(focus, this.activeDifficulty(), "training");
-      void startScene(this, "ProceduralMissionScene");
+      try {
+        saveSystem.pauseActiveProceduralRun();
+        this.createProceduralRun(focus, this.activeDifficulty(), "training");
+        void startScene(this, "ProceduralMissionScene");
+      } catch {
+        clearBusy();
+        this.transitioning = false;
+        this.showMenuError("Non sono riuscito a costruire il focus. Riprova con un altro seed.");
+      }
     });
   }
 
-  private showBusy(label: string): void {
+  private resumeFocusTraining(): void {
+    if (this.transitioning) return;
+    saveSystem.load();
+    const run = saveSystem.getProceduralTrainingRun();
+    if (!this.isResumable(run)) {
+      this.showMenuError("Non c'è un focus sospeso da riprendere.");
+      return;
+    }
+    this.transitioning = true;
+    saveSystem.pauseActiveProceduralRun();
+    saveSystem.setActiveProceduralRun(run);
+    void startScene(this, "ProceduralMissionScene");
+  }
+
+  private showBusy(label: string): () => void {
     const blocker = this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.28).setDepth(900);
     const panel = this.add.rectangle(640, 360, 430, 112, 0x09151f, 0.96).setStrokeStyle(2, 0x6be7d6, 0.65).setDepth(901);
     const text = this.add.text(640, 346, label, {
@@ -258,6 +325,26 @@ export class MainMenuScene extends Phaser.Scene {
     }).setOrigin(0.5).setDepth(902);
     blocker.setInteractive();
     this.tweens.add({ targets: [panel, text, detail], alpha: { from: 0.78, to: 1 }, duration: 180, yoyo: true, repeat: -1 });
+    return () => {
+      this.tweens.killTweensOf([panel, text, detail]);
+      blocker.destroy();
+      panel.destroy();
+      text.destroy();
+      detail.destroy();
+    };
+  }
+
+  private showMenuError(message: string): void {
+    const panel = this.add.rectangle(640, 664, 560, 44, 0x1f1414, 0.94).setStrokeStyle(1, 0xff8f8f, 0.58).setDepth(850);
+    const text = this.add.text(640, 664, message, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f5fbff",
+    }).setOrigin(0.5).setDepth(851);
+    this.time.delayedCall(2400, () => {
+      panel.destroy();
+      text.destroy();
+    });
   }
 
   private createProceduralRun(
@@ -320,11 +407,43 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   private recommendedDifficulty(): DifficultyLevel {
-    const run = saveSystem.data.proceduralRun;
+    const run = saveSystem.getProceduralMissionRun() ?? saveSystem.data.proceduralRun;
     if (!run) {
       return 1;
     }
     return Math.min(8, run.completedAt ? run.difficulty + 1 : run.difficulty) as DifficultyLevel;
+  }
+
+  private isResumable(run: ProceduralRunSave | undefined): run is ProceduralRunSave {
+    return Boolean(run && !run.completedAt && !run.failedAt);
+  }
+
+  private isSameFocus(run: ProceduralRunSave | undefined, focus: ProceduralSpecialization): boolean {
+    return this.isResumable(run) && proceduralRunRules.focusFor(run) === focus;
+  }
+
+  private resumeLabel(run: ProceduralRunSave | undefined, expectedMode: "mission" | "training"): string {
+    if (!run) {
+      return expectedMode === "mission" ? "nessuna missione salvata" : "nessun focus sospeso";
+    }
+    const mode = proceduralRunRules.modeFor(run);
+    if (mode !== expectedMode) {
+      return "nessun percorso compatibile";
+    }
+    if (run.completedAt) {
+      return `${expectedMode === "mission" ? "completata" : "completato"} - L${run.difficulty}`;
+    }
+    if (run.failedAt) {
+      return `${expectedMode === "mission" ? "fallita" : "interrotto"} - puoi iniziare di nuovo`;
+    }
+    const solved = run.solvedPuzzleIds.length;
+    const total = Math.max(1, run.mission.objectives.length);
+    const focus = proceduralRunRules.focusFor(run);
+    const subject = expectedMode === "training" ? ` ${proceduralScoring.domainLabel(focus)}` : "";
+    const time = expectedMode === "mission" && run.pausedRemainingMs
+      ? ` | tempo in pausa ${formatDuration(run.pausedRemainingMs)}`
+      : "";
+    return `in pausa${subject} L${run.difficulty} | ${solved}/${total}${time}`;
   }
 
   private trainingDifficultyKey(): string {
@@ -337,16 +456,6 @@ export class MainMenuScene extends Phaser.Scene {
       prefetchCoreScenes(this);
       audioManager.preloadEssentialAudio();
       audioManager.preloadAmbientAudio();
-      this.time.delayedCall(160, () => {
-        if (!this.scene.isActive()) {
-          return;
-        }
-        try {
-          proceduralDirector.generateFreshMission(this.activeDifficulty(), ["libera"]);
-        } catch {
-          // Background warm-up must never block the first real mission.
-        }
-      });
     };
     if (typeof window !== "undefined" && "requestIdleCallback" in window) {
       window.requestIdleCallback(warmup, { timeout: 900 });

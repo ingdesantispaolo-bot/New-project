@@ -11,6 +11,7 @@ export type ButtonOptions = {
   wordWrapWidth?: number;
   actionDelayMs?: number;
   cooldownMs?: number;
+  hitPadding?: number;
 };
 
 export class Button extends Phaser.GameObjects.Container {
@@ -29,6 +30,9 @@ export class Button extends Phaser.GameObjects.Container {
 
     const width = options.width ?? 260;
     const height = options.height ?? 56;
+    const hitPadding = options.hitPadding ?? 3;
+    const hitWidth = Math.max(44, width + hitPadding * 2);
+    const hitHeight = Math.max(44, height + hitPadding * 2);
     const fill = options.fill ?? 0x173244;
     const hoverFill = options.hoverFill ?? 0x23556a;
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
@@ -61,43 +65,50 @@ export class Button extends Phaser.GameObjects.Container {
       text.setWordWrapWidth(options.wordWrapWidth ?? width - 22, true);
     }
 
-    const hitZone = scene.add.zone(0, 0, Math.max(width, 56), Math.max(height, 52)).setOrigin(0.5);
-    this.add([shadow, this.background, this.highlight, text, hitZone]);
-    this.setSize(width, height);
-    hitZone.setInteractive({ useHandCursor: true })
+    this.add([shadow, this.background, this.highlight, text]);
+    this.setSize(hitWidth, hitHeight);
+    this.setInteractive(
+      new Phaser.Geom.Rectangle(-hitWidth / 2, -hitHeight / 2, hitWidth, hitHeight),
+      Phaser.Geom.Rectangle.Contains,
+    );
+    if (this.input) {
+      this.input.cursor = "pointer";
+    }
+    this
       .on("pointerover", () => {
         if (!supportsHover || pressed) return;
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
-        scene.tweens.killTweensOf(this);
-        this.setScale(1.012);
+        scene.tweens.killTweensOf([this.background, this.highlight]);
+        this.background.setScale(1.004, 1.018);
       })
       .on("pointerout", () => {
         if (pressed) return;
         this.background.setFillStyle(fill, 0.96);
         this.highlight.setAlpha(0.72);
-        scene.tweens.killTweensOf(this);
-        this.setScale(1);
+        scene.tweens.killTweensOf([this.background, this.highlight]);
+        this.background.setScale(1);
       })
       .on("pointerdown", () => {
         const now = performance.now();
         if (now - lastClickAt < cooldownMs) return;
         lastClickAt = now;
         pressed = true;
-        scene.tweens.killTweensOf(this);
+        scene.tweens.killTweensOf([this.background, this.highlight]);
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
-        this.setScale(0.985);
+        this.background.setScale(0.996, 0.972);
         audioManager.play("click");
         const runAction = () => {
           if (!this.scene || !this.active) return;
           onClick();
           pressed = false;
           if (!this.scene || !this.active) return;
-          scene.tweens.killTweensOf(this);
+          scene.tweens.killTweensOf([this.background, this.highlight]);
           scene.tweens.add({
-            targets: this,
-            scale: 1,
+            targets: this.background,
+            scaleX: 1,
+            scaleY: 1,
             duration: 60,
             onComplete: () => {
               if (!this.scene || !this.active) return;

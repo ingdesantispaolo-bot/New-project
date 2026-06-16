@@ -65,46 +65,52 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     }).setOrigin(0.5, 0));
 
     tag.setAlpha(options.state === "active" ? 1 : 0.76);
-    const hitZone = scene.add.zone(0, 0, Math.max(size, 76), Math.max(size, 76) * 1.18).setOrigin(0.5);
-    this.add([glow, ring, glyph, marker, status, tag, hitZone]);
+    this.add([glow, ring, glyph, marker, status, tag]);
     const hitSize = Math.max(size, 76);
-    this.setSize(hitSize, hitSize);
-    hitZone.setInteractive({ useHandCursor: options.state !== "locked" });
-    hitZone.on("pointerover", () => {
+    const hitHeight = hitSize * 1.18;
+    this.setSize(hitSize, hitHeight);
+    this.setInteractive(
+      new Phaser.Geom.Rectangle(-hitSize / 2, -hitHeight / 2, hitSize, hitHeight),
+      Phaser.Geom.Rectangle.Contains,
+    );
+    if (this.input && options.state !== "locked") {
+      this.input.cursor = "pointer";
+    }
+    this.on("pointerover", () => {
       if (!supportsHover || pressed) return;
       if (options.state !== "locked") {
         ring.setAlpha(0.66);
         glow.setAlpha(0.26);
         tag.setAlpha(1);
-        scene.tweens.killTweensOf(this);
-        this.setScale(1.035);
+        scene.tweens.killTweensOf([glow, tag]);
+        ring.setScale((size / 78) * 1.04);
       }
     });
-    hitZone.on("pointerout", () => {
+    this.on("pointerout", () => {
       if (pressed) return;
       ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : 0.18);
       glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : 0.04);
       tag.setAlpha(options.state === "active" ? 1 : 0.76);
-      scene.tweens.killTweensOf(this);
-      this.setScale(1);
+      scene.tweens.killTweensOf([glow, tag]);
+      ring.setScale(size / 78);
     });
-    hitZone.on("pointerdown", () => {
+    this.on("pointerdown", () => {
       const now = performance.now();
       if (now - lastTapAt < 180) return;
       lastTapAt = now;
       pressed = true;
-      scene.tweens.killTweensOf(this);
+      scene.tweens.killTweensOf([glow, tag]);
       ring.setAlpha(options.state === "locked" ? 0.12 : 0.74);
       glow.setAlpha(options.state === "locked" ? 0.08 : 0.3);
       tag.setAlpha(1);
-      this.setScale(0.985);
+      ring.setScale((size / 78) * 0.98);
       const runAction = () => {
         if (!this.scene || !this.active) return;
         options.onClick();
         pressed = false;
         if (!this.scene || !this.active) return;
-        scene.tweens.killTweensOf(this);
-        scene.tweens.add({ targets: this, scale: 1, duration: 70 });
+        scene.tweens.killTweensOf([glow, tag]);
+        scene.tweens.add({ targets: ring, scale: size / 78, duration: 70 });
       };
       runAction();
     });

@@ -442,6 +442,7 @@ export type ProceduralRunSave = {
   maxLives?: number;
   timeLimitMs?: number;
   deadlineAt?: string;
+  pausedRemainingMs?: number;
   failedAt?: string;
   trainingResult?: TrainingRunResult;
   startedAt: string;

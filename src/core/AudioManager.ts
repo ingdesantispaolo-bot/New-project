@@ -6,13 +6,11 @@ import errorUrl from "../assets/audio/generated/error.wav?url";
 import footstepUrl from "../assets/audio/generated/footstep.wav?url";
 import hintUrl from "../assets/audio/generated/hint.wav?url";
 import labAmbienceUrl from "../assets/audio/generated/labAmbience.wav?url";
-import menuMusicUrl from "../assets/audio/generated/menuMusic.wav?url";
 import panelOpenUrl from "../assets/audio/generated/panelOpen.wav?url";
 import scanUrl from "../assets/audio/generated/scan.wav?url";
 import successUrl from "../assets/audio/generated/success.wav?url";
 
 type SoundKey =
-  | "menuMusic"
   | "labAmbience"
   | "click"
   | "scan"
@@ -35,12 +33,11 @@ type OutcomeSound = "correct" | "wrong" | "hint" | "complete" | "neutral";
 export class AudioManager {
   private sounds = new Map<SoundKey, Howl>();
   private lastOutcomeAt = 0;
-  private currentMusic?: Extract<SoundKey, "menuMusic" | "labAmbience">;
+  private currentMusic?: "labAmbience";
   private unlockInstalled = false;
   private unlocked = false;
 
   private specs: Record<SoundKey, SoundSpec> = {
-    menuMusic: { src: menuMusicUrl, volume: 0.24, loop: true },
     labAmbience: { src: labAmbienceUrl, volume: 0.18, loop: true },
     click: { src: clickUrl, volume: 0.34 },
     scan: { src: scanUrl, volume: 0.3 },
@@ -62,7 +59,7 @@ export class AudioManager {
   }
 
   preloadAmbientAudio(): void {
-    this.preloadKeys(["menuMusic", "labAmbience"]);
+    this.preloadKeys(["labAmbience"]);
   }
 
   installUnlockListeners(): void {
@@ -124,7 +121,7 @@ export class AudioManager {
     this.play(outcomeSounds[outcome]);
   }
 
-  playMusic(key: Extract<SoundKey, "menuMusic" | "labAmbience">): void {
+  playMusic(key: "labAmbience"): void {
     const current = this.currentMusic ? this.sounds.get(this.currentMusic) : undefined;
     if (this.currentMusic === key && current?.playing()) {
       return;
@@ -136,7 +133,7 @@ export class AudioManager {
 
   stopMusic(): void {
     this.sounds.forEach((sound, key) => {
-      if (key === "menuMusic" || key === "labAmbience") {
+      if (key === "labAmbience") {
         sound.stop();
       }
     });

@@ -5,6 +5,7 @@ export type DeviceKind =
   | "terminal"
   | "language"
   | "english"
+  | "music"
   | "robot"
   | "door"
   | "journal"
@@ -163,6 +164,16 @@ function drawDeviceGlyph(
     g.lineBetween(-18 * s, 4 * s, 10 * s, 4 * s);
     g.lineBetween(-18 * s, 16 * s, 22 * s, 16 * s);
     if (kind === "english") g.strokeCircle(24 * s, -18 * s, 9 * s);
+  } else if (kind === "music") {
+    for (let index = 0; index < 5; index += 1) {
+      const y = (-20 + index * 10) * s;
+      g.lineBetween(-34 * s, y, 34 * s, y);
+    }
+    g.fillStyle(color, state === "locked" ? 0.34 : 0.84);
+    g.fillEllipse(4 * s, 0, 16 * s, 11 * s);
+    g.lineStyle(3, color, state === "locked" ? 0.42 : 0.88);
+    g.lineBetween(12 * s, -2 * s, 12 * s, -32 * s);
+    g.lineBetween(12 * s, -32 * s, 28 * s, -24 * s);
   } else if (kind === "robot") {
     g.strokeRoundedRect(-24 * s, -18 * s, 48 * s, 36 * s, 6 * s);
     g.strokeCircle(-10 * s, -2 * s, 4 * s);

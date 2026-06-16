@@ -18,9 +18,11 @@ export class LanguagePuzzleValidator {
   validateEnglish(puzzle: GeneratedEnglishPuzzle): boolean {
     const needsData = puzzle.challengeType === "data-reading";
     const needsSource = puzzle.challengeType === "procedure-debug" || puzzle.challengeType === "inference";
+    const uniqueChoices = new Set(puzzle.choices.map((choice) => choice.label));
     return (
       puzzle.choices.filter((choice) => choice.isCorrect).length === 1 &&
       puzzle.choices.length >= 3 &&
+      uniqueChoices.size === puzzle.choices.length &&
       puzzle.diagnosticSteps.length >= 2 &&
       puzzle.hints.length >= 2 &&
       Boolean(puzzle.learningPurpose) &&

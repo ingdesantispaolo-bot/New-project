@@ -211,6 +211,31 @@ export const competencies: CompetencyDefinition[] = [
     description: "Interpretare soglie, quantità, confronti e misure scritte in inglese.",
   },
   {
+    id: "musica.pentagramma",
+    label: "Pentagramma",
+    description: "Riconoscere linee, spazi e linee addizionali sopra e sotto il pentagramma.",
+  },
+  {
+    id: "musica.chiaveViolino",
+    label: "Chiave di violino",
+    description: "Leggere note in chiave di violino usando riferimenti e conteggio linee-spazi.",
+  },
+  {
+    id: "musica.chiaveBasso",
+    label: "Chiave di basso",
+    description: "Leggere note in chiave di basso usando riferimenti e conteggio linee-spazi.",
+  },
+  {
+    id: "musica.letturaNote",
+    label: "Lettura note",
+    description: "Identificare nome e ottava della nota entro un tempo adeguato al livello.",
+  },
+  {
+    id: "musica.orecchio",
+    label: "Riconoscimento sonoro",
+    description: "Riconoscere note dal suono come sfida avanzata dopo la lettura visiva.",
+  },
+  {
     id: "scienze.osservazione",
     label: "Osservazione scientifica",
     description: "Leggere segnali naturali e dati semplici prima di intervenire.",

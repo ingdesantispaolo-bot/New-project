@@ -24,6 +24,7 @@ const proceduralPropKeys: Record<string, { painted?: string; fallback: string }>
   english: { painted: "painted-message-console", fallback: "prop-message-console" },
   language: { painted: "painted-message-console", fallback: "prop-message-console" },
   math: { painted: "painted-terminal", fallback: "prop-terminal" },
+  music: { painted: "painted-terminal", fallback: "prop-terminal" },
   robot: { painted: "painted-robot-dock", fallback: "prop-robot-dock" },
 };
 
@@ -34,6 +35,7 @@ const themedProceduralPropKeys: Partial<Record<ProceduralPropTheme, Partial<Reco
     english: { painted: "painted-archive-shelf", fallback: "prop-message-console" },
     language: { painted: "painted-archive-terminal", fallback: "prop-message-console" },
     math: { painted: "painted-archive-desk", fallback: "prop-terminal" },
+    music: { painted: "painted-archive-desk", fallback: "prop-terminal" },
     robot: { painted: "painted-archive-terminal", fallback: "prop-robot-dock" },
   },
   factory: {
@@ -42,6 +44,7 @@ const themedProceduralPropKeys: Partial<Record<ProceduralPropTheme, Partial<Reco
     english: { painted: "painted-factory-machine", fallback: "prop-message-console" },
     language: { painted: "painted-factory-machine", fallback: "prop-message-console" },
     math: { painted: "painted-factory-machine", fallback: "prop-terminal" },
+    music: { painted: "painted-factory-machine", fallback: "prop-terminal" },
     robot: { painted: "painted-factory-conveyor", fallback: "prop-robot-dock" },
   },
   greenhouse: {
@@ -50,6 +53,7 @@ const themedProceduralPropKeys: Partial<Record<ProceduralPropTheme, Partial<Reco
     english: { painted: "painted-greenhouse-sensor", fallback: "prop-message-console" },
     language: { painted: "painted-greenhouse-sensor", fallback: "prop-message-console" },
     math: { painted: "painted-greenhouse-sensor", fallback: "prop-terminal" },
+    music: { painted: "painted-greenhouse-sensor", fallback: "prop-terminal" },
     robot: { painted: "painted-greenhouse-pod", fallback: "prop-robot-dock" },
   },
 };

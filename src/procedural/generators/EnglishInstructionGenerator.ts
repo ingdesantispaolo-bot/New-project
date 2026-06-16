@@ -166,20 +166,26 @@ export class EnglishInstructionGenerator {
 
   private defaultConceptTags(templateId: string): string[] {
     if (["green-not-red", "small-key"].includes(templateId)) return ["action verbs", "do not", "object choice"];
-    if (["where-is-core"].includes(templateId)) return ["prepositions", "spatial reading", "technical nouns"];
-    if (["who-can-open"].includes(templateId)) return ["question words", "can", "permission"];
-    if (["main-switch", "left-before-blue", "measure-before-switch", "after-robot-dock"].includes(templateId)) return ["sequence", "before/after", "procedure"];
+    if (["where-is-core", "movement-prepositions-route", "relative-where-lab"].includes(templateId)) return ["prepositions", "spatial reading", "technical nouns"];
+    if (["who-can-open", "question-formation-why"].includes(templateId)) return ["question words", "can/did", "permission or cause"];
+    if (["main-switch", "left-before-blue", "measure-before-switch", "after-robot-dock", "have-to-vs-can", "multi-clause-mission-order"].includes(templateId)) return ["sequence", "before/after", "procedure"];
     if (["simple-vs-now"].includes(templateId)) return ["present simple", "present continuous", "now"];
-    if (["past-log-today"].includes(templateId)) return ["past simple", "present state", "time markers"];
-    if (["some-any-fuses"].includes(templateId)) return ["some/no", "quantity", "prohibition"];
+    if (["past-log-today", "past-vs-present-perfect-log"].includes(templateId)) return ["past simple", "present state", "time markers"];
+    if (["present-perfect-already-yet"].includes(templateId)) return ["present perfect", "already", "yet"];
+    if (["some-any-fuses", "much-many-supplies"].includes(templateId)) return ["quantity", "countable/uncountable", "prohibition"];
     if (["frequency-adverbs"].includes(templateId)) return ["frequency adverbs", "when", "cause/effect"];
     if (["going-to-scan"].includes(templateId)) return ["future plan", "going to", "after"];
-    if (["pronoun-reference"].includes(templateId)) return ["pronouns", "it/them", "singular/plural"];
-    if (["only-if-stable", "below-threshold"].includes(templateId)) return ["if/otherwise", "condition", "threshold"];
-    if (["unless-blue-blinks", "until-door-unlocks"].includes(templateId)) return ["unless/until", "exception", "waiting"];
-    if (["compare-two-signals", "which-route-safest"].includes(templateId)) return ["comparison", "adjectives", "sequence"];
+    if (["pronoun-reference", "possessive-their-its"].includes(templateId)) return ["pronouns", "possessives", "reference"];
+    if (["only-if-stable", "sensor-below-threshold", "first-conditional-alarm", "zero-conditional-rule"].includes(templateId)) return ["if/otherwise", "condition", "threshold"];
+    if (["unless-blue-blinks", "until-door-unlocks", "reported-warning"].includes(templateId)) return ["unless/until", "exception", "waiting"];
+    if (["compare-two-signals", "which-route-safest", "as-as-comparison"].includes(templateId)) return ["comparison", "adjectives", "data reading"];
     if (["relative-drawer"].includes(templateId)) return ["relative clause", "that", "technical nouns"];
-    if (["may-must-not", "passive-reattach-wire"].includes(templateId)) return ["modal verbs", "passive", "safety"];
+    if (["may-must-not", "passive-reattach-wire", "passive-simple-past", "must-should-cable"].includes(templateId)) return ["modal verbs", "passive", "safety"];
+    if (["although-however-report", "main-idea-log", "detail-not-mentioned", "scientific-observation-evidence"].includes(templateId)) return ["reading comprehension", "inference", "evidence"];
+    if (["adverbs-manner-safety"].includes(templateId)) return ["adverbs of manner", "sequence", "safety"];
+    if (["word-formation-re-over"].includes(templateId)) return ["word formation", "prefixes", "technical verbs"];
+    if (["either-neither-tool"].includes(templateId)) return ["neither/nor", "instead", "safety"];
+    if (["email-register-formal"].includes(templateId)) return ["formal register", "because", "short writing"];
     return ["operational English", "condition", "safe action"];
   }
 
@@ -227,6 +233,7 @@ export class EnglishInstructionGenerator {
     if (text.includes("only")) glossary.push({ term: "only", meaning: "solo" });
     if (text.includes("write down")) glossary.push({ term: "write down", meaning: "annotare" });
     if (text.includes("must")) glossary.push({ term: "must", meaning: "deve / obbligo" });
+    if (text.includes("have to")) glossary.push({ term: "have to", meaning: "dovere / obbligo" });
     if (text.includes("should not")) glossary.push({ term: "should not", meaning: "non dovrebbe" });
     if (text.includes("cause")) glossary.push({ term: "cause", meaning: "causa" });
     if (text.includes("dimmer")) glossary.push({ term: "dimmer", meaning: "meno luminoso" });
@@ -239,29 +246,42 @@ export class EnglishInstructionGenerator {
     if (text.includes("safest")) glossary.push({ term: "safest", meaning: "il più sicuro" });
     if (text.includes("may")) glossary.push({ term: "may", meaning: "può / permesso" });
     if (text.includes("has been")) glossary.push({ term: "has been", meaning: "è stato / forma passiva" });
+    if (text.includes("was repaired")) glossary.push({ term: "was repaired", meaning: "è stato riparato" });
     if (text.includes("yesterday")) glossary.push({ term: "yesterday", meaning: "ieri" });
     if (text.includes("offline")) glossary.push({ term: "offline", meaning: "non attivo" });
     if (text.includes("some")) glossary.push({ term: "some", meaning: "alcuni / un po'" });
+    if (text.includes("many")) glossary.push({ term: "many", meaning: "molti, con nomi numerabili" });
+    if (text.includes("little")) glossary.push({ term: "little", meaning: "poco, con nomi non numerabili" });
     if (text.includes("no spare")) glossary.push({ term: "no spare", meaning: "nessun ricambio" });
     if (text.includes("going to")) glossary.push({ term: "going to", meaning: "ha in programma di" });
     if (text.includes("them")) glossary.push({ term: "them", meaning: "li / loro" });
+    if (text.includes("already")) glossary.push({ term: "already", meaning: "già" });
+    if (text.includes("yet")) glossary.push({ term: "yet", meaning: "ancora / non ancora" });
+    if (text.includes("although")) glossary.push({ term: "although", meaning: "sebbene / anche se" });
+    if (text.includes("however")) glossary.push({ term: "however", meaning: "tuttavia" });
+    if (text.includes("neither")) glossary.push({ term: "neither...nor", meaning: "né...né" });
+    if (text.includes("because")) glossary.push({ term: "because", meaning: "perché / poiché" });
+    if (text.includes("as stable as")) glossary.push({ term: "as...as", meaning: "tanto...quanto" });
+    if (text.includes("through")) glossary.push({ term: "through", meaning: "attraverso un passaggio" });
+    if (text.includes("across")) glossary.push({ term: "across", meaning: "attraverso una superficie" });
+    if (text.includes("into")) glossary.push({ term: "into", meaning: "verso l'interno" });
     return glossary.slice(0, 5);
   }
 
   private competenciesFor(templateId: string): string[] {
     const base = ["inglese.istruzioni", "pensieroCritico"];
-    if (["sensor-below-threshold", "compare-two-signals", "between-limits", "which-route-safest"].includes(templateId)) return [...base, "inglese.scientifico", "inglese.dati"];
-    if (["where-is-core", "replace-only-damaged", "relative-drawer", "some-any-fuses"].includes(templateId)) return [...base, "inglese.lessico"];
-    if (["who-can-open", "simple-vs-now", "past-log-today", "frequency-adverbs", "going-to-scan", "pronoun-reference", "may-must-not", "passive-reattach-wire", "must-should-cable"].includes(templateId)) return [...base, "inglese.grammatica", "inglese.comprensione"];
-    if (["unless-blue-blinks", "until-door-unlocks", "only-if-stable", "not-until-pressure-drops"].includes(templateId)) return [...base, "inglese.bilingue", "inglese.grammatica"];
-    if (["cause-report", "procedure-debug-charge"].includes(templateId)) return [...base, "inglese.bilingue", "inglese.comprensione"];
+    if (["sensor-below-threshold", "compare-two-signals", "between-limits", "which-route-safest", "first-conditional-alarm", "as-as-comparison", "scientific-observation-evidence"].includes(templateId)) return [...base, "inglese.scientifico", "inglese.dati"];
+    if (["where-is-core", "replace-only-damaged", "relative-drawer", "some-any-fuses", "possessive-their-its", "movement-prepositions-route", "much-many-supplies", "relative-where-lab", "word-formation-re-over", "either-neither-tool"].includes(templateId)) return [...base, "inglese.lessico"];
+    if (["who-can-open", "simple-vs-now", "past-log-today", "frequency-adverbs", "going-to-scan", "pronoun-reference", "may-must-not", "passive-reattach-wire", "must-should-cable", "present-perfect-already-yet", "past-vs-present-perfect-log", "question-formation-why", "adverbs-manner-safety", "passive-simple-past", "have-to-vs-can", "reported-warning"].includes(templateId)) return [...base, "inglese.grammatica", "inglese.comprensione"];
+    if (["unless-blue-blinks", "until-door-unlocks", "only-if-stable", "not-until-pressure-drops", "zero-conditional-rule", "multi-clause-mission-order"].includes(templateId)) return [...base, "inglese.bilingue", "inglese.grammatica"];
+    if (["cause-report", "procedure-debug-charge", "although-however-report", "main-idea-log", "detail-not-mentioned", "email-register-formal"].includes(templateId)) return [...base, "inglese.bilingue", "inglese.comprensione"];
     return base;
   }
 
   private levelName(level: number): string {
-    if (level <= 2) return "comandi e divieti";
-    if (level <= 4) return "ordine e sequenze";
-    if (level <= 6) return "condizioni operative";
-    return "eccezioni e vincoli";
+    if (level <= 2) return "comandi, oggetti e spazio";
+    if (level <= 4) return "tempi base, quantità e sequenze";
+    if (level <= 6) return "condizioni, dati e comprensione";
+    return "eccezioni, inferenze e registro";
   }
 }

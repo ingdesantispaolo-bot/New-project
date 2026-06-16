@@ -1,10 +1,10 @@
 import type { GeneratedRoomHotspot } from "../../procedural/ProceduralTypes";
 import type { DeviceKind, DeviceState, ChromeRect } from "../../ui/SceneChrome";
 
-export type ProceduralPuzzleId = "language" | "circuit" | "math" | "english" | "robot";
+export type ProceduralPuzzleId = "language" | "circuit" | "math" | "english" | "robot" | "music";
 export type ProceduralHotspotKey = ProceduralPuzzleId | "door";
 
-export const proceduralPuzzleOrder: ProceduralPuzzleId[] = ["language", "circuit", "math", "english", "robot"];
+export const proceduralPuzzleOrder: ProceduralPuzzleId[] = ["language", "circuit", "math", "english", "robot", "music"];
 
 const hotspotOrder: Record<ProceduralHotspotKey, number> = {
   language: 0,
@@ -12,7 +12,8 @@ const hotspotOrder: Record<ProceduralHotspotKey, number> = {
   math: 2,
   english: 3,
   robot: 4,
-  door: 5,
+  music: 5,
+  door: 6,
 };
 
 const hotspotKinds: Record<ProceduralHotspotKey, DeviceKind> = {
@@ -21,6 +22,7 @@ const hotspotKinds: Record<ProceduralHotspotKey, DeviceKind> = {
   math: "terminal",
   english: "english",
   robot: "robot",
+  music: "music",
   door: "door",
 };
 
@@ -64,7 +66,8 @@ export function proceduralHotspotPosition(hotspot: GeneratedRoomHotspot, stage: 
     math: { x: stage.x + 318, y: stage.y + 112 },
     english: { x: stage.x + 494, y: stage.y + 160 },
     robot: { x: stage.x + 494, y: stage.y + 342 },
-    door: { x: stage.x + 318, y: stage.y + 374 },
+    music: { x: stage.x + 318, y: stage.y + 286 },
+    door: { x: stage.x + 318, y: stage.y + 420 },
   };
   return key ? positions[key] : { x: stage.x + stage.width / 2, y: stage.y + stage.height / 2 };
 }
@@ -121,6 +124,7 @@ export function pendingProceduralPuzzleLabel(solvedPuzzleIds: string[], required
     math: "ricostruisci il codice",
     english: "decodifica il comando",
     robot: "guida il robot",
+    music: "riconosci la nota",
   };
   const pending = requiredIds.find((id) => !isProceduralPuzzleSolved(id, solvedPuzzleIds));
   return pending ? labels[puzzleKindFromId(pending)] : "apri la porta finale";

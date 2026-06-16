@@ -17,6 +17,7 @@ const exerciseFilters: LeaderboardFilter[] = [
   { category: "exercise", key: "english", label: "Inglese" },
   { category: "exercise", key: "circuit", label: "Elettronica" },
   { category: "exercise", key: "robot", label: "Coding" },
+  { category: "exercise", key: "music", label: "Musica" },
 ];
 
 const focusFilters: LeaderboardFilter[] = [
@@ -25,6 +26,7 @@ const focusFilters: LeaderboardFilter[] = [
   { category: "focus", key: "inglese", label: "Focus inglese" },
   { category: "focus", key: "elettronica", label: "Focus circuiti" },
   { category: "focus", key: "coding", label: "Focus coding" },
+  { category: "focus", key: "musica", label: "Focus musica" },
 ];
 
 const missionFilter: LeaderboardFilter = {

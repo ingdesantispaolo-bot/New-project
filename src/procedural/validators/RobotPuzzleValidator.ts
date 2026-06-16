@@ -13,7 +13,21 @@ export class RobotPuzzleValidator {
     const keyState = toKey ? this.solver.simulate(puzzle.start, toKey) : { ...puzzle.key, facing: puzzle.start.facing };
     const toExit = this.solver.findCommandPath(puzzle.cols, puzzle.rows, keyState, puzzle.exit, puzzle.obstacles);
     const programWorks = this.programSatisfiesPuzzle(puzzle, puzzle.solutionCommands);
-    return !keyBlocked && !exitBlocked && !checkpointBlocked && Boolean(toKey) && Boolean(toExit) && puzzle.solutionCommands.length > 0 && programWorks;
+    const pickupCount = puzzle.solutionCommands.filter((command) => command === "PICK_UP").length;
+    const exitCount = puzzle.solutionCommands.filter((command) => command === "EXIT").length;
+    const startKeyDistinct = puzzle.start.col !== puzzle.key.col || puzzle.start.row !== puzzle.key.row;
+    const keyExitDistinct = puzzle.key.col !== puzzle.exit.col || puzzle.key.row !== puzzle.exit.row;
+    const hasClearFinish = pickupCount === 1 && exitCount === 1 && puzzle.solutionCommands[puzzle.solutionCommands.length - 1] === "EXIT";
+    return !keyBlocked
+      && !exitBlocked
+      && !checkpointBlocked
+      && startKeyDistinct
+      && keyExitDistinct
+      && Boolean(toKey)
+      && Boolean(toExit)
+      && puzzle.solutionCommands.length > 0
+      && hasClearFinish
+      && programWorks;
   }
 
   private programSatisfiesPuzzle(puzzle: GeneratedRobotPuzzle, commands: GridCommand[]): boolean {

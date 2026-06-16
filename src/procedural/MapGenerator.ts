@@ -46,11 +46,20 @@ export class MapGenerator {
       {
         id: "robot",
         label: path.hotspots.robot.label,
-        x: 830,
+        x: 914,
         y: 502,
         radius: 56,
         puzzleId: "robot",
         description: path.hotspots.robot.description,
+      },
+      {
+        id: "music",
+        label: path.hotspots.music.label,
+        x: 640,
+        y: 502,
+        radius: 52,
+        puzzleId: "music",
+        description: path.hotspots.music.description,
       },
     ];
     const activeHotspots = path.primaryPuzzle

@@ -18,6 +18,7 @@ import type {
   GeneratedEnglishPuzzle,
   GeneratedLanguagePuzzle,
   GeneratedMathPuzzle,
+  GeneratedMusicPuzzle,
   GeneratedRobotPuzzle,
   GeneratedRoomHotspot,
   GridCommand,
@@ -88,6 +89,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private robotStatusText?: Phaser.GameObjects.Text;
   private robotOrigin = { x: 130, y: 118 };
   private robotCellSize = 48;
+  private musicTimerEvent?: Phaser.Time.TimerEvent;
   private missionFailureInProgress = false;
 
   constructor() {
@@ -121,7 +123,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private ensureRun(): ProceduralRunSave {
     if (saveSystem.data.proceduralRun && !saveSystem.data.proceduralRun.completedAt && !saveSystem.data.proceduralRun.failedAt) {
-      return this.normalizeRunRules(saveSystem.data.proceduralRun);
+      const normalized = this.normalizeRunRules(saveSystem.data.proceduralRun);
+      if (this.runNeedsContentMigration(normalized)) {
+        return this.replaceLegacyRun(normalized);
+      }
+      return normalized;
     }
     const mission = proceduralDirector.generateFreshMission(2, ["libera"]);
     const startedAt = new Date().toISOString();
@@ -144,6 +150,55 @@ export class ProceduralMissionScene extends Phaser.Scene {
     };
     saveSystem.setProceduralRun(run);
     return run;
+  }
+
+  private runNeedsContentMigration(run: ProceduralRunSave): boolean {
+    const mode = proceduralRunRules.modeFor(run);
+    const focus = proceduralRunRules.focusFor(run);
+    const puzzles = run.mission.puzzles as Partial<ProceduralRunSave["mission"]["puzzles"]>;
+    const hasMusicPuzzle = Boolean(puzzles.music);
+    const hasMusicObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "music");
+    const hasMusicHotspot = run.mission.map.hotspots.some((hotspot) => {
+      const id = hotspot.puzzleId ?? hotspot.id;
+      return hotspot.puzzleKind === "music" || id === "music" || id.startsWith("music-");
+    });
+    const hasMusicFocusSeries = Boolean(
+      run.mission.focusChallenges?.length
+      && run.mission.focusChallenges.every((challenge) => challenge.kind === "music"),
+    );
+    if (focus === "musica") {
+      return !(hasMusicPuzzle && hasMusicObjective && hasMusicHotspot && hasMusicFocusSeries);
+    }
+    if (mode === "mission" || focus === "libera") {
+      return !(hasMusicPuzzle && hasMusicObjective && hasMusicHotspot);
+    }
+    return false;
+  }
+
+  private replaceLegacyRun(run: ProceduralRunSave): ProceduralRunSave {
+    const mode = proceduralRunRules.modeFor(run);
+    const focus = run.focus.length > 0 ? run.focus : [mode === "training" ? proceduralRunRules.focusFor(run) : "libera"];
+    const mission = proceduralDirector.generateFreshMission(run.difficulty, focus);
+    const startedAt = new Date().toISOString();
+    const timeLimitMs = mode === "mission" ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length)) : undefined;
+    const replacement: ProceduralRunSave = {
+      seed: mission.seed,
+      difficulty: mission.difficulty,
+      focus,
+      mode,
+      mission,
+      hintsUsed: 0,
+      solvedPuzzleIds: [],
+      score: { total: 0, byPuzzle: {}, byDomain: {} },
+      puzzleStats: {},
+      lives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
+      maxLives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
+      timeLimitMs,
+      deadlineAt: timeLimitMs ? proceduralRunRules.deadlineFrom(startedAt, timeLimitMs) : undefined,
+      startedAt,
+    };
+    saveSystem.setProceduralRun(replacement);
+    return replacement;
   }
 
   private normalizeRunRules(run: ProceduralRunSave): ProceduralRunSave {
@@ -220,6 +275,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       math: () => this.openMath(),
       english: () => this.openEnglish(),
       robot: () => this.openRobot(),
+      music: () => this.openMusic(),
     };
     if (proceduralPuzzleOrder.includes(systemId)) {
       if (this.activePuzzleId !== puzzleId) {
@@ -1587,6 +1643,151 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
   }
 
+  private openMusic(): void {
+    const puzzle = this.currentMusicPuzzle();
+    const puzzleId = this.currentPuzzleId("music");
+    const overlay = this.createOverlay(puzzle.title, 660, { x: 40, y: 30, width: 1200 });
+    overlay.add(this.add.text(56, 76, `${puzzle.difficultyLabel.toUpperCase()} | Tempo obiettivo: ${formatDuration(puzzle.timeLimitMs)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(56, 104, "Obiettivo: riconosci la nota scritta sul pentagramma. Guarda prima la chiave, poi conta linee, spazi e linee addizionali.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 1040 },
+      lineSpacing: 4,
+    }));
+    this.drawMusicStaff(overlay, puzzle, 320, 310);
+    this.drawMusicSupport(overlay, puzzle);
+    const timerText = this.add.text(868, 146, "", {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }).setOrigin(0.5);
+    overlay.add(timerText);
+    this.startMusicCountdown(puzzleId, puzzle, timerText);
+
+    puzzle.choices.forEach((choice, index) => {
+      const x = 756 + (index % 2) * 260;
+      const y = 390 + Math.floor(index / 2) * 74;
+      overlay.add(new Button(this, x, y, choice.label, () => {
+        if (this.musicTimeExpired(puzzleId, puzzle)) {
+          this.handleIncorrectAnswer("Tempo scaduto: la nota va riconosciuta entro il tempo del livello. Usa la chiave come ancora, poi conta linee e spazi.");
+          return;
+        }
+        if (choice.isCorrect) {
+          this.solvePuzzle(puzzleId, puzzle.competencies);
+          return;
+        }
+        this.handleIncorrectAnswer(choice.feedback);
+      }, { width: 220, height: 56, fontSize: 20, fill: choice.isCorrect ? 0x173b36 : 0x263743 }));
+    });
+
+    this.addMethodStrip(overlay, 56, 590, 520, "Metodo", puzzle.methodSteps);
+    overlay.add(new Button(this, 866, 586, "Indizio di lettura", () => {
+      this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
+      this.openMusic();
+    }, { width: 280, height: 44, fontSize: 14, fill: 0x263743 }));
+  }
+
+  private drawMusicStaff(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
+    overlay.add(this.add.rectangle(centerX, centerY, 560, 320, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(centerX - 244, centerY - 140, puzzle.clef === "treble" ? "Chiave di violino" : "Chiave di basso", {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    const lineSpacing = 28;
+    const staffLeft = centerX - 210;
+    const staffRight = centerX + 226;
+    const topY = centerY - 72;
+    for (let index = 0; index < 5; index += 1) {
+      const y = topY + index * lineSpacing;
+      overlay.add(this.add.rectangle((staffLeft + staffRight) / 2, y, staffRight - staffLeft, 2, 0x9ff5e9, 0.78));
+    }
+    overlay.add(this.add.text(staffLeft - 64, topY - 42, puzzle.clef === "treble" ? "𝄞" : "𝄢", {
+      fontFamily: "Georgia, 'Times New Roman', serif",
+      fontSize: puzzle.clef === "treble" ? "86px" : "76px",
+      color: "#f7d37a",
+    }).setOrigin(0.5, 0));
+    const noteX = centerX + 46;
+    const noteY = topY + puzzle.staffPosition * (lineSpacing / 2);
+    puzzle.ledgerLines.forEach((position) => {
+      const y = topY + position * (lineSpacing / 2);
+      overlay.add(this.add.rectangle(noteX, y, 96, 2, 0xf7d37a, 0.88));
+    });
+    const note = this.add.ellipse(noteX, noteY, 34, 24, 0xf5fbff, 1).setRotation(-0.42).setStrokeStyle(2, 0xf7d37a, 0.9);
+    overlay.add(note);
+    overlay.add(this.add.rectangle(noteX + 18, noteY - 42, 3, 86, 0xf5fbff, 0.94));
+    overlay.add(this.add.text(centerX - 244, centerY + 112, [
+      `Posizione: ${puzzle.staffPosition % 2 === 0 ? "linea" : "spazio"}`,
+      puzzle.ledgerLines.length > 0 ? `Linee addizionali: ${puzzle.ledgerLines.length}` : "Nessuna linea addizionale",
+      "Risposta completa: nome + ottava",
+    ].join("  |  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: 500 },
+    }));
+  }
+
+  private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle): void {
+    overlay.add(this.add.rectangle(866, 266, 540, 196, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(614, 184, "Come ragionare", {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(614, 212, puzzle.method, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 500 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(614, 306, `Scopo didattico: ${puzzle.learningPurpose}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: 500 },
+      lineSpacing: 3,
+    }));
+    overlay.add(this.add.text(614, 352, puzzle.conceptTags.map((tag) => `#${tag}`).join("  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      wordWrap: { width: 500 },
+    }));
+  }
+
+  private startMusicCountdown(puzzleId: string, puzzle: GeneratedMusicPuzzle, text: Phaser.GameObjects.Text): void {
+    this.musicTimerEvent?.remove(false);
+    const update = (): void => {
+      if (!text.active) return;
+      const remaining = Math.max(0, puzzle.timeLimitMs - this.puzzleElapsedMs(puzzleId));
+      text.setText(`Tempo nota: ${formatDuration(remaining)}`);
+      text.setColor(remaining < 3_000 ? "#ff8a8a" : "#f7d37a");
+    };
+    update();
+    this.musicTimerEvent = this.time.addEvent({ delay: 160, loop: true, callback: update });
+  }
+
+  private puzzleElapsedMs(puzzleId: string): number {
+    const startedAt = (saveSystem.data.proceduralRun ?? this.run).puzzleStats?.[puzzleId]?.startedAt;
+    if (!startedAt) return 0;
+    return Math.max(0, Date.now() - new Date(startedAt).getTime());
+  }
+
+  private musicTimeExpired(puzzleId: string, puzzle: GeneratedMusicPuzzle): boolean {
+    return this.puzzleElapsedMs(puzzleId) > puzzle.timeLimitMs;
+  }
+
   private openRobot(): void {
     const puzzle = this.currentRobotPuzzle();
     const model = RobotConsole.fromPuzzle(puzzle);
@@ -2051,6 +2252,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       math: "matematica",
       english: "inglese",
       robot: "coding",
+      music: "musica",
     }[puzzleKindFromId(id)];
   }
 
@@ -2082,6 +2284,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return challenge?.kind === "english" ? challenge.puzzle : this.run.mission.puzzles.english;
   }
 
+  private currentMusicPuzzle(): GeneratedMusicPuzzle {
+    const challenge = this.activeChallenge;
+    return challenge?.kind === "music" ? challenge.puzzle : this.run.mission.puzzles.music;
+  }
+
   private currentRobotPuzzle(): GeneratedRobotPuzzle {
     const challenge = this.activeChallenge;
     return challenge?.kind === "robot" ? challenge.puzzle : this.run.mission.puzzles.robot;
@@ -2098,6 +2305,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.selectedRepairs.clear();
     this.robotCommands = [];
     this.robotExecuting = false;
+    this.musicTimerEvent?.remove(false);
+    this.musicTimerEvent = undefined;
   }
 
   private ensurePuzzleTimer(puzzleId: string): void {
@@ -2378,6 +2587,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private clearOverlay(): void {
+    this.musicTimerEvent?.remove(false);
+    this.musicTimerEvent = undefined;
     this.overlay?.destroy(true);
     this.overlay = undefined;
     this.mathSupportText = undefined;

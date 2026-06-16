@@ -59,6 +59,7 @@ const puzzleLabels: Record<string, string> = {
   math: "Matematica - terminale numerico",
   english: "Inglese - comando operativo",
   robot: "Coding - robot su griglia",
+  music: "Musica - lettura pentagramma",
 };
 
 const focusLabels: Record<string, string> = {
@@ -68,6 +69,7 @@ const focusLabels: Record<string, string> = {
   inglese: "Focus inglese",
   elettronica: "Focus elettronica",
   coding: "Focus coding",
+  musica: "Focus musica",
 };
 
 function nowIso(): string {

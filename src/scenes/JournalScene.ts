@@ -113,7 +113,7 @@ export class JournalScene extends Phaser.Scene {
     const requiredCount = run?.mission.objectives.length ?? 5;
     const hints = run?.hintsUsed ?? this.extractHints(entry);
     const seed = run?.seed ?? entry.id.replace("procedural-summary-", "");
-    const focus = run?.focus.find((item) => ["matematica", "italiano", "inglese", "elettronica", "coding"].includes(item)) ?? "libera";
+    const focus = run?.focus.find((item) => ["matematica", "italiano", "inglese", "elettronica", "coding", "musica"].includes(item)) ?? "libera";
     const elapsed = run?.completedAt ? new Date(run.completedAt).getTime() - new Date(run.startedAt).getTime() : 0;
     return {
       ...entry,

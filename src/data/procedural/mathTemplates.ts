@@ -195,11 +195,11 @@ export const mathTemplates: MathTemplate[] = [
       const average = Math.round((s1 + s2 + s3) / 3);
       const code = average + c;
       return {
-        prompt: `Tre sensori leggono ${s1}, ${s2} e ${s3}. Il codice è la media arrotondata all'intero più vicino, poi +${c} per compensare la dispersione. Quale codice inserisci?`,
+        prompt: `Tre sensori leggono ${s1}, ${s2} e ${s3}. Il codice è la media arrotondata all'intero più vicino; se finisse con ,5 si arrotonda all'intero superiore. Poi aggiungi ${c} per compensare la dispersione. Quale codice inserisci?`,
         answer: code,
         hints: [
           "Prima somma le tre letture: non scegliere il sensore più alto.",
-          "Dividi la somma per 3 e arrotonda solo dopo aver diviso.",
+          "Dividi la somma per 3 e arrotonda solo dopo aver diviso, usando la regola indicata.",
           `La compensazione +${c} arriva alla fine.`,
         ],
         steps: [
@@ -1129,11 +1129,11 @@ export const mathTemplates: MathTemplate[] = [
       const radius = Math.max(4, c + 3);
       const circumference = 2 * 3 * radius;
       return {
-        prompt: `Un anello circolare ha raggio ${radius}. Usando π ≈ 3, quanto misura circa la circonferenza?`,
+        prompt: `Un anello circolare ha raggio ${radius}. Per questa prova il sistema definisce π = 3. Quale valore numerico ottieni per la circonferenza?`,
         answer: circumference,
         hints: [
           "La circonferenza è 2 x π x r.",
-          "Qui il sistema chiede π approssimato a 3.",
+          "Qui non devi scegliere una stima libera: usa esattamente π = 3.",
           `Calcola 2 x 3 x ${radius}.`,
         ],
         steps: [`2 x 3 x ${radius} = ${circumference}`],
@@ -1277,11 +1277,11 @@ export const mathTemplates: MathTemplate[] = [
     build: (_a, _b, c) => {
       const normal = Math.max(8, c + 7);
       const outlier = normal + 30;
-      const meanWith = Math.round((normal * 4 + outlier) / 5);
+      const meanWith = (normal * 4 + outlier) / 5;
       const meanWithout = normal;
       const difference = meanWith - meanWithout;
       return {
-        prompt: `Cinque letture sono ${normal}, ${normal}, ${normal}, ${normal}, ${outlier}. Di quanto la media con il dato anomalo supera la media delle quattro letture stabili?`,
+        prompt: `Cinque letture sono ${normal}, ${normal}, ${normal}, ${normal}, ${outlier}. Usa la media esatta, senza arrotondare. Di quanto la media con il dato anomalo supera la media delle quattro letture stabili?`,
         answer: difference,
         hints: [
           "Le quattro letture stabili hanno media uguale al loro valore.",

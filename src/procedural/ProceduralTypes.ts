@@ -8,9 +8,10 @@ export type ProceduralSpecialization =
   | "italiano"
   | "inglese"
   | "elettronica"
-  | "coding";
+  | "coding"
+  | "musica";
 
-export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot";
+export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot" | "music";
 export type ProceduralRunMode = "mission" | "training";
 
 export type PedagogicalFocus =
@@ -273,6 +274,33 @@ export type GeneratedEnglishPuzzle = {
   glossary?: Array<{ term: string; meaning: string }>;
 };
 
+export type MusicClef = "treble" | "bass";
+export type MusicNoteName = "Do" | "Re" | "Mi" | "Fa" | "Sol" | "La" | "Si";
+
+export type GeneratedMusicPuzzle = {
+  id: string;
+  title: string;
+  clef: MusicClef;
+  noteName: MusicNoteName;
+  octave: number;
+  staffPosition: number;
+  ledgerLines: number[];
+  timeLimitMs: number;
+  choices: Array<{
+    id: string;
+    label: string;
+    isCorrect: boolean;
+    feedback: string;
+  }>;
+  hints: string[];
+  competencies: string[];
+  difficultyLabel: string;
+  learningPurpose: string;
+  method: string;
+  methodSteps: string[];
+  conceptTags: string[];
+};
+
 export type GeneratedRoomHotspot = {
   id: string;
   label: string;
@@ -305,6 +333,7 @@ export type GeneratedMission = {
     circuit: GeneratedCircuitPuzzle;
     language: GeneratedLanguagePuzzle;
     english: GeneratedEnglishPuzzle;
+    music: GeneratedMusicPuzzle;
   };
   focusChallenges?: GeneratedFocusChallenge[];
   rewards: MissionReward[];
@@ -351,6 +380,14 @@ export type GeneratedFocusChallenge =
       description: string;
       difficultyStep: number;
       puzzle: GeneratedRobotPuzzle;
+    }
+  | {
+      id: string;
+      kind: "music";
+      title: string;
+      description: string;
+      difficultyStep: number;
+      puzzle: GeneratedMusicPuzzle;
     };
 
 export type ProceduralPuzzleScore = {

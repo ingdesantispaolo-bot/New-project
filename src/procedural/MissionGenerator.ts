@@ -49,6 +49,7 @@ export class MissionGenerator {
               ...puzzles.circuit.competencies,
               ...puzzles.language.competencies,
               ...puzzles.english.competencies,
+              ...puzzles.music.competencies,
             ]),
       ]),
     );
@@ -95,6 +96,12 @@ export class MissionGenerator {
           description: path.objectives.robot.description,
           competencies: puzzles.robot.competencies,
         },
+        {
+          id: "procedural-music",
+          label: path.objectives.music.label,
+          description: path.objectives.music.description,
+          competencies: puzzles.music.competencies,
+        },
       ],
       map,
       puzzles,
@@ -125,6 +132,7 @@ export class MissionGenerator {
     if (focus.includes("inglese")) return "inglese";
     if (focus.includes("elettronica")) return "elettronica";
     if (focus.includes("coding")) return "coding";
+    if (focus.includes("musica")) return "musica";
     return "libera";
   }
 }

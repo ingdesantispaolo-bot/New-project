@@ -17,10 +17,11 @@ export class MathPuzzleGenerator {
     const b = random.integer(3, 6 + difficulty.mathComplexity * 2);
     const c = random.integer(2, 4 + difficulty.mathComplexity);
     const built = template.build(a, b, c);
+    const responseRule = "Formato risposta: inserisci un solo numero intero. Se il testo indica una regola di arrotondamento, usa solo quella regola.";
     return {
       id: `math-${template.id}`,
       title: template.title,
-      prompt: `Situazione: ${template.narrative}\nRichiesta: ${built.prompt}`,
+      prompt: `Situazione: ${template.narrative}\nRichiesta: ${built.prompt}\n${responseRule}`,
       answer: built.answer,
       hints: built.hints,
       archetype: template.archetype,
@@ -38,7 +39,7 @@ export class MathPuzzleGenerator {
     return {
       id: "math-fallback",
       title: "Serratura stabile",
-      prompt: "Il codice è il triplo di 8, meno 5.",
+      prompt: "Situazione: La serratura accetta solo un codice numerico intero.\nRichiesta: Il codice è il triplo di 8, meno 5.\nFormato risposta: inserisci un solo numero intero.",
       answer: 19,
       hints: ["Triplo di 8 significa 8 x 3.", "Dopo il triplo togli 5."],
       archetype: "calcolo-diretto",

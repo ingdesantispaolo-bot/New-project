@@ -1,6 +1,6 @@
 import type { ProceduralSpecialization } from "../../procedural/ProceduralTypes";
 
-type FocusPuzzleId = "language" | "circuit" | "math" | "english" | "robot";
+type FocusPuzzleId = "language" | "circuit" | "math" | "english" | "robot" | "music";
 
 type FocusChallengeStage = {
   label: string;
@@ -62,6 +62,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Terminale numerico", description: "La serratura calcola energia, non accetta numeri tentati a caso." },
       english: { label: "Modulo inglese", description: "Un comando operativo arriva dall'ala esterna dell'Accademia." },
       robot: { label: "Robot riconfigurato", description: "Il robot deve raggiungere chiave e uscita nella griglia generata." },
+      music: { label: "Armonizzatore", description: "Un pentagramma instabile richiede di riconoscere la nota corretta." },
     },
     objectives: {
       language: { label: "Stabilizza il segnale", description: "Ripara il messaggio tecnico senza perdere il senso operativo." },
@@ -69,6 +70,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Calcola il codice", description: "Ricostruisci il codice del terminale seguendo la traccia numerica." },
       english: { label: "Decodifica il comando esterno", description: "Esegui solo l'azione autorizzata dall'istruzione inglese." },
       robot: { label: "Guida il robot alla chiave", description: "Costruisci una sequenza coerente nella griglia generata." },
+      music: { label: "Riconosci la nota", description: "Leggi la nota sul pentagramma prima che il segnale svanisca." },
     },
   },
   matematica: {
@@ -105,6 +107,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Cuore di calcolo", description: "Il terminale genera una regola numerica validata: non si apre per tentativi." },
       english: { label: "Protocollo esterno", description: "Un breve comando inglese stabilisce l'ordine sicuro delle operazioni." },
       robot: { label: "Carrello automatico", description: "Il robot trasporta la chiave lungo una griglia che richiede pianificazione." },
+      music: { label: "Sequenza sonora", description: "Una nota sul pentagramma calibra il ritmo delle macchine." },
     },
     objectives: {
       language: { label: "Filtra il log dati", description: "Distingui informazione utile e rumore linguistico." },
@@ -112,6 +115,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Risolvi la regola centrale", description: "Usa più passaggi, vincoli o operazioni inverse per ottenere il codice." },
       english: { label: "Esegui il protocollo", description: "Interpreta l'istruzione operativa senza invertire ordine o condizione." },
       robot: { label: "Muovi il carrello", description: "Trasforma la pianificazione in una sequenza di comandi." },
+      music: { label: "Leggi la nota", description: "Riconosci posizione e ottava sul pentagramma." },
     },
   },
   italiano: {
@@ -148,6 +152,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Indice numerico", description: "Il codice ordina l'archivio e richiede controllo dei passaggi." },
       english: { label: "Nota bilingue", description: "Un comando inglese breve va letto come istruzione, non tradotto parola per parola." },
       robot: { label: "Archivista robotico", description: "Il robot recupera una chiave seguendo un piano coerente." },
+      music: { label: "Archivio sonoro", description: "Il pentagramma contiene una nota da catalogare con precisione." },
     },
     objectives: {
       language: { label: "Ripara il messaggio centrale", description: "Correggi accordi, connettivi e riferimenti senza perdere il significato." },
@@ -155,6 +160,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Ordina l'indice", description: "Ricostruisci il codice che cataloga il registro." },
       english: { label: "Decifra la nota bilingue", description: "Individua azione, oggetto e condizione nel comando inglese." },
       robot: { label: "Recupera il fascicolo", description: "Programma il robot per raggiungere il documento chiave." },
+      music: { label: "Classifica la nota", description: "Leggi chiave, riga o spazio e ottava." },
     },
   },
   inglese: {
@@ -191,6 +197,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Codice di accesso", description: "Il terminale richiede un valore coerente prima di trasmettere l'ordine." },
       english: { label: "Console dei comandi", description: "L'istruzione inglese decide quale azione è autorizzata e quale è vietata." },
       robot: { label: "Unità esecutiva", description: "Il robot applica una sequenza dopo aver ricevuto il comando corretto." },
+      music: { label: "Segnale musicale", description: "La console mostra una nota che va letta prima della trasmissione." },
     },
     objectives: {
       language: { label: "Allinea il registro", description: "Ripara il messaggio italiano che contestualizza il comando esterno." },
@@ -198,6 +205,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Calibra il codice", description: "Ottieni il valore richiesto dalla procedura di accesso." },
       english: { label: "Interpreta il comando", description: "Distingui azione, ordine temporale, divieto e condizione." },
       robot: { label: "Esegui l'ordine", description: "Guida il robot secondo una sequenza coerente." },
+      music: { label: "Identifica la nota", description: "Riconosci la nota sul pentagramma come segnale ausiliario." },
     },
   },
   elettronica: {
@@ -234,6 +242,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Misuratore numerico", description: "Il terminale richiede una lettura calcolata del sistema." },
       english: { label: "Etichetta di sicurezza", description: "L'istruzione inglese può vietare una manovra rischiosa." },
       robot: { label: "Drone di manutenzione", description: "Il robot porta un attrezzo solo se la sequenza è corretta." },
+      music: { label: "Oscilloscopio musicale", description: "Una nota calibrata stabilizza il segnale del banco." },
     },
     objectives: {
       language: { label: "Leggi il manuale", description: "Ripara la frase tecnica che descrive il sintomo." },
@@ -241,6 +250,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Calcola la lettura", description: "Ricostruisci il valore richiesto dal misuratore." },
       english: { label: "Applica l'etichetta", description: "Segui l'istruzione di sicurezza in inglese." },
       robot: { label: "Invia manutenzione", description: "Programma il robot per recuperare l'attrezzo necessario." },
+      music: { label: "Calibra la nota", description: "Leggi la nota sul pentagramma per allineare il segnale." },
     },
   },
   coding: {
@@ -277,6 +287,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Coordinate cifrate", description: "Il terminale calcola un codice legato alla rotta." },
       english: { label: "Comando remoto", description: "L'istruzione inglese stabilisce quando inviare il robot." },
       robot: { label: "Griglia di missione", description: "La griglia generata richiede pianificazione, non tentativi casuali." },
+      music: { label: "Modulo di scansione", description: "Una nota sul pentagramma scandisce l'avvio del percorso." },
     },
     objectives: {
       language: { label: "Ripara il log robot", description: "Rendi chiaro il messaggio che descrive la rotta." },
@@ -284,13 +295,59 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Calcola le coordinate", description: "Ottieni il codice che sincronizza la griglia." },
       english: { label: "Leggi il comando remoto", description: "Interpreta condizione e ordine operativo." },
       robot: { label: "Programma la rotta", description: "Costruisci una sequenza corretta, breve e verificabile." },
+      music: { label: "Leggi il segnale", description: "Riconosci nota, chiave e posizione prima dell'esecuzione." },
+    },
+  },
+  musica: {
+    id: "musica",
+    label: "Percorso Musica",
+    title: "Osservatorio del Pentagramma",
+    chamberTitle: "Sala delle Risonanze",
+    roomTitles: ["Sala delle Chiavi", "Osservatorio delle Linee", "Galleria delle Note Alte", "Camera delle Note Profonde"],
+    introFragments: [
+      "NORA apre una sala silenziosa: qui ogni porta vibra solo quando Eli riconosce la nota scritta sul pentagramma.",
+      "Le pareti mostrano chiavi di violino e basso. Il sistema non chiede memoria: chiede posizione, chiave e controllo dell'ottava.",
+      "Un pentagramma luminoso attraversa la stanza. Le note sopra e sotto le linee sono segnali da leggere con calma e precisione.",
+    ],
+    sideNote: "Il percorso privilegia lettura del pentagramma; il riconoscimento dal suono resta una sfida avanzata da sbloccare dopo.",
+    ruleTitle: "Regola della risonanza",
+    ruleText: "Guarda prima la chiave, poi conta linee e spazi. Le linee addizionali sopra e sotto cambiano posizione e spesso ottava.",
+    stageHint: "Percorso musica: ogni console mostra una nota diversa. Il tempo scende con il livello, ma puoi usare indizi per ragionare.",
+    primaryPuzzle: "music",
+    challengeStages: [
+      { label: "Chiave di violino", description: "Riconosci note interne al pentagramma in chiave di violino." },
+      { label: "Spazi e linee", description: "Distingui righe e spazi senza saltare passaggi." },
+      { label: "Chiave di basso", description: "Leggi note in chiave di basso usando il Fa come riferimento." },
+      { label: "Linee addizionali", description: "Riconosci note sopra e sotto il pentagramma controllando l'ottava." },
+      { label: "Lettura rapida", description: "Alterna chiavi e note estreme con tempo ridotto." },
+    ],
+    badge: {
+      badgeId: "lettrice-del-pentagramma",
+      label: "Lettrice del Pentagramma",
+      description: "Ha riconosciuto note in chiave di violino, basso e linee addizionali.",
+    },
+    hotspots: {
+      language: { label: "Registro ritmico", description: "Il testo descrive una regola di lettura da non confondere." },
+      circuit: { label: "Amplificatore", description: "Il circuito alimenta il banco sonoro." },
+      math: { label: "Metronomo numerico", description: "Il terminale misura intervalli e tempo di risposta." },
+      english: { label: "Etichetta audio", description: "Un comando inglese indica una procedura di ascolto." },
+      robot: { label: "Carrello spartiti", description: "Il robot porta lo spartito corretto." },
+      music: { label: "Pentagramma vivo", description: "La nota va riconosciuta da posizione, chiave e linee addizionali." },
+    },
+    objectives: {
+      language: { label: "Leggi la regola", description: "Capisci l'istruzione testuale che spiega il pentagramma." },
+      circuit: { label: "Accendi l'amplificatore", description: "Stabilizza l'energia del banco sonoro." },
+      math: { label: "Sincronizza il metronomo", description: "Calcola una soglia di tempo o ritmo." },
+      english: { label: "Decodifica l'etichetta", description: "Interpreta un comando operativo audio in inglese." },
+      robot: { label: "Recupera lo spartito", description: "Programma il robot verso la partitura." },
+      music: { label: "Riconosci la nota", description: "Identifica la nota sul pentagramma entro il tempo previsto." },
     },
   },
 };
 
 export function getProceduralFocusPath(focus: string[] = []): ProceduralFocusPath {
   const key = focus.find((item): item is ProceduralSpecialization =>
-    ["matematica", "italiano", "inglese", "elettronica", "coding", "libera"].includes(item),
+    ["matematica", "italiano", "inglese", "elettronica", "coding", "musica", "libera"].includes(item),
   ) ?? "libera";
   return proceduralFocusPaths[key] ?? proceduralFocusPaths.libera;
 }

@@ -163,6 +163,7 @@ const focusVisuals: Record<ProceduralSpecialization, { label: string; marker: st
   inglese: { label: "Focus inglese", marker: "terminali operativi", color: 0x4c7dff },
   elettronica: { label: "Focus elettronica", marker: "banchi circuito", color: 0x6be7d6 },
   coding: { label: "Focus coding", marker: "griglie robotiche", color: 0x70d68a },
+  musica: { label: "Focus musica", marker: "pentagrammi luminosi", color: 0xf7d37a },
 };
 
 export function proceduralVisualThemeFor(run: ProceduralRunSave): ProceduralVisualTheme {

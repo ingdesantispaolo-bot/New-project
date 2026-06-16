@@ -16,6 +16,7 @@ export type DeviceKind =
   | "terminal"
   | "language"
   | "english"
+  | "music"
   | "robot"
   | "door"
   | "journal"

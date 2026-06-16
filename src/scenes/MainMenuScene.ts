@@ -17,6 +17,7 @@ const focusOptions: Array<{ id: ProceduralSpecialization; label: string }> = [
   { id: "inglese", label: "Focus inglese" },
   { id: "elettronica", label: "Focus circuiti" },
   { id: "coding", label: "Focus coding" },
+  { id: "musica", label: "Focus musica" },
 ];
 
 const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
@@ -139,15 +140,15 @@ export class MainMenuScene extends Phaser.Scene {
       lineSpacing: 4,
     });
     focusOptions.forEach((focus, index) => {
-      const x = 926 + (index % 2) * 188;
-      const y = 354 + Math.floor(index / 2) * 58;
+      const x = 884 + (index % 3) * 122;
+      const y = 354 + Math.floor(index / 3) * 58;
       new Button(this, x, y, focus.label, () => {
         this.startFocusTraining(focus.id);
       }, {
-        width: 166,
+        width: 114,
         height: 44,
         fill: focus.id === "libera" ? 0x263743 : 0x173b36,
-        fontSize: 13,
+        fontSize: 11,
       });
     });
 

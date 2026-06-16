@@ -5,6 +5,7 @@ import type {
   GeneratedLanguagePuzzle,
   GeneratedMathPuzzle,
   GeneratedMission,
+  GeneratedMusicPuzzle,
   GeneratedRobotPuzzle,
 } from "../ProceduralTypes";
 
@@ -21,6 +22,7 @@ export class ChallengeQualityValidator {
       this.validateCircuit(mission.puzzles.circuit, difficulty),
       this.validateLanguage(mission.puzzles.language),
       this.validateEnglish(mission.puzzles.english),
+      this.validateMusic(mission.puzzles.music),
     ];
     const reasons = reports.flatMap((report) => report.reasons);
     return { valid: reasons.length === 0, reasons };
@@ -29,6 +31,7 @@ export class ChallengeQualityValidator {
   validateMath(puzzle: GeneratedMathPuzzle, difficulty: DifficultyPreset): ChallengeQualityReport {
     const reasons: string[] = [];
     const steps = puzzle.solutionSteps?.length ?? 0;
+    const asksRounding = /arrotond/i.test(puzzle.prompt);
     if (steps < Math.min(3, Math.max(2, difficulty.mathComplexity))) {
       reasons.push("math: meno di 2-3 passaggi cognitivi");
     }
@@ -43,6 +46,12 @@ export class ChallengeQualityValidator {
     }
     if (!puzzle.prompt.includes("Situazione:") || !puzzle.prompt.includes("Richiesta:")) {
       reasons.push("math: formulazione non separa contesto e richiesta");
+    }
+    if (!Number.isInteger(puzzle.answer) || !/numero intero/i.test(puzzle.prompt)) {
+      reasons.push("math: risposta numerica non esplicitamente intera");
+    }
+    if (asksRounding && !/,5|superiore|inferiore|regola indicata|senza arrotondare/i.test(puzzle.prompt)) {
+      reasons.push("math: arrotondamento non univoco");
     }
     return { valid: reasons.length === 0, reasons };
   }
@@ -60,6 +69,13 @@ export class ChallengeQualityValidator {
     }
     if ((puzzle.challengeType === "checkpoint-order" || puzzle.challengeType === "pattern-routing") && (puzzle.checkpoints?.length ?? 0) === 0) {
       reasons.push("robot: sfida checkpoint senza checkpoint");
+    }
+    if (
+      puzzle.solutionCommands.filter((command) => command === "PICK_UP").length !== 1
+      || puzzle.solutionCommands.filter((command) => command === "EXIT").length !== 1
+      || puzzle.solutionCommands[puzzle.solutionCommands.length - 1] !== "EXIT"
+    ) {
+      reasons.push("robot: soluzione senza raccolta unica e uscita finale chiara");
     }
     if (puzzle.challengeType === "debug-program" && (!puzzle.buggedCommands || puzzle.buggedCommands.join(",") === puzzle.solutionCommands.join(","))) {
       reasons.push("robot: debug senza programma guasto plausibile");
@@ -118,7 +134,8 @@ export class ChallengeQualityValidator {
   validateEnglish(puzzle: GeneratedEnglishPuzzle): ChallengeQualityReport {
     const reasons: string[] = [];
     const correctCount = puzzle.choices.filter((choice) => choice.isCorrect).length;
-    if (puzzle.choices.length < 3 || correctCount !== 1) {
+    const uniqueLabels = new Set(puzzle.choices.map((choice) => choice.label));
+    if (puzzle.choices.length < 3 || correctCount !== 1 || uniqueLabels.size !== puzzle.choices.length) {
       reasons.push("english: distrattori non validi");
     }
     if (puzzle.choices.some((choice) => choice.feedback.length < 20)) {
@@ -138,6 +155,25 @@ export class ChallengeQualityValidator {
     }
     if ((puzzle.challengeType === "procedure-debug" || puzzle.challengeType === "inference") && !puzzle.sourceText) {
       reasons.push("english: sfida testuale senza log o testo sorgente");
+    }
+    return { valid: reasons.length === 0, reasons };
+  }
+
+  validateMusic(puzzle: GeneratedMusicPuzzle): ChallengeQualityReport {
+    const reasons: string[] = [];
+    const correctCount = puzzle.choices.filter((choice) => choice.isCorrect).length;
+    const uniqueLabels = new Set(puzzle.choices.map((choice) => choice.label));
+    if (puzzle.choices.length < 4 || correctCount !== 1 || uniqueLabels.size !== puzzle.choices.length) {
+      reasons.push("music: servono quattro opzioni uniche e una sola risposta corretta");
+    }
+    if (puzzle.hints.length < 3 || !puzzle.learningPurpose || !puzzle.method || puzzle.methodSteps.length < 3) {
+      reasons.push("music: mancano indizi, scopo o metodo di lettura");
+    }
+    if (puzzle.timeLimitMs < 6_000 || puzzle.timeLimitMs > 24_000) {
+      reasons.push("music: tempo di risposta fuori range didattico");
+    }
+    if ((puzzle.staffPosition <= -2 || puzzle.staffPosition >= 10) && puzzle.ledgerLines.length === 0) {
+      reasons.push("music: nota esterna senza linee addizionali");
     }
     return { valid: reasons.length === 0, reasons };
   }

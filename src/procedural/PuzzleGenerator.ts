@@ -2,6 +2,7 @@ import { CircuitFaultGenerator } from "./generators/CircuitFaultGenerator";
 import { EnglishInstructionGenerator } from "./generators/EnglishInstructionGenerator";
 import { LanguageCorruptionGenerator } from "./generators/LanguageCorruptionGenerator";
 import { MathPuzzleGenerator } from "./generators/MathPuzzleGenerator";
+import { MusicNoteGenerator } from "./generators/MusicNoteGenerator";
 import { RobotGridGenerator } from "./generators/RobotGridGenerator";
 import { exerciseDirector } from "../core/ExerciseDirector";
 import type { DifficultyPreset, GeneratedFocusChallenge, GeneratedMission, ProceduralPuzzleKind, RobotChallengeType } from "./ProceduralTypes";
@@ -15,6 +16,7 @@ import { RobotPuzzleValidator } from "./validators/RobotPuzzleValidator";
 export class PuzzleGenerator {
   private mathGenerator = new MathPuzzleGenerator();
   private robotGenerator = new RobotGridGenerator();
+  private musicGenerator = new MusicNoteGenerator();
   private circuitGenerator = new CircuitFaultGenerator();
   private languageGenerator = new LanguageCorruptionGenerator();
   private englishGenerator = new EnglishInstructionGenerator();
@@ -31,11 +33,13 @@ export class PuzzleGenerator {
     const circuitRandom = random.fork("circuit");
     const languageRandom = random.fork("language");
     const englishRandom = random.fork("english");
+    const musicRandom = random.fork("music");
     const mathDifficulty = this.boostForFocus(difficulty, focus, "matematica");
     const robotDifficulty = this.boostForFocus(difficulty, focus, "coding");
     const circuitDifficulty = this.boostForFocus(difficulty, focus, "elettronica");
     const languageLevel = this.levelForFocus(difficulty.level, focus, "italiano");
     const englishLevel = this.levelForFocus(difficulty.level, focus, "inglese");
+    const musicLevel = this.levelForFocus(difficulty.level, focus, "musica");
 
     const math = this.validationEngine.generateWithRetries(
         () => this.mathGenerator.generate(mathRandom, mathDifficulty),
@@ -67,6 +71,7 @@ export class PuzzleGenerator {
         (puzzle) => this.languageValidator.validateEnglish(puzzle),
         this.englishGenerator.fallback(),
       ),
+      music: this.musicGenerator.generate(musicRandom, musicLevel),
     };
   }
 
@@ -110,6 +115,10 @@ export class PuzzleGenerator {
           (candidate) => this.languageValidator.validateEnglish(candidate),
           this.englishGenerator.fallback(),
         );
+        return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
+      }
+      if (kind === "music") {
+        const puzzle = this.musicGenerator.generate(challengeRandom, stagedDifficulty.level);
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
       if (kind === "circuit") {
@@ -192,6 +201,7 @@ export class PuzzleGenerator {
       circuit: "elettronica",
       math: "matematica",
       english: "inglese",
+      music: "musica",
       robot: "coding",
     }[kind];
   }
@@ -228,11 +238,11 @@ export class PuzzleGenerator {
 
   private englishTemplatesForStep(step: number): string[] {
     return [
-      ["green-not-red", "small-key", "main-switch", "where-is-core", "who-can-open"],
-      ["left-before-blue", "inspect-record-reset", "measure-before-switch", "simple-vs-now", "past-log-today", "some-any-fuses"],
-      ["procedure-debug-charge", "sensor-below-threshold", "at-least-three-pulses", "frequency-adverbs"],
-      ["only-if-stable", "compare-two-signals", "neither-red-nor-yellow", "replace-only-damaged", "which-route-safest", "relative-drawer", "going-to-scan"],
-      ["cause-report", "between-limits", "unless-blue-blinks", "until-door-unlocks", "not-until-pressure-drops", "must-should-cable", "may-must-not", "passive-reattach-wire", "pronoun-reference"],
+      ["green-not-red", "small-key", "main-switch", "where-is-core", "who-can-open", "possessive-their-its", "movement-prepositions-route"],
+      ["left-before-blue", "inspect-record-reset", "measure-before-switch", "simple-vs-now", "past-log-today", "some-any-fuses", "much-many-supplies", "present-perfect-already-yet"],
+      ["procedure-debug-charge", "sensor-below-threshold", "at-least-three-pulses", "frequency-adverbs", "first-conditional-alarm", "zero-conditional-rule", "adverbs-manner-safety"],
+      ["only-if-stable", "compare-two-signals", "neither-red-nor-yellow", "replace-only-damaged", "which-route-safest", "relative-drawer", "going-to-scan", "past-vs-present-perfect-log", "although-however-report", "main-idea-log", "detail-not-mentioned", "question-formation-why", "relative-where-lab"],
+      ["cause-report", "between-limits", "unless-blue-blinks", "until-door-unlocks", "not-until-pressure-drops", "must-should-cable", "may-must-not", "passive-reattach-wire", "pronoun-reference", "as-as-comparison", "passive-simple-past", "have-to-vs-can", "word-formation-re-over", "scientific-observation-evidence", "reported-warning", "either-neither-tool", "multi-clause-mission-order", "email-register-formal"],
     ][Math.min(step, 4)];
   }
 

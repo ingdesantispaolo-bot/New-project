@@ -10,6 +10,8 @@ import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { circuitFaultTemplates } from "../data/procedural/circuitTemplates";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
+import { MusicNoteGenerator } from "../procedural/generators/MusicNoteGenerator";
+import { Random } from "../procedural/Random";
 import type {
   CircuitFaultType,
   DifficultyLevel,
@@ -64,6 +66,14 @@ const repairLabels: Record<CircuitFaultType, string> = {
   "loose-ground": "Fissa massa",
 };
 
+type MusicTrainingSession = {
+  puzzleId: string;
+  puzzles: GeneratedMusicPuzzle[];
+  index: number;
+  correct: number;
+  questionStartedAt: number;
+};
+
 export class ProceduralMissionScene extends Phaser.Scene {
   private run!: ProceduralRunSave;
   private dependencies = new MissionDependencyGraph();
@@ -90,7 +100,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private robotOrigin = { x: 130, y: 118 };
   private robotCellSize = 48;
   private musicTimerEvent?: Phaser.Time.TimerEvent;
+  private musicSession?: MusicTrainingSession;
+  private readonly musicGenerator = new MusicNoteGenerator();
   private missionFailureInProgress = false;
+  private timeoutSolutionOpen = false;
 
   constructor() {
     super("ProceduralMissionScene");
@@ -1662,25 +1675,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private openMusic(): void {
-    const puzzle = this.currentMusicPuzzle();
     const puzzleId = this.currentPuzzleId("music");
-    const overlay = this.createOverlay(puzzle.title, 642, { x: 40, y: 48, width: 1200 });
-    overlay.add(this.add.text(56, 76, `${puzzle.difficultyLabel.toUpperCase()} | Tempo massimo: ${formatDuration(puzzle.timeLimitMs)}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(56, 104, this.musicPromptText(puzzle), {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 1090 },
-      lineSpacing: 4,
-    }));
-    this.drawMusicStaff(overlay, puzzle, 330, 312);
-    this.drawMusicSupport(overlay, puzzle);
-    const timerText = this.add.text(900, 150, "", {
+    const session = this.ensureMusicSession(puzzleId);
+    const puzzle = session.puzzles[session.index];
+    const overlay = this.createOverlay("Osservatorio del Pentagramma", 660, { x: 32, y: 28, width: 1216 });
+    this.drawMusicSessionHeader(overlay, puzzle, session);
+    this.drawMusicStaff(overlay, puzzle, 350, 328);
+    this.drawMusicSupport(overlay, puzzle, session);
+    const timerText = this.add.text(922, 152, "", {
       fontFamily: "Inter, Arial",
       fontSize: "18px",
       color: "#f7d37a",
@@ -1690,30 +1692,89 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.startMusicCountdown(puzzleId, puzzle, timerText);
 
     puzzle.choices.forEach((choice, index) => {
-      const x = 760 + (index % 2) * 260;
-      const y = 412 + Math.floor(index / 2) * 70;
+      const x = 794 + (index % 2) * 244;
+      const y = 418 + Math.floor(index / 2) * 72;
       overlay.add(new Button(this, x, y, choice.label, () => {
         if (this.musicTimeExpired(puzzleId, puzzle)) {
-          this.handlePuzzleTimeout("Tempo scaduto: la nota va riconosciuta entro il tempo del livello. Usa la chiave come ancora, poi conta linee e spazi.");
+          this.handlePuzzleTimeout(
+            "Tempo scaduto: la nota va riconosciuta entro il tempo del livello. Usa la chiave come ancora, poi conta linee e spazi.",
+            this.musicSolutionLines(puzzle),
+            () => this.advanceMusicSession(false),
+          );
           return;
         }
         if (choice.isCorrect) {
-          this.solvePuzzle(puzzleId, puzzle.competencies);
+          this.advanceMusicSession(true);
           return;
         }
-        this.handleMusicMistake(choice.feedback);
-      }, { width: 230, height: 58, fontSize: puzzle.answerMode === "note-name" ? 22 : 16, fill: 0x263743, hoverFill: 0x23556a, hitPadding: 18 }));
+        this.handlePuzzleTimeout(
+          choice.feedback,
+          this.musicSolutionLines(puzzle),
+          () => this.advanceMusicSession(false),
+        );
+      }, {
+        width: 218,
+        height: 60,
+        fontSize: puzzle.answerMode === "note-name" ? 22 : 15,
+        fill: 0x263743,
+        hoverFill: 0x23556a,
+        hitPadding: 18,
+      }));
     });
 
-    this.addMethodStrip(overlay, 56, 572, 520, "Metodo", puzzle.methodSteps);
-    overlay.add(new Button(this, 900, 582, "Indizio di lettura", () => {
+    this.addMethodStrip(overlay, 56, 586, 550, "Metodo", puzzle.methodSteps);
+    overlay.add(new Button(this, 918, 598, "Indizio di lettura", () => {
       this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
       this.openMusic();
-    }, { width: 280, height: 44, fontSize: 14, fill: 0x263743 }));
+    }, { width: 300, height: 46, fontSize: 14, fill: 0x263743, hitPadding: 18 }));
+  }
+
+  private drawMusicSessionHeader(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMusicPuzzle,
+    session: MusicTrainingSession,
+  ): void {
+    overlay.add(this.add.rectangle(608, 92, 1128, 84, 0x06131c, 0.64).setStrokeStyle(1, 0x6be7d6, 0.22));
+    overlay.add(this.add.text(56, 66, `${puzzle.difficultyLabel.toUpperCase()} | Nota ${session.index + 1}/5 | Tempo: ${formatDuration(puzzle.timeLimitMs)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(56, 96, this.musicPromptText(puzzle), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 850 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(970, 70, `Corrette: ${session.correct}/${session.index}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    for (let index = 0; index < 5; index += 1) {
+      const stateColor = index < session.index
+        ? 0xf7d37a
+        : index === session.index
+          ? 0x6be7d6
+          : 0x344b58;
+      overlay.add(this.add.circle(904 + index * 34, 110, 9, stateColor, index <= session.index ? 0.92 : 0.48)
+        .setStrokeStyle(1, 0xffffff, index === session.index ? 0.36 : 0.1));
+      overlay.add(this.add.text(904 + index * 34, 127, String(index + 1), {
+        fontFamily: "Inter, Arial",
+        fontSize: "9px",
+        color: "#c7dce7",
+      }).setOrigin(0.5));
+    }
   }
 
   private drawMusicStaff(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
-    overlay.add(this.add.rectangle(centerX, centerY, 580, 318, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
+    overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
+    overlay.add(this.add.image(centerX, centerY, "soft-glow").setTint(0x6be7d6).setAlpha(0.08).setScale(4.2, 2.2));
+    overlay.add(this.add.rectangle(centerX, centerY - 2, 536, 190, 0x02070b, 0.28).setStrokeStyle(1, 0xf7d37a, 0.12));
     overlay.add(this.add.text(centerX - 260, centerY - 142, puzzle.clef === "treble" ? "Chiave di violino" : "Chiave di basso", {
       fontFamily: "Inter, Arial",
       fontSize: "16px",
@@ -1726,8 +1787,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const topY = centerY - 58;
     for (let index = 0; index < 5; index += 1) {
       const y = topY + index * lineSpacing;
-      overlay.add(this.add.rectangle((staffLeft + staffRight) / 2, y, staffRight - staffLeft, 2, 0x9ff5e9, 0.78));
+      overlay.add(this.add.rectangle((staffLeft + staffRight) / 2, y, staffRight - staffLeft, 2, 0x9ff5e9, 0.86));
     }
+    const guideY = puzzle.clef === "bass" ? topY + lineSpacing : topY + lineSpacing * 3;
+    overlay.add(this.add.rectangle((staffLeft + staffRight) / 2, guideY, staffRight - staffLeft, 4, 0xf7d37a, 0.16));
     const clefAnchorY = puzzle.clef === "bass" ? topY + lineSpacing : topY + lineSpacing * 3;
     this.drawMusicClef(overlay, puzzle.clef, staffLeft + 46, clefAnchorY);
     const noteX = centerX + 96;
@@ -1758,34 +1821,87 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
   }
 
-  private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle): void {
-    overlay.add(this.add.rectangle(900, 280, 500, 206, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(668, 196, "Come ragionare", {
+  private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, session: MusicTrainingSession): void {
+    overlay.add(this.add.rectangle(916, 282, 508, 206, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(682, 196, `Come ragionare - nota ${session.index + 1}`, {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(668, 224, puzzle.method, {
+    overlay.add(this.add.text(682, 224, puzzle.method, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
-      wordWrap: { width: 450 },
+      wordWrap: { width: 456 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(668, 310, `Scopo: ${puzzle.learningPurpose}`, {
+    overlay.add(this.add.text(682, 310, `Scopo: ${puzzle.learningPurpose}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
-      wordWrap: { width: 450 },
+      wordWrap: { width: 456 },
       lineSpacing: 3,
     }));
-    overlay.add(this.add.text(668, 366, puzzle.conceptTags.map((tag) => `#${tag}`).join("  "), {
+    overlay.add(this.add.text(682, 366, puzzle.conceptTags.map((tag) => `#${tag}`).join("  "), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
-      wordWrap: { width: 450 },
+      wordWrap: { width: 456 },
     }));
+  }
+
+  private ensureMusicSession(puzzleId: string): MusicTrainingSession {
+    if (this.musicSession?.puzzleId === puzzleId) {
+      return this.musicSession;
+    }
+    const basePuzzle = this.currentMusicPuzzle();
+    const random = new Random(`${this.run.seed}:${puzzleId}:music-drill`);
+    const puzzles = [basePuzzle];
+    for (let index = 1; index < 5; index += 1) {
+      const level = Math.min(8, Math.max(1, this.run.difficulty + Math.floor(index / 2))) as DifficultyLevel;
+      puzzles.push(this.musicGenerator.generate(random.fork(`note-${index}`), level));
+    }
+    this.musicSession = {
+      puzzleId,
+      puzzles,
+      index: 0,
+      correct: 0,
+      questionStartedAt: Date.now(),
+    };
+    return this.musicSession;
+  }
+
+  private advanceMusicSession(correct: boolean): void {
+    const session = this.musicSession;
+    const puzzleId = this.currentPuzzleId("music");
+    const puzzle = session?.puzzles[session.index] ?? this.currentMusicPuzzle();
+    this.musicTimerEvent?.remove(false);
+    this.musicTimerEvent = undefined;
+    if (!session || session.puzzleId !== puzzleId) {
+      if (correct) {
+        this.solvePuzzle(puzzleId, puzzle.competencies);
+      }
+      return;
+    }
+    if (correct) {
+      session.correct += 1;
+      audioManager.playOutcome("correct");
+      outcomeFeedback.play(this, "success", `Nota ${session.index + 1}/5`);
+    } else {
+      audioManager.playOutcome("wrong");
+      outcomeFeedback.play(this, "warning", `Nota ${session.index + 1}/5`);
+    }
+    session.index += 1;
+    if (session.index >= session.puzzles.length) {
+      const competencies = Array.from(new Set(session.puzzles.flatMap((item) => item.competencies)));
+      feedbackSystem.publish(`Sessione completata: ${session.correct}/5 note riconosciute. La console registra la sequenza completa.`, session.correct >= 3 ? "success" : "hint");
+      this.musicSession = undefined;
+      this.solvePuzzle(puzzleId, competencies);
+      return;
+    }
+    session.questionStartedAt = Date.now();
+    this.openMusic();
   }
 
   private musicPromptText(puzzle: GeneratedMusicPuzzle): string {
@@ -1800,6 +1916,105 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return "Modalità rapida: conta la posizione e scegli solo il nome della nota. L'ottava verrà allenata nei livelli avanzati.";
     }
     return "Modalità avanzata: stesso nome in registri diversi non basta; controlla anche le linee addizionali per scegliere l'ottava.";
+  }
+
+  private musicSolutionLines(puzzle: GeneratedMusicPuzzle): string[] {
+    const correct = puzzle.choices.find((choice) => choice.isCorrect)?.label ?? puzzle.noteName;
+    const anchor = puzzle.clef === "treble"
+      ? "chiave di violino: parti dal Sol sulla seconda linea"
+      : "chiave di basso: parti dal Fa sulla quarta linea, tra i due puntini";
+    const position = puzzle.staffPosition % 2 === 0 ? "linea" : "spazio";
+    const ledger = puzzle.ledgerLines.length > 0
+      ? `usa anche ${puzzle.ledgerLines.length} linea/e addizionale/i`
+      : "resta dentro il pentagramma";
+    return [
+      `Risposta corretta: ${correct}.`,
+      `Metodo: ${anchor}.`,
+      `La nota si trova su ${position}; ${ledger}.`,
+      puzzle.answerMode === "note-name"
+        ? "In questo livello conta solo il nome della nota, non l'ottava."
+        : "In questo livello devi controllare anche l'ottava, quindi le linee addizionali diventano decisive.",
+    ];
+  }
+
+  private showTimeoutSolution(message: string, solutionLines: string[], onTrainingContinue?: () => void): void {
+    const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
+    const modal = this.add.container(0, 0).setDepth(1300);
+    const width = 700;
+    const height = 292;
+    const x = 250;
+    const y = 190;
+    const mode = proceduralRunRules.modeFor(this.run);
+    const isTimeout = message.toLowerCase().includes("tempo scaduto");
+    modal.add(this.add.rectangle(600, 330, 1280, 720, 0x02070b, 0.62).setInteractive());
+    modal.add(this.add.rectangle(x + width / 2 + 10, y + height / 2 + 12, width, height, 0x000000, 0.34));
+    modal.add(this.add.rectangle(x + width / 2, y + height / 2, width, height, 0x07151d, 0.97)
+      .setStrokeStyle(2, 0xf7d37a, 0.72));
+    modal.add(this.add.text(x + 30, y + 24, isTimeout ? "Tempo scaduto: soluzione guidata" : "Risposta da rivedere: soluzione guidata", {
+      fontFamily: "Inter, Arial",
+      fontSize: "22px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(x + 30, y + 62, message, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: width - 60 },
+      lineSpacing: 4,
+    }));
+    modal.add(this.add.rectangle(x + 30, y + 118, width - 60, 96, 0x102533, 0.82)
+      .setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.3));
+    modal.add(this.add.text(x + 48, y + 132, solutionLines.map((line, index) => `${index + 1}. ${line}`).join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f5fbff",
+      wordWrap: { width: width - 96 },
+      lineSpacing: 5,
+    }));
+    modal.add(this.add.text(x + 30, y + 232, mode === "mission"
+      ? "Quando premi, l'errore verrà registrato e perderai una vita. I sistemi già completati restano validi."
+      : onTrainingContinue
+        ? "Quando premi, passi alla nota successiva della sequenza. La soluzione appena vista resta parte dell'allenamento."
+        : "Quando premi, torni alla sala e puoi riprovare l'esercizio con un nuovo timer.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: 410 },
+      lineSpacing: 3,
+    }));
+    modal.add(new Button(this, x + width - 126, y + height - 42, "Ho capito", () => {
+      modal.destroy(true);
+      this.timeoutSolutionOpen = false;
+      if (mode === "mission") {
+        this.loseMissionLife(message);
+        return;
+      }
+      if (onTrainingContinue) {
+        feedbackSystem.publish(isTimeout
+          ? "Tempo scaduto: soluzione letta. Continua con la nota successiva."
+          : "Risposta rivista: continua con la nota successiva.",
+        "warning");
+        onTrainingContinue();
+        return;
+      }
+      this.discardActivePuzzleAttempt();
+      this.clearOverlay();
+      feedbackSystem.publish(isTimeout
+        ? "Tempo scaduto: soluzione letta. Rientra nella console quando vuoi riprovare."
+        : "Soluzione letta. Rientra nella console quando vuoi riprovare.",
+      "warning");
+      this.scene.restart();
+    }, {
+      width: 174,
+      height: 46,
+      fill: 0x173b36,
+      stroke: 0xf7d37a,
+      fontSize: 16,
+      hitPadding: 18,
+    }));
+    overlay.add(modal);
   }
 
   private drawMusicClef(overlay: Phaser.GameObjects.Container, clef: GeneratedMusicPuzzle["clef"], x: number, y: number): void {
@@ -1831,13 +2046,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.musicTimerEvent?.remove(false);
     const update = (): void => {
       if (!text.active) return;
-      const remaining = Math.max(0, puzzle.timeLimitMs - this.puzzleElapsedMs(puzzleId));
+      const remaining = Math.max(0, puzzle.timeLimitMs - this.musicQuestionElapsedMs(puzzleId));
       text.setText(`Tempo nota: ${formatDuration(remaining)}`);
       text.setColor(remaining < 3_000 ? "#ff8a8a" : "#f7d37a");
       if (remaining <= 0) {
         this.musicTimerEvent?.remove(false);
         this.musicTimerEvent = undefined;
-        this.handlePuzzleTimeout("Tempo scaduto: la console musicale si chiude. Riprova contando dalla chiave e non dal nome della nota.");
+        this.handlePuzzleTimeout(
+          "Tempo scaduto: osserva la soluzione prima di riprovare.",
+          this.musicSolutionLines(puzzle),
+          () => this.advanceMusicSession(false),
+        );
       }
     };
     update();
@@ -1851,7 +2070,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private musicTimeExpired(puzzleId: string, puzzle: GeneratedMusicPuzzle): boolean {
-    return this.puzzleElapsedMs(puzzleId) > puzzle.timeLimitMs;
+    return this.musicQuestionElapsedMs(puzzleId) > puzzle.timeLimitMs;
+  }
+
+  private musicQuestionElapsedMs(puzzleId: string): number {
+    if (this.musicSession?.puzzleId === puzzleId) {
+      return Math.max(0, Date.now() - this.musicSession.questionStartedAt);
+    }
+    return this.puzzleElapsedMs(puzzleId);
   }
 
   private openRobot(): void {
@@ -2218,18 +2444,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return false;
   }
 
-  private handlePuzzleTimeout(message: string): void {
-    this.recordPuzzleMistake();
-    if (proceduralRunRules.modeFor(this.run) === "mission") {
-      this.loseMissionLife(message);
+  private handlePuzzleTimeout(
+    message: string,
+    solutionLines: string[] = ["Soluzione: controlla il dato corretto e riparti dal metodo guidato."],
+    onTrainingContinue?: () => void,
+  ): void {
+    if (this.timeoutSolutionOpen) {
       return;
     }
+    this.timeoutSolutionOpen = true;
+    this.recordPuzzleMistake();
     audioManager.playOutcome("wrong");
-    outcomeFeedback.play(this, "warning", "Tempo scaduto");
-    this.discardActivePuzzleAttempt();
-    this.clearOverlay();
-    feedbackSystem.publish(`${message} L'esercizio resta disponibile: puoi rientrare e riprovare con un timer nuovo.`, "warning");
-    this.time.delayedCall(520, () => this.scene.restart());
+    outcomeFeedback.play(this, "warning", message.toLowerCase().includes("tempo scaduto") ? "Tempo scaduto" : "Da rivedere");
+    this.showTimeoutSolution(message, solutionLines, onTrainingContinue);
   }
 
   private handleMusicMistake(message: string): void {
@@ -2393,6 +2620,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.robotExecuting = false;
     this.musicTimerEvent?.remove(false);
     this.musicTimerEvent = undefined;
+    this.timeoutSolutionOpen = false;
   }
 
   private discardActivePuzzleAttempt(): void {

@@ -54,7 +54,7 @@ export class PuzzleGenerator {
     const circuit = this.validationEngine.generateWithRetries(
         () => this.circuitGenerator.generate(circuitRandom, circuitDifficulty),
         (puzzle) => this.circuitValidator.validate(puzzle),
-        this.circuitGenerator.fallback(),
+        this.circuitGenerator.fallback(circuitDifficulty.level),
       );
 
     return {
@@ -125,7 +125,7 @@ export class PuzzleGenerator {
         const puzzle = this.validationEngine.generateWithRetries(
           () => this.circuitGenerator.generate(challengeRandom, stagedDifficulty, this.circuitFaultsForStep(index)),
           (candidate) => this.circuitValidator.validate(candidate),
-          this.circuitGenerator.fallback(),
+          this.circuitGenerator.fallback(stagedDifficulty.level),
         );
         return {
           id,
@@ -136,10 +136,11 @@ export class PuzzleGenerator {
           puzzle: exerciseDirector.enrichCircuit(puzzle, stagedDifficulty.level),
         };
       }
+      const robotType = this.robotChallengeTypeForStep(index, difficulty.level);
       const puzzle = this.validationEngine.generateWithRetries(
-        () => this.robotGenerator.generate(challengeRandom, stagedDifficulty, this.robotChallengeTypeForStep(index)),
+        () => this.robotGenerator.generate(challengeRandom, stagedDifficulty, robotType),
         (candidate) => this.robotValidator.validate(candidate),
-        this.robotGenerator.fallback(this.robotChallengeTypeForStep(index)),
+        this.robotGenerator.fallback(robotType),
       );
       return {
         id,
@@ -216,13 +217,19 @@ export class PuzzleGenerator {
     ][Math.min(step, 4)] as Array<NonNullable<GeneratedMission["puzzles"]["math"]["archetype"]>>;
   }
 
-  private robotChallengeTypeForStep(step: number): RobotChallengeType {
+  private robotChallengeTypeForStep(step: number, level = 1): RobotChallengeType {
+    if (step >= 4 && level >= 7) {
+      return "loop-compression";
+    }
+    if (step >= 4 && level >= 5) {
+      return "conditional-gate";
+    }
     return [
       "route-planning",
+      "coordinate-routing",
       "checkpoint-order",
       "minimal-route",
       "debug-program",
-      "pattern-routing",
     ][Math.min(step, 4)] as RobotChallengeType;
   }
 

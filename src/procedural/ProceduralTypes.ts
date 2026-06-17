@@ -119,7 +119,10 @@ export type RobotChallengeType =
   | "minimal-route"
   | "checkpoint-order"
   | "debug-program"
-  | "pattern-routing";
+  | "pattern-routing"
+  | "coordinate-routing"
+  | "conditional-gate"
+  | "loop-compression";
 
 export type RobotCheckpoint = {
   col: number;
@@ -149,6 +152,10 @@ export type GeneratedRobotPuzzle = {
   conceptTags?: string[];
   maxCommands?: number;
   requiredConcepts?: string[];
+  routeBrief?: string;
+  visualFocus?: string;
+  coordinateLabels?: boolean;
+  planningPrompt?: string;
   pedagogy?: ExercisePedagogy;
 };
 
@@ -171,6 +178,22 @@ export type CircuitComponentInfo = {
   label: string;
   role: string;
   check: string;
+  symbolName?: string;
+  functionSummary?: string;
+  symbolClue?: string;
+  commonConfusion?: string;
+};
+
+export type CircuitComponentChallenge = {
+  componentId: string;
+  componentLabel: string;
+  symbolQuestion: string;
+  functionQuestion: string;
+  correctSymbol: string;
+  correctFunction: string;
+  symbolChoices: string[];
+  functionChoices: string[];
+  explanation: string;
 };
 
 export type GeneratedCircuitPuzzle = {
@@ -217,6 +240,7 @@ export type GeneratedCircuitPuzzle = {
   difficultyLabel?: string;
   learningPurpose?: string;
   conceptTags?: string[];
+  componentChallenges?: CircuitComponentChallenge[];
   pedagogy?: ExercisePedagogy;
 };
 

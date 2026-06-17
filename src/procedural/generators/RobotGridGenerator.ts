@@ -36,7 +36,7 @@ export class RobotGridGenerator {
       }
       const enoughDepth = solutionCommands.length >= minimumPathLength || attempt >= 18;
       const enoughTurns = solutionCommands.filter((command) => command === "TURN_LEFT" || command === "TURN_RIGHT").length >= Math.min(4, difficulty.requiredReasoningSteps);
-      if (enoughDepth && (enoughTurns || challengeType === "route-planning")) {
+      if (enoughDepth && (enoughTurns || challengeType === "route-planning" || challengeType === "coordinate-routing")) {
         return this.buildPuzzle(cols, rows, layout.start, layout.key, layout.exit, obstacles, solutionCommands, difficulty, challengeType, layout.checkpoints, random);
       }
     }
@@ -46,12 +46,15 @@ export class RobotGridGenerator {
 
   private pickChallengeType(random: Random, difficulty: DifficultyPreset): RobotChallengeType {
     if (difficulty.level <= 2) {
-      return random.pick(["route-planning", "minimal-route"]);
+      return random.pick(["route-planning", "minimal-route", "coordinate-routing"]);
     }
     if (difficulty.level <= 4) {
-      return random.pick(["minimal-route", "checkpoint-order", "debug-program"]);
+      return random.pick(["minimal-route", "checkpoint-order", "coordinate-routing", "debug-program"]);
     }
-    return random.pick(["checkpoint-order", "debug-program", "pattern-routing", "minimal-route"]);
+    if (difficulty.level <= 6) {
+      return random.pick(["checkpoint-order", "debug-program", "pattern-routing", "conditional-gate", "minimal-route"]);
+    }
+    return random.pick(["debug-program", "pattern-routing", "loop-compression", "conditional-gate", "minimal-route", "coordinate-routing"]);
   }
 
   private buildLayout(random: Random, cols: number, rows: number, type: RobotChallengeType): {
@@ -83,12 +86,20 @@ export class RobotGridGenerator {
       const first = this.uniqueCell({ col: random.integer(1, Math.max(1, Math.floor(cols / 2))), row: random.integer(0, rows - 2) }, cols, rows, reserved);
       return [{ ...first, label: "A", order: 1 }];
     }
-    if (type === "pattern-routing") {
+    if (type === "conditional-gate") {
+      const first = this.uniqueCell({ col: random.integer(1, Math.max(1, Math.floor(cols / 2))), row: random.integer(0, rows - 2) }, cols, rows, reserved);
+      const second = this.uniqueCell({ col: random.integer(Math.max(2, Math.floor(cols / 2)), cols - 2), row: random.integer(1, rows - 2) }, cols, rows, [...reserved, first]);
+      return [
+        { ...first, label: "S1", order: 1 },
+        { ...second, label: "S2", order: 2 },
+      ];
+    }
+    if (type === "pattern-routing" || type === "loop-compression") {
       const first = this.uniqueCell({ col: Math.max(1, Math.floor(cols / 3)), row: 1 }, cols, rows, reserved);
       const second = this.uniqueCell({ col: Math.min(cols - 2, Math.floor((cols * 2) / 3)), row: rows - 2 }, cols, rows, [...reserved, first]);
       return [
-        { ...first, label: "A", order: 1 },
-        { ...second, label: "B", order: 2 },
+        { ...first, label: type === "loop-compression" ? "M1" : "A", order: 1 },
+        { ...second, label: type === "loop-compression" ? "M2" : "B", order: 2 },
       ];
     }
     return [];
@@ -170,7 +181,7 @@ export class RobotGridGenerator {
     random: Random,
   ): GeneratedRobotPuzzle {
     const buggedCommands = challengeType === "debug-program" ? this.mutateProgram(solutionCommands, random) : undefined;
-    const maxCommands = challengeType === "minimal-route"
+    const maxCommands = challengeType === "minimal-route" || challengeType === "loop-compression"
       ? solutionCommands.length + (difficulty.level <= 2 ? 2 : 1)
       : solutionCommands.length + Math.max(2, 6 - difficulty.level);
     return {
@@ -192,6 +203,10 @@ export class RobotGridGenerator {
       successConditions: this.successConditionsFor(challengeType, checkpoints, maxCommands),
       conceptTags: this.conceptsFor(challengeType, checkpoints),
       requiredConcepts: this.conceptsFor(challengeType, checkpoints),
+      routeBrief: this.routeBriefFor(challengeType, checkpoints, solutionCommands),
+      visualFocus: this.visualFocusFor(challengeType),
+      coordinateLabels: challengeType === "coordinate-routing",
+      planningPrompt: this.planningPromptFor(challengeType),
       hints: this.hintsFor(challengeType, checkpoints),
       competencies: this.competenciesFor(challengeType),
     };
@@ -218,6 +233,9 @@ export class RobotGridGenerator {
       "checkpoint-order": "Robot: checkpoint ordinati",
       "debug-program": "Robot: programma da debuggare",
       "pattern-routing": "Robot: pattern di rotta",
+      "coordinate-routing": "Robot: coordinate operative",
+      "conditional-gate": "Robot: porta condizionata",
+      "loop-compression": "Robot: blocco ripetuto",
     }[type];
   }
 
@@ -251,6 +269,21 @@ export class RobotGridGenerator {
         "La griglia nasconde un pattern: alterna tratti lunghi e svolte controllate.",
         "Costruisci la sequenza per segmenti, poi verifica che l'ultimo segmento arrivi all'uscita.",
       ],
+      "coordinate-routing": [
+        "Leggi la griglia come coordinate: colonne da sinistra a destra, righe dall'alto verso il basso.",
+        "Prima individua coordinate di robot, chiave e uscita; poi trasforma gli spostamenti in comandi.",
+        "La direzione iniziale conta: uno spostamento verso destra non e sempre un Avanza immediato.",
+      ],
+      "conditional-gate": [
+        checkpointLine,
+        "I sensori aprono la porta solo se vengono attivati nell'ordine indicato.",
+        "Pensa come un algoritmo con condizioni: se S1 e S2 sono attivi, allora puoi raccogliere e uscire.",
+      ],
+      "loop-compression": [
+        checkpointLine,
+        "Cerca un blocco di comandi che si ripete: tratto dritto, svolta, tratto dritto.",
+        "Non devi usare un comando Repeat: devi pero riconoscere il pattern per scrivere meno tentativi.",
+      ],
     }[type];
   }
 
@@ -265,6 +298,15 @@ export class RobotGridGenerator {
     }
     if (type === "debug-program") {
       conditions.unshift("Correggi il programma guasto invece di copiarlo.");
+    }
+    if (type === "conditional-gate") {
+      conditions.unshift("Attiva i sensori prima della chiave: la porta finale accetta solo una procedura condizionata.");
+    }
+    if (type === "coordinate-routing") {
+      conditions.unshift("Usa le coordinate come piano, non come risposta: il robot esegue solo comandi.");
+    }
+    if (type === "loop-compression") {
+      conditions.unshift("Riconosci il blocco ripetuto prima di eseguire: evita comandi esplorativi.");
     }
     return conditions;
   }
@@ -281,6 +323,15 @@ export class RobotGridGenerator {
     if (type === "debug-program") {
       return ["Confronta il log guasto con la mappa: il primo urto e la vera informazione.", "Un solo comando sbagliato puo cambiare tutte le caselle successive.", ...base];
     }
+    if (type === "coordinate-routing") {
+      return ["Scrivi le coordinate di partenza, chiave e uscita: poi conta colonne e righe.", "Una rotazione cambia verso, non posizione: dopo ogni svolta aggiorna la freccia.", ...base];
+    }
+    if (type === "conditional-gate") {
+      return ["Tratta i checkpoint come condizioni da rendere vere prima della chiave.", "Se raccogli prima dei sensori, il programma sembra vicino ma non e valido.", ...base];
+    }
+    if (type === "loop-compression") {
+      return ["Cerca due segmenti simili: spesso la stessa idea si ripete con direzioni diverse.", "Scrivi il blocco una volta su carta, poi adattalo alla seconda tappa.", ...base];
+    }
     if (checkpoints.length > 0) {
       return [`Prima punta al checkpoint ${checkpoints[0].label}, poi riparti da li come se fosse un nuovo inizio.`, ...base];
     }
@@ -293,6 +344,9 @@ export class RobotGridGenerator {
     if (type === "minimal-route") concepts.push("ottimizzazione", "budget di comandi");
     if (type === "debug-program") concepts.push("debugging", "traccia di errore");
     if (type === "pattern-routing") concepts.push("pattern spaziale");
+    if (type === "coordinate-routing") concepts.push("coordinate", "assi della griglia");
+    if (type === "conditional-gate") concepts.push("condizione se-allora", "stato del sistema");
+    if (type === "loop-compression") concepts.push("pattern ripetuto", "astrazione di blocco");
     concepts.push("raccolta contestuale", "uscita finale");
     return concepts;
   }
@@ -301,13 +355,57 @@ export class RobotGridGenerator {
     const base = ["coding.sequenze", "coding.orientamento", "problemSolving"];
     if (type === "minimal-route") return [...base, "coding.efficienza", "pensieroCritico"];
     if (type === "debug-program") return [...base, "coding.debugging", "coding.testMentale", "pensieroCritico"];
+    if (type === "coordinate-routing") return [...base, "coding.testMentale", "matematica.logica"];
+    if (type === "conditional-gate") return [...base, "coding.decomposizione", "matematica.logica", "pensieroCritico"];
+    if (type === "loop-compression") return [...base, "coding.decomposizione", "coding.efficienza", "pensieroCritico"];
     if (type === "checkpoint-order" || type === "pattern-routing") return [...base, "coding.decomposizione", "coding.testMentale"];
     return [...base, "coding.debugging"];
   }
 
+  private routeBriefFor(type: RobotChallengeType, checkpoints: RobotCheckpoint[], solutionCommands: GridCommand[]): string {
+    const turns = solutionCommands.filter((command) => command === "TURN_LEFT" || command === "TURN_RIGHT").length;
+    const checkpointsText = checkpoints.length > 0 ? ` Tappe obbligatorie: ${checkpoints.map((checkpoint) => checkpoint.label).join(" -> ")}.` : "";
+    return {
+      "route-planning": `Pianifica una rotta completa: chiave, uscita e comando finale.${checkpointsText}`,
+      "minimal-route": `Budget stretto: soluzione di riferimento ${solutionCommands.length} comandi, con ${turns} rotazioni.`,
+      "checkpoint-order": `Scomponi in tappe: ogni checkpoint crea un nuovo sotto-problema.${checkpointsText}`,
+      "debug-program": "Usa il log guasto come indizio: cerca il primo comando che cambia direzione o posizione nel punto sbagliato.",
+      "pattern-routing": `Cerca una struttura visiva ricorrente tra le tappe.${checkpointsText}`,
+      "coordinate-routing": "Trasforma coordinate e direzione in comandi: colonna/riga non bastano se la freccia punta altrove.",
+      "conditional-gate": `Algoritmo con stato: prima rendi veri i sensori, poi raccogli e apri.${checkpointsText}`,
+      "loop-compression": `Individua il blocco ripetuto: una buona sequenza nasce da segmenti riconoscibili.${checkpointsText}`,
+    }[type];
+  }
+
+  private visualFocusFor(type: RobotChallengeType): string {
+    return {
+      "route-planning": "rotta completa",
+      "minimal-route": "efficienza",
+      "checkpoint-order": "sotto-obiettivi",
+      "debug-program": "primo errore",
+      "pattern-routing": "pattern spaziale",
+      "coordinate-routing": "coordinate",
+      "conditional-gate": "se -> allora",
+      "loop-compression": "blocco ripetuto",
+    }[type];
+  }
+
+  private planningPromptFor(type: RobotChallengeType): string {
+    return {
+      "route-planning": "Scrivi la sequenza solo quando sai dove saranno posizione e direzione dopo i primi tre comandi.",
+      "minimal-route": "Prima elimina svolte inutili: un programma corretto ma lungo non supera il budget.",
+      "checkpoint-order": "Risolvi una tappa alla volta, poi unisci i segmenti senza perdere la direzione finale.",
+      "debug-program": "Non copiare il log: confrontalo con la mappa e correggi la prima divergenza.",
+      "pattern-routing": "Cerca simmetrie e corridoi: spesso il percorso si costruisce per segmenti simili.",
+      "coordinate-routing": "Annota coordinate e verso iniziale: conta spostamenti, poi converti in Avanza/Gira.",
+      "conditional-gate": "Pensa a variabili di stato: sensore attivo oppure no. La chiave vale solo dopo le condizioni.",
+      "loop-compression": "Trova il blocco ripetuto e riscrivilo con variazioni minime di direzione.",
+    }[type];
+  }
+
   fallback(challengeType: RobotChallengeType = "route-planning"): GeneratedRobotPuzzle {
-    const checkpoints = challengeType === "checkpoint-order" || challengeType === "pattern-routing"
-      ? [{ col: 1, row: 1, label: "A", order: 1 }]
+    const checkpoints = ["checkpoint-order", "pattern-routing", "conditional-gate", "loop-compression"].includes(challengeType)
+      ? [{ col: 1, row: 1, label: challengeType === "conditional-gate" ? "S1" : "A", order: 1 }]
       : [];
     const solutionCommands: GridCommand[] = checkpoints.length > 0
       ? ["TURN_LEFT", "MOVE_FORWARD", "MOVE_FORWARD", "TURN_RIGHT", "MOVE_FORWARD", "MOVE_FORWARD", "MOVE_FORWARD", "PICK_UP", "MOVE_FORWARD", "TURN_RIGHT", "MOVE_FORWARD", "MOVE_FORWARD", "EXIT"]
@@ -331,6 +429,10 @@ export class RobotGridGenerator {
       successConditions: this.successConditionsFor(challengeType, checkpoints, solutionCommands.length + 2),
       requiredConcepts: this.conceptsFor(challengeType, checkpoints),
       conceptTags: this.conceptsFor(challengeType, checkpoints),
+      routeBrief: this.routeBriefFor(challengeType, checkpoints, solutionCommands),
+      visualFocus: this.visualFocusFor(challengeType),
+      coordinateLabels: challengeType === "coordinate-routing",
+      planningPrompt: this.planningPromptFor(challengeType),
       hints: this.hintsFor(challengeType, checkpoints),
       competencies: this.competenciesFor(challengeType),
     };

@@ -13,6 +13,7 @@ import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { MusicNoteGenerator } from "../procedural/generators/MusicNoteGenerator";
 import { Random } from "../procedural/Random";
 import type {
+  CircuitComponentChallenge,
   CircuitFaultType,
   DifficultyLevel,
   GeneratedFocusChallenge,
@@ -103,6 +104,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private languageAnalyzed = false;
   private englishAnalyzed = false;
   private circuitInspected = false;
+  private circuitConceptVerified = false;
+  private circuitConceptIndex = 0;
+  private circuitSymbolAnswer?: string;
+  private circuitFunctionAnswer?: string;
   private selectedRepairs = new Set<CircuitFaultType>();
   private robotCommands: GridCommand[] = [];
   private robotExecuting = false;
@@ -428,6 +433,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
 
+    if (model.componentChallenges.length > 0 && !this.circuitConceptVerified) {
+      this.drawCircuitComponentChallenge(overlay, model);
+      return;
+    }
+
     overlay.add(this.add.rectangle(452, 488, 816, 46, 0x07151d, 0.74).setStrokeStyle(1, 0xf6c85f, 0.2));
     overlay.add(this.add.text(64, 474, "Interventi disponibili", {
       fontFamily: "Inter, Arial",
@@ -561,6 +571,132 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
   }
 
+  private drawCircuitComponentChallenge(overlay: Phaser.GameObjects.Container, model: CircuitConsoleModel): void {
+    const challenge = model.componentChallenges[Math.min(this.circuitConceptIndex, model.componentChallenges.length - 1)];
+    if (!challenge) {
+      this.circuitConceptVerified = true;
+      this.openCircuit();
+      return;
+    }
+    const total = model.componentChallenges.length;
+    overlay.add(this.add.rectangle(452, 488, 816, 46, 0x07151d, 0.74).setStrokeStyle(1, 0xf6c85f, 0.2));
+    overlay.add(this.add.text(64, 474, `Verifica componenti ${this.circuitConceptIndex + 1}/${total}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(64, 496, "Il simbolo evidenziato nello schema va riconosciuto prima di riparare: nome e funzione devono essere coerenti.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: 760 },
+    }));
+
+    overlay.add(this.add.rectangle(254, 578, 392, 124, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(78, 526, challenge.symbolQuestion, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      wordWrap: { width: 352 },
+    }));
+    challenge.symbolChoices.forEach((choice, index) => {
+      const selected = this.circuitSymbolAnswer === choice;
+      overlay.add(new Button(this, 174 + (index % 2) * 180, 562 + Math.floor(index / 2) * 44, choice, () => {
+        this.circuitSymbolAnswer = choice;
+        audioManager.play("click");
+        this.openCircuit();
+      }, {
+        width: 166,
+        height: 36,
+        fontSize: 9,
+        fill: selected ? 0x173b36 : 0x142736,
+        stroke: selected ? 0xf6c85f : 0x6be7d6,
+      }));
+    });
+
+    overlay.add(this.add.rectangle(652, 586, 392, 140, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(476, 526, challenge.functionQuestion, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      wordWrap: { width: 352 },
+    }));
+    challenge.functionChoices.forEach((choice, index) => {
+      const selected = this.circuitFunctionAnswer === choice;
+      overlay.add(new Button(this, 652, 556 + index * 40, choice, () => {
+        this.circuitFunctionAnswer = choice;
+        audioManager.play("click");
+        this.openCircuit();
+      }, {
+        width: 352,
+        height: 34,
+        fontSize: 8,
+        fill: selected ? 0x173b36 : 0x142736,
+        stroke: selected ? 0xf6c85f : 0x6be7d6,
+      }));
+    });
+
+    overlay.add(this.add.rectangle(1010, 536, 304, 116, 0x07151d, 0.82).setStrokeStyle(1, 0xf6c85f, 0.22));
+    overlay.add(this.add.text(876, 496, "Regola della console", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(876, 520, "Non devi memorizzare a caso: guarda il simbolo, chiediti cosa fa nel giro della corrente, poi scegli l'intervento.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#d9eaf1",
+      wordWrap: { width: 268 },
+      lineSpacing: 3,
+    }));
+    overlay.add(new Button(this, 1010, 616, "Conferma componente", () => this.confirmCircuitComponentChallenge(challenge, model), {
+      width: 250,
+      height: 44,
+      fontSize: 13,
+      fill: 0x173b36,
+    }));
+  }
+
+  private confirmCircuitComponentChallenge(challenge: CircuitComponentChallenge, model: CircuitConsoleModel): void {
+    if (!this.circuitSymbolAnswer || !this.circuitFunctionAnswer) {
+      feedbackSystem.publish("Prima scegli sia il simbolo sia la funzione del componente evidenziato.", "hint");
+      audioManager.playOutcome("hint");
+      return;
+    }
+    const symbolOk = this.circuitSymbolAnswer === challenge.correctSymbol;
+    const functionOk = this.circuitFunctionAnswer === challenge.correctFunction;
+    if (symbolOk && functionOk) {
+      audioManager.playOutcome("correct");
+      outcomeFeedback.play(this, "success", challenge.componentLabel);
+      feedbackSystem.publish(`Componente riconosciuto: ${challenge.explanation}`, "success");
+      this.circuitConceptIndex += 1;
+      this.circuitSymbolAnswer = undefined;
+      this.circuitFunctionAnswer = undefined;
+      if (this.circuitConceptIndex >= model.componentChallenges.length) {
+        this.circuitConceptVerified = true;
+        feedbackSystem.publish("Modulo componenti superato: ora scegli solo le riparazioni dimostrate dal tester.", "success");
+      }
+      this.openCircuit();
+      return;
+    }
+    const problem = !symbolOk && !functionOk
+      ? "simbolo e funzione non sono coerenti"
+      : !symbolOk
+        ? "il simbolo scelto non corrisponde a quello evidenziato"
+        : "la funzione scelta non spiega il ruolo del componente";
+    const message = `${problem}. ${challenge.explanation}`;
+    const exited = this.handleIncorrectAnswer(message);
+    if (!exited) {
+      this.circuitSymbolAnswer = undefined;
+      this.circuitFunctionAnswer = undefined;
+      this.openCircuit();
+    }
+  }
+
   private formatTesterReadings(model: CircuitConsoleModel): string {
     const readingLabels: Record<NonNullable<GeneratedCircuitPuzzle["testerReadings"]>[number]["reading"], string> = {
       continuita: "continuità",
@@ -584,10 +720,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return `Letture tester\n${readings}\n\nPiano: ${plan}\nComponenti chiave: ${components}`;
   }
 
+  private circuitConceptLocked(): boolean {
+    const puzzle = this.currentCircuitPuzzle();
+    return Boolean((puzzle.componentChallenges?.length ?? 0) > 0 && !this.circuitConceptVerified);
+  }
+
+  private currentCircuitComponentTargetId(): string | undefined {
+    const challenges = this.currentCircuitPuzzle().componentChallenges ?? [];
+    return challenges[Math.min(this.circuitConceptIndex, challenges.length - 1)]?.componentId;
+  }
+
   private drawCircuitDiagnostic(overlay: Phaser.GameObjects.Container): void {
     const puzzle = this.currentCircuitPuzzle();
     const activeFaults = new Set(puzzle.requiredRepairs.filter((fault) => !this.selectedRepairs.has(fault)));
     const lit = this.circuitWouldLight();
+    const conceptLocked = this.circuitConceptLocked();
+    const targetComponentId = this.currentCircuitComponentTargetId();
     const wireColor = lit ? 0x6be7d6 : 0x425865;
     const y = 248;
     const bottomY = 330;
@@ -597,6 +745,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
       resistor: 370,
       led: 522,
       return: 668,
+    };
+    const componentCenters: Record<string, { x: number; y: number }> = {
+      battery: { x: positions.battery, y },
+      switch: { x: positions.switch, y },
+      resistor: { x: positions.resistor, y },
+      led: { x: positions.led, y },
+      return: { x: positions.return, y },
+      capacitor: { x: 226, y: 366 },
+      sensor: { x: 590, y: 366 },
+      branchLed: { x: 404, y: 366 },
+      relay: { x: 190, y: 386 },
+      motor: { x: 350, y: 386 },
+      ground: { x: 590, y: 386 },
     };
 
     overlay.add(this.add.rectangle(400, 276, 704, 214, 0x081823, 0.9).setStrokeStyle(1, 0x6be7d6, 0.26));
@@ -643,25 +804,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
 
     this.drawBatterySymbol(overlay, positions.battery, y, 0xf6c85f);
-    this.drawSwitchSymbol(overlay, positions.switch, y, activeFaults.has("open-switch") ? 0xffb36b : 0x9ff5e9, !activeFaults.has("open-switch"));
-    this.drawResistorSymbol(overlay, positions.resistor, y, activeFaults.has("missing-resistor") || activeFaults.has("wrong-resistor-value") ? 0xffb36b : 0x9ff5e9, activeFaults.has("missing-resistor"));
-    this.drawLedSymbol(overlay, positions.led, y, activeFaults.has("reversed-led") ? 0xffb36b : 0x9ff5e9, activeFaults.has("reversed-led"), lit);
+    this.drawSwitchSymbol(overlay, positions.switch, y, activeFaults.has("open-switch") ? 0xffb36b : 0x9ff5e9, !activeFaults.has("open-switch"), !conceptLocked);
+    this.drawResistorSymbol(overlay, positions.resistor, y, activeFaults.has("missing-resistor") || activeFaults.has("wrong-resistor-value") ? 0xffb36b : 0x9ff5e9, activeFaults.has("missing-resistor"), !conceptLocked);
+    this.drawLedSymbol(overlay, positions.led, y, activeFaults.has("reversed-led") ? 0xffb36b : 0x9ff5e9, activeFaults.has("reversed-led"), lit, !conceptLocked);
     this.drawReturnSymbol(overlay, positions.return, y, activeFaults.has("missing-wire") || activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9);
 
     [
-      { x: positions.battery, label: "Batteria", text: "spinge la corrente dal + al -" },
-      { x: positions.switch, label: "Interruttore", text: "chiude o apre il percorso" },
-      { x: positions.resistor, label: "Resistenza", text: "protegge il LED limitando la corrente" },
-      { x: positions.led, label: "LED", text: "si accende solo nel verso giusto" },
-      { x: positions.return, label: "Ritorno", text: "riporta la corrente al -" },
-    ].forEach((item) => {
-      overlay.add(this.add.text(item.x, 292, item.label, {
+      { x: positions.battery, code: "Nodo A", label: "Batteria", text: "spinge la corrente dal + al -" },
+      { x: positions.switch, code: "Nodo B", label: "Interruttore", text: "chiude o apre il percorso" },
+      { x: positions.resistor, code: "Nodo C", label: "Resistenza", text: "protegge il LED limitando la corrente" },
+      { x: positions.led, code: "Nodo D", label: "LED", text: "si accende solo nel verso giusto" },
+      { x: positions.return, code: "Nodo E", label: "Ritorno", text: "riporta la corrente al -" },
+    ].forEach((item, index) => {
+      overlay.add(this.add.text(item.x, 292, conceptLocked ? item.code : item.label, {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color: "#f5fbff",
         fontStyle: "bold",
       }).setOrigin(0.5));
-      overlay.add(this.add.text(item.x, 312, item.text, {
+      overlay.add(this.add.text(item.x, 312, conceptLocked ? `simbolo ${index + 1}` : item.text, {
         fontFamily: "Inter, Arial",
         fontSize: "10px",
         color: "#9aaab0",
@@ -678,26 +839,37 @@ export class ProceduralMissionScene extends Phaser.Scene {
     ]);
 
     if (puzzle.nodes.includes("capacitor")) {
-      this.drawCapacitorSymbol(overlay, 226, 366, activeFaults.has("capacitor-discharged") ? 0xffb36b : 0x9ff5e9);
+      this.drawCapacitorSymbol(overlay, 226, 366, activeFaults.has("capacitor-discharged") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("sensor")) {
-      this.drawSensorSymbol(overlay, 590, 366, activeFaults.has("sensor-unpowered") || activeFaults.has("disconnected-component") ? 0xffb36b : 0x9ff5e9);
+      this.drawSensorSymbol(overlay, 590, 366, activeFaults.has("sensor-unpowered") || activeFaults.has("disconnected-component") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("branchLed")) {
-      this.drawBranchSymbol(overlay, 404, 366, activeFaults.has("parallel-branch-open") ? 0xffb36b : 0x9ff5e9);
+      this.drawBranchSymbol(overlay, 404, 366, activeFaults.has("parallel-branch-open") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("relay")) {
-      this.drawRelaySymbol(overlay, 190, 386, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9);
+      this.drawRelaySymbol(overlay, 190, 386, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("motor")) {
-      this.drawMotorSymbol(overlay, 350, 386, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9);
+      this.drawMotorSymbol(overlay, 350, 386, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("ground")) {
-      this.drawGroundSymbol(overlay, 590, 386, activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9);
+      this.drawGroundSymbol(overlay, 590, 386, activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+    }
+
+    if (conceptLocked && targetComponentId && componentCenters[targetComponentId]) {
+      const center = componentCenters[targetComponentId];
+      overlay.add(this.add.circle(center.x, center.y, 54, 0xf6c85f, 0.08).setStrokeStyle(3, 0xf6c85f, 0.88));
+      overlay.add(this.add.text(center.x, center.y - 70, "simbolo evidenziato", {
+        fontFamily: "Inter, Arial",
+        fontSize: "10px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
     }
   }
 
-  private drawCapacitorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
+  private drawCapacitorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
     const g = this.add.graphics();
     g.lineStyle(3, color, 0.9);
     g.beginPath();
@@ -711,14 +883,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.lineTo(x + 46, y);
     g.strokePath();
     overlay.add(g);
-    overlay.add(this.add.text(x, y + 30, "condensatore: accumula carica", {
+    overlay.add(this.add.text(x, y + 30, showLabel ? "condensatore: accumula carica" : "simbolo opzionale", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
     }).setOrigin(0.5));
   }
 
-  private drawSensorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
+  private drawSensorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
     overlay.add(this.add.rectangle(x, y, 150, 38, 0x0d2531, 0.92).setStrokeStyle(2, color, 0.78));
     const g = this.add.graphics();
     g.lineStyle(2, color, 0.9);
@@ -731,14 +903,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.lineTo(x + 24, y + 8);
     g.strokePath();
     overlay.add(g);
-    overlay.add(this.add.text(x, y + 30, "sensore: misura e invia dati", {
+    overlay.add(this.add.text(x, y + 30, showLabel ? "sensore: misura e invia dati" : "simbolo opzionale", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
     }).setOrigin(0.5));
   }
 
-  private drawBranchSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
+  private drawBranchSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
     const g = this.add.graphics();
     g.lineStyle(3, color, 0.88);
     g.beginPath();
@@ -753,14 +925,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.strokePath();
     g.strokeCircle(x, y, 10);
     overlay.add(g);
-    overlay.add(this.add.text(x, y + 34, "ramo parallelo: può guastarsi da solo", {
+    overlay.add(this.add.text(x, y + 34, showLabel ? "ramo parallelo: può guastarsi da solo" : "simbolo opzionale", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
     }).setOrigin(0.5));
   }
 
-  private drawRelaySymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
+  private drawRelaySymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
     const g = this.add.graphics();
     g.lineStyle(3, color, 0.9);
     g.strokeRect(x - 50, y - 18, 44, 36);
@@ -771,14 +943,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.lineTo(x + 52, y + 18);
     g.strokePath();
     overlay.add(g);
-    overlay.add(this.add.text(x, y + 32, "relè: comando + potenza", {
+    overlay.add(this.add.text(x, y + 32, showLabel ? "relè: comando + potenza" : "simbolo opzionale", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
     }).setOrigin(0.5));
   }
 
-  private drawMotorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
+  private drawMotorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
     const g = this.add.graphics();
     g.lineStyle(3, color, 0.9);
     g.strokeCircle(x, y, 22);
@@ -795,14 +967,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: color === 0xffb36b ? "#f7d37a" : "#9ff5e9",
       fontStyle: "bold",
     }).setOrigin(0.5));
-    overlay.add(this.add.text(x, y + 32, "motore: carico più esigente", {
+    overlay.add(this.add.text(x, y + 32, showLabel ? "motore: carico più esigente" : "simbolo opzionale", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
     }).setOrigin(0.5));
   }
 
-  private drawGroundSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
+  private drawGroundSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
     const g = this.add.graphics();
     g.lineStyle(3, color, 0.9);
     g.beginPath();
@@ -816,7 +988,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.lineTo(x + 10, y + 20);
     g.strokePath();
     overlay.add(g);
-    overlay.add(this.add.text(x, y + 34, "massa: ritorno stabile", {
+    overlay.add(this.add.text(x, y + 34, showLabel ? "massa: ritorno stabile" : "simbolo opzionale", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
@@ -837,7 +1009,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(this.add.text(x + 20, y - 36, "-", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
   }
 
-  private drawSwitchSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, closed: boolean): void {
+  private drawSwitchSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, closed: boolean, showLabel = true): void {
     const g = this.add.graphics();
     g.lineStyle(3, color, 0.95);
     g.strokeCircle(x - 30, y, 4);
@@ -847,14 +1019,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.lineTo(x + 24, closed ? y : y - 24);
     g.strokePath();
     overlay.add(g);
-    overlay.add(this.add.text(x, y + 28, closed ? "chiuso" : "aperto", {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: closed ? "#9ff5e9" : "#f7d37a",
-    }).setOrigin(0.5));
+    if (showLabel) {
+      overlay.add(this.add.text(x, y + 28, closed ? "chiuso" : "aperto", {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: closed ? "#9ff5e9" : "#f7d37a",
+      }).setOrigin(0.5));
+    }
   }
 
-  private drawResistorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, missing: boolean): void {
+  private drawResistorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, missing: boolean, showLabel = true): void {
     const g = this.add.graphics();
     g.lineStyle(3, color, missing ? 0.45 : 0.95);
     g.beginPath();
@@ -867,14 +1041,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.lineTo(x + 44, y);
     g.strokePath();
     overlay.add(g);
-    overlay.add(this.add.text(x, y + 30, missing ? "manca" : "220 ohm", {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: missing ? "#f7d37a" : "#9ff5e9",
-    }).setOrigin(0.5));
+    if (showLabel) {
+      overlay.add(this.add.text(x, y + 30, missing ? "manca" : "220 ohm", {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: missing ? "#f7d37a" : "#9ff5e9",
+      }).setOrigin(0.5));
+    }
   }
 
-  private drawLedSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, reversed: boolean, lit: boolean): void {
+  private drawLedSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, reversed: boolean, lit: boolean, showLabel = true): void {
     const g = this.add.graphics();
     g.lineStyle(3, color, 0.95);
     g.beginPath();
@@ -902,11 +1078,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.strokePath();
     overlay.add(g);
     overlay.add(this.add.circle(x + 64, y, 16, lit ? 0x8cffd7 : 0x243541, lit ? 0.95 : 0.78).setStrokeStyle(2, color, 0.7));
-    overlay.add(this.add.text(x, y + 30, reversed ? "invertito" : lit ? "acceso" : "spento", {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: reversed ? "#f7d37a" : lit ? "#9ff5e9" : "#9aaab0",
-    }).setOrigin(0.5));
+    if (showLabel) {
+      overlay.add(this.add.text(x, y + 30, reversed ? "invertito" : lit ? "acceso" : "spento", {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: reversed ? "#f7d37a" : lit ? "#9ff5e9" : "#9aaab0",
+      }).setOrigin(0.5));
+    }
   }
 
   private drawReturnSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
@@ -2313,24 +2491,89 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private openRobot(): void {
     const puzzle = this.currentRobotPuzzle();
     const model = RobotConsole.fromPuzzle(puzzle);
-    const overlay = this.createOverlay(model.title, 620);
+    const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
     this.robotExecuting = false;
-    this.robotCellSize = Math.min(42, Math.floor(270 / Math.max(puzzle.cols, puzzle.rows)));
-    this.robotOrigin = { x: 118, y: 178 };
-    overlay.add(this.add.text(48, 74, (model.instructions ?? [
-      "Obiettivo: raggiungi la stella, usa Raccogli, poi raggiungi il quadrato e usa Esci.",
-      "La punta del robot indica la direzione iniziale.",
-    ]).join("\n"), {
+
+    const commandLimit = puzzle.maxCommands ?? puzzle.solutionCommands.length + 4;
+    const mapPanel = { x: 52, y: 94, w: 462, h: 358 };
+    const programPanel = { x: 536, y: 94, w: 286, h: 358 };
+    const objectivePanel = { x: 844, y: 94, w: 304, h: 358 };
+    const commandPanel = { x: 52, y: 472, w: 1096, h: 150 };
+
+    overlay.add(this.add.rectangle(mapPanel.x, mapPanel.y, mapPanel.w, mapPanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
+    overlay.add(this.add.rectangle(programPanel.x, programPanel.y, programPanel.w, programPanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
+    overlay.add(this.add.rectangle(objectivePanel.x, objectivePanel.y, objectivePanel.w, objectivePanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
+    overlay.add(this.add.rectangle(commandPanel.x, commandPanel.y, commandPanel.w, commandPanel.h, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.28));
+
+    overlay.add(this.add.text(mapPanel.x + 18, mapPanel.y + 14, "Mappa robot", {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 700 },
-      lineSpacing: 4,
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
     }));
+    overlay.add(this.add.text(mapPanel.x + 18, mapPanel.y + 38, `Focus: ${model.visualFocus ?? "sequenza"} | Griglia ${puzzle.cols}x${puzzle.rows}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#f7d37a",
+    }));
+
+    this.robotCellSize = Math.min(
+      42,
+      Math.floor((mapPanel.w - 82) / puzzle.cols),
+      Math.floor((mapPanel.h - 168) / puzzle.rows),
+    );
+    const gridW = this.robotCellSize * puzzle.cols;
+    const gridH = this.robotCellSize * puzzle.rows;
+    this.robotOrigin = {
+      x: mapPanel.x + Math.floor((mapPanel.w - gridW) / 2) + this.robotCellSize / 2 + (model.coordinateLabels ? 10 : 0),
+      y: mapPanel.y + 104 + this.robotCellSize / 2,
+    };
+
+    if (model.coordinateLabels) {
+      for (let col = 0; col < puzzle.cols; col += 1) {
+        overlay.add(this.add.text(this.robotCellX(col), this.robotOrigin.y - this.robotCellSize * 0.78, `${col}`, {
+          fontFamily: "Inter, Arial",
+          fontSize: "9px",
+          color: "#f7d37a",
+          fontStyle: "bold",
+        }).setOrigin(0.5));
+      }
+      for (let row = 0; row < puzzle.rows; row += 1) {
+        overlay.add(this.add.text(this.robotOrigin.x - this.robotCellSize * 0.78, this.robotCellY(row), `${row}`, {
+          fontFamily: "Inter, Arial",
+          fontSize: "9px",
+          color: "#f7d37a",
+          fontStyle: "bold",
+        }).setOrigin(0.5));
+      }
+    }
+
+    overlay.add(this.add.text(mapPanel.x + 18, mapPanel.y + mapPanel.h - 54, [
+      `Robot: ${this.facingLabel(puzzle.start.facing)}`,
+      "Stella = chiave | quadrato = uscita | rosso = ostacolo | viola = checkpoint",
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#9aaab0",
+      wordWrap: { width: mapPanel.w - 36 },
+      lineSpacing: 2,
+    }));
+
     for (let row = 0; row < puzzle.rows; row += 1) {
       for (let col = 0; col < puzzle.cols; col += 1) {
         const blocked = puzzle.obstacles.some((cell) => cell.col === col && cell.row === row);
-        overlay.add(this.add.rectangle(this.robotCellX(col), this.robotCellY(row), this.robotCellSize - 4, this.robotCellSize - 4, blocked ? 0x4c2b38 : 0x132835, 1).setStrokeStyle(1, blocked ? 0xc94b55 : 0x315766, 0.7));
+        const cell = this.add.rectangle(
+          this.robotCellX(col),
+          this.robotCellY(row),
+          this.robotCellSize - 4,
+          this.robotCellSize - 4,
+          blocked ? 0x4c2b38 : 0x132835,
+          1,
+        ).setStrokeStyle(1, blocked ? 0xc94b55 : 0x315766, 0.7);
+        overlay.add(cell);
+        if (!blocked && (col + row) % 2 === 0) {
+          overlay.add(this.add.rectangle(this.robotCellX(col), this.robotCellY(row), this.robotCellSize - 14, 2, 0x6be7d6, 0.08));
+        }
       }
     }
     [...(puzzle.checkpoints ?? [])].sort((a, b) => a.order - b.order).forEach((checkpoint) => {
@@ -2360,63 +2603,105 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(this.robotSprite);
     overlay.add(this.robotKeyMarker);
     overlay.add(exitMarker);
-    overlay.add(this.add.text(48, 374, `Legenda: triangolo = robot (${this.facingLabel(puzzle.start.facing)}), stella = chiave, quadrato = uscita, viola = checkpoint, rosso = ostacolo.`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 330 },
-    }));
-    this.addMethodStrip(overlay, 48, 404, 330, "Metodo", [
-      "simula con il dito",
-      "segna svolte",
-      "esegui quando il piano e completo",
-    ]);
-    overlay.add(this.add.text(430, 146, `Sequenza:\n${this.robotCommands.length ? this.robotCommands.map((command, i) => `${i + 1}. ${commandLabels[command]}`).join("\n") : "(vuota)"}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#d9eaf1",
-      wordWrap: { width: 300 },
-      lineSpacing: 4,
-    }));
-    const debugLine = model.buggedCommands
-      ? `\n\nLog guasto:\n${this.formatRobotCommands(model.buggedCommands, 7)}`
-      : "";
-    overlay.add(this.add.text(430, 52, [
-      `Concetti: ${model.conceptTags.slice(0, 4).join(", ") || "sequenza, direzione"}`,
-      model.debugBrief ?? "Progetta la rotta prima di eseguire: la console premia programmi spiegabili.",
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      wordWrap: { width: 300 },
-      lineSpacing: 4,
-    }));
-    this.robotStatusText = this.add.text(430, 318, `Condizioni:\n${model.successConditions.map((condition) => `- ${condition}`).join("\n")}${debugLine}`, {
+
+    overlay.add(this.add.text(programPanel.x + 18, programPanel.y + 14, "Programma", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
-      color: "#c9dce6",
-      wordWrap: { width: 300 },
-      lineSpacing: 4,
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(programPanel.x + 18, programPanel.y + 38, `${this.robotCommands.length}/${commandLimit} comandi`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: this.robotCommands.length > commandLimit ? "#ff8a8a" : "#f7d37a",
+    }));
+    const visibleCommands = this.robotCommands.length
+      ? this.formatRobotCommands(this.robotCommands, 14)
+      : "(buffer vuoto)\nAggiungi comandi dalla barra in basso.";
+    overlay.add(this.add.rectangle(programPanel.x + 18, programPanel.y + 66, programPanel.w - 36, 176, 0x0b1f2b, 0.84).setOrigin(0).setStrokeStyle(1, 0x315766, 0.55));
+    overlay.add(this.add.text(programPanel.x + 32, programPanel.y + 80, visibleCommands, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#d9eaf1",
+      wordWrap: { width: programPanel.w - 64 },
+      lineSpacing: 2,
+    }));
+    const debugLine = model.buggedCommands
+      ? `Log guasto:\n${this.formatRobotCommands(model.buggedCommands, 7)}`
+      : "";
+    this.robotStatusText = this.add.text(programPanel.x + 18, programPanel.y + 258, debugLine || "Stato: pronto. Esegui solo quando il piano e completo.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: debugLine ? "#f7d37a" : "#9aaab0",
+      wordWrap: { width: programPanel.w - 36 },
+      lineSpacing: 3,
     });
     overlay.add(this.robotStatusText);
+
+    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + 14, "Obiettivo", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + 40, model.routeBrief ?? model.instructions[0] ?? "Costruisci una sequenza valida per chiave e uscita.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: objectivePanel.w - 36 },
+      lineSpacing: 3,
+    }));
+    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + 132, `Metodo: ${model.planningPrompt ?? "Simula mentalmente prima di eseguire."}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#f7d37a",
+      wordWrap: { width: objectivePanel.w - 36 },
+      lineSpacing: 3,
+    }));
+    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + 214, `Condizioni:\n${model.successConditions.slice(0, 4).map((condition) => `- ${condition}`).join("\n")}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#c9dce6",
+      wordWrap: { width: objectivePanel.w - 36 },
+      lineSpacing: 3,
+    }));
+    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + objectivePanel.h - 40, model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#9ff5e9",
+      wordWrap: { width: objectivePanel.w - 36 },
+    }));
+
+    overlay.add(this.add.text(commandPanel.x + 18, commandPanel.y + 14, "Comandi", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(commandPanel.x + 112, commandPanel.y + 16, "Avanza muove nella direzione della punta. Gira cambia solo direzione. Raccogli ed Esci funzionano solo sulla casella corretta.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#9aaab0",
+      wordWrap: { width: 680 },
+    }));
     (["MOVE_FORWARD", "TURN_LEFT", "TURN_RIGHT", "PICK_UP", "EXIT"] satisfies GridCommand[]).forEach((command, index) => {
-      overlay.add(new Button(this, 144 + index * 132, 474, commandLabels[command], () => {
-        if (!this.robotExecuting && this.robotCommands.length < (puzzle.maxCommands ?? puzzle.solutionCommands.length + 4)) {
+      overlay.add(new Button(this, commandPanel.x + 132 + index * 158, commandPanel.y + 76, commandLabels[command], () => {
+        if (!this.robotExecuting && this.robotCommands.length < commandLimit) {
           this.robotCommands.push(command);
           this.openRobot();
         } else if (!this.robotExecuting) {
           this.useHint("Il buffer e pieno: non aggiungere tentativi. Simula il percorso e togli i comandi che non cambiano obiettivo.");
         }
-      }, { width: 116, height: 40, fontSize: 13 }));
+      }, { width: 136, height: 38, fontSize: 12 }));
     });
-    overlay.add(new Button(this, 282, 564, "Esegui", () => this.executeRobot(), { width: 180, height: 44, fill: 0x173b36 }));
-    overlay.add(new Button(this, 506, 564, "Pulisci", () => {
+    overlay.add(new Button(this, commandPanel.x + commandPanel.w - 116, commandPanel.y + 50, "Esegui", () => this.executeRobot(), { width: 172, height: 38, fill: 0x173b36, fontSize: 12 }));
+    overlay.add(new Button(this, commandPanel.x + commandPanel.w - 116, commandPanel.y + 102, "Pulisci", () => {
       if (this.robotExecuting) {
         return;
       }
       this.robotCommands = [];
       this.openRobot();
-    }, { width: 180, height: 44, fill: 0x263743 }));
+    }, { width: 172, height: 38, fill: 0x263743, fontSize: 12 }));
   }
 
   private executeRobot(): void {
@@ -2845,6 +3130,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.languageAnalyzed = false;
     this.englishAnalyzed = false;
     this.circuitInspected = false;
+    this.circuitConceptVerified = false;
+    this.circuitConceptIndex = 0;
+    this.circuitSymbolAnswer = undefined;
+    this.circuitFunctionAnswer = undefined;
     this.selectedRepairs.clear();
     this.robotCommands = [];
     this.robotExecuting = false;

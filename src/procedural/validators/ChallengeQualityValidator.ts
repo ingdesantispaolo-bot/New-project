@@ -67,7 +67,15 @@ export class ChallengeQualityValidator {
     if (puzzle.hints.length < 2 || puzzle.instructions.length < 2) {
       reasons.push("robot: istruzioni o indizi insufficienti");
     }
-    if ((puzzle.challengeType === "checkpoint-order" || puzzle.challengeType === "pattern-routing") && (puzzle.checkpoints?.length ?? 0) === 0) {
+    if (
+      (
+        puzzle.challengeType === "checkpoint-order"
+        || puzzle.challengeType === "pattern-routing"
+        || puzzle.challengeType === "conditional-gate"
+        || puzzle.challengeType === "loop-compression"
+      )
+      && (puzzle.checkpoints?.length ?? 0) === 0
+    ) {
       reasons.push("robot: sfida checkpoint senza checkpoint");
     }
     if (
@@ -82,6 +90,12 @@ export class ChallengeQualityValidator {
     }
     if (puzzle.challengeType === "minimal-route" && (puzzle.maxCommands ?? 999) > puzzle.solutionCommands.length + 2) {
       reasons.push("robot: percorso minimo con budget troppo largo");
+    }
+    if (puzzle.challengeType === "coordinate-routing" && !puzzle.coordinateLabels) {
+      reasons.push("robot: sfida coordinate senza griglia coordinate");
+    }
+    if (difficulty.level >= 5 && !puzzle.planningPrompt) {
+      reasons.push("robot: manca richiesta di pianificazione esplicita");
     }
     return { valid: reasons.length === 0, reasons };
   }
@@ -106,6 +120,15 @@ export class ChallengeQualityValidator {
     }
     if (!puzzle.learningPurpose || !puzzle.diagnosticPlan || puzzle.diagnosticPlan.length < 3 || !puzzle.conceptTags || puzzle.conceptTags.length < 2) {
       reasons.push("circuit: mancano scopo didattico, piano diagnostico o concetti");
+    }
+    if (difficulty.level >= 4) {
+      const componentChecks = puzzle.componentChallenges ?? [];
+      if (componentChecks.length < 1) {
+        reasons.push("circuit: livelli alti senza riconoscimento simboli/componenti");
+      }
+      if (componentChecks.some((check) => check.symbolChoices.length < 3 || check.functionChoices.length < 3)) {
+        reasons.push("circuit: scelte componente troppo povere");
+      }
     }
     return { valid: reasons.length === 0, reasons };
   }

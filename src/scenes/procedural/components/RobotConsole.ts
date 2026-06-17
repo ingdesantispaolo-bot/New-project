@@ -9,6 +9,10 @@ export type RobotConsoleModel = {
   conceptTags: string[];
   buggedCommands?: GridCommand[];
   debugBrief?: string;
+  routeBrief?: string;
+  visualFocus?: string;
+  coordinateLabels?: boolean;
+  planningPrompt?: string;
 };
 
 export class RobotConsole {
@@ -25,6 +29,10 @@ export class RobotConsole {
       conceptTags: puzzle.conceptTags ?? puzzle.requiredConcepts ?? [],
       buggedCommands: puzzle.buggedCommands,
       debugBrief: puzzle.debugBrief,
+      routeBrief: puzzle.routeBrief,
+      visualFocus: puzzle.visualFocus,
+      coordinateLabels: puzzle.coordinateLabels,
+      planningPrompt: puzzle.planningPrompt,
     };
   }
 }

@@ -1,5 +1,5 @@
 import { circuitBaseEdges, circuitComponentGuide, circuitFaultTemplates, circuitNodes, optionalCircuitNodes } from "../../data/procedural/circuitTemplates";
-import type { CircuitFaultType, DifficultyPreset, GeneratedCircuitPuzzle } from "../ProceduralTypes";
+import type { CircuitComponentChallenge, CircuitFaultType, DifficultyPreset, GeneratedCircuitPuzzle } from "../ProceduralTypes";
 import type { Random } from "../Random";
 
 const faultObservations: Record<CircuitFaultType, string> = {
@@ -47,6 +47,7 @@ export class CircuitFaultGenerator {
     const nodes = this.nodesForFaults(faultTypes);
     const testerReadings = this.testerReadingsForFaults(faultTypes, random);
     const repairChoices = this.repairChoicesForFaults(faultTypes, random, difficulty.circuitComplexity);
+    const componentChallenges = this.componentChallengesForFaults(faultTypes, nodes, random, difficulty.level);
     const observations = [
       ...faults.map((fault) => faultObservations[fault.type]),
       ...this.noiseObservations(random, difficulty.noiseDataCount),
@@ -76,17 +77,19 @@ export class CircuitFaultGenerator {
       difficultyLabel: `Livello ${difficulty.level} - ${this.levelName(difficulty.level)}`,
       learningPurpose: this.learningPurposeForScenario(scenarioType),
       conceptTags: this.conceptsForFaults(faultTypes),
+      componentChallenges,
       competencies: ["elettronica.circuitoChiuso", "problemSolving", "pensieroCritico"],
     };
   }
 
-  fallback(): GeneratedCircuitPuzzle {
+  fallback(level = 1): GeneratedCircuitPuzzle {
+    const fallbackNodes = [...circuitNodes];
     return {
       id: "circuit-fallback",
       title: "Circuito con interruttore aperto",
       symptom: "Il LED resta spento e il tester segnala percorso interrotto prima della resistenza.",
       observations: [faultObservations["open-switch"]],
-      nodes: [...circuitNodes],
+      nodes: fallbackNodes,
       edges: [...circuitBaseEdges],
       faults: ["open-switch"],
       requiredRepairs: ["open-switch"],
@@ -105,7 +108,26 @@ export class CircuitFaultGenerator {
       difficultyLabel: "Livello 1 - percorso chiuso",
       learningPurpose: this.learningPurposeForScenario("percorso-aperto"),
       conceptTags: ["circuito chiuso", "interruttore", "continuità"],
+      componentChallenges: level > 3 ? [this.fallbackComponentChallenge("switch")] : [],
       competencies: ["elettronica.circuitoChiuso", "problemSolving"],
+    };
+  }
+
+  private fallbackComponentChallenge(componentId: string): CircuitComponentChallenge {
+    const component = circuitComponentGuide.find((item) => item.id === componentId) ?? circuitComponentGuide[0];
+    const distractors = circuitComponentGuide.filter((item) => item.id !== component.id).slice(0, 2);
+    const correctSymbol = component.symbolName ?? component.label;
+    const correctFunction = component.functionSummary ?? component.role;
+    return {
+      componentId: component.id,
+      componentLabel: component.label,
+      symbolQuestion: "Quale simbolo è evidenziato nello schema?",
+      functionQuestion: "Quale funzione svolge nel circuito?",
+      correctSymbol,
+      correctFunction,
+      symbolChoices: [correctSymbol, ...distractors.map((item) => item.symbolName ?? item.label)],
+      functionChoices: [correctFunction, ...distractors.map((item) => item.functionSummary ?? item.role)],
+      explanation: `${component.label}: ${component.role}. Indizio visivo: ${component.symbolClue ?? component.check}. Attenzione: ${component.commonConfusion ?? component.check}.`,
     };
   }
 
@@ -210,6 +232,70 @@ export class CircuitFaultGenerator {
       .shuffle(circuitFaultTemplates.map((fault) => fault.type).filter((fault) => !required.has(fault)))
       .slice(0, distractorCount);
     return random.shuffle([...faults, ...distractors]);
+  }
+
+  private componentChallengesForFaults(
+    faults: CircuitFaultType[],
+    nodes: string[],
+    random: Random,
+    level: number,
+  ): CircuitComponentChallenge[] {
+    if (level <= 3) {
+      return [];
+    }
+    const priorityByFault: Record<CircuitFaultType, string[]> = {
+      "missing-wire": ["return", "battery"],
+      "open-switch": ["switch", "battery"],
+      "reversed-led": ["led", "resistor"],
+      "missing-resistor": ["resistor", "led"],
+      "disconnected-component": ["sensor", "return"],
+      "sensor-unpowered": ["sensor", "battery"],
+      "capacitor-discharged": ["capacitor", "battery"],
+      "short-circuit": ["resistor", "ground", "battery"],
+      "parallel-branch-open": ["branchLed", "return"],
+      "wrong-resistor-value": ["resistor", "led"],
+      "relay-not-armed": ["relay", "motor"],
+      "loose-ground": ["ground", "return"],
+    };
+    const ordered = new Set<string>();
+    faults.forEach((fault) => {
+      priorityByFault[fault]
+        .filter((componentId) => nodes.includes(componentId))
+        .forEach((componentId) => ordered.add(componentId));
+    });
+    nodes
+      .filter((componentId) => circuitComponentGuide.some((component) => component.id === componentId))
+      .forEach((componentId) => ordered.add(componentId));
+    const count = level >= 7 ? 2 : 1;
+    return [...ordered]
+      .slice(0, count)
+      .map((componentId) => this.componentChallenge(componentId, nodes, random));
+  }
+
+  private componentChallenge(componentId: string, nodes: string[], random: Random): CircuitComponentChallenge {
+    const component = circuitComponentGuide.find((item) => item.id === componentId) ?? circuitComponentGuide[0];
+    const visibleComponents = circuitComponentGuide.filter((item) => nodes.includes(item.id) || ["battery", "switch", "resistor", "led", "return"].includes(item.id));
+    const symbolDistractors = random
+      .shuffle(visibleComponents.filter((item) => item.id !== component.id))
+      .slice(0, 2)
+      .map((item) => item.symbolName ?? item.label);
+    const functionDistractors = random
+      .shuffle(visibleComponents.filter((item) => item.id !== component.id))
+      .slice(0, 2)
+      .map((item) => item.functionSummary ?? item.role);
+    const correctSymbol = component.symbolName ?? component.label;
+    const correctFunction = component.functionSummary ?? component.role;
+    return {
+      componentId: component.id,
+      componentLabel: component.label,
+      symbolQuestion: "Quale simbolo è evidenziato nello schema?",
+      functionQuestion: "Quale funzione svolge nel circuito?",
+      correctSymbol,
+      correctFunction,
+      symbolChoices: random.shuffle([correctSymbol, ...symbolDistractors]),
+      functionChoices: random.shuffle([correctFunction, ...functionDistractors]),
+      explanation: `${component.label}: ${component.role}. Indizio visivo: ${component.symbolClue ?? component.check}. Attenzione: ${component.commonConfusion ?? component.check}.`,
+    };
   }
 
   private diagnosticPlanForScenario(scenario: GeneratedCircuitPuzzle["scenarioType"]): string[] {

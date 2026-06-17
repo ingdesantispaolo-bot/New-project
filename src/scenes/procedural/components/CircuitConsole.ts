@@ -1,4 +1,4 @@
-import type { CircuitFaultType, GeneratedCircuitPuzzle } from "../../../procedural/ProceduralTypes";
+import type { CircuitComponentChallenge, CircuitFaultType, GeneratedCircuitPuzzle } from "../../../procedural/ProceduralTypes";
 
 export type CircuitConsoleModel = {
   title: string;
@@ -14,6 +14,7 @@ export type CircuitConsoleModel = {
   difficultyLabel: string;
   conceptTags: string[];
   explanations: Partial<Record<CircuitFaultType, string>>;
+  componentChallenges: CircuitComponentChallenge[];
 };
 
 export class CircuitConsole {
@@ -36,6 +37,7 @@ export class CircuitConsole {
       difficultyLabel: puzzle.difficultyLabel ?? "Livello 1 - diagnosi guidata",
       conceptTags: puzzle.conceptTags ?? ["circuito chiuso", "tester"],
       explanations: puzzle.explanationByFault ?? {},
+      componentChallenges: puzzle.componentChallenges ?? [],
     };
   }
 }

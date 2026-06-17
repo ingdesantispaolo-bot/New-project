@@ -12,6 +12,28 @@ export class CircuitPuzzleValidator {
       && puzzle.requiredRepairs.every((fault) => puzzle.repairChoices?.includes(fault))
       && puzzle.repairChoices.length > puzzle.requiredRepairs.length,
     );
-    return hasCoreNodes && repairable && repairsAreUnique && choicesAreUnique && puzzle.faults.length > 0 && puzzle.hints.length >= puzzle.faults.length && hasDiagnostics && hasPlausibleChoices;
+    const componentChallengesAreValid = (puzzle.componentChallenges ?? []).every((challenge) => {
+      const symbolChoices = new Set(challenge.symbolChoices);
+      const functionChoices = new Set(challenge.functionChoices);
+      return (
+        challenge.componentId.length > 0
+        && challenge.explanation.length > 30
+        && challenge.symbolChoices.length >= 3
+        && challenge.functionChoices.length >= 3
+        && symbolChoices.size === challenge.symbolChoices.length
+        && functionChoices.size === challenge.functionChoices.length
+        && symbolChoices.has(challenge.correctSymbol)
+        && functionChoices.has(challenge.correctFunction)
+      );
+    });
+    return hasCoreNodes
+      && repairable
+      && repairsAreUnique
+      && choicesAreUnique
+      && puzzle.faults.length > 0
+      && puzzle.hints.length >= puzzle.faults.length
+      && hasDiagnostics
+      && hasPlausibleChoices
+      && componentChallengesAreValid;
   }
 }

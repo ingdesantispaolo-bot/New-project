@@ -274,6 +274,9 @@ export class ExerciseDirector {
     if (puzzle.challengeType === "minimal-route") concepts.add("ottimizzazione");
     if (puzzle.challengeType === "debug-program") concepts.add("debug del programma");
     if (puzzle.challengeType === "pattern-routing") concepts.add("pattern spaziale");
+    if (puzzle.challengeType === "coordinate-routing") concepts.add("coordinate su griglia");
+    if (puzzle.challengeType === "conditional-gate") concepts.add("logica condizionale");
+    if (puzzle.challengeType === "loop-compression") concepts.add("pattern ripetuto");
     return [...concepts];
   }
 
@@ -284,6 +287,9 @@ export class ExerciseDirector {
       "checkpoint-order": "Scomporre una rotta in sotto-obiettivi ordinati e verificabili.",
       "debug-program": "Analizzare un programma quasi corretto, individuare l'errore e riscrivere la sequenza.",
       "pattern-routing": "Riconoscere pattern spaziali e trasformarli in sequenze di comandi controllate.",
+      "coordinate-routing": "Tradurre posizioni su griglia e direzione iniziale in una sequenza di comandi.",
+      "conditional-gate": "Usare una logica se-allora: attivare condizioni prima dell'azione finale.",
+      "loop-compression": "Riconoscere blocchi ripetuti e usarli per progettare sequenze piu efficienti.",
     }[puzzle.challengeType ?? "route-planning"];
   }
 

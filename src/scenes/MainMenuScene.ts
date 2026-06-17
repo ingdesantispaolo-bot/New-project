@@ -34,6 +34,7 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.transitioning = false;
     playerSystem.load();
     saveSystem.load();
     this.selectedDifficulty ??= this.loadSelectedDifficulty();
@@ -249,7 +250,11 @@ export class MainMenuScene extends Phaser.Scene {
       try {
         saveSystem.pauseActiveProceduralRun();
         this.createProceduralRun("libera", this.activeDifficulty(), "mission");
-        void startScene(this, "ProceduralMissionScene");
+        void startScene(this, "ProceduralMissionScene").catch(() => {
+          clearBusy();
+          this.transitioning = false;
+          this.showMenuError("Non sono riuscito ad aprire la missione. Riprova tra un istante.");
+        });
       } catch {
         clearBusy();
         this.transitioning = false;
@@ -269,11 +274,15 @@ export class MainMenuScene extends Phaser.Scene {
     this.transitioning = true;
     saveSystem.pauseActiveProceduralRun();
     saveSystem.setActiveProceduralRun(run);
-    void startScene(this, "ProceduralMissionScene");
+    void startScene(this, "ProceduralMissionScene").catch(() => {
+      this.transitioning = false;
+      this.showMenuError("Non sono riuscito a riprendere la missione. Riprova tra un istante.");
+    });
   }
 
   private startFocusTraining(focus: ProceduralSpecialization): void {
     if (this.transitioning) return;
+    saveSystem.load();
     const previousTraining = saveSystem.getProceduralTrainingRun();
     if (this.isSameFocus(previousTraining, focus) && this.isResumable(previousTraining)) {
       this.resumeFocusTraining();
@@ -281,12 +290,15 @@ export class MainMenuScene extends Phaser.Scene {
     }
     this.transitioning = true;
     const clearBusy = this.showBusy("Costruisco il percorso focus...");
-    saveSystem.load();
     this.time.delayedCall(40, () => {
       try {
         saveSystem.pauseActiveProceduralRun();
         this.createProceduralRun(focus, this.activeDifficulty(), "training");
-        void startScene(this, "ProceduralMissionScene");
+        void startScene(this, "ProceduralMissionScene").catch(() => {
+          clearBusy();
+          this.transitioning = false;
+          this.showMenuError("Non sono riuscito ad aprire il focus. Riprova tra un istante.");
+        });
       } catch {
         clearBusy();
         this.transitioning = false;
@@ -306,7 +318,10 @@ export class MainMenuScene extends Phaser.Scene {
     this.transitioning = true;
     saveSystem.pauseActiveProceduralRun();
     saveSystem.setActiveProceduralRun(run);
-    void startScene(this, "ProceduralMissionScene");
+    void startScene(this, "ProceduralMissionScene").catch(() => {
+      this.transitioning = false;
+      this.showMenuError("Non sono riuscito a riprendere il focus. Riprova tra un istante.");
+    });
   }
 
   private showBusy(label: string): () => void {

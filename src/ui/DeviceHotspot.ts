@@ -40,6 +40,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
     let lastTapAt = 0;
     let pressed = false;
+    let pointerStartedInside = false;
     const glow = scene.add.image(0, 0, "soft-glow").setTint(tint).setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : 0.04).setScale(size / 58);
     const ring = scene.add.image(0, 0, "holo-ring").setTint(tint).setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : 0.18).setScale(size / 78);
     const glyph = drawDeviceGlyph(scene, options.kind, tint, options.state, size * 0.72);
@@ -66,8 +67,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
 
     tag.setAlpha(options.state === "active" ? 1 : 0.76);
     this.add([glow, ring, glyph, marker, status, tag]);
-    const hitSize = Math.max(size, 76);
-    const hitHeight = hitSize * 1.18;
+    const hitSize = Math.max(size + 34, 110);
+    const hitHeight = Math.max(hitSize * 1.22, size + 54);
     this.setSize(hitSize, hitHeight);
     this.setInteractive(
       new Phaser.Geom.Rectangle(-hitSize / 2, -hitHeight / 2, hitSize, hitHeight),
@@ -99,20 +100,33 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       if (now - lastTapAt < 180) return;
       lastTapAt = now;
       pressed = true;
+      pointerStartedInside = true;
       scene.tweens.killTweensOf([glow, tag]);
       ring.setAlpha(options.state === "locked" ? 0.12 : 0.74);
       glow.setAlpha(options.state === "locked" ? 0.08 : 0.3);
       tag.setAlpha(1);
       ring.setScale((size / 78) * 0.98);
+    });
+    this.on("pointerup", () => {
+      if (!pointerStartedInside) return;
       const runAction = () => {
         if (!this.scene || !this.active) return;
         options.onClick();
         pressed = false;
+        pointerStartedInside = false;
         if (!this.scene || !this.active) return;
         scene.tweens.killTweensOf([glow, tag]);
         scene.tweens.add({ targets: ring, scale: size / 78, duration: 70 });
       };
       runAction();
+    });
+    this.on("pointerupoutside", () => {
+      pressed = false;
+      pointerStartedInside = false;
+      ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : 0.18);
+      glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : 0.04);
+      tag.setAlpha(options.state === "active" ? 1 : 0.76);
+      ring.setScale(size / 78);
     });
 
     if (options.state === "ready" || options.state === "active") {

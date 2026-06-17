@@ -30,7 +30,7 @@ export class Button extends Phaser.GameObjects.Container {
 
     const width = options.width ?? 260;
     const height = options.height ?? 56;
-    const hitPadding = options.hitPadding ?? 3;
+    const hitPadding = options.hitPadding ?? 14;
     const hitWidth = Math.max(44, width + hitPadding * 2);
     const hitHeight = Math.max(44, height + hitPadding * 2);
     const fill = options.fill ?? 0x173244;
@@ -40,6 +40,7 @@ export class Button extends Phaser.GameObjects.Container {
     const cooldownMs = options.cooldownMs ?? 90;
     let lastClickAt = 0;
     let pressed = false;
+    let pointerStartedInside = false;
 
     const shadow = scene.add.rectangle(5, 7, width, height, 0x000000, 0.28);
     this.background = scene.add
@@ -94,15 +95,20 @@ export class Button extends Phaser.GameObjects.Container {
         if (now - lastClickAt < cooldownMs) return;
         lastClickAt = now;
         pressed = true;
+        pointerStartedInside = true;
         scene.tweens.killTweensOf([this.background, this.highlight]);
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
         this.background.setScale(0.996, 0.972);
         audioManager.play("click");
+      })
+      .on("pointerup", () => {
+        if (!pointerStartedInside) return;
         const runAction = () => {
           if (!this.scene || !this.active) return;
           onClick();
           pressed = false;
+          pointerStartedInside = false;
           if (!this.scene || !this.active) return;
           scene.tweens.killTweensOf([this.background, this.highlight]);
           scene.tweens.add({
@@ -122,6 +128,14 @@ export class Button extends Phaser.GameObjects.Container {
         } else {
           scene.time.delayedCall(actionDelayMs, runAction);
         }
+      })
+      .on("pointerupoutside", () => {
+        pressed = false;
+        pointerStartedInside = false;
+        this.background.setFillStyle(fill, 0.96);
+        this.highlight.setAlpha(0.72);
+        scene.tweens.killTweensOf([this.background, this.highlight]);
+        this.background.setScale(1);
       });
 
     scene.add.existing(this);

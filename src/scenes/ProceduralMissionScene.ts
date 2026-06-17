@@ -1702,7 +1702,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           return;
         }
         this.handleMusicMistake(choice.feedback);
-      }, { width: 220, height: 54, fontSize: puzzle.answerMode === "note-name" ? 22 : 16, fill: 0x263743, hoverFill: 0x23556a }));
+      }, { width: 230, height: 58, fontSize: puzzle.answerMode === "note-name" ? 22 : 16, fill: 0x263743, hoverFill: 0x23556a, hitPadding: 18 }));
     });
 
     this.addMethodStrip(overlay, 56, 572, 520, "Metodo", puzzle.methodSteps);
@@ -1728,7 +1728,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const y = topY + index * lineSpacing;
       overlay.add(this.add.rectangle((staffLeft + staffRight) / 2, y, staffRight - staffLeft, 2, 0x9ff5e9, 0.78));
     }
-    this.drawMusicClef(overlay, puzzle.clef, staffLeft + 46, topY + lineSpacing * 2);
+    const clefAnchorY = puzzle.clef === "bass" ? topY + lineSpacing : topY + lineSpacing * 3;
+    this.drawMusicClef(overlay, puzzle.clef, staffLeft + 46, clefAnchorY);
     const noteX = centerX + 96;
     const noteY = topY + puzzle.staffPosition * (lineSpacing / 2);
     puzzle.ledgerLines.forEach((position) => {
@@ -1805,24 +1806,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (clef === "treble") {
       const symbol = this.add.text(x, y, "𝄞", {
         fontFamily: "Georgia, 'Times New Roman', serif",
-        fontSize: "104px",
+        fontSize: "96px",
         color: "#f7d37a",
-      }).setOrigin(0.5, 0.5);
-      symbol.setY(y + 3);
+      }).setOrigin(0.5, 0.55);
+      symbol.setY(y - 2);
       overlay.add(symbol);
-      overlay.add(this.add.circle(x + 1, y + 28, 4, 0xf5fbff, 0.85));
+      overlay.add(this.add.circle(x + 1, y, 4, 0xf5fbff, 0.85));
       return;
     }
     const g = this.add.graphics();
     g.lineStyle(4, 0xf7d37a, 0.92);
     g.beginPath();
-    g.arc(x - 10, y - 8, 34, Phaser.Math.DegToRad(245), Phaser.Math.DegToRad(88), false);
+    g.arc(x - 12, y, 34, Phaser.Math.DegToRad(248), Phaser.Math.DegToRad(88), false);
     g.strokePath();
     g.fillStyle(0xf7d37a, 0.95);
-    g.fillCircle(x - 26, y - 8, 8);
-    g.fillCircle(x + 30, y - 24, 4);
-    g.fillCircle(x + 30, y + 2, 4);
+    g.fillCircle(x - 28, y, 8);
+    g.fillCircle(x + 30, y - 14, 4);
+    g.fillCircle(x + 30, y + 14, 4);
     overlay.add(g);
+    overlay.add(this.add.circle(x - 28, y, 3, 0xf5fbff, 0.72));
   }
 
   private startMusicCountdown(puzzleId: string, puzzle: GeneratedMusicPuzzle, text: Phaser.GameObjects.Text): void {

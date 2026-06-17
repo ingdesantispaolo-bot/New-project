@@ -54,12 +54,53 @@ export class ViewportSystem {
     if (!("serviceWorker" in navigator)) {
       return;
     }
+
+    if (import.meta.env.DEV) {
+      this.clearDevelopmentServiceWorker();
+      return;
+    }
+
     window.addEventListener("load", () => {
       const base = import.meta.env.BASE_URL;
       const scriptUrl = new URL(`${base}sw.js`, window.location.href);
-      navigator.serviceWorker.register(scriptUrl, { scope: base }).catch(() => {
+      const buildId = import.meta.env.VITE_BUILD_REF ?? import.meta.env.VITE_BUILD_TIME ?? "local-build";
+      scriptUrl.searchParams.set("v", buildId);
+
+      let reloadingForUpdate = false;
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (reloadingForUpdate) {
+          return;
+        }
+        reloadingForUpdate = true;
+        window.location.reload();
+      });
+
+      navigator.serviceWorker.register(scriptUrl, {
+        scope: base,
+        updateViaCache: "none",
+      }).then((registration) => {
+        registration.waiting?.postMessage({ type: "SKIP_WAITING" });
+        registration.update().catch(() => {
+          // The browser will retry future update checks.
+        });
+      }).catch(() => {
         // Offline caching is optional; the game remains playable online.
       });
+    }, { once: true });
+  }
+
+  private static clearDevelopmentServiceWorker(): void {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.getRegistrations()
+        .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+        .catch(() => undefined);
+      if ("caches" in window) {
+        caches.keys()
+          .then((keys) => Promise.all(keys
+            .filter((key) => key.startsWith("eli-quest-"))
+            .map((key) => caches.delete(key))))
+          .catch(() => undefined);
+      }
     }, { once: true });
   }
 }

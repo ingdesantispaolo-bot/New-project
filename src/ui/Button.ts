@@ -11,12 +11,12 @@ export type ButtonOptions = {
   wordWrapWidth?: number;
   actionDelayMs?: number;
   cooldownMs?: number;
-  hitPadding?: number;
 };
 
 export class Button extends Phaser.GameObjects.Container {
   private background: Phaser.GameObjects.Rectangle;
   private highlight: Phaser.GameObjects.Rectangle;
+  private hitTarget: Phaser.GameObjects.Rectangle;
 
   constructor(
     scene: Phaser.Scene,
@@ -30,9 +30,8 @@ export class Button extends Phaser.GameObjects.Container {
 
     const width = options.width ?? 260;
     const height = options.height ?? 56;
-    const hitPadding = options.hitPadding ?? 0;
-    const hitWidth = width + hitPadding * 2;
-    const hitHeight = height + hitPadding * 2;
+    const hitWidth = width;
+    const hitHeight = height;
     const fill = options.fill ?? 0x173244;
     const hoverFill = options.hoverFill ?? 0x23556a;
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
@@ -66,16 +65,15 @@ export class Button extends Phaser.GameObjects.Container {
       text.setWordWrapWidth(options.wordWrapWidth ?? width - 22, true);
     }
 
-    this.add([shadow, this.background, this.highlight, text]);
+    this.hitTarget = scene.add.rectangle(0, 0, hitWidth, hitHeight, 0x000000, 0.001);
+    this.hitTarget.setInteractive();
+
+    this.add([shadow, this.background, this.highlight, text, this.hitTarget]);
     this.setSize(hitWidth, hitHeight);
-    this.setInteractive(
-      new Phaser.Geom.Rectangle(-hitWidth / 2, -hitHeight / 2, hitWidth, hitHeight),
-      Phaser.Geom.Rectangle.Contains,
-    );
-    if (this.input) {
-      this.input.cursor = "pointer";
+    if (this.hitTarget.input) {
+      this.hitTarget.input.cursor = "pointer";
     }
-    this
+    this.hitTarget
       .on("pointerover", () => {
         if (!supportsHover || pressed) return;
         this.background.setFillStyle(hoverFill, 1);

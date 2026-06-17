@@ -217,13 +217,15 @@ export class NumberFactoryScene extends Phaser.Scene {
         fontStyle: "bold",
       }));
       container.setSize(142, 92);
-      container.setInteractive(new Phaser.Geom.Rectangle(-71, -46, 142, 92), Phaser.Geom.Rectangle.Contains);
-      container
+      const hitTarget = this.add.rectangle(0, 0, 142, 92, 0x000000, 0.001).setInteractive();
+      if (hitTarget.input) hitTarget.input.cursor = "pointer";
+      hitTarget
         .on("pointerover", () => {
           audioManager.play("scan");
           feedbackSystem.publish(`${machine.description} ${machine.hint}`, "info");
         })
         .on("pointerdown", () => this.runMachine(machine));
+      container.add(hitTarget);
       this.machineLayer?.add(container);
     });
 

@@ -239,13 +239,15 @@ export class WordArchiveScene extends Phaser.Scene {
         lineSpacing: 4,
       }));
       card.setSize(190, 142);
-      card.setInteractive(new Phaser.Geom.Rectangle(-95, -71, 190, 142), Phaser.Geom.Rectangle.Contains);
-      card.on("pointerdown", () => {
+      const hitTarget = this.add.rectangle(0, 0, 190, 142, 0x000000, 0.001).setInteractive();
+      if (hitTarget.input) hitTarget.input.cursor = "pointer";
+      hitTarget.on("pointerdown", () => {
         this.selectedMessageId = message.id;
         this.mode = "repair";
         audioManager.play("scan");
         this.refreshScene();
       });
+      card.add(hitTarget);
       this.archiveLayer?.add(card);
     });
 

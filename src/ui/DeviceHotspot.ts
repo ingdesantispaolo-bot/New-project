@@ -66,18 +66,16 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     }).setOrigin(0.5, 0));
 
     tag.setAlpha(options.state === "active" ? 1 : 0.76);
-    this.add([glow, ring, glyph, marker, status, tag]);
     const hitSize = Math.max(size + 34, 110);
     const hitHeight = Math.max(hitSize * 1.22, size + 54);
+    const hitTarget = scene.add.rectangle(0, 0, hitSize, hitHeight, 0x000000, 0.001);
+    hitTarget.setInteractive();
+    this.add([glow, ring, glyph, marker, status, tag, hitTarget]);
     this.setSize(hitSize, hitHeight);
-    this.setInteractive(
-      new Phaser.Geom.Rectangle(-hitSize / 2, -hitHeight / 2, hitSize, hitHeight),
-      Phaser.Geom.Rectangle.Contains,
-    );
-    if (this.input && options.state !== "locked") {
-      this.input.cursor = "pointer";
+    if (hitTarget.input && options.state !== "locked") {
+      hitTarget.input.cursor = "pointer";
     }
-    this.on("pointerover", () => {
+    hitTarget.on("pointerover", () => {
       if (!supportsHover || pressed) return;
       if (options.state !== "locked") {
         ring.setAlpha(0.66);
@@ -87,7 +85,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
         ring.setScale((size / 78) * 1.04);
       }
     });
-    this.on("pointerout", () => {
+    hitTarget.on("pointerout", () => {
       if (pressed) return;
       ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : 0.18);
       glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : 0.04);
@@ -95,7 +93,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       scene.tweens.killTweensOf([glow, tag]);
       ring.setScale(size / 78);
     });
-    this.on("pointerdown", () => {
+    hitTarget.on("pointerdown", () => {
       const now = performance.now();
       if (now - lastTapAt < 180) return;
       lastTapAt = now;
@@ -107,7 +105,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       tag.setAlpha(1);
       ring.setScale((size / 78) * 0.98);
     });
-    this.on("pointerup", () => {
+    hitTarget.on("pointerup", () => {
       if (!pointerStartedInside) return;
       const runAction = () => {
         if (!this.scene || !this.active) return;
@@ -120,7 +118,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       };
       runAction();
     });
-    this.on("pointerupoutside", () => {
+    hitTarget.on("pointerupoutside", () => {
       pressed = false;
       pointerStartedInside = false;
       ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : 0.18);

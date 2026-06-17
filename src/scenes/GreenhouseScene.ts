@@ -254,14 +254,16 @@ export class GreenhouseScene extends Phaser.Scene {
         color: saved ? "#9ff5e9" : "#d9eaf1",
       }));
       pot.setSize(180, 230);
-      pot.setInteractive(new Phaser.Geom.Rectangle(-90, -90, 180, 250), Phaser.Geom.Rectangle.Contains);
-      pot.on("pointerdown", () => {
+      const hitTarget = this.add.rectangle(0, 35, 180, 250, 0x000000, 0.001).setInteractive();
+      if (hitTarget.input) hitTarget.input.cursor = "pointer";
+      hitTarget.on("pointerdown", () => {
         this.selectedPlantId = plant.definition.id;
         this.persistRun();
         audioManager.play("scan");
         this.refreshScene();
         feedbackSystem.publish(plant.definition.leafClues[Math.min(this.turn - 1, plant.definition.leafClues.length - 1)], "hint");
       });
+      pot.add(hitTarget);
       this.plantLayer?.add(pot);
 
       if (selected) {

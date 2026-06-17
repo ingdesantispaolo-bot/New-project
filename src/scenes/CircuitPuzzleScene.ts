@@ -165,12 +165,14 @@ export class CircuitPuzzleScene extends Phaser.Scene {
       }).setOrigin(0.5));
       this.drawSymbol(node, key);
       node.setSize(150, 132);
-      node.setInteractive(new Phaser.Geom.Rectangle(-75, -66, 150, 132), Phaser.Geom.Rectangle.Contains);
-      node.on("pointerdown", () => {
+      const hitTarget = this.add.rectangle(0, 0, 150, 132, 0x000000, 0.001).setInteractive();
+      if (hitTarget.input) hitTarget.input.cursor = "pointer";
+      hitTarget.on("pointerdown", () => {
         this.selectedComponent = key;
         audioManager.play("scan");
         this.refresh();
       });
+      node.add(hitTarget);
       this.componentNodes.set(key, node);
     });
     this.ledGlow = this.add.image(componentInfo.led.x, 430, "soft-glow").setTint(0x6be7d6).setAlpha(0.07).setScale(1.2);

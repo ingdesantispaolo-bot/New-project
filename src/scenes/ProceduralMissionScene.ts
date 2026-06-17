@@ -25,6 +25,7 @@ import type {
   GeneratedRoomHotspot,
   GridCommand,
   GridFacing,
+  ProceduralPuzzleScore,
   ProceduralRunSave,
 } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
@@ -68,10 +69,21 @@ const repairLabels: Record<CircuitFaultType, string> = {
 
 type MusicTrainingSession = {
   puzzleId: string;
-  puzzles: GeneratedMusicPuzzle[];
-  index: number;
-  correct: number;
+  random: Random;
+  current: GeneratedMusicPuzzle;
+  startedAt: number;
+  durationMs: number;
   questionStartedAt: number;
+  answered: number;
+  correct: number;
+  wrong: number;
+  streak: number;
+  bestStreak: number;
+  netScore: number;
+  recentSignatures: string[];
+  feedback: string;
+  locked: boolean;
+  summaryOpen: boolean;
 };
 
 export class ProceduralMissionScene extends Phaser.Scene {
@@ -1677,7 +1689,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private openMusic(): void {
     const puzzleId = this.currentPuzzleId("music");
     const session = this.ensureMusicSession(puzzleId);
-    const puzzle = session.puzzles[session.index];
+    const puzzle = session.current;
     const overlay = this.createOverlay("Osservatorio del Pentagramma", 660, { x: 32, y: 28, width: 1216 });
     this.drawMusicSessionHeader(overlay, puzzle, session);
     this.drawMusicStaff(overlay, puzzle, 350, 328);
@@ -1689,29 +1701,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
     }).setOrigin(0.5);
     overlay.add(timerText);
-    this.startMusicCountdown(puzzleId, puzzle, timerText);
+    this.startMusicSprintCountdown(puzzleId, timerText);
 
     puzzle.choices.forEach((choice, index) => {
       const x = 794 + (index % 2) * 244;
       const y = 418 + Math.floor(index / 2) * 72;
       overlay.add(new Button(this, x, y, choice.label, () => {
-        if (this.musicTimeExpired(puzzleId, puzzle)) {
-          this.handlePuzzleTimeout(
-            "Tempo scaduto: la nota va riconosciuta entro il tempo del livello. Usa la chiave come ancora, poi conta linee e spazi.",
-            this.musicSolutionLines(puzzle),
-            () => this.advanceMusicSession(false),
-          );
+        if (session.locked || session.summaryOpen) {
           return;
         }
-        if (choice.isCorrect) {
-          this.advanceMusicSession(true);
+        if (this.musicSprintExpired(session)) {
+          this.finishMusicSprint();
           return;
         }
-        this.handlePuzzleTimeout(
-          choice.feedback,
-          this.musicSolutionLines(puzzle),
-          () => this.advanceMusicSession(false),
-        );
+        this.answerMusicSprint(choice.isCorrect, choice.feedback);
       }, {
         width: 218,
         height: 60,
@@ -1734,7 +1737,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session: MusicTrainingSession,
   ): void {
     overlay.add(this.add.rectangle(608, 92, 1128, 84, 0x06131c, 0.64).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.text(56, 66, `${puzzle.difficultyLabel.toUpperCase()} | Nota ${session.index + 1}/5 | Tempo: ${formatDuration(puzzle.timeLimitMs)}`, {
+    overlay.add(this.add.text(56, 66, `${puzzle.difficultyLabel.toUpperCase()} | Sprint a tempo fisso: ${formatDuration(session.durationMs)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
@@ -1747,26 +1750,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 850 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(970, 70, `Corrette: ${session.correct}/${session.index}`, {
+    overlay.add(this.add.text(970, 70, `Corrette ${session.correct}  |  Errori ${session.wrong}  |  Serie ${session.streak}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#f7d37a",
       fontStyle: "bold",
     }).setOrigin(0.5));
-    for (let index = 0; index < 5; index += 1) {
-      const stateColor = index < session.index
-        ? 0xf7d37a
-        : index === session.index
-          ? 0x6be7d6
-          : 0x344b58;
-      overlay.add(this.add.circle(904 + index * 34, 110, 9, stateColor, index <= session.index ? 0.92 : 0.48)
-        .setStrokeStyle(1, 0xffffff, index === session.index ? 0.36 : 0.1));
-      overlay.add(this.add.text(904 + index * 34, 127, String(index + 1), {
-        fontFamily: "Inter, Arial",
-        fontSize: "9px",
-        color: "#c7dce7",
-      }).setOrigin(0.5));
-    }
+    const remainingRatio = Phaser.Math.Clamp(1 - this.musicSprintElapsedMs(session) / session.durationMs, 0, 1);
+    overlay.add(this.add.rectangle(906, 112, 284, 10, 0x1b3140, 0.82).setStrokeStyle(1, 0x6be7d6, 0.22));
+    overlay.add(this.add.rectangle(906 - 142 + 142 * remainingRatio, 112, 284 * remainingRatio, 10, remainingRatio < 0.2 ? 0xff8a8a : 0x6be7d6, 0.88));
+    overlay.add(this.add.text(970, 126, `Punti sprint: ${session.netScore}  |  Risposte: ${session.answered}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#c7dce7",
+    }).setOrigin(0.5));
   }
 
   private drawMusicStaff(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
@@ -1822,13 +1819,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, session: MusicTrainingSession): void {
     overlay.add(this.add.rectangle(916, 282, 508, 206, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(682, 196, `Come ragionare - nota ${session.index + 1}`, {
+    overlay.add(this.add.text(682, 196, "Come ragionare durante lo sprint", {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(682, 224, puzzle.method, {
+    overlay.add(this.add.text(682, 224, `${puzzle.method}\n\n${session.feedback || "Non serve correre a caso: rispondi solo quando hai agganciato la chiave e contato linee/spazi."}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -1856,51 +1853,324 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const basePuzzle = this.currentMusicPuzzle();
     const random = new Random(`${this.run.seed}:${puzzleId}:music-drill`);
-    const puzzles = [basePuzzle];
-    for (let index = 1; index < 5; index += 1) {
-      const level = Math.min(8, Math.max(1, this.run.difficulty + Math.floor(index / 2))) as DifficultyLevel;
-      puzzles.push(this.musicGenerator.generate(random.fork(`note-${index}`), level));
-    }
+    const durationMs = this.musicSprintDurationMs(this.run.difficulty);
     this.musicSession = {
       puzzleId,
-      puzzles,
-      index: 0,
+      random,
+      current: basePuzzle,
+      startedAt: Date.now(),
+      durationMs,
+      answered: 0,
       correct: 0,
+      wrong: 0,
+      streak: 0,
+      bestStreak: 0,
+      netScore: 0,
+      recentSignatures: [this.musicPuzzleSignature(basePuzzle)],
+      feedback: "Obiettivo: più note corrette possibili nel tempo. Le risposte errate tolgono punti e interrompono la serie.",
+      locked: false,
+      summaryOpen: false,
       questionStartedAt: Date.now(),
     };
     return this.musicSession;
   }
 
-  private advanceMusicSession(correct: boolean): void {
+  private answerMusicSprint(correct: boolean, feedback: string): void {
     const session = this.musicSession;
     const puzzleId = this.currentPuzzleId("music");
-    const puzzle = session?.puzzles[session.index] ?? this.currentMusicPuzzle();
-    this.musicTimerEvent?.remove(false);
-    this.musicTimerEvent = undefined;
-    if (!session || session.puzzleId !== puzzleId) {
-      if (correct) {
-        this.solvePuzzle(puzzleId, puzzle.competencies);
-      }
+    if (!session || session.puzzleId !== puzzleId || session.locked || session.summaryOpen) {
       return;
     }
+    session.locked = true;
+    const points = this.musicAnswerPoints(session, correct);
+    session.answered += 1;
     if (correct) {
       session.correct += 1;
+      session.streak += 1;
+      session.bestStreak = Math.max(session.bestStreak, session.streak);
+      session.netScore += points;
+      session.feedback = `+${points} punti. Serie attiva: ${session.streak}.`;
       audioManager.playOutcome("correct");
-      outcomeFeedback.play(this, "success", `Nota ${session.index + 1}/5`);
+      outcomeFeedback.play(this, "success", `+${points}`);
     } else {
+      session.wrong += 1;
+      session.streak = 0;
+      session.netScore = Math.max(0, session.netScore + points);
+      session.feedback = `${feedback} ${points} punti: l'errore interrompe la serie, ma lo sprint continua.`;
+      this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
-      outcomeFeedback.play(this, "warning", `Nota ${session.index + 1}/5`);
+      outcomeFeedback.play(this, "warning", `${points}`);
     }
-    session.index += 1;
-    if (session.index >= session.puzzles.length) {
-      const competencies = Array.from(new Set(session.puzzles.flatMap((item) => item.competencies)));
-      feedbackSystem.publish(`Sessione completata: ${session.correct}/5 note riconosciute. La console registra la sequenza completa.`, session.correct >= 3 ? "success" : "hint");
-      this.musicSession = undefined;
-      this.solvePuzzle(puzzleId, competencies);
+    if (this.musicSprintExpired(session)) {
+      this.finishMusicSprint();
       return;
     }
+    this.time.delayedCall(correct ? 95 : 240, () => this.advanceMusicSprintQuestion(session));
+  }
+
+  private advanceMusicSprintQuestion(session: MusicTrainingSession): void {
+    if (session.summaryOpen || session.puzzleId !== this.currentPuzzleId("music")) {
+      return;
+    }
+    session.current = this.nextMusicSprintPuzzle(session);
     session.questionStartedAt = Date.now();
+    session.locked = false;
     this.openMusic();
+  }
+
+  private nextMusicSprintPuzzle(session: MusicTrainingSession): GeneratedMusicPuzzle {
+    const level = Math.min(8, Math.max(1, this.run.difficulty + Math.floor(session.correct / 7))) as DifficultyLevel;
+    const previous = this.musicPuzzleSignature(session.current);
+    for (let attempt = 0; attempt < 14; attempt += 1) {
+      const salt = session.random.integer(0, 999_999);
+      const candidate = this.musicGenerator.generate(session.random.fork(`sprint-${session.answered}-${attempt}-${salt}`), level);
+      const signature = this.musicPuzzleSignature(candidate);
+      if (signature !== previous && !session.recentSignatures.slice(-2).includes(signature)) {
+        session.recentSignatures.push(signature);
+        session.recentSignatures = session.recentSignatures.slice(-4);
+        return candidate;
+      }
+    }
+    const fallback = this.musicGenerator.generate(session.random.fork(`fallback-${session.answered}`), level);
+    session.recentSignatures.push(this.musicPuzzleSignature(fallback));
+    session.recentSignatures = session.recentSignatures.slice(-4);
+    return fallback;
+  }
+
+  private musicSprintDurationMs(level: DifficultyLevel): number {
+    return 45_000 + Math.min(18_000, (level - 1) * 2_500);
+  }
+
+  private musicSprintElapsedMs(session: MusicTrainingSession): number {
+    return Math.max(0, Date.now() - session.startedAt);
+  }
+
+  private musicSprintRemainingMs(session: MusicTrainingSession): number {
+    return Math.max(0, session.durationMs - this.musicSprintElapsedMs(session));
+  }
+
+  private musicSprintExpired(session: MusicTrainingSession): boolean {
+    return this.musicSprintRemainingMs(session) <= 0;
+  }
+
+  private musicPuzzleSignature(puzzle: GeneratedMusicPuzzle): string {
+    return [
+      puzzle.clef,
+      puzzle.answerMode,
+      puzzle.noteName,
+      puzzle.octave,
+      puzzle.staffPosition,
+      puzzle.ledgerLines.join("."),
+    ].join(":");
+  }
+
+  private musicAnswerPoints(session: MusicTrainingSession, correct: boolean): number {
+    const level = this.run.difficulty;
+    if (correct) {
+      const nextStreak = session.streak + 1;
+      const streakBonus = Math.min(12, Math.floor(nextStreak / 3) * 3);
+      return 10 + level * 2 + streakBonus;
+    }
+    const randomClickPenalty = Math.min(8, Math.floor(session.streak / 2) * 2);
+    return -(8 + level + randomClickPenalty);
+  }
+
+  private startMusicSprintCountdown(puzzleId: string, text: Phaser.GameObjects.Text): void {
+    this.musicTimerEvent?.remove(false);
+    const update = (): void => {
+      const session = this.musicSession;
+      if (!text.active || !session || session.puzzleId !== puzzleId || session.summaryOpen) {
+        return;
+      }
+      const remaining = this.musicSprintRemainingMs(session);
+      text.setText(`Tempo sprint: ${formatDuration(remaining)}`);
+      text.setColor(remaining < 8_000 ? "#ff8a8a" : "#f7d37a");
+      if (remaining <= 0) {
+        this.musicTimerEvent?.remove(false);
+        this.musicTimerEvent = undefined;
+        this.finishMusicSprint();
+      }
+    };
+    update();
+    this.musicTimerEvent = this.time.addEvent({ delay: 120, loop: true, callback: update });
+  }
+
+  private finishMusicSprint(): void {
+    const session = this.musicSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    session.locked = true;
+    session.summaryOpen = true;
+    this.musicTimerEvent?.remove(false);
+    this.musicTimerEvent = undefined;
+    audioManager.playOutcome("neutral");
+    this.showMusicSprintSummary(session);
+  }
+
+  private musicSprintPassed(session: MusicTrainingSession): boolean {
+    if (proceduralRunRules.modeFor(this.run) !== "mission") {
+      return true;
+    }
+    const minCorrect = Math.max(4, Math.min(10, 3 + Math.ceil(this.run.difficulty * 0.8)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    return session.correct >= minCorrect && accuracy >= 0.45 && session.netScore > 0;
+  }
+
+  private musicSprintFeedback(session: MusicTrainingSession): string {
+    if (session.answered === 0) {
+      return "Nessuna risposta registrata: serve almeno iniziare il riconoscimento delle note.";
+    }
+    const accuracy = session.correct / session.answered;
+    if (accuracy >= 0.86 && session.bestStreak >= 7) {
+      return "Lettura fluida: riconosci chiave, posizione e nome con buona continuità.";
+    }
+    if (accuracy >= 0.68) {
+      return "Buona base: la velocità cresce, ma alcune risposte mostrano che devi ricontare prima del click.";
+    }
+    if (session.wrong > session.correct) {
+      return "Troppe risposte a tentativo: rallenta un attimo, aggancia la nota guida e poi conta linee e spazi.";
+    }
+    return "Allenamento utile: hai letto diverse note, ora punta a serie più lunghe senza errori.";
+  }
+
+  private showMusicSprintSummary(session: MusicTrainingSession): void {
+    const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
+    const modal = this.add.container(0, 0).setDepth(1300);
+    const passed = this.musicSprintPassed(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+    const title = passed ? "Sprint musicale completato" : "Sprint musicale da consolidare";
+    const mode = proceduralRunRules.modeFor(this.run);
+    modal.add(this.add.rectangle(600, 330, 1280, 720, 0x02070b, 0.64).setInteractive());
+    modal.add(this.add.rectangle(600, 334, 760, 356, 0x000000, 0.32));
+    modal.add(this.add.rectangle(600, 320, 760, 356, 0x07151d, 0.98)
+      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
+    modal.add(this.add.text(250, 168, title, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: passed ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(250, 216, [
+      `Risposte corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie migliore: ${session.bestStreak}`,
+      `Punti sprint: ${session.netScore}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f5fbff",
+      lineSpacing: 7,
+    }));
+    modal.add(this.add.rectangle(560, 218, 390, 120, 0x102533, 0.78).setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.3));
+    modal.add(this.add.text(584, 240, this.musicSprintFeedback(session), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 340 },
+      lineSpacing: 5,
+    }));
+    modal.add(this.add.rectangle(250, 378, 700, 72, 0x0b1e2a, 0.82).setOrigin(0)
+      .setStrokeStyle(1, 0xf7d37a, 0.36));
+    modal.add(this.add.text(274, 394, mode === "mission"
+      ? passed
+        ? "La console musicale è stabile: il sistema accetta il riconoscimento rapido delle note."
+        : "In missione la console richiede una soglia minima: perderai una vita, ma potrai riprovare."
+      : "Allenamento registrabile: il punteggio premia correttezza e serie, e penalizza gli errori casuali.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 650 },
+      lineSpacing: 4,
+    }));
+    modal.add(new Button(this, 608, 506, mode === "mission" && !passed ? "Ho capito" : "Registra e continua", () => {
+      modal.destroy(true);
+      if (!passed && mode === "mission") {
+        this.loseMissionLife("sprint musicale sotto soglia: servono più riconoscimenti corretti nel tempo dato.");
+        return;
+      }
+      this.completeMusicSprint(session);
+    }, {
+      width: 260,
+      height: 54,
+      fill: passed ? 0x173b36 : 0x263743,
+      stroke: passed ? 0x6be7d6 : 0xf7d37a,
+      fontSize: 16,
+    }));
+    overlay.add(modal);
+  }
+
+  private completeMusicSprint(session: MusicTrainingSession): void {
+    const puzzleId = session.puzzleId;
+    const score = this.finalizeMusicSprintScore(session);
+    saveSystem.markProceduralPuzzleSolved(puzzleId);
+    const competencies = Array.from(new Set([
+      "musica.pentagramma",
+      "musica.letturaNote",
+      "musica.chiaveViolino",
+      "musica.chiaveBasso",
+      ...session.current.competencies,
+    ]));
+    competencyTracker.award(competencies, 8 + this.run.difficulty * 2 + Math.min(10, Math.floor(score.total / 35)));
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${score.total}`);
+    this.clearOverlay();
+    this.musicSession = undefined;
+    const remaining = this.requiredPuzzleIds().filter((id) => !this.isSolved(id));
+    feedbackSystem.publish(
+      `Sprint musicale registrato: ${session.correct} corrette, ${session.wrong} errori, serie migliore ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      "success",
+    );
+    this.time.delayedCall(640, () => this.scene.restart());
+  }
+
+  private finalizeMusicSprintScore(session: MusicTrainingSession): ProceduralPuzzleScore {
+    const run = saveSystem.data.proceduralRun ?? this.run;
+    const existing = run.puzzleStats?.[session.puzzleId];
+    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
+    const completedAt = new Date().toISOString();
+    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.musicSprintElapsedMs(session)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    const basePoints = session.correct * (10 + run.difficulty);
+    const difficultyBonus = session.correct * run.difficulty * 2;
+    const speedBonus = Math.min(90, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 32));
+    const focusBonus = run.focus.includes("musica") || run.focus.some((item) => item.startsWith("musica."))
+      ? 20 + run.difficulty * 3
+      : 0;
+    const hintsUsed = existing?.hintsUsed ?? 0;
+    const supportPenalty = Math.min(140, session.wrong * (9 + run.difficulty) + hintsUsed * 6);
+    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
+    const score: ProceduralPuzzleScore = {
+      puzzleId: session.puzzleId,
+      domain: "musica",
+      startedAt,
+      completedAt,
+      elapsedMs,
+      hintsUsed,
+      attempts: session.wrong,
+      basePoints,
+      difficultyBonus,
+      speedBonus,
+      focusBonus,
+      supportPenalty,
+      total,
+      feedback: this.musicSprintFeedback(session),
+    };
+    saveSystem.updateProceduralRun({
+      puzzleStats: {
+        ...(run.puzzleStats ?? {}),
+        [session.puzzleId]: score,
+      },
+      score: proceduralScoring.addToSummary(run.score, score),
+    });
+    this.activePuzzleId = undefined;
+    this.activePuzzleKind = undefined;
+    this.activeChallenge = undefined;
+    this.resetTransientPuzzleState();
+    return score;
   }
 
   private musicPromptText(puzzle: GeneratedMusicPuzzle): string {
@@ -2038,44 +2308,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.fillCircle(x + 30, y + 14, 4);
     overlay.add(g);
     overlay.add(this.add.circle(x - 28, y, 3, 0xf5fbff, 0.72));
-  }
-
-  private startMusicCountdown(puzzleId: string, puzzle: GeneratedMusicPuzzle, text: Phaser.GameObjects.Text): void {
-    this.musicTimerEvent?.remove(false);
-    const update = (): void => {
-      if (!text.active) return;
-      const remaining = Math.max(0, puzzle.timeLimitMs - this.musicQuestionElapsedMs(puzzleId));
-      text.setText(`Tempo nota: ${formatDuration(remaining)}`);
-      text.setColor(remaining < 3_000 ? "#ff8a8a" : "#f7d37a");
-      if (remaining <= 0) {
-        this.musicTimerEvent?.remove(false);
-        this.musicTimerEvent = undefined;
-        this.handlePuzzleTimeout(
-          "Tempo scaduto: osserva la soluzione prima di riprovare.",
-          this.musicSolutionLines(puzzle),
-          () => this.advanceMusicSession(false),
-        );
-      }
-    };
-    update();
-    this.musicTimerEvent = this.time.addEvent({ delay: 160, loop: true, callback: update });
-  }
-
-  private puzzleElapsedMs(puzzleId: string): number {
-    const startedAt = (saveSystem.data.proceduralRun ?? this.run).puzzleStats?.[puzzleId]?.startedAt;
-    if (!startedAt) return 0;
-    return Math.max(0, Date.now() - new Date(startedAt).getTime());
-  }
-
-  private musicTimeExpired(puzzleId: string, puzzle: GeneratedMusicPuzzle): boolean {
-    return this.musicQuestionElapsedMs(puzzleId) > puzzle.timeLimitMs;
-  }
-
-  private musicQuestionElapsedMs(puzzleId: string): number {
-    if (this.musicSession?.puzzleId === puzzleId) {
-      return Math.max(0, Date.now() - this.musicSession.questionStartedAt);
-    }
-    return this.puzzleElapsedMs(puzzleId);
   }
 
   private openRobot(): void {
@@ -2618,6 +2850,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.robotExecuting = false;
     this.musicTimerEvent?.remove(false);
     this.musicTimerEvent = undefined;
+    this.musicSession = undefined;
     this.timeoutSolutionOpen = false;
   }
 

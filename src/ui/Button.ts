@@ -30,9 +30,9 @@ export class Button extends Phaser.GameObjects.Container {
 
     const width = options.width ?? 260;
     const height = options.height ?? 56;
-    const hitPadding = options.hitPadding ?? 14;
-    const hitWidth = Math.max(44, width + hitPadding * 2);
-    const hitHeight = Math.max(44, height + hitPadding * 2);
+    const hitPadding = options.hitPadding ?? 0;
+    const hitWidth = width + hitPadding * 2;
+    const hitHeight = height + hitPadding * 2;
     const fill = options.fill ?? 0x173244;
     const hoverFill = options.hoverFill ?? 0x23556a;
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
@@ -81,7 +81,7 @@ export class Button extends Phaser.GameObjects.Container {
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
         scene.tweens.killTweensOf([this.background, this.highlight]);
-        this.background.setScale(1.004, 1.018);
+        this.background.setScale(1);
       })
       .on("pointerout", () => {
         if (pressed) return;
@@ -99,7 +99,7 @@ export class Button extends Phaser.GameObjects.Container {
         scene.tweens.killTweensOf([this.background, this.highlight]);
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
-        this.background.setScale(0.996, 0.972);
+        this.background.setScale(1);
         audioManager.play("click");
       })
       .on("pointerup", () => {
@@ -111,17 +111,9 @@ export class Button extends Phaser.GameObjects.Container {
           pointerStartedInside = false;
           if (!this.scene || !this.active) return;
           scene.tweens.killTweensOf([this.background, this.highlight]);
-          scene.tweens.add({
-            targets: this.background,
-            scaleX: 1,
-            scaleY: 1,
-            duration: 60,
-            onComplete: () => {
-              if (!this.scene || !this.active) return;
-              this.background.setFillStyle(fill, 0.96);
-              this.highlight.setAlpha(0.72);
-            },
-          });
+          this.background.setScale(1);
+          this.background.setFillStyle(fill, 0.96);
+          this.highlight.setAlpha(0.72);
         };
         if (actionDelayMs <= 0) {
           runAction();

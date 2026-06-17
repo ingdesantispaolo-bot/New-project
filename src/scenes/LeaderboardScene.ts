@@ -92,8 +92,8 @@ export class LeaderboardScene extends Phaser.Scene {
       this.activeFilter = missionFilter;
       this.scene.restart();
     }, {
-      width: 246,
-      height: 38,
+      width: 254,
+      height: 40,
       fill: this.activeFilter.category === "mission" ? 0x1f5a51 : 0x173244,
       stroke: this.activeFilter.category === "mission" ? 0xf6c85f : 0x6be7d6,
       fontSize: 14,
@@ -106,17 +106,21 @@ export class LeaderboardScene extends Phaser.Scene {
       fontStyle: "bold",
     });
     exerciseFilters.forEach((filter, index) => {
-      this.drawFilterButton(x + 154, y + 164 + index * 40, filter);
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      this.drawFilterButton(x + 88 + col * 132, y + 166 + row * 48, filter);
     });
 
-    this.add.text(x + 24, y + 350, "Per focus", {
+    this.add.text(x + 24, y + 308, "Per focus", {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#f6c85f",
       fontStyle: "bold",
     });
     focusFilters.forEach((filter, index) => {
-      this.drawFilterButton(x + 154, y + 386 + index * 36, filter);
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      this.drawFilterButton(x + 88 + col * 132, y + 348 + row * 48, filter);
     });
   }
 
@@ -126,11 +130,11 @@ export class LeaderboardScene extends Phaser.Scene {
       this.activeFilter = filter;
       this.scene.restart();
     }, {
-      width: 246,
-      height: 34,
+      width: 122,
+      height: 40,
       fill: active ? 0x1f5a51 : 0x173244,
       stroke: active ? 0xf6c85f : 0x6be7d6,
-      fontSize: 12,
+      fontSize: 11,
     });
   }
 

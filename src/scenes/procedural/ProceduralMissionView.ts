@@ -51,26 +51,26 @@ export class ProceduralMissionView {
     });
     scene.add.text(layout.left.x + 18, layout.left.y + 58, [
       `${requiredIds.length} console da stabilizzare.`,
-      mode === "training" ? `Percorso focus: esercizi di ${focus}.` : "Ordine libero: puoi iniziare da qualsiasi console.",
-      "La porta si apre solo quando il sistema è completo.",
+      mode === "training" ? `Focus: esercizi di ${focus}.` : "Ordine libero: scegli una console.",
+      "La porta finale richiede il sistema completo.",
     ].join("\n"), {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
+      fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: layout.left.width - 36 },
-      lineSpacing: 5,
+      lineSpacing: 4,
     }).setY(layout.left.y + 92);
 
-    scene.add.rectangle(layout.left.x + 22, layout.left.y + 164, layout.left.width - 44, 116, 0x07151d, 0.72)
+    scene.add.rectangle(layout.left.x + 22, layout.left.y + 184, layout.left.width - 44, 118, 0x07151d, 0.72)
       .setOrigin(0)
       .setStrokeStyle(1, theme.secondary, 0.25);
-    scene.add.text(layout.left.x + 38, layout.left.y + 182, theme.ruleTitle, {
+    scene.add.text(layout.left.x + 38, layout.left.y + 202, theme.ruleTitle, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#f7d37a",
       fontStyle: "bold",
     });
-    scene.add.text(layout.left.x + 38, layout.left.y + 206, theme.ruleText, {
+    scene.add.text(layout.left.x + 38, layout.left.y + 226, theme.ruleText, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
@@ -78,20 +78,20 @@ export class ProceduralMissionView {
       lineSpacing: 4,
     });
 
-    scene.add.text(layout.left.x + 18, layout.left.y + 306, "Legenda console", {
+    scene.add.text(layout.left.x + 18, layout.left.y + 326, "Legenda console", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 338, 0x2ed889, "Da sistemare");
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 366, 0xf6c85f, "Completata");
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 394, 0x6b7d84, "Porta bloccata");
+    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 358, 0x2ed889, "Da sistemare");
+    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 386, 0xf6c85f, "Completata");
+    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 414, 0x6b7d84, "Porta bloccata");
 
-    scene.add.rectangle(layout.left.x + 22, layout.left.y + 440, layout.left.width - 44, 42, 0x0b221f, 0.72)
+    scene.add.rectangle(layout.left.x + 22, layout.left.y + 452, layout.left.width - 44, 42, 0x0b221f, 0.72)
       .setOrigin(0)
       .setStrokeStyle(1, 0x6be7d6, 0.24);
-    scene.add.text(layout.left.x + 38, layout.left.y + 452, `Prossima azione: ${pendingProceduralPuzzleLabel(run.solvedPuzzleIds, requiredIds)}`, {
+    scene.add.text(layout.left.x + 38, layout.left.y + 464, `Prossima azione: ${pendingProceduralPuzzleLabel(run.solvedPuzzleIds, requiredIds)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",

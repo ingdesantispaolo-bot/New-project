@@ -1718,7 +1718,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontSize: puzzle.answerMode === "note-name" ? 22 : 15,
         fill: 0x263743,
         hoverFill: 0x23556a,
-        hitPadding: 18,
       }));
     });
 
@@ -1726,7 +1725,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(new Button(this, 918, 598, "Indizio di lettura", () => {
       this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
       this.openMusic();
-    }, { width: 300, height: 46, fontSize: 14, fill: 0x263743, hitPadding: 18 }));
+    }, { width: 300, height: 46, fontSize: 14, fill: 0x263743 }));
   }
 
   private drawMusicSessionHeader(
@@ -2012,7 +2011,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fill: 0x173b36,
       stroke: 0xf7d37a,
       fontSize: 16,
-      hitPadding: 18,
     }));
     overlay.add(modal);
   }

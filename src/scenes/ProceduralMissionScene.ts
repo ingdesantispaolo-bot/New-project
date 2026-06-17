@@ -17,6 +17,7 @@ import type {
   CircuitFaultType,
   DifficultyLevel,
   GeneratedFocusChallenge,
+  GeneratedCodingPuzzle,
   GeneratedCircuitPuzzle,
   GeneratedEnglishPuzzle,
   GeneratedLanguagePuzzle,
@@ -209,8 +210,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
       run.mission.focusChallenges?.length
       && run.mission.focusChallenges.every((challenge) => challenge.kind === "music"),
     );
+    const hasCodingPuzzle = Boolean(puzzles.coding);
+    const hasCodingObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "coding");
+    const hasCodingHotspot = run.mission.map.hotspots.some((hotspot) => {
+      const id = hotspot.puzzleId ?? hotspot.id;
+      return hotspot.puzzleKind === "coding" || id === "coding" || id.startsWith("coding-");
+    });
+    const hasCodingFocusSeries = Boolean(
+      run.mission.focusChallenges?.length
+      && run.mission.focusChallenges.every((challenge) => challenge.kind === "coding"),
+    );
     if (focus === "musica") {
       return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot && hasMusicFocusSeries);
+    }
+    if (focus === "coding") {
+      return !(hasCodingPuzzle && hasCodingObjective && hasCodingHotspot && hasCodingFocusSeries);
     }
     if (mode === "mission" || focus === "libera") {
       return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot);
@@ -323,6 +337,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       math: () => this.openMath(),
       english: () => this.openEnglish(),
       robot: () => this.openRobot(),
+      coding: () => this.openCoding(),
       music: () => this.openMusic(),
     };
     if (proceduralPuzzleOrder.includes(systemId)) {
@@ -1765,6 +1780,143 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }, { width: 250, height: 40, fontSize: 13, fill: 0x263743 }));
   }
 
+  private openCoding(): void {
+    const puzzle = this.currentCodingPuzzle();
+    const overlay = this.createOverlay(puzzle.title, 660, { x: 40, y: 30, width: 1200 });
+
+    const codePanel = { x: 56, y: 104, w: 500, h: 356 };
+    const taskPanel = { x: 584, y: 104, w: 560, h: 356 };
+    const footerPanel = { x: 56, y: 486, w: 1088, h: 116 };
+
+    overlay.add(this.add.text(56, 72, puzzle.difficultyLabel.toUpperCase(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(336, 72, `Tipo: ${this.codingChallengeLabel(puzzle.challengeType)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+
+    overlay.add(this.add.rectangle(codePanel.x, codePanel.y, codePanel.w, codePanel.h, 0x07151d, 0.88).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.rectangle(taskPanel.x, taskPanel.y, taskPanel.w, taskPanel.h, 0x07151d, 0.88).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.rectangle(footerPanel.x, footerPanel.y, footerPanel.w, footerPanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.28));
+
+    overlay.add(this.add.text(codePanel.x + 20, codePanel.y + 18, "Programma da leggere", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(codePanel.x + 20, codePanel.y + 44, puzzle.scenario, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: codePanel.w - 40, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+
+    const codeBoxY = codePanel.y + 104;
+    overlay.add(this.add.rectangle(codePanel.x + 20, codeBoxY, codePanel.w - 40, 178, 0x0b1f2b, 0.94).setOrigin(0).setStrokeStyle(1, 0x315766, 0.58));
+    puzzle.codeLines.forEach((line, index) => {
+      const y = codeBoxY + 14 + index * 26;
+      overlay.add(this.add.text(codePanel.x + 36, y, String(index + 1).padStart(2, "0"), {
+        fontFamily: "Consolas, 'Courier New', monospace",
+        fontSize: "12px",
+        color: "#6f8793",
+      }));
+      overlay.add(this.add.text(codePanel.x + 78, y, line, {
+        fontFamily: "Consolas, 'Courier New', monospace",
+        fontSize: "14px",
+        color: "#f5fbff",
+        wordWrap: { width: codePanel.w - 118 },
+      }));
+    });
+
+    overlay.add(this.add.text(codePanel.x + 20, codePanel.y + codePanel.h - 52, `Scopo: ${puzzle.learningPurpose}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9aaab0",
+      wordWrap: { width: codePanel.w - 40, useAdvancedWrap: true },
+      lineSpacing: 2,
+    }));
+
+    overlay.add(this.add.text(taskPanel.x + 20, taskPanel.y + 18, "Domanda operativa", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(taskPanel.x + 20, taskPanel.y + 48, puzzle.question, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#f7d37a",
+      wordWrap: { width: taskPanel.w - 40, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(taskPanel.x + 20, taskPanel.y + 106, puzzle.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9ff5e9",
+      wordWrap: { width: taskPanel.w - 40 },
+    }));
+
+    puzzle.options.forEach((option, index) => {
+      const optionY = taskPanel.y + 164 + index * 46;
+      overlay.add(new Button(this, taskPanel.x + taskPanel.w / 2, optionY, option, () => {
+        if (option === puzzle.correctOption) {
+          this.solvePuzzle(this.currentPuzzleId("coding"), puzzle.competencies);
+          return;
+        }
+        this.handleIncorrectAnswer(`${puzzle.explanation} La scelta "${option}" non rispetta il metodo: ${puzzle.methodSteps.join(" -> ")}.`);
+      }, {
+        width: taskPanel.w - 70,
+        height: 38,
+        fontSize: 11,
+        wordWrapWidth: taskPanel.w - 108,
+      }));
+    });
+
+    overlay.add(this.add.text(footerPanel.x + 22, footerPanel.y + 18, "Metodo", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(footerPanel.x + 22, footerPanel.y + 42, puzzle.methodSteps.join("  ->  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: 620, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+    overlay.add(this.add.text(footerPanel.x + 700, footerPanel.y + 18, "Cosa osservare", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(footerPanel.x + 700, footerPanel.y + 42, puzzle.hints[0] ?? puzzle.learningPurpose, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9aaab0",
+      wordWrap: { width: 238, useAdvancedWrap: true },
+      lineSpacing: 2,
+    }));
+    overlay.add(new Button(this, footerPanel.x + footerPanel.w - 110, footerPanel.y + 62, "Indizio", () => {
+      this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
+      this.openCoding();
+    }, {
+      width: 190,
+      height: 42,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+  }
+
   private drawEnglishChallengePanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
     overlay.add(this.add.rectangle(316, 288, 520, 170, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
     overlay.add(this.add.text(76, 218, "Sfida", {
@@ -3080,6 +3232,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       math: "matematica",
       english: "inglese",
       robot: "coding",
+      coding: "coding",
       music: "musica",
     }[puzzleKindFromId(id)];
   }
@@ -3110,6 +3263,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private currentEnglishPuzzle(): GeneratedEnglishPuzzle {
     const challenge = this.activeChallenge;
     return challenge?.kind === "english" ? challenge.puzzle : this.run.mission.puzzles.english;
+  }
+
+  private currentCodingPuzzle(): GeneratedCodingPuzzle {
+    const challenge = this.activeChallenge;
+    return challenge?.kind === "coding" ? challenge.puzzle : this.run.mission.puzzles.coding;
   }
 
   private currentMusicPuzzle(): GeneratedMusicPuzzle {
@@ -3414,6 +3572,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
       "vocabulary-in-context": "Lessico in contesto",
       inference: "Inferenza",
     }[type ?? "command"];
+  }
+
+  private codingChallengeLabel(type: GeneratedCodingPuzzle["challengeType"]): string {
+    return {
+      "trace-output": "tracing output",
+      "variable-state": "stato variabili",
+      "loop-count": "ciclo",
+      "conditional-branch": "condizione",
+      "boolean-logic": "logica booleana",
+      "debug-line": "debug",
+    }[type];
   }
 
   private addMethodStrip(overlay: Phaser.GameObjects.Container, x: number, y: number, width: number, title: string, steps: string[]): void {

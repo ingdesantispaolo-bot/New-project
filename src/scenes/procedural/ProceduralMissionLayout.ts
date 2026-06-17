@@ -1,10 +1,10 @@
 import type { GeneratedRoomHotspot } from "../../procedural/ProceduralTypes";
 import type { DeviceKind, DeviceState, ChromeRect } from "../../ui/SceneChrome";
 
-export type ProceduralPuzzleId = "language" | "circuit" | "math" | "english" | "robot" | "music";
+export type ProceduralPuzzleId = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music";
 export type ProceduralHotspotKey = ProceduralPuzzleId | "door";
 
-export const proceduralPuzzleOrder: ProceduralPuzzleId[] = ["language", "circuit", "math", "english", "robot", "music"];
+export const proceduralPuzzleOrder: ProceduralPuzzleId[] = ["language", "circuit", "math", "english", "robot", "coding", "music"];
 
 const hotspotOrder: Record<ProceduralHotspotKey, number> = {
   language: 0,
@@ -12,8 +12,9 @@ const hotspotOrder: Record<ProceduralHotspotKey, number> = {
   math: 2,
   english: 3,
   robot: 4,
-  music: 5,
-  door: 6,
+  coding: 5,
+  music: 6,
+  door: 7,
 };
 
 const hotspotKinds: Record<ProceduralHotspotKey, DeviceKind> = {
@@ -22,6 +23,7 @@ const hotspotKinds: Record<ProceduralHotspotKey, DeviceKind> = {
   math: "terminal",
   english: "english",
   robot: "robot",
+  coding: "terminal",
   music: "music",
   door: "door",
 };
@@ -66,6 +68,7 @@ export function proceduralHotspotPosition(hotspot: GeneratedRoomHotspot, stage: 
     math: { x: stage.x + 318, y: stage.y + 112 },
     english: { x: stage.x + 494, y: stage.y + 160 },
     robot: { x: stage.x + 494, y: stage.y + 342 },
+    coding: { x: stage.x + 318, y: stage.y + 208 },
     music: { x: stage.x + 318, y: stage.y + 286 },
     door: { x: stage.x + 318, y: stage.y + 420 },
   };
@@ -124,6 +127,7 @@ export function pendingProceduralPuzzleLabel(solvedPuzzleIds: string[], required
     math: "ricostruisci il codice",
     english: "decodifica il comando",
     robot: "guida il robot",
+    coding: "verifica l'algoritmo",
     music: "riconosci la nota",
   };
   const pending = requiredIds.find((id) => !isProceduralPuzzleSolved(id, solvedPuzzleIds));

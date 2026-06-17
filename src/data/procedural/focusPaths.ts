@@ -1,6 +1,7 @@
-import type { ProceduralSpecialization } from "../../procedural/ProceduralTypes";
+import type { ProceduralPuzzleKind, ProceduralSpecialization } from "../../procedural/ProceduralTypes";
 
-type FocusPuzzleId = "language" | "circuit" | "math" | "english" | "robot" | "music";
+type FocusPuzzleId = ProceduralPuzzleKind;
+type StandardFocusPuzzleId = Exclude<FocusPuzzleId, "coding">;
 
 type FocusChallengeStage = {
   label: string;
@@ -25,8 +26,8 @@ export type ProceduralFocusPath = {
     label: string;
     description: string;
   };
-  hotspots: Record<FocusPuzzleId, { label: string; description: string }>;
-  objectives: Record<FocusPuzzleId, { label: string; description: string }>;
+  hotspots: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding", { label: string; description: string }>>;
+  objectives: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding", { label: string; description: string }>>;
 };
 
 export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFocusPath> = {
@@ -256,30 +257,30 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
   coding: {
     id: "coding",
     label: "Percorso Coding",
-    title: "Hangar degli Algoritmi",
-    chamberTitle: "Hangar robotico",
-    roomTitles: ["Hangar delle Sequenze", "Pista del Debug", "Sala dei Comandi Minimi", "Griglia delle Rotte"],
+    title: "Laboratorio degli Algoritmi",
+    chamberTitle: "Console algoritmica",
+    roomTitles: ["Sala del Tracing", "Archivio delle Variabili", "Banco dei Cicli", "Nucleo del Debug"],
     introFragments: [
-      "NORA apre l'hangar robotico: qui ogni comando è una scelta e ogni errore deve essere debuggato.",
-      "Eli entra in una pista generata: non basta muovere il robot, bisogna progettare una sequenza essenziale.",
-      "La stanza espone una griglia nuova: ostacoli, chiave e uscita cambiano, ma la logica resta verificabile.",
+      "NORA apre il laboratorio degli algoritmi: qui ogni riga cambia lo stato del sistema.",
+      "Eli entra in una console generata: non basta indovinare l'output, bisogna seguire il codice passo dopo passo.",
+      "La stanza proietta pseudocodice vivo: variabili, cicli e condizioni decidono quali porte si attivano.",
     ],
-    sideNote: "Il percorso privilegia sequenze, rotazioni, coordinate, decomposizione, debugging, logica condizionale, efficienza e controllo mentale del percorso.",
-    ruleTitle: "Regola dell'hangar",
-    ruleText: "Puoi esplorare liberamente, ma il robot è il centro del percorso. Prima simula mentalmente, poi esegui.",
-    stageHint: "Percorso coding: orientamento, coordinate, checkpoint, comandi minimi, debug di programmi guasti, condizioni se-allora e pattern ripetuti. Il bonus focus premia la griglia robot.",
-    primaryPuzzle: "robot",
+    sideNote: "Il percorso privilegia tracing, variabili, cicli, condizioni, logica booleana, decomposizione e debugging.",
+    ruleTitle: "Regola della console",
+    ruleText: "Puoi iniziare da qualunque modulo. Prima simula il codice mentalmente, poi scegli la risposta certificabile.",
+    stageHint: "Percorso coding: output, stato delle variabili, cicli, condizioni, booleani e debug. Il robot resta una missione ambientale, ma qui si allena il pensiero algoritmico.",
+    primaryPuzzle: "coding",
     challengeStages: [
-      { label: "Sequenza base", description: "Raggiungi chiave e uscita spiegando cosa fa ogni comando." },
-      { label: "Rotazioni e coordinate", description: "Pianifica direzione iniziale, svolte e posizione su griglia." },
-      { label: "Percorso minimo", description: "Trova una rotta corretta con budget stretto e pochi comandi inutili." },
-      { label: "Debug della rotta", description: "Analizza un programma difettoso e riscrivilo prima di eseguirlo." },
-      { label: "Condizioni e pattern", description: "Attiva sensori, spezza il problema in tappe e riconosci blocchi ripetuti." },
+      { label: "Tracing output", description: "Esegui mentalmente righe di pseudocodice e prevedi cosa viene stampato." },
+      { label: "Stato variabili", description: "Segui assegnazioni e aggiornamenti senza confondere valore iniziale e finale." },
+      { label: "Cicli e condizioni", description: "Conta ripetizioni e scegli il ramo realmente eseguito." },
+      { label: "Logica booleana", description: "Combina vero/falso con AND e condizioni multiple." },
+      { label: "Debug del codice", description: "Trova la riga che rompe la regola e correggi la causa, non il sintomo." },
     ],
     badge: {
       badgeId: "debugger-di-rotta",
-      label: "Debugger di Rotta",
-      description: "Ha trasformato una mappa in una sequenza controllata.",
+      label: "Debugger di Algoritmi",
+      description: "Ha seguito stati, condizioni e cicli fino a una risposta verificabile.",
     },
     hotspots: {
       language: { label: "Log del robot", description: "Il messaggio descrive lo stato della pista e va riparato." },

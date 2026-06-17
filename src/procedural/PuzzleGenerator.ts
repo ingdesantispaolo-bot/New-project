@@ -1,14 +1,16 @@
 import { CircuitFaultGenerator } from "./generators/CircuitFaultGenerator";
+import { CodingPuzzleGenerator } from "./generators/CodingPuzzleGenerator";
 import { EnglishInstructionGenerator } from "./generators/EnglishInstructionGenerator";
 import { LanguageCorruptionGenerator } from "./generators/LanguageCorruptionGenerator";
 import { MathPuzzleGenerator } from "./generators/MathPuzzleGenerator";
 import { MusicNoteGenerator } from "./generators/MusicNoteGenerator";
 import { RobotGridGenerator } from "./generators/RobotGridGenerator";
 import { exerciseDirector } from "../core/ExerciseDirector";
-import type { DifficultyPreset, GeneratedFocusChallenge, GeneratedMission, ProceduralPuzzleKind, RobotChallengeType } from "./ProceduralTypes";
+import type { CodingChallengeType, DifficultyPreset, GeneratedFocusChallenge, GeneratedMission, ProceduralPuzzleKind, RobotChallengeType } from "./ProceduralTypes";
 import type { Random } from "./Random";
 import { ValidationEngine } from "./ValidationEngine";
 import { CircuitPuzzleValidator } from "./validators/CircuitPuzzleValidator";
+import { CodingPuzzleValidator } from "./validators/CodingPuzzleValidator";
 import { LanguagePuzzleValidator } from "./validators/LanguagePuzzleValidator";
 import { MathPuzzleValidator } from "./validators/MathPuzzleValidator";
 import { RobotPuzzleValidator } from "./validators/RobotPuzzleValidator";
@@ -16,12 +18,14 @@ import { RobotPuzzleValidator } from "./validators/RobotPuzzleValidator";
 export class PuzzleGenerator {
   private mathGenerator = new MathPuzzleGenerator();
   private robotGenerator = new RobotGridGenerator();
+  private codingGenerator = new CodingPuzzleGenerator();
   private musicGenerator = new MusicNoteGenerator();
   private circuitGenerator = new CircuitFaultGenerator();
   private languageGenerator = new LanguageCorruptionGenerator();
   private englishGenerator = new EnglishInstructionGenerator();
   private mathValidator = new MathPuzzleValidator();
   private robotValidator = new RobotPuzzleValidator();
+  private codingValidator = new CodingPuzzleValidator();
   private circuitValidator = new CircuitPuzzleValidator();
   private languageValidator = new LanguagePuzzleValidator();
 
@@ -34,12 +38,14 @@ export class PuzzleGenerator {
     const languageRandom = random.fork("language");
     const englishRandom = random.fork("english");
     const musicRandom = random.fork("music");
+    const codingRandom = random.fork("coding");
     const mathDifficulty = this.boostForFocus(difficulty, focus, "matematica");
     const robotDifficulty = this.boostForFocus(difficulty, focus, "coding");
     const circuitDifficulty = this.boostForFocus(difficulty, focus, "elettronica");
     const languageLevel = this.levelForFocus(difficulty.level, focus, "italiano");
     const englishLevel = this.levelForFocus(difficulty.level, focus, "inglese");
     const musicLevel = this.levelForFocus(difficulty.level, focus, "musica");
+    const codingDifficulty = this.boostForFocus(difficulty, focus, "coding");
 
     const math = this.validationEngine.generateWithRetries(
         () => this.mathGenerator.generate(mathRandom, mathDifficulty),
@@ -55,12 +61,18 @@ export class PuzzleGenerator {
         () => this.circuitGenerator.generate(circuitRandom, circuitDifficulty),
         (puzzle) => this.circuitValidator.validate(puzzle),
         this.circuitGenerator.fallback(circuitDifficulty.level),
-      );
+    );
+    const coding = this.validationEngine.generateWithRetries(
+      () => this.codingGenerator.generate(codingRandom, codingDifficulty),
+      (puzzle) => this.codingValidator.validate(puzzle),
+      this.codingGenerator.fallback(),
+    );
 
     return {
       math: exerciseDirector.enrichMath(math, mathDifficulty.level),
       robot: exerciseDirector.enrichRobot(robot, robotDifficulty.level),
       circuit: exerciseDirector.enrichCircuit(circuit, circuitDifficulty.level),
+      coding,
       language: this.validationEngine.generateWithRetries(
         () => this.languageGenerator.generate(languageRandom, languageLevel),
         (puzzle) => this.languageValidator.validateItalian(puzzle),
@@ -119,6 +131,14 @@ export class PuzzleGenerator {
       }
       if (kind === "music") {
         const puzzle = this.musicGenerator.generate(challengeRandom, stagedDifficulty.level);
+        return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
+      }
+      if (kind === "coding") {
+        const puzzle = this.validationEngine.generateWithRetries(
+          () => this.codingGenerator.generate(challengeRandom, stagedDifficulty, this.codingChallengeTypesForStep(index)),
+          (candidate) => this.codingValidator.validate(candidate),
+          this.codingGenerator.fallback(),
+        );
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
       if (kind === "circuit") {
@@ -204,7 +224,18 @@ export class PuzzleGenerator {
       english: "inglese",
       music: "musica",
       robot: "coding",
+      coding: "coding",
     }[kind];
+  }
+
+  private codingChallengeTypesForStep(step: number): CodingChallengeType[] {
+    return [
+      ["trace-output", "variable-state"],
+      ["variable-state", "trace-output"],
+      ["loop-count", "conditional-branch"],
+      ["conditional-branch", "boolean-logic"],
+      ["debug-line", "boolean-logic", "loop-count"],
+    ][Math.min(step, 4)] as CodingChallengeType[];
   }
 
   private mathArchetypesForStep(step: number): Array<NonNullable<GeneratedMission["puzzles"]["math"]["archetype"]>> {

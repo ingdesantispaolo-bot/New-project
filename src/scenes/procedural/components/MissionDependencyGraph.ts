@@ -10,6 +10,7 @@ const dependencies: Record<MissionSystemNode, ProceduralPuzzleId[]> = {
   math: [],
   english: [],
   robot: [],
+  coding: [],
   music: [],
   door: ["language", "circuit", "math", "english", "robot", "music"],
 };
@@ -20,6 +21,7 @@ const nodeLabels: Record<MissionSystemNode, string> = {
   math: "terminale numerico",
   english: "comando operativo",
   robot: "canale robot",
+  coding: "console algoritmica",
   music: "pentagramma",
   door: "porta di uscita",
 };
@@ -30,6 +32,7 @@ const effectLines: Record<MissionSystemNode, string> = {
   math: "Il terminale numerico ha accettato una soluzione verificata.",
   english: "Il comando operativo è stato interpretato senza ambiguità.",
   robot: "Il robot ha completato una sequenza coerente.",
+  coding: "La console algoritmica ha confermato tracing, stato e logica.",
   music: "Il pentagramma è stato letto con chiave, posizione e ottava corrette.",
   door: "La porta si apre solo quando tutti i sistemi confermano lo stesso stato.",
 };

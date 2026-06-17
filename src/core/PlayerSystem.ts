@@ -95,6 +95,7 @@ const puzzleLabels: Record<string, string> = {
   math: "Matematica - terminale numerico",
   english: "Inglese - comando operativo",
   robot: "Coding - robot su griglia",
+  coding: "Coding - algoritmi",
   music: "Musica - lettura pentagramma",
 };
 

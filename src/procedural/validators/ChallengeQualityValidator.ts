@@ -1,6 +1,7 @@
 import type {
   DifficultyPreset,
   GeneratedCircuitPuzzle,
+  GeneratedCodingPuzzle,
   GeneratedEnglishPuzzle,
   GeneratedLanguagePuzzle,
   GeneratedMathPuzzle,
@@ -20,6 +21,7 @@ export class ChallengeQualityValidator {
       this.validateMath(mission.puzzles.math, difficulty),
       this.validateRobot(mission.puzzles.robot, difficulty),
       this.validateCircuit(mission.puzzles.circuit, difficulty),
+      this.validateCoding(mission.puzzles.coding),
       this.validateLanguage(mission.puzzles.language),
       this.validateEnglish(mission.puzzles.english),
       this.validateMusic(mission.puzzles.music),
@@ -129,6 +131,30 @@ export class ChallengeQualityValidator {
       if (componentChecks.some((check) => check.symbolChoices.length < 3 || check.functionChoices.length < 3)) {
         reasons.push("circuit: scelte componente troppo povere");
       }
+    }
+    return { valid: reasons.length === 0, reasons };
+  }
+
+  validateCoding(puzzle: GeneratedCodingPuzzle): ChallengeQualityReport {
+    const reasons: string[] = [];
+    const uniqueOptions = new Set(puzzle.options);
+    if (puzzle.codeLines.length < 3) {
+      reasons.push("coding: programma troppo corto per allenare tracing");
+    }
+    if (puzzle.options.length < 4 || uniqueOptions.size !== puzzle.options.length || !uniqueOptions.has(puzzle.correctOption)) {
+      reasons.push("coding: opzioni non uniche o risposta corretta assente");
+    }
+    if (puzzle.methodSteps.length < 3 || puzzle.hints.length < 2) {
+      reasons.push("coding: metodo o indizi insufficienti");
+    }
+    if (!puzzle.learningPurpose || puzzle.learningPurpose.length < 40 || puzzle.explanation.length < 45) {
+      reasons.push("coding: scopo didattico o spiegazione troppo deboli");
+    }
+    if (puzzle.challengeType === "debug-line" && !puzzle.question.toLowerCase().includes("correzione")) {
+      reasons.push("coding: debug senza richiesta esplicita di correzione");
+    }
+    if ((puzzle.challengeType === "loop-count" || puzzle.challengeType === "conditional-branch") && puzzle.codeLines.length < 4) {
+      reasons.push("coding: ciclo/condizione senza abbastanza righe di contesto");
     }
     return { valid: reasons.length === 0, reasons };
   }

@@ -11,7 +11,7 @@ export type ProceduralSpecialization =
   | "coding"
   | "musica";
 
-export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot" | "music";
+export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music";
 export type ProceduralRunMode = "mission" | "training";
 
 export type PedagogicalFocus =
@@ -156,6 +156,34 @@ export type GeneratedRobotPuzzle = {
   visualFocus?: string;
   coordinateLabels?: boolean;
   planningPrompt?: string;
+  pedagogy?: ExercisePedagogy;
+};
+
+export type CodingChallengeType =
+  | "trace-output"
+  | "variable-state"
+  | "loop-count"
+  | "conditional-branch"
+  | "boolean-logic"
+  | "debug-line";
+
+export type GeneratedCodingPuzzle = {
+  id: string;
+  title: string;
+  challengeType: CodingChallengeType;
+  difficultyLabel: string;
+  scenario: string;
+  codeLines: string[];
+  question: string;
+  options: string[];
+  correctOption: string;
+  hints: string[];
+  conceptTags: string[];
+  methodSteps: string[];
+  learningPurpose: string;
+  explanation: string;
+  competencies: string[];
+  maxSeconds?: number;
   pedagogy?: ExercisePedagogy;
 };
 
@@ -359,6 +387,7 @@ export type GeneratedMission = {
     language: GeneratedLanguagePuzzle;
     english: GeneratedEnglishPuzzle;
     music: GeneratedMusicPuzzle;
+    coding: GeneratedCodingPuzzle;
   };
   focusChallenges?: GeneratedFocusChallenge[];
   rewards: MissionReward[];
@@ -405,6 +434,14 @@ export type GeneratedFocusChallenge =
       description: string;
       difficultyStep: number;
       puzzle: GeneratedRobotPuzzle;
+    }
+  | {
+      id: string;
+      kind: "coding";
+      title: string;
+      description: string;
+      difficultyStep: number;
+      puzzle: GeneratedCodingPuzzle;
     }
   | {
       id: string;

@@ -21,6 +21,7 @@ const puzzleDomains: Record<string, ProceduralSpecialization> = {
   math: "matematica",
   english: "inglese",
   robot: "coding",
+  coding: "coding",
   music: "musica",
 };
 
@@ -30,6 +31,7 @@ const expectedSeconds: Record<string, number> = {
   math: 120,
   english: 85,
   robot: 180,
+  coding: 100,
   music: 45,
 };
 

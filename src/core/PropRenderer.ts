@@ -20,6 +20,7 @@ const labPropKeys: Record<string, { painted?: string; fallback: string }> = {
 
 const proceduralPropKeys: Record<string, { painted?: string; fallback: string }> = {
   circuit: { painted: "painted-circuit-panel", fallback: "prop-circuit-panel" },
+  coding: { painted: "painted-terminal", fallback: "prop-terminal" },
   door: { painted: "painted-door-lab", fallback: "prop-door-lab" },
   english: { painted: "painted-message-console", fallback: "prop-message-console" },
   language: { painted: "painted-message-console", fallback: "prop-message-console" },
@@ -31,6 +32,7 @@ const proceduralPropKeys: Record<string, { painted?: string; fallback: string }>
 const themedProceduralPropKeys: Partial<Record<ProceduralPropTheme, Partial<Record<string, { painted?: string; fallback: string }>>>> = {
   archive: {
     circuit: { painted: "painted-archive-desk", fallback: "prop-terminal" },
+    coding: { painted: "painted-archive-terminal", fallback: "prop-terminal" },
     door: { painted: "painted-archive-shelf", fallback: "prop-door-lab" },
     english: { painted: "painted-archive-shelf", fallback: "prop-message-console" },
     language: { painted: "painted-archive-terminal", fallback: "prop-message-console" },
@@ -40,6 +42,7 @@ const themedProceduralPropKeys: Partial<Record<ProceduralPropTheme, Partial<Reco
   },
   factory: {
     circuit: { painted: "painted-factory-core", fallback: "prop-circuit-panel" },
+    coding: { painted: "painted-factory-machine", fallback: "prop-terminal" },
     door: { painted: "painted-factory-core", fallback: "prop-door-lab" },
     english: { painted: "painted-factory-machine", fallback: "prop-message-console" },
     language: { painted: "painted-factory-machine", fallback: "prop-message-console" },
@@ -49,6 +52,7 @@ const themedProceduralPropKeys: Partial<Record<ProceduralPropTheme, Partial<Reco
   },
   greenhouse: {
     circuit: { painted: "painted-greenhouse-valve", fallback: "prop-circuit-panel" },
+    coding: { painted: "painted-greenhouse-sensor", fallback: "prop-terminal" },
     door: { painted: "painted-greenhouse-pod", fallback: "prop-door-lab" },
     english: { painted: "painted-greenhouse-sensor", fallback: "prop-message-console" },
     language: { painted: "painted-greenhouse-sensor", fallback: "prop-message-console" },

@@ -66,14 +66,17 @@ export class Button extends Phaser.GameObjects.Container {
     }
 
     this.hitTarget = scene.add.rectangle(0, 0, hitWidth, hitHeight, 0x000000, 0.001);
-    this.hitTarget.setInteractive();
 
     this.add([shadow, this.background, this.highlight, text, this.hitTarget]);
     this.setSize(hitWidth, hitHeight);
-    if (this.hitTarget.input) {
-      this.hitTarget.input.cursor = "pointer";
+    this.setInteractive(
+      new Phaser.Geom.Rectangle(-hitWidth / 2, -hitHeight / 2, hitWidth, hitHeight),
+      Phaser.Geom.Rectangle.Contains,
+    );
+    if (this.input) {
+      this.input.cursor = "pointer";
     }
-    this.hitTarget
+    this
       .on("pointerover", () => {
         if (!supportsHover || pressed) return;
         this.background.setFillStyle(hoverFill, 1);

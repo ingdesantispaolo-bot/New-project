@@ -75,16 +75,11 @@ export class MainMenuScene extends Phaser.Scene {
       color: "#f6c85f",
       fontStyle: "bold",
     });
-    this.add.text(102, 326, [
-      `Missione: ${this.resumeLabel(missionRun, "mission")}`,
-      `Focus: ${this.resumeLabel(trainingRun, "training")}`,
-      `Scalata: ${this.resumeLabel(progressiveRun, "progressive")}`,
-    ].join("\n"), {
+    this.add.text(102, 326, this.resumeCompactSummary(missionRun, trainingRun, progressiveRun), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7dce7",
       wordWrap: { width: 610 },
-      lineSpacing: 3,
     });
 
     const newMission = this.rect("menu:newMission", { x: 250, y: 374, width: 260 });
@@ -447,7 +442,8 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   private createProgressiveRun(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): void {
-    const base = proceduralDirector.generateFreshMission(level, ["progressiva"]);
+    const levelFocus = progressiveMissionBuilder.focusForLevel(level);
+    const base = proceduralDirector.generateFreshMission(level, [levelFocus]);
     const mission = progressiveMissionBuilder.buildLevelMission(base, level);
     const startedAt = new Date().toISOString();
     const objectiveCount = Math.max(1, mission.objectives.length);
@@ -456,7 +452,7 @@ export class MainMenuScene extends Phaser.Scene {
     const run: ProceduralRunSave = {
       seed: mission.seed,
       difficulty: level,
-      focus: ["progressiva"],
+      focus: ["progressiva", levelFocus],
       mode: "progressive",
       mission,
       hintsUsed: 0,
@@ -558,6 +554,29 @@ export class MainMenuScene extends Phaser.Scene {
       ? ` | tempo in pausa ${formatDuration(run.pausedRemainingMs)}`
       : "";
     return `in pausa${subject} L${run.difficulty} | ${solved}/${total}${time}`;
+  }
+
+  private resumeCompactSummary(
+    missionRun: ProceduralRunSave | undefined,
+    trainingRun: ProceduralRunSave | undefined,
+    progressiveRun: ProceduralRunSave | undefined,
+  ): string {
+    const parts: string[] = [];
+    if (this.isResumable(missionRun)) {
+      parts.push(`Missione L${missionRun.difficulty} ${missionRun.solvedPuzzleIds.length}/${missionRun.mission.objectives.length}`);
+    }
+    if (this.isResumable(progressiveRun)) {
+      const level = progressiveRun.progressive?.currentLevel ?? progressiveRun.difficulty;
+      parts.push(`Scalata L${level} ${progressiveRun.solvedPuzzleIds.length}/${progressiveRun.mission.objectives.length}`);
+    }
+    if (this.isResumable(trainingRun)) {
+      parts.push(`Focus ${proceduralScoring.domainLabel(proceduralRunRules.focusFor(trainingRun))} L${trainingRun.difficulty}`);
+    }
+    if (parts.length === 0) {
+      return "Nessun percorso sospeso: scegli missione, scalata o focus.";
+    }
+    const summary = `In pausa: ${parts.join("  |  ")}`;
+    return summary.length > 84 ? "In pausa: percorsi salvati. Usa i pulsanti evidenziati per riprendere." : summary;
   }
 
   private trainingDifficultyKey(): string {

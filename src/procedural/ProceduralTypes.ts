@@ -525,6 +525,7 @@ export type ProceduralRunSave = {
   mission: GeneratedMission;
   hintsUsed: number;
   solvedPuzzleIds: string[];
+  failedPuzzleIds?: string[];
   puzzleStats?: Record<string, ProceduralPuzzleScore>;
   score?: ProceduralScoreSummary;
   lives?: number;

@@ -48,10 +48,10 @@ export class SaveSystem {
           ...parsed.flags,
         },
         journalEntries: parsed.journalEntries ?? [],
-        proceduralRun: parsed.proceduralRun,
-        proceduralMissionRun: parsed.proceduralMissionRun,
-        proceduralTrainingRun: parsed.proceduralTrainingRun,
-        proceduralProgressiveRun: parsed.proceduralProgressiveRun,
+        proceduralRun: this.normalizeProceduralRun(parsed.proceduralRun),
+        proceduralMissionRun: this.normalizeProceduralRun(parsed.proceduralMissionRun),
+        proceduralTrainingRun: this.normalizeProceduralRun(parsed.proceduralTrainingRun),
+        proceduralProgressiveRun: this.normalizeProceduralRun(parsed.proceduralProgressiveRun),
         trainingRecords: parsed.trainingRecords ?? {},
         greenhouseRun: parsed.greenhouseRun,
         numberFactoryRun: parsed.numberFactoryRun,
@@ -239,7 +239,18 @@ export class SaveSystem {
     if (!run || run.solvedPuzzleIds.includes(puzzleId)) {
       return;
     }
-    this.updateProceduralRun({ solvedPuzzleIds: [...run.solvedPuzzleIds, puzzleId] });
+    this.updateProceduralRun({
+      solvedPuzzleIds: [...run.solvedPuzzleIds, puzzleId],
+      failedPuzzleIds: (run.failedPuzzleIds ?? []).filter((id) => id !== puzzleId),
+    });
+  }
+
+  markProceduralPuzzleFailed(puzzleId: string): void {
+    const run = this.saveData.proceduralRun;
+    if (!run || run.solvedPuzzleIds.includes(puzzleId) || run.failedPuzzleIds?.includes(puzzleId)) {
+      return;
+    }
+    this.updateProceduralRun({ failedPuzzleIds: [...(run.failedPuzzleIds ?? []), puzzleId] });
   }
 
   incrementProceduralHints(): void {
@@ -265,6 +276,10 @@ export class SaveSystem {
       // Some browsers block or cap localStorage; keep the in-memory run alive.
     }
     EventBus.emit(GameEvents.SaveChanged, this.saveData);
+  }
+
+  private normalizeProceduralRun(run: ProceduralRunSave | undefined): ProceduralRunSave | undefined {
+    return run ? { ...run, failedPuzzleIds: run.failedPuzzleIds ?? [] } : undefined;
   }
 
   private createNewSave(): SaveData {

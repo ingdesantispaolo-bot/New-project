@@ -1,9 +1,11 @@
 import type {
   DifficultyLevel,
+  GeneratedFocusChallenge,
   GeneratedMission,
   GeneratedObjective,
   GeneratedRoomHotspot,
   ProceduralPuzzleKind,
+  ProceduralSpecialization,
 } from "./ProceduralTypes";
 import { Random } from "./Random";
 
@@ -45,6 +47,26 @@ const disciplinePositions: Record<ProgressiveDiscipline, { x: number; y: number;
   music: { x: 640, y: 502, radius: 52 },
 };
 
+const sequencePositions: Array<{ x: number; y: number; radius: number }> = [
+  { x: 312, y: 236, radius: 50 },
+  { x: 640, y: 218, radius: 54 },
+  { x: 914, y: 236, radius: 50 },
+  { x: 438, y: 488, radius: 50 },
+  { x: 842, y: 488, radius: 50 },
+  { x: 640, y: 356, radius: 54 },
+];
+
+const levelFocuses: Record<DifficultyLevel, ProceduralSpecialization> = {
+  1: "italiano",
+  2: "matematica",
+  3: "inglese",
+  4: "coding",
+  5: "elettronica",
+  6: "musica",
+  7: "matematica",
+  8: "coding",
+};
+
 const levelPools: Record<DifficultyLevel, ProgressiveDiscipline[]> = {
   1: ["language", "math", "english"],
   2: ["language", "math", "english", "circuit"],
@@ -57,19 +79,31 @@ const levelPools: Record<DifficultyLevel, ProgressiveDiscipline[]> = {
 };
 
 export class ProgressiveMissionBuilder {
+  focusForLevel(level: DifficultyLevel): ProceduralSpecialization {
+    return levelFocuses[level];
+  }
+
   buildLevelMission(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
     const random = new Random(`${base.seed}:progressive:${level}`);
-    const selected = this.selectDisciplines(random, level);
-    const objectives = selected.map((kind) => this.objectiveFor(base, kind));
-    const hotspots = selected.map((kind) => this.hotspotFor(kind));
+    const focusSequence = base.focusChallenges?.length ? base.focusChallenges : undefined;
+    const selected = focusSequence ? [] : this.selectDisciplines(random, level);
+    const objectives = focusSequence
+      ? focusSequence.map((challenge) => this.objectiveForChallenge(challenge))
+      : selected.map((kind) => this.objectiveFor(base, kind));
+    const hotspots = focusSequence
+      ? focusSequence.map((challenge, index) => this.hotspotForChallenge(challenge, index))
+      : selected.map((kind) => this.hotspotFor(kind));
+    const pathLabel = focusSequence
+      ? focusSequence.map((challenge) => challenge.title.toLowerCase()).join(" -> ")
+      : selected.map((kind) => disciplineLabels[kind].label.toLowerCase()).join(", ");
     return {
       ...base,
       id: `mission-progressive-level-${level}`,
       title: `Scalata dell'Accademia - Livello ${level}`,
       intro: [
-        `Livello ${level}/8: la stanza sceglie discipline diverse e aumenta la pressione.`,
-        "Completa tutte le console entro il tempo. Il livello successivo si sblocca solo con successo.",
-        `Percorso guidato: ${selected.map((kind) => disciplineLabels[kind].label.toLowerCase()).join(", ")}.`,
+        `Livello ${level}/8: la stanza propone una sequenza guidata a difficolta crescente.`,
+        "Completa ogni console entro tempo e vite. Il livello successivo si sblocca solo con successo.",
+        `Sequenza: ${pathLabel}.`,
       ].join(" "),
       objectives,
       map: {
@@ -97,6 +131,15 @@ export class ProgressiveMissionBuilder {
         },
         ...base.rewards,
       ],
+    };
+  }
+
+  private objectiveForChallenge(challenge: GeneratedFocusChallenge): GeneratedObjective {
+    return {
+      id: `procedural-${challenge.id}`,
+      label: challenge.title,
+      description: challenge.description,
+      competencies: challenge.puzzle.competencies,
     };
   }
 
@@ -134,6 +177,20 @@ export class ProgressiveMissionBuilder {
       puzzleId: kind,
       puzzleKind: kind,
       description: disciplineLabels[kind].description,
+    };
+  }
+
+  private hotspotForChallenge(challenge: GeneratedFocusChallenge, index: number): GeneratedRoomHotspot {
+    const position = sequencePositions[index] ?? sequencePositions[sequencePositions.length - 1];
+    return {
+      id: challenge.id,
+      label: challenge.title,
+      x: position.x,
+      y: position.y,
+      radius: position.radius,
+      puzzleId: challenge.id,
+      puzzleKind: challenge.kind,
+      description: challenge.description,
     };
   }
 

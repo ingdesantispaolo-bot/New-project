@@ -79,9 +79,11 @@ export function proceduralHotspotState(
   hotspot: GeneratedRoomHotspot,
   solvedPuzzleIds: string[],
   allSolved: boolean,
+  failedPuzzleIds: string[] = [],
 ): DeviceState {
   const key = proceduralHotspotKey(hotspot);
   const solved = isProceduralHotspotSolved(hotspot, solvedPuzzleIds);
+  const failed = isProceduralHotspotFailed(hotspot, failedPuzzleIds);
   if (key === "door") {
     return allSolved ? "ready" : "locked";
   }
@@ -90,6 +92,9 @@ export function proceduralHotspotState(
   }
   if (solved) {
     return "complete";
+  }
+  if (failed) {
+    return "failed";
   }
   return "active";
 }
@@ -101,6 +106,15 @@ export function isProceduralHotspotSolved(hotspot: GeneratedRoomHotspot, solvedP
   }
   const key = proceduralHotspotKey(hotspot);
   return Boolean(key && solvedPuzzleIds.some((id) => id === key || id.startsWith(`${key}-`)));
+}
+
+export function isProceduralHotspotFailed(hotspot: GeneratedRoomHotspot, failedPuzzleIds: string[] = []): boolean {
+  if (hotspot.puzzleId) {
+    const kind = puzzleKindFromId(hotspot.puzzleId);
+    return failedPuzzleIds.some((id) => id === hotspot.puzzleId || id === kind);
+  }
+  const key = proceduralHotspotKey(hotspot);
+  return Boolean(key && failedPuzzleIds.some((id) => id === key || id.startsWith(`${key}-`)));
 }
 
 export function proceduralRequiredPuzzleIds(objectives: Array<{ id: string }>): string[] {
@@ -120,7 +134,7 @@ export function proceduralRequiredPuzzleIds(objectives: Array<{ id: string }>): 
   });
 }
 
-export function pendingProceduralPuzzleLabel(solvedPuzzleIds: string[], requiredIds: string[] = proceduralPuzzleOrder): string {
+export function pendingProceduralPuzzleLabel(solvedPuzzleIds: string[], requiredIds: string[] = proceduralPuzzleOrder, failedPuzzleIds: string[] = []): string {
   const labels: Record<ProceduralPuzzleId, string> = {
     language: "stabilizza il segnale",
     circuit: "diagnostica il circuito",
@@ -130,7 +144,7 @@ export function pendingProceduralPuzzleLabel(solvedPuzzleIds: string[], required
     coding: "verifica l'algoritmo",
     music: "riconosci la nota",
   };
-  const pending = requiredIds.find((id) => !isProceduralPuzzleSolved(id, solvedPuzzleIds));
+  const pending = requiredIds.find((id) => !isProceduralPuzzleSolved(id, solvedPuzzleIds) && !isProceduralPuzzleSolved(id, failedPuzzleIds));
   return pending ? labels[puzzleKindFromId(pending)] : "apri la porta finale";
 }
 

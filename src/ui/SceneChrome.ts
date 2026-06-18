@@ -25,7 +25,7 @@ export type DeviceKind =
   | "core"
   | "trace";
 
-export type DeviceState = "locked" | "ready" | "active" | "complete";
+export type DeviceState = "locked" | "ready" | "active" | "complete" | "failed";
 
 export type SceneChromeLayout = {
   top: ChromeRect;
@@ -255,6 +255,7 @@ export class SceneChrome {
   private static stateColor(state: DeviceState): number {
     if (state === "locked") return colors.muted;
     if (state === "complete") return colors.green;
+    if (state === "failed") return colors.warm;
     if (state === "active") return colors.red;
     return colors.cyan;
   }

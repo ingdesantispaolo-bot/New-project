@@ -25,6 +25,7 @@ export type ProceduralMissionHud = {
 const statusColors = {
   active: 0xe85b63,
   complete: 0x2ed889,
+  failed: 0xf6c85f,
   locked: 0x6b7d84,
 };
 
@@ -91,12 +92,12 @@ export class ProceduralMissionView {
     });
     this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 358, statusColors.active, "Da sistemare");
     this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 386, statusColors.complete, "Completata");
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 414, statusColors.locked, "Bloccata");
+    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 414, statusColors.failed, "Fallita");
 
     scene.add.rectangle(layout.left.x + 22, layout.left.y + 452, layout.left.width - 44, 42, 0x0b221f, 0.72)
       .setOrigin(0)
       .setStrokeStyle(1, 0x6be7d6, 0.24);
-    scene.add.text(layout.left.x + 38, layout.left.y + 464, `Traccia utile: ${pendingProceduralPuzzleLabel(run.solvedPuzzleIds, requiredIds)}`, {
+    scene.add.text(layout.left.x + 38, layout.left.y + 464, `Traccia utile: ${pendingProceduralPuzzleLabel(run.solvedPuzzleIds, requiredIds, run.failedPuzzleIds ?? [])}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
@@ -192,7 +193,7 @@ export class ProceduralMissionView {
         point.y,
         proceduralHotspotKind(hotspot),
         hotspot.label,
-        proceduralHotspotState(hotspot, run.solvedPuzzleIds, allSolved),
+        proceduralHotspotState(hotspot, run.solvedPuzzleIds, allSolved, run.failedPuzzleIds ?? []),
         () => onOpen(hotspot),
         hotspot.id === "door" ? 96 : isPrimary ? 84 : 78,
       );
@@ -218,7 +219,7 @@ export class ProceduralMissionView {
     if (mode === "progressive") {
       return [
         `${requiredCount} console per superare il livello.`,
-        "Completa la sala prima che scadano tempo o vite.",
+        "Sequenza guidata: una console alla volta, senza tentativi casuali.",
       ];
     }
     return [
@@ -232,7 +233,7 @@ export class ProceduralMissionView {
       return focusHint;
     }
     if (mode === "progressive") {
-      return "Scegli una console rossa: ogni stabilizzazione accende una traccia verso la porta di livello.";
+      return "La mappa mostra il progresso. La scalata apre automaticamente la prossima console rossa.";
     }
     return "Le linee mostrano relazioni tra sistemi. Puoi partire da qualunque console rossa.";
   }

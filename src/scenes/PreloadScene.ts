@@ -38,6 +38,11 @@ import paintedNoraCoreUrl from "../assets/painted/props/painted-nora-core.webp";
 import paintedRobotDockUrl from "../assets/painted/props/painted-robot-dock.webp";
 import paintedTerminalUrl from "../assets/painted/props/painted-terminal.webp";
 import paintedWorkbenchUrl from "../assets/painted/props/painted-workbench.webp";
+import outcomeDefeatUrl from "../assets/images/outcomes/outcome-defeat.webp";
+import outcomeDevastatingDefeatUrl from "../assets/images/outcomes/outcome-devastating-defeat.webp";
+import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-victory.webp";
+import outcomeLightVictoryUrl from "../assets/images/outcomes/outcome-light-victory.webp";
+import outcomeNeutralUrl from "../assets/images/outcomes/outcome-neutral.webp";
 
 export class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -81,6 +86,11 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image("painted-robot-dock", paintedRobotDockUrl);
     this.load.image("painted-terminal", paintedTerminalUrl);
     this.load.image("painted-workbench", paintedWorkbenchUrl);
+    this.load.image("outcome-defeat", outcomeDefeatUrl);
+    this.load.image("outcome-devastating-defeat", outcomeDevastatingDefeatUrl);
+    this.load.image("outcome-grand-victory", outcomeGrandVictoryUrl);
+    this.load.image("outcome-light-victory", outcomeLightVictoryUrl);
+    this.load.image("outcome-neutral", outcomeNeutralUrl);
     this.load.atlas("eli-atlas", eliQuestAtlasUrl, eliQuestAtlasJsonUrl);
   }
 

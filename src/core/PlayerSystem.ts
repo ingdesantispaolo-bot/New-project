@@ -27,7 +27,7 @@ export type PlayerResult = {
   hintsUsed: number;
   attempts: number;
   completedAt: string;
-  mode: "mission" | "training";
+  mode: "mission" | "training" | "progressive";
   seed: string;
   grade?: number;
   gradeLabel?: string;
@@ -306,22 +306,31 @@ export class PlayerSystem {
     const completedAt = run.completedAt;
     const active = this.getActivePlayer();
     const mode = proceduralRunRules.modeFor(run);
-    const elapsedMs = Math.max(1000, new Date(completedAt).getTime() - new Date(run.startedAt).getTime());
+    const progressiveResults = run.progressive?.results ?? [];
+    const elapsedMs = Math.max(
+      1000,
+      proceduralRunRules.modeFor(run) === "progressive" && progressiveResults.length > 0
+        ? progressiveResults.reduce((sum, result) => sum + result.elapsedMs, 0)
+        : new Date(completedAt).getTime() - new Date(run.startedAt).getTime(),
+    );
     const puzzleScores = Object.values(run.puzzleStats ?? {});
     const attempts = puzzleScores.reduce((sum, score) => sum + Math.max(1, score.attempts), 0);
     const nextResults: PlayerResult[] = [];
 
-    if (mode === "mission") {
+    if (mode === "mission" || mode === "progressive") {
+      const progressiveScore = progressiveResults.length > 0
+        ? progressiveResults.reduce((sum, result) => sum + result.score, 0)
+        : run.score?.total ?? 0;
       nextResults.push({
         id: createId("result"),
-        sourceKey: `${active.id}:${run.seed}:${completedAt}:mission:${run.mission.id}`,
+        sourceKey: `${active.id}:${run.seed}:${completedAt}:mission:${mode === "progressive" ? "mission-progressive-scalata" : run.mission.id}`,
         playerId: active.id,
         playerName: active.name,
         category: "mission",
-        key: run.mission.id,
-        label: run.mission.title,
+        key: mode === "progressive" ? "mission-progressive-scalata" : run.mission.id,
+        label: mode === "progressive" ? "Scalata progressiva" : run.mission.title,
         difficulty: run.difficulty,
-        score: run.score?.total ?? 0,
+        score: mode === "progressive" ? progressiveScore : run.score?.total ?? 0,
         elapsedMs,
         hintsUsed: run.hintsUsed,
         attempts,
@@ -331,7 +340,7 @@ export class PlayerSystem {
         grade: inferredGrade({
           category: "mission",
           difficulty: run.difficulty,
-          score: run.score?.total ?? 0,
+          score: mode === "progressive" ? progressiveScore : run.score?.total ?? 0,
           elapsedMs,
           hintsUsed: run.hintsUsed,
           attempts,

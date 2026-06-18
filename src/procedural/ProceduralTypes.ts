@@ -12,7 +12,7 @@ export type ProceduralSpecialization =
   | "musica";
 
 export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music";
-export type ProceduralRunMode = "mission" | "training";
+export type ProceduralRunMode = "mission" | "training" | "progressive";
 
 export type PedagogicalFocus =
   | "osservazione"
@@ -489,6 +489,34 @@ export type TrainingRunResult = {
   bestTimeMs?: number;
 };
 
+export type ProgressiveOutcomeTone =
+  | "devastating-defeat"
+  | "defeat"
+  | "neutral"
+  | "light-victory"
+  | "grand-victory";
+
+export type ProgressiveLevelResult = {
+  level: DifficultyLevel;
+  completed: boolean;
+  solvedCount: number;
+  requiredCount: number;
+  elapsedMs: number;
+  score: number;
+  outcome: ProgressiveOutcomeTone;
+  completedAt: string;
+};
+
+export type ProgressiveRunState = {
+  currentLevel: DifficultyLevel;
+  unlockedLevel: DifficultyLevel;
+  maxLevel: DifficultyLevel;
+  levelStartedAt: string;
+  levelTimeLimitMs: number;
+  levelDeadlineAt: string;
+  results: ProgressiveLevelResult[];
+};
+
 export type ProceduralRunSave = {
   seed: string;
   difficulty: DifficultyLevel;
@@ -506,6 +534,7 @@ export type ProceduralRunSave = {
   pausedRemainingMs?: number;
   failedAt?: string;
   trainingResult?: TrainingRunResult;
+  progressive?: ProgressiveRunState;
   startedAt: string;
   completedAt?: string;
 };

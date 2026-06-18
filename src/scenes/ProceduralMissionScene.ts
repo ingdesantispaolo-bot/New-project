@@ -5,12 +5,14 @@ import { feedbackSystem, type FeedbackMessage } from "../core/FeedbackSystem";
 import { EventBus, GameEvents } from "../core/EventBus";
 import { mistakeAnalyzer } from "../core/MistakeAnalyzer";
 import { missionEngine } from "../core/MissionEngine";
+import { playerSystem } from "../core/PlayerSystem";
 import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { circuitFaultTemplates } from "../data/procedural/circuitTemplates";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { MusicNoteGenerator } from "../procedural/generators/MusicNoteGenerator";
+import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
 import { Random } from "../procedural/Random";
 import type {
   CircuitComponentChallenge,
@@ -27,6 +29,8 @@ import type {
   GeneratedRoomHotspot,
   GridCommand,
   GridFacing,
+  ProgressiveLevelResult,
+  ProgressiveOutcomeTone,
   ProceduralPuzzleScore,
   ProceduralRunSave,
 } from "../procedural/ProceduralTypes";
@@ -122,6 +126,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private readonly musicGenerator = new MusicNoteGenerator();
   private missionFailureInProgress = false;
   private timeoutSolutionOpen = false;
+  private progressiveOutcomeOpen = false;
 
   constructor() {
     super("ProceduralMissionScene");
@@ -162,6 +167,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     saveSystem.pauseActiveProceduralRun();
+  }
+
+  private runMode(): "mission" | "training" | "progressive" {
+    return proceduralRunRules.modeFor(this.run);
+  }
+
+  private isProgressiveMode(): boolean {
+    return this.runMode() === "progressive";
+  }
+
+  private isTimedMissionMode(): boolean {
+    const mode = this.runMode();
+    return mode === "mission" || mode === "progressive";
   }
 
   private ensureRun(): ProceduralRunSave {
@@ -235,9 +253,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private replaceLegacyRun(run: ProceduralRunSave): ProceduralRunSave {
     const mode = proceduralRunRules.modeFor(run);
     const focus = run.focus.length > 0 ? run.focus : [mode === "training" ? proceduralRunRules.focusFor(run) : "libera"];
-    const mission = proceduralDirector.generateFreshMission(run.difficulty, focus);
+    const baseMission = proceduralDirector.generateFreshMission(run.difficulty, focus);
+    const mission = mode === "progressive"
+      ? progressiveMissionBuilder.buildLevelMission(baseMission, run.progressive?.currentLevel ?? run.difficulty)
+      : baseMission;
     const startedAt = new Date().toISOString();
-    const timeLimitMs = mode === "mission" ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length)) : undefined;
+    const timeLimitMs = mode === "progressive"
+      ? progressiveMissionBuilder.timeLimitMs(run.progressive?.currentLevel ?? mission.difficulty, Math.max(1, mission.objectives.length))
+      : mode === "mission"
+        ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length))
+        : undefined;
     const replacement: ProceduralRunSave = {
       seed: mission.seed,
       difficulty: mission.difficulty,
@@ -248,11 +273,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
       puzzleStats: {},
-      lives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
-      maxLives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
+      lives: mode === "mission" || mode === "progressive" ? proceduralRunRules.maxLives : undefined,
+      maxLives: mode === "mission" || mode === "progressive" ? proceduralRunRules.maxLives : undefined,
       timeLimitMs,
       deadlineAt: timeLimitMs ? proceduralRunRules.deadlineFrom(startedAt, timeLimitMs) : undefined,
       startedAt,
+      progressive: mode === "progressive"
+        ? {
+            currentLevel: run.progressive?.currentLevel ?? run.difficulty,
+            unlockedLevel: run.progressive?.unlockedLevel ?? run.difficulty,
+            maxLevel: run.progressive?.maxLevel ?? 8,
+            levelStartedAt: startedAt,
+            levelTimeLimitMs: timeLimitMs ?? progressiveMissionBuilder.timeLimitMs(run.difficulty, Math.max(1, mission.objectives.length)),
+            levelDeadlineAt: timeLimitMs ? proceduralRunRules.deadlineFrom(startedAt, timeLimitMs) : startedAt,
+            results: run.progressive?.results ?? [],
+          }
+        : undefined,
     };
     saveSystem.setProceduralRun(replacement);
     return replacement;
@@ -267,9 +303,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }
       return run;
     }
-    const timeLimitMs = run.timeLimitMs ?? proceduralRunRules.missionTimeLimitMs(run.difficulty, Math.max(1, run.mission.objectives.length));
+    const timeLimitMs = run.timeLimitMs ?? (mode === "progressive"
+      ? progressiveMissionBuilder.timeLimitMs(run.progressive?.currentLevel ?? run.difficulty, Math.max(1, run.mission.objectives.length))
+      : proceduralRunRules.missionTimeLimitMs(run.difficulty, Math.max(1, run.mission.objectives.length)));
     const update: Partial<ProceduralRunSave> = {};
-    if (run.mode !== "mission") update.mode = "mission";
+    if (run.mode !== mode) update.mode = mode;
     if (!run.maxLives) update.maxLives = proceduralRunRules.maxLives;
     if (!run.lives) update.lives = proceduralRunRules.maxLives;
     if (!run.timeLimitMs) update.timeLimitMs = timeLimitMs;
@@ -287,6 +325,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private regenerate(): void {
+    if (this.isProgressiveMode()) {
+      const progressive = this.run.progressive;
+      this.startProgressiveLevel(progressive?.currentLevel ?? this.run.difficulty, progressive?.results ?? []);
+      return;
+    }
     const nextDifficulty = Math.min(8, this.run.difficulty + (this.run.completedAt ? 1 : 0)) as DifficultyLevel;
     const mission = proceduralDirector.generateFreshMission(nextDifficulty, this.run.focus);
     const mode = proceduralRunRules.modeFor(this.run);
@@ -309,6 +352,51 @@ export class ProceduralMissionScene extends Phaser.Scene {
       startedAt,
     });
     this.scene.restart();
+  }
+
+  private createProgressiveRun(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): ProceduralRunSave {
+    const baseMission = proceduralDirector.generateFreshMission(level, ["progressiva"]);
+    const mission = progressiveMissionBuilder.buildLevelMission(baseMission, level);
+    const startedAt = new Date().toISOString();
+    const timeLimitMs = progressiveMissionBuilder.timeLimitMs(level, Math.max(1, mission.objectives.length));
+    const highestUnlocked = previousResults.reduce<number>((max, result) => (
+      result.completed ? Math.max(max, Math.min(8, result.level + 1)) : max
+    ), level);
+    return {
+      seed: mission.seed,
+      difficulty: level,
+      focus: ["progressiva"],
+      mode: "progressive",
+      mission,
+      hintsUsed: 0,
+      solvedPuzzleIds: [],
+      score: { total: 0, byPuzzle: {}, byDomain: {} },
+      puzzleStats: {},
+      lives: proceduralRunRules.maxLives,
+      maxLives: proceduralRunRules.maxLives,
+      timeLimitMs,
+      deadlineAt: proceduralRunRules.deadlineFrom(startedAt, timeLimitMs),
+      startedAt,
+      progressive: {
+        currentLevel: level,
+        unlockedLevel: Math.min(8, Math.max(level, highestUnlocked)) as DifficultyLevel,
+        maxLevel: 8,
+        levelStartedAt: startedAt,
+        levelTimeLimitMs: timeLimitMs,
+        levelDeadlineAt: proceduralRunRules.deadlineFrom(startedAt, timeLimitMs),
+        results: previousResults,
+      },
+    };
+  }
+
+  private startProgressiveLevel(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): void {
+    saveSystem.setProceduralRun(this.createProgressiveRun(level, previousResults));
+    this.scene.restart();
+  }
+
+  private parkProgressiveLevel(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): void {
+    saveSystem.setProceduralRun(this.createProgressiveRun(level, previousResults));
+    saveSystem.pauseActiveProceduralRun();
   }
 
   private openHotspot(hotspot: GeneratedRoomHotspot): void {
@@ -2339,7 +2427,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private musicSprintPassed(session: MusicTrainingSession): boolean {
-    if (proceduralRunRules.modeFor(this.run) !== "mission") {
+    if (!this.isTimedMissionMode()) {
       return true;
     }
     const minCorrect = Math.max(4, Math.min(10, 3 + Math.ceil(this.run.difficulty * 0.8)));
@@ -2404,7 +2492,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
     modal.add(this.add.rectangle(250, 378, 700, 72, 0x0b1e2a, 0.82).setOrigin(0)
       .setStrokeStyle(1, 0xf7d37a, 0.36));
-    modal.add(this.add.text(274, 394, mode === "mission"
+    modal.add(this.add.text(274, 394, (mode === "mission" || mode === "progressive")
       ? passed
         ? "La console musicale è stabile: il sistema accetta il riconoscimento rapido delle note."
         : "In missione la console richiede una soglia minima: perderai una vita, ma potrai riprovare."
@@ -2415,9 +2503,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 650 },
       lineSpacing: 4,
     }));
-    modal.add(new Button(this, 608, 506, mode === "mission" && !passed ? "Ho capito" : "Registra e continua", () => {
+    modal.add(new Button(this, 608, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
       modal.destroy(true);
-      if (!passed && mode === "mission") {
+      if (!passed && (mode === "mission" || mode === "progressive")) {
         this.loseMissionLife("sprint musicale sotto soglia: servono più riconoscimenti corretti nel tempo dato.");
         return;
       }
@@ -2572,7 +2660,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: width - 96 },
       lineSpacing: 5,
     }));
-    modal.add(this.add.text(x + 30, y + 232, mode === "mission"
+    modal.add(this.add.text(x + 30, y + 232, (mode === "mission" || mode === "progressive")
       ? "Quando premi, l'errore verrà registrato e perderai una vita. I sistemi già completati restano validi."
       : onTrainingContinue
         ? "Quando premi, passi alla nota successiva della sequenza. La soluzione appena vista resta parte dell'allenamento."
@@ -2586,7 +2674,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     modal.add(new Button(this, x + width - 126, y + height - 42, "Ho capito", () => {
       modal.destroy(true);
       this.timeoutSolutionOpen = false;
-      if (mode === "mission") {
+      if (mode === "mission" || mode === "progressive") {
         this.loseMissionLife(message);
         return;
       }
@@ -3055,6 +3143,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       audioManager.playOutcome("wrong");
       return;
     }
+    if (this.isProgressiveMode()) {
+      this.completeProgressiveLevel(true, "Tutte le console del livello sono stabili.");
+      return;
+    }
     audioManager.playOutcome("complete");
     outcomeFeedback.play(this, "complete", proceduralRunRules.modeFor(this.run) === "training" ? "Allenamento registrato" : "Porta aperta");
     missionEngine.completeProceduralMission();
@@ -3101,7 +3193,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private handleIncorrectAnswer(message: string): boolean {
     this.recordPuzzleMistake();
-    if (proceduralRunRules.modeFor(this.run) === "mission") {
+    if (this.isTimedMissionMode()) {
       this.loseMissionLife(message);
       return true;
     }
@@ -3128,7 +3220,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private handleMusicMistake(message: string): void {
     this.recordPuzzleMistake();
-    if (proceduralRunRules.modeFor(this.run) === "mission") {
+    if (this.isTimedMissionMode()) {
       this.loseMissionLife(message);
       return;
     }
@@ -3160,12 +3252,241 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
 
+    if (this.isProgressiveMode()) {
+      saveSystem.updateProceduralRun({ lives: 0 });
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+      this.completeProgressiveLevel(false, reason);
+      return;
+    }
+
     saveSystem.updateProceduralRun({
       lives: 0,
       failedAt: now,
     });
     feedbackSystem.publish(`Missione fallita: ${reason} Le 3 vite sono terminate. Ricomincia dal menu con una nuova missione.`, "warning");
     this.time.delayedCall(1800, () => this.scene.start("MainMenuScene"));
+  }
+
+  private completeProgressiveLevel(success: boolean, reason: string): void {
+    if (this.progressiveOutcomeOpen) {
+      return;
+    }
+    const progressive = this.run.progressive;
+    if (!progressive) {
+      return;
+    }
+    this.progressiveOutcomeOpen = true;
+    this.discardActivePuzzleAttempt();
+    this.clearOverlay();
+    const completedAt = new Date().toISOString();
+    const required = this.requiredPuzzleIds();
+    const solvedCount = required.filter((id) => this.isSolved(id)).length;
+    const elapsedMs = Math.max(1000, new Date(completedAt).getTime() - new Date(progressive.levelStartedAt).getTime());
+    const result: ProgressiveLevelResult = {
+      level: progressive.currentLevel,
+      completed: success,
+      solvedCount,
+      requiredCount: required.length,
+      elapsedMs,
+      score: this.run.score?.total ?? 0,
+      outcome: this.assessProgressiveOutcome(success, solvedCount, required.length),
+      completedAt,
+    };
+    const results = [...progressive.results.filter((item) => item.level !== result.level), result]
+      .sort((a, b) => a.level - b.level);
+    const unlockedLevel = success
+      ? Math.min(progressive.maxLevel, Math.max(progressive.unlockedLevel, result.level + 1)) as DifficultyLevel
+      : progressive.unlockedLevel;
+    saveSystem.updateProceduralRun({
+      progressive: {
+        ...progressive,
+        unlockedLevel,
+        results,
+      },
+      lives: this.run.lives,
+    });
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    const finalCompleted = success && result.level >= progressive.maxLevel;
+    if (finalCompleted) {
+      this.completeProgressiveRun(results);
+    }
+    this.showProgressiveOutcome(result, reason, results, finalCompleted);
+  }
+
+  private assessProgressiveOutcome(
+    success: boolean,
+    solvedCount: number,
+    requiredCount: number,
+  ): ProgressiveOutcomeTone {
+    const solvedRatio = requiredCount > 0 ? solvedCount / requiredCount : 0;
+    if (!success) {
+      if (solvedRatio <= 0.2 || (this.run.lives ?? 0) <= 0) return "devastating-defeat";
+      if (solvedRatio < 0.7) return "defeat";
+      return "neutral";
+    }
+    const remainingRatio = this.run.timeLimitMs
+      ? Math.max(0, proceduralRunRules.remainingMs(this.run)) / this.run.timeLimitMs
+      : 0;
+    const attempts = Object.values(this.run.puzzleStats ?? {}).reduce((sum, score) => sum + score.attempts, 0);
+    const cleanRun = this.run.hintsUsed === 0 && attempts <= requiredCount + 1;
+    return remainingRatio >= 0.32 && cleanRun ? "grand-victory" : "light-victory";
+  }
+
+  private completeProgressiveRun(results: ProgressiveLevelResult[]): void {
+    const completedAt = new Date().toISOString();
+    const totalScore = results.reduce((sum, result) => sum + result.score, 0);
+    const totalElapsed = results.reduce((sum, result) => sum + result.elapsedMs, 0);
+    saveSystem.updateProceduralRun({
+      completedAt,
+      score: {
+        ...(this.run.score ?? { byPuzzle: {}, byDomain: {} }),
+        total: totalScore,
+      },
+    });
+    const completedRun = saveSystem.data.proceduralRun ?? {
+      ...this.run,
+      completedAt,
+      score: { ...(this.run.score ?? { byPuzzle: {}, byDomain: {} }), total: totalScore },
+    };
+    playerSystem.recordProceduralRun(completedRun);
+    saveSystem.completeMission("mission-progressive-scalata");
+    saveSystem.addJournalEntry({
+      id: `progressive-summary-${completedRun.seed}`,
+      title: "Scalata progressiva completata",
+      lines: [
+        "Eli ha attraversato le otto stanze riconfigurabili: ogni livello ha intrecciato discipline diverse con difficoltà crescente.",
+        `Punteggio totale: ${totalScore}. Tempo complessivo sui livelli: ${formatDuration(totalElapsed)}.`,
+        `Livelli superati: ${results.filter((result) => result.completed).length}/8. Indizi usati nell'ultimo livello: ${completedRun.hintsUsed}.`,
+        "La porta del nucleo resta aperta: ora puoi ripetere la scalata per migliorare tempo, precisione e qualità delle decisioni.",
+      ],
+      badges: ["Scalatrice dell'Accademia", "Custode delle Discipline", "Stratega del Tempo"],
+      createdAt: completedAt,
+    });
+    this.run = saveSystem.data.proceduralRun ?? completedRun;
+  }
+
+  private showProgressiveOutcome(
+    result: ProgressiveLevelResult,
+    reason: string,
+    results: ProgressiveLevelResult[],
+    finalCompleted: boolean,
+  ): void {
+    const palette: Record<ProgressiveOutcomeTone, { title: string; subtitle: string; tint: number; textColor: string }> = {
+      "devastating-defeat": {
+        title: "Brutta sconfitta",
+        subtitle: "La stanza ha ceduto: serve ripartire dal metodo, non dalla velocità.",
+        tint: 0xff6f6f,
+        textColor: "#ffb0a8",
+      },
+      defeat: {
+        title: "Sconfitta",
+        subtitle: "Hai stabilizzato alcuni sistemi, ma il livello non è certificato.",
+        tint: 0xffa15c,
+        textColor: "#ffcb9a",
+      },
+      neutral: {
+        title: "Esito neutro",
+        subtitle: "Il ragionamento c'è, ma non basta ancora per sbloccare il livello successivo.",
+        tint: 0xc9d6dd,
+        textColor: "#d9eaf1",
+      },
+      "light-victory": {
+        title: "Vittoria leggera",
+        subtitle: "Livello superato: metodo corretto, margine migliorabile.",
+        tint: 0x9ff5e9,
+        textColor: "#9ff5e9",
+      },
+      "grand-victory": {
+        title: "Vittoria grandiosa",
+        subtitle: "Soluzione pulita e rapida: la stanza ha aperto un corridoio diretto.",
+        tint: 0xf7d37a,
+        textColor: "#f7d37a",
+      },
+    };
+    const copy = palette[result.outcome];
+    const maxLevel = this.run.progressive?.maxLevel ?? 8;
+    const nextLevel = Math.min(maxLevel, result.level + 1) as DifficultyLevel;
+    const overlay = this.add.container(0, 0).setDepth(1900);
+    overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.88).setInteractive());
+    overlay.add(this.add.image(324, 360, `outcome-${result.outcome}`).setDisplaySize(438, 438).setAlpha(0.96));
+    overlay.add(this.add.rectangle(324, 360, 466, 466, 0x000000, 0).setStrokeStyle(2, copy.tint, 0.46));
+    overlay.add(this.add.rectangle(854, 360, 642, 466, 0x07151d, 0.96).setStrokeStyle(2, copy.tint, 0.72));
+    overlay.add(this.add.text(568, 158, copy.title, {
+      fontFamily: "Inter, Arial",
+      fontSize: "34px",
+      color: copy.textColor,
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(570, 210, copy.subtitle, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#f5fbff",
+      wordWrap: { width: 560 },
+      lineSpacing: 5,
+    }));
+    overlay.add(this.add.text(570, 270, [
+      `Livello: ${result.level}/${maxLevel}`,
+      `Console stabilizzate: ${result.solvedCount}/${result.requiredCount}`,
+      `Tempo usato: ${formatDuration(result.elapsedMs)}`,
+      `Punti livello: ${result.score}`,
+      `Motivo: ${reason}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#d9eaf1",
+      lineSpacing: 8,
+      wordWrap: { width: 560 },
+    }));
+    const narrative = result.completed
+      ? finalCompleted
+        ? "NORA: nucleo stabilizzato. La scalata è completa, ma il registro resta pronto per una run migliore."
+        : `NORA: livello ${result.level} certificato. Il livello ${nextLevel} è ora accessibile.`
+      : "NORA: nessuna punizione cieca. Leggi il riepilogo, riprova con una strategia più precisa.";
+    overlay.add(this.add.rectangle(570, 432, 568, 82, 0x102533, 0.82).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
+    overlay.add(this.add.text(594, 452, narrative, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#9ff5e9",
+      wordWrap: { width: 520 },
+      lineSpacing: 4,
+    }));
+    if (finalCompleted) {
+      overlay.add(new Button(this, 736, 608, "Diario", () => this.scene.start("JournalScene"), {
+        width: 224,
+        height: 54,
+        fill: 0x173b36,
+        stroke: 0xf7d37a,
+        fontSize: 18,
+      }));
+    } else {
+      overlay.add(new Button(this, 716, 608, result.completed ? "Livello successivo" : "Riprova livello", () => {
+        this.progressiveOutcomeOpen = false;
+        this.missionFailureInProgress = false;
+        this.startProgressiveLevel(result.completed ? nextLevel : result.level, results);
+      }, {
+        width: 270,
+        height: 54,
+        fill: result.completed ? 0x173b36 : 0x263743,
+        stroke: copy.tint,
+        fontSize: 18,
+      }));
+    }
+    overlay.add(new Button(this, 1010, 608, "Menu", () => {
+      this.progressiveOutcomeOpen = false;
+      this.missionFailureInProgress = false;
+      if (!finalCompleted) {
+        this.parkProgressiveLevel(result.completed ? nextLevel : result.level, results);
+      }
+      this.scene.start("MainMenuScene");
+    }, {
+      width: 206,
+      height: 54,
+      fill: 0x263743,
+      stroke: 0x6be7d6,
+      fontSize: 18,
+    }));
+    this.overlay = overlay;
+    audioManager.playOutcome(result.completed ? "complete" : "wrong");
   }
 
   private isSolved(puzzleId: string): boolean {
@@ -3194,28 +3515,38 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const puzzleId = objective.id.replace("procedural-", "");
       return `${this.isSolved(puzzleId) ? "[OK]" : "[ ]"} ${objective.label}`;
     }).join("\n");
+    const progressiveLevel = this.run.progressive?.currentLevel ?? this.run.difficulty;
     this.objectiveText?.setText(
       pendingObjectives.length > 0
-        ? mode === "mission"
+        ? mode === "progressive"
+          ? `Scalata progressiva - livello ${progressiveLevel}/8\n${checklist}\n\nCompleta entro il tempo. Il livello successivo si sblocca solo se la porta certifica tutte le console.`
+          : mode === "mission"
           ? `Console da sistemare\n${checklist}\n\nOrdine libero. Ogni errore o tempo scaduto consuma una vita.`
           : `Allenamento ${proceduralScoring.domainLabel(focus)}\n${checklist}\n\nIl voto pesa tempo, precisione e aiuti usati.`
-        : mode === "mission"
+        : mode === "progressive"
+          ? `Livello ${progressiveLevel} coerente.\n[OK] Apri la porta di livello.\n\nSe riesci, si sblocca il livello ${Math.min(8, progressiveLevel + 1)}.`
+          : mode === "mission"
           ? `Tutti i sistemi sono coerenti.\n[OK] Apri la porta finale.\n\nSeed: ${this.run.seed}`
           : `Allenamento completato.\n[OK] Apri la porta per registrare voto e miglior tempo.\n\nSeed: ${this.run.seed}`,
     );
     this.progressText?.setText(
-      mode === "mission"
+      mode === "mission" || mode === "progressive"
         ? `${this.requiredPuzzleIds().filter((id) => this.isSolved(id)).length}/${requiredCount} esercizi completati\nVite: ${this.run.lives ?? proceduralRunRules.maxLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}\nTempo restante: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
         : `${this.requiredPuzzleIds().filter((id) => this.isSolved(id)).length}/${requiredCount} esercizi completati\nIndizi: ${this.run.hintsUsed}\nTempo: ${formatDuration(elapsed)}\nRecord: ${record ? formatDuration(record.bestTimeMs) : "non ancora"}\nPunti: ${this.run.score?.total ?? 0}`,
     );
   }
 
   private checkMissionTimeout(): boolean {
-    if (proceduralRunRules.modeFor(this.run) !== "mission" || this.run.completedAt || this.run.failedAt) {
+    const mode = proceduralRunRules.modeFor(this.run);
+    if ((mode !== "mission" && mode !== "progressive") || this.run.completedAt || this.run.failedAt) {
       return false;
     }
     if (proceduralRunRules.remainingMs(this.run) > 0) {
       return false;
+    }
+    if (mode === "progressive") {
+      this.completeProgressiveLevel(false, "Tempo esaurito.");
+      return true;
     }
     this.loseMissionLife("tempo esaurito.");
     return true;

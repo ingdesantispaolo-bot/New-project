@@ -51,6 +51,7 @@ export class SaveSystem {
         proceduralRun: parsed.proceduralRun,
         proceduralMissionRun: parsed.proceduralMissionRun,
         proceduralTrainingRun: parsed.proceduralTrainingRun,
+        proceduralProgressiveRun: parsed.proceduralProgressiveRun,
         trainingRecords: parsed.trainingRecords ?? {},
         greenhouseRun: parsed.greenhouseRun,
         numberFactoryRun: parsed.numberFactoryRun,
@@ -150,8 +151,16 @@ export class SaveSystem {
     return this.saveData.proceduralTrainingRun;
   }
 
-  hasResumableProceduralRun(mode: "mission" | "training"): boolean {
-    const run = mode === "mission" ? this.saveData.proceduralMissionRun : this.saveData.proceduralTrainingRun;
+  getProceduralProgressiveRun(): ProceduralRunSave | undefined {
+    return this.saveData.proceduralProgressiveRun;
+  }
+
+  hasResumableProceduralRun(mode: "mission" | "training" | "progressive"): boolean {
+    const run = mode === "mission"
+      ? this.saveData.proceduralMissionRun
+      : mode === "training"
+        ? this.saveData.proceduralTrainingRun
+        : this.saveData.proceduralProgressiveRun;
     return Boolean(run && !run.completedAt && !run.failedAt);
   }
 
@@ -161,7 +170,7 @@ export class SaveSystem {
       return;
     }
     const mode = proceduralRunRules.modeFor(run);
-    const pausedRemainingMs = mode === "mission" && run.deadlineAt
+    const pausedRemainingMs = (mode === "mission" || mode === "progressive") && run.deadlineAt
       ? Math.max(0, proceduralRunRules.remainingMs(run))
       : run.pausedRemainingMs;
     const paused = {
@@ -277,6 +286,9 @@ export class SaveSystem {
       if (mode === "training" && !this.saveData.proceduralTrainingRun) {
         this.saveData.proceduralTrainingRun = run;
       }
+      if (mode === "progressive" && !this.saveData.proceduralProgressiveRun) {
+        this.saveData.proceduralProgressiveRun = run;
+      }
     }
   }
 
@@ -284,13 +296,16 @@ export class SaveSystem {
     const mode = proceduralRunRules.modeFor(run);
     if (mode === "mission") {
       this.saveData.proceduralMissionRun = run;
-    } else {
+    } else if (mode === "training") {
       this.saveData.proceduralTrainingRun = run;
+    } else {
+      this.saveData.proceduralProgressiveRun = run;
     }
   }
 
   private resumeRunTimer(run: ProceduralRunSave): ProceduralRunSave {
-    if (proceduralRunRules.modeFor(run) !== "mission" || run.completedAt || run.failedAt || !run.pausedRemainingMs) {
+    const mode = proceduralRunRules.modeFor(run);
+    if ((mode !== "mission" && mode !== "progressive") || run.completedAt || run.failedAt || !run.pausedRemainingMs) {
       return run;
     }
     return {

@@ -9,7 +9,8 @@ import { prefetchCoreScenes, startScene } from "../core/SceneNavigator";
 import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { difficultyModel } from "../procedural/DifficultyModel";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
-import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization } from "../procedural/ProceduralTypes";
+import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
+import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization, ProgressiveLevelResult } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { VisualKit } from "../ui/VisualKit";
 
@@ -44,6 +45,7 @@ export class MainMenuScene extends Phaser.Scene {
     const selected = this.activeDifficulty();
     const missionRun = saveSystem.getProceduralMissionRun();
     const trainingRun = saveSystem.getProceduralTrainingRun();
+    const progressiveRun = saveSystem.getProceduralProgressiveRun();
 
     const title = this.rect("menu:title", { x: 96, y: 92 });
     const subtitle = this.rect("menu:subtitle", { x: 102, y: 172 });
@@ -76,6 +78,7 @@ export class MainMenuScene extends Phaser.Scene {
     this.add.text(102, 326, [
       `Missione: ${this.resumeLabel(missionRun, "mission")}`,
       `Focus: ${this.resumeLabel(trainingRun, "training")}`,
+      `Scalata: ${this.resumeLabel(progressiveRun, "progressive")}`,
     ].join("\n"), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -88,6 +91,19 @@ export class MainMenuScene extends Phaser.Scene {
     new Button(this, newMission.x, newMission.y, "Nuova Missione", () => {
       this.startMissionGame();
     }, { width: newMission.width });
+    new Button(this, 552, 374, this.isResumable(progressiveRun) ? "Riprendi Scalata" : "Scalata progressiva", () => {
+      if (this.isResumable(progressiveRun)) {
+        this.resumeProgressiveMission();
+      } else {
+        this.startProgressiveMission();
+      }
+    }, {
+      width: 206,
+      height: 46,
+      fill: this.isResumable(progressiveRun) ? 0x1f5a51 : 0x173b36,
+      stroke: this.isResumable(progressiveRun) ? 0xf6c85f : 0x6be7d6,
+      fontSize: 13,
+    });
     const continueButton = this.rect("menu:continue", { x: 250, y: 448, width: 260 });
     new Button(this, continueButton.x, continueButton.y, this.isResumable(missionRun) ? "Riprendi Missione" : "Avvia Missione", () => {
       this.resumeMissionGame();
@@ -324,6 +340,45 @@ export class MainMenuScene extends Phaser.Scene {
     });
   }
 
+  private startProgressiveMission(): void {
+    if (this.transitioning) return;
+    this.transitioning = true;
+    const clearBusy = this.showBusy("Preparo la scalata progressiva...");
+    saveSystem.load();
+    this.time.delayedCall(40, () => {
+      try {
+        saveSystem.pauseActiveProceduralRun();
+        this.createProgressiveRun(1, []);
+        void startScene(this, "ProceduralMissionScene").catch(() => {
+          clearBusy();
+          this.transitioning = false;
+          this.showMenuError("Non sono riuscito ad aprire la scalata. Riprova tra un istante.");
+        });
+      } catch {
+        clearBusy();
+        this.transitioning = false;
+        this.showMenuError("Non sono riuscito a generare la scalata. Riprova con un nuovo seed.");
+      }
+    });
+  }
+
+  private resumeProgressiveMission(): void {
+    if (this.transitioning) return;
+    saveSystem.load();
+    const run = saveSystem.getProceduralProgressiveRun();
+    if (!this.isResumable(run)) {
+      this.startProgressiveMission();
+      return;
+    }
+    this.transitioning = true;
+    saveSystem.pauseActiveProceduralRun();
+    saveSystem.setActiveProceduralRun(run);
+    void startScene(this, "ProceduralMissionScene").catch(() => {
+      this.transitioning = false;
+      this.showMenuError("Non sono riuscito a riprendere la scalata. Riprova tra un istante.");
+    });
+  }
+
   private showBusy(label: string): () => void {
     const blocker = this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.28).setDepth(900);
     const panel = this.add.rectangle(640, 360, 430, 112, 0x09151f, 0.96).setStrokeStyle(2, 0x6be7d6, 0.65).setDepth(901);
@@ -391,6 +446,41 @@ export class MainMenuScene extends Phaser.Scene {
     saveSystem.setProceduralRun(run);
   }
 
+  private createProgressiveRun(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): void {
+    const base = proceduralDirector.generateFreshMission(level, ["progressiva"]);
+    const mission = progressiveMissionBuilder.buildLevelMission(base, level);
+    const startedAt = new Date().toISOString();
+    const objectiveCount = Math.max(1, mission.objectives.length);
+    const timeLimitMs = progressiveMissionBuilder.timeLimitMs(level, objectiveCount);
+    const deadlineAt = proceduralRunRules.deadlineFrom(startedAt, timeLimitMs);
+    const run: ProceduralRunSave = {
+      seed: mission.seed,
+      difficulty: level,
+      focus: ["progressiva"],
+      mode: "progressive",
+      mission,
+      hintsUsed: 0,
+      solvedPuzzleIds: [],
+      score: { total: 0, byPuzzle: {}, byDomain: {} },
+      puzzleStats: {},
+      lives: proceduralRunRules.maxLives,
+      maxLives: proceduralRunRules.maxLives,
+      timeLimitMs,
+      deadlineAt,
+      startedAt,
+      progressive: {
+        currentLevel: level,
+        unlockedLevel: level,
+        maxLevel: 8,
+        levelStartedAt: startedAt,
+        levelTimeLimitMs: timeLimitMs,
+        levelDeadlineAt: deadlineAt,
+        results: previousResults,
+      },
+    };
+    saveSystem.setProceduralRun(run);
+  }
+
   private activeDifficulty(): DifficultyLevel {
     return this.selectedDifficulty ?? this.loadSelectedDifficulty();
   }
@@ -437,16 +527,18 @@ export class MainMenuScene extends Phaser.Scene {
     return this.isResumable(run) && proceduralRunRules.focusFor(run) === focus;
   }
 
-  private resumeLabel(run: ProceduralRunSave | undefined, expectedMode: "mission" | "training"): string {
+  private resumeLabel(run: ProceduralRunSave | undefined, expectedMode: "mission" | "training" | "progressive"): string {
     if (!run) {
-      return expectedMode === "mission" ? "nessuna missione salvata" : "nessun focus sospeso";
+      if (expectedMode === "mission") return "nessuna missione salvata";
+      if (expectedMode === "training") return "nessun focus sospeso";
+      return "livello 1 non iniziato";
     }
     const mode = proceduralRunRules.modeFor(run);
     if (mode !== expectedMode) {
       return "nessun percorso compatibile";
     }
     if (run.completedAt) {
-      return `${expectedMode === "mission" ? "completata" : "completato"} - L${run.difficulty}`;
+      return `${expectedMode === "training" ? "completato" : "completata"} - L${run.difficulty}`;
     }
     if (run.failedAt) {
       return `${expectedMode === "mission" ? "fallita" : "interrotto"} - puoi iniziare di nuovo`;
@@ -454,8 +546,8 @@ export class MainMenuScene extends Phaser.Scene {
     const solved = run.solvedPuzzleIds.length;
     const total = Math.max(1, run.mission.objectives.length);
     const focus = proceduralRunRules.focusFor(run);
-    const subject = expectedMode === "training" ? ` ${proceduralScoring.domainLabel(focus)}` : "";
-    const time = expectedMode === "mission" && run.pausedRemainingMs
+    const subject = expectedMode === "training" ? ` ${proceduralScoring.domainLabel(focus)}` : expectedMode === "progressive" ? " progressiva" : "";
+    const time = (expectedMode === "mission" || expectedMode === "progressive") && run.pausedRemainingMs
       ? ` | tempo in pausa ${formatDuration(run.pausedRemainingMs)}`
       : "";
     return `in pausa${subject} L${run.difficulty} | ${solved}/${total}${time}`;

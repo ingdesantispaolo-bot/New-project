@@ -27,6 +27,7 @@ export type SaveData = {
   proceduralRun?: ProceduralRunSave;
   proceduralMissionRun?: ProceduralRunSave;
   proceduralTrainingRun?: ProceduralRunSave;
+  proceduralProgressiveRun?: ProceduralRunSave;
   trainingRecords?: Record<string, TrainingRecord>;
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;

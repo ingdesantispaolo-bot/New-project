@@ -254,8 +254,8 @@ export class SceneChrome {
 
   private static stateColor(state: DeviceState): number {
     if (state === "locked") return colors.muted;
-    if (state === "complete") return colors.warm;
-    if (state === "active") return colors.green;
+    if (state === "complete") return colors.green;
+    if (state === "active") return colors.red;
     return colors.cyan;
   }
 
@@ -324,7 +324,7 @@ export class SceneChrome {
     }
     c.add(g);
     if (state === "complete") {
-      c.add(scene.add.circle(28 * s, -24 * s, 6 * s, colors.warm, 0.95));
+      c.add(scene.add.circle(28 * s, -24 * s, 6 * s, colors.green, 0.95));
     }
     if (state === "locked") {
       c.add(scene.add.rectangle(0, 0, 58 * s, 4 * s, colors.muted, 0.48).setRotation(-0.7));

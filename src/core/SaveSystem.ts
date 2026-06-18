@@ -161,7 +161,13 @@ export class SaveSystem {
       : mode === "training"
         ? this.saveData.proceduralTrainingRun
         : this.saveData.proceduralProgressiveRun;
-    return Boolean(run && !run.completedAt && !run.failedAt);
+    if (!run || run.completedAt || run.failedAt) {
+      return false;
+    }
+    if ((mode === "mission" || mode === "progressive") && (run.lives ?? proceduralRunRules.maxLives) <= 0) {
+      return false;
+    }
+    return true;
   }
 
   pauseActiveProceduralRun(): void {

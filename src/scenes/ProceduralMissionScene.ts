@@ -182,6 +182,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return mode === "mission" || mode === "progressive";
   }
 
+  private isRunInteractionLocked(): boolean {
+    return this.missionFailureInProgress
+      || this.progressiveOutcomeOpen
+      || Boolean(this.run.completedAt || this.run.failedAt);
+  }
+
   private ensureRun(): ProceduralRunSave {
     if (saveSystem.data.proceduralRun && !saveSystem.data.proceduralRun.completedAt && !saveSystem.data.proceduralRun.failedAt) {
       const normalized = this.normalizeRunRules(saveSystem.data.proceduralRun);
@@ -308,8 +314,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       : proceduralRunRules.missionTimeLimitMs(run.difficulty, Math.max(1, run.mission.objectives.length)));
     const update: Partial<ProceduralRunSave> = {};
     if (run.mode !== mode) update.mode = mode;
-    if (!run.maxLives) update.maxLives = proceduralRunRules.maxLives;
-    if (!run.lives) update.lives = proceduralRunRules.maxLives;
+    if (run.maxLives === undefined) update.maxLives = proceduralRunRules.maxLives;
+    if (run.lives === undefined) update.lives = proceduralRunRules.maxLives;
     if (!run.timeLimitMs) update.timeLimitMs = timeLimitMs;
     if (run.pausedRemainingMs && !run.completedAt && !run.failedAt) {
       update.deadlineAt = new Date(Date.now() + Math.max(0, run.pausedRemainingMs)).toISOString();
@@ -400,6 +406,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private openHotspot(hotspot: GeneratedRoomHotspot): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
     audioManager.play("scan");
     if (hotspot.id === "door") {
       this.openDoor();
@@ -2415,7 +2424,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private finishMusicSprint(): void {
     const session = this.musicSession;
-    if (!session || session.summaryOpen) {
+    if (!session || session.summaryOpen || this.isRunInteractionLocked()) {
+      return;
+    }
+    if (this.checkMissionTimeout()) {
       return;
     }
     session.locked = true;
@@ -2521,6 +2533,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private completeMusicSprint(session: MusicTrainingSession): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
     const puzzleId = session.puzzleId;
     const score = this.finalizeMusicSprintScore(session);
     saveSystem.markProceduralPuzzleSolved(puzzleId);
@@ -2542,6 +2557,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       `Sprint musicale registrato: ${session.correct} corrette, ${session.wrong} errori, serie migliore ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
       "success",
     );
+    if (remaining.length === 0) {
+      this.certifyCompletedRun("Sprint finale completato: tutte le console richieste sono stabili.");
+      return;
+    }
     this.time.delayedCall(640, () => this.scene.restart());
   }
 
@@ -2945,7 +2964,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private executeRobot(): void {
-    if (this.robotExecuting || this.robotCommands.length === 0) {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout() || this.robotExecuting || this.robotCommands.length === 0) {
       return;
     }
     const puzzle = this.currentRobotPuzzle();
@@ -3137,21 +3156,33 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private openDoor(): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
     const missing = this.requiredPuzzleIds().filter((id) => !this.isSolved(id));
     if (missing.length > 0) {
       feedbackSystem.publish(`La porta resta in attesa: manca ancora ${missing.map((id) => this.puzzleLabel(id)).join(", ")}.`, "hint");
       audioManager.playOutcome("wrong");
       return;
     }
-    if (this.isProgressiveMode()) {
-      this.completeProgressiveLevel(true, "Tutte le console del livello sono stabili.");
+    this.certifyCompletedRun("Tutte le console richieste sono stabili.");
+  }
+
+  private certifyCompletedRun(reason: string): void {
+    if (this.isRunInteractionLocked()) {
       return;
     }
+    if (this.isProgressiveMode()) {
+      this.completeProgressiveLevel(true, reason);
+      return;
+    }
+    const mode = proceduralRunRules.modeFor(this.run);
     audioManager.playOutcome("complete");
-    outcomeFeedback.play(this, "complete", proceduralRunRules.modeFor(this.run) === "training" ? "Allenamento registrato" : "Porta aperta");
+    outcomeFeedback.play(this, "complete", mode === "training" ? "Allenamento registrato" : "Missione completata");
     missionEngine.completeProceduralMission();
+    this.run = saveSystem.data.proceduralRun ?? this.run;
     feedbackSystem.publish(
-      proceduralRunRules.modeFor(this.run) === "training"
+      mode === "training"
         ? "Allenamento completato. Il diario registra voto, miglior tempo e competenze del focus."
         : "Missione completata. Il diario registra seed, competenze, tempo e vite rimaste.",
       "success",
@@ -3160,6 +3191,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private solvePuzzle(puzzleId: string, competencies: string[]): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
     const score = this.finalizePuzzleScore(puzzleId);
     saveSystem.markProceduralPuzzleSolved(puzzleId);
     competencyTracker.award(competencies, 10 + this.run.difficulty * 2 + (score.focusBonus > 0 ? 4 : 0));
@@ -3172,6 +3206,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.`
       : "Percorso disciplinare completo: la porta finale è pronta.";
     feedbackSystem.publish(`${this.dependencies.effectLine(solvedNode)} +${score.total} punti (${formatDuration(score.elapsedMs)}). ${score.feedback} ${nextLine}`, "success");
+    if (remaining.length === 0) {
+      this.certifyCompletedRun("Ultima console stabilizzata: il sistema completo e certificabile.");
+      return;
+    }
     this.time.delayedCall(640, () => this.scene.restart());
   }
 
@@ -3192,6 +3230,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private handleIncorrectAnswer(message: string): boolean {
+    if (this.isRunInteractionLocked()) {
+      return true;
+    }
+    if (this.checkMissionTimeout()) {
+      return true;
+    }
     this.recordPuzzleMistake();
     if (this.isTimedMissionMode()) {
       this.loseMissionLife(message);
@@ -3208,7 +3252,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     solutionLines: string[] = ["Soluzione: controlla il dato corretto e riparti dal metodo guidato."],
     onTrainingContinue?: () => void,
   ): void {
-    if (this.timeoutSolutionOpen) {
+    if (this.timeoutSolutionOpen || this.isRunInteractionLocked()) {
+      return;
+    }
+    if (this.checkMissionTimeout()) {
       return;
     }
     this.timeoutSolutionOpen = true;
@@ -3219,6 +3266,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private handleMusicMistake(message: string): void {
+    if (this.isRunInteractionLocked()) {
+      return;
+    }
+    if (this.checkMissionTimeout()) {
+      return;
+    }
     this.recordPuzzleMistake();
     if (this.isTimedMissionMode()) {
       this.loseMissionLife(message);
@@ -3230,13 +3283,27 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private loseMissionLife(reason: string): void {
-    if (this.missionFailureInProgress) {
+    if (this.isRunInteractionLocked()) {
       return;
     }
-    this.missionFailureInProgress = true;
     const lives = this.run.lives ?? proceduralRunRules.maxLives;
     const nextLives = Math.max(0, lives - 1);
-    const now = new Date().toISOString();
+    if (nextLives <= 0) {
+      if (this.isProgressiveMode()) {
+        this.missionFailureInProgress = true;
+        audioManager.playOutcome("wrong");
+        this.discardActivePuzzleAttempt();
+        this.clearOverlay();
+        saveSystem.updateProceduralRun({ lives: 0 });
+        this.run = saveSystem.data.proceduralRun ?? this.run;
+        this.completeProgressiveLevel(false, reason);
+        return;
+      }
+      this.failMissionNow(reason);
+      return;
+    }
+
+    this.missionFailureInProgress = true;
     audioManager.playOutcome("wrong");
     outcomeFeedback.play(this, "warning", "Vita persa");
     this.discardActivePuzzleAttempt();
@@ -3251,19 +3318,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.time.delayedCall(1050, () => this.scene.restart());
       return;
     }
+  }
 
-    if (this.isProgressiveMode()) {
-      saveSystem.updateProceduralRun({ lives: 0 });
-      this.run = saveSystem.data.proceduralRun ?? this.run;
-      this.completeProgressiveLevel(false, reason);
+  private failMissionNow(reason: string): void {
+    if (this.missionFailureInProgress && this.run.failedAt) {
       return;
     }
-
+    this.missionFailureInProgress = true;
+    const now = new Date().toISOString();
+    audioManager.playOutcome("wrong");
+    outcomeFeedback.play(this, "warning", "Missione fallita");
+    this.discardActivePuzzleAttempt();
+    this.clearOverlay();
     saveSystem.updateProceduralRun({
       lives: 0,
       failedAt: now,
+      pausedRemainingMs: undefined,
     });
-    feedbackSystem.publish(`Missione fallita: ${reason} Le 3 vite sono terminate. Ricomincia dal menu con una nuova missione.`, "warning");
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    feedbackSystem.publish(`Missione fallita: ${reason} Non ci sono piu condizioni utili per proseguire: ricomincia dal menu con una nuova missione.`, "warning");
     this.time.delayedCall(1800, () => this.scene.start("MainMenuScene"));
   }
 
@@ -3311,6 +3384,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.completeProgressiveRun(results);
     }
     this.showProgressiveOutcome(result, reason, results, finalCompleted);
+    if (!finalCompleted) {
+      const resumeLevel = success
+        ? Math.min(progressive.maxLevel, result.level + 1) as DifficultyLevel
+        : result.level;
+      this.parkProgressiveLevel(resumeLevel, results);
+    }
   }
 
   private assessProgressiveOutcome(
@@ -3513,30 +3592,33 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const remainingMs = proceduralRunRules.remainingMs(this.run);
     const checklist = this.run.mission.objectives.map((objective) => {
       const puzzleId = objective.id.replace("procedural-", "");
-      return `${this.isSolved(puzzleId) ? "[OK]" : "[ ]"} ${objective.label}`;
+      return `${this.isSolved(puzzleId) ? "[verde]" : "[rosso]"} ${objective.label}`;
     }).join("\n");
     const progressiveLevel = this.run.progressive?.currentLevel ?? this.run.difficulty;
     this.objectiveText?.setText(
       pendingObjectives.length > 0
         ? mode === "progressive"
-          ? `Scalata progressiva - livello ${progressiveLevel}/8\n${checklist}\n\nCompleta entro il tempo. Il livello successivo si sblocca solo se la porta certifica tutte le console.`
+          ? `Livello ${progressiveLevel}/8\n${checklist}\n\nSistema tutte le console rosse, poi apri la porta.`
           : mode === "mission"
-          ? `Console da sistemare\n${checklist}\n\nOrdine libero. Ogni errore o tempo scaduto consuma una vita.`
-          : `Allenamento ${proceduralScoring.domainLabel(focus)}\n${checklist}\n\nIl voto pesa tempo, precisione e aiuti usati.`
+          ? `Console della stanza\n${checklist}\n\nLa porta finale controlla solo il sistema completo.`
+          : `Focus ${proceduralScoring.domainLabel(focus)}\n${checklist}\n\nMigliora voto: meno errori, meno aiuti, tempo piu basso.`
         : mode === "progressive"
-          ? `Livello ${progressiveLevel} coerente.\n[OK] Apri la porta di livello.\n\nSe riesci, si sblocca il livello ${Math.min(8, progressiveLevel + 1)}.`
+          ? `Livello ${progressiveLevel} coerente.\n[verde] Porta di livello pronta.\n\nAprila per certificare la scalata.`
           : mode === "mission"
-          ? `Tutti i sistemi sono coerenti.\n[OK] Apri la porta finale.\n\nSeed: ${this.run.seed}`
-          : `Allenamento completato.\n[OK] Apri la porta per registrare voto e miglior tempo.\n\nSeed: ${this.run.seed}`,
+          ? `Tutti i sistemi sono coerenti.\n[verde] Porta finale pronta.\n\nAprila per chiudere il diario seed.`
+          : `Allenamento completato.\n[verde] Porta pronta.\n\nAprila per registrare voto e miglior tempo.`,
     );
     this.progressText?.setText(
       mode === "mission" || mode === "progressive"
-        ? `${this.requiredPuzzleIds().filter((id) => this.isSolved(id)).length}/${requiredCount} esercizi completati\nVite: ${this.run.lives ?? proceduralRunRules.maxLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}\nTempo restante: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
-        : `${this.requiredPuzzleIds().filter((id) => this.isSolved(id)).length}/${requiredCount} esercizi completati\nIndizi: ${this.run.hintsUsed}\nTempo: ${formatDuration(elapsed)}\nRecord: ${record ? formatDuration(record.bestTimeMs) : "non ancora"}\nPunti: ${this.run.score?.total ?? 0}`,
+        ? `Console verdi: ${this.requiredPuzzleIds().filter((id) => this.isSolved(id)).length}/${requiredCount}\nVite: ${this.run.lives ?? proceduralRunRules.maxLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
+        : `Console verdi: ${this.requiredPuzzleIds().filter((id) => this.isSolved(id)).length}/${requiredCount}\nIndizi usati: ${this.run.hintsUsed}\nTempo: ${formatDuration(elapsed)}\nRecord: ${record ? formatDuration(record.bestTimeMs) : "non ancora"}\nPunti: ${this.run.score?.total ?? 0}`,
     );
   }
 
   private checkMissionTimeout(): boolean {
+    if (this.isRunInteractionLocked()) {
+      return true;
+    }
     const mode = proceduralRunRules.modeFor(this.run);
     if ((mode !== "mission" && mode !== "progressive") || this.run.completedAt || this.run.failedAt) {
       return false;
@@ -3548,7 +3630,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.completeProgressiveLevel(false, "Tempo esaurito.");
       return true;
     }
-    this.loseMissionLife("tempo esaurito.");
+    this.failMissionNow("tempo esaurito: la missione ha finito il tempo disponibile.");
     return true;
   }
 

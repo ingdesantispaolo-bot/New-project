@@ -163,11 +163,11 @@ export class HubScene extends Phaser.Scene {
       const dotX = x - 122 + index * 74;
       const complete = chapter.status === "complete";
       const active = chapter.status === "active";
-      this.add.circle(dotX, y + 30, active ? 12 : 9, complete ? 0x9ff5e9 : active ? 0xf7d37a : 0x304653, complete || active ? 0.95 : 0.7);
+      this.add.circle(dotX, y + 30, active ? 12 : 9, complete ? 0x2ed889 : active ? 0xf7d37a : 0x304653, complete || active ? 0.95 : 0.7);
       this.add.text(dotX - 18, y + 46, chapter.chapter.act.replace("Atto ", "A"), {
         fontFamily: "Inter, Arial",
         fontSize: "11px",
-        color: active ? "#f7d37a" : complete ? "#9ff5e9" : "#7d9098",
+        color: active ? "#f7d37a" : complete ? "#d7ffdf" : "#7d9098",
       });
     });
     this.add.text(x - 140, y + 72, `Procedurale: diff. ${progression.recommendedProceduralDifficulty} (${progression.proceduralDifficultyLabel})`, {

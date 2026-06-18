@@ -22,38 +22,43 @@ export type ProceduralMissionHud = {
   feedbackText: Phaser.GameObjects.Text;
 };
 
+const statusColors = {
+  active: 0xe85b63,
+  complete: 0x2ed889,
+  locked: 0x6b7d84,
+};
+
 export class ProceduralMissionView {
   static drawShell(scene: Phaser.Scene, run: ProceduralRunSave): void {
     const path = getProceduralFocusPath(run.focus);
     const mode = proceduralRunRules.modeFor(run);
     const theme = proceduralVisualThemeFor(run);
     const requiredIds = proceduralRequiredPuzzleIds(run.mission.objectives);
+    const modeLabel = mode === "training" ? "Allenamento" : mode === "progressive" ? "Scalata" : "Missione";
+    const focus = proceduralRunRules.focusFor(run);
     const layout = SceneChrome.drawMissionChrome(
       scene,
       theme.palette,
       run.mission.title,
-      `${mode === "training" ? "Allenamento" : "Missione"}  |  Livello ${run.difficulty}: ${theme.levelName}  |  Seed ${run.seed}`,
+      `${modeLabel}  |  Livello ${run.difficulty}: ${theme.levelName}  |  Seed ${run.seed}`,
       theme.stageTitle,
     );
 
-    SceneChrome.section(scene, layout.left, mode === "training" ? "Allenamento" : "Missione");
-    const focus = proceduralRunRules.focusFor(run);
-    scene.add.rectangle(layout.left.x + 18, layout.left.y + 48, layout.left.width - 36, 32, mode === "training" ? 0x1f5a51 : 0x173244, 0.82)
+    SceneChrome.section(scene, layout.left, "Briefing");
+    scene.add.rectangle(layout.left.x + 18, layout.left.y + 48, layout.left.width - 36, 32, mode === "training" ? 0x1f5a51 : mode === "progressive" ? 0x33261a : 0x173244, 0.82)
       .setOrigin(0)
       .setStrokeStyle(1, mode === "training" ? 0xf6c85f : 0x6be7d6, 0.45);
     scene.add.text(layout.left.x + 34, layout.left.y + 57, mode === "training"
-      ? `STAI FACENDO: FOCUS ${proceduralRunRules.focusFor(run).toUpperCase()}`
-      : "STAI FACENDO: MISSIONE", {
+      ? `FOCUS: ${focus.toUpperCase()}`
+      : mode === "progressive"
+        ? `SCALATA: LIVELLO ${run.progressive?.currentLevel ?? run.difficulty}/8`
+        : "MISSIONE PROCEDURALE", {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: mode === "training" ? "#f7d37a" : "#9ff5e9",
       fontStyle: "bold",
     });
-    scene.add.text(layout.left.x + 18, layout.left.y + 58, [
-      `${requiredIds.length} console da stabilizzare.`,
-      mode === "training" ? `Focus: esercizi di ${focus}.` : "Ordine libero: scegli una console.",
-      "La porta finale richiede il sistema completo.",
-    ].join("\n"), {
+    scene.add.text(layout.left.x + 18, layout.left.y + 58, this.briefingLines(mode, requiredIds.length, focus).join("\n"), {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -78,20 +83,20 @@ export class ProceduralMissionView {
       lineSpacing: 4,
     });
 
-    scene.add.text(layout.left.x + 18, layout.left.y + 326, "Legenda console", {
+    scene.add.text(layout.left.x + 18, layout.left.y + 326, "Stato console", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 358, 0x2ed889, "Da sistemare");
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 386, 0xf6c85f, "Completata");
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 414, 0x6b7d84, "Porta bloccata");
+    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 358, statusColors.active, "Da sistemare");
+    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 386, statusColors.complete, "Completata");
+    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 414, statusColors.locked, "Bloccata");
 
     scene.add.rectangle(layout.left.x + 22, layout.left.y + 452, layout.left.width - 44, 42, 0x0b221f, 0.72)
       .setOrigin(0)
       .setStrokeStyle(1, 0x6be7d6, 0.24);
-    scene.add.text(layout.left.x + 38, layout.left.y + 464, `Prossima azione: ${pendingProceduralPuzzleLabel(run.solvedPuzzleIds, requiredIds)}`, {
+    scene.add.text(layout.left.x + 38, layout.left.y + 464, `Traccia utile: ${pendingProceduralPuzzleLabel(run.solvedPuzzleIds, requiredIds)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
@@ -101,16 +106,14 @@ export class ProceduralMissionView {
     drawProceduralStageAtmosphere(scene, layout.stage, theme, run.solvedPuzzleIds.length, requiredIds.length, run.seed);
     scene.add.rectangle(layout.stage.x + 68, layout.stage.y + 78, layout.stage.width - 136, 302, 0x000000, 0.05)
       .setStrokeStyle(1, theme.accent, 0.08);
-    scene.add.text(layout.stage.x + 52, layout.stage.y + 450, mode === "training"
-      ? path.stageHint
-      : "Clicca una console evidenziata. Le tracce mostrano relazioni, non un ordine obbligatorio.", {
+    scene.add.text(layout.stage.x + 52, layout.stage.y + 450, this.stageHint(mode, path.stageHint), {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
       wordWrap: { width: layout.stage.width - 104 },
     });
 
-    SceneChrome.section(scene, layout.right, mode === "training" ? "Record" : "Stato");
+    SceneChrome.section(scene, layout.right, mode === "training" ? "Record" : "Obiettivi");
   }
 
   static createHud(
@@ -203,5 +206,34 @@ export class ProceduralMissionView {
       fontSize: "12px",
       color: "#d9eaf1",
     });
+  }
+
+  private static briefingLines(mode: string, requiredCount: number, focus: string): string[] {
+    if (mode === "training") {
+      return [
+        `${requiredCount} console del focus ${focus}.`,
+        "Allenati senza vite: contano precisione, tempo e aiuti usati.",
+      ];
+    }
+    if (mode === "progressive") {
+      return [
+        `${requiredCount} console per superare il livello.`,
+        "Completa la sala prima che scadano tempo o vite.",
+      ];
+    }
+    return [
+      `${requiredCount} console da diagnosticare.`,
+      "Ordine libero: osserva, scegli e stabilizza il sistema.",
+    ];
+  }
+
+  private static stageHint(mode: string, focusHint: string): string {
+    if (mode === "training") {
+      return focusHint;
+    }
+    if (mode === "progressive") {
+      return "Scegli una console rossa: ogni stabilizzazione accende una traccia verso la porta di livello.";
+    }
+    return "Le linee mostrano relazioni tra sistemi. Puoi partire da qualunque console rossa.";
   }
 }

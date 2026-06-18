@@ -520,7 +520,14 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   private isResumable(run: ProceduralRunSave | undefined): run is ProceduralRunSave {
-    return Boolean(run && !run.completedAt && !run.failedAt);
+    if (!run || run.completedAt || run.failedAt) {
+      return false;
+    }
+    const mode = proceduralRunRules.modeFor(run);
+    if ((mode === "mission" || mode === "progressive") && (run.lives ?? proceduralRunRules.maxLives) <= 0) {
+      return false;
+    }
+    return true;
   }
 
   private isSameFocus(run: ProceduralRunSave | undefined, focus: ProceduralSpecialization): boolean {

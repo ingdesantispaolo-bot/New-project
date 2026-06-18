@@ -30,6 +30,7 @@ const colors = {
   warm: 0xf6c85f,
   muted: 0x6b7d84,
   green: 0x2ed889,
+  red: 0xe85b63,
 };
 
 export class DeviceHotspot extends Phaser.GameObjects.Container {
@@ -53,7 +54,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     status.add(scene.add.text(0, -6, statusLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "9px",
-      color: options.state === "locked" ? "#9aaab0" : options.state === "complete" ? "#f7d37a" : "#9ff5e9",
+      color: stateTextColor(options.state),
       fontStyle: "bold",
     }).setOrigin(0.5, 0));
     const tag = scene.add.container(0, size * 0.58);
@@ -61,7 +62,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     tag.add(scene.add.text(0, -8, options.label, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
-      color: options.state === "locked" ? "#9aaab0" : options.state === "complete" ? "#f7d37a" : "#f5fbff",
+      color: options.state === "locked" ? "#9aaab0" : options.state === "complete" ? "#d7ffdf" : "#f5fbff",
       fontStyle: "bold",
     }).setOrigin(0.5, 0));
 
@@ -144,16 +145,23 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
 
 function stateColor(state: DeviceState): number {
   if (state === "locked") return colors.muted;
-  if (state === "complete") return colors.warm;
-  if (state === "active") return colors.green;
+  if (state === "complete") return colors.green;
+  if (state === "active") return colors.red;
   return colors.cyan;
+}
+
+function stateTextColor(state: DeviceState): string {
+  if (state === "locked") return "#9aaab0";
+  if (state === "complete") return "#d7ffdf";
+  if (state === "active") return "#ffd5d8";
+  return "#9ff5e9";
 }
 
 function stateLabel(state: DeviceState): string {
   if (state === "locked") return "BLOCCATA";
-  if (state === "complete") return "OK";
-  if (state === "active") return "DA FARE";
-  return "APRI";
+  if (state === "complete") return "COMPLETATA";
+  if (state === "active") return "DA SISTEMARE";
+  return "PRONTA";
 }
 
 function drawDeviceGlyph(
@@ -228,7 +236,7 @@ function drawDeviceGlyph(
     g.strokeCircle(0, 0, 12 * s);
   }
   c.add(g);
-  if (state === "complete") c.add(scene.add.circle(28 * s, -24 * s, 6 * s, colors.warm, 0.95));
+  if (state === "complete") c.add(scene.add.circle(28 * s, -24 * s, 6 * s, colors.green, 0.95));
   if (state === "locked") c.add(scene.add.rectangle(0, 0, 58 * s, 4 * s, colors.muted, 0.48).setRotation(-0.7));
   return c;
 }

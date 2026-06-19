@@ -24,6 +24,7 @@ export class Button extends Phaser.GameObjects.Container {
   private readonly hitArea: Phaser.Geom.Rectangle;
   private readonly fill: number;
   private enabled = true;
+  private busy = false;
 
   constructor(
     scene: Phaser.Scene,
@@ -44,10 +45,27 @@ export class Button extends Phaser.GameObjects.Container {
     this.fill = fill;
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
     const actionDelayMs = options.actionDelayMs ?? 0;
-    const cooldownMs = options.cooldownMs ?? 90;
+    const cooldownMs = options.cooldownMs ?? 45;
     let lastClickAt = 0;
     let pressed = false;
     let pointerStartedInside = false;
+    let activePointerId: number | undefined;
+
+    const isPointerInside = (pointer?: Phaser.Input.Pointer): boolean => {
+      if (!pointer) return false;
+      const world = this.getWorldTransformMatrix().applyInverse(pointer.worldX, pointer.worldY);
+      return Phaser.Geom.Rectangle.Contains(this.hitArea, world.x, world.y);
+    };
+
+    const resetVisual = () => {
+      pressed = false;
+      pointerStartedInside = false;
+      activePointerId = undefined;
+      scene.tweens.killTweensOf([this.background, this.highlight]);
+      this.background.setScale(1);
+      this.background.setFillStyle(fill, this.enabled ? 0.96 : 0.78);
+      this.highlight.setAlpha(this.enabled ? 0.72 : 0.26);
+    };
 
     const shadow = scene.add.rectangle(5, 7, width, height, 0x000000, 0.28);
     this.background = scene.add
@@ -102,12 +120,14 @@ export class Button extends Phaser.GameObjects.Container {
       })
       .on("pointerdown", (...args: unknown[]) => {
         stopInputPropagation(args);
-        if (!this.enabled) return;
+        if (!this.enabled || this.busy) return;
+        const pointer = args[0] as Phaser.Input.Pointer | undefined;
+        if (!isPointerInside(pointer)) return;
         const now = performance.now();
         if (now - lastClickAt < cooldownMs) return;
-        lastClickAt = now;
         pressed = true;
         pointerStartedInside = true;
+        activePointerId = pointer?.id;
         scene.tweens.killTweensOf([this.background, this.highlight]);
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
@@ -116,18 +136,26 @@ export class Button extends Phaser.GameObjects.Container {
       })
       .on("pointerup", (...args: unknown[]) => {
         stopInputPropagation(args);
-        if (!this.enabled) return;
-        if (!pointerStartedInside) return;
+        if (!this.enabled || this.busy) return;
+        const pointer = args[0] as Phaser.Input.Pointer | undefined;
+        if (!pointerStartedInside || activePointerId !== pointer?.id || !isPointerInside(pointer)) {
+          resetVisual();
+          return;
+        }
+        this.busy = true;
         const runAction = () => {
+          if (!this.scene || !this.active) {
+            this.busy = false;
+            return;
+          }
+          lastClickAt = performance.now();
+          try {
+            onClick();
+          } finally {
+            this.busy = false;
+          }
           if (!this.scene || !this.active) return;
-          onClick();
-          pressed = false;
-          pointerStartedInside = false;
-          if (!this.scene || !this.active) return;
-          scene.tweens.killTweensOf([this.background, this.highlight]);
-          this.background.setScale(1);
-          this.background.setFillStyle(fill, 0.96);
-          this.highlight.setAlpha(0.72);
+          resetVisual();
         };
         if (actionDelayMs <= 0) {
           runAction();
@@ -138,12 +166,7 @@ export class Button extends Phaser.GameObjects.Container {
       .on("pointerupoutside", (...args: unknown[]) => {
         stopInputPropagation(args);
         if (!this.enabled) return;
-        pressed = false;
-        pointerStartedInside = false;
-        this.background.setFillStyle(fill, 0.96);
-        this.highlight.setAlpha(0.72);
-        scene.tweens.killTweensOf([this.background, this.highlight]);
-        this.background.setScale(1);
+        resetVisual();
       });
 
     scene.add.existing(this);
@@ -151,6 +174,7 @@ export class Button extends Phaser.GameObjects.Container {
 
   setEnabled(enabled: boolean): this {
     this.enabled = enabled;
+    this.busy = false;
     if (enabled) {
       this.setInteractive(this.hitArea, Phaser.Geom.Rectangle.Contains);
       if (this.input) {

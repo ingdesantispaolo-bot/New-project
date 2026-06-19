@@ -167,11 +167,21 @@ export class CircuitPuzzleScene extends Phaser.Scene {
       node.setSize(150, 132);
       const hitTarget = this.add.rectangle(0, 0, 150, 132, 0x000000, 0.001).setInteractive();
       if (hitTarget.input) hitTarget.input.cursor = "pointer";
-      hitTarget.on("pointerdown", () => {
-        this.selectedComponent = key;
-        audioManager.play("scan");
-        this.refresh();
-      });
+      let armed = false;
+      hitTarget
+        .on("pointerdown", () => {
+          armed = true;
+        })
+        .on("pointerup", () => {
+          if (!armed) return;
+          armed = false;
+          this.selectedComponent = key;
+          audioManager.play("scan");
+          this.refresh();
+        })
+        .on("pointerupoutside", () => {
+          armed = false;
+        });
       node.add(hitTarget);
       this.componentNodes.set(key, node);
     });

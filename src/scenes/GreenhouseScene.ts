@@ -256,13 +256,23 @@ export class GreenhouseScene extends Phaser.Scene {
       pot.setSize(180, 230);
       const hitTarget = this.add.rectangle(0, 35, 180, 250, 0x000000, 0.001).setInteractive();
       if (hitTarget.input) hitTarget.input.cursor = "pointer";
-      hitTarget.on("pointerdown", () => {
-        this.selectedPlantId = plant.definition.id;
-        this.persistRun();
-        audioManager.play("scan");
-        this.refreshScene();
-        feedbackSystem.publish(plant.definition.leafClues[Math.min(this.turn - 1, plant.definition.leafClues.length - 1)], "hint");
-      });
+      let armed = false;
+      hitTarget
+        .on("pointerdown", () => {
+          armed = true;
+        })
+        .on("pointerup", () => {
+          if (!armed) return;
+          armed = false;
+          this.selectedPlantId = plant.definition.id;
+          this.persistRun();
+          audioManager.play("scan");
+          this.refreshScene();
+          feedbackSystem.publish(plant.definition.leafClues[Math.min(this.turn - 1, plant.definition.leafClues.length - 1)], "hint");
+        })
+        .on("pointerupoutside", () => {
+          armed = false;
+        });
       pot.add(hitTarget);
       this.plantLayer?.add(pot);
 

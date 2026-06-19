@@ -219,12 +219,23 @@ export class NumberFactoryScene extends Phaser.Scene {
       container.setSize(142, 92);
       const hitTarget = this.add.rectangle(0, 0, 142, 92, 0x000000, 0.001).setInteractive();
       if (hitTarget.input) hitTarget.input.cursor = "pointer";
+      let armed = false;
       hitTarget
         .on("pointerover", () => {
           audioManager.play("scan");
           feedbackSystem.publish(`${machine.description} ${machine.hint}`, "info");
         })
-        .on("pointerdown", () => this.runMachine(machine));
+        .on("pointerdown", () => {
+          armed = true;
+        })
+        .on("pointerup", () => {
+          if (!armed) return;
+          armed = false;
+          this.runMachine(machine);
+        })
+        .on("pointerupoutside", () => {
+          armed = false;
+        });
       container.add(hitTarget);
       this.machineLayer?.add(container);
     });

@@ -201,11 +201,15 @@ export class SceneChrome {
     alpha = 0.001,
   ): Phaser.GameObjects.Rectangle {
     const blocker = scene.add.rectangle(640 - originX, 360 - originY, 1280, 720, fill, alpha)
-      .setInteractive();
+      .setInteractive()
+      .setDepth(-10000);
     blocker
       .on("pointerdown", (...args: unknown[]) => stopInputPropagation(args))
       .on("pointerup", (...args: unknown[]) => stopInputPropagation(args))
-      .on("pointermove", (...args: unknown[]) => stopInputPropagation(args));
+      .on("pointermove", (...args: unknown[]) => stopInputPropagation(args))
+      .on("pointerover", (...args: unknown[]) => stopInputPropagation(args))
+      .on("pointerout", (...args: unknown[]) => stopInputPropagation(args))
+      .on("pointerupoutside", (...args: unknown[]) => stopInputPropagation(args));
     container.add(blocker);
     return blocker;
   }

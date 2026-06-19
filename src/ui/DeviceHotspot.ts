@@ -47,6 +47,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     let lastTapAt = 0;
     let pressed = false;
     let pointerStartedInside = false;
+    let busy = false;
+    let activePointerId: number | undefined;
     const glow = scene.add.image(0, 0, "soft-glow").setTint(tint).setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : options.state === "failed" ? 0.1 : 0.04).setScale(size / 58);
     const ring = scene.add.image(0, 0, "holo-ring").setTint(tint).setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18).setScale(size / 78);
     const glyph = drawDeviceGlyph(scene, options.kind, tint, options.state, size * 0.72);
@@ -78,12 +80,42 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     const visualTop = Math.min(-size / 2, -size * 0.56 - 9);
     const visualBottom = Math.max(size / 2, size * 0.58 + 11);
     const hitHeight = visualBottom - visualTop;
-    this.add([glow, ring, glyph, marker, status, tag]);
-    this.setSize(hitWidth, hitHeight);
-    this.setInteractive(
-      new Phaser.Geom.Rectangle(-hitWidth / 2, visualTop, hitWidth, hitHeight),
-      Phaser.Geom.Rectangle.Contains,
+    const hitPadding = 10;
+    const hitArea = new Phaser.Geom.Rectangle(
+      -hitWidth / 2 - hitPadding,
+      visualTop - hitPadding,
+      hitWidth + hitPadding * 2,
+      hitHeight + hitPadding * 2,
     );
+    const touchPlate = scene.add.rectangle(
+      0,
+      visualTop + hitHeight / 2,
+      hitArea.width,
+      hitArea.height,
+      0x061019,
+      options.state === "locked" ? 0.035 : 0.07,
+    ).setStrokeStyle(1, tint, options.state === "locked" ? 0.08 : 0.16);
+
+    const isPointerInside = (pointer?: Phaser.Input.Pointer): boolean => {
+      if (!pointer) return false;
+      const world = this.getWorldTransformMatrix().applyInverse(pointer.worldX, pointer.worldY);
+      return Phaser.Geom.Rectangle.Contains(hitArea, world.x, world.y);
+    };
+
+    const resetVisual = () => {
+      pressed = false;
+      pointerStartedInside = false;
+      activePointerId = undefined;
+      ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18);
+      glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : options.state === "failed" ? 0.1 : 0.04);
+      tag.setAlpha(options.state === "active" ? 1 : 0.76);
+      scene.tweens.killTweensOf([glow, tag]);
+      ring.setScale(size / 78);
+    };
+
+    this.add([touchPlate, glow, ring, glyph, marker, status, tag]);
+    this.setSize(hitArea.width, hitArea.height);
+    this.setInteractive(hitArea, Phaser.Geom.Rectangle.Contains);
     if (this.input && options.state !== "locked") {
       this.input.cursor = "pointer";
     }
@@ -109,11 +141,14 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     });
     this.on("pointerdown", (...args: unknown[]) => {
       stopInputPropagation(args);
+      if (busy) return;
+      const pointer = args[0] as Phaser.Input.Pointer | undefined;
+      if (!isPointerInside(pointer)) return;
       const now = performance.now();
-      if (now - lastTapAt < 180) return;
-      lastTapAt = now;
+      if (now - lastTapAt < 65) return;
       pressed = true;
       pointerStartedInside = true;
+      activePointerId = pointer?.id;
       scene.tweens.killTweensOf([glow, tag]);
       ring.setAlpha(options.state === "locked" ? 0.12 : 0.74);
       glow.setAlpha(options.state === "locked" ? 0.08 : 0.3);
@@ -122,26 +157,34 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     });
     this.on("pointerup", (...args: unknown[]) => {
       stopInputPropagation(args);
-      if (!pointerStartedInside) return;
+      if (busy) return;
+      const pointer = args[0] as Phaser.Input.Pointer | undefined;
+      if (!pointerStartedInside || activePointerId !== pointer?.id || !isPointerInside(pointer)) {
+        resetVisual();
+        return;
+      }
+      busy = true;
+      lastTapAt = performance.now();
       const runAction = () => {
-        if (!this.scene || !this.active) return;
-        options.onClick();
-        pressed = false;
-        pointerStartedInside = false;
+        if (!this.scene || !this.active) {
+          busy = false;
+          return;
+        }
+        try {
+          options.onClick();
+        } finally {
+          busy = false;
+        }
         if (!this.scene || !this.active) return;
         scene.tweens.killTweensOf([glow, tag]);
         scene.tweens.add({ targets: ring, scale: size / 78, duration: 70 });
+        resetVisual();
       };
       runAction();
     });
     this.on("pointerupoutside", (...args: unknown[]) => {
       stopInputPropagation(args);
-      pressed = false;
-      pointerStartedInside = false;
-      ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18);
-      glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : options.state === "failed" ? 0.1 : 0.04);
-      tag.setAlpha(options.state === "active" ? 1 : 0.76);
-      ring.setScale(size / 78);
+      resetVisual();
     });
 
     if (options.state === "ready" || options.state === "active") {

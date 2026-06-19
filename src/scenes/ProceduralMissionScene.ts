@@ -215,6 +215,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       || Boolean(this.run.completedAt || this.run.failedAt);
   }
 
+  private runWhenActive(delayMs: number, callback: () => void): Phaser.Time.TimerEvent {
+    return this.time.delayedCall(delayMs, () => {
+      if (!this.sys.isActive()) {
+        return;
+      }
+      callback();
+    });
+  }
+
   private ensureRun(): ProceduralRunSave {
     if (saveSystem.data.proceduralRun && !saveSystem.data.proceduralRun.completedAt && !saveSystem.data.proceduralRun.failedAt) {
       const normalized = this.normalizeRunRules(saveSystem.data.proceduralRun);
@@ -2239,7 +2248,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!session) {
       return;
     }
-    this.time.delayedCall(delayMs, () => {
+    this.runWhenActive(delayMs, () => {
       if (this.mathMinigameSession !== session || session.summaryOpen) {
         return;
       }
@@ -2390,7 +2399,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.scheduleNextProgressivePuzzle(850);
       return;
     }
-    this.time.delayedCall(640, () => this.scene.restart());
+    this.runWhenActive(640, () => this.scene.restart());
   }
 
   private finalizeMathMinigameScore(session: MathMinigameSession): ProceduralPuzzleScore {
@@ -2955,11 +2964,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.finishMusicSprint();
       return;
     }
-    this.time.delayedCall(correct ? 95 : 240, () => this.advanceMusicSprintQuestion(session));
+    this.runWhenActive(correct ? 95 : 240, () => this.advanceMusicSprintQuestion(session));
   }
 
   private advanceMusicSprintQuestion(session: MusicTrainingSession): void {
-    if (session.summaryOpen || session.puzzleId !== this.currentPuzzleId("music")) {
+    if (this.musicSession !== session || session.summaryOpen || session.puzzleId !== this.currentPuzzleId("music")) {
       return;
     }
     session.current = this.nextMusicSprintPuzzle(session);
@@ -3188,7 +3197,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.scheduleNextProgressivePuzzle(850);
       return;
     }
-    this.time.delayedCall(640, () => this.scene.restart());
+    this.runWhenActive(640, () => this.scene.restart());
   }
 
   private finalizeMusicSprintScore(session: MusicTrainingSession): ProceduralPuzzleScore {
@@ -3615,6 +3624,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     };
 
     const runAt = (index: number): void => {
+      if (!this.robotExecuting || !this.overlay || !this.robotSprite?.active) {
+        return;
+      }
       if (index >= this.robotCommands.length) {
         if (checkpointIndex < checkpoints.length) {
           fail(`Il programma si ferma prima del checkpoint ${checkpoints[checkpointIndex].label}: dividi la rotta in tappe e completa la prossima tappa.`);
@@ -3631,7 +3643,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           targets: this.robotSprite,
           rotation: this.robotRotationFor(state.facing),
           duration: 180,
-          onComplete: () => this.time.delayedCall(90, () => runAt(index + 1)),
+          onComplete: () => this.runWhenActive(90, () => runAt(index + 1)),
         });
         return;
       } else if (command === "TURN_RIGHT") {
@@ -3640,7 +3652,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           targets: this.robotSprite,
           rotation: this.robotRotationFor(state.facing),
           duration: 180,
-          onComplete: () => this.time.delayedCall(90, () => runAt(index + 1)),
+          onComplete: () => this.runWhenActive(90, () => runAt(index + 1)),
         });
         return;
       } else if (command === "MOVE_FORWARD") {
@@ -3665,7 +3677,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           y: this.robotCellY(state.row),
           duration: 260,
           ease: "Sine.easeInOut",
-          onComplete: () => this.time.delayedCall(80, () => runAt(index + 1)),
+          onComplete: () => this.runWhenActive(80, () => runAt(index + 1)),
         });
         return;
       } else if (command === "PICK_UP") {
@@ -3685,7 +3697,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           scale: 1.24,
           duration: 130,
           yoyo: true,
-          onComplete: () => this.time.delayedCall(100, () => runAt(index + 1)),
+          onComplete: () => this.runWhenActive(100, () => runAt(index + 1)),
         });
         return;
       } else if (command === "EXIT") {
@@ -3699,7 +3711,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
             alpha: 0.25,
             duration: 420,
             yoyo: true,
-            onComplete: () => this.solvePuzzle(this.currentPuzzleId("robot"), puzzle.competencies),
+            onComplete: () => {
+              if (this.robotExecuting && this.overlay && this.robotSprite?.active) {
+                this.solvePuzzle(this.currentPuzzleId("robot"), puzzle.competencies);
+              }
+            },
           });
           return;
         }
@@ -3814,7 +3830,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         : "Missione completata. Il diario registra seed, competenze, tempo e vite rimaste.",
       "success",
     );
-    this.time.delayedCall(900, () => this.scene.start("JournalScene"));
+    this.runWhenActive(900, () => this.scene.start("JournalScene"));
   }
 
   private solvePuzzle(puzzleId: string, competencies: string[]): void {
@@ -3841,7 +3857,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.scheduleNextProgressivePuzzle(850);
       return;
     }
-    this.time.delayedCall(640, () => this.scene.restart());
+    this.runWhenActive(640, () => this.scene.restart());
   }
 
   private nextPendingProgressivePuzzleId(): string | undefined {
@@ -3859,7 +3875,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!nextPuzzleId) {
       return;
     }
-    this.time.delayedCall(delayMs, () => {
+    this.runWhenActive(delayMs, () => {
       if (this.isRunInteractionLocked() || this.checkMissionTimeout() || this.overlay) {
         return;
       }
@@ -3926,7 +3942,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.certifyCompletedRun("Allenamento concluso: il registro include prove riuscite e fallite.");
       return;
     }
-    this.time.delayedCall(760, () => this.scene.restart());
+    this.runWhenActive(760, () => this.scene.restart());
   }
 
   private handlePuzzleTimeout(
@@ -3999,7 +4015,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       feedbackSystem.publish(this.isProgressiveMode()
         ? `Tentativo fallito: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. La scalata riapre automaticamente la prossima console non stabile.`
         : `Vita persa: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. I sistemi già stabilizzati restano validi; scegli con attenzione la prossima console.`, "warning");
-      this.time.delayedCall(1050, () => this.scene.restart());
+      this.runWhenActive(1050, () => this.scene.restart());
       return;
     }
   }
@@ -4021,7 +4037,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     });
     this.run = saveSystem.data.proceduralRun ?? this.run;
     feedbackSystem.publish(`Missione fallita: ${reason} Non ci sono piu condizioni utili per proseguire: ricomincia dal menu con una nuova missione.`, "warning");
-    this.time.delayedCall(1800, () => this.scene.start("MainMenuScene"));
+    this.runWhenActive(1800, () => this.scene.start("MainMenuScene"));
   }
 
   private completeProgressiveLevel(success: boolean, reason: string): void {
@@ -4724,8 +4740,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private closeOverlayFromUser(): void {
+    this.discardActivePuzzleAttempt();
     this.clearOverlay();
-    this.scheduleNextProgressivePuzzle(550);
+    feedbackSystem.publish("Console chiusa. Scegli tu quando riaprire una prova: la stanza non forza tentativi automatici.", "info");
   }
 
   private handleFeedback(message: FeedbackMessage): void {

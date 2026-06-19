@@ -241,12 +241,22 @@ export class WordArchiveScene extends Phaser.Scene {
       card.setSize(190, 142);
       const hitTarget = this.add.rectangle(0, 0, 190, 142, 0x000000, 0.001).setInteractive();
       if (hitTarget.input) hitTarget.input.cursor = "pointer";
-      hitTarget.on("pointerdown", () => {
-        this.selectedMessageId = message.id;
-        this.mode = "repair";
-        audioManager.play("scan");
-        this.refreshScene();
-      });
+      let armed = false;
+      hitTarget
+        .on("pointerdown", () => {
+          armed = true;
+        })
+        .on("pointerup", () => {
+          if (!armed) return;
+          armed = false;
+          this.selectedMessageId = message.id;
+          this.mode = "repair";
+          audioManager.play("scan");
+          this.refreshScene();
+        })
+        .on("pointerupoutside", () => {
+          armed = false;
+        });
       card.add(hitTarget);
       this.archiveLayer?.add(card);
     });

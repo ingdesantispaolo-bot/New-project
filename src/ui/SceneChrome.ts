@@ -47,6 +47,11 @@ const colors = {
   green: 0x2ed889,
 };
 
+function stopInputPropagation(args: unknown[]): void {
+  const event = args[args.length - 1] as { stopPropagation?: () => void } | undefined;
+  event?.stopPropagation?.();
+}
+
 export class SceneChrome {
   static readonly layout: SceneChromeLayout = {
     top: { x: 24, y: 18, width: 1232, height: 82 },
@@ -185,6 +190,24 @@ export class SceneChrome {
     const flare = scene.add.image(width - 28, 24, "soft-glow").setTint(paletteAccent).setAlpha(0.16).setScale(0.7);
     panel.add(flare);
     return panel;
+  }
+
+  static modalInputBlocker(
+    scene: Phaser.Scene,
+    container: Phaser.GameObjects.Container,
+    originX = container.x,
+    originY = container.y,
+    fill = colors.bg,
+    alpha = 0.001,
+  ): Phaser.GameObjects.Rectangle {
+    const blocker = scene.add.rectangle(640 - originX, 360 - originY, 1280, 720, fill, alpha)
+      .setInteractive();
+    blocker
+      .on("pointerdown", (...args: unknown[]) => stopInputPropagation(args))
+      .on("pointerup", (...args: unknown[]) => stopInputPropagation(args))
+      .on("pointermove", (...args: unknown[]) => stopInputPropagation(args));
+    container.add(blocker);
+    return blocker;
   }
 
   static section(scene: Phaser.Scene, rect: ChromeRect, title: string, yOffset = 18): Phaser.GameObjects.Text {

@@ -704,7 +704,8 @@ export class LaboratoryScene extends Phaser.Scene {
   }
 
   private createOverlay(title: string, height: number): Phaser.GameObjects.Container {
-    const overlay = this.add.container(240, 154);
+    const overlay = this.add.container(240, 154).setDepth(1200);
+    SceneChrome.modalInputBlocker(this, overlay, overlay.x, overlay.y);
     overlay.add(SceneChrome.consolePanel(this, 0, 0, 800, height, title, "lab"));
     overlay.add(
       new Button(this, 716, 42, "X", () => this.clearOverlay(), {

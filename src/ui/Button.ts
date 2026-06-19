@@ -13,6 +13,11 @@ export type ButtonOptions = {
   cooldownMs?: number;
 };
 
+function stopInputPropagation(args: unknown[]): void {
+  const event = args[args.length - 1] as { stopPropagation?: () => void } | undefined;
+  event?.stopPropagation?.();
+}
+
 export class Button extends Phaser.GameObjects.Container {
   private background: Phaser.GameObjects.Rectangle;
   private highlight: Phaser.GameObjects.Rectangle;
@@ -77,21 +82,24 @@ export class Button extends Phaser.GameObjects.Container {
       this.input.cursor = "pointer";
     }
     this
-      .on("pointerover", () => {
+      .on("pointerover", (...args: unknown[]) => {
+        stopInputPropagation(args);
         if (!supportsHover || pressed) return;
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
         scene.tweens.killTweensOf([this.background, this.highlight]);
         this.background.setScale(1);
       })
-      .on("pointerout", () => {
+      .on("pointerout", (...args: unknown[]) => {
+        stopInputPropagation(args);
         if (pressed) return;
         this.background.setFillStyle(fill, 0.96);
         this.highlight.setAlpha(0.72);
         scene.tweens.killTweensOf([this.background, this.highlight]);
         this.background.setScale(1);
       })
-      .on("pointerdown", () => {
+      .on("pointerdown", (...args: unknown[]) => {
+        stopInputPropagation(args);
         const now = performance.now();
         if (now - lastClickAt < cooldownMs) return;
         lastClickAt = now;
@@ -103,7 +111,8 @@ export class Button extends Phaser.GameObjects.Container {
         this.background.setScale(1);
         audioManager.play("click");
       })
-      .on("pointerup", () => {
+      .on("pointerup", (...args: unknown[]) => {
+        stopInputPropagation(args);
         if (!pointerStartedInside) return;
         const runAction = () => {
           if (!this.scene || !this.active) return;
@@ -122,7 +131,8 @@ export class Button extends Phaser.GameObjects.Container {
           scene.time.delayedCall(actionDelayMs, runAction);
         }
       })
-      .on("pointerupoutside", () => {
+      .on("pointerupoutside", (...args: unknown[]) => {
+        stopInputPropagation(args);
         pressed = false;
         pointerStartedInside = false;
         this.background.setFillStyle(fill, 0.96);

@@ -1386,7 +1386,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private createMathOverlay(title: string): Phaser.GameObjects.Container {
     this.clearOverlay();
-    const overlay = this.add.container(0, 0).setDepth(1000);
+    const overlay = this.add.container(0, 0).setDepth(1200);
+    SceneChrome.modalInputBlocker(this, overlay);
     overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02080d, 0.96));
     if (this.textures.exists("bg-lab-painted")) {
       overlay.add(this.add.image(640, 360, "bg-lab-painted").setDisplaySize(1320, 742).setAlpha(0.32));
@@ -2489,7 +2490,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
     const title = passed ? "Sprint musicale completato" : "Sprint musicale da consolidare";
     const mode = proceduralRunRules.modeFor(this.run);
-    modal.add(this.add.rectangle(600, 330, 1280, 720, 0x02070b, 0.64).setInteractive());
+    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
     modal.add(this.add.rectangle(600, 334, 760, 356, 0x000000, 0.32));
     modal.add(this.add.rectangle(600, 320, 760, 356, 0x07151d, 0.98)
       .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
@@ -2674,7 +2675,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const y = 190;
     const mode = proceduralRunRules.modeFor(this.run);
     const isTimeout = message.toLowerCase().includes("tempo scaduto");
-    modal.add(this.add.rectangle(600, 330, 1280, 720, 0x02070b, 0.62).setInteractive());
+    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.62);
     modal.add(this.add.rectangle(x + width / 2 + 10, y + height / 2 + 12, width, height, 0x000000, 0.34));
     modal.add(this.add.rectangle(x + width / 2, y + height / 2, width, height, 0x07151d, 0.97)
       .setStrokeStyle(2, 0xf7d37a, 0.72));
@@ -3565,7 +3566,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const maxLevel = this.run.progressive?.maxLevel ?? 8;
     const nextLevel = Math.min(maxLevel, result.level + 1) as DifficultyLevel;
     const overlay = this.add.container(0, 0).setDepth(1900);
-    overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.88).setInteractive());
+    SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.88);
     overlay.add(this.add.image(324, 360, `outcome-${result.outcome}`).setDisplaySize(438, 438).setAlpha(0.96));
     overlay.add(this.add.rectangle(324, 360, 466, 466, 0x000000, 0).setStrokeStyle(2, copy.tint, 0.46));
     overlay.add(this.add.rectangle(854, 360, 642, 466, 0x07151d, 0.96).setStrokeStyle(2, copy.tint, 0.72));
@@ -3933,7 +3934,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.clearOverlay();
     const width = layout.width ?? 800;
     const defaultY = height > 660 ? 10 : 68;
-    const overlay = this.add.container(layout.x ?? 240, layout.y ?? defaultY);
+    const overlay = this.add.container(layout.x ?? 240, layout.y ?? defaultY).setDepth(1200);
+    SceneChrome.modalInputBlocker(this, overlay, overlay.x, overlay.y);
     overlay.add(SceneChrome.consolePanel(this, 0, 0, width, height, title, "lab"));
     overlay.add(new Button(this, width - 84, 40, "X", () => this.closeOverlayFromUser(), {
       width: 48,

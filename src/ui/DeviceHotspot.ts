@@ -33,6 +33,11 @@ const colors = {
   red: 0xe85b63,
 };
 
+function stopInputPropagation(args: unknown[]): void {
+  const event = args[args.length - 1] as { stopPropagation?: () => void } | undefined;
+  event?.stopPropagation?.();
+}
+
 export class DeviceHotspot extends Phaser.GameObjects.Container {
   constructor(scene: Phaser.Scene, x: number, y: number, options: DeviceHotspotOptions) {
     super(scene, x, y);
@@ -79,7 +84,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     if (this.input && options.state !== "locked") {
       this.input.cursor = "pointer";
     }
-    this.on("pointerover", () => {
+    this.on("pointerover", (...args: unknown[]) => {
+      stopInputPropagation(args);
       if (!supportsHover || pressed) return;
       if (options.state !== "locked") {
         ring.setAlpha(0.66);
@@ -89,7 +95,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
         ring.setScale((size / 78) * 1.04);
       }
     });
-    this.on("pointerout", () => {
+    this.on("pointerout", (...args: unknown[]) => {
+      stopInputPropagation(args);
       if (pressed) return;
       ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18);
       glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : options.state === "failed" ? 0.1 : 0.04);
@@ -97,7 +104,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       scene.tweens.killTweensOf([glow, tag]);
       ring.setScale(size / 78);
     });
-    this.on("pointerdown", () => {
+    this.on("pointerdown", (...args: unknown[]) => {
+      stopInputPropagation(args);
       const now = performance.now();
       if (now - lastTapAt < 180) return;
       lastTapAt = now;
@@ -109,7 +117,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       tag.setAlpha(1);
       ring.setScale((size / 78) * 0.98);
     });
-    this.on("pointerup", () => {
+    this.on("pointerup", (...args: unknown[]) => {
+      stopInputPropagation(args);
       if (!pointerStartedInside) return;
       const runAction = () => {
         if (!this.scene || !this.active) return;
@@ -122,7 +131,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       };
       runAction();
     });
-    this.on("pointerupoutside", () => {
+    this.on("pointerupoutside", (...args: unknown[]) => {
+      stopInputPropagation(args);
       pressed = false;
       pointerStartedInside = false;
       ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18);

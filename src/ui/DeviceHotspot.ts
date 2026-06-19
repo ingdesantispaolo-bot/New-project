@@ -54,7 +54,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       .setStrokeStyle(1, 0xffffff, options.state === "locked" ? 0.12 : 0.34);
     const status = scene.add.container(0, -size * 0.56);
     const statusLabel = stateLabel(options.state);
-    status.add(scene.add.rectangle(0, 0, Math.max(54, statusLabel.length * 6 + 14), 18, 0x02070b, 0.7)
+    const statusWidth = Math.max(54, statusLabel.length * 6 + 14);
+    status.add(scene.add.rectangle(0, 0, statusWidth, 18, 0x02070b, 0.7)
       .setStrokeStyle(1, tint, options.state === "locked" ? 0.18 : 0.42));
     status.add(scene.add.text(0, -6, statusLabel, {
       fontFamily: "Inter, Arial",
@@ -63,7 +64,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       fontStyle: "bold",
     }).setOrigin(0.5, 0));
     const tag = scene.add.container(0, size * 0.58);
-    tag.add(scene.add.rectangle(0, 0, Math.max(116, options.label.length * 7), 22, 0x02070b, options.state === "active" ? 0.78 : 0.52));
+    const tagWidth = Math.max(116, options.label.length * 7);
+    tag.add(scene.add.rectangle(0, 0, tagWidth, 22, 0x02070b, options.state === "active" ? 0.78 : 0.52));
     tag.add(scene.add.text(0, -8, options.label, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -72,13 +74,14 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     }).setOrigin(0.5, 0));
 
     tag.setAlpha(options.state === "active" ? 1 : 0.76);
-    const hitSize = Math.max(size + 34, 110);
-    const hitHeight = Math.max(hitSize * 1.22, size + 54);
-    const hitTarget = scene.add.rectangle(0, 0, hitSize, hitHeight, 0x000000, 0.001);
-    this.add([glow, ring, glyph, marker, status, tag, hitTarget]);
-    this.setSize(hitSize, hitHeight);
+    const hitWidth = Math.max(size, tagWidth, statusWidth);
+    const visualTop = Math.min(-size / 2, -size * 0.56 - 9);
+    const visualBottom = Math.max(size / 2, size * 0.58 + 11);
+    const hitHeight = visualBottom - visualTop;
+    this.add([glow, ring, glyph, marker, status, tag]);
+    this.setSize(hitWidth, hitHeight);
     this.setInteractive(
-      new Phaser.Geom.Rectangle(-hitSize / 2, -hitHeight / 2, hitSize, hitHeight),
+      new Phaser.Geom.Rectangle(-hitWidth / 2, visualTop, hitWidth, hitHeight),
       Phaser.Geom.Rectangle.Contains,
     );
     if (this.input && options.state !== "locked") {

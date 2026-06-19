@@ -21,7 +21,9 @@ function stopInputPropagation(args: unknown[]): void {
 export class Button extends Phaser.GameObjects.Container {
   private background: Phaser.GameObjects.Rectangle;
   private highlight: Phaser.GameObjects.Rectangle;
-  private hitTarget: Phaser.GameObjects.Rectangle;
+  private readonly hitArea: Phaser.Geom.Rectangle;
+  private readonly fill: number;
+  private enabled = true;
 
   constructor(
     scene: Phaser.Scene,
@@ -39,6 +41,7 @@ export class Button extends Phaser.GameObjects.Container {
     const hitHeight = height;
     const fill = options.fill ?? 0x173244;
     const hoverFill = options.hoverFill ?? 0x23556a;
+    this.fill = fill;
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
     const actionDelayMs = options.actionDelayMs ?? 0;
     const cooldownMs = options.cooldownMs ?? 90;
@@ -70,20 +73,18 @@ export class Button extends Phaser.GameObjects.Container {
       text.setWordWrapWidth(options.wordWrapWidth ?? width - 22, true);
     }
 
-    this.hitTarget = scene.add.rectangle(0, 0, hitWidth, hitHeight, 0x000000, 0.001);
+    this.hitArea = new Phaser.Geom.Rectangle(-hitWidth / 2, -hitHeight / 2, hitWidth, hitHeight);
 
-    this.add([shadow, this.background, this.highlight, text, this.hitTarget]);
+    this.add([shadow, this.background, this.highlight, text]);
     this.setSize(hitWidth, hitHeight);
-    this.setInteractive(
-      new Phaser.Geom.Rectangle(-hitWidth / 2, -hitHeight / 2, hitWidth, hitHeight),
-      Phaser.Geom.Rectangle.Contains,
-    );
+    this.setInteractive(this.hitArea, Phaser.Geom.Rectangle.Contains);
     if (this.input) {
       this.input.cursor = "pointer";
     }
     this
       .on("pointerover", (...args: unknown[]) => {
         stopInputPropagation(args);
+        if (!this.enabled) return;
         if (!supportsHover || pressed) return;
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
@@ -92,6 +93,7 @@ export class Button extends Phaser.GameObjects.Container {
       })
       .on("pointerout", (...args: unknown[]) => {
         stopInputPropagation(args);
+        if (!this.enabled) return;
         if (pressed) return;
         this.background.setFillStyle(fill, 0.96);
         this.highlight.setAlpha(0.72);
@@ -100,6 +102,7 @@ export class Button extends Phaser.GameObjects.Container {
       })
       .on("pointerdown", (...args: unknown[]) => {
         stopInputPropagation(args);
+        if (!this.enabled) return;
         const now = performance.now();
         if (now - lastClickAt < cooldownMs) return;
         lastClickAt = now;
@@ -113,6 +116,7 @@ export class Button extends Phaser.GameObjects.Container {
       })
       .on("pointerup", (...args: unknown[]) => {
         stopInputPropagation(args);
+        if (!this.enabled) return;
         if (!pointerStartedInside) return;
         const runAction = () => {
           if (!this.scene || !this.active) return;
@@ -133,6 +137,7 @@ export class Button extends Phaser.GameObjects.Container {
       })
       .on("pointerupoutside", (...args: unknown[]) => {
         stopInputPropagation(args);
+        if (!this.enabled) return;
         pressed = false;
         pointerStartedInside = false;
         this.background.setFillStyle(fill, 0.96);
@@ -142,5 +147,24 @@ export class Button extends Phaser.GameObjects.Container {
       });
 
     scene.add.existing(this);
+  }
+
+  setEnabled(enabled: boolean): this {
+    this.enabled = enabled;
+    if (enabled) {
+      this.setInteractive(this.hitArea, Phaser.Geom.Rectangle.Contains);
+      if (this.input) {
+        this.input.cursor = "pointer";
+      }
+      this.setAlpha(1);
+      this.background.setFillStyle(this.fill, 0.96);
+      this.highlight.setAlpha(0.72);
+    } else {
+      this.disableInteractive();
+      this.setAlpha(0.5);
+      this.background.setFillStyle(this.fill, 0.78);
+      this.highlight.setAlpha(0.26);
+    }
+    return this;
   }
 }

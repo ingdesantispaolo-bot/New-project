@@ -107,33 +107,27 @@ export class MainMenuScene extends Phaser.Scene {
       fill: this.isResumable(missionRun) ? 0x1f5a51 : 0x263743,
       stroke: this.isResumable(missionRun) ? 0xf6c85f : 0x6be7d6,
     });
-    new Button(this, 552, 448, "Atlante matematica", () => {
-      void startScene(this, "MathStudyScene");
-    }, {
+    new Button(this, 552, 448, "Atlante matematica", () => this.openMenuScene("MathStudyScene", "Non sono riuscito ad aprire l'atlante. Riprova tra un istante."), {
       width: 206,
       height: 46,
       fill: 0x263743,
       fontSize: 15,
     });
     const journal = this.rect("menu:journal", { x: 250, y: 522, width: 260 });
-    new Button(this, journal.x, journal.y, "Diario Seed", () => this.scene.start("JournalScene"), { width: journal.width });
+    new Button(this, journal.x, journal.y, "Diario Seed", () => this.openMenuScene("JournalScene", "Non sono riuscito ad aprire il diario. Riprova tra un istante."), { width: journal.width });
     const procedural = this.rect("menu:procedural", { x: 250, y: 596, width: 300 });
     new Button(this, procedural.x, procedural.y, "Missione Rapida", () => this.startMissionGame(), {
       width: procedural.width,
       fill: 0x173b36,
       fontSize: 18,
     });
-    new Button(this, 552, 522, "Registro", () => {
-      void startScene(this, "PlayerReportScene");
-    }, {
+    new Button(this, 552, 522, "Registro", () => this.openMenuScene("PlayerReportScene", "Non sono riuscito ad aprire il registro. Riprova tra un istante."), {
       width: 206,
       height: 46,
       fill: 0x263743,
       fontSize: 16,
     });
-    new Button(this, 552, 596, "Classifiche", () => {
-      void startScene(this, "LeaderboardScene");
-    }, {
+    new Button(this, 552, 596, "Classifiche", () => this.openMenuScene("LeaderboardScene", "Non sono riuscito ad aprire le classifiche. Riprova tra un istante."), {
       width: 206,
       height: 46,
       fill: 0x263743,
@@ -248,6 +242,17 @@ export class MainMenuScene extends Phaser.Scene {
     });
   }
 
+  private openMenuScene(sceneKey: string, errorMessage: string): void {
+    if (this.transitioning) return;
+    this.transitioning = true;
+    this.setMenuButtonsEnabled(false);
+    void startScene(this, sceneKey).catch(() => {
+      this.transitioning = false;
+      this.setMenuButtonsEnabled(true);
+      this.showMenuError(errorMessage);
+    });
+  }
+
   private rect(id: string, fallback: MapLayoutRect): MapLayoutRect {
     return { ...fallback, ...this.layout[id] };
   }
@@ -283,10 +288,12 @@ export class MainMenuScene extends Phaser.Scene {
       return;
     }
     this.transitioning = true;
+    this.setMenuButtonsEnabled(false);
     saveSystem.pauseActiveProceduralRun();
     saveSystem.setActiveProceduralRun(run);
     void startScene(this, "ProceduralMissionScene").catch(() => {
       this.transitioning = false;
+      this.setMenuButtonsEnabled(true);
       this.showMenuError("Non sono riuscito a riprendere la missione. Riprova tra un istante.");
     });
   }
@@ -327,10 +334,12 @@ export class MainMenuScene extends Phaser.Scene {
       return;
     }
     this.transitioning = true;
+    this.setMenuButtonsEnabled(false);
     saveSystem.pauseActiveProceduralRun();
     saveSystem.setActiveProceduralRun(run);
     void startScene(this, "ProceduralMissionScene").catch(() => {
       this.transitioning = false;
+      this.setMenuButtonsEnabled(true);
       this.showMenuError("Non sono riuscito a riprendere il focus. Riprova tra un istante.");
     });
   }
@@ -366,15 +375,18 @@ export class MainMenuScene extends Phaser.Scene {
       return;
     }
     this.transitioning = true;
+    this.setMenuButtonsEnabled(false);
     saveSystem.pauseActiveProceduralRun();
     saveSystem.setActiveProceduralRun(run);
     void startScene(this, "ProceduralMissionScene").catch(() => {
       this.transitioning = false;
+      this.setMenuButtonsEnabled(true);
       this.showMenuError("Non sono riuscito a riprendere la scalata. Riprova tra un istante.");
     });
   }
 
   private showBusy(label: string): () => void {
+    this.setMenuButtonsEnabled(false);
     const blocker = this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.28).setDepth(900);
     const panel = this.add.rectangle(640, 360, 430, 112, 0x09151f, 0.96).setStrokeStyle(2, 0x6be7d6, 0.65).setDepth(901);
     const text = this.add.text(640, 346, label, {
@@ -396,7 +408,16 @@ export class MainMenuScene extends Phaser.Scene {
       panel.destroy();
       text.destroy();
       detail.destroy();
+      this.setMenuButtonsEnabled(true);
     };
+  }
+
+  private setMenuButtonsEnabled(enabled: boolean): void {
+    this.children.list.forEach((child) => {
+      if (child instanceof Button) {
+        child.setEnabled(enabled);
+      }
+    });
   }
 
   private showMenuError(message: string): void {

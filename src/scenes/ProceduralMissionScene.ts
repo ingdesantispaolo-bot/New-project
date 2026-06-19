@@ -23,12 +23,14 @@ import type {
   GeneratedCircuitPuzzle,
   GeneratedEnglishPuzzle,
   GeneratedLanguagePuzzle,
+  GeneratedMathMinigame,
   GeneratedMathPuzzle,
   GeneratedMusicPuzzle,
   GeneratedRobotPuzzle,
   GeneratedRoomHotspot,
   GridCommand,
   GridFacing,
+  MathMinigamePrompt,
   ProgressiveLevelResult,
   ProgressiveOutcomeTone,
   ProceduralPuzzleScore,
@@ -92,6 +94,25 @@ type MusicTrainingSession = {
   summaryOpen: boolean;
 };
 
+type MathMinigameSession = {
+  puzzleId: string;
+  puzzle: GeneratedMathPuzzle;
+  game: GeneratedMathMinigame;
+  startedAt: number;
+  durationMs: number;
+  promptIndex: number;
+  answered: number;
+  correct: number;
+  wrong: number;
+  streak: number;
+  bestStreak: number;
+  netScore: number;
+  selectedIds: Set<string>;
+  feedback: string;
+  locked: boolean;
+  summaryOpen: boolean;
+};
+
 export class ProceduralMissionScene extends Phaser.Scene {
   private run!: ProceduralRunSave;
   private dependencies = new MissionDependencyGraph();
@@ -124,6 +145,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private musicTimerEvent?: Phaser.Time.TimerEvent;
   private musicSession?: MusicTrainingSession;
   private readonly musicGenerator = new MusicNoteGenerator();
+  private mathMinigameTimerEvent?: Phaser.Time.TimerEvent;
+  private mathMinigameTimerText?: Phaser.GameObjects.Text;
+  private mathMinigameSession?: MathMinigameSession;
   private missionFailureInProgress = false;
   private timeoutSolutionOpen = false;
   private progressiveOutcomeOpen = false;
@@ -1277,6 +1301,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private openMath(): void {
     const puzzle = this.currentMathPuzzle();
+    if (puzzle.minigame) {
+      this.openMathMinigame(puzzle);
+      return;
+    }
     const model = MathTerminal.fromPuzzle(puzzle);
     const overlay = this.createMathOverlay(model.title);
 
@@ -1833,6 +1861,582 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.mathEntry += key;
       this.openMath();
     }
+  }
+
+  private openMathMinigame(puzzle: GeneratedMathPuzzle): void {
+    if (!puzzle.minigame) {
+      return;
+    }
+    const puzzleId = this.currentPuzzleId("math");
+    const session = this.ensureMathMinigameSession(puzzleId, puzzle, puzzle.minigame);
+    const overlay = this.createMathOverlay(puzzle.minigame.title);
+    const prompt = this.currentMathMinigamePrompt(session);
+    const remaining = this.mathMinigameRemainingMs(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+
+    this.addMathPanel(overlay, 28, 112, 548, 432, "Arena punta-e-clicca");
+    overlay.add(this.add.text(60, 156, prompt.targetLabel, {
+      fontFamily: "Inter, Arial",
+      fontSize: "30px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
+    }));
+    this.drawMathMinigameVisualizer(overlay, prompt, 64, 218, 460, 218);
+    overlay.add(this.add.text(60, 468, `Concetto: ${prompt.concept}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+      wordWrap: { width: 472 },
+    }));
+    overlay.add(this.add.text(60, 496, this.mathMinigameMethodText(prompt), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: 476, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+
+    this.addMathPanel(overlay, 604, 112, 648, 432, "Obiettivo rapido");
+    overlay.add(this.add.text(636, 156, "60 secondi di calcolo: osserva, scegli, conferma. Le tessere sbagliate penalizzano il punteggio.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 560 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(636, 212, prompt.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 560, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+
+    const tileStartX = 700;
+    const tileStartY = 334;
+    prompt.tiles.forEach((tile, index) => {
+      const selected = session.selectedIds.has(tile.id);
+      const col = index % 3;
+      const row = Math.floor(index / 3);
+      overlay.add(new Button(this, tileStartX + col * 186, tileStartY + row * 64, tile.label, () => this.toggleMathMinigameTile(tile.id), {
+        width: 164,
+        height: 48,
+        fontSize: tile.label.length > 12 ? 11 : 20,
+        wordWrapWidth: 142,
+        fill: selected ? 0x174d42 : 0x263743,
+        stroke: selected ? 0xf7d37a : 0x6be7d6,
+      }));
+    });
+
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "Ritmo e valutazione");
+    this.mathMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
+      fontStyle: "bold",
+    });
+    overlay.add(this.mathMinigameTimerText);
+    overlay.add(this.add.text(260, 592, [
+      `Corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie: ${session.streak}`,
+      `Punti: ${session.netScore}`,
+    ].join("   "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 640 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: session.feedback ? "#f7d37a" : "#9aaab0",
+      wordWrap: { width: 650, useAdvancedWrap: true },
+    }));
+    overlay.add(new Button(this, 858, 640, "Pulisci scelta", () => this.clearMathMinigameSelection(), {
+      width: 174,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+    overlay.add(new Button(this, 1046, 640, "Conferma", () => this.confirmMathMinigamePrompt(), {
+      width: 174,
+      height: 44,
+      fontSize: 14,
+      fill: 0x173b36,
+    }));
+    overlay.add(new Button(this, 686, 640, "Indizio", () => this.useMathMinigameHint(), {
+      width: 138,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+
+    this.mathMinigameTimerEvent?.remove(false);
+    this.mathMinigameTimerEvent = this.time.addEvent({
+      delay: 250,
+      loop: true,
+      callback: () => this.refreshMathMinigameTimer(),
+    });
+    this.refreshMathMinigameTimer();
+  }
+
+  private ensureMathMinigameSession(
+    puzzleId: string,
+    puzzle: GeneratedMathPuzzle,
+    game: GeneratedMathMinigame,
+  ): MathMinigameSession {
+    if (this.mathMinigameSession?.puzzleId === puzzleId && !this.mathMinigameSession.summaryOpen) {
+      return this.mathMinigameSession;
+    }
+    this.mathMinigameSession = {
+      puzzleId,
+      puzzle,
+      game,
+      startedAt: Date.now(),
+      durationMs: game.durationMs,
+      promptIndex: 0,
+      answered: 0,
+      correct: 0,
+      wrong: 0,
+      streak: 0,
+      bestStreak: 0,
+      netScore: 0,
+      selectedIds: new Set<string>(),
+      feedback: "Scegli con metodo: una conferma sbagliata riduce il punteggio e in missione consuma una vita.",
+      locked: false,
+      summaryOpen: false,
+    };
+    return this.mathMinigameSession;
+  }
+
+  private drawMathMinigameVisualizer(
+    overlay: Phaser.GameObjects.Container,
+    prompt: MathMinigamePrompt,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const g = this.add.graphics();
+    g.fillStyle(0x07151d, 0.74);
+    g.fillRoundedRect(x, y, width, height, 12);
+    g.lineStyle(2, 0x6be7d6, 0.3);
+    g.strokeRoundedRect(x, y, width, height, 12);
+    overlay.add(g);
+    if (prompt.type === "target-sum") {
+      const target = Number(prompt.targetLabel.replace(/\D+/g, ""));
+      const pieces = prompt.tiles.map((tile) => tile.value ?? 0).filter((value) => value > 0);
+      const scale = Math.max(1, target || pieces.reduce((sum, value) => sum + value, 0));
+      pieces.forEach((value, index) => {
+        const barWidth = Math.max(34, Math.round((value / scale) * (width - 116)));
+        const yOffset = y + 34 + index * 24;
+        g.fillStyle(0x6be7d6, 0.22);
+        g.fillRoundedRect(x + 44, yOffset, barWidth, 14, 6);
+        overlay.add(this.add.text(x + 54, yOffset + 4, `${value}`, {
+          fontFamily: "Inter, Arial",
+          fontSize: "10px",
+          color: "#f5fbff",
+          fontStyle: "bold",
+        }));
+      });
+      overlay.add(this.add.text(x + 44, y + height - 46, "Le barre mostrano tutte le tessere, non la soluzione: scegli solo quelle che arrivano al totale.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#d9eaf1",
+        wordWrap: { width: width - 88 },
+      }));
+      return;
+    }
+    if (prompt.type === "factor-hunt") {
+      prompt.tiles.slice(0, 7).forEach((tile, index) => {
+        const cx = x + 66 + (index % 4) * 96;
+        const cy = y + 56 + Math.floor(index / 4) * 62;
+        g.lineStyle(2, 0x6be7d6, 0.24);
+        g.strokeCircle(cx, cy, 24);
+        overlay.add(this.add.text(cx, cy, tile.label, {
+          fontFamily: "Inter, Arial",
+          fontSize: "17px",
+          color: "#f5fbff",
+          fontStyle: "bold",
+        }).setOrigin(0.5));
+      });
+      overlay.add(this.add.text(x + 44, y + height - 52, "Non cercare solo numeri grandi: prova la divisione e controlla se resta qualcosa.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#d9eaf1",
+        wordWrap: { width: width - 88 },
+      }));
+      return;
+    }
+    const labels = prompt.targetLabel.split("->").map((item) => item.trim());
+    const start = labels[0] ?? "?";
+    const target = labels[1] ?? "?";
+    [start, "?", target].forEach((label, index) => {
+      const cx = x + 86 + index * 150;
+      overlay.add(this.add.rectangle(cx, y + 92, 84, 58, index === 1 ? 0x173b36 : 0x07151d, 0.9)
+        .setStrokeStyle(2, index === 1 ? 0xf7d37a : 0x6be7d6, 0.64));
+      overlay.add(this.add.text(cx, y + 92, label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "24px",
+        color: "#f5fbff",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      if (index < 2) {
+        overlay.add(this.add.triangle(cx + 76, y + 92, 0, -8, 18, 0, 0, 8, 0x6be7d6, 0.72));
+      }
+    });
+    overlay.add(this.add.text(x + 44, y + height - 52, "Pensa alla macchina come a una catena: ogni operazione cambia il valore in ordine.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: width - 88 },
+    }));
+  }
+
+  private mathMinigameMethodText(prompt: MathMinigamePrompt): string {
+    if (prompt.type === "target-sum") {
+      return "Metodo: non sommare tutto. Cerca prima un addendo vicino al bersaglio, poi completa senza superare il totale.";
+    }
+    if (prompt.type === "factor-hunt") {
+      return "Metodo: prova la divisione. Se il resto è zero, il numero rispetta il vincolo; altrimenti è un distrattore.";
+    }
+    return "Metodo: simula mentalmente la rotta da sinistra a destra. Una trasformazione plausibile non basta: deve arrivare esattamente all'uscita.";
+  }
+
+  private currentMathMinigamePrompt(session: MathMinigameSession): MathMinigamePrompt {
+    return session.game.prompts[session.promptIndex % session.game.prompts.length];
+  }
+
+  private mathMinigameElapsedMs(session: MathMinigameSession): number {
+    return Math.max(0, Date.now() - session.startedAt);
+  }
+
+  private mathMinigameRemainingMs(session: MathMinigameSession): number {
+    return Math.max(0, session.durationMs - this.mathMinigameElapsedMs(session));
+  }
+
+  private refreshMathMinigameTimer(): void {
+    const session = this.mathMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    const remaining = this.mathMinigameRemainingMs(session);
+    this.mathMinigameTimerText?.setText(`Tempo: ${formatDuration(remaining)}`);
+    this.mathMinigameTimerText?.setColor(remaining <= 10_000 ? "#ff8f8f" : "#f7d37a");
+    if (remaining <= 0) {
+      this.finishMathMinigame();
+    }
+  }
+
+  private toggleMathMinigameTile(tileId: string): void {
+    const session = this.mathMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    const prompt = this.currentMathMinigamePrompt(session);
+    if (prompt.requiredSelectionCount === 1 && !session.selectedIds.has(tileId)) {
+      session.selectedIds.clear();
+      session.selectedIds.add(tileId);
+    } else if (session.selectedIds.has(tileId)) {
+      session.selectedIds.delete(tileId);
+    } else {
+      session.selectedIds.add(tileId);
+    }
+    audioManager.play("click");
+    this.openMathMinigame(session.puzzle);
+  }
+
+  private clearMathMinigameSelection(): void {
+    const session = this.mathMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    session.selectedIds.clear();
+    session.feedback = "Scelta pulita. Ricomincia dalla regola, non dai pulsanti.";
+    this.openMathMinigame(session.puzzle);
+  }
+
+  private useMathMinigameHint(): void {
+    const session = this.mathMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    const prompt = this.currentMathMinigamePrompt(session);
+    const hint = prompt.type === "target-sum"
+      ? "Scomponi il bersaglio: cerca prima una coppia o una terna che non superi il totale."
+      : prompt.type === "factor-hunt"
+        ? "Per multipli e divisori controlla il resto della divisione: resto zero significa tessera valida."
+        : "Parti dal valore iniziale e simula la prima operazione prima di guardare la seconda.";
+    session.feedback = hint;
+    this.useHint(hint);
+    this.openMathMinigame(session.puzzle);
+  }
+
+  private confirmMathMinigamePrompt(): void {
+    const session = this.mathMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    if (this.mathMinigameRemainingMs(session) <= 0) {
+      this.finishMathMinigame();
+      return;
+    }
+    const prompt = this.currentMathMinigamePrompt(session);
+    if (session.selectedIds.size === 0) {
+      session.feedback = "Prima scegli una o più tessere, poi conferma. Il timer continua.";
+      audioManager.playOutcome("hint");
+      this.openMathMinigame(session.puzzle);
+      return;
+    }
+    const correctIds = new Set(prompt.tiles.filter((tile) => tile.isCorrect).map((tile) => tile.id));
+    const exactSelection = session.selectedIds.size === correctIds.size
+      && [...session.selectedIds].every((id) => correctIds.has(id));
+    if (!exactSelection) {
+      const selectedLabels = prompt.tiles
+        .filter((tile) => session.selectedIds.has(tile.id))
+        .map((tile) => tile.label)
+        .join(", ");
+      const message = `Scelta non certificabile (${selectedLabels || "nessuna"}). Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      if (this.isTimedMissionMode()) {
+        this.mathMinigameSession = undefined;
+        this.handleIncorrectAnswer(message);
+        return;
+      }
+      session.answered += 1;
+      session.wrong += 1;
+      session.streak = 0;
+      session.netScore = Math.max(0, session.netScore - (8 + this.run.difficulty));
+      session.feedback = message;
+      session.locked = true;
+      this.recordPuzzleMistake();
+      audioManager.playOutcome("wrong");
+      outcomeFeedback.play(this, "warning", "Calcolo da rivedere");
+      this.advanceMathMinigamePrompt(720);
+      return;
+    }
+
+    session.answered += 1;
+    session.correct += 1;
+    session.streak += 1;
+    session.bestStreak = Math.max(session.bestStreak, session.streak);
+    const award = 10 + this.run.difficulty * 2 + Math.min(10, session.streak * 2);
+    session.netScore += award;
+    session.feedback = `Corretta: ${prompt.explanation} +${award}`;
+    session.locked = true;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${award}`);
+    this.advanceMathMinigamePrompt(420);
+  }
+
+  private advanceMathMinigamePrompt(delayMs: number): void {
+    const session = this.mathMinigameSession;
+    if (!session) {
+      return;
+    }
+    this.time.delayedCall(delayMs, () => {
+      if (this.mathMinigameSession !== session || session.summaryOpen) {
+        return;
+      }
+      if (this.mathMinigameRemainingMs(session) <= 0) {
+        this.finishMathMinigame();
+        return;
+      }
+      const previous = this.currentMathMinigamePrompt(session).signature;
+      session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      if (this.currentMathMinigamePrompt(session).signature === previous) {
+        session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      }
+      session.selectedIds.clear();
+      session.locked = false;
+      this.openMathMinigame(session.puzzle);
+    });
+  }
+
+  private finishMathMinigame(): void {
+    const session = this.mathMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    session.locked = true;
+    session.summaryOpen = true;
+    this.mathMinigameTimerEvent?.remove(false);
+    this.mathMinigameTimerEvent = undefined;
+    audioManager.playOutcome("neutral");
+    this.showMathMinigameSummary(session);
+  }
+
+  private mathMinigamePassed(session: MathMinigameSession): boolean {
+    if (!this.isTimedMissionMode()) {
+      return true;
+    }
+    const minCorrect = Math.max(5, Math.min(12, 4 + Math.ceil(this.run.difficulty * 0.75)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    return session.correct >= minCorrect && accuracy >= 0.6 && session.netScore > 0;
+  }
+
+  private mathMinigameFeedback(session: MathMinigameSession): string {
+    if (session.answered === 0) {
+      return "Nessuna risposta: serve almeno iniziare a leggere la regola e selezionare tessere.";
+    }
+    const accuracy = session.correct / session.answered;
+    if (accuracy >= 0.9 && session.bestStreak >= 8) {
+      return "Calcolo fluido: hai mantenuto velocità e controllo senza cadere nei distrattori.";
+    }
+    if (accuracy >= 0.7) {
+      return "Buona precisione: prova a riconoscere prima il vincolo, poi aumenta la velocità.";
+    }
+    if (session.wrong >= session.correct) {
+      return "Troppi tentativi: rallenta, formula la regola e conferma solo quando puoi spiegare la scelta.";
+    }
+    return "Allenamento utile: hai lavorato sul metodo, ora cerca serie più lunghe senza errori.";
+  }
+
+  private showMathMinigameSummary(session: MathMinigameSession): void {
+    const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
+    const modal = this.add.container(0, 0).setDepth(1300);
+    const passed = this.mathMinigamePassed(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+    const mode = proceduralRunRules.modeFor(this.run);
+    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
+    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
+    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
+      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
+    modal.add(this.add.text(230, 160, passed ? "Sprint matematico completato" : "Sprint matematico da consolidare", {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: passed ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(230, 210, [
+      `Risposte corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie migliore: ${session.bestStreak}`,
+      `Punti sprint: ${session.netScore}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f5fbff",
+      lineSpacing: 7,
+    }));
+    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.3));
+    modal.add(this.add.text(572, 234, this.mathMinigameFeedback(session), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 354 },
+      lineSpacing: 5,
+    }));
+    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
+      .setStrokeStyle(1, 0xf7d37a, 0.36));
+    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
+      ? passed
+        ? "La console matematica accetta la sequenza rapida: calcolo, controllo e precisione sono sufficienti."
+        : "La soglia minima non è stata raggiunta: perderai una vita, ma le console già completate restano stabili."
+      : "Allenamento registrabile: migliorano tempo, precisione, serie positiva e consapevolezza degli errori.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 690 },
+      lineSpacing: 4,
+    }));
+    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
+      modal.destroy(true);
+      if (!passed && (mode === "mission" || mode === "progressive")) {
+        this.loseMissionLife("sprint matematico sotto soglia: servono più risposte corrette con meno tentativi.");
+        return;
+      }
+      this.completeMathMinigame(session);
+    }, {
+      width: 270,
+      height: 54,
+      fill: passed ? 0x173b36 : 0x263743,
+      stroke: passed ? 0x6be7d6 : 0xf7d37a,
+      fontSize: 16,
+    }));
+    overlay.add(modal);
+  }
+
+  private completeMathMinigame(session: MathMinigameSession): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
+    const score = this.finalizeMathMinigameScore(session);
+    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
+    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${score.total}`);
+    this.clearOverlay();
+    this.mathMinigameSession = undefined;
+    const solvedNode = puzzleKindFromId(session.puzzleId);
+    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
+    feedbackSystem.publish(
+      `Sprint matematico registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      "success",
+    );
+    if (remaining.length === 0) {
+      this.certifyCompletedRun("Console matematica stabilizzata: il sistema completo è certificabile.");
+      return;
+    }
+    if (this.isProgressiveMode()) {
+      this.scheduleNextProgressivePuzzle(850);
+      return;
+    }
+    this.time.delayedCall(640, () => this.scene.restart());
+  }
+
+  private finalizeMathMinigameScore(session: MathMinigameSession): ProceduralPuzzleScore {
+    const run = saveSystem.data.proceduralRun ?? this.run;
+    const existing = run.puzzleStats?.[session.puzzleId];
+    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
+    const completedAt = new Date().toISOString();
+    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.mathMinigameElapsedMs(session)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    const basePoints = session.correct * (10 + run.difficulty);
+    const difficultyBonus = session.correct * run.difficulty * 2;
+    const speedBonus = Math.min(110, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 36));
+    const focusBonus = run.focus.includes("matematica") || run.focus.some((item) => item.startsWith("matematica."))
+      ? 20 + run.difficulty * 3
+      : 0;
+    const hintsUsed = existing?.hintsUsed ?? 0;
+    const supportPenalty = Math.min(160, session.wrong * (10 + run.difficulty) + hintsUsed * 8);
+    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
+    const score: ProceduralPuzzleScore = {
+      puzzleId: session.puzzleId,
+      domain: "matematica",
+      startedAt,
+      completedAt,
+      elapsedMs,
+      hintsUsed,
+      attempts: session.wrong,
+      basePoints,
+      difficultyBonus,
+      speedBonus,
+      focusBonus,
+      supportPenalty,
+      total,
+      feedback: this.mathMinigameFeedback(session),
+    };
+    saveSystem.updateProceduralRun({
+      puzzleStats: {
+        ...(run.puzzleStats ?? {}),
+        [session.puzzleId]: score,
+      },
+      score: proceduralScoring.addToSummary(run.score, score),
+    });
+    this.activePuzzleId = undefined;
+    this.activePuzzleKind = undefined;
+    this.activeChallenge = undefined;
+    this.resetTransientPuzzleState();
+    return score;
   }
 
   private openEnglish(): void {
@@ -3805,6 +4409,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.musicTimerEvent?.remove(false);
     this.musicTimerEvent = undefined;
     this.musicSession = undefined;
+    this.mathMinigameTimerEvent?.remove(false);
+    this.mathMinigameTimerEvent = undefined;
+    this.mathMinigameTimerText = undefined;
+    this.mathMinigameSession = undefined;
     this.timeoutSolutionOpen = false;
   }
 
@@ -4107,6 +4715,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private clearOverlay(): void {
     this.musicTimerEvent?.remove(false);
     this.musicTimerEvent = undefined;
+    this.mathMinigameTimerEvent?.remove(false);
+    this.mathMinigameTimerEvent = undefined;
+    this.mathMinigameTimerText = undefined;
     this.overlay?.destroy(true);
     this.overlay = undefined;
     this.mathSupportText = undefined;

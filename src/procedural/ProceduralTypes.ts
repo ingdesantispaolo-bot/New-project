@@ -73,6 +73,39 @@ export type GeneratedObjective = {
   competencies: string[];
 };
 
+export type MathMinigameType = "target-sum" | "factor-hunt" | "operation-chain";
+
+export type MathMinigameTile = {
+  id: string;
+  label: string;
+  value?: number;
+  isCorrect: boolean;
+  feedback: string;
+};
+
+export type MathMinigamePrompt = {
+  id: string;
+  type: MathMinigameType;
+  prompt: string;
+  targetLabel: string;
+  requiredSelectionCount: number;
+  tiles: MathMinigameTile[];
+  solutionLabels: string[];
+  explanation: string;
+  concept: string;
+  signature: string;
+};
+
+export type GeneratedMathMinigame = {
+  type: MathMinigameType;
+  title: string;
+  durationMs: number;
+  instructions: string;
+  scoringRule: string;
+  prompts: MathMinigamePrompt[];
+  competencies: string[];
+};
+
 export type GeneratedMathPuzzle = {
   id: string;
   title: string;
@@ -110,6 +143,7 @@ export type GeneratedMathPuzzle = {
   curriculumTags?: string[];
   solutionSteps?: string[];
   pedagogy?: ExercisePedagogy;
+  minigame?: GeneratedMathMinigame;
 };
 
 export type GridFacing = "N" | "E" | "S" | "W";

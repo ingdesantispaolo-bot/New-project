@@ -6,7 +6,15 @@ import { MathPuzzleGenerator } from "./generators/MathPuzzleGenerator";
 import { MusicNoteGenerator } from "./generators/MusicNoteGenerator";
 import { RobotGridGenerator } from "./generators/RobotGridGenerator";
 import { exerciseDirector } from "../core/ExerciseDirector";
-import type { CodingChallengeType, DifficultyPreset, GeneratedFocusChallenge, GeneratedMission, ProceduralPuzzleKind, RobotChallengeType } from "./ProceduralTypes";
+import type {
+  CodingChallengeType,
+  DifficultyPreset,
+  GeneratedFocusChallenge,
+  GeneratedMission,
+  MathMinigameType,
+  ProceduralPuzzleKind,
+  RobotChallengeType,
+} from "./ProceduralTypes";
 import type { Random } from "./Random";
 import { ValidationEngine } from "./ValidationEngine";
 import { CircuitPuzzleValidator } from "./validators/CircuitPuzzleValidator";
@@ -99,8 +107,11 @@ export class PuzzleGenerator {
       const challengeRandom = random.fork(`${kind}-${index + 1}`);
       const id = `${kind}-${index + 1}`;
       if (kind === "math") {
+        const useMinigame = index % 2 === 0;
         const puzzle = this.validationEngine.generateWithRetries(
-          () => this.mathGenerator.generate(challengeRandom, stagedDifficulty, this.mathArchetypesForStep(index)),
+          () => useMinigame
+            ? this.mathGenerator.generateMinigame(challengeRandom, stagedDifficulty, this.mathMinigameTypesForStep(index))
+            : this.mathGenerator.generate(challengeRandom, stagedDifficulty, this.mathArchetypesForStep(index)),
           (candidate) => this.mathValidator.validate(candidate),
           this.mathGenerator.fallback(),
         );
@@ -246,6 +257,16 @@ export class PuzzleGenerator {
       ["ragionamento-inverso", "pre-algebra", "equazione-primo-grado", "funzione-lineare", "coordinate", "statistica"],
       ["diagnosi-errore", "potenze-radici", "geometria", "sistemi-lineari", "probabilita", "equazione-primo-grado", "funzione-lineare", "proporzione"],
     ][Math.min(step, 4)] as Array<NonNullable<GeneratedMission["puzzles"]["math"]["archetype"]>>;
+  }
+
+  private mathMinigameTypesForStep(step: number): MathMinigameType[] {
+    return [
+      ["target-sum"],
+      ["target-sum", "factor-hunt"],
+      ["factor-hunt", "operation-chain"],
+      ["operation-chain", "target-sum"],
+      ["operation-chain", "factor-hunt", "target-sum"],
+    ][Math.min(step, 4)] as MathMinigameType[];
   }
 
   private robotChallengeTypeForStep(step: number, level = 1): RobotChallengeType {

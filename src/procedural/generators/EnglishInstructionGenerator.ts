@@ -1,6 +1,12 @@
 import { englishTemplates, type EnglishTemplate } from "../../data/procedural/englishTemplates";
-import type { GeneratedEnglishPuzzle } from "../ProceduralTypes";
-import type { Random } from "../Random";
+import type {
+  EnglishMinigamePrompt,
+  EnglishMinigameTile,
+  EnglishMinigameType,
+  GeneratedEnglishMinigame,
+  GeneratedEnglishPuzzle,
+} from "../ProceduralTypes";
+import { Random } from "../Random";
 
 export class EnglishInstructionGenerator {
   generate(random: Random, difficultyLevel = 1, preferredTemplateIds: string[] = []): GeneratedEnglishPuzzle {
@@ -29,6 +35,55 @@ export class EnglishInstructionGenerator {
     return this.buildPuzzle(template, choices, difficultyLevel);
   }
 
+  generateMinigame(
+    random: Random,
+    difficultyLevel = 1,
+    preferredTypes: EnglishMinigameType[] = [],
+  ): GeneratedEnglishPuzzle {
+    const level = Math.max(1, Math.min(8, difficultyLevel));
+    const type = preferredTypes.length > 0
+      ? random.pick(preferredTypes)
+      : random.pick<EnglishMinigameType>(["action-relay", "sequence-switchboard", "data-command-scan"]);
+    const minigame = this.buildMinigame(random.fork(type), level, type);
+    const first = minigame.prompts[0];
+    const choices = first.tiles.map((tile) => ({
+      id: tile.id,
+      label: tile.label,
+      isCorrect: tile.isCorrect,
+      feedback: tile.feedback,
+    }));
+    return {
+      id: `english-mini-${type}-${random.integer(1000, 9999)}`,
+      title: minigame.title,
+      challengeType: type === "data-command-scan" ? "data-reading" : type === "sequence-switchboard" ? "sequence" : "command",
+      scenario: "Training rapido del ponte operativo",
+      taskPrompt: first.targetLabel,
+      instruction: first.instruction,
+      sourceText: first.context,
+      dataPoints: first.dataPoints,
+      choices,
+      diagnosticSteps: [
+        `Task: ${first.targetLabel}.`,
+        "Find the action word, then check object, limiters and time words.",
+        first.explanation,
+      ],
+      hints: [
+        "Cerca prima il verbo: press, open, take, insert, wait, choose.",
+        "Poi controlla le parole che cambiano tutto: not, only, before, after, until, below, above.",
+        "Se ci sono dati, confrontali con la soglia prima di scegliere l'azione.",
+      ],
+      competencies: minigame.competencies,
+      difficultyLabel: `Livello ${level} - sprint inglese operativo`,
+      conceptTags: this.englishMinigameConcepts(type),
+      learningPurpose: this.englishMinigamePurpose(type),
+      commandGoal: "Trasformare molti micro-comandi inglesi in azioni sicure entro 60 secondi.",
+      method: this.englishMinigameMethod(type),
+      methodSteps: this.englishMinigameMethodSteps(type),
+      glossary: first.glossary,
+      minigame,
+    };
+  }
+
   private buildPuzzle(template: EnglishTemplate, choices: GeneratedEnglishPuzzle["choices"], difficultyLevel: number): GeneratedEnglishPuzzle {
     const conceptTags = template.conceptTags ?? this.defaultConceptTags(template.id);
     return {
@@ -52,6 +107,375 @@ export class EnglishInstructionGenerator {
       methodSteps: template.methodSteps ?? this.defaultMethodSteps(template.challengeType),
       glossary: template.glossary ?? this.defaultGlossary(template),
     };
+  }
+
+  private buildMinigame(random: Random, level: number, type: EnglishMinigameType): GeneratedEnglishMinigame {
+    const promptCount = 18 + level;
+    const prompts: EnglishMinigamePrompt[] = [];
+    let previousSignature = "";
+    for (let index = 0; index < promptCount; index += 1) {
+      const prompt = this.uniqueMinigamePrompt(random, level, type, index, previousSignature);
+      prompts.push(prompt);
+      previousSignature = prompt.signature;
+    }
+    const titles: Record<EnglishMinigameType, string> = {
+      "action-relay": "Minigioco inglese: Action Relay",
+      "sequence-switchboard": "Minigioco inglese: Sequence Switchboard",
+      "data-command-scan": "Minigioco inglese: Data Command Scan",
+    };
+    const instructions: Record<EnglishMinigameType, string> = {
+      "action-relay": "clicca l'azione corretta leggendo verbo, oggetto e divieto.",
+      "sequence-switchboard": "clicca l'azione che rispetta before, after, then, until o unless.",
+      "data-command-scan": "clicca l'azione coerente con soglia, confronto o intervallo.",
+    };
+    return {
+      type,
+      title: titles[type],
+      durationMs: 60_000,
+      instructions: instructions[type],
+      scoringRule: "60 secondi: punti per risposte corrette e serie pulite, penalità per errori e aiuti. Non basta tradurre: devi eseguire il comando giusto.",
+      prompts,
+      competencies: Array.from(new Set([
+        "inglese.istruzioni",
+        "inglese.comprensione",
+        "pensieroCritico",
+        ...(type === "action-relay" ? ["inglese.lessico"] : []),
+        ...(type === "sequence-switchboard" ? ["inglese.grammatica", "inglese.bilingue"] : []),
+        ...(type === "data-command-scan" ? ["inglese.scientifico", "inglese.dati"] : []),
+      ])),
+    };
+  }
+
+  private uniqueMinigamePrompt(
+    random: Random,
+    level: number,
+    type: EnglishMinigameType,
+    index: number,
+    previousSignature: string,
+  ): EnglishMinigamePrompt {
+    for (let attempt = 0; attempt < 12; attempt += 1) {
+      const prompt = this.buildMinigamePrompt(random, level, type, index + attempt);
+      if (prompt.signature !== previousSignature) {
+        return prompt;
+      }
+    }
+    return this.buildMinigamePrompt(random, level, type, index + 99);
+  }
+
+  private buildMinigamePrompt(random: Random, level: number, type: EnglishMinigameType, index: number): EnglishMinigamePrompt {
+    if (type === "action-relay") return this.buildActionRelayPrompt(random, level, index);
+    if (type === "sequence-switchboard") return this.buildSequenceSwitchboardPrompt(random, level, index);
+    return this.buildDataCommandScanPrompt(random, level, index);
+  }
+
+  private buildActionRelayPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    const pool = [
+      {
+        instruction: "Press the green button. Do not press the red button.",
+        correct: "Press green",
+        distractors: ["Press red", "Press both", "Do nothing"],
+        explanation: "Do not press the red button vieta il rosso; il comando positivo resta green.",
+        glossary: [{ term: "press", meaning: "premere" }, { term: "do not", meaning: "non fare" }, { term: "green/red", meaning: "verde/rosso" }],
+        concept: "imperative + prohibition",
+      },
+      {
+        instruction: "Take the small key, not the large key.",
+        correct: "Take small key",
+        distractors: ["Take large key", "Take both keys", "Leave the key"],
+        explanation: "Not the large key esclude la chiave grande: resta small key.",
+        glossary: [{ term: "take", meaning: "prendere" }, { term: "small", meaning: "piccolo" }, { term: "large", meaning: "grande" }],
+        concept: "object adjective",
+      },
+      {
+        instruction: "Open the left drawer and keep the right drawer closed.",
+        correct: "Open left drawer",
+        distractors: ["Open right drawer", "Close left drawer", "Open both drawers"],
+        explanation: "Left e right distinguono due oggetti; il destro deve restare chiuso.",
+        glossary: [{ term: "open", meaning: "aprire" }, { term: "left/right", meaning: "sinistra/destra" }, { term: "keep closed", meaning: "tenere chiuso" }],
+        concept: "spatial direction",
+      },
+      {
+        instruction: "Insert the blue card only.",
+        correct: "Insert blue card",
+        distractors: ["Insert yellow card", "Insert every card", "Remove blue card"],
+        explanation: "Only limita l'azione alla card blu.",
+        glossary: [{ term: "insert", meaning: "inserire" }, { term: "only", meaning: "solo" }, { term: "card", meaning: "scheda" }],
+        concept: "only limiter",
+      },
+    ];
+    const advanced = [
+      {
+        instruction: "Replace the damaged cable, but leave the spare cable in the box.",
+        correct: "Replace damaged cable",
+        distractors: ["Replace spare cable", "Replace both cables", "Leave damaged cable"],
+        explanation: "Damaged identifica il cavo da sostituire; spare resta nella scatola.",
+        glossary: [{ term: "replace", meaning: "sostituire" }, { term: "damaged", meaning: "danneggiato" }, { term: "spare", meaning: "di ricambio" }],
+        concept: "technical adjective",
+      },
+      {
+        instruction: "Switch off neither the pump nor the sensor.",
+        correct: "Keep both on",
+        distractors: ["Switch off pump", "Switch off sensor", "Switch off both"],
+        explanation: "Neither...nor esclude entrambe le azioni: non spegnere né pompa né sensore.",
+        glossary: [{ term: "switch off", meaning: "spegnere" }, { term: "neither...nor", meaning: "né...né" }, { term: "keep on", meaning: "tenere acceso" }],
+        concept: "neither/nor prohibition",
+      },
+    ];
+    const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
+    const tiles = this.shuffleEnglishTiles(random, [
+      this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
+      ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Not safe: ${item.explanation}`)),
+    ]);
+    return {
+      id: `english-action-${index}`,
+      type: "action-relay",
+      instruction: item.instruction,
+      context: "Choose the action the Academy system can safely execute.",
+      targetLabel: "Action to execute",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.correct],
+      explanation: item.explanation,
+      concept: item.concept,
+      glossary: item.glossary,
+      signature: `action-${item.instruction}-${item.correct}`,
+    };
+  }
+
+  private buildSequenceSwitchboardPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    const pool = [
+      {
+        instruction: "Check the sensor before you open the valve.",
+        correct: "Check sensor first",
+        distractors: ["Open valve first", "Skip sensor", "Open and check together"],
+        explanation: "Before indica che check the sensor viene prima di open the valve.",
+        glossary: [{ term: "before", meaning: "prima di" }, { term: "check", meaning: "controllare" }, { term: "valve", meaning: "valvola" }],
+        concept: "before",
+      },
+      {
+        instruction: "Open the gate after the robot reaches the dock.",
+        correct: "Robot at dock -> open gate",
+        distractors: ["Open gate now", "Send robot away", "Open before robot arrives"],
+        explanation: "After richiede che l'arrivo del robot sia già avvenuto.",
+        glossary: [{ term: "after", meaning: "dopo che" }, { term: "reaches", meaning: "raggiunge" }, { term: "dock", meaning: "base" }],
+        concept: "after",
+      },
+      {
+        instruction: "Wait until the light turns blue, then reset the panel.",
+        correct: "Blue light -> reset",
+        distractors: ["Reset before blue", "Ignore the light", "Turn light red"],
+        explanation: "Until impone attesa; then introduce l'azione successiva.",
+        glossary: [{ term: "wait", meaning: "aspettare" }, { term: "until", meaning: "finché" }, { term: "then", meaning: "poi" }],
+        concept: "until + then",
+      },
+      {
+        instruction: "If the alarm starts, close the door immediately.",
+        correct: "Alarm starts -> close door",
+        distractors: ["No alarm -> close door", "Alarm starts -> open door", "Ignore alarm"],
+        explanation: "If introduce la condizione che attiva l'azione.",
+        glossary: [{ term: "if", meaning: "se" }, { term: "alarm", meaning: "allarme" }, { term: "immediately", meaning: "subito" }],
+        concept: "first conditional",
+      },
+    ];
+    const advanced = [
+      {
+        instruction: "Do not restart the core unless the backup light is green.",
+        correct: "Green backup -> restart",
+        distractors: ["Restart without green", "Green backup -> shut down", "Restart because light is red"],
+        explanation: "Unless significa a meno che: il riavvio è permesso solo con luce verde.",
+        glossary: [{ term: "unless", meaning: "a meno che" }, { term: "backup", meaning: "di riserva" }, { term: "restart", meaning: "riavviare" }],
+        concept: "unless",
+      },
+      {
+        instruction: "Not until the pressure drops should you unlock the hatch.",
+        correct: "Pressure drops -> unlock hatch",
+        distractors: ["Unlock before pressure drops", "Raise pressure", "Lock the hatch forever"],
+        explanation: "Not until vieta di anticipare: sblocca solo dopo il calo di pressione.",
+        glossary: [{ term: "not until", meaning: "non prima che" }, { term: "pressure drops", meaning: "la pressione scende" }, { term: "unlock", meaning: "sbloccare" }],
+        concept: "not until",
+      },
+    ];
+    const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
+    const tiles = this.shuffleEnglishTiles(random, [
+      this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
+      ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Wrong order: ${item.explanation}`)),
+    ]);
+    return {
+      id: `english-sequence-${index}`,
+      type: "sequence-switchboard",
+      instruction: item.instruction,
+      context: "Select the safe sequence. Time words are control levers, not decorations.",
+      targetLabel: "Safe sequence",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.correct],
+      explanation: item.explanation,
+      concept: item.concept,
+      glossary: item.glossary,
+      signature: `sequence-${item.instruction}-${item.correct}`,
+    };
+  }
+
+  private buildDataCommandScanPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    const kind = level >= 5 ? random.pick(["below", "above", "between", "compare"] as const) : random.pick(["below", "above", "between"] as const);
+    if (kind === "below") {
+      const threshold = random.pick([18, 20, 24, 30]);
+      const pods = random.shuffle(["A", "B", "C"]);
+      const low = random.integer(8, threshold - 2);
+      const safeOne = random.integer(threshold + 2, threshold + 10);
+      const safeTwo = random.integer(threshold + 11, threshold + 20);
+      const target = pods[0];
+      return this.dataPrompt(
+        index,
+        "data-command-scan",
+        `Water the pod whose moisture is below ${threshold}. Leave the other pods unchanged.`,
+        "Find the value below the threshold and act only there.",
+        "Threshold decision",
+        [
+          { label: `Pod ${target}`, value: `${low}`, note: "below threshold" },
+          { label: `Pod ${pods[1]}`, value: `${safeOne}`, note: "safe" },
+          { label: `Pod ${pods[2]}`, value: `${safeTwo}`, note: "safe" },
+        ].sort((a, b) => a.label.localeCompare(b.label)),
+        `Water pod ${target}`,
+        [`Water pod ${pods[1]}`, "Water all pods", "Do nothing"],
+        `Below ${threshold} significa sotto ${threshold}: solo pod ${target} è sotto soglia.`,
+        "below threshold",
+        [{ term: "below", meaning: "sotto" }, { term: "whose", meaning: "il cui / la cui" }, { term: "unchanged", meaning: "senza modifiche" }],
+      );
+    }
+    if (kind === "above") {
+      const threshold = random.pick([60, 70, 75, 80]);
+      const panels = random.shuffle(["North", "East", "West"]);
+      const high = random.integer(threshold + 3, threshold + 15);
+      const lowOne = random.integer(threshold - 22, threshold - 4);
+      const lowTwo = random.integer(threshold - 35, threshold - 23);
+      const target = panels[0];
+      return this.dataPrompt(
+        index,
+        "data-command-scan",
+        `Cool the panel whose heat is above ${threshold}. Do not cool the others.`,
+        "Above points to the only value over the limit.",
+        "Above-limit action",
+        [
+          { label: `${target} panel`, value: `${high}°C`, note: "above limit" },
+          { label: `${panels[1]} panel`, value: `${lowOne}°C`, note: "safe" },
+          { label: `${panels[2]} panel`, value: `${lowTwo}°C`, note: "safe" },
+        ].sort((a, b) => a.label.localeCompare(b.label)),
+        `Cool ${target}`,
+        [`Cool ${panels[1]}`, "Cool every panel", "Ignore heat"],
+        `Above ${threshold} significa sopra ${threshold}: intervieni solo sul pannello ${target}.`,
+        "above threshold",
+        [{ term: "above", meaning: "sopra" }, { term: "cool", meaning: "raffreddare" }, { term: "others", meaning: "gli altri" }],
+      );
+    }
+    if (kind === "between") {
+      const low = random.pick([16, 18, 20]);
+      const high = low + random.pick([5, 6, 7]);
+      const value = random.integer(low, high);
+      return this.dataPrompt(
+        index,
+        "data-command-scan",
+        `If the temperature is between ${low} and ${high}, open the vent halfway.`,
+        "Between includes the values inside the interval.",
+        "Interval command",
+        [{ label: "Temperature", value: `${value}°C`, note: "inside range" }],
+        "Open vent halfway",
+        ["Keep vent closed", "Open vent fully", "Lower the temperature first"],
+        `${value} è dentro l'intervallo ${low}-${high}; halfway significa a metà.`,
+        "between range",
+        [{ term: "between", meaning: "tra" }, { term: "halfway", meaning: "a metà" }, { term: "vent", meaning: "presa d'aria" }],
+      );
+    }
+    const labels = random.shuffle(["A", "B"]);
+    const dimmer = random.integer(25, 45);
+    const brighter = random.integer(dimmer + 18, dimmer + 42);
+    return this.dataPrompt(
+      index,
+      "data-command-scan",
+      "Choose the dimmer signal and lock the brighter one.",
+      "Compare the two values before acting.",
+      "Comparison command",
+      [
+        { label: `Signal ${labels[0]}`, value: `${dimmer} lux`, note: "dimmer" },
+        { label: `Signal ${labels[1]}`, value: `${brighter} lux`, note: "brighter" },
+      ],
+      `Choose ${labels[0]} -> lock ${labels[1]}`,
+      [`Choose ${labels[1]} -> lock ${labels[0]}`, "Lock both signals", `Ignore signal ${labels[0]}`],
+      "Dimmer indica il valore minore; brighter il valore maggiore.",
+      "comparatives",
+      [{ term: "dimmer", meaning: "meno luminoso" }, { term: "brighter", meaning: "più luminoso" }, { term: "lock", meaning: "bloccare" }],
+    );
+  }
+
+  private dataPrompt(
+    index: number,
+    type: EnglishMinigameType,
+    instruction: string,
+    context: string,
+    targetLabel: string,
+    dataPoints: Array<{ label: string; value: string; note?: string }>,
+    correct: string,
+    distractors: string[],
+    explanation: string,
+    concept: string,
+    glossary: Array<{ term: string; meaning: string }>,
+  ): EnglishMinigamePrompt {
+    const tiles = this.shuffleEnglishTiles(new Random(`${instruction}:${index}`), [
+      this.englishTile(index, correct, true, `Correct: ${explanation}`),
+      ...distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Check the data: ${explanation}`)),
+    ]);
+    return {
+      id: `english-data-${index}`,
+      type,
+      instruction,
+      context,
+      targetLabel,
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [correct],
+      explanation,
+      concept,
+      glossary,
+      dataPoints,
+      signature: `data-${instruction}-${correct}-${dataPoints.map((point) => `${point.label}:${point.value}`).join("|")}`,
+    };
+  }
+
+  private englishTile(seed: number, label: string, isCorrect: boolean, feedback: string): EnglishMinigameTile {
+    return {
+      id: `english-tile-${seed}-${label.replace(/\W+/g, "-").toLowerCase()}`,
+      label,
+      isCorrect,
+      feedback,
+    };
+  }
+
+  private shuffleEnglishTiles(random: Random, tiles: EnglishMinigameTile[]): EnglishMinigameTile[] {
+    return random.shuffle(tiles).map((tile, index) => ({ ...tile, id: `${tile.id}-${index}` }));
+  }
+
+  private englishMinigameConcepts(type: EnglishMinigameType): string[] {
+    if (type === "action-relay") return ["imperative", "object choice", "prohibition"];
+    if (type === "sequence-switchboard") return ["before/after", "condition", "sequence"];
+    return ["data reading", "threshold", "comparison"];
+  }
+
+  private englishMinigamePurpose(type: EnglishMinigameType): string {
+    if (type === "action-relay") return "Allena riconoscimento rapido di verbi operativi, oggetti, colori, direzioni e divieti.";
+    if (type === "sequence-switchboard") return "Allena lettura di before, after, until, unless e if come vincoli di procedura.";
+    return "Allena lettura di dati semplici in inglese: below, above, between, dimmer, brighter e soglie.";
+  }
+
+  private englishMinigameMethod(type: EnglishMinigameType): string {
+    if (type === "action-relay") return "Trova verbo d'azione e oggetto, poi controlla not, only, neither e aggettivi.";
+    if (type === "sequence-switchboard") return "Sottolinea le parole-tempo: before, after, until, then, unless. Poi ordina le azioni.";
+    return "Leggi la soglia o il confronto, confronta i dati, poi scegli una sola azione.";
+  }
+
+  private englishMinigameMethodSteps(type: EnglishMinigameType): string[] {
+    if (type === "action-relay") return ["verb", "object", "not/only"];
+    if (type === "sequence-switchboard") return ["time word", "first event", "safe action"];
+    return ["threshold", "data", "action"];
   }
 
   fallback(): GeneratedEnglishPuzzle {

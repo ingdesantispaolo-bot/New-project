@@ -9,8 +9,10 @@ import { exerciseDirector } from "../core/ExerciseDirector";
 import type {
   CodingChallengeType,
   DifficultyPreset,
+  EnglishMinigameType,
   GeneratedFocusChallenge,
   GeneratedMission,
+  LanguageMinigameType,
   MathMinigameType,
   ProceduralPuzzleKind,
   RobotChallengeType,
@@ -125,16 +127,22 @@ export class PuzzleGenerator {
         };
       }
       if (kind === "language") {
+        const useMinigame = [0, 1, 3].includes(index);
         const puzzle = this.validationEngine.generateWithRetries(
-          () => this.languageGenerator.generate(challengeRandom, stagedDifficulty.level, this.languageTemplatesForStep(index)),
+          () => useMinigame
+            ? this.languageGenerator.generateMinigame(challengeRandom, stagedDifficulty.level, this.languageMinigameTypesForStep(index))
+            : this.languageGenerator.generate(challengeRandom, stagedDifficulty.level, this.languageTemplatesForStep(index)),
           (candidate) => this.languageValidator.validateItalian(candidate),
           this.languageGenerator.fallback(),
         );
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
       if (kind === "english") {
+        const useMinigame = [0, 1, 2, 4].includes(index);
         const puzzle = this.validationEngine.generateWithRetries(
-          () => this.englishGenerator.generate(challengeRandom, stagedDifficulty.level, this.englishTemplatesForStep(index)),
+          () => useMinigame
+            ? this.englishGenerator.generateMinigame(challengeRandom, stagedDifficulty.level, this.englishMinigameTypesForStep(index))
+            : this.englishGenerator.generate(challengeRandom, stagedDifficulty.level, this.englishTemplatesForStep(index)),
           (candidate) => this.languageValidator.validateEnglish(candidate),
           this.englishGenerator.fallback(),
         );
@@ -295,6 +303,16 @@ export class PuzzleGenerator {
     ][Math.min(step, 4)];
   }
 
+  private languageMinigameTypesForStep(step: number): LanguageMinigameType[] {
+    return [
+      ["agreement-sprint"],
+      ["intruder-hunt"],
+      ["connector-route"],
+      ["connector-route"],
+      ["intruder-hunt", "agreement-sprint", "connector-route"],
+    ][Math.min(step, 4)] as LanguageMinigameType[];
+  }
+
   private englishTemplatesForStep(step: number): string[] {
     return [
       ["green-not-red", "small-key", "main-switch", "where-is-core", "who-can-open", "possessive-their-its", "movement-prepositions-route"],
@@ -303,6 +321,16 @@ export class PuzzleGenerator {
       ["only-if-stable", "compare-two-signals", "neither-red-nor-yellow", "replace-only-damaged", "which-route-safest", "relative-drawer", "going-to-scan", "past-vs-present-perfect-log", "although-however-report", "main-idea-log", "detail-not-mentioned", "question-formation-why", "relative-where-lab"],
       ["cause-report", "between-limits", "unless-blue-blinks", "until-door-unlocks", "not-until-pressure-drops", "must-should-cable", "may-must-not", "passive-reattach-wire", "pronoun-reference", "as-as-comparison", "passive-simple-past", "have-to-vs-can", "word-formation-re-over", "scientific-observation-evidence", "reported-warning", "either-neither-tool", "multi-clause-mission-order", "email-register-formal"],
     ][Math.min(step, 4)];
+  }
+
+  private englishMinigameTypesForStep(step: number): EnglishMinigameType[] {
+    return [
+      ["action-relay"],
+      ["sequence-switchboard"],
+      ["data-command-scan"],
+      ["sequence-switchboard", "action-relay"],
+      ["action-relay", "sequence-switchboard", "data-command-scan"],
+    ][Math.min(step, 4)] as EnglishMinigameType[];
   }
 
   private circuitFaultsForStep(step: number) {

@@ -321,6 +321,40 @@ export type GeneratedLanguagePuzzle = {
   repairGoal?: string;
   method?: string;
   optionFeedback?: Record<string, string>;
+  minigame?: GeneratedLanguageMinigame;
+};
+
+export type LanguageMinigameType = "agreement-sprint" | "connector-route" | "intruder-hunt";
+
+export type LanguageMinigameTile = {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+  feedback: string;
+};
+
+export type LanguageMinigamePrompt = {
+  id: string;
+  type: LanguageMinigameType;
+  prompt: string;
+  context: string;
+  targetLabel: string;
+  requiredSelectionCount: number;
+  tiles: LanguageMinigameTile[];
+  solutionLabels: string[];
+  explanation: string;
+  concept: string;
+  signature: string;
+};
+
+export type GeneratedLanguageMinigame = {
+  type: LanguageMinigameType;
+  title: string;
+  durationMs: number;
+  instructions: string;
+  scoringRule: string;
+  prompts: LanguageMinigamePrompt[];
+  competencies: string[];
 };
 
 export type EnglishChallengeType =
@@ -358,6 +392,42 @@ export type GeneratedEnglishPuzzle = {
   method?: string;
   methodSteps?: string[];
   glossary?: Array<{ term: string; meaning: string }>;
+  minigame?: GeneratedEnglishMinigame;
+};
+
+export type EnglishMinigameType = "action-relay" | "sequence-switchboard" | "data-command-scan";
+
+export type EnglishMinigameTile = {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+  feedback: string;
+};
+
+export type EnglishMinigamePrompt = {
+  id: string;
+  type: EnglishMinigameType;
+  instruction: string;
+  context: string;
+  targetLabel: string;
+  requiredSelectionCount: number;
+  tiles: EnglishMinigameTile[];
+  solutionLabels: string[];
+  explanation: string;
+  concept: string;
+  glossary: Array<{ term: string; meaning: string }>;
+  dataPoints?: Array<{ label: string; value: string; note?: string }>;
+  signature: string;
+};
+
+export type GeneratedEnglishMinigame = {
+  type: EnglishMinigameType;
+  title: string;
+  durationMs: number;
+  instructions: string;
+  scoringRule: string;
+  prompts: EnglishMinigamePrompt[];
+  competencies: string[];
 };
 
 export type MusicClef = "treble" | "bass";

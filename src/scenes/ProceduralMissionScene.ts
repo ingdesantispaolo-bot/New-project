@@ -18,11 +18,14 @@ import type {
   CircuitComponentChallenge,
   CircuitFaultType,
   DifficultyLevel,
+  EnglishMinigamePrompt,
   GeneratedFocusChallenge,
   GeneratedCodingPuzzle,
   GeneratedCircuitPuzzle,
+  GeneratedEnglishMinigame,
   GeneratedEnglishPuzzle,
   GeneratedLanguagePuzzle,
+  GeneratedLanguageMinigame,
   GeneratedMathMinigame,
   GeneratedMathPuzzle,
   GeneratedMusicPuzzle,
@@ -30,6 +33,7 @@ import type {
   GeneratedRoomHotspot,
   GridCommand,
   GridFacing,
+  LanguageMinigamePrompt,
   MathMinigamePrompt,
   ProgressiveLevelResult,
   ProgressiveOutcomeTone,
@@ -113,6 +117,44 @@ type MathMinigameSession = {
   summaryOpen: boolean;
 };
 
+type LanguageMinigameSession = {
+  puzzleId: string;
+  puzzle: GeneratedLanguagePuzzle;
+  game: GeneratedLanguageMinigame;
+  startedAt: number;
+  durationMs: number;
+  promptIndex: number;
+  answered: number;
+  correct: number;
+  wrong: number;
+  streak: number;
+  bestStreak: number;
+  netScore: number;
+  selectedIds: Set<string>;
+  feedback: string;
+  locked: boolean;
+  summaryOpen: boolean;
+};
+
+type EnglishMinigameSession = {
+  puzzleId: string;
+  puzzle: GeneratedEnglishPuzzle;
+  game: GeneratedEnglishMinigame;
+  startedAt: number;
+  durationMs: number;
+  promptIndex: number;
+  answered: number;
+  correct: number;
+  wrong: number;
+  streak: number;
+  bestStreak: number;
+  netScore: number;
+  selectedIds: Set<string>;
+  feedback: string;
+  locked: boolean;
+  summaryOpen: boolean;
+};
+
 export class ProceduralMissionScene extends Phaser.Scene {
   private run!: ProceduralRunSave;
   private dependencies = new MissionDependencyGraph();
@@ -148,6 +190,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private mathMinigameTimerEvent?: Phaser.Time.TimerEvent;
   private mathMinigameTimerText?: Phaser.GameObjects.Text;
   private mathMinigameSession?: MathMinigameSession;
+  private languageMinigameTimerEvent?: Phaser.Time.TimerEvent;
+  private languageMinigameTimerText?: Phaser.GameObjects.Text;
+  private languageMinigameSession?: LanguageMinigameSession;
+  private englishMinigameTimerEvent?: Phaser.Time.TimerEvent;
+  private englishMinigameTimerText?: Phaser.GameObjects.Text;
+  private englishMinigameSession?: EnglishMinigameSession;
   private missionFailureInProgress = false;
   private timeoutSolutionOpen = false;
   private progressiveOutcomeOpen = false;
@@ -498,6 +546,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private openLanguage(): void {
     const puzzle = this.currentLanguagePuzzle();
+    if (puzzle.minigame) {
+      this.openLanguageMinigame(puzzle);
+      return;
+    }
     const model = LanguageRepairConsole.fromPuzzle(puzzle, this.languageAnalyzed);
     const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
     LanguageRepairConsole.addHeader(this, overlay, model);
@@ -531,6 +583,532 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.useHint(this.nextPedagogicHint(puzzle, model.hints[Math.min(this.run.hintsUsed, model.hints.length - 1)]));
       this.openLanguage();
     }, { width: 250, height: 40, fontSize: 13, fill: 0x263743 }));
+  }
+
+  private openLanguageMinigame(puzzle: GeneratedLanguagePuzzle): void {
+    if (!puzzle.minigame) {
+      return;
+    }
+    const puzzleId = this.currentPuzzleId("language");
+    const session = this.ensureLanguageMinigameSession(puzzleId, puzzle, puzzle.minigame);
+    const overlay = this.createMathOverlay(puzzle.minigame.title);
+    const prompt = this.currentLanguageMinigamePrompt(session);
+    const remaining = this.languageMinigameRemainingMs(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+
+    this.addMathPanel(overlay, 28, 112, 548, 432, "Laboratorio linguistico");
+    overlay.add(this.add.text(60, 154, prompt.targetLabel, {
+      fontFamily: "Inter, Arial",
+      fontSize: "27px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
+    }));
+    this.drawLanguageMinigameVisualizer(overlay, prompt, 60, 210, 482, 210);
+    overlay.add(this.add.text(60, 456, `Concetto: ${prompt.concept}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+      wordWrap: { width: 472 },
+    }));
+    overlay.add(this.add.text(60, 488, this.languageMinigameMethodText(prompt), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: 476, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+
+    this.addMathPanel(overlay, 604, 112, 648, 432, "Scelta rapida");
+    overlay.add(this.add.text(636, 154, "60 secondi: leggi lo scopo, clicca la tessera migliore, conferma. Non vince chi prova: vince chi riconosce la regola.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 560 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(636, 214, prompt.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 560, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+
+    const tileStartX = 784;
+    const tileStartY = 340;
+    prompt.tiles.forEach((tile, index) => {
+      const selected = session.selectedIds.has(tile.id);
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, tile.label, () => this.toggleLanguageMinigameTile(tile.id), {
+        width: 232,
+        height: 52,
+        fontSize: tile.label.length > 34 ? 10 : tile.label.length > 20 ? 12 : 16,
+        wordWrapWidth: 210,
+        fill: selected ? 0x174d42 : 0x263743,
+        stroke: selected ? 0xf7d37a : 0x6be7d6,
+      }));
+    });
+
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "Ritmo e valutazione");
+    this.languageMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
+      fontStyle: "bold",
+    });
+    overlay.add(this.languageMinigameTimerText);
+    overlay.add(this.add.text(260, 592, [
+      `Corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie: ${session.streak}`,
+      `Punti: ${session.netScore}`,
+    ].join("   "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 640 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: session.feedback ? "#f7d37a" : "#9aaab0",
+      wordWrap: { width: 650, useAdvancedWrap: true },
+    }));
+    overlay.add(new Button(this, 858, 640, "Pulisci scelta", () => this.clearLanguageMinigameSelection(), {
+      width: 174,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+    overlay.add(new Button(this, 1046, 640, "Conferma", () => this.confirmLanguageMinigamePrompt(), {
+      width: 174,
+      height: 44,
+      fontSize: 14,
+      fill: 0x173b36,
+    }));
+    overlay.add(new Button(this, 686, 640, "Indizio", () => this.useLanguageMinigameHint(), {
+      width: 138,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+
+    this.languageMinigameTimerEvent?.remove(false);
+    this.languageMinigameTimerEvent = this.time.addEvent({
+      delay: 250,
+      loop: true,
+      callback: () => this.refreshLanguageMinigameTimer(),
+    });
+    this.refreshLanguageMinigameTimer();
+  }
+
+  private ensureLanguageMinigameSession(
+    puzzleId: string,
+    puzzle: GeneratedLanguagePuzzle,
+    game: GeneratedLanguageMinigame,
+  ): LanguageMinigameSession {
+    if (this.languageMinigameSession?.puzzleId === puzzleId && !this.languageMinigameSession.summaryOpen) {
+      return this.languageMinigameSession;
+    }
+    this.languageMinigameSession = {
+      puzzleId,
+      puzzle,
+      game,
+      startedAt: Date.now(),
+      durationMs: game.durationMs,
+      promptIndex: 0,
+      answered: 0,
+      correct: 0,
+      wrong: 0,
+      streak: 0,
+      bestStreak: 0,
+      netScore: 0,
+      selectedIds: new Set<string>(),
+      feedback: "Leggi prima l'obiettivo: accordo, connettivo o intruso. Poi conferma una sola tessera.",
+      locked: false,
+      summaryOpen: false,
+    };
+    return this.languageMinigameSession;
+  }
+
+  private drawLanguageMinigameVisualizer(
+    overlay: Phaser.GameObjects.Container,
+    prompt: LanguageMinigamePrompt,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const g = this.add.graphics();
+    g.fillStyle(0x07151d, 0.78);
+    g.fillRoundedRect(x, y, width, height, 12);
+    g.lineStyle(2, 0x6be7d6, 0.3);
+    g.strokeRoundedRect(x, y, width, height, 12);
+    overlay.add(g);
+
+    const accent = prompt.type === "agreement-sprint" ? 0x6be7d6 : prompt.type === "connector-route" ? 0xf6c85f : 0x9f8cff;
+    overlay.add(this.add.rectangle(x + 26, y + 34, width - 52, 74, 0x102533, 0.8)
+      .setOrigin(0)
+      .setStrokeStyle(1, accent, 0.45));
+    overlay.add(this.add.text(x + 44, y + 52, prompt.context, {
+      fontFamily: "Inter, Arial",
+      fontSize: prompt.context.length > 92 ? "13px" : "16px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: width - 88, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+    if (prompt.type === "agreement-sprint") {
+      overlay.add(this.add.text(x + 44, y + 142, "Segnale -> soggetto -> forma -> significato", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#9ff5e9",
+        fontStyle: "bold",
+      }));
+    } else if (prompt.type === "connector-route") {
+      overlay.add(this.add.text(x + 44, y + 142, "Dai un nome al rapporto: causa, contrasto, tempo, condizione o scopo.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#f7d37a",
+        wordWrap: { width: width - 88 },
+      }));
+    } else {
+      overlay.add(this.add.text(x + 44, y + 142, "Tieni solo ciò che serve all'obiettivo. Un dettaglio vero può essere inutile.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#d8c9ff",
+        wordWrap: { width: width - 88 },
+      }));
+    }
+  }
+
+  private currentLanguageMinigamePrompt(session: LanguageMinigameSession): LanguageMinigamePrompt {
+    return session.game.prompts[session.promptIndex % session.game.prompts.length];
+  }
+
+  private languageMinigameElapsedMs(session: LanguageMinigameSession): number {
+    return Math.max(0, Date.now() - session.startedAt);
+  }
+
+  private languageMinigameRemainingMs(session: LanguageMinigameSession): number {
+    return Math.max(0, session.durationMs - this.languageMinigameElapsedMs(session));
+  }
+
+  private refreshLanguageMinigameTimer(): void {
+    const session = this.languageMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    const remaining = this.languageMinigameRemainingMs(session);
+    this.languageMinigameTimerText?.setText(`Tempo: ${formatDuration(remaining)}`);
+    this.languageMinigameTimerText?.setColor(remaining <= 10_000 ? "#ff8f8f" : "#f7d37a");
+    if (remaining <= 0) {
+      this.finishLanguageMinigame();
+    }
+  }
+
+  private toggleLanguageMinigameTile(tileId: string): void {
+    const session = this.languageMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    session.selectedIds.clear();
+    session.selectedIds.add(tileId);
+    audioManager.play("click");
+    this.openLanguageMinigame(session.puzzle);
+  }
+
+  private clearLanguageMinigameSelection(): void {
+    const session = this.languageMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    session.selectedIds.clear();
+    session.feedback = "Scelta pulita. Rileggi prima l'obiettivo della console, poi scegli.";
+    this.openLanguageMinigame(session.puzzle);
+  }
+
+  private useLanguageMinigameHint(): void {
+    const session = this.languageMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    const prompt = this.currentLanguageMinigamePrompt(session);
+    const hint = prompt.type === "agreement-sprint"
+      ? "Trova il soggetto reale: a volte una frase relativa o un inciso distrae dal verbo corretto."
+      : prompt.type === "connector-route"
+        ? "Chiediti: la seconda parte spiega, contrasta, segue nel tempo o pone una condizione?"
+        : "Confronta ogni dettaglio con l'obiettivo. Se non aiuta a rispondere, è rumore.";
+    session.feedback = hint;
+    this.useHint(hint);
+    this.openLanguageMinigame(session.puzzle);
+  }
+
+  private confirmLanguageMinigamePrompt(): void {
+    const session = this.languageMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    if (this.languageMinigameRemainingMs(session) <= 0) {
+      this.finishLanguageMinigame();
+      return;
+    }
+    const prompt = this.currentLanguageMinigamePrompt(session);
+    if (session.selectedIds.size === 0) {
+      session.feedback = "Prima seleziona una tessera. Il timer continua.";
+      audioManager.playOutcome("hint");
+      this.openLanguageMinigame(session.puzzle);
+      return;
+    }
+    const selectedId = [...session.selectedIds][0];
+    const selected = prompt.tiles.find((tile) => tile.id === selectedId);
+    if (!selected?.isCorrect) {
+      const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      if (this.isTimedMissionMode()) {
+        this.languageMinigameSession = undefined;
+        this.handleIncorrectAnswer(message);
+        return;
+      }
+      session.answered += 1;
+      session.wrong += 1;
+      session.streak = 0;
+      session.netScore = Math.max(0, session.netScore - (7 + this.run.difficulty));
+      session.feedback = message;
+      session.locked = true;
+      this.recordPuzzleMistake();
+      audioManager.playOutcome("wrong");
+      outcomeFeedback.play(this, "warning", "Rileggi il vincolo");
+      this.advanceLanguageMinigamePrompt(760);
+      return;
+    }
+
+    session.answered += 1;
+    session.correct += 1;
+    session.streak += 1;
+    session.bestStreak = Math.max(session.bestStreak, session.streak);
+    const award = 10 + this.run.difficulty * 2 + Math.min(12, session.streak * 2);
+    session.netScore += award;
+    session.feedback = `Corretta: ${prompt.explanation} +${award}`;
+    session.locked = true;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${award}`);
+    this.advanceLanguageMinigamePrompt(420);
+  }
+
+  private advanceLanguageMinigamePrompt(delayMs: number): void {
+    const session = this.languageMinigameSession;
+    if (!session) {
+      return;
+    }
+    this.runWhenActive(delayMs, () => {
+      if (this.languageMinigameSession !== session || session.summaryOpen) {
+        return;
+      }
+      if (this.languageMinigameRemainingMs(session) <= 0) {
+        this.finishLanguageMinigame();
+        return;
+      }
+      const previous = this.currentLanguageMinigamePrompt(session).signature;
+      session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      if (this.currentLanguageMinigamePrompt(session).signature === previous) {
+        session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      }
+      session.selectedIds.clear();
+      session.locked = false;
+      this.openLanguageMinigame(session.puzzle);
+    });
+  }
+
+  private finishLanguageMinigame(): void {
+    const session = this.languageMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    session.locked = true;
+    session.summaryOpen = true;
+    this.languageMinigameTimerEvent?.remove(false);
+    this.languageMinigameTimerEvent = undefined;
+    audioManager.playOutcome("neutral");
+    this.showLanguageMinigameSummary(session);
+  }
+
+  private languageMinigamePassed(session: LanguageMinigameSession): boolean {
+    if (!this.isTimedMissionMode()) {
+      return true;
+    }
+    const minCorrect = Math.max(5, Math.min(12, 4 + Math.ceil(this.run.difficulty * 0.75)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    return session.correct >= minCorrect && accuracy >= 0.62 && session.netScore > 0;
+  }
+
+  private languageMinigameFeedback(session: LanguageMinigameSession): string {
+    if (session.answered === 0) {
+      return "Nessuna risposta: serve leggere almeno un log e riconoscere la regola richiesta.";
+    }
+    const accuracy = session.correct / session.answered;
+    if (accuracy >= 0.9 && session.bestStreak >= 8) {
+      return "Lettura rapida molto solida: hai riconosciuto forma, logica e pertinenza senza farti distrarre.";
+    }
+    if (accuracy >= 0.72) {
+      return "Buon controllo: aumenta la velocità solo dopo aver nominato la regola del prompt.";
+    }
+    if (session.wrong >= session.correct) {
+      return "Troppi tentativi: rileggi lo scopo e scegli solo quando sai spiegare perché le altre opzioni cadono.";
+    }
+    return "Allenamento utile: ora lavora sulle serie corrette, non solo sul singolo colpo.";
+  }
+
+  private showLanguageMinigameSummary(session: LanguageMinigameSession): void {
+    const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
+    const modal = this.add.container(0, 0).setDepth(1300);
+    const passed = this.languageMinigamePassed(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+    const mode = proceduralRunRules.modeFor(this.run);
+    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
+    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
+    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
+      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
+    modal.add(this.add.text(230, 160, passed ? "Sprint italiano completato" : "Sprint italiano da consolidare", {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: passed ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(230, 210, [
+      `Risposte corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie migliore: ${session.bestStreak}`,
+      `Punti sprint: ${session.netScore}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f5fbff",
+      lineSpacing: 7,
+    }));
+    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.3));
+    modal.add(this.add.text(572, 234, this.languageMinigameFeedback(session), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 354 },
+      lineSpacing: 5,
+    }));
+    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
+      .setStrokeStyle(1, 0xf7d37a, 0.36));
+    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
+      ? passed
+        ? "La console italiana accetta il log: forma, coesione e pertinenza sono abbastanza stabili."
+        : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
+      : "Allenamento registrabile: contano rapidità, precisione, serie positiva e uso consapevole degli aiuti.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 690 },
+      lineSpacing: 4,
+    }));
+    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
+      modal.destroy(true);
+      if (!passed && (mode === "mission" || mode === "progressive")) {
+        this.loseMissionLife("sprint italiano sotto soglia: servono più risposte corrette con meno tentativi.");
+        return;
+      }
+      this.completeLanguageMinigame(session);
+    }, {
+      width: 270,
+      height: 54,
+      fill: passed ? 0x173b36 : 0x263743,
+      stroke: passed ? 0x6be7d6 : 0xf7d37a,
+      fontSize: 16,
+    }));
+    overlay.add(modal);
+  }
+
+  private completeLanguageMinigame(session: LanguageMinigameSession): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
+    const score = this.finalizeLanguageMinigameScore(session);
+    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
+    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${score.total}`);
+    this.clearOverlay();
+    this.languageMinigameSession = undefined;
+    const solvedNode = puzzleKindFromId(session.puzzleId);
+    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
+    feedbackSystem.publish(
+      `Sprint italiano registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      "success",
+    );
+    if (remaining.length === 0) {
+      this.certifyCompletedRun("Console italiana stabilizzata: il sistema completo è certificabile.");
+      return;
+    }
+    if (this.isProgressiveMode()) {
+      this.scheduleNextProgressivePuzzle(850);
+      return;
+    }
+    this.runWhenActive(640, () => this.scene.restart());
+  }
+
+  private finalizeLanguageMinigameScore(session: LanguageMinigameSession): ProceduralPuzzleScore {
+    const run = saveSystem.data.proceduralRun ?? this.run;
+    const existing = run.puzzleStats?.[session.puzzleId];
+    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
+    const completedAt = new Date().toISOString();
+    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.languageMinigameElapsedMs(session)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    const basePoints = session.correct * (9 + run.difficulty);
+    const difficultyBonus = session.correct * run.difficulty * 2;
+    const speedBonus = Math.min(90, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 34));
+    const focusBonus = run.focus.includes("italiano") || run.focus.some((item) => item.startsWith("italiano."))
+      ? 20 + run.difficulty * 3
+      : 0;
+    const supportPenalty = (existing?.hintsUsed ?? 0) * 5 + session.wrong * (5 + run.difficulty);
+    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
+    const score: ProceduralPuzzleScore = {
+      puzzleId: session.puzzleId,
+      domain: proceduralScoring.puzzleDomain(session.puzzleId),
+      startedAt,
+      completedAt,
+      elapsedMs,
+      hintsUsed: existing?.hintsUsed ?? 0,
+      attempts: Math.max(1, existing?.attempts ?? 1),
+      basePoints,
+      difficultyBonus,
+      speedBonus,
+      focusBonus,
+      supportPenalty,
+      total,
+      feedback: this.languageMinigameFeedback(session),
+    };
+    saveSystem.updateProceduralRun({
+      puzzleStats: {
+        ...(run.puzzleStats ?? {}),
+        [session.puzzleId]: score,
+      },
+      score: proceduralScoring.addToSummary(run.score, score),
+    });
+    return score;
+  }
+
+  private languageMinigameMethodText(prompt: LanguageMinigamePrompt): string {
+    if (prompt.type === "agreement-sprint") {
+      return "Metodo: trova il soggetto reale, ignora incisi e relative, poi controlla verbo e aggettivo.";
+    }
+    if (prompt.type === "connector-route") {
+      return "Metodo: dai un nome al rapporto logico prima di guardare i connettivi.";
+    }
+    return "Metodo: confronta ogni dettaglio con l'obiettivo. Se non aiuta diagnosi, sequenza, fonte o sintesi, è rumore.";
   }
 
   private openCircuit(): void {
@@ -2450,6 +3028,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private openEnglish(): void {
     const puzzle = this.currentEnglishPuzzle();
+    if (puzzle.minigame) {
+      this.openEnglishMinigame(puzzle);
+      return;
+    }
     const overlay = this.createOverlay(puzzle.title, 642, { x: 40, y: 48, width: 1200 });
     const instructionSize = puzzle.instruction.length > 122 ? 16 : puzzle.instruction.length > 96 ? 18 : puzzle.instruction.length > 72 ? 20 : 22;
     overlay.add(this.add.text(56, 78, (puzzle.difficultyLabel ?? "Livello 1 - comandi e divieti").toUpperCase(), {
@@ -2503,6 +3085,548 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
       this.openEnglish();
     }, { width: 250, height: 40, fontSize: 13, fill: 0x263743 }));
+  }
+
+  private openEnglishMinigame(puzzle: GeneratedEnglishPuzzle): void {
+    if (!puzzle.minigame) {
+      return;
+    }
+    const puzzleId = this.currentPuzzleId("english");
+    const session = this.ensureEnglishMinigameSession(puzzleId, puzzle, puzzle.minigame);
+    const overlay = this.createMathOverlay(puzzle.minigame.title);
+    const prompt = this.currentEnglishMinigamePrompt(session);
+    const remaining = this.englishMinigameRemainingMs(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+
+    this.addMathPanel(overlay, 28, 112, 560, 432, "Ponte operativo");
+    overlay.add(this.add.text(60, 154, prompt.targetLabel, {
+      fontFamily: "Inter, Arial",
+      fontSize: "25px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
+    }));
+    this.drawEnglishMinigameVisualizer(overlay, prompt, 60, 204, 500, 226);
+    overlay.add(this.add.text(60, 456, `Concept: ${prompt.concept}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+      wordWrap: { width: 488 },
+    }));
+    overlay.add(this.add.text(60, 486, this.englishMinigameMethodText(prompt), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: 492, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+
+    this.addMathPanel(overlay, 616, 112, 636, 432, "Decisione rapida");
+    overlay.add(this.add.text(648, 154, "60 secondi: non tradurre parola per parola. Trova prima verbo, oggetto e vincolo; poi scegli l'azione sicura.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 548 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(648, 214, prompt.instruction, {
+      fontFamily: "Inter, Arial",
+      fontSize: prompt.instruction.length > 92 ? "17px" : "20px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 548, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+    overlay.add(this.add.text(648, 290, prompt.glossary.slice(0, 4).map((entry) => `${entry.term}: ${entry.meaning}`).join("   "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      wordWrap: { width: 548, useAdvancedWrap: true },
+    }));
+
+    const tileStartX = 788;
+    const tileStartY = 356;
+    prompt.tiles.forEach((tile, index) => {
+      const selected = session.selectedIds.has(tile.id);
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      overlay.add(new Button(this, tileStartX + col * 252, tileStartY + row * 68, tile.label, () => this.toggleEnglishMinigameTile(tile.id), {
+        width: 226,
+        height: 52,
+        fontSize: tile.label.length > 32 ? 10 : tile.label.length > 22 ? 12 : 15,
+        wordWrapWidth: 202,
+        fill: selected ? 0x174d42 : 0x263743,
+        stroke: selected ? 0xf7d37a : 0x6be7d6,
+      }));
+    });
+
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "Ritmo, precisione, punteggio");
+    this.englishMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
+      fontStyle: "bold",
+    });
+    overlay.add(this.englishMinigameTimerText);
+    overlay.add(this.add.text(260, 592, [
+      `Corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie: ${session.streak}`,
+      `Punti: ${session.netScore}`,
+    ].join("   "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 640 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: session.feedback ? "#f7d37a" : "#9aaab0",
+      wordWrap: { width: 650, useAdvancedWrap: true },
+    }));
+    overlay.add(new Button(this, 858, 640, "Pulisci scelta", () => this.clearEnglishMinigameSelection(), {
+      width: 174,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+    overlay.add(new Button(this, 1046, 640, "Conferma", () => this.confirmEnglishMinigamePrompt(), {
+      width: 174,
+      height: 44,
+      fontSize: 14,
+      fill: 0x173b36,
+    }));
+    overlay.add(new Button(this, 686, 640, "Indizio", () => this.useEnglishMinigameHint(), {
+      width: 138,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+
+    this.englishMinigameTimerEvent?.remove(false);
+    this.englishMinigameTimerEvent = this.time.addEvent({
+      delay: 250,
+      loop: true,
+      callback: () => this.refreshEnglishMinigameTimer(),
+    });
+    this.refreshEnglishMinigameTimer();
+  }
+
+  private ensureEnglishMinigameSession(
+    puzzleId: string,
+    puzzle: GeneratedEnglishPuzzle,
+    game: GeneratedEnglishMinigame,
+  ): EnglishMinigameSession {
+    if (this.englishMinigameSession?.puzzleId === puzzleId && !this.englishMinigameSession.summaryOpen) {
+      return this.englishMinigameSession;
+    }
+    this.englishMinigameSession = {
+      puzzleId,
+      puzzle,
+      game,
+      startedAt: Date.now(),
+      durationMs: game.durationMs,
+      promptIndex: 0,
+      answered: 0,
+      correct: 0,
+      wrong: 0,
+      streak: 0,
+      bestStreak: 0,
+      netScore: 0,
+      selectedIds: new Set<string>(),
+      feedback: "Leggi il comando come una procedura: action word -> object -> limiter/time word.",
+      locked: false,
+      summaryOpen: false,
+    };
+    return this.englishMinigameSession;
+  }
+
+  private drawEnglishMinigameVisualizer(
+    overlay: Phaser.GameObjects.Container,
+    prompt: EnglishMinigamePrompt,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const g = this.add.graphics();
+    g.fillStyle(0x07151d, 0.8);
+    g.fillRoundedRect(x, y, width, height, 12);
+    g.lineStyle(2, 0x6be7d6, 0.3);
+    g.strokeRoundedRect(x, y, width, height, 12);
+    overlay.add(g);
+
+    const accent = prompt.type === "action-relay" ? 0x6be7d6 : prompt.type === "sequence-switchboard" ? 0xf6c85f : 0x9f8cff;
+    overlay.add(this.add.rectangle(x + 24, y + 28, width - 48, 82, 0x102533, 0.84)
+      .setOrigin(0)
+      .setStrokeStyle(1, accent, 0.45));
+    overlay.add(this.add.text(x + 42, y + 46, prompt.context, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#f5fbff",
+      wordWrap: { width: width - 84, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+    if (prompt.dataPoints && prompt.dataPoints.length > 0) {
+      prompt.dataPoints.slice(0, 4).forEach((point, index) => {
+        const rowY = y + 128 + index * 24;
+        overlay.add(this.add.rectangle(x + 42, rowY - 3, width - 84, 20, 0x0c2531, 0.9).setOrigin(0)
+          .setStrokeStyle(1, 0x6be7d6, 0.18));
+        overlay.add(this.add.text(x + 54, rowY, `${point.label}: ${point.value}${point.note ? ` | ${point.note}` : ""}`, {
+          fontFamily: "Inter, Arial",
+          fontSize: "11px",
+          color: "#d9eaf1",
+          wordWrap: { width: width - 110 },
+        }));
+      });
+      return;
+    }
+    const visualLine = prompt.type === "action-relay"
+      ? "VERB -> OBJECT -> NOT / ONLY"
+      : "TIME WORD -> FIRST EVENT -> SAFE ACTION";
+    overlay.add(this.add.text(x + 42, y + 138, visualLine, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: prompt.type === "action-relay" ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+      wordWrap: { width: width - 84 },
+    }));
+    overlay.add(this.add.text(x + 42, y + 176, prompt.type === "action-relay"
+      ? "Non scegliere l'azione che riconosci prima: controlla se not, only o un aggettivo cambia l'oggetto."
+      : "Before, after, until e unless cambiano quando un comando è permesso.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: width - 84, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+  }
+
+  private currentEnglishMinigamePrompt(session: EnglishMinigameSession): EnglishMinigamePrompt {
+    return session.game.prompts[session.promptIndex % session.game.prompts.length];
+  }
+
+  private englishMinigameElapsedMs(session: EnglishMinigameSession): number {
+    return Math.max(0, Date.now() - session.startedAt);
+  }
+
+  private englishMinigameRemainingMs(session: EnglishMinigameSession): number {
+    return Math.max(0, session.durationMs - this.englishMinigameElapsedMs(session));
+  }
+
+  private refreshEnglishMinigameTimer(): void {
+    const session = this.englishMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    const remaining = this.englishMinigameRemainingMs(session);
+    this.englishMinigameTimerText?.setText(`Tempo: ${formatDuration(remaining)}`);
+    this.englishMinigameTimerText?.setColor(remaining <= 10_000 ? "#ff8f8f" : "#f7d37a");
+    if (remaining <= 0) {
+      this.finishEnglishMinigame();
+    }
+  }
+
+  private toggleEnglishMinigameTile(tileId: string): void {
+    const session = this.englishMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    session.selectedIds.clear();
+    session.selectedIds.add(tileId);
+    audioManager.play("click");
+    this.openEnglishMinigame(session.puzzle);
+  }
+
+  private clearEnglishMinigameSelection(): void {
+    const session = this.englishMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    session.selectedIds.clear();
+    session.feedback = "Selection cleared. Read verb, object and limiter before choosing.";
+    this.openEnglishMinigame(session.puzzle);
+  }
+
+  private useEnglishMinigameHint(): void {
+    const session = this.englishMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    const prompt = this.currentEnglishMinigamePrompt(session);
+    const hint = prompt.type === "action-relay"
+      ? "Cerca il verbo operativo, poi verifica se not, only, neither o l'aggettivo cambiano l'oggetto."
+      : prompt.type === "sequence-switchboard"
+        ? "Prima traduci la parola-tempo: before = prima, after = dopo, until = aspetta fino a, unless = salvo se."
+        : "Guarda la soglia: below è sotto, above è sopra, between è dentro l'intervallo.";
+    session.feedback = hint;
+    this.useHint(hint);
+    this.openEnglishMinigame(session.puzzle);
+  }
+
+  private confirmEnglishMinigamePrompt(): void {
+    const session = this.englishMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    if (this.englishMinigameRemainingMs(session) <= 0) {
+      this.finishEnglishMinigame();
+      return;
+    }
+    const prompt = this.currentEnglishMinigamePrompt(session);
+    if (session.selectedIds.size === 0) {
+      session.feedback = "Select one tile first. The timer keeps running.";
+      audioManager.playOutcome("hint");
+      this.openEnglishMinigame(session.puzzle);
+      return;
+    }
+    const selectedId = [...session.selectedIds][0];
+    const selected = prompt.tiles.find((tile) => tile.id === selectedId);
+    if (!selected?.isCorrect) {
+      const message = `${selected?.feedback ?? "Unsafe action."} Solution: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      if (this.isTimedMissionMode()) {
+        this.englishMinigameSession = undefined;
+        this.handleIncorrectAnswer(message);
+        return;
+      }
+      session.answered += 1;
+      session.wrong += 1;
+      session.streak = 0;
+      session.netScore = Math.max(0, session.netScore - (8 + this.run.difficulty));
+      session.feedback = message;
+      session.locked = true;
+      this.recordPuzzleMistake();
+      audioManager.playOutcome("wrong");
+      outcomeFeedback.play(this, "warning", "Rileggi il comando");
+      this.advanceEnglishMinigamePrompt(760);
+      return;
+    }
+
+    session.answered += 1;
+    session.correct += 1;
+    session.streak += 1;
+    session.bestStreak = Math.max(session.bestStreak, session.streak);
+    const award = 10 + this.run.difficulty * 2 + Math.min(12, session.streak * 2);
+    session.netScore += award;
+    session.feedback = `Correct: ${prompt.explanation} +${award}`;
+    session.locked = true;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${award}`);
+    this.advanceEnglishMinigamePrompt(420);
+  }
+
+  private advanceEnglishMinigamePrompt(delayMs: number): void {
+    const session = this.englishMinigameSession;
+    if (!session) {
+      return;
+    }
+    this.runWhenActive(delayMs, () => {
+      if (this.englishMinigameSession !== session || session.summaryOpen) {
+        return;
+      }
+      if (this.englishMinigameRemainingMs(session) <= 0) {
+        this.finishEnglishMinigame();
+        return;
+      }
+      const previous = this.currentEnglishMinigamePrompt(session).signature;
+      session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      if (this.currentEnglishMinigamePrompt(session).signature === previous) {
+        session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      }
+      session.selectedIds.clear();
+      session.locked = false;
+      this.openEnglishMinigame(session.puzzle);
+    });
+  }
+
+  private finishEnglishMinigame(): void {
+    const session = this.englishMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    session.locked = true;
+    session.summaryOpen = true;
+    this.englishMinigameTimerEvent?.remove(false);
+    this.englishMinigameTimerEvent = undefined;
+    audioManager.playOutcome("neutral");
+    this.showEnglishMinigameSummary(session);
+  }
+
+  private englishMinigamePassed(session: EnglishMinigameSession): boolean {
+    if (!this.isTimedMissionMode()) {
+      return true;
+    }
+    const minCorrect = Math.max(5, Math.min(12, 4 + Math.ceil(this.run.difficulty * 0.75)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    return session.correct >= minCorrect && accuracy >= 0.62 && session.netScore > 0;
+  }
+
+  private englishMinigameFeedback(session: EnglishMinigameSession): string {
+    if (session.answered === 0) {
+      return "No answers: start from action words and limiters, then choose.";
+    }
+    const accuracy = session.correct / session.answered;
+    if (accuracy >= 0.9 && session.bestStreak >= 8) {
+      return "Ottimo inglese operativo: hai letto comandi, limiti e dati senza anticipare.";
+    }
+    if (accuracy >= 0.72) {
+      return "Buona base: aumenta la velocità solo dopo aver riconosciuto la parola chiave.";
+    }
+    if (session.wrong >= session.correct) {
+      return "Troppi tentativi: prima nomina il vincolo inglese, poi scegli l'azione.";
+    }
+    return "Allenamento utile: punta a serie pulite, non solo a risposte isolate.";
+  }
+
+  private showEnglishMinigameSummary(session: EnglishMinigameSession): void {
+    const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
+    const modal = this.add.container(0, 0).setDepth(1300);
+    const passed = this.englishMinigamePassed(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+    const mode = proceduralRunRules.modeFor(this.run);
+    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
+    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
+    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
+      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
+    modal.add(this.add.text(230, 160, passed ? "Sprint inglese completato" : "Sprint inglese da consolidare", {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: passed ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(230, 210, [
+      `Risposte corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie migliore: ${session.bestStreak}`,
+      `Punti sprint: ${session.netScore}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f5fbff",
+      lineSpacing: 7,
+    }));
+    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.3));
+    modal.add(this.add.text(572, 234, this.englishMinigameFeedback(session), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 354 },
+      lineSpacing: 5,
+    }));
+    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
+      .setStrokeStyle(1, 0xf7d37a, 0.36));
+    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
+      ? passed
+        ? "La console inglese accetta il protocollo: azioni, condizioni e dati sono stati interpretati."
+        : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
+      : "Allenamento registrabile: il voto pesa rapidità, precisione, serie positiva e uso degli aiuti.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 690 },
+      lineSpacing: 4,
+    }));
+    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
+      modal.destroy(true);
+      if (!passed && (mode === "mission" || mode === "progressive")) {
+        this.loseMissionLife("sprint inglese sotto soglia: servono più comandi corretti con meno tentativi.");
+        return;
+      }
+      this.completeEnglishMinigame(session);
+    }, {
+      width: 270,
+      height: 54,
+      fill: passed ? 0x173b36 : 0x263743,
+      stroke: passed ? 0x6be7d6 : 0xf7d37a,
+      fontSize: 16,
+    }));
+    overlay.add(modal);
+  }
+
+  private completeEnglishMinigame(session: EnglishMinigameSession): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
+    const score = this.finalizeEnglishMinigameScore(session);
+    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
+    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${score.total}`);
+    this.clearOverlay();
+    this.englishMinigameSession = undefined;
+    const solvedNode = puzzleKindFromId(session.puzzleId);
+    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
+    feedbackSystem.publish(
+      `Sprint inglese registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      "success",
+    );
+    if (remaining.length === 0) {
+      this.certifyCompletedRun("Console inglese stabilizzata: il sistema completo è certificabile.");
+      return;
+    }
+    if (this.isProgressiveMode()) {
+      this.scheduleNextProgressivePuzzle(850);
+      return;
+    }
+    this.runWhenActive(640, () => this.scene.restart());
+  }
+
+  private finalizeEnglishMinigameScore(session: EnglishMinigameSession): ProceduralPuzzleScore {
+    const run = saveSystem.data.proceduralRun ?? this.run;
+    const existing = run.puzzleStats?.[session.puzzleId];
+    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
+    const completedAt = new Date().toISOString();
+    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.englishMinigameElapsedMs(session)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    const basePoints = session.correct * (9 + run.difficulty);
+    const difficultyBonus = session.correct * run.difficulty * 2;
+    const speedBonus = Math.min(92, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 34));
+    const focusBonus = run.focus.includes("inglese") || run.focus.some((item) => item.startsWith("inglese."))
+      ? 20 + run.difficulty * 3
+      : 0;
+    const supportPenalty = (existing?.hintsUsed ?? 0) * 5 + session.wrong * (6 + run.difficulty);
+    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
+    const score: ProceduralPuzzleScore = {
+      puzzleId: session.puzzleId,
+      domain: proceduralScoring.puzzleDomain(session.puzzleId),
+      startedAt,
+      completedAt,
+      elapsedMs,
+      hintsUsed: existing?.hintsUsed ?? 0,
+      attempts: Math.max(1, existing?.attempts ?? 1),
+      basePoints,
+      difficultyBonus,
+      speedBonus,
+      focusBonus,
+      supportPenalty,
+      total,
+      feedback: this.englishMinigameFeedback(session),
+    };
+    saveSystem.updateProceduralRun({
+      puzzleStats: {
+        ...(run.puzzleStats ?? {}),
+        [session.puzzleId]: score,
+      },
+      score: proceduralScoring.addToSummary(run.score, score),
+    });
+    return score;
+  }
+
+  private englishMinigameMethodText(prompt: EnglishMinigamePrompt): string {
+    if (prompt.type === "action-relay") {
+      return "Method: find the action verb, then object, then not/only/neither. One small word can reverse the command.";
+    }
+    if (prompt.type === "sequence-switchboard") {
+      return "Method: translate the time word first, then decide which event must happen before the safe action.";
+    }
+    return "Method: compare data with the threshold. Choose the action only after checking below, above, between or comparative.";
   }
 
   private openCoding(): void {
@@ -4429,6 +5553,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.mathMinigameTimerEvent = undefined;
     this.mathMinigameTimerText = undefined;
     this.mathMinigameSession = undefined;
+    this.languageMinigameTimerEvent?.remove(false);
+    this.languageMinigameTimerEvent = undefined;
+    this.languageMinigameTimerText = undefined;
+    this.languageMinigameSession = undefined;
+    this.englishMinigameTimerEvent?.remove(false);
+    this.englishMinigameTimerEvent = undefined;
+    this.englishMinigameTimerText = undefined;
+    this.englishMinigameSession = undefined;
     this.timeoutSolutionOpen = false;
   }
 
@@ -4734,6 +5866,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.mathMinigameTimerEvent?.remove(false);
     this.mathMinigameTimerEvent = undefined;
     this.mathMinigameTimerText = undefined;
+    this.languageMinigameTimerEvent?.remove(false);
+    this.languageMinigameTimerEvent = undefined;
+    this.languageMinigameTimerText = undefined;
+    this.englishMinigameTimerEvent?.remove(false);
+    this.englishMinigameTimerEvent = undefined;
+    this.englishMinigameTimerText = undefined;
     this.overlay?.destroy(true);
     this.overlay = undefined;
     this.mathSupportText = undefined;

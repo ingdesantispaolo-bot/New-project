@@ -17,11 +17,13 @@ import { Random } from "../procedural/Random";
 import type {
   CircuitComponentChallenge,
   CircuitFaultType,
+  CodingMinigamePrompt,
   DifficultyLevel,
   EnglishMinigamePrompt,
   GeneratedFocusChallenge,
   GeneratedCodingPuzzle,
   GeneratedCircuitPuzzle,
+  GeneratedCodingMinigame,
   GeneratedEnglishMinigame,
   GeneratedEnglishPuzzle,
   GeneratedLanguagePuzzle,
@@ -155,6 +157,25 @@ type EnglishMinigameSession = {
   summaryOpen: boolean;
 };
 
+type CodingMinigameSession = {
+  puzzleId: string;
+  puzzle: GeneratedCodingPuzzle;
+  game: GeneratedCodingMinigame;
+  startedAt: number;
+  durationMs: number;
+  promptIndex: number;
+  answered: number;
+  correct: number;
+  wrong: number;
+  streak: number;
+  bestStreak: number;
+  netScore: number;
+  selectedIds: Set<string>;
+  feedback: string;
+  locked: boolean;
+  summaryOpen: boolean;
+};
+
 export class ProceduralMissionScene extends Phaser.Scene {
   private run!: ProceduralRunSave;
   private dependencies = new MissionDependencyGraph();
@@ -196,6 +217,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private englishMinigameTimerEvent?: Phaser.Time.TimerEvent;
   private englishMinigameTimerText?: Phaser.GameObjects.Text;
   private englishMinigameSession?: EnglishMinigameSession;
+  private codingMinigameTimerEvent?: Phaser.Time.TimerEvent;
+  private codingMinigameTimerText?: Phaser.GameObjects.Text;
+  private codingMinigameSession?: CodingMinigameSession;
   private missionFailureInProgress = false;
   private timeoutSolutionOpen = false;
   private progressiveOutcomeOpen = false;
@@ -3629,8 +3653,532 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return "Method: compare data with the threshold. Choose the action only after checking below, above, between or comparative.";
   }
 
+  private openCodingMinigame(puzzle: GeneratedCodingPuzzle): void {
+    if (!puzzle.minigame) {
+      return;
+    }
+    const puzzleId = this.currentPuzzleId("coding");
+    const session = this.ensureCodingMinigameSession(puzzleId, puzzle, puzzle.minigame);
+    const overlay = this.createMathOverlay(puzzle.minigame.title);
+    const prompt = this.currentCodingMinigamePrompt(session);
+    const remaining = this.codingMinigameRemainingMs(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+
+    this.addMathPanel(overlay, 28, 112, 582, 432, "Console codice");
+    overlay.add(this.add.text(60, 154, prompt.targetLabel, {
+      fontFamily: "Inter, Arial",
+      fontSize: "25px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
+    }));
+    this.drawCodingMinigameCodePanel(overlay, prompt, 60, 206, 522, 228);
+    overlay.add(this.add.text(60, 458, `Concetto: ${prompt.concept}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+      wordWrap: { width: 500 },
+    }));
+    overlay.add(this.add.text(60, 488, this.codingMinigameMethodText(prompt), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: 506, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+
+    this.addMathPanel(overlay, 636, 112, 616, 432, "Scelta rapida");
+    overlay.add(this.add.text(668, 154, "60 secondi: simula il codice. La console premia serie pulite e penalizza i tentativi.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 532 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(668, 210, prompt.question, {
+      fontFamily: "Inter, Arial",
+      fontSize: prompt.question.length > 92 ? "16px" : "18px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 532, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+    overlay.add(this.add.text(668, 288, prompt.methodSteps.join("  ->  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      wordWrap: { width: 532, useAdvancedWrap: true },
+    }));
+
+    const tileStartX = 802;
+    const tileStartY = 356;
+    prompt.tiles.forEach((tile, index) => {
+      const selected = session.selectedIds.has(tile.id);
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 68, tile.label, () => this.toggleCodingMinigameTile(tile.id), {
+        width: 218,
+        height: 52,
+        fontSize: tile.label.length > 34 ? 10 : tile.label.length > 22 ? 12 : 15,
+        wordWrapWidth: 198,
+        fill: selected ? 0x174d42 : 0x263743,
+        stroke: selected ? 0xf7d37a : 0x6be7d6,
+      }));
+    });
+
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "Ritmo, precisione, debugging");
+    this.codingMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
+      fontStyle: "bold",
+    });
+    overlay.add(this.codingMinigameTimerText);
+    overlay.add(this.add.text(260, 592, [
+      `Corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie: ${session.streak}`,
+      `Punti: ${session.netScore}`,
+    ].join("   "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 640 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: session.feedback ? "#f7d37a" : "#9aaab0",
+      wordWrap: { width: 650, useAdvancedWrap: true },
+    }));
+    overlay.add(new Button(this, 858, 640, "Pulisci scelta", () => this.clearCodingMinigameSelection(), {
+      width: 174,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+    overlay.add(new Button(this, 1046, 640, "Conferma", () => this.confirmCodingMinigamePrompt(), {
+      width: 174,
+      height: 44,
+      fontSize: 14,
+      fill: 0x173b36,
+    }));
+    overlay.add(new Button(this, 686, 640, "Indizio", () => this.useCodingMinigameHint(), {
+      width: 138,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+
+    this.codingMinigameTimerEvent?.remove(false);
+    this.codingMinigameTimerEvent = this.time.addEvent({
+      delay: 250,
+      loop: true,
+      callback: () => this.refreshCodingMinigameTimer(),
+    });
+    this.refreshCodingMinigameTimer();
+  }
+
+  private ensureCodingMinigameSession(
+    puzzleId: string,
+    puzzle: GeneratedCodingPuzzle,
+    game: GeneratedCodingMinigame,
+  ): CodingMinigameSession {
+    if (this.codingMinigameSession?.puzzleId === puzzleId && !this.codingMinigameSession.summaryOpen) {
+      return this.codingMinigameSession;
+    }
+    this.codingMinigameSession = {
+      puzzleId,
+      puzzle,
+      game,
+      startedAt: Date.now(),
+      durationMs: game.durationMs,
+      promptIndex: 0,
+      answered: 0,
+      correct: 0,
+      wrong: 0,
+      streak: 0,
+      bestStreak: 0,
+      netScore: 0,
+      selectedIds: new Set<string>(),
+      feedback: "Prima simula il codice: stato iniziale, trasformazione, risultato. Poi conferma.",
+      locked: false,
+      summaryOpen: false,
+    };
+    return this.codingMinigameSession;
+  }
+
+  private drawCodingMinigameCodePanel(
+    overlay: Phaser.GameObjects.Container,
+    prompt: CodingMinigamePrompt,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const g = this.add.graphics();
+    g.fillStyle(0x07151d, 0.84);
+    g.fillRoundedRect(x, y, width, height, 12);
+    g.lineStyle(2, 0x6be7d6, 0.3);
+    g.strokeRoundedRect(x, y, width, height, 12);
+    overlay.add(g);
+    overlay.add(this.add.text(x + 24, y + 18, prompt.title, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    const codeY = y + 52;
+    overlay.add(this.add.rectangle(x + 24, codeY, width - 48, Math.min(142, height - 82), 0x0b1f2b, 0.94).setOrigin(0)
+      .setStrokeStyle(1, 0x315766, 0.58));
+    prompt.codeLines.slice(0, 6).forEach((line, index) => {
+      const rowY = codeY + 14 + index * 22;
+      overlay.add(this.add.text(x + 40, rowY, String(index + 1).padStart(2, "0"), {
+        fontFamily: "Consolas, 'Courier New', monospace",
+        fontSize: "11px",
+        color: "#6f8793",
+      }));
+      overlay.add(this.add.text(x + 76, rowY, line, {
+        fontFamily: "Consolas, 'Courier New', monospace",
+        fontSize: "13px",
+        color: line.includes("?") ? "#f7d37a" : "#f5fbff",
+        wordWrap: { width: width - 116 },
+      }));
+    });
+  }
+
+  private currentCodingMinigamePrompt(session: CodingMinigameSession): CodingMinigamePrompt {
+    return session.game.prompts[session.promptIndex % session.game.prompts.length];
+  }
+
+  private codingMinigameElapsedMs(session: CodingMinigameSession): number {
+    return Math.max(0, Date.now() - session.startedAt);
+  }
+
+  private codingMinigameRemainingMs(session: CodingMinigameSession): number {
+    return Math.max(0, session.durationMs - this.codingMinigameElapsedMs(session));
+  }
+
+  private refreshCodingMinigameTimer(): void {
+    const session = this.codingMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    const remaining = this.codingMinigameRemainingMs(session);
+    this.codingMinigameTimerText?.setText(`Tempo: ${formatDuration(remaining)}`);
+    this.codingMinigameTimerText?.setColor(remaining <= 10_000 ? "#ff8f8f" : "#f7d37a");
+    if (remaining <= 0) {
+      this.finishCodingMinigame();
+    }
+  }
+
+  private toggleCodingMinigameTile(tileId: string): void {
+    const session = this.codingMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    session.selectedIds.clear();
+    session.selectedIds.add(tileId);
+    audioManager.play("click");
+    this.openCodingMinigame(session.puzzle);
+  }
+
+  private clearCodingMinigameSelection(): void {
+    const session = this.codingMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    session.selectedIds.clear();
+    session.feedback = "Scelta pulita. Aggiorna mentalmente lo stato prima di scegliere di nuovo.";
+    this.openCodingMinigame(session.puzzle);
+  }
+
+  private useCodingMinigameHint(): void {
+    const session = this.codingMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    const prompt = this.currentCodingMinigamePrompt(session);
+    const hint = prompt.type === "sequence-builder"
+      ? "Chiediti quale istruzione cambia lo stato verso l'obiettivo senza alterare altre variabili."
+      : prompt.type === "state-tracer"
+        ? "Fai una mini-tabella: dopo ogni riga scrivi solo i valori cambiati."
+        : "Nel debug non compensare l'errore: cerca la prima riga che viola il requisito.";
+    session.feedback = hint;
+    this.useHint(hint);
+    this.openCodingMinigame(session.puzzle);
+  }
+
+  private confirmCodingMinigamePrompt(): void {
+    const session = this.codingMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    if (this.codingMinigameRemainingMs(session) <= 0) {
+      this.finishCodingMinigame();
+      return;
+    }
+    const prompt = this.currentCodingMinigamePrompt(session);
+    if (session.selectedIds.size === 0) {
+      session.feedback = "Prima seleziona una tessera. Il timer continua.";
+      audioManager.playOutcome("hint");
+      this.openCodingMinigame(session.puzzle);
+      return;
+    }
+    const selectedId = [...session.selectedIds][0];
+    const selected = prompt.tiles.find((tile) => tile.id === selectedId);
+    if (!selected?.isCorrect) {
+      const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      if (this.isTimedMissionMode()) {
+        this.codingMinigameSession = undefined;
+        this.handleIncorrectAnswer(message);
+        return;
+      }
+      session.answered += 1;
+      session.wrong += 1;
+      session.streak = 0;
+      session.netScore = Math.max(0, session.netScore - (8 + this.run.difficulty));
+      session.feedback = message;
+      session.locked = true;
+      this.recordPuzzleMistake();
+      audioManager.playOutcome("wrong");
+      outcomeFeedback.play(this, "warning", "Simula di nuovo");
+      this.advanceCodingMinigamePrompt(760);
+      return;
+    }
+
+    session.answered += 1;
+    session.correct += 1;
+    session.streak += 1;
+    session.bestStreak = Math.max(session.bestStreak, session.streak);
+    const award = 10 + this.run.difficulty * 2 + Math.min(12, session.streak * 2);
+    session.netScore += award;
+    session.feedback = `Corretto: ${prompt.explanation} +${award}`;
+    session.locked = true;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${award}`);
+    this.advanceCodingMinigamePrompt(420);
+  }
+
+  private advanceCodingMinigamePrompt(delayMs: number): void {
+    const session = this.codingMinigameSession;
+    if (!session) {
+      return;
+    }
+    this.runWhenActive(delayMs, () => {
+      if (this.codingMinigameSession !== session || session.summaryOpen) {
+        return;
+      }
+      if (this.codingMinigameRemainingMs(session) <= 0) {
+        this.finishCodingMinigame();
+        return;
+      }
+      const previous = this.currentCodingMinigamePrompt(session).signature;
+      session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      if (this.currentCodingMinigamePrompt(session).signature === previous) {
+        session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      }
+      session.selectedIds.clear();
+      session.locked = false;
+      this.openCodingMinigame(session.puzzle);
+    });
+  }
+
+  private finishCodingMinigame(): void {
+    const session = this.codingMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    session.locked = true;
+    session.summaryOpen = true;
+    this.codingMinigameTimerEvent?.remove(false);
+    this.codingMinigameTimerEvent = undefined;
+    audioManager.playOutcome("neutral");
+    this.showCodingMinigameSummary(session);
+  }
+
+  private codingMinigamePassed(session: CodingMinigameSession): boolean {
+    if (!this.isTimedMissionMode()) {
+      return true;
+    }
+    const minCorrect = Math.max(5, Math.min(12, 4 + Math.ceil(this.run.difficulty * 0.75)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    return session.correct >= minCorrect && accuracy >= 0.62 && session.netScore > 0;
+  }
+
+  private codingMinigameFeedback(session: CodingMinigameSession): string {
+    if (session.answered === 0) {
+      return "Nessuna risposta: nel coding devi simulare almeno un programma prima di decidere.";
+    }
+    const accuracy = session.correct / session.answered;
+    if (accuracy >= 0.9 && session.bestStreak >= 8) {
+      return "Ottimo controllo mentale: hai seguito stato, sequenza e bug senza tentativi ciechi.";
+    }
+    if (accuracy >= 0.72) {
+      return "Buon tracing: ora prova ad anticipare il risultato usando tabelle più compatte.";
+    }
+    if (session.wrong >= session.correct) {
+      return "Troppi tentativi: rallenta, simula una riga alla volta e scegli solo quando sai spiegare.";
+    }
+    return "Allenamento utile: punta a serie pulite e correzioni minime.";
+  }
+
+  private showCodingMinigameSummary(session: CodingMinigameSession): void {
+    const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
+    const modal = this.add.container(0, 0).setDepth(1300);
+    const passed = this.codingMinigamePassed(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+    const mode = proceduralRunRules.modeFor(this.run);
+    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
+    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
+    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
+      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
+    modal.add(this.add.text(230, 160, passed ? "Sprint coding completato" : "Sprint coding da consolidare", {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: passed ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(230, 210, [
+      `Risposte corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie migliore: ${session.bestStreak}`,
+      `Punti sprint: ${session.netScore}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f5fbff",
+      lineSpacing: 7,
+    }));
+    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.3));
+    modal.add(this.add.text(572, 234, this.codingMinigameFeedback(session), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 354 },
+      lineSpacing: 5,
+    }));
+    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
+      .setStrokeStyle(1, 0xf7d37a, 0.36));
+    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
+      ? passed
+        ? "La console coding certifica il programma: sequenza, stato e correzione sono coerenti."
+        : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
+      : "Allenamento registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 690 },
+      lineSpacing: 4,
+    }));
+    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
+      modal.destroy(true);
+      if (!passed && (mode === "mission" || mode === "progressive")) {
+        this.loseMissionLife("sprint coding sotto soglia: servono più simulazioni corrette con meno tentativi.");
+        return;
+      }
+      this.completeCodingMinigame(session);
+    }, {
+      width: 270,
+      height: 54,
+      fill: passed ? 0x173b36 : 0x263743,
+      stroke: passed ? 0x6be7d6 : 0xf7d37a,
+      fontSize: 16,
+    }));
+    overlay.add(modal);
+  }
+
+  private completeCodingMinigame(session: CodingMinigameSession): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
+    const score = this.finalizeCodingMinigameScore(session);
+    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
+    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${score.total}`);
+    this.clearOverlay();
+    this.codingMinigameSession = undefined;
+    const solvedNode = puzzleKindFromId(session.puzzleId);
+    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
+    feedbackSystem.publish(
+      `Sprint coding registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      "success",
+    );
+    if (remaining.length === 0) {
+      this.certifyCompletedRun("Console coding stabilizzata: il sistema completo è certificabile.");
+      return;
+    }
+    if (this.isProgressiveMode()) {
+      this.scheduleNextProgressivePuzzle(850);
+      return;
+    }
+    this.runWhenActive(640, () => this.scene.restart());
+  }
+
+  private finalizeCodingMinigameScore(session: CodingMinigameSession): ProceduralPuzzleScore {
+    const run = saveSystem.data.proceduralRun ?? this.run;
+    const existing = run.puzzleStats?.[session.puzzleId];
+    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
+    const completedAt = new Date().toISOString();
+    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.codingMinigameElapsedMs(session)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    const basePoints = session.correct * (10 + run.difficulty);
+    const difficultyBonus = session.correct * run.difficulty * 2;
+    const speedBonus = Math.min(100, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 36));
+    const focusBonus = run.focus.includes("coding") || run.focus.some((item) => item.startsWith("coding."))
+      ? 20 + run.difficulty * 3
+      : 0;
+    const supportPenalty = (existing?.hintsUsed ?? 0) * 6 + session.wrong * (8 + run.difficulty);
+    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
+    const score: ProceduralPuzzleScore = {
+      puzzleId: session.puzzleId,
+      domain: proceduralScoring.puzzleDomain(session.puzzleId),
+      startedAt,
+      completedAt,
+      elapsedMs,
+      hintsUsed: existing?.hintsUsed ?? 0,
+      attempts: Math.max(1, existing?.attempts ?? 1),
+      basePoints,
+      difficultyBonus,
+      speedBonus,
+      focusBonus,
+      supportPenalty,
+      total,
+      feedback: this.codingMinigameFeedback(session),
+    };
+    saveSystem.updateProceduralRun({
+      puzzleStats: {
+        ...(run.puzzleStats ?? {}),
+        [session.puzzleId]: score,
+      },
+      score: proceduralScoring.addToSummary(run.score, score),
+    });
+    return score;
+  }
+
+  private codingMinigameMethodText(prompt: CodingMinigamePrompt): string {
+    if (prompt.type === "sequence-builder") {
+      return "Metodo: leggi obiettivo e stato attuale; scegli solo il blocco che avvicina al risultato senza effetti collaterali.";
+    }
+    if (prompt.type === "state-tracer") {
+      return "Metodo: usa una tabella mentale. Ogni assegnazione cambia il valore a sinistra dell'uguale.";
+    }
+    return "Metodo: calcola cosa dovrebbe succedere, poi trova la prima riga che rompe la regola.";
+  }
+
   private openCoding(): void {
     const puzzle = this.currentCodingPuzzle();
+    if (puzzle.minigame) {
+      this.openCodingMinigame(puzzle);
+      return;
+    }
     const overlay = this.createOverlay(puzzle.title, 660, { x: 40, y: 30, width: 1200 });
 
     const codePanel = { x: 56, y: 104, w: 500, h: 356 };
@@ -5561,6 +6109,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.englishMinigameTimerEvent = undefined;
     this.englishMinigameTimerText = undefined;
     this.englishMinigameSession = undefined;
+    this.codingMinigameTimerEvent?.remove(false);
+    this.codingMinigameTimerEvent = undefined;
+    this.codingMinigameTimerText = undefined;
+    this.codingMinigameSession = undefined;
     this.timeoutSolutionOpen = false;
   }
 
@@ -5872,6 +6424,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.englishMinigameTimerEvent?.remove(false);
     this.englishMinigameTimerEvent = undefined;
     this.englishMinigameTimerText = undefined;
+    this.codingMinigameTimerEvent?.remove(false);
+    this.codingMinigameTimerEvent = undefined;
+    this.codingMinigameTimerText = undefined;
     this.overlay?.destroy(true);
     this.overlay = undefined;
     this.mathSupportText = undefined;

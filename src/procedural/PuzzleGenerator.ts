@@ -8,6 +8,7 @@ import { RobotGridGenerator } from "./generators/RobotGridGenerator";
 import { exerciseDirector } from "../core/ExerciseDirector";
 import type {
   CodingChallengeType,
+  CodingMinigameType,
   DifficultyPreset,
   EnglishMinigameType,
   GeneratedFocusChallenge,
@@ -153,8 +154,11 @@ export class PuzzleGenerator {
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
       if (kind === "coding") {
+        const useMinigame = [0, 1, 2, 4].includes(index);
         const puzzle = this.validationEngine.generateWithRetries(
-          () => this.codingGenerator.generate(challengeRandom, stagedDifficulty, this.codingChallengeTypesForStep(index)),
+          () => useMinigame
+            ? this.codingGenerator.generateMinigame(challengeRandom, stagedDifficulty, this.codingMinigameTypesForStep(index))
+            : this.codingGenerator.generate(challengeRandom, stagedDifficulty, this.codingChallengeTypesForStep(index)),
           (candidate) => this.codingValidator.validate(candidate),
           this.codingGenerator.fallback(),
         );
@@ -255,6 +259,16 @@ export class PuzzleGenerator {
       ["conditional-branch", "boolean-logic"],
       ["debug-line", "boolean-logic", "loop-count"],
     ][Math.min(step, 4)] as CodingChallengeType[];
+  }
+
+  private codingMinigameTypesForStep(step: number): CodingMinigameType[] {
+    return [
+      ["sequence-builder"],
+      ["state-tracer"],
+      ["bug-hunt"],
+      ["state-tracer", "sequence-builder"],
+      ["bug-hunt", "state-tracer", "sequence-builder"],
+    ][Math.min(step, 4)] as CodingMinigameType[];
   }
 
   private mathArchetypesForStep(step: number): Array<NonNullable<GeneratedMission["puzzles"]["math"]["archetype"]>> {

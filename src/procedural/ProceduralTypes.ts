@@ -219,6 +219,42 @@ export type GeneratedCodingPuzzle = {
   competencies: string[];
   maxSeconds?: number;
   pedagogy?: ExercisePedagogy;
+  minigame?: GeneratedCodingMinigame;
+};
+
+export type CodingMinigameType = "sequence-builder" | "state-tracer" | "bug-hunt";
+
+export type CodingMinigameTile = {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+  feedback: string;
+};
+
+export type CodingMinigamePrompt = {
+  id: string;
+  type: CodingMinigameType;
+  title: string;
+  codeLines: string[];
+  question: string;
+  targetLabel: string;
+  requiredSelectionCount: number;
+  tiles: CodingMinigameTile[];
+  solutionLabels: string[];
+  explanation: string;
+  concept: string;
+  methodSteps: string[];
+  signature: string;
+};
+
+export type GeneratedCodingMinigame = {
+  type: CodingMinigameType;
+  title: string;
+  durationMs: number;
+  instructions: string;
+  scoringRule: string;
+  prompts: CodingMinigamePrompt[];
+  competencies: string[];
 };
 
 export type CircuitFaultType =

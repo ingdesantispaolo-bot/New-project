@@ -201,6 +201,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private mathEntry = "";
   private mathSupportMessage = "";
   private mathSupportText?: Phaser.GameObjects.Text;
+  private activeHintText?: string;
+  private activeHintPuzzleId?: string;
   private languageSelectedOption?: string;
   private englishSelectedChoiceId?: string;
   private circuitInspected = false;
@@ -796,8 +798,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(new Button(this, 738, 620, "Conferma risposta", () => {
       this.confirmLanguageReasoning(puzzle, model);
     }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
-    overlay.add(new Button(this, 1002, 620, "Indizio mirato", () => {
-      this.useHint(this.nextPedagogicHint(puzzle, model.hints[Math.min(this.run.hintsUsed, model.hints.length - 1)]));
+    overlay.add(new Button(this, 1002, 620, this.hintButtonLabel(puzzle, "Indizio mirato"), () => {
+      this.useContextualHint(puzzle);
       this.openLanguage();
     }, { width: 230, height: 40, fontSize: 13, fill: 0x263743 }));
   }
@@ -3286,8 +3288,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(new Button(this, 738, 620, "Conferma risposta", () => {
       this.confirmEnglishReasoning(puzzle);
     }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
-    overlay.add(new Button(this, 1002, 620, "Indizio mirato", () => {
-      this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
+    overlay.add(new Button(this, 1002, 620, this.hintButtonLabel(puzzle, "Indizio mirato"), () => {
+      this.useContextualHint(puzzle);
       this.openEnglish();
     }, { width: 230, height: 40, fontSize: 13, fill: 0x263743 }));
   }
@@ -4475,15 +4477,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(footerPanel.x + 700, footerPanel.y + 42, puzzle.hints[0] ?? puzzle.learningPurpose, {
+    overlay.add(this.add.text(footerPanel.x + 700, footerPanel.y + 42, this.currentActiveHint() ?? puzzle.hints[0] ?? puzzle.learningPurpose, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
       wordWrap: { width: 238, useAdvancedWrap: true },
       lineSpacing: 2,
     }));
-    overlay.add(new Button(this, footerPanel.x + footerPanel.w - 110, footerPanel.y + 62, "Indizio", () => {
-      this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
+    overlay.add(new Button(this, footerPanel.x + footerPanel.w - 110, footerPanel.y + 62, this.hintButtonLabel(puzzle, "Indizio"), () => {
+      this.useContextualHint(puzzle);
       this.openCoding();
     }, {
       width: 190,
@@ -4567,13 +4569,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private drawEnglishReasoningPanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
     overlay.add(this.add.rectangle(316, 478, 520, 150, 0x07151d, 0.82).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.text(76, 414, "Come decidere", {
+    const activeHint = this.currentActiveHint();
+    overlay.add(this.add.text(76, 414, activeHint ? "Indizio attivo" : "Come decidere", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    const text = puzzle.diagnosticSteps.slice(0, 3).map((step, index) => `${index + 1}. ${step}`).join("\n");
+    const text = activeHint ?? puzzle.diagnosticSteps.slice(0, 3).map((step, index) => `${index + 1}. ${step}`).join("\n");
     overlay.add(this.add.text(76, 440, text, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -4625,8 +4628,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(new Button(this, 778, 598, "Ascolta sfida", () => this.previewMusicChallenge(puzzle), {
       width: 220, height: 46, fontSize: 14, fill: 0x173b36,
     }));
-    overlay.add(new Button(this, 1040, 598, "Indizio", () => {
-      this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
+    overlay.add(new Button(this, 1040, 598, this.hintButtonLabel(puzzle, "Indizio"), () => {
+      this.useContextualHint(puzzle);
       this.openMusic();
     }, { width: 240, height: 46, fontSize: 14, fill: 0x263743 }));
   }
@@ -4806,7 +4809,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(682, 224, `${puzzle.method}\n\n${session.feedback || "Non serve correre a caso: rispondi solo quando hai agganciato la chiave e contato linee/spazi."}`, {
+    const visibleHint = this.currentActiveHint();
+    overlay.add(this.add.text(682, 224, `${puzzle.method}\n\n${visibleHint ? `INDIZIO ATTIVO: ${visibleHint}` : session.feedback || "Non serve correre a caso: rispondi solo quando hai agganciato la chiave e contato linee/spazi."}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -4905,6 +4909,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     session.current = this.nextMusicSprintPuzzle(session);
+    this.activeHintText = undefined;
+    this.activeHintPuzzleId = undefined;
     session.questionStartedAt = Date.now();
     session.locked = false;
     this.openMusic();
@@ -5965,12 +5971,45 @@ export class ProceduralMissionScene extends Phaser.Scene {
     });
   }
 
+  private puzzleHintTexts(puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } }): string[] {
+    const ladder = puzzle.pedagogy?.hintLadder?.map((item) => item.text).filter(Boolean) ?? [];
+    return ladder.length > 0 ? ladder : puzzle.hints;
+  }
+
+  private activePuzzleHintsUsed(): number {
+    const puzzleId = this.activePuzzleId;
+    if (!puzzleId) return 0;
+    return (saveSystem.data.proceduralRun ?? this.run).puzzleStats?.[puzzleId]?.hintsUsed ?? 0;
+  }
+
+  private currentActiveHint(): string | undefined {
+    return this.activeHintPuzzleId === this.activePuzzleId ? this.activeHintText : undefined;
+  }
+
   private nextPedagogicHint(puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } }, fallback: string): string {
-    const ladder = puzzle.pedagogy?.hintLadder;
-    if (ladder && ladder.length > 0) {
-      return ladder[Math.min(this.run.hintsUsed, ladder.length - 1)].text;
+    const hints = this.puzzleHintTexts(puzzle);
+    return hints[Math.min(this.activePuzzleHintsUsed(), hints.length - 1)] ?? fallback;
+  }
+
+  private hintButtonLabel(
+    puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } },
+    label: string,
+  ): string {
+    const total = this.puzzleHintTexts(puzzle).length;
+    const used = Math.min(this.activePuzzleHintsUsed(), total);
+    if (total === 0) return label;
+    return used >= total ? "Indizi esauriti" : `${label} ${used + 1}/${total}`;
+  }
+
+  private useContextualHint(puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } }): void {
+    const hints = this.puzzleHintTexts(puzzle);
+    const used = this.activePuzzleHintsUsed();
+    if (hints.length === 0 || used >= hints.length) {
+      audioManager.playOutcome("hint");
+      feedbackSystem.publish("Tutti gli indizi disponibili per questo esercizio sono già visibili.", "hint");
+      return;
     }
-    return fallback;
+    this.useHint(hints[used]);
   }
 
   private useHint(text: string): void {
@@ -5982,6 +6021,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       saveSystem.incrementProceduralHints();
     }
     this.run = saveSystem.data.proceduralRun ?? this.run;
+    this.activeHintText = text;
+    this.activeHintPuzzleId = this.activePuzzleId;
     audioManager.playOutcome("hint");
     feedbackSystem.publish(`${freeLens ? "Lente causale NORA" : "Indizio"}: ${text}${freeLens ? " La prima analisi della run non consuma aiuti." : ""}`, "hint");
   }
@@ -6690,6 +6731,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.mathEntry = "";
     this.mathSupportMessage = "";
     this.mathSupportText = undefined;
+    this.activeHintText = undefined;
+    this.activeHintPuzzleId = undefined;
     this.languageSelectedOption = undefined;
     this.englishSelectedChoiceId = undefined;
     this.circuitInspected = false;
@@ -6862,7 +6905,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private addLanguageBrief(overlay: Phaser.GameObjects.Container, model: LanguageRepairModel): void {
-    overlay.add(this.add.rectangle(316, 382, 520, 300, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.rectangle(316, 397, 520, 330, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
     overlay.add(this.add.text(76, 246, "Come decidere", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -6889,6 +6932,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 456, useAdvancedWrap: true },
       lineSpacing: 4,
     }));
+    const activeHint = this.currentActiveHint();
+    if (activeHint) {
+      overlay.add(this.add.text(76, 494, "Indizio attivo", {
+        fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", fontStyle: "bold",
+      }));
+      overlay.add(this.add.text(76, 516, activeHint, {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#d9eaf1", wordWrap: { width: 456, useAdvancedWrap: true },
+      }));
+    }
   }
 
   private addEnglishBrief(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {

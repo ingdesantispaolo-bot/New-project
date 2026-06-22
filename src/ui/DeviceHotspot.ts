@@ -95,12 +95,10 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       0x061019,
       options.state === "locked" ? 0.035 : 0.07,
     ).setStrokeStyle(1, tint, options.state === "locked" ? 0.08 : 0.16);
-
-    const isPointerInside = (pointer?: Phaser.Input.Pointer): boolean => {
-      if (!pointer) return false;
-      const world = this.getWorldTransformMatrix().applyInverse(pointer.worldX, pointer.worldY);
-      return Phaser.Geom.Rectangle.Contains(hitArea, world.x, world.y);
-    };
+    touchPlate.setInteractive();
+    if (touchPlate.input && options.state !== "locked") {
+      touchPlate.input.cursor = "pointer";
+    }
 
     const resetVisual = () => {
       pressed = false;
@@ -115,11 +113,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
 
     this.add([touchPlate, glow, ring, glyph, marker, status, tag]);
     this.setSize(hitArea.width, hitArea.height);
-    this.setInteractive(hitArea, Phaser.Geom.Rectangle.Contains);
-    if (this.input && options.state !== "locked") {
-      this.input.cursor = "pointer";
-    }
-    this.on("pointerover", (...args: unknown[]) => {
+    touchPlate.on("pointerover", (...args: unknown[]) => {
       stopInputPropagation(args);
       if (!supportsHover || pressed) return;
       if (options.state !== "locked") {
@@ -130,7 +124,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
         ring.setScale((size / 78) * 1.04);
       }
     });
-    this.on("pointerout", (...args: unknown[]) => {
+    touchPlate.on("pointerout", (...args: unknown[]) => {
       stopInputPropagation(args);
       if (pressed) return;
       ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18);
@@ -139,11 +133,11 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       scene.tweens.killTweensOf([glow, tag]);
       ring.setScale(size / 78);
     });
-    this.on("pointerdown", (...args: unknown[]) => {
+    touchPlate.on("pointerdown", (...args: unknown[]) => {
       stopInputPropagation(args);
       if (busy) return;
       const pointer = args[0] as Phaser.Input.Pointer | undefined;
-      if (!isPointerInside(pointer)) return;
+      if (!pointer) return;
       const now = performance.now();
       if (now - lastTapAt < 65) return;
       pressed = true;
@@ -155,11 +149,11 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       tag.setAlpha(1);
       ring.setScale((size / 78) * 0.98);
     });
-    this.on("pointerup", (...args: unknown[]) => {
+    touchPlate.on("pointerup", (...args: unknown[]) => {
       stopInputPropagation(args);
       if (busy) return;
       const pointer = args[0] as Phaser.Input.Pointer | undefined;
-      if (!pointerStartedInside || activePointerId !== pointer?.id || !isPointerInside(pointer)) {
+      if (!pointerStartedInside || activePointerId !== pointer?.id) {
         resetVisual();
         return;
       }
@@ -182,7 +176,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       };
       runAction();
     });
-    this.on("pointerupoutside", (...args: unknown[]) => {
+    touchPlate.on("pointerupoutside", (...args: unknown[]) => {
       stopInputPropagation(args);
       resetVisual();
     });

@@ -666,6 +666,7 @@ export type ProceduralRunSave = {
   hintsUsed: number;
   noraChargesUsed?: number;
   noraLensUsed?: boolean;
+  retryVariants?: Partial<Record<ProceduralPuzzleKind, number>>;
   solvedPuzzleIds: string[];
   failedPuzzleIds?: string[];
   puzzleStats?: Record<string, ProceduralPuzzleScore>;

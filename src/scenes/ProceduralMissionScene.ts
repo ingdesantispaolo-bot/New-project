@@ -948,10 +948,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.languageMinigameSession?.puzzleId === puzzleId && !this.languageMinigameSession.summaryOpen) {
       return this.languageMinigameSession;
     }
+    const variant = this.run.retryVariants?.language ?? 0;
+    const random = new Random(`${this.run.seed}:${puzzleId}:language:${variant}`);
+    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.languageMinigameSession = {
       puzzleId,
       puzzle,
-      game,
+      game: variedGame,
       startedAt: Date.now(),
       durationMs: game.durationMs,
       promptIndex: 0,
@@ -2813,10 +2816,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.mathMinigameSession?.puzzleId === puzzleId && !this.mathMinigameSession.summaryOpen) {
       return this.mathMinigameSession;
     }
+    const variant = this.run.retryVariants?.math ?? 0;
+    const random = new Random(`${this.run.seed}:${puzzleId}:math:${variant}`);
+    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.mathMinigameSession = {
       puzzleId,
       puzzle,
-      game,
+      game: variedGame,
       startedAt: Date.now(),
       durationMs: game.durationMs,
       promptIndex: 0,
@@ -3484,10 +3490,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.englishMinigameSession?.puzzleId === puzzleId && !this.englishMinigameSession.summaryOpen) {
       return this.englishMinigameSession;
     }
+    const variant = this.run.retryVariants?.english ?? 0;
+    const random = new Random(`${this.run.seed}:${puzzleId}:english:${variant}`);
+    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.englishMinigameSession = {
       puzzleId,
       puzzle,
-      game,
+      game: variedGame,
       startedAt: Date.now(),
       durationMs: game.durationMs,
       promptIndex: 0,
@@ -4026,10 +4035,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.codingMinigameSession?.puzzleId === puzzleId && !this.codingMinigameSession.summaryOpen) {
       return this.codingMinigameSession;
     }
+    const variant = this.run.retryVariants?.coding ?? 0;
+    const random = new Random(`${this.run.seed}:${puzzleId}:coding:${variant}`);
+    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.codingMinigameSession = {
       puzzleId,
       puzzle,
-      game,
+      game: variedGame,
       startedAt: Date.now(),
       durationMs: game.durationMs,
       promptIndex: 0,
@@ -4818,7 +4830,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return this.musicSession;
     }
     const basePuzzle = this.currentMusicPuzzle();
-    const random = new Random(`${this.run.seed}:${puzzleId}:music-drill`);
+    const variant = this.run.retryVariants?.music ?? 0;
+    const random = new Random(`${this.run.seed}:${puzzleId}:music-drill:${variant}`);
     const durationMs = this.musicSprintDurationMs(this.run.difficulty);
     this.musicSession = {
       puzzleId,
@@ -6029,6 +6042,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const lives = this.run.lives ?? proceduralRunRules.maxLives;
     const nextLives = Math.max(0, lives - 1);
+    const failedKind = this.activePuzzleKind;
+    const failedPuzzleId = this.activePuzzleId;
     if (nextLives <= 0) {
       if (this.isProgressiveMode()) {
         this.missionFailureInProgress = true;
@@ -6044,6 +6059,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
 
+    if (failedKind) {
+      this.rotatePuzzleVariant(failedKind, failedPuzzleId);
+    }
     this.missionFailureInProgress = true;
     audioManager.playOutcome("wrong");
     outcomeFeedback.play(this, "warning", "Vita persa");
@@ -6061,6 +6079,40 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.runWhenActive(1050, () => this.scene.restart());
       return;
     }
+  }
+
+  private rotatePuzzleVariant(kind: ProceduralPuzzleId, puzzleId?: string): void {
+    const run = saveSystem.data.proceduralRun ?? this.run;
+    const nextVariant = (run.retryVariants?.[kind] ?? 0) + 1;
+    const variantSeed = `${run.seed}-RETRY-${kind}-${nextVariant}`;
+    const generated = proceduralDirector.generateMission(variantSeed, run.difficulty, run.focus);
+    const puzzleStats = { ...(run.puzzleStats ?? {}) };
+    if (puzzleId && puzzleStats[puzzleId]) {
+      puzzleStats[puzzleId] = {
+        ...puzzleStats[puzzleId],
+        startedAt: new Date().toISOString(),
+        completedAt: undefined,
+        elapsedMs: 0,
+        attempts: 0,
+        total: 0,
+        feedback: "Nuova variante generata dopo il tentativo precedente.",
+      };
+    }
+    saveSystem.updateProceduralRun({
+      mission: {
+        ...run.mission,
+        puzzles: {
+          ...run.mission.puzzles,
+          [kind]: generated.puzzles[kind],
+        },
+      },
+      retryVariants: {
+        ...(run.retryVariants ?? {}),
+        [kind]: nextVariant,
+      },
+      puzzleStats,
+    });
+    this.run = saveSystem.data.proceduralRun ?? this.run;
   }
 
   private failMissionNow(reason: string): void {

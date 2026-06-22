@@ -838,12 +838,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("language");
     const session = this.ensureLanguageMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title);
+    const overlay = this.createMathOverlay(puzzle.minigame.title, "Italiano · leggi la consegna, scegli una risposta, conferma");
     const prompt = this.currentLanguageMinigamePrompt(session);
     const remaining = this.languageMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 548, 432, "Laboratorio linguistico");
+    this.addMathPanel(overlay, 28, 112, 548, 432, "1 · Leggi e individua la regola");
     overlay.add(this.add.text(60, 154, prompt.targetLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "27px",
@@ -867,8 +867,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
-    this.addMathPanel(overlay, 604, 112, 648, 432, "Scelta rapida");
-    overlay.add(this.add.text(636, 154, "60 secondi: leggi lo scopo, clicca la tessera migliore, conferma. Non vince chi prova: vince chi riconosce la regola.", {
+    this.addMathPanel(overlay, 604, 112, 648, 432, "2 · Scegli una risposta");
+    overlay.add(this.add.text(636, 154, "Come si gioca: leggi la domanda, clicca UNA tessera e premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -890,7 +890,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const selected = session.selectedIds.has(tile.id);
       const col = index % 2;
       const row = Math.floor(index / 2);
-      overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, tile.label, () => this.toggleLanguageMinigameTile(tile.id), {
+      overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleLanguageMinigameTile(tile.id), {
         width: 232,
         height: 52,
         fontSize: tile.label.length > 34 ? 10 : tile.label.length > 20 ? 12 : 16,
@@ -900,7 +900,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }));
     });
 
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "Ritmo e valutazione");
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
     this.languageMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
@@ -925,21 +925,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 650, useAdvancedWrap: true },
+      wordWrap: { width: 390, useAdvancedWrap: true },
     }));
-    overlay.add(new Button(this, 858, 640, "Pulisci scelta", () => this.clearLanguageMinigameSelection(), {
+    overlay.add(new Button(this, 916, 640, "Pulisci scelta", () => this.clearLanguageMinigameSelection(), {
       width: 174,
       height: 44,
       fontSize: 13,
       fill: 0x263743,
     }));
-    overlay.add(new Button(this, 1046, 640, "Conferma", () => this.confirmLanguageMinigamePrompt(), {
+    overlay.add(new Button(this, 1102, 640, "Conferma", () => this.confirmLanguageMinigamePrompt(), {
       width: 174,
       height: 44,
       fontSize: 14,
       fill: 0x173b36,
     }));
-    overlay.add(new Button(this, 686, 640, "Indizio", () => this.useLanguageMinigameHint(), {
+    overlay.add(new Button(this, 736, 640, "Indizio", () => this.useLanguageMinigameHint(), {
       width: 138,
       height: 44,
       fontSize: 13,
@@ -2261,7 +2261,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
   }
 
-  private createMathOverlay(title: string): Phaser.GameObjects.Container {
+  private createMathOverlay(title: string, subtitle = "Matematica · osserva il problema, applica il metodo, verifica"): Phaser.GameObjects.Container {
     this.clearOverlay();
     const overlay = this.add.container(0, 0).setDepth(1200);
     SceneChrome.modalInputBlocker(this, overlay);
@@ -2287,7 +2287,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
       shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
     }));
-    overlay.add(this.add.text(38, 68, "Laboratorio matematico - mappa visiva del ragionamento", {
+    overlay.add(this.add.text(38, 68, subtitle, {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#9ff5e9",
@@ -2720,12 +2720,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("math");
     const session = this.ensureMathMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title);
+    const overlay = this.createMathOverlay(puzzle.minigame.title, "Matematica · osserva il vincolo, seleziona le tessere, conferma");
     const prompt = this.currentMathMinigamePrompt(session);
     const remaining = this.mathMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 548, 432, "Arena punta-e-clicca");
+    this.addMathPanel(overlay, 28, 112, 548, 432, "1 · Osserva dati e obiettivo");
     overlay.add(this.add.text(60, 156, prompt.targetLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "30px",
@@ -2749,8 +2749,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
-    this.addMathPanel(overlay, 604, 112, 648, 432, "Obiettivo rapido");
-    overlay.add(this.add.text(636, 156, "60 secondi di calcolo: osserva, scegli, conferma. Le tessere sbagliate penalizzano il punteggio.", {
+    this.addMathPanel(overlay, 604, 112, 648, 432, "2 · Seleziona la soluzione");
+    overlay.add(this.add.text(636, 156, "Come si gioca: scegli UNA O PIÙ tessere richieste dalla domanda, poi premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -2772,7 +2772,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const selected = session.selectedIds.has(tile.id);
       const col = index % 3;
       const row = Math.floor(index / 3);
-      overlay.add(new Button(this, tileStartX + col * 186, tileStartY + row * 64, tile.label, () => this.toggleMathMinigameTile(tile.id), {
+      overlay.add(new Button(this, tileStartX + col * 186, tileStartY + row * 64, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleMathMinigameTile(tile.id), {
         width: 164,
         height: 48,
         fontSize: tile.label.length > 12 ? 11 : 20,
@@ -2782,7 +2782,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }));
     });
 
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "Ritmo e valutazione");
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
     this.mathMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
@@ -2807,21 +2807,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 650, useAdvancedWrap: true },
+      wordWrap: { width: 390, useAdvancedWrap: true },
     }));
-    overlay.add(new Button(this, 858, 640, "Pulisci scelta", () => this.clearMathMinigameSelection(), {
+    overlay.add(new Button(this, 916, 640, "Pulisci scelta", () => this.clearMathMinigameSelection(), {
       width: 174,
       height: 44,
       fontSize: 13,
       fill: 0x263743,
     }));
-    overlay.add(new Button(this, 1046, 640, "Conferma", () => this.confirmMathMinigamePrompt(), {
+    overlay.add(new Button(this, 1102, 640, "Conferma", () => this.confirmMathMinigamePrompt(), {
       width: 174,
       height: 44,
       fontSize: 14,
       fill: 0x173b36,
     }));
-    overlay.add(new Button(this, 686, 640, "Indizio", () => this.useMathMinigameHint(), {
+    overlay.add(new Button(this, 736, 640, "Indizio", () => this.useMathMinigameHint(), {
       width: 138,
       height: 44,
       fontSize: 13,
@@ -3394,12 +3394,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("english");
     const session = this.ensureEnglishMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title);
+    const overlay = this.createMathOverlay(puzzle.minigame.title, "Inglese · individua verbo e vincoli, scegli l'azione, conferma");
     const prompt = this.currentEnglishMinigamePrompt(session);
     const remaining = this.englishMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 560, 432, "Ponte operativo");
+    this.addMathPanel(overlay, 28, 112, 560, 432, "1 · Leggi il comando operativo");
     overlay.add(this.add.text(60, 154, prompt.targetLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "25px",
@@ -3423,8 +3423,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
-    this.addMathPanel(overlay, 616, 112, 636, 432, "Decisione rapida");
-    overlay.add(this.add.text(648, 154, "60 secondi: non tradurre parola per parola. Trova prima verbo, oggetto e vincolo; poi scegli l'azione sicura.", {
+    this.addMathPanel(overlay, 616, 112, 636, 432, "2 · Scegli un'azione");
+    overlay.add(this.add.text(648, 154, "Come si gioca: trova verbo, oggetto e vincolo; clicca UNA risposta e premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -3452,7 +3452,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const selected = session.selectedIds.has(tile.id);
       const col = index % 2;
       const row = Math.floor(index / 2);
-      overlay.add(new Button(this, tileStartX + col * 252, tileStartY + row * 68, tile.label, () => this.toggleEnglishMinigameTile(tile.id), {
+      overlay.add(new Button(this, tileStartX + col * 252, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleEnglishMinigameTile(tile.id), {
         width: 226,
         height: 52,
         fontSize: tile.label.length > 32 ? 10 : tile.label.length > 22 ? 12 : 15,
@@ -3462,7 +3462,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }));
     });
 
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "Ritmo, precisione, punteggio");
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
     this.englishMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
@@ -3487,21 +3487,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 650, useAdvancedWrap: true },
+      wordWrap: { width: 390, useAdvancedWrap: true },
     }));
-    overlay.add(new Button(this, 858, 640, "Pulisci scelta", () => this.clearEnglishMinigameSelection(), {
+    overlay.add(new Button(this, 916, 640, "Pulisci scelta", () => this.clearEnglishMinigameSelection(), {
       width: 174,
       height: 44,
       fontSize: 13,
       fill: 0x263743,
     }));
-    overlay.add(new Button(this, 1046, 640, "Conferma", () => this.confirmEnglishMinigamePrompt(), {
+    overlay.add(new Button(this, 1102, 640, "Conferma", () => this.confirmEnglishMinigamePrompt(), {
       width: 174,
       height: 44,
       fontSize: 14,
       fill: 0x173b36,
     }));
-    overlay.add(new Button(this, 686, 640, "Indizio", () => this.useEnglishMinigameHint(), {
+    overlay.add(new Button(this, 736, 640, "Indizio", () => this.useEnglishMinigameHint(), {
       width: 138,
       height: 44,
       fontSize: 13,
@@ -3941,12 +3941,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("coding");
     const session = this.ensureCodingMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title);
+    const overlay = this.createMathOverlay(puzzle.minigame.title, "Coding · simula il codice, scegli il blocco, conferma");
     const prompt = this.currentCodingMinigamePrompt(session);
     const remaining = this.codingMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 582, 432, "Console codice");
+    this.addMathPanel(overlay, 28, 112, 582, 432, "1 · Leggi e simula il codice");
     overlay.add(this.add.text(60, 154, prompt.targetLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "25px",
@@ -3970,8 +3970,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
-    this.addMathPanel(overlay, 636, 112, 616, 432, "Scelta rapida");
-    overlay.add(this.add.text(668, 154, "60 secondi: simula il codice. La console premia serie pulite e penalizza i tentativi.", {
+    this.addMathPanel(overlay, 636, 112, 616, 432, "2 · Scegli il blocco mancante");
+    overlay.add(this.add.text(668, 154, "Come si gioca: segui il codice a sinistra, clicca UNA risposta e premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -3999,7 +3999,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const selected = session.selectedIds.has(tile.id);
       const col = index % 2;
       const row = Math.floor(index / 2);
-      overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 68, tile.label, () => this.toggleCodingMinigameTile(tile.id), {
+      overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleCodingMinigameTile(tile.id), {
         width: 218,
         height: 52,
         fontSize: tile.label.length > 34 ? 10 : tile.label.length > 22 ? 12 : 15,
@@ -4009,7 +4009,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }));
     });
 
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "Ritmo, precisione, debugging");
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
     this.codingMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
@@ -4034,21 +4034,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 650, useAdvancedWrap: true },
+      wordWrap: { width: 390, useAdvancedWrap: true },
     }));
-    overlay.add(new Button(this, 858, 640, "Pulisci scelta", () => this.clearCodingMinigameSelection(), {
+    overlay.add(new Button(this, 916, 640, "Pulisci scelta", () => this.clearCodingMinigameSelection(), {
       width: 174,
       height: 44,
       fontSize: 13,
       fill: 0x263743,
     }));
-    overlay.add(new Button(this, 1046, 640, "Conferma", () => this.confirmCodingMinigamePrompt(), {
+    overlay.add(new Button(this, 1102, 640, "Conferma", () => this.confirmCodingMinigamePrompt(), {
       width: 174,
       height: 44,
       fontSize: 14,
       fill: 0x173b36,
     }));
-    overlay.add(new Button(this, 686, 640, "Indizio", () => this.useCodingMinigameHint(), {
+    overlay.add(new Button(this, 736, 640, "Indizio", () => this.useCodingMinigameHint(), {
       width: 138,
       height: 44,
       fontSize: 13,
@@ -4838,7 +4838,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, session: MusicTrainingSession): void {
     overlay.add(this.add.rectangle(916, 282, 508, 206, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(682, 196, "Come ragionare durante lo sprint", {
+    overlay.add(this.add.text(682, 196, "2 · Scegli solo dopo aver contato", {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#9ff5e9",

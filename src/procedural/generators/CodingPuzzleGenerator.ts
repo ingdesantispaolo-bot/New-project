@@ -89,7 +89,7 @@ function buildCodingMinigame(random: Random, difficulty: DifficultyPreset, type:
     previousSignature = prompt.signature;
   }
   const titles: Record<CodingMinigameType, string> = {
-    "sequence-builder": "Minigioco coding: Sequenza di comandi",
+    "sequence-builder": "Minigioco coding: Completa il codice",
     "state-tracer": "Minigioco coding: Traccia la memoria",
     "bug-hunt": "Minigioco coding: Caccia al bug",
   };
@@ -189,7 +189,7 @@ function buildSequenceBuilderPrompt(random: Random, difficulty: DifficultyPreset
     },
   ];
   const item = random.pick(variants)();
-  return codingPromptFromItem(random, index, "sequence-builder", item, "Prossimo blocco corretto");
+  return codingPromptFromItem(random, index, "sequence-builder", item, "Completa la riga con ?");
 }
 
 function buildStateTracerPrompt(random: Random, difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {

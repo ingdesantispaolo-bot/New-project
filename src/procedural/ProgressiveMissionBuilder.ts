@@ -196,8 +196,8 @@ export class ProgressiveMissionBuilder {
           {
             id: "door",
             label: "Porta di livello",
-            x: 610,
-            y: 504,
+            x: 640,
+            y: 650,
             radius: 64,
             description: "Si apre solo quando tutte le console del livello sono coerenti.",
           },

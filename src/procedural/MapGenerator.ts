@@ -74,8 +74,8 @@ export class MapGenerator {
         {
           id: "door",
           label: "Porta di uscita",
-          x: 610,
-          y: 504,
+          x: 640,
+          y: 650,
           radius: 64,
           description: "La porta si apre solo quando tutti i sistemi della missione sono coerenti.",
         },

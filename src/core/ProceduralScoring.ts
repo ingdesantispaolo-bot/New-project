@@ -68,11 +68,11 @@ function domainForPuzzle(puzzleId: string): ProceduralSpecialization {
 }
 
 function feedbackFor(speedBonus: number, hintsUsed: number, focusBonus: number): string {
-  if (focusBonus > 0 && speedBonus >= 28 && hintsUsed === 0) {
-    return "Padronanza alta: hai lavorato rapidamente nel tuo focus senza appoggi esterni.";
+  if (focusBonus > 0 && speedBonus >= 12 && hintsUsed === 0) {
+    return "Padronanza alta: hai lavorato con precisione nel tuo focus senza appoggi esterni.";
   }
-  if (speedBonus >= 28) {
-    return "Ragionamento rapido: la soluzione è arrivata con buon controllo dei passaggi.";
+  if (speedBonus >= 12) {
+    return "Ragionamento fluido: la soluzione è arrivata mantenendo il controllo dei passaggi.";
   }
   if (hintsUsed > 1) {
     return "Percorso guidato: hai usato supporti, ma hai comunque completato la diagnosi.";
@@ -95,7 +95,8 @@ export class ProceduralScoring {
     const elapsedSecondsValue = elapsed / 1000;
     const basePoints = 70;
     const difficultyBonus = input.difficulty * 14;
-    const speedBonus = clamp(Math.round((expected / elapsedSecondsValue) * 22), 0, 44);
+    // Time is a small fluency bonus, never the main source of the score.
+    const speedBonus = clamp(Math.round((expected / elapsedSecondsValue) * 7), 0, 16);
     const focusBonus = focusMatchesPuzzle(input.focus, input.puzzleId) ? 20 + input.difficulty * 3 : 0;
     const supportPenalty = Math.min(28, input.hintsUsed * 6 + Math.max(0, input.attempts - 1) * 4);
     const total = Math.max(25, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);

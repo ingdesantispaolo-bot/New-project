@@ -191,7 +191,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private mathSupportMessage = "";
   private mathSupportText?: Phaser.GameObjects.Text;
   private languageAnalyzed = false;
+  private languageSelectedOption?: string;
+  private languageEvidenceIndex?: number;
   private englishAnalyzed = false;
+  private englishSelectedChoiceId?: string;
+  private englishEvidenceIndex?: number;
   private circuitInspected = false;
   private circuitConceptVerified = false;
   private circuitConceptIndex = 0;
@@ -223,6 +227,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private missionFailureInProgress = false;
   private timeoutSolutionOpen = false;
   private progressiveOutcomeOpen = false;
+  private progressiveSynthesisAttempts = 0;
 
   constructor() {
     super("ProceduralMissionScene");
@@ -241,6 +246,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         this.pauseRunIfLeaving();
         this.scene.start("MainMenuScene");
       },
+      () => this.showNoraChargePanel(),
     );
     this.objectiveText = hud.objectiveText;
     this.progressText = hud.progressText;
@@ -255,10 +261,103 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.pauseRunIfLeaving();
     });
 
-    feedbackSystem.publish(this.isProgressiveMode()
-      ? `Scalata guidata avviata. La stanza aprira una console alla volta. Seed: ${this.run.seed}.`
-      : `Stanza generata. Scegli una console da stabilizzare. Seed: ${this.run.seed}.`, "info");
+    feedbackSystem.publish(this.roomEntryFeedback(), this.run.solvedPuzzleIds.length > 0 ? "success" : "info");
     this.scheduleNextProgressivePuzzle(700);
+  }
+
+  private roomEntryFeedback(): string {
+    const solved = this.run.solvedPuzzleIds.length;
+    const total = Math.max(1, this.requiredPuzzleIds().length);
+    const availableCharges = this.availableNoraCharges();
+    if (solved >= total) {
+      return "NORA: tutte le linee della stanza sono accese. Resta la certificazione finale del sistema.";
+    }
+    if (solved >= Math.ceil(total * 0.75)) {
+      return `NORA: il nucleo risponde e la stanza è quasi stabile. ${total - solved} sistemi restano da collegare.${availableCharges > 0 ? " Hai un impulso NORA disponibile." : ""}`;
+    }
+    if (solved >= Math.ceil(total * 0.4)) {
+      return `NORA: le prime riparazioni stanno cambiando l'ambiente; ora le tracce tra i sistemi sono più leggibili.${availableCharges > 0 ? " Hai guadagnato un impulso NORA." : ""}`;
+    }
+    if (solved > 0) {
+      return `NORA: una parte della stanza è tornata attiva. Il cambiamento resterà visibile nella prossima diagnosi.`;
+    }
+    return this.isProgressiveMode()
+      ? `Scalata guidata avviata. La stanza aprirà una console alla volta. Seed: ${this.run.seed}.`
+      : `Stanza generata. Scegli una console da stabilizzare. Seed: ${this.run.seed}.`;
+  }
+
+  private availableNoraCharges(): number {
+    const earned = Math.min(2, Math.floor(this.run.solvedPuzzleIds.length / 2));
+    return Math.max(0, earned - (this.run.noraChargesUsed ?? 0));
+  }
+
+  private showNoraChargePanel(): void {
+    if (this.overlay || this.availableNoraCharges() <= 0 || this.runMode() === "training") {
+      return;
+    }
+    const overlay = this.add.container(0, 0).setDepth(1900);
+    SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.86);
+    overlay.add(this.add.rectangle(640, 360, 680, 390, 0x07151d, 0.99).setStrokeStyle(2, 0xf6c85f, 0.82));
+    overlay.add(this.add.text(340, 202, "Impulso NORA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "30px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(340, 252, "Hai collegato abbastanza sistemi da alimentare uno strumento di emergenza. Scegli un solo effetto.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#d9eaf1",
+      wordWrap: { width: 600 },
+      lineSpacing: 5,
+    }));
+    const status = this.add.text(340, 456, `Cariche disponibili: ${this.availableNoraCharges()}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+    });
+    overlay.add(status);
+    let applied = false;
+    const applyCharge = (effect: "time" | "life"): void => {
+      if (applied || this.availableNoraCharges() <= 0) return;
+      applied = true;
+      const update: Partial<ProceduralRunSave> = { noraChargesUsed: (this.run.noraChargesUsed ?? 0) + 1 };
+      if (effect === "time") {
+        const currentDeadline = this.run.deadlineAt ? new Date(this.run.deadlineAt).getTime() : Date.now();
+        update.deadlineAt = new Date(Math.max(Date.now(), currentDeadline) + 30_000).toISOString();
+      } else {
+        update.lives = Math.min(this.run.maxLives ?? proceduralRunRules.maxLives, (this.run.lives ?? proceduralRunRules.maxLives) + 1);
+      }
+      saveSystem.updateProceduralRun(update);
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+      audioManager.playOutcome("complete");
+      outcomeFeedback.play(this, "complete", effect === "time" ? "+30 secondi" : "+1 vita");
+      status.setColor("#f7d37a").setText(effect === "time" ? "NORA ha stabilizzato il timer." : "NORA ha ricostruito una protezione.");
+      this.runWhenActive(1200, () => this.scene.restart());
+    };
+    overlay.add(new Button(this, 500, 382, "Stabilizza tempo · +30 s", () => applyCharge("time"), {
+      width: 270,
+      height: 58,
+      fill: 0x173b36,
+      stroke: 0x6be7d6,
+      fontSize: 15,
+    }));
+    const lifeButton = new Button(this, 790, 382, "Ricostruisci protezione · +1 vita", () => applyCharge("life"), {
+      width: 270,
+      height: 58,
+      fill: 0x3a2525,
+      stroke: 0xf6c85f,
+      fontSize: 14,
+    });
+    lifeButton.setEnabled((this.run.lives ?? proceduralRunRules.maxLives) < (this.run.maxLives ?? proceduralRunRules.maxLives));
+    overlay.add(lifeButton);
+    overlay.add(new Button(this, 640, 510, "Conserva la carica", () => this.clearOverlay(), {
+      width: 230,
+      height: 44,
+      fill: 0x263743,
+      fontSize: 14,
+    }));
+    this.overlay = overlay;
   }
 
   private pauseRunIfLeaving(): void {
@@ -302,6 +401,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     // transient reference must therefore be reset explicitly for the new run.
     this.missionFailureInProgress = false;
     this.progressiveOutcomeOpen = false;
+    this.progressiveSynthesisAttempts = 0;
     this.timeoutSolutionOpen = false;
     this.overlay = undefined;
     this.feedbackText = undefined;
@@ -651,22 +751,48 @@ export class ProceduralMissionScene extends Phaser.Scene {
     model.options.forEach((option, index) => {
       const y = 330 + index * 48;
       overlay.add(new Button(this, 866, y, option, () => {
-        if (option === model.correctAnswer) {
-          this.solvePuzzle(this.currentPuzzleId("language"), puzzle.competencies);
-          return;
-        }
-        this.handleIncorrectAnswer(model.optionFeedback[option] ?? model.hints[Math.min(index, model.hints.length - 1)]);
-      }, { width: 540, height: 40, fontSize: 11, wordWrapWidth: 506 }));
+        this.languageSelectedOption = option;
+        this.openLanguage();
+      }, {
+        width: 540,
+        height: 40,
+        fontSize: 11,
+        wordWrapWidth: 506,
+        fill: this.languageSelectedOption === option ? 0x174d42 : 0x263743,
+        stroke: this.languageSelectedOption === option ? 0xf7d37a : 0x6be7d6,
+      }));
     });
-    this.addMethodStrip(overlay, 56, 590, 520, "Metodo", [
-      "soggetto reale",
-      "accordi e connettivi",
-      "significato operativo",
-    ]);
-    overlay.add(new Button(this, 866, 620, "Indizio mirato", () => {
+    this.addEvidenceSelector(overlay, "language", model.diagnosticSteps);
+    overlay.add(new Button(this, 738, 620, "Conferma con la prova", () => {
+      this.confirmLanguageReasoning(puzzle, model);
+    }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
+    overlay.add(new Button(this, 1002, 620, "Indizio mirato", () => {
       this.useHint(this.nextPedagogicHint(puzzle, model.hints[Math.min(this.run.hintsUsed, model.hints.length - 1)]));
       this.openLanguage();
-    }, { width: 250, height: 40, fontSize: 13, fill: 0x263743 }));
+    }, { width: 230, height: 40, fontSize: 13, fill: 0x263743 }));
+  }
+
+  private confirmLanguageReasoning(puzzle: GeneratedLanguagePuzzle, model: LanguageRepairModel): void {
+    const option = this.languageSelectedOption;
+    if (!option || this.languageEvidenceIndex === undefined) {
+      audioManager.playOutcome("hint");
+      feedbackSystem.publish("Prima seleziona una riparazione e una prova numerata che la giustifica.", "hint");
+      return;
+    }
+    if (this.languageEvidenceIndex < 0) {
+      this.languageEvidenceIndex = undefined;
+      const exited = this.handleIncorrectAnswer("Una sensazione generale non è una prova: indica quale controllo grammaticale o logico sostiene la scelta.");
+      if (!exited) this.openLanguage();
+      return;
+    }
+    if (option === model.correctAnswer) {
+      this.solvePuzzle(this.currentPuzzleId("language"), puzzle.competencies);
+      return;
+    }
+    const optionIndex = model.options.indexOf(option);
+    this.languageSelectedOption = undefined;
+    const exited = this.handleIncorrectAnswer(model.optionFeedback[option] ?? model.hints[Math.min(optionIndex, model.hints.length - 1)]);
+    if (!exited) this.openLanguage();
   }
 
   private openLanguageMinigame(puzzle: GeneratedLanguagePuzzle): void {
@@ -968,7 +1094,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
       outcomeFeedback.play(this, "warning", "Rileggi il vincolo");
-      this.advanceLanguageMinigamePrompt(760);
+      this.advanceLanguageMinigamePrompt(1800);
       return;
     }
 
@@ -982,7 +1108,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.locked = true;
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
-    this.advanceLanguageMinigamePrompt(420);
+    this.advanceLanguageMinigamePrompt(1250);
   }
 
   private advanceLanguageMinigamePrompt(delayMs: number): void {
@@ -1138,10 +1264,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.scheduleNextProgressivePuzzle(850);
+      this.runWhenActive(1750, () => this.scene.restart());
       return;
     }
-    this.runWhenActive(640, () => this.scene.restart());
+    this.runWhenActive(1750, () => this.scene.restart());
   }
 
   private finalizeLanguageMinigameScore(session: LanguageMinigameSession): ProceduralPuzzleScore {
@@ -2888,7 +3014,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
       outcomeFeedback.play(this, "warning", "Calcolo da rivedere");
-      this.advanceMathMinigamePrompt(720);
+      this.advanceMathMinigamePrompt(1800);
       return;
     }
 
@@ -2902,7 +3028,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.locked = true;
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
-    this.advanceMathMinigamePrompt(420);
+    this.advanceMathMinigamePrompt(1250);
   }
 
   private advanceMathMinigamePrompt(delayMs: number): void {
@@ -3058,10 +3184,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.scheduleNextProgressivePuzzle(850);
+      this.runWhenActive(1750, () => this.scene.restart());
       return;
     }
-    this.runWhenActive(640, () => this.scene.restart());
+    this.runWhenActive(1750, () => this.scene.restart());
   }
 
   private finalizeMathMinigameScore(session: MathMinigameSession): ProceduralPuzzleScore {
@@ -3153,22 +3279,46 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     puzzle.choices.forEach((choice, index) => {
       overlay.add(new Button(this, 866, 402 + index * 50, choice.label, () => {
-        if (choice.isCorrect) {
-          this.solvePuzzle(this.currentPuzzleId("english"), puzzle.competencies);
-          return;
-        }
-        this.handleIncorrectAnswer(choice.feedback);
-      }, { width: 540, height: 42, fontSize: 13, fill: 0x263743 }));
+        this.englishSelectedChoiceId = choice.id;
+        this.openEnglish();
+      }, {
+        width: 540,
+        height: 42,
+        fontSize: 13,
+        fill: this.englishSelectedChoiceId === choice.id ? 0x174d42 : 0x263743,
+        stroke: this.englishSelectedChoiceId === choice.id ? 0xf7d37a : 0x6be7d6,
+      }));
     });
-    this.addMethodStrip(overlay, 56, 596, 520, "Metodo", puzzle.methodSteps ?? [
-      "verbo d'azione",
-      "oggetto e quantità",
-      "condizione, limite o divieto",
-    ]);
-    overlay.add(new Button(this, 866, 620, "Indizio mirato", () => {
+    this.addEvidenceSelector(overlay, "english", puzzle.diagnosticSteps);
+    overlay.add(new Button(this, 738, 620, "Conferma con la prova", () => {
+      this.confirmEnglishReasoning(puzzle);
+    }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
+    overlay.add(new Button(this, 1002, 620, "Indizio mirato", () => {
       this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
       this.openEnglish();
-    }, { width: 250, height: 40, fontSize: 13, fill: 0x263743 }));
+    }, { width: 230, height: 40, fontSize: 13, fill: 0x263743 }));
+  }
+
+  private confirmEnglishReasoning(puzzle: GeneratedEnglishPuzzle): void {
+    const choice = puzzle.choices.find((item) => item.id === this.englishSelectedChoiceId);
+    if (!choice || this.englishEvidenceIndex === undefined) {
+      audioManager.playOutcome("hint");
+      feedbackSystem.publish("Prima seleziona un'azione e una prova numerata ricavata dal comando.", "hint");
+      return;
+    }
+    if (this.englishEvidenceIndex < 0) {
+      this.englishEvidenceIndex = undefined;
+      const exited = this.handleIncorrectAnswer("La somiglianza con un comando già visto non basta: indica la parola o condizione che autorizza questa azione.");
+      if (!exited) this.openEnglish();
+      return;
+    }
+    if (choice.isCorrect) {
+      this.solvePuzzle(this.currentPuzzleId("english"), puzzle.competencies);
+      return;
+    }
+    this.englishSelectedChoiceId = undefined;
+    const exited = this.handleIncorrectAnswer(choice.feedback);
+    if (!exited) this.openEnglish();
   }
 
   private openEnglishMinigame(puzzle: GeneratedEnglishPuzzle): void {
@@ -3486,7 +3636,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
       outcomeFeedback.play(this, "warning", "Rileggi il comando");
-      this.advanceEnglishMinigamePrompt(760);
+      this.advanceEnglishMinigamePrompt(1800);
       return;
     }
 
@@ -3500,7 +3650,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.locked = true;
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
-    this.advanceEnglishMinigamePrompt(420);
+    this.advanceEnglishMinigamePrompt(1250);
   }
 
   private advanceEnglishMinigamePrompt(delayMs: number): void {
@@ -3656,10 +3806,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.scheduleNextProgressivePuzzle(850);
+      this.runWhenActive(1750, () => this.scene.restart());
       return;
     }
-    this.runWhenActive(640, () => this.scene.restart());
+    this.runWhenActive(1750, () => this.scene.restart());
   }
 
   private finalizeEnglishMinigameScore(session: EnglishMinigameSession): ProceduralPuzzleScore {
@@ -4006,7 +4156,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
       outcomeFeedback.play(this, "warning", "Simula di nuovo");
-      this.advanceCodingMinigamePrompt(760);
+      this.advanceCodingMinigamePrompt(1800);
       return;
     }
 
@@ -4020,7 +4170,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.locked = true;
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
-    this.advanceCodingMinigamePrompt(420);
+    this.advanceCodingMinigamePrompt(1250);
   }
 
   private advanceCodingMinigamePrompt(delayMs: number): void {
@@ -4176,10 +4326,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.scheduleNextProgressivePuzzle(850);
+      this.runWhenActive(1750, () => this.scene.restart());
       return;
     }
-    this.runWhenActive(640, () => this.scene.restart());
+    this.runWhenActive(1750, () => this.scene.restart());
   }
 
   private finalizeCodingMinigameScore(session: CodingMinigameSession): ProceduralPuzzleScore {
@@ -4696,7 +4846,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.finishMusicSprint();
       return;
     }
-    this.runWhenActive(correct ? 95 : 240, () => this.advanceMusicSprintQuestion(session));
+    this.runWhenActive(correct ? 900 : 1500, () => this.advanceMusicSprintQuestion(session));
   }
 
   private advanceMusicSprintQuestion(session: MusicTrainingSession): void {
@@ -4926,10 +5076,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.scheduleNextProgressivePuzzle(850);
+      this.runWhenActive(1750, () => this.scene.restart());
       return;
     }
-    this.runWhenActive(640, () => this.scene.restart());
+    this.runWhenActive(1750, () => this.scene.restart());
   }
 
   private finalizeMusicSprintScore(session: MusicTrainingSession): ProceduralPuzzleScore {
@@ -5548,7 +5698,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.completeProgressiveLevel(true, reason);
+      this.showProgressiveSynthesis(reason);
       return;
     }
     const mode = proceduralRunRules.modeFor(this.run);
@@ -5563,6 +5713,78 @@ export class ProceduralMissionScene extends Phaser.Scene {
       "success",
     );
     this.runWhenActive(900, () => this.scene.start("JournalScene"));
+  }
+
+  private showProgressiveSynthesis(reason: string): void {
+    if (this.overlay || !this.isProgressiveMode()) {
+      return;
+    }
+    const level = this.run.progressive?.currentLevel ?? this.run.difficulty;
+    const blueprint = progressiveMissionBuilder.blueprintForLevel(level);
+    const baseOptions = [blueprint.synthesisCorrect, ...blueprint.synthesisDistractors];
+    const seedOffset = [...this.run.seed].reduce<number>((sum, char) => sum + char.charCodeAt(0), Number(level));
+    const offset = seedOffset % baseOptions.length;
+    const options = [...baseOptions.slice(offset), ...baseOptions.slice(0, offset)];
+    const overlay = this.add.container(0, 0).setDepth(1900);
+    SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.9);
+    overlay.add(this.add.rectangle(640, 360, 900, 560, 0x07151d, 0.98).setStrokeStyle(2, 0xf6c85f, 0.82));
+    overlay.add(this.add.text(226, 112, `Porta di sintesi · Livello ${level}/8`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "30px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(226, 162, blueprint.goal, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#9ff5e9",
+      wordWrap: { width: 820 },
+    }));
+    overlay.add(this.add.text(226, 210, blueprint.synthesisPrompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "20px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 820 },
+      lineSpacing: 5,
+    }));
+    const status = this.add.text(226, 510, "Collega le prove delle console: la porta non valuta una materia isolata.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#c7dce7",
+      wordWrap: { width: 820 },
+      lineSpacing: 4,
+    });
+    overlay.add(status);
+    options.forEach((option, index) => {
+      overlay.add(new Button(this, 640, 316 + index * 66, option, () => {
+        if (option === blueprint.synthesisCorrect) {
+          audioManager.playOutcome("complete");
+          outcomeFeedback.play(this, "complete", "Sintesi certificata");
+          feedbackSystem.publish(blueprint.synthesisExplanation, "success");
+          this.clearOverlay();
+          this.completeProgressiveLevel(true, `${reason} ${blueprint.synthesisExplanation}`);
+          return;
+        }
+        this.progressiveSynthesisAttempts += 1;
+        audioManager.playOutcome("wrong");
+        outcomeFeedback.play(this, "warning", "Collega tutte le prove");
+        if (this.progressiveSynthesisAttempts >= 2) {
+          this.clearOverlay();
+          this.loseMissionLife(`Sintesi non certificata. ${blueprint.synthesisExplanation}`);
+          return;
+        }
+        status.setColor("#ffb36b").setText(`Questa conclusione usa una sola scorciatoia. ${blueprint.synthesisExplanation} Correggi senza perdere una vita.`);
+      }, {
+        width: 790,
+        height: 52,
+        fill: 0x263743,
+        stroke: 0x6be7d6,
+        fontSize: 14,
+        wordWrapWidth: 750,
+      }));
+    });
+    this.overlay = overlay;
   }
 
   private solvePuzzle(puzzleId: string, competencies: string[]): void {
@@ -5587,7 +5809,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.scheduleNextProgressivePuzzle(1750);
+      // Redraw the room so the repaired console and the restored path remain
+      // visible before the next system opens.
+      this.runWhenActive(1750, () => this.scene.restart());
       return;
     }
     this.runWhenActive(1750, () => this.scene.restart());
@@ -5642,14 +5866,26 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return true;
     }
     this.recordPuzzleMistake();
-    if (this.isTimedMissionMode()) {
+    const attempts = this.activePuzzleAttempts();
+    if (this.isTimedMissionMode() && attempts >= 2) {
       this.loseMissionLife(message);
       return true;
     }
     audioManager.playOutcome("wrong");
-    outcomeFeedback.play(this, "warning", "Risposta da rivedere");
-    this.finalizeTrainingPuzzleFailure(`Tentativo chiuso: ${message}`);
-    return true;
+    outcomeFeedback.play(this, "warning", attempts === 1 ? "Osserva e correggi" : "Riprova con metodo");
+    feedbackSystem.publish(
+      `${message} ${attempts === 1
+        ? "Il primo errore è una diagnosi: correggi la scelta senza perdere la prova."
+        : "Usa il feedback per modificare un solo passaggio alla volta."}`,
+      "warning",
+    );
+    return false;
+  }
+
+  private activePuzzleAttempts(): number {
+    const puzzleId = this.activePuzzleId;
+    if (!puzzleId) return 0;
+    return (saveSystem.data.proceduralRun ?? this.run).puzzleStats?.[puzzleId]?.attempts ?? 0;
   }
 
   private finalizeTrainingPuzzleFailure(message: string): void {
@@ -5704,13 +5940,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     this.recordPuzzleMistake();
-    if (this.isTimedMissionMode()) {
+    if (this.isTimedMissionMode() && this.activePuzzleAttempts() >= 2) {
       this.loseMissionLife(message);
       return;
     }
     audioManager.playOutcome("wrong");
-    outcomeFeedback.play(this, "warning", "Riconta");
-    feedbackSystem.publish(message, "warning");
+    outcomeFeedback.play(this, "warning", "Ascolta, riconta, correggi");
+    feedbackSystem.publish(`${message} Puoi correggere il primo errore senza perdere la prova.`, "warning");
   }
 
   private loseMissionLife(reason: string): void {
@@ -5884,7 +6120,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   ): ProgressiveOutcomeTone {
     const solvedRatio = requiredCount > 0 ? solvedCount / requiredCount : 0;
     if (!success) {
-      if (solvedRatio <= 0.2 || (this.run.lives ?? 0) <= 0) return "devastating-defeat";
+      if (solvedRatio <= 0.2) return "devastating-defeat";
       if (solvedRatio < 0.7) return "defeat";
       return "neutral";
     }
@@ -6094,15 +6330,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const solvedCount = this.requiredPuzzleIds().filter((id) => this.isSolved(id)).length;
     const failedCount = this.requiredPuzzleIds().filter((id) => this.isFailed(id)).length;
     const progressiveLevel = this.run.progressive?.currentLevel ?? this.run.difficulty;
+    const progressiveGoal = mode === "progressive"
+      ? progressiveMissionBuilder.blueprintForLevel(progressiveLevel).goal
+      : "";
     this.objectiveText?.setText(
       pendingObjectives.length > 0
         ? mode === "progressive"
-          ? `Livello ${progressiveLevel}/8\n${checklist}\n\nSequenza automatica: la prossima console rossa si apre da sola. Ogni errore consuma una vita.`
+          ? `Livello ${progressiveLevel}/8\nObiettivo: ${progressiveGoal}\n\n${checklist}\n\nSequenza automatica: la prossima console rossa si apre da sola.`
           : mode === "mission"
           ? `Console della stanza\n${checklist}\n\nLa porta finale controlla solo il sistema completo.`
           : `Focus ${proceduralScoring.domainLabel(focus)}\n${checklist}\n\nMigliora voto: meno errori, meno aiuti, tempo piu basso.`
         : mode === "progressive"
-          ? `Livello ${progressiveLevel} coerente.\n[verde] Porta di livello pronta.\n\nAprila per certificare la scalata.`
+          ? `Livello ${progressiveLevel} coerente.\n[verde] Porta di sintesi pronta.\n\nCollega le discipline per certificare il livello.`
           : mode === "mission"
           ? `Tutti i sistemi sono coerenti.\n[verde] Porta finale pronta.\n\nAprila per chiudere il diario seed.`
           : `Allenamento completato.\n[verde] Porta pronta.\n\nAprila per registrare voto e miglior tempo.`,
@@ -6198,7 +6437,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.mathSupportMessage = "";
     this.mathSupportText = undefined;
     this.languageAnalyzed = false;
+    this.languageSelectedOption = undefined;
+    this.languageEvidenceIndex = undefined;
     this.englishAnalyzed = false;
+    this.englishSelectedChoiceId = undefined;
+    this.englishEvidenceIndex = undefined;
     this.circuitInspected = false;
     this.circuitConceptVerified = false;
     this.circuitConceptIndex = 0;
@@ -6420,6 +6663,43 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 456, useAdvancedWrap: true },
       lineSpacing: 4,
     }));
+  }
+
+  private addEvidenceSelector(
+    overlay: Phaser.GameObjects.Container,
+    kind: "language" | "english",
+    diagnosticSteps: string[],
+  ): void {
+    const selectedIndex = kind === "language" ? this.languageEvidenceIndex : this.englishEvidenceIndex;
+    overlay.add(this.add.text(56, 552, "PROVA OSSERVABILE · scegli il controllo che sostiene la risposta", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    const choices = [
+      ...diagnosticSteps.slice(0, 3).map((_, index) => ({ index, label: `Prova ${index + 1}` })),
+      { index: -1, label: "Solo impressione" },
+    ];
+    const width = Math.min(124, Math.floor(500 / choices.length) - 8);
+    choices.forEach((choice, index) => {
+      const x = 56 + width / 2 + index * (width + 8);
+      overlay.add(new Button(this, x, 584, choice.label, () => {
+        if (kind === "language") {
+          this.languageEvidenceIndex = choice.index;
+          this.openLanguage();
+        } else {
+          this.englishEvidenceIndex = choice.index;
+          this.openEnglish();
+        }
+      }, {
+        width,
+        height: 34,
+        fontSize: choice.index < 0 ? 10 : 12,
+        fill: selectedIndex === choice.index ? 0x174d42 : 0x263743,
+        stroke: selectedIndex === choice.index ? 0xf7d37a : 0x6be7d6,
+      }));
+    });
   }
 
   private addEnglishBrief(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {

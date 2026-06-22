@@ -151,8 +151,8 @@ export class PlayerReportScene extends Phaser.Scene {
       `Missioni completate: ${report.missionCount}`,
       `Focus completati: ${report.focusCount}`,
       `Esercizi risolti: ${report.exerciseCount}`,
-      `Punti totali: ${report.totalScore}`,
-      `Media per risultato: ${report.averageScore}`,
+      `Errori corretti: ${report.recoveredMistakes}`,
+      `Soluzioni autonome: ${report.independentSolutions}`,
     ];
     this.add.text(x + 26, y + 224, summary.join("\n"), {
       fontFamily: "Inter, Arial",

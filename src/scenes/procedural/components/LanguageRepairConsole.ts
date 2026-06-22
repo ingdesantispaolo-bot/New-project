@@ -23,7 +23,7 @@ export class LanguageRepairConsole {
       title: puzzle.title,
       corrupted: puzzle.corrupted,
       instruction: analyzed
-        ? puzzle.diagnosticSteps.join("\n")
+        ? puzzle.diagnosticSteps.map((step, index) => `${index + 1}. ${step}`).join("\n")
         : "Prima stabilizza il segnale: cerca chi compie l'azione, poi controlla se verbo e nome concordano.",
       options: puzzle.options,
       correctAnswer: puzzle.repaired,

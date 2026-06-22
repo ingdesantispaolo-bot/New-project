@@ -664,6 +664,7 @@ export type ProceduralRunSave = {
   mode?: ProceduralRunMode;
   mission: GeneratedMission;
   hintsUsed: number;
+  noraChargesUsed?: number;
   solvedPuzzleIds: string[];
   failedPuzzleIds?: string[];
   puzzleStats?: Record<string, ProceduralPuzzleScore>;

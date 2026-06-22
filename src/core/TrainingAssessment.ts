@@ -23,9 +23,6 @@ function nextTrainingGoal(grade: number, speedRatio: number, hintsUsed: number, 
   if (grade < 6.5) {
     return "Consolida lo stesso livello: punta a precisione e passaggi ordinati prima di aumentare difficolta.";
   }
-  if (speedRatio > 1.25) {
-    return "Mantieni lo stesso livello e prova a ridurre il tempo senza saltare i controlli.";
-  }
   if (grade >= 8.5 && difficulty < 8) {
     return `Passa al livello ${difficulty + 1}: hai margine per vincoli piu stretti.`;
   }
@@ -43,7 +40,8 @@ export function assessTrainingRun(run: ProceduralRunSave, completedAt: string): 
   const attempts = stats.reduce((total, stat) => total + stat.attempts, 0);
   const attemptPenalty = Math.max(0, attempts - requiredCount) * 0.18;
   const hintPenalty = run.hintsUsed * 0.22;
-  const speedAdjustment = speedRatio <= 0.7 ? 1.1 : speedRatio <= 1 ? 0.55 : speedRatio <= 1.35 ? 0 : -0.65;
+  // Fluency can add a small bonus, but careful reasoning is never penalized.
+  const speedAdjustment = speedRatio <= 0.7 ? 0.35 : speedRatio <= 1 ? 0.18 : 0;
   const difficultyBonus = (run.difficulty - 1) * 0.08;
   const rawGrade = 6 + solvedRatio * 2.4 + speedAdjustment + difficultyBonus - hintPenalty - attemptPenalty;
   const grade = Math.round(clamp(rawGrade, 4, 10) * 10) / 10;

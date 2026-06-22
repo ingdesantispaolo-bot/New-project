@@ -105,6 +105,20 @@ export class ProceduralMissionView {
     });
 
     drawProceduralStageAtmosphere(scene, layout.stage, theme, run.solvedPuzzleIds.length, requiredIds.length, run.seed);
+    const stability = requiredIds.length > 0 ? Phaser.Math.Clamp(run.solvedPuzzleIds.length / requiredIds.length, 0, 1) : 0;
+    const stabilityWidth = layout.stage.width - 150;
+    scene.add.rectangle(layout.stage.x + layout.stage.width / 2, layout.stage.y + 46, stabilityWidth, 14, 0x07151d, 0.88)
+      .setStrokeStyle(1, theme.accent, 0.4);
+    if (stability > 0) {
+      scene.add.rectangle(layout.stage.x + 75, layout.stage.y + 46, stabilityWidth * stability, 10, stability >= 1 ? theme.secondary : theme.accent, 0.92)
+        .setOrigin(0, 0.5);
+    }
+    scene.add.text(layout.stage.x + layout.stage.width / 2, layout.stage.y + 24, `STABILITÀ STANZA ${Math.round(stability * 100)}%`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: stability >= 1 ? "#f7d37a" : "#9ff5e9",
+      fontStyle: "bold",
+    }).setOrigin(0.5);
     scene.add.rectangle(layout.stage.x + 68, layout.stage.y + 78, layout.stage.width - 136, 302, 0x000000, 0.05)
       .setStrokeStyle(1, theme.accent, 0.08);
     scene.add.text(layout.stage.x + 52, layout.stage.y + 450, this.stageHint(mode, path.stageHint), {
@@ -122,6 +136,7 @@ export class ProceduralMissionView {
     run: ProceduralRunSave,
     onRegenerate: () => void,
     onHub: () => void,
+    onUseNoraCharge?: () => void,
   ): ProceduralMissionHud {
     const layout = SceneChrome.layout;
     const objectiveText = scene.add.text(layout.right.x + 18, layout.right.y + 58, "", {
@@ -148,6 +163,17 @@ export class ProceduralMissionView {
       lineSpacing: 3,
     });
     const feedbackText = SceneChrome.bottomLog(scene, layout.bottom, "", 330);
+    const earnedCharges = Math.min(2, Math.floor(run.solvedPuzzleIds.length / 2));
+    const availableCharges = Math.max(0, earnedCharges - (run.noraChargesUsed ?? 0));
+    if (onUseNoraCharge && proceduralRunRules.modeFor(run) !== "training" && availableCharges > 0) {
+      new Button(scene, layout.bottom.x + layout.bottom.width - 430, layout.bottom.y + 28, `Impulso NORA ×${availableCharges}`, onUseNoraCharge, {
+        width: 190,
+        height: 38,
+        fill: 0x173b36,
+        stroke: 0xf6c85f,
+        fontSize: 12,
+      });
+    }
     const restartLabel = proceduralRunRules.modeFor(run) === "training"
       ? "Nuovo focus"
       : proceduralRunRules.modeFor(run) === "progressive"

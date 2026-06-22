@@ -46,6 +46,8 @@ export type PlayerReport = {
   missionCount: number;
   focusCount: number;
   exerciseCount: number;
+  recoveredMistakes: number;
+  independentSolutions: number;
   totalScore: number;
   averageScore: number;
   bestMission?: PlayerResult;
@@ -437,6 +439,8 @@ export class PlayerSystem {
     const missionGrade = averageGrade(missions);
     const trainingGrade = averageGrade(focusRuns);
     const exerciseGrade = averageGrade(exercises);
+    const recoveredMistakes = exercises.filter((result) => result.attempts > 1).length;
+    const independentSolutions = exercises.filter((result) => result.attempts <= 1 && result.hintsUsed === 0).length;
     const trainingStats = this.trainingStatsFor(focusRuns);
     const subjectStats = this.subjectStatsFor(exercises);
     const weakestSubject = subjectStats
@@ -487,6 +491,8 @@ export class PlayerSystem {
       missionCount: missions.length,
       focusCount: focusRuns.length,
       exerciseCount: exercises.length,
+      recoveredMistakes,
+      independentSolutions,
       totalScore,
       averageScore,
       bestMission: sortedResults(missions)[0],

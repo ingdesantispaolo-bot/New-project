@@ -84,16 +84,21 @@ export class MathPuzzleGenerator {
     };
   }
 
-  fallback(): GeneratedMathPuzzle {
+  fallback(random?: Random, difficulty?: DifficultyPreset): GeneratedMathPuzzle {
+    const complexity = difficulty?.mathComplexity ?? 1;
+    const value = random?.integer(5 + complexity, 12 + complexity * 2) ?? 8;
+    const multiplier = random?.integer(2, Math.min(5, 2 + complexity)) ?? 3;
+    const subtract = random?.integer(2, Math.min(9, value - 1)) ?? 5;
+    const answer = value * multiplier - subtract;
     return {
-      id: "math-fallback",
-      title: "Serratura stabile",
-      prompt: "Situazione: La serratura accetta solo un codice numerico intero.\nRichiesta: Il codice è il triplo di 8, meno 5.\nFormato risposta: inserisci un solo numero intero.",
-      answer: 19,
-      hints: ["Triplo di 8 significa 8 x 3.", "Dopo il triplo togli 5."],
+      id: `math-fallback-${value}-${multiplier}-${subtract}`,
+      title: random?.bool() ? "Serratura variabile" : "Codice di riserva",
+      prompt: `Situazione: La serratura genera un codice numerico diverso per ogni sessione.\nRichiesta: Moltiplica ${value} per ${multiplier}, poi sottrai ${subtract}.\nFormato risposta: inserisci un solo numero intero.`,
+      answer,
+      hints: [`Prima calcola ${value} x ${multiplier}.`, `Poi sottrai ${subtract} dal risultato.`],
       archetype: "calcolo-diretto",
       curriculumTags: ["calcolo mentale", "ordine delle operazioni"],
-      solutionSteps: ["8 x 3 = 24", "24 - 5 = 19"],
+      solutionSteps: [`${value} x ${multiplier} = ${value * multiplier}`, `${value * multiplier} - ${subtract} = ${answer}`],
       competencies: ["matematica.calcolo", "matematica.logica"],
     };
   }

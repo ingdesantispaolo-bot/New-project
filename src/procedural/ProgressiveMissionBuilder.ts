@@ -7,6 +7,9 @@ import type {
   ProceduralSpecialization,
 } from "./ProceduralTypes";
 import { Random } from "./Random";
+import { difficultyModel } from "./DifficultyModel";
+import { MathPuzzleGenerator } from "./generators/MathPuzzleGenerator";
+import { exerciseDirector } from "../core/ExerciseDirector";
 
 type ProgressiveDiscipline = Exclude<ProceduralPuzzleKind, "robot">;
 
@@ -165,15 +168,16 @@ export class ProgressiveMissionBuilder {
 
   buildLevelMission(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
     const random = new Random(`${base.seed}:progressive:${level}`);
+    const variedBase = this.withNonRepeatingMath(base, level);
     // A progressive level must combine disciplines. Focus challenges are ideal
     // for training mode, but using them here turned the entire level into a
     // sequence from one subject and made levelPools unreachable.
-    const selected = this.selectDisciplines(random, level);
-    const objectives = selected.map((kind) => this.objectiveFor(base, kind));
+    const selected = this.selectDisciplines(random, level, base.seed);
+    const objectives = selected.map((kind) => this.objectiveFor(variedBase, kind));
     const hotspots = selected.map((kind) => this.hotspotFor(kind));
     const pathLabel = selected.map((kind) => disciplineLabels[kind].label.toLowerCase()).join(" -> ");
     return {
-      ...base,
+      ...variedBase,
       id: `mission-progressive-level-${level}`,
       title: `Scalata dell'Accademia - Livello ${level}`,
       intro: [
@@ -184,7 +188,7 @@ export class ProgressiveMissionBuilder {
       ].join(" "),
       objectives,
       map: {
-        ...base.map,
+        ...variedBase.map,
         id: `progressive-room-${level}`,
         title: this.roomTitle(level),
         hotspots: [
@@ -206,9 +210,67 @@ export class ProgressiveMissionBuilder {
           label: `Stanza ${level} stabilizzata`,
           description: "Ha superato una stanza interdisciplinare a difficoltà crescente.",
         },
-        ...base.rewards,
+        ...variedBase.rewards,
       ],
     };
+  }
+
+  private withNonRepeatingMath(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
+    const storageKey = `eli-quest:progressive-math:${level}`;
+    const signatureOf = (puzzle: GeneratedMission["puzzles"]["math"]): string =>
+      `${puzzle.archetype ?? "base"}|${puzzle.answer}|${puzzle.prompt.replace(/\s+/g, " ")}`;
+    let recentSignatures: string[] = [];
+    let previousArchetype = "";
+    try {
+      const stored = JSON.parse(globalThis.localStorage?.getItem(storageKey) ?? "{}") as {
+        seed?: string;
+        signatures?: string[];
+        archetype?: string;
+      };
+      if (stored.seed === base.seed) return base;
+      recentSignatures = stored.signatures ?? [];
+      previousArchetype = stored.archetype ?? "";
+    } catch {
+      // Storage is optional; fresh mission entropy still changes the exercise.
+    }
+
+    let selected = base.puzzles.math;
+    const currentSignature = signatureOf(selected);
+    if (
+      recentSignatures.includes(currentSignature)
+      || selected.id.startsWith("math-fallback")
+      || (level > 1 && (selected.archetype ?? "") === previousArchetype)
+    ) {
+      const generator = new MathPuzzleGenerator();
+      const preset = difficultyModel.getPreset(level);
+      let firstFresh = selected;
+      for (let attempt = 0; attempt < 18; attempt += 1) {
+        const candidate = exerciseDirector.enrichMath(
+          generator.generate(new Random(`${base.seed}:math-diversity:${attempt}`), preset),
+          level,
+        );
+        if (recentSignatures.includes(signatureOf(candidate))) continue;
+        if (firstFresh === selected) firstFresh = candidate;
+        if ((candidate.archetype ?? "") !== previousArchetype || level === 1) {
+          selected = candidate;
+          break;
+        }
+      }
+      if (selected === base.puzzles.math) selected = firstFresh;
+    }
+
+    const signature = signatureOf(selected);
+    try {
+      globalThis.localStorage?.setItem(storageKey, JSON.stringify({
+        seed: base.seed,
+        signatures: [signature, ...recentSignatures.filter((item) => item !== signature)].slice(0, 4),
+        archetype: selected.archetype ?? "",
+      }));
+    } catch {
+      // Storage is optional.
+    }
+    if (selected === base.puzzles.math) return base;
+    return { ...base, puzzles: { ...base.puzzles, math: selected } };
   }
 
   timeLimitMs(level: DifficultyLevel, objectiveCount: number): number {
@@ -216,7 +278,7 @@ export class ProgressiveMissionBuilder {
     return Math.max(145, objectiveCount * secondsPerObjective + 35) * 1000;
   }
 
-  private selectDisciplines(random: Random, level: DifficultyLevel): ProgressiveDiscipline[] {
+  private selectDisciplines(random: Random, level: DifficultyLevel, seed: string): ProgressiveDiscipline[] {
     const pool = levelPools[level];
     const targetCount = Math.min(pool.length, level <= 1 ? 3 : level <= 4 ? 4 : level <= 7 ? 5 : 6);
     const primary = focusDisciplines[this.focusForLevel(level)];
@@ -225,7 +287,42 @@ export class ProgressiveMissionBuilder {
       ...(level >= 5 ? ["math", "coding"] as ProgressiveDiscipline[] : level >= 3 ? ["math"] as ProgressiveDiscipline[] : []),
     ])).filter((kind) => pool.includes(kind));
     const rest = random.shuffle(pool.filter((kind) => !mustHave.includes(kind)));
-    return [...mustHave, ...rest].slice(0, targetCount);
+    const selected = [...mustHave, ...rest].slice(0, targetCount);
+    return this.nonRepeatingOrder(random, level, seed, selected);
+  }
+
+  private nonRepeatingOrder(
+    random: Random,
+    level: DifficultyLevel,
+    seed: string,
+    selected: ProgressiveDiscipline[],
+  ): ProgressiveDiscipline[] {
+    if (selected.length < 2) return selected;
+    const storageKey = `eli-quest:progressive-order:${level}`;
+    let previousSeed = "";
+    let previousOrder = "";
+    try {
+      const stored = JSON.parse(globalThis.localStorage?.getItem(storageKey) ?? "{}") as { seed?: string; order?: string };
+      previousSeed = stored.seed ?? "";
+      previousOrder = stored.order ?? "";
+      if (previousSeed === seed && previousOrder) {
+        const restored = previousOrder.split(",") as ProgressiveDiscipline[];
+        if (restored.length === selected.length && restored.every((kind) => selected.includes(kind))) return restored;
+      }
+    } catch {
+      // Storage is optional; the random order still varies with the mission seed.
+    }
+
+    let ordered = random.shuffle(selected);
+    if (ordered.join(",") === previousOrder) {
+      ordered = [...ordered.slice(1), ordered[0]];
+    }
+    try {
+      globalThis.localStorage?.setItem(storageKey, JSON.stringify({ seed, order: ordered.join(",") }));
+    } catch {
+      // Storage is optional.
+    }
+    return ordered;
   }
 
   private objectiveFor(base: GeneratedMission, kind: ProgressiveDiscipline): GeneratedObjective {

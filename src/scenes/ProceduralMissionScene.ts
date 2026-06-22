@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { competencyTracker } from "../core/CompetencyTracker";
+import { exerciseDirector } from "../core/ExerciseDirector";
 import { feedbackSystem, type FeedbackMessage } from "../core/FeedbackSystem";
 import { EventBus, GameEvents } from "../core/EventBus";
 import { mistakeAnalyzer } from "../core/MistakeAnalyzer";
@@ -12,6 +13,8 @@ import { saveSystem } from "../core/SaveSystem";
 import { circuitFaultTemplates } from "../data/procedural/circuitTemplates";
 import { languageTemplates } from "../data/procedural/languageTemplates";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
+import { difficultyModel } from "../procedural/DifficultyModel";
+import { MathPuzzleGenerator } from "../procedural/generators/MathPuzzleGenerator";
 import { MusicNoteGenerator } from "../procedural/generators/MusicNoteGenerator";
 import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
 import { Random } from "../procedural/Random";
@@ -6487,7 +6490,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private currentMathPuzzle(): GeneratedMathPuzzle {
     const challenge = this.activeChallenge;
-    return challenge?.kind === "math" ? challenge.puzzle : this.run.mission.puzzles.math;
+    const puzzle = challenge?.kind === "math" ? challenge.puzzle : this.run.mission.puzzles.math;
+    if (puzzle.id !== "math-fallback") return puzzle;
+    const variant = this.run.retryVariants?.math ?? 0;
+    const generated = new MathPuzzleGenerator().generate(
+      new Random(`${this.run.seed}:replace-legacy-math-fallback:${variant}`),
+      difficultyModel.getPreset(this.run.difficulty),
+    );
+    return exerciseDirector.enrichMath(generated, this.run.difficulty);
   }
 
   private currentEnglishPuzzle(): GeneratedEnglishPuzzle {

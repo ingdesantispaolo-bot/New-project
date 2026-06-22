@@ -61,7 +61,7 @@ export class PuzzleGenerator {
     const math = this.validationEngine.generateWithRetries(
         () => this.mathGenerator.generate(mathRandom, mathDifficulty),
         (puzzle) => this.mathValidator.validate(puzzle),
-        this.mathGenerator.fallback(),
+        this.mathGenerator.fallback(mathRandom.fork("fallback"), mathDifficulty),
       );
     const robot = this.validationEngine.generateWithRetries(
         () => this.robotGenerator.generate(robotRandom, robotDifficulty),
@@ -116,7 +116,7 @@ export class PuzzleGenerator {
             ? this.mathGenerator.generateMinigame(challengeRandom, stagedDifficulty, this.mathMinigameTypesForStep(index))
             : this.mathGenerator.generate(challengeRandom, stagedDifficulty, this.mathArchetypesForStep(index)),
           (candidate) => this.mathValidator.validate(candidate),
-          this.mathGenerator.fallback(),
+          this.mathGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty),
         );
         return {
           id,

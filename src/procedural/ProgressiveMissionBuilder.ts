@@ -62,6 +62,7 @@ type ProgressiveLevelBlueprint = {
   synthesisPrompt: string;
   synthesisCorrect: string;
   synthesisDistractors: [string, string];
+  synthesisSteps: [string, string, string];
   synthesisExplanation: string;
 };
 
@@ -71,6 +72,7 @@ const levelBlueprints: Record<DifficultyLevel, ProgressiveLevelBlueprint> = {
     synthesisPrompt: "Quale metodo collega messaggio, calcolo e comando finale?",
     synthesisCorrect: "Leggo il segnale, ricavo il dato e solo dopo eseguo il comando.",
     synthesisDistractors: ["Provo subito ogni comando disponibile.", "Scelgo la console con il punteggio più alto e ignoro le altre."],
+    synthesisSteps: ["Leggi il segnale", "Ricava il dato", "Esegui il comando"],
     synthesisExplanation: "Le tre discipline formano una catena: comprensione, trasformazione del dato, azione sicura.",
   },
   2: {
@@ -78,6 +80,7 @@ const levelBlueprints: Record<DifficultyLevel, ProgressiveLevelBlueprint> = {
     synthesisPrompt: "Il codice è corretto ma il circuito non risponde: quale controllo viene prima?",
     synthesisCorrect: "Verifico continuità e vincoli del circuito, poi applico il codice nel punto corretto.",
     synthesisDistractors: ["Cambio il risultato matematico finché il circuito si accende.", "Ignoro il circuito perché il calcolo è già corretto."],
+    synthesisSteps: ["Controlla il circuito", "Verifica i vincoli", "Applica il codice"],
     synthesisExplanation: "Un risultato corretto non basta se il sistema che deve usarlo non rispetta i propri vincoli.",
   },
   3: {
@@ -85,6 +88,7 @@ const levelBlueprints: Record<DifficultyLevel, ProgressiveLevelBlueprint> = {
     synthesisPrompt: "Come trasformi un comando inglese con una condizione in un'azione sicura?",
     synthesisCorrect: "Isolo condizione e divieto, li trasformo in controlli logici, poi verifico il dato.",
     synthesisDistractors: ["Traduco soltanto il verbo principale.", "Eseguo prima l'azione e controllo la condizione dopo."],
+    synthesisSteps: ["Isola condizione e divieto", "Trasforma in controlli", "Verifica il dato"],
     synthesisExplanation: "Lingua, matematica e coding convergono quando una frase diventa una regola eseguibile.",
   },
   4: {
@@ -92,6 +96,7 @@ const levelBlueprints: Record<DifficultyLevel, ProgressiveLevelBlueprint> = {
     synthesisPrompt: "Qual è il controllo migliore prima di avviare un algoritmo?",
     synthesisCorrect: "Simulo i passaggi con un caso concreto e confronto il risultato con tutti i vincoli.",
     synthesisDistractors: ["Controllo soltanto la prima istruzione.", "Avvio più volte il programma e tengo il risultato più comune."],
+    synthesisSteps: ["Scegli un caso concreto", "Simula i passaggi", "Confronta tutti i vincoli"],
     synthesisExplanation: "Calcolo, linguaggio e pattern diventano strumenti per prevedere l'effetto del codice.",
   },
   5: {
@@ -99,6 +104,7 @@ const levelBlueprints: Record<DifficultyLevel, ProgressiveLevelBlueprint> = {
     synthesisPrompt: "Due console segnalano lo stesso sintomo: come scegli la riparazione?",
     synthesisCorrect: "Confronto le prove di ogni sistema e intervengo solo sulla causa compatibile con tutte.",
     synthesisDistractors: ["Applico entrambe le riparazioni per sicurezza.", "Scelgo la causa indicata dalla console più veloce."],
+    synthesisSteps: ["Raccogli le prove", "Escludi cause incompatibili", "Intervieni sulla causa comune"],
     synthesisExplanation: "La diagnosi interdisciplinare usa più fonti per escludere interventi inutili.",
   },
   6: {
@@ -106,6 +112,7 @@ const levelBlueprints: Record<DifficultyLevel, ProgressiveLevelBlueprint> = {
     synthesisPrompt: "Come può un pattern musicale aiutare a verificare una sequenza tecnica?",
     synthesisCorrect: "Confronto ordine, ripetizioni e variazioni: lo stesso pattern deve restare coerente nei due sistemi.",
     synthesisDistractors: ["Uso soltanto la nota più alta come comando.", "La musica non può fornire informazioni a un algoritmo."],
+    synthesisSteps: ["Rileva il pattern", "Confronta le variazioni", "Verifica la sequenza tecnica"],
     synthesisExplanation: "Ritmo e algoritmo condividono ordine, ripetizione, previsione e controllo delle variazioni.",
   },
   7: {
@@ -113,6 +120,7 @@ const levelBlueprints: Record<DifficultyLevel, ProgressiveLevelBlueprint> = {
     synthesisPrompt: "I dati sono coerenti ma incompleti: quale conclusione è certificabile?",
     synthesisCorrect: "Formulo una conclusione limitata ai dati disponibili e segnalo ciò che resta da verificare.",
     synthesisDistractors: ["Completo i dati mancanti con l'ipotesi più probabile.", "Dichiaro il sistema risolto perché non ci sono contraddizioni."],
+    synthesisSteps: ["Separa dati e ipotesi", "Formula una conclusione limitata", "Segnala cosa manca"],
     synthesisExplanation: "Pensiero critico significa distinguere ciò che le prove mostrano da ciò che resta ipotesi.",
   },
   8: {
@@ -120,6 +128,7 @@ const levelBlueprints: Record<DifficultyLevel, ProgressiveLevelBlueprint> = {
     synthesisPrompt: "Quando il nucleo può essere dichiarato stabile?",
     synthesisCorrect: "Quando dati, istruzioni, calcoli e simulazione sostengono la stessa conclusione senza conflitti.",
     synthesisDistractors: ["Quando ogni console ha prodotto almeno un risultato.", "Quando il punteggio totale supera quello della run precedente."],
+    synthesisSteps: ["Confronta tutte le prove", "Risolvi i conflitti", "Certifica la conclusione comune"],
     synthesisExplanation: "La certificazione finale richiede coerenza tra prove diverse, non una somma di risposte isolate.",
   },
 };

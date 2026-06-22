@@ -29,6 +29,7 @@ export type SaveData = {
   proceduralTrainingRun?: ProceduralRunSave;
   proceduralProgressiveRun?: ProceduralRunSave;
   trainingRecords?: Record<string, TrainingRecord>;
+  learningMemory?: Record<string, { count: number; lastAt: string }>;
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;
 };

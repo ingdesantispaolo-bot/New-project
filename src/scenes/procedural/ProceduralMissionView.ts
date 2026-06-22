@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { propRenderer } from "../../core/PropRenderer";
 import { proceduralRunRules } from "../../core/ProceduralRunRules";
+import { saveSystem } from "../../core/SaveSystem";
 import { getProceduralFocusPath } from "../../data/procedural/focusPaths";
 import type { GeneratedRoomHotspot, ProceduralRunSave } from "../../procedural/ProceduralTypes";
 import { Button } from "../../ui/Button";
@@ -106,11 +107,13 @@ export class ProceduralMissionView {
 
     drawProceduralStageAtmosphere(scene, layout.stage, theme, run.solvedPuzzleIds.length, requiredIds.length, run.seed);
     const stability = requiredIds.length > 0 ? Phaser.Math.Clamp(run.solvedPuzzleIds.length / requiredIds.length, 0, 1) : 0;
+    const prismaticCore = saveSystem.data.inventory.includes("nora-prismatic-core");
+    const stabilityColor = prismaticCore ? 0x9f8cff : stability >= 1 ? theme.secondary : theme.accent;
     const stabilityWidth = layout.stage.width - 150;
     scene.add.rectangle(layout.stage.x + layout.stage.width / 2, layout.stage.y + 46, stabilityWidth, 14, 0x07151d, 0.88)
       .setStrokeStyle(1, theme.accent, 0.4);
     if (stability > 0) {
-      scene.add.rectangle(layout.stage.x + 75, layout.stage.y + 46, stabilityWidth * stability, 10, stability >= 1 ? theme.secondary : theme.accent, 0.92)
+      scene.add.rectangle(layout.stage.x + 75, layout.stage.y + 46, stabilityWidth * stability, 10, stabilityColor, 0.92)
         .setOrigin(0, 0.5);
     }
     scene.add.text(layout.stage.x + layout.stage.width / 2, layout.stage.y + 24, `STABILITÀ STANZA ${Math.round(stability * 100)}%`, {
@@ -163,7 +166,8 @@ export class ProceduralMissionView {
       lineSpacing: 3,
     });
     const feedbackText = SceneChrome.bottomLog(scene, layout.bottom, "", 330);
-    const earnedCharges = Math.min(2, Math.floor(run.solvedPuzzleIds.length / 2));
+    const chargeStep = saveSystem.data.inventory.includes("nora-reserve") ? 1 : 2;
+    const earnedCharges = Math.min(2, Math.floor(run.solvedPuzzleIds.length / chargeStep));
     const availableCharges = Math.max(0, earnedCharges - (run.noraChargesUsed ?? 0));
     if (onUseNoraCharge && proceduralRunRules.modeFor(run) !== "training" && availableCharges > 0) {
       new Button(scene, layout.bottom.x + layout.bottom.width - 430, layout.bottom.y + 28, `Impulso NORA ×${availableCharges}`, onUseNoraCharge, {

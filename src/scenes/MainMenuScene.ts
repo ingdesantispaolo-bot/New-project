@@ -575,7 +575,19 @@ export class MainMenuScene extends Phaser.Scene {
     if (!run) {
       return 1;
     }
-    return Math.min(8, run.completedAt ? run.difficulty + 1 : run.difficulty) as DifficultyLevel;
+    const report = playerSystem.playerReport();
+    const recentCutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    const recurringMistake = Math.max(0, ...Object.values(saveSystem.data.learningMemory ?? {})
+      .filter((item) => new Date(item.lastAt).getTime() >= recentCutoff)
+      .map((item) => item.count));
+    const base = run.difficulty;
+    if (report.globalGrade >= 8.5 && recurringMistake < 4) {
+      return Math.min(8, base + 1) as DifficultyLevel;
+    }
+    if ((report.globalGrade > 0 && report.globalGrade < 6.5) || recurringMistake >= 7) {
+      return Math.max(1, base - 1) as DifficultyLevel;
+    }
+    return base;
   }
 
   private isResumable(run: ProceduralRunSave | undefined): run is ProceduralRunSave {

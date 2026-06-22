@@ -193,9 +193,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private languageAnalyzed = false;
   private languageSelectedOption?: string;
   private languageEvidenceIndex?: number;
+  private languageDetailsOpen = false;
   private englishAnalyzed = false;
   private englishSelectedChoiceId?: string;
   private englishEvidenceIndex?: number;
+  private englishDetailsOpen = false;
   private circuitInspected = false;
   private circuitConceptVerified = false;
   private circuitConceptIndex = 0;
@@ -228,6 +230,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private timeoutSolutionOpen = false;
   private progressiveOutcomeOpen = false;
   private progressiveSynthesisAttempts = 0;
+  private progressiveSynthesisOrder: number[] = [];
 
   constructor() {
     super("ProceduralMissionScene");
@@ -281,13 +284,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (solved > 0) {
       return `NORA: una parte della stanza è tornata attiva. Il cambiamento resterà visibile nella prossima diagnosi.`;
     }
+    const adaptivePrompt = this.adaptiveMemoryPrompt();
+    if (adaptivePrompt) return adaptivePrompt;
     return this.isProgressiveMode()
       ? `Scalata guidata avviata. La stanza aprirà una console alla volta. Seed: ${this.run.seed}.`
       : `Stanza generata. Scegli una console da stabilizzare. Seed: ${this.run.seed}.`;
   }
 
+  private adaptiveMemoryPrompt(): string | undefined {
+    const nextId = this.requiredPuzzleIds().find((id) => !this.isSolved(id));
+    if (!nextId) return undefined;
+    const kind = puzzleKindFromId(nextId);
+    const count = saveSystem.data.learningMemory?.[`${kind}:concept`]?.count ?? 0;
+    if (count < 3) return undefined;
+    return `NORA riconosce un punto da consolidare in ${this.puzzleLabel(kind)}: prima individua la prova, poi formula la risposta. La difficoltà resta stabile finché il metodo non diventa autonomo.`;
+  }
+
   private availableNoraCharges(): number {
-    const earned = Math.min(2, Math.floor(this.run.solvedPuzzleIds.length / 2));
+    const chargeStep = saveSystem.data.inventory.includes("nora-reserve") ? 1 : 2;
+    const earned = Math.min(2, Math.floor(this.run.solvedPuzzleIds.length / chargeStep));
     return Math.max(0, earned - (this.run.noraChargesUsed ?? 0));
   }
 
@@ -326,12 +341,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
         const currentDeadline = this.run.deadlineAt ? new Date(this.run.deadlineAt).getTime() : Date.now();
         update.deadlineAt = new Date(Math.max(Date.now(), currentDeadline) + 30_000).toISOString();
       } else {
-        update.lives = Math.min(this.run.maxLives ?? proceduralRunRules.maxLives, (this.run.lives ?? proceduralRunRules.maxLives) + 1);
+        const restored = saveSystem.data.inventory.includes("nora-shield") ? 2 : 1;
+        update.lives = Math.min(this.run.maxLives ?? proceduralRunRules.maxLives, (this.run.lives ?? proceduralRunRules.maxLives) + restored);
       }
       saveSystem.updateProceduralRun(update);
       this.run = saveSystem.data.proceduralRun ?? this.run;
       audioManager.playOutcome("complete");
-      outcomeFeedback.play(this, "complete", effect === "time" ? "+30 secondi" : "+1 vita");
+      const lifeGain = saveSystem.data.inventory.includes("nora-shield") ? 2 : 1;
+      outcomeFeedback.play(this, "complete", effect === "time" ? "+30 secondi" : `+${lifeGain} vita${lifeGain > 1 ? "e" : ""}`);
       status.setColor("#f7d37a").setText(effect === "time" ? "NORA ha stabilizzato il timer." : "NORA ha ricostruito una protezione.");
       this.runWhenActive(1200, () => this.scene.restart());
     };
@@ -402,6 +419,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.missionFailureInProgress = false;
     this.progressiveOutcomeOpen = false;
     this.progressiveSynthesisAttempts = 0;
+    this.progressiveSynthesisOrder = [];
     this.timeoutSolutionOpen = false;
     this.overlay = undefined;
     this.feedbackText = undefined;
@@ -738,6 +756,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
     LanguageRepairConsole.addHeader(this, overlay, model);
     this.addLanguageBrief(overlay, model);
+    overlay.add(new Button(this, 1080, 72, this.languageDetailsOpen ? "Nascondi dettagli" : "Approfondisci", () => {
+      this.languageDetailsOpen = !this.languageDetailsOpen;
+      this.openLanguage();
+    }, { width: 176, height: 34, fontSize: 11, fill: 0x263743 }));
     if (!this.languageAnalyzed) {
       overlay.add(new Button(this, 866, 586, "Analizza struttura", () => {
         this.languageAnalyzed = true;
@@ -3266,6 +3288,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.drawEnglishChallengePanel(overlay, puzzle);
     this.drawEnglishSupportPanel(overlay, puzzle);
     this.drawEnglishReasoningPanel(overlay, puzzle);
+    overlay.add(new Button(this, 1080, 82, this.englishDetailsOpen ? "Nascondi dettagli" : "Approfondisci", () => {
+      this.englishDetailsOpen = !this.englishDetailsOpen;
+      this.openEnglish();
+    }, { width: 176, height: 34, fontSize: 11, fill: 0x263743 }));
 
     if (!this.englishAnalyzed) {
       overlay.add(new Button(this, 866, 574, "Decodifica comando", () => {
@@ -4549,13 +4575,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
         lineSpacing: 3,
       }));
     }
-    overlay.add(this.add.text(76, source ? 348 : 328, `Scopo: ${puzzle.learningPurpose ?? "Allena inglese operativo dentro una decisione tecnica."}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 462 },
-      lineSpacing: 2,
-    }));
+    if (this.englishDetailsOpen) {
+      overlay.add(this.add.text(76, source ? 348 : 328, `Scopo: ${puzzle.learningPurpose ?? "Allena inglese operativo dentro una decisione tecnica."}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9aaab0",
+        wordWrap: { width: 462 },
+        lineSpacing: 2,
+      }));
+    }
   }
 
   private drawEnglishSupportPanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
@@ -4566,7 +4594,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(614, 242, (puzzle.conceptTags ?? []).slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+    overlay.add(this.add.text(614, 242, this.englishDetailsOpen ? (puzzle.conceptTags ?? []).slice(0, 5).map((tag) => `#${tag}`).join("  ") : "Dettagli chiusi: concentrati prima sul comando principale.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
@@ -4574,6 +4602,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
+    if (!this.englishDetailsOpen) return;
     const dataPoints = (puzzle.dataPoints ?? []).slice(0, 3);
     if (dataPoints.length > 0) {
       dataPoints.forEach((point, index) => {
@@ -5721,10 +5750,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const level = this.run.progressive?.currentLevel ?? this.run.difficulty;
     const blueprint = progressiveMissionBuilder.blueprintForLevel(level);
-    const baseOptions = [blueprint.synthesisCorrect, ...blueprint.synthesisDistractors];
     const seedOffset = [...this.run.seed].reduce<number>((sum, char) => sum + char.charCodeAt(0), Number(level));
-    const offset = seedOffset % baseOptions.length;
-    const options = [...baseOptions.slice(offset), ...baseOptions.slice(0, offset)];
+    const stepIndexes = [0, 1, 2];
+    const offset = seedOffset % stepIndexes.length;
+    const shuffledIndexes = [...stepIndexes.slice(offset), ...stepIndexes.slice(0, offset)];
     const overlay = this.add.container(0, 0).setDepth(1900);
     SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.9);
     overlay.add(this.add.rectangle(640, 360, 900, 560, 0x07151d, 0.98).setStrokeStyle(2, 0xf6c85f, 0.82));
@@ -5748,7 +5777,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 820 },
       lineSpacing: 5,
     }));
-    const status = this.add.text(226, 510, "Collega le prove delle console: la porta non valuta una materia isolata.", {
+    overlay.add(this.add.rectangle(640, 306, 790, 64, 0x102533, 0.86).setStrokeStyle(1, 0xf6c85f, 0.38));
+    overlay.add(this.add.text(254, 288, this.progressiveSynthesisOrder.length > 0
+      ? this.progressiveSynthesisOrder.map((index, position) => `${position + 1}. ${blueprint.synthesisSteps[index]}`).join("  →  ")
+      : "Costruisci qui la sequenza: scegli i tre passaggi nell'ordine corretto.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: this.progressiveSynthesisOrder.length > 0 ? "#f7d37a" : "#9aaab0",
+      wordWrap: { width: 760 },
+    }));
+    const status = this.add.text(226, 528, "La porta valuta una procedura costruita, non il riconoscimento di una frase.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#c7dce7",
@@ -5756,34 +5794,63 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 4,
     });
     overlay.add(status);
-    options.forEach((option, index) => {
-      overlay.add(new Button(this, 640, 316 + index * 66, option, () => {
-        if (option === blueprint.synthesisCorrect) {
-          audioManager.playOutcome("complete");
-          outcomeFeedback.play(this, "complete", "Sintesi certificata");
-          feedbackSystem.publish(blueprint.synthesisExplanation, "success");
-          this.clearOverlay();
-          this.completeProgressiveLevel(true, `${reason} ${blueprint.synthesisExplanation}`);
-          return;
-        }
-        this.progressiveSynthesisAttempts += 1;
-        audioManager.playOutcome("wrong");
-        outcomeFeedback.play(this, "warning", "Collega tutte le prove");
-        if (this.progressiveSynthesisAttempts >= 2) {
-          this.clearOverlay();
-          this.loseMissionLife(`Sintesi non certificata. ${blueprint.synthesisExplanation}`);
-          return;
-        }
-        status.setColor("#ffb36b").setText(`Questa conclusione usa una sola scorciatoia. ${blueprint.synthesisExplanation} Correggi senza perdere una vita.`);
+    let validating = false;
+    shuffledIndexes.forEach((stepIndex, index) => {
+      const alreadySelected = this.progressiveSynthesisOrder.includes(stepIndex);
+      overlay.add(new Button(this, 640, 374 + index * 54, blueprint.synthesisSteps[stepIndex], () => {
+        if (validating || alreadySelected) return;
+        this.progressiveSynthesisOrder.push(stepIndex);
+        this.clearOverlay();
+        this.showProgressiveSynthesis(reason);
       }, {
         width: 790,
-        height: 52,
-        fill: 0x263743,
-        stroke: 0x6be7d6,
+        height: 42,
+        fill: alreadySelected ? 0x174d42 : 0x263743,
+        stroke: alreadySelected ? 0xf7d37a : 0x6be7d6,
         fontSize: 14,
         wordWrapWidth: 750,
       }));
     });
+    overlay.add(new Button(this, 392, 562, "Azzera ordine", () => {
+      if (validating) return;
+      this.progressiveSynthesisOrder = [];
+      this.clearOverlay();
+      this.showProgressiveSynthesis(reason);
+    }, { width: 210, height: 42, fill: 0x263743, fontSize: 13 }));
+    overlay.add(new Button(this, 824, 562, "Verifica sequenza", () => {
+      if (validating) return;
+      if (this.progressiveSynthesisOrder.length < blueprint.synthesisSteps.length) {
+        status.setColor("#ffb36b").setText("La sequenza è incompleta: usa tutti e tre i passaggi prima della verifica.");
+        return;
+      }
+      const correct = this.progressiveSynthesisOrder.every((step, index) => step === index);
+      if (correct) {
+        audioManager.playOutcome("complete");
+        outcomeFeedback.play(this, "complete", "Sintesi certificata");
+        feedbackSystem.publish(blueprint.synthesisExplanation, "success");
+        this.progressiveSynthesisOrder = [];
+        this.clearOverlay();
+        this.completeProgressiveLevel(true, `${reason} ${blueprint.synthesisExplanation}`);
+        return;
+      }
+      this.progressiveSynthesisAttempts += 1;
+      validating = true;
+      saveSystem.recordLearningMistake("progressive:synthesis-order");
+      this.progressiveSynthesisOrder = [];
+      audioManager.playOutcome("wrong");
+      outcomeFeedback.play(this, "warning", "Ordine da ricostruire");
+      if (this.progressiveSynthesisAttempts >= 2) {
+        this.clearOverlay();
+        this.loseMissionLife(`Sintesi non certificata. ${blueprint.synthesisExplanation}`);
+        return;
+      }
+      status.setColor("#ffb36b").setText(`${blueprint.synthesisExplanation} Ricostruisci l'ordine senza perdere una vita.`);
+      this.runWhenActive(1200, () => {
+        if (!this.overlay) return;
+        this.clearOverlay();
+        this.showProgressiveSynthesis(reason);
+      });
+    }, { width: 260, height: 42, fill: 0x173b36, stroke: 0xf6c85f, fontSize: 14 }));
     this.overlay = overlay;
   }
 
@@ -5852,10 +5919,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private useHint(text: string): void {
     this.recordPuzzleSupport();
-    saveSystem.incrementProceduralHints();
+    const freeLens = saveSystem.data.inventory.includes("nora-lens") && !this.run.noraLensUsed;
+    if (freeLens) {
+      saveSystem.updateProceduralRun({ noraLensUsed: true });
+    } else {
+      saveSystem.incrementProceduralHints();
+    }
     this.run = saveSystem.data.proceduralRun ?? this.run;
     audioManager.playOutcome("hint");
-    feedbackSystem.publish(`Indizio: ${text}`, "hint");
+    feedbackSystem.publish(`${freeLens ? "Lente causale NORA" : "Indizio"}: ${text}${freeLens ? " La prima analisi della run non consuma aiuti." : ""}`, "hint");
   }
 
   private handleIncorrectAnswer(message: string): boolean {
@@ -5866,6 +5938,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return true;
     }
     this.recordPuzzleMistake();
+    const category = `${this.activePuzzleKind ?? "unknown"}:${message.toLowerCase().includes("prova") ? "evidence" : "concept"}`;
+    const memoryCount = saveSystem.recordLearningMistake(category);
     const attempts = this.activePuzzleAttempts();
     if (this.isTimedMissionMode() && attempts >= 2) {
       this.loseMissionLife(message);
@@ -5876,7 +5950,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     feedbackSystem.publish(
       `${message} ${attempts === 1
         ? "Il primo errore è una diagnosi: correggi la scelta senza perdere la prova."
-        : "Usa il feedback per modificare un solo passaggio alla volta."}`,
+        : "Usa il feedback per modificare un solo passaggio alla volta."}${memoryCount >= 3 ? " NORA ha riconosciuto questo schema: nella prossima prova mostrerà prima il controllo utile." : ""}`,
       "warning",
     );
     return false;
@@ -6086,6 +6160,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       outcome: this.assessProgressiveOutcome(success, solvedCount, required.length),
       completedAt,
     };
+    if (success) this.unlockProgressiveTool(result.level);
     const results = [...progressive.results.filter((item) => item.level !== result.level), result]
       .sort((a, b) => a.level - b.level);
     const unlockedLevel = success
@@ -6111,6 +6186,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
         : result.level;
       this.parkProgressiveLevel(resumeLevel, results);
     }
+  }
+
+  private unlockProgressiveTool(level: DifficultyLevel): void {
+    const unlocks: Partial<Record<DifficultyLevel, { id: string; label: string }>> = {
+      1: { id: "nora-lens", label: "Lente causale: il primo indizio di ogni run è gratuito" },
+      3: { id: "nora-reserve", label: "Riserva rapida: gli impulsi NORA si caricano più velocemente" },
+      5: { id: "nora-shield", label: "Scudo rinforzato: una carica può recuperare due vite" },
+      8: { id: "nora-prismatic-core", label: "Nucleo prismatico: certificazione permanente della scalata" },
+    };
+    const unlock = unlocks[level];
+    if (!unlock || saveSystem.data.inventory.includes(unlock.id)) return;
+    saveSystem.addInventoryItem(unlock.id);
+    feedbackSystem.publish(`Nuovo strumento NORA sbloccato — ${unlock.label}.`, "success");
   }
 
   private assessProgressiveOutcome(
@@ -6439,9 +6527,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.languageAnalyzed = false;
     this.languageSelectedOption = undefined;
     this.languageEvidenceIndex = undefined;
+    this.languageDetailsOpen = false;
     this.englishAnalyzed = false;
     this.englishSelectedChoiceId = undefined;
     this.englishEvidenceIndex = undefined;
+    this.englishDetailsOpen = false;
     this.circuitInspected = false;
     this.circuitConceptVerified = false;
     this.circuitConceptIndex = 0;
@@ -6626,13 +6716,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 456, useAdvancedWrap: true },
       lineSpacing: 3,
     }));
-    overlay.add(this.add.text(76, 342, `Scopo: ${model.learningPurpose}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 456, useAdvancedWrap: true },
-      lineSpacing: 2,
-    }));
+    if (this.languageDetailsOpen) {
+      overlay.add(this.add.text(76, 342, `Scopo: ${model.learningPurpose}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9aaab0",
+        wordWrap: { width: 456, useAdvancedWrap: true },
+        lineSpacing: 2,
+      }));
+    }
 
     overlay.add(this.add.rectangle(866, 256, 540, 66, 0x07151d, 0.78).setStrokeStyle(1, 0x6be7d6, 0.2));
     overlay.add(this.add.text(614, 232, "Concetti allenati", {
@@ -6641,7 +6733,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(614, 254, model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+    overlay.add(this.add.text(614, 254, this.languageDetailsOpen ? model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  ") : "Apri Approfondisci per scopo, concetti e metodo completo.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
@@ -6656,7 +6748,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#f7d37a",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(76, 468, model.method, {
+    overlay.add(this.add.text(76, 468, this.languageDetailsOpen ? model.method : "Usa le prove numerate del segnale e verifica la scelta prima di confermare.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
@@ -6671,20 +6763,23 @@ export class ProceduralMissionScene extends Phaser.Scene {
     diagnosticSteps: string[],
   ): void {
     const selectedIndex = kind === "language" ? this.languageEvidenceIndex : this.englishEvidenceIndex;
-    overlay.add(this.add.text(56, 552, "PROVA OSSERVABILE · scegli il controllo che sostiene la risposta", {
+    overlay.add(this.add.text(56, 536, "PROVA OSSERVABILE · scegli la frase che sostiene la risposta", {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#f7d37a",
       fontStyle: "bold",
     }));
     const choices = [
-      ...diagnosticSteps.slice(0, 3).map((_, index) => ({ index, label: `Prova ${index + 1}` })),
+      ...diagnosticSteps.slice(0, 3).map((step, index) => ({ index, label: step.length > 58 ? `${step.slice(0, 55)}…` : step })),
       { index: -1, label: "Solo impressione" },
     ];
-    const width = Math.min(124, Math.floor(500 / choices.length) - 8);
+    const width = 238;
     choices.forEach((choice, index) => {
-      const x = 56 + width / 2 + index * (width + 8);
-      overlay.add(new Button(this, x, 584, choice.label, () => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      const x = 56 + width / 2 + col * (width + 10);
+      const y = 568 + row * 36;
+      overlay.add(new Button(this, x, y, choice.label, () => {
         if (kind === "language") {
           this.languageEvidenceIndex = choice.index;
           this.openLanguage();
@@ -6694,8 +6789,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
         }
       }, {
         width,
-        height: 34,
-        fontSize: choice.index < 0 ? 10 : 12,
+        height: 30,
+        fontSize: choice.index < 0 ? 10 : 9,
+        wordWrapWidth: width - 18,
         fill: selectedIndex === choice.index ? 0x174d42 : 0x263743,
         stroke: selectedIndex === choice.index ? 0xf7d37a : 0x6be7d6,
       }));

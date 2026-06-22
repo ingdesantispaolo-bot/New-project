@@ -53,6 +53,7 @@ export class SaveSystem {
         proceduralTrainingRun: this.normalizeProceduralRun(parsed.proceduralTrainingRun),
         proceduralProgressiveRun: this.normalizeProceduralRun(parsed.proceduralProgressiveRun),
         trainingRecords: parsed.trainingRecords ?? {},
+        learningMemory: parsed.learningMemory ?? {},
         greenhouseRun: parsed.greenhouseRun,
         numberFactoryRun: parsed.numberFactoryRun,
       };
@@ -243,6 +244,9 @@ export class SaveSystem {
       solvedPuzzleIds: [...run.solvedPuzzleIds, puzzleId],
       failedPuzzleIds: (run.failedPuzzleIds ?? []).filter((id) => id !== puzzleId),
     });
+    const kind = puzzleId.split("-")[0];
+    this.resolveLearningMistake(`${kind}:concept`);
+    this.resolveLearningMistake(`${kind}:evidence`);
   }
 
   markProceduralPuzzleFailed(puzzleId: string): void {
@@ -259,6 +263,27 @@ export class SaveSystem {
       return;
     }
     this.updateProceduralRun({ hintsUsed: run.hintsUsed + 1 });
+  }
+
+  recordLearningMistake(category: string): number {
+    const previous = this.saveData.learningMemory?.[category];
+    const count = (previous?.count ?? 0) + 1;
+    this.saveData.learningMemory = {
+      ...(this.saveData.learningMemory ?? {}),
+      [category]: { count, lastAt: new Date().toISOString() },
+    };
+    this.persist();
+    return count;
+  }
+
+  private resolveLearningMistake(category: string): void {
+    const previous = this.saveData.learningMemory?.[category];
+    if (!previous || previous.count <= 0) return;
+    this.saveData.learningMemory = {
+      ...(this.saveData.learningMemory ?? {}),
+      [category]: { count: Math.max(0, previous.count - 1), lastAt: new Date().toISOString() },
+    };
+    this.persist();
   }
 
   updateCompetency(id: string, amount: number): void {
@@ -294,6 +319,7 @@ export class SaveSystem {
       flags: {},
       journalEntries: [],
       trainingRecords: {},
+      learningMemory: {},
     };
   }
 

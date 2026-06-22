@@ -814,16 +814,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.languageEvidenceIndex < 0) {
+      outcomeFeedback.answer(this, false, "Solo impressione", model.diagnosticSteps[0] ?? "Una prova testuale", "Una risposta valida deve essere sostenuta da un controllo osservabile.");
       this.languageEvidenceIndex = undefined;
       const exited = this.handleIncorrectAnswer("Una sensazione generale non è una prova: indica quale controllo grammaticale o logico sostiene la scelta.");
       if (!exited) this.openLanguage();
       return;
     }
     if (option === model.correctAnswer) {
+      outcomeFeedback.answer(this, true, option, model.correctAnswer, model.diagnosticSteps[this.languageEvidenceIndex] ?? model.method);
       this.solvePuzzle(this.currentPuzzleId("language"), puzzle.competencies);
       return;
     }
     const optionIndex = model.options.indexOf(option);
+    outcomeFeedback.answer(this, false, option, model.correctAnswer, model.optionFeedback[option] ?? model.method);
     this.languageSelectedOption = undefined;
     const exited = this.handleIncorrectAnswer(model.optionFeedback[option] ?? model.hints[Math.min(optionIndex, model.hints.length - 1)]);
     if (!exited) this.openLanguage();
@@ -1117,6 +1120,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const selected = prompt.tiles.find((tile) => tile.id === selectedId);
     if (!selected?.isCorrect) {
       const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      outcomeFeedback.answer(this, false, selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
       if (this.isTimedMissionMode()) {
         this.languageMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
@@ -1131,7 +1135,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
       outcomeFeedback.play(this, "warning", "Rileggi il vincolo");
-      this.advanceLanguageMinigamePrompt(1800);
+      this.advanceLanguageMinigamePrompt(2400);
       return;
     }
 
@@ -1143,9 +1147,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.netScore += award;
     session.feedback = `Corretta: ${prompt.explanation} +${award}`;
     session.locked = true;
+    outcomeFeedback.answer(this, true, selected.label, prompt.solutionLabels.join(", "), prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
-    this.advanceLanguageMinigamePrompt(1250);
+    this.advanceLanguageMinigamePrompt(1900);
   }
 
   private advanceLanguageMinigamePrompt(delayMs: number): void {
@@ -1453,11 +1458,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(new Button(this, 1010, 604, "Testa circuito", () => {
       const required = new Set(puzzle.requiredRepairs);
       const exact = this.selectedRepairs.size === required.size && [...this.selectedRepairs].every((fault) => required.has(fault));
+      const selectedLabel = [...this.selectedRepairs].map((fault) => repairLabels[fault]).join(", ") || "nessun intervento";
+      const correctLabel = puzzle.requiredRepairs.map((fault) => repairLabels[fault]).join(", ");
       if (exact) {
         const explanation = puzzle.requiredRepairs
           .map((fault) => model.explanations[fault] ?? faultLabels[fault])
           .join(" ");
         this.animateCircuitTest(true, () => {
+          outcomeFeedback.answer(this, true, selectedLabel, correctLabel, explanation);
           feedbackSystem.publish(`Circuito certificato. ${explanation}`, "success");
           this.solvePuzzle(this.currentPuzzleId("circuit"), puzzle.competencies);
         });
@@ -1468,7 +1476,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const message = missing.length > 0
         ? `Manca ancora una causa: ${faultLabels[missing[0]]}.`
         : `Hai aggiunto un intervento non necessario: ${faultLabels[extra[0]]}.`;
-      this.animateCircuitTest(false, () => this.handleIncorrectAnswer(`${message} ${this.nextPedagogicHint(puzzle, puzzle.hints[0] ?? "Rileggi il tester e collega sintomo a causa.")}`));
+      this.animateCircuitTest(false, () => {
+        outcomeFeedback.answer(this, false, selectedLabel, correctLabel, message);
+        this.handleIncorrectAnswer(`${message} ${this.nextPedagogicHint(puzzle, puzzle.hints[0] ?? "Rileggi il tester e collega sintomo a causa.")}`);
+      });
     }, { width: 250, height: 52, fill: 0x173b36 }));
   }
 
@@ -1653,7 +1664,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const symbolOk = this.circuitSymbolAnswer === challenge.correctSymbol;
     const functionOk = this.circuitFunctionAnswer === challenge.correctFunction;
+    const selectedAnswer = `${this.circuitSymbolAnswer} · ${this.circuitFunctionAnswer}`;
+    const correctAnswer = `${challenge.correctSymbol} · ${challenge.correctFunction}`;
     if (symbolOk && functionOk) {
+      outcomeFeedback.answer(this, true, selectedAnswer, correctAnswer, challenge.explanation);
       audioManager.playOutcome("correct");
       outcomeFeedback.play(this, "success", challenge.componentLabel);
       feedbackSystem.publish(`Componente riconosciuto: ${challenge.explanation}`, "success");
@@ -1673,6 +1687,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         ? "il simbolo scelto non corrisponde a quello evidenziato"
         : "la funzione scelta non spiega il ruolo del componente";
     const message = `${problem}. ${challenge.explanation}`;
+    outcomeFeedback.answer(this, false, selectedAnswer, correctAnswer, challenge.explanation);
     const exited = this.handleIncorrectAnswer(message);
     if (!exited) {
       this.circuitSymbolAnswer = undefined;
@@ -2680,11 +2695,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (key === "OK") {
       const enteredValue = Number(this.mathEntry);
       if (enteredValue === puzzle.answer) {
+        outcomeFeedback.answer(this, true, String(enteredValue), String(puzzle.answer), puzzle.solutionSteps?.join(" → "));
         this.solvePuzzle(this.currentPuzzleId("math"), puzzle.competencies);
         return;
       }
       this.mathEntry = "";
       this.mathSupportMessage = `Il valore ${Number.isFinite(enteredValue) ? enteredValue : "inserito"} non chiude il terminale. Controlla un passaggio intermedio, non provare numeri a caso. ${this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])}`;
+      outcomeFeedback.answer(this, false, Number.isFinite(enteredValue) ? String(enteredValue) : "valore non valido", String(puzzle.answer), puzzle.solutionSteps?.join(" → "));
       if (this.handleIncorrectAnswer(this.mathSupportMessage)) {
         return;
       }
@@ -3032,14 +3049,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const correctIds = new Set(prompt.tiles.filter((tile) => tile.isCorrect).map((tile) => tile.id));
+    const selectedLabels = prompt.tiles
+      .filter((tile) => session.selectedIds.has(tile.id))
+      .map((tile) => tile.label)
+      .join(", ");
     const exactSelection = session.selectedIds.size === correctIds.size
       && [...session.selectedIds].every((id) => correctIds.has(id));
     if (!exactSelection) {
-      const selectedLabels = prompt.tiles
-        .filter((tile) => session.selectedIds.has(tile.id))
-        .map((tile) => tile.label)
-        .join(", ");
       const message = `Scelta non certificabile (${selectedLabels || "nessuna"}). Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      outcomeFeedback.answer(this, false, selectedLabels || "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
       if (this.isTimedMissionMode()) {
         this.mathMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
@@ -3054,7 +3072,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
       outcomeFeedback.play(this, "warning", "Calcolo da rivedere");
-      this.advanceMathMinigamePrompt(1800);
+      this.advanceMathMinigamePrompt(2400);
       return;
     }
 
@@ -3066,9 +3084,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.netScore += award;
     session.feedback = `Corretta: ${prompt.explanation} +${award}`;
     session.locked = true;
+    outcomeFeedback.answer(this, true, selectedLabels, prompt.solutionLabels.join(", "), prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
-    this.advanceMathMinigamePrompt(1250);
+    this.advanceMathMinigamePrompt(1900);
   }
 
   private advanceMathMinigamePrompt(delayMs: number): void {
@@ -3224,10 +3243,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.runWhenActive(1750, () => this.scene.restart());
+      this.runWhenActive(2200, () => this.scene.restart());
       return;
     }
-    this.runWhenActive(1750, () => this.scene.restart());
+    this.runWhenActive(2200, () => this.scene.restart());
   }
 
   private finalizeMathMinigameScore(session: MathMinigameSession): ProceduralPuzzleScore {
@@ -3351,16 +3370,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.englishEvidenceIndex < 0) {
+      const correctChoice = puzzle.choices.find((item) => item.isCorrect)?.label ?? "Azione coerente con il comando";
+      outcomeFeedback.answer(this, false, "Solo impressione", correctChoice, "Indica la parola, condizione o dato che autorizza l'azione.");
       this.englishEvidenceIndex = undefined;
       const exited = this.handleIncorrectAnswer("La somiglianza con un comando già visto non basta: indica la parola o condizione che autorizza questa azione.");
       if (!exited) this.openEnglish();
       return;
     }
     if (choice.isCorrect) {
+      outcomeFeedback.answer(this, true, choice.label, choice.label, puzzle.diagnosticSteps[this.englishEvidenceIndex] ?? puzzle.method);
       this.solvePuzzle(this.currentPuzzleId("english"), puzzle.competencies);
       return;
     }
     this.englishSelectedChoiceId = undefined;
+    outcomeFeedback.answer(this, false, choice.label, puzzle.choices.find((item) => item.isCorrect)?.label ?? "Azione corretta", choice.feedback);
     const exited = this.handleIncorrectAnswer(choice.feedback);
     if (!exited) this.openEnglish();
   }
@@ -3669,6 +3692,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const selected = prompt.tiles.find((tile) => tile.id === selectedId);
     if (!selected?.isCorrect) {
       const message = `${selected?.feedback ?? "Unsafe action."} Solution: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      outcomeFeedback.answer(this, false, selected?.label ?? "no answer", prompt.solutionLabels.join(", "), prompt.explanation);
       if (this.isTimedMissionMode()) {
         this.englishMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
@@ -3683,7 +3707,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
       outcomeFeedback.play(this, "warning", "Rileggi il comando");
-      this.advanceEnglishMinigamePrompt(1800);
+      this.advanceEnglishMinigamePrompt(2400);
       return;
     }
 
@@ -3695,9 +3719,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.netScore += award;
     session.feedback = `Correct: ${prompt.explanation} +${award}`;
     session.locked = true;
+    outcomeFeedback.answer(this, true, selected.label, prompt.solutionLabels.join(", "), prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
-    this.advanceEnglishMinigamePrompt(1250);
+    this.advanceEnglishMinigamePrompt(1900);
   }
 
   private advanceEnglishMinigamePrompt(delayMs: number): void {
@@ -4192,6 +4217,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const selected = prompt.tiles.find((tile) => tile.id === selectedId);
     if (!selected?.isCorrect) {
       const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      outcomeFeedback.answer(this, false, selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
       if (this.isTimedMissionMode()) {
         this.codingMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
@@ -4206,7 +4232,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
       outcomeFeedback.play(this, "warning", "Simula di nuovo");
-      this.advanceCodingMinigamePrompt(1800);
+      this.advanceCodingMinigamePrompt(2400);
       return;
     }
 
@@ -4218,9 +4244,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.netScore += award;
     session.feedback = `Corretto: ${prompt.explanation} +${award}`;
     session.locked = true;
+    outcomeFeedback.answer(this, true, selected.label, prompt.solutionLabels.join(", "), prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
-    this.advanceCodingMinigamePrompt(1250);
+    this.advanceCodingMinigamePrompt(1900);
   }
 
   private advanceCodingMinigamePrompt(delayMs: number): void {
@@ -4525,9 +4552,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const optionY = taskPanel.y + 164 + index * 46;
       overlay.add(new Button(this, taskPanel.x + taskPanel.w / 2, optionY, option, () => {
         if (option === puzzle.correctOption) {
+          outcomeFeedback.answer(this, true, option, puzzle.correctOption, puzzle.explanation);
           this.solvePuzzle(this.currentPuzzleId("coding"), puzzle.competencies);
           return;
         }
+        outcomeFeedback.answer(this, false, option, puzzle.correctOption, puzzle.explanation);
         this.handleIncorrectAnswer(`${puzzle.explanation} La scelta "${option}" non rispetta il metodo: ${puzzle.methodSteps.join(" -> ")}.`);
       }, {
         width: taskPanel.w - 70,
@@ -4704,7 +4733,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           this.finishMusicSprint();
           return;
         }
-        this.answerMusicSprint(choice.isCorrect, choice.feedback);
+        this.answerMusicSprint(choice.isCorrect, choice.feedback, choice.label);
       }, {
         width: 218,
         height: 60,
@@ -4866,13 +4895,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return this.musicSession;
   }
 
-  private answerMusicSprint(correct: boolean, feedback: string): void {
+  private answerMusicSprint(correct: boolean, feedback: string, selectedLabel: string): void {
     const session = this.musicSession;
     const puzzleId = this.currentPuzzleId("music");
     if (!session || session.puzzleId !== puzzleId || session.locked || session.summaryOpen) {
       return;
     }
     session.locked = true;
+    const correctLabel = session.current.choices.find((choice) => choice.isCorrect)?.label ?? "soluzione indicata";
+    outcomeFeedback.answer(this, correct, selectedLabel, correctLabel, feedback);
     const points = this.musicAnswerPoints(session, correct);
     session.answered += 1;
     if (correct) {
@@ -4900,7 +4931,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.finishMusicSprint();
       return;
     }
-    this.runWhenActive(correct ? 900 : 1500, () => this.advanceMusicSprintQuestion(session));
+    this.runWhenActive(correct ? 1900 : 2400, () => this.advanceMusicSprintQuestion(session));
   }
 
   private advanceMusicSprintQuestion(session: MusicTrainingSession): void {
@@ -5130,10 +5161,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.runWhenActive(1750, () => this.scene.restart());
+      this.runWhenActive(2200, () => this.scene.restart());
       return;
     }
-    this.runWhenActive(1750, () => this.scene.restart());
+    this.runWhenActive(2200, () => this.scene.restart());
   }
 
   private finalizeMusicSprintScore(session: MusicTrainingSession): ProceduralPuzzleScore {
@@ -5903,10 +5934,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.isProgressiveMode()) {
       // Redraw the room so the repaired console and the restored path remain
       // visible before the next system opens.
-      this.runWhenActive(1750, () => this.scene.restart());
+      this.runWhenActive(2200, () => this.scene.restart());
       return;
     }
-    this.runWhenActive(1750, () => this.scene.restart());
+    this.runWhenActive(2200, () => this.scene.restart());
   }
 
   private nextPendingProgressivePuzzleId(): string | undefined {
@@ -6088,7 +6119,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       feedbackSystem.publish(this.isProgressiveMode()
         ? `Tentativo fallito: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. La scalata riapre automaticamente la prossima console non stabile.`
         : `Vita persa: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. I sistemi già stabilizzati restano validi; scegli con attenzione la prossima console.`, "warning");
-      this.runWhenActive(1050, () => this.scene.restart());
+      this.runWhenActive(2400, () => this.scene.restart());
       return;
     }
   }

@@ -68,6 +68,7 @@ function hexToRgb(color: number): { r: number; g: number; b: number } {
 class OutcomeFeedback {
   private lastEffectAt = 0;
   private lastTone?: OutcomeTone;
+  private answerCards = new WeakMap<Phaser.Scene, Phaser.GameObjects.Container>();
 
   play(scene: Phaser.Scene, tone: OutcomeTone, label?: string): void {
     const now = Date.now();
@@ -96,6 +97,78 @@ class OutcomeFeedback {
     this.drawPulse(scene, spec);
     this.drawBanner(scene, spec, label);
     this.drawParticles(scene, spec, tone);
+  }
+
+  answer(
+    scene: Phaser.Scene,
+    correct: boolean,
+    selectedAnswer: string,
+    correctAnswer: string,
+    explanation?: string,
+  ): void {
+    this.answerCards.get(scene)?.destroy(true);
+    const compact = (value: string, limit: number): string => value.length > limit ? `${value.slice(0, limit - 1).trimEnd()}…` : value;
+    const selectedText = compact(selectedAnswer || "nessuna risposta", 105);
+    const correctText = compact(correctAnswer, 120);
+    const explanationText = explanation ? compact(explanation, 180) : undefined;
+    const { width } = scene.scale;
+    const color = correct ? 0x2ed889 : 0xc94b55;
+    const textColor = correct ? "#9ff5e9" : "#ffb0a8";
+    const container = scene.add.container(width / 2, 184).setDepth(9750).setScrollFactor(0);
+    const panelHeight = explanationText ? 154 : 126;
+    container.add(scene.add.rectangle(6, 8, 720, panelHeight, 0x000000, 0.38));
+    container.add(scene.add.rectangle(0, 0, 720, panelHeight, 0x061019, 0.98).setStrokeStyle(3, color, 0.98));
+    container.add(scene.add.rectangle(-352, 0, 9, panelHeight - 14, color, 1));
+    container.add(scene.add.circle(-316, -panelHeight / 2 + 34, 20, color, 0.2).setStrokeStyle(2, color, 1));
+    container.add(scene.add.text(-316, -panelHeight / 2 + 33, correct ? "✓" : "!", {
+      fontFamily: "Inter, Arial",
+      fontSize: "22px",
+      color: textColor,
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    container.add(scene.add.text(-282, -panelHeight / 2 + 22, correct ? "RISPOSTA ESATTA" : "RISPOSTA ERRATA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: textColor,
+      fontStyle: "bold",
+    }));
+    container.add(scene.add.text(-282, -panelHeight / 2 + 50, `Hai scelto: ${selectedText}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#c7dce7",
+      wordWrap: { width: 610, useAdvancedWrap: true },
+    }));
+    container.add(scene.add.text(-282, -panelHeight / 2 + 76, `${correct ? "Conferma" : "Risposta corretta"}: ${correctText}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 610, useAdvancedWrap: true },
+    }));
+    if (explanationText) {
+      container.add(scene.add.text(-282, -panelHeight / 2 + 108, explanationText, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9aaab0",
+        wordWrap: { width: 610, useAdvancedWrap: true },
+      }));
+    }
+    container.setAlpha(0).setY(158);
+    this.answerCards.set(scene, container);
+    scene.tweens.add({
+      targets: container,
+      y: 184,
+      alpha: 1,
+      duration: 180,
+      ease: "Sine.easeOut",
+      yoyo: true,
+      hold: correct ? 1600 : 2100,
+      completeDelay: 160,
+      onComplete: () => {
+        if (this.answerCards.get(scene) === container) this.answerCards.delete(scene);
+        container.destroy(true);
+      },
+    });
   }
 
   private drawPulse(scene: Phaser.Scene, spec: OutcomeSpec): void {

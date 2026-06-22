@@ -556,6 +556,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? progressiveMissionBuilder.timeLimitMs(run.progressive?.currentLevel ?? run.difficulty, Math.max(1, run.mission.objectives.length))
       : proceduralRunRules.missionTimeLimitMs(run.difficulty, Math.max(1, run.mission.objectives.length)));
     const update: Partial<ProceduralRunSave> = {};
+    if (mode === "progressive" && run.progressive) {
+      const currentLevel = run.progressive.currentLevel;
+      if (run.difficulty !== currentLevel) update.difficulty = currentLevel;
+      if (run.progressive.levelTimeLimitMs !== timeLimitMs) {
+        update.progressive = { ...run.progressive, levelTimeLimitMs: timeLimitMs };
+      }
+    }
     if (run.mode !== mode) update.mode = mode;
     if (run.maxLives === undefined) update.maxLives = proceduralRunRules.maxLives;
     if (run.lives === undefined) update.lives = proceduralRunRules.maxLives;
@@ -683,7 +690,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private startProgressiveLevel(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): void {
-    saveSystem.setProceduralRun(this.createProgressiveRun(level, previousResults));
+    const nextRun = this.createProgressiveRun(level, previousResults);
+    saveSystem.setProceduralRun(nextRun);
+    const persisted = saveSystem.getProceduralProgressiveRun();
+    if (!persisted || persisted.difficulty !== level || persisted.progressive?.currentLevel !== level) {
+      saveSystem.setProceduralRun(nextRun);
+    }
     this.scene.restart();
   }
 

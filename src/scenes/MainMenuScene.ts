@@ -157,7 +157,7 @@ export class MainMenuScene extends Phaser.Scene {
       wordWrap: { width: 360 },
       lineSpacing: 5,
     });
-    this.add.text(828, 266, `Livello selezionato: ${selected}/8`, {
+    this.add.text(828, 266, `Livello allenamento selezionato: ${selected}/8`, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#f6c85f",
@@ -421,10 +421,34 @@ export class MainMenuScene extends Phaser.Scene {
     }, { width: 190, height: 50, fill: 0x263743, fontSize: 16 });
     const confirm = new Button(this, 770, 454, "Azzera e ricomincia", () => {
       modal.destroy(true);
-      this.transitioning = false;
-      this.startProgressiveMission();
+      this.resetProgressiveMissionFromScratch();
     }, { width: 250, height: 50, fill: 0x3a2525, stroke: 0xf6c85f, fontSize: 16 });
     modal.add([blocker, panel, title, detail, cancel, confirm]);
+  }
+
+  private resetProgressiveMissionFromScratch(): void {
+    if (this.transitioning) return;
+    this.transitioning = true;
+    const clearBusy = this.showBusy("Azzero la scalata e preparo il livello 1...");
+    this.time.delayedCall(40, () => {
+      try {
+        this.createProgressiveRun(1, []);
+        const resetRun = saveSystem.getProceduralProgressiveRun();
+        if (!resetRun || resetRun.difficulty !== 1 || resetRun.progressive?.currentLevel !== 1 || resetRun.progressive.results.length !== 0) {
+          throw new Error("Reset scalata non coerente");
+        }
+        saveSystem.setActiveProceduralRun(resetRun);
+        void startScene(this, "ProceduralMissionScene").catch(() => {
+          clearBusy();
+          this.transitioning = false;
+          this.showMenuError("Reset completato, ma non sono riuscito ad aprire il livello 1.");
+        });
+      } catch {
+        clearBusy();
+        this.transitioning = false;
+        this.showMenuError("Non sono riuscito ad azzerare completamente la scalata.");
+      }
+    });
   }
 
   private showBusy(label: string): () => void {

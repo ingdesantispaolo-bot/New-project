@@ -87,9 +87,14 @@ export class LanguageCorruptionGenerator {
     };
   }
 
-  fallback(): GeneratedLanguagePuzzle {
-    const template = languageTemplates[0];
-    return { ...this.buildPuzzle(template, [template.repaired, ...template.distractors], 1), id: "language-fallback" };
+  fallback(random?: Random, difficultyLevel = 1): GeneratedLanguagePuzzle {
+    const eligible = languageTemplates.filter((template) => (template.minDifficulty ?? 1) <= difficultyLevel);
+    const template = random?.pick(eligible.length > 0 ? eligible : languageTemplates) ?? languageTemplates[0];
+    const options = random?.shuffle([template.repaired, ...template.distractors]) ?? [template.repaired, ...template.distractors];
+    return {
+      ...this.buildPuzzle(template, options, difficultyLevel),
+      id: `language-fallback-${template.id}-${random?.integer(1000, 9999) ?? 0}`,
+    };
   }
 
   private buildMinigame(random: Random, level: number, type: LanguageMinigameType): GeneratedLanguageMinigame {

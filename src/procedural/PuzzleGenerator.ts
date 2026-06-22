@@ -61,22 +61,22 @@ export class PuzzleGenerator {
     const math = this.validationEngine.generateWithRetries(
         () => this.mathGenerator.generate(mathRandom, mathDifficulty),
         (puzzle) => this.mathValidator.validate(puzzle),
-        this.mathGenerator.fallback(mathRandom.fork("fallback"), mathDifficulty),
+        () => this.mathGenerator.fallback(mathRandom.fork("fallback"), mathDifficulty),
       );
     const robot = this.validationEngine.generateWithRetries(
         () => this.robotGenerator.generate(robotRandom, robotDifficulty),
         (puzzle) => this.robotValidator.validate(puzzle),
-        this.robotGenerator.fallback(),
+        () => this.robotGenerator.fallback(undefined, robotRandom.fork("fallback")),
       );
     const circuit = this.validationEngine.generateWithRetries(
         () => this.circuitGenerator.generate(circuitRandom, circuitDifficulty),
         (puzzle) => this.circuitValidator.validate(puzzle),
-        this.circuitGenerator.fallback(circuitDifficulty.level),
+        () => this.circuitGenerator.fallback(circuitDifficulty.level, circuitRandom.fork("fallback"), circuitDifficulty),
     );
     const coding = this.validationEngine.generateWithRetries(
       () => this.codingGenerator.generate(codingRandom, codingDifficulty),
       (puzzle) => this.codingValidator.validate(puzzle),
-      this.codingGenerator.fallback(),
+      () => this.codingGenerator.fallback(codingRandom.fork("fallback"), codingDifficulty),
     );
 
     return {
@@ -87,12 +87,12 @@ export class PuzzleGenerator {
       language: this.validationEngine.generateWithRetries(
         () => this.languageGenerator.generate(languageRandom, languageLevel),
         (puzzle) => this.languageValidator.validateItalian(puzzle),
-        this.languageGenerator.fallback(),
+        () => this.languageGenerator.fallback(languageRandom.fork("fallback"), languageLevel),
       ),
       english: this.validationEngine.generateWithRetries(
         () => this.englishGenerator.generate(englishRandom, englishLevel),
         (puzzle) => this.languageValidator.validateEnglish(puzzle),
-        this.englishGenerator.fallback(),
+        () => this.englishGenerator.fallback(englishRandom.fork("fallback"), englishLevel),
       ),
       music: this.musicGenerator.generate(musicRandom, musicLevel),
     };
@@ -116,7 +116,7 @@ export class PuzzleGenerator {
             ? this.mathGenerator.generateMinigame(challengeRandom, stagedDifficulty, this.mathMinigameTypesForStep(index))
             : this.mathGenerator.generate(challengeRandom, stagedDifficulty, this.mathArchetypesForStep(index)),
           (candidate) => this.mathValidator.validate(candidate),
-          this.mathGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty),
+          () => this.mathGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty),
         );
         return {
           id,
@@ -134,7 +134,7 @@ export class PuzzleGenerator {
             ? this.languageGenerator.generateMinigame(challengeRandom, stagedDifficulty.level, this.languageMinigameTypesForStep(index))
             : this.languageGenerator.generate(challengeRandom, stagedDifficulty.level, this.languageTemplatesForStep(index)),
           (candidate) => this.languageValidator.validateItalian(candidate),
-          this.languageGenerator.fallback(),
+          () => this.languageGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty.level),
         );
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
@@ -145,7 +145,7 @@ export class PuzzleGenerator {
             ? this.englishGenerator.generateMinigame(challengeRandom, stagedDifficulty.level, this.englishMinigameTypesForStep(index))
             : this.englishGenerator.generate(challengeRandom, stagedDifficulty.level, this.englishTemplatesForStep(index)),
           (candidate) => this.languageValidator.validateEnglish(candidate),
-          this.englishGenerator.fallback(),
+          () => this.englishGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty.level),
         );
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
@@ -160,7 +160,7 @@ export class PuzzleGenerator {
             ? this.codingGenerator.generateMinigame(challengeRandom, stagedDifficulty, this.codingMinigameTypesForStep(index))
             : this.codingGenerator.generate(challengeRandom, stagedDifficulty, this.codingChallengeTypesForStep(index)),
           (candidate) => this.codingValidator.validate(candidate),
-          this.codingGenerator.fallback(),
+          () => this.codingGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty),
         );
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
@@ -168,7 +168,7 @@ export class PuzzleGenerator {
         const puzzle = this.validationEngine.generateWithRetries(
           () => this.circuitGenerator.generate(challengeRandom, stagedDifficulty, this.circuitFaultsForStep(index)),
           (candidate) => this.circuitValidator.validate(candidate),
-          this.circuitGenerator.fallback(stagedDifficulty.level),
+          () => this.circuitGenerator.fallback(stagedDifficulty.level, challengeRandom.fork("fallback"), stagedDifficulty),
         );
         return {
           id,
@@ -183,7 +183,7 @@ export class PuzzleGenerator {
       const puzzle = this.validationEngine.generateWithRetries(
         () => this.robotGenerator.generate(challengeRandom, stagedDifficulty, robotType),
         (candidate) => this.robotValidator.validate(candidate),
-        this.robotGenerator.fallback(robotType),
+        () => this.robotGenerator.fallback(robotType, challengeRandom.fork("fallback")),
       );
       return {
         id,

@@ -478,19 +478,22 @@ export class EnglishInstructionGenerator {
     return ["threshold", "data", "action"];
   }
 
-  fallback(): GeneratedEnglishPuzzle {
-    const template = englishTemplates[0];
+  fallback(random?: Random, difficultyLevel = 1): GeneratedEnglishPuzzle {
+    const source = random ?? new Random("english-fallback");
+    const eligible = englishTemplates.filter((template) => (template.minDifficulty ?? 1) <= difficultyLevel);
+    const template = this.specializeTemplate(source.pick(eligible.length > 0 ? eligible : englishTemplates), source.fork("template"), difficultyLevel);
+    const choices = source.shuffle([
+      { id: `${template.id}-correct`, label: template.correctLabel, isCorrect: true, feedback: template.correctFeedback ?? "Sequenza operativa corretta." },
+      ...template.distractors.map((distractor, index) => ({
+        id: `${template.id}-fallback-${index}`,
+        label: distractor.label,
+        isCorrect: false,
+        feedback: distractor.feedback,
+      })),
+    ]);
     return {
-      ...this.buildPuzzle(template, [
-        { id: "green", label: template.correctLabel, isCorrect: true, feedback: template.correctFeedback ?? "Sequenza operativa corretta." },
-        ...template.distractors.map((distractor, index) => ({
-          id: `fallback-${index}`,
-          label: distractor.label,
-          isCorrect: false,
-          feedback: distractor.feedback,
-        })),
-      ], 1),
-      id: "english-fallback",
+      ...this.buildPuzzle(template, choices, difficultyLevel),
+      id: `english-fallback-${template.id}-${source.integer(1000, 9999)}`,
     };
   }
 

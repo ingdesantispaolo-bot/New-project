@@ -2,7 +2,7 @@ export class ValidationEngine {
   generateWithRetries<T>(
     factory: () => T,
     validate: (candidate: T) => boolean,
-    fallback: T,
+    fallbackFactory: () => T,
     maxAttempts = 40,
   ): T {
     for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
@@ -11,6 +11,10 @@ export class ValidationEngine {
         return candidate;
       }
     }
-    return fallback;
+    const fallback = fallbackFactory();
+    if (validate(fallback)) {
+      return fallback;
+    }
+    throw new Error("Procedural generation failed: fallback did not pass validation");
   }
 }

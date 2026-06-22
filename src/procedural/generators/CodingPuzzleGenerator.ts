@@ -60,8 +60,8 @@ export class CodingPuzzleGenerator {
     };
   }
 
-  fallback(): GeneratedCodingPuzzle {
-    return buildTracePuzzle(new Random("coding-fallback"), {
+  fallback(random = new Random("coding-fallback"), difficulty?: DifficultyPreset): GeneratedCodingPuzzle {
+    return buildTracePuzzle(random, difficulty ?? {
       level: 1,
       roomCount: 1,
       puzzleCount: 5,

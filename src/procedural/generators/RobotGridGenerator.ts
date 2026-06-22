@@ -41,7 +41,7 @@ export class RobotGridGenerator {
       }
     }
 
-    return this.fallback(challengeType);
+    return this.fallback(challengeType, random.fork("fallback-layout"));
   }
 
   private pickChallengeType(random: Random, difficulty: DifficultyPreset): RobotChallengeType {
@@ -403,37 +403,44 @@ export class RobotGridGenerator {
     }[type];
   }
 
-  fallback(challengeType: RobotChallengeType = "route-planning"): GeneratedRobotPuzzle {
+  fallback(challengeType: RobotChallengeType = "route-planning", random?: Random): GeneratedRobotPuzzle {
+    const mirror = random?.bool() ?? false;
+    const cell = (col: number, row: number) => ({ col: mirror ? 4 - col : col, row });
+    const commands = (items: GridCommand[]): GridCommand[] => mirror
+      ? items.map((command) => command === "TURN_LEFT" ? "TURN_RIGHT" : command === "TURN_RIGHT" ? "TURN_LEFT" : command)
+      : items;
     const checkpoints = ["checkpoint-order", "pattern-routing", "conditional-gate", "loop-compression"].includes(challengeType)
       ? [{ col: 1, row: 1, label: challengeType === "conditional-gate" ? "S1" : "A", order: 1 }]
       : [];
-    const solutionCommands: GridCommand[] = checkpoints.length > 0
+    const baseSolutionCommands: GridCommand[] = checkpoints.length > 0
       ? ["TURN_LEFT", "MOVE_FORWARD", "MOVE_FORWARD", "TURN_RIGHT", "MOVE_FORWARD", "MOVE_FORWARD", "MOVE_FORWARD", "PICK_UP", "MOVE_FORWARD", "TURN_RIGHT", "MOVE_FORWARD", "MOVE_FORWARD", "EXIT"]
       : ["MOVE_FORWARD", "MOVE_FORWARD", "MOVE_FORWARD", "TURN_LEFT", "MOVE_FORWARD", "MOVE_FORWARD", "PICK_UP", "TURN_RIGHT", "MOVE_FORWARD", "TURN_RIGHT", "MOVE_FORWARD", "MOVE_FORWARD", "EXIT"];
+    const solutionCommands = commands(baseSolutionCommands);
+    const variedCheckpoints = checkpoints.map((checkpoint) => ({ ...cell(checkpoint.col, checkpoint.row), label: checkpoint.label, order: checkpoint.order }));
     return {
-      id: `robot-grid-fallback-${challengeType}`,
+      id: `robot-grid-fallback-${challengeType}-${mirror ? "mirror" : "base"}`,
       title: this.titleFor(challengeType),
-      instructions: this.instructionsFor(challengeType, checkpoints),
+      instructions: this.instructionsFor(challengeType, variedCheckpoints),
       cols: 5,
       rows: 4,
-      start: { col: 0, row: 3, facing: "E" },
-      key: checkpoints.length > 0 ? { col: 3, row: 1 } : { col: 3, row: 1 },
-      exit: { col: 4, row: 3 },
-      obstacles: [{ col: 2, row: 2 }],
+      start: { ...cell(0, 3), facing: mirror ? "W" : "E" },
+      key: cell(3, 1),
+      exit: cell(4, 3),
+      obstacles: [cell(2, 2)],
       solutionCommands,
       maxCommands: solutionCommands.length + 2,
       challengeType,
-      checkpoints,
-      buggedCommands: challengeType === "debug-program" ? ["MOVE_FORWARD", "MOVE_FORWARD", "TURN_LEFT", "MOVE_FORWARD", "PICK_UP", "EXIT"] : undefined,
+      checkpoints: variedCheckpoints,
+      buggedCommands: challengeType === "debug-program" ? commands(["MOVE_FORWARD", "MOVE_FORWARD", "TURN_LEFT", "MOVE_FORWARD", "PICK_UP", "EXIT"]) : undefined,
       debugBrief: challengeType === "debug-program" ? "Il log guasto prova a raccogliere troppo presto: correggi la rotta completa." : undefined,
-      successConditions: this.successConditionsFor(challengeType, checkpoints, solutionCommands.length + 2),
-      requiredConcepts: this.conceptsFor(challengeType, checkpoints),
-      conceptTags: this.conceptsFor(challengeType, checkpoints),
-      routeBrief: this.routeBriefFor(challengeType, checkpoints, solutionCommands),
+      successConditions: this.successConditionsFor(challengeType, variedCheckpoints, solutionCommands.length + 2),
+      requiredConcepts: this.conceptsFor(challengeType, variedCheckpoints),
+      conceptTags: this.conceptsFor(challengeType, variedCheckpoints),
+      routeBrief: this.routeBriefFor(challengeType, variedCheckpoints, solutionCommands),
       visualFocus: this.visualFocusFor(challengeType),
       coordinateLabels: challengeType === "coordinate-routing",
       planningPrompt: this.planningPromptFor(challengeType),
-      hints: this.hintsFor(challengeType, checkpoints),
+      hints: this.hintsFor(challengeType, variedCheckpoints),
       competencies: this.competenciesFor(challengeType),
     };
   }

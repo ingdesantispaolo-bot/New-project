@@ -75,8 +75,9 @@ export class MusicNoteGenerator {
     };
   }
 
-  fallback(): GeneratedMusicPuzzle {
-    return this.generate({ pick: <T>(items: readonly T[]) => items[0], shuffle: <T>(items: readonly T[]) => [...items] } as Random, 1);
+  fallback(random?: Random, difficultyLevel: DifficultyLevel = 1): GeneratedMusicPuzzle {
+    if (random) return this.generate(random, difficultyLevel);
+    return this.generate({ pick: <T>(items: readonly T[]) => items[0], shuffle: <T>(items: readonly T[]) => [...items] } as Random, difficultyLevel);
   }
 
   private pickClef(random: Random, level: DifficultyLevel): MusicClef {

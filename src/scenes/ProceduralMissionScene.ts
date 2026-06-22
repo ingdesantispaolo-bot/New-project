@@ -14,8 +14,13 @@ import { circuitFaultTemplates } from "../data/procedural/circuitTemplates";
 import { languageTemplates } from "../data/procedural/languageTemplates";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { difficultyModel } from "../procedural/DifficultyModel";
+import { CircuitFaultGenerator } from "../procedural/generators/CircuitFaultGenerator";
+import { CodingPuzzleGenerator } from "../procedural/generators/CodingPuzzleGenerator";
+import { EnglishInstructionGenerator } from "../procedural/generators/EnglishInstructionGenerator";
+import { LanguageCorruptionGenerator } from "../procedural/generators/LanguageCorruptionGenerator";
 import { MathPuzzleGenerator } from "../procedural/generators/MathPuzzleGenerator";
 import { MusicNoteGenerator } from "../procedural/generators/MusicNoteGenerator";
+import { RobotGridGenerator } from "../procedural/generators/RobotGridGenerator";
 import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
 import { Random } from "../procedural/Random";
 import type {
@@ -6452,6 +6457,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private currentLanguagePuzzle(): GeneratedLanguagePuzzle {
     const challenge = this.activeChallenge;
     const puzzle = challenge?.kind === "language" ? challenge.puzzle : this.run.mission.puzzles.language;
+    if (puzzle.id === "language-fallback") {
+      return new LanguageCorruptionGenerator().generate(
+        new Random(`${this.run.seed}:replace-legacy-language-fallback`),
+        this.run.difficulty,
+      );
+    }
     const template = languageTemplates.find((candidate) => `language-${candidate.id}` === puzzle.id);
     if (!template || (puzzle.corrupted === template.corrupted && puzzle.repaired === template.repaired)) {
       return puzzle;
@@ -6485,7 +6496,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private currentCircuitPuzzle(): GeneratedCircuitPuzzle {
     const challenge = this.activeChallenge;
-    return challenge?.kind === "circuit" ? challenge.puzzle : this.run.mission.puzzles.circuit;
+    const puzzle = challenge?.kind === "circuit" ? challenge.puzzle : this.run.mission.puzzles.circuit;
+    if (puzzle.id !== "circuit-fallback") return puzzle;
+    const preset = difficultyModel.getPreset(this.run.difficulty);
+    return exerciseDirector.enrichCircuit(
+      new CircuitFaultGenerator().generate(new Random(`${this.run.seed}:replace-legacy-circuit-fallback`), preset),
+      this.run.difficulty,
+    );
   }
 
   private currentMathPuzzle(): GeneratedMathPuzzle {
@@ -6502,12 +6519,26 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private currentEnglishPuzzle(): GeneratedEnglishPuzzle {
     const challenge = this.activeChallenge;
-    return challenge?.kind === "english" ? challenge.puzzle : this.run.mission.puzzles.english;
+    const puzzle = challenge?.kind === "english" ? challenge.puzzle : this.run.mission.puzzles.english;
+    if (puzzle.id !== "english-fallback") return puzzle;
+    return new EnglishInstructionGenerator().generate(
+      new Random(`${this.run.seed}:replace-legacy-english-fallback`),
+      this.run.difficulty,
+    );
   }
 
   private currentCodingPuzzle(): GeneratedCodingPuzzle {
     const challenge = this.activeChallenge;
-    return challenge?.kind === "coding" ? challenge.puzzle : this.run.mission.puzzles.coding;
+    const puzzle = challenge?.kind === "coding" ? challenge.puzzle : this.run.mission.puzzles.coding;
+    const legacyStaticFallback = puzzle.id === "coding-trace-output"
+      && puzzle.codeLines[0] === "energia = 2"
+      && puzzle.codeLines[1] === "energia = energia + 6"
+      && puzzle.codeLines[2] === "energia = energia * 2";
+    if (!legacyStaticFallback) return puzzle;
+    return new CodingPuzzleGenerator().generate(
+      new Random(`${this.run.seed}:replace-legacy-coding-fallback`),
+      difficultyModel.getPreset(this.run.difficulty),
+    );
   }
 
   private currentMusicPuzzle(): GeneratedMusicPuzzle {
@@ -6517,7 +6548,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private currentRobotPuzzle(): GeneratedRobotPuzzle {
     const challenge = this.activeChallenge;
-    return challenge?.kind === "robot" ? challenge.puzzle : this.run.mission.puzzles.robot;
+    const puzzle = challenge?.kind === "robot" ? challenge.puzzle : this.run.mission.puzzles.robot;
+    if (!puzzle.id.startsWith("robot-grid-fallback-") || puzzle.id.endsWith("-base") || puzzle.id.endsWith("-mirror")) return puzzle;
+    const preset = difficultyModel.getPreset(this.run.difficulty);
+    return exerciseDirector.enrichRobot(
+      new RobotGridGenerator().generate(
+        new Random(`${this.run.seed}:replace-legacy-robot-fallback`),
+        preset,
+        puzzle.challengeType,
+      ),
+      this.run.difficulty,
+    );
   }
 
   private resetTransientPuzzleState(): void {

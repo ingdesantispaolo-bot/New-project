@@ -36,7 +36,7 @@ export class MissionGenerator {
     const map = this.validationEngine.generateWithRetries(
       () => this.mapGenerator.generate(random.fork("map"), difficulty, focus),
       (candidate) => this.mapValidator.validate(candidate),
-      this.mapGenerator.generate(new Random("fallback-map"), difficulty, focus),
+      () => this.mapGenerator.generate(random.fork("fallback-map"), difficulty, focus),
     );
     const competencies = Array.from(
       new Set([

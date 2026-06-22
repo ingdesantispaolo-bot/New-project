@@ -82,7 +82,15 @@ export class CircuitFaultGenerator {
     };
   }
 
-  fallback(level = 1): GeneratedCircuitPuzzle {
+  fallback(level = 1, random?: Random, difficulty?: DifficultyPreset): GeneratedCircuitPuzzle {
+    if (random && difficulty) {
+      const safeFaults = circuitFaultTemplates.filter((fault) => (fault.minComplexity ?? 1) <= 1).map((fault) => fault.type);
+      return this.generate(random.fork("safe-circuit"), {
+        ...difficulty,
+        circuitComplexity: 1,
+        noiseDataCount: 0,
+      }, [random.pick(safeFaults)]);
+    }
     const fallbackNodes = [...circuitNodes];
     return {
       id: "circuit-fallback",

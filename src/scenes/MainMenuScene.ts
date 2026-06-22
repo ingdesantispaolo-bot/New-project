@@ -99,6 +99,15 @@ export class MainMenuScene extends Phaser.Scene {
       stroke: this.isResumable(progressiveRun) ? 0xf6c85f : 0x6be7d6,
       fontSize: 13,
     });
+    if (this.isResumable(progressiveRun)) {
+      new Button(this, 704, 374, "Reset", () => this.confirmProgressiveReset(progressiveRun), {
+        width: 96,
+        height: 46,
+        fill: 0x3a2525,
+        stroke: 0xf6c85f,
+        fontSize: 11,
+      });
+    }
     const continueButton = this.rect("menu:continue", { x: 250, y: 448, width: 260 });
     new Button(this, continueButton.x, continueButton.y, this.isResumable(missionRun) ? "Riprendi Missione" : "Avvia Missione", () => {
       this.resumeMissionGame();
@@ -383,6 +392,39 @@ export class MainMenuScene extends Phaser.Scene {
       this.setMenuButtonsEnabled(true);
       this.showMenuError("Non sono riuscito a riprendere la scalata. Riprova tra un istante.");
     });
+  }
+
+  private confirmProgressiveReset(run: ProceduralRunSave): void {
+    if (this.transitioning) return;
+    this.setMenuButtonsEnabled(false);
+    const currentLevel = run.progressive?.currentLevel ?? run.difficulty;
+    const completedLevels = run.progressive?.results.filter((result) => result.completed).length ?? 0;
+    const modal = this.add.container(0, 0).setDepth(1000);
+    const blocker = this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.86).setInteractive();
+    const panel = this.add.rectangle(640, 360, 590, 300, 0x07151d, 0.99).setStrokeStyle(2, 0xf6c85f, 0.78);
+    const title = this.add.text(380, 238, "Ripartire dal livello 1?", {
+      fontFamily: "Inter, Arial",
+      fontSize: "27px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    });
+    const detail = this.add.text(380, 292, `Scalata corrente: livello ${currentLevel}/8, livelli completati ${completedLevels}.\n\nVerranno azzerati soltanto progressi, risultati, punti e timer della scalata.`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#d9eaf1",
+      wordWrap: { width: 520 },
+      lineSpacing: 6,
+    });
+    const cancel = new Button(this, 510, 454, "Annulla", () => {
+      modal.destroy(true);
+      this.setMenuButtonsEnabled(true);
+    }, { width: 190, height: 50, fill: 0x263743, fontSize: 16 });
+    const confirm = new Button(this, 770, 454, "Azzera e ricomincia", () => {
+      modal.destroy(true);
+      this.transitioning = false;
+      this.startProgressiveMission();
+    }, { width: 250, height: 50, fill: 0x3a2525, stroke: 0xf6c85f, fontSize: 16 });
+    modal.add([blocker, panel, title, detail, cancel, confirm]);
   }
 
   private showBusy(label: string): () => void {

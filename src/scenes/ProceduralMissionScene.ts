@@ -236,7 +236,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const hud = ProceduralMissionView.createHud(
       this,
       this.run,
-      () => this.regenerate(),
+      () => this.isProgressiveMode() ? this.confirmProgressiveReset() : this.regenerate(),
       () => {
         this.pauseRunIfLeaving();
         this.scene.start("MainMenuScene");
@@ -483,6 +483,49 @@ export class ProceduralMissionScene extends Phaser.Scene {
       startedAt,
     });
     this.scene.restart();
+  }
+
+  private confirmProgressiveReset(): void {
+    if (!this.isProgressiveMode() || this.overlay) {
+      return;
+    }
+    const currentLevel = this.run.progressive?.currentLevel ?? this.run.difficulty;
+    const completedLevels = this.run.progressive?.results.filter((result) => result.completed).length ?? 0;
+    const overlay = this.add.container(0, 0).setDepth(1900);
+    SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.86);
+    overlay.add(this.add.rectangle(640, 360, 620, 330, 0x07151d, 0.98).setStrokeStyle(2, 0xf6c85f, 0.78));
+    overlay.add(this.add.text(370, 226, "Azzerare la scalata?", {
+      fontFamily: "Inter, Arial",
+      fontSize: "28px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(370, 282, `Sei al livello ${currentLevel}/8 e hai completato ${completedLevels} livelli.\n\nIl reset elimina progressi, risultati, punti e tempo della scalata corrente. Missioni normali, focus e registro non vengono modificati.`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#d9eaf1",
+      wordWrap: { width: 540 },
+      lineSpacing: 6,
+    }));
+    overlay.add(new Button(this, 510, 476, "Annulla", () => this.clearOverlay(), {
+      width: 210,
+      height: 52,
+      fill: 0x263743,
+      fontSize: 17,
+    }));
+    overlay.add(new Button(this, 770, 476, "Riparti dal livello 1", () => {
+      this.clearOverlay();
+      this.progressiveOutcomeOpen = false;
+      this.missionFailureInProgress = false;
+      this.startProgressiveLevel(1, []);
+    }, {
+      width: 270,
+      height: 52,
+      fill: 0x3a2525,
+      stroke: 0xf6c85f,
+      fontSize: 16,
+    }));
+    this.overlay = overlay;
   }
 
   private createProgressiveRun(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): ProceduralRunSave {

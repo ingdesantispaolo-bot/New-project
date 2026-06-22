@@ -148,7 +148,12 @@ export class ProceduralMissionView {
       lineSpacing: 3,
     });
     const feedbackText = SceneChrome.bottomLog(scene, layout.bottom, "", 330);
-    new Button(scene, layout.bottom.x + layout.bottom.width - 248, layout.bottom.y + 28, proceduralRunRules.modeFor(run) === "training" ? "Nuovo focus" : "Ricomincia", onRegenerate, {
+    const restartLabel = proceduralRunRules.modeFor(run) === "training"
+      ? "Nuovo focus"
+      : proceduralRunRules.modeFor(run) === "progressive"
+        ? "Reset scalata"
+        : "Ricomincia";
+    new Button(scene, layout.bottom.x + layout.bottom.width - 248, layout.bottom.y + 28, restartLabel, onRegenerate, {
       width: 142,
       height: 38,
       fill: 0x263743,

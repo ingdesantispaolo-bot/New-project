@@ -468,10 +468,12 @@ export type GeneratedEnglishMinigame = {
 
 export type MusicClef = "treble" | "bass";
 export type MusicNoteName = "Do" | "Re" | "Mi" | "Fa" | "Sol" | "La" | "Si";
+export type MusicMinigameType = "note-hunt" | "interval-jump" | "rhythm-gap";
 
 export type GeneratedMusicPuzzle = {
   id: string;
   title: string;
+  challengeMode: MusicMinigameType;
   clef: MusicClef;
   noteName: MusicNoteName;
   octave: number;
@@ -479,6 +481,17 @@ export type GeneratedMusicPuzzle = {
   ledgerLines: number[];
   timeLimitMs: number;
   answerMode: "note-name" | "note-and-octave";
+  secondaryNote?: {
+    noteName: MusicNoteName;
+    octave: number;
+    staffPosition: number;
+    ledgerLines: number[];
+  };
+  rhythmPattern?: {
+    beatsPerMeasure: number;
+    missingBeats: number;
+    cells: Array<{ label: string; beats: number; missing?: boolean }>;
+  };
   choices: Array<{
     id: string;
     label: string;

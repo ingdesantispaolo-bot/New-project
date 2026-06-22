@@ -1,4 +1,4 @@
-import type { DifficultyLevel, GeneratedMusicPuzzle, MusicClef, MusicNoteName } from "../ProceduralTypes";
+import type { DifficultyLevel, GeneratedMusicPuzzle, MusicClef, MusicMinigameType, MusicNoteName } from "../ProceduralTypes";
 import type { Random } from "../Random";
 
 type MusicNote = {
@@ -38,7 +38,18 @@ const diatonicNotes: MusicNote[] = [
 ];
 
 export class MusicNoteGenerator {
-  generate(random: Random, difficultyLevel: DifficultyLevel = 1): GeneratedMusicPuzzle {
+  generate(random: Random, difficultyLevel: DifficultyLevel = 1, preferredModes: MusicMinigameType[] = []): GeneratedMusicPuzzle {
+    const available: MusicMinigameType[] = difficultyLevel <= 1
+      ? ["note-hunt", "rhythm-gap"]
+      : ["note-hunt", "interval-jump", "rhythm-gap"];
+    const requested = preferredModes.filter((mode) => available.includes(mode) || preferredModes.length === 1);
+    const mode = random.pick(requested.length > 0 ? requested : available);
+    if (mode === "interval-jump") return this.buildIntervalJump(random, difficultyLevel);
+    if (mode === "rhythm-gap") return this.buildRhythmGap(random, difficultyLevel);
+    return this.buildNoteHunt(random, difficultyLevel);
+  }
+
+  private buildNoteHunt(random: Random, difficultyLevel: DifficultyLevel): GeneratedMusicPuzzle {
     const clef = this.pickClef(random, difficultyLevel);
     const note = random.pick(this.notePool(difficultyLevel, clef));
     const staffPosition = clef === "treble" ? note.treblePosition : note.bassPosition;
@@ -46,7 +57,8 @@ export class MusicNoteGenerator {
     const choices = this.buildChoices(random, note, clef, staffPosition, answerMode);
     return {
       id: `music-${clef}-${note.name.toLowerCase()}${note.octave}-${staffPosition}`,
-      title: clef === "treble" ? "Lettura note - chiave di violino" : "Lettura note - chiave di basso",
+      title: "Caccia alla nota",
+      challengeMode: "note-hunt",
       clef,
       noteName: note.name,
       octave: note.octave,
@@ -73,6 +85,127 @@ export class MusicNoteGenerator {
         this.isStaffLine(staffPosition) ? "linea" : "spazio",
       ],
     };
+  }
+
+  private buildIntervalJump(random: Random, difficultyLevel: DifficultyLevel): GeneratedMusicPuzzle {
+    const clef = this.pickClef(random, difficultyLevel);
+    const pool = this.notePool(difficultyLevel, clef);
+    const maxDistance = Math.min(difficultyLevel >= 6 ? 5 : difficultyLevel >= 3 ? 4 : 2, Math.max(1, pool.length - 1));
+    let first = random.pick(pool);
+    let second = first;
+    for (let attempt = 0; attempt < 16 && second === first; attempt += 1) {
+      const firstIndex = pool.indexOf(first);
+      const distance = random.integer(1, maxDistance);
+      const direction = random.bool() ? 1 : -1;
+      const targetIndex = firstIndex + direction * distance;
+      if (targetIndex >= 0 && targetIndex < pool.length) second = pool[targetIndex];
+      else first = random.pick(pool);
+    }
+    if (second === first) second = pool[first === pool[0] ? 1 : pool.indexOf(first) - 1];
+    const firstPosition = clef === "treble" ? first.treblePosition : first.bassPosition;
+    const secondPosition = clef === "treble" ? second.treblePosition : second.bassPosition;
+    const steps = Math.abs(diatonicNotes.indexOf(second) - diatonicNotes.indexOf(first));
+    const direction = diatonicNotes.indexOf(second) > diatonicNotes.indexOf(first) ? "Sale" : "Scende";
+    const intervalNames = ["unisono", "seconda", "terza", "quarta", "quinta", "sesta"];
+    const interval = intervalNames[Math.min(steps, intervalNames.length - 1)];
+    const correct = `${direction}: ${interval}`;
+    const alternatives = new Set<string>();
+    alternatives.add(`${direction === "Sale" ? "Scende" : "Sale"}: ${interval}`);
+    alternatives.add(`${direction}: ${intervalNames[Math.max(1, Math.min(5, steps + 1))]}`);
+    alternatives.add(`${direction}: ${intervalNames[Math.max(1, steps - 1)]}`);
+    alternatives.delete(correct);
+    for (const label of ["Sale: seconda", "Scende: seconda", "Sale: quarta", "Scende: quarta"]) {
+      if (alternatives.size >= 3) break;
+      if (label !== correct) alternatives.add(label);
+    }
+    const choices = random.shuffle([
+      { id: "correct", label: correct, isCorrect: true, feedback: `Corretto: la melodia ${direction.toLowerCase()} di ${interval}.` },
+      ...[...alternatives].slice(0, 3).map((label, index) => ({
+        id: `distractor-${index}`,
+        label,
+        isCorrect: false,
+        feedback: `Confronta le due altezze: la seconda nota è ${secondPosition < firstPosition ? "più in alto" : "più in basso"} e la distanza è una ${interval}.`,
+      })),
+    ]);
+    return {
+      id: `music-interval-${clef}-${first.name}${first.octave}-${second.name}${second.octave}`,
+      title: "Salto melodico",
+      challengeMode: "interval-jump",
+      clef,
+      noteName: first.name,
+      octave: first.octave,
+      staffPosition: firstPosition,
+      ledgerLines: this.ledgerLinesFor(firstPosition),
+      secondaryNote: { noteName: second.name, octave: second.octave, staffPosition: secondPosition, ledgerLines: this.ledgerLinesFor(secondPosition) },
+      timeLimitMs: this.timeLimitMs(difficultyLevel, Math.max(this.outsideStaffDistance(firstPosition), this.outsideStaffDistance(secondPosition))),
+      answerMode: "note-name",
+      choices,
+      hints: ["Guarda prima se la seconda nota sale o scende.", "Conta ogni passaggio linea-spazio: due nomi consecutivi formano una seconda.", `La risposta corretta usa direzione e distanza: ${correct}.`],
+      competencies: ["musica.pentagramma", "musica.intervalli", "musica.ascoltoVisivo"],
+      difficultyLabel: `Livello ${difficultyLevel}/8 - intervalli melodici`,
+      learningPurpose: "Riconoscere direzione e distanza tra due note, collegando pentagramma e movimento melodico.",
+      method: "Confronta l'altezza delle due note, stabilisci la direzione, poi conta i nomi includendo partenza e arrivo.",
+      methodSteps: ["prima nota", "direzione", "conta i gradi", "nomina intervallo"],
+      conceptTags: ["melodia", "intervalli", direction.toLowerCase()],
+    };
+  }
+
+  private buildRhythmGap(random: Random, difficultyLevel: DifficultyLevel): GeneratedMusicPuzzle {
+    const beatsPerMeasure = difficultyLevel >= 5 && random.bool(0.35) ? 3 : 4;
+    const allowed = difficultyLevel >= 4 ? [0.5, 1, 2] : [1, 2];
+    const missingBeats = random.pick(allowed.filter((beats) => beats <= beatsPerMeasure - 1));
+    let remaining = beatsPerMeasure - missingBeats;
+    const durations: number[] = [];
+    while (remaining > 0) {
+      const candidates = allowed.filter((beats) => beats <= remaining);
+      const beats = random.pick(candidates);
+      durations.push(beats);
+      remaining -= beats;
+    }
+    const missingIndex = random.integer(0, durations.length);
+    const complete = [...durations];
+    complete.splice(missingIndex, 0, missingBeats);
+    const cells = complete.map((beats, index) => ({ label: this.rhythmSymbol(beats), beats, missing: index === missingIndex }));
+    const answerLabels = [0.5, 1, 2, 4].map((beats) => this.rhythmChoiceLabel(beats));
+    const correct = this.rhythmChoiceLabel(missingBeats);
+    const choices = random.shuffle(answerLabels.map((label, index) => ({
+      id: label === correct ? "correct" : `distractor-${index}`,
+      label,
+      isCorrect: label === correct,
+      feedback: label === correct
+        ? `Corretto: mancavano ${missingBeats} ${missingBeats === 1 ? "battito" : "battiti"}. La battuta ora vale ${beatsPerMeasure}.`
+        : `La battuta deve totalizzare ${beatsPerMeasure}: le figure visibili valgono ${beatsPerMeasure - missingBeats}, quindi mancano ${missingBeats}.`,
+    })));
+    return {
+      id: `music-rhythm-${beatsPerMeasure}-${complete.join("-")}-${missingIndex}`,
+      title: "Battito mancante",
+      challengeMode: "rhythm-gap",
+      clef: "treble",
+      noteName: "Do",
+      octave: 4,
+      staffPosition: 10,
+      ledgerLines: [],
+      rhythmPattern: { beatsPerMeasure, missingBeats, cells },
+      timeLimitMs: Math.max(8_000, 16_000 - difficultyLevel * 900),
+      answerMode: "note-name",
+      choices,
+      hints: ["Conta prima i battiti già visibili.", "Semiminima = 1, minima = 2, croma = mezzo battito.", `La battuta deve arrivare esattamente a ${beatsPerMeasure} battiti.`],
+      competencies: ["musica.ritmo", "musica.durate", "matematica.frazioni"],
+      difficultyLabel: `Livello ${difficultyLevel}/8 - ritmo e durate`,
+      learningPurpose: "Completare una battuta usando valore delle figure, somma e percezione della pulsazione.",
+      method: `Somma le figure visibili e sottrai il totale da ${beatsPerMeasure}: il risultato è la durata mancante.`,
+      methodSteps: ["leggi il metro", "somma le durate", "trova quanto manca", "chiudi la battuta"],
+      conceptTags: ["ritmo", "durate", `${beatsPerMeasure}/4`],
+    };
+  }
+
+  private rhythmSymbol(beats: number): string {
+    return beats === 0.5 ? "♪" : beats === 1 ? "♩" : beats === 2 ? "𝅗𝅥" : "𝅝";
+  }
+
+  private rhythmChoiceLabel(beats: number): string {
+    const unit = beats === 1 ? "battito" : "battiti";
+    return `${this.rhythmSymbol(beats)}  ${beats === 0.5 ? "½" : beats} ${unit}`;
   }
 
   fallback(random?: Random, difficultyLevel: DifficultyLevel = 1): GeneratedMusicPuzzle {

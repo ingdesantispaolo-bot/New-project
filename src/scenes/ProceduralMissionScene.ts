@@ -46,6 +46,7 @@ import type {
   GridFacing,
   LanguageMinigamePrompt,
   MathMinigamePrompt,
+  MusicMinigameType,
   ProgressiveLevelResult,
   ProgressiveOutcomeTone,
   ProceduralPuzzleScore,
@@ -104,6 +105,8 @@ type MusicTrainingSession = {
   bestStreak: number;
   netScore: number;
   recentSignatures: string[];
+  modeRotation: MusicMinigameType[];
+  modeIndex: number;
   feedback: string;
   locked: boolean;
   summaryOpen: boolean;
@@ -4612,17 +4615,41 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }, {
         width: 218,
         height: 60,
-        fontSize: puzzle.answerMode === "note-name" ? 22 : 15,
+        fontSize: (puzzle.challengeMode ?? "note-hunt") === "note-hunt" && puzzle.answerMode === "note-name" ? 22 : 14,
         fill: 0x263743,
         hoverFill: 0x23556a,
       }));
     });
 
     this.addMethodStrip(overlay, 56, 586, 550, "Metodo", puzzle.methodSteps);
-    overlay.add(new Button(this, 918, 598, "Indizio di lettura", () => {
+    overlay.add(new Button(this, 778, 598, "Ascolta sfida", () => this.previewMusicChallenge(puzzle), {
+      width: 220, height: 46, fontSize: 14, fill: 0x173b36,
+    }));
+    overlay.add(new Button(this, 1040, 598, "Indizio", () => {
       this.useHint(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)]));
       this.openMusic();
-    }, { width: 300, height: 46, fontSize: 14, fill: 0x263743 }));
+    }, { width: 240, height: 46, fontSize: 14, fill: 0x263743 }));
+  }
+
+  private previewMusicChallenge(puzzle: GeneratedMusicPuzzle): void {
+    if (puzzle.challengeMode === "rhythm-gap" && puzzle.rhythmPattern) {
+      audioManager.playToneSequence(puzzle.rhythmPattern.cells.map((cell) => ({
+        frequency: cell.missing ? 0 : 740,
+        durationMs: Math.max(130, cell.beats * 260),
+      })));
+      return;
+    }
+    const tones = [{ note: puzzle.noteName, octave: puzzle.octave }];
+    if (puzzle.challengeMode === "interval-jump" && puzzle.secondaryNote) {
+      tones.push({ note: puzzle.secondaryNote.noteName, octave: puzzle.secondaryNote.octave });
+    }
+    audioManager.playToneSequence(tones.map((tone) => ({ frequency: this.musicFrequency(tone.note, tone.octave), durationMs: 480 })));
+  }
+
+  private musicFrequency(note: GeneratedMusicPuzzle["noteName"], octave: number): number {
+    const semitone = { Do: 0, Re: 2, Mi: 4, Fa: 5, Sol: 7, La: 9, Si: 11 }[note];
+    const midi = (octave + 1) * 12 + semitone;
+    return 440 * 2 ** ((midi - 69) / 12);
   }
 
   private drawMusicSessionHeader(
@@ -4661,11 +4688,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private drawMusicStaff(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
+    if ((puzzle.challengeMode ?? "note-hunt") === "rhythm-gap" && puzzle.rhythmPattern) {
+      this.drawMusicRhythmBoard(overlay, puzzle, centerX, centerY);
+      return;
+    }
     overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
     overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
     overlay.add(this.add.image(centerX, centerY, "soft-glow").setTint(0x6be7d6).setAlpha(0.08).setScale(4.2, 2.2));
     overlay.add(this.add.rectangle(centerX, centerY - 2, 536, 190, 0x02070b, 0.28).setStrokeStyle(1, 0xf7d37a, 0.12));
-    overlay.add(this.add.text(centerX - 260, centerY - 142, puzzle.clef === "treble" ? "Chiave di violino" : "Chiave di basso", {
+    overlay.add(this.add.text(centerX - 260, centerY - 142, `${puzzle.challengeMode === "interval-jump" ? "Salto melodico" : "Caccia alla nota"} · ${puzzle.clef === "treble" ? "chiave di violino" : "chiave di basso"}`, {
       fontFamily: "Inter, Arial",
       fontSize: "16px",
       color: "#9ff5e9",
@@ -4683,19 +4714,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(this.add.rectangle((staffLeft + staffRight) / 2, guideY, staffRight - staffLeft, 4, 0xf7d37a, 0.16));
     const clefAnchorY = puzzle.clef === "bass" ? topY + lineSpacing : topY + lineSpacing * 3;
     this.drawMusicClef(overlay, puzzle.clef, staffLeft + 46, clefAnchorY);
-    const noteX = centerX + 96;
-    const noteY = topY + puzzle.staffPosition * (lineSpacing / 2);
-    puzzle.ledgerLines.forEach((position) => {
-      const y = topY + position * (lineSpacing / 2);
-      overlay.add(this.add.rectangle(noteX, y, 72, 2, 0xf7d37a, 0.88));
-    });
-    const note = this.add.ellipse(noteX, noteY, 34, 24, 0xf5fbff, 1).setRotation(-0.42).setStrokeStyle(2, 0xf7d37a, 0.9);
-    overlay.add(note);
-    overlay.add(this.add.rectangle(noteX + 18, noteY - 42, 3, 86, 0xf5fbff, 0.94));
+    const isInterval = puzzle.challengeMode === "interval-jump" && puzzle.secondaryNote;
+    const noteX = isInterval ? centerX + 20 : centerX + 96;
+    this.drawPitchNote(overlay, noteX, topY, lineSpacing, puzzle.staffPosition, puzzle.ledgerLines, 0xf5fbff);
+    if (isInterval && puzzle.secondaryNote) {
+      const secondX = centerX + 178;
+      this.drawPitchNote(overlay, secondX, topY, lineSpacing, puzzle.secondaryNote.staffPosition, puzzle.secondaryNote.ledgerLines, 0xf7d37a);
+      const arrowY = centerY + 76;
+      overlay.add(this.add.rectangle((noteX + secondX) / 2, arrowY, secondX - noteX - 32, 3, 0x6be7d6, 0.76));
+      overlay.add(this.add.triangle(secondX - 12, arrowY, 0, -7, 14, 0, 0, 7, 0x6be7d6, 0.9));
+      overlay.add(this.add.text(noteX, centerY + 88, "1", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
+      overlay.add(this.add.text(secondX, centerY + 88, "2", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
+    }
     overlay.add(this.add.text(centerX - 260, centerY + 108, [
-      `Posizione: ${puzzle.staffPosition % 2 === 0 ? "linea" : "spazio"}`,
-      puzzle.ledgerLines.length > 0 ? `Linee addizionali: ${puzzle.ledgerLines.length}` : "Nessuna linea addizionale",
-      puzzle.answerMode === "note-name" ? "Risposta: nome della nota" : "Risposta: nome nota + ottava",
+      isInterval ? "Confronta nota 1 e nota 2" : `Posizione: ${puzzle.staffPosition % 2 === 0 ? "linea" : "spazio"}`,
+      isInterval ? "Risposta: direzione + intervallo" : puzzle.ledgerLines.length > 0 ? `Linee addizionali: ${puzzle.ledgerLines.length}` : "Nessuna linea addizionale",
+      isInterval ? "Conta i passaggi linea-spazio" : puzzle.answerMode === "note-name" ? "Risposta: nome della nota" : "Risposta: nome nota + ottava",
     ].join("  |  "), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -4711,9 +4745,62 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
   }
 
+  private drawPitchNote(
+    overlay: Phaser.GameObjects.Container,
+    x: number,
+    topY: number,
+    lineSpacing: number,
+    staffPosition: number,
+    ledgerLines: number[],
+    color: number,
+  ): void {
+    const y = topY + staffPosition * (lineSpacing / 2);
+    ledgerLines.forEach((position) => {
+      overlay.add(this.add.rectangle(x, topY + position * (lineSpacing / 2), 72, 2, 0xf7d37a, 0.88));
+    });
+    overlay.add(this.add.ellipse(x, y, 34, 24, color, 1).setRotation(-0.42).setStrokeStyle(2, 0xf7d37a, 0.9));
+    overlay.add(this.add.rectangle(x + 18, y - 42, 3, 86, color, 0.94));
+  }
+
+  private drawMusicRhythmBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
+    const pattern = puzzle.rhythmPattern!;
+    overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
+    overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
+    overlay.add(this.add.text(centerX - 260, centerY - 142, `Battito mancante · battuta da ${pattern.beatsPerMeasure}`, {
+      fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9", fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(centerX - 260, centerY - 108, "Completa la casella ? senza superare la battuta.", {
+      fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1",
+    }));
+    const gap = Math.min(112, 474 / pattern.cells.length);
+    const startX = centerX - ((pattern.cells.length - 1) * gap) / 2;
+    pattern.cells.forEach((cell, index) => {
+      const x = startX + index * gap;
+      overlay.add(this.add.rectangle(x, centerY - 6, gap - 12, 120, cell.missing ? 0x253b46 : 0x102a35, 0.96)
+        .setStrokeStyle(2, cell.missing ? 0xf7d37a : 0x6be7d6, 0.8));
+      overlay.add(this.add.text(x, centerY - 18, cell.missing ? "?" : cell.label, {
+        fontFamily: "Georgia, 'Times New Roman', serif", fontSize: cell.missing ? "48px" : "54px", color: cell.missing ? "#f7d37a" : "#f5fbff", fontStyle: "bold",
+      }).setOrigin(0.5));
+      overlay.add(this.add.text(x, centerY + 42, cell.missing ? "manca" : `${cell.beats}`, {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0",
+      }).setOrigin(0.5));
+    });
+    overlay.add(this.add.text(centerX - 260, centerY + 108, "Legenda: ♪ = ½   ♩ = 1   𝅗𝅥 = 2   𝅝 = 4 battiti", {
+      fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a",
+    }));
+    overlay.add(this.add.text(centerX - 260, centerY + 136, `Totale richiesto: ${pattern.beatsPerMeasure} battiti. Somma le figure visibili e trova la differenza.`, {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", wordWrap: { width: 520 },
+    }));
+  }
+
   private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, session: MusicTrainingSession): void {
     overlay.add(this.add.rectangle(916, 282, 508, 206, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(682, 196, "2 · Scegli solo dopo aver contato", {
+    const supportTitle = puzzle.challengeMode === "rhythm-gap"
+      ? "2 · Completa la battuta"
+      : puzzle.challengeMode === "interval-jump"
+        ? "2 · Segui il movimento"
+        : "2 · Scegli solo dopo aver contato";
+    overlay.add(this.add.text(682, 196, supportTitle, {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#9ff5e9",
@@ -4749,6 +4836,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const variant = this.run.retryVariants?.music ?? 0;
     const random = new Random(`${this.run.seed}:${puzzleId}:music-drill:${variant}`);
     const durationMs = this.musicSprintDurationMs(this.run.difficulty);
+    const baseMode = basePuzzle.challengeMode ?? "note-hunt";
+    const otherModes = random.shuffle<MusicMinigameType>(["note-hunt", "interval-jump", "rhythm-gap"].filter((mode) => mode !== baseMode) as MusicMinigameType[]);
     this.musicSession = {
       puzzleId,
       random,
@@ -4762,7 +4851,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       bestStreak: 0,
       netScore: 0,
       recentSignatures: [this.musicPuzzleSignature(basePuzzle)],
-      feedback: "Obiettivo: più note corrette possibili nel tempo. Le risposte errate tolgono punti e interrompono la serie.",
+      modeRotation: [baseMode, ...otherModes],
+      modeIndex: 0,
+      feedback: "Tre sfide a rotazione: nota, salto melodico e ritmo. Ragiona prima del clic: la serie premia precisione e varietà.",
       locked: false,
       summaryOpen: false,
       questionStartedAt: Date.now(),
@@ -4822,9 +4913,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private nextMusicSprintPuzzle(session: MusicTrainingSession): GeneratedMusicPuzzle {
     const level = Math.min(8, Math.max(1, this.run.difficulty + Math.floor(session.correct / 7))) as DifficultyLevel;
     const previous = this.musicPuzzleSignature(session.current);
+    session.modeIndex = (session.modeIndex + 1) % session.modeRotation.length;
+    const nextMode = session.modeRotation[session.modeIndex];
     for (let attempt = 0; attempt < 14; attempt += 1) {
       const salt = session.random.integer(0, 999_999);
-      const candidate = this.musicGenerator.generate(session.random.fork(`sprint-${session.answered}-${attempt}-${salt}`), level);
+      const candidate = this.musicGenerator.generate(session.random.fork(`sprint-${session.answered}-${attempt}-${salt}`), level, [nextMode]);
       const signature = this.musicPuzzleSignature(candidate);
       if (signature !== previous && !session.recentSignatures.slice(-2).includes(signature)) {
         session.recentSignatures.push(signature);
@@ -4832,7 +4925,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         return candidate;
       }
     }
-    const fallback = this.musicGenerator.generate(session.random.fork(`fallback-${session.answered}`), level);
+    const fallback = this.musicGenerator.generate(session.random.fork(`fallback-${session.answered}`), level, [nextMode]);
     session.recentSignatures.push(this.musicPuzzleSignature(fallback));
     session.recentSignatures = session.recentSignatures.slice(-4);
     return fallback;
@@ -4856,12 +4949,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private musicPuzzleSignature(puzzle: GeneratedMusicPuzzle): string {
     return [
+      puzzle.challengeMode ?? "note-hunt",
       puzzle.clef,
       puzzle.answerMode,
       puzzle.noteName,
       puzzle.octave,
       puzzle.staffPosition,
       puzzle.ledgerLines.join("."),
+      puzzle.secondaryNote ? `${puzzle.secondaryNote.noteName}${puzzle.secondaryNote.octave}:${puzzle.secondaryNote.staffPosition}` : "",
+      puzzle.rhythmPattern ? `${puzzle.rhythmPattern.beatsPerMeasure}:${puzzle.rhythmPattern.cells.map((cell) => `${cell.beats}${cell.missing ? "?" : ""}`).join("-")}` : "",
     ].join(":");
   }
 
@@ -5089,6 +5185,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private musicPromptText(puzzle: GeneratedMusicPuzzle): string {
+    if (puzzle.challengeMode === "interval-jump") {
+      return "Salto melodico: la nota 2 sale o scende? Conta la distanza e scegli direzione + intervallo.";
+    }
+    if (puzzle.challengeMode === "rhythm-gap") {
+      return `Battito mancante: completa la battuta da ${puzzle.rhythmPattern?.beatsPerMeasure ?? 4} contando il valore delle figure.`;
+    }
     if (puzzle.answerMode === "note-name") {
       return "Obiettivo: riconosci il nome della nota il più rapidamente possibile. Guarda la chiave, trova la nota guida e conta linee/spazi.";
     }
@@ -5096,6 +5198,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private musicModeExplanation(puzzle: GeneratedMusicPuzzle): string {
+    if (puzzle.challengeMode === "interval-jump") {
+      return "Modalità melodia: prima stabilisci la direzione, poi conta i gradi includendo nota iniziale e finale.";
+    }
+    if (puzzle.challengeMode === "rhythm-gap") {
+      return "Modalità ritmo: ogni figura occupa una durata; la battuta è completa solo quando la somma coincide con il metro.";
+    }
     if (puzzle.answerMode === "note-name") {
       return "Modalità rapida: conta la posizione e scegli solo il nome della nota. L'ottava verrà allenata nei livelli avanzati.";
     }
@@ -5104,6 +5212,23 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private musicSolutionLines(puzzle: GeneratedMusicPuzzle): string[] {
     const correct = puzzle.choices.find((choice) => choice.isCorrect)?.label ?? puzzle.noteName;
+    if (puzzle.challengeMode === "rhythm-gap" && puzzle.rhythmPattern) {
+      const visible = puzzle.rhythmPattern.beatsPerMeasure - puzzle.rhythmPattern.missingBeats;
+      return [
+        `Risposta corretta: ${correct}.`,
+        `Le figure visibili totalizzano ${visible} battiti.`,
+        `${puzzle.rhythmPattern.beatsPerMeasure} - ${visible} = ${puzzle.rhythmPattern.missingBeats}.`,
+        "La figura scelta completa la battuta senza superarla.",
+      ];
+    }
+    if (puzzle.challengeMode === "interval-jump" && puzzle.secondaryNote) {
+      return [
+        `Risposta corretta: ${correct}.`,
+        `Prima nota: ${puzzle.noteName}${puzzle.octave}; seconda: ${puzzle.secondaryNote.noteName}${puzzle.secondaryNote.octave}.`,
+        "Confronta l'altezza per la direzione e conta i nomi per la distanza.",
+        puzzle.method,
+      ];
+    }
     const anchor = puzzle.clef === "treble"
       ? "chiave di violino: parti dal Sol sulla seconda linea"
       : "chiave di basso: parti dal Fa sulla quarta linea, tra i due puntini";

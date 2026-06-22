@@ -121,6 +121,36 @@ export class AudioManager {
     this.play(outcomeSounds[outcome]);
   }
 
+  playToneSequence(steps: Array<{ frequency: number; durationMs: number }>): void {
+    try {
+      this.unlock();
+      const audio = Howler as unknown as { ctx?: AudioContext; masterGain?: GainNode };
+      const context = audio.ctx;
+      if (!context) return;
+      const destination = audio.masterGain ?? context.destination;
+      let cursor = context.currentTime + 0.03;
+      steps.forEach((step) => {
+        const duration = Math.max(0.06, step.durationMs / 1000);
+        if (step.frequency > 0) {
+          const oscillator = context.createOscillator();
+          const gain = context.createGain();
+          oscillator.type = "sine";
+          oscillator.frequency.setValueAtTime(step.frequency, cursor);
+          gain.gain.setValueAtTime(0.0001, cursor);
+          gain.gain.exponentialRampToValueAtTime(0.13, cursor + 0.018);
+          gain.gain.exponentialRampToValueAtTime(0.0001, cursor + duration);
+          oscillator.connect(gain);
+          gain.connect(destination);
+          oscillator.start(cursor);
+          oscillator.stop(cursor + duration + 0.02);
+        }
+        cursor += duration + 0.07;
+      });
+    } catch {
+      // Musical previews are optional and must never block the exercise.
+    }
+  }
+
   playMusic(key: "labAmbience"): void {
     const current = this.currentMusic ? this.sounds.get(this.currentMusic) : undefined;
     if (this.currentMusic === key && current?.playing()) {

@@ -2,10 +2,17 @@ import type { GeneratedEnglishPuzzle, GeneratedLanguagePuzzle } from "../Procedu
 
 export class LanguagePuzzleValidator {
   validateItalian(puzzle: GeneratedLanguagePuzzle): boolean {
+    const normalizedOptions = puzzle.options.map((option) => option.trim().toLocaleLowerCase("it"));
     return (
+      puzzle.corrupted.trim().length > 0 &&
+      puzzle.repaired.trim().length > 0 &&
       puzzle.corrupted !== puzzle.repaired &&
       puzzle.options.includes(puzzle.repaired) &&
+      puzzle.options.filter((option) => option === puzzle.repaired).length === 1 &&
+      puzzle.options.length >= 3 &&
+      puzzle.options.every((option) => option.trim().length > 0) &&
       new Set(puzzle.options).size === puzzle.options.length &&
+      new Set(normalizedOptions).size === normalizedOptions.length &&
       puzzle.diagnosticSteps.length >= 2 &&
       Boolean(puzzle.learningPurpose) &&
       Boolean(puzzle.repairGoal) &&

@@ -10,6 +10,7 @@ import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { circuitFaultTemplates } from "../data/procedural/circuitTemplates";
+import { languageTemplates } from "../data/procedural/languageTemplates";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { MusicNoteGenerator } from "../procedural/generators/MusicNoteGenerator";
 import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
@@ -187,17 +188,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private activePuzzleKind?: ProceduralPuzzleId;
   private activeChallenge?: GeneratedFocusChallenge;
   private mathEntry = "";
-  private mathStepIndex = 0;
   private mathSupportMessage = "";
   private mathSupportText?: Phaser.GameObjects.Text;
-  private languageAnalyzed = false;
   private languageSelectedOption?: string;
-  private languageEvidenceIndex?: number;
-  private languageDetailsOpen = false;
-  private englishAnalyzed = false;
   private englishSelectedChoiceId?: string;
-  private englishEvidenceIndex?: number;
-  private englishDetailsOpen = false;
   private circuitInspected = false;
   private circuitConceptVerified = false;
   private circuitConceptIndex = 0;
@@ -764,27 +758,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.openLanguageMinigame(puzzle);
       return;
     }
-    const model = LanguageRepairConsole.fromPuzzle(puzzle, this.languageAnalyzed);
+    const model = LanguageRepairConsole.fromPuzzle(puzzle);
     const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
     LanguageRepairConsole.addHeader(this, overlay, model);
     this.addLanguageBrief(overlay, model);
-    overlay.add(new Button(this, 1080, 72, this.languageDetailsOpen ? "Nascondi dettagli" : "Approfondisci", () => {
-      this.languageDetailsOpen = !this.languageDetailsOpen;
-      this.openLanguage();
-    }, { width: 176, height: 34, fontSize: 11, fill: 0x263743 }));
-    if (!this.languageAnalyzed) {
-      overlay.add(new Button(this, 866, 586, "Analizza struttura", () => {
-        this.languageAnalyzed = true;
-        audioManager.playOutcome("neutral");
-        outcomeFeedback.play(this, "info", "Analisi del segnale");
-        feedbackSystem.publish(`Analisi avviata: ${model.method}`, "info");
-        this.openLanguage();
-      }, { width: 310, height: 52, fill: 0x173b36 }));
-      return;
-    }
+    overlay.add(this.add.text(614, 294, "Scegli la frase corretta", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
     model.options.forEach((option, index) => {
       const y = 330 + index * 48;
-      overlay.add(new Button(this, 866, y, option, () => {
+      overlay.add(new Button(this, 866, y, `${this.languageSelectedOption === option ? "✓ " : ""}${option}`, () => {
         this.languageSelectedOption = option;
         this.openLanguage();
       }, {
@@ -796,8 +782,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         stroke: this.languageSelectedOption === option ? 0xf7d37a : 0x6be7d6,
       }));
     });
-    this.addEvidenceSelector(overlay, "language", model.diagnosticSteps);
-    overlay.add(new Button(this, 738, 620, "Conferma con la prova", () => {
+    overlay.add(new Button(this, 738, 620, "Conferma risposta", () => {
       this.confirmLanguageReasoning(puzzle, model);
     }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
     overlay.add(new Button(this, 1002, 620, "Indizio mirato", () => {
@@ -808,20 +793,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private confirmLanguageReasoning(puzzle: GeneratedLanguagePuzzle, model: LanguageRepairModel): void {
     const option = this.languageSelectedOption;
-    if (!option || this.languageEvidenceIndex === undefined) {
+    if (!option) {
       audioManager.playOutcome("hint");
-      feedbackSystem.publish("Prima seleziona una riparazione e una prova numerata che la giustifica.", "hint");
-      return;
-    }
-    if (this.languageEvidenceIndex < 0) {
-      outcomeFeedback.answer(this, false, "Solo impressione", model.diagnosticSteps[0] ?? "Una prova testuale", "Una risposta valida deve essere sostenuta da un controllo osservabile.");
-      this.languageEvidenceIndex = undefined;
-      const exited = this.handleIncorrectAnswer("Una sensazione generale non è una prova: indica quale controllo grammaticale o logico sostiene la scelta.");
-      if (!exited) this.openLanguage();
+      feedbackSystem.publish("Prima seleziona la frase corretta.", "hint");
       return;
     }
     if (option === model.correctAnswer) {
-      outcomeFeedback.answer(this, true, option, model.correctAnswer, model.diagnosticSteps[this.languageEvidenceIndex] ?? model.method);
+      outcomeFeedback.answer(this, true, option, model.correctAnswer, model.method);
       this.solvePuzzle(this.currentPuzzleId("language"), puzzle.competencies);
       return;
     }
@@ -927,20 +905,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: session.feedback ? "#f7d37a" : "#9aaab0",
       wordWrap: { width: 390, useAdvancedWrap: true },
     }));
-    overlay.add(new Button(this, 916, 640, "Pulisci scelta", () => this.clearLanguageMinigameSelection(), {
-      width: 174,
-      height: 44,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
-    overlay.add(new Button(this, 1102, 640, "Conferma", () => this.confirmLanguageMinigamePrompt(), {
-      width: 174,
+    overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmLanguageMinigamePrompt(), {
+      width: 220,
       height: 44,
       fontSize: 14,
       fill: 0x173b36,
     }));
-    overlay.add(new Button(this, 736, 640, "Indizio", () => this.useLanguageMinigameHint(), {
-      width: 138,
+    overlay.add(new Button(this, 820, 640, "Indizio", () => this.useLanguageMinigameHint(), {
+      width: 180,
       height: 44,
       fontSize: 13,
       fill: 0x263743,
@@ -1071,16 +1043,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.selectedIds.clear();
     session.selectedIds.add(tileId);
     audioManager.play("click");
-    this.openLanguageMinigame(session.puzzle);
-  }
-
-  private clearLanguageMinigameSelection(): void {
-    const session = this.languageMinigameSession;
-    if (!session || session.locked || session.summaryOpen) {
-      return;
-    }
-    session.selectedIds.clear();
-    session.feedback = "Scelta pulita. Rileggi prima l'obiettivo della console, poi scegli.";
     this.openLanguageMinigame(session.puzzle);
   }
 
@@ -2241,20 +2203,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     });
     overlay.add(this.mathSupportText);
-    overlay.add(new Button(this, 812, 660, "Indizio", () => this.showMathSupport(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])), {
-      width: 150,
-      height: 42,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
-    overlay.add(new Button(this, 1000, 660, "Passo guidato", () => this.revealMathStep(puzzle), {
-      width: 180,
-      height: 42,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
-    overlay.add(new Button(this, 1180, 660, "Teoria breve", () => this.revealMathTheory(model), {
-      width: 170,
+    overlay.add(new Button(this, 1080, 660, "Aiuto mirato", () => this.showMathSupport(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])), {
+      width: 220,
       height: 42,
       fontSize: 13,
       fill: 0x263743,
@@ -2654,21 +2604,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
         color: "#d9eaf1",
       }).setOrigin(0.5));
     });
-  }
-
-  private revealMathStep(puzzle: GeneratedMathPuzzle): void {
-    const steps = puzzle.solutionSteps ?? [];
-    if (steps.length === 0) {
-      this.showMathSupport("Scomponi il problema in dati, operazione richiesta e controllo finale.");
-      return;
-    }
-    const index = Math.min(this.mathStepIndex, steps.length - 1);
-    this.mathStepIndex = Math.min(index + 1, steps.length - 1);
-    this.showMathSupport(`Passo guidato ${index + 1}/${steps.length}: ${steps[index]}`);
-  }
-
-  private revealMathTheory(model: MathTerminalModel): void {
-    this.showMathSupport(`Teoria breve: ${model.theoryPrinciple} Strategia: ${model.strategy}`);
   }
 
   private showMathSupport(text: string): void {
@@ -3325,23 +3260,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.drawEnglishChallengePanel(overlay, puzzle);
     this.drawEnglishSupportPanel(overlay, puzzle);
     this.drawEnglishReasoningPanel(overlay, puzzle);
-    overlay.add(new Button(this, 1080, 82, this.englishDetailsOpen ? "Nascondi dettagli" : "Approfondisci", () => {
-      this.englishDetailsOpen = !this.englishDetailsOpen;
-      this.openEnglish();
-    }, { width: 176, height: 34, fontSize: 11, fill: 0x263743 }));
-
-    if (!this.englishAnalyzed) {
-      overlay.add(new Button(this, 866, 574, "Decodifica comando", () => {
-        this.englishAnalyzed = true;
-        audioManager.playOutcome("neutral");
-        outcomeFeedback.play(this, "info", "Comando decodificato");
-        feedbackSystem.publish(`Decodifica avviata: ${puzzle.method ?? "cerca verbo, oggetto, condizione e divieto."}`, "info");
-        this.openEnglish();
-      }, { width: 310, height: 52, fill: 0x173b36 }));
-      return;
-    }
     puzzle.choices.forEach((choice, index) => {
-      overlay.add(new Button(this, 866, 402 + index * 50, choice.label, () => {
+      overlay.add(new Button(this, 866, 402 + index * 50, `${this.englishSelectedChoiceId === choice.id ? "✓ " : ""}${choice.label}`, () => {
         this.englishSelectedChoiceId = choice.id;
         this.openEnglish();
       }, {
@@ -3352,8 +3272,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         stroke: this.englishSelectedChoiceId === choice.id ? 0xf7d37a : 0x6be7d6,
       }));
     });
-    this.addEvidenceSelector(overlay, "english", puzzle.diagnosticSteps);
-    overlay.add(new Button(this, 738, 620, "Conferma con la prova", () => {
+    overlay.add(new Button(this, 738, 620, "Conferma risposta", () => {
       this.confirmEnglishReasoning(puzzle);
     }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
     overlay.add(new Button(this, 1002, 620, "Indizio mirato", () => {
@@ -3364,21 +3283,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private confirmEnglishReasoning(puzzle: GeneratedEnglishPuzzle): void {
     const choice = puzzle.choices.find((item) => item.id === this.englishSelectedChoiceId);
-    if (!choice || this.englishEvidenceIndex === undefined) {
+    if (!choice) {
       audioManager.playOutcome("hint");
-      feedbackSystem.publish("Prima seleziona un'azione e una prova numerata ricavata dal comando.", "hint");
-      return;
-    }
-    if (this.englishEvidenceIndex < 0) {
-      const correctChoice = puzzle.choices.find((item) => item.isCorrect)?.label ?? "Azione coerente con il comando";
-      outcomeFeedback.answer(this, false, "Solo impressione", correctChoice, "Indica la parola, condizione o dato che autorizza l'azione.");
-      this.englishEvidenceIndex = undefined;
-      const exited = this.handleIncorrectAnswer("La somiglianza con un comando già visto non basta: indica la parola o condizione che autorizza questa azione.");
-      if (!exited) this.openEnglish();
+      feedbackSystem.publish("Prima seleziona l'azione corretta.", "hint");
       return;
     }
     if (choice.isCorrect) {
-      outcomeFeedback.answer(this, true, choice.label, choice.label, puzzle.diagnosticSteps[this.englishEvidenceIndex] ?? puzzle.method);
+      outcomeFeedback.answer(this, true, choice.label, choice.label, puzzle.method);
       this.solvePuzzle(this.currentPuzzleId("english"), puzzle.competencies);
       return;
     }
@@ -3489,20 +3400,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: session.feedback ? "#f7d37a" : "#9aaab0",
       wordWrap: { width: 390, useAdvancedWrap: true },
     }));
-    overlay.add(new Button(this, 916, 640, "Pulisci scelta", () => this.clearEnglishMinigameSelection(), {
-      width: 174,
-      height: 44,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
-    overlay.add(new Button(this, 1102, 640, "Conferma", () => this.confirmEnglishMinigamePrompt(), {
-      width: 174,
+    overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmEnglishMinigamePrompt(), {
+      width: 220,
       height: 44,
       fontSize: 14,
       fill: 0x173b36,
     }));
-    overlay.add(new Button(this, 736, 640, "Indizio", () => this.useEnglishMinigameHint(), {
-      width: 138,
+    overlay.add(new Button(this, 820, 640, "Indizio", () => this.useEnglishMinigameHint(), {
+      width: 180,
       height: 44,
       fontSize: 13,
       fill: 0x263743,
@@ -3643,16 +3548,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.selectedIds.clear();
     session.selectedIds.add(tileId);
     audioManager.play("click");
-    this.openEnglishMinigame(session.puzzle);
-  }
-
-  private clearEnglishMinigameSelection(): void {
-    const session = this.englishMinigameSession;
-    if (!session || session.locked || session.summaryOpen) {
-      return;
-    }
-    session.selectedIds.clear();
-    session.feedback = "Selection cleared. Read verb, object and limiter before choosing.";
     this.openEnglishMinigame(session.puzzle);
   }
 
@@ -4036,20 +3931,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: session.feedback ? "#f7d37a" : "#9aaab0",
       wordWrap: { width: 390, useAdvancedWrap: true },
     }));
-    overlay.add(new Button(this, 916, 640, "Pulisci scelta", () => this.clearCodingMinigameSelection(), {
-      width: 174,
-      height: 44,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
-    overlay.add(new Button(this, 1102, 640, "Conferma", () => this.confirmCodingMinigamePrompt(), {
-      width: 174,
+    overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmCodingMinigamePrompt(), {
+      width: 220,
       height: 44,
       fontSize: 14,
       fill: 0x173b36,
     }));
-    overlay.add(new Button(this, 736, 640, "Indizio", () => this.useCodingMinigameHint(), {
-      width: 138,
+    overlay.add(new Button(this, 820, 640, "Indizio", () => this.useCodingMinigameHint(), {
+      width: 180,
       height: 44,
       fontSize: 13,
       fill: 0x263743,
@@ -4168,16 +4057,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.selectedIds.clear();
     session.selectedIds.add(tileId);
     audioManager.play("click");
-    this.openCodingMinigame(session.puzzle);
-  }
-
-  private clearCodingMinigameSelection(): void {
-    const session = this.codingMinigameSession;
-    if (!session || session.locked || session.summaryOpen) {
-      return;
-    }
-    session.selectedIds.clear();
-    session.feedback = "Scelta pulita. Aggiorna mentalmente lo stato prima di scegliere di nuovo.";
     this.openCodingMinigame(session.puzzle);
   }
 
@@ -4628,15 +4507,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
         lineSpacing: 3,
       }));
     }
-    if (this.englishDetailsOpen) {
-      overlay.add(this.add.text(76, source ? 348 : 328, `Scopo: ${puzzle.learningPurpose ?? "Allena inglese operativo dentro una decisione tecnica."}`, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#9aaab0",
-        wordWrap: { width: 462 },
-        lineSpacing: 2,
-      }));
-    }
   }
 
   private drawEnglishSupportPanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
@@ -4647,7 +4517,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(614, 242, this.englishDetailsOpen ? (puzzle.conceptTags ?? []).slice(0, 5).map((tag) => `#${tag}`).join("  ") : "Dettagli chiusi: concentrati prima sul comando principale.", {
+    overlay.add(this.add.text(614, 242, (puzzle.conceptTags ?? []).slice(0, 5).map((tag) => `#${tag}`).join("  "), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
@@ -4655,7 +4525,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
-    if (!this.englishDetailsOpen) return;
     const dataPoints = (puzzle.dataPoints ?? []).slice(0, 3);
     if (dataPoints.length > 0) {
       dataPoints.forEach((point, index) => {
@@ -4687,19 +4556,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private drawEnglishReasoningPanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
     overlay.add(this.add.rectangle(316, 478, 520, 150, 0x07151d, 0.82).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.text(76, 414, this.englishAnalyzed ? "Ragionamento" : "Prima della risposta", {
+    overlay.add(this.add.text(76, 414, "Come decidere", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    const text = this.englishAnalyzed
-      ? puzzle.diagnosticSteps.slice(0, 4).map((step, index) => `${index + 1}. ${step}`).join("\n")
-      : `Decodifica il comando: cerca verbo, oggetto, condizione e parole che limitano l'azione.\nMetodo: ${puzzle.method ?? "leggi prima l'azione, poi divieti e condizioni."}`;
+    const text = puzzle.diagnosticSteps.slice(0, 3).map((step, index) => `${index + 1}. ${step}`).join("\n");
     overlay.add(this.add.text(76, 440, text, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
-      color: this.englishAnalyzed ? "#9ff5e9" : "#d9eaf1",
+      color: "#d9eaf1",
       wordWrap: { width: 470 },
       lineSpacing: 5,
     }));
@@ -6581,7 +6448,36 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private currentLanguagePuzzle(): GeneratedLanguagePuzzle {
     const challenge = this.activeChallenge;
-    return challenge?.kind === "language" ? challenge.puzzle : this.run.mission.puzzles.language;
+    const puzzle = challenge?.kind === "language" ? challenge.puzzle : this.run.mission.puzzles.language;
+    const template = languageTemplates.find((candidate) => `language-${candidate.id}` === puzzle.id);
+    if (!template || (puzzle.corrupted === template.corrupted && puzzle.repaired === template.repaired)) {
+      return puzzle;
+    }
+
+    const correctIndex = Math.max(0, puzzle.options.indexOf(puzzle.repaired));
+    const options = [...template.distractors];
+    options.splice(Math.min(correctIndex, options.length), 0, template.repaired);
+    const optionFeedback: Record<string, string> = {
+      [template.repaired]: "Riscrittura corretta: grammatica e rapporto logico sono coerenti.",
+    };
+    template.distractors.forEach((option, index) => {
+      optionFeedback[option] = template.distractorFeedback?.[option]
+        ?? `${template.diagnosticSteps[index % template.diagnosticSteps.length]} ${template.hints[index % template.hints.length]}`;
+    });
+    return {
+      ...puzzle,
+      title: template.title,
+      corrupted: template.corrupted,
+      repaired: template.repaired,
+      options,
+      diagnosticSteps: template.diagnosticSteps,
+      hints: template.hints,
+      conceptTags: template.conceptTags ?? puzzle.conceptTags,
+      learningPurpose: template.learningPurpose ?? puzzle.learningPurpose,
+      repairGoal: template.repairGoal ?? puzzle.repairGoal,
+      method: template.method ?? puzzle.method,
+      optionFeedback,
+    };
   }
 
   private currentCircuitPuzzle(): GeneratedCircuitPuzzle {
@@ -6616,17 +6512,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private resetTransientPuzzleState(): void {
     this.mathEntry = "";
-    this.mathStepIndex = 0;
     this.mathSupportMessage = "";
     this.mathSupportText = undefined;
-    this.languageAnalyzed = false;
     this.languageSelectedOption = undefined;
-    this.languageEvidenceIndex = undefined;
-    this.languageDetailsOpen = false;
-    this.englishAnalyzed = false;
     this.englishSelectedChoiceId = undefined;
-    this.englishEvidenceIndex = undefined;
-    this.englishDetailsOpen = false;
     this.circuitInspected = false;
     this.circuitConceptVerified = false;
     this.circuitConceptIndex = 0;
@@ -6797,100 +6686,33 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private addLanguageBrief(overlay: Phaser.GameObjects.Container, model: LanguageRepairModel): void {
-    overlay.add(this.add.rectangle(316, 326, 520, 188, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(76, 246, "Obiettivo di riparazione", {
+    overlay.add(this.add.rectangle(316, 382, 520, 300, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(76, 246, "Come decidere", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(76, 270, model.repairGoal, {
+    overlay.add(this.add.text(76, 274, model.diagnosticSteps.slice(0, 3).map((step, index) => `${index + 1}. ${step}`).join("\n"), {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: 456, useAdvancedWrap: true },
-      lineSpacing: 3,
+      lineSpacing: 6,
     }));
-    if (this.languageDetailsOpen) {
-      overlay.add(this.add.text(76, 342, `Scopo: ${model.learningPurpose}`, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#9aaab0",
-        wordWrap: { width: 456, useAdvancedWrap: true },
-        lineSpacing: 2,
-      }));
-    }
-
-    overlay.add(this.add.rectangle(866, 256, 540, 66, 0x07151d, 0.78).setStrokeStyle(1, 0x6be7d6, 0.2));
-    overlay.add(this.add.text(614, 232, "Concetti allenati", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(614, 254, this.languageDetailsOpen ? model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  ") : "Apri Approfondisci per scopo, concetti e metodo completo.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      wordWrap: { width: 500, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
-
-    overlay.add(this.add.rectangle(316, 498, 520, 134, 0x07151d, 0.78).setStrokeStyle(1, 0xf6c85f, 0.24));
-    overlay.add(this.add.text(76, 444, "Controllo di qualità", {
+    overlay.add(this.add.text(76, 410, "Obiettivo", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(76, 468, this.languageDetailsOpen ? model.method : "Usa le prove numerate del segnale e verifica la scelta prima di confermare.", {
+    overlay.add(this.add.text(76, 438, model.repairGoal, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
       wordWrap: { width: 456, useAdvancedWrap: true },
       lineSpacing: 4,
     }));
-  }
-
-  private addEvidenceSelector(
-    overlay: Phaser.GameObjects.Container,
-    kind: "language" | "english",
-    diagnosticSteps: string[],
-  ): void {
-    const selectedIndex = kind === "language" ? this.languageEvidenceIndex : this.englishEvidenceIndex;
-    overlay.add(this.add.text(56, 536, "PROVA OSSERVABILE · scegli la frase che sostiene la risposta", {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    const choices = [
-      ...diagnosticSteps.slice(0, 3).map((step, index) => ({ index, label: step.length > 58 ? `${step.slice(0, 55)}…` : step })),
-      { index: -1, label: "Solo impressione" },
-    ];
-    const width = 238;
-    choices.forEach((choice, index) => {
-      const col = index % 2;
-      const row = Math.floor(index / 2);
-      const x = 56 + width / 2 + col * (width + 10);
-      const y = 568 + row * 36;
-      overlay.add(new Button(this, x, y, choice.label, () => {
-        if (kind === "language") {
-          this.languageEvidenceIndex = choice.index;
-          this.openLanguage();
-        } else {
-          this.englishEvidenceIndex = choice.index;
-          this.openEnglish();
-        }
-      }, {
-        width,
-        height: 30,
-        fontSize: choice.index < 0 ? 10 : 9,
-        wordWrapWidth: width - 18,
-        fill: selectedIndex === choice.index ? 0x174d42 : 0x263743,
-        stroke: selectedIndex === choice.index ? 0xf7d37a : 0x6be7d6,
-      }));
-    });
   }
 
   private addEnglishBrief(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {

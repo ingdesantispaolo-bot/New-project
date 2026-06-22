@@ -18,13 +18,11 @@ export type LanguageRepairModel = {
 };
 
 export class LanguageRepairConsole {
-  static fromPuzzle(puzzle: GeneratedLanguagePuzzle, analyzed: boolean): LanguageRepairModel {
+  static fromPuzzle(puzzle: GeneratedLanguagePuzzle): LanguageRepairModel {
     return {
       title: puzzle.title,
       corrupted: puzzle.corrupted,
-      instruction: analyzed
-        ? puzzle.diagnosticSteps.map((step, index) => `${index + 1}. ${step}`).join("\n")
-        : "Prima stabilizza il segnale: cerca chi compie l'azione, poi controlla se verbo e nome concordano.",
+      instruction: "Scegli la riscrittura corretta senza cambiare il significato. Poi premi Conferma risposta.",
       options: puzzle.options,
       correctAnswer: puzzle.repaired,
       diagnosticSteps: puzzle.diagnosticSteps,

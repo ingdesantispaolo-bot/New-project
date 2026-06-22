@@ -229,6 +229,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.resetSceneLifecycleState();
     this.run = this.ensureRun();
     audioManager.playMusic("labAmbience");
     ProceduralMissionView.drawShell(this, this.run);
@@ -294,6 +295,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }
       callback();
     });
+  }
+
+  private resetSceneLifecycleState(): void {
+    // Phaser keeps the Scene instance across scene.restart(). Every lock and
+    // transient reference must therefore be reset explicitly for the new run.
+    this.missionFailureInProgress = false;
+    this.progressiveOutcomeOpen = false;
+    this.timeoutSolutionOpen = false;
+    this.overlay = undefined;
+    this.feedbackText = undefined;
+    this.objectiveText = undefined;
+    this.progressText = undefined;
+    this.activePuzzleId = undefined;
+    this.activePuzzleKind = undefined;
+    this.activeChallenge = undefined;
+    this.resetTransientPuzzleState();
   }
 
   private ensureRun(): ProceduralRunSave {
@@ -5514,6 +5531,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     competencyTracker.award(competencies, 10 + this.run.difficulty * 2 + (score.focusBonus > 0 ? 4 : 0));
     this.run = saveSystem.data.proceduralRun ?? this.run;
     audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${score.total} punti`);
     this.clearOverlay();
     const solvedNode = puzzleKindFromId(puzzleId);
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
@@ -5526,10 +5544,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (this.isProgressiveMode()) {
-      this.scheduleNextProgressivePuzzle(850);
+      this.scheduleNextProgressivePuzzle(1750);
       return;
     }
-    this.runWhenActive(640, () => this.scene.restart());
+    this.runWhenActive(1750, () => this.scene.restart());
   }
 
   private nextPendingProgressivePuzzleId(): string | undefined {
@@ -5614,7 +5632,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.certifyCompletedRun("Allenamento concluso: il registro include prove riuscite e fallite.");
       return;
     }
-    this.runWhenActive(760, () => this.scene.restart());
+    this.runWhenActive(1750, () => this.scene.restart());
   }
 
   private handlePuzzleTimeout(
@@ -5709,7 +5727,59 @@ export class ProceduralMissionScene extends Phaser.Scene {
     });
     this.run = saveSystem.data.proceduralRun ?? this.run;
     feedbackSystem.publish(`Missione fallita: ${reason} Non ci sono piu condizioni utili per proseguire: ricomincia dal menu con una nuova missione.`, "warning");
-    this.runWhenActive(1800, () => this.scene.start("MainMenuScene"));
+    this.showMissionFailure(reason);
+  }
+
+  private showMissionFailure(reason: string): void {
+    const overlay = this.add.container(0, 0).setDepth(1900);
+    SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.9);
+    overlay.add(this.add.image(324, 360, "outcome-defeat").setDisplaySize(438, 438).setAlpha(0.96));
+    overlay.add(this.add.rectangle(324, 360, 466, 466, 0x000000, 0).setStrokeStyle(2, 0xc94b55, 0.56));
+    overlay.add(this.add.rectangle(854, 360, 642, 466, 0x07151d, 0.97).setStrokeStyle(2, 0xc94b55, 0.78));
+    overlay.add(this.add.text(568, 158, "Missione fallita", {
+      fontFamily: "Inter, Arial",
+      fontSize: "34px",
+      color: "#ffb0a8",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(570, 218, "Le vite sono esaurite. La run è stata chiusa e non può essere ripresa.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "17px",
+      color: "#f5fbff",
+      wordWrap: { width: 550 },
+      lineSpacing: 5,
+    }));
+    overlay.add(this.add.rectangle(570, 292, 568, 142, 0x102533, 0.82).setOrigin(0).setStrokeStyle(1, 0xc94b55, 0.38));
+    overlay.add(this.add.text(594, 316, `Motivo: ${reason}\n\nI progressi di questa run restano nel registro. Ricomincia crea una missione nuova allo stesso livello, con vite e timer ripristinati.`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 520 },
+      lineSpacing: 5,
+    }));
+    overlay.add(new Button(this, 716, 568, "Ricomincia", () => {
+      this.missionFailureInProgress = false;
+      this.clearOverlay();
+      this.regenerate();
+    }, {
+      width: 270,
+      height: 56,
+      fill: 0x173b36,
+      stroke: 0x9ff5e9,
+      fontSize: 18,
+    }));
+    overlay.add(new Button(this, 1010, 568, "Menu", () => {
+      this.missionFailureInProgress = false;
+      this.clearOverlay();
+      this.scene.start("MainMenuScene");
+    }, {
+      width: 206,
+      height: 56,
+      fill: 0x263743,
+      stroke: 0x6be7d6,
+      fontSize: 18,
+    }));
+    this.overlay = overlay;
   }
 
   private completeProgressiveLevel(success: boolean, reason: string): void {

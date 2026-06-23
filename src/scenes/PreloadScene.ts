@@ -9,6 +9,13 @@ import labConsoleUrl from "../assets/images/console-lab.webp";
 import factoryPaintedBgUrl from "../assets/images/factory-painted-bg.webp";
 import greenhousePaintedBgUrl from "../assets/images/greenhouse-painted-bg.webp";
 import labPaintedBgUrl from "../assets/images/lab-painted-bg.webp";
+import missionCodingBgUrl from "../assets/images/mission-coding-bg.webp";
+import missionElectronicsBgUrl from "../assets/images/mission-electronics-bg.webp";
+import missionEnglishBgUrl from "../assets/images/mission-english-bg.webp";
+import missionItalianBgUrl from "../assets/images/mission-italian-bg.webp";
+import missionMathBgUrl from "../assets/images/mission-math-bg.webp";
+import missionMusicBgUrl from "../assets/images/mission-music-bg.webp";
+import missionSynthesisBgUrl from "../assets/images/mission-synthesis-bg.webp";
 import eliQuestAtlasUrl from "../assets/sprites/eli-quest-atlas.webp";
 import eliQuestAtlasJsonUrl from "../assets/sprites/eli-quest-atlas.json?url";
 import propCircuitPanelUrl from "../assets/props/prop-circuit-panel.webp";
@@ -55,6 +62,13 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image("bg-factory-painted", factoryPaintedBgUrl);
     this.load.image("bg-greenhouse-painted", greenhousePaintedBgUrl);
     this.load.image("bg-lab-painted", labPaintedBgUrl);
+    this.load.image("mission-bg-coding", missionCodingBgUrl);
+    this.load.image("mission-bg-electronics", missionElectronicsBgUrl);
+    this.load.image("mission-bg-english", missionEnglishBgUrl);
+    this.load.image("mission-bg-italian", missionItalianBgUrl);
+    this.load.image("mission-bg-math", missionMathBgUrl);
+    this.load.image("mission-bg-music", missionMusicBgUrl);
+    this.load.image("mission-bg-synthesis", missionSynthesisBgUrl);
     this.load.image("console-archive", archiveConsoleUrl);
     this.load.image("console-factory", factoryConsoleUrl);
     this.load.image("console-greenhouse", greenhouseConsoleUrl);
@@ -124,6 +138,7 @@ export class PreloadScene extends Phaser.Scene {
     const keys = [
       "bg-academy-painted",
       "bg-lab-painted",
+      "mission-bg-synthesis",
       "console-lab",
       "painted-circuit-panel",
       "painted-terminal",

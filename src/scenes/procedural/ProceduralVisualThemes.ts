@@ -333,6 +333,7 @@ function drawMissionSpecificBackdrop(
   random: Random,
   progress: number,
 ): void {
+  drawMissionImageLayer(scene, rect, theme, progress);
   if (theme.focus === "matematica") {
     drawMathMissionBackdrop(scene, rect, theme, random, progress);
   } else if (theme.focus === "italiano") {
@@ -348,6 +349,38 @@ function drawMissionSpecificBackdrop(
   } else {
     drawSynthesisMissionBackdrop(scene, rect, theme, random, progress);
   }
+}
+
+function drawMissionImageLayer(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralVisualTheme, progress: number): void {
+  const key = missionBackdropKey(theme.focus);
+  if (!scene.textures.exists(key)) {
+    return;
+  }
+  const image = scene.add.image(rect.x + rect.width / 2, rect.y + rect.height / 2 + 10, key)
+    .setDisplaySize(rect.width - 56, rect.height - 102)
+    .setAlpha(0.3 + progress * 0.08);
+  scene.tweens.add({
+    targets: image,
+    scaleX: image.scaleX * 1.012,
+    scaleY: image.scaleY * 1.012,
+    alpha: { from: image.alpha * 0.86, to: Math.min(0.44, image.alpha * 1.15) },
+    duration: 9000,
+    yoyo: true,
+    repeat: -1,
+    ease: "Sine.easeInOut",
+  });
+  scene.add.rectangle(rect.x + rect.width / 2, rect.y + rect.height / 2 + 10, rect.width - 56, rect.height - 102, theme.dark, 0.22)
+    .setStrokeStyle(1, theme.accent, 0.16);
+}
+
+function missionBackdropKey(focus: ProceduralSpecialization): string {
+  if (focus === "matematica") return "mission-bg-math";
+  if (focus === "italiano") return "mission-bg-italian";
+  if (focus === "inglese") return "mission-bg-english";
+  if (focus === "elettronica") return "mission-bg-electronics";
+  if (focus === "coding") return "mission-bg-coding";
+  if (focus === "musica") return "mission-bg-music";
+  return "mission-bg-synthesis";
 }
 
 function drawBackdropTitle(scene: Phaser.Scene, rect: ChromeRect, text: string, theme: ProceduralVisualTheme): void {

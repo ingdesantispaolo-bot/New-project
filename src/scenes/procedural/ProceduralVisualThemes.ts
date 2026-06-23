@@ -202,14 +202,78 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
   },
 };
 
-const focusVisuals: Record<ProceduralSpecialization, { label: string; marker: string; color: number }> = {
-  libera: { label: "Percorso misto", marker: "tutti i sistemi", color: 0x6be7d6 },
-  matematica: { label: "Focus matematica", marker: "macchine numeriche", color: 0xf6c85f },
-  italiano: { label: "Focus italiano", marker: "archivi linguistici", color: 0x9f8cff },
-  inglese: { label: "Focus inglese", marker: "terminali operativi", color: 0x4c7dff },
-  elettronica: { label: "Focus elettronica", marker: "banchi circuito", color: 0x6be7d6 },
-  coding: { label: "Focus coding", marker: "griglie robotiche", color: 0x70d68a },
-  musica: { label: "Focus musica", marker: "pentagrammi luminosi", color: 0xf7d37a },
+const focusVisuals: Record<ProceduralSpecialization, {
+  label: string;
+  marker: string;
+  color: number;
+  palette: ChromePalette;
+  propTheme: ProceduralPropTheme;
+  motif: LevelMotif;
+  secondary: number;
+}> = {
+  libera: {
+    label: "Percorso misto",
+    marker: "tutti i sistemi",
+    color: 0x6be7d6,
+    palette: "academy",
+    propTheme: "academy",
+    motif: "core",
+    secondary: 0xf7d37a,
+  },
+  matematica: {
+    label: "Focus matematica",
+    marker: "macchine numeriche",
+    color: 0xf6c85f,
+    palette: "factory",
+    propTheme: "factory",
+    motif: "factory",
+    secondary: 0xffb36b,
+  },
+  italiano: {
+    label: "Focus italiano",
+    marker: "archivi linguistici",
+    color: 0x9f8cff,
+    palette: "archive",
+    propTheme: "archive",
+    motif: "archive",
+    secondary: 0xf7d37a,
+  },
+  inglese: {
+    label: "Focus inglese",
+    marker: "terminali operativi",
+    color: 0x4c7dff,
+    palette: "academy",
+    propTheme: "lab",
+    motif: "map",
+    secondary: 0x6be7d6,
+  },
+  elettronica: {
+    label: "Focus elettronica",
+    marker: "banchi circuito",
+    color: 0x6be7d6,
+    palette: "circuit",
+    propTheme: "circuit",
+    motif: "circuit",
+    secondary: 0xffb36b,
+  },
+  coding: {
+    label: "Focus coding",
+    marker: "griglie robotiche",
+    color: 0x70d68a,
+    palette: "lab",
+    propTheme: "academy",
+    motif: "trace",
+    secondary: 0xf6c85f,
+  },
+  musica: {
+    label: "Focus musica",
+    marker: "pentagrammi luminosi",
+    color: 0xf7d37a,
+    palette: "archive",
+    propTheme: "academy",
+    motif: "core",
+    secondary: 0x9f8cff,
+  },
 };
 
 export function proceduralVisualThemeFor(run: ProceduralRunSave): ProceduralVisualTheme {
@@ -221,9 +285,13 @@ export function proceduralVisualThemeFor(run: ProceduralRunSave): ProceduralVisu
     ...base,
     level: run.difficulty,
     focus,
+    palette: training ? focusVisual.palette : base.palette,
+    propTheme: training ? focusVisual.propTheme : base.propTheme,
+    motif: training ? focusVisual.motif : base.motif,
     stageTitle: training ? `${base.stageTitle} - ${focusVisual.marker}` : base.stageTitle,
     subtitleTag: `${base.subtitleTag} | ${focusVisual.label}`,
     accent: training ? focusVisual.color : base.accent,
+    secondary: training ? focusVisual.secondary : base.secondary,
   };
 }
 
@@ -238,6 +306,7 @@ export function drawProceduralStageAtmosphere(
   const progress = requiredCount > 0 ? Phaser.Math.Clamp(solvedCount / requiredCount, 0, 1) : 0;
   const random = new Random(`${seed}:${theme.id}:${theme.focus}:visual`);
   drawStageBase(scene, rect, theme, progress);
+  drawMissionSpecificBackdrop(scene, rect, theme, random.fork("mission-backdrop"), progress);
   drawLevelDepthBackplate(scene, rect, theme, progress);
   drawLevelFloorMotif(scene, rect, theme, random.fork("floor"), progress);
   drawSeededWallArchitecture(scene, rect, theme, random.fork("architecture"), progress);
@@ -255,6 +324,327 @@ export function drawProceduralStageAtmosphere(
   drawSeededForegroundDepth(scene, rect, theme, random.fork("foreground"), progress);
   drawProgressionConstellation(scene, rect, theme, progress);
   drawLevelPlate(scene, rect, theme, progress);
+}
+
+function drawMissionSpecificBackdrop(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  if (theme.focus === "matematica") {
+    drawMathMissionBackdrop(scene, rect, theme, random, progress);
+  } else if (theme.focus === "italiano") {
+    drawItalianMissionBackdrop(scene, rect, theme, random, progress);
+  } else if (theme.focus === "inglese") {
+    drawEnglishMissionBackdrop(scene, rect, theme, random, progress);
+  } else if (theme.focus === "elettronica") {
+    drawElectronicsMissionBackdrop(scene, rect, theme, random, progress);
+  } else if (theme.focus === "coding") {
+    drawCodingMissionBackdrop(scene, rect, theme, random, progress);
+  } else if (theme.focus === "musica") {
+    drawMusicMissionBackdrop(scene, rect, theme, random, progress);
+  } else {
+    drawSynthesisMissionBackdrop(scene, rect, theme, random, progress);
+  }
+}
+
+function drawBackdropTitle(scene: Phaser.Scene, rect: ChromeRect, text: string, theme: ProceduralVisualTheme): void {
+  scene.add.rectangle(rect.x + rect.width - 172, rect.y + 92, 206, 30, theme.dark, 0.52)
+    .setStrokeStyle(1, theme.accent, 0.24);
+  scene.add.text(rect.x + rect.width - 270, rect.y + 83, text.toUpperCase(), {
+    fontFamily: "Inter, Arial",
+    fontSize: "10px",
+    color: "#f5fbff",
+    fontStyle: "bold",
+    align: "right",
+    wordWrap: { width: 190 },
+  }).setAlpha(0.78);
+}
+
+function drawMathMissionBackdrop(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  const g = scene.add.graphics();
+  const left = rect.x + 76;
+  const y = rect.y + rect.height * 0.5;
+  const machineY = y - 34;
+  drawBackdropTitle(scene, rect, "officina numerica", theme);
+
+  g.lineStyle(5, theme.secondary, 0.12 + progress * 0.05);
+  g.lineBetween(left, y + 104, rect.x + rect.width - 76, y + 104);
+  const operators = ["×", "+", "−", "÷", "="];
+  operators.forEach((operator, index) => {
+    const x = left + 72 + index * 94;
+    g.fillStyle(index <= progress * operators.length ? theme.secondary : theme.accent, 0.09);
+    g.fillRoundedRect(x - 36, machineY + (index % 2) * 38, 72, 64, 10);
+    g.lineStyle(2, index % 2 ? theme.accent : theme.secondary, 0.28);
+    g.strokeRoundedRect(x - 36, machineY + (index % 2) * 38, 72, 64, 10);
+    scene.add.text(x - 11, machineY + 14 + (index % 2) * 38, operator, {
+      fontFamily: "Inter, Arial",
+      fontSize: "25px",
+      color: index === operators.length - 1 ? "#f7d37a" : "#9ff5e9",
+      fontStyle: "bold",
+    }).setAlpha(0.74);
+    if (index < operators.length - 1) {
+      g.lineStyle(2, theme.accent, 0.18);
+      g.lineBetween(x + 38, machineY + 32 + (index % 2) * 38, x + 58, machineY + 32 + ((index + 1) % 2) * 38);
+    }
+  });
+
+  for (let row = 0; row < 4; row += 1) {
+    for (let col = 0; col < 9; col += 1) {
+      if (!random.bool(0.42)) continue;
+      scene.add.text(rect.x + 90 + col * 52, rect.y + 128 + row * 46, `${random.integer(2, 99)}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#f7d37a",
+      }).setAlpha(0.16 + progress * 0.08);
+    }
+  }
+}
+
+function drawItalianMissionBackdrop(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  const g = scene.add.graphics();
+  drawBackdropTitle(scene, rect, "archivio linguistico", theme);
+  const shelves = 4;
+  for (let shelf = 0; shelf < shelves; shelf += 1) {
+    const y = rect.y + 128 + shelf * 74;
+    g.lineStyle(2, theme.secondary, 0.1 + progress * 0.04);
+    g.lineBetween(rect.x + 82, y + 48, rect.x + rect.width - 90, y + 48);
+    for (let card = 0; card < 7; card += 1) {
+      const x = rect.x + 94 + card * 70 + random.integer(-8, 8);
+      const h = random.integer(30, 48);
+      const tint = random.bool(0.35) ? theme.secondary : theme.accent;
+      g.fillStyle(tint, 0.055 + progress * 0.018);
+      g.fillRoundedRect(x, y + 48 - h, 42, h, 4);
+      g.lineStyle(1, tint, 0.18);
+      g.strokeRoundedRect(x, y + 48 - h, 42, h, 4);
+      g.lineStyle(1, 0xffffff, 0.07);
+      g.lineBetween(x + 7, y + 48 - h + 10, x + 34, y + 48 - h + 10);
+      g.lineBetween(x + 7, y + 48 - h + 20, x + random.integer(24, 36), y + 48 - h + 20);
+    }
+  }
+  ["soggetto", "causa", "pronome", "coerenza"].forEach((word, index) => {
+    const x = rect.x + 112 + index * 118;
+    const y = rect.y + 358 + random.integer(-16, 18);
+    scene.add.text(x, y, word, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: index % 2 ? "#f7d37a" : "#d9eaf1",
+      fontStyle: "bold",
+    }).setAlpha(0.22 + progress * 0.08);
+  });
+}
+
+function drawEnglishMissionBackdrop(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  const g = scene.add.graphics();
+  drawBackdropTitle(scene, rect, "control room", theme);
+  const terminalX = rect.x + 110;
+  const terminalY = rect.y + 136;
+  const terminalW = rect.width - 220;
+  const terminalH = 194;
+  g.fillStyle(0x071018, 0.48);
+  g.fillRoundedRect(terminalX, terminalY, terminalW, terminalH, 12);
+  g.lineStyle(2, theme.accent, 0.28);
+  g.strokeRoundedRect(terminalX, terminalY, terminalW, terminalH, 12);
+  const rows = ["READ", "CHECK", "PRESS", "TURN", "REPORT"];
+  rows.forEach((word, index) => {
+    const y = terminalY + 28 + index * 31;
+    const active = index <= Math.floor(progress * rows.length);
+    scene.add.text(terminalX + 24, y - 8, `${index + 1}. ${word}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: active ? "#f7d37a" : "#d9eaf1",
+      fontStyle: "bold",
+    }).setAlpha(active ? 0.6 : 0.28);
+    g.lineStyle(1, active ? theme.secondary : theme.accent, active ? 0.28 : 0.12);
+    g.lineBetween(terminalX + 118, y, terminalX + terminalW - random.integer(58, 108), y);
+  });
+  for (let index = 0; index < 5; index += 1) {
+    const x = terminalX + 58 + index * 82;
+    scene.add.rectangle(x, terminalY + terminalH + 52, 44, 28, index % 2 ? theme.secondary : theme.accent, 0.08)
+      .setStrokeStyle(1, index % 2 ? theme.secondary : theme.accent, 0.2);
+  }
+}
+
+function drawElectronicsMissionBackdrop(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  const g = scene.add.graphics();
+  drawBackdropTitle(scene, rect, "banco circuiti", theme);
+  const boardX = rect.x + 96;
+  const boardY = rect.y + 122;
+  const boardW = rect.width - 192;
+  const boardH = 274;
+  g.fillStyle(0x061019, 0.42);
+  g.fillRoundedRect(boardX, boardY, boardW, boardH, 14);
+  g.lineStyle(2, theme.accent, 0.24);
+  g.strokeRoundedRect(boardX, boardY, boardW, boardH, 14);
+  for (let index = 0; index < 8; index += 1) {
+    const x = boardX + 34 + index * ((boardW - 68) / 7);
+    const y = boardY + random.integer(42, boardH - 42);
+    const color = index / 7 <= progress ? theme.secondary : theme.accent;
+    g.lineStyle(2, color, 0.18 + progress * 0.04);
+    g.lineBetween(x, boardY + 22, x, y);
+    g.lineBetween(x, y, boardX + boardW - 32, y);
+    g.strokeCircle(x, y, 10);
+    if (index % 3 === 0) {
+      g.strokeRoundedRect(x + 22, y - 12, 52, 24, 5);
+    }
+  }
+  ["V", "Ω", "LED", "SENS"].forEach((label, index) => {
+    scene.add.text(boardX + 34 + index * 108, boardY + boardH - 34, label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }).setAlpha(0.34);
+  });
+}
+
+function drawCodingMissionBackdrop(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  const g = scene.add.graphics();
+  drawBackdropTitle(scene, rect, "simulatore robot", theme);
+  const gridX = rect.x + 118;
+  const gridY = rect.y + 122;
+  const cell = 42;
+  g.lineStyle(1, theme.accent, 0.13);
+  for (let col = 0; col <= 9; col += 1) {
+    g.lineBetween(gridX + col * cell, gridY, gridX + col * cell, gridY + 6 * cell);
+  }
+  for (let row = 0; row <= 6; row += 1) {
+    g.lineBetween(gridX, gridY + row * cell, gridX + 9 * cell, gridY + row * cell);
+  }
+  const route = [
+    { x: gridX + cell * 0.5, y: gridY + cell * 5.5 },
+    { x: gridX + cell * 2.5, y: gridY + cell * 5.5 },
+    { x: gridX + cell * 2.5, y: gridY + cell * 2.5 },
+    { x: gridX + cell * 5.5, y: gridY + cell * 2.5 },
+    { x: gridX + cell * 7.5, y: gridY + cell * 0.5 },
+  ];
+  g.lineStyle(4, theme.secondary, 0.12 + progress * 0.12);
+  route.slice(1).forEach((point, index) => {
+    const previous = route[index];
+    g.lineBetween(previous.x, previous.y, point.x, point.y);
+  });
+  route.forEach((point, index) => {
+    g.fillStyle(index / Math.max(1, route.length - 1) <= progress ? theme.secondary : theme.accent, 0.32);
+    g.fillCircle(point.x, point.y, index === 0 || index === route.length - 1 ? 9 : 6);
+  });
+  ["if", "else", "loop", "move"].forEach((cmd, index) => {
+    scene.add.text(rect.x + 110 + index * 108, rect.y + 390 + random.integer(-10, 8), cmd, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      fontStyle: "bold",
+    }).setAlpha(0.22);
+  });
+}
+
+function drawMusicMissionBackdrop(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  const g = scene.add.graphics();
+  drawBackdropTitle(scene, rect, "sala armonica", theme);
+  const left = rect.x + 84;
+  const right = rect.x + rect.width - 86;
+  for (let staff = 0; staff < 3; staff += 1) {
+    const yBase = rect.y + 126 + staff * 88;
+    g.lineStyle(1, theme.accent, 0.14 + progress * 0.04);
+    for (let line = 0; line < 5; line += 1) {
+      g.lineBetween(left, yBase + line * 10, right, yBase + line * 10);
+    }
+    for (let note = 0; note < 7; note += 1) {
+      const x = left + 48 + note * 72 + random.integer(-12, 12);
+      const y = yBase + random.integer(-10, 44);
+      const color = note / 6 <= progress ? theme.secondary : theme.accent;
+      g.fillStyle(color, 0.18);
+      g.fillEllipse(x, y, 18, 12);
+      g.lineStyle(2, color, 0.16);
+      g.lineBetween(x + 8, y, x + 8, y - 34);
+      if (random.bool(0.35)) g.lineBetween(x + 8, y - 34, x + 24, y - 28);
+    }
+  }
+  scene.add.text(rect.x + 108, rect.y + 382, "nota  •  intervallo  •  ritmo", {
+    fontFamily: "Inter, Arial",
+    fontSize: "13px",
+    color: "#f7d37a",
+    fontStyle: "bold",
+  }).setAlpha(0.36);
+}
+
+function drawSynthesisMissionBackdrop(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  random: Random,
+  progress: number,
+): void {
+  const g = scene.add.graphics();
+  drawBackdropTitle(scene, rect, "sintesi sistemi", theme);
+  const cx = rect.x + rect.width / 2;
+  const cy = rect.y + rect.height / 2 + 12;
+  const nodes = [
+    { label: "123", color: 0xf6c85f, angle: -Math.PI * 0.82 },
+    { label: "IT", color: 0x9f8cff, angle: -Math.PI * 0.48 },
+    { label: "EN", color: 0x4c7dff, angle: -Math.PI * 0.16 },
+    { label: "Ω", color: 0x6be7d6, angle: Math.PI * 0.16 },
+    { label: "{ }", color: 0x70d68a, angle: Math.PI * 0.48 },
+    { label: "♪", color: 0xf7d37a, angle: Math.PI * 0.82 },
+  ];
+  nodes.forEach((node, index) => {
+    const radius = 160 + (index % 2) * 34;
+    const x = cx + Math.cos(node.angle) * radius;
+    const y = cy + Math.sin(node.angle) * 106;
+    g.lineStyle(2, node.color, 0.12 + progress * 0.06);
+    g.lineBetween(cx, cy, x, y);
+    g.fillStyle(node.color, 0.13 + progress * 0.04);
+    g.fillCircle(x, y, 24);
+    g.lineStyle(1, node.color, 0.34);
+    g.strokeCircle(x, y, 24);
+    scene.add.text(x - 14, y - 8, node.label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setAlpha(0.62);
+  });
+  g.fillStyle(theme.secondary, 0.1 + progress * 0.08);
+  g.fillCircle(cx, cy, 46);
+  g.lineStyle(2, theme.secondary, 0.28);
+  g.strokeCircle(cx, cy, 62 + progress * 10);
 }
 
 function drawStageBase(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralVisualTheme, progress: number): void {

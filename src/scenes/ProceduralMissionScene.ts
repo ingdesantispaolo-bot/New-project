@@ -761,8 +761,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.activePuzzleKind = systemId;
       this.activeChallenge = challenge;
       this.ensurePuzzleTimer(puzzleId);
+      this.playPuzzleContextSound(systemId);
       handlers[systemId]();
     }
+  }
+
+  private playPuzzleContextSound(systemId: ProceduralPuzzleId): void {
+    if (systemId === "math") audioManager.playContext("math");
+    else if (systemId === "language") audioManager.playContext("language");
+    else if (systemId === "english") audioManager.playContext("english");
+    else if (systemId === "circuit") audioManager.playContext("electronics");
+    else if (systemId === "coding" || systemId === "robot") audioManager.playContext("coding");
+    else if (systemId === "music") audioManager.playContext("music");
   }
 
   private openLanguage(): void {
@@ -2191,6 +2201,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         height: 34,
         fontSize: 17,
         fill: key === "OK" ? 0x173b36 : 0x142736,
+        soundKey: key === "OK" ? "confirm" : key === "C" ? "cancel" : "mathKey",
       }));
     });
 

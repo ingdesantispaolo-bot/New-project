@@ -1,18 +1,48 @@
 import { Howl, Howler } from "howler";
 import circuitOnUrl from "../assets/audio/generated/circuitOn.wav?url";
+import cancelUrl from "../assets/audio/generated/cancel.wav?url";
 import clickUrl from "../assets/audio/generated/click.wav?url";
+import confirmUrl from "../assets/audio/generated/confirm.wav?url";
+import contextCodingUrl from "../assets/audio/generated/contextCoding.wav?url";
+import contextElectronicsUrl from "../assets/audio/generated/contextElectronics.wav?url";
+import contextEnglishUrl from "../assets/audio/generated/contextEnglish.wav?url";
+import contextLanguageUrl from "../assets/audio/generated/contextLanguage.wav?url";
+import contextMathUrl from "../assets/audio/generated/contextMath.wav?url";
+import contextMusicUrl from "../assets/audio/generated/contextMusic.wav?url";
 import doorOpenUrl from "../assets/audio/generated/doorOpen.wav?url";
 import errorUrl from "../assets/audio/generated/error.wav?url";
+import focusSelectUrl from "../assets/audio/generated/focusSelect.wav?url";
 import footstepUrl from "../assets/audio/generated/footstep.wav?url";
 import hintUrl from "../assets/audio/generated/hint.wav?url";
 import labAmbienceUrl from "../assets/audio/generated/labAmbience.wav?url";
+import levelSelectUrl from "../assets/audio/generated/levelSelect.wav?url";
+import mathKeyUrl from "../assets/audio/generated/mathKey.wav?url";
+import missionStartUrl from "../assets/audio/generated/missionStart.wav?url";
 import panelOpenUrl from "../assets/audio/generated/panelOpen.wav?url";
+import progressiveStepUrl from "../assets/audio/generated/progressiveStep.wav?url";
+import resetUrl from "../assets/audio/generated/reset.wav?url";
 import scanUrl from "../assets/audio/generated/scan.wav?url";
 import successUrl from "../assets/audio/generated/success.wav?url";
+import uiSelectUrl from "../assets/audio/generated/uiSelect.wav?url";
 
-type SoundKey =
+export type SoundKey =
   | "labAmbience"
   | "click"
+  | "uiSelect"
+  | "confirm"
+  | "cancel"
+  | "reset"
+  | "levelSelect"
+  | "missionStart"
+  | "focusSelect"
+  | "progressiveStep"
+  | "mathKey"
+  | "contextMath"
+  | "contextLanguage"
+  | "contextEnglish"
+  | "contextElectronics"
+  | "contextCoding"
+  | "contextMusic"
   | "scan"
   | "hint"
   | "panelOpen"
@@ -29,6 +59,7 @@ type SoundSpec = {
 };
 
 type OutcomeSound = "correct" | "wrong" | "hint" | "complete" | "neutral";
+type ContextSound = "math" | "language" | "english" | "electronics" | "coding" | "music";
 
 export class AudioManager {
   private sounds = new Map<SoundKey, Howl>();
@@ -40,6 +71,21 @@ export class AudioManager {
   private specs: Record<SoundKey, SoundSpec> = {
     labAmbience: { src: labAmbienceUrl, volume: 0.18, loop: true },
     click: { src: clickUrl, volume: 0.34 },
+    uiSelect: { src: uiSelectUrl, volume: 0.28 },
+    confirm: { src: confirmUrl, volume: 0.36 },
+    cancel: { src: cancelUrl, volume: 0.28 },
+    reset: { src: resetUrl, volume: 0.34 },
+    levelSelect: { src: levelSelectUrl, volume: 0.34 },
+    missionStart: { src: missionStartUrl, volume: 0.34 },
+    focusSelect: { src: focusSelectUrl, volume: 0.32 },
+    progressiveStep: { src: progressiveStepUrl, volume: 0.34 },
+    mathKey: { src: mathKeyUrl, volume: 0.22 },
+    contextMath: { src: contextMathUrl, volume: 0.34 },
+    contextLanguage: { src: contextLanguageUrl, volume: 0.32 },
+    contextEnglish: { src: contextEnglishUrl, volume: 0.32 },
+    contextElectronics: { src: contextElectronicsUrl, volume: 0.34 },
+    contextCoding: { src: contextCodingUrl, volume: 0.32 },
+    contextMusic: { src: contextMusicUrl, volume: 0.34 },
     scan: { src: scanUrl, volume: 0.3 },
     hint: { src: hintUrl, volume: 0.32 },
     panelOpen: { src: panelOpenUrl, volume: 0.32 },
@@ -55,7 +101,7 @@ export class AudioManager {
   }
 
   preloadEssentialAudio(): void {
-    this.preloadKeys(["click", "success", "error", "hint", "scan", "panelOpen"]);
+    this.preloadKeys(["uiSelect", "confirm", "cancel", "levelSelect", "missionStart", "success", "error", "hint", "scan", "panelOpen"]);
   }
 
   preloadAmbientAudio(): void {
@@ -119,6 +165,18 @@ export class AudioManager {
       neutral: "scan",
     };
     this.play(outcomeSounds[outcome]);
+  }
+
+  playContext(context: ContextSound): void {
+    const contextSounds: Record<ContextSound, SoundKey> = {
+      math: "contextMath",
+      language: "contextLanguage",
+      english: "contextEnglish",
+      electronics: "contextElectronics",
+      coding: "contextCoding",
+      music: "contextMusic",
+    };
+    this.play(contextSounds[context]);
   }
 
   playToneSequence(steps: Array<{ frequency: number; durationMs: number }>): void {
@@ -187,7 +245,27 @@ export class AudioManager {
   }
 
   private preloadResponsiveSfx(): void {
-    this.preloadKeys(["click", "success", "error", "hint", "scan"]);
+    this.preloadKeys([
+      "uiSelect",
+      "confirm",
+      "cancel",
+      "reset",
+      "levelSelect",
+      "missionStart",
+      "focusSelect",
+      "progressiveStep",
+      "mathKey",
+      "contextMath",
+      "contextLanguage",
+      "contextEnglish",
+      "contextElectronics",
+      "contextCoding",
+      "contextMusic",
+      "success",
+      "error",
+      "hint",
+      "scan",
+    ]);
   }
 
   private preloadKeys(keys: SoundKey[]): void {

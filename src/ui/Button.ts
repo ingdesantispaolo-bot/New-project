@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { audioManager } from "../core/AudioManager";
+import { audioManager, type SoundKey } from "../core/AudioManager";
 
 export type ButtonOptions = {
   width?: number;
@@ -11,11 +11,36 @@ export type ButtonOptions = {
   wordWrapWidth?: number;
   actionDelayMs?: number;
   cooldownMs?: number;
+  soundKey?: SoundKey;
 };
 
 function stopInputPropagation(args: unknown[]): void {
   const event = args[args.length - 1] as { stopPropagation?: () => void } | undefined;
   event?.stopPropagation?.();
+}
+
+function inferButtonSoundKey(label: string): SoundKey {
+  const normalized = label
+    .replace(/[✓[\]·×]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  if (/^[1-8]$/.test(normalized)) return "levelSelect";
+  if (/^(ok|conferma|conferma risposta|verifica|verifica sequenza|test finale|testa circuito|controlla|controlla ordine|esegui|registra|registra e continua)/.test(normalized)) {
+    return "confirm";
+  }
+  if (/^(x|annulla|indietro|menu|hub|pulisci|pulisci scelta|azzera ordine|conserva|ho capito)/.test(normalized)) {
+    return "cancel";
+  }
+  if (/(reset|azzera|ricomincia|riparti|riprova)/.test(normalized)) return "reset";
+  if (/(livello successivo|scalata|progressiva|impulso nora|protezione|\+30)/.test(normalized)) return "progressiveStep";
+  if (/(focus|allenati)/.test(normalized)) return "focusSelect";
+  if (/(missione|nuova missione|avvia missione|missione rapida|riprendi missione)/.test(normalized)) return "missionStart";
+  if (/(indizio|aiuto)/.test(normalized)) return "hint";
+  if (/(ascolta|musica)/.test(normalized)) return "contextMusic";
+  if (/(leggi|scansiona|analizza|decodifica|atlante|registro|diario|classifiche|report)/.test(normalized)) return "panelOpen";
+  return "uiSelect";
 }
 
 export class Button extends Phaser.GameObjects.Container {
@@ -46,6 +71,7 @@ export class Button extends Phaser.GameObjects.Container {
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
     const actionDelayMs = options.actionDelayMs ?? 0;
     const cooldownMs = options.cooldownMs ?? 45;
+    const soundKey = options.soundKey ?? inferButtonSoundKey(label);
     let lastClickAt = 0;
     let pressed = false;
     let pointerStartedInside = false;
@@ -126,7 +152,7 @@ export class Button extends Phaser.GameObjects.Container {
         this.background.setFillStyle(hoverFill, 1);
         this.highlight.setAlpha(1);
         this.background.setScale(1);
-        audioManager.play("click");
+        audioManager.play(soundKey);
       })
       .on("pointerup", (...args: unknown[]) => {
         stopInputPropagation(args);

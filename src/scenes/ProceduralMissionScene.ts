@@ -165,6 +165,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.resetSceneLifecycleState();
     this.run = this.ensureRun();
     audioManager.playMusic("labAmbience");
+    VisualKit.applyCinematicGrade(this, "lab");
     ProceduralMissionView.drawShell(this, this.run);
     const hud = ProceduralMissionView.createHud(
       this,

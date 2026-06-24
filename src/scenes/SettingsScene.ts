@@ -11,7 +11,7 @@ type SettingsSceneData = {
 const PANEL_X = 360;
 const PANEL_Y = 150;
 const PANEL_W = 560;
-const PANEL_H = 420;
+const PANEL_H = 484;
 
 /**
  * Lightweight overlay for audio + comfort preferences. Launched on top of the
@@ -22,7 +22,9 @@ export class SettingsScene extends Phaser.Scene {
   private volumeValueText?: Phaser.GameObjects.Text;
   private muteButton?: Button;
   private effectsButton?: Button;
+  private qualityButton?: Button;
   private effectsChanged = false;
+  private qualityChanged = false;
 
   constructor() {
     super("SettingsScene");
@@ -123,8 +125,30 @@ export class SettingsScene extends Phaser.Scene {
     });
     this.effectsButton.setDepth(3);
 
+    // --- Graphics quality ---
+    this.add.text(PANEL_X + 32, PANEL_Y + 330, "Qualità grafica", {
+      fontFamily: "Inter, Arial",
+      fontSize: "19px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }).setDepth(3);
+    this.add.text(PANEL_X + 32, PANEL_Y + 356, "Effetti cinematografici (bloom, grading). Comfort li disattiva sui dispositivi più lenti.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      wordWrap: { width: 330 },
+      lineSpacing: 3,
+    }).setDepth(3);
+    this.qualityButton = new Button(this, PANEL_X + 410, PANEL_Y + 340, this.qualityLabel(), () => this.cycleQuality(), {
+      width: 156,
+      height: 46,
+      fontSize: 15,
+      soundKey: "uiSelect",
+    });
+    this.qualityButton.setDepth(3);
+
     // --- Close ---
-    new Button(this, PANEL_X + PANEL_W / 2, PANEL_Y + 372, "Chiudi", () => this.close(), {
+    new Button(this, PANEL_X + PANEL_W / 2, PANEL_Y + 436, "Chiudi", () => this.close(), {
       width: 200,
       height: 48,
       fill: 0x1f5a51,
@@ -168,12 +192,23 @@ export class SettingsScene extends Phaser.Scene {
     this.effectsButton?.setLabel(this.effectsLabel());
   }
 
+  private qualityLabel(): string {
+    const labels = { high: "Qualità: Alta", medium: "Qualità: Media", comfort: "Qualità: Comfort" } as const;
+    return labels[settingsSystem.getGraphicsQuality()];
+  }
+
+  private cycleQuality(): void {
+    settingsSystem.cycleGraphicsQuality();
+    this.qualityChanged = true;
+    this.qualityButton?.setLabel(this.qualityLabel());
+  }
+
   private close(): void {
     const target = this.returnTo;
-    const effectsChanged = this.effectsChanged;
+    const needsRebuild = this.effectsChanged || this.qualityChanged;
     if (target) {
-      // Reduced-effects changes only re-render cleanly on a fresh scene build.
-      if (effectsChanged && target === "MainMenuScene") {
+      // Visual-setting changes only re-render cleanly on a fresh scene build.
+      if (needsRebuild && target === "MainMenuScene") {
         this.scene.start(target);
         return;
       }

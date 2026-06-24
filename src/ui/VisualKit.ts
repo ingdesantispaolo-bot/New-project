@@ -12,8 +12,59 @@ const palettes: Record<Palette, { bg: number; deep: number; accent: number; acce
   circuit: { bg: 0x071018, deep: 0x0d1b26, accent: 0x6be7d6, accent2: 0xf6c85f, warm: 0xffb36b },
 };
 
+const gradedCameras = new WeakSet<Phaser.Cameras.Scene2D.Camera>();
+
+// Per-palette filmic grade tuning. Neutral = brightness 1, saturate 0, contrast 0.
+const gradeProfiles: Record<Palette, { brightness: number; saturate: number; contrast: number; vignette: number; glow: number }> = {
+  academy: { brightness: 1.03, saturate: 0.22, contrast: 0.16, vignette: 0.42, glow: 0.9 },
+  lab: { brightness: 1.02, saturate: 0.2, contrast: 0.18, vignette: 0.46, glow: 1.0 },
+  greenhouse: { brightness: 1.05, saturate: 0.26, contrast: 0.12, vignette: 0.36, glow: 0.8 },
+  factory: { brightness: 1.02, saturate: 0.18, contrast: 0.2, vignette: 0.44, glow: 1.0 },
+  archive: { brightness: 1.02, saturate: 0.22, contrast: 0.16, vignette: 0.46, glow: 0.9 },
+  circuit: { brightness: 1.03, saturate: 0.24, contrast: 0.18, vignette: 0.44, glow: 1.1 },
+};
+
 export class VisualKit {
+  /**
+   * Phase 0 cinematic post-processing: a WebGL camera filter stack
+   * (color grade + vignette + subtle bloom-like glow) that lifts perceived
+   * quality across every scene without new art. Tiered by the graphics-quality
+   * setting and a no-op on Canvas / "comfort".
+   */
+  static applyCinematicGrade(scene: Phaser.Scene, paletteName: Palette = "academy"): void {
+    const quality = settingsSystem.getGraphicsQuality();
+    if (quality === "comfort") {
+      return;
+    }
+    if (scene.game.renderer.type !== Phaser.WEBGL) {
+      return;
+    }
+    const camera = scene.cameras.main;
+    const filters = (camera as { filters?: { internal?: Phaser.GameObjects.Components.FilterList } }).filters;
+    if (!filters?.internal || gradedCameras.has(camera)) {
+      return;
+    }
+    gradedCameras.add(camera);
+    scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => gradedCameras.delete(camera));
+
+    const profile = gradeProfiles[paletteName];
+    try {
+      const cm = filters.internal.addColorMatrix().colorMatrix;
+      cm.brightness(profile.brightness, true);
+      cm.saturate(profile.saturate, true);
+      cm.contrast(profile.contrast, true);
+      filters.internal.addVignette(0.5, 0.5, 0.82, profile.vignette);
+      if (quality === "high") {
+        filters.internal.addGlow(0xffffff, profile.glow, 0, 1.1, false, 4, 8);
+      }
+    } catch {
+      // Filters are a visual enhancement only; never break a scene over them.
+      gradedCameras.delete(camera);
+    }
+  }
+
   static background(scene: Phaser.Scene, paletteName: Palette = "academy"): void {
+    this.applyCinematicGrade(scene, paletteName);
     const palette = palettes[paletteName];
     const hazeAlpha: Record<Palette, number> = {
       academy: 0.3,

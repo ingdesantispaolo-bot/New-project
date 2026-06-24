@@ -91,6 +91,7 @@ export class WordArchiveScene extends Phaser.Scene {
   }
 
   private drawArchive(): void {
+    VisualKit.applyCinematicGrade(this, "archive");
     SceneChrome.drawTwoColumnMissionChrome(
       this,
       "archive",

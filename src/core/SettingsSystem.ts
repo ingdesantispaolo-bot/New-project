@@ -1,5 +1,8 @@
 import { EventBus, GameEvents } from "./EventBus";
 
+/** Cinematic post-processing tier. "comfort" disables the WebGL filter pass. */
+export type GraphicsQuality = "high" | "medium" | "comfort";
+
 export type GameSettings = {
   /** Master volume 0..1. */
   volume: number;
@@ -8,6 +11,8 @@ export type GameSettings = {
   reducedEffects: boolean;
   /** UI text scale multiplier (1 = default). */
   textScale: number;
+  /** Filmic post-processing tier. */
+  graphicsQuality: GraphicsQuality;
 };
 
 const SETTINGS_KEY = "eli-quest-settings-v1";
@@ -17,9 +22,11 @@ const DEFAULT_SETTINGS: GameSettings = {
   muted: false,
   reducedEffects: false,
   textScale: 1,
+  graphicsQuality: "high",
 };
 
 const TEXT_SCALE_STEPS = [0.9, 1, 1.15, 1.3] as const;
+const GRAPHICS_STEPS: GraphicsQuality[] = ["high", "medium", "comfort"];
 
 function clamp01(value: number): number {
   if (Number.isNaN(value)) return 0;
@@ -55,6 +62,9 @@ export class SettingsSystem {
           textScale: TEXT_SCALE_STEPS.includes((parsed.textScale ?? 1) as never)
             ? (parsed.textScale as number)
             : DEFAULT_SETTINGS.textScale,
+          graphicsQuality: GRAPHICS_STEPS.includes(parsed.graphicsQuality as GraphicsQuality)
+            ? (parsed.graphicsQuality as GraphicsQuality)
+            : DEFAULT_SETTINGS.graphicsQuality,
         };
       }
     } catch {
@@ -85,6 +95,22 @@ export class SettingsSystem {
 
   getTextScale(): number {
     return this.get().textScale;
+  }
+
+  getGraphicsQuality(): GraphicsQuality {
+    return this.get().graphicsQuality;
+  }
+
+  setGraphicsQuality(graphicsQuality: GraphicsQuality): void {
+    this.update({ graphicsQuality });
+  }
+
+  /** Cycles high → medium → comfort → high. Returns the new value. */
+  cycleGraphicsQuality(): GraphicsQuality {
+    const current = this.get().graphicsQuality;
+    const next = GRAPHICS_STEPS[(GRAPHICS_STEPS.indexOf(current) + 1) % GRAPHICS_STEPS.length];
+    this.update({ graphicsQuality: next });
+    return next;
   }
 
   setVolume(volume: number): void {

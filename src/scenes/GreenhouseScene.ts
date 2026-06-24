@@ -110,6 +110,7 @@ export class GreenhouseScene extends Phaser.Scene {
   }
 
   private drawGreenhouse(): void {
+    VisualKit.applyCinematicGrade(this, "greenhouse");
     SceneChrome.drawTwoColumnMissionChrome(
       this,
       "greenhouse",

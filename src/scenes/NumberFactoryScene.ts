@@ -66,6 +66,7 @@ export class NumberFactoryScene extends Phaser.Scene {
   }
 
   private drawFactory(): void {
+    VisualKit.applyCinematicGrade(this, "factory");
     SceneChrome.drawTwoColumnMissionChrome(
       this,
       "factory",

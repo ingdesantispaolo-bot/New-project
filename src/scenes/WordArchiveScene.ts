@@ -8,6 +8,7 @@ import { feedbackSystem } from "../core/FeedbackSystem";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { missionEngine } from "../core/MissionEngine";
 import { saveSystem } from "../core/SaveSystem";
+import { settingsSystem } from "../core/SettingsSystem";
 import { tiledSceneRenderer } from "../core/TiledSceneRenderer";
 import {
   type ArchiveEvidence,
@@ -466,6 +467,7 @@ export class WordArchiveScene extends Phaser.Scene {
     feedbackSystem.publish(`Messaggio riparato: ${message.systemMeaning}`, "success");
     VisualKit.outcomeFlash(this, "success", 420, 340, 760, 460);
     VisualKit.particleBurst(this, 420, 306, "archive", "success");
+    this.playDecodeSweep(420, 340, 700, 420);
     if (this.repairedMessageIds.size === this.archiveMessages.length) {
       missionEngine.completeObjective("archiveMessagesRepaired", [
         "italiano.comprensione",
@@ -475,6 +477,23 @@ export class WordArchiveScene extends Phaser.Scene {
       this.mode = "evidence";
     }
     this.refreshScene();
+  }
+
+  /** A scan line that sweeps the restored message, "authenticating" it. */
+  private playDecodeSweep(centerX: number, centerY: number, width: number, height: number): void {
+    if (settingsSystem.effectsReduced()) {
+      return;
+    }
+    const top = centerY - height / 2;
+    const line = this.add.rectangle(centerX, top, width, 3, 0x9f8cff, 0.85).setDepth(60);
+    this.tweens.add({
+      targets: line,
+      y: top + height,
+      alpha: { from: 0.85, to: 0 },
+      duration: 520,
+      ease: "Sine.easeIn",
+      onComplete: () => line.destroy(),
+    });
   }
 
   private advanceAfterRepairs(): void {

@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
+import { settingsSystem } from "../core/SettingsSystem";
 
 export type OutcomeTone = "info" | "hint" | "success" | "warning" | "complete";
 
@@ -68,6 +69,7 @@ function hexToRgb(color: number): { r: number; g: number; b: number } {
 class OutcomeFeedback {
   private lastEffectAt = 0;
   private lastTone?: OutcomeTone;
+  private streak = 0;
   private answerCards = new WeakMap<Phaser.Scene, Phaser.GameObjects.Container>();
 
   play(scene: Phaser.Scene, tone: OutcomeTone, label?: string): void {
@@ -97,6 +99,81 @@ class OutcomeFeedback {
     this.drawPulse(scene, spec);
     this.drawBanner(scene, spec, label);
     this.drawParticles(scene, spec, tone);
+
+    if (tone === "success") {
+      this.streak += 1;
+      if (this.streak >= 3) {
+        this.celebrateStreak(scene, this.streak);
+      }
+    } else if (tone === "warning" || tone === "complete") {
+      this.streak = 0;
+    }
+  }
+
+  /** Resets the running combo, e.g. when a new exercise session begins. */
+  resetStreak(): void {
+    this.streak = 0;
+  }
+
+  /** Rewards consecutive correct answers with an escalating combo flourish. */
+  private celebrateStreak(scene: Phaser.Scene, streak: number): void {
+    const { width } = scene.scale;
+    const message =
+      streak >= 8 ? `SERIE x${streak} · INARRESTABILE!` :
+      streak >= 5 ? `SERIE x${streak} · OTTIMA!` :
+      `SERIE x${streak}!`;
+    const reduced = settingsSystem.effectsReduced();
+
+    const label = scene.add.text(width / 2, 150, message, {
+      fontFamily: "Inter, Arial",
+      fontSize: "30px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      stroke: "#3a2a08",
+      strokeThickness: 5,
+      shadow: { offsetX: 0, offsetY: 3, color: "#000000", blur: 8, fill: true },
+    }).setOrigin(0.5).setDepth(9700).setScrollFactor(0).setScale(reduced ? 1 : 0.4).setAlpha(0);
+
+    scene.tweens.add({
+      targets: label,
+      scale: 1,
+      alpha: 1,
+      duration: reduced ? 120 : 260,
+      ease: "Back.easeOut",
+      hold: 760,
+      yoyo: true,
+      completeDelay: 120,
+      onComplete: () => label.destroy(),
+    });
+
+    if (!reduced) {
+      const count = Math.min(34, 14 + streak * 2);
+      for (let i = 0; i < count; i += 1) {
+        const angle = Phaser.Math.FloatBetween(-Math.PI, Math.PI);
+        const distance = Phaser.Math.Between(60, 200);
+        const star = scene.add.circle(width / 2, 150, Phaser.Math.Between(2, 6), i % 2 === 0 ? 0xf7d37a : 0x6be7d6, 0.92)
+          .setDepth(9690).setScrollFactor(0);
+        scene.tweens.add({
+          targets: star,
+          x: width / 2 + Math.cos(angle) * distance,
+          y: 150 + Math.sin(angle) * distance,
+          alpha: 0,
+          scale: 0.2,
+          duration: Phaser.Math.Between(420, 820),
+          ease: "Sine.easeOut",
+          onComplete: () => star.destroy(),
+        });
+      }
+    }
+
+    // Short ascending arpeggio whose top note climbs with the streak.
+    const base = 523;
+    const top = base * (1 + Math.min(streak, 8) * 0.08);
+    audioManager.playToneSequence([
+      { frequency: base, durationMs: 90 },
+      { frequency: base * 1.26, durationMs: 90 },
+      { frequency: top, durationMs: 140 },
+    ]);
   }
 
   answer(

@@ -1,4 +1,6 @@
 import { Howl, Howler } from "howler";
+import { EventBus, GameEvents } from "./EventBus";
+import { settingsSystem } from "./SettingsSystem";
 import circuitOnUrl from "../assets/audio/generated/circuitOn.wav?url";
 import cancelUrl from "../assets/audio/generated/cancel.wav?url";
 import clickUrl from "../assets/audio/generated/click.wav?url";
@@ -67,6 +69,7 @@ export class AudioManager {
   private currentMusic?: "labAmbience";
   private unlockInstalled = false;
   private unlocked = false;
+  private settingsBound = false;
 
   private specs: Record<SoundKey, SoundSpec> = {
     labAmbience: { src: labAmbienceUrl, volume: 0.18, loop: true },
@@ -98,6 +101,25 @@ export class AudioManager {
 
   setMuted(muted: boolean): void {
     Howler.mute(muted);
+  }
+
+  /**
+   * Applies the persisted master volume + mute and keeps the audio engine in
+   * sync with later setting changes. Safe to call more than once.
+   */
+  bindSettings(): void {
+    this.applySettings();
+    if (this.settingsBound) {
+      return;
+    }
+    this.settingsBound = true;
+    EventBus.on(GameEvents.SettingsChanged, () => this.applySettings());
+  }
+
+  private applySettings(): void {
+    const settings = settingsSystem.get();
+    Howler.volume(settings.volume);
+    Howler.mute(settings.muted);
   }
 
   preloadEssentialAudio(): void {

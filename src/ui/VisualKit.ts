@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { settingsSystem } from "../core/SettingsSystem";
 
 type Palette = "academy" | "lab" | "greenhouse" | "factory" | "archive" | "circuit";
 
@@ -55,8 +56,13 @@ export class VisualKit {
       grid.lineBetween(0, y, 1280, y + 16);
     }
 
-    this.lightSweep(scene, paletteName);
     this.filmicGrade(scene, paletteName);
+    if (settingsSystem.effectsReduced()) {
+      // Calm, static backdrop: skip animated sweep and floating particles.
+      this.cinematicReveal(scene, paletteName);
+      return;
+    }
+    this.lightSweep(scene, paletteName);
     for (let index = 0; index < 42; index += 1) {
       const dot = this.atlasImage(
         scene,
@@ -108,6 +114,9 @@ export class VisualKit {
     }
     const image = scene.add.image(640, 360, key);
     image.setDisplaySize(1334, 750).setAlpha(paletteName === "circuit" ? 0.72 : 0.94);
+    if (settingsSystem.effectsReduced()) {
+      return;
+    }
     scene.tweens.add({
       targets: image,
       scaleX: image.scaleX * 1.015,
@@ -179,10 +188,12 @@ export class VisualKit {
     if (typeof window === "undefined") {
       return false;
     }
+    if (settingsSystem.effectsReduced()) {
+      return false;
+    }
     const coarsePointer = window.matchMedia?.("(pointer: coarse)").matches ?? false;
-    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     const smallViewport = Math.min(window.innerWidth, window.innerHeight) < 760;
-    return !coarsePointer && !reducedMotion && !smallViewport;
+    return !coarsePointer && !smallViewport;
   }
 
   private static productionParallax(scene: Phaser.Scene, paletteName: Palette): void {

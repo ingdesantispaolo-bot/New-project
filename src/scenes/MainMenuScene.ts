@@ -125,10 +125,11 @@ export class MainMenuScene extends Phaser.Scene {
     const journal = this.rect("menu:journal", { x: 250, y: 522, width: 260 });
     new Button(this, journal.x, journal.y, "Diario Seed", () => this.openMenuScene("JournalScene", "Non sono riuscito ad aprire il diario. Riprova tra un istante."), { width: journal.width });
     const procedural = this.rect("menu:procedural", { x: 250, y: 596, width: 300 });
-    new Button(this, procedural.x, procedural.y, "Missione Rapida", () => this.startMissionGame(), {
+    new Button(this, procedural.x, procedural.y, "Quadro Docente / Genitore", () => this.openMenuScene("TeacherDashboardScene", "Non sono riuscito ad aprire il quadro docente. Riprova tra un istante."), {
       width: procedural.width,
-      fill: 0x173b36,
-      fontSize: 18,
+      fill: 0x2a3550,
+      stroke: 0x9f8cff,
+      fontSize: 16,
     });
     new Button(this, 552, 522, "Registro", () => this.openMenuScene("PlayerReportScene", "Non sono riuscito ad aprire il registro. Riprova tra un istante."), {
       width: 206,
@@ -231,8 +232,23 @@ export class MainMenuScene extends Phaser.Scene {
       fontSize: "11px",
       color: "#7da2af",
     }).setOrigin(1, 0.5).setAlpha(0.8);
+    new Button(this, 1230, 36, "⚙", () => this.openSettings(), {
+      width: 48,
+      height: 40,
+      fill: 0x142736,
+      stroke: 0x6be7d6,
+      fontSize: 20,
+      soundKey: "uiSelect",
+    });
+
     VisualKit.vignette(this);
     this.scheduleResponsivenessWarmup();
+  }
+
+  private openSettings(): void {
+    if (this.transitioning) return;
+    this.scene.pause();
+    this.scene.launch("SettingsScene", { returnTo: this.scene.key });
   }
 
   private drawBackground(): void {

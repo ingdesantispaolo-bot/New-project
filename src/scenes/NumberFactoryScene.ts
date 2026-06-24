@@ -8,6 +8,7 @@ import { feedbackSystem } from "../core/FeedbackSystem";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { missionEngine } from "../core/MissionEngine";
 import { saveSystem } from "../core/SaveSystem";
+import { settingsSystem } from "../core/SettingsSystem";
 import { tiledSceneRenderer } from "../core/TiledSceneRenderer";
 import { numberMachines, type NumberMachineDefinition, type ProductionOrder } from "../data/numberFactory";
 import { NumberFactorySimulator, type NumberMachine } from "../procedural/simulators/NumberFactorySimulator";
@@ -102,6 +103,7 @@ export class NumberFactoryScene extends Phaser.Scene {
       }
     }
     this.drawFactoryAtmosphere();
+    this.drawConveyorMotion();
 
     for (let index = 0; index < 12; index += 1) {
       const spark = this.add.image(Phaser.Math.Between(70, 760), Phaser.Math.Between(160, 580), "soft-glow");
@@ -117,10 +119,42 @@ export class NumberFactoryScene extends Phaser.Scene {
     }
   }
 
+  private drawConveyorMotion(): void {
+    // Chevrons that scroll one segment then snap back; with evenly spaced
+    // chevrons this reads as a continuously moving belt. Static if effects
+    // are reduced (a single set of arrows still hints at flow direction).
+    const beltLeft = 104;
+    const beltRight = 726;
+    const spacing = 46;
+    const y = 361;
+    const reduced = settingsSystem.effectsReduced();
+    for (let startX = beltLeft; startX <= beltRight - spacing; startX += spacing) {
+      const chevron = this.add.triangle(startX, y, 0, -7, 11, 0, 0, 7, 0xf6c85f, reduced ? 0.22 : 0.4)
+        .setOrigin(0.5);
+      if (!reduced) {
+        this.tweens.add({
+          targets: chevron,
+          x: startX + spacing,
+          duration: 760,
+          ease: "Linear",
+          repeat: -1,
+        });
+      }
+    }
+  }
+
   private drawFactoryAtmosphere(): void {
+    const reduced = settingsSystem.effectsReduced();
     for (let index = 0; index < 9; index += 1) {
-      const roller = this.add.circle(126 + index * 70, 361, 14, 0x53636a, 0.5).setStrokeStyle(2, 0xf6c85f, 0.16);
-      this.tweens.add({ targets: roller, rotation: Math.PI * 2, duration: 1600, repeat: -1 });
+      const cx = 126 + index * 70;
+      const roller = this.add.container(cx, 361);
+      roller.add(this.add.circle(0, 0, 14, 0x53636a, 0.5).setStrokeStyle(2, 0xf6c85f, 0.16));
+      // A spoke makes the rotation actually readable on a round roller.
+      roller.add(this.add.rectangle(0, 0, 2, 22, 0xf6c85f, 0.4));
+      roller.add(this.add.rectangle(0, 0, 22, 2, 0xf6c85f, 0.22));
+      if (!reduced) {
+        this.tweens.add({ targets: roller, rotation: Math.PI * 2, duration: 1600, repeat: -1, ease: "Linear" });
+      }
     }
     for (let index = 0; index < 7; index += 1) {
       const steam = this.add.ellipse(112 + index * 98, 170 + (index % 3) * 22, 34, 76, 0xffffff, 0.035);

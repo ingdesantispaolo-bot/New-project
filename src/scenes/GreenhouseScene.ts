@@ -8,6 +8,7 @@ import { feedbackSystem } from "../core/FeedbackSystem";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { missionEngine } from "../core/MissionEngine";
 import { saveSystem } from "../core/SaveSystem";
+import { settingsSystem } from "../core/SettingsSystem";
 import { tiledSceneRenderer } from "../core/TiledSceneRenderer";
 import {
   greenhouseAdjustments,
@@ -40,6 +41,7 @@ export class GreenhouseScene extends Phaser.Scene {
   private readonly simulator = new GreenhouseSimulator();
   private plantDefinitions: PlantDefinition[] = exerciseVariantSystem.getGreenhousePlants();
   private plants: PlantState[] = [];
+  private plantPots: Phaser.GameObjects.Container[] = [];
   private selectedPlantId = this.plantDefinitions[0].id;
   private turn = 1;
   private adjustmentUsedThisTurn = false;
@@ -212,6 +214,8 @@ export class GreenhouseScene extends Phaser.Scene {
   }
 
   private drawPlants(): void {
+    this.plantPots = [];
+    const reduced = settingsSystem.effectsReduced();
     const positions = [0, 1, 2].map((index) => this.rect(`greenhouse:plant:${index}`, {
       x: 190 + index * 230,
       y: index === 1 ? 410 : index === 0 ? 420 : 424,
@@ -236,9 +240,22 @@ export class GreenhouseScene extends Phaser.Scene {
       for (let leaf = 0; leaf < 7; leaf += 1) {
         const side = leaf % 2 === 0 ? -1 : 1;
         const y = -54 + leaf * 15;
+        const baseRotation = side * -0.42;
         const leafShape = this.add.ellipse(side * (26 + leaf * 2), y, 68 - leaf * 4, 28, stemColor, plant.health > 35 ? 0.95 : 0.55);
-        leafShape.setRotation(side * -0.42);
+        leafShape.setRotation(baseRotation);
         pot.add(leafShape);
+        if (!reduced) {
+          // Gentle, healthy plants sway more; struggling ones barely move.
+          const swayAmount = plant.health > 45 ? 0.05 : 0.02;
+          this.tweens.add({
+            targets: leafShape,
+            rotation: baseRotation + side * swayAmount,
+            duration: 1700 + leaf * 90,
+            yoyo: true,
+            repeat: -1,
+            ease: "Sine.easeInOut",
+          });
+        }
         pot.add(this.add.line(side * (24 + leaf * 2), y, 0, 0, side * 22, -4, 0xe6ffd5, plant.health > 45 ? 0.18 : 0.08));
       }
 
@@ -275,6 +292,7 @@ export class GreenhouseScene extends Phaser.Scene {
         });
       pot.add(hitTarget);
       this.plantLayer?.add(pot);
+      this.plantPots[index] = pot;
 
       if (selected) {
         const pulse = this.add.circle(pos.x, pos.y + 20, 106, 0xf6c85f, 0.06).setStrokeStyle(2, 0xf6c85f, 0.34);
@@ -282,6 +300,47 @@ export class GreenhouseScene extends Phaser.Scene {
         this.plantLayer?.add(pulse);
       }
     });
+  }
+
+  /**
+   * Visible reaction of a plant to a health change: it perks up (grows) when
+   * improving or droops when worsening, with a floating delta indicator.
+   * Call after refreshScene so it targets the freshly drawn pot.
+   */
+  private playPlantReaction(index: number, delta: number): void {
+    const pot = this.plantPots[index];
+    if (!pot) {
+      return;
+    }
+    const positive = delta >= 0.5;
+    const negative = delta <= -0.5;
+    if (positive || negative) {
+      const indicator = this.add.text(pot.x, pot.y - 70, `${delta > 0 ? "+" : ""}${Math.round(delta)}%`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "20px",
+        color: positive ? "#9ff5e9" : "#ff9d7a",
+        fontStyle: "bold",
+        stroke: "#06140f",
+        strokeThickness: 4,
+      }).setOrigin(0.5).setDepth(50);
+      this.tweens.add({
+        targets: indicator,
+        y: pot.y - 116,
+        alpha: { from: 1, to: 0 },
+        duration: 1100,
+        ease: "Sine.easeOut",
+        onComplete: () => indicator.destroy(),
+      });
+    }
+    if (settingsSystem.effectsReduced()) {
+      return;
+    }
+    if (positive) {
+      this.tweens.add({ targets: pot, scaleX: 1.05, scaleY: 1.09, duration: 200, yoyo: true, ease: "Sine.easeOut" });
+      VisualKit.particleBurst(this, pot.x, pot.y - 30, "greenhouse", "success");
+    } else if (negative) {
+      this.tweens.add({ targets: pot, angle: -3, duration: 130, yoyo: true, repeat: 1, ease: "Sine.easeInOut" });
+    }
   }
 
   private drawDataPanel(): void {
@@ -458,6 +517,8 @@ export class GreenhouseScene extends Phaser.Scene {
     }
 
     const plant = this.getSelectedPlant();
+    const plantIndex = this.plants.indexOf(plant);
+    const beforeHealth = plant.health;
     const beforeHealthy = this.sensorIsHealthy(plant, sensor);
     const next = this.simulator.applyAction(this.toProfile(plant.definition), { ...plant.values, health: plant.health }, { type: sensor, delta } as GreenhouseAction);
     plant.values = {
@@ -466,6 +527,7 @@ export class GreenhouseScene extends Phaser.Scene {
       temperature: this.clampSensor("temperature", next.temperature),
     };
     plant.health = next.health;
+    const healthDelta = plant.health - beforeHealth;
     this.adjustmentUsedThisTurn = true;
     this.persistRun();
     if (!saveSystem.data.flags.plantCareStarted) {
@@ -477,6 +539,7 @@ export class GreenhouseScene extends Phaser.Scene {
     VisualKit.particleBurst(this, 190 + this.plants.indexOf(plant) * 230, 420, "greenhouse", nowHealthy ? "success" : beforeHealthy ? "warning" : "warning");
     VisualKit.outcomeFlash(this, nowHealthy ? "success" : "warning", 420, 390, 760, 500);
     this.refreshScene();
+    this.playPlantReaction(plantIndex, healthDelta);
   }
 
   private advanceTurn(): void {
@@ -487,12 +550,16 @@ export class GreenhouseScene extends Phaser.Scene {
       return;
     }
 
+    const beforeHealths = this.plants.map((plant) => plant.health);
     this.plants.forEach((plant) => {
       const targetHealth = this.calculateHealth(plant.definition, plant.values);
       const drift = targetHealth >= greenhouseMissionRules.savedHealth ? 10 : -7;
       plant.health = Phaser.Math.Clamp(plant.health + (targetHealth - plant.health) * 0.34 + drift, 0, 100);
       plant.history.push(plant.health);
     });
+    const reactToTurn = (): void => {
+      this.plants.forEach((plant, index) => this.playPlantReaction(index, plant.health - beforeHealths[index]));
+    };
 
     this.turn += 1;
     this.adjustmentUsedThisTurn = false;
@@ -529,6 +596,7 @@ export class GreenhouseScene extends Phaser.Scene {
       this.adjustmentUsedThisTurn = false;
       this.persistRun();
       this.refreshScene();
+      reactToTurn();
       return;
     }
 
@@ -537,6 +605,7 @@ export class GreenhouseScene extends Phaser.Scene {
     VisualKit.outcomeFlash(this, "warning", 420, 390, 760, 500);
     this.persistRun();
     this.refreshScene();
+    reactToTurn();
   }
 
   private persistRun(): void {

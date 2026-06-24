@@ -8,4 +8,5 @@ export const GameEvents = {
   InventoryChanged: "inventory:changed",
   CompetencyChanged: "competency:changed",
   MissionChanged: "mission:changed",
+  SettingsChanged: "settings:changed",
 } as const;

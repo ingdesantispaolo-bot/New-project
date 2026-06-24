@@ -10,7 +10,7 @@ import { playerSystem } from "../core/PlayerSystem";
 import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
-import { circuitFaultTemplates } from "../data/procedural/circuitTemplates";
+import { settingsSystem } from "../core/SettingsSystem";
 import { languageTemplates } from "../data/procedural/languageTemplates";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { difficultyModel } from "../procedural/DifficultyModel";
@@ -66,130 +66,30 @@ import { MissionDependencyGraph } from "./procedural/components/MissionDependenc
 import { RobotConsole } from "./procedural/components/RobotConsole";
 import { isProceduralPuzzleSolved, proceduralPuzzleOrder, proceduralRequiredPuzzleIds, puzzleKindFromId, type ProceduralPuzzleId } from "./procedural/ProceduralMissionLayout";
 import { ProceduralMissionView } from "./procedural/ProceduralMissionView";
-
-const commandLabels: Record<GridCommand, string> = {
-  MOVE_FORWARD: "Avanza",
-  TURN_LEFT: "Gira SX",
-  TURN_RIGHT: "Gira DX",
-  PICK_UP: "Raccogli",
-  EXIT: "Esci",
-};
-
-const faultLabels: Record<CircuitFaultType, string> = Object.fromEntries(
-  circuitFaultTemplates.map((fault) => [fault.type, fault.label]),
-) as Record<CircuitFaultType, string>;
-
-const repairLabels: Record<CircuitFaultType, string> = {
-  "missing-wire": "Collega filo",
-  "open-switch": "Chiudi switch",
-  "reversed-led": "Inverti LED",
-  "missing-resistor": "Inserisci R",
-  "disconnected-component": "Ricollega",
-  "sensor-unpowered": "Alimenta sensore",
-  "capacitor-discharged": "Carica condens.",
-  "short-circuit": "Isola corto",
-  "parallel-branch-open": "Chiudi ramo B",
-  "wrong-resistor-value": "Cambia valore R",
-  "relay-not-armed": "Arma relè",
-  "loose-ground": "Fissa massa",
-};
-
-type MusicTrainingSession = {
-  puzzleId: string;
-  random: Random;
-  current: GeneratedMusicPuzzle;
-  startedAt: number;
-  durationMs: number;
-  questionStartedAt: number;
-  answered: number;
-  correct: number;
-  wrong: number;
-  streak: number;
-  bestStreak: number;
-  netScore: number;
-  recentSignatures: string[];
-  modeRotation: MusicMinigameType[];
-  modeIndex: number;
-  feedback: string;
-  locked: boolean;
-  summaryOpen: boolean;
-};
-
-type MathMinigameSession = {
-  puzzleId: string;
-  puzzle: GeneratedMathPuzzle;
-  game: GeneratedMathMinigame;
-  startedAt: number;
-  durationMs: number;
-  promptIndex: number;
-  answered: number;
-  correct: number;
-  wrong: number;
-  streak: number;
-  bestStreak: number;
-  netScore: number;
-  selectedIds: Set<string>;
-  feedback: string;
-  locked: boolean;
-  summaryOpen: boolean;
-};
-
-type LanguageMinigameSession = {
-  puzzleId: string;
-  puzzle: GeneratedLanguagePuzzle;
-  game: GeneratedLanguageMinigame;
-  startedAt: number;
-  durationMs: number;
-  promptIndex: number;
-  answered: number;
-  correct: number;
-  wrong: number;
-  streak: number;
-  bestStreak: number;
-  netScore: number;
-  selectedIds: Set<string>;
-  feedback: string;
-  locked: boolean;
-  summaryOpen: boolean;
-};
-
-type EnglishMinigameSession = {
-  puzzleId: string;
-  puzzle: GeneratedEnglishPuzzle;
-  game: GeneratedEnglishMinigame;
-  startedAt: number;
-  durationMs: number;
-  promptIndex: number;
-  answered: number;
-  correct: number;
-  wrong: number;
-  streak: number;
-  bestStreak: number;
-  netScore: number;
-  selectedIds: Set<string>;
-  feedback: string;
-  locked: boolean;
-  summaryOpen: boolean;
-};
-
-type CodingMinigameSession = {
-  puzzleId: string;
-  puzzle: GeneratedCodingPuzzle;
-  game: GeneratedCodingMinigame;
-  startedAt: number;
-  durationMs: number;
-  promptIndex: number;
-  answered: number;
-  correct: number;
-  wrong: number;
-  streak: number;
-  bestStreak: number;
-  netScore: number;
-  selectedIds: Set<string>;
-  feedback: string;
-  locked: boolean;
-  summaryOpen: boolean;
-};
+import {
+  commandLabels,
+  faultLabels,
+  repairLabels,
+  type CodingMinigameSession,
+  type EnglishMinigameSession,
+  type LanguageMinigameSession,
+  type MathMinigameSession,
+  type MusicTrainingSession,
+} from "./procedural/ProceduralMissionDefs";
+import {
+  drawBatterySymbol,
+  drawBranchSymbol,
+  drawCapacitorSymbol,
+  drawCurrentArrows,
+  drawGroundSymbol,
+  drawLedSymbol,
+  drawMotorSymbol,
+  drawRelaySymbol,
+  drawResistorSymbol,
+  drawReturnSymbol,
+  drawSensorSymbol,
+  drawSwitchSymbol,
+} from "./procedural/CircuitSymbols";
 
 export class ProceduralMissionScene extends Phaser.Scene {
   private run!: ProceduralRunSave;
@@ -1803,11 +1703,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       overlay.add(broken);
     }
 
-    this.drawBatterySymbol(overlay, positions.battery, y, 0xf6c85f);
-    this.drawSwitchSymbol(overlay, positions.switch, y, activeFaults.has("open-switch") ? 0xffb36b : 0x9ff5e9, !activeFaults.has("open-switch"), !conceptLocked);
-    this.drawResistorSymbol(overlay, positions.resistor, y, activeFaults.has("missing-resistor") || activeFaults.has("wrong-resistor-value") ? 0xffb36b : 0x9ff5e9, activeFaults.has("missing-resistor"), !conceptLocked);
-    this.drawLedSymbol(overlay, positions.led, y, activeFaults.has("reversed-led") ? 0xffb36b : 0x9ff5e9, activeFaults.has("reversed-led"), lit, !conceptLocked);
-    this.drawReturnSymbol(overlay, positions.return, y, activeFaults.has("missing-wire") || activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9);
+    drawBatterySymbol(this, overlay, positions.battery, y, 0xf6c85f);
+    drawSwitchSymbol(this, overlay, positions.switch, y, activeFaults.has("open-switch") ? 0xffb36b : 0x9ff5e9, !activeFaults.has("open-switch"), !conceptLocked);
+    drawResistorSymbol(this, overlay, positions.resistor, y, activeFaults.has("missing-resistor") || activeFaults.has("wrong-resistor-value") ? 0xffb36b : 0x9ff5e9, activeFaults.has("missing-resistor"), !conceptLocked);
+    drawLedSymbol(this, overlay, positions.led, y, activeFaults.has("reversed-led") ? 0xffb36b : 0x9ff5e9, activeFaults.has("reversed-led"), lit, !conceptLocked);
+    drawReturnSymbol(this, overlay, positions.return, y, activeFaults.has("missing-wire") || activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9);
 
     [
       { x: positions.battery, code: "Nodo A", label: "Batteria", text: "spinge la corrente dal + al -" },
@@ -1832,7 +1732,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }
     });
 
-    this.drawCurrentArrows(overlay, lit ? 0x8cffd7 : 0x5c7480, lit ? 0.85 : 0.35, [
+    drawCurrentArrows(this, overlay, lit ? 0x8cffd7 : 0x5c7480, lit ? 0.85 : 0.35, [
       { x: 160, y, rotation: 0 },
       { x: 450, y, rotation: 0 },
       { x: 696, y: 346, rotation: Math.PI / 2 },
@@ -1840,22 +1740,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
     ]);
 
     if (puzzle.nodes.includes("capacitor")) {
-      this.drawCapacitorSymbol(overlay, 226, 424, activeFaults.has("capacitor-discharged") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      drawCapacitorSymbol(this, overlay, 226, 424, activeFaults.has("capacitor-discharged") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("sensor")) {
-      this.drawSensorSymbol(overlay, 590, 424, activeFaults.has("sensor-unpowered") || activeFaults.has("disconnected-component") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      drawSensorSymbol(this, overlay, 590, 424, activeFaults.has("sensor-unpowered") || activeFaults.has("disconnected-component") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("branchLed")) {
-      this.drawBranchSymbol(overlay, 404, 424, activeFaults.has("parallel-branch-open") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      drawBranchSymbol(this, overlay, 404, 424, activeFaults.has("parallel-branch-open") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("relay")) {
-      this.drawRelaySymbol(overlay, 190, 426, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      drawRelaySymbol(this, overlay, 190, 426, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("motor")) {
-      this.drawMotorSymbol(overlay, 350, 426, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      drawMotorSymbol(this, overlay, 350, 426, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("ground")) {
-      this.drawGroundSymbol(overlay, 590, 426, activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      drawGroundSymbol(this, overlay, 590, 426, activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
 
     if (conceptLocked && targetComponentId && componentCenters[targetComponentId]) {
@@ -1868,256 +1768,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontStyle: "bold",
       }).setOrigin(0.5));
     }
-  }
-
-  private drawCapacitorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.9);
-    g.beginPath();
-    g.moveTo(x - 46, y);
-    g.lineTo(x - 14, y);
-    g.moveTo(x - 14, y - 22);
-    g.lineTo(x - 14, y + 22);
-    g.moveTo(x + 14, y - 22);
-    g.lineTo(x + 14, y + 22);
-    g.moveTo(x + 14, y);
-    g.lineTo(x + 46, y);
-    g.strokePath();
-    overlay.add(g);
-    overlay.add(this.add.text(x, y + 30, showLabel ? "condensatore: accumula carica" : "simbolo opzionale", {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
-    }).setOrigin(0.5));
-  }
-
-  private drawSensorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
-    overlay.add(this.add.rectangle(x, y, 150, 38, 0x0d2531, 0.92).setStrokeStyle(2, color, 0.78));
-    const g = this.add.graphics();
-    g.lineStyle(2, color, 0.9);
-    g.strokeCircle(x - 40, y, 10);
-    g.beginPath();
-    g.moveTo(x - 24, y);
-    g.lineTo(x + 40, y);
-    g.moveTo(x + 24, y - 8);
-    g.lineTo(x + 40, y);
-    g.lineTo(x + 24, y + 8);
-    g.strokePath();
-    overlay.add(g);
-    overlay.add(this.add.text(x, y + 30, showLabel ? "sensore: misura e invia dati" : "simbolo opzionale", {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
-    }).setOrigin(0.5));
-  }
-
-  private drawBranchSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.88);
-    g.beginPath();
-    g.moveTo(x - 58, y - 20);
-    g.lineTo(x - 22, y - 20);
-    g.lineTo(x + 22, y + 20);
-    g.lineTo(x + 58, y + 20);
-    g.moveTo(x - 58, y + 20);
-    g.lineTo(x - 22, y + 20);
-    g.lineTo(x + 22, y - 20);
-    g.lineTo(x + 58, y - 20);
-    g.strokePath();
-    g.strokeCircle(x, y, 10);
-    overlay.add(g);
-    overlay.add(this.add.text(x, y + 34, showLabel ? "ramo parallelo: può guastarsi da solo" : "simbolo opzionale", {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
-    }).setOrigin(0.5));
-  }
-
-  private drawRelaySymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.9);
-    g.strokeRect(x - 50, y - 18, 44, 36);
-    g.beginPath();
-    g.moveTo(x - 2, y);
-    g.lineTo(x + 46, y - 16);
-    g.moveTo(x + 22, y + 18);
-    g.lineTo(x + 52, y + 18);
-    g.strokePath();
-    overlay.add(g);
-    overlay.add(this.add.text(x, y + 32, showLabel ? "relè: comando + potenza" : "simbolo opzionale", {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
-    }).setOrigin(0.5));
-  }
-
-  private drawMotorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.9);
-    g.strokeCircle(x, y, 22);
-    g.beginPath();
-    g.moveTo(x - 44, y);
-    g.lineTo(x - 22, y);
-    g.moveTo(x + 22, y);
-    g.lineTo(x + 44, y);
-    g.strokePath();
-    overlay.add(g);
-    overlay.add(this.add.text(x, y - 8, "M", {
-      fontFamily: "Inter, Arial",
-      fontSize: "18px",
-      color: color === 0xffb36b ? "#f7d37a" : "#9ff5e9",
-      fontStyle: "bold",
-    }).setOrigin(0.5));
-    overlay.add(this.add.text(x, y + 32, showLabel ? "motore: carico più esigente" : "simbolo opzionale", {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
-    }).setOrigin(0.5));
-  }
-
-  private drawGroundSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, showLabel = true): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.9);
-    g.beginPath();
-    g.moveTo(x, y - 30);
-    g.lineTo(x, y);
-    g.moveTo(x - 30, y);
-    g.lineTo(x + 30, y);
-    g.moveTo(x - 20, y + 10);
-    g.lineTo(x + 20, y + 10);
-    g.moveTo(x - 10, y + 20);
-    g.lineTo(x + 10, y + 20);
-    g.strokePath();
-    overlay.add(g);
-    overlay.add(this.add.text(x, y + 34, showLabel ? "massa: ritorno stabile" : "simbolo opzionale", {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: color === 0xffb36b ? "#f7d37a" : "#9aaab0",
-    }).setOrigin(0.5));
-  }
-
-  private drawBatterySymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.95);
-    g.beginPath();
-    g.moveTo(x - 22, y - 24);
-    g.lineTo(x - 22, y + 24);
-    g.moveTo(x + 4, y - 15);
-    g.lineTo(x + 4, y + 15);
-    g.strokePath();
-    overlay.add(g);
-    overlay.add(this.add.text(x - 38, y - 36, "+", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
-    overlay.add(this.add.text(x + 20, y - 36, "-", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
-  }
-
-  private drawSwitchSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, closed: boolean, showLabel = true): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.95);
-    g.strokeCircle(x - 30, y, 4);
-    g.strokeCircle(x + 30, y, 4);
-    g.beginPath();
-    g.moveTo(x - 26, y);
-    g.lineTo(x + 24, closed ? y : y - 24);
-    g.strokePath();
-    overlay.add(g);
-    if (showLabel) {
-      overlay.add(this.add.text(x, y + 28, closed ? "chiuso" : "aperto", {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: closed ? "#9ff5e9" : "#f7d37a",
-      }).setOrigin(0.5));
-    }
-  }
-
-  private drawResistorSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, missing: boolean, showLabel = true): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, missing ? 0.45 : 0.95);
-    g.beginPath();
-    g.moveTo(x - 42, y);
-    g.lineTo(x - 30, y);
-    for (let i = 0; i < 6; i += 1) {
-      g.lineTo(x - 20 + i * 8, y + (i % 2 === 0 ? -12 : 12));
-    }
-    g.lineTo(x + 32, y);
-    g.lineTo(x + 44, y);
-    g.strokePath();
-    overlay.add(g);
-    if (showLabel) {
-      overlay.add(this.add.text(x, y + 30, missing ? "manca" : "220 ohm", {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: missing ? "#f7d37a" : "#9ff5e9",
-      }).setOrigin(0.5));
-    }
-  }
-
-  private drawLedSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number, reversed: boolean, lit: boolean, showLabel = true): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.95);
-    g.beginPath();
-    if (reversed) {
-      g.moveTo(x + 24, y - 22);
-      g.lineTo(x - 18, y);
-      g.lineTo(x + 24, y + 22);
-      g.closePath();
-      g.moveTo(x - 24, y - 22);
-      g.lineTo(x - 24, y + 22);
-    } else {
-      g.moveTo(x - 24, y - 22);
-      g.lineTo(x + 18, y);
-      g.lineTo(x - 24, y + 22);
-      g.closePath();
-      g.moveTo(x + 24, y - 22);
-      g.lineTo(x + 24, y + 22);
-    }
-    g.strokePath();
-    g.beginPath();
-    g.moveTo(x + 18, y - 34);
-    g.lineTo(x + 34, y - 50);
-    g.moveTo(x + 28, y - 26);
-    g.lineTo(x + 44, y - 42);
-    g.strokePath();
-    overlay.add(g);
-    overlay.add(this.add.circle(x + 64, y, 16, lit ? 0x8cffd7 : 0x243541, lit ? 0.95 : 0.78).setStrokeStyle(2, color, 0.7));
-    if (showLabel) {
-      overlay.add(this.add.text(x, y + 30, reversed ? "invertito" : lit ? "acceso" : "spento", {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: reversed ? "#f7d37a" : lit ? "#9ff5e9" : "#9aaab0",
-      }).setOrigin(0.5));
-    }
-  }
-
-  private drawReturnSymbol(overlay: Phaser.GameObjects.Container, x: number, y: number, color: number): void {
-    const g = this.add.graphics();
-    g.lineStyle(3, color, 0.9);
-    g.beginPath();
-    g.moveTo(x - 28, y);
-    g.lineTo(x + 28, y);
-    g.moveTo(x, y);
-    g.lineTo(x, y + 36);
-    g.moveTo(x - 22, y + 36);
-    g.lineTo(x + 22, y + 36);
-    g.moveTo(x - 14, y + 46);
-    g.lineTo(x + 14, y + 46);
-    g.moveTo(x - 6, y + 56);
-    g.lineTo(x + 6, y + 56);
-    g.strokePath();
-    overlay.add(g);
-  }
-
-  private drawCurrentArrows(
-    overlay: Phaser.GameObjects.Container,
-    color: number,
-    alpha: number,
-    arrows: Array<{ x: number; y: number; rotation: number }>,
-  ): void {
-    arrows.forEach((arrow) => {
-      const tri = this.add.triangle(arrow.x, arrow.y, 0, -6, 14, 0, 0, 6, color, alpha)
-        .setRotation(arrow.rotation)
-        .setOrigin(0.5);
-      overlay.add(tri);
-    });
   }
 
   private circuitWouldLight(): boolean {
@@ -2138,6 +1788,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const flash = this.add.rectangle(400, 302, 706, 238, success ? 0x6be7d6 : 0xc94b55, success ? 0.18 : 0.22);
     this.overlay?.add(flash);
     audioManager.play(success ? "circuitOn" : "error");
+    if (success) {
+      VisualKit.particleBurst(this, 564, 302, "circuit", "success");
+    } else {
+      VisualKit.shake(this, flash, 6);
+    }
     this.tweens.add({
       targets: flash,
       alpha: 0,
@@ -6366,6 +6021,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           this.robotStatusText?.setColor("#9ff5e9").setText(`Checkpoint ${checkpoint.label} validato. Prossimo sotto-obiettivo: ${checkpointIndex < checkpoints.length ? `checkpoint ${checkpoints[checkpointIndex].label}` : "chiave"}.`);
         }
         audioManager.play("footstep");
+        this.spawnRobotTrail();
         this.tweens.add({
           targets: this.robotSprite,
           x: this.robotCellX(state.col),
@@ -6424,6 +6080,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
     };
 
     runAt(0);
+  }
+
+  private spawnRobotTrail(): void {
+    if (settingsSystem.effectsReduced() || !this.robotSprite || !this.overlay) {
+      return;
+    }
+    const trail = this.add.image(this.robotSprite.x, this.robotSprite.y, "soft-glow")
+      .setTint(0x6be7d6)
+      .setAlpha(0.4)
+      .setScale(0.7);
+    this.overlay.add(trail);
+    this.tweens.add({
+      targets: trail,
+      alpha: 0,
+      scale: 0.3,
+      duration: 320,
+      ease: "Sine.easeOut",
+      onComplete: () => trail.destroy(),
+    });
   }
 
   private robotCellX(col: number): number {

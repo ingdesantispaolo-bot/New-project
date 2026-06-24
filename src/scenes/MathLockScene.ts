@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { exerciseVariantSystem } from "../core/ExerciseVariantSystem";
+import { settingsSystem } from "../core/SettingsSystem";
 import { feedbackSystem } from "../core/FeedbackSystem";
 import { missionEngine } from "../core/MissionEngine";
 import type { MathPuzzleDefinition } from "../types/puzzleTypes";
@@ -123,6 +124,7 @@ export class MathLockScene extends Phaser.Scene {
       this.display?.setColor("#9ff5e9");
       this.terminalGlow?.setTint(0x6be7d6).setAlpha(0.36);
       this.reactToOutcome("success");
+      this.playUnlockSurge();
       this.time.delayedCall(900, () => this.scene.start("LaboratoryScene"));
       return;
     }
@@ -144,6 +146,32 @@ export class MathLockScene extends Phaser.Scene {
     if (this.display) {
       this.tweens.add({ targets: this.display, scale: 1.06, duration: 90, yoyo: true });
     }
+  }
+
+  /** Expanding ring + glow surge: the lock visibly releases on success. */
+  private playUnlockSurge(): void {
+    if (this.terminalGlow) {
+      this.tweens.add({
+        targets: this.terminalGlow,
+        alpha: 0.6,
+        scale: 3.6,
+        duration: 380,
+        yoyo: true,
+        ease: "Sine.easeOut",
+      });
+    }
+    if (settingsSystem.effectsReduced()) {
+      return;
+    }
+    const ring = this.add.circle(640, 240, 30, 0x6be7d6, 0).setStrokeStyle(3, 0x6be7d6, 0.9);
+    this.tweens.add({
+      targets: ring,
+      scale: 7,
+      alpha: { from: 0.9, to: 0 },
+      duration: 620,
+      ease: "Sine.easeOut",
+      onComplete: () => ring.destroy(),
+    });
   }
 
   private reactToOutcome(tone: "success" | "error" | "warning"): void {

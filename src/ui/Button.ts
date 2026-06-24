@@ -47,6 +47,11 @@ export class Button extends Phaser.GameObjects.Container {
   private background: Phaser.GameObjects.Rectangle;
   private highlight: Phaser.GameObjects.Rectangle;
   private hitTarget: Phaser.GameObjects.Rectangle;
+  private label: Phaser.GameObjects.Text;
+  private readonly btnWidth: number;
+  private readonly btnHeight: number;
+  private readonly baseFontSize: number;
+  private readonly wordWrapWidth: number;
   private readonly fill: number;
   private enabled = true;
   private busy = false;
@@ -110,6 +115,11 @@ export class Button extends Phaser.GameObjects.Container {
       text.setFontSize(fittedFontSize);
       text.setWordWrapWidth(options.wordWrapWidth ?? width - 22, true);
     }
+    this.label = text;
+    this.btnWidth = width;
+    this.btnHeight = height;
+    this.baseFontSize = baseFontSize;
+    this.wordWrapWidth = options.wordWrapWidth ?? width - 22;
 
     this.hitTarget = scene.add.rectangle(0, 0, hitWidth, hitHeight, 0x000000, 0.001).setOrigin(0.5);
     this.hitTarget.setInteractive();
@@ -190,6 +200,19 @@ export class Button extends Phaser.GameObjects.Container {
       });
 
     scene.add.existing(this);
+  }
+
+  setLabel(label: string): this {
+    this.label.setText(label);
+    let fittedFontSize = this.baseFontSize;
+    this.label.setFontSize(fittedFontSize);
+    this.label.setWordWrapWidth(this.wordWrapWidth, true);
+    while ((this.label.width > this.btnWidth - 16 || this.label.height > this.btnHeight - 10) && fittedFontSize > 10) {
+      fittedFontSize -= 1;
+      this.label.setFontSize(fittedFontSize);
+      this.label.setWordWrapWidth(this.wordWrapWidth, true);
+    }
+    return this;
   }
 
   setEnabled(enabled: boolean): this {

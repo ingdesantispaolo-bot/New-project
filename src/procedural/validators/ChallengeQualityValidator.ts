@@ -131,13 +131,16 @@ export class ChallengeQualityValidator {
     if (puzzle.faults.length < minimumFaults) {
       reasons.push("circuit: diagnosi troppo corta");
     }
-    if (puzzle.observations.length < puzzle.faults.length + 1) {
+    // Easy levels (D1-D2) are designed around a single open point with one
+    // readable symptom; higher levels must offer extra symptoms to interpret.
+    const extraSymptoms = difficulty.level <= 2 ? 0 : 1;
+    if (puzzle.observations.length < puzzle.faults.length + extraSymptoms) {
       reasons.push("circuit: pochi sintomi da interpretare");
     }
     if (!puzzle.diagnosticQuestion || puzzle.hints.length < 2) {
       reasons.push("circuit: domanda diagnostica o indizi mancanti");
     }
-    if (!puzzle.testerReadings || puzzle.testerReadings.length < puzzle.faults.length + 1) {
+    if (!puzzle.testerReadings || puzzle.testerReadings.length < puzzle.faults.length + extraSymptoms) {
       reasons.push("circuit: letture tester insufficienti");
     }
     if (!puzzle.repairChoices || puzzle.repairChoices.length <= puzzle.requiredRepairs.length) {

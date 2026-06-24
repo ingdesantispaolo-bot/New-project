@@ -15,6 +15,7 @@ import { laboratoryObjects, type LaboratoryObject } from "../data/laboratoryObje
 import type { EnglishInstructionDefinition, GrammarRepairDefinition } from "../types/puzzleTypes";
 import { Button } from "../ui/Button";
 import { DialogueBox } from "../ui/DialogueBox";
+import { EliAvatar } from "../ui/EliAvatar";
 import { Panel } from "../ui/Panel";
 import { SceneChrome, type DeviceKind, type DeviceState } from "../ui/SceneChrome";
 import { VisualKit } from "../ui/VisualKit";
@@ -27,7 +28,7 @@ export class LaboratoryScene extends Phaser.Scene {
   private inventoryText?: Phaser.GameObjects.Text;
   private overlay?: Phaser.GameObjects.Container;
   private inspectionPanel?: Phaser.GameObjects.Container;
-  private player?: Phaser.GameObjects.Container;
+  private player?: EliAvatar;
   private hintCursor: Record<string, number> = {};
   private grammarAnalysisUnlocked = false;
   private grammarRepairAttempts = 0;
@@ -216,19 +217,7 @@ export class LaboratoryScene extends Phaser.Scene {
   }
 
   private createPlayer(): void {
-    const player = this.add.container(686, 608);
-    player.add((this.textures.exists("eli-atlas")
-      ? this.add.image(0, -12, "eli-atlas", "soft-flare")
-      : this.add.image(0, -12, "soft-glow"))
-      .setTint(0xf6c85f)
-      .setAlpha(0.14)
-      .setScale(1.1));
-    player.add(this.add.circle(0, -20, 14, 0xf6c85f, 1).setStrokeStyle(2, 0xffe6a0, 0.8));
-    player.add(this.add.triangle(0, 14, 0, -26, 24, 28, -24, 28, 0x2e7f75, 1).setStrokeStyle(2, 0x9ff5e9, 0.55));
-    player.add(this.add.rectangle(0, 21, 26, 22, 0x173b46, 0.75).setStrokeStyle(1, 0x9ff5e9, 0.4));
-    player.add(this.add.text(-17, 44, "ELI", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f5fbff" }));
-    this.tweens.add({ targets: player, scale: 1.035, duration: 1600, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
-    this.player = player;
+    this.player = new EliAvatar(this, 686, 608);
   }
 
   private createHud(): void {
@@ -335,17 +324,16 @@ export class LaboratoryScene extends Phaser.Scene {
     audioManager.play("footstep");
     const layout = this.hotspotLayout(object);
     const targetY = Math.min(610, layout.y + layout.radius + 58);
-    this.tweens.add({
-      targets: this.player,
-      x: layout.x,
-      y: targetY,
-      duration: 360,
-      ease: "Sine.easeInOut",
-      onComplete: () => {
-        this.inspectObject(object);
-        audioManager.play("scan");
-      },
-    });
+    const arrive = () => {
+      this.player?.playInteract();
+      this.inspectObject(object);
+      audioManager.play("scan");
+    };
+    if (this.player) {
+      this.player.walkTo(layout.x, targetY, arrive);
+    } else {
+      arrive();
+    }
   }
 
   private inspectObject(object: LaboratoryObject): void {

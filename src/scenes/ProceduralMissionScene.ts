@@ -679,6 +679,50 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.ensurePuzzleTimer(puzzleId);
       this.playPuzzleContextSound(systemId);
       handlers[systemId]();
+      this.maybeAutoScaffold(systemId);
+    }
+  }
+
+  /**
+   * Adaptive remediation: when a concept keeps producing the same kind of
+   * mistake, NORA opens the first useful control automatically (without
+   * spending an aid). Fulfils the promise made after repeated errors and turns
+   * `learningMemory` from passive diagnostics into real personalisation.
+   * Skipped in focus training, where autonomy is what's being measured.
+   */
+  private maybeAutoScaffold(kind: ProceduralPuzzleId): void {
+    if (this.runMode() === "training") {
+      return;
+    }
+    const count = saveSystem.data.learningMemory?.[`${kind}:concept`]?.count ?? 0;
+    if (count < 3) {
+      return;
+    }
+    if (this.activeHintText && this.activeHintPuzzleId === this.activePuzzleId) {
+      return;
+    }
+    const hints = this.currentPuzzleHintsFor(kind);
+    const first = hints[0];
+    if (!first) {
+      return;
+    }
+    // Scaffolding, not a spent aid: do not increment the hint counter.
+    this.activeHintText = first;
+    this.activeHintPuzzleId = this.activePuzzleId;
+    audioManager.playOutcome("hint");
+    feedbackSystem.publish(`NORA riconosce uno schema ricorrente e apre subito il controllo utile: ${first}`, "hint");
+  }
+
+  private currentPuzzleHintsFor(kind: ProceduralPuzzleId): string[] {
+    switch (kind) {
+      case "language": return this.puzzleHintTexts(this.currentLanguagePuzzle());
+      case "circuit": return this.puzzleHintTexts(this.currentCircuitPuzzle());
+      case "math": return this.puzzleHintTexts(this.currentMathPuzzle());
+      case "english": return this.puzzleHintTexts(this.currentEnglishPuzzle());
+      case "robot": return this.puzzleHintTexts(this.currentRobotPuzzle());
+      case "coding": return this.puzzleHintTexts(this.currentCodingPuzzle());
+      case "music": return this.puzzleHintTexts(this.currentMusicPuzzle());
+      default: return [];
     }
   }
 
@@ -6313,6 +6357,24 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.overlay = overlay;
   }
 
+  /**
+   * The principle consolidated by completing a console — closes the
+   * "discovery → explanation" loop the pedagogy asks for, surfaced at the
+   * moment of success rather than only as a score.
+   */
+  private solvedPrinciple(kind: ProceduralPuzzleId): string {
+    const defaults: Record<ProceduralPuzzleId, string> = {
+      language: "il messaggio diventa eseguibile quando accordo e ordine delle parole dicono al sistema cosa fare.",
+      circuit: "il LED si accende solo se la corrente trova un percorso chiuso e il verso giusto.",
+      math: "il codice nasce rispettando l'ordine dei passaggi: ogni operazione trasforma il valore precedente.",
+      english: "la procedura sicura si estrae da condizioni, ordine e divieti, non traducendo tutto.",
+      robot: "la rotta migliore è la sequenza minima: osserva ostacoli e direzione prima di muovere.",
+      coding: "una sequenza corretta nasce leggendo l'effetto di ogni istruzione, un passo alla volta.",
+      music: "l'altezza di una nota si legge dalla sua posizione sul pentagramma, data la chiave.",
+    };
+    return defaults[kind];
+  }
+
   private solvePuzzle(puzzleId: string, competencies: string[]): void {
     if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
       return;
@@ -6322,14 +6384,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     competencyTracker.award(competencies, 10 + this.run.difficulty * 2 + (score.focusBonus > 0 ? 4 : 0));
     this.run = saveSystem.data.proceduralRun ?? this.run;
     audioManager.playOutcome("correct");
-    outcomeFeedback.play(this, "success", `+${score.total} punti`);
-    this.clearOverlay();
     const solvedNode = puzzleKindFromId(puzzleId);
+    const principle = this.solvedPrinciple(solvedNode);
+    // Surface the learned principle prominently instead of only the score.
+    outcomeFeedback.play(this, "success", `Principio: ${principle}`);
+    this.clearOverlay();
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
     const nextLine = remaining.length > 0
       ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.`
       : "Percorso disciplinare completo: la porta finale è pronta.";
-    feedbackSystem.publish(`${this.dependencies.effectLine(solvedNode)} +${score.total} punti (${formatDuration(score.elapsedMs)}). ${score.feedback} ${nextLine}`, "success");
+    feedbackSystem.publish(`${this.dependencies.effectLine(solvedNode)} Hai consolidato: ${principle} +${score.total} punti (${formatDuration(score.elapsedMs)}). ${nextLine}`, "success");
     if (remaining.length === 0) {
       this.certifyCompletedRun("Ultima console stabilizzata: il sistema completo e certificabile.");
       return;

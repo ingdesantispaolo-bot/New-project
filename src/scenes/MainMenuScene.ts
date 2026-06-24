@@ -28,6 +28,7 @@ const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
 export class MainMenuScene extends Phaser.Scene {
   private readonly layout = mapLayoutSystem.getMainMenuLayout();
   private selectedDifficulty?: DifficultyLevel;
+  private userPickedDifficulty = false;
   private transitioning = false;
 
   constructor() {
@@ -151,13 +152,27 @@ export class MainMenuScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(828, 202, "Scegli livello e materia. Qui non perdi vite: contano tempo, precisione e uso degli aiuti.", {
+    this.add.text(828, 202, "Scegli la materia: ogni percorso parte dal livello consigliato dai tuoi risultati. Tocca 1-8 per forzarlo. Qui non perdi vite: contano tempo, precisione e aiuti.", {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
+      fontSize: "13px",
       color: "#c7dce7",
       wordWrap: { width: 360 },
-      lineSpacing: 5,
+      lineSpacing: 4,
     });
+    if (!this.userPickedDifficulty) {
+      const abbrev: Partial<Record<ProceduralSpecialization, string>> = {
+        matematica: "Mat", italiano: "Ita", inglese: "Ing", elettronica: "Cir", coding: "Cod", musica: "Mus",
+      };
+      const perFocus = focusOptions
+        .map((focus) => `${abbrev[focus.id] ?? focus.label} L${this.recommendedDifficultyForFocus(focus.id)}`)
+        .join(" · ");
+      this.add.text(828, 246, `Consigliato per materia: ${perFocus}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9ff5e9",
+        wordWrap: { width: 360 },
+      });
+    }
     this.add.text(828, 266, `Livello allenamento selezionato: ${selected}/8`, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
@@ -336,7 +351,9 @@ export class MainMenuScene extends Phaser.Scene {
     this.time.delayedCall(40, () => {
       try {
         saveSystem.pauseActiveProceduralRun();
-        this.createProceduralRun(focus, this.activeDifficulty(), "training");
+        // Subject-adaptive by default; an explicit 1-8 pick this session forces the level.
+        const focusLevel = this.userPickedDifficulty ? this.activeDifficulty() : this.recommendedDifficultyForFocus(focus);
+        this.createProceduralRun(focus, focusLevel, "training");
         void startScene(this, "ProceduralMissionScene").catch(() => {
           clearBusy();
           this.transitioning = false;
@@ -601,6 +618,7 @@ export class MainMenuScene extends Phaser.Scene {
 
   private selectDifficulty(level: DifficultyLevel): void {
     this.selectedDifficulty = level;
+    this.userPickedDifficulty = true;
     try {
       localStorage.setItem(TRAINING_DIFFICULTY_KEY, String(level));
       localStorage.setItem(this.trainingDifficultyKey(), String(level));
@@ -608,6 +626,29 @@ export class MainMenuScene extends Phaser.Scene {
       // The current scene state is still enough for this session.
     }
     this.scene.restart();
+  }
+
+  /**
+   * Per-subject recommendation: anchors on the highest difficulty actually
+   * practised in that focus and nudges ±1 from its recent grade. Falls back to
+   * the global recommendation when the subject has no history yet.
+   */
+  private recommendedDifficultyForFocus(focus: ProceduralSpecialization): DifficultyLevel {
+    const records = Object.values(saveSystem.data.trainingRecords ?? {}).filter(
+      (record) => record.focus === focus && record.runs > 0,
+    );
+    if (records.length === 0) {
+      return this.recommendedDifficulty();
+    }
+    const top = records.reduce((best, record) => (record.difficulty > best.difficulty ? record : best));
+    const grade = top.lastGrade > 0 ? top.lastGrade : top.bestGrade;
+    let level = top.difficulty;
+    if (grade >= 8.5 && top.difficulty < 8) {
+      level = top.difficulty + 1;
+    } else if (grade > 0 && grade < 6.5 && top.difficulty > 1) {
+      level = top.difficulty - 1;
+    }
+    return difficultyModel.normalize(level);
   }
 
   private recommendedDifficulty(): DifficultyLevel {

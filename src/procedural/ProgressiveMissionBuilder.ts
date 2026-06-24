@@ -246,7 +246,7 @@ export class ProgressiveMissionBuilder {
       let firstFresh = selected;
       for (let attempt = 0; attempt < 18; attempt += 1) {
         const candidate = exerciseDirector.enrichMath(
-          generator.generate(new Random(`${base.seed}:math-diversity:${attempt}`), preset),
+          generator.generateGraphWorkshop(new Random(`${base.seed}:math-diversity:${attempt}`), preset),
           level,
         );
         if (recentSignatures.includes(signatureOf(candidate))) continue;

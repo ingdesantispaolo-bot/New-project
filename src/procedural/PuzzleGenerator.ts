@@ -59,9 +59,9 @@ export class PuzzleGenerator {
     const codingDifficulty = this.boostForFocus(difficulty, focus, "coding");
 
     const math = this.validationEngine.generateWithRetries(
-        () => this.mathGenerator.generate(mathRandom, mathDifficulty),
+        () => this.mathGenerator.generateGraphWorkshop(mathRandom, mathDifficulty),
         (puzzle) => this.mathValidator.validate(puzzle),
-        () => this.mathGenerator.fallback(mathRandom.fork("fallback"), mathDifficulty),
+        () => this.mathGenerator.generateGraphWorkshop(mathRandom.fork("fallback"), mathDifficulty),
       );
     const robot = this.validationEngine.generateWithRetries(
         () => this.robotGenerator.generate(robotRandom, robotDifficulty),
@@ -110,19 +110,27 @@ export class PuzzleGenerator {
       const challengeRandom = random.fork(`${kind}-${index + 1}`);
       const id = `${kind}-${index + 1}`;
       if (kind === "math") {
-        const useMinigame = index % 2 === 0;
+        const graphStageIndex = Math.min(1, Math.max(0, stages.length - 1));
+        const useGraphWorkshop = index === graphStageIndex;
+        const useMinigame = !useGraphWorkshop && index % 2 === 0;
         const puzzle = this.validationEngine.generateWithRetries(
-          () => useMinigame
+          () => useGraphWorkshop
+            ? this.mathGenerator.generateGraphWorkshop(challengeRandom, stagedDifficulty)
+            : useMinigame
             ? this.mathGenerator.generateMinigame(challengeRandom, stagedDifficulty, this.mathMinigameTypesForStep(index))
             : this.mathGenerator.generate(challengeRandom, stagedDifficulty, this.mathArchetypesForStep(index)),
           (candidate) => this.mathValidator.validate(candidate),
-          () => this.mathGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty),
+          () => useGraphWorkshop
+            ? this.mathGenerator.generateGraphWorkshop(challengeRandom.fork("fallback"), stagedDifficulty)
+            : this.mathGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty),
         );
         return {
           id,
           kind,
-          title: stage.label,
-          description: stage.description,
+          title: useGraphWorkshop ? "Officina dei Grafici" : stage.label,
+          description: useGraphWorkshop
+            ? puzzle.graphWorkshop?.objective ?? "Modifica i parametri e certifica il grafico sul piano cartesiano."
+            : stage.description,
           difficultyStep: index + 1,
           puzzle: exerciseDirector.enrichMath(puzzle, stagedDifficulty.level),
         };

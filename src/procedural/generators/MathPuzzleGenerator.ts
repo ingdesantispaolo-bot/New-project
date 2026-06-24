@@ -80,7 +80,9 @@ export class MathPuzzleGenerator {
   }
 
   generateGraphWorkshop(random: Random, difficulty: DifficultyPreset): GeneratedMathPuzzle {
-    const modes = difficulty.mathComplexity <= 4
+    const modes = difficulty.mathComplexity <= 2
+      ? ["beacon-line"] as const
+      : difficulty.mathComplexity <= 4
       ? ["beacon-line", "vertex-shift"] as const
       : difficulty.mathComplexity <= 6
         ? ["beacon-line", "vertex-shift", "root-gates", "curve-match"] as const
@@ -338,12 +340,15 @@ export class MathPuzzleGenerator {
   }
 
   private buildBeaconLineWorkshop(random: Random, difficulty: DifficultyPreset): GeneratedGraphWorkshop {
-    const m = random.pick([-3, -2, -1, 1, 2, 3]);
-    const q = random.integer(-4, 4);
-    const firstX = random.pick([-3, -2, -1]);
-    const secondX = random.pick([1, 2, 3]);
-    const initialM = this.shiftedInitial(random, m, -3, 3, m === 0 ? 1 : 0);
-    const initialQ = this.shiftedInitial(random, q, -5, 5);
+    const beginner = difficulty.mathComplexity <= 2;
+    const m = beginner ? random.pick([-2, -1, 1, 2]) : random.pick([-3, -2, -1, 1, 2, 3]);
+    const q = beginner ? random.integer(-2, 2) : random.integer(-4, 4);
+    const firstX = beginner ? 0 : random.pick([-3, -2, -1]);
+    const secondX = beginner ? random.pick([1, 2]) : random.pick([1, 2, 3]);
+    const slopeLimit = beginner ? 2 : 3;
+    const interceptLimit = beginner ? 3 : 5;
+    const initialM = this.shiftedInitial(random, m, -slopeLimit, slopeLimit, m === 0 ? 1 : 0);
+    const initialQ = this.shiftedInitial(random, q, -interceptLimit, interceptLimit);
     return {
       mode: "beacon-line",
       functionKind: "linear",
@@ -351,8 +356,8 @@ export class MathPuzzleGenerator {
       targetFormula: this.linearFormula(m, q),
       principle: "In y = mx + q, m controlla inclinazione e verso; q è il punto in cui la retta incontra l'asse y.",
       parameters: [
-        { key: "m", label: "m", meaning: "pendenza: variazione verticale per ogni passo orizzontale", min: -3, max: 3, step: 1, target: m, initial: initialM },
-        { key: "q", label: "q", meaning: "intercetta sull'asse y", min: -5, max: 5, step: 1, target: q, initial: initialQ },
+        { key: "m", label: "m", meaning: "pendenza: variazione verticale per ogni passo orizzontale", min: -slopeLimit, max: slopeLimit, step: 1, target: m, initial: initialM },
+        { key: "q", label: "q", meaning: "intercetta sull'asse y", min: -interceptLimit, max: interceptLimit, step: 1, target: q, initial: initialQ },
       ],
       targetPoints: [
         { x: firstX, y: m * firstX + q, label: "A" },

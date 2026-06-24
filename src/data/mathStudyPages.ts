@@ -370,6 +370,28 @@ export const mathStudyPages: MathStudyPage[] = [
     missionUse: "Terminali numerici, rampe, trasformatori ingresso-uscita.",
   },
   {
+    id: "grafici-rette-parabole",
+    title: "Grafici di rette e parabole",
+    subtitle: "Modifica i parametri e osserva come cambia la curva",
+    levelRange: [3, 8],
+    competencies: ["matematica.grafici", "matematica.funzioni", "matematica.coordinate"],
+    whatFor: "Serve a trasformare una formula in una forma visibile. Pendenza, intercetta, vertice e radici diventano proprietà osservabili e controllabili.",
+    howTo: "Per la retta usa y = mx + q: m cambia inclinazione, q sposta la retta in verticale. Per la parabola usa y = a(x-h)²+k: a controlla verso e apertura, V(h,k) è il vertice.",
+    procedure: [
+      "Individua i punti o la curva bersaglio.",
+      "Regola prima la proprietà strutturale: m per la retta, h per l'asse della parabola.",
+      "Usa q o k per la traslazione verticale.",
+      "Correggi apertura e verifica punti, vertice e intersezioni.",
+    ],
+    example: {
+      prompt: "Costruisci una parabola con vertice V(2,-4) e apertura verso l'alto.",
+      steps: ["h = 2 sposta l'asse in x = 2", "k = -4 porta il vertice a quota -4", "a = 1 apre verso l'alto"],
+      answer: "Un modello valido è y = (x - 2)² - 4; le radici sono 0 e 4.",
+    },
+    watchOut: ["In (x-h), un h positivo appare con il segno meno.", "a = 0 non produce una parabola.", "Passare per un solo punto non basta a identificare una retta."],
+    missionUse: "Officina dei Grafici: beacon, portali del vertice, porte delle radici e sovrapposizione di curve.",
+  },
+  {
     id: "sistemi",
     title: "Sistemi lineari iniziali",
     subtitle: "Due incognite e più informazioni",

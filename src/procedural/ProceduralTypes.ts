@@ -106,6 +106,59 @@ export type GeneratedMathMinigame = {
   competencies: string[];
 };
 
+export type EquationLabDegree = 1 | 2;
+export type EquationLabVisual = "balance" | "inverse-steps" | "substitution" | "standard-form" | "discriminant" | "factorization" | "formula" | "parabola";
+
+export type EquationLabStage = {
+  id: string;
+  title: string;
+  prompt: string;
+  options: string[];
+  correctOption: string;
+  explanation: string;
+  visual: EquationLabVisual;
+};
+
+export type GeneratedEquationLab = {
+  degree: EquationLabDegree;
+  equation: string;
+  coefficients: { a: number; b: number; c: number };
+  roots: number[];
+  discriminant?: number;
+  principle: string;
+  verification: string;
+  stages: EquationLabStage[];
+};
+
+export type GraphWorkshopMode = "beacon-line" | "vertex-shift" | "root-gates" | "curve-match";
+export type GraphFunctionKind = "linear" | "quadratic";
+export type GraphParameterKey = "m" | "q" | "a" | "h" | "k";
+
+export type GraphWorkshopParameter = {
+  key: GraphParameterKey;
+  label: string;
+  meaning: string;
+  min: number;
+  max: number;
+  step: number;
+  target: number;
+  initial: number;
+};
+
+export type GeneratedGraphWorkshop = {
+  mode: GraphWorkshopMode;
+  functionKind: GraphFunctionKind;
+  objective: string;
+  targetFormula: string;
+  principle: string;
+  parameters: GraphWorkshopParameter[];
+  targetPoints: Array<{ x: number; y: number; label: string }>;
+  showTargetCurve: boolean;
+  xRange: [number, number];
+  yRange: [number, number];
+  successExplanation: string;
+};
+
 export type GeneratedMathPuzzle = {
   id: string;
   title: string;
@@ -139,11 +192,15 @@ export type GeneratedMathPuzzle = {
     | "funzione-lineare"
     | "sistemi-lineari"
     | "equazione-primo-grado"
+    | "equazione-secondo-grado"
+    | "grafici-cartesiani"
     | "coordinate";
   curriculumTags?: string[];
   solutionSteps?: string[];
   pedagogy?: ExercisePedagogy;
   minigame?: GeneratedMathMinigame;
+  equationLab?: GeneratedEquationLab;
+  graphWorkshop?: GeneratedGraphWorkshop;
 };
 
 export type GridFacing = "N" | "E" | "S" | "W";

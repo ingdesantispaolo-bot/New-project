@@ -49,11 +49,34 @@ export class ChallengeQualityValidator {
     if (!puzzle.prompt.includes("Situazione:") || !puzzle.prompt.includes("Richiesta:")) {
       reasons.push("math: formulazione non separa contesto e richiesta");
     }
-    if (!Number.isInteger(puzzle.answer) || !/numero intero/i.test(puzzle.prompt)) {
+    if (!Number.isInteger(puzzle.answer) || (!/numero intero/i.test(puzzle.prompt) && !puzzle.equationLab && !puzzle.graphWorkshop)) {
       reasons.push("math: risposta numerica non esplicitamente intera");
     }
     if (asksRounding && !/,5|superiore|inferiore|regola indicata|senza arrotondare/i.test(puzzle.prompt)) {
       reasons.push("math: arrotondamento non univoco");
+    }
+    if (puzzle.equationLab) {
+      const expectedStages = puzzle.equationLab.degree === 1 ? 4 : 5;
+      if (puzzle.equationLab.stages.length < expectedStages) {
+        reasons.push("math: laboratorio equazioni troppo breve");
+      }
+      if (puzzle.equationLab.stages.some((stage) => new Set(stage.options).size !== 4 || !stage.options.includes(stage.correctOption))) {
+        reasons.push("math: laboratorio equazioni con opzioni ambigue");
+      }
+      if (puzzle.equationLab.degree === 2 && !puzzle.equationLab.stages.some((stage) => stage.visual === "parabola")) {
+        reasons.push("math: equazione quadratica senza collegamento grafico");
+      }
+    }
+    if (puzzle.graphWorkshop) {
+      if (puzzle.graphWorkshop.parameters.length < 2 || puzzle.graphWorkshop.targetPoints.length === 0) {
+        reasons.push("math: officina grafica senza parametri o riferimenti");
+      }
+      if (puzzle.graphWorkshop.functionKind === "quadratic" && !puzzle.graphWorkshop.parameters.some((parameter) => parameter.key === "a" && parameter.target !== 0)) {
+        reasons.push("math: parabola grafica degenere");
+      }
+      if (puzzle.graphWorkshop.parameters.every((parameter) => parameter.initial === parameter.target)) {
+        reasons.push("math: officina grafica gia risolta");
+      }
     }
     return { valid: reasons.length === 0, reasons };
   }

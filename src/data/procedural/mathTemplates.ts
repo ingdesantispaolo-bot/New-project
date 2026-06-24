@@ -21,6 +21,8 @@ export type MathTemplate = {
     | "funzione-lineare"
     | "sistemi-lineari"
     | "equazione-primo-grado"
+    | "equazione-secondo-grado"
+    | "grafici-cartesiani"
     | "coordinate";
   competencies?: string[];
   curriculumTags?: string[];

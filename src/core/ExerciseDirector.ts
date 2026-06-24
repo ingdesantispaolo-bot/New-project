@@ -206,6 +206,18 @@ export class ExerciseDirector {
         theoryPrinciple: "Un'equazione resta equivalente se applichi la stessa operazione a entrambi i lati: l'obiettivo e isolare x.",
         strategy: "Togli prima addizioni o sottrazioni, poi annulla moltiplicazioni o divisioni. Se ci sono parentesi, semplifica quel blocco prima di isolare x.",
       },
+      "equazione-secondo-grado": {
+        shortName: "equazioni quadratiche",
+        learningPurpose: "Collegare coefficienti, discriminante, radici e grafico di una parabola.",
+        theoryPrinciple: "Nella forma ax² + bx + c = 0, il discriminante Δ = b² - 4ac determina quante soluzioni reali esistono; le radici sono le intersezioni con l'asse x.",
+        strategy: "Identifica a, b e c con i rispettivi segni; calcola Δ; prevedi il numero di soluzioni; applica fattorizzazione o formula e verifica sul grafico.",
+      },
+      "grafici-cartesiani": {
+        shortName: "grafici interattivi",
+        learningPurpose: "Comprendere come i parametri trasformano rette e parabole intervenendo direttamente sul grafico.",
+        theoryPrinciple: "I parametri non sono numeri decorativi: pendenza e intercetta muovono una retta; apertura, asse e vertice trasformano una parabola.",
+        strategy: "Modifica un parametro alla volta, osserva cosa resta invariato e usa punti notevoli, vertice e intersezioni per verificare il risultato.",
+      },
       frazioni: {
         shortName: "frazioni",
         learningPurpose: "Capire le frazioni come parti dello stesso intero e non come comandi isolati.",

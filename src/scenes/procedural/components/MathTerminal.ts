@@ -34,6 +34,8 @@ const mathDomainLabels: Record<NonNullable<GeneratedMathPuzzle["archetype"]>, st
   "funzione-lineare": "Funzioni lineari",
   "sistemi-lineari": "Sistemi semplici",
   "equazione-primo-grado": "Equazioni di primo grado",
+  "equazione-secondo-grado": "Equazioni di secondo grado",
+  "grafici-cartesiani": "Officina dei grafici",
   coordinate: "Coordinate e griglie",
 };
 

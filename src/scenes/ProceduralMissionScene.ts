@@ -28,8 +28,10 @@ import type {
   CircuitFaultType,
   CodingMinigamePrompt,
   DifficultyLevel,
+  EquationLabVisual,
   EnglishMinigamePrompt,
   GeneratedFocusChallenge,
+  GeneratedGraphWorkshop,
   GeneratedCodingPuzzle,
   GeneratedCircuitPuzzle,
   GeneratedCodingMinigame,
@@ -44,6 +46,7 @@ import type {
   GeneratedRoomHotspot,
   GridCommand,
   GridFacing,
+  GraphParameterKey,
   LanguageMinigamePrompt,
   MathMinigamePrompt,
   MusicMinigameType,
@@ -201,6 +204,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private mathEntry = "";
   private mathSupportMessage = "";
   private mathSupportText?: Phaser.GameObjects.Text;
+  private equationLabStageIndex = 0;
+  private graphWorkshopPuzzleId?: string;
+  private graphWorkshopValues: Partial<Record<GraphParameterKey, number>> = {};
+  private graphWorkshopMoves = 0;
   private activeHintText?: string;
   private activeHintPuzzleId?: string;
   private languageSelectedOption?: string;
@@ -238,9 +245,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private progressiveOutcomeOpen = false;
   private progressiveSynthesisAttempts = 0;
   private progressiveSynthesisOrder: number[] = [];
+  private autoOpenPuzzle?: ProceduralPuzzleId;
 
   constructor() {
     super("ProceduralMissionScene");
+  }
+
+  init(data?: { autoOpenPuzzle?: ProceduralPuzzleId }): void {
+    this.autoOpenPuzzle = data?.autoOpenPuzzle;
   }
 
   create(): void {
@@ -273,6 +285,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
     feedbackSystem.publish(this.roomEntryFeedback(), this.run.solvedPuzzleIds.length > 0 ? "success" : "info");
     this.scheduleNextProgressivePuzzle(700);
+    if (this.autoOpenPuzzle && !this.isProgressiveMode()) {
+      const puzzleId = this.requiredPuzzleIds().find((id) => puzzleKindFromId(id) === this.autoOpenPuzzle) ?? this.autoOpenPuzzle;
+      this.time.delayedCall(420, () => this.openPuzzleConsole(puzzleId));
+    }
   }
 
   private roomEntryFeedback(): string {
@@ -2140,6 +2156,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.openMathMinigame(puzzle);
       return;
     }
+    if (puzzle.equationLab) {
+      this.openEquationLab(puzzle);
+      return;
+    }
+    if (puzzle.graphWorkshop) {
+      this.openGraphWorkshop(puzzle);
+      return;
+    }
     const model = MathTerminal.fromPuzzle(puzzle);
     const overlay = this.createMathOverlay(model.title);
 
@@ -2236,13 +2260,699 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
   }
 
+  private openEquationLab(puzzle: GeneratedMathPuzzle): void {
+    const lab = puzzle.equationLab;
+    if (!lab) return;
+    const stageIndex = Phaser.Math.Clamp(this.equationLabStageIndex, 0, lab.stages.length - 1);
+    const stage = lab.stages[stageIndex];
+    const subtitle = lab.degree === 1
+      ? "Matematica · equivalenza, operazioni inverse e verifica"
+      : "Matematica · coefficienti, discriminante, radici e parabola";
+    const overlay = this.createMathOverlay(puzzle.title, subtitle);
+
+    this.addMathPanel(overlay, 28, 112, 700, 442, `Spiegazione grafica · grado ${lab.degree}`);
+    overlay.add(this.add.text(60, 154, lab.equation, {
+      fontFamily: "Georgia, 'Times New Roman', serif",
+      fontSize: "34px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(60, 202, lab.principle, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 632, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+    this.drawEquationLabVisual(overlay, puzzle, stage.visual, 60, 274, 636, 246);
+
+    this.addMathPanel(overlay, 752, 112, 500, 442, stage.title);
+    overlay.add(this.add.text(784, 158, stage.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "17px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 436, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+    overlay.add(this.add.text(784, 244, `Passaggio ${stageIndex + 1} di ${lab.stages.length}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    const optionStartY = 300;
+    stage.options.forEach((option, index) => {
+      overlay.add(new Button(this, 1002, optionStartY + index * 58, option, () => {
+        this.answerEquationLabStage(puzzle, option);
+      }, {
+        width: 430,
+        height: 48,
+        fontSize: option.length > 48 ? 10 : option.length > 30 ? 11 : 13,
+        wordWrapWidth: 396,
+        fill: 0x263743,
+      }));
+    });
+
+    this.addMathPanel(overlay, 28, 572, 1224, 116, "Percorso e metodo");
+    const progressWidth = 650;
+    const stepGap = progressWidth / Math.max(1, lab.stages.length - 1);
+    const progress = this.add.graphics();
+    progress.lineStyle(4, 0x315766, 0.72);
+    progress.lineBetween(72, 626, 72 + progressWidth, 626);
+    if (stageIndex > 0) {
+      progress.lineStyle(4, 0x6be7d6, 0.9);
+      progress.lineBetween(72, 626, 72 + stepGap * stageIndex, 626);
+    }
+    overlay.add(progress);
+    lab.stages.forEach((item, index) => {
+      const x = 72 + stepGap * index;
+      const completed = index < stageIndex;
+      const active = index === stageIndex;
+      overlay.add(this.add.circle(x, 626, active ? 13 : 10, completed ? 0x2ed889 : active ? 0xf6c85f : 0x315766, 0.96)
+        .setStrokeStyle(2, active ? 0xf5fbff : 0x6be7d6, active ? 0.9 : 0.38));
+      overlay.add(this.add.text(x, 650, `${index + 1}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "10px",
+        color: active ? "#f7d37a" : "#c7dce7",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+    });
+    overlay.add(this.add.text(760, 604, this.currentActiveHint() ?? `Metodo: ${puzzle.calculationAid?.strategy ?? puzzle.hints[0]}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: this.currentActiveHint() ? "#f7d37a" : "#d9eaf1",
+      wordWrap: { width: 246, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+    overlay.add(new Button(this, 1128, 632, "Spiega il passaggio", () => {
+      if (this.currentActiveHint() === stage.explanation) {
+        feedbackSystem.publish(`Spiegazione già attiva: ${stage.explanation}`, "hint");
+      } else {
+        this.useHint(stage.explanation);
+      }
+      this.openEquationLab(puzzle);
+    }, { width: 202, height: 42, fontSize: 12, fill: 0x263743 }));
+  }
+
+  private answerEquationLabStage(puzzle: GeneratedMathPuzzle, option: string): void {
+    const lab = puzzle.equationLab;
+    if (!lab) return;
+    const stage = lab.stages[this.equationLabStageIndex];
+    if (!stage) return;
+    if (option !== stage.correctOption) {
+      outcomeFeedback.answer(this, false, option, stage.correctOption, stage.explanation);
+      const exited = this.handleIncorrectAnswer(`Passaggio da rivedere. ${stage.explanation}`);
+      if (!exited) this.openEquationLab(puzzle);
+      return;
+    }
+    outcomeFeedback.answer(this, true, option, stage.correctOption, stage.explanation);
+    if (this.equationLabStageIndex >= lab.stages.length - 1) {
+      this.equationLabStageIndex = 0;
+      this.solvePuzzle(this.currentPuzzleId("math"), puzzle.competencies);
+      return;
+    }
+    this.equationLabStageIndex += 1;
+    this.activeHintText = undefined;
+    this.activeHintPuzzleId = undefined;
+    audioManager.play("progressiveStep");
+    feedbackSystem.publish(`Passaggio corretto. ${stage.explanation}`, "success");
+    this.runWhenActive(1900, () => this.openEquationLab(puzzle));
+  }
+
+  private drawEquationLabVisual(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMathPuzzle,
+    visual: EquationLabVisual,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const lab = puzzle.equationLab;
+    if (!lab) return;
+    overlay.add(this.add.rectangle(x, y, width, height, 0x06131c, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.28));
+    if (visual === "balance") {
+      this.drawEquationBalance(overlay, lab.equation, x, y, width, height);
+      return;
+    }
+    if (visual === "inverse-steps" || visual === "substitution") {
+      this.drawEquationSteps(overlay, puzzle, visual, x, y, width, height);
+      return;
+    }
+    if (visual === "parabola") {
+      this.drawEquationParabola(overlay, puzzle, x, y, width, height);
+      return;
+    }
+    this.drawQuadraticConcept(overlay, puzzle, visual, x, y, width, height);
+  }
+
+  private drawEquationBalance(
+    overlay: Phaser.GameObjects.Container,
+    equation: string,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const centerX = x + width / 2;
+    const beamY = y + 116;
+    const g = this.add.graphics();
+    g.lineStyle(7, 0xf6c85f, 0.82);
+    g.lineBetween(centerX - 218, beamY, centerX + 218, beamY);
+    g.lineStyle(4, 0x6be7d6, 0.72);
+    g.lineBetween(centerX, beamY, centerX, beamY + 76);
+    g.lineBetween(centerX - 46, beamY + 92, centerX + 46, beamY + 92);
+    g.lineBetween(centerX - 170, beamY, centerX - 200, beamY + 54);
+    g.lineBetween(centerX + 170, beamY, centerX + 200, beamY + 54);
+    overlay.add(g);
+    overlay.add(this.add.rectangle(centerX - 200, beamY + 66, 250, 72, 0x102533, 0.94).setStrokeStyle(2, 0x6be7d6, 0.46));
+    overlay.add(this.add.rectangle(centerX + 200, beamY + 66, 250, 72, 0x102533, 0.94).setStrokeStyle(2, 0x6be7d6, 0.46));
+    const sides = equation.split("=");
+    overlay.add(this.add.text(centerX - 200, beamY + 66, sides[0]?.trim() ?? equation, {
+      fontFamily: "Georgia, serif", fontSize: "23px", color: "#f5fbff", fontStyle: "bold",
+    }).setOrigin(0.5));
+    overlay.add(this.add.text(centerX + 200, beamY + 66, sides[1]?.trim() ?? "", {
+      fontFamily: "Georgia, serif", fontSize: "23px", color: "#f5fbff", fontStyle: "bold",
+    }).setOrigin(0.5));
+    overlay.add(this.add.text(centerX, y + 20, "Stessa operazione a sinistra e a destra", {
+      fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold",
+    }).setOrigin(0.5));
+  }
+
+  private drawEquationSteps(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMathPuzzle,
+    visual: EquationLabVisual,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const steps = puzzle.solutionSteps?.slice(0, 4) ?? [];
+    const visible = visual === "substitution" ? [steps[steps.length - 1] ?? puzzle.equationLab?.verification ?? "Verifica"] : steps;
+    const startY = visual === "substitution" ? y + 96 : y + 54;
+    visible.forEach((step, index) => {
+      const rowY = startY + index * 52;
+      overlay.add(this.add.rectangle(x + 38, rowY, width - 76, 40, index === visible.length - 1 ? 0x173b36 : 0x102533, 0.9)
+        .setOrigin(0, 0.5)
+        .setStrokeStyle(1, index === visible.length - 1 ? 0xf6c85f : 0x6be7d6, 0.36));
+      overlay.add(this.add.text(x + 58, rowY, step, {
+        fontFamily: "Georgia, serif",
+        fontSize: "16px",
+        color: "#f5fbff",
+        wordWrap: { width: width - 116 },
+      }).setOrigin(0, 0.5));
+      if (index < visible.length - 1) {
+        overlay.add(this.add.triangle(x + width / 2, rowY + 30, 0, -4, 9, 5, -9, 5, 0x6be7d6, 0.68));
+      }
+    });
+    if (visual === "substitution") {
+      overlay.add(this.add.text(x + width / 2, y + 40, "Una soluzione è valida solo se rende veri entrambi i membri.", {
+        fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", fontStyle: "bold",
+      }).setOrigin(0.5));
+    }
+  }
+
+  private drawQuadraticConcept(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMathPuzzle,
+    visual: EquationLabVisual,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const lab = puzzle.equationLab;
+    if (!lab) return;
+    const { a, b, c } = lab.coefficients;
+    if (visual === "standard-form") {
+      [
+        { label: "a · x²", value: `${a}x²`, color: 0x6be7d6 },
+        { label: "b · x", value: `${b}x`, color: 0xf6c85f },
+        { label: "c", value: `${c}`, color: 0x9f8cff },
+      ].forEach((item, index) => {
+        const cx = x + 114 + index * 204;
+        overlay.add(this.add.rectangle(cx, y + 120, 164, 112, 0x102533, 0.92).setStrokeStyle(2, item.color, 0.62));
+        overlay.add(this.add.text(cx, y + 92, item.label, {
+          fontFamily: "Inter, Arial", fontSize: "13px", color: "#c7dce7",
+        }).setOrigin(0.5));
+        overlay.add(this.add.text(cx, y + 132, item.value, {
+          fontFamily: "Georgia, serif", fontSize: "25px", color: "#f5fbff", fontStyle: "bold",
+        }).setOrigin(0.5));
+      });
+      return;
+    }
+    if (visual === "discriminant") {
+      const delta = lab.discriminant ?? 0;
+      const parts = [`b²`, `− 4ac`, `Δ`];
+      const values = [`(${b})² = ${b * b}`, `− 4·${a}·${c} = ${-4 * a * c}`, `${delta}`];
+      parts.forEach((label, index) => {
+        const cx = x + 112 + index * 206;
+        overlay.add(this.add.rectangle(cx, y + 118, 172, 108, index === 2 ? 0x173b36 : 0x102533, 0.92)
+          .setStrokeStyle(2, index === 2 ? 0xf6c85f : 0x6be7d6, 0.58));
+        overlay.add(this.add.text(cx, y + 88, label, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
+        overlay.add(this.add.text(cx, y + 132, values[index], { fontFamily: "Georgia, serif", fontSize: index === 2 ? "28px" : "17px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+      });
+      return;
+    }
+    overlay.add(this.add.text(x + width / 2, y + 52, "Formula risolutiva", {
+      fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold",
+    }).setOrigin(0.5));
+    overlay.add(this.add.text(x + width / 2, y + 116, "x =  (−b ± √Δ) / 2a", {
+      fontFamily: "Georgia, serif", fontSize: "30px", color: "#f7d37a", fontStyle: "bold",
+    }).setOrigin(0.5));
+    overlay.add(this.add.text(x + width / 2, y + 174, lab.roots.length > 0
+      ? `Soluzioni: ${lab.roots.map((root, index) => `x${lab.roots.length > 1 ? index + 1 : ""} = ${root}`).join("    ")}`
+      : "Δ < 0: la radice quadrata non è reale", {
+      fontFamily: "Inter, Arial", fontSize: "17px", color: "#f5fbff", fontStyle: "bold",
+    }).setOrigin(0.5));
+  }
+
+  private drawEquationParabola(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMathPuzzle,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const lab = puzzle.equationLab;
+    if (!lab) return;
+    const { a, b, c } = lab.coefficients;
+    const roots = lab.roots;
+    const vertexX = -b / (2 * a);
+    const minX = Math.floor(Math.min(-2, vertexX - 5, ...(roots.length ? roots.map((root) => root - 2) : [0])));
+    const maxX = Math.ceil(Math.max(6, vertexX + 5, ...(roots.length ? roots.map((root) => root + 2) : [4])));
+    const samples = Array.from({ length: 81 }, (_, index) => minX + ((maxX - minX) * index) / 80);
+    const values = samples.map((value) => a * value * value + b * value + c);
+    const maxAbsY = Math.max(8, ...values.map((value) => Math.abs(value)));
+    const graphLeft = x + 52;
+    const graphRight = x + width - 34;
+    const graphTop = y + 28;
+    const graphBottom = y + height - 38;
+    const mapX = (value: number) => graphLeft + ((value - minX) / (maxX - minX)) * (graphRight - graphLeft);
+    const mapY = (value: number) => (graphTop + graphBottom) / 2 - (value / maxAbsY) * ((graphBottom - graphTop) * 0.46);
+    const g = this.add.graphics();
+    g.lineStyle(2, 0x6b7d84, 0.62);
+    g.lineBetween(graphLeft, mapY(0), graphRight, mapY(0));
+    if (minX <= 0 && maxX >= 0) g.lineBetween(mapX(0), graphTop, mapX(0), graphBottom);
+    g.lineStyle(3, 0x6be7d6, 0.88);
+    g.beginPath();
+    samples.forEach((value, index) => {
+      const px = mapX(value);
+      const py = mapY(values[index]);
+      if (index === 0) g.moveTo(px, py);
+      else g.lineTo(px, py);
+    });
+    g.strokePath();
+    overlay.add(g);
+    roots.forEach((root) => {
+      overlay.add(this.add.circle(mapX(root), mapY(0), 8, 0xf6c85f, 1).setStrokeStyle(2, 0xf5fbff, 0.8));
+      overlay.add(this.add.text(mapX(root), mapY(0) + 16, `${root}`, {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", fontStyle: "bold",
+      }).setOrigin(0.5, 0));
+    });
+    overlay.add(this.add.text(x + 18, y + 12, roots.length === 2
+      ? "Due intersezioni con l'asse x"
+      : roots.length === 1
+        ? "Una tangenza con l'asse x"
+        : "Nessuna intersezione con l'asse x", {
+      fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold",
+    }));
+  }
+
+  private openGraphWorkshop(puzzle: GeneratedMathPuzzle): void {
+    const workshop = puzzle.graphWorkshop;
+    if (!workshop) return;
+    this.ensureGraphWorkshopState(puzzle);
+    const overlay = this.createMathOverlay(
+      puzzle.title,
+      "Officina dei Grafici · modifica i parametri, osserva la trasformazione, certifica le proprietà",
+    );
+    const values = this.graphWorkshopValues;
+
+    this.addMathPanel(overlay, 28, 112, 840, 488, "Piano cartesiano interattivo");
+    this.drawCartesianWorkshop(overlay, workshop, values, 52, 154, 792, 414);
+
+    this.addMathPanel(overlay, 892, 112, 360, 488, "Console dei parametri");
+    overlay.add(this.add.text(920, 154, workshop.objective, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 304, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.rectangle(920, 220, 304, 48, 0x06131c, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.36));
+    overlay.add(this.add.text(1072, 244, this.graphWorkshopFormula(workshop, values), {
+      fontFamily: "Georgia, 'Times New Roman', serif",
+      fontSize: "20px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    const matchedParameters = workshop.parameters.filter((parameter) => values[parameter.key] === parameter.target).length;
+    const syncRatio = matchedParameters / workshop.parameters.length;
+    overlay.add(this.add.text(920, 280, `Sincronizzazione ${Math.round(syncRatio * 100)}%`, {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: syncRatio === 1 ? "#9ff5e9" : "#c7dce7", fontStyle: "bold",
+    }));
+    overlay.add(this.add.rectangle(1072, 304, 304, 10, 0x132835, 0.9).setStrokeStyle(1, 0x6be7d6, 0.22));
+    if (syncRatio > 0) {
+      overlay.add(this.add.rectangle(920 + 152 * syncRatio, 304, 304 * syncRatio, 10, syncRatio === 1 ? 0x2ed889 : 0xf6c85f, 0.88));
+    }
+
+    workshop.parameters.forEach((parameter, index) => {
+      const rowY = 352 + index * 72;
+      overlay.add(this.add.text(920, rowY - 30, `${parameter.label} · ${parameter.meaning}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9ff5e9",
+        wordWrap: { width: 294, useAdvancedWrap: true },
+      }));
+      overlay.add(new Button(this, 952, rowY + 8, "−", () => this.adjustGraphParameter(puzzle, parameter.key, -parameter.step), {
+        width: 54, height: 42, fontSize: 22, fill: 0x263743, soundKey: "mathKey",
+      }));
+      overlay.add(this.add.rectangle(1072, rowY + 8, 142, 42, 0x102533, 0.94).setStrokeStyle(2, 0x6be7d6, 0.46));
+      overlay.add(this.add.text(1072, rowY + 8, `${values[parameter.key] ?? parameter.initial}`, {
+        fontFamily: "Inter, Arial", fontSize: "23px", color: "#f5fbff", fontStyle: "bold",
+      }).setOrigin(0.5));
+      overlay.add(new Button(this, 1192, rowY + 8, "+", () => this.adjustGraphParameter(puzzle, parameter.key, parameter.step), {
+        width: 54, height: 42, fontSize: 22, fill: 0x263743, soundKey: "mathKey",
+      }));
+    });
+
+    const propertyY = workshop.parameters.length === 2 ? 500 : 554;
+    overlay.add(this.add.text(920, propertyY, this.graphWorkshopProperties(workshop, values), {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#c7dce7",
+      wordWrap: { width: 304, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+
+    this.addMathPanel(overlay, 28, 614, 1224, 74, "Missione grafica");
+    overlay.add(this.add.text(54, 660, this.currentActiveHint() ?? workshop.principle, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: this.currentActiveHint() ? "#f7d37a" : "#d9eaf1",
+      wordWrap: { width: 650, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }).setOrigin(0, 0.5));
+    overlay.add(this.add.text(746, 650, `Mosse: ${this.graphWorkshopMoves} · Par: ${this.graphWorkshopPar(workshop)}`, {
+      fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold",
+    }).setOrigin(0.5));
+    overlay.add(new Button(this, 850, 650, "Ripristina", () => this.resetGraphWorkshop(puzzle), {
+      width: 142, height: 42, fontSize: 12, fill: 0x263743, soundKey: "reset",
+    }));
+    overlay.add(new Button(this, 1004, 650, this.hintButtonLabel(puzzle, "Indizio"), () => {
+      this.useContextualHint(puzzle);
+      this.openGraphWorkshop(puzzle);
+    }, { width: 142, height: 42, fontSize: 12, fill: 0x263743 }));
+    overlay.add(new Button(this, 1168, 650, "Certifica", () => this.certifyGraphWorkshop(puzzle), {
+      width: 150, height: 42, fontSize: 13, fill: 0x173b36, stroke: 0xf6c85f,
+    }));
+  }
+
+  private ensureGraphWorkshopState(puzzle: GeneratedMathPuzzle): void {
+    const workshop = puzzle.graphWorkshop;
+    if (!workshop || this.graphWorkshopPuzzleId === puzzle.id) return;
+    this.graphWorkshopPuzzleId = puzzle.id;
+    this.graphWorkshopValues = Object.fromEntries(
+      workshop.parameters.map((parameter) => [parameter.key, parameter.initial]),
+    ) as Partial<Record<GraphParameterKey, number>>;
+    this.graphWorkshopMoves = 0;
+  }
+
+  private adjustGraphParameter(puzzle: GeneratedMathPuzzle, key: GraphParameterKey, delta: number): void {
+    const parameter = puzzle.graphWorkshop?.parameters.find((item) => item.key === key);
+    if (!parameter) return;
+    const current = this.graphWorkshopValues[key] ?? parameter.initial;
+    let next = Phaser.Math.Clamp(current + delta, parameter.min, parameter.max);
+    if (key === "a" && next === 0) {
+      next = Phaser.Math.Clamp(next + Math.sign(delta || 1), parameter.min, parameter.max);
+    }
+    if (next === current) {
+      audioManager.playOutcome("hint");
+      return;
+    }
+    this.graphWorkshopValues[key] = next;
+    this.graphWorkshopMoves += 1;
+    audioManager.play("mathKey");
+    this.openGraphWorkshop(puzzle);
+  }
+
+  private resetGraphWorkshop(puzzle: GeneratedMathPuzzle): void {
+    const workshop = puzzle.graphWorkshop;
+    if (!workshop) return;
+    this.graphWorkshopValues = Object.fromEntries(
+      workshop.parameters.map((parameter) => [parameter.key, parameter.initial]),
+    ) as Partial<Record<GraphParameterKey, number>>;
+    this.graphWorkshopMoves = 0;
+    this.activeHintText = undefined;
+    this.activeHintPuzzleId = undefined;
+    this.openGraphWorkshop(puzzle);
+  }
+
+  private certifyGraphWorkshop(puzzle: GeneratedMathPuzzle): void {
+    const workshop = puzzle.graphWorkshop;
+    if (!workshop) return;
+    const exact = workshop.parameters.every((parameter) => this.graphWorkshopValues[parameter.key] === parameter.target);
+    const selected = this.graphWorkshopFormula(workshop, this.graphWorkshopValues);
+    if (exact) {
+      const par = this.graphWorkshopPar(workshop);
+      const rating = this.graphWorkshopMoves <= par
+        ? "★★★ calibrazione perfetta"
+        : this.graphWorkshopMoves <= par + 3
+          ? "★★☆ calibrazione precisa"
+          : "★☆☆ grafico corretto";
+      outcomeFeedback.answer(this, true, selected, workshop.targetFormula, `${rating}. ${workshop.successExplanation}`);
+      feedbackSystem.publish(`Grafico certificato in ${this.graphWorkshopMoves} mosse (par ${par}). ${rating}. ${workshop.successExplanation}`, "success");
+      this.solvePuzzle(this.currentPuzzleId("math"), puzzle.competencies);
+      return;
+    }
+    const diagnosis = this.graphWorkshopDiagnosis(workshop, this.graphWorkshopValues);
+    outcomeFeedback.answer(this, false, selected, "Grafico con tutte le proprietà richieste", diagnosis);
+    const exited = this.handleIncorrectAnswer(diagnosis);
+    if (!exited) this.openGraphWorkshop(puzzle);
+  }
+
+  private graphWorkshopPar(workshop: GeneratedGraphWorkshop): number {
+    return workshop.parameters.reduce(
+      (total, parameter) => {
+        const raw = Math.abs(parameter.target - parameter.initial) / parameter.step;
+        const skipsZero = parameter.key === "a" && parameter.target * parameter.initial < 0;
+        return total + raw - (skipsZero ? 1 : 0);
+      },
+      0,
+    );
+  }
+
+  private graphWorkshopFormula(
+    workshop: GeneratedGraphWorkshop,
+    values: Partial<Record<GraphParameterKey, number>>,
+  ): string {
+    if (workshop.functionKind === "linear") {
+      const m = values.m ?? 0;
+      const q = values.q ?? 0;
+      if (m === 0) return `y = ${q}`;
+      const slope = m === 0 ? "0" : m === 1 ? "x" : m === -1 ? "−x" : `${m}x`;
+      const intercept = q === 0 ? "" : q > 0 ? ` + ${q}` : ` − ${Math.abs(q)}`;
+      return `y = ${slope}${intercept}`;
+    }
+    const a = values.a ?? 1;
+    const h = values.h ?? 0;
+    const k = values.k ?? 0;
+    const leading = a === 1 ? "" : a === -1 ? "−" : `${a}`;
+    const horizontal = h === 0 ? "x" : h > 0 ? `(x − ${h})` : `(x + ${Math.abs(h)})`;
+    const vertical = k === 0 ? "" : k > 0 ? ` + ${k}` : ` − ${Math.abs(k)}`;
+    return `y = ${leading}${horizontal}²${vertical}`;
+  }
+
+  private graphWorkshopProperties(
+    workshop: GeneratedGraphWorkshop,
+    values: Partial<Record<GraphParameterKey, number>>,
+  ): string {
+    if (workshop.functionKind === "linear") {
+      const m = values.m ?? 0;
+      const q = values.q ?? 0;
+      return `Lettura attuale\n• retta ${m > 0 ? "crescente" : m < 0 ? "decrescente" : "orizzontale"}\n• intercetta asse y: (0, ${q})`;
+    }
+    const a = values.a ?? 1;
+    const h = values.h ?? 0;
+    const k = values.k ?? 0;
+    const discriminantLike = -k / a;
+    const roots = discriminantLike >= 0 ? Math.sqrt(discriminantLike) : undefined;
+    const rootText = roots === undefined
+      ? "nessuna intersezione reale"
+      : Number.isInteger(roots)
+        ? `radici: ${h - roots}, ${h + roots}`
+        : "intersezioni non intere";
+    return `Lettura attuale\n• apertura ${a > 0 ? "verso l'alto" : "verso il basso"}\n• vertice V(${h}, ${k})\n• ${rootText}`;
+  }
+
+  private graphWorkshopDiagnosis(
+    workshop: GeneratedGraphWorkshop,
+    values: Partial<Record<GraphParameterKey, number>>,
+  ): string {
+    const wrong = workshop.parameters.filter((parameter) => values[parameter.key] !== parameter.target);
+    if (workshop.functionKind === "linear") {
+      const slopeWrong = wrong.some((parameter) => parameter.key === "m");
+      const interceptWrong = wrong.some((parameter) => parameter.key === "q");
+      if (slopeWrong && interceptWrong) return "La retta ha ancora inclinazione e altezza errate. Allinea prima la pendenza, poi traslala con q.";
+      if (slopeWrong) return "La retta può attraversare un beacon, ma la pendenza non permette di attraversare anche l'altro. Correggi m.";
+      if (interceptWrong) return "L'inclinazione è corretta, ma l'intera retta è traslata troppo in alto o in basso. Correggi q.";
+    }
+    const aWrong = wrong.some((parameter) => parameter.key === "a");
+    const hWrong = wrong.some((parameter) => parameter.key === "h");
+    const kWrong = wrong.some((parameter) => parameter.key === "k");
+    if (hWrong) return "L'asse di simmetria non passa ancora per il punto medio richiesto. Regola h prima degli altri parametri.";
+    if (kWrong) return "La posizione orizzontale è coerente, ma il vertice è alla quota sbagliata. Regola k.";
+    if (aWrong) return "Vertice e asse sono corretti, ma verso o apertura non coincidono. Regola a.";
+    return "Il grafico è vicino al bersaglio, ma non soddisfa ancora tutti i vincoli esatti.";
+  }
+
+  private drawCartesianWorkshop(
+    overlay: Phaser.GameObjects.Container,
+    workshop: GeneratedGraphWorkshop,
+    values: Partial<Record<GraphParameterKey, number>>,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    overlay.add(this.add.rectangle(x, y, width, height, 0x02090e, 0.94).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.34));
+    const [minX, maxX] = workshop.xRange;
+    const [minY, maxY] = workshop.yRange;
+    const left = x + 48;
+    const right = x + width - 24;
+    const top = y + 24;
+    const bottom = y + height - 42;
+    const mapX = (value: number) => left + ((value - minX) / (maxX - minX)) * (right - left);
+    const mapY = (value: number) => bottom - ((value - minY) / (maxY - minY)) * (bottom - top);
+    const g = this.add.graphics();
+
+    for (let gx = Math.ceil(minX); gx <= Math.floor(maxX); gx += 1) {
+      const px = mapX(gx);
+      g.lineStyle(gx === 0 ? 3 : 1, gx === 0 ? 0x9ff5e9 : 0x315766, gx === 0 ? 0.68 : 0.28);
+      g.lineBetween(px, top, px, bottom);
+      if (gx !== 0 && gx % 2 === 0) {
+        overlay.add(this.add.text(px, bottom + 10, `${gx}`, {
+          fontFamily: "Inter, Arial", fontSize: "9px", color: "#78909b",
+        }).setOrigin(0.5));
+      }
+    }
+    for (let gy = Math.ceil(minY); gy <= Math.floor(maxY); gy += 1) {
+      const py = mapY(gy);
+      g.lineStyle(gy === 0 ? 3 : 1, gy === 0 ? 0x9ff5e9 : 0x315766, gy === 0 ? 0.68 : 0.28);
+      g.lineBetween(left, py, right, py);
+      if (gy !== 0 && gy % 2 === 0) {
+        overlay.add(this.add.text(left - 10, py, `${gy}`, {
+          fontFamily: "Inter, Arial", fontSize: "9px", color: "#78909b",
+        }).setOrigin(1, 0.5));
+      }
+    }
+    overlay.add(g);
+    overlay.add(this.add.text(right + 8, mapY(0), "x", {
+      fontFamily: "Georgia, serif", fontSize: "14px", color: "#9ff5e9", fontStyle: "bold",
+    }).setOrigin(0, 0.5));
+    overlay.add(this.add.text(mapX(0), top - 14, "y", {
+      fontFamily: "Georgia, serif", fontSize: "14px", color: "#9ff5e9", fontStyle: "bold",
+    }).setOrigin(0.5));
+
+    const targetValues = Object.fromEntries(
+      workshop.parameters.map((parameter) => [parameter.key, parameter.target]),
+    ) as Partial<Record<GraphParameterKey, number>>;
+    if (workshop.showTargetCurve) {
+      this.drawWorkshopCurve(overlay, workshop, targetValues, mapX, mapY, minX, maxX, minY, maxY, 0xf6c85f, 0.52, true);
+    }
+    this.drawWorkshopCurve(overlay, workshop, values, mapX, mapY, minX, maxX, minY, maxY, 0x6be7d6, 0.96, false);
+
+    workshop.targetPoints.forEach((point) => {
+      const currentY = this.evaluateWorkshop(workshop, values, point.x);
+      const reached = point.label === "V"
+        ? (values.h ?? 0) === point.x && (values.k ?? 0) === point.y
+        : Math.abs(currentY - point.y) < 0.0001;
+      const color = reached ? 0x2ed889 : 0xf6c85f;
+      overlay.add(this.add.circle(mapX(point.x), mapY(point.y), 16, color, 0.1).setStrokeStyle(3, color, 0.92));
+      overlay.add(this.add.circle(mapX(point.x), mapY(point.y), 5, color, 1));
+      overlay.add(this.add.text(mapX(point.x) + 14, mapY(point.y) - 22, `${point.label}(${point.x}, ${point.y})`, {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: reached ? "#9ff5e9" : "#f7d37a", fontStyle: "bold",
+      }));
+    });
+
+    if (workshop.functionKind === "quadratic") {
+      const h = values.h ?? 0;
+      const k = values.k ?? 0;
+      if (h >= minX && h <= maxX && k >= minY && k <= maxY) {
+        overlay.add(this.add.circle(mapX(h), mapY(k), 7, 0x9f8cff, 1).setStrokeStyle(2, 0xf5fbff, 0.72));
+        overlay.add(this.add.text(mapX(h) + 10, mapY(k) + 8, `V(${h}, ${k})`, {
+          fontFamily: "Inter, Arial", fontSize: "10px", color: "#d8c9ff", fontStyle: "bold",
+        }));
+      }
+    }
+
+    overlay.add(this.add.rectangle(x + width - 226, y + 18, 198, workshop.showTargetCurve ? 58 : 38, 0x07151d, 0.84)
+      .setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.2));
+    overlay.add(this.add.text(x + width - 210, y + 28, "— curva attiva", {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#9ff5e9",
+    }));
+    if (workshop.showTargetCurve) {
+      overlay.add(this.add.text(x + width - 210, y + 48, "┄ traccia bersaglio", {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a",
+      }));
+    }
+  }
+
+  private drawWorkshopCurve(
+    overlay: Phaser.GameObjects.Container,
+    workshop: GeneratedGraphWorkshop,
+    values: Partial<Record<GraphParameterKey, number>>,
+    mapX: (value: number) => number,
+    mapY: (value: number) => number,
+    minX: number,
+    maxX: number,
+    minY: number,
+    maxY: number,
+    color: number,
+    alpha: number,
+    dashed: boolean,
+  ): void {
+    const curve = this.add.graphics();
+    curve.lineStyle(dashed ? 3 : 4, color, alpha);
+    const samples = 180;
+    let previous: { x: number; y: number } | undefined;
+    for (let index = 0; index <= samples; index += 1) {
+      const graphX = minX + ((maxX - minX) * index) / samples;
+      const graphY = this.evaluateWorkshop(workshop, values, graphX);
+      const inside = graphY >= minY && graphY <= maxY;
+      const point = { x: mapX(graphX), y: mapY(graphY) };
+      if (inside && previous && (!dashed || Math.floor(index / 5) % 2 === 0)) {
+        curve.lineBetween(previous.x, previous.y, point.x, point.y);
+      }
+      previous = inside ? point : undefined;
+    }
+    overlay.add(curve);
+  }
+
+  private evaluateWorkshop(
+    workshop: GeneratedGraphWorkshop,
+    values: Partial<Record<GraphParameterKey, number>>,
+    x: number,
+  ): number {
+    if (workshop.functionKind === "linear") {
+      return (values.m ?? 0) * x + (values.q ?? 0);
+    }
+    return (values.a ?? 1) * (x - (values.h ?? 0)) ** 2 + (values.k ?? 0);
+  }
+
   private createMathOverlay(title: string, subtitle = "Matematica · osserva il problema, applica il metodo, verifica"): Phaser.GameObjects.Container {
     this.clearOverlay();
     const overlay = this.add.container(0, 0).setDepth(1200);
     SceneChrome.modalInputBlocker(this, overlay);
     overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02080d, 0.96));
-    if (this.textures.exists("bg-lab-painted")) {
-      overlay.add(this.add.image(640, 360, "bg-lab-painted").setDisplaySize(1320, 742).setAlpha(0.32));
+    const backgroundKey = this.textures.exists("mission-bg-math") ? "mission-bg-math" : "bg-lab-painted";
+    if (this.textures.exists(backgroundKey)) {
+      overlay.add(this.add.image(640, 360, backgroundKey).setDisplaySize(1320, 742).setAlpha(0.32));
     }
     const grid = this.add.graphics();
     grid.lineStyle(1, 0x6be7d6, 0.06);
@@ -6743,6 +7453,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.mathEntry = "";
     this.mathSupportMessage = "";
     this.mathSupportText = undefined;
+    this.equationLabStageIndex = 0;
+    this.graphWorkshopPuzzleId = undefined;
+    this.graphWorkshopValues = {};
+    this.graphWorkshopMoves = 0;
     this.activeHintText = undefined;
     this.activeHintPuzzleId = undefined;
     this.languageSelectedOption = undefined;

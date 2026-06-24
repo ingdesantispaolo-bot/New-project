@@ -1,7 +1,11 @@
 import Phaser from "phaser";
 import { mathStudyPages } from "../data/mathStudyPages";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
+import { difficultyModel } from "../procedural/DifficultyModel";
+import { MathPuzzleGenerator } from "../procedural/generators/MathPuzzleGenerator";
+import { Random } from "../procedural/Random";
 import { saveSystem } from "../core/SaveSystem";
+import { exerciseDirector } from "../core/ExerciseDirector";
 import { startScene } from "../core/SceneNavigator";
 import type { DifficultyLevel, ProceduralRunSave } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
@@ -205,19 +209,26 @@ export class MathStudyScene extends Phaser.Scene {
   private drawFooter(): void {
     const prevIndex = (this.pageIndex - 1 + mathStudyPages.length) % mathStudyPages.length;
     const nextIndex = (this.pageIndex + 1) % mathStudyPages.length;
-    new Button(this, 472, 672, "Pagina precedente", () => {
+    new Button(this, 408, 672, "Pagina precedente", () => {
       this.pageIndex = prevIndex;
       this.scene.restart({ pageId: mathStudyPages[prevIndex].id, listOffset: this.listOffsetFor(prevIndex) });
-    }, { width: 214, height: 42, fill: 0x263743, fontSize: 14 });
-    new Button(this, 712, 672, "Pagina successiva", () => {
+    }, { width: 176, height: 42, fill: 0x263743, fontSize: 12 });
+    new Button(this, 598, 672, "Pagina successiva", () => {
       this.pageIndex = nextIndex;
       this.scene.restart({ pageId: mathStudyPages[nextIndex].id, listOffset: this.listOffsetFor(nextIndex) });
-    }, { width: 214, height: 42, fill: 0x263743, fontSize: 14 });
-    new Button(this, 1018, 672, "Allenati su matematica", () => this.startMathTraining(), {
-      width: 286,
+    }, { width: 176, height: 42, fill: 0x263743, fontSize: 12 });
+    new Button(this, 826, 672, "Officina dei Grafici", () => this.startGraphWorkshop(), {
+      width: 244,
       height: 42,
       fill: 0x173b36,
-      fontSize: 14,
+      stroke: 0xf6c85f,
+      fontSize: 13,
+    });
+    new Button(this, 1088, 672, "Allenamento misto", () => this.startMathTraining(), {
+      width: 244,
+      height: 42,
+      fill: 0x173b36,
+      fontSize: 13,
     });
   }
 
@@ -256,7 +267,64 @@ export class MathStudyScene extends Phaser.Scene {
       startedAt,
     };
     saveSystem.setProceduralRun(run);
-    void startScene(this, "ProceduralMissionScene");
+    void startScene(this, "ProceduralMissionScene", { autoOpenPuzzle: "math" });
+  }
+
+  private startGraphWorkshop(): void {
+    const page = mathStudyPages[this.pageIndex];
+    const level = Math.max(3, this.studyLevelFor(page.levelRange)) as DifficultyLevel;
+    const mission = proceduralDirector.generateFreshMission(level, ["matematica"]);
+    const preset = difficultyModel.getPreset(level);
+    const graphPuzzle = exerciseDirector.enrichMath(
+      new MathPuzzleGenerator().generateGraphWorkshop(
+        new Random(`${mission.seed}:direct-graph-workshop:${Date.now()}`),
+        preset,
+      ),
+      level,
+    );
+    mission.puzzles.math = graphPuzzle;
+    if (mission.focusChallenges?.length) {
+      mission.focusChallenges = mission.focusChallenges.map((challenge, index) => {
+        if (challenge.kind !== "math") return challenge;
+        const puzzle = exerciseDirector.enrichMath(
+          new MathPuzzleGenerator().generateGraphWorkshop(
+            new Random(`${mission.seed}:graph-series:${index}:${Date.now()}`),
+            preset,
+          ),
+          level,
+        );
+        return {
+          ...challenge,
+          title: `Officina grafica ${index + 1}`,
+          description: puzzle.graphWorkshop?.objective ?? "Modifica i parametri e certifica il grafico.",
+          puzzle,
+        };
+      });
+      mission.objectives = mission.focusChallenges.map((challenge) => ({
+        id: `procedural-${challenge.id}`,
+        label: challenge.title,
+        description: challenge.description,
+        competencies: challenge.puzzle.competencies,
+      }));
+      const firstGraph = mission.focusChallenges.find((challenge) => challenge.kind === "math");
+      if (firstGraph?.kind === "math") mission.puzzles.math = firstGraph.puzzle;
+      mission.competencies = Array.from(new Set(mission.focusChallenges.flatMap((challenge) => challenge.puzzle.competencies)));
+    }
+    const startedAt = new Date().toISOString();
+    const run: ProceduralRunSave = {
+      seed: mission.seed,
+      difficulty: mission.difficulty,
+      focus: ["matematica"],
+      mode: "training",
+      mission,
+      hintsUsed: 0,
+      solvedPuzzleIds: [],
+      score: { total: 0, byPuzzle: {}, byDomain: {} },
+      puzzleStats: {},
+      startedAt,
+    };
+    saveSystem.setProceduralRun(run);
+    void startScene(this, "ProceduralMissionScene", { autoOpenPuzzle: "math" });
   }
 
   private studyLevelFor(range: [number, number]): DifficultyLevel {

@@ -276,8 +276,8 @@ export class PuzzleGenerator {
       ["calcolo-diretto", "frazioni", "percentuali", "lettura-dati"],
       ["sequenza", "statistica", "coordinate", "lettura-dati", "vincolo"],
       ["vincolo", "proporzione", "geometria", "probabilita", "percentuali", "frazioni"],
-      ["ragionamento-inverso", "pre-algebra", "equazione-primo-grado", "funzione-lineare", "coordinate", "statistica"],
-      ["diagnosi-errore", "potenze-radici", "geometria", "sistemi-lineari", "probabilita", "equazione-primo-grado", "funzione-lineare", "proporzione"],
+      ["ragionamento-inverso", "pre-algebra", "equazione-primo-grado", "funzione-lineare", "grafici-cartesiani", "coordinate", "statistica"],
+      ["diagnosi-errore", "potenze-radici", "geometria", "sistemi-lineari", "probabilita", "equazione-primo-grado", "equazione-secondo-grado", "grafici-cartesiani", "funzione-lineare", "proporzione"],
     ][Math.min(step, 4)] as Array<NonNullable<GeneratedMission["puzzles"]["math"]["archetype"]>>;
   }
 

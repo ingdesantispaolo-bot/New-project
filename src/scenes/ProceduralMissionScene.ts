@@ -11,6 +11,8 @@ import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
+import { noraVoice, type NoraBeat } from "../core/NoraVoice";
+import { noraChip } from "../ui/NoraChip";
 import { languageTemplates } from "../data/procedural/languageTemplates";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { difficultyModel } from "../procedural/DifficultyModel";
@@ -146,6 +148,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private progressiveSynthesisAttempts = 0;
   private progressiveSynthesisOrder: number[] = [];
   private autoOpenPuzzle?: ProceduralPuzzleId;
+  private noraGreetedSeed?: string;
+  private languageBuilderPuzzleId?: string;
+  private languageBuilderShuffled: string[] = [];
+  private languageBuilderPlaced: number[] = [];
 
   constructor() {
     super("ProceduralMissionScene");
@@ -184,11 +190,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
     });
 
     feedbackSystem.publish(this.roomEntryFeedback(), this.run.solvedPuzzleIds.length > 0 ? "success" : "info");
+    // NORA greets once per run (the scene restarts between consoles, so gate by seed).
+    if (this.noraGreetedSeed !== this.run.seed && this.run.solvedPuzzleIds.length === 0) {
+      this.noraGreetedSeed = this.run.seed;
+      this.time.delayedCall(520, () => this.noraSay("enter"));
+    }
     this.scheduleNextProgressivePuzzle(700);
     if (this.autoOpenPuzzle && !this.isProgressiveMode()) {
       const puzzleId = this.requiredPuzzleIds().find((id) => puzzleKindFromId(id) === this.autoOpenPuzzle) ?? this.autoOpenPuzzle;
       this.time.delayedCall(420, () => this.openPuzzleConsole(puzzleId));
     }
+  }
+
+  /** Speaks an in-character NORA line for a beat (story modes only). */
+  private noraSay(beat: NoraBeat): void {
+    if (this.runMode() === "training") {
+      return;
+    }
+    const tone = beat === "victory" || beat === "solve" ? "success" : beat === "lifeLost" || beat === "lowLife" || beat === "defeat" ? "warning" : "info";
+    noraChip.say(this, noraVoice.line(beat), tone);
   }
 
   private roomEntryFeedback(): string {
@@ -765,6 +785,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
         stroke: this.languageSelectedOption === option ? 0xf7d37a : 0x6be7d6,
       }));
     });
+    overlay.add(new Button(this, 470, 620, "✍ Componi la frase", () => {
+      this.openLanguageBuilder(puzzle, model);
+    }, { width: 240, height: 40, fontSize: 13, fill: 0x2a3550, stroke: 0x9f8cff }));
     overlay.add(new Button(this, 738, 620, "Conferma risposta", () => {
       this.confirmLanguageReasoning(puzzle, model);
     }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
@@ -772,6 +795,109 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.useContextualHint(puzzle);
       this.openLanguage();
     }, { width: 230, height: 40, fontSize: 13, fill: 0x263743 }));
+  }
+
+  /**
+   * Construction variant of the Italian repair: instead of choosing among full
+   * sentences, the learner re-assembles the corrected message from shuffled
+   * word tiles. Production beats recognition didactically and plays better.
+   * Reuses the existing solve / mistake plumbing.
+   */
+  private openLanguageBuilder(puzzle: GeneratedLanguagePuzzle, model: LanguageRepairModel): void {
+    const puzzleId = this.currentPuzzleId("language");
+    if (this.languageBuilderPuzzleId !== puzzleId) {
+      const tokens = model.correctAnswer.split(/\s+/).filter((token) => token.length > 0);
+      const random = new Random(`${this.run.seed}:lang-build:${puzzleId}`);
+      const order = tokens.map((_, index) => index);
+      for (let i = order.length - 1; i > 0; i -= 1) {
+        const j = random.integer(0, i);
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      this.languageBuilderShuffled = order.map((index) => tokens[index]);
+      this.languageBuilderPlaced = [];
+      this.languageBuilderPuzzleId = puzzleId;
+    }
+
+    const overlay = this.createExerciseScreen(model.title);
+    LanguageRepairConsole.addHeader(this, overlay, model);
+    this.addLanguageBrief(overlay, model);
+    overlay.add(this.add.text(614, 286, "Ricostruisci il messaggio corretto: tocca le parole nell'ordine giusto.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+      wordWrap: { width: 600 },
+    }));
+
+    // Assembled answer row.
+    const assembled = this.languageBuilderPlaced.map((index) => this.languageBuilderShuffled[index]).join(" ");
+    overlay.add(this.add.rectangle(614, 330, 624, 64, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.7));
+    overlay.add(this.add.text(628, 344, assembled.length > 0 ? assembled : "(tocca le tessere qui sotto)", {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: assembled.length > 0 ? "#f5fbff" : "#7da2af",
+      wordWrap: { width: 596 },
+      lineSpacing: 3,
+    }));
+
+    // Word tiles (unused ones are tappable to append).
+    let tileX = 614;
+    let tileY = 414;
+    this.languageBuilderShuffled.forEach((word, index) => {
+      const placed = this.languageBuilderPlaced.includes(index);
+      const tileWidth = Math.max(54, word.length * 11 + 24);
+      if (tileX + tileWidth > 1238) {
+        tileX = 614;
+        tileY += 48;
+      }
+      overlay.add(new Button(this, tileX + tileWidth / 2, tileY + 18, word, () => {
+        if (this.languageBuilderPlaced.includes(index)) {
+          this.languageBuilderPlaced = this.languageBuilderPlaced.filter((i) => i !== index);
+        } else {
+          this.languageBuilderPlaced.push(index);
+        }
+        audioManager.play("click");
+        this.openLanguageBuilder(puzzle, model);
+      }, {
+        width: tileWidth,
+        height: 36,
+        fontSize: 13,
+        fill: placed ? 0x174d42 : 0x263743,
+        stroke: placed ? 0xf7d37a : 0x6be7d6,
+      }));
+      tileX += tileWidth + 10;
+    });
+
+    overlay.add(new Button(this, 470, 640, "Torna a scelta", () => {
+      this.openLanguage();
+    }, { width: 220, height: 40, fontSize: 13, fill: 0x263743 }));
+    overlay.add(new Button(this, 738, 640, "Verifica frase", () => {
+      this.confirmLanguageBuilder(puzzle, model);
+    }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
+    overlay.add(new Button(this, 1002, 640, "Svuota", () => {
+      this.languageBuilderPlaced = [];
+      audioManager.play("cancel");
+      this.openLanguageBuilder(puzzle, model);
+    }, { width: 150, height: 40, fontSize: 13, fill: 0x3a2525, stroke: 0xf6c85f }));
+  }
+
+  private confirmLanguageBuilder(puzzle: GeneratedLanguagePuzzle, model: LanguageRepairModel): void {
+    const assembled = this.languageBuilderPlaced.map((index) => this.languageBuilderShuffled[index]).join(" ").trim();
+    if (assembled.length === 0) {
+      audioManager.playOutcome("hint");
+      feedbackSystem.publish("Tocca le parole per comporre la frase, poi verifica.", "hint");
+      return;
+    }
+    if (assembled === model.correctAnswer.trim()) {
+      outcomeFeedback.answer(this, true, assembled, model.correctAnswer, model.method);
+      this.languageBuilderPuzzleId = undefined;
+      this.solvePuzzle(this.currentPuzzleId("language"), puzzle.competencies);
+      return;
+    }
+    outcomeFeedback.answer(this, false, assembled, model.correctAnswer, model.method);
+    this.languageBuilderPlaced = [];
+    const exited = this.handleIncorrectAnswer("L'ordine non rende ancora il messaggio eseguibile: rileggi soggetto, verbo e accordo.");
+    if (!exited) this.openLanguageBuilder(puzzle, model);
   }
 
   private confirmLanguageReasoning(puzzle: GeneratedLanguagePuzzle, model: LanguageRepairModel): void {
@@ -6236,6 +6362,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const mode = proceduralRunRules.modeFor(this.run);
     audioManager.playOutcome("complete");
     outcomeFeedback.play(this, "complete", mode === "training" ? "Allenamento registrato" : "Missione completata");
+    if (mode !== "training") {
+      this.noraSay("victory");
+      this.playLabRestoredFinale();
+    }
     missionEngine.completeProceduralMission();
     this.run = saveSystem.data.proceduralRun ?? this.run;
     feedbackSystem.publish(
@@ -6244,7 +6374,42 @@ export class ProceduralMissionScene extends Phaser.Scene {
         : "Missione completata. Il diario registra seed, competenze, tempo e vite rimaste.",
       "success",
     );
-    this.runWhenActive(900, () => this.scene.start("JournalScene"));
+    this.runWhenActive(mode === "training" ? 900 : 1700, () => this.scene.start("JournalScene"));
+  }
+
+  /**
+   * Climactic "the lab powers back on" sequence: a warm bloom, expanding rings
+   * and ordered sparks across the room — the visible payoff of restoring every
+   * system. Lighter (no rings) when effects are reduced.
+   */
+  private playLabRestoredFinale(): void {
+    const reduced = settingsSystem.effectsReduced();
+    const bloom = this.add.rectangle(640, 360, 1280, 720, 0x6be7d6, 0).setDepth(940);
+    this.tweens.add({
+      targets: bloom,
+      alpha: { from: 0.28, to: 0 },
+      duration: 1200,
+      ease: "Sine.easeOut",
+      onComplete: () => bloom.destroy(),
+    });
+    [220, 460, 640, 820, 1060].forEach((x, index) => {
+      this.runWhenActive(index * 120, () => VisualKit.particleBurst(this, x, 320, "circuit", "success"));
+    });
+    if (reduced) {
+      return;
+    }
+    for (let i = 0; i < 3; i += 1) {
+      const ring = this.add.circle(640, 360, 40, 0xf6c85f, 0).setStrokeStyle(3, 0xf6c85f, 0.7).setDepth(941);
+      this.tweens.add({
+        targets: ring,
+        scale: 9 + i * 2,
+        alpha: { from: 0.7, to: 0 },
+        delay: i * 160,
+        duration: 900,
+        ease: "Sine.easeOut",
+        onComplete: () => ring.destroy(),
+      });
+    }
   }
 
   private showProgressiveSynthesis(reason: string): void {
@@ -6384,10 +6549,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     competencyTracker.award(competencies, 10 + this.run.difficulty * 2 + (score.focusBonus > 0 ? 4 : 0));
     this.run = saveSystem.data.proceduralRun ?? this.run;
     audioManager.playOutcome("correct");
+    const cleanSolve = score.attempts <= 1 && score.hintsUsed === 0;
     const solvedNode = puzzleKindFromId(puzzleId);
     const principle = this.solvedPrinciple(solvedNode);
     // Surface the learned principle prominently instead of only the score.
     outcomeFeedback.play(this, "success", `Principio: ${principle}`);
+    if (cleanSolve) {
+      this.rewardCleanSolve();
+    }
     this.clearOverlay();
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
     const nextLine = remaining.length > 0
@@ -6398,6 +6567,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.certifyCompletedRun("Ultima console stabilizzata: il sistema completo e certificabile.");
       return;
     }
+    this.noraSay("solve");
     if (this.isProgressiveMode()) {
       // Redraw the room so the repaired console and the restored path remain
       // visible before the next system opens.
@@ -6405,6 +6575,44 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     this.runWhenActive(2200, () => this.scene.restart());
+  }
+
+  /**
+   * Rewards aid-free, first-try solves in story modes: a small time bonus each
+   * time, and a restored life when the run reaches three clean solves. Turns
+   * good method (autonomy) into a tangible, fun perk without punishing anyone.
+   */
+  private rewardCleanSolve(): void {
+    if (this.runMode() === "training") {
+      return;
+    }
+    const cleanCount = Object.values(this.run.puzzleStats ?? {}).filter(
+      (stat) => stat.attempts <= 1 && stat.hintsUsed === 0,
+    ).length;
+
+    const update: Partial<ProceduralRunSave> = {};
+    if (this.run.deadlineAt) {
+      const currentDeadline = new Date(this.run.deadlineAt).getTime();
+      update.deadlineAt = new Date(Math.max(Date.now(), currentDeadline) + 18_000).toISOString();
+    }
+    const maxLives = this.run.maxLives ?? proceduralRunRules.maxLives;
+    const lives = this.run.lives ?? maxLives;
+    const grantsLife = cleanCount === 3 && lives < maxLives;
+    if (grantsLife) {
+      update.lives = lives + 1;
+    }
+    if (Object.keys(update).length > 0) {
+      saveSystem.updateProceduralRun(update);
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+    }
+    VisualKit.particleBurst(this, 640, 320, "circuit", "success");
+    noraChip.say(
+      this,
+      grantsLife
+        ? "Serie pulita! Tre diagnosi senza aiuti: ti restituisco una vita. Continua così."
+        : "Soluzione autonoma: ti recupero qualche secondo. Il metodo paga.",
+      "success",
+    );
   }
 
   private nextPendingProgressivePuzzleId(): string | undefined {
@@ -6610,6 +6818,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.missionFailureInProgress = true;
     audioManager.playOutcome("wrong");
     outcomeFeedback.play(this, "warning", "Vita persa");
+    this.noraSay(nextLives <= 1 ? "lowLife" : "lifeLost");
     this.discardActivePuzzleAttempt();
     this.clearOverlay();
 
@@ -6668,6 +6877,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const now = new Date().toISOString();
     audioManager.playOutcome("wrong");
     outcomeFeedback.play(this, "warning", "Missione fallita");
+    this.noraSay("defeat");
     this.discardActivePuzzleAttempt();
     this.clearOverlay();
     saveSystem.updateProceduralRun({
@@ -7199,6 +7409,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.activeHintText = undefined;
     this.activeHintPuzzleId = undefined;
     this.languageSelectedOption = undefined;
+    this.languageBuilderPuzzleId = undefined;
+    this.languageBuilderShuffled = [];
+    this.languageBuilderPlaced = [];
     this.englishSelectedChoiceId = undefined;
     this.circuitInspected = false;
     this.circuitConceptVerified = false;

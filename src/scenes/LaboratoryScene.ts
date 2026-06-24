@@ -529,56 +529,83 @@ export class LaboratoryScene extends Phaser.Scene {
       return;
     }
     this.clearOverlay();
-    const overlay = this.createOverlay("Stabilizzatore linguistico", 520);
+    const overlay = this.createExerciseScreen("Stabilizzatore linguistico");
     overlay.add(
-      this.add.text(50, 86, `Segnale danneggiato: "${this.grammarRepairPuzzle.corrupted}"`, {
+      this.add.text(48, 94, `Segnale danneggiato: "${this.grammarRepairPuzzle.corrupted}"`, {
         fontFamily: "Inter, Arial",
-        fontSize: "20px",
+        fontSize: "22px",
         color: "#f6c85f",
-        wordWrap: { width: 700 },
+        wordWrap: { width: 1080, useAdvancedWrap: true },
       }),
     );
     overlay.add(
-      this.add.text(50, 150, "Il terminale non vuole un esercizio: vuole una frase eseguibile. Prima isola i pezzi del segnale, poi scegli.", {
+      this.add.text(48, 156, "Obiettivo: ricostruisci una frase chiara ed eseguibile. Prima individua soggetto, verbo e relazioni; poi scegli.", {
         fontFamily: "Inter, Arial",
-        fontSize: "18px",
+        fontSize: "16px",
         color: "#d9eaf1",
-        wordWrap: { width: 690 },
+        wordWrap: { width: 1080, useAdvancedWrap: true },
       }),
     );
 
-    overlay.add(this.add.rectangle(50, 216, 700, 112, 0x102533, 0.94).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
+    overlay.add(this.add.rectangle(48, 216, 522, 368, 0x102533, 0.94).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
+    overlay.add(this.add.text(72, 238, "Analisi del segnale", {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
     const diagnosticText = this.grammarAnalysisUnlocked
       ? this.grammarRepairPuzzle.diagnosticSteps.map((step, index) => `${index + 1}. ${step}`).join("\n")
       : "Analisi bloccata: il sistema richiede una lettura dei gruppi prima di accettare una soluzione.";
     overlay.add(
-      this.add.text(70, 234, diagnosticText, {
+      this.add.text(72, 278, diagnosticText, {
         fontFamily: "Inter, Arial",
         fontSize: "15px",
         color: this.grammarAnalysisUnlocked ? "#9ff5e9" : "#c9dce6",
-        wordWrap: { width: 660 },
-        lineSpacing: 5,
+        wordWrap: { width: 470, useAdvancedWrap: true },
+        lineSpacing: 7,
       }),
     );
 
     if (!this.grammarAnalysisUnlocked) {
+      overlay.add(this.add.rectangle(602, 216, 550, 368, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+      overlay.add(this.add.text(632, 246, "Prima osserva, poi rispondi", {
+        fontFamily: "Inter, Arial",
+        fontSize: "20px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+      }));
+      overlay.add(this.add.text(632, 294, "L'analisi separa le parti della frase e riduce le risposte a tentativo. Dopo la scansione compariranno qui le alternative.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "16px",
+        color: "#d9eaf1",
+        wordWrap: { width: 490, useAdvancedWrap: true },
+        lineSpacing: 6,
+      }));
       overlay.add(
-        new Button(this, 400, 390, "Analizza concordanze", () => {
+        new Button(this, 877, 500, "Analizza concordanze", () => {
           this.grammarAnalysisUnlocked = true;
           audioManager.play("scan");
           this.openGrammarRepair();
-        }, { width: 310, height: 52, fontSize: 18, fill: 0x173b36 }),
+        }, { width: 360, height: 58, fontSize: 18, fill: 0x173b36 }),
       );
       this.overlay = overlay;
       return;
     }
 
+    overlay.add(this.add.rectangle(602, 216, 550, 368, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(632, 238, "Scegli la frase stabilizzata", {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
     this.grammarRepairPuzzle.options.forEach((option, index) => {
       overlay.add(
         new Button(
           this,
-          400,
-          370 + index * 38,
+          877,
+          306 + index * 72,
           option,
           () => {
             if (option === this.grammarRepairPuzzle.repaired) {
@@ -602,7 +629,7 @@ export class LaboratoryScene extends Phaser.Scene {
               this.time.delayedCall(180, () => this.openGrammarRepair());
             }
           },
-          { width: 650, height: 34, fontSize: 14 },
+          { width: 490, height: 54, fontSize: 14, wordWrapWidth: 452 },
         ),
       );
     });
@@ -610,49 +637,77 @@ export class LaboratoryScene extends Phaser.Scene {
 
   private openEnglishInstruction(): void {
     this.clearOverlay();
-    const overlay = this.createOverlay("Modulo operativo", 500);
+    const overlay = this.createExerciseScreen("Modulo operativo");
     overlay.add(
-      this.add.text(58, 88, this.englishInstructionPuzzle.instruction, {
+      this.add.text(48, 94, this.englishInstructionPuzzle.instruction, {
         fontFamily: "Inter, Arial",
-        fontSize: "24px",
+        fontSize: "25px",
         color: "#f5fbff",
-        wordWrap: { width: 700 },
+        wordWrap: { width: 1080, useAdvancedWrap: true },
       }),
     );
     overlay.add(
-      this.add.text(58, 154, "Il terminale sta distinguendo preparazione, ordine e divieto.", {
+      this.add.text(48, 160, "Obiettivo: distingui preparazione, ordine temporale e divieto prima di scegliere l'azione.", {
         fontFamily: "Inter, Arial",
-        fontSize: "18px",
+        fontSize: "16px",
         color: "#c9dce6",
+        wordWrap: { width: 1080, useAdvancedWrap: true },
       }),
     );
 
-    overlay.add(this.add.rectangle(58, 196, 684, 108, 0x102533, 0.94).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
+    overlay.add(this.add.rectangle(48, 216, 522, 368, 0x102533, 0.94).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
+    overlay.add(this.add.text(72, 238, "Analisi dell'istruzione", {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
     const diagnostic = this.englishAnalysisUnlocked
       ? this.englishInstructionPuzzle.diagnosticSteps.map((step, index) => `${index + 1}. ${step}`).join("\n")
       : "Analisi bloccata: individua prima verbo d'azione, ordine temporale e negazione.";
     overlay.add(
-      this.add.text(78, 214, diagnostic, {
+      this.add.text(72, 278, diagnostic, {
         fontFamily: "Inter, Arial",
         fontSize: "15px",
         color: this.englishAnalysisUnlocked ? "#9ff5e9" : "#c9dce6",
-        wordWrap: { width: 640 },
-        lineSpacing: 5,
+        wordWrap: { width: 470, useAdvancedWrap: true },
+        lineSpacing: 7,
       }),
     );
 
     if (!this.englishAnalysisUnlocked) {
+      overlay.add(this.add.rectangle(602, 216, 550, 368, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+      overlay.add(this.add.text(632, 246, "Decodifica prima di agire", {
+        fontFamily: "Inter, Arial",
+        fontSize: "20px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+      }));
+      overlay.add(this.add.text(632, 294, "La scansione evidenzia verbo, sequenza e negazione. Le azioni disponibili compariranno qui senza coprire il testo della consegna.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "16px",
+        color: "#d9eaf1",
+        wordWrap: { width: 490, useAdvancedWrap: true },
+        lineSpacing: 6,
+      }));
       overlay.add(
-        new Button(this, 400, 382, "Decodifica istruzione", () => {
+        new Button(this, 877, 500, "Decodifica istruzione", () => {
           this.englishAnalysisUnlocked = true;
           audioManager.play("scan");
           this.openEnglishInstruction();
-        }, { width: 310, height: 52, fontSize: 18, fill: 0x173b36 }),
+        }, { width: 360, height: 58, fontSize: 18, fill: 0x173b36 }),
       );
       this.overlay = overlay;
       return;
     }
 
+    overlay.add(this.add.rectangle(602, 216, 550, 368, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(632, 238, "Scegli l'azione autorizzata", {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
     this.englishInstructionPuzzle.choices.forEach((choice, index) => {
       const col = index % 2;
       const row = Math.floor(index / 2);
@@ -660,8 +715,8 @@ export class LaboratoryScene extends Phaser.Scene {
       overlay.add(
         new Button(
           this,
-          250 + col * 300,
-          360 + row * 62,
+          742 + col * 270,
+          334 + row * 104,
           choice.label,
           () => {
             if (choice.isCorrect) {
@@ -684,7 +739,7 @@ export class LaboratoryScene extends Phaser.Scene {
               this.time.delayedCall(180, () => this.openEnglishInstruction());
             }
           },
-          { width: 250, height: 50, fill: color, hoverFill: color + 0x101010, fontSize: 16 },
+          { width: 238, height: 76, fill: color, hoverFill: color + 0x101010, fontSize: 15, wordWrapWidth: 210 },
         ),
       );
     });
@@ -703,13 +758,35 @@ export class LaboratoryScene extends Phaser.Scene {
     return 0x263743;
   }
 
-  private createOverlay(title: string, height: number): Phaser.GameObjects.Container {
-    const overlay = this.add.container(240, 154).setDepth(1200);
+  private createExerciseScreen(title: string): Phaser.GameObjects.Container {
+    const overlay = this.add.container(40, 0).setDepth(1200);
     SceneChrome.modalInputBlocker(this, overlay, overlay.x, overlay.y);
-    overlay.add(SceneChrome.consolePanel(this, 0, 0, 800, height, title, "lab"));
+    if (this.textures.exists("bg-lab-painted")) {
+      overlay.add(this.add.image(600, 360, "bg-lab-painted").setDisplaySize(1320, 742).setAlpha(0.34));
+    }
+    overlay.add(this.add.rectangle(600, 360, 1280, 720, 0x02080d, 0.82));
+    const grid = this.add.graphics();
+    grid.lineStyle(1, 0x6be7d6, 0.045);
+    for (let x = -160; x < 1320; x += 72) {
+      grid.lineBetween(x, 0, x - 128, 720);
+    }
+    for (let y = 92; y < 720; y += 58) {
+      grid.lineBetween(-40, y, 1240, y + 10);
+    }
+    overlay.add(grid);
+    overlay.add(this.add.rectangle(600, 34, 1280, 68, 0x06131c, 0.92));
+    overlay.add(this.add.rectangle(600, 68, 1280, 2, 0x6be7d6, 0.42));
+    overlay.add(this.add.text(0, 14, title, {
+      fontFamily: "Inter, Arial",
+      fontSize: "28px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 1080, useAdvancedWrap: true },
+      shadow: { offsetX: 0, offsetY: 3, color: "#000000", blur: 6, fill: true },
+    }));
     overlay.add(
-      new Button(this, 716, 42, "X", () => this.clearOverlay(), {
-        width: 48,
+      new Button(this, 1184, 34, "X", () => this.clearOverlay(), {
+        width: 56,
         height: 42,
         fontSize: 18,
         fill: 0x263743,

@@ -782,7 +782,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const model = LanguageRepairConsole.fromPuzzle(puzzle);
-    const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
+    const overlay = this.createExerciseScreen(model.title);
     LanguageRepairConsole.addHeader(this, overlay, model);
     this.addLanguageBrief(overlay, model);
     overlay.add(this.add.text(614, 294, "Scegli la frase corretta", {
@@ -1351,7 +1351,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private openCircuit(): void {
     const puzzle = this.currentCircuitPuzzle();
     const model = CircuitConsole.fromPuzzle(puzzle);
-    const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
+    const overlay = this.createExerciseScreen(model.title);
     overlay.add(this.add.text(48, 72, model.difficultyLabel.toUpperCase(), {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
@@ -1365,32 +1365,32 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 800 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.rectangle(456, 158, 816, 58, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.text(64, 138, "Scopo della diagnosi", {
+    overlay.add(this.add.rectangle(48, 132, 800, 76, 0x07151d, 0.84).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
+    overlay.add(this.add.text(66, 146, "Scopo della diagnosi", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(64, 158, `${model.learningPurpose} Domanda: ${model.diagnosticQuestion}`, {
+    overlay.add(this.add.text(66, 170, `${model.learningPurpose} Domanda: ${model.diagnosticQuestion}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
-      wordWrap: { width: 760 },
+      wordWrap: { width: 764, useAdvancedWrap: true },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.rectangle(1010, 132, 304, 112, 0x07151d, 0.78).setStrokeStyle(1, 0x6be7d6, 0.18));
-    overlay.add(this.add.text(876, 90, "Concetti osservati", {
+    overlay.add(this.add.rectangle(868, 132, 278, 76, 0x07151d, 0.78).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.18));
+    overlay.add(this.add.text(886, 146, "Concetti osservati", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(876, 116, model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+    overlay.add(this.add.text(886, 170, model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
+      fontSize: "11px",
       color: "#f7d37a",
-      wordWrap: { width: 260 },
+      wordWrap: { width: 242, useAdvancedWrap: true },
       lineSpacing: 3,
     }));
 
@@ -1469,9 +1469,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private drawCircuitSidePanel(overlay: Phaser.GameObjects.Container, model: CircuitConsoleModel): void {
-    const x = 856;
-    const y = 188;
-    overlay.add(this.add.rectangle(x, y, 330, 268, 0x07151d, 0.84).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    const x = 844;
+    const y = 226;
+    overlay.add(this.add.rectangle(x, y, 302, 232, 0x07151d, 0.84).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
     overlay.add(this.add.text(x + 18, y + 16, this.circuitInspected ? "Letture tester" : "Metodo tecnico", {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
@@ -1484,11 +1484,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color: "#d9eaf1",
-        wordWrap: { width: 288 },
+        wordWrap: { width: 266, useAdvancedWrap: true },
         lineSpacing: 5,
       }));
-      model.diagnosticPlan.slice(0, 4).forEach((step, index) => {
-        const rowY = y + 122 + index * 34;
+      model.diagnosticPlan.slice(0, 3).forEach((step, index) => {
+        const rowY = y + 116 + index * 34;
         overlay.add(this.add.circle(x + 28, rowY + 7, 9, 0xf6c85f, 0.18).setStrokeStyle(1, 0xf6c85f, 0.7));
         overlay.add(this.add.text(x + 25, rowY, String(index + 1), {
           fontFamily: "Inter, Arial",
@@ -1500,7 +1500,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           fontFamily: "Inter, Arial",
           fontSize: "11px",
           color: "#c7dce7",
-          wordWrap: { width: 242 },
+          wordWrap: { width: 226, useAdvancedWrap: true },
           lineSpacing: 2,
         }));
       });
@@ -1517,9 +1517,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       "soglia-fuori-range": "soglia fuori range",
       "carica-bassa": "carica bassa",
     };
-    model.testerReadings.slice(0, 5).forEach((reading, index) => {
+    model.testerReadings.slice(0, 4).forEach((reading, index) => {
       const rowY = y + 50 + index * 39;
-      overlay.add(this.add.rectangle(x + 18, rowY - 4, 294, 34, 0x102533, 0.7).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.14));
+      overlay.add(this.add.rectangle(x + 18, rowY - 4, 266, 34, 0x102533, 0.7).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.14));
       overlay.add(this.add.text(x + 30, rowY, `${reading.from} -> ${reading.to}`, {
         fontFamily: "Inter, Arial",
         fontSize: "10px",
@@ -1537,16 +1537,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontFamily: "Inter, Arial",
         fontSize: "9px",
         color: "#9aaab0",
-        wordWrap: { width: 270 },
+        wordWrap: { width: 242 },
       }));
     });
 
     const guide = model.componentGuide.slice(0, 2).map((component) => `${component.label}: ${component.check}`).join("\n");
-    overlay.add(this.add.text(x + 18, y + 244, guide, {
+    overlay.add(this.add.text(x + 18, y + 206, guide, {
       fontFamily: "Inter, Arial",
-      fontSize: "10px",
+      fontSize: "9px",
       color: "#9aaab0",
-      wordWrap: { width: 288 },
+      wordWrap: { width: 266 },
       lineSpacing: 2,
     }));
   }
@@ -1721,8 +1721,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const conceptLocked = this.circuitConceptLocked();
     const targetComponentId = this.currentCircuitComponentTargetId();
     const wireColor = lit ? 0x6be7d6 : 0x425865;
-    const y = 248;
-    const bottomY = 330;
+    const y = 306;
+    const bottomY = 396;
     const positions = {
       battery: 94,
       switch: 226,
@@ -1736,16 +1736,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
       resistor: { x: positions.resistor, y },
       led: { x: positions.led, y },
       return: { x: positions.return, y },
-      capacitor: { x: 226, y: 366 },
-      sensor: { x: 590, y: 366 },
-      branchLed: { x: 404, y: 366 },
-      relay: { x: 190, y: 386 },
-      motor: { x: 350, y: 386 },
-      ground: { x: 590, y: 386 },
+      capacitor: { x: 226, y: 424 },
+      sensor: { x: 590, y: 424 },
+      branchLed: { x: 404, y: 424 },
+      relay: { x: 190, y: 426 },
+      motor: { x: 350, y: 426 },
+      ground: { x: 590, y: 426 },
     };
 
-    overlay.add(this.add.rectangle(400, 276, 704, 214, 0x081823, 0.9).setStrokeStyle(1, 0x6be7d6, 0.26));
-    overlay.add(this.add.text(58, 184, "Schema del giro della corrente", {
+    overlay.add(this.add.rectangle(48, 226, 776, 232, 0x081823, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.26));
+    overlay.add(this.add.text(66, 242, "Schema del giro della corrente", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
@@ -1800,45 +1800,46 @@ export class ProceduralMissionScene extends Phaser.Scene {
       { x: positions.led, code: "Nodo D", label: "LED", text: "si accende solo nel verso giusto" },
       { x: positions.return, code: "Nodo E", label: "Ritorno", text: "riporta la corrente al -" },
     ].forEach((item, index) => {
-      overlay.add(this.add.text(item.x, 292, conceptLocked ? item.code : item.label, {
+      overlay.add(this.add.text(item.x, 346, conceptLocked ? item.code : item.label, {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color: "#f5fbff",
         fontStyle: "bold",
       }).setOrigin(0.5));
-      overlay.add(this.add.text(item.x, 312, conceptLocked ? `simbolo ${index + 1}` : item.text, {
-        fontFamily: "Inter, Arial",
-        fontSize: "10px",
-        color: "#9aaab0",
-        align: "center",
-        wordWrap: { width: 116 },
-      }).setOrigin(0.5, 0));
+      if (conceptLocked) {
+        overlay.add(this.add.text(item.x, 370, `simbolo ${index + 1}`, {
+          fontFamily: "Inter, Arial",
+          fontSize: "10px",
+          color: "#9aaab0",
+          align: "center",
+        }).setOrigin(0.5, 0));
+      }
     });
 
     this.drawCurrentArrows(overlay, lit ? 0x8cffd7 : 0x5c7480, lit ? 0.85 : 0.35, [
       { x: 160, y, rotation: 0 },
       { x: 450, y, rotation: 0 },
-      { x: 696, y: 292, rotation: Math.PI / 2 },
+      { x: 696, y: 346, rotation: Math.PI / 2 },
       { x: 330, y: bottomY, rotation: Math.PI },
     ]);
 
     if (puzzle.nodes.includes("capacitor")) {
-      this.drawCapacitorSymbol(overlay, 226, 366, activeFaults.has("capacitor-discharged") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      this.drawCapacitorSymbol(overlay, 226, 424, activeFaults.has("capacitor-discharged") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("sensor")) {
-      this.drawSensorSymbol(overlay, 590, 366, activeFaults.has("sensor-unpowered") || activeFaults.has("disconnected-component") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      this.drawSensorSymbol(overlay, 590, 424, activeFaults.has("sensor-unpowered") || activeFaults.has("disconnected-component") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("branchLed")) {
-      this.drawBranchSymbol(overlay, 404, 366, activeFaults.has("parallel-branch-open") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      this.drawBranchSymbol(overlay, 404, 424, activeFaults.has("parallel-branch-open") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("relay")) {
-      this.drawRelaySymbol(overlay, 190, 386, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      this.drawRelaySymbol(overlay, 190, 426, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("motor")) {
-      this.drawMotorSymbol(overlay, 350, 386, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      this.drawMotorSymbol(overlay, 350, 426, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
     if (puzzle.nodes.includes("ground")) {
-      this.drawGroundSymbol(overlay, 590, 386, activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
+      this.drawGroundSymbol(overlay, 590, 426, activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
     }
 
     if (conceptLocked && targetComponentId && componentCenters[targetComponentId]) {
@@ -3260,7 +3261,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.openEnglishMinigame(puzzle);
       return;
     }
-    const overlay = this.createOverlay(puzzle.title, 642, { x: 40, y: 48, width: 1200 });
+    const overlay = this.createExerciseScreen(puzzle.title);
     const instructionSize = puzzle.instruction.length > 122 ? 16 : puzzle.instruction.length > 96 ? 18 : puzzle.instruction.length > 72 ? 20 : 22;
     overlay.add(this.add.text(56, 78, (puzzle.difficultyLabel ?? "Livello 1 - comandi e divieti").toUpperCase(), {
       fontFamily: "Inter, Arial",
@@ -4369,7 +4370,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.openCodingMinigame(puzzle);
       return;
     }
-    const overlay = this.createOverlay(puzzle.title, 660, { x: 40, y: 30, width: 1200 });
+    const overlay = this.createExerciseScreen(puzzle.title);
 
     const codePanel = { x: 56, y: 104, w: 500, h: 356 };
     const taskPanel = { x: 584, y: 104, w: 560, h: 356 };
@@ -4601,7 +4602,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const puzzleId = this.currentPuzzleId("music");
     const session = this.ensureMusicSession(puzzleId);
     const puzzle = session.current;
-    const overlay = this.createOverlay("Osservatorio del Pentagramma", 660, { x: 32, y: 28, width: 1216 });
+    const overlay = this.createExerciseScreen("Osservatorio del Pentagramma");
     this.drawMusicSessionHeader(overlay, puzzle, session);
     this.drawMusicStaff(overlay, puzzle, 350, 328);
     this.drawMusicSupport(overlay, puzzle, session);
@@ -5370,7 +5371,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private openRobot(): void {
     const puzzle = this.currentRobotPuzzle();
     const model = RobotConsole.fromPuzzle(puzzle);
-    const overlay = this.createOverlay(model.title, 660, { x: 40, y: 30, width: 1200 });
+    const overlay = this.createExerciseScreen(model.title);
     this.robotExecuting = false;
 
     const commandLimit = puzzle.maxCommands ?? puzzle.solutionCommands.length + 4;
@@ -6894,25 +6895,55 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return score;
   }
 
-  private createOverlay(
-    title: string,
-    height: number,
-    layout: { x?: number; y?: number; width?: number } = {},
-  ): Phaser.GameObjects.Container {
+  private createExerciseScreen(title: string): Phaser.GameObjects.Container {
     this.clearOverlay();
-    const width = layout.width ?? 800;
-    const defaultY = height > 660 ? 10 : 68;
-    const overlay = this.add.container(layout.x ?? 240, layout.y ?? defaultY).setDepth(1200);
+    const overlay = this.add.container(40, 0).setDepth(1200);
     SceneChrome.modalInputBlocker(this, overlay, overlay.x, overlay.y);
-    overlay.add(SceneChrome.consolePanel(this, 0, 0, width, height, title, "lab"));
-    overlay.add(new Button(this, width - 84, 40, "X", () => this.closeOverlayFromUser(), {
-      width: 48,
-      height: 40,
+    const backgroundKey = this.exerciseBackgroundKey();
+    if (this.textures.exists(backgroundKey)) {
+      overlay.add(this.add.image(600, 360, backgroundKey).setDisplaySize(1320, 742).setAlpha(0.34));
+    }
+    overlay.add(this.add.rectangle(600, 360, 1280, 720, 0x02080d, 0.82));
+    const grid = this.add.graphics();
+    grid.lineStyle(1, 0x6be7d6, 0.045);
+    for (let x = -160; x < 1320; x += 72) {
+      grid.lineBetween(x, 0, x - 128, 720);
+    }
+    for (let y = 92; y < 720; y += 58) {
+      grid.lineBetween(-40, y, 1240, y + 10);
+    }
+    overlay.add(grid);
+    overlay.add(this.add.rectangle(600, 34, 1280, 68, 0x06131c, 0.92));
+    overlay.add(this.add.rectangle(600, 68, 1280, 2, 0x6be7d6, 0.42));
+    overlay.add(this.add.text(0, 14, title, {
+      fontFamily: "Inter, Arial",
+      fontSize: "28px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 1080, useAdvancedWrap: true },
+      shadow: { offsetX: 0, offsetY: 3, color: "#000000", blur: 6, fill: true },
+    }));
+    overlay.add(new Button(this, 1184, 34, "X", () => this.closeOverlayFromUser(), {
+      width: 56,
+      height: 42,
       fontSize: 18,
       fill: 0x263743,
     }));
     this.overlay = overlay;
     return overlay;
+  }
+
+  private exerciseBackgroundKey(): string {
+    const kind = this.activePuzzleKind ?? "coding";
+    return {
+      language: "mission-bg-italian",
+      circuit: "mission-bg-electronics",
+      math: "mission-bg-math",
+      english: "mission-bg-english",
+      robot: "mission-bg-coding",
+      coding: "mission-bg-coding",
+      music: "mission-bg-music",
+    }[kind];
   }
 
   private addLanguageBrief(overlay: Phaser.GameObjects.Container, model: LanguageRepairModel): void {

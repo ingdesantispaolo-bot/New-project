@@ -279,7 +279,15 @@ export type GeneratedCodingPuzzle = {
   minigame?: GeneratedCodingMinigame;
 };
 
-export type CodingMinigameType = "sequence-builder" | "state-tracer" | "bug-hunt";
+export type CodingMinigameType =
+  | "sequence-builder"
+  | "state-tracer"
+  | "bug-hunt"
+  | "binary-bits"
+  | "logic-gate"
+  | "loop-output"
+  | "conditional-path"
+  | "algorithm-order";
 
 export type CodingMinigameTile = {
   id: string;

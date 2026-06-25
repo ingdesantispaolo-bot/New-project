@@ -4617,15 +4617,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
-    this.addMathPanel(overlay, 636, 112, 616, 432, "2 · Scegli il blocco mancante");
-    overlay.add(this.add.text(668, 154, "Come si gioca: segui il codice a sinistra, clicca UNA risposta e premi Conferma.", {
+    const isOrdering = prompt.type === "algorithm-order";
+    this.addMathPanel(overlay, 636, 112, 616, 432, isOrdering ? "2 · Ordina i passi" : "2 · Scegli il blocco mancante");
+    overlay.add(this.add.text(668, 154, isOrdering
+      ? "Tocca i passi nell'ordine giusto. Ritocca un passo per toglierlo."
+      : "Come si gioca: segui il codice a sinistra, clicca UNA risposta e premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: 532 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(668, 210, prompt.question, {
+    overlay.add(this.add.text(668, isOrdering ? 188 : 210, prompt.question, {
       fontFamily: "Inter, Arial",
       fontSize: prompt.question.length > 92 ? "16px" : "18px",
       color: "#f5fbff",
@@ -4633,28 +4636,31 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 532, useAdvancedWrap: true },
       lineSpacing: 5,
     }));
-    overlay.add(this.add.text(668, 288, prompt.methodSteps.join("  ->  "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      wordWrap: { width: 532, useAdvancedWrap: true },
-    }));
-
-    const tileStartX = 802;
-    const tileStartY = 356;
-    prompt.tiles.forEach((tile, index) => {
-      const selected = session.selectedIds.has(tile.id);
-      const col = index % 2;
-      const row = Math.floor(index / 2);
-      overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleCodingMinigameTile(tile.id), {
-        width: 218,
-        height: 52,
-        fontSize: tile.label.length > 34 ? 10 : tile.label.length > 22 ? 12 : 15,
-        wordWrapWidth: 198,
-        fill: selected ? 0x174d42 : 0x263743,
-        stroke: selected ? 0xf7d37a : 0x6be7d6,
+    if (isOrdering) {
+      this.renderCodingOrderingTiles(overlay, session, prompt);
+    } else {
+      overlay.add(this.add.text(668, 288, prompt.methodSteps.join("  ->  "), {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#f7d37a",
+        wordWrap: { width: 532, useAdvancedWrap: true },
       }));
-    });
+      const tileStartX = 802;
+      const tileStartY = 356;
+      prompt.tiles.forEach((tile, index) => {
+        const selected = session.selectedIds.has(tile.id);
+        const col = index % 2;
+        const row = Math.floor(index / 2);
+        overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleCodingMinigameTile(tile.id), {
+          width: 218,
+          height: 52,
+          fontSize: tile.label.length > 34 ? 10 : tile.label.length > 22 ? 12 : 15,
+          wordWrapWidth: 198,
+          fill: selected ? 0x174d42 : 0x263743,
+          stroke: selected ? 0xf7d37a : 0x6be7d6,
+        }));
+      });
+    }
 
     this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
     this.codingMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
@@ -4730,6 +4736,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       bestStreak: 0,
       netScore: 0,
       selectedIds: new Set<string>(),
+      orderedSelection: [],
       feedback: "Prima simula il codice: stato iniziale, trasformazione, risultato. Poi conferma.",
       locked: false,
       summaryOpen: false,
@@ -4812,6 +4819,59 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.openCodingMinigame(session.puzzle);
   }
 
+  private toggleCodingOrderTile(tileId: string): void {
+    const session = this.codingMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    if (session.orderedSelection.includes(tileId)) {
+      session.orderedSelection = session.orderedSelection.filter((id) => id !== tileId);
+    } else {
+      session.orderedSelection.push(tileId);
+    }
+    audioManager.play("click");
+    this.openCodingMinigame(session.puzzle);
+  }
+
+  private renderCodingOrderingTiles(
+    overlay: Phaser.GameObjects.Container,
+    session: CodingMinigameSession,
+    prompt: CodingMinigamePrompt,
+  ): void {
+    const labelOf = (id: string): string => prompt.tiles.find((tile) => tile.id === id)?.label ?? "";
+    const assembled = session.orderedSelection.map((id, position) => `${position + 1}. ${labelOf(id)}`).join("\n");
+    overlay.add(this.add.rectangle(668, 232, 556, 150, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.7));
+    overlay.add(this.add.text(684, 244, assembled.length > 0 ? assembled : "(tocca i passi qui sotto)", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: assembled.length > 0 ? "#f5fbff" : "#7da2af",
+      wordWrap: { width: 528 },
+      lineSpacing: 4,
+    }));
+
+    let tileY = 398;
+    prompt.tiles.forEach((tile) => {
+      const placedIndex = session.orderedSelection.indexOf(tile.id);
+      const placed = placedIndex >= 0;
+      const labelText = placed ? `${placedIndex + 1}. ${tile.label}` : tile.label;
+      overlay.add(new Button(this, 914, tileY, labelText, () => this.toggleCodingOrderTile(tile.id), {
+        width: 556,
+        height: 32,
+        fontSize: 12,
+        wordWrapWidth: 528,
+        fill: placed ? 0x174d42 : 0x263743,
+        stroke: placed ? 0xf7d37a : 0x6be7d6,
+      }));
+      tileY += 38;
+    });
+
+    overlay.add(new Button(this, 1150, 520, "Svuota", () => {
+      session.orderedSelection = [];
+      audioManager.play("cancel");
+      this.openCodingMinigame(session.puzzle);
+    }, { width: 110, height: 30, fontSize: 12, fill: 0x3a2525, stroke: 0xf6c85f }));
+  }
+
   private useCodingMinigameHint(): void {
     const session = this.codingMinigameSession;
     if (!session || session.locked || session.summaryOpen) {
@@ -4822,7 +4882,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? "Chiediti quale istruzione cambia lo stato verso l'obiettivo senza alterare altre variabili."
       : prompt.type === "state-tracer"
         ? "Fai una mini-tabella: dopo ogni riga scrivi solo i valori cambiati."
-        : "Nel debug non compensare l'errore: cerca la prima riga che viola il requisito.";
+        : prompt.type === "binary-bits"
+          ? "Ogni bit, da destra, vale 1, 2, 4, 8, 16...: somma le potenze di 2 dove c'è un 1."
+          : prompt.type === "logic-gate"
+            ? "AND vuole tutti veri; OR almeno uno vero; NOT inverte. Valuta una porta alla volta."
+            : prompt.type === "loop-output"
+              ? "Esegui il ciclo a mano: scrivi il valore della variabile dopo ogni giro."
+              : prompt.type === "conditional-path"
+                ? "Controlla le condizioni in ordine: si esegue il primo ramo che risulta vero."
+                : prompt.type === "algorithm-order"
+                  ? "Parti dall'obiettivo: qual è il primo passo indispensabile? Poi concatena in ordine."
+                  : "Nel debug non compensare l'errore: cerca la prima riga che viola il requisito.";
     session.feedback = hint;
     this.useHint(hint);
     this.openCodingMinigame(session.puzzle);
@@ -4838,17 +4908,38 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const prompt = this.currentCodingMinigamePrompt(session);
-    if (session.selectedIds.size === 0) {
-      session.feedback = "Prima seleziona una tessera. Il timer continua.";
-      audioManager.playOutcome("hint");
-      this.openCodingMinigame(session.puzzle);
-      return;
+    const ordering = prompt.type === "algorithm-order";
+    const solutionDisplay = ordering ? prompt.solutionLabels.join(" → ") : prompt.solutionLabels.join(", ");
+    let isCorrect: boolean;
+    let chosenLabel: string;
+    let wrongFeedback: string;
+    if (ordering) {
+      if (session.orderedSelection.length === 0) {
+        session.feedback = "Tocca i passi per comporre l'algoritmo. Il timer continua.";
+        audioManager.playOutcome("hint");
+        this.openCodingMinigame(session.puzzle);
+        return;
+      }
+      const assembled = session.orderedSelection.map((id) => prompt.tiles.find((tile) => tile.id === id)?.label ?? "");
+      chosenLabel = assembled.join(" → ");
+      isCorrect = assembled.length === prompt.solutionLabels.length
+        && assembled.every((step, position) => step === prompt.solutionLabels[position]);
+      wrongFeedback = "L'ordine dei passi non è ancora corretto.";
+    } else {
+      if (session.selectedIds.size === 0) {
+        session.feedback = "Prima seleziona una tessera. Il timer continua.";
+        audioManager.playOutcome("hint");
+        this.openCodingMinigame(session.puzzle);
+        return;
+      }
+      const selected = prompt.tiles.find((tile) => tile.id === [...session.selectedIds][0]);
+      isCorrect = Boolean(selected?.isCorrect);
+      chosenLabel = selected?.label ?? "nessuna";
+      wrongFeedback = selected?.feedback ?? "Scelta non coerente.";
     }
-    const selectedId = [...session.selectedIds][0];
-    const selected = prompt.tiles.find((tile) => tile.id === selectedId);
-    if (!selected?.isCorrect) {
-      const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
-      outcomeFeedback.answer(this, false, selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
+    if (!isCorrect) {
+      const message = `${wrongFeedback} Soluzione: ${solutionDisplay}. ${prompt.explanation}`;
+      outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
       if (this.isTimedMissionMode()) {
         this.codingMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
@@ -4875,7 +4966,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.netScore += award;
     session.feedback = `Corretto: ${prompt.explanation} +${award}`;
     session.locked = true;
-    outcomeFeedback.answer(this, true, selected.label, prompt.solutionLabels.join(", "), prompt.explanation);
+    outcomeFeedback.answer(this, true, chosenLabel, solutionDisplay, prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     this.advanceCodingMinigamePrompt(1900);
@@ -4900,6 +4991,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
       }
       session.selectedIds.clear();
+      session.orderedSelection = [];
       session.locked = false;
       this.openCodingMinigame(session.puzzle);
     });
@@ -5087,6 +5179,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     if (prompt.type === "state-tracer") {
       return "Metodo: usa una tabella mentale. Ogni assegnazione cambia il valore a sinistra dell'uguale.";
+    }
+    if (prompt.type === "binary-bits") {
+      return "Metodo: ogni bit da destra vale 1, 2, 4, 8, 16...; somma le potenze di 2 dove c'è un 1.";
+    }
+    if (prompt.type === "logic-gate") {
+      return "Metodo: valuta una porta alla volta. AND vuole tutti veri, OR almeno uno vero, NOT inverte.";
+    }
+    if (prompt.type === "loop-output") {
+      return "Metodo: esegui il ciclo a mano e scrivi il valore della variabile dopo ogni iterazione.";
+    }
+    if (prompt.type === "conditional-path") {
+      return "Metodo: valuta le condizioni in ordine; si esegue il primo ramo che risulta vero.";
+    }
+    if (prompt.type === "algorithm-order") {
+      return "Metodo: parti dall'obiettivo, scegli il primo passo necessario, poi concatena i passi in ordine.";
     }
     return "Metodo: calcola cosa dovrebbe succedere, poi trova la prima riga che rompe la regola.";
   }

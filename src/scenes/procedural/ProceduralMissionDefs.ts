@@ -142,6 +142,8 @@ export type CodingMinigameSession = {
   bestStreak: number;
   netScore: number;
   selectedIds: Set<string>;
+  /** Ordered tile ids for the "algorithm-order" minigame. */
+  orderedSelection: string[];
   feedback: string;
   locked: boolean;
   summaryOpen: boolean;

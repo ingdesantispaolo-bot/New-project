@@ -31,10 +31,36 @@ export class CodingPuzzleGenerator {
   ): GeneratedCodingPuzzle {
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<CodingMinigameType>(["sequence-builder", "state-tracer", "bug-hunt"]);
+      : random.pick<CodingMinigameType>(["sequence-builder", "state-tracer", "bug-hunt", "binary-bits", "logic-gate", "loop-output", "conditional-path", "algorithm-order"]);
     const game = buildCodingMinigame(random.fork(type), difficulty, type);
     const first = game.prompts[0];
-    const options = first.tiles.map((tile) => tile.label);
+    let options: string[];
+    let correctOption: string;
+    if (type === "algorithm-order") {
+      // Tiles are single steps; the repair-tab choices come from the full
+      // ordered algorithm plus plausible wrong orderings.
+      const ordered = first.solutionLabels.join(" → ");
+      const variants = new Set<string>();
+      const swap = (source: string[], i: number, j: number): string => {
+        const copy = [...source];
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+        return copy.join(" → ");
+      };
+      if (first.solutionLabels.length >= 2) variants.add(swap(first.solutionLabels, 0, 1));
+      if (first.solutionLabels.length >= 3) variants.add(swap(first.solutionLabels, first.solutionLabels.length - 2, first.solutionLabels.length - 1));
+      variants.add([...first.solutionLabels].reverse().join(" → "));
+      let guard = 0;
+      while (variants.size < 3 && guard < 20) {
+        variants.add(random.shuffle([...first.solutionLabels]).join(" → "));
+        guard += 1;
+      }
+      variants.delete(ordered);
+      options = random.shuffle([ordered, ...[...variants].slice(0, 3)]);
+      correctOption = ordered;
+    } else {
+      options = first.tiles.map((tile) => tile.label);
+      correctOption = first.solutionLabels[0];
+    }
     return {
       id: `coding-mini-${type}-${random.integer(1000, 9999)}`,
       title: game.title,
@@ -44,7 +70,7 @@ export class CodingPuzzleGenerator {
       codeLines: first.codeLines,
       question: first.question,
       options,
-      correctOption: first.solutionLabels[0],
+      correctOption,
       explanation: first.explanation,
       conceptTags: codingMinigameConcepts(type),
       methodSteps: codingMinigameMethodSteps(type),
@@ -92,11 +118,21 @@ function buildCodingMinigame(random: Random, difficulty: DifficultyPreset, type:
     "sequence-builder": "Minigioco coding: Completa il codice",
     "state-tracer": "Minigioco coding: Traccia la memoria",
     "bug-hunt": "Minigioco coding: Caccia al bug",
+    "binary-bits": "Minigioco coding: Codice binario",
+    "logic-gate": "Minigioco coding: Porte logiche",
+    "loop-output": "Minigioco coding: Output del ciclo",
+    "conditional-path": "Minigioco coding: Bivio condizionale",
+    "algorithm-order": "Minigioco coding: Ordina l'algoritmo",
   };
   const instructions: Record<CodingMinigameType, string> = {
     "sequence-builder": "clicca il prossimo blocco che completa una procedura corretta.",
     "state-tracer": "clicca il valore o lo stato prodotto dal codice.",
     "bug-hunt": "clicca la correzione che elimina la causa dell'errore.",
+    "binary-bits": "converti tra numero binario e decimale: scegli il valore giusto dei bit.",
+    "logic-gate": "valuta AND, OR, NOT e scegli il risultato vero/falso.",
+    "loop-output": "simula il ciclo aggiornando la variabile e scegli l'output finale.",
+    "conditional-path": "valuta la condizione e scegli quale ramo if/else viene eseguito.",
+    "algorithm-order": "tocca i passi nell'ordine giusto per comporre l'algoritmo.",
   };
   return {
     type,
@@ -113,6 +149,11 @@ function buildCodingMinigame(random: Random, difficulty: DifficultyPreset, type:
       ...(type === "sequence-builder" ? ["coding.decomposizione"] : []),
       ...(type === "state-tracer" ? ["coding.efficienza", "matematica.logica"] : []),
       ...(type === "bug-hunt" ? ["coding.debugging", "coding.controlloErrore"] : []),
+      ...(type === "binary-bits" ? ["matematica.logica", "coding.efficienza"] : []),
+      ...(type === "logic-gate" ? ["matematica.logica", "coding.controlloErrore"] : []),
+      ...(type === "loop-output" ? ["coding.efficienza", "matematica.logica"] : []),
+      ...(type === "conditional-path" ? ["coding.debugging", "matematica.logica"] : []),
+      ...(type === "algorithm-order" ? ["coding.decomposizione", "coding.sequenze"] : []),
     ])),
   };
 }
@@ -141,6 +182,11 @@ function buildCodingMinigamePrompt(
 ): CodingMinigamePrompt {
   if (type === "sequence-builder") return buildSequenceBuilderPrompt(random, difficulty, index);
   if (type === "state-tracer") return buildStateTracerPrompt(random, difficulty, index);
+  if (type === "binary-bits") return buildBinaryBitsPrompt(random, difficulty, index);
+  if (type === "logic-gate") return buildLogicGatePrompt(random, difficulty, index);
+  if (type === "loop-output") return buildLoopOutputPrompt(random, difficulty, index);
+  if (type === "conditional-path") return buildConditionalPathPrompt(random, difficulty, index);
+  if (type === "algorithm-order") return buildAlgorithmOrderPrompt(random, difficulty, index);
   return buildBugHuntPrompt(random, difficulty, index);
 }
 
@@ -274,6 +320,166 @@ function buildBugHuntPrompt(random: Random, difficulty: DifficultyPreset, index:
   return codingPromptFromItem(random, index, "bug-hunt", item, "Correzione corretta");
 }
 
+function distinctNumberDistractors(random: Random, correct: number, seeds: number[]): string[] {
+  const out: string[] = [];
+  const push = (value: number): void => {
+    if (value >= 0 && value !== correct && !out.includes(String(value))) {
+      out.push(String(value));
+    }
+  };
+  seeds.forEach(push);
+  let guard = 0;
+  while (out.length < 3 && guard < 30) {
+    push(correct + random.integer(-5, 5));
+    guard += 1;
+  }
+  return random.shuffle(out).slice(0, 3);
+}
+
+function buildBinaryBitsPrompt(random: Random, difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {
+  const max = difficulty.level >= 4 ? 31 : 15;
+  const value = random.integer(5, max);
+  const binary = value.toString(2);
+  const toDecimal = random.bool();
+  if (toDecimal) {
+    const distractors = distinctNumberDistractors(random, value, [value + 1, value - 1, parseInt([...binary].reverse().join(""), 2)]);
+    return codingPromptFromItem(random, index, "binary-bits", {
+      title: "Dal binario al decimale",
+      codeLines: ["# ogni bit vale una potenza di 2", `bits = "${binary}"`, "valore = ?"],
+      question: `Quanto vale il numero binario ${binary} in decimale?`,
+      correct: String(value),
+      distractors,
+      explanation: `Da destra i bit valgono 1, 2, 4, 8, 16...: sommi le potenze di 2 dove c'è un 1. Qui ${binary} vale ${value}.`,
+      concept: "binario → decimale",
+      methodSteps: ["scrivi il valore di ogni bit", "somma dove c'è 1", "confronta col target"],
+    }, "Valore decimale");
+  }
+  const distractors = [
+    (value + 1).toString(2),
+    (value - 1).toString(2),
+    value.toString(2).padStart(binary.length + 1, "1"),
+  ].filter((candidate, position, all) => candidate !== binary && all.indexOf(candidate) === position).slice(0, 3);
+  while (distractors.length < 3) {
+    const candidate = random.integer(1, max).toString(2);
+    if (candidate !== binary && !distractors.includes(candidate)) distractors.push(candidate);
+  }
+  return codingPromptFromItem(random, index, "binary-bits", {
+    title: "Dal decimale al binario",
+    codeLines: ["# scomponi il numero in potenze di 2", `numero = ${value}`, "bits = ?"],
+    question: `Come si scrive ${value} in binario?`,
+    correct: binary,
+    distractors,
+    explanation: `Dividi per 2 e leggi i resti dal basso, oppure togli la potenza di 2 più grande possibile. ${value} = ${binary}.`,
+    concept: "decimale → binario",
+    methodSteps: ["trova la potenza di 2 più grande", "togli e ripeti", "leggi i bit"],
+  }, "Numero binario");
+}
+
+function buildLogicGatePrompt(random: Random, _difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {
+  const expressions: Array<{ text: string; value: boolean }> = [
+    { text: "true AND false", value: false },
+    { text: "true OR false", value: true },
+    { text: "false OR false", value: false },
+    { text: "NOT false", value: true },
+    { text: "NOT true", value: false },
+    { text: "true AND true", value: true },
+    { text: "false AND true", value: false },
+    { text: "NOT (true AND false)", value: true },
+  ];
+  const wantTrue = random.bool();
+  const matching = expressions.filter((expression) => expression.value === wantTrue);
+  const others = expressions.filter((expression) => expression.value !== wantTrue);
+  const correct = random.pick(matching).text;
+  const distractors = random.shuffle(others).slice(0, 3).map((expression) => expression.text);
+  return codingPromptFromItem(random, index, "logic-gate", {
+    title: "Porte logiche",
+    codeLines: ["# AND: vero solo se tutti veri", "# OR: vero se almeno uno vero", "# NOT: inverte il valore"],
+    question: `Quale espressione vale ${wantTrue ? "TRUE" : "FALSE"}?`,
+    correct,
+    distractors,
+    explanation: "AND è vero solo se entrambi gli ingressi sono veri; OR se almeno uno è vero; NOT inverte il valore di verità.",
+    concept: "logica booleana (AND/OR/NOT)",
+    methodSteps: ["valuta ogni ingresso", "applica la porta", "scegli vero/falso"],
+  }, "Espressione corretta");
+}
+
+function buildLoopOutputPrompt(random: Random, difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {
+  const n = random.integer(3, difficulty.level >= 4 ? 6 : 4);
+  const mode = random.integer(0, 1);
+  if (mode === 0) {
+    const total = (n * (n + 1)) / 2;
+    return codingPromptFromItem(random, index, "loop-output", {
+      title: "Somma in un ciclo",
+      codeLines: ["total = 0", `for i in 1..${n}:`, "    total = total + i", "stampa total"],
+      question: "Che cosa stampa il programma?",
+      correct: String(total),
+      distractors: distinctNumberDistractors(random, total, [total - n, total + n, n]),
+      explanation: `total parte da 0 e a ogni giro aggiunge i (1, 2, ... ${n}). La somma 1+...+${n} fa ${total}.`,
+      concept: "ciclo + accumulatore",
+      methodSteps: ["leggi il range", "aggiorna total a ogni giro", "leggi l'output finale"],
+    }, "Output del ciclo");
+  }
+  const factor = random.integer(2, 3);
+  let value = 1;
+  for (let i = 0; i < n; i += 1) value *= factor;
+  return codingPromptFromItem(random, index, "loop-output", {
+    title: "Prodotto in un ciclo",
+    codeLines: ["value = 1", `for i in 1..${n}:`, `    value = value * ${factor}`, "stampa value"],
+    question: "Che cosa stampa il programma?",
+    correct: String(value),
+    distractors: distinctNumberDistractors(random, value, [value / factor, value * factor, factor * n]),
+    explanation: `value parte da 1 e viene moltiplicato per ${factor} per ${n} volte: ${factor}^${n} = ${value}.`,
+    concept: "ciclo + variabile",
+    methodSteps: ["leggi il valore iniziale", "applica l'operazione a ogni giro", "leggi l'output"],
+  }, "Output del ciclo");
+}
+
+function buildConditionalPathPrompt(random: Random, _difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {
+  const x = random.integer(0, 14);
+  const correct = x < 5 ? "LOW" : x < 10 ? "MID" : "HIGH";
+  const distractors = ["LOW", "MID", "HIGH", "ZERO"].filter((label) => label !== correct).slice(0, 3);
+  return codingPromptFromItem(random, index, "conditional-path", {
+    title: "Bivio condizionale",
+    codeLines: [`x = ${x}`, "if x < 5: stampa LOW", "elif x < 10: stampa MID", "else: stampa HIGH"],
+    question: "Quale parola stampa il programma?",
+    correct,
+    distractors,
+    explanation: `Le condizioni si controllano in ordine: con x = ${x} la prima vera porta a stampare ${correct}.`,
+    concept: "if / elif / else",
+    methodSteps: ["valuta la prima condizione", "se falsa passa alla successiva", "esegui il primo ramo vero"],
+  }, "Ramo eseguito");
+}
+
+function buildAlgorithmOrderPrompt(random: Random, difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {
+  const recipes = [
+    { goal: "spedire un messaggio sicuro", steps: ["scrivi il messaggio", "cifra il messaggio", "invia il messaggio", "conferma la ricezione"] },
+    { goal: "trovare il numero più grande in una lista", steps: ["prendi il primo numero come massimo", "scorri gli altri numeri", "se trovi un numero più grande aggiorna il massimo", "stampa il massimo"] },
+    { goal: "accendere il robot in sicurezza", steps: ["controlla la batteria", "avvia il sistema", "esegui il test sensori", "abilita il movimento"] },
+    { goal: "salvare un file", steps: ["apri il file", "scrivi i dati", "chiudi il file"] },
+  ];
+  const recipe = difficulty.level >= 4 ? random.pick(recipes) : random.pick(recipes.filter((entry) => entry.steps.length <= 4));
+  const steps = recipe.steps;
+  const tiles = shuffleCodingTiles(
+    random,
+    steps.map((step, position) => codingTile(index * 100 + position, step, true, "Passo dell'algoritmo: conta la sua posizione.")),
+  );
+  return {
+    id: `coding-algorithm-${index}`,
+    type: "algorithm-order",
+    title: "Ordina l'algoritmo",
+    codeLines: [`# Obiettivo: ${recipe.goal}`, "# Rimetti i passi nell'ordine giusto", `# Passi: ${random.shuffle([...steps]).length}`],
+    question: `In che ordine vanno i passi per ${recipe.goal}?`,
+    targetLabel: "Ordine corretto",
+    requiredSelectionCount: steps.length,
+    tiles,
+    solutionLabels: steps,
+    explanation: `Un algoritmo è una sequenza ordinata: per ${recipe.goal} ogni passo dipende dal precedente, quindi l'ordine conta.`,
+    concept: "pensiero algoritmico",
+    methodSteps: ["parti dall'obiettivo", "scegli il primo passo necessario", "concatena i passi in ordine"],
+    signature: `algorithm-${recipe.goal}`,
+  };
+}
+
 function codingPromptFromItem(
   random: Random,
   index: number,
@@ -327,18 +533,33 @@ function shuffleCodingTiles(random: Random, tiles: CodingMinigameTile[]): Coding
 function codingMinigameConcepts(type: CodingMinigameType): string[] {
   if (type === "sequence-builder") return ["sequenza", "decomposizione", "algoritmo"];
   if (type === "state-tracer") return ["variabili", "tracing", "cicli"];
+  if (type === "binary-bits") return ["sistema binario", "bit", "rappresentazione dei numeri"];
+  if (type === "logic-gate") return ["logica booleana", "AND/OR/NOT", "valori di verità"];
+  if (type === "loop-output") return ["cicli", "variabili", "accumulatore"];
+  if (type === "conditional-path") return ["condizioni", "if/else", "flusso del programma"];
+  if (type === "algorithm-order") return ["algoritmo", "sequenza", "decomposizione"];
   return ["debug", "condizioni", "controllo errore"];
 }
 
 function codingMinigameMethodSteps(type: CodingMinigameType): string[] {
   if (type === "sequence-builder") return ["obiettivo", "stato attuale", "prossimo blocco"];
   if (type === "state-tracer") return ["tabella variabili", "aggiorna stato", "stampa finale"];
+  if (type === "binary-bits") return ["valore dei bit", "somma le potenze di 2", "confronta col target"];
+  if (type === "logic-gate") return ["valuta gli ingressi", "applica la porta", "scegli vero/falso"];
+  if (type === "loop-output") return ["leggi il range", "aggiorna la variabile a ogni giro", "leggi l'output"];
+  if (type === "conditional-path") return ["valuta la condizione", "scegli il ramo", "leggi cosa stampa"];
+  if (type === "algorithm-order") return ["obiettivo", "primo passo", "passi in sequenza"];
   return ["risultato atteso", "prima rottura", "correzione minima"];
 }
 
 function codingMinigamePurpose(type: CodingMinigameType): string {
   if (type === "sequence-builder") return "Allenare costruzione di algoritmi brevi: scegliere il prossimo blocco coerente con obiettivo e stato.";
   if (type === "state-tracer") return "Allenare esecuzione mentale del codice: aggiornare variabili, cicli e output senza tirare a indovinare.";
+  if (type === "binary-bits") return "Capire come i computer rappresentano i numeri in binario: valore dei bit e conversione con le potenze di due.";
+  if (type === "logic-gate") return "Capire la logica booleana alla base dei circuiti e del codice: combinare AND, OR e NOT per ottenere vero o falso.";
+  if (type === "loop-output") return "Capire come un ciclo ripete istruzioni e come una variabile accumulatore cambia a ogni iterazione fino all'output.";
+  if (type === "conditional-path") return "Capire il flusso condizionale: valutare un'espressione e seguire il ramo if oppure else che viene eseguito.";
+  if (type === "algorithm-order") return "Allenare il pensiero algoritmico: scomporre un compito in passi e disporli nell'ordine corretto per farlo funzionare.";
   return "Allenare debugging: distinguere causa dell'errore, sintomo e correzione minima.";
 }
 

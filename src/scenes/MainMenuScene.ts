@@ -84,21 +84,18 @@ export class MainMenuScene extends Phaser.Scene {
     });
 
     const newMission = this.rect("menu:newMission", { x: 250, y: 374, width: 260 });
-    new Button(this, newMission.x, newMission.y, "Nuova Missione", () => {
-      this.startMissionGame();
-    }, { width: newMission.width });
-    new Button(this, 552, 374, this.isResumable(progressiveRun) ? "Riprendi Scalata" : "Scalata progressiva", () => {
-      if (this.isResumable(progressiveRun)) {
-        this.resumeProgressiveMission();
-      } else {
-        this.startProgressiveMission();
-      }
+    new Button(this, newMission.x, newMission.y, "La Storia", () => {
+      this.openMenuScene("CampaignScene", "Non sono riuscito ad aprire la storia. Riprova tra un istante.");
+    }, { width: newMission.width, fill: 0x1f5a51, stroke: 0xf6c85f, soundKey: "missionStart" });
+    new Button(this, 552, 374, "Scalata", () => {
+      this.showScalataTower();
     }, {
-      width: 206,
+      width: this.isResumable(progressiveRun) ? 206 : 302,
       height: 46,
       fill: this.isResumable(progressiveRun) ? 0x1f5a51 : 0x173b36,
       stroke: this.isResumable(progressiveRun) ? 0xf6c85f : 0x6be7d6,
-      fontSize: 13,
+      fontSize: 16,
+      soundKey: "progressiveStep",
     });
     if (this.isResumable(progressiveRun)) {
       new Button(this, 704, 374, "Reset", () => this.confirmProgressiveReset(progressiveRun), {
@@ -110,7 +107,7 @@ export class MainMenuScene extends Phaser.Scene {
       });
     }
     const continueButton = this.rect("menu:continue", { x: 250, y: 448, width: 260 });
-    new Button(this, continueButton.x, continueButton.y, this.isResumable(missionRun) ? "Riprendi Missione" : "Avvia Missione", () => {
+    new Button(this, continueButton.x, continueButton.y, this.isResumable(missionRun) ? "Riprendi Missione Rapida" : "Missione Rapida", () => {
       this.resumeMissionGame();
     }, {
       width: continueButton.width,
@@ -384,6 +381,93 @@ export class MainMenuScene extends Phaser.Scene {
       this.setMenuButtonsEnabled(true);
       this.showMenuError("Non sono riuscito a riprendere il focus. Riprova tra un istante.");
     });
+  }
+
+  private showScalataTower(): void {
+    if (this.transitioning) return;
+    saveSystem.load();
+    const run = saveSystem.getProceduralProgressiveRun();
+    const resumable = this.isResumable(run);
+    const maxLives = run?.maxLives ?? proceduralRunRules.maxLives;
+    const lives = run?.lives ?? maxLives;
+    const score = run?.score?.total ?? 0;
+    const currentLevel = run?.progressive?.currentLevel ?? 1;
+    const unlocked = Math.max(currentLevel, run?.progressive?.unlockedLevel ?? currentLevel);
+    const results = run?.progressive?.results ?? [];
+    const completedLevels = new Set<number>(results.filter((result) => result.completed).map((result) => result.level));
+
+    const modal = this.add.container(0, 0).setDepth(1500);
+    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
+    modal.add(this.add.rectangle(640, 360, 1180, 648, 0x07151d, 0.99).setStrokeStyle(2, 0x6be7d6, 0.6));
+    modal.add(this.add.text(120, 70, "La Scalata", { fontFamily: "Inter, Arial", fontSize: "38px", color: "#f5fbff", fontStyle: "bold" }));
+    modal.add(this.add.text(122, 120, "Prove a difficoltà crescente, una dopo l'altra, senza pause. Sali più in alto che puoi: ogni livello vale di più.", {
+      fontFamily: "Inter, Arial", fontSize: "15px", color: "#c7dce7", wordWrap: { width: 560 },
+    }));
+
+    // --- Tower (rungs 1..8, level 1 at the bottom) ---
+    const towerX = 360;
+    const baseY = 612;
+    const gap = 62;
+    const connector = this.add.graphics();
+    connector.lineStyle(6, 0x294958, 0.7);
+    connector.lineBetween(towerX, baseY, towerX, baseY - 7 * gap);
+    modal.add(connector);
+    for (let level = 1; level <= 8; level += 1) {
+      const y = baseY - (level - 1) * gap;
+      const done = completedLevels.has(level);
+      const isCurrent = level === currentLevel;
+      const locked = level > unlocked;
+      const color = done ? 0x2ed889 : isCurrent ? 0xf6c85f : locked ? 0x2a3a44 : 0x2f6f64;
+      modal.add(this.add.rectangle(towerX, y, isCurrent ? 320 : 280, isCurrent ? 40 : 34, color, locked ? 0.5 : 0.92)
+        .setStrokeStyle(2, isCurrent ? 0xffe6a0 : color, 0.9));
+      modal.add(this.add.text(towerX - 132, y - 9, `Livello ${level}`, {
+        fontFamily: "Inter, Arial", fontSize: "15px", color: locked ? "#5d7782" : "#06131c", fontStyle: "bold",
+      }));
+      const mark = done ? "✓ superato" : isCurrent ? "▶ sei qui" : locked ? "bloccato" : "raggiunto";
+      modal.add(this.add.text(towerX + 36, y - 8, mark, {
+        fontFamily: "Inter, Arial", fontSize: "12px", color: locked ? "#5d7782" : "#06131c", fontStyle: "bold",
+      }));
+      if (isCurrent) {
+        modal.add(this.add.circle(towerX + 150, y, 12, 0xf6c85f, 1).setStrokeStyle(2, 0xffe6a0, 0.9));
+        modal.add(this.add.text(towerX + 150, y, "E", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#06131c", fontStyle: "bold" }).setOrigin(0.5));
+      }
+    }
+    modal.add(this.add.text(towerX - 40, baseY + 30, "VETTA 8  ·  PARTENZA 1", { fontFamily: "Inter, Arial", fontSize: "11px", color: "#7da2af" }).setOrigin(0.5, 0));
+
+    // --- Stats panel ---
+    const statsX = 700;
+    const statsY = 232;
+    modal.add(this.add.rectangle(statsX, statsY, 470, 220, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.4));
+    modal.add(this.add.text(statsX + 24, statsY + 20, `Livello attuale: ${currentLevel}/8`, { fontFamily: "Inter, Arial", fontSize: "18px", color: "#f6c85f", fontStyle: "bold" }));
+    modal.add(this.add.text(statsX + 24, statsY + 54, `Record raggiunto: ${unlocked}/8`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9" }));
+    modal.add(this.add.text(statsX + 24, statsY + 92, "Vite:", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#d9eaf1" }));
+    for (let i = 0; i < maxLives; i += 1) {
+      modal.add(this.add.text(statsX + 96 + i * 34, statsY + 88, i < lives ? "♥" : "♡", {
+        fontFamily: "Inter, Arial", fontSize: "26px", color: i < lives ? "#ff6b6b" : "#4a5a64", fontStyle: "bold",
+      }));
+    }
+    modal.add(this.add.text(statsX + 24, statsY + 132, `Punteggio: ${score}`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9" }));
+    modal.add(this.add.text(statsX + 24, statsY + 166, resumable
+      ? "Riprendi da dove eri: la torre ricorda livello, vite e punti."
+      : "Nessuna scalata in corso: parti dal livello 1.", {
+      fontFamily: "Inter, Arial", fontSize: "12px", color: "#9aaab0", wordWrap: { width: 420 },
+    }));
+
+    // --- Actions ---
+    const close = (): void => modal.destroy(true);
+    if (resumable && run) {
+      modal.add(new Button(this, statsX + 130, 510, "Riprendi la scalata", () => { close(); this.resumeProgressiveMission(); }, {
+        width: 300, height: 56, fill: 0x1f5a51, stroke: 0xf6c85f, fontSize: 18, soundKey: "progressiveStep",
+      }));
+      modal.add(new Button(this, statsX + 360, 510, "Azzera", () => { close(); this.confirmProgressiveReset(run); }, {
+        width: 130, height: 56, fill: 0x3a2525, stroke: 0xf6c85f, fontSize: 14,
+      }));
+    } else {
+      modal.add(new Button(this, statsX + 180, 510, "Inizia la scalata", () => { close(); this.startProgressiveMission(); }, {
+        width: 380, height: 56, fill: 0x173b36, stroke: 0x6be7d6, fontSize: 18, soundKey: "progressiveStep",
+      }));
+    }
+    modal.add(new Button(this, 180, 660, "Indietro", close, { width: 180, height: 46, fill: 0x263743 }));
   }
 
   private startProgressiveMission(): void {

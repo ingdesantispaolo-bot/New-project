@@ -3355,21 +3355,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 5,
     }));
 
-    const tileStartX = 700;
-    const tileStartY = 334;
-    prompt.tiles.forEach((tile, index) => {
-      const selected = session.selectedIds.has(tile.id);
-      const col = index % 3;
-      const row = Math.floor(index / 3);
-      overlay.add(new Button(this, tileStartX + col * 186, tileStartY + row * 64, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleMathMinigameTile(tile.id), {
-        width: 164,
-        height: 48,
-        fontSize: tile.label.length > 12 ? 11 : 20,
-        wordWrapWidth: 142,
-        fill: selected ? 0x174d42 : 0x263743,
-        stroke: selected ? 0xf7d37a : 0x6be7d6,
-      }));
-    });
+    if (prompt.type === "expression-build") {
+      this.renderMathExpressionBuilder(overlay, session, prompt);
+    } else {
+      const tileStartX = 700;
+      const tileStartY = 334;
+      prompt.tiles.forEach((tile, index) => {
+        const selected = session.selectedIds.has(tile.id);
+        const col = index % 3;
+        const row = Math.floor(index / 3);
+        overlay.add(new Button(this, tileStartX + col * 186, tileStartY + row * 64, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleMathMinigameTile(tile.id), {
+          width: 164,
+          height: 48,
+          fontSize: tile.label.length > 12 ? 11 : 20,
+          wordWrapWidth: 142,
+          fill: selected ? 0x174d42 : 0x263743,
+          stroke: selected ? 0xf7d37a : 0x6be7d6,
+        }));
+      });
+    }
 
     this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
     this.mathMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
@@ -3451,6 +3455,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       bestStreak: 0,
       netScore: 0,
       selectedIds: new Set<string>(),
+      orderedSelection: [],
       feedback: "Scegli con metodo: una conferma sbagliata riduce il punteggio e in missione consuma una vita.",
       locked: false,
       summaryOpen: false,
@@ -3549,6 +3554,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (prompt.type === "factor-hunt") {
       return "Metodo: prova la divisione. Se il resto è zero, il numero rispetta il vincolo; altrimenti è un distrattore.";
     }
+    if (prompt.type === "number-sequence") {
+      return "Metodo: confronta termini vicini. Cerca una differenza fissa, un rapporto fisso o un passo che cresce.";
+    }
+    if (prompt.type === "expression-build") {
+      return "Metodo: la moltiplicazione si calcola prima di somma e sottrazione. Prova un operatore alla volta verso il bersaglio.";
+    }
     return "Metodo: simula mentalmente la rotta da sinistra a destra. Una trasformazione plausibile non basta: deve arrivare esattamente all'uscita.";
   }
 
@@ -3601,8 +3612,86 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     session.selectedIds.clear();
+    session.orderedSelection = [];
     session.feedback = "Scelta pulita. Ricomincia dalla regola, non dai pulsanti.";
     this.openMathMinigame(session.puzzle);
+  }
+
+  private appendMathOperator(op: string): void {
+    const session = this.mathMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    const prompt = this.currentMathMinigamePrompt(session);
+    if (session.orderedSelection.length >= prompt.requiredSelectionCount) {
+      return;
+    }
+    session.orderedSelection.push(op);
+    audioManager.play("click");
+    this.openMathMinigame(session.puzzle);
+  }
+
+  private evaluateOperatorInsertion(numbers: number[], operators: string[]): number {
+    const values = [...numbers];
+    const ops = [...operators];
+    for (let i = 0; i < ops.length;) {
+      if (ops[i] === "×") {
+        values.splice(i, 2, values[i] * values[i + 1]);
+        ops.splice(i, 1);
+      } else {
+        i += 1;
+      }
+    }
+    let result = values[0];
+    for (let i = 0; i < ops.length; i += 1) {
+      result = ops[i] === "+" ? result + values[i + 1] : result - values[i + 1];
+    }
+    return result;
+  }
+
+  private renderMathExpressionBuilder(
+    overlay: Phaser.GameObjects.Container,
+    session: MathMinigameSession,
+    prompt: MathMinigamePrompt,
+  ): void {
+    const numbers = prompt.numbers ?? [];
+    const ops = session.orderedSelection;
+    const parts: string[] = [];
+    numbers.forEach((value, position) => {
+      parts.push(String(value));
+      if (position < numbers.length - 1) {
+        parts.push(ops[position] ?? "▢");
+      }
+    });
+    const preview = `${parts.join(" ")}  =  ${ops.length === numbers.length - 1 ? this.evaluateOperatorInsertion(numbers, ops) : "?"}`;
+    overlay.add(this.add.rectangle(700, 300, 540, 60, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.7));
+    overlay.add(this.add.text(720, 318, preview, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(700, 372, `Bersaglio: ${prompt.target ?? "?"}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#f6c85f",
+      fontStyle: "bold",
+    }));
+
+    prompt.tiles.forEach((tile, index) => {
+      overlay.add(new Button(this, 740 + index * 150, 446, tile.label, () => this.appendMathOperator(tile.label), {
+        width: 120,
+        height: 64,
+        fontSize: 30,
+        fill: 0x263743,
+        stroke: 0x6be7d6,
+      }));
+    });
+    overlay.add(new Button(this, 1148, 446, "← Cancella", () => {
+      session.orderedSelection = session.orderedSelection.slice(0, -1);
+      audioManager.play("cancel");
+      this.openMathMinigame(session.puzzle);
+    }, { width: 150, height: 48, fontSize: 14, fill: 0x3a2525, stroke: 0xf6c85f }));
   }
 
   private useMathMinigameHint(): void {
@@ -3615,7 +3704,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? "Scomponi il bersaglio: cerca prima una coppia o una terna che non superi il totale."
       : prompt.type === "factor-hunt"
         ? "Per multipli e divisori controlla il resto della divisione: resto zero significa tessera valida."
-        : "Parti dal valore iniziale e simula la prima operazione prima di guardare la seconda.";
+        : prompt.type === "number-sequence"
+          ? "Calcola la differenza (o il rapporto) tra termini vicini: la regola spesso si ripete."
+          : prompt.type === "expression-build"
+            ? "Ricorda che la moltiplicazione si calcola prima di somma e sottrazione: provala per avvicinarti al bersaglio."
+            : "Parti dal valore iniziale e simula la prima operazione prima di guardare la seconda.";
     session.feedback = hint;
     this.useHint(hint);
     this.openMathMinigame(session.puzzle);
@@ -3631,19 +3724,34 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const prompt = this.currentMathMinigamePrompt(session);
-    if (session.selectedIds.size === 0) {
-      session.feedback = "Prima scegli una o più tessere, poi conferma. Il timer continua.";
-      audioManager.playOutcome("hint");
-      this.openMathMinigame(session.puzzle);
-      return;
+    let exactSelection: boolean;
+    let selectedLabels: string;
+    if (prompt.type === "expression-build") {
+      const numbers = prompt.numbers ?? [];
+      if (session.orderedSelection.length < prompt.requiredSelectionCount) {
+        session.feedback = "Inserisci tutti gli operatori tra i numeri, poi conferma. Il timer continua.";
+        audioManager.playOutcome("hint");
+        this.openMathMinigame(session.puzzle);
+        return;
+      }
+      const value = this.evaluateOperatorInsertion(numbers, session.orderedSelection);
+      selectedLabels = numbers.map((n, i) => i < session.orderedSelection.length ? `${n} ${session.orderedSelection[i]} ` : `${n}`).join("").trim();
+      exactSelection = value === (prompt.target ?? NaN);
+    } else {
+      if (session.selectedIds.size === 0) {
+        session.feedback = "Prima scegli una o più tessere, poi conferma. Il timer continua.";
+        audioManager.playOutcome("hint");
+        this.openMathMinigame(session.puzzle);
+        return;
+      }
+      const correctIds = new Set(prompt.tiles.filter((tile) => tile.isCorrect).map((tile) => tile.id));
+      selectedLabels = prompt.tiles
+        .filter((tile) => session.selectedIds.has(tile.id))
+        .map((tile) => tile.label)
+        .join(", ");
+      exactSelection = session.selectedIds.size === correctIds.size
+        && [...session.selectedIds].every((id) => correctIds.has(id));
     }
-    const correctIds = new Set(prompt.tiles.filter((tile) => tile.isCorrect).map((tile) => tile.id));
-    const selectedLabels = prompt.tiles
-      .filter((tile) => session.selectedIds.has(tile.id))
-      .map((tile) => tile.label)
-      .join(", ");
-    const exactSelection = session.selectedIds.size === correctIds.size
-      && [...session.selectedIds].every((id) => correctIds.has(id));
     if (!exactSelection) {
       const message = `Scelta non certificabile (${selectedLabels || "nessuna"}). Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
       outcomeFeedback.answer(this, false, selectedLabels || "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
@@ -3698,6 +3806,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
       }
       session.selectedIds.clear();
+      session.orderedSelection = [];
       session.locked = false;
       this.openMathMinigame(session.puzzle);
     });

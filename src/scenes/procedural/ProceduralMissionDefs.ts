@@ -81,6 +81,8 @@ export type MathMinigameSession = {
   bestStreak: number;
   netScore: number;
   selectedIds: Set<string>;
+  /** Ordered operator tile ids for the "expression-build" minigame. */
+  orderedSelection: string[];
   feedback: string;
   locked: boolean;
   summaryOpen: boolean;

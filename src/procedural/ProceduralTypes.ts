@@ -73,7 +73,7 @@ export type GeneratedObjective = {
   competencies: string[];
 };
 
-export type MathMinigameType = "target-sum" | "factor-hunt" | "operation-chain";
+export type MathMinigameType = "target-sum" | "factor-hunt" | "operation-chain" | "number-sequence" | "expression-build";
 
 export type MathMinigameTile = {
   id: string;
@@ -93,6 +93,10 @@ export type MathMinigamePrompt = {
   solutionLabels: string[];
   explanation: string;
   concept: string;
+  /** Fixed operands for the "expression-build" (operator insertion) minigame. */
+  numbers?: number[];
+  /** Target value for the "expression-build" minigame. */
+  target?: number;
   signature: string;
 };
 

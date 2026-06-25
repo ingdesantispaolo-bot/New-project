@@ -150,7 +150,7 @@ export class MathPuzzleGenerator {
   ): GeneratedMathPuzzle {
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<MathMinigameType>(["target-sum", "factor-hunt", "operation-chain"]);
+      : random.pick<MathMinigameType>(["target-sum", "factor-hunt", "operation-chain", "number-sequence", "expression-build"]);
     const minigame = this.buildMinigame(random.fork(type), difficulty, type);
     const first = minigame.prompts[0];
     const firstSolution = first.solutionLabels.join(" + ");
@@ -217,11 +217,15 @@ export class MathPuzzleGenerator {
       "target-sum": "Minigioco: Somma al bersaglio",
       "factor-hunt": "Minigioco: Caccia a multipli e divisori",
       "operation-chain": "Minigioco: Rotte delle operazioni",
+      "number-sequence": "Minigioco: Indovina la sequenza",
+      "expression-build": "Minigioco: Colpisci il bersaglio",
     };
     const instructions: Record<MathMinigameType, string> = {
       "target-sum": "seleziona solo le tessere che raggiungono il bersaglio esatto.",
       "factor-hunt": "seleziona tutti e soli i numeri che rispettano il vincolo.",
       "operation-chain": "scegli la trasformazione che porta dall'ingresso all'uscita.",
+      "number-sequence": "scopri la regola della sequenza e scegli il numero che continua.",
+      "expression-build": "inserisci gli operatori tra i numeri per ottenere il bersaglio.",
     };
     return {
       type,
@@ -236,6 +240,8 @@ export class MathPuzzleGenerator {
         "problemSolving",
         ...(type === "factor-hunt" ? ["matematica.multipliDivisori"] : []),
         ...(type === "operation-chain" ? ["matematica.espressioni", "matematica.controlloErrore"] : []),
+        ...(type === "number-sequence" ? ["matematica.logica"] : []),
+        ...(type === "expression-build" ? ["matematica.espressioni", "matematica.operazioni"] : []),
       ])),
     };
   }
@@ -708,6 +714,12 @@ export class MathPuzzleGenerator {
     if (type === "factor-hunt") {
       return this.buildFactorHuntPrompt(random, difficulty, index);
     }
+    if (type === "number-sequence") {
+      return this.buildNumberSequencePrompt(random, difficulty, index);
+    }
+    if (type === "expression-build") {
+      return this.buildExpressionBuildPrompt(random, difficulty, index);
+    }
     return this.buildOperationChainPrompt(random, difficulty, index);
   }
 
@@ -912,11 +924,147 @@ export class MathPuzzleGenerator {
     };
   }
 
+  private buildNumberSequencePrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
+    const mode = random.integer(0, 3);
+    let terms: number[];
+    let next: number;
+    let rule: string;
+    if (mode === 0) {
+      const start = random.integer(1, 6);
+      const step = random.integer(2, 3 + difficulty.level);
+      terms = [start, start + step, start + 2 * step, start + 3 * step];
+      next = start + 4 * step;
+      rule = `si aggiunge sempre ${step}`;
+    } else if (mode === 1) {
+      const start = random.integer(1, 3);
+      const ratio = random.integer(2, 3);
+      terms = [start, start * ratio, start * ratio * ratio, start * ratio * ratio * ratio];
+      next = terms[3] * ratio;
+      rule = `si moltiplica sempre per ${ratio}`;
+    } else if (mode === 2) {
+      const start = random.integer(1, 4);
+      terms = [start, start + 1, start + 3, start + 6];
+      next = start + 10;
+      rule = "si aggiunge 1, poi 2, poi 3, poi 4 (passo crescente)";
+    } else {
+      const base = random.integer(1, 3);
+      terms = [base * base, (base + 1) * (base + 1), (base + 2) * (base + 2), (base + 3) * (base + 3)];
+      next = (base + 4) * (base + 4);
+      rule = "sono numeri quadrati consecutivi";
+    }
+    const distractorValues = new Set<number>();
+    [next + 1, next - 1, next + (terms[1] - terms[0]), next * 2 - terms[3]].forEach((value) => {
+      if (value !== next && value > 0) distractorValues.add(value);
+    });
+    let guard = 0;
+    while (distractorValues.size < 3 && guard < 20) {
+      const candidate = next + random.integer(-6, 6);
+      if (candidate !== next && candidate > 0) distractorValues.add(candidate);
+      guard += 1;
+    }
+    const options = [next, ...[...distractorValues].slice(0, 3)];
+    const tiles = this.shuffleTiles(random, options.map((value, tileIndex) => ({
+      id: `seq-${index}-${tileIndex}`,
+      label: `${value}`,
+      value,
+      isCorrect: value === next,
+      feedback: value === next ? `${value} continua la sequenza.` : `${value} non rispetta la regola: ${rule}.`,
+    })));
+    return {
+      id: `number-sequence-${index}`,
+      type: "number-sequence",
+      prompt: `Quale numero continua la sequenza ${terms.join(", ")}, ... ?`,
+      targetLabel: `${terms.join("  ,  ")}  ,  ?`,
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [String(next)],
+      explanation: `Regola: ${rule}. Dopo ${terms[3]} viene ${next}.`,
+      concept: "sequenze numeriche",
+      signature: `seq-${terms.join("-")}-${next}`,
+    };
+  }
+
+  private evaluateOperatorInsertion(numbers: number[], operators: string[]): number {
+    const values = [...numbers];
+    const ops = [...operators];
+    for (let i = 0; i < ops.length;) {
+      if (ops[i] === "×") {
+        values.splice(i, 2, values[i] * values[i + 1]);
+        ops.splice(i, 1);
+      } else {
+        i += 1;
+      }
+    }
+    let result = values[0];
+    for (let i = 0; i < ops.length; i += 1) {
+      result = ops[i] === "+" ? result + values[i + 1] : result - values[i + 1];
+    }
+    return result;
+  }
+
+  private buildExpressionBuildPrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
+    const count = difficulty.level >= 5 ? 4 : 3;
+    const allowed = difficulty.level >= 3 ? ["+", "-", "×"] : ["+", "-"];
+    for (let attempt = 0; attempt < 30; attempt += 1) {
+      const numbers = Array.from({ length: count }, () => random.integer(2, 9));
+      const operators = Array.from({ length: count - 1 }, () => random.pick(allowed));
+      const target = this.evaluateOperatorInsertion(numbers, operators);
+      if (target < 0 || target > 99 || numbers.includes(target)) {
+        continue;
+      }
+      const tiles = ["+", "-", "×"].filter((op) => allowed.includes(op)).map((op, tileIndex) => ({
+        id: `op-${index}-${tileIndex}`,
+        label: op,
+        isCorrect: false,
+        feedback: "Operatore disponibile.",
+      }));
+      return {
+        id: `expression-build-${index}`,
+        type: "expression-build",
+        prompt: `Inserisci gli operatori tra ${numbers.join(", ")} per ottenere ${target}. Ricorda: la moltiplicazione si calcola prima.`,
+        targetLabel: `Bersaglio: ${target}`,
+        requiredSelectionCount: count - 1,
+        tiles,
+        solutionLabels: [numbers.join(` ${operators.join("? ")}? `).trim(), `= ${target}`],
+        explanation: `Una soluzione: ${numbers.map((n, i) => i < operators.length ? `${n} ${operators[i]} ` : `${n}`).join("")} = ${target} (× prima di + e -).`,
+        concept: "ordine delle operazioni",
+        numbers,
+        target,
+        signature: `expr-${numbers.join("-")}-${target}`,
+      };
+    }
+    // Safe fallback: simple addition target.
+    const numbers = [random.integer(2, 6), random.integer(2, 6), random.integer(2, 6)];
+    const target = numbers[0] + numbers[1] + numbers[2];
+    const tiles = ["+", "-"].map((op, tileIndex) => ({ id: `op-${index}-${tileIndex}`, label: op, isCorrect: false, feedback: "Operatore disponibile." }));
+    return {
+      id: `expression-build-${index}`,
+      type: "expression-build",
+      prompt: `Inserisci gli operatori tra ${numbers.join(", ")} per ottenere ${target}.`,
+      targetLabel: `Bersaglio: ${target}`,
+      requiredSelectionCount: 2,
+      tiles,
+      solutionLabels: [`${numbers.join(" + ")}`, `= ${target}`],
+      explanation: `${numbers.join(" + ")} = ${target}.`,
+      concept: "ordine delle operazioni",
+      numbers,
+      target,
+      signature: `expr-fallback-${numbers.join("-")}`,
+    };
+  }
+
   private answerProxy(prompt: MathMinigamePrompt): number {
     if (prompt.type === "operation-chain") {
       const parts = prompt.targetLabel.split("->");
       const target = Number(parts[parts.length - 1]?.trim());
       return Number.isFinite(target) ? Math.max(0, Math.min(9999, target)) : 0;
+    }
+    if (prompt.type === "expression-build") {
+      return Math.max(0, Math.min(9999, prompt.target ?? 0));
+    }
+    if (prompt.type === "number-sequence") {
+      const correct = prompt.tiles.find((tile) => tile.isCorrect)?.value ?? 0;
+      return Math.max(0, Math.min(9999, correct));
     }
     const total = prompt.tiles.filter((tile) => tile.isCorrect).reduce((sum, tile) => sum + (tile.value ?? 0), 0);
     return Math.max(0, Math.min(9999, total));

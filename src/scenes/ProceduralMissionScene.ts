@@ -35,6 +35,9 @@ import type {
   GeneratedFocusChallenge,
   GeneratedGraphWorkshop,
   GeneratedCodingPuzzle,
+  CircuitMinigamePrompt,
+  CircuitMinigameVisual,
+  GeneratedCircuitMinigame,
   GeneratedCircuitPuzzle,
   GeneratedCodingMinigame,
   GeneratedEnglishMinigame,
@@ -72,6 +75,7 @@ import {
   commandLabels,
   faultLabels,
   repairLabels,
+  type CircuitMinigameSession,
   type CodingMinigameSession,
   type EnglishMinigameSession,
   type LanguageMinigameSession,
@@ -142,6 +146,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private codingMinigameTimerEvent?: Phaser.Time.TimerEvent;
   private codingMinigameTimerText?: Phaser.GameObjects.Text;
   private codingMinigameSession?: CodingMinigameSession;
+  private circuitMinigameTimerEvent?: Phaser.Time.TimerEvent;
+  private circuitMinigameTimerText?: Phaser.GameObjects.Text;
+  private circuitMinigameSession?: CircuitMinigameSession;
   private missionFailureInProgress = false;
   private timeoutSolutionOpen = false;
   private progressiveOutcomeOpen = false;
@@ -1530,6 +1537,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private openCircuit(): void {
     const puzzle = this.currentCircuitPuzzle();
+    if (puzzle.minigame) {
+      this.openCircuitMinigame(puzzle);
+      return;
+    }
     const model = CircuitConsole.fromPuzzle(puzzle);
     const overlay = this.createExerciseScreen(model.title);
     overlay.add(this.add.text(48, 72, model.difficultyLabel.toUpperCase(), {
@@ -5590,7 +5601,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private previewMusicChallenge(puzzle: GeneratedMusicPuzzle): void {
-    if (puzzle.challengeMode === "rhythm-gap" && puzzle.rhythmPattern) {
+    if ((puzzle.challengeMode === "rhythm-gap" || puzzle.challengeMode === "note-duration") && puzzle.rhythmPattern) {
       audioManager.playToneSequence(puzzle.rhythmPattern.cells.map((cell) => ({
         frequency: cell.missing ? 0 : 740,
         durationMs: Math.max(130, cell.beats * 260),
@@ -5650,11 +5661,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.drawMusicRhythmBoard(overlay, puzzle, centerX, centerY);
       return;
     }
+    if (puzzle.challengeMode === "note-duration" && puzzle.rhythmPattern) {
+      this.drawMusicDurationBoard(overlay, puzzle, centerX, centerY);
+      return;
+    }
     overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
     overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
     overlay.add(this.add.image(centerX, centerY, "soft-glow").setTint(0x6be7d6).setAlpha(0.08).setScale(4.2, 2.2));
     overlay.add(this.add.rectangle(centerX, centerY - 2, 536, 190, 0x02070b, 0.28).setStrokeStyle(1, 0xf7d37a, 0.12));
-    overlay.add(this.add.text(centerX - 260, centerY - 142, `${puzzle.challengeMode === "interval-jump" ? "Salto melodico" : "Caccia alla nota"} · ${puzzle.clef === "treble" ? "chiave di violino" : "chiave di basso"}`, {
+    overlay.add(this.add.text(centerX - 260, centerY - 142, `${puzzle.challengeMode === "interval-jump" ? "Salto melodico" : puzzle.challengeMode === "scale-step" ? "Gradi della scala" : "Caccia alla nota"} · ${puzzle.clef === "treble" ? "chiave di violino" : "chiave di basso"}`, {
       fontFamily: "Inter, Arial",
       fontSize: "16px",
       color: "#9ff5e9",
@@ -5748,6 +5763,35 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
     overlay.add(this.add.text(centerX - 260, centerY + 136, `Totale richiesto: ${pattern.beatsPerMeasure} battiti. Somma le figure visibili e trova la differenza.`, {
       fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", wordWrap: { width: 520 },
+    }));
+  }
+
+  private drawMusicDurationBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
+    const cells = puzzle.rhythmPattern?.cells ?? [];
+    overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
+    overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
+    overlay.add(this.add.text(centerX - 260, centerY - 142, "Valore delle figure · durata relativa", {
+      fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9", fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(centerX - 260, centerY - 112, "Più lunga è la barra, più dura la figura.", {
+      fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1",
+    }));
+    const rowHeight = Math.min(56, 240 / Math.max(1, cells.length));
+    const maxBeats = 4;
+    cells.forEach((cell, index) => {
+      const y = centerY - 70 + index * rowHeight;
+      const barWidth = Math.max(28, (cell.beats / maxBeats) * 360);
+      overlay.add(this.add.text(centerX - 250, y, cell.label, {
+        fontFamily: "Inter, Arial", fontSize: "15px", color: "#f5fbff", fontStyle: "bold",
+      }).setOrigin(0, 0.5));
+      overlay.add(this.add.rectangle(centerX - 70, y, barWidth, rowHeight - 16, 0x1f5a51, 0.95)
+        .setOrigin(0, 0.5).setStrokeStyle(2, 0x6be7d6, 0.8));
+      overlay.add(this.add.text(centerX - 70 + barWidth + 10, y, cell.beats === 0.5 ? "½" : `${cell.beats}`, {
+        fontFamily: "Inter, Arial", fontSize: "13px", color: "#9aaab0",
+      }).setOrigin(0, 0.5));
+    });
+    overlay.add(this.add.text(centerX - 260, centerY + 128, "Semibreve 4 · Minima 2 · Semiminima 1 · Croma ½ (ogni figura vale metà della precedente).", {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 520 },
     }));
   }
 
@@ -6152,6 +6196,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (puzzle.challengeMode === "rhythm-gap") {
       return `Battito mancante: completa la battuta da ${puzzle.rhythmPattern?.beatsPerMeasure ?? 4} contando il valore delle figure.`;
     }
+    if (puzzle.challengeMode === "scale-step") {
+      return "Gradi della scala: leggi la nota mostrata e scegli quella che la segue (o precede) nella scala Do-Re-Mi-Fa-Sol-La-Si.";
+    }
+    if (puzzle.challengeMode === "note-duration") {
+      return "Valore delle figure: confronta le durate delle figure musicali e rispondi alla domanda.";
+    }
     if (puzzle.answerMode === "note-name") {
       return "Obiettivo: riconosci il nome della nota il più rapidamente possibile. Guarda la chiave, trova la nota guida e conta linee/spazi.";
     }
@@ -6164,6 +6214,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     if (puzzle.challengeMode === "rhythm-gap") {
       return "Modalità ritmo: ogni figura occupa una durata; la battuta è completa solo quando la somma coincide con il metro.";
+    }
+    if (puzzle.challengeMode === "scale-step") {
+      return "Modalità scala: la successione dei gradi è Do-Re-Mi-Fa-Sol-La-Si e poi ricomincia. Muoviti di un grado dalla nota mostrata.";
+    }
+    if (puzzle.challengeMode === "note-duration") {
+      return "Modalità durate: ogni figura vale la metà della precedente (semibreve 4, minima 2, semiminima 1, croma ½).";
     }
     if (puzzle.answerMode === "note-name") {
       return "Modalità rapida: conta la posizione e scegli solo il nome della nota. L'ottava verrà allenata nei livelli avanzati.";
@@ -6187,6 +6243,23 @@ export class ProceduralMissionScene extends Phaser.Scene {
         `Risposta corretta: ${correct}.`,
         `Prima nota: ${puzzle.noteName}${puzzle.octave}; seconda: ${puzzle.secondaryNote.noteName}${puzzle.secondaryNote.octave}.`,
         "Confronta l'altezza per la direzione e conta i nomi per la distanza.",
+        puzzle.method,
+      ];
+    }
+    const correctAny = puzzle.choices.find((choice) => choice.isCorrect)?.label ?? puzzle.noteName;
+    if (puzzle.challengeMode === "note-duration") {
+      return [
+        `Risposta corretta: ${correctAny}.`,
+        "Valori: semibreve 4, minima 2, semiminima 1, croma ½ movimento.",
+        "Ogni figura dura la metà della precedente.",
+        puzzle.method,
+      ];
+    }
+    if (puzzle.challengeMode === "scale-step") {
+      return [
+        `Risposta corretta: ${correctAny}.`,
+        `Nota mostrata: ${puzzle.noteName}.`,
+        "Successione dei gradi: Do Re Mi Fa Sol La Si, poi di nuovo Do.",
         puzzle.method,
       ];
     }
@@ -7739,6 +7812,538 @@ export class ProceduralMissionScene extends Phaser.Scene {
     };
   }
 
+  // --- Circuit minigame (quick electronics sprint) -------------------------
+
+  private openCircuitMinigame(puzzle: GeneratedCircuitPuzzle): void {
+    if (!puzzle.minigame) {
+      return;
+    }
+    const puzzleId = this.currentPuzzleId("circuit");
+    const session = this.ensureCircuitMinigameSession(puzzleId, puzzle, puzzle.minigame);
+    const overlay = this.createMathOverlay(puzzle.minigame.title, "Elettronica · leggi lo schema, scegli la risposta, conferma");
+    const prompt = this.currentCircuitMinigamePrompt(session);
+    const remaining = this.circuitMinigameRemainingMs(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+
+    this.addMathPanel(overlay, 28, 112, 560, 432, "1 · Leggi lo schema");
+    overlay.add(this.add.text(60, 154, prompt.title, {
+      fontFamily: "Inter, Arial",
+      fontSize: "22px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.rectangle(60, 200, 500, 196, 0x07151d, 0.85).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.3));
+    if (prompt.visual) {
+      this.drawCircuitMinigameSchematic(overlay, prompt.visual, prompt.diagramLines);
+    } else {
+      overlay.add(this.add.text(80, 218, prompt.diagramLines.join("\n"), {
+        fontFamily: "Inter, Arial",
+        fontSize: "16px",
+        color: "#9ff5e9",
+        lineSpacing: 8,
+        wordWrap: { width: 460 },
+      }));
+    }
+    overlay.add(this.add.text(60, 470, `Concetto: ${prompt.concept}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+      wordWrap: { width: 500 },
+    }));
+    overlay.add(this.add.text(60, 498, this.circuitMinigameMethodText(prompt), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9aaab0",
+      wordWrap: { width: 506, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+
+    this.addMathPanel(overlay, 616, 112, 636, 432, "2 · Scegli la risposta");
+    overlay.add(this.add.text(648, 154, "Come si gioca: leggi lo schema, clicca UNA risposta e premi Conferma.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 548 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(648, 210, prompt.question, {
+      fontFamily: "Inter, Arial",
+      fontSize: prompt.question.length > 92 ? "16px" : "18px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 548, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+
+    const tileStartX = 802;
+    const tileStartY = 320;
+    prompt.tiles.forEach((tile, index) => {
+      const selected = session.selectedIds.has(tile.id);
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 70, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleCircuitMinigameTile(tile.id), {
+        width: 226,
+        height: 54,
+        fontSize: tile.label.length > 26 ? 11 : tile.label.length > 16 ? 13 : 16,
+        wordWrapWidth: 204,
+        fill: selected ? 0x174d42 : 0x263743,
+        stroke: selected ? 0xf7d37a : 0x6be7d6,
+      }));
+    });
+
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
+    this.circuitMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
+      fontStyle: "bold",
+    });
+    overlay.add(this.circuitMinigameTimerText);
+    overlay.add(this.add.text(260, 592, [
+      `Corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie: ${session.streak}`,
+      `Punti: ${session.netScore}`,
+    ].join("   "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 640 },
+      lineSpacing: 4,
+    }));
+    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: session.feedback ? "#f7d37a" : "#9aaab0",
+      wordWrap: { width: 390, useAdvancedWrap: true },
+    }));
+    overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmCircuitMinigamePrompt(), {
+      width: 220,
+      height: 44,
+      fontSize: 14,
+      fill: 0x173b36,
+    }));
+    overlay.add(new Button(this, 820, 640, "Indizio", () => this.useCircuitMinigameHint(), {
+      width: 180,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+
+    this.circuitMinigameTimerEvent?.remove(false);
+    this.circuitMinigameTimerEvent = this.time.addEvent({
+      delay: 250,
+      loop: true,
+      callback: () => this.refreshCircuitMinigameTimer(),
+    });
+    this.refreshCircuitMinigameTimer();
+  }
+
+  private drawCircuitMinigameSchematic(
+    overlay: Phaser.GameObjects.Container,
+    visual: CircuitMinigameVisual,
+    captionLines: string[],
+  ): void {
+    if (visual.kind === "component") {
+      overlay.add(this.add.text(80, 214, "Osserva il simbolo:", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#9aaab0",
+      }));
+      const cx = 310;
+      const cy = 312;
+      const color = 0x9ff5e9;
+      switch (visual.component) {
+        case "battery": drawBatterySymbol(this, overlay, cx, cy, 0xf6c85f); break;
+        case "switch": drawSwitchSymbol(this, overlay, cx, cy, color, true, false); break;
+        case "resistor": drawResistorSymbol(this, overlay, cx, cy, color, false, false); break;
+        case "led": drawLedSymbol(this, overlay, cx, cy, color, false, false, false); break;
+        case "capacitor": drawCapacitorSymbol(this, overlay, cx, cy, color, false); break;
+        case "sensor": drawSensorSymbol(this, overlay, cx, cy, color, false); break;
+        case "relay": drawRelaySymbol(this, overlay, cx, cy, color, false); break;
+        case "motor": drawMotorSymbol(this, overlay, cx, cy, color, false); break;
+        case "ground": drawGroundSymbol(this, overlay, cx, cy, color, false); break;
+        default: break;
+      }
+      return;
+    }
+
+    // led-circuit: a small horizontal schematic the learner must read.
+    const y = 296;
+    const wire = this.add.graphics();
+    wire.lineStyle(3, 0x6be7d6, 0.5);
+    wire.lineBetween(78, y, 542, y);
+    overlay.add(wire);
+    drawBatterySymbol(this, overlay, 116, y, 0xf6c85f);
+    drawSwitchSymbol(this, overlay, 212, y, visual.switchClosed ? 0x9ff5e9 : 0xffb36b, visual.switchClosed, false);
+    drawResistorSymbol(this, overlay, 312, y, visual.hasResistor ? 0x9ff5e9 : 0xffb36b, !visual.hasResistor, false);
+    drawLedSymbol(this, overlay, 402, y, visual.ledForward ? 0x9ff5e9 : 0xffb36b, !visual.ledForward, visual.lit, false);
+    drawReturnSymbol(this, overlay, 520, y, 0x9ff5e9);
+    if (visual.hasOpen) {
+      const gap = this.add.graphics();
+      gap.lineStyle(4, 0xff6b6b, 0.95);
+      gap.lineBetween(455, y - 14, 475, y + 14);
+      gap.lineBetween(475, y - 14, 455, y + 14);
+      overlay.add(gap);
+    }
+    overlay.add(this.add.text(80, 360, captionLines.join("  ·  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9aaab0",
+      wordWrap: { width: 460 },
+      lineSpacing: 3,
+    }));
+  }
+
+  private ensureCircuitMinigameSession(
+    puzzleId: string,
+    puzzle: GeneratedCircuitPuzzle,
+    game: GeneratedCircuitMinigame,
+  ): CircuitMinigameSession {
+    if (this.circuitMinigameSession?.puzzleId === puzzleId && !this.circuitMinigameSession.summaryOpen) {
+      return this.circuitMinigameSession;
+    }
+    const variant = this.run.retryVariants?.circuit ?? 0;
+    const random = new Random(`${this.run.seed}:${puzzleId}:circuit:${variant}`);
+    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    this.circuitMinigameSession = {
+      puzzleId,
+      puzzle,
+      game: variedGame,
+      startedAt: Date.now(),
+      durationMs: game.durationMs,
+      promptIndex: 0,
+      answered: 0,
+      correct: 0,
+      wrong: 0,
+      streak: 0,
+      bestStreak: 0,
+      netScore: 0,
+      selectedIds: new Set<string>(),
+      feedback: "Leggi lo schema: componente, percorso, polarità o valori. Poi conferma una risposta.",
+      locked: false,
+      summaryOpen: false,
+    };
+    return this.circuitMinigameSession;
+  }
+
+  private currentCircuitMinigamePrompt(session: CircuitMinigameSession): CircuitMinigamePrompt {
+    return session.game.prompts[session.promptIndex % session.game.prompts.length];
+  }
+
+  private circuitMinigameElapsedMs(session: CircuitMinigameSession): number {
+    return Date.now() - session.startedAt;
+  }
+
+  private circuitMinigameRemainingMs(session: CircuitMinigameSession): number {
+    return Math.max(0, session.durationMs - this.circuitMinigameElapsedMs(session));
+  }
+
+  private refreshCircuitMinigameTimer(): void {
+    const session = this.circuitMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    const remaining = this.circuitMinigameRemainingMs(session);
+    this.circuitMinigameTimerText?.setText(`Tempo: ${formatDuration(remaining)}`);
+    this.circuitMinigameTimerText?.setColor(remaining <= 10_000 ? "#ff8f8f" : "#f7d37a");
+    if (remaining <= 0) {
+      this.finishCircuitMinigame();
+    }
+  }
+
+  private toggleCircuitMinigameTile(tileId: string): void {
+    const session = this.circuitMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    session.selectedIds.clear();
+    session.selectedIds.add(tileId);
+    audioManager.play("click");
+    this.openCircuitMinigame(session.puzzle);
+  }
+
+  private useCircuitMinigameHint(): void {
+    const session = this.circuitMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    const prompt = this.currentCircuitMinigamePrompt(session);
+    const hint = prompt.type === "component-id"
+      ? "Collega il nome alla funzione: cosa fa quel componente nel circuito?"
+      : prompt.type === "predict-led"
+        ? "Il LED si accende solo se: interruttore chiuso, percorso continuo, polarità giusta e resistenza che protegge."
+        : prompt.type === "ohms-law"
+          ? "Scrivi V = R × I e isola la grandezza richiesta prima di calcolare."
+          : "In serie le resistenze si sommano; in parallelo la resistenza totale scende.";
+    session.feedback = hint;
+    this.useHint(hint);
+    this.openCircuitMinigame(session.puzzle);
+  }
+
+  private confirmCircuitMinigamePrompt(): void {
+    const session = this.circuitMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    if (this.circuitMinigameRemainingMs(session) <= 0) {
+      this.finishCircuitMinigame();
+      return;
+    }
+    const prompt = this.currentCircuitMinigamePrompt(session);
+    if (session.selectedIds.size === 0) {
+      session.feedback = "Prima seleziona una risposta. Il timer continua.";
+      audioManager.playOutcome("hint");
+      this.openCircuitMinigame(session.puzzle);
+      return;
+    }
+    const selected = prompt.tiles.find((tile) => tile.id === [...session.selectedIds][0]);
+    if (!selected?.isCorrect) {
+      const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+      outcomeFeedback.answer(this, false, selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
+      if (this.isTimedMissionMode()) {
+        this.circuitMinigameSession = undefined;
+        this.handleIncorrectAnswer(message);
+        return;
+      }
+      session.answered += 1;
+      session.wrong += 1;
+      session.streak = 0;
+      session.netScore = Math.max(0, session.netScore - (8 + this.run.difficulty));
+      session.feedback = message;
+      session.locked = true;
+      this.recordPuzzleMistake();
+      audioManager.playOutcome("wrong");
+      outcomeFeedback.play(this, "warning", "Rileggi lo schema");
+      this.advanceCircuitMinigamePrompt(2400);
+      return;
+    }
+
+    session.answered += 1;
+    session.correct += 1;
+    session.streak += 1;
+    session.bestStreak = Math.max(session.bestStreak, session.streak);
+    const award = 10 + this.run.difficulty * 2 + Math.min(12, session.streak * 2);
+    session.netScore += award;
+    session.feedback = `Corretto: ${prompt.explanation} +${award}`;
+    session.locked = true;
+    outcomeFeedback.answer(this, true, selected.label, prompt.solutionLabels.join(", "), prompt.explanation);
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${award}`);
+    this.advanceCircuitMinigamePrompt(1900);
+  }
+
+  private advanceCircuitMinigamePrompt(delayMs: number): void {
+    const session = this.circuitMinigameSession;
+    if (!session) {
+      return;
+    }
+    this.runWhenActive(delayMs, () => {
+      if (this.circuitMinigameSession !== session || session.summaryOpen) {
+        return;
+      }
+      if (this.circuitMinigameRemainingMs(session) <= 0) {
+        this.finishCircuitMinigame();
+        return;
+      }
+      const previous = this.currentCircuitMinigamePrompt(session).signature;
+      session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      if (this.currentCircuitMinigamePrompt(session).signature === previous) {
+        session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
+      }
+      session.selectedIds.clear();
+      session.locked = false;
+      this.openCircuitMinigame(session.puzzle);
+    });
+  }
+
+  private finishCircuitMinigame(): void {
+    const session = this.circuitMinigameSession;
+    if (!session || session.summaryOpen) {
+      return;
+    }
+    session.locked = true;
+    session.summaryOpen = true;
+    this.circuitMinigameTimerEvent?.remove(false);
+    this.circuitMinigameTimerEvent = undefined;
+    audioManager.playOutcome("neutral");
+    this.showCircuitMinigameSummary(session);
+  }
+
+  private circuitMinigamePassed(session: CircuitMinigameSession): boolean {
+    if (!this.isTimedMissionMode()) {
+      return true;
+    }
+    const minCorrect = Math.max(5, Math.min(12, 4 + Math.ceil(this.run.difficulty * 0.75)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    return session.correct >= minCorrect && accuracy >= 0.62 && session.netScore > 0;
+  }
+
+  private circuitMinigameFeedback(session: CircuitMinigameSession): string {
+    if (session.answered === 0) {
+      return "Nessuna risposta: leggi lo schema e decidi su componente, percorso o valori.";
+    }
+    const accuracy = session.correct / session.answered;
+    if (accuracy >= 0.9 && session.bestStreak >= 8) {
+      return "Ottimo: riconosci componenti, prevedi il LED e applichi la legge di Ohm con sicurezza.";
+    }
+    if (accuracy >= 0.72) {
+      return "Buon lavoro: ora consolida la legge di Ohm e i collegamenti serie/parallelo.";
+    }
+    if (session.wrong >= session.correct) {
+      return "Troppi tentativi: rallenta, leggi lo schema e ragiona su percorso e polarità.";
+    }
+    return "Allenamento utile: punta a serie pulite e risposte spiegabili.";
+  }
+
+  private showCircuitMinigameSummary(session: CircuitMinigameSession): void {
+    const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
+    const modal = this.add.container(0, 0).setDepth(1300);
+    const passed = this.circuitMinigamePassed(session);
+    const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
+    const mode = proceduralRunRules.modeFor(this.run);
+    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
+    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
+    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
+      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
+    modal.add(this.add.text(230, 160, passed ? "Sprint circuiti completato" : "Sprint circuiti da consolidare", {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: passed ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(230, 210, [
+      `Risposte corrette: ${session.correct}`,
+      `Errori: ${session.wrong}`,
+      `Precisione: ${accuracy}%`,
+      `Serie migliore: ${session.bestStreak}`,
+      `Punti sprint: ${session.netScore}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f5fbff",
+      lineSpacing: 7,
+    }));
+    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.3));
+    modal.add(this.add.text(572, 234, this.circuitMinigameFeedback(session), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 354 },
+      lineSpacing: 5,
+    }));
+    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
+      .setStrokeStyle(1, 0xf7d37a, 0.36));
+    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
+      ? passed
+        ? "La console elettronica certifica le tue risposte: componenti, percorso e valori sono coerenti."
+        : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
+      : "Allenamento registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 690 },
+      lineSpacing: 4,
+    }));
+    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
+      modal.destroy(true);
+      if (!passed && (mode === "mission" || mode === "progressive")) {
+        this.loseMissionLife("sprint circuiti sotto soglia: servono più risposte corrette con meno tentativi.");
+        return;
+      }
+      this.completeCircuitMinigame(session);
+    }, {
+      width: 270,
+      height: 54,
+      fill: passed ? 0x173b36 : 0x263743,
+      stroke: passed ? 0x6be7d6 : 0xf7d37a,
+      fontSize: 16,
+    }));
+    overlay.add(modal);
+  }
+
+  private completeCircuitMinigame(session: CircuitMinigameSession): void {
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
+      return;
+    }
+    const score = this.finalizeCircuitMinigameScore(session);
+    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
+    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${score.total}`);
+    this.clearOverlay();
+    this.circuitMinigameSession = undefined;
+    const solvedNode = puzzleKindFromId(session.puzzleId);
+    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
+    feedbackSystem.publish(
+      `Sprint circuiti registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      "success",
+    );
+    if (remaining.length === 0) {
+      this.certifyCompletedRun("Console elettronica stabilizzata: il sistema completo è certificabile.");
+      return;
+    }
+    this.runWhenActive(1750, () => this.scene.restart());
+  }
+
+  private finalizeCircuitMinigameScore(session: CircuitMinigameSession): ProceduralPuzzleScore {
+    const run = saveSystem.data.proceduralRun ?? this.run;
+    const existing = run.puzzleStats?.[session.puzzleId];
+    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
+    const completedAt = new Date().toISOString();
+    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.circuitMinigameElapsedMs(session)));
+    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
+    const basePoints = session.correct * (10 + run.difficulty);
+    const difficultyBonus = session.correct * run.difficulty * 2;
+    const speedBonus = Math.min(100, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 36));
+    const focusBonus = run.focus.includes("elettronica") || run.focus.some((item) => item.startsWith("elettronica."))
+      ? 20 + run.difficulty * 3
+      : 0;
+    const supportPenalty = (existing?.hintsUsed ?? 0) * 6 + session.wrong * (8 + run.difficulty);
+    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
+    const score: ProceduralPuzzleScore = {
+      puzzleId: session.puzzleId,
+      domain: proceduralScoring.puzzleDomain(session.puzzleId),
+      startedAt,
+      completedAt,
+      elapsedMs,
+      hintsUsed: existing?.hintsUsed ?? 0,
+      attempts: Math.max(1, existing?.attempts ?? 1),
+      basePoints,
+      difficultyBonus,
+      speedBonus,
+      focusBonus,
+      supportPenalty,
+      total,
+      feedback: this.circuitMinigameFeedback(session),
+    };
+    saveSystem.updateProceduralRun({
+      puzzleStats: {
+        ...(run.puzzleStats ?? {}),
+        [session.puzzleId]: score,
+      },
+      score: proceduralScoring.addToSummary(run.score, score),
+    });
+    return score;
+  }
+
+  private circuitMinigameMethodText(prompt: CircuitMinigamePrompt): string {
+    if (prompt.type === "component-id") {
+      return "Metodo: associa nome, simbolo e funzione. Ogni componente ha un ruolo preciso nel circuito.";
+    }
+    if (prompt.type === "predict-led") {
+      return "Metodo: percorso chiuso? polarità giusta? resistenza che protegge? Solo allora il LED si accende.";
+    }
+    if (prompt.type === "ohms-law") {
+      return "Metodo: V = R × I. Scrivi la formula, isola la grandezza richiesta, poi calcola.";
+    }
+    return "Metodo: in serie le resistenze si sommano; in parallelo la totale scende e passa più corrente.";
+  }
+
   private currentCircuitPuzzle(): GeneratedCircuitPuzzle {
     const challenge = this.activeChallenge;
     const puzzle = challenge?.kind === "circuit" ? challenge.puzzle : this.run.mission.puzzles.circuit;
@@ -7848,6 +8453,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.codingMinigameTimerEvent = undefined;
     this.codingMinigameTimerText = undefined;
     this.codingMinigameSession = undefined;
+    this.circuitMinigameTimerEvent?.remove(false);
+    this.circuitMinigameTimerEvent = undefined;
+    this.circuitMinigameTimerText = undefined;
+    this.circuitMinigameSession = undefined;
     this.timeoutSolutionOpen = false;
   }
 
@@ -8177,6 +8786,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.codingMinigameTimerEvent?.remove(false);
     this.codingMinigameTimerEvent = undefined;
     this.codingMinigameTimerText = undefined;
+    this.circuitMinigameTimerEvent?.remove(false);
+    this.circuitMinigameTimerEvent = undefined;
+    this.circuitMinigameTimerText = undefined;
     this.overlay?.destroy(true);
     this.overlay = undefined;
     this.mathSupportText = undefined;

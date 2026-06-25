@@ -40,12 +40,14 @@ const diatonicNotes: MusicNote[] = [
 export class MusicNoteGenerator {
   generate(random: Random, difficultyLevel: DifficultyLevel = 1, preferredModes: MusicMinigameType[] = []): GeneratedMusicPuzzle {
     const available: MusicMinigameType[] = difficultyLevel <= 1
-      ? ["note-hunt", "rhythm-gap"]
-      : ["note-hunt", "interval-jump", "rhythm-gap"];
+      ? ["note-hunt", "rhythm-gap", "note-duration"]
+      : ["note-hunt", "interval-jump", "rhythm-gap", "note-duration", "scale-step"];
     const requested = preferredModes.filter((mode) => available.includes(mode) || preferredModes.length === 1);
     const mode = random.pick(requested.length > 0 ? requested : available);
     if (mode === "interval-jump") return this.buildIntervalJump(random, difficultyLevel);
     if (mode === "rhythm-gap") return this.buildRhythmGap(random, difficultyLevel);
+    if (mode === "scale-step") return this.buildScaleStep(random, difficultyLevel);
+    if (mode === "note-duration") return this.buildNoteDuration(random, difficultyLevel);
     return this.buildNoteHunt(random, difficultyLevel);
   }
 
@@ -84,6 +86,115 @@ export class MusicNoteGenerator {
         this.ledgerLinesFor(staffPosition).length > 0 ? "linee addizionali" : "pentagramma",
         this.isStaffLine(staffPosition) ? "linea" : "spazio",
       ],
+    };
+  }
+
+  private buildScaleStep(random: Random, difficultyLevel: DifficultyLevel): GeneratedMusicPuzzle {
+    const order: MusicNoteName[] = ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
+    const clef = this.pickClef(random, difficultyLevel);
+    const note = random.pick(this.notePool(difficultyLevel, clef));
+    const staffPosition = clef === "treble" ? note.treblePosition : note.bassPosition;
+    const startIndex = order.indexOf(note.name);
+    const up = difficultyLevel >= 4 ? random.bool() : true;
+    const direction = up ? 1 : -1;
+    const correctName = order[(startIndex + direction + order.length) % order.length];
+    const distractors = order.filter((name) => name !== correctName && name !== note.name);
+    const chosen = random.shuffle(distractors).slice(0, 3);
+    const choices = random.shuffle([
+      { id: "correct", label: correctName, isCorrect: true, feedback: `Corretto: ${up ? "salendo" : "scendendo"} dopo ${note.name} viene ${correctName}.` },
+      ...chosen.map((name, index) => ({ id: `distractor-${index}`, label: name, isCorrect: false, feedback: `No: ${name} non è il grado ${up ? "successivo" : "precedente"} dopo ${note.name}.` })),
+    ]);
+    return {
+      id: `music-scale-${clef}-${note.name}${note.octave}-${up ? "up" : "down"}`,
+      title: "Gradi della scala",
+      challengeMode: "scale-step",
+      clef,
+      noteName: note.name,
+      octave: note.octave,
+      staffPosition,
+      ledgerLines: this.ledgerLinesFor(staffPosition),
+      timeLimitMs: this.timeLimitMs(difficultyLevel, this.outsideStaffDistance(staffPosition)),
+      answerMode: "note-name",
+      choices,
+      hints: [
+        "Ricorda la successione: Do Re Mi Fa Sol La Si, poi di nuovo Do.",
+        `Leggi prima la nota mostrata: è ${note.name}.`,
+        `${up ? "Sali" : "Scendi"} di un grado: la risposta è ${correctName}.`,
+      ],
+      competencies: ["musica.pentagramma", "musica.scale", "musica.letturaNote"],
+      difficultyLabel: `Livello ${difficultyLevel}/8 - gradi della scala`,
+      learningPurpose: "Collegare la lettura della nota alla successione dei gradi della scala.",
+      method: "Leggi la nota sul pentagramma, poi muoviti di un grado nella scala Do-Re-Mi-Fa-Sol-La-Si.",
+      methodSteps: ["leggi la nota", "ricorda la successione", up ? "sali di un grado" : "scendi di un grado", "scegli il nome"],
+      conceptTags: ["scala", "gradi", up ? "ascendente" : "discendente"],
+    };
+  }
+
+  private buildNoteDuration(random: Random, difficultyLevel: DifficultyLevel): GeneratedMusicPuzzle {
+    const figures = [
+      { label: "Semibreve", beats: 4 },
+      { label: "Minima", beats: 2 },
+      { label: "Semiminima", beats: 1 },
+      { label: "Croma", beats: 0.5 },
+    ];
+    const count = difficultyLevel >= 4 ? 4 : 3;
+    const cells = random.shuffle(figures).slice(0, count);
+    const askBeats = difficultyLevel >= 3 && random.bool();
+    const beatsLabel = (beats: number): string => beats === 0.5 ? "mezzo movimento" : `${beats} movimenti`;
+    let question: string;
+    let correctLabel: string;
+    let choiceLabels: string[];
+    let explanation: string;
+    if (askBeats) {
+      const marked = random.pick(cells);
+      question = `Quanti movimenti dura la ${marked.label}?`;
+      correctLabel = beatsLabel(marked.beats);
+      choiceLabels = Array.from(new Set([correctLabel, ...figures.map((f) => beatsLabel(f.beats))])).slice(0, 4);
+      explanation = `La ${marked.label} dura ${beatsLabel(marked.beats)} (in 4/4 la semibreve vale 4).`;
+    } else {
+      const longest = random.bool();
+      const sorted = [...cells].sort((a, b) => b.beats - a.beats);
+      const target = longest ? sorted[0] : sorted[sorted.length - 1];
+      question = `Quale figura dura di ${longest ? "più" : "meno"}?`;
+      correctLabel = target.label;
+      choiceLabels = cells.map((cell) => cell.label);
+      explanation = `${target.label} dura ${beatsLabel(target.beats)}: è la figura ${longest ? "più lunga" : "più breve"} tra quelle mostrate.`;
+    }
+    while (choiceLabels.length < 4) {
+      const extra = figures.map((f) => askBeats ? beatsLabel(f.beats) : f.label).find((label) => !choiceLabels.includes(label));
+      if (!extra) break;
+      choiceLabels.push(extra);
+    }
+    const choices = random.shuffle(choiceLabels.slice(0, 4).map((label, index) => ({
+      id: label === correctLabel ? "correct" : `distractor-${index}`,
+      label,
+      isCorrect: label === correctLabel,
+      feedback: label === correctLabel ? `Corretto: ${explanation}` : "Confronta le durate: la semibreve dura il doppio della minima, e così via.",
+    })));
+    return {
+      id: `music-duration-${difficultyLevel}-${cells.map((c) => c.label[0]).join("")}-${askBeats ? "b" : "c"}`,
+      title: "Valore delle figure",
+      challengeMode: "note-duration",
+      clef: "treble",
+      noteName: "Do",
+      octave: 4,
+      staffPosition: 4,
+      ledgerLines: [],
+      timeLimitMs: this.timeLimitMs(difficultyLevel, 0),
+      answerMode: "note-name",
+      choices,
+      rhythmPattern: { beatsPerMeasure: 4, missingBeats: 0, cells: cells.map((cell) => ({ label: cell.label, beats: cell.beats })) },
+      hints: [
+        "La semibreve vale 4, la minima 2, la semiminima 1, la croma mezzo movimento.",
+        "Più lunga è la barra, più dura la figura.",
+        explanation,
+      ],
+      competencies: ["musica.ritmo", "musica.durate", "musica.letturaNote"],
+      difficultyLabel: `Livello ${difficultyLevel}/8 - valore delle figure`,
+      learningPurpose: "Capire la durata relativa delle figure musicali e contarne i movimenti.",
+      method: "Confronta le durate: ogni figura vale la metà di quella precedente (semibreve, minima, semiminima, croma).",
+      methodSteps: ["leggi le figure", "ricorda i valori", "confronta le durate", "scegli la risposta"],
+      conceptTags: ["ritmo", "durate", "figure musicali"],
     };
   }
 

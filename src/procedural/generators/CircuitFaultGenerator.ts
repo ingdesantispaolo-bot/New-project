@@ -1,6 +1,7 @@
 import { circuitBaseEdges, circuitComponentGuide, circuitFaultTemplates, circuitNodes, optionalCircuitNodes } from "../../data/procedural/circuitTemplates";
-import type { CircuitComponentChallenge, CircuitFaultType, DifficultyPreset, GeneratedCircuitPuzzle } from "../ProceduralTypes";
+import type { CircuitComponentChallenge, CircuitFaultType, CircuitMinigameType, DifficultyPreset, GeneratedCircuitPuzzle } from "../ProceduralTypes";
 import type { Random } from "../Random";
+import { buildCircuitMinigame, circuitMinigameTypeForLevel } from "./CircuitMinigameGenerator";
 
 const faultObservations: Record<CircuitFaultType, string> = {
   "missing-wire": "Il tester non legge continuità tra LED e ritorno: il percorso si interrompe dopo il LED.",
@@ -79,6 +80,26 @@ export class CircuitFaultGenerator {
       conceptTags: this.conceptsForFaults(faultTypes),
       componentChallenges,
       competencies: ["elettronica.circuitoChiuso", "problemSolving", "pensieroCritico"],
+    };
+  }
+
+  /**
+   * A real, valid fault-diagnosis circuit with a quick electronics minigame
+   * attached. The base puzzle stays valid (so it passes the strict circuit
+   * validator); the scene branches to the minigame when present.
+   */
+  generateMinigame(random: Random, difficulty: DifficultyPreset, preferredTypes: CircuitMinigameType[] = []): GeneratedCircuitPuzzle {
+    const base = this.generate(random, difficulty);
+    const type = preferredTypes.length > 0
+      ? random.pick(preferredTypes)
+      : circuitMinigameTypeForLevel(random, difficulty.level);
+    const minigame = buildCircuitMinigame(random.fork(`circuit-mini-${type}`), difficulty, type);
+    return {
+      ...base,
+      id: `circuit-mini-${type}`,
+      title: minigame.title,
+      competencies: Array.from(new Set([...base.competencies, ...minigame.competencies])),
+      minigame,
     };
   }
 

@@ -1,6 +1,8 @@
 import { circuitFaultTemplates } from "../../data/procedural/circuitTemplates";
 import type {
   CircuitFaultType,
+  GeneratedCircuitMinigame,
+  GeneratedCircuitPuzzle,
   GeneratedCodingMinigame,
   GeneratedCodingPuzzle,
   GeneratedEnglishMinigame,
@@ -125,6 +127,25 @@ export type EnglishMinigameSession = {
   selectedIds: Set<string>;
   /** Ordered tile ids for the "sentence-build" minigame. */
   orderedSelection: string[];
+  feedback: string;
+  locked: boolean;
+  summaryOpen: boolean;
+};
+
+export type CircuitMinigameSession = {
+  puzzleId: string;
+  puzzle: GeneratedCircuitPuzzle;
+  game: GeneratedCircuitMinigame;
+  startedAt: number;
+  durationMs: number;
+  promptIndex: number;
+  answered: number;
+  correct: number;
+  wrong: number;
+  streak: number;
+  bestStreak: number;
+  netScore: number;
+  selectedIds: Set<string>;
   feedback: string;
   locked: boolean;
   summaryOpen: boolean;

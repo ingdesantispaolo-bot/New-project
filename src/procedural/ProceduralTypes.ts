@@ -409,6 +409,48 @@ export type GeneratedCircuitPuzzle = {
   conceptTags?: string[];
   componentChallenges?: CircuitComponentChallenge[];
   pedagogy?: ExercisePedagogy;
+  minigame?: GeneratedCircuitMinigame;
+};
+
+export type CircuitMinigameType = "component-id" | "predict-led" | "ohms-law" | "series-parallel";
+
+export type CircuitMinigameTile = {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+  feedback: string;
+};
+
+/** Drawable schematic for a circuit minigame prompt, rendered by the scene. */
+export type CircuitMinigameVisual =
+  | { kind: "led-circuit"; switchClosed: boolean; ledForward: boolean; hasResistor: boolean; hasOpen: boolean; lit: boolean }
+  | { kind: "component"; component: string };
+
+export type CircuitMinigamePrompt = {
+  id: string;
+  type: CircuitMinigameType;
+  title: string;
+  diagramLines: string[];
+  question: string;
+  targetLabel: string;
+  requiredSelectionCount: number;
+  tiles: CircuitMinigameTile[];
+  solutionLabels: string[];
+  explanation: string;
+  concept: string;
+  methodSteps: string[];
+  visual?: CircuitMinigameVisual;
+  signature: string;
+};
+
+export type GeneratedCircuitMinigame = {
+  type: CircuitMinigameType;
+  title: string;
+  durationMs: number;
+  instructions: string;
+  scoringRule: string;
+  prompts: CircuitMinigamePrompt[];
+  competencies: string[];
 };
 
 export type GeneratedLanguagePuzzle = {
@@ -537,7 +579,7 @@ export type GeneratedEnglishMinigame = {
 
 export type MusicClef = "treble" | "bass";
 export type MusicNoteName = "Do" | "Re" | "Mi" | "Fa" | "Sol" | "La" | "Si";
-export type MusicMinigameType = "note-hunt" | "interval-jump" | "rhythm-gap";
+export type MusicMinigameType = "note-hunt" | "interval-jump" | "rhythm-gap" | "scale-step" | "note-duration";
 
 export type GeneratedMusicPuzzle = {
   id: string;

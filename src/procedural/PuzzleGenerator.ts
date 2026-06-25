@@ -173,8 +173,11 @@ export class PuzzleGenerator {
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
       if (kind === "circuit") {
+        const useMinigame = [0, 1, 3].includes(index);
         const puzzle = this.validationEngine.generateWithRetries(
-          () => this.circuitGenerator.generate(challengeRandom, stagedDifficulty, this.circuitFaultsForStep(index)),
+          () => useMinigame
+            ? this.circuitGenerator.generateMinigame(challengeRandom, stagedDifficulty)
+            : this.circuitGenerator.generate(challengeRandom, stagedDifficulty, this.circuitFaultsForStep(index)),
           (candidate) => this.circuitValidator.validate(candidate),
           () => this.circuitGenerator.fallback(stagedDifficulty.level, challengeRandom.fork("fallback"), stagedDifficulty),
         );

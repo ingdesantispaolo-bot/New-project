@@ -417,7 +417,7 @@ export type GeneratedLanguagePuzzle = {
   minigame?: GeneratedLanguageMinigame;
 };
 
-export type LanguageMinigameType = "agreement-sprint" | "connector-route" | "intruder-hunt";
+export type LanguageMinigameType = "agreement-sprint" | "connector-route" | "intruder-hunt" | "word-order";
 
 export type LanguageMinigameTile = {
   id: string;
@@ -488,7 +488,7 @@ export type GeneratedEnglishPuzzle = {
   minigame?: GeneratedEnglishMinigame;
 };
 
-export type EnglishMinigameType = "action-relay" | "sequence-switchboard" | "data-command-scan";
+export type EnglishMinigameType = "action-relay" | "sequence-switchboard" | "data-command-scan" | "grammar-fix" | "sentence-build";
 
 export type EnglishMinigameTile = {
   id: string;

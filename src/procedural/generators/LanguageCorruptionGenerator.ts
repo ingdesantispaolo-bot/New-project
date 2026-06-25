@@ -31,19 +31,36 @@ export class LanguageCorruptionGenerator {
     const level = Math.max(1, Math.min(8, difficultyLevel));
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<LanguageMinigameType>(["agreement-sprint", "connector-route", "intruder-hunt"]);
+      : random.pick<LanguageMinigameType>(["agreement-sprint", "connector-route", "intruder-hunt", "word-order"]);
     const minigame = this.buildMinigame(random.fork(type), level, type);
     const first = minigame.prompts[0];
-    const options = first.tiles.map((tile) => tile.label);
     const optionFeedback: Record<string, string> = {};
-    first.tiles.forEach((tile) => {
-      optionFeedback[tile.label] = tile.feedback;
-    });
+    let options: string[];
+    let repaired: string;
+    if (type === "word-order") {
+      // Word-order tiles are single words, so derive the repair-tab choices from
+      // the full sentence plus plausible wrong orderings instead.
+      const sentence = first.solutionLabels.join(" ");
+      const distractors = this.wordOrderSentenceDistractors(random.fork("wo-base"), first.solutionLabels);
+      options = random.shuffle([sentence, ...distractors]);
+      repaired = sentence;
+      options.forEach((option) => {
+        optionFeedback[option] = option === sentence
+          ? "Ordine corretto: soggetto, verbo e complementi al posto giusto."
+          : "Ordine errato: con le parole così il sistema non esegue il comando.";
+      });
+    } else {
+      options = first.tiles.map((tile) => tile.label);
+      repaired = first.solutionLabels[0];
+      first.tiles.forEach((tile) => {
+        optionFeedback[tile.label] = tile.feedback;
+      });
+    }
     return {
       id: `language-mini-${type}-${random.integer(1000, 9999)}`,
       title: minigame.title,
       corrupted: first.context,
-      repaired: first.solutionLabels[0],
+      repaired,
       options,
       diagnosticSteps: [
         `Leggi il compito: ${first.targetLabel}.`,
@@ -110,11 +127,13 @@ export class LanguageCorruptionGenerator {
       "agreement-sprint": "Minigioco italiano: Concordanze lampo",
       "connector-route": "Minigioco italiano: Rotte dei connettivi",
       "intruder-hunt": "Minigioco italiano: Intruso nel log",
+      "word-order": "Minigioco italiano: Ricomponi il comando",
     };
     const instructions: Record<LanguageMinigameType, string> = {
       "agreement-sprint": "clicca la forma che rende la frase corretta per genere, numero e verbo.",
       "connector-route": "clicca il connettivo che mantiene il rapporto logico tra le informazioni.",
       "intruder-hunt": "clicca il dettaglio inutile o contraddittorio rispetto allo scopo del log.",
+      "word-order": "tocca le parole nell'ordine giusto per ricomporre il comando eseguibile.",
     };
     return {
       type,
@@ -130,6 +149,7 @@ export class LanguageCorruptionGenerator {
         ...(type === "agreement-sprint" ? ["italiano.coesione"] : []),
         ...(type === "connector-route" ? ["italiano.coesione", "italiano.argomentazione"] : []),
         ...(type === "intruder-hunt" ? ["italiano.lessico", "italiano.scritturaBreve"] : []),
+        ...(type === "word-order" ? ["italiano.coesione", "italiano.scritturaBreve"] : []),
       ])),
     };
   }
@@ -153,6 +173,7 @@ export class LanguageCorruptionGenerator {
   private buildMinigamePrompt(random: Random, level: number, type: LanguageMinigameType, index: number): LanguageMinigamePrompt {
     if (type === "agreement-sprint") return this.buildAgreementPrompt(random, level, index);
     if (type === "connector-route") return this.buildConnectorPrompt(random, level, index);
+    if (type === "word-order") return this.buildWordOrderPrompt(random, level, index);
     return this.buildIntruderPrompt(random, level, index);
   }
 
@@ -447,21 +468,85 @@ export class LanguageCorruptionGenerator {
     return random.shuffle(tiles).map((tile, index) => ({ ...tile, id: `${tile.id}-${index}` }));
   }
 
+  private buildWordOrderPrompt(random: Random, level: number, index: number): LanguageMinigamePrompt {
+    const pool = [
+      { sentence: "Il sensore nord invia i dati al terminale", concept: "ordine soggetto-verbo-complemento" },
+      { sentence: "Il codice apre la porta del laboratorio", concept: "ordine soggetto-verbo-complemento" },
+      { sentence: "Il robot raccoglie la chiave e raggiunge l'uscita", concept: "coordinazione di due azioni" },
+      { sentence: "La valvola si chiude prima del riavvio", concept: "complemento di tempo in fondo" },
+      { sentence: "Il nucleo si riavvia dopo il raffreddamento", concept: "complemento di tempo in fondo" },
+    ];
+    const advanced = [
+      { sentence: "Il tecnico sostituisce il fusibile prima di alimentare il circuito", concept: "subordinata temporale finale" },
+      { sentence: "Il sistema invia il rapporto dopo aver verificato i dati", concept: "subordinata temporale finale" },
+      { sentence: "La pompa riduce la pressione quando la temperatura sale", concept: "subordinata di tempo con quando" },
+    ];
+    const item = random.pick(level >= 4 ? [...pool, ...advanced] : pool);
+    const words = item.sentence.split(/\s+/);
+    const tiles = this.shuffleLanguageTiles(
+      random,
+      words.map((word, position) => this.languageTile(index * 100 + position, word, true, "Parola del comando: conta la sua posizione.")),
+    );
+    const explanation = "In italiano l'ordine soggetto-verbo-complemento rende il comando eseguibile: spostare le parole cambia o annulla il senso.";
+    return {
+      id: `word-order-${index}`,
+      type: "word-order",
+      prompt: "Ricomponi il comando: tocca le parole nell'ordine naturale.",
+      context: `Comando andato in pezzi: ${random.shuffle([...words]).join(" · ")}`,
+      targetLabel: "Ordine corretto",
+      requiredSelectionCount: words.length,
+      tiles,
+      solutionLabels: words,
+      explanation,
+      concept: item.concept,
+      signature: `word-order-${item.sentence}`,
+    };
+  }
+
+  private wordOrderSentenceDistractors(random: Random, words: string[]): string[] {
+    const correct = words.join(" ");
+    const variants = new Set<string>();
+    const swap = (source: string[], i: number, j: number): string => {
+      const copy = [...source];
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+      return copy.join(" ");
+    };
+    const candidates: string[] = [];
+    if (words.length >= 2) candidates.push(swap(words, 0, 1));
+    if (words.length >= 3) candidates.push(swap(words, words.length - 2, words.length - 1));
+    candidates.push([words[words.length - 1], ...words.slice(0, words.length - 1)].join(" "));
+    if (words.length >= 4) candidates.push(swap(words, 1, words.length - 1));
+    candidates.forEach((candidate) => {
+      if (candidate !== correct) variants.add(candidate);
+    });
+    // Top up with random shuffles if duplicates collapsed the set.
+    let guard = 0;
+    while (variants.size < 3 && guard < 20) {
+      const shuffled = random.shuffle([...words]).join(" ");
+      if (shuffled !== correct) variants.add(shuffled);
+      guard += 1;
+    }
+    return [...variants].slice(0, 3);
+  }
+
   private languageMinigameConcepts(type: LanguageMinigameType): string[] {
     if (type === "agreement-sprint") return ["accordo", "soggetto", "concordanza"];
     if (type === "connector-route") return ["connettivi", "logica del testo", "coesione"];
+    if (type === "word-order") return ["ordine delle parole", "sintassi", "coesione"];
     return ["comprensione", "informazioni utili", "pensiero critico"];
   }
 
   private languageMinigamePurpose(type: LanguageMinigameType): string {
     if (type === "agreement-sprint") return "Allena riconoscimento rapido di accordi, soggetti reali e forme verbali corrette.";
     if (type === "connector-route") return "Allena scelta dei connettivi in base a causa, contrasto, tempo, condizione e scopo.";
+    if (type === "word-order") return "Allena la costruzione della frase: ordinare le parole per produrre un comando chiaro ed eseguibile.";
     return "Allena lettura selettiva: separare dati utili, prove, opinioni e dettagli decorativi.";
   }
 
   private languageMinigameMethod(type: LanguageMinigameType): string {
     if (type === "agreement-sprint") return "Trova il soggetto, controlla singolare/plurale e verifica che verbo e aggettivo concordino.";
     if (type === "connector-route") return "Nomina il rapporto tra le due frasi: causa, conseguenza, contrasto, tempo, condizione o scopo.";
+    if (type === "word-order") return "Parti dal soggetto, aggiungi il verbo, poi i complementi; metti il tempo o la condizione in fondo.";
     return "Rileggi l'obiettivo del log e tieni solo ciò che aiuta a rispondere a quell'obiettivo.";
   }
 

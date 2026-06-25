@@ -955,38 +955,45 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
-    this.addMathPanel(overlay, 604, 112, 648, 432, "2 · Scegli una risposta");
-    overlay.add(this.add.text(636, 154, "Come si gioca: leggi la domanda, clicca UNA tessera e premi Conferma.", {
+    const isOrdering = prompt.type === "word-order";
+    this.addMathPanel(overlay, 604, 112, 648, 432, isOrdering ? "2 · Ricomponi il comando" : "2 · Scegli una risposta");
+    overlay.add(this.add.text(636, 154, isOrdering
+      ? "Tocca le parole nell'ordine giusto. Ritocca una parola messa per toglierla."
+      : "Come si gioca: leggi la domanda, clicca UNA tessera e premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: 560 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(636, 214, prompt.prompt, {
+    overlay.add(this.add.text(636, isOrdering ? 192 : 214, prompt.prompt, {
       fontFamily: "Inter, Arial",
-      fontSize: "18px",
+      fontSize: isOrdering ? "15px" : "18px",
       color: "#f5fbff",
       fontStyle: "bold",
       wordWrap: { width: 560, useAdvancedWrap: true },
       lineSpacing: 5,
     }));
 
-    const tileStartX = 784;
-    const tileStartY = 340;
-    prompt.tiles.forEach((tile, index) => {
-      const selected = session.selectedIds.has(tile.id);
-      const col = index % 2;
-      const row = Math.floor(index / 2);
-      overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleLanguageMinigameTile(tile.id), {
-        width: 232,
-        height: 52,
-        fontSize: tile.label.length > 34 ? 10 : tile.label.length > 20 ? 12 : 16,
-        wordWrapWidth: 210,
-        fill: selected ? 0x174d42 : 0x263743,
-        stroke: selected ? 0xf7d37a : 0x6be7d6,
-      }));
-    });
+    if (isOrdering) {
+      this.renderLanguageOrderingTiles(overlay, session, prompt);
+    } else {
+      const tileStartX = 784;
+      const tileStartY = 340;
+      prompt.tiles.forEach((tile, index) => {
+        const selected = session.selectedIds.has(tile.id);
+        const col = index % 2;
+        const row = Math.floor(index / 2);
+        overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleLanguageMinigameTile(tile.id), {
+          width: 232,
+          height: 52,
+          fontSize: tile.label.length > 34 ? 10 : tile.label.length > 20 ? 12 : 16,
+          wordWrapWidth: 210,
+          fill: selected ? 0x174d42 : 0x263743,
+          stroke: selected ? 0xf7d37a : 0x6be7d6,
+        }));
+      });
+    }
 
     this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
     this.languageMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
@@ -1062,7 +1069,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       bestStreak: 0,
       netScore: 0,
       selectedIds: new Set<string>(),
-      feedback: "Leggi prima l'obiettivo: accordo, connettivo o intruso. Poi conferma una sola tessera.",
+      orderedSelection: [],
+      feedback: "Leggi prima l'obiettivo: accordo, connettivo, intruso o ordine. Poi conferma.",
       locked: false,
       summaryOpen: false,
     };
@@ -1156,6 +1164,64 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.openLanguageMinigame(session.puzzle);
   }
 
+  private toggleLanguageOrderTile(tileId: string): void {
+    const session = this.languageMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    if (session.orderedSelection.includes(tileId)) {
+      session.orderedSelection = session.orderedSelection.filter((id) => id !== tileId);
+    } else {
+      session.orderedSelection.push(tileId);
+    }
+    audioManager.play("click");
+    this.openLanguageMinigame(session.puzzle);
+  }
+
+  private renderLanguageOrderingTiles(
+    overlay: Phaser.GameObjects.Container,
+    session: LanguageMinigameSession,
+    prompt: LanguageMinigamePrompt,
+  ): void {
+    const labelOf = (id: string): string => prompt.tiles.find((tile) => tile.id === id)?.label ?? "";
+    const assembled = session.orderedSelection.map(labelOf).join(" ");
+    overlay.add(this.add.rectangle(636, 228, 588, 56, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.7));
+    overlay.add(this.add.text(652, 242, assembled.length > 0 ? assembled : "(tocca le parole qui sotto)", {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: assembled.length > 0 ? "#f5fbff" : "#7da2af",
+      wordWrap: { width: 560 },
+      lineSpacing: 3,
+    }));
+
+    let tileX = 636;
+    let tileY = 306;
+    prompt.tiles.forEach((tile) => {
+      const placedIndex = session.orderedSelection.indexOf(tile.id);
+      const placed = placedIndex >= 0;
+      const labelText = placed ? `${placedIndex + 1}. ${tile.label}` : tile.label;
+      const tileWidth = Math.max(58, labelText.length * 11 + 22);
+      if (tileX + tileWidth > 1228) {
+        tileX = 636;
+        tileY += 52;
+      }
+      overlay.add(new Button(this, tileX + tileWidth / 2, tileY + 20, labelText, () => this.toggleLanguageOrderTile(tile.id), {
+        width: tileWidth,
+        height: 40,
+        fontSize: 14,
+        fill: placed ? 0x174d42 : 0x263743,
+        stroke: placed ? 0xf7d37a : 0x6be7d6,
+      }));
+      tileX += tileWidth + 10;
+    });
+
+    overlay.add(new Button(this, 1150, 528, "Svuota", () => {
+      session.orderedSelection = [];
+      audioManager.play("cancel");
+      this.openLanguageMinigame(session.puzzle);
+    }, { width: 110, height: 34, fontSize: 12, fill: 0x3a2525, stroke: 0xf6c85f }));
+  }
+
   private useLanguageMinigameHint(): void {
     const session = this.languageMinigameSession;
     if (!session || session.locked || session.summaryOpen) {
@@ -1166,7 +1232,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? "Trova il soggetto reale: a volte una frase relativa o un inciso distrae dal verbo corretto."
       : prompt.type === "connector-route"
         ? "Chiediti: la seconda parte spiega, contrasta, segue nel tempo o pone una condizione?"
-        : "Confronta ogni dettaglio con l'obiettivo. Se non aiuta a rispondere, è rumore.";
+        : prompt.type === "word-order"
+          ? "Parti dal soggetto, poi il verbo, poi i complementi; il tempo o la condizione vanno in fondo."
+          : "Confronta ogni dettaglio con l'obiettivo. Se non aiuta a rispondere, è rumore.";
     session.feedback = hint;
     this.useHint(hint);
     this.openLanguageMinigame(session.puzzle);
@@ -1182,17 +1250,38 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const prompt = this.currentLanguageMinigamePrompt(session);
-    if (session.selectedIds.size === 0) {
-      session.feedback = "Prima seleziona una tessera. Il timer continua.";
-      audioManager.playOutcome("hint");
-      this.openLanguageMinigame(session.puzzle);
-      return;
+    const ordering = prompt.type === "word-order";
+    const solutionDisplay = ordering ? prompt.solutionLabels.join(" ") : prompt.solutionLabels.join(", ");
+    let isCorrect: boolean;
+    let chosenLabel: string;
+    let wrongFeedback: string;
+    if (ordering) {
+      if (session.orderedSelection.length === 0) {
+        session.feedback = "Tocca le parole per comporre il comando. Il timer continua.";
+        audioManager.playOutcome("hint");
+        this.openLanguageMinigame(session.puzzle);
+        return;
+      }
+      const assembled = session.orderedSelection.map((id) => prompt.tiles.find((tile) => tile.id === id)?.label ?? "");
+      chosenLabel = assembled.join(" ");
+      isCorrect = assembled.length === prompt.solutionLabels.length
+        && assembled.every((word, position) => word === prompt.solutionLabels[position]);
+      wrongFeedback = "L'ordine non rende ancora eseguibile il comando.";
+    } else {
+      if (session.selectedIds.size === 0) {
+        session.feedback = "Prima seleziona una tessera. Il timer continua.";
+        audioManager.playOutcome("hint");
+        this.openLanguageMinigame(session.puzzle);
+        return;
+      }
+      const selected = prompt.tiles.find((tile) => tile.id === [...session.selectedIds][0]);
+      isCorrect = Boolean(selected?.isCorrect);
+      chosenLabel = selected?.label ?? "nessuna";
+      wrongFeedback = selected?.feedback ?? "Scelta non coerente.";
     }
-    const selectedId = [...session.selectedIds][0];
-    const selected = prompt.tiles.find((tile) => tile.id === selectedId);
-    if (!selected?.isCorrect) {
-      const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
-      outcomeFeedback.answer(this, false, selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
+    if (!isCorrect) {
+      const message = `${wrongFeedback} Soluzione: ${solutionDisplay}. ${prompt.explanation}`;
+      outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
       if (this.isTimedMissionMode()) {
         this.languageMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
@@ -1219,7 +1308,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.netScore += award;
     session.feedback = `Corretta: ${prompt.explanation} +${award}`;
     session.locked = true;
-    outcomeFeedback.answer(this, true, selected.label, prompt.solutionLabels.join(", "), prompt.explanation);
+    outcomeFeedback.answer(this, true, chosenLabel, solutionDisplay, prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     this.advanceLanguageMinigamePrompt(1900);
@@ -1244,6 +1333,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
       }
       session.selectedIds.clear();
+      session.orderedSelection = [];
       session.locked = false;
       this.openLanguageMinigame(session.puzzle);
     });
@@ -1431,6 +1521,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     if (prompt.type === "connector-route") {
       return "Metodo: dai un nome al rapporto logico prima di guardare i connettivi.";
+    }
+    if (prompt.type === "word-order") {
+      return "Metodo: soggetto, verbo, complementi; metti tempo o condizione in fondo. Rileggi se suona naturale.";
     }
     return "Metodo: confronta ogni dettaglio con l'obiettivo. Se non aiuta diagnosi, sequenza, fonte o sintesi, è rumore.";
   }
@@ -3895,15 +3988,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 3,
     }));
 
-    this.addMathPanel(overlay, 616, 112, 636, 432, "2 · Scegli un'azione");
-    overlay.add(this.add.text(648, 154, "Come si gioca: trova verbo, oggetto e vincolo; clicca UNA risposta e premi Conferma.", {
+    const isOrdering = prompt.type === "sentence-build";
+    this.addMathPanel(overlay, 616, 112, 636, 432, isOrdering ? "2 · Build the sentence" : "2 · Scegli un'azione");
+    overlay.add(this.add.text(648, 154, isOrdering
+      ? "Tocca le parole nell'ordine giusto. Ritocca una parola per toglierla."
+      : "Come si gioca: trova verbo, oggetto e vincolo; clicca UNA risposta e premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: 548 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(648, 214, prompt.instruction, {
+    overlay.add(this.add.text(648, isOrdering ? 190 : 214, prompt.instruction, {
       fontFamily: "Inter, Arial",
       fontSize: prompt.instruction.length > 92 ? "17px" : "20px",
       color: "#f5fbff",
@@ -3911,28 +4007,32 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 548, useAdvancedWrap: true },
       lineSpacing: 5,
     }));
-    overlay.add(this.add.text(648, 290, prompt.glossary.slice(0, 4).map((entry) => `${entry.term}: ${entry.meaning}`).join("   "), {
+    overlay.add(this.add.text(648, isOrdering ? 224 : 290, prompt.glossary.slice(0, 4).map((entry) => `${entry.term}: ${entry.meaning}`).join("   "), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
       wordWrap: { width: 548, useAdvancedWrap: true },
     }));
 
-    const tileStartX = 788;
-    const tileStartY = 356;
-    prompt.tiles.forEach((tile, index) => {
-      const selected = session.selectedIds.has(tile.id);
-      const col = index % 2;
-      const row = Math.floor(index / 2);
-      overlay.add(new Button(this, tileStartX + col * 252, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleEnglishMinigameTile(tile.id), {
-        width: 226,
-        height: 52,
-        fontSize: tile.label.length > 32 ? 10 : tile.label.length > 22 ? 12 : 15,
-        wordWrapWidth: 202,
-        fill: selected ? 0x174d42 : 0x263743,
-        stroke: selected ? 0xf7d37a : 0x6be7d6,
-      }));
-    });
+    if (isOrdering) {
+      this.renderEnglishOrderingTiles(overlay, session, prompt);
+    } else {
+      const tileStartX = 788;
+      const tileStartY = 356;
+      prompt.tiles.forEach((tile, index) => {
+        const selected = session.selectedIds.has(tile.id);
+        const col = index % 2;
+        const row = Math.floor(index / 2);
+        overlay.add(new Button(this, tileStartX + col * 252, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleEnglishMinigameTile(tile.id), {
+          width: 226,
+          height: 52,
+          fontSize: tile.label.length > 32 ? 10 : tile.label.length > 22 ? 12 : 15,
+          wordWrapWidth: 202,
+          fill: selected ? 0x174d42 : 0x263743,
+          stroke: selected ? 0xf7d37a : 0x6be7d6,
+        }));
+      });
+    }
 
     this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
     this.englishMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
@@ -4008,6 +4108,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       bestStreak: 0,
       netScore: 0,
       selectedIds: new Set<string>(),
+      orderedSelection: [],
       feedback: "Leggi il comando come una procedura: action word -> object -> limiter/time word.",
       locked: false,
       summaryOpen: false,
@@ -4112,6 +4213,64 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.openEnglishMinigame(session.puzzle);
   }
 
+  private toggleEnglishOrderTile(tileId: string): void {
+    const session = this.englishMinigameSession;
+    if (!session || session.locked || session.summaryOpen) {
+      return;
+    }
+    if (session.orderedSelection.includes(tileId)) {
+      session.orderedSelection = session.orderedSelection.filter((id) => id !== tileId);
+    } else {
+      session.orderedSelection.push(tileId);
+    }
+    audioManager.play("click");
+    this.openEnglishMinigame(session.puzzle);
+  }
+
+  private renderEnglishOrderingTiles(
+    overlay: Phaser.GameObjects.Container,
+    session: EnglishMinigameSession,
+    prompt: EnglishMinigamePrompt,
+  ): void {
+    const labelOf = (id: string): string => prompt.tiles.find((tile) => tile.id === id)?.label ?? "";
+    const assembled = session.orderedSelection.map(labelOf).join(" ");
+    overlay.add(this.add.rectangle(648, 262, 572, 56, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.7));
+    overlay.add(this.add.text(664, 276, assembled.length > 0 ? assembled : "(tap the words below)", {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: assembled.length > 0 ? "#f5fbff" : "#7da2af",
+      wordWrap: { width: 544 },
+      lineSpacing: 3,
+    }));
+
+    let tileX = 648;
+    let tileY = 338;
+    prompt.tiles.forEach((tile) => {
+      const placedIndex = session.orderedSelection.indexOf(tile.id);
+      const placed = placedIndex >= 0;
+      const labelText = placed ? `${placedIndex + 1}. ${tile.label}` : tile.label;
+      const tileWidth = Math.max(56, labelText.length * 11 + 22);
+      if (tileX + tileWidth > 1232) {
+        tileX = 648;
+        tileY += 50;
+      }
+      overlay.add(new Button(this, tileX + tileWidth / 2, tileY + 20, labelText, () => this.toggleEnglishOrderTile(tile.id), {
+        width: tileWidth,
+        height: 40,
+        fontSize: 14,
+        fill: placed ? 0x174d42 : 0x263743,
+        stroke: placed ? 0xf7d37a : 0x6be7d6,
+      }));
+      tileX += tileWidth + 10;
+    });
+
+    overlay.add(new Button(this, 1150, 520, "Clear", () => {
+      session.orderedSelection = [];
+      audioManager.play("cancel");
+      this.openEnglishMinigame(session.puzzle);
+    }, { width: 110, height: 34, fontSize: 12, fill: 0x3a2525, stroke: 0xf6c85f }));
+  }
+
   private useEnglishMinigameHint(): void {
     const session = this.englishMinigameSession;
     if (!session || session.locked || session.summaryOpen) {
@@ -4122,7 +4281,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? "Cerca il verbo operativo, poi verifica se not, only, neither o l'aggettivo cambiano l'oggetto."
       : prompt.type === "sequence-switchboard"
         ? "Prima traduci la parola-tempo: before = prima, after = dopo, until = aspetta fino a, unless = salvo se."
-        : "Guarda la soglia: below è sotto, above è sopra, between è dentro l'intervallo.";
+        : prompt.type === "grammar-fix"
+          ? "Trova il segnale nella frase (every day, now, yesterday, than, must, on, any...) e scegli la forma che lo rispetta."
+          : prompt.type === "sentence-build"
+            ? "Parti dal soggetto, poi il verbo; nelle domande l'ausiliare (do/does/did) va prima del soggetto."
+            : "Guarda la soglia: below è sotto, above è sopra, between è dentro l'intervallo.";
     session.feedback = hint;
     this.useHint(hint);
     this.openEnglishMinigame(session.puzzle);
@@ -4138,17 +4301,38 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const prompt = this.currentEnglishMinigamePrompt(session);
-    if (session.selectedIds.size === 0) {
-      session.feedback = "Select one tile first. The timer keeps running.";
-      audioManager.playOutcome("hint");
-      this.openEnglishMinigame(session.puzzle);
-      return;
+    const ordering = prompt.type === "sentence-build";
+    const solutionDisplay = ordering ? prompt.solutionLabels.join(" ") : prompt.solutionLabels.join(", ");
+    let isCorrect: boolean;
+    let chosenLabel: string;
+    let wrongFeedback: string;
+    if (ordering) {
+      if (session.orderedSelection.length === 0) {
+        session.feedback = "Tap the words to build the sentence. The timer keeps running.";
+        audioManager.playOutcome("hint");
+        this.openEnglishMinigame(session.puzzle);
+        return;
+      }
+      const assembled = session.orderedSelection.map((id) => prompt.tiles.find((tile) => tile.id === id)?.label ?? "");
+      chosenLabel = assembled.join(" ");
+      isCorrect = assembled.length === prompt.solutionLabels.length
+        && assembled.every((word, position) => word === prompt.solutionLabels[position]);
+      wrongFeedback = "Word order is not correct yet.";
+    } else {
+      if (session.selectedIds.size === 0) {
+        session.feedback = "Select one tile first. The timer keeps running.";
+        audioManager.playOutcome("hint");
+        this.openEnglishMinigame(session.puzzle);
+        return;
+      }
+      const selected = prompt.tiles.find((tile) => tile.id === [...session.selectedIds][0]);
+      isCorrect = Boolean(selected?.isCorrect);
+      chosenLabel = selected?.label ?? "no answer";
+      wrongFeedback = selected?.feedback ?? "Unsafe action.";
     }
-    const selectedId = [...session.selectedIds][0];
-    const selected = prompt.tiles.find((tile) => tile.id === selectedId);
-    if (!selected?.isCorrect) {
-      const message = `${selected?.feedback ?? "Unsafe action."} Solution: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
-      outcomeFeedback.answer(this, false, selected?.label ?? "no answer", prompt.solutionLabels.join(", "), prompt.explanation);
+    if (!isCorrect) {
+      const message = `${wrongFeedback} Solution: ${solutionDisplay}. ${prompt.explanation}`;
+      outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
       if (this.isTimedMissionMode()) {
         this.englishMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
@@ -4175,7 +4359,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.netScore += award;
     session.feedback = `Correct: ${prompt.explanation} +${award}`;
     session.locked = true;
-    outcomeFeedback.answer(this, true, selected.label, prompt.solutionLabels.join(", "), prompt.explanation);
+    outcomeFeedback.answer(this, true, chosenLabel, solutionDisplay, prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     this.advanceEnglishMinigamePrompt(1900);
@@ -4200,6 +4384,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
       }
       session.selectedIds.clear();
+      session.orderedSelection = [];
       session.locked = false;
       this.openEnglishMinigame(session.puzzle);
     });
@@ -4387,6 +4572,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     if (prompt.type === "sequence-switchboard") {
       return "Method: translate the time word first, then decide which event must happen before the safe action.";
+    }
+    if (prompt.type === "grammar-fix") {
+      return "Metodo: trova il segnale (every day, now, yesterday, than, must, on, any) e scegli la forma grammaticale che lo rispetta.";
+    }
+    if (prompt.type === "sentence-build") {
+      return "Metodo: soggetto + verbo + resto; nelle domande l'ausiliare (do/does/did) va prima del soggetto.";
     }
     return "Method: compare data with the threshold. Choose the action only after checking below, above, between or comparative.";
   }

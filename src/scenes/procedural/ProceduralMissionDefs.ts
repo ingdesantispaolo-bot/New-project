@@ -100,6 +100,8 @@ export type LanguageMinigameSession = {
   bestStreak: number;
   netScore: number;
   selectedIds: Set<string>;
+  /** Ordered tile ids for the "word-order" (Ricomponi la frase) minigame. */
+  orderedSelection: string[];
   feedback: string;
   locked: boolean;
   summaryOpen: boolean;
@@ -119,6 +121,8 @@ export type EnglishMinigameSession = {
   bestStreak: number;
   netScore: number;
   selectedIds: Set<string>;
+  /** Ordered tile ids for the "sentence-build" minigame. */
+  orderedSelection: string[];
   feedback: string;
   locked: boolean;
   summaryOpen: boolean;

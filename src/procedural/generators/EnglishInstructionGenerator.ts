@@ -1,5 +1,6 @@
 import { englishTemplates, type EnglishTemplate } from "../../data/procedural/englishTemplates";
 import type {
+  EnglishChallengeType,
   EnglishMinigamePrompt,
   EnglishMinigameTile,
   EnglishMinigameType,
@@ -43,19 +44,40 @@ export class EnglishInstructionGenerator {
     const level = Math.max(1, Math.min(8, difficultyLevel));
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<EnglishMinigameType>(["action-relay", "sequence-switchboard", "data-command-scan"]);
+      : random.pick<EnglishMinigameType>(["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build"]);
     const minigame = this.buildMinigame(random.fork(type), level, type);
     const first = minigame.prompts[0];
-    const choices = first.tiles.map((tile) => ({
-      id: tile.id,
-      label: tile.label,
-      isCorrect: tile.isCorrect,
-      feedback: tile.feedback,
-    }));
+    let choices: GeneratedEnglishPuzzle["choices"];
+    if (type === "sentence-build") {
+      // Word tiles are single words, so the repair-tab choices come from the
+      // full sentence plus plausible wrong orderings.
+      const sentence = first.solutionLabels.join(" ");
+      const distractors = this.englishSentenceDistractors(random.fork("sb-base"), first.solutionLabels);
+      choices = random.shuffle([sentence, ...distractors]).map((label, choiceIndex) => ({
+        id: `sentence-build-choice-${choiceIndex}`,
+        label,
+        isCorrect: label === sentence,
+        feedback: label === sentence
+          ? "Correct order: subject, verb, then the rest of the sentence reads naturally."
+          : "Wrong order: with the words like this the English sentence is not correct.",
+      }));
+    } else {
+      choices = first.tiles.map((tile) => ({
+        id: tile.id,
+        label: tile.label,
+        isCorrect: tile.isCorrect,
+        feedback: tile.feedback,
+      }));
+    }
+    const challengeType: EnglishChallengeType =
+      type === "data-command-scan" ? "data-reading"
+        : type === "sequence-switchboard" ? "sequence"
+          : type === "grammar-fix" ? "vocabulary-in-context"
+            : "command";
     return {
       id: `english-mini-${type}-${random.integer(1000, 9999)}`,
       title: minigame.title,
-      challengeType: type === "data-command-scan" ? "data-reading" : type === "sequence-switchboard" ? "sequence" : "command",
+      challengeType,
       scenario: "Training rapido del ponte operativo",
       taskPrompt: first.targetLabel,
       instruction: first.instruction,
@@ -122,11 +144,15 @@ export class EnglishInstructionGenerator {
       "action-relay": "Minigioco inglese: Action Relay",
       "sequence-switchboard": "Minigioco inglese: Sequence Switchboard",
       "data-command-scan": "Minigioco inglese: Data Command Scan",
+      "grammar-fix": "Minigioco inglese: Grammar Fix",
+      "sentence-build": "Minigioco inglese: Sentence Builder",
     };
     const instructions: Record<EnglishMinigameType, string> = {
       "action-relay": "clicca l'azione corretta leggendo verbo, oggetto e divieto.",
       "sequence-switchboard": "clicca l'azione che rispetta before, after, then, until o unless.",
       "data-command-scan": "clicca l'azione coerente con soglia, confronto o intervallo.",
+      "grammar-fix": "scegli la forma corretta: tempo verbale, comparativo, modale, preposizione o quantificatore.",
+      "sentence-build": "tocca le parole nell'ordine giusto per formare la frase o la domanda in inglese.",
     };
     return {
       type,
@@ -142,6 +168,8 @@ export class EnglishInstructionGenerator {
         ...(type === "action-relay" ? ["inglese.lessico"] : []),
         ...(type === "sequence-switchboard" ? ["inglese.grammatica", "inglese.bilingue"] : []),
         ...(type === "data-command-scan" ? ["inglese.scientifico", "inglese.dati"] : []),
+        ...(type === "grammar-fix" ? ["inglese.grammatica", "inglese.lessico"] : []),
+        ...(type === "sentence-build" ? ["inglese.grammatica", "inglese.scritturaBreve"] : []),
       ])),
     };
   }
@@ -165,6 +193,8 @@ export class EnglishInstructionGenerator {
   private buildMinigamePrompt(random: Random, level: number, type: EnglishMinigameType, index: number): EnglishMinigamePrompt {
     if (type === "action-relay") return this.buildActionRelayPrompt(random, level, index);
     if (type === "sequence-switchboard") return this.buildSequenceSwitchboardPrompt(random, level, index);
+    if (type === "grammar-fix") return this.buildGrammarFixPrompt(random, level, index);
+    if (type === "sentence-build") return this.buildSentenceBuildPrompt(random, level, index);
     return this.buildDataCommandScanPrompt(random, level, index);
   }
 
@@ -454,27 +484,146 @@ export class EnglishInstructionGenerator {
     return random.shuffle(tiles).map((tile, index) => ({ ...tile, id: `${tile.id}-${index}` }));
   }
 
+  private buildGrammarFixPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    type GrammarItem = { instruction: string; correct: string; distractors: string[]; explanation: string; concept: string; glossary: Array<{ term: string; meaning: string }> };
+    const base: GrammarItem[] = [
+      { instruction: "She ___ to school every day. (ogni giorno)", correct: "goes", distractors: ["go", "is going", "going"], explanation: "Present simple per le abitudini: alla terza persona si aggiunge -es (go → goes).", concept: "present simple", glossary: [{ term: "every day", meaning: "ogni giorno" }, { term: "goes", meaning: "va" }] },
+      { instruction: "Look! The robot ___ a box now. (now)", correct: "is carrying", distractors: ["carries", "carry", "carried"], explanation: "Present continuous per ciò che accade ora: be + verbo-ing.", concept: "present continuous", glossary: [{ term: "now", meaning: "adesso" }, { term: "carry", meaning: "trasportare" }] },
+      { instruction: "Yesterday we ___ the test. (yesterday)", correct: "started", distractors: ["start", "starts", "starting"], explanation: "Past simple per il passato concluso: verbi regolari in -ed.", concept: "past simple", glossary: [{ term: "yesterday", meaning: "ieri" }, { term: "start", meaning: "iniziare" }] },
+      { instruction: "This cable is ___ than that one.", correct: "longer", distractors: ["long", "longest", "more long"], explanation: "Comparativo di maggioranza con aggettivo corto: -er + than.", concept: "comparative", glossary: [{ term: "than", meaning: "di/che (confronto)" }, { term: "long", meaning: "lungo" }] },
+      { instruction: "This is the ___ room in the lab.", correct: "biggest", distractors: ["bigger", "big", "most big"], explanation: "Superlativo con aggettivo corto: the + -est (big → biggest).", concept: "superlative", glossary: [{ term: "the biggest", meaning: "il più grande" }] },
+      { instruction: "You ___ wear gloves here. (obbligo)", correct: "must", distractors: ["mustn't", "can", "should"], explanation: "Must esprime obbligo; mustn't sarebbe divieto.", concept: "modal: obligation", glossary: [{ term: "must", meaning: "dovere (obbligo)" }, { term: "gloves", meaning: "guanti" }] },
+      { instruction: "Robots ___ lift heavy boxes. (capacità)", correct: "can", distractors: ["must", "should", "can't"], explanation: "Can esprime capacità/abilità.", concept: "modal: ability", glossary: [{ term: "can", meaning: "potere/sapere" }, { term: "lift", meaning: "sollevare" }] },
+      { instruction: "You look tired. You ___ rest. (consiglio)", correct: "should", distractors: ["must", "mustn't", "can't"], explanation: "Should dà un consiglio, non un obbligo.", concept: "modal: advice", glossary: [{ term: "should", meaning: "dovere (consiglio)" }, { term: "rest", meaning: "riposare" }] },
+      { instruction: "The key is ___ the drawer. (dentro)", correct: "in", distractors: ["on", "at", "to"], explanation: "In per ciò che è dentro un contenitore.", concept: "preposition of place", glossary: [{ term: "in", meaning: "dentro" }, { term: "drawer", meaning: "cassetto" }] },
+      { instruction: "The test starts ___ Monday.", correct: "on", distractors: ["in", "at", "by"], explanation: "On con i giorni della settimana.", concept: "preposition of time", glossary: [{ term: "on Monday", meaning: "di lunedì" }] },
+      { instruction: "There aren't ___ batteries left.", correct: "any", distractors: ["some", "much", "a"], explanation: "Any nelle frasi negative con plurali numerabili.", concept: "quantifier some/any", glossary: [{ term: "any", meaning: "nessuno/alcuni" }, { term: "left", meaning: "rimasto" }] },
+      { instruction: "How ___ sensors are there?", correct: "many", distractors: ["much", "some", "any"], explanation: "Many con i nomi numerabili plurali.", concept: "quantifier much/many", glossary: [{ term: "how many", meaning: "quanti" }] },
+      { instruction: "It is ___ open circuit.", correct: "an", distractors: ["a", "the", "one"], explanation: "An davanti a suono vocalico (open).", concept: "articles a/an", glossary: [{ term: "an", meaning: "un/uno (davanti a vocale)" }] },
+      { instruction: "___ she like science?", correct: "Does", distractors: ["Do", "Is", "Did"], explanation: "Domanda al present simple, terza persona: ausiliare Does.", concept: "question form", glossary: [{ term: "does", meaning: "ausiliare (3ª pers.)" }] },
+      { instruction: "There ___ three robots in the room.", correct: "are", distractors: ["is", "be", "has"], explanation: "There are con i plurali.", concept: "there is/are", glossary: [{ term: "there are", meaning: "ci sono" }] },
+    ];
+    const advanced: GrammarItem[] = [
+      { instruction: "I ___ already finished the report.", correct: "have", distractors: ["has", "am", "did"], explanation: "Present perfect: have/has + participio passato.", concept: "present perfect", glossary: [{ term: "already", meaning: "già" }, { term: "have finished", meaning: "ho finito" }] },
+      { instruction: "Look at the clouds! It ___ rain.", correct: "is going to", distractors: ["will", "goes to", "go to"], explanation: "Be going to per previsioni con prove evidenti.", concept: "future: going to", glossary: [{ term: "is going to", meaning: "sta per/andrà" }] },
+      { instruction: "If you press it, the light ___ on.", correct: "will turn", distractors: ["turns", "turned", "turning"], explanation: "Primo condizionale: if + present, will + base.", concept: "first conditional", glossary: [{ term: "will turn on", meaning: "si accenderà" }] },
+      { instruction: "This result is ___ than before.", correct: "better", distractors: ["gooder", "more good", "best"], explanation: "Comparativo irregolare: good → better.", concept: "irregular comparative", glossary: [{ term: "better", meaning: "migliore" }] },
+      { instruction: "Where ___ you go yesterday?", correct: "did", distractors: ["do", "does", "was"], explanation: "Domanda al past simple: ausiliare did + base.", concept: "past question", glossary: [{ term: "did", meaning: "ausiliare passato" }] },
+    ];
+    const item = random.pick(level >= 4 ? [...base, ...advanced] : base);
+    const tiles = this.shuffleEnglishTiles(random, [
+      this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
+      ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Not correct here: ${item.explanation}`)),
+    ]);
+    return {
+      id: `english-grammar-${index}`,
+      type: "grammar-fix",
+      instruction: item.instruction,
+      context: "Choose the correct English form so the sentence is grammatically right.",
+      targetLabel: "Correct form",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.correct],
+      explanation: item.explanation,
+      concept: item.concept,
+      glossary: item.glossary,
+      signature: `grammar-${item.instruction}-${item.correct}`,
+    };
+  }
+
+  private buildSentenceBuildPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    const base = [
+      { sentence: "She goes to school every day", concept: "present simple word order", glossary: [{ term: "every day", meaning: "ogni giorno" }] },
+      { sentence: "The robot is moving the box", concept: "present continuous word order", glossary: [{ term: "is moving", meaning: "sta muovendo" }] },
+      { sentence: "We started the test yesterday", concept: "past simple word order", glossary: [{ term: "yesterday", meaning: "ieri" }] },
+      { sentence: "There are three sensors here", concept: "there are + plural", glossary: [{ term: "there are", meaning: "ci sono" }] },
+      { sentence: "Does she like science", concept: "question word order", glossary: [{ term: "does", meaning: "ausiliare domanda" }] },
+    ];
+    const advanced = [
+      { sentence: "Where did you put the key", concept: "wh- question word order", glossary: [{ term: "where", meaning: "dove" }] },
+      { sentence: "You must wear gloves here", concept: "modal word order", glossary: [{ term: "must", meaning: "dovere (obbligo)" }] },
+      { sentence: "I have finished the report", concept: "present perfect word order", glossary: [{ term: "have finished", meaning: "ho finito" }] },
+    ];
+    const item = random.pick(level >= 4 ? [...base, ...advanced] : base);
+    const words = item.sentence.split(/\s+/);
+    const isQuestion = ["does", "did", "where", "do", "is", "are", "can"].includes(words[0].toLowerCase());
+    const tiles = this.shuffleEnglishTiles(
+      random,
+      words.map((word, position) => this.englishTile(index * 100 + position, word, true, "Word of the sentence: mind its position.")),
+    );
+    const explanation = isQuestion
+      ? "Nelle domande inglesi l'ausiliare va prima del soggetto: (Wh-) + aux + soggetto + verbo."
+      : "Ordine inglese: soggetto + verbo + resto della frase. L'ordine cambia il significato.";
+    return {
+      id: `english-build-${index}`,
+      type: "sentence-build",
+      instruction: `Build: ${isQuestion ? "the question" : "the sentence"} in correct English.`,
+      context: `Scrambled words: ${random.shuffle([...words]).join(" · ")}`,
+      targetLabel: "Correct order",
+      requiredSelectionCount: words.length,
+      tiles,
+      solutionLabels: words,
+      explanation,
+      concept: item.concept,
+      glossary: item.glossary,
+      signature: `sentence-build-${item.sentence}`,
+    };
+  }
+
+  private englishSentenceDistractors(random: Random, words: string[]): string[] {
+    const correct = words.join(" ");
+    const variants = new Set<string>();
+    const swap = (source: string[], i: number, j: number): string => {
+      const copy = [...source];
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+      return copy.join(" ");
+    };
+    const candidates: string[] = [];
+    if (words.length >= 2) candidates.push(swap(words, 0, 1));
+    if (words.length >= 3) candidates.push(swap(words, words.length - 2, words.length - 1));
+    candidates.push([words[words.length - 1], ...words.slice(0, words.length - 1)].join(" "));
+    if (words.length >= 4) candidates.push(swap(words, 1, words.length - 1));
+    candidates.forEach((candidate) => {
+      if (candidate !== correct) variants.add(candidate);
+    });
+    let guard = 0;
+    while (variants.size < 3 && guard < 20) {
+      const shuffled = random.shuffle([...words]).join(" ");
+      if (shuffled !== correct) variants.add(shuffled);
+      guard += 1;
+    }
+    return [...variants].slice(0, 3);
+  }
+
   private englishMinigameConcepts(type: EnglishMinigameType): string[] {
     if (type === "action-relay") return ["imperative", "object choice", "prohibition"];
     if (type === "sequence-switchboard") return ["before/after", "condition", "sequence"];
+    if (type === "grammar-fix") return ["verb tenses", "grammar choice", "word forms"];
+    if (type === "sentence-build") return ["word order", "sentence structure", "questions"];
     return ["data reading", "threshold", "comparison"];
   }
 
   private englishMinigamePurpose(type: EnglishMinigameType): string {
     if (type === "action-relay") return "Allena riconoscimento rapido di verbi operativi, oggetti, colori, direzioni e divieti.";
     if (type === "sequence-switchboard") return "Allena lettura di before, after, until, unless e if come vincoli di procedura.";
+    if (type === "grammar-fix") return "Allena la grammatica della scuola media: tempi verbali, comparativi, modali, preposizioni, quantificatori e domande.";
+    if (type === "sentence-build") return "Allena la costruzione della frase e della domanda in inglese: ordine soggetto-verbo e posizione dell'ausiliare.";
     return "Allena lettura di dati semplici in inglese: below, above, between, dimmer, brighter e soglie.";
   }
 
   private englishMinigameMethod(type: EnglishMinigameType): string {
     if (type === "action-relay") return "Trova verbo d'azione e oggetto, poi controlla not, only, neither e aggettivi.";
     if (type === "sequence-switchboard") return "Sottolinea le parole-tempo: before, after, until, then, unless. Poi ordina le azioni.";
+    if (type === "grammar-fix") return "Riconosci il segnale (every day, now, yesterday, than, must...) e scegli la forma che lo rispetta.";
+    if (type === "sentence-build") return "Parti dal soggetto, poi il verbo; nelle domande metti l'ausiliare prima del soggetto.";
     return "Leggi la soglia o il confronto, confronta i dati, poi scegli una sola azione.";
   }
 
   private englishMinigameMethodSteps(type: EnglishMinigameType): string[] {
     if (type === "action-relay") return ["verb", "object", "not/only"];
     if (type === "sequence-switchboard") return ["time word", "first event", "safe action"];
+    if (type === "grammar-fix") return ["find the signal", "recall the rule", "pick the form"];
+    if (type === "sentence-build") return ["subject", "verb", "rest / aux first in questions"];
     return ["threshold", "data", "action"];
   }
 

@@ -15,13 +15,13 @@ const palettes: Record<Palette, { bg: number; deep: number; accent: number; acce
 const gradedCameras = new WeakSet<Phaser.Cameras.Scene2D.Camera>();
 
 // Per-palette filmic grade tuning. Neutral = brightness 1, saturate 0, contrast 0.
-const gradeProfiles: Record<Palette, { brightness: number; saturate: number; contrast: number; vignette: number; glow: number }> = {
-  academy: { brightness: 1.03, saturate: 0.22, contrast: 0.16, vignette: 0.42, glow: 0.9 },
-  lab: { brightness: 1.02, saturate: 0.2, contrast: 0.18, vignette: 0.46, glow: 1.0 },
-  greenhouse: { brightness: 1.05, saturate: 0.26, contrast: 0.12, vignette: 0.36, glow: 0.8 },
-  factory: { brightness: 1.02, saturate: 0.18, contrast: 0.2, vignette: 0.44, glow: 1.0 },
-  archive: { brightness: 1.02, saturate: 0.22, contrast: 0.16, vignette: 0.46, glow: 0.9 },
-  circuit: { brightness: 1.03, saturate: 0.24, contrast: 0.18, vignette: 0.44, glow: 1.1 },
+const gradeProfiles: Record<Palette, { brightness: number; saturate: number; contrast: number; glow: number }> = {
+  academy: { brightness: 1.03, saturate: 0.22, contrast: 0.16, glow: 0.9 },
+  lab: { brightness: 1.02, saturate: 0.2, contrast: 0.18, glow: 1.0 },
+  greenhouse: { brightness: 1.05, saturate: 0.26, contrast: 0.12, glow: 0.8 },
+  factory: { brightness: 1.02, saturate: 0.18, contrast: 0.2, glow: 1.0 },
+  archive: { brightness: 1.02, saturate: 0.22, contrast: 0.16, glow: 0.9 },
+  circuit: { brightness: 1.03, saturate: 0.24, contrast: 0.18, glow: 1.1 },
 };
 
 export class VisualKit {
@@ -53,7 +53,6 @@ export class VisualKit {
       cm.brightness(profile.brightness, true);
       cm.saturate(profile.saturate, true);
       cm.contrast(profile.contrast, true);
-      filters.internal.addVignette(0.5, 0.5, 0.82, profile.vignette);
       if (quality === "high") {
         filters.internal.addGlow(0xffffff, profile.glow, 0, 1.1, false, 4, 8);
       }

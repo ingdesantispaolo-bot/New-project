@@ -9,9 +9,9 @@ type SettingsSceneData = {
 };
 
 const PANEL_X = 360;
-const PANEL_Y = 150;
+const PANEL_Y = 50;
 const PANEL_W = 560;
-const PANEL_H = 484;
+const PANEL_H = 620;
 
 /**
  * Lightweight overlay for audio + comfort preferences. Launched on top of the
@@ -23,6 +23,8 @@ export class SettingsScene extends Phaser.Scene {
   private muteButton?: Button;
   private effectsButton?: Button;
   private qualityButton?: Button;
+  private textButton?: Button;
+  private pressureButton?: Button;
   private effectsChanged = false;
   private qualityChanged = false;
 
@@ -147,8 +149,50 @@ export class SettingsScene extends Phaser.Scene {
     });
     this.qualityButton.setDepth(3);
 
+    // --- Text scale ---
+    this.add.text(PANEL_X + 32, PANEL_Y + 396, "Dimensione testo", {
+      fontFamily: "Inter, Arial",
+      fontSize: "19px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }).setDepth(3);
+    this.add.text(PANEL_X + 32, PANEL_Y + 422, "Aumenta tutti i testi; sui tablet viene applicato anche un piccolo incremento automatico.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      wordWrap: { width: 330 },
+    }).setDepth(3);
+    this.textButton = new Button(this, PANEL_X + 410, PANEL_Y + 406, this.textScaleLabel(), () => this.cycleTextScale(), {
+      width: 156,
+      height: 46,
+      fontSize: 14,
+      soundKey: "uiSelect",
+    });
+    this.textButton.setDepth(3);
+
+    // --- Pressure mode ---
+    this.add.text(PANEL_X + 32, PANEL_Y + 462, "Pressione missioni", {
+      fontFamily: "Inter, Arial",
+      fontSize: "19px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }).setDepth(3);
+    this.add.text(PANEL_X + 32, PANEL_Y + 488, "Rilassata elimina timer e vite dalle missioni rapide. La Scalata resta una sfida a tempo.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      wordWrap: { width: 330 },
+    }).setDepth(3);
+    this.pressureButton = new Button(this, PANEL_X + 410, PANEL_Y + 472, this.pressureLabel(), () => this.cyclePressure(), {
+      width: 156,
+      height: 46,
+      fontSize: 13,
+      soundKey: "uiSelect",
+    });
+    this.pressureButton.setDepth(3);
+
     // --- Close ---
-    new Button(this, PANEL_X + PANEL_W / 2, PANEL_Y + 436, "Chiudi", () => this.close(), {
+    new Button(this, PANEL_X + PANEL_W / 2, PANEL_Y + 564, "Chiudi", () => this.close(), {
       width: 200,
       height: 48,
       fill: 0x1f5a51,
@@ -201,6 +245,25 @@ export class SettingsScene extends Phaser.Scene {
     settingsSystem.cycleGraphicsQuality();
     this.qualityChanged = true;
     this.qualityButton?.setLabel(this.qualityLabel());
+  }
+
+  private textScaleLabel(): string {
+    return `Testo: ${Math.round(settingsSystem.getTextScale() * 100)}%`;
+  }
+
+  private cycleTextScale(): void {
+    settingsSystem.cycleTextScale();
+    this.effectsChanged = true;
+    this.textButton?.setLabel(this.textScaleLabel());
+  }
+
+  private pressureLabel(): string {
+    return settingsSystem.pressureEnabled() ? "Modalità: Sfida" : "Modalità: Rilassata";
+  }
+
+  private cyclePressure(): void {
+    settingsSystem.cyclePressureMode();
+    this.pressureButton?.setLabel(this.pressureLabel());
   }
 
   private close(): void {

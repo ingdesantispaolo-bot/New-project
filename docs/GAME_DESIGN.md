@@ -124,8 +124,9 @@ La regola di design e: una nuova difficolta deve cambiare il tipo di pensiero ri
 
 Eli Quest separa due bisogni diversi senza cambiare identita al prodotto:
 
-- **Missione narrativa:** e il gioco principale. Ha tempo, tre vite e continuita di storia. L'errore consuma una vita per dare tensione, ma il feedback spiega il motivo e la run riparte con lo stesso seed.
+- **Missione narrativa:** e il gioco principale. Parte in modalita rilassata, senza conto alla rovescia o perdita di vite; la pressione puo essere attivata nelle impostazioni. Il feedback spiega sempre il motivo e la run mantiene lo stesso seed.
 - **Allenamento focus:** e una sala specialistica per matematica, italiano, inglese, coding o elettronica. Non ha vite: registra tempo, precisione, indizi e voto formativo. Serve per specializzarsi senza interrompere la storia.
+- **Scalata progressiva:** e la modalita di padronanza esplicitamente a tempo. Il timer parte solo dopo che scena e interfaccia sono caricate e lo studente conferma di essere pronto.
 
 Entrambi i percorsi usano lo stesso principio: sfide procedurali validate, distrattori plausibili, almeno due passaggi cognitivi e indizi coerenti. Il prodotto deve restare semplice da usare ma profondo da padroneggiare.
 

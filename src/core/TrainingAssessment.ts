@@ -31,7 +31,7 @@ function nextTrainingGoal(grade: number, speedRatio: number, hintsUsed: number, 
 
 export function assessTrainingRun(run: ProceduralRunSave, completedAt: string): TrainingRunResult {
   const focus = proceduralRunRules.focusFor(run);
-  const elapsedMs = Math.max(0, new Date(completedAt).getTime() - new Date(run.startedAt).getTime());
+  const elapsedMs = proceduralRunRules.elapsedMs(run, new Date(completedAt).getTime());
   const requiredCount = Math.max(1, run.mission.objectives.length || run.solvedPuzzleIds.length || 1);
   const targetMs = requiredCount * (86 + run.difficulty * 12) * 1000;
   const speedRatio = elapsedMs / targetMs;

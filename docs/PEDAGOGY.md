@@ -134,3 +134,5 @@ Nell'Archivio delle Parole, comprensione, grammatica, lessico, inglese bilingue,
 ## Clima Emotivo
 
 La missione non usa timer, voti o penalita. Gli errori sono presentati come osservazioni: il circuito non si chiude, il robot urta, il terminale restituisce un indizio.
+
+Le modalita di padronanza possono usare tempo e vite, ma solo come scelta esplicita. Il caricamento, le schermate introduttive, la rotazione del tablet e il passaggio temporaneo ad altre app non consumano tempo.

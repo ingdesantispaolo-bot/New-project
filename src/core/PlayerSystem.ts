@@ -313,7 +313,7 @@ export class PlayerSystem {
       1000,
       proceduralRunRules.modeFor(run) === "progressive" && progressiveResults.length > 0
         ? progressiveResults.reduce((sum, result) => sum + result.elapsedMs, 0)
-        : new Date(completedAt).getTime() - new Date(run.startedAt).getTime(),
+        : proceduralRunRules.elapsedMs(run, new Date(completedAt).getTime()),
     );
     const puzzleScores = Object.values(run.puzzleStats ?? {});
     const attempts = puzzleScores.reduce((sum, score) => sum + Math.max(1, score.attempts), 0);

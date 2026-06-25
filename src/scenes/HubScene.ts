@@ -213,8 +213,11 @@ export class HubScene extends Phaser.Scene {
   private startProceduralMission(): void {
     const baseDifficulty = progressionSystem.getProgression().recommendedProceduralDifficulty;
     const mission = proceduralDirector.generateFreshMission(baseDifficulty, ["problemSolving", "pensieroCritico"]);
-    const startedAt = new Date().toISOString();
-    const timeLimitMs = proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length));
+    const createdAt = new Date().toISOString();
+    const pressureEnabled = proceduralRunRules.pressureEnabledForMode("mission");
+    const timeLimitMs = pressureEnabled
+      ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length))
+      : undefined;
     const run: ProceduralRunSave = {
       seed: mission.seed,
       difficulty: mission.difficulty,
@@ -225,11 +228,13 @@ export class HubScene extends Phaser.Scene {
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
       puzzleStats: {},
-      lives: proceduralRunRules.maxLives,
-      maxLives: proceduralRunRules.maxLives,
+      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
       timeLimitMs,
-      deadlineAt: proceduralRunRules.deadlineFrom(startedAt, timeLimitMs),
-      startedAt,
+      timerState: "preparing",
+      createdAt,
+      activeElapsedMs: 0,
+      startedAt: createdAt,
     };
     saveSystem.setProceduralRun(run);
     void startScene(this, "ProceduralMissionScene");

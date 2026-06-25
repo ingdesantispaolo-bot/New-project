@@ -1,4 +1,5 @@
 import { audioManager } from "./AudioManager";
+import { EventBus, GameEvents } from "./EventBus";
 
 export class ViewportSystem {
   private static installed = false;
@@ -14,7 +15,13 @@ export class ViewportSystem {
     this.update();
     window.addEventListener("resize", () => this.update(), { passive: true });
     window.addEventListener("orientationchange", () => window.setTimeout(() => this.update(), 120), { passive: true });
-    document.addEventListener("visibilitychange", () => this.update(), { passive: true });
+    document.addEventListener("visibilitychange", () => {
+      this.update();
+      EventBus.emit(document.hidden ? GameEvents.RuntimePauseRequested : GameEvents.RuntimeResumeRequested, "visibility");
+    }, { passive: true });
+    window.addEventListener("blur", () => EventBus.emit(GameEvents.RuntimePauseRequested, "blur"), { passive: true });
+    window.addEventListener("focus", () => EventBus.emit(GameEvents.RuntimeResumeRequested, "focus"), { passive: true });
+    window.addEventListener("pagehide", () => EventBus.emit(GameEvents.RuntimePauseRequested, "pagehide"), { passive: true });
     document.addEventListener("contextmenu", (event) => event.preventDefault());
     document.addEventListener("dragstart", (event) => event.preventDefault());
     audioManager.installUnlockListeners();
@@ -48,6 +55,7 @@ export class ViewportSystem {
     document.body.classList.toggle("tablet-mode", tabletLike);
     document.body.classList.toggle("portrait-blocked", tabletLike && portrait);
     this.orientationOverlay?.classList.toggle("visible", tabletLike && portrait);
+    EventBus.emit(tabletLike && portrait ? GameEvents.RuntimePauseRequested : GameEvents.RuntimeResumeRequested, "orientation");
   }
 
   private static registerServiceWorker(): void {

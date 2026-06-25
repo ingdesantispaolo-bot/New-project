@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { audioManager } from "../core/AudioManager";
 import { exerciseVariantSystem } from "../core/ExerciseVariantSystem";
 import { feedbackSystem } from "../core/FeedbackSystem";
@@ -20,6 +21,9 @@ const commandLabels: Record<RobotCommand, string> = {
 };
 
 export class RobotCodingScene extends Phaser.Scene {
+  preload(): void {
+    queueSceneAssets(this, "lab");
+  }
   private robotPuzzle: RobotPuzzleDefinition = exerciseVariantSystem.getRobotPuzzle();
   private commands: RobotCommand[] = [];
   private commandText?: Phaser.GameObjects.Text;

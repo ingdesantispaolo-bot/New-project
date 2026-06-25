@@ -3,6 +3,13 @@ import Phaser from "phaser";
 type SceneConstructor = new () => Phaser.Scene;
 
 const lazyLoaders: Record<string, () => Promise<SceneConstructor>> = {
+  LaboratoryScene: async () => (await import("../scenes/LaboratoryScene")).LaboratoryScene,
+  GreenhouseScene: async () => (await import("../scenes/GreenhouseScene")).GreenhouseScene,
+  NumberFactoryScene: async () => (await import("../scenes/NumberFactoryScene")).NumberFactoryScene,
+  WordArchiveScene: async () => (await import("../scenes/WordArchiveScene")).WordArchiveScene,
+  CircuitPuzzleScene: async () => (await import("../scenes/CircuitPuzzleScene")).CircuitPuzzleScene,
+  MathLockScene: async () => (await import("../scenes/MathLockScene")).MathLockScene,
+  RobotCodingScene: async () => (await import("../scenes/RobotCodingScene")).RobotCodingScene,
   LeaderboardScene: async () => (await import("../scenes/LeaderboardScene")).LeaderboardScene,
   MathStudyScene: async () => (await import("../scenes/MathStudyScene")).MathStudyScene,
   PlayerReportScene: async () => (await import("../scenes/PlayerReportScene")).PlayerReportScene,

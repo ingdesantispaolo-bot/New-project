@@ -11,6 +11,7 @@ import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { noraVoice, type NoraBeat } from "../core/NoraVoice";
 import { noraChip } from "../ui/NoraChip";
 import { languageTemplates } from "../data/procedural/languageTemplates";
@@ -156,6 +157,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private progressiveSynthesisOrder: number[] = [];
   private autoOpenPuzzle?: ProceduralPuzzleId;
   private noraGreetedSeed?: string;
+  private runtimePausedAt?: number;
   private languageBuilderPuzzleId?: string;
   private languageBuilderShuffled: string[] = [];
   private languageBuilderPlaced: number[] = [];
@@ -166,6 +168,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   init(data?: { autoOpenPuzzle?: ProceduralPuzzleId }): void {
     this.autoOpenPuzzle = data?.autoOpenPuzzle;
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "procedural");
   }
 
   create(): void {
@@ -192,8 +198,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.time.addEvent({ delay: 1000, loop: true, callback: () => this.refreshObjective() });
 
     EventBus.on(GameEvents.Feedback, this.handleFeedback, this);
+    EventBus.on(GameEvents.RuntimePauseRequested, this.handleRuntimePause, this);
+    EventBus.on(GameEvents.RuntimeResumeRequested, this.handleRuntimeResume, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       EventBus.off(GameEvents.Feedback, this.handleFeedback, this);
+      EventBus.off(GameEvents.RuntimePauseRequested, this.handleRuntimePause, this);
+      EventBus.off(GameEvents.RuntimeResumeRequested, this.handleRuntimeResume, this);
       this.pauseRunIfLeaving();
     });
 
@@ -203,11 +213,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.noraGreetedSeed = this.run.seed;
       this.time.delayedCall(520, () => this.noraSay("enter"));
     }
-    this.scheduleNextProgressivePuzzle(700);
-    if (this.autoOpenPuzzle && !this.isProgressiveMode()) {
-      const puzzleId = this.requiredPuzzleIds().find((id) => puzzleKindFromId(id) === this.autoOpenPuzzle) ?? this.autoOpenPuzzle;
-      this.time.delayedCall(420, () => this.openPuzzleConsole(puzzleId));
-    }
+    this.time.delayedCall(80, () => this.showRunReadyOverlay());
   }
 
   /** Speaks an in-character NORA line for a beat (story modes only). */
@@ -336,6 +342,101 @@ export class ProceduralMissionScene extends Phaser.Scene {
     saveSystem.pauseActiveProceduralRun();
   }
 
+  private handleRuntimePause(): void {
+    if (!this.scene.isActive() || this.run.timerState !== "running") return;
+    this.runtimePausedAt = Date.now();
+    saveSystem.pauseActiveProceduralRun();
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+  }
+
+  private handleRuntimeResume(): void {
+    if (!this.scene.isActive() || this.run.completedAt || this.run.failedAt) return;
+    if (this.runtimePausedAt) {
+      const pausedFor = Math.max(0, Date.now() - this.runtimePausedAt);
+      [
+        this.mathMinigameSession,
+        this.languageMinigameSession,
+        this.englishMinigameSession,
+        this.codingMinigameSession,
+        this.circuitMinigameSession,
+        this.musicSession,
+      ].forEach((session) => {
+        if (session && session.startedAt > 0) session.startedAt += pausedFor;
+      });
+      if (this.musicSession && this.musicSession.questionStartedAt > 0) {
+        this.musicSession.questionStartedAt += pausedFor;
+      }
+      this.runtimePausedAt = undefined;
+    }
+    if (this.run.timerState === "paused") {
+      this.time.delayedCall(80, () => this.showRunReadyOverlay(true));
+    }
+  }
+
+  private showRunReadyOverlay(resuming = false): void {
+    if (!this.scene.isActive() || this.run.completedAt || this.run.failedAt || this.run.timerState === "running") return;
+    this.clearOverlay();
+    saveSystem.updateProceduralRun({ timerState: "ready", deadlineAt: undefined });
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    const pressure = proceduralRunRules.pressureEnabledForMode(this.runMode());
+    const overlay = this.add.container(0, 0).setDepth(2200);
+    SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.9);
+    overlay.add(this.add.rectangle(640, 360, 650, 330, 0x07151d, 0.98).setStrokeStyle(2, pressure ? 0xf6c85f : 0x6be7d6, 0.78));
+    overlay.add(this.add.text(640, 244, resuming ? "Prova in pausa" : "Console pronta", {
+      fontFamily: "Inter, Arial",
+      fontSize: "32px",
+      color: pressure ? "#f7d37a" : "#9ff5e9",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    overlay.add(this.add.text(640, 312, pressure
+      ? "Il timer partirà solo quando premi Inizia. Caricamento e lettura di questa schermata non consumano tempo."
+      : "Modalità rilassata: nessun conto alla rovescia e nessuna vita persa. Contano metodo, precisione e correzione.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "17px",
+      color: "#d9eaf1",
+      align: "center",
+      wordWrap: { width: 540 },
+      lineSpacing: 6,
+    }).setOrigin(0.5));
+    overlay.add(new Button(this, 640, 438, resuming ? "Riprendi" : "Inizia", () => this.startPreparedRun(), {
+      width: 280,
+      height: 58,
+      fill: 0x1f5a51,
+      stroke: pressure ? 0xf6c85f : 0x6be7d6,
+      fontSize: 19,
+      soundKey: "missionStart",
+    }));
+    this.overlay = overlay;
+  }
+
+  private startPreparedRun(): void {
+    const now = new Date().toISOString();
+    const pressure = proceduralRunRules.pressureEnabledForMode(this.runMode());
+    const remaining = this.run.pausedRemainingMs ?? this.run.timeLimitMs;
+    const progressive = this.run.progressive
+      ? {
+          ...this.run.progressive,
+          levelStartedAt: now,
+          levelDeadlineAt: pressure && remaining ? proceduralRunRules.deadlineFrom(now, remaining) : now,
+        }
+      : undefined;
+    saveSystem.updateProceduralRun({
+      timerState: "running",
+      startedAt: now,
+      deadlineAt: pressure && remaining ? proceduralRunRules.deadlineFrom(now, remaining) : undefined,
+      pausedRemainingMs: undefined,
+      progressive,
+    });
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    this.clearOverlay();
+    this.refreshObjective();
+    this.scheduleNextProgressivePuzzle(700);
+    if (this.autoOpenPuzzle && !this.isProgressiveMode()) {
+      const puzzleId = this.requiredPuzzleIds().find((id) => puzzleKindFromId(id) === this.autoOpenPuzzle) ?? this.autoOpenPuzzle;
+      this.time.delayedCall(420, () => this.openPuzzleConsole(puzzleId));
+    }
+  }
+
   private runMode(): "mission" | "training" | "progressive" {
     return proceduralRunRules.modeFor(this.run);
   }
@@ -346,12 +447,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private isTimedMissionMode(): boolean {
     const mode = this.runMode();
-    return mode === "mission" || mode === "progressive";
+    return proceduralRunRules.pressureEnabledForMode(mode);
   }
 
   private isRunInteractionLocked(): boolean {
     return this.missionFailureInProgress
       || this.progressiveOutcomeOpen
+      || this.run.timerState !== "running"
       || Boolean(this.run.completedAt || this.run.failedAt);
   }
 
@@ -391,8 +493,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return normalized;
     }
     const mission = proceduralDirector.generateFreshMission(2, ["libera"]);
-    const startedAt = new Date().toISOString();
-    const timeLimitMs = proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length));
+    const createdAt = new Date().toISOString();
+    const pressureEnabled = proceduralRunRules.pressureEnabledForMode("mission");
+    const timeLimitMs = pressureEnabled
+      ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length))
+      : undefined;
     const run: ProceduralRunSave = {
       seed: mission.seed,
       difficulty: mission.difficulty,
@@ -403,11 +508,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
       puzzleStats: {},
-      lives: proceduralRunRules.maxLives,
-      maxLives: proceduralRunRules.maxLives,
+      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
       timeLimitMs,
-      deadlineAt: proceduralRunRules.deadlineFrom(startedAt, timeLimitMs),
-      startedAt,
+      timerState: "preparing",
+      createdAt,
+      activeElapsedMs: 0,
+      startedAt: createdAt,
     };
     saveSystem.setProceduralRun(run);
     return run;
@@ -457,10 +564,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const mission = mode === "progressive"
       ? progressiveMissionBuilder.buildLevelMission(baseMission, run.progressive?.currentLevel ?? run.difficulty)
       : baseMission;
-    const startedAt = new Date().toISOString();
+    const createdAt = new Date().toISOString();
+    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
     const timeLimitMs = mode === "progressive"
       ? progressiveMissionBuilder.timeLimitMs(run.progressive?.currentLevel ?? mission.difficulty, Math.max(1, mission.objectives.length))
-      : mode === "mission"
+      : pressureEnabled
         ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length))
         : undefined;
     const replacement: ProceduralRunSave = {
@@ -473,19 +581,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
       puzzleStats: {},
-      lives: mode === "mission" || mode === "progressive" ? proceduralRunRules.maxLives : undefined,
-      maxLives: mode === "mission" || mode === "progressive" ? proceduralRunRules.maxLives : undefined,
+      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
       timeLimitMs,
-      deadlineAt: timeLimitMs ? proceduralRunRules.deadlineFrom(startedAt, timeLimitMs) : undefined,
-      startedAt,
+      timerState: "preparing",
+      createdAt,
+      activeElapsedMs: 0,
+      startedAt: createdAt,
       progressive: mode === "progressive"
         ? {
             currentLevel: run.progressive?.currentLevel ?? run.difficulty,
             unlockedLevel: run.progressive?.unlockedLevel ?? run.difficulty,
             maxLevel: run.progressive?.maxLevel ?? 8,
-            levelStartedAt: startedAt,
+            levelStartedAt: createdAt,
             levelTimeLimitMs: timeLimitMs ?? progressiveMissionBuilder.timeLimitMs(run.difficulty, Math.max(1, mission.objectives.length)),
-            levelDeadlineAt: timeLimitMs ? proceduralRunRules.deadlineFrom(startedAt, timeLimitMs) : startedAt,
+            levelDeadlineAt: createdAt,
             results: run.progressive?.results ?? [],
           }
         : undefined,
@@ -496,34 +606,31 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private normalizeRunRules(run: ProceduralRunSave): ProceduralRunSave {
     const mode = proceduralRunRules.modeFor(run);
-    if (mode === "training") {
-      if (run.mode !== mode) {
-        saveSystem.updateProceduralRun({ mode });
-        return saveSystem.data.proceduralRun ?? { ...run, mode };
-      }
-      return run;
-    }
-    const timeLimitMs = run.timeLimitMs ?? (mode === "progressive"
+    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
+    const timeLimitMs = pressureEnabled ? (run.timeLimitMs ?? (mode === "progressive"
       ? progressiveMissionBuilder.timeLimitMs(run.progressive?.currentLevel ?? run.difficulty, Math.max(1, run.mission.objectives.length))
-      : proceduralRunRules.missionTimeLimitMs(run.difficulty, Math.max(1, run.mission.objectives.length)));
+      : proceduralRunRules.missionTimeLimitMs(run.difficulty, Math.max(1, run.mission.objectives.length)))) : undefined;
     const update: Partial<ProceduralRunSave> = {};
     if (mode === "progressive" && run.progressive) {
       const currentLevel = run.progressive.currentLevel;
       if (run.difficulty !== currentLevel) update.difficulty = currentLevel;
       if (run.progressive.levelTimeLimitMs !== timeLimitMs) {
-        update.progressive = { ...run.progressive, levelTimeLimitMs: timeLimitMs };
+        update.progressive = { ...run.progressive, levelTimeLimitMs: timeLimitMs! };
       }
     }
     if (run.mode !== mode) update.mode = mode;
-    if (run.maxLives === undefined) update.maxLives = proceduralRunRules.maxLives;
-    if (run.lives === undefined) update.lives = proceduralRunRules.maxLives;
-    if (!run.timeLimitMs) update.timeLimitMs = timeLimitMs;
-    if (run.pausedRemainingMs && !run.completedAt && !run.failedAt) {
-      update.deadlineAt = new Date(Date.now() + Math.max(0, run.pausedRemainingMs)).toISOString();
+    if (pressureEnabled) {
+      if (run.maxLives === undefined) update.maxLives = proceduralRunRules.maxLives;
+      if (run.lives === undefined) update.lives = proceduralRunRules.maxLives;
+      if (!run.timeLimitMs) update.timeLimitMs = timeLimitMs;
+    } else {
+      update.lives = undefined;
+      update.maxLives = undefined;
+      update.timeLimitMs = undefined;
+      update.deadlineAt = undefined;
       update.pausedRemainingMs = undefined;
-    } else if (!run.deadlineAt) {
-      update.deadlineAt = proceduralRunRules.deadlineFrom(run.startedAt, timeLimitMs);
     }
+    if (!run.timerState || run.timerState === "paused") update.timerState = "ready";
     if (Object.keys(update).length > 0) {
       saveSystem.updateProceduralRun(update);
       return saveSystem.data.proceduralRun ?? { ...run, ...update };
@@ -540,8 +647,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const nextDifficulty = Math.min(8, this.run.difficulty + (this.run.completedAt ? 1 : 0)) as DifficultyLevel;
     const mission = proceduralDirector.generateFreshMission(nextDifficulty, this.run.focus);
     const mode = proceduralRunRules.modeFor(this.run);
-    const startedAt = new Date().toISOString();
-    const timeLimitMs = mode === "mission" ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length)) : undefined;
+    const createdAt = new Date().toISOString();
+    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
+    const timeLimitMs = pressureEnabled ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length)) : undefined;
     saveSystem.setProceduralRun({
       seed: mission.seed,
       difficulty: mission.difficulty,
@@ -552,11 +660,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
       puzzleStats: {},
-      lives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
-      maxLives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
+      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
       timeLimitMs,
-      deadlineAt: timeLimitMs ? proceduralRunRules.deadlineFrom(startedAt, timeLimitMs) : undefined,
-      startedAt,
+      timerState: "preparing",
+      createdAt,
+      activeElapsedMs: 0,
+      startedAt: createdAt,
     });
     this.scene.restart();
   }
@@ -608,7 +718,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const levelFocus = progressiveMissionBuilder.focusForLevel(level);
     const baseMission = proceduralDirector.generateFreshMission(level, [levelFocus]);
     const mission = progressiveMissionBuilder.buildLevelMission(baseMission, level);
-    const startedAt = new Date().toISOString();
+    const createdAt = new Date().toISOString();
     const timeLimitMs = progressiveMissionBuilder.timeLimitMs(level, Math.max(1, mission.objectives.length));
     const highestUnlocked = previousResults.reduce<number>((max, result) => (
       result.completed ? Math.max(max, Math.min(8, result.level + 1)) : max
@@ -626,15 +736,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lives: proceduralRunRules.maxLives,
       maxLives: proceduralRunRules.maxLives,
       timeLimitMs,
-      deadlineAt: proceduralRunRules.deadlineFrom(startedAt, timeLimitMs),
-      startedAt,
+      timerState: "preparing",
+      createdAt,
+      activeElapsedMs: 0,
+      startedAt: createdAt,
       progressive: {
         currentLevel: level,
         unlockedLevel: Math.min(8, Math.max(level, highestUnlocked)) as DifficultyLevel,
         maxLevel: 8,
-        levelStartedAt: startedAt,
+        levelStartedAt: createdAt,
         levelTimeLimitMs: timeLimitMs,
-        levelDeadlineAt: proceduralRunRules.deadlineFrom(startedAt, timeLimitMs),
+        levelDeadlineAt: createdAt,
         results: previousResults,
       },
     };
@@ -1043,6 +1155,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     this.languageMinigameTimerEvent?.remove(false);
+    if (session.startedAt <= 0) session.startedAt = Date.now();
     this.languageMinigameTimerEvent = this.time.addEvent({
       delay: 250,
       loop: true,
@@ -1066,7 +1179,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       puzzleId,
       puzzle,
       game: variedGame,
-      startedAt: Date.now(),
+      startedAt: 0,
       durationMs: game.durationMs,
       promptIndex: 0,
       answered: 0,
@@ -3433,6 +3546,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     this.mathMinigameTimerEvent?.remove(false);
+    if (session.startedAt <= 0) session.startedAt = Date.now();
     this.mathMinigameTimerEvent = this.time.addEvent({
       delay: 250,
       loop: true,
@@ -3456,7 +3570,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       puzzleId,
       puzzle,
       game: variedGame,
-      startedAt: Date.now(),
+      startedAt: 0,
       durationMs: game.durationMs,
       promptIndex: 0,
       answered: 0,
@@ -4195,6 +4309,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     this.englishMinigameTimerEvent?.remove(false);
+    if (session.startedAt <= 0) session.startedAt = Date.now();
     this.englishMinigameTimerEvent = this.time.addEvent({
       delay: 250,
       loop: true,
@@ -4218,7 +4333,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       puzzleId,
       puzzle,
       game: variedGame,
-      startedAt: Date.now(),
+      startedAt: 0,
       durationMs: game.durationMs,
       promptIndex: 0,
       answered: 0,
@@ -4823,6 +4938,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     this.codingMinigameTimerEvent?.remove(false);
+    if (session.startedAt <= 0) session.startedAt = Date.now();
     this.codingMinigameTimerEvent = this.time.addEvent({
       delay: 250,
       loop: true,
@@ -4846,7 +4962,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       puzzleId,
       puzzle,
       game: variedGame,
-      startedAt: Date.now(),
+      startedAt: 0,
       durationMs: game.durationMs,
       promptIndex: 0,
       answered: 0,
@@ -5845,7 +5961,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       puzzleId,
       random,
       current: basePuzzle,
-      startedAt: Date.now(),
+      startedAt: 0,
       durationMs,
       answered: 0,
       correct: 0,
@@ -5859,7 +5975,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       feedback: "Tre sfide a rotazione: nota, salto melodico e ritmo. Ragiona prima del clic: la serie premia precisione e varietà.",
       locked: false,
       summaryOpen: false,
-      questionStartedAt: Date.now(),
+      questionStartedAt: 0,
     };
     return this.musicSession;
   }
@@ -5979,6 +6095,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private startMusicSprintCountdown(puzzleId: string, text: Phaser.GameObjects.Text): void {
     this.musicTimerEvent?.remove(false);
+    const currentSession = this.musicSession;
+    if (currentSession && currentSession.startedAt <= 0) {
+      currentSession.startedAt = Date.now();
+      currentSession.questionStartedAt = currentSession.startedAt;
+    }
     const update = (): void => {
       const session = this.musicSession;
       if (!text.active || !session || session.puzzleId !== puzzleId || session.summaryOpen) {
@@ -6316,7 +6437,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: width - 96 },
       lineSpacing: 5,
     }));
-    modal.add(this.add.text(x + 30, y + 232, (mode === "mission" || mode === "progressive")
+    modal.add(this.add.text(x + 30, y + 232, this.isTimedMissionMode()
       ? "Quando premi, l'errore verrà registrato e perderai una vita. I sistemi già completati restano validi."
       : onTrainingContinue
         ? "Quando premi, passi alla nota successiva della sequenza. La soluzione appena vista resta parte dell'allenamento."
@@ -6330,7 +6451,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     modal.add(new Button(this, x + width - 126, y + height - 42, "Ho capito", () => {
       modal.destroy(true);
       this.timeoutSolutionOpen = false;
-      if (mode === "mission" || mode === "progressive") {
+      if (this.isTimedMissionMode()) {
         this.loseMissionLife(message);
         return;
       }
@@ -7188,7 +7309,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const category = `${this.activePuzzleKind ?? "unknown"}:${message.toLowerCase().includes("prova") ? "evidence" : "concept"}`;
     const memoryCount = saveSystem.recordLearningMistake(category);
     const attempts = this.activePuzzleAttempts();
-    if (this.isTimedMissionMode() && attempts >= 2) {
+    if (this.isTimedMissionMode() && attempts >= proceduralRunRules.mistakesBeforeLifeLoss(this.run.difficulty)) {
       this.loseMissionLife(message);
       return true;
     }
@@ -7261,7 +7382,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     this.recordPuzzleMistake();
-    if (this.isTimedMissionMode() && this.activePuzzleAttempts() >= 2) {
+    if (this.isTimedMissionMode() && this.activePuzzleAttempts() >= proceduralRunRules.mistakesBeforeLifeLoss(this.run.difficulty)) {
       this.loseMissionLife(message);
       return;
     }
@@ -7690,9 +7811,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const pendingObjectives = this.run.mission.objectives.filter((objective) => !this.isResolved(objective.id.replace("procedural-", "")));
     const requiredCount = this.requiredPuzzleIds().length;
-    const elapsed = this.run.completedAt
-      ? new Date(this.run.completedAt).getTime() - new Date(this.run.startedAt).getTime()
-      : Date.now() - new Date(this.run.startedAt).getTime();
+    const elapsed = proceduralRunRules.elapsedMs(
+      this.run,
+      this.run.completedAt ? new Date(this.run.completedAt).getTime() : Date.now(),
+    );
     const mode = proceduralRunRules.modeFor(this.run);
     const focus = proceduralRunRules.focusFor(this.run);
     const recordKey = proceduralRunRules.trainingRecordKey(focus, this.run.difficulty);
@@ -7722,10 +7844,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? `Tutti i sistemi sono coerenti.\n[verde] Porta finale pronta.\n\nAprila per chiudere il diario seed.`
           : `Allenamento completato.\n[verde] Porta pronta.\n\nAprila per registrare voto e miglior tempo.`,
     );
+    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
     this.progressText?.setText(
-      mode === "mission" || mode === "progressive"
+      pressureEnabled
         ? `Console verdi: ${solvedCount}/${requiredCount}\nVite: ${this.run.lives ?? proceduralRunRules.maxLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
-        : `Riuscite: ${solvedCount}/${requiredCount}\nFallite: ${failedCount}\nIndizi: ${this.run.hintsUsed}\nTempo: ${formatDuration(elapsed)}\nRecord: ${record ? formatDuration(record.bestTimeMs) : "non ancora"}\nPunti: ${this.run.score?.total ?? 0}`,
+        : `Riuscite: ${solvedCount}/${requiredCount}\nFallite: ${failedCount}\nIndizi: ${this.run.hintsUsed}\nTempo attivo: ${formatDuration(elapsed)}\n${mode === "mission" ? "Pressione: rilassata" : `Record: ${record ? formatDuration(record.bestTimeMs) : "non ancora"}`}\nPunti: ${this.run.score?.total ?? 0}`,
     );
   }
 
@@ -7734,7 +7857,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return true;
     }
     const mode = proceduralRunRules.modeFor(this.run);
-    if ((mode !== "mission" && mode !== "progressive") || this.run.completedAt || this.run.failedAt) {
+    if (!proceduralRunRules.pressureEnabledForMode(mode) || this.run.timerState !== "running" || this.run.completedAt || this.run.failedAt) {
       return false;
     }
     if (proceduralRunRules.remainingMs(this.run) > 0) {
@@ -7933,6 +8056,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     this.circuitMinigameTimerEvent?.remove(false);
+    if (session.startedAt <= 0) session.startedAt = Date.now();
     this.circuitMinigameTimerEvent = this.time.addEvent({
       delay: 250,
       loop: true,
@@ -8012,7 +8136,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       puzzleId,
       puzzle,
       game: variedGame,
-      startedAt: Date.now(),
+      startedAt: 0,
       durationMs: game.durationMs,
       promptIndex: 0,
       answered: 0,

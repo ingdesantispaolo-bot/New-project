@@ -139,7 +139,7 @@ export class SaveSystem {
   }
 
   setActiveProceduralRun(run: ProceduralRunSave): void {
-    this.saveData.proceduralRun = this.resumeRunTimer(run);
+    this.saveData.proceduralRun = this.prepareRunForResume(run);
     this.setProceduralSlot(this.saveData.proceduralRun);
     this.persist();
   }
@@ -177,12 +177,19 @@ export class SaveSystem {
       return;
     }
     const mode = proceduralRunRules.modeFor(run);
-    const pausedRemainingMs = (mode === "mission" || mode === "progressive") && run.deadlineAt
+    const pausedRemainingMs = proceduralRunRules.pressureEnabledForMode(mode) && run.deadlineAt
       ? Math.max(0, proceduralRunRules.remainingMs(run))
       : run.pausedRemainingMs;
+    const now = Date.now();
+    const activeElapsedMs = run.timerState === "running" && run.startedAt
+      ? (run.activeElapsedMs ?? 0) + Math.max(0, now - new Date(run.startedAt).getTime())
+      : run.activeElapsedMs ?? 0;
     const paused = {
       ...run,
       pausedRemainingMs,
+      activeElapsedMs,
+      timerState: "paused" as const,
+      deadlineAt: undefined,
     };
     this.saveData.proceduralRun = paused;
     this.setProceduralSlot(paused);
@@ -304,7 +311,17 @@ export class SaveSystem {
   }
 
   private normalizeProceduralRun(run: ProceduralRunSave | undefined): ProceduralRunSave | undefined {
-    return run ? { ...run, failedPuzzleIds: run.failedPuzzleIds ?? [] } : undefined;
+    if (!run) return undefined;
+    const mode = proceduralRunRules.modeFor(run);
+    const timerState = run.timerState
+      ?? (run.pausedRemainingMs !== undefined ? "paused" : run.deadlineAt ? "running" : "preparing");
+    return {
+      ...run,
+      failedPuzzleIds: run.failedPuzzleIds ?? [],
+      createdAt: run.createdAt ?? run.startedAt,
+      activeElapsedMs: run.activeElapsedMs ?? 0,
+      timerState: proceduralRunRules.pressureEnabledForMode(mode) || mode === "training" ? timerState : "paused",
+    };
   }
 
   private createNewSave(): SaveData {
@@ -350,15 +367,12 @@ export class SaveSystem {
     }
   }
 
-  private resumeRunTimer(run: ProceduralRunSave): ProceduralRunSave {
-    const mode = proceduralRunRules.modeFor(run);
-    if ((mode !== "mission" && mode !== "progressive") || run.completedAt || run.failedAt || !run.pausedRemainingMs) {
-      return run;
-    }
+  private prepareRunForResume(run: ProceduralRunSave): ProceduralRunSave {
+    if (run.completedAt || run.failedAt) return run;
     return {
       ...run,
-      deadlineAt: new Date(Date.now() + Math.max(0, run.pausedRemainingMs)).toISOString(),
-      pausedRemainingMs: undefined,
+      timerState: "ready",
+      deadlineAt: undefined,
     };
   }
 

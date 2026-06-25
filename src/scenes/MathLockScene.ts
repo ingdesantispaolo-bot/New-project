@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { audioManager } from "../core/AudioManager";
 import { exerciseVariantSystem } from "../core/ExerciseVariantSystem";
 import { settingsSystem } from "../core/SettingsSystem";
@@ -10,6 +11,9 @@ import { SceneChrome } from "../ui/SceneChrome";
 import { VisualKit } from "../ui/VisualKit";
 
 export class MathLockScene extends Phaser.Scene {
+  preload(): void {
+    queueSceneAssets(this, "lab");
+  }
   private mathLockPuzzle: MathPuzzleDefinition = exerciseVariantSystem.getMathLockPuzzle();
   private value = "";
   private attempts = 0;

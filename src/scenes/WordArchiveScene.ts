@@ -10,6 +10,7 @@ import { missionEngine } from "../core/MissionEngine";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
 import { tiledSceneRenderer } from "../core/TiledSceneRenderer";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import {
   type ArchiveEvidence,
   type ArchiveMessage,
@@ -46,6 +47,10 @@ export class WordArchiveScene extends Phaser.Scene {
 
   constructor() {
     super("WordArchiveScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "archive");
   }
 
   create(): void {

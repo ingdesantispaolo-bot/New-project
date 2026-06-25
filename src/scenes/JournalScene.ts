@@ -10,10 +10,15 @@ import type { JournalEntry } from "../types/gameTypes";
 import { Button } from "../ui/Button";
 import { JournalPanel } from "../ui/JournalPanel";
 import { VisualKit } from "../ui/VisualKit";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 
 export class JournalScene extends Phaser.Scene {
   constructor() {
     super("JournalScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "archive");
   }
 
   create(): void {
@@ -81,8 +86,9 @@ export class JournalScene extends Phaser.Scene {
     const mission = proceduralDirector.generateFreshMission(nextDifficulty, focus);
     const previousMode = saveSystem.data.proceduralRun ? proceduralRunRules.modeFor(saveSystem.data.proceduralRun) : "mission";
     const mode = previousMode === "training" && proceduralRunRules.focusFor({ focus }) !== "libera" ? "training" : "mission";
-    const startedAt = new Date().toISOString();
-    const timeLimitMs = mode === "mission" ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length)) : undefined;
+    const createdAt = new Date().toISOString();
+    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
+    const timeLimitMs = pressureEnabled ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length)) : undefined;
     const run: ProceduralRunSave = {
       seed: mission.seed,
       difficulty: mission.difficulty,
@@ -93,11 +99,13 @@ export class JournalScene extends Phaser.Scene {
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
       puzzleStats: {},
-      lives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
-      maxLives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
+      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
       timeLimitMs,
-      deadlineAt: timeLimitMs ? proceduralRunRules.deadlineFrom(startedAt, timeLimitMs) : undefined,
-      startedAt,
+      timerState: "preparing",
+      createdAt,
+      activeElapsedMs: 0,
+      startedAt: createdAt,
     };
     saveSystem.setProceduralRun(run);
   }
@@ -114,7 +122,7 @@ export class JournalScene extends Phaser.Scene {
     const hints = run?.hintsUsed ?? this.extractHints(entry);
     const seed = run?.seed ?? entry.id.replace("procedural-summary-", "");
     const focus = run?.focus.find((item) => ["matematica", "italiano", "inglese", "elettronica", "coding", "musica"].includes(item)) ?? "libera";
-    const elapsed = run?.completedAt ? new Date(run.completedAt).getTime() - new Date(run.startedAt).getTime() : 0;
+    const elapsed = run?.completedAt ? proceduralRunRules.elapsedMs(run, new Date(run.completedAt).getTime()) : 0;
     return {
       ...entry,
       title: "Missione completata",

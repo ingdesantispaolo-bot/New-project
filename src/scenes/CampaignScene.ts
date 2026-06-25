@@ -3,6 +3,7 @@ import { audioManager } from "../core/AudioManager";
 import { campaignSystem, type CampaignChapter } from "../core/CampaignSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
+import { startScene } from "../core/SceneNavigator";
 import { Button } from "../ui/Button";
 import { VisualKit } from "../ui/VisualKit";
 
@@ -244,7 +245,7 @@ export class CampaignScene extends Phaser.Scene {
 
   private enterChapter(chapter: CampaignChapter): void {
     audioManager.stopMusic();
-    this.scene.start(chapter.sceneKey);
+    void startScene(this, chapter.sceneKey);
   }
 
   private panel(x: number, y: number, w: number, h: number, title: string): void {

@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { audioManager, type SoundKey } from "../core/AudioManager";
+import { settingsSystem } from "../core/SettingsSystem";
 
 export type ButtonOptions = {
   width?: number;
@@ -68,8 +69,9 @@ export class Button extends Phaser.GameObjects.Container {
 
     const width = options.width ?? 260;
     const height = options.height ?? 56;
-    const hitWidth = width;
-    const hitHeight = height;
+    const coarsePointer = typeof window !== "undefined" && (window.matchMedia?.("(pointer: coarse)").matches ?? false);
+    const hitWidth = coarsePointer ? Math.max(48, width) : width;
+    const hitHeight = coarsePointer ? Math.max(48, height) : height;
     const fill = options.fill ?? 0x173244;
     const hoverFill = options.hoverFill ?? 0x23556a;
     this.fill = fill;
@@ -97,11 +99,12 @@ export class Button extends Phaser.GameObjects.Container {
       .rectangle(0, 0, width, height, fill, 0.96)
       .setStrokeStyle(2, options.stroke ?? 0x6be7d6, 0.72);
     this.highlight = scene.add.rectangle(0, -height / 2 + 2, width - 10, 2, options.stroke ?? 0x6be7d6, 0.68);
-    const baseFontSize = options.fontSize ?? 20;
+    const requestedFontSize = options.fontSize ?? 20;
+    const baseFontSize = settingsSystem.scaledFontSize(requestedFontSize);
     const text = scene.add
       .text(0, 0, label, {
         fontFamily: "Inter, Arial",
-        fontSize: `${baseFontSize}px`,
+        fontSize: `${requestedFontSize}px`,
         color: "#f5fbff",
         align: "center",
         wordWrap: { width: options.wordWrapWidth ?? width - 22, useAdvancedWrap: true },

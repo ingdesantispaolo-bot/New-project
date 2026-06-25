@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { audioManager } from "../core/AudioManager";
 import { feedbackSystem } from "../core/FeedbackSystem";
 import { hintLadder } from "../core/HintLadder";
@@ -93,6 +94,9 @@ const testerReadings: TesterReading[] = [
 ];
 
 export class CircuitPuzzleScene extends Phaser.Scene {
+  preload(): void {
+    queueSceneAssets(this, "lab");
+  }
   private selectedRepairs = new Set<RepairKey>();
   private selectedComponent: ComponentKey = "battery";
   private testerIndex = 0;

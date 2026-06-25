@@ -200,7 +200,7 @@ export class MissionEngine {
     }
     saveSystem.updateProceduralRun({ completedAt });
     playerSystem.recordProceduralRun({ ...run, completedAt });
-    const elapsed = new Date(completedAt).getTime() - new Date(run.startedAt).getTime();
+    const elapsed = proceduralRunRules.elapsedMs(run, new Date(completedAt).getTime());
     const focus = proceduralRunRules.focusFor(run);
     saveSystem.completeMission(run.mission.id);
     saveSystem.addJournalEntry({

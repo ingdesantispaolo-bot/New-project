@@ -10,6 +10,7 @@ import { missionEngine } from "../core/MissionEngine";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
 import { tiledSceneRenderer } from "../core/TiledSceneRenderer";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import {
   greenhouseAdjustments,
   greenhouseMissionRules,
@@ -52,6 +53,10 @@ export class GreenhouseScene extends Phaser.Scene {
 
   constructor() {
     super("GreenhouseScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "greenhouse");
   }
 
   create(): void {

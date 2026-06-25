@@ -9,4 +9,6 @@ export const GameEvents = {
   CompetencyChanged: "competency:changed",
   MissionChanged: "mission:changed",
   SettingsChanged: "settings:changed",
+  RuntimePauseRequested: "runtime:pause-requested",
+  RuntimeResumeRequested: "runtime:resume-requested",
 } as const;

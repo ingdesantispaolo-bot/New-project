@@ -2,6 +2,7 @@ import { EventBus, GameEvents } from "./EventBus";
 
 /** Cinematic post-processing tier. "comfort" disables the WebGL filter pass. */
 export type GraphicsQuality = "high" | "medium" | "comfort";
+export type PressureMode = "relaxed" | "challenge";
 
 export type GameSettings = {
   /** Master volume 0..1. */
@@ -13,6 +14,8 @@ export type GameSettings = {
   textScale: number;
   /** Filmic post-processing tier. */
   graphicsQuality: GraphicsQuality;
+  /** Relaxed missions remove countdown and life loss; the progressive climb stays timed. */
+  pressureMode: PressureMode;
 };
 
 const SETTINGS_KEY = "eli-quest-settings-v1";
@@ -23,10 +26,12 @@ const DEFAULT_SETTINGS: GameSettings = {
   reducedEffects: false,
   textScale: 1,
   graphicsQuality: "high",
+  pressureMode: "relaxed",
 };
 
 const TEXT_SCALE_STEPS = [0.9, 1, 1.15, 1.3] as const;
 const GRAPHICS_STEPS: GraphicsQuality[] = ["high", "medium", "comfort"];
+const PRESSURE_STEPS: PressureMode[] = ["relaxed", "challenge"];
 
 function clamp01(value: number): number {
   if (Number.isNaN(value)) return 0;
@@ -65,6 +70,9 @@ export class SettingsSystem {
           graphicsQuality: GRAPHICS_STEPS.includes(parsed.graphicsQuality as GraphicsQuality)
             ? (parsed.graphicsQuality as GraphicsQuality)
             : DEFAULT_SETTINGS.graphicsQuality,
+          pressureMode: PRESSURE_STEPS.includes(parsed.pressureMode as PressureMode)
+            ? (parsed.pressureMode as PressureMode)
+            : DEFAULT_SETTINGS.pressureMode,
         };
       }
     } catch {
@@ -95,6 +103,18 @@ export class SettingsSystem {
 
   getTextScale(): number {
     return this.get().textScale;
+  }
+
+  getEffectiveTextScale(): number {
+    const viewportBoost = typeof window !== "undefined"
+      && ((window.matchMedia?.("(pointer: coarse)").matches ?? false) || Math.min(window.innerWidth, window.innerHeight) < 820)
+      ? 1.05
+      : 1;
+    return Math.min(1.3, this.getTextScale() * viewportBoost);
+  }
+
+  scaledFontSize(base: number): number {
+    return Math.max(10, Math.round(base * this.getEffectiveTextScale()));
   }
 
   getGraphicsQuality(): GraphicsQuality {
@@ -139,6 +159,21 @@ export class SettingsSystem {
     const index = TEXT_SCALE_STEPS.indexOf(current as never);
     const next = TEXT_SCALE_STEPS[(index + 1) % TEXT_SCALE_STEPS.length];
     this.update({ textScale: next });
+    return next;
+  }
+
+  getPressureMode(): PressureMode {
+    return this.get().pressureMode;
+  }
+
+  pressureEnabled(): boolean {
+    return this.getPressureMode() === "challenge";
+  }
+
+  cyclePressureMode(): PressureMode {
+    const current = this.getPressureMode();
+    const next = PRESSURE_STEPS[(PRESSURE_STEPS.indexOf(current) + 1) % PRESSURE_STEPS.length];
+    this.update({ pressureMode: next });
     return next;
   }
 

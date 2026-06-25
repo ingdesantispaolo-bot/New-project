@@ -10,6 +10,7 @@ import { missionEngine } from "../core/MissionEngine";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
 import { tiledSceneRenderer } from "../core/TiledSceneRenderer";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { numberMachines, type NumberMachineDefinition, type ProductionOrder } from "../data/numberFactory";
 import { NumberFactorySimulator, type NumberMachine } from "../procedural/simulators/NumberFactorySimulator";
 import { Button } from "../ui/Button";
@@ -41,6 +42,10 @@ export class NumberFactoryScene extends Phaser.Scene {
 
   constructor() {
     super("NumberFactoryScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "factory");
   }
 
   create(): void {

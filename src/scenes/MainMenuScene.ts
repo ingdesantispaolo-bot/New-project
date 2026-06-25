@@ -623,9 +623,10 @@ export class MainMenuScene extends Phaser.Scene {
   ): void {
     const focusList = focus === "libera" ? ["libera"] : [focus];
     const mission = proceduralDirector.generateFreshMission(difficulty, focusList);
-    const startedAt = new Date().toISOString();
+    const createdAt = new Date().toISOString();
     const objectiveCount = Math.max(1, mission.objectives.length);
-    const timeLimitMs = mode === "mission" ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, objectiveCount) : undefined;
+    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
+    const timeLimitMs = pressureEnabled ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, objectiveCount) : undefined;
     const run: ProceduralRunSave = {
       seed: mission.seed,
       difficulty: mission.difficulty,
@@ -636,11 +637,13 @@ export class MainMenuScene extends Phaser.Scene {
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
       puzzleStats: {},
-      lives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
-      maxLives: mode === "mission" ? proceduralRunRules.maxLives : undefined,
+      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
       timeLimitMs,
-      deadlineAt: timeLimitMs ? proceduralRunRules.deadlineFrom(startedAt, timeLimitMs) : undefined,
-      startedAt,
+      timerState: "preparing",
+      createdAt,
+      activeElapsedMs: 0,
+      startedAt: createdAt,
     };
     saveSystem.setProceduralRun(run);
   }
@@ -649,10 +652,9 @@ export class MainMenuScene extends Phaser.Scene {
     const levelFocus = progressiveMissionBuilder.focusForLevel(level);
     const base = proceduralDirector.generateFreshMission(level, [levelFocus]);
     const mission = progressiveMissionBuilder.buildLevelMission(base, level);
-    const startedAt = new Date().toISOString();
+    const createdAt = new Date().toISOString();
     const objectiveCount = Math.max(1, mission.objectives.length);
     const timeLimitMs = progressiveMissionBuilder.timeLimitMs(level, objectiveCount);
-    const deadlineAt = proceduralRunRules.deadlineFrom(startedAt, timeLimitMs);
     const run: ProceduralRunSave = {
       seed: mission.seed,
       difficulty: level,
@@ -666,15 +668,17 @@ export class MainMenuScene extends Phaser.Scene {
       lives: proceduralRunRules.maxLives,
       maxLives: proceduralRunRules.maxLives,
       timeLimitMs,
-      deadlineAt,
-      startedAt,
+      timerState: "preparing",
+      createdAt,
+      activeElapsedMs: 0,
+      startedAt: createdAt,
       progressive: {
         currentLevel: level,
         unlockedLevel: level,
         maxLevel: 8,
-        levelStartedAt: startedAt,
+        levelStartedAt: createdAt,
         levelTimeLimitMs: timeLimitMs,
-        levelDeadlineAt: deadlineAt,
+        levelDeadlineAt: createdAt,
         results: previousResults,
       },
     };

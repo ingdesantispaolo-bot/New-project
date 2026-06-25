@@ -800,6 +800,9 @@ export type ProceduralRunSave = {
   timeLimitMs?: number;
   deadlineAt?: string;
   pausedRemainingMs?: number;
+  timerState?: "preparing" | "ready" | "running" | "paused";
+  createdAt?: string;
+  activeElapsedMs?: number;
   failedAt?: string;
   trainingResult?: TrainingRunResult;
   progressive?: ProgressiveRunState;

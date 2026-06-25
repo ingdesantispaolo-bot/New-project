@@ -11,6 +11,7 @@ import { propRenderer } from "../core/PropRenderer";
 import { saveSystem } from "../core/SaveSystem";
 import { exerciseVariantSystem } from "../core/ExerciseVariantSystem";
 import { startScene } from "../core/SceneNavigator";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { laboratoryObjects, type LaboratoryObject } from "../data/laboratoryObjects";
 import type { EnglishInstructionDefinition, GrammarRepairDefinition } from "../types/puzzleTypes";
 import { Button } from "../ui/Button";
@@ -38,6 +39,10 @@ export class LaboratoryScene extends Phaser.Scene {
 
   constructor() {
     super("LaboratoryScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "lab");
   }
 
   create(): void {

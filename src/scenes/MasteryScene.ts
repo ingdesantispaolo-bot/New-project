@@ -3,6 +3,7 @@ import { masterySystem, type MasteryBranch } from "../core/MasterySystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { Button } from "../ui/Button";
+import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 /**
@@ -21,6 +22,7 @@ export class MasteryScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#071018");
     VisualKit.background(this, "academy");
     VisualKit.vignette(this);
+    placeHiddenAnomaly(this, "MasteryScene");
 
     const branches = masterySystem.getBranches();
     const rank = masterySystem.getAcademyRank();

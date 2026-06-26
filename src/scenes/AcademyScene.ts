@@ -1,12 +1,14 @@
 import Phaser from "phaser";
 import { academySystem } from "../core/AcademySystem";
 import { audioManager } from "../core/AudioManager";
+import { collectionSystem } from "../core/CollectionSystem";
 import { masterySystem } from "../core/MasterySystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { startScene } from "../core/SceneNavigator";
 import { settingsSystem } from "../core/SettingsSystem";
 import { Button } from "../ui/Button";
+import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 /**
@@ -52,6 +54,7 @@ export class AcademyScene extends Phaser.Scene {
     this.drawCorePanel();
     this.drawWings();
     this.drawTrophies();
+    placeHiddenAnomaly(this, "AcademyScene");
 
     this.add.text(58, 632, `Prossimo obiettivo: ${academySystem.getNextGoal()}`, {
       fontFamily: "Inter, Arial",
@@ -200,6 +203,13 @@ export class AcademyScene extends Phaser.Scene {
       fontSize: "17px",
       color: "#f6c85f",
       fontStyle: "bold",
+    });
+    new Button(this, 1090, y + 26, `Galleria dei Frammenti  ${collectionSystem.discoveredCount()}/${collectionSystem.total()}`, () => { void startScene(this, "CollectionScene"); }, {
+      width: 280,
+      height: 38,
+      fill: 0x21162a,
+      stroke: 0xf6c85f,
+      fontSize: 13,
     });
     if (trophies.length === 0) {
       this.add.text(x + 22, y + 50, "Ancora nessun trofeo: completa capitoli e raggiungi la maestria per riempire la sala.", {

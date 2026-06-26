@@ -6,6 +6,7 @@ import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { startScene } from "../core/SceneNavigator";
 import { Button } from "../ui/Button";
+import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 /**
@@ -28,6 +29,7 @@ export class CampaignScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#071018");
     VisualKit.background(this, "academy", "story-academy-hub-bg");
     VisualKit.vignette(this);
+    placeHiddenAnomaly(this, "CampaignScene");
 
     const chapters = campaignSystem.getChapters();
     const active = campaignSystem.getActiveChapter();

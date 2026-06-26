@@ -14,6 +14,7 @@ import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
 import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization, ProgressiveLevelResult } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
+import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 const focusOptions: Array<{ id: ProceduralSpecialization; label: string }> = [
@@ -281,6 +282,7 @@ export class MainMenuScene extends Phaser.Scene {
     });
 
     VisualKit.vignette(this);
+    placeHiddenAnomaly(this, "MainMenuScene");
     this.scheduleResponsivenessWarmup();
   }
 

@@ -5,6 +5,7 @@ import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
 import { Button } from "../ui/Button";
+import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 /**
@@ -23,6 +24,7 @@ export class NoraScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#071018");
     VisualKit.background(this, "archive");
     VisualKit.vignette(this);
+    placeHiddenAnomaly(this, "NoraScene");
 
     const player = playerSystem.getActivePlayer();
     const bond = noraCompanion.bond();

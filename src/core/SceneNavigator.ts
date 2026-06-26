@@ -18,6 +18,7 @@ const lazyLoaders: Record<string, () => Promise<SceneConstructor>> = {
   NoraScene: async () => (await import("../scenes/NoraScene")).NoraScene,
   AcademyScene: async () => (await import("../scenes/AcademyScene")).AcademyScene,
   BossScene: async () => (await import("../scenes/BossScene")).BossScene,
+  CollectionScene: async () => (await import("../scenes/CollectionScene")).CollectionScene,
   ProceduralMissionScene: async () => (await import("../scenes/ProceduralMissionScene")).ProceduralMissionScene,
 };
 

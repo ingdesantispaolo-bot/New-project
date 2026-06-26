@@ -9,6 +9,7 @@ import { exerciseDirector } from "../core/ExerciseDirector";
 import { startScene } from "../core/SceneNavigator";
 import type { DifficultyLevel, ProceduralRunSave } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
+import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
@@ -39,6 +40,7 @@ export class MathStudyScene extends Phaser.Scene {
     this.drawStudyPage();
     this.drawFooter();
     VisualKit.vignette(this);
+    placeHiddenAnomaly(this, "MathStudyScene");
   }
 
   private drawHeader(): void {

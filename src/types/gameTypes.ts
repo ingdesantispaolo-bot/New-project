@@ -47,6 +47,10 @@ export type SaveData = {
   eco?: {
     defeats: number;
   };
+  /** Discovery pillar: ids of memory fragments the player has uncovered. */
+  collection?: {
+    discovered: string[];
+  };
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;
 };

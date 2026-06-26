@@ -25,35 +25,35 @@ const componentInfo: Record<ComponentKey, { title: string; role: string; princip
     title: "Batteria",
     role: "Fornisce energia e crea un polo positivo e uno negativo.",
     principle: "La corrente deve poter partire e tornare: senza ritorno non c'e circuito.",
-    x: 210,
+    x: 152,
     color: 0xf6c85f,
   },
   switch: {
     title: "Interruttore",
     role: "Apre o chiude il percorso della corrente.",
     principle: "Aperto interrompe il circuito; chiuso permette il passaggio.",
-    x: 430,
+    x: 312,
     color: 0x8aa6b0,
   },
   resistor: {
     title: "Resistenza",
     role: "Limita la corrente e protegge il LED.",
     principle: "Non serve ad accendere di piu: serve a non bruciare il componente.",
-    x: 650,
+    x: 472,
     color: 0xffb36b,
   },
   led: {
     title: "LED",
     role: "Emette luce solo se attraversato nel verso corretto.",
     principle: "Il LED ha polarita: invertito resta spento anche se il percorso sembra completo.",
-    x: 870,
+    x: 632,
     color: 0x6be7d6,
   },
   return: {
     title: "Ritorno",
     role: "Riporta la corrente al polo negativo della batteria.",
     principle: "Un circuito e un giro completo, non una linea che finisce al LED.",
-    x: 1070,
+    x: 792,
     color: 0x9ff5e9,
   },
 };
@@ -147,11 +147,10 @@ export class CircuitPuzzleScene extends Phaser.Scene {
       fontSize: "18px",
       color: "#c9dce6",
     });
-    SceneChrome.consolePanel(this, 54, 126, 820, 470, "Schema del circuito", "circuit");
-    SceneChrome.consolePanel(this, 904, 126, 316, 216, "Tester", "circuit");
-    SceneChrome.consolePanel(this, 904, 362, 316, 234, "Scheda componente", "circuit");
-    VisualKit.glowFrame(this, 44, 116, 840, 490, "circuit");
-    VisualKit.scanLine(this, 464, 356, 770, 390, "circuit");
+    SceneChrome.consolePanel(this, 54, 126, 820, 446, "Schema del circuito", "circuit");
+    SceneChrome.consolePanel(this, 904, 126, 316, 210, "Tester", "circuit");
+    SceneChrome.consolePanel(this, 904, 346, 316, 226, "Scheda componente", "circuit");
+    VisualKit.glowFrame(this, 44, 116, 840, 466, "circuit");
   }
 
   private drawCircuit(): void {
@@ -235,62 +234,63 @@ export class CircuitPuzzleScene extends Phaser.Scene {
   }
 
   private drawPanels(): void {
-    this.testerText = this.add.text(928, 180, "", {
+    this.testerText = this.add.text(922, 170, "", {
       fontFamily: "Inter, Arial",
-      fontSize: "16px",
+      fontSize: "13px",
       color: "#d9eaf1",
-      wordWrap: { width: 252 },
-      lineSpacing: 5,
+      wordWrap: { width: 280 },
+      lineSpacing: 4,
     });
-    this.infoText = this.add.text(928, 416, "", {
+    this.infoText = this.add.text(922, 392, "", {
       fontFamily: "Inter, Arial",
-      fontSize: "15px",
+      fontSize: "12px",
       color: "#d9eaf1",
-      wordWrap: { width: 252 },
-      lineSpacing: 5,
+      wordWrap: { width: 280 },
+      lineSpacing: 4,
     });
-    this.statusText = this.add.text(80, 538, "", {
+    this.statusText = this.add.text(66, 574, "", {
       fontFamily: "Inter, Arial",
-      fontSize: "18px",
+      fontSize: "14px",
       color: "#f5fbff",
-      wordWrap: { width: 760 },
-      lineSpacing: 5,
+      wordWrap: { width: 1150 },
+      lineSpacing: 3,
     });
-    this.repairText = this.add.text(80, 618, "", {
+    this.repairText = this.add.text(66, 648, "", {
       fontFamily: "Inter, Arial",
-      fontSize: "15px",
+      fontSize: "13px",
       color: "#f7d37a",
-      wordWrap: { width: 1120 },
+      wordWrap: { width: 1150 },
     });
   }
 
   private drawControls(): void {
     const repairButtons: Array<{ key: RepairKey; label: string; x: number }> = [
-      { key: "close-switch", label: "Chiudi interruttore", x: 170 },
-      { key: "insert-resistor", label: "Inserisci resistenza", x: 410 },
-      { key: "flip-led", label: "Inverti LED", x: 650 },
-      { key: "replace-wire", label: "Sostituisci ritorno", x: 890 },
+      { key: "close-switch", label: "Chiudi interruttore", x: 300 },
+      { key: "insert-resistor", label: "Inserisci resistenza", x: 500 },
+      { key: "flip-led", label: "Inverti LED", x: 700 },
+      { key: "replace-wire", label: "Sostituisci ritorno", x: 900 },
     ];
     repairButtons.forEach((repair) => {
-      new Button(this, repair.x, 674, repair.label, () => this.toggleRepair(repair.key), {
-        width: 210,
+      new Button(this, repair.x, 688, repair.label, () => this.toggleRepair(repair.key), {
+        width: 190,
         height: 44,
         fontSize: 14,
         fill: 0x142736,
       });
     });
-    new Button(this, 1014, 248, "Leggi tester", () => this.readTester(), { width: 190, height: 42, fontSize: 15, fill: 0x173b36 });
-    new Button(this, 1014, 548, "Indizio", () => this.showHint(), { width: 190, height: 42, fontSize: 15, fill: 0x263743 });
-    new Button(this, 1134, 674, "Test finale", () => this.testCircuit(), { width: 180, height: 44, fontSize: 15, fill: 0x1f4b46 });
-    new Button(this, 88, 674, "Indietro", () => this.scene.start("LaboratoryScene"), { width: 130, height: 44, fontSize: 15, fill: 0x263743 });
+    // Auxiliary actions live at the bottom of their own panels (no overlap with panel text).
+    new Button(this, 1062, 310, "Leggi tester", () => this.readTester(), { width: 250, height: 40, fontSize: 15, fill: 0x173b36 });
+    new Button(this, 1062, 548, "Indizio", () => this.showHint(), { width: 250, height: 40, fontSize: 15, fill: 0x263743 });
+    new Button(this, 1180, 688, "Test finale", () => this.testCircuit(), { width: 180, height: 44, fontSize: 15, fill: 0x1f4b46 });
+    new Button(this, 86, 688, "Indietro", () => this.scene.start("LaboratoryScene"), { width: 120, height: 44, fontSize: 15, fill: 0x263743 });
   }
 
   private refresh(): void {
     this.drawCurrentPath();
     const reading = testerReadings[this.testerIndex];
-    this.testerText?.setText(`${reading.label}\n\nLettura: ${reading.reading}\n\nInterpretazione: ${reading.interpretation}`);
+    this.testerText?.setText(`${reading.label}\nLettura: ${reading.reading}\nInterpretazione: ${reading.interpretation}`);
     const info = componentInfo[this.selectedComponent];
-    this.infoText?.setText(`${info.title}\n\nRuolo: ${info.role}\n\nPrincipio: ${info.principle}`);
+    this.infoText?.setText(`${info.title}\nRuolo: ${info.role}\nPrincipio: ${info.principle}`);
     this.statusText?.setText(
       "Sintomo: il LED resta spento. Il tester mostra che ci sono piu cause: percorso aperto, protezione mancante e LED orientato male.",
     );
@@ -311,30 +311,28 @@ export class CircuitPuzzleScene extends Phaser.Scene {
     const closed = this.selectedRepairs.has("close-switch");
     const resistor = this.selectedRepairs.has("insert-resistor");
     const led = this.selectedRepairs.has("flip-led");
-    this.circuitLine?.clear();
-    this.circuitLine?.lineStyle(8, closed ? 0x6be7d6 : 0x405761, closed ? 0.72 : 0.28);
-    this.circuitLine?.beginPath();
-    this.circuitLine?.moveTo(282, 328);
-    this.circuitLine?.lineTo(358, 328);
-    if (closed) {
-      this.circuitLine?.lineTo(502, 328);
-    } else {
-      this.circuitLine?.moveTo(480, 296);
-      this.circuitLine?.lineTo(502, 328);
-    }
-    this.circuitLine?.lineStyle(8, resistor ? 0x6be7d6 : 0xffb36b, resistor ? 0.72 : 0.34);
-    this.circuitLine?.lineTo(578, 328);
-    this.circuitLine?.lineTo(722, 328);
-    this.circuitLine?.lineStyle(8, led ? 0x6be7d6 : 0xc94b55, led ? 0.72 : 0.34);
-    this.circuitLine?.lineTo(798, 328);
-    this.circuitLine?.lineTo(942, 328);
-    this.circuitLine?.lineStyle(8, 0x6be7d6, 0.34);
-    this.circuitLine?.lineTo(998, 328);
-    this.circuitLine?.lineTo(1140, 328);
-    this.circuitLine?.lineTo(1140, 466);
-    this.circuitLine?.lineTo(210, 466);
-    this.circuitLine?.lineTo(210, 390);
-    this.circuitLine?.strokePath();
+    const g = this.circuitLine;
+    if (!g) return;
+    const y = 328;
+    const loopY = 470;
+    const c = componentInfo;
+    g.clear();
+    const seg = (a: number, b: number, color: number, alpha: number): void => {
+      g.lineStyle(8, color, alpha);
+      g.lineBetween(a, y, b, y);
+    };
+    seg(c.battery.x, c.switch.x, closed ? 0x6be7d6 : 0x405761, closed ? 0.72 : 0.3);
+    seg(c.switch.x, c.resistor.x, resistor ? 0x6be7d6 : 0xffb36b, resistor ? 0.72 : 0.34);
+    seg(c.resistor.x, c.led.x, led ? 0x6be7d6 : 0xc94b55, led ? 0.72 : 0.34);
+    seg(c.led.x, c.return.x, 0x6be7d6, 0.34);
+    // Return loop back to the battery's negative pole.
+    g.lineStyle(8, 0x6be7d6, 0.34);
+    g.beginPath();
+    g.moveTo(c.return.x, y);
+    g.lineTo(c.return.x, loopY);
+    g.lineTo(c.battery.x, loopY);
+    g.lineTo(c.battery.x, y);
+    g.strokePath();
     const powered = closed && resistor && led;
     this.ledGlow?.setAlpha(powered ? 0.42 : led ? 0.12 : 0.05).setScale(powered ? 1.65 : 1.1);
   }

@@ -260,4 +260,14 @@ export const competencies: CompetencyDefinition[] = [
     label: "Pensiero critico",
     description: "Verificare ipotesi prima di agire.",
   },
+  {
+    id: "trasversali.memoria",
+    label: "Memoria di lavoro",
+    description: "Trattenere e ripetere informazioni, sequenze e posizioni.",
+  },
+  {
+    id: "trasversali.logica",
+    label: "Ragionamento logico",
+    description: "Dedurre regole, completare schemi e ragionare per esclusione.",
+  },
 ];

@@ -183,6 +183,14 @@ export class MainMenuScene extends Phaser.Scene {
       wordWrap: { width: 360 },
       lineSpacing: 4,
     });
+    new Button(this, 1136, 170, "🧠 Palestra Mente", () => this.openMenuScene("LogicGymScene", "Non sono riuscito ad aprire la Palestra della Mente. Riprova tra un istante."), {
+      width: 168,
+      height: 42,
+      fill: 0x2a1f3a,
+      stroke: 0xf6c85f,
+      fontSize: 13,
+      soundKey: "panelOpen",
+    });
     if (!this.userPickedDifficulty) {
       const abbrev: Partial<Record<ProceduralSpecialization, string>> = {
         matematica: "Mat", italiano: "Ita", inglese: "Ing", elettronica: "Cir", coding: "Cod", musica: "Mus",

@@ -51,6 +51,10 @@ export type SaveData = {
   collection?: {
     discovered: string[];
   };
+  /** Logic & memory gym: best score reached per activity. */
+  logicGym?: {
+    best: Record<string, number>;
+  };
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;
 };

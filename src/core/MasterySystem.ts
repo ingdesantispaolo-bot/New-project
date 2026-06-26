@@ -34,7 +34,7 @@ const BRANCHES: BranchDef[] = [
   { id: "coding", label: "Coding", color: 0x70d68a, prefixes: ["coding."] },
   { id: "musica", label: "Musica", color: 0xff9ad2, prefixes: ["musica."] },
   { id: "scienze", label: "Scienze", color: 0x8ad0ff, prefixes: ["scienze."] },
-  { id: "trasversali", label: "Trasversali", color: 0xf7d37a, prefixes: [], exact: ["problemSolving", "pensieroCritico"] },
+  { id: "trasversali", label: "Trasversali", color: 0xf7d37a, prefixes: ["trasversali."], exact: ["problemSolving", "pensieroCritico"] },
 ];
 
 // Top tiers must be EARNED by autonomous solving (first try, no hints), not by

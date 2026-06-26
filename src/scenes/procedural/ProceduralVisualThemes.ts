@@ -613,6 +613,21 @@ function drawMusicMissionBackdrop(
   drawBackdropTitle(scene, rect, "sala armonica", theme);
   const left = rect.x + 84;
   const right = rect.x + rect.width - 86;
+  const cx = rect.x + rect.width / 2;
+  const cy = rect.y + rect.height / 2 + 18;
+  g.lineStyle(2, theme.secondary, 0.08 + progress * 0.05);
+  for (let ring = 0; ring < 5; ring += 1) {
+    g.strokeCircle(cx, cy, 72 + ring * 44);
+  }
+  g.lineStyle(2, theme.accent, 0.16 + progress * 0.07);
+  g.beginPath();
+  for (let step = 0; step <= 160; step += 1) {
+    const x = left + (step / 160) * (right - left);
+    const y = cy + Math.sin(step * 0.18) * 18 + Math.sin(step * 0.047 + progress * 3) * 34;
+    if (step === 0) g.moveTo(x, y);
+    else g.lineTo(x, y);
+  }
+  g.strokePath();
   for (let staff = 0; staff < 3; staff += 1) {
     const yBase = rect.y + 126 + staff * 88;
     g.lineStyle(1, theme.accent, 0.14 + progress * 0.04);
@@ -630,7 +645,13 @@ function drawMusicMissionBackdrop(
       if (random.bool(0.35)) g.lineBetween(x + 8, y - 34, x + 24, y - 28);
     }
   }
-  scene.add.text(rect.x + 108, rect.y + 382, "nota  •  intervallo  •  ritmo", {
+  const meterX = rect.x + rect.width - 238;
+  for (let bar = 0; bar < 10; bar += 1) {
+    const h = 18 + ((bar * 17) % 54) + progress * 16;
+    g.fillStyle(bar % 2 ? theme.secondary : theme.accent, 0.12 + progress * 0.06);
+    g.fillRoundedRect(meterX + bar * 16, rect.y + 374 - h, 8, h, 4);
+  }
+  scene.add.text(rect.x + 108, rect.y + 382, "nota  •  intervallo  •  ritmo  •  ascolto", {
     fontFamily: "Inter, Arial",
     fontSize: "13px",
     color: "#f7d37a",

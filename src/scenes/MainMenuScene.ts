@@ -142,14 +142,14 @@ export class MainMenuScene extends Phaser.Scene {
       fontSize: 16,
     });
 
-    VisualKit.glassPanel(this, 792, 128, 430, 500, "academy", 0.72);
-    this.add.text(828, 164, "Allenamento focus", {
+    VisualKit.glassPanel(this, 792, 128, 430, 560, "academy", 0.72);
+    this.add.text(828, 154, "Allenamento focus", {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(828, 202, "Scegli la materia: ogni percorso parte dal livello consigliato dai tuoi risultati. Tocca 1-8 per forzarlo. Qui non perdi vite: contano tempo, precisione e aiuti.", {
+    this.add.text(828, 192, "Scegli la materia. Il livello parte dai tuoi risultati; puoi forzarlo con 1-8. Qui non perdi vite: contano precisione, tempo e aiuti.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#c7dce7",
@@ -163,31 +163,32 @@ export class MainMenuScene extends Phaser.Scene {
       const perFocus = focusOptions
         .map((focus) => `${abbrev[focus.id] ?? focus.label} L${this.recommendedDifficultyForFocus(focus.id)}`)
         .join(" · ");
-      this.add.text(828, 246, `Consigliato per materia: ${perFocus}`, {
+      this.add.text(828, 254, `Consigliato per materia: ${perFocus}`, {
         fontFamily: "Inter, Arial",
-        fontSize: "12px",
+        fontSize: "11px",
         color: "#9ff5e9",
-        wordWrap: { width: 360 },
+        wordWrap: { width: 340 },
+        lineSpacing: 2,
       });
     }
-    this.add.text(828, 266, `Livello allenamento selezionato: ${selected}/8`, {
+    this.add.text(828, 306, `Livello selezionato: ${selected}/8`, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#f6c85f",
       fontStyle: "bold",
     });
     if (this.isResumable(trainingRun)) {
-      new Button(this, 1092, 272, "Riprendi focus", () => {
+      new Button(this, 1102, 314, "Riprendi focus", () => {
         this.resumeFocusTraining();
       }, {
-        width: 170,
+        width: 158,
         height: 38,
         fill: 0x1f5a51,
         stroke: 0xf6c85f,
         fontSize: 13,
       });
     }
-    this.add.text(828, 290, difficultyModel.describe(selected), {
+    this.add.text(828, 334, difficultyModel.describe(selected), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7dce7",
@@ -196,7 +197,7 @@ export class MainMenuScene extends Phaser.Scene {
     });
     focusOptions.forEach((focus, index) => {
       const x = 884 + (index % 3) * 122;
-      const y = 354 + Math.floor(index / 3) * 58;
+      const y = 416 + Math.floor(index / 3) * 58;
       new Button(this, x, y, focus.label, () => {
         this.startFocusTraining(focus.id);
       }, {
@@ -208,13 +209,13 @@ export class MainMenuScene extends Phaser.Scene {
       });
     });
 
-    this.add.text(828, 520, "Livello allenamento", {
+    this.add.text(828, 562, "Livello allenamento", {
       fontFamily: "Inter, Arial",
       fontSize: "20px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(828, 548, `Consigliato: ${recommended}/8. Puoi scegliere liberamente da 1 a 8.`, {
+    this.add.text(828, 590, `Consigliato: ${recommended}/8. Puoi scegliere liberamente da 1 a 8.`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7dce7",
@@ -222,7 +223,7 @@ export class MainMenuScene extends Phaser.Scene {
       lineSpacing: 4,
     });
     for (let level = 1; level <= 8; level += 1) {
-      new Button(this, 852 + (level - 1) * 45, 598, String(level), () => {
+      new Button(this, 852 + (level - 1) * 45, 640, String(level), () => {
         this.selectDifficulty(level as DifficultyLevel);
       }, {
         width: 38,
@@ -233,13 +234,13 @@ export class MainMenuScene extends Phaser.Scene {
       });
     }
 
-    this.add.text(828, 642, `Seed, solver e validator | Livello scelto ${selected}/8`, {
+    this.add.text(828, 684, `Seed, solver e validator | Livello scelto ${selected}/8`, {
       fontFamily: "Inter, Arial",
-      fontSize: "13px",
+      fontSize: "11px",
       color: "#7da2af",
       wordWrap: { width: 380 },
     });
-    this.add.text(1210, 690, `build ${buildInfo.ref}`, {
+    this.add.text(1210, 704, `build ${buildInfo.ref}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#7da2af",

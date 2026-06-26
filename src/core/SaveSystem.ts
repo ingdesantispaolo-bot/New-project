@@ -54,6 +54,7 @@ export class SaveSystem {
         proceduralProgressiveRun: this.normalizeProceduralRun(parsed.proceduralProgressiveRun),
         trainingRecords: parsed.trainingRecords ?? {},
         learningMemory: parsed.learningMemory ?? {},
+        masteryAutonomy: parsed.masteryAutonomy ?? {},
         greenhouseRun: parsed.greenhouseRun,
         numberFactoryRun: parsed.numberFactoryRun,
       };
@@ -272,6 +273,17 @@ export class SaveSystem {
     this.updateProceduralRun({ hintsUsed: run.hintsUsed + 1 });
   }
 
+  recordMasteryAutonomy(branch: string): number {
+    const previous = this.saveData.masteryAutonomy?.[branch] ?? 0;
+    const count = previous + 1;
+    this.saveData.masteryAutonomy = {
+      ...(this.saveData.masteryAutonomy ?? {}),
+      [branch]: count,
+    };
+    this.persist();
+    return count;
+  }
+
   recordLearningMistake(category: string): number {
     const previous = this.saveData.learningMemory?.[category];
     const count = (previous?.count ?? 0) + 1;
@@ -337,6 +349,7 @@ export class SaveSystem {
       journalEntries: [],
       trainingRecords: {},
       learningMemory: {},
+      masteryAutonomy: {},
     };
   }
 

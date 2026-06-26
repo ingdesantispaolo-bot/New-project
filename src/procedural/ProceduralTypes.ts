@@ -579,7 +579,14 @@ export type GeneratedEnglishMinigame = {
 
 export type MusicClef = "treble" | "bass";
 export type MusicNoteName = "Do" | "Re" | "Mi" | "Fa" | "Sol" | "La" | "Si";
-export type MusicMinigameType = "note-hunt" | "interval-jump" | "rhythm-gap" | "scale-step" | "note-duration";
+export type MusicMinigameType =
+  | "note-hunt"
+  | "interval-jump"
+  | "rhythm-gap"
+  | "scale-step"
+  | "note-duration"
+  | "auditory-note"
+  | "auditory-interval";
 
 export type GeneratedMusicPuzzle = {
   id: string;
@@ -597,6 +604,11 @@ export type GeneratedMusicPuzzle = {
     octave: number;
     staffPosition: number;
     ledgerLines: number[];
+  };
+  audioPrompt?: {
+    kind: "single-note" | "interval";
+    hiddenStaff: boolean;
+    replayLabel: string;
   };
   rhythmPattern?: {
     beatsPerMeasure: number;

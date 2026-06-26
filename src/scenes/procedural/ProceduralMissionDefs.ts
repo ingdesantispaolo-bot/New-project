@@ -67,6 +67,7 @@ export type MusicTrainingSession = {
   feedback: string;
   locked: boolean;
   summaryOpen: boolean;
+  lastAutoPreviewSignature?: string;
 };
 
 export type MathMinigameSession = {

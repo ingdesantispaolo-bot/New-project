@@ -40,15 +40,132 @@ const diatonicNotes: MusicNote[] = [
 export class MusicNoteGenerator {
   generate(random: Random, difficultyLevel: DifficultyLevel = 1, preferredModes: MusicMinigameType[] = []): GeneratedMusicPuzzle {
     const available: MusicMinigameType[] = difficultyLevel <= 1
-      ? ["note-hunt", "rhythm-gap", "note-duration"]
-      : ["note-hunt", "interval-jump", "rhythm-gap", "note-duration", "scale-step"];
+      ? ["note-hunt", "auditory-note", "rhythm-gap", "note-duration"]
+      : difficultyLevel <= 3
+        ? ["note-hunt", "auditory-note", "interval-jump", "rhythm-gap", "note-duration", "scale-step"]
+        : ["note-hunt", "auditory-note", "auditory-interval", "interval-jump", "rhythm-gap", "note-duration", "scale-step"];
     const requested = preferredModes.filter((mode) => available.includes(mode) || preferredModes.length === 1);
     const mode = random.pick(requested.length > 0 ? requested : available);
+    if (mode === "auditory-note") return this.buildAuditoryNote(random, difficultyLevel);
+    if (mode === "auditory-interval") return this.buildAuditoryInterval(random, difficultyLevel);
     if (mode === "interval-jump") return this.buildIntervalJump(random, difficultyLevel);
     if (mode === "rhythm-gap") return this.buildRhythmGap(random, difficultyLevel);
     if (mode === "scale-step") return this.buildScaleStep(random, difficultyLevel);
     if (mode === "note-duration") return this.buildNoteDuration(random, difficultyLevel);
     return this.buildNoteHunt(random, difficultyLevel);
+  }
+
+  private buildAuditoryNote(random: Random, difficultyLevel: DifficultyLevel): GeneratedMusicPuzzle {
+    const clef = this.pickClef(random, difficultyLevel);
+    const note = random.pick(this.notePool(difficultyLevel, clef));
+    const staffPosition = clef === "treble" ? note.treblePosition : note.bassPosition;
+    const answerMode = difficultyLevel >= 7 ? "note-and-octave" : "note-name";
+    const choices = this.buildChoices(random, note, clef, staffPosition, answerMode).map((choice) => ({
+      ...choice,
+      feedback: choice.isCorrect
+        ? `Corretto: hai riconosciuto all'ascolto ${choice.label}.`
+        : "Riascolta: confronta se il suono è più acuto o più grave rispetto alla nota che avevi in mente.",
+    }));
+    return {
+      id: `music-ear-note-${clef}-${note.name.toLowerCase()}${note.octave}`,
+      title: "Orecchio: riconosci la nota",
+      challengeMode: "auditory-note",
+      clef,
+      noteName: note.name,
+      octave: note.octave,
+      staffPosition,
+      ledgerLines: this.ledgerLinesFor(staffPosition),
+      timeLimitMs: this.timeLimitMs(difficultyLevel, this.outsideStaffDistance(staffPosition)) + 2_000,
+      answerMode,
+      audioPrompt: {
+        kind: "single-note",
+        hiddenStaff: true,
+        replayLabel: "Riascolta nota",
+      },
+      choices,
+      hints: [
+        "Ascolta prima l'altezza: suono grave = nota più bassa, suono acuto = nota più alta.",
+        "Se hai dubbi, riascolta una volta e confronta mentalmente con Do-Re-Mi-Fa-Sol-La-Si.",
+        `La nota corretta è ${this.noteLabel(note, answerMode)}.`,
+      ],
+      competencies: ["musica.orecchio", "musica.letturaNote", `musica.${clef === "treble" ? "chiaveViolino" : "chiaveBasso"}`],
+      difficultyLabel: `Livello ${difficultyLevel}/8 - riconoscimento uditivo`,
+      learningPurpose: "Collegare il nome della nota alla sua altezza sonora, non solo alla posizione sul pentagramma.",
+      method: "Ascolta, colloca il suono come più grave o più acuto, poi scegli il nome della nota. Usa il riascolto per verificare, non per cliccare a caso.",
+      methodSteps: ["ascolta", "stima altezza", "confronta mentalmente", "scegli nota"],
+      conceptTags: ["orecchio", "altezza", answerMode === "note-and-octave" ? "ottava" : "nome nota"],
+    };
+  }
+
+  private buildAuditoryInterval(random: Random, difficultyLevel: DifficultyLevel): GeneratedMusicPuzzle {
+    const clef = this.pickClef(random, difficultyLevel);
+    const pool = this.notePool(difficultyLevel, clef);
+    const maxDistance = Math.min(difficultyLevel >= 6 ? 5 : 4, Math.max(1, pool.length - 1));
+    let first = random.pick(pool);
+    let second = first;
+    for (let attempt = 0; attempt < 18 && second === first; attempt += 1) {
+      const firstIndex = pool.indexOf(first);
+      const distance = random.integer(1, maxDistance);
+      const direction = random.bool() ? 1 : -1;
+      const targetIndex = firstIndex + direction * distance;
+      if (targetIndex >= 0 && targetIndex < pool.length) second = pool[targetIndex];
+      else first = random.pick(pool);
+    }
+    if (second === first) second = pool[first === pool[0] ? 1 : pool.indexOf(first) - 1];
+    const firstPosition = clef === "treble" ? first.treblePosition : first.bassPosition;
+    const secondPosition = clef === "treble" ? second.treblePosition : second.bassPosition;
+    const steps = Math.abs(diatonicNotes.indexOf(second) - diatonicNotes.indexOf(first));
+    const direction = diatonicNotes.indexOf(second) > diatonicNotes.indexOf(first) ? "Sale" : "Scende";
+    const intervalNames = ["unisono", "seconda", "terza", "quarta", "quinta", "sesta"];
+    const interval = intervalNames[Math.min(steps, intervalNames.length - 1)];
+    const correct = `${direction}: ${interval}`;
+    const alternatives = new Set<string>();
+    alternatives.add(`${direction === "Sale" ? "Scende" : "Sale"}: ${interval}`);
+    alternatives.add(`${direction}: ${intervalNames[Math.max(1, Math.min(5, steps + 1))]}`);
+    alternatives.add(`${direction}: ${intervalNames[Math.max(1, steps - 1)]}`);
+    for (const label of ["Sale: seconda", "Scende: seconda", "Sale: terza", "Scende: terza", "Sale: quarta", "Scende: quarta"]) {
+      if (alternatives.size >= 3) break;
+      if (label !== correct) alternatives.add(label);
+    }
+    const choices = random.shuffle([
+      { id: "correct", label: correct, isCorrect: true, feedback: `Corretto: all'ascolto la seconda nota ${direction.toLowerCase()} di ${interval}.` },
+      ...[...alternatives].filter((label) => label !== correct).slice(0, 3).map((label, index) => ({
+        id: `distractor-${index}`,
+        label,
+        isCorrect: false,
+        feedback: `Riascolta le due note: la seconda è ${direction.toLowerCase()} e la distanza è ${interval}.`,
+      })),
+    ]);
+    return {
+      id: `music-ear-interval-${clef}-${first.name}${first.octave}-${second.name}${second.octave}`,
+      title: "Orecchio: riconosci l'intervallo",
+      challengeMode: "auditory-interval",
+      clef,
+      noteName: first.name,
+      octave: first.octave,
+      staffPosition: firstPosition,
+      ledgerLines: this.ledgerLinesFor(firstPosition),
+      secondaryNote: { noteName: second.name, octave: second.octave, staffPosition: secondPosition, ledgerLines: this.ledgerLinesFor(secondPosition) },
+      timeLimitMs: this.timeLimitMs(difficultyLevel, Math.max(this.outsideStaffDistance(firstPosition), this.outsideStaffDistance(secondPosition))) + 2_000,
+      answerMode: "note-name",
+      audioPrompt: {
+        kind: "interval",
+        hiddenStaff: true,
+        replayLabel: "Riascolta intervallo",
+      },
+      choices,
+      hints: [
+        "Prima decidi la direzione: la seconda nota sale o scende?",
+        "Poi valuta la distanza: note vicine = seconda; un salto più netto = terza, quarta o quinta.",
+        `La risposta corretta è ${correct}.`,
+      ],
+      competencies: ["musica.orecchio", "musica.intervalli", "musica.ascoltoVisivo"],
+      difficultyLabel: `Livello ${difficultyLevel}/8 - intervalli a orecchio`,
+      learningPurpose: "Riconoscere direzione e ampiezza di un salto melodico partendo dal suono.",
+      method: "Ascolta le due note in sequenza: prima stabilisci se la seconda sale o scende, poi stima quanto è ampio il salto.",
+      methodSteps: ["ascolta nota 1", "ascolta nota 2", "direzione", "distanza"],
+      conceptTags: ["orecchio", "intervalli", direction.toLowerCase()],
+    };
   }
 
   private buildNoteHunt(random: Random, difficultyLevel: DifficultyLevel): GeneratedMusicPuzzle {

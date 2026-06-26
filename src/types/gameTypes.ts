@@ -30,6 +30,8 @@ export type SaveData = {
   proceduralProgressiveRun?: ProceduralRunSave;
   trainingRecords?: Record<string, TrainingRecord>;
   learningMemory?: Record<string, { count: number; lastAt: string }>;
+  /** Autonomous clean solves per mastery branch (first try, no hints). */
+  masteryAutonomy?: Record<string, number>;
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;
 };

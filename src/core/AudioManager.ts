@@ -213,16 +213,28 @@ export class AudioManager {
         const duration = Math.max(0.06, step.durationMs / 1000);
         if (step.frequency > 0) {
           const oscillator = context.createOscillator();
+          const overtone = context.createOscillator();
           const gain = context.createGain();
-          oscillator.type = "sine";
+          const overtoneGain = context.createGain();
+          oscillator.type = "triangle";
+          overtone.type = "sine";
           oscillator.frequency.setValueAtTime(step.frequency, cursor);
+          overtone.frequency.setValueAtTime(step.frequency * 2, cursor);
           gain.gain.setValueAtTime(0.0001, cursor);
-          gain.gain.exponentialRampToValueAtTime(0.13, cursor + 0.018);
+          gain.gain.exponentialRampToValueAtTime(0.11, cursor + 0.016);
+          gain.gain.exponentialRampToValueAtTime(0.072, cursor + Math.max(0.05, duration * 0.34));
           gain.gain.exponentialRampToValueAtTime(0.0001, cursor + duration);
+          overtoneGain.gain.setValueAtTime(0.0001, cursor);
+          overtoneGain.gain.exponentialRampToValueAtTime(0.026, cursor + 0.018);
+          overtoneGain.gain.exponentialRampToValueAtTime(0.0001, cursor + Math.min(duration, 0.18));
           oscillator.connect(gain);
+          overtone.connect(overtoneGain);
           gain.connect(destination);
+          overtoneGain.connect(destination);
           oscillator.start(cursor);
+          overtone.start(cursor);
           oscillator.stop(cursor + duration + 0.02);
+          overtone.stop(cursor + duration + 0.02);
         }
         cursor += duration + 0.07;
       });

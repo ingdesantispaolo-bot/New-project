@@ -115,7 +115,7 @@ class PropRenderer {
     const source = scene.textures.get(key).getSourceImage() as HTMLImageElement | HTMLCanvasElement;
     const maxSource = Math.max(source.width || 256, source.height || 256);
     image.setScale(targetSize / maxSource);
-    image.setAlpha(state === "locked" ? 0.48 : state === "complete" ? 1 : 0.9);
+    image.setAlpha(state === "locked" ? 0.38 : state === "complete" ? 0.96 : 0.78);
     image.setTint(state === "locked" ? 0x7f9098 : 0xffffff);
     return image;
   }
@@ -127,14 +127,14 @@ class PropRenderer {
   }
 
   private scaleFor(id: string): number {
-    if (id === "final-door") return 2.6;
-    if (id === "terminal") return 2.05;
-    if (id === "electric-panel") return 1.9;
-    if (id === "robot") return 1.9;
-    if (id === "floor-trace") return 1.65;
-    if (id === "workbench") return 1.95;
-    if (id === "observation-window") return 1.8;
-    return 1.72;
+    if (id === "final-door") return 2.42;
+    if (id === "terminal") return 1.82;
+    if (id === "electric-panel") return 1.68;
+    if (id === "robot") return 1.62;
+    if (id === "floor-trace") return 1.36;
+    if (id === "workbench") return 1.58;
+    if (id === "observation-window") return 1.52;
+    return 1.5;
   }
 }
 

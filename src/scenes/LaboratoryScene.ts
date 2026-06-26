@@ -74,16 +74,15 @@ export class LaboratoryScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#061019");
     VisualKit.background(this, "lab", "story-lab-blackout-bg");
     VisualKit.cinematicDepth(this, "lab", 0.82);
-    this.add.rectangle(180, 360, 320, 720, 0x061019, 0.86).setStrokeStyle(2, 0x1a3945, 0.78);
-    this.add.rectangle(805, 360, 900, 650, 0x091722, 0.18).setStrokeStyle(2, 0x254958, 0.42);
-    VisualKit.glowFrame(this, 356, 70, 884, 592, "lab");
+    this.add.rectangle(180, 360, 320, 720, 0x061019, 0.9).setStrokeStyle(2, 0x1a3945, 0.82);
+    this.drawMissionStageFrame();
 
     const wall = this.add.graphics();
-    wall.fillStyle(0x0d1d27, 0.14);
+    wall.fillStyle(0x0d1d27, 0.08);
     wall.fillRect(360, 84, 860, 454);
-    wall.lineStyle(2, 0x243f4d, 0.38);
+    wall.lineStyle(2, 0x243f4d, 0.22);
     wall.strokeRect(360, 84, 860, 454);
-    wall.lineStyle(1, 0x315766, 0.18);
+    wall.lineStyle(1, 0x315766, 0.08);
     for (let x = 390; x < 1200; x += 82) {
       wall.lineBetween(x, 84, x - 36, 538);
     }
@@ -91,7 +90,7 @@ export class LaboratoryScene extends Phaser.Scene {
       wall.lineBetween(360, y, 1220, y);
     }
 
-    this.add.rectangle(800, 618, 850, 160, 0x101b24, 0.28).setStrokeStyle(1, 0x294958, 0.44);
+    this.add.rectangle(800, 618, 850, 160, 0x101b24, 0.18).setStrokeStyle(1, 0x294958, 0.28);
     for (let x = 390; x < 1210; x += 70) {
       this.add.line(x, 616, 0, 0, -34, 96, 0x233d48, 0.4).setOrigin(0);
     }
@@ -107,21 +106,60 @@ export class LaboratoryScene extends Phaser.Scene {
     VisualKit.vignette(this);
   }
 
+  private drawMissionStageFrame(): void {
+    this.add.rectangle(805, 360, 920, 650, 0x02070b, 0.24).setStrokeStyle(2, 0x254958, 0.34);
+    this.add.rectangle(805, 360, 884, 610, 0x071018, 0.1).setStrokeStyle(1, 0x6be7d6, 0.18);
+    this.add.rectangle(805, 84, 884, 42, 0x061019, 0.38).setStrokeStyle(1, 0x6be7d6, 0.16);
+    this.add.rectangle(805, 650, 884, 54, 0x061019, 0.56).setStrokeStyle(1, 0xf6c85f, 0.16);
+    this.add.circle(760, 214, 194, 0x6be7d6, 0.035);
+    this.add.circle(1072, 286, 150, 0xf6c85f, 0.024);
+    VisualKit.glowFrame(this, 356, 70, 884, 592, "lab");
+  }
+
   private drawMissionTrace(): void {
+    const points = [
+      { x: 910, y: 502, label: "1" },
+      { x: 470, y: 286, label: "2" },
+      { x: 1072, y: 276, label: "3" },
+      { x: 560, y: 500, label: "4" },
+      { x: 760, y: 214, label: "5" },
+    ];
+    const activeSegments = this.completedMissionTraceSegments();
     const trace = this.add.graphics();
-    trace.lineStyle(3, 0x6be7d6, 0.09);
-    trace.beginPath();
-    trace.moveTo(910, 502);
-    trace.lineTo(470, 286);
-    trace.lineTo(1072, 276);
-    trace.lineTo(560, 500);
-    trace.lineTo(760, 214);
-    trace.strokePath();
+    points.slice(1).forEach((point, index) => {
+      const previous = points[index];
+      trace.lineStyle(5, 0x061019, 0.34);
+      trace.lineBetween(previous.x, previous.y, point.x, point.y);
+      trace.lineStyle(index < activeSegments ? 3 : 2, index < activeSegments ? 0xf6c85f : 0x6be7d6, index < activeSegments ? 0.3 : 0.075);
+      trace.lineBetween(previous.x, previous.y, point.x, point.y);
+    });
+    points.forEach((point, index) => {
+      const done = index <= activeSegments;
+      trace.fillStyle(done ? 0xf6c85f : 0x071018, done ? 0.24 : 0.62);
+      trace.fillCircle(point.x, point.y, 13);
+      trace.lineStyle(2, done ? 0xf6c85f : 0x6be7d6, done ? 0.44 : 0.16);
+      trace.strokeCircle(point.x, point.y, 17);
+      this.add.text(point.x - 4, point.y - 8, point.label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: done ? "#f7d37a" : "#9ff5e9",
+        fontStyle: "bold",
+      }).setAlpha(done ? 0.8 : 0.38);
+    });
 
     const pulse = this.add.graphics();
     pulse.lineStyle(2, 0xf6c85f, 0.26);
     pulse.strokeCircle(686, 590, 18);
     this.tweens.add({ targets: pulse, alpha: 0.18, duration: 1200, yoyo: true, repeat: -1 });
+  }
+
+  private completedMissionTraceSegments(): number {
+    if (saveSystem.data.flags.doorOpened) return 4;
+    if (saveSystem.data.flags.robotKeyRecovered) return 4;
+    if (saveSystem.data.flags.englishInstructionSolved) return 3;
+    if (saveSystem.data.flags.circuitFixed) return 2;
+    if (saveSystem.data.flags.grammarFixed) return 1;
+    return 0;
   }
 
   private drawDoor(): void {
@@ -173,26 +211,26 @@ export class LaboratoryScene extends Phaser.Scene {
   }
 
   private drawAmbientObjects(): void {
-    this.add.rectangle(910, 500, 180, 84, 0x162733, 0.58).setStrokeStyle(1, 0x6be7d6, 0.52);
+    this.add.rectangle(910, 500, 180, 84, 0x162733, 0.32).setStrokeStyle(1, 0x6be7d6, 0.22);
     this.add.rectangle(912, 501, 160, 64, 0x6be7d6, 0.025);
-    this.add.text(846, 468, "MESSAGGIO", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9" });
+    this.add.text(846, 468, "MESSAGGIO", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9" }).setAlpha(0.54);
     this.add.text(846, 492, saveSystem.data.flags.grammarFixed ? this.grammarRepairPuzzle.repaired : this.grammarRepairPuzzle.corrupted, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: saveSystem.data.flags.grammarFixed ? "#f5fbff" : "#f6c85f",
       wordWrap: { width: 132 },
       lineSpacing: 3,
-    });
+    }).setAlpha(0.72);
 
-    this.add.rectangle(430, 514, 128, 70, 0x16242f, 0.5).setStrokeStyle(1, 0xffb36b, 0.46);
-    this.add.rectangle(386, 502, 34, 8, 0xffb36b, 0.48);
-    this.add.circle(452, 506, 8, 0x8aa6b0, 0.8);
-    this.add.text(382, 496, "attrezzi", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a" });
-    this.add.rectangle(1120, 486, 84, 84, 0x122934, 0.9).setStrokeStyle(1, 0x6be7d6, 0.45);
-    this.add.circle(1120, 486, 20, 0x6be7d6, 0.2).setStrokeStyle(2, 0x6be7d6, 0.62);
-    this.add.rectangle(1120, 180, 136, 78, 0x071018, 0.9).setStrokeStyle(2, 0x315766, 0.8);
-    this.add.rectangle(820, 575, 112, 50, 0x152937, 0.95).setStrokeStyle(1, 0xf6c85f, 0.38);
-    this.add.text(786, 560, "diario", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a" });
+    this.add.rectangle(430, 514, 128, 70, 0x16242f, 0.28).setStrokeStyle(1, 0xffb36b, 0.22);
+    this.add.rectangle(386, 502, 34, 8, 0xffb36b, 0.26);
+    this.add.circle(452, 506, 8, 0x8aa6b0, 0.44);
+    this.add.text(382, 496, "attrezzi", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a" }).setAlpha(0.5);
+    this.add.rectangle(1120, 486, 84, 84, 0x122934, 0.46).setStrokeStyle(1, 0x6be7d6, 0.24);
+    this.add.circle(1120, 486, 20, 0x6be7d6, 0.12).setStrokeStyle(2, 0x6be7d6, 0.34);
+    this.add.rectangle(1120, 180, 136, 78, 0x071018, 0.48).setStrokeStyle(2, 0x315766, 0.38);
+    this.add.rectangle(820, 575, 112, 50, 0x152937, 0.48).setStrokeStyle(1, 0xf6c85f, 0.2);
+    this.add.text(786, 560, "diario", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a" }).setAlpha(0.5);
   }
 
   private drawAmbientAnimation(): void {
@@ -272,6 +310,7 @@ export class LaboratoryScene extends Phaser.Scene {
       const complete = object.completedFlag ? saveSystem.data.flags[object.completedFlag] : false;
       const locked = !this.hasRequiredFlags(object);
       const state: DeviceState = complete ? "complete" : locked ? "locked" : this.isCurrentObject(object) ? "active" : "ready";
+      const hotspotSize = this.hotspotSizeFor(object, state);
       const device = SceneChrome.deviceHotspot(
         this,
         layout.x,
@@ -280,13 +319,22 @@ export class LaboratoryScene extends Phaser.Scene {
         object.label,
         state,
         () => this.moveToObject(object),
-        Math.max(70, Math.min(104, layout.radius * 1.58)),
+        hotspotSize,
       );
       device
         .on("pointerover", () => {
           audioManager.play("scan");
         });
     });
+  }
+
+  private hotspotSizeFor(object: LaboratoryObject, state: DeviceState): number {
+    const major = object.action === "door" || object.action === "terminal" || object.action === "circuit" || object.action === "grammar" || object.action === "robot";
+    const base = major ? 78 : 60;
+    if (state === "active") return base + 16;
+    if (state === "complete") return base + 6;
+    if (state === "locked") return Math.max(54, base - 12);
+    return base;
   }
 
   private createSceneProps(): void {
@@ -344,43 +392,72 @@ export class LaboratoryScene extends Phaser.Scene {
   private inspectObject(object: LaboratoryObject): void {
     this.clearInspectionPanel();
     const panel = this.add.container(24, 142);
-    panel.add(this.add.rectangle(0, 0, 304, 468, 0x08131c, 0.96).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.42));
+    const unlocked = this.hasRequiredFlags(object);
+    const complete = object.completedFlag ? saveSystem.data.flags[object.completedFlag] : false;
+    const accent = complete ? 0x2ed889 : unlocked ? 0x6be7d6 : 0xf6c85f;
+    panel.add(this.add.rectangle(6, 8, 304, 468, 0x000000, 0.28).setOrigin(0));
+    panel.add(this.add.rectangle(0, 0, 304, 468, 0x07131c, 0.97).setOrigin(0).setStrokeStyle(2, accent, 0.48));
+    panel.add(this.add.rectangle(0, 0, 304, 54, 0x0d2530, 0.72).setOrigin(0));
+    panel.add(this.add.rectangle(0, 0, 304, 3, accent, 0.92).setOrigin(0));
     panel.add(
       this.add.text(20, 18, object.label, {
         fontFamily: "Inter, Arial",
-        fontSize: "20px",
-        color: "#9ff5e9",
+        fontSize: "19px",
+        color: complete ? "#9ff5a7" : unlocked ? "#9ff5e9" : "#f7d37a",
         fontStyle: "bold",
+        wordWrap: { width: 264 },
       }),
     );
+    panel.add(this.add.text(20, 58, complete ? "COMPLETATO" : unlocked ? "DISPONIBILE" : "IN ATTESA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: complete ? "#9ff5a7" : unlocked ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+      letterSpacing: 1,
+    }));
+    panel.add(this.add.rectangle(20, 86, 264, 112, 0x02070b, 0.36).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.12));
     panel.add(
-      this.add.text(20, 58, object.description, {
+      this.add.text(34, 102, object.description, {
         fontFamily: "Inter, Arial",
-        fontSize: "14px",
+        fontSize: "13px",
         color: "#d9eaf1",
-        wordWrap: { width: 264 },
+        wordWrap: { width: 236 },
         lineSpacing: 5,
       }),
     );
 
     const status = this.objectStatus(object);
+    panel.add(this.add.rectangle(20, 214, 264, 70, 0x091923, 0.52).setOrigin(0).setStrokeStyle(1, accent, 0.16));
+    panel.add(this.add.text(34, 228, "STATO", {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
     panel.add(
-      this.add.text(20, 218, status, {
+      this.add.text(34, 248, status, {
         fontFamily: "Inter, Arial",
-        fontSize: "13px",
+        fontSize: "12px",
         color: status.includes("completo") ? "#f7d37a" : "#c9dce6",
-        wordWrap: { width: 264 },
+        wordWrap: { width: 236 },
         lineSpacing: 4,
       }),
     );
 
     const hintLine = this.nextHint(object, false);
+    panel.add(this.add.rectangle(20, 298, 264, 66, 0x1f1b0d, 0.34).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.22));
+    panel.add(this.add.text(34, 312, "INDIZIO", {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
     panel.add(
-      this.add.text(20, 300, hintLine, {
+      this.add.text(34, 332, hintLine, {
         fontFamily: "Inter, Arial",
-        fontSize: "13px",
+        fontSize: "12px",
         color: "#f7d37a",
-        wordWrap: { width: 264 },
+        wordWrap: { width: 236 },
         lineSpacing: 4,
       }),
     );
@@ -389,7 +466,7 @@ export class LaboratoryScene extends Phaser.Scene {
       width: 252,
       height: 44,
       fontSize: 15,
-      fill: this.hasRequiredFlags(object) ? 0x1f4b46 : 0x263743,
+      fill: unlocked ? 0x1f4b46 : 0x263743,
     });
     const hintButton = new Button(this, 152, 444, "Chiedi un indizio", () => {
       audioManager.play("hint");

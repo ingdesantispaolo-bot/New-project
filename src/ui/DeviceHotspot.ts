@@ -49,25 +49,29 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     let pointerStartedInside = false;
     let busy = false;
     let activePointerId: number | undefined;
-    const glow = scene.add.image(0, 0, "soft-glow").setTint(tint).setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : options.state === "failed" ? 0.1 : 0.04).setScale(size / 58);
-    const ring = scene.add.image(0, 0, "holo-ring").setTint(tint).setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18).setScale(size / 78);
+    const glow = scene.add.image(0, 0, "soft-glow").setTint(tint).setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035).setScale(size / 64);
+    const ring = scene.add.image(0, 0, "holo-ring").setTint(tint).setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13).setScale(size / 84);
     const glyph = drawDeviceGlyph(scene, options.kind, tint, options.state, size * 0.72);
     const marker = scene.add.circle(size * 0.28, -size * 0.24, Math.max(5, size * 0.07), tint, options.state === "locked" ? 0.4 : 0.92)
       .setStrokeStyle(1, 0xffffff, options.state === "locked" ? 0.12 : 0.34);
     const status = scene.add.container(0, -size * 0.56);
     const statusLabel = stateLabel(options.state);
-    const statusWidth = Math.max(54, statusLabel.length * 6 + 14);
-    status.add(scene.add.rectangle(0, 0, statusWidth, 18, 0x02070b, 0.7)
-      .setStrokeStyle(1, tint, options.state === "locked" ? 0.18 : 0.42));
-    status.add(scene.add.text(0, -6, statusLabel, {
-      fontFamily: "Inter, Arial",
-      fontSize: "9px",
-      color: stateTextColor(options.state),
-      fontStyle: "bold",
-    }).setOrigin(0.5, 0));
+    const statusWidth = statusLabel ? Math.max(50, statusLabel.length * 6 + 14) : 0;
+    if (statusLabel) {
+      status.add(scene.add.rectangle(0, 0, statusWidth, 18, 0x02070b, 0.78)
+        .setStrokeStyle(1, tint, options.state === "locked" ? 0.18 : 0.42));
+      status.add(scene.add.text(0, -6, statusLabel, {
+        fontFamily: "Inter, Arial",
+        fontSize: "9px",
+        color: stateTextColor(options.state),
+        fontStyle: "bold",
+      }).setOrigin(0.5, 0));
+    }
+    status.setAlpha(statusLabel ? 1 : 0);
     const tag = scene.add.container(0, size * 0.58);
     const tagWidth = Math.max(116, options.label.length * 7);
-    tag.add(scene.add.rectangle(0, 0, tagWidth, 22, 0x02070b, options.state === "active" ? 0.78 : 0.52));
+    tag.add(scene.add.rectangle(0, 0, tagWidth, 22, 0x02070b, options.state === "active" ? 0.84 : 0.44)
+      .setStrokeStyle(1, tint, options.state === "active" ? 0.28 : 0.08));
     tag.add(scene.add.text(0, -8, options.label, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -75,7 +79,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       fontStyle: "bold",
     }).setOrigin(0.5, 0));
 
-    tag.setAlpha(options.state === "active" ? 1 : 0.76);
+    tag.setAlpha(options.state === "active" ? 1 : options.state === "locked" ? 0.52 : 0.66);
     const hitWidth = Math.max(size, tagWidth, statusWidth);
     const visualTop = Math.min(-size / 2, -size * 0.56 - 9);
     const visualBottom = Math.max(size / 2, size * 0.58 + 11);
@@ -93,8 +97,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       hitArea.width,
       hitArea.height,
       0x061019,
-      options.state === "locked" ? 0.035 : 0.07,
-    ).setStrokeStyle(1, tint, options.state === "locked" ? 0.08 : 0.16);
+      0.01,
+    ).setStrokeStyle(1, tint, options.state === "active" ? 0.18 : 0.06);
     touchPlate.setInteractive();
     if (touchPlate.input && options.state !== "locked") {
       touchPlate.input.cursor = "pointer";
@@ -104,11 +108,11 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       pressed = false;
       pointerStartedInside = false;
       activePointerId = undefined;
-      ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18);
-      glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : options.state === "failed" ? 0.1 : 0.04);
-      tag.setAlpha(options.state === "active" ? 1 : 0.76);
+      ring.setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13);
+      glow.setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035);
+      tag.setAlpha(options.state === "active" ? 1 : options.state === "locked" ? 0.52 : 0.66);
       scene.tweens.killTweensOf([glow, tag]);
-      ring.setScale(size / 78);
+      ring.setScale(size / 84);
     };
 
     this.add([touchPlate, glow, ring, glyph, marker, status, tag]);
@@ -121,17 +125,17 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
         glow.setAlpha(0.26);
         tag.setAlpha(1);
         scene.tweens.killTweensOf([glow, tag]);
-        ring.setScale((size / 78) * 1.04);
+        ring.setScale((size / 84) * 1.05);
       }
     });
     touchPlate.on("pointerout", (...args: unknown[]) => {
       stopInputPropagation(args);
       if (pressed) return;
-      ring.setAlpha(options.state === "locked" ? 0.08 : options.state === "active" ? 0.4 : options.state === "failed" ? 0.24 : 0.18);
-      glow.setAlpha(options.state === "active" ? 0.18 : options.state === "complete" ? 0.16 : options.state === "failed" ? 0.1 : 0.04);
-      tag.setAlpha(options.state === "active" ? 1 : 0.76);
+      ring.setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13);
+      glow.setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035);
+      tag.setAlpha(options.state === "active" ? 1 : options.state === "locked" ? 0.52 : 0.66);
       scene.tweens.killTweensOf([glow, tag]);
-      ring.setScale(size / 78);
+      ring.setScale(size / 84);
     });
     touchPlate.on("pointerdown", (...args: unknown[]) => {
       stopInputPropagation(args);
@@ -147,7 +151,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       ring.setAlpha(options.state === "locked" ? 0.12 : 0.74);
       glow.setAlpha(options.state === "locked" ? 0.08 : 0.3);
       tag.setAlpha(1);
-      ring.setScale((size / 78) * 0.98);
+      ring.setScale((size / 84) * 0.98);
     });
     touchPlate.on("pointerup", (...args: unknown[]) => {
       stopInputPropagation(args);
@@ -171,7 +175,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
         }
         if (!this.scene || !this.active) return;
         scene.tweens.killTweensOf([glow, tag]);
-        scene.tweens.add({ targets: ring, scale: size / 78, duration: 70 });
+        scene.tweens.add({ targets: ring, scale: size / 84, duration: 70 });
         resetVisual();
       };
       runAction();
@@ -200,7 +204,7 @@ function stateColor(state: DeviceState): number {
   if (state === "locked") return colors.muted;
   if (state === "complete") return colors.green;
   if (state === "failed") return colors.warm;
-  if (state === "active") return colors.red;
+  if (state === "active") return colors.warm;
   return colors.cyan;
 }
 
@@ -213,11 +217,11 @@ function stateTextColor(state: DeviceState): string {
 }
 
 function stateLabel(state: DeviceState): string {
-  if (state === "locked") return "BLOCCATA";
+  if (state === "locked") return "LOCK";
   if (state === "complete") return "COMPLETATA";
   if (state === "failed") return "FALLITA";
-  if (state === "active") return "DA SISTEMARE";
-  return "PRONTA";
+  if (state === "active") return "ATTIVA";
+  return "";
 }
 
 function drawDeviceGlyph(

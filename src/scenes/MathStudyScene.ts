@@ -49,7 +49,7 @@ export class MathStudyScene extends Phaser.Scene {
       color: "#f5fbff",
       fontStyle: "bold",
     });
-    this.add.text(56, 74, "Pagine brevi da studiare: a cosa serve il concetto, come si calcola, esempio guidato e trappole tipiche.", {
+    this.add.text(56, 74, "Programma completo della scuola media: definizione, formule, regole ed esempio per ogni argomento.", {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#c7dce7",
@@ -88,7 +88,7 @@ export class MathStudyScene extends Phaser.Scene {
         width: 248,
         height: 38,
         fill: selected ? 0x1f5a51 : 0x142736,
-        stroke: selected ? 0xf6c85f : 0x6be7d6,
+        stroke: selected ? 0xf6c85f : this.areaColor(page.area),
         fontSize: 11,
         wordWrapWidth: 220,
       });
@@ -104,104 +104,126 @@ export class MathStudyScene extends Phaser.Scene {
     }, { width: 100, height: 36, fill: 0x263743, fontSize: 13 });
   }
 
+  private areaColor(area: string): number {
+    if (area === "Numeri") return 0x6be7d6;
+    if (area === "Geometria") return 0xf6c85f;
+    if (area === "Relazioni e funzioni") return 0x9f8cff;
+    return 0x70d68a;
+  }
+
   private drawStudyPage(): void {
     const page = mathStudyPages[this.pageIndex];
-    this.add.rectangle(782, 388, 820, 520, 0x07151d, 0.88).setStrokeStyle(2, 0x6be7d6, 0.34);
-    this.add.text(402, 136, page.title, {
+    const accent = this.areaColor(page.area);
+    this.add.rectangle(782, 388, 820, 520, 0x07151d, 0.9).setOrigin(0.5).setStrokeStyle(2, accent, 0.42);
+
+    this.add.text(402, 138, page.title, {
       fontFamily: "Inter, Arial",
-      fontSize: "30px",
+      fontSize: "27px",
       color: "#f5fbff",
       fontStyle: "bold",
-      wordWrap: { width: 620 },
+      wordWrap: { width: 600 },
     });
-    this.add.text(404, 174, page.subtitle, {
+    // Area badge + level range (top-right).
+    this.add.rectangle(1086, 150, 168, 26, accent, 0.2).setStrokeStyle(1, accent, 0.8);
+    this.add.text(1086, 150, page.area, {
       fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f7d37a",
+      fontSize: "12px",
+      color: "#f5fbff",
       fontStyle: "bold",
-      wordWrap: { width: 630 },
-    });
-    this.add.text(1024, 142, `Livelli ${page.levelRange[0]}-${page.levelRange[1]}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    });
-    this.add.text(1024, 168, page.competencies.map((item) => `#${item.replace("matematica.", "")}`).join("\n"), {
+    }).setOrigin(0.5);
+    this.add.text(1086, 178, `Livelli ${page.levelRange[0]}-${page.levelRange[1]}  ·  ${page.tags.join(" · ")}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
-      color: "#c7dce7",
-      wordWrap: { width: 180 },
-      lineSpacing: 3,
-    });
+      color: "#9aaab0",
+    }).setOrigin(0.5);
 
-    this.addStudyBlock(404, 224, 360, 120, "A cosa serve", page.whatFor, "#9ff5e9");
-    this.addStudyBlock(786, 224, 360, 120, "Come si calcola", page.howTo, "#9ff5e9");
-
-    this.add.rectangle(584, 402, 360, 170, 0x0b1a24, 0.82).setStrokeStyle(1, 0x6be7d6, 0.22);
-    this.add.text(422, 330, "Procedura", {
+    // Definition (full width, prominent).
+    this.add.rectangle(404, 196, 760, 56, 0x0b1a24, 0.9).setOrigin(0).setStrokeStyle(1, accent, 0.3);
+    this.add.text(420, 210, page.definition, {
       fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    });
-    this.add.text(422, 358, page.procedure.map((step, index) => `${index + 1}. ${step}`).join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 320, useAdvancedWrap: true },
-      lineSpacing: 5,
-    });
-
-    this.add.rectangle(966, 402, 360, 170, 0x0b1a24, 0.82).setStrokeStyle(1, 0xf6c85f, 0.28);
-    this.add.text(804, 330, "Esempio guidato", {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    });
-    this.add.text(804, 358, page.example.prompt, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f5fbff",
-      wordWrap: { width: 322, useAdvancedWrap: true },
-      lineSpacing: 3,
-    });
-    this.add.text(804, 420, [...page.example.steps, page.example.answer].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 322, useAdvancedWrap: true },
+      fontSize: "14px",
+      color: "#eaf4f8",
+      wordWrap: { width: 728 },
       lineSpacing: 4,
     });
 
-    this.add.rectangle(584, 568, 360, 104, 0x07151d, 0.82).setStrokeStyle(1, 0xffb36b, 0.24);
-    this.add.text(422, 524, "Attenzione", {
+    // FORMULE — the schematic core, each formula on its own chip.
+    this.add.rectangle(404, 264, 372, 212, 0x081722, 0.95).setOrigin(0).setStrokeStyle(2, 0xf6c85f, 0.5);
+    this.add.text(420, 274, "FORMULE", {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f6c85f",
+      fontStyle: "bold",
+    });
+    page.formulas.slice(0, 6).forEach((formula, index) => {
+      const y = 306 + index * 27;
+      this.add.rectangle(420, y, 340, 23, 0x12303a, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.18);
+      this.add.text(430, y + 3, formula, {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#ffe6a0",
+        wordWrap: { width: 322 },
+      });
+    });
+
+    // REGOLE — precise steps.
+    this.add.rectangle(792, 264, 388, 212, 0x0b1a24, 0.9).setOrigin(0).setStrokeStyle(1, accent, 0.28);
+    this.add.text(808, 274, "REGOLE", {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: String(accent === 0xf6c85f ? "#f7d37a" : "#9ff5e9"),
+      fontStyle: "bold",
+    });
+    this.add.text(808, 306, page.rules.map((rule, index) => `${index + 1}. ${rule}`).join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 356, useAdvancedWrap: true },
+      lineSpacing: 7,
+    });
+
+    // ESEMPIO — guided example.
+    this.add.rectangle(404, 488, 470, 158, 0x0b1a24, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.28);
+    this.add.text(420, 498, "ESEMPIO", {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#6be7d6",
+      fontStyle: "bold",
+    });
+    this.add.text(420, 524, page.example.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 438 },
+    });
+    this.add.text(420, 552, page.example.steps.map((step) => `→ ${step}`).join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      wordWrap: { width: 438 },
+      lineSpacing: 4,
+    });
+    this.add.text(420, 620, `= ${page.example.answer}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#9ff5a7",
+      fontStyle: "bold",
+    });
+
+    // ATTENZIONE — common mistakes.
+    this.add.rectangle(890, 488, 290, 158, 0x1a1410, 0.9).setOrigin(0).setStrokeStyle(1, 0xffb36b, 0.4);
+    this.add.text(906, 498, "ATTENZIONE", {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#ffb36b",
       fontStyle: "bold",
     });
-    this.add.text(422, 550, page.watchOut.map((item) => `- ${item}`).join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#d9eaf1",
-      wordWrap: { width: 320, useAdvancedWrap: true },
-      lineSpacing: 4,
-    });
-
-    this.add.rectangle(966, 568, 360, 104, 0x07151d, 0.82).setStrokeStyle(1, 0x6be7d6, 0.24);
-    this.add.text(804, 524, "Nel gioco", {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    });
-    this.add.text(804, 550, page.missionUse, {
+    this.add.text(906, 528, page.watchOut.map((item) => `⚠ ${item}`).join("\n\n"), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 320, useAdvancedWrap: true },
+      color: "#f3d9c4",
+      wordWrap: { width: 258, useAdvancedWrap: true },
       lineSpacing: 4,
     });
   }
@@ -229,23 +251,6 @@ export class MathStudyScene extends Phaser.Scene {
       height: 42,
       fill: 0x173b36,
       fontSize: 13,
-    });
-  }
-
-  private addStudyBlock(x: number, y: number, width: number, height: number, title: string, body: string, color: string): void {
-    this.add.rectangle(x + width / 2, y + height / 2, width, height, 0x0b1a24, 0.82).setStrokeStyle(1, 0x6be7d6, 0.22);
-    this.add.text(x + 18, y + 14, title, {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color,
-      fontStyle: "bold",
-    });
-    this.add.text(x + 18, y + 42, body, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: width - 36, useAdvancedWrap: true },
-      lineSpacing: 4,
     });
   }
 

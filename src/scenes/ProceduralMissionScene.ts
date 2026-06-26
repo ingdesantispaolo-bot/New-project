@@ -98,6 +98,15 @@ import {
   drawSwitchSymbol,
 } from "./procedural/CircuitSymbols";
 
+// Fresh nonce per started exercise session, so the same run/seed does not keep
+// serving the identical sequence of prompts: each new sprint regenerates its
+// content. Combines time and a counter to stay unique even within the same ms.
+let exerciseVarietyCounter = 0;
+function nextExerciseSalt(): string {
+  exerciseVarietyCounter += 1;
+  return `${Date.now().toString(36)}-${exerciseVarietyCounter.toString(36)}`;
+}
+
 export class ProceduralMissionScene extends Phaser.Scene {
   private run!: ProceduralRunSave;
   private dependencies = new MissionDependencyGraph();
@@ -1173,8 +1182,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return this.languageMinigameSession;
     }
     const variant = this.run.retryVariants?.language ?? 0;
-    const random = new Random(`${this.run.seed}:${puzzleId}:language:${variant}`);
-    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const random = new Random(`${this.run.seed}:${puzzleId}:language:${variant}:${nextExerciseSalt()}`);
+    const fresh = new LanguageCorruptionGenerator().generateMinigame(random, this.run.difficulty, [game.type]).minigame;
+    const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
+    const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.languageMinigameSession = {
       puzzleId,
       puzzle,
@@ -3564,8 +3575,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return this.mathMinigameSession;
     }
     const variant = this.run.retryVariants?.math ?? 0;
-    const random = new Random(`${this.run.seed}:${puzzleId}:math:${variant}`);
-    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const random = new Random(`${this.run.seed}:${puzzleId}:math:${variant}:${nextExerciseSalt()}`);
+    const fresh = new MathPuzzleGenerator().generateMinigame(random, difficultyModel.getPreset(this.run.difficulty), [game.type]).minigame;
+    const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
+    const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.mathMinigameSession = {
       puzzleId,
       puzzle,
@@ -3618,12 +3631,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
           fontStyle: "bold",
         }));
       });
-      overlay.add(this.add.text(x + 44, y + height - 46, "Le barre mostrano tutte le tessere, non la soluzione: scegli solo quelle che arrivano al totale.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#d9eaf1",
-        wordWrap: { width: width - 88 },
-      }));
       return;
     }
     if (prompt.type === "factor-hunt") {
@@ -4327,8 +4334,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return this.englishMinigameSession;
     }
     const variant = this.run.retryVariants?.english ?? 0;
-    const random = new Random(`${this.run.seed}:${puzzleId}:english:${variant}`);
-    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const random = new Random(`${this.run.seed}:${puzzleId}:english:${variant}:${nextExerciseSalt()}`);
+    const fresh = new EnglishInstructionGenerator().generateMinigame(random, this.run.difficulty, [game.type]).minigame;
+    const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
+    const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.englishMinigameSession = {
       puzzleId,
       puzzle,
@@ -4956,8 +4965,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return this.codingMinigameSession;
     }
     const variant = this.run.retryVariants?.coding ?? 0;
-    const random = new Random(`${this.run.seed}:${puzzleId}:coding:${variant}`);
-    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const random = new Random(`${this.run.seed}:${puzzleId}:coding:${variant}:${nextExerciseSalt()}`);
+    const fresh = new CodingPuzzleGenerator().generateMinigame(random, difficultyModel.getPreset(this.run.difficulty), [game.type]).minigame;
+    const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
+    const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.codingMinigameSession = {
       puzzleId,
       puzzle,
@@ -5953,10 +5964,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const basePuzzle = this.currentMusicPuzzle();
     const variant = this.run.retryVariants?.music ?? 0;
-    const random = new Random(`${this.run.seed}:${puzzleId}:music-drill:${variant}`);
+    const random = new Random(`${this.run.seed}:${puzzleId}:music-drill:${variant}:${nextExerciseSalt()}`);
     const durationMs = this.musicSprintDurationMs(this.run.difficulty);
     const baseMode = basePuzzle.challengeMode ?? "note-hunt";
-    const otherModes = random.shuffle<MusicMinigameType>(["note-hunt", "interval-jump", "rhythm-gap"].filter((mode) => mode !== baseMode) as MusicMinigameType[]);
+    const allModes: MusicMinigameType[] = ["note-hunt", "interval-jump", "rhythm-gap", "scale-step", "note-duration"];
+    const otherModes = random.shuffle<MusicMinigameType>(allModes.filter((mode) => mode !== baseMode));
     this.musicSession = {
       puzzleId,
       random,
@@ -8130,8 +8142,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return this.circuitMinigameSession;
     }
     const variant = this.run.retryVariants?.circuit ?? 0;
-    const random = new Random(`${this.run.seed}:${puzzleId}:circuit:${variant}`);
-    const variedGame = { ...game, prompts: random.shuffle(game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const random = new Random(`${this.run.seed}:${puzzleId}:circuit:${variant}:${nextExerciseSalt()}`);
+    const fresh = new CircuitFaultGenerator().generateMinigame(random, difficultyModel.getPreset(this.run.difficulty), [game.type]).minigame;
+    const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
+    const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
     this.circuitMinigameSession = {
       puzzleId,
       puzzle,

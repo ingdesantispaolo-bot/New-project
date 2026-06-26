@@ -54,6 +54,8 @@ import type {
   GridCommand,
   GridFacing,
   GraphParameterKey,
+  EnglishMinigameType,
+  LanguageMinigameType,
   LanguageMinigamePrompt,
   MathMinigamePrompt,
   MusicMinigameType,
@@ -1184,9 +1186,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const variant = this.run.retryVariants?.language ?? 0;
     const random = new Random(`${this.run.seed}:${puzzleId}:language:${variant}:${nextExerciseSalt()}`);
-    const fresh = new LanguageCorruptionGenerator().generateMinigame(random, this.run.difficulty, [game.type]).minigame;
-    const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
-    const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const generator = new LanguageCorruptionGenerator();
+    const types = this.isProgressiveMode() ? this.progressiveLanguageSprintTypes(game.type) : [game.type];
+    const freshPrompts = types.flatMap((type, index) =>
+      generator.generateMinigame(random.fork(`mix-${type}-${index}`), this.run.difficulty, [type]).minigame?.prompts ?? [],
+    );
+    const variedGame = {
+      ...game,
+      title: this.isProgressiveMode() ? "Sprint italiano: percorso variato" : game.title,
+      instructions: this.isProgressiveMode()
+        ? "alterni accordi, connettivi, intrusi e ordine delle parole: leggi l'obiettivo prima di cliccare."
+        : game.instructions,
+      prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
+    };
     this.languageMinigameSession = {
       puzzleId,
       puzzle,
@@ -1202,11 +1214,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
       netScore: 0,
       selectedIds: new Set<string>(),
       orderedSelection: [],
-      feedback: "Leggi prima l'obiettivo: accordo, connettivo, intruso o ordine. Poi conferma.",
+      feedback: this.isProgressiveMode()
+        ? "Scalata variata: ogni domanda può cambiare scopo. Prima leggi l'obiettivo, poi scegli."
+        : "Leggi prima l'obiettivo: accordo, connettivo, intruso o ordine. Poi conferma.",
       locked: false,
       summaryOpen: false,
     };
     return this.languageMinigameSession;
+  }
+
+  private progressiveLanguageSprintTypes(baseType: LanguageMinigameType): LanguageMinigameType[] {
+    const rotation: LanguageMinigameType[] = ["agreement-sprint", "connector-route", "intruder-hunt", "word-order", "lexicon-lab"];
+    return [baseType, ...rotation.filter((type) => type !== baseType)];
   }
 
   private drawLanguageMinigameVisualizer(
@@ -1248,6 +1267,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontFamily: "Inter, Arial",
         fontSize: "13px",
         color: "#f7d37a",
+        wordWrap: { width: width - 88 },
+      }));
+    } else if (prompt.type === "word-order") {
+      overlay.add(this.add.text(x + 44, y + 142, "Ordina: soggetto -> verbo -> complementi. Il comando deve restare eseguibile.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#d8c9ff",
+        wordWrap: { width: width - 88 },
+      }));
+    } else if (prompt.type === "lexicon-lab") {
+      overlay.add(this.add.text(x + 44, y + 142, "Scegli la parola più precisa: prova, ipotesi, fonte, registro e scopo cambiano il lessico.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#d8c9ff",
         wordWrap: { width: width - 88 },
       }));
     } else {
@@ -4342,9 +4375,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const variant = this.run.retryVariants?.english ?? 0;
     const random = new Random(`${this.run.seed}:${puzzleId}:english:${variant}:${nextExerciseSalt()}`);
-    const fresh = new EnglishInstructionGenerator().generateMinigame(random, this.run.difficulty, [game.type]).minigame;
-    const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
-    const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const generator = new EnglishInstructionGenerator();
+    const types = this.isProgressiveMode() ? this.progressiveEnglishSprintTypes(game.type) : [game.type];
+    const freshPrompts = types.flatMap((type, index) =>
+      generator.generateMinigame(random.fork(`mix-${type}-${index}`), this.run.difficulty, [type]).minigame?.prompts ?? [],
+    );
+    const variedGame = {
+      ...game,
+      title: this.isProgressiveMode() ? "Sprint inglese: percorso variato" : game.title,
+      instructions: this.isProgressiveMode()
+        ? "alterni azioni, sequenze, dati, grammatica e frase: trova prima lo scopo della domanda."
+        : game.instructions,
+      prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
+    };
     this.englishMinigameSession = {
       puzzleId,
       puzzle,
@@ -4360,11 +4403,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
       netScore: 0,
       selectedIds: new Set<string>(),
       orderedSelection: [],
-      feedback: "Leggi il comando come una procedura: action word -> object -> limiter/time word.",
+      feedback: this.isProgressiveMode()
+        ? "Scalata variata: ogni comando può chiedere azione, ordine, dato o grammatica. Leggi lo scopo prima della risposta."
+        : "Leggi il comando come una procedura: action word -> object -> limiter/time word.",
       locked: false,
       summaryOpen: false,
     };
     return this.englishMinigameSession;
+  }
+
+  private progressiveEnglishSprintTypes(baseType: EnglishMinigameType): EnglishMinigameType[] {
+    const rotation: EnglishMinigameType[] = ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab"];
+    return [baseType, ...rotation.filter((type) => type !== baseType)];
   }
 
   private drawEnglishMinigameVisualizer(
@@ -4409,17 +4459,29 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const visualLine = prompt.type === "action-relay"
       ? "VERB -> OBJECT -> NOT / ONLY"
-      : "TIME WORD -> FIRST EVENT -> SAFE ACTION";
+      : prompt.type === "grammar-fix"
+        ? "SIGNAL WORD -> RULE -> FORM"
+        : prompt.type === "sentence-build"
+          ? "SUBJECT -> VERB -> REST"
+          : prompt.type === "vocab-lab"
+            ? "CONTEXT -> MEANING -> BEST WORD"
+          : "TIME WORD -> FIRST EVENT -> SAFE ACTION";
     overlay.add(this.add.text(x + 42, y + 138, visualLine, {
       fontFamily: "Inter, Arial",
       fontSize: "16px",
-      color: prompt.type === "action-relay" ? "#9ff5e9" : "#f7d37a",
+      color: prompt.type === "action-relay" ? "#9ff5e9" : (prompt.type === "grammar-fix" || prompt.type === "vocab-lab") ? "#d8c9ff" : "#f7d37a",
       fontStyle: "bold",
       wordWrap: { width: width - 84 },
     }));
     overlay.add(this.add.text(x + 42, y + 176, prompt.type === "action-relay"
       ? "Non scegliere l'azione che riconosci prima: controlla se not, only o un aggettivo cambia l'oggetto."
-      : "Before, after, until e unless cambiano quando un comando è permesso.", {
+      : prompt.type === "grammar-fix"
+        ? "Cerca il segnale grammaticale: tempo, quantità, comparativo, modale o preposizione."
+        : prompt.type === "sentence-build"
+          ? "Costruisci una frase inglese stabile: ordine naturale, o ausiliare prima del soggetto nelle domande."
+          : prompt.type === "vocab-lab"
+            ? "Non tradurre a orecchio: scegli la parola che rispetta contesto, registro e significato tecnico."
+          : "Before, after, until e unless cambiano quando un comando è permesso.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9aaab0",

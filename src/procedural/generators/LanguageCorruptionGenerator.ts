@@ -31,7 +31,7 @@ export class LanguageCorruptionGenerator {
     const level = Math.max(1, Math.min(8, difficultyLevel));
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<LanguageMinigameType>(["agreement-sprint", "connector-route", "intruder-hunt", "word-order"]);
+      : random.pick<LanguageMinigameType>(["agreement-sprint", "connector-route", "intruder-hunt", "word-order", "lexicon-lab"]);
     const minigame = this.buildMinigame(random.fork(type), level, type);
     const first = minigame.prompts[0];
     const optionFeedback: Record<string, string> = {};
@@ -117,23 +117,25 @@ export class LanguageCorruptionGenerator {
   private buildMinigame(random: Random, level: number, type: LanguageMinigameType): GeneratedLanguageMinigame {
     const promptCount = 18 + level;
     const prompts: LanguageMinigamePrompt[] = [];
-    let previousSignature = "";
+    const usedSignatures = new Set<string>();
     for (let index = 0; index < promptCount; index += 1) {
-      const prompt = this.uniqueMinigamePrompt(random, level, type, index, previousSignature);
+      const prompt = this.uniqueMinigamePrompt(random, level, type, index, usedSignatures);
       prompts.push(prompt);
-      previousSignature = prompt.signature;
+      usedSignatures.add(prompt.signature);
     }
     const titles: Record<LanguageMinigameType, string> = {
       "agreement-sprint": "Minigioco italiano: Concordanze lampo",
       "connector-route": "Minigioco italiano: Rotte dei connettivi",
       "intruder-hunt": "Minigioco italiano: Intruso nel log",
       "word-order": "Minigioco italiano: Ricomponi il comando",
+      "lexicon-lab": "Minigioco italiano: Lessico preciso",
     };
     const instructions: Record<LanguageMinigameType, string> = {
       "agreement-sprint": "clicca la forma che rende la frase corretta per genere, numero e verbo.",
       "connector-route": "clicca il connettivo che mantiene il rapporto logico tra le informazioni.",
       "intruder-hunt": "clicca il dettaglio inutile o contraddittorio rispetto allo scopo del log.",
       "word-order": "tocca le parole nell'ordine giusto per ricomporre il comando eseguibile.",
+      "lexicon-lab": "clicca la parola più precisa per il contesto: tecnico, critico, narrativo o operativo.",
     };
     return {
       type,
@@ -150,6 +152,7 @@ export class LanguageCorruptionGenerator {
         ...(type === "connector-route" ? ["italiano.coesione", "italiano.argomentazione"] : []),
         ...(type === "intruder-hunt" ? ["italiano.lessico", "italiano.scritturaBreve"] : []),
         ...(type === "word-order" ? ["italiano.coesione", "italiano.scritturaBreve"] : []),
+        ...(type === "lexicon-lab" ? ["italiano.lessico", "italiano.scritturaBreve", "italiano.argomentazione"] : []),
       ])),
     };
   }
@@ -159,21 +162,24 @@ export class LanguageCorruptionGenerator {
     level: number,
     type: LanguageMinigameType,
     index: number,
-    previousSignature: string,
+    usedSignatures: Set<string>,
   ): LanguageMinigamePrompt {
-    for (let attempt = 0; attempt < 12; attempt += 1) {
+    let first: LanguageMinigamePrompt | undefined;
+    for (let attempt = 0; attempt < 36; attempt += 1) {
       const prompt = this.buildMinigamePrompt(random, level, type, index + attempt);
-      if (prompt.signature !== previousSignature) {
+      first ??= prompt;
+      if (!usedSignatures.has(prompt.signature)) {
         return prompt;
       }
     }
-    return this.buildMinigamePrompt(random, level, type, index + 99);
+    return first ?? this.buildMinigamePrompt(random, level, type, index + 99);
   }
 
   private buildMinigamePrompt(random: Random, level: number, type: LanguageMinigameType, index: number): LanguageMinigamePrompt {
     if (type === "agreement-sprint") return this.buildAgreementPrompt(random, level, index);
     if (type === "connector-route") return this.buildConnectorPrompt(random, level, index);
     if (type === "word-order") return this.buildWordOrderPrompt(random, level, index);
+    if (type === "lexicon-lab") return this.buildLexiconPrompt(random, level, index);
     return this.buildIntruderPrompt(random, level, index);
   }
 
@@ -234,6 +240,27 @@ export class LanguageCorruptionGenerator {
         distractors: ["richiedono", "richiesta", "richieda"],
         explanation: "Il nucleo del soggetto è serie, singolare: questa serie richiede.",
         concept: "nucleo del soggetto",
+      },
+      {
+        context: "Il diario delle prove ___ tre fonti e una conclusione prudente.",
+        correct: "confronta",
+        distractors: ["confrontano", "confrontato", "confronta le"],
+        explanation: "Il soggetto è diario, singolare: il diario confronta.",
+        concept: "soggetto singolare con complemento plurale",
+      },
+      {
+        context: "Le ipotesi senza prove non ___ il blocco del sistema.",
+        correct: "spiegano",
+        distractors: ["spiega", "spiegato", "spieghiamo"],
+        explanation: "Il soggetto è ipotesi, plurale: spiegano.",
+        concept: "accordo soggetto-verbo",
+      },
+      {
+        context: "Una traccia e due misure ___ per aprire il rapporto.",
+        correct: "bastano",
+        distractors: ["basta", "bastato", "bastano la"],
+        explanation: "Il soggetto contiene più elementi coordinati: una traccia e due misure bastano.",
+        concept: "soggetto composto misto",
       },
     ];
     const advanced = [
@@ -353,6 +380,27 @@ export class LanguageCorruptionGenerator {
         explanation: "Finché indica una condizione temporale: non avviene prima dell'isolamento.",
         concept: "vincolo temporale",
       },
+      {
+        context: "Il rapporto cita un'ipotesi, ___ non autorizza ancora lo spegnimento.",
+        correct: "perciò",
+        distractors: ["sebbene", "mentre", "affinché"],
+        explanation: "Perciò introduce la conseguenza: l'ipotesi non basta per agire.",
+        concept: "conseguenza argomentativa",
+      },
+      {
+        context: "La misura è coerente, ___ manca una seconda fonte di controllo.",
+        correct: "tuttavia",
+        distractors: ["quindi", "perché", "affinché"],
+        explanation: "Tuttavia segnala contrasto tra dato positivo e prova ancora mancante.",
+        concept: "contrasto tra prova e limite",
+      },
+      {
+        context: "Scrivi il passaggio in modo chiaro ___ un compagno possa ripeterlo.",
+        correct: "affinché",
+        distractors: ["però", "dunque", "finché"],
+        explanation: "Affinché introduce lo scopo: permettere a un compagno di ripetere il passaggio.",
+        concept: "scopo comunicativo",
+      },
     ];
     const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
     const tiles = this.shuffleLanguageTiles(random, [
@@ -418,6 +466,20 @@ export class LanguageCorruptionGenerator {
         explanation: "Gli aggettivi decorativi non aiutano un compagno a riparare il sistema.",
         concept: "chiarezza comunicativa",
       },
+      {
+        context: "Obiettivo: scegliere una conclusione proporzionata alle prove.",
+        useful: ["due misure indicano lo stesso valore", "una fonte resta non verificata", "il rapporto segnala un dubbio"],
+        intruder: "il terminale ha un bordo luminoso",
+        explanation: "Il bordo luminoso non aumenta né riduce la forza delle prove.",
+        concept: "conclusione proporzionata",
+      },
+      {
+        context: "Obiettivo: capire quale frase guida davvero l'azione.",
+        useful: ["prima scollega la batteria", "poi misura la continuità", "non toccare il ramo caldo"],
+        intruder: "il messaggio è scritto in stampatello",
+        explanation: "Lo stile grafico non modifica l'ordine operativo.",
+        concept: "istruzione e aspetto grafico",
+      },
     ];
     const advanced = [
       {
@@ -455,6 +517,115 @@ export class LanguageCorruptionGenerator {
     };
   }
 
+  private buildLexiconPrompt(random: Random, level: number, index: number): LanguageMinigamePrompt {
+    const pool = [
+      {
+        context: "Il tester non dimostra ancora il guasto: mostra solo una ___ da verificare.",
+        correct: "ipotesi",
+        distractors: ["certezza", "decorazione", "scorciatoia"],
+        explanation: "Un dato parziale genera un'ipotesi, non una certezza.",
+        concept: "ipotesi e prova",
+      },
+      {
+        context: "Per rendere più preciso il sensore, il tecnico deve ___ la lettura.",
+        correct: "calibrare",
+        distractors: ["abbellire", "consumare", "raccontare"],
+        explanation: "Calibrare significa regolare una misura; gli altri verbi non sono tecnici.",
+        concept: "verbo tecnico",
+      },
+      {
+        context: "Nel rapporto finale elimina i dettagli decorativi e conserva la ___.",
+        correct: "sintesi",
+        distractors: ["cornice", "voce", "distrazione"],
+        explanation: "La sintesi conserva le informazioni essenziali.",
+        concept: "sintesi informativa",
+      },
+      {
+        context: "Una notizia senza origine controllabile non è una fonte: è una ___.",
+        correct: "voce",
+        distractors: ["prova", "misura", "verifica"],
+        explanation: "Voce indica informazione non verificata; prova e verifica richiedono controllo.",
+        concept: "fonte e attendibilità",
+      },
+      {
+        context: "Se due dati si confermano a vicenda, la conclusione diventa più ___.",
+        correct: "affidabile",
+        distractors: ["vistosa", "frettolosa", "ornamentale"],
+        explanation: "Affidabile riguarda la forza della conclusione, non l'aspetto.",
+        concept: "lessico argomentativo",
+      },
+      {
+        context: "Il messaggio non deve essere lungo: deve essere ___ per guidare l'azione.",
+        correct: "chiaro",
+        distractors: ["misterioso", "decorativo", "contraddittorio"],
+        explanation: "Un comando operativo deve essere chiaro.",
+        concept: "chiarezza comunicativa",
+      },
+      {
+        context: "Quando un indizio non basta, serve un secondo ___ prima di decidere.",
+        correct: "controllo",
+        distractors: ["colore", "rumore", "titolo"],
+        explanation: "Un controllo aggiunge verifica; colore, rumore e titolo non certificano.",
+        concept: "verifica",
+      },
+      {
+        context: "La frase 'forse il modulo è guasto' esprime un dubbio, non una ___.",
+        correct: "diagnosi",
+        distractors: ["domanda", "pausa", "immagine"],
+        explanation: "La diagnosi richiede prove; forse segnala incertezza.",
+        concept: "diagnosi e incertezza",
+      },
+    ];
+    const advanced = [
+      {
+        context: "Il rapporto è convincente solo se distingue ___, prove e conclusione.",
+        correct: "tesi",
+        distractors: ["cornici", "rumori", "icone"],
+        explanation: "La tesi è l'idea da sostenere con prove.",
+        concept: "argomentazione",
+      },
+      {
+        context: "Se il testo usa parole troppo generiche, il comando perde ___.",
+        correct: "precisione",
+        distractors: ["decorazione", "fretta", "colore"],
+        explanation: "La precisione lessicale riduce ambiguità operative.",
+        concept: "precisione lessicale",
+      },
+      {
+        context: "Una conclusione corretta ma troppo forte rispetto ai dati è ___.",
+        correct: "sproporzionata",
+        distractors: ["verificata", "neutra", "leggibile"],
+        explanation: "Sproporzionata significa non adeguata alla quantità di prove disponibili.",
+        concept: "conclusione proporzionata",
+      },
+      {
+        context: "Nel registro formale evita 'aggiusta': scegli un verbo più tecnico come ___.",
+        correct: "ripristina",
+        distractors: ["gioca", "colora", "indovina"],
+        explanation: "Ripristina è adatto a un sistema tecnico; aggiusta è più generico.",
+        concept: "registro formale",
+      },
+    ];
+    const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
+    const tiles = this.shuffleLanguageTiles(random, [
+      this.languageTile(index, item.correct, true, `Corretto: ${item.explanation}`),
+      ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, `Lessico non adatto: ${item.explanation}`)),
+    ]);
+    return {
+      id: `lexicon-${index}`,
+      type: "lexicon-lab",
+      prompt: "Scegli la parola più precisa per rendere il messaggio chiaro e utile.",
+      context: item.context,
+      targetLabel: "Lessico preciso",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.correct],
+      explanation: item.explanation,
+      concept: item.concept,
+      signature: `lexicon-${item.context}-${item.correct}`,
+    };
+  }
+
   private languageTile(seed: number, label: string, isCorrect: boolean, feedback: string): LanguageMinigameTile {
     return {
       id: `lang-tile-${seed}-${label.replace(/\W+/g, "-").toLowerCase()}`,
@@ -475,11 +646,16 @@ export class LanguageCorruptionGenerator {
       { sentence: "Il robot raccoglie la chiave e raggiunge l'uscita", concept: "coordinazione di due azioni" },
       { sentence: "La valvola si chiude prima del riavvio", concept: "complemento di tempo in fondo" },
       { sentence: "Il nucleo si riavvia dopo il raffreddamento", concept: "complemento di tempo in fondo" },
+      { sentence: "La fonte confermata guida la scelta finale", concept: "soggetto-verbo-complemento con aggettivo" },
+      { sentence: "Il diario distingue prova ipotesi e opinione", concept: "elenco di informazioni critiche" },
+      { sentence: "La squadra controlla il dato prima della chiusura", concept: "ordine temporale e complemento" },
     ];
     const advanced = [
       { sentence: "Il tecnico sostituisce il fusibile prima di alimentare il circuito", concept: "subordinata temporale finale" },
       { sentence: "Il sistema invia il rapporto dopo aver verificato i dati", concept: "subordinata temporale finale" },
       { sentence: "La pompa riduce la pressione quando la temperatura sale", concept: "subordinata di tempo con quando" },
+      { sentence: "Il registro resta valido se la seconda fonte conferma la misura", concept: "subordinata condizionale" },
+      { sentence: "Il rapporto è chiaro quando separa causa effetto e controllo", concept: "criterio di chiarezza" },
     ];
     const item = random.pick(level >= 4 ? [...pool, ...advanced] : pool);
     const words = item.sentence.split(/\s+/);
@@ -533,6 +709,7 @@ export class LanguageCorruptionGenerator {
     if (type === "agreement-sprint") return ["accordo", "soggetto", "concordanza"];
     if (type === "connector-route") return ["connettivi", "logica del testo", "coesione"];
     if (type === "word-order") return ["ordine delle parole", "sintassi", "coesione"];
+    if (type === "lexicon-lab") return ["lessico", "precisione", "registro"];
     return ["comprensione", "informazioni utili", "pensiero critico"];
   }
 
@@ -540,6 +717,7 @@ export class LanguageCorruptionGenerator {
     if (type === "agreement-sprint") return "Allena riconoscimento rapido di accordi, soggetti reali e forme verbali corrette.";
     if (type === "connector-route") return "Allena scelta dei connettivi in base a causa, contrasto, tempo, condizione e scopo.";
     if (type === "word-order") return "Allena la costruzione della frase: ordinare le parole per produrre un comando chiaro ed eseguibile.";
+    if (type === "lexicon-lab") return "Allena vocabolario preciso: scegliere parole adatte a prova, ipotesi, fonte, sintesi e registro tecnico.";
     return "Allena lettura selettiva: separare dati utili, prove, opinioni e dettagli decorativi.";
   }
 
@@ -547,6 +725,7 @@ export class LanguageCorruptionGenerator {
     if (type === "agreement-sprint") return "Trova il soggetto, controlla singolare/plurale e verifica che verbo e aggettivo concordino.";
     if (type === "connector-route") return "Nomina il rapporto tra le due frasi: causa, conseguenza, contrasto, tempo, condizione o scopo.";
     if (type === "word-order") return "Parti dal soggetto, aggiungi il verbo, poi i complementi; metti il tempo o la condizione in fondo.";
+    if (type === "lexicon-lab") return "Leggi lo scopo della frase e scegli la parola più precisa: non quella più familiare, ma quella che riduce ambiguità.";
     return "Rileggi l'obiettivo del log e tieni solo ciò che aiuta a rispondere a quell'obiettivo.";
   }
 

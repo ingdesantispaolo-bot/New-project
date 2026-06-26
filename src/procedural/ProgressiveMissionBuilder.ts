@@ -9,6 +9,8 @@ import type {
 import { Random } from "./Random";
 import { difficultyModel } from "./DifficultyModel";
 import { MathPuzzleGenerator } from "./generators/MathPuzzleGenerator";
+import { EnglishInstructionGenerator } from "./generators/EnglishInstructionGenerator";
+import { LanguageCorruptionGenerator } from "./generators/LanguageCorruptionGenerator";
 import { exerciseDirector } from "../core/ExerciseDirector";
 
 type ProgressiveDiscipline = Exclude<ProceduralPuzzleKind, "robot">;
@@ -168,11 +170,11 @@ export class ProgressiveMissionBuilder {
 
   buildLevelMission(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
     const random = new Random(`${base.seed}:progressive:${level}`);
-    const variedBase = this.withNonRepeatingMath(base, level);
     // A progressive level must combine disciplines. Focus challenges are ideal
     // for training mode, but using them here turned the entire level into a
     // sequence from one subject and made levelPools unreachable.
     const selected = this.selectDisciplines(random, level, base.seed);
+    const variedBase = this.withProgressiveVariety(this.withNonRepeatingMath(base, level), level, selected);
     const objectives = selected.map((kind) => this.objectiveFor(variedBase, kind));
     const hotspots = selected.map((kind) => this.hotspotFor(kind));
     const pathLabel = selected.map((kind) => disciplineLabels[kind].label.toLowerCase()).join(" -> ");
@@ -213,6 +215,167 @@ export class ProgressiveMissionBuilder {
         ...variedBase.rewards,
       ],
     };
+  }
+
+  private withProgressiveVariety(
+    base: GeneratedMission,
+    level: DifficultyLevel,
+    selected: ProgressiveDiscipline[],
+  ): GeneratedMission {
+    let next = base;
+    if (selected.includes("language")) {
+      next = this.withNonRepeatingLanguage(next, level);
+    }
+    if (selected.includes("english")) {
+      next = this.withNonRepeatingEnglish(next, level);
+    }
+    return next;
+  }
+
+  private withNonRepeatingLanguage(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
+    const storageKey = `eli-quest:progressive-language:${level}`;
+    const signatureOf = (puzzle: GeneratedMission["puzzles"]["language"]): string =>
+      `${puzzle.id}|${puzzle.learningPurpose ?? ""}|${puzzle.conceptTags?.join(".") ?? ""}|${puzzle.repaired}`;
+    const idOf = (puzzle: GeneratedMission["puzzles"]["language"]): string => puzzle.id.replace(/^language-/, "");
+    let recentSignatures: string[] = [];
+    let previousTemplate = "";
+    let previousPurpose = "";
+    try {
+      const stored = JSON.parse(globalThis.localStorage?.getItem(storageKey) ?? "{}") as {
+        seed?: string;
+        signatures?: string[];
+        template?: string;
+        purpose?: string;
+      };
+      if (stored.seed === base.seed) return base;
+      recentSignatures = stored.signatures ?? [];
+      previousTemplate = stored.template ?? "";
+      previousPurpose = stored.purpose ?? "";
+    } catch {
+      // Storage is optional.
+    }
+
+    let selected = base.puzzles.language;
+    const currentSignature = signatureOf(selected);
+    if (
+      recentSignatures.includes(currentSignature)
+      || idOf(selected) === previousTemplate
+      || (selected.learningPurpose ?? "") === previousPurpose
+    ) {
+      const generator = new LanguageCorruptionGenerator();
+      let firstFresh = selected;
+      for (let attempt = 0; attempt < 28; attempt += 1) {
+        const preferred = this.languageTemplateIdsForProgressive(level, attempt);
+        const candidate = generator.generate(new Random(`${base.seed}:language-diversity:${level}:${attempt}`), level, preferred);
+        const signature = signatureOf(candidate);
+        if (recentSignatures.includes(signature)) continue;
+        if (firstFresh === selected) firstFresh = candidate;
+        if (idOf(candidate) !== previousTemplate && (candidate.learningPurpose ?? "") !== previousPurpose) {
+          selected = candidate;
+          break;
+        }
+      }
+      if (selected === base.puzzles.language) selected = firstFresh;
+    }
+
+    const signature = signatureOf(selected);
+    try {
+      globalThis.localStorage?.setItem(storageKey, JSON.stringify({
+        seed: base.seed,
+        signatures: [signature, ...recentSignatures.filter((item) => item !== signature)].slice(0, 6),
+        template: idOf(selected),
+        purpose: selected.learningPurpose ?? "",
+      }));
+    } catch {
+      // Storage is optional.
+    }
+    if (selected === base.puzzles.language) return base;
+    return { ...base, puzzles: { ...base.puzzles, language: selected } };
+  }
+
+  private withNonRepeatingEnglish(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
+    const storageKey = `eli-quest:progressive-english:${level}`;
+    const signatureOf = (puzzle: GeneratedMission["puzzles"]["english"]): string =>
+      `${puzzle.id}|${puzzle.challengeType ?? ""}|${puzzle.learningPurpose ?? ""}|${puzzle.instruction}|${puzzle.choices.find((choice) => choice.isCorrect)?.label ?? ""}`;
+    const idOf = (puzzle: GeneratedMission["puzzles"]["english"]): string => puzzle.id.replace(/^english-/, "");
+    let recentSignatures: string[] = [];
+    let previousTemplate = "";
+    let previousPurpose = "";
+    try {
+      const stored = JSON.parse(globalThis.localStorage?.getItem(storageKey) ?? "{}") as {
+        seed?: string;
+        signatures?: string[];
+        template?: string;
+        purpose?: string;
+      };
+      if (stored.seed === base.seed) return base;
+      recentSignatures = stored.signatures ?? [];
+      previousTemplate = stored.template ?? "";
+      previousPurpose = stored.purpose ?? "";
+    } catch {
+      // Storage is optional.
+    }
+
+    let selected = base.puzzles.english;
+    const currentSignature = signatureOf(selected);
+    if (
+      recentSignatures.includes(currentSignature)
+      || idOf(selected) === previousTemplate
+      || (selected.learningPurpose ?? "") === previousPurpose
+    ) {
+      const generator = new EnglishInstructionGenerator();
+      let firstFresh = selected;
+      for (let attempt = 0; attempt < 32; attempt += 1) {
+        const preferred = this.englishTemplateIdsForProgressive(level, attempt);
+        const candidate = generator.generate(new Random(`${base.seed}:english-diversity:${level}:${attempt}`), level, preferred);
+        const signature = signatureOf(candidate);
+        if (recentSignatures.includes(signature)) continue;
+        if (firstFresh === selected) firstFresh = candidate;
+        if (idOf(candidate) !== previousTemplate && (candidate.learningPurpose ?? "") !== previousPurpose) {
+          selected = candidate;
+          break;
+        }
+      }
+      if (selected === base.puzzles.english) selected = firstFresh;
+    }
+
+    const signature = signatureOf(selected);
+    try {
+      globalThis.localStorage?.setItem(storageKey, JSON.stringify({
+        seed: base.seed,
+        signatures: [signature, ...recentSignatures.filter((item) => item !== signature)].slice(0, 6),
+        template: idOf(selected),
+        purpose: selected.learningPurpose ?? "",
+      }));
+    } catch {
+      // Storage is optional.
+    }
+    if (selected === base.puzzles.english) return base;
+    return { ...base, puzzles: { ...base.puzzles, english: selected } };
+  }
+
+  private languageTemplateIdsForProgressive(level: DifficultyLevel, attempt: number): string[] {
+    const pools: string[][] = [
+      ["single-generator", "north-sensor", "sealed-door", "unstable-log", "robot-report", "apostrophe-accent", "ha-a-control"],
+      ["cause-effect-cooling", "sequence-before-after", "useful-vs-noise", "direct-indirect-pronouns", "concessive-although"],
+      ["pronoun-reference", "relative-clause", "relative-cui", "punctuation-safety", "technical-summary"],
+      ["conditional-alert", "source-reliability", "passive-active", "reported-speech-log", "main-idea-summary"],
+      ["lexical-precision", "nominalization-precision", "thesis-evidence", "register-formal", "period-hypothesis", "implicit-subject"],
+    ];
+    const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
+    return pools[(attempt + level - 1) % (maxIndex + 1)];
+  }
+
+  private englishTemplateIdsForProgressive(level: DifficultyLevel, attempt: number): string[] {
+    const pools: string[][] = [
+      ["green-not-red", "small-key", "where-is-core", "who-can-open", "main-switch", "possessive-their-its", "movement-prepositions-route"],
+      ["left-before-blue", "inspect-record-reset", "measure-before-switch", "simple-vs-now", "past-log-today", "some-any-fuses", "much-many-supplies", "present-perfect-already-yet"],
+      ["procedure-debug-charge", "sensor-below-threshold", "at-least-three-pulses", "frequency-adverbs", "first-conditional-alarm", "zero-conditional-rule", "adverbs-manner-safety"],
+      ["only-if-stable", "compare-two-signals", "neither-red-nor-yellow", "replace-only-damaged", "which-route-safest", "relative-drawer", "going-to-scan", "past-vs-present-perfect-log", "although-however-report", "main-idea-log", "detail-not-mentioned", "question-formation-why", "relative-where-lab"],
+      ["cause-report", "between-limits", "unless-blue-blinks", "until-door-unlocks", "not-until-pressure-drops", "must-should-cable", "may-must-not", "passive-reattach-wire", "pronoun-reference", "as-as-comparison", "passive-simple-past", "have-to-vs-can", "word-formation-re-over", "scientific-observation-evidence", "reported-warning", "either-neither-tool", "multi-clause-mission-order", "email-register-formal"],
+    ];
+    const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
+    return pools[(attempt + level) % (maxIndex + 1)];
   }
 
   private withNonRepeatingMath(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {

@@ -44,7 +44,7 @@ export class EnglishInstructionGenerator {
     const level = Math.max(1, Math.min(8, difficultyLevel));
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<EnglishMinigameType>(["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build"]);
+      : random.pick<EnglishMinigameType>(["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab"]);
     const minigame = this.buildMinigame(random.fork(type), level, type);
     const first = minigame.prompts[0];
     let choices: GeneratedEnglishPuzzle["choices"];
@@ -73,6 +73,7 @@ export class EnglishInstructionGenerator {
       type === "data-command-scan" ? "data-reading"
         : type === "sequence-switchboard" ? "sequence"
           : type === "grammar-fix" ? "vocabulary-in-context"
+            : type === "vocab-lab" ? "vocabulary-in-context"
             : "command";
     return {
       id: `english-mini-${type}-${random.integer(1000, 9999)}`,
@@ -134,11 +135,11 @@ export class EnglishInstructionGenerator {
   private buildMinigame(random: Random, level: number, type: EnglishMinigameType): GeneratedEnglishMinigame {
     const promptCount = 18 + level;
     const prompts: EnglishMinigamePrompt[] = [];
-    let previousSignature = "";
+    const usedSignatures = new Set<string>();
     for (let index = 0; index < promptCount; index += 1) {
-      const prompt = this.uniqueMinigamePrompt(random, level, type, index, previousSignature);
+      const prompt = this.uniqueMinigamePrompt(random, level, type, index, usedSignatures);
       prompts.push(prompt);
-      previousSignature = prompt.signature;
+      usedSignatures.add(prompt.signature);
     }
     const titles: Record<EnglishMinigameType, string> = {
       "action-relay": "Minigioco inglese: Action Relay",
@@ -146,6 +147,7 @@ export class EnglishInstructionGenerator {
       "data-command-scan": "Minigioco inglese: Data Command Scan",
       "grammar-fix": "Minigioco inglese: Grammar Fix",
       "sentence-build": "Minigioco inglese: Sentence Builder",
+      "vocab-lab": "Minigioco inglese: Vocabulary Lab",
     };
     const instructions: Record<EnglishMinigameType, string> = {
       "action-relay": "clicca l'azione corretta leggendo verbo, oggetto e divieto.",
@@ -153,6 +155,7 @@ export class EnglishInstructionGenerator {
       "data-command-scan": "clicca l'azione coerente con soglia, confronto o intervallo.",
       "grammar-fix": "scegli la forma corretta: tempo verbale, comparativo, modale, preposizione o quantificatore.",
       "sentence-build": "tocca le parole nell'ordine giusto per formare la frase o la domanda in inglese.",
+      "vocab-lab": "scegli la parola inglese più adatta al contesto tecnico o scientifico.",
     };
     return {
       type,
@@ -170,6 +173,7 @@ export class EnglishInstructionGenerator {
         ...(type === "data-command-scan" ? ["inglese.scientifico", "inglese.dati"] : []),
         ...(type === "grammar-fix" ? ["inglese.grammatica", "inglese.lessico"] : []),
         ...(type === "sentence-build" ? ["inglese.grammatica", "inglese.scritturaBreve"] : []),
+        ...(type === "vocab-lab" ? ["inglese.lessico", "inglese.scientifico", "inglese.comprensione"] : []),
       ])),
     };
   }
@@ -179,15 +183,17 @@ export class EnglishInstructionGenerator {
     level: number,
     type: EnglishMinigameType,
     index: number,
-    previousSignature: string,
+    usedSignatures: Set<string>,
   ): EnglishMinigamePrompt {
-    for (let attempt = 0; attempt < 12; attempt += 1) {
+    let first: EnglishMinigamePrompt | undefined;
+    for (let attempt = 0; attempt < 36; attempt += 1) {
       const prompt = this.buildMinigamePrompt(random, level, type, index + attempt);
-      if (prompt.signature !== previousSignature) {
+      first ??= prompt;
+      if (!usedSignatures.has(prompt.signature)) {
         return prompt;
       }
     }
-    return this.buildMinigamePrompt(random, level, type, index + 99);
+    return first ?? this.buildMinigamePrompt(random, level, type, index + 99);
   }
 
   private buildMinigamePrompt(random: Random, level: number, type: EnglishMinigameType, index: number): EnglishMinigamePrompt {
@@ -195,6 +201,7 @@ export class EnglishInstructionGenerator {
     if (type === "sequence-switchboard") return this.buildSequenceSwitchboardPrompt(random, level, index);
     if (type === "grammar-fix") return this.buildGrammarFixPrompt(random, level, index);
     if (type === "sentence-build") return this.buildSentenceBuildPrompt(random, level, index);
+    if (type === "vocab-lab") return this.buildVocabularyPrompt(random, level, index);
     return this.buildDataCommandScanPrompt(random, level, index);
   }
 
@@ -231,6 +238,30 @@ export class EnglishInstructionGenerator {
         explanation: "Only limita l'azione alla card blu.",
         glossary: [{ term: "insert", meaning: "inserire" }, { term: "only", meaning: "solo" }, { term: "card", meaning: "scheda" }],
         concept: "only limiter",
+      },
+      {
+        instruction: "Save the report, but do not send it yet.",
+        correct: "Save report",
+        distractors: ["Send report", "Delete report", "Save and send report"],
+        explanation: "Save è permesso; do not send it yet vieta l'invio per ora.",
+        glossary: [{ term: "save", meaning: "salvare" }, { term: "send", meaning: "inviare" }, { term: "yet", meaning: "ancora / per ora" }],
+        concept: "allowed action + delayed action",
+      },
+      {
+        instruction: "Mark the verified source and ignore the rumor.",
+        correct: "Mark verified source",
+        distractors: ["Mark rumor", "Ignore source", "Mark both notes"],
+        explanation: "Verified source è la fonte controllata; rumor è la voce da ignorare.",
+        glossary: [{ term: "mark", meaning: "segnare" }, { term: "verified", meaning: "verificato" }, { term: "rumor", meaning: "voce non verificata" }],
+        concept: "source reliability",
+      },
+      {
+        instruction: "Keep the backup switch on. Turn off the test lamp.",
+        correct: "Turn off test lamp",
+        distractors: ["Turn off backup switch", "Turn on test lamp", "Turn off both"],
+        explanation: "Keep on preserva lo switch di backup; turn off riguarda solo la lampada di test.",
+        glossary: [{ term: "keep on", meaning: "tenere acceso" }, { term: "turn off", meaning: "spegnere" }, { term: "backup", meaning: "riserva" }],
+        concept: "two commands with different objects",
       },
     ];
     const advanced = [
@@ -323,6 +354,30 @@ export class EnglishInstructionGenerator {
         explanation: "Not until vieta di anticipare: sblocca solo dopo il calo di pressione.",
         glossary: [{ term: "not until", meaning: "non prima che" }, { term: "pressure drops", meaning: "la pressione scende" }, { term: "unlock", meaning: "sbloccare" }],
         concept: "not until",
+      },
+      {
+        instruction: "Write down the result after the second sensor confirms it.",
+        correct: "Second sensor confirms -> write result",
+        distractors: ["Write before confirmation", "Ignore second sensor", "Erase the result"],
+        explanation: "After richiede che la conferma del secondo sensore venga prima dell'annotazione.",
+        glossary: [{ term: "write down", meaning: "annotare" }, { term: "after", meaning: "dopo" }, { term: "confirms", meaning: "conferma" }],
+        concept: "after + evidence",
+      },
+      {
+        instruction: "Test the cable, then report whether it is safe.",
+        correct: "Test cable -> report safety",
+        distractors: ["Report before test", "Replace cable without test", "Test after reporting"],
+        explanation: "Then mette il report dopo il test: prima prova, poi conclusione.",
+        glossary: [{ term: "test", meaning: "testare" }, { term: "then", meaning: "poi" }, { term: "whether", meaning: "se / se oppure no" }],
+        concept: "test before conclusion",
+      },
+      {
+        instruction: "If the note is unsigned, ask for a source before you act.",
+        correct: "Unsigned note -> ask source",
+        distractors: ["Act immediately", "Ignore every note", "Ask source after acting"],
+        explanation: "If introduce la condizione; before you act impone la verifica della fonte prima dell'azione.",
+        glossary: [{ term: "unsigned", meaning: "non firmato" }, { term: "source", meaning: "fonte" }, { term: "before", meaning: "prima" }],
+        concept: "condition + source check",
       },
     ];
     const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
@@ -595,11 +650,137 @@ export class EnglishInstructionGenerator {
     return [...variants].slice(0, 3);
   }
 
+  private buildVocabularyPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    const pool = [
+      {
+        instruction: "Choose the word that completes the technical sentence.",
+        context: "The sensor is not broken; it needs a new ___ before the test.",
+        correct: "calibration",
+        distractors: ["decoration", "rumor", "shortcut"],
+        explanation: "Calibration è regolazione della misura; decoration e rumor non sono procedure tecniche.",
+        glossary: [{ term: "calibration", meaning: "calibrazione" }, { term: "broken", meaning: "rotto" }, { term: "test", meaning: "prova" }],
+        concept: "technical nouns",
+      },
+      {
+        instruction: "Choose the safest vocabulary in context.",
+        context: "A note with no name or date is not reliable evidence; it is only a ___.",
+        correct: "rumor",
+        distractors: ["proof", "measurement", "source"],
+        explanation: "Rumor è voce non verificata; proof e measurement indicano prove.",
+        glossary: [{ term: "rumor", meaning: "voce non verificata" }, { term: "evidence", meaning: "prova" }, { term: "reliable", meaning: "affidabile" }],
+        concept: "evidence vocabulary",
+      },
+      {
+        instruction: "Pick the word that matches the warning.",
+        context: "The cable is hot. Touching it is ___ until the power is off.",
+        correct: "unsafe",
+        distractors: ["accurate", "empty", "silent"],
+        explanation: "Unsafe riguarda rischio; accurate significa accurato, non sicuro.",
+        glossary: [{ term: "unsafe", meaning: "non sicuro" }, { term: "accurate", meaning: "accurato" }, { term: "power off", meaning: "alimentazione spenta" }],
+        concept: "safety adjective",
+      },
+      {
+        instruction: "Choose the word that describes the data.",
+        context: "Two sensors show the same number, so the result is more ___.",
+        correct: "reliable",
+        distractors: ["random", "decorative", "noisy"],
+        explanation: "Reliable significa affidabile; i dati confermati sono più affidabili.",
+        glossary: [{ term: "reliable", meaning: "affidabile" }, { term: "random", meaning: "casuale" }, { term: "noisy", meaning: "rumoroso / disturbato" }],
+        concept: "data reliability",
+      },
+      {
+        instruction: "Complete the operating log.",
+        context: "Do not guess. First collect enough ___ for your conclusion.",
+        correct: "evidence",
+        distractors: ["paint", "buttons", "speed"],
+        explanation: "Evidence sono prove; una conclusione non va basata su tentativi.",
+        glossary: [{ term: "evidence", meaning: "prove" }, { term: "guess", meaning: "indovinare" }, { term: "conclusion", meaning: "conclusione" }],
+        concept: "critical thinking vocabulary",
+      },
+      {
+        instruction: "Choose the correct technical verb.",
+        context: "If the backup battery is low, ___ it before restarting the door.",
+        correct: "recharge",
+        distractors: ["rewrite", "rename", "repaint"],
+        explanation: "Recharge significa ricaricare una batteria; gli altri prefissi re- non sono adatti.",
+        glossary: [{ term: "recharge", meaning: "ricaricare" }, { term: "rewrite", meaning: "riscrivere" }, { term: "restart", meaning: "riavviare" }],
+        concept: "word formation re-",
+      },
+      {
+        instruction: "Choose the word that fits the route.",
+        context: "The robot moves ___ the tunnel, not across the roof.",
+        correct: "through",
+        distractors: ["under", "between", "above"],
+        explanation: "Through indica attraversare un passaggio; across sarebbe su una superficie.",
+        glossary: [{ term: "through", meaning: "attraverso un passaggio" }, { term: "across", meaning: "attraverso una superficie" }, { term: "tunnel", meaning: "tunnel" }],
+        concept: "movement prepositions",
+      },
+    ];
+    const advanced = [
+      {
+        instruction: "Avoid the false friend.",
+        context: "The log is ___: it gives exact values and clear limits.",
+        correct: "accurate",
+        distractors: ["actual", "eventual", "sensible"],
+        explanation: "Accurate significa preciso; actual significa reale/effettivo, non attuale.",
+        glossary: [{ term: "accurate", meaning: "preciso" }, { term: "actual", meaning: "reale / effettivo" }, { term: "sensible", meaning: "ragionevole" }],
+        concept: "false friends",
+      },
+      {
+        instruction: "Choose the word for a limited conclusion.",
+        context: "The data ___ that the valve may be blocked, but they do not prove it yet.",
+        correct: "suggest",
+        distractors: ["prove", "decorate", "erase"],
+        explanation: "Suggest indica suggerire un'ipotesi; prove sarebbe troppo forte.",
+        glossary: [{ term: "suggest", meaning: "suggerire" }, { term: "prove", meaning: "dimostrare" }, { term: "yet", meaning: "ancora" }],
+        concept: "hedging and evidence",
+      },
+      {
+        instruction: "Choose the register that fits a formal report.",
+        context: "The technician will ___ the damaged module, not just 'fix the thing'.",
+        correct: "repair",
+        distractors: ["mess up", "hang out with", "look pretty at"],
+        explanation: "Repair è verbo tecnico/formale; gli altri non appartengono a un report.",
+        glossary: [{ term: "repair", meaning: "riparare" }, { term: "damaged", meaning: "danneggiato" }, { term: "module", meaning: "modulo" }],
+        concept: "formal technical register",
+      },
+      {
+        instruction: "Choose the word that completes the scientific note.",
+        context: "A repeated test makes the observation more ___.",
+        correct: "consistent",
+        distractors: ["lonely", "painted", "forbidden"],
+        explanation: "Consistent indica coerenza tra prove ripetute.",
+        glossary: [{ term: "consistent", meaning: "coerente / costante" }, { term: "repeated", meaning: "ripetuto" }, { term: "observation", meaning: "osservazione" }],
+        concept: "scientific vocabulary",
+      },
+    ];
+    const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
+    const tiles = this.shuffleEnglishTiles(random, [
+      this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
+      ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Not this word: ${item.explanation}`)),
+    ]);
+    return {
+      id: `english-vocab-${index}`,
+      type: "vocab-lab",
+      instruction: item.instruction,
+      context: item.context,
+      targetLabel: "Vocabulary in context",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.correct],
+      explanation: item.explanation,
+      concept: item.concept,
+      glossary: item.glossary,
+      signature: `vocab-${item.context}-${item.correct}`,
+    };
+  }
+
   private englishMinigameConcepts(type: EnglishMinigameType): string[] {
     if (type === "action-relay") return ["imperative", "object choice", "prohibition"];
     if (type === "sequence-switchboard") return ["before/after", "condition", "sequence"];
     if (type === "grammar-fix") return ["verb tenses", "grammar choice", "word forms"];
     if (type === "sentence-build") return ["word order", "sentence structure", "questions"];
+    if (type === "vocab-lab") return ["vocabulary", "false friends", "technical register"];
     return ["data reading", "threshold", "comparison"];
   }
 
@@ -608,6 +789,7 @@ export class EnglishInstructionGenerator {
     if (type === "sequence-switchboard") return "Allena lettura di before, after, until, unless e if come vincoli di procedura.";
     if (type === "grammar-fix") return "Allena la grammatica della scuola media: tempi verbali, comparativi, modali, preposizioni, quantificatori e domande.";
     if (type === "sentence-build") return "Allena la costruzione della frase e della domanda in inglese: ordine soggetto-verbo e posizione dell'ausiliare.";
+    if (type === "vocab-lab") return "Allena vocabolario inglese in contesto: termini tecnici, falsi amici, prove, sicurezza e registro formale.";
     return "Allena lettura di dati semplici in inglese: below, above, between, dimmer, brighter e soglie.";
   }
 
@@ -616,6 +798,7 @@ export class EnglishInstructionGenerator {
     if (type === "sequence-switchboard") return "Sottolinea le parole-tempo: before, after, until, then, unless. Poi ordina le azioni.";
     if (type === "grammar-fix") return "Riconosci il segnale (every day, now, yesterday, than, must...) e scegli la forma che lo rispetta.";
     if (type === "sentence-build") return "Parti dal soggetto, poi il verbo; nelle domande metti l'ausiliare prima del soggetto.";
+    if (type === "vocab-lab") return "Leggi il contesto e scegli la parola che rende il messaggio tecnicamente corretto: attenzione a falsi amici e registro.";
     return "Leggi la soglia o il confronto, confronta i dati, poi scegli una sola azione.";
   }
 
@@ -624,6 +807,7 @@ export class EnglishInstructionGenerator {
     if (type === "sequence-switchboard") return ["time word", "first event", "safe action"];
     if (type === "grammar-fix") return ["find the signal", "recall the rule", "pick the form"];
     if (type === "sentence-build") return ["subject", "verb", "rest / aux first in questions"];
+    if (type === "vocab-lab") return ["context", "meaning", "best word"];
     return ["threshold", "data", "action"];
   }
 

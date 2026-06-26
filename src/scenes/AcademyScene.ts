@@ -79,11 +79,18 @@ export class AcademyScene extends Phaser.Scene {
       stroke: 0x9ff5e9,
       fontSize: 14,
     });
-    new Button(this, 800, 686, "Continua la Storia", () => { void startScene(this, "CampaignScene"); }, {
-      width: 240,
+    new Button(this, 798, 686, "Continua la Storia", () => { void startScene(this, "CampaignScene"); }, {
+      width: 226,
       height: 44,
       fill: 0x1f5a51,
       stroke: 0xf6c85f,
+      fontSize: 13,
+    });
+    new Button(this, 1058, 686, "⚠ Sfida dell'Eco", () => { void startScene(this, "BossScene"); }, {
+      width: 232,
+      height: 44,
+      fill: 0x4a1426,
+      stroke: 0xff5d7a,
       fontSize: 13,
     });
   }

@@ -43,6 +43,10 @@ export type SaveData = {
     name?: string;
     emblem?: string;
   };
+  /** Boss arc: how many times the Eco has been defeated (drives escalation + story). */
+  eco?: {
+    defeats: number;
+  };
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;
 };

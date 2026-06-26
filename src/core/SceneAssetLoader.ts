@@ -9,11 +9,23 @@ import factoryPaintedBgUrl from "../assets/images/factory-painted-bg.webp";
 import greenhousePaintedBgUrl from "../assets/images/greenhouse-painted-bg.webp";
 import labPaintedBgUrl from "../assets/images/lab-painted-bg.webp";
 import missionCodingBgUrl from "../assets/images/mission-coding-bg.webp";
+import missionCodingRobotBgUrl from "../assets/images/mission-coding-robot-bg.webp";
+import missionCodingTerminalBgUrl from "../assets/images/mission-coding-terminal-bg.webp";
 import missionElectronicsBgUrl from "../assets/images/mission-electronics-bg.webp";
+import missionElectronicsBenchBgUrl from "../assets/images/mission-electronics-bench-bg.webp";
+import missionElectronicsPowerBgUrl from "../assets/images/mission-electronics-power-bg.webp";
 import missionEnglishBgUrl from "../assets/images/mission-english-bg.webp";
+import missionEnglishControlBgUrl from "../assets/images/mission-english-control-bg.webp";
+import missionEnglishRadioBgUrl from "../assets/images/mission-english-radio-bg.webp";
 import missionItalianBgUrl from "../assets/images/mission-italian-bg.webp";
+import missionItalianArchiveBgUrl from "../assets/images/mission-italian-archive-bg.webp";
+import missionItalianLibraryBgUrl from "../assets/images/mission-italian-library-bg.webp";
 import missionMathBgUrl from "../assets/images/mission-math-bg.webp";
+import missionMathFactoryBgUrl from "../assets/images/mission-math-factory-bg.webp";
+import missionMathGridBgUrl from "../assets/images/mission-math-grid-bg.webp";
 import missionMusicBgUrl from "../assets/images/mission-music-bg.webp";
+import missionMusicAudioBgUrl from "../assets/images/mission-music-audio-bg.webp";
+import missionMusicStaffBgUrl from "../assets/images/mission-music-staff-bg.webp";
 import missionSynthesisBgUrl from "../assets/images/mission-synthesis-bg.webp";
 import propCircuitPanelUrl from "../assets/props/prop-circuit-panel.webp";
 import propDoorLabUrl from "../assets/props/prop-door-lab.webp";
@@ -84,6 +96,12 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["mission-bg-coding", missionCodingBgUrl], ["mission-bg-electronics", missionElectronicsBgUrl],
     ["mission-bg-english", missionEnglishBgUrl], ["mission-bg-italian", missionItalianBgUrl],
     ["mission-bg-math", missionMathBgUrl], ["mission-bg-music", missionMusicBgUrl],
+    ["mission-coding-robot-bg", missionCodingRobotBgUrl], ["mission-coding-terminal-bg", missionCodingTerminalBgUrl],
+    ["mission-electronics-bench-bg", missionElectronicsBenchBgUrl], ["mission-electronics-power-bg", missionElectronicsPowerBgUrl],
+    ["mission-english-control-bg", missionEnglishControlBgUrl], ["mission-english-radio-bg", missionEnglishRadioBgUrl],
+    ["mission-italian-archive-bg", missionItalianArchiveBgUrl], ["mission-italian-library-bg", missionItalianLibraryBgUrl],
+    ["mission-math-factory-bg", missionMathFactoryBgUrl], ["mission-math-grid-bg", missionMathGridBgUrl],
+    ["mission-music-audio-bg", missionMusicAudioBgUrl], ["mission-music-staff-bg", missionMusicStaffBgUrl],
     ["mission-bg-synthesis", missionSynthesisBgUrl],
     ["outcome-defeat", outcomeDefeatUrl], ["outcome-devastating-defeat", outcomeDevastatingDefeatUrl],
     ["outcome-grand-victory", outcomeGrandVictoryUrl], ["outcome-light-victory", outcomeLightVictoryUrl],

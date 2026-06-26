@@ -333,7 +333,8 @@ function drawMissionSpecificBackdrop(
   random: Random,
   progress: number,
 ): void {
-  drawMissionImageLayer(scene, rect, theme, progress);
+  const imageVariant = random.fork("mission-image").integer(0, 1);
+  drawMissionImageLayer(scene, rect, theme, progress, imageVariant);
   if (theme.focus === "matematica") {
     drawMathMissionBackdrop(scene, rect, theme, random, progress);
   } else if (theme.focus === "italiano") {
@@ -351,11 +352,30 @@ function drawMissionSpecificBackdrop(
   }
 }
 
-function drawMissionImageLayer(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralVisualTheme, progress: number): void {
-  const key = missionBackdropKey(theme.focus);
+function drawMissionImageLayer(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  progress: number,
+  imageVariant: number,
+): void {
+  const key = missionBackdropKey(theme.focus, imageVariant);
   if (!scene.textures.exists(key)) {
+    const fallbackKey = fallbackMissionBackdropKey(theme.focus);
+    if (!scene.textures.exists(fallbackKey)) return;
+    drawMissionImage(scene, rect, theme, progress, fallbackKey);
     return;
   }
+  drawMissionImage(scene, rect, theme, progress, key);
+}
+
+function drawMissionImage(
+  scene: Phaser.Scene,
+  rect: ChromeRect,
+  theme: ProceduralVisualTheme,
+  progress: number,
+  key: string,
+): void {
   const image = scene.add.image(rect.x + rect.width / 2, rect.y + rect.height / 2 + 10, key)
     .setDisplaySize(rect.width - 56, rect.height - 102)
     .setAlpha(0.3 + progress * 0.08);
@@ -373,7 +393,21 @@ function drawMissionImageLayer(scene: Phaser.Scene, rect: ChromeRect, theme: Pro
     .setStrokeStyle(1, theme.accent, 0.16);
 }
 
-function missionBackdropKey(focus: ProceduralSpecialization): string {
+function missionBackdropKey(focus: ProceduralSpecialization, variant: number): string {
+  const variantKeys: Partial<Record<ProceduralSpecialization, [string, string]>> = {
+    matematica: ["mission-math-factory-bg", "mission-math-grid-bg"],
+    italiano: ["mission-italian-archive-bg", "mission-italian-library-bg"],
+    inglese: ["mission-english-control-bg", "mission-english-radio-bg"],
+    elettronica: ["mission-electronics-bench-bg", "mission-electronics-power-bg"],
+    coding: ["mission-coding-robot-bg", "mission-coding-terminal-bg"],
+    musica: ["mission-music-staff-bg", "mission-music-audio-bg"],
+  };
+  const keys = variantKeys[focus];
+  if (keys) return keys[variant % keys.length];
+  return fallbackMissionBackdropKey(focus);
+}
+
+function fallbackMissionBackdropKey(focus: ProceduralSpecialization): string {
   if (focus === "matematica") return "mission-bg-math";
   if (focus === "italiano") return "mission-bg-italian";
   if (focus === "inglese") return "mission-bg-english";
@@ -404,10 +438,11 @@ function drawMathMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
+  const variant = random.integer(0, 2);
   const left = rect.x + 76;
   const y = rect.y + rect.height * 0.5;
   const machineY = y - 34;
-  drawBackdropTitle(scene, rect, "officina numerica", theme);
+  drawBackdropTitle(scene, rect, ["officina numerica", "piano cartesiano", "laboratorio formule"][variant], theme);
 
   g.lineStyle(5, theme.secondary, 0.12 + progress * 0.05);
   g.lineBetween(left, y + 104, rect.x + rect.width - 76, y + 104);
@@ -440,6 +475,39 @@ function drawMathMissionBackdrop(
       }).setAlpha(0.16 + progress * 0.08);
     }
   }
+  if (variant === 1) {
+    const originX = rect.x + rect.width - 250;
+    const originY = rect.y + 316;
+    g.lineStyle(1, theme.accent, 0.13);
+    for (let step = -3; step <= 3; step += 1) {
+      g.lineBetween(originX - 126, originY + step * 26, originX + 126, originY + step * 26);
+      g.lineBetween(originX + step * 34, originY - 96, originX + step * 34, originY + 96);
+    }
+    g.lineStyle(3, theme.secondary, 0.24 + progress * 0.08);
+    g.beginPath();
+    for (let t = -58; t <= 58; t += 4) {
+      const x = originX + t * 2;
+      const yy = originY - (0.026 * t * t - 42) * 1.2;
+      if (t === -58) g.moveTo(x, yy);
+      else g.lineTo(x, yy);
+    }
+    g.strokePath();
+    scene.add.text(originX - 112, originY + 112, "y = ax² + bx + c", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }).setAlpha(0.34);
+  } else if (variant === 2) {
+    ["Δ", "√", "x", "∑", "≈"].forEach((symbol, index) => {
+      scene.add.text(rect.x + rect.width - 270 + index * 45, rect.y + 138 + (index % 2) * 46, symbol, {
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        fontSize: "32px",
+        color: index % 2 ? "#9ff5e9" : "#f7d37a",
+        fontStyle: "bold",
+      }).setAlpha(0.18 + progress * 0.08);
+    });
+  }
 }
 
 function drawItalianMissionBackdrop(
@@ -450,7 +518,8 @@ function drawItalianMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  drawBackdropTitle(scene, rect, "archivio linguistico", theme);
+  const variant = random.integer(0, 2);
+  drawBackdropTitle(scene, rect, ["archivio linguistico", "laboratorio lessico", "sala fonti"][variant], theme);
   const shelves = 4;
   for (let shelf = 0; shelf < shelves; shelf += 1) {
     const y = rect.y + 128 + shelf * 74;
@@ -469,7 +538,12 @@ function drawItalianMissionBackdrop(
       g.lineBetween(x + 7, y + 48 - h + 20, x + random.integer(24, 36), y + 48 - h + 20);
     }
   }
-  ["soggetto", "causa", "pronome", "coerenza"].forEach((word, index) => {
+  const words = variant === 1
+    ? ["ipotesi", "prova", "registro", "sintesi"]
+    : variant === 2
+      ? ["fonte", "tesi", "dato", "verifica"]
+      : ["soggetto", "causa", "pronome", "coerenza"];
+  words.forEach((word, index) => {
     const x = rect.x + 112 + index * 118;
     const y = rect.y + 358 + random.integer(-16, 18);
     scene.add.text(x, y, word, {
@@ -479,6 +553,35 @@ function drawItalianMissionBackdrop(
       fontStyle: "bold",
     }).setAlpha(0.22 + progress * 0.08);
   });
+  if (variant === 1) {
+    for (let index = 0; index < 6; index += 1) {
+      const x = rect.x + rect.width - 260 + (index % 3) * 72;
+      const y = rect.y + 138 + Math.floor(index / 3) * 64;
+      g.fillStyle(index % 2 ? theme.secondary : theme.accent, 0.065 + progress * 0.02);
+      g.fillRoundedRect(x, y, 58, 34, 8);
+      g.lineStyle(1, index % 2 ? theme.secondary : theme.accent, 0.22);
+      g.strokeRoundedRect(x, y, 58, 34, 8);
+      scene.add.text(x + 10, y + 9, random.pick(["≠", "→", "?", "✓", "ne", "ma"]), {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#f5fbff",
+        fontStyle: "bold",
+      }).setAlpha(0.36);
+    }
+  } else if (variant === 2) {
+    ["fonte A", "fonte B", "ipotesi", "prova"].forEach((label, index) => {
+      const x = rect.x + rect.width - 288;
+      const y = rect.y + 126 + index * 52;
+      g.lineStyle(1, index < 2 ? theme.secondary : theme.accent, 0.24);
+      g.strokeRoundedRect(x, y, 146, 30, 6);
+      scene.add.text(x + 12, y + 8, label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#d9eaf1",
+        fontStyle: "bold",
+      }).setAlpha(0.4);
+    });
+  }
 }
 
 function drawEnglishMissionBackdrop(
@@ -489,7 +592,8 @@ function drawEnglishMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  drawBackdropTitle(scene, rect, "control room", theme);
+  const variant = random.integer(0, 2);
+  drawBackdropTitle(scene, rect, ["control room", "radio bridge", "data terminal"][variant], theme);
   const terminalX = rect.x + 110;
   const terminalY = rect.y + 136;
   const terminalW = rect.width - 220;
@@ -498,7 +602,11 @@ function drawEnglishMissionBackdrop(
   g.fillRoundedRect(terminalX, terminalY, terminalW, terminalH, 12);
   g.lineStyle(2, theme.accent, 0.28);
   g.strokeRoundedRect(terminalX, terminalY, terminalW, terminalH, 12);
-  const rows = ["READ", "CHECK", "PRESS", "TURN", "REPORT"];
+  const rows = variant === 1
+    ? ["LISTEN", "CONFIRM", "REPEAT", "SOURCE", "REPORT"]
+    : variant === 2
+      ? ["BELOW", "ABOVE", "BETWEEN", "COMPARE", "DECIDE"]
+      : ["READ", "CHECK", "PRESS", "TURN", "REPORT"];
   rows.forEach((word, index) => {
     const y = terminalY + 28 + index * 31;
     const active = index <= Math.floor(progress * rows.length);
@@ -516,6 +624,24 @@ function drawEnglishMissionBackdrop(
     scene.add.rectangle(x, terminalY + terminalH + 52, 44, 28, index % 2 ? theme.secondary : theme.accent, 0.08)
       .setStrokeStyle(1, index % 2 ? theme.secondary : theme.accent, 0.2);
   }
+  if (variant === 1) {
+    const cx = terminalX + terminalW - 110;
+    const cy = terminalY + terminalH + 80;
+    g.lineStyle(2, theme.secondary, 0.12 + progress * 0.05);
+    for (let ring = 0; ring < 4; ring += 1) g.strokeCircle(cx, cy, 22 + ring * 20);
+    scene.add.text(cx - 40, cy - 7, "SIGNAL", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }).setAlpha(0.36);
+  } else if (variant === 2) {
+    for (let index = 0; index < 6; index += 1) {
+      const h = 18 + random.integer(0, 64);
+      g.fillStyle(index % 2 ? theme.secondary : theme.accent, 0.1 + progress * 0.04);
+      g.fillRoundedRect(terminalX + terminalW - 190 + index * 22, terminalY + terminalH - 20 - h, 12, h, 4);
+    }
+  }
 }
 
 function drawElectronicsMissionBackdrop(
@@ -526,7 +652,8 @@ function drawElectronicsMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  drawBackdropTitle(scene, rect, "banco circuiti", theme);
+  const variant = random.integer(0, 2);
+  drawBackdropTitle(scene, rect, ["banco circuiti", "rete alimentazione", "schema diagnostico"][variant], theme);
   const boardX = rect.x + 96;
   const boardY = rect.y + 122;
   const boardW = rect.width - 192;
@@ -555,6 +682,25 @@ function drawElectronicsMissionBackdrop(
       fontStyle: "bold",
     }).setAlpha(0.34);
   });
+  if (variant === 1) {
+    const cx = boardX + boardW - 92;
+    const cy = boardY + 72;
+    g.lineStyle(2, theme.secondary, 0.18 + progress * 0.05);
+    g.strokeCircle(cx, cy, 34);
+    g.strokeCircle(cx, cy, 52);
+    g.lineBetween(cx - 66, cy, cx + 66, cy);
+    g.lineBetween(cx, cy - 66, cx, cy + 66);
+    scene.add.text(cx - 19, cy - 8, "V", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f7d37a", fontStyle: "bold" }).setAlpha(0.46);
+  } else if (variant === 2) {
+    ["open", "short", "polarity"].forEach((label, index) => {
+      scene.add.text(boardX + 56 + index * 122, boardY + 42 + index * 42, label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: index % 2 ? "#f7d37a" : "#9ff5e9",
+        fontStyle: "bold",
+      }).setAlpha(0.32);
+    });
+  }
 }
 
 function drawCodingMissionBackdrop(
@@ -565,7 +711,8 @@ function drawCodingMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  drawBackdropTitle(scene, rect, "simulatore robot", theme);
+  const variant = random.integer(0, 2);
+  drawBackdropTitle(scene, rect, ["simulatore robot", "debug console", "tracciatore loop"][variant], theme);
   const gridX = rect.x + 118;
   const gridY = rect.y + 122;
   const cell = 42;
@@ -592,7 +739,8 @@ function drawCodingMissionBackdrop(
     g.fillStyle(index / Math.max(1, route.length - 1) <= progress ? theme.secondary : theme.accent, 0.32);
     g.fillCircle(point.x, point.y, index === 0 || index === route.length - 1 ? 9 : 6);
   });
-  ["if", "else", "loop", "move"].forEach((cmd, index) => {
+  const labels = variant === 1 ? ["bug", "state", "trace", "fix"] : variant === 2 ? ["repeat", "while", "step", "exit"] : ["if", "else", "loop", "move"];
+  labels.forEach((cmd, index) => {
     scene.add.text(rect.x + 110 + index * 108, rect.y + 390 + random.integer(-10, 8), cmd, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
@@ -600,6 +748,23 @@ function drawCodingMissionBackdrop(
       fontStyle: "bold",
     }).setAlpha(0.22);
   });
+  if (variant === 1) {
+    for (let row = 0; row < 5; row += 1) {
+      scene.add.text(rect.x + rect.width - 284, rect.y + 138 + row * 32, random.pick(["if sensor:", "  move()", "else:", "  wait()", "return ok"]), {
+        fontFamily: "Consolas, monospace",
+        fontSize: "12px",
+        color: row % 2 ? "#f7d37a" : "#d9eaf1",
+      }).setAlpha(0.32);
+    }
+  } else if (variant === 2) {
+    const cx = rect.x + rect.width - 180;
+    const cy = rect.y + 230;
+    g.lineStyle(3, theme.secondary, 0.16 + progress * 0.08);
+    g.strokeCircle(cx, cy, 54);
+    g.lineBetween(cx + 38, cy - 36, cx + 68, cy - 58);
+    g.fillStyle(theme.secondary, 0.22);
+    g.fillTriangle(cx + 72, cy - 64, cx + 55, cy - 58, cx + 65, cy - 44);
+  }
 }
 
 function drawMusicMissionBackdrop(
@@ -610,7 +775,8 @@ function drawMusicMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  drawBackdropTitle(scene, rect, "sala armonica", theme);
+  const variant = random.integer(0, 2);
+  drawBackdropTitle(scene, rect, ["sala armonica", "stanza ascolto", "tastiera luminosa"][variant], theme);
   const left = rect.x + 84;
   const right = rect.x + rect.width - 86;
   const cx = rect.x + rect.width / 2;
@@ -657,6 +823,27 @@ function drawMusicMissionBackdrop(
     color: "#f7d37a",
     fontStyle: "bold",
   }).setAlpha(0.36);
+  if (variant === 1) {
+    const waveY = rect.y + rect.height - 156;
+    g.lineStyle(2, theme.secondary, 0.18 + progress * 0.06);
+    g.beginPath();
+    for (let step = 0; step <= 120; step += 1) {
+      const x = left + (step / 120) * (right - left);
+      const y = waveY + Math.sin(step * 0.34) * (16 + 8 * Math.sin(step * 0.08));
+      if (step === 0) g.moveTo(x, y);
+      else g.lineTo(x, y);
+    }
+    g.strokePath();
+  } else if (variant === 2) {
+    const keyY = rect.y + rect.height - 168;
+    for (let key = 0; key < 14; key += 1) {
+      const x = left + key * 36;
+      g.fillStyle(key % 7 === 1 || key % 7 === 3 || key % 7 === 6 ? theme.accent : 0xffffff, key % 7 === 1 || key % 7 === 3 || key % 7 === 6 ? 0.14 : 0.08);
+      g.fillRoundedRect(x, keyY, 28, key % 7 === 1 || key % 7 === 3 || key % 7 === 6 ? 58 : 82, 4);
+      g.lineStyle(1, theme.secondary, 0.14);
+      g.strokeRoundedRect(x, keyY, 28, key % 7 === 1 || key % 7 === 3 || key % 7 === 6 ? 58 : 82, 4);
+    }
+  }
 }
 
 function drawSynthesisMissionBackdrop(
@@ -667,7 +854,8 @@ function drawSynthesisMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  drawBackdropTitle(scene, rect, "sintesi sistemi", theme);
+  const variant = random.integer(0, 2);
+  drawBackdropTitle(scene, rect, ["sintesi sistemi", "mappa decisionale", "nucleo prove"][variant], theme);
   const cx = rect.x + rect.width / 2;
   const cy = rect.y + rect.height / 2 + 12;
   const nodes = [
@@ -699,6 +887,29 @@ function drawSynthesisMissionBackdrop(
   g.fillCircle(cx, cy, 46);
   g.lineStyle(2, theme.secondary, 0.28);
   g.strokeCircle(cx, cy, 62 + progress * 10);
+  if (variant === 1) {
+    ["osserva", "ipotesi", "verifica", "decidi"].forEach((label, index) => {
+      const x = rect.x + 110 + index * 126;
+      const y = rect.y + rect.height - 146 + (index % 2) * 26;
+      g.lineStyle(1, theme.accent, 0.2);
+      g.strokeRoundedRect(x, y, 96, 30, 8);
+      scene.add.text(x + 12, y + 8, label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#f5fbff",
+        fontStyle: "bold",
+      }).setAlpha(0.4);
+    });
+  } else if (variant === 2) {
+    for (let index = 0; index < 8; index += 1) {
+      const angle = (Math.PI * 2 * index) / 8;
+      const x = cx + Math.cos(angle) * 230;
+      const y = cy + Math.sin(angle) * 130;
+      g.lineStyle(1, index % 2 ? theme.secondary : theme.accent, 0.18);
+      g.strokeCircle(x, y, 12 + (index % 3) * 4);
+      g.lineBetween(x, y, cx + Math.cos(angle) * 70, cy + Math.sin(angle) * 48);
+    }
+  }
 }
 
 function drawStageBase(scene: Phaser.Scene, rect: ChromeRect, theme: ProceduralVisualTheme, progress: number): void {

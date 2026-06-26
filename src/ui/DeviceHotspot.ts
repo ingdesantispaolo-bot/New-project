@@ -51,38 +51,47 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     let activePointerId: number | undefined;
     const glow = scene.add.image(0, 0, "soft-glow").setTint(tint).setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035).setScale(size / 64);
     const ring = scene.add.image(0, 0, "holo-ring").setTint(tint).setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13).setScale(size / 84);
+    // Dark backing disc so the line-art glyph stays legible over busy scenery.
+    const glyphPlate = scene.add.circle(0, 0, size * 0.36, 0x04090f, options.state === "locked" ? 0.26 : 0.4).setStrokeStyle(1, tint, options.state === "locked" ? 0.12 : 0.26);
     const glyph = drawDeviceGlyph(scene, options.kind, tint, options.state, size * 0.72);
     const marker = scene.add.circle(size * 0.28, -size * 0.24, Math.max(5, size * 0.07), tint, options.state === "locked" ? 0.4 : 0.92)
       .setStrokeStyle(1, 0xffffff, options.state === "locked" ? 0.12 : 0.34);
     const status = scene.add.container(0, -size * 0.56);
     const statusLabel = stateLabel(options.state);
-    const statusWidth = statusLabel ? Math.max(50, statusLabel.length * 6 + 14) : 0;
+    const statusWidth = statusLabel ? Math.max(56, statusLabel.length * 7 + 16) : 0;
     if (statusLabel) {
-      status.add(scene.add.rectangle(0, 0, statusWidth, 18, 0x02070b, 0.78)
-        .setStrokeStyle(1, tint, options.state === "locked" ? 0.18 : 0.42));
-      status.add(scene.add.text(0, -6, statusLabel, {
+      status.add(scene.add.rectangle(0, 1, statusWidth, 18, 0x000000, 0.32).setOrigin(0.5));
+      status.add(scene.add.rectangle(0, 0, statusWidth, 18, 0x04090f, 0.9)
+        .setStrokeStyle(1.5, tint, options.state === "locked" ? 0.3 : 0.55));
+      const statusText = scene.add.text(0, -6, statusLabel, {
         fontFamily: "Inter, Arial",
-        fontSize: "9px",
+        fontSize: "10px",
         color: stateTextColor(options.state),
         fontStyle: "bold",
-      }).setOrigin(0.5, 0));
+      }).setOrigin(0.5, 0);
+      statusText.setShadow(0, 1, "#000000", 2, false, true);
+      status.add(statusText);
     }
     status.setAlpha(statusLabel ? 1 : 0);
-    const tag = scene.add.container(0, size * 0.58);
-    const tagWidth = Math.max(116, options.label.length * 7);
-    tag.add(scene.add.rectangle(0, 0, tagWidth, 22, 0x02070b, options.state === "active" ? 0.84 : 0.44)
-      .setStrokeStyle(1, tint, options.state === "active" ? 0.28 : 0.08));
-    tag.add(scene.add.text(0, -8, options.label, {
+    const tag = scene.add.container(0, size * 0.6);
+    const tagWidth = Math.max(124, options.label.length * 7.4 + 22);
+    tag.add(scene.add.rectangle(0, 2, tagWidth, 24, 0x000000, 0.34).setOrigin(0.5));
+    tag.add(scene.add.rectangle(0, 0, tagWidth, 24, 0x04090f, options.state === "active" ? 0.92 : 0.82)
+      .setStrokeStyle(1.5, tint, options.state === "locked" ? 0.22 : 0.5));
+    tag.add(scene.add.rectangle(-tagWidth / 2 + 2, 0, 3, 24, tint, options.state === "locked" ? 0.3 : 0.85).setOrigin(0, 0.5));
+    const tagText = scene.add.text(2, -8, options.label, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
-      color: options.state === "locked" ? "#9aaab0" : options.state === "complete" ? "#d7ffdf" : "#f5fbff",
+      color: options.state === "locked" ? "#aebcc4" : options.state === "complete" ? "#d7ffdf" : "#f5fbff",
       fontStyle: "bold",
-    }).setOrigin(0.5, 0));
+    }).setOrigin(0.5, 0);
+    tagText.setShadow(0, 1, "#000000", 3, false, true);
+    tag.add(tagText);
 
-    tag.setAlpha(options.state === "active" ? 1 : options.state === "locked" ? 0.52 : 0.66);
+    tag.setAlpha(options.state === "active" ? 1 : options.state === "locked" ? 0.7 : 0.9);
     const hitWidth = Math.max(size, tagWidth, statusWidth);
     const visualTop = Math.min(-size / 2, -size * 0.56 - 9);
-    const visualBottom = Math.max(size / 2, size * 0.58 + 11);
+    const visualBottom = Math.max(size / 2, size * 0.6 + 14);
     const hitHeight = visualBottom - visualTop;
     const hitPadding = 10;
     const hitArea = new Phaser.Geom.Rectangle(
@@ -115,7 +124,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       ring.setScale(size / 84);
     };
 
-    this.add([touchPlate, glow, ring, glyph, marker, status, tag]);
+    this.add([touchPlate, glow, ring, glyphPlate, glyph, marker, status, tag]);
     this.setSize(hitArea.width, hitArea.height);
     touchPlate.on("pointerover", (...args: unknown[]) => {
       stopInputPropagation(args);

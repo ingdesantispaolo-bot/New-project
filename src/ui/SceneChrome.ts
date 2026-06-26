@@ -80,7 +80,7 @@ export class SceneChrome {
     const layout = this.layout;
     scene.cameras.main.setBackgroundColor("#061019");
     VisualKit.background(scene, palette, backdropKey);
-    scene.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.18);
+    scene.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.28);
 
     VisualKit.glassPanel(scene, layout.top.x, layout.top.y, layout.top.width, layout.top.height, palette, 0.72);
     scene.add.text(layout.top.x + 22, layout.top.y + 14, title, {
@@ -97,7 +97,7 @@ export class SceneChrome {
     });
 
     VisualKit.glassPanel(scene, layout.left.x, layout.left.y, layout.left.width, layout.left.height, palette, 0.9);
-    VisualKit.glassPanel(scene, layout.stage.x, layout.stage.y, layout.stage.width, layout.stage.height, palette, 0.48);
+    VisualKit.glassPanel(scene, layout.stage.x, layout.stage.y, layout.stage.width, layout.stage.height, palette, 0.56);
     VisualKit.glowFrame(scene, layout.stage.x + 8, layout.stage.y + 8, layout.stage.width - 16, layout.stage.height - 16, palette);
     VisualKit.glassPanel(scene, layout.right.x, layout.right.y, layout.right.width, layout.right.height, palette, 0.86);
     VisualKit.glassPanel(scene, layout.bottom.x, layout.bottom.y, layout.bottom.width, layout.bottom.height, palette, 0.84);
@@ -246,6 +246,9 @@ export class SceneChrome {
     activeColor = colors.cyan,
     inactiveColor = 0x315766,
   ): void {
+    if (points.length < 2) {
+      return;
+    }
     const g = scene.add.graphics();
     points.forEach((point, index) => {
       if (index === points.length - 1) {
@@ -253,8 +256,29 @@ export class SceneChrome {
       }
       const next = points[index + 1];
       const active = index < activeCount;
-      g.lineStyle(active ? 2 : 1, active ? activeColor : inactiveColor, active ? 0.16 : 0.045);
+      // Soft glow underlay then a crisp core so the "map of the problem" reads clearly.
+      g.lineStyle(active ? 7 : 4, active ? activeColor : inactiveColor, active ? 0.12 : 0.05);
       g.lineBetween(point.x, point.y, next.x, next.y);
+      g.lineStyle(active ? 2.5 : 1.5, active ? activeColor : inactiveColor, active ? 0.55 : 0.2);
+      g.lineBetween(point.x, point.y, next.x, next.y);
+      if (active) {
+        const pulse = scene.add.circle(point.x, point.y, 3.5, activeColor, 0.95);
+        scene.tweens.add({
+          targets: pulse,
+          x: next.x,
+          y: next.y,
+          duration: 1500,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+          delay: index * 200,
+        });
+      }
+    });
+    // Connection nodes at every device anchor.
+    points.forEach((point, index) => {
+      const reached = index <= activeCount;
+      scene.add.circle(point.x, point.y, 5, reached ? activeColor : inactiveColor, reached ? 0.5 : 0.18)
+        .setStrokeStyle(1, 0xffffff, reached ? 0.22 : 0.08);
     });
   }
 

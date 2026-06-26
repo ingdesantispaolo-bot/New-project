@@ -415,50 +415,50 @@ export class LaboratoryScene extends Phaser.Scene {
       fontStyle: "bold",
       letterSpacing: 1,
     }));
-    panel.add(this.add.rectangle(20, 86, 264, 112, 0x02070b, 0.36).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.12));
+    panel.add(this.add.rectangle(20, 84, 264, 96, 0x02070b, 0.36).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.12));
     panel.add(
-      this.add.text(34, 102, object.description, {
+      this.add.text(34, 98, object.description, {
         fontFamily: "Inter, Arial",
         fontSize: "13px",
         color: "#d9eaf1",
         wordWrap: { width: 236 },
-        lineSpacing: 5,
+        lineSpacing: 4,
       }),
     );
 
     const status = this.objectStatus(object);
-    panel.add(this.add.rectangle(20, 214, 264, 70, 0x091923, 0.52).setOrigin(0).setStrokeStyle(1, accent, 0.16));
-    panel.add(this.add.text(34, 228, "STATO", {
+    panel.add(this.add.rectangle(20, 190, 264, 62, 0x091923, 0.52).setOrigin(0).setStrokeStyle(1, accent, 0.16));
+    panel.add(this.add.text(34, 200, "STATO", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
     panel.add(
-      this.add.text(34, 248, status, {
+      this.add.text(34, 218, status, {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color: status.includes("completo") ? "#f7d37a" : "#c9dce6",
         wordWrap: { width: 236 },
-        lineSpacing: 4,
+        lineSpacing: 3,
       }),
     );
 
     const hintLine = this.nextHint(object, false);
-    panel.add(this.add.rectangle(20, 298, 264, 66, 0x1f1b0d, 0.34).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.22));
-    panel.add(this.add.text(34, 312, "INDIZIO", {
+    panel.add(this.add.rectangle(20, 262, 264, 100, 0x1f1b0d, 0.34).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.22));
+    panel.add(this.add.text(34, 274, "INDIZIO", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: "#f7d37a",
       fontStyle: "bold",
     }));
     panel.add(
-      this.add.text(34, 332, hintLine, {
+      this.add.text(34, 294, hintLine, {
         fontFamily: "Inter, Arial",
-        fontSize: "12px",
+        fontSize: "11px",
         color: "#f7d37a",
         wordWrap: { width: 236 },
-        lineSpacing: 4,
+        lineSpacing: 3,
       }),
     );
 

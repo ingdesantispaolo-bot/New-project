@@ -115,8 +115,9 @@ class PropRenderer {
     const source = scene.textures.get(key).getSourceImage() as HTMLImageElement | HTMLCanvasElement;
     const maxSource = Math.max(source.width || 256, source.height || 256);
     image.setScale(targetSize / maxSource);
-    image.setAlpha(state === "locked" ? 0.38 : state === "complete" ? 0.96 : 0.78);
-    image.setTint(state === "locked" ? 0x7f9098 : 0xffffff);
+    // Props read as scenery so the interactive node (glyph + label) stays the focal point.
+    image.setAlpha(state === "locked" ? 0.32 : state === "complete" ? 0.82 : 0.6);
+    image.setTint(state === "locked" ? 0x7f9098 : state === "complete" ? 0xffffff : 0xd5e3ea);
     return image;
   }
 

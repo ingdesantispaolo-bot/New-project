@@ -40,18 +40,11 @@ import storyChapter04OutroUrl from "../assets/images/story-chapter-04-outro.webp
 import storyGreenhouseRecoveryBgUrl from "../assets/images/story-greenhouse-recovery-bg.webp";
 import storyLabBlackoutBgUrl from "../assets/images/story-lab-blackout-bg.webp";
 import storyNumberFactoryBgUrl from "../assets/images/story-number-factory-bg.webp";
-import propCircuitPanelUrl from "../assets/props/prop-circuit-panel.webp";
-import propDoorLabUrl from "../assets/props/prop-door-lab.webp";
-import propFloorTraceUrl from "../assets/props/prop-floor-trace.webp";
-import propJournalUrl from "../assets/props/prop-journal.webp";
-import propMessageConsoleUrl from "../assets/props/prop-message-console.webp";
-import propNoraCoreUrl from "../assets/props/prop-nora-core.webp";
-import propRobotDockUrl from "../assets/props/prop-robot-dock.webp";
-import propTerminalUrl from "../assets/props/prop-terminal.webp";
-import propWindowUrl from "../assets/props/prop-window.webp";
-import propWorkbenchUrl from "../assets/props/prop-workbench.webp";
-import paintedCircuitPanelUrl from "../assets/painted/props/painted-circuit-panel.webp";
-import paintedDoorLabUrl from "../assets/painted/props/painted-door-lab.webp";
+import storyPhase00BlackoutBgUrl from "../assets/images/story-phase-00-blackout-bg.webp";
+import storyPhase01EnergyBgUrl from "../assets/images/story-phase-01-energy-bg.webp";
+import storyPhase02LifeBgUrl from "../assets/images/story-phase-02-life-bg.webp";
+import storyPhase03ProductionBgUrl from "../assets/images/story-phase-03-production-bg.webp";
+import storyPhase04RestoredBgUrl from "../assets/images/story-phase-04-restored-bg.webp";
 import paintedArchiveDeskUrl from "../assets/painted/props/painted-archive-desk.webp";
 import paintedArchiveShelfUrl from "../assets/painted/props/painted-archive-shelf.webp";
 import paintedArchiveTerminalUrl from "../assets/painted/props/painted-archive-terminal.webp";
@@ -61,12 +54,6 @@ import paintedFactoryMachineUrl from "../assets/painted/props/painted-factory-ma
 import paintedGreenhousePodUrl from "../assets/painted/props/painted-greenhouse-pod.webp";
 import paintedGreenhouseSensorUrl from "../assets/painted/props/painted-greenhouse-sensor.webp";
 import paintedGreenhouseValveUrl from "../assets/painted/props/painted-greenhouse-valve.webp";
-import paintedJournalUrl from "../assets/painted/props/painted-journal.webp";
-import paintedMessageConsoleUrl from "../assets/painted/props/painted-message-console.webp";
-import paintedNoraCoreUrl from "../assets/painted/props/painted-nora-core.webp";
-import paintedRobotDockUrl from "../assets/painted/props/painted-robot-dock.webp";
-import paintedTerminalUrl from "../assets/painted/props/painted-terminal.webp";
-import paintedWorkbenchUrl from "../assets/painted/props/painted-workbench.webp";
 import outcomeDefeatUrl from "../assets/images/outcomes/outcome-defeat.webp";
 import outcomeDevastatingDefeatUrl from "../assets/images/outcomes/outcome-devastating-defeat.webp";
 import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-victory.webp";
@@ -79,15 +66,6 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
   academy: [["bg-academy-painted", academyPaintedBgUrl]],
   lab: [
     ["bg-lab-painted", labPaintedBgUrl], ["console-lab", labConsoleUrl],
-    ["prop-circuit-panel", propCircuitPanelUrl], ["prop-door-lab", propDoorLabUrl],
-    ["prop-floor-trace", propFloorTraceUrl], ["prop-journal", propJournalUrl],
-    ["prop-message-console", propMessageConsoleUrl], ["prop-nora-core", propNoraCoreUrl],
-    ["prop-robot-dock", propRobotDockUrl], ["prop-terminal", propTerminalUrl],
-    ["prop-window", propWindowUrl], ["prop-workbench", propWorkbenchUrl],
-    ["painted-circuit-panel", paintedCircuitPanelUrl], ["painted-door-lab", paintedDoorLabUrl],
-    ["painted-journal", paintedJournalUrl], ["painted-message-console", paintedMessageConsoleUrl],
-    ["painted-nora-core", paintedNoraCoreUrl], ["painted-robot-dock", paintedRobotDockUrl],
-    ["painted-terminal", paintedTerminalUrl], ["painted-workbench", paintedWorkbenchUrl],
   ],
   greenhouse: [
     ["bg-greenhouse-painted", greenhousePaintedBgUrl], ["console-greenhouse", greenhouseConsoleUrl],
@@ -110,6 +88,11 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["story-greenhouse-recovery-bg", storyGreenhouseRecoveryBgUrl],
     ["story-lab-blackout-bg", storyLabBlackoutBgUrl],
     ["story-number-factory-bg", storyNumberFactoryBgUrl],
+    ["story-phase-00-blackout-bg", storyPhase00BlackoutBgUrl],
+    ["story-phase-01-energy-bg", storyPhase01EnergyBgUrl],
+    ["story-phase-02-life-bg", storyPhase02LifeBgUrl],
+    ["story-phase-03-production-bg", storyPhase03ProductionBgUrl],
+    ["story-phase-04-restored-bg", storyPhase04RestoredBgUrl],
   ],
   storyBeats: [
     ["story-chapter-01-intro", storyChapter01IntroUrl], ["story-chapter-01-outro", storyChapter01OutroUrl],

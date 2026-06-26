@@ -98,6 +98,9 @@ export class Button extends Phaser.GameObjects.Container {
     this.background = scene.add
       .rectangle(0, 0, width, height, fill, 0.96)
       .setStrokeStyle(2, options.stroke ?? 0x6be7d6, 0.72);
+    // Beveled depth: a soft top sheen (light) and a grounded base edge (dark).
+    const sheen = scene.add.rectangle(0, -height / 4, width - 8, height / 2 - 4, 0xffffff, 0.05);
+    const baseEdge = scene.add.rectangle(0, height / 2 - 2, width - 10, 2, 0x000000, 0.32);
     this.highlight = scene.add.rectangle(0, -height / 2 + 2, width - 10, 2, options.stroke ?? 0x6be7d6, 0.68);
     const requestedFontSize = options.fontSize ?? 20;
     const baseFontSize = settingsSystem.scaledFontSize(requestedFontSize);
@@ -130,7 +133,7 @@ export class Button extends Phaser.GameObjects.Container {
       this.hitTarget.input.cursor = "pointer";
     }
 
-    this.add([shadow, this.background, this.highlight, text, this.hitTarget]);
+    this.add([shadow, this.background, sheen, this.highlight, baseEdge, text, this.hitTarget]);
     this.setSize(hitWidth, hitHeight);
     this.hitTarget
       .on("pointerover", (...args: unknown[]) => {

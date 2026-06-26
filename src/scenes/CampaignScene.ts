@@ -26,14 +26,14 @@ export class CampaignScene extends Phaser.Scene {
   create(): void {
     playerSystem.load();
     saveSystem.load();
+    const progress = campaignSystem.getProgress();
     this.cameras.main.setBackgroundColor("#071018");
-    VisualKit.background(this, "academy", "story-academy-hub-bg");
+    VisualKit.background(this, "academy", this.storyPhaseBackdropKey(progress.completed));
     VisualKit.vignette(this);
     placeHiddenAnomaly(this, "CampaignScene");
 
     const chapters = campaignSystem.getChapters();
     const active = campaignSystem.getActiveChapter();
-    const progress = campaignSystem.getProgress();
 
     this.add.text(58, 36, "La Storia", {
       fontFamily: "Inter, Arial",
@@ -293,5 +293,16 @@ export class CampaignScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     });
+  }
+
+  private storyPhaseBackdropKey(completedChapters: number): string {
+    const phase = Phaser.Math.Clamp(completedChapters, 0, 4);
+    return [
+      "story-phase-00-blackout-bg",
+      "story-phase-01-energy-bg",
+      "story-phase-02-life-bg",
+      "story-phase-03-production-bg",
+      "story-phase-04-restored-bg",
+    ][phase] ?? "story-academy-hub-bg";
   }
 }

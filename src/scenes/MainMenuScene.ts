@@ -55,6 +55,10 @@ export class MainMenuScene extends Phaser.Scene {
     const title = this.rect("menu:title", { x: 96, y: 92 });
     const subtitle = this.rect("menu:subtitle", { x: 102, y: 172 });
     const copy = this.rect("menu:copy", { x: 102, y: 226, width: 620 });
+    // Neon accent rule framing the hero header.
+    this.add.image(86, 168, "soft-glow").setTint(0x6be7d6).setAlpha(0.12).setScale(1.5);
+    this.add.rectangle(82, 96, 4, 150, 0x6be7d6, 0.7).setOrigin(0);
+    this.add.rectangle(82, 96, 4, 40, 0xf6c85f, 0.85).setOrigin(0);
     this.add.text(title.x, title.y, "ELI QUEST", {
       fontFamily: "Inter, Arial",
       fontSize: "76px",
@@ -885,12 +889,6 @@ export class MainMenuScene extends Phaser.Scene {
       "bg-factory-painted",
       "bg-greenhouse-painted",
       "console-lab",
-      "painted-circuit-panel",
-      "painted-terminal",
-      "painted-robot-dock",
-      "painted-message-console",
-      "painted-door-lab",
-      "painted-nora-core",
       "holo-ring",
       "soft-glow",
       "spark-core",

@@ -85,7 +85,7 @@ export class HubScene extends Phaser.Scene {
 
   private drawHub(): void {
     this.cameras.main.setBackgroundColor("#061019");
-    VisualKit.background(this, "academy", "story-academy-hub-bg");
+    VisualKit.background(this, "academy", this.storyPhaseBackdropKey());
     this.add.rectangle(640, 660, 1200, 96, 0x061019, 0.74).setStrokeStyle(1, 0x294958, 0.7);
 
     const corridor = this.add.graphics();
@@ -144,6 +144,22 @@ export class HubScene extends Phaser.Scene {
         color: unlockedArchive ? "#e3d9ff" : unlockedNumbers ? "#ffe0a3" : unlockedBio ? "#c9f7c9" : "#7d9098",
       });
     });
+  }
+
+  private storyPhaseBackdropKey(): string {
+    const completed = [
+      saveSystem.data.flags.mission1Complete,
+      saveSystem.data.flags.mission2Complete,
+      saveSystem.data.flags.mission3Complete,
+      saveSystem.data.flags.mission4Complete,
+    ].filter(Boolean).length;
+    return [
+      "story-phase-00-blackout-bg",
+      "story-phase-01-energy-bg",
+      "story-phase-02-life-bg",
+      "story-phase-03-production-bg",
+      "story-phase-04-restored-bg",
+    ][completed] ?? "story-academy-hub-bg";
   }
 
   private drawProgressionPanel(): void {

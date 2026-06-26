@@ -4,9 +4,10 @@ import { competencyTracker } from "../core/CompetencyTracker";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
-import { buildMemoryPairs, LogicSequenceGenerator, type LogicSequence, type MemoryPair } from "../procedural/generators/LogicGymContent";
+import { buildMemoryPairs, generateBalance, LogicSequenceGenerator, type BalancePuzzle, type LogicSequence, type MemoryPair } from "../procedural/generators/LogicGymContent";
 import { Random } from "../procedural/Random";
 import { Button } from "../ui/Button";
+import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 type ActivityMeta = { key: string; title: string; glyph: string; theme: string; desc: string; color: number; start: () => void };
@@ -54,6 +55,19 @@ export class LogicGymScene extends Phaser.Scene {
   private seqCorrect = 0;
   private seqTotal = 6;
 
+  // Bilancia Logica
+  private balRound = 0;
+  private balCorrect = 0;
+  private balTotal = 6;
+
+  // Griglia Lampo
+  private flashCells: Phaser.GameObjects.Rectangle[] = [];
+  private flashTarget = new Set<number>();
+  private flashPicked = new Set<number>();
+  private flashRound = 0;
+  private flashLocked = true;
+  private flashStatus?: Phaser.GameObjects.Text;
+
   constructor() {
     super("LogicGymScene");
   }
@@ -73,6 +87,8 @@ export class LogicGymScene extends Phaser.Scene {
       { key: "memory", title: "Memory delle Coppie", glyph: "🃏", theme: "Memoria", color: 0xff9ad2, desc: "Trova le coppie equivalenti (1/2 = 0,5, dog = cane…) con meno mosse possibili.", start: () => this.startMemory() },
       { key: "code", title: "Codice Segreto", glyph: "🔐", theme: "Logica", color: 0xf6c85f, desc: "Indovina il codice nascosto deducendolo dagli indizi. Stile Mastermind.", start: () => this.startCode() },
       { key: "seq", title: "Sequenze Logiche", glyph: "🔢", theme: "Logica", color: 0x70d68a, desc: "Scopri la regola e trova il termine che continua la serie.", start: () => this.startSeq() },
+      { key: "balance", title: "Bilancia Logica", glyph: "⚖️", theme: "Logica", color: 0xf6c85f, desc: "Deduci chi pesa di più (o di meno) mettendo in fila gli indizi.", start: () => this.startBalance() },
+      { key: "flash", title: "Griglia Lampo", glyph: "⚡", theme: "Memoria", color: 0x6be7d6, desc: "Memorizza le caselle che lampeggiano e ricostruiscile. Aumentano ogni turno!", start: () => this.startFlash() },
     ];
   }
 
@@ -102,20 +118,25 @@ export class LogicGymScene extends Phaser.Scene {
     this.clearScreen();
     this.currentRestart = null;
     this.t(this.add.text(56, 28, "Palestra della Mente", { fontFamily: "Inter, Arial", fontSize: "30px", color: "#f5fbff", fontStyle: "bold" }));
-    this.t(this.add.text(58, 68, "Allena logica e memoria: ogni vittoria potenzia le tue competenze Trasversali e il Nucleo dell'Accademia.", { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", wordWrap: { width: 1000 } }));
+    this.t(this.add.text(58, 68, "Qui NORA allenava sé stessa. Logica e memoria: ogni vittoria potenzia le Trasversali, il Nucleo dell'Accademia — e ti prepara alle prove di mente della Sfida dell'Eco.", { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", wordWrap: { width: 1180 } }));
+    placeHiddenAnomaly(this, "LogicGymScene");
 
-    const positions = [{ x: 56, y: 130 }, { x: 644, y: 130 }, { x: 56, y: 360 }, { x: 644, y: 360 }];
+    const cols = 3;
+    const w = 388;
+    const h = 248;
+    const gap = 14;
+    const startX = 40;
+    const startY = 116;
     this.activities().forEach((activity, index) => {
-      const pos = positions[index];
-      const w = 580;
-      const h = 210;
-      this.t(this.add.rectangle(pos.x, pos.y, w, h, 0x0c1d2a, 0.94).setOrigin(0).setStrokeStyle(2, activity.color, 0.55));
-      this.t(this.add.rectangle(pos.x, pos.y, w, 5, activity.color, 0.9).setOrigin(0));
-      this.t(this.add.text(pos.x + 22, pos.y + 22, `${activity.glyph}  ${activity.title}`, { fontFamily: "Inter, Arial", fontSize: "22px", color: "#f5fbff", fontStyle: "bold" }));
-      this.t(this.add.text(pos.x + 22, pos.y + 58, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "12px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
-      this.t(this.add.text(pos.x + 22, pos.y + 84, activity.desc, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", wordWrap: { width: w - 44 }, lineSpacing: 3 }));
-      this.t(this.add.text(pos.x + 22, pos.y + 150, `Record: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a" }));
-      this.t(new Button(this, pos.x + w - 120, pos.y + 168, "Gioca", () => activity.start(), { width: 180, height: 46, fill: 0x1f5a51, stroke: activity.color }));
+      const x = startX + (index % cols) * (w + gap);
+      const y = startY + Math.floor(index / cols) * (h + gap);
+      this.t(this.add.rectangle(x, y, w, h, 0x0c1d2a, 0.94).setOrigin(0).setStrokeStyle(2, activity.color, 0.55));
+      this.t(this.add.rectangle(x, y, w, 5, activity.color, 0.9).setOrigin(0));
+      this.t(this.add.text(x + 20, y + 20, `${activity.glyph}  ${activity.title}`, { fontFamily: "Inter, Arial", fontSize: "20px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 40 } }));
+      this.t(this.add.text(x + 20, y + 58, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "12px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
+      this.t(this.add.text(x + 20, y + 84, activity.desc, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#c7dce7", wordWrap: { width: w - 40 }, lineSpacing: 3 }));
+      this.t(this.add.text(x + 20, y + 180, `Record: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a" }));
+      this.t(new Button(this, x + w - 100, y + 200, "Gioca", () => activity.start(), { width: 150, height: 44, fill: 0x1f5a51, stroke: activity.color }));
     });
 
     this.t(new Button(this, 132, 686, "Menu", () => this.scene.start("MainMenuScene"), { width: 170, height: 44, fill: 0x263743 }));
@@ -428,6 +449,136 @@ export class LogicGymScene extends Phaser.Scene {
       this.seqRound += 1;
       this.nextSeq();
     });
+  }
+
+  // -- Bilancia Logica (deductive reasoning) ------------------------------
+
+  private startBalance(): void {
+    this.balRound = 0;
+    this.balCorrect = 0;
+    this.balTotal = 6;
+    this.nextBalance();
+  }
+
+  private nextBalance(): void {
+    this.clearScreen();
+    if (this.balRound >= this.balTotal) {
+      const score = Math.round((this.balCorrect / this.balTotal) * 100);
+      this.finishActivity("balance", "Bilancia Logica", score, ["trasversali.logica", "pensieroCritico"], Math.min(20, 4 + this.balCorrect * 3), `Hai risolto ${this.balCorrect} deduzioni su ${this.balTotal}.`);
+      return;
+    }
+    const level = 1 + Math.floor(this.balRound / 2);
+    const puzzle = generateBalance(new Random(`bal-${Date.now()}-${this.balRound}`), level);
+
+    this.t(this.add.text(640, 40, "⚖️ Bilancia Logica", { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(640, 82, `Deduzione ${this.balRound + 1}/${this.balTotal} · corrette: ${this.balCorrect}`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9" }).setOrigin(0.5));
+
+    this.t(this.add.text(640, 150, "Indizi:", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
+    puzzle.clues.forEach((clue, i) => {
+      this.t(this.add.text(640, 188 + i * 34, clue, { fontFamily: "Inter, Arial", fontSize: "22px", color: "#f5fbff" }).setOrigin(0.5));
+    });
+    this.t(this.add.text(640, 188 + puzzle.clues.length * 34 + 14, puzzle.question, { fontFamily: "Inter, Arial", fontSize: "20px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
+
+    puzzle.options.forEach((option, index) => {
+      const x = 640 - ((puzzle.options.length - 1) * 150) / 2 + index * 150;
+      this.t(new Button(this, x, 470, option, () => this.answerBalance(puzzle, index), { width: 130, height: 110, fontSize: 44, fill: 0x21162a, stroke: 0xf6c85f }));
+    });
+    this.backBar(() => this.startBalance());
+  }
+
+  private answerBalance(puzzle: BalancePuzzle, choice: number): void {
+    const correct = choice === puzzle.correctIndex;
+    if (correct) {
+      this.balCorrect += 1;
+      audioManager.play("success");
+    } else {
+      audioManager.play("error");
+    }
+    this.t(this.add.rectangle(640, 600, 1100, 90, 0x0c1d2a, 0.96).setStrokeStyle(2, correct ? 0x70d68a : 0xff5d7a, 0.7));
+    this.t(this.add.text(640, 600, `${correct ? "✓ Esatto! " : "✗ Quasi! "}${puzzle.explanation}`, { fontFamily: "Inter, Arial", fontSize: "16px", color: correct ? "#9ff5c0" : "#ffd0da", align: "center", wordWrap: { width: 1060 } }).setOrigin(0.5));
+    this.tracked.forEach((object) => {
+      if (object instanceof Button) object.disableInteractive();
+    });
+    this.time.delayedCall(2000, () => {
+      this.balRound += 1;
+      this.nextBalance();
+    });
+  }
+
+  // -- Griglia Lampo (spatial memory) -------------------------------------
+
+  private startFlash(): void {
+    this.clearScreen();
+    this.flashRound = 0;
+    this.t(this.add.text(640, 40, "⚡ Griglia Lampo", { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    this.flashStatus = this.t(this.add.text(640, 84, "Memorizza le caselle accese…", { fontFamily: "Inter, Arial", fontSize: "18px", color: "#9ff5e9" }).setOrigin(0.5));
+
+    const size = 4;
+    const cell = 96;
+    const gap = 12;
+    const total = size * cell + (size - 1) * gap;
+    const startX = 640 - total / 2 + cell / 2;
+    const startY = 200;
+    this.flashCells = [];
+    for (let i = 0; i < size * size; i += 1) {
+      const col = i % size;
+      const row = Math.floor(i / size);
+      const x = startX + col * (cell + gap);
+      const y = startY + row * (cell + gap);
+      const rect = this.t(this.add.rectangle(x, y, cell, cell, 0x123247, 1).setStrokeStyle(2, 0x6be7d6, 0.5).setInteractive({ useHandCursor: true }));
+      rect.on("pointerdown", () => this.flashClick(i));
+      this.flashCells.push(rect);
+    }
+    this.backBar(() => this.startFlash());
+    this.time.delayedCall(700, () => this.flashShow());
+  }
+
+  private flashShow(): void {
+    this.flashLocked = true;
+    this.flashPicked = new Set();
+    this.flashTarget = new Set();
+    const count = 3 + this.flashRound;
+    const random = new Random(`flash-${Date.now()}-${this.flashRound}`);
+    while (this.flashTarget.size < Math.min(count, this.flashCells.length - 1)) {
+      this.flashTarget.add(random.integer(0, this.flashCells.length - 1));
+    }
+    this.flashStatus?.setText(`Turno ${this.flashRound + 1} · memorizza ${this.flashTarget.size} caselle…`);
+    this.flashTarget.forEach((index) => this.flashCells[index].setFillStyle(0xf6c85f, 1));
+    audioManager.play("scan");
+    const showMs = settingsSystem.effectsReduced() ? 1600 : 1100 + this.flashTarget.size * 120;
+    this.time.delayedCall(showMs, () => {
+      this.flashTarget.forEach((index) => this.flashCells[index].setFillStyle(0x123247, 1));
+      this.flashLocked = false;
+      this.flashStatus?.setText("Ora tocca le caselle che erano accese!");
+    });
+  }
+
+  private flashClick(index: number): void {
+    if (this.flashLocked || this.flashPicked.has(index)) return;
+    if (!this.flashTarget.has(index)) {
+      audioManager.play("error");
+      this.flashCells[index].setFillStyle(0xff5d7a, 1);
+      this.flashLocked = true;
+      this.finishActivity("flash", "Griglia Lampo", this.flashRound, ["trasversali.memoria"], Math.min(20, 4 + this.flashRound * 2), `Hai ricostruito ${this.flashRound} griglie.`);
+      return;
+    }
+    audioManager.play("uiSelect");
+    this.flashPicked.add(index);
+    this.flashCells[index].setFillStyle(0x70d68a, 1);
+    if (this.flashPicked.size === this.flashTarget.size) {
+      audioManager.play("success");
+      this.flashLocked = true;
+      this.flashRound += 1;
+      this.flashStatus?.setText("Perfetto! Griglia più grande…");
+      if (this.flashRound >= 10) {
+        this.finishActivity("flash", "Griglia Lampo", 10, ["trasversali.memoria"], 22, "Memoria spaziale eccezionale!");
+        return;
+      }
+      this.time.delayedCall(800, () => {
+        this.flashCells.forEach((rect) => rect.setFillStyle(0x123247, 1));
+        this.flashShow();
+      });
+    }
   }
 
   // -- Shared outcome -----------------------------------------------------

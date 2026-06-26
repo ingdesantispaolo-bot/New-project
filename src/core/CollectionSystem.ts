@@ -123,6 +123,14 @@ const FRAGMENTS: MemoryFragment[] = [
     story: "Alla fine si scopre il segreto più grande: l'Eco non era un nemico. Era NORA spaventata dal non sapere. Bastava affrontarla con pazienza per farla tornare a casa.",
     unlock: { kind: "auto", condition: "Completa l'arco dell'Eco (5 vittorie)", test: (s) => ecoDefeats(s) >= 5 },
   },
+  {
+    id: "frag-13-palestra",
+    index: 13,
+    title: "La Palestra della Mente",
+    glyph: "🧠",
+    story: "C'era una stanza dove NORA allenava sé stessa: logica per capire, memoria per non dimenticare. Quando si frantumò, l'Eco rubò quegli esercizi e ora li usa contro di te nelle sue Sfide. Allenandoti qui riprendi ciò che è suo — ed è per questo che nella Sfida dell'Eco ritrovi le stesse prove di mente.",
+    unlock: { kind: "room", room: "LogicGymScene", roomLabel: "Palestra della Mente" },
+  },
 ];
 
 export class CollectionSystem {

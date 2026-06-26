@@ -44,11 +44,11 @@ export class CollectionScene extends Phaser.Scene {
 
     const cols = 4;
     const cardW = 282;
-    const cardH = 150;
+    const cardH = 138;
     const gapX = 16;
-    const gapY = 14;
+    const gapY = 8;
     const startX = 56;
-    const startY = 100;
+    const startY = 84;
 
     fragments.forEach((fragment, index) => {
       const col = index % cols;
@@ -108,15 +108,15 @@ export class CollectionScene extends Phaser.Scene {
     });
 
     if (discovered) {
-      this.add.text(x + 14, y + 64, fragment.story, {
+      this.add.text(x + 14, y + 58, fragment.story, {
         fontFamily: "Inter, Arial",
-        fontSize: "11.5px",
+        fontSize: "11px",
         color: "#cddbe4",
         wordWrap: { width: w - 28 },
-        lineSpacing: 2,
+        lineSpacing: 1,
       });
     } else {
-      this.add.text(x + 14, y + 72, fragment.hint, {
+      this.add.text(x + 14, y + 66, fragment.hint, {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color: "#7d93a0",

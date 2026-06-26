@@ -186,3 +186,40 @@ const PAIR_POOL: MemoryPair[] = [
 export function buildMemoryPairs(random: Random, count: number): MemoryPair[] {
   return random.shuffle(PAIR_POOL).slice(0, Math.min(count, PAIR_POOL.length));
 }
+
+// -- Balance puzzles (deductive reasoning) --------------------------------
+
+const BALANCE_ITEMS = ["🐘", "🦏", "🦛", "🐻", "🐶", "🐱", "🐰", "🐭"];
+
+/**
+ * Builds a transitive "who weighs more" deduction. A full adjacent chain of
+ * clues guarantees the order is deducible; the clues are shuffled (and phrased
+ * both ways) so the player must actually reason rather than read the answer.
+ */
+export function generateBalance(random: Random, level = 1): BalancePuzzle {
+  const count = level >= 3 ? 4 : 3;
+  const items = random.shuffle(BALANCE_ITEMS).slice(0, count);
+  // weights[i] = rank; we build a strict order by shuffling the picked items.
+  const ordered = random.shuffle(items); // ordered[0] is heaviest ... last lightest
+  const clues: string[] = [];
+  for (let i = 0; i < ordered.length - 1; i += 1) {
+    const heavier = ordered[i];
+    const lighter = ordered[i + 1];
+    clues.push(random.integer(0, 1) === 0
+      ? `${heavier} è più pesante di ${lighter}`
+      : `${lighter} è più leggero di ${heavier}`);
+  }
+  const shuffledClues = random.shuffle(clues);
+
+  const askHeaviest = random.integer(0, 1) === 0;
+  const correct = askHeaviest ? ordered[0] : ordered[ordered.length - 1];
+  const options = random.shuffle(items);
+  return {
+    items,
+    clues: shuffledClues,
+    question: askHeaviest ? "Chi è il più PESANTE?" : "Chi è il più LEGGERO?",
+    options,
+    correctIndex: options.indexOf(correct),
+    explanation: `Mettendo in fila gli indizi: ${ordered.join(" > ")}. Quindi il più ${askHeaviest ? "pesante" : "leggero"} è ${correct}.`,
+  };
+}

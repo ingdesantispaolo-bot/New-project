@@ -1582,6 +1582,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeLanguageMinigameScore(session);
+    if (session.wrong === 0 && session.correct > 0) {
+      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
+    }
     saveSystem.markProceduralPuzzleSolved(session.puzzleId);
     competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
     this.run = saveSystem.data.proceduralRun ?? this.run;
@@ -4056,6 +4059,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeMathMinigameScore(session);
+    if (session.wrong === 0 && session.correct > 0) {
+      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
+    }
     saveSystem.markProceduralPuzzleSolved(session.puzzleId);
     competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
     this.run = saveSystem.data.proceduralRun ?? this.run;
@@ -4746,6 +4752,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeEnglishMinigameScore(session);
+    if (session.wrong === 0 && session.correct > 0) {
+      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
+    }
     saveSystem.markProceduralPuzzleSolved(session.puzzleId);
     competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
     this.run = saveSystem.data.proceduralRun ?? this.run;
@@ -5356,6 +5365,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeCodingMinigameScore(session);
+    if (session.wrong === 0 && session.correct > 0) {
+      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
+    }
     saveSystem.markProceduralPuzzleSolved(session.puzzleId);
     competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
     this.run = saveSystem.data.proceduralRun ?? this.run;
@@ -6352,6 +6364,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const puzzleId = session.puzzleId;
+    if (session.wrong === 0 && session.correct > 0) {
+      saveSystem.recordMasteryAutonomy("musica");
+    }
     const score = this.finalizeMusicSprintScore(session);
     saveSystem.markProceduralPuzzleSolved(puzzleId);
     const competencies = Array.from(new Set([
@@ -7304,6 +7319,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     // Surface the learned principle prominently instead of only the score.
     outcomeFeedback.play(this, "success", `Principio: ${principle}`);
     if (cleanSolve) {
+      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(solvedNode));
       this.rewardCleanSolve();
     }
     this.clearOverlay();
@@ -8543,6 +8559,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeCircuitMinigameScore(session);
+    if (session.wrong === 0 && session.correct > 0) {
+      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
+    }
     saveSystem.markProceduralPuzzleSolved(session.puzzleId);
     competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
     this.run = saveSystem.data.proceduralRun ?? this.run;

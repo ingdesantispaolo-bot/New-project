@@ -121,7 +121,17 @@ export class MainMenuScene extends Phaser.Scene {
       fontSize: 15,
     });
     const journal = this.rect("menu:journal", { x: 250, y: 522, width: 260 });
-    new Button(this, journal.x, journal.y, "Diario Seed", () => this.openMenuScene("JournalScene", "Non sono riuscito ad aprire il diario. Riprova tra un istante."), { width: journal.width });
+    new Button(this, journal.x, journal.y, "Albero Competenze", () => this.openMenuScene("MasteryScene", "Non sono riuscito ad aprire l'albero delle competenze. Riprova tra un istante."), {
+      width: journal.width,
+      fill: 0x173b36,
+      stroke: 0x70d68a,
+    });
+    new Button(this, 250, 656, "Diario Seed", () => this.openMenuScene("JournalScene", "Non sono riuscito ad aprire il diario. Riprova tra un istante."), {
+      width: 300,
+      height: 44,
+      fill: 0x263743,
+      fontSize: 14,
+    });
     const procedural = this.rect("menu:procedural", { x: 250, y: 596, width: 300 });
     new Button(this, procedural.x, procedural.y, "Quadro Docente / Genitore", () => this.openMenuScene("TeacherDashboardScene", "Non sono riuscito ad aprire il quadro docente. Riprova tra un istante."), {
       width: procedural.width,

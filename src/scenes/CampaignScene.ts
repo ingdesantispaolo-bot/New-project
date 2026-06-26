@@ -35,12 +35,20 @@ export class CampaignScene extends Phaser.Scene {
     const chapters = campaignSystem.getChapters();
     const active = campaignSystem.getActiveChapter();
 
+    this.add.rectangle(46, 34, 5, 56, 0xf6c85f, 0.9).setOrigin(0);
     this.add.text(58, 36, "La Storia", {
       fontFamily: "Inter, Arial",
       fontSize: "40px",
       color: "#f5fbff",
       fontStyle: "bold",
     });
+    this.add.rectangle(1226, 44, 200, 30, 0x07151d, 0.85).setOrigin(1, 0).setStrokeStyle(2, 0xf6c85f, 0.8);
+    this.add.text(1126, 59, "📖 PERCORSO STORIA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f6c85f",
+      fontStyle: "bold",
+    }).setOrigin(0.5);
     this.add.text(60, 90, `Accademia delle Missioni · Capitoli ${progress.completed}/${progress.total}`, {
       fontFamily: "Inter, Arial",
       fontSize: "16px",

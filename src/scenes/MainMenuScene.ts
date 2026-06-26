@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { buildInfo } from "../core/BuildInfo";
+import { campaignSystem } from "../core/CampaignSystem";
 import { noraCompanion } from "../core/NoraCompanion";
 import { noraChip } from "../ui/NoraChip";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
@@ -91,82 +92,112 @@ export class MainMenuScene extends Phaser.Scene {
       wordWrap: { width: 610 },
     });
 
-    const newMission = this.rect("menu:newMission", { x: 250, y: 374, width: 260 });
-    new Button(this, newMission.x, newMission.y, "La Storia", () => {
-      this.openMenuScene("CampaignScene", "Non sono riuscito ad aprire la storia. Riprova tra un istante.");
-    }, { width: newMission.width, fill: 0x1f5a51, stroke: 0xf6c85f, soundKey: "missionStart" });
-    new Button(this, 552, 374, "Scalata", () => {
-      this.showScalataTower();
-    }, {
-      width: this.isResumable(progressiveRun) ? 206 : 302,
-      height: 46,
-      fill: this.isResumable(progressiveRun) ? 0x1f5a51 : 0x173b36,
-      stroke: this.isResumable(progressiveRun) ? 0xf6c85f : 0x6be7d6,
-      fontSize: 16,
-      soundKey: "progressiveStep",
+    // --- PERCORSI DI GIOCO: tre carte distinte e caratterizzate ---
+    this.add.text(44, 352, "SCEGLI IL TUO PERCORSO", {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
     });
-    if (this.isResumable(progressiveRun)) {
-      new Button(this, 704, 374, "Reset", () => this.confirmProgressiveReset(progressiveRun), {
-        width: 96,
-        height: 46,
-        fill: 0x3a2525,
-        stroke: 0xf6c85f,
-        fontSize: 11,
+    const cardY = 376;
+    const cardProgress = campaignSystem.getProgress();
+    const storyState = campaignSystem.isCampaignComplete()
+      ? "Storia completata ✓"
+      : `Capitolo ${campaignSystem.getActiveChapter().number}/${cardProgress.total}`;
+    const missionState = this.isResumable(missionRun)
+      ? `In corso · ${missionRun?.solvedPuzzleIds.length ?? 0} console risolte`
+      : "Nuova stanza pronta";
+    const scalataState = this.isResumable(progressiveRun)
+      ? `Piano ${progressiveRun?.progressive?.currentLevel ?? progressiveRun?.difficulty ?? 1} · record ${progressiveRun?.progressive?.unlockedLevel ?? 1}`
+      : "Parti dal piano 1";
+
+    const cw = 232;
+    const ch = 158;
+    const pathCard = (
+      x: number,
+      accent: number,
+      icon: string,
+      cardTitle: string,
+      tag: string,
+      desc: string,
+      state: string,
+      primary: string,
+      action: () => void,
+      reset?: () => void,
+    ): void => {
+      const card = this.add.container(x, cardY);
+      const accentHex = Phaser.Display.Color.IntegerToColor(accent).rgba;
+      const border = this.add.rectangle(0, 0, cw, ch, 0x0c1d2a, 0.92).setOrigin(0).setStrokeStyle(2, accent, 0.55);
+      const bar = this.add.rectangle(0, 0, cw, 5, accent, 0.95).setOrigin(0);
+      const iconText = this.add.text(16, 12, icon, { fontFamily: "Inter, Arial", fontSize: "30px", color: "#ffffff" });
+      const titleText = this.add.text(58, 14, cardTitle, { fontFamily: "Inter, Arial", fontSize: "19px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: cw - 66 } });
+      const tagText = this.add.text(58, 42, tag, { fontFamily: "Inter, Arial", fontSize: "10px", color: accentHex, fontStyle: "bold" });
+      const descText = this.add.text(16, 64, desc, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: cw - 32 }, lineSpacing: 2 });
+      const stateChip = this.add.rectangle(16, 98, cw - 32, 22, 0x07151d, 0.7).setOrigin(0).setStrokeStyle(1, accent, 0.25);
+      const stateText = this.add.text(26, 102, state, { fontFamily: "Inter, Arial", fontSize: "11px", color: accentHex, fontStyle: "bold", wordWrap: { width: cw - 52 } });
+      const cta = this.add.rectangle(cw / 2, 142, cw - 28, 30, accent, 0.16).setStrokeStyle(1.5, accent, 0.8);
+      const ctaText = this.add.text(cw / 2, 142, `${primary}  ▸`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5);
+      const hit = this.add.rectangle(cw / 2, ch / 2, cw, ch, 0x000000, 0.001).setInteractive({ useHandCursor: true });
+      card.add([border, bar, iconText, titleText, tagText, descText, stateChip, stateText, cta, ctaText, hit]);
+
+      let pressed = false;
+      const setHover = (on: boolean): void => {
+        border.setStrokeStyle(on ? 3 : 2, accent, on ? 1 : 0.55);
+        cta.setFillStyle(accent, on ? 0.3 : 0.16);
+        this.tweens.killTweensOf(card);
+        this.tweens.add({ targets: card, scaleX: on ? 1.02 : 1, scaleY: on ? 1.02 : 1, duration: 120 });
+      };
+      hit.on("pointerover", () => setHover(true))
+        .on("pointerout", () => { pressed = false; setHover(false); })
+        .on("pointerdown", () => { pressed = true; })
+        .on("pointerup", () => { if (pressed) { audioManager.play("missionStart"); action(); } pressed = false; })
+        .on("pointerupoutside", () => { pressed = false; });
+
+      if (reset) {
+        const rx = cw - 39;
+        const ry = 22;
+        const resetBtn = this.add.rectangle(rx, ry, 58, 22, 0x3a2525, 0.92).setStrokeStyle(1, 0xf6c85f, 0.6).setInteractive({ useHandCursor: true });
+        const resetTxt = this.add.text(rx, ry, "Reset", { fontFamily: "Inter, Arial", fontSize: "10px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5);
+        resetBtn.on("pointerup", () => { audioManager.play("uiSelect"); reset(); });
+        card.add([resetBtn, resetTxt]);
+      }
+    };
+
+    pathCard(44, 0xf6c85f, "📖", "La Storia", "STORIA · NARRATIVA",
+      "Segui la trama di NORA, capitolo dopo capitolo.", storyState,
+      "Entra", () => this.openMenuScene("CampaignScene", "Non sono riuscito ad aprire la storia. Riprova tra un istante."));
+    pathCard(292, 0x6be7d6, "🎯", "Missione Rapida", "PROCEDURALE · LIBERA",
+      "Una stanza nuova ogni volta, in ordine libero.", missionState,
+      this.isResumable(missionRun) ? "Riprendi" : "Gioca", () => this.resumeMissionGame());
+    pathCard(540, 0xff8f6b, "🗼", "Scalata", "SFIDA · A LIVELLI",
+      "Sali di livello con punti e vite, senza fine.", scalataState,
+      this.isResumable(progressiveRun) ? "Riprendi" : "Sali", () => this.showScalataTower(),
+      this.isResumable(progressiveRun) ? () => this.confirmProgressiveReset(progressiveRun) : undefined);
+
+    // --- STRUMENTI & PROGRESSI: chiaramente separati dai percorsi ---
+    this.add.text(44, 556, "STRUMENTI & PROGRESSI", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#7d93a0",
+      fontStyle: "bold",
+    });
+    const tool = (cx: number, cy: number, label: string, sceneKey: string, fill = 0x263743, stroke?: number): void => {
+      new Button(this, cx, cy, label, () => this.openMenuScene(sceneKey, `Non sono riuscito ad aprire ${label}. Riprova tra un istante.`), {
+        width: 172,
+        height: 40,
+        fontSize: 13,
+        fill,
+        stroke,
       });
-    }
-    const continueButton = this.rect("menu:continue", { x: 250, y: 448, width: 260 });
-    new Button(this, continueButton.x, continueButton.y, this.isResumable(missionRun) ? "Riprendi Missione Rapida" : "Missione Rapida", () => {
-      this.resumeMissionGame();
-    }, {
-      width: continueButton.width,
-      fill: this.isResumable(missionRun) ? 0x1f5a51 : 0x263743,
-      stroke: this.isResumable(missionRun) ? 0xf6c85f : 0x6be7d6,
-    });
-    new Button(this, 552, 448, "Atlante matematica", () => this.openMenuScene("MathStudyScene", "Non sono riuscito ad aprire l'atlante. Riprova tra un istante."), {
-      width: 206,
-      height: 46,
-      fill: 0x263743,
-      fontSize: 15,
-    });
-    const journal = this.rect("menu:journal", { x: 250, y: 522, width: 260 });
-    new Button(this, journal.x, journal.y, "La tua Accademia", () => this.openMenuScene("AcademyScene", "Non sono riuscito ad aprire l'Accademia. Riprova tra un istante."), {
-      width: journal.width,
-      fill: 0x1f5a51,
-      stroke: 0x70d68a,
-    });
-    new Button(this, 250, 656, "Diario Seed", () => this.openMenuScene("JournalScene", "Non sono riuscito ad aprire il diario. Riprova tra un istante."), {
-      width: 300,
-      height: 44,
-      fill: 0x263743,
-      fontSize: 14,
-    });
-    const procedural = this.rect("menu:procedural", { x: 250, y: 596, width: 300 });
-    new Button(this, procedural.x, procedural.y, "Quadro Docente / Genitore", () => this.openMenuScene("TeacherDashboardScene", "Non sono riuscito ad aprire il quadro docente. Riprova tra un istante."), {
-      width: procedural.width,
-      fill: 0x2a3550,
-      stroke: 0x9f8cff,
-      fontSize: 16,
-    });
-    new Button(this, 552, 522, "Registro", () => this.openMenuScene("PlayerReportScene", "Non sono riuscito ad aprire il registro. Riprova tra un istante."), {
-      width: 206,
-      height: 46,
-      fill: 0x263743,
-      fontSize: 16,
-    });
-    new Button(this, 552, 596, "Classifiche", () => this.openMenuScene("LeaderboardScene", "Non sono riuscito ad aprire le classifiche. Riprova tra un istante."), {
-      width: 206,
-      height: 46,
-      fill: 0x263743,
-      fontSize: 16,
-    });
-    new Button(this, 552, 656, "NORA", () => this.openMenuScene("NoraScene", "Non sono riuscito a contattare NORA. Riprova tra un istante."), {
-      width: 206,
-      height: 44,
-      fill: 0x173b36,
-      stroke: 0x9ff5e9,
-      fontSize: 16,
-      soundKey: "panelOpen",
-    });
+    };
+    tool(130, 584, "La tua Accademia", "AcademyScene", 0x1f5a51, 0x70d68a);
+    tool(314, 584, "Atlante", "MathStudyScene");
+    tool(498, 584, "🧠 Palestra Mente", "LogicGymScene", 0x2a1f3a, 0xf6c85f);
+    tool(682, 584, "NORA", "NoraScene", 0x173b36, 0x9ff5e9);
+    tool(130, 632, "Registro", "PlayerReportScene");
+    tool(314, 632, "Classifiche", "LeaderboardScene");
+    tool(498, 632, "Diario", "JournalScene");
+    tool(682, 632, "Quadro Docente", "TeacherDashboardScene", 0x2a3550, 0x9f8cff);
 
     if (!this.noraGreeted) {
       this.noraGreeted = true;
@@ -174,26 +205,24 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     VisualKit.glassPanel(this, 792, 128, 430, 560, "academy", 0.72);
-    this.add.text(828, 154, "Allenamento focus", {
+    this.add.text(828, 150, "🎓 Allenamento", {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(828, 192, "Scegli la materia. Il livello parte dai tuoi risultati; puoi forzarlo con 1-8. Qui non perdi vite: contano precisione, tempo e aiuti.", {
+    this.add.text(1208, 156, "PERCORSO · PER MATERIA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#f6c85f",
+      fontStyle: "bold",
+    }).setOrigin(1, 0);
+    this.add.text(828, 192, "Percorso di esercizio: nessuna vita in gioco, contano precisione, tempo e aiuti. Scegli la materia; il livello parte dai tuoi risultati (1-8).", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#c7dce7",
       wordWrap: { width: 360 },
       lineSpacing: 4,
-    });
-    new Button(this, 1136, 170, "🧠 Palestra Mente", () => this.openMenuScene("LogicGymScene", "Non sono riuscito ad aprire la Palestra della Mente. Riprova tra un istante."), {
-      width: 168,
-      height: 42,
-      fill: 0x2a1f3a,
-      stroke: 0xf6c85f,
-      fontSize: 13,
-      soundKey: "panelOpen",
     });
     if (!this.userPickedDifficulty) {
       const abbrev: Partial<Record<ProceduralSpecialization, string>> = {
@@ -439,8 +468,11 @@ export class MainMenuScene extends Phaser.Scene {
 
     const modal = this.add.container(0, 0).setDepth(1500);
     modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
-    modal.add(this.add.rectangle(640, 360, 1180, 648, 0x07151d, 0.99).setStrokeStyle(2, 0x6be7d6, 0.6));
+    modal.add(this.add.rectangle(640, 360, 1180, 648, 0x07151d, 0.99).setStrokeStyle(2, 0xff8f6b, 0.6));
+    modal.add(this.add.rectangle(108, 66, 5, 50, 0xff8f6b, 0.95).setOrigin(0));
     modal.add(this.add.text(120, 70, "La Scalata", { fontFamily: "Inter, Arial", fontSize: "38px", color: "#f5fbff", fontStyle: "bold" }));
+    modal.add(this.add.rectangle(1180, 78, 188, 30, 0x1a0f0a, 0.85).setOrigin(1, 0).setStrokeStyle(2, 0xff8f6b, 0.85));
+    modal.add(this.add.text(1086, 93, "🗼 PERCORSO SCALATA", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#ff8f6b", fontStyle: "bold" }).setOrigin(0.5));
     modal.add(this.add.text(122, 120, "Prove a difficoltà crescente, una dopo l'altra, senza pause. Sali più in alto che puoi: ogni livello vale di più.", {
       fontFamily: "Inter, Arial", fontSize: "15px", color: "#c7dce7", wordWrap: { width: 560 },
     }));

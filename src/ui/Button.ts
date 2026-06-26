@@ -20,27 +20,72 @@ function stopInputPropagation(args: unknown[]): void {
   event?.stopPropagation?.();
 }
 
-function inferButtonSoundKey(label: string): SoundKey {
-  const normalized = label
+function normalizeButtonLabel(label: string): string {
+  return label
     .replace(/[✓[\]·×]/g, " ")
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();
+}
+
+function matchesAny(text: string, patterns: RegExp[]): boolean {
+  return patterns.some((pattern) => pattern.test(text));
+}
+
+function inferButtonSoundKey(label: string): SoundKey {
+  const normalized = normalizeButtonLabel(label);
 
   if (/^[1-8]$/.test(normalized)) return "levelSelect";
-  if (/^(ok|conferma|conferma risposta|verifica|verifica sequenza|test finale|testa circuito|controlla|controlla ordine|esegui|registra|registra e continua)/.test(normalized)) {
-    return "confirm";
-  }
-  if (/^(x|annulla|indietro|menu|hub|pulisci|pulisci scelta|azzera ordine|conserva|ho capito)/.test(normalized)) {
+
+  // Uscita / chiusura: feedback breve e discendente, distinto dal reset.
+  if (matchesAny(normalized, [
+    /^(x|annulla|indietro|torna|menu|hub|chiudi|ho capito)$/,
+    /^(torna a|pagina precedente|rivedi )/,
+  ])) {
     return "cancel";
   }
-  if (/(reset|azzera|ricomincia|riparti|riprova)/.test(normalized)) return "reset";
-  if (/(livello successivo|scalata|progressiva|impulso nora|protezione|\+30)/.test(normalized)) return "progressiveStep";
-  if (/(focus|allenati)/.test(normalized)) return "focusSelect";
-  if (/(missione|nuova missione|avvia missione|missione rapida|riprendi missione)/.test(normalized)) return "missionStart";
-  if (/(indizio|aiuto)/.test(normalized)) return "hint";
-  if (/(ascolta|musica)/.test(normalized)) return "contextMusic";
-  if (/(leggi|scansiona|analizza|decodifica|atlante|registro|diario|classifiche|report)/.test(normalized)) return "panelOpen";
+
+  // Azioni distruttive / pulizia stato: devono sentirsi diverse da "annulla".
+  if (/(reset|azzera|pulisci|svuota|clear|ripristina|ricomincia|riparti|riprova)/.test(normalized)) return "reset";
+
+  // Aiuto e metacognizione: indizio, spiegazione e guida usano lo stesso richiamo morbido.
+  if (/(indizio|aiuto|spiega|spiegazione|lente causale)/.test(normalized)) return "hint";
+
+  // Audio/musica: pulsanti di ascolto e note devono anticipare l'evento sonoro.
+  if (/(ascolta|suona|nota\s*[12]?|musica|pentagramma|ritmo|melodia|audio)/.test(normalized)) return "contextMusic";
+
+  // Conferma/verifica: suono assertivo, utile prima del feedback corretto/errore.
+  if (matchesAny(normalized, [
+    /^(ok|conferma|verifica|certifica|consegna|controlla|test|testa|esegui|prova|registra)/,
+    /(risposta|sequenza|ordine|rapporto|passaggio|componente)$/,
+  ])) {
+    return "confirm";
+  }
+
+  if (/(focus|allenati|allenamento)/.test(normalized)) return "focusSelect";
+  if (/(missione|storia|capitolo|run procedurale|nuova stanza|sfida dell eco|affronta l eco)/.test(normalized)) return "missionStart";
+  if (/^(avanti|sinistra|destra|gira|prendi|esci|forward|left|right|exit)$/.test(normalized)) return "contextCoding";
+
+  // Navigazione narrativa o avanzamento run: passo energetico ma non trionfale.
+  if (matchesAny(normalized, [
+    /(livello successivo|pagina successiva|continua|scalata|progressiva|impulso nora|protezione|\+30|carica)/,
+    /^(inizia|riprendi|entra|conserva la carica)/,
+  ])) {
+    return "progressiveStep";
+  }
+
+  // Scansione/analisi: feedback tecnico per leggere dati o decodificare.
+  if (/(leggi|scansiona|analizza|decodifica|sensori|tester|atlante)/.test(normalized)) return "scan";
+
+  // Apertura pannelli informativi / collezioni.
+  if (/(registro|diario|classifiche|report giocatore|galleria|albero|nora)/.test(normalized)) return "panelOpen";
+
+  if (/(frase|parola|lessico|grammatica|sintesi|componi)/.test(normalized)) return "contextLanguage";
+  if (/(inglese|english|bilingue)/.test(normalized)) return "contextEnglish";
+  if (/(circuito|interruttore|switch|ramo|corrente|led|componente)/.test(normalized)) return "contextElectronics";
+  if (/(robot|comando|algoritmo|coding|terminale)/.test(normalized)) return "contextCoding";
+  if (/(grafico|calcolo|matematica|numero|nucleo|funzione)/.test(normalized)) return "contextMath";
+
   return "uiSelect";
 }
 

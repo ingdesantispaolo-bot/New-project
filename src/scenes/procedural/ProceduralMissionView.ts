@@ -46,6 +46,20 @@ export class ProceduralMissionView {
       theme.stageTitle,
     );
 
+    // Path chip — colour-matches the menu cards for cross-screen continuity.
+    const pathColor = mode === "training" ? 0x70d68a : mode === "progressive" ? 0xff8f6b : 0x6be7d6;
+    const pathName = mode === "training" ? "ALLENAMENTO" : mode === "progressive" ? "SCALATA" : "MISSIONE RAPIDA";
+    const chipX = layout.top.x + layout.top.width - 204;
+    const chipY = layout.top.y + 24;
+    scene.add.rectangle(chipX, chipY, 188, 34, 0x07151d, 0.85).setOrigin(0).setStrokeStyle(2, pathColor, 0.85);
+    scene.add.rectangle(chipX, chipY, 5, 34, pathColor, 0.95).setOrigin(0);
+    scene.add.text(chipX + 98, chipY + 17, pathName, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: Phaser.Display.Color.IntegerToColor(pathColor).rgba,
+      fontStyle: "bold",
+    }).setOrigin(0.5);
+
     SceneChrome.section(scene, layout.left, "Briefing");
     scene.add.rectangle(layout.left.x + 18, layout.left.y + 48, layout.left.width - 36, 32, mode === "training" ? 0x1f5a51 : mode === "progressive" ? 0x33261a : 0x173244, 0.82)
       .setOrigin(0)

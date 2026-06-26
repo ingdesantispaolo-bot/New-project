@@ -42,7 +42,7 @@ export class LaboratoryScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "lab");
+    queueSceneAssets(this, "lab", "story");
   }
 
   create(): void {
@@ -72,7 +72,7 @@ export class LaboratoryScene extends Phaser.Scene {
 
   private drawLaboratory(): void {
     this.cameras.main.setBackgroundColor("#061019");
-    VisualKit.background(this, "lab");
+    VisualKit.background(this, "lab", "story-lab-blackout-bg");
     VisualKit.cinematicDepth(this, "lab", 0.82);
     this.add.rectangle(180, 360, 320, 720, 0x061019, 0.86).setStrokeStyle(2, 0x1a3945, 0.78);
     this.add.rectangle(805, 360, 900, 650, 0x091722, 0.18).setStrokeStyle(2, 0x254958, 0.42);

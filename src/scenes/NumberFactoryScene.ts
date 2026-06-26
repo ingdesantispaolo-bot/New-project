@@ -45,7 +45,7 @@ export class NumberFactoryScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "factory");
+    queueSceneAssets(this, "factory", "story");
   }
 
   create(): void {
@@ -78,6 +78,7 @@ export class NumberFactoryScene extends Phaser.Scene {
       "La Fabbrica dei Numeri",
       "Scegli il percorso delle macchine. Ogni passaggio cambia il nucleo o controlla se può proseguire.",
       "Linea energia numerica",
+      "story-number-factory-bg",
     );
     VisualKit.cinematicDepth(this, "factory", 0.92);
     tiledSceneRenderer.renderBackdrop(this, "factory");

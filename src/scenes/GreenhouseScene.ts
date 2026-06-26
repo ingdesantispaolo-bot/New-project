@@ -56,7 +56,7 @@ export class GreenhouseScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "greenhouse");
+    queueSceneAssets(this, "greenhouse", "story");
   }
 
   create(): void {
@@ -122,6 +122,7 @@ export class GreenhouseScene extends Phaser.Scene {
       "La Serra Biologica",
       "Leggi i dati, fai una regolazione per turno, osserva le conseguenze.",
       "Serra automatizzata",
+      "story-greenhouse-recovery-bg",
     );
     VisualKit.cinematicDepth(this, "greenhouse", 0.85);
     tiledSceneRenderer.renderBackdrop(this, "greenhouse");

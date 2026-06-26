@@ -62,7 +62,7 @@ export class VisualKit {
     }
   }
 
-  static background(scene: Phaser.Scene, paletteName: Palette = "academy"): void {
+  static background(scene: Phaser.Scene, paletteName: Palette = "academy", backdropKey?: string): void {
     this.applyCinematicGrade(scene, paletteName);
     const palette = palettes[paletteName];
     const hazeAlpha: Record<Palette, number> = {
@@ -82,7 +82,7 @@ export class VisualKit {
       lab: 0.07,
     };
     scene.add.rectangle(640, 360, 1280, 720, palette.bg, 1);
-    this.paintedBackdrop(scene, paletteName);
+    this.paintedBackdrop(scene, paletteName, backdropKey);
     this.productionParallax(scene, paletteName);
 
     const haze = scene.add.graphics();
@@ -149,7 +149,7 @@ export class VisualKit {
     return scene.add.image(x, y, fallbackTexture);
   }
 
-  private static paintedBackdrop(scene: Phaser.Scene, paletteName: Palette): void {
+  private static paintedBackdrop(scene: Phaser.Scene, paletteName: Palette, preferredKey?: string): void {
     const backdropKeys: Partial<Record<Palette, string>> = {
       academy: "bg-academy-painted",
       archive: "bg-archive-painted",
@@ -158,7 +158,7 @@ export class VisualKit {
       greenhouse: "bg-greenhouse-painted",
       lab: "bg-lab-painted",
     };
-    const key = backdropKeys[paletteName];
+    const key = preferredKey && scene.textures.exists(preferredKey) ? preferredKey : backdropKeys[paletteName];
     if (!key || !scene.textures.exists(key)) {
       return;
     }

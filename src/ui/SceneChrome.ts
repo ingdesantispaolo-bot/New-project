@@ -75,10 +75,11 @@ export class SceneChrome {
     title: string,
     subtitle: string,
     stageTitle: string,
+    backdropKey?: string,
   ): SceneChromeLayout {
     const layout = this.layout;
     scene.cameras.main.setBackgroundColor("#061019");
-    VisualKit.background(scene, palette);
+    VisualKit.background(scene, palette, backdropKey);
     scene.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.18);
 
     VisualKit.glassPanel(scene, layout.top.x, layout.top.y, layout.top.width, layout.top.height, palette, 0.72);
@@ -119,10 +120,11 @@ export class SceneChrome {
     title: string,
     subtitle: string,
     stageTitle: string,
+    backdropKey?: string,
   ): SceneChromeLayout {
     const layout = this.twoColumnLayout;
     scene.cameras.main.setBackgroundColor("#061019");
-    VisualKit.background(scene, palette);
+    VisualKit.background(scene, palette, backdropKey);
     scene.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.2);
 
     VisualKit.glassPanel(scene, layout.top.x, layout.top.y, layout.top.width, layout.top.height, palette, 0.7);

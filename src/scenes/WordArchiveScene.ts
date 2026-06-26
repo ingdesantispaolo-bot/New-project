@@ -50,7 +50,7 @@ export class WordArchiveScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "archive");
+    queueSceneAssets(this, "archive", "story");
   }
 
   create(): void {
@@ -103,6 +103,7 @@ export class WordArchiveScene extends Phaser.Scene {
       "Archivio delle Parole",
       "Ripara messaggi, scegli indizi utili e consegna un rapporto operativo.",
       "Archivio instabile",
+      "story-archive-memory-bg",
     );
     VisualKit.cinematicDepth(this, "archive", 0.9);
     tiledSceneRenderer.renderBackdrop(this, "archive");

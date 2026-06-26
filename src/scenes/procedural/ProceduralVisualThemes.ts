@@ -518,8 +518,8 @@ function drawItalianMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  const variant = random.integer(0, 2);
-  drawBackdropTitle(scene, rect, ["archivio linguistico", "laboratorio lessico", "sala fonti"][variant], theme);
+  const variant = random.integer(0, 3);
+  drawBackdropTitle(scene, rect, ["archivio fonti", "laboratorio lessico", "sala sintesi", "frammenti grammaticali"][variant], theme);
   const shelves = 4;
   for (let shelf = 0; shelf < shelves; shelf += 1) {
     const y = rect.y + 128 + shelf * 74;
@@ -539,10 +539,12 @@ function drawItalianMissionBackdrop(
     }
   }
   const words = variant === 1
-    ? ["ipotesi", "prova", "registro", "sintesi"]
+    ? ["sinonimo", "sfumatura", "registro", "contesto"]
     : variant === 2
-      ? ["fonte", "tesi", "dato", "verifica"]
-      : ["soggetto", "causa", "pronome", "coerenza"];
+      ? ["ipotesi", "prova", "sintesi", "conclusione"]
+      : variant === 3
+        ? ["soggetto", "predicato", "pronome", "accordo"]
+        : ["fonte", "tesi", "dato", "verifica"];
   words.forEach((word, index) => {
     const x = rect.x + 112 + index * 118;
     const y = rect.y + 358 + random.integer(-16, 18);
@@ -553,7 +555,20 @@ function drawItalianMissionBackdrop(
       fontStyle: "bold",
     }).setAlpha(0.22 + progress * 0.08);
   });
-  if (variant === 1) {
+  if (variant === 0) {
+    ["fonte A", "fonte B", "ipotesi", "prova"].forEach((label, index) => {
+      const x = rect.x + rect.width - 288;
+      const y = rect.y + 126 + index * 52;
+      g.lineStyle(1, index < 2 ? theme.secondary : theme.accent, 0.24);
+      g.strokeRoundedRect(x, y, 146, 30, 6);
+      scene.add.text(x - 28, y - 7, label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#d9eaf1",
+        fontStyle: "bold",
+      }).setAlpha(0.4);
+    });
+  } else if (variant === 1) {
     for (let index = 0; index < 6; index += 1) {
       const x = rect.x + rect.width - 260 + (index % 3) * 72;
       const y = rect.y + 138 + Math.floor(index / 3) * 64;
@@ -569,15 +584,39 @@ function drawItalianMissionBackdrop(
       }).setAlpha(0.36);
     }
   } else if (variant === 2) {
-    ["fonte A", "fonte B", "ipotesi", "prova"].forEach((label, index) => {
-      const x = rect.x + rect.width - 288;
-      const y = rect.y + 126 + index * 52;
-      g.lineStyle(1, index < 2 ? theme.secondary : theme.accent, 0.24);
-      g.strokeRoundedRect(x, y, 146, 30, 6);
-      scene.add.text(x + 12, y + 8, label, {
+    const cx = rect.x + rect.width - 214;
+    const cy = rect.y + 230;
+    ["osserva", "collega", "riduci", "spiega"].forEach((label, index) => {
+      const angle = -Math.PI * 0.75 + index * (Math.PI * 0.5);
+      const x = cx + Math.cos(angle) * 92;
+      const y = cy + Math.sin(angle) * 74;
+      g.lineStyle(1, index % 2 ? theme.secondary : theme.accent, 0.22);
+      g.lineBetween(cx, cy, x, y);
+      g.strokeRoundedRect(x - 36, y - 13, 72, 26, 7);
+      scene.add.text(x - 28, y - 7, label, {
         fontFamily: "Inter, Arial",
         fontSize: "11px",
         color: "#d9eaf1",
+        fontStyle: "bold",
+      }).setAlpha(0.4);
+    });
+    g.fillStyle(theme.secondary, 0.1 + progress * 0.04);
+    g.fillCircle(cx, cy, 28);
+    g.lineStyle(2, theme.secondary, 0.24);
+    g.strokeCircle(cx, cy, 42);
+  } else if (variant === 3) {
+    const fragments = ["il", "robot", "ha", "letti", "letto", "i", "dati", "corretti", "perché", "quindi"];
+    fragments.forEach((fragment, index) => {
+      const x = rect.x + rect.width - 312 + (index % 4) * 64;
+      const y = rect.y + 126 + Math.floor(index / 4) * 48 + random.integer(-5, 5);
+      g.fillStyle(index % 2 ? theme.secondary : theme.accent, 0.06 + progress * 0.02);
+      g.fillRoundedRect(x, y, 54, 28, 7);
+      g.lineStyle(1, index % 2 ? theme.secondary : theme.accent, 0.2);
+      g.strokeRoundedRect(x, y, 54, 28, 7);
+      scene.add.text(x + 8, y + 8, fragment, {
+        fontFamily: "Inter, Arial",
+        fontSize: "10px",
+        color: "#f5fbff",
         fontStyle: "bold",
       }).setAlpha(0.4);
     });
@@ -592,8 +631,8 @@ function drawEnglishMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  const variant = random.integer(0, 2);
-  drawBackdropTitle(scene, rect, ["control room", "radio bridge", "data terminal"][variant], theme);
+  const variant = random.integer(0, 3);
+  drawBackdropTitle(scene, rect, ["control room", "radio room", "terminale bilingue", "pannello dati/soglie"][variant], theme);
   const terminalX = rect.x + 110;
   const terminalY = rect.y + 136;
   const terminalW = rect.width - 220;
@@ -605,7 +644,9 @@ function drawEnglishMissionBackdrop(
   const rows = variant === 1
     ? ["LISTEN", "CONFIRM", "REPEAT", "SOURCE", "REPORT"]
     : variant === 2
-      ? ["BELOW", "ABOVE", "BETWEEN", "COMPARE", "DECIDE"]
+      ? ["START", "AVVIA", "BELOW", "SOTTO", "REPORT"]
+      : variant === 3
+        ? ["LIMIT", "ABOVE", "BELOW", "RANGE", "ALERT"]
       : ["READ", "CHECK", "PRESS", "TURN", "REPORT"];
   rows.forEach((word, index) => {
     const y = terminalY + 28 + index * 31;
@@ -636,11 +677,37 @@ function drawEnglishMissionBackdrop(
       fontStyle: "bold",
     }).setAlpha(0.36);
   } else if (variant === 2) {
+    ["open/apri", "close/chiudi", "safe/sicuro"].forEach((label, index) => {
+      const x = terminalX + terminalW - 234;
+      const y = terminalY + 28 + index * 48;
+      scene.add.rectangle(x + 80, y + 3, 154, 28, index % 2 ? theme.secondary : theme.accent, 0.075)
+        .setStrokeStyle(1, index % 2 ? theme.secondary : theme.accent, 0.22);
+      scene.add.text(x + 14, y - 5, label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#f5fbff",
+        fontStyle: "bold",
+      }).setAlpha(0.38);
+    });
+  } else if (variant === 3) {
     for (let index = 0; index < 6; index += 1) {
       const h = 18 + random.integer(0, 64);
       g.fillStyle(index % 2 ? theme.secondary : theme.accent, 0.1 + progress * 0.04);
       g.fillRoundedRect(terminalX + terminalW - 190 + index * 22, terminalY + terminalH - 20 - h, 12, h, 4);
     }
+    ["MIN", "OK", "MAX"].forEach((label, index) => {
+      const y = terminalY + 34 + index * 52;
+      g.lineStyle(2, index === 1 ? theme.secondary : theme.accent, 0.22);
+      g.lineBetween(terminalX + terminalW - 310, y, terminalX + terminalW - 226, y);
+      g.fillStyle(index === 1 ? theme.secondary : theme.accent, 0.16);
+      g.fillCircle(terminalX + terminalW - 268 + index * 12, y, 8);
+      scene.add.text(terminalX + terminalW - 348, y - 7, label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "10px",
+        color: "#d9eaf1",
+        fontStyle: "bold",
+      }).setAlpha(0.36);
+    });
   }
 }
 
@@ -775,8 +842,8 @@ function drawMusicMissionBackdrop(
   progress: number,
 ): void {
   const g = scene.add.graphics();
-  const variant = random.integer(0, 2);
-  drawBackdropTitle(scene, rect, ["sala armonica", "stanza ascolto", "tastiera luminosa"][variant], theme);
+  const variant = random.integer(0, 3);
+  drawBackdropTitle(scene, rect, ["pentagramma", "onde sonore", "tastiera luminosa", "sala ascolto"][variant], theme);
   const left = rect.x + 84;
   const right = rect.x + rect.width - 86;
   const cx = rect.x + rect.width / 2;
@@ -823,7 +890,16 @@ function drawMusicMissionBackdrop(
     color: "#f7d37a",
     fontStyle: "bold",
   }).setAlpha(0.36);
-  if (variant === 1) {
+  if (variant === 0) {
+    for (let clef = 0; clef < 3; clef += 1) {
+      scene.add.text(left + 8, rect.y + 110 + clef * 88, "𝄞", {
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        fontSize: "34px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+      }).setAlpha(0.22 + progress * 0.08);
+    }
+  } else if (variant === 1) {
     const waveY = rect.y + rect.height - 156;
     g.lineStyle(2, theme.secondary, 0.18 + progress * 0.06);
     g.beginPath();
@@ -843,6 +919,26 @@ function drawMusicMissionBackdrop(
       g.lineStyle(1, theme.secondary, 0.14);
       g.strokeRoundedRect(x, keyY, 28, key % 7 === 1 || key % 7 === 3 || key % 7 === 6 ? 58 : 82, 4);
     }
+  } else if (variant === 3) {
+    const speakerY = rect.y + rect.height - 174;
+    [left + 78, right - 78].forEach((x, index) => {
+      g.fillStyle(theme.dark, 0.32);
+      g.fillRoundedRect(x - 34, speakerY - 76, 68, 124, 12);
+      g.lineStyle(2, index % 2 ? theme.secondary : theme.accent, 0.24);
+      g.strokeRoundedRect(x - 34, speakerY - 76, 68, 124, 12);
+      g.strokeCircle(x, speakerY - 35, 20);
+      g.strokeCircle(x, speakerY + 16, 27);
+      for (let ring = 0; ring < 3; ring += 1) {
+        g.lineStyle(1, index % 2 ? theme.secondary : theme.accent, 0.1 + progress * 0.04);
+        g.strokeCircle(x + (index === 0 ? 42 : -42), speakerY - 8, 28 + ring * 22);
+      }
+    });
+    scene.add.text(cx - 68, speakerY + 56, "ascolta • confronta • riconosci", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      fontStyle: "bold",
+    }).setAlpha(0.34);
   }
 }
 

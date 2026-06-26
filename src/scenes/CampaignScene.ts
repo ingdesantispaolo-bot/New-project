@@ -3,6 +3,7 @@ import { audioManager } from "../core/AudioManager";
 import { campaignSystem, type CampaignChapter } from "../core/CampaignSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { startScene } from "../core/SceneNavigator";
 import { Button } from "../ui/Button";
 import { VisualKit } from "../ui/VisualKit";
@@ -17,11 +18,15 @@ export class CampaignScene extends Phaser.Scene {
     super("CampaignScene");
   }
 
+  preload(): void {
+    queueSceneAssets(this, "story");
+  }
+
   create(): void {
     playerSystem.load();
     saveSystem.load();
     this.cameras.main.setBackgroundColor("#071018");
-    VisualKit.background(this, "academy");
+    VisualKit.background(this, "academy", "story-academy-hub-bg");
     VisualKit.vignette(this);
 
     const chapters = campaignSystem.getChapters();

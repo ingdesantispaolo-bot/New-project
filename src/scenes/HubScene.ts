@@ -11,12 +11,17 @@ import type { ProceduralRunSave } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { MissionCard } from "../ui/MissionCard";
 import { VisualKit } from "../ui/VisualKit";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 
 export class HubScene extends Phaser.Scene {
   private readonly layout = mapLayoutSystem.getHubLayout();
 
   constructor() {
     super("HubScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "story");
   }
 
   create(): void {
@@ -80,7 +85,7 @@ export class HubScene extends Phaser.Scene {
 
   private drawHub(): void {
     this.cameras.main.setBackgroundColor("#061019");
-    VisualKit.background(this, "academy");
+    VisualKit.background(this, "academy", "story-academy-hub-bg");
     this.add.rectangle(640, 660, 1200, 96, 0x061019, 0.74).setStrokeStyle(1, 0x294958, 0.7);
 
     const corridor = this.add.graphics();

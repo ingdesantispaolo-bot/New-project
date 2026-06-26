@@ -27,6 +27,11 @@ import missionMusicBgUrl from "../assets/images/mission-music-bg.webp";
 import missionMusicAudioBgUrl from "../assets/images/mission-music-audio-bg.webp";
 import missionMusicStaffBgUrl from "../assets/images/mission-music-staff-bg.webp";
 import missionSynthesisBgUrl from "../assets/images/mission-synthesis-bg.webp";
+import storyAcademyHubBgUrl from "../assets/images/story-academy-hub-bg.webp";
+import storyArchiveMemoryBgUrl from "../assets/images/story-archive-memory-bg.webp";
+import storyGreenhouseRecoveryBgUrl from "../assets/images/story-greenhouse-recovery-bg.webp";
+import storyLabBlackoutBgUrl from "../assets/images/story-lab-blackout-bg.webp";
+import storyNumberFactoryBgUrl from "../assets/images/story-number-factory-bg.webp";
 import propCircuitPanelUrl from "../assets/props/prop-circuit-panel.webp";
 import propDoorLabUrl from "../assets/props/prop-door-lab.webp";
 import propFloorTraceUrl from "../assets/props/prop-floor-trace.webp";
@@ -60,7 +65,7 @@ import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-vict
 import outcomeLightVictoryUrl from "../assets/images/outcomes/outcome-light-victory.webp";
 import outcomeNeutralUrl from "../assets/images/outcomes/outcome-neutral.webp";
 
-export type SceneAssetPack = "academy" | "lab" | "greenhouse" | "factory" | "archive" | "procedural";
+export type SceneAssetPack = "academy" | "lab" | "greenhouse" | "factory" | "archive" | "procedural" | "story";
 
 const packs: Record<SceneAssetPack, Array<[string, string]>> = {
   academy: [["bg-academy-painted", academyPaintedBgUrl]],
@@ -90,6 +95,13 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["bg-archive-painted", archivePaintedBgUrl], ["console-archive", archiveConsoleUrl],
     ["painted-archive-desk", paintedArchiveDeskUrl], ["painted-archive-shelf", paintedArchiveShelfUrl],
     ["painted-archive-terminal", paintedArchiveTerminalUrl],
+  ],
+  story: [
+    ["story-academy-hub-bg", storyAcademyHubBgUrl],
+    ["story-archive-memory-bg", storyArchiveMemoryBgUrl],
+    ["story-greenhouse-recovery-bg", storyGreenhouseRecoveryBgUrl],
+    ["story-lab-blackout-bg", storyLabBlackoutBgUrl],
+    ["story-number-factory-bg", storyNumberFactoryBgUrl],
   ],
   procedural: [
     ["bg-lab-painted", labPaintedBgUrl], ["console-lab", labConsoleUrl],

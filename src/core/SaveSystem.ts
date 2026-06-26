@@ -312,6 +312,11 @@ export class SaveSystem {
     EventBus.emit(GameEvents.CompetencyChanged, id, this.saveData.competencies[id]);
   }
 
+  /** Public persistence hook for systems that mutate saveData directly. */
+  persistData(): void {
+    this.persist();
+  }
+
   private persist(): void {
     try {
       this.saveData.playerId = this.activePlayerId();

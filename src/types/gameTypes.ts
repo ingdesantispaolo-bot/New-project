@@ -32,6 +32,17 @@ export type SaveData = {
   learningMemory?: Record<string, { count: number; lastAt: string }>;
   /** Autonomous clean solves per mastery branch (first try, no hints). */
   masteryAutonomy?: Record<string, number>;
+  /** NORA companion state: progress memory, tone preference, seen memories. */
+  nora?: {
+    masterySnapshot?: Record<string, { score: number; tier: number }>;
+    tone?: "curiosa" | "coraggiosa" | "gentile";
+    memoriesSeen?: string[];
+  };
+  /** The player's personalised home base. */
+  academy?: {
+    name?: string;
+    emblem?: string;
+  };
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;
 };

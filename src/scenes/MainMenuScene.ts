@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { buildInfo } from "../core/BuildInfo";
+import { noraCompanion } from "../core/NoraCompanion";
+import { noraChip } from "../ui/NoraChip";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
@@ -30,6 +32,7 @@ export class MainMenuScene extends Phaser.Scene {
   private selectedDifficulty?: DifficultyLevel;
   private userPickedDifficulty = false;
   private transitioning = false;
+  private noraGreeted = false;
 
   constructor() {
     super("MainMenuScene");
@@ -121,9 +124,9 @@ export class MainMenuScene extends Phaser.Scene {
       fontSize: 15,
     });
     const journal = this.rect("menu:journal", { x: 250, y: 522, width: 260 });
-    new Button(this, journal.x, journal.y, "Albero Competenze", () => this.openMenuScene("MasteryScene", "Non sono riuscito ad aprire l'albero delle competenze. Riprova tra un istante."), {
+    new Button(this, journal.x, journal.y, "La tua Accademia", () => this.openMenuScene("AcademyScene", "Non sono riuscito ad aprire l'Accademia. Riprova tra un istante."), {
       width: journal.width,
-      fill: 0x173b36,
+      fill: 0x1f5a51,
       stroke: 0x70d68a,
     });
     new Button(this, 250, 656, "Diario Seed", () => this.openMenuScene("JournalScene", "Non sono riuscito ad aprire il diario. Riprova tra un istante."), {
@@ -151,6 +154,19 @@ export class MainMenuScene extends Phaser.Scene {
       fill: 0x263743,
       fontSize: 16,
     });
+    new Button(this, 552, 656, "NORA", () => this.openMenuScene("NoraScene", "Non sono riuscito a contattare NORA. Riprova tra un istante."), {
+      width: 206,
+      height: 44,
+      fill: 0x173b36,
+      stroke: 0x9ff5e9,
+      fontSize: 16,
+      soundKey: "panelOpen",
+    });
+
+    if (!this.noraGreeted) {
+      this.noraGreeted = true;
+      this.time.delayedCall(600, () => noraChip.say(this, noraCompanion.greetingShort(playerSystem.getActivePlayer().name), "info"));
+    }
 
     VisualKit.glassPanel(this, 792, 128, 430, 560, "academy", 0.72);
     this.add.text(828, 154, "Allenamento focus", {

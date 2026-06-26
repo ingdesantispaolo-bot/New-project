@@ -19,7 +19,7 @@ export class CampaignScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "story");
+    queueSceneAssets(this, "story", "storyBeats");
   }
 
   create(): void {
@@ -174,33 +174,34 @@ export class CampaignScene extends Phaser.Scene {
   private showChapterIntro(chapter: CampaignChapter): void {
     const modal = this.add.container(0, 0).setDepth(2000);
     modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.82).setInteractive());
-    modal.add(this.add.rectangle(640, 360, 760, 420, 0x07151d, 0.99).setStrokeStyle(2, 0x6be7d6, 0.8));
-    modal.add(this.add.text(300, 188, chapter.location.toUpperCase(), {
+    modal.add(this.add.rectangle(640, 360, 980, 456, 0x07151d, 0.99).setStrokeStyle(2, 0x6be7d6, 0.8));
+    this.addStoryBeatArt(modal, chapter, "intro", 366, 342);
+    modal.add(this.add.text(552, 164, chapter.location.toUpperCase(), {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    modal.add(this.add.text(300, 214, chapter.title, {
+    modal.add(this.add.text(552, 190, chapter.title, {
       fontFamily: "Inter, Arial",
       fontSize: "28px",
       color: "#f6c85f",
       fontStyle: "bold",
     }));
-    modal.add(this.add.text(300, 268, chapter.intro, {
+    modal.add(this.add.text(552, 244, chapter.intro, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#eaf4f8",
-      wordWrap: { width: 520 },
+      wordWrap: { width: 506 },
       lineSpacing: 7,
     }));
     audioManager.play("panelOpen");
-    new Button(this, 520, 506, "Indietro", () => modal.destroy(true), {
+    new Button(this, 574, 524, "Indietro", () => modal.destroy(true), {
       width: 180,
       height: 50,
       fill: 0x263743,
     }).setDepth(2001);
-    const enter = new Button(this, 760, 506, "Entra nel capitolo", () => this.enterChapter(chapter), {
+    const enter = new Button(this, 822, 524, "Entra nel capitolo", () => this.enterChapter(chapter), {
       width: 280,
       height: 50,
       fill: 0x173b36,
@@ -215,29 +216,30 @@ export class CampaignScene extends Phaser.Scene {
   private showChapterOutro(chapter: CampaignChapter): void {
     const modal = this.add.container(0, 0).setDepth(2000);
     modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.84).setInteractive());
-    modal.add(this.add.rectangle(640, 360, 760, 380, 0x07151d, 0.99).setStrokeStyle(2, 0x2ed889, 0.85));
-    modal.add(this.add.text(300, 206, `Capitolo ${chapter.number} completato`, {
+    modal.add(this.add.rectangle(640, 360, 980, 430, 0x07151d, 0.99).setStrokeStyle(2, 0x2ed889, 0.85));
+    this.addStoryBeatArt(modal, chapter, "outro", 366, 340);
+    modal.add(this.add.text(552, 178, `Capitolo ${chapter.number} completato`, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#9ff5a7",
       fontStyle: "bold",
     }));
-    modal.add(this.add.text(300, 232, chapter.title, {
+    modal.add(this.add.text(552, 204, chapter.title, {
       fontFamily: "Inter, Arial",
       fontSize: "26px",
       color: "#6be7d6",
       fontStyle: "bold",
     }));
-    modal.add(this.add.text(300, 288, chapter.outro, {
+    modal.add(this.add.text(552, 260, chapter.outro, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#eaf4f8",
-      wordWrap: { width: 520 },
+      wordWrap: { width: 506 },
       lineSpacing: 7,
     }));
     audioManager.playOutcome("complete");
     VisualKit.particleBurst(this, 640, 250, "academy", "success");
-    const close = new Button(this, 640, 488, campaignSystem.isCampaignComplete() ? "Fine della storia" : "Avanti", () => modal.destroy(true), {
+    const close = new Button(this, 790, 506, campaignSystem.isCampaignComplete() ? "Fine della storia" : "Avanti", () => modal.destroy(true), {
       width: 260,
       height: 50,
       fill: 0x173b36,
@@ -246,6 +248,33 @@ export class CampaignScene extends Phaser.Scene {
     });
     close.setDepth(2001);
     modal.add(close);
+  }
+
+  private addStoryBeatArt(
+    modal: Phaser.GameObjects.Container,
+    chapter: CampaignChapter,
+    phase: "intro" | "outro",
+    x: number,
+    y: number,
+  ): void {
+    const key = `story-chapter-${String(chapter.number).padStart(2, "0")}-${phase}`;
+    const frame = this.add.rectangle(x, y, 372, 236, 0x02070b, 0.72)
+      .setStrokeStyle(2, phase === "intro" ? 0x6be7d6 : 0x2ed889, 0.55);
+    modal.add(frame);
+    if (!this.textures.exists(key)) {
+      modal.add(this.add.rectangle(x, y, 344, 194, 0x0d1b26, 0.86).setStrokeStyle(1, 0x6be7d6, 0.24));
+      return;
+    }
+    const image = this.add.image(x, y, key).setDisplaySize(356, 200);
+    modal.add(image);
+    modal.add(this.add.rectangle(x, y, 356, 200, 0x02070b, 0.08).setStrokeStyle(1, 0xf6c85f, 0.18));
+    modal.add(this.add.rectangle(x, y + 112, 356, 24, 0x02070b, 0.48));
+    modal.add(this.add.text(x - 164, y + 104, phase === "intro" ? "Ingresso nel capitolo" : "Esito del capitolo", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: phase === "intro" ? "#9ff5e9" : "#9ff5a7",
+      fontStyle: "bold",
+    }));
   }
 
   private enterChapter(chapter: CampaignChapter): void {

@@ -7,6 +7,7 @@ const lazyLoaders: Record<string, () => Promise<SceneConstructor>> = {
   GreenhouseScene: async () => (await import("../scenes/GreenhouseScene")).GreenhouseScene,
   NumberFactoryScene: async () => (await import("../scenes/NumberFactoryScene")).NumberFactoryScene,
   WordArchiveScene: async () => (await import("../scenes/WordArchiveScene")).WordArchiveScene,
+  AtlasScene: async () => (await import("../scenes/AtlasScene")).AtlasScene,
   CircuitPuzzleScene: async () => (await import("../scenes/CircuitPuzzleScene")).CircuitPuzzleScene,
   MathLockScene: async () => (await import("../scenes/MathLockScene")).MathLockScene,
   RobotCodingScene: async () => (await import("../scenes/RobotCodingScene")).RobotCodingScene,

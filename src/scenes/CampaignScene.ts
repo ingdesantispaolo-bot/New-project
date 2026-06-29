@@ -82,11 +82,12 @@ export class CampaignScene extends Phaser.Scene {
       const textColor = chapter.status === "locked" ? "#7d9098" : "#f5fbff";
       this.add.circle(626, y + 8, 16, color, chapter.status === "locked" ? 0.4 : 0.95).setStrokeStyle(2, color, 0.9);
       this.add.text(626, y + 8, icon, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#06131c", fontStyle: "bold" }).setOrigin(0.5);
-      this.add.text(652, y - 4, `Capitolo ${chapter.number} · ${chapter.title}`, {
+      const seasonTag = chapter.season >= 2 && (index === 0 || chapters[index - 1].season !== chapter.season) ? " · STAGIONE 2" : "";
+      this.add.text(652, y - 4, `Capitolo ${chapter.number} · ${chapter.title}${seasonTag}`, {
         fontFamily: "Inter, Arial",
         fontSize: "16px",
         color: textColor,
-        fontStyle: chapter.status === "active" ? "bold" : "normal",
+        fontStyle: chapter.status === "active" || seasonTag ? "bold" : "normal",
       });
       this.add.text(652, y + 18, `${chapter.location} — ${chapter.synopsis}`, {
         fontFamily: "Inter, Arial",

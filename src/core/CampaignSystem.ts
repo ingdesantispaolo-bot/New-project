@@ -1,6 +1,7 @@
+import { missions } from "../data/missions";
+import { isMissionComplete } from "./MissionCompletion";
 import { missionEngine } from "./MissionEngine";
 import { playerSystem } from "./PlayerSystem";
-import { saveSystem } from "./SaveSystem";
 
 const SEEN_KEY = "eliQuest.campaignSeenCompleted";
 
@@ -8,6 +9,8 @@ export type ChapterStatus = "complete" | "active" | "locked";
 
 export type CampaignChapter = {
   number: number;
+  /** 1 = main story (Atti I-IV), 2 = "Stagione 2" (Atti V-VI) unlocked after the Season 1 finale. */
+  season: number;
   missionId: string;
   sceneKey: string;
   title: string;
@@ -42,6 +45,7 @@ const SYNOPSIS = [
 const CHAPTERS: ChapterDefinition[] = [
   {
     number: 1,
+    season: 1,
     missionId: "mission-01-laboratorio-spento",
     sceneKey: "LaboratoryScene",
     title: "Il Laboratorio Spento",
@@ -52,6 +56,7 @@ const CHAPTERS: ChapterDefinition[] = [
   },
   {
     number: 2,
+    season: 1,
     missionId: "mission-02-serra-biologica",
     sceneKey: "GreenhouseScene",
     title: "La Serra Biologica",
@@ -62,6 +67,7 @@ const CHAPTERS: ChapterDefinition[] = [
   },
   {
     number: 3,
+    season: 1,
     missionId: "mission-03-fabbrica-numeri",
     sceneKey: "NumberFactoryScene",
     title: "La Fabbrica dei Numeri",
@@ -72,6 +78,7 @@ const CHAPTERS: ChapterDefinition[] = [
   },
   {
     number: 4,
+    season: 1,
     missionId: "mission-04-archivio-parole",
     sceneKey: "WordArchiveScene",
     title: "L'Archivio delle Parole",
@@ -80,6 +87,17 @@ const CHAPTERS: ChapterDefinition[] = [
     intro: "Capitolo 4 — L'Archivio delle Parole.\n\nI messaggi che spiegano il Blackout sono corrotti: aprono cassetti sbagliati e cancellano le fonti. NORA: «Ripara i messaggi, scegli gli indizi veri e scrivimi un rapporto verificabile. Solo così potrò riaccendermi del tutto… e ricordare chi mi ha spenta.»",
     outro: "Il rapporto è chiaro, le fonti sono salde. NORA torna viva al cento per cento e, per la prima volta, ti chiama per nome con orgoglio: «Caso chiuso, agente Eli. L'Accademia è di nuovo nostra.»",
   },
+  {
+    number: 5,
+    season: 2,
+    missionId: "mission-05-atlante-perduto",
+    sceneKey: "AtlasScene",
+    title: "L'Atlante Perduto",
+    location: "Ala Cartografia",
+    synopsis: "Il caso era chiuso. Poi è arrivato un segnale da fuori l'Accademia.",
+    intro: "Stagione 2, Capitolo 5 — L'Atlante Perduto.\n\nDue settimane dopo, NORA ti sveglia nel cuore della notte: «Eli, intercetto un segnale che ripete il codice del Blackout. Ma non viene da dentro: viene da fuori. Qualcuno ci osservava. Nell'Ala Cartografia c'è un atlante che credevo perso: serve a triangolare l'origine. Leggi i rilevamenti, traccia le coordinate, usa la scala. Trova chi ci ha spenti.»",
+    outro: "I tre rilevamenti si incrociano su un solo punto della mappa. NORA resta in silenzio un istante: «Il segnale parte da un avamposto che l'Accademia aveva dimenticato… e tra noi e quel posto c'è la Città. Se ci hanno spenti una volta, possono spegnere lei. Dobbiamo arrivare prima noi.»",
+  },
 ];
 
 export class CampaignSystem {
@@ -87,17 +105,26 @@ export class CampaignSystem {
     return SYNOPSIS;
   }
 
+  /** True when this chapter's authoritative completion flag is set. */
+  isChapterComplete(missionId: string): boolean {
+    return isMissionComplete(missionId);
+  }
+
   getChapters(): CampaignChapter[] {
-    const completed = new Set(saveSystem.data.completedMissionIds ?? []);
-    const activeId = missionEngine.getActiveMission().id;
-    return CHAPTERS.map((chapter) => ({
-      ...chapter,
-      status: completed.has(chapter.missionId)
+    // A chapter is active when it's the first one not yet completed whose
+    // predecessor is complete; everything after it stays locked. This makes the
+    // Season 1 finale gate the unlock of the "Atto 2" chapters.
+    let previousComplete = true;
+    return CHAPTERS.map((chapter) => {
+      const complete = this.isChapterComplete(chapter.missionId);
+      const status: ChapterStatus = complete
         ? "complete"
-        : chapter.missionId === activeId
+        : previousComplete
           ? "active"
-          : "locked",
-    }));
+          : "locked";
+      previousComplete = previousComplete && complete;
+      return { ...chapter, status };
+    });
   }
 
   getActiveChapter(): CampaignChapter {
@@ -119,7 +146,7 @@ export class CampaignSystem {
 
   /** The chapter's internal "giornate", mapped to mission objectives. */
   getChapterDays(missionId: string): CampaignDay[] {
-    const mission = missionEngine.getMission(missionId);
+    const mission = missions.find((entry) => entry.id === missionId);
     if (!mission) {
       return [];
     }

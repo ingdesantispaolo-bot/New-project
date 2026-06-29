@@ -60,4 +60,18 @@ export const dialogues: Record<string, DialogueLine[]> = {
       text: "Qui le parole sono interruttori. Una frase imprecisa apre il cassetto sbagliato.",
     },
   ],
+  mission5Opening: [
+    {
+      speaker: "NORA",
+      text: "Il caso era chiuso, Eli. Poi è arrivato un segnale da fuori l'Accademia, con il codice del Blackout.",
+    },
+    {
+      speaker: "Eli",
+      text: "Qualcuno ci osservava da lontano. E adesso vuole farsi trovare?",
+    },
+    {
+      speaker: "NORA",
+      text: "Nell'Ala Cartografia c'è l'atlante perduto. Tre stazioni d'ascolto ci danno la direzione: leggile, traccia le coordinate, usa la scala. Dove le linee si incrociano, c'è chi ci ha spenti.",
+    },
+  ],
 };

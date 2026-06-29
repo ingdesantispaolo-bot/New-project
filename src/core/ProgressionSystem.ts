@@ -1,6 +1,7 @@
 import { missions } from "../data/missions";
 import type { MissionDefinition, ObjectiveStatus } from "../types/missionTypes";
 import { difficultyModel } from "../procedural/DifficultyModel";
+import { isMissionComplete } from "./MissionCompletion";
 import { missionEngine } from "./MissionEngine";
 import { saveSystem } from "./SaveSystem";
 
@@ -71,13 +72,31 @@ const chapters: ProgressionChapter[] = [
     title: "Prove e Linguaggio",
     domain: "testo, fonti, sintesi",
     coreQuestion: "Come distinguo un dettaglio vero da una prova utile?",
-    unlockText: "Apre missioni procedurali avanzate",
+    unlockText: "Apre la Stagione 2",
+  },
+  {
+    index: 5,
+    act: "Atto V",
+    missionId: "mission-05-atlante-perduto",
+    title: "Rotte e Coordinate",
+    domain: "orientamento, coordinate, scala",
+    coreQuestion: "Come trovo un punto incrociando indizi indipendenti?",
+    unlockText: "Sblocca Città Intelligente",
+  },
+  {
+    index: 6,
+    act: "Atto VI",
+    missionId: "mission-06-citta-intelligente",
+    title: "Città e Conseguenze",
+    domain: "energia, logica condizionale, cittadinanza",
+    coreQuestion: "Come scelgo regole quando ogni decisione ha conseguenze?",
+    unlockText: "Percorso principale completo",
   },
 ];
 
 export class ProgressionSystem {
   getProgression(): AcademyProgression {
-    const completedMissions = missions.filter((mission) => saveSystem.data.completedMissionIds.includes(mission.id)).length;
+    const completedMissions = missions.filter((mission) => isMissionComplete(mission.id)).length;
     const activeMission = missionEngine.getActiveMission();
     const chapterSummaries = missions.map((mission) => this.getMissionSummary(mission));
     const active = chapterSummaries.find((summary) => summary.mission.id === activeMission.id) ?? chapterSummaries[0];
@@ -108,7 +127,7 @@ export class ProgressionSystem {
     const statuses = mission.objectives.map((objective) => missionEngine.getObjectiveStatus(objective));
     const completedObjectives = statuses.filter((status) => status === "complete").length;
     const activeObjective = mission.objectives.find((objective) => missionEngine.getObjectiveStatus(objective) === "active");
-    const complete = saveSystem.data.completedMissionIds.includes(mission.id);
+    const complete = isMissionComplete(mission.id);
     const active = mission.id === saveSystem.data.activeMissionId;
     const status: ObjectiveStatus | "complete" = complete ? "complete" : active ? "active" : "locked";
     return {

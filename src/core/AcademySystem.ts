@@ -1,3 +1,4 @@
+import { isMissionComplete } from "./MissionCompletion";
 import { masterySystem } from "./MasterySystem";
 import { saveSystem } from "./SaveSystem";
 
@@ -72,7 +73,6 @@ export class AcademySystem {
   }
 
   getWings(): AcademyWing[] {
-    const completed = new Set(saveSystem.data.completedMissionIds ?? []);
     const branches = masterySystem.getBranches();
     const scoreOf = (id: string): number => branches.find((branch) => branch.id === id)?.score ?? 0;
     return WINGS.map((wing) => {
@@ -84,7 +84,7 @@ export class AcademySystem {
         label: wing.label,
         system: wing.system,
         missionId: wing.missionId,
-        restored: completed.has(wing.missionId),
+        restored: isMissionComplete(wing.missionId),
         stability,
         color: wing.color,
       };

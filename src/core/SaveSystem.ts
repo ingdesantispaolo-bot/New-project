@@ -83,6 +83,22 @@ export class SaveSystem {
         this.saveData.activeMissionId = "mission-04-archivio-parole";
         this.persist();
       }
+      if (
+        this.saveData.flags.mission4Complete &&
+        !this.saveData.flags.mission5Complete &&
+        this.saveData.activeMissionId !== "mission-05-atlante-perduto"
+      ) {
+        this.saveData.activeMissionId = "mission-05-atlante-perduto";
+        this.persist();
+      }
+      if (
+        this.saveData.flags.mission5Complete &&
+        !this.saveData.flags.mission6Complete &&
+        this.saveData.activeMissionId !== "mission-06-citta-intelligente"
+      ) {
+        this.saveData.activeMissionId = "mission-06-citta-intelligente";
+        this.persist();
+      }
     } catch {
       this.saveData = this.createNewSave();
       this.persist();

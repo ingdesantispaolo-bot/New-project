@@ -106,6 +106,11 @@ export const competencies: CompetencyDefinition[] = [
     description: "Usare volumi e dimensioni di solidi semplici in problemi concreti.",
   },
   {
+    id: "matematica.coordinate",
+    label: "Coordinate sul piano",
+    description: "Leggere e collocare punti su una griglia usando coppie di coordinate.",
+  },
+  {
     id: "coding.sequenze",
     label: "Sequenze di comandi",
     description: "Ordinare istruzioni per ottenere un comportamento previsto.",
@@ -249,6 +254,16 @@ export const competencies: CompetencyDefinition[] = [
     id: "scienze.dati",
     label: "Raccolta dati",
     description: "Usare sensori, tabelle e osservazioni per decidere un intervento.",
+  },
+  {
+    id: "geografia.orientamento",
+    label: "Orientamento e direzioni",
+    description: "Usare punti cardinali, rilevamenti e angoli per stabilire una direzione.",
+  },
+  {
+    id: "geografia.scale",
+    label: "Mappe e scale",
+    description: "Convertire distanze su mappa in distanze reali usando la scala.",
   },
   {
     id: "problemSolving",

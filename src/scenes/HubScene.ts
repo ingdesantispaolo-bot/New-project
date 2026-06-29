@@ -28,7 +28,7 @@ export class HubScene extends Phaser.Scene {
     audioManager.playMusic("labAmbience");
     this.drawHub();
 
-    const mission = missionEngine.getActiveMission();
+    const mission = missionEngine.getActiveStoryMission();
     const missionCard = this.rect("hub:missionCard", { x: 74, y: 98 });
     new MissionCard(this, missionCard.x, missionCard.y, mission);
     this.drawProgressionPanel();
@@ -204,7 +204,10 @@ export class HubScene extends Phaser.Scene {
   }
 
   private getActiveDestination(): { label: string; scene: string } {
-    const activeMission = missionEngine.getActiveMission();
+    const activeMission = missionEngine.getActiveStoryMission();
+    if (activeMission.id === "mission-05-atlante-perduto") {
+      return { label: "Entra nell'Atlante", scene: "AtlasScene" };
+    }
     if (activeMission.id === "mission-04-archivio-parole") {
       return { label: "Entra nell'Archivio", scene: "WordArchiveScene" };
     }
@@ -218,7 +221,10 @@ export class HubScene extends Phaser.Scene {
   }
 
   private getHubCopy(): string {
-    const activeMission = missionEngine.getActiveMission();
+    const activeMission = missionEngine.getActiveStoryMission();
+    if (activeMission.id === "mission-05-atlante-perduto") {
+      return "Stagione 2: l'archivio ha rivelato che il Blackout veniva da fuori. Nell'Ala Cartografia, l'atlante perduto permette di triangolare l'origine del segnale.";
+    }
     if (activeMission.id === "mission-04-archivio-parole") {
       return "La fabbrica ha riattivato l'ala archivio. I messaggi corrotti aprono cassetti sbagliati e NORA chiede un rapporto verificabile.";
     }

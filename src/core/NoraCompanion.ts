@@ -1,4 +1,5 @@
 import { campaignSystem } from "./CampaignSystem";
+import { isMissionComplete } from "./MissionCompletion";
 import { masterySystem } from "./MasterySystem";
 import { saveSystem } from "./SaveSystem";
 
@@ -29,7 +30,7 @@ const TONE_LABELS: Record<NoraTone, string> = {
 type MemoryDef = { id: string; title: string; text: string; unlock: () => boolean };
 
 function chapterDone(missionId: string): boolean {
-  return (saveSystem.data.completedMissionIds ?? []).includes(missionId);
+  return isMissionComplete(missionId);
 }
 
 const MEMORIES: MemoryDef[] = [

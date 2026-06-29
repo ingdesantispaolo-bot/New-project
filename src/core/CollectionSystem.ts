@@ -1,3 +1,4 @@
+import { countCompletedMissions } from "./MissionCompletion";
 import { saveSystem } from "./SaveSystem";
 import type { SaveData } from "../types/gameTypes";
 
@@ -16,7 +17,7 @@ export type MemoryFragment = {
 
 export type FragmentView = MemoryFragment & { discovered: boolean; hint: string };
 
-const wingsRestored = (save: SaveData): number => (save.completedMissionIds ?? []).length;
+const wingsRestored = (save: SaveData): number => countCompletedMissions(save.flags ?? {});
 const ecoDefeats = (save: SaveData): number => save.eco?.defeats ?? 0;
 
 /**

@@ -308,6 +308,77 @@ export const missions: MissionDefinition[] = [
         description: "Hai scritto un rapporto breve, chiaro e operativo.",
       },
     ],
+    nextMissionId: "mission-05-atlante-perduto",
+  },
+  {
+    id: "mission-05-atlante-perduto",
+    title: "L'Atlante Perduto",
+    description:
+      "Triangola l'origine di un segnale esterno: leggi i rilevamenti radio, traccia le coordinate delle stazioni, converti una distanza con la scala e trova la cella sorgente.",
+    openingDialogueId: "mission5Opening",
+    objectives: [
+      {
+        id: "read-radio-bearings",
+        label: "Leggi i rilevamenti radio",
+        description: "Tre stazioni segnalano in inglese la direzione del segnale: traduci ogni rilevamento in un punto cardinale.",
+        unlocksFlag: "atlasBearingsRead",
+        competencies: ["geografia.orientamento", "inglese.istruzioni"],
+      },
+      {
+        id: "plot-station-coordinates",
+        label: "Traccia le coordinate delle stazioni",
+        description: "Colloca ogni stazione sulla griglia leggendo la coppia di coordinate (colonna, riga).",
+        requiredFlags: ["atlasBearingsRead"],
+        unlocksFlag: "atlasCoordinatesPlotted",
+        competencies: ["matematica.coordinate", "pensieroCritico"],
+      },
+      {
+        id: "convert-map-scale",
+        label: "Converti la distanza con la scala",
+        description: "Usa la scala dell'atlante per trasformare le celle della mappa in chilometri reali.",
+        requiredFlags: ["atlasCoordinatesPlotted"],
+        unlocksFlag: "atlasScaleSolved",
+        competencies: ["geografia.scale", "matematica.proporzionalita"],
+      },
+      {
+        id: "triangulate-source",
+        label: "Triangola la sorgente",
+        description: "Solo una cella sta a sud-est dal Porto, sud-ovest dalla Cresta e pieno sud dalla Campana: trovala.",
+        requiredFlags: ["atlasScaleSolved"],
+        unlocksFlag: "atlasSourceFound",
+        competencies: ["problemSolving", "pensieroCritico"],
+      },
+    ],
+    requiredItems: [],
+    puzzles: ["mission5.bearings", "mission5.coordinates", "mission5.scale", "mission5.triangulation"],
+    dialogues: ["mission5Opening"],
+    competencies: [
+      "geografia.orientamento",
+      "geografia.scale",
+      "matematica.coordinate",
+      "matematica.proporzionalita",
+      "inglese.istruzioni",
+      "problemSolving",
+      "pensieroCritico",
+    ],
+    rewards: [
+      {
+        badgeId: "bearing-reader",
+        label: "Lettrice di Rilevamenti",
+        description: "Hai tradotto direzioni in inglese in punti cardinali precisi.",
+      },
+      {
+        badgeId: "grid-cartographer",
+        label: "Cartografa della Griglia",
+        description: "Hai collocato punti su una mappa usando le coordinate.",
+      },
+      {
+        badgeId: "triangulation-scout",
+        label: "Esploratrice della Triangolazione",
+        description: "Hai incrociato tre indizi indipendenti per trovare un unico punto.",
+      },
+    ],
+    nextMissionId: "mission-06-citta-intelligente",
   },
 ];
 

@@ -1,5 +1,7 @@
+import { missions } from "../data/missions";
 import type { JournalEntry } from "../types/gameTypes";
 import type { MissionDefinition, MissionObjective, ObjectiveStatus } from "../types/missionTypes";
+import { isMissionComplete } from "./MissionCompletion";
 import { competencyTracker } from "./CompetencyTracker";
 import { EventBus, GameEvents } from "./EventBus";
 import { playerSystem } from "./PlayerSystem";
@@ -41,6 +43,16 @@ export class MissionEngine {
 
   getActiveMission(): MissionDefinition {
     return proceduralOnlyMission;
+  }
+
+  /**
+   * The active hand-crafted *story* mission: the first campaign mission not yet
+   * complete (or the last one if all are done). Unlike getActiveMission(), which
+   * returns the procedural stub, this drives the Hub's mission card, primary
+   * action and copy so they reflect real story progress.
+   */
+  getActiveStoryMission(): MissionDefinition {
+    return missions.find((mission) => !isMissionComplete(mission.id)) ?? missions[missions.length - 1];
   }
 
   getObjectiveStatus(objective: MissionObjective): ObjectiveStatus {
@@ -141,6 +153,24 @@ export class MissionEngine {
       createdAt: new Date().toISOString(),
     });
     saveSystem.setFlag("mission4Complete", true);
+  }
+
+  completeMissionFive(sourceLabel: string): void {
+    const mission = missions.find((entry) => entry.id === "mission-05-atlante-perduto");
+    this.completeMission(mission?.id ?? "mission-05-atlante-perduto", {
+      id: "mission-05-summary",
+      title: "L'Atlante Perduto",
+      lines: [
+        "Hai tradotto tre rilevamenti radio in inglese in direzioni cardinali precise.",
+        "Hai collocato le stazioni d'ascolto sulla griglia leggendo le coordinate (colonna, riga).",
+        "Hai usato la scala dell'atlante per convertire le celle della mappa in chilometri reali.",
+        `Hai triangolato l'origine del segnale incrociando tre rilevamenti: ${sourceLabel}.`,
+        "Hai trovato un punto unico usando indizi indipendenti, non un'ipotesi sola.",
+      ],
+      badges: (mission?.rewards ?? []).map((reward) => reward.label),
+      createdAt: new Date().toISOString(),
+    });
+    saveSystem.setFlag("mission5Complete", true);
   }
 
   completeProceduralMission(): void {

@@ -75,28 +75,31 @@ export class CampaignScene extends Phaser.Scene {
 
     // Chapter rail (right panel).
     this.panel(592, 128, 634, 300, "I capitoli");
+    const dense = chapters.length > 5;
+    const railStep = dense ? 44 : 58;
+    const railRadius = dense ? 13 : 16;
     chapters.forEach((chapter, index) => {
-      const y = 178 + index * 58;
+      const y = (dense ? 168 : 178) + index * railStep;
       const icon = chapter.status === "complete" ? "✓" : chapter.status === "active" ? "▶" : "🔒";
       const color = chapter.status === "complete" ? 0x2ed889 : chapter.status === "active" ? 0xf6c85f : 0x304653;
       const textColor = chapter.status === "locked" ? "#7d9098" : "#f5fbff";
-      this.add.circle(626, y + 8, 16, color, chapter.status === "locked" ? 0.4 : 0.95).setStrokeStyle(2, color, 0.9);
-      this.add.text(626, y + 8, icon, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#06131c", fontStyle: "bold" }).setOrigin(0.5);
+      this.add.circle(626, y + 8, railRadius, color, chapter.status === "locked" ? 0.4 : 0.95).setStrokeStyle(2, color, 0.9);
+      this.add.text(626, y + 8, icon, { fontFamily: "Inter, Arial", fontSize: dense ? "12px" : "14px", color: "#06131c", fontStyle: "bold" }).setOrigin(0.5);
       const seasonTag = chapter.season >= 2 && (index === 0 || chapters[index - 1].season !== chapter.season) ? " · STAGIONE 2" : "";
       this.add.text(652, y - 4, `Capitolo ${chapter.number} · ${chapter.title}${seasonTag}`, {
         fontFamily: "Inter, Arial",
-        fontSize: "16px",
+        fontSize: dense ? "15px" : "16px",
         color: textColor,
         fontStyle: chapter.status === "active" || seasonTag ? "bold" : "normal",
       });
-      this.add.text(652, y + 18, `${chapter.location} — ${chapter.synopsis}`, {
+      this.add.text(652, y + (dense ? 15 : 18), `${chapter.location} — ${chapter.synopsis}`, {
         fontFamily: "Inter, Arial",
         fontSize: "11px",
         color: chapter.status === "locked" ? "#5d7782" : "#9aaab0",
         wordWrap: { width: 540 },
       });
       if (index < chapters.length - 1) {
-        this.add.rectangle(626, y + 32, 2, 18, color, 0.4);
+        this.add.rectangle(626, y + railStep - 12, 2, dense ? 10 : 18, color, 0.4);
       }
     });
 

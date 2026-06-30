@@ -380,6 +380,77 @@ export const missions: MissionDefinition[] = [
     ],
     nextMissionId: "mission-06-citta-intelligente",
   },
+  {
+    id: "mission-06-citta-intelligente",
+    title: "La Città Intelligente",
+    description:
+      "Salva la rete urbana sotto sabotaggio: diagnostica i nodi, imposta regole se/allora, distribuisci l'energia entro i vincoli e, quando non basta per tutti, scegli chi proteggere per primo.",
+    openingDialogueId: "mission6Opening",
+    objectives: [
+      {
+        id: "diagnose-grid",
+        label: "Diagnostica la rete",
+        description: "Confronta richiesta e capacità di ogni distretto e individua i nodi in sovraccarico prima di intervenire.",
+        unlocksFlag: "cityGridDiagnosed",
+        competencies: ["scienze.osservazione", "scienze.dati", "matematica.logica"],
+      },
+      {
+        id: "set-control-rules",
+        label: "Imposta le regole di controllo",
+        description: "Abbina a ogni condizione l'azione se/allora che la risolve, leggendo anche la versione inglese.",
+        requiredFlags: ["cityGridDiagnosed"],
+        unlocksFlag: "cityRulesSet",
+        competencies: ["coding.condizioni", "inglese.istruzioni", "pensieroCritico"],
+      },
+      {
+        id: "balance-energy",
+        label: "Distribuisci l'energia",
+        description: "Scegli il piano che porta ogni servizio essenziale sopra il minimo senza superare il budget di rete.",
+        requiredFlags: ["cityRulesSet"],
+        unlocksFlag: "cityEnergyBalanced",
+        competencies: ["elettronica.energia", "matematica.logica", "problemSolving"],
+      },
+      {
+        id: "civic-decision",
+        label: "Decidi chi proteggere",
+        description: "L'energia non basta per tutti: scegli i settori da salvare mettendo prima vita e servizi essenziali.",
+        requiredFlags: ["cityEnergyBalanced"],
+        unlocksFlag: "cityDecisionMade",
+        competencies: ["cittadinanza.tecnologica", "pensieroCritico"],
+      },
+    ],
+    requiredItems: [],
+    puzzles: ["mission6.diagnostics", "mission6.rules", "mission6.energy", "mission6.civic"],
+    dialogues: ["mission6Opening"],
+    competencies: [
+      "scienze.osservazione",
+      "scienze.dati",
+      "coding.condizioni",
+      "elettronica.energia",
+      "matematica.logica",
+      "inglese.istruzioni",
+      "cittadinanza.tecnologica",
+      "problemSolving",
+      "pensieroCritico",
+    ],
+    rewards: [
+      {
+        badgeId: "grid-medic",
+        label: "Medica della Rete",
+        description: "Hai diagnosticato i nodi in sovraccarico leggendo i dati prima di agire.",
+      },
+      {
+        badgeId: "rule-architect",
+        label: "Architetta delle Regole",
+        description: "Hai costruito regole se/allora che fanno reagire la città alle condizioni.",
+      },
+      {
+        badgeId: "city-guardian",
+        label: "Custode della Città",
+        description: "Hai distribuito energia scarsa proteggendo prima vita e servizi essenziali.",
+      },
+    ],
+  },
 ];
 
 export const firstMissionId = missions[0].id;

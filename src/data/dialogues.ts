@@ -74,4 +74,18 @@ export const dialogues: Record<string, DialogueLine[]> = {
       text: "Nell'Ala Cartografia c'è l'atlante perduto. Tre stazioni d'ascolto ci danno la direzione: leggile, traccia le coordinate, usa la scala. Dove le linee si incrociano, c'è chi ci ha spenti.",
     },
   ],
+  mission6Opening: [
+    {
+      speaker: "NORA",
+      text: "L'avamposto era un'esca, Eli. Mentre lo raggiungevi, il sabotatore ha colpito la Città che proteggiamo.",
+    },
+    {
+      speaker: "Eli",
+      text: "Allora non difendiamo più solo l'Accademia. Difendiamo le persone là fuori.",
+    },
+    {
+      speaker: "NORA",
+      text: "La rete urbana sta cedendo. Leggi i sensori, imposta le regole giuste, distribuisci l'energia. E quando non basterà per tutti, dovrai scegliere chi proteggere per primo. È la decisione più difficile di tutte.",
+    },
+  ],
 };

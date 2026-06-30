@@ -141,9 +141,19 @@ export const competencies: CompetencyDefinition[] = [
     description: "Simulare un programma prima di eseguirlo per prevenire errori.",
   },
   {
+    id: "coding.condizioni",
+    label: "Logica condizionale",
+    description: "Usare regole se/allora per far reagire un sistema alle condizioni.",
+  },
+  {
     id: "elettronica.circuitoChiuso",
     label: "Circuito chiuso",
     description: "Capire che la corrente ha bisogno di un percorso completo.",
+  },
+  {
+    id: "elettronica.energia",
+    label: "Distribuzione dell'energia",
+    description: "Distribuire energia limitata rispettando minimi, priorità e capacità della rete.",
   },
   {
     id: "italiano.comprensione",
@@ -264,6 +274,11 @@ export const competencies: CompetencyDefinition[] = [
     id: "geografia.scale",
     label: "Mappe e scale",
     description: "Convertire distanze su mappa in distanze reali usando la scala.",
+  },
+  {
+    id: "cittadinanza.tecnologica",
+    label: "Cittadinanza tecnologica",
+    description: "Decidere come usare risorse e tecnologia mettendo prima vita, sicurezza e servizi essenziali.",
   },
   {
     id: "problemSolving",

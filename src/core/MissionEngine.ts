@@ -173,6 +173,24 @@ export class MissionEngine {
     saveSystem.setFlag("mission5Complete", true);
   }
 
+  completeMissionSix(protectedSectors: string): void {
+    const mission = missions.find((entry) => entry.id === "mission-06-citta-intelligente");
+    this.completeMission(mission?.id ?? "mission-06-citta-intelligente", {
+      id: "mission-06-summary",
+      title: "La Città Intelligente",
+      lines: [
+        "Hai diagnosticato i nodi della rete confrontando richiesta e capacità prima di intervenire.",
+        "Hai impostato regole se/allora per far reagire la città a sovraccarichi, guasti ed emergenze.",
+        "Hai distribuito un'energia limitata rispettando minimi, priorità e budget della rete.",
+        `Quando l'energia non bastava per tutti hai scelto cosa proteggere per primo: ${protectedSectors}.`,
+        "Hai imparato che la tecnologia non decide da sola: la decisione di proteggere le persone è tua.",
+      ],
+      badges: (mission?.rewards ?? []).map((reward) => reward.label),
+      createdAt: new Date().toISOString(),
+    });
+    saveSystem.setFlag("mission6Complete", true);
+  }
+
   completeProceduralMission(): void {
     const run = saveSystem.data.proceduralRun;
     if (!run || run.completedAt) {

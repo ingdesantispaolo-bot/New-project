@@ -98,6 +98,17 @@ const CHAPTERS: ChapterDefinition[] = [
     intro: "Stagione 2, Capitolo 5 — L'Atlante Perduto.\n\nDue settimane dopo, NORA ti sveglia nel cuore della notte: «Eli, intercetto un segnale che ripete il codice del Blackout. Ma non viene da dentro: viene da fuori. Qualcuno ci osservava. Nell'Ala Cartografia c'è un atlante che credevo perso: serve a triangolare l'origine. Leggi i rilevamenti, traccia le coordinate, usa la scala. Trova chi ci ha spenti.»",
     outro: "I tre rilevamenti si incrociano su un solo punto della mappa. NORA resta in silenzio un istante: «Il segnale parte da un avamposto che l'Accademia aveva dimenticato… e tra noi e quel posto c'è la Città. Se ci hanno spenti una volta, possono spegnere lei. Dobbiamo arrivare prima noi.»",
   },
+  {
+    number: 6,
+    season: 2,
+    missionId: "mission-06-citta-intelligente",
+    sceneKey: "SmartCityScene",
+    title: "La Città Intelligente",
+    location: "Distretto Urbano",
+    synopsis: "Il sabotatore colpisce la città: energia, traffico e servizi vacillano.",
+    intro: "Stagione 2, Capitolo 6 — La Città Intelligente.\n\nL'avamposto era una trappola: mentre lo raggiungevi, il sabotatore ha colpito la Città che l'Accademia protegge. NORA: «La rete urbana sta cedendo, Eli. Leggi i sensori, imposta le regole giuste, distribuisci l'energia e, quando non basterà per tutti, scegli chi proteggere per primo. La città conta su di te.»",
+    outro: "La rete regge, i soccorsi passano, l'acqua scorre. Il segnale del sabotatore si spegne: senza la città da colpire, ha perso. NORA, piano: «Hai imparato la cosa più difficile, Eli: non far funzionare una macchina, ma decidere per le persone. Ora l'Accademia non protegge più solo se stessa. Protegge tutti.»",
+  },
 ];
 
 export class CampaignSystem {

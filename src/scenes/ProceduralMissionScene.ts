@@ -4240,7 +4240,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("english");
     const session = this.ensureEnglishMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title, "Inglese · individua verbo e vincoli, scegli l'azione, conferma");
+    const overlay = this.createMathOverlay(puzzle.minigame.title, "Inglese · decodifica il comando, giustifica col vincolo, conferma");
     const prompt = this.currentEnglishMinigamePrompt(session);
     const remaining = this.englishMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
@@ -4463,7 +4463,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const visualLine = prompt.type === "action-relay"
-      ? "VERB -> OBJECT -> NOT / ONLY"
+      ? "VERB -> OBJECT -> EVIDENCE"
       : prompt.type === "grammar-fix"
         ? "SIGNAL WORD -> RULE -> FORM"
         : prompt.type === "sentence-build"
@@ -4481,7 +4481,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: width - 84 },
     }));
     overlay.add(this.add.text(x + 42, y + 176, prompt.type === "action-relay"
-      ? "Non scegliere l'azione che riconosci prima: controlla se not, only o un aggettivo cambia l'oggetto."
+      ? "Scegli il significato operativo e la prova nel testo: verbo, oggetto e limitatore devono combaciare."
       : prompt.type === "grammar-fix"
         ? "Cerca il segnale grammaticale: tempo, quantità, comparativo, modale o preposizione."
         : prompt.type === "sentence-build"
@@ -4610,7 +4610,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const prompt = this.currentEnglishMinigamePrompt(session);
     const hint = prompt.type === "action-relay"
-      ? "Cerca il verbo operativo, poi verifica se not, only, neither o l'aggettivo cambiano l'oggetto."
+      ? "Servono due scelte: una dice cosa fare, l'altra cita il vincolo inglese che lo dimostra."
       : prompt.type === "sequence-switchboard"
         ? "Prima traduci la parola-tempo: before = prima, after = dopo, until = aspetta fino a, unless = salvo se."
         : prompt.type === "grammar-fix"

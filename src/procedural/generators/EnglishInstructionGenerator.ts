@@ -962,7 +962,7 @@ export class EnglishInstructionGenerator {
   }
 
   private englishMinigamePurpose(type: EnglishMinigameType): string {
-    if (type === "action-relay") return "Allena riconoscimento rapido di verbi operativi, oggetti, colori, direzioni e divieti.";
+    if (type === "action-relay") return "Allena comprensione e giustificazione del comando: significato operativo più vincolo linguistico esplicito.";
     if (type === "sequence-switchboard") return "Allena lettura di before, after, until, unless e if come vincoli di procedura.";
     if (type === "grammar-fix") return "Allena la grammatica della scuola media: tempi verbali, comparativi, modali, preposizioni, quantificatori e domande.";
     if (type === "sentence-build") return "Allena la costruzione della frase e della domanda in inglese: ordine soggetto-verbo e posizione dell'ausiliare.";
@@ -972,7 +972,7 @@ export class EnglishInstructionGenerator {
   }
 
   private englishMinigameMethod(type: EnglishMinigameType): string {
-    if (type === "action-relay") return "Trova verbo d'azione e oggetto, poi controlla not, only, neither e aggettivi.";
+    if (type === "action-relay") return "Scegli due prove: cosa bisogna fare e quale parola inglese lo giustifica o limita.";
     if (type === "sequence-switchboard") return "Sottolinea le parole-tempo: before, after, until, then, unless. Poi ordina le azioni.";
     if (type === "grammar-fix") return "Riconosci il segnale (every day, now, yesterday, than, must...) e scegli la forma che lo rispetta.";
     if (type === "sentence-build") return "Parti dal soggetto, poi il verbo; nelle domande metti l'ausiliare prima del soggetto.";
@@ -982,7 +982,7 @@ export class EnglishInstructionGenerator {
   }
 
   private englishMinigameMethodSteps(type: EnglishMinigameType): string[] {
-    if (type === "action-relay") return ["verb", "object", "not/only"];
+    if (type === "action-relay") return ["meaning", "text evidence", "limiter"];
     if (type === "sequence-switchboard") return ["time word", "first event", "safe action"];
     if (type === "grammar-fix") return ["find the signal", "recall the rule", "pick the form"];
     if (type === "sentence-build") return ["subject", "verb", "rest / aux first in questions"];

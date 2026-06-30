@@ -410,7 +410,7 @@ function buildLoopOutputPrompt(random: Random, difficulty: DifficultyPreset, ind
     const total = (n * (n + 1)) / 2;
     return codingPromptFromItem(random, index, "loop-output", {
       title: "Somma in un ciclo",
-      codeLines: ["total = 0", `for i in 1..${n}:`, "    total = total + i", "stampa total"],
+      codeLines: ["total = 0", `per i da 1 a ${n}:`, "    total = total + i", "stampa total"],
       question: "Che cosa stampa il programma?",
       correct: String(total),
       distractors: distinctNumberDistractors(random, total, [total - n, total + n, n]),
@@ -424,7 +424,7 @@ function buildLoopOutputPrompt(random: Random, difficulty: DifficultyPreset, ind
   for (let i = 0; i < n; i += 1) value *= factor;
   return codingPromptFromItem(random, index, "loop-output", {
     title: "Prodotto in un ciclo",
-    codeLines: ["value = 1", `for i in 1..${n}:`, `    value = value * ${factor}`, "stampa value"],
+    codeLines: ["value = 1", `per i da 1 a ${n}:`, `    value = value * ${factor}`, "stampa value"],
     question: "Che cosa stampa il programma?",
     correct: String(value),
     distractors: distinctNumberDistractors(random, value, [value / factor, value * factor, factor * n]),
@@ -440,7 +440,7 @@ function buildConditionalPathPrompt(random: Random, _difficulty: DifficultyPrese
   const distractors = ["LOW", "MID", "HIGH", "ZERO"].filter((label) => label !== correct).slice(0, 3);
   return codingPromptFromItem(random, index, "conditional-path", {
     title: "Bivio condizionale",
-    codeLines: [`x = ${x}`, "if x < 5: stampa LOW", "elif x < 10: stampa MID", "else: stampa HIGH"],
+    codeLines: [`x = ${x}`, "se x < 5: stampa LOW", "oppure se x < 10: stampa MID", "altrimenti: stampa HIGH"],
     question: "Quale parola stampa il programma?",
     correct,
     distractors,
@@ -613,7 +613,7 @@ function buildTracePuzzle(random: Random, difficulty: DifficultyPreset): Generat
       "stampa energia",
     ],
     "Quale valore viene stampato?",
-    shuffledOptions(random, String(answer), [String(start + add), String(start * multiplier + add), String(start + add + multiplier)]),
+    numericOptions(random, answer, [start + add, start * multiplier + add, start + add + multiplier]),
     String(answer),
     `Il codice aggiorna energia in sequenza: prima ${start} + ${add} = ${start + add}, poi ${start + add} * ${multiplier} = ${answer}.`,
     ["sequenza", "tracing", "output"],
@@ -639,7 +639,7 @@ function buildVariableStatePuzzle(random: Random, difficulty: DifficultyPreset):
       "stampa a",
     ],
     "Quanto vale `a` alla fine?",
-    shuffledOptions(random, String(finalA), [String(a), String(c), String(b)]),
+    numericOptions(random, finalA, [a, c, b]),
     String(finalA),
     `La variabile a viene sovrascritta: all'inizio vale ${a}, ma alla fine diventa c - ${c - finalA}, cioe ${finalA}.`,
     ["variabili", "assegnazione", "stato"],
@@ -664,7 +664,7 @@ function buildLoopPuzzle(random: Random, difficulty: DifficultyPreset): Generate
       "stampa segnale",
     ],
     "Quale valore viene stampato dopo il ciclo?",
-    shuffledOptions(random, String(answer), [String(start + delta), String(times + delta), String(answer - delta)]),
+    numericOptions(random, answer, [start + delta, times + delta, answer - delta]),
     String(answer),
     `Il blocco aggiunge ${delta} per ${times} volte: aumento totale ${times} * ${delta} = ${times * delta}; ${start} + ${times * delta} = ${answer}.`,
     ["ciclo", "ripetizione", "accumulatore"],
@@ -699,9 +699,11 @@ function buildConditionalPuzzle(random: Random, difficulty: DifficultyPreset): G
 }
 
 function buildBooleanPuzzle(random: Random, difficulty: DifficultyPreset): GeneratedCodingPuzzle {
+  // boolean-logic appears from level 5: keep all three conditions genuinely
+  // variable so the AND is actually exercised (never reducible to one variable).
   const codeOk = random.bool(0.55);
-  const circuitOk = difficulty.level >= 6 ? random.bool(0.5) : true;
-  const sensorOk = difficulty.level >= 6 ? random.bool(0.55) : true;
+  const circuitOk = random.bool(0.5);
+  const sensorOk = random.bool(0.55);
   const answer = codeOk && circuitOk && sensorOk;
   return basePuzzle(
     difficulty,
@@ -755,7 +757,18 @@ function buildDebugPuzzle(random: Random, difficulty: DifficultyPreset): Generat
 }
 
 function shuffledOptions(random: Random, correct: string, distractors: string[]): string[] {
-  return random.shuffle([correct, ...random.shuffle(distractors.filter((item) => item !== correct)).slice(0, 3)]);
+  const unique: string[] = [];
+  for (const item of random.shuffle(distractors)) {
+    if (item !== correct && !unique.includes(item) && unique.length < 3) {
+      unique.push(item);
+    }
+  }
+  return random.shuffle([correct, ...unique]);
+}
+
+/** Numeric multiple choice that always yields four distinct options. */
+function numericOptions(random: Random, correct: number, seeds: number[]): string[] {
+  return random.shuffle([String(correct), ...distinctNumberDistractors(random, correct, seeds)]);
 }
 
 function learningPurposeFor(type: CodingChallengeType): string {

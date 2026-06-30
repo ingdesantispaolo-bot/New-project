@@ -8,6 +8,7 @@ import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { prefetchCoreScenes, startScene } from "../core/SceneNavigator";
 import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { difficultyModel } from "../procedural/DifficultyModel";
@@ -38,6 +39,10 @@ export class MainMenuScene extends Phaser.Scene {
 
   constructor() {
     super("MainMenuScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "progressive");
   }
 
   create(): void {
@@ -468,7 +473,13 @@ export class MainMenuScene extends Phaser.Scene {
 
     const modal = this.add.container(0, 0).setDepth(1500);
     modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
-    modal.add(this.add.rectangle(640, 360, 1180, 648, 0x07151d, 0.99).setStrokeStyle(2, 0xff8f6b, 0.6));
+    if (this.textures.exists("progressive-scalata-bg")) {
+      modal.add(this.add.image(640, 360, "progressive-scalata-bg").setDisplaySize(1180, 648).setAlpha(0.5));
+      modal.add(this.add.rectangle(640, 360, 1180, 648, 0x02070b, 0.44));
+      modal.add(this.add.rectangle(640, 360, 1180, 648, 0x07151d, 0).setStrokeStyle(2, 0xff8f6b, 0.72));
+    } else {
+      modal.add(this.add.rectangle(640, 360, 1180, 648, 0x07151d, 0.99).setStrokeStyle(2, 0xff8f6b, 0.6));
+    }
     modal.add(this.add.rectangle(108, 66, 5, 50, 0xff8f6b, 0.95).setOrigin(0));
     modal.add(this.add.text(120, 70, "La Scalata", { fontFamily: "Inter, Arial", fontSize: "38px", color: "#f5fbff", fontStyle: "bold" }));
     modal.add(this.add.rectangle(1180, 78, 188, 30, 0x1a0f0a, 0.85).setOrigin(1, 0).setStrokeStyle(2, 0xff8f6b, 0.85));

@@ -4270,10 +4270,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     const isOrdering = prompt.type === "sentence-build";
-    this.addMathPanel(overlay, 616, 112, 636, 432, isOrdering ? "2 · Build the sentence" : "2 · Scegli un'azione");
+    const isTranslation = prompt.type === "translation-match";
+    this.addMathPanel(overlay, 616, 112, 636, 432, isOrdering ? "2 · Build the sentence" : isTranslation ? "2 · Riconosci la traduzione" : "2 · Scegli un'azione");
     overlay.add(this.add.text(648, 154, isOrdering
       ? "Tocca le parole nell'ordine giusto. Ritocca una parola per toglierla."
-      : "Come si gioca: trova verbo, oggetto e vincolo; clicca UNA risposta e premi Conferma.", {
+      : isTranslation
+        ? "Leggi il termine inglese, scegli la traduzione italiana corretta e premi Conferma."
+        : prompt.requiredSelectionCount > 1
+          ? `Scegli ${prompt.requiredSelectionCount} tessere: il significato operativo e la prova linguistica.`
+          : "Come si gioca: trova verbo, oggetto e vincolo; clicca UNA risposta e premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -4384,7 +4389,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ...game,
       title: this.isProgressiveMode() ? "Sprint inglese: percorso variato" : game.title,
       instructions: this.isProgressiveMode()
-        ? "alterni azioni, sequenze, dati, grammatica e frase: trova prima lo scopo della domanda."
+        ? "alterni azioni, sequenze, dati, grammatica, frase e traduzione: trova prima lo scopo della domanda."
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
     };
@@ -4404,7 +4409,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       selectedIds: new Set<string>(),
       orderedSelection: [],
       feedback: this.isProgressiveMode()
-        ? "Scalata variata: ogni comando può chiedere azione, ordine, dato o grammatica. Leggi lo scopo prima della risposta."
+        ? "Scalata variata: ogni comando può chiedere azione, ordine, dato, grammatica o traduzione. Leggi lo scopo prima della risposta."
         : "Leggi il comando come una procedura: action word -> object -> limiter/time word.",
       locked: false,
       summaryOpen: false,
@@ -4413,7 +4418,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private progressiveEnglishSprintTypes(baseType: EnglishMinigameType): EnglishMinigameType[] {
-    const rotation: EnglishMinigameType[] = ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab"];
+    const rotation: EnglishMinigameType[] = ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match"];
     return [baseType, ...rotation.filter((type) => type !== baseType)];
   }
 
@@ -4465,11 +4470,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? "SUBJECT -> VERB -> REST"
           : prompt.type === "vocab-lab"
             ? "CONTEXT -> MEANING -> BEST WORD"
+            : prompt.type === "translation-match"
+              ? "ENGLISH TERM -> ITALIAN MEANING -> CHECK"
           : "TIME WORD -> FIRST EVENT -> SAFE ACTION";
     overlay.add(this.add.text(x + 42, y + 138, visualLine, {
       fontFamily: "Inter, Arial",
       fontSize: "16px",
-      color: prompt.type === "action-relay" ? "#9ff5e9" : (prompt.type === "grammar-fix" || prompt.type === "vocab-lab") ? "#d8c9ff" : "#f7d37a",
+      color: prompt.type === "action-relay" ? "#9ff5e9" : (prompt.type === "grammar-fix" || prompt.type === "vocab-lab" || prompt.type === "translation-match") ? "#d8c9ff" : "#f7d37a",
       fontStyle: "bold",
       wordWrap: { width: width - 84 },
     }));
@@ -4481,6 +4488,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? "Costruisci una frase inglese stabile: ordine naturale, o ausiliare prima del soggetto nelle domande."
           : prompt.type === "vocab-lab"
             ? "Non tradurre a orecchio: scegli la parola che rispetta contesto, registro e significato tecnico."
+            : prompt.type === "translation-match"
+              ? "Riconosci la traduzione corretta: attenzione ai falsi amici e alle parole troppo simili."
           : "Before, after, until e unless cambiano quando un comando è permesso.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -4520,8 +4529,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!session || session.locked || session.summaryOpen) {
       return;
     }
-    session.selectedIds.clear();
-    session.selectedIds.add(tileId);
+    const prompt = this.currentEnglishMinigamePrompt(session);
+    if (prompt.requiredSelectionCount <= 1) {
+      session.selectedIds.clear();
+      session.selectedIds.add(tileId);
+    } else if (session.selectedIds.has(tileId)) {
+      session.selectedIds.delete(tileId);
+    } else {
+      if (session.selectedIds.size >= prompt.requiredSelectionCount) {
+        session.selectedIds.delete([...session.selectedIds][0]);
+      }
+      session.selectedIds.add(tileId);
+    }
     audioManager.play("click");
     this.openEnglishMinigame(session.puzzle);
   }
@@ -4598,7 +4617,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? "Trova il segnale nella frase (every day, now, yesterday, than, must, on, any...) e scegli la forma che lo rispetta."
           : prompt.type === "sentence-build"
             ? "Parti dal soggetto, poi il verbo; nelle domande l'ausiliare (do/does/did) va prima del soggetto."
-            : "Guarda la soglia: below è sotto, above è sopra, between è dentro l'intervallo.";
+            : prompt.type === "vocab-lab"
+              ? "Leggi il contesto: la parola giusta deve rispettare significato tecnico, registro e falsi amici."
+              : prompt.type === "translation-match"
+                ? "Prima traduci mentalmente il termine inglese, poi elimina le opzioni italiane che sono falsi amici o categorie diverse."
+                : "Guarda la soglia: below è sotto, above è sopra, between è dentro l'intervallo.";
     session.feedback = hint;
     this.useHint(hint);
     this.openEnglishMinigame(session.puzzle);
@@ -4633,15 +4656,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wrongFeedback = "Word order is not correct yet.";
     } else {
       if (session.selectedIds.size === 0) {
-        session.feedback = "Select one tile first. The timer keeps running.";
+        session.feedback = prompt.requiredSelectionCount > 1
+          ? `Select ${prompt.requiredSelectionCount} tiles first. The timer keeps running.`
+          : "Select one tile first. The timer keeps running.";
         audioManager.playOutcome("hint");
         this.openEnglishMinigame(session.puzzle);
         return;
       }
-      const selected = prompt.tiles.find((tile) => tile.id === [...session.selectedIds][0]);
-      isCorrect = Boolean(selected?.isCorrect);
-      chosenLabel = selected?.label ?? "no answer";
-      wrongFeedback = selected?.feedback ?? "Unsafe action.";
+      if (prompt.requiredSelectionCount > 1 && session.selectedIds.size < prompt.requiredSelectionCount) {
+        session.feedback = `Select ${prompt.requiredSelectionCount} tiles: meaning and evidence.`;
+        audioManager.playOutcome("hint");
+        this.openEnglishMinigame(session.puzzle);
+        return;
+      }
+      const selectedTiles = prompt.tiles.filter((tile) => session.selectedIds.has(tile.id));
+      const correctIds = new Set(prompt.tiles.filter((tile) => tile.isCorrect).map((tile) => tile.id));
+      isCorrect = selectedTiles.length === correctIds.size
+        && selectedTiles.every((tile) => correctIds.has(tile.id));
+      chosenLabel = selectedTiles.map((tile) => tile.label).join(" + ") || "no answer";
+      wrongFeedback = selectedTiles.find((tile) => !tile.isCorrect)?.feedback ?? "Unsafe action.";
     }
     if (!isCorrect) {
       const message = `${wrongFeedback} Solution: ${solutionDisplay}. ${prompt.explanation}`;
@@ -9094,6 +9127,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       "data-reading": "Dati",
       "procedure-debug": "Debug procedura",
       "vocabulary-in-context": "Lessico in contesto",
+      "translation-recognition": "Traduzione lessicale",
       inference: "Inferenza",
     }[type ?? "command"];
   }

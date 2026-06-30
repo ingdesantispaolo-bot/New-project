@@ -28,6 +28,7 @@ import missionMusicAudioBgUrl from "../assets/images/mission-music-audio-bg.webp
 import missionMusicStaffBgUrl from "../assets/images/mission-music-staff-bg.webp";
 import missionSynthesisBgUrl from "../assets/images/mission-synthesis-bg.webp";
 import missionAtlasBgUrl from "../assets/images/mission-atlas-bg.webp";
+import progressiveScalataBgUrl from "../assets/images/progressive-scalata-bg.webp";
 import storyAcademyHubBgUrl from "../assets/images/story-academy-hub-bg.webp";
 import storyArchiveMemoryBgUrl from "../assets/images/story-archive-memory-bg.webp";
 import storyChapter01IntroUrl from "../assets/images/story-chapter-01-intro.webp";
@@ -63,7 +64,7 @@ import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-vict
 import outcomeLightVictoryUrl from "../assets/images/outcomes/outcome-light-victory.webp";
 import outcomeNeutralUrl from "../assets/images/outcomes/outcome-neutral.webp";
 
-export type SceneAssetPack = "academy" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "procedural" | "story" | "storyBeats";
+export type SceneAssetPack = "academy" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "procedural" | "story" | "storyBeats";
 
 const packs: Record<SceneAssetPack, Array<[string, string]>> = {
   academy: [["bg-academy-painted", academyPaintedBgUrl]],
@@ -87,6 +88,9 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
   ],
   atlas: [
     ["mission-atlas-bg", missionAtlasBgUrl],
+  ],
+  progressive: [
+    ["progressive-scalata-bg", progressiveScalataBgUrl],
   ],
   story: [
     ["story-academy-hub-bg", storyAcademyHubBgUrl],

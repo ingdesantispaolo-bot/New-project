@@ -44,7 +44,7 @@ export class EnglishInstructionGenerator {
     const level = Math.max(1, Math.min(8, difficultyLevel));
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<EnglishMinigameType>(["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab"]);
+      : random.pick<EnglishMinigameType>(["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match"]);
     const minigame = this.buildMinigame(random.fork(type), level, type);
     const first = minigame.prompts[0];
     let choices: GeneratedEnglishPuzzle["choices"];
@@ -74,7 +74,8 @@ export class EnglishInstructionGenerator {
         : type === "sequence-switchboard" ? "sequence"
           : type === "grammar-fix" ? "vocabulary-in-context"
             : type === "vocab-lab" ? "vocabulary-in-context"
-            : "command";
+              : type === "translation-match" ? "translation-recognition"
+              : "command";
     return {
       id: `english-mini-${type}-${random.integer(1000, 9999)}`,
       title: minigame.title,
@@ -148,6 +149,7 @@ export class EnglishInstructionGenerator {
       "grammar-fix": "Minigioco inglese: Grammar Fix",
       "sentence-build": "Minigioco inglese: Sentence Builder",
       "vocab-lab": "Minigioco inglese: Vocabulary Lab",
+      "translation-match": "Minigioco inglese: Translation Match",
     };
     const instructions: Record<EnglishMinigameType, string> = {
       "action-relay": "clicca l'azione corretta leggendo verbo, oggetto e divieto.",
@@ -156,6 +158,7 @@ export class EnglishInstructionGenerator {
       "grammar-fix": "scegli la forma corretta: tempo verbale, comparativo, modale, preposizione o quantificatore.",
       "sentence-build": "tocca le parole nell'ordine giusto per formare la frase o la domanda in inglese.",
       "vocab-lab": "scegli la parola inglese più adatta al contesto tecnico o scientifico.",
+      "translation-match": "riconosci la traduzione italiana corretta di una parola o breve frase inglese.",
     };
     return {
       type,
@@ -174,6 +177,7 @@ export class EnglishInstructionGenerator {
         ...(type === "grammar-fix" ? ["inglese.grammatica", "inglese.lessico"] : []),
         ...(type === "sentence-build" ? ["inglese.grammatica", "inglese.scritturaBreve"] : []),
         ...(type === "vocab-lab" ? ["inglese.lessico", "inglese.scientifico", "inglese.comprensione"] : []),
+        ...(type === "translation-match" ? ["inglese.lessico", "inglese.bilingue", "inglese.comprensione"] : []),
       ])),
     };
   }
@@ -202,104 +206,135 @@ export class EnglishInstructionGenerator {
     if (type === "grammar-fix") return this.buildGrammarFixPrompt(random, level, index);
     if (type === "sentence-build") return this.buildSentenceBuildPrompt(random, level, index);
     if (type === "vocab-lab") return this.buildVocabularyPrompt(random, level, index);
+    if (type === "translation-match") return this.buildTranslationMatchPrompt(random, level, index);
     return this.buildDataCommandScanPrompt(random, level, index);
   }
 
   private buildActionRelayPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    type ActionRelayItem = {
+      instruction: string;
+      meaning: string;
+      meaningDistractors: string[];
+      evidence: string;
+      evidenceDistractors: string[];
+      explanation: string;
+      glossary: Array<{ term: string; meaning: string }>;
+      concept: string;
+    };
     const pool = [
       {
         instruction: "Press the green button. Do not press the red button.",
-        correct: "Press green",
-        distractors: ["Press red", "Press both", "Do nothing"],
+        meaning: "Esegui: premi il pulsante verde",
+        meaningDistractors: ["Esegui: premi il pulsante rosso", "Esegui: premi entrambi i pulsanti"],
+        evidence: "Vincolo: do not vieta il rosso",
+        evidenceDistractors: ["Vincolo: red è l'azione principale", "Vincolo: green e red sono equivalenti"],
         explanation: "Do not press the red button vieta il rosso; il comando positivo resta green.",
         glossary: [{ term: "press", meaning: "premere" }, { term: "do not", meaning: "non fare" }, { term: "green/red", meaning: "verde/rosso" }],
         concept: "imperative + prohibition",
       },
       {
         instruction: "Take the small key, not the large key.",
-        correct: "Take small key",
-        distractors: ["Take large key", "Take both keys", "Leave the key"],
+        meaning: "Esegui: prendi la chiave piccola",
+        meaningDistractors: ["Esegui: prendi la chiave grande", "Esegui: prendi entrambe le chiavi"],
+        evidence: "Vincolo: not the large key esclude quella grande",
+        evidenceDistractors: ["Vincolo: large indica la chiave corretta", "Vincolo: not permette entrambe"],
         explanation: "Not the large key esclude la chiave grande: resta small key.",
         glossary: [{ term: "take", meaning: "prendere" }, { term: "small", meaning: "piccolo" }, { term: "large", meaning: "grande" }],
         concept: "object adjective",
       },
       {
         instruction: "Open the left drawer and keep the right drawer closed.",
-        correct: "Open left drawer",
-        distractors: ["Open right drawer", "Close left drawer", "Open both drawers"],
+        meaning: "Esegui: apri il cassetto sinistro",
+        meaningDistractors: ["Esegui: apri il cassetto destro", "Esegui: apri entrambi i cassetti"],
+        evidence: "Vincolo: keep closed mantiene chiuso il destro",
+        evidenceDistractors: ["Vincolo: right drawer va aperto", "Vincolo: left significa destra"],
         explanation: "Left e right distinguono due oggetti; il destro deve restare chiuso.",
         glossary: [{ term: "open", meaning: "aprire" }, { term: "left/right", meaning: "sinistra/destra" }, { term: "keep closed", meaning: "tenere chiuso" }],
         concept: "spatial direction",
       },
       {
         instruction: "Insert the blue card only.",
-        correct: "Insert blue card",
-        distractors: ["Insert yellow card", "Insert every card", "Remove blue card"],
+        meaning: "Esegui: inserisci solo la scheda blu",
+        meaningDistractors: ["Esegui: inserisci la scheda gialla", "Esegui: inserisci tutte le schede"],
+        evidence: "Vincolo: only limita l'azione alla scheda blu",
+        evidenceDistractors: ["Vincolo: only permette ogni scheda", "Vincolo: insert significa rimuovere"],
         explanation: "Only limita l'azione alla card blu.",
         glossary: [{ term: "insert", meaning: "inserire" }, { term: "only", meaning: "solo" }, { term: "card", meaning: "scheda" }],
         concept: "only limiter",
       },
       {
         instruction: "Save the report, but do not send it yet.",
-        correct: "Save report",
-        distractors: ["Send report", "Delete report", "Save and send report"],
+        meaning: "Esegui: salva il report",
+        meaningDistractors: ["Esegui: invia subito il report", "Esegui: cancella il report"],
+        evidence: "Vincolo: do not send it yet blocca l'invio",
+        evidenceDistractors: ["Vincolo: yet significa subito", "Vincolo: but cancella il comando save"],
         explanation: "Save è permesso; do not send it yet vieta l'invio per ora.",
         glossary: [{ term: "save", meaning: "salvare" }, { term: "send", meaning: "inviare" }, { term: "yet", meaning: "ancora / per ora" }],
         concept: "allowed action + delayed action",
       },
       {
         instruction: "Mark the verified source and ignore the rumor.",
-        correct: "Mark verified source",
-        distractors: ["Mark rumor", "Ignore source", "Mark both notes"],
+        meaning: "Esegui: segnala la fonte verificata",
+        meaningDistractors: ["Esegui: segnala la voce non verificata", "Esegui: ignora la fonte verificata"],
+        evidence: "Vincolo: verified source è affidabile, rumor va ignorata",
+        evidenceDistractors: ["Vincolo: rumor è una prova verificata", "Vincolo: ignore riguarda la fonte verificata"],
         explanation: "Verified source è la fonte controllata; rumor è la voce da ignorare.",
         glossary: [{ term: "mark", meaning: "segnare" }, { term: "verified", meaning: "verificato" }, { term: "rumor", meaning: "voce non verificata" }],
         concept: "source reliability",
       },
       {
         instruction: "Keep the backup switch on. Turn off the test lamp.",
-        correct: "Turn off test lamp",
-        distractors: ["Turn off backup switch", "Turn on test lamp", "Turn off both"],
+        meaning: "Esegui: spegni la lampada di test",
+        meaningDistractors: ["Esegui: spegni lo switch di backup", "Esegui: spegni entrambi"],
+        evidence: "Vincolo: keep on protegge lo switch di backup",
+        evidenceDistractors: ["Vincolo: keep on significa spegnere", "Vincolo: turn off riguarda entrambi"],
         explanation: "Keep on preserva lo switch di backup; turn off riguarda solo la lampada di test.",
         glossary: [{ term: "keep on", meaning: "tenere acceso" }, { term: "turn off", meaning: "spegnere" }, { term: "backup", meaning: "riserva" }],
         concept: "two commands with different objects",
       },
-    ];
+    ] satisfies ActionRelayItem[];
     const advanced = [
       {
         instruction: "Replace the damaged cable, but leave the spare cable in the box.",
-        correct: "Replace damaged cable",
-        distractors: ["Replace spare cable", "Replace both cables", "Leave damaged cable"],
+        meaning: "Esegui: sostituisci il cavo danneggiato",
+        meaningDistractors: ["Esegui: sostituisci il cavo di ricambio", "Esegui: sostituisci entrambi i cavi"],
+        evidence: "Vincolo: damaged identifica il cavo da cambiare",
+        evidenceDistractors: ["Vincolo: spare è il cavo guasto", "Vincolo: leave significa sostituire"],
         explanation: "Damaged identifica il cavo da sostituire; spare resta nella scatola.",
         glossary: [{ term: "replace", meaning: "sostituire" }, { term: "damaged", meaning: "danneggiato" }, { term: "spare", meaning: "di ricambio" }],
         concept: "technical adjective",
       },
       {
         instruction: "Switch off neither the pump nor the sensor.",
-        correct: "Keep both on",
-        distractors: ["Switch off pump", "Switch off sensor", "Switch off both"],
+        meaning: "Esegui: lascia accesi pompa e sensore",
+        meaningDistractors: ["Esegui: spegni la pompa", "Esegui: spegni entrambi"],
+        evidence: "Vincolo: neither...nor vieta entrambe le azioni",
+        evidenceDistractors: ["Vincolo: neither...nor autorizza lo spegnimento", "Vincolo: nor riguarda solo il sensore"],
         explanation: "Neither...nor esclude entrambe le azioni: non spegnere né pompa né sensore.",
         glossary: [{ term: "switch off", meaning: "spegnere" }, { term: "neither...nor", meaning: "né...né" }, { term: "keep on", meaning: "tenere acceso" }],
         concept: "neither/nor prohibition",
       },
-    ];
+    ] satisfies ActionRelayItem[];
     const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
     const tiles = this.shuffleEnglishTiles(random, [
-      this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
-      ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Not safe: ${item.explanation}`)),
+      this.englishTile(index * 10, item.meaning, true, `Significato corretto. ${item.explanation}`),
+      this.englishTile(index * 10 + 1, item.evidence, true, `Prova linguistica corretta. ${item.explanation}`),
+      ...item.meaningDistractors.map((label, choiceIndex) => this.englishTile(index * 10 + choiceIndex + 2, label, false, `Significato non coerente: ${item.explanation}`)),
+      ...item.evidenceDistractors.map((label, choiceIndex) => this.englishTile(index * 10 + choiceIndex + 5, label, false, `Prova linguistica non valida: ${item.explanation}`)),
     ]);
     return {
       id: `english-action-${index}`,
       type: "action-relay",
       instruction: item.instruction,
-      context: "Choose the action the Academy system can safely execute.",
-      targetLabel: "Action to execute",
-      requiredSelectionCount: 1,
+      context: "Decodifica il comando: scegli una tessera AZIONE e una tessera VINCOLO che giustificano la scelta.",
+      targetLabel: "Significato + vincolo",
+      requiredSelectionCount: 2,
       tiles,
-      solutionLabels: [item.correct],
+      solutionLabels: [item.meaning, item.evidence],
       explanation: item.explanation,
       concept: item.concept,
       glossary: item.glossary,
-      signature: `action-${item.instruction}-${item.correct}`,
+      signature: `action-${item.instruction}-${item.meaning}-${item.evidence}`,
     };
   }
 
@@ -775,12 +810,154 @@ export class EnglishInstructionGenerator {
     };
   }
 
+  private buildTranslationMatchPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    type TranslationItem = {
+      term: string;
+      correct: string;
+      distractors: string[];
+      explanation: string;
+      concept: string;
+      register: string;
+    };
+    const base: TranslationItem[] = [
+      {
+        term: "above",
+        correct: "sopra",
+        distractors: ["sotto", "tra due elementi", "accanto a"],
+        explanation: "Above indica una posizione più alta: è il contrario di below.",
+        concept: "spatial prepositions",
+        register: "preposizione di luogo",
+      },
+      {
+        term: "below",
+        correct: "sotto",
+        distractors: ["sopra", "attraverso", "lontano da"],
+        explanation: "Below significa sotto una soglia o sotto un punto di riferimento.",
+        concept: "spatial and data prepositions",
+        register: "preposizione di luogo/dato",
+      },
+      {
+        term: "through",
+        correct: "attraverso un passaggio",
+        distractors: ["sopra una superficie", "tra due oggetti", "prima di agire"],
+        explanation: "Through descrive un movimento dentro e fuori da un passaggio, come un tunnel.",
+        concept: "movement prepositions",
+        register: "preposizione di movimento",
+      },
+      {
+        term: "switch off",
+        correct: "spegnere",
+        distractors: ["accendere", "sbloccare", "ricaricare"],
+        explanation: "Switch off e turn off indicano spegnere un dispositivo.",
+        concept: "phrasal verbs",
+        register: "verbo operativo",
+      },
+      {
+        term: "reliable",
+        correct: "affidabile",
+        distractors: ["casuale", "rotto", "rumoroso"],
+        explanation: "Reliable descrive qualcosa di cui ci si può fidare, come una fonte o una misura.",
+        concept: "evidence vocabulary",
+        register: "aggettivo valutativo",
+      },
+      {
+        term: "evidence",
+        correct: "prova / elementi di prova",
+        distractors: ["decorazione", "velocità", "scorciatoia"],
+        explanation: "Evidence sono le prove che sostengono una conclusione.",
+        concept: "critical thinking vocabulary",
+        register: "nome astratto",
+      },
+      {
+        term: "warning",
+        correct: "avviso di pericolo",
+        distractors: ["ricompensa", "misura precisa", "strumento di ricambio"],
+        explanation: "Warning segnala un rischio o qualcosa a cui prestare attenzione.",
+        concept: "safety vocabulary",
+        register: "nome operativo",
+      },
+      {
+        term: "source",
+        correct: "fonte",
+        distractors: ["interruttore", "cavo", "risultato finale"],
+        explanation: "Source è la fonte da cui arriva un'informazione.",
+        concept: "information literacy",
+        register: "nome scolastico/scientifico",
+      },
+    ];
+    const advanced: TranslationItem[] = [
+      {
+        term: "actual",
+        correct: "reale / effettivo",
+        distractors: ["attuale", "eventuale", "sensibile"],
+        explanation: "Actual è un falso amico: non significa attuale, ma reale o effettivo.",
+        concept: "false friends",
+        register: "falso amico",
+      },
+      {
+        term: "eventually",
+        correct: "alla fine",
+        distractors: ["eventualmente", "subito", "raramente"],
+        explanation: "Eventually significa alla fine; non equivale all'italiano eventualmente.",
+        concept: "false friends",
+        register: "avverbio",
+      },
+      {
+        term: "sensible",
+        correct: "ragionevole",
+        distractors: ["sensibile", "silenzioso", "sperimentale"],
+        explanation: "Sensible significa ragionevole; sensitive è la parola per sensibile.",
+        concept: "false friends",
+        register: "aggettivo",
+      },
+      {
+        term: "consistent",
+        correct: "coerente / costante",
+        distractors: ["abbondante", "provvisorio", "pericoloso"],
+        explanation: "Consistent descrive risultati che restano coerenti nel tempo o tra prove.",
+        concept: "scientific vocabulary",
+        register: "aggettivo scientifico",
+      },
+      {
+        term: "to suggest",
+        correct: "suggerire / indicare come ipotesi",
+        distractors: ["dimostrare con certezza", "cancellare", "decorare"],
+        explanation: "Suggest è più debole di prove: indica un'ipotesi plausibile, non una prova definitiva.",
+        concept: "hedging and evidence",
+        register: "verbo di ragionamento",
+      },
+    ];
+    const item = random.pick(level >= 5 ? [...base, ...advanced] : base);
+    const tiles = this.shuffleEnglishTiles(random, [
+      this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
+      ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Traduzione non corretta: ${item.explanation}`)),
+    ]);
+    return {
+      id: `english-translation-${index}`,
+      type: "translation-match",
+      instruction: `What does "${item.term}" mean in Italian?`,
+      context: `Vocabulary card: "${item.term}" | ${item.register}`,
+      targetLabel: "Traduzione corretta",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.correct],
+      explanation: item.explanation,
+      concept: item.concept,
+      glossary: [
+        { term: "task", meaning: "scegli la traduzione italiana corretta" },
+        { term: "watch out", meaning: "controlla falsi amici e contesto" },
+      ],
+      signature: `translation-${item.term}-${item.correct}`,
+    };
+  }
+
   private englishMinigameConcepts(type: EnglishMinigameType): string[] {
     if (type === "action-relay") return ["imperative", "object choice", "prohibition"];
     if (type === "sequence-switchboard") return ["before/after", "condition", "sequence"];
     if (type === "grammar-fix") return ["verb tenses", "grammar choice", "word forms"];
     if (type === "sentence-build") return ["word order", "sentence structure", "questions"];
     if (type === "vocab-lab") return ["vocabulary", "false friends", "technical register"];
+    if (type === "translation-match") return ["translation recognition", "bilingual vocabulary", "false friends"];
     return ["data reading", "threshold", "comparison"];
   }
 
@@ -790,6 +967,7 @@ export class EnglishInstructionGenerator {
     if (type === "grammar-fix") return "Allena la grammatica della scuola media: tempi verbali, comparativi, modali, preposizioni, quantificatori e domande.";
     if (type === "sentence-build") return "Allena la costruzione della frase e della domanda in inglese: ordine soggetto-verbo e posizione dell'ausiliare.";
     if (type === "vocab-lab") return "Allena vocabolario inglese in contesto: termini tecnici, falsi amici, prove, sicurezza e registro formale.";
+    if (type === "translation-match") return "Allena il riconoscimento rapido della traduzione italiana corretta, con distrattori vicini e falsi amici.";
     return "Allena lettura di dati semplici in inglese: below, above, between, dimmer, brighter e soglie.";
   }
 
@@ -799,6 +977,7 @@ export class EnglishInstructionGenerator {
     if (type === "grammar-fix") return "Riconosci il segnale (every day, now, yesterday, than, must...) e scegli la forma che lo rispetta.";
     if (type === "sentence-build") return "Parti dal soggetto, poi il verbo; nelle domande metti l'ausiliare prima del soggetto.";
     if (type === "vocab-lab") return "Leggi il contesto e scegli la parola che rende il messaggio tecnicamente corretto: attenzione a falsi amici e registro.";
+    if (type === "translation-match") return "Leggi la parola inglese, richiama il significato italiano e scarta distrattori simili o falsi amici.";
     return "Leggi la soglia o il confronto, confronta i dati, poi scegli una sola azione.";
   }
 
@@ -808,6 +987,7 @@ export class EnglishInstructionGenerator {
     if (type === "grammar-fix") return ["find the signal", "recall the rule", "pick the form"];
     if (type === "sentence-build") return ["subject", "verb", "rest / aux first in questions"];
     if (type === "vocab-lab") return ["context", "meaning", "best word"];
+    if (type === "translation-match") return ["English term", "Italian meaning", "false-friend check"];
     return ["threshold", "data", "action"];
   }
 

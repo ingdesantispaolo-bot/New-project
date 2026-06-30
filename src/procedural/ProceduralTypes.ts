@@ -512,6 +512,7 @@ export type EnglishChallengeType =
   | "data-reading"
   | "procedure-debug"
   | "vocabulary-in-context"
+  | "translation-recognition"
   | "inference";
 
 export type GeneratedEnglishPuzzle = {
@@ -542,7 +543,7 @@ export type GeneratedEnglishPuzzle = {
   minigame?: GeneratedEnglishMinigame;
 };
 
-export type EnglishMinigameType = "action-relay" | "sequence-switchboard" | "data-command-scan" | "grammar-fix" | "sentence-build" | "vocab-lab";
+export type EnglishMinigameType = "action-relay" | "sequence-switchboard" | "data-command-scan" | "grammar-fix" | "sentence-build" | "vocab-lab" | "translation-match";
 
 export type EnglishMinigameTile = {
   id: string;

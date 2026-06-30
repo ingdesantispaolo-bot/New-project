@@ -350,11 +350,11 @@ export class PuzzleGenerator {
 
   private englishMinigameTypesForStep(step: number): EnglishMinigameType[] {
     return [
-      ["action-relay", "sentence-build", "vocab-lab"],
-      ["sequence-switchboard", "grammar-fix", "vocab-lab"],
-      ["data-command-scan", "action-relay", "grammar-fix", "vocab-lab"],
-      ["sequence-switchboard", "action-relay", "sentence-build", "data-command-scan", "vocab-lab"],
-      ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab"],
+      ["action-relay", "sentence-build", "vocab-lab", "translation-match"],
+      ["sequence-switchboard", "grammar-fix", "vocab-lab", "translation-match"],
+      ["data-command-scan", "action-relay", "grammar-fix", "vocab-lab", "translation-match"],
+      ["sequence-switchboard", "action-relay", "sentence-build", "data-command-scan", "vocab-lab", "translation-match"],
+      ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match"],
     ][Math.min(step, 4)] as EnglishMinigameType[];
   }
 

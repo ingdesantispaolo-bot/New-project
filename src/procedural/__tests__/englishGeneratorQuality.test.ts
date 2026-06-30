@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { englishVocabularyEntries } from "../../data/procedural/englishVocabularyBank";
 import { EnglishInstructionGenerator } from "../generators/EnglishInstructionGenerator";
 import type { EnglishMinigameType } from "../ProceduralTypes";
 import { Random } from "../Random";
@@ -14,6 +15,17 @@ const TYPES: EnglishMinigameType[] = [
 ];
 
 describe("English generator quality", () => {
+  it("uses a broad structured vocabulary bank for third-year middle school", () => {
+    const categories = new Set(englishVocabularyEntries.map((entry) => entry.category));
+    const terms = new Set(englishVocabularyEntries.map((entry) => `${entry.category}:${entry.term}`));
+    const advancedTerms = englishVocabularyEntries.filter((entry) => entry.level >= 5);
+
+    expect(englishVocabularyEntries.length).toBeGreaterThanOrEqual(1000);
+    expect(categories.size).toBeGreaterThanOrEqual(18);
+    expect(terms.size).toBe(englishVocabularyEntries.length);
+    expect(advancedTerms.length).toBeGreaterThanOrEqual(40);
+  });
+
   it("generates coherent minigame prompts for every English type", () => {
     const generator = new EnglishInstructionGenerator();
     for (const type of TYPES) {

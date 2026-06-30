@@ -1,4 +1,10 @@
 import { englishTemplates, type EnglishTemplate } from "../../data/procedural/englishTemplates";
+import {
+  englishVocabularyByMaxLevel,
+  englishVocabularyCategoryLabels,
+  englishVocabularyEntries,
+  type EnglishVocabularyEntry,
+} from "../../data/procedural/englishVocabularyBank";
 import type {
   EnglishChallengeType,
   EnglishMinigamePrompt,
@@ -686,268 +692,121 @@ export class EnglishInstructionGenerator {
   }
 
   private buildVocabularyPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
-    const pool = [
-      {
-        instruction: "Choose the word that completes the technical sentence.",
-        context: "The sensor is not broken; it needs a new ___ before the test.",
-        correct: "calibration",
-        distractors: ["decoration", "rumor", "shortcut"],
-        explanation: "Calibration è regolazione della misura; decoration e rumor non sono procedure tecniche.",
-        glossary: [{ term: "calibration", meaning: "calibrazione" }, { term: "broken", meaning: "rotto" }, { term: "test", meaning: "prova" }],
-        concept: "technical nouns",
-      },
-      {
-        instruction: "Choose the safest vocabulary in context.",
-        context: "A note with no name or date is not reliable evidence; it is only a ___.",
-        correct: "rumor",
-        distractors: ["proof", "measurement", "source"],
-        explanation: "Rumor è voce non verificata; proof e measurement indicano prove.",
-        glossary: [{ term: "rumor", meaning: "voce non verificata" }, { term: "evidence", meaning: "prova" }, { term: "reliable", meaning: "affidabile" }],
-        concept: "evidence vocabulary",
-      },
-      {
-        instruction: "Pick the word that matches the warning.",
-        context: "The cable is hot. Touching it is ___ until the power is off.",
-        correct: "unsafe",
-        distractors: ["accurate", "empty", "silent"],
-        explanation: "Unsafe riguarda rischio; accurate significa accurato, non sicuro.",
-        glossary: [{ term: "unsafe", meaning: "non sicuro" }, { term: "accurate", meaning: "accurato" }, { term: "power off", meaning: "alimentazione spenta" }],
-        concept: "safety adjective",
-      },
-      {
-        instruction: "Choose the word that describes the data.",
-        context: "Two sensors show the same number, so the result is more ___.",
-        correct: "reliable",
-        distractors: ["random", "decorative", "noisy"],
-        explanation: "Reliable significa affidabile; i dati confermati sono più affidabili.",
-        glossary: [{ term: "reliable", meaning: "affidabile" }, { term: "random", meaning: "casuale" }, { term: "noisy", meaning: "rumoroso / disturbato" }],
-        concept: "data reliability",
-      },
-      {
-        instruction: "Complete the operating log.",
-        context: "Do not guess. First collect enough ___ for your conclusion.",
-        correct: "evidence",
-        distractors: ["paint", "buttons", "speed"],
-        explanation: "Evidence sono prove; una conclusione non va basata su tentativi.",
-        glossary: [{ term: "evidence", meaning: "prove" }, { term: "guess", meaning: "indovinare" }, { term: "conclusion", meaning: "conclusione" }],
-        concept: "critical thinking vocabulary",
-      },
-      {
-        instruction: "Choose the correct technical verb.",
-        context: "If the backup battery is low, ___ it before restarting the door.",
-        correct: "recharge",
-        distractors: ["rewrite", "rename", "repaint"],
-        explanation: "Recharge significa ricaricare una batteria; gli altri prefissi re- non sono adatti.",
-        glossary: [{ term: "recharge", meaning: "ricaricare" }, { term: "rewrite", meaning: "riscrivere" }, { term: "restart", meaning: "riavviare" }],
-        concept: "word formation re-",
-      },
-      {
-        instruction: "Choose the word that fits the route.",
-        context: "The robot moves ___ the tunnel, not across the roof.",
-        correct: "through",
-        distractors: ["under", "between", "above"],
-        explanation: "Through indica attraversare un passaggio; across sarebbe su una superficie.",
-        glossary: [{ term: "through", meaning: "attraverso un passaggio" }, { term: "across", meaning: "attraverso una superficie" }, { term: "tunnel", meaning: "tunnel" }],
-        concept: "movement prepositions",
-      },
-    ];
-    const advanced = [
-      {
-        instruction: "Avoid the false friend.",
-        context: "The log is ___: it gives exact values and clear limits.",
-        correct: "accurate",
-        distractors: ["actual", "eventual", "sensible"],
-        explanation: "Accurate significa preciso; actual significa reale/effettivo, non attuale.",
-        glossary: [{ term: "accurate", meaning: "preciso" }, { term: "actual", meaning: "reale / effettivo" }, { term: "sensible", meaning: "ragionevole" }],
-        concept: "false friends",
-      },
-      {
-        instruction: "Choose the word for a limited conclusion.",
-        context: "The data ___ that the valve may be blocked, but they do not prove it yet.",
-        correct: "suggest",
-        distractors: ["prove", "decorate", "erase"],
-        explanation: "Suggest indica suggerire un'ipotesi; prove sarebbe troppo forte.",
-        glossary: [{ term: "suggest", meaning: "suggerire" }, { term: "prove", meaning: "dimostrare" }, { term: "yet", meaning: "ancora" }],
-        concept: "hedging and evidence",
-      },
-      {
-        instruction: "Choose the register that fits a formal report.",
-        context: "The technician will ___ the damaged module, not just 'fix the thing'.",
-        correct: "repair",
-        distractors: ["mess up", "hang out with", "look pretty at"],
-        explanation: "Repair è verbo tecnico/formale; gli altri non appartengono a un report.",
-        glossary: [{ term: "repair", meaning: "riparare" }, { term: "damaged", meaning: "danneggiato" }, { term: "module", meaning: "modulo" }],
-        concept: "formal technical register",
-      },
-      {
-        instruction: "Choose the word that completes the scientific note.",
-        context: "A repeated test makes the observation more ___.",
-        correct: "consistent",
-        distractors: ["lonely", "painted", "forbidden"],
-        explanation: "Consistent indica coerenza tra prove ripetute.",
-        glossary: [{ term: "consistent", meaning: "coerente / costante" }, { term: "repeated", meaning: "ripetuto" }, { term: "observation", meaning: "osservazione" }],
-        concept: "scientific vocabulary",
-      },
-    ];
-    const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
+    const item = this.pickVocabularyEntry(random, level);
+    const context = this.vocabularyContext(item);
+    const distractors = this.vocabularyDistractors(random, item, "term");
     const tiles = this.shuffleEnglishTiles(random, [
-      this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
-      ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Not this word: ${item.explanation}`)),
+      this.englishTile(index, item.term, true, `Correct: ${context.explanation}`),
+      ...distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Not this word: ${context.explanation}`)),
     ]);
     return {
       id: `english-vocab-${index}`,
       type: "vocab-lab",
-      instruction: item.instruction,
-      context: item.context,
+      instruction: "Choose the English word that fits the Italian clue and the situation.",
+      context: context.prompt,
       targetLabel: "Vocabulary in context",
       requiredSelectionCount: 1,
       tiles,
-      solutionLabels: [item.correct],
-      explanation: item.explanation,
-      concept: item.concept,
-      glossary: item.glossary,
-      signature: `vocab-${item.context}-${item.correct}`,
+      solutionLabels: [item.term],
+      explanation: context.explanation,
+      concept: context.concept,
+      glossary: [
+        { term: item.term, meaning: item.meaning },
+        { term: "category", meaning: englishVocabularyCategoryLabels[item.category] },
+        { term: "level", meaning: `lessico livello ${item.level}` },
+      ],
+      signature: `vocab-${item.id}-${item.term}`,
     };
   }
 
   private buildTranslationMatchPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
-    type TranslationItem = {
-      term: string;
-      correct: string;
-      distractors: string[];
-      explanation: string;
-      concept: string;
-      register: string;
-    };
-    const base: TranslationItem[] = [
-      {
-        term: "above",
-        correct: "sopra",
-        distractors: ["sotto", "tra due elementi", "accanto a"],
-        explanation: "Above indica una posizione più alta: è il contrario di below.",
-        concept: "spatial prepositions",
-        register: "preposizione di luogo",
-      },
-      {
-        term: "below",
-        correct: "sotto",
-        distractors: ["sopra", "attraverso", "lontano da"],
-        explanation: "Below significa sotto una soglia o sotto un punto di riferimento.",
-        concept: "spatial and data prepositions",
-        register: "preposizione di luogo/dato",
-      },
-      {
-        term: "through",
-        correct: "attraverso un passaggio",
-        distractors: ["sopra una superficie", "tra due oggetti", "prima di agire"],
-        explanation: "Through descrive un movimento dentro e fuori da un passaggio, come un tunnel.",
-        concept: "movement prepositions",
-        register: "preposizione di movimento",
-      },
-      {
-        term: "switch off",
-        correct: "spegnere",
-        distractors: ["accendere", "sbloccare", "ricaricare"],
-        explanation: "Switch off e turn off indicano spegnere un dispositivo.",
-        concept: "phrasal verbs",
-        register: "verbo operativo",
-      },
-      {
-        term: "reliable",
-        correct: "affidabile",
-        distractors: ["casuale", "rotto", "rumoroso"],
-        explanation: "Reliable descrive qualcosa di cui ci si può fidare, come una fonte o una misura.",
-        concept: "evidence vocabulary",
-        register: "aggettivo valutativo",
-      },
-      {
-        term: "evidence",
-        correct: "prova / elementi di prova",
-        distractors: ["decorazione", "velocità", "scorciatoia"],
-        explanation: "Evidence sono le prove che sostengono una conclusione.",
-        concept: "critical thinking vocabulary",
-        register: "nome astratto",
-      },
-      {
-        term: "warning",
-        correct: "avviso di pericolo",
-        distractors: ["ricompensa", "misura precisa", "strumento di ricambio"],
-        explanation: "Warning segnala un rischio o qualcosa a cui prestare attenzione.",
-        concept: "safety vocabulary",
-        register: "nome operativo",
-      },
-      {
-        term: "source",
-        correct: "fonte",
-        distractors: ["interruttore", "cavo", "risultato finale"],
-        explanation: "Source è la fonte da cui arriva un'informazione.",
-        concept: "information literacy",
-        register: "nome scolastico/scientifico",
-      },
-    ];
-    const advanced: TranslationItem[] = [
-      {
-        term: "actual",
-        correct: "reale / effettivo",
-        distractors: ["attuale", "eventuale", "sensibile"],
-        explanation: "Actual è un falso amico: non significa attuale, ma reale o effettivo.",
-        concept: "false friends",
-        register: "falso amico",
-      },
-      {
-        term: "eventually",
-        correct: "alla fine",
-        distractors: ["eventualmente", "subito", "raramente"],
-        explanation: "Eventually significa alla fine; non equivale all'italiano eventualmente.",
-        concept: "false friends",
-        register: "avverbio",
-      },
-      {
-        term: "sensible",
-        correct: "ragionevole",
-        distractors: ["sensibile", "silenzioso", "sperimentale"],
-        explanation: "Sensible significa ragionevole; sensitive è la parola per sensibile.",
-        concept: "false friends",
-        register: "aggettivo",
-      },
-      {
-        term: "consistent",
-        correct: "coerente / costante",
-        distractors: ["abbondante", "provvisorio", "pericoloso"],
-        explanation: "Consistent descrive risultati che restano coerenti nel tempo o tra prove.",
-        concept: "scientific vocabulary",
-        register: "aggettivo scientifico",
-      },
-      {
-        term: "to suggest",
-        correct: "suggerire / indicare come ipotesi",
-        distractors: ["dimostrare con certezza", "cancellare", "decorare"],
-        explanation: "Suggest è più debole di prove: indica un'ipotesi plausibile, non una prova definitiva.",
-        concept: "hedging and evidence",
-        register: "verbo di ragionamento",
-      },
-    ];
-    const item = random.pick(level >= 5 ? [...base, ...advanced] : base);
+    const item = this.pickVocabularyEntry(random, level);
+    const distractors = this.vocabularyDistractors(random, item, "meaning");
+    const explanation = `${item.term} significa "${item.meaning}" nel contesto ${englishVocabularyCategoryLabels[item.category]}.`;
     const tiles = this.shuffleEnglishTiles(random, [
-      this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
-      ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Traduzione non corretta: ${item.explanation}`)),
+      this.englishTile(index, item.meaning, true, `Correct: ${explanation}`),
+      ...distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Traduzione non corretta: ${explanation}`)),
     ]);
     return {
       id: `english-translation-${index}`,
       type: "translation-match",
       instruction: `What does "${item.term}" mean in Italian?`,
-      context: `Vocabulary card: "${item.term}" | ${item.register}`,
+      context: `Vocabulary card: "${item.term}" | ${englishVocabularyCategoryLabels[item.category]} | ${item.wordClass}`,
       targetLabel: "Traduzione corretta",
       requiredSelectionCount: 1,
       tiles,
-      solutionLabels: [item.correct],
-      explanation: item.explanation,
-      concept: item.concept,
+      solutionLabels: [item.meaning],
+      explanation,
+      concept: `${englishVocabularyCategoryLabels[item.category]} (${item.wordClass})`,
       glossary: [
         { term: "task", meaning: "scegli la traduzione italiana corretta" },
         { term: "watch out", meaning: "controlla falsi amici e contesto" },
       ],
-      signature: `translation-${item.term}-${item.correct}`,
+      signature: `translation-${item.id}-${item.term}-${item.meaning}`,
+    };
+  }
+
+  private pickVocabularyEntry(random: Random, level: number): EnglishVocabularyEntry {
+    const cappedLevel = Math.max(1, Math.min(8, level));
+    const pool = englishVocabularyByMaxLevel(cappedLevel);
+    return random.pick(pool.length > 0 ? pool : englishVocabularyEntries);
+  }
+
+  private vocabularyDistractors(
+    random: Random,
+    item: EnglishVocabularyEntry,
+    field: "term" | "meaning",
+  ): string[] {
+    const labelOf = (entry: EnglishVocabularyEntry): string => field === "term" ? entry.term : entry.meaning;
+    const used = new Set<string>([labelOf(item)]);
+    const closePool = englishVocabularyEntries.filter((entry) =>
+      entry.id !== item.id
+      && (entry.category === item.category || entry.wordClass === item.wordClass)
+      && !used.has(labelOf(entry)),
+    );
+    const fallbackPool = englishVocabularyEntries.filter((entry) => entry.id !== item.id && !used.has(labelOf(entry)));
+    const labels: string[] = [];
+    for (const entry of random.shuffle([...closePool, ...fallbackPool])) {
+      const label = labelOf(entry);
+      if (!used.has(label)) {
+        used.add(label);
+        labels.push(label);
+      }
+      if (labels.length >= 3) break;
+    }
+    return labels;
+  }
+
+  private vocabularyContext(item: EnglishVocabularyEntry): { prompt: string; explanation: string; concept: string } {
+    const category = englishVocabularyCategoryLabels[item.category];
+    const scenarioByCategory: Record<EnglishVocabularyEntry["category"], string> = {
+      actions: "procedure di laboratorio e comandi operativi",
+      objects: "strumenti, oggetti e parti della stanza",
+      safety: "sicurezza, avvisi e prevenzione dei rischi",
+      "data-science": "lettura di dati, esperimenti e conclusioni",
+      "school-communication": "scuola, studio, email e spiegazioni",
+      connectors: "relazioni logiche tra due idee",
+      "false-friends": "falsi amici frequenti per studenti italiani",
+      "home-family": "vita quotidiana, casa e relazioni familiari",
+      "food-shopping": "pasti, negozi, prezzi e acquisti",
+      "time-weather": "orari, abitudini, stagioni e meteo",
+      "travel-places": "spostamenti, indicazioni e luoghi pubblici",
+      "body-health": "corpo, salute, sintomi e appuntamenti",
+      "feelings-opinions": "emozioni, carattere e opinioni personali",
+      "digital-media": "telefono, computer, app e comunicazione online",
+      "jobs-community": "lavori, servizi pubblici e comunità",
+      "leisure-culture": "sport, hobby, musica, film e letture",
+      "nature-environment": "ambiente, animali, luoghi naturali e clima",
+      "everyday-phrases": "collocazioni e frasi frequenti della vita quotidiana",
+    };
+    return {
+      prompt: [
+        `Scenario: ${scenarioByCategory[item.category]}.`,
+        `Italian clue: "${item.meaning}".`,
+        `Choose the English ${item.wordClass} that fits this context.`,
+      ].join(" "),
+      explanation: `La parola corretta è "${item.term}": significa "${item.meaning}" ed appartiene a ${category}.`,
+      concept: `${category} · ${item.wordClass}`,
     };
   }
 

@@ -54,7 +54,7 @@ export class MathPuzzleGenerator {
     const b = random.integer(3, 6 + difficulty.mathComplexity * 2);
     const c = random.integer(2, 4 + difficulty.mathComplexity);
     const built = template.build(a, b, c);
-    const responseRule = "Formato risposta: inserisci un solo numero intero. Se il testo indica una regola di arrotondamento, usa solo quella regola.";
+    const responseRule = "Formato risposta: inserisci un solo numero intero. Se una regola di approssimazione è scritta nella richiesta, applica solo quella.";
     return {
       id: `math-${template.id}`,
       title: template.title,

@@ -262,7 +262,13 @@ export class ProgressiveMissionBuilder {
     let mission = base;
     for (const kind of selected) {
       let signature = this.signatureFor(mission, kind);
-      if (taken(signature)) {
+      // The base math objective is always a graph workshop; away from the
+      // maths-focus levels (where it is the intended showcase) we vary the form
+      // toward the rich template pool so the climb is not all "officina grafici".
+      const forceVary = kind === "math"
+        && Boolean(mission.puzzles.math.graphWorkshop)
+        && this.focusForLevel(level) !== "matematica";
+      if (taken(signature) || forceVary) {
         for (let attempt = 0; attempt < 24; attempt += 1) {
           const candidate = this.rerollPuzzle(mission, kind, level, attempt);
           if (candidate === mission) continue;

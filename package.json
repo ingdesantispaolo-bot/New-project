@@ -10,6 +10,8 @@
     "assets:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs && node scripts/build-visual-assets.mjs && node scripts/build-console-assets.mjs && node scripts/build-prop-assets.mjs && node scripts/process-painted-prop-sheet.mjs && node scripts/build-audio-assets.mjs && node scripts/optimize-assets.mjs",
     "assets:optimize": "node scripts/optimize-assets.mjs",
     "maps:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:seeds": "node scripts/test-procedural-seeds.mjs 100",
     "preview": "vite preview --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "preview:lan": "vite preview --config vite.config.mjs --configLoader native --host 0.0.0.0"
@@ -22,6 +24,7 @@
     "@types/howler": "^2.2.12",
     "sharp": "^0.34.5",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^4.1.9"
   }
 }

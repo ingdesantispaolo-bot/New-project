@@ -51,7 +51,7 @@ export class AtlasScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "academy", "story");
+    queueSceneAssets(this, "academy", "atlas", "story");
   }
 
   create(): void {
@@ -105,7 +105,7 @@ export class AtlasScene extends Phaser.Scene {
       "L'Atlante Perduto",
       "Triangola l'origine del segnale: rilevamenti, coordinate, scala e incrocio.",
       "Tavolo cartografico",
-      "story-academy-hub-bg",
+      "mission-atlas-bg",
     );
   }
 

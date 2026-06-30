@@ -27,6 +27,7 @@ import missionMusicBgUrl from "../assets/images/mission-music-bg.webp";
 import missionMusicAudioBgUrl from "../assets/images/mission-music-audio-bg.webp";
 import missionMusicStaffBgUrl from "../assets/images/mission-music-staff-bg.webp";
 import missionSynthesisBgUrl from "../assets/images/mission-synthesis-bg.webp";
+import missionAtlasBgUrl from "../assets/images/mission-atlas-bg.webp";
 import storyAcademyHubBgUrl from "../assets/images/story-academy-hub-bg.webp";
 import storyArchiveMemoryBgUrl from "../assets/images/story-archive-memory-bg.webp";
 import storyChapter01IntroUrl from "../assets/images/story-chapter-01-intro.webp";
@@ -37,6 +38,8 @@ import storyChapter03IntroUrl from "../assets/images/story-chapter-03-intro.webp
 import storyChapter03OutroUrl from "../assets/images/story-chapter-03-outro.webp";
 import storyChapter04IntroUrl from "../assets/images/story-chapter-04-intro.webp";
 import storyChapter04OutroUrl from "../assets/images/story-chapter-04-outro.webp";
+import storyChapter05IntroUrl from "../assets/images/story-chapter-05-intro.webp";
+import storyChapter05OutroUrl from "../assets/images/story-chapter-05-outro.webp";
 import storyGreenhouseRecoveryBgUrl from "../assets/images/story-greenhouse-recovery-bg.webp";
 import storyLabBlackoutBgUrl from "../assets/images/story-lab-blackout-bg.webp";
 import storyNumberFactoryBgUrl from "../assets/images/story-number-factory-bg.webp";
@@ -60,7 +63,7 @@ import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-vict
 import outcomeLightVictoryUrl from "../assets/images/outcomes/outcome-light-victory.webp";
 import outcomeNeutralUrl from "../assets/images/outcomes/outcome-neutral.webp";
 
-export type SceneAssetPack = "academy" | "lab" | "greenhouse" | "factory" | "archive" | "procedural" | "story" | "storyBeats";
+export type SceneAssetPack = "academy" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "procedural" | "story" | "storyBeats";
 
 const packs: Record<SceneAssetPack, Array<[string, string]>> = {
   academy: [["bg-academy-painted", academyPaintedBgUrl]],
@@ -82,6 +85,9 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["painted-archive-desk", paintedArchiveDeskUrl], ["painted-archive-shelf", paintedArchiveShelfUrl],
     ["painted-archive-terminal", paintedArchiveTerminalUrl],
   ],
+  atlas: [
+    ["mission-atlas-bg", missionAtlasBgUrl],
+  ],
   story: [
     ["story-academy-hub-bg", storyAcademyHubBgUrl],
     ["story-archive-memory-bg", storyArchiveMemoryBgUrl],
@@ -99,6 +105,7 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["story-chapter-02-intro", storyChapter02IntroUrl], ["story-chapter-02-outro", storyChapter02OutroUrl],
     ["story-chapter-03-intro", storyChapter03IntroUrl], ["story-chapter-03-outro", storyChapter03OutroUrl],
     ["story-chapter-04-intro", storyChapter04IntroUrl], ["story-chapter-04-outro", storyChapter04OutroUrl],
+    ["story-chapter-05-intro", storyChapter05IntroUrl], ["story-chapter-05-outro", storyChapter05OutroUrl],
   ],
   procedural: [
     ["bg-lab-painted", labPaintedBgUrl], ["console-lab", labConsoleUrl],

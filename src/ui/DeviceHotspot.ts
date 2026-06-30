@@ -21,6 +21,8 @@ export type DeviceHotspotOptions = {
   label: string;
   state: DeviceState;
   size?: number;
+  labelMode?: "always" | "hover" | "active";
+  statusMode?: "always" | "hidden";
   onClick: () => void;
 };
 
@@ -43,6 +45,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     super(scene, x, y);
     const size = options.size ?? 88;
     const tint = stateColor(options.state);
+    const labelMode = options.labelMode ?? "always";
+    const statusMode = options.statusMode ?? "always";
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
     let lastTapAt = 0;
     let pressed = false;
@@ -58,8 +62,9 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       .setStrokeStyle(1, 0xffffff, options.state === "locked" ? 0.12 : 0.34);
     const status = scene.add.container(0, -size * 0.56);
     const statusLabel = stateLabel(options.state);
-    const statusWidth = statusLabel ? Math.max(56, statusLabel.length * 7 + 16) : 0;
-    if (statusLabel) {
+    const showStatus = statusMode === "always" && Boolean(statusLabel);
+    const statusWidth = showStatus ? Math.max(56, statusLabel.length * 7 + 16) : 0;
+    if (showStatus) {
       status.add(scene.add.rectangle(0, 1, statusWidth, 18, 0x000000, 0.32).setOrigin(0.5));
       status.add(scene.add.rectangle(0, 0, statusWidth, 18, 0x04090f, 0.9)
         .setStrokeStyle(1.5, tint, options.state === "locked" ? 0.3 : 0.55));
@@ -72,7 +77,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       statusText.setShadow(0, 1, "#000000", 2, false, true);
       status.add(statusText);
     }
-    status.setAlpha(statusLabel ? 1 : 0);
+    status.setAlpha(showStatus ? 1 : 0);
     const tag = scene.add.container(0, size * 0.6);
     const tagWidth = Math.max(124, options.label.length * 7.4 + 22);
     tag.add(scene.add.rectangle(0, 2, tagWidth, 24, 0x000000, 0.34).setOrigin(0.5));
@@ -88,8 +93,9 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     tagText.setShadow(0, 1, "#000000", 3, false, true);
     tag.add(tagText);
 
-    tag.setAlpha(options.state === "active" ? 1 : options.state === "locked" ? 0.7 : 0.9);
-    const hitWidth = Math.max(size, tagWidth, statusWidth);
+    const restingTagAlpha = labelRestingAlpha(labelMode, options.state);
+    tag.setAlpha(restingTagAlpha);
+    const hitWidth = labelMode === "always" ? Math.max(size, tagWidth, statusWidth) : Math.max(size, statusWidth);
     const visualTop = Math.min(-size / 2, -size * 0.56 - 9);
     const visualBottom = Math.max(size / 2, size * 0.6 + 14);
     const hitHeight = visualBottom - visualTop;
@@ -119,7 +125,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       activePointerId = undefined;
       ring.setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13);
       glow.setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035);
-      tag.setAlpha(options.state === "active" ? 1 : options.state === "locked" ? 0.52 : 0.66);
+      tag.setAlpha(restingTagAlpha);
       scene.tweens.killTweensOf([glow, tag]);
       ring.setScale(size / 84);
     };
@@ -142,7 +148,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       if (pressed) return;
       ring.setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13);
       glow.setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035);
-      tag.setAlpha(options.state === "active" ? 1 : options.state === "locked" ? 0.52 : 0.66);
+      tag.setAlpha(restingTagAlpha);
       scene.tweens.killTweensOf([glow, tag]);
       ring.setScale(size / 84);
     });
@@ -231,6 +237,14 @@ function stateLabel(state: DeviceState): string {
   if (state === "failed") return "FALLITA";
   if (state === "active") return "ATTIVA";
   return "";
+}
+
+function labelRestingAlpha(mode: DeviceHotspotOptions["labelMode"], state: DeviceState): number {
+  if (mode === "hover") return 0;
+  if (mode === "active") return state === "active" ? 1 : 0;
+  if (state === "active") return 1;
+  if (state === "locked") return 0.52;
+  return 0.66;
 }
 
 function drawDeviceGlyph(

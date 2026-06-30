@@ -235,8 +235,9 @@ export class SceneChrome {
     state: DeviceState,
     onClick: () => void,
     size = 88,
+    display: { labelMode?: "always" | "hover" | "active"; statusMode?: "always" | "hidden" } = {},
   ): Phaser.GameObjects.Container {
-    return new DeviceHotspot(scene, x, y, { kind, label, state, size, onClick });
+    return new DeviceHotspot(scene, x, y, { kind, label, state, size, onClick, ...display });
   }
 
   static connectDevices(

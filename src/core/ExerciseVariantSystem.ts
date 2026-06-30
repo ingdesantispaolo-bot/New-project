@@ -4,6 +4,8 @@ import { grammarRepairPuzzle, mathLockPuzzle, robotPuzzle } from "../data/puzzle
 import type { EnglishInstructionDefinition, GrammarRepairDefinition, MathPuzzleDefinition, RobotPuzzleDefinition } from "../types/puzzleTypes";
 import { productionOrders, type ProductionOrder } from "../data/numberFactory";
 import { Random } from "../procedural/Random";
+import { AtlasGenerator } from "../procedural/generators/AtlasGenerator";
+import type { AtlasVariant } from "../data/atlas";
 import { numberFactorySolver } from "./NumberFactorySolver";
 import { saveSystem } from "./SaveSystem";
 
@@ -266,6 +268,10 @@ export class ExerciseVariantSystem {
     const solvableOrders = productionOrderPool.filter((order) => numberFactorySolver.isSolvable(order));
     const orders = random.shuffle(solvableOrders).slice(0, 3);
     return orders.some((order) => order.id === productionOrders[0].id) ? orders : [productionOrders[0], ...orders.slice(0, 2)];
+  }
+
+  getAtlasVariant(): AtlasVariant {
+    return new AtlasGenerator(this.random("mission5-atlas")).generate();
   }
 
   getArchiveVariant(): ArchiveVariant {

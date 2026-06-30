@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;\" + $env:PATH; cd \"d:\\\\AppElis\\\\New-project\"; node_modules\\\\.bin\\\\tsc.cmd --noEmit 2>&1 | Select-Object -First 10; Write-Output \"TSC_EXIT=$LASTEXITCODE\"; git status --short)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;\" + $env:PATH; cd \"d:\\\\AppElis\\\\New-project\"; node_modules\\\\.bin\\\\tsc.cmd --noEmit 2>&1 | Select-Object -First 6; Write-Output \"TSC=$LASTEXITCODE\"; node_modules\\\\.bin\\\\esbuild.cmd \"__scalata-fuzz.ts\" --bundle --platform=node --format=esm --outfile=\"__scalata-fuzz.mjs\" 2>&1 | Select-Object -Last 1; node \"__scalata-fuzz.mjs\" 2>&1 | Select-Object -First 12)",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;\" + $env:PATH; cd \"d:\\\\AppElis\\\\New-project\"; node_modules\\\\.bin\\\\esbuild.cmd \"__math-debug.ts\" --bundle --platform=node --format=esm --outfile=\"__math-debug.mjs\" 2>&1 | Select-Object -Last 1; node \"__math-debug.mjs\" 2>&1 | Select-Object -First 12)"
+    ]
+  }
+}

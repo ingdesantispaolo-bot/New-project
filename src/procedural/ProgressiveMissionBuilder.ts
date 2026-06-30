@@ -1,5 +1,8 @@
 import type {
+  CircuitFaultType,
+  CodingChallengeType,
   DifficultyLevel,
+  GeneratedMathPuzzle,
   GeneratedMission,
   GeneratedObjective,
   GeneratedRoomHotspot,
@@ -11,7 +14,18 @@ import { difficultyModel } from "./DifficultyModel";
 import { MathPuzzleGenerator } from "./generators/MathPuzzleGenerator";
 import { EnglishInstructionGenerator } from "./generators/EnglishInstructionGenerator";
 import { LanguageCorruptionGenerator } from "./generators/LanguageCorruptionGenerator";
+import { CircuitFaultGenerator } from "./generators/CircuitFaultGenerator";
+import { CodingPuzzleGenerator } from "./generators/CodingPuzzleGenerator";
+import { MusicNoteGenerator } from "./generators/MusicNoteGenerator";
+import { MathPuzzleValidator } from "./validators/MathPuzzleValidator";
+import { CodingPuzzleValidator } from "./validators/CodingPuzzleValidator";
+import { CircuitPuzzleValidator } from "./validators/CircuitPuzzleValidator";
+import { LanguagePuzzleValidator } from "./validators/LanguagePuzzleValidator";
 import { exerciseDirector } from "../core/ExerciseDirector";
+
+/** Rolling memory of recently shown exercise signatures, across levels and runs. */
+const RECENT_SIGNATURES_KEY = "eli-quest:progressive-recent-signatures";
+const RECENT_SIGNATURES_CAP = 48;
 
 type ProgressiveDiscipline = Exclude<ProceduralPuzzleKind, "robot">;
 
@@ -160,6 +174,17 @@ const focusDisciplines: Record<ProceduralSpecialization, ProgressiveDiscipline |
 };
 
 export class ProgressiveMissionBuilder {
+  private readonly mathGen = new MathPuzzleGenerator();
+  private readonly languageGen = new LanguageCorruptionGenerator();
+  private readonly englishGen = new EnglishInstructionGenerator();
+  private readonly circuitGen = new CircuitFaultGenerator();
+  private readonly codingGen = new CodingPuzzleGenerator();
+  private readonly musicGen = new MusicNoteGenerator();
+  private readonly mathValidator = new MathPuzzleValidator();
+  private readonly codingValidator = new CodingPuzzleValidator();
+  private readonly circuitValidator = new CircuitPuzzleValidator();
+  private readonly languageValidator = new LanguagePuzzleValidator();
+
   focusForLevel(level: DifficultyLevel): ProceduralSpecialization {
     return levelFocuses[level];
   }
@@ -174,7 +199,7 @@ export class ProgressiveMissionBuilder {
     // for training mode, but using them here turned the entire level into a
     // sequence from one subject and made levelPools unreachable.
     const selected = this.selectDisciplines(random, level, base.seed);
-    const variedBase = this.withProgressiveVariety(this.withNonRepeatingMath(base, level), level, selected);
+    const variedBase = this.withNonRepeatingExercises(base, level, selected);
     const objectives = selected.map((kind) => this.objectiveFor(variedBase, kind));
     const hotspots = selected.map((kind) => this.hotspotFor(kind));
     const pathLabel = selected.map((kind) => disciplineLabels[kind].label.toLowerCase()).join(" -> ");
@@ -217,141 +242,170 @@ export class ProgressiveMissionBuilder {
     };
   }
 
-  private withProgressiveVariety(
+  /**
+   * Guarantees that no exercise repeats across the climb. For every selected
+   * discipline it checks the puzzle's substance signature (template + answer +
+   * prompt) against a rolling memory of recently shown exercises and the others
+   * in this same level; on a collision it re-rolls that discipline with its own
+   * generator — fresh sub-seed and rotated templates/archetypes — until a
+   * genuinely new exercise is found, then records it.
+   */
+  private withNonRepeatingExercises(
     base: GeneratedMission,
     level: DifficultyLevel,
     selected: ProgressiveDiscipline[],
   ): GeneratedMission {
-    let next = base;
-    if (selected.includes("language")) {
-      next = this.withNonRepeatingLanguage(next, level);
-    }
-    if (selected.includes("english")) {
-      next = this.withNonRepeatingEnglish(next, level);
-    }
-    return next;
-  }
+    const recent = this.readRecentSignatures();
+    const usedThisLevel = new Set<string>();
+    const taken = (signature: string): boolean => recent.includes(signature) || usedThisLevel.has(signature);
 
-  private withNonRepeatingLanguage(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
-    const storageKey = `eli-quest:progressive-language:${level}`;
-    const signatureOf = (puzzle: GeneratedMission["puzzles"]["language"]): string =>
-      `${puzzle.id}|${puzzle.learningPurpose ?? ""}|${puzzle.conceptTags?.join(".") ?? ""}|${puzzle.repaired}`;
-    const idOf = (puzzle: GeneratedMission["puzzles"]["language"]): string => puzzle.id.replace(/^language-/, "");
-    let recentSignatures: string[] = [];
-    let previousTemplate = "";
-    let previousPurpose = "";
-    try {
-      const stored = JSON.parse(globalThis.localStorage?.getItem(storageKey) ?? "{}") as {
-        seed?: string;
-        signatures?: string[];
-        template?: string;
-        purpose?: string;
-      };
-      if (stored.seed === base.seed) return base;
-      recentSignatures = stored.signatures ?? [];
-      previousTemplate = stored.template ?? "";
-      previousPurpose = stored.purpose ?? "";
-    } catch {
-      // Storage is optional.
-    }
-
-    let selected = base.puzzles.language;
-    const currentSignature = signatureOf(selected);
-    if (
-      recentSignatures.includes(currentSignature)
-      || idOf(selected) === previousTemplate
-      || (selected.learningPurpose ?? "") === previousPurpose
-    ) {
-      const generator = new LanguageCorruptionGenerator();
-      let firstFresh = selected;
-      for (let attempt = 0; attempt < 28; attempt += 1) {
-        const preferred = this.languageTemplateIdsForProgressive(level, attempt);
-        const candidate = generator.generate(new Random(`${base.seed}:language-diversity:${level}:${attempt}`), level, preferred);
-        const signature = signatureOf(candidate);
-        if (recentSignatures.includes(signature)) continue;
-        if (firstFresh === selected) firstFresh = candidate;
-        if (idOf(candidate) !== previousTemplate && (candidate.learningPurpose ?? "") !== previousPurpose) {
-          selected = candidate;
-          break;
+    let mission = base;
+    for (const kind of selected) {
+      let signature = this.signatureFor(mission, kind);
+      if (taken(signature)) {
+        for (let attempt = 0; attempt < 24; attempt += 1) {
+          const candidate = this.rerollPuzzle(mission, kind, level, attempt);
+          if (candidate === mission) continue;
+          const candidateSignature = this.signatureFor(candidate, kind);
+          if (!taken(candidateSignature)) {
+            mission = candidate;
+            signature = candidateSignature;
+            break;
+          }
         }
       }
-      if (selected === base.puzzles.language) selected = firstFresh;
+      usedThisLevel.add(signature);
     }
 
-    const signature = signatureOf(selected);
-    try {
-      globalThis.localStorage?.setItem(storageKey, JSON.stringify({
-        seed: base.seed,
-        signatures: [signature, ...recentSignatures.filter((item) => item !== signature)].slice(0, 6),
-        template: idOf(selected),
-        purpose: selected.learningPurpose ?? "",
-      }));
-    } catch {
-      // Storage is optional.
-    }
-    if (selected === base.puzzles.language) return base;
-    return { ...base, puzzles: { ...base.puzzles, language: selected } };
+    this.writeRecentSignatures([...usedThisLevel, ...recent]);
+    return mission;
   }
 
-  private withNonRepeatingEnglish(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
-    const storageKey = `eli-quest:progressive-english:${level}`;
-    const signatureOf = (puzzle: GeneratedMission["puzzles"]["english"]): string =>
-      `${puzzle.id}|${puzzle.challengeType ?? ""}|${puzzle.learningPurpose ?? ""}|${puzzle.instruction}|${puzzle.choices.find((choice) => choice.isCorrect)?.label ?? ""}`;
-    const idOf = (puzzle: GeneratedMission["puzzles"]["english"]): string => puzzle.id.replace(/^english-/, "");
-    let recentSignatures: string[] = [];
-    let previousTemplate = "";
-    let previousPurpose = "";
-    try {
-      const stored = JSON.parse(globalThis.localStorage?.getItem(storageKey) ?? "{}") as {
-        seed?: string;
-        signatures?: string[];
-        template?: string;
-        purpose?: string;
-      };
-      if (stored.seed === base.seed) return base;
-      recentSignatures = stored.signatures ?? [];
-      previousTemplate = stored.template ?? "";
-      previousPurpose = stored.purpose ?? "";
-    } catch {
-      // Storage is optional.
-    }
-
-    let selected = base.puzzles.english;
-    const currentSignature = signatureOf(selected);
-    if (
-      recentSignatures.includes(currentSignature)
-      || idOf(selected) === previousTemplate
-      || (selected.learningPurpose ?? "") === previousPurpose
-    ) {
-      const generator = new EnglishInstructionGenerator();
-      let firstFresh = selected;
-      for (let attempt = 0; attempt < 32; attempt += 1) {
-        const preferred = this.englishTemplateIdsForProgressive(level, attempt);
-        const candidate = generator.generate(new Random(`${base.seed}:english-diversity:${level}:${attempt}`), level, preferred);
-        const signature = signatureOf(candidate);
-        if (recentSignatures.includes(signature)) continue;
-        if (firstFresh === selected) firstFresh = candidate;
-        if (idOf(candidate) !== previousTemplate && (candidate.learningPurpose ?? "") !== previousPurpose) {
-          selected = candidate;
-          break;
-        }
+  private signatureFor(mission: GeneratedMission, kind: ProgressiveDiscipline): string {
+    const puzzles = mission.puzzles;
+    const norm = (text: string): string => text.replace(/\s+/g, " ").trim();
+    switch (kind) {
+      case "math": {
+        const m = puzzles.math;
+        // Workshops carry their distinguishing data in target parameters, not in
+        // the (placeholder) answer — include them so different lines/curves count
+        // as different exercises.
+        const workshop = m.graphWorkshop
+          ? `|gw:${m.graphWorkshop.parameters.map((p) => `${p.key}=${p.target}`).join(",")};${m.graphWorkshop.targetPoints.map((pt) => `${pt.x}:${pt.y}`).join("|")}`
+          : "";
+        const lab = m.equationLab ? `|eq:${m.equationLab.roots.join(",")}` : "";
+        return `math|${m.archetype ?? "base"}|${m.answer}|${norm(m.prompt)}${workshop}${lab}`;
       }
-      if (selected === base.puzzles.english) selected = firstFresh;
+      case "language":
+        return `language|${puzzles.language.id}|${puzzles.language.repaired}|${puzzles.language.learningPurpose ?? ""}`;
+      case "english":
+        return `english|${puzzles.english.id}|${norm(puzzles.english.instruction)}|${puzzles.english.choices.find((choice) => choice.isCorrect)?.label ?? ""}`;
+      case "coding":
+        return `coding|${puzzles.coding.challengeType}|${norm(puzzles.coding.question)}|${puzzles.coding.correctOption}`;
+      case "circuit":
+        return `circuit|${puzzles.circuit.scenarioType ?? ""}|${norm(puzzles.circuit.symptom)}|${puzzles.circuit.requiredRepairs.join(",")}`;
+      case "music":
+        return `music|${puzzles.music.clef}|${puzzles.music.noteName}|${puzzles.music.octave}|${puzzles.music.challengeMode}`;
     }
+    return "";
+  }
 
-    const signature = signatureOf(selected);
-    try {
-      globalThis.localStorage?.setItem(storageKey, JSON.stringify({
-        seed: base.seed,
-        signatures: [signature, ...recentSignatures.filter((item) => item !== signature)].slice(0, 6),
-        template: idOf(selected),
-        purpose: selected.learningPurpose ?? "",
-      }));
-    } catch {
-      // Storage is optional.
+  /** Generates a fresh, validated puzzle for one discipline with rotated variety. */
+  private rerollPuzzle(
+    base: GeneratedMission,
+    kind: ProgressiveDiscipline,
+    level: DifficultyLevel,
+    attempt: number,
+  ): GeneratedMission {
+    const preset = difficultyModel.getPreset(level);
+    const random = new Random(`${base.seed}:reroll:${kind}:${level}:${attempt}`);
+    switch (kind) {
+      case "math": {
+        const raw = this.mathGen.generate(random, preset, this.mathArchetypesForProgressive(level, attempt));
+        if (!this.mathValidator.validate(raw)) return base;
+        return { ...base, puzzles: { ...base.puzzles, math: exerciseDirector.enrichMath(raw, level) } };
+      }
+      case "language": {
+        const puzzle = this.languageGen.generate(random, level, this.languageTemplateIdsForProgressive(level, attempt));
+        return this.languageValidator.validateItalian(puzzle) ? { ...base, puzzles: { ...base.puzzles, language: puzzle } } : base;
+      }
+      case "english": {
+        const puzzle = this.englishGen.generate(random, level, this.englishTemplateIdsForProgressive(level, attempt));
+        return this.languageValidator.validateEnglish(puzzle) ? { ...base, puzzles: { ...base.puzzles, english: puzzle } } : base;
+      }
+      case "coding": {
+        const puzzle = this.codingGen.generate(random, preset, this.codingTypesForProgressive(level, attempt));
+        return this.codingValidator.validate(puzzle) ? { ...base, puzzles: { ...base.puzzles, coding: puzzle } } : base;
+      }
+      case "circuit": {
+        const raw = this.circuitGen.generate(random, preset, this.circuitFaultsForProgressive(level, attempt));
+        if (!this.circuitValidator.validate(raw)) return base;
+        return { ...base, puzzles: { ...base.puzzles, circuit: exerciseDirector.enrichCircuit(raw, level) } };
+      }
+      case "music": {
+        const puzzle = this.musicGen.generate(random, level);
+        return { ...base, puzzles: { ...base.puzzles, music: puzzle } };
+      }
     }
-    if (selected === base.puzzles.english) return base;
-    return { ...base, puzzles: { ...base.puzzles, english: selected } };
+    return base;
+  }
+
+  private mathArchetypesForProgressive(level: DifficultyLevel, attempt: number): Array<NonNullable<GeneratedMathPuzzle["archetype"]>> {
+    // Avoids graph/equation archetypes on purpose: those route to the low-variety
+    // graph workshop / equation lab, defeating de-duplication. Re-rolls always use
+    // the rich, high-entropy template pool instead.
+    const pools: Array<Array<NonNullable<GeneratedMathPuzzle["archetype"]>>> = [
+      ["calcolo-diretto", "frazioni", "percentuali", "lettura-dati", "sequenza"],
+      ["sequenza", "statistica", "vincolo", "lettura-dati", "percentuali", "frazioni"],
+      ["vincolo", "proporzione", "geometria", "probabilita", "percentuali", "frazioni", "statistica"],
+      ["ragionamento-inverso", "pre-algebra", "proporzione", "statistica", "probabilita", "geometria"],
+      ["diagnosi-errore", "potenze-radici", "geometria", "sistemi-lineari", "probabilita", "ragionamento-inverso", "pre-algebra", "proporzione"],
+    ];
+    const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
+    return pools[(attempt + level) % (maxIndex + 1)];
+  }
+
+  private codingTypesForProgressive(level: DifficultyLevel, attempt: number): CodingChallengeType[] {
+    const pools: CodingChallengeType[][] = [
+      ["trace-output", "variable-state"],
+      ["variable-state", "loop-count"],
+      ["loop-count", "conditional-branch"],
+      ["conditional-branch", "boolean-logic"],
+      ["debug-line", "boolean-logic", "loop-count"],
+    ];
+    const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
+    return pools[(attempt + level) % (maxIndex + 1)];
+  }
+
+  private circuitFaultsForProgressive(level: DifficultyLevel, attempt: number): CircuitFaultType[] {
+    const pools: CircuitFaultType[][] = [
+      ["missing-wire", "open-switch"],
+      ["missing-resistor", "wrong-resistor-value", "reversed-led"],
+      ["sensor-unpowered", "disconnected-component", "short-circuit"],
+      ["parallel-branch-open", "capacitor-discharged", "loose-ground"],
+      ["relay-not-armed", "short-circuit", "wrong-resistor-value", "parallel-branch-open"],
+    ];
+    const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
+    return pools[(attempt + level) % (maxIndex + 1)];
+  }
+
+  private readRecentSignatures(): string[] {
+    try {
+      const raw = globalThis.localStorage?.getItem(RECENT_SIGNATURES_KEY);
+      const parsed = raw ? (JSON.parse(raw) as unknown) : [];
+      return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string") : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private writeRecentSignatures(signatures: string[]): void {
+    try {
+      const unique = Array.from(new Set(signatures)).slice(0, RECENT_SIGNATURES_CAP);
+      globalThis.localStorage?.setItem(RECENT_SIGNATURES_KEY, JSON.stringify(unique));
+    } catch {
+      // Storage is optional; fresh mission entropy still changes most exercises.
+    }
   }
 
   private languageTemplateIdsForProgressive(level: DifficultyLevel, attempt: number): string[] {
@@ -376,64 +430,6 @@ export class ProgressiveMissionBuilder {
     ];
     const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
     return pools[(attempt + level) % (maxIndex + 1)];
-  }
-
-  private withNonRepeatingMath(base: GeneratedMission, level: DifficultyLevel): GeneratedMission {
-    const storageKey = `eli-quest:progressive-math:${level}`;
-    const signatureOf = (puzzle: GeneratedMission["puzzles"]["math"]): string =>
-      `${puzzle.archetype ?? "base"}|${puzzle.answer}|${puzzle.prompt.replace(/\s+/g, " ")}`;
-    let recentSignatures: string[] = [];
-    let previousArchetype = "";
-    try {
-      const stored = JSON.parse(globalThis.localStorage?.getItem(storageKey) ?? "{}") as {
-        seed?: string;
-        signatures?: string[];
-        archetype?: string;
-      };
-      if (stored.seed === base.seed) return base;
-      recentSignatures = stored.signatures ?? [];
-      previousArchetype = stored.archetype ?? "";
-    } catch {
-      // Storage is optional; fresh mission entropy still changes the exercise.
-    }
-
-    let selected = base.puzzles.math;
-    const currentSignature = signatureOf(selected);
-    if (
-      recentSignatures.includes(currentSignature)
-      || selected.id.startsWith("math-fallback")
-      || (level > 1 && (selected.archetype ?? "") === previousArchetype)
-    ) {
-      const generator = new MathPuzzleGenerator();
-      const preset = difficultyModel.getPreset(level);
-      let firstFresh = selected;
-      for (let attempt = 0; attempt < 18; attempt += 1) {
-        const candidate = exerciseDirector.enrichMath(
-          generator.generateGraphWorkshop(new Random(`${base.seed}:math-diversity:${attempt}`), preset),
-          level,
-        );
-        if (recentSignatures.includes(signatureOf(candidate))) continue;
-        if (firstFresh === selected) firstFresh = candidate;
-        if ((candidate.archetype ?? "") !== previousArchetype || level === 1) {
-          selected = candidate;
-          break;
-        }
-      }
-      if (selected === base.puzzles.math) selected = firstFresh;
-    }
-
-    const signature = signatureOf(selected);
-    try {
-      globalThis.localStorage?.setItem(storageKey, JSON.stringify({
-        seed: base.seed,
-        signatures: [signature, ...recentSignatures.filter((item) => item !== signature)].slice(0, 4),
-        archetype: selected.archetype ?? "",
-      }));
-    } catch {
-      // Storage is optional.
-    }
-    if (selected === base.puzzles.math) return base;
-    return { ...base, puzzles: { ...base.puzzles, math: selected } };
   }
 
   timeLimitMs(level: DifficultyLevel, objectiveCount: number): number {

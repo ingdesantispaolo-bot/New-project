@@ -7,7 +7,6 @@ import { feedbackSystem } from "../core/FeedbackSystem";
 import { inventorySystem } from "../core/InventorySystem";
 import { mapLayoutSystem } from "../core/MapLayoutSystem";
 import { missionEngine } from "../core/MissionEngine";
-import { propRenderer } from "../core/PropRenderer";
 import { saveSystem } from "../core/SaveSystem";
 import { exerciseVariantSystem } from "../core/ExerciseVariantSystem";
 import { startScene } from "../core/SceneNavigator";
@@ -48,7 +47,6 @@ export class LaboratoryScene extends Phaser.Scene {
   create(): void {
     audioManager.playMusic("labAmbience");
     this.drawLaboratory();
-    this.createSceneProps();
     this.createPlayer();
     this.createHud();
     this.createHotspots();
@@ -118,39 +116,33 @@ export class LaboratoryScene extends Phaser.Scene {
 
   private drawMissionTrace(): void {
     const points = [
-      { x: 910, y: 502, label: "1" },
-      { x: 470, y: 286, label: "2" },
-      { x: 1072, y: 276, label: "3" },
-      { x: 560, y: 500, label: "4" },
-      { x: 760, y: 214, label: "5" },
+      { x: 470, y: 626 },
+      { x: 610, y: 626 },
+      { x: 750, y: 626 },
+      { x: 890, y: 626 },
+      { x: 1030, y: 626 },
     ];
     const activeSegments = this.completedMissionTraceSegments();
     const trace = this.add.graphics();
     points.slice(1).forEach((point, index) => {
       const previous = points[index];
-      trace.lineStyle(5, 0x061019, 0.34);
+      trace.lineStyle(7, 0x061019, 0.34);
       trace.lineBetween(previous.x, previous.y, point.x, point.y);
-      trace.lineStyle(index < activeSegments ? 3 : 2, index < activeSegments ? 0xf6c85f : 0x6be7d6, index < activeSegments ? 0.3 : 0.075);
+      trace.lineStyle(index < activeSegments ? 3 : 2, index < activeSegments ? 0xf6c85f : 0x6be7d6, index < activeSegments ? 0.4 : 0.08);
       trace.lineBetween(previous.x, previous.y, point.x, point.y);
     });
     points.forEach((point, index) => {
       const done = index <= activeSegments;
-      trace.fillStyle(done ? 0xf6c85f : 0x071018, done ? 0.24 : 0.62);
-      trace.fillCircle(point.x, point.y, 13);
-      trace.lineStyle(2, done ? 0xf6c85f : 0x6be7d6, done ? 0.44 : 0.16);
-      trace.strokeCircle(point.x, point.y, 17);
-      this.add.text(point.x - 4, point.y - 8, point.label, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: done ? "#f7d37a" : "#9ff5e9",
-        fontStyle: "bold",
-      }).setAlpha(done ? 0.8 : 0.38);
+      trace.fillStyle(done ? 0xf6c85f : 0x071018, done ? 0.24 : 0.5);
+      trace.fillCircle(point.x, point.y, 5);
+      trace.lineStyle(1, done ? 0xf6c85f : 0x6be7d6, done ? 0.28 : 0.12);
+      trace.strokeCircle(point.x, point.y, 9);
     });
 
     const pulse = this.add.graphics();
-    pulse.lineStyle(2, 0xf6c85f, 0.26);
-    pulse.strokeCircle(686, 590, 18);
-    this.tweens.add({ targets: pulse, alpha: 0.18, duration: 1200, yoyo: true, repeat: -1 });
+    pulse.lineStyle(1, 0xf6c85f, 0.18);
+    pulse.strokeCircle(points[Math.min(activeSegments, points.length - 1)].x, 626, 14);
+    this.tweens.add({ targets: pulse, alpha: 0.08, duration: 1200, yoyo: true, repeat: -1 });
   }
 
   private completedMissionTraceSegments(): number {
@@ -213,24 +205,17 @@ export class LaboratoryScene extends Phaser.Scene {
   private drawAmbientObjects(): void {
     this.add.rectangle(910, 500, 180, 84, 0x162733, 0.32).setStrokeStyle(1, 0x6be7d6, 0.22);
     this.add.rectangle(912, 501, 160, 64, 0x6be7d6, 0.025);
-    this.add.text(846, 468, "MESSAGGIO", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9" }).setAlpha(0.54);
-    this.add.text(846, 492, saveSystem.data.flags.grammarFixed ? this.grammarRepairPuzzle.repaired : this.grammarRepairPuzzle.corrupted, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: saveSystem.data.flags.grammarFixed ? "#f5fbff" : "#f6c85f",
-      wordWrap: { width: 132 },
-      lineSpacing: 3,
-    }).setAlpha(0.72);
+    this.add.rectangle(890, 488, 70, 4, saveSystem.data.flags.grammarFixed ? 0x9ff5e9 : 0xf6c85f, 0.42);
+    this.add.rectangle(890, 506, 96, 4, 0x6be7d6, 0.18);
+    this.add.rectangle(890, 524, 54, 4, 0x6be7d6, 0.14);
 
     this.add.rectangle(430, 514, 128, 70, 0x16242f, 0.28).setStrokeStyle(1, 0xffb36b, 0.22);
     this.add.rectangle(386, 502, 34, 8, 0xffb36b, 0.26);
     this.add.circle(452, 506, 8, 0x8aa6b0, 0.44);
-    this.add.text(382, 496, "attrezzi", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a" }).setAlpha(0.5);
     this.add.rectangle(1120, 486, 84, 84, 0x122934, 0.46).setStrokeStyle(1, 0x6be7d6, 0.24);
     this.add.circle(1120, 486, 20, 0x6be7d6, 0.12).setStrokeStyle(2, 0x6be7d6, 0.34);
     this.add.rectangle(1120, 180, 136, 78, 0x071018, 0.48).setStrokeStyle(2, 0x315766, 0.38);
     this.add.rectangle(820, 575, 112, 50, 0x152937, 0.48).setStrokeStyle(1, 0xf6c85f, 0.2);
-    this.add.text(786, 560, "diario", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a" }).setAlpha(0.5);
   }
 
   private drawAmbientAnimation(): void {
@@ -264,14 +249,20 @@ export class LaboratoryScene extends Phaser.Scene {
   }
 
   private createHud(): void {
-    new Panel(this, 24, 18, 304, 108, "Missione");
+    new Panel(this, 24, 18, 304, 120, "Missione");
     this.objectiveText = this.add.text(42, 52, "", {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
+      fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: 268 },
       lineSpacing: 4,
     });
+    this.add.text(42, 106, "Ordine: testo > energia > terminale > robot > porta", {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#f7d37a",
+      wordWrap: { width: 268 },
+    }).setAlpha(0.82);
 
     new Panel(this, 24, 622, 304, 74, "Inventario");
     this.inventoryText = this.add.text(42, 654, "", {
@@ -311,6 +302,7 @@ export class LaboratoryScene extends Phaser.Scene {
       const locked = !this.hasRequiredFlags(object);
       const state: DeviceState = complete ? "complete" : locked ? "locked" : this.isCurrentObject(object) ? "active" : "ready";
       const hotspotSize = this.hotspotSizeFor(object, state);
+      const primary = this.isPrimaryMissionObject(object);
       const device = SceneChrome.deviceHotspot(
         this,
         layout.x,
@@ -320,6 +312,10 @@ export class LaboratoryScene extends Phaser.Scene {
         state,
         () => this.moveToObject(object),
         hotspotSize,
+        {
+          labelMode: primary ? "always" : "hover",
+          statusMode: "hidden",
+        },
       );
       device
         .on("pointerover", () => {
@@ -330,21 +326,20 @@ export class LaboratoryScene extends Phaser.Scene {
 
   private hotspotSizeFor(object: LaboratoryObject, state: DeviceState): number {
     const major = object.action === "door" || object.action === "terminal" || object.action === "circuit" || object.action === "grammar" || object.action === "robot";
-    const base = major ? 78 : 60;
-    if (state === "active") return base + 16;
-    if (state === "complete") return base + 6;
-    if (state === "locked") return Math.max(54, base - 12);
+    const base = major ? 62 : 42;
+    if (object.id === "floor-trace") return 48;
+    if (state === "active") return base + 10;
+    if (state === "complete") return base + 4;
+    if (state === "locked") return Math.max(38, base - 10);
     return base;
   }
 
-  private createSceneProps(): void {
-    propRenderer.renderLaboratoryProps(
-      this,
-      laboratoryObjects,
-      (object) => this.hotspotLayout(object),
-      (object) => Boolean(object.completedFlag && saveSystem.data.flags[object.completedFlag]),
-      (object) => !this.hasRequiredFlags(object),
-    );
+  private isPrimaryMissionObject(object: LaboratoryObject): boolean {
+    return object.action === "grammar"
+      || object.action === "circuit"
+      || object.action === "terminal"
+      || object.action === "robot"
+      || object.action === "door";
   }
 
   private deviceKindFor(object: LaboratoryObject): DeviceKind {

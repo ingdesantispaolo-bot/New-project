@@ -4271,7 +4271,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
     const isOrdering = prompt.type === "sentence-build";
     const isTranslation = prompt.type === "translation-match";
-    this.addMathPanel(overlay, 616, 112, 636, 432, isOrdering ? "2 · Build the sentence" : isTranslation ? "2 · Riconosci la traduzione" : "2 · Scegli un'azione");
+    this.addMathPanel(overlay, 616, 112, 636, 432, isOrdering ? "2 · Build the sentence" : isTranslation ? "2 · Riconosci la traduzione" : prompt.requiredSelectionCount > 1 ? "2 · Decodifica e prova" : "2 · Scegli un'azione");
     overlay.add(this.add.text(648, 154, isOrdering
       ? "Tocca le parole nell'ordine giusto. Ritocca una parola per toglierla."
       : isTranslation
@@ -4303,17 +4303,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (isOrdering) {
       this.renderEnglishOrderingTiles(overlay, session, prompt);
     } else {
-      const tileStartX = 788;
+      const multiSelect = prompt.requiredSelectionCount > 1;
+      const tileStartX = multiSelect ? 792 : 788;
       const tileStartY = 356;
+      const tileWidth = multiSelect ? 274 : 226;
+      const colSpacing = multiSelect ? 304 : 252;
+      const tileHeight = multiSelect ? 58 : 52;
       prompt.tiles.forEach((tile, index) => {
         const selected = session.selectedIds.has(tile.id);
         const col = index % 2;
         const row = Math.floor(index / 2);
-        overlay.add(new Button(this, tileStartX + col * 252, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleEnglishMinigameTile(tile.id), {
-          width: 226,
-          height: 52,
-          fontSize: tile.label.length > 32 ? 10 : tile.label.length > 22 ? 12 : 15,
-          wordWrapWidth: 202,
+        overlay.add(new Button(this, tileStartX + col * colSpacing, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleEnglishMinigameTile(tile.id), {
+          width: tileWidth,
+          height: tileHeight,
+          fontSize: tile.label.length > 42 ? 11 : tile.label.length > 28 ? 12 : 15,
+          wordWrapWidth: tileWidth - 28,
           fill: selected ? 0x174d42 : 0x263743,
           stroke: selected ? 0xf7d37a : 0x6be7d6,
         }));

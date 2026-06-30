@@ -1,7 +1,9 @@
 import Phaser from "phaser";
+import { italianStudyPages } from "../data/italianStudyPages";
 import { mathStudyPages } from "../data/mathStudyPages";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { difficultyModel } from "../procedural/DifficultyModel";
+import { LanguageCorruptionGenerator } from "../procedural/generators/LanguageCorruptionGenerator";
 import { MathPuzzleGenerator } from "../procedural/generators/MathPuzzleGenerator";
 import { Random } from "../procedural/Random";
 import { saveSystem } from "../core/SaveSystem";
@@ -13,6 +15,7 @@ import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
+const studyPages = [...mathStudyPages, ...italianStudyPages];
 
 export class MathStudyScene extends Phaser.Scene {
   private pageIndex = 0;
@@ -24,10 +27,10 @@ export class MathStudyScene extends Phaser.Scene {
 
   init(data?: { pageId?: string; listOffset?: number }): void {
     if (data?.pageId) {
-      const index = mathStudyPages.findIndex((page) => page.id === data.pageId);
+      const index = studyPages.findIndex((page) => page.id === data.pageId);
       if (index >= 0) {
         this.pageIndex = index;
-        this.listOffset = Math.max(0, Math.min(data.listOffset ?? index, mathStudyPages.length - 8));
+        this.listOffset = Math.max(0, Math.min(data.listOffset ?? index, studyPages.length - 8));
       }
     }
   }
@@ -45,13 +48,13 @@ export class MathStudyScene extends Phaser.Scene {
 
   private drawHeader(): void {
     this.add.rectangle(640, 62, 1216, 86, 0x07151d, 0.82).setStrokeStyle(2, 0x6be7d6, 0.28);
-    this.add.text(56, 28, "Atlante matematico", {
+    this.add.text(56, 28, "Atlante", {
       fontFamily: "Inter, Arial",
       fontSize: "36px",
       color: "#f5fbff",
       fontStyle: "bold",
     });
-    this.add.text(56, 74, "Programma completo della scuola media: definizione, formule, regole ed esempio per ogni argomento.", {
+    this.add.text(56, 74, "Matematica e italiano: definizioni, schemi, regole operative, esempi guidati ed errori tipici.", {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#c7dce7",
@@ -73,13 +76,13 @@ export class MathStudyScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(54, 178, `${mathStudyPages.length} pagine | scegli e studia`, {
+    this.add.text(54, 178, `${studyPages.length} pagine | scegli e studia`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
     });
 
-    const visiblePages = mathStudyPages.slice(this.listOffset, this.listOffset + 8);
+    const visiblePages = studyPages.slice(this.listOffset, this.listOffset + 8);
     visiblePages.forEach((page, localIndex) => {
       const index = this.listOffset + localIndex;
       const selected = index === this.pageIndex;
@@ -98,11 +101,11 @@ export class MathStudyScene extends Phaser.Scene {
 
     new Button(this, 112, 632, "Su", () => {
       this.listOffset = Math.max(0, this.listOffset - 4);
-      this.scene.restart({ pageId: mathStudyPages[this.pageIndex].id, listOffset: this.listOffset });
+      this.scene.restart({ pageId: studyPages[this.pageIndex].id, listOffset: this.listOffset });
     }, { width: 100, height: 36, fill: 0x263743, fontSize: 13 });
     new Button(this, 244, 632, "Giù", () => {
-      this.listOffset = Math.min(Math.max(0, mathStudyPages.length - 8), this.listOffset + 4);
-      this.scene.restart({ pageId: mathStudyPages[this.pageIndex].id, listOffset: this.listOffset });
+      this.listOffset = Math.min(Math.max(0, studyPages.length - 8), this.listOffset + 4);
+      this.scene.restart({ pageId: studyPages[this.pageIndex].id, listOffset: this.listOffset });
     }, { width: 100, height: 36, fill: 0x263743, fontSize: 13 });
   }
 
@@ -110,11 +113,13 @@ export class MathStudyScene extends Phaser.Scene {
     if (area === "Numeri") return 0x6be7d6;
     if (area === "Geometria") return 0xf6c85f;
     if (area === "Relazioni e funzioni") return 0x9f8cff;
+    if (area === "Italiano - verbi") return 0x70d68a;
+    if (area === "Italiano - grammatica") return 0x9f8cff;
     return 0x70d68a;
   }
 
   private drawStudyPage(): void {
-    const page = mathStudyPages[this.pageIndex];
+    const page = studyPages[this.pageIndex];
     const accent = this.areaColor(page.area);
     this.add.rectangle(782, 388, 820, 520, 0x07151d, 0.9).setOrigin(0.5).setStrokeStyle(2, accent, 0.42);
 
@@ -133,7 +138,7 @@ export class MathStudyScene extends Phaser.Scene {
       color: "#f5fbff",
       fontStyle: "bold",
     }).setOrigin(0.5);
-    this.add.text(1086, 178, `Livelli ${page.levelRange[0]}-${page.levelRange[1]}  ·  ${page.tags.join(" · ")}`, {
+    this.add.text(1086, 178, `${page.subject === "italiano" ? "Italiano" : "Matematica"} · Livelli ${page.levelRange[0]}-${page.levelRange[1]}  ·  ${page.tags.join(" · ")}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
@@ -231,24 +236,31 @@ export class MathStudyScene extends Phaser.Scene {
   }
 
   private drawFooter(): void {
-    const prevIndex = (this.pageIndex - 1 + mathStudyPages.length) % mathStudyPages.length;
-    const nextIndex = (this.pageIndex + 1) % mathStudyPages.length;
+    const page = studyPages[this.pageIndex];
+    const prevIndex = (this.pageIndex - 1 + studyPages.length) % studyPages.length;
+    const nextIndex = (this.pageIndex + 1) % studyPages.length;
     new Button(this, 408, 672, "Pagina precedente", () => {
       this.pageIndex = prevIndex;
-      this.scene.restart({ pageId: mathStudyPages[prevIndex].id, listOffset: this.listOffsetFor(prevIndex) });
+      this.scene.restart({ pageId: studyPages[prevIndex].id, listOffset: this.listOffsetFor(prevIndex) });
     }, { width: 176, height: 42, fill: 0x263743, fontSize: 12 });
     new Button(this, 598, 672, "Pagina successiva", () => {
       this.pageIndex = nextIndex;
-      this.scene.restart({ pageId: mathStudyPages[nextIndex].id, listOffset: this.listOffsetFor(nextIndex) });
+      this.scene.restart({ pageId: studyPages[nextIndex].id, listOffset: this.listOffsetFor(nextIndex) });
     }, { width: 176, height: 42, fill: 0x263743, fontSize: 12 });
-    new Button(this, 826, 672, "Officina dei Grafici", () => this.startGraphWorkshop(), {
+    new Button(this, 826, 672, page.subject === "italiano" ? "Laboratorio Verbi" : "Officina dei Grafici", () => {
+      if (page.subject === "italiano") this.startItalianVerbTraining();
+      else this.startGraphWorkshop();
+    }, {
       width: 244,
       height: 42,
       fill: 0x173b36,
       stroke: 0xf6c85f,
       fontSize: 13,
     });
-    new Button(this, 1088, 672, "Allenamento misto", () => this.startMathTraining(), {
+    new Button(this, 1088, 672, page.subject === "italiano" ? "Focus italiano" : "Allenamento misto", () => {
+      if (page.subject === "italiano") this.startItalianTraining();
+      else this.startMathTraining();
+    }, {
       width: 244,
       height: 42,
       fill: 0x173b36,
@@ -257,7 +269,7 @@ export class MathStudyScene extends Phaser.Scene {
   }
 
   private startMathTraining(): void {
-    const page = mathStudyPages[this.pageIndex];
+    const page = studyPages[this.pageIndex];
     const level = this.studyLevelFor(page.levelRange);
     const mission = proceduralDirector.generateFreshMission(level, ["matematica"]);
     const startedAt = new Date().toISOString();
@@ -278,7 +290,7 @@ export class MathStudyScene extends Phaser.Scene {
   }
 
   private startGraphWorkshop(): void {
-    const page = mathStudyPages[this.pageIndex];
+    const page = studyPages[this.pageIndex];
     const level = Math.max(3, this.studyLevelFor(page.levelRange)) as DifficultyLevel;
     const mission = proceduralDirector.generateFreshMission(level, ["matematica"]);
     const preset = difficultyModel.getPreset(level);
@@ -334,6 +346,78 @@ export class MathStudyScene extends Phaser.Scene {
     void startScene(this, "ProceduralMissionScene", { autoOpenPuzzle: "math" });
   }
 
+  private startItalianTraining(): void {
+    const page = studyPages[this.pageIndex];
+    const level = this.studyLevelFor(page.levelRange);
+    const mission = proceduralDirector.generateFreshMission(level, ["italiano"]);
+    const startedAt = new Date().toISOString();
+    const run: ProceduralRunSave = {
+      seed: mission.seed,
+      difficulty: mission.difficulty,
+      focus: ["italiano"],
+      mode: "training",
+      mission,
+      hintsUsed: 0,
+      solvedPuzzleIds: [],
+      score: { total: 0, byPuzzle: {}, byDomain: {} },
+      puzzleStats: {},
+      startedAt,
+    };
+    saveSystem.setProceduralRun(run);
+    void startScene(this, "ProceduralMissionScene", { autoOpenPuzzle: "language" });
+  }
+
+  private startItalianVerbTraining(): void {
+    const page = studyPages[this.pageIndex];
+    const level = this.studyLevelFor(page.levelRange);
+    const mission = proceduralDirector.generateFreshMission(level, ["italiano"]);
+    const generator = new LanguageCorruptionGenerator();
+    const rewriteVerbPuzzle = (salt: string) => generator.generateMinigame(
+      new Random(`${mission.seed}:verb-lab:${salt}:${Date.now()}`),
+      level,
+      ["verb-mastery"],
+    );
+    mission.puzzles.language = rewriteVerbPuzzle("base");
+    if (mission.focusChallenges?.length) {
+      mission.focusChallenges = mission.focusChallenges.map((challenge, index) => {
+        if (challenge.kind !== "language") return challenge;
+        const puzzle = rewriteVerbPuzzle(String(index));
+        return {
+          ...challenge,
+          title: index === 0 ? "Modi e tempi dei verbi" : challenge.title,
+          description: index === 0
+            ? "Riconosci modo, tempo e persona; poi scegli o scrivi la forma corretta."
+            : challenge.description,
+          puzzle,
+        };
+      });
+      const firstLanguage = mission.focusChallenges.find((challenge) => challenge.kind === "language");
+      if (firstLanguage?.kind === "language") mission.puzzles.language = firstLanguage.puzzle;
+      mission.objectives = mission.focusChallenges.map((challenge) => ({
+        id: `procedural-${challenge.id}`,
+        label: challenge.title,
+        description: challenge.description,
+        competencies: challenge.puzzle.competencies,
+      }));
+      mission.competencies = Array.from(new Set(mission.focusChallenges.flatMap((challenge) => challenge.puzzle.competencies)));
+    }
+    const startedAt = new Date().toISOString();
+    const run: ProceduralRunSave = {
+      seed: mission.seed,
+      difficulty: mission.difficulty,
+      focus: ["italiano", "italiano.verbi"],
+      mode: "training",
+      mission,
+      hintsUsed: 0,
+      solvedPuzzleIds: [],
+      score: { total: 0, byPuzzle: {}, byDomain: {} },
+      puzzleStats: {},
+      startedAt,
+    };
+    saveSystem.setProceduralRun(run);
+    void startScene(this, "ProceduralMissionScene", { autoOpenPuzzle: "language" });
+  }
+
   private studyLevelFor(range: [number, number]): DifficultyLevel {
     const stored = Number(this.safeStorageGet(TRAINING_DIFFICULTY_KEY));
     const preferred = Number.isFinite(stored) && stored >= range[0] && stored <= range[1]
@@ -355,7 +439,7 @@ export class MathStudyScene extends Phaser.Scene {
       return Math.max(0, index);
     }
     if (index >= this.listOffset + 8) {
-      return Math.max(0, Math.min(index - 7, mathStudyPages.length - 8));
+      return Math.max(0, Math.min(index - 7, studyPages.length - 8));
     }
     return this.listOffset;
   }

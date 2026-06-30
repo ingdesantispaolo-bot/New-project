@@ -1,5 +1,7 @@
 import { competencies as competencyDefs } from "../data/competencies";
+import type { ProceduralSpecialization } from "../procedural/ProceduralTypes";
 import { saveSystem } from "./SaveSystem";
+import { selectWeakestFocus } from "./weakFocus";
 
 export type MasteryTier = 0 | 1 | 2 | 3;
 
@@ -100,6 +102,15 @@ export class MasterySystem {
       : ratio >= 0.1 ? "Cadetta"
       : "Recluta";
     return { title, stars: total, maxStars };
+  }
+
+  /**
+   * The trainable subject the player is currently weakest in, among those they
+   * have actually practised. Returns undefined until there is enough signal
+   * (at least two practised subjects), so new players fall back to other cues.
+   */
+  weakestPracticedFocus(): ProceduralSpecialization | undefined {
+    return selectWeakestFocus(this.getBranches()) as ProceduralSpecialization | undefined;
   }
 
   branchForPuzzleKind(kind: string): string {

@@ -1,6 +1,7 @@
 import { missions } from "../data/missions";
 import type { MissionDefinition, ObjectiveStatus } from "../types/missionTypes";
 import { difficultyModel } from "../procedural/DifficultyModel";
+import type { ProceduralSpecialization } from "../procedural/ProceduralTypes";
 import { isMissionComplete } from "./MissionCompletion";
 import { missionEngine } from "./MissionEngine";
 import { saveSystem } from "./SaveSystem";
@@ -13,6 +14,8 @@ export type ProgressionChapter = {
   domain: string;
   coreQuestion: string;
   unlockText: string;
+  /** Subject to warm up on before/around this chapter (Story ↔ practice bridge). */
+  practiceFocus: ProceduralSpecialization;
 };
 
 export type MissionProgressSummary = {
@@ -46,6 +49,7 @@ const chapters: ProgressionChapter[] = [
     domain: "circuiti, logica, sequenze",
     coreQuestion: "Come capisco un sistema spento senza provare tutto?",
     unlockText: "Sblocca Serra Biologica",
+    practiceFocus: "elettronica",
   },
   {
     index: 2,
@@ -55,6 +59,7 @@ const chapters: ProgressionChapter[] = [
     domain: "dati, grafici, biologia",
     coreQuestion: "Come decido quando tre variabili cambiano insieme?",
     unlockText: "Sblocca Fabbrica dei Numeri",
+    practiceFocus: "matematica",
   },
   {
     index: 3,
@@ -64,6 +69,7 @@ const chapters: ProgressionChapter[] = [
     domain: "operazioni, vincoli, controllo errore",
     coreQuestion: "Come progetto un percorso numerico invece di calcolare a caso?",
     unlockText: "Sblocca Archivio delle Parole",
+    practiceFocus: "matematica",
   },
   {
     index: 4,
@@ -73,6 +79,7 @@ const chapters: ProgressionChapter[] = [
     domain: "testo, fonti, sintesi",
     coreQuestion: "Come distinguo un dettaglio vero da una prova utile?",
     unlockText: "Apre la Stagione 2",
+    practiceFocus: "italiano",
   },
   {
     index: 5,
@@ -82,6 +89,7 @@ const chapters: ProgressionChapter[] = [
     domain: "orientamento, coordinate, scala",
     coreQuestion: "Come trovo un punto incrociando indizi indipendenti?",
     unlockText: "Sblocca Città Intelligente",
+    practiceFocus: "inglese",
   },
   {
     index: 6,
@@ -91,6 +99,7 @@ const chapters: ProgressionChapter[] = [
     domain: "energia, logica condizionale, cittadinanza",
     coreQuestion: "Come scelgo regole quando ogni decisione ha conseguenze?",
     unlockText: "Percorso principale completo",
+    practiceFocus: "coding",
   },
 ];
 
@@ -123,6 +132,7 @@ export class ProgressionSystem {
       domain: mission.competencies.slice(0, 3).join(", "),
       coreQuestion: "Quale sistema va compreso prima di agire?",
       unlockText: mission.nextMissionId ? "Sblocca la missione successiva" : "Percorso principale completo",
+      practiceFocus: "libera",
     };
     const statuses = mission.objectives.map((objective) => missionEngine.getObjectiveStatus(objective));
     const completedObjectives = statuses.filter((status) => status === "complete").length;
@@ -162,6 +172,12 @@ export class ProgressionSystem {
     if (completedMissions >= 1) return "Hai aperto il primo corridoio: ora contano dati e conseguenze.";
     if (activePercent > 0) return "Hai iniziato a leggere sistemi guasti prima di intervenire.";
     return "La prima missione serve a imparare il metodo: osserva, ipotizza, verifica.";
+  }
+
+  /** Subject to warm up on before a given Story chapter (1-based), if any. */
+  practiceFocusForChapter(index: number): ProceduralSpecialization | undefined {
+    const focus = chapters.find((chapter) => chapter.index === index)?.practiceFocus;
+    return focus && focus !== "libera" ? focus : undefined;
   }
 
   private nextUnlock(active: MissionProgressSummary): string {

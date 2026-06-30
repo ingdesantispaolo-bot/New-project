@@ -472,7 +472,7 @@ export type GeneratedLanguagePuzzle = {
   minigame?: GeneratedLanguageMinigame;
 };
 
-export type LanguageMinigameType = "agreement-sprint" | "connector-route" | "intruder-hunt" | "word-order" | "lexicon-lab";
+export type LanguageMinigameType = "agreement-sprint" | "connector-route" | "intruder-hunt" | "word-order" | "lexicon-lab" | "verb-mastery";
 
 export type LanguageMinigameTile = {
   id: string;

@@ -352,11 +352,11 @@ export class PuzzleGenerator {
 
   private languageMinigameTypesForStep(step: number): LanguageMinigameType[] {
     return [
-      ["agreement-sprint", "word-order", "lexicon-lab"],
-      ["intruder-hunt", "connector-route", "lexicon-lab"],
-      ["connector-route", "agreement-sprint", "word-order", "lexicon-lab"],
-      ["connector-route", "intruder-hunt", "word-order", "lexicon-lab"],
-      ["intruder-hunt", "agreement-sprint", "connector-route", "word-order", "lexicon-lab"],
+      ["agreement-sprint", "verb-mastery", "word-order", "lexicon-lab"],
+      ["verb-mastery", "intruder-hunt", "connector-route", "lexicon-lab"],
+      ["connector-route", "verb-mastery", "agreement-sprint", "word-order", "lexicon-lab"],
+      ["verb-mastery", "connector-route", "intruder-hunt", "word-order", "lexicon-lab"],
+      ["verb-mastery", "intruder-hunt", "agreement-sprint", "connector-route", "word-order", "lexicon-lab"],
     ][Math.min(step, 4)] as LanguageMinigameType[];
   }
 

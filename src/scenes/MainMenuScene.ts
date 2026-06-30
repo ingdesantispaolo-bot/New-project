@@ -2,11 +2,13 @@ import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { buildInfo } from "../core/BuildInfo";
 import { campaignSystem } from "../core/CampaignSystem";
+import { masterySystem } from "../core/MasterySystem";
 import { noraCompanion } from "../core/NoraCompanion";
 import { noraChip } from "../ui/NoraChip";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
+import { progressionSystem } from "../core/ProgressionSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { prefetchCoreScenes, startScene } from "../core/SceneNavigator";
@@ -92,6 +94,9 @@ export class MainMenuScene extends Phaser.Scene {
       color: "#f6c85f",
       fontStyle: "bold",
     });
+    new Button(this, 520, 310, "👤 Cambia / Nuovo giocatore", () => this.openMenuScene("PlayerReportScene", "Non sono riuscito ad aprire i giocatori. Riprova tra un istante."), {
+      width: 246, height: 30, fontSize: 12, fill: 0x1f5a51, stroke: 0xf6c85f,
+    });
     this.add.text(102, 326, this.resumeCompactSummary(missionRun, trainingRun, progressiveRun), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -118,9 +123,20 @@ export class MainMenuScene extends Phaser.Scene {
     this.add.text(heroX + 26, heroY + 16, `🤖 NORA · ${next.tag}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", fontStyle: "bold" });
     this.add.text(heroX + 26, heroY + 40, next.title, { fontFamily: "Inter, Arial", fontSize: "25px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 452 } });
     this.add.text(heroX + 26, heroY + 80, next.sub, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#c7dce7", wordWrap: { width: 452 }, lineSpacing: 3 });
-    new Button(this, heroX + heroW - 116, heroY + heroH / 2, next.cta, () => next.action(), {
-      width: 196, height: 66, fill: 0x1f5a51, stroke: 0xf6c85f, fontSize: 18, soundKey: "missionStart",
-    });
+    const practice = next.practice;
+    if (practice) {
+      // Story step: primary "enter chapter" + secondary "warm up first" (the bridge).
+      new Button(this, heroX + heroW - 116, heroY + 40, next.cta, () => next.action(), {
+        width: 196, height: 48, fill: 0x1f5a51, stroke: 0xf6c85f, fontSize: 17, soundKey: "missionStart",
+      });
+      new Button(this, heroX + heroW - 116, heroY + 92, practice.label, () => this.startFocusTraining(practice.focus), {
+        width: 196, height: 34, fill: 0x173b36, stroke: 0x6be7d6, fontSize: 12,
+      });
+    } else {
+      new Button(this, heroX + heroW - 116, heroY + heroH / 2, next.cta, () => next.action(), {
+        width: 196, height: 66, fill: 0x1f5a51, stroke: 0xf6c85f, fontSize: 18, soundKey: "missionStart",
+      });
+    }
 
     // ===== B) ALLENATI: tutte le modalità di pratica in un posto =====
     this.add.text(44, 484, "ALLENATI", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold" });
@@ -163,110 +179,45 @@ export class MainMenuScene extends Phaser.Scene {
       this.time.delayedCall(600, () => noraChip.say(this, noraCompanion.greetingShort(playerSystem.getActivePlayer().name), "info"));
     }
 
-    VisualKit.glassPanel(this, 792, 128, 430, 560, "academy", 0.72);
-    this.add.text(828, 150, "🎓 Allenamento", {
-      fontFamily: "Inter, Arial",
-      fontSize: "22px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    });
-    this.add.text(1208, 156, "PERCORSO · PER MATERIA", {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#f6c85f",
-      fontStyle: "bold",
-    }).setOrigin(1, 0);
-    this.add.text(828, 192, "Percorso di esercizio: nessuna vita in gioco, contano precisione, tempo e aiuti. Scegli la materia; il livello parte dai tuoi risultati (1-8).", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#c7dce7",
-      wordWrap: { width: 360 },
-      lineSpacing: 4,
-    });
-    if (!this.userPickedDifficulty) {
-      const abbrev: Partial<Record<ProceduralSpecialization, string>> = {
-        matematica: "Mat", italiano: "Ita", inglese: "Ing", elettronica: "Cir", coding: "Cod", musica: "Mus", fisica: "Fis",
-      };
-      const perFocus = focusOptions
-        .map((focus) => `${abbrev[focus.id] ?? focus.label} L${this.recommendedDifficultyForFocus(focus.id)}`)
-        .join(" · ");
-      this.add.text(828, 254, `Consigliato per materia: ${perFocus}`, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#9ff5e9",
-        wordWrap: { width: 340 },
-        lineSpacing: 2,
+    // ===== C) LA MIA ACCADEMIA: progressi & strumenti (secondari) =====
+    VisualKit.glassPanel(this, 792, 110, 438, 288, "academy", 0.72);
+    this.add.text(820, 128, "LA MIA ACCADEMIA", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9", fontStyle: "bold" });
+    this.add.text(820, 154, "Progressi, diario, classifiche e strumenti.", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: 392 } });
+    const tool = (cx: number, cy: number, label: string, sceneKey: string, fill = 0x263743, stroke?: number): void => {
+      new Button(this, cx, cy, label, () => this.openMenuScene(sceneKey, `Non sono riuscito ad aprire ${label}. Riprova tra un istante.`), {
+        width: 200, height: 40, fontSize: 13, fill, stroke,
       });
-    }
-    this.add.text(828, 306, `Livello selezionato: ${selected}/8`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f6c85f",
-      fontStyle: "bold",
-    });
-    if (this.isResumable(trainingRun)) {
-      new Button(this, 1102, 314, "Riprendi focus", () => {
-        this.resumeFocusTraining();
-      }, {
-        width: 158,
-        height: 38,
-        fill: 0x1f5a51,
-        stroke: 0xf6c85f,
-        fontSize: 13,
-      });
-    }
-    this.add.text(828, 334, difficultyModel.describe(selected), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#c7dce7",
-      wordWrap: { width: 360 },
-      lineSpacing: 4,
-    });
-    focusOptions.forEach((focus, index) => {
-      const x = 862 + (index % 4) * 104;
-      const y = 416 + Math.floor(index / 4) * 58;
-      new Button(this, x, y, focus.label, () => {
-        this.startFocusTraining(focus.id);
-      }, {
-        width: 98,
-        height: 44,
-        fill: this.isSameFocus(trainingRun, focus.id) ? 0x1f5a51 : 0x173b36,
-        stroke: this.isSameFocus(trainingRun, focus.id) ? 0xf6c85f : 0x6be7d6,
-        fontSize: 10,
-      });
-    });
+    };
+    tool(908, 200, "🎓 La mia Accademia", "AcademyScene", 0x1f5a51, 0x70d68a);
+    tool(1124, 200, "📓 Diario", "JournalScene");
+    tool(908, 248, "🏆 Classifiche", "LeaderboardScene");
+    tool(1124, 248, "👤 Giocatori & Registro", "PlayerReportScene");
+    tool(908, 296, "📐 Atlante", "MathStudyScene");
+    tool(1124, 296, "🤖 NORA", "NoraScene", 0x173b36, 0x9ff5e9);
+    tool(908, 344, "👩‍🏫 Quadro Docente", "TeacherDashboardScene", 0x2a3550, 0x9f8cff);
 
-    this.add.text(828, 562, "Livello allenamento", {
-      fontFamily: "Inter, Arial",
-      fontSize: "20px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    });
-    this.add.text(828, 590, `Consigliato: ${recommended}/8. Puoi scegliere liberamente da 1 a 8.`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#c7dce7",
-      wordWrap: { width: 360 },
-      lineSpacing: 4,
-    });
-    for (let level = 1; level <= 8; level += 1) {
-      new Button(this, 852 + (level - 1) * 45, 640, String(level), () => {
-        this.selectDifficulty(level as DifficultyLevel);
-      }, {
-        width: 38,
-        height: 36,
-        fill: selected === level ? 0x1f5a51 : 0x142736,
-        stroke: selected === level ? 0xf6c85f : 0x6be7d6,
-        fontSize: 14,
+    // ===== I TUOI PROGRESSI (rango, storia, difficoltà adattiva) =====
+    const prog = progressionSystem.getProgression();
+    VisualKit.glassPanel(this, 792, 412, 438, 276, "academy", 0.72);
+    this.add.text(820, 420, "I TUOI PROGRESSI", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" });
+    this.add.text(820, 442, prog.rankTitle, { fontFamily: "Inter, Arial", fontSize: "18px", color: "#f6c85f", fontStyle: "bold" });
+    this.add.text(820, 470, prog.rankDescription, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: 392 }, lineSpacing: 4 });
+    this.add.text(820, 524, `Storia: ${cardProgress.completed}/${cardProgress.total} capitoli  ·  ${prog.nextUnlock}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", wordWrap: { width: 392 }, lineSpacing: 3 });
+    if (this.showLevelPicker) {
+      this.add.text(820, 584, `Difficoltà di allenamenti e missioni rapide — ora ${selected}/8 (di norma è automatica):`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f6c85f", wordWrap: { width: 392 } });
+      for (let level = 1; level <= 8; level += 1) {
+        new Button(this, 828 + (level - 1) * 48, 642, String(level), () => this.selectDifficulty(level as DifficultyLevel), {
+          width: 40, height: 34, fontSize: 13,
+          fill: selected === level ? 0x1f5a51 : 0x142736,
+          stroke: selected === level ? 0xf6c85f : 0x6be7d6,
+        });
+      }
+    } else {
+      this.add.text(820, 600, `Difficoltà di allenamenti e missioni: automatica (~${recommended}/8), si regola sui tuoi risultati.`, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#7da2af", wordWrap: { width: 212 } });
+      new Button(this, 1124, 616, "Scegli a mano ▸", () => { this.showLevelPicker = true; this.scene.restart(); }, {
+        width: 156, height: 32, fontSize: 11, fill: 0x142736, stroke: 0x6be7d6,
       });
     }
-
-    this.add.text(828, 684, `Seed, solver e validator | Livello scelto ${selected}/8`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#7da2af",
-      wordWrap: { width: 380 },
-    });
     this.add.text(1210, 704, `build ${buildInfo.ref}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
@@ -284,6 +235,51 @@ export class MainMenuScene extends Phaser.Scene {
     VisualKit.vignette(this);
     placeHiddenAnomaly(this, "MainMenuScene");
     this.scheduleResponsivenessWarmup();
+  }
+
+  /**
+   * The single guided "next step" surfaced by NORA: resume an in-progress run if
+   * any, else continue the Story, else (story done) offer the endless Tower.
+   * Reuses the existing progression/campaign data — no new logic to maintain.
+   */
+  private recommendNextStep(
+    missionRun: ProceduralRunSave | undefined,
+    trainingRun: ProceduralRunSave | undefined,
+    progressiveRun: ProceduralRunSave | undefined,
+  ): { tag: string; title: string; sub: string; cta: string; action: () => void; practice?: { focus: ProceduralSpecialization; label: string } } {
+    if (this.isResumable(progressiveRun)) {
+      const level = progressiveRun.progressive?.currentLevel ?? progressiveRun.difficulty ?? 1;
+      return { tag: "RIPRENDI", title: `La Torre — Piano ${level}`, sub: "Continui la scalata da dove eri rimasta: livello, vite e punti sono salvati.", cta: "Riprendi ▸", action: () => this.showScalataTower() };
+    }
+    if (this.isResumable(missionRun)) {
+      return { tag: "RIPRENDI", title: "La tua avventura", sub: `${missionRun.solvedPuzzleIds.length} console già risolte: finiamo la stanza.`, cta: "Riprendi ▸", action: () => this.resumeMissionGame() };
+    }
+    if (this.isResumable(trainingRun)) {
+      const subject = proceduralScoring.domainLabel(proceduralRunRules.focusFor(trainingRun));
+      return { tag: "RIPRENDI", title: `Allenamento di ${subject}`, sub: "Riprendi il percorso per materia che avevi lasciato.", cta: "Riprendi ▸", action: () => this.resumeFocusTraining() };
+    }
+    if (!campaignSystem.isCampaignComplete()) {
+      const chapter = campaignSystem.getActiveChapter();
+      // Adaptive: prefer the subject the player is actually weakest in; fall back
+      // to the chapter's preparation subject for players without enough data yet.
+      const weakest = masterySystem.weakestPracticedFocus();
+      const focus = weakest ?? progressionSystem.practiceFocusForChapter(chapter.number);
+      const focusLabel = focus ? proceduralScoring.domainLabel(focus) : "";
+      return {
+        tag: "LA STORIA",
+        title: `Capitolo ${chapter.number}: ${chapter.title}`,
+        sub: !focus
+          ? `${chapter.location}. Continua l'avventura di NORA — è il modo migliore per imparare il metodo.`
+          : weakest
+            ? `${chapter.location}. NORA: il tuo punto più debole ora è ${focusLabel}: rinforzalo prima del capitolo.`
+            : `${chapter.location}. NORA: per arrivare pronta, scaldati prima su ${focusLabel}.`,
+        cta: "Entra ▸",
+        action: () => this.openMenuScene("CampaignScene", "Non sono riuscito ad aprire la storia. Riprova tra un istante."),
+        practice: focus ? { focus, label: weakest ? `💪 Rinforza ${focusLabel}` : `💪 Allena ${focusLabel}` } : undefined,
+      };
+    }
+    const recommended = this.recommendedDifficulty();
+    return { tag: "SFIDA", title: "Sali la Torre", sub: `Hai completato la Storia! Mettiti alla prova senza fine — livello consigliato ${recommended}/8.`, cta: "Sali ▸", action: () => this.showScalataTower() };
   }
 
   private openSettings(): void {

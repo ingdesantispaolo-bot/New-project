@@ -1247,7 +1247,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ...game,
       title: this.isProgressiveMode() ? "Sprint italiano: percorso variato" : game.title,
       instructions: this.isProgressiveMode()
-        ? "alterni accordi, connettivi, intrusi e ordine delle parole: leggi l'obiettivo prima di cliccare."
+        ? "alterni accordi, verbi, connettivi, intrusi e ordine delle parole: leggi l'obiettivo prima di cliccare."
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
     };
@@ -1276,7 +1276,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private progressiveLanguageSprintTypes(baseType: LanguageMinigameType): LanguageMinigameType[] {
-    const rotation: LanguageMinigameType[] = ["agreement-sprint", "connector-route", "intruder-hunt", "word-order", "lexicon-lab"];
+    const rotation: LanguageMinigameType[] = ["agreement-sprint", "verb-mastery", "connector-route", "intruder-hunt", "word-order", "lexicon-lab"];
     return [baseType, ...rotation.filter((type) => type !== baseType)];
   }
 
@@ -1295,7 +1295,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.strokeRoundedRect(x, y, width, height, 12);
     overlay.add(g);
 
-    const accent = prompt.type === "agreement-sprint" ? 0x6be7d6 : prompt.type === "connector-route" ? 0xf6c85f : 0x9f8cff;
+    const accent = prompt.type === "agreement-sprint" ? 0x6be7d6 : prompt.type === "connector-route" ? 0xf6c85f : prompt.type === "verb-mastery" ? 0x70d68a : 0x9f8cff;
     overlay.add(this.add.rectangle(x + 26, y + 34, width - 52, 74, 0x102533, 0.8)
       .setOrigin(0)
       .setStrokeStyle(1, accent, 0.45));
@@ -1313,6 +1313,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontSize: "13px",
         color: "#9ff5e9",
         fontStyle: "bold",
+      }));
+    } else if (prompt.type === "verb-mastery") {
+      overlay.add(this.add.text(x + 44, y + 142, "Verbo -> persona -> modo -> tempo -> valore nella frase", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#9ff5a7",
+        fontStyle: "bold",
+        wordWrap: { width: width - 88 },
       }));
     } else if (prompt.type === "connector-route") {
       overlay.add(this.add.text(x + 44, y + 142, "Dai un nome al rapporto: causa, contrasto, tempo, condizione o scopo.", {
@@ -1447,6 +1455,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const prompt = this.currentLanguageMinigamePrompt(session);
     const hint = prompt.type === "agreement-sprint"
       ? "Trova il soggetto reale: a volte una frase relativa o un inciso distrae dal verbo corretto."
+      : prompt.type === "verb-mastery"
+        ? "Cerca parole-spia come ieri, domani, credo che, se, prima che: spesso decidono tempo e modo."
       : prompt.type === "connector-route"
         ? "Chiediti: la seconda parte spiega, contrasta, segue nel tempo o pone una condizione?"
         : prompt.type === "word-order"
@@ -1755,6 +1765,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     if (prompt.type === "connector-route") {
       return "Metodo: dai un nome al rapporto logico prima di guardare i connettivi.";
+    }
+    if (prompt.type === "verb-mastery") {
+      return "Metodo: individua verbo, persona, modo e tempo; poi controlla se il contesto chiede certezza, dubbio, comando o ipotesi.";
     }
     if (prompt.type === "word-order") {
       return "Metodo: soggetto, verbo, complementi; metti tempo o condizione in fondo. Rileggi se suona naturale.";

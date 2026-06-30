@@ -74,11 +74,41 @@ describe("Agreement (concordanza) minigame", () => {
       expect(game.reflective).toBe(true);
       expect(game.durationMs).toBeGreaterThan(60_000);
     }
-    for (const type of ["agreement-sprint", "connector-route", "word-order"] as const) {
+    for (const type of ["agreement-sprint", "connector-route", "word-order", "verb-mastery"] as const) {
       const game = gen.generateMinigame(new Random(`spr:${type}`), 5, [type]).minigame!;
       expect(game.reflective ?? false).toBe(false);
       expect(game.durationMs).toBe(60_000);
     }
+  });
+
+  it("covers verb modes and tenses with valid recognition and production prompts", () => {
+    const concepts = new Set<string>();
+    let typedCount = 0;
+    for (let level = 1 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
+      for (let i = 0; i < 24; i += 1) {
+        const puzzle = gen.generateMinigame(new Random(`verb:${level}:${i}`), level, ["verb-mastery"]);
+        expect(validator.validateItalian(puzzle), `verb wrapper L${level} #${i}`).toBe(true);
+        for (const prompt of puzzle.minigame?.prompts ?? []) {
+          const labels = prompt.tiles.map((tile) => tile.label);
+          concepts.add(prompt.concept);
+          expect(labels).toContain(prompt.solutionLabels[0]);
+          expect(new Set(labels).size, prompt.context).toBe(labels.length);
+          expect(prompt.tiles.filter((tile) => tile.isCorrect)).toHaveLength(1);
+          if (prompt.inputMode === "typed") {
+            typedCount += 1;
+            expect(prompt.acceptedAnswers).toContain(normalizeTypedAnswer(prompt.solutionLabels[0]));
+          }
+        }
+      }
+    }
+    expect(typedCount).toBeGreaterThan(20);
+    expect([...concepts]).toEqual(expect.arrayContaining([
+      "indicativo presente",
+      "indicativo passato prossimo",
+      "congiuntivo presente",
+      "condizionale passato",
+      "participio passato",
+    ]));
   });
 
   it("generates hundreds of distinct items (parametric variety, not memorisable)", () => {

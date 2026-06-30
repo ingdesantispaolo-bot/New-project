@@ -166,6 +166,11 @@ export const competencies: CompetencyDefinition[] = [
     description: "Riconoscere accordi e forme corrette in una frase.",
   },
   {
+    id: "italiano.verbi",
+    label: "Modi e tempi dei verbi",
+    description: "Riconoscere e usare modo, tempo, persona e forme verbali in contesto.",
+  },
+  {
     id: "italiano.lessico",
     label: "Lessico in contesto",
     description: "Scegliere parole precise per distinguere oggetti, azioni e fonti.",

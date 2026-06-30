@@ -1,9 +1,19 @@
-export type MathArea = "Numeri" | "Geometria" | "Relazioni e funzioni" | "Dati e previsioni";
+export type MathArea =
+  | "Numeri"
+  | "Geometria"
+  | "Relazioni e funzioni"
+  | "Dati e previsioni"
+  | "Italiano - grammatica"
+  | "Italiano - verbi";
 
 export type MathStudyPage = {
   id: string;
   title: string;
   area: MathArea;
+  subject?: "matematica" | "italiano";
+  trainingFocus?: "matematica" | "italiano";
+  trainingPuzzle?: "math" | "language";
+  trainingMode?: "graph-workshop" | "verb-lab" | "mixed";
   /** Difficulty range (1-8) used to launch a fitting training session. */
   levelRange: [number, number];
   tags: string[];

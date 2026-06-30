@@ -49,6 +49,17 @@ const AGREEMENT_VERBS = [
   { sg3: "aggiorna", pl3: "aggiornano", p1pl: "aggiorniamo", part: "aggiornato", object: "la mappa" },
 ] as const;
 
+type VerbMasteryItem = {
+  context: string;
+  correct: string;
+  distractors: string[];
+  explanation: string;
+  concept: string;
+  targetLabel: string;
+  typed?: boolean;
+  accepted?: string[];
+};
+
 function adjForm(root: string, gender: "m" | "f", plural: boolean): string {
   return root + (gender === "m" ? (plural ? "i" : "o") : (plural ? "e" : "a"));
 }
@@ -151,7 +162,7 @@ export class LanguageCorruptionGenerator {
     const level = Math.max(1, Math.min(8, difficultyLevel));
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<LanguageMinigameType>(["agreement-sprint", "connector-route", "intruder-hunt", "word-order", "lexicon-lab"]);
+      : random.pick<LanguageMinigameType>(["agreement-sprint", "connector-route", "intruder-hunt", "word-order", "lexicon-lab", "verb-mastery"]);
     const minigame = this.buildMinigame(random.fork(type), level, type);
     const first = minigame.prompts[0];
     const optionFeedback: Record<string, string> = {};
@@ -249,6 +260,7 @@ export class LanguageCorruptionGenerator {
       "intruder-hunt": "Minigioco italiano: Intruso nel log",
       "word-order": "Minigioco italiano: Ricomponi il comando",
       "lexicon-lab": "Minigioco italiano: Lessico preciso",
+      "verb-mastery": "Minigioco italiano: Modi e tempi dei verbi",
     };
     const instructions: Record<LanguageMinigameType, string> = {
       "agreement-sprint": "clicca la forma che rende la frase corretta per genere, numero e verbo.",
@@ -256,6 +268,7 @@ export class LanguageCorruptionGenerator {
       "intruder-hunt": "clicca il dettaglio inutile o contraddittorio rispetto allo scopo del log.",
       "word-order": "tocca le parole nell'ordine giusto per ricomporre il comando eseguibile.",
       "lexicon-lab": "clicca la parola più precisa per il contesto: tecnico, critico, narrativo o operativo.",
+      "verb-mastery": "riconosci modo e tempo, oppure scrivi la forma verbale corretta in contesto.",
     };
     // Comprehension-heavy sprints (find the intruder, choose the precise word)
     // run in a calmer, longer "reflective" mode: more reading time, no speed
@@ -280,6 +293,7 @@ export class LanguageCorruptionGenerator {
         ...(type === "intruder-hunt" ? ["italiano.lessico", "italiano.scritturaBreve"] : []),
         ...(type === "word-order" ? ["italiano.coesione", "italiano.scritturaBreve"] : []),
         ...(type === "lexicon-lab" ? ["italiano.lessico", "italiano.scritturaBreve", "italiano.argomentazione"] : []),
+        ...(type === "verb-mastery" ? ["italiano.verbi", "italiano.coesione", "italiano.scritturaBreve"] : []),
       ])),
     };
   }
@@ -307,6 +321,7 @@ export class LanguageCorruptionGenerator {
     if (type === "connector-route") return this.buildConnectorPrompt(random, level, index);
     if (type === "word-order") return this.buildWordOrderPrompt(random, level, index);
     if (type === "lexicon-lab") return this.buildLexiconPrompt(random, level, index);
+    if (type === "verb-mastery") return this.buildVerbMasteryPrompt(random, level, index);
     return this.buildIntruderPrompt(random, level, index);
   }
 
@@ -766,6 +781,171 @@ export class LanguageCorruptionGenerator {
     };
   }
 
+  private buildVerbMasteryPrompt(random: Random, level: number, index: number): LanguageMinigamePrompt {
+    const base: VerbMasteryItem[] = [
+      {
+        context: "Ieri Eli ___ il registro prima di uscire.",
+        correct: "ha salvato",
+        distractors: ["salva", "salverà", "salvava"],
+        explanation: "Ieri indica un'azione conclusa nel passato: passato prossimo, indicativo.",
+        concept: "indicativo passato prossimo",
+        targetLabel: "Scegli il tempo adatto",
+      },
+      {
+        context: "Ogni mattina il sensore ___ la temperatura.",
+        correct: "misura",
+        distractors: ["misurò", "misurerebbe", "misurando"],
+        explanation: "Ogni mattina segnala un'azione abituale: presente indicativo.",
+        concept: "indicativo presente",
+        targetLabel: "Azione abituale",
+      },
+      {
+        context: "Mentre il robot avanzava, la porta ___.",
+        correct: "si apriva",
+        distractors: ["si aprì", "si aprirà", "si apra"],
+        explanation: "Mentre introduce un'azione in corso nel passato: imperfetto indicativo.",
+        concept: "indicativo imperfetto",
+        targetLabel: "Azione durativa nel passato",
+      },
+      {
+        context: "Domani la squadra ___ il circuito.",
+        correct: "controllerà",
+        distractors: ["controllò", "controllava", "controlli"],
+        explanation: "Domani indica futuro: futuro semplice indicativo.",
+        concept: "indicativo futuro semplice",
+        targetLabel: "Futuro",
+      },
+      {
+        context: "La frase 'noi avevamo verificato i dati' usa quale modo e tempo?",
+        correct: "indicativo trapassato prossimo",
+        distractors: ["congiuntivo passato", "condizionale presente", "indicativo passato remoto"],
+        explanation: "Avevamo + participio passato forma il trapassato prossimo dell'indicativo.",
+        concept: "riconoscimento tempi composti",
+        targetLabel: "Riconosci modo e tempo",
+      },
+      {
+        context: "Scrivi la forma corretta: se il segnale è stabile, noi ___ la porta. (aprire, presente)",
+        correct: "apriamo",
+        distractors: ["apre", "apriremo", "apriremmo"],
+        explanation: "Noi + presente indicativo del verbo aprire: apriamo.",
+        concept: "coniugazione presente",
+        targetLabel: "Scrivi la forma verbale",
+        typed: true,
+      },
+    ];
+    const intermediate: VerbMasteryItem[] = [
+      {
+        context: "Credo che il terminale ___ ancora acceso.",
+        correct: "sia",
+        distractors: ["è", "sarà", "sarebbe"],
+        explanation: "Dopo credo che, quando esprimi dubbio o valutazione, serve il congiuntivo: sia.",
+        concept: "congiuntivo presente",
+        targetLabel: "Congiuntivo richiesto",
+      },
+      {
+        context: "Se avessi più tempo, ___ meglio il rapporto.",
+        correct: "controllerei",
+        distractors: ["controllo", "controllai", "controllassi"],
+        explanation: "Con se + congiuntivo imperfetto, la conseguenza usa il condizionale presente.",
+        concept: "periodo ipotetico possibile/irreale",
+        targetLabel: "Condizionale",
+      },
+      {
+        context: "Prima che la porta si chiuda, ___ il codice.",
+        correct: "inserisci",
+        distractors: ["inserendo", "inserito", "inseriresti"],
+        explanation: "È un comando diretto alla seconda persona: imperativo presente.",
+        concept: "imperativo presente",
+        targetLabel: "Comando",
+      },
+      {
+        context: "Dopo ___ il fusibile, il tecnico riavviò il banco.",
+        correct: "aver sostituito",
+        distractors: ["sostituiva", "sostituisca", "sostituirebbe"],
+        explanation: "Dopo + infinito composto indica un'azione precedente al riavvio.",
+        concept: "infinito composto",
+        targetLabel: "Forma implicita",
+      },
+      {
+        context: "Scrivi la forma corretta: è necessario che voi ___ il dato. (verificare, congiuntivo presente)",
+        correct: "verifichiate",
+        distractors: ["verificate", "verificherete", "verificaste"],
+        explanation: "È necessario che richiede congiuntivo; voi + verificare = verifichiate.",
+        concept: "congiuntivo presente",
+        targetLabel: "Scrivi il congiuntivo",
+        typed: true,
+      },
+    ];
+    const advanced: VerbMasteryItem[] = [
+      {
+        context: "Se il tecnico ___ il cavo, il corto non sarebbe continuato.",
+        correct: "avesse isolato",
+        distractors: ["isolava", "isolerebbe", "avrà isolato"],
+        explanation: "Ipotesi non realizzata nel passato: congiuntivo trapassato nella subordinata.",
+        concept: "congiuntivo trapassato",
+        targetLabel: "Periodo ipotetico dell'irrealtà",
+      },
+      {
+        context: "Il rapporto sarebbe stato valido se le fonti ___ indipendenti.",
+        correct: "fossero state",
+        distractors: ["sono state", "sarebbero state", "erano"],
+        explanation: "Dopo se, nell'ipotesi irreale del passato, si usa il congiuntivo trapassato: fossero state.",
+        concept: "concordanza dei modi",
+        targetLabel: "Congiuntivo trapassato",
+      },
+      {
+        context: "Il registro, ___ dal tecnico, fu archiviato nel nucleo.",
+        correct: "verificato",
+        distractors: ["verificando", "verificare", "verifichi"],
+        explanation: "Verificato è participio passato con valore di frase implicita: registro che è stato verificato.",
+        concept: "participio passato",
+        targetLabel: "Forma implicita",
+      },
+      {
+        context: "___ la soglia, il sistema invia un avviso.",
+        correct: "Superata",
+        distractors: ["Superando", "Superare", "Supererebbe"],
+        explanation: "Superata la soglia equivale a quando la soglia è stata superata: participio passato assoluto.",
+        concept: "participio assoluto",
+        targetLabel: "Forma implicita avanzata",
+      },
+      {
+        context: "Scrivi la forma corretta: se avessimo letto il log, noi ___ l'errore. (evitare, condizionale passato)",
+        correct: "avremmo evitato",
+        distractors: ["eviteremmo", "avessimo evitato", "evitavamo"],
+        explanation: "La conseguenza non realizzata nel passato usa condizionale passato: avremmo evitato.",
+        concept: "condizionale passato",
+        targetLabel: "Scrivi il condizionale passato",
+        typed: true,
+      },
+    ];
+    const pool = level >= 6 ? [...base, ...intermediate, ...advanced] : level >= 4 ? [...base, ...intermediate] : base;
+    const item = random.pick(pool);
+    const typed = item.typed || (level >= 6 && random.bool(0.28));
+    const tiles = this.shuffleLanguageTiles(random, [
+      this.languageTile(index, item.correct, true, `Corretto: ${item.explanation}`),
+      ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, `Non ancora: ${item.explanation}`)),
+    ]);
+    const accepted = item.accepted ?? [normalizeTypedAnswer(item.correct)];
+    return {
+      id: `verb-mastery-${index}`,
+      type: "verb-mastery",
+      prompt: typed
+        ? "Scrivi la forma verbale richiesta: persona, modo e tempo devono combaciare."
+        : "Scegli la forma verbale corretta o riconosci modo e tempo.",
+      context: item.context,
+      targetLabel: item.targetLabel,
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.correct],
+      explanation: item.explanation,
+      concept: item.concept,
+      signature: `verb-${item.context}-${item.correct}-${typed ? "typed" : "tiles"}`,
+      inputMode: typed ? "typed" : "tiles",
+      acceptedAnswers: typed ? accepted : undefined,
+    };
+  }
+
   private languageTile(seed: number, label: string, isCorrect: boolean, feedback: string): LanguageMinigameTile {
     return {
       id: `lang-tile-${seed}-${label.replace(/\W+/g, "-").toLowerCase()}`,
@@ -850,6 +1030,7 @@ export class LanguageCorruptionGenerator {
     if (type === "connector-route") return ["connettivi", "logica del testo", "coesione"];
     if (type === "word-order") return ["ordine delle parole", "sintassi", "coesione"];
     if (type === "lexicon-lab") return ["lessico", "precisione", "registro"];
+    if (type === "verb-mastery") return ["verbi", "modi", "tempi"];
     return ["comprensione", "informazioni utili", "pensiero critico"];
   }
 
@@ -858,6 +1039,7 @@ export class LanguageCorruptionGenerator {
     if (type === "connector-route") return "Allena scelta dei connettivi in base a causa, contrasto, tempo, condizione e scopo.";
     if (type === "word-order") return "Allena la costruzione della frase: ordinare le parole per produrre un comando chiaro ed eseguibile.";
     if (type === "lexicon-lab") return "Allena vocabolario preciso: scegliere parole adatte a prova, ipotesi, fonte, sintesi e registro tecnico.";
+    if (type === "verb-mastery") return "Allena padronanza dei verbi: riconoscere modo, tempo, persona e scegliere o produrre la forma corretta in contesto.";
     return "Allena lettura selettiva: separare dati utili, prove, opinioni e dettagli decorativi.";
   }
 
@@ -866,6 +1048,7 @@ export class LanguageCorruptionGenerator {
     if (type === "connector-route") return "Nomina il rapporto tra le due frasi: causa, conseguenza, contrasto, tempo, condizione o scopo.";
     if (type === "word-order") return "Parti dal soggetto, aggiungi il verbo, poi i complementi; metti il tempo o la condizione in fondo.";
     if (type === "lexicon-lab") return "Leggi lo scopo della frase e scegli la parola più precisa: non quella più familiare, ma quella che riduce ambiguità.";
+    if (type === "verb-mastery") return "Trova indicatore temporale o reggenza, scegli modo e tempo, poi controlla persona e concordanza.";
     return "Rileggi l'obiettivo del log e tieni solo ciò che aiuta a rispondere a quell'obiettivo.";
   }
 

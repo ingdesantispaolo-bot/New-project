@@ -21,9 +21,10 @@ import { difficultyModel } from "../procedural/DifficultyModel";
 import { CircuitFaultGenerator } from "../procedural/generators/CircuitFaultGenerator";
 import { CodingPuzzleGenerator } from "../procedural/generators/CodingPuzzleGenerator";
 import { EnglishInstructionGenerator } from "../procedural/generators/EnglishInstructionGenerator";
-import { LanguageCorruptionGenerator } from "../procedural/generators/LanguageCorruptionGenerator";
+import { LanguageCorruptionGenerator, normalizeTypedAnswer } from "../procedural/generators/LanguageCorruptionGenerator";
 import { MathPuzzleGenerator } from "../procedural/generators/MathPuzzleGenerator";
 import { MusicNoteGenerator } from "../procedural/generators/MusicNoteGenerator";
+import { PhysicsPuzzleGenerator } from "../procedural/generators/PhysicsPuzzleGenerator";
 import { RobotGridGenerator } from "../procedural/generators/RobotGridGenerator";
 import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
 import { Random } from "../procedural/Random";
@@ -49,6 +50,7 @@ import type {
   GeneratedMathMinigame,
   GeneratedMathPuzzle,
   GeneratedMusicPuzzle,
+  GeneratedPhysicsPuzzle,
   GeneratedRobotPuzzle,
   GeneratedRoomHotspot,
   GridCommand,
@@ -153,6 +155,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private languageMinigameTimerEvent?: Phaser.Time.TimerEvent;
   private languageMinigameTimerText?: Phaser.GameObjects.Text;
   private languageMinigameSession?: LanguageMinigameSession;
+  private languageTypedInputEl?: HTMLInputElement;
   private englishMinigameTimerEvent?: Phaser.Time.TimerEvent;
   private englishMinigameTimerText?: Phaser.GameObjects.Text;
   private englishMinigameSession?: EnglishMinigameSession;
@@ -557,11 +560,24 @@ export class ProceduralMissionScene extends Phaser.Scene {
       run.mission.focusChallenges?.length
       && run.mission.focusChallenges.every((challenge) => challenge.kind === "coding"),
     );
+    const hasPhysicsPuzzle = Boolean(puzzles.physics);
+    const hasPhysicsObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "physics");
+    const hasPhysicsHotspot = run.mission.map.hotspots.some((hotspot) => {
+      const id = hotspot.puzzleId ?? hotspot.id;
+      return hotspot.puzzleKind === "physics" || id === "physics" || id.startsWith("physics-");
+    });
+    const hasPhysicsFocusSeries = Boolean(
+      run.mission.focusChallenges?.length
+      && run.mission.focusChallenges.every((challenge) => challenge.kind === "physics"),
+    );
     if (focus === "musica") {
       return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot && hasMusicFocusSeries);
     }
     if (focus === "coding") {
       return !(hasCodingPuzzle && hasCodingObjective && hasCodingHotspot && hasCodingFocusSeries);
+    }
+    if (focus === "fisica") {
+      return !(hasPhysicsPuzzle && hasPhysicsObjective && hasPhysicsHotspot && hasPhysicsFocusSeries);
     }
     if (mode === "mission" || focus === "libera") {
       return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot);
@@ -820,6 +836,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       robot: () => this.openRobot(),
       coding: () => this.openCoding(),
       music: () => this.openMusic(),
+      physics: () => this.openPhysics(),
     };
     if (proceduralPuzzleOrder.includes(systemId)) {
       if (this.activePuzzleId !== puzzleId) {
@@ -874,6 +891,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       case "robot": return this.puzzleHintTexts(this.currentRobotPuzzle());
       case "coding": return this.puzzleHintTexts(this.currentCodingPuzzle());
       case "music": return this.puzzleHintTexts(this.currentMusicPuzzle());
+      case "physics": return this.puzzleHintTexts(this.currentPhysicsPuzzle());
       default: return [];
     }
   }
@@ -885,6 +903,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     else if (systemId === "circuit") audioManager.playContext("electronics");
     else if (systemId === "coding" || systemId === "robot") audioManager.playContext("coding");
     else if (systemId === "music") audioManager.playContext("music");
+    else if (systemId === "physics") audioManager.playContext("math");
   }
 
   private openLanguage(): void {
@@ -1057,7 +1076,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("language");
     const session = this.ensureLanguageMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title, "Italiano · leggi la consegna, scegli una risposta, conferma");
+    const overlay = this.createMathOverlay(puzzle.minigame.title, puzzle.minigame.reflective
+      ? "Italiano · modalità riflessiva: leggi con calma, poi scegli"
+      : "Italiano · leggi la consegna, scegli una risposta, conferma");
     const prompt = this.currentLanguageMinigamePrompt(session);
     const remaining = this.languageMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
@@ -1087,10 +1108,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     const isOrdering = prompt.type === "word-order";
-    this.addMathPanel(overlay, 604, 112, 648, 432, isOrdering ? "2 · Ricomponi il comando" : "2 · Scegli una risposta");
+    const isTyped = prompt.inputMode === "typed";
+    this.addMathPanel(overlay, 604, 112, 648, 432, isOrdering ? "2 · Ricomponi il comando" : isTyped ? "2 · Scrivi la risposta" : "2 · Scegli una risposta");
     overlay.add(this.add.text(636, 154, isOrdering
       ? "Tocca le parole nell'ordine giusto. Ritocca una parola messa per toglierla."
-      : "Come si gioca: leggi la domanda, clicca UNA tessera e premi Conferma.", {
+      : isTyped
+        ? "Scrivi tu la forma corretta nel riquadro, poi premi Conferma."
+        : "Come si gioca: leggi la domanda, clicca UNA tessera e premi Conferma.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -1106,8 +1130,36 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 5,
     }));
 
+    this.languageTypedInputEl = undefined;
     if (isOrdering) {
       this.renderLanguageOrderingTiles(overlay, session, prompt);
+    } else if (isTyped) {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = session.typedDraft ?? "";
+      input.placeholder = "es. sono calibrati";
+      input.autocomplete = "off";
+      input.spellcheck = false;
+      input.style.width = "520px";
+      input.style.height = "52px";
+      input.style.padding = "0 16px";
+      input.style.fontSize = "22px";
+      input.style.fontFamily = "Inter, Arial";
+      input.style.color = "#f5fbff";
+      input.style.background = "#08131c";
+      input.style.border = "2px solid #6be7d6";
+      input.style.borderRadius = "8px";
+      input.style.outline = "none";
+      input.oninput = () => { if (this.languageMinigameSession) this.languageMinigameSession.typedDraft = input.value; };
+      input.onkeydown = (event) => { if (event.key === "Enter") this.confirmLanguageMinigamePrompt(); };
+      this.languageTypedInputEl = input;
+      overlay.add(this.add.dom(928, 360, input));
+      overlay.add(this.add.text(636, 420, "Scrivi con calma: conta numero e genere del soggetto.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#9aaab0",
+        wordWrap: { width: 560 },
+      }));
     } else {
       const tileStartX = 784;
       const tileStartY = 340;
@@ -1130,7 +1182,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.languageMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
-      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
+      color: remaining <= 10_000 && !puzzle.minigame.reflective ? "#ff8f8f" : "#f7d37a",
       fontStyle: "bold",
     });
     overlay.add(this.languageMinigameTimerText);
@@ -1312,7 +1364,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const remaining = this.languageMinigameRemainingMs(session);
     this.languageMinigameTimerText?.setText(`Tempo: ${formatDuration(remaining)}`);
-    this.languageMinigameTimerText?.setColor(remaining <= 10_000 ? "#ff8f8f" : "#f7d37a");
+    this.languageMinigameTimerText?.setColor(remaining <= 10_000 && !session.game.reflective ? "#ff8f8f" : "#f7d37a");
     if (remaining <= 0) {
       this.finishLanguageMinigame();
     }
@@ -1416,11 +1468,24 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const prompt = this.currentLanguageMinigamePrompt(session);
     const ordering = prompt.type === "word-order";
+    const typed = prompt.inputMode === "typed";
     const solutionDisplay = ordering ? prompt.solutionLabels.join(" ") : prompt.solutionLabels.join(", ");
     let isCorrect: boolean;
     let chosenLabel: string;
     let wrongFeedback: string;
-    if (ordering) {
+    if (typed) {
+      const draft = this.languageTypedInputEl?.value ?? session.typedDraft ?? "";
+      if (normalizeTypedAnswer(draft).length === 0) {
+        session.feedback = "Scrivi la forma corretta nel riquadro. Il timer continua.";
+        audioManager.playOutcome("hint");
+        this.openLanguageMinigame(session.puzzle);
+        return;
+      }
+      const accepted = prompt.acceptedAnswers ?? [normalizeTypedAnswer(prompt.solutionLabels[0])];
+      isCorrect = accepted.includes(normalizeTypedAnswer(draft));
+      chosenLabel = draft.trim();
+      wrongFeedback = "La forma scritta non rispetta numero e genere richiesti.";
+    } else if (ordering) {
       if (session.orderedSelection.length === 0) {
         session.feedback = "Tocca le parole per comporre il comando. Il timer continua.";
         audioManager.playOutcome("hint");
@@ -1499,6 +1564,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }
       session.selectedIds.clear();
       session.orderedSelection = [];
+      session.typedDraft = "";
       session.locked = false;
       this.openLanguageMinigame(session.puzzle);
     });
@@ -5700,6 +5766,229 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
   }
 
+  private openPhysics(): void {
+    const puzzle = this.currentPhysicsPuzzle();
+    const overlay = this.createExerciseScreen(puzzle.title);
+
+    const leftPanel = { x: 56, y: 104, w: 510, h: 392 };
+    const rightPanel = { x: 594, y: 104, w: 550, h: 392 };
+    const methodPanel = { x: 56, y: 522, w: 1088, h: 92 };
+
+    overlay.add(this.add.text(56, 74, puzzle.difficultyLabel.toUpperCase(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(356, 74, `Tipo: ${this.physicsExerciseLabel(puzzle.exerciseType)}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+
+    overlay.add(this.add.rectangle(leftPanel.x, leftPanel.y, leftPanel.w, leftPanel.h, 0x07151d, 0.88).setOrigin(0).setStrokeStyle(1, 0x8fd3ff, 0.26));
+    overlay.add(this.add.rectangle(rightPanel.x, rightPanel.y, rightPanel.w, rightPanel.h, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.rectangle(methodPanel.x, methodPanel.y, methodPanel.w, methodPanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.25));
+
+    overlay.add(this.add.text(leftPanel.x + 20, leftPanel.y + 18, "Fenomeno", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(leftPanel.x + 20, leftPanel.y + 42, puzzle.scenario, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: leftPanel.w - 40, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+    this.drawPhysicsVisual(overlay, puzzle, leftPanel.x + 24, leftPanel.y + 126, leftPanel.w - 48, 214);
+    overlay.add(this.add.text(leftPanel.x + 20, leftPanel.y + leftPanel.h - 42, puzzle.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#8fd3ff",
+      wordWrap: { width: leftPanel.w - 40 },
+    }));
+
+    overlay.add(this.add.text(rightPanel.x + 20, rightPanel.y + 18, "Domanda", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(rightPanel.x + 20, rightPanel.y + 46, puzzle.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#f5fbff",
+      wordWrap: { width: rightPanel.w - 40, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+
+    puzzle.options.forEach((option, index) => {
+      const x = rightPanel.x + rightPanel.w / 2;
+      const y = rightPanel.y + 162 + index * 52;
+      overlay.add(new Button(this, x, y, option, () => {
+        if (option === puzzle.correctOption) {
+          outcomeFeedback.answer(this, true, option, puzzle.correctOption, puzzle.explanation);
+          this.solvePuzzle(this.currentPuzzleId("physics"), puzzle.competencies);
+          return;
+        }
+        outcomeFeedback.answer(this, false, option, puzzle.correctOption, puzzle.explanation);
+        this.handleIncorrectAnswer(`${puzzle.explanation} La scelta "${option}" non rispetta il metodo: ${puzzle.methodSteps.join(" -> ")}.`);
+      }, {
+        width: rightPanel.w - 72,
+        height: 42,
+        fontSize: 11,
+        wordWrapWidth: rightPanel.w - 114,
+      }));
+    });
+
+    overlay.add(this.add.text(methodPanel.x + 22, methodPanel.y + 16, "Metodo", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(methodPanel.x + 22, methodPanel.y + 40, puzzle.methodSteps.join("  ->  "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: 638, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }));
+    overlay.add(this.add.text(methodPanel.x + 712, methodPanel.y + 16, "Controllo", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(methodPanel.x + 712, methodPanel.y + 40, this.currentActiveHint() ?? puzzle.hints[0] ?? puzzle.learningPurpose, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9aaab0",
+      wordWrap: { width: 238, useAdvancedWrap: true },
+      lineSpacing: 2,
+    }));
+    overlay.add(new Button(this, methodPanel.x + methodPanel.w - 100, methodPanel.y + 48, this.hintButtonLabel(puzzle, "Indizio"), () => {
+      this.useContextualHint(puzzle);
+      this.openPhysics();
+    }, {
+      width: 178,
+      height: 40,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+  }
+
+  private drawPhysicsVisual(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedPhysicsPuzzle,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    overlay.add(this.add.rectangle(x, y, width, height, 0x0b1f2b, 0.88).setOrigin(0).setStrokeStyle(1, 0x8fd3ff, 0.34));
+    overlay.add(this.add.text(x + 14, y + 12, puzzle.visual.title.toUpperCase(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#8fd3ff",
+      fontStyle: "bold",
+    }));
+    const g = this.add.graphics();
+    overlay.add(g);
+    const cx = x + width / 2;
+    const cy = y + height / 2 + 18;
+    g.lineStyle(2, 0x8fd3ff, 0.56);
+
+    if (puzzle.visual.kind === "motion-graph") {
+      const left = x + 54;
+      const bottom = y + height - 42;
+      g.lineBetween(left, bottom, x + width - 36, bottom);
+      g.lineBetween(left, bottom, left, y + 48);
+      const values = puzzle.visual.values ?? [0, 1, 2, 3, 4];
+      g.lineStyle(3, 0xf6c85f, 0.86);
+      values.forEach((value, index) => {
+        const px = left + index * ((width - 106) / Math.max(1, values.length - 1));
+        const py = bottom - Math.min(height - 100, value * 11);
+        g.fillStyle(0xf6c85f, 0.92);
+        g.fillCircle(px, py, 5);
+        if (index > 0) {
+          const prevValue = values[index - 1];
+          const prevX = left + (index - 1) * ((width - 106) / Math.max(1, values.length - 1));
+          const prevY = bottom - Math.min(height - 100, prevValue * 11);
+          g.lineBetween(prevX, prevY, px, py);
+        }
+      });
+    } else if (puzzle.visual.kind === "force-diagram") {
+      g.fillStyle(0x1b3d4e, 0.92);
+      g.fillRoundedRect(cx - 44, cy - 26, 88, 52, 6);
+      g.lineStyle(4, 0xf6c85f, 0.9);
+      g.lineBetween(cx, cy - 30, cx, cy - 82);
+      g.lineBetween(cx, cy + 30, cx, cy + 84);
+      g.fillTriangle(cx, cy - 88, cx - 8, cy - 72, cx + 8, cy - 72);
+      g.fillTriangle(cx, cy + 90, cx - 8, cy + 74, cx + 8, cy + 74);
+    } else if (puzzle.visual.kind === "energy-flow" || puzzle.visual.kind === "experiment-steps") {
+      puzzle.visual.labels.slice(0, 4).forEach((label, index, labels) => {
+        const px = x + 62 + index * ((width - 124) / Math.max(1, labels.length - 1));
+        g.fillStyle(index % 2 ? 0x153545 : 0x1f5a51, 0.9);
+        g.fillRoundedRect(px - 44, cy - 30, 88, 60, 8);
+        if (index < labels.length - 1) {
+          g.lineStyle(2, 0xf6c85f, 0.72);
+          g.lineBetween(px + 48, cy, px + ((width - 124) / Math.max(1, labels.length - 1)) - 48, cy);
+        }
+      });
+    } else if (puzzle.visual.kind === "wave") {
+      g.lineStyle(3, 0x8fd3ff, 0.9);
+      const startX = x + 42;
+      const midY = cy;
+      let prevX = startX;
+      let prevY = midY;
+      for (let step = 0; step <= 96; step += 1) {
+        const px = startX + step * ((width - 84) / 96);
+        const py = midY + Math.sin(step / 7) * 42;
+        if (step > 0) g.lineBetween(prevX, prevY, px, py);
+        prevX = px;
+        prevY = py;
+      }
+    } else if (puzzle.visual.kind === "ray") {
+      g.lineStyle(3, 0xf6c85f, 0.9);
+      g.lineBetween(x + 58, cy + 44, cx, cy);
+      g.lineBetween(cx, cy, x + width - 58, cy - 44);
+      g.lineStyle(2, 0x8fd3ff, 0.48);
+      g.lineBetween(cx, cy - 76, cx, cy + 76);
+      g.strokeCircle(cx, cy, 42);
+    } else {
+      const values = puzzle.visual.values ?? [1, 2, 3];
+      values.slice(0, 4).forEach((value, index) => {
+        const barH = Math.min(height - 92, Math.max(24, Number(value) * 18));
+        const px = x + 78 + index * 82;
+        g.fillStyle(index % 2 ? 0xf6c85f : 0x8fd3ff, 0.62);
+        g.fillRoundedRect(px, y + height - 42 - barH, 44, barH, 5);
+      });
+    }
+
+    puzzle.visual.labels.slice(0, 4).forEach((label, index) => {
+      overlay.add(this.add.text(x + 18 + index * 112, y + height - 24, label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "10px",
+        color: index % 2 ? "#f7d37a" : "#d9eaf1",
+        wordWrap: { width: 104 },
+      }));
+    });
+    if (puzzle.visual.highlight) {
+      overlay.add(this.add.text(x + width - 154, y + 12, puzzle.visual.highlight, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+        wordWrap: { width: 136 },
+      }));
+    }
+  }
+
   private drawEnglishChallengePanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
     overlay.add(this.add.rectangle(316, 288, 520, 170, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
     overlay.add(this.add.text(76, 218, "Sfida", {
@@ -7399,6 +7688,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       robot: "la rotta migliore è la sequenza minima: osserva ostacoli e direzione prima di muovere.",
       coding: "una sequenza corretta nasce leggendo l'effetto di ogni istruzione, un passo alla volta.",
       music: "l'altezza di una nota si legge dalla sua posizione sul pentagramma, data la chiave.",
+      physics: "un fenomeno diventa prevedibile quando grandezze, unita, grafico e modello raccontano la stessa storia.",
     };
     return defaults[kind];
   }
@@ -8146,6 +8436,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       robot: "coding",
       coding: "coding",
       music: "musica",
+      physics: "fisica",
     }[puzzleKindFromId(id)];
   }
 
@@ -8787,6 +9078,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return challenge?.kind === "music" ? challenge.puzzle : this.run.mission.puzzles.music;
   }
 
+  private currentPhysicsPuzzle(): GeneratedPhysicsPuzzle {
+    const challenge = this.activeChallenge;
+    const puzzle = challenge?.kind === "physics" ? challenge.puzzle : this.run.mission.puzzles.physics;
+    if (puzzle) return puzzle;
+    return new PhysicsPuzzleGenerator().generate(
+      new Random(`${this.run.seed}:replace-legacy-physics-missing`),
+      difficultyModel.getPreset(this.run.difficulty),
+    );
+  }
+
   private currentRobotPuzzle(): GeneratedRobotPuzzle {
     const challenge = this.activeChallenge;
     const puzzle = challenge?.kind === "robot" ? challenge.puzzle : this.run.mission.puzzles.robot;
@@ -9017,6 +9318,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       robot: "mission-bg-coding",
       coding: "mission-bg-coding",
       music: "mission-bg-music",
+      physics: "mission-bg-synthesis",
     }[kind];
   }
 
@@ -9144,6 +9446,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
       "conditional-branch": "condizione",
       "boolean-logic": "logica booleana",
       "debug-line": "debug",
+    }[type];
+  }
+
+  private physicsExerciseLabel(type: GeneratedPhysicsPuzzle["exerciseType"]): string {
+    return {
+      "motion-graph": "grafico del moto",
+      "unit-check": "unita e misure",
+      "force-diagram": "diagramma forze",
+      "energy-transfer": "energia",
+      "experiment-order": "metodo sperimentale",
+      "density-pressure": "densita e pressione",
+      "heat-temperature": "calore e temperatura",
+      "wave-reading": "onde",
+      "optics-ray": "ottica geometrica",
     }[type];
   }
 

@@ -1,7 +1,7 @@
 import type { DifficultyLevel, ProceduralRunSave, ProceduralRunMode, ProceduralSpecialization } from "../procedural/ProceduralTypes";
 import { settingsSystem } from "./SettingsSystem";
 
-const focusDomains: ProceduralSpecialization[] = ["matematica", "italiano", "inglese", "elettronica", "coding", "musica"];
+const focusDomains: ProceduralSpecialization[] = ["matematica", "italiano", "inglese", "elettronica", "coding", "musica", "fisica"];
 
 export const proceduralRunRules = {
   maxLives: 3,

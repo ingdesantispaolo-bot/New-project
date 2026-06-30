@@ -5,6 +5,7 @@ import type {
   GeneratedMathPuzzle,
   GeneratedMission,
   GeneratedObjective,
+  PhysicsExerciseType,
   GeneratedRoomHotspot,
   ProceduralPuzzleKind,
   ProceduralSpecialization,
@@ -17,10 +18,12 @@ import { LanguageCorruptionGenerator } from "./generators/LanguageCorruptionGene
 import { CircuitFaultGenerator } from "./generators/CircuitFaultGenerator";
 import { CodingPuzzleGenerator } from "./generators/CodingPuzzleGenerator";
 import { MusicNoteGenerator } from "./generators/MusicNoteGenerator";
+import { PhysicsPuzzleGenerator } from "./generators/PhysicsPuzzleGenerator";
 import { MathPuzzleValidator } from "./validators/MathPuzzleValidator";
 import { CodingPuzzleValidator } from "./validators/CodingPuzzleValidator";
 import { CircuitPuzzleValidator } from "./validators/CircuitPuzzleValidator";
 import { LanguagePuzzleValidator } from "./validators/LanguagePuzzleValidator";
+import { PhysicsPuzzleValidator } from "./validators/PhysicsPuzzleValidator";
 import { exerciseDirector } from "../core/ExerciseDirector";
 
 /** Rolling memory of recently shown exercise signatures, across levels and runs. */
@@ -54,6 +57,10 @@ const disciplineLabels: Record<ProgressiveDiscipline, { label: string; descripti
     label: "Leggi il pentagramma",
     description: "Riconosci la nota dal segno sul pentagramma prima che il timer prema.",
   },
+  physics: {
+    label: "Leggi il fenomeno",
+    description: "Osserva grandezze, unita e grafico prima di scegliere il modello fisico.",
+  },
 };
 
 const disciplinePositions: Record<ProgressiveDiscipline, { x: number; y: number; radius: number }> = {
@@ -63,6 +70,7 @@ const disciplinePositions: Record<ProgressiveDiscipline, { x: number; y: number;
   english: { x: 914, y: 254, radius: 50 },
   coding: { x: 914, y: 502, radius: 54 },
   music: { x: 640, y: 502, radius: 52 },
+  physics: { x: 458, y: 502, radius: 52 },
 };
 
 const levelFocuses: Record<DifficultyLevel, ProceduralSpecialization> = {
@@ -72,7 +80,7 @@ const levelFocuses: Record<DifficultyLevel, ProceduralSpecialization> = {
   4: "coding",
   5: "elettronica",
   6: "musica",
-  7: "matematica",
+  7: "fisica",
   8: "coding",
 };
 
@@ -159,8 +167,8 @@ const levelPools: Record<DifficultyLevel, ProgressiveDiscipline[]> = {
   4: ["language", "math", "coding", "music"],
   5: ["circuit", "math", "english", "coding", "music"],
   6: ["language", "circuit", "math", "english", "coding"],
-  7: ["circuit", "math", "english", "coding", "music"],
-  8: ["language", "circuit", "math", "english", "coding", "music"],
+  7: ["physics", "circuit", "math", "english", "coding", "music"],
+  8: ["language", "physics", "circuit", "math", "english", "coding", "music"],
 };
 
 const focusDisciplines: Record<ProceduralSpecialization, ProgressiveDiscipline | undefined> = {
@@ -171,6 +179,7 @@ const focusDisciplines: Record<ProceduralSpecialization, ProgressiveDiscipline |
   elettronica: "circuit",
   coding: "coding",
   musica: "music",
+  fisica: "physics",
 };
 
 export class ProgressiveMissionBuilder {
@@ -180,10 +189,12 @@ export class ProgressiveMissionBuilder {
   private readonly circuitGen = new CircuitFaultGenerator();
   private readonly codingGen = new CodingPuzzleGenerator();
   private readonly musicGen = new MusicNoteGenerator();
+  private readonly physicsGen = new PhysicsPuzzleGenerator();
   private readonly mathValidator = new MathPuzzleValidator();
   private readonly codingValidator = new CodingPuzzleValidator();
   private readonly circuitValidator = new CircuitPuzzleValidator();
   private readonly languageValidator = new LanguagePuzzleValidator();
+  private readonly physicsValidator = new PhysicsPuzzleValidator();
 
   focusForLevel(level: DifficultyLevel): ProceduralSpecialization {
     return levelFocuses[level];
@@ -312,6 +323,8 @@ export class ProgressiveMissionBuilder {
         return `circuit|${puzzles.circuit.scenarioType ?? ""}|${norm(puzzles.circuit.symptom)}|${puzzles.circuit.requiredRepairs.join(",")}`;
       case "music":
         return `music|${puzzles.music.clef}|${puzzles.music.noteName}|${puzzles.music.octave}|${puzzles.music.challengeMode}`;
+      case "physics":
+        return `physics|${puzzles.physics.exerciseType}|${norm(puzzles.physics.prompt)}|${puzzles.physics.correctOption}`;
     }
     return "";
   }
@@ -352,6 +365,10 @@ export class ProgressiveMissionBuilder {
         const puzzle = this.musicGen.generate(random, level);
         return { ...base, puzzles: { ...base.puzzles, music: puzzle } };
       }
+      case "physics": {
+        const puzzle = this.physicsGen.generate(random, preset, this.physicsTypesForProgressive(level, attempt));
+        return this.physicsValidator.validate(puzzle) ? { ...base, puzzles: { ...base.puzzles, physics: puzzle } } : base;
+      }
     }
     return base;
   }
@@ -390,6 +407,18 @@ export class ProgressiveMissionBuilder {
       ["sensor-unpowered", "disconnected-component", "short-circuit"],
       ["parallel-branch-open", "capacitor-discharged", "loose-ground"],
       ["relay-not-armed", "short-circuit", "wrong-resistor-value", "parallel-branch-open"],
+    ];
+    const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
+    return pools[(attempt + level) % (maxIndex + 1)];
+  }
+
+  private physicsTypesForProgressive(level: DifficultyLevel, attempt: number): PhysicsExerciseType[] {
+    const pools: PhysicsExerciseType[][] = [
+      ["unit-check", "motion-graph"],
+      ["motion-graph", "force-diagram", "energy-transfer"],
+      ["experiment-order", "force-diagram", "energy-transfer"],
+      ["density-pressure", "heat-temperature", "motion-graph"],
+      ["wave-reading", "optics-ray", "density-pressure", "experiment-order"],
     ];
     const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
     return pools[(attempt + level) % (maxIndex + 1)];

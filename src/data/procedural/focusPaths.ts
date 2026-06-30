@@ -1,7 +1,7 @@
 import type { ProceduralPuzzleKind, ProceduralSpecialization } from "../../procedural/ProceduralTypes";
 
 type FocusPuzzleId = ProceduralPuzzleKind;
-type StandardFocusPuzzleId = Exclude<FocusPuzzleId, "coding">;
+type StandardFocusPuzzleId = Exclude<FocusPuzzleId, "coding" | "physics">;
 
 type FocusChallengeStage = {
   label: string;
@@ -26,8 +26,8 @@ export type ProceduralFocusPath = {
     label: string;
     description: string;
   };
-  hotspots: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding", { label: string; description: string }>>;
-  objectives: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding", { label: string; description: string }>>;
+  hotspots: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding" | "physics", { label: string; description: string }>>;
+  objectives: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding" | "physics", { label: string; description: string }>>;
 };
 
 export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFocusPath> = {
@@ -299,6 +299,55 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       music: { label: "Leggi il segnale", description: "Riconosci nota, chiave e posizione prima dell'esecuzione." },
     },
   },
+  fisica: {
+    id: "fisica",
+    label: "Percorso Fisica",
+    title: "Osservatorio delle Leggi",
+    chamberTitle: "Laboratorio fisico",
+    roomTitles: ["Banco delle Misure", "Galleria del Moto", "Sala delle Forze", "Camera delle Trasformazioni"],
+    introFragments: [
+      "NORA apre l'osservatorio fisico: ogni fenomeno deve essere letto con misure, modelli e prove controllate.",
+      "Eli entra in un laboratorio dove grafici, forze ed energia non sono formule isolate, ma modi per prevedere cosa succede.",
+      "La sala mostra carrelli, raggi, onde e sensori: prima si osserva, poi si sceglie il modello piu semplice che spiega i dati.",
+    ],
+    sideNote: "Il percorso semplifica i nuclei iniziali del liceo scientifico: misura, moto, forze, energia, esperimento e lettura grafica.",
+    ruleTitle: "Regola dell'osservatorio",
+    ruleText: "Puoi esplorare liberamente, ma il modulo fisica e il centro del percorso. Parti da grandezze e unita, poi scegli il modello coerente con i dati.",
+    stageHint: "Percorso fisica: leggi la situazione, individua le grandezze, controlla unita e grafico, poi collega causa e modello.",
+    primaryPuzzle: "physics",
+    challengeStages: [
+      { label: "Misure e unita", description: "Converti unita, riconosci grandezze e controlla se il valore e plausibile." },
+      { label: "Grafici del moto", description: "Leggi posizione, tempo, velocita e pendenza senza applicare formule alla cieca." },
+      { label: "Forze ed equilibrio", description: "Costruisci diagrammi semplici distinguendo peso, vincoli e forze bilanciate." },
+      { label: "Energia e trasformazioni", description: "Descrivi passaggi di energia in sistemi quotidiani senza crearla dal nulla." },
+      { label: "Esperimento e dati", description: "Progetta prove controllate, leggi onde, pressione, calore o raggi con metodo." },
+    ],
+    badge: {
+      badgeId: "osservatrice-delle-leggi",
+      label: "Osservatrice delle Leggi",
+      description: "Ha collegato misure, modelli fisici e prove sperimentali.",
+    },
+    hotspots: {
+      language: { label: "Registro dell'esperimento", description: "Il testo descrive dati e condizioni: va letto senza confondere ipotesi e prova." },
+      circuit: { label: "Sensore di misura", description: "Il circuito alimenta strumenti e sensori del banco fisico." },
+      math: { label: "Grafico dei dati", description: "Il terminale traduce misure in rapporti, pendenze e relazioni." },
+      english: { label: "Protocollo scientifico", description: "Una breve istruzione inglese indica procedura, vincoli e sicurezza." },
+      robot: { label: "Carrello di laboratorio", description: "Il robot sposta strumenti seguendo una sequenza verificabile." },
+      coding: { label: "Simulatore dati", description: "Un algoritmo prevede l'andamento di misure o stati." },
+      music: { label: "Segnale periodico", description: "Il pentagramma richiama pattern, frequenza e lettura ordinata." },
+      physics: { label: "Banco fisico", description: "La console chiede di leggere un fenomeno con grandezze, unita e modello." },
+    },
+    objectives: {
+      language: { label: "Leggi il registro", description: "Distingui dati, ipotesi e conclusione nel testo sperimentale." },
+      circuit: { label: "Alimenta i sensori", description: "Stabilizza il circuito che sostiene gli strumenti di misura." },
+      math: { label: "Interpreta il grafico", description: "Usa rapporti e pendenze per dare senso alle misure." },
+      english: { label: "Applica il protocollo", description: "Interpreta istruzioni scientifiche brevi in inglese operativo." },
+      robot: { label: "Muovi il carrello", description: "Programma una sequenza di laboratorio coerente." },
+      coding: { label: "Simula i dati", description: "Segui variabili e condizioni che modellano il fenomeno." },
+      music: { label: "Leggi il segnale", description: "Riconosci pattern ordinati utili alla lettura di frequenze." },
+      physics: { label: "Stabilizza il fenomeno", description: "Scegli il modello fisico piu coerente con dati, grafico e unita." },
+    },
+  },
   musica: {
     id: "musica",
     label: "Percorso Musica",
@@ -348,7 +397,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
 
 export function getProceduralFocusPath(focus: string[] = []): ProceduralFocusPath {
   const key = focus.find((item): item is ProceduralSpecialization =>
-    ["matematica", "italiano", "inglese", "elettronica", "coding", "musica", "libera"].includes(item),
+    ["matematica", "italiano", "inglese", "elettronica", "coding", "musica", "fisica", "libera"].includes(item),
   ) ?? "libera";
   return proceduralFocusPaths[key] ?? proceduralFocusPaths.libera;
 }

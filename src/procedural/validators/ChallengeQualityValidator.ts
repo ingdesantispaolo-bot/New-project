@@ -7,6 +7,7 @@ import type {
   GeneratedMathPuzzle,
   GeneratedMission,
   GeneratedMusicPuzzle,
+  GeneratedPhysicsPuzzle,
   GeneratedRobotPuzzle,
 } from "../ProceduralTypes";
 
@@ -25,6 +26,7 @@ export class ChallengeQualityValidator {
       this.validateLanguage(mission.puzzles.language),
       this.validateEnglish(mission.puzzles.english),
       this.validateMusic(mission.puzzles.music),
+      this.validatePhysics(mission.puzzles.physics),
     ];
     const reasons = reports.flatMap((report) => report.reasons);
     return { valid: reasons.length === 0, reasons };
@@ -249,6 +251,24 @@ export class ChallengeQualityValidator {
     }
     if ((puzzle.staffPosition <= -2 || puzzle.staffPosition >= 10) && puzzle.ledgerLines.length === 0) {
       reasons.push("music: nota esterna senza linee addizionali");
+    }
+    return { valid: reasons.length === 0, reasons };
+  }
+
+  validatePhysics(puzzle: GeneratedPhysicsPuzzle): ChallengeQualityReport {
+    const reasons: string[] = [];
+    const uniqueOptions = new Set(puzzle.options);
+    if (puzzle.options.length < 4 || uniqueOptions.size !== puzzle.options.length || !uniqueOptions.has(puzzle.correctOption)) {
+      reasons.push("physics: opzioni non uniche o risposta corretta assente");
+    }
+    if (puzzle.methodSteps.length < 3 || puzzle.hints.length < 2) {
+      reasons.push("physics: metodo o indizi insufficienti");
+    }
+    if (!puzzle.learningPurpose || puzzle.learningPurpose.length < 45 || puzzle.explanation.length < 45) {
+      reasons.push("physics: scopo didattico o spiegazione troppo deboli");
+    }
+    if (puzzle.visual.labels.length < 2 || puzzle.conceptTags.length < 2) {
+      reasons.push("physics: visuale o concetti troppo poveri");
     }
     return { valid: reasons.length === 0, reasons };
   }

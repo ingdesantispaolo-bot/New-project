@@ -107,6 +107,8 @@ export type LanguageMinigameSession = {
   selectedIds: Set<string>;
   /** Ordered tile ids for the "word-order" (Ricomponi la frase) minigame. */
   orderedSelection: string[];
+  /** Draft text for the "typed" (Scrivi la forma) production prompts. */
+  typedDraft?: string;
   feedback: string;
   locked: boolean;
   summaryOpen: boolean;

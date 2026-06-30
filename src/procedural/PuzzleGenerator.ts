@@ -4,6 +4,7 @@ import { EnglishInstructionGenerator } from "./generators/EnglishInstructionGene
 import { LanguageCorruptionGenerator } from "./generators/LanguageCorruptionGenerator";
 import { MathPuzzleGenerator } from "./generators/MathPuzzleGenerator";
 import { MusicNoteGenerator } from "./generators/MusicNoteGenerator";
+import { PhysicsPuzzleGenerator } from "./generators/PhysicsPuzzleGenerator";
 import { RobotGridGenerator } from "./generators/RobotGridGenerator";
 import { exerciseDirector } from "../core/ExerciseDirector";
 import type {
@@ -11,6 +12,7 @@ import type {
   CodingMinigameType,
   DifficultyPreset,
   EnglishMinigameType,
+  PhysicsExerciseType,
   GeneratedFocusChallenge,
   GeneratedMission,
   LanguageMinigameType,
@@ -24,6 +26,7 @@ import { CircuitPuzzleValidator } from "./validators/CircuitPuzzleValidator";
 import { CodingPuzzleValidator } from "./validators/CodingPuzzleValidator";
 import { LanguagePuzzleValidator } from "./validators/LanguagePuzzleValidator";
 import { MathPuzzleValidator } from "./validators/MathPuzzleValidator";
+import { PhysicsPuzzleValidator } from "./validators/PhysicsPuzzleValidator";
 import { RobotPuzzleValidator } from "./validators/RobotPuzzleValidator";
 
 export class PuzzleGenerator {
@@ -31,6 +34,7 @@ export class PuzzleGenerator {
   private robotGenerator = new RobotGridGenerator();
   private codingGenerator = new CodingPuzzleGenerator();
   private musicGenerator = new MusicNoteGenerator();
+  private physicsGenerator = new PhysicsPuzzleGenerator();
   private circuitGenerator = new CircuitFaultGenerator();
   private languageGenerator = new LanguageCorruptionGenerator();
   private englishGenerator = new EnglishInstructionGenerator();
@@ -38,6 +42,7 @@ export class PuzzleGenerator {
   private robotValidator = new RobotPuzzleValidator();
   private codingValidator = new CodingPuzzleValidator();
   private circuitValidator = new CircuitPuzzleValidator();
+  private physicsValidator = new PhysicsPuzzleValidator();
   private languageValidator = new LanguagePuzzleValidator();
 
   constructor(private validationEngine: ValidationEngine) {}
@@ -49,6 +54,7 @@ export class PuzzleGenerator {
     const languageRandom = random.fork("language");
     const englishRandom = random.fork("english");
     const musicRandom = random.fork("music");
+    const physicsRandom = random.fork("physics");
     const codingRandom = random.fork("coding");
     const mathDifficulty = this.boostForFocus(difficulty, focus, "matematica");
     const robotDifficulty = this.boostForFocus(difficulty, focus, "coding");
@@ -56,6 +62,7 @@ export class PuzzleGenerator {
     const languageLevel = this.levelForFocus(difficulty.level, focus, "italiano");
     const englishLevel = this.levelForFocus(difficulty.level, focus, "inglese");
     const musicLevel = this.levelForFocus(difficulty.level, focus, "musica");
+    const physicsDifficulty = this.boostForFocus(difficulty, focus, "fisica");
     const codingDifficulty = this.boostForFocus(difficulty, focus, "coding");
 
     const math = this.validationEngine.generateWithRetries(
@@ -78,6 +85,11 @@ export class PuzzleGenerator {
       (puzzle) => this.codingValidator.validate(puzzle),
       () => this.codingGenerator.fallback(codingRandom.fork("fallback"), codingDifficulty),
     );
+    const physics = this.validationEngine.generateWithRetries(
+      () => this.physicsGenerator.generate(physicsRandom, physicsDifficulty),
+      (puzzle) => this.physicsValidator.validate(puzzle),
+      () => this.physicsGenerator.fallback(physicsRandom.fork("fallback"), physicsDifficulty),
+    );
 
     return {
       math: exerciseDirector.enrichMath(math, mathDifficulty.level),
@@ -95,6 +107,7 @@ export class PuzzleGenerator {
         () => this.englishGenerator.fallback(englishRandom.fork("fallback"), englishLevel),
       ),
       music: this.musicGenerator.generate(musicRandom, musicLevel),
+      physics,
     };
   }
 
@@ -159,6 +172,14 @@ export class PuzzleGenerator {
       }
       if (kind === "music") {
         const puzzle = this.musicGenerator.generate(challengeRandom, stagedDifficulty.level);
+        return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
+      }
+      if (kind === "physics") {
+        const puzzle = this.validationEngine.generateWithRetries(
+          () => this.physicsGenerator.generate(challengeRandom, stagedDifficulty, this.physicsTypesForStep(index)),
+          (candidate) => this.physicsValidator.validate(candidate),
+          () => this.physicsGenerator.fallback(challengeRandom.fork("fallback"), stagedDifficulty),
+        );
         return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
       }
       if (kind === "coding") {
@@ -257,6 +278,7 @@ export class PuzzleGenerator {
       math: "matematica",
       english: "inglese",
       music: "musica",
+      physics: "fisica",
       robot: "coding",
       coding: "coding",
     }[kind];
@@ -356,6 +378,16 @@ export class PuzzleGenerator {
       ["sequence-switchboard", "action-relay", "sentence-build", "data-command-scan", "vocab-lab", "translation-match"],
       ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match"],
     ][Math.min(step, 4)] as EnglishMinigameType[];
+  }
+
+  private physicsTypesForStep(step: number): PhysicsExerciseType[] {
+    return [
+      ["unit-check", "motion-graph"],
+      ["motion-graph", "force-diagram", "energy-transfer"],
+      ["experiment-order", "force-diagram", "energy-transfer"],
+      ["density-pressure", "heat-temperature", "motion-graph"],
+      ["wave-reading", "optics-ray", "density-pressure", "experiment-order"],
+    ][Math.min(step, 4)] as PhysicsExerciseType[];
   }
 
   private circuitFaultsForStep(step: number) {

@@ -23,6 +23,7 @@ const puzzleDomains: Record<string, ProceduralSpecialization> = {
   robot: "coding",
   coding: "coding",
   music: "musica",
+  physics: "fisica",
 };
 
 const expectedSeconds: Record<string, number> = {
@@ -33,6 +34,7 @@ const expectedSeconds: Record<string, number> = {
   robot: 180,
   coding: 100,
   music: 45,
+  physics: 115,
 };
 
 const domainLabels: Record<ProceduralSpecialization, string> = {
@@ -43,6 +45,7 @@ const domainLabels: Record<ProceduralSpecialization, string> = {
   elettronica: "elettronica",
   coding: "coding",
   musica: "musica",
+  fisica: "fisica",
 };
 
 function clamp(value: number, min: number, max: number): number {

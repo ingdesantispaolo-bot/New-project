@@ -9,6 +9,126 @@ import type {
 } from "../ProceduralTypes";
 import type { Random } from "../Random";
 
+type AgreementItem = {
+  context: string;
+  correct: string;
+  distractors: string[];
+  explanation: string;
+  concept: string;
+};
+
+/** Subjects with their singular/plural article+noun and grammatical gender. */
+const AGREEMENT_SUBJECTS = [
+  { sg: "Il sensore", pl: "I sensori", gender: "m" },
+  { sg: "La valvola", pl: "Le valvole", gender: "f" },
+  { sg: "Il registro", pl: "I registri", gender: "m" },
+  { sg: "La mappa", pl: "Le mappe", gender: "f" },
+  { sg: "Il modulo", pl: "I moduli", gender: "m" },
+  { sg: "La pompa", pl: "Le pompe", gender: "f" },
+  { sg: "Il filtro", pl: "I filtri", gender: "m" },
+  { sg: "La batteria", pl: "Le batterie", gender: "f" },
+  { sg: "Il pannello", pl: "I pannelli", gender: "m" },
+  { sg: "La sonda", pl: "Le sonde", gender: "f" },
+] as const;
+
+/** Regular -ato/-ito adjective roots (4 forms by adding o/a/i/e). */
+const AGREEMENT_ADJ_ROOTS = [
+  "calibrat", "pront", "salvat", "attivat", "isolat", "collegat",
+  "aggiornat", "bloccat", "verificat", "configurat", "alimentat", "spent",
+] as const;
+
+/** Verbs with the forms needed to build reliable agreement distractors. */
+const AGREEMENT_VERBS = [
+  { sg3: "registra", pl3: "registrano", p1pl: "registriamo", part: "registrato", object: "il dato" },
+  { sg3: "controlla", pl3: "controllano", p1pl: "controlliamo", part: "controllato", object: "il segnale" },
+  { sg3: "apre", pl3: "aprono", p1pl: "apriamo", part: "aperto", object: "la porta" },
+  { sg3: "invia", pl3: "inviano", p1pl: "inviamo", part: "inviato", object: "il rapporto" },
+  { sg3: "blocca", pl3: "bloccano", p1pl: "blocchiamo", part: "bloccato", object: "il sistema" },
+  { sg3: "conferma", pl3: "confermano", p1pl: "confermiamo", part: "confermato", object: "la misura" },
+  { sg3: "salva", pl3: "salvano", p1pl: "salviamo", part: "salvato", object: "il log" },
+  { sg3: "aggiorna", pl3: "aggiornano", p1pl: "aggiorniamo", part: "aggiornato", object: "la mappa" },
+] as const;
+
+function adjForm(root: string, gender: "m" | "f", plural: boolean): string {
+  return root + (gender === "m" ? (plural ? "i" : "o") : (plural ? "e" : "a"));
+}
+
+/** Everyday subjects + adjectives for the lower levels (lighter reading load). */
+const EVERYDAY_SUBJECTS = [
+  { sg: "Il gatto", pl: "I gatti", gender: "m" },
+  { sg: "La porta", pl: "Le porte", gender: "f" },
+  { sg: "Il libro", pl: "I libri", gender: "m" },
+  { sg: "La lampada", pl: "Le lampade", gender: "f" },
+  { sg: "Il cane", pl: "I cani", gender: "m" },
+  { sg: "La finestra", pl: "Le finestre", gender: "f" },
+  { sg: "Il bicchiere", pl: "I bicchieri", gender: "m" },
+  { sg: "La sedia", pl: "Le sedie", gender: "f" },
+] as const;
+
+const EVERYDAY_ADJ_ROOTS = ["pront", "apert", "chius", "pulit", "nuov", "acces", "spent", "rott"] as const;
+
+type SubjectPool = readonly { sg: string; pl: string; gender: "m" | "f" }[];
+
+/** Pattern B — "essere + aggettivo": exercises number AND gender agreement. */
+function parametricEssereAdjItem(random: Random, subjects: SubjectPool, roots: readonly string[], everyday: boolean): AgreementItem {
+  const subject = random.pick(subjects);
+  const root = random.pick(roots);
+  const plural = random.bool();
+  const subjForm = plural ? subject.pl : subject.sg;
+  const adjSingular = adjForm(root, subject.gender, false);
+  const adjPlural = adjForm(root, subject.gender, true);
+  const correct = `${plural ? "sono" : "è"} ${plural ? adjPlural : adjSingular}`;
+  const distractors = [`è ${adjSingular}`, `è ${adjPlural}`, `sono ${adjSingular}`, `sono ${adjPlural}`]
+    .filter((option) => option !== correct);
+  return {
+    context: `${subjForm} ___ ${everyday ? "in questo momento." : "secondo il registro."}`,
+    correct,
+    distractors,
+    explanation: `Il soggetto è ${plural ? "plurale" : "singolare"} ${subject.gender === "m" ? "maschile" : "femminile"}: ${subjForm.toLowerCase()} ${correct}.`,
+    concept: "accordo di numero e genere",
+  };
+}
+
+/** Pattern A — "soggetto + verbo": exercises subject-verb number agreement. */
+function parametricSubjectVerbItem(random: Random, subjects: SubjectPool): AgreementItem {
+  const subject = random.pick(subjects);
+  const verb = random.pick(AGREEMENT_VERBS);
+  const plural = random.bool();
+  const subjForm = plural ? subject.pl : subject.sg;
+  const correct = plural ? verb.pl3 : verb.sg3;
+  const distractors = [plural ? verb.sg3 : verb.pl3, verb.p1pl, verb.part];
+  return {
+    context: `${subjForm} ___ ${verb.object}.`,
+    correct,
+    distractors,
+    explanation: `Il soggetto ${subjForm.toLowerCase()} è ${plural ? "plurale: terza persona plurale" : "singolare: terza persona singolare"} (${correct}).`,
+    concept: "accordo soggetto-verbo",
+  };
+}
+
+/**
+ * Calibrates the lexical register by level: everyday vocabulary at the lower
+ * levels (lighter reading load), technical contexts higher up.
+ */
+function parametricAgreementItem(random: Random, level: number): AgreementItem {
+  if (level <= 3) {
+    return parametricEssereAdjItem(random, EVERYDAY_SUBJECTS, EVERYDAY_ADJ_ROOTS, true);
+  }
+  return random.bool()
+    ? parametricEssereAdjItem(random, AGREEMENT_SUBJECTS, AGREEMENT_ADJ_ROOTS, false)
+    : parametricSubjectVerbItem(random, AGREEMENT_SUBJECTS);
+}
+
+/** Canonical form used to compare a typed answer against the accepted one. */
+export function normalizeTypedAnswer(text: string): string {
+  return text
+    .trim()
+    .toLocaleLowerCase("it")
+    .replace(/\s+/g, " ")
+    .replace(/[.,;:!?]+$/u, "")
+    .trim();
+}
+
 export class LanguageCorruptionGenerator {
   generate(random: Random, difficultyLevel = 1, preferredTemplateIds: string[] = []): GeneratedLanguagePuzzle {
     const eligibleTemplates = languageTemplates.filter((template) => (template.minDifficulty ?? 1) <= difficultyLevel);
@@ -137,12 +257,19 @@ export class LanguageCorruptionGenerator {
       "word-order": "tocca le parole nell'ordine giusto per ricomporre il comando eseguibile.",
       "lexicon-lab": "clicca la parola più precisa per il contesto: tecnico, critico, narrativo o operativo.",
     };
+    // Comprehension-heavy sprints (find the intruder, choose the precise word)
+    // run in a calmer, longer "reflective" mode: more reading time, no speed
+    // pressure — friendlier for slower readers / DSA.
+    const reflective = type === "intruder-hunt" || type === "lexicon-lab";
     return {
       type,
       title: titles[type],
-      durationMs: 60_000,
+      durationMs: reflective ? 110_000 : 60_000,
+      reflective,
       instructions: instructions[type],
-      scoringRule: "60 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti. La velocità vale solo se resta precisa.",
+      scoringRule: reflective
+        ? "Modalità riflessiva: niente fretta. Leggi con calma, individua la regola, poi scegli."
+        : "60 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti. La velocità vale solo se resta precisa.",
       prompts,
       competencies: Array.from(new Set([
         "italiano.comprensione",
@@ -286,23 +413,36 @@ export class LanguageCorruptionGenerator {
         concept: "accordo con nome collettivo",
       },
     ];
-    const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
+    // Mostly parametric (hundreds of reliable variants → not memorisable),
+    // mixed with the authored pool that covers special cases the parametric
+    // generator cannot (collective nouns, quantifiers, relative clauses).
+    const item: AgreementItem = random.bool(0.7)
+      ? parametricAgreementItem(random, level)
+      : random.pick(level >= 5 ? [...pool, ...advanced] : pool);
     const tiles = this.shuffleLanguageTiles(random, [
       this.languageTile(index, item.correct, true, `Corretto: ${item.explanation}`),
       ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, `Non regge: ${item.explanation}`)),
     ]);
+    // ~40% of concordanze become a production exercise: the player types the
+    // correct form instead of picking it (exercises italiano.scritturaBreve and
+    // diversifies the interaction). Tiles stay as a valid fallback/wrapper.
+    const typed = random.bool(0.4);
     return {
       id: `agreement-${index}`,
       type: "agreement-sprint",
-      prompt: "Completa il log con la forma grammaticale che il sistema può eseguire.",
+      prompt: typed
+        ? "Scrivi la forma grammaticale corretta che completa il log."
+        : "Completa il log con la forma grammaticale che il sistema può eseguire.",
       context: item.context,
-      targetLabel: "Concordanza corretta",
+      targetLabel: typed ? "Scrivi la concordanza" : "Concordanza corretta",
       requiredSelectionCount: 1,
       tiles,
       solutionLabels: [item.correct],
       explanation: item.explanation,
       concept: item.concept,
       signature: `agreement-${item.context}-${item.correct}`,
+      inputMode: typed ? "typed" : "tiles",
+      acceptedAnswers: typed ? [normalizeTypedAnswer(item.correct)] : undefined,
     };
   }
 

@@ -274,6 +274,15 @@ const focusVisuals: Record<ProceduralSpecialization, {
     motif: "core",
     secondary: 0x9f8cff,
   },
+  fisica: {
+    label: "Focus fisica",
+    marker: "grafici e sensori",
+    color: 0x8fd3ff,
+    palette: "lab",
+    propTheme: "lab",
+    motif: "trace",
+    secondary: 0xf6c85f,
+  },
 };
 
 export function proceduralVisualThemeFor(run: ProceduralRunSave): ProceduralVisualTheme {
@@ -347,6 +356,8 @@ function drawMissionSpecificBackdrop(
     drawCodingMissionBackdrop(scene, rect, theme, random, progress);
   } else if (theme.focus === "musica") {
     drawMusicMissionBackdrop(scene, rect, theme, random, progress);
+  } else if (theme.focus === "fisica") {
+    drawSynthesisMissionBackdrop(scene, rect, theme, random, progress);
   } else {
     drawSynthesisMissionBackdrop(scene, rect, theme, random, progress);
   }
@@ -414,6 +425,7 @@ function fallbackMissionBackdropKey(focus: ProceduralSpecialization): string {
   if (focus === "elettronica") return "mission-bg-electronics";
   if (focus === "coding") return "mission-bg-coding";
   if (focus === "musica") return "mission-bg-music";
+  if (focus === "fisica") return "mission-bg-synthesis";
   return "mission-bg-synthesis";
 }
 
@@ -1349,6 +1361,31 @@ function drawSeededFocusOverprint(scene: Phaser.Scene, rect: ChromeRect, theme: 
         g.lineBetween(x + 8, y, x + 8, y - 34);
       }
     }
+  } else if (theme.focus === "fisica") {
+    g.lineStyle(1, theme.accent, 0.12);
+    const axisX = rect.x + 92;
+    const axisY = rect.y + rect.height - 122;
+    g.lineBetween(axisX, axisY, axisX + 360, axisY);
+    g.lineBetween(axisX, axisY, axisX, axisY - 180);
+    for (let index = 0; index < 5; index += 1) {
+      const x = axisX + index * 74;
+      const y = axisY - 24 - index * 28 + random.integer(-8, 8);
+      g.fillStyle(index % 2 ? theme.secondary : theme.accent, 0.2);
+      g.fillCircle(x, y, 5);
+      if (index > 0) {
+        const prevX = axisX + (index - 1) * 74;
+        const prevY = axisY - 24 - (index - 1) * 28;
+        g.lineBetween(prevX, prevY, x, y);
+      }
+    }
+    ["m/s", "N", "J", "lambda"].forEach((label, index) => {
+      scene.add.text(rect.x + rect.width - 210 + index * 46, rect.y + 106 + random.integer(-10, 18), label, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#d9eaf1",
+        fontStyle: "bold",
+      }).setAlpha(0.24);
+    });
   }
 }
 

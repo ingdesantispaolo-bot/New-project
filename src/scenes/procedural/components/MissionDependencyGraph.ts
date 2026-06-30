@@ -12,7 +12,8 @@ const dependencies: Record<MissionSystemNode, ProceduralPuzzleId[]> = {
   robot: [],
   coding: [],
   music: [],
-  door: ["language", "circuit", "math", "english", "robot", "music"],
+  physics: [],
+  door: ["language", "circuit", "math", "english", "robot", "music", "physics"],
 };
 
 const nodeLabels: Record<MissionSystemNode, string> = {
@@ -23,6 +24,7 @@ const nodeLabels: Record<MissionSystemNode, string> = {
   robot: "canale robot",
   coding: "console algoritmica",
   music: "pentagramma",
+  physics: "banco fisico",
   door: "porta di uscita",
 };
 
@@ -34,6 +36,7 @@ const effectLines: Record<MissionSystemNode, string> = {
   robot: "Il robot ha completato una sequenza coerente.",
   coding: "La console algoritmica ha confermato tracing, stato e logica.",
   music: "Il pentagramma è stato letto con chiave, posizione e ottava corrette.",
+  physics: "Il fenomeno fisico è stato letto con misure, modello e controllo.",
   door: "La porta si apre solo quando tutti i sistemi confermano lo stesso stato.",
 };
 
@@ -59,7 +62,7 @@ export class MissionDependencyGraph {
   }
 
   nextAction(solved: SolverState): MissionSystemNode {
-    const chain: MissionSystemNode[] = ["language", "circuit", "math", "english", "robot", "music", "door"];
+    const chain: MissionSystemNode[] = ["language", "circuit", "math", "english", "robot", "music", "physics", "door"];
     return chain.find((node) => node === "door" || !solved(node)) ?? "door";
   }
 }

@@ -9,9 +9,10 @@ export type ProceduralSpecialization =
   | "inglese"
   | "elettronica"
   | "coding"
-  | "musica";
+  | "musica"
+  | "fisica";
 
-export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music";
+export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music" | "physics";
 export type ProceduralRunMode = "mission" | "training" | "progressive";
 
 export type PedagogicalFocus =
@@ -492,6 +493,10 @@ export type LanguageMinigamePrompt = {
   explanation: string;
   concept: string;
   signature: string;
+  /** "typed" turns the prompt into a production exercise (type the answer). */
+  inputMode?: "tiles" | "typed";
+  /** Normalised answers accepted when inputMode is "typed". */
+  acceptedAnswers?: string[];
 };
 
 export type GeneratedLanguageMinigame = {
@@ -502,6 +507,8 @@ export type GeneratedLanguageMinigame = {
   scoringRule: string;
   prompts: LanguageMinigamePrompt[];
   competencies: string[];
+  /** Comprehension-heavy sprints run in a calmer, longer "reflective" mode. */
+  reflective?: boolean;
 };
 
 export type EnglishChallengeType =
@@ -631,6 +638,54 @@ export type GeneratedMusicPuzzle = {
   conceptTags: string[];
 };
 
+export type PhysicsExerciseType =
+  | "motion-graph"
+  | "unit-check"
+  | "force-diagram"
+  | "energy-transfer"
+  | "experiment-order"
+  | "density-pressure"
+  | "heat-temperature"
+  | "wave-reading"
+  | "optics-ray";
+
+export type PhysicsVisualKind =
+  | "motion-graph"
+  | "force-diagram"
+  | "energy-flow"
+  | "unit-card"
+  | "experiment-steps"
+  | "fluid-column"
+  | "thermal-scale"
+  | "wave"
+  | "ray";
+
+export type PhysicsVisualData = {
+  kind: PhysicsVisualKind;
+  title: string;
+  labels: string[];
+  values?: number[];
+  highlight?: string;
+};
+
+export type GeneratedPhysicsPuzzle = {
+  id: string;
+  title: string;
+  exerciseType: PhysicsExerciseType;
+  difficultyLabel: string;
+  scenario: string;
+  prompt: string;
+  options: string[];
+  correctOption: string;
+  hints: string[];
+  conceptTags: string[];
+  methodSteps: string[];
+  learningPurpose: string;
+  explanation: string;
+  competencies: string[];
+  visual: PhysicsVisualData;
+};
+
 export type GeneratedRoomHotspot = {
   id: string;
   label: string;
@@ -665,6 +720,7 @@ export type GeneratedMission = {
     english: GeneratedEnglishPuzzle;
     music: GeneratedMusicPuzzle;
     coding: GeneratedCodingPuzzle;
+    physics: GeneratedPhysicsPuzzle;
   };
   focusChallenges?: GeneratedFocusChallenge[];
   rewards: MissionReward[];
@@ -727,6 +783,14 @@ export type GeneratedFocusChallenge =
       description: string;
       difficultyStep: number;
       puzzle: GeneratedMusicPuzzle;
+    }
+  | {
+      id: string;
+      kind: "physics";
+      title: string;
+      description: string;
+      difficultyStep: number;
+      puzzle: GeneratedPhysicsPuzzle;
     };
 
 export type ProceduralPuzzleScore = {

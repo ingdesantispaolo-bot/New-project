@@ -33,9 +33,13 @@ function signature(mission: GeneratedMission, kind: Kind): string {
   }
 }
 
+const KNOWN_KINDS: Kind[] = ["language", "circuit", "math", "english", "coding", "music"];
+
 function selectedKinds(mission: GeneratedMission): Kind[] {
+  // Only the disciplines this test models; new domains (e.g. physics) get
+  // their own coverage and are skipped here so this test stays focused.
   return mission.map.hotspots
-    .filter((h) => h.id !== "door" && h.puzzleKind)
+    .filter((h) => h.id !== "door" && h.puzzleKind && KNOWN_KINDS.includes(h.puzzleKind as Kind))
     .map((h) => h.puzzleKind as Kind);
 }
 

@@ -50,6 +50,7 @@ export class MissionGenerator {
               ...puzzles.language.competencies,
               ...puzzles.english.competencies,
               ...puzzles.music.competencies,
+              ...puzzles.physics.competencies,
             ]),
       ]),
     );
@@ -133,6 +134,7 @@ export class MissionGenerator {
     if (focus.includes("elettronica")) return "elettronica";
     if (focus.includes("coding")) return "coding";
     if (focus.includes("musica")) return "musica";
+    if (focus.includes("fisica")) return "fisica";
     return "libera";
   }
 }

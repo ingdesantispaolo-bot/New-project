@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { campaignSystem, type CampaignChapter } from "../core/CampaignSystem";
+import { buildChapterTrialRun, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
@@ -152,36 +153,46 @@ export class CampaignScene extends Phaser.Scene {
       wordWrap: { width: 1080 },
     });
 
-    // Giornate (mission objectives reframed as days).
-    const days = campaignSystem.getChapterDays(chapter.missionId);
-    this.add.text(74, 516, "Le giornate di questo capitolo:", {
+    // Briefing della Prova del Capitolo (il cancello graduato).
+    const level = chapterTrialLevel(chapter.missionId);
+    const minutes = Math.round(chapterTrialTimeMs(chapter.missionId) / 60_000);
+    this.add.text(74, 516, "🎯 Prova del Capitolo — il cancello per sbloccare il prossimo capitolo:", {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
+      fontSize: "13px",
+      color: "#f6c85f",
       fontStyle: "bold",
     });
-    days.slice(0, 6).forEach((day, index) => {
-      const col = index % 3;
-      const row = Math.floor(index / 3);
-      const x = 74 + col * 290;
-      const y = 542 + row * 36;
-      const mark = day.status === "complete" ? "✓" : day.status === "active" ? "▶" : "·";
-      const color = day.status === "complete" ? "#9ff5a7" : day.status === "active" ? "#f7d37a" : "#7d9098";
-      this.add.text(x, y, `${mark} ${day.label}: ${day.task}`, {
+    const rules: string[] = [
+      `• Difficoltà livello ${level}/8, su TUTTE le materie e tutti i giochi`,
+      `• Massimo ${CHAPTER_TRIAL_ERROR_BUDGET} errori per l'intero capitolo`,
+      `• Tempo totale: circa ${minutes} minuti`,
+      "• Fallisci → riparti da capo; superi → capitolo sbloccato",
+    ];
+    rules.forEach((line, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      this.add.text(74 + col * 470, 542 + row * 26, line, {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
-        color,
-        wordWrap: { width: 280 },
+        color: "#c7dce7",
+        wordWrap: { width: 452 },
       });
     });
 
-    new Button(this, 1040, 600, "Continua la storia", () => this.showChapterIntro(chapter), {
+    new Button(this, 1040, 566, "Affronta la Prova ▸", () => this.showChapterIntro(chapter), {
       width: 300,
-      height: 56,
+      height: 52,
       fill: 0x1f5a51,
       stroke: 0xf6c85f,
-      fontSize: 18,
+      fontSize: 17,
       soundKey: "missionStart",
+    });
+    new Button(this, 1040, 624, "Vivi l'episodio (facoltativo)", () => this.enterChapter(chapter), {
+      width: 300,
+      height: 38,
+      fill: 0x142736,
+      stroke: 0x6be7d6,
+      fontSize: 12,
     });
   }
 
@@ -215,7 +226,7 @@ export class CampaignScene extends Phaser.Scene {
       height: 50,
       fill: 0x263743,
     }).setDepth(2001);
-    const enter = new Button(this, 822, 524, "Entra nel capitolo", () => this.enterChapter(chapter), {
+    const enter = new Button(this, 822, 524, "Inizia la Prova ▸", () => this.startChapterTrial(chapter), {
       width: 280,
       height: 50,
       fill: 0x173b36,
@@ -291,6 +302,21 @@ export class CampaignScene extends Phaser.Scene {
     }));
   }
 
+  /**
+   * Launches the graded "Prova del Capitolo": a mixed-subject trial at the
+   * chapter's fixed level with the 3-error budget and time limit. Passing it
+   * (handled in ProceduralMissionScene) sets the chapter flag and unlocks the
+   * next chapter; failing sends the player back here.
+   */
+  private startChapterTrial(chapter: CampaignChapter): void {
+    audioManager.stopMusic();
+    saveSystem.load();
+    saveSystem.pauseActiveProceduralRun();
+    saveSystem.setProceduralRun(buildChapterTrialRun(chapter.missionId));
+    void startScene(this, "ProceduralMissionScene");
+  }
+
+  /** Optional: replay the hand-crafted themed episode (does not gate progress). */
   private enterChapter(chapter: CampaignChapter): void {
     audioManager.stopMusic();
     void startScene(this, chapter.sceneKey);

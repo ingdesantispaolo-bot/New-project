@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
+import { buildChapterTrialRun, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
+import { markMissionComplete } from "../core/MissionCompletion";
 import { competencyTracker } from "../core/CompetencyTracker";
 import { exerciseDirector } from "../core/ExerciseDirector";
 import { feedbackSystem, type FeedbackMessage } from "../core/FeedbackSystem";
@@ -393,17 +395,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.clearOverlay();
     saveSystem.updateProceduralRun({ timerState: "ready", deadlineAt: undefined });
     this.run = saveSystem.data.proceduralRun ?? this.run;
-    const pressure = proceduralRunRules.pressureEnabledForMode(this.runMode());
+    const pressure = proceduralRunRules.pressureEnabledFor(this.run);
     const overlay = this.add.container(0, 0).setDepth(2200);
     SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.9);
+    const trial = this.isChapterTrial();
     overlay.add(this.add.rectangle(640, 360, 650, 330, 0x07151d, 0.98).setStrokeStyle(2, pressure ? 0xf6c85f : 0x6be7d6, 0.78));
-    overlay.add(this.add.text(640, 244, resuming ? "Prova in pausa" : "Console pronta", {
+    overlay.add(this.add.text(640, 244, resuming ? "Prova in pausa" : trial ? "Prova del Capitolo" : "Console pronta", {
       fontFamily: "Inter, Arial",
       fontSize: "32px",
       color: pressure ? "#f7d37a" : "#9ff5e9",
       fontStyle: "bold",
     }).setOrigin(0.5));
-    overlay.add(this.add.text(640, 312, pressure
+    if (trial && this.run.chapterMissionId) {
+      const level = chapterTrialLevel(this.run.chapterMissionId);
+      const minutes = Math.round(chapterTrialTimeMs(this.run.chapterMissionId) / 60_000);
+      overlay.add(this.add.text(640, 282, `Livello ${level}/8 · tutte le materie · max ${CHAPTER_TRIAL_ERROR_BUDGET} errori · ~${minutes} min`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "14px",
+        color: "#9ff5e9",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+    }
+    overlay.add(this.add.text(640, trial ? 322 : 312, pressure
       ? "Il timer partirà solo quando premi Inizia. Caricamento e lettura di questa schermata non consumano tempo."
       : "Modalità rilassata: nessun conto alla rovescia e nessuna vita persa. Contano metodo, precisione e correzione.", {
       fontFamily: "Inter, Arial",
@@ -426,7 +439,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private startPreparedRun(): void {
     const now = new Date().toISOString();
-    const pressure = proceduralRunRules.pressureEnabledForMode(this.runMode());
+    const pressure = proceduralRunRules.pressureEnabledFor(this.run);
     const remaining = this.run.pausedRemainingMs ?? this.run.timeLimitMs;
     const progressive = this.run.progressive
       ? {
@@ -461,8 +474,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private isTimedMissionMode(): boolean {
-    const mode = this.runMode();
-    return proceduralRunRules.pressureEnabledForMode(mode);
+    return proceduralRunRules.pressureEnabledFor(this.run);
+  }
+
+  /** True while playing a graded "Prova del Capitolo" (chapter trial). */
+  private isChapterTrial(): boolean {
+    return Boolean(this.run.chapterMissionId);
+  }
+
+  /**
+   * Mistakes tolerated on a single console before a life is lost. Chapter trials
+   * are strict — every error costs a life, so the whole chapter allows at most
+   * {@link proceduralRunRules.maxLives} errors before failing.
+   */
+  private mistakesBeforeLifeLoss(): number {
+    return this.isChapterTrial() ? 1 : proceduralRunRules.mistakesBeforeLifeLoss(this.run.difficulty);
   }
 
   private isRunInteractionLocked(): boolean {
@@ -593,18 +619,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? progressiveMissionBuilder.buildLevelMission(baseMission, run.progressive?.currentLevel ?? run.difficulty)
       : baseMission;
     const createdAt = new Date().toISOString();
-    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
+    const pressureEnabled = proceduralRunRules.pressureEnabledFor(run);
     const timeLimitMs = mode === "progressive"
       ? progressiveMissionBuilder.timeLimitMs(run.progressive?.currentLevel ?? mission.difficulty, Math.max(1, mission.objectives.length))
-      : pressureEnabled
-        ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length))
-        : undefined;
+      : run.chapterMissionId
+        ? run.timeLimitMs
+        : pressureEnabled
+          ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length))
+          : undefined;
     const replacement: ProceduralRunSave = {
       seed: mission.seed,
       difficulty: mission.difficulty,
       focus,
       mode,
       mission,
+      chapterMissionId: run.chapterMissionId,
       hintsUsed: 0,
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
@@ -634,7 +663,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private normalizeRunRules(run: ProceduralRunSave): ProceduralRunSave {
     const mode = proceduralRunRules.modeFor(run);
-    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
+    const pressureEnabled = proceduralRunRules.pressureEnabledFor(run);
     const timeLimitMs = pressureEnabled ? (run.timeLimitMs ?? (mode === "progressive"
       ? progressiveMissionBuilder.timeLimitMs(run.progressive?.currentLevel ?? run.difficulty, Math.max(1, run.mission.objectives.length))
       : proceduralRunRules.missionTimeLimitMs(run.difficulty, Math.max(1, run.mission.objectives.length)))) : undefined;
@@ -670,6 +699,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.isProgressiveMode()) {
       const progressive = this.run.progressive;
       this.startProgressiveLevel(progressive?.currentLevel ?? this.run.difficulty, progressive?.results ?? []);
+      return;
+    }
+    if (this.run.chapterMissionId) {
+      // Chapter trials always restart from scratch at the same level (new seed).
+      saveSystem.setProceduralRun(buildChapterTrialRun(this.run.chapterMissionId));
+      this.scene.restart();
       return;
     }
     const nextDifficulty = Math.min(8, this.run.difficulty + (this.run.completedAt ? 1 : 0)) as DifficultyLevel;
@@ -7571,6 +7606,23 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.showProgressiveSynthesis(reason);
       return;
     }
+    const chapterMissionId = this.run.chapterMissionId;
+    if (chapterMissionId) {
+      // Passing the graded trial clears the chapter and unlocks the next one.
+      audioManager.playOutcome("complete");
+      outcomeFeedback.play(this, "complete", "Prova del Capitolo superata");
+      this.noraSay("victory");
+      this.playLabRestoredFinale();
+      markMissionComplete(chapterMissionId);
+      saveSystem.updateProceduralRun({ completedAt: new Date().toISOString() });
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+      feedbackSystem.publish(
+        "Prova del Capitolo superata: tutte le materie battute entro gli errori e il tempo. Capitolo sbloccato!",
+        "success",
+      );
+      this.runWhenActive(1700, () => this.scene.start("CampaignScene"));
+      return;
+    }
     const mode = proceduralRunRules.modeFor(this.run);
     audioManager.playOutcome("complete");
     outcomeFeedback.play(this, "complete", mode === "training" ? "Allenamento registrato" : "Missione completata");
@@ -7921,7 +7973,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const category = `${this.activePuzzleKind ?? "unknown"}:${message.toLowerCase().includes("prova") ? "evidence" : "concept"}`;
     const memoryCount = saveSystem.recordLearningMistake(category);
     const attempts = this.activePuzzleAttempts();
-    if (this.isTimedMissionMode() && attempts >= proceduralRunRules.mistakesBeforeLifeLoss(this.run.difficulty)) {
+    if (this.isTimedMissionMode() && attempts >= this.mistakesBeforeLifeLoss()) {
       this.loseMissionLife(message);
       return true;
     }
@@ -7994,7 +8046,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     this.recordPuzzleMistake();
-    if (this.isTimedMissionMode() && this.activePuzzleAttempts() >= proceduralRunRules.mistakesBeforeLifeLoss(this.run.difficulty)) {
+    if (this.isTimedMissionMode() && this.activePuzzleAttempts() >= this.mistakesBeforeLifeLoss()) {
       this.loseMissionLife(message);
       return;
     }
@@ -8105,18 +8157,23 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private showMissionFailure(reason: string): void {
+    const trial = this.isChapterTrial();
+    const weak = masterySystem.weakestPracticedFocus();
+    const weakLabel = weak ? proceduralScoring.domainLabel(weak) : undefined;
     const overlay = this.add.container(0, 0).setDepth(1900);
     SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.9);
     overlay.add(this.add.image(324, 360, "outcome-defeat").setDisplaySize(438, 438).setAlpha(0.96));
     overlay.add(this.add.rectangle(324, 360, 466, 466, 0x000000, 0).setStrokeStyle(2, 0xc94b55, 0.56));
     overlay.add(this.add.rectangle(854, 360, 642, 466, 0x07151d, 0.97).setStrokeStyle(2, 0xc94b55, 0.78));
-    overlay.add(this.add.text(568, 158, "Missione fallita", {
+    overlay.add(this.add.text(568, 158, trial ? "Prova non superata" : "Missione fallita", {
       fontFamily: "Inter, Arial",
       fontSize: "34px",
       color: "#ffb0a8",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(570, 218, "Le vite sono esaurite. La run è stata chiusa e non può essere ripresa.", {
+    overlay.add(this.add.text(570, 218, trial
+      ? "Hai esaurito i 3 errori (o il tempo) della Prova del Capitolo. Nessun capitolo si sblocca finché non la superi tutta: la Prova riparte da capo."
+      : "Le vite sono esaurite. La run è stata chiusa e non può essere ripresa.", {
       fontFamily: "Inter, Arial",
       fontSize: "17px",
       color: "#f5fbff",
@@ -8124,14 +8181,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 5,
     }));
     overlay.add(this.add.rectangle(570, 292, 568, 142, 0x102533, 0.82).setOrigin(0).setStrokeStyle(1, 0xc94b55, 0.38));
-    overlay.add(this.add.text(594, 316, `Motivo: ${reason}\n\nI progressi di questa run restano nel registro. Ricomincia crea una missione nuova allo stesso livello, con vite e timer ripristinati.`, {
+    overlay.add(this.add.text(594, 316, trial
+      ? `Motivo: ${reason}\n\nConsiglio di NORA: prima di riprovare, allena ${weakLabel ?? "la materia in cui sei meno sicura"} nella Palestra. Poi torna qui più pronta.`
+      : `Motivo: ${reason}\n\nI progressi di questa run restano nel registro. Ricomincia crea una missione nuova allo stesso livello, con vite e timer ripristinati.`, {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#d9eaf1",
       wordWrap: { width: 520 },
       lineSpacing: 5,
     }));
-    overlay.add(new Button(this, 716, 568, "Ricomincia", () => {
+    overlay.add(new Button(this, 716, 568, trial ? "Riprova la Prova" : "Ricomincia", () => {
       this.missionFailureInProgress = false;
       this.clearOverlay();
       this.regenerate();
@@ -8142,10 +8201,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       stroke: 0x9ff5e9,
       fontSize: 18,
     }));
-    overlay.add(new Button(this, 1010, 568, "Menu", () => {
+    overlay.add(new Button(this, 1010, 568, trial ? "Torna alla Storia" : "Menu", () => {
       this.missionFailureInProgress = false;
       this.clearOverlay();
-      this.scene.start("MainMenuScene");
+      this.scene.start(trial ? "CampaignScene" : "MainMenuScene");
     }, {
       width: 206,
       height: 56,
@@ -8456,7 +8515,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? `Tutti i sistemi sono coerenti.\n[verde] Porta finale pronta.\n\nAprila per chiudere il diario seed.`
           : `Allenamento completato.\n[verde] Porta pronta.\n\nAprila per registrare voto e miglior tempo.`,
     );
-    const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
+    const pressureEnabled = proceduralRunRules.pressureEnabledFor(this.run);
     this.progressText?.setText(
       pressureEnabled
         ? `Console verdi: ${solvedCount}/${requiredCount}\nVite: ${this.run.lives ?? proceduralRunRules.maxLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
@@ -8468,18 +8527,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.isRunInteractionLocked()) {
       return true;
     }
-    const mode = proceduralRunRules.modeFor(this.run);
-    if (!proceduralRunRules.pressureEnabledForMode(mode) || this.run.timerState !== "running" || this.run.completedAt || this.run.failedAt) {
+    if (!proceduralRunRules.pressureEnabledFor(this.run) || this.run.timerState !== "running" || this.run.completedAt || this.run.failedAt) {
       return false;
     }
     if (proceduralRunRules.remainingMs(this.run) > 0) {
       return false;
     }
-    if (mode === "progressive") {
+    if (this.isProgressiveMode()) {
       this.completeProgressiveLevel(false, "Tempo esaurito.");
       return true;
     }
-    this.failMissionNow("tempo esaurito: la missione ha finito il tempo disponibile.");
+    this.failMissionNow(this.isChapterTrial()
+      ? "tempo esaurito: la Prova del Capitolo ha finito il tempo disponibile."
+      : "tempo esaurito: la missione ha finito il tempo disponibile.");
     return true;
   }
 

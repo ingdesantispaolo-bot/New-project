@@ -467,7 +467,7 @@ export class MainMenuScene extends Phaser.Scene {
       modal.add(hit);
     };
     card(150, 0x6be7d6, "🎯", "Avventura veloce", "una stanza nuova, gioco libero per esplorare", missionState, () => this.resumeMissionGame());
-    card(490, 0xff8f6b, "🗼", "La Torre", "prove a difficoltà crescente: sali più in alto", scalataState, () => this.showScalataTower());
+    card(490, 0xff8f6b, "🗼", "La Torre", "sfida infinita L1→8: il banco di prova dopo la Storia", scalataState, () => this.showScalataTower());
     card(830, 0xf6c85f, "🧠", "Riscaldamento", "scalda logica e memoria prima di un capitolo", "Palestra mentale", () => this.openMenuScene("LogicGymScene", "Non sono riuscito ad aprire il riscaldamento. Riprova tra un istante."));
 
     modal.add(this.add.text(150, 486, "Allenamento mirato per materia — il livello si adatta a te", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }));

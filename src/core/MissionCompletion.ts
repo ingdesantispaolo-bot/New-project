@@ -32,3 +32,14 @@ export function isMissionComplete(missionId: string): boolean {
 export function countCompletedMissions(flags: Record<string, boolean>): number {
   return Object.values(MISSION_COMPLETION_FLAG).filter((flag) => flags?.[flag]).length;
 }
+
+/**
+ * Marks a campaign chapter as cleared by setting its authoritative flag. Used by
+ * the "Prova del Capitolo" gate when the graded trial is passed.
+ */
+export function markMissionComplete(missionId: string): void {
+  const flag = MISSION_COMPLETION_FLAG[missionId];
+  if (flag) {
+    saveSystem.setFlag(flag, true);
+  }
+}

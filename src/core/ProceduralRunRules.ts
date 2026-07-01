@@ -24,6 +24,16 @@ export const proceduralRunRules = {
     return mode === "progressive" || (mode === "mission" && settingsSystem.pressureEnabled());
   },
 
+  /**
+   * Pressure (lives + timer) for a concrete run. Chapter trials always run under
+   * pressure — the 3-error budget and time limit are the gate, so they ignore the
+   * optional "pressure" comfort setting.
+   */
+  pressureEnabledFor(run: Pick<ProceduralRunSave, "mode" | "focus" | "chapterMissionId">): boolean {
+    if (run.chapterMissionId) return true;
+    return this.pressureEnabledForMode(this.modeFor(run));
+  },
+
   mistakesBeforeLifeLoss(difficulty: DifficultyLevel): number {
     return difficulty >= 7 ? 2 : 3;
   },

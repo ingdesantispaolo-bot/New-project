@@ -883,6 +883,12 @@ export type ProceduralRunSave = {
   failedAt?: string;
   trainingResult?: TrainingRunResult;
   progressive?: ProgressiveRunState;
+  /**
+   * When set, this run is a graded "Prova del Capitolo" (chapter trial): passing
+   * it completes the given campaign mission and unlocks the next chapter; failing
+   * it (out of the 3-error budget or time) sends the player back to the Story.
+   */
+  chapterMissionId?: string;
   startedAt: string;
   completedAt?: string;
 };

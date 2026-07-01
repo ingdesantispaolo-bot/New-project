@@ -62,116 +62,78 @@ export class MainMenuScene extends Phaser.Scene {
     const trainingRun = saveSystem.getProceduralTrainingRun();
     const progressiveRun = saveSystem.getProceduralProgressiveRun();
 
-    const title = this.rect("menu:title", { x: 96, y: 92 });
-    const subtitle = this.rect("menu:subtitle", { x: 102, y: 172 });
-    const copy = this.rect("menu:copy", { x: 102, y: 226, width: 620 });
-    // Neon accent rule framing the hero header.
-    this.add.image(86, 168, "soft-glow").setTint(0x6be7d6).setAlpha(0.12).setScale(1.5);
-    this.add.rectangle(82, 96, 4, 150, 0x6be7d6, 0.7).setOrigin(0);
-    this.add.rectangle(82, 96, 4, 40, 0xf6c85f, 0.85).setOrigin(0);
-    this.add.text(title.x, title.y, "ELI QUEST", {
-      fontFamily: "Inter, Arial",
-      fontSize: "76px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      shadow: { offsetX: 0, offsetY: 6, color: "#000000", blur: 12, fill: true },
-    });
-    this.add.text(subtitle.x, subtitle.y, "Accademia delle Missioni", {
-      fontFamily: "Inter, Arial",
-      fontSize: "26px",
-      color: "#9ff5e9",
-    });
-    this.add.text(copy.x, copy.y, "Una stanza sempre diversa. Stesso metodo: osserva, formula un'ipotesi, prova con precisione.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "21px",
-      color: "#c7dce7",
-      wordWrap: { width: copy.width ?? 620 },
-      lineSpacing: 5,
-    });
-    this.add.text(102, 300, `Giocatore: ${playerSystem.getActivePlayer().name}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "17px",
-      color: "#f6c85f",
-      fontStyle: "bold",
-    });
-    new Button(this, 520, 310, "👤 Cambia / Nuovo giocatore", () => this.openMenuScene("PlayerReportScene", "Non sono riuscito ad aprire i giocatori. Riprova tra un istante."), {
+    // ===== HEADER (compatto) =====
+    this.add.rectangle(82, 44, 4, 92, 0x6be7d6, 0.7).setOrigin(0);
+    this.add.rectangle(82, 44, 4, 30, 0xf6c85f, 0.85).setOrigin(0);
+    this.add.text(100, 40, "ELI QUEST", { fontFamily: "Inter, Arial", fontSize: "48px", color: "#f5fbff", fontStyle: "bold", shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 10, fill: true } });
+    this.add.text(104, 98, "Accademia delle Missioni", { fontFamily: "Inter, Arial", fontSize: "18px", color: "#9ff5e9" });
+    this.add.text(792, 46, `Giocatore: ${playerSystem.getActivePlayer().name}`, { fontFamily: "Inter, Arial", fontSize: "15px", color: "#f6c85f", fontStyle: "bold" });
+    new Button(this, 1000, 80, "👤 Cambia / Nuovo giocatore", () => this.openMenuScene("PlayerReportScene", "Non sono riuscito ad aprire i giocatori. Riprova tra un istante."), {
       width: 246, height: 30, fontSize: 12, fill: 0x1f5a51, stroke: 0xf6c85f,
-    });
-    this.add.text(102, 326, this.resumeCompactSummary(missionRun, trainingRun, progressiveRun), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#c7dce7",
-      wordWrap: { width: 610 },
     });
 
     const cardProgress = campaignSystem.getProgress();
-    const missionState = this.isResumable(missionRun)
-      ? `In corso · ${missionRun?.solvedPuzzleIds.length ?? 0} console risolte`
-      : "Una stanza nuova pronta";
-    const scalataState = this.isResumable(progressiveRun)
-      ? `Piano ${progressiveRun?.progressive?.currentLevel ?? progressiveRun?.difficulty ?? 1} · record ${progressiveRun?.progressive?.unlockedLevel ?? 1}`
-      : "Parti dal piano 1";
 
-    // ===== A) NORA ti consiglia: un solo passo guidato =====
-    const next = this.recommendNextStep(missionRun, trainingRun, progressiveRun);
-    const heroX = 44;
-    const heroY = 348;
-    const heroW = 716;
-    const heroH = 120;
-    this.add.rectangle(heroX, heroY, heroW, heroH, 0x0c1d2a, 0.95).setOrigin(0).setStrokeStyle(2, 0xf6c85f, 0.72);
-    this.add.rectangle(heroX, heroY, 6, heroH, 0xf6c85f, 0.95).setOrigin(0);
-    this.add.text(heroX + 26, heroY + 16, `🤖 NORA · ${next.tag}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", fontStyle: "bold" });
-    this.add.text(heroX + 26, heroY + 40, next.title, { fontFamily: "Inter, Arial", fontSize: "25px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 452 } });
-    this.add.text(heroX + 26, heroY + 80, next.sub, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#c7dce7", wordWrap: { width: 452 }, lineSpacing: 3 });
-    const practice = next.practice;
-    if (practice) {
-      // Story step: primary "enter chapter" + secondary "warm up first" (the bridge).
-      new Button(this, heroX + heroW - 116, heroY + 40, next.cta, () => next.action(), {
-        width: 196, height: 48, fill: 0x1f5a51, stroke: 0xf6c85f, fontSize: 17, soundKey: "missionStart",
-      });
-      new Button(this, heroX + heroW - 116, heroY + 92, practice.label, () => this.startFocusTraining(practice.focus), {
-        width: 196, height: 34, fill: 0x173b36, stroke: 0x6be7d6, fontSize: 12,
+    // ===== LA STORIA — il cuore del percorso =====
+    const sx = 44;
+    const sy = 140;
+    const sw = 716;
+    const sh = 466;
+    this.add.rectangle(sx, sy, sw, sh, 0x0a1a26, 0.94).setOrigin(0).setStrokeStyle(2, 0xf6c85f, 0.6);
+    this.add.rectangle(sx, sy, sw, 5, 0xf6c85f, 0.9).setOrigin(0);
+    this.add.text(sx + 24, sy + 16, "📖 LA STORIA", { fontFamily: "Inter, Arial", fontSize: "20px", color: "#f6c85f", fontStyle: "bold" });
+    this.add.text(sx + sw - 24, sy + 20, `Capitoli ${cardProgress.completed}/${cardProgress.total}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(1, 0);
+    this.add.text(sx + 24, sy + 44, "Il tuo viaggio nell'Accademia. Tutto il resto (Palestra, sfide, esercizi) serve a renderlo più giocoso, impegnativo e riuscito.", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: sw - 48 }, lineSpacing: 3 });
+
+    // Mappa dei capitoli (rail)
+    const chapters = campaignSystem.getChapters();
+    const railY = sy + 116;
+    const step = (sw - 180) / Math.max(1, chapters.length - 1);
+    this.add.rectangle(sx + 90, railY, sw - 180, 3, 0x294958, 0.7).setOrigin(0, 0.5);
+    chapters.forEach((ch, index) => {
+      const nx = sx + 90 + index * step;
+      const done = ch.status === "complete";
+      const isActive = ch.status === "active";
+      const color = done ? 0x2ed889 : isActive ? 0xf6c85f : 0x304653;
+      this.add.circle(nx, railY, isActive ? 19 : 15, color, done || isActive ? 0.95 : 0.5).setStrokeStyle(2, color, 0.9);
+      this.add.text(nx, railY, done ? "✓" : isActive ? "▶" : ch.status === "locked" ? "🔒" : String(ch.number), {
+        fontFamily: "Inter, Arial", fontSize: isActive ? "14px" : "12px", color: ch.status === "locked" ? "#7d9098" : "#06131c", fontStyle: "bold",
+      }).setOrigin(0.5);
+      this.add.text(nx, railY + 28, `Cap ${ch.number}`, { fontFamily: "Inter, Arial", fontSize: "9px", color: isActive ? "#f7d37a" : done ? "#9ff5a7" : "#7d9098" }).setOrigin(0.5);
+    });
+
+    // Capitolo attuale (fulcro) + azione principale
+    if (campaignSystem.isCampaignComplete()) {
+      this.add.text(sx + 24, sy + 212, "🎉 Storia completata!", { fontFamily: "Inter, Arial", fontSize: "24px", color: "#9ff5a7", fontStyle: "bold" });
+      this.add.text(sx + 24, sy + 250, "Hai riacceso tutta l'Accademia. Rivivi un capitolo o mettiti alla prova nella Palestra.", { fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", wordWrap: { width: sw - 48 }, lineSpacing: 5 });
+      new Button(this, sx + 200, sy + 372, "Rivivi la Storia ▸", () => this.openMenuScene("CampaignScene", "Non sono riuscito ad aprire la storia. Riprova tra un istante."), {
+        width: 320, height: 56, fill: 0x1f5a51, stroke: 0xf6c85f, fontSize: 18, soundKey: "missionStart",
       });
     } else {
-      new Button(this, heroX + heroW - 116, heroY + heroH / 2, next.cta, () => next.action(), {
-        width: 196, height: 66, fill: 0x1f5a51, stroke: 0xf6c85f, fontSize: 18, soundKey: "missionStart",
+      const active = campaignSystem.getActiveChapter();
+      this.add.text(sx + 24, sy + 208, `Capitolo ${active.number} · ${active.title}`, { fontFamily: "Inter, Arial", fontSize: "23px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: sw - 48 } });
+      this.add.text(sx + 24, sy + 244, active.location, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" });
+      this.add.text(sx + 24, sy + 268, active.synopsis, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", wordWrap: { width: sw - 48 }, lineSpacing: 5 });
+      new Button(this, sx + 190, sy + 388, `▶ Continua il Capitolo ${active.number}`, () => this.openMenuScene("CampaignScene", "Non sono riuscito ad aprire la storia. Riprova tra un istante."), {
+        width: 348, height: 58, fill: 0x1f5a51, stroke: 0xf6c85f, fontSize: 16, soundKey: "missionStart",
       });
+      // Ponte Storia↔pratica: rinforza il punto debole reale, o prepara il capitolo.
+      const weakest = masterySystem.weakestPracticedFocus();
+      const bridgeFocus = weakest ?? progressionSystem.practiceFocusForChapter(active.number);
+      if (bridgeFocus) {
+        const label = `💪 ${weakest ? "Rinforza" : "Allena"} ${proceduralScoring.domainLabel(bridgeFocus)}`;
+        new Button(this, sx + 560, sy + 388, label, () => this.startFocusTraining(bridgeFocus), {
+          width: 196, height: 58, fill: 0x173b36, stroke: 0x6be7d6, fontSize: 12,
+        });
+      }
     }
 
-    // ===== B) ALLENATI: tutte le modalità di pratica in un posto =====
-    this.add.text(44, 484, "ALLENATI", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold" });
-    const trainCard = (x: number, accent: number, icon: string, cardTitle: string, tag: string, state: string, action: () => void): void => {
-      const card = this.add.container(x, 502);
-      const w = 232;
-      const h = 86;
-      const accentHex = Phaser.Display.Color.IntegerToColor(accent).rgba;
-      card.add(this.add.rectangle(0, 0, w, h, 0x0c1d2a, 0.92).setOrigin(0).setStrokeStyle(2, accent, 0.5));
-      card.add(this.add.rectangle(0, 0, w, 4, accent, 0.95).setOrigin(0));
-      card.add(this.add.text(14, 12, icon, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#ffffff" }));
-      card.add(this.add.text(52, 14, cardTitle, { fontFamily: "Inter, Arial", fontSize: "17px", color: "#f5fbff", fontStyle: "bold" }));
-      card.add(this.add.text(52, 40, tag, { fontFamily: "Inter, Arial", fontSize: "11px", color: accentHex, wordWrap: { width: w - 60 } }));
-      card.add(this.add.text(14, 64, state, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", wordWrap: { width: w - 24 } }));
-      const hit = this.add.rectangle(w / 2, h / 2, w, h, 0x000000, 0.001).setInteractive({ useHandCursor: true });
-      hit.on("pointerover", () => card.setScale(1.02)).on("pointerout", () => card.setScale(1));
-      hit.on("pointerup", () => { audioManager.play("missionStart"); action(); });
-      card.add(hit);
-    };
-    trainCard(44, 0x6be7d6, "🎯", "Avventura veloce", "una stanza nuova, gioco libero", missionState, () => this.resumeMissionGame());
-    trainCard(292, 0xff8f6b, "🗼", "La Torre", "sali più in alto che puoi", scalataState, () => this.showScalataTower());
-    trainCard(540, 0xf6c85f, "🧠", "Riscaldamento", "scalda la mente con logica e memoria", "Palestra mentale", () => this.openMenuScene("LogicGymScene", "Non sono riuscito ad aprire la Palestra. Riprova tra un istante."));
-
-    // ===== Allenamento mirato per materia (difficoltà adattiva, nascosta) =====
-    this.add.text(44, 600, "Allenamento mirato — scegli una materia (il livello si adatta a te)", {
-      fontFamily: "Inter, Arial", fontSize: "12px", color: "#7d93a0",
-    });
-    focusOptions.forEach((focus, index) => {
-      const col = index % 4;
-      const row = Math.floor(index / 4);
-      new Button(this, 100 + col * 116, 632 + row * 44, focus.label.replace("Focus ", ""), () => this.startFocusTraining(focus.id), {
-        width: 108, height: 38, fontSize: 12,
-        fill: this.isSameFocus(trainingRun, focus.id) ? 0x1f5a51 : 0x173b36,
-        stroke: this.isSameFocus(trainingRun, focus.id) ? 0xf6c85f : 0x6be7d6,
-      });
+    // ===== AL SERVIZIO DELLA STORIA — Palestra (contorno di supporto) =====
+    // Kept clear of the bottom-left NORA chip zone (x < 490).
+    const hasResume = this.isResumable(missionRun) || this.isResumable(progressiveRun) || this.isResumable(trainingRun);
+    this.add.text(498, sy + sh + 8, "AL SERVIZIO DELLA STORIA — allenamento di supporto", { fontFamily: "Inter, Arial", fontSize: "11px", color: "#7d93a0", fontStyle: "bold", wordWrap: { width: 264 } });
+    new Button(this, 630, sy + sh + 58, hasResume ? "🏋 Palestra — riprendi / allena" : "🏋 Palestra — allenati per la Storia", () => this.openPalestraDrawer(), {
+      width: 264, height: 52, fill: 0x2a1f3a, stroke: 0xf6c85f, fontSize: 13, soundKey: "uiSelect",
     });
 
     if (!this.noraGreeted) {
@@ -235,51 +197,6 @@ export class MainMenuScene extends Phaser.Scene {
     VisualKit.vignette(this);
     placeHiddenAnomaly(this, "MainMenuScene");
     this.scheduleResponsivenessWarmup();
-  }
-
-  /**
-   * The single guided "next step" surfaced by NORA: resume an in-progress run if
-   * any, else continue the Story, else (story done) offer the endless Tower.
-   * Reuses the existing progression/campaign data — no new logic to maintain.
-   */
-  private recommendNextStep(
-    missionRun: ProceduralRunSave | undefined,
-    trainingRun: ProceduralRunSave | undefined,
-    progressiveRun: ProceduralRunSave | undefined,
-  ): { tag: string; title: string; sub: string; cta: string; action: () => void; practice?: { focus: ProceduralSpecialization; label: string } } {
-    if (this.isResumable(progressiveRun)) {
-      const level = progressiveRun.progressive?.currentLevel ?? progressiveRun.difficulty ?? 1;
-      return { tag: "RIPRENDI", title: `La Torre — Piano ${level}`, sub: "Continui la scalata da dove eri rimasta: livello, vite e punti sono salvati.", cta: "Riprendi ▸", action: () => this.showScalataTower() };
-    }
-    if (this.isResumable(missionRun)) {
-      return { tag: "RIPRENDI", title: "La tua avventura", sub: `${missionRun.solvedPuzzleIds.length} console già risolte: finiamo la stanza.`, cta: "Riprendi ▸", action: () => this.resumeMissionGame() };
-    }
-    if (this.isResumable(trainingRun)) {
-      const subject = proceduralScoring.domainLabel(proceduralRunRules.focusFor(trainingRun));
-      return { tag: "RIPRENDI", title: `Allenamento di ${subject}`, sub: "Riprendi il percorso per materia che avevi lasciato.", cta: "Riprendi ▸", action: () => this.resumeFocusTraining() };
-    }
-    if (!campaignSystem.isCampaignComplete()) {
-      const chapter = campaignSystem.getActiveChapter();
-      // Adaptive: prefer the subject the player is actually weakest in; fall back
-      // to the chapter's preparation subject for players without enough data yet.
-      const weakest = masterySystem.weakestPracticedFocus();
-      const focus = weakest ?? progressionSystem.practiceFocusForChapter(chapter.number);
-      const focusLabel = focus ? proceduralScoring.domainLabel(focus) : "";
-      return {
-        tag: "LA STORIA",
-        title: `Capitolo ${chapter.number}: ${chapter.title}`,
-        sub: !focus
-          ? `${chapter.location}. Continua l'avventura di NORA — è il modo migliore per imparare il metodo.`
-          : weakest
-            ? `${chapter.location}. NORA: il tuo punto più debole ora è ${focusLabel}: rinforzalo prima del capitolo.`
-            : `${chapter.location}. NORA: per arrivare pronta, scaldati prima su ${focusLabel}.`,
-        cta: "Entra ▸",
-        action: () => this.openMenuScene("CampaignScene", "Non sono riuscito ad aprire la storia. Riprova tra un istante."),
-        practice: focus ? { focus, label: weakest ? `💪 Rinforza ${focusLabel}` : `💪 Allena ${focusLabel}` } : undefined,
-      };
-    }
-    const recommended = this.recommendedDifficulty();
-    return { tag: "SFIDA", title: "Sali la Torre", sub: `Hai completato la Storia! Mettiti alla prova senza fine — livello consigliato ${recommended}/8.`, cta: "Sali ▸", action: () => this.showScalataTower() };
   }
 
   private openSettings(): void {
@@ -502,6 +419,69 @@ export class MainMenuScene extends Phaser.Scene {
       }));
     }
     modal.add(new Button(this, 180, 660, "Indietro", close, { width: 180, height: 46, fill: 0x263743 }));
+  }
+
+  /**
+   * "Palestra": a supporting drawer gathering every practice mode (quick
+   * adventure, the Tower, warm-up, per-subject drills). Framed as support for the
+   * Story — none of these replace the campaign, they prepare and reinforce it.
+   */
+  private openPalestraDrawer(): void {
+    if (this.transitioning) return;
+    saveSystem.load();
+    const missionRun = saveSystem.getProceduralMissionRun();
+    const progressiveRun = saveSystem.getProceduralProgressiveRun();
+    const trainingRun = saveSystem.getProceduralTrainingRun();
+    const missionState = this.isResumable(missionRun)
+      ? `In corso · ${missionRun?.solvedPuzzleIds.length ?? 0} risolte`
+      : "Una stanza nuova pronta";
+    const scalataState = this.isResumable(progressiveRun)
+      ? `Piano ${progressiveRun?.progressive?.currentLevel ?? 1} · record ${progressiveRun?.progressive?.unlockedLevel ?? 1}`
+      : "Parti dal piano 1";
+
+    const modal = this.add.container(0, 0).setDepth(1500);
+    const close = (): void => modal.destroy(true);
+    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
+    modal.add(this.add.rectangle(640, 360, 1120, 590, 0x07151d, 0.99).setStrokeStyle(2, 0xf6c85f, 0.6));
+    modal.add(this.add.rectangle(110, 92, 5, 44, 0xf6c85f, 0.95).setOrigin(0));
+    modal.add(this.add.text(124, 92, "🏋 Palestra", { fontFamily: "Inter, Arial", fontSize: "34px", color: "#f5fbff", fontStyle: "bold" }));
+    modal.add(this.add.text(124, 138, "Allenamento di supporto: serve a prepararti e rinforzarti per la Storia. Nessuna di queste modalità la sostituisce — la rendono più giocosa, impegnativa e alla tua portata.", {
+      fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", wordWrap: { width: 1000 }, lineSpacing: 4,
+    }));
+
+    const card = (x: number, accent: number, icon: string, title: string, tag: string, state: string, action: () => void): void => {
+      const w = 320;
+      const h = 150;
+      const topY = 300;
+      const cx = x + w / 2;
+      const cy = topY + h / 2;
+      modal.add(this.add.rectangle(cx, cy, w, h, 0x0c1d2a, 0.95).setStrokeStyle(2, accent, 0.6));
+      modal.add(this.add.rectangle(cx, topY + 3, w, 5, accent, 0.95));
+      modal.add(this.add.text(x + 20, topY + 18, icon, { fontFamily: "Inter, Arial", fontSize: "30px", color: "#ffffff" }));
+      modal.add(this.add.text(x + 64, topY + 24, title, { fontFamily: "Inter, Arial", fontSize: "19px", color: "#f5fbff", fontStyle: "bold" }));
+      modal.add(this.add.text(x + 20, topY + 66, tag, { fontFamily: "Inter, Arial", fontSize: "12px", color: Phaser.Display.Color.IntegerToColor(accent).rgba, wordWrap: { width: w - 40 } }));
+      modal.add(this.add.text(x + 20, topY + 98, state, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", wordWrap: { width: w - 40 } }));
+      const hit = this.add.rectangle(cx, cy, w, h, 0x000000, 0.001).setInteractive({ useHandCursor: true });
+      hit.on("pointerover", () => hit.setScale(1.01)).on("pointerout", () => hit.setScale(1));
+      hit.on("pointerup", () => { audioManager.play("missionStart"); close(); action(); });
+      modal.add(hit);
+    };
+    card(150, 0x6be7d6, "🎯", "Avventura veloce", "una stanza nuova, gioco libero per esplorare", missionState, () => this.resumeMissionGame());
+    card(490, 0xff8f6b, "🗼", "La Torre", "prove a difficoltà crescente: sali più in alto", scalataState, () => this.showScalataTower());
+    card(830, 0xf6c85f, "🧠", "Riscaldamento", "scalda logica e memoria prima di un capitolo", "Palestra mentale", () => this.openMenuScene("LogicGymScene", "Non sono riuscito ad aprire il riscaldamento. Riprova tra un istante."));
+
+    modal.add(this.add.text(150, 486, "Allenamento mirato per materia — il livello si adatta a te", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }));
+    focusOptions.forEach((focus, index) => {
+      const col = index % 4;
+      const row = Math.floor(index / 4);
+      modal.add(new Button(this, 236 + col * 150, 522 + row * 46, focus.label.replace("Focus ", ""), () => { close(); this.startFocusTraining(focus.id); }, {
+        width: 142, height: 40, fontSize: 12,
+        fill: this.isSameFocus(trainingRun, focus.id) ? 0x1f5a51 : 0x173b36,
+        stroke: this.isSameFocus(trainingRun, focus.id) ? 0xf6c85f : 0x6be7d6,
+      }));
+    });
+
+    modal.add(new Button(this, 1010, 620, "Chiudi", close, { width: 180, height: 44, fill: 0x263743 }));
   }
 
   private startProgressiveMission(): void {
@@ -832,29 +812,6 @@ export class MainMenuScene extends Phaser.Scene {
       ? ` | tempo in pausa ${formatDuration(run.pausedRemainingMs)}`
       : "";
     return `in pausa${subject} L${run.difficulty} | ${solved}/${total}${time}`;
-  }
-
-  private resumeCompactSummary(
-    missionRun: ProceduralRunSave | undefined,
-    trainingRun: ProceduralRunSave | undefined,
-    progressiveRun: ProceduralRunSave | undefined,
-  ): string {
-    const parts: string[] = [];
-    if (this.isResumable(missionRun)) {
-      parts.push(`Missione L${missionRun.difficulty} ${missionRun.solvedPuzzleIds.length}/${missionRun.mission.objectives.length}`);
-    }
-    if (this.isResumable(progressiveRun)) {
-      const level = progressiveRun.progressive?.currentLevel ?? progressiveRun.difficulty;
-      parts.push(`Scalata L${level} ${progressiveRun.solvedPuzzleIds.length}/${progressiveRun.mission.objectives.length}`);
-    }
-    if (this.isResumable(trainingRun)) {
-      parts.push(`Focus ${proceduralScoring.domainLabel(proceduralRunRules.focusFor(trainingRun))} L${trainingRun.difficulty}`);
-    }
-    if (parts.length === 0) {
-      return "Nessun percorso sospeso: scegli missione, scalata o focus.";
-    }
-    const summary = `In pausa: ${parts.join("  |  ")}`;
-    return summary.length > 84 ? "In pausa: percorsi salvati. Usa i pulsanti evidenziati per riprendere." : summary;
   }
 
   private trainingDifficultyKey(): string {

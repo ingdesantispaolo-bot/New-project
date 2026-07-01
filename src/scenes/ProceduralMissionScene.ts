@@ -1520,23 +1520,29 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wrongFeedback = selected?.feedback ?? "Scelta non coerente.";
     }
     if (!isCorrect) {
-      const message = `${wrongFeedback} Soluzione: ${solutionDisplay}. ${prompt.explanation}`;
-      outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
       if (this.isTimedMissionMode()) {
+        const message = `${wrongFeedback} Soluzione: ${solutionDisplay}. ${prompt.explanation}`;
+        outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
         this.languageMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
         return;
       }
+      // Allenamento: mostra la soluzione con la spiegazione in un pannello che resta
+      // finché lo studente non preme "Continua" (timer in pausa durante la lettura).
       session.answered += 1;
       session.wrong += 1;
       session.streak = 0;
       session.netScore = Math.max(0, session.netScore - (7 + this.run.difficulty));
-      session.feedback = message;
+      session.feedback = "Leggi la soluzione, poi premi Continua.";
       session.locked = true;
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
-      outcomeFeedback.play(this, "warning", "Rileggi il vincolo");
-      this.advanceLanguageMinigamePrompt(2400);
+      const languagePauseStart = Date.now();
+      this.languageMinigameTimerEvent?.remove(false);
+      this.showWrongSolution(chosenLabel, solutionDisplay, prompt.explanation, () => {
+        session.startedAt += Date.now() - languagePauseStart;
+        this.advanceLanguageMinigamePrompt(0);
+      });
       return;
     }
 
@@ -1552,6 +1558,32 @@ export class ProceduralMissionScene extends Phaser.Scene {
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     this.advanceLanguageMinigamePrompt(1900);
+  }
+
+  /**
+   * Persistent wrong-answer panel: shows the correct solution and its explanation
+   * and stays until the student presses "Continua" (it does not fade away). The
+   * caller pauses the sprint timer while it is open.
+   */
+  private showWrongSolution(selectedLabel: string, solution: string, explanation: string, onContinue: () => void): void {
+    const modal = this.add.container(0, 0).setDepth(9800);
+    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.62).setInteractive());
+    const cx = 640;
+    const cy = 322;
+    const w = 800;
+    const h = 328;
+    const left = cx - w / 2 + 34;
+    modal.add(this.add.rectangle(cx, cy, w, h, 0x061019, 0.99).setStrokeStyle(3, 0xc94b55, 0.96));
+    modal.add(this.add.rectangle(cx - w / 2 + 6, cy, 9, h - 16, 0xc94b55, 1));
+    modal.add(this.add.circle(left + 6, cy - h / 2 + 30, 18, 0xc94b55, 0.2).setStrokeStyle(2, 0xc94b55, 1));
+    modal.add(this.add.text(left + 6, cy - h / 2 + 29, "!", { fontFamily: "Inter, Arial", fontSize: "20px", color: "#ffb0a8", fontStyle: "bold" }).setOrigin(0.5));
+    modal.add(this.add.text(left + 34, cy - h / 2 + 20, "RISPOSTA ERRATA", { fontFamily: "Inter, Arial", fontSize: "20px", color: "#ffb0a8", fontStyle: "bold" }));
+    modal.add(this.add.text(left, cy - h / 2 + 58, `Hai scelto: ${selectedLabel}`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", wordWrap: { width: w - 78, useAdvancedWrap: true } }));
+    modal.add(this.add.text(left, cy - h / 2 + 92, `Risposta corretta: ${solution}`, { fontFamily: "Inter, Arial", fontSize: "17px", color: "#9ff5a7", fontStyle: "bold", wordWrap: { width: w - 78, useAdvancedWrap: true } }));
+    modal.add(this.add.text(left, cy - h / 2 + 134, `Perché: ${explanation}`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#d9eaf1", wordWrap: { width: w - 78, useAdvancedWrap: true }, lineSpacing: 6 }));
+    modal.add(new Button(this, cx, cy + h / 2 - 34, "Ho capito, continua ▸", () => { modal.destroy(true); onContinue(); }, {
+      width: 320, height: 52, fill: 0x173b36, stroke: 0x6be7d6, fontSize: 16, soundKey: "confirm",
+    }));
   }
 
   private advanceLanguageMinigamePrompt(delayMs: number): void {
@@ -4001,23 +4033,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
         && [...session.selectedIds].every((id) => correctIds.has(id));
     }
     if (!exactSelection) {
-      const message = `Scelta non certificabile (${selectedLabels || "nessuna"}). Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
-      outcomeFeedback.answer(this, false, selectedLabels || "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
       if (this.isTimedMissionMode()) {
+        const message = `Scelta non certificabile (${selectedLabels || "nessuna"}). Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+        outcomeFeedback.answer(this, false, selectedLabels || "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
         this.mathMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
         return;
       }
+      // Allenamento: pannello persistente con soluzione + spiegazione fino a "Continua".
       session.answered += 1;
       session.wrong += 1;
       session.streak = 0;
       session.netScore = Math.max(0, session.netScore - (8 + this.run.difficulty));
-      session.feedback = message;
+      session.feedback = "Leggi la soluzione, poi premi Continua.";
       session.locked = true;
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
-      outcomeFeedback.play(this, "warning", "Calcolo da rivedere");
-      this.advanceMathMinigamePrompt(2400);
+      const mathPauseStart = Date.now();
+      this.mathMinigameTimerEvent?.remove(false);
+      this.showWrongSolution(selectedLabels || "nessuna", prompt.solutionLabels.join(", "), prompt.explanation, () => {
+        session.startedAt += Date.now() - mathPauseStart;
+        this.advanceMathMinigamePrompt(0);
+      });
       return;
     }
 
@@ -4760,23 +4797,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wrongFeedback = selectedTiles.find((tile) => !tile.isCorrect)?.feedback ?? "Unsafe action.";
     }
     if (!isCorrect) {
-      const message = `${wrongFeedback} Solution: ${solutionDisplay}. ${prompt.explanation}`;
-      outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
       if (this.isTimedMissionMode()) {
+        const message = `${wrongFeedback} Solution: ${solutionDisplay}. ${prompt.explanation}`;
+        outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
         this.englishMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
         return;
       }
+      // Allenamento: pannello persistente con soluzione + spiegazione fino a "Continua".
       session.answered += 1;
       session.wrong += 1;
       session.streak = 0;
       session.netScore = Math.max(0, session.netScore - (8 + this.run.difficulty));
-      session.feedback = message;
+      session.feedback = "Leggi la soluzione, poi premi Continua.";
       session.locked = true;
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
-      outcomeFeedback.play(this, "warning", "Rileggi il comando");
-      this.advanceEnglishMinigamePrompt(2400);
+      const englishPauseStart = Date.now();
+      this.englishMinigameTimerEvent?.remove(false);
+      this.showWrongSolution(chosenLabel, solutionDisplay, prompt.explanation, () => {
+        session.startedAt += Date.now() - englishPauseStart;
+        this.advanceEnglishMinigamePrompt(0);
+      });
       return;
     }
 
@@ -5373,23 +5415,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wrongFeedback = selected?.feedback ?? "Scelta non coerente.";
     }
     if (!isCorrect) {
-      const message = `${wrongFeedback} Soluzione: ${solutionDisplay}. ${prompt.explanation}`;
-      outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
       if (this.isTimedMissionMode()) {
+        const message = `${wrongFeedback} Soluzione: ${solutionDisplay}. ${prompt.explanation}`;
+        outcomeFeedback.answer(this, false, chosenLabel, solutionDisplay, prompt.explanation);
         this.codingMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
         return;
       }
+      // Allenamento: pannello persistente con soluzione + spiegazione fino a "Continua".
       session.answered += 1;
       session.wrong += 1;
       session.streak = 0;
       session.netScore = Math.max(0, session.netScore - (8 + this.run.difficulty));
-      session.feedback = message;
+      session.feedback = "Leggi la soluzione, poi premi Continua.";
       session.locked = true;
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
-      outcomeFeedback.play(this, "warning", "Simula di nuovo");
-      this.advanceCodingMinigamePrompt(2400);
+      const codingPauseStart = Date.now();
+      this.codingMinigameTimerEvent?.remove(false);
+      this.showWrongSolution(chosenLabel, solutionDisplay, prompt.explanation, () => {
+        session.startedAt += Date.now() - codingPauseStart;
+        this.advanceCodingMinigamePrompt(0);
+      });
       return;
     }
 
@@ -8793,23 +8840,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const selected = prompt.tiles.find((tile) => tile.id === [...session.selectedIds][0]);
     if (!selected?.isCorrect) {
-      const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
-      outcomeFeedback.answer(this, false, selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
       if (this.isTimedMissionMode()) {
+        const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+        outcomeFeedback.answer(this, false, selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
         this.circuitMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
         return;
       }
+      // Allenamento: pannello persistente con soluzione + spiegazione fino a "Continua".
       session.answered += 1;
       session.wrong += 1;
       session.streak = 0;
       session.netScore = Math.max(0, session.netScore - (8 + this.run.difficulty));
-      session.feedback = message;
+      session.feedback = "Leggi la soluzione, poi premi Continua.";
       session.locked = true;
       this.recordPuzzleMistake();
       audioManager.playOutcome("wrong");
-      outcomeFeedback.play(this, "warning", "Rileggi lo schema");
-      this.advanceCircuitMinigamePrompt(2400);
+      const circuitPauseStart = Date.now();
+      this.circuitMinigameTimerEvent?.remove(false);
+      this.showWrongSolution(selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation, () => {
+        session.startedAt += Date.now() - circuitPauseStart;
+        this.advanceCircuitMinigamePrompt(0);
+      });
       return;
     }
 

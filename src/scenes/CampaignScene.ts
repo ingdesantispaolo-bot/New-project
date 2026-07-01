@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { campaignSystem, type CampaignChapter } from "../core/CampaignSystem";
-import { buildChapterTrialRun, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
+import { buildChapterExploreRun, buildChapterTrialRun, chapterExploreLevel, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
@@ -153,33 +153,67 @@ export class CampaignScene extends Phaser.Scene {
       wordWrap: { width: 1080 },
     });
 
-    // Briefing della Prova del Capitolo (il cancello graduato).
+    // Briefing in due fasi: prima comprensione, poi valutazione.
+    const explored = campaignSystem.isChapterExplored(chapter.missionId);
+    const exploreLevel = chapterExploreLevel(chapter.missionId);
     const level = chapterTrialLevel(chapter.missionId);
     const minutes = Math.round(chapterTrialTimeMs(chapter.missionId) / 60_000);
-    this.add.text(74, 516, "🎯 Prova del Capitolo — il cancello per sbloccare il prossimo capitolo:", {
+    this.add.text(74, 516, "Percorso del Capitolo: prima capisci il metodo, poi lo dimostri.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#f6c85f",
       fontStyle: "bold",
     });
-    const rules: string[] = [
-      `• Difficoltà livello ${level}/8, su TUTTE le materie e tutti i giochi`,
-      `• Massimo ${CHAPTER_TRIAL_ERROR_BUDGET} errori per l'intero capitolo`,
-      `• Tempo totale: circa ${minutes} minuti`,
-      "• Fallisci → riparti da capo; superi → capitolo sbloccato",
+    const phases = [
+      {
+        title: explored ? "1. Esplora completata" : "1. Esplora",
+        body: `Livello ${exploreLevel}/8, tutte le materie. Nessun timer, nessuna vita: leggi feedback e indizi finche il metodo e chiaro.`,
+        color: explored ? "#9ff5a7" : "#9ff5e9",
+      },
+      {
+        title: explored ? "2. Prova disponibile" : "2. Prova bloccata",
+        body: `Livello ${level}/8, massimo ${CHAPTER_TRIAL_ERROR_BUDGET} errori, circa ${minutes} minuti. Superarla sblocca il prossimo capitolo.`,
+        color: explored ? "#f7d37a" : "#8aa0a8",
+      },
     ];
-    rules.forEach((line, index) => {
-      const col = index % 2;
-      const row = Math.floor(index / 2);
-      this.add.text(74 + col * 470, 542 + row * 26, line, {
+    phases.forEach((phase, index) => {
+      const x = 74 + index * 470;
+      this.add.rectangle(x, 542, 430, 70, 0x07151d, 0.72).setOrigin(0).setStrokeStyle(1, index === 0 ? 0x6be7d6 : 0xf6c85f, explored || index === 0 ? 0.45 : 0.22);
+      this.add.text(x + 16, 552, phase.title, {
         fontFamily: "Inter, Arial",
-        fontSize: "12px",
+        fontSize: "13px",
+        color: phase.color,
+        fontStyle: "bold",
+      });
+      this.add.text(x + 16, 576, phase.body, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
         color: "#c7dce7",
-        wordWrap: { width: 452 },
+        wordWrap: { width: 396 },
+        lineSpacing: 2,
       });
     });
 
-    new Button(this, 1040, 566, "Affronta la Prova ▸", () => this.showChapterIntro(chapter), {
+    if (!explored) {
+      new Button(this, 1040, 560, "Esplora il Capitolo ▸", () => this.showChapterIntro(chapter, "explore"), {
+        width: 300,
+        height: 52,
+        fill: 0x173b36,
+        stroke: 0x6be7d6,
+        fontSize: 17,
+        soundKey: "missionStart",
+      });
+      new Button(this, 1040, 620, "Prova dopo Esplora", () => undefined, {
+        width: 300,
+        height: 38,
+        fill: 0x263743,
+        stroke: 0xf6c85f,
+        fontSize: 12,
+      }).setEnabled(false);
+      return;
+    }
+
+    new Button(this, 1040, 560, "Affronta la Prova ▸", () => this.showChapterIntro(chapter, "trial"), {
       width: 300,
       height: 52,
       fill: 0x1f5a51,
@@ -187,7 +221,7 @@ export class CampaignScene extends Phaser.Scene {
       fontSize: 17,
       soundKey: "missionStart",
     });
-    new Button(this, 1040, 624, "Vivi l'episodio (facoltativo)", () => this.enterChapter(chapter), {
+    new Button(this, 1040, 620, "Riesplora senza pressione", () => this.showChapterIntro(chapter, "explore"), {
       width: 300,
       height: 38,
       fill: 0x142736,
@@ -196,10 +230,11 @@ export class CampaignScene extends Phaser.Scene {
     });
   }
 
-  private showChapterIntro(chapter: CampaignChapter): void {
+  private showChapterIntro(chapter: CampaignChapter, phase: "explore" | "trial"): void {
+    const explore = phase === "explore";
     const modal = this.add.container(0, 0).setDepth(2000);
     modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.82).setInteractive());
-    modal.add(this.add.rectangle(640, 360, 980, 456, 0x07151d, 0.99).setStrokeStyle(2, 0x6be7d6, 0.8));
+    modal.add(this.add.rectangle(640, 360, 980, 456, 0x07151d, 0.99).setStrokeStyle(2, explore ? 0x6be7d6 : 0xf6c85f, 0.8));
     this.addStoryBeatArt(modal, chapter, "intro", 366, 342);
     modal.add(this.add.text(552, 164, chapter.location.toUpperCase(), {
       fontFamily: "Inter, Arial",
@@ -207,13 +242,16 @@ export class CampaignScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    modal.add(this.add.text(552, 190, chapter.title, {
+    modal.add(this.add.text(552, 190, explore ? `${chapter.title} · Esplora` : `${chapter.title} · Prova`, {
       fontFamily: "Inter, Arial",
       fontSize: "28px",
-      color: "#f6c85f",
+      color: explore ? "#9ff5e9" : "#f6c85f",
       fontStyle: "bold",
     }));
-    modal.add(this.add.text(552, 244, chapter.intro, {
+    const body = explore
+      ? `${chapter.intro}\n\nFase Esplora: niente timer e niente vite. Completa la stanza per preparare la Prova del Capitolo.`
+      : `${chapter.intro}\n\nFase Prova: ora conta la precisione. Supera timer ed errori per sbloccare il capitolo successivo.`;
+    modal.add(this.add.text(552, 244, body, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#eaf4f8",
@@ -226,11 +264,17 @@ export class CampaignScene extends Phaser.Scene {
       height: 50,
       fill: 0x263743,
     }).setDepth(2001);
-    const enter = new Button(this, 822, 524, "Inizia la Prova ▸", () => this.startChapterTrial(chapter), {
+    const enter = new Button(this, 822, 524, explore ? "Inizia Esplora ▸" : "Inizia la Prova ▸", () => {
+      if (explore) {
+        this.startChapterExplore(chapter);
+      } else {
+        this.startChapterTrial(chapter);
+      }
+    }, {
       width: 280,
       height: 50,
-      fill: 0x173b36,
-      stroke: 0xf6c85f,
+      fill: explore ? 0x173b36 : 0x1f5a51,
+      stroke: explore ? 0x6be7d6 : 0xf6c85f,
       fontSize: 17,
       soundKey: "missionStart",
     });
@@ -300,6 +344,15 @@ export class CampaignScene extends Phaser.Scene {
       color: phase === "intro" ? "#9ff5e9" : "#9ff5a7",
       fontStyle: "bold",
     }));
+  }
+
+  /** Launches the low-pressure chapter exploration that unlocks the trial. */
+  private startChapterExplore(chapter: CampaignChapter): void {
+    audioManager.stopMusic();
+    saveSystem.load();
+    saveSystem.pauseActiveProceduralRun();
+    saveSystem.setProceduralRun(buildChapterExploreRun(chapter.missionId));
+    void startScene(this, "ProceduralMissionScene");
   }
 
   /**

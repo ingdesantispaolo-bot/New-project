@@ -121,4 +121,44 @@ describe("Agreement (concordanza) minigame", () => {
     }
     expect(signatures.size).toBeGreaterThan(150);
   });
+
+  it("agreement distractors carry per-distractor diagnostic feedback (not a generic repeat)", () => {
+    const diag = /numero|verbo|aggettivo|persona|participio|presente|passato|futuro|imperfetto|congiuntivo|condizionale|gerundio|terza|maschile|femminile/i;
+    let prompts = 0;
+    let diagnosticPrompts = 0;
+    let wrongTiles = 0;
+    let diagnosticTiles = 0;
+    for (let level = 1 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
+      for (let i = 0; i < 20; i += 1) {
+        for (const prompt of gen.generateMinigame(new Random(`diag:${level}:${i}`), level, ["agreement-sprint"]).minigame?.prompts ?? []) {
+          const wrong = prompt.tiles.filter((tile) => !tile.isCorrect);
+          if (wrong.length === 0) continue;
+          prompts += 1;
+          wrongTiles += wrong.length;
+          diagnosticTiles += wrong.filter((tile) => diag.test(tile.feedback)).length;
+          const distinct = new Set(wrong.map((tile) => tile.feedback)).size === wrong.length;
+          if (distinct && wrong.every((tile) => diag.test(tile.feedback))) diagnosticPrompts += 1;
+        }
+      }
+    }
+    // The parametric majority (~70%) gives distinct, error-naming feedback per tile.
+    expect(diagnosticTiles / wrongTiles).toBeGreaterThan(0.6);
+    expect(diagnosticPrompts / prompts).toBeGreaterThan(0.5);
+  });
+
+  it("verb-mastery names the tense/mode mistake per distractor", () => {
+    const diag = /presente|passato|futuro|imperfetto|congiuntivo|condizionale|gerundio|participio|infinito|persona|indicativo|remoto|trapassato/i;
+    let wrong = 0;
+    let diagnostic = 0;
+    for (const level of [2, 5, 7] as DifficultyLevel[]) {
+      for (let i = 0; i < 30; i += 1) {
+        for (const prompt of gen.generateMinigame(new Random(`vdiag:${level}:${i}`), level, ["verb-mastery"]).minigame?.prompts ?? []) {
+          const w = prompt.tiles.filter((tile) => !tile.isCorrect);
+          wrong += w.length;
+          diagnostic += w.filter((tile) => diag.test(tile.feedback)).length;
+        }
+      }
+    }
+    expect(diagnostic / wrong).toBeGreaterThan(0.8);
+  });
 });

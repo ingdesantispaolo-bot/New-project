@@ -1,5 +1,5 @@
 import { missions } from "../data/missions";
-import { isMissionComplete } from "./MissionCompletion";
+import { isMissionComplete, isMissionExplored } from "./MissionCompletion";
 import { missionEngine } from "./MissionEngine";
 import { playerSystem } from "./PlayerSystem";
 
@@ -119,6 +119,11 @@ export class CampaignSystem {
   /** True when this chapter's authoritative completion flag is set. */
   isChapterComplete(missionId: string): boolean {
     return isMissionComplete(missionId);
+  }
+
+  /** True after the low-pressure chapter exploration has been completed. */
+  isChapterExplored(missionId: string): boolean {
+    return this.isChapterComplete(missionId) || isMissionExplored(missionId);
   }
 
   getChapters(): CampaignChapter[] {

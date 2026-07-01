@@ -13,6 +13,9 @@ type AgreementItem = {
   context: string;
   correct: string;
   distractors: string[];
+  /** Per-distractor diagnostic feedback (parallel to `distractors`): names the
+   *  specific mistake made by choosing that option, not just the right answer. */
+  distractorFeedback?: string[];
   explanation: string;
   concept: string;
 };
@@ -53,6 +56,7 @@ type VerbMasteryItem = {
   context: string;
   correct: string;
   distractors: string[];
+  distractorFeedback?: string[];
   explanation: string;
   concept: string;
   targetLabel: string;
@@ -88,14 +92,38 @@ function parametricEssereAdjItem(random: Random, subjects: SubjectPool, roots: r
   const subjForm = plural ? subject.pl : subject.sg;
   const adjSingular = adjForm(root, subject.gender, false);
   const adjPlural = adjForm(root, subject.gender, true);
-  const correct = `${plural ? "sono" : "è"} ${plural ? adjPlural : adjSingular}`;
-  const distractors = [`è ${adjSingular}`, `è ${adjPlural}`, `sono ${adjSingular}`, `sono ${adjPlural}`]
-    .filter((option) => option !== correct);
+  const correctVerb = plural ? "sono" : "è";
+  const correctAdj = plural ? adjPlural : adjSingular;
+  const correct = `${correctVerb} ${correctAdj}`;
+  const numberWord = plural ? "plurale" : "singolare";
+  const genderWord = subject.gender === "m" ? "maschile" : "femminile";
+  const adjEnding = subject.gender === "m" ? (plural ? "-i" : "-o") : (plural ? "-e" : "-a");
+  const options = [
+    { label: `è ${adjSingular}`, verbPlural: false, adjPlural: false },
+    { label: `è ${adjPlural}`, verbPlural: false, adjPlural: true },
+    { label: `sono ${adjSingular}`, verbPlural: true, adjPlural: false },
+    { label: `sono ${adjPlural}`, verbPlural: true, adjPlural: true },
+  ].filter((option) => option.label !== correct);
+  const distractors = options.map((option) => option.label);
+  const distractorFeedback = options.map((option) => {
+    const verbWrong = option.verbPlural !== plural;
+    const adjWrong = option.adjPlural !== plural;
+    const chosenVerb = option.verbPlural ? "sono" : "è";
+    const chosenAdj = option.adjPlural ? adjPlural : adjSingular;
+    if (verbWrong && adjWrong) {
+      return `Doppio errore di numero: «${subjForm.toLowerCase()}» è ${numberWord}, quindi «${correct}» (verbo «${correctVerb}» e aggettivo in ${adjEnding}), non «${option.label}».`;
+    }
+    if (verbWrong) {
+      return `Sbagli il verbo: il soggetto è ${numberWord}, serve «${correctVerb}» non «${chosenVerb}» (l'aggettivo «${chosenAdj}» andava bene).`;
+    }
+    return `Sbagli l'aggettivo: con un soggetto ${numberWord} ${genderWord} serve «${correctAdj}» (${adjEnding}), non «${chosenAdj}».`;
+  });
   return {
     context: `${subjForm} ___ ${everyday ? "in questo momento." : "secondo il registro."}`,
     correct,
     distractors,
-    explanation: `Il soggetto è ${plural ? "plurale" : "singolare"} ${subject.gender === "m" ? "maschile" : "femminile"}: ${subjForm.toLowerCase()} ${correct}.`,
+    distractorFeedback,
+    explanation: `Il soggetto è ${numberWord} ${genderWord}: ${subjForm.toLowerCase()} ${correct}.`,
     concept: "accordo di numero e genere",
   };
 }
@@ -107,12 +135,20 @@ function parametricSubjectVerbItem(random: Random, subjects: SubjectPool): Agree
   const plural = random.bool();
   const subjForm = plural ? subject.pl : subject.sg;
   const correct = plural ? verb.pl3 : verb.sg3;
-  const distractors = [plural ? verb.sg3 : verb.pl3, verb.p1pl, verb.part];
+  const numberWord = plural ? "plurale" : "singolare";
+  const wrongNumberVerb = plural ? verb.sg3 : verb.pl3;
+  const distractors = [wrongNumberVerb, verb.p1pl, verb.part];
+  const distractorFeedback = [
+    `Sbagli il numero: «${subjForm.toLowerCase()}» è ${numberWord}, quindi terza persona ${numberWord} «${correct}», non «${wrongNumberVerb}».`,
+    `Sbagli la persona: «${verb.p1pl}» è prima persona plurale (noi). Qui il soggetto è «${subjForm.toLowerCase()}» (terza persona): serve «${correct}».`,
+    `«${verb.part}» è il participio passato: da solo non regge la frase né concorda col soggetto. La voce giusta è «${correct}».`,
+  ];
   return {
     context: `${subjForm} ___ ${verb.object}.`,
     correct,
     distractors,
-    explanation: `Il soggetto ${subjForm.toLowerCase()} è ${plural ? "plurale: terza persona plurale" : "singolare: terza persona singolare"} (${correct}).`,
+    distractorFeedback,
+    explanation: `Il soggetto ${subjForm.toLowerCase()} è ${numberWord}: terza persona ${numberWord} «${correct}».`,
     concept: "accordo soggetto-verbo",
   };
 }
@@ -436,7 +472,7 @@ export class LanguageCorruptionGenerator {
       : random.pick(level >= 5 ? [...pool, ...advanced] : pool);
     const tiles = this.shuffleLanguageTiles(random, [
       this.languageTile(index, item.correct, true, `Corretto: ${item.explanation}`),
-      ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, `Non regge: ${item.explanation}`)),
+      ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, item.distractorFeedback?.[choiceIndex] ?? `Non regge: ${item.explanation}`)),
     ]);
     // ~40% of concordanze become a production exercise: the player types the
     // correct form instead of picking it (exercises italiano.scritturaBreve and
@@ -787,6 +823,11 @@ export class LanguageCorruptionGenerator {
         context: "Ieri Eli ___ il registro prima di uscire.",
         correct: "ha salvato",
         distractors: ["salva", "salverà", "salvava"],
+        distractorFeedback: [
+          "«salva» è presente, ma «ieri» indica un'azione già conclusa: serve il passato prossimo «ha salvato».",
+          "«salverà» è futuro: «ieri» è passato, non futuro. Serve «ha salvato».",
+          "«salvava» è imperfetto (azione ripetuta o in corso): qui l'azione è puntuale e conclusa, «ha salvato».",
+        ],
         explanation: "Ieri indica un'azione conclusa nel passato: passato prossimo, indicativo.",
         concept: "indicativo passato prossimo",
         targetLabel: "Scegli il tempo adatto",
@@ -795,6 +836,11 @@ export class LanguageCorruptionGenerator {
         context: "Ogni mattina il sensore ___ la temperatura.",
         correct: "misura",
         distractors: ["misurò", "misurerebbe", "misurando"],
+        distractorFeedback: [
+          "«misurò» è passato remoto (un fatto concluso e lontano): «ogni mattina» è abituale, serve il presente «misura».",
+          "«misurerebbe» è condizionale (un'ipotesi): qui è un fatto abituale reale, «misura».",
+          "«misurando» è gerundio: da solo non regge la frase. Serve il presente «misura».",
+        ],
         explanation: "Ogni mattina segnala un'azione abituale: presente indicativo.",
         concept: "indicativo presente",
         targetLabel: "Azione abituale",
@@ -803,6 +849,11 @@ export class LanguageCorruptionGenerator {
         context: "Mentre il robot avanzava, la porta ___.",
         correct: "si apriva",
         distractors: ["si aprì", "si aprirà", "si apra"],
+        distractorFeedback: [
+          "«si aprì» è passato remoto puntuale: con «mentre… avanzava» serve un'azione in corso, l'imperfetto «si apriva».",
+          "«si aprirà» è futuro: il contesto è al passato, serve l'imperfetto «si apriva».",
+          "«si apra» è congiuntivo: qui racconti un fatto reale al passato, serve l'indicativo imperfetto «si apriva».",
+        ],
         explanation: "Mentre introduce un'azione in corso nel passato: imperfetto indicativo.",
         concept: "indicativo imperfetto",
         targetLabel: "Azione durativa nel passato",
@@ -811,6 +862,11 @@ export class LanguageCorruptionGenerator {
         context: "Domani la squadra ___ il circuito.",
         correct: "controllerà",
         distractors: ["controllò", "controllava", "controlli"],
+        distractorFeedback: [
+          "«controllò» è passato remoto: «domani» indica futuro, serve «controllerà».",
+          "«controllava» è imperfetto (passato): «domani» è futuro, serve «controllerà».",
+          "«controlli» non è futuro (è congiuntivo/presente): con «domani» serve il futuro «controllerà».",
+        ],
         explanation: "Domani indica futuro: futuro semplice indicativo.",
         concept: "indicativo futuro semplice",
         targetLabel: "Futuro",
@@ -819,6 +875,11 @@ export class LanguageCorruptionGenerator {
         context: "La frase 'noi avevamo verificato i dati' usa quale modo e tempo?",
         correct: "indicativo trapassato prossimo",
         distractors: ["congiuntivo passato", "condizionale presente", "indicativo passato remoto"],
+        distractorFeedback: [
+          "No: «avevamo verificato» ha l'ausiliare all'imperfetto indicativo, non è congiuntivo. È il trapassato prossimo dell'indicativo.",
+          "No: non c'è nessuna forma in -rei/-rebbe. «avevamo + participio» è indicativo trapassato prossimo.",
+          "No: il passato remoto è una forma semplice (verificammo). Qui l'ausiliare all'imperfetto forma il trapassato prossimo.",
+        ],
         explanation: "Avevamo + participio passato forma il trapassato prossimo dell'indicativo.",
         concept: "riconoscimento tempi composti",
         targetLabel: "Riconosci modo e tempo",
@@ -827,6 +888,11 @@ export class LanguageCorruptionGenerator {
         context: "Scrivi la forma corretta: se il segnale è stabile, noi ___ la porta. (aprire, presente)",
         correct: "apriamo",
         distractors: ["apre", "apriremo", "apriremmo"],
+        distractorFeedback: [
+          "«apre» è terza persona singolare (lui/lei). Il soggetto è «noi»: «apriamo».",
+          "«apriremo» è futuro: la consegna chiede il presente, «apriamo».",
+          "«apriremmo» è condizionale: serve il presente indicativo «apriamo».",
+        ],
         explanation: "Noi + presente indicativo del verbo aprire: apriamo.",
         concept: "coniugazione presente",
         targetLabel: "Scrivi la forma verbale",
@@ -924,7 +990,7 @@ export class LanguageCorruptionGenerator {
     const typed = item.typed || (level >= 6 && random.bool(0.28));
     const tiles = this.shuffleLanguageTiles(random, [
       this.languageTile(index, item.correct, true, `Corretto: ${item.explanation}`),
-      ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, `Non ancora: ${item.explanation}`)),
+      ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, item.distractorFeedback?.[choiceIndex] ?? `Modo/tempo non adatto: qui serve ${item.concept} → «${item.correct}». ${item.explanation}`)),
     ]);
     const accepted = item.accepted ?? [normalizeTypedAnswer(item.correct)];
     return {

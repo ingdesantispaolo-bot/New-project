@@ -346,6 +346,7 @@ export class SaveSystem {
   private normalizeProceduralRun(run: ProceduralRunSave | undefined): ProceduralRunSave | undefined {
     if (!run) return undefined;
     const mode = proceduralRunRules.modeFor(run);
+    const pressureEnabled = proceduralRunRules.pressureEnabledFor(run);
     const timerState = run.timerState
       ?? (run.pausedRemainingMs !== undefined ? "paused" : run.deadlineAt ? "running" : "preparing");
     return {
@@ -353,7 +354,7 @@ export class SaveSystem {
       failedPuzzleIds: run.failedPuzzleIds ?? [],
       createdAt: run.createdAt ?? run.startedAt,
       activeElapsedMs: run.activeElapsedMs ?? 0,
-      timerState: proceduralRunRules.pressureEnabledForMode(mode) || mode === "training" ? timerState : "paused",
+      timerState: pressureEnabled || mode === "training" || run.chapterExploreMissionId ? timerState : "paused",
     };
   }
 

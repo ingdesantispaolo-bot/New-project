@@ -17,6 +17,15 @@ export const MISSION_COMPLETION_FLAG: Record<string, string> = {
   "mission-06-citta-intelligente": "mission6Complete",
 };
 
+const MISSION_EXPLORATION_FLAG: Record<string, string> = {
+  "mission-01-laboratorio-spento": "mission1Explored",
+  "mission-02-serra-biologica": "mission2Explored",
+  "mission-03-fabbrica-numeri": "mission3Explored",
+  "mission-04-archivio-parole": "mission4Explored",
+  "mission-05-atlante-perduto": "mission5Explored",
+  "mission-06-citta-intelligente": "mission6Explored",
+};
+
 /** Pure check against an explicit flags map (use for SaveData-derived helpers). */
 export function isMissionCompleteIn(flags: Record<string, boolean>, missionId: string): boolean {
   const flag = MISSION_COMPLETION_FLAG[missionId];
@@ -26,6 +35,11 @@ export function isMissionCompleteIn(flags: Record<string, boolean>, missionId: s
 /** Whether a campaign mission is complete, against the active save. */
 export function isMissionComplete(missionId: string): boolean {
   return isMissionCompleteIn(saveSystem.data.flags, missionId);
+}
+
+export function isMissionExplored(missionId: string): boolean {
+  const flag = MISSION_EXPLORATION_FLAG[missionId];
+  return Boolean(flag && saveSystem.data.flags?.[flag]);
 }
 
 /** How many campaign missions are complete in the given flags map. */
@@ -39,6 +53,18 @@ export function countCompletedMissions(flags: Record<string, boolean>): number {
  */
 export function markMissionComplete(missionId: string): void {
   const flag = MISSION_COMPLETION_FLAG[missionId];
+  if (flag) {
+    saveSystem.setFlag(flag, true);
+  }
+}
+
+/**
+ * Marks the low-pressure chapter exploration as completed. This is deliberately
+ * separate from mission completion: exploration prepares the student, the
+ * graded trial remains the only gate that unlocks the next chapter.
+ */
+export function markMissionExplored(missionId: string): void {
+  const flag = MISSION_EXPLORATION_FLAG[missionId];
   if (flag) {
     saveSystem.setFlag(flag, true);
   }

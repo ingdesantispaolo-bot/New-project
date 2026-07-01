@@ -60,8 +60,8 @@ export class ProceduralMissionView {
       fontStyle: "bold",
     }).setOrigin(0.5);
 
-    SceneChrome.section(scene, layout.left, "Briefing");
-    scene.add.rectangle(layout.left.x + 18, layout.left.y + 48, layout.left.width - 36, 32, mode === "training" ? 0x1f5a51 : mode === "progressive" ? 0x33261a : 0x173244, 0.82)
+    SceneChrome.section(scene, layout.left, "Supporto");
+    scene.add.rectangle(layout.left.x + 18, layout.left.y + 48, layout.left.width - 36, 34, mode === "training" ? 0x1f5a51 : mode === "progressive" ? 0x33261a : 0x173244, 0.82)
       .setOrigin(0)
       .setStrokeStyle(1, mode === "training" ? 0xf6c85f : 0x6be7d6, 0.45);
     scene.add.text(layout.left.x + 34, layout.left.y + 57, mode === "training"
@@ -74,24 +74,24 @@ export class ProceduralMissionView {
       color: mode === "training" ? "#f7d37a" : "#9ff5e9",
       fontStyle: "bold",
     });
-    scene.add.text(layout.left.x + 18, layout.left.y + 58, this.briefingLines(mode, requiredIds.length, focus).join("\n"), {
+    scene.add.text(layout.left.x + 22, layout.left.y + 100, this.briefingLines(mode, requiredIds.length, focus).join("\n"), {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
-      wordWrap: { width: layout.left.width - 36 },
+      wordWrap: { width: layout.left.width - 44 },
       lineSpacing: 4,
-    }).setY(layout.left.y + 92);
+    });
 
-    scene.add.rectangle(layout.left.x + 22, layout.left.y + 184, layout.left.width - 44, 118, 0x07151d, 0.72)
+    scene.add.rectangle(layout.left.x + 22, layout.left.y + 178, layout.left.width - 44, 138, 0x07151d, 0.72)
       .setOrigin(0)
       .setStrokeStyle(1, theme.secondary, 0.25);
-    scene.add.text(layout.left.x + 38, layout.left.y + 202, theme.ruleTitle, {
+    scene.add.text(layout.left.x + 38, layout.left.y + 196, theme.ruleTitle, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#f7d37a",
       fontStyle: "bold",
     });
-    scene.add.text(layout.left.x + 38, layout.left.y + 226, theme.ruleText, {
+    scene.add.text(layout.left.x + 38, layout.left.y + 220, theme.ruleText, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
@@ -99,24 +99,25 @@ export class ProceduralMissionView {
       lineSpacing: 4,
     });
 
-    scene.add.text(layout.left.x + 18, layout.left.y + 326, "Stato console", {
+    scene.add.text(layout.left.x + 22, layout.left.y + 348, "Legenda essenziale", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 358, statusColors.active, "Da sistemare");
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 386, statusColors.complete, "Completata");
-    this.drawLegendRow(scene, layout.left.x + 34, layout.left.y + 414, statusColors.failed, "Fallita");
+    this.drawLegendRow(scene, layout.left.x + 38, layout.left.y + 378, statusColors.active, "aperta");
+    this.drawLegendRow(scene, layout.left.x + 136, layout.left.y + 378, statusColors.complete, "fatta");
+    this.drawLegendRow(scene, layout.left.x + 222, layout.left.y + 378, statusColors.failed, "da rivedere");
 
-    scene.add.rectangle(layout.left.x + 22, layout.left.y + 452, layout.left.width - 44, 42, 0x0b221f, 0.72)
+    scene.add.rectangle(layout.left.x + 22, layout.left.y + 430, layout.left.width - 44, 56, 0x0b221f, 0.72)
       .setOrigin(0)
       .setStrokeStyle(1, 0x6be7d6, 0.24);
-    scene.add.text(layout.left.x + 38, layout.left.y + 464, `Traccia utile: ${pendingProceduralPuzzleLabel(run.solvedPuzzleIds, requiredIds, run.failedPuzzleIds ?? [])}`, {
+    scene.add.text(layout.left.x + 38, layout.left.y + 444, `Prossimo passo: ${pendingProceduralPuzzleLabel(run.solvedPuzzleIds, requiredIds, run.failedPuzzleIds ?? [])}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
       wordWrap: { width: layout.left.width - 76 },
+      lineSpacing: 3,
     });
 
     drawProceduralStageAtmosphere(scene, layout.stage, theme, run.solvedPuzzleIds.length, requiredIds.length, run.seed);
@@ -145,7 +146,7 @@ export class ProceduralMissionView {
       wordWrap: { width: layout.stage.width - 104 },
     });
 
-    SceneChrome.section(scene, layout.right, mode === "training" ? "Record" : "Obiettivi");
+    SceneChrome.section(scene, layout.right, "Obiettivo");
   }
 
   static createHud(
@@ -158,21 +159,21 @@ export class ProceduralMissionView {
     const layout = SceneChrome.layout;
     const objectiveText = scene.add.text(layout.right.x + 18, layout.right.y + 58, "", {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
+      fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: layout.right.width - 36 },
-      lineSpacing: 4,
+      lineSpacing: 5,
     });
-    scene.add.rectangle(layout.right.x + 18, layout.right.y + 338, layout.right.width - 36, 132, 0x07151d, 0.68)
+    scene.add.rectangle(layout.right.x + 18, layout.right.y + 292, layout.right.width - 36, 150, 0x07151d, 0.68)
       .setOrigin(0)
       .setStrokeStyle(1, 0x6be7d6, 0.2);
-    scene.add.text(layout.right.x + 34, layout.right.y + 356, "Progresso", {
+    scene.add.text(layout.right.x + 34, layout.right.y + 310, "Stato", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    const progressText = scene.add.text(layout.right.x + 34, layout.right.y + 382, "", {
+    const progressText = scene.add.text(layout.right.x + 34, layout.right.y + 336, "", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
@@ -244,7 +245,8 @@ export class ProceduralMissionView {
         hotspot.label,
         proceduralHotspotState(hotspot, run.solvedPuzzleIds, allSolved, run.failedPuzzleIds ?? []),
         () => onOpen(hotspot),
-        hotspot.id === "door" ? 96 : isPrimary ? 84 : 78,
+        hotspot.id === "door" ? 84 : isPrimary ? 78 : 70,
+        { labelMode: "hover", statusMode: "hidden" },
       );
     });
   }
@@ -273,7 +275,7 @@ export class ProceduralMissionView {
     }
     return [
       `${requiredCount} console da diagnosticare.`,
-      "Ordine libero: osserva, scegli e stabilizza il sistema.",
+      "Scegli una console nella zona d'azione, risolvi, poi torna alla stanza.",
     ];
   }
 
@@ -284,6 +286,6 @@ export class ProceduralMissionView {
     if (mode === "progressive") {
       return "La mappa mostra il progresso. La scalata apre automaticamente la prossima console rossa.";
     }
-    return "Le linee mostrano relazioni tra sistemi. Puoi partire da qualunque console rossa.";
+    return "Zona d'azione: passa su un dispositivo per leggere il nome, poi apri una console alla volta.";
   }
 }

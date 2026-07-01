@@ -51,6 +51,39 @@ export function chapterTrialTimeMs(missionId: string): number {
   return chapterTrialConfig(missionId).minutes * 60_000;
 }
 
+export function chapterExploreLevel(missionId: string): DifficultyLevel {
+  const level = chapterTrialLevel(missionId);
+  return Math.max(1, level - 1) as DifficultyLevel;
+}
+
+/**
+ * Builds the low-pressure "Fase Esplora" for a chapter. It prepares the same
+ * mixed-subject territory as the trial, but removes lives and timer so the
+ * student can understand the method before being evaluated.
+ */
+export function buildChapterExploreRun(missionId: string, attempt = 0): ProceduralRunSave {
+  const level = chapterExploreLevel(missionId);
+  const seed = `EXPLORE-${missionId}-${attempt}-${Date.now()}`;
+  const mission = proceduralDirector.generateMission(seed, level, ["libera"]);
+  const createdAt = new Date().toISOString();
+  return {
+    seed: mission.seed,
+    difficulty: level,
+    focus: ["libera"],
+    mode: "mission",
+    mission,
+    hintsUsed: 0,
+    solvedPuzzleIds: [],
+    score: { total: 0, byPuzzle: {}, byDomain: {} },
+    puzzleStats: {},
+    timerState: "preparing",
+    createdAt,
+    activeElapsedMs: 0,
+    startedAt: createdAt,
+    chapterExploreMissionId: missionId,
+  };
+}
+
 /**
  * Builds a fresh graded trial run for a chapter. Each `attempt` uses a new seed
  * so a retry after failure serves different-but-equivalent challenges (the trial

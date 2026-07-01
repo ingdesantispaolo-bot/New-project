@@ -27,9 +27,11 @@ export const proceduralRunRules = {
   /**
    * Pressure (lives + timer) for a concrete run. Chapter trials always run under
    * pressure — the 3-error budget and time limit are the gate, so they ignore the
-   * optional "pressure" comfort setting.
+   * optional "pressure" comfort setting. Chapter exploration does the opposite:
+   * it is always low-pressure, even when normal missions use timer and lives.
    */
-  pressureEnabledFor(run: Pick<ProceduralRunSave, "mode" | "focus" | "chapterMissionId">): boolean {
+  pressureEnabledFor(run: Pick<ProceduralRunSave, "mode" | "focus" | "chapterMissionId" | "chapterExploreMissionId">): boolean {
+    if (run.chapterExploreMissionId) return false;
     if (run.chapterMissionId) return true;
     return this.pressureEnabledForMode(this.modeFor(run));
   },

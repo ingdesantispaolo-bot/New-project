@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
-import { buildChapterTrialRun, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
-import { markMissionComplete } from "../core/MissionCompletion";
+import { buildChapterExploreRun, buildChapterTrialRun, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
+import { markMissionComplete, markMissionExplored } from "../core/MissionCompletion";
 import { competencyTracker } from "../core/CompetencyTracker";
 import { exerciseDirector } from "../core/ExerciseDirector";
 import { feedbackSystem, type FeedbackMessage } from "../core/FeedbackSystem";
@@ -400,10 +400,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.9);
     const trial = this.isChapterTrial();
     overlay.add(this.add.rectangle(640, 360, 650, 330, 0x07151d, 0.98).setStrokeStyle(2, pressure ? 0xf6c85f : 0x6be7d6, 0.78));
-    overlay.add(this.add.text(640, 244, resuming ? "Prova in pausa" : trial ? "Prova del Capitolo" : "Console pronta", {
+    const explore = this.isChapterExplore();
+    overlay.add(this.add.text(640, 244, resuming ? "Run in pausa" : trial ? "Prova del Capitolo" : explore ? "Fase Esplora" : "Console pronta", {
       fontFamily: "Inter, Arial",
       fontSize: "32px",
-      color: pressure ? "#f7d37a" : "#9ff5e9",
+      color: trial ? "#f7d37a" : "#9ff5e9",
       fontStyle: "bold",
     }).setOrigin(0.5));
     if (trial && this.run.chapterMissionId) {
@@ -416,9 +417,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontStyle: "bold",
       }).setOrigin(0.5));
     }
-    overlay.add(this.add.text(640, trial ? 322 : 312, pressure
-      ? "Il timer partirà solo quando premi Inizia. Caricamento e lettura di questa schermata non consumano tempo."
-      : "Modalità rilassata: nessun conto alla rovescia e nessuna vita persa. Contano metodo, precisione e correzione.", {
+    overlay.add(this.add.text(640, trial ? 322 : 312, explore
+      ? "Prima esplori il metodo: nessun conto alla rovescia, nessuna vita persa. Completa la stanza per rendere disponibile la Prova."
+      : pressure
+        ? "Il timer partirà solo quando premi Inizia. Caricamento e lettura di questa schermata non consumano tempo."
+        : "Modalità rilassata: nessun conto alla rovescia e nessuna vita persa. Contano metodo, precisione e correzione.", {
       fontFamily: "Inter, Arial",
       fontSize: "17px",
       color: "#d9eaf1",
@@ -426,14 +429,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 540 },
       lineSpacing: 6,
     }).setOrigin(0.5));
-    overlay.add(new Button(this, 640, 438, resuming ? "Riprendi" : "Inizia", () => this.startPreparedRun(), {
+    const startButton = new Button(this, 640, 438, resuming ? "Riprendi" : "Inizia", () => this.startPreparedRun(), {
       width: 280,
       height: 58,
       fill: 0x1f5a51,
       stroke: pressure ? 0xf6c85f : 0x6be7d6,
       fontSize: 19,
       soundKey: "missionStart",
-    }));
+    }).setDepth(2201);
+    overlay.add(startButton);
     this.overlay = overlay;
   }
 
@@ -480,6 +484,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
   /** True while playing a graded "Prova del Capitolo" (chapter trial). */
   private isChapterTrial(): boolean {
     return Boolean(this.run.chapterMissionId);
+  }
+
+  /** True while playing the low-pressure chapter exploration. */
+  private isChapterExplore(): boolean {
+    return Boolean(this.run.chapterExploreMissionId);
   }
 
   /**
@@ -634,6 +643,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       mode,
       mission,
       chapterMissionId: run.chapterMissionId,
+      chapterExploreMissionId: run.chapterExploreMissionId,
       hintsUsed: 0,
       solvedPuzzleIds: [],
       score: { total: 0, byPuzzle: {}, byDomain: {} },
@@ -704,6 +714,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.run.chapterMissionId) {
       // Chapter trials always restart from scratch at the same level (new seed).
       saveSystem.setProceduralRun(buildChapterTrialRun(this.run.chapterMissionId));
+      this.scene.restart();
+      return;
+    }
+    if (this.run.chapterExploreMissionId) {
+      saveSystem.setProceduralRun(buildChapterExploreRun(this.run.chapterExploreMissionId));
       this.scene.restart();
       return;
     }
@@ -1574,7 +1589,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
       audioManager.playOutcome("wrong");
       const languagePauseStart = Date.now();
       this.languageMinigameTimerEvent?.remove(false);
-      this.showWrongSolution(chosenLabel, solutionDisplay, prompt.explanation, () => {
+      // Diagnostic feedback: lead with what THIS wrong choice got wrong (the tile's
+      // per-distractor note), not just a generic explanation of the right answer.
+      const languageDiagnostic = wrongFeedback && wrongFeedback !== "Scelta non coerente."
+        ? wrongFeedback
+        : prompt.explanation;
+      this.showWrongSolution(chosenLabel, solutionDisplay, languageDiagnostic, () => {
         session.startedAt += Date.now() - languagePauseStart;
         this.advanceLanguageMinigamePrompt(0);
       });
@@ -7607,6 +7627,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const chapterMissionId = this.run.chapterMissionId;
+    const chapterExploreMissionId = this.run.chapterExploreMissionId;
+    if (chapterExploreMissionId) {
+      audioManager.playOutcome("complete");
+      outcomeFeedback.play(this, "complete", "Esplora completata");
+      this.noraSay("solve");
+      this.playLabRestoredFinale();
+      markMissionExplored(chapterExploreMissionId);
+      saveSystem.updateProceduralRun({ completedAt: new Date().toISOString() });
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+      feedbackSystem.publish(
+        "Fase Esplora completata: hai visto il metodo senza pressione. Ora la Prova del Capitolo e disponibile nella Storia.",
+        "success",
+      );
+      this.runWhenActive(1500, () => this.scene.start("CampaignScene"));
+      return;
+    }
     if (chapterMissionId) {
       // Passing the graded trial clears the chapter and unlocks the next one.
       audioManager.playOutcome("complete");
@@ -8491,35 +8527,51 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const recordKey = proceduralRunRules.trainingRecordKey(focus, this.run.difficulty);
     const record = saveSystem.data.trainingRecords?.[recordKey];
     const remainingMs = proceduralRunRules.remainingMs(this.run);
-    const checklist = this.run.mission.objectives.map((objective) => {
-      const puzzleId = objective.id.replace("procedural-", "");
-      const state = this.isSolved(puzzleId) ? "[verde]" : this.isFailed(puzzleId) ? "[fallita]" : "[rosso]";
-      return `${state} ${objective.label}`;
-    }).join("\n");
     const solvedCount = this.requiredPuzzleIds().filter((id) => this.isSolved(id)).length;
     const failedCount = this.requiredPuzzleIds().filter((id) => this.isFailed(id)).length;
     const progressiveLevel = this.run.progressive?.currentLevel ?? this.run.difficulty;
     const progressiveGoal = mode === "progressive"
       ? progressiveMissionBuilder.blueprintForLevel(progressiveLevel).goal
       : "";
+    const nextObjective = pendingObjectives[0];
+    const nextPuzzleId = nextObjective?.id.replace("procedural-", "");
+    const nextLabel = nextObjective
+      ? `${nextObjective.label}`
+      : mode === "progressive"
+        ? "Porta di sintesi"
+        : mode === "training"
+          ? "Porta del registro"
+          : "Porta finale";
+    const nextAction = nextPuzzleId
+      ? `Apri ${this.puzzleLabel(nextPuzzleId)} nella zona d'azione.`
+      : mode === "progressive"
+        ? "Apri la porta e collega i passaggi nell'ordine corretto."
+        : mode === "training"
+          ? "Apri la porta per registrare voto e miglior tempo."
+          : "Apri la porta per chiudere la missione.";
+    const contextLine = mode === "progressive"
+      ? `Livello ${progressiveLevel}/8: ${progressiveGoal}`
+      : mode === "training"
+        ? `Focus: ${proceduralScoring.domainLabel(focus)}`
+        : this.run.chapterExploreMissionId
+          ? "Fase Esplora: impara senza pressione."
+          : this.run.chapterMissionId
+            ? "Fase Prova: precisione e tempo contano."
+            : "Missione: stabilizza il sistema completo.";
     this.objectiveText?.setText(
       pendingObjectives.length > 0
-        ? mode === "progressive"
-          ? `Livello ${progressiveLevel}/8\nObiettivo: ${progressiveGoal}\n\n${checklist}\n\nSequenza automatica: la prossima console rossa si apre da sola.`
-          : mode === "mission"
-          ? `Console della stanza\n${checklist}\n\nLa porta finale controlla solo il sistema completo.`
-          : `Focus ${proceduralScoring.domainLabel(focus)}\n${checklist}\n\nMigliora voto: meno errori, meno aiuti, tempo piu basso.`
+        ? `${contextLine}\n\nORA\n${nextLabel}\n\nAZIONE\n${mode === "progressive" ? "La prossima console si apre da sola." : nextAction}`
         : mode === "progressive"
-          ? `Livello ${progressiveLevel} coerente.\n[verde] Porta di sintesi pronta.\n\nCollega le discipline per certificare il livello.`
+          ? `${contextLine}\n\nORA\nPorta di sintesi pronta.\n\nAZIONE\nCollega le discipline per certificare il livello.`
           : mode === "mission"
-          ? `Tutti i sistemi sono coerenti.\n[verde] Porta finale pronta.\n\nAprila per chiudere il diario seed.`
-          : `Allenamento completato.\n[verde] Porta pronta.\n\nAprila per registrare voto e miglior tempo.`,
+          ? `${contextLine}\n\nORA\nPorta finale pronta.\n\nAZIONE\nAprila per completare questa fase.`
+          : `${contextLine}\n\nORA\nPorta del registro pronta.\n\nAZIONE\nAprila per salvare il risultato.`,
     );
     const pressureEnabled = proceduralRunRules.pressureEnabledFor(this.run);
     this.progressText?.setText(
       pressureEnabled
-        ? `Console verdi: ${solvedCount}/${requiredCount}\nVite: ${this.run.lives ?? proceduralRunRules.maxLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
-        : `Riuscite: ${solvedCount}/${requiredCount}\nFallite: ${failedCount}\nIndizi: ${this.run.hintsUsed}\nTempo attivo: ${formatDuration(elapsed)}\n${mode === "mission" ? "Pressione: rilassata" : `Record: ${record ? formatDuration(record.bestTimeMs) : "non ancora"}`}\nPunti: ${this.run.score?.total ?? 0}`,
+        ? `Completate: ${solvedCount}/${requiredCount}\nErrori residui: ${this.run.lives ?? proceduralRunRules.maxLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
+        : `Completate: ${solvedCount}/${requiredCount}\nDa rivedere: ${failedCount}\nIndizi: ${this.run.hintsUsed}\nTempo: ${formatDuration(elapsed)}\n${mode === "mission" ? "Pressione: no" : `Record: ${record ? formatDuration(record.bestTimeMs) : "non ancora"}`}`,
     );
   }
 

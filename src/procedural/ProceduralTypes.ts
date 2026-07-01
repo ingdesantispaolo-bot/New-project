@@ -889,6 +889,11 @@ export type ProceduralRunSave = {
    * it (out of the 3-error budget or time) sends the player back to the Story.
    */
   chapterMissionId?: string;
+  /**
+   * Low-pressure "Fase Esplora" for the chapter. It uses the same mission room
+   * machinery but never unlocks the chapter: completion only enables the trial.
+   */
+  chapterExploreMissionId?: string;
   startedAt: string;
   completedAt?: string;
 };

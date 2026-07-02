@@ -43,6 +43,9 @@ import storyChapter05IntroUrl from "../assets/images/story-chapter-05-intro.webp
 import storyChapter05OutroUrl from "../assets/images/story-chapter-05-outro.webp";
 import storyChapter06IntroUrl from "../assets/images/story-chapter-06-intro.webp";
 import storyChapter06OutroUrl from "../assets/images/story-chapter-06-outro.webp";
+import storyClueArchiveRecordUrl from "../assets/images/story-clue-archive-record.webp";
+import storyClueBlackoutSignalUrl from "../assets/images/story-clue-blackout-signal.webp";
+import storyClueSabotageRouteUrl from "../assets/images/story-clue-sabotage-route.webp";
 import storyGreenhouseRecoveryBgUrl from "../assets/images/story-greenhouse-recovery-bg.webp";
 import storyLabBlackoutBgUrl from "../assets/images/story-lab-blackout-bg.webp";
 import storyNumberFactoryBgUrl from "../assets/images/story-number-factory-bg.webp";
@@ -58,6 +61,8 @@ import storyPhase03ProductionBgUrl from "../assets/images/story-phase-03-product
 import storyPhase04RestoredBgUrl from "../assets/images/story-phase-04-restored-bg.webp";
 import storyPhase05SignalBgUrl from "../assets/images/story-phase-05-signal-bg.webp";
 import storyPhase06CityRestoredBgUrl from "../assets/images/story-phase-06-city-restored-bg.webp";
+import storyTransitionExploreUrl from "../assets/images/story-transition-explore.webp";
+import storyTransitionTrialUrl from "../assets/images/story-transition-trial.webp";
 import paintedArchiveDeskUrl from "../assets/painted/props/painted-archive-desk.webp";
 import paintedArchiveShelfUrl from "../assets/painted/props/painted-archive-shelf.webp";
 import paintedArchiveTerminalUrl from "../assets/painted/props/painted-archive-terminal.webp";
@@ -104,6 +109,9 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
   story: [
     ["story-academy-hub-bg", storyAcademyHubBgUrl],
     ["story-archive-memory-bg", storyArchiveMemoryBgUrl],
+    ["story-clue-blackout-signal", storyClueBlackoutSignalUrl],
+    ["story-clue-archive-record", storyClueArchiveRecordUrl],
+    ["story-clue-sabotage-route", storyClueSabotageRouteUrl],
     ["story-greenhouse-recovery-bg", storyGreenhouseRecoveryBgUrl],
     ["story-lab-blackout-bg", storyLabBlackoutBgUrl],
     ["story-number-factory-bg", storyNumberFactoryBgUrl],
@@ -119,6 +127,8 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["story-phase-04-restored-bg", storyPhase04RestoredBgUrl],
     ["story-phase-05-signal-bg", storyPhase05SignalBgUrl],
     ["story-phase-06-city-restored-bg", storyPhase06CityRestoredBgUrl],
+    ["story-transition-explore", storyTransitionExploreUrl],
+    ["story-transition-trial", storyTransitionTrialUrl],
   ],
   storyBeats: [
     ["story-chapter-01-intro", storyChapter01IntroUrl], ["story-chapter-01-outro", storyChapter01OutroUrl],

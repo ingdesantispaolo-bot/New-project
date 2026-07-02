@@ -165,6 +165,9 @@ export class MainMenuScene extends Phaser.Scene {
     this.add.text(820, 442, prog.rankTitle, { fontFamily: "Inter, Arial", fontSize: "18px", color: "#f6c85f", fontStyle: "bold" });
     this.add.text(820, 470, prog.rankDescription, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: 392 }, lineSpacing: 4 });
     this.add.text(820, 524, `Storia: ${cardProgress.completed}/${cardProgress.total} capitoli  ·  ${prog.nextUnlock}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", wordWrap: { width: 392 }, lineSpacing: 3 });
+    const noraMemories = noraCompanion.memories();
+    const recoveredMemories = noraMemories.filter((memory) => memory.unlocked).length;
+    this.add.text(820, 550, `💜 Ricordi di NORA: ${recoveredMemories}/${noraMemories.length}  ·  recuperali superando i capitoli`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#cdbfff", wordWrap: { width: 392 } });
     if (this.showLevelPicker) {
       this.add.text(820, 584, `Difficoltà di allenamenti e missioni rapide — ora ${selected}/8 (di norma è automatica):`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f6c85f", wordWrap: { width: 392 } });
       for (let level = 1; level <= 8; level += 1) {

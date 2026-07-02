@@ -3,6 +3,7 @@ import { audioManager } from "../core/AudioManager";
 import { competencyTracker } from "../core/CompetencyTracker";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { settingsSystem } from "../core/SettingsSystem";
 import { buildMemoryPairs, generateBalance, LogicSequenceGenerator, type BalancePuzzle, type LogicSequence, type MemoryPair } from "../procedural/generators/LogicGymContent";
 import { Random } from "../procedural/Random";
@@ -14,14 +15,23 @@ type GymActivityKey = "simon" | "memory" | "code" | "seq" | "balance" | "flash" 
 type ActivityMeta = { key: GymActivityKey; title: string; glyph: string; theme: string; desc: string; color: number; start: () => void };
 type MemoryCard = { pairId: string; label: string; rect: Phaser.GameObjects.Rectangle; text: Phaser.GameObjects.Text; matched: boolean; flipped: boolean };
 type FirewallAction = "allow" | "block" | "quarantine" | "inspect";
+type FirewallLens = "identity" | "content" | "route" | "priority";
+type FirewallPayload = "pulito" | "rumoroso" | "criptato" | "esca";
+type FirewallRoute = "interna" | "esterna" | "sconosciuta";
 type FirewallSignal = {
   id: string;
+  scenario: string;
+  task: string;
   color: "blu" | "verde" | "rosso" | "ambra" | "viola";
   origin: string;
   port: number;
   signature: "stabile" | "mancante" | "alterata" | "incerta";
+  payload: FirewallPayload;
+  route: FirewallRoute;
   repeated: boolean;
   priority: boolean;
+  threat: number;
+  diagnosis: string;
   correctAction: FirewallAction;
   reason: string;
 };
@@ -95,9 +105,18 @@ export class LogicGymScene extends Phaser.Scene {
   private firewallStatus?: Phaser.GameObjects.Text;
   private firewallPacket?: Phaser.GameObjects.Container;
   private firewallRoundObjects: Phaser.GameObjects.GameObject[] = [];
+  private firewallStreak = 0;
+  private firewallBestStreak = 0;
+  private firewallStability = 100;
+  private firewallRevealed = new Set<FirewallLens>();
+  private firewallScansLeft = 0;
 
   constructor() {
     super("LogicGymScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "academy", "logicGym");
   }
 
   create(): void {
@@ -290,13 +309,21 @@ export class LogicGymScene extends Phaser.Scene {
   }
 
   private firewallRuleCount(): number {
-    return this.gymLevel <= 2 ? 2 : this.gymLevel <= 4 ? 3 : this.gymLevel <= 6 ? 4 : 5;
+    return this.gymLevel <= 1 ? 3 : this.gymLevel <= 2 ? 4 : this.gymLevel <= 4 ? 5 : this.gymLevel <= 6 ? 6 : 7;
   }
 
   private firewallAvailableActions(): FirewallAction[] {
-    if (this.gymLevel <= 2) return ["allow", "block"];
-    if (this.gymLevel <= 4) return ["allow", "block", "quarantine"];
     return ["allow", "block", "quarantine", "inspect"];
+  }
+
+  private firewallScanLimit(): number {
+    if (this.gymLevel <= 2) return 3;
+    if (this.gymLevel <= 5) return 2;
+    return 2;
+  }
+
+  private firewallMinimumScans(): number {
+    return this.gymLevel <= 2 ? 2 : 1;
   }
 
   // -- Sequenza Luminosa (sequential working memory) ----------------------
@@ -773,11 +800,18 @@ export class LogicGymScene extends Phaser.Scene {
     this.firewallIndex = 0;
     this.firewallCorrect = 0;
     this.firewallErrors = 0;
+    this.firewallStreak = 0;
+    this.firewallBestStreak = 0;
+    this.firewallStability = 100;
+    this.firewallRevealed = new Set();
+    this.firewallScansLeft = this.firewallScanLimit();
     this.firewallLocked = false;
     this.firewallSignals = this.buildFirewallSignals(new Random(`firewall-${Date.now()}-${this.gymLevel}`));
 
+    this.drawFirewallBackdrop();
+
     const bg = this.t(this.add.graphics());
-    bg.fillStyle(0x06131c, 0.88);
+    bg.fillStyle(0x06131c, 0.42);
     bg.fillRoundedRect(34, 92, 1212, 560, 10);
     bg.lineStyle(2, 0x5ec8ff, 0.34);
     bg.strokeRoundedRect(34, 92, 1212, 560, 10);
@@ -791,12 +825,44 @@ export class LogicGymScene extends Phaser.Scene {
     }
 
     this.t(this.add.text(56, 32, `FW  Firewall NORA · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }));
-    this.t(this.add.text(58, 70, "Classifica ogni segnale applicando le regole in ordine. Ogni scelta deve essere giustificata dal dato giusto.", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", wordWrap: { width: 920 } }));
+    this.t(this.add.text(58, 70, "Indaga il segnale con gli strumenti, capisci il problema e applica il protocollo giusto. Meno scansioni usi, più NORA resta stabile.", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", wordWrap: { width: 920 } }));
     this.firewallStatus = this.t(this.add.text(1042, 54, "", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#f7d37a", fontStyle: "bold", align: "right" }).setOrigin(0.5));
 
-    this.drawFirewallRules();
     this.drawFirewallRound();
     this.backBar(() => this.startFirewall());
+  }
+
+  private drawFirewallBackdrop(): void {
+    if (this.textures.exists("logic-gym-firewall-bg")) {
+      const backdrop = this.t(this.add.image(640, 360, "logic-gym-firewall-bg"));
+      backdrop.setDisplaySize(1334, 750).setAlpha(0.9);
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({
+          targets: backdrop,
+          scaleX: backdrop.scaleX * 1.018,
+          scaleY: backdrop.scaleY * 1.018,
+          duration: 14000,
+          yoyo: true,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        });
+      }
+    }
+    const shade = this.t(this.add.graphics());
+    shade.fillStyle(0x02070b, 0.3);
+    shade.fillRect(0, 0, 1280, 720);
+    shade.fillGradientStyle(0x02070b, 0x02070b, 0x02070b, 0x02070b, 0.72, 0.22, 0.22, 0.72);
+    shade.fillRect(0, 0, 1280, 720);
+    shade.fillStyle(0x5ec8ff, 0.05);
+    shade.fillCircle(640, 312, 210);
+    shade.lineStyle(1, 0x5ec8ff, 0.1);
+    for (let x = 58; x <= 1222; x += 84) {
+      shade.lineBetween(x, 98, x + 130, 650);
+    }
+    const pulse = this.t(this.add.circle(640, 330, 112, 0x5ec8ff, 0.055).setStrokeStyle(2, 0x5ec8ff, 0.22));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: pulse, scale: 1.35, alpha: 0.01, duration: 1600, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
   }
 
   private buildFirewallSignals(random: Random): FirewallSignal[] {
@@ -814,6 +880,8 @@ export class LogicGymScene extends Phaser.Scene {
       const fallback = this.buildFirewallSignal(random, signals.length + 100);
       fallback.color = signals.length % 2 === 0 ? "blu" : "rosso";
       fallback.signature = fallback.color === "rosso" ? "alterata" : "stabile";
+      fallback.payload = fallback.color === "rosso" ? "esca" : "pulito";
+      fallback.route = "interna";
       fallback.repeated = false;
       fallback.priority = false;
       const classified = this.classifyFirewallSignal(fallback);
@@ -824,25 +892,40 @@ export class LogicGymScene extends Phaser.Scene {
 
   private buildFirewallSignal(random: Random, index: number): FirewallSignal {
     const colors = this.gymLevel <= 2
-      ? (["blu", "verde", "rosso"] as const)
+      ? (["blu", "verde", "rosso", "viola"] as const)
       : this.gymLevel <= 4
         ? (["blu", "verde", "rosso", "viola"] as const)
         : (["blu", "verde", "rosso", "ambra", "viola"] as const);
     const signatures = this.gymLevel <= 2
-      ? (["stabile", "alterata"] as const)
+      ? (["stabile", "alterata", "mancante"] as const)
       : this.gymLevel <= 4
         ? (["stabile", "alterata", "mancante"] as const)
         : (["stabile", "alterata", "mancante", "incerta"] as const);
+    const payloads = this.gymLevel <= 1
+      ? (["pulito", "rumoroso", "esca"] as const)
+      : this.gymLevel <= 4
+        ? (["pulito", "rumoroso", "criptato", "esca"] as const)
+        : (["pulito", "rumoroso", "criptato", "esca"] as const);
+    const routes = this.gymLevel <= 1
+      ? (["interna", "sconosciuta"] as const)
+      : (["interna", "esterna", "sconosciuta"] as const);
     const origins = ["NORA-Core", "Archivio", "Serra", "Fabbrica", "Laboratorio", "Nodo Ombra", "Biblioteca", "Osservatorio"];
     const ports = [12, 24, 37, 48, 64, 81, 96, 108];
+    const scenario = this.firewallScenario(random);
     const signal = {
       id: `N-${String(index).padStart(3, "0")}`,
+      scenario: scenario.title,
+      task: scenario.task,
       color: random.pick(colors),
       origin: random.pick(origins),
       port: random.pick(ports),
       signature: random.pick(signatures),
-      repeated: this.gymLevel >= 3 && random.bool(this.gymLevel >= 6 ? 0.32 : 0.22),
+      payload: random.pick(payloads),
+      route: random.pick(routes),
+      repeated: this.gymLevel >= 1 && random.bool(this.gymLevel >= 6 ? 0.34 : 0.24),
       priority: this.gymLevel >= 7 && random.bool(0.22),
+      threat: 0,
+      diagnosis: "",
       correctAction: "allow" as FirewallAction,
       reason: "",
     };
@@ -850,41 +933,91 @@ export class LogicGymScene extends Phaser.Scene {
     return { ...signal, ...classified };
   }
 
-  private classifyFirewallSignal(signal: Pick<FirewallSignal, "color" | "signature" | "repeated" | "priority">): Pick<FirewallSignal, "correctAction" | "reason"> {
-    if (this.gymLevel >= 7 && signal.priority && signal.signature === "stabile" && signal.color !== "rosso") {
-      return { correctAction: "allow", reason: "Priorità certificata + firma stabile: il canale resta aperto." };
-    }
-    if (signal.color === "rosso" || signal.signature === "alterata") {
-      return { correctAction: "block", reason: "Rosso o firma alterata: il segnale va bloccato subito." };
-    }
-    if (this.gymLevel >= 3 && (signal.signature === "mancante" || signal.repeated)) {
-      return { correctAction: "quarantine", reason: "Firma mancante o ripetizione: metti in quarantena e separa il rischio." };
-    }
-    if (this.gymLevel >= 5 && (signal.signature === "incerta" || signal.color === "ambra")) {
-      return { correctAction: "inspect", reason: "Firma incerta o colore ambra: serve ispezione prima di decidere." };
-    }
-    return { correctAction: "allow", reason: "Nessun indicatore critico: il segnale può passare." };
+  private firewallScenario(random: Random): { title: string; task: string } {
+    return random.pick([
+      { title: "Archivio studenti", task: "Una richiesta vuole leggere un registro: proteggi i dati senza bloccare il lavoro." },
+      { title: "Serra automatica", task: "Un modulo irrigazione chiede accesso: evita falsi allarmi, ma non fidarti dei segnali incompleti." },
+      { title: "Porta laboratorio", task: "Una porta riceve un comando remoto: se il messaggio e' dubbio, non deve arrivare al motore." },
+      { title: "Biblioteca NORA", task: "Un indice digitale sta sincronizzando: separa rumore, esche e traffico sicuro." },
+      { title: "Nucleo energia", task: "Un canale ad alta priorita' chiede passaggio: controlla prima identita' e contenuto." },
+      { title: "Banchi officina", task: "Una console segnala manutenzione: decidi se farla proseguire, isolarla o analizzarla." },
+    ]);
   }
 
-  private drawFirewallRules(): void {
+  private classifyFirewallSignal(signal: Pick<FirewallSignal, "color" | "signature" | "payload" | "route" | "repeated" | "priority">): Pick<FirewallSignal, "correctAction" | "reason" | "threat" | "diagnosis"> {
+    const threat = this.firewallThreat(signal);
+    if (this.gymLevel >= 7 && signal.priority && signal.signature === "stabile" && signal.color !== "rosso" && signal.payload !== "esca") {
+      return { correctAction: "allow", threat, diagnosis: "Canale prioritario affidabile", reason: "La priorita' non basta da sola: qui funziona perche' firma e contenuto sono coerenti." };
+    }
+    if (signal.color === "rosso" || signal.signature === "alterata" || signal.payload === "esca") {
+      return { correctAction: "block", threat, diagnosis: "Minaccia attiva", reason: "Una esca, una firma alterata o un segnale rosso non si isola soltanto: va fermato." };
+    }
+    if (this.gymLevel >= 2 && (signal.signature === "incerta" || signal.payload === "criptato" || signal.color === "ambra")) {
+      return { correctAction: "inspect", threat, diagnosis: "Dato ambiguo", reason: "Quando il contenuto non e' leggibile o la firma e' incerta, la scelta didattica e' ispezionare." };
+    }
+    if (this.gymLevel >= 4 && signal.route === "esterna" && signal.repeated) {
+      return { correctAction: "block", threat, diagnosis: "Pattern aggressivo", reason: "Rotta esterna ripetuta: non e' un dubbio isolato, e' un comportamento aggressivo." };
+    }
+    if (signal.signature === "mancante" || signal.repeated || signal.payload === "rumoroso" || signal.route === "sconosciuta" || signal.color === "viola" || threat >= 3) {
+      return { correctAction: "quarantine", threat, diagnosis: "Rischio isolabile", reason: "Gli indizi sono incompleti o rumorosi: quarantena significa separare senza distruggere." };
+    }
+    return { correctAction: "allow", threat, diagnosis: "Traffico pulito", reason: "Identita', contenuto e percorso sono coerenti: lasciar passare e' la scelta efficiente." };
+  }
+
+  private firewallThreat(signal: Pick<FirewallSignal, "color" | "signature" | "payload" | "route" | "repeated" | "priority">): number {
+    let threat = 0;
+    if (signal.color === "rosso") threat += 4;
+    if (signal.color === "ambra") threat += 2;
+    if (signal.color === "viola") threat += 1;
+    if (signal.signature === "alterata") threat += 4;
+    if (signal.signature === "mancante") threat += 2;
+    if (signal.signature === "incerta") threat += 2;
+    if (signal.payload === "esca") threat += 4;
+    if (signal.payload === "criptato") threat += 2;
+    if (signal.payload === "rumoroso") threat += 1;
+    if (signal.route === "sconosciuta") threat += 1;
+    if (signal.route === "esterna") threat += 1;
+    if (signal.repeated) threat += 2;
+    if (signal.priority) threat -= 2;
+    return Phaser.Math.Clamp(threat, 0, 9);
+  }
+
+  private drawFirewallInvestigation(signal: FirewallSignal): void {
     const x = 66;
     const y = 124;
-    this.t(this.add.rectangle(x, y, 318, 470, 0x0b1f2d, 0.94).setOrigin(0).setStrokeStyle(2, 0x5ec8ff, 0.42));
-    this.t(this.add.text(x + 22, y + 18, "Regole attive", { fontFamily: "Inter, Arial", fontSize: "20px", color: "#f5fbff", fontStyle: "bold" }));
-    const rules = [
-      { min: 1, color: 0x70d68a, text: "Stabile senza allarmi: CONSENTI" },
-      { min: 1, color: 0xff5d7a, text: "Rosso o firma alterata: BLOCCA" },
-      { min: 3, color: 0xf6c85f, text: "Firma mancante o ripetuto: QUARANTENA" },
-      { min: 5, color: 0x5ec8ff, text: "Ambra o incerto: ISPEZIONA" },
-      { min: 7, color: 0x9f8cff, text: "Priorità stabile: eccezione consentita" },
-    ];
-    rules.forEach((rule, index) => {
-      const active = this.gymLevel >= rule.min;
-      const rowY = y + 72 + index * 70;
-      this.t(this.add.rectangle(x + 22, rowY, 274, 50, active ? 0x102f3f : 0x08141b, active ? 0.92 : 0.5).setOrigin(0).setStrokeStyle(1, rule.color, active ? 0.62 : 0.18));
-      this.t(this.add.circle(x + 42, rowY + 25, 8, active ? rule.color : 0x42515a, active ? 0.95 : 0.5));
-      this.t(this.add.text(x + 60, rowY + 13, active ? rule.text : `L${rule.min}: ${rule.text}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: active ? "#dbefff" : "#7f9099", wordWrap: { width: 224 } }));
+    this.ft(this.add.rectangle(x, y, 318, 470, 0x0b1f2d, 0.94).setOrigin(0).setStrokeStyle(2, 0x5ec8ff, 0.42));
+    this.ft(this.add.text(x + 22, y + 18, "1 · Indaga", { fontFamily: "Inter, Arial", fontSize: "20px", color: "#f5fbff", fontStyle: "bold" }));
+    this.ft(this.add.text(x + 22, y + 48, `Scansioni: ${this.firewallScansLeft}/${this.firewallScanLimit()} · minime: ${this.firewallMinimumScans()}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", fontStyle: "bold" }));
+    this.ft(this.add.text(x + 22, y + 76, signal.scenario, { fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold", wordWrap: { width: 270 } }));
+    this.ft(this.add.text(x + 22, y + 104, signal.task, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: 270 }, lineSpacing: 3 }));
+
+    const lenses: FirewallLens[] = ["identity", "content", "route", "priority"];
+    lenses.forEach((lens, index) => {
+      const info = this.firewallLensInfo(signal, lens);
+      const rowY = y + 188 + index * 58;
+      const revealed = this.firewallRevealed.has(lens);
+      this.ft(new Button(this, x + 92, rowY + 22, `${revealed ? "✓ " : ""}${info.label}`, () => this.scanFirewall(lens), {
+        width: 136,
+        height: 42,
+        fontSize: 13,
+        fill: revealed ? 0x173b36 : 0x143247,
+        stroke: info.color,
+        wordWrapWidth: 116,
+      }));
+      this.ft(this.add.text(x + 174, rowY + 8, revealed ? info.shortValue : info.lesson, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: revealed ? "#f5fbff" : "#8aa6b0",
+        wordWrap: { width: 118 },
+      }));
     });
+
+    this.ft(this.add.text(x + 22, y + 426, "Obiettivo: scegli poche scansioni, poi applica il protocollo. Non ogni anomalia va bloccata.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#f7d37a",
+      wordWrap: { width: 270 },
+    }));
   }
 
   private drawFirewallRound(): void {
@@ -895,7 +1028,8 @@ export class LogicGymScene extends Phaser.Scene {
     }
     this.firewallLocked = false;
     const signal = this.firewallSignals[this.firewallIndex];
-    this.firewallStatus?.setText(`Segnale ${this.firewallIndex + 1}/${this.firewallSignals.length} · Corretti ${this.firewallCorrect}`);
+    this.firewallStatus?.setText(`Segnale ${this.firewallIndex + 1}/${this.firewallSignals.length} · Scan ${this.firewallScansLeft} · Combo x${this.firewallStreak} · Stabilità ${this.firewallStability}%`);
+    this.drawFirewallInvestigation(signal);
     this.drawFirewallGrid(signal);
 
     const actions = this.firewallAvailableActions();
@@ -921,6 +1055,11 @@ export class LogicGymScene extends Phaser.Scene {
     field.fillRoundedRect(424, 136, 408, 344, 12);
     field.lineStyle(2, this.firewallSignalColor(signal.color), 0.72);
     field.strokeRoundedRect(454, 174, 348, 248, 10);
+    const riskKnown = this.firewallRevealed.size >= 2 || this.firewallRevealed.has("content");
+    field.fillStyle(0x071018, 0.82);
+    field.fillRoundedRect(478, 438, 300, 18, 6);
+    field.fillStyle(riskKnown ? (signal.threat >= 6 ? 0xff5d7a : signal.threat >= 3 ? 0xf6c85f : 0x70d68a) : 0x42515a, 0.9);
+    field.fillRoundedRect(482, 442, riskKnown ? Math.max(14, (292 * signal.threat) / 9) : 24, 10, 5);
     field.lineStyle(3, 0x5ec8ff, 0.2);
     field.lineBetween(454, 300, 802, 300);
     field.lineBetween(628, 174, 628, 422);
@@ -951,23 +1090,68 @@ export class LogicGymScene extends Phaser.Scene {
 
     const dataX = 874;
     const dataY = 128;
-    this.ft(this.add.rectangle(dataX, dataY, 332, 236, 0x0b1f2d, 0.92).setOrigin(0).setStrokeStyle(2, 0x5ec8ff, 0.38));
-    this.ft(this.add.text(dataX + 22, dataY + 18, "Segnale in ingresso", { fontFamily: "Inter, Arial", fontSize: "19px", color: "#f5fbff", fontStyle: "bold" }));
-    const rows = [
-      ["Colore", signal.color.toUpperCase(), this.firewallSignalColor(signal.color)],
-      ["Origine", signal.origin, 0x9ff5e9],
-      ["Firma", signal.signature.toUpperCase(), this.firewallSignatureColor(signal.signature)],
-      ["Ripetuto", signal.repeated ? "SI" : "NO", signal.repeated ? 0xf6c85f : 0x70d68a],
-      ["Priorità", signal.priority ? "SI" : "NO", signal.priority ? 0x9f8cff : 0x7d93a0],
-    ];
+    this.ft(this.add.rectangle(dataX, dataY, 332, 276, 0x0b1f2d, 0.92).setOrigin(0).setStrokeStyle(2, 0x5ec8ff, 0.38));
+    this.ft(this.add.text(dataX + 22, dataY + 18, "2 · Taccuino NORA", { fontFamily: "Inter, Arial", fontSize: "19px", color: "#f5fbff", fontStyle: "bold" }));
+    const rows = this.firewallNotebookRows(signal);
     rows.forEach(([labelText, value, color], index) => {
-      const rowY = dataY + 66 + index * 31;
+      const rowY = dataY + 58 + index * 26;
       this.ft(this.add.text(dataX + 24, rowY, `${labelText}:`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9aaab0" }));
       this.ft(this.add.text(dataX + 116, rowY, String(value), { fontFamily: "Inter, Arial", fontSize: "13px", color: Phaser.Display.Color.IntegerToColor(color as number).rgba, fontStyle: "bold", wordWrap: { width: 170 } }));
     });
 
-    this.ft(this.add.text(628, 512, "Firewall centrale", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
+    this.ft(this.add.text(628, 512, riskKnown ? `Rischio stimato ${signal.threat}/9` : "Rischio non stimato: scansiona almeno due aspetti", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
     audioManager.play("scan");
+  }
+
+  private firewallNotebookRows(signal: FirewallSignal): Array<[string, string, number]> {
+    const hidden: [string, string, number] = ["?", "non scansionato", 0x7d93a0];
+    const rows: Array<[string, string, number]> = [];
+    if (this.firewallRevealed.has("identity")) {
+      rows.push(["Colore", signal.color.toUpperCase(), this.firewallSignalColor(signal.color)]);
+      rows.push(["Origine", signal.origin, 0x9ff5e9]);
+      rows.push(["Firma", signal.signature.toUpperCase(), this.firewallSignatureColor(signal.signature)]);
+    } else {
+      rows.push(["Identità", hidden[1], hidden[2]]);
+    }
+    if (this.firewallRevealed.has("content")) {
+      rows.push(["Payload", signal.payload.toUpperCase(), this.firewallPayloadColor(signal.payload)]);
+      rows.push(["Rischio", `${signal.threat}/9`, signal.threat >= 6 ? 0xff5d7a : signal.threat >= 3 ? 0xf6c85f : 0x70d68a]);
+    } else {
+      rows.push(["Contenuto", hidden[1], hidden[2]]);
+    }
+    if (this.firewallRevealed.has("route")) {
+      rows.push(["Rotta", signal.route.toUpperCase(), this.firewallRouteColor(signal.route)]);
+      rows.push(["Ripetuto", signal.repeated ? "SI" : "NO", signal.repeated ? 0xf6c85f : 0x70d68a]);
+    } else {
+      rows.push(["Percorso", hidden[1], hidden[2]]);
+    }
+    if (this.firewallRevealed.has("priority")) {
+      rows.push(["Priorità", signal.priority ? "SI" : "NO", signal.priority ? 0x9f8cff : 0x7d93a0]);
+    } else {
+      rows.push(["Priorità", hidden[1], hidden[2]]);
+    }
+    return rows.slice(0, 8);
+  }
+
+  private scanFirewall(lens: FirewallLens): void {
+    if (this.firewallLocked) return;
+    const signal = this.firewallSignals[this.firewallIndex];
+    if (!signal) return;
+    if (this.firewallRevealed.has(lens)) {
+      audioManager.play("hint");
+      this.firewallStatus?.setText(`${this.firewallLensInfo(signal, lens).label} e' gia' nel taccuino.`);
+      return;
+    }
+    if (this.firewallScansLeft <= 0) {
+      audioManager.play("error");
+      this.firewallStatus?.setText("Scanner scarichi: ora devi decidere con gli indizi raccolti.");
+      return;
+    }
+    this.firewallRevealed.add(lens);
+    this.firewallScansLeft -= 1;
+    this.firewallStability = Phaser.Math.Clamp(this.firewallStability - (this.gymLevel >= 6 ? 3 : 1), 0, 100);
+    audioManager.play("scan");
+    this.drawFirewallRound();
   }
 
   private answerFirewall(action: FirewallAction): void {
@@ -978,9 +1162,14 @@ export class LogicGymScene extends Phaser.Scene {
     const correct = action === signal.correctAction;
     if (correct) {
       this.firewallCorrect += 1;
-      audioManager.play("success");
+      this.firewallStreak += 1;
+      this.firewallBestStreak = Math.max(this.firewallBestStreak, this.firewallStreak);
+      this.firewallStability = Phaser.Math.Clamp(this.firewallStability + 4 + Math.min(5, this.firewallStreak), 0, 100);
+      audioManager.play(this.firewallStreak > 0 && this.firewallStreak % 3 === 0 ? "circuitOn" : "success");
     } else {
       this.firewallErrors += 1;
+      this.firewallStreak = 0;
+      this.firewallStability = Phaser.Math.Clamp(this.firewallStability - 18, 0, 100);
       audioManager.play("error");
       this.cameras.main.shake(120, 0.003);
     }
@@ -991,14 +1180,21 @@ export class LogicGymScene extends Phaser.Scene {
     });
     this.ft(this.add.rectangle(640, 610, 1060, 68, 0x071018, 0.98).setStrokeStyle(2, correct ? 0x70d68a : 0xff5d7a, 0.75));
     const text = correct
-      ? `Corretto: ${signal.reason}`
+      ? `Corretto · combo x${this.firewallStreak}: ${signal.reason}`
       : `Da correggere: serviva ${this.firewallActionLabel(signal.correctAction)}. ${signal.reason}`;
     this.ft(this.add.text(640, 610, text, { fontFamily: "Inter, Arial", fontSize: "15px", color: correct ? "#9ff5c0" : "#ffd0da", align: "center", wordWrap: { width: 1000 } }).setOrigin(0.5));
+    const burst = this.ft(this.add.graphics());
+    burst.lineStyle(4, correct ? 0x70d68a : 0xff5d7a, 0.82);
+    burst.strokeCircle(correct ? 760 : 496, 300, 42);
+    burst.lineStyle(2, correct ? 0x9ff5e9 : 0xffd0da, 0.58);
+    burst.lineBetween(628, 300, correct ? 806 : 450, 300);
+    this.ft(this.add.text(correct ? 838 : 416, 300, correct ? `+stabilità ${this.firewallStability}%` : `stabilità ${this.firewallStability}%`, { fontFamily: "Inter, Arial", fontSize: "13px", color: correct ? "#9ff5c0" : "#ffd0da", fontStyle: "bold" }).setOrigin(0.5));
     this.tracked.forEach((object) => {
       if (object instanceof Button) object.disableInteractive();
     });
     if (!settingsSystem.effectsReduced()) {
       this.tweens.add({ targets: this.firewallPacket, x: correct ? 760 : 496, duration: 260, yoyo: true, ease: "Cubic.easeOut" });
+      this.tweens.add({ targets: burst, scale: 1.18, alpha: 0.22, duration: 520, ease: "Cubic.easeOut" });
     }
     this.time.delayedCall(1500, () => {
       this.firewallIndex += 1;
@@ -1010,9 +1206,9 @@ export class LogicGymScene extends Phaser.Scene {
     audioManager.play(this.firewallErrors === 0 ? "circuitOn" : "success");
     const total = Math.max(1, this.firewallSignals.length);
     const accuracy = Math.round((this.firewallCorrect / total) * 100);
-    const score = Math.max(0, accuracy + this.gymLevel * 4 - this.firewallErrors * 2);
+    const score = Math.max(0, accuracy + this.gymLevel * 4 + this.firewallStability + this.firewallBestStreak * 3 - this.firewallErrors * 4);
     const award = Math.min(24, 6 + this.firewallCorrect * 2 + Math.floor(this.gymLevel / 2));
-    const summary = `Rete stabilizzata: ${this.firewallCorrect}/${total} segnali corretti, precisione ${accuracy}%. Errori: ${this.firewallErrors}.`;
+    const summary = `Rete stabilizzata: ${this.firewallCorrect}/${total} segnali corretti, precisione ${accuracy}%, stabilità ${this.firewallStability}%, combo migliore x${this.firewallBestStreak}.`;
     this.finishActivity("firewall", "Firewall NORA", score, ["trasversali.logica", "pensieroCritico"], award, summary);
   }
 
@@ -1059,6 +1255,23 @@ export class LogicGymScene extends Phaser.Scene {
       case "mancante": return 0xf6c85f;
       case "alterata": return 0xff5d7a;
       case "incerta": return 0x5ec8ff;
+    }
+  }
+
+  private firewallPayloadColor(payload: FirewallPayload): number {
+    switch (payload) {
+      case "pulito": return 0x70d68a;
+      case "rumoroso": return 0xf6c85f;
+      case "criptato": return 0x5ec8ff;
+      case "esca": return 0xff5d7a;
+    }
+  }
+
+  private firewallRouteColor(route: FirewallRoute): number {
+    switch (route) {
+      case "interna": return 0x70d68a;
+      case "esterna": return 0xf6c85f;
+      case "sconosciuta": return 0x9f8cff;
     }
   }
 

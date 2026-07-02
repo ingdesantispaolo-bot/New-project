@@ -39,11 +39,14 @@ const diatonicNotes: MusicNote[] = [
 
 export class MusicNoteGenerator {
   generate(random: Random, difficultyLevel: DifficultyLevel = 1, preferredModes: MusicMinigameType[] = []): GeneratedMusicPuzzle {
+    // No "auditory-note": naming an isolated pitch by ear needs absolute pitch,
+    // which almost no one has. Ear training is done RELATIVELY (intervals, where
+    // two notes are compared) — a skill anyone can build.
     const available: MusicMinigameType[] = difficultyLevel <= 1
-      ? ["note-hunt", "auditory-note", "rhythm-gap", "note-duration"]
+      ? ["note-hunt", "rhythm-gap", "note-duration"]
       : difficultyLevel <= 3
-        ? ["note-hunt", "auditory-note", "interval-jump", "rhythm-gap", "note-duration", "scale-step"]
-        : ["note-hunt", "auditory-note", "auditory-interval", "interval-jump", "rhythm-gap", "note-duration", "scale-step"];
+        ? ["note-hunt", "interval-jump", "rhythm-gap", "note-duration", "scale-step"]
+        : ["note-hunt", "auditory-interval", "interval-jump", "rhythm-gap", "note-duration", "scale-step"];
     const requested = preferredModes.filter((mode) => available.includes(mode) || preferredModes.length === 1);
     const mode = random.pick(requested.length > 0 ? requested : available);
     if (mode === "auditory-note") return this.buildAuditoryNote(random, difficultyLevel);
@@ -309,8 +312,8 @@ export class MusicNoteGenerator {
       competencies: ["musica.ritmo", "musica.durate", "musica.letturaNote"],
       difficultyLabel: `Livello ${difficultyLevel}/8 - valore delle figure`,
       learningPurpose: "Capire la durata relativa delle figure musicali e contarne i movimenti.",
-      method: "Confronta le durate: ogni figura vale la metà di quella precedente (semibreve, minima, semiminima, croma).",
-      methodSteps: ["leggi le figure", "ricorda i valori", "confronta le durate", "scegli la risposta"],
+      method: "Riferimento (in 4/4): semibreve = 4 movimenti · minima = 2 · semiminima = 1 · croma = ½. Ogni figura vale la metà della precedente — usa questa tabella per rispondere.",
+      methodSteps: ["leggi le figure", "usa il riferimento 4·2·1·½", "confronta le durate", "scegli la risposta"],
       conceptTags: ["ritmo", "durate", "figure musicali"],
     };
   }

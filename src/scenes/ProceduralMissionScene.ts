@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { buildChapterExploreRun, buildChapterTrialRun, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
 import { markMissionComplete, markMissionExplored } from "../core/MissionCompletion";
+import { noraCompanion, type NoraMemory } from "../core/NoraCompanion";
 import { competencyTracker } from "../core/CompetencyTracker";
 import { exerciseDirector } from "../core/ExerciseDirector";
 import { feedbackSystem, type FeedbackMessage } from "../core/FeedbackSystem";
@@ -2883,15 +2884,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#f7d37a",
       fontStyle: "bold",
     }).setOrigin(0.5));
-    const matchedParameters = workshop.parameters.filter((parameter) => values[parameter.key] === parameter.target).length;
-    const syncRatio = matchedParameters / workshop.parameters.length;
-    overlay.add(this.add.text(920, 280, `Sincronizzazione ${Math.round(syncRatio * 100)}%`, {
-      fontFamily: "Inter, Arial", fontSize: "11px", color: syncRatio === 1 ? "#9ff5e9" : "#c7dce7", fontStyle: "bold",
+    // No "warmer/colder" sync meter: it turned the task into trial-and-error.
+    // The student must READ q and m from the beacons, set them, then certify.
+    overlay.add(this.add.text(920, 282, "📐 Leggi q e m dai beacon, poi Certifica — non tirare a caso.", {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 304, useAdvancedWrap: true }, lineSpacing: 3, fontStyle: "bold",
     }));
-    overlay.add(this.add.rectangle(1072, 304, 304, 10, 0x132835, 0.9).setStrokeStyle(1, 0x6be7d6, 0.22));
-    if (syncRatio > 0) {
-      overlay.add(this.add.rectangle(920 + 152 * syncRatio, 304, 304 * syncRatio, 10, syncRatio === 1 ? 0x2ed889 : 0xf6c85f, 0.88));
-    }
 
     workshop.parameters.forEach((parameter, index) => {
       const rowY = 352 + index * 72;
@@ -2923,7 +2920,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     this.addMathPanel(overlay, 28, 614, 1224, 74, "Missione grafica");
-    overlay.add(this.add.text(54, 660, this.currentActiveHint() ?? workshop.principle, {
+    overlay.add(this.add.text(54, 660, this.currentActiveHint() ?? this.graphWorkshopReadingMethod(workshop), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: this.currentActiveHint() ? "#f7d37a" : "#d9eaf1",
@@ -2997,8 +2994,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
         : this.graphWorkshopMoves <= par + 3
           ? "★★☆ calibrazione precisa"
           : "★☆☆ grafico corretto";
-      outcomeFeedback.answer(this, true, selected, workshop.targetFormula, `${rating}. ${workshop.successExplanation}`);
-      feedbackSystem.publish(`Grafico certificato in ${this.graphWorkshopMoves} mosse (par ${par}). ${rating}. ${workshop.successExplanation}`, "success");
+      const readingNote = this.graphWorkshopMoves > par + 3 && workshop.mode === "beacon-line"
+        ? " La prossima volta leggi m e q dai beacon (m = Δy/Δx, q = y in x=0): ci arrivi in poche mosse."
+        : "";
+      outcomeFeedback.answer(this, true, selected, workshop.targetFormula, `${rating}. ${workshop.successExplanation}${readingNote}`);
+      feedbackSystem.publish(`Grafico certificato in ${this.graphWorkshopMoves} mosse (par ${par}). ${rating}. ${workshop.successExplanation}${readingNote}`, "success");
       this.solvePuzzle(this.currentPuzzleId("math"), puzzle.competencies);
       return;
     }
@@ -3062,6 +3062,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return `Lettura attuale\n• apertura ${a > 0 ? "verso l'alto" : "verso il basso"}\n• vertice V(${h}, ${k})\n• ${rootText}`;
   }
 
+  /** The reading method to derive the parameters, so the task teaches reading. */
+  private graphWorkshopReadingMethod(workshop: GeneratedGraphWorkshop): string {
+    if (workshop.mode === "beacon-line") {
+      return "Leggi la retta dai beacon, non a tentativi: q è la y del beacon sull'asse y (dove x = 0); m è di quanto sale la y diviso di quanto avanza la x passando da un beacon all'altro.";
+    }
+    return workshop.principle;
+  }
+
   private graphWorkshopDiagnosis(
     workshop: GeneratedGraphWorkshop,
     values: Partial<Record<GraphParameterKey, number>>,
@@ -3070,9 +3078,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (workshop.functionKind === "linear") {
       const slopeWrong = wrong.some((parameter) => parameter.key === "m");
       const interceptWrong = wrong.some((parameter) => parameter.key === "q");
-      if (slopeWrong && interceptWrong) return "La retta ha ancora inclinazione e altezza errate. Allinea prima la pendenza, poi traslala con q.";
-      if (slopeWrong) return "La retta può attraversare un beacon, ma la pendenza non permette di attraversare anche l'altro. Correggi m.";
-      if (interceptWrong) return "L'inclinazione è corretta, ma l'intera retta è traslata troppo in alto o in basso. Correggi q.";
+      if (slopeWrong && interceptWrong) return "Rileggi i beacon dall'inizio: prima ricava m (quanto sale la y ÷ quanto avanza la x tra i due punti), poi q (la y del punto dove x = 0).";
+      if (slopeWrong) return "L'intercetta va bene, ma la pendenza no: conta di quanto sale la y quando la x avanza di 1 passando da un beacon all'altro — quel rapporto è m.";
+      if (interceptWrong) return "La pendenza è giusta, ma l'altezza no: q è la y del beacon che sta sull'asse y (dove x = 0). Leggila e imposta q.";
     }
     const aWrong = wrong.some((parameter) => parameter.key === "a");
     const hWrong = wrong.some((parameter) => parameter.key === "h");
@@ -3139,16 +3147,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     this.drawWorkshopCurve(overlay, workshop, values, mapX, mapY, minX, maxX, minY, maxY, 0x6be7d6, 0.96, false);
 
+    // Beacons stay a neutral target colour (never turn green "on hit"): a live
+    // success signal would let the student align by trial-and-error. Their
+    // coordinates are shown so m and q can be READ, then verified on certify.
     workshop.targetPoints.forEach((point) => {
-      const currentY = this.evaluateWorkshop(workshop, values, point.x);
-      const reached = point.label === "V"
-        ? (values.h ?? 0) === point.x && (values.k ?? 0) === point.y
-        : Math.abs(currentY - point.y) < 0.0001;
-      const color = reached ? 0x2ed889 : 0xf6c85f;
+      const color = 0xf6c85f;
       overlay.add(this.add.circle(mapX(point.x), mapY(point.y), 16, color, 0.1).setStrokeStyle(3, color, 0.92));
       overlay.add(this.add.circle(mapX(point.x), mapY(point.y), 5, color, 1));
       overlay.add(this.add.text(mapX(point.x) + 14, mapY(point.y) - 22, `${point.label}(${point.x}, ${point.y})`, {
-        fontFamily: "Inter, Arial", fontSize: "11px", color: reached ? "#9ff5e9" : "#f7d37a", fontStyle: "bold",
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", fontStyle: "bold",
       }));
     });
 
@@ -6268,7 +6275,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(new Button(this, 778, 598, puzzle.audioPrompt?.replayLabel ?? "Ascolta sfida", () => this.previewMusicChallenge(puzzle), {
       width: 220, height: 46, fontSize: 14, fill: 0x173b36,
     }));
-    if (puzzle.challengeMode === "interval-jump" && puzzle.secondaryNote) {
+    if ((puzzle.challengeMode === "interval-jump" || puzzle.challengeMode === "auditory-interval") && puzzle.secondaryNote) {
       overlay.add(new Button(this, 778, 650, "Nota 1", () => this.playMusicNote(puzzle.noteName, puzzle.octave), {
         width: 104, height: 38, fontSize: 12, fill: 0x263743,
       }));
@@ -6295,7 +6302,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const tones = [{ note: puzzle.noteName, octave: puzzle.octave }];
-    if (puzzle.challengeMode === "interval-jump" && puzzle.secondaryNote) {
+    // Any interval challenge must play BOTH notes — an interval is a relation
+    // between two pitches, impossible to judge from a single sound.
+    if ((puzzle.challengeMode === "interval-jump" || puzzle.challengeMode === "auditory-interval") && puzzle.secondaryNote) {
       tones.push({ note: puzzle.secondaryNote.noteName, octave: puzzle.secondaryNote.octave });
     }
     audioManager.playToneSequence(tones.map((tone) => ({ frequency: this.musicFrequency(tone.note, tone.octave), durationMs: 480 })));
@@ -7673,14 +7682,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
       outcomeFeedback.play(this, "complete", "Sabotatore respinto!");
       this.noraSay("bossDefeat");
       this.playLabRestoredFinale();
+      const recoveredBefore = new Set(noraCompanion.memories().filter((memory) => memory.unlocked).map((memory) => memory.id));
       markMissionComplete(chapterMissionId);
       saveSystem.updateProceduralRun({ completedAt: new Date().toISOString() });
       this.run = saveSystem.data.proceduralRun ?? this.run;
+      const recovered = noraCompanion.memories().find((memory) => memory.unlocked && !recoveredBefore.has(memory.id));
       feedbackSystem.publish(
         "Sabotatore respinto! Hai disattivato ogni nodo prima che il tempo scadesse. Capitolo sbloccato!",
         "success",
       );
-      this.runWhenActive(1700, () => this.scene.start("CampaignScene"));
+      this.runWhenActive(1700, () => {
+        if (recovered) this.showMemoryRecovered(recovered, () => this.scene.start("CampaignScene"));
+        else this.scene.start("CampaignScene");
+      });
       return;
     }
     const mode = proceduralRunRules.modeFor(this.run);
@@ -8269,6 +8283,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.run = saveSystem.data.proceduralRun ?? this.run;
     feedbackSystem.publish(`Missione fallita: ${reason} Non ci sono piu condizioni utili per proseguire: ricomincia dal menu con una nuova missione.`, "warning");
     this.showMissionFailure(reason);
+  }
+
+  /**
+   * Celebratory reveal when a chapter win restores one of NORA's lost memories —
+   * the intrinsic collection hook. Dismissing it continues to the Story.
+   */
+  private showMemoryRecovered(memory: NoraMemory, onContinue: () => void): void {
+    const total = noraCompanion.memories().length;
+    const recovered = noraCompanion.memories().filter((item) => item.unlocked).length;
+    const modal = this.add.container(0, 0).setDepth(2100);
+    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.86).setInteractive());
+    modal.add(this.add.rectangle(640, 360, 760, 400, 0x0b0a1f, 0.99).setStrokeStyle(3, 0x9f8cff, 0.9));
+    modal.add(this.add.rectangle(640, 360 - 200 + 4, 760, 6, 0x9f8cff, 0.95));
+    VisualKit.particleBurst(this, 640, 232, "archive", "success");
+    modal.add(this.add.text(640, 214, "💜 RICORDO DI NORA RECUPERATO", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#cdbfff", fontStyle: "bold" }).setOrigin(0.5));
+    modal.add(this.add.text(640, 252, memory.title, { fontFamily: "Inter, Arial", fontSize: "28px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 680 }, align: "center" }).setOrigin(0.5, 0));
+    modal.add(this.add.text(640, 312, `«${memory.text}»`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#e6ddff", wordWrap: { width: 660 }, align: "center", lineSpacing: 6 }).setOrigin(0.5, 0));
+    modal.add(this.add.text(640, 470, `Frammenti recuperati: ${recovered}/${total}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9f8cff", fontStyle: "bold" }).setOrigin(0.5));
+    modal.add(new Button(this, 640, 512, "Continua ▸", () => { modal.destroy(true); onContinue(); }, {
+      width: 300, height: 52, fill: 0x2a1f3a, stroke: 0x9f8cff, fontSize: 17, soundKey: "confirm",
+    }));
+    this.overlay = modal;
   }
 
   private showMissionFailure(reason: string): void {

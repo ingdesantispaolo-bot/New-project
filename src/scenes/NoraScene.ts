@@ -3,6 +3,7 @@ import { audioManager } from "../core/AudioManager";
 import { noraCompanion, type NoraTone } from "../core/NoraCompanion";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { settingsSystem } from "../core/SettingsSystem";
 import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
@@ -16,6 +17,10 @@ import { VisualKit } from "../ui/VisualKit";
 export class NoraScene extends Phaser.Scene {
   constructor() {
     super("NoraScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "archive", "story");
   }
 
   create(): void {
@@ -63,32 +68,70 @@ export class NoraScene extends Phaser.Scene {
     this.add.rectangle(x, y, 360, 300, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.46);
 
     const cx = x + 180;
-    const cy = y + 110;
-    this.add.circle(cx, cy, 70, 0x0c2630, 1).setStrokeStyle(3, 0x6be7d6, 0.7);
-    const core = this.add.circle(cx, cy, 30, 0x6be7d6, 0.95);
-    this.add.circle(cx, cy, 11, 0xffffff, 0.9);
-    const ring = this.add.image(cx, cy, "holo-ring").setTint(0x9ff5e9).setScale(2.2).setAlpha(0.5);
-    if (!settingsSystem.effectsReduced()) {
-      this.tweens.add({ targets: core, scale: 1.25, alpha: 0.7, duration: 1100, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
-      this.tweens.add({ targets: ring, rotation: Math.PI * 2, duration: 16000, repeat: -1 });
+    const stages = noraCompanion.visualStages();
+    const current = stages.find((stage) => stage.current) ?? stages[0];
+    this.add.text(x + 22, y + 14, "Stato di NORA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    });
+
+    const artY = y + 126;
+    this.add.rectangle(cx, artY, 324, 178, 0x02070b, 0.86).setStrokeStyle(1, 0x6be7d6, 0.34);
+    if (current && this.textures.exists(current.key)) {
+      const portrait = this.add.image(cx, artY, current.key).setDisplaySize(324, 182);
+      this.add.rectangle(cx, artY, 324, 182, 0x02070b, 0.08).setStrokeStyle(1, 0xf6c85f, 0.18);
+      this.add.rectangle(cx, artY + 74, 324, 34, 0x02070b, 0.58);
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({
+          targets: portrait,
+          scaleX: portrait.scaleX * 1.012,
+          scaleY: portrait.scaleY * 1.012,
+          duration: 5200,
+          yoyo: true,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        });
+      }
+    } else {
+      const core = this.add.circle(cx, artY, 30, 0x6be7d6, 0.95);
+      this.add.circle(cx, artY, 11, 0xffffff, 0.9);
+      const ring = this.add.image(cx, artY, "holo-ring").setTint(0x9ff5e9).setScale(2.2).setAlpha(0.5);
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({ targets: core, scale: 1.25, alpha: 0.7, duration: 1100, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+        this.tweens.add({ targets: ring, rotation: Math.PI * 2, duration: 16000, repeat: -1 });
+      }
     }
 
-    this.add.text(cx, y + 212, bond.title, {
+    this.add.text(x + 28, y + 207, current?.title ?? "NORA", {
       fontFamily: "Inter, Arial",
-      fontSize: "17px",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    });
+    this.add.text(x + 28, y + 230, bond.title, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
       color: "#f6c85f",
       fontStyle: "bold",
-    }).setOrigin(0.5);
-    // Bond level as connected dots.
-    for (let i = 0; i <= bond.maxLevel; i += 1) {
-      this.add.circle(cx - bond.maxLevel * 16 + i * 32, y + 248, 9, i <= bond.level ? 0xf6c85f : 0x304653, i <= bond.level ? 0.95 : 0.6)
-        .setStrokeStyle(2, 0xf6c85f, i <= bond.level ? 0.8 : 0.2);
-    }
-    this.add.text(cx, y + 272, `Legame ${bond.level}/${bond.maxLevel} — cresce con i tuoi progressi`, {
+    });
+
+    stages.forEach((stage, index) => {
+      const tx = x + 52 + index * 64;
+      const ty = y + 266;
+      this.add.rectangle(tx, ty, 56, 34, 0x02070b, 0.78).setStrokeStyle(2, stage.current ? 0xf6c85f : 0x6be7d6, stage.current ? 0.9 : stage.unlocked ? 0.4 : 0.14);
+      if (stage.unlocked && this.textures.exists(stage.key)) {
+        this.add.image(tx, ty, stage.key).setDisplaySize(52, 29).setAlpha(stage.current ? 0.98 : 0.72);
+      } else {
+        this.add.circle(tx, ty, 9, 0x304653, 0.8).setStrokeStyle(1, 0x6be7d6, 0.18);
+      }
+    });
+    this.add.text(x + 22, y + 286, `Legame ${bond.level}/${bond.maxLevel} · cresce con capitoli e padronanza`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
-    }).setOrigin(0.5);
+    });
   }
 
   private drawDialoguePanel(playerName: string, messages: string[]): void {
@@ -130,22 +173,31 @@ export class NoraScene extends Phaser.Scene {
       color: "#9aaab0",
     });
     memories.forEach((memory, index) => {
-      const my = y + 70 + index * 38;
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      const cardX = x + 22 + col * 378;
+      const cardY = y + 72 + row * 68;
       const dot = memory.unlocked ? 0x9f8cff : 0x304653;
-      this.add.circle(x + 34, my + 10, 8, dot, memory.unlocked ? 0.95 : 0.5).setStrokeStyle(2, 0x9f8cff, memory.unlocked ? 0.8 : 0.2);
-      this.add.text(x + 52, my, memory.unlocked ? memory.title : "Ricordo bloccato", {
+      this.add.rectangle(cardX, cardY, 354, 58, 0x071018, memory.unlocked ? 0.66 : 0.44).setOrigin(0).setStrokeStyle(1, 0x9f8cff, memory.unlocked ? 0.28 : 0.12);
+      this.add.circle(cardX + 14, cardY + 18, 8, dot, memory.unlocked ? 0.95 : 0.5).setStrokeStyle(2, 0x9f8cff, memory.unlocked ? 0.8 : 0.2);
+      this.add.text(cardX + 32, cardY + 8, memory.unlocked ? memory.title : "Ricordo bloccato", {
         fontFamily: "Inter, Arial",
         fontSize: "13px",
         color: memory.unlocked ? "#cdbfff" : "#5d7782",
         fontStyle: "bold",
       });
-      this.add.text(x + 52, my + 17, memory.unlocked ? memory.text : "Continua l'avventura per restituire questo ricordo a NORA.", {
+      this.add.text(cardX + 32, cardY + 28, memory.unlocked ? this.memoryPreview(memory.text) : "Continua l'avventura per restituire questo ricordo a NORA.", {
         fontFamily: "Inter, Arial",
-        fontSize: "11px",
+        fontSize: "10px",
         color: memory.unlocked ? "#d9eaf1" : "#5d7782",
-        wordWrap: { width: 710 },
+        wordWrap: { width: 306 },
+        lineSpacing: 1,
       });
     });
+  }
+
+  private memoryPreview(text: string): string {
+    return text.length <= 104 ? text : `${text.slice(0, 101).trimEnd()}...`;
   }
 
   private drawToneChoice(): void {

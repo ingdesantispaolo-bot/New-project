@@ -77,7 +77,15 @@ import { LanguageRepairConsole, type LanguageRepairModel } from "./procedural/co
 import { MathTerminal, type MathTerminalModel } from "./procedural/components/MathTerminal";
 import { MissionDependencyGraph } from "./procedural/components/MissionDependencyGraph";
 import { RobotConsole } from "./procedural/components/RobotConsole";
-import { isProceduralPuzzleSolved, proceduralPuzzleOrder, proceduralRequiredPuzzleIds, puzzleKindFromId, type ProceduralPuzzleId } from "./procedural/ProceduralMissionLayout";
+import {
+  isProceduralPuzzleSolved,
+  proceduralHotspotPosition,
+  proceduralPuzzleOrder,
+  proceduralRequiredPuzzleIds,
+  puzzleKindFromId,
+  sortProceduralHotspots,
+  type ProceduralPuzzleId,
+} from "./procedural/ProceduralMissionLayout";
 import { ProceduralMissionView } from "./procedural/ProceduralMissionView";
 import {
   commandLabels,
@@ -1591,9 +1599,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.languageMinigameTimerEvent?.remove(false);
       // Diagnostic feedback: lead with what THIS wrong choice got wrong (the tile's
       // per-distractor note), not just a generic explanation of the right answer.
-      const languageDiagnostic = wrongFeedback && wrongFeedback !== "Scelta non coerente."
-        ? wrongFeedback
-        : prompt.explanation;
+      const languageDiagnostic = this.diagnosticWrongExplanation(wrongFeedback, prompt.explanation);
       this.showWrongSolution(chosenLabel, solutionDisplay, languageDiagnostic, () => {
         session.startedAt += Date.now() - languagePauseStart;
         this.advanceLanguageMinigamePrompt(0);
@@ -1639,6 +1645,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
     modal.add(new Button(this, cx, cy + h / 2 - 34, "Ho capito, continua ▸", () => { modal.destroy(true); onContinue(); }, {
       width: 320, height: 52, fill: 0x173b36, stroke: 0x6be7d6, fontSize: 16, soundKey: "confirm",
     }));
+  }
+
+  private diagnosticWrongExplanation(wrongFeedback: string | undefined, correctExplanation: string): string {
+    const generic = !wrongFeedback
+      || /^(Scelta non coerente|Unsafe action|Word order is not correct yet)\.?$/i.test(wrongFeedback.trim());
+    if (generic) {
+      return correctExplanation;
+    }
+    return `${wrongFeedback}\nMetodo corretto: ${correctExplanation}`;
   }
 
   private advanceLanguageMinigamePrompt(delayMs: number): void {
@@ -4061,6 +4076,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const prompt = this.currentMathMinigamePrompt(session);
     let exactSelection: boolean;
     let selectedLabels: string;
+    let mathWrongFeedback: string | undefined;
     if (prompt.type === "expression-build") {
       const numbers = prompt.numbers ?? [];
       if (session.orderedSelection.length < prompt.requiredSelectionCount) {
@@ -4072,6 +4088,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const value = this.evaluateOperatorInsertion(numbers, session.orderedSelection);
       selectedLabels = numbers.map((n, i) => i < session.orderedSelection.length ? `${n} ${session.orderedSelection[i]} ` : `${n}`).join("").trim();
       exactSelection = value === (prompt.target ?? NaN);
+      if (!exactSelection) {
+        mathWrongFeedback = `Con questi operatori ottieni ${value}, ma il bersaglio è ${prompt.target}. Rivedi l'ordine delle operazioni.`;
+      }
     } else {
       if (session.selectedIds.size === 0) {
         session.feedback = "Prima scegli una o più tessere, poi conferma. Il timer continua.";
@@ -4086,10 +4105,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
         .join(", ");
       exactSelection = session.selectedIds.size === correctIds.size
         && [...session.selectedIds].every((id) => correctIds.has(id));
+      if (!exactSelection) {
+        // Diagnose the actual mistake: a wrongly-included tile (with its reason),
+        // or a selection that is short/over on the count of correct tiles.
+        const wrongIncluded = prompt.tiles.find((tile) => session.selectedIds.has(tile.id) && !tile.isCorrect);
+        mathWrongFeedback = wrongIncluded
+          ? `Hai incluso «${wrongIncluded.label}»: ${wrongIncluded.feedback}`
+          : `Selezione incompleta: servono esattamente le ${correctIds.size} tessere giuste (${prompt.solutionLabels.join(", ")}), né una in più né una in meno.`;
+      }
     }
     if (!exactSelection) {
       if (this.isTimedMissionMode()) {
-        const message = `Scelta non certificabile (${selectedLabels || "nessuna"}). Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
+        const message = `Scelta non certificabile (${selectedLabels || "nessuna"}). ${mathWrongFeedback ?? ""} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
         outcomeFeedback.answer(this, false, selectedLabels || "nessuna", prompt.solutionLabels.join(", "), prompt.explanation);
         this.mathMinigameSession = undefined;
         this.handleIncorrectAnswer(message);
@@ -4106,7 +4133,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       audioManager.playOutcome("wrong");
       const mathPauseStart = Date.now();
       this.mathMinigameTimerEvent?.remove(false);
-      this.showWrongSolution(selectedLabels || "nessuna", prompt.solutionLabels.join(", "), prompt.explanation, () => {
+      this.showWrongSolution(selectedLabels || "nessuna", prompt.solutionLabels.join(", "), this.diagnosticWrongExplanation(mathWrongFeedback, prompt.explanation), () => {
         session.startedAt += Date.now() - mathPauseStart;
         this.advanceMathMinigamePrompt(0);
       });
@@ -4870,7 +4897,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       audioManager.playOutcome("wrong");
       const englishPauseStart = Date.now();
       this.englishMinigameTimerEvent?.remove(false);
-      this.showWrongSolution(chosenLabel, solutionDisplay, prompt.explanation, () => {
+      this.showWrongSolution(chosenLabel, solutionDisplay, this.diagnosticWrongExplanation(wrongFeedback, prompt.explanation), () => {
         session.startedAt += Date.now() - englishPauseStart;
         this.advanceEnglishMinigamePrompt(0);
       });
@@ -5488,7 +5515,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       audioManager.playOutcome("wrong");
       const codingPauseStart = Date.now();
       this.codingMinigameTimerEvent?.remove(false);
-      this.showWrongSolution(chosenLabel, solutionDisplay, prompt.explanation, () => {
+      this.showWrongSolution(chosenLabel, solutionDisplay, this.diagnosticWrongExplanation(wrongFeedback, prompt.explanation), () => {
         session.startedAt += Date.now() - codingPauseStart;
         this.advanceCodingMinigamePrompt(0);
       });
@@ -5834,8 +5861,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
           this.solvePuzzle(this.currentPuzzleId("coding"), puzzle.competencies);
           return;
         }
-        outcomeFeedback.answer(this, false, option, puzzle.correctOption, puzzle.explanation);
-        this.handleIncorrectAnswer(`${puzzle.explanation} La scelta "${option}" non rispetta il metodo: ${puzzle.methodSteps.join(" -> ")}.`);
+        const optionWhy = puzzle.optionFeedback?.[option];
+        outcomeFeedback.answer(this, false, option, puzzle.correctOption, optionWhy ?? puzzle.explanation);
+        this.handleIncorrectAnswer(optionWhy
+          ? `${optionWhy} Metodo corretto: ${puzzle.methodSteps.join(" -> ")}.`
+          : `${puzzle.explanation} La scelta "${option}" non rispetta il metodo: ${puzzle.methodSteps.join(" -> ")}.`);
       }, {
         width: taskPanel.w - 70,
         height: 38,
@@ -5950,8 +5980,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
           this.solvePuzzle(this.currentPuzzleId("physics"), puzzle.competencies);
           return;
         }
-        outcomeFeedback.answer(this, false, option, puzzle.correctOption, puzzle.explanation);
-        this.handleIncorrectAnswer(`${puzzle.explanation} La scelta "${option}" non rispetta il metodo: ${puzzle.methodSteps.join(" -> ")}.`);
+        const optionWhy = puzzle.optionFeedback?.[option];
+        outcomeFeedback.answer(this, false, option, puzzle.correctOption, optionWhy ?? puzzle.explanation);
+        this.handleIncorrectAnswer(optionWhy
+          ? `${optionWhy} Metodo corretto: ${puzzle.methodSteps.join(" -> ")}.`
+          : `${puzzle.explanation} La scelta "${option}" non rispetta il metodo: ${puzzle.methodSteps.join(" -> ")}.`);
       }, {
         width: rightPanel.w - 72,
         height: 42,
@@ -7853,6 +7886,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const cleanSolve = score.attempts <= 1 && score.hintsUsed === 0;
     const solvedNode = puzzleKindFromId(puzzleId);
     const principle = this.solvedPrinciple(solvedNode);
+    this.playConsoleRestoredMoment(solvedNode);
     // Surface the learned principle prominently instead of only the score.
     outcomeFeedback.play(this, "success", `Principio: ${principle}`);
     if (cleanSolve) {
@@ -7877,6 +7911,51 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     this.runWhenActive(2200, () => this.scene.restart());
+  }
+
+  private playConsoleRestoredMoment(kind: ProceduralPuzzleId): void {
+    const hotspot = sortProceduralHotspots(this.run.mission.map.hotspots).find((item) => {
+      const id = item.puzzleId ?? item.id;
+      return item.puzzleKind === kind || puzzleKindFromId(id) === kind;
+    });
+    const stage = SceneChrome.layout.stage;
+    const point = hotspot
+      ? proceduralHotspotPosition(hotspot, stage)
+      : { x: stage.x + stage.width / 2, y: stage.y + stage.height / 2 };
+    const colors: Record<ProceduralPuzzleId, number> = {
+      language: 0x9f8cff,
+      circuit: 0xf6c85f,
+      math: 0x6be7d6,
+      english: 0x70d68a,
+      robot: 0xff8f6b,
+      coding: 0x6bb6ff,
+      music: 0xffb6f2,
+      physics: 0x8cffd7,
+    };
+    const color = colors[kind];
+    const wash = this.add.rectangle(stage.x + stage.width / 2, stage.y + stage.height / 2, stage.width - 34, stage.height - 34, color, 0.12)
+      .setDepth(920);
+    this.tweens.add({ targets: wash, alpha: 0, duration: 900, ease: "Sine.easeOut", onComplete: () => wash.destroy() });
+    const beam = this.add.line(0, 0, point.x, point.y, stage.x + stage.width / 2, stage.y + 48, color, 0.58)
+      .setOrigin(0)
+      .setLineWidth(3)
+      .setDepth(922);
+    this.tweens.add({ targets: beam, alpha: 0, duration: 760, ease: "Sine.easeOut", onComplete: () => beam.destroy() });
+    for (let index = 0; index < 3; index += 1) {
+      const ring = this.add.circle(point.x, point.y, 18 + index * 8, color, 0)
+        .setStrokeStyle(3, color, 0.72 - index * 0.16)
+        .setDepth(923);
+      this.tweens.add({
+        targets: ring,
+        scale: 2.7 + index * 0.35,
+        alpha: { from: 0.86, to: 0 },
+        delay: index * 90,
+        duration: 760,
+        ease: "Sine.easeOut",
+        onComplete: () => ring.destroy(),
+      });
+    }
+    VisualKit.particleBurst(this, point.x, point.y, "circuit", "success");
   }
 
   /**
@@ -8970,7 +9049,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       audioManager.playOutcome("wrong");
       const circuitPauseStart = Date.now();
       this.circuitMinigameTimerEvent?.remove(false);
-      this.showWrongSolution(selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), prompt.explanation, () => {
+      this.showWrongSolution(selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), this.diagnosticWrongExplanation(selected?.feedback, prompt.explanation), () => {
         session.startedAt += Date.now() - circuitPauseStart;
         this.advanceCircuitMinigamePrompt(0);
       });

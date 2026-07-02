@@ -41,14 +41,23 @@ import storyChapter04IntroUrl from "../assets/images/story-chapter-04-intro.webp
 import storyChapter04OutroUrl from "../assets/images/story-chapter-04-outro.webp";
 import storyChapter05IntroUrl from "../assets/images/story-chapter-05-intro.webp";
 import storyChapter05OutroUrl from "../assets/images/story-chapter-05-outro.webp";
+import storyChapter06IntroUrl from "../assets/images/story-chapter-06-intro.webp";
+import storyChapter06OutroUrl from "../assets/images/story-chapter-06-outro.webp";
 import storyGreenhouseRecoveryBgUrl from "../assets/images/story-greenhouse-recovery-bg.webp";
 import storyLabBlackoutBgUrl from "../assets/images/story-lab-blackout-bg.webp";
 import storyNumberFactoryBgUrl from "../assets/images/story-number-factory-bg.webp";
+import storyNoraCoreAwakeningUrl from "../assets/images/story-nora-core-awakening.webp";
+import storyNoraCoreDormantUrl from "../assets/images/story-nora-core-dormant.webp";
+import storyNoraCoreGuardianUrl from "../assets/images/story-nora-core-guardian.webp";
+import storyNoraCoreMemoryUrl from "../assets/images/story-nora-core-memory.webp";
+import storyNoraCoreRestoredUrl from "../assets/images/story-nora-core-restored.webp";
 import storyPhase00BlackoutBgUrl from "../assets/images/story-phase-00-blackout-bg.webp";
 import storyPhase01EnergyBgUrl from "../assets/images/story-phase-01-energy-bg.webp";
 import storyPhase02LifeBgUrl from "../assets/images/story-phase-02-life-bg.webp";
 import storyPhase03ProductionBgUrl from "../assets/images/story-phase-03-production-bg.webp";
 import storyPhase04RestoredBgUrl from "../assets/images/story-phase-04-restored-bg.webp";
+import storyPhase05SignalBgUrl from "../assets/images/story-phase-05-signal-bg.webp";
+import storyPhase06CityRestoredBgUrl from "../assets/images/story-phase-06-city-restored-bg.webp";
 import paintedArchiveDeskUrl from "../assets/painted/props/painted-archive-desk.webp";
 import paintedArchiveShelfUrl from "../assets/painted/props/painted-archive-shelf.webp";
 import paintedArchiveTerminalUrl from "../assets/painted/props/painted-archive-terminal.webp";
@@ -98,11 +107,18 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["story-greenhouse-recovery-bg", storyGreenhouseRecoveryBgUrl],
     ["story-lab-blackout-bg", storyLabBlackoutBgUrl],
     ["story-number-factory-bg", storyNumberFactoryBgUrl],
+    ["story-nora-core-dormant", storyNoraCoreDormantUrl],
+    ["story-nora-core-awakening", storyNoraCoreAwakeningUrl],
+    ["story-nora-core-memory", storyNoraCoreMemoryUrl],
+    ["story-nora-core-restored", storyNoraCoreRestoredUrl],
+    ["story-nora-core-guardian", storyNoraCoreGuardianUrl],
     ["story-phase-00-blackout-bg", storyPhase00BlackoutBgUrl],
     ["story-phase-01-energy-bg", storyPhase01EnergyBgUrl],
     ["story-phase-02-life-bg", storyPhase02LifeBgUrl],
     ["story-phase-03-production-bg", storyPhase03ProductionBgUrl],
     ["story-phase-04-restored-bg", storyPhase04RestoredBgUrl],
+    ["story-phase-05-signal-bg", storyPhase05SignalBgUrl],
+    ["story-phase-06-city-restored-bg", storyPhase06CityRestoredBgUrl],
   ],
   storyBeats: [
     ["story-chapter-01-intro", storyChapter01IntroUrl], ["story-chapter-01-outro", storyChapter01OutroUrl],
@@ -110,6 +126,7 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["story-chapter-03-intro", storyChapter03IntroUrl], ["story-chapter-03-outro", storyChapter03OutroUrl],
     ["story-chapter-04-intro", storyChapter04IntroUrl], ["story-chapter-04-outro", storyChapter04OutroUrl],
     ["story-chapter-05-intro", storyChapter05IntroUrl], ["story-chapter-05-outro", storyChapter05OutroUrl],
+    ["story-chapter-06-intro", storyChapter06IntroUrl], ["story-chapter-06-outro", storyChapter06OutroUrl],
   ],
   procedural: [
     ["bg-lab-painted", labPaintedBgUrl], ["console-lab", labConsoleUrl],

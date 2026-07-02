@@ -278,6 +278,8 @@ export type GeneratedCodingPuzzle = {
   methodSteps: string[];
   learningPurpose: string;
   explanation: string;
+  /** Per-option diagnostic feedback keyed by option text (console puzzles). */
+  optionFeedback?: Record<string, string>;
   competencies: string[];
   maxSeconds?: number;
   pedagogy?: ExercisePedagogy;
@@ -682,6 +684,9 @@ export type GeneratedPhysicsPuzzle = {
   methodSteps: string[];
   learningPurpose: string;
   explanation: string;
+  /** Per-option diagnostic feedback keyed by option text: names why a specific
+   *  wrong choice is wrong (misconception), not just the correct answer. */
+  optionFeedback?: Record<string, string>;
   competencies: string[];
   visual: PhysicsVisualData;
 };

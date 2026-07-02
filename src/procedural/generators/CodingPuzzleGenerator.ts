@@ -202,6 +202,11 @@ function buildSequenceBuilderPrompt(random: Random, difficulty: DifficultyPreset
         question: "Quale blocco porta energia esattamente all'obiettivo?",
         correct: `energia = energia + ${delta}`,
         distractors: [`energia = energia * ${delta}`, `energia = energia - ${delta}`, `obiettivo = energia + ${delta}`],
+        distractorFeedback: [
+          `Moltiplica invece di aggiungere: da ${start} servirebbe una somma. «energia * ${delta}» non porta a ${target}.`,
+          `Sottrae: allontana dall'obiettivo invece di avvicinarsi. Da ${start} serve «+ ${delta}» per arrivare a ${target}.`,
+          `Aggiorni la variabile sbagliata: cambia «obiettivo», ma deve cambiare «energia».`,
+        ],
         explanation: `Per arrivare da ${start} a ${target} serve aggiungere ${delta}. L'assegnazione deve aggiornare energia, non obiettivo.`,
         concept: "assegnazione come aggiornamento",
         methodSteps: ["leggi stato iniziale", "calcola differenza", "aggiorna la variabile giusta"],
@@ -215,6 +220,11 @@ function buildSequenceBuilderPrompt(random: Random, difficulty: DifficultyPreset
         question: `Quale blocco ripete un controllo ${turns} volte senza copiare righe?`,
         correct: `ripeti ${turns} volte: controlla sensore`,
         distractors: [`controlla sensore ${turns}`, "se sensore: ripeti registro", `ripeti ${turns + 1} volte: salva registro`],
+        distractorFeedback: [
+          `Non è un ciclo: manca «ripeti … volte». Così metti solo un numero accanto all'azione, che resta eseguita una volta.`,
+          `È una condizione (se…), non un ciclo: non garantisce ${turns} ripetizioni del controllo.`,
+          `Sbagli sia il numero (${turns + 1} invece di ${turns}) sia l'azione ripetuta (salva invece di controlla).`,
+        ],
         explanation: `Un ciclo deve dire quante volte ripetere e quale istruzione ripete: controlla sensore per ${turns} volte.`,
         concept: "ciclo come compattezza",
         methodSteps: ["trova azione ripetuta", "trova numero ripetizioni", "non cambiare azioni esterne"],
@@ -228,6 +238,11 @@ function buildSequenceBuilderPrompt(random: Random, difficulty: DifficultyPreset
         question: "Quale blocco completa il ramo alternativo in modo coerente?",
         correct: "ricarica batteria",
         distractors: ["avvia scansione", "stampa batteria >= soglia", "spegni tutto"],
+        distractorFeedback: [
+          `È l'azione del ramo «se» (batteria alta): nel ramo «altrimenti» serve l'azione opposta.`,
+          `Stampa un confronto, non risolve il problema: con batteria sotto ${threshold} bisogna agire, cioè ricaricare.`,
+          `Reazione eccessiva: la batteria è solo sotto soglia, basta ricaricarla, non spegnere tutto.`,
+        ],
         explanation: `Il ramo altrimenti vale quando la batteria non raggiunge ${threshold}: l'azione coerente è ricaricare.`,
         concept: "if / else",
         methodSteps: ["leggi condizione", "identifica ramo falso", "scegli azione complementare"],
@@ -285,6 +300,11 @@ function buildBugHuntPrompt(random: Random, difficulty: DifficultyPreset, index:
         question: `Il valore atteso è ${expected}. Quale correzione elimina la causa?`,
         correct: `rimuovi: energia = energia - ${inc}`,
         distractors: [`ripeti ${times - 1} volte`, `energia = ${start + inc}`, "stampa prima del ciclo"],
+        distractorFeedback: [
+          `Compensi un errore con un altro: togli un giro al ciclo invece di rimuovere la riga che sottrae. La causa resta.`,
+          `Cambi lo stato iniziale a caso: il ciclo funziona, l'errore non è nel valore di partenza.`,
+          `Sposti la stampa, ma la sottrazione dopo il ciclo resta: la causa non è eliminata.`,
+        ],
         explanation: `Il ciclo produce già ${expected}; la sottrazione dopo il ciclo rovina il risultato.`,
         concept: "debug della causa",
         methodSteps: ["calcola atteso", "trova prima rottura", "non compensare altrove"],
@@ -298,6 +318,11 @@ function buildBugHuntPrompt(random: Random, difficulty: DifficultyPreset, index:
         question: "Il sistema dovrebbe avviare solo con batteria sufficiente. Quale correzione serve?",
         correct: `< diventa >= nella condizione`,
         distractors: ["scambia i nomi delle variabili", "rimuovi altrimenti", "avvia sempre scansione"],
+        distractorFeedback: [
+          `I nomi delle variabili non c'entrano: l'errore è il simbolo di confronto («<» dove serve «>=»).`,
+          `Togliere il ramo «altrimenti» non corregge la soglia sbagliata: la condizione resta invertita.`,
+          `Avviare sempre ignora la condizione: la scansione deve partire solo con batteria sufficiente.`,
+        ],
         explanation: `Batteria sufficiente significa maggiore o uguale a ${threshold}, non minore.`,
         concept: "operatore di confronto",
         methodSteps: ["leggi requisito", "confronta con condizione", "correggi il simbolo"],
@@ -310,6 +335,11 @@ function buildBugHuntPrompt(random: Random, difficulty: DifficultyPreset, index:
         question: "La porta deve aprirsi solo se codice e circuito sono entrambi ok. Quale correzione serve?",
         correct: "OR diventa AND",
         distractors: ["codiceOk diventa falso", "stampa circuitoOk", "rimuovi codiceOk"],
+        distractorFeedback: [
+          "Cambi un dato, non la logica: il problema è l'operatore OR, che apre con una sola condizione vera.",
+          "Aggiunge una stampa ma non cambia quando la porta si apre: l'operatore resta OR.",
+          "Togli una condizione necessaria: per aprire servono entrambe (AND), non una sola.",
+        ],
         explanation: "Solo se entrambi sono ok richiede AND. OR basterebbe con una sola condizione vera.",
         concept: "logica booleana",
         methodSteps: ["traduci requisito", "controlla operatore", "AND = tutti veri"],
@@ -490,6 +520,7 @@ function codingPromptFromItem(
     question: string;
     correct: string;
     distractors: string[];
+    distractorFeedback?: string[];
     explanation: string;
     concept: string;
     methodSteps: string[];
@@ -498,7 +529,8 @@ function codingPromptFromItem(
 ): CodingMinigamePrompt {
   const tiles = shuffleCodingTiles(random, [
     codingTile(index, item.correct, true, `Corretto: ${item.explanation}`),
-    ...item.distractors.map((label, choiceIndex) => codingTile(index + choiceIndex + 1, label, false, `Non basta: ${item.explanation}`)),
+    ...item.distractors.map((label, choiceIndex) => codingTile(index + choiceIndex + 1, label, false,
+      item.distractorFeedback?.[choiceIndex] ?? `Ripercorri il codice passo-passo: la risposta giusta è «${item.correct}» (${item.concept}). ${item.explanation}`)),
   ]);
   return {
     id: `coding-${type}-${index}`,
@@ -575,6 +607,7 @@ function basePuzzle(
   explanation: string,
   conceptTags: string[],
   methodSteps: string[],
+  optionFeedback?: Record<string, string>,
 ): GeneratedCodingPuzzle {
   return {
     id: `coding-${type}`,
@@ -587,6 +620,7 @@ function basePuzzle(
     options,
     correctOption,
     explanation,
+    optionFeedback,
     conceptTags,
     methodSteps,
     learningPurpose: learningPurposeFor(type),
@@ -618,6 +652,11 @@ function buildTracePuzzle(random: Random, difficulty: DifficultyPreset): Generat
     `Il codice aggiorna energia in sequenza: prima ${start} + ${add} = ${start + add}, poi ${start + add} * ${multiplier} = ${answer}.`,
     ["sequenza", "tracing", "output"],
     ["leggi dall'alto", "scrivi ogni valore nuovo", "controlla cosa stampa l'ultima riga"],
+    {
+      [String(start + add)]: `Ti sei fermato troppo presto: ${start} + ${add} = ${start + add}, ma manca l'ultima riga «energia × ${multiplier}».`,
+      [String(start * multiplier + add)]: `Ordine sbagliato: il codice fa (${start} + ${add}) × ${multiplier}, non ${start} × ${multiplier} + ${add}. Prima somma, poi moltiplica.`,
+      [String(start + add + multiplier)]: `Hai sommato ${multiplier} invece di moltiplicare: l'ultima riga è «× ${multiplier}», non «+ ${multiplier}».`,
+    },
   );
 }
 
@@ -644,6 +683,11 @@ function buildVariableStatePuzzle(random: Random, difficulty: DifficultyPreset):
     `La variabile a viene sovrascritta: all'inizio vale ${a}, ma alla fine diventa c - ${c - finalA}, cioe ${finalA}.`,
     ["variabili", "assegnazione", "stato"],
     ["non usare il primo valore per forza", "aggiorna la tabella delle variabili", "leggi l'ultima assegnazione"],
+    {
+      [String(a)]: `${a} è il valore iniziale di a, ma a viene sovrascritta dall'ultima riga: usa il valore finale, ${finalA}.`,
+      [String(c)]: `${c} è a + b prima della sottrazione: manca l'ultimo passo «a = c - ${c - finalA}».`,
+      [String(b)]: `${b} è il valore di b, non di a: segui le assegnazioni di a fino all'ultima.`,
+    },
   );
 }
 
@@ -669,6 +713,11 @@ function buildLoopPuzzle(random: Random, difficulty: DifficultyPreset): Generate
     `Il blocco aggiunge ${delta} per ${times} volte: aumento totale ${times} * ${delta} = ${times * delta}; ${start} + ${times * delta} = ${answer}.`,
     ["ciclo", "ripetizione", "accumulatore"],
     ["trova cosa si ripete", "calcola effetto di una ripetizione", "moltiplica per il numero di ripetizioni"],
+    {
+      [String(start + delta)]: `Hai contato una sola ripetizione: il ciclo aggiunge ${delta} per ${times} volte, non una.`,
+      [String(times + delta)]: `Hai sommato ${times} + ${delta} invece di moltiplicare: l'aumento è ${times} × ${delta}.`,
+      [String(answer - delta)]: `Off-by-one: hai contato una ripetizione in meno. I giri sono esattamente ${times}.`,
+    },
   );
 }
 
@@ -695,6 +744,11 @@ function buildConditionalPuzzle(random: Random, difficulty: DifficultyPreset): G
     `${battery} ${safe ? "e maggiore o uguale" : "e minore"} di ${threshold}: quindi il codice segue il ramo ${safe ? "se" : "altrimenti"}.`,
     ["condizione", "confronto", "ramo"],
     ["valuta la condizione", "scegli solo il ramo vero", "ignora il ramo non eseguito"],
+    {
+      "apri porta": `«apri porta» non compare nel codice: le uniche azioni sono «avvia scansione» e «ricarica».`,
+      "spegni sensore": `«spegni sensore» non è tra i rami: esegui solo il ramo scelto dalla condizione.`,
+      [safe ? "ricarica" : "avvia scansione"]: `È il ramo «${safe ? "altrimenti" : "se"}», ma ${battery} ${safe ? "≥" : "<"} ${threshold}: quindi viene eseguito il ramo «${safe ? "se" : "altrimenti"}» → «${safe ? "avvia scansione" : "ricarica"}».`,
+    },
   );
 }
 
@@ -723,6 +777,11 @@ function buildBooleanPuzzle(random: Random, difficulty: DifficultyPreset): Gener
     `AND richiede che tutte le condizioni siano vere. Qui il risultato e ${answer ? "vero" : "falso"}.`,
     ["booleani", "AND", "condizioni multiple"],
     ["controlla ogni variabile", "AND funziona solo se tutto e vero", "un falso basta a rendere falso il risultato"],
+    {
+      [answer ? "falso" : "vero"]: `Con AND ${answer ? "servono tutte vere e qui lo sono: risultato «vero»" : "basta un «falso» per rendere tutto falso: qui almeno una è falsa"}.`,
+      "solo se codiceOk": `AND richiede TUTTE le condizioni vere, non solo codiceOk: conta anche circuitoOk e sensoreOk.`,
+      "errore": `Il codice è valido e produce un valore booleano: non genera errore.`,
+    },
   );
 }
 

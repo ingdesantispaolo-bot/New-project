@@ -13,6 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:seeds": "node scripts/test-procedural-seeds.mjs 100",
+    "audit:mission-layout": "node scripts/audit-mission-layout.mjs",
     "preview": "vite preview --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "preview:lan": "vite preview --config vite.config.mjs --configLoader native --host 0.0.0.0"
   },

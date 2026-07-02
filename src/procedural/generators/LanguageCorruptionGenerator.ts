@@ -509,7 +509,7 @@ export class LanguageCorruptionGenerator {
       {
         context: "Il LED è orientato bene, ___ resta spento perché manca la resistenza.",
         correct: "ma",
-        distractors: ["infatti", "dunque", "quando"],
+        distractors: ["infatti", "dunque", "e"],
         explanation: "C'è un contrasto tra una parte corretta e il problema ancora presente.",
         concept: "contrasto",
       },
@@ -713,8 +713,8 @@ export class LanguageCorruptionGenerator {
       {
         context: "Il tester non dimostra ancora il guasto: mostra solo una ___ da verificare.",
         correct: "ipotesi",
-        distractors: ["certezza", "decorazione", "scorciatoia"],
-        explanation: "Un dato parziale genera un'ipotesi, non una certezza.",
+        distractors: ["certezza", "prova", "conclusione"],
+        explanation: "Un dato parziale genera un'ipotesi da verificare, non una certezza o una prova già stabilita.",
         concept: "ipotesi e prova",
       },
       {
@@ -748,15 +748,15 @@ export class LanguageCorruptionGenerator {
       {
         context: "Il messaggio non deve essere lungo: deve essere ___ per guidare l'azione.",
         correct: "chiaro",
-        distractors: ["misterioso", "decorativo", "contraddittorio"],
-        explanation: "Un comando operativo deve essere chiaro.",
+        distractors: ["misterioso", "vago", "contraddittorio"],
+        explanation: "Un comando operativo deve essere chiaro; vago o contraddittorio non guidano l'azione.",
         concept: "chiarezza comunicativa",
       },
       {
         context: "Quando un indizio non basta, serve un secondo ___ prima di decidere.",
         correct: "controllo",
-        distractors: ["colore", "rumore", "titolo"],
-        explanation: "Un controllo aggiunge verifica; colore, rumore e titolo non certificano.",
+        distractors: ["tentativo", "parere", "rumore"],
+        explanation: "Un controllo aggiunge verifica; un altro tentativo o un parere non certificano il dato.",
         concept: "verifica",
       },
       {
@@ -785,15 +785,15 @@ export class LanguageCorruptionGenerator {
       {
         context: "Una conclusione corretta ma troppo forte rispetto ai dati è ___.",
         correct: "sproporzionata",
-        distractors: ["verificata", "neutra", "leggibile"],
+        distractors: ["verificata", "approssimativa", "leggibile"],
         explanation: "Sproporzionata significa non adeguata alla quantità di prove disponibili.",
         concept: "conclusione proporzionata",
       },
       {
         context: "Nel registro formale evita 'aggiusta': scegli un verbo più tecnico come ___.",
         correct: "ripristina",
-        distractors: ["gioca", "colora", "indovina"],
-        explanation: "Ripristina è adatto a un sistema tecnico; aggiusta è più generico.",
+        distractors: ["personalizza", "manipola", "colora"],
+        explanation: "Ripristina è adatto a un sistema tecnico; personalizza o manipola cambiano il significato dell'azione.",
         concept: "registro formale",
       },
     ];
@@ -822,10 +822,10 @@ export class LanguageCorruptionGenerator {
       {
         context: "Ieri Eli ___ il registro prima di uscire.",
         correct: "ha salvato",
-        distractors: ["salva", "salverà", "salvava"],
+        distractors: ["aveva salvato", "ha salvata", "salvava"],
         distractorFeedback: [
-          "«salva» è presente, ma «ieri» indica un'azione già conclusa: serve il passato prossimo «ha salvato».",
-          "«salverà» è futuro: «ieri» è passato, non futuro. Serve «ha salvato».",
+          "«aveva salvato» è trapassato prossimo: indica un'azione precedente a un'altra nel passato. Con «ieri» da solo basta il passato prossimo «ha salvato».",
+          "«ha salvata» sbaglia il participio: con l'ausiliare «avere» e l'oggetto dopo il verbo, il participio resta invariato, «ha salvato».",
           "«salvava» è imperfetto (azione ripetuta o in corso): qui l'azione è puntuale e conclusa, «ha salvato».",
         ],
         explanation: "Ieri indica un'azione conclusa nel passato: passato prossimo, indicativo.",
@@ -874,10 +874,10 @@ export class LanguageCorruptionGenerator {
       {
         context: "La frase 'noi avevamo verificato i dati' usa quale modo e tempo?",
         correct: "indicativo trapassato prossimo",
-        distractors: ["congiuntivo passato", "condizionale presente", "indicativo passato remoto"],
+        distractors: ["congiuntivo trapassato", "indicativo trapassato remoto", "indicativo passato remoto"],
         distractorFeedback: [
-          "No: «avevamo verificato» ha l'ausiliare all'imperfetto indicativo, non è congiuntivo. È il trapassato prossimo dell'indicativo.",
-          "No: non c'è nessuna forma in -rei/-rebbe. «avevamo + participio» è indicativo trapassato prossimo.",
+          "No: «avevamo verificato» ha l'ausiliare all'imperfetto indicativo, non al congiuntivo (che sarebbe «avessimo verificato»). È indicativo trapassato prossimo.",
+          "No: il trapassato remoto usa l'ausiliare al passato remoto («ebbero verificato»); qui l'ausiliare è all'imperfetto («avevamo»), quindi trapassato prossimo.",
           "No: il passato remoto è una forma semplice (verificammo). Qui l'ausiliare all'imperfetto forma il trapassato prossimo.",
         ],
         explanation: "Avevamo + participio passato forma il trapassato prossimo dell'indicativo.",
@@ -927,7 +927,7 @@ export class LanguageCorruptionGenerator {
       {
         context: "Dopo ___ il fusibile, il tecnico riavviò il banco.",
         correct: "aver sostituito",
-        distractors: ["sostituiva", "sostituisca", "sostituirebbe"],
+        distractors: ["essere sostituito", "sostituisca", "sostituirebbe"],
         explanation: "Dopo + infinito composto indica un'azione precedente al riavvio.",
         concept: "infinito composto",
         targetLabel: "Forma implicita",
@@ -946,7 +946,7 @@ export class LanguageCorruptionGenerator {
       {
         context: "Se il tecnico ___ il cavo, il corto non sarebbe continuato.",
         correct: "avesse isolato",
-        distractors: ["isolava", "isolerebbe", "avrà isolato"],
+        distractors: ["avrebbe isolato", "isolerebbe", "avrà isolato"],
         explanation: "Ipotesi non realizzata nel passato: congiuntivo trapassato nella subordinata.",
         concept: "congiuntivo trapassato",
         targetLabel: "Periodo ipotetico dell'irrealtà",

@@ -18,6 +18,14 @@ export type NoraMemory = {
   unlocked: boolean;
 };
 
+export type NoraVisualStage = {
+  id: string;
+  title: string;
+  key: string;
+  unlocked: boolean;
+  current: boolean;
+};
+
 const TONE_LABELS: Record<NoraTone, string> = {
   curiosa: "curiosa",
   coraggiosa: "coraggiosa",
@@ -28,6 +36,7 @@ const TONE_LABELS: Record<NoraTone, string> = {
 // progresses, that reveal the truth about the Blackout (the Archive is where
 // she becomes whole again).
 type MemoryDef = { id: string; title: string; text: string; unlock: () => boolean };
+type NoraVisualStageDef = Omit<NoraVisualStage, "unlocked" | "current"> & { unlock: () => boolean };
 
 function chapterDone(missionId: string): boolean {
   return isMissionComplete(missionId);
@@ -69,6 +78,39 @@ const MEMORIES: MemoryDef[] = [
     title: "Di nuovo intera",
     text: "L'Archivio mi ha restituito tutto. Grazie a te, Eli, NORA è di nuovo intera — e questa volta non da sola.",
     unlock: () => chapterDone("mission-04-archivio-parole"),
+  },
+];
+
+const VISUAL_STAGES: NoraVisualStageDef[] = [
+  {
+    id: "dormant",
+    title: "NORA quasi spenta",
+    key: "story-nora-core-dormant",
+    unlock: () => true,
+  },
+  {
+    id: "awakening",
+    title: "Primo risveglio",
+    key: "story-nora-core-awakening",
+    unlock: () => chapterDone("mission-01-laboratorio-spento"),
+  },
+  {
+    id: "memory",
+    title: "Memoria in ricostruzione",
+    key: "story-nora-core-memory",
+    unlock: () => chapterDone("mission-03-fabbrica-numeri"),
+  },
+  {
+    id: "restored",
+    title: "NORA restaurata",
+    key: "story-nora-core-restored",
+    unlock: () => chapterDone("mission-04-archivio-parole"),
+  },
+  {
+    id: "guardian",
+    title: "Custode della Città",
+    key: "story-nora-core-guardian",
+    unlock: () => chapterDone("mission-06-citta-intelligente"),
   },
 ];
 
@@ -142,6 +184,28 @@ export class NoraCompanion {
       text: memory.text,
       unlocked: memory.unlock(),
     }));
+  }
+
+  visualStages(): NoraVisualStage[] {
+    const currentId = [...VISUAL_STAGES].reverse().find((stage) => stage.unlock())?.id ?? "dormant";
+    return VISUAL_STAGES.map((stage) => ({
+      id: stage.id,
+      title: stage.title,
+      key: stage.key,
+      unlocked: stage.unlock(),
+      current: stage.id === currentId,
+    }));
+  }
+
+  currentVisualStage(): NoraVisualStage {
+    const stages = this.visualStages();
+    return stages.find((stage) => stage.current) ?? stages[0] ?? {
+      id: "dormant",
+      title: "NORA quasi spenta",
+      key: "story-nora-core-dormant",
+      unlocked: true,
+      current: true,
+    };
   }
 
   /** Short greeting for the menu (no snapshot commit). */

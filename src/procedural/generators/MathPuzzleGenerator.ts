@@ -742,8 +742,8 @@ export class MathPuzzleGenerator {
         value,
         isCorrect: correctValues.includes(value),
         feedback: correctValues.includes(value)
-          ? `${value} appartiene alla somma esatta.`
-          : `${value} porta fuori bersaglio.`,
+          ? `${value} è uno degli addendi che porta a ${target}.`
+          : `${value} non entra nella combinazione esatta: includerlo cambia il totale rispetto a ${target}.`,
       })));
       return {
         id: `target-sum-${index}`,
@@ -905,10 +905,10 @@ export class MathPuzzleGenerator {
 
   private simpleTargetSumFallback(index: number): MathMinigamePrompt {
     const tiles: MathMinigameTile[] = [
-      { id: `fallback-${index}-1`, label: "8", value: 8, isCorrect: true, feedback: "Parte della somma." },
-      { id: `fallback-${index}-2`, label: "11", value: 11, isCorrect: true, feedback: "Parte della somma." },
-      { id: `fallback-${index}-3`, label: "9", value: 9, isCorrect: false, feedback: "Porta fuori bersaglio." },
-      { id: `fallback-${index}-4`, label: "13", value: 13, isCorrect: false, feedback: "Porta fuori bersaglio." },
+      { id: `fallback-${index}-1`, label: "8", value: 8, isCorrect: true, feedback: "8 è un addendo di 8 + 11 = 19." },
+      { id: `fallback-${index}-2`, label: "11", value: 11, isCorrect: true, feedback: "11 è un addendo di 8 + 11 = 19." },
+      { id: `fallback-${index}-3`, label: "9", value: 9, isCorrect: false, feedback: "9 non entra nella somma esatta: 9 + 11 = 20 e 9 + 8 = 17, non 19." },
+      { id: `fallback-${index}-4`, label: "13", value: 13, isCorrect: false, feedback: "13 supera già da solo quasi il bersaglio: nessuna coppia con 13 dà 19." },
     ];
     return {
       id: `target-sum-fallback-${index}`,

@@ -152,6 +152,8 @@ export class HubScene extends Phaser.Scene {
       saveSystem.data.flags.mission2Complete,
       saveSystem.data.flags.mission3Complete,
       saveSystem.data.flags.mission4Complete,
+      saveSystem.data.flags.mission5Complete,
+      saveSystem.data.flags.mission6Complete,
     ].filter(Boolean).length;
     return [
       "story-phase-00-blackout-bg",
@@ -159,6 +161,8 @@ export class HubScene extends Phaser.Scene {
       "story-phase-02-life-bg",
       "story-phase-03-production-bg",
       "story-phase-04-restored-bg",
+      "story-phase-05-signal-bg",
+      "story-phase-06-city-restored-bg",
     ][completed] ?? "story-academy-hub-bg";
   }
 
@@ -205,6 +209,9 @@ export class HubScene extends Phaser.Scene {
 
   private getActiveDestination(): { label: string; scene: string } {
     const activeMission = missionEngine.getActiveStoryMission();
+    if (activeMission.id === "mission-06-citta-intelligente") {
+      return { label: "Entra nella Città", scene: "SmartCityScene" };
+    }
     if (activeMission.id === "mission-05-atlante-perduto") {
       return { label: "Entra nell'Atlante", scene: "AtlasScene" };
     }
@@ -222,6 +229,9 @@ export class HubScene extends Phaser.Scene {
 
   private getHubCopy(): string {
     const activeMission = missionEngine.getActiveStoryMission();
+    if (activeMission.id === "mission-06-citta-intelligente") {
+      return "La triangolazione dell'Atlante ha aperto una crisi fuori dall'Accademia: la rete urbana vacilla e NORA chiede di proteggere energia, servizi e persone.";
+    }
     if (activeMission.id === "mission-05-atlante-perduto") {
       return "Stagione 2: l'archivio ha rivelato che il Blackout veniva da fuori. Nell'Ala Cartografia, l'atlante perduto permette di triangolare l'origine del segnale.";
     }

@@ -34,7 +34,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Press green",
     distractors: [
       { label: "Press red", feedback: "Do not press indica un divieto: red è l'azione da evitare, non quella da eseguire." },
-      { label: "Press both", feedback: "Il comando autorizza green e vieta red: premere entrambi violerebbe la seconda frase." },
+      { label: "Press both buttons", feedback: "Il comando autorizza green e vieta red: premere entrambi violerebbe la seconda frase." },
       { label: "Wait", feedback: "Press è un verbo d'azione immediata; il testo non contiene wait o hold." },
     ],
     diagnosticSteps: ["Press indica l'azione.", "Green identifica il bersaglio.", "Do not press segnala cosa evitare."],
@@ -79,7 +79,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Core under desk, between crates",
     distractors: [
       { label: "Core above the desk", feedback: "Under significa sotto: above è la posizione opposta." },
-      { label: "Core next to the red crate", feedback: "Il testo parla di two blue crates e between, non di una cassa rossa." },
+      { label: "Core right next to the red crate", feedback: "Il testo parla di two blue crates e between, non di una cassa rossa." },
       { label: "Core inside the left door", feedback: "Door non è nominato: central desk e crates sono gli indizi spaziali." },
     ],
     diagnosticSteps: ["Under indica sotto.", "Central desk è il riferimento principale.", "Between the two blue crates restringe la posizione."],
@@ -237,7 +237,7 @@ export const englishTemplates: EnglishTemplate[] = [
     instruction: "The scanner usually checks the left gate, but it is checking the right gate now.",
     correctLabel: "Trust right gate now",
     distractors: [
-      { label: "Trust left gate now", feedback: "Usually descrive la routine, ma now sposta l'azione attuale sulla right gate." },
+      { label: "Trust the left gate now", feedback: "Usually descrive la routine, ma now sposta l'azione attuale sulla right gate." },
       { label: "Check both gates", feedback: "Il testo non ordina di controllare entrambe: indica quale gate è in controllo ora." },
       { label: "Turn scanner off", feedback: "Non c'è un comando di spegnimento; devi distinguere routine e situazione attuale." },
     ],
@@ -344,7 +344,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Wait until sunrise",
     distractors: [
       { label: "Launch drone now", feedback: "Do not launch it now vieta il lancio immediato." },
-      { label: "Scan the basement", feedback: "Il luogo indicato è the roof, non the basement." },
+      { label: "Scan the whole basement", feedback: "Il luogo indicato è the roof, non the basement." },
       { label: "Cancel the scan", feedback: "Il testo non annulla la scansione: la pianifica dopo sunrise." },
     ],
     diagnosticSteps: ["Is going to indica un piano futuro.", "After sunrise stabilisce quando.", "Do not launch it now impedisce l'azione immediata."],
@@ -585,7 +585,7 @@ export const englishTemplates: EnglishTemplate[] = [
     distractors: [
       { label: "Replace all fuses", feedback: "Only limita l'intervento al fusibile danneggiato; tutti è troppo esteso." },
       { label: "Leave damaged fuse", feedback: "Replace the damaged fuse chiede di sostituire proprio quello guasto." },
-      { label: "Remove intact fuses", feedback: "Leave the intact fuses in place significa lasciarli al loro posto." },
+      { label: "Remove the intact fuses as well", feedback: "Leave the intact fuses in place significa lasciarli al loro posto." },
     ],
     diagnosticSteps: ["Replace indica sostituire.", "Only restringe l'azione.", "Damaged e intact distinguono guasto e integro."],
     conceptTags: ["only", "opposites", "technical adjectives"],
@@ -612,7 +612,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Cause: the cooling fan stopped",
     distractors: [
       { label: "Time: 07:40", feedback: "Il testo dice do not report the time: l'orario è un dettaglio escluso." },
-      { label: "Colour: purple warning light", feedback: "Il colore è nominato nel log ma è vietato dalla richiesta." },
+      { label: "Colour: the purple warning light", feedback: "Il colore è nominato nel log ma è vietato dalla richiesta." },
       { label: "Cause: the archive shut down", feedback: "Lo shutdown è l'effetto da spiegare, non la causa che lo ha prodotto." },
     ],
     diagnosticSteps: ["Report the cause definisce la domanda.", "Do not report esclude tempo e colore.", "So collega causa ed effetto nel log."],
@@ -636,7 +636,7 @@ export const englishTemplates: EnglishTemplate[] = [
     taskPrompt: "Controlla entrambi gli estremi di between.",
     instruction: "If the temperature is between 18 and 24 degrees, open the vent halfway; otherwise keep it closed.",
     dataPoints: [{ label: "Temperature", value: "21°C", note: "inside range" }],
-    correctLabel: "21°C -> Vent halfway",
+    correctLabel: "21°C -> Set vent halfway",
     distractors: [
       { label: "21°C -> Keep vent closed", feedback: "21 è tra 18 e 24, quindi vale la prima parte del comando." },
       { label: "21°C -> Fully open vent", feedback: "Halfway significa a metà, non completamente aperto." },
@@ -665,7 +665,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Reset only if blue blinks",
     distractors: [
       { label: "Always reset panel", feedback: "Unless introduce un'eccezione: non è un via libera sempre valido." },
-      { label: "Reset if blue is off", feedback: "Blinking significa che la luce lampeggia, non che è spenta." },
+      { label: "Reset the panel if blue is off", feedback: "Blinking significa che la luce lampeggia, non che è spenta." },
       { label: "Turn off blue light", feedback: "Il comando non chiede di spegnere la luce; decide quando il reset è permesso." },
     ],
     diagnosticSteps: ["Do not reset è il divieto iniziale.", "Unless introduce l'unico caso permesso.", "Blinking significa lampeggiante."],
@@ -700,7 +700,7 @@ export const englishTemplates: EnglishTemplate[] = [
     instruction: "Keep the circuit open until the door unlocks, then close it for one pulse.",
     correctLabel: "Wait open -> One close pulse",
     distractors: [
-      { label: "Close circuit immediately", feedback: "Until indica che devi aspettare lo sblocco della porta." },
+      { label: "Close the circuit immediately now", feedback: "Until indica che devi aspettare lo sblocco della porta." },
       { label: "Keep circuit closed", feedback: "Keep open dice di mantenere aperto, non chiuso." },
       { label: "Close it twice", feedback: "One pulse significa un solo impulso, non due." },
     ],
@@ -746,7 +746,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Inspect panel; do not reset",
     distractors: [
       { label: "Reset panel immediately", feedback: "Must not reset it yet vieta il reset per ora." },
-      { label: "Do not inspect the panel", feedback: "May inspect dà il permesso di ispezionare." },
+      { label: "You must not inspect the panel", feedback: "May inspect dà il permesso di ispezionare." },
       { label: "Inspect and reset panel", feedback: "La prima azione è permessa, la seconda è vietata da must not." },
     ],
     diagnosticSteps: ["May indica permesso.", "But introduce contrasto.", "Must not è un divieto forte.", "Yet significa per ora/non ancora."],
@@ -773,7 +773,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Reattach red wire -> Test",
     distractors: [
       { label: "Test circuit first", feedback: "Before testing dice che il filo va ricollegato prima del test." },
-      { label: "Disconnect red wire", feedback: "Has been disconnected descrive il guasto; la riparazione è reattached." },
+      { label: "Disconnect the red wire first", feedback: "Has been disconnected descrive il guasto; la riparazione è reattached." },
       { label: "Check wire later", feedback: "Later è nel piano guasto; il comando richiede before testing." },
     ],
     diagnosticSteps: ["Has been disconnected descrive lo stato del filo.", "Must be reattached indica obbligo di riparazione.", "Before testing ordina la riparazione prima del test."],
@@ -799,7 +799,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Replace damaged cable; keep backup connected",
     distractors: [
       { label: "Disconnect backup line first", feedback: "Should not be disconnected indica che la linea di backup deve restare collegata." },
-      { label: "Leave damaged cable in place", feedback: "Must be replaced indica un obbligo forte: il cavo danneggiato va sostituito." },
+      { label: "Leave the damaged backup cable in place for now", feedback: "Must be replaced indica un obbligo forte: il cavo danneggiato va sostituito." },
       { label: "Replace backup line only", feedback: "Backup line non è il componente danneggiato e non è quello da sostituire." },
     ],
     diagnosticSteps: ["Must indica obbligo.", "Damaged cable è il componente da sostituire.", "Should not be disconnected protegge la linea di backup."],
@@ -825,7 +825,7 @@ export const englishTemplates: EnglishTemplate[] = [
     correctLabel: "Take the team's spare sensor -> charging slot",
     distractors: [
       { label: "Take Eli's personal sensor", feedback: "Their indica il sensore del gruppo o dei droni, non l'oggetto personale di Eli." },
-      { label: "Put the sensor in any slot", feedback: "Its charging slot indica lo slot proprio di quel sensore: any slot è troppo generico." },
+      { label: "Put the shared sensor into any free slot you find", feedback: "Its charging slot indica lo slot proprio di quel sensore: any slot è troppo generico." },
       { label: "Take the charger only", feedback: "It si riferisce al sensor appena nominato, non al caricatore." },
     ],
     diagnosticSteps: ["Their indica appartenenza a più persone o sistemi.", "It riprende il sensore appena citato.", "Its indica lo slot appartenente al sensore."],
@@ -875,7 +875,7 @@ export const englishTemplates: EnglishTemplate[] = [
     instruction: "The repair kit has little coolant but many spare bolts. Take a few bolts and add more coolant.",
     correctLabel: "Take some bolts; add coolant",
     distractors: [
-      { label: "Take coolant only", feedback: "Il comando chiede anche a few bolts: i bulloni sono numerabili e servono in piccola quantità." },
+      { label: "Take only the coolant supply now", feedback: "Il comando chiede anche a few bolts: i bulloni sono numerabili e servono in piccola quantità." },
       { label: "Take all bolts", feedback: "A few significa alcuni, non tutti; many descrive la scorta disponibile." },
       { label: "Ignore coolant", feedback: "Little coolant segnala che il liquido è scarso e va aggiunto." },
     ],
@@ -929,7 +929,7 @@ export const englishTemplates: EnglishTemplate[] = [
     distractors: [
       { label: "Backup failed at 06:10", feedback: "Failed at 06:10 si riferisce alla pump, non al sistema di backup." },
       { label: "Plants are already dead", feedback: "Has kept the plants alive indica un risultato positivo ancora valido." },
-      { label: "Ignore the pump failure", feedback: "Il guasto della pompa è l'evento iniziale da riparare, anche se il backup sta aiutando." },
+      { label: "Ignore the pump failure message completely", feedback: "Il guasto della pompa è l'evento iniziale da riparare, anche se il backup sta aiutando." },
     ],
     diagnosticSteps: ["Failed at 06:10 è past simple con tempo preciso.", "Has kept indica effetto iniziato nel passato e ancora rilevante.", "Since then collega il risultato al momento del guasto."],
     conceptTags: ["past simple", "present perfect", "since"],
@@ -953,7 +953,7 @@ export const englishTemplates: EnglishTemplate[] = [
     dataPoints: [{ label: "Smoke level", value: "28", note: "below limit" }],
     correctLabel: "Do not lock the east door yet",
     distractors: [
-      { label: "Lock the east door now", feedback: "Il valore 28 non è above 30: la condizione non è ancora vera." },
+      { label: "Immediately lock the east door now", feedback: "Il valore 28 non è above 30: la condizione non è ancora vera." },
       { label: "Open the west door", feedback: "Il comando parla di east door e di un possibile blocco, non della porta ovest." },
       { label: "Disable the alarm", feedback: "Il testo descrive cosa farà l'allarme se la soglia sale; non ordina di disattivarlo." },
     ],
@@ -1006,7 +1006,7 @@ export const englishTemplates: EnglishTemplate[] = [
     distractors: [
       { label: "Recharge the battery", feedback: "Although the battery is full esclude la batteria come problema principale." },
       { label: "Replace the right wheel", feedback: "Il log identifica la left wheel, non la ruota destra." },
-      { label: "Start a battery test only", feedback: "However introduce il dato decisivo: la ruota sinistra è bloccata." },
+      { label: "Start a full battery test only", feedback: "However introduce il dato decisivo: la ruota sinistra è bloccata." },
     ],
     diagnosticSteps: ["Although introduce un contrasto.", "Battery is full indica che la batteria non è scarica.", "However segnala il problema effettivo: left wheel jammed."],
     conceptTags: ["although", "however", "contrast", "inference"],
@@ -1032,7 +1032,7 @@ export const englishTemplates: EnglishTemplate[] = [
     distractors: [
       { label: "The lights flickered twice", feedback: "È un dettaglio presente, ma non spiega il problema principale." },
       { label: "The seedlings grew faster", feedback: "Il testo dice started to dry: le piantine hanno iniziato a seccarsi." },
-      { label: "The temperature dropped because of the filter", feedback: "Il testo dice temperature rose, quindi è salita." },
+      { label: "The temperature slowly dropped because of the filter", feedback: "Il testo dice temperature rose, quindi è salita." },
     ],
     diagnosticSteps: ["Main idea chiede la sintesi centrale.", "So collega filtro bloccato, temperatura alta e piantine secche.", "I lampeggi sono dettagli non decisivi."],
     conceptTags: ["main idea", "cause/effect", "irrelevant detail"],
@@ -1158,7 +1158,7 @@ export const englishTemplates: EnglishTemplate[] = [
       { label: "Main signal", value: "stability 82", note: "reference" },
       { label: "Backup signal", value: "stability 82", note: "same value" },
     ],
-    correctLabel: "Use backup signal",
+    correctLabel: "Use the backup signal",
     distractors: [
       { label: "Reject backup signal", feedback: "As stable as richiede stabilità uguale: 82 e 82 soddisfano la condizione." },
       { label: "Use both and ignore main", feedback: "Only if decide se il backup è permesso, non chiede di ignorare il principale." },
@@ -1236,7 +1236,7 @@ export const englishTemplates: EnglishTemplate[] = [
     instruction: "The motor overheated. Do not restart it; let it cool down before rechecking the circuit.",
     correctLabel: "Cool motor -> Recheck circuit",
     distractors: [
-      { label: "Restart motor immediately", feedback: "Do not restart it vieta il riavvio immediato." },
+      { label: "Restart the whole motor immediately", feedback: "Do not restart it vieta il riavvio immediato." },
       { label: "Heat the motor more", feedback: "Overheated significa già surriscaldato: aggiungere calore peggiora il problema." },
       { label: "Disconnect every circuit", feedback: "Rechecking significa controllare di nuovo, non scollegare tutto." },
     ],
@@ -1264,7 +1264,7 @@ export const englishTemplates: EnglishTemplate[] = [
     distractors: [
       { label: "The plant needs less light", feedback: "Light level normal non supporta un problema di luce." },
       { label: "The soil is flooded", feedback: "Dry e water level 12% indicano poca acqua, non terreno allagato." },
-      { label: "The sensor is broken for sure", feedback: "Il testo non fornisce prove di sensore guasto; sarebbe una supposizione." },
+      { label: "The sensor must be broken for sure", feedback: "Il testo non fornisce prove di sensore guasto; sarebbe una supposizione." },
     ],
     diagnosticSteps: ["Supported by evidence chiede una conclusione basata sui dati.", "Dry soil e 12% water level puntano alla mancanza d'acqua.", "Normal light esclude la luce come causa principale."],
     conceptTags: ["evidence", "observation", "inference", "science English"],
@@ -1290,7 +1290,7 @@ export const englishTemplates: EnglishTemplate[] = [
     distractors: [
       { label: "Open lower hatch now", feedback: "Should stay closed indica che lo sportello deve restare chiuso." },
       { label: "Close upper hatch only", feedback: "Lower hatch è lo sportello inferiore; upper non compare." },
-      { label: "Open hatch when pressure is unstable", feedback: "Until the pressure is stable significa aspettare la stabilità, non l'instabilità." },
+      { label: "Open the lower hatch when pressure is unstable", feedback: "Until the pressure is stable significa aspettare la stabilità, non l'instabilità." },
     ],
     diagnosticSteps: ["Said that introduce un messaggio riferito.", "Should stay closed indica raccomandazione forte.", "Until definisce quando termina l'attesa."],
     conceptTags: ["reported speech", "should", "until", "safety"],
@@ -1339,7 +1339,7 @@ export const englishTemplates: EnglishTemplate[] = [
     sourceText: "Final console rule: before opening the archive, save the log. Do not open it unless the green seal is on. After opening it, scan the index.",
     correctLabel: "Save log -> Check green seal -> Open archive -> Scan index",
     distractors: [
-      { label: "Open archive -> Save log -> Scan index", feedback: "Before opening impone che il log venga salvato prima dell'apertura." },
+      { label: "Open archive -> Save log -> Check green seal -> Scan index", feedback: "Before opening impone che il log venga salvato prima dell'apertura." },
       { label: "Save log -> Open archive without seal", feedback: "Unless the green seal is on vieta l'apertura se il sigillo verde non è attivo." },
       { label: "Save log -> Scan index -> Open archive", feedback: "After opening it indica che la scansione dell'indice avviene dopo l'apertura." },
     ],
@@ -1364,7 +1364,7 @@ export const englishTemplates: EnglishTemplate[] = [
     instruction: "Write a formal one-line report: the cooling fan failed, so the server stopped.",
     correctLabel: "The server stopped because the cooling fan failed.",
     distractors: [
-      { label: "The server got weird because stuff broke.", feedback: "È troppo colloquiale e impreciso per un report tecnico." },
+      { label: "The server suddenly got weird because some stuff broke.", feedback: "È troppo colloquiale e impreciso per un report tecnico." },
       { label: "The fan was nice and the server was sad.", feedback: "Attribuisce emozioni e non comunica causa tecnica." },
       { label: "Stop server fan cooling failed because.", feedback: "La frase non ha ordine grammaticale corretto e non è comprensibile." },
     ],

@@ -6,4 +6,14 @@ import { ReadableTextSystem } from "./core/ReadableTextSystem";
 
 ViewportSystem.install();
 ReadableTextSystem.install();
-new Phaser.Game(gameConfig);
+const game = new Phaser.Game(gameConfig);
+
+declare global {
+  interface Window {
+    __ELI_QUEST_GAME__?: Phaser.Game;
+  }
+}
+
+if (import.meta.env.DEV) {
+  window.__ELI_QUEST_GAME__ = game;
+}

@@ -45,3 +45,30 @@ describe("Math template puzzles are valid", () => {
     }
   });
 });
+
+describe("Math minigame tiles give diagnostic wrong-answer feedback", () => {
+  const gen = new MathPuzzleGenerator();
+
+  it("wrong tiles explain the specific error, not a vague 'off target'", () => {
+    const diag = /divisibile|resto|divide|addendo|somma|bersaglio|sequenza|regola|totale|non entra|multiplo|intero/i;
+    const vague = /^(?:.*\bporta fuori bersaglio\.?|.*\bparte della somma\.?)$/i;
+    let wrong = 0;
+    let diagnostic = 0;
+    for (const type of ["target-sum", "factor-hunt", "number-sequence"] as const) {
+      for (let level = 1 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
+        const preset = difficultyModel.getPreset(level);
+        for (let i = 0; i < 12; i += 1) {
+          const puzzle = gen.generateMinigame(new Random(`md:${type}:${level}:${i}`), preset, [type]);
+          for (const prompt of puzzle.minigame?.prompts ?? []) {
+            for (const tile of prompt.tiles.filter((candidate) => !candidate.isCorrect)) {
+              wrong += 1;
+              if (diag.test(tile.feedback) && !vague.test(tile.feedback.trim())) diagnostic += 1;
+            }
+          }
+        }
+      }
+    }
+    expect(wrong).toBeGreaterThan(50);
+    expect(diagnostic / wrong).toBeGreaterThan(0.9);
+  });
+});

@@ -59,6 +59,7 @@ function basePuzzle(
   conceptTags: string[],
   methodSteps: string[],
   visual: PhysicsVisualData,
+  optionFeedback?: Record<string, string>,
 ): GeneratedPhysicsPuzzle {
   return {
     id: `physics-${type}-${visual.title.replace(/\W+/g, "-").toLowerCase()}`,
@@ -70,6 +71,7 @@ function basePuzzle(
     options,
     correctOption,
     explanation,
+    optionFeedback,
     conceptTags,
     methodSteps,
     visual,
@@ -90,8 +92,8 @@ function buildMotionGraphPuzzle(random: Random, difficulty: DifficultyPreset): G
     "Un carrello si muove su una guida rettilinea. La console mostra posizione e tempo, non vuole una formula a memoria.",
     `Se la posizione cresce di ${speed} m ogni secondo per ${time} s, quale conclusione descrive correttamente il moto?`,
     shuffledOptions(random, `Moto uniforme: percorre ${distance} m in ${time} s`, [
-      `Moto accelerato: percorre ${speed + time} m in tutto`,
-      `Moto fermo: la posizione non cambia`,
+      `Moto accelerato: ogni secondo avanza un po' di piu di prima`,
+      `Moto rallentato: ogni secondo avanza un po' di meno di prima`,
       `Moto uniforme: percorre ${time} m in ${distance} s`,
     ]),
     `Moto uniforme: percorre ${distance} m in ${time} s`,
@@ -126,8 +128,8 @@ function buildUnitCheckPuzzle(random: Random, difficulty: DifficultyPreset): Gen
       ? `Quale conversione e corretta per usare ${distance} cm in metri?`
       : `Quale conversione e corretta per usare ${mass} g in chilogrammi?`,
     shuffledOptions(random, correct, useLength
-      ? [`${distance} cm = ${distance * 100} m`, `${distance} cm = ${distance / 10} m`, `${distance} cm = ${meters / 10} m`]
-      : [`${mass} g = ${mass * 1000} kg`, `${mass} g = ${mass / 100} kg`, `${mass} g = ${gramsToKg / 10} kg`]),
+      ? [`${distance} cm = ${distance} m`, `${distance} cm = ${distance / 10} m`, `${distance} cm = ${meters / 10} m`]
+      : [`${mass} g = ${mass} kg`, `${mass} g = ${mass / 100} kg`, `${mass} g = ${gramsToKg / 10} kg`]),
     correct,
     useLength
       ? "Da centimetri a metri si divide per 100: 100 cm formano 1 m."
@@ -147,9 +149,8 @@ function buildUnitCheckPuzzle(random: Random, difficulty: DifficultyPreset): Gen
 function buildForceDiagramPuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
   const weight = random.pick([4, 6, 8, 10, 12]);
   const table = random.bool(0.65);
-  const correct = table
-    ? `Peso verso il basso e reazione del tavolo verso l'alto, uguali se l'oggetto resta fermo`
-    : `Peso verso il basso e tensione verso l'alto, uguali se l'oggetto resta fermo`;
+  const support = table ? "reazione del tavolo" : "tensione del filo";
+  const correct = `Peso verso il basso e ${support} verso l'alto, uguali perché l'oggetto resta fermo`;
   return basePuzzle(
     difficulty,
     "force-diagram",
@@ -159,12 +160,12 @@ function buildForceDiagramPuzzle(random: Random, difficulty: DifficultyPreset): 
       : `Una massa da ${weight} N e appesa a un filo e resta ferma.`,
     "Quale diagramma descrive meglio le forze principali?",
     shuffledOptions(random, correct, [
-      "Solo peso verso il basso: se non si muove non ci sono altre forze",
-      "Una forza orizzontale verso destra e una verso il basso",
-      "Peso verso l'alto e reazione verso il basso",
+      `Peso verso l'alto e ${support} verso il basso, uguali perché l'oggetto resta fermo`,
+      `Peso verso il basso maggiore della ${support}, perché l'oggetto preme sul sostegno`,
+      "Solo il peso verso il basso, perché su un oggetto fermo non agiscono altre forze",
     ]),
     correct,
-    "Se un oggetto resta fermo, le forze verticali si bilanciano. Il peso tira verso il basso; il supporto o il filo esercita una forza verso l'alto.",
+    "Se un oggetto resta fermo, le forze verticali si bilanciano. Il peso tira verso il basso; il supporto o il filo esercita una forza uguale verso l'alto.",
     ["forze", "equilibrio", "peso", table ? "reazione vincolare" : "tensione"],
     ["disegna l'oggetto", "segna il peso verso il basso", "cerca il vincolo che sostiene l'oggetto"],
     {
@@ -182,19 +183,34 @@ function buildEnergyTransferPuzzle(random: Random, difficulty: DifficultyPreset)
     {
       scenario: "Una pallina scende lungo una rampa liscia.",
       correct: "Energia potenziale gravitazionale diminuisce e diventa energia cinetica",
-      distractors: ["Energia cinetica sparisce e diventa massa", "Energia elettrica diventa luce", "La velocita diminuisce perche l'energia cresce"],
+      distractors: ["L'energia potenziale aumenta mentre la pallina scende", "L'energia meccanica della pallina si consuma e sparisce gradualmente mentre scende lungo tutta la rampa", "La velocita diminuisce perche l'energia si trasforma"],
+      distractorFeedback: [
+        "Al contrario: scendendo l'altezza cala, quindi l'energia potenziale diminuisce e diventa cinetica.",
+        "L'energia non sparisce: si trasforma. Quella potenziale diventa cinetica e la pallina accelera.",
+        "Scendendo la velocita aumenta, non diminuisce: l'energia cambia forma ma la somma si conserva.",
+      ],
       labels: ["altezza", "velocita", "energia si trasforma"],
     },
     {
       scenario: "Una pila alimenta un piccolo LED.",
       correct: "Energia chimica della pila diventa energia elettrica e poi luce",
-      distractors: ["Energia luminosa diventa massa", "Energia termica diventa altezza", "Il LED crea energia dal nulla"],
+      distractors: ["Il LED trasforma la luce in energia chimica dentro la pila", "La luce del LED si accende senza consumare energia dalla pila", "L'energia chimica diventa luce senza passare dall'energia elettrica"],
+      distractorFeedback: [
+        "La catena va nell'altro verso: la pila (chimica) da energia elettrica, che il LED trasforma in luce.",
+        "La pila si consuma: fornisce l'energia elettrica che il LED trasforma in luce, non e gratis.",
+        "Manca un passaggio: prima l'energia chimica diventa elettrica, poi il LED la trasforma in luce.",
+      ],
       labels: ["pila", "corrente", "luce"],
     },
     {
       scenario: "Un freno rallenta una ruota di laboratorio mentre il disco si scalda al contatto.",
       correct: "Parte dell'energia cinetica si trasforma in calore per attrito",
-      distractors: ["Il calore scompare e la ruota accelera", "Il peso diventa tensione del filo", "La massa della ruota diminuisce"],
+      distractors: ["L'attrito fa accelerare la ruota e la raffredda mentre gira", "L'energia cinetica sparisce del tutto quando la ruota rallenta", "Il calore prodotto torna nella ruota e la rimette in movimento"],
+      distractorFeedback: [
+        "Al contrario: l'attrito frena la ruota e scalda il disco. Il moto diventa calore.",
+        "L'energia non sparisce: quella cinetica del moto si trasforma in calore per attrito.",
+        "Il calore non torna indietro a rimettere in moto la ruota: la trasformazione va in un solo verso.",
+      ],
       labels: ["moto", "attrito", "calore"],
     },
   ];
@@ -216,6 +232,7 @@ function buildEnergyTransferPuzzle(random: Random, difficulty: DifficultyPreset)
       labels: item.labels,
       highlight: "prima -> dopo",
     },
+    Object.fromEntries(item.distractors.map((distractor, i) => [distractor, item.distractorFeedback[i]])),
   );
 }
 
@@ -233,9 +250,9 @@ function buildExperimentOrderPuzzle(random: Random, difficulty: DifficultyPreset
     `La classe deve ${target}. Il sistema accetta solo un piano con variabile controllata.`,
     "Quale procedura produce dati piu affidabili?",
     shuffledOptions(random, correct, [
-      "Cambio piu variabili insieme e scelgo il risultato piu comodo",
-      "Faccio una sola prova e ignoro gli strumenti di misura",
-      "Guardo il fenomeno e scrivo la conclusione senza dati",
+      "Cambio piu variabili insieme per fare prima",
+      "Faccio una sola prova molto attenta: se lo strumento e preciso ripetere non serve davvero",
+      "Misuro solo alla fine e tengo il valore piu vicino a quello che mi aspettavo",
     ]),
     correct,
     "Un esperimento utile cambia una variabile alla volta, misura con strumenti, ripete la prova e confronta dati omogenei.",
@@ -287,12 +304,12 @@ function buildDensityPressurePuzzle(random: Random, difficulty: DifficultyPreset
     "Fisica: pressione nei liquidi",
     `Due sensori sono nello stesso liquido: A a ${depth} m, B a ${depth + 2} m di profondita.`,
     "Quale sensore misura pressione maggiore?",
-    shuffledOptions(random, "B, perche e piu in profondita", [
-      "A, perche e piu vicino alla superficie",
-      "Misurano uguale perche il liquido e lo stesso",
-      "Non si puo dire senza conoscere il colore del liquido",
+    shuffledOptions(random, "B, perche a maggiore profondita c'e piu liquido che preme sul sensore", [
+      "A, perche vicino alla superficie l'aria spinge di piu sul liquido",
+      "Misurano uguale, perche in uno stesso liquido la pressione non cambia mai",
+      "A, perche piu si scende meno liquido resta sotto il sensore",
     ]),
-    "B, perche e piu in profondita",
+    "B, perche a maggiore profondita c'e piu liquido che preme sul sensore",
     "In uno stesso liquido la pressione aumenta con la profondita: piu colonna di liquido sta sopra al sensore, maggiore e la pressione.",
     ["pressione", "liquidi", "profondita"],
     ["controlla se il liquido e lo stesso", "confronta la profondita", "scegli il punto piu profondo"],
@@ -316,9 +333,9 @@ function buildHeatTemperaturePuzzle(random: Random, difficulty: DifficultyPreset
     `Un becher d'acqua passa da ${start} C a ${end} C mentre riceve energia da una piastra.`,
     "Quale affermazione distingue meglio calore e temperatura?",
     shuffledOptions(random, "Il calore e energia trasferita; la temperatura indica quanto e caldo il corpo", [
-      "Calore e temperatura sono sempre la stessa cosa",
-      "La temperatura e l'energia trasferita dalla piastra al becher",
-      "Il calore si misura solo osservando il colore dell'acqua",
+      "Calore e temperatura sono la stessa cosa",
+      "La temperatura e l'energia che la piastra trasferisce all'acqua del becher",
+      "Piu alta e la temperatura dell'acqua nel becher, piu calore e sempre contenuto al suo interno mentre si scalda",
     ]),
     "Il calore e energia trasferita; la temperatura indica quanto e caldo il corpo",
     "La piastra trasferisce energia: questo e calore. Il termometro misura lo stato termico dell'acqua, cioe la temperatura.",
@@ -364,13 +381,23 @@ function buildOpticsRayPuzzle(random: Random, difficulty: DifficultyPreset): Gen
     {
       scenario: "Un raggio di luce colpisce uno specchio piano.",
       correct: "L'angolo di riflessione e uguale all'angolo di incidenza",
-      distractors: ["Il raggio riflesso torna sempre sulla stessa linea", "Lo specchio assorbe tutta la luce", "La luce cambia massa quando rimbalza"],
+      distractors: ["Il raggio riflesso torna sempre sulla stessa linea da cui e arrivato", "La luce rimbalza ad angolo retto", "L'angolo di riflessione e maggiore dell'angolo di incidenza"],
+      distractorFeedback: [
+        "Solo se il raggio arriva perpendicolare torna indietro: in generale riflessione e incidenza sono uguali rispetto alla normale.",
+        "Non e fisso a 90 gradi: l'angolo di riflessione dipende da come arriva il raggio, ed e uguale a quello di incidenza.",
+        "I due angoli sono uguali, non uno maggiore dell'altro: riflessione = incidenza rispetto alla normale.",
+      ],
       labels: ["incidenza", "normale", "riflessione"],
     },
     {
       scenario: "Una lente convergente riceve raggi paralleli all'asse principale.",
       correct: "Dopo la lente i raggi tendono a incontrarsi nel fuoco",
-      distractors: ["I raggi si allontanano sempre", "I raggi diventano suono", "La lente non cambia mai la direzione della luce"],
+      distractors: ["Dopo la lente i raggi si allontanano invece di avvicinarsi tra loro nello spazio", "I raggi restano paralleli", "La lente non cambia mai la direzione dei raggi di luce"],
+      distractorFeedback: [
+        "Quella e una lente divergente: la convergente invece avvicina i raggi e li porta al fuoco.",
+        "Una lente convergente piega i raggi paralleli: non restano paralleli, si incontrano nel fuoco.",
+        "La lente cambia eccome la direzione: e la sua funzione, portare i raggi paralleli verso il fuoco.",
+      ],
       labels: ["raggi paralleli", "lente", "fuoco"],
     },
   ]);
@@ -391,6 +418,7 @@ function buildOpticsRayPuzzle(random: Random, difficulty: DifficultyPreset): Gen
       labels: item.labels,
       highlight: "direzione prevista",
     },
+    Object.fromEntries(item.distractors.map((distractor, i) => [distractor, item.distractorFeedback[i]])),
   );
 }
 

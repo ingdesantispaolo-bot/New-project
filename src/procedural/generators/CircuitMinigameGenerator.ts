@@ -212,7 +212,7 @@ function buildOhmsLawPrompt(random: Random, _level: number, index: number): Circ
   const tiles = shuffleCircuitTiles(random, [
     circuitTile(index, String(correct), true, "Esatto: hai applicato la legge di Ohm."),
     ...distinctNumbers(random, correct, [correct + 1, correct - 1, v]).map((value, i2) =>
-      circuitTile(index + i2 + 1, value, false, "Controlla la formula V = R × I.")),
+      circuitTile(index + i2 + 1, value, false, `Con la legge di Ohm il risultato è ${correct}, non ${value}: rileggi quale grandezza devi calcolare.`)),
   ]);
   return {
     id: `circuit-ohm-${index}`,
@@ -262,7 +262,7 @@ function buildSeriesParallelPrompt(random: Random, _level: number, index: number
   const tiles = shuffleCircuitTiles(random, [
     circuitTile(index, `${total} Ω`, true, "Esatto: in serie le resistenze si sommano."),
     ...distinctNumbers(random, total, [Math.abs(r1 - r2), r1, r2]).map((value, i2) =>
-      circuitTile(index + i2 + 1, `${value} Ω`, false, "In serie si sommano: R1 + R2.")),
+      circuitTile(index + i2 + 1, `${value} Ω`, false, `In serie si sommano: R1 + R2 = ${r1} + ${r2} = ${total} Ω, non ${value} Ω.`)),
   ]);
   return {
     id: `circuit-sp-${index}`,

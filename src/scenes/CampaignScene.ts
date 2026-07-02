@@ -387,13 +387,15 @@ export class CampaignScene extends Phaser.Scene {
   }
 
   private storyPhaseBackdropKey(completedChapters: number): string {
-    const phase = Phaser.Math.Clamp(completedChapters, 0, 4);
+    const phase = Phaser.Math.Clamp(completedChapters, 0, 6);
     return [
       "story-phase-00-blackout-bg",
       "story-phase-01-energy-bg",
       "story-phase-02-life-bg",
       "story-phase-03-production-bg",
       "story-phase-04-restored-bg",
+      "story-phase-05-signal-bg",
+      "story-phase-06-city-restored-bg",
     ][phase] ?? "story-academy-hub-bg";
   }
 }

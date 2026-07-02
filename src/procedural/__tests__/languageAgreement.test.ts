@@ -146,6 +146,54 @@ describe("Agreement (concordanza) minigame", () => {
     expect(diagnosticPrompts / prompts).toBeGreaterThan(0.5);
   });
 
+  it("no italian minigame is guessable by option length (no unique longest/shortest tell)", () => {
+    // Across every tile-based italian minigame, the correct option must rarely be
+    // the strict unique longest or shortest, so "pick the longest/shortest" is not
+    // a winning strategy.
+    for (const type of ["agreement-sprint", "connector-route", "lexicon-lab", "verb-mastery"] as const) {
+      let n = 0;
+      let uniqueLongest = 0;
+      let uniqueShortest = 0;
+      for (let i = 0; i < 240; i += 1) {
+        const level = ((i % 8) + 1) as DifficultyLevel;
+        for (const prompt of gen.generateMinigame(new Random(`itlen:${type}:${i}`), level, [type]).minigame?.prompts ?? []) {
+          if (prompt.inputMode === "typed") continue;
+          const correct = prompt.tiles.find((tile) => tile.isCorrect);
+          if (!correct) continue;
+          n += 1;
+          const others = prompt.tiles.filter((tile) => !tile.isCorrect).map((tile) => tile.label.length);
+          if (others.every((len) => correct.label.length > len)) uniqueLongest += 1;
+          if (others.every((len) => correct.label.length < len)) uniqueShortest += 1;
+        }
+      }
+      expect(n, type).toBeGreaterThan(200);
+      expect(uniqueLongest / n, `${type} unique longest`).toBeLessThan(0.25);
+      expect(uniqueShortest / n, `${type} unique shortest`).toBeLessThan(0.3);
+    }
+  });
+
+  it("verb-mastery is not guessable by picking the longest option (no length tell)", () => {
+    // Compound-tense correct answers used to be the longest option ~69% of the
+    // time, letting a student pick the longest without knowing the tense. Guard
+    // that the correct option is the strict longest well under half the time.
+    let total = 0;
+    let correctLongest = 0;
+    for (let level = 1 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
+      for (let i = 0; i < 60; i += 1) {
+        for (const prompt of gen.generateMinigame(new Random(`vlen:${level}:${i}`), level, ["verb-mastery"]).minigame?.prompts ?? []) {
+          if (prompt.inputMode === "typed") continue;
+          const correct = prompt.tiles.find((tile) => tile.isCorrect);
+          if (!correct) continue;
+          total += 1;
+          const maxLen = Math.max(...prompt.tiles.map((tile) => tile.label.length));
+          if (correct.label.length === maxLen) correctLongest += 1;
+        }
+      }
+    }
+    expect(total).toBeGreaterThan(200);
+    expect(correctLongest / total).toBeLessThan(0.55);
+  });
+
   it("verb-mastery names the tense/mode mistake per distractor", () => {
     const diag = /presente|passato|futuro|imperfetto|congiuntivo|condizionale|gerundio|participio|infinito|persona|indicativo|remoto|trapassato/i;
     let wrong = 0;

@@ -110,7 +110,7 @@ export class SmartCityScene extends Phaser.Scene {
       "La Città Intelligente",
       "Salva la rete urbana: diagnosi, regole se/allora, energia e una scelta civica.",
       "Rete cittadina",
-      "story-phase-04-restored-bg",
+      "story-phase-05-signal-bg",
     );
   }
 

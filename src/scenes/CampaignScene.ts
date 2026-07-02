@@ -60,18 +60,19 @@ export class CampaignScene extends Phaser.Scene {
     this.panel(52, 128, 520, 300, "La missione");
     this.add.text(74, 172, campaignSystem.getSynopsis(), {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
+      fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: 478 },
-      lineSpacing: 6,
-    });
-    this.add.rectangle(74, 372, 476, 42, 0x07151d, 0.78).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.3);
-    this.add.text(86, 380, campaignSystem.getRecap(), {
+      lineSpacing: 4,
+    }).setFixedSize(478, 96);
+    this.drawStoryClues(progress.completed, 74, 292);
+    this.add.rectangle(74, 376, 476, 36, 0x07151d, 0.78).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.3);
+    this.add.text(86, 383, campaignSystem.getRecap(), {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
+      fontSize: "11px",
       color: "#f7d37a",
       wordWrap: { width: 452 },
-      lineSpacing: 3,
+      lineSpacing: 2,
     });
 
     // Chapter rail (right panel).
@@ -167,29 +168,40 @@ export class CampaignScene extends Phaser.Scene {
     const phases = [
       {
         title: explored ? "1. Esplora completata" : "1. Esplora",
-        body: `Livello ${exploreLevel}/8, tutte le materie. Nessun timer, nessuna vita: leggi feedback e indizi finche il metodo e chiaro.`,
+        body: `Livello ${exploreLevel}/8. Nessun timer o vite: feedback e indizi preparano il metodo.`,
         color: explored ? "#9ff5a7" : "#9ff5e9",
+        imageKey: "story-transition-explore",
       },
       {
         title: explored ? "2. Prova disponibile" : "2. Prova bloccata",
-        body: `Livello ${level}/8, massimo ${CHAPTER_TRIAL_ERROR_BUDGET} errori, circa ${minutes} minuti. Superarla sblocca il prossimo capitolo.`,
+        body: `Livello ${level}/8. Max ${CHAPTER_TRIAL_ERROR_BUDGET} errori, circa ${minutes} min: supera per sbloccare.`,
         color: explored ? "#f7d37a" : "#8aa0a8",
+        imageKey: "story-transition-trial",
       },
     ];
     phases.forEach((phase, index) => {
-      const x = 74 + index * 470;
-      this.add.rectangle(x, 542, 430, 70, 0x07151d, 0.72).setOrigin(0).setStrokeStyle(1, index === 0 ? 0x6be7d6 : 0xf6c85f, explored || index === 0 ? 0.45 : 0.22);
-      this.add.text(x + 16, 552, phase.title, {
+      const cardW = 386;
+      const x = 74 + index * 408;
+      this.add.rectangle(x, 542, cardW, 70, 0x07151d, 0.72).setOrigin(0).setStrokeStyle(1, index === 0 ? 0x6be7d6 : 0xf6c85f, explored || index === 0 ? 0.45 : 0.22);
+      if (this.textures.exists(phase.imageKey)) {
+        this.add.image(x + 54, 577, phase.imageKey)
+          .setDisplaySize(84, 48)
+          .setAlpha(explored || index === 0 ? 0.86 : 0.34);
+        this.add.rectangle(x + 12, 553, 84, 48, 0x02070b, 0.08)
+          .setOrigin(0)
+          .setStrokeStyle(1, index === 0 ? 0x6be7d6 : 0xf6c85f, explored || index === 0 ? 0.22 : 0.12);
+      }
+      this.add.text(x + 112, 552, phase.title, {
         fontFamily: "Inter, Arial",
         fontSize: "13px",
         color: phase.color,
         fontStyle: "bold",
       });
-      this.add.text(x + 16, 576, phase.body, {
+      this.add.text(x + 112, 576, phase.body, {
         fontFamily: "Inter, Arial",
         fontSize: "11px",
         color: "#c7dce7",
-        wordWrap: { width: 396 },
+        wordWrap: { width: cardW - 128 },
         lineSpacing: 2,
       });
     });
@@ -248,6 +260,7 @@ export class CampaignScene extends Phaser.Scene {
       color: explore ? "#9ff5e9" : "#f6c85f",
       fontStyle: "bold",
     }));
+    this.addPhaseTransitionBadge(modal, phase, 1064, 196);
     const body = explore
       ? `${chapter.intro}\n\nFase Esplora: niente timer e niente vite. Completa la stanza per preparare la Prova del Capitolo.`
       : `${chapter.intro}\n\nFase Prova: ora conta la precisione. Supera timer ed errori per sbloccare il capitolo successivo.`;
@@ -259,11 +272,13 @@ export class CampaignScene extends Phaser.Scene {
       lineSpacing: 7,
     }));
     audioManager.play("panelOpen");
-    new Button(this, 574, 524, "Indietro", () => modal.destroy(true), {
+    const back = new Button(this, 574, 524, "Indietro", () => modal.destroy(true), {
       width: 180,
       height: 50,
       fill: 0x263743,
-    }).setDepth(2001);
+    });
+    back.setDepth(2001);
+    modal.add(back);
     const enter = new Button(this, 822, 524, explore ? "Inizia Esplora ▸" : "Inizia la Prova ▸", () => {
       if (explore) {
         this.startChapterExplore(chapter);
@@ -344,6 +359,74 @@ export class CampaignScene extends Phaser.Scene {
       color: phase === "intro" ? "#9ff5e9" : "#9ff5a7",
       fontStyle: "bold",
     }));
+  }
+
+  private drawStoryClues(completedChapters: number, x: number, y: number): void {
+    const clues = [
+      { key: "story-clue-blackout-signal", label: "Firma blackout", unlockAt: 1 },
+      { key: "story-clue-archive-record", label: "Archivio ferito", unlockAt: 4 },
+      { key: "story-clue-sabotage-route", label: "Rotta esterna", unlockAt: 5 },
+    ];
+
+    this.add.text(x, y, "Indizi", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    });
+
+    clues.forEach((clue, index) => {
+      const cardW = 152;
+      const cardH = 54;
+      const cardX = x + index * 162;
+      const cardY = y + 18;
+      const unlocked = completedChapters >= clue.unlockAt;
+      const stroke = unlocked ? 0x6be7d6 : 0x304653;
+      this.add.rectangle(cardX, cardY, cardW, cardH, 0x07151d, unlocked ? 0.78 : 0.48)
+        .setOrigin(0)
+        .setStrokeStyle(1, stroke, unlocked ? 0.42 : 0.5);
+
+      if (unlocked && this.textures.exists(clue.key)) {
+        this.add.image(cardX + cardW / 2, cardY + cardH / 2, clue.key)
+          .setDisplaySize(cardW - 4, cardH - 4)
+          .setAlpha(0.78);
+        this.add.rectangle(cardX + 2, cardY + cardH - 19, cardW - 4, 17, 0x02070b, 0.72).setOrigin(0);
+        this.add.text(cardX + 8, cardY + cardH - 17, clue.label, {
+          fontFamily: "Inter, Arial",
+          fontSize: "10px",
+          color: "#f5fbff",
+          fontStyle: "bold",
+        });
+        return;
+      }
+
+      this.add.circle(cardX + cardW / 2, cardY + 22, 9, 0x1d3441, 0.75).setStrokeStyle(1, 0x6be7d6, 0.22);
+      this.add.text(cardX + cardW / 2, cardY + 38, "Da scoprire", {
+        fontFamily: "Inter, Arial",
+        fontSize: "10px",
+        color: "#7d9098",
+        fontStyle: "bold",
+      }).setOrigin(0.5);
+    });
+  }
+
+  private addPhaseTransitionBadge(modal: Phaser.GameObjects.Container, phase: "explore" | "trial", x: number, y: number): void {
+    const explore = phase === "explore";
+    const key = explore ? "story-transition-explore" : "story-transition-trial";
+    const stroke = explore ? 0x6be7d6 : 0xf6c85f;
+    modal.add(this.add.rectangle(x, y, 126, 70, 0x02070b, 0.72).setStrokeStyle(1, stroke, 0.42));
+
+    if (this.textures.exists(key)) {
+      modal.add(this.add.image(x, y, key).setDisplaySize(120, 64).setAlpha(0.86));
+    }
+
+    modal.add(this.add.rectangle(x, y + 22, 120, 20, 0x02070b, 0.68));
+    modal.add(this.add.text(x, y + 14, explore ? "ESPLORA" : "PROVA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: explore ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
   }
 
   /** Launches the low-pressure chapter exploration that unlocks the trial. */

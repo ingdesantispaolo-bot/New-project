@@ -1033,6 +1033,7 @@ export class LogicGymScene extends Phaser.Scene {
     this.drawFirewallGrid(signal);
 
     const actions = this.firewallAvailableActions();
+    this.ft(this.add.text(1042, 382, "3 · Applica protocollo", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
     actions.forEach((action, index) => {
       const x = 945 + (index % 2) * 168;
       const y = 410 + Math.floor(index / 2) * 82;
@@ -1045,6 +1046,39 @@ export class LogicGymScene extends Phaser.Scene {
         wordWrapWidth: 126,
       }));
     });
+  }
+
+  private firewallLensInfo(signal: FirewallSignal, lens: FirewallLens): { label: string; lesson: string; shortValue: string; color: number } {
+    switch (lens) {
+      case "identity":
+        return {
+          label: "Identità",
+          lesson: "chi parla?",
+          shortValue: `${signal.signature}, ${signal.color}`,
+          color: this.firewallSignatureColor(signal.signature),
+        };
+      case "content":
+        return {
+          label: "Contenuto",
+          lesson: "cosa porta?",
+          shortValue: `${signal.payload}, rischio ${signal.threat}`,
+          color: this.firewallPayloadColor(signal.payload),
+        };
+      case "route":
+        return {
+          label: "Percorso",
+          lesson: "da dove passa?",
+          shortValue: `${signal.route}${signal.repeated ? ", ripetuto" : ""}`,
+          color: this.firewallRouteColor(signal.route),
+        };
+      case "priority":
+        return {
+          label: "Priorità",
+          lesson: "ha permessi?",
+          shortValue: signal.priority ? "prioritario" : "normale",
+          color: signal.priority ? 0x9f8cff : 0x7d93a0,
+        };
+    }
   }
 
   private drawFirewallGrid(signal: FirewallSignal): void {
@@ -1158,13 +1192,19 @@ export class LogicGymScene extends Phaser.Scene {
     if (this.firewallLocked) return;
     const signal = this.firewallSignals[this.firewallIndex];
     if (!signal) return;
+    if (this.firewallRevealed.size < this.firewallMinimumScans()) {
+      audioManager.play("hint");
+      this.firewallStatus?.setText(`Prima raccogli almeno ${this.firewallMinimumScans()} indizi: una decisione senza osservazione vale poco.`);
+      return;
+    }
     this.firewallLocked = true;
     const correct = action === signal.correctAction;
+    const scanBonus = Math.max(0, this.firewallScansLeft);
     if (correct) {
       this.firewallCorrect += 1;
       this.firewallStreak += 1;
       this.firewallBestStreak = Math.max(this.firewallBestStreak, this.firewallStreak);
-      this.firewallStability = Phaser.Math.Clamp(this.firewallStability + 4 + Math.min(5, this.firewallStreak), 0, 100);
+      this.firewallStability = Phaser.Math.Clamp(this.firewallStability + 4 + scanBonus * 2 + Math.min(5, this.firewallStreak), 0, 100);
       audioManager.play(this.firewallStreak > 0 && this.firewallStreak % 3 === 0 ? "circuitOn" : "success");
     } else {
       this.firewallErrors += 1;
@@ -1178,11 +1218,14 @@ export class LogicGymScene extends Phaser.Scene {
         child.setAlpha(correct ? 0.95 : 0.82);
       }
     });
-    this.ft(this.add.rectangle(640, 610, 1060, 68, 0x071018, 0.98).setStrokeStyle(2, correct ? 0x70d68a : 0xff5d7a, 0.75));
+    this.revealFirewallAnswer(signal);
+    this.ft(this.add.rectangle(640, 590, 1060, 108, 0x071018, 0.98).setStrokeStyle(2, correct ? 0x70d68a : 0xff5d7a, 0.75));
     const text = correct
-      ? `Corretto · combo x${this.firewallStreak}: ${signal.reason}`
-      : `Da correggere: serviva ${this.firewallActionLabel(signal.correctAction)}. ${signal.reason}`;
-    this.ft(this.add.text(640, 610, text, { fontFamily: "Inter, Arial", fontSize: "15px", color: correct ? "#9ff5c0" : "#ffd0da", align: "center", wordWrap: { width: 1000 } }).setOrigin(0.5));
+      ? `Corretto · combo x${this.firewallStreak} · diagnosi: ${signal.diagnosis}`
+      : `Da correggere: serviva ${this.firewallActionLabel(signal.correctAction)} · diagnosi: ${signal.diagnosis}`;
+    this.ft(this.add.text(640, 568, text, { fontFamily: "Inter, Arial", fontSize: "15px", color: correct ? "#9ff5c0" : "#ffd0da", align: "center", wordWrap: { width: 1000 } }).setOrigin(0.5));
+    this.ft(this.add.text(640, 612, signal.reason, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#dbefff", align: "center", wordWrap: { width: 1000 } }).setOrigin(0.5));
+    this.ft(this.add.text(640, 638, this.firewallReflection(signal), { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", align: "center", wordWrap: { width: 980 } }).setOrigin(0.5));
     const burst = this.ft(this.add.graphics());
     burst.lineStyle(4, correct ? 0x70d68a : 0xff5d7a, 0.82);
     burst.strokeCircle(correct ? 760 : 496, 300, 42);
@@ -1196,10 +1239,32 @@ export class LogicGymScene extends Phaser.Scene {
       this.tweens.add({ targets: this.firewallPacket, x: correct ? 760 : 496, duration: 260, yoyo: true, ease: "Cubic.easeOut" });
       this.tweens.add({ targets: burst, scale: 1.18, alpha: 0.22, duration: 520, ease: "Cubic.easeOut" });
     }
-    this.time.delayedCall(1500, () => {
+    this.time.delayedCall(2400, () => {
       this.firewallIndex += 1;
+      this.firewallRevealed = new Set();
+      this.firewallScansLeft = this.firewallScanLimit();
       this.drawFirewallRound();
     });
+  }
+
+  private revealFirewallAnswer(signal: FirewallSignal): void {
+    this.firewallRevealed = new Set<FirewallLens>(["identity", "content", "route", "priority"]);
+    this.firewallStatus?.setText(`Protocollo: ${this.firewallActionLabel(signal.correctAction)} · ${signal.diagnosis}`);
+  }
+
+  private firewallReflection(signal: FirewallSignal): string {
+    switch (signal.correctAction) {
+      case "allow":
+        return "Idea chiave: sicurezza non significa bloccare tutto; significa riconoscere quando un segnale e' coerente.";
+      case "block":
+        return "Idea chiave: una minaccia attiva va fermata, non solo messa da parte.";
+      case "quarantine":
+        return "Idea chiave: quando il dato e' incompleto o rumoroso, isolare protegge senza perdere informazione utile.";
+      case "inspect":
+        return signal.payload === "criptato"
+          ? "Idea chiave: se il contenuto non e' leggibile, prima si analizza e solo dopo si decide."
+          : "Idea chiave: un dubbio tecnico non e' ancora una minaccia certa; richiede controllo.";
+    }
   }
 
   private finishFirewall(): void {

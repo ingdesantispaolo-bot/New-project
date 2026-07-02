@@ -458,6 +458,43 @@ export class VisualKit {
     }
   }
 
+  /**
+   * Shared "juice" reaction that makes an answer FELT, not just read.
+   * - correct: a warm bloom + expanding ring + accent sparks at a focal point,
+   *   as if the answer powered something on.
+   * - wrong: a brief, gentle nudge (soft warm pulse + small shake), never harsh —
+   *   "quasi, riprova", not a punishment.
+   * Respects the reduced-effects setting.
+   */
+  static worldReact(
+    scene: Phaser.Scene,
+    outcome: "correct" | "wrong",
+    options: {
+      x?: number;
+      y?: number;
+      palette?: Palette;
+      shakeTarget?: Phaser.GameObjects.Components.Transform | Phaser.GameObjects.Components.Transform[];
+      /** Lighter reaction (no full-screen flash) — for fast per-answer sprints. */
+      subtle?: boolean;
+    } = {},
+  ): void {
+    const { x = 640, y = 360, palette = "academy", shakeTarget, subtle = false } = options;
+    const reduced = settingsSystem.effectsReduced();
+    if (outcome === "wrong") {
+      if (!subtle) this.outcomeFlash(scene, "warning", x, y);
+      if (shakeTarget && !reduced) this.shake(scene, shakeTarget, 5);
+      return;
+    }
+    if (!subtle) this.outcomeFlash(scene, "success", x, y);
+    this.particleBurst(scene, x, y, palette, "success");
+    if (reduced) return;
+    const accent = palettes[palette].accent;
+    const ring = scene.add.circle(x, y, 26, accent, 0).setStrokeStyle(3, accent, 0.85).setDepth(921);
+    scene.tweens.add({ targets: ring, scale: 6, alpha: { from: 0.85, to: 0 }, duration: 620, ease: "Sine.easeOut", onComplete: () => ring.destroy() });
+    const bloom = scene.add.circle(x, y, 40, accent, 0.22).setDepth(919);
+    scene.tweens.add({ targets: bloom, scale: 2.4, alpha: 0, duration: 520, ease: "Sine.easeOut", onComplete: () => bloom.destroy() });
+  }
+
   static glassPanel(
     scene: Phaser.Scene,
     x: number,

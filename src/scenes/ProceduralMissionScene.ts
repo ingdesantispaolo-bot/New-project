@@ -1618,6 +1618,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     outcomeFeedback.answer(this, true, chosenLabel, solutionDisplay, prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
+    VisualKit.worldReact(this, "correct", { subtle: true });
     this.advanceLanguageMinigamePrompt(1900);
   }
 
@@ -4151,6 +4152,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     outcomeFeedback.answer(this, true, selectedLabels, prompt.solutionLabels.join(", "), prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
+    VisualKit.worldReact(this, "correct", { subtle: true });
     this.advanceMathMinigamePrompt(1900);
   }
 
@@ -4915,6 +4917,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     outcomeFeedback.answer(this, true, chosenLabel, solutionDisplay, prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
+    VisualKit.worldReact(this, "correct", { subtle: true });
     this.advanceEnglishMinigamePrompt(1900);
   }
 
@@ -5533,6 +5536,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     outcomeFeedback.answer(this, true, chosenLabel, solutionDisplay, prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
+    VisualKit.worldReact(this, "correct", { subtle: true });
     this.advanceCodingMinigamePrompt(1900);
   }
 
@@ -6666,6 +6670,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       session.feedback = `+${points} punti. Serie attiva: ${session.streak}.`;
       audioManager.playOutcome("correct");
       outcomeFeedback.play(this, "success", `+${points}`);
+      VisualKit.worldReact(this, "correct", { subtle: true });
     } else {
       session.wrong += 1;
       session.streak = 0;
@@ -8094,6 +8099,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     audioManager.playOutcome("wrong");
     outcomeFeedback.play(this, "warning", attempts === 1 ? "Osserva e correggi" : "Riprova con metodo");
+    VisualKit.worldReact(this, "wrong");
     feedbackSystem.publish(
       `${message} ${attempts === 1
         ? "Il primo errore è una diagnosi: correggi la scelta senza perdere la prova."
@@ -9067,6 +9073,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     outcomeFeedback.answer(this, true, selected.label, prompt.solutionLabels.join(", "), prompt.explanation);
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
+    VisualKit.worldReact(this, "correct", { subtle: true, palette: "circuit" });
     this.advanceCircuitMinigamePrompt(1900);
   }
 

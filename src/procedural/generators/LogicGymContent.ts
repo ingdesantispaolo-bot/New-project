@@ -24,12 +24,14 @@ export type BalancePuzzle = {
 
 type NumericRule = {
   kind: string;
+  minLevel: number;
   build: (r: Random, level: number) => { terms: number[]; next: number; why: string };
 };
 
 const NUMERIC_RULES: NumericRule[] = [
   {
     kind: "Progressione aritmetica",
+    minLevel: 1,
     build: (r, level) => {
       const start = r.integer(1, 6 + level * 2);
       const step = r.integer(2, 3 + level * 2);
@@ -39,6 +41,7 @@ const NUMERIC_RULES: NumericRule[] = [
   },
   {
     kind: "Progressione geometrica",
+    minLevel: 2,
     build: (r, level) => {
       const start = r.integer(1, 3);
       const ratio = level >= 3 ? r.pick([2, 3]) : 2;
@@ -48,6 +51,7 @@ const NUMERIC_RULES: NumericRule[] = [
   },
   {
     kind: "Quadrati perfetti",
+    minLevel: 3,
     build: (r) => {
       const base = r.integer(1, 3);
       const terms = Array.from({ length: 5 }, (_, i) => (base + i) ** 2);
@@ -56,6 +60,7 @@ const NUMERIC_RULES: NumericRule[] = [
   },
   {
     kind: "Numeri triangolari",
+    minLevel: 5,
     build: (r) => {
       const start = r.integer(1, 2);
       const term = (n: number) => (n * (n + 1)) / 2;
@@ -65,6 +70,7 @@ const NUMERIC_RULES: NumericRule[] = [
   },
   {
     kind: "Sequenza di Fibonacci",
+    minLevel: 6,
     build: (r) => {
       let a = r.integer(1, 3);
       let b = a + r.integer(1, 3);
@@ -80,6 +86,7 @@ const NUMERIC_RULES: NumericRule[] = [
   },
   {
     kind: "Passo alternato",
+    minLevel: 4,
     build: (r, level) => {
       const start = r.integer(1, 6);
       const up = r.integer(2, 3 + level);
@@ -100,7 +107,8 @@ export class LogicSequenceGenerator {
     if (random.integer(1, 3) === 1) {
       return this.figural(random, level);
     }
-    const rule = random.pick(NUMERIC_RULES);
+    const available = NUMERIC_RULES.filter((rule) => rule.minLevel <= level);
+    const rule = random.pick(available.length > 0 ? available : NUMERIC_RULES.slice(0, 1));
     const { terms, next, why } = rule.build(random.fork(rule.kind), level);
     const options = this.numericOptions(random.fork("opt"), next);
     return {
@@ -181,6 +189,18 @@ const PAIR_POOL: MemoryPair[] = [
   { id: "unit-km", a: "1 km", b: "1000 m", theme: "Misure" },
   { id: "unit-h", a: "1 h", b: "60 min", theme: "Misure" },
   { id: "unit-kg", a: "1 kg", b: "1000 g", theme: "Misure" },
+  { id: "it-verb-pres", a: "io vado", b: "presente", theme: "Italiano" },
+  { id: "it-verb-past", a: "noi andammo", b: "passato remoto", theme: "Italiano" },
+  { id: "it-verb-cond", a: "io vorrei", b: "condizionale", theme: "Italiano" },
+  { id: "en-go", a: "go", b: "andare", theme: "Inglese" },
+  { id: "en-before", a: "before", b: "prima", theme: "Inglese" },
+  { id: "en-after", a: "after", b: "dopo", theme: "Inglese" },
+  { id: "en-because", a: "because", b: "perché", theme: "Inglese" },
+  { id: "logic-and", a: "AND", b: "vero se entrambi", theme: "Logica" },
+  { id: "logic-or", a: "OR", b: "basta uno", theme: "Logica" },
+  { id: "phys-n", a: "N", b: "newton", theme: "Fisica" },
+  { id: "phys-ms", a: "m/s", b: "velocità", theme: "Fisica" },
+  { id: "music-quarter", a: "semiminima", b: "1 battito", theme: "Musica" },
 ];
 
 export function buildMemoryPairs(random: Random, count: number): MemoryPair[] {
@@ -197,29 +217,36 @@ const BALANCE_ITEMS = ["🐘", "🦏", "🦛", "🐻", "🐶", "🐱", "🐰", "
  * both ways) so the player must actually reason rather than read the answer.
  */
 export function generateBalance(random: Random, level = 1): BalancePuzzle {
-  const count = level >= 3 ? 4 : 3;
+  const count = level >= 7 ? 5 : level >= 3 ? 4 : 3;
   const items = random.shuffle(BALANCE_ITEMS).slice(0, count);
   // weights[i] = rank; we build a strict order by shuffling the picked items.
   const ordered = random.shuffle(items); // ordered[0] is heaviest ... last lightest
   const clues: string[] = [];
-  for (let i = 0; i < ordered.length - 1; i += 1) {
+  const makeUnderdetermined = level >= 8 && random.bool(0.35);
+  const clueLimit = makeUnderdetermined ? ordered.length - 2 : ordered.length - 1;
+  for (let i = 0; i < clueLimit; i += 1) {
     const heavier = ordered[i];
     const lighter = ordered[i + 1];
     clues.push(random.integer(0, 1) === 0
       ? `${heavier} è più pesante di ${lighter}`
       : `${lighter} è più leggero di ${heavier}`);
   }
+  if (level >= 5 && !makeUnderdetermined) {
+    clues.push(`${ordered[0]} non è più leggero di ${ordered[ordered.length - 1]}`);
+  }
   const shuffledClues = random.shuffle(clues);
 
   const askHeaviest = random.integer(0, 1) === 0;
-  const correct = askHeaviest ? ordered[0] : ordered[ordered.length - 1];
-  const options = random.shuffle(items);
+  const correct = makeUnderdetermined ? "Non si può sapere" : askHeaviest ? ordered[0] : ordered[ordered.length - 1];
+  const options = random.shuffle(makeUnderdetermined ? [...items.slice(0, Math.min(3, items.length)), "Non si può sapere"] : items);
   return {
     items,
     clues: shuffledClues,
     question: askHeaviest ? "Chi è il più PESANTE?" : "Chi è il più LEGGERO?",
     options,
     correctIndex: options.indexOf(correct),
-    explanation: `Mettendo in fila gli indizi: ${ordered.join(" > ")}. Quindi il più ${askHeaviest ? "pesante" : "leggero"} è ${correct}.`,
+    explanation: makeUnderdetermined
+      ? "Gli indizi non collegano tutti gli elementi: una conclusione sicura non è possibile."
+      : `Mettendo in fila gli indizi: ${ordered.join(" > ")}. Quindi il più ${askHeaviest ? "pesante" : "leggero"} è ${correct}.`,
   };
 }

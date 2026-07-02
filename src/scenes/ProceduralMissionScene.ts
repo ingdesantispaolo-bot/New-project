@@ -246,8 +246,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.runMode() === "training") {
       return;
     }
-    const tone = beat === "victory" || beat === "solve" ? "success" : beat === "lifeLost" || beat === "lowLife" || beat === "defeat" ? "warning" : "info";
+    const tone = beat === "victory" || beat === "solve" || beat === "streak" || beat === "bossDefeat" ? "success" : beat === "lifeLost" || beat === "lowLife" || beat === "defeat" || beat === "sabotage" ? "warning" : "info";
     noraChip.say(this, noraVoice.line(beat), tone);
+  }
+
+  /** Short, playful NORA beat on a streak milestone (silent in free training). */
+  private cheerStreak(streak: number): void {
+    if (streak === 3 || streak === 6 || streak === 10) this.noraSay("streak");
   }
 
   private roomEntryFeedback(): string {
@@ -409,16 +414,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const trial = this.isChapterTrial();
     overlay.add(this.add.rectangle(640, 360, 650, 330, 0x07151d, 0.98).setStrokeStyle(2, pressure ? 0xf6c85f : 0x6be7d6, 0.78));
     const explore = this.isChapterExplore();
-    overlay.add(this.add.text(640, 244, resuming ? "Run in pausa" : trial ? "Prova del Capitolo" : explore ? "Fase Esplora" : "Console pronta", {
+    overlay.add(this.add.text(640, 244, resuming ? "Run in pausa" : trial ? "⚔️ Duello col Sabotatore" : explore ? "Fase Esplora" : "Console pronta", {
       fontFamily: "Inter, Arial",
-      fontSize: "32px",
+      fontSize: trial ? "28px" : "32px",
       color: trial ? "#f7d37a" : "#9ff5e9",
       fontStyle: "bold",
     }).setOrigin(0.5));
     if (trial && this.run.chapterMissionId) {
       const level = chapterTrialLevel(this.run.chapterMissionId);
       const minutes = Math.round(chapterTrialTimeMs(this.run.chapterMissionId) / 60_000);
-      overlay.add(this.add.text(640, 282, `Livello ${level}/8 · tutte le materie · max ${CHAPTER_TRIAL_ERROR_BUDGET} errori · ~${minutes} min`, {
+      overlay.add(this.add.text(640, 282, `Livello ${level}/8 · tutte le materie · ~${minutes} min · ogni errore gli dà terreno (−25s), ${CHAPTER_TRIAL_ERROR_BUDGET} margini`, {
         fontFamily: "Inter, Arial",
         fontSize: "14px",
         color: "#9ff5e9",
@@ -1244,13 +1249,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
     });
     overlay.add(this.languageMinigameTimerText);
-    overlay.add(this.add.text(260, 592, [
-      `Corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie: ${session.streak}`,
-      `Punti: ${session.netScore}`,
-    ].join("   "), {
+    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -1619,6 +1618,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     VisualKit.worldReact(this, "correct", { subtle: true });
+    this.cheerStreak(session.streak);
     this.advanceLanguageMinigamePrompt(1900);
   }
 
@@ -3737,13 +3737,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
     });
     overlay.add(this.mathMinigameTimerText);
-    overlay.add(this.add.text(260, 592, [
-      `Corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie: ${session.streak}`,
-      `Punti: ${session.netScore}`,
-    ].join("   "), {
+    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -4153,6 +4147,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     VisualKit.worldReact(this, "correct", { subtle: true });
+    this.cheerStreak(session.streak);
     this.advanceMathMinigamePrompt(1900);
   }
 
@@ -4532,13 +4527,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
     });
     overlay.add(this.englishMinigameTimerText);
-    overlay.add(this.add.text(260, 592, [
-      `Corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie: ${session.streak}`,
-      `Punti: ${session.netScore}`,
-    ].join("   "), {
+    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -4918,6 +4907,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     VisualKit.worldReact(this, "correct", { subtle: true });
+    this.cheerStreak(session.streak);
     this.advanceEnglishMinigamePrompt(1900);
   }
 
@@ -5229,13 +5219,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
     });
     overlay.add(this.codingMinigameTimerText);
-    overlay.add(this.add.text(260, 592, [
-      `Corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie: ${session.streak}`,
-      `Punti: ${session.netScore}`,
-    ].join("   "), {
+    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -5537,6 +5521,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     VisualKit.worldReact(this, "correct", { subtle: true });
+    this.cheerStreak(session.streak);
     this.advanceCodingMinigamePrompt(1900);
   }
 
@@ -6671,6 +6656,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       audioManager.playOutcome("correct");
       outcomeFeedback.play(this, "success", `+${points}`);
       VisualKit.worldReact(this, "correct", { subtle: true });
+      this.cheerStreak(session.streak);
     } else {
       session.wrong += 1;
       session.streak = 0;
@@ -7682,16 +7668,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     if (chapterMissionId) {
-      // Passing the graded trial clears the chapter and unlocks the next one.
+      // Winning the duel clears the chapter and unlocks the next one.
       audioManager.playOutcome("complete");
-      outcomeFeedback.play(this, "complete", "Prova del Capitolo superata");
-      this.noraSay("victory");
+      outcomeFeedback.play(this, "complete", "Sabotatore respinto!");
+      this.noraSay("bossDefeat");
       this.playLabRestoredFinale();
       markMissionComplete(chapterMissionId);
       saveSystem.updateProceduralRun({ completedAt: new Date().toISOString() });
       this.run = saveSystem.data.proceduralRun ?? this.run;
       feedbackSystem.publish(
-        "Prova del Capitolo superata: tutte le materie battute entro gli errori e il tempo. Capitolo sbloccato!",
+        "Sabotatore respinto! Hai disattivato ogni nodo prima che il tempo scadesse. Capitolo sbloccato!",
         "success",
       );
       this.runWhenActive(1700, () => this.scene.start("CampaignScene"));
@@ -8202,21 +8188,29 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (failedKind) {
       this.rotatePuzzleVariant(failedKind, failedPuzzleId);
     }
+    const trial = this.isChapterTrial();
+    const timePenaltyMs = 25_000;
     this.missionFailureInProgress = true;
     audioManager.playOutcome("wrong");
-    outcomeFeedback.play(this, "warning", "Vita persa");
-    this.noraSay(nextLives <= 1 ? "lowLife" : "lifeLost");
+    outcomeFeedback.play(this, "warning", trial ? "Il sabotatore avanza" : "Vita persa");
+    this.noraSay(trial ? "sabotage" : nextLives <= 1 ? "lowLife" : "lifeLost");
     this.discardActivePuzzleAttempt();
     this.clearOverlay();
 
     if (nextLives > 0) {
-      saveSystem.updateProceduralRun({
-        lives: nextLives,
-      });
+      const update: Partial<ProceduralRunSave> = { lives: nextLives };
+      if (trial && this.run.deadlineAt) {
+        // A: a wrong answer in the duel doesn't restart the trial — it costs time
+        // (the saboteur gains ground). Failure only comes if the clock runs out.
+        update.deadlineAt = new Date(new Date(this.run.deadlineAt).getTime() - timePenaltyMs).toISOString();
+      }
+      saveSystem.updateProceduralRun(update);
       this.run = saveSystem.data.proceduralRun ?? this.run;
       feedbackSystem.publish(this.isProgressiveMode()
         ? `Tentativo fallito: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. La scalata riapre automaticamente la prossima console non stabile.`
-        : `Vita persa: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. I sistemi già stabilizzati restano validi; scegli con attenzione la prossima console.`, "warning");
+        : trial
+          ? `Il sabotatore guadagna terreno (−${timePenaltyMs / 1000}s): ${reason} Ti restano ${nextLives} margini prima che vinca il round: una risposta pulita lo rallenta.`
+          : `Vita persa: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. I sistemi già stabilizzati restano validi; scegli con attenzione la prossima console.`, "warning");
       this.runWhenActive(2400, () => this.scene.restart());
       return;
     }
@@ -8286,24 +8280,24 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(this.add.image(324, 360, "outcome-defeat").setDisplaySize(438, 438).setAlpha(0.96));
     overlay.add(this.add.rectangle(324, 360, 466, 466, 0x000000, 0).setStrokeStyle(2, 0xc94b55, 0.56));
     overlay.add(this.add.rectangle(854, 360, 642, 466, 0x07151d, 0.97).setStrokeStyle(2, 0xc94b55, 0.78));
-    overlay.add(this.add.text(568, 158, trial ? "Prova non superata" : "Missione fallita", {
+    overlay.add(this.add.text(568, 158, trial ? "Il Sabotatore ha vinto il round" : "Missione fallita", {
       fontFamily: "Inter, Arial",
-      fontSize: "34px",
+      fontSize: trial ? "28px" : "34px",
       color: "#ffb0a8",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(570, 218, trial
-      ? "Hai esaurito i 3 errori (o il tempo) della Prova del Capitolo. Nessun capitolo si sblocca finché non la superi tutta: la Prova riparte da capo."
+    overlay.add(this.add.text(570, 210, trial
+      ? "Il tempo è scaduto e il sabotatore ha completato il sabotaggio del capitolo. Ma ora conosci le sue mosse: si torna sul ring per la rivincita."
       : "Le vite sono esaurite. La run è stata chiusa e non può essere ripresa.", {
       fontFamily: "Inter, Arial",
-      fontSize: "17px",
+      fontSize: "16px",
       color: "#f5fbff",
       wordWrap: { width: 550 },
       lineSpacing: 5,
     }));
     overlay.add(this.add.rectangle(570, 292, 568, 142, 0x102533, 0.82).setOrigin(0).setStrokeStyle(1, 0xc94b55, 0.38));
-    overlay.add(this.add.text(594, 316, trial
-      ? `Motivo: ${reason}\n\nConsiglio di NORA: prima di riprovare, allena ${weakLabel ?? "la materia in cui sei meno sicura"} nella Palestra. Poi torna qui più pronta.`
+    overlay.add(this.add.text(594, 314, trial
+      ? `Motivo: ${reason}\n\nConsiglio di NORA: prima della rivincita, allena ${weakLabel ?? "la materia in cui sei meno sicura"} nella Palestra — ogni risposta pulita gli toglie terreno.`
       : `Motivo: ${reason}\n\nI progressi di questa run restano nel registro. Ricomincia crea una missione nuova allo stesso livello, con vite e timer ripristinati.`, {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
@@ -8311,7 +8305,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 520 },
       lineSpacing: 5,
     }));
-    overlay.add(new Button(this, 716, 568, trial ? "Riprova la Prova" : "Ricomincia", () => {
+    overlay.add(new Button(this, 716, 568, trial ? "⚔️ Rivincita" : "Ricomincia", () => {
       this.missionFailureInProgress = false;
       this.clearOverlay();
       this.regenerate();
@@ -8653,9 +8647,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
           : `${contextLine}\n\nORA\nPorta del registro pronta.\n\nAZIONE\nAprila per salvare il risultato.`,
     );
     const pressureEnabled = proceduralRunRules.pressureEnabledFor(this.run);
+    const maxLives = this.run.maxLives ?? proceduralRunRules.maxLives;
+    const lives = this.run.lives ?? maxLives;
     this.progressText?.setText(
-      pressureEnabled
-        ? `Completate: ${solvedCount}/${requiredCount}\nErrori residui: ${this.run.lives ?? proceduralRunRules.maxLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
+      this.isChapterTrial()
+        ? `Nodi disattivati: ${solvedCount}/${requiredCount}\nSabotatore: ${maxLives - lives}/${maxLives} avanzamenti\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
+        : pressureEnabled
+        ? `Completate: ${solvedCount}/${requiredCount}\nErrori residui: ${lives}/${maxLives}\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`
         : `Completate: ${solvedCount}/${requiredCount}\nDa rivedere: ${failedCount}\nIndizi: ${this.run.hintsUsed}\nTempo: ${formatDuration(elapsed)}\n${mode === "mission" ? "Pressione: no" : `Record: ${record ? formatDuration(record.bestTimeMs) : "non ancora"}`}`,
     );
   }
@@ -8675,7 +8673,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return true;
     }
     this.failMissionNow(this.isChapterTrial()
-      ? "tempo esaurito: la Prova del Capitolo ha finito il tempo disponibile."
+      ? "il tempo è scaduto e il sabotatore ha completato il sabotaggio."
       : "tempo esaurito: la missione ha finito il tempo disponibile.");
     return true;
   }
@@ -8833,13 +8831,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
     });
     overlay.add(this.circuitMinigameTimerText);
-    overlay.add(this.add.text(260, 592, [
-      `Corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie: ${session.streak}`,
-      `Punti: ${session.netScore}`,
-    ].join("   "), {
+    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -8879,6 +8871,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay: Phaser.GameObjects.Container,
     visual: CircuitMinigameVisual,
     captionLines: string[],
+    energized = false,
   ): void {
     if (visual.kind === "component") {
       overlay.add(this.add.text(80, 214, "Osserva il simbolo:", {
@@ -8913,7 +8906,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     drawBatterySymbol(this, overlay, 116, y, 0xf6c85f);
     drawSwitchSymbol(this, overlay, 212, y, visual.switchClosed ? 0x9ff5e9 : 0xffb36b, visual.switchClosed, false);
     drawResistorSymbol(this, overlay, 312, y, visual.hasResistor ? 0x9ff5e9 : 0xffb36b, !visual.hasResistor, false);
-    drawLedSymbol(this, overlay, 402, y, visual.ledForward ? 0x9ff5e9 : 0xffb36b, !visual.ledForward, visual.lit, false);
+    // The LED glow (lit) is the OUTCOME the student must predict: never reveal it
+    // before the circuit is energised, or the answer would be drawn on screen.
+    drawLedSymbol(this, overlay, 402, y, visual.ledForward ? 0x9ff5e9 : 0xffb36b, !visual.ledForward, energized && visual.lit, false);
     drawReturnSymbol(this, overlay, 520, y, 0x9ff5e9);
     if (visual.hasOpen) {
       const gap = this.add.graphics();
@@ -8929,6 +8924,56 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 460 },
       lineSpacing: 3,
     }));
+    if (!energized) {
+      overlay.add(this.add.text(80, 386, "⚡ Conferma per alimentare il circuito e vedere cosa fa il LED.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#f7d37a",
+      }));
+    }
+  }
+
+  /**
+   * "Collega e si accende": on confirm, the circuit is energised and the student
+   * SEES the real behaviour — current flows to the first break, then the LED
+   * lights (success), flashes and burns (no resistor), or the path sparks where
+   * it is interrupted. Turns a prediction MCQ into a felt cause→effect.
+   */
+  private energizeCircuitMinigame(visual: Extract<CircuitMinigameVisual, { kind: "led-circuit" }>): void {
+    const overlay = this.overlay;
+    if (!overlay) return;
+    const y = 296;
+    const xLed = 402;
+    const reachesLed = visual.switchClosed && !visual.hasOpen && visual.ledForward;
+    const stopX = !visual.switchClosed ? 212 : visual.hasOpen ? 465 : !visual.ledForward ? xLed : 542;
+    const reduced = settingsSystem.effectsReduced();
+    const live = this.add.graphics();
+    live.lineStyle(5, 0x6be7d6, 0.95);
+    live.lineBetween(78, y, Math.max(78, stopX), y);
+    overlay.add(live);
+    this.tweens.add({ targets: live, alpha: { from: 0.25, to: 0.95 }, duration: 240, yoyo: true, repeat: reduced ? 0 : 2 });
+    if (!reduced) {
+      const pulse = this.add.circle(116, y, 6, 0x9ff5e9, 1);
+      overlay.add(pulse);
+      this.tweens.add({ targets: pulse, x: stopX, duration: 640, ease: "Sine.easeIn", onComplete: () => pulse.destroy() });
+    }
+    this.time.delayedCall(reduced ? 0 : 640, () => {
+      if (!this.overlay) return;
+      if (reachesLed && visual.lit) {
+        const glow = this.add.circle(xLed, y, 10, 0x9ff5a7, 0.9);
+        this.overlay.add(glow);
+        this.tweens.add({ targets: glow, scale: 3.2, alpha: { from: 0.9, to: 0 }, duration: 720, ease: "Sine.easeOut", onComplete: () => glow.destroy() });
+        VisualKit.particleBurst(this, xLed, y, "circuit", "success");
+      } else if (reachesLed && !visual.hasResistor) {
+        const burn = this.add.circle(xLed, y, 10, 0xff8f6b, 0.95);
+        this.overlay.add(burn);
+        this.tweens.add({ targets: burn, scale: 3.6, alpha: { from: 0.95, to: 0 }, duration: 520, ease: "Cubic.easeOut", onComplete: () => burn.destroy() });
+      } else {
+        const spark = this.add.circle(stopX, y, 8, 0xff6b6b, 0.95);
+        this.overlay.add(spark);
+        this.tweens.add({ targets: spark, scale: 2.2, alpha: { from: 0.95, to: 0 }, duration: 440, onComplete: () => spark.destroy() });
+      }
+    });
   }
 
   private ensureCircuitMinigameSession(
@@ -9036,6 +9081,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const selected = prompt.tiles.find((tile) => tile.id === [...session.selectedIds][0]);
+    // "Collega e si accende": energise the circuit so the student sees the real
+    // behaviour (this also redraws the LED in its true lit state).
+    if (prompt.visual?.kind === "led-circuit") {
+      this.energizeCircuitMinigame(prompt.visual);
+    }
     if (!selected?.isCorrect) {
       if (this.isTimedMissionMode()) {
         const message = `${selected?.feedback ?? "Scelta non coerente."} Soluzione: ${prompt.solutionLabels.join(", ")}. ${prompt.explanation}`;
@@ -9055,10 +9105,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       audioManager.playOutcome("wrong");
       const circuitPauseStart = Date.now();
       this.circuitMinigameTimerEvent?.remove(false);
-      this.showWrongSolution(selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), this.diagnosticWrongExplanation(selected?.feedback, prompt.explanation), () => {
-        session.startedAt += Date.now() - circuitPauseStart;
-        this.advanceCircuitMinigamePrompt(0);
-      });
+      const showCircuitSolution = (): void => {
+        this.showWrongSolution(selected?.label ?? "nessuna", prompt.solutionLabels.join(", "), this.diagnosticWrongExplanation(selected?.feedback, prompt.explanation), () => {
+          session.startedAt += Date.now() - circuitPauseStart;
+          this.advanceCircuitMinigamePrompt(0);
+        });
+      };
+      // Let the "collega e si accende" animation play first, then explain why.
+      if (prompt.visual?.kind === "led-circuit") this.runWhenActive(1200, showCircuitSolution);
+      else showCircuitSolution();
       return;
     }
 
@@ -9074,6 +9129,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     audioManager.playOutcome("correct");
     outcomeFeedback.play(this, "success", `+${award}`);
     VisualKit.worldReact(this, "correct", { subtle: true, palette: "circuit" });
+    this.cheerStreak(session.streak);
     this.advanceCircuitMinigamePrompt(1900);
   }
 

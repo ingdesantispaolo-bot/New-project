@@ -6,6 +6,9 @@
 export type NoraBeat =
   | "enter"
   | "solve"
+  | "streak"
+  | "sabotage"
+  | "bossDefeat"
   | "lifeLost"
   | "lowLife"
   | "victory"
@@ -23,6 +26,21 @@ const LINES: Record<NoraBeat, string[]> = {
     "Un sistema in più che respira. Ottima diagnosi.",
     "Sentito? È il rumore di qualcosa che torna a funzionare. Avanti.",
     "Pulito. Hai capito la causa, non solo l'effetto.",
+  ],
+  streak: [
+    "Sei in serie! Stai leggendo i sistemi al volo, continua così.",
+    "Tre di fila: non è fortuna, è metodo. Mi piace.",
+    "Filotto! L'Accademia si sta risvegliando insieme a te.",
+    "Che ritmo, agente. I sensori faticano a starti dietro.",
+  ],
+  sabotage: [
+    "Il sabotatore ha guadagnato terreno! Recuperalo con la prossima mossa.",
+    "Ci ha rubato secondi preziosi. Concentrati: una risposta pulita lo rallenta.",
+    "Sta approfittando dell'errore. Respira e riprendi il controllo del sistema.",
+  ],
+  bossDefeat: [
+    "Sabotatore respinto! Hai protetto il capitolo. Sapevo di poter contare su di te.",
+    "Segnale nemico interrotto. Il duello è tuo, agente: capitolo al sicuro.",
   ],
   lifeLost: [
     "Tranquilla: un errore è un dato. Cosa ti dice il sintomo adesso?",

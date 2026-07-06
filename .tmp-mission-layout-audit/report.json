@@ -5,21 +5,10 @@
       "width": 1280,
       "height": 720
     },
-    "screenshotPath": "D:\\AppElis\\New-project\\.tmp-mission-layout-audit\\desktop-1280x720.png",
-    "audit": {
-      "canvas": {
-        "width": 1280,
-        "height": 720,
-        "clientWidth": 1280,
-        "clientHeight": 720
-      },
-      "textCount": 33,
-      "overflows": [],
-      "objectivePanelCount": 1,
-      "longPermanentTexts": []
-    },
     "errors": [],
-    "failures": []
+    "failures": [
+      "Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed."
+    ]
   },
   {
     "viewport": {

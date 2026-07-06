@@ -1162,7 +1162,7 @@ export const englishTemplates: EnglishTemplate[] = [
     distractors: [
       { label: "Reject backup signal", feedback: "As stable as richiede stabilità uguale: 82 e 82 soddisfano la condizione." },
       { label: "Use both and ignore main", feedback: "Only if decide se il backup è permesso, non chiede di ignorare il principale." },
-      { label: "Use backup only if it is faster", feedback: "Il criterio è stable, non speed." },
+      { label: "Use backup only if it is faster", feedback: "Il criterio richiesto è stable, non speed: non puoi cambiare il parametro del confronto." },
     ],
     diagnosticSteps: ["As stable as indica uguaglianza di stabilità.", "Confronta i due valori.", "Only if lega l'azione alla condizione."],
     conceptTags: ["as...as", "comparison", "data reading"],

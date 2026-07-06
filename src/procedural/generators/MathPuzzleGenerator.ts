@@ -15,6 +15,12 @@ function clampNumber(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
+type OperationDefinition = {
+  label: string;
+  apply: (value: number) => number;
+  valid?: (value: number) => boolean;
+};
+
 export class MathPuzzleGenerator {
   generate(random: Random, difficulty: DifficultyPreset, preferredArchetypes: Array<(typeof mathTemplates)[number]["archetype"]> = []): GeneratedMathPuzzle {
     const equationRequested = preferredArchetypes.includes("equazione-secondo-grado")
@@ -207,11 +213,11 @@ export class MathPuzzleGenerator {
   private buildMinigame(random: Random, difficulty: DifficultyPreset, type: MathMinigameType): GeneratedMathMinigame {
     const promptCount = 18 + difficulty.level;
     const prompts: MathMinigamePrompt[] = [];
-    let previousSignature = "";
+    const usedSignatures = new Set<string>();
     for (let index = 0; index < promptCount; index += 1) {
-      const prompt = this.uniquePrompt(random, difficulty, type, index, previousSignature);
+      const prompt = this.uniquePrompt(random, difficulty, type, index, usedSignatures);
       prompts.push(prompt);
-      previousSignature = prompt.signature;
+      usedSignatures.add(prompt.signature);
     }
     const titles: Record<MathMinigameType, string> = {
       "target-sum": "Minigioco: Somma al bersaglio",
@@ -696,15 +702,18 @@ export class MathPuzzleGenerator {
     difficulty: DifficultyPreset,
     type: MathMinigameType,
     index: number,
-    previousSignature: string,
+    usedSignatures: Set<string>,
   ): MathMinigamePrompt {
-    for (let attempt = 0; attempt < 12; attempt += 1) {
+    for (let attempt = 0; attempt < 48; attempt += 1) {
       const prompt = this.buildPrompt(random, difficulty, type, index + attempt);
-      if (prompt.signature !== previousSignature) {
+      if (!usedSignatures.has(prompt.signature)) {
         return prompt;
       }
     }
-    return this.buildPrompt(random, difficulty, type, index + 99);
+    const fallback = this.buildPrompt(random, difficulty, type, index + 99);
+    return usedSignatures.has(fallback.signature)
+      ? { ...fallback, signature: `${fallback.signature}#${index}` }
+      : fallback;
   }
 
   private buildPrompt(random: Random, difficulty: DifficultyPreset, type: MathMinigameType, index: number): MathMinigamePrompt {
@@ -730,8 +739,13 @@ export class MathPuzzleGenerator {
     for (let attempt = 0; attempt < 24; attempt += 1) {
       const correctValues = this.uniqueNumbers(random, required, min, max);
       const target = correctValues.reduce((sum, value) => sum + value, 0);
-      const distractors = this.uniqueNumbers(random, 7 - required, Math.max(2, min - 3), max + 8)
-        .filter((value) => !correctValues.includes(value) && value !== target);
+      const distractors = this.uniqueNumbersWhere(
+        random,
+        7 - required,
+        Math.max(2, min - 3),
+        max + 8,
+        (value) => !correctValues.includes(value) && value !== target,
+      );
       const allValues = [...correctValues, ...distractors].slice(0, 7);
       if (this.hasAlternativeSum(allValues, target, required, correctValues)) {
         continue;
@@ -767,8 +781,13 @@ export class MathPuzzleGenerator {
       const base = random.pick([3, 4, 5, 6, 7, 8, 9]);
       const correctValues = this.uniqueNumbers(random, 3 + (difficulty.level >= 6 ? 1 : 0), 2, 8)
         .map((factor) => factor * base);
-      const distractors = this.uniqueNumbers(random, 7 - correctValues.length, base + 1, base * 9 + 5)
-        .filter((value) => value % base !== 0 && !correctValues.includes(value));
+      const distractors = this.uniqueNumbersWhere(
+        random,
+        7 - correctValues.length,
+        Math.max(2, base + 1),
+        base * 10 + 7,
+        (value) => value % base !== 0 && !correctValues.includes(value),
+      );
       const values = [...correctValues, ...distractors].slice(0, 7);
       const tiles = this.shuffleTiles(random, values.map((value, tileIndex) => ({
         id: `multiple-${index}-${tileIndex}`,
@@ -794,8 +813,13 @@ export class MathPuzzleGenerator {
     const target = random.pick([18, 24, 30, 36, 42, 48, 60, 72]);
     const divisorPool = Array.from({ length: target }, (_, i) => i + 1).filter((value) => target % value === 0 && value > 1 && value < target);
     const correctValues = random.shuffle(divisorPool).slice(0, difficulty.level >= 6 ? 4 : 3);
-    const distractors = this.uniqueNumbers(random, 7 - correctValues.length, 2, Math.min(30, target - 1))
-      .filter((value) => target % value !== 0 && !correctValues.includes(value));
+    const distractors = this.uniqueNumbersWhere(
+      random,
+      7 - correctValues.length,
+      2,
+      Math.min(36, target - 1),
+      (value) => target % value !== 0 && !correctValues.includes(value),
+    );
     const values = [...correctValues, ...distractors].slice(0, 7);
     const tiles = this.shuffleTiles(random, values.map((value, tileIndex) => ({
       id: `divisor-${index}-${tileIndex}`,
@@ -821,14 +845,7 @@ export class MathPuzzleGenerator {
   private buildOperationChainPrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
     const twoSteps = difficulty.level >= 4;
     const start = random.integer(3 + difficulty.level, 14 + difficulty.level * 3);
-    const operations = [
-      { label: "+ 6", apply: (value: number) => value + 6 },
-      { label: "- 4", apply: (value: number) => value - 4 },
-      { label: "x 2", apply: (value: number) => value * 2 },
-      { label: "x 3", apply: (value: number) => value * 3 },
-      { label: ": 2", apply: (value: number) => Math.floor(value / 2), valid: (value: number) => value % 2 === 0 },
-      { label: ": 3", apply: (value: number) => Math.floor(value / 3), valid: (value: number) => value % 3 === 0 },
-    ];
+    const operations = this.operationDefinitions();
     const validFirst = operations.filter((operation) => !operation.valid || operation.valid(start));
     const first = random.pick(validFirst);
     const mid = first.apply(start);
@@ -836,24 +853,21 @@ export class MathPuzzleGenerator {
     const second = twoSteps ? random.pick(validSecond) : undefined;
     const target = second ? second.apply(mid) : mid;
     const correctLabel = second ? `${first.label} poi ${second.label}` : first.label;
-    const distractors = random.shuffle(operations)
-      .filter((operation) => operation.label !== first.label)
-      .map((operation) => {
-        const label = twoSteps
-          ? `${operation.label} poi ${random.pick(operations).label}`
-          : operation.label;
-        return label;
-      })
-      .filter((label) => label !== correctLabel)
+    const routeLabels = twoSteps
+      ? operations.flatMap((left) => operations.map((right) => `${left.label} poi ${right.label}`))
+      : operations.map((operation) => operation.label);
+    const distractors = random.shuffle(routeLabels)
+      .map((label) => ({ label, result: this.evaluateOperationRoute(start, label) }))
+      .filter(({ label, result }) => label !== correctLabel && result !== undefined && result !== target)
       .slice(0, 5);
-    const labels = random.shuffle([correctLabel, ...distractors]).slice(0, 6);
+    const labels = random.shuffle([correctLabel, ...distractors.map((candidate) => candidate.label)]).slice(0, 6);
     const tiles = labels.map((label, tileIndex) => ({
       id: `operation-${index}-${tileIndex}`,
       label,
       isCorrect: label === correctLabel,
       feedback: label === correctLabel
         ? `Da ${start} arrivi a ${target}.`
-        : "Questa rotta cambia troppo o troppo poco il valore.",
+        : `Questa rotta porta a ${this.evaluateOperationRoute(start, label)}, non a ${target}.`,
     }));
     return {
       id: `operation-chain-${index}`,
@@ -881,6 +895,30 @@ export class MathPuzzleGenerator {
     while (values.size < count && guard < 80) {
       values.add(random.integer(min, max));
       guard += 1;
+    }
+    return [...values];
+  }
+
+  private uniqueNumbersWhere(
+    random: Random,
+    count: number,
+    min: number,
+    max: number,
+    predicate: (value: number) => boolean,
+  ): number[] {
+    const values = new Set<number>();
+    let guard = 0;
+    while (values.size < count && guard < 160) {
+      const candidate = random.integer(min, max);
+      if (predicate(candidate)) {
+        values.add(candidate);
+      }
+      guard += 1;
+    }
+    for (let candidate = min; values.size < count && candidate <= max; candidate += 1) {
+      if (predicate(candidate)) {
+        values.add(candidate);
+      }
     }
     return [...values];
   }
@@ -925,7 +963,7 @@ export class MathPuzzleGenerator {
   }
 
   private buildNumberSequencePrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
-    const mode = random.integer(0, 3);
+    const mode = random.integer(0, difficulty.level >= 6 ? 7 : difficulty.level >= 3 ? 5 : 3);
     let terms: number[];
     let next: number;
     let rule: string;
@@ -946,11 +984,39 @@ export class MathPuzzleGenerator {
       terms = [start, start + 1, start + 3, start + 6];
       next = start + 10;
       rule = "si aggiunge 1, poi 2, poi 3, poi 4 (passo crescente)";
-    } else {
+    } else if (mode === 3) {
       const base = random.integer(1, 3);
       terms = [base * base, (base + 1) * (base + 1), (base + 2) * (base + 2), (base + 3) * (base + 3)];
       next = (base + 4) * (base + 4);
       rule = "sono numeri quadrati consecutivi";
+    } else if (mode === 4) {
+      const start = random.integer(24, 48);
+      const step = random.integer(3, 8);
+      terms = [start, start - step, start - 2 * step, start - 3 * step];
+      next = start - 4 * step;
+      rule = `si sottrae sempre ${step}`;
+    } else if (mode === 5) {
+      const start = random.integer(2, 8);
+      const a = random.integer(2, 5);
+      const b = random.integer(a + 1, a + 5);
+      terms = [start, start + a, start + a + b, start + a + b + a];
+      next = start + a + b + a + b;
+      rule = `si alternano +${a} e +${b}`;
+    } else if (mode === 6) {
+      const first = random.integer(1, 5);
+      const second = random.integer(2, 7);
+      terms = [first, second, first + second, first + 2 * second];
+      next = terms[2] + terms[3];
+      rule = "ogni termine nuovo è la somma dei due precedenti";
+    } else {
+      const start = random.integer(2, 5);
+      const add = random.integer(1, 4);
+      terms = [start];
+      while (terms.length < 4) {
+        terms.push(terms[terms.length - 1] * 2 + add);
+      }
+      next = terms[3] * 2 + add;
+      rule = `si raddoppia e poi si aggiunge ${add}`;
     }
     const distractorValues = new Set<number>();
     [next + 1, next - 1, next + (terms[1] - terms[0]), next * 2 - terms[3]].forEach((value) => {
@@ -1002,14 +1068,41 @@ export class MathPuzzleGenerator {
     return result;
   }
 
+  private operatorSolutions(numbers: number[], allowed: string[], target: number): string[][] {
+    const solutions: string[][] = [];
+    const scan = (operators: string[]): void => {
+      if (operators.length === numbers.length - 1) {
+        if (this.evaluateOperatorInsertion(numbers, operators) === target) {
+          solutions.push(operators);
+        }
+        return;
+      }
+      allowed.forEach((operator) => scan([...operators, operator]));
+    };
+    scan([]);
+    return solutions;
+  }
+
+  private sameOperators(left: string[], right: string[]): boolean {
+    return left.length === right.length && left.every((operator, index) => operator === right[index]);
+  }
+
+  private formatExpression(numbers: number[], operators: string[], target: number): string {
+    return `${numbers.map((n, i) => i < operators.length ? `${n} ${operators[i]} ` : `${n}`).join("").trim()} = ${target}`;
+  }
+
   private buildExpressionBuildPrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
     const count = difficulty.level >= 5 ? 4 : 3;
     const allowed = difficulty.level >= 3 ? ["+", "-", "×"] : ["+", "-"];
-    for (let attempt = 0; attempt < 30; attempt += 1) {
+    for (let attempt = 0; attempt < 90; attempt += 1) {
       const numbers = Array.from({ length: count }, () => random.integer(2, 9));
       const operators = Array.from({ length: count - 1 }, () => random.pick(allowed));
       const target = this.evaluateOperatorInsertion(numbers, operators);
       if (target < 0 || target > 99 || numbers.includes(target)) {
+        continue;
+      }
+      const equivalentSolutions = this.operatorSolutions(numbers, allowed, target);
+      if (equivalentSolutions.length !== 1 || !this.sameOperators(equivalentSolutions[0], operators)) {
         continue;
       }
       const tiles = ["+", "-", "×"].filter((op) => allowed.includes(op)).map((op, tileIndex) => ({
@@ -1025,8 +1118,8 @@ export class MathPuzzleGenerator {
         targetLabel: `Bersaglio: ${target}`,
         requiredSelectionCount: count - 1,
         tiles,
-        solutionLabels: [numbers.join(` ${operators.join("? ")}? `).trim(), `= ${target}`],
-        explanation: `Una soluzione: ${numbers.map((n, i) => i < operators.length ? `${n} ${operators[i]} ` : `${n}`).join("")} = ${target} (× prima di + e -).`,
+        solutionLabels: [this.formatExpression(numbers, operators, target)],
+        explanation: `Soluzione unica: ${this.formatExpression(numbers, operators, target)} (× prima di + e -).`,
         concept: "ordine delle operazioni",
         numbers,
         target,
@@ -1044,7 +1137,7 @@ export class MathPuzzleGenerator {
       targetLabel: `Bersaglio: ${target}`,
       requiredSelectionCount: 2,
       tiles,
-      solutionLabels: [`${numbers.join(" + ")}`, `= ${target}`],
+      solutionLabels: [`${numbers.join(" + ")} = ${target}`],
       explanation: `${numbers.join(" + ")} = ${target}.`,
       concept: "ordine delle operazioni",
       numbers,
@@ -1068,5 +1161,29 @@ export class MathPuzzleGenerator {
     }
     const total = prompt.tiles.filter((tile) => tile.isCorrect).reduce((sum, tile) => sum + (tile.value ?? 0), 0);
     return Math.max(0, Math.min(9999, total));
+  }
+
+  private operationDefinitions(): OperationDefinition[] {
+    return [
+      { label: "+ 6", apply: (value: number) => value + 6 },
+      { label: "- 4", apply: (value: number) => value - 4 },
+      { label: "x 2", apply: (value: number) => value * 2 },
+      { label: "x 3", apply: (value: number) => value * 3 },
+      { label: ": 2", apply: (value: number) => value / 2, valid: (value: number) => value % 2 === 0 },
+      { label: ": 3", apply: (value: number) => value / 3, valid: (value: number) => value % 3 === 0 },
+    ];
+  }
+
+  private evaluateOperationRoute(start: number, label: string): number | undefined {
+    const operations = this.operationDefinitions();
+    let value = start;
+    for (const part of label.split(" poi ").map((item) => item.trim())) {
+      const operation = operations.find((candidate) => candidate.label === part);
+      if (!operation || (operation.valid && !operation.valid(value))) {
+        return undefined;
+      }
+      value = operation.apply(value);
+    }
+    return value;
   }
 }

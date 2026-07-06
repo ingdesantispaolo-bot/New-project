@@ -50,7 +50,18 @@ export class EnglishInstructionGenerator {
     const level = Math.max(1, Math.min(8, difficultyLevel));
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<EnglishMinigameType>(["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match"]);
+      : random.pick<EnglishMinigameType>([
+        "action-relay",
+        "sequence-switchboard",
+        "data-command-scan",
+        "grammar-fix",
+        "sentence-build",
+        "vocab-lab",
+        "translation-match",
+        "reading-detective",
+        "error-diagnosis",
+        "dialogue-response",
+      ]);
     const minigame = this.buildMinigame(random.fork(type), level, type);
     const first = minigame.prompts[0];
     let choices: GeneratedEnglishPuzzle["choices"];
@@ -78,10 +89,11 @@ export class EnglishInstructionGenerator {
     const challengeType: EnglishChallengeType =
       type === "data-command-scan" ? "data-reading"
         : type === "sequence-switchboard" ? "sequence"
-          : type === "grammar-fix" ? "vocabulary-in-context"
+          : type === "grammar-fix" || type === "error-diagnosis" ? "vocabulary-in-context"
             : type === "vocab-lab" ? "vocabulary-in-context"
               : type === "translation-match" ? "translation-recognition"
-              : "command";
+                : type === "reading-detective" || type === "dialogue-response" ? "inference"
+                : "command";
     return {
       id: `english-mini-${type}-${random.integer(1000, 9999)}`,
       title: minigame.title,
@@ -156,6 +168,9 @@ export class EnglishInstructionGenerator {
       "sentence-build": "Minigioco inglese: Sentence Builder",
       "vocab-lab": "Minigioco inglese: Vocabulary Lab",
       "translation-match": "Minigioco inglese: Translation Match",
+      "reading-detective": "Minigioco inglese: Reading Detective",
+      "error-diagnosis": "Minigioco inglese: Error Diagnosis",
+      "dialogue-response": "Minigioco inglese: Dialogue Response",
     };
     const instructions: Record<EnglishMinigameType, string> = {
       "action-relay": "clicca l'azione corretta leggendo verbo, oggetto e divieto.",
@@ -165,6 +180,9 @@ export class EnglishInstructionGenerator {
       "sentence-build": "tocca le parole nell'ordine giusto per formare la frase o la domanda in inglese.",
       "vocab-lab": "scegli la parola inglese più adatta al contesto tecnico o scientifico.",
       "translation-match": "riconosci la traduzione italiana corretta di una parola o breve frase inglese.",
+      "reading-detective": "leggi un breve log e scegli sia l'inferenza sia la prova testuale.",
+      "error-diagnosis": "ripara una frase inglese e riconosci che tipo di errore conteneva.",
+      "dialogue-response": "scegli la risposta inglese più adatta a scopo, registro e situazione.",
     };
     return {
       type,
@@ -184,6 +202,9 @@ export class EnglishInstructionGenerator {
         ...(type === "sentence-build" ? ["inglese.grammatica", "inglese.scritturaBreve"] : []),
         ...(type === "vocab-lab" ? ["inglese.lessico", "inglese.scientifico", "inglese.comprensione"] : []),
         ...(type === "translation-match" ? ["inglese.lessico", "inglese.bilingue", "inglese.comprensione"] : []),
+        ...(type === "reading-detective" ? ["inglese.comprensione", "inglese.bilingue", "inglese.scientifico"] : []),
+        ...(type === "error-diagnosis" ? ["inglese.grammatica", "inglese.comprensione"] : []),
+        ...(type === "dialogue-response" ? ["inglese.comprensione", "inglese.lessico", "inglese.bilingue"] : []),
       ])),
     };
   }
@@ -213,6 +234,9 @@ export class EnglishInstructionGenerator {
     if (type === "sentence-build") return this.buildSentenceBuildPrompt(random, level, index);
     if (type === "vocab-lab") return this.buildVocabularyPrompt(random, level, index);
     if (type === "translation-match") return this.buildTranslationMatchPrompt(random, level, index);
+    if (type === "reading-detective") return this.buildReadingDetectivePrompt(random, level, index);
+    if (type === "error-diagnosis") return this.buildErrorDiagnosisPrompt(random, level, index);
+    if (type === "dialogue-response") return this.buildDialogueResponsePrompt(random, level, index);
     return this.buildDataCommandScanPrompt(random, level, index);
   }
 
@@ -320,6 +344,176 @@ export class EnglishInstructionGenerator {
         glossary: [{ term: "switch off", meaning: "spegnere" }, { term: "neither...nor", meaning: "né...né" }, { term: "keep on", meaning: "tenere acceso" }],
         concept: "neither/nor prohibition",
       },
+      {
+        instruction: "Do not erase the draft; copy it to the archive.",
+        meaning: "Azione: copia la bozza nell'archivio",
+        meaningDistractors: ["Azione: cancella la bozza", "Azione: archivia una copia vuota"],
+        evidence: "Prova: do not erase vieta la cancellazione",
+        evidenceDistractors: ["Prova: erase è il comando positivo", "Prova: copy significa cancellare"],
+        explanation: "Do not erase vieta di cancellare; copy it to the archive è l'azione corretta.",
+        glossary: [{ term: "erase", meaning: "cancellare" }, { term: "draft", meaning: "bozza" }, { term: "copy", meaning: "copiare" }],
+        concept: "negative imperative",
+      },
+      {
+        instruction: "Close the upper hatch, not the lower hatch.",
+        meaning: "Azione: chiudi lo sportello superiore",
+        meaningDistractors: ["Azione: chiudi lo sportello inferiore", "Azione: chiudi entrambi"],
+        evidence: "Prova: not the lower hatch esclude quello inferiore",
+        evidenceDistractors: ["Prova: lower è l'oggetto giusto", "Prova: not permette entrambi"],
+        explanation: "Upper identifica lo sportello da chiudere; lower è escluso da not.",
+        glossary: [{ term: "upper", meaning: "superiore" }, { term: "lower", meaning: "inferiore" }, { term: "hatch", meaning: "sportello" }],
+        concept: "spatial adjective + not",
+      },
+      {
+        instruction: "Turn on the desk lamp, but leave the ceiling light off.",
+        meaning: "Azione: accendi la lampada da tavolo",
+        meaningDistractors: ["Azione: accendi la luce del soffitto", "Azione: spegni la lampada da tavolo"],
+        evidence: "Prova: leave off mantiene spenta la ceiling light",
+        evidenceDistractors: ["Prova: ceiling light è l'oggetto da accendere", "Prova: leave off significa accendere"],
+        explanation: "Turn on riguarda la desk lamp; leave off vieta di accendere la ceiling light.",
+        glossary: [{ term: "turn on", meaning: "accendere" }, { term: "leave off", meaning: "lasciare spento" }, { term: "ceiling", meaning: "soffitto" }],
+        concept: "opposite phrasal verbs",
+      },
+      {
+        instruction: "Move the empty crate, but keep the full crate still.",
+        meaning: "Azione: sposta la cassa vuota",
+        meaningDistractors: ["Azione: sposta la cassa piena", "Azione: sposta entrambe le casse"],
+        evidence: "Prova: keep still blocca la cassa piena",
+        evidenceDistractors: ["Prova: full crate è il bersaglio", "Prova: still significa veloce"],
+        explanation: "Empty crate è l'oggetto da muovere; full crate deve restare ferma.",
+        glossary: [{ term: "empty", meaning: "vuoto" }, { term: "full", meaning: "pieno" }, { term: "still", meaning: "fermo" }],
+        concept: "object contrast",
+      },
+      {
+        instruction: "Upload the final report only after checking the source.",
+        meaning: "Azione: carica il report dopo aver controllato la fonte",
+        meaningDistractors: ["Azione: carica il report subito", "Azione: ignora la fonte"],
+        evidence: "Prova: only after impone il controllo prima dell'upload",
+        evidenceDistractors: ["Prova: only after rende l'upload immediato", "Prova: source è un dettaglio inutile"],
+        explanation: "Only after crea un prerequisito: prima controlli la fonte, poi carichi il report.",
+        glossary: [{ term: "upload", meaning: "caricare online" }, { term: "source", meaning: "fonte" }, { term: "only after", meaning: "solo dopo" }],
+        concept: "only after prerequisite",
+      },
+      {
+        instruction: "Use the clean filter; do not touch the dusty one.",
+        meaning: "Azione: usa il filtro pulito",
+        meaningDistractors: ["Azione: usa il filtro polveroso", "Azione: tocca entrambi i filtri"],
+        evidence: "Prova: do not touch vieta quello dusty",
+        evidenceDistractors: ["Prova: dusty indica il filtro corretto", "Prova: clean è il filtro vietato"],
+        explanation: "Clean filter è autorizzato; dusty one è escluso dal divieto.",
+        glossary: [{ term: "clean", meaning: "pulito" }, { term: "dusty", meaning: "polveroso" }, { term: "touch", meaning: "toccare" }],
+        concept: "adjective contrast",
+      },
+      {
+        instruction: "Label the safe sample and quarantine the risky sample.",
+        meaning: "Azione: etichetta il campione sicuro",
+        meaningDistractors: ["Azione: etichetta il campione rischioso", "Azione: ignora il campione sicuro"],
+        evidence: "Prova: quarantine riguarda il campione rischioso",
+        evidenceDistractors: ["Prova: risky significa sicuro", "Prova: label e quarantine sono la stessa azione"],
+        explanation: "Label si applica al safe sample; quarantine è l'azione separata per il risky sample.",
+        glossary: [{ term: "label", meaning: "etichettare" }, { term: "safe", meaning: "sicuro" }, { term: "risky", meaning: "rischioso" }],
+        concept: "paired actions",
+      },
+      {
+        instruction: "Pick the written note, not the voice message.",
+        meaning: "Azione: scegli la nota scritta",
+        meaningDistractors: ["Azione: scegli il messaggio vocale", "Azione: scegli entrambi i messaggi"],
+        evidence: "Prova: not the voice message esclude l'audio",
+        evidenceDistractors: ["Prova: voice message è l'unico valido", "Prova: written significa vocale"],
+        explanation: "Written note è il messaggio richiesto; voice message è escluso.",
+        glossary: [{ term: "written", meaning: "scritto" }, { term: "voice", meaning: "voce" }, { term: "pick", meaning: "scegliere" }],
+        concept: "media choice",
+      },
+      {
+        instruction: "Restart the tablet only, not the main computer.",
+        meaning: "Azione: riavvia solo il tablet",
+        meaningDistractors: ["Azione: riavvia il computer principale", "Azione: riavvia entrambi"],
+        evidence: "Prova: only limita l'azione al tablet",
+        evidenceDistractors: ["Prova: main computer è incluso da only", "Prova: not rende valido il computer"],
+        explanation: "Only limita restart al tablet; not the main computer esclude il computer principale.",
+        glossary: [{ term: "restart", meaning: "riavviare" }, { term: "only", meaning: "solo" }, { term: "main", meaning: "principale" }],
+        concept: "only + not",
+      },
+      {
+        instruction: "Keep the old password hidden and write the new password down.",
+        meaning: "Azione: annota la nuova password",
+        meaningDistractors: ["Azione: scrivi la vecchia password", "Azione: mostra entrambe le password"],
+        evidence: "Prova: keep hidden protegge la vecchia password",
+        evidenceDistractors: ["Prova: old password è quella da scrivere", "Prova: hidden significa visibile"],
+        explanation: "Write down riguarda la new password; old password deve restare nascosta.",
+        glossary: [{ term: "old/new", meaning: "vecchio/nuovo" }, { term: "hidden", meaning: "nascosto" }, { term: "write down", meaning: "annotare" }],
+        concept: "old/new contrast",
+      },
+      {
+        instruction: "Select the confirmed answer, not the guess.",
+        meaning: "Azione: scegli la risposta confermata",
+        meaningDistractors: ["Azione: scegli l'ipotesi", "Azione: scegli entrambe"],
+        evidence: "Prova: not the guess esclude la supposizione",
+        evidenceDistractors: ["Prova: guess è confermata", "Prova: confirmed answer è vietata"],
+        explanation: "Confirmed answer è supportata; guess è una supposizione esclusa.",
+        glossary: [{ term: "confirmed", meaning: "confermato" }, { term: "guess", meaning: "ipotesi non provata" }, { term: "select", meaning: "selezionare" }],
+        concept: "evidence vs guess",
+      },
+      {
+        instruction: "Scan the front page, but skip the back page.",
+        meaning: "Azione: scansiona la pagina frontale",
+        meaningDistractors: ["Azione: scansiona il retro", "Azione: scansiona entrambe le pagine"],
+        evidence: "Prova: skip the back page esclude il retro",
+        evidenceDistractors: ["Prova: back page è il bersaglio", "Prova: skip significa scansionare"],
+        explanation: "Scan riguarda la front page; skip esclude la back page.",
+        glossary: [{ term: "front", meaning: "fronte" }, { term: "back", meaning: "retro" }, { term: "skip", meaning: "saltare" }],
+        concept: "front/back contrast",
+      },
+      {
+        instruction: "Store the glass tube carefully; throw away the cracked tube.",
+        meaning: "Azione: conserva con cura il tubo di vetro",
+        meaningDistractors: ["Azione: conserva il tubo incrinato", "Azione: getta via entrambi"],
+        evidence: "Prova: throw away riguarda il tubo cracked",
+        evidenceDistractors: ["Prova: cracked significa integro", "Prova: store e throw away coincidono"],
+        explanation: "Store carefully riguarda il glass tube integro; cracked tube va eliminato.",
+        glossary: [{ term: "store", meaning: "conservare" }, { term: "cracked", meaning: "incrinato" }, { term: "throw away", meaning: "gettare via" }],
+        concept: "safe handling",
+      },
+      {
+        instruction: "Read the warning first, then start the engine.",
+        meaning: "Azione: leggi l'avviso prima di avviare il motore",
+        meaningDistractors: ["Azione: avvia subito il motore", "Azione: ignora l'avviso"],
+        evidence: "Prova: first mette warning prima di start",
+        evidenceDistractors: ["Prova: then anticipa il motore", "Prova: warning è opzionale"],
+        explanation: "First ordina la lettura dell'avviso prima di start the engine.",
+        glossary: [{ term: "warning", meaning: "avviso" }, { term: "first", meaning: "prima" }, { term: "engine", meaning: "motore" }],
+        concept: "first/then order",
+      },
+      {
+        instruction: "Accept the signed form and reject the unsigned form.",
+        meaning: "Azione: accetta il modulo firmato",
+        meaningDistractors: ["Azione: accetta il modulo non firmato", "Azione: rifiuta entrambi"],
+        evidence: "Prova: reject riguarda unsigned form",
+        evidenceDistractors: ["Prova: unsigned significa firmato", "Prova: accept riguarda entrambi"],
+        explanation: "Signed form è accettato; unsigned form è rifiutato.",
+        glossary: [{ term: "signed", meaning: "firmato" }, { term: "unsigned", meaning: "non firmato" }, { term: "reject", meaning: "rifiutare" }],
+        concept: "signed/unsigned",
+      },
+      {
+        instruction: "Follow the north route; avoid the south tunnel.",
+        meaning: "Azione: segui il percorso nord",
+        meaningDistractors: ["Azione: entra nel tunnel sud", "Azione: usa entrambi i percorsi"],
+        evidence: "Prova: avoid esclude il south tunnel",
+        evidenceDistractors: ["Prova: avoid significa seguire", "Prova: south è il percorso sicuro"],
+        explanation: "Follow riguarda north route; avoid esclude south tunnel.",
+        glossary: [{ term: "follow", meaning: "seguire" }, { term: "avoid", meaning: "evitare" }, { term: "route", meaning: "percorso" }],
+        concept: "route selection",
+      },
+      {
+        instruction: "Mute the noisy channel, but keep the emergency channel active.",
+        meaning: "Azione: silenzia il canale rumoroso",
+        meaningDistractors: ["Azione: silenzia il canale di emergenza", "Azione: spegni entrambi i canali"],
+        evidence: "Prova: keep active protegge il canale emergency",
+        evidenceDistractors: ["Prova: emergency channel è quello da mutare", "Prova: active significa spento"],
+        explanation: "Mute riguarda noisy channel; emergency channel resta attivo.",
+        glossary: [{ term: "mute", meaning: "silenziare" }, { term: "noisy", meaning: "rumoroso" }, { term: "emergency", meaning: "emergenza" }],
+        concept: "communication safety",
+      },
     ] satisfies ActionRelayItem[];
     const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
     const tiles = this.shuffleEnglishTiles(random, [
@@ -419,6 +613,150 @@ export class EnglishInstructionGenerator {
         explanation: "If introduce la condizione; before you act impone la verifica della fonte prima dell'azione.",
         glossary: [{ term: "unsigned", meaning: "non firmato" }, { term: "source", meaning: "fonte" }, { term: "before", meaning: "prima" }],
         concept: "condition + source check",
+      },
+      {
+        instruction: "Save the log before you close the console.",
+        correct: "Save log -> close console",
+        distractors: ["Close console first", "Delete log", "Save after closing"],
+        explanation: "Before mette il salvataggio prima della chiusura della console.",
+        glossary: [{ term: "save", meaning: "salvare" }, { term: "before", meaning: "prima" }, { term: "close", meaning: "chiudere" }],
+        concept: "before + prerequisite",
+      },
+      {
+        instruction: "After the teacher checks the answer, correct the report.",
+        correct: "Teacher checks -> correct report",
+        distractors: ["Correct before check", "Ignore teacher check", "Delete report"],
+        explanation: "After indica che la correzione avviene dopo il controllo dell'insegnante.",
+        glossary: [{ term: "after", meaning: "dopo che" }, { term: "checks", meaning: "controlla" }, { term: "correct", meaning: "correggere" }],
+        concept: "after + review",
+      },
+      {
+        instruction: "Do not enter the lab until the green sign appears.",
+        correct: "Green sign appears -> enter lab",
+        distractors: ["Enter before sign", "Wait for red sign", "Never enter lab"],
+        explanation: "Until impone attesa: entri solo quando compare il segnale verde.",
+        glossary: [{ term: "until", meaning: "finché / fino a quando" }, { term: "appears", meaning: "compare" }, { term: "enter", meaning: "entrare" }],
+        concept: "until + permission",
+      },
+      {
+        instruction: "Unless the map is updated, follow the old route.",
+        correct: "Map not updated -> follow old route",
+        distractors: ["Always follow new route", "Delete the map", "Ignore every route"],
+        explanation: "Unless introduce l'eccezione: se la mappa non è aggiornata, resta il vecchio percorso.",
+        glossary: [{ term: "unless", meaning: "a meno che" }, { term: "updated", meaning: "aggiornato" }, { term: "route", meaning: "percorso" }],
+        concept: "unless exception",
+      },
+      {
+        instruction: "If the value is missing, ask for a new measurement.",
+        correct: "Value missing -> ask new measurement",
+        distractors: ["Value missing -> confirm result", "Ignore missing value", "Ask after confirming"],
+        explanation: "If introduce la condizione: un valore mancante richiede una nuova misura.",
+        glossary: [{ term: "missing", meaning: "mancante" }, { term: "measurement", meaning: "misura" }, { term: "ask for", meaning: "chiedere" }],
+        concept: "if + missing data",
+      },
+      {
+        instruction: "Check the battery, then connect the sensor.",
+        correct: "Check battery -> connect sensor",
+        distractors: ["Connect sensor first", "Disconnect battery", "Skip battery check"],
+        explanation: "Then mette connect sensor dopo il controllo della batteria.",
+        glossary: [{ term: "check", meaning: "controllare" }, { term: "then", meaning: "poi" }, { term: "connect", meaning: "collegare" }],
+        concept: "then sequence",
+      },
+      {
+        instruction: "Before you answer, read the question twice.",
+        correct: "Read twice -> answer",
+        distractors: ["Answer immediately", "Read after answering", "Skip the question"],
+        explanation: "Before you answer impone la lettura prima della risposta.",
+        glossary: [{ term: "answer", meaning: "rispondere" }, { term: "twice", meaning: "due volte" }, { term: "question", meaning: "domanda" }],
+        concept: "metacognitive sequence",
+      },
+      {
+        instruction: "After the alarm stops, open the safe door.",
+        correct: "Alarm stops -> open safe door",
+        distractors: ["Open during alarm", "Start alarm", "Lock safe forever"],
+        explanation: "After richiede che l'allarme sia già terminato prima dell'apertura.",
+        glossary: [{ term: "stops", meaning: "si ferma" }, { term: "safe door", meaning: "porta sicura/cassaforte" }, { term: "open", meaning: "aprire" }],
+        concept: "after + safety",
+      },
+      {
+        instruction: "Wait until the file finishes loading, then print it.",
+        correct: "File loads -> print",
+        distractors: ["Print before loading", "Close file", "Wait after printing"],
+        explanation: "Until impone attesa; then mette print dopo il caricamento.",
+        glossary: [{ term: "loading", meaning: "caricamento" }, { term: "print", meaning: "stampare" }, { term: "wait", meaning: "aspettare" }],
+        concept: "until + then",
+      },
+      {
+        instruction: "If the source is reliable, include it in the report.",
+        correct: "Reliable source -> include it",
+        distractors: ["Unreliable source -> include it", "Delete report", "Include every source"],
+        explanation: "If lega l'inclusione alla fonte affidabile, non a qualunque fonte.",
+        glossary: [{ term: "reliable", meaning: "affidabile" }, { term: "include", meaning: "includere" }, { term: "source", meaning: "fonte" }],
+        concept: "condition + reliability",
+      },
+      {
+        instruction: "Do not submit the answer unless you can explain it.",
+        correct: "Can explain -> submit answer",
+        distractors: ["Submit without explanation", "Never submit", "Explain after submitting"],
+        explanation: "Unless crea un requisito: invii solo se sai spiegare.",
+        glossary: [{ term: "submit", meaning: "consegnare/inviare" }, { term: "explain", meaning: "spiegare" }, { term: "unless", meaning: "a meno che" }],
+        concept: "unless + evidence of understanding",
+      },
+      {
+        instruction: "Measure the current before replacing the fuse.",
+        correct: "Measure current -> replace fuse",
+        distractors: ["Replace fuse first", "Measure temperature", "Ignore current"],
+        explanation: "Before mette la misura della corrente prima della sostituzione del fusibile.",
+        glossary: [{ term: "current", meaning: "corrente" }, { term: "replace", meaning: "sostituire" }, { term: "fuse", meaning: "fusibile" }],
+        concept: "technical before",
+      },
+      {
+        instruction: "After you compare the two sources, choose the clearer one.",
+        correct: "Compare sources -> choose clearer one",
+        distractors: ["Choose before comparing", "Choose both sources", "Ignore clearer source"],
+        explanation: "After indica che la scelta viene dopo il confronto tra le fonti.",
+        glossary: [{ term: "compare", meaning: "confrontare" }, { term: "sources", meaning: "fonti" }, { term: "clearer", meaning: "più chiaro" }],
+        concept: "compare before choose",
+      },
+      {
+        instruction: "Not until the backup is ready should you shut down the main line.",
+        correct: "Backup ready -> shut down main line",
+        distractors: ["Shut down before backup", "Keep backup off", "Shut down every line now"],
+        explanation: "Not until vieta di anticipare lo spegnimento prima del backup pronto.",
+        glossary: [{ term: "backup", meaning: "riserva" }, { term: "ready", meaning: "pronto" }, { term: "shut down", meaning: "spegnere/arrestare" }],
+        concept: "not until + backup",
+      },
+      {
+        instruction: "If the door stays locked, check the code again.",
+        correct: "Door locked -> check code again",
+        distractors: ["Door locked -> open by force", "Ignore code", "Check after leaving"],
+        explanation: "If introduce la condizione; again indica ripetere il controllo del codice.",
+        glossary: [{ term: "stays locked", meaning: "resta bloccata" }, { term: "again", meaning: "di nuovo" }, { term: "code", meaning: "codice" }],
+        concept: "if + retry",
+      },
+      {
+        instruction: "Start the timer only when everyone is ready.",
+        correct: "Everyone ready -> start timer",
+        distractors: ["Start timer immediately", "Start when one person is ready", "Stop timer forever"],
+        explanation: "Only when restringe il momento: serve che tutti siano pronti.",
+        glossary: [{ term: "only when", meaning: "solo quando" }, { term: "everyone", meaning: "tutti" }, { term: "timer", meaning: "timer" }],
+        concept: "only when condition",
+      },
+      {
+        instruction: "Read the warning before touching the metal plate.",
+        correct: "Read warning -> touch plate",
+        distractors: ["Touch plate first", "Ignore warning", "Read after touching"],
+        explanation: "Before mette la lettura dell'avviso prima del contatto con la piastra.",
+        glossary: [{ term: "warning", meaning: "avviso" }, { term: "touching", meaning: "toccare" }, { term: "metal plate", meaning: "piastra metallica" }],
+        concept: "safety before action",
+      },
+      {
+        instruction: "After the robot docks, download its log.",
+        correct: "Robot docks -> download log",
+        distractors: ["Download before docking", "Delete log", "Send robot away"],
+        explanation: "After indica che il download segue l'arrivo del robot alla base.",
+        glossary: [{ term: "docks", meaning: "attracca/arriva alla base" }, { term: "download", meaning: "scaricare" }, { term: "log", meaning: "registro" }],
+        concept: "after + data retrieval",
       },
     ];
     const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
@@ -605,8 +943,48 @@ export class EnglishInstructionGenerator {
       { instruction: "If you press it, the light ___ on.", correct: "will turn", distractors: ["turns", "turned", "turning"], explanation: "Primo condizionale: if + present, will + base.", concept: "first conditional", glossary: [{ term: "will turn on", meaning: "si accenderà" }] },
       { instruction: "This result is ___ than before.", correct: "better", distractors: ["gooder", "more good", "best"], explanation: "Comparativo irregolare: good → better.", concept: "irregular comparative", glossary: [{ term: "better", meaning: "migliore" }] },
       { instruction: "Where ___ you go yesterday?", correct: "did", distractors: ["do", "does", "was"], explanation: "Domanda al past simple: ausiliare did + base.", concept: "past question", glossary: [{ term: "did", meaning: "ausiliare passato" }] },
+      { instruction: "The wires ___ checked every morning.", correct: "are", distractors: ["is", "was", "be"], explanation: "Passivo al presente con soggetto plurale: are checked.", concept: "present passive", glossary: [{ term: "wires", meaning: "cavi" }, { term: "checked", meaning: "controllati" }] },
+      { instruction: "The old battery ___ replaced yesterday.", correct: "was", distractors: ["is", "were", "has"], explanation: "Passivo al passato con soggetto singolare: was replaced.", concept: "past passive", glossary: [{ term: "was replaced", meaning: "è stata sostituita" }] },
+      { instruction: "We have not tested the east cable ___.", correct: "yet", distractors: ["already", "still", "ever"], explanation: "Yet si usa spesso nelle frasi negative per dire non ancora.", concept: "present perfect yet", glossary: [{ term: "yet", meaning: "ancora / non ancora" }] },
+      { instruction: "The robot ___ already found the key.", correct: "has", distractors: ["have", "is", "did"], explanation: "Present perfect con terza persona singolare: has already found.", concept: "present perfect already", glossary: [{ term: "already", meaning: "già" }] },
+      { instruction: "There is too ___ noise in the room.", correct: "much", distractors: ["many", "any", "few"], explanation: "Much si usa con nomi non numerabili come noise.", concept: "much/many", glossary: [{ term: "noise", meaning: "rumore" }] },
+      { instruction: "There are ___ loose screws on the desk.", correct: "some", distractors: ["any", "much", "a"], explanation: "Some indica una quantità positiva non precisa con plurali numerabili.", concept: "some + plural", glossary: [{ term: "loose screws", meaning: "viti allentate" }] },
+      { instruction: "The sample is ___ the glass box.", correct: "inside", distractors: ["between", "above", "across"], explanation: "Inside indica dentro un contenitore.", concept: "preposition: inside", glossary: [{ term: "inside", meaning: "dentro" }] },
+      { instruction: "The drone flew ___ the bridge.", correct: "under", distractors: ["into", "between", "on"], explanation: "Under significa sotto: il drone passa sotto il ponte.", concept: "preposition: under", glossary: [{ term: "under", meaning: "sotto" }] },
+      { instruction: "If water reaches the sensor, the alarm ___.", correct: "starts", distractors: ["will starts", "started", "starting"], explanation: "Zero conditional/regola generale: if + present, present.", concept: "zero conditional", glossary: [{ term: "reaches", meaning: "raggiunge" }] },
+      { instruction: "You ___ open the hatch without gloves.", correct: "mustn't", distractors: ["must", "can", "should"], explanation: "Mustn't esprime divieto forte.", concept: "modal: prohibition", glossary: [{ term: "mustn't", meaning: "non devi" }] },
     ];
-    const item = random.pick(level >= 4 ? [...base, ...advanced] : base);
+    // Core terza-media (A2→B1) grammar under-covered above: irregular past, past
+    // continuous, present-perfect nuances, will vs going to, second conditional,
+    // have to / might, subject-vs-object questions, used to, relative pronouns.
+    const terzaMediaExtra: GrammarItem[] = [
+      { instruction: "We ___ to the lab an hour ago. (andare)", correct: "went", distractors: ["goed", "go", "gone"], explanation: "Past simple irregolare: go → went (mai «goed»).", concept: "past simple (irregular)", glossary: [{ term: "went", meaning: "andammo/andò" }, { term: "an hour ago", meaning: "un'ora fa" }] },
+      { instruction: "They ___ finish the experiment yesterday. (non finirono)", correct: "didn't", distractors: ["don't", "weren't", "hadn't"], explanation: "Past simple negativo: did + not + base (didn't finish).", concept: "past simple negative", glossary: [{ term: "didn't", meaning: "non (passato)" }] },
+      { instruction: "While I ___ the data, the power went off. (mentre leggevo)", correct: "was reading", distractors: ["read", "am reading", "was read"], explanation: "Past continuous per un'azione in corso nel passato: was/were + -ing.", concept: "past continuous", glossary: [{ term: "while", meaning: "mentre" }, { term: "was reading", meaning: "stavo leggendo" }] },
+      { instruction: "She was writing when the alarm ___. (suonò)", correct: "rang", distractors: ["was ringing", "rings", "ring"], explanation: "L'azione breve che interrompe va al past simple: when the alarm rang.", concept: "past simple vs continuous", glossary: [{ term: "rang", meaning: "suonò" }] },
+      { instruction: "Have you ___ used this tool? (mai)", correct: "ever", distractors: ["never", "yet", "already"], explanation: "Ever nelle domande al present perfect significa «mai/qualche volta».", concept: "present perfect (ever)", glossary: [{ term: "ever", meaning: "mai/qualche volta" }] },
+      { instruction: "The phone is ringing. I ___ answer it. (decisione ora)", correct: "will", distractors: ["am going to", "going to", "won't"], explanation: "Will per una decisione presa sul momento; going to sarebbe un piano già deciso.", concept: "future: will (decision)", glossary: [{ term: "I'll answer", meaning: "rispondo io" }] },
+      { instruction: "We have worked here ___ three hours. (durata)", correct: "for", distractors: ["since", "from", "during"], explanation: "For + durata (for three hours); since + punto di inizio.", concept: "present perfect (for/since)", glossary: [{ term: "for", meaning: "per (durata)" }] },
+      { instruction: "I have known her ___ 2020. (da)", correct: "since", distractors: ["for", "from", "in"], explanation: "Since + punto preciso nel tempo (since 2020); for + durata.", concept: "present perfect (for/since)", glossary: [{ term: "since", meaning: "da (un momento)" }] },
+      { instruction: "The delivery has ___ arrived. (proprio ora)", correct: "just", distractors: ["yet", "ago", "still"], explanation: "Just (appena) va tra l'ausiliare have/has e il participio.", concept: "present perfect (just)", glossary: [{ term: "just", meaning: "appena" }] },
+      { instruction: "I ___ him last week. (finito, tempo preciso)", correct: "saw", distractors: ["have seen", "see", "seen"], explanation: "Con un tempo passato finito (last week) si usa il past simple, non il present perfect.", concept: "past simple vs present perfect", glossary: [{ term: "saw", meaning: "vidi/ho visto (last week → saw)" }] },
+      { instruction: "If I ___ you, I would check the logs. (se fossi)", correct: "were", distractors: ["was", "am", "will be"], explanation: "Secondo condizionale (ipotesi irreale): «If I were you, I would…».", concept: "second conditional", glossary: [{ term: "were", meaning: "fossi (2° condizionale)" }] },
+      { instruction: "Visitors ___ sign in at the door. (obbligo esterno)", correct: "have to", distractors: ["must to", "has to", "haves to"], explanation: "Have to per un obbligo dato da una regola; con «Visitors» (plurale) è «have to».", concept: "modal: have to", glossary: [{ term: "have to", meaning: "dover (regola)" }] },
+      { instruction: "It's very cloudy. It ___ rain soon. (possibilità)", correct: "might", distractors: ["must", "can", "should"], explanation: "Might/may per una possibilità incerta nel futuro.", concept: "modal: possibility (may/might)", glossary: [{ term: "might", meaning: "potrebbe" }] },
+      { instruction: "Who ___ the window? (chi lo ruppe — soggetto)", correct: "broke", distractors: ["did break", "did broke", "was break"], explanation: "Nelle domande sul soggetto NON si usa l'ausiliare: «Who broke…?».", concept: "subject question (no auxiliary)", glossary: [{ term: "who broke", meaning: "chi ruppe" }] },
+      { instruction: "Who ___ you invite? (chi hai invitato — oggetto)", correct: "did", distractors: ["do", "invited", "have"], explanation: "Nelle domande sull'oggetto serve l'ausiliare: «Who did you invite?».", concept: "object question (auxiliary)", glossary: [{ term: "did you invite", meaning: "hai invitato" }] },
+      { instruction: "I ___ walk to school, but now I take the bus. (abitudine passata)", correct: "used to", distractors: ["use to", "used", "am used to"], explanation: "Used to + base per un'abitudine passata che non c'è più.", concept: "used to (past habit)", glossary: [{ term: "used to", meaning: "ero solito/una volta" }] },
+      { instruction: "The engineer ___ fixed it is here. (persona)", correct: "who", distractors: ["which", "whose", "what"], explanation: "Who è il pronome relativo per le persone.", concept: "relative pronoun (who)", glossary: [{ term: "who", meaning: "che (persone)" }] },
+      { instruction: "The machine ___ broke down is old. (cosa)", correct: "which", distractors: ["who", "whose", "where"], explanation: "Which (o that) è il pronome relativo per le cose.", concept: "relative pronoun (which)", glossary: [{ term: "which", meaning: "che (cose)" }] },
+      { instruction: "You are the new student, ___? (question tag)", correct: "aren't you", distractors: ["are you", "don't you", "isn't it"], explanation: "Question tag: frase affermativa con «are» → tag negativo «aren't you?».", concept: "question tag (be)", glossary: [{ term: "aren't you?", meaning: "vero? (non è così?)" }] },
+      { instruction: "She works in the lab, ___? (question tag)", correct: "doesn't she", distractors: ["does she", "isn't she", "don't she"], explanation: "Present simple affermativo (works) → tag negativo con l'ausiliare: «doesn't she?».", concept: "question tag (present simple)", glossary: [{ term: "doesn't she?", meaning: "vero?" }] },
+      { instruction: "They didn't call, ___? (question tag)", correct: "did they", distractors: ["didn't they", "do they", "were they"], explanation: "Frase negativa (didn't) → tag positivo: «did they?».", concept: "question tag (negative sentence)", glossary: [{ term: "did they?", meaning: "vero?" }] },
+    ];
+    const item = random.pick(
+      level >= 4 ? [...base, ...advanced, ...terzaMediaExtra]
+        : level >= 2 ? [...base, ...terzaMediaExtra.slice(0, 6)]
+          : base,
+    );
     const tiles = this.shuffleEnglishTiles(random, [
       this.englishTile(index, item.correct, true, `Correct: ${item.explanation}`),
       ...item.distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Not correct here: ${item.explanation}`)),
@@ -639,6 +1017,31 @@ export class EnglishInstructionGenerator {
       { sentence: "Where did you put the key", concept: "wh- question word order", glossary: [{ term: "where", meaning: "dove" }] },
       { sentence: "You must wear gloves here", concept: "modal word order", glossary: [{ term: "must", meaning: "dovere (obbligo)" }] },
       { sentence: "I have finished the report", concept: "present perfect word order", glossary: [{ term: "have finished", meaning: "ho finito" }] },
+      { sentence: "The teacher checked the answer", concept: "past simple word order", glossary: [{ term: "checked", meaning: "ha controllato" }] },
+      { sentence: "We should save the log now", concept: "modal advice word order", glossary: [{ term: "should", meaning: "dovremmo" }] },
+      { sentence: "The battery is under the desk", concept: "preposition word order", glossary: [{ term: "under", meaning: "sotto" }] },
+      { sentence: "Can the robot open the gate", concept: "can question word order", glossary: [{ term: "can", meaning: "può" }] },
+      { sentence: "Do not touch the red wire", concept: "negative imperative word order", glossary: [{ term: "do not", meaning: "non" }] },
+      { sentence: "The sensor does not work today", concept: "negative present simple", glossary: [{ term: "does not", meaning: "non" }] },
+      { sentence: "Why did the alarm stop", concept: "why question word order", glossary: [{ term: "why", meaning: "perché" }] },
+      { sentence: "The door will close automatically", concept: "future with will", glossary: [{ term: "will close", meaning: "si chiuderà" }] },
+      { sentence: "The east cable was repaired yesterday", concept: "passive past word order", glossary: [{ term: "was repaired", meaning: "è stato riparato" }] },
+      { sentence: "Have you tested the backup battery", concept: "present perfect question", glossary: [{ term: "have you tested", meaning: "hai testato" }] },
+      { sentence: "The report is clearer than before", concept: "comparative word order", glossary: [{ term: "clearer than", meaning: "più chiaro di" }] },
+      { sentence: "There is not enough water", concept: "there is negative quantity", glossary: [{ term: "enough", meaning: "abbastanza" }] },
+      { sentence: "Please keep the door closed", concept: "polite imperative", glossary: [{ term: "please", meaning: "per favore" }] },
+      { sentence: "The backup light is still green", concept: "adverb position", glossary: [{ term: "still", meaning: "ancora" }] },
+      { sentence: "She can explain the evidence", concept: "modal ability", glossary: [{ term: "evidence", meaning: "prova" }] },
+      { sentence: "They are comparing two sources", concept: "present continuous plural", glossary: [{ term: "comparing", meaning: "confrontando" }] },
+      { sentence: "The file has already loaded", concept: "present perfect already", glossary: [{ term: "already", meaning: "già" }] },
+      { sentence: "If it rains the robot stops", concept: "zero conditional order", glossary: [{ term: "if", meaning: "se" }] },
+      { sentence: "The safest route avoids the tunnel", concept: "superlative + verb", glossary: [{ term: "safest", meaning: "più sicuro" }] },
+      { sentence: "We did not finish the test", concept: "negative past simple word order", glossary: [{ term: "did not", meaning: "non (passato)" }] },
+      { sentence: "The door will not open", concept: "negative future word order", glossary: [{ term: "will not", meaning: "non (futuro)" }] },
+      { sentence: "I have not seen the report", concept: "negative present perfect word order", glossary: [{ term: "have not seen", meaning: "non ho visto" }] },
+      { sentence: "She always arrives on time", concept: "adverb of frequency position", glossary: [{ term: "always", meaning: "sempre (prima del verbo)" }] },
+      { sentence: "I was reading the data", concept: "past continuous word order", glossary: [{ term: "was reading", meaning: "stavo leggendo" }] },
+      { sentence: "If I were you I would wait", concept: "second conditional order", glossary: [{ term: "if I were you", meaning: "se fossi in te" }] },
     ];
     const item = random.pick(level >= 4 ? [...base, ...advanced] : base);
     const words = item.sentence.split(/\s+/);
@@ -694,10 +1097,15 @@ export class EnglishInstructionGenerator {
   private buildVocabularyPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
     const item = this.pickVocabularyEntry(random, level);
     const context = this.vocabularyContext(item);
-    const distractors = this.vocabularyDistractors(random, item, "term");
+    const distractors = this.vocabularyDistractorEntries(random, item, "term");
     const tiles = this.shuffleEnglishTiles(random, [
       this.englishTile(index, item.term, true, `Correct: ${context.explanation}`),
-      ...distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Not this word: ${context.explanation}`)),
+      ...distractors.map((entry, choiceIndex) => this.englishTile(
+        index + choiceIndex + 1,
+        entry.term,
+        false,
+        `"${entry.term}" significa "${entry.meaning}" (${englishVocabularyCategoryLabels[entry.category]}): non corrisponde all'indizio "${item.meaning}".`,
+      )),
     ]);
     return {
       id: `english-vocab-${index}`,
@@ -721,11 +1129,16 @@ export class EnglishInstructionGenerator {
 
   private buildTranslationMatchPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
     const item = this.pickVocabularyEntry(random, level);
-    const distractors = this.vocabularyDistractors(random, item, "meaning");
+    const distractors = this.vocabularyDistractorEntries(random, item, "meaning");
     const explanation = `${item.term} significa "${item.meaning}" nel contesto ${englishVocabularyCategoryLabels[item.category]}.`;
     const tiles = this.shuffleEnglishTiles(random, [
       this.englishTile(index, item.meaning, true, `Correct: ${explanation}`),
-      ...distractors.map((label, choiceIndex) => this.englishTile(index + choiceIndex + 1, label, false, `Traduzione non corretta: ${explanation}`)),
+      ...distractors.map((entry, choiceIndex) => this.englishTile(
+        index + choiceIndex + 1,
+        entry.meaning,
+        false,
+        `"${entry.meaning}" traduce "${entry.term}", non "${item.term}". ${explanation}`,
+      )),
     ]);
     return {
       id: `english-translation-${index}`,
@@ -746,6 +1159,954 @@ export class EnglishInstructionGenerator {
     };
   }
 
+  private buildReadingDetectivePrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    type ReadingItem = {
+      log: string;
+      question: string;
+      answer: string;
+      answerDistractors: string[];
+      evidence: string;
+      evidenceDistractors: string[];
+      explanation: string;
+      concept: string;
+      glossary: Array<{ term: string; meaning: string }>;
+    };
+    const base: ReadingItem[] = [
+      {
+        log: "Log: The blue door is locked because the backup battery is empty. The green door is open.",
+        question: "Which door needs power before it can open?",
+        answer: "Risposta: blue door",
+        answerDistractors: ["Risposta: green door", "Risposta: every door"],
+        evidence: "Prova: because the backup battery is empty",
+        evidenceDistractors: ["Prova: the green door is open", "Prova: every door is locked"],
+        explanation: "Blue door è collegata alla batteria scarica; green door è già aperta.",
+        concept: "cause vs irrelevant detail",
+        glossary: [{ term: "because", meaning: "perché / causa" }, { term: "locked", meaning: "bloccato" }, { term: "empty", meaning: "vuoto / scarico" }],
+      },
+      {
+        log: "Message: The robot can carry the small box, but it cannot lift the metal crate.",
+        question: "What can the robot safely move?",
+        answer: "Risposta: the small box",
+        answerDistractors: ["Risposta: the metal crate", "Risposta: both objects"],
+        evidence: "Prova: can carry the small box",
+        evidenceDistractors: ["Prova: cannot lift the metal crate", "Prova: but means both are safe"],
+        explanation: "Can indica capacità; cannot esclude la metal crate.",
+        concept: "can/cannot + object",
+        glossary: [{ term: "can", meaning: "può / è in grado" }, { term: "cannot", meaning: "non può" }, { term: "carry", meaning: "trasportare" }],
+      },
+      {
+        log: "Notice: The meeting starts at 8:30. Students should arrive ten minutes earlier.",
+        question: "When should students arrive?",
+        answer: "Risposta: at 8:20",
+        answerDistractors: ["Risposta: at 8:30", "Risposta: ten minutes later"],
+        evidence: "Prova: ten minutes earlier",
+        evidenceDistractors: ["Prova: starts at 8:30 is the arrival time", "Prova: earlier means later"],
+        explanation: "Earlier sottrae dieci minuti dall'orario di inizio.",
+        concept: "time inference",
+        glossary: [{ term: "starts", meaning: "inizia" }, { term: "earlier", meaning: "prima" }, { term: "arrive", meaning: "arrivare" }],
+      },
+    ];
+    const advanced: ReadingItem[] = [
+      {
+        log: "Report: Although the main pump is noisy, the pressure is stable. However, the east valve is leaking.",
+        question: "Which part needs repair first?",
+        answer: "Risposta: east valve",
+        answerDistractors: ["Risposta: main pump", "Risposta: pressure sensor"],
+        evidence: "Prova: the east valve is leaking",
+        evidenceDistractors: ["Prova: although the pump is noisy", "Prova: pressure is stable"],
+        explanation: "Although segnala un contrasto: il rumore non è il guasto principale; leaking indica perdita.",
+        concept: "contrast + fault evidence",
+        glossary: [{ term: "although", meaning: "sebbene" }, { term: "however", meaning: "tuttavia" }, { term: "leaking", meaning: "perde" }],
+      },
+      {
+        log: "Lab note: The sample was heated for five minutes and then cooled slowly. It was not tested after cooling.",
+        question: "Which step is missing?",
+        answer: "Risposta: test after cooling",
+        answerDistractors: ["Risposta: heat for five minutes", "Risposta: cool slowly"],
+        evidence: "Prova: was not tested after cooling",
+        evidenceDistractors: ["Prova: was heated for five minutes", "Prova: then cooled slowly"],
+        explanation: "Was not tested after cooling indica il controllo mancante, non un passaggio già fatto.",
+        concept: "passive + missing step",
+        glossary: [{ term: "was heated", meaning: "è stato riscaldato" }, { term: "cooled", meaning: "raffreddato" }, { term: "after", meaning: "dopo" }],
+      },
+      {
+        log: "Log: The north cable was repaired yesterday, but the east cable was not checked.",
+        question: "Which cable needs attention now?",
+        answer: "Risposta: east cable",
+        answerDistractors: ["Risposta: north cable", "Risposta: both cables"],
+        evidence: "Prova: was not checked",
+        evidenceDistractors: ["Prova: was repaired yesterday", "Prova: both cables were repaired"],
+        explanation: "North cable è già riparato; east cable manca del controllo.",
+        concept: "passive + contrast",
+        glossary: [{ term: "was repaired", meaning: "è stato riparato" }, { term: "was not checked", meaning: "non è stato controllato" }],
+      },
+      {
+        log: "Message: The old password is hidden. The new password is written on the blue card.",
+        question: "Where should you look for the usable password?",
+        answer: "Risposta: blue card",
+        answerDistractors: ["Risposta: old password file", "Risposta: red card"],
+        evidence: "Prova: new password is written on the blue card",
+        evidenceDistractors: ["Prova: old password is hidden", "Prova: every password is visible"],
+        explanation: "La password usabile è new, non old; il testo la collega alla blue card.",
+        concept: "old/new reference",
+        glossary: [{ term: "hidden", meaning: "nascosto" }, { term: "written on", meaning: "scritto su" }],
+      },
+      {
+        log: "Report: The source is reliable, but the conclusion is still too strong for one measurement.",
+        question: "What should the team do before closing the report?",
+        answer: "Risposta: add another measurement",
+        answerDistractors: ["Risposta: close the report now", "Risposta: delete the source"],
+        evidence: "Prova: too strong for one measurement",
+        evidenceDistractors: ["Prova: source is reliable means finished", "Prova: conclusion is already proven"],
+        explanation: "Una fonte affidabile non basta se la conclusione è troppo forte per una sola misura.",
+        concept: "evidence strength",
+        glossary: [{ term: "reliable", meaning: "affidabile" }, { term: "too strong", meaning: "troppo forte" }],
+      },
+      {
+        log: "Notice: The backup light is green only when the spare battery is ready.",
+        question: "What does a green backup light mean?",
+        answer: "Risposta: spare battery is ready",
+        answerDistractors: ["Risposta: main battery is broken", "Risposta: backup is forbidden"],
+        evidence: "Prova: only when the spare battery is ready",
+        evidenceDistractors: ["Prova: green always means broken", "Prova: spare battery is missing"],
+        explanation: "Only when lega la luce verde alla batteria di riserva pronta.",
+        concept: "only when inference",
+        glossary: [{ term: "only when", meaning: "solo quando" }, { term: "spare", meaning: "di riserva" }],
+      },
+      {
+        log: "Email: I cannot open the file because the tablet is offline. The file is not damaged.",
+        question: "What is the real problem?",
+        answer: "Risposta: tablet is offline",
+        answerDistractors: ["Risposta: file is damaged", "Risposta: password is wrong"],
+        evidence: "Prova: because the tablet is offline",
+        evidenceDistractors: ["Prova: file is not damaged", "Prova: cannot always means password"],
+        explanation: "Because introduce la causa: il tablet è offline; il file non è danneggiato.",
+        concept: "because + excluded cause",
+        glossary: [{ term: "offline", meaning: "non connesso" }, { term: "damaged", meaning: "danneggiato" }],
+      },
+      {
+        log: "Instruction: Use the north route unless the bridge is closed. Today the bridge is closed.",
+        question: "Which route rule applies today?",
+        answer: "Risposta: do not use the north route",
+        answerDistractors: ["Risposta: always use north", "Risposta: ignore the bridge"],
+        evidence: "Prova: unless the bridge is closed",
+        evidenceDistractors: ["Prova: bridge is closed means north is required", "Prova: unless removes every rule"],
+        explanation: "Unless crea un'eccezione: con bridge closed la regola nord non vale.",
+        concept: "unless exception",
+        glossary: [{ term: "unless", meaning: "a meno che" }, { term: "closed", meaning: "chiuso" }],
+      },
+      {
+        log: "Lab note: The red sample is clean. The green sample is clean too. The yellow sample is contaminated.",
+        question: "Which sample should be isolated?",
+        answer: "Risposta: yellow sample",
+        answerDistractors: ["Risposta: red sample", "Risposta: green sample"],
+        evidence: "Prova: yellow sample is contaminated",
+        evidenceDistractors: ["Prova: red sample is clean", "Prova: green sample is clean too"],
+        explanation: "Contaminated indica il campione da isolare; clean esclude red e green.",
+        concept: "contrast in list",
+        glossary: [{ term: "clean", meaning: "pulito" }, { term: "contaminated", meaning: "contaminato" }],
+      },
+      {
+        log: "Log: The robot usually scans the left gate, but now it is scanning the right gate.",
+        question: "Which gate is being scanned now?",
+        answer: "Risposta: right gate",
+        answerDistractors: ["Risposta: left gate", "Risposta: both gates"],
+        evidence: "Prova: now it is scanning the right gate",
+        evidenceDistractors: ["Prova: usually scans the left gate", "Prova: usually means now"],
+        explanation: "Usually descrive routine; now identifica la situazione attuale.",
+        concept: "routine vs now",
+        glossary: [{ term: "usually", meaning: "di solito" }, { term: "now", meaning: "adesso" }],
+      },
+      {
+        log: "Notice: The index can be scanned after the archive opens. The archive is still locked.",
+        question: "What should wait?",
+        answer: "Risposta: scanning the index",
+        answerDistractors: ["Risposta: locking the archive", "Risposta: opening has already happened"],
+        evidence: "Prova: after the archive opens",
+        evidenceDistractors: ["Prova: archive is still locked means scan now", "Prova: after means before"],
+        explanation: "After the archive opens colloca la scansione dopo l'apertura; l'archivio è ancora chiuso.",
+        concept: "after + current state",
+        glossary: [{ term: "after", meaning: "dopo" }, { term: "still locked", meaning: "ancora bloccato" }],
+      },
+      {
+        log: "Report: The west pump is louder than the east pump, but both pumps work normally.",
+        question: "Which conclusion is supported?",
+        answer: "Risposta: both pumps work",
+        answerDistractors: ["Risposta: west pump is broken", "Risposta: east pump is silent"],
+        evidence: "Prova: both pumps work normally",
+        evidenceDistractors: ["Prova: louder means broken", "Prova: east pump is silent"],
+        explanation: "Louder descrive rumore relativo; il testo dice che entrambe funzionano normalmente.",
+        concept: "comparison vs fault",
+        glossary: [{ term: "louder", meaning: "più rumoroso" }, { term: "normally", meaning: "normalmente" }],
+      },
+      {
+        log: "Message: The answer is correct, but the explanation is missing.",
+        question: "What is missing?",
+        answer: "Risposta: explanation",
+        answerDistractors: ["Risposta: answer", "Risposta: question"],
+        evidence: "Prova: explanation is missing",
+        evidenceDistractors: ["Prova: answer is correct", "Prova: correct means complete"],
+        explanation: "Correct riguarda la risposta; missing riguarda la spiegazione.",
+        concept: "correct vs complete",
+        glossary: [{ term: "correct", meaning: "corretto" }, { term: "missing", meaning: "mancante" }],
+      },
+      {
+        log: "Warning: Neither the metal probe nor the wet cloth is safe. Use the insulated tester.",
+        question: "Which tool is safe?",
+        answer: "Risposta: insulated tester",
+        answerDistractors: ["Risposta: metal probe", "Risposta: wet cloth"],
+        evidence: "Prova: Use the insulated tester",
+        evidenceDistractors: ["Prova: neither...nor makes both safe", "Prova: wet cloth is safe"],
+        explanation: "Neither...nor esclude probe e cloth; instead resta insulated tester.",
+        concept: "neither/nor safety",
+        glossary: [{ term: "neither...nor", meaning: "né...né" }, { term: "insulated", meaning: "isolato" }],
+      },
+      {
+        log: "Update: The first source confirms the time. The second source confirms the place.",
+        question: "What is still not confirmed?",
+        answer: "Risposta: cause",
+        answerDistractors: ["Risposta: time", "Risposta: place"],
+        evidence: "Prova: confirms the time / confirms the place",
+        evidenceDistractors: ["Prova: cause is confirmed twice", "Prova: second source confirms cause"],
+        explanation: "Il log conferma tempo e luogo, non la causa.",
+        concept: "not mentioned inference",
+        glossary: [{ term: "confirms", meaning: "conferma" }, { term: "cause", meaning: "causa" }],
+      },
+      {
+        log: "Note: The meeting was moved from Room 2 to Room 5.",
+        question: "Where is the meeting now?",
+        answer: "Risposta: Room 5",
+        answerDistractors: ["Risposta: Room 2", "Risposta: both rooms"],
+        evidence: "Prova: moved from Room 2 to Room 5",
+        evidenceDistractors: ["Prova: from Room 2 is the new place", "Prova: moved means both rooms"],
+        explanation: "From indica origine; to indica destinazione nuova.",
+        concept: "from/to direction",
+        glossary: [{ term: "from", meaning: "da" }, { term: "to", meaning: "a/verso" }],
+      },
+      {
+        log: "Status: The main server is online. The backup server is offline but not damaged.",
+        question: "What is true about the backup server?",
+        answer: "Risposta: offline but not damaged",
+        answerDistractors: ["Risposta: online and damaged", "Risposta: main server is offline"],
+        evidence: "Prova: backup server is offline but not damaged",
+        evidenceDistractors: ["Prova: main server is online", "Prova: offline always means damaged"],
+        explanation: "But collega due informazioni: backup offline, però non danneggiato.",
+        concept: "but + state",
+        glossary: [{ term: "online", meaning: "connesso" }, { term: "damaged", meaning: "danneggiato" }],
+      },
+      {
+        log: "Instruction: Print the final page only. The draft page must stay hidden.",
+        question: "Which page should be printed?",
+        answer: "Risposta: final page",
+        answerDistractors: ["Risposta: draft page", "Risposta: both pages"],
+        evidence: "Prova: final page only",
+        evidenceDistractors: ["Prova: draft page must stay hidden", "Prova: only means both"],
+        explanation: "Only limita la stampa alla pagina finale; draft resta nascosta.",
+        concept: "only + hidden object",
+        glossary: [{ term: "final", meaning: "finale" }, { term: "draft", meaning: "bozza" }],
+      },
+      {
+        log: "Observation: The soil is dry, but the light level is normal.",
+        question: "Which problem is more likely?",
+        answer: "Risposta: water problem",
+        answerDistractors: ["Risposta: light problem", "Risposta: no problem"],
+        evidence: "Prova: soil is dry",
+        evidenceDistractors: ["Prova: light level is normal", "Prova: normal means broken"],
+        explanation: "Dry soil sostiene un problema d'acqua; light normal esclude la luce.",
+        concept: "scientific evidence",
+        glossary: [{ term: "soil", meaning: "terreno" }, { term: "dry", meaning: "secco" }],
+      },
+      {
+        log: "Message: The student answered quickly, but not accurately.",
+        question: "What needs improvement?",
+        answer: "Risposta: accuracy",
+        answerDistractors: ["Risposta: speed", "Risposta: handwriting"],
+        evidence: "Prova: not accurately",
+        evidenceDistractors: ["Prova: answered quickly", "Prova: quickly means accurately"],
+        explanation: "Quickly è positivo sulla velocità; not accurately indica il problema.",
+        concept: "adverb contrast",
+        glossary: [{ term: "quickly", meaning: "velocemente" }, { term: "accurately", meaning: "con precisione" }],
+      },
+      {
+        log: "Log: The red wire must stay connected unless the fuse overheats.",
+        question: "When can the red wire be disconnected?",
+        answer: "Risposta: if the fuse overheats",
+        answerDistractors: ["Risposta: always", "Risposta: when the wire is red"],
+        evidence: "Prova: unless the fuse overheats",
+        evidenceDistractors: ["Prova: must stay connected means disconnect now", "Prova: red wire creates exception"],
+        explanation: "Unless introduce l'eccezione al must stay connected.",
+        concept: "unless + modal",
+        glossary: [{ term: "must stay", meaning: "deve restare" }, { term: "overheats", meaning: "si surriscalda" }],
+      },
+      {
+        log: "Note: The safe route is shorter than the old route and less steep than the tunnel route.",
+        question: "Which route should be preferred?",
+        answer: "Risposta: safe route",
+        answerDistractors: ["Risposta: old route", "Risposta: tunnel route"],
+        evidence: "Prova: shorter and less steep",
+        evidenceDistractors: ["Prova: old route is shorter", "Prova: tunnel route is less steep"],
+        explanation: "Il testo attribuisce entrambi i vantaggi alla safe route.",
+        concept: "comparative evidence",
+        glossary: [{ term: "shorter", meaning: "più corto" }, { term: "less steep", meaning: "meno ripido" }],
+      },
+      {
+        log: "Notice: The report is formal enough for the teacher, but too informal for the external technician.",
+        question: "Who needs a more formal report?",
+        answer: "Risposta: external technician",
+        answerDistractors: ["Risposta: teacher", "Risposta: both are satisfied"],
+        evidence: "Prova: too informal for the external technician",
+        evidenceDistractors: ["Prova: formal enough for the teacher", "Prova: enough means everyone"],
+        explanation: "Enough vale per teacher; too informal identifica il tecnico esterno.",
+        concept: "enough vs too",
+        glossary: [{ term: "formal enough", meaning: "abbastanza formale" }, { term: "too informal", meaning: "troppo informale" }],
+      },
+    ];
+    const item = random.pick(level >= 5 ? [...base, ...advanced] : base);
+    const tiles = this.shuffleEnglishTiles(random, [
+      this.englishTile(index * 20, item.answer, true, `Inferenza corretta. ${item.explanation}`),
+      this.englishTile(index * 20 + 1, item.evidence, true, `Prova corretta. ${item.explanation}`),
+      ...item.answerDistractors.map((label, choiceIndex) => this.englishTile(index * 20 + choiceIndex + 2, label, false, `Risposta non sostenuta dal log: ${item.explanation}`)),
+      ...item.evidenceDistractors.map((label, choiceIndex) => this.englishTile(index * 20 + choiceIndex + 6, label, false, `Questa prova non giustifica la risposta: ${item.explanation}`)),
+    ]);
+    return {
+      id: `english-reading-${index}`,
+      type: "reading-detective",
+      instruction: item.question,
+      context: item.log,
+      targetLabel: "Inferenza + prova",
+      requiredSelectionCount: 2,
+      tiles,
+      solutionLabels: [item.answer, item.evidence],
+      explanation: item.explanation,
+      concept: item.concept,
+      glossary: item.glossary,
+      signature: `reading-${item.log}-${item.answer}-${item.evidence}`,
+    };
+  }
+
+  private buildErrorDiagnosisPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    type ErrorItem = {
+      wrong: string;
+      correction: string;
+      correctionDistractors: string[];
+      diagnosis: string;
+      diagnosisDistractors: string[];
+      explanation: string;
+      concept: string;
+      glossary: Array<{ term: string; meaning: string }>;
+    };
+    const base: ErrorItem[] = [
+      {
+        wrong: "She go to school every day.",
+        correction: "Correzione: She goes to school every day.",
+        correctionDistractors: ["Correzione: She is going to school every day.", "Correzione: She going to school every day."],
+        diagnosis: "Diagnosi: third person -s",
+        diagnosisDistractors: ["Diagnosi: past simple", "Diagnosi: preposition of place"],
+        explanation: "Every day segnala abitudine; alla terza persona singolare serve goes.",
+        concept: "present simple agreement",
+        glossary: [{ term: "every day", meaning: "ogni giorno" }, { term: "third person", meaning: "terza persona" }],
+      },
+      {
+        wrong: "There is three sensors in the room.",
+        correction: "Correzione: There are three sensors in the room.",
+        correctionDistractors: ["Correzione: There be three sensors in the room.", "Correzione: There has three sensors in the room."],
+        diagnosis: "Diagnosi: there are + plural",
+        diagnosisDistractors: ["Diagnosi: article a/an", "Diagnosi: comparative"],
+        explanation: "Three sensors è plurale: si usa there are, non there is.",
+        concept: "there is/are",
+        glossary: [{ term: "there are", meaning: "ci sono" }, { term: "plural", meaning: "plurale" }],
+      },
+      {
+        wrong: "The key is on the drawer.",
+        correction: "Correzione: The key is in the drawer.",
+        correctionDistractors: ["Correzione: The key is at the drawer.", "Correzione: The key is to the drawer."],
+        diagnosis: "Diagnosi: in = inside a container",
+        diagnosisDistractors: ["Diagnosi: future with will", "Diagnosi: modal verb"],
+        explanation: "Se la chiave è dentro il cassetto, in è la preposizione corretta.",
+        concept: "preposition of place",
+        glossary: [{ term: "in", meaning: "dentro" }, { term: "drawer", meaning: "cassetto" }],
+      },
+    ];
+    const advanced: ErrorItem[] = [
+      {
+        wrong: "I have finished the report yesterday.",
+        correction: "Correzione: I finished the report yesterday.",
+        correctionDistractors: ["Correzione: I have finish the report yesterday.", "Correzione: I am finished the report yesterday."],
+        diagnosis: "Diagnosi: yesterday -> past simple",
+        diagnosisDistractors: ["Diagnosi: present continuous", "Diagnosi: superlative"],
+        explanation: "Yesterday è tempo concluso preciso: richiede past simple, non present perfect.",
+        concept: "past simple vs present perfect",
+        glossary: [{ term: "yesterday", meaning: "ieri" }, { term: "finished", meaning: "ho finito / finii" }],
+      },
+      {
+        wrong: "If the alarm starts, close the door will.",
+        correction: "Correzione: If the alarm starts, the door will close.",
+        correctionDistractors: ["Correzione: If the alarm will start, the door closes.", "Correzione: If the alarm starts, the door closing."],
+        diagnosis: "Diagnosi: first conditional word order",
+        diagnosisDistractors: ["Diagnosi: many/much", "Diagnosi: article the"],
+        explanation: "Primo condizionale: if + present, poi soggetto + will + verbo base.",
+        concept: "first conditional",
+        glossary: [{ term: "if", meaning: "se" }, { term: "will close", meaning: "si chiuderà" }],
+      },
+      {
+        wrong: "The wires is checked every morning.",
+        correction: "Correzione: The wires are checked every morning.",
+        correctionDistractors: ["Correzione: The wires was checked every morning.", "Correzione: The wires be checked every morning."],
+        diagnosis: "Diagnosi: plural subject -> are",
+        diagnosisDistractors: ["Diagnosi: article a/an", "Diagnosi: comparative"],
+        explanation: "Wires è plurale: nel passivo presente serve are checked.",
+        concept: "present passive agreement",
+        glossary: [{ term: "wires", meaning: "cavi" }, { term: "are checked", meaning: "sono controllati" }],
+      },
+      {
+        wrong: "The battery were replaced yesterday.",
+        correction: "Correzione: The battery was replaced yesterday.",
+        correctionDistractors: ["Correzione: The battery is replace yesterday.", "Correzione: The battery has replaced yesterday."],
+        diagnosis: "Diagnosi: singular passive was",
+        diagnosisDistractors: ["Diagnosi: present simple habit", "Diagnosi: question word order"],
+        explanation: "Battery è singolare e yesterday indica passato: was replaced.",
+        concept: "past passive",
+        glossary: [{ term: "was replaced", meaning: "è stata sostituita" }, { term: "yesterday", meaning: "ieri" }],
+      },
+      {
+        wrong: "There are too much sensors in the box.",
+        correction: "Correzione: There are too many sensors in the box.",
+        correctionDistractors: ["Correzione: There is too many sensors in the box.", "Correzione: There are too much sensor in the box."],
+        diagnosis: "Diagnosi: many + countable plural",
+        diagnosisDistractors: ["Diagnosi: present perfect", "Diagnosi: preposition of time"],
+        explanation: "Sensors è numerabile plurale: si usa many, non much.",
+        concept: "much/many",
+        glossary: [{ term: "many", meaning: "molti con nomi numerabili" }, { term: "sensors", meaning: "sensori" }],
+      },
+      {
+        wrong: "I have already saw the warning.",
+        correction: "Correzione: I have already seen the warning.",
+        correctionDistractors: ["Correzione: I already seen the warning.", "Correzione: I have already see the warning."],
+        diagnosis: "Diagnosi: present perfect participle",
+        diagnosisDistractors: ["Diagnosi: future plan", "Diagnosi: superlative"],
+        explanation: "Present perfect richiede have + participio passato: seen.",
+        concept: "present perfect irregular participle",
+        glossary: [{ term: "already", meaning: "già" }, { term: "seen", meaning: "visto" }],
+      },
+      {
+        wrong: "The report is more clear than before.",
+        correction: "Correzione: The report is clearer than before.",
+        correctionDistractors: ["Correzione: The report is clear than before.", "Correzione: The report is clearest than before."],
+        diagnosis: "Diagnosi: comparative -er",
+        diagnosisDistractors: ["Diagnosi: modal obligation", "Diagnosi: past continuous"],
+        explanation: "Con un aggettivo breve come clear si usa clearer than.",
+        concept: "comparative adjective",
+        glossary: [{ term: "clearer", meaning: "più chiaro" }, { term: "than", meaning: "di/che" }],
+      },
+      {
+        wrong: "Can opens the robot the gate?",
+        correction: "Correzione: Can the robot open the gate?",
+        correctionDistractors: ["Correzione: The robot can opens the gate?", "Correzione: Can the robot opens the gate?"],
+        diagnosis: "Diagnosi: modal + subject + base verb",
+        diagnosisDistractors: ["Diagnosi: past simple did", "Diagnosi: article the"],
+        explanation: "Nelle domande con can: can + soggetto + verbo base.",
+        concept: "modal question word order",
+        glossary: [{ term: "can", meaning: "può" }, { term: "open", meaning: "aprire" }],
+      },
+      {
+        wrong: "Do not to touch the red wire.",
+        correction: "Correzione: Do not touch the red wire.",
+        correctionDistractors: ["Correzione: Do not touching the red wire.", "Correzione: Does not touch the red wire."],
+        diagnosis: "Diagnosi: negative imperative + base verb",
+        diagnosisDistractors: ["Diagnosi: plural there are", "Diagnosi: comparative"],
+        explanation: "L'imperativo negativo usa do not + verbo base, senza to.",
+        concept: "negative imperative",
+        glossary: [{ term: "do not", meaning: "non" }, { term: "touch", meaning: "toccare" }],
+      },
+      {
+        wrong: "The key is between the drawer.",
+        correction: "Correzione: The key is in the drawer.",
+        correctionDistractors: ["Correzione: The key is into the drawer.", "Correzione: The key is at the drawer."],
+        diagnosis: "Diagnosi: in = inside one container",
+        diagnosisDistractors: ["Diagnosi: between two objects", "Diagnosi: future will"],
+        explanation: "Drawer è un contenitore singolo: serve in, non between.",
+        concept: "preposition of place",
+        glossary: [{ term: "in", meaning: "dentro" }, { term: "between", meaning: "tra due elementi" }],
+      },
+      {
+        wrong: "If it will rain, the robot stops.",
+        correction: "Correzione: If it rains, the robot stops.",
+        correctionDistractors: ["Correzione: If it rain, the robot stops.", "Correzione: If it raining, the robot stops."],
+        diagnosis: "Diagnosi: zero conditional present",
+        diagnosisDistractors: ["Diagnosi: present perfect", "Diagnosi: article a/an"],
+        explanation: "Nelle regole generali con if si usa il presente: if it rains.",
+        concept: "zero conditional",
+        glossary: [{ term: "if", meaning: "se" }, { term: "rains", meaning: "piove" }],
+      },
+      {
+        wrong: "You mustn't to open the hatch.",
+        correction: "Correzione: You mustn't open the hatch.",
+        correctionDistractors: ["Correzione: You mustn't opening the hatch.", "Correzione: You don't must open the hatch."],
+        diagnosis: "Diagnosi: modal + base verb",
+        diagnosisDistractors: ["Diagnosi: past passive", "Diagnosi: there is/are"],
+        explanation: "Dopo must/mustn't il verbo resta alla forma base, senza to.",
+        concept: "modal prohibition",
+        glossary: [{ term: "mustn't", meaning: "non devi" }, { term: "hatch", meaning: "sportello" }],
+      },
+      {
+        wrong: "Where you put the key yesterday?",
+        correction: "Correzione: Where did you put the key yesterday?",
+        correctionDistractors: ["Correzione: Where do you put the key yesterday?", "Correzione: Where did you putted the key yesterday?"],
+        diagnosis: "Diagnosi: past question did + base verb",
+        diagnosisDistractors: ["Diagnosi: present continuous", "Diagnosi: possessive adjective"],
+        explanation: "Domanda al past simple: wh-word + did + soggetto + verbo base.",
+        concept: "past question",
+        glossary: [{ term: "where", meaning: "dove" }, { term: "did", meaning: "ausiliare passato" }],
+      },
+      {
+        wrong: "The file has loaded yet.",
+        correction: "Correzione: The file has not loaded yet.",
+        correctionDistractors: ["Correzione: The file has loaded already not.", "Correzione: The file load yet."],
+        diagnosis: "Diagnosi: yet in negative sentence",
+        diagnosisDistractors: ["Diagnosi: comparative", "Diagnosi: preposition of place"],
+        explanation: "Yet indica non ancora in frasi negative: has not loaded yet.",
+        concept: "present perfect yet",
+        glossary: [{ term: "yet", meaning: "ancora / non ancora" }, { term: "loaded", meaning: "caricato" }],
+      },
+      {
+        wrong: "This is the more safe route.",
+        correction: "Correzione: This is the safest route.",
+        correctionDistractors: ["Correzione: This is the safer route.", "Correzione: This is the most safe route."],
+        diagnosis: "Diagnosi: superlative safest",
+        diagnosisDistractors: ["Diagnosi: comparative between two", "Diagnosi: past passive"],
+        explanation: "Con the e un confronto tra più alternative serve il superlativo: safest.",
+        concept: "superlative adjective",
+        glossary: [{ term: "safest", meaning: "il più sicuro" }, { term: "route", meaning: "percorso" }],
+      },
+      {
+        wrong: "She don't understand the evidence.",
+        correction: "Correzione: She doesn't understand the evidence.",
+        correctionDistractors: ["Correzione: She doesn't understands the evidence.", "Correzione: She not understand the evidence."],
+        diagnosis: "Diagnosi: third person doesn't + base verb",
+        diagnosisDistractors: ["Diagnosi: passive voice", "Diagnosi: many/much"],
+        explanation: "Terza persona singolare negativa: doesn't + verbo base.",
+        concept: "present simple negative",
+        glossary: [{ term: "doesn't", meaning: "non" }, { term: "evidence", meaning: "prova" }],
+      },
+      {
+        wrong: "The robot is more fast than the drone.",
+        correction: "Correzione: The robot is faster than the drone.",
+        correctionDistractors: ["Correzione: The robot is fast than the drone.", "Correzione: The robot is fastest than the drone."],
+        diagnosis: "Diagnosi: comparative faster",
+        diagnosisDistractors: ["Diagnosi: superlative", "Diagnosi: modal verb"],
+        explanation: "Fast è aggettivo breve: comparativo faster than.",
+        concept: "comparative adjective",
+        glossary: [{ term: "faster", meaning: "più veloce" }, { term: "than", meaning: "di/che" }],
+      },
+      {
+        wrong: "Please you close the door.",
+        correction: "Correzione: Please close the door.",
+        correctionDistractors: ["Correzione: Please closing the door.", "Correzione: Please to close the door."],
+        diagnosis: "Diagnosi: polite imperative",
+        diagnosisDistractors: ["Diagnosi: wh-question", "Diagnosi: past perfect"],
+        explanation: "L'imperativo cortese usa please + verbo base, senza soggetto you.",
+        concept: "polite imperative",
+        glossary: [{ term: "please", meaning: "per favore" }, { term: "close", meaning: "chiudere" }],
+      },
+      {
+        wrong: "The informations are useful.",
+        correction: "Correzione: The information is useful.",
+        correctionDistractors: ["Correzione: The information are useful.", "Correzione: The informations is useful."],
+        diagnosis: "Diagnosi: information is uncountable",
+        diagnosisDistractors: ["Diagnosi: plural countable noun", "Diagnosi: future will"],
+        explanation: "Information in inglese è non numerabile: singolare, senza -s.",
+        concept: "uncountable noun",
+        glossary: [{ term: "information", meaning: "informazione/i" }, { term: "useful", meaning: "utile" }],
+      },
+      {
+        wrong: "I am agree with the report.",
+        correction: "Correzione: I agree with the report.",
+        correctionDistractors: ["Correzione: I am agreeing with the report.", "Correzione: I do agree to the report."],
+        diagnosis: "Diagnosi: agree is not be + adjective",
+        diagnosisDistractors: ["Diagnosi: present continuous action", "Diagnosi: preposition of place"],
+        explanation: "Agree è un verbo: si dice I agree, non I am agree.",
+        concept: "verb vs adjective",
+        glossary: [{ term: "agree", meaning: "essere d'accordo" }, { term: "with", meaning: "con" }],
+      },
+      {
+        wrong: "The students was ready.",
+        correction: "Correzione: The students were ready.",
+        correctionDistractors: ["Correzione: The students is ready.", "Correzione: The students be ready."],
+        diagnosis: "Diagnosi: plural past be = were",
+        diagnosisDistractors: ["Diagnosi: present simple", "Diagnosi: article a/an"],
+        explanation: "Students è plurale: al passato del verbo be serve were.",
+        concept: "past be agreement",
+        glossary: [{ term: "students", meaning: "studenti" }, { term: "were", meaning: "erano" }],
+      },
+      {
+        wrong: "I need an uniform for the lab.",
+        correction: "Correzione: I need a uniform for the lab.",
+        correctionDistractors: ["Correzione: I need the uniform a lab.", "Correzione: I need an uniforms for the lab."],
+        diagnosis: "Diagnosi: a before /ju:/ sound",
+        diagnosisDistractors: ["Diagnosi: plural article", "Diagnosi: past simple"],
+        explanation: "Uniform inizia con suono /ju/ consonantico: si usa a, non an.",
+        concept: "article a/an by sound",
+        glossary: [{ term: "uniform", meaning: "uniforme" }, { term: "a/an", meaning: "un/una" }],
+      },
+      {
+        wrong: "The test starts in Monday.",
+        correction: "Correzione: The test starts on Monday.",
+        correctionDistractors: ["Correzione: The test starts at Monday.", "Correzione: The test starts by Monday."],
+        diagnosis: "Diagnosi: on + day",
+        diagnosisDistractors: ["Diagnosi: in + month", "Diagnosi: at + time"],
+        explanation: "Con i giorni della settimana si usa on: on Monday.",
+        concept: "preposition of time",
+        glossary: [{ term: "on Monday", meaning: "di lunedì" }, { term: "starts", meaning: "inizia" }],
+      },
+    ];
+    const item = random.pick(level >= 5 ? [...base, ...advanced] : base);
+    const tiles = this.shuffleEnglishTiles(random, [
+      this.englishTile(index * 20, item.correction, true, `Correzione corretta. ${item.explanation}`),
+      this.englishTile(index * 20 + 1, item.diagnosis, true, `Diagnosi corretta. ${item.explanation}`),
+      ...item.correctionDistractors.map((label, choiceIndex) => this.englishTile(index * 20 + choiceIndex + 2, label, false, `La frase resta scorretta: ${item.explanation}`)),
+      ...item.diagnosisDistractors.map((label, choiceIndex) => this.englishTile(index * 20 + choiceIndex + 6, label, false, `Diagnosi fuori bersaglio: ${item.explanation}`)),
+    ]);
+    return {
+      id: `english-error-${index}`,
+      type: "error-diagnosis",
+      instruction: `Fix and diagnose: "${item.wrong}"`,
+      context: "Una frase inglese è instabile: scegli la correzione e il motivo grammaticale.",
+      targetLabel: "Correzione + diagnosi",
+      requiredSelectionCount: 2,
+      tiles,
+      solutionLabels: [item.correction, item.diagnosis],
+      explanation: item.explanation,
+      concept: item.concept,
+      glossary: item.glossary,
+      signature: `error-${item.wrong}-${item.correction}-${item.diagnosis}`,
+    };
+  }
+
+  private buildDialogueResponsePrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
+    type DialogueItem = {
+      situation: string;
+      prompt: string;
+      response: string;
+      responseDistractors: string[];
+      reason: string;
+      reasonDistractors: string[];
+      explanation: string;
+      concept: string;
+      glossary: Array<{ term: string; meaning: string }>;
+    };
+    const base: DialogueItem[] = [
+      {
+        situation: "A classmate asks: Can I borrow your ruler?",
+        prompt: "Choose a polite useful reply.",
+        response: "Risposta: Sure, here you are.",
+        responseDistractors: ["Risposta: No ruler yesterday.", "Risposta: I am ruler."],
+        reason: "Motivo: polite permission + object",
+        reasonDistractors: ["Motivo: past time", "Motivo: place preposition"],
+        explanation: "Sure, here you are è una risposta naturale e cortese a una richiesta semplice.",
+        concept: "polite classroom response",
+        glossary: [{ term: "borrow", meaning: "prendere in prestito" }, { term: "here you are", meaning: "ecco a te" }],
+      },
+      {
+        situation: "The teacher says: The lab starts in five minutes.",
+        prompt: "Choose the best response to show readiness.",
+        response: "Risposta: I'm ready.",
+        responseDistractors: ["Risposta: I ready yesterday.", "Risposta: Where is my lunch?"],
+        reason: "Motivo: readiness now",
+        reasonDistractors: ["Motivo: completed past action", "Motivo: unrelated topic"],
+        explanation: "I'm ready risponde allo stato attuale richiesto dalla situazione.",
+        concept: "short functional response",
+        glossary: [{ term: "ready", meaning: "pronto" }, { term: "starts", meaning: "inizia" }],
+      },
+      {
+        situation: "A sign says: Please keep the door closed.",
+        prompt: "Choose the action-response that respects the sign.",
+        response: "Risposta: OK, I will keep it closed.",
+        responseDistractors: ["Risposta: I will open it now.", "Risposta: It closed yesterday?"],
+        reason: "Motivo: keep closed repeats the instruction",
+        reasonDistractors: ["Motivo: opposite action", "Motivo: question form only"],
+        explanation: "Keep it closed riprende esattamente l'obbligo cortese del cartello.",
+        concept: "instruction response",
+        glossary: [{ term: "please", meaning: "per favore" }, { term: "keep closed", meaning: "tenere chiuso" }],
+      },
+    ];
+    const advanced: DialogueItem[] = [
+      {
+        situation: "You need help by email: your file will not open before the deadline.",
+        prompt: "Choose the most appropriate formal message.",
+        response: "Risposta: Could you help me open the file, please?",
+        responseDistractors: ["Risposta: Open my file now!!!", "Risposta: I file not open help?"],
+        reason: "Motivo: polite request with could",
+        reasonDistractors: ["Motivo: command too direct", "Motivo: wrong word order"],
+        explanation: "Could you...? è una richiesta cortese e adatta a un'email scolastica.",
+        concept: "polite request",
+        glossary: [{ term: "could you", meaning: "potresti" }, { term: "deadline", meaning: "scadenza" }],
+      },
+      {
+        situation: "A teammate reports: I found the cause of the error.",
+        prompt: "Choose a response that asks for evidence.",
+        response: "Risposta: What evidence did you find?",
+        responseDistractors: ["Risposta: Because evidence found?", "Risposta: I ignore the cause."],
+        reason: "Motivo: wh-question asks for proof",
+        reasonDistractors: ["Motivo: because gives a cause", "Motivo: refusal to collaborate"],
+        explanation: "What evidence did you find? chiede la prova in modo corretto: wh-word + did + subject + verb.",
+        concept: "evidence question",
+        glossary: [{ term: "evidence", meaning: "prova" }, { term: "did you find", meaning: "hai trovato" }],
+      },
+      {
+        situation: "A visitor asks where the lab is.",
+        prompt: "Choose a clear helpful reply.",
+        response: "Risposta: It is next to the library.",
+        responseDistractors: ["Risposta: Lab yesterday next.", "Risposta: I am the library."],
+        reason: "Motivo: place preposition",
+        reasonDistractors: ["Motivo: past time", "Motivo: identity sentence"],
+        explanation: "Next to indica una posizione chiara e la frase ha soggetto + verbo.",
+        concept: "giving directions",
+        glossary: [{ term: "next to", meaning: "accanto a" }, { term: "library", meaning: "biblioteca" }],
+      },
+      {
+        situation: "Your partner says: I don't understand this instruction.",
+        prompt: "Choose a supportive response.",
+        response: "Risposta: Let's read it together.",
+        responseDistractors: ["Risposta: You are instruction.", "Risposta: Yesterday together read."],
+        reason: "Motivo: collaborative suggestion",
+        reasonDistractors: ["Motivo: wrong identity", "Motivo: past time confusion"],
+        explanation: "Let's propone un'azione collaborativa naturale e utile.",
+        concept: "collaborative classroom language",
+        glossary: [{ term: "let's", meaning: "facciamo" }, { term: "together", meaning: "insieme" }],
+      },
+      {
+        situation: "The teacher asks: Why is your conclusion still uncertain?",
+        prompt: "Choose the best answer.",
+        response: "Risposta: Because we need one more source.",
+        responseDistractors: ["Risposta: Yes, it is source.", "Risposta: I am uncertain yesterday."],
+        reason: "Motivo: because gives a cause",
+        reasonDistractors: ["Motivo: yes/no answer", "Motivo: past-time mismatch"],
+        explanation: "Why richiede una causa; because introduce il motivo dell'incertezza.",
+        concept: "answering why",
+        glossary: [{ term: "why", meaning: "perché" }, { term: "because", meaning: "perché / poiché" }],
+      },
+      {
+        situation: "A teammate asks permission: Can I restart the tablet?",
+        prompt: "Choose a safe conditional reply.",
+        response: "Risposta: Yes, if the log is saved.",
+        responseDistractors: ["Risposta: Restart because yes.", "Risposta: No save the log yesterday."],
+        reason: "Motivo: permission with condition",
+        reasonDistractors: ["Motivo: no condition", "Motivo: past irrelevant"],
+        explanation: "Yes, if... dà permesso solo quando la condizione è rispettata.",
+        concept: "conditional permission",
+        glossary: [{ term: "if", meaning: "se" }, { term: "saved", meaning: "salvato" }],
+      },
+      {
+        situation: "You need to interrupt politely during group work.",
+        prompt: "Choose the polite phrase.",
+        response: "Risposta: Excuse me, can I add something?",
+        responseDistractors: ["Risposta: Stop talking now.", "Risposta: I add yesterday something?"],
+        reason: "Motivo: polite interruption",
+        reasonDistractors: ["Motivo: rude command", "Motivo: wrong question order"],
+        explanation: "Excuse me + can I...? è una formula cortese per intervenire.",
+        concept: "polite interruption",
+        glossary: [{ term: "excuse me", meaning: "scusami/scusate" }, { term: "add", meaning: "aggiungere" }],
+      },
+      {
+        situation: "A classmate says: I think this source is reliable.",
+        prompt: "Choose a critical but polite response.",
+        response: "Risposta: How can we check it?",
+        responseDistractors: ["Risposta: You are wrong always.", "Risposta: Source check how can?"],
+        reason: "Motivo: asks for verification",
+        reasonDistractors: ["Motivo: personal attack", "Motivo: wrong word order"],
+        explanation: "How can we check it? chiede verifica senza attaccare la persona.",
+        concept: "critical thinking dialogue",
+        glossary: [{ term: "reliable", meaning: "affidabile" }, { term: "check", meaning: "controllare" }],
+      },
+      {
+        situation: "The technician writes: Please send the report by 4 p.m.",
+        prompt: "Choose an appropriate reply.",
+        response: "Risposta: Sure, I will send it by 4 p.m.",
+        responseDistractors: ["Risposta: I sent tomorrow yesterday.", "Risposta: No report is pizza."],
+        reason: "Motivo: confirms deadline",
+        reasonDistractors: ["Motivo: time words conflict", "Motivo: unrelated topic"],
+        explanation: "La risposta conferma l'azione e la scadenza richiesta.",
+        concept: "deadline response",
+        glossary: [{ term: "send", meaning: "inviare" }, { term: "by 4 p.m.", meaning: "entro le 16" }],
+      },
+      {
+        situation: "You made a mistake in the shared file.",
+        prompt: "Choose a responsible response.",
+        response: "Risposta: Sorry, I will correct it now.",
+        responseDistractors: ["Risposta: It mistakes me never.", "Risposta: Correct yesterday sorry."],
+        reason: "Motivo: apology + repair action",
+        reasonDistractors: ["Motivo: denies responsibility", "Motivo: broken word order"],
+        explanation: "Sorry + I will correct it now riconosce il problema e propone un'azione.",
+        concept: "apology and repair",
+        glossary: [{ term: "sorry", meaning: "mi dispiace" }, { term: "correct", meaning: "correggere" }],
+      },
+      {
+        situation: "A teammate asks: Which route is safer?",
+        prompt: "Choose the useful comparative answer.",
+        response: "Risposta: The north route is safer.",
+        responseDistractors: ["Risposta: North more safe route is.", "Risposta: Yes, route."],
+        reason: "Motivo: comparative adjective",
+        reasonDistractors: ["Motivo: wrong word order", "Motivo: incomplete answer"],
+        explanation: "Safer è il comparativo corretto e la frase risponde alla domanda.",
+        concept: "comparative response",
+        glossary: [{ term: "safer", meaning: "più sicuro" }, { term: "route", meaning: "percorso" }],
+      },
+      {
+        situation: "The teacher asks: Have you finished the report yet?",
+        prompt: "Choose a clear honest answer.",
+        response: "Risposta: Not yet, but I have checked the data.",
+        responseDistractors: ["Risposta: Yes not finished already.", "Risposta: I finish yesterday tomorrow."],
+        reason: "Motivo: present perfect with yet",
+        reasonDistractors: ["Motivo: contradictory answer", "Motivo: conflicting time words"],
+        explanation: "Not yet risponde correttamente a una domanda con yet e aggiunge progresso reale.",
+        concept: "present perfect answer",
+        glossary: [{ term: "not yet", meaning: "non ancora" }, { term: "checked", meaning: "controllato" }],
+      },
+      {
+        situation: "A sign says: Do not touch the metal plate.",
+        prompt: "Choose the safest response.",
+        response: "Risposta: OK, I won't touch it.",
+        responseDistractors: ["Risposta: I will touch it now.", "Risposta: Plate touch not yesterday."],
+        reason: "Motivo: respects prohibition",
+        reasonDistractors: ["Motivo: opposite action", "Motivo: broken sentence"],
+        explanation: "I won't touch it rispetta il divieto del cartello.",
+        concept: "responding to prohibition",
+        glossary: [{ term: "won't", meaning: "non farò" }, { term: "touch", meaning: "toccare" }],
+      },
+      {
+        situation: "You do not hear the instruction clearly.",
+        prompt: "Choose a polite request.",
+        response: "Risposta: Could you repeat that, please?",
+        responseDistractors: ["Risposta: Repeat now you!", "Risposta: I not hear yesterday?"],
+        reason: "Motivo: polite request",
+        reasonDistractors: ["Motivo: rude imperative", "Motivo: time mismatch"],
+        explanation: "Could you...? + please rende la richiesta cortese e corretta.",
+        concept: "asking for repetition",
+        glossary: [{ term: "repeat", meaning: "ripetere" }, { term: "please", meaning: "per favore" }],
+      },
+      {
+        situation: "A classmate thanks you for help.",
+        prompt: "Choose a natural reply.",
+        response: "Risposta: You're welcome.",
+        responseDistractors: ["Risposta: You welcome me.", "Risposta: I am thank."],
+        reason: "Motivo: fixed polite formula",
+        reasonDistractors: ["Motivo: literal translation", "Motivo: wrong verb"],
+        explanation: "You're welcome è la risposta naturale a thank you.",
+        concept: "polite formula",
+        glossary: [{ term: "thank you", meaning: "grazie" }, { term: "you're welcome", meaning: "prego" }],
+      },
+      {
+        situation: "The group needs a decision, but the evidence is incomplete.",
+        prompt: "Choose a cautious response.",
+        response: "Risposta: Let's collect more evidence first.",
+        responseDistractors: ["Risposta: We are certainly finished.", "Risposta: Evidence more first collect let's?"],
+        reason: "Motivo: cautious action before decision",
+        reasonDistractors: ["Motivo: overconfident conclusion", "Motivo: wrong word order"],
+        explanation: "More evidence first è prudente quando le prove sono incomplete.",
+        concept: "cautious academic response",
+        glossary: [{ term: "collect", meaning: "raccogliere" }, { term: "evidence", meaning: "prove" }],
+      },
+      {
+        situation: "A teammate says: The file is missing.",
+        prompt: "Choose a practical response.",
+        response: "Risposta: Let's check the archive.",
+        responseDistractors: ["Risposta: File missing happy.", "Risposta: We checked tomorrow."],
+        reason: "Motivo: proposes next action",
+        reasonDistractors: ["Motivo: unrelated adjective", "Motivo: time conflict"],
+        explanation: "Let's check propone un'azione utile e collaborativa.",
+        concept: "problem-solving response",
+        glossary: [{ term: "missing", meaning: "mancante" }, { term: "archive", meaning: "archivio" }],
+      },
+      {
+        situation: "The teacher says: Work quietly, please.",
+        prompt: "Choose the response that shows understanding.",
+        response: "Risposta: OK, we will work quietly.",
+        responseDistractors: ["Risposta: We loud work please.", "Risposta: Quietly is yesterday."],
+        reason: "Motivo: adverb of manner",
+        reasonDistractors: ["Motivo: opposite manner", "Motivo: time mismatch"],
+        explanation: "Work quietly riprende l'avverbio di modo richiesto.",
+        concept: "adverb response",
+        glossary: [{ term: "quietly", meaning: "in silenzio" }, { term: "work", meaning: "lavorare" }],
+      },
+      {
+        situation: "You want to disagree politely with an idea.",
+        prompt: "Choose a respectful response.",
+        response: "Risposta: I see your point, but I think the data says otherwise.",
+        responseDistractors: ["Risposta: Your idea is stupid.", "Risposta: Data otherwise think I but."],
+        reason: "Motivo: polite disagreement with evidence",
+        reasonDistractors: ["Motivo: rude personal comment", "Motivo: broken word order"],
+        explanation: "La frase riconosce l'altro punto di vista e introduce una prova contraria.",
+        concept: "polite disagreement",
+        glossary: [{ term: "I see your point", meaning: "capisco il tuo punto" }, { term: "otherwise", meaning: "il contrario/altrimenti" }],
+      },
+      {
+        situation: "A student asks: What does 'reliable' mean?",
+        prompt: "Choose a helpful explanation.",
+        response: "Risposta: It means you can trust it.",
+        responseDistractors: ["Risposta: It means very colorful.", "Risposta: Trust can it you means."],
+        reason: "Motivo: explains meaning in context",
+        reasonDistractors: ["Motivo: unrelated meaning", "Motivo: wrong word order"],
+        explanation: "Reliable riguarda fiducia/affidabilità, non aspetto.",
+        concept: "explaining vocabulary",
+        glossary: [{ term: "reliable", meaning: "affidabile" }, { term: "trust", meaning: "fidarsi" }],
+      },
+      {
+        situation: "The lab assistant asks: Are the samples ready?",
+        prompt: "Choose a precise answer.",
+        response: "Risposta: The red sample is ready, but the blue one is not.",
+        responseDistractors: ["Risposta: Samples ready blue not red yes.", "Risposta: Every sample is ready."],
+        reason: "Motivo: contrast with but",
+        reasonDistractors: ["Motivo: broken syntax", "Motivo: overgeneralization"],
+        explanation: "But distingue due stati senza dire che tutti i campioni sono pronti.",
+        concept: "contrast response",
+        glossary: [{ term: "ready", meaning: "pronto" }, { term: "but", meaning: "ma" }],
+      },
+      {
+        situation: "A teammate asks: Should we open the archive now?",
+        prompt: "Choose a safe answer.",
+        response: "Risposta: Not until the green seal is on.",
+        responseDistractors: ["Risposta: Yes, without the seal.", "Risposta: Archive now green not."],
+        reason: "Motivo: not until sets a condition",
+        reasonDistractors: ["Motivo: ignores condition", "Motivo: broken word order"],
+        explanation: "Not until impone attesa fino alla condizione del sigillo verde.",
+        concept: "conditional safety response",
+        glossary: [{ term: "not until", meaning: "non prima che" }, { term: "seal", meaning: "sigillo" }],
+      },
+      {
+        situation: "You need to ask for clarification in an email.",
+        prompt: "Choose the formal sentence.",
+        response: "Risposta: Could you clarify the last instruction, please?",
+        responseDistractors: ["Risposta: What you mean???", "Risposta: Last instruction clarify could you please?"],
+        reason: "Motivo: formal clarification request",
+        reasonDistractors: ["Motivo: too informal", "Motivo: wrong question order"],
+        explanation: "Could you clarify...? è cortese, chiaro e adatto a un'email.",
+        concept: "formal email request",
+        glossary: [{ term: "clarify", meaning: "chiarire" }, { term: "instruction", meaning: "istruzione" }],
+      },
+    ];
+    const item = random.pick(level >= 5 ? [...base, ...advanced] : base);
+    const tiles = this.shuffleEnglishTiles(random, [
+      this.englishTile(index * 20, item.response, true, `Risposta corretta. ${item.explanation}`),
+      this.englishTile(index * 20 + 1, item.reason, true, `Motivo corretto. ${item.explanation}`),
+      ...item.responseDistractors.map((label, choiceIndex) => this.englishTile(index * 20 + choiceIndex + 2, label, false, `Risposta non adeguata: ${item.explanation}`)),
+      ...item.reasonDistractors.map((label, choiceIndex) => this.englishTile(index * 20 + choiceIndex + 6, label, false, `Motivo non valido: ${item.explanation}`)),
+    ]);
+    return {
+      id: `english-dialogue-${index}`,
+      type: "dialogue-response",
+      instruction: item.prompt,
+      context: item.situation,
+      targetLabel: "Risposta + motivo",
+      requiredSelectionCount: 2,
+      tiles,
+      solutionLabels: [item.response, item.reason],
+      explanation: item.explanation,
+      concept: item.concept,
+      glossary: item.glossary,
+      signature: `dialogue-${item.situation}-${item.response}-${item.reason}`,
+    };
+  }
+
   private pickVocabularyEntry(random: Random, level: number): EnglishVocabularyEntry {
     const cappedLevel = Math.max(1, Math.min(8, level));
     const pool = englishVocabularyByMaxLevel(cappedLevel);
@@ -757,6 +2118,14 @@ export class EnglishInstructionGenerator {
     item: EnglishVocabularyEntry,
     field: "term" | "meaning",
   ): string[] {
+    return this.vocabularyDistractorEntries(random, item, field).map((entry) => field === "term" ? entry.term : entry.meaning);
+  }
+
+  private vocabularyDistractorEntries(
+    random: Random,
+    item: EnglishVocabularyEntry,
+    field: "term" | "meaning",
+  ): EnglishVocabularyEntry[] {
     const labelOf = (entry: EnglishVocabularyEntry): string => field === "term" ? entry.term : entry.meaning;
     const used = new Set<string>([labelOf(item)]);
     const closePool = englishVocabularyEntries.filter((entry) =>
@@ -765,16 +2134,19 @@ export class EnglishInstructionGenerator {
       && !used.has(labelOf(entry)),
     );
     const fallbackPool = englishVocabularyEntries.filter((entry) => entry.id !== item.id && !used.has(labelOf(entry)));
-    const labels: string[] = [];
-    for (const entry of random.shuffle([...closePool, ...fallbackPool])) {
+    const entries: EnglishVocabularyEntry[] = [];
+    // Prefer semantically/grammatically CLOSE distractors (same category or word
+    // class) so the answer can't be found by eliminating the wrong part of speech.
+    // Only fall back to unrelated words if there aren't enough close ones.
+    for (const entry of [...random.shuffle(closePool), ...random.shuffle(fallbackPool)]) {
       const label = labelOf(entry);
       if (!used.has(label)) {
         used.add(label);
-        labels.push(label);
+        entries.push(entry);
       }
-      if (labels.length >= 3) break;
+      if (entries.length >= 3) break;
     }
-    return labels;
+    return entries;
   }
 
   private vocabularyContext(item: EnglishVocabularyEntry): { prompt: string; explanation: string; concept: string } {
@@ -817,6 +2189,9 @@ export class EnglishInstructionGenerator {
     if (type === "sentence-build") return ["word order", "sentence structure", "questions"];
     if (type === "vocab-lab") return ["vocabulary", "false friends", "technical register"];
     if (type === "translation-match") return ["translation recognition", "bilingual vocabulary", "false friends"];
+    if (type === "reading-detective") return ["reading comprehension", "text evidence", "inference"];
+    if (type === "error-diagnosis") return ["error analysis", "grammar repair", "metalinguistic diagnosis"];
+    if (type === "dialogue-response") return ["communication", "register", "appropriate response"];
     return ["data reading", "threshold", "comparison"];
   }
 
@@ -827,6 +2202,9 @@ export class EnglishInstructionGenerator {
     if (type === "sentence-build") return "Allena la costruzione della frase e della domanda in inglese: ordine soggetto-verbo e posizione dell'ausiliare.";
     if (type === "vocab-lab") return "Allena vocabolario inglese in contesto: termini tecnici, falsi amici, prove, sicurezza e registro formale.";
     if (type === "translation-match") return "Allena il riconoscimento rapido della traduzione italiana corretta, con distrattori vicini e falsi amici.";
+    if (type === "reading-detective") return "Allena comprensione di brevi testi: lo studente deve scegliere l'inferenza e la prova testuale che la sostiene.";
+    if (type === "error-diagnosis") return "Allena grammatica attiva: non basta scegliere la forma, bisogna riconoscere il tipo di errore.";
+    if (type === "dialogue-response") return "Allena inglese comunicativo scolastico: risposta adeguata, registro cortese e scopo della conversazione.";
     return "Allena lettura di dati semplici in inglese: below, above, between, dimmer, brighter e soglie.";
   }
 
@@ -837,6 +2215,9 @@ export class EnglishInstructionGenerator {
     if (type === "sentence-build") return "Parti dal soggetto, poi il verbo; nelle domande metti l'ausiliare prima del soggetto.";
     if (type === "vocab-lab") return "Leggi il contesto e scegli la parola che rende il messaggio tecnicamente corretto: attenzione a falsi amici e registro.";
     if (type === "translation-match") return "Leggi la parola inglese, richiama il significato italiano e scarta distrattori simili o falsi amici.";
+    if (type === "reading-detective") return "Prima rispondi alla domanda, poi scegli la frase del testo che dimostra la risposta.";
+    if (type === "error-diagnosis") return "Ripara la frase e nomina l'errore: tempo verbale, accordo, ordine, preposizione o condizione.";
+    if (type === "dialogue-response") return "Identifica situazione, rapporto tra persone e scopo; poi scegli la risposta naturale e il motivo.";
     return "Leggi la soglia o il confronto, confronta i dati, poi scegli una sola azione.";
   }
 
@@ -847,6 +2228,9 @@ export class EnglishInstructionGenerator {
     if (type === "sentence-build") return ["subject", "verb", "rest / aux first in questions"];
     if (type === "vocab-lab") return ["context", "meaning", "best word"];
     if (type === "translation-match") return ["English term", "Italian meaning", "false-friend check"];
+    if (type === "reading-detective") return ["question", "answer", "text evidence"];
+    if (type === "error-diagnosis") return ["wrong sentence", "repair", "error type"];
+    if (type === "dialogue-response") return ["situation", "purpose", "appropriate reply"];
     return ["threshold", "data", "action"];
   }
 

@@ -1305,7 +1305,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ...game,
       title: this.isProgressiveMode() ? "Sprint italiano: percorso variato" : game.title,
       instructions: this.isProgressiveMode()
-        ? "alterni accordi, verbi, connettivi, intrusi e ordine delle parole: leggi l'obiettivo prima di cliccare."
+        ? "alterni accordi, verbi, connettivi, ortografia, lessico, intrusi e ordine delle parole: leggi l'obiettivo prima di cliccare."
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
     };
@@ -1334,7 +1334,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private progressiveLanguageSprintTypes(baseType: LanguageMinigameType): LanguageMinigameType[] {
-    const rotation: LanguageMinigameType[] = ["agreement-sprint", "verb-mastery", "connector-route", "intruder-hunt", "word-order", "lexicon-lab"];
+    const rotation: LanguageMinigameType[] = ["agreement-sprint", "verb-mastery", "punctuation-fix", "connector-route", "intruder-hunt", "word-order", "lexicon-lab"];
     return [baseType, ...rotation.filter((type) => type !== baseType)];
   }
 
@@ -1353,7 +1353,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.strokeRoundedRect(x, y, width, height, 12);
     overlay.add(g);
 
-    const accent = prompt.type === "agreement-sprint" ? 0x6be7d6 : prompt.type === "connector-route" ? 0xf6c85f : prompt.type === "verb-mastery" ? 0x70d68a : 0x9f8cff;
+    const accent = prompt.type === "agreement-sprint" ? 0x6be7d6
+      : prompt.type === "connector-route" ? 0xf6c85f
+        : prompt.type === "verb-mastery" ? 0x70d68a
+          : prompt.type === "punctuation-fix" ? 0xffb86b
+            : 0x9f8cff;
     overlay.add(this.add.rectangle(x + 26, y + 34, width - 52, 74, 0x102533, 0.8)
       .setOrigin(0)
       .setStrokeStyle(1, accent, 0.45));
@@ -1399,6 +1403,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontFamily: "Inter, Arial",
         fontSize: "13px",
         color: "#d8c9ff",
+        wordWrap: { width: width - 88 },
+      }));
+    } else if (prompt.type === "punctuation-fix") {
+      overlay.add(this.add.text(x + 44, y + 142, "Controlla funzione e forma: accento, apostrofo o parola intera cambiano significato.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#ffd8a8",
         wordWrap: { width: width - 88 },
       }));
     } else {
@@ -1519,7 +1530,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
         ? "Chiediti: la seconda parte spiega, contrasta, segue nel tempo o pone una condizione?"
         : prompt.type === "word-order"
           ? "Parti dal soggetto, poi il verbo, poi i complementi; il tempo o la condizione vanno in fondo."
-          : "Confronta ogni dettaglio con l'obiettivo. Se non aiuta a rispondere, è rumore.";
+          : prompt.type === "lexicon-lab"
+            ? "Chiediti quale parola rende il messaggio più preciso: prova, ipotesi, diagnosi e opinione non sono sinonimi."
+            : prompt.type === "punctuation-fix"
+              ? "Nomina la funzione: verbo essere, congiunzione, pronome, troncamento o elisione. Poi scegli accento o apostrofo."
+              : "Confronta ogni dettaglio con l'obiettivo. Se non aiuta a rispondere, è rumore.";
     session.feedback = hint;
     this.useHint(hint);
     this.openLanguageMinigame(session.puzzle);
@@ -1875,6 +1890,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     if (prompt.type === "word-order") {
       return "Metodo: soggetto, verbo, complementi; metti tempo o condizione in fondo. Rileggi se suona naturale.";
+    }
+    if (prompt.type === "lexicon-lab") {
+      return "Metodo: scegli la parola che rende più preciso lo scopo del messaggio: prova, ipotesi, fonte, diagnosi o registro.";
+    }
+    if (prompt.type === "punctuation-fix") {
+      return "Metodo: identifica la funzione della parola, poi controlla accento, apostrofo e forma intera.";
     }
     return "Metodo: confronta ogni dettaglio con l'obiettivo. Se non aiuta diagnosi, sequenza, fonte o sintesi, è rumore.";
   }
@@ -4589,7 +4610,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ...game,
       title: this.isProgressiveMode() ? "Sprint inglese: percorso variato" : game.title,
       instructions: this.isProgressiveMode()
-        ? "alterni azioni, sequenze, dati, grammatica, frase e traduzione: trova prima lo scopo della domanda."
+        ? "alterni azioni, sequenze, dati, grammatica, frase, traduzione, lettura, diagnosi e dialogo: trova prima lo scopo della domanda."
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
     };
@@ -4618,7 +4639,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private progressiveEnglishSprintTypes(baseType: EnglishMinigameType): EnglishMinigameType[] {
-    const rotation: EnglishMinigameType[] = ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match"];
+    const rotation: EnglishMinigameType[] = ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match", "reading-detective", "error-diagnosis", "dialogue-response"];
     return [baseType, ...rotation.filter((type) => type !== baseType)];
   }
 
@@ -4637,7 +4658,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     g.strokeRoundedRect(x, y, width, height, 12);
     overlay.add(g);
 
-    const accent = prompt.type === "action-relay" ? 0x6be7d6 : prompt.type === "sequence-switchboard" ? 0xf6c85f : 0x9f8cff;
+    const accent = prompt.type === "action-relay" ? 0x6be7d6
+      : prompt.type === "sequence-switchboard" ? 0xf6c85f
+        : prompt.type === "reading-detective" ? 0x70d68a
+          : prompt.type === "error-diagnosis" ? 0xffb86b
+            : prompt.type === "dialogue-response" ? 0x5ec8ff
+              : 0x9f8cff;
     overlay.add(this.add.rectangle(x + 24, y + 28, width - 48, 82, 0x102533, 0.84)
       .setOrigin(0)
       .setStrokeStyle(1, accent, 0.45));
@@ -4672,11 +4698,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
             ? "CONTEXT -> MEANING -> BEST WORD"
             : prompt.type === "translation-match"
               ? "ENGLISH TERM -> ITALIAN MEANING -> CHECK"
-          : "TIME WORD -> FIRST EVENT -> SAFE ACTION";
+              : prompt.type === "reading-detective"
+                ? "QUESTION -> ANSWER -> TEXT EVIDENCE"
+                : prompt.type === "error-diagnosis"
+                  ? "WRONG SENTENCE -> REPAIR -> ERROR TYPE"
+                  : prompt.type === "dialogue-response"
+                    ? "SITUATION -> PURPOSE -> POLITE RESPONSE"
+                    : "TIME WORD -> FIRST EVENT -> SAFE ACTION";
     overlay.add(this.add.text(x + 42, y + 138, visualLine, {
       fontFamily: "Inter, Arial",
       fontSize: "16px",
-      color: prompt.type === "action-relay" ? "#9ff5e9" : (prompt.type === "grammar-fix" || prompt.type === "vocab-lab" || prompt.type === "translation-match") ? "#d8c9ff" : "#f7d37a",
+      color: prompt.type === "action-relay" ? "#9ff5e9"
+        : (prompt.type === "grammar-fix" || prompt.type === "vocab-lab" || prompt.type === "translation-match" || prompt.type === "error-diagnosis") ? "#d8c9ff"
+          : prompt.type === "reading-detective" ? "#9ff5a7"
+            : prompt.type === "dialogue-response" ? "#a8ddff"
+              : "#f7d37a",
       fontStyle: "bold",
       wordWrap: { width: width - 84 },
     }));
@@ -4690,7 +4726,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
             ? "Non tradurre a orecchio: scegli la parola che rispetta contesto, registro e significato tecnico."
             : prompt.type === "translation-match"
               ? "Riconosci la traduzione corretta: attenzione ai falsi amici e alle parole troppo simili."
-          : "Before, after, until e unless cambiano quando un comando è permesso.", {
+              : prompt.type === "reading-detective"
+                ? "Scegli risposta e prova testuale: un'inferenza vale solo se il log la sostiene."
+                : prompt.type === "error-diagnosis"
+                  ? "Ripara la frase e nomina l'errore: forma corretta e diagnosi devono combaciare."
+                  : prompt.type === "dialogue-response"
+                    ? "Scegli una risposta naturale per situazione, registro e scopo comunicativo."
+                    : "Before, after, until e unless cambiano quando un comando è permesso.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9aaab0",
@@ -4821,7 +4863,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
               ? "Leggi il contesto: la parola giusta deve rispettare significato tecnico, registro e falsi amici."
               : prompt.type === "translation-match"
                 ? "Prima traduci mentalmente il termine inglese, poi elimina le opzioni italiane che sono falsi amici o categorie diverse."
-                : "Guarda la soglia: below è sotto, above è sopra, between è dentro l'intervallo.";
+                : prompt.type === "reading-detective"
+                  ? "Prima rispondi alla domanda, poi scegli la frase del log che prova quella risposta."
+                  : prompt.type === "error-diagnosis"
+                    ? "Servono due scelte: la frase corretta e il nome dell'errore. Cerca il segnale grammaticale."
+                    : prompt.type === "dialogue-response"
+                      ? "Leggi chi parla e perché: la risposta deve essere utile, naturale e del registro giusto."
+                      : "Guarda la soglia: below è sotto, above è sopra, between è dentro l'intervallo.";
     session.feedback = hint;
     this.useHint(hint);
     this.openEnglishMinigame(session.puzzle);
@@ -5134,6 +5182,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     if (prompt.type === "sentence-build") {
       return "Metodo: soggetto + verbo + resto; nelle domande l'ausiliare (do/does/did) va prima del soggetto.";
+    }
+    if (prompt.type === "vocab-lab") {
+      return "Metodo: usa il contesto italiano e scegli la parola inglese che rispetta significato, categoria e registro.";
+    }
+    if (prompt.type === "translation-match") {
+      return "Metodo: traduci il termine inglese, poi scarta falsi amici e significati di categorie diverse.";
+    }
+    if (prompt.type === "reading-detective") {
+      return "Metodo: scegli prima l'inferenza, poi la prova testuale esatta che la sostiene.";
+    }
+    if (prompt.type === "error-diagnosis") {
+      return "Metodo: correggi la frase e nomina l'errore: tempo verbale, accordo, ordine, preposizione o condizione.";
+    }
+    if (prompt.type === "dialogue-response") {
+      return "Metodo: identifica situazione, scopo e registro; poi scegli risposta naturale e motivo.";
     }
     return "Method: compare data with the threshold. Choose the action only after checking below, above, between or comparative.";
   }

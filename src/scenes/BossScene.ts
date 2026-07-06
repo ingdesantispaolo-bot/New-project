@@ -187,7 +187,7 @@ export class BossScene extends Phaser.Scene {
         return { domain: "Italiano", color: 0x9f8cff, question: p.prompt, context: p.context, tiles: this.toTiles(p.tiles), explanation: p.explanation, competencies: mini.competencies };
       },
       () => {
-        const mini = new EnglishInstructionGenerator().generateMinigame(random, this.level, ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix"]).minigame!;
+        const mini = new EnglishInstructionGenerator().generateMinigame(random, this.level, ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "reading-detective", "error-diagnosis", "dialogue-response"]).minigame!;
         const p = this.pickPrompt(mini.prompts);
         return { domain: "Inglese", color: 0x5ec8ff, question: p.instruction, context: p.context, tiles: this.toTiles(p.tiles), explanation: p.explanation, competencies: mini.competencies };
       },

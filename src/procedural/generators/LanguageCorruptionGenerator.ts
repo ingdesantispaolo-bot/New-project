@@ -198,7 +198,7 @@ export class LanguageCorruptionGenerator {
     const level = Math.max(1, Math.min(8, difficultyLevel));
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<LanguageMinigameType>(["agreement-sprint", "connector-route", "intruder-hunt", "word-order", "lexicon-lab", "verb-mastery"]);
+      : random.pick<LanguageMinigameType>(["agreement-sprint", "connector-route", "intruder-hunt", "word-order", "lexicon-lab", "verb-mastery", "punctuation-fix", "argument-sort"]);
     const minigame = this.buildMinigame(random.fork(type), level, type);
     const first = minigame.prompts[0];
     const optionFeedback: Record<string, string> = {};
@@ -297,6 +297,8 @@ export class LanguageCorruptionGenerator {
       "word-order": "Minigioco italiano: Ricomponi il comando",
       "lexicon-lab": "Minigioco italiano: Lessico preciso",
       "verb-mastery": "Minigioco italiano: Modi e tempi dei verbi",
+      "punctuation-fix": "Minigioco italiano: Accenti e apostrofi",
+      "argument-sort": "Minigioco italiano: Fatti, opinioni e prove",
     };
     const instructions: Record<LanguageMinigameType, string> = {
       "agreement-sprint": "clicca la forma che rende la frase corretta per genere, numero e verbo.",
@@ -305,11 +307,13 @@ export class LanguageCorruptionGenerator {
       "word-order": "tocca le parole nell'ordine giusto per ricomporre il comando eseguibile.",
       "lexicon-lab": "clicca la parola più precisa per il contesto: tecnico, critico, narrativo o operativo.",
       "verb-mastery": "riconosci modo e tempo, oppure scrivi la forma verbale corretta in contesto.",
+      "punctuation-fix": "clicca la forma scritta correttamente: accenti e apostrofi al posto giusto.",
+      "argument-sort": "classifica l'affermazione: fatto, opinione, ipotesi o prova.",
     };
     // Comprehension-heavy sprints (find the intruder, choose the precise word)
     // run in a calmer, longer "reflective" mode: more reading time, no speed
     // pressure — friendlier for slower readers / DSA.
-    const reflective = type === "intruder-hunt" || type === "lexicon-lab";
+    const reflective = type === "intruder-hunt" || type === "lexicon-lab" || type === "argument-sort";
     return {
       type,
       title: titles[type],
@@ -330,6 +334,8 @@ export class LanguageCorruptionGenerator {
         ...(type === "word-order" ? ["italiano.coesione", "italiano.scritturaBreve"] : []),
         ...(type === "lexicon-lab" ? ["italiano.lessico", "italiano.scritturaBreve", "italiano.argomentazione"] : []),
         ...(type === "verb-mastery" ? ["italiano.verbi", "italiano.coesione", "italiano.scritturaBreve"] : []),
+        ...(type === "punctuation-fix" ? ["italiano.punteggiatura", "italiano.grammatica"] : []),
+        ...(type === "argument-sort" ? ["italiano.argomentazione", "italiano.comprensione", "pensieroCritico"] : []),
       ])),
     };
   }
@@ -358,6 +364,8 @@ export class LanguageCorruptionGenerator {
     if (type === "word-order") return this.buildWordOrderPrompt(random, level, index);
     if (type === "lexicon-lab") return this.buildLexiconPrompt(random, level, index);
     if (type === "verb-mastery") return this.buildVerbMasteryPrompt(random, level, index);
+    if (type === "punctuation-fix") return this.buildPunctuationPrompt(random, level, index);
+    if (type === "argument-sort") return this.buildArgumentPrompt(random, level, index);
     return this.buildIntruderPrompt(random, level, index);
   }
 
@@ -457,11 +465,11 @@ export class LanguageCorruptionGenerator {
         concept: "accordo in subordinata condizionale",
       },
       {
-        context: "La maggior parte dei moduli ___ pronta, ma alcuni sensori restano isolati.",
+        context: "L'elenco dei moduli ___ pronto, ma alcuni sensori restano isolati.",
         correct: "è",
         distractors: ["sono", "hanno", "vengono"],
-        explanation: "La maggior parte è un'espressione singolare: è pronta.",
-        concept: "accordo con nome collettivo",
+        explanation: "Il nucleo del soggetto è elenco, singolare maschile: l'elenco è pronto.",
+        concept: "nucleo del soggetto con complemento plurale",
       },
     ];
     // Mostly parametric (hundreds of reliable variants → not memorisable),
@@ -516,8 +524,8 @@ export class LanguageCorruptionGenerator {
       {
         context: "Controlla il registro ___ aprire la porta.",
         correct: "prima di",
-        distractors: ["dopo che", "nonostante", "perciò"],
-        explanation: "Serve un vincolo temporale: il controllo avviene prima dell'apertura.",
+        distractors: ["invece di", "senza", "pur di"],
+        explanation: "Serve un vincolo temporale: il controllo avviene prima dell'apertura (non al posto di, non senza, non a ogni costo).",
         concept: "ordine temporale",
       },
       {
@@ -542,11 +550,81 @@ export class LanguageCorruptionGenerator {
         concept: "causa esplicita",
       },
       {
-        context: "Il robot invia il segnale, ___ il nucleo registra l'arrivo.",
+        context: "Prima il robot invia il segnale, ___ il nucleo registra l'arrivo.",
         correct: "poi",
-        distractors: ["benché", "affinché", "perciò"],
-        explanation: "Poi mantiene l'ordine temporale: prima il segnale, dopo la registrazione.",
+        distractors: ["benché", "affinché", "invece"],
+        explanation: "Con «prima» all'inizio serve «poi»: è una sequenza temporale, prima il segnale, dopo la registrazione.",
         concept: "sequenza temporale",
+      },
+      {
+        context: "Il sensore non risponde, ___ controlla prima il cavo dati.",
+        correct: "perciò",
+        distractors: ["tuttavia", "sebbene", "mentre"],
+        explanation: "Perciò introduce una conseguenza operativa: il mancato segnale porta al controllo del cavo.",
+        concept: "conseguenza operativa",
+      },
+      {
+        context: "Il fusibile è integro, ___ il banco resta senza energia.",
+        correct: "eppure",
+        distractors: ["quindi", "poiché", "affinché"],
+        explanation: "Eppure segnala contrasto tra un controllo positivo e un problema ancora presente.",
+        concept: "contrasto inatteso",
+      },
+      {
+        context: "Registra la misura ___ la confronti con il valore precedente.",
+        correct: "prima che",
+        distractors: ["perché", "benché", "quindi"],
+        explanation: "Prima che indica che la registrazione deve precedere il confronto.",
+        concept: "anteriorità",
+      },
+      {
+        context: "La squadra può procedere ___ il supervisore conferma il rapporto.",
+        correct: "quando",
+        distractors: ["perciò", "sebbene", "invece"],
+        explanation: "Quando introduce il momento/condizione in cui l'azione diventa possibile.",
+        concept: "tempo-condizione",
+      },
+      {
+        context: "Il dato è utile, ___ non basta da solo a chiudere l'indagine.",
+        correct: "ma",
+        distractors: ["infatti", "dunque", "perché"],
+        explanation: "Ma limita la forza del dato: è utile, però non sufficiente.",
+        concept: "limitazione argomentativa",
+      },
+      {
+        context: "Il registro mostra due errori; ___, la fonte resta da verificare.",
+        correct: "inoltre",
+        distractors: ["invece", "benché", "affinché"],
+        explanation: "Inoltre aggiunge una seconda informazione allo stesso ragionamento.",
+        concept: "aggiunta",
+      },
+      {
+        context: "Non premere Conferma ___ hai riletto il messaggio.",
+        correct: "finché non",
+        distractors: ["perché non", "sebbene", "affinché"],
+        explanation: "Finché non indica il limite: aspetta fino al completamento della rilettura.",
+        concept: "limite temporale con negazione",
+      },
+      {
+        context: "Il testo cita una prova, ___ la conclusione è ancora troppo forte.",
+        correct: "però",
+        distractors: ["quindi", "poiché", "infatti"],
+        explanation: "Però segnala che la prova esiste ma non sostiene una conclusione così forte.",
+        concept: "concessione e limite",
+      },
+      {
+        context: "Il modulo salva il log ___ la rete torna disponibile.",
+        correct: "appena",
+        distractors: ["benché", "perciò", "invece"],
+        explanation: "Appena indica il momento immediatamente successivo al ritorno della rete.",
+        concept: "successione immediata",
+      },
+      {
+        context: "Il messaggio è breve ___ contiene tutti i dati essenziali.",
+        correct: "e",
+        distractors: ["perché", "sebbene", "affinché"],
+        explanation: "E coordina due qualità compatibili: brevità e completezza essenziale.",
+        concept: "coordinazione",
       },
     ];
     const advanced = [
@@ -592,6 +670,34 @@ export class LanguageCorruptionGenerator {
         explanation: "Affinché introduce lo scopo: permettere a un compagno di ripetere il passaggio.",
         concept: "scopo comunicativo",
       },
+      {
+        context: "La fonte è autorevole; ___, il dato va confrontato con una seconda misura.",
+        correct: "nonostante ciò",
+        distractors: ["per questo", "affinché", "finché"],
+        explanation: "Nonostante ciò introduce una cautela che resta valida anche davanti a una fonte autorevole.",
+        concept: "concessione argomentativa",
+      },
+      {
+        context: "Il log non dimostra il guasto, ___ suggerisce dove cercarlo.",
+        correct: "bensì",
+        distractors: ["quindi", "poiché", "mentre"],
+        explanation: "Bensì corregge l'interpretazione: non prova definitiva, ma indicazione di ricerca.",
+        concept: "correzione argomentativa",
+      },
+      {
+        context: "La porta si apre ___ il codice è valido e la chiave è presente.",
+        correct: "a condizione che",
+        distractors: ["benché", "perciò", "invece"],
+        explanation: "A condizione che introduce i requisiti necessari all'apertura.",
+        concept: "condizione complessa",
+      },
+      {
+        context: "Il rapporto separa fatti e opinioni, ___ il lettore può controllare le prove.",
+        correct: "così",
+        distractors: ["sebbene", "finché", "invece"],
+        explanation: "Così introduce il risultato del modo in cui il rapporto è scritto.",
+        concept: "risultato",
+      },
     ];
     const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
     const tiles = this.shuffleLanguageTiles(random, [
@@ -618,58 +724,128 @@ export class LanguageCorruptionGenerator {
       {
         context: "Obiettivo: capire perché la porta resta chiusa.",
         useful: ["la serratura non riceve corrente", "il codice è stato accettato", "il circuito è ancora aperto"],
-        intruder: "la cornice della porta è blu",
-        explanation: "Il colore della cornice non spiega il blocco della porta.",
-        concept: "informazioni utili e rumore",
+        intruder: "il tecnico indossa dei guanti nuovi",
+        explanation: "Cosa indossa il tecnico non ha alcun legame con il blocco della porta.",
+        concept: "informazione utile e dettaglio scollegato",
       },
       {
         context: "Obiettivo: scrivere un rapporto sulle cause del guasto.",
         useful: ["il sensore B non risponde", "il log indica soglia superata", "la valvola si apre in ritardo"],
-        intruder: "il banco degli attrezzi è vicino alla finestra",
-        explanation: "La posizione del banco non è una causa del guasto.",
-        concept: "causa e dettaglio irrilevante",
+        intruder: "il guasto è capitato di lunedì",
+        explanation: "Il giorno in cui è successo è una coincidenza, non una causa del guasto.",
+        concept: "causa vera vs coincidenza",
       },
       {
         context: "Obiettivo: ricostruire l'ordine degli eventi.",
         useful: ["prima il robot entra in base", "poi la valvola si apre", "infine il registro viene salvato"],
-        intruder: "il robot ha una scocca verde",
-        explanation: "Il colore del robot non aiuta a ricostruire la sequenza.",
+        intruder: "il robot pesa dodici chili",
+        explanation: "Il peso del robot è un dato vero ma non serve a ordinare gli eventi.",
         concept: "sequenza temporale",
       },
       {
         context: "Obiettivo: verificare se una fonte è affidabile.",
         useful: ["il dato è registrato dal tester", "la misura compare due volte", "l'orario del log è coerente"],
-        intruder: "il messaggio usa un font elegante",
-        explanation: "La grafica del font non dimostra affidabilità della fonte.",
-        concept: "fonte e prova",
+        intruder: "a prima vista sembra una fonte seria",
+        explanation: "Un'impressione non dimostra l'affidabilità: servono dati verificabili, non sensazioni.",
+        concept: "prova verificabile vs impressione",
       },
       {
         context: "Obiettivo: capire quale istruzione eseguire subito.",
         useful: ["il comando dice prima controlla la valvola", "il timer scade tra un minuto", "il pannello segnala rischio basso"],
-        intruder: "la valvola è disegnata con un'icona grande",
-        explanation: "La dimensione dell'icona non decide quale azione eseguire.",
+        intruder: "il pannello è di un modello recente",
+        explanation: "Il modello del pannello non decide quale azione fare per prima.",
         concept: "priorità operativa",
       },
       {
         context: "Obiettivo: riscrivere un log chiaro per un compagno.",
         useful: ["indica il componente guasto", "spiega l'effetto osservato", "propone il prossimo controllo"],
-        intruder: "usa tre aggettivi decorativi sulla stanza",
-        explanation: "Gli aggettivi decorativi non aiutano un compagno a riparare il sistema.",
-        concept: "chiarezza comunicativa",
+        intruder: "aggiunge tre aggettivi decorativi sulla stanza",
+        explanation: "Gli aggettivi decorativi allungano il testo ma non aiutano un compagno a riparare il sistema.",
+        concept: "sintesi e chiarezza",
       },
       {
         context: "Obiettivo: scegliere una conclusione proporzionata alle prove.",
         useful: ["due misure indicano lo stesso valore", "una fonte resta non verificata", "il rapporto segnala un dubbio"],
-        intruder: "il terminale ha un bordo luminoso",
-        explanation: "Il bordo luminoso non aumenta né riduce la forza delle prove.",
-        concept: "conclusione proporzionata",
+        intruder: "il rapporto è stato scritto in fretta",
+        explanation: "Quanto in fretta è stato scritto non cambia la forza delle prove raccolte.",
+        concept: "forza delle prove vs modo di scrivere",
       },
       {
         context: "Obiettivo: capire quale frase guida davvero l'azione.",
         useful: ["prima scollega la batteria", "poi misura la continuità", "non toccare il ramo caldo"],
-        intruder: "il messaggio è scritto in stampatello",
-        explanation: "Lo stile grafico non modifica l'ordine operativo.",
-        concept: "istruzione e aspetto grafico",
+        intruder: "secondo me questo circuito è mal progettato",
+        explanation: "È un'opinione personale: non dà un ordine da eseguire come le altre frasi.",
+        concept: "istruzione vs opinione",
+      },
+      {
+        context: "Obiettivo: trovare la causa più probabile del blackout.",
+        useful: ["il ramo B non riceve corrente", "il fusibile del ramo B è interrotto", "gli altri rami restano attivi"],
+        intruder: "la stanza è stata pulita ieri",
+        explanation: "La pulizia della stanza non spiega perché solo il ramo B resta senza corrente.",
+        concept: "causa pertinente",
+      },
+      {
+        context: "Obiettivo: scegliere una prova verificabile.",
+        useful: ["il tester segna zero volt", "la misura è stata ripetuta", "il valore compare nel registro"],
+        intruder: "Nora sembra molto sicura",
+        explanation: "La sicurezza percepita di Nora non è una prova verificabile.",
+        concept: "prova vs fiducia",
+      },
+      {
+        context: "Obiettivo: scrivere una consegna breve.",
+        useful: ["spegni il banco", "attendi dieci secondi", "riavvia il modulo"],
+        intruder: "il banco è grande e lucido",
+        explanation: "L'aspetto del banco non serve alla consegna operativa.",
+        concept: "istruzione vs descrizione",
+      },
+      {
+        context: "Obiettivo: controllare se una sintesi è completa.",
+        useful: ["cita la causa", "indica l'effetto", "propone il prossimo passo"],
+        intruder: "ripete tre volte lo stesso dato",
+        explanation: "Ripetere lo stesso dato non aggiunge completezza: allunga soltanto la sintesi.",
+        concept: "completezza vs ripetizione",
+      },
+      {
+        context: "Obiettivo: distinguere fatto e interpretazione.",
+        useful: ["fatto: il LED resta spento", "fatto: il cavo è scollegato", "interpretazione: manca alimentazione"],
+        intruder: "fatto: secondo me il LED è timido",
+        explanation: "Secondo me introduce un'opinione, quindi non può essere etichettata come fatto.",
+        concept: "fatto vs opinione",
+      },
+      {
+        context: "Obiettivo: mantenere una sequenza causale.",
+        useful: ["causa: corto sul ramo B", "effetto: fusibile interrotto", "azione: sostituire il fusibile"],
+        intruder: "azione: sostituire il diario",
+        explanation: "Il diario non appartiene alla catena tecnica corto-fusibile-riparazione.",
+        concept: "catena causa-effetto-azione",
+      },
+      {
+        context: "Obiettivo: valutare una conclusione prudente.",
+        useful: ["una misura è coerente", "manca una seconda fonte", "la conclusione resta provvisoria"],
+        intruder: "il caso è sicuramente chiuso",
+        explanation: "Sicuramente chiuso è troppo forte se manca una seconda fonte.",
+        concept: "prudenza argomentativa",
+      },
+      {
+        context: "Obiettivo: preparare un rapporto per un compagno.",
+        useful: ["usa termini precisi", "ordina i passaggi", "segnala i dubbi"],
+        intruder: "sceglie parole difficili per sembrare esperto",
+        explanation: "Parole difficili non migliorano il rapporto se non aumentano precisione e chiarezza.",
+        concept: "registro e chiarezza",
+      },
+      {
+        context: "Obiettivo: isolare il dato che cambia la decisione.",
+        useful: ["la soglia è superata", "il timer sta per scadere", "la porta è ancora bloccata"],
+        intruder: "il simbolo della soglia è colorato in giallo",
+        explanation: "Il colore del simbolo non cambia la decisione se il valore della soglia è già noto.",
+        concept: "dato decisivo vs aspetto",
+      },
+      {
+        context: "Obiettivo: verificare la coerenza di un testo.",
+        useful: ["prima dice che la porta è chiusa", "poi dice che nessuno l'ha aperta", "infine ordina di cercare la chiave"],
+        intruder: "però afferma che la porta è già aperta",
+        explanation: "Dire che la porta è già aperta contraddice la situazione descritta dagli altri dati.",
+        concept: "contraddizione",
       },
     ];
     const advanced = [
@@ -686,6 +862,55 @@ export class LanguageCorruptionGenerator {
         intruder: "descrizione lunga delle luci del corridoio",
         explanation: "Una sintesi elimina dettagli decorativi che non cambiano causa, effetto o azione.",
         concept: "sintesi e pertinenza",
+      },
+      {
+        context: "Obiettivo: riconoscere un'inferenza sostenuta dal testo.",
+        useful: ["il log dice che la batteria è scarica", "la porta richiede alimentazione", "inferenza: serve ricaricare la batteria"],
+        intruder: "inferenza: la serratura è rotta per forza",
+        explanation: "La serratura potrebbe essere sana: il testo sostiene il problema di alimentazione, non una rottura certa.",
+        concept: "inferenza proporzionata",
+      },
+      {
+        context: "Obiettivo: distinguere concessione e smentita.",
+        useful: ["il registro è quasi completo", "manca una firma", "quindi non è ancora valido"],
+        intruder: "il registro è completo senza limiti",
+        explanation: "Dire completo senza limiti cancella il dato della firma mancante.",
+        concept: "concessione e limite",
+      },
+      {
+        context: "Obiettivo: controllare la pertinenza delle prove.",
+        useful: ["la prova misura lo stesso sensore", "la prova è recente", "la prova è ripetibile"],
+        intruder: "la prova è scritta con un titolo elegante",
+        explanation: "Un titolo elegante non rende una prova più pertinente o controllabile.",
+        concept: "pertinenza della prova",
+      },
+      {
+        context: "Obiettivo: scegliere una formulazione non ambigua.",
+        useful: ["indica chi compie l'azione", "nomina l'oggetto controllato", "specifica quando eseguire il comando"],
+        intruder: "usa il pronome 'lo' senza referente chiaro",
+        explanation: "Un pronome senza referente chiaro rende il comando ambiguo.",
+        concept: "referente del pronome",
+      },
+      {
+        context: "Obiettivo: valutare il registro del rapporto.",
+        useful: ["usa termini tecnici necessari", "evita espressioni colloquiali", "mantiene frasi brevi"],
+        intruder: "aggiunge 'fa casino' come diagnosi ufficiale",
+        explanation: "Fa casino è colloquiale e impreciso: non appartiene a un rapporto tecnico.",
+        concept: "registro formale",
+      },
+      {
+        context: "Obiettivo: distinguere causa e condizione.",
+        useful: ["causa: il cavo è interrotto", "condizione: riavvia solo dopo la sostituzione", "effetto: il banco resta spento"],
+        intruder: "causa: riavvia solo dopo la sostituzione",
+        explanation: "Riavvia solo dopo la sostituzione è una condizione operativa, non la causa del guasto.",
+        concept: "causa vs condizione",
+      },
+      {
+        context: "Obiettivo: preparare una scaletta logica.",
+        useful: ["osservazione iniziale", "ipotesi da verificare", "controllo finale"],
+        intruder: "conclusione definitiva prima delle prove",
+        explanation: "La conclusione definitiva non può precedere le prove in una scaletta logica.",
+        concept: "ordine argomentativo",
       },
     ];
     const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
@@ -705,6 +930,115 @@ export class LanguageCorruptionGenerator {
       explanation: item.explanation,
       concept: item.concept,
       signature: `intruder-${item.context}-${item.intruder}`,
+    };
+  }
+
+  private buildPunctuationPrompt(random: Random, level: number, index: number): LanguageMinigamePrompt {
+    const pool = [
+      { context: "Il sensore ___ spento e non risponde.", correct: "è", distractors: ["e", "é", "hè"], explanation: "«è» è il verbo essere (accento grave); «e» senza accento è la congiunzione.", concept: "è / e" },
+      { context: "Spiega ___ la porta resta bloccata.", correct: "perché", distractors: ["perchè", "perche", "per ché"], explanation: "«perché» vuole l'accento acuto sulla e (é) e si scrive unito.", concept: "accento acuto: perché" },
+      { context: "Aspetta un ___ e riprova la misura.", correct: "po'", distractors: ["pò", "po", "pó"], explanation: "«po'» abbrevia «poco»: vuole l'apostrofo, non l'accento (mai «pò»).", concept: "apostrofo: po'" },
+      { context: "___ il valore corretto della soglia?", correct: "Qual è", distractors: ["Qual'è", "Qual é", "Qual'e"], explanation: "«qual è» si scrive senza apostrofo: «qual» è un troncamento, non un'elisione; «è» usa l'accento grave.", concept: "qual è (no apostrofo)" },
+      { context: "___ un errore nel registro dei dati.", correct: "C'è", distractors: ["Ce", "C'e", "Cè"], explanation: "«c'è» = ci + è (esserci): apostrofo più accento.", concept: "c'è / ce" },
+      { context: "Serve ___ misura per confermare.", correct: "un'altra", distractors: ["un altra", "un' altra", "un altro"], explanation: "Davanti a nome femminile che inizia per vocale si usa «un'altra»: apostrofo senza spazio.", concept: "un'altra" },
+      { context: "È arrivato ___ del tecnico.", correct: "un amico", distractors: ["un'amico", "uno amico", "un' amico"], explanation: "Davanti a nome maschile «un» non vuole mai l'apostrofo, nemmeno prima di vocale.", concept: "un maschile (no apostrofo)" },
+      { context: "Con questa resistenza passa ___ corrente.", correct: "più", distractors: ["piu", "piú", "pui"], explanation: "«Più» ha l'accento grave sulla u; senza accento la forma è ortograficamente scorretta.", concept: "accento: più" },
+      { context: "Apri ___ delle parole.", correct: "l'archivio", distractors: ["lo archivio", "il archivio", "l' archivio"], explanation: "Davanti a vocale l'articolo si elide: «l'archivio», con apostrofo senza spazio.", concept: "elisione: l'" },
+      { context: "Rispondi ___ se il dato è coerente.", correct: "sì", distractors: ["si", "sí", "sî"], explanation: "«sì» (affermazione) vuole l'accento; «si» senza accento è il pronome.", concept: "sì / si" },
+      { context: "Il tecnico è ___ con la diagnosi.", correct: "d'accordo", distractors: ["daccordo", "di accordo", "d accordo"], explanation: "«d'accordo» si scrive con l'apostrofo, in un'unica espressione.", concept: "d'accordo" },
+      { context: "Controlla ___ il sensore risponde.", correct: "se", distractors: ["sé", "s'è", "sè"], explanation: "«se» condizionale non vuole accento; «sé» con accento è il pronome (se stesso).", concept: "se / sé" },
+      { context: "Il modulo ___ già inviato il rapporto.", correct: "ha", distractors: ["a", "à", "ah"], explanation: "«ha» è voce del verbo avere e accompagna il participio «inviato»; «a» è preposizione.", concept: "ha / a" },
+      { context: "Collega il cavo ___ massa.", correct: "a", distractors: ["ha", "à", "ah"], explanation: "«a massa» indica collegamento/direzione: qui serve la preposizione «a», non il verbo «ha».", concept: "a / ha" },
+      { context: "Il tecnico ___ controllato il fusibile.", correct: "ha", distractors: ["a", "à", "hà"], explanation: "Nei tempi composti serve l'ausiliare «ha» senza accento.", concept: "ausiliare avere" },
+      { context: "La prova ___ utile, però non decisiva.", correct: "è", distractors: ["e", "é", "he"], explanation: "«è» è verbo essere con accento grave; «e» unisce due parole o frasi.", concept: "è / e" },
+      { context: "Il log è chiaro ___ breve.", correct: "e", distractors: ["è", "é", "eh"], explanation: "Qui «e» collega due aggettivi; non è il verbo essere.", concept: "e congiunzione" },
+      { context: "Nora ___ accorta dell'errore.", correct: "s'è", distractors: ["se", "sé", "sè"], explanation: "«s'è accorta» unisce si + è: servono apostrofo e accento.", concept: "s'è" },
+      { context: "Tieni il cavo vicino a ___, non al bordo caldo.", correct: "sé", distractors: ["se", "s'è", "sè"], explanation: "«sé» pronome tonico vuole l'accento; «se» introduce una condizione.", concept: "sé pronome" },
+      { context: "Il rapporto ___ stato salvato nel diario.", correct: "è", distractors: ["e", "é", "ha"], explanation: "Nel passivo «è stato salvato» usa il verbo essere con accento grave.", concept: "è ausiliare" },
+      { context: "La squadra lavora ___ evitare altri errori.", correct: "per", distractors: ["per'", "pèr", "perché"], explanation: "Qui «per» introduce lo scopo con l'infinito; non richiede accento né apostrofo.", concept: "per / perché" },
+      { context: "Rileggi il testo, ___ correggi l'accento.", correct: "poi", distractors: ["po'", "pòi", "pói"], explanation: "«poi» è un avverbio di tempo e non vuole apostrofo; «po'» significa «poco».", concept: "poi / po'" },
+    ];
+    const advanced = [
+      { context: "Non so ___ fonte scegliere tra le due.", correct: "quale", distractors: ["qual'e", "qual è", "qualè"], explanation: "Davanti a consonante si usa la forma intera «quale»; il troncamento «qual» si usa in «qual è».", concept: "quale / qual è" },
+      { context: "Fai ___ come dice il manuale.", correct: "così", distractors: ["cosi", "cosí", "co'sì"], explanation: "«Così» ha l'accento grave sulla i; non vuole apostrofo né accento acuto.", concept: "accento: così" },
+      { context: "Non spegnere ___ il codice non è confermato.", correct: "finché", distractors: ["finchè", "finche", "fin ché"], explanation: "«finché» (come «perché») vuole l'accento acuto: é.", concept: "accento acuto: finché" },
+      { context: "Il dato ___ registrato ieri sera.", correct: "è stato", distractors: ["e stato", "è statto", "é stato"], explanation: "«è stato» usa il verbo essere con accento grave: «è».", concept: "è (ausiliare)" },
+      { context: "Il sistema non sa ___ scegliere tra le due fonti.", correct: "quale", distractors: ["qual'è", "qual è", "qualè"], explanation: "Qui non segue «è»: serve «quale» intero, senza apostrofo né accento.", concept: "quale" },
+      { context: "___ il dato non torna, segnala l'anomalia.", correct: "Se", distractors: ["Sé", "S'è", "Sè"], explanation: "«Se» introduce una condizione e non vuole accento.", concept: "se condizionale" },
+      { context: "Il tecnico ___ né rumore né odore di bruciato.", correct: "non sente", distractors: ["non sentè", "non sé nte", "non sente'"], explanation: "«Sente» non vuole accenti o apostrofi; «né» invece è già accentato per negare entrambi gli elementi.", concept: "forme senza accento" },
+      { context: "Non c'è ___ da aggiungere al rapporto.", correct: "nulla", distractors: ["nullà", "nul la", "null'a"], explanation: "«Nulla» non vuole accento né apostrofo.", concept: "parole non accentate" },
+      { context: "La console ___: «controlla il log».", correct: "dice", distractors: ["dicè", "di ce", "dice'"], explanation: "«Dice» è una forma piana e non si accentua.", concept: "accenti non necessari" },
+      { context: "Il valore ___ alto va verificato di nuovo.", correct: "più", distractors: ["piu", "piú", "pìu"], explanation: "«Più» usa l'accento grave sulla u; l'accento acuto o l'assenza di accento non sono corretti.", concept: "accento grave: più" },
+      { context: "___ un'ipotesi, non una prova.", correct: "È", distractors: ["E", "É", "He"], explanation: "A inizio frase «È» è verbo essere e richiede accento grave.", concept: "È maiuscola" },
+      { context: "Il comando ___ pronto, ma manca la conferma.", correct: "è", distractors: ["e", "é", "eh"], explanation: "Qui serve il verbo essere: «è pronto».", concept: "è verbo" },
+    ];
+    const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
+    const tiles = this.shuffleLanguageTiles(random, [
+      this.languageTile(index, item.correct, true, `Corretto: ${item.explanation}`),
+      ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, `Forma sbagliata. ${item.explanation}`)),
+    ]);
+    return {
+      id: `punctuation-${index}`,
+      type: "punctuation-fix",
+      prompt: "Scegli la forma scritta correttamente: accenti e apostrofi al posto giusto.",
+      context: item.context,
+      targetLabel: "Ortografia corretta",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.correct],
+      explanation: item.explanation,
+      concept: item.concept,
+      signature: `punctuation-${item.context}-${item.correct}`,
+    };
+  }
+
+  private argumentTypeHint(type: string): string {
+    if (type === "Fatto") return "Un fatto è un dato osservabile e verificabile, non un giudizio né una supposizione.";
+    if (type === "Opinione") return "Un'opinione è un giudizio personale (spesso «secondo me», «bello», «migliore»).";
+    if (type === "Ipotesi") return "Un'ipotesi è una spiegazione possibile ancora da verificare (spesso «forse», «potrebbe»).";
+    return "Una prova è un dato verificato usato per sostenere una conclusione.";
+  }
+
+  private buildArgumentPrompt(random: Random, level: number, index: number): LanguageMinigamePrompt {
+    const TYPES = ["Fatto", "Opinione", "Ipotesi", "Prova"] as const;
+    const pool: Array<{ statement: string; type: (typeof TYPES)[number]; explanation: string }> = [
+      { statement: "Il sensore segna 24 gradi.", type: "Fatto", explanation: "È una misura osservabile e verificabile: un fatto." },
+      { statement: "La porta è chiusa a chiave.", type: "Fatto", explanation: "È uno stato osservabile e controllabile: un fatto." },
+      { statement: "Il registro contiene dieci voci.", type: "Fatto", explanation: "È un dato che chiunque può contare e verificare: un fatto." },
+      { statement: "Secondo me questo è il sensore migliore.", type: "Opinione", explanation: "«Secondo me» e «migliore» esprimono un giudizio personale, non un dato." },
+      { statement: "Il laboratorio è troppo disordinato.", type: "Opinione", explanation: "«Troppo disordinato» è una valutazione personale: un'opinione." },
+      { statement: "Penso che il robot sia simpatico.", type: "Opinione", explanation: "«Penso che… simpatico» è un giudizio soggettivo: un'opinione." },
+      { statement: "Forse il guasto dipende dalla batteria.", type: "Ipotesi", explanation: "«Forse» segnala una spiegazione possibile, ancora da verificare: un'ipotesi." },
+      { statement: "Il circuito potrebbe essere interrotto.", type: "Ipotesi", explanation: "«Potrebbe» indica una possibilità da controllare: un'ipotesi." },
+      { statement: "Probabilmente il codice inserito è sbagliato.", type: "Ipotesi", explanation: "«Probabilmente» introduce una supposizione da verificare: un'ipotesi." },
+      { statement: "Il tester non legge continuità, quindi il circuito è interrotto.", type: "Prova", explanation: "Un dato verificato («non legge continuità») che sostiene una conclusione: una prova." },
+      { statement: "Due misure danno lo stesso valore: il dato è affidabile.", type: "Prova", explanation: "Il fatto ripetuto viene usato per sostenere una conclusione: è una prova." },
+      { statement: "Il log mostra la soglia superata: ecco la causa dell'allarme.", type: "Prova", explanation: "Un dato del log usato per spiegare l'allarme: una prova." },
+    ];
+    const advanced: typeof pool = [
+      { statement: "A mio parere il rapporto è scritto male.", type: "Opinione", explanation: "«A mio parere… male» è un giudizio personale: un'opinione." },
+      { statement: "Il campione pesa 30 grammi sulla bilancia.", type: "Fatto", explanation: "È una misura letta sullo strumento: un fatto." },
+      { statement: "Le due telecamere mostrano la stessa scena, quindi la ricostruzione è coerente.", type: "Prova", explanation: "Due dati concordi sostengono la conclusione: una prova." },
+      { statement: "Il guasto potrebbe dipendere dall'umidità: va controllato.", type: "Ipotesi", explanation: "«Potrebbe… va controllato» propone una causa da verificare: un'ipotesi." },
+    ];
+    const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
+    const tiles = this.shuffleLanguageTiles(
+      random,
+      TYPES.map((typeLabel, i) => this.languageTile(index + i, typeLabel, typeLabel === item.type,
+        typeLabel === item.type ? `Corretto: ${item.explanation}` : `Non è ${typeLabel.toLowerCase()}. ${this.argumentTypeHint(typeLabel)}`)),
+    );
+    return {
+      id: `argument-${index}`,
+      type: "argument-sort",
+      prompt: "Che tipo di affermazione è? Classificala: fatto, opinione, ipotesi o prova.",
+      context: item.statement,
+      targetLabel: "Tipo di affermazione",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.type],
+      explanation: item.explanation,
+      concept: `argomentazione: ${item.type.toLowerCase()}`,
+      signature: `argument-${item.statement}`,
     };
   }
 
@@ -766,6 +1100,76 @@ export class LanguageCorruptionGenerator {
         explanation: "La diagnosi richiede prove; forse segnala incertezza.",
         concept: "diagnosi e incertezza",
       },
+      {
+        context: "Se una frase può avere due significati, il testo è ___.",
+        correct: "ambiguo",
+        distractors: ["preciso", "verificato", "definitivo"],
+        explanation: "Ambiguo significa che permette più interpretazioni; un messaggio operativo deve evitarlo.",
+        concept: "ambiguità",
+      },
+      {
+        context: "Un dato controllato due volte diventa più ___.",
+        correct: "attendibile",
+        distractors: ["decorativo", "rumoroso", "casuale"],
+        explanation: "Attendibile indica che ci si può fidare di più della misura.",
+        concept: "attendibilità",
+      },
+      {
+        context: "La frase 'secondo me funziona' è una ___, non una prova.",
+        correct: "opinione",
+        distractors: ["misura", "fonte", "procedura"],
+        explanation: "Secondo me introduce un'opinione personale; una prova richiede un dato controllabile.",
+        concept: "opinione vs prova",
+      },
+      {
+        context: "Quando il testo dice cosa fare per primo, indica una ___.",
+        correct: "priorità",
+        distractors: ["decorazione", "citazione", "pausa"],
+        explanation: "Priorità indica ciò che viene prima nelle decisioni o nelle azioni.",
+        concept: "priorità operativa",
+      },
+      {
+        context: "Un rapporto breve che conserva solo le informazioni essenziali è una ___.",
+        correct: "sintesi",
+        distractors: ["ripetizione", "distrazione", "cornice"],
+        explanation: "La sintesi riduce il testo senza perdere il nucleo informativo.",
+        concept: "sintesi",
+      },
+      {
+        context: "Se due frasi si smentiscono a vicenda, il messaggio è ___.",
+        correct: "contraddittorio",
+        distractors: ["coerente", "misurabile", "ordinato"],
+        explanation: "Contraddittorio significa che contiene informazioni incompatibili.",
+        concept: "contraddizione",
+      },
+      {
+        context: "Nel diario, la persona o il documento da cui arriva un'informazione è la ___.",
+        correct: "fonte",
+        distractors: ["cornice", "soglia", "pausa"],
+        explanation: "La fonte è l'origine dell'informazione; serve per valutarne l'affidabilità.",
+        concept: "fonte",
+      },
+      {
+        context: "Una spiegazione che indica il motivo di un evento ne segnala la ___.",
+        correct: "causa",
+        distractors: ["decorazione", "abitudine", "forma"],
+        explanation: "La causa risponde alla domanda perché è successo.",
+        concept: "causa",
+      },
+      {
+        context: "La conseguenza osservabile di un guasto è il suo ___.",
+        correct: "effetto",
+        distractors: ["parere", "colore", "titolo"],
+        explanation: "L'effetto è ciò che accade a causa del guasto.",
+        concept: "causa-effetto",
+      },
+      {
+        context: "Quando un comando può essere eseguito senza dubbi, è ___.",
+        correct: "univoco",
+        distractors: ["vago", "ornamentale", "casuale"],
+        explanation: "Univoco significa con un solo significato possibile.",
+        concept: "precisione del comando",
+      },
     ];
     const advanced = [
       {
@@ -795,6 +1199,41 @@ export class LanguageCorruptionGenerator {
         distractors: ["personalizza", "manipola", "colora"],
         explanation: "Ripristina è adatto a un sistema tecnico; personalizza o manipola cambiano il significato dell'azione.",
         concept: "registro formale",
+      },
+      {
+        context: "Una conclusione che ammette un limite senza cancellare il dato è ___.",
+        correct: "prudente",
+        distractors: ["assoluta", "decorativa", "contraria"],
+        explanation: "Prudente indica una conclusione proporzionata alle prove disponibili.",
+        concept: "grado di certezza",
+      },
+      {
+        context: "Se una parola riprende un nome già citato, funziona come ___ testuale.",
+        correct: "coesione",
+        distractors: ["rumore", "ipotesi", "soglia"],
+        explanation: "La coesione collega parti del testo tramite pronomi, riprese e connettivi.",
+        concept: "coesione testuale",
+      },
+      {
+        context: "Un termine tecnico usato al posto di una parola generica aumenta la ___.",
+        correct: "specificità",
+        distractors: ["confusione", "decorazione", "fretta"],
+        explanation: "Specificità significa che il lessico descrive con precisione l'oggetto o l'azione.",
+        concept: "specificità lessicale",
+      },
+      {
+        context: "Dire 'potrebbe essere guasto' invece di 'è guasto' riduce il grado di ___.",
+        correct: "certezza",
+        distractors: ["punteggiatura", "ordine", "registro"],
+        explanation: "Potrebbe segnala incertezza: la conclusione è meno certa e richiede verifica.",
+        concept: "modalità e certezza",
+      },
+      {
+        context: "Una prova che riguarda davvero la tesi è ___.",
+        correct: "pertinente",
+        distractors: ["vistosa", "casuale", "ornamentale"],
+        explanation: "Pertinente significa collegata allo scopo dell'argomentazione.",
+        concept: "pertinenza",
       },
     ];
     const item = random.pick(level >= 5 ? [...pool, ...advanced] : pool);
@@ -898,6 +1337,99 @@ export class LanguageCorruptionGenerator {
         targetLabel: "Scrivi la forma verbale",
         typed: true,
       },
+      {
+        context: "Adesso il tecnico ___ il cavo difettoso.",
+        correct: "sostituisce",
+        distractors: ["sostituiva", "sostituirà", "sostituito"],
+        distractorFeedback: [
+          "«sostituiva» è imperfetto: «adesso» richiede il presente «sostituisce».",
+          "«sostituirà» è futuro: il contesto dice che l'azione avviene adesso.",
+          "«sostituito» è participio passato: da solo non regge la frase.",
+        ],
+        explanation: "Adesso indica presente: terza persona singolare «sostituisce».",
+        concept: "indicativo presente",
+        targetLabel: "Azione presente",
+      },
+      {
+        context: "Poco fa la console ___ un avviso.",
+        correct: "ha mostrato",
+        distractors: ["mostrava", "mostrerà", "mostrando"],
+        distractorFeedback: [
+          "«mostrava» è imperfetto: poco fa indica un evento concluso, «ha mostrato».",
+          "«mostrerà» è futuro: il fatto è già avvenuto.",
+          "«mostrando» è gerundio e non completa la frase come predicato.",
+        ],
+        explanation: "Poco fa segnala passato vicino concluso: passato prossimo.",
+        concept: "indicativo passato prossimo",
+        targetLabel: "Passato vicino",
+      },
+      {
+        context: "Da bambino, Eli ___ spesso il diario delle missioni.",
+        correct: "leggeva",
+        distractors: ["lesse", "leggerà", "legga"],
+        distractorFeedback: [
+          "«lesse» è passato remoto puntuale: «spesso» richiede l'imperfetto abituale «leggeva».",
+          "«leggerà» è futuro: il contesto è nel passato.",
+          "«legga» è congiuntivo: qui si racconta un'abitudine reale.",
+        ],
+        explanation: "Spesso nel passato indica abitudine: imperfetto indicativo.",
+        concept: "indicativo imperfetto",
+        targetLabel: "Abitudine nel passato",
+      },
+      {
+        context: "Fra un minuto il sistema ___ il controllo.",
+        correct: "ripeterà",
+        distractors: ["ripeté", "ripeteva", "ripeta"],
+        distractorFeedback: [
+          "«ripeté» è passato remoto: fra un minuto indica futuro.",
+          "«ripeteva» è imperfetto: non indica un'azione futura.",
+          "«ripeta» è congiuntivo/imperativo formale, non futuro semplice.",
+        ],
+        explanation: "Fra un minuto indica futuro: «ripeterà».",
+        concept: "indicativo futuro semplice",
+        targetLabel: "Futuro vicino",
+      },
+      {
+        context: "La frase 'voi avete controllato il log' usa quale tempo?",
+        correct: "passato prossimo",
+        distractors: ["trapassato prossimo", "futuro anteriore", "imperfetto"],
+        distractorFeedback: [
+          "Il trapassato prossimo sarebbe «avevate controllato»: qui c'è «avete controllato».",
+          "Il futuro anteriore sarebbe «avrete controllato»: qui l'ausiliare è al presente.",
+          "L'imperfetto sarebbe «controllavate»: qui c'è un tempo composto.",
+        ],
+        explanation: "Avete + participio passato forma il passato prossimo.",
+        concept: "riconoscimento tempi composti",
+        targetLabel: "Riconosci il tempo",
+      },
+      {
+        context: "Scrivi la forma corretta: tu ___ il codice nel registro. (scrivere, presente)",
+        correct: "scrivi",
+        distractors: ["scrive", "scriverai", "scrivesti"],
+        distractorFeedback: [
+          "«scrive» è terza persona singolare; con tu serve «scrivi».",
+          "«scriverai» è futuro, ma la consegna chiede il presente.",
+          "«scrivesti» è passato remoto, non presente.",
+        ],
+        explanation: "Tu + presente indicativo di scrivere: scrivi.",
+        concept: "coniugazione presente",
+        targetLabel: "Scrivi la forma verbale",
+        typed: true,
+      },
+      {
+        context: "Scrivi la forma corretta: loro ___ la misura. (ripetere, presente)",
+        correct: "ripetono",
+        distractors: ["ripete", "ripetiamo", "ripeteranno"],
+        distractorFeedback: [
+          "«ripete» è terza singolare; loro richiede «ripetono».",
+          "«ripetiamo» è prima persona plurale (noi).",
+          "«ripeteranno» è futuro; la consegna chiede il presente.",
+        ],
+        explanation: "Loro + presente indicativo di ripetere: ripetono.",
+        concept: "coniugazione presente",
+        targetLabel: "Scrivi la forma verbale",
+        typed: true,
+      },
     ];
     const intermediate: VerbMasteryItem[] = [
       {
@@ -941,6 +1473,64 @@ export class LanguageCorruptionGenerator {
         targetLabel: "Scrivi il congiuntivo",
         typed: true,
       },
+      {
+        context: "È possibile che il sensore ___ un falso allarme.",
+        correct: "segnali",
+        distractors: ["segnala", "segnalò", "segnalerà"],
+        explanation: "È possibile che richiede il congiuntivo presente: segnali.",
+        concept: "congiuntivo presente",
+        targetLabel: "Possibilità",
+      },
+      {
+        context: "Vorrei che tu ___ la fonte prima di confermare.",
+        correct: "controllassi",
+        distractors: ["controllavi", "controlli", "controllerai"],
+        explanation: "Vorrei che richiede congiuntivo imperfetto: controllassi.",
+        concept: "congiuntivo imperfetto",
+        targetLabel: "Desiderio",
+      },
+      {
+        context: "Se il dato fosse stabile, noi ___ la procedura.",
+        correct: "avvieremmo",
+        distractors: ["avviamo", "avviassimo", "avvieremo"],
+        explanation: "Con se + congiuntivo imperfetto, la conseguenza usa il condizionale presente.",
+        concept: "condizionale presente",
+        targetLabel: "Conseguenza ipotetica",
+      },
+      {
+        context: "Prima di uscire, ___ il registro.",
+        correct: "salva",
+        distractors: ["salvando", "salvato", "salveresti"],
+        explanation: "È un comando diretto alla seconda persona: imperativo «salva».",
+        concept: "imperativo presente",
+        targetLabel: "Comando diretto",
+      },
+      {
+        context: "Dopo ___ il log, Eli corresse il rapporto.",
+        correct: "aver letto",
+        distractors: ["leggerebbe", "avesse letto", "leggendo"],
+        explanation: "Dopo + infinito composto indica un'azione precedente: aver letto.",
+        concept: "infinito composto",
+        targetLabel: "Azione precedente",
+      },
+      {
+        context: "Scrivi la forma corretta: dubito che loro ___ la causa. (capire, congiuntivo presente)",
+        correct: "capiscano",
+        distractors: ["capiscono", "capiranno", "capivano"],
+        explanation: "Dubitare richiede il congiuntivo: loro capiscano.",
+        concept: "congiuntivo presente",
+        targetLabel: "Scrivi il congiuntivo",
+        typed: true,
+      },
+      {
+        context: "Scrivi la forma corretta: se potessi, io ___ il test. (rifare, condizionale presente)",
+        correct: "rifarei",
+        distractors: ["rifaccio", "rifacessi", "rifarò"],
+        explanation: "La conseguenza ipotetica usa il condizionale presente: rifarei.",
+        concept: "condizionale presente",
+        targetLabel: "Scrivi il condizionale",
+        typed: true,
+      },
     ];
     const advanced: VerbMasteryItem[] = [
       {
@@ -982,6 +1572,48 @@ export class LanguageCorruptionGenerator {
         explanation: "La conseguenza non realizzata nel passato usa condizionale passato: avremmo evitato.",
         concept: "condizionale passato",
         targetLabel: "Scrivi il condizionale passato",
+        typed: true,
+      },
+      {
+        context: "Se la fonte ___ stata verificata, il rapporto sarebbe più solido.",
+        correct: "fosse",
+        distractors: ["sarebbe", "è", "sarà"],
+        explanation: "Nella subordinata con se dell'ipotesi irreale serve il congiuntivo imperfetto: fosse stata.",
+        concept: "congiuntivo imperfetto",
+        targetLabel: "Periodo ipotetico",
+      },
+      {
+        context: "Il dato, ___ due volte, può entrare nella sintesi.",
+        correct: "controllato",
+        distractors: ["controllando", "controllare", "controlli"],
+        explanation: "Controllato è participio passato con valore passivo: dato che è stato controllato.",
+        concept: "participio passato",
+        targetLabel: "Forma implicita",
+      },
+      {
+        context: "___ il rapporto, il supervisore autorizzò il riavvio.",
+        correct: "Letto",
+        distractors: ["Leggendo", "Leggere", "Leggerebbe"],
+        explanation: "Letto il rapporto equivale a dopo che il rapporto fu letto: participio assoluto.",
+        concept: "participio assoluto",
+        targetLabel: "Forma implicita avanzata",
+      },
+      {
+        context: "Scrivi la forma corretta: se il log fosse stato chiaro, tu ___ prima. (capire, condizionale passato)",
+        correct: "avresti capito",
+        distractors: ["capiresti", "avessi capito", "capivi"],
+        explanation: "La conseguenza non realizzata nel passato usa il condizionale passato: avresti capito.",
+        concept: "condizionale passato",
+        targetLabel: "Scrivi il condizionale passato",
+        typed: true,
+      },
+      {
+        context: "Scrivi la forma corretta: temevo che il modulo ___ energia. (perdere, congiuntivo imperfetto)",
+        correct: "perdesse",
+        distractors: ["perde", "perderà", "perderebbe"],
+        explanation: "Temevo che richiede il congiuntivo imperfetto: perdesse.",
+        concept: "congiuntivo imperfetto",
+        targetLabel: "Scrivi il congiuntivo imperfetto",
         typed: true,
       },
     ];
@@ -1035,6 +1667,18 @@ export class LanguageCorruptionGenerator {
       { sentence: "La fonte confermata guida la scelta finale", concept: "soggetto-verbo-complemento con aggettivo" },
       { sentence: "Il diario distingue prova ipotesi e opinione", concept: "elenco di informazioni critiche" },
       { sentence: "La squadra controlla il dato prima della chiusura", concept: "ordine temporale e complemento" },
+      { sentence: "Il tecnico isola il cavo danneggiato", concept: "soggetto-verbo-complemento con aggettivo" },
+      { sentence: "La console mostra il messaggio corretto", concept: "soggetto-verbo-complemento" },
+      { sentence: "Il rapporto collega causa ed effetto", concept: "coesione logica" },
+      { sentence: "La chiave apre il vano sicuro", concept: "soggetto-verbo-oggetto" },
+      { sentence: "Il tester conferma la misura stabile", concept: "soggetto-verbo-complemento con aggettivo" },
+      { sentence: "La squadra elimina il dettaglio inutile", concept: "lessico e pertinenza" },
+      { sentence: "Il registro conserva solo prove verificabili", concept: "ordine naturale con quantificatore" },
+      { sentence: "Nora segnala una fonte non verificata", concept: "soggetto-verbo-complemento esteso" },
+      { sentence: "Il modulo invia un avviso prudente", concept: "registro e precisione" },
+      { sentence: "La frase separa fatto e opinione", concept: "pensiero critico" },
+      { sentence: "Il sensore misura la temperatura ogni minuto", concept: "complemento di tempo in fondo" },
+      { sentence: "La porta resta chiusa senza conferma", concept: "predicato nominale e complemento" },
     ];
     const advanced = [
       { sentence: "Il tecnico sostituisce il fusibile prima di alimentare il circuito", concept: "subordinata temporale finale" },
@@ -1042,6 +1686,14 @@ export class LanguageCorruptionGenerator {
       { sentence: "La pompa riduce la pressione quando la temperatura sale", concept: "subordinata di tempo con quando" },
       { sentence: "Il registro resta valido se la seconda fonte conferma la misura", concept: "subordinata condizionale" },
       { sentence: "Il rapporto è chiaro quando separa causa effetto e controllo", concept: "criterio di chiarezza" },
+      { sentence: "La conclusione resta provvisoria finché manca una seconda prova", concept: "subordinata temporale con finché" },
+      { sentence: "Il tecnico annota la fonte affinché il rapporto sia verificabile", concept: "subordinata finale" },
+      { sentence: "La squadra non procede se il tester segnala corto", concept: "condizione negativa" },
+      { sentence: "Il diario diventa utile quando elimina i dettagli decorativi", concept: "subordinata di tempo e criterio" },
+      { sentence: "La prova sostiene la tesi solo se è pertinente", concept: "condizione argomentativa" },
+      { sentence: "Il sistema blocca l'avvio perché manca la chiave", concept: "causa esplicita" },
+      { sentence: "Il rapporto distingue i fatti dalle interpretazioni personali", concept: "complemento di separazione" },
+      { sentence: "La console accetta il comando dopo la verifica finale", concept: "sequenza temporale" },
     ];
     const item = random.pick(level >= 4 ? [...pool, ...advanced] : pool);
     const words = item.sentence.split(/\s+/);
@@ -1097,6 +1749,8 @@ export class LanguageCorruptionGenerator {
     if (type === "word-order") return ["ordine delle parole", "sintassi", "coesione"];
     if (type === "lexicon-lab") return ["lessico", "precisione", "registro"];
     if (type === "verb-mastery") return ["verbi", "modi", "tempi"];
+    if (type === "punctuation-fix") return ["accenti", "apostrofi", "ortografia"];
+    if (type === "argument-sort") return ["fatto e opinione", "ipotesi e prova", "pensiero critico"];
     return ["comprensione", "informazioni utili", "pensiero critico"];
   }
 
@@ -1106,6 +1760,8 @@ export class LanguageCorruptionGenerator {
     if (type === "word-order") return "Allena la costruzione della frase: ordinare le parole per produrre un comando chiaro ed eseguibile.";
     if (type === "lexicon-lab") return "Allena vocabolario preciso: scegliere parole adatte a prova, ipotesi, fonte, sintesi e registro tecnico.";
     if (type === "verb-mastery") return "Allena padronanza dei verbi: riconoscere modo, tempo, persona e scegliere o produrre la forma corretta in contesto.";
+    if (type === "punctuation-fix") return "Allena ortografia: accento (è/perché/più), apostrofo (po'/un'/l'/d'accordo) e omofoni (c'è, sì/si, se/sé).";
+    if (type === "argument-sort") return "Allena il pensiero critico: distinguere fatti verificabili, opinioni personali, ipotesi da controllare e prove che sostengono una conclusione.";
     return "Allena lettura selettiva: separare dati utili, prove, opinioni e dettagli decorativi.";
   }
 
@@ -1115,6 +1771,8 @@ export class LanguageCorruptionGenerator {
     if (type === "word-order") return "Parti dal soggetto, aggiungi il verbo, poi i complementi; metti il tempo o la condizione in fondo.";
     if (type === "lexicon-lab") return "Leggi lo scopo della frase e scegli la parola più precisa: non quella più familiare, ma quella che riduce ambiguità.";
     if (type === "verb-mastery") return "Trova indicatore temporale o reggenza, scegli modo e tempo, poi controlla persona e concordanza.";
+    if (type === "punctuation-fix") return "Chiediti che parola è: verbo essere → è; troncamento → apostrofo (po', un'); congiunzione/pronome → senza accento o con accento secondo la regola.";
+    if (type === "argument-sort") return "Chiediti: è misurabile e verificabile (fatto)? è un giudizio personale (opinione)? è una supposizione da verificare (ipotesi)? è un dato che sostiene una conclusione (prova)?";
     return "Rileggi l'obiettivo del log e tieni solo ciò che aiuta a rispondere a quell'obiettivo.";
   }
 

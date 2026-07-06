@@ -373,10 +373,10 @@ export class PuzzleGenerator {
   private englishMinigameTypesForStep(step: number): EnglishMinigameType[] {
     return [
       ["action-relay", "sentence-build", "vocab-lab", "translation-match"],
-      ["sequence-switchboard", "grammar-fix", "vocab-lab", "translation-match"],
-      ["data-command-scan", "action-relay", "grammar-fix", "vocab-lab", "translation-match"],
-      ["sequence-switchboard", "action-relay", "sentence-build", "data-command-scan", "vocab-lab", "translation-match"],
-      ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match"],
+      ["sequence-switchboard", "grammar-fix", "vocab-lab", "translation-match", "dialogue-response"],
+      ["data-command-scan", "action-relay", "grammar-fix", "vocab-lab", "translation-match", "reading-detective"],
+      ["sequence-switchboard", "action-relay", "sentence-build", "data-command-scan", "vocab-lab", "translation-match", "reading-detective", "dialogue-response"],
+      ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match", "reading-detective", "error-diagnosis", "dialogue-response"],
     ][Math.min(step, 4)] as EnglishMinigameType[];
   }
 

@@ -81,100 +81,241 @@ function basePuzzle(
   };
 }
 
+function formatNumber(value: number): string {
+  return Number.isInteger(value) ? String(value) : Number(value.toFixed(2)).toString();
+}
+
+function feedbackMap(distractors: string[], feedbacks: string[]): Record<string, string> {
+  return Object.fromEntries(distractors.map((distractor, index) => [distractor, feedbacks[index] ?? "Questa scelta non rispetta il modello fisico richiesto."]));
+}
+
 function buildMotionGraphPuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
-  const speed = random.integer(2, difficulty.level >= 4 ? 8 : 5);
+  const mode = difficulty.level >= 4 ? random.pick(["uniform", "accelerating", "at-rest"] as const) : "uniform";
   const time = random.integer(3, difficulty.level >= 5 ? 9 : 6);
+  const speed = random.integer(2, difficulty.level >= 4 ? 8 : 5);
+  const acceleration = random.integer(1, 3);
   const distance = speed * time;
+  const values = mode === "accelerating"
+    ? [0, acceleration, acceleration * 3, acceleration * 6, acceleration * 10]
+    : mode === "at-rest"
+      ? [speed * 2, speed * 2, speed * 2, speed * 2, speed * 2]
+      : [0, speed, speed * 2, speed * 3, speed * 4];
+  const correct = mode === "accelerating"
+    ? `Moto accelerato: in intervalli uguali percorre distanze sempre maggiori`
+    : mode === "at-rest"
+      ? `Corpo fermo: la posizione resta costante nel tempo`
+      : `Moto uniforme: percorre ${distance} m in ${time} s`;
+  const distractors = mode === "accelerating"
+    ? [
+      "Moto uniforme: la posizione aumenta sempre dello stesso passo",
+      "Corpo fermo: la posizione non cambia nel tempo",
+      "Moto rallentato: ogni secondo percorre meno spazio del precedente",
+    ]
+    : mode === "at-rest"
+      ? [
+        "Moto uniforme: percorre sempre la stessa distanza a ogni secondo",
+        "Moto accelerato: ogni secondo avanza un po' di piu di prima",
+        "Moto rallentato: ogni secondo avanza un po' di meno di prima",
+      ]
+      : [
+        `Moto accelerato: ogni secondo avanza un po' di piu di prima`,
+        `Moto rallentato: ogni secondo avanza un po' di meno di prima`,
+        `Moto uniforme: percorre ${time} m in ${distance} s`,
+      ];
+  const distractorFeedback = mode === "accelerating"
+    ? [
+      "Nel moto uniforme gli incrementi sarebbero uguali; qui crescono, quindi la velocita aumenta.",
+      "Un corpo fermo avrebbe posizione costante; qui la posizione cambia.",
+      "Nel moto rallentato gli incrementi diminuirebbero; qui diventano piu grandi.",
+    ]
+    : mode === "at-rest"
+      ? [
+        "Per parlare di moto uniforme la posizione deve cambiare di passi uguali; qui resta sempre la stessa.",
+        "Nel moto accelerato la posizione cambierebbe sempre di piu; qui non cambia.",
+        "Nel moto rallentato la posizione cambierebbe ancora, anche se sempre meno; qui resta costante.",
+      ]
+      : [
+        "Accelerato significa incrementi crescenti; qui ogni secondo l'aumento e sempre lo stesso.",
+        "Rallentato significa incrementi decrescenti; qui il passo resta costante.",
+        "Hai scambiato spazio e tempo: percorre distanza in un tempo, non tempo in una distanza.",
+      ];
   return basePuzzle(
     difficulty,
     "motion-graph",
     "Fisica: grafico del moto",
     "Un carrello si muove su una guida rettilinea. La console mostra posizione e tempo, non vuole una formula a memoria.",
-    `Se la posizione cresce di ${speed} m ogni secondo per ${time} s, quale conclusione descrive correttamente il moto?`,
-    shuffledOptions(random, `Moto uniforme: percorre ${distance} m in ${time} s`, [
-      `Moto accelerato: ogni secondo avanza un po' di piu di prima`,
-      `Moto rallentato: ogni secondo avanza un po' di meno di prima`,
-      `Moto uniforme: percorre ${time} m in ${distance} s`,
-    ]),
-    `Moto uniforme: percorre ${distance} m in ${time} s`,
-    `La posizione aumenta sempre della stessa quantita: ${speed} m ogni secondo. La distanza totale e velocita per tempo, quindi ${speed} x ${time} = ${distance} m.`,
+    mode === "uniform"
+      ? `Se la posizione cresce di ${speed} m ogni secondo per ${time} s, quale conclusione descrive correttamente il moto?`
+      : mode === "accelerating"
+        ? `Il grafico posizione-tempo ha incrementi ${acceleration}, ${acceleration * 2}, ${acceleration * 3}, ${acceleration * 4} m in tempi uguali. Quale conclusione e coerente?`
+        : "Il grafico posizione-tempo mostra sempre la stessa posizione in istanti diversi. Quale conclusione e coerente?",
+    shuffledOptions(random, correct, distractors),
+    correct,
+    mode === "uniform"
+      ? `La posizione aumenta sempre della stessa quantita: ${speed} m ogni secondo. La distanza totale e velocita per tempo, quindi ${speed} x ${time} = ${distance} m.`
+      : mode === "accelerating"
+        ? "Gli incrementi di posizione non sono uguali: diventano piu grandi a parita di tempo. Questo indica velocita crescente, quindi moto accelerato."
+        : "Se la posizione non cambia mentre il tempo passa, il corpo e fermo rispetto al riferimento scelto.",
     ["moto uniforme", "grafico posizione-tempo", "velocita"],
-    ["controlla se la crescita e regolare", "leggi quanto aumenta ogni secondo", "moltiplica velocita per tempo"],
+    mode === "uniform"
+      ? ["controlla se la crescita e regolare", "leggi quanto aumenta ogni secondo", "moltiplica velocita per tempo"]
+      : ["leggi due posizioni consecutive", "confronta gli incrementi", "classifica il moto dal tipo di variazione"],
     {
       kind: "motion-graph",
       title: "posizione-tempo",
       labels: ["tempo (s)", "posizione (m)", "pendenza costante"],
-      values: [0, speed, speed * 2, speed * 3, speed * 4],
-      highlight: `${speed} m/s`,
+      values,
+      highlight: mode === "uniform" ? `${speed} m/s` : mode === "accelerating" ? "pendenza cresce" : "posizione costante",
     },
+    feedbackMap(distractors, distractorFeedback),
   );
 }
 
 function buildUnitCheckPuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
+  const mode = difficulty.level >= 5
+    ? random.pick(["length", "mass", "time", "speed"] as const)
+    : difficulty.level >= 3
+      ? random.pick(["length", "mass", "time"] as const)
+      : "length";
   const distance = random.pick([120, 240, 360, 480, 600]);
   const meters = distance / 100;
   const mass = random.pick([250, 500, 750, 1500]);
   const gramsToKg = mass / 1000;
-  const useLength = difficulty.level <= 3 || random.bool();
-  const correct = useLength
-    ? `${distance} cm = ${meters} m`
-    : `${mass} g = ${gramsToKg} kg`;
+  const minutes = random.pick([2, 3, 4, 5]);
+  const seconds = minutes * 60;
+  const kmh = random.pick([18, 36, 54, 72]);
+  const ms = kmh / 3.6;
+  const correct = mode === "length"
+    ? `${distance} cm = ${formatNumber(meters)} m`
+    : mode === "mass"
+      ? `${mass} g = ${formatNumber(gramsToKg)} kg`
+      : mode === "time"
+        ? `${minutes} min = ${seconds} s`
+        : `${kmh} km/h = ${formatNumber(ms)} m/s`;
+  const distractors = mode === "length"
+    ? [`${distance} cm = ${distance} m`, `${distance} cm = ${distance / 10} m`, `${distance} cm = ${formatNumber(meters / 10)} m`]
+    : mode === "mass"
+      ? [`${mass} g = ${mass} kg`, `${mass} g = ${mass / 100} kg`, `${mass} g = ${formatNumber(gramsToKg / 10)} kg`]
+      : mode === "time"
+        ? [`${minutes} min = ${minutes} s`, `${minutes} min = ${minutes * 100} s`, `${minutes} min = ${formatNumber(minutes / 60)} s`]
+        : [`${kmh} km/h = ${kmh} m/s`, `${kmh} km/h = ${formatNumber(kmh / 3600)} m/s`, `${kmh} km/h = ${formatNumber(kmh * 3.6)} m/s`];
+  const distractorFeedback = mode === "length"
+    ? [
+      "Hai lasciato invariato il numero: da centimetri a metri bisogna dividere per 100.",
+      "Hai diviso per 10: quello porta ai decimetri, non ai metri.",
+      "Hai diviso una volta di troppo: controlla che 100 cm formino 1 m.",
+    ]
+    : mode === "mass"
+      ? [
+        "Hai lasciato invariato il numero: da grammi a chilogrammi bisogna dividere per 1000.",
+        "Hai diviso per 100: manca ancora un fattore 10 per arrivare ai chilogrammi.",
+        "Hai diviso una volta di troppo: 1000 g corrispondono a 1 kg.",
+      ]
+      : mode === "time"
+        ? [
+          "Hai trattato minuti e secondi come se avessero lo stesso valore numerico: 1 min vale 60 s.",
+          "Hai usato il fattore 100, ma il tempo si converte con 60 secondi per minuto.",
+          "Hai diviso invece di moltiplicare: passando da minuti a secondi il numero aumenta.",
+        ]
+        : [
+          "Hai copiato il valore numerico: km/h e m/s non hanno lo stesso passo.",
+          "Hai diviso per 3600 senza convertire anche i chilometri in metri: il fattore corretto complessivo e 3,6.",
+          "Hai moltiplicato per 3,6: per passare da km/h a m/s bisogna dividere per 3,6.",
+        ];
   return basePuzzle(
     difficulty,
     "unit-check",
     "Fisica: unita di misura",
     "Nel registro del laboratorio una misura e scritta in unita non adatte al calcolo. Prima di ragionare serve convertirla.",
-    useLength
+    mode === "length"
       ? `Quale conversione e corretta per usare ${distance} cm in metri?`
-      : `Quale conversione e corretta per usare ${mass} g in chilogrammi?`,
-    shuffledOptions(random, correct, useLength
-      ? [`${distance} cm = ${distance} m`, `${distance} cm = ${distance / 10} m`, `${distance} cm = ${meters / 10} m`]
-      : [`${mass} g = ${mass} kg`, `${mass} g = ${mass / 100} kg`, `${mass} g = ${gramsToKg / 10} kg`]),
+      : mode === "mass"
+        ? `Quale conversione e corretta per usare ${mass} g in chilogrammi?`
+        : mode === "time"
+          ? `Quale conversione e corretta per usare ${minutes} minuti in secondi?`
+          : `Quale conversione e corretta per usare ${kmh} km/h in m/s?`,
+    shuffledOptions(random, correct, distractors),
     correct,
-    useLength
+    mode === "length"
       ? "Da centimetri a metri si divide per 100: 100 cm formano 1 m."
-      : "Da grammi a chilogrammi si divide per 1000: 1000 g formano 1 kg.",
+      : mode === "mass"
+        ? "Da grammi a chilogrammi si divide per 1000: 1000 g formano 1 kg."
+        : mode === "time"
+          ? `Da minuti a secondi si moltiplica per 60: ${minutes} x 60 = ${seconds} s.`
+          : `Per passare da km/h a m/s si divide per 3,6: ${kmh} / 3,6 = ${formatNumber(ms)} m/s.`,
     ["unita di misura", "conversioni", "stima"],
-    ["identifica unita di partenza", "ricorda il fattore 100 o 1000", "controlla se il risultato e plausibile"],
+    ["identifica unita di partenza", "scegli il fattore di conversione", "controlla se il risultato e plausibile"],
     {
       kind: "unit-card",
-      title: useLength ? "cm -> m" : "g -> kg",
-      labels: useLength ? ["100 cm", "1 m", "dividi per 100"] : ["1000 g", "1 kg", "dividi per 1000"],
-      values: useLength ? [distance, meters] : [mass, gramsToKg],
+      title: mode === "length" ? "cm -> m" : mode === "mass" ? "g -> kg" : mode === "time" ? "min -> s" : "km/h -> m/s",
+      labels: mode === "length"
+        ? ["100 cm", "1 m", "dividi per 100"]
+        : mode === "mass"
+          ? ["1000 g", "1 kg", "dividi per 1000"]
+          : mode === "time"
+            ? ["1 min", "60 s", "moltiplica per 60"]
+            : ["3,6 km/h", "1 m/s", "dividi per 3,6"],
+      values: mode === "length" ? [distance, meters] : mode === "mass" ? [mass, gramsToKg] : mode === "time" ? [minutes, seconds] : [kmh, ms],
       highlight: correct,
     },
+    feedbackMap(distractors, distractorFeedback),
   );
 }
 
 function buildForceDiagramPuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
   const weight = random.pick([4, 6, 8, 10, 12]);
-  const table = random.bool(0.65);
-  const support = table ? "reazione del tavolo" : "tensione del filo";
-  const correct = `Peso verso il basso e ${support} verso l'alto, uguali perché l'oggetto resta fermo`;
+  const mode = difficulty.level >= 5 ? random.pick(["table", "hanging", "push"] as const) : random.bool(0.65) ? "table" : "hanging";
+  const support = mode === "table" ? "reazione del tavolo" : mode === "hanging" ? "tensione del filo" : "forza di attrito statico";
+  const correct = mode === "push"
+    ? `Peso e reazione si bilanciano in verticale; spinta e attrito statico si bilanciano in orizzontale`
+    : `Peso verso il basso e ${support} verso l'alto, uguali perché l'oggetto resta fermo`;
+  const distractors = mode === "push"
+    ? [
+      "Solo la spinta orizzontale, perché il blocco non si muove ma viene spinto",
+      "Peso e spinta sono uguali perché entrambe agiscono sullo stesso oggetto",
+      "La reazione del tavolo e maggiore del peso, perché deve anche annullare la spinta",
+    ]
+    : [
+      `Peso verso l'alto e ${support} verso il basso, uguali perché l'oggetto resta fermo`,
+      `Peso verso il basso maggiore della ${support}, perché l'oggetto preme sul sostegno`,
+      "Solo il peso verso il basso, perché su un oggetto fermo non agiscono altre forze",
+    ];
+  const distractorFeedback = mode === "push"
+    ? [
+      "Anche se il blocco non si muove, peso e reazione verticale continuano ad agire.",
+      "Peso e spinta hanno direzioni diverse: non si bilanciano tra loro.",
+      "La spinta orizzontale e bilanciata dall'attrito statico; la reazione verticale bilancia il peso.",
+    ]
+    : [
+      "Hai invertito i versi: il peso e verso il basso, il vincolo sostiene verso l'alto.",
+      "Se l'oggetto resta fermo, la risultante verticale e zero: peso e sostegno hanno lo stesso modulo.",
+      "Fermo non significa senza forze: significa forze bilanciate.",
+    ];
   return basePuzzle(
     difficulty,
     "force-diagram",
     "Fisica: diagramma delle forze",
-    table
+    mode === "table"
       ? `Un blocco da ${weight} N e appoggiato su un tavolo e resta fermo.`
-      : `Una massa da ${weight} N e appesa a un filo e resta ferma.`,
+      : mode === "hanging"
+        ? `Una massa da ${weight} N e appesa a un filo e resta ferma.`
+        : `Un blocco da ${weight} N resta fermo su un tavolo mentre una mano lo spinge lateralmente senza farlo partire.`,
     "Quale diagramma descrive meglio le forze principali?",
-    shuffledOptions(random, correct, [
-      `Peso verso l'alto e ${support} verso il basso, uguali perché l'oggetto resta fermo`,
-      `Peso verso il basso maggiore della ${support}, perché l'oggetto preme sul sostegno`,
-      "Solo il peso verso il basso, perché su un oggetto fermo non agiscono altre forze",
-    ]),
+    shuffledOptions(random, correct, distractors),
     correct,
-    "Se un oggetto resta fermo, le forze verticali si bilanciano. Il peso tira verso il basso; il supporto o il filo esercita una forza uguale verso l'alto.",
-    ["forze", "equilibrio", "peso", table ? "reazione vincolare" : "tensione"],
+    mode === "push"
+      ? "Un oggetto fermo ha risultante nulla in ogni direzione: in verticale peso e reazione si bilanciano, in orizzontale spinta e attrito statico si bilanciano."
+      : "Se un oggetto resta fermo, le forze verticali si bilanciano. Il peso tira verso il basso; il supporto o il filo esercita una forza uguale verso l'alto.",
+    ["forze", "equilibrio", "peso", mode === "table" ? "reazione vincolare" : mode === "hanging" ? "tensione" : "attrito statico"],
     ["disegna l'oggetto", "segna il peso verso il basso", "cerca il vincolo che sostiene l'oggetto"],
     {
       kind: "force-diagram",
-      title: table ? "blocco su tavolo" : "massa appesa",
-      labels: table ? ["N verso alto", "P verso basso", "equilibrio"] : ["T verso alto", "P verso basso", "equilibrio"],
-      values: [weight, weight],
+      title: mode === "table" ? "blocco su tavolo" : mode === "hanging" ? "massa appesa" : "blocco spinto",
+      labels: mode === "table" ? ["N verso alto", "P verso basso", "equilibrio"] : mode === "hanging" ? ["T verso alto", "P verso basso", "equilibrio"] : ["N/P", "spinta/attrito", "equilibrio"],
+      values: [weight, weight, mode === "push" ? Math.round(weight / 2) : weight],
       highlight: "somma forze = 0",
     },
+    feedbackMap(distractors, distractorFeedback),
   );
 }
 
@@ -213,8 +354,31 @@ function buildEnergyTransferPuzzle(random: Random, difficulty: DifficultyPreset)
       ],
       labels: ["moto", "attrito", "calore"],
     },
+    {
+      scenario: "Una molla compressa spinge un carrellino su una rotaia quasi senza attrito.",
+      correct: "Energia elastica della molla si trasforma in energia cinetica del carrellino",
+      distractors: ["Energia cinetica del carrellino diventa energia elastica prima che parta", "La molla crea energia nuova quando viene lasciata", "Il carrellino si muove perche l'energia elastica diventa massa"],
+      distractorFeedback: [
+        "Prima della partenza l'energia e immagazzinata nella molla compressa; poi diventa moto del carrellino.",
+        "La molla non crea energia: restituisce energia elastica gia immagazzinata dalla compressione.",
+        "L'energia non diventa massa in questo fenomeno: diventa energia cinetica, cioe moto.",
+      ],
+      labels: ["molla", "spinta", "moto"],
+    },
+    {
+      scenario: "Un pannello solare alimenta una piccola ventola.",
+      correct: "Energia luminosa diventa energia elettrica e poi movimento della ventola",
+      distractors: ["La ventola produce luce che torna nel pannello", "L'energia luminosa sparisce quando tocca il pannello", "Il pannello trasforma direttamente la luce in freddo"],
+      distractorFeedback: [
+        "La catena e opposta: la luce arriva al pannello, il pannello produce energia elettrica e la ventola gira.",
+        "L'energia non sparisce: viene convertita in energia elettrica e poi in movimento.",
+        "Il pannello non produce freddo in questa situazione: alimenta elettricamente la ventola.",
+      ],
+      labels: ["luce", "corrente", "movimento"],
+    },
   ];
-  const item = difficulty.level >= 3 ? random.pick(cases) : cases[0];
+  const pool = difficulty.level >= 5 ? cases : difficulty.level >= 3 ? cases.slice(0, 3) : cases.slice(0, 1);
+  const item = random.pick(pool);
   return basePuzzle(
     difficulty,
     "energy-transfer",
@@ -237,23 +401,39 @@ function buildEnergyTransferPuzzle(random: Random, difficulty: DifficultyPreset)
 }
 
 function buildExperimentOrderPuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
-  const target = random.pick(["misurare la velocita media", "capire se una superficie frena di piu", "verificare se la massa cambia la caduta"]);
+  const target = random.pick([
+    "misurare la velocita media",
+    "capire se una superficie frena di piu",
+    "verificare se la massa cambia la caduta",
+    "stimare se una molla piu compressa spinge piu lontano",
+    "capire se la lunghezza di un pendolo cambia il periodo",
+  ]);
   const correct = target === "misurare la velocita media"
     ? "Misuro spazio e tempo, ripeto la prova, poi calcolo spazio diviso tempo"
     : target === "capire se una superficie frena di piu"
       ? "Cambio solo la superficie, tengo uguali massa e spinta, confronto la distanza percorsa"
-      : "Cambio la massa, tengo uguali altezza e forma, confronto i tempi misurati";
+      : target === "verificare se la massa cambia la caduta"
+        ? "Cambio la massa, tengo uguali altezza e forma, confronto i tempi misurati"
+        : target === "stimare se una molla piu compressa spinge piu lontano"
+          ? "Cambio solo la compressione della molla, tengo uguali carrello e rotaia, misuro la distanza"
+          : "Cambio solo la lunghezza del filo, tengo uguali massa e ampiezza iniziale, misuro il periodo";
+  const distractors = [
+    "Cambio piu variabili insieme per fare prima",
+    "Faccio una sola prova molto attenta: se lo strumento e preciso ripetere non serve davvero",
+    "Misuro solo alla fine e tengo il valore piu vicino a quello che mi aspettavo",
+  ];
+  const distractorFeedback = [
+    "Se cambi piu variabili insieme non sai quale abbia causato il risultato.",
+    "Una singola misura puo contenere errore casuale: ripetere rende il confronto piu affidabile.",
+    "Scegliere il dato piu atteso introduce bias: bisogna registrare i dati misurati e confrontarli.",
+  ];
   return basePuzzle(
     difficulty,
     "experiment-order",
     "Fisica: metodo sperimentale",
     `La classe deve ${target}. Il sistema accetta solo un piano con variabile controllata.`,
     "Quale procedura produce dati piu affidabili?",
-    shuffledOptions(random, correct, [
-      "Cambio piu variabili insieme per fare prima",
-      "Faccio una sola prova molto attenta: se lo strumento e preciso ripetere non serve davvero",
-      "Misuro solo alla fine e tengo il valore piu vicino a quello che mi aspettavo",
-    ]),
+    shuffledOptions(random, correct, distractors),
     correct,
     "Un esperimento utile cambia una variabile alla volta, misura con strumenti, ripete la prova e confronta dati omogenei.",
     ["metodo sperimentale", "variabili", "dati"],
@@ -264,28 +444,36 @@ function buildExperimentOrderPuzzle(random: Random, difficulty: DifficultyPreset
       labels: ["ipotesi", "misura", "ripeti", "confronta"],
       highlight: "una variabile alla volta",
     },
+    feedbackMap(distractors, distractorFeedback),
   );
 }
 
 function buildDensityPressurePuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
-  if (random.bool(0.55)) {
+  const mode = difficulty.level >= 6 ? random.pick(["density", "pressure", "float"] as const) : random.bool(0.55) ? "density" : "pressure";
+  if (mode === "density") {
     const mass = random.pick([80, 120, 150, 200]);
     const volume = random.pick([40, 50, 75, 100]);
     const density = mass / volume;
-    const correct = `Densita = ${density} g/cm3`;
+    const correct = `Densita = ${formatNumber(density)} g/cm3`;
+    const distractors = [
+      `Densita = ${mass + volume} g/cm3`,
+      `Densita = ${formatNumber(volume / mass)} g/cm3`,
+      "La densita dipende solo dalla massa",
+    ];
+    const distractorFeedback = [
+      "Hai sommato massa e volume, ma la densita e un rapporto: massa divisa per volume.",
+      "Hai invertito il rapporto: volume/massa non e densita in g/cm3.",
+      "Due oggetti con la stessa massa possono avere volumi diversi: serve anche il volume.",
+    ];
     return basePuzzle(
       difficulty,
       "density-pressure",
       "Fisica: densita",
       `Un campione ha massa ${mass} g e volume ${volume} cm3.`,
       "Quale conclusione usa correttamente massa e volume?",
-      shuffledOptions(random, correct, [
-        `Densita = ${mass + volume} g/cm3`,
-        `Densita = ${volume / mass} g/cm3`,
-        "La densita dipende solo dalla massa",
-      ]),
+      shuffledOptions(random, correct, distractors),
       correct,
-      `La densita e massa divisa per volume: ${mass} / ${volume} = ${density} g/cm3.`,
+      `La densita e massa divisa per volume: ${mass} / ${volume} = ${formatNumber(density)} g/cm3.`,
       ["densita", "massa", "volume", "rapporto"],
       ["leggi massa", "leggi volume", "dividi massa per volume"],
       {
@@ -295,21 +483,77 @@ function buildDensityPressurePuzzle(random: Random, difficulty: DifficultyPreset
         values: [mass, volume, density],
         highlight: "m / V",
       },
+      feedbackMap(distractors, distractorFeedback),
+    );
+  }
+  if (mode === "float") {
+    const objectDensity = random.pick([0.7, 0.8, 1.2, 1.5]);
+    const correct = objectDensity < 1
+      ? "Galleggia, perche la sua densita e minore di quella dell'acqua"
+      : "Affonda, perche la sua densita e maggiore di quella dell'acqua";
+    const distractors = objectDensity < 1
+      ? [
+        "Affonda, perche ogni corpo solido va sotto la superficie",
+        "Galleggia solo se ha massa nulla",
+        "Resta sempre sospeso a meta, perche acqua e oggetto si bilanciano automaticamente",
+      ]
+      : [
+        "Galleggia, perche ogni oggetto piccolo resta in superficie",
+        "Affonda solo se la sua massa supera 1 kg",
+        "Resta sempre sospeso a meta, perche acqua e oggetto si bilanciano automaticamente",
+      ];
+    const distractorFeedback = objectDensity < 1
+      ? [
+        "Non tutti i solidi affondano: conta la densita media rispetto al liquido.",
+        "Un corpo puo galleggiare anche con massa non nulla se distribuita su volume sufficiente.",
+        "La sospensione richiede densita uguale a quella del liquido; qui e minore.",
+      ]
+      : [
+        "La dimensione da sola non basta: se la densita e maggiore dell'acqua, tende ad affondare.",
+        "La massa totale non decide da sola: serve il rapporto massa/volume, cioe la densita.",
+        "La sospensione richiede densita uguale a quella del liquido; qui e maggiore.",
+      ];
+    return basePuzzle(
+      difficulty,
+      "density-pressure",
+      "Fisica: galleggiamento",
+      `Un oggetto ha densita ${formatNumber(objectDensity)} g/cm3. L'acqua ha densita circa 1 g/cm3.`,
+      "Quale previsione e coerente con il confronto delle densita?",
+      shuffledOptions(random, correct, distractors),
+      correct,
+      `Si confronta la densita dell'oggetto con quella dell'acqua: ${formatNumber(objectDensity)} g/cm3 ${objectDensity < 1 ? "e minore" : "e maggiore"} di 1 g/cm3, quindi l'oggetto ${objectDensity < 1 ? "galleggia" : "affonda"}.`,
+      ["densita", "galleggiamento", "confronto"],
+      ["leggi la densita dell'oggetto", "confrontala con quella dell'acqua", "prevedi galleggiamento o affondamento"],
+      {
+        kind: "fluid-column",
+        title: "densita-acqua",
+        labels: ["oggetto", "acqua", objectDensity < 1 ? "galleggia" : "affonda"],
+        values: [objectDensity, 1],
+        highlight: "confronta densita",
+      },
+      feedbackMap(distractors, distractorFeedback),
     );
   }
   const depth = random.pick([1, 2, 3, 4]);
+  const correct = "B, perche a maggiore profondita c'e piu liquido che preme sul sensore";
+  const distractors = [
+    "A, perche vicino alla superficie l'aria spinge di piu sul liquido",
+    "Misurano uguale, perche in uno stesso liquido la pressione non cambia mai",
+    "A, perche piu si scende meno liquido resta sotto il sensore",
+  ];
+  const distractorFeedback = [
+    "L'aria esterna non annulla l'effetto della colonna di liquido: piu profondita significa piu pressione.",
+    "In uno stesso liquido la pressione cambia con la profondita.",
+    "Conta il liquido sopra il sensore, non quello sotto: B ha piu colonna sopra.",
+  ];
   return basePuzzle(
     difficulty,
     "density-pressure",
     "Fisica: pressione nei liquidi",
     `Due sensori sono nello stesso liquido: A a ${depth} m, B a ${depth + 2} m di profondita.`,
     "Quale sensore misura pressione maggiore?",
-    shuffledOptions(random, "B, perche a maggiore profondita c'e piu liquido che preme sul sensore", [
-      "A, perche vicino alla superficie l'aria spinge di piu sul liquido",
-      "Misurano uguale, perche in uno stesso liquido la pressione non cambia mai",
-      "A, perche piu si scende meno liquido resta sotto il sensore",
-    ]),
-    "B, perche a maggiore profondita c'e piu liquido che preme sul sensore",
+    shuffledOptions(random, correct, distractors),
+    correct,
     "In uno stesso liquido la pressione aumenta con la profondita: piu colonna di liquido sta sopra al sensore, maggiore e la pressione.",
     ["pressione", "liquidi", "profondita"],
     ["controlla se il liquido e lo stesso", "confronta la profondita", "scegli il punto piu profondo"],
@@ -320,6 +564,7 @@ function buildDensityPressurePuzzle(random: Random, difficulty: DifficultyPreset
       values: [depth, depth + 2],
       highlight: "pressione cresce",
     },
+    feedbackMap(distractors, distractorFeedback),
   );
 }
 

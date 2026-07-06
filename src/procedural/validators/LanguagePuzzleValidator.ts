@@ -26,8 +26,10 @@ export class LanguagePuzzleValidator {
     const needsData = puzzle.challengeType === "data-reading";
     const needsSource = puzzle.challengeType === "procedure-debug" || puzzle.challengeType === "inference";
     const uniqueChoices = new Set(puzzle.choices.map((choice) => choice.label));
+    const firstPrompt = puzzle.minigame?.prompts[0];
+    const expectedCorrectCount = firstPrompt?.type === "sentence-build" ? 1 : firstPrompt?.requiredSelectionCount ?? 1;
     return (
-      puzzle.choices.filter((choice) => choice.isCorrect).length === 1 &&
+      puzzle.choices.filter((choice) => choice.isCorrect).length === expectedCorrectCount &&
       puzzle.choices.length >= 3 &&
       uniqueChoices.size === puzzle.choices.length &&
       puzzle.diagnosticSteps.length >= 2 &&

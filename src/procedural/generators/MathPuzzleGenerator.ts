@@ -5,6 +5,7 @@ import type {
   GeneratedGraphWorkshop,
   GeneratedMathMinigame,
   GeneratedMathPuzzle,
+  GraphReadingStep,
   MathMinigamePrompt,
   MathMinigameTile,
   MathMinigameType,
@@ -47,10 +48,12 @@ export class MathPuzzleGenerator {
     ) {
       return this.generateEquationLab(random.fork("equation-lab"), difficulty);
     }
+    // Levels grade DIFFICULTY (numbers scale via a,b,c), not exercise type. Keep
+    // the FULL pool of eligible archetypes available at every level so variety
+    // never collapses. A previous "floor" restricted each level to the hardest
+    // few templates, which made every run feel like the same sequence.
     const eligibleTemplates = mathTemplates.filter((template) => template.minComplexity <= difficulty.mathComplexity);
-    const floor = Math.max(1, difficulty.mathComplexity - 2);
-    const focusedTemplates = eligibleTemplates.filter((template) => template.minComplexity >= floor);
-    const pool = focusedTemplates.length > 0 ? focusedTemplates : eligibleTemplates.length > 0 ? eligibleTemplates : mathTemplates;
+    const pool = eligibleTemplates.length > 0 ? eligibleTemplates : mathTemplates;
     const preferredPool = preferredArchetypes.length > 0
       ? (eligibleTemplates.length > 0 ? eligibleTemplates : mathTemplates).filter((template) => preferredArchetypes.includes(template.archetype))
       : [];
@@ -125,7 +128,9 @@ export class MathPuzzleGenerator {
       prompt: [
         `Situazione: ${modeCopy.narrative}`,
         `Richiesta: ${workshop.objective}`,
-        "Formato risposta: modifica i parametri con i controlli grafici, osserva la curva in tempo reale e certifica quando soddisfa tutti i vincoli.",
+        workshop.mode === "beacon-line"
+          ? "Formato risposta: completa il taccuino di lettura, disegna la retta dall'equazione trovata e certifica sul piano cartesiano."
+          : "Formato risposta: modifica i parametri con i controlli grafici, osserva la curva in tempo reale e certifica quando soddisfa tutti i vincoli.",
       ].join("\n"),
       answer: 0,
       hints: this.graphWorkshopHints(workshop),
@@ -361,25 +366,119 @@ export class MathPuzzleGenerator {
     const interceptLimit = beginner ? 3 : 5;
     const initialM = this.shiftedInitial(random, m, -slopeLimit, slopeLimit, m === 0 ? 1 : 0);
     const initialQ = this.shiftedInitial(random, q, -interceptLimit, interceptLimit);
+    const targetPoints = [
+      { x: firstX, y: m * firstX + q, label: "A" },
+      { x: secondX, y: m * secondX + q, label: "B" },
+    ];
     return {
       mode: "beacon-line",
       functionKind: "linear",
-      objective: `Regola pendenza e intercetta finché la retta attraversa entrambi i beacon A e B.`,
+      objective: "Leggi i beacon, ricava q e m, poi disegna la retta corrispondente.",
       targetFormula: this.linearFormula(m, q),
       principle: "In y = mx + q, m controlla inclinazione e verso; q è il punto in cui la retta incontra l'asse y.",
       parameters: [
         { key: "m", label: "m", meaning: "pendenza: variazione verticale per ogni passo orizzontale", min: -slopeLimit, max: slopeLimit, step: 1, target: m, initial: initialM },
         { key: "q", label: "q", meaning: "intercetta sull'asse y", min: -interceptLimit, max: interceptLimit, step: 1, target: q, initial: initialQ },
       ],
-      targetPoints: [
-        { x: firstX, y: m * firstX + q, label: "A" },
-        { x: secondX, y: m * secondX + q, label: "B" },
-      ],
+      readingSteps: this.beaconLineReadingSteps(random, targetPoints[0], targetPoints[1], m, q),
+      targetPoints,
       showTargetCurve: false,
       xRange: [-6, 6],
       yRange: [-14, 14],
       successExplanation: `La retta ${this.linearFormula(m, q)} attraversa entrambi i punti; la variazione tra A e B conferma m = ${m}.`,
     };
+  }
+
+  private beaconLineReadingSteps(
+    random: Random,
+    first: { x: number; y: number; label: string },
+    second: { x: number; y: number; label: string },
+    m: number,
+    q: number,
+  ): GraphReadingStep[] {
+    const dx = second.x - first.x;
+    const dy = second.y - first.y;
+    const yAxisBeacon = [first, second].find((point) => point.x === 0);
+    const qStep: GraphReadingStep = yAxisBeacon
+      ? this.graphReadingStep(random, {
+        key: "q",
+        label: "1 · Leggi q",
+        prompt: `Quale valore di q leggi dal beacon ${yAxisBeacon.label} sull'asse y?`,
+        correctValue: q,
+        min: -6,
+        max: 6,
+        explanation: `${yAxisBeacon.label} ha x = 0, quindi sta sull'asse y: in y = mx + q quel punto mostra q = ${q}.`,
+        parameterKey: "q",
+      })
+      : this.graphReadingStep(random, {
+        key: "q",
+        label: "4 · Ricava q",
+        prompt: `Usa ${first.label}: q = y - m*x. Quanto vale q?`,
+        correctValue: q,
+        min: -8,
+        max: 8,
+        explanation: `Con ${first.label}(${first.x}, ${first.y}) e m = ${m}: q = ${first.y} - (${m}*${first.x}) = ${q}.`,
+        parameterKey: "q",
+      });
+    const slopeSteps = [
+      this.graphReadingStep(random, {
+        key: "dx",
+        label: yAxisBeacon ? "2 · Calcola dx" : "1 · Calcola dx",
+        prompt: `Da ${first.label} a ${second.label}, di quanto avanza x?`,
+        correctValue: dx,
+        min: 1,
+        max: 8,
+        explanation: `dx = xB - xA = ${second.x} - (${first.x}) = ${dx}.`,
+      }),
+      this.graphReadingStep(random, {
+        key: "dy",
+        label: yAxisBeacon ? "3 · Calcola dy" : "2 · Calcola dy",
+        prompt: `Da ${first.label} a ${second.label}, di quanto cambia y?`,
+        correctValue: dy,
+        min: -18,
+        max: 18,
+        explanation: `dy = yB - yA = ${second.y} - (${first.y}) = ${dy}.`,
+      }),
+      this.graphReadingStep(random, {
+        key: "m",
+        label: yAxisBeacon ? "4 · Calcola m" : "3 · Calcola m",
+        prompt: "La pendenza e m = dy / dx. Quanto vale m?",
+        correctValue: m,
+        min: -4,
+        max: 4,
+        explanation: `m = dy / dx = ${dy} / ${dx} = ${m}. Questo numero dice quanto sale o scende y per ogni passo in x.`,
+        parameterKey: "m",
+      }),
+    ];
+    return yAxisBeacon ? [qStep, ...slopeSteps] : [...slopeSteps, qStep];
+  }
+
+  private graphReadingStep(
+    random: Random,
+    config: Omit<GraphReadingStep, "options"> & { min: number; max: number },
+  ): GraphReadingStep {
+    const { min, max, ...step } = config;
+    return {
+      ...step,
+      options: this.graphReadingOptions(random, step.correctValue, min, max),
+    };
+  }
+
+  private graphReadingOptions(random: Random, correct: number, min: number, max: number): number[] {
+    const values = new Set<number>([correct]);
+    [correct - 1, correct + 1, -correct, correct + 2, correct - 2].forEach((value) => {
+      if (value >= min && value <= max && value !== correct) values.add(value);
+    });
+    let guard = 0;
+    while (values.size < 4 && guard < 40) {
+      const candidate = random.integer(min, max);
+      if (candidate !== correct) values.add(candidate);
+      guard += 1;
+    }
+    for (let candidate = min; values.size < 4 && candidate <= max; candidate += 1) {
+      if (candidate !== correct) values.add(candidate);
+    }
+    return random.shuffle([...values].slice(0, 4));
   }
 
   private buildVertexWorkshop(random: Random, difficulty: DifficultyPreset): GeneratedGraphWorkshop {
@@ -493,7 +592,9 @@ export class MathPuzzleGenerator {
       const [first, second] = workshop.targetPoints;
       return [
         `Calcola la pendenza osservando i beacon: Δy/Δx = (${second.y} − ${first.y}) / (${second.x} − ${first.x}).`,
-        "Dopo aver regolato m, usa q per traslare la retta senza cambiarne l'inclinazione.",
+        first.x === 0 || second.x === 0
+          ? "Il beacon con x = 0 sta sull'asse y: la sua y è q."
+          : "Dopo aver trovato m, ricava q con q = y - m*x usando uno dei due beacon.",
         "Controlla entrambi i beacon: attraversarne uno solo non determina una retta unica.",
       ];
     }

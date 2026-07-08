@@ -1319,4 +1319,226 @@ export const mathTemplates: MathTemplate[] = [
       };
     },
   },
+  {
+    id: "square-shield-area",
+    title: "Scudo quadrato",
+    narrative: "Lo scudo di protezione è un quadrato perfetto: serve la sua superficie per calibrare gli emettitori.",
+    minComplexity: 1,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.calcolo"],
+    curriculumTags: ["area", "quadrato", "lato"],
+    build: (a) => {
+      const lato = a;
+      const area = lato * lato;
+      return {
+        prompt: `Lo scudo è un quadrato di lato ${lato} cm. Calcola la sua area in cm².`,
+        answer: area,
+        hints: [
+          "L'area del quadrato è lato × lato.",
+          `Qui il lato è ${lato}, quindi moltiplica ${lato} per sé stesso.`,
+          "Il perimetro sarebbe invece lato × 4: attento a non confonderlo con l'area.",
+        ],
+        steps: [`area = ${lato} × ${lato} = ${area} cm²`],
+      };
+    },
+  },
+  {
+    id: "fraction-of-quantity",
+    title: "Razione di energia",
+    narrative: "Il serbatoio va suddiviso in parti uguali e devi prelevarne solo una frazione esatta.",
+    minComplexity: 1,
+    archetype: "frazioni",
+    competencies: ["matematica.frazioni", "matematica.calcolo"],
+    curriculumTags: ["frazione di una quantità", "divisione", "moltiplicazione"],
+    build: (a, b, c) => {
+      const den = Math.max(2, Math.min(5, c));
+      const num = den <= 2 ? 1 : ((b - 1) % (den - 1)) + 1;
+      const totale = a * den;
+      const unaParte = totale / den;
+      const answer = unaParte * num;
+      return {
+        prompt: `Il serbatoio contiene ${totale} unità di energia. Preleva i ${num}/${den} del totale: quante unità sono?`,
+        answer,
+        hints: [
+          `Prima trova quanto vale 1/${den}: dividi ${totale} per ${den}.`,
+          `${totale} ÷ ${den} = ${unaParte} (è una sola parte).`,
+          `Poi moltiplica per ${num}, perché servono ${num} parti su ${den}.`,
+        ],
+        steps: [`${totale} ÷ ${den} = ${unaParte}`, `${unaParte} × ${num} = ${answer}`],
+      };
+    },
+  },
+  {
+    id: "rectangle-quick-perimeter",
+    title: "Cornice del pannello",
+    narrative: "La cornice luminosa corre tutt'intorno al pannello rettangolare: serve la lunghezza totale del bordo.",
+    minComplexity: 2,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.calcolo"],
+    curriculumTags: ["perimetro", "rettangolo", "base e altezza"],
+    build: (a, b) => {
+      const base = a;
+      const altezza = b;
+      const perimetro = 2 * (base + altezza);
+      return {
+        prompt: `Il pannello rettangolare misura ${base} cm di base e ${altezza} cm di altezza. Calcola il perimetro in cm.`,
+        answer: perimetro,
+        hints: [
+          "Il perimetro è la somma di tutti i lati del rettangolo.",
+          `I lati opposti sono uguali: ci sono due lati da ${base} e due da ${altezza}.`,
+          "Puoi fare (base + altezza) × 2.",
+        ],
+        steps: [`(${base} + ${altezza}) × 2 = ${perimetro} cm`],
+      };
+    },
+  },
+  {
+    id: "triangle-base-height-area",
+    title: "Vela triangolare",
+    narrative: "La vela del drone è un triangolo: serve la sua area per stimare la spinta.",
+    minComplexity: 2,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.calcolo"],
+    curriculumTags: ["area", "triangolo", "base per altezza diviso due"],
+    build: (a, b) => {
+      const base = a;
+      const altezza = b % 2 === 0 ? b : b + 1;
+      const area = (base * altezza) / 2;
+      return {
+        prompt: `La vela è un triangolo con base ${base} cm e altezza ${altezza} cm. Calcola l'area in cm².`,
+        answer: area,
+        hints: [
+          "L'area del triangolo è (base × altezza) ÷ 2.",
+          `Prima moltiplica ${base} × ${altezza} = ${base * altezza}.`,
+          "Poi dividi per 2: è metà del rettangolo con la stessa base e altezza.",
+        ],
+        steps: [`${base} × ${altezza} = ${base * altezza}`, `${base * altezza} ÷ 2 = ${area} cm²`],
+      };
+    },
+  },
+  {
+    id: "percent-of-quantity",
+    title: "Percentuale di carica",
+    narrative: "Il regolatore rilascia solo una percentuale della carica immagazzinata.",
+    minComplexity: 2,
+    archetype: "percentuali",
+    competencies: ["matematica.percentuali", "matematica.calcolo"],
+    curriculumTags: ["percentuale di una quantità", "proporzione"],
+    build: (a, b, c) => {
+      const percentuali = [10, 20, 25, 50, 75];
+      const p = percentuali[Math.abs(c) % percentuali.length];
+      const totale = a * 20;
+      const answer = (totale * p) / 100;
+      return {
+        prompt: `La batteria contiene ${totale} unità. Il regolatore rilascia il ${p}% della carica: quante unità escono?`,
+        answer,
+        hints: [
+          `Il ${p}% significa ${p} unità ogni 100.`,
+          `Puoi calcolare (${totale} × ${p}) ÷ 100.`,
+          `In alternativa: 1% di ${totale} è ${totale / 100}, poi moltiplica per ${p}.`,
+        ],
+        steps: [`(${totale} × ${p}) ÷ 100 = ${answer}`],
+      };
+    },
+  },
+  {
+    id: "parallelogram-area",
+    title: "Ala del parallelogramma",
+    narrative: "L'ala mobile ha forma di parallelogramma: la superficie serve a regolare la portanza.",
+    minComplexity: 3,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.calcolo"],
+    curriculumTags: ["area", "parallelogramma", "base per altezza"],
+    build: (a, b) => {
+      const base = a;
+      const altezza = b;
+      const area = base * altezza;
+      return {
+        prompt: `L'ala è un parallelogramma con base ${base} cm e altezza ${altezza} cm. Calcola l'area in cm².`,
+        answer: area,
+        hints: [
+          "L'area del parallelogramma è base × altezza.",
+          "L'altezza è la distanza perpendicolare fra le due basi, non il lato obliquo.",
+          `Qui: ${base} × ${altezza}.`,
+        ],
+        steps: [`area = ${base} × ${altezza} = ${area} cm²`],
+      };
+    },
+  },
+  {
+    id: "rhombus-diagonal-area",
+    title: "Rombo di segnalazione",
+    narrative: "Il segnalatore a rombo si calibra sulle sue due diagonali.",
+    minComplexity: 3,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.calcolo"],
+    curriculumTags: ["area", "rombo", "diagonali"],
+    build: (a, b) => {
+      const d1 = a;
+      const d2 = b % 2 === 0 ? b : b + 1;
+      const area = (d1 * d2) / 2;
+      return {
+        prompt: `Il rombo ha diagonali di ${d1} cm e ${d2} cm. Calcola l'area in cm².`,
+        answer: area,
+        hints: [
+          "L'area del rombo è (diagonale maggiore × diagonale minore) ÷ 2.",
+          `Prima moltiplica le diagonali: ${d1} × ${d2} = ${d1 * d2}.`,
+          "Poi dividi per 2.",
+        ],
+        steps: [`${d1} × ${d2} = ${d1 * d2}`, `${d1 * d2} ÷ 2 = ${area} cm²`],
+      };
+    },
+  },
+  {
+    id: "trapezoid-area",
+    title: "Condotto a trapezio",
+    narrative: "La sezione del condotto è un trapezio: serve l'area per stimare il flusso.",
+    minComplexity: 3,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.calcolo"],
+    curriculumTags: ["area", "trapezio", "basi e altezza"],
+    build: (a, b, c) => {
+      const baseMinore = a;
+      const baseMaggiore = a + Math.max(2, c);
+      const altezza = b % 2 === 0 ? b : b + 1;
+      const area = ((baseMinore + baseMaggiore) * altezza) / 2;
+      return {
+        prompt: `Il condotto è un trapezio con basi ${baseMaggiore} cm e ${baseMinore} cm e altezza ${altezza} cm. Calcola l'area in cm².`,
+        answer: area,
+        hints: [
+          "L'area del trapezio è (base maggiore + base minore) × altezza ÷ 2.",
+          `Somma le basi: ${baseMaggiore} + ${baseMinore} = ${baseMaggiore + baseMinore}.`,
+          `Moltiplica per l'altezza ${altezza} e poi dividi per 2.`,
+        ],
+        steps: [
+          `${baseMaggiore} + ${baseMinore} = ${baseMaggiore + baseMinore}`,
+          `${baseMaggiore + baseMinore} × ${altezza} = ${(baseMaggiore + baseMinore) * altezza}`,
+          `${(baseMaggiore + baseMinore) * altezza} ÷ 2 = ${area} cm²`,
+        ],
+      };
+    },
+  },
+  {
+    id: "circle-area-approx",
+    title: "Disco del reattore",
+    narrative: "Il disco del reattore è un cerchio: serve l'area approssimata per dimensionare lo scudo.",
+    minComplexity: 4,
+    archetype: "geometria",
+    competencies: ["matematica.geometria", "matematica.calcolo"],
+    curriculumTags: ["area", "cerchio", "raggio", "pi greco"],
+    build: (a) => {
+      const raggio = a;
+      const area = 3 * raggio * raggio;
+      return {
+        prompt: `Il disco è un cerchio di raggio ${raggio} cm. Calcola l'area usando π ≈ 3 (rispondi in cm²).`,
+        answer: area,
+        hints: [
+          "L'area del cerchio è π × raggio × raggio.",
+          `Con π ≈ 3 diventa 3 × ${raggio} × ${raggio}.`,
+          `Prima calcola ${raggio} × ${raggio} = ${raggio * raggio}, poi moltiplica per 3.`,
+        ],
+        steps: [`${raggio} × ${raggio} = ${raggio * raggio}`, `3 × ${raggio * raggio} = ${area} cm²`],
+      };
+    },
+  },
 ];

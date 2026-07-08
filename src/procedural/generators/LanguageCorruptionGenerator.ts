@@ -260,10 +260,10 @@ export function normalizeTypedAnswer(text: string): string {
 
 export class LanguageCorruptionGenerator {
   generate(random: Random, difficultyLevel = 1, preferredTemplateIds: string[] = []): GeneratedLanguagePuzzle {
+    // Full eligible pool at every level: levels grade difficulty, not the mix of
+    // exercise archetypes.
     const eligibleTemplates = languageTemplates.filter((template) => (template.minDifficulty ?? 1) <= difficultyLevel);
-    const floor = Math.max(1, difficultyLevel - 2);
-    const focusedTemplates = eligibleTemplates.filter((template) => (template.minDifficulty ?? 1) >= floor);
-    const pool = focusedTemplates.length > 0 ? focusedTemplates : eligibleTemplates.length > 0 ? eligibleTemplates : languageTemplates;
+    const pool = eligibleTemplates.length > 0 ? eligibleTemplates : languageTemplates;
     const preferredPool = preferredTemplateIds.length > 0
       ? (eligibleTemplates.length > 0 ? eligibleTemplates : languageTemplates).filter((template) => preferredTemplateIds.includes(template.id))
       : [];

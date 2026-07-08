@@ -17,10 +17,11 @@ import { Random } from "../Random";
 
 export class EnglishInstructionGenerator {
   generate(random: Random, difficultyLevel = 1, preferredTemplateIds: string[] = []): GeneratedEnglishPuzzle {
+    // Levels grade difficulty, not exercise type: keep the full eligible pool at
+    // every level so the mix of archetypes stays varied instead of collapsing to
+    // the hardest band.
     const eligibleTemplates = englishTemplates.filter((template) => (template.minDifficulty ?? 1) <= difficultyLevel);
-    const floor = Math.max(1, difficultyLevel - 2);
-    const focusedTemplates = eligibleTemplates.filter((template) => (template.minDifficulty ?? 1) >= floor);
-    const pool = focusedTemplates.length > 0 ? focusedTemplates : eligibleTemplates.length > 0 ? eligibleTemplates : englishTemplates;
+    const pool = eligibleTemplates.length > 0 ? eligibleTemplates : englishTemplates;
     const preferredPool = preferredTemplateIds.length > 0
       ? (eligibleTemplates.length > 0 ? eligibleTemplates : englishTemplates).filter((template) => preferredTemplateIds.includes(template.id))
       : [];

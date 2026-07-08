@@ -79,6 +79,15 @@ export class ChallengeQualityValidator {
       if (puzzle.graphWorkshop.parameters.every((parameter) => parameter.initial === parameter.target)) {
         reasons.push("math: officina grafica gia risolta");
       }
+      if (puzzle.graphWorkshop.mode === "beacon-line") {
+        const steps = puzzle.graphWorkshop.readingSteps ?? [];
+        if (steps.length < 4 || !["q", "dx", "dy", "m"].every((key) => steps.some((step) => step.key === key))) {
+          reasons.push("math: linea beacon senza lettura guidata di q, dx, dy e m");
+        }
+        if (steps.some((step) => step.options.length !== 4 || new Set(step.options).size !== 4 || !step.options.includes(step.correctValue))) {
+          reasons.push("math: lettura guidata grafici con opzioni ambigue");
+        }
+      }
     }
     return { valid: reasons.length === 0, reasons };
   }

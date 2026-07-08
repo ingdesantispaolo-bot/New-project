@@ -59,6 +59,7 @@ import type {
   GridCommand,
   GridFacing,
   GraphParameterKey,
+  GraphReadingStep,
   EnglishMinigameType,
   LanguageMinigameType,
   LanguageMinigamePrompt,
@@ -139,6 +140,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private equationLabStageIndex = 0;
   private graphWorkshopPuzzleId?: string;
   private graphWorkshopValues: Partial<Record<GraphParameterKey, number>> = {};
+  private graphWorkshopReadingAnswers: Record<string, number> = {};
+  private graphWorkshopApplied = false;
   private graphWorkshopMoves = 0;
   private activeHintText?: string;
   private activeHintPuzzleId?: string;
@@ -2918,14 +2921,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.ensureGraphWorkshopState(puzzle);
     const overlay = this.createMathOverlay(
       puzzle.title,
-      "Officina dei Grafici · modifica i parametri, osserva la trasformazione, certifica le proprietà",
+      "Officina dei Grafici · leggi i dati, costruisci l'equazione, verifica sul piano cartesiano",
     );
     const values = this.graphWorkshopValues;
+    const needsReading = this.graphWorkshopNeedsReading(workshop);
+    const readingComplete = !needsReading || this.graphWorkshopReadingComplete(workshop);
+    const showActiveCurve = !needsReading || this.graphWorkshopApplied;
 
     this.addMathPanel(overlay, 28, 112, 840, 488, "Piano cartesiano interattivo");
-    this.drawCartesianWorkshop(overlay, workshop, values, 52, 154, 792, 414);
+    this.drawCartesianWorkshop(overlay, workshop, values, 52, 154, 792, 414, showActiveCurve);
 
-    this.addMathPanel(overlay, 892, 112, 360, 488, "Console dei parametri");
+    this.addMathPanel(overlay, 892, 112, 360, 488, needsReading ? "Taccuino di lettura" : "Console dei parametri");
     overlay.add(this.add.text(920, 154, workshop.objective, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
@@ -2934,18 +2940,60 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 4,
     }));
     overlay.add(this.add.rectangle(920, 220, 304, 48, 0x06131c, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.36));
-    overlay.add(this.add.text(1072, 244, this.graphWorkshopFormula(workshop, values), {
+    overlay.add(this.add.text(1072, 244, needsReading && !this.graphWorkshopApplied ? this.graphWorkshopNotebookFormula(workshop) : this.graphWorkshopFormula(workshop, values), {
       fontFamily: "Georgia, 'Times New Roman', serif",
       fontSize: "20px",
       color: "#f7d37a",
       fontStyle: "bold",
     }).setOrigin(0.5));
-    // No "warmer/colder" sync meter: it turned the task into trial-and-error.
-    // The student must READ q and m from the beacons, set them, then certify.
-    overlay.add(this.add.text(920, 282, "📐 Leggi q e m dai beacon, poi Certifica — non tirare a caso.", {
-      fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 304, useAdvancedWrap: true }, lineSpacing: 3, fontStyle: "bold",
-    }));
+    if (needsReading) {
+      if (!readingComplete) {
+        this.drawGraphReadingPanel(overlay, puzzle, workshop);
+      } else if (!this.graphWorkshopApplied) {
+        this.drawGraphApplyPanel(overlay, puzzle, workshop);
+      } else {
+        this.drawGraphLockedParameterPanel(overlay, workshop);
+      }
+    } else {
+      overlay.add(this.add.text(920, 282, "Modifica un parametro alla volta, poi Certifica le proprietà esatte.", {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 304, useAdvancedWrap: true }, lineSpacing: 3, fontStyle: "bold",
+      }));
+      this.drawGraphParameterControls(overlay, puzzle, workshop, values);
+    }
 
+    this.addMathPanel(overlay, 28, 614, 1224, 74, "Missione grafica");
+    overlay.add(this.add.text(54, 660, this.currentActiveHint() ?? this.graphWorkshopReadingMethod(workshop), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: this.currentActiveHint() ? "#f7d37a" : "#d9eaf1",
+      wordWrap: { width: 650, useAdvancedWrap: true },
+      lineSpacing: 3,
+    }).setOrigin(0, 0.5));
+    overlay.add(this.add.text(746, 650, needsReading ? this.graphWorkshopReadingStatus(workshop) : `Mosse: ${this.graphWorkshopMoves} · Par: ${this.graphWorkshopPar(workshop)}`, {
+      fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold",
+    }).setOrigin(0.5));
+    overlay.add(new Button(this, 850, 650, needsReading ? "Rileggi" : "Ripristina", () => this.resetGraphWorkshop(puzzle), {
+      width: 142, height: 42, fontSize: 12, fill: 0x263743, soundKey: "reset",
+    }));
+    overlay.add(new Button(this, 1004, 650, this.hintButtonLabel(puzzle, "Indizio"), () => {
+      this.useContextualHint(puzzle);
+      this.openGraphWorkshop(puzzle);
+    }, { width: 142, height: 42, fontSize: 12, fill: 0x263743 }));
+    const certify = new Button(this, 1168, 650, "Certifica", () => this.certifyGraphWorkshop(puzzle), {
+      width: 150, height: 42, fontSize: 13, fill: 0x173b36, stroke: 0xf6c85f,
+    });
+    if (needsReading && !this.graphWorkshopApplied) {
+      certify.setEnabled(false);
+    }
+    overlay.add(certify);
+  }
+
+  private drawGraphParameterControls(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMathPuzzle,
+    workshop: GeneratedGraphWorkshop,
+    values: Partial<Record<GraphParameterKey, number>>,
+  ): void {
     workshop.parameters.forEach((parameter, index) => {
       const rowY = 352 + index * 72;
       overlay.add(this.add.text(920, rowY - 30, `${parameter.label} · ${parameter.meaning}`, {
@@ -2954,7 +3002,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         color: "#9ff5e9",
         wordWrap: { width: 294, useAdvancedWrap: true },
       }));
-      overlay.add(new Button(this, 952, rowY + 8, "−", () => this.adjustGraphParameter(puzzle, parameter.key, -parameter.step), {
+      overlay.add(new Button(this, 952, rowY + 8, "-", () => this.adjustGraphParameter(puzzle, parameter.key, -parameter.step), {
         width: 54, height: 42, fontSize: 22, fill: 0x263743, soundKey: "mathKey",
       }));
       overlay.add(this.add.rectangle(1072, rowY + 8, 142, 42, 0x102533, 0.94).setStrokeStyle(2, 0x6be7d6, 0.46));
@@ -2974,28 +3022,161 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 304, useAdvancedWrap: true },
       lineSpacing: 3,
     }));
+  }
 
-    this.addMathPanel(overlay, 28, 614, 1224, 74, "Missione grafica");
-    overlay.add(this.add.text(54, 660, this.currentActiveHint() ?? this.graphWorkshopReadingMethod(workshop), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: this.currentActiveHint() ? "#f7d37a" : "#d9eaf1",
-      wordWrap: { width: 650, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }).setOrigin(0, 0.5));
-    overlay.add(this.add.text(746, 650, `Mosse: ${this.graphWorkshopMoves} · Par: ${this.graphWorkshopPar(workshop)}`, {
-      fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold",
-    }).setOrigin(0.5));
-    overlay.add(new Button(this, 850, 650, "Ripristina", () => this.resetGraphWorkshop(puzzle), {
-      width: 142, height: 42, fontSize: 12, fill: 0x263743, soundKey: "reset",
+  private drawGraphReadingPanel(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMathPuzzle,
+    workshop: GeneratedGraphWorkshop,
+  ): void {
+    const steps = workshop.readingSteps ?? [];
+    const current = this.currentGraphReadingStep(workshop);
+    if (!current) return;
+    overlay.add(this.add.text(920, 282, "Prima leggi i dati. La retta non si muove finche non hai ricavato i parametri.", {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 304, useAdvancedWrap: true }, lineSpacing: 3, fontStyle: "bold",
     }));
-    overlay.add(new Button(this, 1004, 650, this.hintButtonLabel(puzzle, "Indizio"), () => {
-      this.useContextualHint(puzzle);
+    overlay.add(this.add.rectangle(920, 320, 304, 182, 0x07151d, 0.78).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    overlay.add(this.add.text(938, 336, current.label, {
+      fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(938, 360, current.prompt, {
+      fontFamily: "Inter, Arial", fontSize: "12px", color: "#d9eaf1", wordWrap: { width: 268, useAdvancedWrap: true }, lineSpacing: 3,
+    }));
+    current.options.forEach((option, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      overlay.add(new Button(this, 1000 + col * 144, 424 + row * 48, String(option), () => this.answerGraphReadingStep(puzzle, current, option), {
+        width: 126, height: 38, fontSize: 14, fill: 0x173b36, stroke: 0x6be7d6, soundKey: "confirm",
+      }));
+    });
+
+    overlay.add(this.add.text(920, 522, "Passaggi", {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#9ff5e9", fontStyle: "bold",
+    }));
+    steps.forEach((step, index) => {
+      const done = this.graphWorkshopReadingAnswers[step.key] === step.correctValue;
+      overlay.add(this.add.text(920, 544 + index * 17, `${done ? "OK" : "--"} ${step.label.replace(/^\d+ · /, "")}${done ? ` = ${step.correctValue}` : ""}`, {
+        fontFamily: "Inter, Arial", fontSize: "10px", color: done ? "#66f2a0" : "#8aa1ad", wordWrap: { width: 304, useAdvancedWrap: true },
+      }));
+    });
+  }
+
+  private drawGraphApplyPanel(
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMathPuzzle,
+    workshop: GeneratedGraphWorkshop,
+  ): void {
+    overlay.add(this.add.text(920, 282, "Lettura completata. Ora disegna la retta dai parametri che hai ricavato.", {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 304, useAdvancedWrap: true }, lineSpacing: 3, fontStyle: "bold",
+    }));
+    overlay.add(this.add.rectangle(920, 326, 304, 142, 0x07151d, 0.78).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
+    (workshop.readingSteps ?? []).forEach((step, index) => {
+      overlay.add(this.add.text(940, 344 + index * 26, `${step.key} = ${step.correctValue}`, {
+        fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1", fontStyle: step.parameterKey ? "bold" : undefined,
+      }));
+    });
+    overlay.add(this.add.text(920, 492, `Equazione: ${workshop.targetFormula}`, {
+      fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "18px", color: "#f7d37a", fontStyle: "bold", wordWrap: { width: 304 },
+    }));
+    overlay.add(new Button(this, 1072, 558, "Disegna retta", () => this.applyGraphReadingToWorkshop(puzzle), {
+      width: 246, height: 44, fontSize: 13, fill: 0x173b36, stroke: 0xf6c85f, soundKey: "contextMath",
+    }));
+  }
+
+  private drawGraphLockedParameterPanel(
+    overlay: Phaser.GameObjects.Container,
+    workshop: GeneratedGraphWorkshop,
+  ): void {
+    overlay.add(this.add.text(920, 282, "Retta disegnata dai tuoi calcoli. Ora controlla sul piano: deve attraversare entrambi i beacon.", {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 304, useAdvancedWrap: true }, lineSpacing: 3, fontStyle: "bold",
+    }));
+    workshop.parameters.forEach((parameter, index) => {
+      const rowY = 356 + index * 68;
+      overlay.add(this.add.text(920, rowY - 28, `${parameter.label} · ${parameter.meaning}`, {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#9ff5e9", wordWrap: { width: 294, useAdvancedWrap: true },
+      }));
+      overlay.add(this.add.rectangle(1072, rowY + 6, 240, 40, 0x102533, 0.94).setStrokeStyle(2, 0x6be7d6, 0.46));
+      overlay.add(this.add.text(1072, rowY + 6, `${parameter.label} = ${parameter.target}`, {
+        fontFamily: "Inter, Arial", fontSize: "19px", color: "#f5fbff", fontStyle: "bold",
+      }).setOrigin(0.5));
+    });
+    overlay.add(this.add.text(920, 510, this.graphWorkshopProperties(workshop, this.graphWorkshopValues), {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: "#c7dce7", wordWrap: { width: 304, useAdvancedWrap: true }, lineSpacing: 3,
+    }));
+  }
+
+  private graphWorkshopNeedsReading(workshop: GeneratedGraphWorkshop): boolean {
+    return workshop.mode === "beacon-line" && (workshop.readingSteps?.length ?? 0) > 0;
+  }
+
+  private graphWorkshopReadingComplete(workshop: GeneratedGraphWorkshop): boolean {
+    return (workshop.readingSteps ?? []).every((step) => this.graphWorkshopReadingAnswers[step.key] === step.correctValue);
+  }
+
+  private currentGraphReadingStep(workshop: GeneratedGraphWorkshop): GraphReadingStep | undefined {
+    return (workshop.readingSteps ?? []).find((step) => this.graphWorkshopReadingAnswers[step.key] !== step.correctValue);
+  }
+
+  private graphWorkshopReadingStatus(workshop: GeneratedGraphWorkshop): string {
+    const steps = workshop.readingSteps ?? [];
+    const done = steps.filter((step) => this.graphWorkshopReadingAnswers[step.key] === step.correctValue).length;
+    if (this.graphWorkshopApplied) return "Retta disegnata";
+    if (done >= steps.length) return "Lettura completa";
+    return `Passaggi: ${done}/${steps.length}`;
+  }
+
+  private graphWorkshopNotebookFormula(workshop: GeneratedGraphWorkshop): string {
+    if (this.graphWorkshopReadingComplete(workshop)) {
+      return workshop.targetFormula;
+    }
+    const m = this.graphWorkshopReadingAnswers.m;
+    const q = this.graphWorkshopReadingAnswers.q;
+    const mText = m === undefined ? "m" : String(m);
+    const qText = q === undefined ? "+ q" : q >= 0 ? `+ ${q}` : `- ${Math.abs(q)}`;
+    return `y = ${mText}x ${qText}`;
+  }
+
+  private answerGraphReadingStep(puzzle: GeneratedMathPuzzle, step: GraphReadingStep, value: number): void {
+    const workshop = puzzle.graphWorkshop;
+    if (!workshop) return;
+    const current = this.currentGraphReadingStep(workshop);
+    if (!current || current.key !== step.key) {
+      feedbackSystem.publish("Completa un passaggio alla volta: il taccuino segue l'ordine di lettura.", "hint");
+      audioManager.playOutcome("hint");
       this.openGraphWorkshop(puzzle);
-    }, { width: 142, height: 42, fontSize: 12, fill: 0x263743 }));
-    overlay.add(new Button(this, 1168, 650, "Certifica", () => this.certifyGraphWorkshop(puzzle), {
-      width: 150, height: 42, fontSize: 13, fill: 0x173b36, stroke: 0xf6c85f,
-    }));
+      return;
+    }
+    if (value === step.correctValue) {
+      this.graphWorkshopReadingAnswers[step.key] = value;
+      audioManager.playOutcome("correct");
+      const complete = this.graphWorkshopReadingComplete(workshop);
+      feedbackSystem.publish(complete ? "Lettura completata: ora puoi disegnare la retta dall'equazione." : `Passaggio corretto. ${step.explanation}`, "success");
+      this.openGraphWorkshop(puzzle);
+      return;
+    }
+    const selected = `${step.key} = ${value}`;
+    const correct = `${step.key} = ${step.correctValue}`;
+    outcomeFeedback.answer(this, false, selected, correct, step.explanation);
+    const exited = this.handleIncorrectAnswer(`Rileggi il passaggio: ${step.explanation}`);
+    if (!exited) this.openGraphWorkshop(puzzle);
+  }
+
+  private applyGraphReadingToWorkshop(puzzle: GeneratedMathPuzzle): void {
+    const workshop = puzzle.graphWorkshop;
+    if (!workshop) return;
+    if (!this.graphWorkshopReadingComplete(workshop)) {
+      feedbackSystem.publish("Prima completa tutti i passaggi del taccuino.", "hint");
+      audioManager.playOutcome("hint");
+      this.openGraphWorkshop(puzzle);
+      return;
+    }
+    this.graphWorkshopValues = Object.fromEntries(
+      workshop.parameters.map((parameter) => [parameter.key, parameter.target]),
+    ) as Partial<Record<GraphParameterKey, number>>;
+    this.graphWorkshopApplied = true;
+    audioManager.play("mathKey");
+    feedbackSystem.publish("Retta disegnata dai parametri letti: ora controlla i beacon e certifica.", "success");
+    this.openGraphWorkshop(puzzle);
   }
 
   private ensureGraphWorkshopState(puzzle: GeneratedMathPuzzle): void {
@@ -3005,11 +3186,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.graphWorkshopValues = Object.fromEntries(
       workshop.parameters.map((parameter) => [parameter.key, parameter.initial]),
     ) as Partial<Record<GraphParameterKey, number>>;
+    this.graphWorkshopReadingAnswers = {};
+    this.graphWorkshopApplied = false;
     this.graphWorkshopMoves = 0;
   }
 
   private adjustGraphParameter(puzzle: GeneratedMathPuzzle, key: GraphParameterKey, delta: number): void {
-    const parameter = puzzle.graphWorkshop?.parameters.find((item) => item.key === key);
+    const workshop = puzzle.graphWorkshop;
+    if (!workshop) return;
+    if (this.graphWorkshopNeedsReading(workshop)) {
+      feedbackSystem.publish("In questa missione non si procede a tentativi: completa il taccuino e disegna la retta dai parametri letti.", "hint");
+      audioManager.playOutcome("hint");
+      return;
+    }
+    const parameter = workshop.parameters.find((item) => item.key === key);
     if (!parameter) return;
     const current = this.graphWorkshopValues[key] ?? parameter.initial;
     let next = Phaser.Math.Clamp(current + delta, parameter.min, parameter.max);
@@ -3032,6 +3222,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.graphWorkshopValues = Object.fromEntries(
       workshop.parameters.map((parameter) => [parameter.key, parameter.initial]),
     ) as Partial<Record<GraphParameterKey, number>>;
+    this.graphWorkshopReadingAnswers = {};
+    this.graphWorkshopApplied = false;
     this.graphWorkshopMoves = 0;
     this.activeHintText = undefined;
     this.activeHintPuzzleId = undefined;
@@ -3041,9 +3233,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private certifyGraphWorkshop(puzzle: GeneratedMathPuzzle): void {
     const workshop = puzzle.graphWorkshop;
     if (!workshop) return;
+    if (this.graphWorkshopNeedsReading(workshop) && !this.graphWorkshopReadingComplete(workshop)) {
+      feedbackSystem.publish("Prima completa il taccuino: q, dx, dy e m devono essere letti prima di certificare.", "hint");
+      audioManager.playOutcome("hint");
+      this.openGraphWorkshop(puzzle);
+      return;
+    }
+    if (this.graphWorkshopNeedsReading(workshop) && !this.graphWorkshopApplied) {
+      feedbackSystem.publish("Hai letto i parametri: ora premi Disegna retta e poi controlla il piano cartesiano.", "hint");
+      audioManager.playOutcome("hint");
+      this.openGraphWorkshop(puzzle);
+      return;
+    }
     const exact = workshop.parameters.every((parameter) => this.graphWorkshopValues[parameter.key] === parameter.target);
     const selected = this.graphWorkshopFormula(workshop, this.graphWorkshopValues);
     if (exact) {
+      if (this.graphWorkshopNeedsReading(workshop)) {
+        const explanation = `Lettura corretta: ${workshop.successExplanation}`;
+        outcomeFeedback.answer(this, true, selected, workshop.targetFormula, explanation);
+        feedbackSystem.publish(`Grafico certificato: hai ricavato q e m prima di disegnare. ${workshop.successExplanation}`, "success");
+        this.solvePuzzle(this.currentPuzzleId("math"), puzzle.competencies);
+        return;
+      }
       const par = this.graphWorkshopPar(workshop);
       const rating = this.graphWorkshopMoves <= par
         ? "★★★ calibrazione perfetta"
@@ -3121,7 +3332,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
   /** The reading method to derive the parameters, so the task teaches reading. */
   private graphWorkshopReadingMethod(workshop: GeneratedGraphWorkshop): string {
     if (workshop.mode === "beacon-line") {
-      return "Leggi la retta dai beacon, non a tentativi: q è la y del beacon sull'asse y (dove x = 0); m è di quanto sale la y diviso di quanto avanza la x passando da un beacon all'altro.";
+      const yAxisBeacon = workshop.targetPoints.find((point) => point.x === 0);
+      return yAxisBeacon
+        ? `Leggi la retta dai beacon, non a tentativi: ${yAxisBeacon.label} sta sull'asse y, quindi q è la sua y; poi calcola m = dy / dx tra i due beacon.`
+        : "Leggi la retta dai beacon, non a tentativi: calcola prima m = dy / dx tra i due beacon; poi usa un punto nella formula q = y - m*x.";
     }
     return workshop.principle;
   }
@@ -3155,6 +3369,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     y: number,
     width: number,
     height: number,
+    showActiveCurve = true,
   ): void {
     overlay.add(this.add.rectangle(x, y, width, height, 0x02090e, 0.94).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.34));
     const [minX, maxX] = workshop.xRange;
@@ -3201,7 +3416,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (workshop.showTargetCurve) {
       this.drawWorkshopCurve(overlay, workshop, targetValues, mapX, mapY, minX, maxX, minY, maxY, 0xf6c85f, 0.52, true);
     }
-    this.drawWorkshopCurve(overlay, workshop, values, mapX, mapY, minX, maxX, minY, maxY, 0x6be7d6, 0.96, false);
+    if (showActiveCurve) {
+      this.drawWorkshopCurve(overlay, workshop, values, mapX, mapY, minX, maxX, minY, maxY, 0x6be7d6, 0.96, false);
+    }
 
     // Beacons stay a neutral target colour (never turn green "on hit"): a live
     // success signal would let the student align by trial-and-error. Their
@@ -3226,11 +3443,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }
     }
 
-    overlay.add(this.add.rectangle(x + width - 226, y + 18, 198, workshop.showTargetCurve ? 58 : 38, 0x07151d, 0.84)
+    overlay.add(this.add.rectangle(x + width - 226, y + 18, 198, workshop.showTargetCurve || !showActiveCurve ? 58 : 38, 0x07151d, 0.84)
       .setOrigin(0)
       .setStrokeStyle(1, 0x6be7d6, 0.2));
-    overlay.add(this.add.text(x + width - 210, y + 28, "— curva attiva", {
-      fontFamily: "Inter, Arial", fontSize: "11px", color: "#9ff5e9",
+    overlay.add(this.add.text(x + width - 210, y + 28, showActiveCurve ? "— curva attiva" : "● beacon da leggere", {
+      fontFamily: "Inter, Arial", fontSize: "11px", color: showActiveCurve ? "#9ff5e9" : "#f7d37a",
     }));
     if (workshop.showTargetCurve) {
       overlay.add(this.add.text(x + width - 210, y + 48, "┄ traccia bersaglio", {
@@ -9596,6 +9813,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.equationLabStageIndex = 0;
     this.graphWorkshopPuzzleId = undefined;
     this.graphWorkshopValues = {};
+    this.graphWorkshopReadingAnswers = {};
+    this.graphWorkshopApplied = false;
     this.graphWorkshopMoves = 0;
     this.activeHintText = undefined;
     this.activeHintPuzzleId = undefined;

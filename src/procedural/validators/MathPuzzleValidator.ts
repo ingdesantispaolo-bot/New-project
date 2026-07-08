@@ -62,7 +62,18 @@ export class MathPuzzleValidator {
     ));
     if (!parametersAreValid) return false;
     if (workshop.functionKind === "linear") {
-      return keys.has("m") && keys.has("q") && workshop.parameters.length === 2;
+      const readingStepsAreValid = workshop.mode !== "beacon-line" || (
+        (workshop.readingSteps?.length ?? 0) >= 4
+        && ["q", "dx", "dy", "m"].every((key) => workshop.readingSteps?.some((step) => step.key === key))
+        && (workshop.readingSteps ?? []).every((step) => (
+          step.prompt.length > 12
+          && step.explanation.length > 18
+          && step.options.length === 4
+          && new Set(step.options).size === step.options.length
+          && step.options.includes(step.correctValue)
+        ))
+      );
+      return keys.has("m") && keys.has("q") && workshop.parameters.length === 2 && readingStepsAreValid;
     }
     const a = workshop.parameters.find((parameter) => parameter.key === "a");
     return keys.has("a") && keys.has("h") && keys.has("k") && workshop.parameters.length === 3 && a?.target !== 0;

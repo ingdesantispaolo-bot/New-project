@@ -150,6 +150,16 @@ export type GraphWorkshopParameter = {
   initial: number;
 };
 
+export type GraphReadingStep = {
+  key: string;
+  label: string;
+  prompt: string;
+  correctValue: number;
+  options: number[];
+  explanation: string;
+  parameterKey?: GraphParameterKey;
+};
+
 export type GeneratedGraphWorkshop = {
   mode: GraphWorkshopMode;
   functionKind: GraphFunctionKind;
@@ -157,6 +167,7 @@ export type GeneratedGraphWorkshop = {
   targetFormula: string;
   principle: string;
   parameters: GraphWorkshopParameter[];
+  readingSteps?: GraphReadingStep[];
   targetPoints: Array<{ x: number; y: number; label: string }>;
   showTargetCurve: boolean;
   xRange: [number, number];

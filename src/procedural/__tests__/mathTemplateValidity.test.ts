@@ -104,6 +104,27 @@ describe("Math template puzzles are valid", () => {
       expect(puzzle.answer).toBeLessThanOrEqual(9999);
     }
   });
+
+  it("requires graph beacon lines to be solved by reading q, dx, dy and m", () => {
+    const val = new MathPuzzleValidator();
+    for (let level = 1 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
+      const preset = difficultyModel.getPreset(level);
+      for (let sample = 0; sample < 30; sample += 1) {
+        const puzzle = gen.generateGraphWorkshop(new Random(`graph-read:${level}:${sample}`), preset);
+        const workshop = puzzle.graphWorkshop;
+        if (workshop?.mode !== "beacon-line") continue;
+        const steps = workshop.readingSteps ?? [];
+        expect(val.validate(puzzle)).toBe(true);
+        expect(["q", "dx", "dy", "m"].every((key) => steps.some((step) => step.key === key))).toBe(true);
+        for (const step of steps) {
+          expect(step.options).toHaveLength(4);
+          expect(new Set(step.options).size).toBe(4);
+          expect(step.options).toContain(step.correctValue);
+          expect(step.explanation.length).toBeGreaterThan(18);
+        }
+      }
+    }
+  });
 });
 
 describe("Math minigame tiles give diagnostic wrong-answer feedback", () => {

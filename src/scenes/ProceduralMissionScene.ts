@@ -1299,14 +1299,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const variant = this.run.retryVariants?.language ?? 0;
     const random = new Random(`${this.run.seed}:${puzzleId}:language:${variant}:${nextExerciseSalt()}`);
     const generator = new LanguageCorruptionGenerator();
-    const types = this.isProgressiveMode() ? this.progressiveLanguageSprintTypes(game.type) : [game.type];
+    // Mix exercise types whenever this is NOT a focused italiano training run
+    // (staged single-type). Story/libera missions therefore alternate accordi,
+    // verbi/modi-tempi, connettivi, ortografia, lessico… instead of repeating one
+    // authored sentence.
+    const mixTypes = this.isProgressiveMode() || !this.run.focus.includes("italiano");
+    const types = mixTypes ? this.progressiveLanguageSprintTypes(game.type) : [game.type];
     const freshPrompts = types.flatMap((type, index) =>
       generator.generateMinigame(random.fork(`mix-${type}-${index}`), this.run.difficulty, [type]).minigame?.prompts ?? [],
     );
     const variedGame = {
       ...game,
-      title: this.isProgressiveMode() ? "Sprint italiano: percorso variato" : game.title,
-      instructions: this.isProgressiveMode()
+      title: mixTypes ? "Sprint italiano: percorso variato" : game.title,
+      instructions: mixTypes
         ? "alterni accordi, verbi, connettivi, ortografia, lessico, intrusi e ordine delle parole: leggi l'obiettivo prima di cliccare."
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
@@ -1326,8 +1331,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       netScore: 0,
       selectedIds: new Set<string>(),
       orderedSelection: [],
-      feedback: this.isProgressiveMode()
-        ? "Scalata variata: ogni domanda può cambiare scopo. Prima leggi l'obiettivo, poi scegli."
+      feedback: mixTypes
+        ? "Percorso variato: ogni domanda può cambiare scopo. Prima leggi l'obiettivo, poi scegli."
         : "Leggi prima l'obiettivo: accordo, connettivo, intruso o ordine. Poi conferma.",
       locked: false,
       summaryOpen: false,
@@ -4847,14 +4852,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const variant = this.run.retryVariants?.english ?? 0;
     const random = new Random(`${this.run.seed}:${puzzleId}:english:${variant}:${nextExerciseSalt()}`);
     const generator = new EnglishInstructionGenerator();
-    const types = this.isProgressiveMode() ? this.progressiveEnglishSprintTypes(game.type) : [game.type];
+    // Mix types unless this is a focused inglese training run (staged single-type).
+    const mixTypes = this.isProgressiveMode() || !this.run.focus.includes("inglese");
+    const types = mixTypes ? this.progressiveEnglishSprintTypes(game.type) : [game.type];
     const freshPrompts = types.flatMap((type, index) =>
       generator.generateMinigame(random.fork(`mix-${type}-${index}`), this.run.difficulty, [type]).minigame?.prompts ?? [],
     );
     const variedGame = {
       ...game,
-      title: this.isProgressiveMode() ? "Sprint inglese: percorso variato" : game.title,
-      instructions: this.isProgressiveMode()
+      title: mixTypes ? "Sprint inglese: percorso variato" : game.title,
+      instructions: mixTypes
         ? "alterni azioni, sequenze, dati, grammatica, frase, traduzione, lettura, diagnosi e dialogo: trova prima lo scopo della domanda."
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
@@ -4874,8 +4881,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       netScore: 0,
       selectedIds: new Set<string>(),
       orderedSelection: [],
-      feedback: this.isProgressiveMode()
-        ? "Scalata variata: ogni comando può chiedere azione, ordine, dato, grammatica o traduzione. Leggi lo scopo prima della risposta."
+      feedback: mixTypes
+        ? "Percorso variato: ogni comando può chiedere azione, ordine, dato, grammatica o traduzione. Leggi lo scopo prima della risposta."
         : "Leggi il comando come una procedura: action word -> object -> limiter/time word.",
       locked: false,
       summaryOpen: false,

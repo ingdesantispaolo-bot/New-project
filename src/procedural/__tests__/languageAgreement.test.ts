@@ -39,13 +39,25 @@ describe("Agreement (concordanza) minigame", () => {
     }
   });
 
-  it("produces typed production prompts whose accepted answer matches the solution", () => {
+  it("keeps agreement as tile selection, never typed (tense is free → a typed answer would be under-determined)", () => {
+    for (let i = 0; i < 40; i += 1) {
+      const puzzle = gen.generateMinigame(new Random(`agree-typed:${i}`), 6, ["agreement-sprint"]);
+      for (const prompt of puzzle.minigame?.prompts ?? []) {
+        expect(prompt.inputMode ?? "tiles", prompt.context).toBe("tiles");
+        expect(prompt.acceptedAnswers, prompt.context).toBeUndefined();
+      }
+    }
+  });
+
+  it("verb-mastery typed prompts are uniquely determined (explicit infinitive + mood/tense cue) and accept the solution", () => {
     let typedCount = 0;
-    for (let i = 0; i < 30; i += 1) {
-      const puzzle = gen.generateMinigame(new Random(`typed:${i}`), 5, ["agreement-sprint"]);
+    for (let i = 0; i < 40; i += 1) {
+      const puzzle = gen.generateMinigame(new Random(`verb-typed:${i}`), 6, ["verb-mastery"]);
       for (const prompt of puzzle.minigame?.prompts ?? []) {
         if (prompt.inputMode !== "typed") continue;
         typedCount += 1;
+        // The context must state the target verb + mood/tense so the answer is unambiguous.
+        expect(prompt.context, prompt.context).toMatch(/Scrivi la forma corretta:.*\(.+\)/);
         expect(prompt.acceptedAnswers).toBeDefined();
         // The declared correct answer must be accepted (case/spacing-insensitive).
         expect(prompt.acceptedAnswers).toContain(normalizeTypedAnswer(prompt.solutionLabels[0]));

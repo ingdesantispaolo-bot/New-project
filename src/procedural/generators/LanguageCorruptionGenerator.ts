@@ -564,26 +564,24 @@ export class LanguageCorruptionGenerator {
       this.languageTile(index, item.correct, true, `Corretto: ${item.explanation}`),
       ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, item.distractorFeedback?.[choiceIndex] ?? `Non regge: ${item.explanation}`)),
     ]);
-    // ~40% of concordanze become a production exercise: the player types the
-    // correct form instead of picking it (exercises italiano.scritturaBreve and
-    // diversifies the interaction). Tiles stay as a valid fallback/wrapper.
-    const typed = random.bool(0.4);
+    // Agreement stays a SELECTION exercise (tiles): the concord axis is fixed
+    // by the distractors, but the tense is not, so a typed answer would be
+    // under-determined ("l'elenco ___ pronto" admits è/era/sarà). Production
+    // writing is covered — unambiguously — by verb-mastery, whose typed items
+    // always state infinitive + mood/tense.
     return {
       id: `agreement-${index}`,
       type: "agreement-sprint",
-      prompt: typed
-        ? "Scrivi la forma grammaticale corretta che completa il log."
-        : "Completa il log con la forma grammaticale che il sistema può eseguire.",
+      prompt: "Completa il log con la forma grammaticale che il sistema può eseguire.",
       context: item.context,
-      targetLabel: typed ? "Scrivi la concordanza" : "Concordanza corretta",
+      targetLabel: "Concordanza corretta",
       requiredSelectionCount: 1,
       tiles,
       solutionLabels: [item.correct],
       explanation: item.explanation,
       concept: item.concept,
       signature: `agreement-${item.context}-${item.correct}`,
-      inputMode: typed ? "typed" : "tiles",
-      acceptedAnswers: typed ? [normalizeTypedAnswer(item.correct)] : undefined,
+      inputMode: "tiles",
     };
   }
 
@@ -1778,7 +1776,11 @@ export class LanguageCorruptionGenerator {
     ];
     const pool = level >= 6 ? [...base, ...intermediate, ...advanced] : level >= 4 ? [...base, ...intermediate] : base;
     const item = random.pick(pool);
-    const typed = item.typed || (level >= 6 && random.bool(0.28));
+    // Typed (production) ONLY for items authored with an explicit cue in the
+    // context — "Scrivi la forma corretta: … (infinito, modo/tempo)" — so the
+    // answer is uniquely determined. Items written for tile selection (no cue)
+    // would be ambiguous if typed, so they stay as tiles.
+    const typed = item.typed === true;
     const tiles = this.shuffleLanguageTiles(random, [
       this.languageTile(index, item.correct, true, `Corretto: ${item.explanation}`),
       ...item.distractors.map((label, choiceIndex) => this.languageTile(index + choiceIndex + 1, label, false, item.distractorFeedback?.[choiceIndex] ?? `Modo/tempo non adatto: qui serve ${item.concept} → «${item.correct}». ${item.explanation}`)),

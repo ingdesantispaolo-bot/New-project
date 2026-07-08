@@ -118,13 +118,30 @@ export class PuzzleGenerator {
       robot: exerciseDirector.enrichRobot(robot, robotDifficulty.level),
       circuit: exerciseDirector.enrichCircuit(circuit, circuitDifficulty.level),
       coding,
+      // Italiano/inglese CONSOLE = parametric sprint, not the single authored
+      // "correggi la frase" (whose sentences are a small, memorisable fixed pool).
+      // generateMinigame draws from parametric/varied banks and, in the scene, is
+      // expanded into a mixed-type sprint (accordi, verbi/modi-tempi, connettivi,
+      // ortografia, lessico…) so the Story never repeats the same wording.
       language: this.validationEngine.generateWithRetries(
-        () => this.languageGenerator.generate(languageRandom, languageLevel),
+        () => this.languageGenerator.generateMinigame(languageRandom, languageLevel),
         (puzzle) => this.languageValidator.validateItalian(puzzle),
         () => this.languageGenerator.fallback(languageRandom.fork("fallback"), languageLevel),
       ),
       english: this.validationEngine.generateWithRetries(
-        () => this.englishGenerator.generate(englishRandom, englishLevel),
+        // Base type restricted to the archetypes whose single-answer wrapper is
+        // mission-valid (exactly one correct choice). The scene sprint still
+        // rotates through ALL english types, so played variety is unchanged;
+        // multi-select types (action-relay) and inference types just don't seed
+        // the wrapper. Keeps missions valid without wasteful retries.
+        () => this.englishGenerator.generateMinigame(englishRandom, englishLevel, [
+          "sequence-switchboard",
+          "data-command-scan",
+          "grammar-fix",
+          "sentence-build",
+          "vocab-lab",
+          "translation-match",
+        ]),
         (puzzle) => this.languageValidator.validateEnglish(puzzle),
         () => this.englishGenerator.fallback(englishRandom.fork("fallback"), englishLevel),
       ),

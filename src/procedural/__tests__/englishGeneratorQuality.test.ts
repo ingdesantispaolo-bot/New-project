@@ -3,7 +3,7 @@ import { englishTemplates } from "../../data/procedural/englishTemplates";
 import { englishVocabularyEntries } from "../../data/procedural/englishVocabularyBank";
 import { EnglishInstructionGenerator } from "../generators/EnglishInstructionGenerator";
 import { LanguagePuzzleValidator } from "../validators/LanguagePuzzleValidator";
-import type { EnglishMinigameType } from "../ProceduralTypes";
+import type { EnglishMinigamePrompt, EnglishMinigameType } from "../ProceduralTypes";
 import { Random } from "../Random";
 
 const TYPES: EnglishMinigameType[] = [
@@ -18,6 +18,42 @@ const TYPES: EnglishMinigameType[] = [
   "error-diagnosis",
   "dialogue-response",
 ];
+
+const stripChoiceRole = (label: string): string =>
+  label.replace(/^(azione|prova|risposta|motivo|correzione|diagnosi):\s*/i, "").trim();
+
+const normalizeVisibleHint = (text: string): string =>
+  text
+    .normalize("NFKD")
+    .toLocaleLowerCase("en")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9']+/g, " ")
+    .trim();
+
+const visibleHintContains = (haystack: string, needle: string): boolean => {
+  if (needle.length < 2) return false;
+  const haystackTokens = haystack.split(/\s+/).filter(Boolean);
+  const needleTokens = needle.split(/\s+/).filter(Boolean);
+  if (needleTokens.length === 0) return false;
+  if (needleTokens.length === 1 && needle.length <= 3) {
+    return haystackTokens.includes(needle);
+  }
+  return ` ${haystack} `.includes(` ${needle} `);
+};
+
+const glossaryLeaksSolution = (prompt: EnglishMinigamePrompt): string | undefined => {
+  if (prompt.type === "sentence-build") return undefined;
+  for (const entry of prompt.glossary) {
+    const term = normalizeVisibleHint(entry.term);
+    for (const label of prompt.solutionLabels) {
+      const solution = normalizeVisibleHint(stripChoiceRole(label));
+      if (visibleHintContains(term, solution) || visibleHintContains(solution, term)) {
+        return `${entry.term} -> ${label}`;
+      }
+    }
+  }
+  return undefined;
+};
 
 describe("English generator quality", () => {
   it("uses a broad structured vocabulary bank for third-year middle school", () => {
@@ -54,6 +90,33 @@ describe("English generator quality", () => {
           expect(prompt.explanation.length, `${type}: explanation in ${prompt.id}`).toBeGreaterThanOrEqual(20);
           expect(prompt.glossary?.length ?? 0, `${type}: glossary in ${prompt.id}`).toBeGreaterThan(0);
         }
+      }
+    }
+  });
+
+  it("does not reveal minigame answers through visible glossary, data notes or grammar hints", () => {
+    const generator = new EnglishInstructionGenerator();
+    for (const type of TYPES) {
+      for (let level = 1; level <= 8; level += 1) {
+        for (let sample = 0; sample < 4; sample += 1) {
+          const puzzle = generator.generateMinigame(new Random(`english-anti-leak:${type}:${level}:${sample}`), level, [type]);
+          for (const prompt of puzzle.minigame?.prompts.slice(0, 16) ?? []) {
+            expect(glossaryLeaksSolution(prompt), `${type} L${level} ${prompt.id}: glossary leak`).toBeUndefined();
+            expect(prompt.dataPoints?.some((point) => Boolean(point.note)), `${type} L${level} ${prompt.id}: data note leak`).not.toBe(true);
+            if (prompt.type === "grammar-fix") {
+              expect(prompt.instruction, `${type} L${level} ${prompt.id}: parenthetical grammar hint`).not.toMatch(/\([^)]*\)/);
+            }
+          }
+        }
+      }
+    }
+  });
+
+  it("keeps authored English data tables neutral instead of tagging the answer", () => {
+    const bannedNote = /\b(below|above|safe|dimmer|brighter|inside|outside|safest|fastest|faster|same value|limit|threshold)\b/i;
+    for (const template of englishTemplates) {
+      for (const point of template.dataPoints ?? []) {
+        expect(point.note ?? "", `${template.id}: ${point.label}`).not.toMatch(bannedNote);
       }
     }
   });

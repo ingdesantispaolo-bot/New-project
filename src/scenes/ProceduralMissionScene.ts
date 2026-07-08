@@ -4924,7 +4924,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         const rowY = y + 128 + index * 24;
         overlay.add(this.add.rectangle(x + 42, rowY - 3, width - 84, 20, 0x0c2531, 0.9).setOrigin(0)
           .setStrokeStyle(1, 0x6be7d6, 0.18));
-        overlay.add(this.add.text(x + 54, rowY, `${point.label}: ${point.value}${point.note ? ` | ${point.note}` : ""}`, {
+        overlay.add(this.add.text(x + 54, rowY, `${point.label}: ${point.value}`, {
           fontFamily: "Inter, Arial",
           fontSize: "11px",
           color: "#d9eaf1",
@@ -6529,7 +6529,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       dataPoints.forEach((point, index) => {
         const y = 284 + index * 28;
         overlay.add(this.add.rectangle(618, y - 4, 494, 24, 0x132835, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
-        overlay.add(this.add.text(630, y, `${point.label}: ${point.value}${point.note ? ` | ${point.note}` : ""}`, {
+        overlay.add(this.add.text(630, y, `${point.label}: ${point.value}`, {
           fontFamily: "Inter, Arial",
           fontSize: "11px",
           color: "#d9eaf1",
@@ -10109,7 +10109,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     dataPoints.forEach((point, index) => {
       const y = 232 + index * 30;
       overlay.add(this.add.rectangle(610, y, 250, 24, 0x132835, 0.9).setStrokeStyle(1, 0x6be7d6, 0.25));
-      overlay.add(this.add.text(492, y - 8, `${point.label}: ${point.value}${point.note ? ` (${point.note})` : ""}`, {
+      overlay.add(this.add.text(492, y - 8, `${point.label}: ${point.value}`, {
         fontFamily: "Inter, Arial",
         fontSize: "10px",
         color: "#d9eaf1",

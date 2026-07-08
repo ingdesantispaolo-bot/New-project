@@ -395,9 +395,9 @@ export const englishTemplates: EnglishTemplate[] = [
     taskPrompt: "Leggi il dato numerico e applica below alla soglia indicata.",
     instruction: "Water the pod whose moisture is below 25. Leave the other pods unchanged.",
     dataPoints: [
-      { label: "Pod A", value: "moisture 18", note: "below threshold" },
-      { label: "Pod B", value: "moisture 31", note: "safe" },
-      { label: "Pod C", value: "moisture 44", note: "safe" },
+      { label: "Pod A", value: "moisture 18" },
+      { label: "Pod B", value: "moisture 31" },
+      { label: "Pod C", value: "moisture 44" },
     ],
     correctLabel: "Water pod A only",
     distractors: [
@@ -470,8 +470,8 @@ export const englishTemplates: EnglishTemplate[] = [
     taskPrompt: "Confronta i valori e applica dimmer/brighter nell'ordine corretto.",
     instruction: "Choose the dimmer signal, then lock the brighter one.",
     dataPoints: [
-      { label: "Signal A", value: "42 lux", note: "dimmer" },
-      { label: "Signal B", value: "71 lux", note: "brighter" },
+      { label: "Signal A", value: "42 lux" },
+      { label: "Signal B", value: "71 lux" },
     ],
     correctLabel: "Choose A -> Lock B",
     distractors: [
@@ -500,9 +500,9 @@ export const englishTemplates: EnglishTemplate[] = [
     taskPrompt: "Usa comparativi e superlativi collegandoli ai dati.",
     instruction: "Choose the safest route, even if it is slower than the others.",
     dataPoints: [
-      { label: "Route A", value: "6 min, medium risk", note: "faster" },
-      { label: "Route B", value: "9 min, low risk", note: "safest" },
-      { label: "Route C", value: "5 min, high risk", note: "fastest" },
+      { label: "Route A", value: "6 min, medium risk" },
+      { label: "Route B", value: "9 min, low risk" },
+      { label: "Route C", value: "5 min, high risk" },
     ],
     correctLabel: "Choose Route B",
     distractors: [
@@ -635,7 +635,7 @@ export const englishTemplates: EnglishTemplate[] = [
     scenario: "La serra invia un dato numerico: la risposta cambia se il valore è dentro o fuori intervallo.",
     taskPrompt: "Controlla entrambi gli estremi di between.",
     instruction: "If the temperature is between 18 and 24 degrees, open the vent halfway; otherwise keep it closed.",
-    dataPoints: [{ label: "Temperature", value: "21°C", note: "inside range" }],
+    dataPoints: [{ label: "Temperature", value: "21°C" }],
     correctLabel: "21°C -> Set vent halfway",
     distractors: [
       { label: "21°C -> Keep vent closed", feedback: "21 è tra 18 e 24, quindi vale la prima parte del comando." },
@@ -950,7 +950,7 @@ export const englishTemplates: EnglishTemplate[] = [
     scenario: "Il sistema antincendio reagisce solo se una condizione futura diventa vera.",
     taskPrompt: "Interpreta il first conditional senza anticipare l'azione.",
     instruction: "If the smoke level rises above 30, the alarm will lock the east door.",
-    dataPoints: [{ label: "Smoke level", value: "28", note: "below limit" }],
+    dataPoints: [{ label: "Smoke level", value: "28" }],
     correctLabel: "Do not lock the east door yet",
     distractors: [
       { label: "Immediately lock the east door now", feedback: "Il valore 28 non è above 30: la condizione non è ancora vera." },
@@ -1155,8 +1155,8 @@ export const englishTemplates: EnglishTemplate[] = [
     taskPrompt: "Interpreta as stable as e dati numerici semplici.",
     instruction: "Use the backup signal only if it is as stable as the main signal.",
     dataPoints: [
-      { label: "Main signal", value: "stability 82", note: "reference" },
-      { label: "Backup signal", value: "stability 82", note: "same value" },
+      { label: "Main signal", value: "stability 82" },
+      { label: "Backup signal", value: "stability 82" },
     ],
     correctLabel: "Use the backup signal",
     distractors: [

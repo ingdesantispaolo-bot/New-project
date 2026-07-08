@@ -222,10 +222,78 @@ export class EnglishInstructionGenerator {
       const prompt = this.buildMinigamePrompt(random, level, type, index + attempt);
       first ??= prompt;
       if (!usedSignatures.has(prompt.signature)) {
-        return prompt;
+        return this.sanitizeMinigamePrompt(prompt);
       }
     }
-    return first ?? this.buildMinigamePrompt(random, level, type, index + 99);
+    return this.sanitizeMinigamePrompt(first ?? this.buildMinigamePrompt(random, level, type, index + 99));
+  }
+
+  private sanitizeMinigamePrompt(prompt: EnglishMinigamePrompt): EnglishMinigamePrompt {
+    const dataPoints = prompt.dataPoints?.map((point) => ({
+      label: point.label,
+      value: point.value,
+    }));
+    const glossary = prompt.type === "sentence-build"
+      ? prompt.glossary
+      : prompt.glossary.filter((entry) => !this.glossaryEntryLeaksSolution(entry, prompt));
+    return {
+      ...prompt,
+      dataPoints,
+      glossary: glossary.length > 0 ? glossary : this.safeMinigameGlossary(prompt.type),
+    };
+  }
+
+  private glossaryEntryLeaksSolution(
+    entry: { term: string; meaning: string },
+    prompt: EnglishMinigamePrompt,
+  ): boolean {
+    const term = this.normalizeVisibleHint(entry.term);
+    if (!term) return false;
+    return prompt.solutionLabels.some((label) => {
+      const solution = this.normalizeVisibleHint(this.stripChoiceRole(label));
+      if (!solution) return false;
+      return this.visibleHintContains(term, solution) || this.visibleHintContains(solution, term);
+    });
+  }
+
+  private stripChoiceRole(label: string): string {
+    return label.replace(/^(azione|prova|risposta|motivo|correzione|diagnosi):\s*/i, "").trim();
+  }
+
+  private normalizeVisibleHint(text: string): string {
+    return text
+      .normalize("NFKD")
+      .toLocaleLowerCase("en")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9']+/g, " ")
+      .trim();
+  }
+
+  private visibleHintContains(haystack: string, needle: string): boolean {
+    if (needle.length < 2) return false;
+    const haystackTokens = haystack.split(/\s+/).filter(Boolean);
+    const needleTokens = needle.split(/\s+/).filter(Boolean);
+    if (needleTokens.length === 0) return false;
+    if (needleTokens.length === 1 && needle.length <= 3) {
+      return haystackTokens.includes(needle);
+    }
+    return ` ${haystack} `.includes(` ${needle} `);
+  }
+
+  private safeMinigameGlossary(type: EnglishMinigameType): Array<{ term: string; meaning: string }> {
+    const glossary: Record<EnglishMinigameType, Array<{ term: string; meaning: string }>> = {
+      "action-relay": [{ term: "limiter", meaning: "parola che limita il comando" }, { term: "evidence", meaning: "prova nel testo" }],
+      "sequence-switchboard": [{ term: "time word", meaning: "parola che ordina le azioni" }, { term: "condition", meaning: "condizione" }],
+      "data-command-scan": [{ term: "threshold", meaning: "soglia" }, { term: "compare", meaning: "confrontare i dati" }],
+      "grammar-fix": [{ term: "signal word", meaning: "parola-spia grammaticale" }, { term: "form", meaning: "forma da scegliere" }],
+      "sentence-build": [{ term: "word order", meaning: "ordine delle parole" }, { term: "auxiliary", meaning: "ausiliare" }],
+      "vocab-lab": [{ term: "context", meaning: "situazione d'uso" }, { term: "word class", meaning: "tipo di parola" }],
+      "translation-match": [{ term: "meaning", meaning: "significato" }, { term: "false friend", meaning: "falso amico" }],
+      "reading-detective": [{ term: "inference", meaning: "conclusione dal testo" }, { term: "evidence", meaning: "prova testuale" }],
+      "error-diagnosis": [{ term: "repair", meaning: "correzione" }, { term: "error type", meaning: "tipo di errore" }],
+      "dialogue-response": [{ term: "register", meaning: "tono adatto" }, { term: "purpose", meaning: "scopo della risposta" }],
+    };
+    return glossary[type];
   }
 
   private buildMinigamePrompt(random: Random, level: number, type: EnglishMinigameType, index: number): EnglishMinigamePrompt {
@@ -797,9 +865,9 @@ export class EnglishInstructionGenerator {
         "Find the value below the threshold and act only there.",
         "Threshold decision",
         [
-          { label: `Pod ${target}`, value: `${low}`, note: "below threshold" },
-          { label: `Pod ${pods[1]}`, value: `${safeOne}`, note: "safe" },
-          { label: `Pod ${pods[2]}`, value: `${safeTwo}`, note: "safe" },
+          { label: `Pod ${target}`, value: `${low}` },
+          { label: `Pod ${pods[1]}`, value: `${safeOne}` },
+          { label: `Pod ${pods[2]}`, value: `${safeTwo}` },
         ].sort((a, b) => a.label.localeCompare(b.label)),
         `Water pod ${target}`,
         [`Water pod ${pods[1]}`, "Water all pods", "Do nothing"],
@@ -822,9 +890,9 @@ export class EnglishInstructionGenerator {
         "Above points to the only value over the limit.",
         "Above-limit action",
         [
-          { label: `${target} panel`, value: `${high}°C`, note: "above limit" },
-          { label: `${panels[1]} panel`, value: `${lowOne}°C`, note: "safe" },
-          { label: `${panels[2]} panel`, value: `${lowTwo}°C`, note: "safe" },
+          { label: `${target} panel`, value: `${high}°C` },
+          { label: `${panels[1]} panel`, value: `${lowOne}°C` },
+          { label: `${panels[2]} panel`, value: `${lowTwo}°C` },
         ].sort((a, b) => a.label.localeCompare(b.label)),
         `Cool ${target}`,
         [`Cool ${panels[1]}`, "Cool every panel", "Ignore heat"],
@@ -843,7 +911,7 @@ export class EnglishInstructionGenerator {
         `If the temperature is between ${low} and ${high}, open the vent halfway.`,
         "Between includes the values inside the interval.",
         "Interval command",
-        [{ label: "Temperature", value: `${value}°C`, note: "inside range" }],
+        [{ label: "Temperature", value: `${value}°C` }],
         "Open vent halfway",
         ["Keep vent closed", "Open vent fully", "Lower the temperature first"],
         `${value} è dentro l'intervallo ${low}-${high}; halfway significa a metà.`,
@@ -861,8 +929,8 @@ export class EnglishInstructionGenerator {
       "Compare the two values before acting.",
       "Comparison command",
       [
-        { label: `Signal ${labels[0]}`, value: `${dimmer} lux`, note: "dimmer" },
-        { label: `Signal ${labels[1]}`, value: `${brighter} lux`, note: "brighter" },
+        { label: `Signal ${labels[0]}`, value: `${dimmer} lux` },
+        { label: `Signal ${labels[1]}`, value: `${brighter} lux` },
       ],
       `Choose ${labels[0]} -> lock ${labels[1]}`,
       [`Choose ${labels[1]} -> lock ${labels[0]}`, "Lock both signals", `Ignore signal ${labels[0]}`],
@@ -922,15 +990,15 @@ export class EnglishInstructionGenerator {
   private buildGrammarFixPrompt(random: Random, level: number, index: number): EnglishMinigamePrompt {
     type GrammarItem = { instruction: string; correct: string; distractors: string[]; explanation: string; concept: string; glossary: Array<{ term: string; meaning: string }> };
     const base: GrammarItem[] = [
-      { instruction: "She ___ to school every day. (ogni giorno)", correct: "goes", distractors: ["go", "is going", "going"], explanation: "Present simple per le abitudini: alla terza persona si aggiunge -es (go → goes).", concept: "present simple", glossary: [{ term: "every day", meaning: "ogni giorno" }, { term: "goes", meaning: "va" }] },
-      { instruction: "Look! The robot ___ a box now. (now)", correct: "is carrying", distractors: ["carries", "carry", "carried"], explanation: "Present continuous per ciò che accade ora: be + verbo-ing.", concept: "present continuous", glossary: [{ term: "now", meaning: "adesso" }, { term: "carry", meaning: "trasportare" }] },
-      { instruction: "Yesterday we ___ the test. (yesterday)", correct: "started", distractors: ["start", "starts", "starting"], explanation: "Past simple per il passato concluso: verbi regolari in -ed.", concept: "past simple", glossary: [{ term: "yesterday", meaning: "ieri" }, { term: "start", meaning: "iniziare" }] },
+      { instruction: "She ___ to school every day.", correct: "goes", distractors: ["go", "is going", "going"], explanation: "Present simple per le abitudini: alla terza persona si aggiunge -es (go → goes).", concept: "present simple", glossary: [{ term: "every day", meaning: "ogni giorno" }, { term: "goes", meaning: "va" }] },
+      { instruction: "Look! The robot ___ a box now.", correct: "is carrying", distractors: ["carries", "carry", "carried"], explanation: "Present continuous per ciò che accade ora: be + verbo-ing.", concept: "present continuous", glossary: [{ term: "now", meaning: "adesso" }, { term: "carry", meaning: "trasportare" }] },
+      { instruction: "Yesterday we ___ the test.", correct: "started", distractors: ["start", "starts", "starting"], explanation: "Past simple per il passato concluso: verbi regolari in -ed.", concept: "past simple", glossary: [{ term: "yesterday", meaning: "ieri" }, { term: "start", meaning: "iniziare" }] },
       { instruction: "This cable is ___ than that one.", correct: "longer", distractors: ["long", "longest", "more long"], explanation: "Comparativo di maggioranza con aggettivo corto: -er + than.", concept: "comparative", glossary: [{ term: "than", meaning: "di/che (confronto)" }, { term: "long", meaning: "lungo" }] },
       { instruction: "This is the ___ room in the lab.", correct: "biggest", distractors: ["bigger", "big", "most big"], explanation: "Superlativo con aggettivo corto: the + -est (big → biggest).", concept: "superlative", glossary: [{ term: "the biggest", meaning: "il più grande" }] },
-      { instruction: "You ___ wear gloves here. (obbligo)", correct: "must", distractors: ["mustn't", "can", "should"], explanation: "Must esprime obbligo; mustn't sarebbe divieto.", concept: "modal: obligation", glossary: [{ term: "must", meaning: "dovere (obbligo)" }, { term: "gloves", meaning: "guanti" }] },
-      { instruction: "Robots ___ lift heavy boxes. (capacità)", correct: "can", distractors: ["must", "should", "can't"], explanation: "Can esprime capacità/abilità.", concept: "modal: ability", glossary: [{ term: "can", meaning: "potere/sapere" }, { term: "lift", meaning: "sollevare" }] },
-      { instruction: "You look tired. You ___ rest. (consiglio)", correct: "should", distractors: ["must", "mustn't", "can't"], explanation: "Should dà un consiglio, non un obbligo.", concept: "modal: advice", glossary: [{ term: "should", meaning: "dovere (consiglio)" }, { term: "rest", meaning: "riposare" }] },
-      { instruction: "The key is ___ the drawer. (dentro)", correct: "in", distractors: ["on", "at", "to"], explanation: "In per ciò che è dentro un contenitore.", concept: "preposition of place", glossary: [{ term: "in", meaning: "dentro" }, { term: "drawer", meaning: "cassetto" }] },
+      { instruction: "Lab rule: you ___ wear gloves here.", correct: "must", distractors: ["mustn't", "can", "should"], explanation: "Must esprime obbligo; mustn't sarebbe divieto.", concept: "modal: obligation", glossary: [{ term: "must", meaning: "dovere (obbligo)" }, { term: "gloves", meaning: "guanti" }] },
+      { instruction: "Robots ___ lift heavy boxes without help.", correct: "can", distractors: ["must", "should", "can't"], explanation: "Can esprime capacità/abilità.", concept: "modal: ability", glossary: [{ term: "can", meaning: "potere/sapere" }, { term: "lift", meaning: "sollevare" }] },
+      { instruction: "You look tired. You ___ rest.", correct: "should", distractors: ["must", "mustn't", "can't"], explanation: "Should dà un consiglio, non un obbligo.", concept: "modal: advice", glossary: [{ term: "should", meaning: "dovere (consiglio)" }, { term: "rest", meaning: "riposare" }] },
+      { instruction: "The key is ___ the closed drawer.", correct: "in", distractors: ["on", "at", "to"], explanation: "In per ciò che è dentro un contenitore.", concept: "preposition of place", glossary: [{ term: "in", meaning: "dentro" }, { term: "drawer", meaning: "cassetto" }] },
       { instruction: "The test starts ___ Monday.", correct: "on", distractors: ["in", "at", "by"], explanation: "On con i giorni della settimana.", concept: "preposition of time", glossary: [{ term: "on Monday", meaning: "di lunedì" }] },
       { instruction: "There aren't ___ batteries left.", correct: "any", distractors: ["some", "much", "a"], explanation: "Any nelle frasi negative con plurali numerabili.", concept: "quantifier some/any", glossary: [{ term: "any", meaning: "nessuno/alcuni" }, { term: "left", meaning: "rimasto" }] },
       { instruction: "How ___ sensors are there?", correct: "many", distractors: ["much", "some", "any"], explanation: "Many con i nomi numerabili plurali.", concept: "quantifier much/many", glossary: [{ term: "how many", meaning: "quanti" }] },
@@ -959,27 +1027,27 @@ export class EnglishInstructionGenerator {
     // continuous, present-perfect nuances, will vs going to, second conditional,
     // have to / might, subject-vs-object questions, used to, relative pronouns.
     const terzaMediaExtra: GrammarItem[] = [
-      { instruction: "We ___ to the lab an hour ago. (andare)", correct: "went", distractors: ["goed", "go", "gone"], explanation: "Past simple irregolare: go → went (mai «goed»).", concept: "past simple (irregular)", glossary: [{ term: "went", meaning: "andammo/andò" }, { term: "an hour ago", meaning: "un'ora fa" }] },
-      { instruction: "They ___ finish the experiment yesterday. (non finirono)", correct: "didn't", distractors: ["don't", "weren't", "hadn't"], explanation: "Past simple negativo: did + not + base (didn't finish).", concept: "past simple negative", glossary: [{ term: "didn't", meaning: "non (passato)" }] },
-      { instruction: "While I ___ the data, the power went off. (mentre leggevo)", correct: "was reading", distractors: ["read", "am reading", "was read"], explanation: "Past continuous per un'azione in corso nel passato: was/were + -ing.", concept: "past continuous", glossary: [{ term: "while", meaning: "mentre" }, { term: "was reading", meaning: "stavo leggendo" }] },
-      { instruction: "She was writing when the alarm ___. (suonò)", correct: "rang", distractors: ["was ringing", "rings", "ring"], explanation: "L'azione breve che interrompe va al past simple: when the alarm rang.", concept: "past simple vs continuous", glossary: [{ term: "rang", meaning: "suonò" }] },
-      { instruction: "Have you ___ used this tool? (mai)", correct: "ever", distractors: ["never", "yet", "already"], explanation: "Ever nelle domande al present perfect significa «mai/qualche volta».", concept: "present perfect (ever)", glossary: [{ term: "ever", meaning: "mai/qualche volta" }] },
-      { instruction: "The phone is ringing. I ___ answer it. (decisione ora)", correct: "will", distractors: ["am going to", "going to", "won't"], explanation: "Will per una decisione presa sul momento; going to sarebbe un piano già deciso.", concept: "future: will (decision)", glossary: [{ term: "I'll answer", meaning: "rispondo io" }] },
-      { instruction: "We have worked here ___ three hours. (durata)", correct: "for", distractors: ["since", "from", "during"], explanation: "For + durata (for three hours); since + punto di inizio.", concept: "present perfect (for/since)", glossary: [{ term: "for", meaning: "per (durata)" }] },
-      { instruction: "I have known her ___ 2020. (da)", correct: "since", distractors: ["for", "from", "in"], explanation: "Since + punto preciso nel tempo (since 2020); for + durata.", concept: "present perfect (for/since)", glossary: [{ term: "since", meaning: "da (un momento)" }] },
-      { instruction: "The delivery has ___ arrived. (proprio ora)", correct: "just", distractors: ["yet", "ago", "still"], explanation: "Just (appena) va tra l'ausiliare have/has e il participio.", concept: "present perfect (just)", glossary: [{ term: "just", meaning: "appena" }] },
-      { instruction: "I ___ him last week. (finito, tempo preciso)", correct: "saw", distractors: ["have seen", "see", "seen"], explanation: "Con un tempo passato finito (last week) si usa il past simple, non il present perfect.", concept: "past simple vs present perfect", glossary: [{ term: "saw", meaning: "vidi/ho visto (last week → saw)" }] },
-      { instruction: "If I ___ you, I would check the logs. (se fossi)", correct: "were", distractors: ["was", "am", "will be"], explanation: "Secondo condizionale (ipotesi irreale): «If I were you, I would…».", concept: "second conditional", glossary: [{ term: "were", meaning: "fossi (2° condizionale)" }] },
-      { instruction: "Visitors ___ sign in at the door. (obbligo esterno)", correct: "have to", distractors: ["must to", "has to", "haves to"], explanation: "Have to per un obbligo dato da una regola; con «Visitors» (plurale) è «have to».", concept: "modal: have to", glossary: [{ term: "have to", meaning: "dover (regola)" }] },
-      { instruction: "It's very cloudy. It ___ rain soon. (possibilità)", correct: "might", distractors: ["must", "can", "should"], explanation: "Might/may per una possibilità incerta nel futuro.", concept: "modal: possibility (may/might)", glossary: [{ term: "might", meaning: "potrebbe" }] },
-      { instruction: "Who ___ the window? (chi lo ruppe — soggetto)", correct: "broke", distractors: ["did break", "did broke", "was break"], explanation: "Nelle domande sul soggetto NON si usa l'ausiliare: «Who broke…?».", concept: "subject question (no auxiliary)", glossary: [{ term: "who broke", meaning: "chi ruppe" }] },
-      { instruction: "Who ___ you invite? (chi hai invitato — oggetto)", correct: "did", distractors: ["do", "invited", "have"], explanation: "Nelle domande sull'oggetto serve l'ausiliare: «Who did you invite?».", concept: "object question (auxiliary)", glossary: [{ term: "did you invite", meaning: "hai invitato" }] },
-      { instruction: "I ___ walk to school, but now I take the bus. (abitudine passata)", correct: "used to", distractors: ["use to", "used", "am used to"], explanation: "Used to + base per un'abitudine passata che non c'è più.", concept: "used to (past habit)", glossary: [{ term: "used to", meaning: "ero solito/una volta" }] },
-      { instruction: "The engineer ___ fixed it is here. (persona)", correct: "who", distractors: ["which", "whose", "what"], explanation: "Who è il pronome relativo per le persone.", concept: "relative pronoun (who)", glossary: [{ term: "who", meaning: "che (persone)" }] },
-      { instruction: "The machine ___ broke down is old. (cosa)", correct: "which", distractors: ["who", "whose", "where"], explanation: "Which (o that) è il pronome relativo per le cose.", concept: "relative pronoun (which)", glossary: [{ term: "which", meaning: "che (cose)" }] },
-      { instruction: "You are the new student, ___? (question tag)", correct: "aren't you", distractors: ["are you", "don't you", "isn't it"], explanation: "Question tag: frase affermativa con «are» → tag negativo «aren't you?».", concept: "question tag (be)", glossary: [{ term: "aren't you?", meaning: "vero? (non è così?)" }] },
-      { instruction: "She works in the lab, ___? (question tag)", correct: "doesn't she", distractors: ["does she", "isn't she", "don't she"], explanation: "Present simple affermativo (works) → tag negativo con l'ausiliare: «doesn't she?».", concept: "question tag (present simple)", glossary: [{ term: "doesn't she?", meaning: "vero?" }] },
-      { instruction: "They didn't call, ___? (question tag)", correct: "did they", distractors: ["didn't they", "do they", "were they"], explanation: "Frase negativa (didn't) → tag positivo: «did they?».", concept: "question tag (negative sentence)", glossary: [{ term: "did they?", meaning: "vero?" }] },
+      { instruction: "We ___ to the lab an hour ago.", correct: "went", distractors: ["goed", "go", "gone"], explanation: "Past simple irregolare: go → went (mai «goed»).", concept: "past simple (irregular)", glossary: [{ term: "went", meaning: "andammo/andò" }, { term: "an hour ago", meaning: "un'ora fa" }] },
+      { instruction: "They ___ finish the experiment yesterday.", correct: "didn't", distractors: ["don't", "weren't", "hadn't"], explanation: "Past simple negativo: did + not + base (didn't finish).", concept: "past simple negative", glossary: [{ term: "didn't", meaning: "non (passato)" }] },
+      { instruction: "While I ___ the data, the power went off.", correct: "was reading", distractors: ["read", "am reading", "was read"], explanation: "Past continuous per un'azione in corso nel passato: was/were + -ing.", concept: "past continuous", glossary: [{ term: "while", meaning: "mentre" }, { term: "was reading", meaning: "stavo leggendo" }] },
+      { instruction: "She was writing when the alarm ___.", correct: "rang", distractors: ["was ringing", "rings", "ring"], explanation: "L'azione breve che interrompe va al past simple: when the alarm rang.", concept: "past simple vs continuous", glossary: [{ term: "rang", meaning: "suonò" }] },
+      { instruction: "Have you ___ used this tool?", correct: "ever", distractors: ["never", "yet", "already"], explanation: "Ever nelle domande al present perfect significa «mai/qualche volta».", concept: "present perfect (ever)", glossary: [{ term: "ever", meaning: "mai/qualche volta" }] },
+      { instruction: "The phone is ringing. I ___ answer it.", correct: "will", distractors: ["am going to", "going to", "won't"], explanation: "Will per una decisione presa sul momento; going to sarebbe un piano già deciso.", concept: "future: will (decision)", glossary: [{ term: "I'll answer", meaning: "rispondo io" }] },
+      { instruction: "We have worked here ___ three hours.", correct: "for", distractors: ["since", "from", "during"], explanation: "For + durata (for three hours); since + punto di inizio.", concept: "present perfect (for/since)", glossary: [{ term: "for", meaning: "per (durata)" }] },
+      { instruction: "I have known her ___ 2020.", correct: "since", distractors: ["for", "from", "in"], explanation: "Since + punto preciso nel tempo (since 2020); for + durata.", concept: "present perfect (for/since)", glossary: [{ term: "since", meaning: "da (un momento)" }] },
+      { instruction: "The delivery has ___ arrived.", correct: "just", distractors: ["yet", "ago", "still"], explanation: "Just (appena) va tra l'ausiliare have/has e il participio.", concept: "present perfect (just)", glossary: [{ term: "just", meaning: "appena" }] },
+      { instruction: "I ___ him last week.", correct: "saw", distractors: ["have seen", "see", "seen"], explanation: "Con un tempo passato finito (last week) si usa il past simple, non il present perfect.", concept: "past simple vs present perfect", glossary: [{ term: "saw", meaning: "vidi/ho visto (last week → saw)" }] },
+      { instruction: "If I ___ you, I would check the logs.", correct: "were", distractors: ["was", "am", "will be"], explanation: "Secondo condizionale (ipotesi irreale): «If I were you, I would…».", concept: "second conditional", glossary: [{ term: "were", meaning: "fossi (2° condizionale)" }] },
+      { instruction: "Visitors ___ sign in at the door.", correct: "have to", distractors: ["must to", "has to", "haves to"], explanation: "Have to per un obbligo dato da una regola; con «Visitors» (plurale) è «have to».", concept: "modal: have to", glossary: [{ term: "have to", meaning: "dover (regola)" }] },
+      { instruction: "It's very cloudy. It ___ rain soon.", correct: "might", distractors: ["must", "can", "should"], explanation: "Might/may per una possibilità incerta nel futuro.", concept: "modal: possibility (may/might)", glossary: [{ term: "might", meaning: "potrebbe" }] },
+      { instruction: "Who ___ the window?", correct: "broke", distractors: ["did break", "did broke", "was break"], explanation: "Nelle domande sul soggetto NON si usa l'ausiliare: «Who broke…?».", concept: "subject question (no auxiliary)", glossary: [{ term: "who broke", meaning: "chi ruppe" }] },
+      { instruction: "Who ___ you invite?", correct: "did", distractors: ["do", "invited", "have"], explanation: "Nelle domande sull'oggetto serve l'ausiliare: «Who did you invite?».", concept: "object question (auxiliary)", glossary: [{ term: "did you invite", meaning: "hai invitato" }] },
+      { instruction: "I ___ walk to school, but now I take the bus.", correct: "used to", distractors: ["use to", "used", "am used to"], explanation: "Used to + base per un'abitudine passata che non c'è più.", concept: "used to (past habit)", glossary: [{ term: "used to", meaning: "ero solito/una volta" }] },
+      { instruction: "The engineer ___ fixed it is here.", correct: "who", distractors: ["which", "whose", "what"], explanation: "Who è il pronome relativo per le persone.", concept: "relative pronoun (who)", glossary: [{ term: "who", meaning: "che (persone)" }] },
+      { instruction: "The machine ___ broke down is old.", correct: "which", distractors: ["who", "whose", "where"], explanation: "Which (o that) è il pronome relativo per le cose.", concept: "relative pronoun (which)", glossary: [{ term: "which", meaning: "che (cose)" }] },
+      { instruction: "You are the new student, ___?", correct: "aren't you", distractors: ["are you", "don't you", "isn't it"], explanation: "Question tag: frase affermativa con «are» → tag negativo «aren't you?».", concept: "question tag (be)", glossary: [{ term: "aren't you?", meaning: "vero? (non è così?)" }] },
+      { instruction: "She works in the lab, ___?", correct: "doesn't she", distractors: ["does she", "isn't she", "don't she"], explanation: "Present simple affermativo (works) → tag negativo con l'ausiliare: «doesn't she?».", concept: "question tag (present simple)", glossary: [{ term: "doesn't she?", meaning: "vero?" }] },
+      { instruction: "They didn't call, ___?", correct: "did they", distractors: ["didn't they", "do they", "were they"], explanation: "Frase negativa (didn't) → tag positivo: «did they?».", concept: "question tag (negative sentence)", glossary: [{ term: "did they?", meaning: "vero?" }] },
     ];
     const item = random.pick(
       level >= 4 ? [...base, ...advanced, ...terzaMediaExtra]
@@ -1173,7 +1241,7 @@ export class EnglishInstructionGenerator {
     return {
       id: `english-vocab-${index}`,
       type: "vocab-lab",
-      instruction: "Choose the English word that fits the Italian clue and the situation.",
+      instruction: "Complete the mission card: choose the English word that matches meaning, context and word class.",
       context: context.prompt,
       targetLabel: "Vocabulary in context",
       requiredSelectionCount: 1,
@@ -2193,6 +2261,12 @@ export class EnglishInstructionGenerator {
     const used = new Set<string>([labelOf(item)]);
     const closePool = englishVocabularyEntries.filter((entry) =>
       entry.id !== item.id
+      && entry.category === item.category
+      && entry.wordClass === item.wordClass
+      && !used.has(labelOf(entry)),
+    );
+    const nearPool = englishVocabularyEntries.filter((entry) =>
+      entry.id !== item.id
       && (entry.category === item.category || entry.wordClass === item.wordClass)
       && !used.has(labelOf(entry)),
     );
@@ -2201,7 +2275,7 @@ export class EnglishInstructionGenerator {
     // Prefer semantically/grammatically CLOSE distractors (same category or word
     // class) so the answer can't be found by eliminating the wrong part of speech.
     // Only fall back to unrelated words if there aren't enough close ones.
-    for (const entry of [...random.shuffle(closePool), ...random.shuffle(fallbackPool)]) {
+    for (const entry of [...random.shuffle(closePool), ...random.shuffle(nearPool), ...random.shuffle(fallbackPool)]) {
       const label = labelOf(entry);
       if (!used.has(label)) {
         used.add(label);
@@ -2237,8 +2311,8 @@ export class EnglishInstructionGenerator {
     return {
       prompt: [
         `Scenario: ${scenarioByCategory[item.category]}.`,
-        `Italian clue: "${item.meaning}".`,
-        `Choose the English ${item.wordClass} that fits this context.`,
+        `Mission card: ____ = "${item.meaning}".`,
+        `Choose an English ${item.wordClass}; distractors are close, so use meaning and context together.`,
       ].join(" "),
       explanation: `La parola corretta è "${item.term}": significa "${item.meaning}" ed appartiene a ${category}.`,
       concept: `${category} · ${item.wordClass}`,
@@ -2325,9 +2399,9 @@ export class EnglishInstructionGenerator {
       const safeTwo = random.integer(threshold + 15, threshold + 28);
       const target = pods[0];
       const dataPoints = [
-        { label: `Pod ${target}`, value: `moisture ${lowValue}`, note: "below threshold" },
-        { label: `Pod ${pods[1]}`, value: `moisture ${safeOne}`, note: "safe" },
-        { label: `Pod ${pods[2]}`, value: `moisture ${safeTwo}`, note: "safe" },
+        { label: `Pod ${target}`, value: `moisture ${lowValue}` },
+        { label: `Pod ${pods[1]}`, value: `moisture ${safeOne}` },
+        { label: `Pod ${pods[2]}`, value: `moisture ${safeTwo}` },
       ].sort((a, b) => a.label.localeCompare(b.label));
       return {
         ...template,
@@ -2350,8 +2424,8 @@ export class EnglishInstructionGenerator {
       return {
         ...template,
         dataPoints: [
-          { label: `Signal ${labels[0]}`, value: `${dimmerValue} lux`, note: "dimmer" },
-          { label: `Signal ${labels[1]}`, value: `${brighterValue} lux`, note: "brighter" },
+          { label: `Signal ${labels[0]}`, value: `${dimmerValue} lux` },
+          { label: `Signal ${labels[1]}`, value: `${brighterValue} lux` },
         ],
         correctLabel: `Choose ${labels[0]} -> Lock ${labels[1]}`,
         distractors: [
@@ -2371,7 +2445,7 @@ export class EnglishInstructionGenerator {
       return {
         ...template,
         instruction: `If the temperature is between ${low} and ${high} degrees, open the vent halfway; otherwise keep it closed.`,
-        dataPoints: [{ label: "Temperature", value: `${value}°C`, note: inside ? "inside range" : "outside range" }],
+        dataPoints: [{ label: "Temperature", value: `${value}°C` }],
         correctLabel,
         distractors: inside
           ? [

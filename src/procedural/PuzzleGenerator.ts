@@ -65,10 +65,32 @@ export class PuzzleGenerator {
     const physicsDifficulty = this.boostForFocus(difficulty, focus, "fisica");
     const codingDifficulty = this.boostForFocus(difficulty, focus, "coding");
 
+    // Vary the math CONSOLE TYPE per seed instead of always opening the graph
+    // workshop: the console rotates between calcolo/geometria/frazioni/… (varied
+    // templates), the rapid-calc minigame, the cartesian graph workshop and —
+    // from mid difficulty — the equation lab. Levels grade difficulty, the seed
+    // grades the format, so no two runs feel identical.
+    const mathModePool: Array<"template" | "minigame" | "graph" | "equation"> =
+      mathDifficulty.mathComplexity >= 4
+        ? ["template", "template", "minigame", "graph", "equation"]
+        : ["template", "template", "minigame", "graph"];
+    const mathMode = mathRandom.fork("console-mode").pick(mathModePool);
+    const buildMath = () => {
+      switch (mathMode) {
+        case "minigame":
+          return this.mathGenerator.generateMinigame(mathRandom, mathDifficulty);
+        case "graph":
+          return this.mathGenerator.generateGraphWorkshop(mathRandom, mathDifficulty);
+        case "equation":
+          return this.mathGenerator.generateEquationLab(mathRandom, mathDifficulty);
+        default:
+          return this.mathGenerator.generate(mathRandom, mathDifficulty);
+      }
+    };
     const math = this.validationEngine.generateWithRetries(
-        () => this.mathGenerator.generateGraphWorkshop(mathRandom, mathDifficulty),
+        buildMath,
         (puzzle) => this.mathValidator.validate(puzzle),
-        () => this.mathGenerator.generateGraphWorkshop(mathRandom.fork("fallback"), mathDifficulty),
+        () => this.mathGenerator.generate(mathRandom.fork("fallback"), mathDifficulty),
       );
     const robot = this.validationEngine.generateWithRetries(
         () => this.robotGenerator.generate(robotRandom, robotDifficulty),

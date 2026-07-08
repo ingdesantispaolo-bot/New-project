@@ -16,6 +16,7 @@ import {
   sortProceduralHotspots,
 } from "./ProceduralMissionLayout";
 import { drawProceduralStageAtmosphere, proceduralVisualThemeFor } from "./ProceduralVisualThemes";
+import { MissionProgressMap } from "./components/MissionProgressMap";
 
 export type ProceduralMissionHud = {
   objectiveText: Phaser.GameObjects.Text;
@@ -32,7 +33,6 @@ const statusColors = {
 
 export class ProceduralMissionView {
   static drawShell(scene: Phaser.Scene, run: ProceduralRunSave): void {
-    const path = getProceduralFocusPath(run.focus);
     const mode = proceduralRunRules.modeFor(run);
     const theme = proceduralVisualThemeFor(run);
     const requiredIds = proceduralRequiredPuzzleIds(run.mission.objectives);
@@ -137,15 +137,6 @@ export class ProceduralMissionView {
       color: stability >= 1 ? "#f7d37a" : "#9ff5e9",
       fontStyle: "bold",
     }).setOrigin(0.5);
-    scene.add.rectangle(layout.stage.x + 68, layout.stage.y + 78, layout.stage.width - 136, 302, 0x000000, 0.05)
-      .setStrokeStyle(1, theme.accent, 0.08);
-    scene.add.text(layout.stage.x + 52, layout.stage.y + 450, this.stageHint(mode, path.stageHint), {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: layout.stage.width - 104 },
-    });
-
     SceneChrome.section(scene, layout.right, "Obiettivo");
   }
 
@@ -223,7 +214,16 @@ export class ProceduralMissionView {
     const theme = proceduralVisualThemeFor(run);
     const ordered = sortProceduralHotspots(run.mission.map.hotspots);
     const points = ordered.map((hotspot) => proceduralHotspotPosition(hotspot, SceneChrome.layout.stage));
-    SceneChrome.connectDevices(scene, points, run.solvedPuzzleIds.length, theme.accent, theme.secondary);
+    MissionProgressMap.draw({
+      scene,
+      rect: SceneChrome.layout.stage,
+      hotspots: ordered,
+      points,
+      run,
+      allSolved,
+      theme,
+      primaryPuzzle: path.primaryPuzzle,
+    });
     propRenderer.renderProceduralProps(
       scene,
       ordered,
@@ -234,9 +234,6 @@ export class ProceduralMissionView {
     ordered.forEach((hotspot) => {
       const point = proceduralHotspotPosition(hotspot, SceneChrome.layout.stage);
       const isPrimary = Boolean(path.primaryPuzzle) && (hotspot.puzzleKind === path.primaryPuzzle || hotspot.puzzleId === path.primaryPuzzle);
-      if (isPrimary) {
-        scene.add.circle(point.x, point.y, 50, theme.secondary, 0.055).setStrokeStyle(2, theme.secondary, 0.28);
-      }
       SceneChrome.deviceHotspot(
         scene,
         point.x,
@@ -246,7 +243,7 @@ export class ProceduralMissionView {
         proceduralHotspotState(hotspot, run.solvedPuzzleIds, allSolved, run.failedPuzzleIds ?? []),
         () => onOpen(hotspot),
         hotspot.id === "door" ? 84 : isPrimary ? 78 : 70,
-        { labelMode: "hover", statusMode: "hidden" },
+        { labelMode: "hover", statusMode: "hidden", visualMode: "glyph" },
       );
     });
   }
@@ -279,13 +276,4 @@ export class ProceduralMissionView {
     ];
   }
 
-  private static stageHint(mode: string, focusHint: string): string {
-    if (mode === "training") {
-      return focusHint;
-    }
-    if (mode === "progressive") {
-      return "La mappa mostra il progresso. La scalata apre automaticamente la prossima console rossa.";
-    }
-    return "Zona d'azione: passa su un dispositivo per leggere il nome, poi apri una console alla volta.";
-  }
 }

@@ -156,7 +156,7 @@ export class ChallengeQualityValidator {
       if (componentChecks.length < 1) {
         reasons.push("circuit: livelli alti senza riconoscimento simboli/componenti");
       }
-      if (componentChecks.some((check) => check.symbolChoices.length < 3 || check.functionChoices.length < 3)) {
+      if (componentChecks.some((check) => check.symbolChoices.length < 3 || check.functionChoices.length < 3 || check.visualHint.length < 8)) {
         reasons.push("circuit: scelte componente troppo povere");
       }
     }

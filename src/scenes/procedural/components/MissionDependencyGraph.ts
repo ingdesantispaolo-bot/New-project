@@ -1,4 +1,4 @@
-import type { ProceduralPuzzleId } from "../ProceduralMissionLayout";
+import { proceduralPuzzleOrder, type ProceduralPuzzleId } from "../ProceduralMissionLayout";
 
 export type MissionSystemNode = ProceduralPuzzleId | "door";
 
@@ -13,7 +13,7 @@ const dependencies: Record<MissionSystemNode, ProceduralPuzzleId[]> = {
   coding: [],
   music: [],
   physics: [],
-  door: ["language", "circuit", "math", "english", "robot", "music", "physics"],
+  door: [...proceduralPuzzleOrder],
 };
 
 const nodeLabels: Record<MissionSystemNode, string> = {
@@ -62,7 +62,7 @@ export class MissionDependencyGraph {
   }
 
   nextAction(solved: SolverState): MissionSystemNode {
-    const chain: MissionSystemNode[] = ["language", "circuit", "math", "english", "robot", "music", "physics", "door"];
+    const chain: MissionSystemNode[] = [...proceduralPuzzleOrder, "door"];
     return chain.find((node) => node === "door" || !solved(node)) ?? "door";
   }
 }

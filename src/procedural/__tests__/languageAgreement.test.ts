@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { languageTemplates } from "../../data/procedural/languageTemplates";
+import { italianVocabularyEntries } from "../../data/procedural/italianVocabularyBank";
 import { LanguageCorruptionGenerator, normalizeTypedAnswer } from "../generators/LanguageCorruptionGenerator";
 import { LanguagePuzzleValidator } from "../validators/LanguagePuzzleValidator";
 import { Random } from "../Random";
@@ -9,6 +10,17 @@ const gen = new LanguageCorruptionGenerator();
 const validator = new LanguagePuzzleValidator();
 
 describe("Agreement (concordanza) minigame", () => {
+  it("uses a broad Italian vocabulary bank for real everyday contexts", () => {
+    const categories = new Set(italianVocabularyEntries.map((entry) => entry.category));
+    const terms = new Set(italianVocabularyEntries.map((entry) => entry.term.toLocaleLowerCase("it")));
+    const everydayTerms = italianVocabularyEntries.filter((entry) => entry.level <= 2);
+
+    expect(italianVocabularyEntries.length).toBeGreaterThanOrEqual(250);
+    expect(categories.size).toBeGreaterThanOrEqual(12);
+    expect(terms.size).toBeGreaterThan(220);
+    expect(everydayTerms.length).toBeGreaterThan(120);
+  });
+
   it("every prompt has exactly one correct answer and four distinct options", () => {
     for (let level = 1 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
       for (let i = 0; i < 20; i += 1) {
@@ -49,8 +61,8 @@ describe("Agreement (concordanza) minigame", () => {
   });
 
   it("uses everyday vocabulary at low levels and technical at high levels (register by level)", () => {
-    const everyday = /\b(gatt|porta|porte|libr|lampad|can[ei]|finestr|bicchier|sedi)/i;
-    const technical = /\b(sensor|valvol|registr|modul|pomp|filtr|batteri|pannell|sond)/i;
+    const everyday = /\b(gatt|porta|porte|libr|lampad|can[ei]|finestr|bicchier|sedi|quadern|matit|telefon|cartell|tavol|cucin|bors|bigliett|bottigl|piatt|scarp|messagg|domand|compit|rispost|panin|merend|tren|fermat|parc|strad|gioch|canzon|document|password|vicin|squadr|prezz|ricevut|disegn|stori)/i;
+    const technical = /\b(sensor|valvol|registr|modul|pomp|filtr|batteri|pannell|sond|cav|sched|circuit|misur|valor|font|rapport|procedur|console|terminal|sequenz|fusibil|sogli|grafic|tabell|dat|prov|controll|diagnos)/i;
     let lowEveryday = 0;
     let lowTotal = 0;
     let highTechnical = 0;
@@ -263,6 +275,28 @@ describe("Agreement (concordanza) minigame", () => {
         }
       }
     }
+  });
+
+  it("lexicon and word-order prompts draw from many real-life domains", () => {
+    const lexiconConcepts = new Set<string>();
+    const wordOrderSignatures = new Set<string>();
+    let lexiconPrompts = 0;
+    let bankStylePrompts = 0;
+
+    for (let i = 0; i < 50; i += 1) {
+      for (const prompt of gen.generateMinigame(new Random(`lex-bank:${i}`), 8, ["lexicon-lab"]).minigame?.prompts ?? []) {
+        lexiconPrompts += 1;
+        lexiconConcepts.add(prompt.concept);
+        if (prompt.context.startsWith("Scenario:")) bankStylePrompts += 1;
+      }
+      for (const prompt of gen.generateMinigame(new Random(`wo-real:${i}`), 8, ["word-order"]).minigame?.prompts ?? []) {
+        wordOrderSignatures.add(prompt.signature);
+      }
+    }
+
+    expect(lexiconConcepts.size).toBeGreaterThan(40);
+    expect(bankStylePrompts / lexiconPrompts).toBeGreaterThan(0.55);
+    expect(wordOrderSignatures.size).toBeGreaterThan(120);
   });
 
   it("punctuation-fix covers accent, apostrophe and homophone traps without ambiguous correct forms", () => {

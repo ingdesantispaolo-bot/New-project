@@ -87,7 +87,11 @@ export class ExerciseDirector {
       pedagogy: this.basePedagogy(
         level,
         puzzle.learningPurpose ?? "Diagnosticare un circuito separando percorso chiuso, verso del LED, protezione e comportamento dei componenti.",
-        "La difficolta cresce con numero di guasti, letture del tester e distrattori plausibili.",
+        level <= 2
+          ? "La difficolta resta bassa: prima riconosci i pezzi e segui il giro della corrente."
+          : level <= 5
+            ? "La difficolta cresce unendo pezzi gia visti: resistenza, LED, tester e primi rami."
+            : "La difficolta cresce con piu guasti, letture del tester e componenti combinati.",
         puzzle.hints,
         explanationBuilder.circuit(faultSummary),
         mistakeAnalyzer.circuitMistakes(),

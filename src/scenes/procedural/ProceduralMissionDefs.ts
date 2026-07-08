@@ -32,18 +32,18 @@ export const faultLabels: Record<CircuitFaultType, string> = Object.fromEntries(
 ) as Record<CircuitFaultType, string>;
 
 export const repairLabels: Record<CircuitFaultType, string> = {
-  "missing-wire": "Collega filo",
-  "open-switch": "Chiudi switch",
-  "reversed-led": "Inverti LED",
-  "missing-resistor": "Inserisci R",
-  "disconnected-component": "Ricollega",
-  "sensor-unpowered": "Alimenta sensore",
-  "capacitor-discharged": "Carica condens.",
-  "short-circuit": "Isola corto",
-  "parallel-branch-open": "Chiudi ramo B",
-  "wrong-resistor-value": "Cambia valore R",
-  "relay-not-armed": "Arma relè",
-  "loose-ground": "Fissa massa",
+  "missing-wire": "Aggiungi filo",
+  "open-switch": "Chiudi interruttore",
+  "reversed-led": "Gira LED",
+  "missing-resistor": "Aggiungi resistenza",
+  "disconnected-component": "Ricollega pezzo",
+  "sensor-unpowered": "Dai energia al sensore",
+  "capacitor-discharged": "Carica condensatore",
+  "short-circuit": "Togli scorciatoia",
+  "parallel-branch-open": "Chiudi seconda strada",
+  "wrong-resistor-value": "Cambia resistenza",
+  "relay-not-armed": "Attiva relè",
+  "loose-ground": "Fissa ritorno",
 };
 
 // --- Focus training session shapes ------------------------------------------

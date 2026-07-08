@@ -18,18 +18,18 @@ export const circuitFaultTemplates: Array<{
   hint: string;
   minComplexity?: number;
 }> = [
-  { type: "missing-wire", label: "Filo mancante", hint: "Un tratto del percorso non collega due componenti." },
-  { type: "open-switch", label: "Interruttore aperto", hint: "L'interruttore interrompe il giro della corrente." },
-  { type: "reversed-led", label: "LED invertito", hint: "Il LED ha un verso: se è invertito resta spento." },
-  { type: "missing-resistor", label: "Resistenza assente", hint: "Il LED può accendersi male senza protezione." },
-  { type: "disconnected-component", label: "Componente scollegato", hint: "Un componente esiste, ma non partecipa al circuito." },
-  { type: "sensor-unpowered", label: "Sensore non alimentato", hint: "Il sensore può leggere solo se riceve energia dal ramo corretto.", minComplexity: 4 },
-  { type: "capacitor-discharged", label: "Condensatore scarico", hint: "Il condensatore deve accumulare carica prima di stabilizzare un impulso.", minComplexity: 5 },
-  { type: "short-circuit", label: "Corto circuito", hint: "Un collegamento salta il carico: la corrente prende una scorciatoia rischiosa.", minComplexity: 4 },
-  { type: "parallel-branch-open", label: "Ramo parallelo aperto", hint: "Un ramo può essere interrotto anche se l'altro continua a funzionare.", minComplexity: 5 },
-  { type: "wrong-resistor-value", label: "Resistenza errata", hint: "Una resistenza troppo bassa o troppo alta cambia luminosità e sicurezza.", minComplexity: 5 },
-  { type: "relay-not-armed", label: "Relè non armato", hint: "Il relè è un interruttore comandato: senza bobina alimentata non chiude il carico.", minComplexity: 6 },
-  { type: "loose-ground", label: "Ritorno a massa instabile", hint: "Il ritorno al polo negativo deve essere stabile, non solo presente a tratti.", minComplexity: 6 },
+  { type: "missing-wire", label: "Filo mancante", hint: "Segui il filo: se la strada si interrompe, la corrente non torna alla batteria." },
+  { type: "open-switch", label: "Interruttore aperto", hint: "L'interruttore è come un ponte: se è aperto, la corrente si ferma." },
+  { type: "missing-resistor", label: "Resistenza assente", hint: "La resistenza protegge il LED: senza di lei la corrente è troppo forte.", minComplexity: 2 },
+  { type: "reversed-led", label: "LED girato al contrario", hint: "Il LED ha un verso: se è girato al contrario, non lascia passare corrente.", minComplexity: 3 },
+  { type: "wrong-resistor-value", label: "Resistenza sbagliata", hint: "La resistenza c'è, ma il suo valore non protegge bene il LED.", minComplexity: 3 },
+  { type: "disconnected-component", label: "Componente scollegato", hint: "Un pezzo può essere presente ma fuori dal giro della corrente.", minComplexity: 4 },
+  { type: "sensor-unpowered", label: "Sensore senza energia", hint: "Un sensore misura solo se riceve energia e ha un ritorno.", minComplexity: 4 },
+  { type: "parallel-branch-open", label: "Ramo parallelo aperto", hint: "In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.", minComplexity: 5 },
+  { type: "capacitor-discharged", label: "Condensatore scarico", hint: "Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.", minComplexity: 5 },
+  { type: "short-circuit", label: "Corto circuito", hint: "Nel corto la corrente trova una scorciatoia e salta i componenti utili.", minComplexity: 6 },
+  { type: "loose-ground", label: "Ritorno instabile", hint: "Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.", minComplexity: 6 },
+  { type: "relay-not-armed", label: "Relè non attivato", hint: "Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico.", minComplexity: 7 },
 ];
 
 export const circuitComponentGuide = [

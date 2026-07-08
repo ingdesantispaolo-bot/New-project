@@ -18,6 +18,7 @@ export class CircuitPuzzleValidator {
       return (
         challenge.componentId.length > 0
         && challenge.explanation.length > 30
+        && challenge.visualHint.length > 8
         && challenge.symbolChoices.length >= 3
         && challenge.functionChoices.length >= 3
         && symbolChoices.size === challenge.symbolChoices.length

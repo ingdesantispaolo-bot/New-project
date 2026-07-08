@@ -29,6 +29,7 @@ const proceduralArchetypes: Record<string, PropArchetype> = {
   language: "console",
   math: "terminal",
   music: "music",
+  physics: "terminal",
   robot: "robotDock",
 };
 
@@ -76,7 +77,7 @@ class PropRenderer {
         return;
       }
       const point = positionFor(hotspot);
-      const size = hotspot.id === "door" ? 120 : 104;
+      const size = hotspot.id === "door" ? 110 : 92;
       const state = solved(hotspot.puzzleId, hotspot) ? "complete" : "ready";
       drawVectorProp(scene, archetype, point.x, point.y, size, state, accent);
     });

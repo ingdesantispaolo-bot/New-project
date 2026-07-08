@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { CodingPuzzleGenerator } from "../generators/CodingPuzzleGenerator";
+import { PuzzleGenerator } from "../PuzzleGenerator";
 import { CodingPuzzleValidator } from "../validators/CodingPuzzleValidator";
 import { CodingSolver } from "../solvers/CodingSolver";
 import { difficultyModel } from "../DifficultyModel";
 import { Random } from "../Random";
+import { ValidationEngine } from "../ValidationEngine";
 import type { CodingChallengeType, CodingMinigameType, DifficultyLevel } from "../ProceduralTypes";
 
 const solver = new CodingSolver();
@@ -16,6 +18,17 @@ const OUTPUT_TYPES: Array<{ type: CodingChallengeType; minLevel: number }> = [
   { type: "loop-count", minLevel: 3 },
   { type: "conditional-branch", minLevel: 3 },
   { type: "boolean-logic", minLevel: 5 },
+];
+
+const ALL_MINIGAME_TYPES: CodingMinigameType[] = [
+  "sequence-builder",
+  "state-tracer",
+  "bug-hunt",
+  "binary-bits",
+  "logic-gate",
+  "loop-output",
+  "conditional-path",
+  "algorithm-order",
 ];
 
 describe("CodingSolver agrees with generated single puzzles", () => {
@@ -74,11 +87,11 @@ describe("CodingSolver returns undefined for non-output puzzles", () => {
 });
 
 describe("Coding minigame wrong-answer feedback is diagnostic", () => {
-  it("sequence-builder and bug-hunt distractors name the specific mistake", () => {
-    const diag = /ciclo|condizione|variabile|operatore|somma|sottra|moltiplic|ripeti|numero|azione|logica|and|or|causa|compens|corregg|stato|stampa|ramo|risposta giusta|ripercorri/i;
+  it("all choice-based minigame distractors name the specific mistake", () => {
+    const diag = /ciclo|condizione|variabile|operatore|somma|sottra|moltiplic|ripeti|numero|azione|logica|and|or|not|causa|compens|corregg|stato|stampa|ramo|bit|binario|potenze|giro|feedback|valore|output|risposta giusta|ripercorri/i;
     let wrong = 0;
     let diagnostic = 0;
-    for (const type of ["sequence-builder", "bug-hunt"] as CodingMinigameType[]) {
+    for (const type of ALL_MINIGAME_TYPES.filter((item) => item !== "algorithm-order")) {
       for (let level = 3 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
         const preset = difficultyModel.getPreset(level);
         for (let i = 0; i < 10; i += 1) {
@@ -93,7 +106,50 @@ describe("Coding minigame wrong-answer feedback is diagnostic", () => {
       }
     }
     expect(wrong).toBeGreaterThan(30);
-    expect(diagnostic / wrong).toBeGreaterThan(0.85);
+    expect(diagnostic / wrong).toBeGreaterThan(0.92);
+  });
+});
+
+describe("Coding minigames are varied and structurally sound", () => {
+  it("generates complete unique sessions for every minigame type", () => {
+    const preset = difficultyModel.getPreset(8);
+    for (const type of ALL_MINIGAME_TYPES) {
+      const puzzle = gen.generateMinigame(new Random(`coding-structure:${type}`), preset, [type]);
+      const prompts = puzzle.minigame?.prompts ?? [];
+      expect(prompts.length, type).toBe(26);
+      expect(new Set(prompts.map((prompt) => prompt.signature)).size, type).toBe(prompts.length);
+
+      for (const prompt of prompts) {
+        expect(prompt.codeLines.length, `${type}: ${prompt.id}`).toBeGreaterThanOrEqual(3);
+        expect(prompt.question.length, `${type}: ${prompt.id}`).toBeGreaterThan(20);
+        expect(prompt.explanation.length, `${type}: ${prompt.id}`).toBeGreaterThan(35);
+        expect(new Set(prompt.tiles.map((tile) => tile.label)).size, `${type}: duplicate labels`).toBe(prompt.tiles.length);
+        if (type === "algorithm-order") {
+          expect(prompt.requiredSelectionCount, prompt.id).toBe(prompt.solutionLabels.length);
+          expect(prompt.solutionLabels.length, prompt.id).toBeGreaterThanOrEqual(3);
+          expect(new Set(prompt.solutionLabels).size, prompt.id).toBe(prompt.solutionLabels.length);
+        } else {
+          const correctTiles = prompt.tiles.filter((tile) => tile.isCorrect);
+          expect(correctTiles.length, `${type}: ${prompt.id}`).toBe(1);
+          expect(prompt.solutionLabels).toEqual([correctTiles[0].label]);
+          expect(prompt.requiredSelectionCount).toBe(1);
+          expect(prompt.tiles.length, `${type}: ${prompt.id}`).toBe(4);
+        }
+      }
+    }
+  });
+
+  it("exposes advanced minigame types through the procedural focus progression", () => {
+    const planner = new PuzzleGenerator(new ValidationEngine()) as unknown as { codingMinigameTypesForStep: (step: number) => CodingMinigameType[] };
+    const latePool = planner.codingMinigameTypesForStep(4);
+    expect(latePool).toEqual(expect.arrayContaining(["binary-bits", "logic-gate", "loop-output", "conditional-path", "algorithm-order"]));
+
+    const advanced: CodingMinigameType[] = ["binary-bits", "logic-gate", "loop-output", "conditional-path", "algorithm-order"];
+    for (const type of advanced) {
+      const puzzle = gen.generateMinigame(new Random(`coding-advanced:${type}`), difficultyModel.getPreset(8), [type]);
+      expect(puzzle.minigame?.type).toBe(type);
+      expect(puzzle.minigame?.prompts.length).toBeGreaterThan(20);
+    }
   });
 });
 

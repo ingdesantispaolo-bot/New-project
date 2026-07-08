@@ -571,18 +571,89 @@ function buildDensityPressurePuzzle(random: Random, difficulty: DifficultyPreset
 function buildHeatTemperaturePuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
   const start = random.pick([15, 18, 20, 22]);
   const end = start + random.pick([10, 15, 20, 25]);
+  const mode = difficulty.level >= 6 ? random.pick(["distinction", "mass", "equilibrium"] as const) : "distinction";
+  if (mode === "mass") {
+    const smallMass = random.pick([100, 150, 200]);
+    const bigMass = smallMass * random.pick([2, 3]);
+    const correct = "L'acqua con massa maggiore richiede piu energia per lo stesso aumento di temperatura";
+    const distractors = [
+      "Richiedono la stessa energia perche la temperatura finale e la stessa",
+      "L'acqua con massa minore richiede piu energia perche si scalda prima",
+      "La massa non conta: conta solo la temperatura iniziale",
+    ];
+    return basePuzzle(
+      difficulty,
+      "heat-temperature",
+      "Fisica: calore e massa",
+      `Due becher partono da ${start} C e devono arrivare a ${end} C: uno contiene ${smallMass} g d'acqua, l'altro ${bigMass} g.`,
+      "Quale previsione distingue correttamente calore, massa e temperatura?",
+      shuffledOptions(random, correct, distractors),
+      correct,
+      "A parita di sostanza e aumento di temperatura, il calore necessario cresce con la massa: piu acqua significa piu energia da trasferire.",
+      ["calore", "temperatura", "massa", "energia termica"],
+      ["confronta le masse", "controlla che la variazione di temperatura sia la stessa", "associa piu massa a piu energia richiesta"],
+      {
+        kind: "thermal-scale",
+        title: "massa-termica",
+        labels: [`${smallMass} g`, `${bigMass} g`, "stesso delta T"],
+        values: [smallMass, bigMass],
+        highlight: "piu massa -> piu calore",
+      },
+      feedbackMap(distractors, [
+        "Stessa temperatura finale non significa stessa energia: il becher con piu acqua contiene piu massa da scaldare.",
+        "Si scalda prima proprio perche richiede meno energia, non di piu.",
+        "La temperatura iniziale e uguale: la differenza rilevante e la massa.",
+      ]),
+    );
+  }
+  if (mode === "equilibrium") {
+    const cold = random.pick([10, 15, 20]);
+    const hot = random.pick([60, 70, 80]);
+    const correct = "Il calore passa dal corpo piu caldo a quello piu freddo finche le temperature si avvicinano";
+    const distractors = [
+      "Il calore passa dal corpo freddo a quello caldo, perche il freddo si sposta",
+      "Le temperature restano identiche a prima se i corpi si toccano senza fondersi",
+      "Il corpo caldo trasferisce temperatura, non energia",
+    ];
+    return basePuzzle(
+      difficulty,
+      "heat-temperature",
+      "Fisica: equilibrio termico",
+      `Una sonda a ${hot} C viene immersa in acqua a ${cold} C e il sistema viene isolato.`,
+      "Quale descrizione del trasferimento e corretta?",
+      shuffledOptions(random, correct, distractors),
+      correct,
+      "Il calore e energia trasferita spontaneamente dal corpo a temperatura maggiore a quello a temperatura minore, fino ad avvicinarsi all'equilibrio termico.",
+      ["calore", "temperatura", "equilibrio termico"],
+      ["individua corpo caldo e corpo freddo", "stabilisci il verso del trasferimento", "prevedi avvicinamento delle temperature"],
+      {
+        kind: "thermal-scale",
+        title: "equilibrio-termico",
+        labels: [`${hot} C`, `${cold} C`, "verso del calore"],
+        values: [hot, cold],
+        highlight: "caldo -> freddo",
+      },
+      feedbackMap(distractors, [
+        "Il freddo non e una sostanza che si sposta: il trasferimento di energia va dal caldo al freddo.",
+        "Se sono a temperature diverse e possono scambiare energia, le temperature cambiano.",
+        "La temperatura e una grandezza di stato; cio che si trasferisce e energia, cioe calore.",
+      ]),
+    );
+  }
+  const correct = "Il calore e energia trasferita; la temperatura indica quanto e caldo il corpo";
+  const distractors = [
+    "Calore e temperatura sono la stessa cosa",
+    "La temperatura e l'energia che la piastra trasferisce all'acqua del becher",
+    "Piu alta e la temperatura dell'acqua nel becher, piu calore e sempre contenuto al suo interno mentre si scalda",
+  ];
   return basePuzzle(
     difficulty,
     "heat-temperature",
     "Fisica: calore e temperatura",
     `Un becher d'acqua passa da ${start} C a ${end} C mentre riceve energia da una piastra.`,
     "Quale affermazione distingue meglio calore e temperatura?",
-    shuffledOptions(random, "Il calore e energia trasferita; la temperatura indica quanto e caldo il corpo", [
-      "Calore e temperatura sono la stessa cosa",
-      "La temperatura e l'energia che la piastra trasferisce all'acqua del becher",
-      "Piu alta e la temperatura dell'acqua nel becher, piu calore e sempre contenuto al suo interno mentre si scalda",
-    ]),
-    "Il calore e energia trasferita; la temperatura indica quanto e caldo il corpo",
+    shuffledOptions(random, correct, distractors),
+    correct,
     "La piastra trasferisce energia: questo e calore. Il termometro misura lo stato termico dell'acqua, cioe la temperatura.",
     ["calore", "temperatura", "energia termica"],
     ["se c'e trasferimento parla di calore", "se c'e termometro parla di temperatura", "non confondere processo e grandezza"],
@@ -593,22 +664,94 @@ function buildHeatTemperaturePuzzle(random: Random, difficulty: DifficultyPreset
       values: [start, end],
       highlight: "calore != temperatura",
     },
+    feedbackMap(distractors, [
+      "Sono grandezze diverse: il calore e trasferimento di energia, la temperatura descrive lo stato termico.",
+      "Quella e la definizione di calore trasferito, non di temperatura.",
+      "Il calore non e una sostanza contenuta: e energia in trasferimento tra sistemi.",
+    ]),
   );
 }
 
 function buildWaveReadingPuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
+  const mode = difficulty.level >= 7 ? random.pick(["wavelength", "frequency", "speed"] as const) : "wavelength";
   const crests = random.pick([3, 4, 5]);
   const length = crests * random.pick([2, 3, 4]);
   const wavelength = length / crests;
+  if (mode === "frequency") {
+    const cycles = random.pick([6, 8, 10, 12]);
+    const seconds = random.pick([2, 4]);
+    const frequency = cycles / seconds;
+    const correct = `${formatNumber(frequency)} Hz`;
+    const distractors = [`${cycles + seconds} Hz`, `${formatNumber(seconds / cycles)} Hz`, `${cycles * seconds} Hz`];
+    return basePuzzle(
+      difficulty,
+      "wave-reading",
+      "Fisica: frequenza di un'onda",
+      `Un sensore registra ${cycles} oscillazioni complete in ${seconds} s.`,
+      "Quale valore descrive la frequenza?",
+      shuffledOptions(random, correct, distractors),
+      correct,
+      `La frequenza e il numero di cicli in un secondo: ${cycles} / ${seconds} = ${formatNumber(frequency)} Hz.`,
+      ["onde", "frequenza", "lettura dati"],
+      ["conta i cicli completi", "leggi il tempo totale", "dividi cicli per secondi"],
+      {
+        kind: "wave",
+        title: "frequenza",
+        labels: ["cicli", "tempo", "Hz"],
+        values: [cycles, seconds, frequency],
+        highlight: "f = cicli / tempo",
+      },
+      feedbackMap(distractors, [
+        "Hai sommato cicli e secondi: la frequenza e un rapporto.",
+        "Hai invertito il rapporto: secondi per ciclo e periodo, non frequenza.",
+        "Hai moltiplicato, ma serve dividere cicli per tempo.",
+      ]),
+    );
+  }
+  if (mode === "speed") {
+    const lambda = random.pick([2, 3, 4, 5]);
+    const frequency = random.pick([2, 3, 4]);
+    const speed = lambda * frequency;
+    const correct = `${speed} m/s`;
+    const distractorValues = new Set<number>([lambda + frequency, frequency / lambda, lambda, speed + frequency]);
+    distractorValues.delete(speed);
+    const distractors = [...distractorValues].slice(0, 3).map((value) => `${formatNumber(value)} m/s`);
+    return basePuzzle(
+      difficulty,
+      "wave-reading",
+      "Fisica: velocita dell'onda",
+      `Un'onda ha lunghezza d'onda ${lambda} m e frequenza ${frequency} Hz.`,
+      "Quale velocita di propagazione e coerente?",
+      shuffledOptions(random, correct, distractors),
+      correct,
+      `La velocita di un'onda e v = lambda x f: ${lambda} x ${frequency} = ${speed} m/s.`,
+      ["onde", "lunghezza d'onda", "frequenza", "velocita"],
+      ["leggi lambda", "leggi frequenza", "moltiplica lambda per frequenza"],
+      {
+        kind: "wave",
+        title: "velocita-onda",
+        labels: ["lambda", "frequenza", "velocita"],
+        values: [lambda, frequency, speed],
+        highlight: "v = lambda f",
+      },
+      feedbackMap(distractors, [
+        "Hai sommato le grandezze: per la velocita dell'onda si moltiplicano lambda e frequenza.",
+        "Hai diviso nel verso sbagliato: frequenza/lambda non produce la velocita.",
+        "Hai riportato solo la lunghezza d'onda, non la velocita di propagazione.",
+      ]),
+    );
+  }
+  const correct = `${formatNumber(wavelength)} m`;
+  const distractors = [`${length + crests} m`, `${formatNumber(wavelength + 1)} m`, `${length * crests} m`];
   return basePuzzle(
     difficulty,
     "wave-reading",
     "Fisica: onde",
     `In un disegno ci sono ${crests} lunghezze d'onda complete distribuite in ${length} m.`,
     "Quale valore descrive la lunghezza d'onda?",
-    shuffledOptions(random, `${wavelength} m`, [`${length + crests} m`, `${wavelength + 1} m`, `${length * crests} m`]),
-    `${wavelength} m`,
-    `La lunghezza d'onda e la distanza di un ciclo completo. Se ${length} m contengono ${crests} cicli, ogni ciclo misura ${length} / ${crests} = ${wavelength} m.`,
+    shuffledOptions(random, correct, distractors),
+    correct,
+    `La lunghezza d'onda e la distanza di un ciclo completo. Se ${length} m contengono ${crests} cicli, ogni ciclo misura ${length} / ${crests} = ${formatNumber(wavelength)} m.`,
     ["onde", "lunghezza d'onda", "lettura grafica"],
     ["conta i cicli completi", "leggi la distanza totale", "dividi distanza per numero di cicli"],
     {
@@ -618,11 +761,16 @@ function buildWaveReadingPuzzle(random: Random, difficulty: DifficultyPreset): G
       values: [crests, length, wavelength],
       highlight: "lambda",
     },
+    feedbackMap(distractors, [
+      "Hai sommato distanza e numero di cicli: la lunghezza d'onda richiede una divisione.",
+      "Hai scelto un valore vicino, ma non deriva dal rapporto distanza/cicli.",
+      "Hai moltiplicato distanza e cicli: cosi ottieni un valore troppo grande.",
+    ]),
   );
 }
 
 function buildOpticsRayPuzzle(random: Random, difficulty: DifficultyPreset): GeneratedPhysicsPuzzle {
-  const item = random.pick([
+  const cases = [
     {
       scenario: "Un raggio di luce colpisce uno specchio piano.",
       correct: "L'angolo di riflessione e uguale all'angolo di incidenza",
@@ -645,7 +793,30 @@ function buildOpticsRayPuzzle(random: Random, difficulty: DifficultyPreset): Gen
       ],
       labels: ["raggi paralleli", "lente", "fuoco"],
     },
-  ]);
+    {
+      scenario: "Un raggio passa dall'aria all'acqua con incidenza obliqua.",
+      correct: "Il raggio cambia direzione entrando nel nuovo mezzo: avviene rifrazione",
+      distractors: ["Il raggio continua sempre dritto senza cambiare direzione", "Il raggio si ferma sulla superficie dell'acqua", "Il raggio torna indietro come su uno specchio piano"],
+      distractorFeedback: [
+        "Attraversando mezzi diversi la luce puo cambiare velocita e direzione: questo e rifrazione.",
+        "La luce non si ferma sulla superficie: una parte entra nell'acqua e cambia direzione.",
+        "Quella e riflessione: qui il raggio entra in un altro mezzo.",
+      ],
+      labels: ["aria", "superficie", "acqua"],
+    },
+    {
+      scenario: "Una torcia illumina un oggetto opaco davanti a uno schermo.",
+      correct: "Dietro l'oggetto si forma una zona d'ombra perche i raggi vengono bloccati",
+      distractors: ["La luce curva intorno all'oggetto e illumina tutto lo schermo allo stesso modo", "L'ombra si forma davanti alla torcia", "Un oggetto opaco lascia passare tutti i raggi ma li rende piu deboli"],
+      distractorFeedback: [
+        "Nel modello geometrico semplice i raggi procedono in linea retta: l'oggetto opaco li blocca.",
+        "L'ombra si forma dietro l'oggetto rispetto alla sorgente, non davanti alla torcia.",
+        "Opaco significa che non lascia passare la luce in modo significativo.",
+      ],
+      labels: ["torcia", "oggetto", "ombra"],
+    },
+  ];
+  const item = random.pick(difficulty.level >= 7 ? cases : cases.slice(0, 2));
   return basePuzzle(
     difficulty,
     "optics-ray",

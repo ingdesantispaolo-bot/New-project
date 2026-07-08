@@ -108,11 +108,11 @@ export class CodingPuzzleGenerator {
 function buildCodingMinigame(random: Random, difficulty: DifficultyPreset, type: CodingMinigameType): GeneratedCodingMinigame {
   const promptCount = 18 + difficulty.level;
   const prompts: CodingMinigamePrompt[] = [];
-  let previousSignature = "";
+  const usedSignatures = new Set<string>();
   for (let index = 0; index < promptCount; index += 1) {
-    const prompt = uniqueCodingPrompt(random, difficulty, type, index, previousSignature);
+    const prompt = uniqueCodingPrompt(random, difficulty, type, index, usedSignatures);
     prompts.push(prompt);
-    previousSignature = prompt.signature;
+    usedSignatures.add(prompt.signature);
   }
   const titles: Record<CodingMinigameType, string> = {
     "sequence-builder": "Minigioco coding: Completa il codice",
@@ -163,15 +163,18 @@ function uniqueCodingPrompt(
   difficulty: DifficultyPreset,
   type: CodingMinigameType,
   index: number,
-  previousSignature: string,
+  usedSignatures: Set<string>,
 ): CodingMinigamePrompt {
-  for (let attempt = 0; attempt < 12; attempt += 1) {
+  for (let attempt = 0; attempt < 48; attempt += 1) {
     const prompt = buildCodingMinigamePrompt(random, difficulty, type, index + attempt);
-    if (prompt.signature !== previousSignature) {
+    if (!usedSignatures.has(prompt.signature)) {
       return prompt;
     }
   }
-  return buildCodingMinigamePrompt(random, difficulty, type, index + 99);
+  const fallback = buildCodingMinigamePrompt(random, difficulty, type, index + 99);
+  return usedSignatures.has(fallback.signature)
+    ? { ...fallback, signature: `${fallback.signature}#${index}` }
+    : fallback;
 }
 
 function buildCodingMinigamePrompt(
@@ -259,12 +262,19 @@ function buildStateTracerPrompt(random: Random, difficulty: DifficultyPreset, in
     const add = random.integer(2, 5);
     const times = random.integer(3, Math.min(8, difficulty.level + 2));
     const answer = start + add * times;
+    const distractors = distinctNumberDistractors(random, answer, [start + add, times * add, answer - add]);
     return codingPromptFromItem(random, index, "state-tracer", {
       title: "Traccia il ciclo",
       codeLines: [`x = ${start}`, `ripeti ${times} volte:`, `  x = x + ${add}`, "stampa x"],
       question: "Quale valore viene stampato?",
       correct: String(answer),
-      distractors: [String(start + add), String(times * add), String(answer - add)],
+      distractors,
+      distractorFeedback: distractors.map((candidate) => {
+        if (candidate === String(start + add)) return `Hai contato un solo giro: dopo una ripetizione x vale ${start + add}, ma il ciclo gira ${times} volte.`;
+        if (candidate === String(times * add)) return `Hai calcolato solo ${times} * ${add}: manca lo stato iniziale ${start}.`;
+        if (candidate === String(answer - add)) return `Off-by-one: ${answer - add} e il valore dopo ${times - 1} giri, non dopo ${times}.`;
+        return `Questo valore non rispetta tutti i ${times} aggiornamenti del ciclo: riparti da ${start} e aggiungi ${add} a ogni giro.`;
+      }),
       explanation: `Il ciclo aggiunge ${add} per ${times} volte: ${start} + ${times} * ${add} = ${answer}.`,
       concept: "accumulatore",
       methodSteps: ["stato iniziale", "effetto di una ripetizione", "moltiplica l'effetto"],
@@ -275,12 +285,19 @@ function buildStateTracerPrompt(random: Random, difficulty: DifficultyPreset, in
   const c = a + b;
   const sub = random.integer(1, Math.min(5, c - 1));
   const answer = c - sub;
+  const distractors = distinctNumberDistractors(random, answer, [a, c, b]);
   return codingPromptFromItem(random, index, "state-tracer", {
     title: "Traccia la memoria",
     codeLines: [`a = ${a}`, `b = ${b}`, "c = a + b", `a = c - ${sub}`, "stampa a"],
     question: "Quanto vale a alla fine?",
     correct: String(answer),
-    distractors: [String(a), String(c), String(b)],
+    distractors,
+    distractorFeedback: distractors.map((candidate) => {
+      if (candidate === String(a)) return `${a} e il valore iniziale di a: viene sovrascritto dall'ultima assegnazione.`;
+      if (candidate === String(c)) return `${c} e il valore di c prima della sottrazione: manca il passaggio a = c - ${sub}.`;
+      if (candidate === String(b)) return `${b} e il valore di b, non quello finale di a: segui solo le assegnazioni a sinistra di a.`;
+      return `Questo valore non segue l'ultima assegnazione: dopo c = ${c}, a diventa ${c} - ${sub}.`;
+    }),
     explanation: `a viene sovrascritta. c = ${a} + ${b} = ${c}; poi a = ${c} - ${sub} = ${answer}.`,
     concept: "variabile sovrascritta",
     methodSteps: ["tabella variabili", "aggiorna a sinistra", "usa l'ultimo valore"],
@@ -379,6 +396,13 @@ function buildBinaryBitsPrompt(random: Random, difficulty: DifficultyPreset, ind
       question: `Quanto vale il numero binario ${binary} in decimale?`,
       correct: String(value),
       distractors,
+      distractorFeedback: distractors.map((candidate) => {
+        const numeric = Number(candidate);
+        if (numeric === value + 1 || numeric === value - 1) {
+          return `Sei vicino, ma hai acceso o spento un bit di valore 1: riconta le potenze di 2 da destra.`;
+        }
+        return `Hai letto i bit nel verso sbagliato o confuso i pesi: da destra valgono 1, 2, 4, 8, 16...`;
+      }),
       explanation: `Da destra i bit valgono 1, 2, 4, 8, 16...: sommi le potenze di 2 dove c'è un 1. Qui ${binary} vale ${value}.`,
       concept: "binario → decimale",
       methodSteps: ["scrivi il valore di ogni bit", "somma dove c'è 1", "confronta col target"],
@@ -399,6 +423,10 @@ function buildBinaryBitsPrompt(random: Random, difficulty: DifficultyPreset, ind
     question: `Come si scrive ${value} in binario?`,
     correct: binary,
     distractors,
+    distractorFeedback: distractors.map((candidate) => {
+      const decoded = parseInt(candidate, 2);
+      return `La sequenza ${candidate} vale ${decoded} in decimale, non ${value}: verifica i bit dalla potenza di 2 piu grande.`;
+    }),
     explanation: `Dividi per 2 e leggi i resti dal basso, oppure togli la potenza di 2 più grande possibile. ${value} = ${binary}.`,
     concept: "decimale → binario",
     methodSteps: ["trova la potenza di 2 più grande", "togli e ripeti", "leggi i bit"],
@@ -427,6 +455,7 @@ function buildLogicGatePrompt(random: Random, _difficulty: DifficultyPreset, ind
     question: `Quale espressione vale ${wantTrue ? "TRUE" : "FALSE"}?`,
     correct,
     distractors,
+    distractorFeedback: distractors.map((label) => `«${label}» vale ${expressions.find((expression) => expression.text === label)?.value ? "TRUE" : "FALSE"}: controlla AND, OR e NOT prima di scegliere.`),
     explanation: "AND è vero solo se entrambi gli ingressi sono veri; OR se almeno uno è vero; NOT inverte il valore di verità.",
     concept: "logica booleana (AND/OR/NOT)",
     methodSteps: ["valuta ogni ingresso", "applica la porta", "scegli vero/falso"],
@@ -438,12 +467,17 @@ function buildLoopOutputPrompt(random: Random, difficulty: DifficultyPreset, ind
   const mode = random.integer(0, 1);
   if (mode === 0) {
     const total = (n * (n + 1)) / 2;
+    const distractors = distinctNumberDistractors(random, total, [total - n, total + n, n]);
     return codingPromptFromItem(random, index, "loop-output", {
       title: "Somma in un ciclo",
       codeLines: ["total = 0", `per i da 1 a ${n}:`, "    total = total + i", "stampa total"],
       question: "Che cosa stampa il programma?",
       correct: String(total),
-      distractors: distinctNumberDistractors(random, total, [total - n, total + n, n]),
+      distractors,
+      distractorFeedback: distractors.map((candidate) =>
+        candidate === String(n)
+          ? `Hai scelto il limite del ciclo (${n}), ma il programma stampa total dopo avere sommato tutti i valori.`
+          : `Questo valore nasce da un conteggio incompleto o extra: somma 1 + 2 + ... + ${n} senza saltare giri.`),
       explanation: `total parte da 0 e a ogni giro aggiunge i (1, 2, ... ${n}). La somma 1+...+${n} fa ${total}.`,
       concept: "ciclo + accumulatore",
       methodSteps: ["leggi il range", "aggiorna total a ogni giro", "leggi l'output finale"],
@@ -452,12 +486,17 @@ function buildLoopOutputPrompt(random: Random, difficulty: DifficultyPreset, ind
   const factor = random.integer(2, 3);
   let value = 1;
   for (let i = 0; i < n; i += 1) value *= factor;
+  const distractors = distinctNumberDistractors(random, value, [value / factor, value * factor, factor * n]);
   return codingPromptFromItem(random, index, "loop-output", {
     title: "Prodotto in un ciclo",
     codeLines: ["value = 1", `per i da 1 a ${n}:`, `    value = value * ${factor}`, "stampa value"],
     question: "Che cosa stampa il programma?",
     correct: String(value),
-    distractors: distinctNumberDistractors(random, value, [value / factor, value * factor, factor * n]),
+    distractors,
+    distractorFeedback: distractors.map((candidate) =>
+      candidate === String(factor * n)
+        ? `Hai moltiplicato ${factor} * ${n}, ma il ciclo moltiplica il valore per ${factor} a ogni giro.`
+        : `Questo corrisponde a un giro in meno o in piu: conta esattamente ${n} moltiplicazioni.`),
     explanation: `value parte da 1 e viene moltiplicato per ${factor} per ${n} volte: ${factor}^${n} = ${value}.`,
     concept: "ciclo + variabile",
     methodSteps: ["leggi il valore iniziale", "applica l'operazione a ogni giro", "leggi l'output"],
@@ -474,6 +513,10 @@ function buildConditionalPathPrompt(random: Random, _difficulty: DifficultyPrese
     question: "Quale parola stampa il programma?",
     correct,
     distractors,
+    distractorFeedback: distractors.map((label) => {
+      if (label === "ZERO") return "ZERO non compare in nessun ramo: scegli solo tra LOW, MID e HIGH.";
+      return `Con x = ${x}, il ramo ${label} non e il primo ramo vero: valuta le condizioni dall'alto verso il basso.`;
+    }),
     explanation: `Le condizioni si controllano in ordine: con x = ${x} la prima vera porta a stampare ${correct}.`,
     concept: "if / elif / else",
     methodSteps: ["valuta la prima condizione", "se falsa passa alla successiva", "esegui il primo ramo vero"],
@@ -481,13 +524,22 @@ function buildConditionalPathPrompt(random: Random, _difficulty: DifficultyPrese
 }
 
 function buildAlgorithmOrderPrompt(random: Random, difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {
+  const targets = ["registro", "mappa", "sensore", "profilo", "log", "chiave"];
+  const source = random.pick(targets);
+  const destination = random.pick(targets.filter((item) => item !== source));
+  const limit = random.pick([3, 4, 5, 6]);
   const recipes = [
-    { goal: "spedire un messaggio sicuro", steps: ["scrivi il messaggio", "cifra il messaggio", "invia il messaggio", "conferma la ricezione"] },
-    { goal: "trovare il numero più grande in una lista", steps: ["prendi il primo numero come massimo", "scorri gli altri numeri", "se trovi un numero più grande aggiorna il massimo", "stampa il massimo"] },
-    { goal: "accendere il robot in sicurezza", steps: ["controlla la batteria", "avvia il sistema", "esegui il test sensori", "abilita il movimento"] },
-    { goal: "salvare un file", steps: ["apri il file", "scrivi i dati", "chiudi il file"] },
+    () => ({ goal: `spedire ${source} sicuro`, steps: [`prepara ${source}`, `cifra ${source}`, `invia ${source}`, "conferma la ricezione"] }),
+    () => ({ goal: `trovare il valore massimo in ${source}`, steps: ["prendi il primo valore come massimo", "scorri gli altri valori", "se trovi un valore piu grande aggiorna il massimo", "stampa il massimo"] }),
+    () => ({ goal: "accendere il robot in sicurezza", steps: ["controlla la batteria", "avvia il sistema", "esegui il test sensori", "abilita il movimento"] }),
+    () => ({ goal: `salvare ${source}`, steps: [`apri ${source}`, `scrivi i dati in ${source}`, `chiudi ${source}`] }),
+    () => ({ goal: `copiare ${source} in ${destination}`, steps: [`apri ${source}`, `leggi ${source}`, `crea ${destination}`, `scrivi i dati in ${destination}`, `verifica ${destination}`] }),
+    () => ({ goal: `validare ${source} con soglia ${limit}`, steps: [`leggi ${source}`, `confronta ${source} con soglia ${limit}`, "se il valore e valido abilita il sistema", "altrimenti segnala errore"] }),
+    () => ({ goal: `filtrare ${limit} misure rumorose`, steps: ["leggi una misura", "scarta la misura se e fuori soglia", "ripeti finche le misure sono finite", "calcola il valore stabile"] }),
+    () => ({ goal: `ripristinare ${source} da backup`, steps: [`trova il backup di ${source}`, `controlla che il backup sia integro`, `sostituisci ${source}`, "riavvia il servizio"] }),
   ];
-  const recipe = difficulty.level >= 4 ? random.pick(recipes) : random.pick(recipes.filter((entry) => entry.steps.length <= 4));
+  const recipePool = difficulty.level >= 4 ? recipes : recipes.slice(0, 4);
+  const recipe = random.pick(recipePool)();
   const steps = recipe.steps;
   const tiles = shuffleCodingTiles(
     random,
@@ -790,6 +842,12 @@ function buildDebugPuzzle(random: Random, difficulty: DifficultyPreset): Generat
   const increment = random.integer(2, 5);
   const repeats = random.integer(3, Math.min(6, difficulty.level + 1));
   const correct = base + repeats * increment;
+  const correctOption = "elimina la riga energia = energia - " + increment;
+  const distractors = [
+    `cambia ripeti ${repeats} volte in ripeti ${repeats - 1} volte`,
+    `cambia energia = ${base} in energia = ${base + increment}`,
+    "sposta stampa energia sopra il ciclo",
+  ];
   return basePuzzle(
     difficulty,
     "debug-line",
@@ -803,15 +861,16 @@ function buildDebugPuzzle(random: Random, difficulty: DifficultyPreset): Generat
       "stampa energia",
     ],
     `Il valore atteso era ${correct}. Quale correzione rende coerente il programma?`,
-    shuffledOptions(random, "elimina la riga energia = energia - " + increment, [
-      `cambia ripeti ${repeats} volte in ripeti ${repeats - 1} volte`,
-      `cambia energia = ${base} in energia = ${base + increment}`,
-      "sposta stampa energia sopra il ciclo",
-    ]),
-    "elimina la riga energia = energia - " + increment,
+    shuffledOptions(random, correctOption, distractors),
+    correctOption,
     `Il ciclo produce gia ${correct}. La riga successiva sottrae ${increment} e rovina il risultato: va rimossa, non compensata altrove.`,
     ["debug", "invariante", "controllo errore"],
     ["calcola il valore atteso del ciclo", "trova la prima riga che rompe la regola", "correggi la causa, non il sintomo"],
+    {
+      [distractors[0]]: `Riduci i giri del ciclo, ma il ciclo era corretto: la riga guasta e la sottrazione dopo il ciclo.`,
+      [distractors[1]]: `Compensi cambiando il valore iniziale: la causa dell'errore resta la sottrazione finale.`,
+      [distractors[2]]: `Spostare la stampa nasconde il problema invece di correggerlo: la sottrazione finale resta nel programma.`,
+    },
   );
 }
 

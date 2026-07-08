@@ -338,8 +338,9 @@ export function buildCircuitMinigame(random: Random, difficulty: DifficultyPrese
 
 /** Picks a minigame type appropriate to the difficulty (harder kinds unlock later). */
 export function circuitMinigameTypeForLevel(random: Random, level: number): CircuitMinigameType {
-  const pool: CircuitMinigameType[] = ["component-id", "predict-led"];
-  if (level >= 3) pool.push("ohms-law");
-  if (level >= 4) pool.push("series-parallel");
+  const pool: CircuitMinigameType[] = ["component-id"];
+  if (level >= 2) pool.push("predict-led");
+  if (level >= 4) pool.push("ohms-law");
+  if (level >= 5) pool.push("series-parallel");
   return random.pick(pool);
 }

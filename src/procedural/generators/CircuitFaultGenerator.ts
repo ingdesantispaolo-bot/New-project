@@ -4,10 +4,10 @@ import type { Random } from "../Random";
 import { buildCircuitMinigame, circuitMinigameTypeForLevel } from "./CircuitMinigameGenerator";
 
 const faultObservations: Record<CircuitFaultType, string> = {
-  "missing-wire": "Il tester non legge continuità tra LED e ritorno: il percorso si interrompe dopo il LED.",
-  "open-switch": "La leva dell'interruttore è sollevata: prima della resistenza la corrente si ferma.",
-  "reversed-led": "Il LED resta spento anche se arriva corrente: la polarità potrebbe essere invertita.",
-  "missing-resistor": "Il LED lampeggia in modo instabile: manca un componente che limiti la corrente.",
+  "missing-wire": "Il tester dice che tra LED e ritorno manca un tratto: il filo non chiude il giro.",
+  "open-switch": "La leva dell'interruttore è sollevata: il ponte è aperto e la corrente si ferma.",
+  "reversed-led": "Il LED resta spento anche se la corrente arriva: potrebbe essere girato al contrario.",
+  "missing-resistor": "Il LED lampeggia male: manca la resistenza che lo protegge.",
   "disconnected-component": "Il sensore rileva un componente presente ma fuori dal percorso principale.",
   "sensor-unpowered": "Il sensore non manda dati al terminale: i suoi morsetti non ricevono alimentazione.",
   "capacitor-discharged": "Il LED fa solo un lampo debole: il condensatore non accumula carica sufficiente.",
@@ -19,10 +19,10 @@ const faultObservations: Record<CircuitFaultType, string> = {
 };
 
 const explanationByFault: Record<CircuitFaultType, string> = {
-  "missing-wire": "Un filo mancante interrompe il giro: anche con batteria e LED corretti non circola corrente.",
-  "open-switch": "Un interruttore aperto è una pausa volontaria nel percorso: chiuderlo rende continuo il ramo.",
-  "reversed-led": "Il LED è un diodo: nel verso sbagliato blocca la corrente e resta spento.",
-  "missing-resistor": "La resistenza protegge il LED limitando la corrente. Senza protezione il circuito non è sicuro.",
+  "missing-wire": "Un filo mancante interrompe il giro: anche con batteria e LED corretti la corrente non torna indietro.",
+  "open-switch": "Un interruttore aperto è come un ponte alzato: chiuderlo fa continuare il percorso.",
+  "reversed-led": "Il LED funziona quasi solo in un verso: se è girato male resta spento.",
+  "missing-resistor": "La resistenza protegge il LED limitando la corrente. Senza resistenza il LED non è al sicuro.",
   "disconnected-component": "Un componente fuori percorso non partecipa al circuito: va ricollegato al nodo corretto.",
   "sensor-unpowered": "Un sensore può leggere dati solo se riceve alimentazione e ha un ritorno affidabile.",
   "capacitor-discharged": "Il condensatore accumula carica: se è scarico non stabilizza un impulso breve.",
@@ -35,11 +35,14 @@ const explanationByFault: Record<CircuitFaultType, string> = {
 
 export class CircuitFaultGenerator {
   generate(random: Random, difficulty: DifficultyPreset, preferredFaults: CircuitFaultType[] = []): GeneratedCircuitPuzzle {
-    const eligibleFaults = circuitFaultTemplates.filter((fault) => (fault.minComplexity ?? 1) <= difficulty.circuitComplexity);
-    const faultCount = Math.min(1 + Math.floor(difficulty.circuitComplexity / 3), 3, eligibleFaults.length);
-    const preferredPool = preferredFaults.length > 0 ? eligibleFaults.filter((fault) => preferredFaults.includes(fault.type)) : [];
+    const levelFaults = new Set(this.faultsForLevel(difficulty.level));
+    const eligibleFaults = circuitFaultTemplates.filter((fault) => levelFaults.has(fault.type) && (fault.minComplexity ?? 1) <= difficulty.circuitComplexity);
+    const fallbackEligible = circuitFaultTemplates.filter((fault) => (fault.minComplexity ?? 1) <= 1);
+    const safeEligibleFaults = eligibleFaults.length > 0 ? eligibleFaults : fallbackEligible;
+    const faultCount = this.faultCountForLevel(difficulty.level, difficulty.circuitComplexity, safeEligibleFaults.length);
+    const preferredPool = preferredFaults.length > 0 ? safeEligibleFaults.filter((fault) => preferredFaults.includes(fault.type)) : [];
     const firstFault = preferredPool.length > 0 ? [random.pick(preferredPool)] : [];
-    const remainingPool = random.shuffle(eligibleFaults.filter((fault) => !firstFault.some((selected) => selected.type === fault.type)));
+    const remainingPool = random.shuffle(safeEligibleFaults.filter((fault) => !firstFault.some((selected) => selected.type === fault.type)));
     const faults = [...firstFault, ...remainingPool].slice(0, faultCount);
     const missingWire = faults.some((fault) => fault.type === "missing-wire");
     const edges = missingWire ? circuitBaseEdges.slice(0, -1) : [...circuitBaseEdges];
@@ -63,8 +66,9 @@ export class CircuitFaultGenerator {
       faults: faultTypes,
       requiredRepairs: faultTypes,
       hints: [
-        "Segui prima il giro completo: batteria, interruttore, protezione, LED, ritorno.",
-        "Distingui tre domande: il percorso è chiuso? il componente ha il verso giusto? la corrente è protetta?",
+        "Prima nomina i pezzi: batteria, interruttore, resistenza, LED e ritorno.",
+        "Poi segui il giro con il dito: parte dal +, passa nei componenti e deve tornare al -.",
+        "Solo dopo usa il tester: cerca il primo punto in cui il giro non torna.",
         ...faults.map((fault) => fault.hint),
       ],
       scenarioType,
@@ -103,6 +107,46 @@ export class CircuitFaultGenerator {
     };
   }
 
+  private faultsForLevel(level: number): CircuitFaultType[] {
+    if (level <= 1) {
+      return ["open-switch", "missing-wire"];
+    }
+    if (level === 2) {
+      return ["open-switch", "missing-wire", "missing-resistor"];
+    }
+    if (level === 3) {
+      return ["open-switch", "missing-wire", "missing-resistor", "reversed-led", "wrong-resistor-value"];
+    }
+    if (level === 4) {
+      return ["missing-wire", "reversed-led", "missing-resistor", "wrong-resistor-value", "disconnected-component", "sensor-unpowered"];
+    }
+    if (level <= 6) {
+      return [
+        "missing-wire",
+        "reversed-led",
+        "missing-resistor",
+        "wrong-resistor-value",
+        "disconnected-component",
+        "sensor-unpowered",
+        "parallel-branch-open",
+        "capacitor-discharged",
+        "short-circuit",
+        "loose-ground",
+      ];
+    }
+    return circuitFaultTemplates.map((fault) => fault.type);
+  }
+
+  private faultCountForLevel(level: number, complexity: number, eligibleCount: number): number {
+    if (level <= 3) {
+      return Math.min(1, eligibleCount);
+    }
+    if (level <= 6) {
+      return Math.min(1 + Math.floor(complexity / 4), 2, eligibleCount);
+    }
+    return Math.min(1 + Math.floor(complexity / 3), 3, eligibleCount);
+  }
+
   fallback(level = 1, random?: Random, difficulty?: DifficultyPreset): GeneratedCircuitPuzzle {
     if (random && difficulty) {
       const safeFaults = circuitFaultTemplates.filter((fault) => (fault.minComplexity ?? 1) <= 1).map((fault) => fault.type);
@@ -137,9 +181,18 @@ export class CircuitFaultGenerator {
       difficultyLabel: "Livello 1 - percorso chiuso",
       learningPurpose: this.learningPurposeForScenario("percorso-aperto"),
       conceptTags: ["circuito chiuso", "interruttore", "continuità"],
-      componentChallenges: level > 3 ? [this.fallbackComponentChallenge("switch")] : [],
+      componentChallenges: this.fallbackComponentChallenges(level),
       competencies: ["elettronica.circuitoChiuso", "problemSolving"],
     };
+  }
+
+  private fallbackComponentChallenges(level: number): CircuitComponentChallenge[] {
+    const components = level <= 1
+      ? ["battery", "switch", "return"]
+      : level === 2
+        ? ["resistor", "led"]
+        : ["switch", "resistor", "led"];
+    return components.map((componentId) => this.fallbackComponentChallenge(componentId));
   }
 
   private fallbackComponentChallenge(componentId: string): CircuitComponentChallenge {
@@ -150,13 +203,14 @@ export class CircuitFaultGenerator {
     return {
       componentId: component.id,
       componentLabel: component.label,
-      symbolQuestion: "Quale simbolo è evidenziato nello schema?",
-      functionQuestion: "Quale funzione svolge nel circuito?",
+      symbolQuestion: "Che pezzo è quello cerchiato?",
+      functionQuestion: "A cosa serve nel giro della corrente?",
       correctSymbol,
       correctFunction,
       symbolChoices: [correctSymbol, ...distractors.map((item) => item.symbolName ?? item.label)],
       functionChoices: [correctFunction, ...distractors.map((item) => item.functionSummary ?? item.role)],
-      explanation: `${component.label}: ${component.role}. Indizio visivo: ${component.symbolClue ?? component.check}. Attenzione: ${component.commonConfusion ?? component.check}.`,
+      visualHint: component.symbolClue ?? component.check,
+      explanation: `${component.label}: ${component.functionSummary ?? component.role}. Indizio visivo: ${component.symbolClue ?? component.check}. Da ricordare: ${component.commonConfusion ?? component.check}.`,
     };
   }
 
@@ -176,43 +230,43 @@ export class CircuitFaultGenerator {
 
   private titleForScenario(scenario: GeneratedCircuitPuzzle["scenarioType"]): string {
     return {
-      "percorso-aperto": "Diagnosi: percorso interrotto",
-      "corrente-instabile": "Diagnosi: corrente non protetta",
-      polarita: "Diagnosi: LED in polarità sospetta",
-      "multi-guasto": "Diagnosi: guasto combinato",
-      "serie-parallelo": "Diagnosi: ramo parallelo",
-      "sensore-soglia": "Diagnosi: sensore non operativo",
-      "logica-rele": "Diagnosi: relè di comando",
-      temporizzazione: "Diagnosi: impulso non stabilizzato",
-      "corto-circuito": "Diagnosi: corto circuito",
+      "percorso-aperto": "Circuito base: il LED non si accende",
+      "corrente-instabile": "Circuito con LED da proteggere",
+      polarita: "Circuito con LED girato",
+      "multi-guasto": "Circuito con due problemi",
+      "serie-parallelo": "Circuito con due strade",
+      "sensore-soglia": "Circuito con sensore spento",
+      "logica-rele": "Circuito con relè",
+      temporizzazione: "Circuito con impulso breve",
+      "corto-circuito": "Circuito con scorciatoia",
     }[scenario ?? "percorso-aperto"];
   }
 
   private questionForScenario(scenario: GeneratedCircuitPuzzle["scenarioType"]): string {
     return {
-      "percorso-aperto": "Quale punto impedisce alla corrente di completare il giro?",
-      "corrente-instabile": "Il percorso esiste, ma perché il LED non è certificabile?",
-      polarita: "Se la corrente arriva al LED, quale proprietà del componente va controllata?",
-      "multi-guasto": "Quali cause sono reali e quali interventi sarebbero solo tentativi?",
-      "serie-parallelo": "Quale ramo è interrotto, se il circuito principale continua a funzionare?",
-      "sensore-soglia": "Perché il terminale non legge il sensore anche se il LED può accendersi?",
-      "logica-rele": "Il comando arriva, ma quale parte del relè non permette al carico di partire?",
-      temporizzazione: "Perché l'impulso non resta stabile abbastanza a lungo?",
-      "corto-circuito": "Dove la corrente trova una scorciatoia che evita il carico?",
+      "percorso-aperto": "In quale punto il giro della corrente si ferma?",
+      "corrente-instabile": "Quale pezzo deve proteggere il LED?",
+      polarita: "Il LED è messo nel verso giusto?",
+      "multi-guasto": "Quali problemi sono davvero provati dal tester?",
+      "serie-parallelo": "Quale delle due strade è interrotta?",
+      "sensore-soglia": "Perché il sensore non riceve energia?",
+      "logica-rele": "Quale parte del relè non fa partire il carico?",
+      temporizzazione: "Perché l'impulso dura troppo poco?",
+      "corto-circuito": "Dove la corrente prende una scorciatoia?",
     }[scenario ?? "percorso-aperto"];
   }
 
   private goalForScenario(scenario: GeneratedCircuitPuzzle["scenarioType"]): string {
     return {
-      "percorso-aperto": "Obiettivo: creare un giro chiuso dal + della batteria al LED e ritorno al -. Se un solo tratto è aperto, la corrente non circola.",
-      "corrente-instabile": "Obiettivo: non basta accendere il LED. Il circuito deve essere stabile, protetto e leggibile dal terminale.",
-      polarita: "Obiettivo: capire che alcuni componenti hanno un verso. Il LED è un diodo luminoso: la polarità conta.",
-      "multi-guasto": "Obiettivo: separare le cause reali dai dettagli inutili. Ripara solo ciò che il tester rende necessario.",
-      "serie-parallelo": "Obiettivo: capire che due rami possono comportarsi diversamente. Isola il ramo guasto senza cambiare quello sano.",
-      "sensore-soglia": "Obiettivo: collegare alimentazione e dato. Un sensore non misura se non riceve energia stabile.",
-      "logica-rele": "Obiettivo: distinguere circuito di comando e circuito di potenza. Il relè collega i due mondi.",
-      temporizzazione: "Obiettivo: usare il condensatore come piccola riserva di energia per impulsi brevi.",
-      "corto-circuito": "Obiettivo: riconoscere una scorciatoia pericolosa: il percorso più facile non è quello corretto.",
+      "percorso-aperto": "Obiettivo: costruire un giro chiuso. La corrente parte dal +, passa nei pezzi e torna al -.",
+      "corrente-instabile": "Obiettivo: capire che il LED va protetto dalla resistenza, non solo acceso.",
+      polarita: "Obiettivo: scoprire che il LED funziona solo se è girato nel verso giusto.",
+      "multi-guasto": "Obiettivo: trovare due problemi senza riparare pezzi a caso.",
+      "serie-parallelo": "Obiettivo: vedere che due strade possono funzionare in modo diverso.",
+      "sensore-soglia": "Obiettivo: capire che un sensore misura solo se riceve energia.",
+      "logica-rele": "Obiettivo: usare il relè come interruttore comandato.",
+      temporizzazione: "Obiettivo: vedere il condensatore come una piccola riserva di energia.",
+      "corto-circuito": "Obiettivo: riconoscere una scorciatoia pericolosa.",
     }[scenario ?? "percorso-aperto"];
   }
 
@@ -229,25 +283,25 @@ export class CircuitFaultGenerator {
 
   private testerReadingsForFaults(faults: CircuitFaultType[], random: Random): GeneratedCircuitPuzzle["testerReadings"] {
     const readings: NonNullable<GeneratedCircuitPuzzle["testerReadings"]> = [
-      { from: "Batteria +", to: "Interruttore", reading: "continuita", note: "La sorgente è presente: il problema è più avanti nel percorso." },
+      { from: "Batteria +", to: "Interruttore", reading: "continuita", note: "Fin qui il filo è collegato: il problema è più avanti." },
     ];
     const byFault: Record<CircuitFaultType, NonNullable<GeneratedCircuitPuzzle["testerReadings"]>[number]> = {
-      "missing-wire": { from: "LED", to: "Ritorno", reading: "interrotto", note: "Dopo il LED il percorso si apre: manca un tratto di filo." },
-      "open-switch": { from: "Interruttore", to: "Resistenza", reading: "interrotto", note: "La leva non chiude i due contatti." },
-      "reversed-led": { from: "Resistenza", to: "LED", reading: "polarita-inversa", note: "Arriva corrente, ma il verso del LED non è compatibile." },
-      "missing-resistor": { from: "Resistenza", to: "LED", reading: "non-stabile", note: "Il LED riceve impulsi non limitati: manca protezione." },
+      "missing-wire": { from: "LED", to: "Ritorno", reading: "interrotto", note: "Dopo il LED il giro si apre: manca un pezzo di filo." },
+      "open-switch": { from: "Interruttore", to: "Resistenza", reading: "interrotto", note: "La leva non unisce i due contatti." },
+      "reversed-led": { from: "Resistenza", to: "LED", reading: "polarita-inversa", note: "La corrente arriva, ma il LED è nel verso sbagliato." },
+      "missing-resistor": { from: "Resistenza", to: "LED", reading: "non-stabile", note: "La corrente non è limitata: manca la protezione del LED." },
       "disconnected-component": { from: "Sensore", to: "Bus dati", reading: "interrotto", note: "Il componente è fisicamente presente ma fuori nodo." },
       "sensor-unpowered": { from: "Batteria +", to: "Sensore", reading: "tensione-bassa", note: "Il sensore non riceve energia sufficiente per misurare." },
       "capacitor-discharged": { from: "Condensatore", to: "Ritorno", reading: "carica-bassa", note: "La carica non resta abbastanza per stabilizzare l'impulso." },
       "short-circuit": { from: "Batteria +", to: "Ritorno", reading: "corto", note: "C'è una scorciatoia: la corrente evita resistenza e LED." },
       "parallel-branch-open": { from: "Ramo B", to: "Ritorno", reading: "interrotto", note: "Il ramo principale è vivo, ma il secondo ramo non chiude il giro." },
-      "wrong-resistor-value": { from: "Resistenza", to: "LED", reading: "non-stabile", note: "Il componente c'è, ma il valore rende la corrente non adatta al LED." },
+      "wrong-resistor-value": { from: "Resistenza", to: "LED", reading: "non-stabile", note: "La resistenza c'è, ma lascia passare troppa o troppo poca corrente." },
       "relay-not-armed": { from: "Bobina relè", to: "Ritorno", reading: "tensione-bassa", note: "Il contatto di potenza resta aperto perché la bobina non è armata." },
       "loose-ground": { from: "Ritorno", to: "Massa", reading: "non-stabile", note: "La continuità compare e sparisce: il riferimento non è affidabile." },
     };
     faults.forEach((fault) => readings.push(byFault[fault]));
     const confirmation = [
-      { from: "Batteria -", to: "Ritorno", reading: "continuita" as const, note: "Il tester conferma che una parte del ritorno è raggiungibile." },
+      { from: "Batteria -", to: "Ritorno", reading: "continuita" as const, note: "Il tester conferma che il ritorno arriva verso il polo -." },
       { from: "Terminale", to: "Pannello", reading: "continuita" as const, note: "Il pannello comunica: il guasto è nel circuito di carico." },
       { from: "Telaio", to: "Vite del coperchio", reading: "continuita" as const, note: "La vite non spiega il sintomo: è un falso indizio." },
     ];
@@ -269,9 +323,7 @@ export class CircuitFaultGenerator {
     random: Random,
     level: number,
   ): CircuitComponentChallenge[] {
-    if (level <= 3) {
-      return [];
-    }
+    const stagedComponents = this.componentLearningPath(level);
     const priorityByFault: Record<CircuitFaultType, string[]> = {
       "missing-wire": ["return", "battery"],
       "open-switch": ["switch", "battery"],
@@ -287,6 +339,9 @@ export class CircuitFaultGenerator {
       "loose-ground": ["ground", "return"],
     };
     const ordered = new Set<string>();
+    stagedComponents
+      .filter((componentId) => nodes.includes(componentId))
+      .forEach((componentId) => ordered.add(componentId));
     faults.forEach((fault) => {
       priorityByFault[fault]
         .filter((componentId) => nodes.includes(componentId))
@@ -295,10 +350,26 @@ export class CircuitFaultGenerator {
     nodes
       .filter((componentId) => circuitComponentGuide.some((component) => component.id === componentId))
       .forEach((componentId) => ordered.add(componentId));
-    const count = level >= 7 ? 2 : 1;
+    const count = level <= 1 ? 3 : level <= 3 ? 2 : level >= 7 ? 2 : 1;
     return [...ordered]
       .slice(0, count)
       .map((componentId) => this.componentChallenge(componentId, nodes, random));
+  }
+
+  private componentLearningPath(level: number): string[] {
+    if (level <= 1) {
+      return ["battery", "switch", "return"];
+    }
+    if (level === 2) {
+      return ["resistor", "led"];
+    }
+    if (level === 3) {
+      return ["switch", "resistor", "led", "return"];
+    }
+    if (level <= 5) {
+      return ["resistor", "led", "sensor", "branchLed", "capacitor"];
+    }
+    return ["resistor", "ground", "relay", "motor", "branchLed"];
   }
 
   private componentChallenge(componentId: string, nodes: string[], random: Random): CircuitComponentChallenge {
@@ -317,41 +388,42 @@ export class CircuitFaultGenerator {
     return {
       componentId: component.id,
       componentLabel: component.label,
-      symbolQuestion: "Quale simbolo è evidenziato nello schema?",
-      functionQuestion: "Quale funzione svolge nel circuito?",
+      symbolQuestion: "Che pezzo è quello cerchiato?",
+      functionQuestion: "A cosa serve nel giro della corrente?",
       correctSymbol,
       correctFunction,
       symbolChoices: random.shuffle([correctSymbol, ...symbolDistractors]),
       functionChoices: random.shuffle([correctFunction, ...functionDistractors]),
-      explanation: `${component.label}: ${component.role}. Indizio visivo: ${component.symbolClue ?? component.check}. Attenzione: ${component.commonConfusion ?? component.check}.`,
+      visualHint: component.symbolClue ?? component.check,
+      explanation: `${component.label}: ${component.functionSummary ?? component.role}. Indizio visivo: ${component.symbolClue ?? component.check}. Da ricordare: ${component.commonConfusion ?? component.check}.`,
     };
   }
 
   private diagnosticPlanForScenario(scenario: GeneratedCircuitPuzzle["scenarioType"]): string[] {
     return {
-      "percorso-aperto": ["Controlla continuità in ordine.", "Trova il primo tratto interrotto.", "Ripara solo quel tratto."],
-      "corrente-instabile": ["Verifica se il LED si accende.", "Controlla protezione e ritorno.", "Stabilizza prima di certificare."],
-      polarita: ["Controlla se arriva corrente.", "Leggi il verso del LED.", "Inverti solo se la polarità è la causa."],
-      "multi-guasto": ["Separa sintomo principale e secondario.", "Associa ogni misura a una causa.", "Evita riparazioni non dimostrate."],
-      "serie-parallelo": ["Confronta ramo A e ramo B.", "Non toccare il ramo funzionante.", "Chiudi solo il ramo aperto."],
-      "sensore-soglia": ["Distingui alimentazione e dato.", "Misura tensione al sensore.", "Ricollega il ramo sensore."],
-      "logica-rele": ["Controlla circuito di comando.", "Poi controlla contatto di potenza.", "Arma il relè se la bobina non riceve energia."],
-      temporizzazione: ["Osserva la durata dell'impulso.", "Misura la carica del condensatore.", "Stabilizza l'impulso."],
-      "corto-circuito": ["Cerca percorsi troppo facili.", "Non alimentare finché c'è corto.", "Rimuovi la scorciatoia prima del test."],
+      "percorso-aperto": ["Nomina i pezzi.", "Segui il filo dal + al -.", "Trova dove il giro si ferma."],
+      "corrente-instabile": ["Trova la resistenza.", "Controlla se protegge il LED.", "Ripara solo la protezione."],
+      polarita: ["Trova il LED.", "Guarda il verso.", "Giralo solo se il tester lo conferma."],
+      "multi-guasto": ["Leggi una misura alla volta.", "Abbina ogni misura a un pezzo.", "Ripara solo ciò che è provato."],
+      "serie-parallelo": ["Segui strada A.", "Segui strada B.", "Ripara solo la strada rotta."],
+      "sensore-soglia": ["Trova il sensore.", "Controlla se riceve energia.", "Ricollega il suo ramo."],
+      "logica-rele": ["Trova il comando.", "Trova il contatto.", "Attiva il relè se manca energia."],
+      temporizzazione: ["Osserva quanto dura la luce.", "Controlla il condensatore.", "Ricarica la riserva."],
+      "corto-circuito": ["Cerca una scorciatoia.", "Non testare finché c'è corto.", "Togli la scorciatoia."],
     }[scenario ?? "percorso-aperto"];
   }
 
   private learningPurposeForScenario(scenario: GeneratedCircuitPuzzle["scenarioType"]): string {
     return {
-      "percorso-aperto": "Imparare che la corrente ha bisogno di un percorso completo.",
-      "corrente-instabile": "Capire che un circuito deve essere anche protetto e stabile.",
-      polarita: "Riconoscere componenti polarizzati e verso della corrente.",
-      "multi-guasto": "Allenare diagnosi: collegare misure diverse a cause diverse.",
-      "serie-parallelo": "Capire la differenza tra ramo in serie e ramo parallelo.",
-      "sensore-soglia": "Distinguere circuito di alimentazione e circuito di misura.",
-      "logica-rele": "Vedere un relè come ponte tra comando logico e carico fisico.",
-      temporizzazione: "Intuire accumulo e rilascio di energia in un condensatore.",
-      "corto-circuito": "Riconoscere perché una scorciatoia elettrica è pericolosa.",
+      "percorso-aperto": "Imparare il giro base della corrente.",
+      "corrente-instabile": "Imparare perché la resistenza protegge il LED.",
+      polarita: "Imparare che il LED ha un verso.",
+      "multi-guasto": "Imparare a trovare più problemi senza andare a caso.",
+      "serie-parallelo": "Imparare che un circuito può avere due strade.",
+      "sensore-soglia": "Imparare che un sensore deve essere alimentato.",
+      "logica-rele": "Imparare che un relè è un interruttore comandato.",
+      temporizzazione: "Imparare che un condensatore conserva energia per poco.",
+      "corto-circuito": "Imparare perché una scorciatoia è pericolosa.",
     }[scenario ?? "percorso-aperto"];
   }
 
@@ -371,10 +443,12 @@ export class CircuitFaultGenerator {
   }
 
   private levelName(level: number): string {
-    if (level <= 2) return "circuito chiuso";
-    if (level <= 4) return "tester e polarità";
-    if (level <= 6) return "rami e sensori";
-    return "diagnosi di sistema";
+    if (level <= 1) return "pezzi base";
+    if (level <= 2) return "resistenza e LED";
+    if (level <= 3) return "verso del LED";
+    if (level <= 5) return "tester e rami";
+    if (level <= 6) return "sicurezza";
+    return "circuiti combinati";
   }
 
   private noiseObservations(random: Random, count: number): string[] {
@@ -391,7 +465,7 @@ export class CircuitFaultGenerator {
 
   private describeSymptom(faults: CircuitFaultType[]): string {
     if (faults.includes("missing-resistor")) {
-      return "Il LED tenta di accendersi ma pulsa in modo irregolare: il circuito non è stabile.";
+      return "Il LED prova ad accendersi, ma lampeggia male: manca protezione.";
     }
     if (faults.includes("capacitor-discharged")) {
       return "Il LED emette un lampo breve e poi si spegne: manca energia accumulata per stabilizzare l'impulso.";
@@ -403,7 +477,7 @@ export class CircuitFaultGenerator {
       return "Una luce resta accesa, ma il ramo secondario non risponde: non tutto il circuito è guasto.";
     }
     if (faults.includes("wrong-resistor-value")) {
-      return "Il LED si accende, ma con intensità fuori scala: la protezione non è corretta.";
+      return "Il LED si accende troppo forte o troppo debole: la resistenza non va bene.";
     }
     if (faults.includes("relay-not-armed")) {
       return "Il comando viene inviato, ma il carico non parte: il relè non chiude il contatto di potenza.";
@@ -415,10 +489,10 @@ export class CircuitFaultGenerator {
       return "Il LED può accendersi, ma il terminale non riceve dati: il sensore non è alimentato.";
     }
     if (faults.includes("reversed-led")) {
-      return "La corrente sembra arrivare al LED, ma la luce resta spenta.";
+      return "La corrente arriva al LED, ma la luce resta spenta: forse è girato male.";
     }
     if (faults.includes("missing-wire") || faults.includes("open-switch") || faults.includes("disconnected-component")) {
-      return "Il LED resta spento: il tester segnala che la corrente non completa il giro.";
+      return "Il LED resta spento: da qualche parte il giro della corrente si interrompe.";
     }
     return "Il pannello segnala un comportamento elettrico non coerente.";
   }

@@ -23,6 +23,7 @@ export type DeviceHotspotOptions = {
   size?: number;
   labelMode?: "always" | "hover" | "active";
   statusMode?: "always" | "hidden";
+  visualMode?: "full" | "glyph" | "hitbox";
   onClick: () => void;
 };
 
@@ -47,19 +48,32 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
     const tint = stateColor(options.state);
     const labelMode = options.labelMode ?? "always";
     const statusMode = options.statusMode ?? "always";
+    const hitboxOnly = options.visualMode === "hitbox";
+    const glyphOnly = options.visualMode === "glyph";
+    const suppressAura = hitboxOnly || glyphOnly;
     const supportsHover = typeof window === "undefined" || window.matchMedia?.("(hover: hover)").matches !== false;
     let lastTapAt = 0;
     let pressed = false;
     let pointerStartedInside = false;
     let busy = false;
     let activePointerId: number | undefined;
-    const glow = scene.add.image(0, 0, "soft-glow").setTint(tint).setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035).setScale(size / 64);
-    const ring = scene.add.image(0, 0, "holo-ring").setTint(tint).setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13).setScale(size / 84);
+    const glow = scene.add.image(0, 0, "soft-glow").setTint(tint).setAlpha(suppressAura ? 0 : options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035).setScale(size / 64);
+    const ring = scene.add.image(0, 0, "holo-ring").setTint(tint).setAlpha(suppressAura ? 0 : options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13).setScale(size / 84);
     // Dark backing disc so the line-art glyph stays legible over busy scenery.
-    const glyphPlate = scene.add.circle(0, 0, size * 0.36, 0x04090f, options.state === "locked" ? 0.26 : 0.4).setStrokeStyle(1, tint, options.state === "locked" ? 0.12 : 0.26);
+    const glyphPlate = scene.add.circle(0, 0, size * 0.36, 0x04090f, hitboxOnly ? 0 : glyphOnly ? 0.32 : options.state === "locked" ? 0.26 : 0.4).setStrokeStyle(1, tint, hitboxOnly ? 0 : glyphOnly ? 0.22 : options.state === "locked" ? 0.12 : 0.26);
     const glyph = drawDeviceGlyph(scene, options.kind, tint, options.state, size * 0.72);
+    if (hitboxOnly) {
+      glyph.setAlpha(0);
+    } else if (glyphOnly) {
+      glyph.setAlpha(options.state === "locked" ? 0.44 : 0.82);
+    }
     const marker = scene.add.circle(size * 0.28, -size * 0.24, Math.max(5, size * 0.07), tint, options.state === "locked" ? 0.4 : 0.92)
       .setStrokeStyle(1, 0xffffff, options.state === "locked" ? 0.12 : 0.34);
+    if (hitboxOnly) {
+      marker.setAlpha(0);
+    } else if (glyphOnly) {
+      marker.setAlpha(options.state === "locked" ? 0.28 : 0.72);
+    }
     const status = scene.add.container(0, -size * 0.56);
     const statusLabel = stateLabel(options.state);
     const showStatus = statusMode === "always" && Boolean(statusLabel);
@@ -113,7 +127,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       hitArea.height,
       0x061019,
       0.01,
-    ).setStrokeStyle(1, tint, options.state === "active" ? 0.18 : 0.06);
+    ).setStrokeStyle(1, tint, suppressAura ? 0 : options.state === "active" ? 0.18 : 0.06);
     touchPlate.setInteractive();
     if (touchPlate.input && options.state !== "locked") {
       touchPlate.input.cursor = "pointer";
@@ -123,8 +137,8 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       pressed = false;
       pointerStartedInside = false;
       activePointerId = undefined;
-      ring.setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13);
-      glow.setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035);
+      ring.setAlpha(suppressAura ? 0 : options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13);
+      glow.setAlpha(suppressAura ? 0 : options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035);
       tag.setAlpha(restingTagAlpha);
       scene.tweens.killTweensOf([glow, tag]);
       ring.setScale(size / 84);
@@ -136,18 +150,20 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       stopInputPropagation(args);
       if (!supportsHover || pressed) return;
       if (options.state !== "locked") {
-        ring.setAlpha(0.66);
-        glow.setAlpha(0.26);
+        if (!suppressAura) {
+          ring.setAlpha(0.66);
+          glow.setAlpha(0.26);
+          ring.setScale((size / 84) * 1.05);
+        }
         tag.setAlpha(1);
         scene.tweens.killTweensOf([glow, tag]);
-        ring.setScale((size / 84) * 1.05);
       }
     });
     touchPlate.on("pointerout", (...args: unknown[]) => {
       stopInputPropagation(args);
       if (pressed) return;
-      ring.setAlpha(options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13);
-      glow.setAlpha(options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035);
+      ring.setAlpha(suppressAura ? 0 : options.state === "locked" ? 0.055 : options.state === "active" ? 0.46 : options.state === "failed" ? 0.24 : 0.13);
+      glow.setAlpha(suppressAura ? 0 : options.state === "active" ? 0.22 : options.state === "complete" ? 0.18 : options.state === "failed" ? 0.12 : 0.035);
       tag.setAlpha(restingTagAlpha);
       scene.tweens.killTweensOf([glow, tag]);
       ring.setScale(size / 84);
@@ -163,10 +179,12 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       pointerStartedInside = true;
       activePointerId = pointer?.id;
       scene.tweens.killTweensOf([glow, tag]);
-      ring.setAlpha(options.state === "locked" ? 0.12 : 0.74);
-      glow.setAlpha(options.state === "locked" ? 0.08 : 0.3);
+      if (!suppressAura) {
+        ring.setAlpha(options.state === "locked" ? 0.12 : 0.74);
+        glow.setAlpha(options.state === "locked" ? 0.08 : 0.3);
+        ring.setScale((size / 84) * 0.98);
+      }
       tag.setAlpha(1);
-      ring.setScale((size / 84) * 0.98);
     });
     touchPlate.on("pointerup", (...args: unknown[]) => {
       stopInputPropagation(args);
@@ -200,7 +218,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
       resetVisual();
     });
 
-    if (options.state === "ready" || options.state === "active") {
+    if (!suppressAura && (options.state === "ready" || options.state === "active")) {
       scene.tweens.add({
         targets: ring,
         rotation: Math.PI * 2,
@@ -208,7 +226,7 @@ export class DeviceHotspot extends Phaser.GameObjects.Container {
         repeat: -1,
       });
     }
-    if (options.state === "complete") {
+    if (!suppressAura && options.state === "complete") {
       scene.tweens.add({ targets: glow, alpha: 0.34, scale: size / 62, duration: 1200, yoyo: true, repeat: -1 });
     }
     scene.add.existing(this);

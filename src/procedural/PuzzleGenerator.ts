@@ -296,11 +296,11 @@ export class PuzzleGenerator {
 
   private codingMinigameTypesForStep(step: number): CodingMinigameType[] {
     return [
-      ["sequence-builder"],
-      ["state-tracer"],
-      ["bug-hunt"],
-      ["state-tracer", "sequence-builder"],
-      ["bug-hunt", "state-tracer", "sequence-builder"],
+      ["sequence-builder", "state-tracer"],
+      ["state-tracer", "sequence-builder", "binary-bits"],
+      ["bug-hunt", "state-tracer", "loop-output", "conditional-path"],
+      ["bug-hunt", "state-tracer", "sequence-builder", "logic-gate", "binary-bits"],
+      ["bug-hunt", "state-tracer", "sequence-builder", "binary-bits", "logic-gate", "loop-output", "conditional-path", "algorithm-order"],
     ][Math.min(step, 4)] as CodingMinigameType[];
   }
 
@@ -393,10 +393,10 @@ export class PuzzleGenerator {
   private circuitFaultsForStep(step: number) {
     return [
       ["missing-wire", "open-switch"],
-      ["missing-resistor", "wrong-resistor-value", "reversed-led"],
-      ["sensor-unpowered", "disconnected-component", "short-circuit"],
-      ["parallel-branch-open", "capacitor-discharged", "loose-ground"],
-      ["relay-not-armed", "short-circuit", "wrong-resistor-value", "parallel-branch-open"],
+      ["missing-resistor"],
+      ["reversed-led", "wrong-resistor-value"],
+      ["sensor-unpowered", "disconnected-component", "parallel-branch-open"],
+      ["capacitor-discharged", "loose-ground", "short-circuit", "relay-not-armed"],
     ][Math.min(step, 4)] as Parameters<CircuitFaultGenerator["generate"]>[2];
   }
 }

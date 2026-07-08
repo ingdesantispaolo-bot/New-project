@@ -1,5 +1,11 @@
 import { languageTemplates } from "../../data/procedural/languageTemplates";
 import type { LanguageTemplate } from "../../data/procedural/languageTemplates";
+import {
+  italianVocabularyByMaxLevel,
+  italianVocabularyCategoryLabels,
+  italianVocabularyEntries,
+  type ItalianVocabularyEntry,
+} from "../../data/procedural/italianVocabularyBank";
 import type {
   GeneratedLanguageMinigame,
   GeneratedLanguagePuzzle,
@@ -32,12 +38,35 @@ const AGREEMENT_SUBJECTS = [
   { sg: "La batteria", pl: "Le batterie", gender: "f" },
   { sg: "Il pannello", pl: "I pannelli", gender: "m" },
   { sg: "La sonda", pl: "Le sonde", gender: "f" },
+  { sg: "Il cavo", pl: "I cavi", gender: "m" },
+  { sg: "La scheda", pl: "Le schede", gender: "f" },
+  { sg: "Il circuito", pl: "I circuiti", gender: "m" },
+  { sg: "La misura", pl: "Le misure", gender: "f" },
+  { sg: "Il valore", pl: "I valori", gender: "m" },
+  { sg: "La fonte", pl: "Le fonti", gender: "f" },
+  { sg: "Il rapporto", pl: "I rapporti", gender: "m" },
+  { sg: "La procedura", pl: "Le procedure", gender: "f" },
+  { sg: "Il messaggio", pl: "I messaggi", gender: "m" },
+  { sg: "La console", pl: "Le console", gender: "f" },
+  { sg: "Il terminale", pl: "I terminali", gender: "m" },
+  { sg: "La sequenza", pl: "Le sequenze", gender: "f" },
+  { sg: "Il fusibile", pl: "I fusibili", gender: "m" },
+  { sg: "La soglia", pl: "Le soglie", gender: "f" },
+  { sg: "Il grafico", pl: "I grafici", gender: "m" },
+  { sg: "La tabella", pl: "Le tabelle", gender: "f" },
+  { sg: "Il dato", pl: "I dati", gender: "m" },
+  { sg: "La prova", pl: "Le prove", gender: "f" },
+  { sg: "Il controllo", pl: "I controlli", gender: "m" },
+  { sg: "La diagnosi", pl: "Le diagnosi", gender: "f" },
 ] as const;
 
 /** Regular -ato/-ito adjective roots (4 forms by adding o/a/i/e). */
 const AGREEMENT_ADJ_ROOTS = [
   "calibrat", "pront", "salvat", "attivat", "isolat", "collegat",
   "aggiornat", "bloccat", "verificat", "configurat", "alimentat", "spent",
+  "controllat", "confermat", "ordinat", "segnalat", "protett", "riparat",
+  "corrett", "sicurat", "validat", "registrat", "copiat", "completat",
+  "ridott", "aumentat", "misurat", "conservat", "sincronizzat", "stabilizzat",
 ] as const;
 
 /** Verbs with the forms needed to build reliable agreement distractors. */
@@ -50,6 +79,22 @@ const AGREEMENT_VERBS = [
   { sg3: "conferma", pl3: "confermano", p1pl: "confermiamo", part: "confermato", object: "la misura" },
   { sg3: "salva", pl3: "salvano", p1pl: "salviamo", part: "salvato", object: "il log" },
   { sg3: "aggiorna", pl3: "aggiornano", p1pl: "aggiorniamo", part: "aggiornato", object: "la mappa" },
+  { sg3: "misura", pl3: "misurano", p1pl: "misuriamo", part: "misurato", object: "la temperatura" },
+  { sg3: "confronta", pl3: "confrontano", p1pl: "confrontiamo", part: "confrontato", object: "le fonti" },
+  { sg3: "segnala", pl3: "segnalano", p1pl: "segnaliamo", part: "segnalato", object: "l'anomalia" },
+  { sg3: "riduce", pl3: "riducono", p1pl: "riduciamo", part: "ridotto", object: "il rischio" },
+  { sg3: "aumenta", pl3: "aumentano", p1pl: "aumentiamo", part: "aumentato", object: "la precisione" },
+  { sg3: "protegge", pl3: "proteggono", p1pl: "proteggiamo", part: "protetto", object: "il circuito" },
+  { sg3: "riavvia", pl3: "riavviano", p1pl: "riavviamo", part: "riavviato", object: "il sistema" },
+  { sg3: "ripara", pl3: "riparano", p1pl: "ripariamo", part: "riparato", object: "il guasto" },
+  { sg3: "isola", pl3: "isolano", p1pl: "isoliamo", part: "isolato", object: "il ramo difettoso" },
+  { sg3: "valida", pl3: "validano", p1pl: "validiamo", part: "validato", object: "il risultato" },
+  { sg3: "ordina", pl3: "ordinano", p1pl: "ordiniamo", part: "ordinato", object: "la sequenza" },
+  { sg3: "descrive", pl3: "descrivono", p1pl: "descriviamo", part: "descritto", object: "la causa" },
+  { sg3: "riassume", pl3: "riassumono", p1pl: "riassumiamo", part: "riassunto", object: "il rapporto" },
+  { sg3: "distingue", pl3: "distinguono", p1pl: "distinguiamo", part: "distinto", object: "fatto e opinione" },
+  { sg3: "conserva", pl3: "conservano", p1pl: "conserviamo", part: "conservato", object: "la copia" },
+  { sg3: "sincronizza", pl3: "sincronizzano", p1pl: "sincronizziamo", part: "sincronizzato", object: "l'orario" },
 ] as const;
 
 type VerbMasteryItem = {
@@ -78,9 +123,46 @@ const EVERYDAY_SUBJECTS = [
   { sg: "La finestra", pl: "Le finestre", gender: "f" },
   { sg: "Il bicchiere", pl: "I bicchieri", gender: "m" },
   { sg: "La sedia", pl: "Le sedie", gender: "f" },
+  { sg: "Il quaderno", pl: "I quaderni", gender: "m" },
+  { sg: "La matita", pl: "Le matite", gender: "f" },
+  { sg: "Il telefono", pl: "I telefoni", gender: "m" },
+  { sg: "La cartella", pl: "Le cartelle", gender: "f" },
+  { sg: "Il tavolo", pl: "I tavoli", gender: "m" },
+  { sg: "La cucina", pl: "Le cucine", gender: "f" },
+  { sg: "Il cassetto", pl: "I cassetti", gender: "m" },
+  { sg: "La borsa", pl: "Le borse", gender: "f" },
+  { sg: "Il biglietto", pl: "I biglietti", gender: "m" },
+  { sg: "La bottiglia", pl: "Le bottiglie", gender: "f" },
+  { sg: "Il piatto", pl: "I piatti", gender: "m" },
+  { sg: "La scarpa", pl: "Le scarpe", gender: "f" },
+  { sg: "Il messaggio", pl: "I messaggi", gender: "m" },
+  { sg: "La domanda", pl: "Le domande", gender: "f" },
+  { sg: "Il compito", pl: "I compiti", gender: "m" },
+  { sg: "La risposta", pl: "Le risposte", gender: "f" },
+  { sg: "Il panino", pl: "I panini", gender: "m" },
+  { sg: "La merenda", pl: "Le merende", gender: "f" },
+  { sg: "Il treno", pl: "I treni", gender: "m" },
+  { sg: "La fermata", pl: "Le fermate", gender: "f" },
+  { sg: "Il parco", pl: "I parchi", gender: "m" },
+  { sg: "La strada", pl: "Le strade", gender: "f" },
+  { sg: "Il gioco", pl: "I giochi", gender: "m" },
+  { sg: "La canzone", pl: "Le canzoni", gender: "f" },
+  { sg: "Il documento", pl: "I documenti", gender: "m" },
+  { sg: "La password", pl: "Le password", gender: "f" },
+  { sg: "Il vicino", pl: "I vicini", gender: "m" },
+  { sg: "La squadra", pl: "Le squadre", gender: "f" },
+  { sg: "Il prezzo", pl: "I prezzi", gender: "m" },
+  { sg: "La ricevuta", pl: "Le ricevute", gender: "f" },
+  { sg: "Il disegno", pl: "I disegni", gender: "m" },
+  { sg: "La storia", pl: "Le storie", gender: "f" },
 ] as const;
 
-const EVERYDAY_ADJ_ROOTS = ["pront", "apert", "chius", "pulit", "nuov", "acces", "spent", "rott"] as const;
+const EVERYDAY_ADJ_ROOTS = [
+  "pront", "apert", "chius", "pulit", "nuov", "acces", "spent", "rott",
+  "ordinat", "bagnat", "asciutt", "pien", "vuot", "liber", "occupat",
+  "calm", "fredd", "cald", "sicur", "comod", "corrett", "sbagliat",
+  "lent", "rapid", "colorat", "segnat", "copiat", "salvat", "trovat",
+] as const;
 
 type SubjectPool = readonly { sg: string; pl: string; gender: "m" | "f" }[];
 
@@ -1043,6 +1125,9 @@ export class LanguageCorruptionGenerator {
   }
 
   private buildLexiconPrompt(random: Random, level: number, index: number): LanguageMinigamePrompt {
+    if (random.bool(0.72)) {
+      return this.buildVocabularyBankLexiconPrompt(random, level, index);
+    }
     const pool = [
       {
         context: "Il tester non dimostra ancora il guasto: mostra solo una ___ da verificare.",
@@ -1254,6 +1339,80 @@ export class LanguageCorruptionGenerator {
       concept: item.concept,
       signature: `lexicon-${item.context}-${item.correct}`,
     };
+  }
+
+  private buildVocabularyBankLexiconPrompt(random: Random, level: number, index: number): LanguageMinigamePrompt {
+    const pool = italianVocabularyByMaxLevel(level);
+    const item = random.pick(pool.length > 0 ? pool : italianVocabularyEntries);
+    const distractors = this.italianVocabularyDistractors(random, item, level);
+    const category = italianVocabularyCategoryLabels[item.category];
+    const scenario = this.italianVocabularyScenario(item);
+    const explanation = `La parola precisa è «${item.term}»: indica ${item.clue}. Il contesto è ${category}, quindi non basta una parola simile o più generica.`;
+    const tiles = this.shuffleLanguageTiles(random, [
+      this.languageTile(index, item.term, true, `Corretto: ${explanation}`),
+      ...distractors.map((entry, choiceIndex) => this.languageTile(
+        index + choiceIndex + 1,
+        entry.term,
+        false,
+        `Lessico non adatto: «${entry.term}» indica ${entry.clue}; qui l'indizio chiede ${item.clue}.`,
+      )),
+    ]);
+    return {
+      id: `lexicon-bank-${index}`,
+      type: "lexicon-lab",
+      prompt: "Scegli la parola italiana più precisa per una situazione reale.",
+      context: `Scenario: ${scenario} Indizio: ${item.clue}.`,
+      targetLabel: "Parola precisa",
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [item.term],
+      explanation,
+      concept: `${category} · ${item.wordClass}`,
+      signature: `lexicon-bank-${item.id}`,
+    };
+  }
+
+  private italianVocabularyDistractors(random: Random, item: ItalianVocabularyEntry, level: number): ItalianVocabularyEntry[] {
+    const labelOf = (entry: ItalianVocabularyEntry) => entry.term.trim().toLocaleLowerCase("it");
+    const used = new Set<string>([labelOf(item)]);
+    const pool = italianVocabularyByMaxLevel(level).filter((entry) => entry.id !== item.id);
+    const tiers = [
+      pool.filter((entry) => entry.category === item.category && entry.wordClass === item.wordClass),
+      pool.filter((entry) => entry.wordClass === item.wordClass),
+      italianVocabularyEntries.filter((entry) => entry.id !== item.id),
+    ];
+    const result: ItalianVocabularyEntry[] = [];
+    for (const tier of tiers) {
+      const close = random.shuffle(tier)
+        .filter((entry) => !used.has(labelOf(entry)))
+        .sort((a, b) => Math.abs(a.term.length - item.term.length) - Math.abs(b.term.length - item.term.length));
+      for (const entry of close) {
+        const label = labelOf(entry);
+        if (used.has(label)) continue;
+        used.add(label);
+        result.push(entry);
+        if (result.length >= 3) return result;
+      }
+    }
+    return result;
+  }
+
+  private italianVocabularyScenario(item: ItalianVocabularyEntry): string {
+    const scenarios: Record<ItalianVocabularyEntry["category"], string> = {
+      "casa-famiglia": "stai organizzando una cosa di casa e devi usare il nome giusto, non una parola vaga.",
+      "scuola-studio": "un compagno ti chiede di spiegare un'attività scolastica in modo chiaro.",
+      "cibo-spesa": "devi leggere una lista o uno scontrino senza confondere prodotto, prezzo e quantità.",
+      "tempo-meteo": "stai pianificando la giornata e una parola di tempo cambia la decisione.",
+      "viaggi-luoghi": "devi dare un'indicazione utile a chi deve arrivare nel posto corretto.",
+      "corpo-salute": "devi descrivere un sintomo o una precauzione senza esagerare.",
+      "emozioni-relazioni": "devi scegliere una parola rispettosa per descrivere una situazione tra persone.",
+      "digitale-media": "stai scrivendo un messaggio o proteggendo un file: serve il termine preciso.",
+      "lavoro-comunita": "devi capire un avviso pubblico o una responsabilità condivisa.",
+      "sport-tempo-libero": "stai raccontando un gioco, un hobby o una gara con parole concrete.",
+      "natura-ambiente": "devi descrivere ambiente, risorse o raccolta differenziata in modo corretto.",
+      "pensiero-linguaggio": "devi distinguere prove, opinioni, cause e conclusioni in un testo.",
+    };
+    return scenarios[item.category];
   }
 
   private buildVerbMasteryPrompt(random: Random, level: number, index: number): LanguageMinigamePrompt {
@@ -1695,7 +1854,9 @@ export class LanguageCorruptionGenerator {
       { sentence: "Il rapporto distingue i fatti dalle interpretazioni personali", concept: "complemento di separazione" },
       { sentence: "La console accetta il comando dopo la verifica finale", concept: "sequenza temporale" },
     ];
-    const item = random.pick(level >= 4 ? [...pool, ...advanced] : pool);
+    const item = random.bool(0.62)
+      ? this.parametricItalianWordOrderItem(random, level)
+      : random.pick(level >= 4 ? [...pool, ...advanced] : pool);
     const words = item.sentence.split(/\s+/);
     const tiles = this.shuffleLanguageTiles(
       random,
@@ -1714,6 +1875,125 @@ export class LanguageCorruptionGenerator {
       explanation,
       concept: item.concept,
       signature: `word-order-${item.sentence}`,
+    };
+  }
+
+  private parametricItalianWordOrderItem(random: Random, level: number): { sentence: string; concept: string } {
+    const everyday = [
+      { subject: "La squadra", verb: "controlla", object: "la lista", tail: "prima della partenza", concept: "sequenza quotidiana" },
+      { subject: "Il compagno", verb: "spiega", object: "il passaggio", tail: "con un esempio semplice", concept: "chiarezza nello studio" },
+      { subject: "La famiglia", verb: "prepara", object: "la cena", tail: "dopo la spesa", concept: "ordine temporale quotidiano" },
+      { subject: "Il telefono", verb: "mostra", object: "una notifica", tail: "durante la lezione", concept: "soggetto-verbo-complemento" },
+      { subject: "La biblioteca", verb: "apre", object: "la sala studio", tail: "alle tre", concept: "informazione di orario" },
+      { subject: "Il vicino", verb: "restituisce", object: "la chiave", tail: "prima di uscire", concept: "azione e tempo" },
+      { subject: "La farmacia", verb: "consegna", object: "la medicina", tail: "con lo scontrino", concept: "azione e complemento" },
+      { subject: "Il treno", verb: "raggiunge", object: "la stazione", tail: "senza ritardo", concept: "spostamento e modo" },
+      { subject: "La palestra", verb: "organizza", object: "un allenamento", tail: "per la squadra", concept: "scopo e destinatario" },
+      { subject: "Il parco", verb: "offre", object: "uno spazio tranquillo", tail: "dopo la scuola", concept: "descrizione utile" },
+      { subject: "La ricetta", verb: "indica", object: "gli ingredienti", tail: "in ordine", concept: "ordine informativo" },
+      { subject: "Il messaggio", verb: "chiarisce", object: "l'appuntamento", tail: "senza ambiguità", concept: "precisione comunicativa" },
+      { subject: "La pioggia", verb: "ritarda", object: "la partita", tail: "di pochi minuti", concept: "causa quotidiana" },
+      { subject: "Il quaderno", verb: "conserva", object: "gli appunti", tail: "della verifica", concept: "studio e memoria" },
+      { subject: "La mappa", verb: "mostra", object: "il percorso", tail: "fino alla biblioteca", concept: "indicazione di luogo" },
+      { subject: "Il prezzo", verb: "cambia", object: "la scelta", tail: "durante la spesa", concept: "causa e decisione" },
+    ];
+    const complex = [
+      "Se il messaggio è ambiguo la squadra chiede una spiegazione",
+      "Quando la fonte è incerta il rapporto resta provvisorio",
+      "Prima di confermare la risposta rileggi la domanda",
+      "Dopo la verifica il compagno corregge gli errori principali",
+      "Per arrivare puntuale controlla l'orario prima di uscire",
+      "Se il prezzo aumenta confronta un prodotto simile",
+      "Quando il tempo peggiora la classe sposta l'attività in palestra",
+      "Prima di condividere una foto chiedi il permesso",
+      "Dopo aver studiato la regola prova un esempio nuovo",
+      "Se una frase sembra falsa cerca una prova verificabile",
+      "Quando un amico sbaglia offri una correzione gentile",
+      "Prima di comprare un oggetto controlla prezzo e qualità",
+    ].map((sentence) => ({ sentence, concept: "subordinata in contesto reale" }));
+    const proverbs = [
+      "Meglio tardi che mai",
+      "Sbagliando si impara",
+      "L'unione fa la forza",
+      "Chi va piano arriva lontano",
+      "Il tempo è denaro",
+      "Patti chiari mantengono lunga l'amicizia",
+      "Non è tutto oro quel che luccica",
+      "A buon intenditor bastano poche parole",
+      "Meglio prevenire che curare",
+      "Volere è potere",
+    ].map((sentence) => ({ sentence, concept: "proverbio comune e ordine stabile" }));
+    if (level >= 5 && random.bool(0.24)) {
+      return random.pick(proverbs);
+    }
+    if (level >= 4 && random.bool(0.46)) {
+      return random.pick(complex);
+    }
+    if (random.bool(0.18)) {
+      const item = random.pick(everyday);
+      return {
+        sentence: `${item.subject} ${item.verb} ${item.object} ${item.tail}`,
+        concept: item.concept,
+      };
+    }
+    const humanSubjects = ["Il compagno", "La studentessa", "La squadra", "Il vicino", "La famiglia", "Il responsabile", "La classe", "Il tecnico", "L'amica", "Il gruppo"] as const;
+    const humanActions = [
+      { verb: "controlla", object: "la lista", concept: "controllo quotidiano" },
+      { verb: "prepara", object: "la cartella", concept: "organizzazione personale" },
+      { verb: "confronta", object: "due prezzi", concept: "confronto nella spesa" },
+      { verb: "chiede", object: "un'indicazione", concept: "richiesta comunicativa" },
+      { verb: "salva", object: "il documento", concept: "azione digitale" },
+      { verb: "corregge", object: "la risposta", concept: "studio e revisione" },
+      { verb: "ascolta", object: "la spiegazione", concept: "comprensione orale" },
+      { verb: "condivide", object: "il compito", concept: "collaborazione" },
+      { verb: "riassume", object: "il capitolo", concept: "sintesi" },
+      { verb: "rispetta", object: "la regola", concept: "convivenza" },
+      { verb: "prenota", object: "la visita", concept: "salute e organizzazione" },
+      { verb: "compra", object: "il biglietto", concept: "spostamento quotidiano" },
+    ] as const;
+    const humanTails = ["prima di uscire", "dopo la lezione", "con calma", "senza fretta", "per aiutare il gruppo", "entro la scadenza", "durante la pausa", "nel quaderno", "sul telefono", "prima della verifica"] as const;
+    const infoFrames = [
+      { subject: "Il messaggio", verb: "chiarisce", object: "l'appuntamento" },
+      { subject: "La mappa", verb: "mostra", object: "il percorso" },
+      { subject: "Il diario", verb: "ricorda", object: "la scadenza" },
+      { subject: "La ricetta", verb: "elenca", object: "gli ingredienti" },
+      { subject: "L'orario", verb: "indica", object: "la partenza" },
+      { subject: "Il rapporto", verb: "distingue", object: "fatti e opinioni" },
+      { subject: "La notifica", verb: "segnala", object: "il ritardo" },
+      { subject: "La fonte", verb: "conferma", object: "la notizia" },
+      { subject: "Il grafico", verb: "mostra", object: "l'aumento" },
+      { subject: "La tabella", verb: "confronta", object: "i dati" },
+    ] as const;
+    const infoTails = ["in modo chiaro", "con precisione", "senza dettagli inutili", "prima della decisione", "per tutti", "nel punto giusto", "con un esempio", "senza contraddizioni"] as const;
+    const placeFrames = [
+      { subject: "La biblioteca", verb: "apre", object: "la sala studio" },
+      { subject: "La farmacia", verb: "consegna", object: "la medicina" },
+      { subject: "Il supermercato", verb: "espone", object: "l'offerta" },
+      { subject: "La palestra", verb: "organizza", object: "l'allenamento" },
+      { subject: "La stazione", verb: "annuncia", object: "il binario" },
+      { subject: "Il parco", verb: "offre", object: "uno spazio tranquillo" },
+      { subject: "Il municipio", verb: "pubblica", object: "l'avviso" },
+      { subject: "La scuola", verb: "prepara", object: "l'incontro" },
+    ] as const;
+    const placeTails = ["nel pomeriggio", "alle tre", "per la comunità", "senza ritardo", "durante la settimana", "prima della chiusura", "con un cartello chiaro", "per gli studenti"] as const;
+    if (random.bool(0.42)) {
+      const action = random.pick(humanActions);
+      return {
+        sentence: `${random.pick(humanSubjects)} ${action.verb} ${action.object} ${random.pick(humanTails)}`,
+        concept: action.concept,
+      };
+    }
+    if (random.bool(0.55)) {
+      const frame = random.pick(infoFrames);
+      return {
+        sentence: `${frame.subject} ${frame.verb} ${frame.object} ${random.pick(infoTails)}`,
+        concept: "informazione chiara in contesto reale",
+      };
+    }
+    const frame = random.pick(placeFrames);
+    return {
+      sentence: `${frame.subject} ${frame.verb} ${frame.object} ${random.pick(placeTails)}`,
+      concept: "luogo pubblico e informazione utile",
     };
   }
 

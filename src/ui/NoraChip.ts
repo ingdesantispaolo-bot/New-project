@@ -11,10 +11,10 @@ class NoraChip {
     this.current.get(scene)?.destroy(true);
 
     const accent = tone === "success" ? 0x6be7d6 : tone === "warning" ? 0xf6c85f : 0x9ff5e9;
-    const width = 470;
-    const height = 86;
+    const width = 310;
+    const height = 94;
     const x = 28;
-    const y = 612;
+    const y = 604;
 
     const container = scene.add.container(x - 40, y).setDepth(9300).setScrollFactor(0).setAlpha(0);
 
@@ -23,25 +23,25 @@ class NoraChip {
     container.add(scene.add.rectangle(0, 0, 5, height, accent, 1).setOrigin(0));
 
     // NORA "face": a calm core with an orbit ring.
-    const faceX = 48;
+    const faceX = 42;
     const faceY = height / 2;
-    container.add(scene.add.circle(faceX, faceY, 26, 0x0c2630, 1).setStrokeStyle(2, accent, 0.8));
-    const core = scene.add.circle(faceX, faceY, 11, accent, 0.95);
+    container.add(scene.add.circle(faceX, faceY, 24, 0x0c2630, 1).setStrokeStyle(2, accent, 0.8));
+    const core = scene.add.circle(faceX, faceY, 10, accent, 0.95);
     container.add(core);
     container.add(scene.add.circle(faceX, faceY, 4, 0xffffff, 0.9));
 
-    container.add(scene.add.text(86, 14, "NORA", {
+    container.add(scene.add.text(78, 13, "NORA", {
       fontFamily: "Inter, Arial",
-      fontSize: "13px",
+      fontSize: "12px",
       color: "#f6c85f",
       fontStyle: "bold",
     }));
-    container.add(scene.add.text(86, 34, text, {
+    container.add(scene.add.text(78, 32, text, {
       fontFamily: "Inter, Arial",
-      fontSize: "13px",
+      fontSize: "12px",
       color: "#eaf4f8",
-      wordWrap: { width: width - 104, useAdvancedWrap: true },
-      lineSpacing: 3,
+      wordWrap: { width: width - 92, useAdvancedWrap: true },
+      lineSpacing: 2,
     }));
 
     this.current.set(scene, container);

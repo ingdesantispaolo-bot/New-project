@@ -363,6 +363,7 @@ export type CircuitComponentChallenge = {
   correctFunction: string;
   symbolChoices: string[];
   functionChoices: string[];
+  visualHint: string;
   explanation: string;
 };
 

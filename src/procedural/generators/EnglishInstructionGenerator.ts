@@ -1043,9 +1043,11 @@ export class EnglishInstructionGenerator {
       { sentence: "I was reading the data", concept: "past continuous word order", glossary: [{ term: "was reading", meaning: "stavo leggendo" }] },
       { sentence: "If I were you I would wait", concept: "second conditional order", glossary: [{ term: "if I were you", meaning: "se fossi in te" }] },
     ];
-    const item = random.pick(level >= 4 ? [...base, ...advanced] : base);
+    const item = random.bool(0.58)
+      ? this.parametricEnglishSentenceBuildItem(random, level)
+      : random.pick(level >= 4 ? [...base, ...advanced] : base);
     const words = item.sentence.split(/\s+/);
-    const isQuestion = ["does", "did", "where", "do", "is", "are", "can"].includes(words[0].toLowerCase());
+    const isQuestion = ["does", "did", "where", "what", "why", "when", "how", "who", "do", "is", "are", "can", "have", "has", "could", "should", "would"].includes(words[0].toLowerCase());
     const tiles = this.shuffleEnglishTiles(
       random,
       words.map((word, position) => this.englishTile(index * 100 + position, word, true, "Word of the sentence: mind its position.")),
@@ -1067,6 +1069,66 @@ export class EnglishInstructionGenerator {
       glossary: item.glossary,
       signature: `sentence-build-${item.sentence}`,
     };
+  }
+
+  private parametricEnglishSentenceBuildItem(random: Random, level: number): { sentence: string; concept: string; glossary: Array<{ term: string; meaning: string }> } {
+    const everyday = [
+      { sentence: "My sister checks the timetable before school", concept: "everyday sequence", glossary: [{ term: "timetable", meaning: "orario" }, { term: "before", meaning: "prima" }] },
+      { sentence: "The teacher explains the rule with an example", concept: "school communication", glossary: [{ term: "explains", meaning: "spiega" }, { term: "example", meaning: "esempio" }] },
+      { sentence: "We compare two prices at the supermarket", concept: "shopping context", glossary: [{ term: "compare", meaning: "confrontare" }, { term: "price", meaning: "prezzo" }] },
+      { sentence: "The bus leaves from platform three", concept: "travel information", glossary: [{ term: "leaves", meaning: "parte" }, { term: "platform", meaning: "binario" }] },
+      { sentence: "This app protects your password", concept: "digital safety", glossary: [{ term: "protects", meaning: "protegge" }, { term: "password", meaning: "password" }] },
+      { sentence: "The doctor checks the appointment time", concept: "health appointment", glossary: [{ term: "appointment", meaning: "appuntamento" }, { term: "checks", meaning: "controlla" }] },
+      { sentence: "Our team collects evidence before deciding", concept: "evidence before decision", glossary: [{ term: "evidence", meaning: "prove" }, { term: "before", meaning: "prima" }] },
+      { sentence: "The message gives clear directions to the library", concept: "directions", glossary: [{ term: "directions", meaning: "indicazioni" }, { term: "library", meaning: "biblioteca" }] },
+      { sentence: "A careful student saves the file twice", concept: "study habit", glossary: [{ term: "careful", meaning: "attento" }, { term: "twice", meaning: "due volte" }] },
+      { sentence: "The weather forecast changes our plan", concept: "weather and plans", glossary: [{ term: "forecast", meaning: "previsioni" }, { term: "plan", meaning: "piano" }] },
+      { sentence: "Please write the address in your notebook", concept: "polite imperative", glossary: [{ term: "please", meaning: "per favore" }, { term: "address", meaning: "indirizzo" }] },
+      { sentence: "The recipe lists the ingredients in order", concept: "everyday procedure", glossary: [{ term: "recipe", meaning: "ricetta" }, { term: "ingredients", meaning: "ingredienti" }] },
+      { sentence: "The class discusses a reliable source", concept: "critical reading", glossary: [{ term: "reliable", meaning: "affidabile" }, { term: "source", meaning: "fonte" }] },
+      { sentence: "The coach gives useful feedback after training", concept: "feedback and sport", glossary: [{ term: "coach", meaning: "allenatore" }, { term: "feedback", meaning: "riscontro" }] },
+      { sentence: "A polite answer keeps the conversation calm", concept: "communication register", glossary: [{ term: "polite", meaning: "cortese" }, { term: "conversation", meaning: "conversazione" }] },
+      { sentence: "The group shares the task fairly", concept: "collaboration", glossary: [{ term: "shares", meaning: "divide/condivide" }, { term: "fairly", meaning: "in modo equo" }] },
+    ];
+    const questions = [
+      { sentence: "Did you save the file before lunch", concept: "past simple question", glossary: [{ term: "did you save", meaning: "hai salvato" }, { term: "before lunch", meaning: "prima di pranzo" }] },
+      { sentence: "Where is the nearest pharmacy", concept: "where question", glossary: [{ term: "nearest", meaning: "più vicino" }, { term: "pharmacy", meaning: "farmacia" }] },
+      { sentence: "How can we check this source", concept: "how question", glossary: [{ term: "how can we", meaning: "come possiamo" }, { term: "source", meaning: "fonte" }] },
+      { sentence: "Why did the bus arrive late", concept: "why past question", glossary: [{ term: "why", meaning: "perché" }, { term: "late", meaning: "in ritardo" }] },
+      { sentence: "Have you finished the summary yet", concept: "present perfect question", glossary: [{ term: "yet", meaning: "ancora / già in domanda" }, { term: "summary", meaning: "riassunto" }] },
+      { sentence: "Could you repeat the last instruction", concept: "polite request", glossary: [{ term: "could you", meaning: "potresti" }, { term: "repeat", meaning: "ripetere" }] },
+      { sentence: "Should we ask for another measurement", concept: "advice question", glossary: [{ term: "should", meaning: "dovremmo" }, { term: "measurement", meaning: "misura" }] },
+      { sentence: "What does reliable mean in this text", concept: "vocabulary question", glossary: [{ term: "reliable", meaning: "affidabile" }, { term: "mean", meaning: "significare" }] },
+    ];
+    const complex = [
+      { sentence: "If the bus is late we send a message", concept: "first conditional", glossary: [{ term: "if", meaning: "se" }, { term: "late", meaning: "in ritardo" }] },
+      { sentence: "When the source is unclear we ask for proof", concept: "when + response", glossary: [{ term: "unclear", meaning: "poco chiaro" }, { term: "proof", meaning: "prova" }] },
+      { sentence: "Although the answer is quick it is not accurate", concept: "although contrast", glossary: [{ term: "although", meaning: "sebbene" }, { term: "accurate", meaning: "preciso" }] },
+      { sentence: "Before you share a photo ask for permission", concept: "before + imperative", glossary: [{ term: "share", meaning: "condividere" }, { term: "permission", meaning: "permesso" }] },
+      { sentence: "The route is safer because it avoids traffic", concept: "because + reason", glossary: [{ term: "safer", meaning: "più sicuro" }, { term: "traffic", meaning: "traffico" }] },
+      { sentence: "We will start when everyone is ready", concept: "future with when", glossary: [{ term: "will start", meaning: "inizieremo" }, { term: "everyone", meaning: "tutti" }] },
+      { sentence: "The report is useful because it separates facts and opinions", concept: "reason and critical reading", glossary: [{ term: "facts", meaning: "fatti" }, { term: "opinions", meaning: "opinioni" }] },
+      { sentence: "If I were you I would check the evidence", concept: "second conditional", glossary: [{ term: "if I were you", meaning: "se fossi in te" }, { term: "would", meaning: "condizionale" }] },
+    ];
+    const proverbs = [
+      { sentence: "Practice makes perfect", concept: "common proverb", glossary: [{ term: "practice", meaning: "esercizio" }, { term: "perfect", meaning: "perfetto" }] },
+      { sentence: "Better late than never", concept: "common proverb", glossary: [{ term: "better", meaning: "meglio" }, { term: "never", meaning: "mai" }] },
+      { sentence: "Actions speak louder than words", concept: "common proverb", glossary: [{ term: "actions", meaning: "azioni" }, { term: "words", meaning: "parole" }] },
+      { sentence: "Look before you leap", concept: "common proverb", glossary: [{ term: "look before", meaning: "guarda prima" }, { term: "leap", meaning: "saltare" }] },
+      { sentence: "Time is money", concept: "common proverb", glossary: [{ term: "time", meaning: "tempo" }, { term: "money", meaning: "denaro" }] },
+      { sentence: "Honesty is the best policy", concept: "common proverb", glossary: [{ term: "honesty", meaning: "onestà" }, { term: "policy", meaning: "regola / linea" }] },
+      { sentence: "Good things take time", concept: "common proverb", glossary: [{ term: "good things", meaning: "cose buone" }, { term: "take time", meaning: "richiedono tempo" }] },
+    ];
+    if (level >= 6 && random.bool(0.2)) {
+      return random.pick(proverbs);
+    }
+    if (level >= 4 && random.bool(0.4)) {
+      return random.pick(complex);
+    }
+    if (level >= 3 && random.bool(0.32)) {
+      return random.pick(questions);
+    }
+    return random.pick(everyday);
   }
 
   private englishSentenceDistractors(random: Random, words: string[]): string[] {

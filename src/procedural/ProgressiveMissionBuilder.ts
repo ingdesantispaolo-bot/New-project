@@ -403,10 +403,10 @@ export class ProgressiveMissionBuilder {
   private circuitFaultsForProgressive(level: DifficultyLevel, attempt: number): CircuitFaultType[] {
     const pools: CircuitFaultType[][] = [
       ["missing-wire", "open-switch"],
-      ["missing-resistor", "wrong-resistor-value", "reversed-led"],
-      ["sensor-unpowered", "disconnected-component", "short-circuit"],
-      ["parallel-branch-open", "capacitor-discharged", "loose-ground"],
-      ["relay-not-armed", "short-circuit", "wrong-resistor-value", "parallel-branch-open"],
+      ["missing-resistor"],
+      ["reversed-led", "wrong-resistor-value"],
+      ["sensor-unpowered", "disconnected-component", "parallel-branch-open"],
+      ["capacitor-discharged", "loose-ground", "short-circuit", "relay-not-armed"],
     ];
     const maxIndex = level <= 2 ? 1 : level <= 4 ? 2 : level <= 6 ? 3 : 4;
     return pools[(attempt + level) % (maxIndex + 1)];

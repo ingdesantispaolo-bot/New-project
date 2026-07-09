@@ -14,7 +14,17 @@ const TEMPLATE_ARCHETYPES: Archetype[] = [
   "ragionamento-inverso", "pre-algebra", "potenze-radici", "diagnosi-errore", "sistemi-lineari",
 ];
 
-const MINIGAME_TYPES: MathMinigameType[] = ["target-sum", "factor-hunt", "operation-chain", "number-sequence", "expression-build"];
+const MINIGAME_TYPES: MathMinigameType[] = [
+  "target-sum",
+  "factor-hunt",
+  "operation-chain",
+  "number-sequence",
+  "expression-build",
+  "fraction-lab",
+  "ratio-proportion",
+  "geometry-measure",
+  "data-probability",
+];
 
 function evaluateOperatorInsertion(numbers: number[], operators: string[]): number {
   const values = [...numbers];
@@ -131,11 +141,11 @@ describe("Math minigame tiles give diagnostic wrong-answer feedback", () => {
   const gen = new MathPuzzleGenerator();
 
   it("wrong tiles explain the specific error, not a vague 'off target'", () => {
-    const diag = /divisibile|resto|divide|addendo|somma|bersaglio|sequenza|regola|totale|non entra|multiplo|intero/i;
+    const diag = /divisibile|resto|divide|addendo|somma|bersaglio|sequenza|regola|totale|non entra|multiplo|intero|frazione|percentuale|denominatore|rapporto|unitario|proporzione|scala|unita|formula|perimetro|area|volume|pitagora|media|mediana|moda|probabilita|complementare|frequenza|massimo|minimo/i;
     const vague = /^(?:.*\bporta fuori bersaglio\.?|.*\bparte della somma\.?)$/i;
     let wrong = 0;
     let diagnostic = 0;
-    for (const type of ["target-sum", "factor-hunt", "number-sequence"] as const) {
+    for (const type of ["target-sum", "factor-hunt", "number-sequence", "fraction-lab", "ratio-proportion", "geometry-measure", "data-probability"] as const) {
       for (let level = 1 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
         const preset = difficultyModel.getPreset(level);
         for (let i = 0; i < 12; i += 1) {
@@ -151,6 +161,49 @@ describe("Math minigame tiles give diagnostic wrong-answer feedback", () => {
     }
     expect(wrong).toBeGreaterThan(50);
     expect(diagnostic / wrong).toBeGreaterThan(0.9);
+  });
+
+  it("expands playable math across the middle-school nuclei", () => {
+    const preset = difficultyModel.getPreset(8);
+    const expected: Array<{ type: MathMinigameType; match: RegExp; label: string }> = [
+      { type: "fraction-lab", match: /frazion|percentual|equivalenz/i, label: "Numeri: frazioni e percentuali" },
+      { type: "ratio-proportion", match: /proporzion|rapport|scala|unitario/i, label: "Relazioni e funzioni: proporzioni" },
+      { type: "geometry-measure", match: /geometr|misur|pitagora|area|volume/i, label: "Spazio e figure: misure" },
+      { type: "data-probability", match: /statistic|probabilit|media|mediana|moda|dati/i, label: "Dati e previsioni" },
+    ];
+    for (const item of expected) {
+      const puzzle = gen.generateMinigame(new Random(`nuclei:${item.type}`), preset, [item.type]);
+      const prompts = puzzle.minigame?.prompts ?? [];
+      const text = [
+        puzzle.archetype,
+        ...(puzzle.curriculumTags ?? []),
+        ...puzzle.competencies,
+        ...prompts.map((prompt) => `${prompt.concept} ${prompt.explanation}`),
+      ].join(" ");
+      expect(prompts.length, item.label).toBeGreaterThan(20);
+      expect(item.match.test(text), item.label).toBe(true);
+    }
+  });
+
+  it("attaches drawable geometry metadata for area and perimeter exercises", () => {
+    const preset = difficultyModel.getPreset(8);
+    const shapes = new Set<string>();
+    const measures = new Set<string>();
+    for (let sample = 0; sample < 18; sample += 1) {
+      const puzzle = gen.generateMinigame(new Random(`geo-visual:${sample}`), preset, ["geometry-measure"]);
+      for (const prompt of puzzle.minigame?.prompts ?? []) {
+        expect(prompt.geometryVisual, prompt.id).toBeDefined();
+        expect(prompt.geometryVisual?.unit, prompt.id).toMatch(/^(?:m|cm)$/);
+        expect(prompt.geometryVisual?.shape, prompt.id).toMatch(/^(?:rectangle|triangle|box|right-triangle|circle)$/);
+        expect(prompt.geometryVisual?.measure, prompt.id).toMatch(/^(?:perimeter|area|volume|hypotenuse|circumference)$/);
+        shapes.add(prompt.geometryVisual?.shape ?? "");
+        measures.add(prompt.geometryVisual?.measure ?? "");
+      }
+    }
+    expect(shapes.has("rectangle")).toBe(true);
+    expect(shapes.has("triangle")).toBe(true);
+    expect(measures.has("perimeter")).toBe(true);
+    expect(measures.has("area")).toBe(true);
   });
 
   it("keeps every generated minigame session varied, complete and structurally solvable", () => {

@@ -6,6 +6,7 @@ import type {
   GeneratedMathMinigame,
   GeneratedMathPuzzle,
   GraphReadingStep,
+  MathGeometryVisual,
   MathMinigamePrompt,
   MathMinigameTile,
   MathMinigameType,
@@ -21,6 +22,23 @@ type OperationDefinition = {
   apply: (value: number) => number;
   valid?: (value: number) => boolean;
 };
+
+type ChoiceCandidate = {
+  label: string;
+  value: number;
+  feedback: string;
+};
+
+function gcd(left: number, right: number): number {
+  let a = Math.abs(left);
+  let b = Math.abs(right);
+  while (b !== 0) {
+    const next = a % b;
+    a = b;
+    b = next;
+  }
+  return a || 1;
+}
 
 export class MathPuzzleGenerator {
   generate(random: Random, difficulty: DifficultyPreset, preferredArchetypes: Array<(typeof mathTemplates)[number]["archetype"]> = []): GeneratedMathPuzzle {
@@ -159,12 +177,45 @@ export class MathPuzzleGenerator {
     difficulty: DifficultyPreset,
     preferredTypes: MathMinigameType[] = [],
   ): GeneratedMathPuzzle {
+    const minigameTypes: MathMinigameType[] = [
+      "target-sum",
+      "factor-hunt",
+      "operation-chain",
+      "number-sequence",
+      "expression-build",
+      "fraction-lab",
+      "ratio-proportion",
+      "geometry-measure",
+      "data-probability",
+    ];
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<MathMinigameType>(["target-sum", "factor-hunt", "operation-chain", "number-sequence", "expression-build"]);
+      : random.pick<MathMinigameType>(minigameTypes);
     const minigame = this.buildMinigame(random.fork(type), difficulty, type);
     const first = minigame.prompts[0];
     const firstSolution = first.solutionLabels.join(" + ");
+    const archetypes: Record<MathMinigameType, GeneratedMathPuzzle["archetype"]> = {
+      "target-sum": "calcolo-diretto",
+      "factor-hunt": "vincolo",
+      "operation-chain": "pre-algebra",
+      "number-sequence": "sequenza",
+      "expression-build": "pre-algebra",
+      "fraction-lab": "frazioni",
+      "ratio-proportion": "proporzione",
+      "geometry-measure": "geometria",
+      "data-probability": "statistica",
+    };
+    const curriculumTags: Record<MathMinigameType, string[]> = {
+      "target-sum": ["calcolo mentale", "scomposizione", "somma strategica"],
+      "factor-hunt": ["multipli", "divisori", "vincoli"],
+      "operation-chain": ["operazioni inverse", "espressioni", "trasformazioni"],
+      "number-sequence": ["sequenze", "regolarita", "pre-algebra"],
+      "expression-build": ["ordine delle operazioni", "espressioni", "priorita"],
+      "fraction-lab": ["frazioni", "percentuali", "equivalenze"],
+      "ratio-proportion": ["proporzioni", "rapporto unitario", "scale"],
+      "geometry-measure": ["perimetro", "area", "volume", "teorema di Pitagora"],
+      "data-probability": ["media", "mediana", "moda", "probabilita"],
+    };
     return {
       id: `math-mini-${type}-${random.integer(1000, 9999)}`,
       title: minigame.title,
@@ -179,12 +230,8 @@ export class MathPuzzleGenerator {
         "Scarta i distrattori con un controllo rapido: pari/dispari, multiplo, divisore o operazione inversa.",
         "Dopo ogni risposta, chiediti se hai seguito una regola o se hai solo provato.",
       ],
-      archetype: type === "target-sum" ? "calcolo-diretto" : type === "factor-hunt" ? "vincolo" : "pre-algebra",
-      curriculumTags: type === "target-sum"
-        ? ["calcolo mentale", "scomposizione", "somma strategica"]
-        : type === "factor-hunt"
-          ? ["multipli", "divisori", "vincoli"]
-          : ["operazioni inverse", "espressioni", "trasformazioni"],
+      archetype: archetypes[type],
+      curriculumTags: curriculumTags[type],
       solutionSteps: [
         `Leggi la regola del minigioco: ${minigame.instructions}`,
         `Prima schermata: ${first.targetLabel}.`,
@@ -230,6 +277,10 @@ export class MathPuzzleGenerator {
       "operation-chain": "Minigioco: Rotte delle operazioni",
       "number-sequence": "Minigioco: Indovina la sequenza",
       "expression-build": "Minigioco: Colpisci il bersaglio",
+      "fraction-lab": "Minigioco: Laboratorio frazioni",
+      "ratio-proportion": "Minigioco: Proporzioni in missione",
+      "geometry-measure": "Minigioco: Misure sul campo",
+      "data-probability": "Minigioco: Dati sotto pressione",
     };
     const instructions: Record<MathMinigameType, string> = {
       "target-sum": "seleziona solo le tessere che raggiungono il bersaglio esatto.",
@@ -237,6 +288,10 @@ export class MathPuzzleGenerator {
       "operation-chain": "scegli la trasformazione che porta dall'ingresso all'uscita.",
       "number-sequence": "scopri la regola della sequenza e scegli il numero che continua.",
       "expression-build": "inserisci gli operatori tra i numeri per ottenere il bersaglio.",
+      "fraction-lab": "leggi frazione o percentuale e scegli il valore coerente con la situazione.",
+      "ratio-proportion": "riduci al rapporto unitario o imposta la proporzione prima di scegliere.",
+      "geometry-measure": "riconosci la misura richiesta e applica la formula adatta.",
+      "data-probability": "leggi i dati, scegli l'indice corretto o la probabilita richiesta.",
     };
     return {
       type,
@@ -253,6 +308,10 @@ export class MathPuzzleGenerator {
         ...(type === "operation-chain" ? ["matematica.espressioni", "matematica.controlloErrore"] : []),
         ...(type === "number-sequence" ? ["matematica.logica"] : []),
         ...(type === "expression-build" ? ["matematica.espressioni", "matematica.operazioni"] : []),
+        ...(type === "fraction-lab" ? ["matematica.frazioni", "matematica.percentuali", "matematica.equivalenze"] : []),
+        ...(type === "ratio-proportion" ? ["matematica.proporzioni", "matematica.rapporti", "matematica.unitaMisura"] : []),
+        ...(type === "geometry-measure" ? ["matematica.geometria", "matematica.misure", "matematica.pitagora"] : []),
+        ...(type === "data-probability" ? ["matematica.statistica", "matematica.probabilita", "matematica.letturaDati"] : []),
       ])),
     };
   }
@@ -830,6 +889,18 @@ export class MathPuzzleGenerator {
     if (type === "expression-build") {
       return this.buildExpressionBuildPrompt(random, difficulty, index);
     }
+    if (type === "fraction-lab") {
+      return this.buildFractionLabPrompt(random, difficulty, index);
+    }
+    if (type === "ratio-proportion") {
+      return this.buildRatioProportionPrompt(random, difficulty, index);
+    }
+    if (type === "geometry-measure") {
+      return this.buildGeometryMeasurePrompt(random, difficulty, index);
+    }
+    if (type === "data-probability") {
+      return this.buildDataProbabilityPrompt(random, difficulty, index);
+    }
     return this.buildOperationChainPrompt(random, difficulty, index);
   }
 
@@ -984,6 +1055,632 @@ export class MathPuzzleGenerator {
       concept: twoSteps ? "due trasformazioni ordinate" : "trasformazione singola",
       signature: `op-${start}-${correctLabel}-${target}`,
     };
+  }
+
+  private singleCorrectTiles(
+    random: Random,
+    prefix: string,
+    index: number,
+    correct: ChoiceCandidate,
+    distractors: ChoiceCandidate[],
+    fallbackHint: string,
+  ): MathMinigameTile[] {
+    const seen = new Set<string>();
+    const candidates: Array<ChoiceCandidate & { isCorrect: boolean }> = [];
+    const push = (candidate: ChoiceCandidate, isCorrect: boolean): void => {
+      const label = candidate.label.trim();
+      if (!label || seen.has(label)) return;
+      seen.add(label);
+      candidates.push({ ...candidate, label, isCorrect });
+    };
+    push(correct, true);
+    distractors.forEach((candidate) => push(candidate, false));
+    const offsets = [-10, 10, -6, 6, -4, 4, -2, 2, -1, 1, 12, -12, 15, -15];
+    for (const offset of offsets) {
+      if (candidates.length >= 4) break;
+      const value = correct.value + offset;
+      if (value <= 0 || value === correct.value) continue;
+      push({
+        label: `${value}`,
+        value,
+        feedback: `${value} e vicino, ma non rispetta il passaggio richiesto: ${fallbackHint}.`,
+      }, false);
+    }
+    return this.shuffleTiles(random, candidates.slice(0, 5).map((candidate, tileIndex) => ({
+      id: `${prefix}-${index}-${tileIndex}`,
+      label: candidate.label,
+      value: candidate.value,
+      isCorrect: candidate.isCorrect,
+      feedback: candidate.feedback,
+    })));
+  }
+
+  private buildChoicePrompt(params: {
+    random: Random;
+    index: number;
+    type: MathMinigameType;
+    prefix: string;
+    prompt: string;
+    targetLabel: string;
+    correct: ChoiceCandidate;
+    distractors: ChoiceCandidate[];
+    explanation: string;
+    concept: string;
+    signature: string;
+    fallbackHint: string;
+    geometryVisual?: MathGeometryVisual;
+  }): MathMinigamePrompt {
+    const tiles = this.singleCorrectTiles(
+      params.random,
+      params.prefix,
+      params.index,
+      params.correct,
+      params.distractors,
+      params.fallbackHint,
+    );
+    return {
+      id: `${params.prefix}-${params.index}`,
+      type: params.type,
+      prompt: params.prompt,
+      targetLabel: params.targetLabel,
+      requiredSelectionCount: 1,
+      tiles,
+      solutionLabels: [params.correct.label],
+      explanation: params.explanation,
+      concept: params.concept,
+      geometryVisual: params.geometryVisual,
+      signature: params.signature,
+    };
+  }
+
+  private buildFractionLabPrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
+    const modes = difficulty.level <= 2
+      ? ["fraction-of", "percent-of"] as const
+      : difficulty.level <= 4
+        ? ["fraction-of", "percent-of", "percent-from-fraction"] as const
+        : ["fraction-of", "percent-of", "percent-from-fraction", "decimal-percent"] as const;
+    const mode = random.pick(modes);
+    if (mode === "fraction-of") {
+      const denominators = difficulty.level >= 5 ? [3, 4, 5, 6, 8, 10, 12] : [2, 3, 4, 5, 6, 8];
+      const denominator = random.pick(denominators);
+      const numerator = random.integer(1, denominator - 1);
+      const unit = random.integer(3, 8 + difficulty.level * 2);
+      const total = denominator * unit;
+      const answer = numerator * unit;
+      const contexts = [
+        { place: "playlist", item: "brani" },
+        { place: "quaderno di appunti", item: "pagine" },
+        { place: "scatola per la merenda", item: "biscotti" },
+        { place: "album fotografico", item: "foto" },
+        { place: "zaino per la gita", item: "oggetti" },
+      ];
+      const context = random.pick(contexts);
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "fraction-lab",
+        prefix: "fraction-of",
+        prompt: `Nel ${context.place} ci sono ${total} ${context.item}. Devi usarne ${numerator}/${denominator}. Quanti ${context.item} sono?`,
+        targetLabel: `${numerator}/${denominator} di ${total}`,
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} e corretto: prima trovi 1/${denominator} = ${unit}, poi moltiplichi per ${numerator}.` },
+        distractors: [
+          { label: `${unit}`, value: unit, feedback: `${unit} e solo 1/${denominator} del totale: manca il moltiplicatore ${numerator}.` },
+          { label: `${Math.max(1, total - answer)}`, value: Math.max(1, total - answer), feedback: `Questo e il resto, non la parte richiesta dalla frazione ${numerator}/${denominator}.` },
+          { label: `${Math.max(1, answer + denominator)}`, value: Math.max(1, answer + denominator), feedback: `Hai aggiunto il denominatore: la frazione chiede divisione in parti uguali e poi moltiplicazione.` },
+          { label: `${Math.max(1, numerator * denominator)}`, value: Math.max(1, numerator * denominator), feedback: `Moltiplicare numeratore e denominatore non usa il totale ${total}.` },
+        ],
+        explanation: `${total} : ${denominator} = ${unit}; ${unit} x ${numerator} = ${answer}.`,
+        concept: "frazione come operatore su una quantita",
+        signature: `fraction-of-${numerator}-${denominator}-${total}`,
+        fallbackHint: `dividi ${total} in ${denominator} parti uguali e prendine ${numerator}`,
+      });
+    }
+    if (mode === "percent-of") {
+      const percent = random.pick([10, 15, 20, 25, 30, 40, 50, 60, 75]);
+      const step = 100 / gcd(percent, 100);
+      const base = step * random.integer(5, 18 + difficulty.level);
+      const answer = (base * percent) / 100;
+      const contexts = [
+        { subject: "la batteria del tablet", unit: "punti percentuali usati" },
+        { subject: "uno sconto su una felpa", unit: "euro di sconto" },
+        { subject: "gli studenti che scelgono il laboratorio", unit: "studenti" },
+        { subject: "i posti occupati sul bus", unit: "posti" },
+      ];
+      const context = random.pick(contexts);
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "fraction-lab",
+        prefix: "percent-of",
+        prompt: `Calcola il ${percent}% di ${base}: nella situazione "${context.subject}", quanti ${context.unit} sono?`,
+        targetLabel: `${percent}% di ${base}`,
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} e corretto: ${percent}% significa ${percent}/100 del totale.` },
+        distractors: [
+          { label: `${percent}`, value: percent, feedback: `${percent} e la percentuale, non il valore calcolato su ${base}.` },
+          { label: `${Math.max(1, base - answer)}`, value: Math.max(1, base - answer), feedback: `Questo e il resto dopo aver tolto il ${percent}%, non la parte richiesta.` },
+          { label: `${Math.max(1, answer + step)}`, value: Math.max(1, answer + step), feedback: `Sei vicino, ma il rapporto percentuale deve restare ${percent}/100.` },
+          { label: `${Math.max(1, Math.round(base / percent))}`, value: Math.max(1, Math.round(base / percent)), feedback: `Dividere ${base} per ${percent} confonde percentuale e denominatore 100.` },
+        ],
+        explanation: `${percent}% di ${base} = ${base} x ${percent} : 100 = ${answer}.`,
+        concept: "percentuale di una quantita",
+        signature: `percent-of-${percent}-${base}`,
+        fallbackHint: `trasforma ${percent}% in ${percent}/100`,
+      });
+    }
+    if (mode === "percent-from-fraction") {
+      const fraction = random.pick([
+        { numerator: 1, denominator: 2, percent: 50 },
+        { numerator: 1, denominator: 4, percent: 25 },
+        { numerator: 3, denominator: 4, percent: 75 },
+        { numerator: 1, denominator: 5, percent: 20 },
+        { numerator: 2, denominator: 5, percent: 40 },
+        { numerator: 3, denominator: 5, percent: 60 },
+        { numerator: 1, denominator: 10, percent: 10 },
+      ]);
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "fraction-lab",
+        prefix: "fraction-percent",
+        prompt: `Durante un sondaggio, ${fraction.numerator}/${fraction.denominator} della classe sceglie l'opzione A. Qual e la percentuale equivalente?`,
+        targetLabel: `${fraction.numerator}/${fraction.denominator} in percentuale`,
+        correct: { label: `${fraction.percent}`, value: fraction.percent, feedback: `${fraction.percent}% e corretto: la frazione e stata portata su 100.` },
+        distractors: [
+          { label: `${fraction.numerator * 10}`, value: fraction.numerator * 10, feedback: `Hai guardato solo il numeratore: serve il rapporto tra numeratore e denominatore.` },
+          { label: `${fraction.denominator * 10}`, value: fraction.denominator * 10, feedback: `Il denominatore non diventa automaticamente la percentuale.` },
+          { label: `${100 - fraction.percent}`, value: 100 - fraction.percent, feedback: `Questa e la percentuale complementare, non la parte indicata.` },
+          { label: `${Math.min(95, fraction.percent + 10)}`, value: Math.min(95, fraction.percent + 10), feedback: `Aggiungere 10 punti altera l'equivalenza della frazione.` },
+        ],
+        explanation: `${fraction.numerator}/${fraction.denominator} = ${fraction.percent}/100, quindi ${fraction.percent}%.`,
+        concept: "equivalenza fra frazioni e percentuali",
+        signature: `fraction-percent-${fraction.numerator}-${fraction.denominator}`,
+        fallbackHint: "porta la frazione a denominatore 100",
+      });
+    }
+    const decimal = random.pick([
+      { text: "0,1", value: 10 },
+      { text: "0,2", value: 20 },
+      { text: "0,25", value: 25 },
+      { text: "0,4", value: 40 },
+      { text: "0,5", value: 50 },
+      { text: "0,75", value: 75 },
+      { text: "0,8", value: 80 },
+    ]);
+    return this.buildChoicePrompt({
+      random,
+      index,
+      type: "fraction-lab",
+      prefix: "decimal-percent",
+      prompt: `Nel registro digitale compare ${decimal.text} come parte completata di un compito. Qual e la percentuale corrispondente?`,
+      targetLabel: `${decimal.text} in percentuale`,
+      correct: { label: `${decimal.value}`, value: decimal.value, feedback: `${decimal.text} corrisponde a ${decimal.value}%.` },
+      distractors: [
+        { label: `${Math.max(1, decimal.value / 10)}`, value: Math.max(1, decimal.value / 10), feedback: `Hai spostato la virgola nella direzione sbagliata: per la percentuale si moltiplica per 100.` },
+        { label: `${Math.max(1, 100 - decimal.value)}`, value: Math.max(1, 100 - decimal.value), feedback: `Questo e il completamento mancante, non la parte gia completata.` },
+        { label: `${Math.min(99, decimal.value + 5)}`, value: Math.min(99, decimal.value + 5), feedback: `Aggiungere punti percentuali rompe l'equivalenza decimale-percentuale.` },
+      ],
+      explanation: `${decimal.text} x 100 = ${decimal.value}%, quindi la parte decimale diventa percentuale.`,
+      concept: "numero decimale e percentuale equivalente",
+      signature: `decimal-percent-${decimal.text}`,
+      fallbackHint: "moltiplica il numero decimale per 100",
+    });
+  }
+
+  private buildRatioProportionPrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
+    const modes = difficulty.level >= 6
+      ? ["unit-price", "recipe", "scale", "speed", "inverse"] as const
+      : ["unit-price", "recipe", "scale", "speed"] as const;
+    const mode = random.pick(modes);
+    if (mode === "unit-price") {
+      const unitPrice = random.integer(2, 9 + difficulty.level);
+      const knownQuantity = random.integer(2, 6);
+      const requestedQuantity = random.integer(knownQuantity + 1, knownQuantity + 7);
+      const knownPrice = unitPrice * knownQuantity;
+      const answer = unitPrice * requestedQuantity;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "ratio-proportion",
+        prefix: "ratio-price",
+        prompt: `${knownQuantity} quaderni costano ${knownPrice} euro. Quanto costano ${requestedQuantity} quaderni allo stesso prezzo unitario?`,
+        targetLabel: `Prezzo di ${requestedQuantity}`,
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} e corretto: il prezzo unitario e ${unitPrice} euro.` },
+        distractors: [
+          { label: `${knownPrice + requestedQuantity}`, value: knownPrice + requestedQuantity, feedback: `Somma non proporzionale: serve prima il prezzo di un quaderno.` },
+          { label: `${knownPrice * requestedQuantity}`, value: knownPrice * requestedQuantity, feedback: `Hai moltiplicato per la quantita senza dividere per ${knownQuantity}.` },
+          { label: `${unitPrice + requestedQuantity}`, value: unitPrice + requestedQuantity, feedback: `Hai mescolato prezzo unitario e quantita: bisogna moltiplicarli.` },
+        ],
+        explanation: `${knownPrice} : ${knownQuantity} = ${unitPrice}; ${unitPrice} x ${requestedQuantity} = ${answer}.`,
+        concept: "rapporto unitario in un acquisto quotidiano",
+        signature: `ratio-price-${knownQuantity}-${knownPrice}-${requestedQuantity}`,
+        fallbackHint: "trova prima il valore di una sola unita",
+      });
+    }
+    if (mode === "recipe") {
+      const gramsPerPerson = random.pick([40, 50, 60, 75, 80, 100, 120]);
+      const peopleKnown = random.integer(2, 5);
+      const peopleWanted = random.integer(peopleKnown + 1, peopleKnown + 6);
+      const knownGrams = gramsPerPerson * peopleKnown;
+      const answer = gramsPerPerson * peopleWanted;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "ratio-proportion",
+        prefix: "ratio-recipe",
+        prompt: `Per ${peopleKnown} persone servono ${knownGrams} g di pasta. Quanti grammi servono per ${peopleWanted} persone?`,
+        targetLabel: `Dosi per ${peopleWanted}`,
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} g e corretto: la dose per persona resta ${gramsPerPerson} g.` },
+        distractors: [
+          { label: `${knownGrams + peopleWanted}`, value: knownGrams + peopleWanted, feedback: `Aggiungere persone ai grammi non mantiene il rapporto.` },
+          { label: `${gramsPerPerson + peopleWanted}`, value: gramsPerPerson + peopleWanted, feedback: `Hai trovato la dose unitaria ma non l'hai moltiplicata per le persone.` },
+          { label: `${knownGrams * peopleWanted}`, value: knownGrams * peopleWanted, feedback: `Manca la divisione per le ${peopleKnown} persone iniziali.` },
+        ],
+        explanation: `${knownGrams} : ${peopleKnown} = ${gramsPerPerson} g a persona; ${gramsPerPerson} x ${peopleWanted} = ${answer} g.`,
+        concept: "proporzionalita diretta in una ricetta",
+        signature: `ratio-recipe-${peopleKnown}-${knownGrams}-${peopleWanted}`,
+        fallbackHint: "riduci la ricetta a una persona",
+      });
+    }
+    if (mode === "scale") {
+      const scale = random.pick([2, 3, 4, 5, 8, 10, 12]);
+      const cm = random.integer(3, 12 + difficulty.level);
+      const answer = scale * cm;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "ratio-proportion",
+        prefix: "ratio-scale",
+        prompt: `Su una mappa, 1 cm rappresenta ${scale} km. Una pista misura ${cm} cm sulla mappa. Quanti km misura nella realta?`,
+        targetLabel: `Scala 1 cm = ${scale} km`,
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} km e corretto: ogni centimetro vale ${scale} km.` },
+        distractors: [
+          { label: `${Math.max(1, cm + scale)}`, value: Math.max(1, cm + scale), feedback: `Somma scala e centimetri: non e una proporzione.` },
+          { label: `${Math.max(1, cm)}`, value: Math.max(1, cm), feedback: `Hai letto la misura sulla mappa, non quella reale.` },
+          { label: `${Math.max(1, answer - scale)}`, value: Math.max(1, answer - scale), feedback: `Hai contato un centimetro in meno nella scala.` },
+        ],
+        explanation: `${cm} x ${scale} = ${answer} km: ogni centimetro sulla mappa vale ${scale} km reali.`,
+        concept: "scala grafica e proporzione diretta",
+        signature: `ratio-scale-${scale}-${cm}`,
+        fallbackHint: "moltiplica ogni centimetro per il valore della scala",
+      });
+    }
+    if (mode === "speed") {
+      const speed = random.pick([30, 40, 50, 60, 70, 80]);
+      const hours = random.integer(2, 5);
+      const distance = speed * hours;
+      const askDistance = random.bool(0.52);
+      const answer = askDistance ? distance : speed;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "ratio-proportion",
+        prefix: "ratio-speed",
+        prompt: askDistance
+          ? `Un treno locale procede a ${speed} km/h per ${hours} ore. Quanti km percorre?`
+          : `Un treno locale percorre ${distance} km in ${hours} ore. Qual e la velocita media in km/h?`,
+        targetLabel: askDistance ? "Distanza" : "Velocita media",
+        correct: { label: `${answer}`, value: answer, feedback: askDistance ? `${answer} km e corretto: velocita x tempo.` : `${answer} km/h e corretto: distanza : tempo.` },
+        distractors: [
+          { label: `${Math.max(1, speed + hours)}`, value: Math.max(1, speed + hours), feedback: `Somma velocita e tempo: le unita non sono compatibili.` },
+          { label: `${Math.max(1, distance - hours)}`, value: Math.max(1, distance - hours), feedback: `Sottrarre il tempo non calcola ne distanza ne velocita.` },
+          { label: `${Math.max(1, Math.round(distance / speed))}`, value: Math.max(1, Math.round(distance / speed)), feedback: `Questo recupera il tempo, non la grandezza richiesta.` },
+        ],
+        explanation: askDistance
+          ? `${speed} x ${hours} = ${distance} km: la distanza nasce da velocita per tempo.`
+          : `${distance} : ${hours} = ${speed} km/h: la velocita media e distanza divisa per tempo.`,
+        concept: "rapporto tra spazio, tempo e velocita",
+        signature: `ratio-speed-${askDistance ? "d" : "v"}-${speed}-${hours}`,
+        fallbackHint: "controlla le unita: km/h, ore, km",
+      });
+    }
+    const machines = random.pick([2, 3, 4, 5]);
+    const multiplier = random.pick([2, 3]);
+    const knownTime = random.integer(4, 10) * multiplier;
+    const newMachines = machines * multiplier;
+    const answer = knownTime / multiplier;
+    return this.buildChoicePrompt({
+      random,
+      index,
+      type: "ratio-proportion",
+      prefix: "ratio-inverse",
+      prompt: `${machines} stampanti completano un fascicolo in ${knownTime} minuti. Con ${newMachines} stampanti uguali, quanti minuti servono?`,
+      targetLabel: "Proporzionalita inversa",
+      correct: { label: `${answer}`, value: answer, feedback: `${answer} minuti e corretto: se le stampanti aumentano, il tempo diminuisce nello stesso rapporto.` },
+      distractors: [
+        { label: `${knownTime * multiplier}`, value: knownTime * multiplier, feedback: `Hai applicato una proporzione diretta: qui il tempo deve diminuire.` },
+        { label: `${knownTime + multiplier}`, value: knownTime + multiplier, feedback: `Aggiungere stampanti al tempo non conserva il lavoro totale.` },
+        { label: `${Math.max(1, knownTime - machines)}`, value: Math.max(1, knownTime - machines), feedback: `Sottrarre il numero di stampanti non usa il rapporto ${newMachines}:${machines}.` },
+      ],
+      explanation: `${newMachines} e ${multiplier} volte ${machines}, quindi il tempo diventa ${knownTime} : ${multiplier} = ${answer} minuti.`,
+      concept: "proporzionalita inversa in un lavoro condiviso",
+      signature: `ratio-inverse-${machines}-${knownTime}-${newMachines}`,
+      fallbackHint: "piu macchine uguali lavorano in meno tempo",
+    });
+  }
+
+  private buildGeometryMeasurePrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
+    const modes = difficulty.level <= 2
+      ? ["rectangle-perimeter", "rectangle-area"] as const
+      : difficulty.level <= 5
+        ? ["rectangle-perimeter", "rectangle-area", "triangle-area", "volume"] as const
+        : ["rectangle-perimeter", "rectangle-area", "triangle-area", "volume", "pythagoras", "circle"] as const;
+    const mode = random.pick(modes);
+    if (mode === "rectangle-perimeter" || mode === "rectangle-area") {
+      const width = random.integer(4, 10 + difficulty.level);
+      const height = random.integer(3, 9 + difficulty.level);
+      const isPerimeter = mode === "rectangle-perimeter";
+      const answer = isPerimeter ? 2 * (width + height) : width * height;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "geometry-measure",
+        prefix: mode,
+        prompt: `Un cortile rettangolare misura ${width} m per ${height} m. Calcola ${isPerimeter ? "il perimetro" : "l'area"}.`,
+        targetLabel: isPerimeter ? "Perimetro rettangolo" : "Area rettangolo",
+        correct: { label: `${answer}`, value: answer, feedback: isPerimeter ? `${answer} m e corretto: sommi tutti i lati.` : `${answer} m2 e corretto: base x altezza.` },
+        distractors: [
+          { label: `${width + height}`, value: width + height, feedback: `Hai sommato solo due lati: per il perimetro servono tutti e quattro.` },
+          { label: `${width * height}`, value: width * height, feedback: isPerimeter ? `Questa e l'area, non il perimetro.` : `Questa e proprio l'area: controlla se la richiesta era perimetro.` },
+          { label: `${2 * width + height}`, value: 2 * width + height, feedback: `Hai contato due lati lunghi e uno corto: manca un lato.` },
+        ],
+        explanation: isPerimeter
+          ? `2 x (${width} + ${height}) = ${answer}: nel rettangolo i lati uguali si ripetono due volte.`
+          : `${width} x ${height} = ${answer}: l'area conta le unita di superficie dentro il rettangolo.`,
+        concept: isPerimeter ? "perimetro come somma dei lati" : "area del rettangolo",
+        signature: `${mode}-${width}-${height}`,
+        fallbackHint: isPerimeter ? "perimetro = somma dei lati" : "area = base x altezza",
+        geometryVisual: { shape: "rectangle", measure: isPerimeter ? "perimeter" : "area", width, height, unit: "m" },
+      });
+    }
+    if (mode === "triangle-area") {
+      const base = random.integer(4, 14 + difficulty.level);
+      const height = random.integer(4, 12 + difficulty.level);
+      const doubled = base * height;
+      const answer = doubled % 2 === 0 ? doubled / 2 : (base * (height + 1)) / 2;
+      const actualHeight = doubled % 2 === 0 ? height : height + 1;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "geometry-measure",
+        prefix: "triangle-area",
+        prompt: `Un cartellone triangolare ha base ${base} cm e altezza ${actualHeight} cm. Qual e l'area?`,
+        targetLabel: "Area triangolo",
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} cm2 e corretto: base x altezza diviso 2.` },
+        distractors: [
+          { label: `${base * actualHeight}`, value: base * actualHeight, feedback: `Hai dimenticato di dividere per 2: quello e il rettangolo equivalente doppio.` },
+          { label: `${base + actualHeight}`, value: base + actualHeight, feedback: `Somma base e altezza: non misura una superficie.` },
+          { label: `${Math.max(1, answer + base)}`, value: Math.max(1, answer + base), feedback: `Hai aggiunto la base dopo la formula: l'area non richiede questo passaggio.` },
+        ],
+        explanation: `${base} x ${actualHeight} : 2 = ${answer}: il triangolo occupa meta del rettangolo corrispondente.`,
+        concept: "area del triangolo come meta del rettangolo",
+        signature: `triangle-area-${base}-${actualHeight}`,
+        fallbackHint: "il triangolo e meta del rettangolo con stessa base e altezza",
+        geometryVisual: { shape: "triangle", measure: "area", base, height: actualHeight, unit: "cm" },
+      });
+    }
+    if (mode === "volume") {
+      const length = random.integer(3, 9 + difficulty.level);
+      const width = random.integer(2, 7 + difficulty.level);
+      const height = random.integer(2, 6 + difficulty.level);
+      const answer = length * width * height;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "geometry-measure",
+        prefix: "volume-box",
+        prompt: `Una scatola misura ${length} cm x ${width} cm x ${height} cm. Qual e il volume?`,
+        targetLabel: "Volume parallelepipedo",
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} cm3 e corretto: moltiplichi le tre dimensioni.` },
+        distractors: [
+          { label: `${length * width}`, value: length * width, feedback: `Questo e solo il fondo della scatola: manca l'altezza.` },
+          { label: `${2 * (length + width)}`, value: 2 * (length + width), feedback: `Questo assomiglia a un perimetro, non a un volume.` },
+          { label: `${length + width + height}`, value: length + width + height, feedback: `Somma le misure lineari: il volume richiede una moltiplicazione tripla.` },
+        ],
+        explanation: `${length} x ${width} x ${height} = ${answer}: il volume moltiplica le tre dimensioni della scatola.`,
+        concept: "volume del parallelepipedo",
+        signature: `volume-${length}-${width}-${height}`,
+        fallbackHint: "volume = lunghezza x larghezza x altezza",
+        geometryVisual: { shape: "box", measure: "volume", length, width, height, unit: "cm" },
+      });
+    }
+    if (mode === "pythagoras") {
+      const triple = random.pick([[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [7, 24, 25]]);
+      const scale = random.integer(1, difficulty.level >= 7 ? 3 : 2);
+      const a = triple[0] * scale;
+      const b = triple[1] * scale;
+      const c = triple[2] * scale;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "geometry-measure",
+        prefix: "pythagoras",
+        prompt: `Una scala forma un triangolo rettangolo con cateti ${a} m e ${b} m. Quanto misura la scala?`,
+        targetLabel: "Ipotenusa",
+        correct: { label: `${c}`, value: c, feedback: `${c} m e corretto: ${a}2 + ${b}2 = ${c}2.` },
+        distractors: [
+          { label: `${a + b}`, value: a + b, feedback: `Somma dei cateti: Pitagora usa i quadrati, non una somma diretta.` },
+          { label: `${Math.abs(b - a)}`, value: Math.abs(b - a), feedback: `Differenza dei cateti: non rappresenta l'ipotenusa.` },
+          { label: `${Math.max(1, c - scale)}`, value: Math.max(1, c - scale), feedback: `Sei vicino, ma la terna pitagorica corretta porta a ${c}.` },
+        ],
+        explanation: `${a}2 + ${b}2 = ${a * a + b * b}; la radice e ${c}.`,
+        concept: "teorema di Pitagora in un triangolo rettangolo",
+        signature: `pythagoras-${a}-${b}-${c}`,
+        fallbackHint: "somma i quadrati dei cateti e poi prendi la radice",
+        geometryVisual: { shape: "right-triangle", measure: "hypotenuse", a, b, c, unit: "m" },
+      });
+    }
+    const radius = random.integer(2, 9);
+    const askArea = random.bool(0.52);
+    const answer = askArea ? 3 * radius * radius : 2 * 3 * radius;
+    return this.buildChoicePrompt({
+      random,
+      index,
+      type: "geometry-measure",
+      prefix: "circle-measure",
+      prompt: `Una pista circolare ha raggio ${radius} m. Usa pi greco = 3 e calcola ${askArea ? "l'area" : "la circonferenza"}.`,
+      targetLabel: askArea ? "Area cerchio" : "Circonferenza",
+      correct: { label: `${answer}`, value: answer, feedback: askArea ? `${answer} m2 e corretto: 3 x r x r.` : `${answer} m e corretto: 2 x 3 x r.` },
+      distractors: [
+        { label: `${3 * radius}`, value: 3 * radius, feedback: `Manca un fattore: per area serve r x r, per circonferenza serve 2 x r.` },
+        { label: `${radius * radius}`, value: radius * radius, feedback: `Hai calcolato solo r2 senza moltiplicare per pi greco.` },
+        { label: `${2 * radius}`, value: 2 * radius, feedback: `Questo e il diametro, non la misura richiesta.` },
+      ],
+      explanation: askArea
+        ? `Area = 3 x ${radius} x ${radius} = ${answer}: per la superficie del cerchio usi pi greco per raggio al quadrato.`
+        : `Circonferenza = 2 x 3 x ${radius} = ${answer}: per il bordo del cerchio usi 2 per pi greco per raggio.`,
+      concept: askArea ? "area del cerchio con pi greco approssimato" : "circonferenza con pi greco approssimato",
+      signature: `circle-${askArea ? "area" : "circ"}-${radius}`,
+      fallbackHint: "controlla se serve area o bordo del cerchio",
+      geometryVisual: { shape: "circle", measure: askArea ? "area" : "circumference", radius, unit: "m" },
+    });
+  }
+
+  private buildDataProbabilityPrompt(random: Random, difficulty: DifficultyPreset, index: number): MathMinigamePrompt {
+    const modes = difficulty.level <= 3
+      ? ["mean", "range", "mode"] as const
+      : ["mean", "median", "range", "mode", "probability", "complement"] as const;
+    const mode = random.pick(modes);
+    if (mode === "mean") {
+      const average = random.integer(6, 18 + difficulty.level);
+      const deltas = random.shuffle([-3, -1, 0, 1, 3]);
+      const values = deltas.map((delta) => Math.max(1, average + delta));
+      const correction = average * values.length - values.reduce((sum, value) => sum + value, 0);
+      values[values.length - 1] += correction;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "data-probability",
+        prefix: "data-mean",
+        prompt: `Cinque allenamenti durano ${values.join(", ")} minuti. Qual e la media?`,
+        targetLabel: "Media aritmetica",
+        correct: { label: `${average}`, value: average, feedback: `${average} e corretto: somma i dati e dividi per 5.` },
+        distractors: [
+          { label: `${Math.max(...values)}`, value: Math.max(...values), feedback: `Hai scelto il massimo, non la media.` },
+          { label: `${Math.min(...values)}`, value: Math.min(...values), feedback: `Hai scelto il minimo, non la media.` },
+          { label: `${Math.max(...values) - Math.min(...values)}`, value: Math.max(...values) - Math.min(...values), feedback: `Questo e il campo di variazione, non la media.` },
+        ],
+        explanation: `${values.join(" + ")} = ${average * values.length}; ${average * values.length} : ${values.length} = ${average}.`,
+        concept: "media aritmetica",
+        signature: `mean-${values.join("-")}`,
+        fallbackHint: "somma tutti i dati e dividi per quanti sono",
+      });
+    }
+    if (mode === "median") {
+      const start = random.integer(4, 12);
+      const values = [start, start + random.integer(1, 3), start + random.integer(4, 6), start + random.integer(7, 9), start + random.integer(10, 14)];
+      const answer = values[2];
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "data-probability",
+        prefix: "data-median",
+        prompt: `I tempi ordinati di cinque corse sono ${values.join(", ")} minuti. Qual e la mediana?`,
+        targetLabel: "Mediana",
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} e corretto: e il dato centrale dopo l'ordinamento.` },
+        distractors: [
+          { label: `${values[0]}`, value: values[0], feedback: `Questo e il primo dato, non quello centrale.` },
+          { label: `${values[4]}`, value: values[4], feedback: `Questo e l'ultimo dato, non la mediana.` },
+          { label: `${Math.round(values.reduce((sum, value) => sum + value, 0) / values.length)}`, value: Math.round(values.reduce((sum, value) => sum + value, 0) / values.length), feedback: `Questa assomiglia alla media: la mediana e il valore centrale.` },
+        ],
+        explanation: `Con cinque dati ordinati, la mediana e il terzo valore: ${answer}.`,
+        concept: "mediana di una serie ordinata",
+        signature: `median-${values.join("-")}`,
+        fallbackHint: "prendi il dato al centro della lista ordinata",
+      });
+    }
+    if (mode === "range") {
+      const min = random.integer(3, 12);
+      const max = min + random.integer(8, 24);
+      const middleA = random.integer(min + 1, max - 2);
+      const middleB = random.integer(middleA + 1, max - 1);
+      const values = random.shuffle([min, middleA, middleB, max]);
+      const answer = max - min;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "data-probability",
+        prefix: "data-range",
+        prompt: `Le temperature registrate sono ${values.join(", ")} gradi. Qual e il campo di variazione?`,
+        targetLabel: "Massimo - minimo",
+        correct: { label: `${answer}`, value: answer, feedback: `${answer} e corretto: massimo ${max} meno minimo ${min}.` },
+        distractors: [
+          { label: `${max}`, value: max, feedback: `Hai scelto il massimo: manca il confronto con il minimo.` },
+          { label: `${min}`, value: min, feedback: `Hai scelto il minimo: il campo e massimo meno minimo.` },
+          { label: `${max + min}`, value: max + min, feedback: `Somma massimo e minimo: il campo di variazione usa la differenza.` },
+        ],
+        explanation: `${max} - ${min} = ${answer}: il campo di variazione misura la distanza tra massimo e minimo.`,
+        concept: "campo di variazione",
+        signature: `range-${values.join("-")}`,
+        fallbackHint: "trova massimo e minimo, poi sottrai",
+      });
+    }
+    if (mode === "mode") {
+      const repeated = random.integer(4, 18);
+      const values = random.shuffle([repeated, repeated, repeated, repeated + 2, repeated + 5, Math.max(1, repeated - 3)]);
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "data-probability",
+        prefix: "data-mode",
+        prompt: `In un sondaggio compaiono questi voti: ${values.join(", ")}. Qual e la moda?`,
+        targetLabel: "Moda statistica",
+        correct: { label: `${repeated}`, value: repeated, feedback: `${repeated} e corretto: e il valore che compare piu spesso.` },
+        distractors: [
+          { label: `${Math.max(...values)}`, value: Math.max(...values), feedback: `Il valore massimo non e necessariamente la moda.` },
+          { label: `${Math.min(...values)}`, value: Math.min(...values), feedback: `Il valore minimo non e necessariamente il piu frequente.` },
+          { label: `${Math.round(values.reduce((sum, value) => sum + value, 0) / values.length)}`, value: Math.round(values.reduce((sum, value) => sum + value, 0) / values.length), feedback: `Questa e una media arrotondata: la moda riguarda la frequenza.` },
+        ],
+        explanation: `${repeated} compare piu volte degli altri valori.`,
+        concept: "moda come valore piu frequente",
+        signature: `mode-${values.join("-")}`,
+        fallbackHint: "conta quale valore si ripete di piu",
+      });
+    }
+    if (mode === "probability") {
+      const total = random.pick([10, 20, 25, 50]);
+      const favorable = random.integer(1, Math.min(total - 1, 12));
+      const answer = (favorable * 100) / total;
+      return this.buildChoicePrompt({
+        random,
+        index,
+        type: "data-probability",
+        prefix: "data-probability",
+        prompt: `In un sacchetto ci sono ${total} gettoni, ${favorable} sono blu. Qual e la probabilita di pescare un blu, in percentuale?`,
+        targetLabel: "Probabilita %",
+        correct: { label: `${answer}`, value: answer, feedback: `${answer}% e corretto: casi favorevoli su casi possibili.` },
+        distractors: [
+          { label: `${favorable}`, value: favorable, feedback: `Hai indicato i casi favorevoli, non la percentuale di probabilita.` },
+          { label: `${total - favorable}`, value: total - favorable, feedback: `Questi sono i casi non blu, non la probabilita richiesta.` },
+          { label: `${100 - answer}`, value: 100 - answer, feedback: `Questa e la probabilita complementare.` },
+        ],
+        explanation: `${favorable}/${total} x 100 = ${answer}%: la probabilita confronta casi favorevoli e casi possibili.`,
+        concept: "probabilita classica in percentuale",
+        signature: `probability-${favorable}-${total}`,
+        fallbackHint: "casi favorevoli diviso casi possibili, poi per 100",
+      });
+    }
+    const total = random.pick([10, 20, 25, 50]);
+    const broken = random.integer(1, Math.min(total - 2, 10));
+    const good = total - broken;
+    const answer = (good * 100) / total;
+    return this.buildChoicePrompt({
+      random,
+      index,
+      type: "data-probability",
+      prefix: "data-complement",
+      prompt: `Su ${total} lampadine, ${broken} sono difettose. Qual e la probabilita di prenderne una funzionante, in percentuale?`,
+      targetLabel: "Evento complementare",
+      correct: { label: `${answer}`, value: answer, feedback: `${answer}% e corretto: prima trovi le funzionanti, poi la percentuale.` },
+      distractors: [
+        { label: `${(broken * 100) / total}`, value: (broken * 100) / total, feedback: `Questa e la probabilita di prendere una difettosa, cioe il complementare sbagliato.` },
+        { label: `${good}`, value: good, feedback: `Hai contato le lampadine funzionanti ma non hai convertito in percentuale.` },
+        { label: `${broken}`, value: broken, feedback: `Hai usato i difetti come risposta numerica, non la probabilita richiesta.` },
+      ],
+      explanation: `${total} - ${broken} = ${good}; ${good}/${total} x 100 = ${answer}%: prima trovi l'evento favorevole, poi la percentuale.`,
+      concept: "probabilita dell'evento complementare",
+      signature: `complement-${broken}-${total}`,
+      fallbackHint: "trova prima quante sono funzionanti",
+    });
   }
 
   private shuffleTiles(random: Random, tiles: MathMinigameTile[]): MathMinigameTile[] {

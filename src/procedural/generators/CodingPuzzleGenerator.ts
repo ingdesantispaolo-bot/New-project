@@ -8,6 +8,8 @@ import type {
   GeneratedCodingPuzzle,
 } from "../ProceduralTypes";
 import { Random } from "../Random";
+import { pythonPrincipleSeeds } from "../../data/procedural/pythonPrinciples";
+import { languageCards } from "../../data/procedural/languageAtlas";
 
 type CodingTemplate = {
   type: CodingChallengeType;
@@ -31,7 +33,7 @@ export class CodingPuzzleGenerator {
   ): GeneratedCodingPuzzle {
     const type = preferredTypes.length > 0
       ? random.pick(preferredTypes)
-      : random.pick<CodingMinigameType>(["sequence-builder", "state-tracer", "bug-hunt", "binary-bits", "logic-gate", "loop-output", "conditional-path", "algorithm-order"]);
+      : random.pick<CodingMinigameType>(["sequence-builder", "state-tracer", "bug-hunt", "binary-bits", "logic-gate", "loop-output", "conditional-path", "algorithm-order", "python-lab", "language-atlas"]);
     const game = buildCodingMinigame(random.fork(type), difficulty, type);
     const first = game.prompts[0];
     let options: string[];
@@ -123,6 +125,8 @@ function buildCodingMinigame(random: Random, difficulty: DifficultyPreset, type:
     "loop-output": "Minigioco coding: Output del ciclo",
     "conditional-path": "Minigioco coding: Bivio condizionale",
     "algorithm-order": "Minigioco coding: Ordina l'algoritmo",
+    "python-lab": "Laboratorio Python: leggi il codice vero",
+    "language-atlas": "Atlante dei Linguaggi: storia e curiosità",
   };
   const instructions: Record<CodingMinigameType, string> = {
     "sequence-builder": "clicca il prossimo blocco che completa una procedura corretta.",
@@ -133,6 +137,8 @@ function buildCodingMinigame(random: Random, difficulty: DifficultyPreset, type:
     "loop-output": "simula il ciclo aggiornando la variabile e scegli l'output finale.",
     "conditional-path": "valuta la condizione e scegli quale ramo if/else viene eseguito.",
     "algorithm-order": "tocca i passi nell'ordine giusto per comporre l'algoritmo.",
+    "python-lab": "leggi codice Python VERO e prevedi l'output o riconosci il principio.",
+    "language-atlas": "scopri i linguaggi di programmazione, storici e attuali, e le loro curiosità.",
   };
   return {
     type,
@@ -154,6 +160,8 @@ function buildCodingMinigame(random: Random, difficulty: DifficultyPreset, type:
       ...(type === "loop-output" ? ["coding.efficienza", "matematica.logica"] : []),
       ...(type === "conditional-path" ? ["coding.debugging", "matematica.logica"] : []),
       ...(type === "algorithm-order" ? ["coding.decomposizione", "coding.sequenze"] : []),
+      ...(type === "python-lab" ? ["coding.linguaggiProgrammazione", "coding.debugging", "coding.efficienza"] : []),
+      ...(type === "language-atlas" ? ["coding.linguaggiProgrammazione", "coding.culturaInformatica", "pensieroCritico"] : []),
     ])),
   };
 }
@@ -190,6 +198,8 @@ function buildCodingMinigamePrompt(
   if (type === "loop-output") return buildLoopOutputPrompt(random, difficulty, index);
   if (type === "conditional-path") return buildConditionalPathPrompt(random, difficulty, index);
   if (type === "algorithm-order") return buildAlgorithmOrderPrompt(random, difficulty, index);
+  if (type === "python-lab") return buildPythonLabPrompt(random, difficulty, index);
+  if (type === "language-atlas") return buildLanguageAtlasPrompt(random, difficulty, index);
   return buildBugHuntPrompt(random, difficulty, index);
 }
 
@@ -562,6 +572,167 @@ function buildAlgorithmOrderPrompt(random: Random, difficulty: DifficultyPreset,
   };
 }
 
+/** Ensures a Python snippet has at least 3 lines by prepending harmless comments. */
+function padPythonLines(lines: string[]): string[] {
+  const out = [...lines];
+  const pads = ["# Python: leggi con calma, riga per riga", "# prevedi il risultato prima di scegliere"];
+  let i = 0;
+  while (out.length < 3) {
+    out.unshift(pads[i % pads.length]);
+    i += 1;
+  }
+  return out;
+}
+
+function buildPythonLabPrompt(random: Random, difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {
+  const authored = pythonPrincipleSeeds.filter((seed) => seed.minLevel <= difficulty.level);
+  // ~62% authored (copre i principi concettuali), il resto parametrico (numeri
+  // sempre nuovi) così l'area non si ripete mai.
+  if (authored.length > 0 && random.bool(0.62)) {
+    const seed = random.pick(authored);
+    const explanation = `${seed.explanation}${seed.funFact ? `  🎈 ${seed.funFact}` : ""}  💡 ${seed.explore}`;
+    return codingPromptFromItem(random, index, "python-lab", {
+      title: `Python · ${seed.principle}`,
+      codeLines: padPythonLines(seed.codeLines),
+      question: seed.question,
+      correct: seed.correct,
+      distractors: seed.distractors,
+      explanation,
+      concept: seed.principle,
+      methodSteps: ["leggi ogni riga in ordine", "aggiorna i valori nella mente", "poi scegli output o principio"],
+    }, "Risposta Python");
+  }
+  const family = random.pick(["arith", "count", "modulo"] as const);
+  if (family === "arith") {
+    const a = random.integer(2, 12);
+    const b = random.integer(2, 12);
+    const op = random.pick(["+", "*"] as const);
+    const value = op === "+" ? a + b : a * b;
+    const distractors = distinctNumberDistractors(random, value, [op === "+" ? a * b : a + b, value + 1, value - 1]);
+    return codingPromptFromItem(random, index, "python-lab", {
+      title: "Python · print e operatori",
+      codeLines: [`a = ${a}`, `b = ${b}`, `print(a ${op} b)`],
+      question: "Che numero stampa questo programma Python?",
+      correct: String(value),
+      distractors,
+      explanation: `print() mostra il risultato di a ${op} b. Con a = ${a} e b = ${b} il risultato è ${value}: print serve a far 'parlare' il programma.  💡 Approfondisci: prova a cambiare l'operatore in - oppure ** (potenza).`,
+      concept: "print e operatori aritmetici",
+      methodSteps: ["leggi i valori di a e b", "applica l'operatore", "leggi cosa passa a print()"],
+    }, "Output Python");
+  }
+  if (family === "count") {
+    const n = random.integer(2, 6);
+    const distractors = distinctNumberDistractors(random, n, [n - 1, n + 1, 0]);
+    return codingPromptFromItem(random, index, "python-lab", {
+      title: "Python · ciclo for",
+      codeLines: ["conta = 0", `for i in range(${n}):`, "    conta = conta + 1", "print(conta)"],
+      question: "Quante volte gira il ciclo, cioè quanto vale conta alla fine?",
+      correct: String(n),
+      distractors,
+      explanation: `range(${n}) produce ${n} valori (da 0 a ${n - 1}), quindi il blocco indentato gira ${n} volte e conta arriva a ${n}.  💡 Approfondisci: range(a, b) parte da a e si ferma PRIMA di b.`,
+      concept: "ciclo for con range()",
+      methodSteps: ["leggi quanti valori dà range()", "conta le ripetizioni", "leggi l'output finale"],
+    }, "Output Python");
+  }
+  const x = random.integer(5, 30);
+  const k = random.pick([2, 3, 5]);
+  const value = x % k;
+  const distractors = distinctNumberDistractors(random, value, [Math.floor(x / k), value + 1, k]);
+  return codingPromptFromItem(random, index, "python-lab", {
+    title: "Python · operatore modulo",
+    codeLines: ["# % dà il RESTO della divisione", `numero = ${x}`, `print(numero % ${k})`],
+    question: `Quanto vale ${x} % ${k} (il resto della divisione) in Python?`,
+    correct: String(value),
+    distractors,
+    explanation: `L'operatore % dà il RESTO: ${x} diviso ${k} fa ${Math.floor(x / k)} con resto ${value}. Se il resto è 0, il numero è un multiplo di ${k}.  💡 Approfondisci: % serve per capire se un numero è pari, con numero % 2 == 0.`,
+    concept: "operatore modulo",
+    methodSteps: ["dividi mentalmente", "trova quanto avanza", "quel resto è la risposta"],
+  }, "Output Python");
+}
+
+function buildLanguageAtlasPrompt(random: Random, difficulty: DifficultyPreset, index: number): CodingMinigamePrompt {
+  const card = random.pick(languageCards);
+  const otherNames = (exclude: string): string[] =>
+    random.shuffle(languageCards.filter((entry) => entry.name !== exclude).map((entry) => entry.name)).slice(0, 3);
+  const otherYears = (correctYear: number, excludeName: string): string[] => {
+    const pool = random.shuffle(
+      languageCards.filter((entry) => entry.name !== excludeName && entry.year !== correctYear).map((entry) => entry.year),
+    );
+    const out: number[] = [];
+    for (const year of pool) {
+      if (!out.includes(year) && year !== correctYear) out.push(year);
+      if (out.length === 3) break;
+    }
+    let guard = 0;
+    while (out.length < 3 && guard < 30) {
+      const candidate = correctYear + random.pick([-8, -6, -4, 4, 6, 8, 11]);
+      if (candidate > 1940 && candidate !== correctYear && !out.includes(candidate)) out.push(candidate);
+      guard += 1;
+    }
+    return out.map(String);
+  };
+  const scheda = [`# Scheda linguaggio: ${card.name}`, `# Personalità: ${card.personality}`, `# Oggi: ${card.stillUsed}`];
+  const richExplanation = `${card.name} (${card.year}): ${card.personality}. Famoso per ${card.famousFor}.  🎈 ${card.curiosity}  💡 ${card.explore}`;
+  // At low levels favour the concrete "hello world" recognition; add history/
+  // curiosity families as the student climbs.
+  const family = random.pick(
+    difficulty.level >= 4
+      ? (["hello", "year", "famous", "curiosity"] as const)
+      : (["hello", "famous", "hello"] as const),
+  );
+  if (family === "year") {
+    return codingPromptFromItem(random, index, "language-atlas", {
+      title: `Atlante · ${card.name}`,
+      codeLines: scheda,
+      question: `In che anno è nato il linguaggio ${card.name}?`,
+      correct: String(card.year),
+      distractors: otherYears(card.year, card.name),
+      explanation: richExplanation,
+      concept: "storia dei linguaggi",
+      methodSteps: ["leggi la scheda", "collega epoca e scopo", "scegli l'anno con logica"],
+    }, "Anno di nascita");
+  }
+  if (family === "famous") {
+    return codingPromptFromItem(random, index, "language-atlas", {
+      title: "Atlante · a cosa serve",
+      codeLines: [`# Indizio: "${card.famousFor}"`, "# Quale linguaggio è nato soprattutto per questo?", `# (uno dei linguaggi dell'Atlante)`],
+      question: `Quale linguaggio è più famoso per: ${card.famousFor}?`,
+      correct: card.name,
+      distractors: otherNames(card.name),
+      explanation: richExplanation,
+      concept: "scopo dei linguaggi",
+      methodSteps: ["leggi lo scopo", "pensa dove lo useresti", "scegli il linguaggio giusto"],
+    }, "Linguaggio giusto");
+  }
+  if (family === "curiosity") {
+    return codingPromptFromItem(random, index, "language-atlas", {
+      title: "Atlante · curiosità",
+      codeLines: ["# Curiosità informatica:", `# "${card.curiosity}"`, "# Di quale linguaggio si parla?"],
+      question: `Di quale linguaggio è questa curiosità: "${card.curiosity}"?`,
+      correct: card.name,
+      distractors: otherNames(card.name),
+      explanation: richExplanation,
+      concept: "cultura informatica",
+      methodSteps: ["leggi la curiosità", "cerca l'indizio nel nome o nella storia", "scegli il linguaggio"],
+    }, "Linguaggio giusto");
+  }
+  // hello world recognition — pad with LANGUAGE-NEUTRAL lines (a "# Python"
+  // comment above a C snippet would give the answer away).
+  const hello = [...card.helloWorld];
+  const helloLines = hello.length >= 3 ? hello : ["Indovina il linguaggio da questo «ciao mondo»:", ...hello];
+  while (helloLines.length < 3) helloLines.push("· · ·");
+  return codingPromptFromItem(random, index, "language-atlas", {
+    title: "Atlante · ciao mondo",
+    codeLines: helloLines,
+    question: 'In quale linguaggio è scritto questo «ciao mondo»?',
+    correct: card.name,
+    distractors: otherNames(card.name),
+    explanation: richExplanation,
+    concept: "riconoscere i linguaggi",
+    methodSteps: ["guarda la sintassi", "riconosci parole chiave e simboli", "scegli il linguaggio"],
+  }, "Linguaggio giusto");
+}
+
 function codingPromptFromItem(
   random: Random,
   index: number,
@@ -622,6 +793,8 @@ function codingMinigameConcepts(type: CodingMinigameType): string[] {
   if (type === "loop-output") return ["cicli", "variabili", "accumulatore"];
   if (type === "conditional-path") return ["condizioni", "if/else", "flusso del programma"];
   if (type === "algorithm-order") return ["algoritmo", "sequenza", "decomposizione"];
+  if (type === "python-lab") return ["Python", "lettura del codice", "principi di programmazione"];
+  if (type === "language-atlas") return ["linguaggi di programmazione", "storia dell'informatica", "cultura digitale"];
   return ["debug", "condizioni", "controllo errore"];
 }
 
@@ -633,6 +806,8 @@ function codingMinigameMethodSteps(type: CodingMinigameType): string[] {
   if (type === "loop-output") return ["leggi il range", "aggiorna la variabile a ogni giro", "leggi l'output"];
   if (type === "conditional-path") return ["valuta la condizione", "scegli il ramo", "leggi cosa stampa"];
   if (type === "algorithm-order") return ["obiettivo", "primo passo", "passi in sequenza"];
+  if (type === "python-lab") return ["leggi il codice riga per riga", "aggiorna lo stato mentale", "prevedi l'output o il principio"];
+  if (type === "language-atlas") return ["leggi la scheda del linguaggio", "collega epoca e scopo", "scegli con logica, non a caso"];
   return ["risultato atteso", "prima rottura", "correzione minima"];
 }
 
@@ -644,6 +819,8 @@ function codingMinigamePurpose(type: CodingMinigameType): string {
   if (type === "loop-output") return "Capire come un ciclo ripete istruzioni e come una variabile accumulatore cambia a ogni iterazione fino all'output.";
   if (type === "conditional-path") return "Capire il flusso condizionale: valutare un'espressione e seguire il ramo if oppure else che viene eseguito.";
   if (type === "algorithm-order") return "Allenare il pensiero algoritmico: scomporre un compito in passi e disporli nell'ordine corretto per farlo funzionare.";
+  if (type === "python-lab") return "Leggere e valutare codice Python vero: prevedere l'output e riconoscere i principi (variabili, cicli, condizioni, funzioni, indentazione).";
+  if (type === "language-atlas") return "Scoprire i linguaggi di programmazione storici e attuali, capire perché sono nati e incuriosirsi ad approfondire la cultura informatica.";
   return "Allenare debugging: distinguere causa dell'errore, sintomo e correzione minima.";
 }
 

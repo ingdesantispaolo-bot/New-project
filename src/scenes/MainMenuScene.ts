@@ -484,6 +484,12 @@ export class MainMenuScene extends Phaser.Scene {
       }));
     });
 
+    modal.add(new Button(this, 300, 620, "📖 Codex del Programmatore", () => {
+      close();
+      this.openMenuScene("CodexScene", "Non sono riuscito ad aprire il Codex. Riprova tra un istante.");
+    }, { width: 340, height: 44, fontSize: 14, fill: 0x1f4a44, stroke: 0x6be7d6 }));
+    modal.add(this.add.text(132, 596, "Studio libero:", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9fb6c2" }));
+
     modal.add(new Button(this, 1010, 620, "Chiudi", close, { width: 180, height: 44, fill: 0x263743 }));
   }
 

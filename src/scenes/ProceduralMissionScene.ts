@@ -35,6 +35,7 @@ import type {
   CircuitComponentChallenge,
   CircuitFaultType,
   CodingMinigamePrompt,
+  CodingMinigameType,
   DifficultyLevel,
   EquationLabVisual,
   EnglishMinigamePrompt,
@@ -4152,6 +4153,61 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }));
       return;
     }
+    if (prompt.type === "geometry-measure" && prompt.geometryVisual) {
+      this.drawGeometryMinigameVisual(overlay, g, prompt, x, y, width, height);
+      return;
+    }
+    if (
+      prompt.type === "fraction-lab"
+      || prompt.type === "ratio-proportion"
+      || prompt.type === "geometry-measure"
+      || prompt.type === "data-probability"
+      || prompt.type === "number-sequence"
+      || prompt.type === "expression-build"
+    ) {
+      const visualSteps = prompt.type === "fraction-lab"
+        ? ["totale", "parte", "%"]
+        : prompt.type === "ratio-proportion"
+          ? ["1 unita", "rapporto", "scala"]
+          : prompt.type === "geometry-measure"
+            ? ["figura", "formula", "unita"]
+            : prompt.type === "data-probability"
+              ? ["dati", "indice", "evento"]
+              : prompt.type === "number-sequence"
+                ? ["termini", "regola", "prossimo"]
+                : ["numeri", "priorita", "target"];
+      overlay.add(this.add.text(x + 34, y + 24, prompt.targetLabel, {
+        fontFamily: "Inter, Arial",
+        fontSize: "17px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+        wordWrap: { width: width - 68, useAdvancedWrap: true },
+      }));
+      visualSteps.forEach((label, index) => {
+        const cx = x + 82 + index * 150;
+        const cy = y + 104;
+        g.fillStyle(index === 1 ? 0x173b36 : 0x0d2632, 0.92);
+        g.fillRoundedRect(cx - 48, cy - 34, 96, 68, 10);
+        g.lineStyle(2, index === 1 ? 0xf7d37a : 0x6be7d6, 0.58);
+        g.strokeRoundedRect(cx - 48, cy - 34, 96, 68, 10);
+        overlay.add(this.add.text(cx, cy, label, {
+          fontFamily: "Inter, Arial",
+          fontSize: label.length > 8 ? "12px" : "14px",
+          color: "#f5fbff",
+          fontStyle: "bold",
+        }).setOrigin(0.5));
+        if (index < visualSteps.length - 1) {
+          overlay.add(this.add.triangle(cx + 68, cy, 0, -7, 16, 0, 0, 7, 0x6be7d6, 0.68));
+        }
+      });
+      overlay.add(this.add.text(x + 44, y + height - 52, "Prima riconosci la famiglia dell'esercizio, poi fai un solo controllo numerico sulla risposta.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#d9eaf1",
+        wordWrap: { width: width - 88 },
+      }));
+      return;
+    }
     const labels = prompt.targetLabel.split("->").map((item) => item.trim());
     const start = labels[0] ?? "?";
     const target = labels[1] ?? "?";
@@ -4177,6 +4233,147 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
   }
 
+  private drawGeometryMinigameVisual(
+    overlay: Phaser.GameObjects.Container,
+    g: Phaser.GameObjects.Graphics,
+    prompt: MathMinigamePrompt,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const visual = prompt.geometryVisual;
+    if (!visual) return;
+    const labelStyle = {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    };
+    const noteStyle = {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: width - 88 },
+    };
+    overlay.add(this.add.text(x + 34, y + 20, prompt.targetLabel, {
+      fontFamily: "Inter, Arial",
+      fontSize: "17px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      wordWrap: { width: width - 68, useAdvancedWrap: true },
+    }));
+
+    if (visual.shape === "rectangle") {
+      const w = visual.width ?? 8;
+      const h = visual.height ?? 5;
+      const scale = Math.min(250 / w, 116 / h);
+      const rw = Math.max(120, w * scale);
+      const rh = Math.max(70, h * scale);
+      const rx = x + 84;
+      const ry = y + 78;
+      g.fillStyle(visual.measure === "area" ? 0x1b6b5f : 0x0d2632, visual.measure === "area" ? 0.54 : 0.24);
+      g.fillRoundedRect(rx, ry, rw, rh, 8);
+      g.lineStyle(visual.measure === "perimeter" ? 5 : 3, visual.measure === "perimeter" ? 0xf7d37a : 0x6be7d6, 0.9);
+      g.strokeRoundedRect(rx, ry, rw, rh, 8);
+      overlay.add(this.add.text(rx + rw / 2, ry + rh + 22, `${w} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(rx + rw + 34, ry + rh / 2, `${h} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(x + 44, y + height - 50, visual.measure === "perimeter"
+        ? "Bordo evidenziato: somma tutti i lati. P = 2 x (base + altezza)."
+        : "Superficie evidenziata: conta l'interno. A = base x altezza.", noteStyle));
+      return;
+    }
+
+    if (visual.shape === "triangle") {
+      const base = visual.base ?? 8;
+      const h = visual.height ?? 6;
+      const ax = x + 94;
+      const ay = y + 178;
+      const bx = x + 344;
+      const by = ay;
+      const cx = x + 222;
+      const cy = y + 74;
+      g.fillStyle(0x1b6b5f, 0.46);
+      g.fillTriangle(ax, ay, bx, by, cx, cy);
+      g.lineStyle(3, 0x6be7d6, 0.9);
+      g.strokeTriangle(ax, ay, bx, by, cx, cy);
+      g.lineStyle(2, 0xf7d37a, 0.8);
+      g.lineBetween(cx, cy, cx, ay);
+      overlay.add(this.add.rectangle(cx + 8, ay - 8, 16, 16, 0x000000, 0).setStrokeStyle(1, 0xf7d37a, 0.7));
+      overlay.add(this.add.text((ax + bx) / 2, ay + 22, `base ${base} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(cx + 48, (cy + ay) / 2, `h ${h} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(x + 44, y + height - 50, "Superficie triangolare: e meta del rettangolo con stessa base e altezza. A = base x altezza : 2.", noteStyle));
+      return;
+    }
+
+    if (visual.shape === "box") {
+      const l = visual.length ?? 6;
+      const w = visual.width ?? 4;
+      const h = visual.height ?? 3;
+      const rx = x + 112;
+      const ry = y + 88;
+      const rw = 176;
+      const rh = 82;
+      const dx = 54;
+      const dy = -34;
+      g.fillStyle(0x1b6b5f, 0.36);
+      g.fillRoundedRect(rx, ry, rw, rh, 6);
+      g.lineStyle(3, 0x6be7d6, 0.85);
+      g.strokeRoundedRect(rx, ry, rw, rh, 6);
+      g.lineBetween(rx, ry, rx + dx, ry + dy);
+      g.lineBetween(rx + rw, ry, rx + rw + dx, ry + dy);
+      g.lineBetween(rx + rw, ry + rh, rx + rw + dx, ry + rh + dy);
+      g.lineBetween(rx + dx, ry + dy, rx + rw + dx, ry + dy);
+      g.lineBetween(rx + rw + dx, ry + dy, rx + rw + dx, ry + rh + dy);
+      g.lineBetween(rx + rw + dx, ry + rh + dy, rx + rw, ry + rh);
+      overlay.add(this.add.text(rx + rw / 2, ry + rh + 22, `${l} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(rx + rw + dx + 28, ry + rh / 2 + dy, `${h} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(rx + rw + dx / 2, ry + dy - 16, `${w} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(x + 44, y + height - 50, "Solido evidenziato: il volume usa tre dimensioni. V = lunghezza x larghezza x altezza.", noteStyle));
+      return;
+    }
+
+    if (visual.shape === "right-triangle") {
+      const a = visual.a ?? 3;
+      const b = visual.b ?? 4;
+      const c = visual.c ?? 5;
+      const ax = x + 116;
+      const ay = y + 176;
+      const bx = x + 342;
+      const by = ay;
+      const cx = ax;
+      const cy = y + 70;
+      g.fillStyle(0x1b6b5f, 0.38);
+      g.fillTriangle(ax, ay, bx, by, cx, cy);
+      g.lineStyle(3, 0x6be7d6, 0.86);
+      g.strokeTriangle(ax, ay, bx, by, cx, cy);
+      g.lineStyle(5, 0xf7d37a, 0.9);
+      g.lineBetween(cx, cy, bx, by);
+      overlay.add(this.add.rectangle(ax + 10, ay - 10, 20, 20, 0x000000, 0).setStrokeStyle(1, 0xf7d37a, 0.8));
+      overlay.add(this.add.text((ax + bx) / 2, ay + 22, `${b} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(ax - 34, (ay + cy) / 2, `${a} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text((cx + bx) / 2 + 18, (cy + by) / 2 - 18, `? = ${c} ${visual.unit}`, labelStyle).setOrigin(0.5));
+      overlay.add(this.add.text(x + 44, y + height - 50, "Lato giallo: ipotenusa. Pitagora: c2 = a2 + b2, poi radice.", noteStyle));
+      return;
+    }
+
+    const radius = visual.radius ?? 4;
+    const cx = x + 224;
+    const cy = y + 124;
+    const r = 62;
+    g.fillStyle(visual.measure === "area" ? 0x1b6b5f : 0x0d2632, visual.measure === "area" ? 0.5 : 0.24);
+    g.fillCircle(cx, cy, r);
+    g.lineStyle(visual.measure === "circumference" ? 5 : 3, visual.measure === "circumference" ? 0xf7d37a : 0x6be7d6, 0.9);
+    g.strokeCircle(cx, cy, r);
+    g.lineStyle(3, 0xf7d37a, 0.86);
+    g.lineBetween(cx, cy, cx + r, cy);
+    overlay.add(this.add.circle(cx, cy, 4, 0xf7d37a, 0.95));
+    overlay.add(this.add.text(cx + r / 2, cy - 22, `r = ${radius} ${visual.unit}`, labelStyle).setOrigin(0.5));
+    overlay.add(this.add.text(x + 44, y + height - 50, visual.measure === "area"
+      ? "Superficie del cerchio: A = pi x r x r. Qui pi = 3."
+      : "Bordo evidenziato: C = 2 x pi x r. Qui pi = 3.", noteStyle));
+  }
+
   private mathMinigameMethodText(prompt: MathMinigamePrompt): string {
     if (prompt.type === "target-sum") {
       return "Metodo: non sommare tutto. Cerca prima un addendo vicino al bersaglio, poi completa senza superare il totale.";
@@ -4189,6 +4386,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     if (prompt.type === "expression-build") {
       return "Metodo: la moltiplicazione si calcola prima di somma e sottrazione. Prova un operatore alla volta verso il bersaglio.";
+    }
+    if (prompt.type === "fraction-lab") {
+      return "Metodo: individua totale e parte richiesta. Per una frazione dividi in parti uguali; per una percentuale porta tutto su 100.";
+    }
+    if (prompt.type === "ratio-proportion") {
+      return "Metodo: trova il rapporto unitario oppure controlla la scala. Se le grandezze sono inverse, una cresce e l'altra diminuisce.";
+    }
+    if (prompt.type === "geometry-measure") {
+      return "Metodo: prima decidi se serve lunghezza, superficie o volume; poi scegli la formula e controlla l'unita di misura.";
+    }
+    if (prompt.type === "data-probability") {
+      return "Metodo: non saltare al numero piu evidente. Chiediti se la richiesta parla di media, dato centrale, frequenza o probabilita.";
     }
     return "Metodo: simula mentalmente la rotta da sinistra a destra. Una trasformazione plausibile non basta: deve arrivare esattamente all'uscita.";
   }
@@ -4338,7 +4547,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? "Calcola la differenza (o il rapporto) tra termini vicini: la regola spesso si ripete."
           : prompt.type === "expression-build"
             ? "Ricorda che la moltiplicazione si calcola prima di somma e sottrazione: provala per avvicinarti al bersaglio."
-            : "Parti dal valore iniziale e simula la prima operazione prima di guardare la seconda.";
+            : prompt.type === "fraction-lab"
+              ? "Per frazioni e percentuali cerca il totale: 1/4 di 80 parte da 80 : 4, non da 1 + 4."
+              : prompt.type === "ratio-proportion"
+                ? "Riduci a una unita: prezzo per 1, dose per 1 persona, km per 1 cm. Poi ricostruisci la richiesta."
+                : prompt.type === "geometry-measure"
+                  ? "Disegna mentalmente la figura: perimetro = bordo, area = superficie, volume = spazio occupato."
+                  : prompt.type === "data-probability"
+                    ? "Leggi la parola chiave: media divide la somma, mediana prende il centro, probabilita usa favorevoli su possibili."
+                    : "Parti dal valore iniziale e simula la prima operazione prima di guardare la seconda.";
     session.feedback = hint;
     this.useHint(hint);
     this.openMathMinigame(session.puzzle);
@@ -4892,6 +5109,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private progressiveEnglishSprintTypes(baseType: EnglishMinigameType): EnglishMinigameType[] {
     const rotation: EnglishMinigameType[] = ["action-relay", "sequence-switchboard", "data-command-scan", "grammar-fix", "sentence-build", "vocab-lab", "translation-match", "reading-detective", "error-diagnosis", "dialogue-response"];
+    return [baseType, ...rotation.filter((type) => type !== baseType)];
+  }
+
+  private progressiveCodingSprintTypes(baseType: CodingMinigameType): CodingMinigameType[] {
+    const rotation: CodingMinigameType[] = ["python-lab", "state-tracer", "language-atlas", "loop-output", "conditional-path", "bug-hunt", "logic-gate", "binary-bits", "sequence-builder", "algorithm-order"];
     return [baseType, ...rotation.filter((type) => type !== baseType)];
   }
 
@@ -5627,9 +5849,23 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const variant = this.run.retryVariants?.coding ?? 0;
     const random = new Random(`${this.run.seed}:${puzzleId}:coding:${variant}:${nextExerciseSalt()}`);
-    const fresh = new CodingPuzzleGenerator().generateMinigame(random, difficultyModel.getPreset(this.run.difficulty), [game.type]).minigame;
-    const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
-    const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const generator = new CodingPuzzleGenerator();
+    const preset = difficultyModel.getPreset(this.run.difficulty);
+    // Mix coding types unless this is a focused coding training run: the Story
+    // then alternates Python lab, Atlante dei Linguaggi, tracing, logica, cicli…
+    const mixTypes = this.isProgressiveMode() || !this.run.focus.includes("coding");
+    const types = mixTypes ? this.progressiveCodingSprintTypes(game.type) : [game.type];
+    const freshPrompts = types.flatMap((type, idx) =>
+      generator.generateMinigame(random.fork(`mix-${type}-${idx}`), preset, [type]).minigame?.prompts ?? [],
+    );
+    const variedGame = {
+      ...game,
+      title: mixTypes ? "Sprint coding: percorso variato" : game.title,
+      instructions: mixTypes
+        ? "alterni Python vero, atlante dei linguaggi, tracing, logica, cicli e debug: leggi l'obiettivo prima di scegliere."
+        : game.instructions,
+      prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
+    };
     this.codingMinigameSession = {
       puzzleId,
       puzzle,

@@ -102,10 +102,13 @@ export class PuzzleGenerator {
         (puzzle) => this.circuitValidator.validate(puzzle),
         () => this.circuitGenerator.fallback(circuitDifficulty.level, circuitRandom.fork("fallback"), circuitDifficulty),
     );
+    // Coding CONSOLE = sprint (like italiano/inglese), so the Story surfaces the
+    // Python lab and the Language Atlas instead of a single static exercise. The
+    // scene expands it into a mixed-type sprint.
     const coding = this.validationEngine.generateWithRetries(
-      () => this.codingGenerator.generate(codingRandom, codingDifficulty),
+      () => this.codingGenerator.generateMinigame(codingRandom, codingDifficulty),
       (puzzle) => this.codingValidator.validate(puzzle),
-      () => this.codingGenerator.fallback(codingRandom.fork("fallback"), codingDifficulty),
+      () => this.codingGenerator.generate(codingRandom.fork("fallback"), codingDifficulty),
     );
     const physics = this.validationEngine.generateWithRetries(
       () => this.physicsGenerator.generate(physicsRandom, physicsDifficulty),
@@ -335,11 +338,11 @@ export class PuzzleGenerator {
 
   private codingMinigameTypesForStep(step: number): CodingMinigameType[] {
     return [
-      ["sequence-builder", "state-tracer"],
-      ["state-tracer", "sequence-builder", "binary-bits"],
-      ["bug-hunt", "state-tracer", "loop-output", "conditional-path"],
-      ["bug-hunt", "state-tracer", "sequence-builder", "logic-gate", "binary-bits"],
-      ["bug-hunt", "state-tracer", "sequence-builder", "binary-bits", "logic-gate", "loop-output", "conditional-path", "algorithm-order"],
+      ["python-lab", "sequence-builder", "state-tracer"],
+      ["python-lab", "state-tracer", "language-atlas", "binary-bits"],
+      ["python-lab", "bug-hunt", "state-tracer", "loop-output", "conditional-path", "language-atlas"],
+      ["python-lab", "bug-hunt", "state-tracer", "sequence-builder", "logic-gate", "binary-bits", "language-atlas"],
+      ["python-lab", "language-atlas", "bug-hunt", "state-tracer", "sequence-builder", "binary-bits", "logic-gate", "loop-output", "conditional-path", "algorithm-order"],
     ][Math.min(step, 4)] as CodingMinigameType[];
   }
 
@@ -355,11 +358,21 @@ export class PuzzleGenerator {
 
   private mathMinigameTypesForStep(step: number): MathMinigameType[] {
     return [
-      ["target-sum"],
-      ["target-sum", "factor-hunt"],
-      ["factor-hunt", "operation-chain"],
-      ["operation-chain", "target-sum"],
-      ["operation-chain", "factor-hunt", "target-sum"],
+      ["target-sum", "fraction-lab"],
+      ["target-sum", "factor-hunt", "fraction-lab", "data-probability"],
+      ["factor-hunt", "operation-chain", "ratio-proportion", "geometry-measure", "data-probability"],
+      ["operation-chain", "target-sum", "expression-build", "ratio-proportion", "geometry-measure", "data-probability"],
+      [
+        "operation-chain",
+        "factor-hunt",
+        "target-sum",
+        "expression-build",
+        "fraction-lab",
+        "ratio-proportion",
+        "geometry-measure",
+        "data-probability",
+        "number-sequence",
+      ],
     ][Math.min(step, 4)] as MathMinigameType[];
   }
 

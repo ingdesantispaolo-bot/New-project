@@ -74,7 +74,16 @@ export type GeneratedObjective = {
   competencies: string[];
 };
 
-export type MathMinigameType = "target-sum" | "factor-hunt" | "operation-chain" | "number-sequence" | "expression-build";
+export type MathMinigameType =
+  | "target-sum"
+  | "factor-hunt"
+  | "operation-chain"
+  | "number-sequence"
+  | "expression-build"
+  | "fraction-lab"
+  | "ratio-proportion"
+  | "geometry-measure"
+  | "data-probability";
 
 export type MathMinigameTile = {
   id: string;
@@ -82,6 +91,21 @@ export type MathMinigameTile = {
   value?: number;
   isCorrect: boolean;
   feedback: string;
+};
+
+export type MathGeometryVisual = {
+  shape: "rectangle" | "triangle" | "box" | "right-triangle" | "circle";
+  measure: "perimeter" | "area" | "volume" | "hypotenuse" | "circumference";
+  unit: string;
+  width?: number;
+  height?: number;
+  length?: number;
+  depth?: number;
+  base?: number;
+  radius?: number;
+  a?: number;
+  b?: number;
+  c?: number;
 };
 
 export type MathMinigamePrompt = {
@@ -98,6 +122,8 @@ export type MathMinigamePrompt = {
   numbers?: number[];
   /** Target value for the "expression-build" minigame. */
   target?: number;
+  /** Optional visual metadata for geometry minigame diagrams. */
+  geometryVisual?: MathGeometryVisual;
   signature: string;
 };
 
@@ -305,7 +331,9 @@ export type CodingMinigameType =
   | "logic-gate"
   | "loop-output"
   | "conditional-path"
-  | "algorithm-order";
+  | "algorithm-order"
+  | "python-lab"
+  | "language-atlas";
 
 export type CodingMinigameTile = {
   id: string;

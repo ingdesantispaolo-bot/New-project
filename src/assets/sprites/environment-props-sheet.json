@@ -1,0 +1,417 @@
+{
+  "frames": {
+    "env_wall_straight": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 264,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 264,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 264,
+        "h": 132
+      }
+    },
+    "env_wall_corner": {
+      "frame": {
+        "x": 272,
+        "y": 0,
+        "w": 176,
+        "h": 176
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 176,
+        "h": 176
+      },
+      "sourceSize": {
+        "w": 176,
+        "h": 176
+      }
+    },
+    "env_wall_end": {
+      "frame": {
+        "x": 456,
+        "y": 0,
+        "w": 96,
+        "h": 144
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 144
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 144
+      }
+    },
+    "env_railing": {
+      "frame": {
+        "x": 560,
+        "y": 0,
+        "w": 176,
+        "h": 88
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 176,
+        "h": 88
+      },
+      "sourceSize": {
+        "w": 176,
+        "h": 88
+      }
+    },
+    "env_pillar_square": {
+      "frame": {
+        "x": 744,
+        "y": 0,
+        "w": 96,
+        "h": 144
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 144
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 144
+      }
+    },
+    "env_pillar_light": {
+      "frame": {
+        "x": 848,
+        "y": 0,
+        "w": 88,
+        "h": 144
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 88,
+        "h": 144
+      },
+      "sourceSize": {
+        "w": 88,
+        "h": 144
+      }
+    },
+    "env_floor_cable": {
+      "frame": {
+        "x": 0,
+        "y": 184,
+        "w": 176,
+        "h": 88
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 176,
+        "h": 88
+      },
+      "sourceSize": {
+        "w": 176,
+        "h": 88
+      }
+    },
+    "env_floor_vent": {
+      "frame": {
+        "x": 184,
+        "y": 184,
+        "w": 132,
+        "h": 88
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 132,
+        "h": 88
+      },
+      "sourceSize": {
+        "w": 132,
+        "h": 88
+      }
+    },
+    "env_planter": {
+      "frame": {
+        "x": 324,
+        "y": 184,
+        "w": 176,
+        "h": 88
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 176,
+        "h": 88
+      },
+      "sourceSize": {
+        "w": 176,
+        "h": 88
+      }
+    },
+    "env_plant_pod": {
+      "frame": {
+        "x": 508,
+        "y": 184,
+        "w": 96,
+        "h": 144
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 144
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 144
+      }
+    },
+    "env_terminal_wall": {
+      "frame": {
+        "x": 612,
+        "y": 184,
+        "w": 104,
+        "h": 136
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 104,
+        "h": 136
+      },
+      "sourceSize": {
+        "w": 104,
+        "h": 136
+      }
+    },
+    "env_terminal_kiosk": {
+      "frame": {
+        "x": 724,
+        "y": 184,
+        "w": 88,
+        "h": 136
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 88,
+        "h": 136
+      },
+      "sourceSize": {
+        "w": 88,
+        "h": 136
+      }
+    },
+    "env_robot_decor": {
+      "frame": {
+        "x": 820,
+        "y": 184,
+        "w": 104,
+        "h": 88
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 104,
+        "h": 88
+      },
+      "sourceSize": {
+        "w": 104,
+        "h": 88
+      }
+    },
+    "env_repair_drone": {
+      "frame": {
+        "x": 0,
+        "y": 336,
+        "w": 104,
+        "h": 88
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 104,
+        "h": 88
+      },
+      "sourceSize": {
+        "w": 104,
+        "h": 88
+      }
+    },
+    "env_crate_stack": {
+      "frame": {
+        "x": 112,
+        "y": 336,
+        "w": 132,
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 132,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 132,
+        "h": 96
+      }
+    },
+    "env_holo_beacon": {
+      "frame": {
+        "x": 252,
+        "y": 336,
+        "w": 104,
+        "h": 144
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 104,
+        "h": 144
+      },
+      "sourceSize": {
+        "w": 104,
+        "h": 144
+      }
+    }
+  },
+  "meta": {
+    "app": "codex-imagegen-sharp",
+    "image": "environment-props-sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 480
+    },
+    "scale": "1",
+    "source": "environment-props-source.png",
+    "props": {
+      "env_wall_straight": {
+        "slug": "wall-straight",
+        "w": 264,
+        "h": 132
+      },
+      "env_wall_corner": {
+        "slug": "wall-corner",
+        "w": 176,
+        "h": 176
+      },
+      "env_wall_end": {
+        "slug": "wall-end",
+        "w": 96,
+        "h": 144
+      },
+      "env_railing": {
+        "slug": "railing",
+        "w": 176,
+        "h": 88
+      },
+      "env_pillar_square": {
+        "slug": "pillar-square",
+        "w": 96,
+        "h": 144
+      },
+      "env_pillar_light": {
+        "slug": "pillar-light",
+        "w": 88,
+        "h": 144
+      },
+      "env_floor_cable": {
+        "slug": "floor-cable",
+        "w": 176,
+        "h": 88
+      },
+      "env_floor_vent": {
+        "slug": "floor-vent",
+        "w": 132,
+        "h": 88
+      },
+      "env_planter": {
+        "slug": "planter",
+        "w": 176,
+        "h": 88
+      },
+      "env_plant_pod": {
+        "slug": "plant-pod",
+        "w": 96,
+        "h": 144
+      },
+      "env_terminal_wall": {
+        "slug": "terminal-wall",
+        "w": 104,
+        "h": 136
+      },
+      "env_terminal_kiosk": {
+        "slug": "terminal-kiosk",
+        "w": 88,
+        "h": 136
+      },
+      "env_robot_decor": {
+        "slug": "robot-decor",
+        "w": 104,
+        "h": 88
+      },
+      "env_repair_drone": {
+        "slug": "repair-drone",
+        "w": 104,
+        "h": 88
+      },
+      "env_crate_stack": {
+        "slug": "crate-stack",
+        "w": 132,
+        "h": 96
+      },
+      "env_holo_beacon": {
+        "slug": "holo-beacon",
+        "w": 104,
+        "h": 144
+      }
+    }
+  }
+}

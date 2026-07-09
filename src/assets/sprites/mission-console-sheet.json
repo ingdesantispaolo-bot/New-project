@@ -1,0 +1,373 @@
+{
+  "frames": {
+    "console_math_active": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_italian_active": {
+      "frame": {
+        "x": 120,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_english_active": {
+      "frame": {
+        "x": 240,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_coding_active": {
+      "frame": {
+        "x": 360,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_electronics_active": {
+      "frame": {
+        "x": 480,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_music_active": {
+      "frame": {
+        "x": 600,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_exit_active": {
+      "frame": {
+        "x": 720,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_math_resolved": {
+      "frame": {
+        "x": 0,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_italian_resolved": {
+      "frame": {
+        "x": 120,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_english_resolved": {
+      "frame": {
+        "x": 240,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_coding_resolved": {
+      "frame": {
+        "x": 360,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_electronics_resolved": {
+      "frame": {
+        "x": 480,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_music_resolved": {
+      "frame": {
+        "x": 600,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_exit_resolved": {
+      "frame": {
+        "x": 720,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    }
+  },
+  "meta": {
+    "app": "codex-imagegen-sharp",
+    "image": "mission-console-sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 840,
+      "h": 300
+    },
+    "scale": "1",
+    "cell": {
+      "w": 120,
+      "h": 150
+    },
+    "rows": {
+      "0": "active",
+      "1": "resolved"
+    },
+    "subjects": {
+      "math": {
+        "label": "matematica",
+        "color": "#6be7d6",
+        "symbol": "divide"
+      },
+      "italian": {
+        "label": "italiano",
+        "color": "#b888ff",
+        "symbol": "pen"
+      },
+      "english": {
+        "label": "inglese",
+        "color": "#7cc7ff",
+        "symbol": "globe"
+      },
+      "coding": {
+        "label": "coding",
+        "color": "#78f29a",
+        "symbol": "computer"
+      },
+      "electronics": {
+        "label": "elettronica",
+        "color": "#f6c85f",
+        "symbol": "bolt"
+      },
+      "music": {
+        "label": "musica",
+        "color": "#ff9f4a",
+        "symbol": "music"
+      },
+      "exit": {
+        "label": "porta-uscita",
+        "color": "#f6c85f",
+        "symbol": "door"
+      }
+    },
+    "states": [
+      "active",
+      "resolved"
+    ],
+    "animations": {
+      "math": [
+        "console_math_active",
+        "console_math_resolved"
+      ],
+      "italian": [
+        "console_italian_active",
+        "console_italian_resolved"
+      ],
+      "english": [
+        "console_english_active",
+        "console_english_resolved"
+      ],
+      "coding": [
+        "console_coding_active",
+        "console_coding_resolved"
+      ],
+      "electronics": [
+        "console_electronics_active",
+        "console_electronics_resolved"
+      ],
+      "music": [
+        "console_music_active",
+        "console_music_resolved"
+      ],
+      "exit": [
+        "console_exit_active",
+        "console_exit_resolved"
+      ]
+    }
+  }
+}

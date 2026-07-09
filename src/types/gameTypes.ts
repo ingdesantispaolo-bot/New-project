@@ -51,6 +51,17 @@ export type SaveData = {
   collection?: {
     discovered: string[];
   };
+  /** Reward progression: energy earned by answering, spent on cosmetics. */
+  rewards?: {
+    /** Spendable balance. */
+    energy: number;
+    /** Lifetime earned (never decreases), for stats. */
+    earned: number;
+    /** Ids of cosmetics bought. */
+    unlocked: string[];
+    /** Equipped cosmetic id per slot (e.g. "bot" -> "bot-gold"). */
+    equipped: Record<string, string>;
+  };
   /** Logic & memory gym: best score reached per activity. */
   logicGym?: {
     best: Record<string, number>;

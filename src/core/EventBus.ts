@@ -6,6 +6,7 @@ export const GameEvents = {
   SaveChanged: "save:changed",
   Feedback: "feedback",
   InventoryChanged: "inventory:changed",
+  RewardsChanged: "rewards:changed",
   CompetencyChanged: "competency:changed",
   MissionChanged: "mission:changed",
   SettingsChanged: "settings:changed",

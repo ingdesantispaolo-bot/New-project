@@ -122,6 +122,46 @@ export class SaveSystem {
     this.persist();
   }
 
+  /** Normalised reward state (energy currency + unlocked/equipped cosmetics). */
+  get rewards(): { energy: number; earned: number; unlocked: string[]; equipped: Record<string, string> } {
+    const current = this.saveData.rewards;
+    if (!current) {
+      this.saveData.rewards = { energy: 0, earned: 0, unlocked: [], equipped: {} };
+    }
+    return this.saveData.rewards!;
+  }
+
+  /** Grants energy (currency) earned by answering correctly. */
+  addEnergy(amount: number): void {
+    if (amount <= 0) return;
+    const rewards = this.rewards;
+    rewards.energy += amount;
+    rewards.earned += amount;
+    this.persist();
+    EventBus.emit(GameEvents.RewardsChanged, rewards);
+  }
+
+  /** Buys a cosmetic if affordable and not already owned. Returns success. */
+  purchaseCosmetic(id: string, cost: number): boolean {
+    const rewards = this.rewards;
+    if (rewards.unlocked.includes(id) || rewards.energy < cost) return false;
+    rewards.energy -= cost;
+    rewards.unlocked.push(id);
+    this.persist();
+    EventBus.emit(GameEvents.RewardsChanged, rewards);
+    return true;
+  }
+
+  /** Equips an owned cosmetic in its slot (pass empty id to clear the slot). */
+  equipCosmetic(slot: string, id: string): void {
+    const rewards = this.rewards;
+    if (id && !rewards.unlocked.includes(id)) return;
+    if (id) rewards.equipped[slot] = id;
+    else delete rewards.equipped[slot];
+    this.persist();
+    EventBus.emit(GameEvents.RewardsChanged, rewards);
+  }
+
   addInventoryItem(itemId: string): void {
     if (!this.saveData.inventory.includes(itemId)) {
       this.saveData.inventory.push(itemId);

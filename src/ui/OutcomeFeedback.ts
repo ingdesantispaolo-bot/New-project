@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { settingsSystem } from "../core/SettingsSystem";
+import { saveSystem } from "../core/SaveSystem";
+import { Companion } from "./Companion";
 
 export type OutcomeTone = "info" | "hint" | "success" | "warning" | "complete";
 
@@ -66,11 +68,23 @@ function hexToRgb(color: number): { r: number; g: number; b: number } {
   };
 }
 
+/** Combo tiers: consecutive correct answers unlock escalating identity + reward. */
+type ComboTier = { min: number; multiplier: number; name: string; color: number };
+const COMBO_TIERS: ComboTier[] = [
+  { min: 12, multiplier: 8, name: "👑 LEGGENDARIO", color: 0xffd75e },
+  { min: 8, multiplier: 5, name: "⚡ INARRESTABILE", color: 0x7ad7ff },
+  { min: 5, multiplier: 3, name: "🔥 IN FIAMME", color: 0xff9d5c },
+  { min: 3, multiplier: 2, name: "OTTIMA SERIE", color: 0xf6c85f },
+  { min: 1, multiplier: 1, name: "BENE", color: 0x6be7d6 },
+];
+
 class OutcomeFeedback {
   private lastEffectAt = 0;
   private lastTone?: OutcomeTone;
   private streak = 0;
   private answerCards = new WeakMap<Phaser.Scene, Phaser.GameObjects.Container>();
+  private companions = new WeakMap<Phaser.Scene, Companion>();
+  private energyHud = new WeakMap<Phaser.Scene, { container: Phaser.GameObjects.Container; text: Phaser.GameObjects.Text; value: number }>();
 
   play(scene: Phaser.Scene, tone: OutcomeTone, label?: string): void {
     const now = Date.now();
@@ -99,15 +113,13 @@ class OutcomeFeedback {
     this.drawPulse(scene, spec);
     this.drawBanner(scene, spec, label);
     this.drawParticles(scene, spec, tone);
+    // Combo is owned by answer() (the universal per-answer call), so play() no
+    // longer tracks the streak — this avoids double counting for exercises that
+    // call both play("success") and answer(true).
+  }
 
-    if (tone === "success") {
-      this.streak += 1;
-      if (this.streak >= 3) {
-        this.celebrateStreak(scene, this.streak);
-      }
-    } else if (tone === "warning" || tone === "complete") {
-      this.streak = 0;
-    }
+  private tierFor(streak: number): ComboTier {
+    return COMBO_TIERS.find((tier) => streak >= tier.min) ?? COMBO_TIERS[COMBO_TIERS.length - 1];
   }
 
   /** Resets the running combo, e.g. when a new exercise session begins. */
@@ -115,19 +127,99 @@ class OutcomeFeedback {
     this.streak = 0;
   }
 
-  /** Rewards consecutive correct answers with an escalating combo flourish. */
-  private celebrateStreak(scene: Phaser.Scene, streak: number): void {
+  /**
+   * The giocosità core: every answer feeds the combo, the reward energy, the
+   * screen juice and the companion "Bit". Driven from answer(), so every
+   * exercise in the game benefits with no scene-side change.
+   */
+  private driveJuice(scene: Phaser.Scene, correct: boolean): void {
+    const companion = this.companionFor(scene);
+    if (!correct) {
+      this.streak = 0;
+      companion?.react("wrong");
+      return;
+    }
+    this.streak += 1;
+    const tier = this.tierFor(this.streak);
+    const tierUp = tier.name !== this.tierFor(this.streak - 1).name && this.streak >= 3;
+    companion?.react(tierUp ? "combo" : "correct");
+    const reward = 10 * tier.multiplier;
+    saveSystem.addEnergy(reward); // persistent currency for the reward shop
+    this.addEnergy(scene, reward);
+    this.rewardPop(scene, reward, tier.color);
+    if (tierUp) {
+      this.celebrateStreak(scene, this.streak, tier);
+    }
+  }
+
+  private companionFor(scene: Phaser.Scene): Companion | undefined {
+    if (!scene?.sys?.isActive?.()) return undefined;
+    let companion = this.companions.get(scene);
+    if (!companion) {
+      companion = new Companion(scene, 70, scene.scale.height - 72);
+      this.companions.set(scene, companion);
+      scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.companions.delete(scene));
+    }
+    return companion;
+  }
+
+  /** A small persistent energy counter (bottom-left) that ticks up on rewards. */
+  private addEnergy(scene: Phaser.Scene, amount: number): void {
+    if (!scene?.sys?.isActive?.()) return;
+    let hud = this.energyHud.get(scene);
+    if (!hud) {
+      const container = scene.add.container(70, scene.scale.height - 128).setScrollFactor(0).setDepth(9402);
+      container.add(scene.add.rectangle(0, 0, 112, 30, 0x061019, 0.92).setStrokeStyle(1, 0x6be7d6, 0.55));
+      container.add(scene.add.text(-48, 0, "⚡", { fontFamily: "Inter, Arial", fontSize: "16px" }).setOrigin(0, 0.5));
+      const text = scene.add.text(-24, 0, "0", { fontFamily: "Inter, Arial", fontSize: "17px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0, 0.5);
+      container.add(text);
+      hud = { container, text, value: 0 };
+      this.energyHud.set(scene, hud);
+      scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.energyHud.delete(scene));
+    }
+    hud.value += amount;
+    hud.text.setText(String(hud.value));
+    if (!settingsSystem.effectsReduced()) {
+      scene.tweens.add({ targets: hud.container, scaleX: 1.14, scaleY: 1.14, duration: 110, yoyo: true, ease: "Sine.easeOut" });
+    }
+  }
+
+  /** A "+N ⚡" reward token that pops below the answer card and floats up. */
+  private rewardPop(scene: Phaser.Scene, amount: number, color: number): void {
+    if (settingsSystem.effectsReduced() || !scene?.sys?.isActive?.()) return;
     const { width } = scene.scale;
-    const message =
-      streak >= 8 ? `SERIE x${streak} · INARRESTABILE!` :
-      streak >= 5 ? `SERIE x${streak} · OTTIMA!` :
-      `SERIE x${streak}!`;
+    const label = scene.add.text(width / 2, 300, `+${amount} ⚡`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: Phaser.Display.Color.IntegerToColor(color).rgba,
+      fontStyle: "bold",
+      stroke: "#04121c",
+      strokeThickness: 4,
+    }).setOrigin(0.5).setDepth(9720).setScrollFactor(0).setAlpha(0);
+    scene.tweens.add({
+      targets: label,
+      y: 256,
+      alpha: { from: 0, to: 1 },
+      duration: 200,
+      ease: "Back.easeOut",
+      yoyo: true,
+      hold: 420,
+      completeDelay: 60,
+      onComplete: () => label.destroy(),
+    });
+  }
+
+  /** Rewards a combo tier-up with an escalating flourish carrying the tier name. */
+  private celebrateStreak(scene: Phaser.Scene, streak: number, tier: ComboTier): void {
+    const { width } = scene.scale;
+    const message = `${tier.name} · SERIE x${streak}`;
+    const tierColorText = Phaser.Display.Color.IntegerToColor(tier.color).rgba;
     const reduced = settingsSystem.effectsReduced();
 
     const label = scene.add.text(width / 2, 150, message, {
       fontFamily: "Inter, Arial",
       fontSize: "30px",
-      color: "#f7d37a",
+      color: tierColorText,
       fontStyle: "bold",
       stroke: "#3a2a08",
       strokeThickness: 5,
@@ -184,6 +276,7 @@ class OutcomeFeedback {
     explanation?: string,
   ): void {
     this.answerCards.get(scene)?.destroy(true);
+    this.driveJuice(scene, correct);
     const compact = (value: string, limit: number): string => value.length > limit ? `${value.slice(0, limit - 1).trimEnd()}…` : value;
     const selectedText = compact(selectedAnswer || "nessuna risposta", 105);
     const correctText = compact(correctAnswer, 120);

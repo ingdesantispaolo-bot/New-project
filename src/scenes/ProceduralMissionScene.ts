@@ -90,6 +90,7 @@ import {
   type ProceduralPuzzleId,
 } from "./procedural/ProceduralMissionLayout";
 import { ProceduralMissionView } from "./procedural/ProceduralMissionView";
+import { MissionRoomAvatar } from "./procedural/MissionRoomAvatar";
 import {
   commandLabels,
   faultLabels,
@@ -195,6 +196,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     super("ProceduralMissionScene");
   }
 
+  /** Walkable avatar for the Explore phase (agency layer over the hotspots). */
+  private roomAvatar?: MissionRoomAvatar;
+
   init(data?: { autoOpenPuzzle?: ProceduralPuzzleId }): void {
     this.autoOpenPuzzle = data?.autoOpenPuzzle;
   }
@@ -223,6 +227,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.progressText = hud.progressText;
     this.feedbackText = hud.feedbackText;
     ProceduralMissionView.createHotspots(this, this.run, this.allPuzzlesSolved(), (hotspot) => this.openHotspot(hotspot));
+    // Agency layer: a walkable avatar (WASD/frecce + E) over the clickable
+    // hotspots, which stay as fallback. Off during the timed duel.
+    if (!this.isChapterTrial()) {
+      const stageRect = SceneChrome.layout.stage;
+      const consolePoints = sortProceduralHotspots(this.run.mission.map.hotspots)
+        .map((hotspot) => ({ hotspot, ...proceduralHotspotPosition(hotspot, stageRect) }));
+      this.roomAvatar = new MissionRoomAvatar(this, stageRect, consolePoints, this.run.seed, (hotspot) => this.openHotspot(hotspot));
+    }
     this.refreshObjective();
     this.time.addEvent({ delay: 1000, loop: true, callback: () => this.refreshObjective() });
 
@@ -243,6 +255,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.time.delayedCall(520, () => this.noraSay("enter"));
     }
     this.time.delayedCall(80, () => this.showRunReadyOverlay());
+  }
+
+  update(_time: number, delta: number): void {
+    this.roomAvatar?.update(delta, Boolean(this.overlay));
   }
 
   /** Speaks an in-character NORA line for a beat (story modes only). */

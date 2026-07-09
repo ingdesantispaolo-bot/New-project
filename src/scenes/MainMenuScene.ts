@@ -9,6 +9,7 @@ import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { progressionSystem } from "../core/ProgressionSystem";
+import { rewardSystem } from "../core/RewardSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { prefetchCoreScenes, startScene } from "../core/SceneNavigator";
@@ -70,6 +71,16 @@ export class MainMenuScene extends Phaser.Scene {
     this.add.text(792, 46, `Giocatore: ${playerSystem.getActivePlayer().name}`, { fontFamily: "Inter, Arial", fontSize: "15px", color: "#f6c85f", fontStyle: "bold" });
     new Button(this, 1000, 80, "👤 Cambia / Nuovo giocatore", () => this.openMenuScene("PlayerReportScene", "Non sono riuscito ad aprire i giocatori. Riprova tra un istante."), {
       width: 246, height: 30, fontSize: 12, fill: 0x1f5a51, stroke: 0xf6c85f,
+    });
+
+    // Anello del ciclo "gioca → guadagni → spendi": energia sempre visibile + Bottega.
+    const energyChip = this.add.container(500, 58);
+    energyChip.add(this.add.rectangle(0, 0, 184, 38, 0x061019, 0.92).setStrokeStyle(2, 0xf6c85f, 0.85));
+    energyChip.add(this.add.text(-74, 0, "⚡", { fontFamily: "Inter, Arial", fontSize: "20px" }).setOrigin(0, 0.5));
+    energyChip.add(this.add.text(-44, -9, "ENERGIA", { fontFamily: "Inter, Arial", fontSize: "9px", color: "#9fb6c2", fontStyle: "bold" }).setOrigin(0, 0.5));
+    energyChip.add(this.add.text(-44, 7, String(rewardSystem.energy()), { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0, 0.5));
+    new Button(this, 700, 58, "🛍️ Bottega", () => this.openMenuScene("RewardShopScene", "Non sono riuscito ad aprire la Bottega. Riprova tra un istante."), {
+      width: 150, height: 38, fontSize: 13, fill: 0x3a3220, stroke: 0xf6c85f,
     });
 
     const cardProgress = campaignSystem.getProgress();
@@ -484,11 +495,19 @@ export class MainMenuScene extends Phaser.Scene {
       }));
     });
 
-    modal.add(new Button(this, 300, 620, "📖 Codex del Programmatore", () => {
+    modal.add(new Button(this, 268, 620, "📖 Codex", () => {
       close();
       this.openMenuScene("CodexScene", "Non sono riuscito ad aprire il Codex. Riprova tra un istante.");
-    }, { width: 340, height: 44, fontSize: 14, fill: 0x1f4a44, stroke: 0x6be7d6 }));
-    modal.add(this.add.text(132, 596, "Studio libero:", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9fb6c2" }));
+    }, { width: 196, height: 44, fontSize: 14, fill: 0x1f4a44, stroke: 0x6be7d6 }));
+    modal.add(new Button(this, 476, 620, "🕹️ Esplora", () => {
+      close();
+      this.openMenuScene("ExplorableRoomScene", "Non sono riuscito ad aprire l'anteprima. Riprova tra un istante.");
+    }, { width: 190, height: 44, fontSize: 14, fill: 0x24344a, stroke: 0x7ad7ff }));
+    modal.add(new Button(this, 700, 620, "🛍️ Bottega", () => {
+      close();
+      this.openMenuScene("RewardShopScene", "Non sono riuscito ad aprire la Bottega. Riprova tra un istante.");
+    }, { width: 196, height: 44, fontSize: 14, fill: 0x3a3220, stroke: 0xf6c85f }));
+    modal.add(this.add.text(132, 596, "Studio, anteprime e ricompense:", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9fb6c2" }));
 
     modal.add(new Button(this, 1010, 620, "Chiudi", close, { width: 180, height: 44, fill: 0x263743 }));
   }

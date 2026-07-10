@@ -17,7 +17,7 @@ export const proceduralRunRules = {
 
   missionTimeLimitMs(difficulty: DifficultyLevel, objectiveCount: number): number {
     const secondsPerObjective = Math.max(62, 118 - difficulty * 5);
-    return Math.max(300, objectiveCount * secondsPerObjective) * 1000;
+    return Math.max(300, objectiveCount * secondsPerObjective) * 2_000;
   },
 
   pressureEnabledForMode(mode: ProceduralRunMode): boolean {

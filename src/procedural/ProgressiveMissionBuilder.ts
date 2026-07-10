@@ -469,7 +469,7 @@ export class ProgressiveMissionBuilder {
 
   timeLimitMs(level: DifficultyLevel, objectiveCount: number): number {
     const secondsPerObjective = Math.max(34, 74 - level * 5);
-    return Math.max(145, objectiveCount * secondsPerObjective + 35) * 1000;
+    return Math.max(145, objectiveCount * secondsPerObjective + 35) * 2_000;
   }
 
   private selectDisciplines(random: Random, level: DifficultyLevel, seed: string): ProgressiveDiscipline[] {

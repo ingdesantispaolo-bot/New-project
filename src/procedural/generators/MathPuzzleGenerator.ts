@@ -220,7 +220,7 @@ export class MathPuzzleGenerator {
       id: `math-mini-${type}-${random.integer(1000, 9999)}`,
       title: minigame.title,
       prompt: [
-        `Situazione: una console di calcolo rapido apre micro-portali numerici per 60 secondi.`,
+        `Situazione: una console di calcolo rapido apre micro-portali numerici per 120 secondi.`,
         `Richiesta: ${first.prompt}`,
         `Formato risposta: inserisci un solo numero intero se usi la modalità terminale; nel minigioco seleziona le tessere corrette.`,
       ].join("\n"),
@@ -296,9 +296,9 @@ export class MathPuzzleGenerator {
     return {
       type,
       title: titles[type],
-      durationMs: 60_000,
+      durationMs: 120_000,
       instructions: instructions[type],
-      scoringRule: "60 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti. In missione l'errore chiude il tentativo.",
+      scoringRule: "120 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti. In missione l'errore chiude il tentativo.",
       prompts,
       competencies: Array.from(new Set([
         "matematica.calcolo",

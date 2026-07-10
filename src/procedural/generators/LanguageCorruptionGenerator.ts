@@ -325,7 +325,7 @@ export class LanguageCorruptionGenerator {
       difficultyLabel: `Livello ${level} - sprint linguistico`,
       conceptTags: this.languageMinigameConcepts(type),
       learningPurpose: this.languageMinigamePurpose(type),
-      repairGoal: "Stabilizzare molti micro-messaggi in 60 secondi senza provare a caso.",
+      repairGoal: "Stabilizzare molti micro-messaggi in 120 secondi senza provare a caso.",
       method: this.languageMinigameMethod(type),
       optionFeedback,
       minigame,
@@ -399,12 +399,12 @@ export class LanguageCorruptionGenerator {
     return {
       type,
       title: titles[type],
-      durationMs: reflective ? 110_000 : 60_000,
+      durationMs: reflective ? 220_000 : 120_000,
       reflective,
       instructions: instructions[type],
       scoringRule: reflective
         ? "Modalità riflessiva: niente fretta. Leggi con calma, individua la regola, poi scegli."
-        : "60 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti. La velocità vale solo se resta precisa.",
+        : "120 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti. La velocità vale solo se resta precisa.",
       prompts,
       competencies: Array.from(new Set([
         "italiano.comprensione",
@@ -1327,7 +1327,7 @@ export class LanguageCorruptionGenerator {
     return {
       id: `lexicon-${index}`,
       type: "lexicon-lab",
-      prompt: "Scegli la parola più precisa per rendere il messaggio chiaro e utile.",
+      prompt: `Completa con la parola precisa: ${item.context}`,
       context: item.context,
       targetLabel: "Lessico preciso",
       requiredSelectionCount: 1,
@@ -1358,7 +1358,7 @@ export class LanguageCorruptionGenerator {
     return {
       id: `lexicon-bank-${index}`,
       type: "lexicon-lab",
-      prompt: "Scegli la parola italiana più precisa per una situazione reale.",
+      prompt: `Quale parola indica «${item.clue}»?`,
       context: `Scenario: ${scenario} Indizio: ${item.clue}.`,
       targetLabel: "Parola precisa",
       requiredSelectionCount: 1,

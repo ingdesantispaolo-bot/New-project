@@ -417,7 +417,7 @@ export class MusicNoteGenerator {
       staffPosition: 10,
       ledgerLines: [],
       rhythmPattern: { beatsPerMeasure, missingBeats, cells },
-      timeLimitMs: Math.max(8_000, 16_000 - difficultyLevel * 900),
+      timeLimitMs: Math.max(8_000, 16_000 - difficultyLevel * 900) * 2,
       answerMode: "note-name",
       choices,
       hints: ["Conta prima i battiti già visibili.", "Semiminima = 1, minima = 2, croma = mezzo battito.", `La battuta deve arrivare esattamente a ${beatsPerMeasure} battiti.`],
@@ -572,7 +572,7 @@ export class MusicNoteGenerator {
   private timeLimitMs(level: DifficultyLevel, distance: number): number {
     const base = Math.max(7_500, 18_000 - level * 1_200);
     const ledgerBonus = distance > 5 ? Math.min(4_000, (distance - 4) * 650) : 0;
-    return base + ledgerBonus;
+    return (base + ledgerBonus) * 2;
   }
 
   private levelName(level: DifficultyLevel): string {

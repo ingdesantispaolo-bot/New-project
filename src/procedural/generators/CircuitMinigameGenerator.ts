@@ -322,9 +322,9 @@ export function buildCircuitMinigame(random: Random, difficulty: DifficultyPrese
   return {
     type,
     title: titles[type],
-    durationMs: 60_000,
+    durationMs: 120_000,
     instructions: instructions[type],
-    scoringRule: "60 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti.",
+    scoringRule: "120 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti.",
     prompts,
     competencies: Array.from(new Set([
       "elettronica.circuitoChiuso",

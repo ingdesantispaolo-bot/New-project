@@ -143,9 +143,9 @@ function buildCodingMinigame(random: Random, difficulty: DifficultyPreset, type:
   return {
     type,
     title: titles[type],
-    durationMs: 60_000,
+    durationMs: 120_000,
     instructions: instructions[type],
-    scoringRule: "60 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti. Devi simulare mentalmente, non provare a caso.",
+    scoringRule: "120 secondi: +punti per risposte corrette e serie pulite, penalità per errori e aiuti. Devi simulare mentalmente, non provare a caso.",
     prompts,
     competencies: Array.from(new Set([
       "coding.sequenze",

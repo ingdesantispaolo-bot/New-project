@@ -15,6 +15,7 @@ import { proceduralRunRules } from "./ProceduralRunRules";
 
 /** Total mistakes allowed across the whole chapter before the trial fails. */
 export const CHAPTER_TRIAL_ERROR_BUDGET = 3;
+const TIME_BUDGET_MULTIPLIER = 2;
 
 type TrialConfig = {
   /** Fixed difficulty (1-8) the whole trial runs at. */
@@ -48,7 +49,7 @@ export function chapterTrialLevel(missionId: string): DifficultyLevel {
 }
 
 export function chapterTrialTimeMs(missionId: string): number {
-  return chapterTrialConfig(missionId).minutes * 60_000;
+  return chapterTrialConfig(missionId).minutes * 60_000 * TIME_BUDGET_MULTIPLIER;
 }
 
 export function chapterExploreLevel(missionId: string): DifficultyLevel {
@@ -106,7 +107,7 @@ export function buildChapterTrialRun(missionId: string, attempt = 0): Procedural
     puzzleStats: {},
     lives: proceduralRunRules.maxLives,
     maxLives: proceduralRunRules.maxLives,
-    timeLimitMs: config.minutes * 60_000,
+    timeLimitMs: config.minutes * 60_000 * TIME_BUDGET_MULTIPLIER,
     timerState: "preparing",
     createdAt,
     activeElapsedMs: 0,

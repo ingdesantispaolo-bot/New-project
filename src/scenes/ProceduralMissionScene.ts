@@ -224,11 +224,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.useExploreRoom()) {
       // Fullscreen explorable room + slim HUD (agency): walk to a console and
       // interact, instead of the click-only hotspot map.
+      const chromeStart = this.children.list.length;
       const hud = ProceduralMissionView.createExploreChrome(this, this.run, onRegenerate, onHub, onNora);
       this.objectiveText = hud.objectiveText;
       this.progressText = hud.progressText;
       this.feedbackText = hud.feedbackText;
+      const chromeObjects = this.children.list.slice(chromeStart);
       this.mountExploreRoom();
+      // Route the slim HUD through the explorer's fixed UI camera so its buttons
+      // stay clickable under the scrolling room camera.
+      this.explorer?.markUi(chromeObjects);
     } else {
       ProceduralMissionView.drawShell(this, this.run);
       const hud = ProceduralMissionView.createHud(this, this.run, onRegenerate, onHub, onNora);
@@ -1249,10 +1254,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("language");
     const session = this.ensureLanguageMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title, puzzle.minigame.reflective
+    const prompt = this.currentLanguageMinigamePrompt(session);
+    const overlay = this.createMathOverlay(`Italiano · ${prompt.targetLabel}`, puzzle.minigame.reflective
       ? "Italiano · modalità riflessiva: leggi con calma, poi scegli"
       : "Italiano · leggi la consegna, scegli una risposta, conferma");
-    const prompt = this.currentLanguageMinigamePrompt(session);
     const remaining = this.languageMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
@@ -1271,13 +1276,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
       wordWrap: { width: 472 },
-    }));
-    overlay.add(this.add.text(60, 488, this.languageMinigameMethodText(prompt), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 476, useAdvancedWrap: true },
-      lineSpacing: 3,
     }));
 
     const isOrdering = prompt.type === "word-order";
@@ -1483,57 +1481,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: width - 88, useAdvancedWrap: true },
       lineSpacing: 4,
     }));
-    if (prompt.type === "agreement-sprint") {
-      overlay.add(this.add.text(x + 44, y + 142, "Segnale -> soggetto -> forma -> significato", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#9ff5e9",
-        fontStyle: "bold",
-      }));
-    } else if (prompt.type === "verb-mastery") {
-      overlay.add(this.add.text(x + 44, y + 142, "Verbo -> persona -> modo -> tempo -> valore nella frase", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#9ff5a7",
-        fontStyle: "bold",
-        wordWrap: { width: width - 88 },
-      }));
-    } else if (prompt.type === "connector-route") {
-      overlay.add(this.add.text(x + 44, y + 142, "Dai un nome al rapporto: causa, contrasto, tempo, condizione o scopo.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#f7d37a",
-        wordWrap: { width: width - 88 },
-      }));
-    } else if (prompt.type === "word-order") {
-      overlay.add(this.add.text(x + 44, y + 142, "Ordina: soggetto -> verbo -> complementi. Il comando deve restare eseguibile.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#d8c9ff",
-        wordWrap: { width: width - 88 },
-      }));
-    } else if (prompt.type === "lexicon-lab") {
-      overlay.add(this.add.text(x + 44, y + 142, "Scegli la parola più precisa: prova, ipotesi, fonte, registro e scopo cambiano il lessico.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#d8c9ff",
-        wordWrap: { width: width - 88 },
-      }));
-    } else if (prompt.type === "punctuation-fix") {
-      overlay.add(this.add.text(x + 44, y + 142, "Controlla funzione e forma: accento, apostrofo o parola intera cambiano significato.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#ffd8a8",
-        wordWrap: { width: width - 88 },
-      }));
-    } else {
-      overlay.add(this.add.text(x + 44, y + 142, "Tieni solo ciò che serve all'obiettivo. Un dettaglio vero può essere inutile.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#d8c9ff",
-        wordWrap: { width: width - 88 },
-      }));
-    }
   }
 
   private currentLanguageMinigamePrompt(session: LanguageMinigameSession): LanguageMinigamePrompt {
@@ -1990,28 +1937,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       score: proceduralScoring.addToSummary(run.score, score),
     });
     return score;
-  }
-
-  private languageMinigameMethodText(prompt: LanguageMinigamePrompt): string {
-    if (prompt.type === "agreement-sprint") {
-      return "Metodo: trova il soggetto reale, ignora incisi e relative, poi controlla verbo e aggettivo.";
-    }
-    if (prompt.type === "connector-route") {
-      return "Metodo: dai un nome al rapporto logico prima di guardare i connettivi.";
-    }
-    if (prompt.type === "verb-mastery") {
-      return "Metodo: individua verbo, persona, modo e tempo; poi controlla se il contesto chiede certezza, dubbio, comando o ipotesi.";
-    }
-    if (prompt.type === "word-order") {
-      return "Metodo: soggetto, verbo, complementi; metti tempo o condizione in fondo. Rileggi se suona naturale.";
-    }
-    if (prompt.type === "lexicon-lab") {
-      return "Metodo: scegli la parola che rende più preciso lo scopo del messaggio: prova, ipotesi, fonte, diagnosi o registro.";
-    }
-    if (prompt.type === "punctuation-fix") {
-      return "Metodo: identifica la funzione della parola, poi controlla accento, apostrofo e forma intera.";
-    }
-    return "Metodo: confronta ogni dettaglio con l'obiettivo. Se non aiuta diagnosi, sequenza, fonte o sintesi, è rumore.";
   }
 
   private openCircuit(): void {
@@ -7417,7 +7342,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private musicSprintDurationMs(level: DifficultyLevel): number {
-    return 45_000 + Math.min(18_000, (level - 1) * 2_500);
+    return (45_000 + Math.min(18_000, (level - 1) * 2_500)) * 2;
   }
 
   private musicSprintElapsedMs(session: MusicTrainingSession): number {

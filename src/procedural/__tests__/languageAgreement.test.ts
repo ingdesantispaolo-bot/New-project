@@ -97,12 +97,12 @@ describe("Agreement (concordanza) minigame", () => {
     for (const type of ["intruder-hunt", "lexicon-lab"] as const) {
       const game = gen.generateMinigame(new Random(`refl:${type}`), 5, [type]).minigame!;
       expect(game.reflective).toBe(true);
-      expect(game.durationMs).toBeGreaterThan(60_000);
+      expect(game.durationMs).toBeGreaterThan(120_000);
     }
     for (const type of ["agreement-sprint", "connector-route", "word-order", "verb-mastery", "punctuation-fix"] as const) {
       const game = gen.generateMinigame(new Random(`spr:${type}`), 5, [type]).minigame!;
       expect(game.reflective ?? false).toBe(false);
-      expect(game.durationMs).toBe(60_000);
+      expect(game.durationMs).toBe(120_000);
     }
   });
 

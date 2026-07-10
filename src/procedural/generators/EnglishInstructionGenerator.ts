@@ -119,7 +119,7 @@ export class EnglishInstructionGenerator {
       difficultyLabel: `Livello ${level} - sprint inglese operativo`,
       conceptTags: this.englishMinigameConcepts(type),
       learningPurpose: this.englishMinigamePurpose(type),
-      commandGoal: "Trasformare molti micro-comandi inglesi in azioni sicure entro 60 secondi.",
+      commandGoal: "Trasformare molti micro-comandi inglesi in azioni sicure entro 120 secondi.",
       method: this.englishMinigameMethod(type),
       methodSteps: this.englishMinigameMethodSteps(type),
       glossary: first.glossary,
@@ -188,9 +188,9 @@ export class EnglishInstructionGenerator {
     return {
       type,
       title: titles[type],
-      durationMs: 60_000,
+      durationMs: 120_000,
       instructions: instructions[type],
-      scoringRule: "60 secondi: punti per risposte corrette e serie pulite, penalità per errori e aiuti. Non basta tradurre: devi eseguire il comando giusto.",
+      scoringRule: "120 secondi: punti per risposte corrette e serie pulite, penalità per errori e aiuti. Non basta tradurre: devi eseguire il comando giusto.",
       prompts,
       competencies: Array.from(new Set([
         "inglese.istruzioni",

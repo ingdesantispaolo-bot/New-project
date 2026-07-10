@@ -76,6 +76,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
       fontFamily: "Inter, Arial", fontSize: "42px", color: "#f5fbff", fontStyle: "bold", stroke: "#03121b", strokeThickness: 6,
     }).setOrigin(0.5));
     card.add(this.add.rectangle(0, 36, 260, 3, area.accent, 0.95));
+    this.explorer?.markUi(card);
     this.tweens.add({
       targets: card, alpha: 1, y: cy, duration: 320, ease: "Cubic.easeOut",
       onComplete: () => this.tweens.add({ targets: card, alpha: 0, delay: 1000, duration: 520, onComplete: () => card.destroy(true) }),
@@ -87,11 +88,12 @@ export class ExplorableRoomScene extends Phaser.Scene {
   }
 
   private buildHud(area: MapAreaDef): void {
-    this.add.text(24, 22, `${area.label} · cammina con WASD/frecce o tocca il pavimento · E vicino a una console`, {
+    const hint = this.add.text(24, 22, `${area.label} · cammina con WASD/frecce o tocca il pavimento · E vicino a una console`, {
       fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", backgroundColor: "rgba(4,18,28,0.8)", padding: { x: 10, y: 6 },
     }).setScrollFactor(0).setDepth(50);
-    new Button(this, 1180, 40, "Indietro", () => this.scene.start(this.returnScene), { width: 150, height: 40, fontSize: 15, fill: 0x263743 })
-      .setScrollFactor(0, 0, true).setDepth(50);
+    const back = new Button(this, 1180, 40, "Indietro", () => this.scene.start(this.returnScene), { width: 150, height: 40, fontSize: 15, fill: 0x263743 })
+      .setScrollFactor(0).setDepth(50);
+    this.explorer?.markUi([hint, back]);
   }
 
   private onInteract(console: RoomConsole): void {
@@ -123,6 +125,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
     this.explorer?.pauseForOverlay();
     const path = getProceduralFocusPath([focus]);
     const panel = this.add.container(640, 360).setScrollFactor(0).setDepth(100);
+    this.explorer?.markUi(panel);
     panel.add(this.add.rectangle(0, 0, 1280, 720, 0x02070b, 0.72).setInteractive());
     panel.add(this.add.rectangle(0, 0, 680, 380, 0x07151d, 0.99).setStrokeStyle(3, console.color, 0.9));
     panel.add(this.add.text(0, -138, `${console.glyph}  ${path.label}`, { fontFamily: "Inter, Arial", fontSize: "30px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
@@ -211,6 +214,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
       fontSize: "13px",
       color: "#f5fbff",
     }).setOrigin(0.5).setScrollFactor(0).setDepth(121);
+    this.explorer?.markUi([panel, text]);
     this.time.delayedCall(2400, () => {
       panel.destroy();
       text.destroy();

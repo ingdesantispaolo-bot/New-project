@@ -221,15 +221,15 @@ export class ProceduralMissionView {
     const T = SceneChrome.layout.top;
     const DEPTH = 1000;
     const fx = <G extends Phaser.GameObjects.GameObject>(o: G): G => {
-      (o as unknown as { setScrollFactor?: (v: number) => void }).setScrollFactor?.(0);
+      (o as unknown as { setScrollFactor?: (x: number, y?: number, updateChildren?: boolean) => void }).setScrollFactor?.(0, 0, true);
       (o as unknown as { setDepth?: (v: number) => void }).setDepth?.(DEPTH);
       return o;
     };
 
     const modeLabel = mode === "training" ? "Allenamento" : mode === "progressive" ? "Scalata" : "Missione";
     const panelH = 104;
-    fx(scene.add.rectangle(T.x, T.y, T.width, panelH, 0x07151d, 0.92).setOrigin(0).setStrokeStyle(2, theme.accent, 0.5));
-    fx(scene.add.rectangle(T.x, T.y, 6, panelH, theme.accent, 0.95).setOrigin(0));
+    fx(scene.add.rectangle(T.x, T.y, T.width, panelH, 0x07151d, 0.46).setOrigin(0).setStrokeStyle(2, theme.accent, 0.36));
+    fx(scene.add.rectangle(T.x, T.y, 6, panelH, theme.accent, 0.72).setOrigin(0));
     fx(scene.add.rectangle(T.x + 312, T.y + 18, 2, panelH - 36, theme.accent, 0.22).setOrigin(0));
     fx(scene.add.rectangle(T.x + 828, T.y + 18, 2, panelH - 36, theme.accent, 0.22).setOrigin(0));
 

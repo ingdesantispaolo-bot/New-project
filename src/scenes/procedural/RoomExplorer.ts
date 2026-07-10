@@ -70,22 +70,38 @@ export class RoomExplorer {
   private minimapDot?: Phaser.GameObjects.Arc;
   private minimapView?: Phaser.GameObjects.Rectangle;
   private minimapGeom?: { ox: number; oy: number; sx: number; sy: number };
+  private uiCamera?: Phaser.Cameras.Scene2D.Camera;
+  private worldObjects: Phaser.GameObjects.GameObject[] = [];
   private readonly onE: () => void;
   private readonly onPointer: (pointer: Phaser.Input.Pointer) => void;
 
   constructor(private scene: Phaser.Scene, private cfg: RoomExplorerConfig) {
     scene.cameras.main.setBounds(0, 0, cfg.worldW, cfg.worldH);
 
+    // Snapshot the display list so we can split world (scrolling main camera)
+    // from HUD (fixed UI camera) without tagging every object individually.
+    const worldStart = scene.children.list.length;
     this.drawFloor();
     this.buildWalls();
     if (cfg.decorate ?? true) this.buildEnvironmentProps();
     this.buildConsoles();
     this.buildAvatar();
     this.buildPrompt();
+    const worldEnd = scene.children.list.length;
+    this.worldObjects = scene.children.list.slice(worldStart, worldEnd);
     if (cfg.minimap) this.buildMinimap();
+    const minimapObjs = scene.children.list.slice(worldEnd);
 
     scene.cameras.main.startFollow(this.avatar, true, 0.12, 0.12);
     scene.cameras.main.setDeadzone(220, 160);
+
+    // A second camera with fixed scroll renders (and hit-tests) the HUD. Needed
+    // because Phaser ignores scrollFactor when hit-testing Container children:
+    // under a scrolling main camera, scrollFactor(0) buttons render in place but
+    // their input area is offset. The UI camera keeps HUD input aligned.
+    this.uiCamera = scene.cameras.add(0, 0, scene.scale.width, scene.scale.height);
+    this.uiCamera.ignore(this.worldObjects);
+    if (minimapObjs.length) scene.cameras.main.ignore(minimapObjs);
 
     this.cursors = scene.input.keyboard!.createCursorKeys();
     this.keys = scene.input.keyboard!.addKeys("W,A,S,D") as Record<string, Phaser.Input.Keyboard.Key>;
@@ -396,8 +412,22 @@ export class RoomExplorer {
     this.scene.cameras.main.startFollow(this.avatar, true, 0.12, 0.12);
   }
 
+  /**
+   * Register HUD/overlay objects so they render (and are clickable) via the fixed
+   * UI camera instead of the scrolling main camera. Call for every scene-side
+   * HUD element created over the room (buttons, panels, banners).
+   */
+  markUi(objects: Phaser.GameObjects.GameObject | Phaser.GameObjects.GameObject[]): void {
+    const arr = Array.isArray(objects) ? objects : [objects];
+    if (arr.length) this.scene.cameras.main.ignore(arr);
+  }
+
   teardown(): void {
     this.scene.input.keyboard?.off("keydown-E", this.onE);
     this.scene.input.off("pointerdown", this.onPointer);
+    if (this.uiCamera) {
+      this.scene.cameras.remove(this.uiCamera);
+      this.uiCamera = undefined;
+    }
   }
 }

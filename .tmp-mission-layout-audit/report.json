@@ -5,10 +5,25 @@
       "width": 1280,
       "height": 720
     },
+    "screenshotPath": "D:\\AppElis\\New-project\\.tmp-mission-layout-audit\\desktop-1280x720.png",
+    "audit": {
+      "canvas": {
+        "width": 1280,
+        "height": 720,
+        "clientWidth": 1280,
+        "clientHeight": 720
+      },
+      "textCount": 8,
+      "overflows": [],
+      "objectiveText": "Stabilizza il segnale\nVai alla console e premi E.",
+      "progressText": "Fatte 0/6\nTempo 0:13",
+      "hasObjectiveHud": true,
+      "hasProgressHud": true,
+      "hasExplorer": true,
+      "longPermanentTexts": []
+    },
     "errors": [],
-    "failures": [
-      "Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed."
-    ]
+    "failures": []
   },
   {
     "viewport": {
@@ -24,9 +39,13 @@
         "clientWidth": 1365,
         "clientHeight": 768
       },
-      "textCount": 33,
+      "textCount": 8,
       "overflows": [],
-      "objectivePanelCount": 1,
+      "objectiveText": "Stabilizza il segnale\nVai alla console e premi E.",
+      "progressText": "Fatte 0/6\nTempo 0:03",
+      "hasObjectiveHud": true,
+      "hasProgressHud": true,
+      "hasExplorer": true,
       "longPermanentTexts": []
     },
     "errors": [],
@@ -46,9 +65,13 @@
         "clientWidth": 1024,
         "clientHeight": 576
       },
-      "textCount": 33,
+      "textCount": 8,
       "overflows": [],
-      "objectivePanelCount": 1,
+      "objectiveText": "Stabilizza il segnale\nVai alla console e premi E.",
+      "progressText": "Fatte 0/6\nTempo 0:02",
+      "hasObjectiveHud": true,
+      "hasProgressHud": true,
+      "hasExplorer": true,
       "longPermanentTexts": []
     },
     "errors": [],
@@ -68,9 +91,13 @@
         "clientWidth": 390,
         "clientHeight": 219
       },
-      "textCount": 33,
+      "textCount": 8,
       "overflows": [],
-      "objectivePanelCount": 1,
+      "objectiveText": "Stabilizza il segnale\nVai alla console e premi E.",
+      "progressText": "Fatte 0/6\nTempo 0:02",
+      "hasObjectiveHud": true,
+      "hasProgressHud": true,
+      "hasExplorer": true,
       "longPermanentTexts": []
     },
     "errors": [],

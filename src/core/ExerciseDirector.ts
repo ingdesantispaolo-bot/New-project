@@ -36,7 +36,11 @@ export class ExerciseDirector {
   }
 
   enrichMath(puzzle: GeneratedMathPuzzle, level: DifficultyLevel): GeneratedMathPuzzle {
-    const steps = puzzle.solutionSteps ?? this.inferMathSteps(puzzle.prompt, puzzle.answer);
+    const steps = this.completeMathSteps(
+      puzzle.solutionSteps ?? this.inferMathSteps(puzzle.prompt, puzzle.answer),
+      puzzle,
+      level,
+    );
     const profile = this.mathProfile(puzzle, level, steps);
     return {
       ...puzzle,
@@ -119,6 +123,26 @@ export class ExerciseDirector {
 
   private inferMathSteps(prompt: string, answer: number): string[] {
     return [prompt.replace(/\s+/g, " ").trim(), `risultato ${answer}`];
+  }
+
+  private completeMathSteps(steps: string[], puzzle: GeneratedMathPuzzle, level: DifficultyLevel): string[] {
+    const targetCount = Math.min(3, Math.max(2, difficultyModel.getPreset(level).mathComplexity));
+    const completed = [...steps].filter((step) => step.trim().length > 0);
+    const candidates = [
+      ...(puzzle.hints ?? []),
+      `Controlla che la risposta sia un numero intero: ${puzzle.answer}.`,
+    ];
+    for (const candidate of candidates) {
+      if (completed.length >= targetCount) break;
+      const normalized = candidate.replace(/\.$/, "").trim();
+      if (normalized.length > 0 && !completed.includes(normalized)) {
+        completed.push(normalized);
+      }
+    }
+    while (completed.length < targetCount) {
+      completed.push(`Verifica il passaggio ${completed.length + 1} prima di confermare il risultato.`);
+    }
+    return completed;
   }
 
   private mathProfile(puzzle: GeneratedMathPuzzle, level: DifficultyLevel, steps: string[]) {

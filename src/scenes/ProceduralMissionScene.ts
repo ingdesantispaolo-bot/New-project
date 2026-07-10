@@ -7832,195 +7832,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.robotExecuting = false;
 
     const commandLimit = puzzle.maxCommands ?? puzzle.solutionCommands.length + 4;
-    const mapPanel = { x: 52, y: 94, w: 462, h: 358 };
-    const programPanel = { x: 536, y: 94, w: 286, h: 358 };
-    const objectivePanel = { x: 844, y: 94, w: 304, h: 358 };
-    const commandPanel = { x: 52, y: 472, w: 1096, h: 150 };
+    const { mapPanel, programPanel, objectivePanel, commandPanel } = RobotConsole.layout();
+    RobotConsole.addPanels(this, overlay, { mapPanel, programPanel, objectivePanel, commandPanel });
+    RobotConsole.addMapHeader(this, overlay, mapPanel, model, puzzle.cols, puzzle.rows);
+    RobotConsole.addMapLegend(this, overlay, mapPanel, this.facingLabel(puzzle.start.facing));
+    const grid = RobotConsole.addGrid(this, overlay, mapPanel, model, puzzle, (facing) => this.robotRotationFor(facing));
+    this.robotOrigin = grid.origin;
+    this.robotCellSize = grid.cellSize;
+    this.robotSprite = grid.robotSprite;
+    this.robotKeyMarker = grid.keyMarker;
 
-    overlay.add(this.add.rectangle(mapPanel.x, mapPanel.y, mapPanel.w, mapPanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.rectangle(programPanel.x, programPanel.y, programPanel.w, programPanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.rectangle(objectivePanel.x, objectivePanel.y, objectivePanel.w, objectivePanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.rectangle(commandPanel.x, commandPanel.y, commandPanel.w, commandPanel.h, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.28));
+    this.robotStatusText = RobotConsole.addProgramPanel(this, overlay, programPanel, model, this.robotCommands, commandLimit);
 
-    overlay.add(this.add.text(mapPanel.x + 18, mapPanel.y + 14, "Mappa robot", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(mapPanel.x + 18, mapPanel.y + 38, `Focus: ${model.visualFocus ?? "sequenza"} | Griglia ${puzzle.cols}x${puzzle.rows}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#f7d37a",
-    }));
+    RobotConsole.addObjectivePanel(this, overlay, objectivePanel, model);
 
-    this.robotCellSize = Math.min(
-      42,
-      Math.floor((mapPanel.w - 82) / puzzle.cols),
-      Math.floor((mapPanel.h - 168) / puzzle.rows),
-    );
-    const gridW = this.robotCellSize * puzzle.cols;
-    const gridH = this.robotCellSize * puzzle.rows;
-    this.robotOrigin = {
-      x: mapPanel.x + Math.floor((mapPanel.w - gridW) / 2) + this.robotCellSize / 2 + (model.coordinateLabels ? 10 : 0),
-      y: mapPanel.y + 104 + this.robotCellSize / 2,
-    };
-
-    if (model.coordinateLabels) {
-      for (let col = 0; col < puzzle.cols; col += 1) {
-        overlay.add(this.add.text(this.robotCellX(col), this.robotOrigin.y - this.robotCellSize * 0.78, `${col}`, {
-          fontFamily: "Inter, Arial",
-          fontSize: "9px",
-          color: "#f7d37a",
-          fontStyle: "bold",
-        }).setOrigin(0.5));
-      }
-      for (let row = 0; row < puzzle.rows; row += 1) {
-        overlay.add(this.add.text(this.robotOrigin.x - this.robotCellSize * 0.78, this.robotCellY(row), `${row}`, {
-          fontFamily: "Inter, Arial",
-          fontSize: "9px",
-          color: "#f7d37a",
-          fontStyle: "bold",
-        }).setOrigin(0.5));
-      }
-    }
-
-    overlay.add(this.add.text(mapPanel.x + 18, mapPanel.y + mapPanel.h - 54, [
-      `Robot: ${this.facingLabel(puzzle.start.facing)}`,
-      "Stella = chiave | quadrato = uscita | rosso = ostacolo | viola = checkpoint",
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: "#9aaab0",
-      wordWrap: { width: mapPanel.w - 36 },
-      lineSpacing: 2,
-    }));
-
-    for (let row = 0; row < puzzle.rows; row += 1) {
-      for (let col = 0; col < puzzle.cols; col += 1) {
-        const blocked = puzzle.obstacles.some((cell) => cell.col === col && cell.row === row);
-        const cell = this.add.rectangle(
-          this.robotCellX(col),
-          this.robotCellY(row),
-          this.robotCellSize - 4,
-          this.robotCellSize - 4,
-          blocked ? 0x4c2b38 : 0x132835,
-          1,
-        ).setStrokeStyle(1, blocked ? 0xc94b55 : 0x315766, 0.7);
-        overlay.add(cell);
-        if (!blocked && (col + row) % 2 === 0) {
-          overlay.add(this.add.rectangle(this.robotCellX(col), this.robotCellY(row), this.robotCellSize - 14, 2, 0x6be7d6, 0.08));
-        }
-      }
-    }
-    [...(puzzle.checkpoints ?? [])].sort((a, b) => a.order - b.order).forEach((checkpoint) => {
-      overlay.add(this.add.circle(this.robotCellX(checkpoint.col), this.robotCellY(checkpoint.row), Math.max(9, this.robotCellSize * 0.28), 0x8a7cff, 0.72).setStrokeStyle(2, 0xf5fbff, 0.58));
-      overlay.add(this.add.text(this.robotCellX(checkpoint.col), this.robotCellY(checkpoint.row), checkpoint.label, {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-      }).setOrigin(0.5));
-    });
-    this.robotSprite = this.add.triangle(
-      this.robotCellX(puzzle.start.col),
-      this.robotCellY(puzzle.start.row),
-      0,
-      -16,
-      14,
-      14,
-      -14,
-      14,
-      0x6be7d6,
-      1,
-    );
-    this.robotSprite.setStrokeStyle(2, 0xf5fbff, 0.8).setRotation(this.robotRotationFor(puzzle.start.facing));
-    this.robotKeyMarker = this.add.star(this.robotCellX(puzzle.key.col), this.robotCellY(puzzle.key.row), 5, 7, 16, 0xf6c85f, 1);
-    const exitMarker = this.add.rectangle(this.robotCellX(puzzle.exit.col), this.robotCellY(puzzle.exit.row), 24, 24, 0x9ff5e9, 0.45);
-    overlay.add(this.robotSprite);
-    overlay.add(this.robotKeyMarker);
-    overlay.add(exitMarker);
-
-    overlay.add(this.add.text(programPanel.x + 18, programPanel.y + 14, "Programma", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(programPanel.x + 18, programPanel.y + 38, `${this.robotCommands.length}/${commandLimit} comandi`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: this.robotCommands.length > commandLimit ? "#ff8a8a" : "#f7d37a",
-    }));
-    const visibleCommands = this.robotCommands.length
-      ? this.formatRobotCommands(this.robotCommands, 14)
-      : "(buffer vuoto)\nAggiungi comandi dalla barra in basso.";
-    overlay.add(this.add.rectangle(programPanel.x + 18, programPanel.y + 66, programPanel.w - 36, 176, 0x0b1f2b, 0.84).setOrigin(0).setStrokeStyle(1, 0x315766, 0.55));
-    overlay.add(this.add.text(programPanel.x + 32, programPanel.y + 80, visibleCommands, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#d9eaf1",
-      wordWrap: { width: programPanel.w - 64 },
-      lineSpacing: 2,
-    }));
-    const debugLine = model.buggedCommands
-      ? `Log guasto:\n${this.formatRobotCommands(model.buggedCommands, 7)}`
-      : "";
-    this.robotStatusText = this.add.text(programPanel.x + 18, programPanel.y + 258, debugLine || "Stato: pronto. Esegui solo quando il piano e completo.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: debugLine ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: programPanel.w - 36 },
-      lineSpacing: 3,
-    });
-    overlay.add(this.robotStatusText);
-
-    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + 14, "Obiettivo", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + 40, model.routeBrief ?? model.instructions[0] ?? "Costruisci una sequenza valida per chiave e uscita.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: objectivePanel.w - 36 },
-      lineSpacing: 3,
-    }));
-    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + 132, `Metodo: ${model.planningPrompt ?? "Simula mentalmente prima di eseguire."}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#f7d37a",
-      wordWrap: { width: objectivePanel.w - 36 },
-      lineSpacing: 3,
-    }));
-    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + 214, `Condizioni:\n${model.successConditions.slice(0, 4).map((condition) => `- ${condition}`).join("\n")}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#c9dce6",
-      wordWrap: { width: objectivePanel.w - 36 },
-      lineSpacing: 3,
-    }));
-    overlay.add(this.add.text(objectivePanel.x + 18, objectivePanel.y + objectivePanel.h - 40, model.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: "#9ff5e9",
-      wordWrap: { width: objectivePanel.w - 36 },
-    }));
-
-    overlay.add(this.add.text(commandPanel.x + 18, commandPanel.y + 14, "Comandi", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(commandPanel.x + 112, commandPanel.y + 16, "Avanza muove nella direzione della punta. Gira cambia solo direzione. Raccogli ed Esci funzionano solo sulla casella corretta.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: "#9aaab0",
-      wordWrap: { width: 680 },
-    }));
+    RobotConsole.addCommandHeader(this, overlay, commandPanel);
     (["MOVE_FORWARD", "TURN_LEFT", "TURN_RIGHT", "PICK_UP", "EXIT"] satisfies GridCommand[]).forEach((command, index) => {
       overlay.add(new Button(this, commandPanel.x + 132 + index * 158, commandPanel.y + 76, commandLabels[command], () => {
         if (!this.robotExecuting && this.robotCommands.length < commandLimit) {
@@ -8250,14 +8076,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       S: "punta verso sud",
       W: "punta verso ovest",
     }[facing];
-  }
-
-  private formatRobotCommands(commands: GridCommand[], limit = commands.length): string {
-    const visible = commands.slice(0, limit).map((command, index) => `${index + 1}. ${commandLabels[command]}`);
-    if (commands.length > limit) {
-      visible.push(`... altri ${commands.length - limit}`);
-    }
-    return visible.join("\n");
   }
 
   private openDoor(): void {

@@ -1,5 +1,6 @@
 import type Phaser from "phaser";
 import type { GeneratedRobotPuzzle, GridCommand } from "../../../procedural/ProceduralTypes";
+import { Button } from "../../../ui/Button";
 import { commandLabels } from "../ProceduralMissionDefs";
 
 export type RobotConsoleModel = {
@@ -31,6 +32,12 @@ export type RobotGridRenderResult = {
   cellSize: number;
   robotSprite: Phaser.GameObjects.Triangle;
   keyMarker: Phaser.GameObjects.Star;
+};
+
+export type RobotCommandHandlers = {
+  onCommand: (command: GridCommand) => void;
+  onExecute: () => void;
+  onClear: () => void;
 };
 
 export class RobotConsole {
@@ -289,6 +296,29 @@ export class RobotConsole {
       fontSize: "10px",
       color: "#9aaab0",
       wordWrap: { width: 680 },
+    }));
+  }
+
+  static addCommandControls(scene: Phaser.Scene, overlay: Phaser.GameObjects.Container, panel: RobotConsolePanel, handlers: RobotCommandHandlers): void {
+    this.addCommandHeader(scene, overlay, panel);
+    (["MOVE_FORWARD", "TURN_LEFT", "TURN_RIGHT", "PICK_UP", "EXIT"] satisfies GridCommand[]).forEach((command, index) => {
+      overlay.add(new Button(scene, panel.x + 132 + index * 158, panel.y + 76, commandLabels[command], () => handlers.onCommand(command), {
+        width: 136,
+        height: 38,
+        fontSize: 12,
+      }));
+    });
+    overlay.add(new Button(scene, panel.x + panel.w - 116, panel.y + 50, "Esegui", handlers.onExecute, {
+      width: 172,
+      height: 38,
+      fill: 0x173b36,
+      fontSize: 12,
+    }));
+    overlay.add(new Button(scene, panel.x + panel.w - 116, panel.y + 102, "Pulisci", handlers.onClear, {
+      width: 172,
+      height: 38,
+      fill: 0x263743,
+      fontSize: 12,
     }));
   }
 

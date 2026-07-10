@@ -1994,7 +1994,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
 
     this.drawCircuitDiagnostic(overlay);
-    this.drawCircuitSidePanel(overlay, model);
+    CircuitConsole.addSidePanel(this, overlay, model, {
+      conceptLocked,
+      inspected: this.circuitInspected,
+      conceptIndex: this.circuitConceptIndex,
+    });
 
     if (conceptLocked) {
       this.drawCircuitComponentChallenge(overlay, model);
@@ -2065,123 +2069,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
         this.handleIncorrectAnswer(`${message} ${this.nextPedagogicHint(puzzle, puzzle.hints[0] ?? "Rileggi il tester e collega sintomo a causa.")}`);
       });
     }, { width: 250, height: 52, fill: 0x173b36 }));
-  }
-
-  private drawCircuitSidePanel(overlay: Phaser.GameObjects.Container, model: CircuitConsoleModel): void {
-    const x = 844;
-    const y = 226;
-    const conceptLocked = this.circuitConceptLocked();
-    overlay.add(this.add.rectangle(x, y, 302, 232, 0x07151d, 0.84).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(x + 18, y + 16, conceptLocked ? "Prima guarda i pezzi" : this.circuitInspected ? "Letture tester" : "Metodo in 3 passi", {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-
-    if (conceptLocked) {
-      overlay.add(this.add.text(x + 18, y + 48, "Non riparare ancora. Prima rispondi al pezzo cerchiato; poi passerai al giro completo della corrente.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#d9eaf1",
-        wordWrap: { width: 266, useAdvancedWrap: true },
-        lineSpacing: 5,
-      }));
-      model.componentChallenges.slice(0, 3).forEach((challenge, index) => {
-        const rowY = y + 116 + index * 34;
-        const done = index < this.circuitConceptIndex;
-        const active = index === this.circuitConceptIndex;
-        const state = done ? "fatto" : active ? "ora" : "dopo";
-        const label = done ? challenge.componentLabel : active ? "Pezzo cerchiato" : `Pezzo ${index + 1}`;
-        const color = done ? 0x66f2a0 : active ? 0xf6c85f : 0x5c7480;
-        overlay.add(this.add.circle(x + 28, rowY + 7, 9, color, active ? 0.22 : 0.14).setStrokeStyle(1, color, done || active ? 0.78 : 0.45));
-        overlay.add(this.add.text(x + 25, rowY, String(index + 1), {
-          fontFamily: "Inter, Arial",
-          fontSize: "10px",
-          color: done ? "#66f2a0" : active ? "#f7d37a" : "#8aa1ad",
-          fontStyle: "bold",
-        }).setOrigin(0.5, 0));
-        overlay.add(this.add.text(x + 48, rowY - 2, `${state}: ${label}`, {
-          fontFamily: "Inter, Arial",
-          fontSize: "11px",
-          color: done || active ? "#c7dce7" : "#8aa1ad",
-          wordWrap: { width: 226, useAdvancedWrap: true },
-          lineSpacing: 2,
-        }));
-      });
-      return;
-    }
-
-    if (!this.circuitInspected) {
-      overlay.add(this.add.text(x + 18, y + 48, "Ora che conosci i pezzi, usa il tester per controllare il giro. Non scegliere riparazioni a caso.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#d9eaf1",
-        wordWrap: { width: 266, useAdvancedWrap: true },
-        lineSpacing: 5,
-      }));
-      model.diagnosticPlan.slice(0, 3).forEach((step, index) => {
-        const rowY = y + 116 + index * 34;
-        overlay.add(this.add.circle(x + 28, rowY + 7, 9, 0xf6c85f, 0.18).setStrokeStyle(1, 0xf6c85f, 0.7));
-        overlay.add(this.add.text(x + 25, rowY, String(index + 1), {
-          fontFamily: "Inter, Arial",
-          fontSize: "10px",
-          color: "#f7d37a",
-          fontStyle: "bold",
-        }).setOrigin(0.5, 0));
-        overlay.add(this.add.text(x + 48, rowY - 2, step, {
-          fontFamily: "Inter, Arial",
-          fontSize: "11px",
-          color: "#c7dce7",
-          wordWrap: { width: 226, useAdvancedWrap: true },
-          lineSpacing: 2,
-        }));
-      });
-      return;
-    }
-
-    const readingLabels: Record<NonNullable<GeneratedCircuitPuzzle["testerReadings"]>[number]["reading"], string> = {
-      continuita: "continuità",
-      interrotto: "interrotto",
-      "polarita-inversa": "polarità inversa",
-      "non-stabile": "non stabile",
-      corto: "corto",
-      "tensione-bassa": "tensione bassa",
-      "soglia-fuori-range": "soglia fuori range",
-      "carica-bassa": "carica bassa",
-    };
-    model.testerReadings.slice(0, 4).forEach((reading, index) => {
-      const rowY = y + 50 + index * 39;
-      overlay.add(this.add.rectangle(x + 18, rowY - 4, 266, 34, 0x102533, 0.7).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.14));
-      overlay.add(this.add.text(x + 30, rowY, `${reading.from} -> ${reading.to}`, {
-        fontFamily: "Inter, Arial",
-        fontSize: "10px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-        wordWrap: { width: 130 },
-      }));
-      overlay.add(this.add.text(x + 162, rowY, readingLabels[reading.reading], {
-        fontFamily: "Inter, Arial",
-        fontSize: "10px",
-        color: reading.reading === "continuita" ? "#9ff5e9" : "#f7d37a",
-        fontStyle: "bold",
-      }));
-      overlay.add(this.add.text(x + 30, rowY + 15, reading.note, {
-        fontFamily: "Inter, Arial",
-        fontSize: "9px",
-        color: "#9aaab0",
-        wordWrap: { width: 242 },
-      }));
-    });
-
-    const guide = model.componentGuide.slice(0, 2).map((component) => `${component.label}: ${component.check}`).join("\n");
-    overlay.add(this.add.text(x + 18, y + 206, guide, {
-      fontFamily: "Inter, Arial",
-      fontSize: "9px",
-      color: "#9aaab0",
-      wordWrap: { width: 266 },
-      lineSpacing: 2,
-    }));
   }
 
   private drawCircuitComponentChallenge(overlay: Phaser.GameObjects.Container, model: CircuitConsoleModel): void {
@@ -2301,29 +2188,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.circuitSymbolAnswer = undefined;
       this.openCircuit();
     }
-  }
-
-  private formatTesterReadings(model: CircuitConsoleModel): string {
-    const readingLabels: Record<NonNullable<GeneratedCircuitPuzzle["testerReadings"]>[number]["reading"], string> = {
-      continuita: "continuità",
-      interrotto: "interrotto",
-      "polarita-inversa": "polarità inversa",
-      "non-stabile": "non stabile",
-      corto: "corto",
-      "tensione-bassa": "tensione bassa",
-      "soglia-fuori-range": "soglia fuori range",
-      "carica-bassa": "carica bassa",
-    };
-    const readings = model.testerReadings
-      .slice(0, 5)
-      .map((reading, index) => `${index + 1}. ${reading.from} -> ${reading.to}: ${readingLabels[reading.reading]}. ${reading.note}`)
-      .join("\n");
-    const plan = model.diagnosticPlan.map((step, index) => `${index + 1}) ${step}`).join("  ");
-    const components = model.componentGuide
-      .slice(0, 4)
-      .map((component) => `${component.label}: ${component.check}`)
-      .join(" | ");
-    return `Letture tester\n${readings}\n\nPiano: ${plan}\nComponenti chiave: ${components}`;
   }
 
   private circuitConceptLocked(): boolean {
@@ -7846,25 +7710,24 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
     RobotConsole.addObjectivePanel(this, overlay, objectivePanel, model);
 
-    RobotConsole.addCommandHeader(this, overlay, commandPanel);
-    (["MOVE_FORWARD", "TURN_LEFT", "TURN_RIGHT", "PICK_UP", "EXIT"] satisfies GridCommand[]).forEach((command, index) => {
-      overlay.add(new Button(this, commandPanel.x + 132 + index * 158, commandPanel.y + 76, commandLabels[command], () => {
+    RobotConsole.addCommandControls(this, overlay, commandPanel, {
+      onCommand: (command) => {
         if (!this.robotExecuting && this.robotCommands.length < commandLimit) {
           this.robotCommands.push(command);
           this.openRobot();
         } else if (!this.robotExecuting) {
           this.useHint("Il buffer e pieno: non aggiungere tentativi. Simula il percorso e togli i comandi che non cambiano obiettivo.");
         }
-      }, { width: 136, height: 38, fontSize: 12 }));
+      },
+      onExecute: () => this.executeRobot(),
+      onClear: () => {
+        if (this.robotExecuting) {
+          return;
+        }
+        this.robotCommands = [];
+        this.openRobot();
+      },
     });
-    overlay.add(new Button(this, commandPanel.x + commandPanel.w - 116, commandPanel.y + 50, "Esegui", () => this.executeRobot(), { width: 172, height: 38, fill: 0x173b36, fontSize: 12 }));
-    overlay.add(new Button(this, commandPanel.x + commandPanel.w - 116, commandPanel.y + 102, "Pulisci", () => {
-      if (this.robotExecuting) {
-        return;
-      }
-      this.robotCommands = [];
-      this.openRobot();
-    }, { width: 172, height: 38, fill: 0x263743, fontSize: 12 }));
   }
 
   private executeRobot(): void {

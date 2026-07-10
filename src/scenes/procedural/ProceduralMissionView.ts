@@ -204,6 +204,67 @@ export class ProceduralMissionView {
     return { objectiveText, progressText, feedbackText };
   }
 
+  /**
+   * HUD ibrida per la fase Esplora a stanza intera: SOLO barra superiore + un
+   * pannello destro sottile (obiettivo, stato, feedback, bottoni), tutti
+   * `scrollFactor(0)` così restano fissi mentre la stanza scorre dietro. Ritorna
+   * gli stessi text refs di createHud, così refreshObjective/feedback funzionano
+   * senza modifiche. Il timer della Prova compare dentro lo Stato (progressText).
+   */
+  static createExploreChrome(
+    scene: Phaser.Scene,
+    run: ProceduralRunSave,
+    onRegenerate: () => void,
+    onHub: () => void,
+    onUseNoraCharge?: () => void,
+  ): ProceduralMissionHud {
+    const theme = proceduralVisualThemeFor(run);
+    const mode = proceduralRunRules.modeFor(run);
+    const T = SceneChrome.layout.top;
+    const R = SceneChrome.layout.right;
+    const DEPTH = 1000;
+    const fx = <G extends Phaser.GameObjects.GameObject>(o: G): G => {
+      (o as unknown as { setScrollFactor?: (v: number) => void }).setScrollFactor?.(0);
+      (o as unknown as { setDepth?: (v: number) => void }).setDepth?.(DEPTH);
+      return o;
+    };
+
+    // Barra superiore
+    fx(scene.add.rectangle(T.x, T.y, T.width, T.height, 0x07151d, 0.92).setOrigin(0).setStrokeStyle(2, theme.accent, 0.5));
+    fx(scene.add.rectangle(T.x, T.y, 6, T.height, theme.accent, 0.95).setOrigin(0));
+    fx(scene.add.text(T.x + 20, T.y + 12, run.mission.title, { fontFamily: "Inter, Arial", fontSize: "22px", color: "#f5fbff", fontStyle: "bold" }));
+    const modeLabel = mode === "training" ? "Allenamento" : mode === "progressive" ? "Scalata" : "Missione";
+    fx(scene.add.text(T.x + 20, T.y + 46, `${modeLabel}  ·  Livello ${run.difficulty}: ${theme.levelName}  ·  Seed ${run.seed}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9" }));
+    fx(scene.add.text(T.x + T.width - 20, T.y + 30, "Mappa: WASD/frecce/tap · E vicino a una console", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", fontStyle: "bold" }).setOrigin(1, 0.5));
+
+    // Pannello destro sottile
+    fx(scene.add.rectangle(R.x, R.y, R.width, R.height, 0x07151d, 0.93).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.42));
+    fx(scene.add.rectangle(R.x, R.y, R.width, 5, 0x6be7d6, 0.9).setOrigin(0));
+    fx(scene.add.text(R.x + 16, R.y + 16, "OBIETTIVO", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }));
+    const objectiveText = fx(scene.add.text(R.x + 16, R.y + 44, "", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1", wordWrap: { width: R.width - 32 }, lineSpacing: 5 }));
+
+    fx(scene.add.rectangle(R.x + 14, R.y + 236, R.width - 28, 118, 0x061019, 0.72).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
+    fx(scene.add.text(R.x + 28, R.y + 246, "STATO", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", fontStyle: "bold" }));
+    const progressText = fx(scene.add.text(R.x + 28, R.y + 270, "", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#d9eaf1", wordWrap: { width: R.width - 56 }, lineSpacing: 3 }));
+    const feedbackText = fx(scene.add.text(R.x + 16, R.y + 366, "", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", wordWrap: { width: R.width - 32 }, lineSpacing: 3 }));
+
+    // Bottoni impilati in basso
+    const chargeStep = saveSystem.data.inventory.includes("nora-reserve") ? 1 : 2;
+    const earnedCharges = Math.min(2, Math.floor(run.solvedPuzzleIds.length / chargeStep));
+    const availableCharges = Math.max(0, earnedCharges - (run.noraChargesUsed ?? 0));
+    const cx = R.x + R.width / 2;
+    let by = R.y + R.height - 26;
+    fx(new Button(scene, cx, by, "Menu", onHub, { width: R.width - 28, height: 34, fill: 0x142736, fontSize: 14 }));
+    by -= 42;
+    const restartLabel = mode === "training" ? "Nuovo focus" : mode === "progressive" ? "Reset scalata" : "Ricomincia";
+    fx(new Button(scene, cx, by, restartLabel, onRegenerate, { width: R.width - 28, height: 34, fill: 0x263743, fontSize: 13 }));
+    if (onUseNoraCharge && mode !== "training" && availableCharges > 0) {
+      by -= 42;
+      fx(new Button(scene, cx, by, `Impulso NORA ×${availableCharges}`, onUseNoraCharge, { width: R.width - 28, height: 34, fill: 0x173b36, stroke: 0xf6c85f, fontSize: 12 }));
+    }
+    return { objectiveText, progressText, feedbackText };
+  }
+
   static createHotspots(
     scene: Phaser.Scene,
     run: ProceduralRunSave,

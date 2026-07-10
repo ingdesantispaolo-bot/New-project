@@ -81,7 +81,9 @@ import { MathTerminal, type MathTerminalModel } from "./procedural/components/Ma
 import { MissionDependencyGraph } from "./procedural/components/MissionDependencyGraph";
 import { RobotConsole } from "./procedural/components/RobotConsole";
 import {
+  isProceduralHotspotSolved,
   isProceduralPuzzleSolved,
+  proceduralHotspotKind,
   proceduralHotspotPosition,
   proceduralPuzzleOrder,
   proceduralRequiredPuzzleIds,
@@ -91,6 +93,7 @@ import {
 } from "./procedural/ProceduralMissionLayout";
 import { ProceduralMissionView } from "./procedural/ProceduralMissionView";
 import { MissionRoomAvatar } from "./procedural/MissionRoomAvatar";
+import { RoomExplorer, type RoomConsole, type RoomWall } from "./procedural/RoomExplorer";
 import {
   commandLabels,
   faultLabels,
@@ -198,6 +201,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   /** Walkable avatar for the Explore phase (agency layer over the hotspots). */
   private roomAvatar?: MissionRoomAvatar;
+  /** Fullscreen explorable room (agency). Present when useExploreRoom() is on. */
+  private explorer?: RoomExplorer;
+  private wasOverlayOpen = false;
 
   init(data?: { autoOpenPuzzle?: ProceduralPuzzleId }): void {
     this.autoOpenPuzzle = data?.autoOpenPuzzle;
@@ -212,28 +218,31 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.run = this.ensureRun();
     audioManager.playMusic("labAmbience");
     VisualKit.applyCinematicGrade(this, "lab");
-    ProceduralMissionView.drawShell(this, this.run);
-    const hud = ProceduralMissionView.createHud(
-      this,
-      this.run,
-      () => this.isProgressiveMode() ? this.confirmProgressiveReset() : this.regenerate(),
-      () => {
-        this.pauseRunIfLeaving();
-        this.scene.start("MainMenuScene");
-      },
-      () => this.showNoraChargePanel(),
-    );
-    this.objectiveText = hud.objectiveText;
-    this.progressText = hud.progressText;
-    this.feedbackText = hud.feedbackText;
-    ProceduralMissionView.createHotspots(this, this.run, this.allPuzzlesSolved(), (hotspot) => this.openHotspot(hotspot));
-    // Agency layer: a walkable avatar (WASD/frecce + E) over the clickable
-    // hotspots, which stay as fallback. Off during the timed duel.
-    if (!this.isChapterTrial()) {
-      const stageRect = SceneChrome.layout.stage;
-      const consolePoints = sortProceduralHotspots(this.run.mission.map.hotspots)
-        .map((hotspot) => ({ hotspot, ...proceduralHotspotPosition(hotspot, stageRect) }));
-      this.roomAvatar = new MissionRoomAvatar(this, stageRect, consolePoints, this.run.seed, (hotspot) => this.openHotspot(hotspot));
+    const onRegenerate = () => this.isProgressiveMode() ? this.confirmProgressiveReset() : this.regenerate();
+    const onHub = () => { this.pauseRunIfLeaving(); this.scene.start("MainMenuScene"); };
+    const onNora = () => this.showNoraChargePanel();
+    if (this.useExploreRoom()) {
+      // Fullscreen explorable room + slim HUD (agency): walk to a console and
+      // interact, instead of the click-only hotspot map.
+      const hud = ProceduralMissionView.createExploreChrome(this, this.run, onRegenerate, onHub, onNora);
+      this.objectiveText = hud.objectiveText;
+      this.progressText = hud.progressText;
+      this.feedbackText = hud.feedbackText;
+      this.mountExploreRoom();
+    } else {
+      ProceduralMissionView.drawShell(this, this.run);
+      const hud = ProceduralMissionView.createHud(this, this.run, onRegenerate, onHub, onNora);
+      this.objectiveText = hud.objectiveText;
+      this.progressText = hud.progressText;
+      this.feedbackText = hud.feedbackText;
+      ProceduralMissionView.createHotspots(this, this.run, this.allPuzzlesSolved(), (hotspot) => this.openHotspot(hotspot));
+      // Agency layer: a walkable avatar over the clickable hotspots (fallback).
+      if (!this.isChapterTrial()) {
+        const stageRect = SceneChrome.layout.stage;
+        const consolePoints = sortProceduralHotspots(this.run.mission.map.hotspots)
+          .map((hotspot) => ({ hotspot, ...proceduralHotspotPosition(hotspot, stageRect) }));
+        this.roomAvatar = new MissionRoomAvatar(this, stageRect, consolePoints, this.run.seed, (hotspot) => this.openHotspot(hotspot));
+      }
     }
     this.refreshObjective();
     this.time.addEvent({ delay: 1000, loop: true, callback: () => this.refreshObjective() });
@@ -258,7 +267,83 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   update(_time: number, delta: number): void {
-    this.roomAvatar?.update(delta, Boolean(this.overlay));
+    const overlayOpen = Boolean(this.overlay);
+    this.roomAvatar?.update(delta, overlayOpen);
+    if (this.explorer) {
+      // On overlay open, reset the camera so fullscreen console overlays render
+      // at screen coords; on close, resume following the avatar.
+      if (overlayOpen && !this.wasOverlayOpen) this.explorer.pauseForOverlay();
+      else if (!overlayOpen && this.wasOverlayOpen) this.explorer.resume();
+      this.explorer.update(delta, overlayOpen);
+    }
+    this.wasOverlayOpen = overlayOpen;
+  }
+
+  /** Whether to render the fullscreen explorable room instead of the hotspot map. */
+  private useExploreRoom(): boolean {
+    return this.textures.exists("action-room-bg");
+  }
+
+  private mountExploreRoom(): void {
+    this.explorer = new RoomExplorer(this, {
+      worldW: 1760,
+      worldH: 1120,
+      bgTexture: "action-room-bg",
+      walls: [
+        { x: 0, y: 0, w: 1760, h: 40 },
+        { x: 0, y: 1080, w: 1760, h: 40 },
+        { x: 0, y: 0, w: 40, h: 1120 },
+        { x: 1720, y: 0, w: 40, h: 1120 },
+        { x: 520, y: 470, w: 70, h: 240 },
+        { x: 1170, y: 470, w: 70, h: 240 },
+      ] as RoomWall[],
+      consoles: this.buildRoomConsoles(),
+      seedKey: this.run.seed,
+      onInteract: (console) => this.openHotspot(console.ref as GeneratedRoomHotspot),
+    });
+  }
+
+  /** Maps the mission hotspots to console spots placed in the fullscreen world. */
+  private buildRoomConsoles(): RoomConsole[] {
+    const meta: Record<string, { asset?: string; glyph: string; color: number }> = {
+      language: { asset: "italian", glyph: "✒️", color: 0x9f8cff },
+      circuit: { asset: "electronics", glyph: "⚡", color: 0xf6c85f },
+      math: { asset: "math", glyph: "➗", color: 0x6be7d6 },
+      english: { asset: "english", glyph: "🌍", color: 0x7ad7ff },
+      robot: { asset: "coding", glyph: "🤖", color: 0x7cf6a6 },
+      coding: { asset: "coding", glyph: "💻", color: 0x7cf6a6 },
+      music: { asset: "music", glyph: "🎵", color: 0xff9d5c },
+      physics: { glyph: "🔬", color: 0x7ad7ff },
+    };
+    const pool = [
+      { x: 250, y: 250 }, { x: 710, y: 210 }, { x: 1180, y: 250 },
+      { x: 900, y: 560 }, { x: 320, y: 840 }, { x: 760, y: 900 }, { x: 1180, y: 840 },
+    ];
+    const hotspots = sortProceduralHotspots(this.run.mission.map.hotspots);
+    let poolIndex = 0;
+    return hotspots.map((hotspot) => {
+      const id = hotspot.puzzleId ?? hotspot.id;
+      const isDoor = id === "door";
+      const kind = proceduralHotspotKind(hotspot) ?? "";
+      const m = meta[kind] ?? { glyph: "❔", color: 0x6be7d6 };
+      const pos = isDoor ? { x: 1560, y: 560 } : (pool[poolIndex++ % pool.length]);
+      const solved = isProceduralHotspotSolved(hotspot, this.run.solvedPuzzleIds);
+      const failed = !isDoor && this.isFailed(id);
+      return {
+        id,
+        assetId: isDoor ? "exit" : m.asset,
+        label: hotspot.label,
+        glyph: isDoor ? "🚪" : m.glyph,
+        color: isDoor ? 0xffd75e : m.color,
+        x: pos.x,
+        y: pos.y,
+        w: 120,
+        h: 150,
+        solved,
+        state: isDoor ? (this.allPuzzlesSolved() ? "active" : "locked") : solved ? "resolved" : failed ? "failed" : "active",
+        ref: hotspot,
+      } satisfies RoomConsole;
+    });
   }
 
   /** Speaks an in-character NORA line for a beat (story modes only). */

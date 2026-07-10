@@ -499,9 +499,9 @@ export class MainMenuScene extends Phaser.Scene {
       close();
       this.openMenuScene("CodexScene", "Non sono riuscito ad aprire il Codex. Riprova tra un istante.");
     }, { width: 196, height: 44, fontSize: 14, fill: 0x1f4a44, stroke: 0x6be7d6 }));
-    modal.add(new Button(this, 476, 620, "🕹️ Esplora", () => {
+    modal.add(new Button(this, 476, 620, "🕹️ Mappa viva", () => {
       close();
-      this.openMenuScene("ExplorableRoomScene", "Non sono riuscito ad aprire l'anteprima. Riprova tra un istante.");
+      this.openMenuScene("ExplorableRoomScene", "Non sono riuscito ad aprire la mappa esplorabile. Riprova tra un istante.");
     }, { width: 190, height: 44, fontSize: 14, fill: 0x24344a, stroke: 0x7ad7ff }));
     modal.add(new Button(this, 700, 620, "🛍️ Bottega", () => {
       close();

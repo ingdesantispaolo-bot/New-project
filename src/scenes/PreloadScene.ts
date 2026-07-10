@@ -2,6 +2,11 @@ import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import academyPaintedBgUrl from "../assets/images/academy-painted-bg.webp";
 import actionRoomBgUrl from "../assets/images/academy-action-room-bg.png";
+import serraBioBgUrl from "../assets/images/area-serra-bio.png";
+import cantiereCircuitiBgUrl from "../assets/images/area-cantiere-circuiti.png";
+import osservatorioBgUrl from "../assets/images/area-osservatorio.png";
+import salaMusicaBgUrl from "../assets/images/area-sala-musica.png";
+import archivioBibliotecaBgUrl from "../assets/images/area-archivio-biblioteca.png";
 import eliQuestAtlasUrl from "../assets/sprites/eli-quest-atlas.webp";
 import eliQuestAtlasJsonUrl from "../assets/sprites/eli-quest-atlas.json?url";
 import eliRobotGirlSheetUrl from "../assets/sprites/eli-robot-girl-sheet.png";
@@ -19,6 +24,11 @@ export class PreloadScene extends Phaser.Scene {
   preload(): void {
     this.load.image("bg-academy-painted", academyPaintedBgUrl);
     this.load.image("action-room-bg", actionRoomBgUrl);
+    this.load.image("area-serra-bio", serraBioBgUrl);
+    this.load.image("area-cantiere-circuiti", cantiereCircuitiBgUrl);
+    this.load.image("area-osservatorio", osservatorioBgUrl);
+    this.load.image("area-sala-musica", salaMusicaBgUrl);
+    this.load.image("area-archivio-biblioteca", archivioBibliotecaBgUrl);
     this.load.atlas("eli-atlas", eliQuestAtlasUrl, eliQuestAtlasJsonUrl);
     this.load.atlas("eli-robot-girl", eliRobotGirlSheetUrl, eliRobotGirlSheetJsonUrl);
     this.load.atlas("environment-props", environmentPropsSheetUrl, environmentPropsSheetJsonUrl);

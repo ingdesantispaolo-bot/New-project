@@ -4,26 +4,21 @@ import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { startScene } from "../core/SceneNavigator";
 import { getProceduralFocusPath } from "../data/procedural/focusPaths";
+import { getMapArea, type AreaConsoleSpec, type MapAreaDef } from "../data/procedural/mapAreas";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
-import { RoomExplorer, type RoomConsole, type RoomWall } from "./procedural/RoomExplorer";
+import { RoomExplorer, type RoomConsole } from "./procedural/RoomExplorer";
 
 /**
- * Hub esplorabile della Palestra. La logica vive in {@link RoomExplorer}
- * (riusata anche dalla fase Esplora della missione); qui ogni console avvia un
- * allenamento procedurale reale sul focus scelto.
+ * Hub esplorabile del mondo. Le aree vivono in {@link MAP_AREAS} (dati puri) e
+ * la logica di movimento in {@link RoomExplorer}; qui ogni console avvia un
+ * allenamento procedurale sul focus scelto e i nodi di navigazione portano da
+ * un'area all'altra.
  */
-const WORLD_W = 1760;
-const WORLD_H = 1120;
-
-type ConsolePayload = {
-  focus: ProceduralSpecialization;
-  summary: string;
-};
-
 export class ExplorableRoomScene extends Phaser.Scene {
   private returnScene = "MainMenuScene";
+  private areaId = "laboratorio";
   private explorer?: RoomExplorer;
   private overlayOpen = false;
   private launching = false;
@@ -32,92 +27,101 @@ export class ExplorableRoomScene extends Phaser.Scene {
     super("ExplorableRoomScene");
   }
 
-  create(data?: { returnScene?: string }): void {
+  create(data?: { returnScene?: string; areaId?: string }): void {
     if (data?.returnScene) this.returnScene = data.returnScene;
+    this.overlayOpen = false;
+    this.launching = false;
+    const area = getMapArea(data?.areaId ?? this.areaId);
+    this.areaId = area.id;
     this.cameras.main.setBackgroundColor(0x060f16);
 
-    const walls: RoomWall[] = [
-      { x: 0, y: 0, w: WORLD_W, h: 40 },
-      { x: 0, y: WORLD_H - 40, w: WORLD_W, h: 40 },
-      { x: 0, y: 0, w: 40, h: WORLD_H },
-      { x: WORLD_W - 40, y: 0, w: 40, h: WORLD_H },
-      { x: 520, y: 470, w: 70, h: 240 },
-      { x: 1170, y: 470, w: 70, h: 240 },
-    ];
-    const consoles: RoomConsole[] = [
-      {
-        id: "math", assetId: "math", label: "Matematica", glyph: "➗", color: 0x6be7d6, x: 250, y: 250, w: 120, h: 150,
-        ref: { focus: "matematica", summary: "Grafici, vincoli, calcolo e passaggi controllati." } satisfies ConsolePayload,
-      },
-      {
-        id: "italian", assetId: "italian", label: "Italiano", glyph: "✒️", color: 0x9f8cff, x: 710, y: 210, w: 120, h: 150,
-        ref: { focus: "italiano", summary: "Frasi, log, nessi logici e significato operativo." } satisfies ConsolePayload,
-      },
-      {
-        id: "english", assetId: "english", label: "Inglese", glyph: "🌍", color: 0x7ad7ff, x: 1180, y: 250, w: 120, h: 150,
-        ref: { focus: "inglese", summary: "Comandi autentici, lessico utile e comprensione reale." } satisfies ConsolePayload,
-      },
-      {
-        id: "coding", assetId: "coding", label: "Coding", glyph: "💻", color: 0x7cf6a6, x: 320, y: 840, w: 120, h: 150,
-        ref: { focus: "coding", summary: "Sequenze, debug, cicli, condizioni e robot." } satisfies ConsolePayload,
-      },
-      {
-        id: "circuit", assetId: "electronics", label: "Circuiti", glyph: "⚡", color: 0xf6c85f, x: 1180, y: 840, w: 120, h: 150,
-        ref: { focus: "elettronica", summary: "Componenti, corrente, protezione e diagnosi graduale." } satisfies ConsolePayload,
-      },
-      {
-        id: "music", assetId: "music", label: "Musica", glyph: "🎵", color: 0xff9d5c, x: 760, y: 900, w: 120, h: 150,
-        ref: { focus: "musica", summary: "Note, pentagramma, ritmo e lettura rapida." } satisfies ConsolePayload,
-      },
-      {
-        id: "physics", label: "Fisica", glyph: "F", color: 0x9ff5e9, x: 1490, y: 250, w: 120, h: 150,
-        ref: { focus: "fisica", summary: "Forze, grandezze, unità, relazioni e ragionamento." } satisfies ConsolePayload,
-      },
-      { id: "door", assetId: "exit", label: "Uscita", glyph: "🚪", color: 0xffd75e, x: 1560, y: 560, w: 120, h: 150 },
-    ];
+    const consoles: RoomConsole[] = area.consoles.map((spec) => ({
+      id: spec.id,
+      assetId: spec.assetId,
+      label: spec.label,
+      glyph: spec.glyph,
+      color: spec.color,
+      x: spec.x,
+      y: spec.y,
+      w: spec.w,
+      h: spec.h,
+      ref: spec,
+    }));
 
     this.explorer = new RoomExplorer(this, {
-      worldW: WORLD_W,
-      worldH: WORLD_H,
-      bgTexture: "action-room-bg",
-      walls,
+      worldW: area.worldW,
+      worldH: area.worldH,
+      bgTexture: area.bgTexture,
+      floorColor: area.floorColor,
+      decorate: area.decorate,
+      walls: area.walls,
       consoles,
-      seedKey: "preview",
+      seedKey: `area-${area.id}`,
+      minimap: true,
       onInteract: (console) => this.onInteract(console),
     });
 
-    this.buildHud();
+    this.buildHud(area);
+    this.cameras.main.fadeIn(220, 6, 15, 22);
+    this.showAreaTitle(area);
     audioManager.play("scan");
+  }
+
+  /** Cartello d'ingresso: il nome dell'area appare e svanisce dolcemente. */
+  private showAreaTitle(area: MapAreaDef): void {
+    const cx = this.scale.width / 2;
+    const cy = this.scale.height / 2 - 60;
+    const card = this.add.container(cx, cy + 12).setScrollFactor(0).setDepth(200).setAlpha(0);
+    card.add(this.add.text(0, 0, area.label.toUpperCase(), {
+      fontFamily: "Inter, Arial", fontSize: "42px", color: "#f5fbff", fontStyle: "bold", stroke: "#03121b", strokeThickness: 6,
+    }).setOrigin(0.5));
+    card.add(this.add.rectangle(0, 36, 260, 3, area.accent, 0.95));
+    this.tweens.add({
+      targets: card, alpha: 1, y: cy, duration: 320, ease: "Cubic.easeOut",
+      onComplete: () => this.tweens.add({ targets: card, alpha: 0, delay: 1000, duration: 520, onComplete: () => card.destroy(true) }),
+    });
   }
 
   update(_time: number, delta: number): void {
     this.explorer?.update(delta, this.overlayOpen);
   }
 
-  private buildHud(): void {
-    this.add.text(24, 22, "Mappa Palestra: cammina con WASD/frecce o tocca il pavimento · E vicino a una console", {
+  private buildHud(area: MapAreaDef): void {
+    this.add.text(24, 22, `${area.label} · cammina con WASD/frecce o tocca il pavimento · E vicino a una console`, {
       fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", backgroundColor: "rgba(4,18,28,0.8)", padding: { x: 10, y: 6 },
     }).setScrollFactor(0).setDepth(50);
     new Button(this, 1180, 40, "Indietro", () => this.scene.start(this.returnScene), { width: 150, height: 40, fontSize: 15, fill: 0x263743 })
-      .setScrollFactor(0).setDepth(50);
+      .setScrollFactor(0, 0, true).setDepth(50);
   }
 
   private onInteract(console: RoomConsole): void {
-    if (this.overlayOpen) return;
+    if (this.overlayOpen || this.launching) return;
+    const spec = console.ref as AreaConsoleSpec | undefined;
     audioManager.play("panelOpen");
-    if (console.id === "door") {
+    if (spec?.targetArea) {
+      this.travelTo(spec.targetArea);
+      return;
+    }
+    if (!spec?.focus) {
       this.scene.start(this.returnScene);
       return;
     }
-    const payload = console.ref as ConsolePayload | undefined;
-    if (!payload?.focus) return;
-    this.openFocusPanel(console, payload);
+    this.openFocusPanel(console, spec.focus, spec.summary ?? "");
   }
 
-  private openFocusPanel(console: RoomConsole, payload: ConsolePayload): void {
+  private travelTo(areaId: string): void {
+    this.explorer?.pauseForOverlay();
+    this.overlayOpen = true;
+    this.cameras.main.fadeOut(220, 3, 8, 12);
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+      this.scene.restart({ returnScene: this.returnScene, areaId });
+    });
+  }
+
+  private openFocusPanel(console: RoomConsole, focus: ProceduralSpecialization, summary: string): void {
     this.overlayOpen = true;
     this.explorer?.pauseForOverlay();
-    const path = getProceduralFocusPath([payload.focus]);
+    const path = getProceduralFocusPath([focus]);
     const panel = this.add.container(640, 360).setScrollFactor(0).setDepth(100);
     panel.add(this.add.rectangle(0, 0, 1280, 720, 0x02070b, 0.72).setInteractive());
     panel.add(this.add.rectangle(0, 0, 680, 380, 0x07151d, 0.99).setStrokeStyle(3, console.color, 0.9));
@@ -125,7 +129,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
     panel.add(this.add.text(0, -88, path.title, {
       fontFamily: "Inter, Arial", fontSize: "17px", color: "#f7d37a", fontStyle: "bold", align: "center",
     }).setOrigin(0.5));
-    panel.add(this.add.text(0, -20, `${payload.summary}\n\n${path.stageHint}`, {
+    panel.add(this.add.text(0, -20, `${summary}\n\n${path.stageHint}`, {
       fontFamily: "Inter, Arial", fontSize: "15px", color: "#c7dce7", align: "center", lineSpacing: 6, wordWrap: { width: 570 },
     }).setOrigin(0.5));
     panel.add(this.add.text(0, 78, "Avvierò una stanza generata su questo focus, senza pressione: risolvi le console e registra il risultato.", {
@@ -138,7 +142,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
     }, { width: 240, height: 46, fill: 0x263743 }));
     panel.add(new Button(this, 166, 142, "Avvia allenamento", () => {
       panel.destroy(true);
-      this.startFocusTraining(payload.focus);
+      this.startFocusTraining(focus);
     }, { width: 268, height: 46, fill: 0x173b36, stroke: console.color }));
   }
 

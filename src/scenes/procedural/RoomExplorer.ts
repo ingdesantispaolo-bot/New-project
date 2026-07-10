@@ -30,11 +30,15 @@ export type RoomExplorerConfig = {
   walls: RoomWall[];
   consoles: RoomConsole[];
   onInteract: (console: RoomConsole) => void;
+  /** Tinta del pavimento a griglia usato come ripiego quando bgTexture non è caricata. */
+  floorColor?: number;
   /** Persist avatar position across scene restarts, keyed by this string. */
   seedKey?: string;
   avatarStart?: { x: number; y: number };
   /** Draw the decorative environment props (default true when atlas is loaded). */
   decorate?: boolean;
+  /** Mostra la minimappa d'area in basso a destra (utile perché il mondo è più grande del viewport). */
+  minimap?: boolean;
 };
 
 type Dir = "down" | "up" | "left" | "right";
@@ -63,6 +67,9 @@ export class RoomExplorer {
   private promptText!: Phaser.GameObjects.Text;
   private active?: RoomConsole;
   private paused = false;
+  private minimapDot?: Phaser.GameObjects.Arc;
+  private minimapView?: Phaser.GameObjects.Rectangle;
+  private minimapGeom?: { ox: number; oy: number; sx: number; sy: number };
   private readonly onE: () => void;
   private readonly onPointer: (pointer: Phaser.Input.Pointer) => void;
 
@@ -75,6 +82,7 @@ export class RoomExplorer {
     this.buildConsoles();
     this.buildAvatar();
     this.buildPrompt();
+    if (cfg.minimap) this.buildMinimap();
 
     scene.cameras.main.startFollow(this.avatar, true, 0.12, 0.12);
     scene.cameras.main.setDeadzone(220, 160);
@@ -105,7 +113,7 @@ export class RoomExplorer {
       return;
     }
     const g = this.scene.add.graphics().setDepth(0);
-    g.fillStyle(0x0a1a24, 1);
+    g.fillStyle(this.cfg.floorColor ?? 0x0a1a24, 1);
     g.fillRect(0, 0, worldW, worldH);
     g.lineStyle(1, 0x14323f, 0.6);
     for (let x = 0; x <= worldW; x += 88) g.lineBetween(x, 0, x, worldH);
@@ -231,6 +239,46 @@ export class RoomExplorer {
     this.scene.tweens.add({ targets: c, y: "-=6", duration: 700, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
   }
 
+  private buildMinimap(): void {
+    const vw = this.scene.scale.width;
+    const vh = this.scene.scale.height;
+    const mw = 210;
+    const mh = Math.round((mw * this.cfg.worldH) / this.cfg.worldW);
+    const pad = 14;
+    const ox = vw - mw - pad;
+    const oy = vh - mh - pad;
+    const sx = mw / this.cfg.worldW;
+    const sy = mh / this.cfg.worldH;
+    this.minimapGeom = { ox, oy, sx, sy };
+
+    const g = this.scene.add.graphics().setScrollFactor(0).setDepth(30);
+    g.fillStyle(0x03121b, 0.82);
+    g.fillRoundedRect(ox, oy, mw, mh, 6);
+    g.lineStyle(2, 0x2a4d5e, 0.9);
+    g.strokeRoundedRect(ox, oy, mw, mh, 6);
+    g.fillStyle(0x1a3644, 0.9);
+    this.cfg.walls.forEach((w) => g.fillRect(ox + w.x * sx, oy + w.y * sy, Math.max(1, w.w * sx), Math.max(1, w.h * sy)));
+    this.cfg.consoles.forEach((spot) => {
+      const isNav = spot.id === "exit" || spot.id.startsWith("to-");
+      g.fillStyle(isNav ? 0xffd75e : spot.color, 0.96);
+      g.fillCircle(ox + spot.x * sx, oy + spot.y * sy, isNav ? 3.4 : 2.6);
+    });
+
+    this.minimapView = this.scene.add.rectangle(ox, oy, 1, 1).setOrigin(0, 0)
+      .setScrollFactor(0).setDepth(31).setStrokeStyle(1, 0x9ff5e9, 0.7);
+    this.minimapDot = this.scene.add.circle(ox, oy, 3.4, 0xffffff, 1)
+      .setScrollFactor(0).setDepth(32).setStrokeStyle(1, 0x03121b, 0.9);
+  }
+
+  private updateMinimap(): void {
+    if (!this.minimapGeom || !this.minimapDot) return;
+    const { ox, oy, sx, sy } = this.minimapGeom;
+    this.minimapDot.setPosition(ox + this.avatar.x * sx, oy + this.avatar.y * sy);
+    const cam = this.scene.cameras.main;
+    this.minimapView?.setPosition(ox + cam.worldView.x * sx, oy + cam.worldView.y * sy)
+      .setSize(cam.worldView.width * sx, cam.worldView.height * sy);
+  }
+
   // --- loop ----------------------------------------------------------------
 
   update(deltaMs: number, paused: boolean): void {
@@ -264,6 +312,7 @@ export class RoomExplorer {
     }
     this.avatar.setDepth(6 + this.avatar.y / 1000);
     this.updateNearestConsole();
+    this.updateMinimap();
   }
 
   private animateAvatar(dx: number, dy: number, dt: number, moving: boolean): void {

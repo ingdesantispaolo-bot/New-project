@@ -378,6 +378,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const adaptivePrompt = this.adaptiveMemoryPrompt();
     if (adaptivePrompt) return adaptivePrompt;
+    if (this.explorer) {
+      return this.isProgressiveMode()
+        ? "Segui la console evidenziata."
+        : "Scegli una console e premi E.";
+    }
     return this.isProgressiveMode()
       ? `Scalata guidata avviata. La stanza aprirà una console alla volta. Seed: ${this.run.seed}.`
       : `Stanza generata. Scegli una console da stabilizzare. Seed: ${this.run.seed}.`;
@@ -9365,6 +9370,29 @@ export class ProceduralMissionScene extends Phaser.Scene {
           : this.run.chapterMissionId
             ? "Fase Prova: precisione e tempo contano."
             : "Missione: stabilizza il sistema completo.";
+    const pressureEnabled = proceduralRunRules.pressureEnabledFor(this.run);
+    const maxLives = this.run.maxLives ?? proceduralRunRules.maxLives;
+    const lives = this.run.lives ?? maxLives;
+    if (this.explorer) {
+      const compactObjective = pendingObjectives.length > 0
+        ? mode === "progressive"
+          ? `${nextLabel}\nSi apre da sola.`
+          : `${nextLabel}\nVai alla console e premi E.`
+        : mode === "progressive"
+          ? "Porta di sintesi\nCompleta il collegamento finale."
+          : mode === "training"
+            ? "Porta del registro\nPremi E per salvare."
+            : "Porta finale\nPremi E per completare.";
+      this.objectiveText?.setText(compactObjective);
+      this.progressText?.setText(
+        this.isChapterTrial()
+          ? `Nodi ${solvedCount}/${requiredCount}\nTempo ${formatDuration(Math.max(0, remainingMs))} · Punti ${this.run.score?.total ?? 0}`
+          : pressureEnabled
+            ? `Fatte ${solvedCount}/${requiredCount}\nErrori ${lives}/${maxLives} · ${formatDuration(Math.max(0, remainingMs))}`
+            : `Fatte ${solvedCount}/${requiredCount}\nTempo ${formatDuration(elapsed)}`,
+      );
+      return;
+    }
     this.objectiveText?.setText(
       pendingObjectives.length > 0
         ? `${contextLine}\n\nORA\n${nextLabel}\n\nAZIONE\n${mode === "progressive" ? "La prossima console si apre da sola." : nextAction}`
@@ -9374,9 +9402,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? `${contextLine}\n\nORA\nPorta finale pronta.\n\nAZIONE\nAprila per completare questa fase.`
           : `${contextLine}\n\nORA\nPorta del registro pronta.\n\nAZIONE\nAprila per salvare il risultato.`,
     );
-    const pressureEnabled = proceduralRunRules.pressureEnabledFor(this.run);
-    const maxLives = this.run.maxLives ?? proceduralRunRules.maxLives;
-    const lives = this.run.lives ?? maxLives;
     this.progressText?.setText(
       this.isChapterTrial()
         ? `Nodi disattivati: ${solvedCount}/${requiredCount}\nSabotatore: ${maxLives - lives}/${maxLives} avanzamenti\nTempo: ${formatDuration(Math.max(0, remainingMs))}\nPunti: ${this.run.score?.total ?? 0}`

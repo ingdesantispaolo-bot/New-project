@@ -1,9 +1,11 @@
 import type { GeneratedRoomHotspot } from "../../procedural/ProceduralTypes";
 import type { DeviceKind, DeviceState, ChromeRect } from "../../ui/SceneChrome";
 
-export type ProceduralPuzzleId = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music" | "physics";
+export type ProceduralPuzzleId = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music" | "physics" | "latin";
 export type ProceduralHotspotKey = ProceduralPuzzleId | "door";
 
+// NB: "latin" is a focus-only kind (never seeded on the base map), so it is
+// deliberately absent from proceduralPuzzleOrder even though it is a valid id.
 export const proceduralPuzzleOrder: ProceduralPuzzleId[] = ["language", "circuit", "math", "english", "robot", "coding", "music", "physics"];
 
 const hotspotOrder: Record<ProceduralHotspotKey, number> = {
@@ -15,7 +17,8 @@ const hotspotOrder: Record<ProceduralHotspotKey, number> = {
   coding: 5,
   music: 6,
   physics: 7,
-  door: 8,
+  latin: 8,
+  door: 9,
 };
 
 const hotspotKinds: Record<ProceduralHotspotKey, DeviceKind> = {
@@ -27,6 +30,7 @@ const hotspotKinds: Record<ProceduralHotspotKey, DeviceKind> = {
   coding: "terminal",
   music: "music",
   physics: "terminal",
+  latin: "language",
   door: "door",
 };
 
@@ -73,6 +77,7 @@ export function proceduralHotspotPosition(hotspot: GeneratedRoomHotspot, stage: 
     coding: { x: stage.x + 318, y: stage.y + 208 },
     music: { x: stage.x + 318, y: stage.y + 286 },
     physics: { x: stage.x + 494, y: stage.y + 286 },
+    latin: { x: stage.x + 142, y: stage.y + 248 },
     door: { x: stage.x + 318, y: stage.y + 420 },
   };
   return key ? positions[key] : { x: stage.x + stage.width / 2, y: stage.y + stage.height / 2 };
@@ -147,6 +152,7 @@ export function pendingProceduralPuzzleLabel(solvedPuzzleIds: string[], required
     coding: "verifica l'algoritmo",
     music: "riconosci la nota",
     physics: "leggi il fenomeno",
+    latin: "analizza la forma latina",
   };
   const pending = requiredIds.find((id) => !isProceduralPuzzleSolved(id, solvedPuzzleIds) && !isProceduralPuzzleSolved(id, failedPuzzleIds));
   return pending ? labels[puzzleKindFromId(pending)] : "apri la porta finale";

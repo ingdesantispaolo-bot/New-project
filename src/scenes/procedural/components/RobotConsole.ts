@@ -248,7 +248,7 @@ export class RobotConsole {
     return statusText;
   }
 
-  static addObjectivePanel(scene: Phaser.Scene, overlay: Phaser.GameObjects.Container, panel: RobotConsolePanel, model: RobotConsoleModel): void {
+  static addObjectivePanel(scene: Phaser.Scene, overlay: Phaser.GameObjects.Container, panel: RobotConsolePanel, model: RobotConsoleModel, showCoach = true): void {
     overlay.add(scene.add.text(panel.x + 18, panel.y + 14, "Obiettivo", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
@@ -262,14 +262,16 @@ export class RobotConsole {
       wordWrap: { width: panel.w - 36 },
       lineSpacing: 3,
     }));
-    overlay.add(scene.add.text(panel.x + 18, panel.y + 132, `Metodo: ${model.planningPrompt ?? "Simula mentalmente prima di eseguire."}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#f7d37a",
-      wordWrap: { width: panel.w - 36 },
-      lineSpacing: 3,
-    }));
-    overlay.add(scene.add.text(panel.x + 18, panel.y + 214, `Condizioni:\n${model.successConditions.slice(0, 4).map((condition) => `- ${condition}`).join("\n")}`, {
+    if (showCoach) {
+      overlay.add(scene.add.text(panel.x + 18, panel.y + 132, `Metodo: ${model.planningPrompt ?? "Simula mentalmente prima di eseguire."}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#f7d37a",
+        wordWrap: { width: panel.w - 36 },
+        lineSpacing: 3,
+      }));
+    }
+    overlay.add(scene.add.text(panel.x + 18, panel.y + (showCoach ? 214 : 132), `Condizioni:\n${model.successConditions.slice(0, 4).map((condition) => `- ${condition}`).join("\n")}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#c9dce6",

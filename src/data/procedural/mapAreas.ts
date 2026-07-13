@@ -94,6 +94,7 @@ const laboratorio: MapAreaDef = {
     { id: "to-osservatorio", assetId: "exit", label: "Osservatorio", glyph: "🔭", color: 0x9f8cff, x: 890, y: 560, w: 120, h: 150, summary: "Sala astronomica: fisica, orbite e segnali.", targetArea: "osservatorio" },
     { id: "to-musica", assetId: "exit", label: "Sala Musica", glyph: "🎵", color: 0xff9d5c, x: 1100, y: 560, w: 120, h: 150, summary: "Auditorium: pentagramma, ritmo e ascolto.", targetArea: "sala-musica" },
     { id: "to-archivio", assetId: "exit", label: "Archivio", glyph: "📚", color: 0x7ad7ff, x: 1460, y: 560, w: 120, h: 150, summary: "Biblioteca hi-tech: lingue, testi e codici.", targetArea: "archivio-biblioteca" },
+    { id: "to-biblioteca", assetId: "exit", label: "Biblioteca Classica", glyph: "📜", color: 0xd8a24a, x: 1620, y: 560, w: 120, h: 150, summary: "Scriptorium: latino e discipline classiche.", targetArea: "biblioteca-classica" },
     { id: "exit", assetId: "exit", label: "Uscita", glyph: "🚪", color: 0xffd75e, x: 1620, y: 900, w: 120, h: 150 },
   ],
 };
@@ -226,6 +227,31 @@ const archivioBiblioteca: MapAreaDef = {
   ],
 };
 
+/**
+ * BIBLIOTECA CLASSICA — scriptorium (accenti oro/ambra). Casa del Latino, con le
+ * discipline affini del biennio: italiano, inglese e numeri antichi.
+ */
+const bibliotecaClassica: MapAreaDef = {
+  id: "biblioteca-classica",
+  label: "Biblioteca Classica",
+  bgTexture: "area-biblioteca-classica",
+  unlock: 2,
+  floorColor: 0x1a1408,
+  accent: 0xd8a24a,
+  decorate: false,
+  worldW: WORLD_W,
+  worldH: WORLD_H,
+  walls: perimeter(),
+  consoles: [
+    { id: "latin", focus: "latino", label: "Tavola Latina", glyph: "📜", color: 0xd8a24a, x: 630, y: 360, w: 120, h: 150, summary: "Declinazioni, verbo, casi, lessico e sintassi latina." },
+    { id: "italian", assetId: "italian", focus: "italiano", label: "Grammatica", glyph: "✒️", color: 0x9f8cff, x: 1130, y: 360, w: 120, h: 150, summary: "Analisi, comprensione e lessico preciso." },
+    { id: "english", assetId: "english", focus: "inglese", label: "Radici Comuni", glyph: "🌍", color: 0x7ad7ff, x: 630, y: 720, w: 120, h: 150, summary: "Lessico e radici condivise col latino." },
+    { id: "math", assetId: "math", focus: "matematica", label: "Numeri Antichi", glyph: "➗", color: 0x6be7d6, x: 1130, y: 720, w: 120, h: 150, summary: "Calcolo, misure e ordine dei passaggi." },
+    backToLab(880, 560),
+    areaExit(880, 880),
+  ],
+};
+
 export const MAP_AREAS: Record<string, MapAreaDef> = {
   laboratorio,
   "serra-bio": serraBio,
@@ -233,6 +259,7 @@ export const MAP_AREAS: Record<string, MapAreaDef> = {
   osservatorio,
   "sala-musica": salaMusica,
   "archivio-biblioteca": archivioBiblioteca,
+  "biblioteca-classica": bibliotecaClassica,
 };
 
 export const DEFAULT_AREA_ID = "laboratorio";

@@ -30,7 +30,7 @@ import { exerciseDirector } from "../core/ExerciseDirector";
 const RECENT_SIGNATURES_KEY = "eli-quest:progressive-recent-signatures";
 const RECENT_SIGNATURES_CAP = 48;
 
-type ProgressiveDiscipline = Exclude<ProceduralPuzzleKind, "robot">;
+type ProgressiveDiscipline = Exclude<ProceduralPuzzleKind, "robot" | "latin">;
 
 const disciplineLabels: Record<ProgressiveDiscipline, { label: string; description: string }> = {
   language: {
@@ -180,6 +180,7 @@ const focusDisciplines: Record<ProceduralSpecialization, ProgressiveDiscipline |
   coding: "coding",
   musica: "music",
   fisica: "physics",
+  latino: undefined,
 };
 
 export class ProgressiveMissionBuilder {

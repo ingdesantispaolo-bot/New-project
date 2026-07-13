@@ -50,6 +50,7 @@ export type CircuitSidePanelState = {
 
 export type CircuitIntroState = {
   conceptLocked: boolean;
+  showCoach?: boolean;
 };
 
 export type CircuitComponentChallengeState = {
@@ -84,6 +85,7 @@ export type CircuitTesterPromptHandlers = {
 };
 
 export type CircuitMinigamePromptState = {
+  showCoach: boolean;
   selectedIds: Set<string>;
   remainingLabel: string;
   remainingDanger: boolean;
@@ -109,6 +111,7 @@ export type CircuitMinigameSummaryState = {
   netScore: number;
   feedback: string;
   resolutionText: string;
+  energyText?: string;
   actionLabel: string;
 };
 
@@ -147,7 +150,10 @@ export class CircuitConsole {
     model: CircuitConsoleModel,
     state: CircuitIntroState,
   ): void {
-    const learningText = state.conceptLocked
+    const showCoach = state.showCoach ?? true;
+    const learningText = !showCoach
+      ? `Domanda guida: ${model.diagnosticQuestion}`
+      : state.conceptLocked
       ? `${model.learningPurpose} Ora impara un pezzo alla volta. Obiettivo finale: trovare dove si ferma il giro della corrente.`
       : `${model.learningPurpose} Domanda guida: ${model.diagnosticQuestion}`;
 
@@ -165,7 +171,7 @@ export class CircuitConsole {
       lineSpacing: 4,
     }));
     overlay.add(scene.add.rectangle(48, 132, 800, 76, 0x07151d, 0.84).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(scene.add.text(66, 146, "Cosa impari", {
+    overlay.add(scene.add.text(66, 146, showCoach ? "Cosa impari" : "Obiettivo", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
@@ -523,7 +529,7 @@ export class CircuitConsole {
     state: CircuitMinigamePromptState,
     handlers: CircuitMinigamePromptHandlers,
   ): Phaser.GameObjects.Text {
-    this.addPanel(scene, overlay, 28, 112, 560, 432, "1 · Leggi lo schema");
+    this.addPanel(scene, overlay, 28, 112, 560, 432, state.showCoach ? "1 · Leggi lo schema" : "Schema");
     overlay.add(scene.add.text(60, 154, prompt.title, {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
@@ -549,23 +555,27 @@ export class CircuitConsole {
       fontStyle: "bold",
       wordWrap: { width: 500 },
     }));
-    overlay.add(scene.add.text(60, 498, this.minigameMethodText(prompt), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 506, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
+    if (state.showCoach) {
+      overlay.add(scene.add.text(60, 498, this.minigameMethodText(prompt), {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9aaab0",
+        wordWrap: { width: 506, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+    }
 
-    this.addPanel(scene, overlay, 616, 112, 636, 432, "2 · Scegli la risposta");
-    overlay.add(scene.add.text(648, 154, "Come si gioca: leggi lo schema, clicca UNA risposta e premi Conferma.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 548 },
-      lineSpacing: 4,
-    }));
-    overlay.add(scene.add.text(648, 210, prompt.question, {
+    this.addPanel(scene, overlay, 616, 112, 636, 432, state.showCoach ? "2 · Scegli la risposta" : "Scelte");
+    if (state.showCoach) {
+      overlay.add(scene.add.text(648, 154, "Come si gioca: leggi lo schema, clicca UNA risposta e premi Conferma.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#d9eaf1",
+        wordWrap: { width: 548 },
+        lineSpacing: 4,
+      }));
+    }
+    overlay.add(scene.add.text(648, state.showCoach ? 210 : 164, prompt.question, {
       fontFamily: "Inter, Arial",
       fontSize: prompt.question.length > 92 ? "16px" : "18px",
       color: "#f5fbff",
@@ -590,7 +600,7 @@ export class CircuitConsole {
       }));
     });
 
-    this.addPanel(scene, overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
+    this.addPanel(scene, overlay, 28, 558, 1224, 130, state.showCoach ? "3 · Conferma e controlla l'esito" : "Esito");
     const timerText = scene.add.text(64, 604, `Tempo: ${state.remainingLabel}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
@@ -605,12 +615,14 @@ export class CircuitConsole {
       wordWrap: { width: 640 },
       lineSpacing: 4,
     }));
-    overlay.add(scene.add.text(260, 636, state.feedback || state.scoringRule, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: state.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 390, useAdvancedWrap: true },
-    }));
+    if (state.showCoach || state.feedback) {
+      overlay.add(scene.add.text(260, 636, state.feedback || state.scoringRule, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: state.feedback ? "#f7d37a" : "#9aaab0",
+        wordWrap: { width: 390, useAdvancedWrap: true },
+      }));
+    }
     overlay.add(new Button(scene, 1080, 640, "Conferma", handlers.onConfirm, {
       width: 220,
       height: 44,
@@ -674,6 +686,15 @@ export class CircuitConsole {
       wordWrap: { width: 690 },
       lineSpacing: 4,
     }));
+    if (state.energyText) {
+      modal.add(scene.add.text(254, 456, state.energyText, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+        wordWrap: { width: 690 },
+      }));
+    }
     modal.add(new Button(scene, 612, 506, state.actionLabel, () => handlers.onAction(modal), {
       width: 270,
       height: 54,

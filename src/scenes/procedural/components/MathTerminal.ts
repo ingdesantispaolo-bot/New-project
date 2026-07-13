@@ -1,6 +1,7 @@
 import type Phaser from "phaser";
-import type { GeneratedMathPuzzle } from "../../../procedural/ProceduralTypes";
+import type { GeneratedMathPuzzle, MathMinigamePrompt } from "../../../procedural/ProceduralTypes";
 import { Button } from "../../../ui/Button";
+import { SceneChrome } from "../../../ui/SceneChrome";
 
 export type MathTerminalModel = {
   title: string;
@@ -27,11 +28,57 @@ export type MathAnswerConsoleHandlers = {
 };
 
 export type MathSupportPanelState = {
+  showCoach?: boolean;
   supportMessage?: string;
 };
 
 export type MathSupportPanelHandlers = {
   onHint(): void;
+};
+
+export type MathMinigamePromptState = {
+  showCoach: boolean;
+  selectedIds: Set<string>;
+  remainingLabel: string;
+  remainingDanger: boolean;
+  streak: number;
+  netScore: number;
+  accuracy: number;
+  feedback: string;
+  scoringRule: string;
+};
+
+export type MathMinigamePromptHandlers = {
+  onToggleTile(tileId: string): void;
+  onClearSelection(): void;
+  onConfirm(): void;
+  onHint(): void;
+  onRenderVisualizer(
+    overlay: Phaser.GameObjects.Container,
+    prompt: MathMinigamePrompt,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void;
+  onRenderExpressionBuilder?(overlay: Phaser.GameObjects.Container, prompt: MathMinigamePrompt): void;
+};
+
+export type MathMinigameSummaryState = {
+  passed: boolean;
+  correct: number;
+  wrong: number;
+  accuracy: number;
+  bestStreak: number;
+  netScore: number;
+  feedback: string;
+  resolutionText: string;
+  energyText?: string;
+  actionLabel: string;
+};
+
+export type MathMinigameSummaryHandlers = {
+  onAction(modal: Phaser.GameObjects.Container): void;
 };
 
 const mathDomainLabels: Record<NonNullable<GeneratedMathPuzzle["archetype"]>, string> = {
@@ -153,13 +200,14 @@ export class MathTerminal {
     state: MathSupportPanelState,
     handlers: MathSupportPanelHandlers,
   ): Phaser.GameObjects.Text {
-    this.addPanel(scene, overlay, 28, 556, 1224, 132, "Supporti intelligenti");
-    overlay.add(scene.add.text(54, 596, [
+    const showCoach = state.showCoach ?? true;
+    this.addPanel(scene, overlay, 28, 556, 1224, 132, showCoach ? "Supporti intelligenti" : "Supporto");
+    overlay.add(scene.add.text(54, 596, showCoach ? [
       `Scopo didattico: ${model.learningPurpose}`,
       `Metodo consigliato: ${model.strategy}`,
       model.mentalMathNote,
       `Appunti: ${model.scratchpadPrompt}`,
-    ].join("\n"), {
+    ].join("\n") : "Indizio disponibile se vuoi controllare il ragionamento.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
@@ -167,7 +215,7 @@ export class MathTerminal {
       lineSpacing: 4,
     }));
     overlay.add(scene.add.rectangle(990, 596, 478, 44, 0x07151d, 0.82).setStrokeStyle(1, 0xf6c85f, 0.28));
-    const supportText = scene.add.text(760, 580, state.supportMessage || "Scegli un aiuto solo quando serve: ogni supporto guida il ragionamento e viene conteggiato nel punteggio.", {
+    const supportText = scene.add.text(760, 580, state.supportMessage || (showCoach ? "Scegli un aiuto solo quando serve: ogni supporto guida il ragionamento e viene conteggiato nel punteggio." : ""), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: state.supportMessage ? "#f7d37a" : "#9aaab0",
@@ -182,6 +230,190 @@ export class MathTerminal {
       fill: 0x263743,
     }));
     return supportText;
+  }
+
+  static addMinigamePrompt(
+    scene: Phaser.Scene,
+    overlay: Phaser.GameObjects.Container,
+    prompt: MathMinigamePrompt,
+    state: MathMinigamePromptState,
+    handlers: MathMinigamePromptHandlers,
+  ): Phaser.GameObjects.Text {
+    this.addPanel(scene, overlay, 28, 112, 548, 432, state.showCoach ? "1 · Osserva dati e obiettivo" : "Obiettivo");
+    overlay.add(scene.add.text(60, 156, prompt.targetLabel, {
+      fontFamily: "Inter, Arial",
+      fontSize: "30px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
+    }));
+    handlers.onRenderVisualizer(overlay, prompt, 64, 218, 460, 218);
+    overlay.add(scene.add.text(60, 468, `Concetto: ${prompt.concept}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+      wordWrap: { width: 472 },
+    }));
+    if (state.showCoach) {
+      overlay.add(scene.add.text(60, 496, this.minigameMethodText(prompt), {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9aaab0",
+        wordWrap: { width: 476, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+    }
+
+    this.addPanel(scene, overlay, 604, 112, 648, 432, state.showCoach ? "2 · Seleziona la soluzione" : "Scelte");
+    if (state.showCoach) {
+      overlay.add(scene.add.text(636, 156, "Come si gioca: scegli UNA O PIÙ tessere richieste dalla domanda, poi premi Conferma.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#d9eaf1",
+        wordWrap: { width: 560 },
+        lineSpacing: 4,
+      }));
+    }
+    overlay.add(scene.add.text(636, state.showCoach ? 212 : 164, prompt.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 560, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+
+    if (prompt.type === "expression-build" && handlers.onRenderExpressionBuilder) {
+      handlers.onRenderExpressionBuilder(overlay, prompt);
+    } else {
+      const tileStartX = 700;
+      const tileStartY = 334;
+      prompt.tiles.forEach((tile, index) => {
+        const selected = state.selectedIds.has(tile.id);
+        const col = index % 3;
+        const row = Math.floor(index / 3);
+        overlay.add(new Button(scene, tileStartX + col * 186, tileStartY + row * 64, `${selected ? "✓ " : ""}${tile.label}`, () => handlers.onToggleTile(tile.id), {
+          width: 164,
+          height: 48,
+          fontSize: tile.label.length > 12 ? 11 : 20,
+          wordWrapWidth: 142,
+          fill: selected ? 0x174d42 : 0x263743,
+          stroke: selected ? 0xf7d37a : 0x6be7d6,
+        }));
+      });
+    }
+
+    this.addPanel(scene, overlay, 28, 558, 1224, 130, state.showCoach ? "3 · Conferma e controlla l'esito" : "Esito");
+    const timerText = scene.add.text(64, 604, `Tempo: ${state.remainingLabel}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: state.remainingDanger ? "#ff8f8f" : "#f7d37a",
+      fontStyle: "bold",
+    });
+    overlay.add(timerText);
+    overlay.add(scene.add.text(260, 592, `Serie: ${state.streak}    ·    Punti: ${state.netScore}    ·    Precisione: ${state.accuracy}%`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 640 },
+      lineSpacing: 4,
+    }));
+    if (state.showCoach || state.feedback) {
+      overlay.add(scene.add.text(260, 636, state.feedback || state.scoringRule, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: state.feedback ? "#f7d37a" : "#9aaab0",
+        wordWrap: { width: 390, useAdvancedWrap: true },
+      }));
+    }
+    overlay.add(new Button(scene, 916, 640, "Pulisci scelta", handlers.onClearSelection, {
+      width: 174,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+    overlay.add(new Button(scene, 1102, 640, "Conferma", handlers.onConfirm, {
+      width: 174,
+      height: 44,
+      fontSize: 14,
+      fill: 0x173b36,
+    }));
+    overlay.add(new Button(scene, 736, 640, "Indizio", handlers.onHint, {
+      width: 138,
+      height: 44,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+
+    return timerText;
+  }
+
+  static addMinigameSummary(
+    scene: Phaser.Scene,
+    overlay: Phaser.GameObjects.Container,
+    state: MathMinigameSummaryState,
+    handlers: MathMinigameSummaryHandlers,
+  ): Phaser.GameObjects.Container {
+    const modal = scene.add.container(0, 0).setDepth(1300);
+    SceneChrome.modalInputBlocker(scene, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
+    modal.add(scene.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
+    modal.add(scene.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
+      .setStrokeStyle(2, state.passed ? 0x6be7d6 : 0xf7d37a, 0.76));
+    modal.add(scene.add.text(230, 160, state.passed ? "Sprint matematico completato" : "Sprint matematico da consolidare", {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: state.passed ? "#9ff5e9" : "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(scene.add.text(230, 210, [
+      `Risposte corrette: ${state.correct}`,
+      `Errori: ${state.wrong}`,
+      `Precisione: ${state.accuracy}%`,
+      `Serie migliore: ${state.bestStreak}`,
+      `Punti sprint: ${state.netScore}`,
+    ].join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f5fbff",
+      lineSpacing: 7,
+    }));
+    modal.add(scene.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
+      .setStrokeStyle(1, 0x6be7d6, 0.3));
+    modal.add(scene.add.text(572, 234, state.feedback, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 354 },
+      lineSpacing: 5,
+    }));
+    modal.add(scene.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
+      .setStrokeStyle(1, 0xf7d37a, 0.36));
+    modal.add(scene.add.text(254, 394, state.resolutionText, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: 690 },
+      lineSpacing: 4,
+    }));
+    if (state.energyText) {
+      modal.add(scene.add.text(254, 456, state.energyText, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+        wordWrap: { width: 690 },
+      }));
+    }
+    modal.add(new Button(scene, 612, 506, state.actionLabel, () => handlers.onAction(modal), {
+      width: 270,
+      height: 54,
+      fill: state.passed ? 0x173b36 : 0x263743,
+      stroke: state.passed ? 0x6be7d6 : 0xf7d37a,
+      fontSize: 16,
+    }));
+    overlay.add(modal);
+    return modal;
   }
 
   static addLogicVisualizer(
@@ -525,6 +757,34 @@ export class MathTerminal {
         color: "#d9eaf1",
       }).setOrigin(0.5));
     });
+  }
+
+  private static minigameMethodText(prompt: MathMinigamePrompt): string {
+    if (prompt.type === "target-sum") {
+      return "Metodo: non sommare tutto. Cerca prima un addendo vicino al bersaglio, poi completa senza superare il totale.";
+    }
+    if (prompt.type === "factor-hunt") {
+      return "Metodo: prova la divisione. Se il resto e zero, il numero rispetta il vincolo; altrimenti e un distrattore.";
+    }
+    if (prompt.type === "number-sequence") {
+      return "Metodo: confronta termini vicini. Cerca una differenza fissa, un rapporto fisso o un passo che cresce.";
+    }
+    if (prompt.type === "expression-build") {
+      return "Metodo: la moltiplicazione si calcola prima di somma e sottrazione. Prova un operatore alla volta verso il bersaglio.";
+    }
+    if (prompt.type === "fraction-lab") {
+      return "Metodo: individua totale e parte richiesta. Per una frazione dividi in parti uguali; per una percentuale porta tutto su 100.";
+    }
+    if (prompt.type === "ratio-proportion") {
+      return "Metodo: trova il rapporto unitario oppure controlla la scala. Se le grandezze sono inverse, una cresce e l'altra diminuisce.";
+    }
+    if (prompt.type === "geometry-measure") {
+      return "Metodo: prima decidi se serve lunghezza, superficie o volume; poi scegli la formula e controlla l'unita di misura.";
+    }
+    if (prompt.type === "data-probability") {
+      return "Metodo: non saltare al numero piu evidente. Chiediti se la richiesta parla di media, dato centrale, frequenza o probabilita.";
+    }
+    return "Metodo: simula mentalmente la rotta da sinistra a destra. Una trasformazione plausibile non basta: deve arrivare esattamente all'uscita.";
   }
 
   private static addPanel(

@@ -10,9 +10,10 @@ export type ProceduralSpecialization =
   | "elettronica"
   | "coding"
   | "musica"
-  | "fisica";
+  | "fisica"
+  | "latino";
 
-export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music" | "physics";
+export type ProceduralPuzzleKind = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music" | "physics" | "latin";
 export type ProceduralRunMode = "mission" | "training" | "progressive";
 
 export type PedagogicalFocus =
@@ -553,6 +554,68 @@ export type GeneratedLanguageMinigame = {
   reflective?: boolean;
 };
 
+// ===== Latino (liceo scientifico, 1°-2° anno) =====
+export type LatinMinigameType =
+  | "declension"      // riconosci/forma il caso di un sostantivo
+  | "conjugation"     // forma verbale per persona/tempo
+  | "verb-analysis"   // analizza tempo, modo, diatesi di una voce
+  | "case-function"   // funzione logica (complemento) di una forma
+  | "agreement"       // concordanza aggettivo-sostantivo
+  | "vocab-match"     // lessico latino <-> italiano
+  | "translation"     // traduci una breve frase
+  | "syntax-clause";  // tipo di subordinata (2° anno)
+
+export type LatinMinigameTile = {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+  feedback: string;
+};
+
+export type LatinMinigamePrompt = {
+  id: string;
+  type: LatinMinigameType;
+  /** Domanda mostrata accanto alle tessere-risposta. */
+  prompt: string;
+  /** L'elemento latino / paradigma mostrato nel pannello di lettura. */
+  context: string;
+  targetLabel: string;
+  requiredSelectionCount: number;
+  tiles: LatinMinigameTile[];
+  solutionLabels: string[];
+  explanation: string;
+  concept: string;
+  signature: string;
+  /** Riferimento di supporto (es. desinenze della declinazione). */
+  reference?: string;
+  inputMode?: "tiles" | "typed";
+  acceptedAnswers?: string[];
+};
+
+export type GeneratedLatinMinigame = {
+  type: LatinMinigameType;
+  title: string;
+  durationMs: number;
+  instructions: string;
+  scoringRule: string;
+  prompts: LatinMinigamePrompt[];
+  competencies: string[];
+  reflective?: boolean;
+};
+
+export type GeneratedLatinPuzzle = {
+  id: string;
+  title: string;
+  prompt: string;
+  hints: string[];
+  competencies: string[];
+  difficultyLabel?: string;
+  conceptTags?: string[];
+  learningPurpose?: string;
+  method?: string;
+  minigame: GeneratedLatinMinigame;
+};
+
 export type EnglishChallengeType =
   | "command"
   | "safety"
@@ -846,6 +909,14 @@ export type GeneratedFocusChallenge =
       description: string;
       difficultyStep: number;
       puzzle: GeneratedPhysicsPuzzle;
+    }
+  | {
+      id: string;
+      kind: "latin";
+      title: string;
+      description: string;
+      difficultyStep: number;
+      puzzle: GeneratedLatinPuzzle;
     };
 
 export type ProceduralPuzzleScore = {

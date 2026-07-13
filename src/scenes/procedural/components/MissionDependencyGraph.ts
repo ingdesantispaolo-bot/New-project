@@ -13,6 +13,7 @@ const dependencies: Record<MissionSystemNode, ProceduralPuzzleId[]> = {
   coding: [],
   music: [],
   physics: [],
+  latin: [],
   door: [...proceduralPuzzleOrder],
 };
 
@@ -25,6 +26,7 @@ const nodeLabels: Record<MissionSystemNode, string> = {
   coding: "console algoritmica",
   music: "pentagramma",
   physics: "banco fisico",
+  latin: "tavola latina",
   door: "porta di uscita",
 };
 
@@ -37,6 +39,7 @@ const effectLines: Record<MissionSystemNode, string> = {
   coding: "La console algoritmica ha confermato tracing, stato e logica.",
   music: "Il pentagramma è stato letto con chiave, posizione e ottava corrette.",
   physics: "Il fenomeno fisico è stato letto con misure, modello e controllo.",
+  latin: "La tavola latina è stata analizzata: caso, numero, tempo e funzione corretti.",
   door: "La porta si apre solo quando tutti i sistemi confermano lo stesso stato.",
 };
 

@@ -6,7 +6,8 @@ import { Button } from "../ui/Button";
 
 /**
  * Bottega dell'Energia — dove l'energia guadagnata rispondendo bene diventa
- * ricompense: colori per Bit, tute per l'avatar della stanza, emblemi-trofeo.
+ * ricompense: colori per Bit, tute per l'avatar della stanza, emblemi-trofeo,
+ * strumenti NORA e restauri d'area.
  * Dà una progressione tangibile e persistente al ciclo di allenamento.
  */
 export class RewardShopScene extends Phaser.Scene {
@@ -34,7 +35,7 @@ export class RewardShopScene extends Phaser.Scene {
 
     this.headerLayer.add(this.add.rectangle(40, 40, 6, 44, 0xf6c85f, 0.95).setOrigin(0));
     this.headerLayer.add(this.add.text(60, 36, "🛍️  Bottega dell'Energia", { fontFamily: "Inter, Arial", fontSize: "30px", color: "#f5fbff", fontStyle: "bold" }));
-    this.headerLayer.add(this.add.text(62, 74, "Spendi l'energia guadagnata rispondendo bene: personalizza Bit, l'avatar e colleziona emblemi.", {
+    this.headerLayer.add(this.add.text(62, 74, "Spendi l'energia guadagnata rispondendo bene: personalizza Bit, avatar, emblemi, strumenti NORA e restauri visivi delle aree.", {
       fontFamily: "Inter, Arial", fontSize: "13px", color: "#9fb6c2", wordWrap: { width: 820 },
     }));
 
@@ -53,11 +54,13 @@ export class RewardShopScene extends Phaser.Scene {
         this.slot = id;
         audioManager.play("click");
         this.refresh();
-      }, { width: 260, height: 44, fontSize: 15, fill: active ? 0x1f5a51 : 0x122430, stroke: active ? 0xf6c85f : 0x6be7d6 }));
+      }, { width: 220, height: 44, fontSize: 14, fill: active ? 0x1f5a51 : 0x122430, stroke: active ? 0xf6c85f : 0x6be7d6 }));
     };
-    tab(180, "bot", "🤖 Bit");
-    tab(470, "avatar", "🧑‍🚀 Avatar");
-    tab(760, "emblem", "🏅 Emblemi");
+    tab(140, "bot", "🤖 Bit");
+    tab(350, "avatar", "🧑‍🚀 Avatar");
+    tab(560, "emblem", "🏅 Emblemi");
+    tab(770, "upgrade", "✦ NORA");
+    tab(980, "decor", "◆ Aree");
 
     this.drawEquippedPreview();
     this.drawCards();
@@ -67,7 +70,19 @@ export class RewardShopScene extends Phaser.Scene {
     const layer = this.bodyLayer!;
     const equippedId = rewardSystem.equippedId(this.slot);
     const equipped = equippedId ? rewardSystem.find(equippedId) : undefined;
-    layer.add(this.add.text(1142, 186, "Equipaggiato ora:", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9fb6c2" }).setOrigin(0.5));
+    layer.add(this.add.text(1142, 186, this.slot === "upgrade" ? "Strumenti attivi:" : this.slot === "decor" ? "Restauri attivi:" : "Equipaggiato ora:", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9fb6c2" }).setOrigin(0.5));
+    if (this.slot === "upgrade" || this.slot === "decor") {
+      const active = rewardSystem.bySlot(this.slot).filter((item) => rewardSystem.owned(item.id));
+      layer.add(this.add.text(1142, 232, `${active.length}/${rewardSystem.bySlot(this.slot).length}`, { fontFamily: "Inter, Arial", fontSize: "42px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0.5));
+      layer.add(this.add.text(1142, 274, active.length > 0 ? active.map((item) => item.name).join("\n") : "Nessuno", {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#dce9f0",
+        align: "center",
+        wordWrap: { width: 190 },
+      }).setOrigin(0.5, 0));
+      return;
+    }
     if (this.slot === "emblem") {
       layer.add(this.add.text(1142, 232, equipped?.glyph ?? "—", { fontFamily: "Inter, Arial", fontSize: "48px" }).setOrigin(0.5));
     } else {
@@ -97,7 +112,7 @@ export class RewardShopScene extends Phaser.Scene {
 
       layer.add(this.add.rectangle(x, y, cardW, cardH, 0x07151d, 0.96).setOrigin(0).setStrokeStyle(2, accent, 0.8));
       // preview swatch / emblem
-      if (cosmetic.slot === "emblem") {
+      if (cosmetic.slot === "emblem" || cosmetic.slot === "upgrade" || cosmetic.slot === "decor") {
         layer.add(this.add.text(x + 52, y + 56, cosmetic.glyph ?? "🏅", { fontFamily: "Inter, Arial", fontSize: "44px" }).setOrigin(0.5));
       } else {
         layer.add(this.add.circle(x + 52, y + 58, 26, 0x0c2130, 1).setStrokeStyle(3, cosmetic.color ?? 0x6be7d6, 1));
@@ -114,7 +129,9 @@ export class RewardShopScene extends Phaser.Scene {
   private drawCardAction(layer: Phaser.GameObjects.Container, id: string, x: number, y: number): void {
     if (rewardSystem.isEquipped(id)) {
       layer.add(this.add.rectangle(x, y, 132, 34, 0x123a2e, 0.9).setStrokeStyle(1, 0x2ed889, 0.9));
-      layer.add(this.add.text(x, y, "✓ Equipaggiato", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#8ff6c0", fontStyle: "bold" }).setOrigin(0.5));
+      const slot = rewardSystem.find(id)?.slot;
+      const label = slot === "upgrade" || slot === "decor" ? "✓ Attivo" : "✓ Equipaggiato";
+      layer.add(this.add.text(x, y, label, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#8ff6c0", fontStyle: "bold" }).setOrigin(0.5));
       return;
     }
     if (rewardSystem.owned(id)) {
@@ -125,7 +142,8 @@ export class RewardShopScene extends Phaser.Scene {
       layer.add(new Button(this, x, y, "Acquista", () => {
         if (rewardSystem.purchase(id)) {
           audioManager.play("success");
-          feedbackSystem.publish("Sbloccato ed equipaggiato!", "success");
+          const slot = rewardSystem.find(id)?.slot;
+          feedbackSystem.publish(slot === "upgrade" || slot === "decor" ? "Sbloccato e attivo!" : "Sbloccato ed equipaggiato!", "success");
           this.refresh();
         }
       }, { width: 132, height: 34, fontSize: 13, fill: 0x244a2e, stroke: 0xf6c85f }));

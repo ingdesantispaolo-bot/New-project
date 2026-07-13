@@ -1,4 +1,4 @@
-import type { GreenhouseRunSave, JournalEntry, NumberFactoryRunSave, SaveData, TrainingRecord } from "../types/gameTypes";
+import type { DailyObjective, GreenhouseRunSave, JournalEntry, NumberFactoryRunSave, SaveData, TrainingRecord } from "../types/gameTypes";
 import type { ProceduralRunSave } from "../procedural/ProceduralTypes";
 import { firstMissionId } from "../data/missions";
 import { competencies } from "../data/competencies";
@@ -139,6 +139,132 @@ export class SaveSystem {
     rewards.earned += amount;
     this.persist();
     EventBus.emit(GameEvents.RewardsChanged, rewards);
+  }
+
+  // --- Daily loop ----------------------------------------------------------
+
+  private todayKey(date = new Date()): string {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  /** Cumulative lifetime stats used to compute daily deltas. */
+  private cumulativeStats(): { runs: number; mastered: number; unlocked: number } {
+    const records = Object.values(this.saveData.trainingRecords ?? {});
+    const runs = records.reduce((sum, record) => sum + (record.runs ?? 0), 0);
+    const mastered = new Set(records.filter((record) => (record.runs ?? 0) > 0).map((record) => record.focus)).size;
+    const unlocked = Object.keys(this.saveData.flags).filter((key) => key.startsWith("area-unlocked-") && this.saveData.flags[key]).length;
+    return { runs, mastered, unlocked };
+  }
+
+  /** Refreshes the daily objective set on a new calendar day and advances the streak. */
+  rolloverDaily(): void {
+    const today = this.todayKey();
+    const daily = this.saveData.daily;
+    if (daily && daily.date === today) return;
+    const yesterday = this.todayKey(new Date(Date.now() - 86_400_000));
+    const streak = daily && daily.date === yesterday ? daily.streak + 1 : 1;
+    this.saveData.daily = {
+      date: today,
+      streak,
+      snapshot: this.cumulativeStats(),
+      claimed: false,
+      energySubjects: [],
+      varietyMilestonesClaimed: [],
+    };
+    this.persist();
+  }
+
+  private dailyHash(): number {
+    const seed = this.saveData.daily?.date ?? this.todayKey();
+    let hash = 2166136261;
+    for (let index = 0; index < seed.length; index += 1) {
+      hash ^= seed.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+  }
+
+  /** Today's objectives with live progress (snapshot-diff from cumulative stats). */
+  dailyObjectives(): DailyObjective[] {
+    this.rolloverDaily();
+    const snapshot = this.saveData.daily!.snapshot;
+    const stats = this.cumulativeStats();
+    const delta = {
+      runs: Math.max(0, stats.runs - snapshot.runs),
+      mastered: Math.max(0, stats.mastered - snapshot.mastered),
+      unlocked: Math.max(0, stats.unlocked - snapshot.unlocked),
+    };
+    const runsTarget = 2 + (this.dailyHash() % 3); // 2..4, varies by day
+    const objectives: DailyObjective[] = [];
+    const add = (id: string, label: string, target: number, value: number): void => {
+      objectives.push({ id, label, target, current: Math.min(value, target), done: value >= target });
+    };
+    add("runs", `Completa ${runsTarget} allenamenti`, runsTarget, delta.runs);
+    if (stats.mastered < 7) add("master", "Padroneggia una nuova materia", 1, delta.mastered);
+    else add("runs-long", "Allenati a lungo: 6 sessioni", 6, delta.runs);
+    if (stats.unlocked < 4) add("unlock", "Sblocca una nuova area", 1, delta.unlocked);
+    else add("runs-marathon", "Maratona: 8 allenamenti", 8, delta.runs);
+    return objectives;
+  }
+
+  /** Energy granted for completing the daily loop, with a gentle streak bonus. */
+  dailyRewardAmount(): number {
+    this.rolloverDaily();
+    const streakBonus = Math.min(140, Math.max(0, (this.saveData.daily?.streak ?? 1) - 1) * 10);
+    return 60 + streakBonus;
+  }
+
+  /**
+   * Records a subject/activity family that generated energy today and returns
+   * one-shot bonus packets for new variety. The caller grants the energy so UI
+   * feedback can include the same breakdown shown to the player.
+   */
+  recordDailyEnergySubject(subject: string): Array<{ amount: number; label: string }> {
+    this.rolloverDaily();
+    const normalized = subject.trim().toLowerCase();
+    if (!normalized) return [];
+    const daily = this.saveData.daily!;
+    daily.energySubjects = daily.energySubjects ?? [];
+    daily.varietyMilestonesClaimed = daily.varietyMilestonesClaimed ?? [];
+    const bonuses: Array<{ amount: number; label: string }> = [];
+    if (!daily.energySubjects.includes(normalized)) {
+      daily.energySubjects.push(normalized);
+      bonuses.push({ amount: 15, label: `nuova attività: ${subject}` });
+    }
+    const milestones: Array<{ count: number; amount: number; label: string }> = [
+      { count: 3, amount: 40, label: "varietà giornaliera 3" },
+      { count: 5, amount: 80, label: "varietà giornaliera 5" },
+      { count: 7, amount: 120, label: "giro completo del giorno" },
+    ];
+    for (const milestone of milestones) {
+      if (
+        daily.energySubjects.length >= milestone.count
+        && !daily.varietyMilestonesClaimed.includes(milestone.count)
+      ) {
+        daily.varietyMilestonesClaimed.push(milestone.count);
+        bonuses.push({ amount: milestone.amount, label: milestone.label });
+      }
+    }
+    if (bonuses.length > 0) this.persist();
+    return bonuses;
+  }
+
+  /** Grants a one-time energy bonus the first time all today's objectives are done. */
+  claimDailyIfComplete(bonus = this.dailyRewardAmount()): number {
+    this.rolloverDaily();
+    const daily = this.saveData.daily!;
+    if (daily.claimed || !this.dailyObjectives().every((objective) => objective.done)) return 0;
+    daily.claimed = true;
+    this.addEnergy(bonus);
+    return bonus;
+  }
+
+  get dailyStreak(): number {
+    this.rolloverDaily();
+    return this.saveData.daily?.streak ?? 1;
   }
 
   /** Buys a cosmetic if affordable and not already owned. Returns success. */

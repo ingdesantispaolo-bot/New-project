@@ -42,7 +42,10 @@ export class ExplorableRoomScene extends Phaser.Scene {
     this.masteredCount = trained.size;
     const focusConsoles = area.consoles.filter((spec) => spec.focus);
     const trainedCount = focusConsoles.filter((spec) => spec.focus && trained.has(spec.focus)).length;
-    const vitality = focusConsoles.length > 0 ? trainedCount / focusConsoles.length : 0;
+    const masteryVitality = focusConsoles.length > 0 ? trainedCount / focusConsoles.length : 0;
+    const restorationItemId = this.restorationItemId(area.id);
+    const restoredByEnergy = restorationItemId ? saveSystem.data.inventory.includes(restorationItemId) : false;
+    const vitality = Math.max(masteryVitality, restoredByEnergy ? 0.62 : 0);
 
     const consoles: RoomConsole[] = area.consoles.map((spec) => ({
       id: spec.id,
@@ -70,14 +73,28 @@ export class ExplorableRoomScene extends Phaser.Scene {
       minimap: true,
       vitality,
       accentColor: area.accent,
+      restorationItemId,
       onInteract: (console) => this.onInteract(console),
     });
 
-    this.buildHud(area, vitality, trainedCount, focusConsoles.length);
+    this.buildHud(area, vitality, trainedCount, focusConsoles.length, restoredByEnergy);
     this.cameras.main.fadeIn(220, 6, 15, 22);
     this.showAreaTitle(area, vitality);
     this.celebrateNewUnlocks();
     audioManager.play("scan");
+  }
+
+  private restorationItemId(areaId: string): string | undefined {
+    const ids: Record<string, string> = {
+      laboratorio: "decor-laboratorio",
+      "serra-bio": "decor-serra",
+      "cantiere-circuiti": "decor-circuiti",
+      osservatorio: "decor-osservatorio",
+      "sala-musica": "decor-musica",
+      "archivio-biblioteca": "decor-archivio",
+      "biblioteca-classica": "decor-biblioteca-classica",
+    };
+    return ids[areaId];
   }
 
   /** Focuses the player has trained at least once (persisted training records). */
@@ -166,22 +183,22 @@ export class ExplorableRoomScene extends Phaser.Scene {
     this.explorer?.update(delta, this.overlayOpen);
   }
 
-  private buildHud(area: MapAreaDef, vitality: number, trained: number, total: number): void {
+  private buildHud(area: MapAreaDef, vitality: number, trained: number, total: number, restoredByEnergy: boolean): void {
     const hint = this.add.text(24, 22, `${area.label} · cammina con WASD/frecce o tocca il pavimento · E vicino a una console`, {
       fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", backgroundColor: "rgba(4,18,28,0.8)", padding: { x: 10, y: 6 },
     }).setScrollFactor(0).setDepth(50);
     const back = new Button(this, 1180, 40, "Indietro", () => this.scene.start(this.returnScene), { width: 150, height: 40, fontSize: 15, fill: 0x263743 })
       .setScrollFactor(0).setDepth(50);
-    this.explorer?.markUi([hint, back, ...this.buildVitalityMeter(area, vitality, trained, total)]);
+    this.explorer?.markUi([hint, back, ...this.buildVitalityMeter(area, vitality, trained, total, restoredByEnergy)]);
   }
 
   /** Top-center meter: how alive the area is (fraction of subjects mastered). */
-  private buildVitalityMeter(area: MapAreaDef, vitality: number, trained: number, total: number): Phaser.GameObjects.GameObject[] {
+  private buildVitalityMeter(area: MapAreaDef, vitality: number, trained: number, total: number, restoredByEnergy: boolean): Phaser.GameObjects.GameObject[] {
     const cx = 640;
     const y = 80;
     const w = 300;
     const h = 12;
-    const label = this.add.text(cx, y - 17, `⚡ VITALITÀ ${area.label.toUpperCase()}  ·  ${trained}/${total} console attive`, {
+    const label = this.add.text(cx, y - 17, `⚡ VITALITÀ ${area.label.toUpperCase()}  ·  ${trained}/${total} console attive${restoredByEnergy ? " · restauro energia" : ""}`, {
       fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", fontStyle: "bold",
     }).setOrigin(0.5).setScrollFactor(0).setDepth(50);
     const track = this.add.rectangle(cx, y, w, h, 0x07151d, 0.9).setStrokeStyle(1, area.accent, 0.5).setScrollFactor(0).setDepth(50);

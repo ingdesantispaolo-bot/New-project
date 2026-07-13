@@ -135,6 +135,7 @@ export class MissionGenerator {
     if (focus.includes("coding")) return "coding";
     if (focus.includes("musica")) return "musica";
     if (focus.includes("fisica")) return "fisica";
+    if (focus.includes("latino")) return "latino";
     return "libera";
   }
 }

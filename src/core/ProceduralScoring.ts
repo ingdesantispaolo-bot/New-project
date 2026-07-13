@@ -46,6 +46,7 @@ const domainLabels: Record<ProceduralSpecialization, string> = {
   coding: "coding",
   musica: "musica",
   fisica: "fisica",
+  latino: "latino",
 };
 
 function clamp(value: number, min: number, max: number): number {

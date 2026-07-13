@@ -1,6 +1,6 @@
 import { saveSystem } from "./SaveSystem";
 
-export type CosmeticSlot = "bot" | "avatar" | "emblem";
+export type CosmeticSlot = "bot" | "avatar" | "emblem" | "upgrade" | "decor";
 
 export type Cosmetic = {
   id: string;
@@ -10,7 +10,7 @@ export type Cosmetic = {
   cost: number;
   /** Colour applied to Bit / the avatar for colour cosmetics. */
   color?: number;
-  /** Emblem glyph for the trophy slot. */
+  /** Emblem / upgrade / decoration glyph for trophy, tools and room restores. */
   glyph?: string;
 };
 
@@ -35,6 +35,18 @@ const CATALOG: Cosmetic[] = [
   { id: "emblem-star", slot: "emblem", name: "Emblema Stella", description: "Un trofeo che dice: costanza.", cost: 400, glyph: "⭐" },
   { id: "emblem-bolt", slot: "emblem", name: "Emblema Fulmine", description: "Per chi va veloce e preciso.", cost: 720, glyph: "⚡" },
   { id: "emblem-crown", slot: "emblem", name: "Emblema Corona", description: "Il premio dei più costanti.", cost: 1200, glyph: "👑" },
+  // --- Strumenti NORA (vantaggi leggeri nelle run) ------------------------
+  { id: "nora-lens", slot: "upgrade", name: "Lente causale NORA", description: "Il primo indizio di ogni run non consuma aiuti.", cost: 360, glyph: "◇" },
+  { id: "nora-reserve", slot: "upgrade", name: "Riserva rapida", description: "Gli impulsi NORA si caricano dopo ogni sistema risolto.", cost: 760, glyph: "⟡" },
+  { id: "nora-shield", slot: "upgrade", name: "Scudo rinforzato", description: "Una carica NORA può recuperare due vite invece di una.", cost: 980, glyph: "⬡" },
+  // --- Restauri d'area -----------------------------------------------------
+  { id: "decor-laboratorio", slot: "decor", name: "Luci laboratorio", description: "Riaccende il nucleo visivo dell'area laboratorio.", cost: 300, glyph: "✦" },
+  { id: "decor-serra", slot: "decor", name: "Serra rigogliosa", description: "Aggiunge bagliori verdi e vita alla serra-bio.", cost: 340, glyph: "◆" },
+  { id: "decor-circuiti", slot: "decor", name: "Tracce circuiti", description: "Rende più evidenti piste e nodi del cantiere-circuiti.", cost: 360, glyph: "⬡" },
+  { id: "decor-osservatorio", slot: "decor", name: "Cupola stellare", description: "Accende una luce morbida nell'osservatorio.", cost: 360, glyph: "✧" },
+  { id: "decor-musica", slot: "decor", name: "Sala accordata", description: "Illumina il palco della sala-musica.", cost: 320, glyph: "♪" },
+  { id: "decor-archivio", slot: "decor", name: "Archivio vivo", description: "Riscalda scaffali e postazioni della biblioteca.", cost: 320, glyph: "▣" },
+  { id: "decor-biblioteca-classica", slot: "decor", name: "Scriptorium ambra", description: "Riaccende lucerne e oro della biblioteca classica.", cost: 380, glyph: "◈" },
 ];
 
 class RewardSystem {
@@ -59,12 +71,14 @@ class RewardSystem {
   }
 
   owned(id: string): boolean {
-    return saveSystem.rewards.unlocked.includes(id);
+    const cosmetic = this.find(id);
+    return saveSystem.rewards.unlocked.includes(id)
+      || Boolean((cosmetic?.slot === "upgrade" || cosmetic?.slot === "decor") && saveSystem.data.inventory.includes(id));
   }
 
   canAfford(id: string): boolean {
     const cosmetic = this.find(id);
-    return Boolean(cosmetic) && saveSystem.rewards.energy >= cosmetic!.cost;
+    return Boolean(cosmetic) && !this.owned(id) && saveSystem.rewards.energy >= cosmetic!.cost;
   }
 
   equippedId(slot: CosmeticSlot): string | undefined {
@@ -73,6 +87,7 @@ class RewardSystem {
 
   isEquipped(id: string): boolean {
     const cosmetic = this.find(id);
+    if (cosmetic?.slot === "upgrade" || cosmetic?.slot === "decor") return this.owned(id);
     return Boolean(cosmetic) && saveSystem.rewards.equipped[cosmetic!.slot] === id;
   }
 
@@ -88,7 +103,11 @@ class RewardSystem {
     const cosmetic = this.find(id);
     if (!cosmetic) return false;
     const bought = saveSystem.purchaseCosmetic(id, cosmetic.cost);
-    if (bought) saveSystem.equipCosmetic(cosmetic.slot, id);
+    if (bought && (cosmetic.slot === "upgrade" || cosmetic.slot === "decor")) {
+      saveSystem.addInventoryItem(id);
+    } else if (bought) {
+      saveSystem.equipCosmetic(cosmetic.slot, id);
+    }
     return bought;
   }
 

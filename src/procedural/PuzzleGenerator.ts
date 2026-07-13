@@ -2,6 +2,7 @@ import { CircuitFaultGenerator } from "./generators/CircuitFaultGenerator";
 import { CodingPuzzleGenerator } from "./generators/CodingPuzzleGenerator";
 import { EnglishInstructionGenerator } from "./generators/EnglishInstructionGenerator";
 import { LanguageCorruptionGenerator } from "./generators/LanguageCorruptionGenerator";
+import { LatinGenerator } from "./generators/LatinGenerator";
 import { MathPuzzleGenerator } from "./generators/MathPuzzleGenerator";
 import { MusicNoteGenerator } from "./generators/MusicNoteGenerator";
 import { PhysicsPuzzleGenerator } from "./generators/PhysicsPuzzleGenerator";
@@ -16,6 +17,7 @@ import type {
   GeneratedFocusChallenge,
   GeneratedMission,
   LanguageMinigameType,
+  LatinMinigameType,
   MathMinigameType,
   ProceduralPuzzleKind,
   RobotChallengeType,
@@ -37,6 +39,7 @@ export class PuzzleGenerator {
   private physicsGenerator = new PhysicsPuzzleGenerator();
   private circuitGenerator = new CircuitFaultGenerator();
   private languageGenerator = new LanguageCorruptionGenerator();
+  private latinGenerator = new LatinGenerator();
   private englishGenerator = new EnglishInstructionGenerator();
   private mathValidator = new MathPuzzleValidator();
   private robotValidator = new RobotPuzzleValidator();
@@ -253,6 +256,10 @@ export class PuzzleGenerator {
           puzzle: exerciseDirector.enrichCircuit(puzzle, stagedDifficulty.level),
         };
       }
+      if (kind === "latin") {
+        const puzzle = this.latinGenerator.generateMinigame(challengeRandom, stagedDifficulty.level, this.latinMinigameTypesForStep(index));
+        return { id, kind, title: stage.label, description: stage.description, difficultyStep: index + 1, puzzle };
+      }
       const robotType = this.robotChallengeTypeForStep(index, difficulty.level);
       const puzzle = this.validationEngine.generateWithRetries(
         () => this.robotGenerator.generate(challengeRandom, stagedDifficulty, robotType),
@@ -313,6 +320,16 @@ export class PuzzleGenerator {
     };
   }
 
+  private latinMinigameTypesForStep(step: number): LatinMinigameType[] {
+    return [
+      ["declension", "vocab-match", "case-function"],
+      ["declension", "conjugation", "vocab-match", "agreement"],
+      ["conjugation", "verb-analysis", "declension", "case-function", "translation"],
+      ["conjugation", "verb-analysis", "agreement", "translation", "declension"],
+      ["verb-analysis", "syntax-clause", "translation", "conjugation", "declension", "case-function"],
+    ][Math.min(step, 4)] as LatinMinigameType[];
+  }
+
   private domainForKind(kind: ProceduralPuzzleKind): string {
     return {
       language: "italiano",
@@ -323,6 +340,7 @@ export class PuzzleGenerator {
       physics: "fisica",
       robot: "coding",
       coding: "coding",
+      latin: "latino",
     }[kind];
   }
 

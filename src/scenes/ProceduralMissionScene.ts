@@ -27,6 +27,7 @@ import { EnglishInstructionGenerator } from "../procedural/generators/EnglishIns
 import { LanguageCorruptionGenerator, normalizeTypedAnswer } from "../procedural/generators/LanguageCorruptionGenerator";
 import { MathPuzzleGenerator } from "../procedural/generators/MathPuzzleGenerator";
 import { MusicNoteGenerator } from "../procedural/generators/MusicNoteGenerator";
+import { LatinGenerator } from "../procedural/generators/LatinGenerator";
 import { PhysicsPuzzleGenerator } from "../procedural/generators/PhysicsPuzzleGenerator";
 import { RobotGridGenerator } from "../procedural/generators/RobotGridGenerator";
 import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
@@ -51,6 +52,7 @@ import type {
   GeneratedEnglishPuzzle,
   GeneratedLanguagePuzzle,
   GeneratedLanguageMinigame,
+  GeneratedLatinPuzzle,
   GeneratedMathMinigame,
   GeneratedMathPuzzle,
   GeneratedMusicPuzzle,
@@ -136,6 +138,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private activeHintText?: string;
   private activeHintPuzzleId?: string;
   private languageSelectedOption?: string;
+  private latinSelectedLabel?: string;
   private englishSelectedChoiceId?: string;
   private circuitInspected = false;
   private circuitConceptVerified = false;
@@ -389,8 +392,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private availableNoraCharges(): number {
     const chargeStep = saveSystem.data.inventory.includes("nora-reserve") ? 1 : 2;
-    const earned = Math.min(2, Math.floor(this.run.solvedPuzzleIds.length / chargeStep));
+    const maxCharges = saveSystem.data.inventory.includes("nora-reserve") ? 3 : 2;
+    const solvedEarned = Math.min(maxCharges, Math.floor(this.run.solvedPuzzleIds.length / chargeStep));
+    const energyEarned = Math.min(maxCharges, Math.floor(outcomeFeedback.energyTotal(this) / (saveSystem.data.inventory.includes("nora-reserve") ? 160 : 220)));
+    const earned = Math.max(solvedEarned, energyEarned);
     return Math.max(0, earned - (this.run.noraChargesUsed ?? 0));
+  }
+
+  private runEnergySummary(): string {
+    return outcomeFeedback.energySummaryText(this);
+  }
+
+  energySubjectForFeedback(): string {
+    if (this.languageMinigameSession) return "italiano";
+    if (this.mathMinigameSession) return "matematica";
+    if (this.englishMinigameSession) return "inglese";
+    if (this.codingMinigameSession) return "coding";
+    if (this.musicSession) return "musica";
+    if (this.circuitMinigameSession) return "fisica";
+    return "missioni procedurali";
   }
 
   private showNoraChargePanel(): void {
@@ -406,14 +426,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#f7d37a",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(340, 252, "Hai collegato abbastanza sistemi da alimentare uno strumento di emergenza. Scegli un solo effetto.", {
+    overlay.add(this.add.text(340, 252, "Hai collegato abbastanza sistemi o accumulato abbastanza energia-run da alimentare uno strumento di emergenza. Scegli un solo effetto.", {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#d9eaf1",
       wordWrap: { width: 600 },
       lineSpacing: 5,
     }));
-    const status = this.add.text(340, 456, `Cariche disponibili: ${this.availableNoraCharges()}`, {
+    const status = this.add.text(340, 456, `Cariche disponibili: ${this.availableNoraCharges()} · ${this.runEnergySummary()}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
@@ -993,6 +1013,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const systemId = challenge?.kind ?? puzzleKindFromId(puzzleId);
     const handlers: Record<ProceduralPuzzleId, () => void> = {
       language: () => this.openLanguage(),
+      latin: () => this.openLatin(),
       circuit: () => this.openCircuit(),
       math: () => this.openMath(),
       english: () => this.openEnglish(),
@@ -1001,7 +1022,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       music: () => this.openMusic(),
       physics: () => this.openPhysics(),
     };
-    if (proceduralPuzzleOrder.includes(systemId)) {
+    if (systemId === "latin" || proceduralPuzzleOrder.includes(systemId)) {
       if (this.activePuzzleId !== puzzleId) {
         this.resetTransientPuzzleState();
       }
@@ -1048,6 +1069,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private currentPuzzleHintsFor(kind: ProceduralPuzzleId): string[] {
     switch (kind) {
       case "language": return this.puzzleHintTexts(this.currentLanguagePuzzle());
+      case "latin": return this.puzzleHintTexts(this.currentLatinPuzzle());
       case "circuit": return this.puzzleHintTexts(this.currentCircuitPuzzle());
       case "math": return this.puzzleHintTexts(this.currentMathPuzzle());
       case "english": return this.puzzleHintTexts(this.currentEnglishPuzzle());
@@ -1181,6 +1203,77 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!exited) this.openLanguage();
   }
 
+  // ===== Latino (console a domanda singola: analizza la forma e scegli) =====
+  private currentLatinPuzzle(): GeneratedLatinPuzzle {
+    const challenge = this.activeChallenge;
+    if (challenge?.kind === "latin") return challenge.puzzle;
+    return new LatinGenerator().generateMinigame(new Random(`${this.run.seed}:latin-fallback`), this.run.difficulty);
+  }
+
+  private openLatin(): void {
+    const puzzle = this.currentLatinPuzzle();
+    const prompt = puzzle.minigame.prompts[0];
+    const overlay = this.createExerciseScreen(`Latino · ${prompt.targetLabel}`);
+
+    this.addMathPanel(overlay, 28, 112, 548, 432, "1 · Leggi e analizza la forma");
+    overlay.add(this.add.text(60, 152, prompt.targetLabel, { fontFamily: "Inter, Arial", fontSize: "26px", color: "#f7d37a", fontStyle: "bold" }));
+    overlay.add(this.add.rectangle(60, 200, 484, 96, 0x102533, 0.9).setOrigin(0).setStrokeStyle(1, 0xd8a24a, 0.55));
+    overlay.add(this.add.text(78, 214, prompt.context, { fontFamily: "Inter, Arial", fontSize: "18px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 452 }, lineSpacing: 5 }));
+    if (prompt.reference) {
+      overlay.add(this.add.text(60, 316, prompt.reference, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", wordWrap: { width: 480 }, lineSpacing: 4 }));
+    }
+    overlay.add(this.add.text(60, 396, `Concetto: ${prompt.concept}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold", wordWrap: { width: 480 } }));
+    const activeHint = this.currentActiveHint();
+    if (activeHint) overlay.add(this.add.text(60, 430, activeHint, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", wordWrap: { width: 480 }, lineSpacing: 3 }));
+
+    this.addMathPanel(overlay, 604, 112, 648, 432, "2 · Scegli la risposta");
+    overlay.add(this.add.text(636, 152, "Leggi la domanda, clicca UNA tessera e premi Conferma.", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1", wordWrap: { width: 560 } }));
+    overlay.add(this.add.text(636, 198, prompt.prompt, { fontFamily: "Inter, Arial", fontSize: "18px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 560 }, lineSpacing: 5 }));
+    const tileStartX = 784;
+    const tileStartY = 338;
+    prompt.tiles.forEach((tile, index) => {
+      const selected = this.latinSelectedLabel === tile.label;
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 70, `${selected ? "✓ " : ""}${tile.label}`, () => {
+        this.latinSelectedLabel = tile.label;
+        audioManager.play("click");
+        this.openLatin();
+      }, {
+        width: 236, height: 54, fontSize: tile.label.length > 22 ? 12 : 15, wordWrapWidth: 214,
+        fill: selected ? 0x174d42 : 0x263743, stroke: selected ? 0xf7d37a : 0x6be7d6,
+      }));
+    });
+
+    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
+    overlay.add(this.add.text(64, 592, puzzle.difficultyLabel ?? "Latino", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a", fontStyle: "bold" }));
+    overlay.add(this.add.text(64, 620, puzzle.method ?? "Analizza la desinenza, poi assegna caso, numero, tempo o funzione.", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9aaab0", wordWrap: { width: 680 } }));
+    overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmLatin(puzzle), { width: 220, height: 44, fontSize: 14, fill: 0x173b36 }));
+    overlay.add(new Button(this, 820, 640, "Indizio", () => { this.useContextualHint(puzzle); this.openLatin(); }, { width: 180, height: 44, fontSize: 13, fill: 0x263743 }));
+  }
+
+  private confirmLatin(puzzle: GeneratedLatinPuzzle): void {
+    const prompt = puzzle.minigame.prompts[0];
+    const label = this.latinSelectedLabel;
+    if (!label) {
+      audioManager.playOutcome("hint");
+      feedbackSystem.publish("Prima seleziona una risposta.", "hint");
+      return;
+    }
+    const correctTile = prompt.tiles.find((tile) => tile.isCorrect)!;
+    if (label === correctTile.label) {
+      outcomeFeedback.answer(this, true, label, correctTile.label, prompt.explanation);
+      this.latinSelectedLabel = undefined;
+      this.solvePuzzle(this.currentPuzzleId("latin"), puzzle.competencies);
+      return;
+    }
+    const wrongTile = prompt.tiles.find((tile) => tile.label === label);
+    outcomeFeedback.answer(this, false, label, correctTile.label, wrongTile?.feedback ?? prompt.explanation);
+    this.latinSelectedLabel = undefined;
+    const exited = this.handleIncorrectAnswer(wrongTile?.feedback ?? puzzle.hints[0]);
+    if (!exited) this.openLatin();
+  }
+
   private openLanguageMinigame(puzzle: GeneratedLanguagePuzzle): void {
     if (!puzzle.minigame) {
       return;
@@ -1188,13 +1281,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const puzzleId = this.currentPuzzleId("language");
     const session = this.ensureLanguageMinigameSession(puzzleId, puzzle, puzzle.minigame);
     const prompt = this.currentLanguageMinigamePrompt(session);
-    const overlay = this.createMathOverlay(`Italiano · ${prompt.targetLabel}`, puzzle.minigame.reflective
+    const showCoach = this.shouldShowExerciseCoach("language");
+    const overlay = this.createMathOverlay(`Italiano · ${prompt.targetLabel}`, this.compactExerciseSubtitle("language", puzzle.minigame.reflective
       ? "Italiano · modalità riflessiva: leggi con calma, poi scegli"
-      : "Italiano · leggi la consegna, scegli una risposta, conferma");
+      : "Italiano · leggi la consegna, scegli una risposta, conferma"));
     const remaining = this.languageMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 548, 432, "1 · Leggi e individua la regola");
+    this.addMathPanel(overlay, 28, 112, 548, 432, showCoach ? "1 · Leggi e individua la regola" : "Consegna");
     overlay.add(this.add.text(60, 154, prompt.targetLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "27px",
@@ -1202,8 +1296,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
       shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
     }));
-    this.drawLanguageMinigameVisualizer(overlay, prompt, 60, 210, 482, 210);
-    overlay.add(this.add.text(60, 456, `Concetto: ${prompt.concept}`, {
+    this.drawLanguageMinigameVisualizer(overlay, prompt, 60, 210, 482, 210, showCoach);
+    overlay.add(this.add.text(60, showCoach ? 456 : 438, `Concetto: ${prompt.concept}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
@@ -1213,19 +1307,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
     const isOrdering = prompt.type === "word-order";
     const isTyped = prompt.inputMode === "typed";
-    this.addMathPanel(overlay, 604, 112, 648, 432, isOrdering ? "2 · Ricomponi il comando" : isTyped ? "2 · Scrivi la risposta" : "2 · Scegli una risposta");
-    overlay.add(this.add.text(636, 154, isOrdering
-      ? "Tocca le parole nell'ordine giusto. Ritocca una parola messa per toglierla."
-      : isTyped
-        ? "Scrivi tu la forma corretta nel riquadro, poi premi Conferma."
-        : "Come si gioca: leggi la domanda, clicca UNA tessera e premi Conferma.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 560 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(636, isOrdering ? 192 : 214, prompt.prompt, {
+    this.addMathPanel(overlay, 604, 112, 648, 432, showCoach ? (isOrdering ? "2 · Ricomponi il comando" : isTyped ? "2 · Scrivi la risposta" : "2 · Scegli una risposta") : (isTyped ? "Risposta" : prompt.targetLabel));
+    if (showCoach) {
+      overlay.add(this.add.text(636, 154, isOrdering
+        ? "Tocca le parole nell'ordine giusto. Ritocca una parola messa per toglierla."
+        : isTyped
+          ? "Scrivi tu la forma corretta nel riquadro, poi premi Conferma."
+          : "Come si gioca: leggi la domanda, clicca UNA tessera e premi Conferma.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#d9eaf1",
+        wordWrap: { width: 560 },
+        lineSpacing: 4,
+      }));
+    }
+    overlay.add(this.add.text(636, showCoach ? (isOrdering ? 192 : 214) : 164, prompt.prompt, {
       fontFamily: "Inter, Arial",
       fontSize: isOrdering ? "15px" : "18px",
       color: "#f5fbff",
@@ -1258,12 +1354,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       input.onkeydown = (event) => { if (event.key === "Enter") this.confirmLanguageMinigamePrompt(); };
       this.languageTypedInputEl = input;
       overlay.add(this.add.dom(928, 360, input));
-      overlay.add(this.add.text(636, 420, "Scrivi con calma: conta numero e genere del soggetto.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#9aaab0",
-        wordWrap: { width: 560 },
-      }));
+      if (showCoach) {
+        overlay.add(this.add.text(636, 420, "Scrivi con calma: conta numero e genere del soggetto.", {
+          fontFamily: "Inter, Arial",
+          fontSize: "13px",
+          color: "#9aaab0",
+          wordWrap: { width: 560 },
+        }));
+      }
     } else {
       const tileStartX = 784;
       const tileStartY = 340;
@@ -1271,10 +1369,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
         const selected = session.selectedIds.has(tile.id);
         const col = index % 2;
         const row = Math.floor(index / 2);
-        overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleLanguageMinigameTile(tile.id), {
+        overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, this.choiceTileLabel(tile.label, selected), () => this.toggleLanguageMinigameTile(tile.id), {
           width: 232,
           height: 52,
-          fontSize: tile.label.length > 34 ? 10 : tile.label.length > 20 ? 12 : 16,
+          fontSize: this.choiceTileFontSize(tile.label, 16),
           wordWrapWidth: 210,
           fill: selected ? 0x174d42 : 0x263743,
           stroke: selected ? 0xf7d37a : 0x6be7d6,
@@ -1282,7 +1380,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       });
     }
 
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
+    this.addMathPanel(overlay, 28, 558, 1224, 130, showCoach ? "3 · Conferma e controlla l'esito" : "Esito");
     this.languageMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
@@ -1297,12 +1395,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 640 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 390, useAdvancedWrap: true },
-    }));
+    if (showCoach || session.feedback) {
+      overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: session.feedback ? "#f7d37a" : "#9aaab0",
+        wordWrap: { width: 390, useAdvancedWrap: true },
+      }));
+    }
     overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmLanguageMinigamePrompt(), {
       width: 220,
       height: 44,
@@ -1354,6 +1454,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
     };
+    const showCoach = this.shouldShowExerciseCoach("language");
     this.languageMinigameSession = {
       puzzleId,
       puzzle,
@@ -1369,9 +1470,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       netScore: 0,
       selectedIds: new Set<string>(),
       orderedSelection: [],
-      feedback: mixTypes
-        ? "Percorso variato: ogni domanda può cambiare scopo. Prima leggi l'obiettivo, poi scegli."
-        : "Leggi prima l'obiettivo: accordo, connettivo, intruso o ordine. Poi conferma.",
+      feedback: showCoach
+        ? mixTypes
+          ? "Percorso variato: ogni domanda può cambiare scopo. Prima leggi l'obiettivo, poi scegli."
+          : "Leggi prima l'obiettivo: accordo, connettivo, intruso o ordine. Poi conferma."
+        : "",
       locked: false,
       summaryOpen: false,
     };
@@ -1390,6 +1493,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     y: number,
     width: number,
     height: number,
+    showCoach = true,
   ): void {
     const g = this.add.graphics();
     g.fillStyle(0x07151d, 0.78);
@@ -1408,7 +1512,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       .setStrokeStyle(1, accent, 0.45));
     overlay.add(this.add.text(x + 44, y + 52, prompt.context, {
       fontFamily: "Inter, Arial",
-      fontSize: prompt.context.length > 92 ? "13px" : "16px",
+      fontSize: !showCoach ? (prompt.context.length > 92 ? "15px" : "18px") : prompt.context.length > 92 ? "13px" : "16px",
       color: "#f5fbff",
       fontStyle: "bold",
       wordWrap: { width: width - 88, useAdvancedWrap: true },
@@ -1782,6 +1886,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 690 },
       lineSpacing: 4,
     }));
+    modal.add(this.add.text(254, 456, this.runEnergySummary(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      wordWrap: { width: 690 },
+    }));
     modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
       modal.destroy(true);
       if (!passed && (mode === "mission" || mode === "progressive")) {
@@ -1817,7 +1928,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const solvedNode = puzzleKindFromId(session.puzzleId);
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
     feedbackSystem.publish(
-      `Sprint italiano registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      `Sprint italiano registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
       "success",
     );
     if (remaining.length === 0) {
@@ -1881,7 +1992,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const model = CircuitConsole.fromPuzzle(puzzle);
     const conceptLocked = model.componentChallenges.length > 0 && !this.circuitConceptVerified;
     const overlay = this.createExerciseScreen(model.title);
-    CircuitConsole.addIntro(this, overlay, model, { conceptLocked });
+    CircuitConsole.addIntro(this, overlay, model, {
+      conceptLocked,
+      showCoach: this.shouldShowExerciseCoach("circuit"),
+    });
 
     this.drawCircuitDiagnostic(overlay, model);
     CircuitConsole.addSidePanel(this, overlay, model, {
@@ -2079,6 +2193,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       onKey: (key) => this.pressMathKey(key),
     });
     this.mathSupportText = MathTerminal.addSupportPanel(this, overlay, model, {
+      showCoach: this.shouldShowExerciseCoach("math"),
       supportMessage: this.mathSupportMessage,
     }, {
       onHint: () => this.showMathSupport(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])),
@@ -2139,7 +2254,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }));
     });
 
-    this.addMathPanel(overlay, 28, 572, 1224, 116, "Percorso e metodo");
+    const showCoach = this.shouldShowExerciseCoach("math");
+    this.addMathPanel(overlay, 28, 572, 1224, 116, showCoach ? "Percorso e metodo" : "Percorso");
     const progressWidth = 650;
     const stepGap = progressWidth / Math.max(1, lab.stages.length - 1);
     const progress = this.add.graphics();
@@ -2163,7 +2279,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontStyle: "bold",
       }).setOrigin(0.5));
     });
-    overlay.add(this.add.text(760, 604, this.currentActiveHint() ?? `Metodo: ${puzzle.calculationAid?.strategy ?? puzzle.hints[0]}`, {
+    overlay.add(this.add.text(760, 604, this.currentActiveHint() ?? (showCoach ? `Metodo: ${puzzle.calculationAid?.strategy ?? puzzle.hints[0]}` : "Spiegazione disponibile se serve."), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: this.currentActiveHint() ? "#f7d37a" : "#d9eaf1",
@@ -3098,111 +3214,34 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("math");
     const session = this.ensureMathMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title, "Matematica · osserva il vincolo, seleziona le tessere, conferma");
+    const showCoach = this.shouldShowExerciseCoach("math");
+    const overlay = this.createMathOverlay(puzzle.minigame.title, this.compactExerciseSubtitle("math", "Matematica · osserva il vincolo, seleziona le tessere, conferma"));
     const prompt = this.currentMathMinigamePrompt(session);
     const remaining = this.mathMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 548, 432, "1 · Osserva dati e obiettivo");
-    overlay.add(this.add.text(60, 156, prompt.targetLabel, {
-      fontFamily: "Inter, Arial",
-      fontSize: "30px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
-    }));
-    this.drawMathMinigameVisualizer(overlay, prompt, 64, 218, 460, 218);
-    overlay.add(this.add.text(60, 468, `Concetto: ${prompt.concept}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-      wordWrap: { width: 472 },
-    }));
-    overlay.add(this.add.text(60, 496, this.mathMinigameMethodText(prompt), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 476, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
-
-    this.addMathPanel(overlay, 604, 112, 648, 432, "2 · Seleziona la soluzione");
-    overlay.add(this.add.text(636, 156, "Come si gioca: scegli UNA O PIÙ tessere richieste dalla domanda, poi premi Conferma.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 560 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(636, 212, prompt.prompt, {
-      fontFamily: "Inter, Arial",
-      fontSize: "18px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      wordWrap: { width: 560, useAdvancedWrap: true },
-      lineSpacing: 5,
-    }));
-
-    if (prompt.type === "expression-build") {
-      this.renderMathExpressionBuilder(overlay, session, prompt);
-    } else {
-      const tileStartX = 700;
-      const tileStartY = 334;
-      prompt.tiles.forEach((tile, index) => {
-        const selected = session.selectedIds.has(tile.id);
-        const col = index % 3;
-        const row = Math.floor(index / 3);
-        overlay.add(new Button(this, tileStartX + col * 186, tileStartY + row * 64, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleMathMinigameTile(tile.id), {
-          width: 164,
-          height: 48,
-          fontSize: tile.label.length > 12 ? 11 : 20,
-          wordWrapWidth: 142,
-          fill: selected ? 0x174d42 : 0x263743,
-          stroke: selected ? 0xf7d37a : 0x6be7d6,
-        }));
-      });
-    }
-
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
-    this.mathMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
-      fontStyle: "bold",
+    this.mathMinigameTimerText = MathTerminal.addMinigamePrompt(this, overlay, prompt, {
+      showCoach,
+      selectedIds: session.selectedIds,
+      remainingLabel: formatDuration(remaining),
+      remainingDanger: remaining <= 10_000,
+      streak: session.streak,
+      netScore: session.netScore,
+      accuracy,
+      feedback: session.feedback,
+      scoringRule: puzzle.minigame.scoringRule,
+    }, {
+      onToggleTile: (tileId) => this.toggleMathMinigameTile(tileId),
+      onClearSelection: () => this.clearMathMinigameSelection(),
+      onConfirm: () => this.confirmMathMinigamePrompt(),
+      onHint: () => this.useMathMinigameHint(),
+      onRenderVisualizer: (targetOverlay, targetPrompt, x, y, width, height) => {
+        this.drawMathMinigameVisualizer(targetOverlay, targetPrompt, x, y, width, height);
+      },
+      onRenderExpressionBuilder: (targetOverlay, targetPrompt) => {
+        this.renderMathExpressionBuilder(targetOverlay, session, targetPrompt);
+      },
     });
-    overlay.add(this.mathMinigameTimerText);
-    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 640 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 390, useAdvancedWrap: true },
-    }));
-    overlay.add(new Button(this, 916, 640, "Pulisci scelta", () => this.clearMathMinigameSelection(), {
-      width: 174,
-      height: 44,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
-    overlay.add(new Button(this, 1102, 640, "Conferma", () => this.confirmMathMinigamePrompt(), {
-      width: 174,
-      height: 44,
-      fontSize: 14,
-      fill: 0x173b36,
-    }));
-    overlay.add(new Button(this, 736, 640, "Indizio", () => this.useMathMinigameHint(), {
-      width: 138,
-      height: 44,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
 
     this.mathMinigameTimerEvent?.remove(false);
     if (session.startedAt <= 0) session.startedAt = Date.now();
@@ -3227,6 +3266,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const fresh = new MathPuzzleGenerator().generateMinigame(random, difficultyModel.getPreset(this.run.difficulty), [game.type]).minigame;
     const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
     const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
+    const showCoach = this.shouldShowExerciseCoach("math");
     this.mathMinigameSession = {
       puzzleId,
       puzzle,
@@ -3242,7 +3282,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       netScore: 0,
       selectedIds: new Set<string>(),
       orderedSelection: [],
-      feedback: "Scegli con metodo: una conferma sbagliata riduce il punteggio e in missione consuma una vita.",
+      feedback: showCoach ? "Scegli con metodo: una conferma sbagliata riduce il punteggio e in missione consuma una vita." : "",
       locked: false,
       summaryOpen: false,
     };
@@ -3521,34 +3561,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(this.add.text(x + 44, y + height - 50, visual.measure === "area"
       ? "Superficie del cerchio: A = pi x r x r. Qui pi = 3."
       : "Bordo evidenziato: C = 2 x pi x r. Qui pi = 3.", noteStyle));
-  }
-
-  private mathMinigameMethodText(prompt: MathMinigamePrompt): string {
-    if (prompt.type === "target-sum") {
-      return "Metodo: non sommare tutto. Cerca prima un addendo vicino al bersaglio, poi completa senza superare il totale.";
-    }
-    if (prompt.type === "factor-hunt") {
-      return "Metodo: prova la divisione. Se il resto è zero, il numero rispetta il vincolo; altrimenti è un distrattore.";
-    }
-    if (prompt.type === "number-sequence") {
-      return "Metodo: confronta termini vicini. Cerca una differenza fissa, un rapporto fisso o un passo che cresce.";
-    }
-    if (prompt.type === "expression-build") {
-      return "Metodo: la moltiplicazione si calcola prima di somma e sottrazione. Prova un operatore alla volta verso il bersaglio.";
-    }
-    if (prompt.type === "fraction-lab") {
-      return "Metodo: individua totale e parte richiesta. Per una frazione dividi in parti uguali; per una percentuale porta tutto su 100.";
-    }
-    if (prompt.type === "ratio-proportion") {
-      return "Metodo: trova il rapporto unitario oppure controlla la scala. Se le grandezze sono inverse, una cresce e l'altra diminuisce.";
-    }
-    if (prompt.type === "geometry-measure") {
-      return "Metodo: prima decidi se serve lunghezza, superficie o volume; poi scegli la formula e controlla l'unita di misura.";
-    }
-    if (prompt.type === "data-probability") {
-      return "Metodo: non saltare al numero piu evidente. Chiediti se la richiesta parla di media, dato centrale, frequenza o probabilita.";
-    }
-    return "Metodo: simula mentalmente la rotta da sinistra a destra. Una trasformazione plausibile non basta: deve arrivare esattamente all'uscita.";
   }
 
   private currentMathMinigamePrompt(session: MathMinigameSession): MathMinigamePrompt {
@@ -3868,69 +3880,34 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private showMathMinigameSummary(session: MathMinigameSession): void {
     const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
-    const modal = this.add.container(0, 0).setDepth(1300);
     const passed = this.mathMinigamePassed(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
     const mode = proceduralRunRules.modeFor(this.run);
-    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
-    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
-    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
-      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
-    modal.add(this.add.text(230, 160, passed ? "Sprint matematico completato" : "Sprint matematico da consolidare", {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: passed ? "#9ff5e9" : "#f7d37a",
-      fontStyle: "bold",
-    }));
-    modal.add(this.add.text(230, 210, [
-      `Risposte corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie migliore: ${session.bestStreak}`,
-      `Punti sprint: ${session.netScore}`,
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f5fbff",
-      lineSpacing: 7,
-    }));
-    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
-      .setStrokeStyle(1, 0x6be7d6, 0.3));
-    modal.add(this.add.text(572, 234, this.mathMinigameFeedback(session), {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 354 },
-      lineSpacing: 5,
-    }));
-    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
-      .setStrokeStyle(1, 0xf7d37a, 0.36));
-    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
-      ? passed
-        ? "La console matematica accetta la sequenza rapida: calcolo, controllo e precisione sono sufficienti."
-        : "La soglia minima non è stata raggiunta: perderai una vita, ma le console già completate restano stabili."
-      : "Allenamento registrabile: migliorano tempo, precisione, serie positiva e consapevolezza degli errori.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 690 },
-      lineSpacing: 4,
-    }));
-    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
-      modal.destroy(true);
-      if (!passed && (mode === "mission" || mode === "progressive")) {
-        this.loseMissionLife("sprint matematico sotto soglia: servono più risposte corrette con meno tentativi.");
-        return;
-      }
-      this.completeMathMinigame(session);
+    MathTerminal.addMinigameSummary(this, overlay, {
+      passed,
+      correct: session.correct,
+      wrong: session.wrong,
+      accuracy,
+      bestStreak: session.bestStreak,
+      netScore: session.netScore,
+      feedback: this.mathMinigameFeedback(session),
+      resolutionText: (mode === "mission" || mode === "progressive")
+        ? passed
+          ? "La console matematica accetta la sequenza rapida: calcolo, controllo e precisione sono sufficienti."
+          : "La soglia minima non è stata raggiunta: perderai una vita, ma le console già completate restano stabili."
+        : "Allenamento registrabile: migliorano tempo, precisione, serie positiva e consapevolezza degli errori.",
+      energyText: this.runEnergySummary(),
+      actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
-      width: 270,
-      height: 54,
-      fill: passed ? 0x173b36 : 0x263743,
-      stroke: passed ? 0x6be7d6 : 0xf7d37a,
-      fontSize: 16,
-    }));
-    overlay.add(modal);
+      onAction: (modal) => {
+        modal.destroy(true);
+        if (!passed && (mode === "mission" || mode === "progressive")) {
+          this.loseMissionLife("sprint matematico sotto soglia: servono più risposte corrette con meno tentativi.");
+          return;
+        }
+        this.completeMathMinigame(session);
+      },
+    });
   }
 
   private completeMathMinigame(session: MathMinigameSession): void {
@@ -3951,7 +3928,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const solvedNode = puzzleKindFromId(session.puzzleId);
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
     feedbackSystem.publish(
-      `Sprint matematico registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      `Sprint matematico registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
       "success",
     );
     if (remaining.length === 0) {
@@ -4086,12 +4063,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("english");
     const session = this.ensureEnglishMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title, "Inglese · decodifica il comando, giustifica col vincolo, conferma");
+    const showCoach = this.shouldShowExerciseCoach("english");
+    const overlay = this.createMathOverlay(puzzle.minigame.title, this.compactExerciseSubtitle("english", "Inglese · decodifica il comando, giustifica col vincolo, conferma"));
     const prompt = this.currentEnglishMinigamePrompt(session);
     const remaining = this.englishMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 560, 432, "1 · Leggi il comando operativo");
+    this.addMathPanel(overlay, 28, 112, 560, 432, showCoach ? "1 · Leggi il comando operativo" : "Comando");
     overlay.add(this.add.text(60, 154, prompt.targetLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "25px",
@@ -4099,32 +4077,36 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
       shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
     }));
-    this.drawEnglishMinigameVisualizer(overlay, prompt, 60, 204, 500, 226);
-    overlay.add(this.add.text(60, 456, `Concept: ${prompt.concept}`, {
+    this.drawEnglishMinigameVisualizer(overlay, prompt, 60, 204, 500, 226, showCoach);
+    overlay.add(this.add.text(60, showCoach ? 456 : 438, `Concept: ${prompt.concept}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
       fontStyle: "bold",
       wordWrap: { width: 488 },
     }));
-    overlay.add(this.add.text(60, 486, this.englishMinigameMethodText(prompt), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 492, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(60, 486, this.englishMinigameMethodText(prompt), {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9aaab0",
+        wordWrap: { width: 492, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+    }
 
     const isOrdering = prompt.type === "sentence-build";
-    this.addMathPanel(overlay, 616, 112, 636, 432, this.englishSelectionPanelTitle(prompt));
-    overlay.add(this.add.text(648, 154, this.englishSelectionInstruction(prompt), {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 548 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(648, isOrdering ? 190 : 214, prompt.instruction, {
+    this.addMathPanel(overlay, 616, 112, 636, 432, showCoach ? this.englishSelectionPanelTitle(prompt) : prompt.targetLabel);
+    if (showCoach) {
+      overlay.add(this.add.text(648, 154, this.englishSelectionInstruction(prompt), {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#d9eaf1",
+        wordWrap: { width: 548 },
+        lineSpacing: 4,
+      }));
+    }
+    overlay.add(this.add.text(648, showCoach ? (isOrdering ? 190 : 214) : 164, prompt.instruction, {
       fontFamily: "Inter, Arial",
       fontSize: prompt.instruction.length > 92 ? "17px" : "20px",
       color: "#f5fbff",
@@ -4132,7 +4114,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 548, useAdvancedWrap: true },
       lineSpacing: 5,
     }));
-    overlay.add(this.add.text(648, isOrdering ? 224 : 290, prompt.glossary.slice(0, 4).map((entry) => `${entry.term}: ${entry.meaning}`).join("   "), {
+    overlay.add(this.add.text(648, showCoach ? (isOrdering ? 224 : 290) : 246, prompt.glossary.slice(0, 4).map((entry) => `${entry.term}: ${entry.meaning}`).join("   "), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
@@ -4147,15 +4129,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
       const tileStartY = 356;
       const tileWidth = multiSelect ? 274 : 226;
       const colSpacing = multiSelect ? 304 : 252;
-      const tileHeight = multiSelect ? 58 : 52;
+      const rowSpacing = multiSelect ? 76 : 68;
+      const tileHeight = multiSelect ? 64 : 52;
       prompt.tiles.forEach((tile, index) => {
         const selected = session.selectedIds.has(tile.id);
         const col = index % 2;
         const row = Math.floor(index / 2);
-        overlay.add(new Button(this, tileStartX + col * colSpacing, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleEnglishMinigameTile(tile.id), {
+        const displayLabel = this.choiceTileLabel(tile.label, selected);
+        overlay.add(new Button(this, tileStartX + col * colSpacing, tileStartY + row * rowSpacing, displayLabel, () => this.toggleEnglishMinigameTile(tile.id), {
           width: tileWidth,
           height: tileHeight,
-          fontSize: tile.label.length > 42 ? 11 : tile.label.length > 28 ? 12 : 15,
+          fontSize: this.choiceTileFontSize(tile.label, multiSelect ? 13 : 15),
           wordWrapWidth: tileWidth - 28,
           fill: selected ? 0x174d42 : 0x263743,
           stroke: selected ? 0xf7d37a : 0x6be7d6,
@@ -4163,7 +4147,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       });
     }
 
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
+    this.addMathPanel(overlay, 28, 558, 1224, 130, showCoach ? "3 · Conferma e controlla l'esito" : "Esito");
     this.englishMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
@@ -4178,12 +4162,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 640 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 390, useAdvancedWrap: true },
-    }));
+    if (showCoach || session.feedback) {
+      overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: session.feedback ? "#f7d37a" : "#9aaab0",
+        wordWrap: { width: 390, useAdvancedWrap: true },
+      }));
+    }
     overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmEnglishMinigamePrompt(), {
       width: 220,
       height: 44,
@@ -4232,6 +4218,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
     };
+    const showCoach = this.shouldShowExerciseCoach("english");
     this.englishMinigameSession = {
       puzzleId,
       puzzle,
@@ -4247,9 +4234,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       netScore: 0,
       selectedIds: new Set<string>(),
       orderedSelection: [],
-      feedback: mixTypes
-        ? "Percorso variato: ogni comando può chiedere azione, ordine, dato, grammatica o traduzione. Leggi lo scopo prima della risposta."
-        : "Leggi il comando come una procedura: action word -> object -> limiter/time word.",
+      feedback: showCoach
+        ? mixTypes
+          ? "Percorso variato: ogni comando può chiedere azione, ordine, dato, grammatica o traduzione. Leggi lo scopo prima della risposta."
+          : "Leggi il comando come una procedura: action word -> object -> limiter/time word."
+        : "",
       locked: false,
       summaryOpen: false,
     };
@@ -4273,6 +4262,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     y: number,
     width: number,
     height: number,
+    showCoach = true,
   ): void {
     const g = this.add.graphics();
     g.fillStyle(0x07151d, 0.8);
@@ -4292,7 +4282,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       .setStrokeStyle(1, accent, 0.45));
     overlay.add(this.add.text(x + 42, y + 46, prompt.context, {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
+      fontSize: showCoach ? "14px" : "17px",
       color: "#f5fbff",
       wordWrap: { width: width - 84, useAdvancedWrap: true },
       lineSpacing: 4,
@@ -4309,6 +4299,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
           wordWrap: { width: width - 110 },
         }));
       });
+      return;
+    }
+    if (!showCoach) {
       return;
     }
     const visualLine = prompt.type === "action-relay"
@@ -4528,14 +4521,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     } else {
       if (session.selectedIds.size === 0) {
         session.feedback = prompt.requiredSelectionCount > 1
-          ? `Select ${prompt.requiredSelectionCount} tiles first. The timer keeps running.`
+          ? `${this.englishSelectionRequirementText(prompt)} Il timer continua.`
           : "Select one tile first. The timer keeps running.";
         audioManager.playOutcome("hint");
         this.openEnglishMinigame(session.puzzle);
         return;
       }
       if (prompt.requiredSelectionCount > 1 && session.selectedIds.size < prompt.requiredSelectionCount) {
-        session.feedback = `Select ${prompt.requiredSelectionCount} tiles: meaning and evidence.`;
+        session.feedback = this.englishSelectionRequirementText(prompt);
         audioManager.playOutcome("hint");
         this.openEnglishMinigame(session.puzzle);
         return;
@@ -4703,6 +4696,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 690 },
       lineSpacing: 4,
     }));
+    modal.add(this.add.text(254, 456, this.runEnergySummary(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      wordWrap: { width: 690 },
+    }));
     modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
       modal.destroy(true);
       if (!passed && (mode === "mission" || mode === "progressive")) {
@@ -4738,7 +4738,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const solvedNode = puzzleKindFromId(session.puzzleId);
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
     feedbackSystem.publish(
-      `Sprint inglese registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      `Sprint inglese registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
       "success",
     );
     if (remaining.length === 0) {
@@ -4833,6 +4833,122 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return "Come si gioca: trova verbo, oggetto e vincolo; clicca UNA risposta e premi Conferma.";
   }
 
+  private englishSelectionRequirementText(prompt: EnglishMinigamePrompt): string {
+    if (prompt.type === "reading-detective") return "Scegli 2 tessere: inferenza e prova testuale.";
+    if (prompt.type === "error-diagnosis") return "Scegli 2 tessere: correzione e diagnosi.";
+    if (prompt.type === "dialogue-response") return "Scegli 2 tessere: risposta naturale e motivo.";
+    if (prompt.type === "action-relay") return "Scegli 2 tessere: azione e prova nel comando.";
+    return `Scegli ${prompt.requiredSelectionCount} tessere coerenti.`;
+  }
+
+  private choiceTileLabel(rawLabel: string, selected = false): string {
+    const prefixMatch = rawLabel.match(/^([^:]{3,22}):\s*(.+)$/);
+    if (!prefixMatch) {
+      return `${selected ? "✓ " : ""}${rawLabel}`;
+    }
+    const badge = this.choiceTileBadge(prefixMatch[1]);
+    const body = this.polishChoiceTileBody(prefixMatch[1], prefixMatch[2]);
+    return `${selected ? "✓ " : ""}${badge}\n${body}`;
+  }
+
+  private choiceTileBadge(prefix: string): string {
+    const key = prefix.trim().toLowerCase();
+    if (key === "risposta") return "RISPOSTA";
+    if (key === "motivo") return "MOTIVO";
+    if (key === "prova") return "PROVA";
+    if (key === "azione") return "AZIONE";
+    if (key === "correzione") return "CORREZIONE";
+    if (key === "diagnosi") return "DIAGNOSI";
+    if (key === "traduzione") return "TRADUZIONE";
+    return prefix.trim().toUpperCase();
+  }
+
+  private polishChoiceTileBody(prefix: string, body: string): string {
+    const trimmed = body.trim();
+    const lower = trimmed.toLowerCase();
+    const reasonText: Record<string, string> = {
+      "readiness now": "shows readiness now",
+      "completed past action": "talks about a past action",
+      "unrelated topic": "does not answer the situation",
+      "polite permission + object": "gives polite permission",
+      "past time": "uses the wrong time",
+      "place preposition": "talks about place, not reply",
+      "keep closed repeats the instruction": "matches the instruction",
+      "question form only": "only asks a question",
+      "polite request with could": "uses a polite request",
+      "command too direct": "sounds too direct",
+      "wrong word order": "has wrong word order",
+      "wh-question asks for proof": "asks for evidence",
+      "because gives a cause": "gives a cause",
+      "refusal to collaborate": "refuses to collaborate",
+      "identity sentence": "answers with identity, not place",
+      "collaborative suggestion": "suggests working together",
+      "wrong identity": "confuses the subject",
+      "past time confusion": "uses the wrong time",
+      "yes/no answer": "answers yes/no, not why",
+      "past-time mismatch": "uses the wrong time",
+      "permission with condition": "gives permission with a condition",
+      "no condition": "misses the condition",
+      "past irrelevant": "uses an irrelevant past action",
+      "polite interruption": "interrupts politely",
+      "rude command": "is too rude",
+      "asks for verification": "asks how to verify it",
+      "personal attack": "attacks the person",
+      "confirms deadline": "confirms the deadline",
+      "time words conflict": "mixes incompatible times",
+      "apology + repair action": "apologizes and repairs",
+      "denies responsibility": "denies responsibility",
+      "comparative adjective": "uses a comparative",
+      "incomplete answer": "does not fully answer",
+      "present perfect with yet": "uses not yet correctly",
+      "contradictory answer": "contradicts itself",
+      "conflicting time words": "mixes incompatible times",
+      "opposite action": "does the opposite",
+      "broken sentence": "is not a stable sentence",
+      "polite request": "asks politely",
+      "rude imperative": "uses a rude command",
+      "time mismatch": "uses the wrong time",
+      "fixed polite formula": "uses a fixed polite formula",
+      "literal translation": "is a literal translation trap",
+      "wrong verb": "uses the wrong verb",
+      "cautious action before decision": "waits for evidence first",
+      "overconfident conclusion": "concludes too early",
+      "proposes next action": "proposes a useful next step",
+      "unrelated adjective": "uses an unrelated adjective",
+      "time conflict": "mixes incompatible times",
+      "adverb of manner": "matches how to act",
+      "opposite manner": "does the opposite manner",
+      "polite disagreement with evidence": "disagrees politely with evidence",
+      "rude personal comment": "attacks the person",
+      "explains meaning in context": "explains the meaning in context",
+      "unrelated meaning": "uses an unrelated meaning",
+      "contrast with but": "uses contrast with but",
+      "broken syntax": "has broken syntax",
+      "overgeneralization": "says too much",
+      "not until sets a condition": "sets a clear condition",
+      "ignores condition": "ignores the condition",
+      "formal clarification request": "asks formally for clarification",
+      "too informal": "is too informal",
+    };
+    const polishedReason = reasonText[lower];
+    if (polishedReason) return polishedReason;
+    if (prefix.trim().toLowerCase() === "prova") {
+      return trimmed
+        .replace(/\s+(blocca|permette|impone|conferma|nega)\s+/u, " -> $1 ")
+        .replace(/\s+(rende)\s+/u, " -> $1 ");
+    }
+    return trimmed;
+  }
+
+  private choiceTileFontSize(rawLabel: string, baseSize: number): number {
+    const displayLabel = this.choiceTileLabel(rawLabel);
+    const longestLine = Math.max(...displayLabel.split("\n").map((line) => line.length));
+    if (longestLine > 44) return Math.max(10, baseSize - 3);
+    if (longestLine > 30) return Math.max(11, baseSize - 2);
+    if (longestLine > 20) return Math.max(12, baseSize - 1);
+    return baseSize;
+  }
+
   private englishMinigameMethodText(prompt: EnglishMinigamePrompt): string {
     if (prompt.type === "action-relay") {
       return "Method: find the action verb, then object, then not/only/neither. One small word can reverse the command.";
@@ -4870,12 +4986,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("coding");
     const session = this.ensureCodingMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title, "Coding · simula il codice, scegli il blocco, conferma");
+    const showCoach = this.shouldShowExerciseCoach("coding");
+    const overlay = this.createMathOverlay(puzzle.minigame.title, this.compactExerciseSubtitle("coding", "Coding · simula il codice, scegli il blocco, conferma"));
     const prompt = this.currentCodingMinigamePrompt(session);
     const remaining = this.codingMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 582, 432, "1 · Leggi e simula il codice");
+    this.addMathPanel(overlay, 28, 112, 582, 432, showCoach ? "1 · Leggi e simula il codice" : "Codice");
     overlay.add(this.add.text(60, 154, prompt.targetLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "25px",
@@ -4891,26 +5008,30 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
       wordWrap: { width: 500 },
     }));
-    overlay.add(this.add.text(60, 488, this.codingMinigameMethodText(prompt), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 506, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(60, 488, this.codingMinigameMethodText(prompt), {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9aaab0",
+        wordWrap: { width: 506, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+    }
 
     const isOrdering = prompt.type === "algorithm-order";
-    this.addMathPanel(overlay, 636, 112, 616, 432, isOrdering ? "2 · Ordina i passi" : "2 · Scegli il blocco mancante");
-    overlay.add(this.add.text(668, 154, isOrdering
-      ? "Tocca i passi nell'ordine giusto. Ritocca un passo per toglierlo."
-      : "Come si gioca: segui il codice a sinistra, clicca UNA risposta e premi Conferma.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 532 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(668, isOrdering ? 188 : 210, prompt.question, {
+    this.addMathPanel(overlay, 636, 112, 616, 432, showCoach ? (isOrdering ? "2 · Ordina i passi" : "2 · Scegli il blocco mancante") : "Scelte");
+    if (showCoach) {
+      overlay.add(this.add.text(668, 154, isOrdering
+        ? "Tocca i passi nell'ordine giusto. Ritocca un passo per toglierlo."
+        : "Come si gioca: segui il codice a sinistra, clicca UNA risposta e premi Conferma.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#d9eaf1",
+        wordWrap: { width: 532 },
+        lineSpacing: 4,
+      }));
+    }
+    overlay.add(this.add.text(668, showCoach ? (isOrdering ? 188 : 210) : 164, prompt.question, {
       fontFamily: "Inter, Arial",
       fontSize: prompt.question.length > 92 ? "16px" : "18px",
       color: "#f5fbff",
@@ -4921,22 +5042,24 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (isOrdering) {
       this.renderCodingOrderingTiles(overlay, session, prompt);
     } else {
-      overlay.add(this.add.text(668, 288, prompt.methodSteps.join("  ->  "), {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#f7d37a",
-        wordWrap: { width: 532, useAdvancedWrap: true },
-      }));
+      if (showCoach) {
+        overlay.add(this.add.text(668, 288, prompt.methodSteps.join("  ->  "), {
+          fontFamily: "Inter, Arial",
+          fontSize: "12px",
+          color: "#f7d37a",
+          wordWrap: { width: 532, useAdvancedWrap: true },
+        }));
+      }
       const tileStartX = 802;
       const tileStartY = 356;
       prompt.tiles.forEach((tile, index) => {
         const selected = session.selectedIds.has(tile.id);
         const col = index % 2;
         const row = Math.floor(index / 2);
-        overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 68, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleCodingMinigameTile(tile.id), {
+        overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 68, this.choiceTileLabel(tile.label, selected), () => this.toggleCodingMinigameTile(tile.id), {
           width: 218,
           height: 52,
-          fontSize: tile.label.length > 34 ? 10 : tile.label.length > 22 ? 12 : 15,
+          fontSize: this.choiceTileFontSize(tile.label, 15),
           wordWrapWidth: 198,
           fill: selected ? 0x174d42 : 0x263743,
           stroke: selected ? 0xf7d37a : 0x6be7d6,
@@ -4944,7 +5067,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       });
     }
 
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
+    this.addMathPanel(overlay, 28, 558, 1224, 130, showCoach ? "3 · Conferma e controlla l'esito" : "Esito");
     this.codingMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "24px",
@@ -4959,12 +5082,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 640 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 390, useAdvancedWrap: true },
-    }));
+    if (showCoach || session.feedback) {
+      overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: session.feedback ? "#f7d37a" : "#9aaab0",
+        wordWrap: { width: 390, useAdvancedWrap: true },
+      }));
+    }
     overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmCodingMinigamePrompt(), {
       width: 220,
       height: 44,
@@ -5015,6 +5140,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         : game.instructions,
       prompts: random.shuffle(freshPrompts.length ? freshPrompts : game.prompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })),
     };
+    const showCoach = this.shouldShowExerciseCoach("coding");
     this.codingMinigameSession = {
       puzzleId,
       puzzle,
@@ -5030,7 +5156,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       netScore: 0,
       selectedIds: new Set<string>(),
       orderedSelection: [],
-      feedback: "Prima simula il codice: stato iniziale, trasformazione, risultato. Poi conferma.",
+      feedback: showCoach ? "Prima simula il codice: stato iniziale, trasformazione, risultato. Poi conferma." : "",
       locked: false,
       summaryOpen: false,
     };
@@ -5386,6 +5512,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 690 },
       lineSpacing: 4,
     }));
+    modal.add(this.add.text(254, 456, this.runEnergySummary(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      wordWrap: { width: 690 },
+    }));
     modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
       modal.destroy(true);
       if (!passed && (mode === "mission" || mode === "progressive")) {
@@ -5421,7 +5554,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const solvedNode = puzzleKindFromId(session.puzzleId);
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
     feedbackSystem.publish(
-      `Sprint coding registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      `Sprint coding registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
       "success",
     );
     if (remaining.length === 0) {
@@ -5649,6 +5782,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private openPhysics(): void {
     const puzzle = this.currentPhysicsPuzzle();
+    const showCoach = this.shouldShowExerciseCoach("physics");
     const overlay = this.createExerciseScreen(puzzle.title);
 
     const leftPanel = { x: 56, y: 104, w: 510, h: 392 };
@@ -5672,7 +5806,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(this.add.rectangle(rightPanel.x, rightPanel.y, rightPanel.w, rightPanel.h, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.24));
     overlay.add(this.add.rectangle(methodPanel.x, methodPanel.y, methodPanel.w, methodPanel.h, 0x07151d, 0.86).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.25));
 
-    overlay.add(this.add.text(leftPanel.x + 20, leftPanel.y + 18, "Fenomeno", {
+    overlay.add(this.add.text(leftPanel.x + 20, leftPanel.y + 18, showCoach ? "Fenomeno" : "Scenario", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
@@ -5693,7 +5827,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: leftPanel.w - 40 },
     }));
 
-    overlay.add(this.add.text(rightPanel.x + 20, rightPanel.y + 18, "Domanda", {
+    overlay.add(this.add.text(rightPanel.x + 20, rightPanel.y + 18, showCoach ? "Domanda" : "Scelte", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
@@ -5729,32 +5863,51 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }));
     });
 
-    overlay.add(this.add.text(methodPanel.x + 22, methodPanel.y + 16, "Metodo", {
+    overlay.add(this.add.text(methodPanel.x + 22, methodPanel.y + 16, showCoach ? "Metodo" : "Controllo", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(methodPanel.x + 22, methodPanel.y + 40, puzzle.methodSteps.join("  ->  "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 638, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
-    overlay.add(this.add.text(methodPanel.x + 712, methodPanel.y + 16, "Controllo", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(methodPanel.x + 712, methodPanel.y + 40, this.currentActiveHint() ?? puzzle.hints[0] ?? puzzle.learningPurpose, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 238, useAdvancedWrap: true },
-      lineSpacing: 2,
-    }));
+    const activeHint = this.currentActiveHint();
+    if (showCoach) {
+      overlay.add(this.add.text(methodPanel.x + 22, methodPanel.y + 40, puzzle.methodSteps.join("  ->  "), {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#d9eaf1",
+        wordWrap: { width: 638, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+      overlay.add(this.add.text(methodPanel.x + 712, methodPanel.y + 16, "Controllo", {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9ff5e9",
+        fontStyle: "bold",
+      }));
+      overlay.add(this.add.text(methodPanel.x + 712, methodPanel.y + 40, activeHint ?? puzzle.hints[0] ?? puzzle.learningPurpose, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9aaab0",
+        wordWrap: { width: 238, useAdvancedWrap: true },
+        lineSpacing: 2,
+      }));
+    } else if (activeHint) {
+      overlay.add(this.add.text(methodPanel.x + 22, methodPanel.y + 40, `Indizio attivo: ${activeHint}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#f7d37a",
+        wordWrap: { width: 900, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+    } else {
+      overlay.add(this.add.text(methodPanel.x + 22, methodPanel.y + 40, "Scegli una risposta; il metodo resta disponibile tramite indizio.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9aaab0",
+        wordWrap: { width: 900, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+    }
     overlay.add(new Button(this, methodPanel.x + methodPanel.w - 100, methodPanel.y + 48, this.hintButtonLabel(puzzle, "Indizio"), () => {
       this.useContextualHint(puzzle);
       this.openPhysics();
@@ -5968,10 +6121,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const puzzleId = this.currentPuzzleId("music");
     const session = this.ensureMusicSession(puzzleId);
     const puzzle = session.current;
+    const showCoach = this.shouldShowExerciseCoach("music");
     const overlay = this.createExerciseScreen("Osservatorio del Pentagramma");
     this.drawMusicSessionHeader(overlay, puzzle, session);
-    this.drawMusicStaff(overlay, puzzle, 350, 328);
-    this.drawMusicSupport(overlay, puzzle, session);
+    this.drawMusicStaff(overlay, puzzle, 350, 328, showCoach);
+    this.drawMusicSupport(overlay, puzzle, session, showCoach);
     const signature = this.musicPuzzleSignature(puzzle);
     if (this.isAuditoryMusicPuzzle(puzzle) && session.lastAutoPreviewSignature !== signature) {
       session.lastAutoPreviewSignature = signature;
@@ -6011,7 +6165,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }));
     });
 
-    this.addMethodStrip(overlay, 56, 586, 550, "Metodo", puzzle.methodSteps);
+    if (showCoach) {
+      this.addMethodStrip(overlay, 56, 586, 550, "Metodo", puzzle.methodSteps);
+    } else {
+      const visibleHint = this.currentActiveHint();
+      const compactStatus = visibleHint ? `Indizio attivo: ${visibleHint}` : session.feedback;
+      if (compactStatus) {
+        overlay.add(this.add.rectangle(331, 626, 550, 78, 0x07151d, 0.74).setStrokeStyle(1, 0xf7d37a, 0.18));
+        overlay.add(this.add.text(78, 600, compactStatus, {
+          fontFamily: "Inter, Arial",
+          fontSize: "12px",
+          color: visibleHint ? "#f7d37a" : "#d9eaf1",
+          wordWrap: { width: 500, useAdvancedWrap: true },
+          lineSpacing: 3,
+        }));
+      }
+    }
     overlay.add(new Button(this, 778, 598, puzzle.audioPrompt?.replayLabel ?? "Ascolta sfida", () => this.previewMusicChallenge(puzzle), {
       width: 220, height: 46, fontSize: 14, fill: 0x173b36,
     }));
@@ -6099,17 +6268,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }).setOrigin(0.5));
   }
 
-  private drawMusicStaff(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
+  private drawMusicStaff(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number, showCoach = true): void {
     if (this.isAuditoryMusicPuzzle(puzzle)) {
-      this.drawMusicListeningBoard(overlay, puzzle, centerX, centerY);
+      this.drawMusicListeningBoard(overlay, puzzle, centerX, centerY, showCoach);
       return;
     }
     if ((puzzle.challengeMode ?? "note-hunt") === "rhythm-gap" && puzzle.rhythmPattern) {
-      this.drawMusicRhythmBoard(overlay, puzzle, centerX, centerY);
+      this.drawMusicRhythmBoard(overlay, puzzle, centerX, centerY, showCoach);
       return;
     }
     if (puzzle.challengeMode === "note-duration" && puzzle.rhythmPattern) {
-      this.drawMusicDurationBoard(overlay, puzzle, centerX, centerY);
+      this.drawMusicDurationBoard(overlay, puzzle, centerX, centerY, showCoach);
       return;
     }
     overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
@@ -6146,23 +6315,25 @@ export class ProceduralMissionScene extends Phaser.Scene {
       overlay.add(this.add.text(noteX, centerY + 88, "1", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
       overlay.add(this.add.text(secondX, centerY + 88, "2", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
     }
-    overlay.add(this.add.text(centerX - 260, centerY + 108, [
-      isInterval ? "Confronta nota 1 e nota 2" : `Posizione: ${puzzle.staffPosition % 2 === 0 ? "linea" : "spazio"}`,
-      isInterval ? "Risposta: direzione + intervallo" : puzzle.ledgerLines.length > 0 ? `Linee addizionali: ${puzzle.ledgerLines.length}` : "Nessuna linea addizionale",
-      isInterval ? "Conta i passaggi linea-spazio" : puzzle.answerMode === "note-name" ? "Risposta: nome della nota" : "Risposta: nome nota + ottava",
-    ].join("  |  "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 520 },
-    }));
-    overlay.add(this.add.text(centerX - 260, centerY + 132, this.musicModeExplanation(puzzle), {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 520 },
-      lineSpacing: 2,
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(centerX - 260, centerY + 108, [
+        isInterval ? "Confronta nota 1 e nota 2" : `Posizione: ${puzzle.staffPosition % 2 === 0 ? "linea" : "spazio"}`,
+        isInterval ? "Risposta: direzione + intervallo" : puzzle.ledgerLines.length > 0 ? `Linee addizionali: ${puzzle.ledgerLines.length}` : "Nessuna linea addizionale",
+        isInterval ? "Conta i passaggi linea-spazio" : puzzle.answerMode === "note-name" ? "Risposta: nome della nota" : "Risposta: nome nota + ottava",
+      ].join("  |  "), {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#d9eaf1",
+        wordWrap: { width: 520 },
+      }));
+      overlay.add(this.add.text(centerX - 260, centerY + 132, this.musicModeExplanation(puzzle), {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9aaab0",
+        wordWrap: { width: 520 },
+        lineSpacing: 2,
+      }));
+    }
   }
 
   private drawPitchNote(
@@ -6182,16 +6353,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(this.add.rectangle(x + 18, y - 42, 3, 86, color, 0.94));
   }
 
-  private drawMusicRhythmBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
+  private drawMusicRhythmBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number, showCoach = true): void {
     const pattern = puzzle.rhythmPattern!;
     overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
     overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
     overlay.add(this.add.text(centerX - 260, centerY - 142, `Battito mancante · battuta da ${pattern.beatsPerMeasure}`, {
       fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9", fontStyle: "bold",
     }));
-    overlay.add(this.add.text(centerX - 260, centerY - 108, "Completa la casella ? senza superare la battuta.", {
-      fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1",
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(centerX - 260, centerY - 108, "Completa la casella ? senza superare la battuta.", {
+        fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1",
+      }));
+    }
     const gap = Math.min(112, 474 / pattern.cells.length);
     const startX = centerX - ((pattern.cells.length - 1) * gap) / 2;
     pattern.cells.forEach((cell, index) => {
@@ -6205,24 +6378,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0",
       }).setOrigin(0.5));
     });
-    overlay.add(this.add.text(centerX - 260, centerY + 108, "Legenda: ♪ = ½   ♩ = 1   𝅗𝅥 = 2   𝅝 = 4 battiti", {
-      fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a",
-    }));
-    overlay.add(this.add.text(centerX - 260, centerY + 136, `Totale richiesto: ${pattern.beatsPerMeasure} battiti. Somma le figure visibili e trova la differenza.`, {
-      fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", wordWrap: { width: 520 },
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(centerX - 260, centerY + 108, "Legenda: ♪ = ½   ♩ = 1   𝅗𝅥 = 2   𝅝 = 4 battiti", {
+        fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a",
+      }));
+      overlay.add(this.add.text(centerX - 260, centerY + 136, `Totale richiesto: ${pattern.beatsPerMeasure} battiti. Somma le figure visibili e trova la differenza.`, {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", wordWrap: { width: 520 },
+      }));
+    }
   }
 
-  private drawMusicDurationBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
+  private drawMusicDurationBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number, showCoach = true): void {
     const cells = puzzle.rhythmPattern?.cells ?? [];
     overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
     overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
     overlay.add(this.add.text(centerX - 260, centerY - 142, "Valore delle figure · durata relativa", {
       fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9", fontStyle: "bold",
     }));
-    overlay.add(this.add.text(centerX - 260, centerY - 112, "Più lunga è la barra, più dura la figura.", {
-      fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1",
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(centerX - 260, centerY - 112, "Più lunga è la barra, più dura la figura.", {
+        fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1",
+      }));
+    }
     const rowHeight = Math.min(56, 240 / Math.max(1, cells.length));
     const maxBeats = 4;
     cells.forEach((cell, index) => {
@@ -6237,12 +6414,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontFamily: "Inter, Arial", fontSize: "13px", color: "#9aaab0",
       }).setOrigin(0, 0.5));
     });
-    overlay.add(this.add.text(centerX - 260, centerY + 128, "Semibreve 4 · Minima 2 · Semiminima 1 · Croma ½ (ogni figura vale metà della precedente).", {
-      fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 520 },
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(centerX - 260, centerY + 128, "Semibreve 4 · Minima 2 · Semiminima 1 · Croma ½ (ogni figura vale metà della precedente).", {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 520 },
+      }));
+    }
   }
 
-  private drawMusicListeningBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number): void {
+  private drawMusicListeningBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number, showCoach = true): void {
     const isInterval = puzzle.challengeMode === "auditory-interval" && puzzle.secondaryNote;
     overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
     overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.94).setStrokeStyle(2, 0xf7d37a, 0.34));
@@ -6302,18 +6481,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }).setOrigin(0.5));
       overlay.add(this.add.triangle(centerX, badgeY, -10, -7, 12, 0, -10, 7, 0xf7d37a, 0.9));
     }
-    overlay.add(this.add.text(centerX - 260, centerY + 126, isInterval
-      ? "Metodo: prima direzione (sale/scende), poi ampiezza. Riascolta per confermare, non per tentare."
-      : "Metodo: colloca mentalmente l'altezza nella scala Do-Re-Mi-Fa-Sol-La-Si, poi scegli.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 520 },
-      lineSpacing: 3,
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(centerX - 260, centerY + 126, isInterval
+        ? "Metodo: prima direzione (sale/scende), poi ampiezza. Riascolta per confermare, non per tentare."
+        : "Metodo: colloca mentalmente l'altezza nella scala Do-Re-Mi-Fa-Sol-La-Si, poi scegli.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#9aaab0",
+        wordWrap: { width: 520 },
+        lineSpacing: 3,
+      }));
+    }
   }
 
-  private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, session: MusicTrainingSession): void {
+  private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, session: MusicTrainingSession, showCoach = true): void {
     overlay.add(this.add.rectangle(916, 282, 508, 206, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
     const supportTitle = puzzle.challengeMode === "rhythm-gap"
       ? "2 · Completa la battuta"
@@ -6329,20 +6510,24 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontStyle: "bold",
     }));
     const visibleHint = this.currentActiveHint();
-    overlay.add(this.add.text(682, 224, `${puzzle.method}\n\n${visibleHint ? `INDIZIO ATTIVO: ${visibleHint}` : session.feedback || "Non serve correre a caso: rispondi solo quando hai agganciato la chiave e contato linee/spazi."}`, {
+    overlay.add(this.add.text(682, 224, showCoach
+      ? `${puzzle.method}\n\n${visibleHint ? `INDIZIO ATTIVO: ${visibleHint}` : session.feedback || "Non serve correre a caso: rispondi solo quando hai agganciato la chiave e contato linee/spazi."}`
+      : visibleHint ? `INDIZIO ATTIVO: ${visibleHint}` : session.feedback, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
       wordWrap: { width: 456 },
       lineSpacing: 4,
     }));
-    overlay.add(this.add.text(682, 310, `Scopo: ${puzzle.learningPurpose}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 456 },
-      lineSpacing: 3,
-    }));
+    if (showCoach) {
+      overlay.add(this.add.text(682, 310, `Scopo: ${puzzle.learningPurpose}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9aaab0",
+        wordWrap: { width: 456 },
+        lineSpacing: 3,
+      }));
+    }
     overlay.add(this.add.text(682, 366, puzzle.conceptTags.map((tag) => `#${tag}`).join("  "), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -6362,6 +6547,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const baseMode = basePuzzle.challengeMode ?? "note-hunt";
     const allModes: MusicMinigameType[] = ["note-hunt", "auditory-note", "interval-jump", "auditory-interval", "rhythm-gap", "scale-step", "note-duration"];
     const otherModes = random.shuffle<MusicMinigameType>(allModes.filter((mode) => mode !== baseMode));
+    const showCoach = this.shouldShowExerciseCoach("music");
     this.musicSession = {
       puzzleId,
       random,
@@ -6377,7 +6563,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       recentSignatures: [this.musicPuzzleSignature(basePuzzle)],
       modeRotation: [baseMode, ...otherModes],
       modeIndex: 0,
-      feedback: "Tre sfide a rotazione: nota, salto melodico e ritmo. Ragiona prima del clic: la serie premia precisione e varietà.",
+      feedback: showCoach ? "Tre sfide a rotazione: nota, salto melodico e ritmo. Ragiona prima del clic: la serie premia precisione e varietà." : "",
       locked: false,
       summaryOpen: false,
       questionStartedAt: 0,
@@ -6618,6 +6804,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 650 },
       lineSpacing: 4,
     }));
+    modal.add(this.add.text(274, 456, this.runEnergySummary(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      wordWrap: { width: 650 },
+    }));
     modal.add(new Button(this, 608, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
       modal.destroy(true);
       if (!passed && (mode === "mission" || mode === "progressive")) {
@@ -6660,7 +6853,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.musicSession = undefined;
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id));
     feedbackSystem.publish(
-      `Sprint musicale registrato: ${session.correct} corrette, ${session.wrong} errori, serie migliore ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      `Sprint musicale registrato: ${session.correct} corrette, ${session.wrong} errori, serie migliore ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
       "success",
     );
     if (remaining.length === 0) {
@@ -6962,7 +7155,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
     this.robotStatusText = RobotConsole.addProgramPanel(this, overlay, programPanel, model, this.robotCommands, commandLimit);
 
-    RobotConsole.addObjectivePanel(this, overlay, objectivePanel, model);
+    RobotConsole.addObjectivePanel(this, overlay, objectivePanel, model, this.shouldShowExerciseCoach("robot"));
 
     RobotConsole.addCommandControls(this, overlay, commandPanel, {
       onCommand: (command) => {
@@ -7227,7 +7420,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       saveSystem.updateProceduralRun({ completedAt: new Date().toISOString() });
       this.run = saveSystem.data.proceduralRun ?? this.run;
       feedbackSystem.publish(
-        "Fase Esplora completata: hai visto il metodo senza pressione. Ora la Prova del Capitolo e disponibile nella Storia.",
+        `Fase Esplora completata: hai visto il metodo senza pressione. ${this.runEnergySummary()}. Ora la Prova del Capitolo è disponibile nella Storia.`,
         "success",
       );
       this.runWhenActive(1500, () => this.scene.start("CampaignScene"));
@@ -7245,7 +7438,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.run = saveSystem.data.proceduralRun ?? this.run;
       const recovered = noraCompanion.memories().find((memory) => memory.unlocked && !recoveredBefore.has(memory.id));
       feedbackSystem.publish(
-        "Sabotatore respinto! Hai disattivato ogni nodo prima che il tempo scadesse. Capitolo sbloccato!",
+        `Sabotatore respinto! Hai disattivato ogni nodo prima che il tempo scadesse. ${this.runEnergySummary()}. Capitolo sbloccato!`,
         "success",
       );
       this.runWhenActive(1700, () => {
@@ -7265,8 +7458,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.run = saveSystem.data.proceduralRun ?? this.run;
     feedbackSystem.publish(
       mode === "training"
-        ? "Allenamento completato. Il diario registra voto, miglior tempo e competenze del focus."
-        : "Missione completata. Il diario registra seed, competenze, tempo e vite rimaste.",
+        ? `Allenamento completato. ${this.runEnergySummary()}. Il diario registra voto, miglior tempo e competenze del focus.`
+        : `Missione completata. ${this.runEnergySummary()}. Il diario registra seed, competenze, tempo e vite rimaste.`,
       "success",
     );
     this.runWhenActive(mode === "training" ? 900 : 1700, () => this.scene.start("JournalScene"));
@@ -7425,6 +7618,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private solvedPrinciple(kind: ProceduralPuzzleId): string {
     const defaults: Record<ProceduralPuzzleId, string> = {
       language: "il messaggio diventa eseguibile quando accordo e ordine delle parole dicono al sistema cosa fare.",
+      latin: "la forma latina si riconosce collegando desinenza, funzione e traduzione nel contesto.",
       circuit: "il LED si accende solo se la corrente trova un percorso chiuso e il verso giusto.",
       math: "il codice nasce rispettando l'ordine dei passaggi: ogni operazione trasforma il valore precedente.",
       english: "la procedura sicura si estrae da condizioni, ordine e divieti, non traducendo tutto.",
@@ -7486,6 +7680,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       : { x: stage.x + stage.width / 2, y: stage.y + stage.height / 2 };
     const colors: Record<ProceduralPuzzleId, number> = {
       language: 0x9f8cff,
+      latin: 0xd8c9ff,
       circuit: 0xf6c85f,
       math: 0x6be7d6,
       english: 0x70d68a,
@@ -7611,6 +7806,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const used = Math.min(this.activePuzzleHintsUsed(), total);
     if (total === 0) return label;
     return used >= total ? "Indizi esauriti" : `${label} ${used + 1}/${total}`;
+  }
+
+  private shouldShowExerciseCoach(kind: ProceduralPuzzleId): boolean {
+    const branchId = masterySystem.branchForPuzzleKind(kind);
+    const branch = masterySystem.getBranches().find((item) => item.id === branchId);
+    if (!branch) return true;
+    return branch.tier === 0 && branch.autonomy < 2;
+  }
+
+  private compactExerciseSubtitle(kind: ProceduralPuzzleId, learningSubtitle: string): string {
+    if (this.shouldShowExerciseCoach(kind)) return learningSubtitle;
+    return `${this.puzzleLabel(kind)} · modalità pratica`;
   }
 
   private useContextualHint(puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } }): void {
@@ -7809,7 +8016,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         ...run.mission,
         puzzles: {
           ...run.mission.puzzles,
-          [kind]: generated.puzzles[kind],
+          [kind]: kind === "latin" ? this.currentLatinPuzzle() : generated.puzzles[kind],
         },
       },
       retryVariants: {
@@ -8298,6 +8505,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private puzzleLabel(id: string): string {
     return {
       language: "italiano",
+      latin: "latino",
       circuit: "circuiti",
       math: "matematica",
       english: "inglese",
@@ -8364,12 +8572,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzleId = this.currentPuzzleId("circuit");
     const session = this.ensureCircuitMinigameSession(puzzleId, puzzle, puzzle.minigame);
-    const overlay = this.createMathOverlay(puzzle.minigame.title, "Elettronica · leggi lo schema, scegli la risposta, conferma");
+    const showCoach = this.shouldShowExerciseCoach("circuit");
+    const overlay = this.createMathOverlay(puzzle.minigame.title, this.compactExerciseSubtitle("circuit", "Elettronica · leggi lo schema, scegli la risposta, conferma"));
     const prompt = this.currentCircuitMinigamePrompt(session);
     const remaining = this.circuitMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
     this.circuitMinigameTimerText = CircuitConsole.addMinigamePrompt(this, overlay, prompt, {
+      showCoach,
       selectedIds: session.selectedIds,
       remainingLabel: formatDuration(remaining),
       remainingDanger: remaining <= 10_000,
@@ -8675,6 +8885,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? "La console elettronica certifica le tue risposte: componenti, percorso e valori sono coerenti."
           : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
         : "Allenamento registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.",
+      energyText: this.runEnergySummary(),
       actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
       onAction: (modal) => {
@@ -8706,7 +8917,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const solvedNode = puzzleKindFromId(session.puzzleId);
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
     feedbackSystem.publish(
-      `Sprint circuiti registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
+      `Sprint circuiti registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
       "success",
     );
     if (remaining.length === 0) {
@@ -9044,6 +9255,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const kind = this.activePuzzleKind ?? "coding";
     return {
       language: "mission-bg-italian",
+      latin: "mission-bg-italian",
       circuit: "mission-bg-electronics",
       math: "mission-bg-math",
       english: "mission-bg-english",

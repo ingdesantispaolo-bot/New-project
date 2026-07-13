@@ -69,14 +69,26 @@ function hexToRgb(color: number): { r: number; g: number; b: number } {
 }
 
 /** Combo tiers: consecutive correct answers unlock escalating identity + reward. */
-type ComboTier = { min: number; multiplier: number; name: string; color: number };
+type ComboTier = { min: number; perAnswerBonus: number; milestoneBonus: number; name: string; color: number };
+export type EnergyBreakdown = {
+  base: number;
+  streak: number;
+  milestone: number;
+  variety: number;
+  daily: number;
+  total: number;
+  events: string[];
+};
+
 const COMBO_TIERS: ComboTier[] = [
-  { min: 12, multiplier: 8, name: "👑 LEGGENDARIO", color: 0xffd75e },
-  { min: 8, multiplier: 5, name: "⚡ INARRESTABILE", color: 0x7ad7ff },
-  { min: 5, multiplier: 3, name: "🔥 IN FIAMME", color: 0xff9d5c },
-  { min: 3, multiplier: 2, name: "OTTIMA SERIE", color: 0xf6c85f },
-  { min: 1, multiplier: 1, name: "BENE", color: 0x6be7d6 },
+  { min: 12, perAnswerBonus: 60, milestoneBonus: 140, name: "NUCLEO LEGGENDARIO", color: 0xffd75e },
+  { min: 8, perAnswerBonus: 35, milestoneBonus: 90, name: "FLUSSO PERFETTO", color: 0x7ad7ff },
+  { min: 5, perAnswerBonus: 20, milestoneBonus: 50, name: "SOVRACCARICO", color: 0xff9d5c },
+  { min: 3, perAnswerBonus: 10, milestoneBonus: 25, name: "CARICA STABILE", color: 0xf6c85f },
+  { min: 1, perAnswerBonus: 0, milestoneBonus: 0, name: "SCINTILLA", color: 0x6be7d6 },
 ];
+
+const BASE_ENERGY_PER_CORRECT = 10;
 
 class OutcomeFeedback {
   private lastEffectAt = 0;
@@ -85,6 +97,7 @@ class OutcomeFeedback {
   private answerCards = new WeakMap<Phaser.Scene, Phaser.GameObjects.Container>();
   private companions = new WeakMap<Phaser.Scene, Companion>();
   private energyHud = new WeakMap<Phaser.Scene, { container: Phaser.GameObjects.Container; text: Phaser.GameObjects.Text; value: number }>();
+  private energyBreakdowns = new WeakMap<Phaser.Scene, EnergyBreakdown>();
 
   play(scene: Phaser.Scene, tone: OutcomeTone, label?: string): void {
     const now = Date.now();
@@ -140,16 +153,111 @@ class OutcomeFeedback {
       return;
     }
     this.streak += 1;
+    const previousTier = this.tierFor(this.streak - 1);
     const tier = this.tierFor(this.streak);
-    const tierUp = tier.name !== this.tierFor(this.streak - 1).name && this.streak >= 3;
+    const tierUp = tier.name !== previousTier.name && this.streak >= 3;
     companion?.react(tierUp ? "combo" : "correct");
-    const reward = 10 * tier.multiplier;
+    const base = BASE_ENERGY_PER_CORRECT;
+    const streakBonus = tier.perAnswerBonus;
+    const milestoneBonus = tierUp ? tier.milestoneBonus : 0;
+    const reward = base + streakBonus + milestoneBonus;
     saveSystem.addEnergy(reward); // persistent currency for the reward shop
     this.addEnergy(scene, reward);
-    this.rewardPop(scene, reward, tier.color);
+    this.recordEnergy(scene, "base", base);
+    this.recordEnergy(scene, "streak", streakBonus);
+    this.recordEnergy(scene, "milestone", milestoneBonus, tierUp ? tier.name : undefined);
+    this.rewardPop(scene, reward, tier.color, this.energyRewardLabel(tier, tierUp));
+    this.grantDailyVarietyBonuses(scene);
     if (tierUp) {
       this.celebrateStreak(scene, this.streak, tier);
     }
+  }
+
+  private energyRewardLabel(tier: ComboTier, tierUp: boolean): string {
+    if (tierUp) return `${tier.name} + bonus soglia`;
+    if (tier.perAnswerBonus > 0) return `${tier.name} attiva`;
+    return "energia risposta";
+  }
+
+  private emptyBreakdown(): EnergyBreakdown {
+    return { base: 0, streak: 0, milestone: 0, variety: 0, daily: 0, total: 0, events: [] };
+  }
+
+  private breakdownFor(scene: Phaser.Scene): EnergyBreakdown {
+    let breakdown = this.energyBreakdowns.get(scene);
+    if (!breakdown) {
+      breakdown = this.emptyBreakdown();
+      this.energyBreakdowns.set(scene, breakdown);
+      scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.energyBreakdowns.delete(scene));
+    }
+    return breakdown;
+  }
+
+  private recordEnergy(
+    scene: Phaser.Scene,
+    kind: "base" | "streak" | "milestone" | "variety" | "daily",
+    amount: number,
+    label?: string,
+  ): void {
+    if (amount <= 0) return;
+    const breakdown = this.breakdownFor(scene);
+    breakdown[kind] += amount;
+    breakdown.total += amount;
+    if (label && !breakdown.events.includes(label)) breakdown.events.push(label);
+  }
+
+  private subjectForScene(scene: Phaser.Scene): string {
+    const sceneSubject = (scene as unknown as { energySubjectForFeedback?: () => string }).energySubjectForFeedback?.();
+    if (sceneSubject) return sceneSubject;
+    const key = scene.scene.key;
+    const labels: Record<string, string> = {
+      LogicGymScene: "logica",
+      NumberFactoryScene: "matematica",
+      GreenhouseScene: "scienze",
+      WordArchiveScene: "italiano",
+      RobotCodingScene: "coding",
+      CircuitPuzzleScene: "fisica",
+      ProceduralMissionScene: "missioni procedurali",
+    };
+    return labels[key] ?? key.replace(/Scene$/, "").replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
+  }
+
+  private grantDailyVarietyBonuses(scene: Phaser.Scene): void {
+    for (const bonus of saveSystem.recordDailyEnergySubject(this.subjectForScene(scene))) {
+      this.grantActivityBonus(scene, bonus.amount, bonus.label, "variety");
+    }
+  }
+
+  grantActivityBonus(
+    scene: Phaser.Scene,
+    amount: number,
+    label: string,
+    kind: "variety" | "daily" = "daily",
+  ): void {
+    if (amount <= 0) return;
+    saveSystem.addEnergy(amount);
+    this.addEnergy(scene, amount);
+    this.recordEnergy(scene, kind, amount, label);
+    this.rewardPop(scene, amount, kind === "variety" ? 0x9ff5e9 : 0xf6c85f, label);
+  }
+
+  energyTotal(scene: Phaser.Scene): number {
+    return this.breakdownFor(scene).total;
+  }
+
+  energySummaryText(scene: Phaser.Scene): string {
+    const breakdown = this.breakdownFor(scene);
+    if (breakdown.total <= 0) return "Energia run: 0";
+    const seriesTotal = breakdown.streak + breakdown.milestone;
+    const parts = [
+      `Energia run: +${breakdown.total} ⚡`,
+      `base ${breakdown.base}`,
+    ];
+    if (seriesTotal > 0) parts.push(`serie ${seriesTotal}`);
+    if (breakdown.variety > 0) parts.push(`varietà ${breakdown.variety}`);
+    if (breakdown.daily > 0) parts.push(`giorno ${breakdown.daily}`);
+    if (breakdown.events.length > 0) parts.push(breakdown.events.slice(-2).join(", "));
+    return parts.join(" · ");
   }
 
   private companionFor(scene: Phaser.Scene): Companion | undefined {
@@ -185,16 +293,17 @@ class OutcomeFeedback {
   }
 
   /** A "+N ⚡" reward token that pops below the answer card and floats up. */
-  private rewardPop(scene: Phaser.Scene, amount: number, color: number): void {
+  private rewardPop(scene: Phaser.Scene, amount: number, color: number, reason?: string): void {
     if (settingsSystem.effectsReduced() || !scene?.sys?.isActive?.()) return;
     const { width } = scene.scale;
-    const label = scene.add.text(width / 2, 300, `+${amount} ⚡`, {
+    const label = scene.add.text(width / 2, 300, reason ? `+${amount} ⚡\n${reason}` : `+${amount} ⚡`, {
       fontFamily: "Inter, Arial",
-      fontSize: "24px",
+      fontSize: reason ? "20px" : "24px",
       color: Phaser.Display.Color.IntegerToColor(color).rgba,
       fontStyle: "bold",
       stroke: "#04121c",
       strokeThickness: 4,
+      align: "center",
     }).setOrigin(0.5).setDepth(9720).setScrollFactor(0).setAlpha(0);
     scene.tweens.add({
       targets: label,

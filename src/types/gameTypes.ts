@@ -70,6 +70,29 @@ export type SaveData = {
   };
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;
+  /** Daily loop: refreshing session goals + play streak. */
+  daily?: {
+    /** YYYY-MM-DD of the current objective set. */
+    date: string;
+    /** Consecutive days played. */
+    streak: number;
+    /** Cumulative stats snapshot taken at the start of the day (for deltas). */
+    snapshot: { runs: number; mastered: number; unlocked: number };
+    /** Whether today's completion reward was already granted. */
+    claimed: boolean;
+    /** Distinct activity families that produced energy today. */
+    energySubjects?: string[];
+    /** Daily variety milestones already rewarded. */
+    varietyMilestonesClaimed?: number[];
+  };
+};
+
+export type DailyObjective = {
+  id: string;
+  label: string;
+  target: number;
+  current: number;
+  done: boolean;
 };
 
 export type TrainingRecord = {

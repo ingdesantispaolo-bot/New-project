@@ -305,4 +305,44 @@ export const competencies: CompetencyDefinition[] = [
     label: "Ragionamento logico",
     description: "Dedurre regole, completare schemi e ragionare per esclusione.",
   },
+  {
+    id: "latino.declinazioni",
+    label: "Le declinazioni",
+    description: "Riconoscere e formare i casi delle cinque declinazioni dei sostantivi.",
+  },
+  {
+    id: "latino.coniugazioni",
+    label: "Il sistema verbale",
+    description: "Formare e riconoscere i tempi delle quattro coniugazioni e di sum.",
+  },
+  {
+    id: "latino.casiFunzioni",
+    label: "Funzioni dei casi",
+    description: "Collegare il caso alla funzione logica: soggetto, oggetto, complementi.",
+  },
+  {
+    id: "latino.concordanza",
+    label: "Concordanza",
+    description: "Accordare aggettivi e sostantivi in genere, numero e caso.",
+  },
+  {
+    id: "latino.lessico",
+    label: "Lessico latino",
+    description: "Riconoscere il significato dei vocaboli latini di base ad alta frequenza.",
+  },
+  {
+    id: "latino.traduzione",
+    label: "Traduzione",
+    description: "Comprendere e rendere in italiano brevi frasi latine.",
+  },
+  {
+    id: "latino.morfologiaVerbale",
+    label: "Analisi verbale",
+    description: "Analizzare persona, tempo, modo e diatesi di una voce verbale.",
+  },
+  {
+    id: "latino.sintassi",
+    label: "Sintassi del periodo",
+    description: "Riconoscere participio, ablativo assoluto e le principali subordinate.",
+  },
 ];

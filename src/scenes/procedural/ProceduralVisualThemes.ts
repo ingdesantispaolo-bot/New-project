@@ -283,6 +283,15 @@ const focusVisuals: Record<ProceduralSpecialization, {
     motif: "trace",
     secondary: 0xf6c85f,
   },
+  latino: {
+    label: "Focus latino",
+    marker: "codici e pergamene",
+    color: 0xd8a24a,
+    palette: "archive",
+    propTheme: "archive",
+    motif: "archive",
+    secondary: 0xf7d37a,
+  },
 };
 
 export function proceduralVisualThemeFor(run: ProceduralRunSave): ProceduralVisualTheme {

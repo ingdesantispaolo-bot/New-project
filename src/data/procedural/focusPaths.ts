@@ -1,7 +1,7 @@
 import type { ProceduralPuzzleKind, ProceduralSpecialization } from "../../procedural/ProceduralTypes";
 
 type FocusPuzzleId = ProceduralPuzzleKind;
-type StandardFocusPuzzleId = Exclude<FocusPuzzleId, "coding" | "physics">;
+type StandardFocusPuzzleId = Exclude<FocusPuzzleId, "coding" | "physics" | "latin">;
 
 type FocusChallengeStage = {
   label: string;
@@ -26,8 +26,8 @@ export type ProceduralFocusPath = {
     label: string;
     description: string;
   };
-  hotspots: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding" | "physics", { label: string; description: string }>>;
-  objectives: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding" | "physics", { label: string; description: string }>>;
+  hotspots: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding" | "physics" | "latin", { label: string; description: string }>>;
+  objectives: Record<StandardFocusPuzzleId, { label: string; description: string }> & Partial<Record<"coding" | "physics" | "latin", { label: string; description: string }>>;
 };
 
 export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFocusPath> = {
@@ -393,11 +393,58 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       music: { label: "Riconosci la nota", description: "Identifica la nota sul pentagramma entro il tempo previsto." },
     },
   },
+  latino: {
+    id: "latino",
+    label: "Percorso Latino",
+    title: "Scriptorium dei Codici",
+    chamberTitle: "Officina della lingua latina",
+    roomTitles: ["Sala delle Declinazioni", "Officina del Verbo", "Archivio dei Casi", "Camera della Sintassi"],
+    introFragments: [
+      "NORA apre lo Scriptorium: qui il latino non si impara a memoria, si smonta come un meccanismo. La desinenza è la chiave che apre il senso.",
+      "Eli entra tra pergamene e codici: ogni parola porta scritto, nella desinenza, il proprio ruolo nella frase.",
+      "La sala conserva testi antichi: per leggerli bisogna riconoscere caso, numero, tempo e funzione, non tradurre a caso.",
+    ],
+    sideNote: "Il percorso segue il biennio del liceo scientifico: declinazioni, sistema verbale, funzioni dei casi, lessico, traduzione e prime subordinate.",
+    ruleTitle: "Regola dello Scriptorium",
+    ruleText: "In latino l'ordine delle parole è libero: a guidare la frase sono i casi. Prima analizza la desinenza, poi assegna la funzione.",
+    stageHint: "Percorso latino: individua declinazione/coniugazione dalla desinenza, poi caso, numero, tempo e funzione. Il bonus focus premia l'analisi morfologica.",
+    primaryPuzzle: "latin",
+    challengeStages: [
+      { label: "Le declinazioni", description: "Riconosci e forma i casi delle cinque declinazioni dei sostantivi." },
+      { label: "Il sistema verbale", description: "Forma presente, imperfetto e futuro delle quattro coniugazioni e di sum." },
+      { label: "Casi e concordanza", description: "Collega il caso alla funzione logica e accorda gli aggettivi." },
+      { label: "Lessico e traduzione", description: "Riconosci vocaboli ad alta frequenza e traduci brevi frasi." },
+      { label: "Sintassi del periodo", description: "Analizza le voci verbali e riconosci participio, ablativo assoluto e subordinate." },
+    ],
+    badge: {
+      badgeId: "custode-dello-scriptorium",
+      label: "Custode dello Scriptorium",
+      description: "Ha analizzato desinenze, casi e voci verbali del latino del biennio.",
+    },
+    hotspots: {
+      language: { label: "Glossa italiana", description: "Una nota in italiano chiarisce la regola prima dell'analisi latina." },
+      circuit: { label: "Torchio dei codici", description: "Il meccanismo dello scriptorium va stabilizzato per copiare i testi." },
+      math: { label: "Conteggio dei versi", description: "Un calcolo ordina le colonne del codice." },
+      english: { label: "Nota comparata", description: "Un breve confronto con l'inglese aiuta a fissare una radice comune." },
+      robot: { label: "Amanuense automatico", description: "Il robot ricompone le tavole seguendo una sequenza corretta." },
+      music: { label: "Metro e quantità", description: "Il ritmo del verso richiama la lettura ordinata delle sillabe." },
+      latin: { label: "Tavola latina", description: "La console analizza declinazioni, verbi, casi, lessico e sintassi latina." },
+    },
+    objectives: {
+      language: { label: "Leggi la glossa", description: "Interpreta la nota italiana che spiega la regola latina." },
+      circuit: { label: "Stabilizza il torchio", description: "Ripristina il meccanismo dello scriptorium." },
+      math: { label: "Ordina i versi", description: "Calcola la disposizione corretta delle colonne." },
+      english: { label: "Confronta le radici", description: "Collega latino e inglese tramite una radice comune." },
+      robot: { label: "Guida l'amanuense", description: "Programma la sequenza di copiatura." },
+      music: { label: "Leggi il metro", description: "Riconosci il ritmo del verso." },
+      latin: { label: "Analizza la forma latina", description: "Riconosci caso, numero, tempo e funzione, poi scegli la risposta corretta." },
+    },
+  },
 };
 
 export function getProceduralFocusPath(focus: string[] = []): ProceduralFocusPath {
   const key = focus.find((item): item is ProceduralSpecialization =>
-    ["matematica", "italiano", "inglese", "elettronica", "coding", "musica", "fisica", "libera"].includes(item),
+    ["matematica", "italiano", "inglese", "elettronica", "coding", "musica", "fisica", "latino", "libera"].includes(item),
   ) ?? "libera";
   return proceduralFocusPaths[key] ?? proceduralFocusPaths.libera;
 }

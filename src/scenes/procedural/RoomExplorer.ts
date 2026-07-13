@@ -43,6 +43,8 @@ export type RoomExplorerConfig = {
   vitality?: number;
   /** Colore accento dell'area, usato dal bagliore di vitalità. */
   accentColor?: number;
+  /** Optional shop item that visually restores this area when owned. */
+  restorationItemId?: string;
 };
 
 type Dir = "down" | "up" | "left" | "right";
@@ -150,7 +152,8 @@ export class RoomExplorer {
     if (this.cfg.vitality === undefined) return;
     const v = Phaser.Math.Clamp(this.cfg.vitality, 0, 1);
     const accent = this.cfg.accentColor ?? 0x6be7d6;
-    const baseAlpha = 0.05 + v * 0.16;
+    const restored = Boolean(this.cfg.restorationItemId && rewardSystem.owned(this.cfg.restorationItemId));
+    const baseAlpha = 0.05 + v * 0.16 + (restored ? 0.1 : 0);
     const glow = this.scene.add.ellipse(this.cfg.worldW / 2, this.cfg.worldH / 2, this.cfg.worldW * 0.94, this.cfg.worldH * 0.74, accent, baseAlpha)
       .setDepth(1)
       .setBlendMode(Phaser.BlendModes.ADD);
@@ -164,6 +167,22 @@ export class RoomExplorer {
       repeat: -1,
       ease: "Sine.easeInOut",
     });
+    if (restored) {
+      const ring = this.scene.add.ellipse(this.cfg.worldW / 2, this.cfg.worldH / 2, this.cfg.worldW * 0.54, this.cfg.worldH * 0.38, accent, 0.08)
+        .setDepth(1.2)
+        .setStrokeStyle(6, accent, 0.34)
+        .setBlendMode(Phaser.BlendModes.ADD);
+      this.scene.tweens.add({
+        targets: ring,
+        alpha: 0.03,
+        scaleX: 1.08,
+        scaleY: 1.08,
+        duration: 2200,
+        yoyo: true,
+        repeat: -1,
+        ease: "Sine.easeInOut",
+      });
+    }
   }
 
   private buildWalls(): void {

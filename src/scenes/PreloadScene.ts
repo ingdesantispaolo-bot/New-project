@@ -7,6 +7,7 @@ import cantiereCircuitiBgUrl from "../assets/images/area-cantiere-circuiti.png";
 import osservatorioBgUrl from "../assets/images/area-osservatorio.png";
 import salaMusicaBgUrl from "../assets/images/area-sala-musica.png";
 import archivioBibliotecaBgUrl from "../assets/images/area-archivio-biblioteca.png";
+import bibliotecaClassicaBgUrl from "../assets/images/area-biblioteca-classica.png";
 import eliQuestAtlasUrl from "../assets/sprites/eli-quest-atlas.webp";
 import eliQuestAtlasJsonUrl from "../assets/sprites/eli-quest-atlas.json?url";
 import eliRobotGirlSheetUrl from "../assets/sprites/eli-robot-girl-sheet.png";
@@ -29,6 +30,7 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image("area-osservatorio", osservatorioBgUrl);
     this.load.image("area-sala-musica", salaMusicaBgUrl);
     this.load.image("area-archivio-biblioteca", archivioBibliotecaBgUrl);
+    this.load.image("area-biblioteca-classica", bibliotecaClassicaBgUrl);
     this.load.atlas("eli-atlas", eliQuestAtlasUrl, eliQuestAtlasJsonUrl);
     this.load.atlas("eli-robot-girl", eliRobotGirlSheetUrl, eliRobotGirlSheetJsonUrl);
     this.load.atlas("environment-props", environmentPropsSheetUrl, environmentPropsSheetJsonUrl);

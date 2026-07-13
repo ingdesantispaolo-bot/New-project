@@ -44,6 +44,8 @@ export type MapAreaDef = {
   consoles: AreaConsoleSpec[];
   /** Sovrappone i props ambientali condivisi. Off per aree con arte già ricca. */
   decorate?: boolean;
+  /** Materie distinte da padroneggiare (allenare) per sbloccare l'area. 0 = aperta. */
+  unlock?: number;
 };
 
 const WORLD_W = 1760;
@@ -132,6 +134,7 @@ const cantiereCircuiti: MapAreaDef = {
   id: "cantiere-circuiti",
   label: "Cantiere Circuiti",
   bgTexture: "area-cantiere-circuiti",
+  unlock: 1,
   floorColor: 0x0c1a1f,
   accent: 0xf6c85f,
   decorate: false,
@@ -156,6 +159,7 @@ const osservatorio: MapAreaDef = {
   id: "osservatorio",
   label: "Osservatorio",
   bgTexture: "area-osservatorio",
+  unlock: 2,
   floorColor: 0x0b1226,
   accent: 0x9f8cff,
   decorate: false,
@@ -180,6 +184,7 @@ const salaMusica: MapAreaDef = {
   id: "sala-musica",
   label: "Sala Musica",
   bgTexture: "area-sala-musica",
+  unlock: 3,
   floorColor: 0x14100a,
   accent: 0xff9d5c,
   decorate: false,
@@ -204,6 +209,7 @@ const archivioBiblioteca: MapAreaDef = {
   id: "archivio-biblioteca",
   label: "Archivio",
   bgTexture: "area-archivio-biblioteca",
+  unlock: 4,
   floorColor: 0x0d1420,
   accent: 0x7ad7ff,
   decorate: false,

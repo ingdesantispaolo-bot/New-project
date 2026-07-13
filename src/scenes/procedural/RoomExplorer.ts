@@ -39,6 +39,10 @@ export type RoomExplorerConfig = {
   decorate?: boolean;
   /** Mostra la minimappa d'area in basso a destra (utile perché il mondo è più grande del viewport). */
   minimap?: boolean;
+  /** 0..1 — quanto l'area è "viva": accende un bagliore centrale crescente. */
+  vitality?: number;
+  /** Colore accento dell'area, usato dal bagliore di vitalità. */
+  accentColor?: number;
 };
 
 type Dir = "down" | "up" | "left" | "right";
@@ -82,6 +86,7 @@ export class RoomExplorer {
     // from HUD (fixed UI camera) without tagging every object individually.
     const worldStart = scene.children.list.length;
     this.drawFloor();
+    this.buildAmbiance();
     this.buildWalls();
     if (cfg.decorate ?? true) this.buildEnvironmentProps();
     this.buildConsoles();
@@ -134,6 +139,31 @@ export class RoomExplorer {
     g.lineStyle(1, 0x14323f, 0.6);
     for (let x = 0; x <= worldW; x += 88) g.lineBetween(x, 0, x, worldH);
     for (let y = 0; y <= worldH; y += 88) g.lineBetween(0, y, worldW, y);
+  }
+
+  /**
+   * "Vitality" glow: a soft additive light at the room core that grows with how
+   * much the player has mastered the area's subjects. Dim/asleep when empty,
+   * bright/alive when full — the visible consequence of progress.
+   */
+  private buildAmbiance(): void {
+    if (this.cfg.vitality === undefined) return;
+    const v = Phaser.Math.Clamp(this.cfg.vitality, 0, 1);
+    const accent = this.cfg.accentColor ?? 0x6be7d6;
+    const baseAlpha = 0.05 + v * 0.16;
+    const glow = this.scene.add.ellipse(this.cfg.worldW / 2, this.cfg.worldH / 2, this.cfg.worldW * 0.94, this.cfg.worldH * 0.74, accent, baseAlpha)
+      .setDepth(1)
+      .setBlendMode(Phaser.BlendModes.ADD);
+    this.scene.tweens.add({
+      targets: glow,
+      alpha: baseAlpha * 0.6,
+      scaleX: 1.05,
+      scaleY: 1.07,
+      duration: 2600,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+    });
   }
 
   private buildWalls(): void {

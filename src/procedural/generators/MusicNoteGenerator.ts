@@ -126,13 +126,17 @@ export class MusicNoteGenerator {
     alternatives.add(`${direction === "Sale" ? "Scende" : "Sale"}: ${interval}`);
     alternatives.add(`${direction}: ${intervalNames[Math.max(1, Math.min(5, steps + 1))]}`);
     alternatives.add(`${direction}: ${intervalNames[Math.max(1, steps - 1)]}`);
+    // A clamped step +/- 1 can coincide with the correct interval (e.g. steps=1 ->
+    // "seconda"): drop it BEFORE topping up, so the fill loop always restores
+    // three distinct distractors instead of leaving only two.
+    alternatives.delete(correct);
     for (const label of ["Sale: seconda", "Scende: seconda", "Sale: terza", "Scende: terza", "Sale: quarta", "Scende: quarta"]) {
       if (alternatives.size >= 3) break;
       if (label !== correct) alternatives.add(label);
     }
     const choices = random.shuffle([
       { id: "correct", label: correct, isCorrect: true, feedback: `Corretto: all'ascolto la seconda nota ${direction.toLowerCase()} di ${interval}.` },
-      ...[...alternatives].filter((label) => label !== correct).slice(0, 3).map((label, index) => ({
+      ...[...alternatives].slice(0, 3).map((label, index) => ({
         id: `distractor-${index}`,
         label,
         isCorrect: false,

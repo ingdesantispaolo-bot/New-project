@@ -77,7 +77,7 @@ import { SceneChrome } from "../ui/SceneChrome";
 import { VisualKit } from "../ui/VisualKit";
 import { CircuitConsole, type CircuitConsoleModel } from "./procedural/components/CircuitConsole";
 import { LanguageRepairConsole, type LanguageRepairModel } from "./procedural/components/LanguageRepairConsole";
-import { MathTerminal, type MathTerminalModel } from "./procedural/components/MathTerminal";
+import { MathTerminal } from "./procedural/components/MathTerminal";
 import { MissionDependencyGraph } from "./procedural/components/MissionDependencyGraph";
 import { RobotConsole } from "./procedural/components/RobotConsole";
 import {
@@ -105,21 +105,6 @@ import {
   type MathMinigameSession,
   type MusicTrainingSession,
 } from "./procedural/ProceduralMissionDefs";
-import {
-  drawBatterySymbol,
-  drawBranchSymbol,
-  drawCapacitorSymbol,
-  drawCurrentArrows,
-  drawGroundSymbol,
-  drawLedSymbol,
-  drawMotorSymbol,
-  drawRelaySymbol,
-  drawResistorSymbol,
-  drawReturnSymbol,
-  drawSensorSymbol,
-  drawSwitchSymbol,
-} from "./procedural/CircuitSymbols";
-
 // Fresh nonce per started exercise session, so the same run/seed does not keep
 // serving the identical sequence of prompts: each new sprint regenerates its
 // content. Combines time and a counter to stay unique even within the same ms.
@@ -1093,37 +1078,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const model = LanguageRepairConsole.fromPuzzle(puzzle);
     const overlay = this.createExerciseScreen(model.title);
     LanguageRepairConsole.addHeader(this, overlay, model);
-    this.addLanguageBrief(overlay, model);
-    overlay.add(this.add.text(614, 294, "Scegli la frase corretta", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    model.options.forEach((option, index) => {
-      const y = 330 + index * 48;
-      overlay.add(new Button(this, 866, y, `${this.languageSelectedOption === option ? "✓ " : ""}${option}`, () => {
+    LanguageRepairConsole.addBrief(this, overlay, model, this.currentActiveHint());
+    LanguageRepairConsole.addChoicePanel(this, overlay, model, {
+      selectedOption: this.languageSelectedOption,
+      hintLabel: this.hintButtonLabel(puzzle, "Indizio mirato"),
+    }, {
+      onSelect: (option) => {
         this.languageSelectedOption = option;
         this.openLanguage();
-      }, {
-        width: 540,
-        height: 40,
-        fontSize: 11,
-        wordWrapWidth: 506,
-        fill: this.languageSelectedOption === option ? 0x174d42 : 0x263743,
-        stroke: this.languageSelectedOption === option ? 0xf7d37a : 0x6be7d6,
-      }));
+      },
+      onOpenBuilder: () => this.openLanguageBuilder(puzzle, model),
+      onConfirm: () => this.confirmLanguageReasoning(puzzle, model),
+      onHint: () => {
+        this.useContextualHint(puzzle);
+        this.openLanguage();
+      },
     });
-    overlay.add(new Button(this, 470, 620, "✍ Componi la frase", () => {
-      this.openLanguageBuilder(puzzle, model);
-    }, { width: 240, height: 40, fontSize: 13, fill: 0x2a3550, stroke: 0x9f8cff }));
-    overlay.add(new Button(this, 738, 620, "Conferma risposta", () => {
-      this.confirmLanguageReasoning(puzzle, model);
-    }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
-    overlay.add(new Button(this, 1002, 620, this.hintButtonLabel(puzzle, "Indizio mirato"), () => {
-      this.useContextualHint(puzzle);
-      this.openLanguage();
-    }, { width: 230, height: 40, fontSize: 13, fill: 0x263743 }));
   }
 
   /**
@@ -1149,37 +1119,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
     const overlay = this.createExerciseScreen(model.title);
     LanguageRepairConsole.addHeader(this, overlay, model);
-    this.addLanguageBrief(overlay, model);
-    overlay.add(this.add.text(614, 286, "Ricostruisci il messaggio corretto: tocca le parole nell'ordine giusto.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-      wordWrap: { width: 600 },
-    }));
-
-    // Assembled answer row.
-    const assembled = this.languageBuilderPlaced.map((index) => this.languageBuilderShuffled[index]).join(" ");
-    overlay.add(this.add.rectangle(614, 330, 624, 64, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.7));
-    overlay.add(this.add.text(628, 344, assembled.length > 0 ? assembled : "(tocca le tessere qui sotto)", {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: assembled.length > 0 ? "#f5fbff" : "#7da2af",
-      wordWrap: { width: 596 },
-      lineSpacing: 3,
-    }));
-
-    // Word tiles (unused ones are tappable to append).
-    let tileX = 614;
-    let tileY = 414;
-    this.languageBuilderShuffled.forEach((word, index) => {
-      const placed = this.languageBuilderPlaced.includes(index);
-      const tileWidth = Math.max(54, word.length * 11 + 24);
-      if (tileX + tileWidth > 1238) {
-        tileX = 614;
-        tileY += 48;
-      }
-      overlay.add(new Button(this, tileX + tileWidth / 2, tileY + 18, word, () => {
+    LanguageRepairConsole.addBrief(this, overlay, model, this.currentActiveHint());
+    LanguageRepairConsole.addBuilderPanel(this, overlay, {
+      shuffledWords: this.languageBuilderShuffled,
+      placedIndices: this.languageBuilderPlaced,
+    }, {
+      onToggleWord: (index) => {
         if (this.languageBuilderPlaced.includes(index)) {
           this.languageBuilderPlaced = this.languageBuilderPlaced.filter((i) => i !== index);
         } else {
@@ -1187,27 +1132,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
         }
         audioManager.play("click");
         this.openLanguageBuilder(puzzle, model);
-      }, {
-        width: tileWidth,
-        height: 36,
-        fontSize: 13,
-        fill: placed ? 0x174d42 : 0x263743,
-        stroke: placed ? 0xf7d37a : 0x6be7d6,
-      }));
-      tileX += tileWidth + 10;
+      },
+      onBack: () => this.openLanguage(),
+      onConfirm: () => this.confirmLanguageBuilder(puzzle, model),
+      onClear: () => {
+        this.languageBuilderPlaced = [];
+        audioManager.play("cancel");
+        this.openLanguageBuilder(puzzle, model);
+      },
     });
-
-    overlay.add(new Button(this, 470, 640, "Torna a scelta", () => {
-      this.openLanguage();
-    }, { width: 220, height: 40, fontSize: 13, fill: 0x263743 }));
-    overlay.add(new Button(this, 738, 640, "Verifica frase", () => {
-      this.confirmLanguageBuilder(puzzle, model);
-    }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
-    overlay.add(new Button(this, 1002, 640, "Svuota", () => {
-      this.languageBuilderPlaced = [];
-      audioManager.play("cancel");
-      this.openLanguageBuilder(puzzle, model);
-    }, { width: 150, height: 40, fontSize: 13, fill: 0x3a2525, stroke: 0xf6c85f }));
   }
 
   private confirmLanguageBuilder(puzzle: GeneratedLanguagePuzzle, model: LanguageRepairModel): void {
@@ -1947,53 +1880,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const model = CircuitConsole.fromPuzzle(puzzle);
     const conceptLocked = model.componentChallenges.length > 0 && !this.circuitConceptVerified;
-    const learningText = conceptLocked
-      ? `${model.learningPurpose} Ora impara un pezzo alla volta. Obiettivo finale: trovare dove si ferma il giro della corrente.`
-      : `${model.learningPurpose} Domanda guida: ${model.diagnosticQuestion}`;
     const overlay = this.createExerciseScreen(model.title);
-    overlay.add(this.add.text(48, 72, model.difficultyLabel.toUpperCase(), {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(48, 100, model.symptom, {
-      fontFamily: "Inter, Arial",
-      fontSize: "17px",
-      color: "#f7d37a",
-      wordWrap: { width: 800 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.rectangle(48, 132, 800, 76, 0x07151d, 0.84).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.text(66, 146, "Cosa impari", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(66, 170, learningText, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 764, useAdvancedWrap: true },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.rectangle(868, 132, 278, 76, 0x07151d, 0.78).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.18));
-    overlay.add(this.add.text(886, 146, "Parole chiave", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(886, 170, model.conceptTags.slice(0, 5).join("  |  "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#f7d37a",
-      wordWrap: { width: 242, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
+    CircuitConsole.addIntro(this, overlay, model, { conceptLocked });
 
-    this.drawCircuitDiagnostic(overlay);
+    this.drawCircuitDiagnostic(overlay, model);
     CircuitConsole.addSidePanel(this, overlay, model, {
       conceptLocked,
       inspected: this.circuitInspected,
@@ -2006,34 +1896,22 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
 
     if (!this.circuitInspected) {
-      overlay.add(new Button(this, 1010, 588, "Usa tester", () => {
-        this.circuitInspected = true;
-        audioManager.playOutcome("neutral");
-        feedbackSystem.publish("Tester collegato: leggi una misura alla volta e cerca il primo tratto che non funziona.", "info");
-        this.openCircuit();
-      }, { width: 250, height: 52, fill: 0x173b36 }));
+      CircuitConsole.addTesterPrompt(this, overlay, {
+        onInspect: () => {
+          this.circuitInspected = true;
+          audioManager.playOutcome("neutral");
+          feedbackSystem.publish("Tester collegato: leggi una misura alla volta e cerca il primo tratto che non funziona.", "info");
+          this.openCircuit();
+        },
+      });
       return;
     }
 
-    overlay.add(this.add.rectangle(452, 488, 816, 46, 0x07151d, 0.74).setStrokeStyle(1, 0xf6c85f, 0.2));
-    overlay.add(this.add.text(64, 474, "Interventi disponibili", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(64, 496, "Scegli solo la riparazione che il tester ha dimostrato. Se aggiungi pezzi a caso, il circuito non è davvero capito.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 760 },
-    }));
-
-    model.repairChoices.forEach((fault, index) => {
-      const selected = this.selectedRepairs.has(fault);
-      const col = index % 4;
-      const row = Math.floor(index / 4);
-      overlay.add(new Button(this, 142 + col * 200, 548 + row * 44, `${selected ? "[x] " : ""}${repairLabels[fault]}`, () => {
+    CircuitConsole.addRepairPanel(this, overlay, model, {
+      selectedRepairs: this.selectedRepairs,
+    }, {
+      onToggleRepair: (fault) => {
+        const selected = this.selectedRepairs.has(fault);
         if (selected) {
           this.selectedRepairs.delete(fault);
         } else {
@@ -2041,34 +1919,34 @@ export class ProceduralMissionScene extends Phaser.Scene {
         }
         audioManager.play("click");
         this.openCircuit();
-      }, { width: 176, height: 38, fontSize: 11, fill: selected ? 0x173b36 : 0x142736 }));
-    });
-    overlay.add(new Button(this, 1010, 604, "Testa circuito", () => {
-      const required = new Set(puzzle.requiredRepairs);
-      const exact = this.selectedRepairs.size === required.size && [...this.selectedRepairs].every((fault) => required.has(fault));
-      const selectedLabel = [...this.selectedRepairs].map((fault) => repairLabels[fault]).join(", ") || "nessun intervento";
-      const correctLabel = puzzle.requiredRepairs.map((fault) => repairLabels[fault]).join(", ");
-      if (exact) {
-        const explanation = puzzle.requiredRepairs
-          .map((fault) => model.explanations[fault] ?? faultLabels[fault])
-          .join(" ");
-        this.animateCircuitTest(true, () => {
-          outcomeFeedback.answer(this, true, selectedLabel, correctLabel, explanation);
-          feedbackSystem.publish(`Circuito certificato. ${explanation}`, "success");
-          this.solvePuzzle(this.currentPuzzleId("circuit"), puzzle.competencies);
+      },
+      onTestCircuit: () => {
+        const required = new Set(puzzle.requiredRepairs);
+        const exact = this.selectedRepairs.size === required.size && [...this.selectedRepairs].every((fault) => required.has(fault));
+        const selectedLabel = [...this.selectedRepairs].map((fault) => repairLabels[fault]).join(", ") || "nessun intervento";
+        const correctLabel = puzzle.requiredRepairs.map((fault) => repairLabels[fault]).join(", ");
+        if (exact) {
+          const explanation = puzzle.requiredRepairs
+            .map((fault) => model.explanations[fault] ?? faultLabels[fault])
+            .join(" ");
+          this.animateCircuitTest(true, () => {
+            outcomeFeedback.answer(this, true, selectedLabel, correctLabel, explanation);
+            feedbackSystem.publish(`Circuito certificato. ${explanation}`, "success");
+            this.solvePuzzle(this.currentPuzzleId("circuit"), puzzle.competencies);
+          });
+          return;
+        }
+        const missing = puzzle.requiredRepairs.filter((fault) => !this.selectedRepairs.has(fault));
+        const extra = [...this.selectedRepairs].filter((fault) => !required.has(fault));
+        const message = missing.length > 0
+          ? `Manca ancora una causa: ${faultLabels[missing[0]]}.`
+          : `Hai aggiunto un intervento non necessario: ${faultLabels[extra[0]]}.`;
+        this.animateCircuitTest(false, () => {
+          outcomeFeedback.answer(this, false, selectedLabel, correctLabel, message);
+          this.handleIncorrectAnswer(`${message} ${this.nextPedagogicHint(puzzle, puzzle.hints[0] ?? "Rileggi il tester e collega sintomo a causa.")}`);
         });
-        return;
-      }
-      const missing = puzzle.requiredRepairs.filter((fault) => !this.selectedRepairs.has(fault));
-      const extra = [...this.selectedRepairs].filter((fault) => !required.has(fault));
-      const message = missing.length > 0
-        ? `Manca ancora una causa: ${faultLabels[missing[0]]}.`
-        : `Hai aggiunto un intervento non necessario: ${faultLabels[extra[0]]}.`;
-      this.animateCircuitTest(false, () => {
-        outcomeFeedback.answer(this, false, selectedLabel, correctLabel, message);
-        this.handleIncorrectAnswer(`${message} ${this.nextPedagogicHint(puzzle, puzzle.hints[0] ?? "Rileggi il tester e collega sintomo a causa.")}`);
-      });
-    }, { width: 250, height: 52, fill: 0x173b36 }));
+      },
+    });
   }
 
   private drawCircuitComponentChallenge(overlay: Phaser.GameObjects.Container, model: CircuitConsoleModel): void {
@@ -2078,84 +1956,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.openCircuit();
       return;
     }
-    const total = model.componentChallenges.length;
-    const visualHint = this.circuitVisualHint(challenge);
-    overlay.add(this.add.rectangle(452, 488, 816, 46, 0x07151d, 0.74).setStrokeStyle(1, 0xf6c85f, 0.2));
-    overlay.add(this.add.text(64, 474, `Impara i pezzi ${this.circuitConceptIndex + 1}/${total}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(64, 496, "Guarda solo il pezzo cerchiato. Scegli il suo nome, poi il gioco ti spiega a cosa serve.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 760 },
-    }));
-
-    overlay.add(this.add.rectangle(330, 606, 532, 184, 0x07151d, 0.9).setStrokeStyle(1, 0x6be7d6, 0.26));
-    overlay.add(this.add.text(88, 526, "Una sola domanda", {
-      fontFamily: "Inter, Arial",
-      fontSize: "10px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(88, 546, challenge.symbolQuestion, {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: 480 },
-    }));
-    challenge.symbolChoices.forEach((choice, index) => {
-      const selected = this.circuitSymbolAnswer === choice;
-      overlay.add(new Button(this, 330, 588 + index * 42, choice, () => {
+    CircuitConsole.addComponentChallenge(this, overlay, challenge, {
+      conceptIndex: this.circuitConceptIndex,
+      total: model.componentChallenges.length,
+      selectedAnswer: this.circuitSymbolAnswer,
+    }, {
+      onSelect: (choice) => {
         this.circuitSymbolAnswer = choice;
         audioManager.play("click");
         this.openCircuit();
-      }, {
-        width: 470,
-        height: 36,
-        fontSize: 10,
-        fill: selected ? 0x173b36 : 0x142736,
-        stroke: selected ? 0xf6c85f : 0x6be7d6,
-      }));
+      },
+      onConfirm: (selectedChallenge) => this.confirmCircuitComponentChallenge(selectedChallenge, model),
     });
-
-    overlay.add(this.add.rectangle(800, 606, 324, 184, 0x07151d, 0.82).setStrokeStyle(1, 0xf6c85f, 0.22));
-    overlay.add(this.add.text(656, 526, "Indizio visivo", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(656, 552, visualHint, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#d9eaf1",
-      wordWrap: { width: 288, useAdvancedWrap: true },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(656, 644, "Dopo la risposta vedrai il lavoro del pezzo nel circuito.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: 268 },
-    }));
-
-    overlay.add(new Button(this, 1058, 616, "Conferma", () => this.confirmCircuitComponentChallenge(challenge, model), {
-      width: 206,
-      height: 48,
-      fontSize: 13,
-      fill: 0x173b36,
-    }));
-  }
-
-  private circuitVisualHint(challenge: CircuitComponentChallenge): string {
-    const hint = challenge.visualHint.trim();
-    return hint ? `Cerca questa forma: ${hint}.` : "Guarda la forma del simbolo cerchiato e confrontala con le tre risposte.";
   }
 
   private confirmCircuitComponentChallenge(challenge: CircuitComponentChallenge, model: CircuitConsoleModel): void {
@@ -2200,153 +2012,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return challenges[Math.min(this.circuitConceptIndex, challenges.length - 1)]?.componentId;
   }
 
-  private drawCircuitDiagnostic(overlay: Phaser.GameObjects.Container): void {
-    const puzzle = this.currentCircuitPuzzle();
-    const activeFaults = new Set(puzzle.requiredRepairs.filter((fault) => !this.selectedRepairs.has(fault)));
-    const lit = this.circuitWouldLight();
-    const conceptLocked = this.circuitConceptLocked();
-    const targetComponentId = this.currentCircuitComponentTargetId();
-    const wireColor = lit ? 0x6be7d6 : 0x425865;
-    const y = 306;
-    const bottomY = 396;
-    const positions = {
-      battery: 94,
-      switch: 226,
-      resistor: 370,
-      led: 522,
-      return: 668,
-    };
-    const componentCenters: Record<string, { x: number; y: number }> = {
-      battery: { x: positions.battery, y },
-      switch: { x: positions.switch, y },
-      resistor: { x: positions.resistor, y },
-      led: { x: positions.led, y },
-      return: { x: positions.return, y },
-      capacitor: { x: 226, y: 424 },
-      sensor: { x: 590, y: 424 },
-      branchLed: { x: 404, y: 424 },
-      relay: { x: 190, y: 426 },
-      motor: { x: 350, y: 426 },
-      ground: { x: 590, y: 426 },
-    };
-
-    overlay.add(this.add.rectangle(48, 226, 776, 232, 0x081823, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.26));
-    overlay.add(this.add.text(66, 242, conceptLocked ? "Prima osservazione: guarda il pezzo cerchiato" : "Segui il giro: dal + della batteria fino al -", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-
-    const path = this.add.graphics();
-    path.lineStyle(5, wireColor, lit ? 0.9 : 0.45);
-    path.beginPath();
-    path.moveTo(positions.battery + 24, y);
-    path.lineTo(positions.switch - 38, y);
-    path.moveTo(positions.switch + 42, y);
-    path.lineTo(positions.resistor - 48, y);
-    path.moveTo(positions.resistor + 52, y);
-    path.lineTo(positions.led - 46, y);
-    path.moveTo(positions.led + 46, y);
-    path.lineTo(positions.return - 36, y);
-    path.moveTo(positions.return + 28, y);
-    path.lineTo(positions.return + 28, bottomY);
-    path.lineTo(positions.battery - 28, bottomY);
-    path.lineTo(positions.battery - 28, y);
-    path.strokePath();
-    overlay.add(path);
-
-    if (activeFaults.has("missing-wire")) {
-      const broken = this.add.graphics();
-      broken.lineStyle(6, 0xffb36b, 0.9);
-      broken.beginPath();
-      broken.moveTo(positions.led + 58, y);
-      broken.lineTo(positions.return - 46, y);
-      broken.strokePath();
-      broken.lineStyle(2, 0x07151d, 1);
-      broken.beginPath();
-      broken.moveTo(positions.return - 88, y - 16);
-      broken.lineTo(positions.return - 70, y + 16);
-      broken.moveTo(positions.return - 68, y - 16);
-      broken.lineTo(positions.return - 50, y + 16);
-      broken.strokePath();
-      overlay.add(broken);
-    }
-
-    drawBatterySymbol(this, overlay, positions.battery, y, 0xf6c85f);
-    drawSwitchSymbol(this, overlay, positions.switch, y, activeFaults.has("open-switch") ? 0xffb36b : 0x9ff5e9, !activeFaults.has("open-switch"), !conceptLocked);
-    drawResistorSymbol(this, overlay, positions.resistor, y, activeFaults.has("missing-resistor") || activeFaults.has("wrong-resistor-value") ? 0xffb36b : 0x9ff5e9, activeFaults.has("missing-resistor"), !conceptLocked);
-    drawLedSymbol(this, overlay, positions.led, y, activeFaults.has("reversed-led") ? 0xffb36b : 0x9ff5e9, activeFaults.has("reversed-led"), lit, !conceptLocked);
-    drawReturnSymbol(this, overlay, positions.return, y, activeFaults.has("missing-wire") || activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9);
-
-    [
-      { id: "battery", x: positions.battery, label: "1 Batteria", text: "dà la spinta" },
-      { id: "switch", x: positions.switch, label: "2 Interruttore", text: "apre o chiude" },
-      { id: "resistor", x: positions.resistor, label: "3 Resistenza", text: "protegge il LED" },
-      { id: "led", x: positions.led, label: "4 LED", text: "fa luce" },
-      { id: "return", x: positions.return, label: "5 Ritorno", text: "torna al -" },
-    ].forEach((item, index) => {
-      const target = conceptLocked && item.id === targetComponentId;
-      overlay.add(this.add.text(item.x, 346, conceptLocked ? (target ? "Guarda qui" : `Pezzo ${index + 1}`) : item.label, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-      }).setOrigin(0.5));
-      if (conceptLocked) {
-        overlay.add(this.add.text(item.x, 370, target ? "scegli il nome" : "più tardi", {
-          fontFamily: "Inter, Arial",
-          fontSize: "10px",
-          color: target ? "#f7d37a" : "#9aaab0",
-          align: "center",
-        }).setOrigin(0.5, 0));
-      } else {
-        overlay.add(this.add.text(item.x, 364, item.text, {
-          fontFamily: "Inter, Arial",
-          fontSize: "9px",
-          color: "#9aaab0",
-          align: "center",
-          wordWrap: { width: 92 },
-        }).setOrigin(0.5, 0));
-      }
+  private drawCircuitDiagnostic(overlay: Phaser.GameObjects.Container, model: CircuitConsoleModel): void {
+    CircuitConsole.addDiagnostic(this, overlay, model, {
+      activeFaults: new Set(model.requiredRepairs.filter((fault) => !this.selectedRepairs.has(fault))),
+      conceptLocked: this.circuitConceptLocked(),
+      lit: this.circuitWouldLight(),
+      targetComponentId: this.currentCircuitComponentTargetId(),
     });
-
-    drawCurrentArrows(this, overlay, lit ? 0x8cffd7 : 0x5c7480, lit ? 0.85 : 0.35, [
-      { x: 160, y, rotation: 0 },
-      { x: 450, y, rotation: 0 },
-      { x: 696, y: 346, rotation: Math.PI / 2 },
-      { x: 330, y: bottomY, rotation: Math.PI },
-    ]);
-
-    if (puzzle.nodes.includes("capacitor")) {
-      drawCapacitorSymbol(this, overlay, 226, 424, activeFaults.has("capacitor-discharged") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
-    }
-    if (puzzle.nodes.includes("sensor")) {
-      drawSensorSymbol(this, overlay, 590, 424, activeFaults.has("sensor-unpowered") || activeFaults.has("disconnected-component") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
-    }
-    if (puzzle.nodes.includes("branchLed")) {
-      drawBranchSymbol(this, overlay, 404, 424, activeFaults.has("parallel-branch-open") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
-    }
-    if (puzzle.nodes.includes("relay")) {
-      drawRelaySymbol(this, overlay, 190, 426, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
-    }
-    if (puzzle.nodes.includes("motor")) {
-      drawMotorSymbol(this, overlay, 350, 426, activeFaults.has("relay-not-armed") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
-    }
-    if (puzzle.nodes.includes("ground")) {
-      drawGroundSymbol(this, overlay, 590, 426, activeFaults.has("loose-ground") || activeFaults.has("short-circuit") ? 0xffb36b : 0x9ff5e9, !conceptLocked);
-    }
-
-    if (conceptLocked && targetComponentId && componentCenters[targetComponentId]) {
-      const center = componentCenters[targetComponentId];
-      overlay.add(this.add.circle(center.x, center.y, 54, 0xf6c85f, 0.08).setStrokeStyle(3, 0xf6c85f, 0.88));
-      overlay.add(this.add.text(center.x, center.y - 70, "guarda qui", {
-        fontFamily: "Inter, Arial",
-        fontSize: "10px",
-        color: "#f7d37a",
-        fontStyle: "bold",
-      }).setOrigin(0.5));
-    }
   }
 
   private circuitWouldLight(): boolean {
@@ -2401,97 +2073,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const model = MathTerminal.fromPuzzle(puzzle);
     const overlay = this.createMathOverlay(model.title);
 
-    this.addMathPanel(overlay, 28, 102, 378, 438, "Briefing matematico");
-    overlay.add(this.add.text(54, 146, model.difficultyLabel, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(54, 172, `Ambito: ${model.domainLabel}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    if (model.curriculumTags.length > 0) {
-      overlay.add(this.add.text(54, 196, `Concetti: ${model.curriculumTags.slice(0, 4).join(" · ")}`, {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#9aaab0",
-        wordWrap: { width: 326 },
-      }));
-    }
-    overlay.add(this.add.text(54, 236, model.prompt, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#f7d37a",
-      wordWrap: { width: 320, useAdvancedWrap: true },
-      lineSpacing: 4,
-    }));
-
-    this.drawMathLogicVisualizer(overlay, puzzle, model, 430, 102, 500, 438);
-
-    this.addMathPanel(overlay, 954, 102, 298, 438, "Console di risposta");
-    overlay.add(this.add.text(982, 148, "Inserisci solo il valore finale quando hai una strategia chiara.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 242 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(1016, 216, "Risultato", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.rectangle(1102, 270, 156, 70, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.56));
-    overlay.add(this.add.text(1040, 248, this.mathEntry.padEnd(4, "-"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "42px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    const keypadY = 348;
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "C", "0", "OK"].forEach((key, index) => {
-      overlay.add(new Button(this, 1024 + (index % 3) * 76, keypadY + Math.floor(index / 3) * 42, key, () => this.pressMathKey(key), {
-        width: 58,
-        height: 34,
-        fontSize: 17,
-        fill: key === "OK" ? 0x173b36 : 0x142736,
-        soundKey: key === "OK" ? "confirm" : key === "C" ? "cancel" : "mathKey",
-      }));
+    MathTerminal.addBriefing(this, overlay, model);
+    MathTerminal.addLogicVisualizer(this, overlay, puzzle, model, 430, 102, 500, 438);
+    MathTerminal.addAnswerConsole(this, overlay, { entry: this.mathEntry }, {
+      onKey: (key) => this.pressMathKey(key),
     });
-
-    this.addMathPanel(overlay, 28, 556, 1224, 132, "Supporti intelligenti");
-    overlay.add(this.add.text(54, 596, [
-      `Scopo didattico: ${model.learningPurpose}`,
-      `Metodo consigliato: ${model.strategy}`,
-      model.mentalMathNote,
-      `Appunti: ${model.scratchpadPrompt}`,
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 620 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.rectangle(990, 596, 478, 44, 0x07151d, 0.82).setStrokeStyle(1, 0xf6c85f, 0.28));
-    this.mathSupportText = this.add.text(760, 580, this.mathSupportMessage || "Scegli un aiuto solo quando serve: ogni supporto guida il ragionamento e viene conteggiato nel punteggio.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: this.mathSupportMessage ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 460, useAdvancedWrap: true },
-      lineSpacing: 3,
+    this.mathSupportText = MathTerminal.addSupportPanel(this, overlay, model, {
+      supportMessage: this.mathSupportMessage,
+    }, {
+      onHint: () => this.showMathSupport(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])),
     });
-    overlay.add(this.mathSupportText);
-    overlay.add(new Button(this, 1080, 660, "Aiuto mirato", () => this.showMathSupport(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])), {
-      width: 220,
-      height: 42,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
   }
 
   private openEquationLab(puzzle: GeneratedMathPuzzle): void {
@@ -3456,343 +3047,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-  }
-
-  private drawMathLogicVisualizer(
-    overlay: Phaser.GameObjects.Container,
-    puzzle: GeneratedMathPuzzle,
-    model: MathTerminalModel,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    this.addMathPanel(overlay, x, y, width, height, "Mappa visiva");
-    overlay.add(this.add.text(x + 24, y + 58, "Leggi il problema come un sistema: dati -> regola -> trasformazione -> controllo.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#c7dce7",
-      wordWrap: { width: width - 48 },
-    }));
-
-    const archetype = puzzle.archetype ?? "calcolo-diretto";
-    if (archetype === "frazioni" || archetype === "percentuali" || archetype === "proporzione") {
-      this.drawShareVisualizer(overlay, x, y, width, archetype);
-    } else if (archetype === "geometria") {
-      this.drawGeometryVisualizer(overlay, x, y, width, model.curriculumTags);
-    } else if (archetype === "coordinate") {
-      this.drawCoordinateVisualizer(overlay, x, y);
-    } else if (archetype === "statistica" || archetype === "probabilita" || archetype === "lettura-dati") {
-      this.drawDataVisualizer(overlay, x, y, archetype);
-    } else if (
-      archetype === "funzione-lineare"
-      || archetype === "sistemi-lineari"
-      || archetype === "pre-algebra"
-      || archetype === "ragionamento-inverso"
-      || archetype === "equazione-primo-grado"
-    ) {
-      this.drawAlgebraVisualizer(overlay, x, y, width, archetype);
-    } else if (archetype === "sequenza" || archetype === "potenze-radici") {
-      this.drawSequenceVisualizer(overlay, x, y, archetype);
-    } else {
-      this.drawOperationVisualizer(overlay, x, y, width);
-    }
-
-    this.drawMathReasoningRail(overlay, x + 42, y + height - 82, width - 84, [
-      "Dati",
-      "Regola",
-      "Passaggi",
-      "Verifica",
-    ]);
-  }
-
-  private drawShareVisualizer(
-    overlay: Phaser.GameObjects.Container,
-    x: number,
-    y: number,
-    width: number,
-    archetype: NonNullable<GeneratedMathPuzzle["archetype"]>,
-  ): void {
-    const g = this.add.graphics();
-    const barX = x + 68;
-    const barY = y + 178;
-    const segmentW = (width - 136) / 6;
-    g.fillStyle(0x07151d, 0.9);
-    g.fillRoundedRect(barX - 10, barY - 18, width - 116, 96, 10);
-    for (let index = 0; index < 6; index += 1) {
-      const color = index < 3 ? 0x6be7d6 : index < 5 ? 0xf6c85f : 0x315766;
-      g.fillStyle(color, index < 5 ? 0.58 : 0.22);
-      g.fillRoundedRect(barX + index * segmentW, barY, segmentW - 5, 34, 6);
-      g.lineStyle(1, 0xffffff, 0.1);
-      g.strokeRoundedRect(barX + index * segmentW, barY, segmentW - 5, 34, 6);
-    }
-    overlay.add(g);
-    const label = archetype === "percentuali"
-      ? "100% = intero, poi calcola la quota richiesta"
-      : archetype === "proporzione"
-        ? "Stesso rapporto, scala diversa"
-        : "Quote dello stesso intero, poi resto";
-    overlay.add(this.add.text(x + 72, y + 138, label, {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(x + 74, y + 232, "Non dividere il resto per errore: identifica prima l'intero iniziale.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: width - 140 },
-    }));
-  }
-
-  private drawGeometryVisualizer(
-    overlay: Phaser.GameObjects.Container,
-    x: number,
-    y: number,
-    width: number,
-    tags: string[],
-  ): void {
-    const g = this.add.graphics();
-    const isPythagoras = tags.some((tag) => tag.toLowerCase().includes("pitagora"));
-    g.lineStyle(3, 0x6be7d6, 0.85);
-    g.fillStyle(0x07151d, 0.62);
-    if (isPythagoras) {
-      const ax = x + 126;
-      const ay = y + 284;
-      const bx = x + 126;
-      const by = y + 148;
-      const cx = x + 348;
-      const cy = y + 284;
-      g.fillTriangle(ax, ay, bx, by, cx, cy);
-      g.strokeTriangle(ax, ay, bx, by, cx, cy);
-      g.lineStyle(2, 0xf6c85f, 0.78);
-      g.lineBetween(bx, by, cx, cy);
-      overlay.add(g);
-      overlay.add(this.add.text(x + 164, y + 116, "Triangolo rettangolo: i due lati perpendicolari determinano la diagonale.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#f7d37a",
-        wordWrap: { width: width - 120 },
-      }));
-    } else {
-      g.fillRoundedRect(x + 116, y + 146, 258, 146, 8);
-      g.strokeRoundedRect(x + 116, y + 146, 258, 146, 8);
-      g.lineStyle(2, 0xf6c85f, 0.7);
-      g.strokeRoundedRect(x + 106, y + 136, 278, 166, 10);
-      overlay.add(g);
-      overlay.add(this.add.text(x + 144, y + 116, "Area = spazio interno. Perimetro = bordo esterno.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "14px",
-        color: "#f7d37a",
-        fontStyle: "bold",
-      }));
-    }
-    overlay.add(this.add.text(x + 88, y + 324, "Prima scegli la grandezza giusta, poi applica la formula. Area, perimetro e distanza non misurano la stessa cosa.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: width - 116 },
-    }));
-  }
-
-  private drawCoordinateVisualizer(overlay: Phaser.GameObjects.Container, x: number, y: number): void {
-    const g = this.add.graphics();
-    const originX = x + 142;
-    const originY = y + 304;
-    const cell = 32;
-    g.lineStyle(1, 0x6be7d6, 0.16);
-    for (let i = 0; i <= 7; i += 1) {
-      g.lineBetween(originX, originY - i * cell, originX + 7 * cell, originY - i * cell);
-      g.lineBetween(originX + i * cell, originY, originX + i * cell, originY - 7 * cell);
-    }
-    g.lineStyle(4, 0xf6c85f, 0.82);
-    g.lineBetween(originX + cell, originY - cell, originX + 5 * cell, originY - cell);
-    g.lineBetween(originX + 5 * cell, originY - cell, originX + 5 * cell, originY - 5 * cell);
-    overlay.add(g);
-    overlay.add(this.add.circle(originX + cell, originY - cell, 8, 0x6be7d6, 1));
-    overlay.add(this.add.star(originX + 5 * cell, originY - 5 * cell, 5, 7, 16, 0xf6c85f, 1));
-    overlay.add(this.add.text(x + 84, y + 124, "Conta spostamento orizzontale e verticale: niente diagonali.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-  }
-
-  private drawDataVisualizer(
-    overlay: Phaser.GameObjects.Container,
-    x: number,
-    y: number,
-    archetype: NonNullable<GeneratedMathPuzzle["archetype"]>,
-  ): void {
-    const g = this.add.graphics();
-    const values = [54, 86, 128, 102, 168];
-    values.forEach((value, index) => {
-      g.fillStyle(index === 2 ? 0xf6c85f : 0x6be7d6, index === 2 ? 0.78 : 0.42);
-      g.fillRoundedRect(x + 116 + index * 58, y + 304 - value, 34, value, 6);
-    });
-    g.lineStyle(2, 0x9aaab0, 0.42);
-    g.lineBetween(x + 94, y + 304, x + 414, y + 304);
-    overlay.add(g);
-    const label = archetype === "probabilita"
-      ? "Rapporto -> frequenza attesa"
-      : "Dati -> misura stabile -> codice";
-    overlay.add(this.add.text(x + 112, y + 126, label, {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(x + 98, y + 330, "Non scegliere il numero piu vistoso: controlla quale misura chiede il terminale.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 330 },
-    }));
-  }
-
-  private drawAlgebraVisualizer(
-    overlay: Phaser.GameObjects.Container,
-    x: number,
-    y: number,
-    width: number,
-    archetype: NonNullable<GeneratedMathPuzzle["archetype"]>,
-  ): void {
-    const g = this.add.graphics();
-    const cy = y + 224;
-    const boxes = [
-      {
-        x: x + 90,
-        label: archetype === "ragionamento-inverso"
-          ? "Uscita"
-          : archetype === "equazione-primo-grado"
-            ? "Equilibrio"
-            : "Ingresso x",
-      },
-      {
-        x: x + 242,
-        label: archetype === "sistemi-lineari"
-          ? "Relazioni"
-          : archetype === "equazione-primo-grado"
-            ? "Operazioni inverse"
-            : "Regola",
-      },
-      {
-        x: x + 394,
-        label: archetype === "ragionamento-inverso"
-          ? "Ingresso"
-          : archetype === "equazione-primo-grado"
-            ? "x isolata"
-            : "Uscita y",
-      },
-    ];
-    g.lineStyle(3, 0x6be7d6, 0.6);
-    g.lineBetween(boxes[0].x + 54, cy, boxes[1].x - 54, cy);
-    g.lineBetween(boxes[1].x + 54, cy, boxes[2].x - 54, cy);
-    overlay.add(g);
-    boxes.forEach((box, index) => {
-      overlay.add(this.add.rectangle(box.x, cy, 108, 72, index === 1 ? 0x173b36 : 0x07151d, 0.92).setStrokeStyle(2, index === 1 ? 0xf6c85f : 0x6be7d6, 0.68));
-      overlay.add(this.add.text(box.x, cy, box.label, {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#f5fbff",
-        align: "center",
-        wordWrap: { width: 86 },
-      }).setOrigin(0.5));
-    });
-    const caption = archetype === "sistemi-lineari"
-      ? "Due informazioni insieme isolano le incognite."
-      : archetype === "equazione-primo-grado"
-        ? "Una bilancia resta vera solo se fai la stessa operazione su entrambi i lati."
-        : "Una regola trasforma, l'operazione inversa ricostruisce.";
-    overlay.add(this.add.text(x + 78, y + 126, caption, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: width - 120 },
-    }));
-  }
-
-  private drawSequenceVisualizer(
-    overlay: Phaser.GameObjects.Container,
-    x: number,
-    y: number,
-    archetype: NonNullable<GeneratedMathPuzzle["archetype"]>,
-  ): void {
-    const g = this.add.graphics();
-    const startX = x + 96;
-    const startY = y + 286;
-    const nodes = archetype === "potenze-radici" ? [0, 34, 82, 154] : [0, 42, 92, 156];
-    g.lineStyle(3, 0x6be7d6, 0.48);
-    nodes.forEach((rise, index) => {
-      const px = startX + index * 94;
-      const py = startY - rise;
-      if (index > 0) {
-        const prevX = startX + (index - 1) * 94;
-        const prevY = startY - nodes[index - 1];
-        g.lineBetween(prevX, prevY, px, py);
-      }
-    });
-    overlay.add(g);
-    nodes.forEach((rise, index) => {
-      overlay.add(this.add.circle(startX + index * 94, startY - rise, 16, index === nodes.length - 1 ? 0xf6c85f : 0x6be7d6, 0.82));
-    });
-    overlay.add(this.add.text(x + 82, y + 126, archetype === "potenze-radici" ? "Crescita ripetuta: controlla quante volte applichi la stessa regola." : "Osserva i salti: il prossimo valore nasce dalla regola, non dal caso.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: 360 },
-    }));
-  }
-
-  private drawOperationVisualizer(overlay: Phaser.GameObjects.Container, x: number, y: number, width: number): void {
-    const labels = ["Valore", "Operazione", "Intermedio", "Codice"];
-    labels.forEach((label, index) => {
-      const cx = x + 86 + index * 110;
-      overlay.add(this.add.rectangle(cx, y + 224, 92, 62, index === labels.length - 1 ? 0x173b36 : 0x07151d, 0.92).setStrokeStyle(2, index === labels.length - 1 ? 0xf6c85f : 0x6be7d6, 0.56));
-      overlay.add(this.add.text(cx, y + 224, label, {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#f5fbff",
-        align: "center",
-      }).setOrigin(0.5));
-      if (index < labels.length - 1) {
-        overlay.add(this.add.triangle(cx + 60, y + 224, 0, -7, 14, 0, 0, 7, 0x6be7d6, 0.72));
-      }
-    });
-    overlay.add(this.add.text(x + 82, y + 126, "Trasforma un valore alla volta e conserva i risultati intermedi.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: width - 120 },
-    }));
-  }
-
-  private drawMathReasoningRail(
-    overlay: Phaser.GameObjects.Container,
-    x: number,
-    y: number,
-    width: number,
-    labels: string[],
-  ): void {
-    const g = this.add.graphics();
-    const gap = width / (labels.length - 1);
-    g.lineStyle(2, 0x6be7d6, 0.32);
-    g.lineBetween(x, y, x + width, y);
-    overlay.add(g);
-    labels.forEach((label, index) => {
-      const cx = x + index * gap;
-      overlay.add(this.add.circle(cx, y, 12, index === 0 ? 0xf6c85f : 0x6be7d6, 0.82));
-      overlay.add(this.add.text(cx, y + 24, label, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#d9eaf1",
-      }).setOrigin(0.5));
-    });
   }
 
   private showMathSupport(text: string): void {
@@ -9115,106 +8369,20 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const remaining = this.circuitMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 560, 432, "1 · Leggi lo schema");
-    overlay.add(this.add.text(60, 154, prompt.title, {
-      fontFamily: "Inter, Arial",
-      fontSize: "22px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.rectangle(60, 200, 500, 196, 0x07151d, 0.85).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.3));
-    if (prompt.visual) {
-      this.drawCircuitMinigameSchematic(overlay, prompt.visual, prompt.diagramLines);
-    } else {
-      overlay.add(this.add.text(80, 218, prompt.diagramLines.join("\n"), {
-        fontFamily: "Inter, Arial",
-        fontSize: "16px",
-        color: "#9ff5e9",
-        lineSpacing: 8,
-        wordWrap: { width: 460 },
-      }));
-    }
-    overlay.add(this.add.text(60, 470, `Concetto: ${prompt.concept}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-      wordWrap: { width: 500 },
-    }));
-    overlay.add(this.add.text(60, 498, this.circuitMinigameMethodText(prompt), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: 506, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
-
-    this.addMathPanel(overlay, 616, 112, 636, 432, "2 · Scegli la risposta");
-    overlay.add(this.add.text(648, 154, "Come si gioca: leggi lo schema, clicca UNA risposta e premi Conferma.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 548 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(648, 210, prompt.question, {
-      fontFamily: "Inter, Arial",
-      fontSize: prompt.question.length > 92 ? "16px" : "18px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      wordWrap: { width: 548, useAdvancedWrap: true },
-      lineSpacing: 5,
-    }));
-
-    const tileStartX = 802;
-    const tileStartY = 320;
-    prompt.tiles.forEach((tile, index) => {
-      const selected = session.selectedIds.has(tile.id);
-      const col = index % 2;
-      const row = Math.floor(index / 2);
-      overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 70, `${selected ? "✓ " : ""}${tile.label}`, () => this.toggleCircuitMinigameTile(tile.id), {
-        width: 226,
-        height: 54,
-        fontSize: tile.label.length > 26 ? 11 : tile.label.length > 16 ? 13 : 16,
-        wordWrapWidth: 204,
-        fill: selected ? 0x174d42 : 0x263743,
-        stroke: selected ? 0xf7d37a : 0x6be7d6,
-      }));
+    this.circuitMinigameTimerText = CircuitConsole.addMinigamePrompt(this, overlay, prompt, {
+      selectedIds: session.selectedIds,
+      remainingLabel: formatDuration(remaining),
+      remainingDanger: remaining <= 10_000,
+      streak: session.streak,
+      netScore: session.netScore,
+      accuracy,
+      feedback: session.feedback,
+      scoringRule: puzzle.minigame.scoringRule,
+    }, {
+      onToggleTile: (tileId) => this.toggleCircuitMinigameTile(tileId),
+      onConfirm: () => this.confirmCircuitMinigamePrompt(),
+      onHint: () => this.useCircuitMinigameHint(),
     });
-
-    this.addMathPanel(overlay, 28, 558, 1224, 130, "3 · Conferma e controlla l'esito");
-    this.circuitMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
-      fontStyle: "bold",
-    });
-    overlay.add(this.circuitMinigameTimerText);
-    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 640 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: session.feedback ? "#f7d37a" : "#9aaab0",
-      wordWrap: { width: 390, useAdvancedWrap: true },
-    }));
-    overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmCircuitMinigamePrompt(), {
-      width: 220,
-      height: 44,
-      fontSize: 14,
-      fill: 0x173b36,
-    }));
-    overlay.add(new Button(this, 820, 640, "Indizio", () => this.useCircuitMinigameHint(), {
-      width: 180,
-      height: 44,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
 
     this.circuitMinigameTimerEvent?.remove(false);
     if (session.startedAt <= 0) session.startedAt = Date.now();
@@ -9224,72 +8392,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       callback: () => this.refreshCircuitMinigameTimer(),
     });
     this.refreshCircuitMinigameTimer();
-  }
-
-  private drawCircuitMinigameSchematic(
-    overlay: Phaser.GameObjects.Container,
-    visual: CircuitMinigameVisual,
-    captionLines: string[],
-    energized = false,
-  ): void {
-    if (visual.kind === "component") {
-      overlay.add(this.add.text(80, 214, "Osserva il simbolo:", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#9aaab0",
-      }));
-      const cx = 310;
-      const cy = 312;
-      const color = 0x9ff5e9;
-      switch (visual.component) {
-        case "battery": drawBatterySymbol(this, overlay, cx, cy, 0xf6c85f); break;
-        case "switch": drawSwitchSymbol(this, overlay, cx, cy, color, true, false); break;
-        case "resistor": drawResistorSymbol(this, overlay, cx, cy, color, false, false); break;
-        case "led": drawLedSymbol(this, overlay, cx, cy, color, false, false, false); break;
-        case "capacitor": drawCapacitorSymbol(this, overlay, cx, cy, color, false); break;
-        case "sensor": drawSensorSymbol(this, overlay, cx, cy, color, false); break;
-        case "relay": drawRelaySymbol(this, overlay, cx, cy, color, false); break;
-        case "motor": drawMotorSymbol(this, overlay, cx, cy, color, false); break;
-        case "ground": drawGroundSymbol(this, overlay, cx, cy, color, false); break;
-        default: break;
-      }
-      return;
-    }
-
-    // led-circuit: a small horizontal schematic the learner must read.
-    const y = 296;
-    const wire = this.add.graphics();
-    wire.lineStyle(3, 0x6be7d6, 0.5);
-    wire.lineBetween(78, y, 542, y);
-    overlay.add(wire);
-    drawBatterySymbol(this, overlay, 116, y, 0xf6c85f);
-    drawSwitchSymbol(this, overlay, 212, y, visual.switchClosed ? 0x9ff5e9 : 0xffb36b, visual.switchClosed, false);
-    drawResistorSymbol(this, overlay, 312, y, visual.hasResistor ? 0x9ff5e9 : 0xffb36b, !visual.hasResistor, false);
-    // The LED glow (lit) is the OUTCOME the student must predict: never reveal it
-    // before the circuit is energised, or the answer would be drawn on screen.
-    drawLedSymbol(this, overlay, 402, y, visual.ledForward ? 0x9ff5e9 : 0xffb36b, !visual.ledForward, energized && visual.lit, false);
-    drawReturnSymbol(this, overlay, 520, y, 0x9ff5e9);
-    if (visual.hasOpen) {
-      const gap = this.add.graphics();
-      gap.lineStyle(4, 0xff6b6b, 0.95);
-      gap.lineBetween(455, y - 14, 475, y + 14);
-      gap.lineBetween(475, y - 14, 455, y + 14);
-      overlay.add(gap);
-    }
-    overlay.add(this.add.text(80, 360, captionLines.join("  ·  "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 460 },
-      lineSpacing: 3,
-    }));
-    if (!energized) {
-      overlay.add(this.add.text(80, 386, "⚡ Conferma per alimentare il circuito e vedere cosa fa il LED.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#f7d37a",
-      }));
-    }
   }
 
   /**
@@ -9557,69 +8659,33 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private showCircuitMinigameSummary(session: CircuitMinigameSession): void {
     const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
-    const modal = this.add.container(0, 0).setDepth(1300);
     const passed = this.circuitMinigamePassed(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
     const mode = proceduralRunRules.modeFor(this.run);
-    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
-    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
-    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
-      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
-    modal.add(this.add.text(230, 160, passed ? "Sprint circuiti completato" : "Sprint circuiti da consolidare", {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: passed ? "#9ff5e9" : "#f7d37a",
-      fontStyle: "bold",
-    }));
-    modal.add(this.add.text(230, 210, [
-      `Risposte corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie migliore: ${session.bestStreak}`,
-      `Punti sprint: ${session.netScore}`,
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f5fbff",
-      lineSpacing: 7,
-    }));
-    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
-      .setStrokeStyle(1, 0x6be7d6, 0.3));
-    modal.add(this.add.text(572, 234, this.circuitMinigameFeedback(session), {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 354 },
-      lineSpacing: 5,
-    }));
-    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
-      .setStrokeStyle(1, 0xf7d37a, 0.36));
-    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
-      ? passed
-        ? "La console elettronica certifica le tue risposte: componenti, percorso e valori sono coerenti."
-        : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
-      : "Allenamento registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 690 },
-      lineSpacing: 4,
-    }));
-    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
-      modal.destroy(true);
-      if (!passed && (mode === "mission" || mode === "progressive")) {
-        this.loseMissionLife("sprint circuiti sotto soglia: servono più risposte corrette con meno tentativi.");
-        return;
-      }
-      this.completeCircuitMinigame(session);
+    CircuitConsole.addMinigameSummary(this, overlay, {
+      passed,
+      correct: session.correct,
+      wrong: session.wrong,
+      accuracy,
+      bestStreak: session.bestStreak,
+      netScore: session.netScore,
+      feedback: this.circuitMinigameFeedback(session),
+      resolutionText: (mode === "mission" || mode === "progressive")
+        ? passed
+          ? "La console elettronica certifica le tue risposte: componenti, percorso e valori sono coerenti."
+          : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
+        : "Allenamento registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.",
+      actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
-      width: 270,
-      height: 54,
-      fill: passed ? 0x173b36 : 0x263743,
-      stroke: passed ? 0x6be7d6 : 0xf7d37a,
-      fontSize: 16,
-    }));
-    overlay.add(modal);
+      onAction: (modal) => {
+        modal.destroy(true);
+        if (!passed && (mode === "mission" || mode === "progressive")) {
+          this.loseMissionLife("sprint circuiti sotto soglia: servono più risposte corrette con meno tentativi.");
+          return;
+        }
+        this.completeCircuitMinigame(session);
+      },
+    });
   }
 
   private completeCircuitMinigame(session: CircuitMinigameSession): void {
@@ -9689,19 +8755,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       score: proceduralScoring.addToSummary(run.score, score),
     });
     return score;
-  }
-
-  private circuitMinigameMethodText(prompt: CircuitMinigamePrompt): string {
-    if (prompt.type === "component-id") {
-      return "Metodo: associa nome, simbolo e funzione. Ogni componente ha un ruolo preciso nel circuito.";
-    }
-    if (prompt.type === "predict-led") {
-      return "Metodo: percorso chiuso? polarità giusta? resistenza che protegge? Solo allora il LED si accende.";
-    }
-    if (prompt.type === "ohms-law") {
-      return "Metodo: V = R × I. Scrivi la formula, isola la grandezza richiesta, poi calcola.";
-    }
-    return "Metodo: in serie le resistenze si sommano; in parallelo la totale scende e passa più corrente.";
   }
 
   private currentCircuitPuzzle(): GeneratedCircuitPuzzle {
@@ -9999,45 +9052,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       music: "mission-bg-music",
       physics: "mission-bg-synthesis",
     }[kind];
-  }
-
-  private addLanguageBrief(overlay: Phaser.GameObjects.Container, model: LanguageRepairModel): void {
-    overlay.add(this.add.rectangle(316, 397, 520, 330, 0x07151d, 0.84).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(76, 246, "Come decidere", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(76, 274, model.diagnosticSteps.slice(0, 3).map((step, index) => `${index + 1}. ${step}`).join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 456, useAdvancedWrap: true },
-      lineSpacing: 6,
-    }));
-    overlay.add(this.add.text(76, 410, "Obiettivo", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(76, 438, model.repairGoal, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 456, useAdvancedWrap: true },
-      lineSpacing: 4,
-    }));
-    const activeHint = this.currentActiveHint();
-    if (activeHint) {
-      overlay.add(this.add.text(76, 494, "Indizio attivo", {
-        fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", fontStyle: "bold",
-      }));
-      overlay.add(this.add.text(76, 516, activeHint, {
-        fontFamily: "Inter, Arial", fontSize: "11px", color: "#d9eaf1", wordWrap: { width: 456, useAdvancedWrap: true },
-      }));
-    }
   }
 
   private addEnglishBrief(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {

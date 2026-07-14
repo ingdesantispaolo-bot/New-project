@@ -1,4 +1,5 @@
 import { settingsSystem } from "../core/SettingsSystem";
+import Phaser from "phaser";
 import { noraCompanion, type NoraMoodMemoryKey } from "../core/NoraCompanion";
 
 export type NoraPresenceMood = "calm" | "thinking" | "happy" | "alert" | "hurt" | "guardian";

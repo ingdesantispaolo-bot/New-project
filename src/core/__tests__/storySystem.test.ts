@@ -94,6 +94,46 @@ describe("StorySystem — Diario di Bordo & bivi", () => {
     expect(storySystem.canChooseWonder({ masteredSubjects: 8 })).toBe(false);
   });
 
+  it("syncs Diario reveals from completed chapters and mastered subjects", () => {
+    const revealed = storySystem.syncProgress({
+      completedMissionIds: ["mission-01-laboratorio-spento", "mission-04-archivio-parole"],
+      masteredFocuses: ["latino"],
+    });
+    const ids = revealed.map((f) => f.id);
+    expect(ids).toContain("atto1-reattore-presente"); // ch1 → reattore
+    expect(ids).toContain("atto1-data-passato"); // ch4 → data-core
+    expect(ids).toContain("atto2-glifi-passato"); // latino → glifi
+    // Idempotent: syncing again reveals nothing new.
+    expect(storySystem.syncProgress({ completedMissionIds: ["mission-01-laboratorio-spento"] })).toHaveLength(0);
+  });
+
+  it("surfaces the right bivio at the right time", () => {
+    expect(storySystem.pendingChoice()).toBeNull();
+    storySystem.recordPonteComplete("reattore");
+    expect(storySystem.pendingChoice()).toBe("firstPower");
+    storySystem.chooseFirstPower("bio");
+    expect(storySystem.pendingChoice()).toBeNull();
+
+    storySystem.recordPonteComplete("risonanza");
+    expect(storySystem.pendingChoice()).toBe("guardian");
+    storySystem.applyChoice("guardian", "ally");
+    expect(storySystem.pendingChoice()).toBeNull();
+
+    storySystem.recordPonteComplete("comando");
+    expect(storySystem.pendingChoice()).toBe("ending");
+  });
+
+  it("locks the Meraviglia option in the ending prompt until earned", () => {
+    const locked = storySystem.choicePrompt("ending", { masteredSubjects: 0 });
+    expect(locked.options.find((o) => o.id === "wonder")?.locked).toBe(true);
+
+    ALL_PONTI.forEach((p) => storySystem.recordPonteComplete(p));
+    storySystem.chooseFirstPower("data");
+    storySystem.chooseGuardian("ally");
+    const open = storySystem.choicePrompt("ending", { masteredSubjects: 6 });
+    expect(open.options.find((o) => o.id === "wonder")?.locked).toBe(false);
+  });
+
   it("reveals the matching ending fragment once chosen", () => {
     storySystem.recordPonteComplete("citta");
     const ids = () => storySystem.unlockedFragments().map((f) => f.id);

@@ -191,6 +191,7 @@ export class MainMenuScene extends Phaser.Scene {
     tool(908, 296, "📐 Atlante", "MathStudyScene");
     tool(1124, 296, "🤖 NORA", "NoraScene", 0x173b36, 0x9ff5e9);
     tool(908, 344, "👩‍🏫 Quadro Docente", "TeacherDashboardScene", 0x2a3550, 0x9f8cff);
+    tool(1124, 344, "🚀 Diario di Bordo", "DiarioScene", 0x2a1f3a, 0xf6c85f);
 
     // ===== I TUOI PROGRESSI (rango, storia, difficoltà adattiva) =====
     const prog = progressionSystem.getProgression();

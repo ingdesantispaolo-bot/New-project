@@ -2,10 +2,12 @@ import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { noraContextEngine } from "../core/NoraContextEngine";
 import { noraCompanion, type NoraTalkChoice, type NoraTone } from "../core/NoraCompanion";
+import { noraKnowledge } from "../core/NoraKnowledge";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { settingsSystem } from "../core/SettingsSystem";
+import type { ProceduralPuzzleKind } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
@@ -210,6 +212,13 @@ export class NoraScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     });
+    new Button(this, x + 546, y + 28, "Ripasso", () => this.showRecommendedTheory(), {
+      width: 120,
+      height: 30,
+      fontSize: 11,
+      fill: 0x173b36,
+      stroke: 0xf6c85f,
+    });
     const body = [roomLine, ...messages.slice(0, 2)].join("\n");
     this.talkText = this.add.text(x + 22, y + 50, body, {
       fontFamily: "Inter, Arial",
@@ -226,6 +235,26 @@ export class NoraScene extends Phaser.Scene {
       lineSpacing: 3,
     });
     this.drawTalkChoices(x + 28, y + 204);
+  }
+
+  private showRecommendedTheory(): void {
+    const topic = this.recommendedTheoryTopic();
+    if (!topic) return;
+    this.talkText?.setText(`«${noraKnowledge.noraBrief(topic)}»`);
+    audioManager.play("uiSelect");
+  }
+
+  private recommendedTheoryTopic() {
+    const validKinds = new Set<ProceduralPuzzleKind>(["language", "latin", "circuit", "math", "english", "robot", "coding", "music", "physics"]);
+    const topMemory = Object.entries(saveSystem.data.learningMemory ?? {})
+      .filter(([key]) => validKinds.has(key.split(":")[0] as ProceduralPuzzleKind))
+      .sort((a, b) => b[1].count - a[1].count)[0];
+    if (topMemory) {
+      const kind = topMemory[0].split(":")[0] as ProceduralPuzzleKind;
+      const topic = noraKnowledge.topicForPuzzle(kind);
+      if (topic) return topic;
+    }
+    return noraKnowledge.topics()[0];
   }
 
   private drawMemories(): void {

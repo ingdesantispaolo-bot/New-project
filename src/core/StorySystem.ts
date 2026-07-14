@@ -34,6 +34,28 @@ export type StoryChoices = {
   ending?: EndingChoice;
 };
 
+export type StoryChoiceKind = "firstPower" | "guardian" | "ending";
+
+export type StoryChoiceOption = {
+  id: string;
+  label: string;
+  consequence: string;
+  /** Texture key for a small preview of the outcome. */
+  art?: string;
+  locked?: boolean;
+  lockHint?: string;
+};
+
+export type StoryChoicePrompt = {
+  kind: StoryChoiceKind;
+  eyebrow: string;
+  title: string;
+  body: string;
+  /** Full-screen cutscene background texture key. */
+  art?: string;
+  options: StoryChoiceOption[];
+};
+
 export type StoryState = {
   choices: StoryChoices;
   /** Ponti completati (id), sorgente di verità per lo sblocco del Diario. */
@@ -306,11 +328,130 @@ class StorySystem {
     return endings;
   }
 
+  /**
+   * Pull-based sync from the rest of the game: maps completed campaign chapters
+   * and mastered explorable subjects to the ponti they unlock, then records them.
+   * Non-invasive — nothing in the campaign flow needs to know StorySystem exists.
+   * Returns the fragments newly revealed by this sync (for a toast).
+   */
+  syncProgress(input: { completedMissionIds?: string[]; masteredFocuses?: string[] }): DiarioFragment[] {
+    const before = new Set(this.unlockedFragments().map((fragment) => fragment.id));
+    const state = this.state();
+    const toAdd = new Set<PonteId>();
+    for (const missionId of input.completedMissionIds ?? []) {
+      const ponte = MISSION_TO_PONTE[missionId];
+      if (ponte && !state.pontiComplete.includes(ponte)) toAdd.add(ponte);
+    }
+    for (const focus of input.masteredFocuses ?? []) {
+      const ponte = FOCUS_TO_PONTE[focus];
+      if (ponte && !state.pontiComplete.includes(ponte)) toAdd.add(ponte);
+    }
+    if (toAdd.size > 0) {
+      state.pontiComplete = [...state.pontiComplete, ...toAdd];
+      this.persist(state);
+    }
+    return this.unlockedFragments().filter((fragment) => !before.has(fragment.id));
+  }
+
+  /**
+   * The bivio that is due now, if any: its precondition ponte is reactivated but
+   * the choice hasn't been made yet. Context-free — surface it wherever the
+   * player next appears (the hub checks this on entry).
+   */
+  pendingChoice(): StoryChoiceKind | null {
+    const state = this.state();
+    if (state.pontiComplete.includes("reattore") && !state.choices.firstPower) return "firstPower";
+    if (state.pontiComplete.includes("risonanza") && !state.choices.guardian) return "guardian";
+    if (state.pontiComplete.includes("comando") && !state.choices.ending) return "ending";
+    return null;
+  }
+
+  /** The full prompt (copy + options + art) for a bivio, ready to render. */
+  choicePrompt(kind: StoryChoiceKind, context: { masteredSubjects: number }): StoryChoicePrompt {
+    if (kind === "firstPower") {
+      return {
+        kind,
+        eyebrow: "Bivio · Atto I",
+        title: "Dove mandi l'energia?",
+        body: "Il reattore è ancora debole: la corrente basta per un ponte alla volta. Da dove cominci?",
+        art: "story-primi-relitto",
+        options: [
+          { id: "bio", label: "Al Bio-ponte", consequence: "Salvi il giardino dei Primi: semi e rimedi. Ma la memoria resta offline più a lungo.", art: "area-bio-ponte-primi" },
+          { id: "data", label: "Al Data-core", consequence: "Recuperi prima i ricordi di NORA: indizi in anticipo. Ma perdi alcune specie del giardino.", art: "area-data-core-primi" },
+        ],
+      };
+    }
+    if (kind === "guardian") {
+      return {
+        kind,
+        eyebrow: "Bivio · Atto II",
+        title: "Il Guardiano ti sbarra la strada",
+        body: "Il sistema di difesa dei Primi ti mette alla prova. «Dimostrami che vuoi capire, non rubare.» Come rispondi?",
+        art: "story-primi-guardiano-broken",
+        options: [
+          { id: "ally", label: "Provagli il tuo valore", consequence: "Superi le sue prove: diventa alleato e ti apre il Ponte di Comando. Ti coprirà nel finale.", art: "story-primi-guardiano-alleato" },
+          { id: "hostile", label: "Forzalo e vai avanti", consequence: "Lo aggiri di corsa: arrivi prima, ma resta ostile e nel finale non ti coprirà.", art: "story-primi-guardiano-broken" },
+        ],
+      };
+    }
+    const wonderUnlocked = this.canChooseWonder(context);
+    return {
+      kind,
+      eyebrow: "Bivio · Il finale",
+      title: "La Scelta della Chiave",
+      body: "La nave è quasi sveglia. NORA e il Guardiano tacciono: questa scelta spetta a te.",
+      art: "story-primi-relitto",
+      options: [
+        { id: "silence", label: "Rimettila a dormire", consequence: "La proteggi dal rivale. Sicuro, saggio — ma resta il rimpianto di ciò che non hai svegliato.", art: "story-primi-finale-dormiente" },
+        { id: "fire", label: "Accendila del tutto", consequence: "Potenza immensa e città salva. Ma senza aver capito abbastanza, rischi di ripetere la caduta dei Primi.", art: "story-primi-finale-accesa" },
+        {
+          id: "wonder",
+          label: "Capire prima di svegliare",
+          consequence: "La via vera: NORA e il Guardiano tornano una mente sola, e la nave si affida a te. Custode, non padrona.",
+          art: "story-primi-finale-eli",
+          locked: !wonderUnlocked,
+          lockHint: `Serve il Guardiano alleato, ${WONDER_MASTERY_REQUIRED} materie padroneggiate e ${WONDER_DIARIO_REQUIRED} pagine del Diario.`,
+        },
+      ],
+    };
+  }
+
+  /** The chosen ending's canonical title + text, or null if not yet decided. */
+  endingSummary(): { id: EndingChoice; title: string; text: string } | null {
+    const ending = this.state().choices.ending;
+    if (!ending) return null;
+    const fragment = FRAGMENTS.find((item) => item.id === `atto3-finale-${ending}`);
+    return fragment ? { id: ending, title: fragment.title, text: fragment.text } : null;
+  }
+
+  /** Records the picked option for a bivio; returns any Diario pages it reveals. */
+  applyChoice(kind: StoryChoiceKind, optionId: string): DiarioFragment[] {
+    if (kind === "firstPower") return this.chooseFirstPower(optionId as FirstPowerChoice);
+    if (kind === "guardian") return this.chooseGuardian(optionId as GuardianChoice);
+    return this.chooseEnding(optionId as EndingChoice);
+  }
+
   /** Full reset (a new game / profile wipe). */
   reset(): void {
     this.persist(this.empty());
   }
 }
+
+/** Campaign chapter (missionId) → the ponte whose Diario page it reactivates. */
+const MISSION_TO_PONTE: Record<string, PonteId> = {
+  "mission-01-laboratorio-spento": "reattore",
+  "mission-02-serra-biologica": "bio-ponte",
+  "mission-03-fabbrica-numeri": "fabbricatore",
+  "mission-04-archivio-parole": "data-core",
+  "mission-05-atlante-perduto": "comando",
+  "mission-06-citta-intelligente": "citta",
+};
+
+/** The two explorable-only ponti (Atto II) unlock by mastering their subject. */
+const FOCUS_TO_PONTE: Record<string, PonteId> = {
+  latino: "glifi",
+  musica: "risonanza",
+};
 
 const PONTE_LABELS: Record<PonteId, string> = {
   reattore: "il Reattore",

@@ -1,6 +1,5 @@
 import Phaser from "phaser";
-import { italianStudyPages } from "../data/italianStudyPages";
-import { mathStudyPages } from "../data/mathStudyPages";
+import { theorySubjectLabels, theoryTopics, type TheorySubject, type TheoryTopic } from "../data/theoryCatalog";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { difficultyModel } from "../procedural/DifficultyModel";
 import { LanguageCorruptionGenerator } from "../procedural/generators/LanguageCorruptionGenerator";
@@ -9,13 +8,13 @@ import { Random } from "../procedural/Random";
 import { saveSystem } from "../core/SaveSystem";
 import { exerciseDirector } from "../core/ExerciseDirector";
 import { startScene } from "../core/SceneNavigator";
-import type { DifficultyLevel, ProceduralRunSave } from "../procedural/ProceduralTypes";
+import type { DifficultyLevel, ProceduralPuzzleKind, ProceduralRunSave } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
-const studyPages = [...mathStudyPages, ...italianStudyPages];
+const studyPages = theoryTopics;
 
 export class MathStudyScene extends Phaser.Scene {
   private pageIndex = 0;
@@ -54,7 +53,7 @@ export class MathStudyScene extends Phaser.Scene {
       color: "#f5fbff",
       fontStyle: "bold",
     });
-    this.add.text(56, 74, "Matematica e italiano: definizioni, schemi, regole operative, esempi guidati ed errori tipici.", {
+    this.add.text(56, 74, "Teoria breve e densa per tutte le materie: definizioni, schemi, esempi guidati ed errori tipici.", {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#c7dce7",
@@ -93,7 +92,7 @@ export class MathStudyScene extends Phaser.Scene {
         width: 248,
         height: 38,
         fill: selected ? 0x1f5a51 : 0x142736,
-        stroke: selected ? 0xf6c85f : this.areaColor(page.area),
+        stroke: selected ? 0xf6c85f : this.areaColor(page),
         fontSize: 11,
         wordWrapWidth: 220,
       });
@@ -109,18 +108,25 @@ export class MathStudyScene extends Phaser.Scene {
     }, { width: 100, height: 36, fill: 0x263743, fontSize: 13 });
   }
 
-  private areaColor(area: string): number {
-    if (area === "Numeri") return 0x6be7d6;
-    if (area === "Geometria") return 0xf6c85f;
-    if (area === "Relazioni e funzioni") return 0x9f8cff;
-    if (area === "Italiano - verbi") return 0x70d68a;
-    if (area === "Italiano - grammatica") return 0x9f8cff;
+  private areaColor(page: TheoryTopic): number {
+    if (page.subject === "matematica") {
+      if (page.area === "Geometria") return 0xf6c85f;
+      if (page.area === "Relazioni e funzioni") return 0x9f8cff;
+      return 0x6be7d6;
+    }
+    if (page.subject === "italiano") return 0x70d68a;
+    if (page.subject === "inglese") return 0x7ad7ff;
+    if (page.subject === "elettronica") return 0xffd166;
+    if (page.subject === "coding") return 0x9ff5e9;
+    if (page.subject === "musica") return 0xcdbfff;
+    if (page.subject === "fisica") return 0x8fd3ff;
+    if (page.subject === "latino") return 0xf2b880;
     return 0x70d68a;
   }
 
   private drawStudyPage(): void {
     const page = studyPages[this.pageIndex];
-    const accent = this.areaColor(page.area);
+    const accent = this.areaColor(page);
     this.add.rectangle(782, 388, 820, 520, 0x07151d, 0.9).setOrigin(0.5).setStrokeStyle(2, accent, 0.42);
 
     this.add.text(402, 138, page.title, {
@@ -138,7 +144,7 @@ export class MathStudyScene extends Phaser.Scene {
       color: "#f5fbff",
       fontStyle: "bold",
     }).setOrigin(0.5);
-    this.add.text(1086, 178, `${page.subject === "italiano" ? "Italiano" : "Matematica"} · Profondità ${page.levelRange[0]}-${page.levelRange[1]}  ·  ${page.tags.join(" · ")}`, {
+    this.add.text(1086, 178, `${theorySubjectLabels[page.subject]} · Profondità ${page.levelRange[0]}-${page.levelRange[1]}  ·  ${page.tags.join(" · ")}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
@@ -162,7 +168,7 @@ export class MathStudyScene extends Phaser.Scene {
       color: "#f6c85f",
       fontStyle: "bold",
     });
-    page.formulas.slice(0, 6).forEach((formula, index) => {
+    page.coreRules.slice(0, 6).forEach((formula, index) => {
       const y = 306 + index * 27;
       this.add.rectangle(420, y, 340, 23, 0x12303a, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.18);
       this.add.text(430, y + 3, formula, {
@@ -181,7 +187,7 @@ export class MathStudyScene extends Phaser.Scene {
       color: String(accent === 0xf6c85f ? "#f7d37a" : "#9ff5e9"),
       fontStyle: "bold",
     });
-    this.add.text(808, 306, page.rules.map((rule, index) => `${index + 1}. ${rule}`).join("\n"), {
+    this.add.text(808, 306, page.method.map((rule, index) => `${index + 1}. ${rule}`).join("\n"), {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -247,9 +253,10 @@ export class MathStudyScene extends Phaser.Scene {
       this.pageIndex = nextIndex;
       this.scene.restart({ pageId: studyPages[nextIndex].id, listOffset: this.listOffsetFor(nextIndex) });
     }, { width: 176, height: 42, fill: 0x263743, fontSize: 12 });
-    new Button(this, 826, 672, page.subject === "italiano" ? "Laboratorio Verbi" : "Officina dei Grafici", () => {
-      if (page.subject === "italiano") this.startItalianVerbTraining();
-      else this.startGraphWorkshop();
+    new Button(this, 826, 672, this.primaryTrainingLabel(page), () => {
+      if (page.subject === "italiano" && page.tags.includes("verbi")) this.startItalianVerbTraining();
+      else if (page.subject === "matematica" && (page.tags.includes("funzioni") || page.tags.includes("punti"))) this.startGraphWorkshop();
+      else this.startTopicTraining(page);
     }, {
       width: 244,
       height: 42,
@@ -257,15 +264,58 @@ export class MathStudyScene extends Phaser.Scene {
       stroke: 0xf6c85f,
       fontSize: 13,
     });
-    new Button(this, 1088, 672, page.subject === "italiano" ? "Settore italiano" : "Calibrazione mista", () => {
-      if (page.subject === "italiano") this.startItalianTraining();
-      else this.startMathTraining();
+    new Button(this, 1088, 672, `Percorso ${theorySubjectLabels[page.subject]}`, () => {
+      this.startSubjectTraining(page.subject, page.levelRange);
     }, {
       width: 244,
       height: 42,
       fill: 0x173b36,
       fontSize: 13,
     });
+  }
+
+  private primaryTrainingLabel(page: TheoryTopic): string {
+    if (page.subject === "italiano" && page.tags.includes("verbi")) return "Laboratorio Verbi";
+    if (page.subject === "matematica" && (page.tags.includes("funzioni") || page.tags.includes("punti"))) return "Officina dei Grafici";
+    return "Allenati su questa scheda";
+  }
+
+  private startTopicTraining(page: TheoryTopic): void {
+    this.startSubjectTraining(page.subject, page.levelRange, page.linkedPuzzleKinds[0]);
+  }
+
+  private startSubjectTraining(subject: TheorySubject, range: [number, number], autoOpenPuzzle?: ProceduralPuzzleKind): void {
+    const level = this.studyLevelFor(range);
+    const mission = proceduralDirector.generateFreshMission(level, [subject]);
+    const startedAt = new Date().toISOString();
+    const run: ProceduralRunSave = {
+      seed: mission.seed,
+      difficulty: mission.difficulty,
+      focus: [subject],
+      mode: "training",
+      mission,
+      hintsUsed: 0,
+      solvedPuzzleIds: [],
+      score: { total: 0, byPuzzle: {}, byDomain: {} },
+      puzzleStats: {},
+      startedAt,
+    };
+    saveSystem.setProceduralRun(run);
+    void startScene(this, "ProceduralMissionScene", { autoOpenPuzzle: autoOpenPuzzle ?? this.defaultPuzzleForSubject(subject) });
+  }
+
+  private defaultPuzzleForSubject(subject: TheorySubject): ProceduralPuzzleKind {
+    const defaultPuzzleBySubject: Record<TheorySubject, ProceduralPuzzleKind> = {
+      matematica: "math",
+      italiano: "language",
+      inglese: "english",
+      elettronica: "circuit",
+      coding: "coding",
+      musica: "music",
+      fisica: "physics",
+      latino: "latin",
+    };
+    return defaultPuzzleBySubject[subject];
   }
 
   private startMathTraining(): void {

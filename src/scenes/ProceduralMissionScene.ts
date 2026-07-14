@@ -18,6 +18,7 @@ import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { noraVoice, type NoraBeat } from "../core/NoraVoice";
+import { noraKnowledge } from "../core/NoraKnowledge";
 import { noraChip } from "../ui/NoraChip";
 import { noraPresence } from "../ui/NoraPresence";
 import { languageTemplates } from "../data/procedural/languageTemplates";
@@ -75,6 +76,7 @@ import type {
   ProceduralPuzzleScore,
   ProceduralRunSave,
 } from "../procedural/ProceduralTypes";
+import type { TheoryTopic } from "../data/theoryCatalog";
 import { Button } from "../ui/Button";
 import { outcomeFeedback, type OutcomeTone } from "../ui/OutcomeFeedback";
 import { SceneChrome } from "../ui/SceneChrome";
@@ -3193,6 +3195,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontSize: 18,
       fill: 0x263743,
     }));
+    this.addNoraTheoryButton(overlay, 1082, 48);
     this.overlay = overlay;
     return overlay;
   }
@@ -9305,6 +9308,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontSize: 18,
       fill: 0x263743,
     }));
+    this.addNoraTheoryButton(overlay, 1066, 34);
     this.overlay = overlay;
     return overlay;
   }
@@ -9439,6 +9443,184 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontSize: "12px",
       color: "#d9eaf1",
       wordWrap: { width: width - 24 },
+    }));
+  }
+
+  private addNoraTheoryButton(overlay: Phaser.GameObjects.Container, x: number, y: number): void {
+    const kind = this.activePuzzleKind;
+    if (!kind || !this.noraTheoryTopicFor(kind)) return;
+    overlay.add(new Button(this, x, y, "Teoria NORA", () => this.showNoraTheoryPanel(kind), {
+      width: 148,
+      height: 38,
+      fontSize: 12,
+      fill: 0x173b36,
+      stroke: 0xf6c85f,
+    }));
+  }
+
+  private noraTheoryTopicFor(kind: ProceduralPuzzleId): TheoryTopic | undefined {
+    return noraKnowledge.topicForPuzzle(kind, this.currentPuzzleForTheory(kind));
+  }
+
+  private currentPuzzleForTheory(kind: ProceduralPuzzleId):
+    | GeneratedLanguagePuzzle
+    | GeneratedLatinPuzzle
+    | GeneratedCircuitPuzzle
+    | GeneratedMathPuzzle
+    | GeneratedEnglishPuzzle
+    | GeneratedRobotPuzzle
+    | GeneratedCodingPuzzle
+    | GeneratedMusicPuzzle
+    | GeneratedPhysicsPuzzle {
+    switch (kind) {
+      case "language": return this.currentLanguagePuzzle();
+      case "latin": return this.currentLatinPuzzle();
+      case "circuit": return this.currentCircuitPuzzle();
+      case "math": return this.currentMathPuzzle();
+      case "english": return this.currentEnglishPuzzle();
+      case "robot": return this.currentRobotPuzzle();
+      case "coding": return this.currentCodingPuzzle();
+      case "music": return this.currentMusicPuzzle();
+      case "physics": return this.currentPhysicsPuzzle();
+    }
+  }
+
+  private showNoraTheoryPanel(kind: ProceduralPuzzleId): void {
+    const topic = this.noraTheoryTopicFor(kind);
+    if (!topic) {
+      feedbackSystem.publish("NORA non ha ancora una scheda teorica pronta per questa console.", "hint");
+      return;
+    }
+    audioManager.playOutcome("hint");
+    noraPresence.speak(this, noraKnowledge.noraBrief(topic), "info", 5200);
+
+    const modal = this.add.container(0, 0).setDepth(1800);
+    SceneChrome.modalInputBlocker(this, modal);
+    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02080d, 0.58));
+    modal.add(VisualKit.glassPanel(this, 210, 82, 860, 556, "archive", 0.96));
+    modal.add(this.add.rectangle(210, 82, 860, 5, 0xf6c85f, 0.95).setOrigin(0));
+    modal.add(this.add.text(244, 112, `NORA spiega · ${topic.title}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "25px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 760 },
+    }));
+    modal.add(this.add.text(246, 148, `${topic.area} · profondità ${topic.levelRange[0]}-${topic.levelRange[1]} · ${topic.tags.slice(0, 4).join(" · ")}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      wordWrap: { width: 760 },
+    }));
+
+    this.drawTheoryIllustration(modal, topic, 248, 188);
+    modal.add(this.add.text(512, 192, topic.noraExplanation, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#eaf4f8",
+      wordWrap: { width: 500, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+    modal.add(this.add.text(512, 286, `Metodo: ${topic.method.slice(0, 3).join("  ->  ")}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      wordWrap: { width: 500, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+
+    modal.add(this.add.rectangle(246, 384, 786, 124, 0x07151d, 0.78).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.28));
+    modal.add(this.add.text(268, 402, "ESEMPIO", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#6be7d6",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(268, 424, topic.example.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 350 },
+    }));
+    modal.add(this.add.text(640, 408, [...topic.example.steps.slice(0, 3), `= ${topic.example.answer}`].map((step) => `- ${step}`).join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#d9eaf1",
+      wordWrap: { width: 360, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+
+    modal.add(this.add.rectangle(246, 526, 786, 64, 0x1a1410, 0.86).setOrigin(0).setStrokeStyle(1, 0xffb36b, 0.36));
+    modal.add(this.add.text(268, 542, `Attenzione: ${topic.watchOut.slice(0, 2).join("  ·  ")}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f3d9c4",
+      wordWrap: { width: 740, useAdvancedWrap: true },
+    }));
+
+    modal.add(new Button(this, 444, 620, "Apri scheda nell'Atlante", () => {
+      modal.destroy(true);
+      this.scene.start("MathStudyScene", { pageId: topic.id });
+    }, { width: 270, height: 38, fontSize: 13, fill: 0x173b36, stroke: 0x6be7d6 }));
+    modal.add(new Button(this, 806, 620, "Torna all'esercizio", () => modal.destroy(true), {
+      width: 220,
+      height: 38,
+      fontSize: 13,
+      fill: 0x263743,
+    }));
+  }
+
+  private drawTheoryIllustration(modal: Phaser.GameObjects.Container, topic: TheoryTopic, x: number, y: number): void {
+    modal.add(this.add.rectangle(x, y, 220, 154, 0x02090e, 0.88).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.34));
+    const g = this.add.graphics();
+    g.lineStyle(2, 0x6be7d6, 0.88);
+    if (topic.visualKind === "circuit") {
+      g.strokeRoundedRect(x + 32, y + 44, 156, 66, 10);
+      g.fillStyle(0xf6c85f, 1).fillCircle(x + 54, y + 77, 10);
+      g.fillStyle(0x9ff5e9, 1).fillCircle(x + 166, y + 77, 10);
+      g.lineBetween(x + 96, y + 44, x + 124, y + 28);
+      g.lineBetween(x + 124, y + 28, x + 150, y + 44);
+    } else if (topic.visualKind === "code-trace") {
+      for (let i = 0; i < 4; i += 1) g.strokeRect(x + 34, y + 30 + i * 26, 152, 18);
+      g.lineBetween(x + 74, y + 39, x + 162, y + 39);
+      g.lineBetween(x + 74, y + 65, x + 138, y + 65);
+      g.lineBetween(x + 74, y + 91, x + 170, y + 91);
+      g.lineBetween(x + 74, y + 117, x + 118, y + 117);
+    } else if (topic.visualKind === "staff") {
+      for (let i = 0; i < 5; i += 1) g.lineBetween(x + 30, y + 42 + i * 18, x + 190, y + 42 + i * 18);
+      g.fillStyle(0xf6c85f, 1).fillEllipse(x + 116, y + 78, 25, 17);
+      g.lineBetween(x + 128, y + 76, x + 128, y + 36);
+    } else if (topic.visualKind === "grid") {
+      for (let i = 0; i <= 4; i += 1) {
+        g.lineBetween(x + 44 + i * 30, y + 26, x + 44 + i * 30, y + 146);
+        g.lineBetween(x + 44, y + 26 + i * 30, x + 164, y + 26 + i * 30);
+      }
+      g.fillStyle(0xf6c85f, 1).fillTriangle(x + 82, y + 82, x + 62, y + 94, x + 62, y + 70);
+    } else if (topic.visualKind === "physics-diagram") {
+      g.lineBetween(x + 36, y + 124, x + 186, y + 124);
+      g.lineBetween(x + 46, y + 124, x + 170, y + 42);
+      g.fillStyle(0xf6c85f, 1).fillCircle(x + 170, y + 42, 8);
+      g.lineStyle(2, 0xffb36b, 0.9).lineBetween(x + 170, y + 42, x + 198, y + 42);
+    } else if (topic.visualKind === "latin-table") {
+      for (let i = 0; i <= 3; i += 1) g.lineBetween(x + 38, y + 36 + i * 30, x + 182, y + 36 + i * 30);
+      for (let i = 0; i <= 2; i += 1) g.lineBetween(x + 38 + i * 72, y + 36, x + 38 + i * 72, y + 126);
+    } else if (topic.visualKind === "timeline") {
+      g.lineBetween(x + 38, y + 80, x + 184, y + 80);
+      g.fillStyle(0xf6c85f, 1).fillCircle(x + 62, y + 80, 7);
+      g.fillCircle(x + 112, y + 80, 7);
+      g.fillCircle(x + 164, y + 80, 7);
+    } else {
+      g.strokeRect(x + 42, y + 44, 136, 64);
+      g.lineBetween(x + 62, y + 76, x + 158, y + 76);
+      g.lineBetween(x + 110, y + 54, x + 110, y + 98);
+    }
+    modal.add(g);
+    modal.add(this.add.text(x + 20, y + 124, topic.visualKind.replace("-", " "), {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9aaab0",
+      wordWrap: { width: 180 },
     }));
   }
 

@@ -5,7 +5,9 @@ import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { startScene } from "../core/SceneNavigator";
+import { storySystem } from "../core/StorySystem";
 import { openDailyPanel, showDailyRewardToast } from "../ui/DailyPanel";
+import { showStoryChoice } from "../ui/StoryChoiceOverlay";
 import { getProceduralFocusPath } from "../data/procedural/focusPaths";
 import { getMapArea, MAP_AREAS, type AreaConsoleSpec, type MapAreaDef } from "../data/procedural/mapAreas";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
@@ -92,6 +94,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
     this.cameras.main.fadeIn(220, 6, 15, 22);
     this.showAreaTitle(area, vitality);
     this.celebrateNewUnlocks();
+    this.updateStoryProgress();
     if (dailyGranted > 0) {
       this.time.delayedCall(700, () => {
         if (!this.scene.isActive()) return;
@@ -131,6 +134,76 @@ export class ExplorableRoomScene extends Phaser.Scene {
     }
     if (spec.focus && trained.has(spec.focus)) return "resolved";
     return "active";
+  }
+
+  /**
+   * Keeps the story in sync with real progress on every deck entry: reveals the
+   * Diario pages just earned (toast), and — back on the central deck — surfaces
+   * the bivio that is due (energy routing, the Guardian, the finale). Pull-based:
+   * nothing in the campaign flow needs to know StorySystem exists.
+   */
+  private updateStoryProgress(): void {
+    storySystem.setPlayerIdProvider(() => playerSystem.getActivePlayer().id);
+    const completedMissionIds = campaignSystem.getChapters()
+      .filter((chapter) => chapter.status === "complete")
+      .map((chapter) => chapter.missionId);
+    const masteredFocuses = Array.from(
+      new Set(
+        Object.values(saveSystem.data.trainingRecords ?? {})
+          .filter((record) => record.runs > 0)
+          .map((record) => record.focus),
+      ),
+    );
+    const revealed = storySystem.syncProgress({ completedMissionIds, masteredFocuses });
+    const kind = this.areaId === "laboratorio" ? storySystem.pendingChoice() : null;
+
+    if (kind) {
+      this.time.delayedCall(900, () => {
+        if (!this.scene.isActive() || this.overlayOpen || this.launching) return;
+        this.overlayOpen = true;
+        this.explorer?.pauseForOverlay();
+        const prompt = storySystem.choicePrompt(kind, { masteredSubjects: this.masteredCount });
+        const overlay = showStoryChoice(this, prompt, {
+          onClose: () => {
+            this.overlayOpen = false;
+            this.explorer?.resume();
+            // Refresh: the choice may have changed console/vitality state.
+            this.scene.restart({ returnScene: this.returnScene, areaId: this.areaId });
+          },
+          onEnding: (endingId) => {
+            void startScene(this, "FinaleScene", { ending: endingId, returnScene: "ExplorableRoomScene" });
+          },
+        });
+        this.explorer?.markUi(overlay);
+      });
+      return;
+    }
+
+    if (revealed.length > 0) {
+      this.time.delayedCall(700, () => {
+        if (this.scene.isActive()) this.showDiarioToast(revealed.length, revealed[0].title);
+      });
+    }
+  }
+
+  /** "Nuova pagina nel Diario di Bordo" banner; tap to open the Diario. */
+  private showDiarioToast(count: number, firstTitle: string): void {
+    const label = count === 1
+      ? `✦ Nuova pagina nel Diario · ${firstTitle}`
+      : `✦ ${count} nuove pagine nel Diario di Bordo`;
+    const toast = this.add.container(640, 150).setScrollFactor(0).setDepth(220).setAlpha(0);
+    const bg = this.add.rectangle(0, 0, 560, 52, 0x07151d, 0.96).setStrokeStyle(2, 0xf6c85f, 0.9)
+      .setInteractive({ useHandCursor: true });
+    toast.add(bg);
+    toast.add(this.add.text(0, -7, label, { fontFamily: "Inter, Arial", fontSize: "15px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
+    toast.add(this.add.text(0, 13, "tocca per aprire il Diario · o dal Pannello NORA", { fontFamily: "Inter, Arial", fontSize: "11px", color: "#9fb6c2" }).setOrigin(0.5));
+    bg.on("pointerdown", () => { void startScene(this, "DiarioScene", { returnScene: "ExplorableRoomScene" }); });
+    this.explorer?.markUi(toast);
+    audioManager.play("panelOpen");
+    this.tweens.add({
+      targets: toast, alpha: 1, y: 162, duration: 320, ease: "Cubic.easeOut",
+      onComplete: () => this.tweens.add({ targets: toast, alpha: 0, delay: 3400, duration: 600, onComplete: () => toast.destroy(true) }),
+    });
   }
 
   /** One-time banner the first time a bridge mastery requirement is met. */

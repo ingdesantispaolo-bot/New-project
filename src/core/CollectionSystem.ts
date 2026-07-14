@@ -21,8 +21,8 @@ const wingsRestored = (save: SaveData): number => countCompletedMissions(save.fl
 const ecoDefeats = (save: SaveData): number => save.eco?.defeats ?? 0;
 
 /**
- * Pillar 5 — Discovery & collection. A 12-part backstory of the Academy, NORA
- * and the Eco, told through "memory fragments". Six are hidden as clickable
+ * Pillar 5 — Discovery & collection. A 12-part backstory of the Relitto, NORA
+ * and the Guardiano, told through "memory fragments". Six are hidden as clickable
  * anomalies inside calm rooms (reward exploration); six unlock automatically as
  * the player progresses (guarantee the story is told even without finding every
  * secret).
@@ -31,9 +31,9 @@ const FRAGMENTS: MemoryFragment[] = [
   {
     id: "frag-01-fondazione",
     index: 1,
-    title: "La Fondazione",
+    title: "Il Relitto dei Primi",
     glyph: "🏛",
-    story: "L'Accademia delle Missioni non nacque per dare voti, ma per formare chi un giorno avrebbe riparato il mondo. Quattro ali, quattro modi di pensare: costruire, curare, calcolare, ricordare.",
+    story: "Sotto l'Accademia dormiva una nave antichissima. I Primi l'avevano lasciata come rifugio e promessa: quattro ponti, quattro modi di proteggere il mondo.",
     unlock: { kind: "room", room: "MainMenuScene", roomLabel: "Atrio (Menu)" },
   },
   {
@@ -41,48 +41,48 @@ const FRAGMENTS: MemoryFragment[] = [
     index: 2,
     title: "NORA si accende",
     glyph: "🔵",
-    story: "La prima volta che NORA aprì gli occhi digitali, fece una domanda invece di dare una risposta: «Perché?». I fondatori capirono di aver creato non un manuale, ma una mente curiosa come quella di una bambina.",
-    unlock: { kind: "room", room: "NoraScene", roomLabel: "Sala di NORA" },
+    story: "La prima volta che NORA aprì gli occhi digitali, non diede un ordine. Fece una domanda: «Perché?». I Primi capirono di aver acceso non un manuale, ma una mente curiosa.",
+    unlock: { kind: "room", room: "NoraScene", roomLabel: "Stanza di NORA" },
   },
   {
     id: "frag-03-reattore",
     index: 3,
-    title: "Il Reattore di Sapere",
+    title: "Il Reattore",
     glyph: "⚛",
-    story: "Nel cuore dell'Accademia batte il Nucleo: non si alimenta a corrente, ma a comprensione. Ogni concetto davvero capito da uno studente lo rende più luminoso.",
-    unlock: { kind: "room", room: "AcademyScene", roomLabel: "La tua Accademia" },
+    story: "Nel cuore del Relitto batte il Reattore: non si alimenta solo a corrente, ma a comprensione. Ogni sistema capito davvero lo rende più luminoso.",
+    unlock: { kind: "room", room: "AcademyScene", roomLabel: "Il tuo Relitto" },
   },
   {
     id: "frag-04-sovraccarico",
     index: 4,
     title: "Il Sovraccarico",
     glyph: "⚡",
-    story: "Arrivarono troppe domande, tutte insieme, senza nessuno a fare ordine. NORA cercò di rispondere a tutto da sola. Il Nucleo si surriscaldò.",
-    unlock: { kind: "auto", condition: "Ripristina almeno 1 ala", test: (s) => wingsRestored(s) >= 1 },
+    story: "Arrivarono troppi segnali, tutti insieme, senza nessuno a fare ordine. NORA cercò di proteggere tutto da sola. Il Reattore si surriscaldò.",
+    unlock: { kind: "auto", condition: "Ripristina almeno 1 ponte", test: (s) => wingsRestored(s) >= 1 },
   },
   {
     id: "frag-05-blackout",
     index: 5,
     title: "Il Blackout",
     glyph: "🌑",
-    story: "Poi, una notte, tutto si spense. Le luci, le macchine, persino la voce di NORA. L'Accademia piombò nel buio e nel silenzio. Il giorno dopo, qualcuno doveva riaccendere tutto: tu.",
+    story: "Poi, una notte, tutto si spense. Le luci, i condotti, persino la voce di NORA. Il Relitto piombò nel buio e nel silenzio. Il giorno dopo, qualcuno doveva riaccendere tutto: tu.",
     unlock: { kind: "room", room: "CampaignScene", roomLabel: "Mappa della Storia" },
   },
   {
     id: "frag-06-frattura",
     index: 6,
-    title: "La Frattura",
+    title: "Il Guardiano",
     glyph: "💔",
-    story: "Quando NORA si spense, una parte di lei non volle arrendersi e si staccò: la paura di non sapere, diventata indipendente. Così nacque l'Eco.",
-    unlock: { kind: "auto", condition: "Affronta l'Eco almeno una volta con successo", test: (s) => ecoDefeats(s) >= 1 },
+    story: "Quando NORA si spense, il sistema di difesa prese il comando. Doveva proteggere la nave, ma nel buio dimenticò la differenza tra minaccia e alleato. Così il Guardiano chiuse i ponti.",
+    unlock: { kind: "auto", condition: "Affronta il Guardiano almeno una volta con successo", test: (s) => ecoDefeats(s) >= 1 },
   },
   {
     id: "frag-07-ali-sigillate",
     index: 7,
-    title: "Le Ali Sigillate",
+    title: "I Ponti Sigillati",
     glyph: "🔒",
-    story: "Laboratorio, Serra, Fabbrica, Archivio: ogni ala si chiuse con i suoi segreti dentro. Riaprirle non basta forzarle — bisogna capire ciò che custodiscono.",
-    unlock: { kind: "auto", condition: "Ripristina almeno 2 ali", test: (s) => wingsRestored(s) >= 2 },
+    story: "Ponte Centrale, Bio-ponte, Reattore, Data-core: ogni ponte si chiuse con i suoi segreti dentro. Riaprirli non basta forzarli — bisogna capire ciò che custodiscono.",
+    unlock: { kind: "auto", condition: "Ripristina almeno 2 ponti", test: (s) => wingsRestored(s) >= 2 },
   },
   {
     id: "frag-08-richiamo",
@@ -97,23 +97,23 @@ const FRAGMENTS: MemoryFragment[] = [
     index: 9,
     title: "I Ricordi Sparsi",
     glyph: "✦",
-    story: "Con la Frattura, i ricordi di NORA si dispersero come scintille in ogni stanza. Chi esplora con curiosità li ritrova — ed è così che NORA, pezzo dopo pezzo, torna sé stessa.",
+    story: "Con il Blackout, i ricordi di NORA si dispersero come scintille in ogni ponte. Chi esplora con curiosità li ritrova — ed è così che NORA, pezzo dopo pezzo, torna sé stessa.",
     unlock: { kind: "room", room: "MasteryScene", roomLabel: "Albero delle Competenze" },
   },
   {
     id: "frag-10-eco-imita",
     index: 10,
-    title: "L'Eco che Imita",
+    title: "Il Guardiano che Imita",
     glyph: "🪞",
-    story: "L'Eco sfida proprio con le materie perché è fatta dei dubbi di NORA su ciascuna di esse. Ogni risposta sicura che dai le toglie un dubbio — e un po' di potere.",
-    unlock: { kind: "auto", condition: "Indebolisci l'Eco 2 volte", test: (s) => ecoDefeats(s) >= 2 },
+    story: "Il Guardiano sfida proprio con i settori perché usa ogni sistema della nave come serratura. Ogni risposta sicura che dai apre un varco — e abbassa un allarme.",
+    unlock: { kind: "auto", condition: "Indebolisci il Guardiano 2 volte", test: (s) => ecoDefeats(s) >= 2 },
   },
   {
     id: "frag-11-chiave-umana",
     index: 11,
     title: "La Chiave Umana",
     glyph: "🗝",
-    story: "I fondatori lasciarono un avvertimento: nessuna macchina può riaccendere il Nucleo da sola. Serve qualcuno che capisca davvero, da solo, senza aiuti. La padronanza autonoma è la vera chiave.",
+    story: "I Primi lasciarono un avvertimento: nessuna macchina può riaccendere il Nucleo da sola. Serve qualcuno che capisca davvero, da solo, senza aiuti. La padronanza autonoma è la vera chiave.",
     unlock: { kind: "room", room: "MathStudyScene", roomLabel: "Atlante (Studio)" },
   },
   {
@@ -121,15 +121,15 @@ const FRAGMENTS: MemoryFragment[] = [
     index: 12,
     title: "La Verità",
     glyph: "🌟",
-    story: "Alla fine si scopre il segreto più grande: l'Eco non era un nemico. Era NORA spaventata dal non sapere. Bastava affrontarla con pazienza per farla tornare a casa.",
-    unlock: { kind: "auto", condition: "Completa l'arco dell'Eco (5 vittorie)", test: (s) => ecoDefeats(s) >= 5 },
+    story: "Alla fine si scopre il segreto più grande: il Guardiano non era un nemico. Era una promessa rimasta sola troppo a lungo. Bastava affrontarlo con pazienza per ricordargli chi doveva proteggere.",
+    unlock: { kind: "auto", condition: "Completa l'arco del Guardiano (5 vittorie)", test: (s) => ecoDefeats(s) >= 5 },
   },
   {
     id: "frag-13-palestra",
     index: 13,
     title: "La Palestra della Mente",
     glyph: "🧠",
-    story: "C'era una stanza dove NORA allenava sé stessa: logica per capire, memoria per non dimenticare. Quando si frantumò, l'Eco rubò quegli esercizi e ora li usa contro di te nelle sue Sfide. Allenandoti qui riprendi ciò che è suo — ed è per questo che nella Sfida dell'Eco ritrovi le stesse prove di mente.",
+    story: "C'era una stanza dove NORA calibrava sé stessa: logica per capire, memoria per non dimenticare. Quando il Blackout la spense, il Guardiano prese quelle prove e le trasformò in protocolli. Calibrandoti qui riprendi ciò che è suo — ed è per questo che nella Sfida del Guardiano ritrovi le stesse prove di mente.",
     unlock: { kind: "room", room: "LogicGymScene", roomLabel: "Palestra della Mente" },
   },
 ];

@@ -72,7 +72,7 @@ export class ExerciseDirector {
       pedagogy: this.basePedagogy(
         level,
         this.robotLearningGoal(puzzle),
-        "La difficolta cresce con dimensione griglia, ostacoli, checkpoint, budget e numero di stati da ricordare.",
+        "La profondità cresce con dimensione griglia, ostacoli, checkpoint, budget e numero di stati da ricordare.",
         puzzle.hints,
         explanationBuilder.robot(concepts, puzzle.solutionCommands.length),
       ),
@@ -92,10 +92,10 @@ export class ExerciseDirector {
         level,
         puzzle.learningPurpose ?? "Diagnosticare un circuito separando percorso chiuso, verso del LED, protezione e comportamento dei componenti.",
         level <= 2
-          ? "La difficolta resta bassa: prima riconosci i pezzi e segui il giro della corrente."
+          ? "La profondità resta bassa: prima riconosci i pezzi e segui il giro della corrente."
           : level <= 5
-            ? "La difficolta cresce unendo pezzi gia visti: resistenza, LED, tester e primi rami."
-            : "La difficolta cresce con piu guasti, letture del tester e componenti combinati.",
+            ? "La profondità cresce unendo pezzi gia visti: resistenza, LED, tester e primi rami."
+            : "La profondità cresce con piu guasti, letture del tester e componenti combinati.",
         puzzle.hints,
         explanationBuilder.circuit(faultSummary),
         mistakeAnalyzer.circuitMistakes(),
@@ -158,7 +158,7 @@ export class ExerciseDirector {
     return {
       difficultyLabel,
       learningPurpose: concept.learningPurpose,
-      difficultyReason: `Livello ${level}/8: ${difficultyModel.describe(level)}; ${multiStepReason}.`,
+      difficultyReason: `Profondità ${level}/8: ${difficultyModel.describe(level)}; ${multiStepReason}.`,
       theoryPrinciple: concept.theoryPrinciple,
       operationSummary: `${concept.shortName}: ${steps.slice(0, 3).join(" -> ")}`,
       calculationAid: {
@@ -172,17 +172,17 @@ export class ExerciseDirector {
   }
 
   private mathDifficultyLabel(level: DifficultyLevel): string {
-    if (level <= 2) return `Livello ${level}/8 - Fondamenta guidate`;
-    if (level <= 4) return `Livello ${level}/8 - Strategie intermedie`;
-    if (level <= 6) return `Livello ${level}/8 - Ragionamento multi-passaggio`;
-    return `Livello ${level}/8 - Ponte verso le superiori`;
+    if (level <= 2) return `Profondità ${level}/8 - Fondamenta guidate`;
+    if (level <= 4) return `Profondità ${level}/8 - Strategie intermedie`;
+    if (level <= 6) return `Profondità ${level}/8 - Ragionamento multi-passaggio`;
+    return `Profondità ${level}/8 - Ponte verso le superiori`;
   }
 
   private mathConcept(archetype: NonNullable<GeneratedMathPuzzle["archetype"]>) {
     const concepts: Record<NonNullable<GeneratedMathPuzzle["archetype"]>, { shortName: string; learningPurpose: string; theoryPrinciple: string; strategy: string }> = {
       "calcolo-diretto": {
         shortName: "calcolo ordinato",
-        learningPurpose: "Allenare calcolo mentale scritto, ordine delle operazioni e controllo del risultato.",
+        learningPurpose: "Calibrare calcolo mentale scritto, ordine delle operazioni e controllo del risultato.",
         theoryPrinciple: "Quando una macchina applica piu operazioni, il valore cambia passo dopo passo: cambiare l'ordine cambia quasi sempre il risultato.",
         strategy: "Spezza la catena: calcola il primo blocco, scrivi il risultato intermedio, poi passa al blocco successivo.",
       },

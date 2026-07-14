@@ -37,6 +37,17 @@ export type SaveData = {
     masterySnapshot?: Record<string, { score: number; tier: number }>;
     tone?: "curiosa" | "coraggiosa" | "gentile";
     memoriesSeen?: string[];
+    moodMemory?: {
+      steady: number;
+      bright: number;
+      worried: number;
+      recent?: Array<"steady" | "bright" | "worried">;
+      visits?: number;
+      lastMood?: "steady" | "bright" | "worried";
+      lastAt?: string;
+      lastVisitAt?: string;
+      lastTalkChoice?: "stay" | "notice" | "memory" | "courage";
+    };
   };
   /** The player's personalised home base. */
   academy?: {

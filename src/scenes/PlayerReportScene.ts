@@ -120,8 +120,8 @@ export class PlayerReportScene extends Phaser.Scene {
     this.add.text(x + 152, y + 68, [
       `Globale: ${report.globalGradeLabel}`,
       `Missioni ${this.formatGrade(report.missionGrade)}`,
-      `Allenamento ${this.formatGrade(report.trainingGrade)}`,
-      `Esercizi ${this.formatGrade(report.exerciseGrade)}`,
+      `Calibrazione ${this.formatGrade(report.trainingGrade)}`,
+      `Prove ${this.formatGrade(report.exerciseGrade)}`,
     ].join("\n"), {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
@@ -150,7 +150,7 @@ export class PlayerReportScene extends Phaser.Scene {
       `Risultati registrati: ${report.resultCount}`,
       `Missioni completate: ${report.missionCount}`,
       `Focus completati: ${report.focusCount}`,
-      `Esercizi risolti: ${report.exerciseCount}`,
+      `Prove risolte: ${report.exerciseCount}`,
       `Errori corretti: ${report.recoveredMistakes}`,
       `Soluzioni autonome: ${report.independentSolutions}`,
     ];
@@ -169,11 +169,11 @@ export class PlayerReportScene extends Phaser.Scene {
     });
     this.drawBestLine(x + 206, y + 256, "Missione", report.bestMission);
     this.drawBestLine(x + 206, y + 308, "Focus", report.bestFocus);
-    this.drawBestLine(x + 206, y + 360, "Esercizio", report.bestExercise);
+    this.drawBestLine(x + 206, y + 360, "Prova", report.bestExercise);
 
     const strengths = report.strengths.length > 0
       ? report.strengths.map((item) => `${item.label}: ${item.score}`).join("\n")
-      : "Completa alcuni esercizi per vedere i punti forti.";
+      : "Completa alcune prove per vedere i punti forti.";
     this.add.text(x + 26, y + 372, "Aree forti", {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
@@ -196,7 +196,7 @@ export class PlayerReportScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(x, y + 18, result ? `${this.formatGrade(result.grade ?? 0)} | ${result.score} pt | L${result.difficulty} | ${formatDuration(result.elapsedMs)}` : "Non ancora registrato", {
+    this.add.text(x, y + 18, result ? `${this.formatGrade(result.grade ?? 0)} | ${result.score} pt | profondità ${result.difficulty} | ${formatDuration(result.elapsedMs)}` : "Non ancora registrato", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#d9eaf1",
@@ -207,7 +207,7 @@ export class PlayerReportScene extends Phaser.Scene {
     const x = 844;
     const y = 136;
     this.add.rectangle(x, y, 382, 474, 0x09151f, 0.9).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.48);
-    this.add.text(x + 24, y + 18, "Allenamento per materia", {
+    this.add.text(x + 24, y + 18, "Calibrazione per settore", {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
       color: "#9ff5e9",
@@ -244,7 +244,7 @@ export class PlayerReportScene extends Phaser.Scene {
         });
     }
 
-    this.add.text(x + 24, y + 304, "Registro esercizi", {
+    this.add.text(x + 24, y + 304, "Registro prove", {
       fontFamily: "Inter, Arial",
       fontSize: "16px",
       color: "#f6c85f",
@@ -285,7 +285,7 @@ export class PlayerReportScene extends Phaser.Scene {
         fontStyle: "bold",
         wordWrap: { width: 242 },
       });
-      this.add.text(x + 24, rowY + 17, `${this.formatGrade(result.grade ?? 0)} | L${result.difficulty} | ${result.score} pt | ${formatDuration(result.elapsedMs)}`, {
+      this.add.text(x + 24, rowY + 17, `${this.formatGrade(result.grade ?? 0)} | profondità ${result.difficulty} | ${result.score} pt | ${formatDuration(result.elapsedMs)}`, {
         fontFamily: "Inter, Arial",
         fontSize: "10px",
         color: "#c7dce7",

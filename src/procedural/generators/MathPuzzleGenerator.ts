@@ -1551,7 +1551,7 @@ export class MathPuzzleGenerator {
         index,
         type: "data-probability",
         prefix: "data-mean",
-        prompt: `Cinque allenamenti durano ${values.join(", ")} minuti. Qual e la media?`,
+        prompt: `Cinque calibrazioni durano ${values.join(", ")} minuti. Qual e la media?`,
         targetLabel: "Media aritmetica",
         correct: { label: `${average}`, value: average, feedback: `${average} e corretto: somma i dati e dividi per 5.` },
         distractors: [

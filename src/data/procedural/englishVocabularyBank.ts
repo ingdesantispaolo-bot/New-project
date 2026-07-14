@@ -235,7 +235,7 @@ const vocabularyRows = [
   ]),
   ...rows("school-communication", [
     ["lesson", "lezione", "noun", 1],
-    ["subject", "materia / argomento", "noun", 1],
+    ["subject", "argomento / settore", "noun", 1],
     ["homework", "compiti", "noun", 1],
     ["classmate", "compagno di classe", "noun", 1],
     ["teacher", "insegnante", "noun", 1],
@@ -403,7 +403,7 @@ const everydayVocabularyRows = [
     ["health", "salute"], ["doctor", "dottore"], ["nurse", "infermiere"], ["patient", "paziente"], ["medicine", "medicina"],
     ["pill", "pillola"], ["pain", "dolore"], ["headache", "mal di testa"], ["toothache", "mal di denti"], ["stomach ache", "mal di pancia"],
     ["cold", "raffreddore"], ["cough", "tosse"], ["fever", "febbre"], ["sore throat", "mal di gola"], ["temperature", "febbre / temperatura"],
-    ["accident", "incidente"], ["injury", "ferita / infortunio"], ["bandage", "bendaggio"], ["appointment", "appuntamento"], ["exercise", "esercizio fisico"],
+    ["accident", "incidente"], ["injury", "ferita / infortunio"], ["bandage", "bendaggio"], ["appointment", "appuntamento"], ["exercise", "attività fisica"],
   ]),
   ...topicRows("body-health", "adjective", 2, [
     ["ill", "malato"], ["sick", "malato / nauseato"], ["healthy", "sano"], ["tired", "stanco"], ["better", "meglio"],
@@ -489,7 +489,7 @@ type PhraseGroup = {
 const phraseGroups: readonly PhraseGroup[] = [
   { category: "everyday-phrases", verb: "take", verbMeaning: "prendere / fare", level: 2, objects: [["a photo", "una foto"], ["a bus", "un autobus"], ["a break", "una pausa"], ["notes", "appunti"], ["care", "cura / attenzione"], ["a shower", "una doccia"], ["a seat", "posto a sedere"], ["a test", "un test"], ["a message", "un messaggio"], ["a look", "un'occhiata"]] },
   { category: "everyday-phrases", verb: "make", verbMeaning: "fare / preparare", level: 2, objects: [["a mistake", "un errore"], ["a plan", "un piano"], ["a list", "una lista"], ["breakfast", "colazione"], ["a choice", "una scelta"], ["a noise", "rumore"], ["a phone call", "una telefonata"], ["a cake", "una torta"], ["progress", "progresso"], ["a decision", "una decisione"]] },
-  { category: "everyday-phrases", verb: "do", verbMeaning: "fare", level: 2, objects: [["homework", "i compiti"], ["exercise", "esercizio fisico"], ["the dishes", "i piatti"], ["the shopping", "la spesa"], ["research", "una ricerca"], ["a project", "un progetto"], ["a test", "un test"], ["your best", "del proprio meglio"], ["the cleaning", "le pulizie"], ["a favour", "un favore"]] },
+  { category: "everyday-phrases", verb: "do", verbMeaning: "fare", level: 2, objects: [["homework", "i compiti"], ["exercise", "attività fisica"], ["the dishes", "i piatti"], ["the shopping", "la spesa"], ["research", "una ricerca"], ["a project", "un progetto"], ["a test", "un test"], ["your best", "del proprio meglio"], ["the cleaning", "le pulizie"], ["a favour", "un favore"]] },
   { category: "everyday-phrases", verb: "go", verbMeaning: "andare", level: 2, objects: [["home", "a casa"], ["shopping", "a fare acquisti"], ["swimming", "a nuotare"], ["online", "online"], ["to school", "a scuola"], ["to work", "al lavoro"], ["by bus", "in autobus"], ["on foot", "a piedi"], ["abroad", "all'estero"], ["out", "fuori"]] },
   { category: "everyday-phrases", verb: "get", verbMeaning: "ottenere / diventare", level: 3, objects: [["ready", "pronto"], ["better", "meglio"], ["worse", "peggio"], ["home", "a casa"], ["lost", "perso"], ["tired", "stanco"], ["a ticket", "un biglietto"], ["a message", "un messaggio"], ["on the bus", "sull'autobus"], ["off the train", "giù dal treno"]] },
   { category: "everyday-phrases", verb: "have", verbMeaning: "avere / fare", level: 2, objects: [["breakfast", "colazione"], ["lunch", "pranzo"], ["dinner", "cena"], ["a rest", "un riposo"], ["a problem", "un problema"], ["a headache", "mal di testa"], ["a cold", "raffreddore"], ["fun", "divertimento"], ["a meeting", "una riunione"], ["a lesson", "una lezione"]] },

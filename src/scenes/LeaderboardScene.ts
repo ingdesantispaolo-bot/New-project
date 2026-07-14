@@ -104,7 +104,7 @@ export class LeaderboardScene extends Phaser.Scene {
       fontSize: 14,
     });
 
-    this.add.text(x + 24, y + 126, "Per esercizio", {
+    this.add.text(x + 24, y + 126, "Per prova", {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#f6c85f",
@@ -190,7 +190,7 @@ export class LeaderboardScene extends Phaser.Scene {
         color: "#c7dce7",
         wordWrap: { width: 212 },
       });
-      this.add.text(x + 492, rowY, `L${result.difficulty}`, {
+      this.add.text(x + 492, rowY, `Prof. ${result.difficulty}`, {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color,

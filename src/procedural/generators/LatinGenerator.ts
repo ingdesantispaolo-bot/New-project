@@ -364,7 +364,7 @@ export class LatinGenerator {
     switch (type) {
       case "declension": return "Consolidare la morfologia nominale: riconoscere e formare i casi delle cinque declinazioni.";
       case "conjugation": return "Consolidare la morfologia verbale: formare i tempi delle quattro coniugazioni e di sum.";
-      case "verb-analysis": return "Allenare l'analisi della voce verbale: tempo, modo e diatesi dalla forma.";
+      case "verb-analysis": return "Calibrare l'analisi della voce verbale: tempo, modo e diatesi dalla forma.";
       case "case-function": return "Collegare il caso alla funzione logica nella frase.";
       case "agreement": return "Padroneggiare la concordanza tra aggettivo e sostantivo.";
       case "vocab-match": return "Ampliare il lessico latino di base ad alta frequenza.";

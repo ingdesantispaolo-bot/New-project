@@ -5,6 +5,7 @@ import { campaignSystem } from "../core/CampaignSystem";
 import { masterySystem } from "../core/MasterySystem";
 import { noraCompanion } from "../core/NoraCompanion";
 import { noraChip } from "../ui/NoraChip";
+import { noraPresence } from "../ui/NoraPresence";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
@@ -19,6 +20,7 @@ import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
 import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization, ProgressiveLevelResult } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
+import { openDailyPanel, showDailyRewardToast } from "../ui/DailyPanel";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
@@ -78,6 +80,11 @@ export class MainMenuScene extends Phaser.Scene {
     new Button(this, 1000, 80, "👤 Cambia / Nuovo giocatore", () => this.openMenuScene("PlayerReportScene", "Non sono riuscito ad aprire i giocatori. Riprova tra un istante."), {
       width: 246, height: 30, fontSize: 12, fill: 0x1f5a51, stroke: 0xf6c85f,
     });
+    // The explorable world is the game's real front door; this panel is the
+    // NORA control room. Keep the way back to the world always in sight.
+    new Button(this, 1130, 36, "🗺️ Mondo", () => this.openMenuScene("ExplorableRoomScene", "Non sono riuscito ad aprire il mondo. Riprova tra un istante."), {
+      width: 128, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0x6be7d6,
+    });
 
     // Anello del ciclo "gioca → guadagni → spendi": energia sempre visibile + Bottega.
     const energyChip = this.add.container(500, 58);
@@ -99,6 +106,7 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     const cardProgress = campaignSystem.getProgress();
+    noraPresence.mount(this, { x: 54, y: 654, compact: true, depth: 1400 });
 
     // ===== LA STORIA — il cuore del percorso =====
     const sx = 44;
@@ -109,7 +117,7 @@ export class MainMenuScene extends Phaser.Scene {
     this.add.rectangle(sx, sy, sw, 5, 0xf6c85f, 0.9).setOrigin(0);
     this.add.text(sx + 24, sy + 16, "📖 LA STORIA", { fontFamily: "Inter, Arial", fontSize: "20px", color: "#f6c85f", fontStyle: "bold" });
     this.add.text(sx + sw - 24, sy + 20, `Capitoli ${cardProgress.completed}/${cardProgress.total}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(1, 0);
-    this.add.text(sx + 24, sy + 44, "Il tuo viaggio nell'Accademia. Tutto il resto (Palestra, sfide, esercizi) serve a renderlo più giocoso, impegnativo e riuscito.", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: sw - 48 }, lineSpacing: 3 });
+    this.add.text(sx + 24, sy + 44, "Il tuo viaggio nell'Accademia. Tutto il resto (Palestra, sfide, prove) serve a renderlo più giocoso, impegnativo e riuscito.", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: sw - 48 }, lineSpacing: 3 });
 
     // Mappa dei capitoli (rail)
     const chapters = campaignSystem.getChapters();
@@ -147,7 +155,7 @@ export class MainMenuScene extends Phaser.Scene {
       const weakest = masterySystem.weakestPracticedFocus();
       const bridgeFocus = weakest ?? progressionSystem.practiceFocusForChapter(active.number);
       if (bridgeFocus) {
-        const label = `💪 ${weakest ? "Rinforza" : "Allena"} ${proceduralScoring.domainLabel(bridgeFocus)}`;
+        const label = `💪 ${weakest ? "Rinforza" : "Calibra"} ${proceduralScoring.domainLabel(bridgeFocus)}`;
         new Button(this, sx + 560, sy + 388, label, () => this.startFocusTraining(bridgeFocus), {
           width: 196, height: 58, fill: 0x173b36, stroke: 0x6be7d6, fontSize: 12,
         });
@@ -157,8 +165,8 @@ export class MainMenuScene extends Phaser.Scene {
     // ===== AL SERVIZIO DELLA STORIA — Palestra (contorno di supporto) =====
     // Kept clear of the bottom-left NORA chip zone (x < 490).
     const hasResume = this.isResumable(missionRun) || this.isResumable(progressiveRun) || this.isResumable(trainingRun);
-    this.add.text(498, sy + sh + 8, "AL SERVIZIO DELLA STORIA — allenamento di supporto", { fontFamily: "Inter, Arial", fontSize: "11px", color: "#7d93a0", fontStyle: "bold", wordWrap: { width: 264 } });
-    new Button(this, 630, sy + sh + 58, hasResume ? "🏋 Palestra — riprendi / allena" : "🏋 Palestra — allenati per la Storia", () => this.openPalestraDrawer(), {
+    this.add.text(498, sy + sh + 8, "AL SERVIZIO DELLA STORIA — calibrazione di supporto", { fontFamily: "Inter, Arial", fontSize: "11px", color: "#7d93a0", fontStyle: "bold", wordWrap: { width: 264 } });
+    new Button(this, 630, sy + sh + 58, hasResume ? "🏋 Palestra — riprendi / calibra" : "🏋 Palestra — calibra per la Storia", () => this.openPalestraDrawer(), {
       width: 264, height: 52, fill: 0x2a1f3a, stroke: 0xf6c85f, fontSize: 13, soundKey: "uiSelect",
     });
 
@@ -195,7 +203,7 @@ export class MainMenuScene extends Phaser.Scene {
     const recoveredMemories = noraMemories.filter((memory) => memory.unlocked).length;
     this.add.text(820, 550, `💜 Ricordi di NORA: ${recoveredMemories}/${noraMemories.length}  ·  recuperali superando i capitoli`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#cdbfff", wordWrap: { width: 392 } });
     if (this.showLevelPicker) {
-      this.add.text(820, 584, `Difficoltà di allenamenti e missioni rapide — ora ${selected}/8 (di norma è automatica):`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f6c85f", wordWrap: { width: 392 } });
+      this.add.text(820, 584, `Profondità del settore per calibrazioni e missioni rapide — ora ${selected}/8 (di norma è automatica):`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f6c85f", wordWrap: { width: 392 } });
       for (let level = 1; level <= 8; level += 1) {
         new Button(this, 828 + (level - 1) * 48, 642, String(level), () => this.selectDifficulty(level as DifficultyLevel), {
           width: 40, height: 34, fontSize: 13,
@@ -204,7 +212,7 @@ export class MainMenuScene extends Phaser.Scene {
         });
       }
     } else {
-      this.add.text(820, 600, `Difficoltà di allenamenti e missioni: automatica (~${recommended}/8), si regola sui tuoi risultati.`, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#7da2af", wordWrap: { width: 212 } });
+      this.add.text(820, 600, `Profondità del settore: automatica (~${recommended}/8), si regola sui tuoi risultati.`, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#7da2af", wordWrap: { width: 212 } });
       new Button(this, 1124, 616, "Scegli a mano ▸", () => { this.showLevelPicker = true; this.scene.restart(); }, {
         width: 156, height: 32, fontSize: 11, fill: 0x142736, stroke: 0x6be7d6,
       });
@@ -380,7 +388,7 @@ export class MainMenuScene extends Phaser.Scene {
     modal.add(this.add.text(120, 70, "La Scalata", { fontFamily: "Inter, Arial", fontSize: "38px", color: "#f5fbff", fontStyle: "bold" }));
     modal.add(this.add.rectangle(1180, 78, 188, 30, 0x1a0f0a, 0.85).setOrigin(1, 0).setStrokeStyle(2, 0xff8f6b, 0.85));
     modal.add(this.add.text(1086, 93, "🗼 PERCORSO SCALATA", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#ff8f6b", fontStyle: "bold" }).setOrigin(0.5));
-    modal.add(this.add.text(122, 120, "Prove a difficoltà crescente, una dopo l'altra, senza pause. Sali più in alto che puoi: ogni livello vale di più.", {
+    modal.add(this.add.text(122, 120, "Prove a profondità crescente, una dopo l'altra, senza pause. Sali più in alto che puoi: ogni settore vale di più.", {
       fontFamily: "Inter, Arial", fontSize: "15px", color: "#c7dce7", wordWrap: { width: 560 },
     }));
 
@@ -400,7 +408,7 @@ export class MainMenuScene extends Phaser.Scene {
       const color = done ? 0x2ed889 : isCurrent ? 0xf6c85f : locked ? 0x2a3a44 : 0x2f6f64;
       modal.add(this.add.rectangle(towerX, y, isCurrent ? 320 : 280, isCurrent ? 40 : 34, color, locked ? 0.5 : 0.92)
         .setStrokeStyle(2, isCurrent ? 0xffe6a0 : color, 0.9));
-      modal.add(this.add.text(towerX - 132, y - 9, `Livello ${level}`, {
+      modal.add(this.add.text(towerX - 132, y - 9, `Settore ${level}`, {
         fontFamily: "Inter, Arial", fontSize: "15px", color: locked ? "#5d7782" : "#06131c", fontStyle: "bold",
       }));
       const mark = done ? "✓ superato" : isCurrent ? "▶ sei qui" : locked ? "bloccato" : "raggiunto";
@@ -418,7 +426,7 @@ export class MainMenuScene extends Phaser.Scene {
     const statsX = 700;
     const statsY = 232;
     modal.add(this.add.rectangle(statsX, statsY, 470, 220, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.4));
-    modal.add(this.add.text(statsX + 24, statsY + 20, `Livello attuale: ${currentLevel}/8`, { fontFamily: "Inter, Arial", fontSize: "18px", color: "#f6c85f", fontStyle: "bold" }));
+    modal.add(this.add.text(statsX + 24, statsY + 20, `Profondità attuale: ${currentLevel}/8`, { fontFamily: "Inter, Arial", fontSize: "18px", color: "#f6c85f", fontStyle: "bold" }));
     modal.add(this.add.text(statsX + 24, statsY + 54, `Record raggiunto: ${unlocked}/8`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9" }));
     modal.add(this.add.text(statsX + 24, statsY + 92, "Vite:", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#d9eaf1" }));
     for (let i = 0; i < maxLives; i += 1) {
@@ -428,8 +436,8 @@ export class MainMenuScene extends Phaser.Scene {
     }
     modal.add(this.add.text(statsX + 24, statsY + 132, `Punteggio: ${score}`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9" }));
     modal.add(this.add.text(statsX + 24, statsY + 166, resumable
-      ? "Riprendi da dove eri: la torre ricorda livello, vite e punti."
-      : "Nessuna scalata in corso: parti dal livello 1.", {
+      ? "Riprendi da dove eri: la torre ricorda settore, vite e punti."
+      : "Nessuna scalata in corso: parti dal settore 1.", {
       fontFamily: "Inter, Arial", fontSize: "12px", color: "#9aaab0", wordWrap: { width: 420 },
     }));
 
@@ -474,7 +482,7 @@ export class MainMenuScene extends Phaser.Scene {
     modal.add(this.add.rectangle(640, 360, 1120, 590, 0x07151d, 0.99).setStrokeStyle(2, 0xf6c85f, 0.6));
     modal.add(this.add.rectangle(110, 92, 5, 44, 0xf6c85f, 0.95).setOrigin(0));
     modal.add(this.add.text(124, 92, "🏋 Palestra", { fontFamily: "Inter, Arial", fontSize: "34px", color: "#f5fbff", fontStyle: "bold" }));
-    modal.add(this.add.text(124, 138, "Allenamento di supporto: serve a prepararti e rinforzarti per la Storia. Nessuna di queste modalità la sostituisce — la rendono più giocosa, impegnativa e alla tua portata.", {
+    modal.add(this.add.text(124, 138, "Calibrazione di supporto: serve a prepararti e rinforzarti per la Storia. Nessuna di queste modalità la sostituisce — la rendono più giocosa, impegnativa e alla tua portata.", {
       fontFamily: "Inter, Arial", fontSize: "14px", color: "#c7dce7", wordWrap: { width: 1000 }, lineSpacing: 4,
     }));
 
@@ -496,10 +504,10 @@ export class MainMenuScene extends Phaser.Scene {
       modal.add(hit);
     };
     card(150, 0x6be7d6, "🎯", "Avventura veloce", "una stanza nuova, gioco libero per esplorare", missionState, () => this.resumeMissionGame());
-    card(490, 0xff8f6b, "🗼", "La Torre", "sfida infinita L1→8: il banco di prova dopo la Storia", scalataState, () => this.showScalataTower());
+    card(490, 0xff8f6b, "🗼", "La Torre", "sfida infinita: profondità 1→8, banco di prova dopo la Storia", scalataState, () => this.showScalataTower());
     card(830, 0xf6c85f, "🧠", "Riscaldamento", "scalda logica e memoria prima di un capitolo", "Palestra mentale", () => this.openMenuScene("LogicGymScene", "Non sono riuscito ad aprire il riscaldamento. Riprova tra un istante."));
 
-    modal.add(this.add.text(150, 486, "Allenamento mirato per materia — il livello si adatta a te", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }));
+    modal.add(this.add.text(150, 486, "Calibrazione mirata per settore — la profondità si adatta a te", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }));
     focusOptions.forEach((focus, index) => {
       const col = index % 4;
       const row = Math.floor(index / 4);
@@ -530,64 +538,17 @@ export class MainMenuScene extends Phaser.Scene {
   /** Daily session goals + streak, with the completion reward status. */
   private openDailyPanel(): void {
     if (this.transitioning) return;
-    const objectives = saveSystem.dailyObjectives();
-    const streak = saveSystem.dailyStreak;
-    const allDone = objectives.every((objective) => objective.done);
-    const claimed = saveSystem.data.daily?.claimed ?? false;
-    const rewardAmount = saveSystem.dailyRewardAmount();
-    const subjectsToday = saveSystem.data.daily?.energySubjects?.length ?? 0;
-
-    const modal = this.add.container(0, 0).setDepth(1500);
-    const close = (): void => modal.destroy(true);
-    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
-    modal.add(this.add.rectangle(640, 360, 720, 476, 0x07151d, 0.99).setStrokeStyle(2, 0xf6c85f, 0.6));
-    modal.add(this.add.rectangle(300, 170, 5, 44, 0xf6c85f, 0.95).setOrigin(0));
-    modal.add(this.add.text(316, 170, "🔥 Missione del giorno", { fontFamily: "Inter, Arial", fontSize: "30px", color: "#f5fbff", fontStyle: "bold" }));
-    modal.add(this.add.text(316, 214, `Serie di ${streak} ${streak === 1 ? "giorno" : "giorni"} · varietà oggi: ${subjectsToday} attività · torna domani per non perderla.`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9" }));
-
-    objectives.forEach((objective, index) => {
-      const y = 272 + index * 62;
-      modal.add(this.add.rectangle(640, y, 640, 52, objective.done ? 0x123a2f : 0x0c1d2a, 0.95).setStrokeStyle(2, objective.done ? 0x2ed889 : 0x304653, 0.75));
-      modal.add(this.add.text(346, y, objective.done ? "✓" : "○", { fontFamily: "Inter, Arial", fontSize: "24px", color: objective.done ? "#2ed889" : "#6b7d84", fontStyle: "bold" }).setOrigin(0, 0.5));
-      modal.add(this.add.text(392, y - 9, objective.label, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0, 0.5));
-      modal.add(this.add.text(392, y + 12, `Progresso: ${objective.current}/${objective.target}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9aaab0" }).setOrigin(0, 0.5));
+    // Shared with the explorable hub (src/ui/DailyPanel.ts).
+    openDailyPanel(this, {
+      onClaim: (granted) => {
+        this.showDailyRewardToast(granted);
+        this.time.delayedCall(700, () => this.scene.restart());
+      },
     });
-
-    const rewardY = 272 + objectives.length * 62 + 18;
-    const rewardText = claimed
-      ? `✦ Ricompensa del giorno ritirata: +${rewardAmount} ⚡`
-      : allDone
-        ? `✦ Obiettivi completati! Ritira +${rewardAmount} ⚡`
-        : `Completa tutti gli obiettivi per +${rewardAmount} ⚡`;
-    modal.add(this.add.text(640, rewardY, rewardText, { fontFamily: "Inter, Arial", fontSize: "14px", color: allDone || claimed ? "#f7d37a" : "#9fb6c2", fontStyle: "bold" }).setOrigin(0.5));
-    modal.add(this.add.text(640, rewardY + 22, "Bonus varietà automatici: +15 per una nuova attività, poi soglie a 3/5/7 attività nel giorno.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9fb6c2",
-    }).setOrigin(0.5));
-    if (allDone && !claimed) {
-      modal.add(new Button(this, 640, rewardY + 58, `Ritira +${rewardAmount} ⚡`, () => {
-        const granted = saveSystem.claimDailyIfComplete();
-        close();
-        if (granted > 0) {
-          this.showDailyRewardToast(granted);
-          this.time.delayedCall(700, () => this.scene.restart());
-        }
-      }, { width: 220, height: 44, fill: 0x3a3220, stroke: 0xf6c85f, fontSize: 14 }));
-    } else {
-      modal.add(new Button(this, 640, rewardY + 58, "Ho capito", close, { width: 200, height: 44, fill: 0x263743 }));
-    }
   }
 
   private showDailyRewardToast(amount: number): void {
-    const toast = this.add.container(640, 150).setDepth(1600).setAlpha(0);
-    toast.add(this.add.rectangle(0, 0, 440, 54, 0x07151d, 0.96).setStrokeStyle(2, 0xf6c85f, 0.9));
-    toast.add(this.add.text(0, 0, `✦ Missione del giorno completata!  +${amount} ⚡`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
-    audioManager.play("panelOpen");
-    this.tweens.add({
-      targets: toast, alpha: 1, y: 162, duration: 300, ease: "Cubic.easeOut",
-      onComplete: () => this.tweens.add({ targets: toast, alpha: 0, delay: 2600, duration: 600, onComplete: () => toast.destroy(true) }),
-    });
+    showDailyRewardToast(this, amount);
   }
 
   private startProgressiveMission(): void {
@@ -639,13 +600,13 @@ export class MainMenuScene extends Phaser.Scene {
     const modal = this.add.container(0, 0).setDepth(1000);
     const blocker = this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.86).setInteractive();
     const panel = this.add.rectangle(640, 360, 590, 300, 0x07151d, 0.99).setStrokeStyle(2, 0xf6c85f, 0.78);
-    const title = this.add.text(380, 238, "Ripartire dal livello 1?", {
+    const title = this.add.text(380, 238, "Ripartire dalla profondità 1?", {
       fontFamily: "Inter, Arial",
       fontSize: "27px",
       color: "#f7d37a",
       fontStyle: "bold",
     });
-    const detail = this.add.text(380, 292, `Scalata corrente: livello ${currentLevel}/8, livelli completati ${completedLevels}.\n\nVerranno azzerati soltanto progressi, risultati, punti e timer della scalata.`, {
+    const detail = this.add.text(380, 292, `Scalata corrente: profondità ${currentLevel}/8, settori completati ${completedLevels}.\n\nVerranno azzerati soltanto progressi, risultati, punti e timer della scalata.`, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#d9eaf1",
@@ -666,7 +627,7 @@ export class MainMenuScene extends Phaser.Scene {
   private resetProgressiveMissionFromScratch(): void {
     if (this.transitioning) return;
     this.transitioning = true;
-    const clearBusy = this.showBusy("Azzero la scalata e preparo il livello 1...");
+    const clearBusy = this.showBusy("Azzero la scalata e preparo la profondità 1...");
     this.time.delayedCall(40, () => {
       try {
         this.createProgressiveRun(1, []);
@@ -678,7 +639,7 @@ export class MainMenuScene extends Phaser.Scene {
         void startScene(this, "ProceduralMissionScene").catch(() => {
           clearBusy();
           this.transitioning = false;
-          this.showMenuError("Reset completato, ma non sono riuscito ad aprire il livello 1.");
+          this.showMenuError("Reset completato, ma non sono riuscito ad aprire la profondità 1.");
         });
       } catch {
         clearBusy();
@@ -898,14 +859,14 @@ export class MainMenuScene extends Phaser.Scene {
     if (!run) {
       if (expectedMode === "mission") return "nessuna missione salvata";
       if (expectedMode === "training") return "nessun focus sospeso";
-      return "livello 1 non iniziato";
+      return "profondità 1 non iniziata";
     }
     const mode = proceduralRunRules.modeFor(run);
     if (mode !== expectedMode) {
       return "nessun percorso compatibile";
     }
     if (run.completedAt) {
-      return `${expectedMode === "training" ? "completato" : "completata"} - L${run.difficulty}`;
+      return `${expectedMode === "training" ? "completato" : "completata"} - Profondità ${run.difficulty}`;
     }
     if (run.failedAt) {
       return `${expectedMode === "mission" ? "fallita" : "interrotto"} - puoi iniziare di nuovo`;
@@ -917,7 +878,7 @@ export class MainMenuScene extends Phaser.Scene {
     const time = (expectedMode === "mission" || expectedMode === "progressive") && run.pausedRemainingMs
       ? ` | tempo in pausa ${formatDuration(run.pausedRemainingMs)}`
       : "";
-    return `in pausa${subject} L${run.difficulty} | ${solved}/${total}${time}`;
+    return `in pausa${subject} profondità ${run.difficulty} | ${solved}/${total}${time}`;
   }
 
   private trainingDifficultyKey(): string {

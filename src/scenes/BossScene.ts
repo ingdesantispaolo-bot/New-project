@@ -39,12 +39,12 @@ const LOGIC_COLOR = 0xf6c85f;
 const PAD_COLORS = [0xff5d7a, 0x6be7d6, 0xf6c85f, 0x70d68a, 0x9f8cff, 0xff9ad2];
 
 /**
- * Pillar 4 — "Sfida dell'Eco": a multi-domain boss encounter. The Eco (a rebel
- * shard of NORA) challenges the player with a string of quick rounds drawn from
+ * Pillar 4 — "Sfida del Guardiano": a multi-domain boss encounter. The Guardian
+ * defense system challenges the player with a string of quick rounds drawn from
  * DIFFERENT subjects (maths, language, English, coding, circuits) AND from the
  * mind itself: logic (sequences, balance deduction) and memory (a Simon-style
- * sequence, a flash grid). Each success chips the Eco's integrity; three
- * mistakes end the run. Winning weakens the Eco, advances its story arc and
+ * sequence, a flash grid). Each success chips the Guardian's integrity; three
+ * mistakes end the run. Winning reconciles the Guardian, advances its story arc and
  * reinforces every competency faced — academic and transversal alike.
  */
 export class BossScene extends Phaser.Scene {
@@ -94,19 +94,19 @@ export class BossScene extends Phaser.Scene {
     this.facedCompetencies.clear();
     this.busy = false;
 
-    this.add.text(56, 26, "⚠  Sfida dell'Eco", {
+    this.add.text(56, 26, "Sfida del Guardiano", {
       fontFamily: "Inter, Arial",
       fontSize: "30px",
       color: "#ff9fb2",
       fontStyle: "bold",
     });
-    this.add.text(58, 66, `Frammento ribelle di NORA · Livello ${this.level}`, {
+    this.add.text(58, 66, `Sistema di difesa del Relitto · Profondità ${this.level}`, {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#d6b4c2",
     });
 
-    // Eco glitch core (top-right), contrasting NORA's clean cyan core.
+    // Guardian glitch core (top-right), contrasting NORA's clean cyan core.
     this.ecoCore = this.add.circle(1170, 64, 30, 0x2a0e1a, 1).setStrokeStyle(3, ECO_COLOR, 0.85);
     this.add.circle(1170, 64, 11, 0xffd0da, 0.9);
     if (!settingsSystem.effectsReduced()) {
@@ -114,7 +114,7 @@ export class BossScene extends Phaser.Scene {
     }
 
     // Integrity bar.
-    this.add.text(58, 98, "Integrità dell'Eco", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#d6b4c2" });
+    this.add.text(58, 98, "Integrità del Guardiano", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#d6b4c2" });
     this.add.rectangle(56, 120, 980, 16, 0x1a0a12, 1).setOrigin(0).setStrokeStyle(1, ECO_COLOR, 0.5);
     this.integrityBar = this.add.rectangle(56, 120, 980, 16, ECO_COLOR, 0.85).setOrigin(0);
 
@@ -128,11 +128,11 @@ export class BossScene extends Phaser.Scene {
 
   private taunt(defeats: number): string {
     const taunts = [
-      "«Sono ciò che NORA ha dimenticato. Pensi davvero di rimettere ordine? Ogni materia che hai studiato — proviamole tutte, qui, ora.»",
-      "«Di nuovo tu. L'ultima volta è stata fortuna. Stavolta mescolo numeri, parole e circuiti più in fretta.»",
+      "«Sono il Guardiano del Relitto. Nessun accesso senza prova. Ogni settore che hai stabilizzato — proviamoli tutti, qui, ora.»",
+      "«Di nuovo tu. L'ultima volta hai superato un protocollo. Stavolta mescolo numeri, parole e circuiti più in fretta.»",
       "«Mi stai indebolendo, lo ammetto. Ma più mi colpisci, più divento difficile da prevedere.»",
-      "«I ricordi di NORA stanno tornando per colpa tua. Difenderò gli ultimi frammenti con tutto ciò che ho.»",
-      "«Quasi non resta nulla di me. Ancora una sfida... e forse capirò che non ero un nemico, ma una parte di lei.»",
+      "«I ricordi di NORA stanno tornando grazie a te. Io li difendo ancora come se fossero minacce.»",
+      "«Quasi non resta nulla del vecchio allarme. Ancora una sfida... e forse capirò che proteggere non significa respingere.»",
     ];
     return taunts[Math.min(taunts.length - 1, defeats)];
   }
@@ -140,7 +140,7 @@ export class BossScene extends Phaser.Scene {
   private showIntro(defeats: number): void {
     this.busy = true;
     const card = this.add.rectangle(640, 410, 1040, 360, 0x140811, 0.96).setStrokeStyle(2, ECO_COLOR, 0.6);
-    const title = this.add.text(640, 270, "L'ECO TI SFIDA", {
+    const title = this.add.text(640, 270, "IL GUARDIANO TI SFIDA", {
       fontFamily: "Inter, Arial",
       fontSize: "26px",
       color: "#ff9fb2",
@@ -154,7 +154,7 @@ export class BossScene extends Phaser.Scene {
       wordWrap: { width: 920 },
       lineSpacing: 6,
     }).setOrigin(0.5);
-    const rule = this.add.text(640, 488, `Colpisci l'Eco con ${this.integrityMax} prove superate: materie diverse, ma anche logica e memoria. Hai ${this.livesMax} vite: tre errori e si rigenera.`, {
+    const rule = this.add.text(640, 488, `Supera ${this.integrityMax} prove del Guardiano: settori diversi, ma anche logica e memoria. Hai ${this.livesMax} vite: tre errori e il protocollo si rigenera.`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#c7a9b6",
@@ -162,7 +162,7 @@ export class BossScene extends Phaser.Scene {
       wordWrap: { width: 900 },
     }).setOrigin(0.5);
     this.overlayObjects = [card, title, body, rule];
-    const go = new Button(this, 640, 548, "Affronta l'Eco", () => {
+    const go = new Button(this, 640, 548, "Affronta il Guardiano", () => {
       this.clearOverlay();
       this.busy = false;
       this.showRound();
@@ -235,7 +235,7 @@ export class BossScene extends Phaser.Scene {
     if (random.integer(1, 100) <= 30) {
       const span = 3 + Math.min(4, Math.floor(this.level / 2));
       if (random.integer(0, 1) === 0) {
-        return { mode: "simon", domain: "Memoria", color: MEMORY_COLOR, competencies: ["trasversali.memoria"], length: span, question: "L'Eco proietta una sequenza rubata ai ricordi di NORA. Guardala e ripetila." };
+        return { mode: "simon", domain: "Memoria", color: MEMORY_COLOR, competencies: ["trasversali.memoria"], length: span, question: "Il Guardiano proietta una sequenza sigillata nei ricordi di NORA. Guardala e ripetila." };
       }
       return { mode: "flash", domain: "Memoria", color: MEMORY_COLOR, competencies: ["trasversali.memoria"], count: span, question: "Frammenti di memoria lampeggiano nella griglia. Ricorda le loro posizioni." };
     }
@@ -338,7 +338,7 @@ export class BossScene extends Phaser.Scene {
     const pos = this.simonInput.length - 1;
     if (this.simonInput[pos] !== this.simonSeq[pos]) {
       this.mindLock = true;
-      this.resolveOutcome(false, "Sequenza sbagliata: l'Eco trattiene il ricordo.");
+      this.resolveOutcome(false, "Sequenza sbagliata: il Guardiano trattiene il ricordo.");
       return;
     }
     if (this.simonInput.length === this.simonSeq.length) {
@@ -430,11 +430,11 @@ export class BossScene extends Phaser.Scene {
 
     const finale = defeats >= 5;
     const lines = finale
-      ? "L'Eco si dissolve in una luce calda e rientra in NORA. «Non ero un nemico... ero la parte di lei rimasta al buio. Grazie per avermi ritrovata.» L'arco dell'Eco è completo."
-      : `Colpita! L'Eco arretra e un altro frammento di memoria torna a NORA. La prossima volta sarà più imprevedibile (sconfitte: ${defeats}/5).`;
-    this.outcomeCard("L'ECO È STATA RESPINTA", lines, 0x123026, 0x9ff5c0, [
+      ? "Il Guardiano abbassa le difese e si ricompone accanto a NORA. «Non ero un nemico. Ero il sistema che proteggeva la nave senza ricordare chi stava proteggendo.» L'arco del Guardiano è completo."
+      : `Protocollo superato! Il Guardiano arretra e un altro frammento di memoria torna a NORA. La prossima volta sarà più imprevedibile (protocolli superati: ${defeats}/5).`;
+    this.outcomeCard("IL GUARDIANO CEDE IL PASSO", lines, 0x123026, 0x9ff5c0, [
       { label: "Ancora", color: 0x7a1f3a, action: () => this.scene.restart() },
-      { label: "La tua Accademia", color: 0x1f5a51, action: () => { void startScene(this, "AcademyScene"); } },
+      { label: "Il tuo Relitto", color: 0x1f5a51, action: () => { void startScene(this, "AcademyScene"); } },
       { label: "Menu", color: 0x263743, action: () => this.scene.start("MainMenuScene") },
     ]);
   }
@@ -443,8 +443,8 @@ export class BossScene extends Phaser.Scene {
     audioManager.play("error");
     this.clearRound();
     this.outcomeCard(
-      "L'ECO SI RIGENERA",
-      "«Non ancora.» L'Eco si ricompone nell'ombra. Allenati nell'Albero delle Competenze e riprova: ogni materia che padroneggi è un colpo in più.",
+      "IL GUARDIANO SI RIGENERA",
+      "«Non ancora.» Il protocollo si ricompone nell'ombra. Calibra nell'Albero delle Competenze e riprova: ogni settore che padroneggi è un varco in più.",
       0x2a0e1a,
       0xff9fb2,
       [

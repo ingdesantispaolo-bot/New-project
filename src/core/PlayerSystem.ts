@@ -246,10 +246,10 @@ function trendFor(results: PlayerResult[]): "up" | "steady" | "down" {
 
 function nextGoalFor(label: string, grade: number, bestTimeMs: number, runs: number): string {
   if (runs === 0) return `Completa un primo percorso di ${label.toLowerCase()}.`;
-  if (grade < 6.4) return `Ripeti ${label.toLowerCase()} a un livello gestibile: punta a capire il metodo prima della velocita.`;
+  if (grade < 6.4) return `Ripeti ${label.toLowerCase()} a una profondità gestibile: punta a capire il metodo prima della velocita.`;
   if (grade < 8) return `Consolida ${label.toLowerCase()}: prova a ridurre indizi e tentativi inutili.`;
   if (bestTimeMs > 0) return `Sfida ${label.toLowerCase()}: mantieni almeno ${grade}/10 con un seed nuovo e tempo piu pulito.`;
-  return `Aumenta difficolta in ${label.toLowerCase()} mantenendo precisione.`;
+  return `Aumenta profondità in ${label.toLowerCase()} mantenendo precisione.`;
 }
 
 function scoreByDomain(scores: ProceduralPuzzleScore[]): Array<{ label: string; score: number }> {
@@ -465,9 +465,9 @@ export class PlayerSystem {
     const nextGoal = results.length === 0
       ? "Completa una missione o un focus: il registro iniziera a costruire una traiettoria personale."
       : weakestSubject && weakestSubject.averageGrade < 7.2
-        ? `Obiettivo consigliato: rinforza ${weakestSubject.label.toLowerCase()} con un livello adatto e meno aiuti.`
+        ? `Obiettivo consigliato: rinforza ${weakestSubject.label.toLowerCase()} con una profondità adatta e meno aiuti.`
         : globalGrade >= 8.5
-          ? "Stai consolidando bene: prova una difficolta piu alta mantenendo precisione e spiegazione del metodo."
+          ? "Stai consolidando bene: prova una profondità piu alta mantenendo precisione e spiegazione del metodo."
           : "Prossimo passo: scegli il focus con voto piu basso e ripeti con un nuovo seed.";
     const activePuzzleScores = Object.values(this.store.results
       .filter((result) => result.playerId === player.id && result.category === "exercise")
@@ -518,7 +518,7 @@ export class PlayerSystem {
   }
 
   formatResult(result: PlayerResult): string {
-    return `${result.playerName} | L${result.difficulty} | ${result.score} pt | ${formatDuration(result.elapsedMs)} | ${result.hintsUsed} indizi`;
+    return `${result.playerName} | Profondità ${result.difficulty} | ${result.score} pt | ${formatDuration(result.elapsedMs)} | ${result.hintsUsed} indizi`;
   }
 
   private loadStore(): PlayerStore {

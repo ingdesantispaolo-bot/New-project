@@ -38,7 +38,7 @@ export class MasteryScene extends Phaser.Scene {
       fontSize: "16px",
       color: "#9ff5e9",
     });
-    this.add.text(58, 102, "La maestria si guadagna risolvendo da soli, al primo tentativo e senza aiuti: i livelli alti premiano l'autonomia, non i tentativi.", {
+    this.add.text(58, 102, "La maestria si guadagna risolvendo da soli, al primo tentativo e senza aiuti: le profondità alte premiano l'autonomia, non i tentativi.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7dce7",
@@ -56,7 +56,7 @@ export class MasteryScene extends Phaser.Scene {
       height: 44,
       fill: 0x263743,
     });
-    new Button(this, 372, 686, "Allenamento focus", () => this.scene.start("MainMenuScene"), {
+    new Button(this, 372, 686, "Calibrazione settore", () => this.scene.start("MainMenuScene"), {
       width: 240,
       height: 44,
       fill: 0x173b36,
@@ -85,7 +85,7 @@ export class MasteryScene extends Phaser.Scene {
         color: i < branch.tier ? "#f6c85f" : "#3a4a54",
       });
     }
-    this.add.text(x + 18, y + 46, `Livello: ${branch.tierLabel}`, {
+    this.add.text(x + 18, y + 46, `Profondità: ${branch.tierLabel}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: branch.tier >= 2 ? "#9ff5a7" : "#c7dce7",
@@ -111,7 +111,7 @@ export class MasteryScene extends Phaser.Scene {
     // Top concept nodes with mini bars.
     const topNodes = branch.nodes.slice(0, 3);
     if (topNodes.length === 0) {
-      this.add.text(x + 18, y + 134, "Concetti non ancora allenati.", {
+      this.add.text(x + 18, y + 134, "Concetti non ancora calibrati.", {
         fontFamily: "Inter, Arial",
         fontSize: "11px",
         color: "#5d7782",

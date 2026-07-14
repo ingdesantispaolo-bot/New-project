@@ -322,7 +322,7 @@ export class LanguageCorruptionGenerator {
         "Se due risposte sembrano possibili, rileggi l'obiettivo operativo della console.",
       ],
       competencies: minigame.competencies,
-      difficultyLabel: `Livello ${level} - sprint linguistico`,
+      difficultyLabel: `Profondità ${level} - sprint linguistico`,
       conceptTags: this.languageMinigameConcepts(type),
       learningPurpose: this.languageMinigamePurpose(type),
       repairGoal: "Stabilizzare molti micro-messaggi in 120 secondi senza provare a caso.",
@@ -344,9 +344,9 @@ export class LanguageCorruptionGenerator {
       diagnosticSteps: template.diagnosticSteps,
       hints: template.hints,
       competencies: this.competenciesFor(template.id),
-      difficultyLabel: `Livello ${Math.max(1, Math.min(8, difficultyLevel))} - ${this.levelName(difficultyLevel)}`,
+      difficultyLabel: `Profondità ${Math.max(1, Math.min(8, difficultyLevel))} - ${this.levelName(difficultyLevel)}`,
       conceptTags,
-      learningPurpose: template.learningPurpose ?? `Allena ${conceptTags.join(", ")} dentro un messaggio tecnico da rendere eseguibile.`,
+      learningPurpose: template.learningPurpose ?? `Calibra ${conceptTags.join(", ")} dentro un messaggio tecnico da rendere eseguibile.`,
       repairGoal: template.repairGoal ?? "Trasforma il log corrotto in una frase chiara, corretta e utile al sistema.",
       method: template.method ?? "Trova soggetto e azione, controlla accordi e connettivi, poi verifica che il significato tecnico non cambi.",
       optionFeedback,
@@ -1890,7 +1890,7 @@ export class LanguageCorruptionGenerator {
       { subject: "Il vicino", verb: "restituisce", object: "la chiave", tail: "prima di uscire", concept: "azione e tempo" },
       { subject: "La farmacia", verb: "consegna", object: "la medicina", tail: "con lo scontrino", concept: "azione e complemento" },
       { subject: "Il treno", verb: "raggiunge", object: "la stazione", tail: "senza ritardo", concept: "spostamento e modo" },
-      { subject: "La palestra", verb: "organizza", object: "un allenamento", tail: "per la squadra", concept: "scopo e destinatario" },
+      { subject: "La palestra", verb: "organizza", object: "una calibrazione", tail: "per la squadra", concept: "scopo e destinatario" },
       { subject: "Il parco", verb: "offre", object: "uno spazio tranquillo", tail: "dopo la scuola", concept: "descrizione utile" },
       { subject: "La ricetta", verb: "indica", object: "gli ingredienti", tail: "in ordine", concept: "ordine informativo" },
       { subject: "Il messaggio", verb: "chiarisce", object: "l'appuntamento", tail: "senza ambiguità", concept: "precisione comunicativa" },
@@ -1971,7 +1971,7 @@ export class LanguageCorruptionGenerator {
       { subject: "La biblioteca", verb: "apre", object: "la sala studio" },
       { subject: "La farmacia", verb: "consegna", object: "la medicina" },
       { subject: "Il supermercato", verb: "espone", object: "l'offerta" },
-      { subject: "La palestra", verb: "organizza", object: "l'allenamento" },
+      { subject: "La palestra", verb: "organizza", object: "la calibrazione" },
       { subject: "La stazione", verb: "annuncia", object: "il binario" },
       { subject: "Il parco", verb: "offre", object: "uno spazio tranquillo" },
       { subject: "Il municipio", verb: "pubblica", object: "l'avviso" },
@@ -2037,14 +2037,14 @@ export class LanguageCorruptionGenerator {
   }
 
   private languageMinigamePurpose(type: LanguageMinigameType): string {
-    if (type === "agreement-sprint") return "Allena riconoscimento rapido di accordi, soggetti reali e forme verbali corrette.";
-    if (type === "connector-route") return "Allena scelta dei connettivi in base a causa, contrasto, tempo, condizione e scopo.";
-    if (type === "word-order") return "Allena la costruzione della frase: ordinare le parole per produrre un comando chiaro ed eseguibile.";
-    if (type === "lexicon-lab") return "Allena vocabolario preciso: scegliere parole adatte a prova, ipotesi, fonte, sintesi e registro tecnico.";
-    if (type === "verb-mastery") return "Allena padronanza dei verbi: riconoscere modo, tempo, persona e scegliere o produrre la forma corretta in contesto.";
-    if (type === "punctuation-fix") return "Allena ortografia: accento (è/perché/più), apostrofo (po'/un'/l'/d'accordo) e omofoni (c'è, sì/si, se/sé).";
-    if (type === "argument-sort") return "Allena il pensiero critico: distinguere fatti verificabili, opinioni personali, ipotesi da controllare e prove che sostengono una conclusione.";
-    return "Allena lettura selettiva: separare dati utili, prove, opinioni e dettagli decorativi.";
+    if (type === "agreement-sprint") return "Calibra riconoscimento rapido di accordi, soggetti reali e forme verbali corrette.";
+    if (type === "connector-route") return "Calibra scelta dei connettivi in base a causa, contrasto, tempo, condizione e scopo.";
+    if (type === "word-order") return "Calibra la costruzione della frase: ordinare le parole per produrre un comando chiaro ed eseguibile.";
+    if (type === "lexicon-lab") return "Calibra vocabolario preciso: scegliere parole adatte a prova, ipotesi, fonte, sintesi e registro tecnico.";
+    if (type === "verb-mastery") return "Calibra padronanza dei verbi: riconoscere modo, tempo, persona e scegliere o produrre la forma corretta in contesto.";
+    if (type === "punctuation-fix") return "Calibra ortografia: accento (è/perché/più), apostrofo (po'/un'/l'/d'accordo) e omofoni (c'è, sì/si, se/sé).";
+    if (type === "argument-sort") return "Calibra il pensiero critico: distinguere fatti verificabili, opinioni personali, ipotesi da controllare e prove che sostengono una conclusione.";
+    return "Calibra lettura selettiva: separare dati utili, prove, opinioni e dettagli decorativi.";
   }
 
   private languageMinigameMethod(type: LanguageMinigameType): string {

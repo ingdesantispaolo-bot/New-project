@@ -69,7 +69,7 @@ export class WordArchiveScene extends Phaser.Scene {
     if (!saveSystem.data.flags.mission4IntroSeen) {
       saveSystem.setFlag("mission4IntroSeen", true);
       new DialogueBox(this, dialogueSystem.format("mission4Opening"), () => {
-        feedbackSystem.publish("Le frasi non sono esercizi: sono comandi rotti dell'archivio.", "info");
+        feedbackSystem.publish("Le frasi non sono prove scollegate: sono comandi rotti dell'archivio.", "info");
       });
     }
   }

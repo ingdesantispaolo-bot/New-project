@@ -2,13 +2,13 @@ import type { ProceduralSpecialization } from "../../procedural/ProceduralTypes"
 import type { RoomWall } from "../../scenes/procedural/RoomExplorer";
 
 /**
- * Registro delle AREE esplorabili del mondo (dati puri, nessuna logica).
+ * Registro dei PONTI esplorabili del Relitto dei Primi (dati puri, nessuna logica).
  *
- * Ogni area è una configurazione dichiarativa consumata da
+ * Ogni ponte è una configurazione dichiarativa consumata da
  * {@link ExplorableRoomScene} tramite il motore riusabile {@link RoomExplorer}:
  * niente motore nuovo per aggiungere una mappa, basta un oggetto qui.
  *
- * Il contenuto degli esercizi resta procedurale: l'area definisce solo *dove*
+ * Il contenuto delle prove resta procedurale: il ponte definisce solo *dove*
  * si trovano le console e *quale focus* avviano. Le console con `targetArea`
  * (o `id === "exit"`) sono nodi di navigazione tra mappe, non allenamenti.
  */
@@ -26,8 +26,10 @@ export type AreaConsoleSpec = {
   w: number;
   h: number;
   summary?: string;
-  /** Nodo di navigazione: id dell'area di destinazione. `exit` senza target torna al menu. */
+  /** Nodo di navigazione: id del ponte di destinazione. `exit` senza target torna al menu. */
   targetArea?: string;
+  /** Nodo di navigazione verso una scena non-esplorabile (es. la Storia). */
+  targetScene?: string;
 };
 
 export type MapAreaDef = {
@@ -44,7 +46,7 @@ export type MapAreaDef = {
   consoles: AreaConsoleSpec[];
   /** Sovrappone i props ambientali condivisi. Off per aree con arte già ricca. */
   decorate?: boolean;
-  /** Materie distinte da padroneggiare (allenare) per sbloccare l'area. 0 = aperta. */
+  /** Settori distinti da padroneggiare per sbloccare il ponte. 0 = aperto. */
   unlock?: number;
 };
 
@@ -60,17 +62,17 @@ const perimeter = (): RoomWall[] => [
 
 /** Nodi di navigazione comuni: ritorno al laboratorio + uscita al menu. */
 const backToLab = (x: number, y: number): AreaConsoleSpec =>
-  ({ id: "to-lab", assetId: "exit", label: "Laboratorio", glyph: "🔬", color: 0x7ad7ff, x, y, w: 120, h: 150, summary: "Torna al laboratorio centrale.", targetArea: "laboratorio" });
+  ({ id: "to-lab", assetId: "exit", label: "Ponte Centrale", glyph: "◆", color: 0x7ad7ff, x, y, w: 120, h: 150, summary: "Torna al nodo centrale del Relitto.", targetArea: "laboratorio" });
 const areaExit = (x: number, y: number): AreaConsoleSpec =>
-  ({ id: "exit", assetId: "exit", label: "Uscita", glyph: "🚪", color: 0xffd75e, x, y, w: 120, h: 150 });
+  ({ id: "exit", assetId: "exit", label: "Ritorno", glyph: "◇", color: 0xffd75e, x, y, w: 120, h: 150 });
 
 /**
- * LABORATORIO — hub principale. Riproduce esattamente la stanza collaudata,
- * con in più un varco verso la Serra Bio.
+ * PONTE CENTRALE — hub principale. Mantiene la stanza collaudata,
+ * con varchi verso i ponti del Relitto.
  */
 const laboratorio: MapAreaDef = {
   id: "laboratorio",
-  label: "Laboratorio",
+  label: "Ponte Centrale",
   bgTexture: "action-room-bg",
   accent: 0x6be7d6,
   decorate: true,
@@ -89,23 +91,25 @@ const laboratorio: MapAreaDef = {
     { id: "circuit", assetId: "electronics", focus: "elettronica", label: "Circuiti", glyph: "⚡", color: 0xf6c85f, x: 1180, y: 840, w: 120, h: 150, summary: "Componenti, corrente, protezione e diagnosi graduale." },
     { id: "music", assetId: "music", focus: "musica", label: "Musica", glyph: "🎵", color: 0xff9d5c, x: 760, y: 900, w: 120, h: 150, summary: "Note, pentagramma, ritmo e lettura rapida." },
     { id: "physics", focus: "fisica", label: "Fisica", glyph: "F", color: 0x9ff5e9, x: 1490, y: 250, w: 120, h: 150, summary: "Forze, grandezze, unità, relazioni e ragionamento." },
-    { id: "to-serra", assetId: "exit", label: "Serra Bio", glyph: "🌿", color: 0x7cf6a6, x: 300, y: 560, w: 120, h: 150, summary: "Serra dell'Accademia: colture, ambiente e dati.", targetArea: "serra-bio" },
-    { id: "to-circuiti", assetId: "exit", label: "Cantiere Circuiti", glyph: "⚡", color: 0xf6c85f, x: 680, y: 560, w: 120, h: 150, summary: "Officina elettronica: banchi, energia e diagnosi.", targetArea: "cantiere-circuiti" },
-    { id: "to-osservatorio", assetId: "exit", label: "Osservatorio", glyph: "🔭", color: 0x9f8cff, x: 890, y: 560, w: 120, h: 150, summary: "Sala astronomica: fisica, orbite e segnali.", targetArea: "osservatorio" },
-    { id: "to-musica", assetId: "exit", label: "Sala Musica", glyph: "🎵", color: 0xff9d5c, x: 1100, y: 560, w: 120, h: 150, summary: "Auditorium: pentagramma, ritmo e ascolto.", targetArea: "sala-musica" },
-    { id: "to-archivio", assetId: "exit", label: "Archivio", glyph: "📚", color: 0x7ad7ff, x: 1460, y: 560, w: 120, h: 150, summary: "Biblioteca hi-tech: lingue, testi e codici.", targetArea: "archivio-biblioteca" },
-    { id: "to-biblioteca", assetId: "exit", label: "Biblioteca Classica", glyph: "📜", color: 0xd8a24a, x: 1620, y: 560, w: 120, h: 150, summary: "Scriptorium: latino e discipline classiche.", targetArea: "biblioteca-classica" },
-    { id: "exit", assetId: "exit", label: "Uscita", glyph: "🚪", color: 0xffd75e, x: 1620, y: 900, w: 120, h: 150 },
+    { id: "storia", label: "Il Relitto", glyph: "◇", color: 0xffd75e, x: 480, y: 240, w: 120, h: 150, summary: "La scoperta della nave dei Primi e della mente che la custodisce: NORA.", targetScene: "CampaignScene" },
+    { id: "spedizione", focus: "libera", label: "Spedizione", glyph: "◆", color: 0xf6c85f, x: 960, y: 800, w: 132, h: 160, summary: "Il portale centrale: una missione generata che attraversa tutti i ponti del Relitto." },
+    { id: "to-serra", assetId: "exit", label: "Bio-ponte", glyph: "◇", color: 0x7cf6a6, x: 300, y: 560, w: 120, h: 150, summary: "Giardino sospeso dei Primi: colture, ambiente e dati.", targetArea: "serra-bio" },
+    { id: "to-circuiti", assetId: "exit", label: "Reattore", glyph: "◆", color: 0xf6c85f, x: 680, y: 560, w: 120, h: 150, summary: "Camera del cuore-nave: energia, condotti e diagnosi.", targetArea: "cantiere-circuiti" },
+    { id: "to-osservatorio", assetId: "exit", label: "Ponte di Comando", glyph: "◇", color: 0x9f8cff, x: 890, y: 560, w: 120, h: 150, summary: "Carte stellari dei Primi, fisica, orbite e segnali.", targetArea: "osservatorio" },
+    { id: "to-musica", assetId: "exit", label: "Motore a Risonanza", glyph: "◆", color: 0xff9d5c, x: 1100, y: 560, w: 120, h: 150, summary: "Strumento-motore della nave: onde, ritmo e ascolto.", targetArea: "sala-musica" },
+    { id: "to-archivio", assetId: "exit", label: "Data-core", glyph: "◇", color: 0x7ad7ff, x: 1460, y: 560, w: 120, h: 150, summary: "Memoria della nave: lingue, testi e codici.", targetArea: "archivio-biblioteca" },
+    { id: "to-biblioteca", assetId: "exit", label: "Sala dei Glifi", glyph: "◆", color: 0xd8a24a, x: 1620, y: 560, w: 120, h: 150, summary: "Parete dei Primi: latino, glifi e radici antiche.", targetArea: "biblioteca-classica" },
+    { id: "exit", assetId: "exit", label: "NORA", glyph: "◇", color: 0xffd75e, x: 1620, y: 900, w: 120, h: 150, summary: "La mente della nave: scorciatoie, progressi e strumenti." },
   ],
 };
 
 /**
- * SERRA BIO — prima area esterna (placeholder in attesa del PNG dedicato).
+ * BIO-PONTE — giardino sospeso dei Primi.
  * Tema natura + dati: focus su matematica, fisica e italiano.
  */
 const serraBio: MapAreaDef = {
   id: "serra-bio",
-  label: "Serra Bio",
+  label: "Bio-ponte",
   bgTexture: "area-serra-bio",
   floorColor: 0x0c2416,
   accent: 0x7cf6a6,
@@ -118,8 +122,8 @@ const serraBio: MapAreaDef = {
   // Coordinate allineate agli alloggiamenti dipinti nello sfondo (dock template:
   // console a (630/1130, 360/720), archi-porta a (880,560) e (880,880)).
   consoles: [
-    { id: "math", assetId: "math", focus: "matematica", label: "Dati Colture", glyph: "➗", color: 0x6be7d6, x: 630, y: 360, w: 120, h: 150, summary: "Misure, proporzioni e crescita delle colture." },
-    { id: "italian", assetId: "italian", focus: "italiano", label: "Registro Serra", glyph: "✒️", color: 0x9f8cff, x: 1130, y: 360, w: 120, h: 150, summary: "Log di coltivazione e istruzioni operative." },
+    { id: "math", assetId: "math", focus: "matematica", label: "Dati Colture", glyph: "➗", color: 0x6be7d6, x: 630, y: 360, w: 120, h: 150, summary: "Misure, proporzioni e crescita delle colture dei Primi." },
+    { id: "italian", assetId: "italian", focus: "italiano", label: "Registro Bio", glyph: "✒️", color: 0x9f8cff, x: 1130, y: 360, w: 120, h: 150, summary: "Log di coltivazione e istruzioni operative." },
     { id: "physics", focus: "fisica", label: "Ambiente", glyph: "F", color: 0x9ff5e9, x: 630, y: 720, w: 120, h: 150, summary: "Luce, temperatura, umidità: grandezze e relazioni." },
     { id: "music", assetId: "music", focus: "musica", label: "Bio-ritmi", glyph: "🎵", color: 0xff9d5c, x: 1130, y: 720, w: 120, h: 150, summary: "Cicli, pattern e lettura ordinata." },
     backToLab(880, 560),
@@ -128,12 +132,12 @@ const serraBio: MapAreaDef = {
 };
 
 /**
- * CANTIERE CIRCUITI — officina elettronica (accenti ambra). Perimetro con
- * banchi e pannelli dipinti, centro libero.
+ * REATTORE — camera del cuore-nave (accenti oro). Perimetro con
+ * condotti e pannelli dipinti, centro libero.
  */
 const cantiereCircuiti: MapAreaDef = {
   id: "cantiere-circuiti",
-  label: "Cantiere Circuiti",
+  label: "Reattore",
   bgTexture: "area-cantiere-circuiti",
   unlock: 1,
   floorColor: 0x0c1a1f,
@@ -143,7 +147,7 @@ const cantiereCircuiti: MapAreaDef = {
   worldH: WORLD_H,
   walls: perimeter(),
   consoles: [
-    { id: "circuit", assetId: "electronics", focus: "elettronica", label: "Banco Circuiti", glyph: "⚡", color: 0xf6c85f, x: 630, y: 360, w: 120, h: 150, summary: "Componenti, corrente, protezione e diagnosi." },
+    { id: "circuit", assetId: "electronics", focus: "elettronica", label: "Condotti", glyph: "⚡", color: 0xf6c85f, x: 630, y: 360, w: 120, h: 150, summary: "Componenti, corrente, protezione e diagnosi." },
     { id: "math", assetId: "math", focus: "matematica", label: "Misure", glyph: "➗", color: 0x6be7d6, x: 1130, y: 360, w: 120, h: 150, summary: "Letture, unità e calcolo delle grandezze." },
     { id: "coding", assetId: "coding", focus: "coding", label: "Logica", glyph: "💻", color: 0x7cf6a6, x: 630, y: 720, w: 120, h: 150, summary: "Condizioni, sequenze e controllo del sistema." },
     { id: "physics", focus: "fisica", label: "Energia", glyph: "F", color: 0x9ff5e9, x: 1130, y: 720, w: 120, h: 150, summary: "Tensione, potenza e trasformazioni." },
@@ -153,12 +157,12 @@ const cantiereCircuiti: MapAreaDef = {
 };
 
 /**
- * OSSERVATORIO — sala astronomica (accenti blu/viola, cielo stellato). Il
- * telescopio è dipinto a destra-centro: le console evitano quella zona.
+ * PONTE DI COMANDO — sala stellare dei Primi (accenti viola). Le carte
+ * stellari sono dipinte sul perimetro: le console restano nel centro aperto.
  */
 const osservatorio: MapAreaDef = {
   id: "osservatorio",
-  label: "Osservatorio",
+  label: "Ponte di Comando",
   bgTexture: "area-osservatorio",
   unlock: 2,
   floorColor: 0x0b1226,
@@ -168,8 +172,8 @@ const osservatorio: MapAreaDef = {
   worldH: WORLD_H,
   walls: perimeter(),
   consoles: [
-    { id: "physics", focus: "fisica", label: "Osservazioni", glyph: "F", color: 0x9ff5e9, x: 630, y: 360, w: 120, h: 150, summary: "Moto, forze, energia e lettura dei dati." },
-    { id: "math", assetId: "math", focus: "matematica", label: "Orbite", glyph: "➗", color: 0x6be7d6, x: 1130, y: 360, w: 120, h: 150, summary: "Distanze, proporzioni e traiettorie." },
+    { id: "physics", focus: "fisica", label: "Rotte", glyph: "F", color: 0x9ff5e9, x: 630, y: 360, w: 120, h: 150, summary: "Moto, forze, energia e lettura dei dati." },
+    { id: "math", assetId: "math", focus: "matematica", label: "Carte Stellari", glyph: "➗", color: 0x6be7d6, x: 1130, y: 360, w: 120, h: 150, summary: "Distanze, proporzioni e traiettorie." },
     { id: "english", assetId: "english", focus: "inglese", label: "Protocolli", glyph: "🌍", color: 0x7ad7ff, x: 630, y: 720, w: 120, h: 150, summary: "Istruzioni scientifiche in inglese operativo." },
     { id: "music", assetId: "music", focus: "musica", label: "Segnali", glyph: "🎵", color: 0xff9d5c, x: 1130, y: 720, w: 120, h: 150, summary: "Pattern periodici, frequenze e lettura ordinata." },
     backToLab(880, 560),
@@ -178,12 +182,12 @@ const osservatorio: MapAreaDef = {
 };
 
 /**
- * SALA MUSICA — auditorium (accenti ambra caldi). Tastiera a sinistra-centro e
- * batteria a destra-centro sono dipinte: le console restano nel centro aperto.
+ * MOTORE A RISONANZA — strumento-motore della nave. Gli elementi di risonanza
+ * sono dipinti sul perimetro: le console restano nel centro aperto.
  */
 const salaMusica: MapAreaDef = {
   id: "sala-musica",
-  label: "Sala Musica",
+  label: "Motore a Risonanza",
   bgTexture: "area-sala-musica",
   unlock: 3,
   floorColor: 0x14100a,
@@ -193,7 +197,7 @@ const salaMusica: MapAreaDef = {
   worldH: WORLD_H,
   walls: perimeter(),
   consoles: [
-    { id: "music", assetId: "music", focus: "musica", label: "Pentagramma", glyph: "🎵", color: 0xff9d5c, x: 630, y: 360, w: 120, h: 150, summary: "Note, chiavi, ritmo e lettura rapida." },
+    { id: "music", assetId: "music", focus: "musica", label: "Risonanza", glyph: "🎵", color: 0xff9d5c, x: 630, y: 360, w: 120, h: 150, summary: "Onde, ritmo, note e lettura rapida." },
     { id: "math", assetId: "math", focus: "matematica", label: "Ritmo", glyph: "➗", color: 0x6be7d6, x: 1130, y: 360, w: 120, h: 150, summary: "Frazioni, tempo e intervalli." },
     { id: "italian", assetId: "italian", focus: "italiano", label: "Testi", glyph: "✒️", color: 0x9f8cff, x: 630, y: 720, w: 120, h: 150, summary: "Comprensione, nessi e significato dei brani." },
     { id: "english", assetId: "english", focus: "inglese", label: "Audio EN", glyph: "🌍", color: 0x7ad7ff, x: 1130, y: 720, w: 120, h: 150, summary: "Etichette e comandi audio in inglese." },
@@ -203,12 +207,12 @@ const salaMusica: MapAreaDef = {
 };
 
 /**
- * ARCHIVIO / BIBLIOTECA — sala studio hi-tech (scaffali dipinti sul perimetro).
+ * DATA-CORE — memoria della nave (strutture dati dipinte sul perimetro).
  * Hub delle lingue: italiano, inglese e log/codici.
  */
 const archivioBiblioteca: MapAreaDef = {
   id: "archivio-biblioteca",
-  label: "Archivio",
+  label: "Data-core",
   bgTexture: "area-archivio-biblioteca",
   unlock: 4,
   floorColor: 0x0d1420,
@@ -218,7 +222,7 @@ const archivioBiblioteca: MapAreaDef = {
   worldH: WORLD_H,
   walls: perimeter(),
   consoles: [
-    { id: "italian", assetId: "italian", focus: "italiano", label: "Manoscritti", glyph: "✒️", color: 0x9f8cff, x: 630, y: 360, w: 120, h: 150, summary: "Comprensione, coesione e lessico preciso." },
+    { id: "italian", assetId: "italian", focus: "italiano", label: "Frammenti", glyph: "✒️", color: 0x9f8cff, x: 630, y: 360, w: 120, h: 150, summary: "Comprensione, coesione e lessico preciso." },
     { id: "english", assetId: "english", focus: "inglese", label: "Traduzioni", glyph: "🌍", color: 0x7ad7ff, x: 1130, y: 360, w: 120, h: 150, summary: "Comandi, lessico e comprensione reale." },
     { id: "coding", assetId: "coding", focus: "coding", label: "Log & Codici", glyph: "💻", color: 0x7cf6a6, x: 630, y: 720, w: 120, h: 150, summary: "Tracing, variabili e debug dei registri." },
     { id: "math", assetId: "math", focus: "matematica", label: "Indici", glyph: "➗", color: 0x6be7d6, x: 1130, y: 720, w: 120, h: 150, summary: "Ordinamento, codici e passaggi controllati." },
@@ -228,12 +232,12 @@ const archivioBiblioteca: MapAreaDef = {
 };
 
 /**
- * BIBLIOTECA CLASSICA — scriptorium (accenti oro/ambra). Casa del Latino, con le
- * discipline affini del biennio: italiano, inglese e numeri antichi.
+ * SALA DEI GLIFI — parete di scrittura aliena dei Primi. Casa del Latino come
+ * lingua antica del Relitto, con discipline affini e numeri antichi.
  */
 const bibliotecaClassica: MapAreaDef = {
   id: "biblioteca-classica",
-  label: "Biblioteca Classica",
+  label: "Sala dei Glifi",
   bgTexture: "area-biblioteca-classica",
   unlock: 2,
   floorColor: 0x1a1408,
@@ -243,7 +247,7 @@ const bibliotecaClassica: MapAreaDef = {
   worldH: WORLD_H,
   walls: perimeter(),
   consoles: [
-    { id: "latin", focus: "latino", label: "Tavola Latina", glyph: "📜", color: 0xd8a24a, x: 630, y: 360, w: 120, h: 150, summary: "Declinazioni, verbo, casi, lessico e sintassi latina." },
+    { id: "latin", focus: "latino", label: "Lingua dei Primi", glyph: "◇", color: 0xd8a24a, x: 630, y: 360, w: 120, h: 150, summary: "Declinazioni, verbo, casi, lessico e sintassi della lingua dei Primi." },
     { id: "italian", assetId: "italian", focus: "italiano", label: "Grammatica", glyph: "✒️", color: 0x9f8cff, x: 1130, y: 360, w: 120, h: 150, summary: "Analisi, comprensione e lessico preciso." },
     { id: "english", assetId: "english", focus: "inglese", label: "Radici Comuni", glyph: "🌍", color: 0x7ad7ff, x: 630, y: 720, w: 120, h: 150, summary: "Lessico e radici condivise col latino." },
     { id: "math", assetId: "math", focus: "matematica", label: "Numeri Antichi", glyph: "➗", color: 0x6be7d6, x: 1130, y: 720, w: 120, h: 150, summary: "Calcolo, misure e ordine dei passaggi." },

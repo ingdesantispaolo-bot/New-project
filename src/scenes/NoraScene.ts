@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
-import { noraCompanion, type NoraTone } from "../core/NoraCompanion";
+import { noraContextEngine } from "../core/NoraContextEngine";
+import { noraCompanion, type NoraTalkChoice, type NoraTone } from "../core/NoraCompanion";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
@@ -15,6 +16,8 @@ import { VisualKit } from "../ui/VisualKit";
  * tone choice that gives the player a small narrative voice.
  */
 export class NoraScene extends Phaser.Scene {
+  private talkText?: Phaser.GameObjects.Text;
+
   constructor() {
     super("NoraScene");
   }
@@ -30,29 +33,33 @@ export class NoraScene extends Phaser.Scene {
     VisualKit.background(this, "archive");
     VisualKit.vignette(this);
     placeHiddenAnomaly(this, "NoraScene");
+    this.drawRoomAtmosphere();
 
     const player = playerSystem.getActivePlayer();
     const bond = noraCompanion.bond();
     const messages = noraCompanion.getProgressMessages();
+    const observations = noraContextEngine.observations();
+    const roomLine = noraCompanion.roomPresenceLine(player.name);
 
-    this.add.text(56, 30, "NORA", {
+    this.add.text(56, 30, "Stanza di NORA", {
       fontFamily: "Inter, Arial",
-      fontSize: "36px",
+      fontSize: "34px",
       color: "#f5fbff",
       fontStyle: "bold",
     });
-    this.add.text(58, 78, "La tua compagna di missione", {
+    this.add.text(58, 76, "Qui non si consulta un pannello: ci si siede vicino al nucleo e si parla con lei.", {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#9ff5e9",
+      wordWrap: { width: 840 },
     });
 
     this.drawPortraitPanel(bond);
-    this.drawDialoguePanel(player.name, messages);
+    this.drawDialoguePanel(roomLine, messages, observations);
     this.drawMemories();
     this.drawToneChoice();
 
-    new Button(this, 150, 686, "Menu", () => this.scene.start("MainMenuScene"), {
+    new Button(this, 150, 686, "Torna all'avventura", () => this.scene.start("MainMenuScene"), {
       width: 180,
       height: 44,
       fill: 0x263743,
@@ -60,107 +67,173 @@ export class NoraScene extends Phaser.Scene {
 
     // Update the baseline so the next visit compares against now.
     noraCompanion.commitSnapshot();
+    noraCompanion.markRoomVisit();
+  }
+
+  private drawRoomAtmosphere(): void {
+    const stage = noraCompanion.currentVisualStage();
+    const accent = this.stageAccent(stage.id);
+    this.add.rectangle(0, 612, 1280, 108, 0x041019, 0.68).setOrigin(0);
+    this.add.ellipse(300, 620, 430, 82, 0x173b36, 0.34).setStrokeStyle(2, accent, 0.22);
+    this.add.rectangle(106, 602, 218, 20, 0x263743, 0.78).setStrokeStyle(1, 0x9ff5e9, 0.18);
+    this.add.rectangle(98, 622, 16, 44, 0x102533, 0.82);
+    this.add.rectangle(316, 622, 16, 44, 0x102533, 0.82);
+    this.add.circle(1054, 118, 38, accent, 0.08).setStrokeStyle(2, accent, 0.2);
+    this.add.circle(1054, 118, 12, 0xf5fbff, 0.18);
+
+    if (settingsSystem.effectsReduced()) return;
+    Array.from({ length: 14 }).forEach((_, index) => {
+      const mote = this.add.circle(110 + index * 78, 142 + ((index * 47) % 360), 2 + (index % 3), accent, 0.18 + (index % 4) * 0.04);
+      this.tweens.add({
+        targets: mote,
+        y: mote.y - 24 - (index % 5) * 8,
+        alpha: 0.05,
+        duration: 2600 + index * 180,
+        yoyo: true,
+        repeat: -1,
+        ease: "Sine.easeInOut",
+      });
+    });
   }
 
   private drawPortraitPanel(bond: { level: number; maxLevel: number; title: string }): void {
     const x = 52;
-    const y = 118;
-    this.add.rectangle(x, y, 360, 300, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.46);
+    const y = 112;
+    const w = 500;
+    const h = 520;
+    this.add.rectangle(x, y, w, h, 0x071018, 0.9).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.46);
 
-    const cx = x + 180;
+    const cx = x + w / 2;
     const stages = noraCompanion.visualStages();
     const current = stages.find((stage) => stage.current) ?? stages[0];
-    this.add.text(x + 22, y + 14, "Stato di NORA", {
+    const accent = this.stageAccent(current?.id ?? "dormant");
+    this.add.text(x + 24, y + 18, current?.title ?? "NORA", {
       fontFamily: "Inter, Arial",
-      fontSize: "16px",
+      fontSize: "18px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
 
-    const artY = y + 126;
-    this.add.rectangle(cx, artY, 324, 178, 0x02070b, 0.86).setStrokeStyle(1, 0x6be7d6, 0.34);
+    const artY = y + 174;
+    this.add.rectangle(cx, artY, 450, 260, 0x02070b, 0.78).setStrokeStyle(1, accent, 0.38);
     if (current && this.textures.exists(current.key)) {
-      const portrait = this.add.image(cx, artY, current.key).setDisplaySize(324, 182);
-      this.add.rectangle(cx, artY, 324, 182, 0x02070b, 0.08).setStrokeStyle(1, 0xf6c85f, 0.18);
-      this.add.rectangle(cx, artY + 74, 324, 34, 0x02070b, 0.58);
-      if (!settingsSystem.effectsReduced()) {
-        this.tweens.add({
-          targets: portrait,
-          scaleX: portrait.scaleX * 1.012,
-          scaleY: portrait.scaleY * 1.012,
-          duration: 5200,
-          yoyo: true,
-          repeat: -1,
-          ease: "Sine.easeInOut",
-        });
-      }
+      this.drawStageAura(cx, artY, current.id, accent);
+      const portrait = this.add.image(cx, artY, current.key).setDisplaySize(450, 260);
+      this.add.rectangle(cx, artY, 450, 260, 0x02070b, 0.08).setStrokeStyle(1, 0xf6c85f, 0.18);
+      this.add.rectangle(cx, artY + 106, 450, 44, 0x02070b, 0.48);
+      this.animateStagePortrait(portrait, current.id);
     } else {
-      const core = this.add.circle(cx, artY, 30, 0x6be7d6, 0.95);
-      this.add.circle(cx, artY, 11, 0xffffff, 0.9);
-      const ring = this.add.image(cx, artY, "holo-ring").setTint(0x9ff5e9).setScale(2.2).setAlpha(0.5);
+      const core = this.add.circle(cx, artY, 64, 0x6be7d6, 0.95);
+      this.add.circle(cx, artY, 22, 0xffffff, 0.9);
+      const ring = this.add.image(cx, artY, "holo-ring").setTint(0x9ff5e9).setScale(4.2).setAlpha(0.5);
       if (!settingsSystem.effectsReduced()) {
         this.tweens.add({ targets: core, scale: 1.25, alpha: 0.7, duration: 1100, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
         this.tweens.add({ targets: ring, rotation: Math.PI * 2, duration: 16000, repeat: -1 });
       }
     }
 
-    this.add.text(x + 28, y + 207, current?.title ?? "NORA", {
+    this.add.text(x + 28, y + 324, bond.title, {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    });
-    this.add.text(x + 28, y + 230, bond.title, {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
+      fontSize: "18px",
       color: "#f6c85f",
       fontStyle: "bold",
     });
+    this.add.text(x + 28, y + 354, noraCompanion.moodSummary(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      wordWrap: { width: w - 56 },
+      lineSpacing: 4,
+    });
 
     stages.forEach((stage, index) => {
-      const tx = x + 52 + index * 64;
-      const ty = y + 266;
-      this.add.rectangle(tx, ty, 56, 34, 0x02070b, 0.78).setStrokeStyle(2, stage.current ? 0xf6c85f : 0x6be7d6, stage.current ? 0.9 : stage.unlocked ? 0.4 : 0.14);
+      const tx = x + 62 + index * 88;
+      const ty = y + 438;
+      this.add.rectangle(tx, ty, 72, 44, 0x02070b, 0.78).setStrokeStyle(2, stage.current ? 0xf6c85f : 0x6be7d6, stage.current ? 0.9 : stage.unlocked ? 0.4 : 0.14);
       if (stage.unlocked && this.textures.exists(stage.key)) {
-        this.add.image(tx, ty, stage.key).setDisplaySize(52, 29).setAlpha(stage.current ? 0.98 : 0.72);
+        this.add.image(tx, ty, stage.key).setDisplaySize(68, 39).setAlpha(stage.current ? 0.98 : 0.72);
       } else {
         this.add.circle(tx, ty, 9, 0x304653, 0.8).setStrokeStyle(1, 0x6be7d6, 0.18);
       }
     });
-    this.add.text(x + 22, y + 286, `Legame ${bond.level}/${bond.maxLevel} · cresce con capitoli e padronanza`, {
+    this.add.text(x + 28, y + 480, `Legame ${bond.level}/${bond.maxLevel} · cresce con capitoli e padronanza`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
     });
   }
 
-  private drawDialoguePanel(playerName: string, messages: string[]): void {
-    const x = 440;
-    const y = 118;
-    this.add.rectangle(x, y, 800, 196, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(2, 0x9ff5e9, 0.4);
-    this.add.rectangle(x, y, 800, 3, 0x9ff5e9, 0.8).setOrigin(0);
-    this.add.text(x + 22, y + 14, "NORA ti parla", {
+  private stageAccent(stageId: string): number {
+    if (stageId === "guardian") return 0xcdbfff;
+    if (stageId === "restored") return 0x6be7d6;
+    if (stageId === "memory") return 0x9f8cff;
+    if (stageId === "awakening") return 0xf6c85f;
+    return 0x7ad7ff;
+  }
+
+  private drawStageAura(x: number, y: number, stageId: string, accent: number): void {
+    const alpha = stageId === "dormant" ? 0.08 : stageId === "guardian" ? 0.16 : 0.12;
+    this.add.circle(x, y, 144, accent, alpha);
+    this.add.circle(x, y, 94, accent, alpha * 0.72).setStrokeStyle(2, accent, 0.22);
+    if (stageId === "memory" || stageId === "guardian") {
+      this.add.rectangle(x, y - 86, 376, 2, accent, 0.22);
+      this.add.rectangle(x, y + 86, 376, 2, accent, 0.18);
+    }
+  }
+
+  private animateStagePortrait(portrait: Phaser.GameObjects.Image, stageId: string): void {
+    if (settingsSystem.effectsReduced()) return;
+    const baseScaleX = portrait.scaleX;
+    const baseScaleY = portrait.scaleY;
+    const pulse = stageId === "dormant" ? 1.006 : stageId === "guardian" ? 1.018 : 1.012;
+    const duration = stageId === "awakening" ? 3200 : stageId === "memory" ? 4300 : stageId === "guardian" ? 3600 : 5200;
+    this.tweens.add({
+      targets: portrait,
+      scaleX: baseScaleX * pulse,
+      scaleY: baseScaleY * pulse,
+      y: portrait.y + (stageId === "dormant" ? 2 : -3),
+      duration,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+    });
+  }
+
+  private drawDialoguePanel(roomLine: string, messages: string[], observations: string[]): void {
+    const x = 584;
+    const y = 112;
+    this.add.rectangle(x, y, 640, 246, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(2, 0x9ff5e9, 0.4);
+    this.add.rectangle(x, y, 640, 3, 0x9ff5e9, 0.8).setOrigin(0);
+    this.add.text(x + 22, y + 16, "Parla con NORA", {
       fontFamily: "Inter, Arial",
       fontSize: "18px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    const body = [`Bentornata, ${playerName}.`, ...messages].join("\n");
-    this.add.text(x + 22, y + 46, body, {
+    const body = [roomLine, ...messages.slice(0, 2)].join("\n");
+    this.talkText = this.add.text(x + 22, y + 50, body, {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
+      fontSize: "13px",
       color: "#eaf4f8",
-      wordWrap: { width: 756 },
-      lineSpacing: 7,
+      wordWrap: { width: 580 },
+      lineSpacing: 5,
     });
+    this.add.text(x + 22, y + 144, observations.slice(0, 2).map((line) => `- ${line}`).join("\n"), {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#f7d37a",
+      wordWrap: { width: 588, useAdvancedWrap: true },
+      lineSpacing: 3,
+    });
+    this.drawTalkChoices(x + 28, y + 204);
   }
 
   private drawMemories(): void {
-    const x = 440;
-    const y = 330;
+    const x = 584;
+    const y = 384;
     const memories = noraCompanion.memories();
     const recovered = memories.filter((memory) => memory.unlocked).length;
-    this.add.rectangle(x, y, 800, 300, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.45);
+    this.add.rectangle(x, y, 640, 248, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.45);
     this.add.text(x + 22, y + 14, `Memorie di NORA  ·  ${recovered}/${memories.length} recuperate`, {
       fontFamily: "Inter, Arial",
       fontSize: "18px",
@@ -175,10 +248,10 @@ export class NoraScene extends Phaser.Scene {
     memories.forEach((memory, index) => {
       const col = index % 2;
       const row = Math.floor(index / 2);
-      const cardX = x + 22 + col * 378;
-      const cardY = y + 72 + row * 68;
+      const cardX = x + 22 + col * 300;
+      const cardY = y + 70 + row * 54;
       const dot = memory.unlocked ? 0x9f8cff : 0x304653;
-      this.add.rectangle(cardX, cardY, 354, 58, 0x071018, memory.unlocked ? 0.66 : 0.44).setOrigin(0).setStrokeStyle(1, 0x9f8cff, memory.unlocked ? 0.28 : 0.12);
+      this.add.rectangle(cardX, cardY, 284, 46, 0x071018, memory.unlocked ? 0.66 : 0.44).setOrigin(0).setStrokeStyle(1, 0x9f8cff, memory.unlocked ? 0.28 : 0.12);
       this.add.circle(cardX + 14, cardY + 18, 8, dot, memory.unlocked ? 0.95 : 0.5).setStrokeStyle(2, 0x9f8cff, memory.unlocked ? 0.8 : 0.2);
       this.add.text(cardX + 32, cardY + 8, memory.unlocked ? memory.title : "Ricordo bloccato", {
         fontFamily: "Inter, Arial",
@@ -188,33 +261,48 @@ export class NoraScene extends Phaser.Scene {
       });
       this.add.text(cardX + 32, cardY + 28, memory.unlocked ? this.memoryPreview(memory.text) : "Continua l'avventura per restituire questo ricordo a NORA.", {
         fontFamily: "Inter, Arial",
-        fontSize: "10px",
+        fontSize: "9px",
         color: memory.unlocked ? "#d9eaf1" : "#5d7782",
-        wordWrap: { width: 306 },
+        wordWrap: { width: 238 },
         lineSpacing: 1,
       });
     });
   }
 
+  private drawTalkChoices(x: number, y: number): void {
+    const choices: Array<{ id: NoraTalkChoice; label: string }> = [
+      { id: "stay", label: "Resta con me" },
+      { id: "notice", label: "Cosa vedi?" },
+      { id: "memory", label: "Un ricordo" },
+      { id: "courage", label: "Mi serve coraggio" },
+    ];
+    choices.forEach((choice, index) => {
+      new Button(this, x + 70 + index * 142, y, choice.label, () => {
+        const line = noraCompanion.talk(choice.id);
+        this.talkText?.setText(`«${line}»`);
+        audioManager.play("uiSelect");
+      }, {
+        width: 132,
+        height: 34,
+        fontSize: 11,
+        fill: choice.id === "courage" ? 0x2a1f3a : 0x173b36,
+        stroke: choice.id === "memory" ? 0x9f8cff : 0x6be7d6,
+      });
+    });
+  }
+
   private memoryPreview(text: string): string {
-    return text.length <= 104 ? text : `${text.slice(0, 101).trimEnd()}...`;
+    return text.length <= 68 ? text : `${text.slice(0, 65).trimEnd()}...`;
   }
 
   private drawToneChoice(): void {
-    const x = 52;
-    const y = 436;
-    this.add.rectangle(x, y, 360, 194, 0x09151f, 0.92).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.4);
-    this.add.text(x + 22, y + 14, "Come vuoi che NORA ti parli?", {
+    const x = 72;
+    const y = 548;
+    this.add.text(x, y, "Tono della voce", {
       fontFamily: "Inter, Arial",
-      fontSize: "16px",
+      fontSize: "14px",
       color: "#9ff5e9",
       fontStyle: "bold",
-    });
-    this.add.text(x + 22, y + 40, "Scegli il tono: cambia il suo modo di parlare, non gli esercizi.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 320 },
     });
     const tones: Array<{ id: NoraTone; label: string }> = [
       { id: "gentile", label: "Gentile" },
@@ -224,21 +312,21 @@ export class NoraScene extends Phaser.Scene {
     const current = noraCompanion.getTone();
     tones.forEach((tone, index) => {
       const selected = tone.id === current;
-      new Button(this, x + 80 + index * 110, y + 110, tone.label, () => {
+      new Button(this, x + 58 + index * 112, y + 56, tone.label, () => {
         noraCompanion.setTone(tone.id);
         audioManager.play("uiSelect");
         this.scene.restart();
       }, {
         width: 104,
-        height: 44,
-        fontSize: 14,
+        height: 36,
+        fontSize: 12,
         fill: selected ? 0x1f5a51 : 0x263743,
         stroke: selected ? 0xf6c85f : 0x6be7d6,
       });
     });
-    this.add.text(x + 22, y + 152, `Tono attuale: ${noraCompanion.toneLabel()}`, {
+    this.add.text(x, y + 20, `Attuale: ${noraCompanion.toneLabel()}`, {
       fontFamily: "Inter, Arial",
-      fontSize: "12px",
+      fontSize: "11px",
       color: "#f7d37a",
       fontStyle: "bold",
     });

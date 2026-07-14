@@ -62,13 +62,13 @@ function inferButtonSoundKey(label: string): SoundKey {
     return "confirm";
   }
 
-  if (/(focus|allenati|allenamento)/.test(normalized)) return "focusSelect";
+  if (/(focus|calibra|calibrazione|allenati|allenamento)/.test(normalized)) return "focusSelect";
   if (/(missione|storia|capitolo|run procedurale|nuova stanza|sfida dell eco|affronta l eco)/.test(normalized)) return "missionStart";
   if (/^(avanti|sinistra|destra|gira|prendi|esci|forward|left|right|exit)$/.test(normalized)) return "contextCoding";
 
   // Navigazione narrativa o avanzamento run: passo energetico ma non trionfale.
   if (matchesAny(normalized, [
-    /(livello successivo|pagina successiva|continua|scalata|progressiva|impulso nora|protezione|\+30|carica)/,
+    /(livello successivo|profondità successiva|pagina successiva|continua|scalata|progressiva|impulso nora|protezione|\+30|carica)/,
     /^(inizia|riprendi|entra|conserva la carica)/,
   ])) {
     return "progressiveStep";

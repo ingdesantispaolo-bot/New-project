@@ -144,7 +144,7 @@ export class MissionGenerator {
     if (label === "libera") {
       return "Puoi iniziare da qualunque console: la porta finale controllerà il sistema completo.";
     }
-    return `Allenamento attivo: ${label}. Le console generate appartengono a questa materia e misurano tempo, precisione e uso degli aiuti.`;
+    return `Calibrazione attiva: ${label}. Le console generate appartengono a questo settore e misurano tempo, precisione e uso degli aiuti.`;
   }
 
   private focusLabel(focus: string[]): string {

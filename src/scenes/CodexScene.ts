@@ -106,12 +106,12 @@ export class CodexScene extends Phaser.Scene {
     const layer = this.bodyLayer!;
     const entries = this.tab === "python" ? this.pythonEntries : this.atlasEntries;
     const labels = this.tab === "python"
-      ? this.pythonEntries.map((entry) => `L${entry.minLevel} · ${entry.principle}`)
+      ? this.pythonEntries.map((entry) => `Prof. ${entry.minLevel} · ${entry.principle}`)
       : this.atlasEntries.map((entry) => `${entry.year} · ${entry.name}`);
 
     // list frame
     layer.add(this.add.rectangle(40, 172, 300, 512, 0x081a25, 0.94).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.28));
-    layer.add(this.add.text(58, 184, this.tab === "python" ? "Principi (per livello)" : "Linguaggi (per anno)", {
+    layer.add(this.add.text(58, 184, this.tab === "python" ? "Principi (per profondità)" : "Linguaggi (per anno)", {
       fontFamily: "Inter, Arial", fontSize: "13px", color: "#f6c85f", fontStyle: "bold",
     }));
 
@@ -176,7 +176,7 @@ export class CodexScene extends Phaser.Scene {
   }
 
   private drawPythonDetail(entry: PythonPrincipleSeed): void {
-    this.drawDetailFrame(`Python · ${entry.principle}`, `Livello consigliato: ${entry.minLevel} · principio di programmazione`, 0x6be7d6);
+    this.drawDetailFrame(`Python · ${entry.principle}`, `Profondità consigliata: ${entry.minLevel} · principio di programmazione`, 0x6be7d6);
     this.drawCodeBox(288, entry.codeLines, 34 + entry.codeLines.length * 22, "Codice Python");
     let y = 288 + 34 + entry.codeLines.length * 22 + 22;
     y = this.drawField(y, "COME FUNZIONA", entry.explanation);

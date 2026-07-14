@@ -218,11 +218,11 @@ export class ProgressiveMissionBuilder {
     return {
       ...variedBase,
       id: `mission-progressive-level-${level}`,
-      title: `Scalata dell'Accademia - Livello ${level}`,
+      title: `Scalata dell'Accademia - Profondità ${level}`,
       intro: [
-        `Livello ${level}/8: la stanza propone una sequenza guidata a difficolta crescente.`,
+        `Profondità ${level}/8: la stanza propone una sequenza guidata a profondità crescente.`,
         `Obiettivo: ${this.blueprintForLevel(level).goal}`,
-        "Completa ogni console entro tempo e vite. Il livello successivo si sblocca solo con successo.",
+        "Completa ogni console entro tempo e vite. La profondità successiva si sblocca solo con successo.",
         `Sequenza: ${pathLabel}.`,
       ].join(" "),
       objectives,
@@ -234,11 +234,11 @@ export class ProgressiveMissionBuilder {
           ...hotspots,
           {
             id: "door",
-            label: "Porta di livello",
+            label: "Porta di profondità",
             x: 640,
             y: 650,
             radius: 64,
-            description: "Si apre solo quando tutte le console del livello sono coerenti.",
+            description: "Si apre solo quando tutte le console del settore sono coerenti.",
           },
         ],
       },
@@ -247,7 +247,7 @@ export class ProgressiveMissionBuilder {
         {
           badgeId: `scalata-livello-${level}`,
           label: `Stanza ${level} stabilizzata`,
-          description: "Ha superato una stanza interdisciplinare a difficoltà crescente.",
+          description: "Ha superato una stanza a profondità crescente.",
         },
         ...variedBase.rewards,
       ],

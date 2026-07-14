@@ -119,7 +119,7 @@ export class AcademyScene extends Phaser.Scene {
     if (!settingsSystem.effectsReduced()) {
       this.tweens.add({ targets: [orb, glow], scale: "*=1.12", alpha: "*=0.85", duration: 1200, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
     }
-    this.add.text(cx, y + 256, `Livello Nucleo ${core.level}/${core.maxLevel}`, {
+    this.add.text(cx, y + 256, `Profondità Nucleo ${core.level}/${core.maxLevel}`, {
       fontFamily: "Inter, Arial",
       fontSize: "16px",
       color: "#f6c85f",

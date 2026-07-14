@@ -116,7 +116,7 @@ export class EnglishInstructionGenerator {
         "Se ci sono dati, confrontali con la soglia prima di scegliere l'azione.",
       ],
       competencies: minigame.competencies,
-      difficultyLabel: `Livello ${level} - sprint inglese operativo`,
+      difficultyLabel: `Profondità ${level} - sprint inglese operativo`,
       conceptTags: this.englishMinigameConcepts(type),
       learningPurpose: this.englishMinigamePurpose(type),
       commandGoal: "Trasformare molti micro-comandi inglesi in azioni sicure entro 120 secondi.",
@@ -142,9 +142,9 @@ export class EnglishInstructionGenerator {
       diagnosticSteps: template.diagnosticSteps,
       hints: template.hints ?? this.defaultHints(template.id),
       competencies: this.competenciesFor(template.id),
-      difficultyLabel: `Livello ${Math.max(1, Math.min(8, difficultyLevel))} - ${this.levelName(difficultyLevel)}`,
+      difficultyLabel: `Profondità ${Math.max(1, Math.min(8, difficultyLevel))} - ${this.levelName(difficultyLevel)}`,
       conceptTags,
-      learningPurpose: template.learningPurpose ?? `Allena inglese operativo: ${conceptTags.join(", ")} in un comando da eseguire.`,
+      learningPurpose: template.learningPurpose ?? `Calibra inglese operativo: ${conceptTags.join(", ")} in un comando da eseguire.`,
       commandGoal: template.commandGoal ?? "Trasforma l'istruzione inglese in una procedura sicura e non ambigua.",
       method: template.method ?? this.defaultMethod(template.challengeType),
       methodSteps: template.methodSteps ?? this.defaultMethodSteps(template.challengeType),
@@ -1180,7 +1180,7 @@ export class EnglishInstructionGenerator {
       { sentence: "If I were you I would check the evidence", concept: "second conditional", glossary: [{ term: "if I were you", meaning: "se fossi in te" }, { term: "would", meaning: "condizionale" }] },
     ];
     const proverbs = [
-      { sentence: "Practice makes perfect", concept: "common proverb", glossary: [{ term: "practice", meaning: "esercizio" }, { term: "perfect", meaning: "perfetto" }] },
+      { sentence: "Practice makes perfect", concept: "common proverb", glossary: [{ term: "practice", meaning: "pratica" }, { term: "perfect", meaning: "perfetto" }] },
       { sentence: "Better late than never", concept: "common proverb", glossary: [{ term: "better", meaning: "meglio" }, { term: "never", meaning: "mai" }] },
       { sentence: "Actions speak louder than words", concept: "common proverb", glossary: [{ term: "actions", meaning: "azioni" }, { term: "words", meaning: "parole" }] },
       { sentence: "Look before you leap", concept: "common proverb", glossary: [{ term: "look before", meaning: "guarda prima" }, { term: "leap", meaning: "saltare" }] },
@@ -1252,7 +1252,7 @@ export class EnglishInstructionGenerator {
       glossary: [
         { term: item.term, meaning: item.meaning },
         { term: "category", meaning: englishVocabularyCategoryLabels[item.category] },
-        { term: "level", meaning: `lessico livello ${item.level}` },
+        { term: "level", meaning: `lessico profondità ${item.level}` },
       ],
       signature: `vocab-${item.id}-${item.term}`,
     };
@@ -2333,16 +2333,16 @@ export class EnglishInstructionGenerator {
   }
 
   private englishMinigamePurpose(type: EnglishMinigameType): string {
-    if (type === "action-relay") return "Allena comprensione e giustificazione del comando: significato operativo più vincolo linguistico esplicito.";
-    if (type === "sequence-switchboard") return "Allena lettura di before, after, until, unless e if come vincoli di procedura.";
-    if (type === "grammar-fix") return "Allena la grammatica della scuola media: tempi verbali, comparativi, modali, preposizioni, quantificatori e domande.";
-    if (type === "sentence-build") return "Allena la costruzione della frase e della domanda in inglese: ordine soggetto-verbo e posizione dell'ausiliare.";
-    if (type === "vocab-lab") return "Allena vocabolario inglese in contesto: termini tecnici, falsi amici, prove, sicurezza e registro formale.";
-    if (type === "translation-match") return "Allena il riconoscimento rapido della traduzione italiana corretta, con distrattori vicini e falsi amici.";
-    if (type === "reading-detective") return "Allena comprensione di brevi testi: lo studente deve scegliere l'inferenza e la prova testuale che la sostiene.";
-    if (type === "error-diagnosis") return "Allena grammatica attiva: non basta scegliere la forma, bisogna riconoscere il tipo di errore.";
-    if (type === "dialogue-response") return "Allena inglese comunicativo scolastico: risposta adeguata, registro cortese e scopo della conversazione.";
-    return "Allena lettura di dati semplici in inglese: below, above, between, dimmer, brighter e soglie.";
+    if (type === "action-relay") return "Calibra comprensione e giustificazione del comando: significato operativo più vincolo linguistico esplicito.";
+    if (type === "sequence-switchboard") return "Calibra lettura di before, after, until, unless e if come vincoli di procedura.";
+    if (type === "grammar-fix") return "Calibra grammatica operativa: tempi verbali, comparativi, modali, preposizioni, quantificatori e domande.";
+    if (type === "sentence-build") return "Calibra la costruzione della frase e della domanda in inglese: ordine soggetto-verbo e posizione dell'ausiliare.";
+    if (type === "vocab-lab") return "Calibra vocabolario inglese in contesto: termini tecnici, falsi amici, prove, sicurezza e registro formale.";
+    if (type === "translation-match") return "Calibra il riconoscimento rapido della traduzione italiana corretta, con distrattori vicini e falsi amici.";
+    if (type === "reading-detective") return "Calibra comprensione di brevi testi: scegli l'inferenza e la prova testuale che la sostiene.";
+    if (type === "error-diagnosis") return "Calibra grammatica attiva: non basta scegliere la forma, bisogna riconoscere il tipo di errore.";
+    if (type === "dialogue-response") return "Calibra inglese comunicativo operativo: risposta adeguata, registro cortese e scopo della conversazione.";
+    return "Calibra lettura di dati semplici in inglese: below, above, between, dimmer, brighter e soglie.";
   }
 
   private englishMinigameMethod(type: EnglishMinigameType): string {

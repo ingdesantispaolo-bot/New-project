@@ -50,7 +50,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
     sideNote: "Ogni modulo nasce dal seed e viene validato prima di apparire.",
     ruleTitle: "Regola della missione",
     ruleText: "Scegli liberamente una console. Osserva, formula una diagnosi, poi intervieni. Tentare tutto non produce un log affidabile.",
-    stageHint: "Rete libera: ogni materia può essere affrontata subito. La porta finale richiede il sistema completo.",
+    stageHint: "Rete libera: ogni settore può essere affrontato subito. La porta finale richiede il sistema completo.",
     challengeStages: [],
     badge: {
       badgeId: "cartografa-del-caos-controllato",
@@ -368,7 +368,7 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
     sideNote: "Il percorso privilegia lettura del pentagramma; il riconoscimento dal suono resta una sfida avanzata da sbloccare dopo.",
     ruleTitle: "Regola della risonanza",
     ruleText: "Guarda prima la chiave, poi conta linee e spazi. Le linee addizionali sopra e sotto cambiano posizione e spesso ottava.",
-    stageHint: "Percorso musica: ogni console mostra una nota diversa. Il tempo scende con il livello, ma puoi usare indizi per ragionare.",
+    stageHint: "Percorso musica: ogni console mostra una nota diversa. Il tempo scende con la profondità, ma puoi usare indizi per ragionare.",
     primaryPuzzle: "music",
     challengeStages: [
       { label: "Chiave di violino", description: "Riconosci note interne al pentagramma in chiave di violino." },

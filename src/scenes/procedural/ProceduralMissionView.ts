@@ -36,19 +36,19 @@ export class ProceduralMissionView {
     const mode = proceduralRunRules.modeFor(run);
     const theme = proceduralVisualThemeFor(run);
     const requiredIds = proceduralRequiredPuzzleIds(run.mission.objectives);
-    const modeLabel = mode === "training" ? "Allenamento" : mode === "progressive" ? "Scalata" : "Missione";
+    const modeLabel = mode === "training" ? "Calibrazione" : mode === "progressive" ? "Scalata" : "Missione";
     const focus = proceduralRunRules.focusFor(run);
     const layout = SceneChrome.drawMissionChrome(
       scene,
       theme.palette,
       run.mission.title,
-      `${modeLabel}  |  Livello ${run.difficulty}: ${theme.levelName}  |  Seed ${run.seed}`,
+      `${modeLabel}  |  Profondità ${run.difficulty}: ${theme.levelName}  |  Seed ${run.seed}`,
       theme.stageTitle,
     );
 
     // Path chip — colour-matches the menu cards for cross-screen continuity.
     const pathColor = mode === "training" ? 0x70d68a : mode === "progressive" ? 0xff8f6b : 0x6be7d6;
-    const pathName = mode === "training" ? "ALLENAMENTO" : mode === "progressive" ? "SCALATA" : "MISSIONE RAPIDA";
+    const pathName = mode === "training" ? "CALIBRAZIONE" : mode === "progressive" ? "SCALATA" : "MISSIONE RAPIDA";
     const chipX = layout.top.x + layout.top.width - 204;
     const chipY = layout.top.y + 24;
     scene.add.rectangle(chipX, chipY, 188, 34, 0x07151d, 0.85).setOrigin(0).setStrokeStyle(2, pathColor, 0.85);
@@ -226,7 +226,7 @@ export class ProceduralMissionView {
       return o;
     };
 
-    const modeLabel = mode === "training" ? "Allenamento" : mode === "progressive" ? "Scalata" : "Missione";
+    const modeLabel = mode === "training" ? "Calibrazione" : mode === "progressive" ? "Scalata" : "Missione";
     const panelH = 104;
     fx(scene.add.rectangle(T.x, T.y, T.width, panelH, 0x07151d, 0.46).setOrigin(0).setStrokeStyle(2, theme.accent, 0.36));
     fx(scene.add.rectangle(T.x, T.y, 6, panelH, theme.accent, 0.72).setOrigin(0));
@@ -240,7 +240,7 @@ export class ProceduralMissionView {
       fontStyle: "bold",
       wordWrap: { width: 268 },
     }));
-    fx(scene.add.text(T.x + 22, T.y + 58, `${modeLabel} · Livello ${run.difficulty}`, {
+    fx(scene.add.text(T.x + 22, T.y + 58, `${modeLabel} · Profondità ${run.difficulty}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9ff5e9",
@@ -358,12 +358,12 @@ export class ProceduralMissionView {
     if (mode === "training") {
       return [
         `${requiredCount} console del focus ${focus}.`,
-        "Allenati senza vite: contano precisione, tempo e aiuti usati.",
+        "Calibra senza vite: contano precisione, tempo e aiuti usati.",
       ];
     }
     if (mode === "progressive") {
       return [
-        `${requiredCount} console per superare il livello.`,
+        `${requiredCount} console per superare la profondità.`,
         "Sequenza guidata: una console alla volta, senza tentativi casuali.",
       ];
     }

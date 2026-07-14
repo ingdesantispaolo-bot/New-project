@@ -137,7 +137,7 @@ export class CircuitConsole {
         "Ripara solo la causa dimostrata.",
       ],
       learningPurpose: puzzle.learningPurpose ?? "Capire come un circuito diventa chiuso, stabile e sicuro.",
-      difficultyLabel: puzzle.difficultyLabel ?? "Livello 1 - diagnosi guidata",
+      difficultyLabel: puzzle.difficultyLabel ?? "Profondità 1 - diagnosi guidata",
       conceptTags: puzzle.conceptTags ?? ["circuito chiuso", "tester"],
       explanations: puzzle.explanationByFault ?? {},
       componentChallenges: puzzle.componentChallenges ?? [],

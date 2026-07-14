@@ -62,6 +62,13 @@ import storyPhase03ProductionBgUrl from "../assets/images/story-phase-03-product
 import storyPhase04RestoredBgUrl from "../assets/images/story-phase-04-restored-bg.webp";
 import storyPhase05SignalBgUrl from "../assets/images/story-phase-05-signal-bg.webp";
 import storyPhase06CityRestoredBgUrl from "../assets/images/story-phase-06-city-restored-bg.webp";
+import storyPrimiDiarioBordoUrl from "../assets/images/story-primi-diario-bordo.png";
+import storyPrimiFinaleAccesaUrl from "../assets/images/story-primi-finale-accesa.png";
+import storyPrimiFinaleDormienteUrl from "../assets/images/story-primi-finale-dormiente.png";
+import storyPrimiFinaleEliUrl from "../assets/images/story-primi-finale-eli.png";
+import storyPrimiGuardianoAlleatoUrl from "../assets/images/story-primi-guardiano-alleato.png";
+import storyPrimiGuardianoBrokenUrl from "../assets/images/story-primi-guardiano-broken.png";
+import storyPrimiRelittoUrl from "../assets/images/story-primi-relitto.png";
 import storyTransitionExploreUrl from "../assets/images/story-transition-explore.webp";
 import storyTransitionTrialUrl from "../assets/images/story-transition-trial.webp";
 import paintedArchiveDeskUrl from "../assets/painted/props/painted-archive-desk.webp";
@@ -131,6 +138,13 @@ const packs: Record<SceneAssetPack, Array<[string, string]>> = {
     ["story-phase-04-restored-bg", storyPhase04RestoredBgUrl],
     ["story-phase-05-signal-bg", storyPhase05SignalBgUrl],
     ["story-phase-06-city-restored-bg", storyPhase06CityRestoredBgUrl],
+    ["story-primi-relitto", storyPrimiRelittoUrl],
+    ["story-primi-guardiano-broken", storyPrimiGuardianoBrokenUrl],
+    ["story-primi-guardiano-alleato", storyPrimiGuardianoAlleatoUrl],
+    ["story-primi-diario-bordo", storyPrimiDiarioBordoUrl],
+    ["story-primi-finale-dormiente", storyPrimiFinaleDormienteUrl],
+    ["story-primi-finale-accesa", storyPrimiFinaleAccesaUrl],
+    ["story-primi-finale-eli", storyPrimiFinaleEliUrl],
     ["story-transition-explore", storyTransitionExploreUrl],
     ["story-transition-trial", storyTransitionTrialUrl],
   ],

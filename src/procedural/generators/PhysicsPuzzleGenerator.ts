@@ -65,7 +65,7 @@ function basePuzzle(
     id: `physics-${type}-${visual.title.replace(/\W+/g, "-").toLowerCase()}`,
     title,
     exerciseType: type,
-    difficultyLabel: `Livello ${difficulty.level}/8 - ${difficulty.level <= 2 ? "osservazione guidata" : difficulty.level <= 5 ? "modello semplice" : "lettura dati e vincoli"}`,
+    difficultyLabel: `Profondità ${difficulty.level}/8 - ${difficulty.level <= 2 ? "osservazione guidata" : difficulty.level <= 5 ? "modello semplice" : "lettura dati e vincoli"}`,
     scenario,
     prompt,
     options,

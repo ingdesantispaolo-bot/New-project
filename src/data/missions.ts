@@ -295,7 +295,7 @@ export const missions: MissionDefinition[] = [
       {
         badgeId: "archive-restorer",
         label: "Restauratrice di Messaggi",
-        description: "Hai riparato frasi corrotte senza trasformarle in esercizi isolati.",
+        description: "Hai riparato frasi corrotte senza trasformarle in prove isolate.",
       },
       {
         badgeId: "critical-clue-reader",

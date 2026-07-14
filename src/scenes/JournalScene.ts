@@ -129,9 +129,9 @@ export class JournalScene extends Phaser.Scene {
       lines: [
         `Porta aperta: ${run?.mission.title ?? entry.title} stabilizzata.`,
         `Seed: ${seed}`,
-        `Focus ${proceduralScoring.domainLabel(focus)}. Difficoltà completata ${difficulty}; prossima consigliata ${nextDifficulty}.`,
+        `Settore ${proceduralScoring.domainLabel(focus)}. Profondità completata ${difficulty}; prossima consigliata ${nextDifficulty}.`,
         `Sistemi risolti ${solvedCount}/${requiredCount}. Indizi ${hints}. Tempo ${elapsed > 0 ? formatDuration(elapsed) : "non registrato"}.`,
-        `Punteggio formativo ${run?.score?.total ?? 0}: cresce con difficoltà, precisione e velocità ragionata.`,
+        `Punteggio formativo ${run?.score?.total ?? 0}: cresce con profondità, precisione e velocità ragionata.`,
         "NORA ha aperto un nuovo corridoio instabile: la prossima stanza usa regole simili, ma vincoli più stretti.",
       ],
     };
@@ -139,7 +139,7 @@ export class JournalScene extends Phaser.Scene {
 
   private extractDifficulty(entry: JournalEntry): number {
     const text = entry.lines.join(" ");
-    return Number(text.match(/Difficoltà:\s*(\d+)/)?.[1] ?? 1);
+    return Number(text.match(/(?:Difficoltà|Profondità):\s*(\d+)/)?.[1] ?? 1);
   }
 
   private extractSolvedCount(entry: JournalEntry): number {
@@ -166,7 +166,7 @@ export class JournalScene extends Phaser.Scene {
     const run = saveSystem.data.proceduralRun;
     const completed = Boolean(run?.completedAt);
     const mode = run ? proceduralRunRules.modeFor(run) : "mission";
-    this.add.text(panelX + 22, panelY + 62, completed ? (mode === "training" ? "Allenamento completato" : "Missione completata") : "Run in corso", {
+    this.add.text(panelX + 22, panelY + 62, completed ? (mode === "training" ? "Calibrazione completata" : "Missione completata") : "Run in corso", {
       fontFamily: "Inter, Arial",
       fontSize: "17px",
       color: completed ? "#f7d37a" : "#d9eaf1",
@@ -175,9 +175,9 @@ export class JournalScene extends Phaser.Scene {
     const focus = run ? proceduralRunRules.focusFor(run) : "libera";
     const record = run ? saveSystem.data.trainingRecords?.[proceduralRunRules.trainingRecordKey(focus, run.difficulty)] : undefined;
     const resultLine = run && mode === "training"
-      ? `Difficoltà ${run.difficulty}  |  Indizi ${run.hintsUsed}\nFocus ${proceduralScoring.domainLabel(focus)}\nVoto ${run.trainingResult?.grade ?? record?.lastGrade ?? "-"} /10\nRecord ${record ? formatDuration(record.bestTimeMs) : "non ancora"}\n${run.trainingResult?.nextGoal ?? "Obiettivo: ripeti con un nuovo seed e prova una strategia piu pulita."}`
+      ? `Profondità ${run.difficulty}  |  Indizi ${run.hintsUsed}\nSettore ${proceduralScoring.domainLabel(focus)}\nVoto ${run.trainingResult?.grade ?? record?.lastGrade ?? "-"} /10\nRecord ${record ? formatDuration(record.bestTimeMs) : "non ancora"}\n${run.trainingResult?.nextGoal ?? "Obiettivo: ripeti con un nuovo seed e prova una strategia piu pulita."}`
       : run
-        ? `Difficoltà ${run.difficulty}  |  Indizi ${run.hintsUsed}\nFocus ${proceduralScoring.domainLabel(focus)}\nPunti ${run.score?.total ?? 0}`
+        ? `Profondità ${run.difficulty}  |  Indizi ${run.hintsUsed}\nSettore ${proceduralScoring.domainLabel(focus)}\nPunti ${run.score?.total ?? 0}`
         : "Nessuna run registrata";
     this.add.text(panelX + 22, panelY + 94, resultLine, {
       fontFamily: "Inter, Arial",
@@ -187,7 +187,7 @@ export class JournalScene extends Phaser.Scene {
     });
 
     const competencyStartY = mode === "training" ? 218 : 184;
-    this.add.text(panelX + 22, panelY + competencyStartY - 42, "Competenze allenate", {
+    this.add.text(panelX + 22, panelY + competencyStartY - 42, "Competenze calibrate", {
       fontFamily: "Inter, Arial",
       fontSize: "17px",
       color: "#9ff5e9",

@@ -111,12 +111,12 @@ export class MathTerminal {
       prompt: puzzle.prompt,
       domainLabel: mathDomainLabels[puzzle.archetype ?? "calcolo-diretto"],
       curriculumTags: puzzle.curriculumTags ?? [],
-      difficultyLabel: puzzle.difficultyLabel ?? "Livello non classificato",
-      learningPurpose: puzzle.learningPurpose ?? puzzle.pedagogy?.learningGoal ?? "Allenare ragionamento matematico applicato.",
+      difficultyLabel: puzzle.difficultyLabel ?? "Profondità non classificata",
+      learningPurpose: puzzle.learningPurpose ?? puzzle.pedagogy?.learningGoal ?? "Calibrare ragionamento matematico applicato.",
       mentalMathNote: puzzle.calculationAid?.mentalMathNote ?? "Puoi calcolare a mente se vuoi, ma puoi anche usare carta e passaggi intermedi.",
       strategy: puzzle.calculationAid?.strategy ?? "Risolvi un passaggio alla volta e controlla il risultato prima di inserirlo.",
       scratchpadPrompt: puzzle.calculationAid?.scratchpadPrompt ?? "Scrivi i passaggi su un taccuino: il gioco valuta il ragionamento, non la memoria.",
-      theoryPrinciple: puzzle.pedagogy?.explanation.principle ?? "Ogni esercizio nasconde una regola matematica da riconoscere e applicare.",
+      theoryPrinciple: puzzle.pedagogy?.explanation.principle ?? "Ogni prova nasconde una regola matematica da riconoscere e applicare.",
       workedExample: puzzle.pedagogy?.explanation.workedExample ?? puzzle.solutionSteps?.join(" -> ") ?? "",
       expectedAnswer: puzzle.answer,
       minimumReasoningSteps: Math.max(2, puzzle.solutionSteps?.length ?? 0),
@@ -203,7 +203,7 @@ export class MathTerminal {
     const showCoach = state.showCoach ?? true;
     this.addPanel(scene, overlay, 28, 556, 1224, 132, showCoach ? "Supporti intelligenti" : "Supporto");
     overlay.add(scene.add.text(54, 596, showCoach ? [
-      `Scopo didattico: ${model.learningPurpose}`,
+      `Scopo della prova: ${model.learningPurpose}`,
       `Metodo consigliato: ${model.strategy}`,
       model.mentalMathNote,
       `Appunti: ${model.scratchpadPrompt}`,

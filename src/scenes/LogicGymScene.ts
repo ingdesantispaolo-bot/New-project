@@ -204,9 +204,9 @@ export class LogicGymScene extends Phaser.Scene {
     this.clearScreen();
     this.currentRestart = null;
     this.t(this.add.text(56, 28, "Palestra della Mente", { fontFamily: "Inter, Arial", fontSize: "30px", color: "#f5fbff", fontStyle: "bold" }));
-    this.t(this.add.text(58, 68, "Allenamento autonomo: scegli il livello, poi gioca. I record sono separati per difficoltà.", { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", wordWrap: { width: 760 } }));
+    this.t(this.add.text(58, 68, "Calibrazione autonoma: scegli la profondità, poi gioca. I record sono separati per settore.", { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", wordWrap: { width: 760 } }));
     this.t(this.add.rectangle(1004, 54, 296, 54, 0x0c1d2a, 0.92).setStrokeStyle(2, 0xf6c85f, 0.48));
-    this.t(this.add.text(1004, 40, `Livello ${this.gymLevel}/8`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(1004, 40, `Profondità ${this.gymLevel}/8`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0.5));
     this.t(this.add.text(1004, 66, this.levelSubtitle(), { fontFamily: "Inter, Arial", fontSize: "11px", color: "#c7dce7" }).setOrigin(0.5));
     this.t(new Button(this, 870, 54, "−", () => this.setGymLevel(-1), { width: 42, height: 38, fontSize: 24, fill: 0x263743 }));
     this.t(new Button(this, 1138, 54, "+", () => this.setGymLevel(1), { width: 42, height: 38, fontSize: 22, fill: 0x263743 }));
@@ -227,7 +227,7 @@ export class LogicGymScene extends Phaser.Scene {
       this.t(this.add.text(x + 20, y + 58, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "12px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
       this.t(this.add.text(x + 20, y + 84, activity.desc, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: w - 40 }, lineSpacing: 3 }));
       this.t(this.add.text(x + 20, y + 166, this.activityLevelLine(activity.key), { fontFamily: "Inter, Arial", fontSize: "11px", color: "#9ff5e9", wordWrap: { width: w - 40 } }));
-      this.t(this.add.text(x + 20, y + 188, `Record L${this.gymLevel}: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a" }));
+      this.t(this.add.text(x + 20, y + 188, `Record profondità ${this.gymLevel}: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a" }));
       this.t(new Button(this, x + w - 80, y + 200, "Gioca", () => activity.start(), { width: 124, height: 44, fill: 0x1f5a51, stroke: activity.color }));
     });
 
@@ -236,7 +236,7 @@ export class LogicGymScene extends Phaser.Scene {
 
   private backBar(restart: () => void): void {
     this.currentRestart = restart;
-    this.t(this.add.text(640, 686, `Livello ${this.gymLevel}/8 · ${this.levelSubtitle()}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(640, 686, `Profondità ${this.gymLevel}/8 · ${this.levelSubtitle()}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
     this.t(new Button(this, 132, 686, "Palestra", () => this.showHub(), { width: 170, height: 44, fill: 0x263743 }));
   }
 
@@ -245,7 +245,7 @@ export class LogicGymScene extends Phaser.Scene {
       case "simon": return `${this.simonPadCount()} luci · ritmo ${this.gymLevel >= 6 ? "rapido" : "guidato"}`;
       case "memory": return `${this.memoryPairCount()} coppie · ${this.gymLevel >= 5 ? "associazioni miste" : "associazioni base"}`;
       case "code": return `${this.codeLengthForLevel()} simboli · ${this.codeMaxForLevel()} tentativi`;
-      case "seq": return `${this.roundsForLevel()} schemi · regole fino a L${this.sequenceLevelForRound(this.roundsForLevel() - 1)}`;
+      case "seq": return `${this.roundsForLevel()} schemi · regole fino a profondità ${this.sequenceLevelForRound(this.roundsForLevel() - 1)}`;
       case "balance": return `${this.roundsForLevel()} deduzioni · ${this.gymLevel >= 8 ? "anche dati insufficienti" : "ordine logico"}`;
       case "flash": return `${this.flashGridSize()}x${this.flashGridSize()} · memoria ${this.gymLevel >= 7 ? "sequenziale" : "spaziale"}`;
       case "firewall": return `${this.firewallRoundCount()} segnali · ${this.firewallRuleCount()} regole`;
@@ -333,7 +333,7 @@ export class LogicGymScene extends Phaser.Scene {
     this.simonSeq = [];
     this.simonInput = [];
     this.simonLocked = true;
-    this.t(this.add.text(640, 40, `🧠 Sequenza Luminosa · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(640, 40, `🧠 Sequenza Luminosa · Profondità ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
     this.simonStatus = this.t(this.add.text(640, 86, "Guarda bene…", { fontFamily: "Inter, Arial", fontSize: "18px", color: "#9ff5e9" }).setOrigin(0.5));
 
     const padCount = this.simonPadCount();
@@ -401,7 +401,7 @@ export class LogicGymScene extends Phaser.Scene {
       this.simonStatus?.setText("Perfetto! Sequenza più lunga…");
       audioManager.play("success");
       if (this.simonSeq.length >= this.simonTargetLength()) {
-        this.finishActivity("simon", "Sequenza Luminosa", this.simonTargetLength(), ["trasversali.memoria"], 22, "Hai raggiunto la sequenza obiettivo del livello.");
+        this.finishActivity("simon", "Sequenza Luminosa", this.simonTargetLength(), ["trasversali.memoria"], 22, "Hai raggiunto la sequenza obiettivo della profondità.");
         return;
       }
       this.time.delayedCall(750, () => this.simonNextRound());
@@ -424,7 +424,7 @@ export class LogicGymScene extends Phaser.Scene {
       { pairId: pair.id, label: pair.b },
     ]));
 
-    this.t(this.add.text(640, 36, `🃏 Memory delle Coppie · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(640, 36, `🃏 Memory delle Coppie · Profondità ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
     this.memStatus = this.t(this.add.text(640, 78, `Mosse: 0 · Coppie: 0/${this.memPairs}`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9" }).setOrigin(0.5));
 
     const cols = 4;
@@ -506,7 +506,7 @@ export class LogicGymScene extends Phaser.Scene {
     const random = new Random(`code-${Date.now()}`);
     this.codeSecret = random.shuffle(CODE_SYMBOLS.map((_, i) => i)).slice(0, this.codeLen);
 
-    this.t(this.add.text(56, 30, `🔐 Codice Segreto · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }));
+    this.t(this.add.text(56, 30, `🔐 Codice Segreto · Profondità ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }));
     this.t(this.add.text(58, 70, `Indovina i ${this.codeLen} simboli (tutti diversi). ⚫ = giusto al posto giusto · ⚪ = c'è ma in un'altra posizione.`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#c7dce7", wordWrap: { width: 1160 } }));
     this.codeStatus = this.t(this.add.text(58, 100, `Tentativo 1 di ${this.codeMax}`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#f7d37a" }));
 
@@ -606,8 +606,8 @@ export class LogicGymScene extends Phaser.Scene {
     const level = this.sequenceLevelForRound(this.seqRound);
     const puzzle = new LogicSequenceGenerator().generate(new Random(`seq-${Date.now()}-${this.seqRound}`), level);
 
-    this.t(this.add.text(640, 40, `🔢 Sequenze Logiche · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
-    this.t(this.add.text(640, 82, `Schema ${this.seqRound + 1}/${this.seqTotal} · regola L${level} · corrette: ${this.seqCorrect}`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9" }).setOrigin(0.5));
+    this.t(this.add.text(640, 40, `🔢 Sequenze Logiche · Profondità ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(640, 82, `Schema ${this.seqRound + 1}/${this.seqTotal} · regola profondità ${level} · corrette: ${this.seqCorrect}`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9" }).setOrigin(0.5));
 
     this.t(this.add.text(640, 200, `${puzzle.sequence.join("   ,   ")}   ,   ?`, { fontFamily: "Inter, Arial", fontSize: "40px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0.5));
     this.t(this.add.text(640, 280, puzzle.question, { fontFamily: "Inter, Arial", fontSize: "18px", color: "#c7dce7" }).setOrigin(0.5));
@@ -658,8 +658,8 @@ export class LogicGymScene extends Phaser.Scene {
     const level = this.sequenceLevelForRound(this.balRound);
     const puzzle = generateBalance(new Random(`bal-${Date.now()}-${this.balRound}`), level);
 
-    this.t(this.add.text(640, 40, `⚖️ Bilancia Logica · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
-    this.t(this.add.text(640, 82, `Deduzione ${this.balRound + 1}/${this.balTotal} · regola L${level} · corrette: ${this.balCorrect}`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9" }).setOrigin(0.5));
+    this.t(this.add.text(640, 40, `⚖️ Bilancia Logica · Profondità ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(640, 82, `Deduzione ${this.balRound + 1}/${this.balTotal} · regola profondità ${level} · corrette: ${this.balCorrect}`, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9" }).setOrigin(0.5));
 
     this.t(this.add.text(640, 150, "Indizi:", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
     puzzle.clues.forEach((clue, i) => {
@@ -699,7 +699,7 @@ export class LogicGymScene extends Phaser.Scene {
   private startFlash(): void {
     this.clearScreen();
     this.flashRound = 0;
-    this.t(this.add.text(640, 40, `⚡ Griglia Lampo · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(640, 40, `⚡ Griglia Lampo · Profondità ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
     this.flashStatus = this.t(this.add.text(640, 84, this.flashSequentialMode() ? "Memorizza ordine e posizione…" : "Memorizza le caselle accese…", { fontFamily: "Inter, Arial", fontSize: "18px", color: "#9ff5e9" }).setOrigin(0.5));
 
     const size = this.flashGridSize();
@@ -824,7 +824,7 @@ export class LogicGymScene extends Phaser.Scene {
       bg.lineBetween(54, y, 1226, y);
     }
 
-    this.t(this.add.text(56, 32, `FW  Firewall NORA · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }));
+    this.t(this.add.text(56, 32, `FW  Firewall NORA · Profondità ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold" }));
     this.t(this.add.text(58, 70, "Indaga il segnale con gli strumenti, capisci il problema e applica il protocollo giusto. Meno scansioni usi, più NORA resta stabile.", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", wordWrap: { width: 920 } }));
     this.firewallStatus = this.t(this.add.text(1042, 54, "", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#f7d37a", fontStyle: "bold", align: "right" }).setOrigin(0.5));
 
@@ -1367,8 +1367,8 @@ export class LogicGymScene extends Phaser.Scene {
     this.time.delayedCall(key === "simon" || key === "code" ? 600 : 50, () => {
       this.clearScreen();
       this.t(this.add.rectangle(640, 360, 880, 360, 0x0b1922, 0.97).setStrokeStyle(2, 0xf6c85f, 0.7));
-      this.t(this.add.text(640, 250, `${label} · L${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "26px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
-      this.t(this.add.text(640, 312, `Punteggio: ${score}${record ? "   ★ NUOVO RECORD DI LIVELLO!" : `   (record L${this.gymLevel}: ${Math.max(previous, score)})`}`, { fontFamily: "Inter, Arial", fontSize: "20px", color: record ? "#f6c85f" : "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
+      this.t(this.add.text(640, 250, `${label} · Profondità ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "26px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+      this.t(this.add.text(640, 312, `Punteggio: ${score}${record ? "   ★ NUOVO RECORD DI PROFONDITÀ!" : `   (record profondità ${this.gymLevel}: ${Math.max(previous, score)})`}`, { fontFamily: "Inter, Arial", fontSize: "20px", color: record ? "#f6c85f" : "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
       this.t(this.add.text(640, 360, summary, { fontFamily: "Inter, Arial", fontSize: "15px", color: "#c7dce7", align: "center", wordWrap: { width: 760 } }).setOrigin(0.5));
       if (award > 0) {
         this.t(this.add.text(640, 408, `+${award} competenze Trasversali`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#70d68a" }).setOrigin(0.5));

@@ -4,6 +4,19 @@ import { masterySystem } from "./MasterySystem";
 import { saveSystem } from "./SaveSystem";
 
 export type NoraTone = "curiosa" | "coraggiosa" | "gentile";
+export type NoraMoodMemoryKey = "steady" | "bright" | "worried";
+export type NoraTalkChoice = "stay" | "notice" | "memory" | "courage";
+export type NoraMoodMemory = {
+  steady: number;
+  bright: number;
+  worried: number;
+  recent?: NoraMoodMemoryKey[];
+  visits?: number;
+  lastMood?: NoraMoodMemoryKey;
+  lastAt?: string;
+  lastVisitAt?: string;
+  lastTalkChoice?: NoraTalkChoice;
+};
 
 export type NoraBond = {
   level: number;
@@ -30,6 +43,25 @@ const TONE_LABELS: Record<NoraTone, string> = {
   curiosa: "curiosa",
   coraggiosa: "coraggiosa",
   gentile: "gentile",
+};
+
+const TALK_LINES: Record<NoraTalkChoice, string[]> = {
+  stay: [
+    "Resto qui. Non serve riempire il silenzio: guardiamo il prossimo sistema insieme.",
+    "Ci sono. Anche quando non parlo, tengo accesa una piccola luce sul bordo della stanza.",
+  ],
+  notice: [
+    "Quando ti fermi un secondo prima del click, cambi qualità. Lo vedo: la risposta diventa una decisione, non un riflesso.",
+    "Ti sto conoscendo così: non sei solo veloce. Sei più forte quando costruisci una prova piccola e poi la segui.",
+  ],
+  memory: [
+    "Il primo ricordo che ho di te non è una risposta giusta. È una presenza: qualcuno che nel buio ha detto sì.",
+    "A volte recupero frammenti confusi. Poi arrivi tu, sistemi un nodo, e il ricordo smette di tremare.",
+  ],
+  courage: [
+    "Coraggio non è non sbagliare. È restare abbastanza vicina al problema da capirlo.",
+    "Se un settore resiste, non significa che ti respinge. Significa che vuole essere letto con più calma.",
+  ],
 };
 
 // NORA's personal subplot: fragments of her memory, recovered as the player
@@ -115,6 +147,19 @@ const VISUAL_STAGES: NoraVisualStageDef[] = [
 ];
 
 export class NoraCompanion {
+  private emptyMoodMemory(): NoraMoodMemory {
+    return { steady: 0, bright: 0, worried: 0, recent: [], visits: 0 };
+  }
+
+  private getMoodMemory(): NoraMoodMemory {
+    const memory = saveSystem.data.nora?.moodMemory;
+    return {
+      ...this.emptyMoodMemory(),
+      ...memory,
+      recent: memory?.recent ?? [],
+    };
+  }
+
   getTone(): NoraTone {
     return saveSystem.data.nora?.tone ?? "gentile";
   }
@@ -126,6 +171,75 @@ export class NoraCompanion {
 
   toneLabel(): string {
     return TONE_LABELS[this.getTone()];
+  }
+
+  recordMood(mood: NoraMoodMemoryKey, talkChoice?: NoraTalkChoice): void {
+    const previous = this.getMoodMemory();
+    const recent = [...(previous.recent ?? []), mood].slice(-12);
+    saveSystem.data.nora = {
+      ...(saveSystem.data.nora ?? {}),
+      moodMemory: {
+        ...previous,
+        [mood]: (previous[mood] ?? 0) + 1,
+        recent,
+        lastMood: mood,
+        lastAt: new Date().toISOString(),
+        lastTalkChoice: talkChoice ?? previous.lastTalkChoice,
+      },
+    };
+    saveSystem.persistData();
+  }
+
+  markRoomVisit(): void {
+    const previous = this.getMoodMemory();
+    saveSystem.data.nora = {
+      ...(saveSystem.data.nora ?? {}),
+      moodMemory: {
+        ...previous,
+        visits: (previous.visits ?? 0) + 1,
+        lastVisitAt: new Date().toISOString(),
+      },
+    };
+    saveSystem.persistData();
+  }
+
+  moodSummary(): string {
+    const memory = this.getMoodMemory();
+    if ((memory.steady + memory.bright + memory.worried) === 0) {
+      return "Il nostro legame è ancora nuovo: sto imparando il tuo ritmo.";
+    }
+    const recent = memory.recent ?? [];
+    const recentBright = recent.filter((mood) => mood === "bright").length;
+    const recentWorried = recent.filter((mood) => mood === "worried").length;
+    const recentSteady = recent.filter((mood) => mood === "steady").length;
+    if (recentWorried >= 3 && recentWorried > recentBright + recentSteady) {
+      return "Nelle ultime battute ti ho sentita sotto pressione. Posso restare più vicina e parlare meno, se serve.";
+    }
+    if (recentBright >= 3 && recentBright >= recentWorried) {
+      return "Nelle ultime battute ho registrato più luce che allarme: stai costruendo fiducia.";
+    }
+    if (recentSteady >= 4) {
+      return "Il nostro ritmo recente è calmo: poche mosse, ben lette, e poi si procede.";
+    }
+    return "Il nostro ritmo è stabile: poche mosse, ben lette, e poi si procede.";
+  }
+
+  roomPresenceLine(playerName: string): string {
+    const memory = this.getMoodMemory();
+    const visits = memory.visits ?? 0;
+    if (visits <= 0) return `Entra pure, ${playerName}. Ho tenuto questa stanza accesa per noi.`;
+    if (memory.lastMood === "worried") return `${playerName}, ti ho vista stringere i denti. Qui puoi respirare prima della prossima prova.`;
+    if (memory.lastMood === "bright") return `${playerName}, hai lasciato una scia luminosa nell'ultimo sistema. La riconosco ancora.`;
+    return `${playerName}, bentornata. Ho conservato il filo dell'ultima volta.`;
+  }
+
+  talk(choice: NoraTalkChoice): string {
+    const pool = TALK_LINES[choice];
+    const index = Math.floor(Math.random() * pool.length);
+    if (choice === "stay") this.recordMood("steady", choice);
+    if (choice === "notice" || choice === "memory") this.recordMood("bright", choice);
+    if (choice === "courage") this.recordMood("worried", choice);
+    return pool[index];
   }
 
   /** Bond grows with real progress: academy stars + chapters completed. */
@@ -149,7 +263,7 @@ export class NoraCompanion {
     const snapshot = saveSystem.data.nora?.masterySnapshot;
     const branches = masterySystem.getBranches();
     if (!snapshot) {
-      return ["È la prima volta che ci alleniamo davvero insieme. Sono curiosa di vedere dove arriverai."];
+      return ["È la prima volta che esploriamo davvero insieme. Sono curiosa di vedere dove arriverai."];
     }
     const messages: string[] = [];
     branches.forEach((branch) => {

@@ -138,7 +138,7 @@ export class MathStudyScene extends Phaser.Scene {
       color: "#f5fbff",
       fontStyle: "bold",
     }).setOrigin(0.5);
-    this.add.text(1086, 178, `${page.subject === "italiano" ? "Italiano" : "Matematica"} · Livelli ${page.levelRange[0]}-${page.levelRange[1]}  ·  ${page.tags.join(" · ")}`, {
+    this.add.text(1086, 178, `${page.subject === "italiano" ? "Italiano" : "Matematica"} · Profondità ${page.levelRange[0]}-${page.levelRange[1]}  ·  ${page.tags.join(" · ")}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",
@@ -257,7 +257,7 @@ export class MathStudyScene extends Phaser.Scene {
       stroke: 0xf6c85f,
       fontSize: 13,
     });
-    new Button(this, 1088, 672, page.subject === "italiano" ? "Focus italiano" : "Allenamento misto", () => {
+    new Button(this, 1088, 672, page.subject === "italiano" ? "Settore italiano" : "Calibrazione mista", () => {
       if (page.subject === "italiano") this.startItalianTraining();
       else this.startMathTraining();
     }, {

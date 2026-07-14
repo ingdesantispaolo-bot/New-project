@@ -248,7 +248,7 @@ export const competencies: CompetencyDefinition[] = [
   {
     id: "musica.letturaNote",
     label: "Lettura note",
-    description: "Identificare nome e ottava della nota entro un tempo adeguato al livello.",
+    description: "Identificare nome e ottava della nota entro un tempo adeguato alla profondità.",
   },
   {
     id: "musica.orecchio",

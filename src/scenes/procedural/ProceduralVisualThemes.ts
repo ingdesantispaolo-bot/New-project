@@ -190,7 +190,7 @@ const levelThemes: Record<DifficultyLevel, Omit<ProceduralVisualTheme, "level" |
     sideNote: "Il nucleo combina linguaggio, calcolo, circuito e comando: ogni soluzione deve essere precisa e motivata.",
     ruleTitle: "Sintesi",
     ruleText: "Non basta risolvere: devi capire perche la soluzione regge quando cambiano dati, vincoli e contesto.",
-    stageHint: "Le colonne di luce collegano tutti i moduli: il livello misura padronanza, non memoria.",
+    stageHint: "Le colonne di luce collegano tutti i moduli: la profondità misura padronanza, non memoria.",
     accent: 0xf7d37a,
     secondary: 0x9f8cff,
     dark: 0x0a0d18,

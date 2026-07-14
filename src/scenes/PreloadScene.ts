@@ -1,13 +1,14 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
+import { startScene } from "../core/SceneNavigator";
 import academyPaintedBgUrl from "../assets/images/academy-painted-bg.webp";
 import actionRoomBgUrl from "../assets/images/academy-action-room-bg.png";
-import serraBioBgUrl from "../assets/images/area-serra-bio.png";
-import cantiereCircuitiBgUrl from "../assets/images/area-cantiere-circuiti.png";
-import osservatorioBgUrl from "../assets/images/area-osservatorio.png";
-import salaMusicaBgUrl from "../assets/images/area-sala-musica.png";
-import archivioBibliotecaBgUrl from "../assets/images/area-archivio-biblioteca.png";
-import bibliotecaClassicaBgUrl from "../assets/images/area-biblioteca-classica.png";
+import serraBioBgUrl from "../assets/images/area-bio-ponte-primi.png";
+import cantiereCircuitiBgUrl from "../assets/images/area-reattore-primi.png";
+import osservatorioBgUrl from "../assets/images/area-ponte-comando-primi.png";
+import salaMusicaBgUrl from "../assets/images/area-motore-risonanza-primi.png";
+import archivioBibliotecaBgUrl from "../assets/images/area-data-core-primi.png";
+import bibliotecaClassicaBgUrl from "../assets/images/area-sala-glifi-primi.png";
 import eliQuestAtlasUrl from "../assets/sprites/eli-quest-atlas.webp";
 import eliQuestAtlasJsonUrl from "../assets/sprites/eli-quest-atlas.json?url";
 import eliRobotGirlSheetUrl from "../assets/sprites/eli-robot-girl-sheet.png";
@@ -60,7 +61,9 @@ export class PreloadScene extends Phaser.Scene {
 
     this.warmCriticalTextures();
     audioManager.preloadEssentialAudio();
-    this.scene.start("MainMenuScene");
+    // The explorable world IS the main menu: the session opens inside the
+    // central deck of the Relitto. The button-based menu stays reachable via NORA.
+    void startScene(this, "ExplorableRoomScene").catch(() => this.scene.start("MainMenuScene"));
   }
 
   private warmCriticalTextures(): void {

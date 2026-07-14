@@ -124,7 +124,7 @@ export const pythonPrincipleSeeds: PythonPrincipleSeed[] = [
     distractors: ["OK", "8", "OK BASSA"],
     explanation:
       "8 >= 10 è falso, quindi Python salta il ramo if ed esegue il ramo else, stampando BASSA. Solo un ramo viene eseguito.",
-    explore: "Approfondisci: aggiungi un elif energia >= 5 per avere tre livelli invece di due.",
+    explore: "Approfondisci: aggiungi un elif energia >= 5 per avere tre rami invece di due.",
   },
   {
     principle: "operatori booleani",

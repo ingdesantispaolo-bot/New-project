@@ -2,10 +2,12 @@ import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { campaignSystem, type CampaignChapter } from "../core/CampaignSystem";
 import { buildChapterExploreRun, buildChapterTrialRun, chapterExploreLevel, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
+import { noraCompanion } from "../core/NoraCompanion";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { startScene } from "../core/SceneNavigator";
+import { settingsSystem } from "../core/SettingsSystem";
 import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
@@ -168,13 +170,13 @@ export class CampaignScene extends Phaser.Scene {
     const phases = [
       {
         title: explored ? "1. Esplora completata" : "1. Esplora",
-        body: `Livello ${exploreLevel}/8. Nessun timer o vite: feedback e indizi preparano il metodo.`,
+        body: `Profondità ${exploreLevel}/8. Nessun timer o vite: feedback e indizi preparano il metodo.`,
         color: explored ? "#9ff5a7" : "#9ff5e9",
         imageKey: "story-transition-explore",
       },
       {
         title: explored ? "2. Prova disponibile" : "2. Prova bloccata",
-        body: `Livello ${level}/8. Max ${CHAPTER_TRIAL_ERROR_BUDGET} errori, circa ${minutes} min: supera per sbloccare.`,
+        body: `Profondità ${level}/8. Max ${CHAPTER_TRIAL_ERROR_BUDGET} errori, circa ${minutes} min: supera per sbloccare.`,
         color: explored ? "#f7d37a" : "#8aa0a8",
         imageKey: "story-transition-trial",
       },
@@ -352,6 +354,24 @@ export class CampaignScene extends Phaser.Scene {
     const image = this.add.image(x, y, key).setDisplaySize(356, 200);
     modal.add(image);
     modal.add(this.add.rectangle(x, y, 356, 200, 0x02070b, 0.08).setStrokeStyle(1, 0xf6c85f, 0.18));
+    const stage = noraCompanion.currentVisualStage();
+    if (this.textures.exists(stage.key)) {
+      const halo = this.add.rectangle(x + 92, y + 34, 228, 130, 0x02070b, 0.42)
+        .setStrokeStyle(1, phase === "intro" ? 0x6be7d6 : 0x2ed889, 0.38);
+      const nora = this.add.image(x + 92, y + 34, stage.key).setDisplaySize(218, 122);
+      modal.add([halo, nora]);
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({
+          targets: nora,
+          scaleX: nora.scaleX * 1.018,
+          scaleY: nora.scaleY * 1.018,
+          duration: phase === "intro" ? 3600 : 4200,
+          yoyo: true,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        });
+      }
+    }
     modal.add(this.add.rectangle(x, y + 112, 356, 24, 0x02070b, 0.48));
     modal.add(this.add.text(x - 164, y + 104, phase === "intro" ? "Ingresso nel capitolo" : "Esito del capitolo", {
       fontFamily: "Inter, Arial",

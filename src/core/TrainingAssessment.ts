@@ -21,10 +21,10 @@ function nextTrainingGoal(grade: number, speedRatio: number, hintsUsed: number, 
     return "Riprova usando al massimo un indizio: l'obiettivo e riconoscere il principio senza dipendere dagli aiuti.";
   }
   if (grade < 6.5) {
-    return "Consolida lo stesso livello: punta a precisione e passaggi ordinati prima di aumentare difficolta.";
+    return "Consolida la stessa profondità: punta a precisione e passaggi ordinati prima di aumentarla.";
   }
   if (grade >= 8.5 && difficulty < 8) {
-    return `Passa al livello ${difficulty + 1}: hai margine per vincoli piu stretti.`;
+    return `Passa alla profondità ${difficulty + 1}: hai margine per vincoli piu stretti.`;
   }
   return "Sfida consigliata: ripeti con un nuovo seed e cerca una soluzione piu pulita.";
 }

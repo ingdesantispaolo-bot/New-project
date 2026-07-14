@@ -202,11 +202,11 @@ export class SaveSystem {
     const add = (id: string, label: string, target: number, value: number): void => {
       objectives.push({ id, label, target, current: Math.min(value, target), done: value >= target });
     };
-    add("runs", `Completa ${runsTarget} allenamenti`, runsTarget, delta.runs);
-    if (stats.mastered < 7) add("master", "Padroneggia una nuova materia", 1, delta.mastered);
-    else add("runs-long", "Allenati a lungo: 6 sessioni", 6, delta.runs);
+    add("runs", `Completa ${runsTarget} calibrazioni`, runsTarget, delta.runs);
+    if (stats.mastered < 7) add("master", "Padroneggia un nuovo settore", 1, delta.mastered);
+    else add("runs-long", "Calibra a lungo: 6 sessioni", 6, delta.runs);
     if (stats.unlocked < 4) add("unlock", "Sblocca una nuova area", 1, delta.unlocked);
-    else add("runs-marathon", "Maratona: 8 allenamenti", 8, delta.runs);
+    else add("runs-marathon", "Maratona: 8 calibrazioni", 8, delta.runs);
     return objectives;
   }
 

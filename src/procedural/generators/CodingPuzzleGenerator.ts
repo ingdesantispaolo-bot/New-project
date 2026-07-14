@@ -67,7 +67,7 @@ export class CodingPuzzleGenerator {
       id: `coding-mini-${type}-${random.integer(1000, 9999)}`,
       title: game.title,
       challengeType: type === "bug-hunt" ? "debug-line" : type === "state-tracer" ? "variable-state" : "trace-output",
-      difficultyLabel: `Livello ${difficulty.level}/8 - sprint coding`,
+      difficultyLabel: `Profondità ${difficulty.level}/8 - sprint coding`,
       scenario: "La console genera micro-programmi da stabilizzare in un minuto. Non premiare la memoria: simula il codice.",
       codeLines: first.codeLines,
       question: first.question,
@@ -812,16 +812,16 @@ function codingMinigameMethodSteps(type: CodingMinigameType): string[] {
 }
 
 function codingMinigamePurpose(type: CodingMinigameType): string {
-  if (type === "sequence-builder") return "Allenare costruzione di algoritmi brevi: scegliere il prossimo blocco coerente con obiettivo e stato.";
-  if (type === "state-tracer") return "Allenare esecuzione mentale del codice: aggiornare variabili, cicli e output senza tirare a indovinare.";
+  if (type === "sequence-builder") return "Calibrare costruzione di algoritmi brevi: scegliere il prossimo blocco coerente con obiettivo e stato.";
+  if (type === "state-tracer") return "Calibrare esecuzione mentale del codice: aggiornare variabili, cicli e output senza tirare a indovinare.";
   if (type === "binary-bits") return "Capire come i computer rappresentano i numeri in binario: valore dei bit e conversione con le potenze di due.";
   if (type === "logic-gate") return "Capire la logica booleana alla base dei circuiti e del codice: combinare AND, OR e NOT per ottenere vero o falso.";
   if (type === "loop-output") return "Capire come un ciclo ripete istruzioni e come una variabile accumulatore cambia a ogni iterazione fino all'output.";
   if (type === "conditional-path") return "Capire il flusso condizionale: valutare un'espressione e seguire il ramo if oppure else che viene eseguito.";
-  if (type === "algorithm-order") return "Allenare il pensiero algoritmico: scomporre un compito in passi e disporli nell'ordine corretto per farlo funzionare.";
+  if (type === "algorithm-order") return "Calibrare il pensiero algoritmico: scomporre un compito in passi e disporli nell'ordine corretto per farlo funzionare.";
   if (type === "python-lab") return "Leggere e valutare codice Python vero: prevedere l'output e riconoscere i principi (variabili, cicli, condizioni, funzioni, indentazione).";
   if (type === "language-atlas") return "Scoprire i linguaggi di programmazione storici e attuali, capire perché sono nati e incuriosirsi ad approfondire la cultura informatica.";
-  return "Allenare debugging: distinguere causa dell'errore, sintomo e correzione minima.";
+  return "Calibrare debugging: distinguere causa dell'errore, sintomo e correzione minima.";
 }
 
 function basePuzzle(
@@ -842,7 +842,7 @@ function basePuzzle(
     id: `coding-${type}`,
     title,
     challengeType: type,
-    difficultyLabel: `Livello ${difficulty.level}/8 - ${difficulty.level <= 2 ? "traccia guidata" : difficulty.level <= 5 ? "ragionamento su stati" : "debug e astrazione"}`,
+    difficultyLabel: `Profondità ${difficulty.level}/8 - ${difficulty.level <= 2 ? "traccia guidata" : difficulty.level <= 5 ? "ragionamento su stati" : "debug e astrazione"}`,
     scenario,
     codeLines,
     question,
@@ -1068,7 +1068,7 @@ function numericOptions(random: Random, correct: number, seeds: number[]): strin
 
 function learningPurposeFor(type: CodingChallengeType): string {
   return {
-    "trace-output": "Allenare il tracing: prevedere l'output eseguendo mentalmente le righe in ordine.",
+    "trace-output": "Calibrare il tracing: prevedere l'output eseguendo mentalmente le righe in ordine.",
     "variable-state": "Capire che una variabile puo cambiare valore e va aggiornata riga dopo riga.",
     "loop-count": "Capire i cicli come ripetizione controllata di un effetto.",
     "conditional-branch": "Valutare una condizione e scegliere il ramo realmente eseguito.",

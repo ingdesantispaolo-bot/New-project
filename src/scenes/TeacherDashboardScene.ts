@@ -54,7 +54,7 @@ export class TeacherDashboardScene extends Phaser.Scene {
       color: "#f5fbff",
       fontStyle: "bold",
     });
-    this.add.text(60, 84, `Giocatore: ${active.name}  ·  Esercizi risolti: ${report.exerciseCount}  ·  Missioni: ${report.missionCount}  ·  Errori recuperati: ${report.recoveredMistakes}  ·  Soluzioni autonome: ${report.independentSolutions}`, {
+    this.add.text(60, 84, `Giocatore: ${active.name}  ·  Prove risolte: ${report.exerciseCount}  ·  Missioni: ${report.missionCount}  ·  Errori recuperati: ${report.recoveredMistakes}  ·  Soluzioni autonome: ${report.independentSolutions}`, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#9ff5e9",
@@ -104,7 +104,7 @@ export class TeacherDashboardScene extends Phaser.Scene {
     this.panel(x, y, w, h, "Competenze allenate");
     const groups = this.buildGroups();
     if (groups.length === 0) {
-      this.add.text(x + 22, y + 64, "Nessuna competenza ancora registrata. Completa qualche esercizio per popolare questo quadro.", {
+      this.add.text(x + 22, y + 64, "Nessuna competenza ancora registrata. Completa qualche prova per popolare questo quadro.", {
         fontFamily: "Inter, Arial",
         fontSize: "15px",
         color: "#c7dce7",
@@ -232,7 +232,7 @@ export class TeacherDashboardScene extends Phaser.Scene {
 
     const runs: Array<{ title: string; run?: ProceduralRunSave }> = [
       { title: "Missione", run: saveSystem.getProceduralMissionRun() },
-      { title: "Allenamento", run: saveSystem.getProceduralTrainingRun() },
+      { title: "Calibrazione", run: saveSystem.getProceduralTrainingRun() },
       { title: "Scalata", run: saveSystem.getProceduralProgressiveRun() },
     ];
 
@@ -244,7 +244,7 @@ export class TeacherDashboardScene extends Phaser.Scene {
       }
       any = true;
       const focus = run.focus.length > 0 ? run.focus.join(", ") : "misto";
-      this.add.text(x + 22, rowY, `${title} · L${run.difficulty}`, {
+      this.add.text(x + 22, rowY, `${title} · Profondità ${run.difficulty}`, {
         fontFamily: "Inter, Arial",
         fontSize: "13px",
         color: "#f6c85f",
@@ -273,7 +273,7 @@ export class TeacherDashboardScene extends Phaser.Scene {
     });
 
     if (!any) {
-      this.add.text(x + 22, rowY, "Nessun seed salvato. Avvia una missione o un allenamento per generarne uno.", {
+      this.add.text(x + 22, rowY, "Nessun seed salvato. Avvia una missione o una calibrazione per generarne uno.", {
         fontFamily: "Inter, Arial",
         fontSize: "13px",
         color: "#c7dce7",

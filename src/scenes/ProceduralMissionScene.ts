@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { buildChapterExploreRun, buildChapterTrialRun, chapterTrialLevel, chapterTrialTimeMs, CHAPTER_TRIAL_ERROR_BUDGET } from "../core/ChapterTrial";
 import { markMissionComplete, markMissionExplored } from "../core/MissionCompletion";
+import { noraContextEngine, type NoraContextBeat } from "../core/NoraContextEngine";
 import { noraCompanion, type NoraMemory } from "../core/NoraCompanion";
 import { competencyTracker } from "../core/CompetencyTracker";
 import { exerciseDirector } from "../core/ExerciseDirector";
@@ -18,6 +19,7 @@ import { settingsSystem } from "../core/SettingsSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { noraVoice, type NoraBeat } from "../core/NoraVoice";
 import { noraChip } from "../ui/NoraChip";
+import { noraPresence } from "../ui/NoraPresence";
 import { languageTemplates } from "../data/procedural/languageTemplates";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { difficultyModel } from "../procedural/DifficultyModel";
@@ -198,7 +200,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "procedural");
+    queueSceneAssets(this, "procedural", "story");
   }
 
   create(): void {
@@ -206,6 +208,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.run = this.ensureRun();
     audioManager.playMusic("labAmbience");
     VisualKit.applyCinematicGrade(this, "lab");
+    noraPresence.mount(this, { x: 42, y: this.scale.height - 86, compact: true });
     const onRegenerate = () => this.isProgressiveMode() ? this.confirmProgressiveReset() : this.regenerate();
     const onHub = () => { this.pauseRunIfLeaving(); this.scene.start("MainMenuScene"); };
     const onNora = () => this.showNoraChargePanel();
@@ -339,18 +342,39 @@ export class ProceduralMissionScene extends Phaser.Scene {
     });
   }
 
-  /** Speaks an in-character NORA line for a beat (story modes only). */
+  /** Speaks an in-character, context-aware NORA line for a beat. */
   private noraSay(beat: NoraBeat): void {
-    if (this.runMode() === "training") {
-      return;
-    }
     const tone = beat === "victory" || beat === "solve" || beat === "streak" || beat === "bossDefeat" ? "success" : beat === "lifeLost" || beat === "lowLife" || beat === "defeat" || beat === "sabotage" ? "warning" : "info";
-    noraChip.say(this, noraVoice.line(beat), tone);
+    const contextual = this.noraContextLine(beat);
+    noraChip.say(this, contextual ?? noraVoice.line(beat), tone);
   }
 
-  /** Short, playful NORA beat on a streak milestone (silent in free training). */
+  private noraContextLine(beat: NoraBeat): string | undefined {
+    const contextBeat: Partial<Record<NoraBeat, NoraContextBeat>> = {
+      enter: "enter",
+      solve: "solve",
+      streak: "streak",
+      lifeLost: "mistake",
+      lowLife: "lowLife",
+      victory: "victory",
+      defeat: "defeat",
+      scaffold: "scaffold",
+    };
+    const mapped = contextBeat[beat];
+    if (!mapped) return undefined;
+    return noraContextEngine.line(mapped, {
+      run: this.run,
+      kind: this.activePuzzleKind,
+      attempts: this.activePuzzleAttempts(),
+      hintsUsed: this.activePuzzleHintsUsed(),
+    });
+  }
+
+  /** Short, playful NORA beat on a streak milestone. */
   private cheerStreak(streak: number): void {
-    if (streak === 3 || streak === 6 || streak === 10) this.noraSay("streak");
+    if (streak === 3 || streak === 6 || streak === 10) {
+      noraPresence.speak(this, noraContextEngine.line("streak", { run: this.run, kind: this.activePuzzleKind, streak }), "success");
+    }
   }
 
   private roomEntryFeedback(): string {
@@ -387,7 +411,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const kind = puzzleKindFromId(nextId);
     const count = saveSystem.data.learningMemory?.[`${kind}:concept`]?.count ?? 0;
     if (count < 3) return undefined;
-    return `NORA riconosce un punto da consolidare in ${this.puzzleLabel(kind)}: prima individua la prova, poi formula la risposta. La difficoltà resta stabile finché il metodo non diventa autonomo.`;
+    return `NORA riconosce un punto da consolidare in ${this.puzzleLabel(kind)}: prima individua la prova, poi formula la risposta. La profondità resta stabile finché il metodo non diventa autonomo.`;
   }
 
   private availableNoraCharges(): number {
@@ -543,7 +567,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (trial && this.run.chapterMissionId) {
       const level = chapterTrialLevel(this.run.chapterMissionId);
       const minutes = Math.round(chapterTrialTimeMs(this.run.chapterMissionId) / 60_000);
-      overlay.add(this.add.text(640, 282, `Livello ${level}/8 · tutte le materie · ~${minutes} min · ogni errore gli dà terreno (−25s), ${CHAPTER_TRIAL_ERROR_BUDGET} margini`, {
+      overlay.add(this.add.text(640, 282, `Profondità ${level}/8 · tutti i settori · ~${minutes} min · ogni errore gli dà terreno (−25s), ${CHAPTER_TRIAL_ERROR_BUDGET} margini`, {
         fontFamily: "Inter, Arial",
         fontSize: "14px",
         color: "#9ff5e9",
@@ -915,7 +939,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#f7d37a",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(370, 282, `Sei al livello ${currentLevel}/8 e hai completato ${completedLevels} livelli.\n\nIl reset elimina progressi, risultati, punti e tempo della scalata corrente. Missioni normali, focus e registro non vengono modificati.`, {
+    overlay.add(this.add.text(370, 282, `Sei alla profondità ${currentLevel}/8 e hai completato ${completedLevels} settori.\n\nIl reset elimina progressi, risultati, punti e tempo della scalata corrente. Missioni normali, focus e registro non vengono modificati.`, {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#d9eaf1",
@@ -928,7 +952,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fill: 0x263743,
       fontSize: 17,
     }));
-    overlay.add(new Button(this, 770, 476, "Riparti dal livello 1", () => {
+    overlay.add(new Button(this, 770, 476, "Riparti dalla profondità 1", () => {
       this.clearOverlay();
       this.progressiveOutcomeOpen = false;
       this.missionFailureInProgress = false;
@@ -1050,6 +1074,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.ensurePuzzleTimer(puzzleId);
       this.playPuzzleContextSound(systemId);
       handlers[systemId]();
+      if (this.runMode() !== "training") {
+        noraPresence.speak(this, noraContextEngine.line("open", { run: this.run, kind: systemId }), "info", 3600);
+      } else {
+        noraPresence.pulse(this, "thinking");
+      }
       this.maybeAutoScaffold(systemId);
     }
   }
@@ -1082,6 +1111,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.activeHintPuzzleId = this.activePuzzleId;
     audioManager.playOutcome("hint");
     feedbackSystem.publish(`NORA riconosce uno schema ricorrente e apre subito il controllo utile: ${first}`, "hint");
+    noraPresence.speak(this, noraContextEngine.line("scaffold", { run: this.run, kind }), "info");
   }
 
   private currentPuzzleHintsFor(kind: ProceduralPuzzleId): string[] {
@@ -1852,7 +1882,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (session.wrong >= session.correct) {
       return "Troppi tentativi: rileggi lo scopo e scegli solo quando sai spiegare perché le altre opzioni cadono.";
     }
-    return "Allenamento utile: ora lavora sulle serie corrette, non solo sul singolo colpo.";
+    return "Calibrazione utile: ora lavora sulle serie corrette, non solo sul singolo colpo.";
   }
 
   private showLanguageMinigameSummary(session: LanguageMinigameSession): void {
@@ -1898,7 +1928,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? passed
         ? "La console italiana accetta il log: forma, coesione e pertinenza sono abbastanza stabili."
         : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
-      : "Allenamento registrabile: contano rapidità, precisione, serie positiva e uso consapevole degli aiuti.", {
+      : "Calibrazione registrabile: contano rapidità, precisione, serie positiva e uso consapevole degli aiuti.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -3408,7 +3438,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           overlay.add(this.add.triangle(cx + 68, cy, 0, -7, 16, 0, 0, 7, 0x6be7d6, 0.68));
         }
       });
-      overlay.add(this.add.text(x + 44, y + height - 52, "Prima riconosci la famiglia dell'esercizio, poi fai un solo controllo numerico sulla risposta.", {
+      overlay.add(this.add.text(x + 44, y + height - 52, "Prima riconosci la famiglia della prova, poi fai un solo controllo numerico sulla risposta.", {
         fontFamily: "Inter, Arial",
         fontSize: "12px",
         color: "#d9eaf1",
@@ -3894,7 +3924,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (session.wrong >= session.correct) {
       return "Troppi tentativi: rallenta, formula la regola e conferma solo quando puoi spiegare la scelta.";
     }
-    return "Allenamento utile: hai lavorato sul metodo, ora cerca serie più lunghe senza errori.";
+    return "Calibrazione utile: hai lavorato sul metodo, ora cerca serie più lunghe senza errori.";
   }
 
   private showMathMinigameSummary(session: MathMinigameSession): void {
@@ -3914,7 +3944,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         ? passed
           ? "La console matematica accetta la sequenza rapida: calcolo, controllo e precisione sono sufficienti."
           : "La soglia minima non è stata raggiunta: perderai una vita, ma le console già completate restano stabili."
-        : "Allenamento registrabile: migliorano tempo, precisione, serie positiva e consapevolezza degli errori.",
+        : "Calibrazione registrabile: migliorano tempo, precisione, serie positiva e consapevolezza degli errori.",
       energyText: this.runEnergySummary(),
       actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
@@ -4015,7 +4045,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const overlay = this.createExerciseScreen(puzzle.title);
     const instructionSize = puzzle.instruction.length > 122 ? 16 : puzzle.instruction.length > 96 ? 18 : puzzle.instruction.length > 72 ? 20 : 22;
-    overlay.add(this.add.text(56, 78, (puzzle.difficultyLabel ?? "Livello 1 - comandi e divieti").toUpperCase(), {
+    overlay.add(this.add.text(56, 78, (puzzle.difficultyLabel ?? "Profondità 1 - comandi e divieti").toUpperCase(), {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#9ff5e9",
@@ -4662,7 +4692,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (session.wrong >= session.correct) {
       return "Troppi tentativi: prima nomina il vincolo inglese, poi scegli l'azione.";
     }
-    return "Allenamento utile: punta a serie pulite, non solo a risposte isolate.";
+    return "Calibrazione utile: punta a serie pulite, non solo a risposte isolate.";
   }
 
   private showEnglishMinigameSummary(session: EnglishMinigameSession): void {
@@ -4708,7 +4738,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? passed
         ? "La console inglese accetta il protocollo: azioni, condizioni e dati sono stati interpretati."
         : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
-      : "Allenamento registrabile: il voto pesa rapidità, precisione, serie positiva e uso degli aiuti.", {
+      : "Calibrazione registrabile: il voto pesa rapidità, precisione, serie positiva e uso degli aiuti.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -5478,7 +5508,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (session.wrong >= session.correct) {
       return "Troppi tentativi: rallenta, simula una riga alla volta e scegli solo quando sai spiegare.";
     }
-    return "Allenamento utile: punta a serie pulite e correzioni minime.";
+    return "Calibrazione utile: punta a serie pulite e correzioni minime.";
   }
 
   private showCodingMinigameSummary(session: CodingMinigameSession): void {
@@ -5524,7 +5554,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? passed
         ? "La console coding certifica il programma: sequenza, stato e correzione sono coerenti."
         : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
-      : "Allenamento registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.", {
+      : "Calibrazione registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -6769,7 +6799,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (session.wrong > session.correct) {
       return "Troppe risposte a tentativo: rallenta un attimo, aggancia la nota guida e poi conta linee e spazi.";
     }
-    return "Allenamento utile: hai letto diverse note, ora punta a serie più lunghe senza errori.";
+    return "Calibrazione utile: hai letto diverse note, ora punta a serie più lunghe senza errori.";
   }
 
   private showMusicSprintSummary(session: MusicTrainingSession): void {
@@ -6816,7 +6846,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       ? passed
         ? "La console musicale è stabile: il sistema accetta il riconoscimento rapido delle note."
         : "In missione la console richiede una soglia minima: perderai una vita, ma potrai riprovare."
-      : "Allenamento registrabile: il punteggio premia correttezza e serie, e penalizza gli errori casuali.", {
+      : "Calibrazione registrabile: il punteggio premia correttezza e serie, e penalizza gli errori casuali.", {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#d9eaf1",
@@ -6934,7 +6964,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private musicPromptText(puzzle: GeneratedMusicPuzzle): string {
     if (puzzle.challengeMode === "auditory-note") {
-      return "Orecchio musicale: ascolta la nota e scegli il nome corretto. Il pentagramma è nascosto per allenare il riconoscimento dal suono.";
+      return "Orecchio musicale: ascolta la nota e scegli il nome corretto. Il pentagramma è nascosto per calibrare il riconoscimento dal suono.";
     }
     if (puzzle.challengeMode === "auditory-interval") {
       return "Orecchio musicale: ascolta due note in sequenza e scegli se la seconda sale/scende e di quale intervallo.";
@@ -6977,7 +7007,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return "Modalità durate: ogni figura vale la metà della precedente (semibreve 4, minima 2, semiminima 1, croma ½).";
     }
     if (puzzle.answerMode === "note-name") {
-      return "Modalità rapida: conta la posizione e scegli solo il nome della nota. L'ottava verrà allenata nei livelli avanzati.";
+      return "Modalità rapida: conta la posizione e scegli solo il nome della nota. L'ottava verrà calibrata nelle profondità avanzate.";
     }
     return "Modalità avanzata: stesso nome in registri diversi non basta; controlla anche le linee addizionali per scegliere l'ottava.";
   }
@@ -7046,8 +7076,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       `Metodo: ${anchor}.`,
       `La nota si trova su ${position}; ${ledger}.`,
       puzzle.answerMode === "note-name"
-        ? "In questo livello conta solo il nome della nota, non l'ottava."
-        : "In questo livello devi controllare anche l'ottava, quindi le linee addizionali diventano decisive.",
+        ? "In questa profondità conta solo il nome della nota, non l'ottava."
+        : "In questa profondità devi controllare anche l'ottava, quindi le linee addizionali diventano decisive.",
     ];
   }
 
@@ -7090,8 +7120,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     modal.add(this.add.text(x + 30, y + 232, this.isTimedMissionMode()
       ? "Quando premi, l'errore verrà registrato e perderai una vita. I sistemi già completati restano validi."
       : onTrainingContinue
-        ? "Quando premi, passi alla nota successiva della sequenza. La soluzione appena vista resta parte dell'allenamento."
-        : "Quando premi, torni alla sala e puoi riprovare l'esercizio con un nuovo timer.", {
+        ? "Quando premi, passi alla nota successiva della sequenza. La soluzione appena vista resta parte della calibrazione."
+        : "Quando premi, torni alla sala e puoi riprovare la prova con un nuovo timer.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9aaab0",
@@ -7456,11 +7486,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
       saveSystem.updateProceduralRun({ completedAt: new Date().toISOString() });
       this.run = saveSystem.data.proceduralRun ?? this.run;
       const recovered = noraCompanion.memories().find((memory) => memory.unlocked && !recoveredBefore.has(memory.id));
+      noraPresence.storyMoment(this, "Il capitolo è salvo. Sento un ricordo avvicinarsi: non è più solo mio, Eli. Lo abbiamo riportato insieme.", "success", "NORA si ricompone");
       feedbackSystem.publish(
         `Sabotatore respinto! Hai disattivato ogni nodo prima che il tempo scadesse. ${this.runEnergySummary()}. Capitolo sbloccato!`,
         "success",
       );
-      this.runWhenActive(1700, () => {
+      this.runWhenActive(3600, () => {
         if (recovered) this.showMemoryRecovered(recovered, () => this.scene.start("CampaignScene"));
         else this.scene.start("CampaignScene");
       });
@@ -7468,20 +7499,21 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const mode = proceduralRunRules.modeFor(this.run);
     audioManager.playOutcome("complete");
-    outcomeFeedback.play(this, "complete", mode === "training" ? "Allenamento registrato" : "Missione completata");
+    outcomeFeedback.play(this, "complete", mode === "training" ? "Calibrazione registrata" : "Missione completata");
     if (mode !== "training") {
       this.noraSay("victory");
+      noraPresence.storyMoment(this, "La stanza respira di nuovo. Io tengo la luce accesa; tu hai letto il sistema fino in fondo.", "success", "Sistema stabilizzato");
       this.playLabRestoredFinale();
     }
     missionEngine.completeProceduralMission();
     this.run = saveSystem.data.proceduralRun ?? this.run;
     feedbackSystem.publish(
       mode === "training"
-        ? `Allenamento completato. ${this.runEnergySummary()}. Il diario registra voto, miglior tempo e competenze del focus.`
+        ? `Calibrazione completata. ${this.runEnergySummary()}. Il diario registra voto, miglior tempo e competenze del settore.`
         : `Missione completata. ${this.runEnergySummary()}. Il diario registra seed, competenze, tempo e vite rimaste.`,
       "success",
     );
-    this.runWhenActive(mode === "training" ? 900 : 1700, () => this.scene.start("JournalScene"));
+    this.runWhenActive(mode === "training" ? 900 : 2600, () => this.scene.start("JournalScene"));
   }
 
   /**
@@ -7532,7 +7564,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const overlay = this.add.container(0, 0).setDepth(1900);
     SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.9);
     overlay.add(this.add.rectangle(640, 360, 900, 560, 0x07151d, 0.98).setStrokeStyle(2, 0xf6c85f, 0.82));
-    overlay.add(this.add.text(226, 112, `Porta di sintesi · Livello ${level}/8`, {
+    overlay.add(this.add.text(226, 112, `Porta di sintesi · Profondità ${level}/8`, {
       fontFamily: "Inter, Arial",
       fontSize: "30px",
       color: "#f7d37a",
@@ -7844,7 +7876,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const used = this.activePuzzleHintsUsed();
     if (hints.length === 0 || used >= hints.length) {
       audioManager.playOutcome("hint");
-      feedbackSystem.publish("Tutti gli indizi disponibili per questo esercizio sono già visibili.", "hint");
+      feedbackSystem.publish("Tutti gli indizi disponibili per questa prova sono già visibili.", "hint");
       return;
     }
     this.useHint(hints[used]);
@@ -7863,6 +7895,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.activeHintPuzzleId = this.activePuzzleId;
     audioManager.playOutcome("hint");
     feedbackSystem.publish(`${freeLens ? "Lente causale NORA" : "Indizio"}: ${text}${freeLens ? " La prima analisi della run non consuma aiuti." : ""}`, "hint");
+    noraPresence.speak(this, noraContextEngine.line("hint", { run: this.run, kind: this.activePuzzleKind }), "info", 3600);
   }
 
   private handleIncorrectAnswer(message: string): boolean {
@@ -7883,6 +7916,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     audioManager.playOutcome("wrong");
     outcomeFeedback.play(this, "warning", attempts === 1 ? "Osserva e correggi" : "Riprova con metodo");
     VisualKit.worldReact(this, "wrong");
+    noraPresence.speak(this, noraContextEngine.line("mistake", { run: this.run, kind: this.activePuzzleKind, attempts }), "warning", 3900);
     feedbackSystem.publish(
       `${message} ${attempts === 1
         ? "Il primo errore è una diagnosi: correggi la scelta senza perdere la prova."
@@ -7918,7 +7952,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       "warning",
     );
     if (remaining.length === 0) {
-      this.certifyCompletedRun("Allenamento concluso: il registro include prove riuscite e fallite.");
+      this.certifyCompletedRun("Calibrazione conclusa: il registro include prove riuscite e fallite.");
       return;
     }
     this.runWhenActive(1750, () => this.scene.restart());
@@ -8080,9 +8114,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     modal.add(this.add.rectangle(640, 360, 760, 400, 0x0b0a1f, 0.99).setStrokeStyle(3, 0x9f8cff, 0.9));
     modal.add(this.add.rectangle(640, 360 - 200 + 4, 760, 6, 0x9f8cff, 0.95));
     VisualKit.particleBurst(this, 640, 232, "archive", "success");
-    modal.add(this.add.text(640, 214, "💜 RICORDO DI NORA RECUPERATO", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#cdbfff", fontStyle: "bold" }).setOrigin(0.5));
-    modal.add(this.add.text(640, 252, memory.title, { fontFamily: "Inter, Arial", fontSize: "28px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 680 }, align: "center" }).setOrigin(0.5, 0));
-    modal.add(this.add.text(640, 312, `«${memory.text}»`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#e6ddff", wordWrap: { width: 660 }, align: "center", lineSpacing: 6 }).setOrigin(0.5, 0));
+    const stage = noraCompanion.currentVisualStage();
+    if (this.textures.exists(stage.key)) {
+      modal.add(this.add.image(640, 250, stage.key).setDisplaySize(360, 160).setAlpha(0.94));
+      modal.add(this.add.rectangle(640, 250, 360, 160, 0x02070b, 0).setStrokeStyle(1, 0xcdbfff, 0.36));
+    }
+    modal.add(this.add.text(640, 178, "💜 RICORDO DI NORA RECUPERATO", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#cdbfff", fontStyle: "bold" }).setOrigin(0.5));
+    modal.add(this.add.text(640, 338, memory.title, { fontFamily: "Inter, Arial", fontSize: "28px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 680 }, align: "center" }).setOrigin(0.5, 0));
+    modal.add(this.add.text(640, 386, `«${memory.text}»`, { fontFamily: "Inter, Arial", fontSize: "15px", color: "#e6ddff", wordWrap: { width: 660 }, align: "center", lineSpacing: 5 }).setOrigin(0.5, 0));
     modal.add(this.add.text(640, 470, `Frammenti recuperati: ${recovered}/${total}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9f8cff", fontStyle: "bold" }).setOrigin(0.5));
     modal.add(new Button(this, 640, 512, "Continua ▸", () => { modal.destroy(true); onContinue(); }, {
       width: 300, height: 52, fill: 0x2a1f3a, stroke: 0x9f8cff, fontSize: 17, soundKey: "confirm",
@@ -8116,8 +8155,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
     overlay.add(this.add.rectangle(570, 292, 568, 142, 0x102533, 0.82).setOrigin(0).setStrokeStyle(1, 0xc94b55, 0.38));
     overlay.add(this.add.text(594, 314, trial
-      ? `Motivo: ${reason}\n\nConsiglio di NORA: prima della rivincita, allena ${weakLabel ?? "la materia in cui sei meno sicura"} nella Palestra — ogni risposta pulita gli toglie terreno.`
-      : `Motivo: ${reason}\n\nI progressi di questa run restano nel registro. Ricomincia crea una missione nuova allo stesso livello, con vite e timer ripristinati.`, {
+      ? `Motivo: ${reason}\n\nConsiglio di NORA: prima della rivincita, calibra ${weakLabel ?? "il settore meno stabile"} nella Palestra — ogni risposta pulita gli toglie terreno.`
+      : `Motivo: ${reason}\n\nI progressi di questa run restano nel registro. Ricomincia crea una missione nuova alla stessa profondità, con vite e timer ripristinati.`, {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#d9eaf1",
@@ -8256,9 +8295,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       id: `progressive-summary-${completedRun.seed}`,
       title: "Scalata progressiva completata",
       lines: [
-        "Eli ha attraversato le otto stanze riconfigurabili: ogni livello ha intrecciato discipline diverse con difficoltà crescente.",
-        `Punteggio totale: ${totalScore}. Tempo complessivo sui livelli: ${formatDuration(totalElapsed)}.`,
-        `Livelli superati: ${results.filter((result) => result.completed).length}/8. Indizi usati nell'ultimo livello: ${completedRun.hintsUsed}.`,
+        "Eli ha attraversato le otto stanze riconfigurabili: ogni settore ha intrecciato sistemi diversi con profondità crescente.",
+        `Punteggio totale: ${totalScore}. Tempo complessivo sulle profondità: ${formatDuration(totalElapsed)}.`,
+        `Profondità superate: ${results.filter((result) => result.completed).length}/8. Indizi usati nell'ultimo settore: ${completedRun.hintsUsed}.`,
         "La porta del nucleo resta aperta: ora puoi ripetere la scalata per migliorare tempo, precisione e qualità delle decisioni.",
       ],
       badges: ["Scalatrice dell'Accademia", "Custode delle Discipline", "Stratega del Tempo"],
@@ -8282,19 +8321,19 @@ export class ProceduralMissionScene extends Phaser.Scene {
       },
       defeat: {
         title: "Sconfitta",
-        subtitle: "Hai stabilizzato alcuni sistemi, ma il livello non è certificato.",
+        subtitle: "Hai stabilizzato alcuni sistemi, ma la profondità non è certificata.",
         tint: 0xffa15c,
         textColor: "#ffcb9a",
       },
       neutral: {
         title: "Esito neutro",
-        subtitle: "Il ragionamento c'è, ma non basta ancora per sbloccare il livello successivo.",
+        subtitle: "Il ragionamento c'è, ma non basta ancora per sbloccare la profondità successiva.",
         tint: 0xc9d6dd,
         textColor: "#d9eaf1",
       },
       "light-victory": {
         title: "Vittoria leggera",
-        subtitle: "Livello superato: metodo corretto, margine migliorabile.",
+        subtitle: "Profondità superata: metodo corretto, margine migliorabile.",
         tint: 0x9ff5e9,
         textColor: "#9ff5e9",
       },
@@ -8327,10 +8366,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 5,
     }));
     overlay.add(this.add.text(570, 270, [
-      `Livello: ${result.level}/${maxLevel}`,
+      `Profondità: ${result.level}/${maxLevel}`,
       `Console stabilizzate: ${result.solvedCount}/${result.requiredCount}`,
       `Tempo usato: ${formatDuration(result.elapsedMs)}`,
-      `Punti livello: ${result.score}`,
+      `Punti settore: ${result.score}`,
       `Motivo: ${reason}`,
     ].join("\n"), {
       fontFamily: "Inter, Arial",
@@ -8342,7 +8381,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const narrative = result.completed
       ? finalCompleted
         ? "NORA: nucleo stabilizzato. La scalata è completa, ma il registro resta pronto per una run migliore."
-        : `NORA: livello ${result.level} certificato. Il livello ${nextLevel} è ora accessibile.`
+        : `NORA: profondità ${result.level} certificata. La profondità ${nextLevel} è ora accessibile.`
       : "NORA: nessuna punizione cieca. Leggi il riepilogo, riprova con una strategia più precisa.";
     overlay.add(this.add.rectangle(570, 432, 568, 82, 0x102533, 0.82).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
     overlay.add(this.add.text(594, 452, narrative, {
@@ -8361,7 +8400,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontSize: 18,
       }));
     } else {
-      overlay.add(new Button(this, 716, 608, result.completed ? "Livello successivo" : "Riprova livello", () => {
+      overlay.add(new Button(this, 716, 608, result.completed ? "Profondità successiva" : "Riprova settore", () => {
         this.progressiveOutcomeOpen = false;
         this.missionFailureInProgress = false;
         this.startProgressiveLevel(result.completed ? nextLevel : result.level, results);
@@ -8448,7 +8487,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? "Apri la porta per registrare voto e miglior tempo."
           : "Apri la porta per chiudere la missione.";
     const contextLine = mode === "progressive"
-      ? `Livello ${progressiveLevel}/8: ${progressiveGoal}`
+      ? `Profondità ${progressiveLevel}/8: ${progressiveGoal}`
       : mode === "training"
         ? `Focus: ${proceduralScoring.domainLabel(focus)}`
         : this.run.chapterExploreMissionId
@@ -8483,7 +8522,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       pendingObjectives.length > 0
         ? `${contextLine}\n\nORA\n${nextLabel}\n\nAZIONE\n${mode === "progressive" ? "La prossima console si apre da sola." : nextAction}`
         : mode === "progressive"
-          ? `${contextLine}\n\nORA\nPorta di sintesi pronta.\n\nAZIONE\nCollega le discipline per certificare il livello.`
+          ? `${contextLine}\n\nORA\nPorta di sintesi pronta.\n\nAZIONE\nCollega i settori per certificare la profondità.`
           : mode === "mission"
           ? `${contextLine}\n\nORA\nPorta finale pronta.\n\nAZIONE\nAprila per completare questa fase.`
           : `${contextLine}\n\nORA\nPorta del registro pronta.\n\nAZIONE\nAprila per salvare il risultato.`,
@@ -8883,7 +8922,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (session.wrong >= session.correct) {
       return "Troppi tentativi: rallenta, leggi lo schema e ragiona su percorso e polarità.";
     }
-    return "Allenamento utile: punta a serie pulite e risposte spiegabili.";
+    return "Calibrazione utile: punta a serie pulite e risposte spiegabili.";
   }
 
   private showCircuitMinigameSummary(session: CircuitMinigameSession): void {
@@ -8903,7 +8942,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         ? passed
           ? "La console elettronica certifica le tue risposte: componenti, percorso e valori sono coerenti."
           : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
-        : "Allenamento registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.",
+        : "Calibrazione registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.",
       energyText: this.runEnergySummary(),
       actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
@@ -9312,7 +9351,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         lineSpacing: 3,
       }));
     }
-    overlay.add(this.add.text(62, 318, `Scopo: ${puzzle.learningPurpose ?? "Allena inglese operativo dentro una decisione tecnica."}`, {
+    overlay.add(this.add.text(62, 318, `Scopo: ${puzzle.learningPurpose ?? "Calibra inglese operativo dentro una decisione tecnica."}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9aaab0",

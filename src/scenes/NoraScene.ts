@@ -245,6 +245,9 @@ export class NoraScene extends Phaser.Scene {
   }
 
   private recommendedTheoryTopic() {
+    const weakCompetencyTopic = noraKnowledge.weakestCompetencyTopic(saveSystem.data.competencies ?? {});
+    if (weakCompetencyTopic) return weakCompetencyTopic;
+
     const validKinds = new Set<ProceduralPuzzleKind>(["language", "latin", "circuit", "math", "english", "robot", "coding", "music", "physics"]);
     const topMemory = Object.entries(saveSystem.data.learningMemory ?? {})
       .filter(([key]) => validKinds.has(key.split(":")[0] as ProceduralPuzzleKind))

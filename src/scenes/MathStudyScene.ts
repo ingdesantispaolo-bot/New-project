@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { theorySubjectLabels, theoryTopics, type TheorySubject, type TheoryTopic } from "../data/theoryCatalog";
+import { theorySubjectLabels, theorySubjectOrder, theoryTopics, type TheorySubject, type TheoryTopic } from "../data/theoryCatalog";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
 import { difficultyModel } from "../procedural/DifficultyModel";
 import { LanguageCorruptionGenerator } from "../procedural/generators/LanguageCorruptionGenerator";
@@ -15,26 +15,31 @@ import { VisualKit } from "../ui/VisualKit";
 
 const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
 const studyPages = theoryTopics;
+type TheoryFilter = TheorySubject | "tutte";
 
 export class MathStudyScene extends Phaser.Scene {
   private pageIndex = 0;
   private listOffset = 0;
+  private subjectFilter: TheoryFilter = "tutte";
 
   constructor() {
     super("MathStudyScene");
   }
 
-  init(data?: { pageId?: string; listOffset?: number }): void {
+  init(data?: { pageId?: string; listOffset?: number; subjectFilter?: TheoryFilter }): void {
+    if (data?.subjectFilter) this.subjectFilter = data.subjectFilter;
     if (data?.pageId) {
       const index = studyPages.findIndex((page) => page.id === data.pageId);
       if (index >= 0) {
         this.pageIndex = index;
-        this.listOffset = Math.max(0, Math.min(data.listOffset ?? index, studyPages.length - 8));
+        this.subjectFilter = data?.subjectFilter ?? studyPages[index].subject;
+        this.listOffset = Math.max(0, Math.min(data.listOffset ?? 0, this.maxListOffset()));
       }
     }
   }
 
   create(): void {
+    this.normalizeSelection();
     this.cameras.main.setBackgroundColor("#071018");
     VisualKit.background(this, "archive");
     this.drawHeader();
@@ -69,28 +74,30 @@ export class MathStudyScene extends Phaser.Scene {
 
   private drawPageList(): void {
     this.add.rectangle(178, 388, 292, 520, 0x07151d, 0.86).setStrokeStyle(2, 0x6be7d6, 0.32);
-    this.add.text(54, 148, "Concetti", {
+    this.drawSubjectFilters();
+    this.add.text(54, 226, "Concetti", {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
       color: "#9ff5e9",
       fontStyle: "bold",
     });
-    this.add.text(54, 178, `${studyPages.length} pagine | scegli e studia`, {
+    const pages = this.filteredPages();
+    this.add.text(54, 256, `${pages.length} pagine | scegli e studia`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
     });
 
-    const visiblePages = studyPages.slice(this.listOffset, this.listOffset + 8);
+    const visiblePages = pages.slice(this.listOffset, this.listOffset + 8);
     visiblePages.forEach((page, localIndex) => {
-      const index = this.listOffset + localIndex;
+      const index = studyPages.indexOf(page);
       const selected = index === this.pageIndex;
-      new Button(this, 178, 224 + localIndex * 48, page.title, () => {
+      new Button(this, 178, 292 + localIndex * 42, page.title, () => {
         this.pageIndex = index;
-        this.scene.restart({ pageId: page.id, listOffset: this.listOffset });
+        this.scene.restart({ pageId: page.id, listOffset: this.listOffset, subjectFilter: this.subjectFilter });
       }, {
         width: 248,
-        height: 38,
+        height: 34,
         fill: selected ? 0x1f5a51 : 0x142736,
         stroke: selected ? 0xf6c85f : this.areaColor(page),
         fontSize: 11,
@@ -100,12 +107,37 @@ export class MathStudyScene extends Phaser.Scene {
 
     new Button(this, 112, 632, "Su", () => {
       this.listOffset = Math.max(0, this.listOffset - 4);
-      this.scene.restart({ pageId: studyPages[this.pageIndex].id, listOffset: this.listOffset });
+      this.scene.restart({ pageId: studyPages[this.pageIndex].id, listOffset: this.listOffset, subjectFilter: this.subjectFilter });
     }, { width: 100, height: 36, fill: 0x263743, fontSize: 13 });
     new Button(this, 244, 632, "Giù", () => {
-      this.listOffset = Math.min(Math.max(0, studyPages.length - 8), this.listOffset + 4);
-      this.scene.restart({ pageId: studyPages[this.pageIndex].id, listOffset: this.listOffset });
+      this.listOffset = Math.min(this.maxListOffset(), this.listOffset + 4);
+      this.scene.restart({ pageId: studyPages[this.pageIndex].id, listOffset: this.listOffset, subjectFilter: this.subjectFilter });
     }, { width: 100, height: 36, fill: 0x263743, fontSize: 13 });
+  }
+
+  private drawSubjectFilters(): void {
+    const filters: Array<{ id: TheoryFilter; label: string }> = [
+      { id: "tutte", label: "Tutte" },
+      ...theorySubjectOrder.map((subject) => ({ id: subject, label: theorySubjectLabels[subject] })),
+    ];
+    filters.forEach((filter, index) => {
+      const col = index % 3;
+      const row = Math.floor(index / 3);
+      const selected = this.subjectFilter === filter.id;
+      new Button(this, 92 + col * 86, 142 + row * 28, filter.label, () => {
+        this.subjectFilter = filter.id;
+        const firstPage = this.filteredPages()[0] ?? studyPages[0];
+        this.pageIndex = studyPages.indexOf(firstPage);
+        this.listOffset = 0;
+        this.scene.restart({ pageId: firstPage.id, listOffset: 0, subjectFilter: filter.id });
+      }, {
+        width: 78,
+        height: 24,
+        fill: selected ? 0x1f5a51 : 0x102632,
+        stroke: selected ? 0xf6c85f : 0x2a4756,
+        fontSize: 9,
+      });
+    });
   }
 
   private areaColor(page: TheoryTopic): number {
@@ -160,28 +192,29 @@ export class MathStudyScene extends Phaser.Scene {
       lineSpacing: 4,
     });
 
-    // FORMULE — the schematic core, each formula on its own chip.
+    // Core rules — each rule is displayed as a compact chip.
     this.add.rectangle(404, 264, 372, 212, 0x081722, 0.95).setOrigin(0).setStrokeStyle(2, 0xf6c85f, 0.5);
-    this.add.text(420, 274, "FORMULE", {
+    this.add.text(420, 274, this.coreRulesTitle(page), {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: "#f6c85f",
       fontStyle: "bold",
     });
-    page.coreRules.slice(0, 6).forEach((formula, index) => {
-      const y = 306 + index * 27;
-      this.add.rectangle(420, y, 340, 23, 0x12303a, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.18);
+    page.coreRules.slice(0, 5).forEach((formula, index) => {
+      const y = 306 + index * 31;
+      this.add.rectangle(420, y, 340, 28, 0x12303a, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.18);
       this.add.text(430, y + 3, formula, {
         fontFamily: "Inter, Arial",
-        fontSize: "13px",
+        fontSize: "11px",
         color: "#ffe6a0",
         wordWrap: { width: 322 },
+        lineSpacing: 0,
       });
     });
 
-    // REGOLE — precise steps.
+    // Method — precise operating steps.
     this.add.rectangle(792, 264, 388, 212, 0x0b1a24, 0.9).setOrigin(0).setStrokeStyle(1, accent, 0.28);
-    this.add.text(808, 274, "REGOLE", {
+    this.add.text(808, 274, this.methodTitle(page), {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
       color: String(accent === 0xf6c85f ? "#f7d37a" : "#9ff5e9"),
@@ -210,14 +243,16 @@ export class MathStudyScene extends Phaser.Scene {
       fontStyle: "bold",
       wordWrap: { width: 438 },
     });
-    this.add.text(420, 552, page.example.steps.map((step) => `→ ${step}`).join("\n"), {
+    const visibleExampleSteps = page.example.steps.slice(0, 4);
+    const hiddenExampleSteps = page.example.steps.length > visibleExampleSteps.length ? "\n..." : "";
+    this.add.text(420, 550, `${visibleExampleSteps.map((step) => `→ ${step}`).join("\n")}${hiddenExampleSteps}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7dce7",
       wordWrap: { width: 438 },
-      lineSpacing: 4,
+      lineSpacing: 3,
     });
-    this.add.text(420, 620, `= ${page.example.answer}`, {
+    this.add.text(420, 628, `= ${page.example.answer}`, {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#9ff5a7",
@@ -243,15 +278,19 @@ export class MathStudyScene extends Phaser.Scene {
 
   private drawFooter(): void {
     const page = studyPages[this.pageIndex];
-    const prevIndex = (this.pageIndex - 1 + studyPages.length) % studyPages.length;
-    const nextIndex = (this.pageIndex + 1) % studyPages.length;
+    const pages = this.filteredPages();
+    const filteredIndex = Math.max(0, pages.indexOf(page));
+    const prevPage = pages[(filteredIndex - 1 + pages.length) % pages.length] ?? page;
+    const nextPage = pages[(filteredIndex + 1) % pages.length] ?? page;
+    const prevIndex = studyPages.indexOf(prevPage);
+    const nextIndex = studyPages.indexOf(nextPage);
     new Button(this, 408, 672, "Pagina precedente", () => {
       this.pageIndex = prevIndex;
-      this.scene.restart({ pageId: studyPages[prevIndex].id, listOffset: this.listOffsetFor(prevIndex) });
+      this.scene.restart({ pageId: studyPages[prevIndex].id, listOffset: this.listOffsetFor(prevIndex), subjectFilter: this.subjectFilter });
     }, { width: 176, height: 42, fill: 0x263743, fontSize: 12 });
     new Button(this, 598, 672, "Pagina successiva", () => {
       this.pageIndex = nextIndex;
-      this.scene.restart({ pageId: studyPages[nextIndex].id, listOffset: this.listOffsetFor(nextIndex) });
+      this.scene.restart({ pageId: studyPages[nextIndex].id, listOffset: this.listOffsetFor(nextIndex), subjectFilter: this.subjectFilter });
     }, { width: 176, height: 42, fill: 0x263743, fontSize: 12 });
     new Button(this, 826, 672, this.primaryTrainingLabel(page), () => {
       if (page.subject === "italiano" && page.tags.includes("verbi")) this.startItalianVerbTraining();
@@ -278,6 +317,25 @@ export class MathStudyScene extends Phaser.Scene {
     if (page.subject === "italiano" && page.tags.includes("verbi")) return "Laboratorio Verbi";
     if (page.subject === "matematica" && (page.tags.includes("funzioni") || page.tags.includes("punti"))) return "Officina dei Grafici";
     return "Allenati su questa scheda";
+  }
+
+  private coreRulesTitle(page: TheoryTopic): string {
+    if (page.subject === "matematica" || page.subject === "fisica") return "FORMULE / LEGGI";
+    if (page.subject === "elettronica") return "PRINCIPI";
+    if (page.subject === "coding") return "REGOLE DI STATO";
+    if (page.subject === "musica") return "RIFERIMENTI";
+    if (page.subject === "latino") return "DESINENZE / CASI";
+    if (page.subject === "inglese") return "STRUTTURE";
+    return "REGOLE CHIAVE";
+  }
+
+  private methodTitle(page: TheoryTopic): string {
+    if (page.subject === "inglese") return "PROTOCOLLO";
+    if (page.subject === "elettronica") return "DIAGNOSI";
+    if (page.subject === "coding") return "TRACING";
+    if (page.subject === "musica") return "LETTURA";
+    if (page.subject === "latino") return "ANALISI";
+    return "METODO";
   }
 
   private startTopicTraining(page: TheoryTopic): void {
@@ -485,12 +543,36 @@ export class MathStudyScene extends Phaser.Scene {
   }
 
   private listOffsetFor(index: number): number {
-    if (index < this.listOffset) {
-      return Math.max(0, index);
+    const filteredIndex = this.filteredPages().findIndex((page) => studyPages.indexOf(page) === index);
+    if (filteredIndex < 0) return 0;
+    if (filteredIndex < this.listOffset) {
+      return Math.max(0, filteredIndex);
     }
-    if (index >= this.listOffset + 8) {
-      return Math.max(0, Math.min(index - 7, studyPages.length - 8));
+    if (filteredIndex >= this.listOffset + 8) {
+      return Math.max(0, Math.min(filteredIndex - 7, this.maxListOffset()));
     }
     return this.listOffset;
+  }
+
+  private filteredPages(): TheoryTopic[] {
+    return this.subjectFilter === "tutte"
+      ? studyPages
+      : studyPages.filter((page) => page.subject === this.subjectFilter);
+  }
+
+  private maxListOffset(): number {
+    return Math.max(0, this.filteredPages().length - 8);
+  }
+
+  private normalizeSelection(): void {
+    const current = studyPages[this.pageIndex] ?? studyPages[0];
+    const pages = this.filteredPages();
+    if (!current || pages.includes(current)) {
+      this.listOffset = Math.min(this.listOffset, this.maxListOffset());
+      return;
+    }
+    const firstPage = pages[0] ?? studyPages[0];
+    this.pageIndex = studyPages.indexOf(firstPage);
+    this.listOffset = 0;
   }
 }

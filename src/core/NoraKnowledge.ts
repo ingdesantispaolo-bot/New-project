@@ -36,8 +36,14 @@ const DIRECT_TOPIC_BY_KEY: Partial<Record<string, string>> = {
   "math:statistica": "statistica",
   "math:probabilita": "probabilita",
   "math:equazione-primo-grado": "equazioni",
+  "math:equazione-secondo-grado": "equazioni",
+  "math:sistemi-lineari": "equazioni",
+  "math:pre-algebra": "calcolo-letterale",
+  "math:funzione-lineare": "funzioni-retta",
   "math:grafici-cartesiani": "funzioni-retta",
   "math:coordinate": "piano-cartesiano",
+  "math:lettura-dati": "statistica",
+  "math:calcolo-diretto": "numeri-naturali",
   "english:command": "inglese-comandi-operativi",
   "english:safety": "inglese-comandi-operativi",
   "english:sequence": "inglese-sequenze-condizioni",
@@ -144,6 +150,21 @@ class NoraKnowledge {
     return theoryTopics.filter((topic) => topic.subject === subject);
   }
 
+  topicForCompetency(competencyId: string): TheoryTopic | undefined {
+    const exact = theoryTopics.find((topic) => (topic.competencies ?? []).includes(competencyId));
+    if (exact) return exact;
+    const subject = competencyId.split(".")[0] as TheorySubject;
+    return theoryTopics.find((topic) => topic.subject === subject);
+  }
+
+  weakestCompetencyTopic(scores: Record<string, number>): TheoryTopic | undefined {
+    return Object.entries(scores)
+      .filter(([, score]) => score > 0 && score < 65)
+      .sort((a, b) => a[1] - b[1])
+      .map(([id]) => this.topicForCompetency(id))
+      .find((topic): topic is TheoryTopic => Boolean(topic));
+  }
+
   topicById(id: string): TheoryTopic | undefined {
     return theoryTopics.find((topic) => topic.id === id);
   }
@@ -152,10 +173,21 @@ class NoraKnowledge {
     return SUBJECT_BY_KIND[kind];
   }
 
+  /** Direct-map targets that no longer resolve to a topic (must stay empty). */
+  brokenDirectTargets(): string[] {
+    return Array.from(new Set(Object.values(DIRECT_TOPIC_BY_KEY)))
+      .filter((id): id is string => typeof id === "string" && !this.topicById(id));
+  }
+
   topicForPuzzle(kind: ProceduralPuzzleKind, puzzle?: PuzzleLike): TheoryTopic | undefined {
     for (const key of puzzleKeys(kind, puzzle)) {
       const direct = DIRECT_TOPIC_BY_KEY[key];
-      if (direct) return this.topicById(direct);
+      // Fall through to fuzzy matching if a mapping points at a missing card,
+      // so a stale direct entry can never leave a puzzle without any theory.
+      if (direct) {
+        const topic = this.topicById(direct);
+        if (topic) return topic;
+      }
     }
 
     const subject = this.subjectForKind(kind);

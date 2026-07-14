@@ -24,6 +24,7 @@ const puzzleDomains: Record<string, ProceduralSpecialization> = {
   coding: "coding",
   music: "musica",
   physics: "fisica",
+  latin: "latino",
 };
 
 const expectedSeconds: Record<string, number> = {
@@ -35,6 +36,7 @@ const expectedSeconds: Record<string, number> = {
   coding: 100,
   music: 45,
   physics: 115,
+  latin: 90,
 };
 
 const domainLabels: Record<ProceduralSpecialization, string> = {

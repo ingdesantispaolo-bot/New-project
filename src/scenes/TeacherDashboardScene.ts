@@ -20,6 +20,7 @@ const GROUP_LABELS: Record<string, string> = {
   elettronica: "Elettronica",
   coding: "Coding",
   fisica: "Fisica",
+  latino: "Latino",
   scienze: "Scienze",
 };
 

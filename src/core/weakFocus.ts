@@ -6,6 +6,8 @@ export const TRAINABLE_BRANCHES = new Set<string>([
   "elettronica",
   "coding",
   "musica",
+  "fisica",
+  "latino",
 ]);
 
 /**

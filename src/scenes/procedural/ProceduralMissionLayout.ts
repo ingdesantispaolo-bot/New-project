@@ -4,9 +4,7 @@ import type { DeviceKind, DeviceState, ChromeRect } from "../../ui/SceneChrome";
 export type ProceduralPuzzleId = "language" | "circuit" | "math" | "english" | "robot" | "coding" | "music" | "physics" | "latin";
 export type ProceduralHotspotKey = ProceduralPuzzleId | "door";
 
-// NB: "latin" is a focus-only kind (never seeded on the base map), so it is
-// deliberately absent from proceduralPuzzleOrder even though it is a valid id.
-export const proceduralPuzzleOrder: ProceduralPuzzleId[] = ["language", "circuit", "math", "english", "robot", "coding", "music", "physics"];
+export const proceduralPuzzleOrder: ProceduralPuzzleId[] = ["language", "circuit", "math", "english", "robot", "coding", "music", "physics", "latin"];
 
 const hotspotOrder: Record<ProceduralHotspotKey, number> = {
   language: 0,

@@ -738,6 +738,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
       run.mission.focusChallenges?.length
       && run.mission.focusChallenges.every((challenge) => challenge.kind === "physics"),
     );
+    const hasLatinPuzzle = Boolean(puzzles.latin);
+    const hasLatinObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "latin");
+    const hasLatinHotspot = run.mission.map.hotspots.some((hotspot) => {
+      const id = hotspot.puzzleId ?? hotspot.id;
+      return hotspot.puzzleKind === "latin" || id === "latin" || id.startsWith("latin-");
+    });
+    const hasLatinFocusSeries = Boolean(
+      run.mission.focusChallenges?.length
+      && run.mission.focusChallenges.every((challenge) => challenge.kind === "latin"),
+    );
     if (focus === "musica") {
       return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot && hasMusicFocusSeries);
     }
@@ -747,8 +757,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (focus === "fisica") {
       return !(hasPhysicsPuzzle && hasPhysicsObjective && hasPhysicsHotspot && hasPhysicsFocusSeries);
     }
+    if (focus === "latino") {
+      return !(hasLatinPuzzle && hasLatinObjective && hasLatinHotspot && hasLatinFocusSeries);
+    }
     if (mode === "mission" || focus === "libera") {
-      return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot);
+      return !(
+        hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot
+        && hasCodingPuzzle && hasCodingObjective && hasCodingHotspot
+        && hasPhysicsPuzzle && hasPhysicsObjective && hasPhysicsHotspot
+        && hasLatinPuzzle && hasLatinObjective && hasLatinHotspot
+      );
     }
     return false;
   }
@@ -1207,6 +1225,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private currentLatinPuzzle(): GeneratedLatinPuzzle {
     const challenge = this.activeChallenge;
     if (challenge?.kind === "latin") return challenge.puzzle;
+    if (this.run.mission.puzzles.latin) return this.run.mission.puzzles.latin;
     return new LatinGenerator().generateMinigame(new Random(`${this.run.seed}:latin-fallback`), this.run.difficulty);
   }
 

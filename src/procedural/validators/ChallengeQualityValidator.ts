@@ -4,6 +4,7 @@ import type {
   GeneratedCodingPuzzle,
   GeneratedEnglishPuzzle,
   GeneratedLanguagePuzzle,
+  GeneratedLatinPuzzle,
   GeneratedMathPuzzle,
   GeneratedMission,
   GeneratedMusicPuzzle,
@@ -27,6 +28,7 @@ export class ChallengeQualityValidator {
       this.validateEnglish(mission.puzzles.english),
       this.validateMusic(mission.puzzles.music),
       this.validatePhysics(mission.puzzles.physics),
+      this.validateLatin(mission.puzzles.latin),
     ];
     const reasons = reports.flatMap((report) => report.reasons);
     return { valid: reasons.length === 0, reasons };
@@ -88,6 +90,27 @@ export class ChallengeQualityValidator {
           reasons.push("math: lettura guidata grafici con opzioni ambigue");
         }
       }
+    }
+    return { valid: reasons.length === 0, reasons };
+  }
+
+  validateLatin(puzzle: GeneratedLatinPuzzle): ChallengeQualityReport {
+    const reasons: string[] = [];
+    const prompt = puzzle.minigame?.prompts?.[0];
+    if (!prompt) {
+      reasons.push("latin: minigioco assente");
+      return { valid: false, reasons };
+    }
+    const correctCount = prompt.tiles.filter((tile) => tile.isCorrect).length;
+    if (correctCount !== 1) reasons.push("latin: serve una sola risposta corretta");
+    if (new Set(prompt.tiles.map((tile) => tile.label)).size !== prompt.tiles.length) {
+      reasons.push("latin: opzioni duplicate");
+    }
+    if (!prompt.explanation || !prompt.concept || !puzzle.method) {
+      reasons.push("latin: spiegazione, concetto o metodo insufficienti");
+    }
+    if ((puzzle.competencies ?? []).filter((item) => item.startsWith("latino.")).length === 0) {
+      reasons.push("latin: competenze latino mancanti");
     }
     return { valid: reasons.length === 0, reasons };
   }

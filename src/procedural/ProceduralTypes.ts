@@ -839,6 +839,7 @@ export type GeneratedMission = {
     music: GeneratedMusicPuzzle;
     coding: GeneratedCodingPuzzle;
     physics: GeneratedPhysicsPuzzle;
+    latin: GeneratedLatinPuzzle;
   };
   focusChallenges?: GeneratedFocusChallenge[];
   rewards: MissionReward[];

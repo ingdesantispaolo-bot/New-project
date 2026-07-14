@@ -99,6 +99,8 @@ const puzzleLabels: Record<string, string> = {
   robot: "Coding - robot su griglia",
   coding: "Coding - algoritmi",
   music: "Musica - lettura pentagramma",
+  physics: "Fisica - fenomeni e modelli",
+  latin: "Latino - forme e casi",
 };
 
 const focusLabels: Record<string, string> = {
@@ -109,6 +111,20 @@ const focusLabels: Record<string, string> = {
   elettronica: "Focus elettronica",
   coding: "Focus coding",
   musica: "Focus musica",
+  fisica: "Focus fisica",
+  latino: "Focus latino",
+};
+
+const exerciseDomains: Record<string, ProceduralPuzzleScore["domain"]> = {
+  math: "matematica",
+  language: "italiano",
+  english: "inglese",
+  circuit: "elettronica",
+  robot: "coding",
+  coding: "coding",
+  music: "musica",
+  physics: "fisica",
+  latin: "latino",
 };
 
 function nowIso(): string {
@@ -458,17 +474,7 @@ export class PlayerSystem {
       .reduce<Record<string, ProceduralPuzzleScore>>((acc, result) => {
         acc[result.id] = {
           puzzleId: result.key,
-          domain: result.key === "math"
-            ? "matematica"
-            : result.key === "language"
-              ? "italiano"
-              : result.key === "english"
-                ? "inglese"
-                : result.key === "circuit"
-                  ? "elettronica"
-                  : result.key === "robot"
-                    ? "coding"
-                    : "libera",
+          domain: exerciseDomains[result.key] ?? "libera",
           startedAt: result.completedAt,
           completedAt: result.completedAt,
           elapsedMs: result.elapsedMs,

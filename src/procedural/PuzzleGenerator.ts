@@ -59,6 +59,7 @@ export class PuzzleGenerator {
     const musicRandom = random.fork("music");
     const physicsRandom = random.fork("physics");
     const codingRandom = random.fork("coding");
+    const latinRandom = random.fork("latin");
     const mathDifficulty = this.boostForFocus(difficulty, focus, "matematica");
     const robotDifficulty = this.boostForFocus(difficulty, focus, "coding");
     const circuitDifficulty = this.boostForFocus(difficulty, focus, "elettronica");
@@ -67,6 +68,7 @@ export class PuzzleGenerator {
     const musicLevel = this.levelForFocus(difficulty.level, focus, "musica");
     const physicsDifficulty = this.boostForFocus(difficulty, focus, "fisica");
     const codingDifficulty = this.boostForFocus(difficulty, focus, "coding");
+    const latinLevel = this.levelForFocus(difficulty.level, focus, "latino");
 
     // Vary the math CONSOLE TYPE per seed instead of always opening the graph
     // workshop: the console rotates between calcolo/geometria/frazioni/… (varied
@@ -153,6 +155,7 @@ export class PuzzleGenerator {
       ),
       music: this.musicGenerator.generate(musicRandom, musicLevel),
       physics,
+      latin: this.latinGenerator.generateMinigame(latinRandom, latinLevel),
     };
   }
 

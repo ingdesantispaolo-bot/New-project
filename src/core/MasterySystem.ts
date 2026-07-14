@@ -35,6 +35,8 @@ const BRANCHES: BranchDef[] = [
   { id: "elettronica", label: "Circuiti", color: 0xff8f6b, prefixes: ["elettronica."] },
   { id: "coding", label: "Coding", color: 0x70d68a, prefixes: ["coding."] },
   { id: "musica", label: "Musica", color: 0xff9ad2, prefixes: ["musica."] },
+  { id: "fisica", label: "Fisica", color: 0x8cffd7, prefixes: ["fisica."] },
+  { id: "latino", label: "Latino", color: 0xd8a24a, prefixes: ["latino."] },
   { id: "scienze", label: "Scienze", color: 0x8ad0ff, prefixes: ["scienze."] },
   { id: "trasversali", label: "Trasversali", color: 0xf7d37a, prefixes: ["trasversali."], exact: ["problemSolving", "pensieroCritico"] },
 ];
@@ -120,6 +122,8 @@ export class MasterySystem {
     if (kind === "circuit") return "elettronica";
     if (kind === "coding" || kind === "robot") return "coding";
     if (kind === "music") return "musica";
+    if (kind === "physics") return "fisica";
+    if (kind === "latin") return "latino";
     return "scienze";
   }
 }

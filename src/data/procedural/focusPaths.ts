@@ -63,7 +63,10 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Terminale numerico", description: "La serratura calcola energia, non accetta numeri tentati a caso." },
       english: { label: "Modulo inglese", description: "Un comando operativo arriva dall'ala esterna dell'Accademia." },
       robot: { label: "Robot riconfigurato", description: "Il robot deve raggiungere chiave e uscita nella griglia generata." },
+      coding: { label: "Console algoritmica", description: "Un pseudocodice generato va simulato passo dopo passo: output, stato e logica." },
       music: { label: "Armonizzatore", description: "Un pentagramma instabile richiede di riconoscere la nota corretta." },
+      physics: { label: "Banco fisico", description: "Un fenomeno va letto con grandezze, unità, grafico e modello coerente." },
+      latin: { label: "Tavola latina", description: "Una forma latina va analizzata dalla desinenza: caso, numero, tempo e funzione." },
     },
     objectives: {
       language: { label: "Stabilizza il segnale", description: "Ripara il messaggio tecnico senza perdere il senso operativo." },
@@ -71,7 +74,10 @@ export const proceduralFocusPaths: Record<ProceduralSpecialization, ProceduralFo
       math: { label: "Calcola il codice", description: "Ricostruisci il codice del terminale seguendo la traccia numerica." },
       english: { label: "Decodifica il comando esterno", description: "Esegui solo l'azione autorizzata dall'istruzione inglese." },
       robot: { label: "Guida il robot alla chiave", description: "Costruisci una sequenza coerente nella griglia generata." },
+      coding: { label: "Verifica l'algoritmo", description: "Prevedi output, stato delle variabili, cicli e condizioni prima di rispondere." },
       music: { label: "Riconosci la nota", description: "Leggi la nota sul pentagramma prima che il segnale svanisca." },
+      physics: { label: "Leggi il fenomeno", description: "Collega grandezze, unità, dati e modello fisico più semplice." },
+      latin: { label: "Analizza la forma latina", description: "Riconosci declinazione o coniugazione, poi caso, numero, tempo e funzione." },
     },
   },
   matematica: {

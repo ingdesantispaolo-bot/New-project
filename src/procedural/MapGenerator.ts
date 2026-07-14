@@ -53,6 +53,15 @@ export class MapGenerator {
         description: path.hotspots.robot.description,
       },
       {
+        id: "coding",
+        label: path.hotspots.coding?.label ?? "Terminale codice",
+        x: 640,
+        y: 360,
+        radius: 52,
+        puzzleId: "coding",
+        description: path.hotspots.coding?.description ?? "La console chiede di seguire variabili, condizioni e bug.",
+      },
+      {
         id: "music",
         label: path.hotspots.music.label,
         x: 640,
@@ -60,6 +69,24 @@ export class MapGenerator {
         radius: 52,
         puzzleId: "music",
         description: path.hotspots.music.description,
+      },
+      {
+        id: "physics",
+        label: path.hotspots.physics?.label ?? "Banco fisico",
+        x: 382,
+        y: 608,
+        radius: 52,
+        puzzleId: "physics",
+        description: path.hotspots.physics?.description ?? "La console chiede di leggere un fenomeno con grandezze, dati e modello.",
+      },
+      {
+        id: "latin",
+        label: path.hotspots.latin?.label ?? "Tavola latina",
+        x: 820,
+        y: 608,
+        radius: 52,
+        puzzleId: "latin",
+        description: path.hotspots.latin?.description ?? "La console analizza desinenze, casi, verbi e traduzione.",
       },
     ];
     const activeHotspots = path.primaryPuzzle

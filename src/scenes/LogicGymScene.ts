@@ -11,9 +11,29 @@ import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
-type GymActivityKey = "simon" | "memory" | "code" | "seq" | "balance" | "flash" | "firewall";
+type GymActivityKey = "tables" | "mental" | "simon" | "memory" | "code" | "seq" | "balance" | "flash" | "firewall";
 type ActivityMeta = { key: GymActivityKey; title: string; glyph: string; theme: string; desc: string; color: number; start: () => void };
 type MemoryCard = { pairId: string; label: string; rect: Phaser.GameObjects.Rectangle; text: Phaser.GameObjects.Text; matched: boolean; flipped: boolean };
+type TablesChallengeMode = "product" | "missing" | "division" | "mental";
+type TablesChallenge = {
+  mode: TablesChallengeMode;
+  prompt: string;
+  answer: number;
+  options: number[];
+  explanation: string;
+  a: number;
+  b: number;
+};
+type MentalChallengeMode = "bridge" | "difference" | "chain" | "doubleHalf" | "percent" | "splitProduct";
+type MentalChallenge = {
+  mode: MentalChallengeMode;
+  prompt: string;
+  answer: number;
+  options: number[];
+  explanation: string;
+  focus: string;
+  chips: string[];
+};
 type FirewallAction = "allow" | "block" | "quarantine" | "inspect";
 type FirewallLens = "identity" | "content" | "route" | "priority";
 type FirewallPayload = "pulito" | "rumoroso" | "criptato" | "esca";
@@ -50,6 +70,34 @@ export class LogicGymScene extends Phaser.Scene {
   private tracked: Phaser.GameObjects.GameObject[] = [];
   private currentRestart: (() => void) | null = null;
   private gymLevel = 1;
+
+  // Tabelline
+  private tablesRound = 0;
+  private tablesCorrect = 0;
+  private tablesCombo = 0;
+  private tablesBestCombo = 0;
+  private tablesTimeBonus = 0;
+  private tablesTotal = 10;
+  private tablesLocked = false;
+  private tablesStartedAt = 0;
+  private tablesTimeLimitMs = 10_000;
+  private tablesTimerEvent?: Phaser.Time.TimerEvent;
+  private tablesStatus?: Phaser.GameObjects.Text;
+  private tablesTimeText?: Phaser.GameObjects.Text;
+
+  // Calcolo mentale
+  private mentalRound = 0;
+  private mentalCorrect = 0;
+  private mentalCombo = 0;
+  private mentalBestCombo = 0;
+  private mentalTimeBonus = 0;
+  private mentalTotal = 10;
+  private mentalLocked = false;
+  private mentalStartedAt = 0;
+  private mentalTimeLimitMs = 10_000;
+  private mentalTimerEvent?: Phaser.Time.TimerEvent;
+  private mentalStatus?: Phaser.GameObjects.Text;
+  private mentalTimeText?: Phaser.GameObjects.Text;
 
   // Sequenza Luminosa
   private simonPads: Phaser.GameObjects.Rectangle[] = [];
@@ -131,6 +179,8 @@ export class LogicGymScene extends Phaser.Scene {
 
   private activities(): ActivityMeta[] {
     return [
+      { key: "tables", title: "Tabelline Reactor", glyph: "x", theme: "Matematica rapida", color: 0xf6c85f, desc: "Ricarica il reattore con prodotti, fattori mancanti e operazioni inverse. Combo alta = punteggio alto.", start: () => this.startTables() },
+      { key: "mental", title: "Calcolo Mentale", glyph: "+-", theme: "Aritmetica sprint", color: 0x5ec8ff, desc: "Risolvi somme, differenze, catene, doppi, meta e percentuali con strategie rapide. Il tempo pesa.", start: () => this.startMental() },
       { key: "simon", title: "Sequenza Luminosa", glyph: "🧠", theme: "Memoria", color: 0x6be7d6, desc: "Guarda la sequenza di luci e ripetila. Si allunga a ogni turno!", start: () => this.startSimon() },
       { key: "memory", title: "Memory delle Coppie", glyph: "🃏", theme: "Memoria", color: 0xff9ad2, desc: "Trova le coppie equivalenti (1/2 = 0,5, dog = cane…) con meno mosse possibili.", start: () => this.startMemory() },
       { key: "code", title: "Codice Segreto", glyph: "🔐", theme: "Logica", color: 0xf6c85f, desc: "Indovina il codice nascosto deducendolo dagli indizi. Stile Mastermind.", start: () => this.startCode() },
@@ -162,6 +212,14 @@ export class LogicGymScene extends Phaser.Scene {
   }
 
   private clearScreen(): void {
+    this.tablesTimerEvent?.remove(false);
+    this.tablesTimerEvent = undefined;
+    this.tablesStatus = undefined;
+    this.tablesTimeText = undefined;
+    this.mentalTimerEvent?.remove(false);
+    this.mentalTimerEvent = undefined;
+    this.mentalStatus = undefined;
+    this.mentalTimeText = undefined;
     this.firewallRoundObjects = [];
     this.tracked.forEach((object) => object.destroy());
     this.tracked = [];
@@ -212,23 +270,23 @@ export class LogicGymScene extends Phaser.Scene {
     this.t(new Button(this, 1138, 54, "+", () => this.setGymLevel(1), { width: 42, height: 38, fontSize: 22, fill: 0x263743 }));
     placeHiddenAnomaly(this, "LogicGymScene");
 
-    const cols = 4;
-    const w = 288;
-    const h = 248;
+    const cols = 3;
+    const w = 386;
+    const h = 168;
     const gap = 14;
     const startX = 40;
-    const startY = 116;
+    const startY = 110;
     this.activities().forEach((activity, index) => {
       const x = startX + (index % cols) * (w + gap);
       const y = startY + Math.floor(index / cols) * (h + gap);
       this.t(this.add.rectangle(x, y, w, h, 0x0c1d2a, 0.94).setOrigin(0).setStrokeStyle(2, activity.color, 0.55));
       this.t(this.add.rectangle(x, y, w, 5, activity.color, 0.9).setOrigin(0));
-      this.t(this.add.text(x + 18, y + 20, `${activity.glyph}  ${activity.title}`, { fontFamily: "Inter, Arial", fontSize: "17px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 36 } }));
-      this.t(this.add.text(x + 20, y + 58, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "12px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
-      this.t(this.add.text(x + 20, y + 84, activity.desc, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#c7dce7", wordWrap: { width: w - 40 }, lineSpacing: 3 }));
-      this.t(this.add.text(x + 20, y + 166, this.activityLevelLine(activity.key), { fontFamily: "Inter, Arial", fontSize: "11px", color: "#9ff5e9", wordWrap: { width: w - 40 } }));
-      this.t(this.add.text(x + 20, y + 188, `Record profondità ${this.gymLevel}: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a" }));
-      this.t(new Button(this, x + w - 80, y + 200, "Gioca", () => activity.start(), { width: 124, height: 44, fill: 0x1f5a51, stroke: activity.color }));
+      this.t(this.add.text(x + 18, y + 14, `${activity.glyph}  ${activity.title}`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 36 } }));
+      this.t(this.add.text(x + 20, y + 42, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "11px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
+      this.t(this.add.text(x + 20, y + 62, activity.desc, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#c7dce7", wordWrap: { width: w - 40 }, lineSpacing: 2 }));
+      this.t(this.add.text(x + 20, y + 106, this.activityLevelLine(activity.key), { fontFamily: "Inter, Arial", fontSize: "10px", color: "#9ff5e9", wordWrap: { width: w - 158 } }));
+      this.t(this.add.text(x + 20, y + 130, `Record profondità ${this.gymLevel}: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a" }));
+      this.t(new Button(this, x + w - 72, y + 136, "Gioca", () => activity.start(), { width: 112, height: 38, fill: 0x1f5a51, stroke: activity.color, fontSize: 14 }));
     });
 
     this.t(new Button(this, 132, 686, "Menu", () => this.scene.start("MainMenuScene"), { width: 170, height: 44, fill: 0x263743 }));
@@ -242,6 +300,8 @@ export class LogicGymScene extends Phaser.Scene {
 
   private activityLevelLine(key: GymActivityKey): string {
     switch (key) {
+      case "tables": return `${this.tablesTotalForLevel()} round · fattori fino a ${this.tablesMaxFactor()} · ${this.gymLevel >= 5 ? "inverse e trucchi" : "prodotti rapidi"}`;
+      case "mental": return `${this.mentalTotalForLevel()} round · numeri fino a ${this.mentalNumberCap()} · ${this.gymLevel >= 5 ? "percentuali e catene" : "strategie base"}`;
       case "simon": return `${this.simonPadCount()} luci · ritmo ${this.gymLevel >= 6 ? "rapido" : "guidato"}`;
       case "memory": return `${this.memoryPairCount()} coppie · ${this.gymLevel >= 5 ? "associazioni miste" : "associazioni base"}`;
       case "code": return `${this.codeLengthForLevel()} simboli · ${this.codeMaxForLevel()} tentativi`;
@@ -324,6 +384,684 @@ export class LogicGymScene extends Phaser.Scene {
 
   private firewallMinimumScans(): number {
     return this.gymLevel <= 2 ? 2 : 1;
+  }
+
+  // -- Tabelline Reactor (multiplication fluency + mental agility) --------
+
+  private startTables(): void {
+    this.tablesRound = 0;
+    this.tablesCorrect = 0;
+    this.tablesCombo = 0;
+    this.tablesBestCombo = 0;
+    this.tablesTimeBonus = 0;
+    this.tablesTotal = this.tablesTotalForLevel();
+    audioManager.playContext("math");
+    this.nextTablesRound();
+  }
+
+  private nextTablesRound(): void {
+    this.clearScreen();
+    if (this.tablesRound >= this.tablesTotal) {
+      const accuracy = Math.round((this.tablesCorrect / Math.max(1, this.tablesTotal)) * 100);
+      const score = accuracy + this.tablesBestCombo * 8 + this.tablesTimeBonus + this.gymLevel * 3;
+      const award = Math.min(24, 5 + this.tablesCorrect + Math.floor(this.tablesBestCombo / 2) + Math.floor(this.gymLevel / 2));
+      const summary = `Reattore carico: ${this.tablesCorrect}/${this.tablesTotal} corrette, precisione ${accuracy}%, combo migliore x${this.tablesBestCombo}, bonus tempo +${this.tablesTimeBonus}.`;
+      this.finishActivity("tables", "Tabelline Reactor", score, ["matematica.calcolo", "matematica.operazioni"], award, summary);
+      return;
+    }
+
+    const challenge = this.generateTablesChallenge(new Random(`tables-${Date.now()}-${this.gymLevel}-${this.tablesRound}`));
+    this.tablesLocked = false;
+    this.tablesStartedAt = this.time.now;
+    this.tablesTimeLimitMs = this.tablesTimeLimitForLevel();
+
+    this.drawTablesBackdrop(challenge);
+    this.t(this.add.text(56, 28, `Tabelline Reactor · Profondità ${this.gymLevel}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "28px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    this.t(this.add.text(58, 70, "Scegli il valore che chiude il circuito. Le risposte vicine sono trappole: leggi fattori, inversa e segno prima di premere.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      wordWrap: { width: 820 },
+    }));
+    this.tablesStatus = this.t(this.add.text(1000, 40, `Round ${this.tablesRound + 1}/${this.tablesTotal} · Combo x${this.tablesCombo}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      align: "right",
+    }).setOrigin(0.5));
+    this.tablesTimeText = this.t(this.add.text(1000, 66, "", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      align: "right",
+    }).setOrigin(0.5));
+
+    this.t(this.add.rectangle(640, 214, 760, 132, 0x07151d, 0.94).setStrokeStyle(2, 0xf6c85f, 0.62));
+    this.t(this.add.text(640, 186, challenge.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "52px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    this.t(this.add.text(640, 252, this.tablesModeLabel(challenge.mode), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#9ff5e9",
+    }).setOrigin(0.5));
+
+    this.drawTablesEnergyCores(challenge);
+
+    const optionW = 236;
+    const optionH = 74;
+    challenge.options.forEach((option, index) => {
+      const col = index % 3;
+      const row = Math.floor(index / 3);
+      const x = 640 - optionW - 24 + col * (optionW + 24);
+      const y = 410 + row * 96;
+      this.t(new Button(this, x, y, String(option), () => this.answerTables(challenge, option), {
+        width: optionW,
+        height: optionH,
+        fontSize: 28,
+        fill: 0x173244,
+        stroke: 0xf6c85f,
+      }));
+    });
+
+    const timerBg = this.t(this.add.rectangle(300, 620, 680, 14, 0x0a1a24, 1).setOrigin(0).setStrokeStyle(1, 0x244451, 0.8));
+    const timerFill = this.t(this.add.rectangle(300, 620, 680, 14, 0xf6c85f, 0.92).setOrigin(0));
+    const updateTimer = (): void => {
+      if (this.tablesLocked) return;
+      const elapsed = this.time.now - this.tablesStartedAt;
+      const remaining = Math.max(0, this.tablesTimeLimitMs - elapsed);
+      const ratio = remaining / this.tablesTimeLimitMs;
+      timerFill.displayWidth = Math.max(0, 680 * ratio);
+      timerFill.setFillStyle(ratio < 0.28 ? 0xff5d7a : ratio < 0.55 ? 0xf6c85f : 0x70d68a, 0.92);
+      this.tablesTimeText?.setText(`Tempo ${Math.ceil(remaining / 1000)}s · ${this.tablesBestCombo > 0 ? `miglior combo x${this.tablesBestCombo}` : "costruisci combo"}`);
+      if (remaining <= 0) {
+        this.answerTables(challenge, Number.NaN);
+      }
+    };
+    updateTimer();
+    this.tablesTimerEvent = this.time.addEvent({ delay: 100, loop: true, callback: updateTimer });
+    this.backBar(() => this.startTables());
+    timerBg.setDepth(timerBg.depth + 1);
+    timerFill.setDepth(timerFill.depth + 1);
+  }
+
+  private answerTables(challenge: TablesChallenge, choice: number): void {
+    if (this.tablesLocked) return;
+    this.tablesLocked = true;
+    this.tablesTimerEvent?.remove(false);
+    this.tablesTimerEvent = undefined;
+    const correct = choice === challenge.answer;
+    const remaining = Math.max(0, this.tablesTimeLimitMs - (this.time.now - this.tablesStartedAt));
+    if (correct) {
+      this.tablesCorrect += 1;
+      this.tablesCombo += 1;
+      this.tablesBestCombo = Math.max(this.tablesBestCombo, this.tablesCombo);
+      this.tablesTimeBonus += Math.ceil(remaining / 1000);
+      audioManager.play("mathKey");
+      audioManager.playToneSequence([
+        { frequency: 420 + this.tablesCombo * 20, durationMs: 80 },
+        { frequency: 560 + this.tablesCombo * 22, durationMs: 90 },
+      ]);
+    } else {
+      this.tablesCombo = 0;
+      audioManager.play("error");
+    }
+
+    const tone = correct ? 0x70d68a : 0xff5d7a;
+    this.t(this.add.rectangle(640, 620, 930, 86, 0x07151d, 0.97).setStrokeStyle(2, tone, 0.78));
+    this.t(this.add.text(640, 606, correct
+      ? `Circuito chiuso. ${challenge.explanation}`
+      : Number.isNaN(choice)
+        ? `Tempo scaduto. ${challenge.explanation}`
+        : `Quasi: ${choice} non chiude il circuito. ${challenge.explanation}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: correct ? "#9ff5c0" : "#ffd0da",
+      align: "center",
+      wordWrap: { width: 880 },
+      lineSpacing: 4,
+    }).setOrigin(0.5));
+    this.t(this.add.text(640, 644, `Risposta: ${challenge.answer} · Combo x${this.tablesCombo} · Corrette ${this.tablesCorrect}/${this.tablesRound + 1}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+    }).setOrigin(0.5));
+    this.time.delayedCall(correct ? 850 : 1450, () => {
+      this.tablesRound += 1;
+      this.nextTablesRound();
+    });
+  }
+
+  private generateTablesChallenge(random: Random): TablesChallenge {
+    const factors = this.tablesFactorsForLevel();
+    const a = random.pick(factors);
+    const b = random.pick(factors);
+    const product = a * b;
+    const modes: TablesChallengeMode[] = this.gymLevel <= 2
+      ? ["product", "product", "product"]
+      : this.gymLevel <= 4
+        ? ["product", "missing", "division"]
+        : this.gymLevel <= 6
+          ? ["product", "missing", "division", "division"]
+          : ["product", "missing", "division", "mental", "mental"];
+    const mode = random.pick(modes);
+    if (mode === "missing") {
+      const missingFirst = random.bool();
+      const answer = missingFirst ? a : b;
+      const prompt = missingFirst ? `? x ${b} = ${product}` : `${a} x ? = ${product}`;
+      return {
+        mode,
+        prompt,
+        answer,
+        options: this.tablesOptions(answer, random, "factor", a, b),
+        explanation: `${a} x ${b} = ${product}, quindi il fattore mancante e ${answer}.`,
+        a,
+        b,
+      };
+    }
+    if (mode === "division") {
+      const answer = random.bool() ? a : b;
+      const divisor = answer === a ? b : a;
+      return {
+        mode,
+        prompt: `${product} : ${divisor} = ?`,
+        answer,
+        options: this.tablesOptions(answer, random, "factor", a, b),
+        explanation: `Divisione inversa: ${product} nasce da ${a} x ${b}, quindi ${product} : ${divisor} = ${answer}.`,
+        a,
+        b,
+      };
+    }
+    if (mode === "mental") {
+      const add = random.bool();
+      const step = random.bool() ? a : b;
+      const answer = add ? product + step : product - step;
+      return {
+        mode,
+        prompt: `${a} x ${b} ${add ? "+" : "-"} ${step} = ?`,
+        answer,
+        options: this.tablesOptions(answer, random, "product", a, b),
+        explanation: `Prima ${a} x ${b} = ${product}, poi ${add ? "aggiungi" : "togli"} ${step}: risultato ${answer}.`,
+        a,
+        b,
+      };
+    }
+    return {
+      mode,
+      prompt: `${a} x ${b} = ?`,
+      answer: product,
+      options: this.tablesOptions(product, random, "product", a, b),
+      explanation: `${a} gruppi da ${b} fanno ${product}.`,
+      a,
+      b,
+    };
+  }
+
+  private tablesOptions(answer: number, random: Random, kind: "product" | "factor", a: number, b: number): number[] {
+    const candidates = new Set<number>([answer]);
+    const push = (value: number): void => {
+      if (Number.isFinite(value) && value >= 0 && value <= 180) candidates.add(Math.round(value));
+    };
+    if (kind === "factor") {
+      [answer - 2, answer - 1, answer + 1, answer + 2, a + b, Math.abs(a - b), a, b].forEach(push);
+      while (candidates.size < 6) push(random.integer(2, this.tablesMaxFactor()));
+    } else {
+      [answer - a, answer + a, answer - b, answer + b, a + b, a * (b + 1), (a + 1) * b, answer + 10, answer - 10].forEach(push);
+      while (candidates.size < 6) push(answer + random.integer(-18, 18));
+    }
+    return random.shuffle([...candidates].filter((value) => value >= 0)).slice(0, 6);
+  }
+
+  private drawTablesBackdrop(challenge: TablesChallenge): void {
+    this.t(this.add.rectangle(640, 360, 1280, 720, 0x061019, 0.36));
+    const grid = this.t(this.add.graphics());
+    grid.lineStyle(1, 0xf6c85f, 0.08);
+    for (let x = 80; x <= 1200; x += 80) grid.lineBetween(x, 104, x, 650);
+    for (let y = 120; y <= 640; y += 52) grid.lineBetween(40, y, 1240, y);
+    grid.lineStyle(3, 0xf6c85f, 0.34);
+    grid.strokeRoundedRect(42, 112, 1196, 538, 18);
+
+    const pulse = this.t(this.add.circle(640, 330, 128, 0xf6c85f, 0.045).setStrokeStyle(2, 0xf6c85f, 0.18));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: pulse, scale: 1.14, alpha: 0.12, duration: 900, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
+    this.t(this.add.text(640, 334, `${challenge.a} x ${challenge.b}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+  }
+
+  private drawTablesEnergyCores(challenge: TablesChallenge): void {
+    const leftX = 314;
+    const rightX = 966;
+    const y = 312;
+    [[leftX, challenge.a, "fattore A"], [rightX, challenge.b, "fattore B"]].forEach(([x, value, label]) => {
+      const ring = this.t(this.add.circle(Number(x), y, 60, 0x07151d, 0.96).setStrokeStyle(3, 0xf6c85f, 0.72));
+      this.t(this.add.circle(Number(x), y, 28, 0xf6c85f, 0.34).setStrokeStyle(2, 0x9ff5e9, 0.68));
+      this.t(this.add.text(Number(x), y - 6, String(value), {
+        fontFamily: "Inter, Arial",
+        fontSize: "32px",
+        color: "#f5fbff",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      this.t(this.add.text(Number(x), y + 48, String(label), {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9ff5e9",
+      }).setOrigin(0.5));
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({ targets: ring, angle: 360, duration: 4200, repeat: -1 });
+      }
+    });
+    const beam = this.t(this.add.graphics());
+    beam.lineStyle(5, 0xf6c85f, 0.32).lineBetween(leftX + 72, y, rightX - 72, y);
+    beam.lineStyle(2, 0x9ff5e9, 0.52).lineBetween(leftX + 72, y + 16, rightX - 72, y + 16);
+  }
+
+  private tablesModeLabel(mode: TablesChallengeMode): string {
+    switch (mode) {
+      case "product": return "Prodotto diretto";
+      case "missing": return "Fattore mancante";
+      case "division": return "Operazione inversa";
+      case "mental": return "Calcolo mentale in due passi";
+    }
+  }
+
+  private tablesTotalForLevel(): number {
+    return this.gymLevel >= 6 ? 12 : 10;
+  }
+
+  private tablesMaxFactor(): number {
+    if (this.gymLevel <= 1) return 5;
+    if (this.gymLevel <= 2) return 6;
+    if (this.gymLevel <= 3) return 8;
+    if (this.gymLevel <= 4) return 9;
+    return 12;
+  }
+
+  private tablesFactorsForLevel(): number[] {
+    if (this.gymLevel <= 1) return [2, 3, 4, 5, 10];
+    const max = this.tablesMaxFactor();
+    const factors = Array.from({ length: max - 1 }, (_, index) => index + 2);
+    return this.gymLevel <= 2 ? [...factors, 10] : factors;
+  }
+
+  private tablesTimeLimitForLevel(): number {
+    return Math.max(7_200, 17_500 - this.gymLevel * 1_050);
+  }
+
+  // -- Calcolo Mentale (fast arithmetic strategies) ----------------------
+
+  private startMental(): void {
+    this.mentalRound = 0;
+    this.mentalCorrect = 0;
+    this.mentalCombo = 0;
+    this.mentalBestCombo = 0;
+    this.mentalTimeBonus = 0;
+    this.mentalTotal = this.mentalTotalForLevel();
+    audioManager.playContext("math");
+    this.nextMentalRound();
+  }
+
+  private nextMentalRound(): void {
+    this.clearScreen();
+    if (this.mentalRound >= this.mentalTotal) {
+      const accuracy = Math.round((this.mentalCorrect / Math.max(1, this.mentalTotal)) * 100);
+      const score = accuracy + this.mentalBestCombo * 9 + this.mentalTimeBonus + this.gymLevel * 4;
+      const award = Math.min(24, 5 + this.mentalCorrect + Math.floor(this.mentalBestCombo / 2) + Math.floor(this.gymLevel / 2));
+      const summary = `Sprint completato: ${this.mentalCorrect}/${this.mentalTotal} corrette, precisione ${accuracy}%, combo migliore x${this.mentalBestCombo}, bonus tempo +${this.mentalTimeBonus}.`;
+      this.finishActivity("mental", "Calcolo Mentale", score, ["matematica.calcolo", "matematica.operazioni", "pensieroCritico"], award, summary);
+      return;
+    }
+
+    const challenge = this.generateMentalChallenge(new Random(`mental-${Date.now()}-${this.gymLevel}-${this.mentalRound}`));
+    this.mentalLocked = false;
+    this.mentalStartedAt = this.time.now;
+    this.mentalTimeLimitMs = this.mentalTimeLimitForLevel();
+
+    this.drawMentalBackdrop(challenge);
+    this.t(this.add.text(56, 28, `Calcolo Mentale · Profondità ${this.gymLevel}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "28px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    this.t(this.add.text(58, 70, "Non fare tutto in colonna: cerca la scorciatoia mentale. Arrotonda, scomponi, compensa, poi conferma.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      wordWrap: { width: 820 },
+    }));
+    this.mentalStatus = this.t(this.add.text(1000, 40, `Round ${this.mentalRound + 1}/${this.mentalTotal} · Combo x${this.mentalCombo}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      align: "right",
+    }).setOrigin(0.5));
+    this.mentalTimeText = this.t(this.add.text(1000, 66, "", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      align: "right",
+    }).setOrigin(0.5));
+
+    this.t(this.add.rectangle(640, 208, 820, 136, 0x07151d, 0.94).setStrokeStyle(2, 0x5ec8ff, 0.62));
+    this.t(this.add.text(640, 178, challenge.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: challenge.prompt.length > 18 ? "42px" : "50px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    this.t(this.add.text(640, 248, this.mentalModeLabel(challenge.mode), {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#9ff5e9",
+    }).setOrigin(0.5));
+
+    this.drawMentalNumberTrack(challenge);
+
+    const optionW = 236;
+    const optionH = 72;
+    challenge.options.forEach((option, index) => {
+      const col = index % 3;
+      const row = Math.floor(index / 3);
+      const x = 640 - optionW - 24 + col * (optionW + 24);
+      const y = 410 + row * 94;
+      this.t(new Button(this, x, y, String(option), () => this.answerMental(challenge, option), {
+        width: optionW,
+        height: optionH,
+        fontSize: 28,
+        fill: 0x123146,
+        stroke: 0x5ec8ff,
+      }));
+    });
+
+    const timerBg = this.t(this.add.rectangle(300, 620, 680, 14, 0x0a1a24, 1).setOrigin(0).setStrokeStyle(1, 0x244451, 0.8));
+    const timerFill = this.t(this.add.rectangle(300, 620, 680, 14, 0x5ec8ff, 0.92).setOrigin(0));
+    const updateTimer = (): void => {
+      if (this.mentalLocked) return;
+      const elapsed = this.time.now - this.mentalStartedAt;
+      const remaining = Math.max(0, this.mentalTimeLimitMs - elapsed);
+      const ratio = remaining / this.mentalTimeLimitMs;
+      timerFill.displayWidth = Math.max(0, 680 * ratio);
+      timerFill.setFillStyle(ratio < 0.28 ? 0xff5d7a : ratio < 0.55 ? 0xf6c85f : 0x5ec8ff, 0.92);
+      this.mentalTimeText?.setText(`Tempo ${Math.ceil(remaining / 1000)}s · ${challenge.focus}`);
+      if (remaining <= 0) {
+        this.answerMental(challenge, Number.NaN);
+      }
+    };
+    updateTimer();
+    this.mentalTimerEvent = this.time.addEvent({ delay: 100, loop: true, callback: updateTimer });
+    this.backBar(() => this.startMental());
+    timerBg.setDepth(timerBg.depth + 1);
+    timerFill.setDepth(timerFill.depth + 1);
+  }
+
+  private answerMental(challenge: MentalChallenge, choice: number): void {
+    if (this.mentalLocked) return;
+    this.mentalLocked = true;
+    this.mentalTimerEvent?.remove(false);
+    this.mentalTimerEvent = undefined;
+    const correct = choice === challenge.answer;
+    const remaining = Math.max(0, this.mentalTimeLimitMs - (this.time.now - this.mentalStartedAt));
+    if (correct) {
+      this.mentalCorrect += 1;
+      this.mentalCombo += 1;
+      this.mentalBestCombo = Math.max(this.mentalBestCombo, this.mentalCombo);
+      this.mentalTimeBonus += Math.ceil(remaining / 1000);
+      audioManager.play("mathKey");
+      audioManager.playToneSequence([
+        { frequency: 500 + this.mentalCombo * 18, durationMs: 70 },
+        { frequency: 660 + this.mentalCombo * 20, durationMs: 85 },
+      ]);
+    } else {
+      this.mentalCombo = 0;
+      audioManager.play("error");
+    }
+
+    const tone = correct ? 0x70d68a : 0xff5d7a;
+    this.t(this.add.rectangle(640, 620, 930, 88, 0x07151d, 0.97).setStrokeStyle(2, tone, 0.78));
+    this.t(this.add.text(640, 604, correct
+      ? `Scatto pulito. ${challenge.explanation}`
+      : Number.isNaN(choice)
+        ? `Tempo scaduto. ${challenge.explanation}`
+        : `Risposta ${choice}: fuori traiettoria. ${challenge.explanation}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: correct ? "#9ff5c0" : "#ffd0da",
+      align: "center",
+      wordWrap: { width: 880 },
+      lineSpacing: 4,
+    }).setOrigin(0.5));
+    this.t(this.add.text(640, 645, `Risposta: ${challenge.answer} · Combo x${this.mentalCombo} · Corrette ${this.mentalCorrect}/${this.mentalRound + 1}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+    }).setOrigin(0.5));
+    this.time.delayedCall(correct ? 760 : 1420, () => {
+      this.mentalRound += 1;
+      this.nextMentalRound();
+    });
+  }
+
+  private generateMentalChallenge(random: Random): MentalChallenge {
+    const modes: MentalChallengeMode[] = this.gymLevel <= 2
+      ? ["bridge", "bridge", "difference", "chain"]
+      : this.gymLevel <= 4
+        ? ["bridge", "difference", "chain", "doubleHalf", "splitProduct"]
+        : this.gymLevel <= 6
+          ? ["bridge", "difference", "chain", "doubleHalf", "percent", "splitProduct"]
+          : ["difference", "chain", "doubleHalf", "percent", "percent", "splitProduct"];
+    const mode = random.pick(modes);
+    const cap = this.mentalNumberCap();
+
+    if (mode === "difference") {
+      const b = random.integer(18, Math.max(24, Math.floor(cap * 0.62)));
+      const a = b + random.integer(12, Math.max(24, Math.floor(cap * 0.48)));
+      const answer = a - b;
+      const bridge = Math.ceil(b / 10) * 10;
+      const explanation = bridge > b && bridge < a
+        ? `Vai per ponti: da ${b} a ${bridge} sono ${bridge - b}, poi fino a ${a} sono ${a - bridge}. Totale ${answer}.`
+        : `${a} - ${b} = ${answer}: togli prima le decine, poi aggiusta le unita.`;
+      return {
+        mode,
+        prompt: `${a} - ${b} = ?`,
+        answer,
+        options: this.mentalOptions(answer, random, [a, b]),
+        explanation,
+        focus: "differenza rapida",
+        chips: [`parti da ${b}`, `ponte ${bridge}`, `arriva a ${a}`],
+      };
+    }
+
+    if (mode === "chain") {
+      const terms = this.gymLevel >= 6 ? 4 : 3;
+      let value = random.integer(16, Math.max(30, Math.floor(cap * 0.42)));
+      const pieces = [String(value)];
+      const chips = [`start ${value}`];
+      for (let i = 1; i < terms; i += 1) {
+        const delta = random.integer(6, this.gymLevel >= 5 ? 28 : 18);
+        const add = value - delta < 8 || random.bool(0.58);
+        value = add ? value + delta : value - delta;
+        pieces.push(`${add ? "+" : "-"} ${delta}`);
+        chips.push(`${add ? "+" : "-"}${delta}`);
+      }
+      return {
+        mode,
+        prompt: `${pieces.join(" ")} = ?`,
+        answer: value,
+        options: this.mentalOptions(value, random, chips.map((chip) => Number.parseInt(chip.replace(/[^0-9-]/g, ""), 10)).filter(Number.isFinite)),
+        explanation: `Tieni un totale corrente: ${pieces.join(" ")} porta a ${value}. Raggruppa i passi facili prima di scegliere.`,
+        focus: "totale corrente",
+        chips,
+      };
+    }
+
+    if (mode === "doubleHalf") {
+      const a = random.integer(12, Math.max(20, Math.floor(cap / 3)));
+      const b = random.integer(8, Math.max(16, Math.floor(cap / 4))) * 2;
+      const answer = a * 2 + b / 2;
+      return {
+        mode,
+        prompt: `doppio ${a} + meta ${b} = ?`,
+        answer,
+        options: this.mentalOptions(answer, random, [a, b]),
+        explanation: `Doppio di ${a} = ${a * 2}; meta di ${b} = ${b / 2}. Somma finale ${answer}.`,
+        focus: "doppio e meta",
+        chips: [`2 x ${a}`, `${b} : 2`, `somma`],
+      };
+    }
+
+    if (mode === "percent") {
+      const percent = random.pick(this.gymLevel >= 7 ? [10, 20, 25, 50, 75] : [10, 25, 50]);
+      const unit = percent === 25 || percent === 75 ? 4 : percent === 20 ? 5 : 10;
+      const base = random.integer(6, Math.max(10, Math.floor(cap / unit))) * unit;
+      const answer = Math.round((base * percent) / 100);
+      const explanation = percent === 75
+        ? `75% significa tre quarti: ${base} : 4 = ${base / 4}, poi x3 = ${answer}.`
+        : percent === 25
+          ? `25% e' un quarto: ${base} : 4 = ${answer}.`
+          : percent === 20
+            ? `20% e' un quinto: ${base} : 5 = ${answer}.`
+            : `${percent}% di ${base}: sposta o dimezza secondo la percentuale, risultato ${answer}.`;
+      return {
+        mode,
+        prompt: `${percent}% di ${base} = ?`,
+        answer,
+        options: this.mentalOptions(answer, random, [base, percent]),
+        explanation,
+        focus: "percentuale",
+        chips: [`base ${base}`, `${percent}%`, `risultato`],
+      };
+    }
+
+    if (mode === "splitProduct") {
+      const a = random.integer(this.gymLevel >= 6 ? 14 : 11, this.gymLevel >= 6 ? 24 : 18);
+      const b = random.integer(4, this.gymLevel >= 5 ? 12 : 9);
+      const answer = a * b;
+      const tens = Math.floor(a / 10) * 10;
+      const rest = a - tens;
+      return {
+        mode,
+        prompt: `${a} x ${b} = ?`,
+        answer,
+        options: this.mentalOptions(answer, random, [a, b, tens, rest]),
+        explanation: `Scomponi ${a} in ${tens}+${rest}: ${tens} x ${b} = ${tens * b}, ${rest} x ${b} = ${rest * b}, totale ${answer}.`,
+        focus: "scomposizione",
+        chips: [`${tens} x ${b}`, `${rest} x ${b}`, `somma`],
+      };
+    }
+
+    const a = random.integer(18, Math.max(26, Math.floor(cap * 0.56)));
+    const b = random.integer(17, Math.max(24, Math.floor(cap * 0.52)));
+    const answer = a + b;
+    const targetTen = Math.ceil(a / 10) * 10;
+    const move = Math.max(0, targetTen - a);
+    const explanation = move > 0 && b >= move
+      ? `Compensa: ${a}+${move} = ${targetTen}; restano ${b - move}. ${targetTen}+${b - move} = ${answer}.`
+      : `${a}+${b} = ${answer}: somma decine e unita, poi ricomponi.`;
+    return {
+      mode,
+      prompt: `${a} + ${b} = ?`,
+      answer,
+      options: this.mentalOptions(answer, random, [a, b]),
+      explanation,
+      focus: "arrotonda e compensa",
+      chips: [`${a} -> ${targetTen}`, `resto ${Math.max(0, b - move)}`, `totale`],
+    };
+  }
+
+  private mentalOptions(answer: number, random: Random, anchors: number[]): number[] {
+    const candidates = new Set<number>([answer]);
+    const push = (value: number): void => {
+      if (Number.isFinite(value) && value >= 0 && value <= 999) candidates.add(Math.round(value));
+    };
+    [answer - 10, answer + 10, answer - 5, answer + 5, answer - 2, answer + 2, answer - 1, answer + 1].forEach(push);
+    anchors.forEach((anchor) => {
+      push(answer + anchor);
+      push(answer - anchor);
+      push(anchor);
+    });
+    while (candidates.size < 6) push(answer + random.integer(-24, 24));
+    return random.shuffle([...candidates].filter((value) => value >= 0)).slice(0, 6);
+  }
+
+  private drawMentalBackdrop(challenge: MentalChallenge): void {
+    this.t(this.add.rectangle(640, 360, 1280, 720, 0x061019, 0.38));
+    const grid = this.t(this.add.graphics());
+    grid.lineStyle(1, 0x5ec8ff, 0.08);
+    for (let x = 70; x <= 1210; x += 76) grid.lineBetween(x, 104, x, 650);
+    for (let y = 118; y <= 642; y += 48) grid.lineBetween(40, y, 1240, y);
+    grid.lineStyle(3, 0x5ec8ff, 0.32);
+    grid.strokeRoundedRect(42, 112, 1196, 538, 18);
+    grid.lineStyle(2, 0xf6c85f, 0.34);
+    grid.lineBetween(250, 334, 1030, 334);
+    grid.lineStyle(2, 0xff9ad2, 0.28);
+    grid.lineBetween(330, 352, 950, 352);
+
+    const dial = this.t(this.add.circle(640, 332, 118, 0x5ec8ff, 0.045).setStrokeStyle(2, 0x5ec8ff, 0.22));
+    this.t(this.add.circle(640, 332, 74, 0xf6c85f, 0.035).setStrokeStyle(2, 0xf6c85f, 0.18));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: dial, angle: 360, duration: 5200, repeat: -1 });
+    }
+  }
+
+  private drawMentalNumberTrack(challenge: MentalChallenge): void {
+    const colors = [0x5ec8ff, 0xf6c85f, 0xff9ad2, 0x70d68a];
+    const startX = 352;
+    challenge.chips.slice(0, 4).forEach((chip, index) => {
+      const x = startX + index * 192;
+      const color = colors[index % colors.length];
+      const box = this.t(this.add.rectangle(x, 318, 156, 58, 0x07151d, 0.96).setStrokeStyle(2, color, 0.7));
+      this.t(this.add.text(x, 318, chip, {
+        fontFamily: "Inter, Arial",
+        fontSize: chip.length > 10 ? "13px" : "15px",
+        color: "#f5fbff",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({ targets: box, alpha: 0.76, duration: 720 + index * 80, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      }
+    });
+  }
+
+  private mentalModeLabel(mode: MentalChallengeMode): string {
+    switch (mode) {
+      case "bridge": return "Somma con compensazione";
+      case "difference": return "Differenza per ponti";
+      case "chain": return "Catena di operazioni";
+      case "doubleHalf": return "Doppio, meta e ricomposizione";
+      case "percent": return "Percentuale mentale";
+      case "splitProduct": return "Moltiplicazione scomposta";
+    }
+  }
+
+  private mentalTotalForLevel(): number {
+    return this.gymLevel >= 6 ? 12 : 10;
+  }
+
+  private mentalNumberCap(): number {
+    if (this.gymLevel <= 1) return 60;
+    if (this.gymLevel <= 2) return 80;
+    if (this.gymLevel <= 4) return 120;
+    if (this.gymLevel <= 6) return 180;
+    return 240;
+  }
+
+  private mentalTimeLimitForLevel(): number {
+    return Math.max(7_000, 16_500 - this.gymLevel * 980);
   }
 
   // -- Sequenza Luminosa (sequential working memory) ----------------------

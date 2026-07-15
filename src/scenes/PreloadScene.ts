@@ -2,13 +2,13 @@ import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { startScene } from "../core/SceneNavigator";
 import academyPaintedBgUrl from "../assets/images/academy-painted-bg.webp";
-import actionRoomBgUrl from "../assets/images/academy-action-room-bg.png";
-import serraBioBgUrl from "../assets/images/area-bio-ponte-primi.png";
-import cantiereCircuitiBgUrl from "../assets/images/area-reattore-primi.png";
-import osservatorioBgUrl from "../assets/images/area-ponte-comando-primi.png";
-import salaMusicaBgUrl from "../assets/images/area-motore-risonanza-primi.png";
-import archivioBibliotecaBgUrl from "../assets/images/area-data-core-primi.png";
-import bibliotecaClassicaBgUrl from "../assets/images/area-sala-glifi-primi.png";
+import actionRoomBgUrl from "../assets/images/academy-action-room-bg.webp";
+import serraBioBgUrl from "../assets/images/area-bio-ponte-primi.webp";
+import cantiereCircuitiBgUrl from "../assets/images/area-reattore-primi.webp";
+import osservatorioBgUrl from "../assets/images/area-ponte-comando-primi.webp";
+import salaMusicaBgUrl from "../assets/images/area-motore-risonanza-primi.webp";
+import archivioBibliotecaBgUrl from "../assets/images/area-data-core-primi.webp";
+import bibliotecaClassicaBgUrl from "../assets/images/area-sala-glifi-primi.webp";
 import eliQuestAtlasUrl from "../assets/sprites/eli-quest-atlas.webp";
 import eliQuestAtlasJsonUrl from "../assets/sprites/eli-quest-atlas.json?url";
 import eliRobotGirlSheetUrl from "../assets/sprites/eli-robot-girl-sheet.png";
@@ -24,6 +24,7 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   preload(): void {
+    this.renderLoadingUi();
     this.load.image("bg-academy-painted", academyPaintedBgUrl);
     this.load.image("action-room-bg", actionRoomBgUrl);
     this.load.image("area-serra-bio", serraBioBgUrl);
@@ -64,6 +65,46 @@ export class PreloadScene extends Phaser.Scene {
     // The explorable world IS the main menu: the session opens inside the
     // central deck of the Relitto. The button-based menu stays reachable via NORA.
     void startScene(this, "ExplorableRoomScene").catch(() => this.scene.start("MainMenuScene"));
+  }
+
+  private renderLoadingUi(): void {
+    const { width, height } = this.scale;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const barWidth = 420;
+    const barHeight = 14;
+
+    this.add.text(centerX, centerY - 46, "Eli Quest", {
+      fontFamily: "Inter, Arial",
+      fontSize: "30px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setOrigin(0.5);
+    const statusText = this.add.text(centerX, centerY + 34, "Caricamento… 0%", {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#9ff5e9",
+    }).setOrigin(0.5);
+
+    const barBg = this.add.graphics();
+    barBg.fillStyle(0x0a1a24, 1);
+    barBg.fillRoundedRect(centerX - barWidth / 2, centerY - barHeight / 2, barWidth, barHeight, 7);
+    barBg.lineStyle(1, 0x244451, 1);
+    barBg.strokeRoundedRect(centerX - barWidth / 2, centerY - barHeight / 2, barWidth, barHeight, 7);
+
+    const barFill = this.add.graphics();
+    this.load.on(Phaser.Loader.Events.PROGRESS, (value: number) => {
+      barFill.clear();
+      barFill.fillStyle(0x6be7d6, 1);
+      const fillWidth = Math.max(barHeight, barWidth * value);
+      barFill.fillRoundedRect(centerX - barWidth / 2, centerY - barHeight / 2, fillWidth, barHeight, 7);
+      statusText.setText(`Caricamento… ${Math.round(value * 100)}%`);
+    });
+    this.load.once(Phaser.Loader.Events.COMPLETE, () => {
+      barBg.destroy();
+      barFill.destroy();
+      statusText.destroy();
+    });
   }
 
   private warmCriticalTextures(): void {

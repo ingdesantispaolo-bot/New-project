@@ -1,13 +1,14 @@
-const CACHE_VERSION = "v2-auto-update";
+const CACHE_VERSION = "v3-prompt-update";
 const STATIC_CACHE = `eli-quest-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `eli-quest-runtime-${CACHE_VERSION}`;
 const APP_SHELL = ["./manifest.webmanifest", "./eli-quest-icon.svg"];
 
+// L'aggiornamento NON è più automatico: il nuovo service worker resta in
+// "waiting" finché la pagina non invia SKIP_WAITING (dopo il consenso del
+// giocatore). Così un deploy non interrompe mai una missione in corso.
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => cache.addAll(APP_SHELL))
-      .then(() => self.skipWaiting()),
+    caches.open(STATIC_CACHE).then((cache) => cache.addAll(APP_SHELL)),
   );
 });
 
@@ -16,17 +17,8 @@ self.addEventListener("activate", (event) => {
     caches.keys()
       .then(async (keys) => {
         const staleKeys = keys.filter((key) => key.startsWith("eli-quest-") && key !== STATIC_CACHE && key !== RUNTIME_CACHE);
-        const shouldReloadOpenClients = staleKeys.length > 0;
         await Promise.all(staleKeys.map((key) => caches.delete(key)));
         await self.clients.claim();
-        if (shouldReloadOpenClients) {
-          const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-          clients.forEach((client) => {
-            if ("navigate" in client) {
-              client.navigate(client.url);
-            }
-          });
-        }
       }),
   );
 });

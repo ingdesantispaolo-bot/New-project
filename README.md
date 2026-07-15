@@ -1,6 +1,8 @@
 # Eli Quest - Accademia delle Missioni
 
-MVP web game 2D in TypeScript, Vite, Phaser 3 e Howler.js. La prima missione, "Il Laboratorio Spento", integra elettronica, matematica, coding, italiano, inglese operativo e problem solving dentro una missione continua.
+Web game 2D educativo in TypeScript, Vite, Phaser 4 e Howler.js. Eli Quest unisce missioni narrative, esercizi procedurali, teoria spiegata da NORA, allenamento rapido e ricompense di energia in un unico percorso interdisciplinare.
+
+La direzione attuale non e piu solo "MVP laboratorio": il gioco ruota intorno a missioni procedurali e capitoli narrativi, con la Palestra della Mente usata sia come riscaldamento autonomo sia come evento bonus dentro le missioni.
 
 ## Avvio
 
@@ -41,7 +43,53 @@ Guida completa: `docs/TABLET_AND_DEPLOY.md`.
 - `src/types`: tipi TypeScript per missioni, puzzle e salvataggi.
 - `docs`: design, architettura, pedagogia, formato missioni e roadmap.
 
-## MVP implementato
+## Stato attuale
+
+### Missioni e percorso
+
+- Main menu con nuova missione, continua, Storia, Diario, Bottega, Giocatori e Classifiche.
+- Hub e stanze esplorabili con avatar, console, hotspot, feedback ambientale e NORA presente in scena.
+- Campagna a capitoli con fase Esplora e fase Prova.
+- Missioni procedurali miste con timer opzionale, vite, score, competenze, seed, salvataggio e ripresa.
+- Prove disciplinari in matematica, italiano, inglese, latino, elettronica, fisica, coding, robotica e musica.
+- Missioni storiche/classiche ancora presenti: Laboratorio, Serra Biologica, Fabbrica dei Numeri, Archivio delle Parole e Citta Intelligente.
+
+### NORA, teoria e ripasso
+
+- NORA commenta errori, successi, streak, indizi e momenti narrativi.
+- Catalogo teorico in `src/data/theoryCatalog.ts`, con capsule brevi ma dense per matematica, italiano, inglese, latino, elettronica, fisica, coding e musica.
+- Le capsule contengono definizione, regole, metodo, esempio, trappole, spiegazione in voce NORA, competenze collegate e visualizzazione.
+- Atlante teoria e pannello NORA affiancano gli esercizi per trasformare l'errore in ripasso guidato.
+
+### Palestra della Mente
+
+- Palestra autonoma con record per profondita.
+- Giochi logico-memoria gia presenti: Sequenza Luminosa, Memory, Codice Segreto, Sequenze Logiche, Bilancia Logica, Griglia Lampo, Firewall NORA.
+- Giochi multidisciplinari aggiunti:
+  - Tabelline Reactor;
+  - Calcolo Mentale;
+  - Geo Atlante, capitali/continenti;
+  - Geo Rilievi, geografia fisica base.
+- I quattro giochi nuovi possono partire anche in modalita `missionBonus`: round brevi, risultato strutturato e ritorno controllato alla missione.
+
+### Eventi bonus in missione
+
+- Le missioni possono proporre una "Frattura energetica" dopo alcune console risolte.
+- L'evento sceglie uno tra Tabelline, Calcolo Mentale, Geo Atlante e Geo Rilievi in base al contesto della run.
+- Massimo 2 eventi per missione normale, massimo 1 nelle Prove Capitolo.
+- Nessuna penalita se l'evento viene ignorato o fallito.
+- Ricompense: energia bonus e, con precisione alta, stabilita timer.
+- Stato salvato in `ProceduralRunSave.bonusEvents`, per evitare doppie ricompense.
+
+### Sistemi di progressione
+
+- `localStorage` per salvataggi locali e profili giocatore.
+- Competenze persistenti, memoria degli errori, autonomia di mastery e report giocatore.
+- Energia come valuta per Bottega e cosmetici.
+- Missione del giorno, bonus varieta e loop di ricompensa giornaliero.
+- Classifiche locali top 20 per esercizio, missione e focus.
+
+## MVP storico implementato
 
 - Main menu con nuova missione, continua e diario.
 - Hub esplorabile iniziale con accesso al laboratorio.
@@ -64,6 +112,11 @@ Guida completa: `docs/TABLET_AND_DEPLOY.md`.
 ## Dove modificare missioni e puzzle
 
 - Missioni: `src/data/missions.ts`
+- Missioni procedurali: `src/procedural/ProceduralDirector.ts`, `src/procedural/generators/*`
+- Regole run procedurali: `src/core/ProceduralRunRules.ts`
+- Scene missione procedurale: `src/scenes/ProceduralMissionScene.ts`
+- Palestra e giochi bonus: `src/scenes/LogicGymScene.ts`
+- Tipi eventi bonus Palestra: `src/types/logicGymBonus.ts`
 - Oggetti esplorabili del laboratorio: `src/data/laboratoryObjects.ts`
 - Dati della serra: `src/data/greenhouse.ts`
 - Dati della fabbrica numerica: `src/data/numberFactory.ts`
@@ -71,8 +124,25 @@ Guida completa: `docs/TABLET_AND_DEPLOY.md`.
 - Puzzle: `src/data/puzzles.ts`
 - Dialoghi: `src/data/dialogues.ts`
 - Competenze: `src/data/competencies.ts`
+- Teoria NORA: `src/data/theoryCatalog.ts`
 
 Le scene leggono questi dati e aggiornano flag/competenze tramite `MissionEngine`, `SaveSystem` e `CompetencyTracker`.
+
+## Qualita e verifica
+
+Comandi principali:
+
+```bash
+npm run build
+npm test
+```
+
+Per modifiche a scene o canvas, verificare anche a runtime con browser:
+
+- assenza di pagina nera;
+- console senza errori JavaScript;
+- screenshot desktop/tablet quando cambia il layout;
+- ritorno corretto tra scene, soprattutto per missioni, Palestra ed eventi bonus.
 
 ## Giocatori, salvataggi e classifiche
 

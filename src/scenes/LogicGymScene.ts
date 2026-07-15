@@ -7,11 +7,12 @@ import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { settingsSystem } from "../core/SettingsSystem";
 import { buildMemoryPairs, generateBalance, LogicSequenceGenerator, type BalancePuzzle, type LogicSequence, type MemoryPair } from "../procedural/generators/LogicGymContent";
 import { Random } from "../procedural/Random";
+import type { LogicGymBonusActivityKey, LogicGymBonusResult, LogicGymSceneData } from "../types/logicGymBonus";
 import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
-type GymActivityKey = "tables" | "mental" | "simon" | "memory" | "code" | "seq" | "balance" | "flash" | "firewall";
+type GymActivityKey = "tables" | "mental" | "geo" | "geoPhysical" | "simon" | "memory" | "code" | "seq" | "balance" | "flash" | "firewall";
 type ActivityMeta = { key: GymActivityKey; title: string; glyph: string; theme: string; desc: string; color: number; start: () => void };
 type MemoryCard = { pairId: string; label: string; rect: Phaser.GameObjects.Rectangle; text: Phaser.GameObjects.Text; matched: boolean; flipped: boolean };
 type TablesChallengeMode = "product" | "missing" | "division" | "mental";
@@ -33,6 +34,31 @@ type MentalChallenge = {
   explanation: string;
   focus: string;
   chips: string[];
+};
+type GeoContinent = "Europa" | "Africa" | "Asia" | "America del Nord" | "America del Sud" | "Oceania";
+type GeoZone = "ovest" | "centro" | "est" | "nord" | "sud";
+type GeoItem = { country: string; capital: string; continent: GeoContinent; zone: GeoZone; fact: string; x: number; y: number };
+type GeoChallengeMode = "continent" | "capital" | "country" | "region";
+type GeoChallenge = {
+  mode: GeoChallengeMode;
+  item: GeoItem;
+  prompt: string;
+  answer: string;
+  options: string[];
+  explanation: string;
+  focus: string;
+};
+type PhysicalKind = "fiume" | "lago" | "montagna" | "catena montuosa" | "deserto" | "mare" | "stretto";
+type PhysicalFeature = { name: string; kind: PhysicalKind; continent: GeoContinent; region: GeoZone; clue: string; x: number; y: number };
+type PhysicalChallengeMode = "kind" | "continent" | "name" | "clue";
+type PhysicalChallenge = {
+  mode: PhysicalChallengeMode;
+  feature: PhysicalFeature;
+  prompt: string;
+  answer: string;
+  options: string[];
+  explanation: string;
+  focus: string;
 };
 type FirewallAction = "allow" | "block" | "quarantine" | "inspect";
 type FirewallLens = "identity" | "content" | "route" | "priority";
@@ -60,6 +86,100 @@ const PAD_COLORS = [0xff5d7a, 0x6be7d6, 0xf6c85f, 0x70d68a, 0x9f8cff, 0xff9ad2];
 const CODE_SYMBOLS = ["🔴", "🔵", "🟡", "🟢", "🟣", "🟠"];
 const GYM_MIN_LEVEL = 1;
 const GYM_MAX_LEVEL = 8;
+const GEO_CONTINENTS: GeoContinent[] = ["Europa", "Africa", "Asia", "America del Nord", "America del Sud", "Oceania"];
+const GEO_ATLAS: GeoItem[] = [
+  { country: "Italia", capital: "Roma", continent: "Europa", zone: "sud", fact: "penisola nel Mediterraneo", x: 596, y: 304 },
+  { country: "Francia", capital: "Parigi", continent: "Europa", zone: "ovest", fact: "tra Atlantico e Mediterraneo", x: 564, y: 282 },
+  { country: "Spagna", capital: "Madrid", continent: "Europa", zone: "sud", fact: "occupa gran parte della penisola iberica", x: 526, y: 316 },
+  { country: "Germania", capital: "Berlino", continent: "Europa", zone: "centro", fact: "cuore dell'Europa centrale", x: 594, y: 256 },
+  { country: "Portogallo", capital: "Lisbona", continent: "Europa", zone: "ovest", fact: "affacciato sull'Atlantico", x: 500, y: 320 },
+  { country: "Grecia", capital: "Atene", continent: "Europa", zone: "sud", fact: "ponte tra Balcani e Mediterraneo orientale", x: 650, y: 332 },
+  { country: "Regno Unito", capital: "Londra", continent: "Europa", zone: "ovest", fact: "isola a nord-ovest dell'Europa", x: 536, y: 246 },
+  { country: "Irlanda", capital: "Dublino", continent: "Europa", zone: "ovest", fact: "isola verde dell'Atlantico", x: 510, y: 242 },
+  { country: "Norvegia", capital: "Oslo", continent: "Europa", zone: "nord", fact: "fiordi e coste del Nord Europa", x: 586, y: 198 },
+  { country: "Svezia", capital: "Stoccolma", continent: "Europa", zone: "nord", fact: "penisola scandinava", x: 620, y: 206 },
+  { country: "Finlandia", capital: "Helsinki", continent: "Europa", zone: "nord", fact: "tra Baltico e grandi foreste", x: 656, y: 210 },
+  { country: "Polonia", capital: "Varsavia", continent: "Europa", zone: "est", fact: "pianura dell'Europa centro-orientale", x: 628, y: 262 },
+  { country: "Austria", capital: "Vienna", continent: "Europa", zone: "centro", fact: "area alpina e danubiana", x: 610, y: 286 },
+  { country: "Ungheria", capital: "Budapest", continent: "Europa", zone: "centro", fact: "attraversata dal Danubio", x: 630, y: 294 },
+  { country: "Romania", capital: "Bucarest", continent: "Europa", zone: "est", fact: "tra Carpazi e Mar Nero", x: 664, y: 304 },
+  { country: "Ucraina", capital: "Kyiv", continent: "Europa", zone: "est", fact: "grande paese dell'Europa orientale", x: 682, y: 274 },
+  { country: "Turchia", capital: "Ankara", continent: "Asia", zone: "ovest", fact: "tra Anatolia e ponte euroasiatico", x: 700, y: 334 },
+  { country: "Egitto", capital: "Il Cairo", continent: "Africa", zone: "nord", fact: "attraversato dal Nilo", x: 670, y: 410 },
+  { country: "Marocco", capital: "Rabat", continent: "Africa", zone: "nord", fact: "tra Atlantico, Mediterraneo e Atlante", x: 500, y: 392 },
+  { country: "Algeria", capital: "Algeri", continent: "Africa", zone: "nord", fact: "grande paese del Maghreb", x: 548, y: 404 },
+  { country: "Tunisia", capital: "Tunisi", continent: "Africa", zone: "nord", fact: "vicina alla Sicilia", x: 594, y: 386 },
+  { country: "Nigeria", capital: "Abuja", continent: "Africa", zone: "ovest", fact: "paese popoloso dell'Africa occidentale", x: 570, y: 480 },
+  { country: "Ghana", capital: "Accra", continent: "Africa", zone: "ovest", fact: "sul Golfo di Guinea", x: 540, y: 486 },
+  { country: "Senegal", capital: "Dakar", continent: "Africa", zone: "ovest", fact: "punta occidentale del continente africano", x: 486, y: 462 },
+  { country: "Etiopia", capital: "Addis Abeba", continent: "Africa", zone: "est", fact: "altopiani del Corno d'Africa", x: 706, y: 480 },
+  { country: "Kenya", capital: "Nairobi", continent: "Africa", zone: "est", fact: "attraversato dall'Equatore", x: 704, y: 520 },
+  { country: "Tanzania", capital: "Dodoma", continent: "Africa", zone: "est", fact: "area dei grandi laghi africani", x: 692, y: 548 },
+  { country: "Cina", capital: "Pechino", continent: "Asia", zone: "est", fact: "grande paese dell'Asia orientale", x: 900, y: 322 },
+  { country: "Giappone", capital: "Tokyo", continent: "Asia", zone: "est", fact: "arcipelago del Pacifico", x: 1012, y: 340 },
+  { country: "Corea del Sud", capital: "Seul", continent: "Asia", zone: "est", fact: "penisola coreana meridionale", x: 966, y: 330 },
+  { country: "India", capital: "Nuova Delhi", continent: "Asia", zone: "sud", fact: "subcontinente dell'Asia meridionale", x: 814, y: 408 },
+  { country: "Indonesia", capital: "Giacarta", continent: "Asia", zone: "sud", fact: "arcipelago tra oceano Indiano e Pacifico", x: 912, y: 520 },
+  { country: "Thailandia", capital: "Bangkok", continent: "Asia", zone: "sud", fact: "Sud-est asiatico continentale", x: 884, y: 438 },
+  { country: "Vietnam", capital: "Hanoi", continent: "Asia", zone: "sud", fact: "costa lunga sul Mar Cinese Meridionale", x: 914, y: 426 },
+  { country: "Filippine", capital: "Manila", continent: "Asia", zone: "sud", fact: "arcipelago del Pacifico occidentale", x: 966, y: 434 },
+  { country: "Arabia Saudita", capital: "Riad", continent: "Asia", zone: "ovest", fact: "penisola arabica", x: 730, y: 414 },
+  { country: "Emirati Arabi Uniti", capital: "Abu Dhabi", continent: "Asia", zone: "ovest", fact: "costa del Golfo Persico", x: 762, y: 420 },
+  { country: "Iran", capital: "Teheran", continent: "Asia", zone: "ovest", fact: "altopiano tra Medio Oriente e Asia centrale", x: 746, y: 374 },
+  { country: "Canada", capital: "Ottawa", continent: "America del Nord", zone: "nord", fact: "grande paese del Nord America", x: 270, y: 228 },
+  { country: "Stati Uniti", capital: "Washington, D.C.", continent: "America del Nord", zone: "centro", fact: "tra Atlantico e Pacifico", x: 290, y: 316 },
+  { country: "Messico", capital: "Citta del Messico", continent: "America del Nord", zone: "sud", fact: "tra Stati Uniti e America centrale", x: 246, y: 392 },
+  { country: "Cuba", capital: "L'Avana", continent: "America del Nord", zone: "sud", fact: "isola dei Caraibi", x: 336, y: 404 },
+  { country: "Brasile", capital: "Brasilia", continent: "America del Sud", zone: "est", fact: "il piu grande paese sudamericano", x: 430, y: 530 },
+  { country: "Argentina", capital: "Buenos Aires", continent: "America del Sud", zone: "sud", fact: "verso il cono sud", x: 394, y: 616 },
+  { country: "Cile", capital: "Santiago", continent: "America del Sud", zone: "sud", fact: "striscia lunga lungo le Ande", x: 350, y: 610 },
+  { country: "Peru", capital: "Lima", continent: "America del Sud", zone: "ovest", fact: "Ande e costa pacifica", x: 346, y: 512 },
+  { country: "Colombia", capital: "Bogota", continent: "America del Sud", zone: "nord", fact: "porta nord-occidentale del Sud America", x: 356, y: 460 },
+  { country: "Venezuela", capital: "Caracas", continent: "America del Sud", zone: "nord", fact: "costa caraibica sudamericana", x: 390, y: 448 },
+  { country: "Australia", capital: "Canberra", continent: "Oceania", zone: "sud", fact: "grande isola-continente", x: 1014, y: 606 },
+  { country: "Nuova Zelanda", capital: "Wellington", continent: "Oceania", zone: "sud", fact: "arcipelago a sud-est dell'Australia", x: 1120, y: 640 },
+  { country: "Figi", capital: "Suva", continent: "Oceania", zone: "est", fact: "arcipelago del Pacifico meridionale", x: 1126, y: 552 },
+  { country: "Papua Nuova Guinea", capital: "Port Moresby", continent: "Oceania", zone: "nord", fact: "a nord dell'Australia", x: 1018, y: 510 },
+];
+const PHYSICAL_KINDS: PhysicalKind[] = ["fiume", "lago", "montagna", "catena montuosa", "deserto", "mare", "stretto"];
+const PHYSICAL_FEATURES: PhysicalFeature[] = [
+  { name: "Alpi", kind: "catena montuosa", continent: "Europa", region: "centro", clue: "arco montuoso tra Italia, Francia, Svizzera e Austria", x: 588, y: 292 },
+  { name: "Appennini", kind: "catena montuosa", continent: "Europa", region: "sud", clue: "dorsale che attraversa la penisola italiana", x: 602, y: 316 },
+  { name: "Danubio", kind: "fiume", continent: "Europa", region: "centro", clue: "grande fiume europeo che scorre verso il Mar Nero", x: 632, y: 296 },
+  { name: "Reno", kind: "fiume", continent: "Europa", region: "centro", clue: "fiume dell'Europa occidentale collegato al Mare del Nord", x: 574, y: 272 },
+  { name: "Mar Mediterraneo", kind: "mare", continent: "Europa", region: "sud", clue: "mare tra Europa meridionale, Africa settentrionale e Asia occidentale", x: 594, y: 360 },
+  { name: "Mar Baltico", kind: "mare", continent: "Europa", region: "nord", clue: "mare interno del Nord Europa", x: 642, y: 222 },
+  { name: "Stretto di Gibilterra", kind: "stretto", continent: "Europa", region: "sud", clue: "passaggio tra Atlantico e Mediterraneo", x: 500, y: 352 },
+  { name: "Sahara", kind: "deserto", continent: "Africa", region: "nord", clue: "il piu grande deserto caldo del mondo", x: 560, y: 414 },
+  { name: "Nilo", kind: "fiume", continent: "Africa", region: "nord", clue: "grande fiume africano legato all'Egitto", x: 672, y: 430 },
+  { name: "Lago Vittoria", kind: "lago", continent: "Africa", region: "est", clue: "grande lago dell'Africa orientale vicino all'Equatore", x: 704, y: 522 },
+  { name: "Kilimangiaro", kind: "montagna", continent: "Africa", region: "est", clue: "alto vulcano isolato dell'Africa orientale", x: 710, y: 544 },
+  { name: "Congo", kind: "fiume", continent: "Africa", region: "centro", clue: "fiume dell'Africa equatoriale con enorme bacino", x: 612, y: 520 },
+  { name: "Atlante", kind: "catena montuosa", continent: "Africa", region: "nord", clue: "rilievo del Maghreb tra Marocco, Algeria e Tunisia", x: 528, y: 390 },
+  { name: "Mar Rosso", kind: "mare", continent: "Africa", region: "est", clue: "mare stretto tra Africa nord-orientale e penisola arabica", x: 702, y: 414 },
+  { name: "Himalaya", kind: "catena montuosa", continent: "Asia", region: "sud", clue: "catena con le cime piu alte del pianeta", x: 828, y: 382 },
+  { name: "Everest", kind: "montagna", continent: "Asia", region: "sud", clue: "la vetta piu alta del mondo", x: 842, y: 386 },
+  { name: "Gange", kind: "fiume", continent: "Asia", region: "sud", clue: "fiume sacro e densamente popolato dell'India settentrionale", x: 830, y: 414 },
+  { name: "Lago Baikal", kind: "lago", continent: "Asia", region: "nord", clue: "profondissimo lago della Siberia", x: 900, y: 286 },
+  { name: "Deserto del Gobi", kind: "deserto", continent: "Asia", region: "est", clue: "deserto freddo tra Mongolia e Cina", x: 890, y: 330 },
+  { name: "Mar Caspio", kind: "mare", continent: "Asia", region: "ovest", clue: "grande bacino chiuso tra Europa orientale e Asia occidentale", x: 734, y: 342 },
+  { name: "Stretto di Malacca", kind: "stretto", continent: "Asia", region: "sud", clue: "passaggio marittimo tra penisola malese e Sumatra", x: 900, y: 486 },
+  { name: "Montagne Rocciose", kind: "catena montuosa", continent: "America del Nord", region: "ovest", clue: "grande dorsale dell'America nord-occidentale", x: 240, y: 300 },
+  { name: "Mississippi", kind: "fiume", continent: "America del Nord", region: "centro", clue: "fiume principale degli Stati Uniti centrali", x: 304, y: 338 },
+  { name: "Grandi Laghi", kind: "lago", continent: "America del Nord", region: "nord", clue: "sistema di grandi laghi tra Canada e Stati Uniti", x: 322, y: 270 },
+  { name: "Golfo del Messico", kind: "mare", continent: "America del Nord", region: "sud", clue: "bacino marino tra Stati Uniti, Messico e Cuba", x: 300, y: 392 },
+  { name: "Stretto di Bering", kind: "stretto", continent: "America del Nord", region: "nord", clue: "passaggio tra Alaska e Siberia", x: 210, y: 190 },
+  { name: "Ande", kind: "catena montuosa", continent: "America del Sud", region: "ovest", clue: "lunga catena montuosa lungo il Pacifico sudamericano", x: 350, y: 560 },
+  { name: "Rio delle Amazzoni", kind: "fiume", continent: "America del Sud", region: "nord", clue: "fiume immenso della foresta equatoriale sudamericana", x: 402, y: 500 },
+  { name: "Lago Titicaca", kind: "lago", continent: "America del Sud", region: "ovest", clue: "alto lago andino tra Peru e Bolivia", x: 350, y: 536 },
+  { name: "Deserto di Atacama", kind: "deserto", continent: "America del Sud", region: "ovest", clue: "deserto costiero molto arido del Cile settentrionale", x: 338, y: 588 },
+  { name: "Rio de la Plata", kind: "fiume", continent: "America del Sud", region: "sud", clue: "grande estuario tra Argentina e Uruguay", x: 396, y: 612 },
+  { name: "Grande Catena Divisoria", kind: "catena montuosa", continent: "Oceania", region: "est", clue: "rilievo lungo l'Australia orientale", x: 1042, y: 604 },
+  { name: "Deserto Victoria", kind: "deserto", continent: "Oceania", region: "sud", clue: "grande deserto dell'Australia meridionale", x: 1004, y: 592 },
+  { name: "Lago Eyre", kind: "lago", continent: "Oceania", region: "sud", clue: "bacino lacustre interno dell'Australia", x: 1014, y: 580 },
+  { name: "Mar dei Coralli", kind: "mare", continent: "Oceania", region: "est", clue: "mare tropicale a nord-est dell'Australia", x: 1060, y: 546 },
+  { name: "Stretto di Cook", kind: "stretto", continent: "Oceania", region: "sud", clue: "passaggio tra le due isole principali della Nuova Zelanda", x: 1120, y: 638 },
+];
 
 /**
  * "Palestra della Mente" — a transversal logic & memory gym with four distinct,
@@ -70,6 +190,11 @@ export class LogicGymScene extends Phaser.Scene {
   private tracked: Phaser.GameObjects.GameObject[] = [];
   private currentRestart: (() => void) | null = null;
   private gymLevel = 1;
+  private bonusMode = false;
+  private bonusActivity?: LogicGymBonusActivityKey;
+  private bonusId = "";
+  private bonusReturnScene = "ProceduralMissionScene";
+  private bonusRoundOverride?: number;
 
   // Tabelline
   private tablesRound = 0;
@@ -98,6 +223,34 @@ export class LogicGymScene extends Phaser.Scene {
   private mentalTimerEvent?: Phaser.Time.TimerEvent;
   private mentalStatus?: Phaser.GameObjects.Text;
   private mentalTimeText?: Phaser.GameObjects.Text;
+
+  // Geografia capitali/continenti
+  private geoRound = 0;
+  private geoCorrect = 0;
+  private geoCombo = 0;
+  private geoBestCombo = 0;
+  private geoTimeBonus = 0;
+  private geoTotal = 10;
+  private geoLocked = false;
+  private geoStartedAt = 0;
+  private geoTimeLimitMs = 10_000;
+  private geoTimerEvent?: Phaser.Time.TimerEvent;
+  private geoStatus?: Phaser.GameObjects.Text;
+  private geoTimeText?: Phaser.GameObjects.Text;
+
+  // Geografia fisica
+  private physRound = 0;
+  private physCorrect = 0;
+  private physCombo = 0;
+  private physBestCombo = 0;
+  private physTimeBonus = 0;
+  private physTotal = 10;
+  private physLocked = false;
+  private physStartedAt = 0;
+  private physTimeLimitMs = 10_000;
+  private physTimerEvent?: Phaser.Time.TimerEvent;
+  private physStatus?: Phaser.GameObjects.Text;
+  private physTimeText?: Phaser.GameObjects.Text;
 
   // Sequenza Luminosa
   private simonPads: Phaser.GameObjects.Rectangle[] = [];
@@ -163,6 +316,19 @@ export class LogicGymScene extends Phaser.Scene {
     super("LogicGymScene");
   }
 
+  init(data?: LogicGymSceneData): void {
+    this.bonusMode = data?.mode === "missionBonus" && this.isMissionBonusActivity(data.activityKey);
+    this.bonusActivity = this.bonusMode ? data?.activityKey : undefined;
+    this.bonusId = data?.bonusId ?? `bonus-${Date.now()}`;
+    this.bonusReturnScene = data?.returnScene ?? "ProceduralMissionScene";
+    this.bonusRoundOverride = this.bonusMode && data?.rounds
+      ? Phaser.Math.Clamp(Math.round(data.rounds), 3, 8)
+      : undefined;
+    if (this.bonusMode && data?.level) {
+      this.gymLevel = Phaser.Math.Clamp(Math.round(data.level), GYM_MIN_LEVEL, GYM_MAX_LEVEL);
+    }
+  }
+
   preload(): void {
     queueSceneAssets(this, "academy", "logicGym");
   }
@@ -170,17 +336,69 @@ export class LogicGymScene extends Phaser.Scene {
   create(): void {
     playerSystem.load();
     saveSystem.load();
-    this.gymLevel = Phaser.Math.Clamp(saveSystem.data.logicGym?.level ?? 1, GYM_MIN_LEVEL, GYM_MAX_LEVEL);
+    if (!this.bonusMode) {
+      this.gymLevel = Phaser.Math.Clamp(saveSystem.data.logicGym?.level ?? 1, GYM_MIN_LEVEL, GYM_MAX_LEVEL);
+    }
     this.cameras.main.setBackgroundColor("#071018");
     VisualKit.background(this, "academy");
     VisualKit.vignette(this);
+    if (this.bonusMode) {
+      this.startMissionBonusActivity();
+      return;
+    }
     this.showHub();
+  }
+
+  private isMissionBonusActivity(key: unknown): key is LogicGymBonusActivityKey {
+    return key === "tables" || key === "mental" || key === "geo" || key === "geoPhysical";
+  }
+
+  private startMissionBonusActivity(): void {
+    const activity = this.activities().find((item) => item.key === this.bonusActivity);
+    if (!activity || !this.isMissionBonusActivity(activity.key)) {
+      this.returnFromMissionBonus({
+        id: this.bonusId,
+        activityKey: "mental",
+        label: "Frattura energetica",
+        level: this.gymLevel,
+        rounds: 0,
+        correct: 0,
+        score: 0,
+        accuracy: 0,
+        passed: false,
+        perfect: false,
+        energyAward: 0,
+        timeAwardMs: 0,
+        summary: "Evento bonus non disponibile.",
+      });
+      return;
+    }
+    this.t(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.3));
+    this.t(this.add.text(640, 292, "Frattura energetica", {
+      fontFamily: "Inter, Arial",
+      fontSize: "30px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    this.t(this.add.text(640, 334, `${activity.title} · ${this.bonusRoundTotal(5)} round rapidi`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    this.time.delayedCall(520, () => activity.start());
+  }
+
+  private bonusRoundTotal(defaultTotal: number): number {
+    return this.bonusMode ? (this.bonusRoundOverride ?? Math.min(defaultTotal, 5)) : defaultTotal;
   }
 
   private activities(): ActivityMeta[] {
     return [
       { key: "tables", title: "Tabelline Reactor", glyph: "x", theme: "Matematica rapida", color: 0xf6c85f, desc: "Ricarica il reattore con prodotti, fattori mancanti e operazioni inverse. Combo alta = punteggio alto.", start: () => this.startTables() },
       { key: "mental", title: "Calcolo Mentale", glyph: "+-", theme: "Aritmetica sprint", color: 0x5ec8ff, desc: "Risolvi somme, differenze, catene, doppi, meta e percentuali con strategie rapide. Il tempo pesa.", start: () => this.startMental() },
+      { key: "geo", title: "Geo Atlante", glyph: "◎", theme: "Capitali e continenti", color: 0x70d68a, desc: "Segui rotte, capitali e continenti. Ogni risposta precisa accende un nuovo pin sulla mappa.", start: () => this.startGeo() },
+      { key: "geoPhysical", title: "Geo Rilievi", glyph: "△", theme: "Geografia fisica", color: 0x9f8cff, desc: "Riconosci fiumi, laghi, montagne, deserti, mari e stretti. La mappa mostra forma, zona e traccia.", start: () => this.startPhysical() },
       { key: "simon", title: "Sequenza Luminosa", glyph: "🧠", theme: "Memoria", color: 0x6be7d6, desc: "Guarda la sequenza di luci e ripetila. Si allunga a ogni turno!", start: () => this.startSimon() },
       { key: "memory", title: "Memory delle Coppie", glyph: "🃏", theme: "Memoria", color: 0xff9ad2, desc: "Trova le coppie equivalenti (1/2 = 0,5, dog = cane…) con meno mosse possibili.", start: () => this.startMemory() },
       { key: "code", title: "Codice Segreto", glyph: "🔐", theme: "Logica", color: 0xf6c85f, desc: "Indovina il codice nascosto deducendolo dagli indizi. Stile Mastermind.", start: () => this.startCode() },
@@ -220,6 +438,14 @@ export class LogicGymScene extends Phaser.Scene {
     this.mentalTimerEvent = undefined;
     this.mentalStatus = undefined;
     this.mentalTimeText = undefined;
+    this.geoTimerEvent?.remove(false);
+    this.geoTimerEvent = undefined;
+    this.geoStatus = undefined;
+    this.geoTimeText = undefined;
+    this.physTimerEvent?.remove(false);
+    this.physTimerEvent = undefined;
+    this.physStatus = undefined;
+    this.physTimeText = undefined;
     this.firewallRoundObjects = [];
     this.tracked.forEach((object) => object.destroy());
     this.tracked = [];
@@ -270,10 +496,10 @@ export class LogicGymScene extends Phaser.Scene {
     this.t(new Button(this, 1138, 54, "+", () => this.setGymLevel(1), { width: 42, height: 38, fontSize: 22, fill: 0x263743 }));
     placeHiddenAnomaly(this, "LogicGymScene");
 
-    const cols = 3;
-    const w = 386;
-    const h = 168;
-    const gap = 14;
+    const cols = 4;
+    const w = 288;
+    const h = 172;
+    const gap = 10;
     const startX = 40;
     const startY = 110;
     this.activities().forEach((activity, index) => {
@@ -283,10 +509,10 @@ export class LogicGymScene extends Phaser.Scene {
       this.t(this.add.rectangle(x, y, w, 5, activity.color, 0.9).setOrigin(0));
       this.t(this.add.text(x + 18, y + 14, `${activity.glyph}  ${activity.title}`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 36 } }));
       this.t(this.add.text(x + 20, y + 42, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "11px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
-      this.t(this.add.text(x + 20, y + 62, activity.desc, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#c7dce7", wordWrap: { width: w - 40 }, lineSpacing: 2 }));
-      this.t(this.add.text(x + 20, y + 106, this.activityLevelLine(activity.key), { fontFamily: "Inter, Arial", fontSize: "10px", color: "#9ff5e9", wordWrap: { width: w - 158 } }));
-      this.t(this.add.text(x + 20, y + 130, `Record profondità ${this.gymLevel}: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a" }));
-      this.t(new Button(this, x + w - 72, y + 136, "Gioca", () => activity.start(), { width: 112, height: 38, fill: 0x1f5a51, stroke: activity.color, fontSize: 14 }));
+      this.t(this.add.text(x + 20, y + 60, activity.desc, { fontFamily: "Inter, Arial", fontSize: "10px", color: "#c7dce7", wordWrap: { width: w - 40, useAdvancedWrap: true }, lineSpacing: 1 }));
+      this.t(this.add.text(x + 20, y + 110, this.activityLevelLine(activity.key), { fontFamily: "Inter, Arial", fontSize: "9px", color: "#9ff5e9", wordWrap: { width: w - 40, useAdvancedWrap: true } }));
+      this.t(this.add.text(x + 20, y + 142, `Record: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", fontStyle: "bold" }));
+      this.t(new Button(this, x + w - 62, y + 146, "Gioca", () => activity.start(), { width: 100, height: 34, fill: 0x1f5a51, stroke: activity.color, fontSize: 13 }));
     });
 
     this.t(new Button(this, 132, 686, "Menu", () => this.scene.start("MainMenuScene"), { width: 170, height: 44, fill: 0x263743 }));
@@ -294,14 +520,22 @@ export class LogicGymScene extends Phaser.Scene {
 
   private backBar(restart: () => void): void {
     this.currentRestart = restart;
-    this.t(this.add.text(640, 686, `Profondità ${this.gymLevel}/8 · ${this.levelSubtitle()}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
-    this.t(new Button(this, 132, 686, "Palestra", () => this.showHub(), { width: 170, height: 44, fill: 0x263743 }));
+    this.t(this.add.text(640, 686, `${this.bonusMode ? "Evento bonus" : `Profondità ${this.gymLevel}/8`} · ${this.levelSubtitle()}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(new Button(this, 132, 686, this.bonusMode ? "Missione" : "Palestra", () => {
+      if (this.bonusMode) {
+        this.abortMissionBonus();
+        return;
+      }
+      this.showHub();
+    }, { width: 170, height: 44, fill: 0x263743 }));
   }
 
   private activityLevelLine(key: GymActivityKey): string {
     switch (key) {
       case "tables": return `${this.tablesTotalForLevel()} round · fattori fino a ${this.tablesMaxFactor()} · ${this.gymLevel >= 5 ? "inverse e trucchi" : "prodotti rapidi"}`;
       case "mental": return `${this.mentalTotalForLevel()} round · numeri fino a ${this.mentalNumberCap()} · ${this.gymLevel >= 5 ? "percentuali e catene" : "strategie base"}`;
+      case "geo": return `${this.geoTotalForLevel()} round · ${this.geoPoolForLevel().length} mete · ${this.gymLevel >= 5 ? "capitali inverse" : "continenti e capitali"}`;
+      case "geoPhysical": return `${this.physicalTotalForLevel()} round · ${this.physicalPoolForLevel().length} elementi · ${this.gymLevel >= 5 ? "indizi e posizione" : "tipo e continente"}`;
       case "simon": return `${this.simonPadCount()} luci · ritmo ${this.gymLevel >= 6 ? "rapido" : "guidato"}`;
       case "memory": return `${this.memoryPairCount()} coppie · ${this.gymLevel >= 5 ? "associazioni miste" : "associazioni base"}`;
       case "code": return `${this.codeLengthForLevel()} simboli · ${this.codeMaxForLevel()} tentativi`;
@@ -394,7 +628,7 @@ export class LogicGymScene extends Phaser.Scene {
     this.tablesCombo = 0;
     this.tablesBestCombo = 0;
     this.tablesTimeBonus = 0;
-    this.tablesTotal = this.tablesTotalForLevel();
+    this.tablesTotal = this.bonusRoundTotal(this.tablesTotalForLevel());
     audioManager.playContext("math");
     this.nextTablesRound();
   }
@@ -709,7 +943,7 @@ export class LogicGymScene extends Phaser.Scene {
     this.mentalCombo = 0;
     this.mentalBestCombo = 0;
     this.mentalTimeBonus = 0;
-    this.mentalTotal = this.mentalTotalForLevel();
+    this.mentalTotal = this.bonusRoundTotal(this.mentalTotalForLevel());
     audioManager.playContext("math");
     this.nextMentalRound();
   }
@@ -1062,6 +1296,735 @@ export class LogicGymScene extends Phaser.Scene {
 
   private mentalTimeLimitForLevel(): number {
     return Math.max(7_000, 16_500 - this.gymLevel * 980);
+  }
+
+  // -- Geo Atlante (capitals, countries, continents) ---------------------
+
+  private startGeo(): void {
+    this.geoRound = 0;
+    this.geoCorrect = 0;
+    this.geoCombo = 0;
+    this.geoBestCombo = 0;
+    this.geoTimeBonus = 0;
+    this.geoTotal = this.bonusRoundTotal(this.geoTotalForLevel());
+    audioManager.play("scan");
+    this.nextGeoRound();
+  }
+
+  private nextGeoRound(): void {
+    this.clearScreen();
+    if (this.geoRound >= this.geoTotal) {
+      const accuracy = Math.round((this.geoCorrect / Math.max(1, this.geoTotal)) * 100);
+      const score = accuracy + this.geoBestCombo * 8 + this.geoTimeBonus + this.gymLevel * 4;
+      const award = Math.min(24, 5 + this.geoCorrect + Math.floor(this.geoBestCombo / 2) + Math.floor(this.gymLevel / 2));
+      const summary = `Rotta completata: ${this.geoCorrect}/${this.geoTotal} corrette, precisione ${accuracy}%, combo migliore x${this.geoBestCombo}, bonus tempo +${this.geoTimeBonus}.`;
+      this.finishActivity("geo", "Geo Atlante", score, ["geografia.orientamento", "geografia.scale", "pensieroCritico"], award, summary);
+      return;
+    }
+
+    const challenge = this.generateGeoChallenge(new Random(`geo-${Date.now()}-${this.gymLevel}-${this.geoRound}`));
+    this.geoLocked = false;
+    this.geoStartedAt = this.time.now;
+    this.geoTimeLimitMs = this.geoTimeLimitForLevel();
+
+    this.drawGeoBackdrop(challenge);
+    this.t(this.add.text(56, 28, `Geo Atlante · Profondità ${this.gymLevel}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "28px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    this.t(this.add.text(58, 70, "Leggi la rotta: continente, posizione e capitale si confermano a vicenda. Non premere prima di aver orientato il pin.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      wordWrap: { width: 780 },
+    }));
+    this.geoStatus = this.t(this.add.text(1010, 40, `Round ${this.geoRound + 1}/${this.geoTotal} · Combo x${this.geoCombo}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      align: "right",
+    }).setOrigin(0.5));
+    this.geoTimeText = this.t(this.add.text(1010, 66, "", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      align: "right",
+    }).setOrigin(0.5));
+
+    this.t(this.add.rectangle(1010, 188, 384, 174, 0x07151d, 0.94).setStrokeStyle(2, 0x70d68a, 0.62));
+    this.t(this.add.text(1010, 138, this.geoModeLabel(challenge.mode), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    this.t(this.add.text(1010, 190, challenge.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 330, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }).setOrigin(0.5));
+    this.t(this.add.text(1010, 260, challenge.focus, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      align: "center",
+      wordWrap: { width: 330, useAdvancedWrap: true },
+    }).setOrigin(0.5));
+
+    const optionW = 182;
+    const optionH = 68;
+    challenge.options.forEach((option, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      const x = 912 + col * 198;
+      const y = 356 + row * 88;
+      this.t(new Button(this, x, y, option, () => this.answerGeo(challenge, option), {
+        width: optionW,
+        height: optionH,
+        fontSize: option.length > 16 ? 15 : 18,
+        wordWrapWidth: optionW - 20,
+        fill: 0x16362f,
+        stroke: 0x70d68a,
+        soundKey: "scan",
+      }));
+    });
+
+    const timerBg = this.t(this.add.rectangle(300, 620, 680, 14, 0x0a1a24, 1).setOrigin(0).setStrokeStyle(1, 0x244451, 0.8));
+    const timerFill = this.t(this.add.rectangle(300, 620, 680, 14, 0x70d68a, 0.92).setOrigin(0));
+    const updateTimer = (): void => {
+      if (this.geoLocked) return;
+      const elapsed = this.time.now - this.geoStartedAt;
+      const remaining = Math.max(0, this.geoTimeLimitMs - elapsed);
+      const ratio = remaining / this.geoTimeLimitMs;
+      timerFill.displayWidth = Math.max(0, 680 * ratio);
+      timerFill.setFillStyle(ratio < 0.28 ? 0xff5d7a : ratio < 0.55 ? 0xf6c85f : 0x70d68a, 0.92);
+      this.geoTimeText?.setText(`Tempo ${Math.ceil(remaining / 1000)}s · ${challenge.item.continent}`);
+      if (remaining <= 0) {
+        this.answerGeo(challenge, "");
+      }
+    };
+    updateTimer();
+    this.geoTimerEvent = this.time.addEvent({ delay: 100, loop: true, callback: updateTimer });
+    this.backBar(() => this.startGeo());
+    timerBg.setDepth(timerBg.depth + 1);
+    timerFill.setDepth(timerFill.depth + 1);
+  }
+
+  private answerGeo(challenge: GeoChallenge, choice: string): void {
+    if (this.geoLocked) return;
+    this.geoLocked = true;
+    this.geoTimerEvent?.remove(false);
+    this.geoTimerEvent = undefined;
+    const correct = choice === challenge.answer;
+    const remaining = Math.max(0, this.geoTimeLimitMs - (this.time.now - this.geoStartedAt));
+    if (correct) {
+      this.geoCorrect += 1;
+      this.geoCombo += 1;
+      this.geoBestCombo = Math.max(this.geoBestCombo, this.geoCombo);
+      this.geoTimeBonus += Math.ceil(remaining / 1000);
+      audioManager.play(this.geoCombo > 0 && this.geoCombo % 3 === 0 ? "circuitOn" : "success");
+      audioManager.playToneSequence([
+        { frequency: 460 + this.geoCombo * 16, durationMs: 80 },
+        { frequency: 620 + this.geoCombo * 18, durationMs: 90 },
+      ]);
+    } else {
+      this.geoCombo = 0;
+      audioManager.play("error");
+    }
+
+    const tone = correct ? 0x70d68a : 0xff5d7a;
+    this.t(this.add.rectangle(640, 620, 930, 90, 0x07151d, 0.97).setStrokeStyle(2, tone, 0.78));
+    this.t(this.add.text(640, 602, correct
+      ? `Pin agganciato. ${challenge.explanation}`
+      : choice === ""
+        ? `Tempo scaduto. ${challenge.explanation}`
+        : `Rotta sbagliata: ${choice}. ${challenge.explanation}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: correct ? "#9ff5c0" : "#ffd0da",
+      align: "center",
+      wordWrap: { width: 880, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }).setOrigin(0.5));
+    this.t(this.add.text(640, 646, `Risposta: ${challenge.answer} · Combo x${this.geoCombo} · Corrette ${this.geoCorrect}/${this.geoRound + 1}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+    }).setOrigin(0.5));
+    this.time.delayedCall(correct ? 820 : 1500, () => {
+      this.geoRound += 1;
+      this.nextGeoRound();
+    });
+  }
+
+  private generateGeoChallenge(random: Random): GeoChallenge {
+    const pool = this.geoPoolForLevel();
+    const item = random.pick(pool);
+    const modes: GeoChallengeMode[] = this.gymLevel <= 2
+      ? ["continent", "continent", "capital"]
+      : this.gymLevel <= 4
+        ? ["continent", "capital", "capital", "country"]
+        : this.gymLevel <= 6
+          ? ["capital", "country", "region", "continent"]
+          : ["capital", "country", "country", "region", "region"];
+    const mode = random.pick(modes);
+
+    if (mode === "continent") {
+      return {
+        mode,
+        item,
+        prompt: `In quale continente si trova ${item.country}?`,
+        answer: item.continent,
+        options: this.geoOptions(item.continent, GEO_CONTINENTS, random, 4),
+        explanation: `${item.country} e in ${item.continent}; capitale: ${item.capital}. Indizio: ${item.fact}.`,
+        focus: `Paese: ${item.country} · capitale: ${item.capital}`,
+      };
+    }
+
+    if (mode === "country") {
+      return {
+        mode,
+        item,
+        prompt: `${item.capital} e la capitale di quale paese?`,
+        answer: item.country,
+        options: this.geoOptions(item.country, pool.filter((other) => other.continent === item.continent).map((other) => other.country), random, 4),
+        explanation: `${item.capital} e la capitale di ${item.country}, in ${item.continent}.`,
+        focus: `${item.continent} · area ${item.zone}`,
+      };
+    }
+
+    if (mode === "region") {
+      const sameContinent = pool.filter((other) => other.continent === item.continent);
+      return {
+        mode,
+        item,
+        prompt: `Quale paese corrisponde all'indizio: ${item.fact}?`,
+        answer: item.country,
+        options: this.geoOptions(item.country, sameContinent.map((other) => other.country), random, 4),
+        explanation: `L'indizio punta a ${item.country}; la capitale e ${item.capital} e il continente e ${item.continent}.`,
+        focus: `${item.continent} · capitale ${item.capital}`,
+      };
+    }
+
+    return {
+      mode,
+      item,
+      prompt: `Qual e la capitale di ${item.country}?`,
+      answer: item.capital,
+      options: this.geoOptions(item.capital, pool.filter((other) => other.continent === item.continent).map((other) => other.capital), random, 4),
+      explanation: `La capitale di ${item.country} e ${item.capital}. Si trova in ${item.continent}: ${item.fact}.`,
+      focus: `${item.continent} · area ${item.zone}`,
+    };
+  }
+
+  private geoOptions(answer: string, candidates: string[], random: Random, total: number): string[] {
+    const options = new Set<string>([answer]);
+    const local = random.shuffle(candidates.filter((candidate) => candidate !== answer));
+    local.forEach((candidate) => {
+      if (options.size < total) options.add(candidate);
+    });
+    const fallback = random.shuffle(GEO_ATLAS.flatMap((item) => [item.country, item.capital, item.continent]).filter((candidate) => candidate !== answer));
+    fallback.forEach((candidate) => {
+      if (options.size < total) options.add(candidate);
+    });
+    return random.shuffle([...options]).slice(0, total);
+  }
+
+  private drawGeoBackdrop(challenge: GeoChallenge): void {
+    this.t(this.add.rectangle(640, 360, 1280, 720, 0x061019, 0.34));
+    const frame = this.t(this.add.rectangle(432, 356, 760, 482, 0x07151d, 0.72).setStrokeStyle(2, 0x70d68a, 0.42));
+    frame.setOrigin(0.5);
+    const mapX = (value: number): number => 92 + (value - 180) * 700 / 980;
+    const mapY = (value: number): number => 138 + (value - 180) * 372 / 480;
+
+    const map = this.t(this.add.graphics());
+    map.fillStyle(0x123247, 0.78);
+    map.fillRoundedRect(72, 124, 720, 404, 18);
+    map.lineStyle(1, 0x9ff5e9, 0.12);
+    for (let x = 112; x <= 752; x += 80) map.lineBetween(x, 138, x, 512);
+    for (let y = 158; y <= 498; y += 56) map.lineBetween(86, y, 778, y);
+    map.lineStyle(2, 0x70d68a, 0.18);
+    map.strokeRoundedRect(72, 124, 720, 404, 18);
+
+    this.drawGeoLandmass(mapX(192), mapY(248), 136, 92, 0x2f7c62, "NORD AMERICA");
+    this.drawGeoLandmass(mapX(352), mapY(492), 94, 132, 0x2f7c62, "SUD AMERICA");
+    this.drawGeoLandmass(mapX(592), mapY(254), 110, 72, 0x3f8f6b, "EUROPA");
+    this.drawGeoLandmass(mapX(610), mapY(454), 116, 152, 0x9f8b45, "AFRICA");
+    this.drawGeoLandmass(mapX(852), mapY(338), 186, 126, 0x4f9a72, "ASIA");
+    this.drawGeoLandmass(mapX(1028), mapY(588), 112, 66, 0x8fae57, "OCEANIA");
+
+    const pinX = mapX(challenge.item.x);
+    const pinY = mapY(challenge.item.y);
+    const coast = this.t(this.add.graphics());
+    coast.lineStyle(3, 0xf6c85f, 0.62);
+    coast.lineBetween(432, 356, pinX, pinY);
+    coast.lineStyle(1, 0x9ff5e9, 0.7);
+    coast.lineBetween(432, 372, pinX, pinY + 10);
+
+    const pin = this.t(this.add.circle(pinX, pinY, 10, 0xf6c85f, 0.98).setStrokeStyle(3, 0xffffff, 0.85));
+    this.t(this.add.circle(pinX, pinY, 22, 0xf6c85f, 0.12).setStrokeStyle(2, 0xf6c85f, 0.38));
+    this.t(this.add.text(pinX, pinY - 32, challenge.item.country, {
+      fontFamily: "Inter, Arial",
+      fontSize: challenge.item.country.length > 14 ? "10px" : "12px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 110, useAdvancedWrap: true },
+      shadow: { offsetX: 0, offsetY: 2, color: "#000000", blur: 4, fill: true },
+    }).setOrigin(0.5));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: pin, scale: 1.26, duration: 560, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
+
+    this.t(this.add.text(118, 142, "Mappa tattica", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    this.t(this.add.text(118, 508, `Pin: ${challenge.item.capital} · ${challenge.item.continent}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+    }));
+  }
+
+  private drawGeoLandmass(x: number, y: number, w: number, h: number, color: number, label: string): void {
+    const land = this.t(this.add.ellipse(x, y, w, h, color, 0.34).setStrokeStyle(2, color, 0.45));
+    this.t(this.add.ellipse(x + w * 0.18, y + h * 0.08, w * 0.58, h * 0.64, color, 0.22).setStrokeStyle(1, 0x9ff5e9, 0.12));
+    this.t(this.add.text(x, y, label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#c7dce7",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: land, alpha: 0.24, duration: 1600, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
+  }
+
+  private geoModeLabel(mode: GeoChallengeMode): string {
+    switch (mode) {
+      case "continent": return "Orientamento continentale";
+      case "capital": return "Capitale da paese";
+      case "country": return "Paese da capitale";
+      case "region": return "Indizio geografico";
+    }
+  }
+
+  private geoTotalForLevel(): number {
+    return this.gymLevel >= 6 ? 12 : 10;
+  }
+
+  private geoPoolForLevel(): GeoItem[] {
+    if (this.gymLevel <= 1) return GEO_ATLAS.filter((item) => ["Europa", "America del Nord", "America del Sud"].includes(item.continent)).slice(0, 22);
+    if (this.gymLevel <= 2) return GEO_ATLAS.filter((item) => item.continent !== "Oceania").slice(0, 34);
+    if (this.gymLevel <= 4) return GEO_ATLAS.filter((item) => item.continent !== "Oceania");
+    return GEO_ATLAS;
+  }
+
+  private geoTimeLimitForLevel(): number {
+    return Math.max(8_000, 18_000 - this.gymLevel * 900);
+  }
+
+  // -- Geo Rilievi (physical geography basics) ---------------------------
+
+  private startPhysical(): void {
+    this.physRound = 0;
+    this.physCorrect = 0;
+    this.physCombo = 0;
+    this.physBestCombo = 0;
+    this.physTimeBonus = 0;
+    this.physTotal = this.bonusRoundTotal(this.physicalTotalForLevel());
+    audioManager.play("scan");
+    this.nextPhysicalRound();
+  }
+
+  private nextPhysicalRound(): void {
+    this.clearScreen();
+    if (this.physRound >= this.physTotal) {
+      const accuracy = Math.round((this.physCorrect / Math.max(1, this.physTotal)) * 100);
+      const score = accuracy + this.physBestCombo * 8 + this.physTimeBonus + this.gymLevel * 4;
+      const award = Math.min(24, 5 + this.physCorrect + Math.floor(this.physBestCombo / 2) + Math.floor(this.gymLevel / 2));
+      const summary = `Rilievi calibrati: ${this.physCorrect}/${this.physTotal} corretti, precisione ${accuracy}%, combo migliore x${this.physBestCombo}, bonus tempo +${this.physTimeBonus}.`;
+      this.finishActivity("geoPhysical", "Geo Rilievi", score, ["geografia.orientamento", "geografia.scale", "scienze.osservazione"], award, summary);
+      return;
+    }
+
+    const challenge = this.generatePhysicalChallenge(new Random(`phys-${Date.now()}-${this.gymLevel}-${this.physRound}`));
+    this.physLocked = false;
+    this.physStartedAt = this.time.now;
+    this.physTimeLimitMs = this.physicalTimeLimitForLevel();
+
+    this.drawPhysicalBackdrop(challenge);
+    this.t(this.add.text(56, 28, `Geo Rilievi · Profondità ${this.gymLevel}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "28px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    this.t(this.add.text(58, 70, "Osserva forma, colore e posizione: acqua, rilievi e deserti hanno tracce diverse sulla mappa.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      wordWrap: { width: 780 },
+    }));
+    this.physStatus = this.t(this.add.text(1010, 40, `Round ${this.physRound + 1}/${this.physTotal} · Combo x${this.physCombo}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+      align: "right",
+    }).setOrigin(0.5));
+    this.physTimeText = this.t(this.add.text(1010, 66, "", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      align: "right",
+    }).setOrigin(0.5));
+
+    this.t(this.add.rectangle(1010, 188, 384, 174, 0x07151d, 0.94).setStrokeStyle(2, 0x9f8cff, 0.62));
+    this.t(this.add.text(1010, 138, this.physicalModeLabel(challenge.mode), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#cfc7ff",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    this.t(this.add.text(1010, 190, challenge.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: challenge.prompt.length > 54 ? "21px" : "24px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 332, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }).setOrigin(0.5));
+    this.t(this.add.text(1010, 260, challenge.focus, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      align: "center",
+      wordWrap: { width: 330, useAdvancedWrap: true },
+    }).setOrigin(0.5));
+
+    const optionW = 182;
+    const optionH = 68;
+    challenge.options.forEach((option, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      const x = 912 + col * 198;
+      const y = 356 + row * 88;
+      this.t(new Button(this, x, y, option, () => this.answerPhysical(challenge, option), {
+        width: optionW,
+        height: optionH,
+        fontSize: option.length > 16 ? 15 : 18,
+        wordWrapWidth: optionW - 20,
+        fill: 0x231f3f,
+        stroke: 0x9f8cff,
+        soundKey: "scan",
+      }));
+    });
+
+    const timerBg = this.t(this.add.rectangle(300, 620, 680, 14, 0x0a1a24, 1).setOrigin(0).setStrokeStyle(1, 0x244451, 0.8));
+    const timerFill = this.t(this.add.rectangle(300, 620, 680, 14, 0x9f8cff, 0.92).setOrigin(0));
+    const updateTimer = (): void => {
+      if (this.physLocked) return;
+      const elapsed = this.time.now - this.physStartedAt;
+      const remaining = Math.max(0, this.physTimeLimitMs - elapsed);
+      const ratio = remaining / this.physTimeLimitMs;
+      timerFill.displayWidth = Math.max(0, 680 * ratio);
+      timerFill.setFillStyle(ratio < 0.28 ? 0xff5d7a : ratio < 0.55 ? 0xf6c85f : 0x9f8cff, 0.92);
+      this.physTimeText?.setText(`Tempo ${Math.ceil(remaining / 1000)}s · ${this.physicalKindLabel(challenge.feature.kind)}`);
+      if (remaining <= 0) {
+        this.answerPhysical(challenge, "");
+      }
+    };
+    updateTimer();
+    this.physTimerEvent = this.time.addEvent({ delay: 100, loop: true, callback: updateTimer });
+    this.backBar(() => this.startPhysical());
+    timerBg.setDepth(timerBg.depth + 1);
+    timerFill.setDepth(timerFill.depth + 1);
+  }
+
+  private answerPhysical(challenge: PhysicalChallenge, choice: string): void {
+    if (this.physLocked) return;
+    this.physLocked = true;
+    this.physTimerEvent?.remove(false);
+    this.physTimerEvent = undefined;
+    const correct = choice === challenge.answer;
+    const remaining = Math.max(0, this.physTimeLimitMs - (this.time.now - this.physStartedAt));
+    if (correct) {
+      this.physCorrect += 1;
+      this.physCombo += 1;
+      this.physBestCombo = Math.max(this.physBestCombo, this.physCombo);
+      this.physTimeBonus += Math.ceil(remaining / 1000);
+      audioManager.play(this.physCombo > 0 && this.physCombo % 3 === 0 ? "circuitOn" : "success");
+      audioManager.playToneSequence([
+        { frequency: 380 + this.physCombo * 18, durationMs: 80 },
+        { frequency: 560 + this.physCombo * 20, durationMs: 95 },
+      ]);
+    } else {
+      this.physCombo = 0;
+      audioManager.play("error");
+    }
+
+    const tone = correct ? 0x70d68a : 0xff5d7a;
+    this.t(this.add.rectangle(640, 620, 930, 90, 0x07151d, 0.97).setStrokeStyle(2, tone, 0.78));
+    this.t(this.add.text(640, 602, correct
+      ? `Traccia letta. ${challenge.explanation}`
+      : choice === ""
+        ? `Tempo scaduto. ${challenge.explanation}`
+        : `Traccia sbagliata: ${choice}. ${challenge.explanation}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "15px",
+      color: correct ? "#9ff5c0" : "#ffd0da",
+      align: "center",
+      wordWrap: { width: 880, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }).setOrigin(0.5));
+    this.t(this.add.text(640, 646, `Risposta: ${challenge.answer} · Combo x${this.physCombo} · Corrette ${this.physCorrect}/${this.physRound + 1}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+    }).setOrigin(0.5));
+    this.time.delayedCall(correct ? 820 : 1500, () => {
+      this.physRound += 1;
+      this.nextPhysicalRound();
+    });
+  }
+
+  private generatePhysicalChallenge(random: Random): PhysicalChallenge {
+    const pool = this.physicalPoolForLevel();
+    const feature = random.pick(pool);
+    const modes: PhysicalChallengeMode[] = this.gymLevel <= 2
+      ? ["kind", "kind", "continent"]
+      : this.gymLevel <= 4
+        ? ["kind", "continent", "name", "clue"]
+        : this.gymLevel <= 6
+          ? ["name", "clue", "continent", "kind"]
+          : ["name", "clue", "clue", "continent", "kind"];
+    const mode = random.pick(modes);
+
+    if (mode === "kind") {
+      return {
+        mode,
+        feature,
+        prompt: `Che elemento fisico e ${feature.name}?`,
+        answer: this.physicalKindLabel(feature.kind),
+        options: this.physicalOptions(this.physicalKindLabel(feature.kind), PHYSICAL_KINDS.map((kind) => this.physicalKindLabel(kind)), random, 4),
+        explanation: `${feature.name} e ${this.physicalKindArticle(feature.kind)} ${this.physicalKindLabel(feature.kind)} in ${feature.continent}. Indizio: ${feature.clue}.`,
+        focus: `${feature.continent} · area ${feature.region}`,
+      };
+    }
+
+    if (mode === "continent") {
+      return {
+        mode,
+        feature,
+        prompt: `In quale continente si trova ${feature.name}?`,
+        answer: feature.continent,
+        options: this.physicalOptions(feature.continent, GEO_CONTINENTS, random, 4),
+        explanation: `${feature.name} si trova in ${feature.continent}; e ${this.physicalKindArticle(feature.kind)} ${this.physicalKindLabel(feature.kind)}.`,
+        focus: `Tipo: ${this.physicalKindLabel(feature.kind)}`,
+      };
+    }
+
+    if (mode === "clue") {
+      const sameKind = pool.filter((item) => item.kind === feature.kind);
+      return {
+        mode,
+        feature,
+        prompt: `Quale elemento corrisponde all'indizio: ${feature.clue}?`,
+        answer: feature.name,
+        options: this.physicalOptions(feature.name, sameKind.map((item) => item.name), random, 4),
+        explanation: `L'indizio descrive ${feature.name}, ${this.physicalKindArticle(feature.kind)} ${this.physicalKindLabel(feature.kind)} in ${feature.continent}.`,
+        focus: `${this.physicalKindLabel(feature.kind)} · ${feature.continent}`,
+      };
+    }
+
+    return {
+      mode,
+      feature,
+      prompt: `Quale elemento fisico e ${this.physicalKindArticle(feature.kind)} ${this.physicalKindLabel(feature.kind)} in ${feature.continent}?`,
+      answer: feature.name,
+      options: this.physicalOptions(feature.name, pool.filter((item) => item.kind === feature.kind || item.continent === feature.continent).map((item) => item.name), random, 4),
+      explanation: `La traccia punta a ${feature.name}: ${feature.clue}.`,
+      focus: `${feature.continent} · area ${feature.region}`,
+    };
+  }
+
+  private physicalOptions(answer: string, candidates: string[], random: Random, total: number): string[] {
+    const options = new Set<string>([answer]);
+    const local = random.shuffle(candidates.filter((candidate) => candidate !== answer));
+    local.forEach((candidate) => {
+      if (options.size < total) options.add(candidate);
+    });
+    const fallback = random.shuffle(PHYSICAL_FEATURES.flatMap((item) => [item.name, item.continent, this.physicalKindLabel(item.kind)]).filter((candidate) => candidate !== answer));
+    fallback.forEach((candidate) => {
+      if (options.size < total) options.add(candidate);
+    });
+    return random.shuffle([...options]).slice(0, total);
+  }
+
+  private drawPhysicalBackdrop(challenge: PhysicalChallenge): void {
+    this.t(this.add.rectangle(640, 360, 1280, 720, 0x061019, 0.36));
+    const frame = this.t(this.add.rectangle(432, 356, 760, 482, 0x07151d, 0.74).setStrokeStyle(2, 0x9f8cff, 0.42));
+    frame.setOrigin(0.5);
+    const mapX = (value: number): number => 92 + (value - 180) * 700 / 980;
+    const mapY = (value: number): number => 138 + (value - 180) * 372 / 480;
+
+    const map = this.t(this.add.graphics());
+    map.fillStyle(0x11243a, 0.82);
+    map.fillRoundedRect(72, 124, 720, 404, 18);
+    map.lineStyle(1, 0x9ff5e9, 0.10);
+    for (let x = 112; x <= 752; x += 80) map.lineBetween(x, 138, x, 512);
+    for (let y = 158; y <= 498; y += 56) map.lineBetween(86, y, 778, y);
+    map.lineStyle(2, 0x9f8cff, 0.18);
+    map.strokeRoundedRect(72, 124, 720, 404, 18);
+
+    this.drawPhysicalZone(mapX(192), mapY(248), 136, 92, 0x2f7c62, "NORD AMERICA");
+    this.drawPhysicalZone(mapX(352), mapY(492), 94, 132, 0x2f7c62, "SUD AMERICA");
+    this.drawPhysicalZone(mapX(592), mapY(254), 110, 72, 0x3f8f6b, "EUROPA");
+    this.drawPhysicalZone(mapX(610), mapY(454), 116, 152, 0x9f8b45, "AFRICA");
+    this.drawPhysicalZone(mapX(852), mapY(338), 186, 126, 0x4f9a72, "ASIA");
+    this.drawPhysicalZone(mapX(1028), mapY(588), 112, 66, 0x8fae57, "OCEANIA");
+
+    const featureX = mapX(challenge.feature.x);
+    const featureY = mapY(challenge.feature.y);
+    const path = this.t(this.add.graphics());
+    path.lineStyle(3, this.physicalKindColor(challenge.feature.kind), 0.66);
+    path.lineBetween(432, 356, featureX, featureY);
+    path.lineStyle(1, 0xffffff, 0.38);
+    path.lineBetween(432, 372, featureX, featureY + 10);
+
+    this.drawPhysicalMarker(featureX, featureY, challenge.feature.kind);
+    this.t(this.add.text(featureX, featureY - 34, challenge.feature.name, {
+      fontFamily: "Inter, Arial",
+      fontSize: challenge.feature.name.length > 16 ? "10px" : "12px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 124, useAdvancedWrap: true },
+      shadow: { offsetX: 0, offsetY: 2, color: "#000000", blur: 4, fill: true },
+    }).setOrigin(0.5));
+
+    this.t(this.add.text(118, 142, "Carta fisica", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#cfc7ff",
+      fontStyle: "bold",
+    }));
+    this.t(this.add.text(118, 508, `Traccia: ${this.physicalKindLabel(challenge.feature.kind)} · ${challenge.feature.continent}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+    }));
+  }
+
+  private drawPhysicalZone(x: number, y: number, w: number, h: number, color: number, label: string): void {
+    const land = this.t(this.add.ellipse(x, y, w, h, color, 0.24).setStrokeStyle(2, color, 0.36));
+    this.t(this.add.ellipse(x + w * 0.18, y + h * 0.08, w * 0.58, h * 0.64, 0x9f8cff, 0.08).setStrokeStyle(1, 0x9ff5e9, 0.10));
+    this.t(this.add.text(x, y, label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#c7dce7",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: land, alpha: 0.18, duration: 1700, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
+  }
+
+  private drawPhysicalMarker(x: number, y: number, kind: PhysicalKind): void {
+    const color = this.physicalKindColor(kind);
+    if (kind === "fiume") {
+      const river = this.t(this.add.graphics());
+      river.lineStyle(5, color, 0.9);
+      river.beginPath();
+      river.moveTo(x - 32, y + 12);
+      river.lineTo(x - 12, y - 6);
+      river.lineTo(x + 8, y + 8);
+      river.lineTo(x + 30, y - 12);
+      river.strokePath();
+    } else if (kind === "lago" || kind === "mare") {
+      this.t(this.add.ellipse(x, y, kind === "mare" ? 58 : 42, kind === "mare" ? 28 : 26, color, 0.68).setStrokeStyle(3, 0xffffff, 0.48));
+    } else if (kind === "montagna" || kind === "catena montuosa") {
+      const peaks = this.t(this.add.graphics());
+      peaks.fillStyle(color, 0.86);
+      peaks.lineStyle(2, 0xffffff, 0.52);
+      peaks.fillTriangle(x - 28, y + 20, x, y - 24, x + 28, y + 20);
+      peaks.strokeTriangle(x - 28, y + 20, x, y - 24, x + 28, y + 20);
+      if (kind === "catena montuosa") {
+        peaks.fillTriangle(x - 48, y + 18, x - 24, y - 12, x, y + 18);
+        peaks.strokeTriangle(x - 48, y + 18, x - 24, y - 12, x, y + 18);
+        peaks.fillTriangle(x, y + 18, x + 24, y - 12, x + 48, y + 18);
+        peaks.strokeTriangle(x, y + 18, x + 24, y - 12, x + 48, y + 18);
+      }
+    } else if (kind === "deserto") {
+      this.t(this.add.rectangle(x, y, 58, 30, color, 0.55).setStrokeStyle(2, 0xf6c85f, 0.58));
+      const dunes = this.t(this.add.graphics());
+      dunes.lineStyle(2, 0xf6c85f, 0.7);
+      dunes.arc(x - 14, y + 2, 18, Math.PI, 0);
+      dunes.arc(x + 18, y + 8, 14, Math.PI, 0);
+    } else {
+      this.t(this.add.rectangle(x, y, 50, 18, color, 0.74).setStrokeStyle(3, 0xffffff, 0.52));
+    }
+    const pulse = this.t(this.add.circle(x, y, 24, color, 0.12).setStrokeStyle(2, color, 0.42));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: pulse, scale: 1.24, alpha: 0.05, duration: 760, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
+  }
+
+  private physicalModeLabel(mode: PhysicalChallengeMode): string {
+    switch (mode) {
+      case "kind": return "Tipo di elemento";
+      case "continent": return "Posizione continentale";
+      case "name": return "Nome dell'elemento";
+      case "clue": return "Indizio fisico";
+    }
+  }
+
+  private physicalKindLabel(kind: PhysicalKind): string {
+    return kind;
+  }
+
+  private physicalKindArticle(kind: PhysicalKind): string {
+    if (kind === "stretto") return "uno";
+    return kind === "montagna" || kind === "catena montuosa" ? "una" : "un";
+  }
+
+  private physicalKindColor(kind: PhysicalKind): number {
+    switch (kind) {
+      case "fiume": return 0x5ec8ff;
+      case "lago": return 0x6be7d6;
+      case "mare": return 0x358cff;
+      case "montagna": return 0xc7dce7;
+      case "catena montuosa": return 0xf6c85f;
+      case "deserto": return 0xd6a84f;
+      case "stretto": return 0xff9ad2;
+    }
+  }
+
+  private physicalTotalForLevel(): number {
+    return this.gymLevel >= 6 ? 12 : 10;
+  }
+
+  private physicalPoolForLevel(): PhysicalFeature[] {
+    if (this.gymLevel <= 1) return PHYSICAL_FEATURES.filter((item) => ["Europa", "Africa", "America del Nord"].includes(item.continent)).slice(0, 18);
+    if (this.gymLevel <= 2) return PHYSICAL_FEATURES.filter((item) => item.continent !== "Oceania").slice(0, 26);
+    if (this.gymLevel <= 4) return PHYSICAL_FEATURES.filter((item) => item.continent !== "Oceania");
+    return PHYSICAL_FEATURES;
+  }
+
+  private physicalTimeLimitForLevel(): number {
+    return Math.max(8_200, 18_500 - this.gymLevel * 900);
   }
 
   // -- Sequenza Luminosa (sequential working memory) ----------------------
@@ -2080,8 +3043,116 @@ export class LogicGymScene extends Phaser.Scene {
 
   // -- Shared outcome -----------------------------------------------------
 
+  private bonusStats(key: GymActivityKey): { correct: number; total: number; bestCombo: number } {
+    switch (key) {
+      case "tables": return { correct: this.tablesCorrect, total: this.tablesTotal, bestCombo: this.tablesBestCombo };
+      case "mental": return { correct: this.mentalCorrect, total: this.mentalTotal, bestCombo: this.mentalBestCombo };
+      case "geo": return { correct: this.geoCorrect, total: this.geoTotal, bestCombo: this.geoBestCombo };
+      case "geoPhysical": return { correct: this.physCorrect, total: this.physTotal, bestCombo: this.physBestCombo };
+      default: return { correct: 0, total: 0, bestCombo: 0 };
+    }
+  }
+
+  private finishMissionBonus(key: LogicGymBonusActivityKey, label: string, score: number, comps: string[], award: number, summary: string): void {
+    const stats = this.bonusStats(key);
+    const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+    const passed = stats.total > 0 && stats.correct >= Math.ceil(stats.total * 0.6) && accuracy >= 60;
+    const perfect = stats.total > 0 && stats.correct === stats.total;
+    const energyAward = passed ? Math.min(95, 32 + this.gymLevel * 4 + stats.bestCombo * 5 + (perfect ? 18 : 0)) : 0;
+    const timeAwardMs = passed ? (perfect ? 20_000 : accuracy >= 80 ? 12_000 : 0) : 0;
+    if (passed && award > 0) {
+      competencyTracker.award(comps, Math.min(10, Math.max(4, Math.ceil(award / 2))));
+      saveSystem.persistData();
+    }
+    const result: LogicGymBonusResult = {
+      id: this.bonusId,
+      activityKey: key,
+      label,
+      level: this.gymLevel,
+      rounds: stats.total,
+      correct: stats.correct,
+      score,
+      accuracy,
+      passed,
+      perfect,
+      energyAward,
+      timeAwardMs,
+      summary,
+    };
+
+    this.time.delayedCall(80, () => {
+      this.clearScreen();
+      const tone = passed ? 0xf6c85f : 0xff5d7a;
+      this.t(this.add.rectangle(640, 360, 880, 382, 0x0b1922, 0.98).setStrokeStyle(2, tone, 0.78));
+      this.t(this.add.text(640, 226, passed ? "Frattura stabilizzata" : "Frattura instabile", {
+        fontFamily: "Inter, Arial",
+        fontSize: "28px",
+        color: passed ? "#f7d37a" : "#ffd0da",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      this.t(this.add.text(640, 270, `${label} · ${stats.correct}/${stats.total} · precisione ${accuracy}%`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "18px",
+        color: "#f5fbff",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      this.t(this.add.text(640, 326, summary, {
+        fontFamily: "Inter, Arial",
+        fontSize: "15px",
+        color: "#c7dce7",
+        align: "center",
+        wordWrap: { width: 760 },
+        lineSpacing: 4,
+      }).setOrigin(0.5));
+      this.t(this.add.text(640, 394, passed
+        ? `Bonus missione: +${energyAward} energia${timeAwardMs > 0 ? ` · +${Math.round(timeAwardMs / 1000)}s stabilità timer` : ""}`
+        : "Nessun malus: la missione riprende dal punto in cui era.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "15px",
+        color: passed ? "#9ff5e9" : "#ffd0da",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      this.t(new Button(this, 640, 482, "Torna alla missione", () => this.returnFromMissionBonus(result), {
+        width: 300,
+        height: 54,
+        fill: passed ? 0x1f5a51 : 0x263743,
+        stroke: tone,
+        fontSize: 17,
+      }));
+    });
+  }
+
+  private abortMissionBonus(): void {
+    const activity = this.activities().find((item) => item.key === this.bonusActivity);
+    const activityKey = this.isMissionBonusActivity(this.bonusActivity) ? this.bonusActivity : "mental";
+    this.returnFromMissionBonus({
+      id: this.bonusId,
+      activityKey,
+      label: activity?.title ?? "Frattura energetica",
+      level: this.gymLevel,
+      rounds: this.bonusRoundOverride ?? 0,
+      correct: 0,
+      score: 0,
+      accuracy: 0,
+      passed: false,
+      perfect: false,
+      energyAward: 0,
+      timeAwardMs: 0,
+      summary: "Evento bonus interrotto: la missione riprende senza premio e senza penalita.",
+    });
+  }
+
+  private returnFromMissionBonus(result: LogicGymBonusResult): void {
+    this.clearScreen();
+    this.scene.start(this.bonusReturnScene, { missionBonusResult: result });
+  }
+
   private finishActivity(key: string, label: string, score: number, comps: string[], award: number, summary: string): void {
     const activityKey = key as GymActivityKey;
+    if (this.bonusMode && this.isMissionBonusActivity(activityKey)) {
+      this.finishMissionBonus(activityKey, label, score, comps, award, summary);
+      return;
+    }
     const previous = this.bestForLevel(activityKey, this.gymLevel);
     const record = score > previous;
     const best = saveSystem.data.logicGym?.best ?? {};

@@ -17,6 +17,7 @@ import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
+import { startScene } from "../core/SceneNavigator";
 import { noraVoice, type NoraBeat } from "../core/NoraVoice";
 import { noraKnowledge } from "../core/NoraKnowledge";
 import { noraChip } from "../ui/NoraChip";
@@ -71,11 +72,13 @@ import type {
   LanguageMinigamePrompt,
   MathMinigamePrompt,
   MusicMinigameType,
+  ProceduralBonusEventState,
   ProgressiveLevelResult,
   ProgressiveOutcomeTone,
   ProceduralPuzzleScore,
   ProceduralRunSave,
 } from "../procedural/ProceduralTypes";
+import type { LogicGymBonusActivityKey, LogicGymBonusResult } from "../types/logicGymBonus";
 import type { TheoryTopic } from "../data/theoryCatalog";
 import { Button } from "../ui/Button";
 import { drawTheoryVisual } from "../ui/TheoryVisual";
@@ -86,6 +89,9 @@ import { CircuitConsole, type CircuitConsoleModel } from "./procedural/component
 import { LanguageRepairConsole, type LanguageRepairModel } from "./procedural/components/LanguageRepairConsole";
 import { MathTerminal } from "./procedural/components/MathTerminal";
 import { MissionDependencyGraph } from "./procedural/components/MissionDependencyGraph";
+import { MusicConsole } from "./procedural/components/MusicConsole";
+import { EquationLabView } from "./procedural/components/EquationLabView";
+import { GraphWorkshopView } from "./procedural/components/GraphWorkshopView";
 import { RobotConsole } from "./procedural/components/RobotConsole";
 import {
   isProceduralHotspotSolved,
@@ -187,6 +193,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private languageBuilderPuzzleId?: string;
   private languageBuilderShuffled: string[] = [];
   private languageBuilderPlaced: number[] = [];
+  private pendingMissionBonusResult?: LogicGymBonusResult;
+  private missionBonusResolvedThisCreate = false;
 
   constructor() {
     super("ProceduralMissionScene");
@@ -198,8 +206,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private explorer?: RoomExplorer;
   private wasOverlayOpen = false;
 
-  init(data?: { autoOpenPuzzle?: ProceduralPuzzleId }): void {
+  init(data?: { autoOpenPuzzle?: ProceduralPuzzleId; missionBonusResult?: LogicGymBonusResult }): void {
     this.autoOpenPuzzle = data?.autoOpenPuzzle;
+    this.pendingMissionBonusResult = data?.missionBonusResult;
+    this.missionBonusResolvedThisCreate = false;
   }
 
   preload(): void {
@@ -256,13 +266,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.pauseRunIfLeaving();
     });
 
-    feedbackSystem.publish(this.roomEntryFeedback(), this.run.solvedPuzzleIds.length > 0 ? "success" : "info");
+    const bonusFeedback = this.consumeMissionBonusResult();
+    feedbackSystem.publish(bonusFeedback ?? this.roomEntryFeedback(), bonusFeedback ? "success" : this.run.solvedPuzzleIds.length > 0 ? "success" : "info");
     // NORA greets once per run (the scene restarts between consoles, so gate by seed).
     if (this.noraGreetedSeed !== this.run.seed && this.run.solvedPuzzleIds.length === 0) {
       this.noraGreetedSeed = this.run.seed;
       this.time.delayedCall(520, () => this.noraSay("enter"));
     }
     this.time.delayedCall(80, () => this.showRunReadyOverlay());
+    this.time.delayedCall(420, () => this.maybeShowMissionBonusOffer());
   }
 
   update(_time: number, delta: number): void {
@@ -622,6 +634,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.run = saveSystem.data.proceduralRun ?? this.run;
     this.clearOverlay();
     this.refreshObjective();
+    this.time.delayedCall(260, () => this.maybeShowMissionBonusOffer());
     this.scheduleNextProgressivePuzzle(700);
     if (this.autoOpenPuzzle && !this.isProgressiveMode()) {
       const puzzleId = this.requiredPuzzleIds().find((id) => puzzleKindFromId(id) === this.autoOpenPuzzle) ?? this.autoOpenPuzzle;
@@ -665,6 +678,228 @@ export class ProceduralMissionScene extends Phaser.Scene {
       || this.progressiveOutcomeOpen
       || this.run.timerState !== "running"
       || Boolean(this.run.completedAt || this.run.failedAt);
+  }
+
+  private normalizeMissionBonusEvents(run: ProceduralRunSave = this.run): ProceduralBonusEventState {
+    return {
+      offeredIds: [...(run.bonusEvents?.offeredIds ?? [])],
+      resolvedIds: [...(run.bonusEvents?.resolvedIds ?? [])],
+      skippedIds: [...(run.bonusEvents?.skippedIds ?? [])],
+    };
+  }
+
+  private saveMissionBonusEvents(events: ProceduralBonusEventState): void {
+    const unique = (items: string[]): string[] => [...new Set(items)];
+    saveSystem.updateProceduralRun({
+      bonusEvents: {
+        offeredIds: unique(events.offeredIds),
+        resolvedIds: unique(events.resolvedIds),
+        skippedIds: unique(events.skippedIds),
+      },
+    });
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+  }
+
+  private consumeMissionBonusResult(): string | undefined {
+    const result = this.pendingMissionBonusResult;
+    if (!result) return undefined;
+    this.pendingMissionBonusResult = undefined;
+    this.missionBonusResolvedThisCreate = true;
+    const events = this.normalizeMissionBonusEvents();
+    this.saveMissionBonusEvents({
+      ...events,
+      offeredIds: [...events.offeredIds, result.id],
+      resolvedIds: [...events.resolvedIds, result.id],
+    });
+
+    const rewardParts: string[] = [];
+    if (result.passed && result.energyAward > 0) {
+      outcomeFeedback.grantActivityBonus(this, result.energyAward, `frattura ${this.missionBonusActivityTitle(result.activityKey)}`);
+      rewardParts.push(`+${result.energyAward} energia`);
+    }
+    if (result.passed && result.timeAwardMs > 0 && this.applyMissionBonusTime(result.timeAwardMs)) {
+      rewardParts.push(`+${Math.round(result.timeAwardMs / 1000)}s timer`);
+    }
+
+    if (!result.passed) {
+      return `Frattura energetica chiusa senza bonus: ${result.correct}/${result.rounds} corrette, precisione ${result.accuracy}%. Nessuna penalità applicata.`;
+    }
+    return `Frattura energetica superata: ${result.label}, ${result.correct}/${result.rounds} corrette, precisione ${result.accuracy}%. ${rewardParts.length > 0 ? `Ricompensa: ${rewardParts.join(" · ")}.` : "Ricompensa registrata."}`;
+  }
+
+  private applyMissionBonusTime(timeAwardMs: number): boolean {
+    if (timeAwardMs <= 0 || !proceduralRunRules.pressureEnabledFor(this.run)) return false;
+    if (this.run.pausedRemainingMs !== undefined || this.run.timerState === "paused") {
+      const base = this.run.pausedRemainingMs ?? this.run.timeLimitMs ?? 0;
+      saveSystem.updateProceduralRun({ pausedRemainingMs: base + timeAwardMs });
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+      return true;
+    }
+    if (this.run.deadlineAt) {
+      const currentDeadline = new Date(this.run.deadlineAt).getTime();
+      saveSystem.updateProceduralRun({
+        deadlineAt: new Date(Math.max(Date.now(), currentDeadline) + timeAwardMs).toISOString(),
+      });
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+      return true;
+    }
+    return false;
+  }
+
+  private maybeShowMissionBonusOffer(): void {
+    if (this.missionBonusResolvedThisCreate || this.pendingMissionBonusResult || this.overlay) return;
+    if (this.runMode() !== "mission" || this.isChapterExplore()) return;
+    if (this.isRunInteractionLocked() || this.checkMissionTimeout()) return;
+    const solvedCount = this.run.solvedPuzzleIds.length;
+    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id));
+    if (solvedCount <= 0 || remaining.length === 0) return;
+
+    const events = this.normalizeMissionBonusEvents();
+    if (events.offeredIds.length >= this.maxMissionBonusEvents()) return;
+    const eventId = `${this.run.seed}:bonus:${solvedCount}`;
+    if (
+      events.offeredIds.includes(eventId)
+      || events.resolvedIds.includes(eventId)
+      || events.skippedIds.includes(eventId)
+    ) {
+      return;
+    }
+    if (!this.shouldOfferMissionBonus(eventId, solvedCount, events)) return;
+    const activityKey = this.selectMissionBonusActivity(eventId);
+    this.showMissionBonusOffer(eventId, activityKey);
+  }
+
+  private maxMissionBonusEvents(): number {
+    return this.isChapterTrial() ? 1 : 2;
+  }
+
+  private shouldOfferMissionBonus(eventId: string, solvedCount: number, events: ProceduralBonusEventState): boolean {
+    if (events.offeredIds.length === 0 && solvedCount >= 3) return true;
+    const chance = this.isChapterTrial() ? 0.18 : 0.26;
+    return new Random(`${eventId}:roll:${this.run.difficulty}`).bool(chance);
+  }
+
+  private selectMissionBonusActivity(eventId: string): LogicGymBonusActivityKey {
+    const random = new Random(`${eventId}:activity`);
+    const lastSolved = this.run.solvedPuzzleIds[this.run.solvedPuzzleIds.length - 1] ?? "";
+    const kind = puzzleKindFromId(lastSolved);
+    const weighted: LogicGymBonusActivityKey[] =
+      kind === "math" ? ["tables", "mental", "mental"]
+        : kind === "coding" || kind === "circuit" || kind === "robot" ? ["mental", "tables", "tables"]
+          : kind === "physics" ? ["geoPhysical", "mental", "geoPhysical"]
+            : kind === "english" || kind === "language" || kind === "latin" ? ["geo", "mental", "geo"]
+              : ["tables", "mental", "geo", "geoPhysical"];
+    return random.pick(weighted);
+  }
+
+  private missionBonusActivityTitle(activityKey: LogicGymBonusActivityKey): string {
+    switch (activityKey) {
+      case "tables": return "Tabelline Reactor";
+      case "mental": return "Calcolo Mentale";
+      case "geo": return "Geo Atlante";
+      case "geoPhysical": return "Geo Rilievi";
+    }
+  }
+
+  private missionBonusActivityTheme(activityKey: LogicGymBonusActivityKey): string {
+    switch (activityKey) {
+      case "tables": return "moltiplicazioni, fattori mancanti e inverse";
+      case "mental": return "strategie rapide, compensazioni e catene";
+      case "geo": return "capitali, paesi e continenti";
+      case "geoPhysical": return "fiumi, laghi, rilievi, deserti e mari";
+    }
+  }
+
+  private missionBonusActivityColor(activityKey: LogicGymBonusActivityKey): number {
+    switch (activityKey) {
+      case "tables": return 0xf6c85f;
+      case "mental": return 0x5ec8ff;
+      case "geo": return 0x70d68a;
+      case "geoPhysical": return 0x9f8cff;
+    }
+  }
+
+  private missionBonusRounds(activityKey: LogicGymBonusActivityKey): number {
+    if (activityKey === "geo" || activityKey === "geoPhysical") return this.run.difficulty >= 6 ? 5 : 4;
+    return this.run.difficulty >= 6 ? 6 : 5;
+  }
+
+  private showMissionBonusOffer(eventId: string, activityKey: LogicGymBonusActivityKey): void {
+    const events = this.normalizeMissionBonusEvents();
+    this.saveMissionBonusEvents({ ...events, offeredIds: [...events.offeredIds, eventId] });
+    const overlay = this.add.container(0, 0).setDepth(2100);
+    SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.84);
+    const color = this.missionBonusActivityColor(activityKey);
+    overlay.add(this.add.rectangle(640, 360, 760, 416, 0x07151d, 0.99).setStrokeStyle(2, color, 0.82));
+    overlay.add(this.add.circle(320, 210, 46, color, 0.18).setStrokeStyle(2, color, 0.58));
+    overlay.add(this.add.text(320, 204, "⚡", { fontFamily: "Inter, Arial", fontSize: "30px", color: "#f7d37a" }).setOrigin(0.5));
+    overlay.add(this.add.text(390, 178, "Frattura energetica", {
+      fontFamily: "Inter, Arial",
+      fontSize: "30px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(390, 222, `NORA intercetta una scarica stabile: ${this.missionBonusActivityTitle(activityKey)}.`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      wordWrap: { width: 560 },
+    }));
+    overlay.add(this.add.text(390, 268, `Sfida breve: ${this.missionBonusRounds(activityKey)} round su ${this.missionBonusActivityTheme(activityKey)}. Se superi la soglia, ottieni energia bonus e, con precisione alta, stabilità timer. Se fallisci, la missione riprende senza penalità.`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#d9eaf1",
+      wordWrap: { width: 560 },
+      lineSpacing: 5,
+    }));
+    overlay.add(this.add.text(390, 384, `Eventi run: ${this.normalizeMissionBonusEvents().offeredIds.length}/${this.maxMissionBonusEvents()} · Profondità ${this.run.difficulty}/8`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+
+    let leaving = false;
+    overlay.add(new Button(this, 500, 474, "Affronta frattura", () => {
+      if (leaving) return;
+      leaving = true;
+      audioManager.playOutcome("complete");
+      saveSystem.pauseActiveProceduralRun();
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+      this.clearOverlay();
+      void startScene(this, "LogicGymScene", {
+        mode: "missionBonus",
+        activityKey,
+        bonusId: eventId,
+        level: this.run.difficulty,
+        rounds: this.missionBonusRounds(activityKey),
+        returnScene: "ProceduralMissionScene",
+      }).catch(() => {
+        feedbackSystem.publish("Non sono riuscito ad aprire la frattura energetica. La missione resta in pausa e può riprendere.", "warning");
+        this.showRunReadyOverlay(true);
+      });
+    }, {
+      width: 260,
+      height: 54,
+      fill: 0x1f5a51,
+      stroke: color,
+      fontSize: 16,
+    }));
+    overlay.add(new Button(this, 794, 474, "Ignora", () => {
+      if (leaving) return;
+      const current = this.normalizeMissionBonusEvents();
+      this.saveMissionBonusEvents({ ...current, skippedIds: [...current.skippedIds, eventId] });
+      audioManager.playOutcome("neutral");
+      this.clearOverlay();
+      feedbackSystem.publish("Frattura ignorata: nessun premio, nessuna penalità. La missione continua.", "info");
+    }, {
+      width: 190,
+      height: 54,
+      fill: 0x263743,
+      fontSize: 15,
+    }));
+    this.overlay = overlay;
   }
 
   private runWhenActive(delayMs: number, callback: () => void): Phaser.Time.TimerEvent {
@@ -2276,7 +2511,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 632, useAdvancedWrap: true },
       lineSpacing: 4,
     }));
-    this.drawEquationLabVisual(overlay, puzzle, stage.visual, 60, 274, 636, 246);
+    EquationLabView.draw(this, overlay, puzzle, stage.visual, 60, 274, 636, 246);
 
     this.addMathPanel(overlay, 752, 112, 500, 442, stage.title);
     overlay.add(this.add.text(784, 158, stage.prompt, {
@@ -2373,208 +2608,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.runWhenActive(1900, () => this.openEquationLab(puzzle));
   }
 
-  private drawEquationLabVisual(
-    overlay: Phaser.GameObjects.Container,
-    puzzle: GeneratedMathPuzzle,
-    visual: EquationLabVisual,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    const lab = puzzle.equationLab;
-    if (!lab) return;
-    overlay.add(this.add.rectangle(x, y, width, height, 0x06131c, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.28));
-    if (visual === "balance") {
-      this.drawEquationBalance(overlay, lab.equation, x, y, width, height);
-      return;
-    }
-    if (visual === "inverse-steps" || visual === "substitution") {
-      this.drawEquationSteps(overlay, puzzle, visual, x, y, width, height);
-      return;
-    }
-    if (visual === "parabola") {
-      this.drawEquationParabola(overlay, puzzle, x, y, width, height);
-      return;
-    }
-    this.drawQuadraticConcept(overlay, puzzle, visual, x, y, width, height);
-  }
-
-  private drawEquationBalance(
-    overlay: Phaser.GameObjects.Container,
-    equation: string,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    const centerX = x + width / 2;
-    const beamY = y + 116;
-    const g = this.add.graphics();
-    g.lineStyle(7, 0xf6c85f, 0.82);
-    g.lineBetween(centerX - 218, beamY, centerX + 218, beamY);
-    g.lineStyle(4, 0x6be7d6, 0.72);
-    g.lineBetween(centerX, beamY, centerX, beamY + 76);
-    g.lineBetween(centerX - 46, beamY + 92, centerX + 46, beamY + 92);
-    g.lineBetween(centerX - 170, beamY, centerX - 200, beamY + 54);
-    g.lineBetween(centerX + 170, beamY, centerX + 200, beamY + 54);
-    overlay.add(g);
-    overlay.add(this.add.rectangle(centerX - 200, beamY + 66, 250, 72, 0x102533, 0.94).setStrokeStyle(2, 0x6be7d6, 0.46));
-    overlay.add(this.add.rectangle(centerX + 200, beamY + 66, 250, 72, 0x102533, 0.94).setStrokeStyle(2, 0x6be7d6, 0.46));
-    const sides = equation.split("=");
-    overlay.add(this.add.text(centerX - 200, beamY + 66, sides[0]?.trim() ?? equation, {
-      fontFamily: "Georgia, serif", fontSize: "23px", color: "#f5fbff", fontStyle: "bold",
-    }).setOrigin(0.5));
-    overlay.add(this.add.text(centerX + 200, beamY + 66, sides[1]?.trim() ?? "", {
-      fontFamily: "Georgia, serif", fontSize: "23px", color: "#f5fbff", fontStyle: "bold",
-    }).setOrigin(0.5));
-    overlay.add(this.add.text(centerX, y + 20, "Stessa operazione a sinistra e a destra", {
-      fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold",
-    }).setOrigin(0.5));
-  }
-
-  private drawEquationSteps(
-    overlay: Phaser.GameObjects.Container,
-    puzzle: GeneratedMathPuzzle,
-    visual: EquationLabVisual,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    const steps = puzzle.solutionSteps?.slice(0, 4) ?? [];
-    const visible = visual === "substitution" ? [steps[steps.length - 1] ?? puzzle.equationLab?.verification ?? "Verifica"] : steps;
-    const startY = visual === "substitution" ? y + 96 : y + 54;
-    visible.forEach((step, index) => {
-      const rowY = startY + index * 52;
-      overlay.add(this.add.rectangle(x + 38, rowY, width - 76, 40, index === visible.length - 1 ? 0x173b36 : 0x102533, 0.9)
-        .setOrigin(0, 0.5)
-        .setStrokeStyle(1, index === visible.length - 1 ? 0xf6c85f : 0x6be7d6, 0.36));
-      overlay.add(this.add.text(x + 58, rowY, step, {
-        fontFamily: "Georgia, serif",
-        fontSize: "16px",
-        color: "#f5fbff",
-        wordWrap: { width: width - 116 },
-      }).setOrigin(0, 0.5));
-      if (index < visible.length - 1) {
-        overlay.add(this.add.triangle(x + width / 2, rowY + 30, 0, -4, 9, 5, -9, 5, 0x6be7d6, 0.68));
-      }
-    });
-    if (visual === "substitution") {
-      overlay.add(this.add.text(x + width / 2, y + 40, "Una soluzione è valida solo se rende veri entrambi i membri.", {
-        fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", fontStyle: "bold",
-      }).setOrigin(0.5));
-    }
-  }
-
-  private drawQuadraticConcept(
-    overlay: Phaser.GameObjects.Container,
-    puzzle: GeneratedMathPuzzle,
-    visual: EquationLabVisual,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    const lab = puzzle.equationLab;
-    if (!lab) return;
-    const { a, b, c } = lab.coefficients;
-    if (visual === "standard-form") {
-      [
-        { label: "a · x²", value: `${a}x²`, color: 0x6be7d6 },
-        { label: "b · x", value: `${b}x`, color: 0xf6c85f },
-        { label: "c", value: `${c}`, color: 0x9f8cff },
-      ].forEach((item, index) => {
-        const cx = x + 114 + index * 204;
-        overlay.add(this.add.rectangle(cx, y + 120, 164, 112, 0x102533, 0.92).setStrokeStyle(2, item.color, 0.62));
-        overlay.add(this.add.text(cx, y + 92, item.label, {
-          fontFamily: "Inter, Arial", fontSize: "13px", color: "#c7dce7",
-        }).setOrigin(0.5));
-        overlay.add(this.add.text(cx, y + 132, item.value, {
-          fontFamily: "Georgia, serif", fontSize: "25px", color: "#f5fbff", fontStyle: "bold",
-        }).setOrigin(0.5));
-      });
-      return;
-    }
-    if (visual === "discriminant") {
-      const delta = lab.discriminant ?? 0;
-      const parts = [`b²`, `− 4ac`, `Δ`];
-      const values = [`(${b})² = ${b * b}`, `− 4·${a}·${c} = ${-4 * a * c}`, `${delta}`];
-      parts.forEach((label, index) => {
-        const cx = x + 112 + index * 206;
-        overlay.add(this.add.rectangle(cx, y + 118, 172, 108, index === 2 ? 0x173b36 : 0x102533, 0.92)
-          .setStrokeStyle(2, index === 2 ? 0xf6c85f : 0x6be7d6, 0.58));
-        overlay.add(this.add.text(cx, y + 88, label, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
-        overlay.add(this.add.text(cx, y + 132, values[index], { fontFamily: "Georgia, serif", fontSize: index === 2 ? "28px" : "17px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
-      });
-      return;
-    }
-    overlay.add(this.add.text(x + width / 2, y + 52, "Formula risolutiva", {
-      fontFamily: "Inter, Arial", fontSize: "15px", color: "#9ff5e9", fontStyle: "bold",
-    }).setOrigin(0.5));
-    overlay.add(this.add.text(x + width / 2, y + 116, "x =  (−b ± √Δ) / 2a", {
-      fontFamily: "Georgia, serif", fontSize: "30px", color: "#f7d37a", fontStyle: "bold",
-    }).setOrigin(0.5));
-    overlay.add(this.add.text(x + width / 2, y + 174, lab.roots.length > 0
-      ? `Soluzioni: ${lab.roots.map((root, index) => `x${lab.roots.length > 1 ? index + 1 : ""} = ${root}`).join("    ")}`
-      : "Δ < 0: la radice quadrata non è reale", {
-      fontFamily: "Inter, Arial", fontSize: "17px", color: "#f5fbff", fontStyle: "bold",
-    }).setOrigin(0.5));
-  }
-
-  private drawEquationParabola(
-    overlay: Phaser.GameObjects.Container,
-    puzzle: GeneratedMathPuzzle,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    const lab = puzzle.equationLab;
-    if (!lab) return;
-    const { a, b, c } = lab.coefficients;
-    const roots = lab.roots;
-    const vertexX = -b / (2 * a);
-    const minX = Math.floor(Math.min(-2, vertexX - 5, ...(roots.length ? roots.map((root) => root - 2) : [0])));
-    const maxX = Math.ceil(Math.max(6, vertexX + 5, ...(roots.length ? roots.map((root) => root + 2) : [4])));
-    const samples = Array.from({ length: 81 }, (_, index) => minX + ((maxX - minX) * index) / 80);
-    const values = samples.map((value) => a * value * value + b * value + c);
-    const maxAbsY = Math.max(8, ...values.map((value) => Math.abs(value)));
-    const graphLeft = x + 52;
-    const graphRight = x + width - 34;
-    const graphTop = y + 28;
-    const graphBottom = y + height - 38;
-    const mapX = (value: number) => graphLeft + ((value - minX) / (maxX - minX)) * (graphRight - graphLeft);
-    const mapY = (value: number) => (graphTop + graphBottom) / 2 - (value / maxAbsY) * ((graphBottom - graphTop) * 0.46);
-    const g = this.add.graphics();
-    g.lineStyle(2, 0x6b7d84, 0.62);
-    g.lineBetween(graphLeft, mapY(0), graphRight, mapY(0));
-    if (minX <= 0 && maxX >= 0) g.lineBetween(mapX(0), graphTop, mapX(0), graphBottom);
-    g.lineStyle(3, 0x6be7d6, 0.88);
-    g.beginPath();
-    samples.forEach((value, index) => {
-      const px = mapX(value);
-      const py = mapY(values[index]);
-      if (index === 0) g.moveTo(px, py);
-      else g.lineTo(px, py);
-    });
-    g.strokePath();
-    overlay.add(g);
-    roots.forEach((root) => {
-      overlay.add(this.add.circle(mapX(root), mapY(0), 8, 0xf6c85f, 1).setStrokeStyle(2, 0xf5fbff, 0.8));
-      overlay.add(this.add.text(mapX(root), mapY(0) + 16, `${root}`, {
-        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", fontStyle: "bold",
-      }).setOrigin(0.5, 0));
-    });
-    overlay.add(this.add.text(x + 18, y + 12, roots.length === 2
-      ? "Due intersezioni con l'asse x"
-      : roots.length === 1
-        ? "Una tangenza con l'asse x"
-        : "Nessuna intersezione con l'asse x", {
-      fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold",
-    }));
-  }
-
   private openGraphWorkshop(puzzle: GeneratedMathPuzzle): void {
     const workshop = puzzle.graphWorkshop;
     if (!workshop) return;
@@ -2589,7 +2622,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const showActiveCurve = !needsReading || this.graphWorkshopApplied;
 
     this.addMathPanel(overlay, 28, 112, 840, 488, "Piano cartesiano interattivo");
-    this.drawCartesianWorkshop(overlay, workshop, values, 52, 154, 792, 414, showActiveCurve);
+    GraphWorkshopView.drawCartesian(this, overlay, workshop, values, 52, 154, 792, 414, showActiveCurve);
 
     this.addMathPanel(overlay, 892, 112, 360, 488, needsReading ? "Taccuino di lettura" : "Console dei parametri");
     overlay.add(this.add.text(920, 154, workshop.objective, {
@@ -2600,7 +2633,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       lineSpacing: 4,
     }));
     overlay.add(this.add.rectangle(920, 220, 304, 48, 0x06131c, 0.9).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.36));
-    overlay.add(this.add.text(1072, 244, needsReading && !this.graphWorkshopApplied ? this.graphWorkshopNotebookFormula(workshop) : this.graphWorkshopFormula(workshop, values), {
+    overlay.add(this.add.text(1072, 244, needsReading && !this.graphWorkshopApplied ? this.graphWorkshopNotebookFormula(workshop) : GraphWorkshopView.formula(workshop, values), {
       fontFamily: "Georgia, 'Times New Roman', serif",
       fontSize: "20px",
       color: "#f7d37a",
@@ -2622,14 +2655,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
 
     this.addMathPanel(overlay, 28, 614, 1224, 74, "Missione grafica");
-    overlay.add(this.add.text(54, 660, this.currentActiveHint() ?? this.graphWorkshopReadingMethod(workshop), {
+    overlay.add(this.add.text(54, 660, this.currentActiveHint() ?? GraphWorkshopView.readingMethod(workshop), {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: this.currentActiveHint() ? "#f7d37a" : "#d9eaf1",
       wordWrap: { width: 650, useAdvancedWrap: true },
       lineSpacing: 3,
     }).setOrigin(0, 0.5));
-    overlay.add(this.add.text(746, 650, needsReading ? this.graphWorkshopReadingStatus(workshop) : `Mosse: ${this.graphWorkshopMoves} · Par: ${this.graphWorkshopPar(workshop)}`, {
+    overlay.add(this.add.text(746, 650, needsReading ? this.graphWorkshopReadingStatus(workshop) : `Mosse: ${this.graphWorkshopMoves} · Par: ${GraphWorkshopView.par(workshop)}`, {
       fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold",
     }).setOrigin(0.5));
     overlay.add(new Button(this, 850, 650, needsReading ? "Rileggi" : "Ripristina", () => this.resetGraphWorkshop(puzzle), {
@@ -2675,7 +2708,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     });
 
     const propertyY = workshop.parameters.length === 2 ? 500 : 554;
-    overlay.add(this.add.text(920, propertyY, this.graphWorkshopProperties(workshop, values), {
+    overlay.add(this.add.text(920, propertyY, GraphWorkshopView.properties(workshop, values), {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#c7dce7",
@@ -2760,7 +2793,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         fontFamily: "Inter, Arial", fontSize: "19px", color: "#f5fbff", fontStyle: "bold",
       }).setOrigin(0.5));
     });
-    overlay.add(this.add.text(920, 510, this.graphWorkshopProperties(workshop, this.graphWorkshopValues), {
+    overlay.add(this.add.text(920, 510, GraphWorkshopView.properties(workshop, this.graphWorkshopValues), {
       fontFamily: "Inter, Arial", fontSize: "11px", color: "#c7dce7", wordWrap: { width: 304, useAdvancedWrap: true }, lineSpacing: 3,
     }));
   }
@@ -2906,7 +2939,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const exact = workshop.parameters.every((parameter) => this.graphWorkshopValues[parameter.key] === parameter.target);
-    const selected = this.graphWorkshopFormula(workshop, this.graphWorkshopValues);
+    const selected = GraphWorkshopView.formula(workshop, this.graphWorkshopValues);
     if (exact) {
       if (this.graphWorkshopNeedsReading(workshop)) {
         const explanation = `Lettura corretta: ${workshop.successExplanation}`;
@@ -2915,7 +2948,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         this.solvePuzzle(this.currentPuzzleId("math"), puzzle.competencies);
         return;
       }
-      const par = this.graphWorkshopPar(workshop);
+      const par = GraphWorkshopView.par(workshop);
       const rating = this.graphWorkshopMoves <= par
         ? "★★★ calibrazione perfetta"
         : this.graphWorkshopMoves <= par + 3
@@ -2929,233 +2962,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.solvePuzzle(this.currentPuzzleId("math"), puzzle.competencies);
       return;
     }
-    const diagnosis = this.graphWorkshopDiagnosis(workshop, this.graphWorkshopValues);
+    const diagnosis = GraphWorkshopView.diagnosis(workshop, this.graphWorkshopValues);
     outcomeFeedback.answer(this, false, selected, "Grafico con tutte le proprietà richieste", diagnosis);
     const exited = this.handleIncorrectAnswer(diagnosis);
     if (!exited) this.openGraphWorkshop(puzzle);
-  }
-
-  private graphWorkshopPar(workshop: GeneratedGraphWorkshop): number {
-    return workshop.parameters.reduce(
-      (total, parameter) => {
-        const raw = Math.abs(parameter.target - parameter.initial) / parameter.step;
-        const skipsZero = parameter.key === "a" && parameter.target * parameter.initial < 0;
-        return total + raw - (skipsZero ? 1 : 0);
-      },
-      0,
-    );
-  }
-
-  private graphWorkshopFormula(
-    workshop: GeneratedGraphWorkshop,
-    values: Partial<Record<GraphParameterKey, number>>,
-  ): string {
-    if (workshop.functionKind === "linear") {
-      const m = values.m ?? 0;
-      const q = values.q ?? 0;
-      if (m === 0) return `y = ${q}`;
-      const slope = m === 0 ? "0" : m === 1 ? "x" : m === -1 ? "−x" : `${m}x`;
-      const intercept = q === 0 ? "" : q > 0 ? ` + ${q}` : ` − ${Math.abs(q)}`;
-      return `y = ${slope}${intercept}`;
-    }
-    const a = values.a ?? 1;
-    const h = values.h ?? 0;
-    const k = values.k ?? 0;
-    const leading = a === 1 ? "" : a === -1 ? "−" : `${a}`;
-    const horizontal = h === 0 ? "x" : h > 0 ? `(x − ${h})` : `(x + ${Math.abs(h)})`;
-    const vertical = k === 0 ? "" : k > 0 ? ` + ${k}` : ` − ${Math.abs(k)}`;
-    return `y = ${leading}${horizontal}²${vertical}`;
-  }
-
-  private graphWorkshopProperties(
-    workshop: GeneratedGraphWorkshop,
-    values: Partial<Record<GraphParameterKey, number>>,
-  ): string {
-    if (workshop.functionKind === "linear") {
-      const m = values.m ?? 0;
-      const q = values.q ?? 0;
-      return `Lettura attuale\n• retta ${m > 0 ? "crescente" : m < 0 ? "decrescente" : "orizzontale"}\n• intercetta asse y: (0, ${q})`;
-    }
-    const a = values.a ?? 1;
-    const h = values.h ?? 0;
-    const k = values.k ?? 0;
-    const discriminantLike = -k / a;
-    const roots = discriminantLike >= 0 ? Math.sqrt(discriminantLike) : undefined;
-    const rootText = roots === undefined
-      ? "nessuna intersezione reale"
-      : Number.isInteger(roots)
-        ? `radici: ${h - roots}, ${h + roots}`
-        : "intersezioni non intere";
-    return `Lettura attuale\n• apertura ${a > 0 ? "verso l'alto" : "verso il basso"}\n• vertice V(${h}, ${k})\n• ${rootText}`;
-  }
-
-  /** The reading method to derive the parameters, so the task teaches reading. */
-  private graphWorkshopReadingMethod(workshop: GeneratedGraphWorkshop): string {
-    if (workshop.mode === "beacon-line") {
-      const yAxisBeacon = workshop.targetPoints.find((point) => point.x === 0);
-      return yAxisBeacon
-        ? `Leggi la retta dai beacon, non a tentativi: ${yAxisBeacon.label} sta sull'asse y, quindi q è la sua y; poi calcola m = dy / dx tra i due beacon.`
-        : "Leggi la retta dai beacon, non a tentativi: calcola prima m = dy / dx tra i due beacon; poi usa un punto nella formula q = y - m*x.";
-    }
-    return workshop.principle;
-  }
-
-  private graphWorkshopDiagnosis(
-    workshop: GeneratedGraphWorkshop,
-    values: Partial<Record<GraphParameterKey, number>>,
-  ): string {
-    const wrong = workshop.parameters.filter((parameter) => values[parameter.key] !== parameter.target);
-    if (workshop.functionKind === "linear") {
-      const slopeWrong = wrong.some((parameter) => parameter.key === "m");
-      const interceptWrong = wrong.some((parameter) => parameter.key === "q");
-      if (slopeWrong && interceptWrong) return "Rileggi i beacon dall'inizio: prima ricava m (quanto sale la y ÷ quanto avanza la x tra i due punti), poi q (la y del punto dove x = 0).";
-      if (slopeWrong) return "L'intercetta va bene, ma la pendenza no: conta di quanto sale la y quando la x avanza di 1 passando da un beacon all'altro — quel rapporto è m.";
-      if (interceptWrong) return "La pendenza è giusta, ma l'altezza no: q è la y del beacon che sta sull'asse y (dove x = 0). Leggila e imposta q.";
-    }
-    const aWrong = wrong.some((parameter) => parameter.key === "a");
-    const hWrong = wrong.some((parameter) => parameter.key === "h");
-    const kWrong = wrong.some((parameter) => parameter.key === "k");
-    if (hWrong) return "L'asse di simmetria non passa ancora per il punto medio richiesto. Regola h prima degli altri parametri.";
-    if (kWrong) return "La posizione orizzontale è coerente, ma il vertice è alla quota sbagliata. Regola k.";
-    if (aWrong) return "Vertice e asse sono corretti, ma verso o apertura non coincidono. Regola a.";
-    return "Il grafico è vicino al bersaglio, ma non soddisfa ancora tutti i vincoli esatti.";
-  }
-
-  private drawCartesianWorkshop(
-    overlay: Phaser.GameObjects.Container,
-    workshop: GeneratedGraphWorkshop,
-    values: Partial<Record<GraphParameterKey, number>>,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    showActiveCurve = true,
-  ): void {
-    overlay.add(this.add.rectangle(x, y, width, height, 0x02090e, 0.94).setOrigin(0).setStrokeStyle(2, 0x6be7d6, 0.34));
-    const [minX, maxX] = workshop.xRange;
-    const [minY, maxY] = workshop.yRange;
-    const left = x + 48;
-    const right = x + width - 24;
-    const top = y + 24;
-    const bottom = y + height - 42;
-    const mapX = (value: number) => left + ((value - minX) / (maxX - minX)) * (right - left);
-    const mapY = (value: number) => bottom - ((value - minY) / (maxY - minY)) * (bottom - top);
-    const g = this.add.graphics();
-
-    for (let gx = Math.ceil(minX); gx <= Math.floor(maxX); gx += 1) {
-      const px = mapX(gx);
-      g.lineStyle(gx === 0 ? 3 : 1, gx === 0 ? 0x9ff5e9 : 0x315766, gx === 0 ? 0.68 : 0.28);
-      g.lineBetween(px, top, px, bottom);
-      if (gx !== 0 && gx % 2 === 0) {
-        overlay.add(this.add.text(px, bottom + 10, `${gx}`, {
-          fontFamily: "Inter, Arial", fontSize: "9px", color: "#78909b",
-        }).setOrigin(0.5));
-      }
-    }
-    for (let gy = Math.ceil(minY); gy <= Math.floor(maxY); gy += 1) {
-      const py = mapY(gy);
-      g.lineStyle(gy === 0 ? 3 : 1, gy === 0 ? 0x9ff5e9 : 0x315766, gy === 0 ? 0.68 : 0.28);
-      g.lineBetween(left, py, right, py);
-      if (gy !== 0 && gy % 2 === 0) {
-        overlay.add(this.add.text(left - 10, py, `${gy}`, {
-          fontFamily: "Inter, Arial", fontSize: "9px", color: "#78909b",
-        }).setOrigin(1, 0.5));
-      }
-    }
-    overlay.add(g);
-    overlay.add(this.add.text(right + 8, mapY(0), "x", {
-      fontFamily: "Georgia, serif", fontSize: "14px", color: "#9ff5e9", fontStyle: "bold",
-    }).setOrigin(0, 0.5));
-    overlay.add(this.add.text(mapX(0), top - 14, "y", {
-      fontFamily: "Georgia, serif", fontSize: "14px", color: "#9ff5e9", fontStyle: "bold",
-    }).setOrigin(0.5));
-
-    const targetValues = Object.fromEntries(
-      workshop.parameters.map((parameter) => [parameter.key, parameter.target]),
-    ) as Partial<Record<GraphParameterKey, number>>;
-    if (workshop.showTargetCurve) {
-      this.drawWorkshopCurve(overlay, workshop, targetValues, mapX, mapY, minX, maxX, minY, maxY, 0xf6c85f, 0.52, true);
-    }
-    if (showActiveCurve) {
-      this.drawWorkshopCurve(overlay, workshop, values, mapX, mapY, minX, maxX, minY, maxY, 0x6be7d6, 0.96, false);
-    }
-
-    // Beacons stay a neutral target colour (never turn green "on hit"): a live
-    // success signal would let the student align by trial-and-error. Their
-    // coordinates are shown so m and q can be READ, then verified on certify.
-    workshop.targetPoints.forEach((point) => {
-      const color = 0xf6c85f;
-      overlay.add(this.add.circle(mapX(point.x), mapY(point.y), 16, color, 0.1).setStrokeStyle(3, color, 0.92));
-      overlay.add(this.add.circle(mapX(point.x), mapY(point.y), 5, color, 1));
-      overlay.add(this.add.text(mapX(point.x) + 14, mapY(point.y) - 22, `${point.label}(${point.x}, ${point.y})`, {
-        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", fontStyle: "bold",
-      }));
-    });
-
-    if (workshop.functionKind === "quadratic") {
-      const h = values.h ?? 0;
-      const k = values.k ?? 0;
-      if (h >= minX && h <= maxX && k >= minY && k <= maxY) {
-        overlay.add(this.add.circle(mapX(h), mapY(k), 7, 0x9f8cff, 1).setStrokeStyle(2, 0xf5fbff, 0.72));
-        overlay.add(this.add.text(mapX(h) + 10, mapY(k) + 8, `V(${h}, ${k})`, {
-          fontFamily: "Inter, Arial", fontSize: "10px", color: "#d8c9ff", fontStyle: "bold",
-        }));
-      }
-    }
-
-    overlay.add(this.add.rectangle(x + width - 226, y + 18, 198, workshop.showTargetCurve || !showActiveCurve ? 58 : 38, 0x07151d, 0.84)
-      .setOrigin(0)
-      .setStrokeStyle(1, 0x6be7d6, 0.2));
-    overlay.add(this.add.text(x + width - 210, y + 28, showActiveCurve ? "— curva attiva" : "● beacon da leggere", {
-      fontFamily: "Inter, Arial", fontSize: "11px", color: showActiveCurve ? "#9ff5e9" : "#f7d37a",
-    }));
-    if (workshop.showTargetCurve) {
-      overlay.add(this.add.text(x + width - 210, y + 48, "┄ traccia bersaglio", {
-        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a",
-      }));
-    }
-  }
-
-  private drawWorkshopCurve(
-    overlay: Phaser.GameObjects.Container,
-    workshop: GeneratedGraphWorkshop,
-    values: Partial<Record<GraphParameterKey, number>>,
-    mapX: (value: number) => number,
-    mapY: (value: number) => number,
-    minX: number,
-    maxX: number,
-    minY: number,
-    maxY: number,
-    color: number,
-    alpha: number,
-    dashed: boolean,
-  ): void {
-    const curve = this.add.graphics();
-    curve.lineStyle(dashed ? 3 : 4, color, alpha);
-    const samples = 180;
-    let previous: { x: number; y: number } | undefined;
-    for (let index = 0; index <= samples; index += 1) {
-      const graphX = minX + ((maxX - minX) * index) / samples;
-      const graphY = this.evaluateWorkshop(workshop, values, graphX);
-      const inside = graphY >= minY && graphY <= maxY;
-      const point = { x: mapX(graphX), y: mapY(graphY) };
-      if (inside && previous && (!dashed || Math.floor(index / 5) % 2 === 0)) {
-        curve.lineBetween(previous.x, previous.y, point.x, point.y);
-      }
-      previous = inside ? point : undefined;
-    }
-    overlay.add(curve);
-  }
-
-  private evaluateWorkshop(
-    workshop: GeneratedGraphWorkshop,
-    values: Partial<Record<GraphParameterKey, number>>,
-    x: number,
-  ): number {
-    if (workshop.functionKind === "linear") {
-      return (values.m ?? 0) * x + (values.q ?? 0);
-    }
-    return (values.a ?? 1) * (x - (values.h ?? 0)) ** 2 + (values.k ?? 0);
   }
 
   private createMathOverlay(title: string, subtitle = "Matematica · osserva il problema, applica il metodo, verifica"): Phaser.GameObjects.Container {
@@ -6176,15 +5986,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const puzzle = session.current;
     const showCoach = this.shouldShowExerciseCoach("music");
     const overlay = this.createExerciseScreen("Osservatorio del Pentagramma");
-    this.drawMusicSessionHeader(overlay, puzzle, session);
-    this.drawMusicStaff(overlay, puzzle, 350, 328, showCoach);
-    this.drawMusicSupport(overlay, puzzle, session, showCoach);
-    const signature = this.musicPuzzleSignature(puzzle);
-    if (this.isAuditoryMusicPuzzle(puzzle) && session.lastAutoPreviewSignature !== signature) {
+    MusicConsole.drawSessionHeader(this, overlay, puzzle, session);
+    MusicConsole.drawStaff(this, overlay, puzzle, 350, 328, showCoach);
+    MusicConsole.drawSupport(this, overlay, puzzle, session, showCoach, this.currentActiveHint());
+    const signature = MusicConsole.puzzleSignature(puzzle);
+    if (MusicConsole.isAuditoryPuzzle(puzzle) && session.lastAutoPreviewSignature !== signature) {
       session.lastAutoPreviewSignature = signature;
       this.runWhenActive(280, () => {
         if (this.musicSession === session && session.current === puzzle && !session.locked && !session.summaryOpen) {
-          this.previewMusicChallenge(puzzle);
+          MusicConsole.previewChallenge(puzzle);
         }
       });
     }
@@ -6204,7 +6014,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         if (session.locked || session.summaryOpen) {
           return;
         }
-        if (this.musicSprintExpired(session)) {
+        if (MusicConsole.sprintExpired(session)) {
           this.finishMusicSprint();
           return;
         }
@@ -6234,18 +6044,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
         }));
       }
     }
-    overlay.add(new Button(this, 778, 598, puzzle.audioPrompt?.replayLabel ?? "Ascolta sfida", () => this.previewMusicChallenge(puzzle), {
+    overlay.add(new Button(this, 778, 598, puzzle.audioPrompt?.replayLabel ?? "Ascolta sfida", () => MusicConsole.previewChallenge(puzzle), {
       width: 220, height: 46, fontSize: 14, fill: 0x173b36,
     }));
     if ((puzzle.challengeMode === "interval-jump" || puzzle.challengeMode === "auditory-interval") && puzzle.secondaryNote) {
-      overlay.add(new Button(this, 778, 650, "Nota 1", () => this.playMusicNote(puzzle.noteName, puzzle.octave), {
+      overlay.add(new Button(this, 778, 650, "Nota 1", () => MusicConsole.playNote(puzzle.noteName, puzzle.octave), {
         width: 104, height: 38, fontSize: 12, fill: 0x263743,
       }));
-      overlay.add(new Button(this, 894, 650, "Nota 2", () => this.playMusicNote(puzzle.secondaryNote!.noteName, puzzle.secondaryNote!.octave), {
+      overlay.add(new Button(this, 894, 650, "Nota 2", () => MusicConsole.playNote(puzzle.secondaryNote!.noteName, puzzle.secondaryNote!.octave), {
         width: 104, height: 38, fontSize: 12, fill: 0x263743,
       }));
     } else if (puzzle.challengeMode === "note-hunt" || puzzle.challengeMode === "scale-step") {
-      overlay.add(new Button(this, 778, 650, "Suona nota", () => this.playMusicNote(puzzle.noteName, puzzle.octave), {
+      overlay.add(new Button(this, 778, 650, "Suona nota", () => MusicConsole.playNote(puzzle.noteName, puzzle.octave), {
         width: 220, height: 38, fontSize: 12, fill: 0x263743,
       }));
     }
@@ -6255,340 +6065,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }, { width: 240, height: 46, fontSize: 14, fill: 0x263743 }));
   }
 
-  private previewMusicChallenge(puzzle: GeneratedMusicPuzzle): void {
-    if ((puzzle.challengeMode === "rhythm-gap" || puzzle.challengeMode === "note-duration") && puzzle.rhythmPattern) {
-      audioManager.playToneSequence(puzzle.rhythmPattern.cells.map((cell) => ({
-        frequency: cell.missing ? 0 : 740,
-        durationMs: Math.max(130, cell.beats * 260),
-      })));
-      return;
-    }
-    const tones = [{ note: puzzle.noteName, octave: puzzle.octave }];
-    // Any interval challenge must play BOTH notes — an interval is a relation
-    // between two pitches, impossible to judge from a single sound.
-    if ((puzzle.challengeMode === "interval-jump" || puzzle.challengeMode === "auditory-interval") && puzzle.secondaryNote) {
-      tones.push({ note: puzzle.secondaryNote.noteName, octave: puzzle.secondaryNote.octave });
-    }
-    audioManager.playToneSequence(tones.map((tone) => ({ frequency: this.musicFrequency(tone.note, tone.octave), durationMs: 480 })));
-  }
-
-  private playMusicNote(note: GeneratedMusicPuzzle["noteName"], octave: number): void {
-    audioManager.playToneSequence([{ frequency: this.musicFrequency(note, octave), durationMs: 540 }]);
-  }
-
-  private isAuditoryMusicPuzzle(puzzle: GeneratedMusicPuzzle): boolean {
-    return puzzle.challengeMode === "auditory-note" || puzzle.challengeMode === "auditory-interval" || puzzle.audioPrompt?.hiddenStaff === true;
-  }
-
-  private musicFrequency(note: GeneratedMusicPuzzle["noteName"], octave: number): number {
-    const semitone = { Do: 0, Re: 2, Mi: 4, Fa: 5, Sol: 7, La: 9, Si: 11 }[note];
-    const midi = (octave + 1) * 12 + semitone;
-    return 440 * 2 ** ((midi - 69) / 12);
-  }
-
-  private drawMusicSessionHeader(
-    overlay: Phaser.GameObjects.Container,
-    puzzle: GeneratedMusicPuzzle,
-    session: MusicTrainingSession,
-  ): void {
-    overlay.add(this.add.rectangle(608, 92, 1128, 84, 0x06131c, 0.64).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.text(56, 66, `${puzzle.difficultyLabel.toUpperCase()} | Sprint a tempo fisso: ${formatDuration(session.durationMs)}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(56, 96, this.musicPromptText(puzzle), {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 850 },
-      lineSpacing: 4,
-    }));
-    overlay.add(this.add.text(970, 70, `Corrette ${session.correct}  |  Errori ${session.wrong}  |  Serie ${session.streak}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }).setOrigin(0.5));
-    const remainingRatio = Phaser.Math.Clamp(1 - this.musicSprintElapsedMs(session) / session.durationMs, 0, 1);
-    overlay.add(this.add.rectangle(906, 112, 284, 10, 0x1b3140, 0.82).setStrokeStyle(1, 0x6be7d6, 0.22));
-    overlay.add(this.add.rectangle(906 - 142 + 142 * remainingRatio, 112, 284 * remainingRatio, 10, remainingRatio < 0.2 ? 0xff8a8a : 0x6be7d6, 0.88));
-    overlay.add(this.add.text(970, 126, `Punti sprint: ${session.netScore}  |  Risposte: ${session.answered}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#c7dce7",
-    }).setOrigin(0.5));
-  }
-
-  private drawMusicStaff(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number, showCoach = true): void {
-    if (this.isAuditoryMusicPuzzle(puzzle)) {
-      this.drawMusicListeningBoard(overlay, puzzle, centerX, centerY, showCoach);
-      return;
-    }
-    if ((puzzle.challengeMode ?? "note-hunt") === "rhythm-gap" && puzzle.rhythmPattern) {
-      this.drawMusicRhythmBoard(overlay, puzzle, centerX, centerY, showCoach);
-      return;
-    }
-    if (puzzle.challengeMode === "note-duration" && puzzle.rhythmPattern) {
-      this.drawMusicDurationBoard(overlay, puzzle, centerX, centerY, showCoach);
-      return;
-    }
-    overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
-    overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
-    overlay.add(this.add.image(centerX, centerY, "soft-glow").setTint(0x6be7d6).setAlpha(0.08).setScale(4.2, 2.2));
-    overlay.add(this.add.rectangle(centerX, centerY - 2, 536, 190, 0x02070b, 0.28).setStrokeStyle(1, 0xf7d37a, 0.12));
-    overlay.add(this.add.text(centerX - 260, centerY - 142, `${puzzle.challengeMode === "interval-jump" ? "Salto melodico" : puzzle.challengeMode === "scale-step" ? "Gradi della scala" : "Caccia alla nota"} · ${puzzle.clef === "treble" ? "chiave di violino" : "chiave di basso"}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "16px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    const lineSpacing = 28;
-    const staffLeft = centerX - 220;
-    const staffRight = centerX + 232;
-    const topY = centerY - 58;
-    for (let index = 0; index < 5; index += 1) {
-      const y = topY + index * lineSpacing;
-      overlay.add(this.add.rectangle((staffLeft + staffRight) / 2, y, staffRight - staffLeft, 2, 0x9ff5e9, 0.86));
-    }
-    const guideY = puzzle.clef === "bass" ? topY + lineSpacing : topY + lineSpacing * 3;
-    overlay.add(this.add.rectangle((staffLeft + staffRight) / 2, guideY, staffRight - staffLeft, 4, 0xf7d37a, 0.16));
-    const clefAnchorY = puzzle.clef === "bass" ? topY + lineSpacing : topY + lineSpacing * 3;
-    this.drawMusicClef(overlay, puzzle.clef, staffLeft + 46, clefAnchorY);
-    const isInterval = puzzle.challengeMode === "interval-jump" && puzzle.secondaryNote;
-    const noteX = isInterval ? centerX + 20 : centerX + 96;
-    this.drawPitchNote(overlay, noteX, topY, lineSpacing, puzzle.staffPosition, puzzle.ledgerLines, 0xf5fbff);
-    if (isInterval && puzzle.secondaryNote) {
-      const secondX = centerX + 178;
-      this.drawPitchNote(overlay, secondX, topY, lineSpacing, puzzle.secondaryNote.staffPosition, puzzle.secondaryNote.ledgerLines, 0xf7d37a);
-      const arrowY = centerY + 76;
-      overlay.add(this.add.rectangle((noteX + secondX) / 2, arrowY, secondX - noteX - 32, 3, 0x6be7d6, 0.76));
-      overlay.add(this.add.triangle(secondX - 12, arrowY, 0, -7, 14, 0, 0, 7, 0x6be7d6, 0.9));
-      overlay.add(this.add.text(noteX, centerY + 88, "1", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5));
-      overlay.add(this.add.text(secondX, centerY + 88, "2", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
-    }
-    if (showCoach) {
-      overlay.add(this.add.text(centerX - 260, centerY + 108, [
-        isInterval ? "Confronta nota 1 e nota 2" : `Posizione: ${puzzle.staffPosition % 2 === 0 ? "linea" : "spazio"}`,
-        isInterval ? "Risposta: direzione + intervallo" : puzzle.ledgerLines.length > 0 ? `Linee addizionali: ${puzzle.ledgerLines.length}` : "Nessuna linea addizionale",
-        isInterval ? "Conta i passaggi linea-spazio" : puzzle.answerMode === "note-name" ? "Risposta: nome della nota" : "Risposta: nome nota + ottava",
-      ].join("  |  "), {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#d9eaf1",
-        wordWrap: { width: 520 },
-      }));
-      overlay.add(this.add.text(centerX - 260, centerY + 132, this.musicModeExplanation(puzzle), {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#9aaab0",
-        wordWrap: { width: 520 },
-        lineSpacing: 2,
-      }));
-    }
-  }
-
-  private drawPitchNote(
-    overlay: Phaser.GameObjects.Container,
-    x: number,
-    topY: number,
-    lineSpacing: number,
-    staffPosition: number,
-    ledgerLines: number[],
-    color: number,
-  ): void {
-    const y = topY + staffPosition * (lineSpacing / 2);
-    ledgerLines.forEach((position) => {
-      overlay.add(this.add.rectangle(x, topY + position * (lineSpacing / 2), 72, 2, 0xf7d37a, 0.88));
-    });
-    overlay.add(this.add.ellipse(x, y, 34, 24, color, 1).setRotation(-0.42).setStrokeStyle(2, 0xf7d37a, 0.9));
-    overlay.add(this.add.rectangle(x + 18, y - 42, 3, 86, color, 0.94));
-  }
-
-  private drawMusicRhythmBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number, showCoach = true): void {
-    const pattern = puzzle.rhythmPattern!;
-    overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
-    overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
-    overlay.add(this.add.text(centerX - 260, centerY - 142, `Battito mancante · battuta da ${pattern.beatsPerMeasure}`, {
-      fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9", fontStyle: "bold",
-    }));
-    if (showCoach) {
-      overlay.add(this.add.text(centerX - 260, centerY - 108, "Completa la casella ? senza superare la battuta.", {
-        fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1",
-      }));
-    }
-    const gap = Math.min(112, 474 / pattern.cells.length);
-    const startX = centerX - ((pattern.cells.length - 1) * gap) / 2;
-    pattern.cells.forEach((cell, index) => {
-      const x = startX + index * gap;
-      overlay.add(this.add.rectangle(x, centerY - 6, gap - 12, 120, cell.missing ? 0x253b46 : 0x102a35, 0.96)
-        .setStrokeStyle(2, cell.missing ? 0xf7d37a : 0x6be7d6, 0.8));
-      overlay.add(this.add.text(x, centerY - 18, cell.missing ? "?" : cell.label, {
-        fontFamily: "Georgia, 'Times New Roman', serif", fontSize: cell.missing ? "48px" : "54px", color: cell.missing ? "#f7d37a" : "#f5fbff", fontStyle: "bold",
-      }).setOrigin(0.5));
-      overlay.add(this.add.text(x, centerY + 42, cell.missing ? "manca" : `${cell.beats}`, {
-        fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0",
-      }).setOrigin(0.5));
-    });
-    if (showCoach) {
-      overlay.add(this.add.text(centerX - 260, centerY + 108, "Legenda: ♪ = ½   ♩ = 1   𝅗𝅥 = 2   𝅝 = 4 battiti", {
-        fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a",
-      }));
-      overlay.add(this.add.text(centerX - 260, centerY + 136, `Totale richiesto: ${pattern.beatsPerMeasure} battiti. Somma le figure visibili e trova la differenza.`, {
-        fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", wordWrap: { width: 520 },
-      }));
-    }
-  }
-
-  private drawMusicDurationBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number, showCoach = true): void {
-    const cells = puzzle.rhythmPattern?.cells ?? [];
-    overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
-    overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.92).setStrokeStyle(2, 0x6be7d6, 0.26));
-    overlay.add(this.add.text(centerX - 260, centerY - 142, "Valore delle figure · durata relativa", {
-      fontFamily: "Inter, Arial", fontSize: "16px", color: "#9ff5e9", fontStyle: "bold",
-    }));
-    if (showCoach) {
-      overlay.add(this.add.text(centerX - 260, centerY - 112, "Più lunga è la barra, più dura la figura.", {
-        fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1",
-      }));
-    }
-    const rowHeight = Math.min(56, 240 / Math.max(1, cells.length));
-    const maxBeats = 4;
-    cells.forEach((cell, index) => {
-      const y = centerY - 70 + index * rowHeight;
-      const barWidth = Math.max(28, (cell.beats / maxBeats) * 360);
-      overlay.add(this.add.text(centerX - 250, y, cell.label, {
-        fontFamily: "Inter, Arial", fontSize: "15px", color: "#f5fbff", fontStyle: "bold",
-      }).setOrigin(0, 0.5));
-      overlay.add(this.add.rectangle(centerX - 70, y, barWidth, rowHeight - 16, 0x1f5a51, 0.95)
-        .setOrigin(0, 0.5).setStrokeStyle(2, 0x6be7d6, 0.8));
-      overlay.add(this.add.text(centerX - 70 + barWidth + 10, y, cell.beats === 0.5 ? "½" : `${cell.beats}`, {
-        fontFamily: "Inter, Arial", fontSize: "13px", color: "#9aaab0",
-      }).setOrigin(0, 0.5));
-    });
-    if (showCoach) {
-      overlay.add(this.add.text(centerX - 260, centerY + 128, "Semibreve 4 · Minima 2 · Semiminima 1 · Croma ½ (ogni figura vale metà della precedente).", {
-        fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", wordWrap: { width: 520 },
-      }));
-    }
-  }
-
-  private drawMusicListeningBoard(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, centerX: number, centerY: number, showCoach = true): void {
-    const isInterval = puzzle.challengeMode === "auditory-interval" && puzzle.secondaryNote;
-    overlay.add(this.add.rectangle(centerX + 8, centerY + 10, 590, 326, 0x000000, 0.24));
-    overlay.add(this.add.rectangle(centerX, centerY, 590, 326, 0x07151d, 0.94).setStrokeStyle(2, 0xf7d37a, 0.34));
-    overlay.add(this.add.image(centerX, centerY, "soft-glow").setTint(0xf7d37a).setAlpha(0.1).setScale(4.4, 2.3));
-    overlay.add(this.add.text(centerX - 260, centerY - 142, isInterval ? "Ascolto intervallo · pentagramma nascosto" : "Ascolto nota · pentagramma nascosto", {
-      fontFamily: "Inter, Arial",
-      fontSize: "16px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(centerX - 260, centerY - 112, isInterval
-      ? "Ascolta le due note: devi riconoscere direzione e distanza del salto."
-      : "Ascolta il suono: devi riconoscere il nome della nota senza guardare la posizione.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 520 },
-    }));
-
-    const g = this.add.graphics();
-    const waveLeft = centerX - 236;
-    const waveTop = centerY - 34;
-    const waveWidth = 472;
-    const centerLine = waveTop + 58;
-    g.lineStyle(2, 0x6be7d6, 0.82);
-    g.beginPath();
-    for (let step = 0; step <= 96; step += 1) {
-      const x = waveLeft + (step / 96) * waveWidth;
-      const phrase = isInterval && step > 48 ? 1.48 : 1;
-      const y = centerLine + Math.sin(step * 0.36 * phrase) * (18 + 6 * Math.sin(step * 0.09));
-      if (step === 0) g.moveTo(x, y);
-      else g.lineTo(x, y);
-    }
-    g.strokePath();
-    g.lineStyle(1, 0xf7d37a, 0.2);
-    for (let guide = 0; guide < 5; guide += 1) {
-      const y = waveTop + 8 + guide * 26;
-      g.strokeLineShape(new Phaser.Geom.Line(waveLeft, y, waveLeft + waveWidth, y));
-    }
-    overlay.add(g);
-
-    const badgeY = centerY + 76;
-    overlay.add(this.add.rectangle(centerX - 120, badgeY, 190, 54, 0x102a35, 0.94).setStrokeStyle(1, 0x6be7d6, 0.54));
-    overlay.add(this.add.text(centerX - 120, badgeY, isInterval ? "1ª nota" : "suono singolo", {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-    }).setOrigin(0.5));
-    if (isInterval) {
-      overlay.add(this.add.rectangle(centerX + 120, badgeY, 190, 54, 0x102a35, 0.94).setStrokeStyle(1, 0xf7d37a, 0.58));
-      overlay.add(this.add.text(centerX + 120, badgeY, "2ª nota", {
-        fontFamily: "Inter, Arial",
-        fontSize: "14px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-      }).setOrigin(0.5));
-      overlay.add(this.add.triangle(centerX, badgeY, -10, -7, 12, 0, -10, 7, 0xf7d37a, 0.9));
-    }
-    if (showCoach) {
-      overlay.add(this.add.text(centerX - 260, centerY + 126, isInterval
-        ? "Metodo: prima direzione (sale/scende), poi ampiezza. Riascolta per confermare, non per tentare."
-        : "Metodo: colloca mentalmente l'altezza nella scala Do-Re-Mi-Fa-Sol-La-Si, poi scegli.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#9aaab0",
-        wordWrap: { width: 520 },
-        lineSpacing: 3,
-      }));
-    }
-  }
-
-  private drawMusicSupport(overlay: Phaser.GameObjects.Container, puzzle: GeneratedMusicPuzzle, session: MusicTrainingSession, showCoach = true): void {
-    overlay.add(this.add.rectangle(916, 282, 508, 206, 0x07151d, 0.88).setStrokeStyle(1, 0x6be7d6, 0.24));
-    const supportTitle = puzzle.challengeMode === "rhythm-gap"
-      ? "2 · Completa la battuta"
-      : this.isAuditoryMusicPuzzle(puzzle)
-        ? "2 · Ascolta e riconosci"
-      : puzzle.challengeMode === "interval-jump"
-        ? "2 · Segui il movimento"
-        : "2 · Scegli solo dopo aver contato";
-    overlay.add(this.add.text(682, 196, supportTitle, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    const visibleHint = this.currentActiveHint();
-    overlay.add(this.add.text(682, 224, showCoach
-      ? `${puzzle.method}\n\n${visibleHint ? `INDIZIO ATTIVO: ${visibleHint}` : session.feedback || "Non serve correre a caso: rispondi solo quando hai agganciato la chiave e contato linee/spazi."}`
-      : visibleHint ? `INDIZIO ATTIVO: ${visibleHint}` : session.feedback, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 456 },
-      lineSpacing: 4,
-    }));
-    if (showCoach) {
-      overlay.add(this.add.text(682, 310, `Scopo: ${puzzle.learningPurpose}`, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#9aaab0",
-        wordWrap: { width: 456 },
-        lineSpacing: 3,
-      }));
-    }
-    overlay.add(this.add.text(682, 366, puzzle.conceptTags.map((tag) => `#${tag}`).join("  "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      wordWrap: { width: 456 },
-    }));
-  }
-
   private ensureMusicSession(puzzleId: string): MusicTrainingSession {
     if (this.musicSession?.puzzleId === puzzleId) {
       return this.musicSession;
@@ -6596,7 +6072,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const basePuzzle = this.currentMusicPuzzle();
     const variant = this.run.retryVariants?.music ?? 0;
     const random = new Random(`${this.run.seed}:${puzzleId}:music-drill:${variant}:${nextExerciseSalt()}`);
-    const durationMs = this.musicSprintDurationMs(this.run.difficulty);
+    const durationMs = MusicConsole.sprintDurationMs(this.run.difficulty);
     const baseMode = basePuzzle.challengeMode ?? "note-hunt";
     const allModes: MusicMinigameType[] = ["note-hunt", "auditory-note", "interval-jump", "auditory-interval", "rhythm-gap", "scale-step", "note-duration"];
     const otherModes = random.shuffle<MusicMinigameType>(allModes.filter((mode) => mode !== baseMode));
@@ -6613,7 +6089,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       streak: 0,
       bestStreak: 0,
       netScore: 0,
-      recentSignatures: [this.musicPuzzleSignature(basePuzzle)],
+      recentSignatures: [MusicConsole.puzzleSignature(basePuzzle)],
       modeRotation: [baseMode, ...otherModes],
       modeIndex: 0,
       feedback: showCoach ? "Tre sfide a rotazione: nota, salto melodico e ritmo. Ragiona prima del clic: la serie premia precisione e varietà." : "",
@@ -6633,7 +6109,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.locked = true;
     const correctLabel = session.current.choices.find((choice) => choice.isCorrect)?.label ?? "soluzione indicata";
     outcomeFeedback.answer(this, correct, selectedLabel, correctLabel, feedback);
-    const points = this.musicAnswerPoints(session, correct);
+    const points = MusicConsole.answerPoints(session, correct, this.run.difficulty);
     session.answered += 1;
     if (correct) {
       session.correct += 1;
@@ -6658,7 +6134,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         return;
       }
     }
-    if (this.musicSprintExpired(session)) {
+    if (MusicConsole.sprintExpired(session)) {
       this.finishMusicSprint();
       return;
     }
@@ -6679,13 +6155,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private nextMusicSprintPuzzle(session: MusicTrainingSession): GeneratedMusicPuzzle {
     const level = Math.min(8, Math.max(1, this.run.difficulty + Math.floor(session.correct / 7))) as DifficultyLevel;
-    const previous = this.musicPuzzleSignature(session.current);
+    const previous = MusicConsole.puzzleSignature(session.current);
     session.modeIndex = (session.modeIndex + 1) % session.modeRotation.length;
     const nextMode = session.modeRotation[session.modeIndex];
     for (let attempt = 0; attempt < 14; attempt += 1) {
       const salt = session.random.integer(0, 999_999);
       const candidate = this.musicGenerator.generate(session.random.fork(`sprint-${session.answered}-${attempt}-${salt}`), level, [nextMode]);
-      const signature = this.musicPuzzleSignature(candidate);
+      const signature = MusicConsole.puzzleSignature(candidate);
       if (signature !== previous && !session.recentSignatures.slice(-2).includes(signature)) {
         session.recentSignatures.push(signature);
         session.recentSignatures = session.recentSignatures.slice(-4);
@@ -6693,50 +6169,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       }
     }
     const fallback = this.musicGenerator.generate(session.random.fork(`fallback-${session.answered}`), level, [nextMode]);
-    session.recentSignatures.push(this.musicPuzzleSignature(fallback));
+    session.recentSignatures.push(MusicConsole.puzzleSignature(fallback));
     session.recentSignatures = session.recentSignatures.slice(-4);
     return fallback;
-  }
-
-  private musicSprintDurationMs(level: DifficultyLevel): number {
-    return (45_000 + Math.min(18_000, (level - 1) * 2_500)) * 2;
-  }
-
-  private musicSprintElapsedMs(session: MusicTrainingSession): number {
-    return Math.max(0, Date.now() - session.startedAt);
-  }
-
-  private musicSprintRemainingMs(session: MusicTrainingSession): number {
-    return Math.max(0, session.durationMs - this.musicSprintElapsedMs(session));
-  }
-
-  private musicSprintExpired(session: MusicTrainingSession): boolean {
-    return this.musicSprintRemainingMs(session) <= 0;
-  }
-
-  private musicPuzzleSignature(puzzle: GeneratedMusicPuzzle): string {
-    return [
-      puzzle.challengeMode ?? "note-hunt",
-      puzzle.clef,
-      puzzle.answerMode,
-      puzzle.noteName,
-      puzzle.octave,
-      puzzle.staffPosition,
-      puzzle.ledgerLines.join("."),
-      puzzle.secondaryNote ? `${puzzle.secondaryNote.noteName}${puzzle.secondaryNote.octave}:${puzzle.secondaryNote.staffPosition}` : "",
-      puzzle.rhythmPattern ? `${puzzle.rhythmPattern.beatsPerMeasure}:${puzzle.rhythmPattern.cells.map((cell) => `${cell.beats}${cell.missing ? "?" : ""}`).join("-")}` : "",
-    ].join(":");
-  }
-
-  private musicAnswerPoints(session: MusicTrainingSession, correct: boolean): number {
-    const level = this.run.difficulty;
-    if (correct) {
-      const nextStreak = session.streak + 1;
-      const streakBonus = Math.min(12, Math.floor(nextStreak / 3) * 3);
-      return 10 + level * 2 + streakBonus;
-    }
-    const randomClickPenalty = Math.min(8, Math.floor(session.streak / 2) * 2);
-    return -(8 + level + randomClickPenalty);
   }
 
   private startMusicSprintCountdown(puzzleId: string, text: Phaser.GameObjects.Text): void {
@@ -6751,7 +6186,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       if (!text.active || !session || session.puzzleId !== puzzleId || session.summaryOpen) {
         return;
       }
-      const remaining = this.musicSprintRemainingMs(session);
+      const remaining = MusicConsole.sprintRemainingMs(session);
       text.setText(`Tempo sprint: ${formatDuration(remaining)}`);
       text.setColor(remaining < 8_000 ? "#ff8a8a" : "#f7d37a");
       if (remaining <= 0) {
@@ -6789,23 +6224,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return session.correct >= minCorrect && accuracy >= 0.45 && session.netScore > 0;
   }
 
-  private musicSprintFeedback(session: MusicTrainingSession): string {
-    if (session.answered === 0) {
-      return "Nessuna risposta registrata: serve almeno iniziare il riconoscimento delle note.";
-    }
-    const accuracy = session.correct / session.answered;
-    if (accuracy >= 0.86 && session.bestStreak >= 7) {
-      return "Lettura fluida: riconosci chiave, posizione e nome con buona continuità.";
-    }
-    if (accuracy >= 0.68) {
-      return "Buona base: la velocità cresce, ma alcune risposte mostrano che devi ricontare prima del click.";
-    }
-    if (session.wrong > session.correct) {
-      return "Troppe risposte a tentativo: rallenta un attimo, aggancia la nota guida e poi conta linee e spazi.";
-    }
-    return "Calibrazione utile: hai letto diverse note, ora punta a serie più lunghe senza errori.";
-  }
-
   private showMusicSprintSummary(session: MusicTrainingSession): void {
     const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
     const modal = this.add.container(0, 0).setDepth(1300);
@@ -6837,7 +6255,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }));
     modal.add(this.add.rectangle(560, 218, 390, 120, 0x102533, 0.78).setOrigin(0)
       .setStrokeStyle(1, 0x6be7d6, 0.3));
-    modal.add(this.add.text(584, 240, this.musicSprintFeedback(session), {
+    modal.add(this.add.text(584, 240, MusicConsole.sprintFeedback(session), {
       fontFamily: "Inter, Arial",
       fontSize: "14px",
       color: "#d9eaf1",
@@ -6925,7 +6343,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const existing = run.puzzleStats?.[session.puzzleId];
     const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
     const completedAt = new Date().toISOString();
-    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.musicSprintElapsedMs(session)));
+    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, MusicConsole.sprintElapsedMs(session)));
     const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
     const basePoints = session.correct * (10 + run.difficulty);
     const difficultyBonus = session.correct * run.difficulty * 2;
@@ -6950,7 +6368,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       focusBonus,
       supportPenalty,
       total,
-      feedback: this.musicSprintFeedback(session),
+      feedback: MusicConsole.sprintFeedback(session),
     };
     saveSystem.updateProceduralRun({
       puzzleStats: {
@@ -6964,125 +6382,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.activeChallenge = undefined;
     this.resetTransientPuzzleState();
     return score;
-  }
-
-  private musicPromptText(puzzle: GeneratedMusicPuzzle): string {
-    if (puzzle.challengeMode === "auditory-note") {
-      return "Orecchio musicale: ascolta la nota e scegli il nome corretto. Il pentagramma è nascosto per calibrare il riconoscimento dal suono.";
-    }
-    if (puzzle.challengeMode === "auditory-interval") {
-      return "Orecchio musicale: ascolta due note in sequenza e scegli se la seconda sale/scende e di quale intervallo.";
-    }
-    if (puzzle.challengeMode === "interval-jump") {
-      return "Salto melodico: la nota 2 sale o scende? Conta la distanza e scegli direzione + intervallo.";
-    }
-    if (puzzle.challengeMode === "rhythm-gap") {
-      return `Battito mancante: completa la battuta da ${puzzle.rhythmPattern?.beatsPerMeasure ?? 4} contando il valore delle figure.`;
-    }
-    if (puzzle.challengeMode === "scale-step") {
-      return "Gradi della scala: leggi la nota mostrata e scegli quella che la segue (o precede) nella scala Do-Re-Mi-Fa-Sol-La-Si.";
-    }
-    if (puzzle.challengeMode === "note-duration") {
-      return "Valore delle figure: confronta le durate delle figure musicali e rispondi alla domanda.";
-    }
-    if (puzzle.answerMode === "note-name") {
-      return "Obiettivo: riconosci il nome della nota il più rapidamente possibile. Guarda la chiave, trova la nota guida e conta linee/spazi.";
-    }
-    return "Obiettivo: riconosci nome e ottava. Il numero indica il registro: Do4 è il Do centrale; La4 è il La sopra il Do centrale.";
-  }
-
-  private musicModeExplanation(puzzle: GeneratedMusicPuzzle): string {
-    if (puzzle.challengeMode === "auditory-note") {
-      return "Modalità ascolto: il suono sostituisce il pentagramma. Prima colloca l'altezza, poi scegli il nome.";
-    }
-    if (puzzle.challengeMode === "auditory-interval") {
-      return "Modalità intervallo a orecchio: non serve vedere le note; devi percepire direzione e ampiezza del salto.";
-    }
-    if (puzzle.challengeMode === "interval-jump") {
-      return "Modalità melodia: prima stabilisci la direzione, poi conta i gradi includendo nota iniziale e finale.";
-    }
-    if (puzzle.challengeMode === "rhythm-gap") {
-      return "Modalità ritmo: ogni figura occupa una durata; la battuta è completa solo quando la somma coincide con il metro.";
-    }
-    if (puzzle.challengeMode === "scale-step") {
-      return "Modalità scala: la successione dei gradi è Do-Re-Mi-Fa-Sol-La-Si e poi ricomincia. Muoviti di un grado dalla nota mostrata.";
-    }
-    if (puzzle.challengeMode === "note-duration") {
-      return "Modalità durate: ogni figura vale la metà della precedente (semibreve 4, minima 2, semiminima 1, croma ½).";
-    }
-    if (puzzle.answerMode === "note-name") {
-      return "Modalità rapida: conta la posizione e scegli solo il nome della nota. L'ottava verrà calibrata nelle profondità avanzate.";
-    }
-    return "Modalità avanzata: stesso nome in registri diversi non basta; controlla anche le linee addizionali per scegliere l'ottava.";
-  }
-
-  private musicSolutionLines(puzzle: GeneratedMusicPuzzle): string[] {
-    const correct = puzzle.choices.find((choice) => choice.isCorrect)?.label ?? puzzle.noteName;
-    if (puzzle.challengeMode === "auditory-note") {
-      return [
-        `Risposta corretta: ${correct}.`,
-        `La nota ascoltata era ${puzzle.noteName}${puzzle.octave}.`,
-        "Strategia: confronta mentalmente se il suono è più grave o più acuto rispetto ai riferimenti Do-Re-Mi-Fa-Sol-La-Si.",
-        puzzle.method,
-      ];
-    }
-    if (puzzle.challengeMode === "auditory-interval" && puzzle.secondaryNote) {
-      return [
-        `Risposta corretta: ${correct}.`,
-        `Hai ascoltato ${puzzle.noteName}${puzzle.octave} seguito da ${puzzle.secondaryNote.noteName}${puzzle.secondaryNote.octave}.`,
-        "Prima riconosci la direzione del secondo suono, poi stima la distanza del salto.",
-        puzzle.method,
-      ];
-    }
-    if (puzzle.challengeMode === "rhythm-gap" && puzzle.rhythmPattern) {
-      const visible = puzzle.rhythmPattern.beatsPerMeasure - puzzle.rhythmPattern.missingBeats;
-      return [
-        `Risposta corretta: ${correct}.`,
-        `Le figure visibili totalizzano ${visible} battiti.`,
-        `${puzzle.rhythmPattern.beatsPerMeasure} - ${visible} = ${puzzle.rhythmPattern.missingBeats}.`,
-        "La figura scelta completa la battuta senza superarla.",
-      ];
-    }
-    if (puzzle.challengeMode === "interval-jump" && puzzle.secondaryNote) {
-      return [
-        `Risposta corretta: ${correct}.`,
-        `Prima nota: ${puzzle.noteName}${puzzle.octave}; seconda: ${puzzle.secondaryNote.noteName}${puzzle.secondaryNote.octave}.`,
-        "Confronta l'altezza per la direzione e conta i nomi per la distanza.",
-        puzzle.method,
-      ];
-    }
-    const correctAny = puzzle.choices.find((choice) => choice.isCorrect)?.label ?? puzzle.noteName;
-    if (puzzle.challengeMode === "note-duration") {
-      return [
-        `Risposta corretta: ${correctAny}.`,
-        "Valori: semibreve 4, minima 2, semiminima 1, croma ½ movimento.",
-        "Ogni figura dura la metà della precedente.",
-        puzzle.method,
-      ];
-    }
-    if (puzzle.challengeMode === "scale-step") {
-      return [
-        `Risposta corretta: ${correctAny}.`,
-        `Nota mostrata: ${puzzle.noteName}.`,
-        "Successione dei gradi: Do Re Mi Fa Sol La Si, poi di nuovo Do.",
-        puzzle.method,
-      ];
-    }
-    const anchor = puzzle.clef === "treble"
-      ? "chiave di violino: parti dal Sol sulla seconda linea"
-      : "chiave di basso: parti dal Fa sulla quarta linea, tra i due puntini";
-    const position = puzzle.staffPosition % 2 === 0 ? "linea" : "spazio";
-    const ledger = puzzle.ledgerLines.length > 0
-      ? `usa anche ${puzzle.ledgerLines.length} linea/e addizionale/i`
-      : "resta dentro il pentagramma";
-    return [
-      `Risposta corretta: ${correct}.`,
-      `Metodo: ${anchor}.`,
-      `La nota si trova su ${position}; ${ledger}.`,
-      puzzle.answerMode === "note-name"
-        ? "In questa profondità conta solo il nome della nota, non l'ottava."
-        : "In questa profondità devi controllare anche l'ottava, quindi le linee addizionali diventano decisive.",
-    ];
   }
 
   private showTimeoutSolution(message: string, solutionLines: string[], onTrainingContinue?: () => void): void {
@@ -7162,31 +6461,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontSize: 16,
     }));
     overlay.add(modal);
-  }
-
-  private drawMusicClef(overlay: Phaser.GameObjects.Container, clef: GeneratedMusicPuzzle["clef"], x: number, y: number): void {
-    if (clef === "treble") {
-      const symbol = this.add.text(x, y, "𝄞", {
-        fontFamily: "Georgia, 'Times New Roman', serif",
-        fontSize: "96px",
-        color: "#f7d37a",
-      }).setOrigin(0.5, 0.55);
-      symbol.setY(y - 2);
-      overlay.add(symbol);
-      overlay.add(this.add.circle(x + 1, y, 4, 0xf5fbff, 0.85));
-      return;
-    }
-    const g = this.add.graphics();
-    g.lineStyle(4, 0xf7d37a, 0.92);
-    g.beginPath();
-    g.arc(x - 12, y, 34, Phaser.Math.DegToRad(248), Phaser.Math.DegToRad(88), false);
-    g.strokePath();
-    g.fillStyle(0xf7d37a, 0.95);
-    g.fillCircle(x - 28, y, 8);
-    g.fillCircle(x + 30, y - 14, 4);
-    g.fillCircle(x + 30, y + 14, 4);
-    overlay.add(g);
-    overlay.add(this.add.circle(x - 28, y, 3, 0xf5fbff, 0.72));
   }
 
   private openRobot(): void {

@@ -985,6 +985,12 @@ export type ProgressiveRunState = {
   results: ProgressiveLevelResult[];
 };
 
+export type ProceduralBonusEventState = {
+  offeredIds: string[];
+  resolvedIds: string[];
+  skippedIds: string[];
+};
+
 export type ProceduralRunSave = {
   seed: string;
   difficulty: DifficultyLevel;
@@ -999,6 +1005,7 @@ export type ProceduralRunSave = {
   failedPuzzleIds?: string[];
   puzzleStats?: Record<string, ProceduralPuzzleScore>;
   score?: ProceduralScoreSummary;
+  bonusEvents?: ProceduralBonusEventState;
   lives?: number;
   maxLives?: number;
   timeLimitMs?: number;

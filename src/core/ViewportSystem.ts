@@ -74,9 +74,12 @@ export class ViewportSystem {
       const buildId = import.meta.env.VITE_BUILD_REF ?? import.meta.env.VITE_BUILD_TIME ?? "local-build";
       scriptUrl.searchParams.set("v", buildId);
 
+      // Reload only when a NEW worker takes control of a page that was already
+      // controlled: never on first install, never mid-game without consent.
+      const wasControlled = Boolean(navigator.serviceWorker.controller);
       let reloadingForUpdate = false;
       navigator.serviceWorker.addEventListener("controllerchange", () => {
-        if (reloadingForUpdate) {
+        if (!wasControlled || reloadingForUpdate) {
           return;
         }
         reloadingForUpdate = true;
@@ -87,14 +90,63 @@ export class ViewportSystem {
         scope: base,
         updateViaCache: "none",
       }).then((registration) => {
-        registration.waiting?.postMessage({ type: "SKIP_WAITING" });
+        this.watchForWaitingWorker(registration);
         registration.update().catch(() => {
           // The browser will retry future update checks.
         });
+        // Check again when the app regains focus (a tablet left open for days
+        // would otherwise never learn about new versions), at most every 15'.
+        let lastCheck = Date.now();
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden || Date.now() - lastCheck < 15 * 60_000) {
+            return;
+          }
+          lastCheck = Date.now();
+          registration.update().catch(() => undefined);
+        }, { passive: true });
       }).catch(() => {
         // Offline caching is optional; the game remains playable online.
       });
     }, { once: true });
+  }
+
+  /** Shows a consent banner when a new version is installed and waiting. */
+  private static watchForWaitingWorker(registration: ServiceWorkerRegistration): void {
+    if (registration.waiting && navigator.serviceWorker.controller) {
+      this.showUpdateBanner(registration);
+      return;
+    }
+    registration.addEventListener("updatefound", () => {
+      const incoming = registration.installing;
+      incoming?.addEventListener("statechange", () => {
+        if (incoming.state === "installed" && navigator.serviceWorker.controller) {
+          this.showUpdateBanner(registration);
+        }
+      });
+    });
+  }
+
+  private static showUpdateBanner(registration: ServiceWorkerRegistration): void {
+    if (document.getElementById("update-banner")) {
+      return;
+    }
+    const banner = document.createElement("div");
+    banner.id = "update-banner";
+    banner.setAttribute("role", "status");
+    banner.innerHTML = `
+      <span class="update-banner-text">Nuova versione disponibile</span>
+      <button type="button" class="update-banner-apply">Aggiorna ora</button>
+      <button type="button" class="update-banner-later" aria-label="Rimanda">Più tardi</button>
+    `;
+    banner.querySelector(".update-banner-apply")?.addEventListener("click", () => {
+      banner.remove();
+      // controllerchange (sopra) ricarica la pagina quando il worker si attiva.
+      registration.waiting?.postMessage({ type: "SKIP_WAITING" });
+    });
+    banner.querySelector(".update-banner-later")?.addEventListener("click", () => {
+      banner.remove();
+    });
+    document.body.appendChild(banner);
   }
 
   private static clearDevelopmentServiceWorker(): void {

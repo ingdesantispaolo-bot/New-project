@@ -105,3 +105,43 @@ canvas {
   font-size: 17px;
   line-height: 1.45;
 }
+
+#update-banner {
+  position: fixed;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid rgba(107, 231, 214, 0.46);
+  background: rgba(7, 18, 26, 0.94);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: #f5fbff;
+  font-size: 14px;
+}
+
+.update-banner-text {
+  color: #9ff5e9;
+  font-weight: 600;
+}
+
+#update-banner button {
+  font: inherit;
+  cursor: pointer;
+  padding: 10px 16px;
+  min-height: 44px;
+  border: 1px solid rgba(107, 231, 214, 0.5);
+  color: #f5fbff;
+}
+
+.update-banner-apply {
+  background: #173b36;
+}
+
+.update-banner-later {
+  background: #263743;
+  border-color: rgba(199, 220, 231, 0.3) !important;
+}

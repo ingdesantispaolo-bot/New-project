@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { masterySystem, type MasteryBranch } from "../core/MasterySystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
+import { startScene } from "../core/SceneNavigator";
 import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
@@ -56,7 +57,9 @@ export class MasteryScene extends Phaser.Scene {
       height: 44,
       fill: 0x263743,
     });
-    new Button(this, 372, 686, "Calibrazione settore", () => this.scene.start("MainMenuScene"), {
+    new Button(this, 372, 686, "Riscaldamento", () => {
+      void startScene(this, "LogicGymScene");
+    }, {
       width: 240,
       height: 44,
       fill: 0x173b36,

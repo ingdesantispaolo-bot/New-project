@@ -10,6 +10,8 @@ import { settingsSystem } from "../core/SettingsSystem";
 import type { ProceduralPuzzleKind } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
+import { drawTheoryVisual } from "../ui/TheoryVisual";
+import { theorySubjectLabels } from "../data/theoryCatalog";
 import { VisualKit } from "../ui/VisualKit";
 
 /**
@@ -240,8 +242,39 @@ export class NoraScene extends Phaser.Scene {
   private showRecommendedTheory(): void {
     const topic = this.recommendedTheoryTopic();
     if (!topic) return;
-    this.talkText?.setText(`«${noraKnowledge.noraBrief(topic)}»`);
     audioManager.play("uiSelect");
+    this.talkText?.setText(`«${noraKnowledge.noraBrief(topic)}»`);
+
+    // "Chiedi a NORA": a small illustrated card — concept + example + Atlante link.
+    const modal = this.add.container(0, 0).setDepth(3000);
+    const close = (): void => modal.destroy(true);
+    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.86).setInteractive());
+    modal.add(this.add.rectangle(640, 360, 760, 400, 0x07151d, 0.99).setStrokeStyle(2, 0x9ff5e9, 0.55));
+    modal.add(this.add.text(300, 190, `RIPASSO · ${theorySubjectLabels[topic.subject].toUpperCase()}`, {
+      fontFamily: "Inter, Arial", fontSize: "12px", color: "#f7d37a", fontStyle: "bold",
+    }));
+    modal.add(this.add.text(300, 210, topic.title, {
+      fontFamily: "Inter, Arial", fontSize: "24px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 640 },
+    }));
+
+    modal.add(drawTheoryVisual(this, topic, 300, 262, { width: 220, height: 150 }));
+
+    modal.add(this.add.text(540, 258, `«${topic.noraExplanation}»`, {
+      fontFamily: "Inter, Arial", fontSize: "14px", color: "#eaf4f8", fontStyle: "italic", wordWrap: { width: 396 }, lineSpacing: 5,
+    }));
+    modal.add(this.add.text(540, 356, `Esempio: ${topic.example.prompt}  →  ${topic.example.answer}`, {
+      fontFamily: "Inter, Arial", fontSize: "12px", color: "#9ff5a7", wordWrap: { width: 396 }, lineSpacing: 3,
+    }));
+    modal.add(this.add.text(300, 428, `⚠ ${topic.watchOut[0] ?? ""}`, {
+      fontFamily: "Inter, Arial", fontSize: "12px", color: "#f3d9c4", wordWrap: { width: 640 },
+    }));
+
+    modal.add(new Button(this, 452, 508, "Apri nell'Atlante", () => {
+      close();
+      void this.scene.start("MathStudyScene", { pageId: topic.id });
+    }, { width: 260, height: 42, fontSize: 13, fill: 0x173b36, stroke: 0x6be7d6 }));
+    modal.add(new Button(this, 736, 508, "Ho capito", close, { width: 200, height: 42, fontSize: 13, fill: 0x263743 }));
+    audioManager.play("panelOpen");
   }
 
   private recommendedTheoryTopic() {

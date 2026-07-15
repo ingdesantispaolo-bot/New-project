@@ -78,6 +78,7 @@ import type {
 } from "../procedural/ProceduralTypes";
 import type { TheoryTopic } from "../data/theoryCatalog";
 import { Button } from "../ui/Button";
+import { drawTheoryVisual } from "../ui/TheoryVisual";
 import { outcomeFeedback, type OutcomeTone } from "../ui/OutcomeFeedback";
 import { SceneChrome } from "../ui/SceneChrome";
 import { VisualKit } from "../ui/VisualKit";
@@ -9572,56 +9573,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
   }
 
   private drawTheoryIllustration(modal: Phaser.GameObjects.Container, topic: TheoryTopic, x: number, y: number): void {
-    modal.add(this.add.rectangle(x, y, 220, 154, 0x02090e, 0.88).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.34));
-    const g = this.add.graphics();
-    g.lineStyle(2, 0x6be7d6, 0.88);
-    if (topic.visualKind === "circuit") {
-      g.strokeRoundedRect(x + 32, y + 44, 156, 66, 10);
-      g.fillStyle(0xf6c85f, 1).fillCircle(x + 54, y + 77, 10);
-      g.fillStyle(0x9ff5e9, 1).fillCircle(x + 166, y + 77, 10);
-      g.lineBetween(x + 96, y + 44, x + 124, y + 28);
-      g.lineBetween(x + 124, y + 28, x + 150, y + 44);
-    } else if (topic.visualKind === "code-trace") {
-      for (let i = 0; i < 4; i += 1) g.strokeRect(x + 34, y + 30 + i * 26, 152, 18);
-      g.lineBetween(x + 74, y + 39, x + 162, y + 39);
-      g.lineBetween(x + 74, y + 65, x + 138, y + 65);
-      g.lineBetween(x + 74, y + 91, x + 170, y + 91);
-      g.lineBetween(x + 74, y + 117, x + 118, y + 117);
-    } else if (topic.visualKind === "staff") {
-      for (let i = 0; i < 5; i += 1) g.lineBetween(x + 30, y + 42 + i * 18, x + 190, y + 42 + i * 18);
-      g.fillStyle(0xf6c85f, 1).fillEllipse(x + 116, y + 78, 25, 17);
-      g.lineBetween(x + 128, y + 76, x + 128, y + 36);
-    } else if (topic.visualKind === "grid") {
-      for (let i = 0; i <= 4; i += 1) {
-        g.lineBetween(x + 44 + i * 30, y + 26, x + 44 + i * 30, y + 146);
-        g.lineBetween(x + 44, y + 26 + i * 30, x + 164, y + 26 + i * 30);
-      }
-      g.fillStyle(0xf6c85f, 1).fillTriangle(x + 82, y + 82, x + 62, y + 94, x + 62, y + 70);
-    } else if (topic.visualKind === "physics-diagram") {
-      g.lineBetween(x + 36, y + 124, x + 186, y + 124);
-      g.lineBetween(x + 46, y + 124, x + 170, y + 42);
-      g.fillStyle(0xf6c85f, 1).fillCircle(x + 170, y + 42, 8);
-      g.lineStyle(2, 0xffb36b, 0.9).lineBetween(x + 170, y + 42, x + 198, y + 42);
-    } else if (topic.visualKind === "latin-table") {
-      for (let i = 0; i <= 3; i += 1) g.lineBetween(x + 38, y + 36 + i * 30, x + 182, y + 36 + i * 30);
-      for (let i = 0; i <= 2; i += 1) g.lineBetween(x + 38 + i * 72, y + 36, x + 38 + i * 72, y + 126);
-    } else if (topic.visualKind === "timeline") {
-      g.lineBetween(x + 38, y + 80, x + 184, y + 80);
-      g.fillStyle(0xf6c85f, 1).fillCircle(x + 62, y + 80, 7);
-      g.fillCircle(x + 112, y + 80, 7);
-      g.fillCircle(x + 164, y + 80, 7);
-    } else {
-      g.strokeRect(x + 42, y + 44, 136, 64);
-      g.lineBetween(x + 62, y + 76, x + 158, y + 76);
-      g.lineBetween(x + 110, y + 54, x + 110, y + 98);
-    }
-    modal.add(g);
-    modal.add(this.add.text(x + 20, y + 124, topic.visualKind.replace("-", " "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 180 },
-    }));
+    // Shared schematic renderer (src/ui/TheoryVisual.ts) — same look everywhere.
+    modal.add(drawTheoryVisual(this, topic, x, y, { width: 220, height: 154 }));
   }
 
   private clearOverlay(): void {

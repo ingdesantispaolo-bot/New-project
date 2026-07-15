@@ -11,6 +11,7 @@ import { startScene } from "../core/SceneNavigator";
 import type { DifficultyLevel, ProceduralPuzzleKind, ProceduralRunSave } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
+import { drawTheoryVisual } from "../ui/TheoryVisual";
 import { VisualKit } from "../ui/VisualKit";
 
 const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
@@ -228,8 +229,12 @@ export class MathStudyScene extends Phaser.Scene {
       lineSpacing: 7,
     });
 
+    // Schematic illustration for the topic's visualKind (shared renderer).
+    this.add.text(724, 470, "SCHEMA", { fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", fontStyle: "bold" });
+    drawTheoryVisual(this, page, 724, 488, { width: 150, height: 158 });
+
     // ESEMPIO — guided example.
-    this.add.rectangle(404, 488, 470, 158, 0x0b1a24, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.28);
+    this.add.rectangle(404, 488, 300, 158, 0x0b1a24, 0.9).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.28);
     this.add.text(420, 498, "ESEMPIO", {
       fontFamily: "Inter, Arial",
       fontSize: "15px",
@@ -241,7 +246,7 @@ export class MathStudyScene extends Phaser.Scene {
       fontSize: "13px",
       color: "#f5fbff",
       fontStyle: "bold",
-      wordWrap: { width: 438 },
+      wordWrap: { width: 268 },
     });
     const visibleExampleSteps = page.example.steps.slice(0, 4);
     const hiddenExampleSteps = page.example.steps.length > visibleExampleSteps.length ? "\n..." : "";
@@ -249,7 +254,7 @@ export class MathStudyScene extends Phaser.Scene {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7dce7",
-      wordWrap: { width: 438 },
+      wordWrap: { width: 268 },
       lineSpacing: 3,
     });
     this.add.text(420, 628, `= ${page.example.answer}`, {

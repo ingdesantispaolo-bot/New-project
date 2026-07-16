@@ -289,6 +289,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private circuitMinigameSession?: CircuitMinigameSession;
   private missionFailureInProgress = false;
   private timeoutSolutionOpen = false;
+  private wrongExplanationOpen = false;
   private progressiveOutcomeOpen = false;
   private progressiveSynthesisAttempts = 0;
   private progressiveSynthesisOrder: number[] = [];
@@ -926,6 +927,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.progressiveSynthesisAttempts = 0;
     this.progressiveSynthesisOrder = [];
     this.timeoutSolutionOpen = false;
+    this.wrongExplanationOpen = false;
     this.sprintPauseStartedAt = undefined;
     this.overlay = undefined;
     this.feedbackText = undefined;
@@ -5814,13 +5816,64 @@ export class ProceduralMissionScene extends Phaser.Scene {
     outcomeFeedback.play(this, "warning", attempts === 1 ? "Osserva e correggi" : "Riprova con metodo");
     VisualKit.worldReact(this, "wrong");
     noraPresence.speak(this, noraContextEngine.line("mistake", { run: this.run, kind: this.activePuzzleKind, attempts }), "warning", 3900);
-    feedbackSystem.publish(
-      `${message} ${attempts === 1
+    const persistentMessage = `${message} ${attempts === 1
         ? "Il primo errore è una diagnosi: correggi la scelta senza perdere la prova."
-        : "Usa il feedback per modificare un solo passaggio alla volta."}${memoryCount >= 3 ? " NORA ha riconosciuto questo schema: nella prossima prova mostrerà prima il controllo utile." : ""}`,
-      "warning",
-    );
+        : "Usa il feedback per modificare un solo passaggio alla volta."}${memoryCount >= 3 ? " NORA ha riconosciuto questo schema: nella prossima prova mostrerà prima il controllo utile." : ""}`;
+    feedbackSystem.publish(persistentMessage, "warning");
+    this.showPersistentWrongExplanation(persistentMessage, attempts, memoryCount);
     return false;
+  }
+
+  private showPersistentWrongExplanation(message: string, attempts: number, memoryCount: number): void {
+    if (this.wrongExplanationOpen || this.timeoutSolutionOpen || this.missionFailureInProgress) {
+      return;
+    }
+    this.wrongExplanationOpen = true;
+    const modal = this.add.container(0, 0).setDepth(9900);
+    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.58).setInteractive());
+    modal.add(this.add.rectangle(640, 344, 760, 338, 0x07151d, 0.99).setStrokeStyle(3, 0xf7d37a, 0.86));
+    modal.add(this.add.rectangle(264, 184, 8, 320, 0xc94b55, 0.95));
+    modal.add(this.add.text(300, 206, "RISPOSTA DA RIVEDERE", {
+      fontFamily: "Inter, Arial",
+      fontSize: "20px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.text(300, 244, `${this.activePuzzleKind ? puzzleKindLabel(this.activePuzzleKind) : "Console"} · tentativo ${attempts}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }));
+    modal.add(this.add.rectangle(300, 282, 680, 136, 0x102533, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
+    modal.add(this.add.text(322, 304, message, {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#eaf4f8",
+      wordWrap: { width: 636, useAdvancedWrap: true },
+      lineSpacing: 5,
+    }));
+    modal.add(this.add.text(300, 438, memoryCount >= 3
+      ? "NORA ha registrato lo schema: alla prossima prova simile anticipa il controllo utile."
+      : "Chiudi questo pannello solo quando sai dire quale passaggio correggere. La pagina sotto resta ferma.",
+    {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: memoryCount >= 3 ? "#f7d37a" : "#9aaab0",
+      wordWrap: { width: 660, useAdvancedWrap: true },
+      lineSpacing: 4,
+    }));
+    modal.add(new Button(this, 640, 512, "Ho letto, chiudi", () => {
+      modal.destroy(true);
+      this.wrongExplanationOpen = false;
+    }, {
+      width: 280,
+      height: 50,
+      fill: 0x173b36,
+      stroke: 0x6be7d6,
+      fontSize: 15,
+      soundKey: "confirm",
+    }));
   }
 
   private activePuzzleAttempts(): number {
@@ -5887,7 +5940,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     audioManager.playOutcome("wrong");
     outcomeFeedback.play(this, "warning", "Ascolta, riconta, correggi");
-    feedbackSystem.publish(`${message} Puoi correggere il primo errore senza perdere la prova.`, "warning");
+    const persistentMessage = `${message} Puoi correggere il primo errore senza perdere la prova.`;
+    feedbackSystem.publish(persistentMessage, "warning");
+    this.showPersistentWrongExplanation(persistentMessage, this.activePuzzleAttempts(), 0);
   }
 
   private loseMissionLife(reason: string): void {

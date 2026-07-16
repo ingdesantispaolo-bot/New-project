@@ -22,8 +22,13 @@ import mathKeyUrl from "../assets/audio/generated/mathKey.wav?url";
 import missionStartUrl from "../assets/audio/generated/missionStart.wav?url";
 import panelOpenUrl from "../assets/audio/generated/panelOpen.wav?url";
 import progressiveStepUrl from "../assets/audio/generated/progressiveStep.wav?url";
+import petEquipUrl from "../assets/audio/generated/petEquip.wav?url";
 import resetUrl from "../assets/audio/generated/reset.wav?url";
 import scanUrl from "../assets/audio/generated/scan.wav?url";
+import shopEquipUrl from "../assets/audio/generated/shopEquip.wav?url";
+import shopLockedUrl from "../assets/audio/generated/shopLocked.wav?url";
+import shopOpenUrl from "../assets/audio/generated/shopOpen.wav?url";
+import shopPurchaseUrl from "../assets/audio/generated/shopPurchase.wav?url";
 import successUrl from "../assets/audio/generated/success.wav?url";
 import uiSelectUrl from "../assets/audio/generated/uiSelect.wav?url";
 
@@ -38,6 +43,11 @@ export type SoundKey =
   | "missionStart"
   | "focusSelect"
   | "progressiveStep"
+  | "shopOpen"
+  | "shopPurchase"
+  | "shopEquip"
+  | "shopLocked"
+  | "petEquip"
   | "mathKey"
   | "contextMath"
   | "contextLanguage"
@@ -82,6 +92,11 @@ export class AudioManager {
     missionStart: { src: missionStartUrl, volume: 0.34 },
     focusSelect: { src: focusSelectUrl, volume: 0.32 },
     progressiveStep: { src: progressiveStepUrl, volume: 0.34 },
+    shopOpen: { src: shopOpenUrl, volume: 0.3 },
+    shopPurchase: { src: shopPurchaseUrl, volume: 0.36 },
+    shopEquip: { src: shopEquipUrl, volume: 0.32 },
+    shopLocked: { src: shopLockedUrl, volume: 0.28 },
+    petEquip: { src: petEquipUrl, volume: 0.3 },
     mathKey: { src: mathKeyUrl, volume: 0.22 },
     contextMath: { src: contextMathUrl, volume: 0.34 },
     contextLanguage: { src: contextLanguageUrl, volume: 0.32 },
@@ -123,7 +138,7 @@ export class AudioManager {
   }
 
   preloadEssentialAudio(): void {
-    this.preloadKeys(["uiSelect", "confirm", "cancel", "levelSelect", "missionStart", "success", "error", "hint", "scan", "panelOpen"]);
+    this.preloadKeys(["uiSelect", "confirm", "cancel", "levelSelect", "missionStart", "success", "error", "hint", "scan", "panelOpen", "shopOpen", "shopPurchase", "shopEquip", "shopLocked", "petEquip"]);
   }
 
   preloadAmbientAudio(): void {

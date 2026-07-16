@@ -9,6 +9,7 @@ import osservatorioBgUrl from "../assets/images/area-ponte-comando-primi.webp";
 import salaMusicaBgUrl from "../assets/images/area-motore-risonanza-primi.webp";
 import archivioBibliotecaBgUrl from "../assets/images/area-data-core-primi.webp";
 import bibliotecaClassicaBgUrl from "../assets/images/area-sala-glifi-primi.webp";
+import rewardShopBgUrl from "../assets/images/reward-shop-bg.webp";
 import eliQuestAtlasUrl from "../assets/sprites/eli-quest-atlas.webp";
 import eliQuestAtlasJsonUrl from "../assets/sprites/eli-quest-atlas.json?url";
 import eliRobotGirlSheetUrl from "../assets/sprites/eli-robot-girl-sheet.png";
@@ -21,6 +22,8 @@ import robotGridSheetUrl from "../assets/sprites/robot-grid-sheet.png";
 import robotGridSheetJsonUrl from "../assets/sprites/robot-grid-sheet.json?url";
 import logicGymSheetUrl from "../assets/sprites/logic-gym-sheet.png";
 import logicGymSheetJsonUrl from "../assets/sprites/logic-gym-sheet.json?url";
+import rewardItemsSheetUrl from "../assets/sprites/reward-items-sheet.png";
+import rewardItemsSheetJsonUrl from "../assets/sprites/reward-items-sheet.json?url";
 
 export class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -37,12 +40,14 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image("area-sala-musica", salaMusicaBgUrl);
     this.load.image("area-archivio-biblioteca", archivioBibliotecaBgUrl);
     this.load.image("area-biblioteca-classica", bibliotecaClassicaBgUrl);
+    this.load.image("reward-shop-bg", rewardShopBgUrl);
     this.load.atlas("eli-atlas", eliQuestAtlasUrl, eliQuestAtlasJsonUrl);
     this.load.atlas("eli-robot-girl", eliRobotGirlSheetUrl, eliRobotGirlSheetJsonUrl);
     this.load.atlas("environment-props", environmentPropsSheetUrl, environmentPropsSheetJsonUrl);
     this.load.atlas("mission-consoles", missionConsoleSheetUrl, missionConsoleSheetJsonUrl);
     this.load.atlas("robot-grid", robotGridSheetUrl, robotGridSheetJsonUrl);
     this.load.atlas("logic-gym", logicGymSheetUrl, logicGymSheetJsonUrl);
+    this.load.atlas("reward-items", rewardItemsSheetUrl, rewardItemsSheetJsonUrl);
   }
 
   create(): void {
@@ -115,6 +120,7 @@ export class PreloadScene extends Phaser.Scene {
       "soft-glow",
       "holo-ring",
       "spark-core",
+      "reward-shop-bg",
     ];
     const warmers = keys
       .filter((key) => this.textures.exists(key))
@@ -137,6 +143,10 @@ export class PreloadScene extends Phaser.Scene {
     if (this.textures.exists("logic-gym")) {
       warmers.push(this.add.image(-218, -180, "logic-gym", "gym-tables").setAlpha(0.01).setScale(0.04));
       warmers.push(this.add.image(-220, -180, "logic-gym", "gym-geo").setAlpha(0.01).setScale(0.04));
+    }
+    if (this.textures.exists("reward-items")) {
+      warmers.push(this.add.image(-222, -180, "reward-items", "bot-lime").setAlpha(0.01).setScale(0.04));
+      warmers.push(this.add.image(-224, -180, "reward-items", "pet-spark").setAlpha(0.01).setScale(0.04));
     }
     if (this.textures.exists("environment-props")) {
       warmers.push(this.add.image(-220, -180, "environment-props", "env_wall_straight").setAlpha(0.01).setScale(0.05));

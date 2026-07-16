@@ -7,7 +7,7 @@
     "dev": "vite --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "dev:lan": "vite --config vite.config.mjs --configLoader native --host 0.0.0.0",
     "build": "tsc && vite build --config vite.config.mjs --configLoader native",
-    "assets:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs && node scripts/build-visual-assets.mjs && node scripts/build-console-assets.mjs && node scripts/build-prop-assets.mjs && node scripts/process-painted-prop-sheet.mjs && node scripts/build-audio-assets.mjs && node scripts/optimize-assets.mjs",
+    "assets:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs && node scripts/build-visual-assets.mjs && node scripts/build-console-assets.mjs && node scripts/build-prop-assets.mjs && node scripts/process-painted-prop-sheet.mjs && node scripts/build-audio-assets.mjs && node scripts/build-reward-assets.mjs && node scripts/optimize-assets.mjs",
     "assets:optimize": "node scripts/optimize-assets.mjs",
     "maps:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs",
     "test": "vitest run",

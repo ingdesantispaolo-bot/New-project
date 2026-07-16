@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { drawAccessoryVisual, drawOutfitBack, drawOutfitFront, drawPetVisual } from "../../core/AvatarCosmeticVisuals";
 import { rewardSystem } from "../../core/RewardSystem";
 import type { GeneratedRoomHotspot } from "../../procedural/ProceduralTypes";
 
@@ -56,31 +57,13 @@ export class MissionRoomAvatar {
 
   private buildAvatar(x: number, y: number): Phaser.GameObjects.Container {
     const accent = rewardSystem.colorForSlot("avatar", 0x6be7d6);
+    const outfit = rewardSystem.equipped("avatar");
     const accessory = rewardSystem.equipped("accessory");
     const pet = rewardSystem.equipped("pet");
     const c = this.scene.add.container(x, y).setDepth(60);
     c.add(this.scene.add.ellipse(0, 34, 40, 12, 0x000000, 0.34));
-    if (pet) {
-      const px = -30;
-      const py = 24;
-      const halo = this.scene.add.circle(px, py, 15, pet.color ?? 0xf6c85f, 0.16).setBlendMode(Phaser.BlendModes.ADD);
-      const core = this.scene.add.circle(px, py, 8, 0x061019, 0.94).setStrokeStyle(2, pet.color ?? 0xf6c85f, 0.95);
-      const glyph = this.scene.add.text(px, py - 1, pet.glyph ?? "✦", {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-      }).setOrigin(0.5);
-      c.add([halo, core, glyph]);
-      this.scene.tweens.add({
-        targets: [halo, core, glyph],
-        y: "-=5",
-        duration: 900,
-        yoyo: true,
-        repeat: -1,
-        ease: "Sine.easeInOut",
-      });
-    }
+    drawPetVisual(this.scene, c, pet, -30, 24, 0.82);
+    drawOutfitBack(this.scene, c, outfit, 0.72);
     if (this.scene.textures.exists("eli-robot-girl")) {
       this.ensureAnimations();
       this.sprite = this.scene.add.sprite(0, 0, "eli-robot-girl", "down_idle").setOrigin(0.5, 0.62).setScale(0.72).setTint(accent);
@@ -90,15 +73,8 @@ export class MissionRoomAvatar {
       c.add(this.scene.add.circle(0, -22, 12, 0x1b5468, 1).setStrokeStyle(2, accent, 0.95));
       c.add(this.scene.add.circle(4, -22, 2.4, 0x8ff6ea, 1));
     }
-    if (accessory) {
-      c.add(this.scene.add.circle(15, -30, 10, 0x061019, 0.92).setStrokeStyle(2, accessory.color ?? 0xf6c85f, 0.95));
-      c.add(this.scene.add.text(15, -30, accessory.glyph ?? "◇", {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-      }).setOrigin(0.5));
-    }
+    drawOutfitFront(this.scene, c, outfit, 0.72);
+    drawAccessoryVisual(this.scene, c, accessory, 0.72);
     return c;
   }
 

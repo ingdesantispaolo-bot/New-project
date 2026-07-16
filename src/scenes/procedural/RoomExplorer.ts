@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { drawAccessoryVisual, drawOutfitBack, drawOutfitFront, drawPetVisual } from "../../core/AvatarCosmeticVisuals";
 import { rewardSystem } from "../../core/RewardSystem";
 
 export type RoomWall = { x: number; y: number; w: number; h: number };
@@ -298,31 +299,13 @@ export class RoomExplorer {
     const saved = this.cfg.seedKey ? RoomExplorer.positions[this.cfg.seedKey] : undefined;
     const start = saved ?? this.cfg.avatarStart ?? { x: this.cfg.worldW / 2, y: this.cfg.worldH / 2 + 120 };
     const accent = rewardSystem.colorForSlot("avatar", 0x6be7d6);
+    const outfit = rewardSystem.equipped("avatar");
     const accessory = rewardSystem.equipped("accessory");
     const pet = rewardSystem.equipped("pet");
     const c = this.scene.add.container(start.x, start.y).setDepth(6);
     c.add(this.scene.add.ellipse(0, AVATAR_H / 2 + 4, AVATAR_W + 8, 16, 0x000000, 0.35));
-    if (pet) {
-      const px = -36;
-      const py = AVATAR_H / 2 - 2;
-      const halo = this.scene.add.circle(px, py, 18, pet.color ?? 0xf6c85f, 0.16).setBlendMode(Phaser.BlendModes.ADD);
-      const core = this.scene.add.circle(px, py, 10, 0x061019, 0.94).setStrokeStyle(2, pet.color ?? 0xf6c85f, 0.95);
-      const glyph = this.scene.add.text(px, py - 1, pet.glyph ?? "✦", {
-        fontFamily: "Inter, Arial",
-        fontSize: "14px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-      }).setOrigin(0.5);
-      c.add([halo, core, glyph]);
-      this.scene.tweens.add({
-        targets: [halo, core, glyph],
-        y: "-=6",
-        duration: 900,
-        yoyo: true,
-        repeat: -1,
-        ease: "Sine.easeInOut",
-      });
-    }
+    drawPetVisual(this.scene, c, pet, -36, AVATAR_H / 2 - 2, 1);
+    drawOutfitBack(this.scene, c, outfit, 1);
     if (this.scene.textures.exists("eli-robot-girl")) {
       this.ensureAnimations();
       this.avatarSprite = this.scene.add.sprite(0, 0, "eli-robot-girl", "down_idle").setOrigin(0.5, 0.55).setTint(accent);
@@ -337,15 +320,8 @@ export class RoomExplorer {
       c.add(this.scene.add.rectangle(3, -AVATAR_H / 2 + 10, 20, 12, 0x03121b, 1));
       c.add(this.scene.add.circle(8, -AVATAR_H / 2 + 10, 3, 0x8ff6ea, 1));
     }
-    if (accessory) {
-      c.add(this.scene.add.circle(18, -AVATAR_H / 2 + 2, 13, 0x061019, 0.92).setStrokeStyle(2, accessory.color ?? 0xf6c85f, 0.95));
-      c.add(this.scene.add.text(18, -AVATAR_H / 2 + 2, accessory.glyph ?? "◇", {
-        fontFamily: "Inter, Arial",
-        fontSize: "16px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-      }).setOrigin(0.5));
-    }
+    drawOutfitFront(this.scene, c, outfit, 1);
+    drawAccessoryVisual(this.scene, c, accessory, 1);
     this.avatar = c;
   }
 

@@ -106,6 +106,11 @@ class RewardSystem {
     if (cosmetic.slot === "upgrade" || cosmetic.slot === "decor") return;
     saveSystem.equipCosmetic(cosmetic.slot, id);
   }
+
+  unequip(slot: CosmeticSlot): void {
+    if (slot === "upgrade" || slot === "decor") return;
+    saveSystem.equipCosmetic(slot, "");
+  }
 }
 
 export const rewardSystem = new RewardSystem();

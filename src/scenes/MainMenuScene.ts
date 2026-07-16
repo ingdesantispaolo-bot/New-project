@@ -8,6 +8,7 @@ import { noraChip } from "../ui/NoraChip";
 import { noraPresence } from "../ui/NoraPresence";
 import { mapLayoutSystem, type MapLayoutRect } from "../core/MapLayoutSystem";
 import { playerSystem } from "../core/PlayerSystem";
+import { capDifficultyToSchoolYear } from "../core/schoolLevel";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
 import { progressionSystem } from "../core/ProgressionSystem";
 import { rewardSystem } from "../core/RewardSystem";
@@ -245,7 +246,7 @@ export class MainMenuScene extends Phaser.Scene {
 
   private drawBackground(): void {
     this.cameras.main.setBackgroundColor("#071018");
-    VisualKit.background(this, "academy");
+    VisualKit.background(this, "academy", "action-room-bg");
     const portal = this.rect("menu:portal", { x: 998, y: 360, width: 360, height: 390 });
     this.add.circle(portal.x, portal.y, 118, 0x6be7d6, 0.035).setStrokeStyle(2, 0x6be7d6, 0.22);
     this.add.circle(portal.x, portal.y, 62, 0xf6c85f, 0.055).setStrokeStyle(1, 0xf6c85f, 0.18);
@@ -519,6 +520,8 @@ export class MainMenuScene extends Phaser.Scene {
       }));
     });
 
+    this.addMistakeJournalPanel(modal, close);
+
     modal.add(new Button(this, 268, 620, "📖 Codex", () => {
       close();
       this.openMenuScene("CodexScene", "Non sono riuscito ad aprire il Codex. Riprova tra un istante.");
@@ -534,6 +537,42 @@ export class MainMenuScene extends Phaser.Scene {
     modal.add(this.add.text(132, 596, "Studio, anteprime e ricompense:", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9fb6c2" }));
 
     modal.add(new Button(this, 1010, 620, "Chiudi", close, { width: 180, height: 44, fill: 0x263743 }));
+  }
+
+  /**
+   * Quaderno degli errori: gli inciampi recenti diventano inviti al ripasso.
+   * Ogni voce rilancia l'allenamento del settore dove l'errore è avvenuto.
+   */
+  private addMistakeJournalPanel(modal: Phaser.GameObjects.Container, close: () => void): void {
+    const x = 782;
+    const y = 486;
+    const width = 366;
+    modal.add(this.add.rectangle(x, y - 8, width, 104, 0x0c1d2a, 0.94).setOrigin(0).setStrokeStyle(1, 0xff9ad2, 0.42));
+    modal.add(this.add.text(x + 14, y + 2, "📔 Quaderno degli errori", {
+      fontFamily: "Inter, Arial", fontSize: "13px", color: "#ff9ad2", fontStyle: "bold",
+    }));
+
+    const struggles = playerSystem.recentStruggles(3);
+    if (struggles.length === 0) {
+      modal.add(this.add.text(x + 14, y + 26, "Nessun inciampo recente: il quaderno è pulito.\nQuando sbagli qualcosa, NORA lo annota qui per il ripasso.", {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#9aaab0", wordWrap: { width: width - 28 }, lineSpacing: 3,
+      }));
+      return;
+    }
+
+    struggles.forEach((entry, index) => {
+      const rowY = y + 30 + index * 23;
+      const gradeText = entry.grade !== undefined ? ` · voto ${entry.grade}/10` : "";
+      modal.add(this.add.text(x + 14, rowY, `${entry.label} · Prof. ${entry.difficulty}${gradeText}`, {
+        fontFamily: "Inter, Arial", fontSize: "11px", color: "#d9eaf1",
+      }));
+      if (entry.domain !== "libera") {
+        const domain = entry.domain as ProceduralSpecialization;
+        modal.add(new Button(this, x + width - 48, rowY + 6, "Allena", () => { close(); this.startFocusTraining(domain); }, {
+          width: 76, height: 22, fontSize: 10, fill: 0x3a2530, stroke: 0xff9ad2,
+        }));
+      }
+    });
   }
 
   /** Daily session goals + streak, with the completion reward status. */
@@ -768,7 +807,10 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   private activeDifficulty(): DifficultyLevel {
-    return this.selectedDifficulty ?? this.loadSelectedDifficulty();
+    const picked = this.selectedDifficulty ?? this.loadSelectedDifficulty();
+    // Tetto per l'anno scolastico: un profilo giovane non finisce sui livelli
+    // "Ponte verso le superiori", con concetti non ancora affrontati in classe.
+    return capDifficultyToSchoolYear(picked, playerSystem.getActiveSchoolYear());
   }
 
   private loadSelectedDifficulty(): DifficultyLevel {

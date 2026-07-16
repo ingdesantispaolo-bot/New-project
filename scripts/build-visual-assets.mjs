@@ -168,6 +168,372 @@ await fs.writeFile(atlasJson, `${JSON.stringify(texturePackerAtlas, null, 2)}\n`
 
 console.log(`Generated ${path.relative(process.cwd(), atlasWebp)} and TexturePacker-compatible JSON.`);
 
+const missionConsoleSubjects = [
+  { id: "math", label: "matematica", color: "#6be7d6", dark: "#092634", symbol: "math" },
+  { id: "italian", label: "italiano", color: "#b888ff", dark: "#221943", symbol: "pen" },
+  { id: "english", label: "inglese", color: "#7cc7ff", dark: "#112b48", symbol: "globe" },
+  { id: "coding", label: "coding", color: "#78f29a", dark: "#10331f", symbol: "code" },
+  { id: "electronics", label: "elettronica", color: "#f6c85f", dark: "#342814", symbol: "bolt" },
+  { id: "music", label: "musica", color: "#ff9f4a", dark: "#351d10", symbol: "music" },
+  { id: "physics", label: "fisica", color: "#9ff5e9", dark: "#102d3a", symbol: "atom" },
+  { id: "latin", label: "latino", color: "#d8a24a", dark: "#2e2110", symbol: "glyph" },
+  { id: "story", label: "storia", color: "#f7d37a", dark: "#302416", symbol: "archive" },
+  { id: "nora", label: "nora", color: "#9ff5e9", dark: "#102935", symbol: "core" },
+  { id: "progressive", label: "scalata", color: "#ff8f6b", dark: "#321814", symbol: "spire" },
+  { id: "exit", label: "porta-uscita", color: "#f6c85f", dark: "#302612", symbol: "door" },
+];
+
+function missionConsoleSymbol(symbol, color, resolved) {
+  const alpha = resolved ? ".78" : ".95";
+  const soft = resolved ? ".18" : ".28";
+  const common = {
+    math: `<path d="M42 56 H78 M42 76 H78 M36 112 H84" stroke="${color}" stroke-opacity="${alpha}" stroke-width="8" stroke-linecap="round"/><path d="M58 42 V90 M62 102 L82 122 M82 102 L62 122" stroke="#f5fbff" stroke-opacity=".42" stroke-width="5" stroke-linecap="round"/>`,
+    pen: `<path d="M42 112 L52 80 L88 44 L104 60 L68 96 Z" fill="${color}" fill-opacity="${soft}" stroke="${color}" stroke-opacity="${alpha}" stroke-width="4"/><path d="M84 48 L100 64 M50 100 L68 118" stroke="#f5fbff" stroke-opacity=".36" stroke-width="4" stroke-linecap="round"/>`,
+    globe: `<circle cx="64" cy="78" r="34" fill="${color}" fill-opacity="${soft}" stroke="${color}" stroke-opacity="${alpha}" stroke-width="4"/><path d="M30 78 H98 M64 44 C52 60 52 96 64 112 M64 44 C76 60 76 96 64 112" fill="none" stroke="#f5fbff" stroke-opacity=".34" stroke-width="3"/>`,
+    code: `<path d="M48 58 L30 78 L48 98 M80 58 L98 78 L80 98" fill="none" stroke="${color}" stroke-opacity="${alpha}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M70 50 L58 106" stroke="#f5fbff" stroke-opacity=".34" stroke-width="5" stroke-linecap="round"/>`,
+    bolt: `<path d="M70 36 L38 86 H62 L50 122 L88 68 H64 Z" fill="${color}" fill-opacity=".68" stroke="#ffe6a0" stroke-opacity=".58" stroke-width="3"/>`,
+    music: `<path d="M78 42 V100 C78 112 67 120 56 116 C46 113 42 104 48 96 C54 88 66 88 74 94 V52 L104 46 V74" fill="none" stroke="${color}" stroke-opacity="${alpha}" stroke-width="7" stroke-linecap="round"/><path d="M28 72 H56 M28 88 H56" stroke="#f5fbff" stroke-opacity=".24" stroke-width="3"/>`,
+    atom: `<circle cx="64" cy="78" r="7" fill="${color}" fill-opacity=".92"/><ellipse cx="64" cy="78" rx="38" ry="15" fill="none" stroke="${color}" stroke-opacity="${alpha}" stroke-width="4"/><ellipse cx="64" cy="78" rx="38" ry="15" fill="none" stroke="#f5fbff" stroke-opacity=".26" stroke-width="3" transform="rotate(60 64 78)"/><ellipse cx="64" cy="78" rx="38" ry="15" fill="none" stroke="#f5fbff" stroke-opacity=".26" stroke-width="3" transform="rotate(-60 64 78)"/>`,
+    glyph: `<path d="M34 110 C42 86 42 66 34 44 M94 110 C86 86 86 66 94 44 M48 56 H80 M48 78 H80 M48 100 H80" fill="none" stroke="${color}" stroke-opacity="${alpha}" stroke-width="6" stroke-linecap="round"/><path d="M64 42 V116" stroke="#f5fbff" stroke-opacity=".22" stroke-width="4"/>`,
+    archive: `<path d="M42 38 H76 L94 56 V118 H42 Z" fill="${color}" fill-opacity="${soft}" stroke="${color}" stroke-opacity="${alpha}" stroke-width="4"/><path d="M76 38 V56 H94 M54 72 H82 M54 88 H78 M54 104 H72" stroke="#f5fbff" stroke-opacity=".34" stroke-width="4" stroke-linecap="round"/>`,
+    core: `<path d="M64 36 L94 54 V92 L64 112 L34 92 V54 Z" fill="${color}" fill-opacity="${soft}" stroke="${color}" stroke-opacity="${alpha}" stroke-width="4"/><circle cx="54" cy="74" r="5" fill="#f5fbff" opacity=".62"/><circle cx="74" cy="74" r="5" fill="#f5fbff" opacity=".62"/><path d="M54 92 H74" stroke="#f6c85f" stroke-opacity=".66" stroke-width="5" stroke-linecap="round"/>`,
+    spire: `<path d="M36 116 L64 40 L92 116 Z" fill="${color}" fill-opacity="${soft}" stroke="${color}" stroke-opacity="${alpha}" stroke-width="4"/><path d="M50 92 H78 M56 74 H72 M62 56 H66" stroke="#f5fbff" stroke-opacity=".36" stroke-width="4" stroke-linecap="round"/><circle cx="64" cy="40" r="8" fill="#f6c85f" opacity=".75"/>`,
+    door: `<path d="M42 34 H88 V120 H42 Z" fill="${color}" fill-opacity="${soft}" stroke="${color}" stroke-opacity="${alpha}" stroke-width="4"/><path d="M56 48 H76 V120 H56 Z" fill="#061019" opacity=".58"/><circle cx="78" cy="82" r="4" fill="#f5fbff" opacity=".62"/>`,
+  };
+  return common[symbol] ?? common.core;
+}
+
+function missionConsoleSvg(subject, state) {
+  const resolved = state === "resolved";
+  const color = subject.color;
+  const dark = subject.dark;
+  const label = subject.label.toUpperCase();
+  return `<svg width="120" height="150" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="${resolved ? "#14362a" : dark}" stop-opacity=".98"/>
+        <stop offset=".62" stop-color="#071018" stop-opacity=".98"/>
+        <stop offset="1" stop-color="#02070b"/>
+      </linearGradient>
+      <radialGradient id="glow" cx="50%" cy="34%" r="62%">
+        <stop offset="0" stop-color="${color}" stop-opacity="${resolved ? ".34" : ".28"}"/>
+        <stop offset=".58" stop-color="${color}" stop-opacity=".08"/>
+        <stop offset="1" stop-color="${color}" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="60" cy="140" rx="50" ry="9" fill="#000" opacity=".35"/>
+    <rect x="8" y="5" width="104" height="135" rx="12" fill="url(#panel)" stroke="${resolved ? "#7cf6a6" : color}" stroke-opacity="${resolved ? ".88" : ".74"}" stroke-width="3"/>
+    <rect x="14" y="14" width="92" height="104" rx="8" fill="url(#glow)" stroke="#ffffff" stroke-opacity=".08"/>
+    <rect x="18" y="18" width="84" height="10" rx="5" fill="${resolved ? "#7cf6a6" : color}" opacity=".52"/>
+    <rect x="22" y="122" width="76" height="3" rx="2" fill="#f5fbff" opacity=".18"/>
+    ${missionConsoleSymbol(subject.symbol, color, resolved)}
+    ${resolved ? `<circle cx="96" cy="26" r="10" fill="#7cf6a6" opacity=".94"/><path d="M91 26 L95 30 L102 21" fill="none" stroke="#061019" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>` : `<circle cx="96" cy="26" r="9" fill="${color}" opacity=".82"/><circle cx="96" cy="26" r="4" fill="#f5fbff" opacity=".55"/>`}
+    <text x="60" y="136" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8" font-weight="700" fill="#d9eaf1" opacity=".9">${label}</text>
+  </svg>`;
+}
+
+async function buildMissionConsoleAtlas() {
+  const cell = { w: 120, h: 150 };
+  const columns = missionConsoleSubjects.length;
+  const states = ["active", "resolved"];
+  const sheetWidth = columns * cell.w;
+  const sheetHeight = states.length * cell.h;
+  const composites = [];
+  const frames = {};
+  missionConsoleSubjects.forEach((subject, col) => {
+    states.forEach((state, row) => {
+      const name = `console_${subject.id}_${state}`;
+      const x = col * cell.w;
+      const y = row * cell.h;
+      composites.push({ input: Buffer.from(missionConsoleSvg(subject, state)), left: x, top: y });
+      frames[name] = {
+        frame: { x, y, w: cell.w, h: cell.h },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: cell.w, h: cell.h },
+        sourceSize: { w: cell.w, h: cell.h },
+      };
+    });
+  });
+  const png = path.join(spriteDir, "mission-console-sheet.png");
+  const json = path.join(spriteDir, "mission-console-sheet.json");
+  await sharp({
+    create: {
+      width: sheetWidth,
+      height: sheetHeight,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    },
+  })
+    .composite(composites)
+    .png()
+    .toFile(png);
+  await fs.writeFile(json, `${JSON.stringify({
+    frames,
+    meta: {
+      app: "Eli Quest generated asset pipeline",
+      version: "1.1",
+      image: "mission-console-sheet.png",
+      format: "RGBA8888",
+      size: { w: sheetWidth, h: sheetHeight },
+      scale: "1",
+      cell,
+      rows: { 0: "active", 1: "resolved" },
+      subjects: Object.fromEntries(missionConsoleSubjects.map((subject) => [
+        subject.id,
+        { label: subject.label, color: subject.color, symbol: subject.symbol },
+      ])),
+      states,
+      animations: Object.fromEntries(missionConsoleSubjects.map((subject) => [
+        subject.id,
+        [`console_${subject.id}_active`, `console_${subject.id}_resolved`],
+      ])),
+    },
+  }, null, 2)}\n`);
+  console.log(`Generated ${path.relative(process.cwd(), png)} and TexturePacker-compatible JSON.`);
+}
+
+await buildMissionConsoleAtlas();
+
+const robotGridFrames = [
+  {
+    name: "grid-cell",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("cell"),
+  },
+  {
+    name: "grid-start",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("start"),
+  },
+  {
+    name: "grid-obstacle",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("obstacle"),
+  },
+  {
+    name: "grid-key",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("key"),
+  },
+  {
+    name: "grid-exit",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("exit"),
+  },
+  {
+    name: "grid-checkpoint",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("checkpoint"),
+  },
+  {
+    name: "grid-sensor",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("sensor"),
+  },
+  {
+    name: "grid-trail",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("trail"),
+  },
+  {
+    name: "grid-energy",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("energy"),
+  },
+  {
+    name: "grid-warning",
+    w: 64,
+    h: 64,
+    svg: robotGridSvg("warning"),
+  },
+];
+
+function robotGridSvg(kind) {
+  const palette = {
+    cell: "#132835",
+    line: "#315766",
+    cyan: "#6be7d6",
+    glow: "#9ff5e9",
+    gold: "#f6c85f",
+    purple: "#8a7cff",
+    red: "#c94b55",
+    green: "#7cf6a6",
+  };
+  const motifs = {
+    cell: `<rect x="8" y="8" width="48" height="48" rx="8" fill="${palette.cell}" stroke="${palette.line}" stroke-opacity=".8" stroke-width="2"/><path d="M17 18 H47 M17 46 H47" stroke="${palette.cyan}" stroke-opacity=".08" stroke-width="3"/>`,
+    start: `<rect x="8" y="8" width="48" height="48" rx="8" fill="${palette.cell}" stroke="${palette.cyan}" stroke-opacity=".72" stroke-width="3"/><circle cx="32" cy="32" r="16" fill="${palette.cyan}" fill-opacity=".12" stroke="${palette.cyan}" stroke-opacity=".6" stroke-width="2"/><path d="M32 18 L43 42 L32 36 L21 42 Z" fill="${palette.cyan}" opacity=".72"/>`,
+    obstacle: `<rect x="8" y="8" width="48" height="48" rx="8" fill="#4c2b38" stroke="${palette.red}" stroke-opacity=".82" stroke-width="2"/><path d="M18 18 L46 46 M46 18 L18 46" stroke="#ff8a8a" stroke-opacity=".52" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="18" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="2"/>`,
+    key: `<rect x="8" y="8" width="48" height="48" rx="8" fill="${palette.cell}" stroke="${palette.gold}" stroke-opacity=".46" stroke-width="2"/><path d="M32 12 L38 25 L52 26 L41 36 L44 50 L32 43 L20 50 L23 36 L12 26 L26 25 Z" fill="${palette.gold}" stroke="#ffe6a0" stroke-opacity=".72" stroke-width="2"/>`,
+    exit: `<rect x="8" y="8" width="48" height="48" rx="8" fill="#173b36" stroke="${palette.glow}" stroke-opacity=".82" stroke-width="3"/><rect x="20" y="16" width="24" height="34" rx="3" fill="${palette.glow}" fill-opacity=".25" stroke="#f5fbff" stroke-opacity=".42" stroke-width="2"/><circle cx="38" cy="33" r="2.5" fill="#f5fbff" opacity=".82"/>`,
+    checkpoint: `<rect x="8" y="8" width="48" height="48" rx="8" fill="${palette.cell}" stroke="${palette.purple}" stroke-opacity=".72" stroke-width="2"/><circle cx="32" cy="32" r="18" fill="${palette.purple}" fill-opacity=".45" stroke="#f5fbff" stroke-opacity=".42" stroke-width="2"/><path d="M22 32 H42 M32 22 V42" stroke="#f5fbff" stroke-opacity=".62" stroke-width="4" stroke-linecap="round"/>`,
+    sensor: `<rect x="8" y="8" width="48" height="48" rx="8" fill="#17243d" stroke="${palette.purple}" stroke-opacity=".74" stroke-width="2"/><circle cx="32" cy="32" r="9" fill="${palette.purple}" fill-opacity=".62"/><circle cx="32" cy="32" r="20" fill="none" stroke="${palette.purple}" stroke-opacity=".32" stroke-width="3"/><path d="M18 18 L25 25 M46 18 L39 25 M18 46 L25 39 M46 46 L39 39" stroke="#f5fbff" stroke-opacity=".24" stroke-width="3"/>`,
+    trail: `<rect x="8" y="8" width="48" height="48" rx="8" fill="${palette.cell}" fill-opacity=".42" stroke="${palette.cyan}" stroke-opacity=".22" stroke-width="2"/><path d="M16 34 C26 24 38 44 48 28" fill="none" stroke="${palette.cyan}" stroke-opacity=".56" stroke-width="6" stroke-linecap="round"/><circle cx="21" cy="37" r="4" fill="${palette.glow}" opacity=".58"/>`,
+    energy: `<rect x="8" y="8" width="48" height="48" rx="8" fill="#243015" stroke="${palette.green}" stroke-opacity=".58" stroke-width="2"/><path d="M35 12 L21 35 H32 L27 52 L45 27 H34 Z" fill="${palette.green}" stroke="#d8ffd7" stroke-opacity=".55" stroke-width="2"/>`,
+    warning: `<rect x="8" y="8" width="48" height="48" rx="8" fill="#3b1f1e" stroke="${palette.red}" stroke-opacity=".74" stroke-width="2"/><path d="M32 14 L52 50 H12 Z" fill="${palette.red}" fill-opacity=".42" stroke="#ffb3a3" stroke-opacity=".64" stroke-width="2"/><path d="M32 26 V38" stroke="#f5fbff" stroke-opacity=".76" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="44" r="2.5" fill="#f5fbff" opacity=".78"/>`,
+  };
+  return `<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">${motifs[kind]}</svg>`;
+}
+
+async function buildRobotGridAtlas() {
+  const columns = robotGridFrames.length;
+  const sheetWidth = columns * 64;
+  const sheetHeight = 64;
+  const composites = [];
+  const frames = {};
+  robotGridFrames.forEach((frame, index) => {
+    const x = index * 64;
+    composites.push({ input: Buffer.from(frame.svg), left: x, top: 0 });
+    frames[frame.name] = {
+      frame: { x, y: 0, w: frame.w, h: frame.h },
+      rotated: false,
+      trimmed: false,
+      spriteSourceSize: { x: 0, y: 0, w: frame.w, h: frame.h },
+      sourceSize: { w: frame.w, h: frame.h },
+    };
+  });
+  const png = path.join(spriteDir, "robot-grid-sheet.png");
+  const json = path.join(spriteDir, "robot-grid-sheet.json");
+  await sharp({
+    create: {
+      width: sheetWidth,
+      height: sheetHeight,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    },
+  })
+    .composite(composites)
+    .png()
+    .toFile(png);
+  await fs.writeFile(json, `${JSON.stringify({
+    frames,
+    meta: {
+      app: "Eli Quest generated asset pipeline",
+      version: "1.0",
+      image: "robot-grid-sheet.png",
+      format: "RGBA8888",
+      size: { w: sheetWidth, h: sheetHeight },
+      scale: "1",
+      frames: robotGridFrames.map((frame) => frame.name),
+    },
+  }, null, 2)}\n`);
+  console.log(`Generated ${path.relative(process.cwd(), png)} and TexturePacker-compatible JSON.`);
+}
+
+await buildRobotGridAtlas();
+
+const logicGymFrames = [
+  { name: "gym-tables", color: "#f6c85f", symbol: "tables" },
+  { name: "gym-mental", color: "#5ec8ff", symbol: "mental" },
+  { name: "gym-geo", color: "#70d68a", symbol: "geo" },
+  { name: "gym-geo-physical", color: "#9f8cff", symbol: "physical" },
+  { name: "gym-simon", color: "#6be7d6", symbol: "simon" },
+  { name: "gym-memory", color: "#ff9ad2", symbol: "memory" },
+  { name: "gym-code", color: "#f6c85f", symbol: "lock" },
+  { name: "gym-seq", color: "#70d68a", symbol: "sequence" },
+  { name: "gym-balance", color: "#f6c85f", symbol: "balance" },
+  { name: "gym-flash", color: "#6be7d6", symbol: "flash" },
+  { name: "gym-firewall", color: "#5ec8ff", symbol: "firewall" },
+  { name: "geo-pin", color: "#70d68a", symbol: "pin" },
+  { name: "geo-river", color: "#5ec8ff", symbol: "river" },
+  { name: "geo-mountain", color: "#9f8cff", symbol: "mountain" },
+  { name: "geo-lake", color: "#6be7d6", symbol: "lake" },
+  { name: "geo-desert", color: "#f6c85f", symbol: "desert" },
+];
+
+function logicGymIconSvg(spec) {
+  const color = spec.color;
+  const motifs = {
+    tables: `<text x="64" y="74" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="800" fill="${color}">×</text><text x="64" y="101" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="21" font-weight="800" fill="#f5fbff" opacity=".82">12</text>`,
+    mental: `<path d="M30 70 H98 M64 36 V104 M40 48 L88 96 M88 48 L40 96" stroke="${color}" stroke-opacity=".8" stroke-width="8" stroke-linecap="round"/><circle cx="64" cy="70" r="14" fill="#f5fbff" opacity=".16"/>`,
+    geo: `<circle cx="64" cy="68" r="34" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-opacity=".76" stroke-width="5"/><path d="M30 68 H98 M64 34 C50 52 50 84 64 102 M64 34 C78 52 78 84 64 102" fill="none" stroke="#f5fbff" stroke-opacity=".34" stroke-width="4"/><circle cx="78" cy="54" r="6" fill="#f6c85f" opacity=".9"/>`,
+    physical: `<path d="M22 96 L48 48 L66 82 L82 58 L106 96 Z" fill="${color}" fill-opacity=".28" stroke="${color}" stroke-opacity=".82" stroke-width="5" stroke-linejoin="round"/><path d="M44 56 L53 70 L62 82" stroke="#f5fbff" stroke-opacity=".44" stroke-width="4"/>`,
+    simon: `${[0, 1, 2, 3].map((i) => `<circle cx="${44 + (i % 2) * 40}" cy="${50 + Math.floor(i / 2) * 40}" r="17" fill="${i === 0 ? "#ff5d7a" : i === 1 ? "#6be7d6" : i === 2 ? "#f6c85f" : "#70d68a"}" opacity=".8"/>`).join("")}`,
+    memory: `<rect x="30" y="42" width="42" height="56" rx="7" fill="${color}" fill-opacity=".22" stroke="${color}" stroke-width="4"/><rect x="56" y="32" width="42" height="56" rx="7" fill="#f5fbff" fill-opacity=".12" stroke="${color}" stroke-opacity=".68" stroke-width="4"/><path d="M48 70 H82" stroke="#f5fbff" stroke-opacity=".42" stroke-width="5"/>`,
+    lock: `<rect x="34" y="60" width="60" height="44" rx="8" fill="${color}" fill-opacity=".24" stroke="${color}" stroke-width="5"/><path d="M46 60 V48 C46 28 82 28 82 48 V60" fill="none" stroke="#f5fbff" stroke-opacity=".46" stroke-width="7" stroke-linecap="round"/><circle cx="64" cy="82" r="5" fill="#f5fbff" opacity=".8"/>`,
+    sequence: `<path d="M28 44 H56 L44 70 H76 L62 98 H102" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="44" r="7" fill="#f5fbff" opacity=".8"/><circle cx="102" cy="98" r="7" fill="#f6c85f" opacity=".9"/>`,
+    balance: `<path d="M64 34 V102 M34 52 H94 M44 52 L28 88 H60 Z M84 52 L68 88 H100 Z" fill="none" stroke="${color}" stroke-width="6" stroke-linejoin="round"/><path d="M48 106 H80" stroke="#f5fbff" stroke-opacity=".42" stroke-width="6" stroke-linecap="round"/>`,
+    flash: `<path d="M72 24 L34 74 H62 L52 110 L94 58 H66 Z" fill="${color}" fill-opacity=".78" stroke="#f5fbff" stroke-opacity=".35" stroke-width="3"/>`,
+    firewall: `<path d="M32 42 L64 28 L96 42 V70 C96 92 82 104 64 110 C46 104 32 92 32 70 Z" fill="${color}" fill-opacity=".18" stroke="${color}" stroke-width="5"/><path d="M44 66 H84 M44 82 H84 M56 50 V98 M72 50 V98" stroke="#f5fbff" stroke-opacity=".34" stroke-width="4"/>`,
+    pin: `<path d="M64 24 C48 24 36 36 36 52 C36 76 64 106 64 106 C64 106 92 76 92 52 C92 36 80 24 64 24Z" fill="${color}" fill-opacity=".64" stroke="#f5fbff" stroke-opacity=".4" stroke-width="4"/><circle cx="64" cy="52" r="10" fill="#071018" opacity=".8"/>`,
+    river: `<path d="M28 36 C48 28 50 52 70 44 S88 60 100 52 M22 74 C42 66 50 90 70 80 S92 92 108 82" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round"/><circle cx="42" cy="36" r="5" fill="#f5fbff" opacity=".48"/>`,
+    mountain: `<path d="M18 100 L48 42 L68 76 L82 54 L110 100 Z" fill="${color}" fill-opacity=".38" stroke="${color}" stroke-width="5" stroke-linejoin="round"/><path d="M48 42 L56 58 L42 58 M82 54 L88 68 L76 68" fill="#f5fbff" opacity=".42"/>`,
+    lake: `<ellipse cx="64" cy="76" rx="42" ry="22" fill="${color}" fill-opacity=".42" stroke="${color}" stroke-width="5"/><path d="M35 74 C48 64 78 86 94 72" fill="none" stroke="#f5fbff" stroke-opacity=".38" stroke-width="4" stroke-linecap="round"/>`,
+    desert: `<path d="M20 82 C44 54 80 100 108 72 V108 H20 Z" fill="${color}" fill-opacity=".38" stroke="${color}" stroke-opacity=".7" stroke-width="4"/><circle cx="86" cy="38" r="13" fill="${color}" opacity=".62"/><path d="M30 96 H54 M72 96 H98" stroke="#f5fbff" stroke-opacity=".26" stroke-width="4" stroke-linecap="round"/>`,
+  };
+  return `<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bg" cx="50%" cy="46%" r="55%">
+        <stop offset="0" stop-color="${color}" stop-opacity=".18"/>
+        <stop offset=".62" stop-color="#102736" stop-opacity=".82"/>
+        <stop offset="1" stop-color="#061019" stop-opacity=".98"/>
+      </radialGradient>
+    </defs>
+    <rect x="8" y="8" width="112" height="112" rx="22" fill="url(#bg)" stroke="${color}" stroke-opacity=".52" stroke-width="3"/>
+    <path d="M26 18 H102 M26 110 H102" stroke="#f5fbff" stroke-opacity=".08" stroke-width="3" stroke-linecap="round"/>
+    ${motifs[spec.symbol]}
+  </svg>`;
+}
+
+async function buildLogicGymAtlas() {
+  const cell = 128;
+  const columns = 8;
+  const rows = Math.ceil(logicGymFrames.length / columns);
+  const sheetWidth = columns * cell;
+  const sheetHeight = rows * cell;
+  const composites = [];
+  const frames = {};
+  logicGymFrames.forEach((frame, index) => {
+    const x = (index % columns) * cell;
+    const y = Math.floor(index / columns) * cell;
+    composites.push({ input: Buffer.from(logicGymIconSvg(frame)), left: x, top: y });
+    frames[frame.name] = {
+      frame: { x, y, w: cell, h: cell },
+      rotated: false,
+      trimmed: false,
+      spriteSourceSize: { x: 0, y: 0, w: cell, h: cell },
+      sourceSize: { w: cell, h: cell },
+    };
+  });
+  const png = path.join(spriteDir, "logic-gym-sheet.png");
+  const json = path.join(spriteDir, "logic-gym-sheet.json");
+  await sharp({
+    create: {
+      width: sheetWidth,
+      height: sheetHeight,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    },
+  })
+    .composite(composites)
+    .png()
+    .toFile(png);
+  await fs.writeFile(json, `${JSON.stringify({
+    frames,
+    meta: {
+      app: "Eli Quest generated asset pipeline",
+      version: "1.0",
+      image: "logic-gym-sheet.png",
+      format: "RGBA8888",
+      size: { w: sheetWidth, h: sheetHeight },
+      scale: "1",
+      frames: logicGymFrames.map((frame) => frame.name),
+    },
+  }, null, 2)}\n`);
+  console.log(`Generated ${path.relative(process.cwd(), png)} and TexturePacker-compatible JSON.`);
+}
+
+await buildLogicGymAtlas();
+
 const imageDir = path.resolve("src/assets/images");
 await fs.mkdir(imageDir, { recursive: true });
 

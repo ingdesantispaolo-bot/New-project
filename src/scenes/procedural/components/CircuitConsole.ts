@@ -6,8 +6,9 @@ import type {
   CircuitMinigameVisual,
   GeneratedCircuitPuzzle,
 } from "../../../procedural/ProceduralTypes";
+import { settingsSystem } from "../../../core/SettingsSystem";
 import { Button } from "../../../ui/Button";
-import { SceneChrome } from "../../../ui/SceneChrome";
+import { VisualKit } from "../../../ui/VisualKit";
 import {
   drawBatterySymbol,
   drawBranchSymbol,
@@ -22,6 +23,7 @@ import {
   drawSensorSymbol,
   drawSwitchSymbol,
 } from "../CircuitSymbols";
+import { addSprintSummaryModal } from "./SprintSummaryModal";
 import { repairLabels } from "../ProceduralMissionDefs";
 
 export type CircuitConsoleModel = {
@@ -645,65 +647,10 @@ export class CircuitConsole {
     state: CircuitMinigameSummaryState,
     handlers: CircuitMinigameSummaryHandlers,
   ): Phaser.GameObjects.Container {
-    const modal = scene.add.container(0, 0).setDepth(1300);
-    SceneChrome.modalInputBlocker(scene, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
-    modal.add(scene.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
-    modal.add(scene.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
-      .setStrokeStyle(2, state.passed ? 0x6be7d6 : 0xf7d37a, 0.76));
-    modal.add(scene.add.text(230, 160, state.passed ? "Sprint circuiti completato" : "Sprint circuiti da consolidare", {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: state.passed ? "#9ff5e9" : "#f7d37a",
-      fontStyle: "bold",
-    }));
-    modal.add(scene.add.text(230, 210, [
-      `Risposte corrette: ${state.correct}`,
-      `Errori: ${state.wrong}`,
-      `Precisione: ${state.accuracy}%`,
-      `Serie migliore: ${state.bestStreak}`,
-      `Punti sprint: ${state.netScore}`,
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f5fbff",
-      lineSpacing: 7,
-    }));
-    modal.add(scene.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
-      .setStrokeStyle(1, 0x6be7d6, 0.3));
-    modal.add(scene.add.text(572, 234, state.feedback, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 354 },
-      lineSpacing: 5,
-    }));
-    modal.add(scene.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
-      .setStrokeStyle(1, 0xf7d37a, 0.36));
-    modal.add(scene.add.text(254, 394, state.resolutionText, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 690 },
-      lineSpacing: 4,
-    }));
-    if (state.energyText) {
-      modal.add(scene.add.text(254, 456, state.energyText, {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#f7d37a",
-        fontStyle: "bold",
-        wordWrap: { width: 690 },
-      }));
-    }
-    modal.add(new Button(scene, 612, 506, state.actionLabel, () => handlers.onAction(modal), {
-      width: 270,
-      height: 54,
-      fill: state.passed ? 0x173b36 : 0x263743,
-      stroke: state.passed ? 0x6be7d6 : 0xf7d37a,
-      fontSize: 16,
-    }));
-    overlay.add(modal);
-    return modal;
+    return addSprintSummaryModal(scene, overlay, {
+      title: state.passed ? "Sprint circuiti completato" : "Sprint circuiti da consolidare",
+      ...state,
+    }, handlers);
   }
 
   static addMinigameSchematic(
@@ -769,6 +716,46 @@ export class CircuitConsole {
         color: "#f7d37a",
       }));
     }
+  }
+
+  static energizeMinigameCircuit(
+    scene: Phaser.Scene,
+    overlay: Phaser.GameObjects.Container,
+    visual: Extract<CircuitMinigameVisual, { kind: "led-circuit" }>,
+    isActive: () => boolean = () => true,
+  ): void {
+    const y = 296;
+    const xLed = 402;
+    const reachesLed = visual.switchClosed && !visual.hasOpen && visual.ledForward;
+    const stopX = !visual.switchClosed ? 212 : visual.hasOpen ? 465 : !visual.ledForward ? xLed : 542;
+    const reduced = settingsSystem.effectsReduced();
+    const live = scene.add.graphics();
+    live.lineStyle(5, 0x6be7d6, 0.95);
+    live.lineBetween(78, y, Math.max(78, stopX), y);
+    overlay.add(live);
+    scene.tweens.add({ targets: live, alpha: { from: 0.25, to: 0.95 }, duration: 240, yoyo: true, repeat: reduced ? 0 : 2 });
+    if (!reduced) {
+      const pulse = scene.add.circle(116, y, 6, 0x9ff5e9, 1);
+      overlay.add(pulse);
+      scene.tweens.add({ targets: pulse, x: stopX, duration: 640, ease: "Sine.easeIn", onComplete: () => pulse.destroy() });
+    }
+    scene.time.delayedCall(reduced ? 0 : 640, () => {
+      if (!isActive()) return;
+      if (reachesLed && visual.lit) {
+        const glow = scene.add.circle(xLed, y, 10, 0x9ff5a7, 0.9);
+        overlay.add(glow);
+        scene.tweens.add({ targets: glow, scale: 3.2, alpha: { from: 0.9, to: 0 }, duration: 720, ease: "Sine.easeOut", onComplete: () => glow.destroy() });
+        VisualKit.particleBurst(scene, xLed, y, "circuit", "success");
+      } else if (reachesLed && !visual.hasResistor) {
+        const burn = scene.add.circle(xLed, y, 10, 0xff8f6b, 0.95);
+        overlay.add(burn);
+        scene.tweens.add({ targets: burn, scale: 3.6, alpha: { from: 0.95, to: 0 }, duration: 520, ease: "Cubic.easeOut", onComplete: () => burn.destroy() });
+      } else {
+        const spark = scene.add.circle(stopX, y, 8, 0xff6b6b, 0.95);
+        overlay.add(spark);
+        scene.tweens.add({ targets: spark, scale: 2.2, alpha: { from: 0.95, to: 0 }, duration: 440, onComplete: () => spark.destroy() });
+      }
+    });
   }
 
   static addComponentChallenge(

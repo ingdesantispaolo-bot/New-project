@@ -81,6 +81,122 @@ const DIRECT_TOPIC_BY_KEY: Partial<Record<string, string>> = {
   "latin:verb-analysis": "latino-verbi-concordanza",
 };
 
+// Risoluzione deterministica per concetto: i curriculumTags di un esercizio
+// indicano il concetto preciso (l'archetipo è ambiguo — "vincolo" copre mcm,
+// numeri relativi, disequazioni…). Si scorre la lista dei tag e si prende il
+// primo che ha una scheda, così ogni esercizio mostra SEMPRE la teoria giusta.
+const TOPIC_BY_CURRICULUM_TAG: Partial<Record<string, string>> = {
+  // Numeri e calcolo
+  "calcolo ordinato": "numeri-naturali",
+  operazioni: "numeri-naturali",
+  "operazione inversa": "numeri-naturali",
+  "controllo del calcolo": "numeri-naturali",
+  "calcolo con vincolo": "numeri-naturali",
+  "successioni numeriche": "numeri-naturali",
+  regolarita: "numeri-naturali",
+  "ordine delle operazioni": "potenze-espressioni",
+  parentesi: "potenze-espressioni",
+  "potenze di 2": "potenze-espressioni",
+  "crescita esponenziale": "potenze-espressioni",
+  "potenze di dieci": "potenze-espressioni",
+  "notazione scientifica": "potenze-espressioni",
+  "ordine di grandezza": "potenze-espressioni",
+  divisibilita: "divisibilita",
+  mcm: "divisibilita",
+  mcd: "divisibilita",
+  multipli: "divisibilita",
+  divisori: "divisibilita",
+  "numeri pari": "divisibilita",
+  "ripartizione senza resto": "divisibilita",
+  sincronizzazione: "divisibilita",
+  frazioni: "frazioni",
+  "frazioni successive": "frazioni",
+  "frazione di una quantita": "frazioni",
+  "complemento all intero": "frazioni",
+  "quadrati perfetti": "radice-quadrata",
+  "radice quadrata": "radice-quadrata",
+  "numeri relativi": "numeri-relativi",
+  "linea dei numeri": "numeri-relativi",
+  // Rapporti, percentuali, proporzionalità
+  rapporti: "rapporti-proporzioni",
+  proporzioni: "rapporti-proporzioni",
+  "quota per unita": "rapporti-proporzioni",
+  scale: "rapporti-proporzioni",
+  "scalare una ricetta": "rapporti-proporzioni",
+  percentuali: "percentuali",
+  "aumento percentuale": "percentuali",
+  "percentuali inverse": "percentuali",
+  "percentuale di una quantita": "percentuali",
+  velocita: "proporzionalita",
+  similitudine: "similitudine",
+  "fattore di scala": "similitudine",
+  // Misure
+  "unita di misura": "misure",
+  // Geometria (parola-forma specifica prima di "area", che è ambigua)
+  rettangoli: "quadrilateri",
+  rettangolo: "quadrilateri",
+  quadrato: "quadrilateri",
+  parallelogramma: "quadrilateri",
+  rombo: "quadrilateri",
+  trapezio: "quadrilateri",
+  perimetro: "quadrilateri",
+  "geometria composta": "quadrilateri",
+  triangolo: "triangoli",
+  triangoli: "triangoli",
+  angoli: "angoli-rette",
+  "teorema di pitagora": "pitagora",
+  cerchio: "cerchio",
+  volume: "solidi",
+  // Piano cartesiano
+  "piano cartesiano": "piano-cartesiano",
+  "coordinate negative": "piano-cartesiano",
+  // Relazioni e funzioni
+  "funzioni lineari": "funzioni-retta",
+  incognita: "equazioni",
+  "equazioni di primo grado": "equazioni",
+  "equazioni con frazioni": "equazioni",
+  "sistemi lineari": "equazioni",
+  disequazioni: "equazioni",
+  // Dati e previsioni
+  media: "statistica",
+  mediana: "statistica",
+  frequenze: "statistica",
+  dati: "statistica",
+  probabilita: "probabilita",
+  "probabilita composta": "probabilita",
+  // Concetti dei singoli prompt dei minigiochi matematica (chiavi già normalizzate:
+  // niente accenti/apostrofi/virgole). Servono a risolvere la teoria PER PROMPT,
+  // perché un minigioco (es. fraction-lab) alterna concetti diversi.
+  "scomposizione di una somma": "numeri-naturali",
+  "somma a tre addendi con controllo intermedio": "numeri-naturali",
+  "trasformazione singola": "numeri-naturali",
+  "due trasformazioni ordinate": "numeri-naturali",
+  "sequenze numeriche": "numeri-naturali",
+  "multipli e divisibilita": "divisibilita",
+  "divisori e controllo del resto": "divisibilita",
+  "frazione come operatore su una quantita": "frazioni",
+  "equivalenza fra frazioni e percentuali": "percentuali",
+  "numero decimale e percentuale equivalente": "percentuali",
+  "rapporto unitario in un acquisto quotidiano": "rapporti-proporzioni",
+  "scala grafica e proporzione diretta": "rapporti-proporzioni",
+  "proporzionalita diretta in una ricetta": "proporzionalita",
+  "proporzionalita inversa in un lavoro condiviso": "proporzionalita",
+  "rapporto tra spazio tempo e velocita": "proporzionalita",
+  "media aritmetica": "statistica",
+  "mediana di una serie ordinata": "statistica",
+  "moda come valore piu frequente": "statistica",
+  "campo di variazione": "statistica",
+  "probabilita classica in percentuale": "probabilita",
+  "probabilita dell evento complementare": "probabilita",
+  "area del triangolo come meta del rettangolo": "triangoli",
+  "perimetro come somma dei lati": "quadrilateri",
+  "area del rettangolo": "quadrilateri",
+  "area del cerchio con pi greco approssimato": "cerchio",
+  "circonferenza con pi greco approssimato": "cerchio",
+  "teorema di pitagora in un triangolo rettangolo": "pitagora",
+  "volume del parallelepipedo": "solidi",
+};
+
 function normalize(text: string): string {
   return text
     .toLowerCase()
@@ -179,7 +295,37 @@ class NoraKnowledge {
       .filter((id): id is string => typeof id === "string" && !this.topicById(id));
   }
 
+  /** Topic del singolo prompt di un minigioco, dal suo `concept`. */
+  topicForMinigameConcept(concept: string | undefined): TheoryTopic | undefined {
+    if (!concept) return undefined;
+    return this.topicForCurriculumTags([concept]);
+  }
+
+  /** Topic esplicito dai curriculumTags dell'esercizio (il segnale più preciso). */
+  topicForCurriculumTags(tags: string[] | undefined): TheoryTopic | undefined {
+    for (const tag of tags ?? []) {
+      const mapped = TOPIC_BY_CURRICULUM_TAG[normalize(tag)];
+      if (mapped) {
+        const topic = this.topicById(mapped);
+        if (topic) return topic;
+      }
+    }
+    return undefined;
+  }
+
+  /** Direct/curriculum-tag targets that no longer resolve (must stay empty). */
+  brokenCurriculumTargets(): string[] {
+    return Array.from(new Set(Object.values(TOPIC_BY_CURRICULUM_TAG)))
+      .filter((id): id is string => typeof id === "string" && !this.topicById(id));
+  }
+
   topicForPuzzle(kind: ProceduralPuzzleKind, puzzle?: PuzzleLike): TheoryTopic | undefined {
+    // 1) curriculumTags: il concetto esatto dell'esercizio (batte l'archetipo,
+    // che è ambiguo). Garantisce che la scheda mostrata sia quella giusta.
+    const byTag = this.topicForCurriculumTags(puzzle?.curriculumTags);
+    if (byTag) return byTag;
+
+    // 2) mappa diretta per archetipo/guasto/tipo-sfida (materie non-matematica).
     for (const key of puzzleKeys(kind, puzzle)) {
       const direct = DIRECT_TOPIC_BY_KEY[key];
       // Fall through to fuzzy matching if a mapping points at a missing card,

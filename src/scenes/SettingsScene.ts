@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
+import { backupSystem } from "../core/BackupSystem";
 import { settingsSystem } from "../core/SettingsSystem";
 import { Button } from "../ui/Button";
 import { VisualKit } from "../ui/VisualKit";
@@ -9,9 +10,9 @@ type SettingsSceneData = {
 };
 
 const PANEL_X = 360;
-const PANEL_Y = 50;
+const PANEL_Y = 30;
 const PANEL_W = 560;
-const PANEL_H = 620;
+const PANEL_H = 660;
 
 /**
  * Lightweight overlay for audio + comfort preferences. Launched on top of the
@@ -25,6 +26,7 @@ export class SettingsScene extends Phaser.Scene {
   private qualityButton?: Button;
   private textButton?: Button;
   private pressureButton?: Button;
+  private backupStatusText?: Phaser.GameObjects.Text;
   private effectsChanged = false;
   private qualityChanged = false;
 
@@ -191,16 +193,78 @@ export class SettingsScene extends Phaser.Scene {
     });
     this.pressureButton.setDepth(3);
 
+    // --- Backup dei salvataggi ---
+    this.add.text(PANEL_X + 32, PANEL_Y + 528, "Salvataggi", {
+      fontFamily: "Inter, Arial",
+      fontSize: "19px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    }).setDepth(3);
+    this.add.text(PANEL_X + 32, PANEL_Y + 554, "Esporta profili e progressi su file, o ripristinali su questo o un altro dispositivo.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7dce7",
+      wordWrap: { width: 330 },
+    }).setDepth(3);
+    new Button(this, PANEL_X + 410, PANEL_Y + 526, "Esporta", () => this.exportBackup(), {
+      width: 156,
+      height: 40,
+      fontSize: 14,
+      soundKey: "uiSelect",
+    }).setDepth(3);
+    new Button(this, PANEL_X + 410, PANEL_Y + 572, "Importa", () => this.importBackup(), {
+      width: 156,
+      height: 40,
+      fontSize: 14,
+      soundKey: "uiSelect",
+    }).setDepth(3);
+    this.backupStatusText = this.add.text(PANEL_X + PANEL_W / 2, PANEL_Y + 606, "", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f7d37a",
+      align: "center",
+      wordWrap: { width: PANEL_W - 64 },
+    }).setOrigin(0.5).setDepth(3);
+
     // --- Close ---
-    new Button(this, PANEL_X + PANEL_W / 2, PANEL_Y + 564, "Chiudi", () => this.close(), {
+    new Button(this, PANEL_X + PANEL_W / 2, PANEL_Y + 636, "Chiudi", () => this.close(), {
       width: 200,
-      height: 48,
+      height: 44,
       fill: 0x1f5a51,
       stroke: 0xf6c85f,
       soundKey: "confirm",
     }).setDepth(3);
 
     this.input.keyboard?.on("keydown-ESC", () => this.close());
+  }
+
+  private exportBackup(): void {
+    try {
+      const fileName = backupSystem.exportToFile();
+      this.backupStatusText?.setColor("#9ff5e9");
+      this.backupStatusText?.setText(`Backup scaricato: ${fileName}`);
+      audioManager.play("confirm");
+    } catch {
+      this.backupStatusText?.setColor("#ff9ad2");
+      this.backupStatusText?.setText("Esportazione non riuscita su questo browser.");
+    }
+  }
+
+  private importBackup(): void {
+    backupSystem.importFromFile()
+      .then((count) => {
+        this.backupStatusText?.setColor("#9ff5e9");
+        this.backupStatusText?.setText(`Ripristinate ${count} voci. Ricarico il gioco...`);
+        audioManager.play("confirm");
+        // I sistemi in memoria (save, profili, impostazioni) vanno ricostruiti
+        // dai nuovi dati: un reload pulito è il percorso più sicuro.
+        this.time.delayedCall(900, () => window.location.reload());
+      })
+      .catch((error: Error) => {
+        this.backupStatusText?.setColor("#ff9ad2");
+        this.backupStatusText?.setText(error.message || "Importazione non riuscita.");
+        audioManager.play("error");
+      });
   }
 
   private volumeLabel(): string {

@@ -30,6 +30,8 @@ export type SaveData = {
   proceduralProgressiveRun?: ProceduralRunSave;
   trainingRecords?: Record<string, TrainingRecord>;
   learningMemory?: Record<string, { count: number; lastAt: string }>;
+  /** Concetti già presentati da NORA (topicId → ISO date della prima spiegazione). */
+  introducedConcepts?: Record<string, string>;
   /** Autonomous clean solves per mastery branch (first try, no hints). */
   masteryAutonomy?: Record<string, number>;
   /** NORA companion state: progress memory, tone preference, seen memories. */

@@ -38,6 +38,11 @@ const BRANCHES: BranchDef[] = [
   { id: "fisica", label: "Fisica", color: 0x8cffd7, prefixes: ["fisica."] },
   { id: "latino", label: "Latino", color: 0xd8a24a, prefixes: ["latino."] },
   { id: "scienze", label: "Scienze", color: 0x8ad0ff, prefixes: ["scienze."] },
+  // Materie delle missioni narrative (Atlante, Città Intelligente): niente pratica
+  // procedurale, ma le competenze guadagnate nelle missioni ora sono visibili
+  // nell'Accademia come per le altre. Restano fuori da TRAINABLE_BRANCHES (weakFocus).
+  { id: "geografia", label: "Geografia", color: 0x7fd8a6, prefixes: ["geografia."] },
+  { id: "cittadinanza", label: "Cittadinanza", color: 0x9db8ff, prefixes: ["cittadinanza."] },
   { id: "trasversali", label: "Trasversali", color: 0xf7d37a, prefixes: ["trasversali."], exact: ["problemSolving", "pensieroCritico"] },
 ];
 

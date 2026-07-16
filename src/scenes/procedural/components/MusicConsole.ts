@@ -2,7 +2,19 @@ import Phaser from "phaser";
 import { audioManager } from "../../../core/AudioManager";
 import { formatDuration } from "../../../core/ProceduralScoring";
 import type { DifficultyLevel, GeneratedMusicPuzzle } from "../../../procedural/ProceduralTypes";
+import { Button } from "../../../ui/Button";
+import { addMethodStrip } from "../ExerciseUiHelpers";
 import type { MusicTrainingSession } from "../ProceduralMissionDefs";
+
+type MusicSprintScreenOptions = {
+  showCoach: boolean;
+  activeHint?: string;
+  hintLabel: string;
+  onAnswer(correct: boolean, feedback: string, selectedLabel: string): void;
+  onExpired(): void;
+  onHint(): void;
+  onStartCountdown(timerText: Phaser.GameObjects.Text): void;
+};
 
 /**
  * Vista e helper puri della console musicale (Osservatorio del Pentagramma).
@@ -298,6 +310,85 @@ export const MusicConsole = {
       color: "#f7d37a",
       wordWrap: { width: 456 },
     }));
+  },
+
+  drawSprintScreen(
+    scene: Phaser.Scene,
+    overlay: Phaser.GameObjects.Container,
+    puzzle: GeneratedMusicPuzzle,
+    session: MusicTrainingSession,
+    options: MusicSprintScreenOptions,
+  ): Phaser.GameObjects.Text {
+    MusicConsole.drawSessionHeader(scene, overlay, puzzle, session);
+    MusicConsole.drawStaff(scene, overlay, puzzle, 350, 328, options.showCoach);
+    MusicConsole.drawSupport(scene, overlay, puzzle, session, options.showCoach, options.activeHint);
+
+    const timerText = scene.add.text(922, 152, "", {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#f7d37a",
+      fontStyle: "bold",
+    }).setOrigin(0.5);
+    overlay.add(timerText);
+    options.onStartCountdown(timerText);
+
+    puzzle.choices.forEach((choice, index) => {
+      const x = 794 + (index % 2) * 244;
+      const y = 418 + Math.floor(index / 2) * 72;
+      overlay.add(new Button(scene, x, y, choice.label, () => {
+        if (session.locked || session.summaryOpen) {
+          return;
+        }
+        if (MusicConsole.sprintExpired(session)) {
+          options.onExpired();
+          return;
+        }
+        options.onAnswer(choice.isCorrect, choice.feedback, choice.label);
+      }, {
+        width: 218,
+        height: 60,
+        fontSize: ["note-hunt", "auditory-note"].includes(puzzle.challengeMode ?? "note-hunt") && puzzle.answerMode === "note-name" ? 22 : 14,
+        fill: 0x263743,
+        hoverFill: 0x23556a,
+      }));
+    });
+
+    if (options.showCoach) {
+      addMethodStrip(scene, overlay, 56, 586, 550, "Metodo", puzzle.methodSteps);
+    } else {
+      const compactStatus = options.activeHint ? `Indizio attivo: ${options.activeHint}` : session.feedback;
+      if (compactStatus) {
+        overlay.add(scene.add.rectangle(331, 626, 550, 78, 0x07151d, 0.74).setStrokeStyle(1, 0xf7d37a, 0.18));
+        overlay.add(scene.add.text(78, 600, compactStatus, {
+          fontFamily: "Inter, Arial",
+          fontSize: "12px",
+          color: options.activeHint ? "#f7d37a" : "#d9eaf1",
+          wordWrap: { width: 500, useAdvancedWrap: true },
+          lineSpacing: 3,
+        }));
+      }
+    }
+
+    overlay.add(new Button(scene, 778, 598, puzzle.audioPrompt?.replayLabel ?? "Ascolta sfida", () => MusicConsole.previewChallenge(puzzle), {
+      width: 220, height: 46, fontSize: 14, fill: 0x173b36,
+    }));
+    if ((puzzle.challengeMode === "interval-jump" || puzzle.challengeMode === "auditory-interval") && puzzle.secondaryNote) {
+      overlay.add(new Button(scene, 778, 650, "Nota 1", () => MusicConsole.playNote(puzzle.noteName, puzzle.octave), {
+        width: 104, height: 38, fontSize: 12, fill: 0x263743,
+      }));
+      overlay.add(new Button(scene, 894, 650, "Nota 2", () => MusicConsole.playNote(puzzle.secondaryNote!.noteName, puzzle.secondaryNote!.octave), {
+        width: 104, height: 38, fontSize: 12, fill: 0x263743,
+      }));
+    } else if (puzzle.challengeMode === "note-hunt" || puzzle.challengeMode === "scale-step") {
+      overlay.add(new Button(scene, 778, 650, "Suona nota", () => MusicConsole.playNote(puzzle.noteName, puzzle.octave), {
+        width: 220, height: 38, fontSize: 12, fill: 0x263743,
+      }));
+    }
+    overlay.add(new Button(scene, 1040, 598, options.hintLabel, options.onHint, {
+      width: 240, height: 46, fontSize: 14, fill: 0x263743,
+    }));
+
+    return timerText;
   },
 };
 

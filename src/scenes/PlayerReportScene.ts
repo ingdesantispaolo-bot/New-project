@@ -70,7 +70,7 @@ export class PlayerReportScene extends Phaser.Scene {
     });
 
     const activeId = playerSystem.getActivePlayer().id;
-    playerSystem.getPlayers().slice(0, 6).forEach((player, index) => {
+    playerSystem.getPlayers().slice(0, 4).forEach((player, index) => {
       const selected = player.id === activeId;
       new Button(this, x + 158, y + 130 + index * 50, player.name, () => {
         playerSystem.setActivePlayer(player.id);
@@ -85,7 +85,29 @@ export class PlayerReportScene extends Phaser.Scene {
       });
     });
 
-    new Button(this, x + 158, y + 408, "Nuovo giocatore", () => {
+    // Anno scolastico del profilo attivo: tiene un giocatore giovane nella sua
+    // fascia di profondità (niente concetti da 2ª/3ª prima del tempo).
+    this.add.text(x + 22, y + 350, "Anno scolastico (profondità adatta):", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9ff5e9",
+    });
+    const currentYear = playerSystem.getActiveSchoolYear();
+    ([1, 2, 3] as const).forEach((year, index) => {
+      const selected = currentYear === year;
+      new Button(this, x + 60 + index * 84, y + 388, `${year}ª`, () => {
+        playerSystem.setActiveSchoolYear(selected ? undefined : year);
+        this.scene.restart();
+      }, {
+        width: 76,
+        height: 34,
+        fill: selected ? 0x1f5a51 : 0x173244,
+        stroke: selected ? 0xf6c85f : 0x6be7d6,
+        fontSize: 14,
+      });
+    });
+
+    new Button(this, x + 158, y + 436, "Nuovo giocatore", () => {
       const name = globalThis.prompt?.("Nome del nuovo giocatore");
       if (name !== undefined && name !== null) {
         playerSystem.createPlayer(name);

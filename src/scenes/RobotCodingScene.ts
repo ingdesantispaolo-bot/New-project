@@ -10,6 +10,7 @@ import type { RobotCommand, RobotPuzzleDefinition } from "../types/puzzleTypes";
 import { Button } from "../ui/Button";
 import { SceneChrome } from "../ui/SceneChrome";
 import { VisualKit } from "../ui/VisualKit";
+import { RobotConsole, type RobotSprite } from "./procedural/components/RobotConsole";
 
 type Facing = "N" | "E" | "S" | "W";
 
@@ -28,9 +29,7 @@ export class RobotCodingScene extends Phaser.Scene {
   private commands: RobotCommand[] = [];
   private commandText?: Phaser.GameObjects.Text;
   private statusText?: Phaser.GameObjects.Text;
-  private robotSprite?: Phaser.GameObjects.Triangle;
-  private robotGlow?: Phaser.GameObjects.Image;
-  private robotShadow?: Phaser.GameObjects.Ellipse;
+  private robotSprite?: RobotSprite;
   private executionMarkers: Phaser.GameObjects.GameObject[] = [];
   private robotState = { ...this.robotPuzzle.grid.start };
   private executing = false;
@@ -73,15 +72,23 @@ export class RobotCodingScene extends Phaser.Scene {
         const y = this.origin.y + row * this.cellSize;
         const obstacle = this.robotPuzzle.grid.obstacles.some((item) => item.col === col && item.row === row);
         this.add.rectangle(x + 4, y + 5, this.cellSize - 8, this.cellSize - 8, 0x000000, 0.18);
-        this.add
-          .rectangle(x, y, this.cellSize - 8, this.cellSize - 8, obstacle ? 0x4c2b38 : 0x132835, obstacle ? 0.88 : 0.64)
-          .setStrokeStyle(1, obstacle ? 0xc94b55 : 0x315766, 0.7);
+        if (this.textures.exists("robot-grid")) {
+          this.add.image(x, y, "robot-grid", obstacle ? "grid-obstacle" : "grid-cell").setDisplaySize(this.cellSize - 8, this.cellSize - 8);
+        } else {
+          this.add
+            .rectangle(x, y, this.cellSize - 8, this.cellSize - 8, obstacle ? 0x4c2b38 : 0x132835, obstacle ? 0.88 : 0.64)
+            .setStrokeStyle(1, obstacle ? 0xc94b55 : 0x315766, 0.7);
+        }
       }
     }
 
     const key = this.robotPuzzle.grid.key;
     this.add.image(this.cellX(key.col), this.cellY(key.row), "soft-glow").setTint(0xf6c85f).setAlpha(0.24).setScale(1.2);
-    this.add.star(this.cellX(key.col), this.cellY(key.row), 5, 12, 28, 0xf6c85f, 1).setStrokeStyle(2, 0xffe6a0, 0.9);
+    if (this.textures.exists("robot-grid")) {
+      this.add.image(this.cellX(key.col), this.cellY(key.row), "robot-grid", "grid-key").setDisplaySize(this.cellSize - 8, this.cellSize - 8);
+    } else {
+      this.add.star(this.cellX(key.col), this.cellY(key.row), 5, 12, 28, 0xf6c85f, 1).setStrokeStyle(2, 0xffe6a0, 0.9);
+    }
     SceneChrome.consolePanel(this, 832, 140, 364, 420, "Buffer comandi", "academy");
 
     this.commandText = this.add.text(852, 196, "Sequenza:\n(vuota)", {
@@ -136,25 +143,13 @@ export class RobotCodingScene extends Phaser.Scene {
   private resetRobot(): void {
     this.robotState = { ...this.robotPuzzle.grid.start };
     this.robotSprite?.destroy();
-    this.robotGlow?.destroy();
-    this.robotShadow?.destroy();
-    this.robotShadow = this.add.ellipse(this.cellX(this.robotState.col), this.cellY(this.robotState.row) + 22, 54, 16, 0x000000, 0.28);
-    this.robotGlow = this.add.image(this.cellX(this.robotState.col), this.cellY(this.robotState.row), "soft-glow");
-    this.robotGlow.setTint(0x6be7d6).setAlpha(0.18).setScale(1.15);
-    this.robotSprite = this.add.triangle(
+    this.robotSprite = RobotConsole.createRobotSprite(
+      this,
       this.cellX(this.robotState.col),
       this.cellY(this.robotState.row),
-      0,
-      -28,
-      24,
-      22,
-      -24,
-      22,
-      0x6be7d6,
-      1,
+      this.cellSize,
+      this.robotState.facing,
     );
-    this.robotSprite.setStrokeStyle(2, 0xf5fbff, 0.8);
-    this.robotSprite.setRotation(this.rotationFor(this.robotState.facing));
   }
 
   private addCommand(command: RobotCommand): void {
@@ -225,10 +220,12 @@ export class RobotCodingScene extends Phaser.Scene {
   private applyCommand(command: RobotCommand, index: number): { ok: boolean; message: string } {
     if (command === "TURN_LEFT" || command === "TURN_RIGHT") {
       this.robotState.facing = this.turn(this.robotState.facing, command);
+      RobotConsole.setRobotFacing(this.robotSprite, this.robotState.facing);
       this.tweens.add({
         targets: this.robotSprite,
-        rotation: this.rotationFor(this.robotState.facing),
+        scale: { from: 1.08, to: 1 },
         duration: 160,
+        ease: "Sine.easeOut",
       });
       return { ok: true, message: "" };
     }
@@ -255,16 +252,9 @@ export class RobotCodingScene extends Phaser.Scene {
     this.robotState.row = next.row;
     this.markVisitedCell(next.col, next.row);
     this.tweens.add({
-      targets: [this.robotSprite, this.robotGlow],
+      targets: this.robotSprite,
       x: this.cellX(next.col),
       y: this.cellY(next.row),
-      duration: 300,
-      ease: "Sine.easeInOut",
-    });
-    this.tweens.add({
-      targets: this.robotShadow,
-      x: this.cellX(next.col),
-      y: this.cellY(next.row) + 22,
       duration: 300,
       ease: "Sine.easeInOut",
     });
@@ -278,9 +268,7 @@ export class RobotCodingScene extends Phaser.Scene {
     VisualKit.particleBurst(this, this.cellX(this.robotState.col), this.cellY(this.robotState.row), "academy", success ? "success" : "error");
     if (!success) {
       audioManager.play("error");
-      const shakeTargets = [this.robotSprite, this.robotGlow].filter(
-        (item): item is Phaser.GameObjects.Triangle | Phaser.GameObjects.Image => Boolean(item),
-      );
+      const shakeTargets = this.robotSprite ? [this.robotSprite] : [];
       VisualKit.shake(this, shakeTargets, 8);
     }
   }
@@ -332,15 +320,6 @@ export class RobotCodingScene extends Phaser.Scene {
 
   private isOnKey(): boolean {
     return this.robotState.col === this.robotPuzzle.grid.key.col && this.robotState.row === this.robotPuzzle.grid.key.row;
-  }
-
-  private rotationFor(facing: Facing): number {
-    return {
-      N: 0,
-      E: Math.PI / 2,
-      S: Math.PI,
-      W: -Math.PI / 2,
-    }[facing];
   }
 
   private cellX(col: number): number {

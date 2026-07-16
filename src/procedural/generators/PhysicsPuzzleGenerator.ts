@@ -877,11 +877,11 @@ function competenciesFor(type: PhysicsExerciseType): string[] {
   if (type === "unit-check") return [...base, "fisica.misure", "matematica.proporzioni"];
   if (type === "force-diagram") return [...base, "fisica.forze", "fisica.equilibrio"];
   if (type === "energy-transfer") return [...base, "fisica.energia", "scienze.sistemi"];
-  if (type === "experiment-order") return [...base, "fisica.metodoSperimentale", "controlloErrore"];
+  if (type === "experiment-order") return [...base, "fisica.metodoSperimentale", "matematica.controlloErrore"];
   if (type === "density-pressure") return [...base, "fisica.materia", "matematica.rapporti"];
   if (type === "heat-temperature") return [...base, "fisica.termologia", "scienze.energia"];
   if (type === "wave-reading") return [...base, "fisica.onde", "matematica.grafici"];
-  return [...base, "fisica.ottica", "geometria"];
+  return [...base, "fisica.ottica", "matematica.geometria"];
 }
 
 const physicsTemplates: PhysicsTemplate[] = [

@@ -13,7 +13,7 @@ import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
 
 type GymActivityKey = "tables" | "mental" | "geo" | "geoPhysical" | "simon" | "memory" | "code" | "seq" | "balance" | "flash" | "firewall";
-type ActivityMeta = { key: GymActivityKey; title: string; glyph: string; theme: string; desc: string; color: number; start: () => void };
+type ActivityMeta = { key: GymActivityKey; title: string; glyph: string; icon: string; theme: string; desc: string; color: number; start: () => void };
 type MemoryCard = { pairId: string; label: string; rect: Phaser.GameObjects.Rectangle; text: Phaser.GameObjects.Text; matched: boolean; flipped: boolean };
 type TablesChallengeMode = "product" | "missing" | "division" | "mental";
 type TablesChallenge = {
@@ -340,7 +340,7 @@ export class LogicGymScene extends Phaser.Scene {
       this.gymLevel = Phaser.Math.Clamp(saveSystem.data.logicGym?.level ?? 1, GYM_MIN_LEVEL, GYM_MAX_LEVEL);
     }
     this.cameras.main.setBackgroundColor("#071018");
-    VisualKit.background(this, "academy");
+    VisualKit.background(this, "academy", "logic-gym-hub-bg");
     VisualKit.vignette(this);
     if (this.bonusMode) {
       this.startMissionBonusActivity();
@@ -395,17 +395,17 @@ export class LogicGymScene extends Phaser.Scene {
 
   private activities(): ActivityMeta[] {
     return [
-      { key: "tables", title: "Tabelline Reactor", glyph: "x", theme: "Matematica rapida", color: 0xf6c85f, desc: "Ricarica il reattore con prodotti, fattori mancanti e operazioni inverse. Combo alta = punteggio alto.", start: () => this.startTables() },
-      { key: "mental", title: "Calcolo Mentale", glyph: "+-", theme: "Aritmetica sprint", color: 0x5ec8ff, desc: "Risolvi somme, differenze, catene, doppi, meta e percentuali con strategie rapide. Il tempo pesa.", start: () => this.startMental() },
-      { key: "geo", title: "Geo Atlante", glyph: "◎", theme: "Capitali e continenti", color: 0x70d68a, desc: "Segui rotte, capitali e continenti. Ogni risposta precisa accende un nuovo pin sulla mappa.", start: () => this.startGeo() },
-      { key: "geoPhysical", title: "Geo Rilievi", glyph: "△", theme: "Geografia fisica", color: 0x9f8cff, desc: "Riconosci fiumi, laghi, montagne, deserti, mari e stretti. La mappa mostra forma, zona e traccia.", start: () => this.startPhysical() },
-      { key: "simon", title: "Sequenza Luminosa", glyph: "🧠", theme: "Memoria", color: 0x6be7d6, desc: "Guarda la sequenza di luci e ripetila. Si allunga a ogni turno!", start: () => this.startSimon() },
-      { key: "memory", title: "Memory delle Coppie", glyph: "🃏", theme: "Memoria", color: 0xff9ad2, desc: "Trova le coppie equivalenti (1/2 = 0,5, dog = cane…) con meno mosse possibili.", start: () => this.startMemory() },
-      { key: "code", title: "Codice Segreto", glyph: "🔐", theme: "Logica", color: 0xf6c85f, desc: "Indovina il codice nascosto deducendolo dagli indizi. Stile Mastermind.", start: () => this.startCode() },
-      { key: "seq", title: "Sequenze Logiche", glyph: "🔢", theme: "Logica", color: 0x70d68a, desc: "Scopri la regola e trova il termine che continua la serie.", start: () => this.startSeq() },
-      { key: "balance", title: "Bilancia Logica", glyph: "⚖️", theme: "Logica", color: 0xf6c85f, desc: "Deduci chi pesa di più (o di meno) mettendo in fila gli indizi.", start: () => this.startBalance() },
-      { key: "flash", title: "Griglia Lampo", glyph: "⚡", theme: "Memoria", color: 0x6be7d6, desc: "Memorizza le caselle che lampeggiano e ricostruiscile. Aumentano ogni turno!", start: () => this.startFlash() },
-      { key: "firewall", title: "Firewall NORA", glyph: "FW", theme: "Cyber-logica", color: 0x5ec8ff, desc: "Classifica segnali: consenti, blocca, quarantena o ispeziona seguendo regole crescenti.", start: () => this.startFirewall() },
+      { key: "tables", title: "Tabelline Reactor", glyph: "x", icon: "gym-tables", theme: "Matematica rapida", color: 0xf6c85f, desc: "Ricarica il reattore con prodotti, fattori mancanti e operazioni inverse. Combo alta = punteggio alto.", start: () => this.startTables() },
+      { key: "mental", title: "Calcolo Mentale", glyph: "+-", icon: "gym-mental", theme: "Aritmetica sprint", color: 0x5ec8ff, desc: "Risolvi somme, differenze, catene, doppi, meta e percentuali con strategie rapide. Il tempo pesa.", start: () => this.startMental() },
+      { key: "geo", title: "Geo Atlante", glyph: "◎", icon: "gym-geo", theme: "Capitali e continenti", color: 0x70d68a, desc: "Segui rotte, capitali e continenti. Ogni risposta precisa accende un nuovo pin sulla mappa.", start: () => this.startGeo() },
+      { key: "geoPhysical", title: "Geo Rilievi", glyph: "△", icon: "gym-geo-physical", theme: "Geografia fisica", color: 0x9f8cff, desc: "Riconosci fiumi, laghi, montagne, deserti, mari e stretti. La mappa mostra forma, zona e traccia.", start: () => this.startPhysical() },
+      { key: "simon", title: "Sequenza Luminosa", glyph: "S", icon: "gym-simon", theme: "Memoria", color: 0x6be7d6, desc: "Guarda la sequenza di luci e ripetila. Si allunga a ogni turno!", start: () => this.startSimon() },
+      { key: "memory", title: "Memory delle Coppie", glyph: "M", icon: "gym-memory", theme: "Memoria", color: 0xff9ad2, desc: "Trova le coppie equivalenti (1/2 = 0,5, dog = cane…) con meno mosse possibili.", start: () => this.startMemory() },
+      { key: "code", title: "Codice Segreto", glyph: "C", icon: "gym-code", theme: "Logica", color: 0xf6c85f, desc: "Indovina il codice nascosto deducendolo dagli indizi. Stile Mastermind.", start: () => this.startCode() },
+      { key: "seq", title: "Sequenze Logiche", glyph: "→", icon: "gym-seq", theme: "Logica", color: 0x70d68a, desc: "Scopri la regola e trova il termine che continua la serie.", start: () => this.startSeq() },
+      { key: "balance", title: "Bilancia Logica", glyph: "=", icon: "gym-balance", theme: "Logica", color: 0xf6c85f, desc: "Deduci chi pesa di più (o di meno) mettendo in fila gli indizi.", start: () => this.startBalance() },
+      { key: "flash", title: "Griglia Lampo", glyph: "!", icon: "gym-flash", theme: "Memoria", color: 0x6be7d6, desc: "Memorizza le caselle che lampeggiano e ricostruiscile. Aumentano ogni turno!", start: () => this.startFlash() },
+      { key: "firewall", title: "Firewall NORA", glyph: "FW", icon: "gym-firewall", theme: "Cyber-logica", color: 0x5ec8ff, desc: "Classifica segnali: consenti, blocca, quarantena o ispeziona seguendo regole crescenti.", start: () => this.startFirewall() },
     ];
   }
 
@@ -507,8 +507,9 @@ export class LogicGymScene extends Phaser.Scene {
       const y = startY + Math.floor(index / cols) * (h + gap);
       this.t(this.add.rectangle(x, y, w, h, 0x0c1d2a, 0.94).setOrigin(0).setStrokeStyle(2, activity.color, 0.55));
       this.t(this.add.rectangle(x, y, w, 5, activity.color, 0.9).setOrigin(0));
-      this.t(this.add.text(x + 18, y + 14, `${activity.glyph}  ${activity.title}`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 36 } }));
-      this.t(this.add.text(x + 20, y + 42, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "11px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
+      this.addActivityIcon(activity, x + 34, y + 38);
+      this.t(this.add.text(x + 70, y + 14, activity.title, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 88 } }));
+      this.t(this.add.text(x + 72, y + 42, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "11px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
       this.t(this.add.text(x + 20, y + 60, activity.desc, { fontFamily: "Inter, Arial", fontSize: "10px", color: "#c7dce7", wordWrap: { width: w - 40, useAdvancedWrap: true }, lineSpacing: 1 }));
       this.t(this.add.text(x + 20, y + 110, this.activityLevelLine(activity.key), { fontFamily: "Inter, Arial", fontSize: "9px", color: "#9ff5e9", wordWrap: { width: w - 40, useAdvancedWrap: true } }));
       this.t(this.add.text(x + 20, y + 142, `Record: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", fontStyle: "bold" }));
@@ -528,6 +529,20 @@ export class LogicGymScene extends Phaser.Scene {
       }
       this.showHub();
     }, { width: 170, height: 44, fill: 0x263743 }));
+  }
+
+  private addActivityIcon(activity: ActivityMeta, x: number, y: number): void {
+    if (this.textures.exists("logic-gym") && this.textures.getFrame("logic-gym", activity.icon)) {
+      this.t(this.add.image(x, y, "logic-gym", activity.icon).setDisplaySize(46, 46));
+      return;
+    }
+    this.t(this.add.circle(x, y, 22, activity.color, 0.24).setStrokeStyle(2, activity.color, 0.72));
+    this.t(this.add.text(x, y, activity.glyph, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
   }
 
   private activityLevelLine(key: GymActivityKey): string {
@@ -1569,6 +1584,9 @@ export class LogicGymScene extends Phaser.Scene {
     coast.lineBetween(432, 372, pinX, pinY + 10);
 
     const pin = this.t(this.add.circle(pinX, pinY, 10, 0xf6c85f, 0.98).setStrokeStyle(3, 0xffffff, 0.85));
+    if (this.textures.exists("logic-gym") && this.textures.getFrame("logic-gym", "geo-pin")) {
+      this.t(this.add.image(pinX, pinY - 13, "logic-gym", "geo-pin").setDisplaySize(44, 44));
+    }
     this.t(this.add.circle(pinX, pinY, 22, 0xf6c85f, 0.12).setStrokeStyle(2, 0xf6c85f, 0.38));
     this.t(this.add.text(pinX, pinY - 32, challenge.item.country, {
       fontFamily: "Inter, Arial",
@@ -1691,6 +1709,10 @@ export class LogicGymScene extends Phaser.Scene {
     }).setOrigin(0.5));
 
     this.t(this.add.rectangle(1010, 188, 384, 174, 0x07151d, 0.94).setStrokeStyle(2, 0x9f8cff, 0.62));
+    const featureFrame = this.physicalKindFrame(challenge.feature.kind);
+    if (this.textures.exists("logic-gym") && this.textures.getFrame("logic-gym", featureFrame)) {
+      this.t(this.add.image(844, 142, "logic-gym", featureFrame).setDisplaySize(48, 48));
+    }
     this.t(this.add.text(1010, 138, this.physicalModeLabel(challenge.mode), {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
@@ -1944,6 +1966,15 @@ export class LogicGymScene extends Phaser.Scene {
 
   private drawPhysicalMarker(x: number, y: number, kind: PhysicalKind): void {
     const color = this.physicalKindColor(kind);
+    const frame = this.physicalKindFrame(kind);
+    if (this.textures.exists("logic-gym") && this.textures.getFrame("logic-gym", frame)) {
+      this.t(this.add.image(x, y, "logic-gym", frame).setDisplaySize(kind === "fiume" || kind === "stretto" ? 58 : 50, 50));
+      const pulse = this.t(this.add.circle(x, y, 24, color, 0.12).setStrokeStyle(2, color, 0.42));
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({ targets: pulse, scale: 1.24, alpha: 0.05, duration: 760, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      }
+      return;
+    }
     if (kind === "fiume") {
       const river = this.t(this.add.graphics());
       river.lineStyle(5, color, 0.9);
@@ -2009,6 +2040,18 @@ export class LogicGymScene extends Phaser.Scene {
       case "catena montuosa": return 0xf6c85f;
       case "deserto": return 0xd6a84f;
       case "stretto": return 0xff9ad2;
+    }
+  }
+
+  private physicalKindFrame(kind: PhysicalKind): string {
+    switch (kind) {
+      case "fiume": return "geo-river";
+      case "lago": return "geo-lake";
+      case "mare": return "geo-lake";
+      case "montagna": return "geo-mountain";
+      case "catena montuosa": return "geo-mountain";
+      case "deserto": return "geo-desert";
+      case "stretto": return "geo-river";
     }
   }
 

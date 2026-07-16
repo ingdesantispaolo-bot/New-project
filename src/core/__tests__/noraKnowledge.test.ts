@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { theorySubjectOrder, theoryTopics } from "../../data/theoryCatalog";
 import { competencies } from "../../data/competencies";
+import { mathTemplates } from "../../data/procedural/mathTemplates";
 import { noraKnowledge } from "../NoraKnowledge";
 import { proceduralDirector } from "../../procedural/ProceduralDirector";
-import type { ProceduralPuzzleKind } from "../../procedural/ProceduralTypes";
+import { MathPuzzleGenerator } from "../../procedural/generators/MathPuzzleGenerator";
+import { difficultyModel } from "../../procedural/DifficultyModel";
+import { Random } from "../../procedural/Random";
+import type { DifficultyLevel, ProceduralPuzzleKind } from "../../procedural/ProceduralTypes";
 
 describe("NoraKnowledge", () => {
   it("has at least one theory topic for every trainable subject", () => {
@@ -43,6 +47,49 @@ describe("NoraKnowledge", () => {
 
   it("has no dangling direct-map targets", () => {
     expect(noraKnowledge.brokenDirectTargets()).toEqual([]);
+    expect(noraKnowledge.brokenCurriculumTargets()).toEqual([]);
+  });
+
+  it("maps every math template to a precise theory card via curriculumTags", () => {
+    // Ogni esercizio matematico deve avere almeno un curriculumTag che risolve a
+    // una scheda: così il primo-incontro mostra SEMPRE la teoria giusta, non una
+    // scheda a caso dal fallback fuzzy.
+    for (const template of mathTemplates) {
+      const topic = noraKnowledge.topicForCurriculumTags(template.curriculumTags);
+      expect(topic, `${template.id} (${(template.curriculumTags ?? []).join(", ")})`).toBeDefined();
+    }
+  });
+
+  it("risolve la teoria per ogni concetto dei prompt dei minigiochi matematica", () => {
+    // Un minigioco (es. fraction-lab) alterna prompt di concetti diversi: ogni
+    // prompt deve poter mostrare la scheda GIUSTA dal suo `concept`.
+    const generator = new MathPuzzleGenerator();
+    const types = [
+      "target-sum", "factor-hunt", "operation-chain", "number-sequence",
+      "expression-build", "fraction-lab", "ratio-proportion", "geometry-measure", "data-probability",
+    ] as const;
+    for (const type of types) {
+      for (let level = 1 as DifficultyLevel; level <= 8; level = (level + 1) as DifficultyLevel) {
+        const preset = difficultyModel.getPreset(level);
+        for (let seed = 0; seed < 6; seed += 1) {
+          const mini = generator.generateMinigame(new Random(`mini-${type}-${level}-${seed}`), preset, [type]).minigame;
+          for (const prompt of mini?.prompts ?? []) {
+            expect(
+              noraKnowledge.topicForMinigameConcept(prompt.concept),
+              `${type}/${prompt.concept}`,
+            ).toBeDefined();
+          }
+        }
+      }
+    }
+  });
+
+  it("resolves the right card for cross-cutting archetypes (not just the archetype)", () => {
+    // "vincolo" copre concetti diversi: la scheda dipende dai curriculumTags.
+    expect(noraKnowledge.topicForPuzzle("math", { archetype: "vincolo", curriculumTags: ["mcm", "multipli"] })?.id).toBe("divisibilita");
+    expect(noraKnowledge.topicForPuzzle("math", { archetype: "vincolo", curriculumTags: ["numeri relativi", "linea dei numeri"] })?.id).toBe("numeri-relativi");
+    expect(noraKnowledge.topicForPuzzle("math", { archetype: "lettura-dati", curriculumTags: ["media", "dati"] })?.id).toBe("statistica");
+    expect(noraKnowledge.topicForPuzzle("math", { archetype: "sequenza", curriculumTags: ["successioni numeriche"] })?.id).toBe("numeri-naturali");
   });
 
   it("never leaves a real generated puzzle without a theory card", () => {

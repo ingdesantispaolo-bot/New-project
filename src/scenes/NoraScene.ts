@@ -6,6 +6,7 @@ import { noraKnowledge } from "../core/NoraKnowledge";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
+import { startScene } from "../core/SceneNavigator";
 import { settingsSystem } from "../core/SettingsSystem";
 import type { ProceduralPuzzleKind } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
@@ -27,14 +28,14 @@ export class NoraScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "archive", "story");
+    queueSceneAssets(this, "archive", "nora", "story");
   }
 
   create(): void {
     playerSystem.load();
     saveSystem.load();
     this.cameras.main.setBackgroundColor("#071018");
-    VisualKit.background(this, "archive");
+    VisualKit.background(this, "archive", "nora-room-bg");
     VisualKit.vignette(this);
     placeHiddenAnomaly(this, "NoraScene");
     this.drawRoomAtmosphere();
@@ -271,7 +272,10 @@ export class NoraScene extends Phaser.Scene {
 
     modal.add(new Button(this, 452, 508, "Apri nell'Atlante", () => {
       close();
-      void this.scene.start("MathStudyScene", { pageId: topic.id });
+      // Scena lazy: senza ensureScene lo start può non partire (schermo nero).
+      void startScene(this, "MathStudyScene", { pageId: topic.id }).catch(() => {
+        this.scene.start("MainMenuScene");
+      });
     }, { width: 260, height: 42, fontSize: 13, fill: 0x173b36, stroke: 0x6be7d6 }));
     modal.add(new Button(this, 736, 508, "Ho capito", close, { width: 200, height: 42, fontSize: 13, fill: 0x263743 }));
     audioManager.play("panelOpen");

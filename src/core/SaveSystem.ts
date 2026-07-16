@@ -477,6 +477,23 @@ export class SaveSystem {
     return count;
   }
 
+  /** True se NORA ha già presentato questo concetto al profilo attivo. */
+  isConceptIntroduced(topicId: string): boolean {
+    return Boolean(this.saveData.introducedConcepts?.[topicId]);
+  }
+
+  /**
+   * Registra la prima spiegazione di un concetto: da qui in poi la teoria non
+   * si apre più da sola per quel topic (resta il pulsante "Teoria NORA").
+   */
+  markConceptIntroduced(topicId: string): void {
+    this.saveData.introducedConcepts = {
+      ...(this.saveData.introducedConcepts ?? {}),
+      [topicId]: new Date().toISOString(),
+    };
+    this.persist();
+  }
+
   private resolveLearningMistake(category: string): void {
     const previous = this.saveData.learningMemory?.[category];
     if (!previous || previous.count <= 0) return;

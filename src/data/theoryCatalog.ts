@@ -1,5 +1,9 @@
 import { italianStudyPages } from "./italianStudyPages";
 import { mathStudyPages } from "./mathStudyPages";
+import { topicIntros, type TopicIntro } from "./topicIntros";
+import { topicPrerequisites } from "./topicPrerequisites";
+import { topicSchoolYear } from "./topicSchoolYear";
+import type { SchoolYear } from "../core/schoolLevel";
 import type { ProceduralPuzzleKind, ProceduralSpecialization } from "../procedural/ProceduralTypes";
 
 export type TheorySubject = Exclude<ProceduralSpecialization, "libera">;
@@ -37,6 +41,12 @@ export type TheoryTopic = {
   watchOut: string[];
   noraExplanation: string;
   visualKind: TheoryVisualKind;
+  /** Spiegazione da PRIMO incontro, registro prima media (vedi topicIntros). */
+  intro?: TopicIntro;
+  /** Concetti su cui questo si appoggia (vedi topicPrerequisites). */
+  prerequisites?: string[];
+  /** Anno di scuola media in cui si introduce il concetto (vedi topicSchoolYear). */
+  schoolYear?: SchoolYear;
 };
 
 const subjectFromStudyPage = (subject?: "matematica" | "italiano"): TheorySubject =>
@@ -93,8 +103,14 @@ const studyTopics: TheoryTopic[] = [...mathStudyPages, ...italianStudyPages].map
     method: page.rules,
     example: page.example,
     watchOut: page.watchOut,
-    noraExplanation: `${page.definition} Prima riconosci il caso, poi applica una regola alla volta e verifica l'errore tipico.`,
+    // La voce di NORA parte dall'aggancio concreto dell'intro (quando c'è),
+    // invece del finale generico uguale per tutti: più chiara per un undicenne.
+    noraExplanation: topicIntros[page.id]?.hook
+      ?? `${page.definition} Prima riconosci il caso, poi applica una regola alla volta e verifica l'errore tipico.`,
     visualKind: subject === "italiano" ? "timeline" : "formula",
+    intro: topicIntros[page.id],
+    prerequisites: topicPrerequisites[page.id] ?? [],
+    schoolYear: topicSchoolYear[page.id],
   };
 });
 
@@ -1167,7 +1183,34 @@ const extraTopics: TheoryTopic[] = [
   },
 ];
 
-export const theoryTopics: TheoryTopic[] = [...studyTopics, ...extraTopics];
+// Competenze fisica/musica appena registrate, agganciate al topic specifico così
+// il consiglio "teoria per competenza debole" instrada al concetto giusto (non
+// solo alla materia). Si sommano a quelle già dichiarate dalle schede.
+const topicExtraCompetencies: Record<string, string[]> = {
+  "fisica-misure-unita": ["fisica.misure"],
+  "fisica-moto-forze-energia": ["fisica.moto", "fisica.forze", "fisica.energia"],
+  "fisica-onde-ottica": ["fisica.onde", "fisica.ottica"],
+  "fisica-moto-grafici": ["fisica.moto", "fisica.modelli"],
+  "fisica-forze-equilibrio": ["fisica.forze", "fisica.equilibrio"],
+  "fisica-energia-trasformazioni": ["fisica.energia"],
+  "fisica-esperimento-metodo": ["fisica.metodoSperimentale", "fisica.osservazione"],
+  "fisica-densita-pressione": ["fisica.materia"],
+  "fisica-calore-temperatura": ["fisica.termologia"],
+  "musica-durate-tempo": ["musica.durate", "musica.ritmo"],
+  "musica-ritmo-intervalli": ["musica.ritmo", "musica.intervalli", "musica.ascoltoVisivo"],
+  "musica-intervalli-scale": ["musica.intervalli", "musica.scale"],
+};
+
+// Aggancia intro/prerequisiti/anno dai rispettivi archivi a OGNI concetto,
+// così anche i topic extra (inglese, circuiti, coding, robot, musica, fisica,
+// latino) ottengono la spiegazione da primo incontro quando disponibile.
+export const theoryTopics: TheoryTopic[] = [...studyTopics, ...extraTopics].map((topic) => ({
+  ...topic,
+  intro: topic.intro ?? topicIntros[topic.id],
+  prerequisites: topic.prerequisites ?? topicPrerequisites[topic.id],
+  schoolYear: topic.schoolYear ?? topicSchoolYear[topic.id],
+  competencies: Array.from(new Set([...(topic.competencies ?? []), ...(topicExtraCompetencies[topic.id] ?? [])])),
+}));
 
 export const theorySubjectLabels: Record<TheorySubject, string> = {
   matematica: "Matematica",

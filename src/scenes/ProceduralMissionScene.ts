@@ -19,7 +19,6 @@ import { settingsSystem } from "../core/SettingsSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { startScene } from "../core/SceneNavigator";
 import { noraVoice, type NoraBeat } from "../core/NoraVoice";
-import { noraKnowledge } from "../core/NoraKnowledge";
 import { noraChip } from "../ui/NoraChip";
 import { noraPresence } from "../ui/NoraPresence";
 import { languageTemplates } from "../data/procedural/languageTemplates";
@@ -47,9 +46,6 @@ import type {
   GeneratedFocusChallenge,
   GeneratedGraphWorkshop,
   GeneratedCodingPuzzle,
-  CircuitMinigamePrompt,
-  CircuitMinigameVisual,
-  GeneratedCircuitMinigame,
   GeneratedCircuitPuzzle,
   GeneratedCodingMinigame,
   GeneratedEnglishMinigame,
@@ -64,7 +60,6 @@ import type {
   GeneratedRobotPuzzle,
   GeneratedRoomHotspot,
   GridCommand,
-  GridFacing,
   GraphParameterKey,
   GraphReadingStep,
   EnglishMinigameType,
@@ -79,20 +74,22 @@ import type {
   ProceduralRunSave,
 } from "../procedural/ProceduralTypes";
 import type { LogicGymBonusActivityKey, LogicGymBonusResult } from "../types/logicGymBonus";
-import type { TheoryTopic } from "../data/theoryCatalog";
 import { Button } from "../ui/Button";
-import { drawTheoryVisual } from "../ui/TheoryVisual";
 import { outcomeFeedback, type OutcomeTone } from "../ui/OutcomeFeedback";
 import { SceneChrome } from "../ui/SceneChrome";
 import { VisualKit } from "../ui/VisualKit";
 import { CircuitConsole, type CircuitConsoleModel } from "./procedural/components/CircuitConsole";
+import { renderCodingSprintConsole } from "./procedural/components/CodingSprintConsole";
+import { renderEnglishSprintConsole } from "./procedural/components/EnglishSprintConsole";
 import { LanguageRepairConsole, type LanguageRepairModel } from "./procedural/components/LanguageRepairConsole";
 import { MathTerminal } from "./procedural/components/MathTerminal";
 import { MissionDependencyGraph } from "./procedural/components/MissionDependencyGraph";
 import { MusicConsole } from "./procedural/components/MusicConsole";
+import { PhysicsConsole } from "./procedural/components/PhysicsConsole";
 import { EquationLabView } from "./procedural/components/EquationLabView";
 import { GraphWorkshopView } from "./procedural/components/GraphWorkshopView";
-import { RobotConsole } from "./procedural/components/RobotConsole";
+import { RobotConsole, type RobotSprite } from "./procedural/components/RobotConsole";
+import { addSprintSummaryModal } from "./procedural/components/SprintSummaryModal";
 import {
   isProceduralHotspotSolved,
   isProceduralPuzzleSolved,
@@ -105,7 +102,96 @@ import {
   type ProceduralPuzzleId,
 } from "./procedural/ProceduralMissionLayout";
 import { ProceduralMissionView } from "./procedural/ProceduralMissionView";
+import {
+  buildFreshProceduralRun,
+  buildProgressiveProceduralRun,
+  buildReplacementProceduralRun,
+  buildRunNormalizationUpdate,
+  runNeedsContentMigration,
+} from "./procedural/ProceduralRunFactory";
 import { MissionRoomAvatar } from "./procedural/MissionRoomAvatar";
+import { choiceTileFontSize, choiceTileLabel } from "./procedural/ChoiceTileText";
+import { addMethodStrip, codingChallengeLabel, englishChallengeLabel, exerciseBackgroundKey } from "./procedural/ExerciseUiHelpers";
+import { createExerciseScreenChrome } from "./procedural/ExerciseScreenChrome";
+import { addNoraTheoryButton as addNoraTheoryButtonToOverlay, noraTheoryTopicFor as theoryTopicForPuzzle, showFirstEncounterPanel } from "./procedural/NoraTheoryPanel";
+import {
+  codingMinigameFeedback,
+  codingMinigameHint,
+  englishMinigameFeedback,
+  englishMinigameHint,
+  englishSelectionRequirementText,
+} from "./procedural/SprintPromptText";
+import { buildSprintCompletionOutcome, type SprintCompletionCopy } from "./procedural/SprintCompletionRules";
+import {
+  buildCodingMinigameScore,
+  buildEnglishMinigameScore,
+  buildLanguageMinigameScore,
+  buildMathMinigameScore,
+  buildPuzzleStatPatchUpdate,
+  buildPuzzleTimerStartUpdate,
+  buildScoreRunUpdate,
+  buildStandardPuzzleScore,
+  buildMusicSprintScore,
+} from "./procedural/SprintScoreRules";
+import {
+  buildCircuitMinigameScore,
+  circuitMinigameCorrectAward,
+  circuitMinigameFeedback,
+  circuitMinigameHint,
+  circuitMinigamePassed,
+  circuitMinigameRemainingMs,
+  createCircuitMinigameSession,
+  currentCircuitMinigamePrompt,
+} from "./procedural/CircuitMinigameRules";
+import {
+  compactMissionBonusEvents,
+  createMissionBonusOfferOverlay,
+  missionBonusActivityTitle,
+  missionBonusEventLimit,
+  missionBonusRounds,
+  normalizeMissionBonusEvents,
+  selectMissionBonusActivity,
+  shouldOfferMissionBonus,
+} from "./procedural/MissionBonusEvents";
+import {
+  buildProgressiveJournalEntry,
+  buildProgressiveLevelCompletion,
+  buildProgressiveRunCompletionUpdate,
+  progressiveTotalElapsedMs,
+  progressiveToolUnlockForLevel,
+} from "./procedural/ProgressiveRunRules";
+import {
+  buildLifeLossOutcome,
+  buildMissionFailureUpdate,
+  missionFailureFeedback,
+} from "./procedural/MissionFailureRules";
+import {
+  chapterExploreCompletionFeedback,
+  chapterTrialCompletionFeedback,
+  doorMissingFeedback,
+  ghostNoraLine,
+  standardCompletionCopy,
+} from "./procedural/MissionCompletionRules";
+import {
+  buildCleanSolveReward,
+  isCleanPuzzleSolve,
+  puzzleKindLabel,
+  puzzleSolveFeedback,
+  puzzleCompetencyAward,
+  solvedPrincipleForKind,
+} from "./procedural/PuzzleSolveRules";
+import {
+  hintButtonLabel,
+  nextPedagogicHint,
+  puzzleHintTexts,
+} from "./procedural/PuzzleHintRules";
+import {
+  initialRobotExecutionState,
+  robotFailureText,
+  robotProgramEndFailure,
+  sortedRobotCheckpoints,
+  stepRobotCommand,
+} from "./procedural/RobotExecutionRules";
 import { RoomExplorer, type RoomConsole, type RoomWall } from "./procedural/RoomExplorer";
 import {
   commandLabels,
@@ -125,6 +211,25 @@ let exerciseVarietyCounter = 0;
 function nextExerciseSalt(): string {
   exerciseVarietyCounter += 1;
   return `${Date.now().toString(36)}-${exerciseVarietyCounter.toString(36)}`;
+}
+
+interface SprintCompletionSessionLike {
+  puzzleId: string;
+  correct: number;
+  wrong: number;
+  bestStreak: number;
+}
+
+interface CompleteSprintMinigameOptions {
+  session: SprintCompletionSessionLike;
+  score: ProceduralPuzzleScore;
+  competencies: string[];
+  copy: SprintCompletionCopy;
+  clearSession: () => void;
+  restartDelayMs: number;
+  maxScoreBonus?: number;
+  scoreDivisor?: number;
+  masteryBranchId?: string;
 }
 
 export class ProceduralMissionScene extends Phaser.Scene {
@@ -158,7 +263,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private selectedRepairs = new Set<CircuitFaultType>();
   private robotCommands: GridCommand[] = [];
   private robotExecuting = false;
-  private robotSprite?: Phaser.GameObjects.Triangle;
+  private robotSprite?: RobotSprite;
   private robotKeyMarker?: Phaser.GameObjects.Star;
   private robotStatusText?: Phaser.GameObjects.Text;
   private robotOrigin = { x: 130, y: 118 };
@@ -324,7 +429,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       robot: { asset: "coding", glyph: "🤖", color: 0x7cf6a6 },
       coding: { asset: "coding", glyph: "💻", color: 0x7cf6a6 },
       music: { asset: "music", glyph: "🎵", color: 0xff9d5c },
-      physics: { glyph: "🔬", color: 0x7ad7ff },
+      physics: { asset: "physics", glyph: "🔬", color: 0x7ad7ff },
+      latin: { asset: "latin", glyph: "◇", color: 0xd8a24a },
     };
     const pool = [
       { x: 250, y: 250 }, { x: 710, y: 210 }, { x: 1180, y: 250 },
@@ -426,7 +532,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const kind = puzzleKindFromId(nextId);
     const count = saveSystem.data.learningMemory?.[`${kind}:concept`]?.count ?? 0;
     if (count < 3) return undefined;
-    return `NORA riconosce un punto da consolidare in ${this.puzzleLabel(kind)}: prima individua la prova, poi formula la risposta. La profondità resta stabile finché il metodo non diventa autonomo.`;
+    return `NORA riconosce un punto da consolidare in ${puzzleKindLabel(kind)}: prima individua la prova, poi formula la risposta. La profondità resta stabile finché il metodo non diventa autonomo.`;
   }
 
   private availableNoraCharges(): number {
@@ -601,6 +707,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 540 },
       lineSpacing: 6,
     }).setOrigin(0.5));
+    if (this.run.ghost) {
+      overlay.add(this.add.text(640, 388, `⚔ Sfida fantasma: batti i ${this.run.ghost.targetScore} punti di ${this.run.ghost.playerName} — stessa stanza, stesso seed.`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "14px",
+        color: "#f7d37a",
+        fontStyle: "bold",
+        align: "center",
+        wordWrap: { width: 560 },
+      }).setOrigin(0.5));
+    }
     const startButton = new Button(this, 640, 438, resuming ? "Riprendi" : "Inizia", () => this.startPreparedRun(), {
       width: 280,
       height: 58,
@@ -680,23 +796,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
       || Boolean(this.run.completedAt || this.run.failedAt);
   }
 
-  private normalizeMissionBonusEvents(run: ProceduralRunSave = this.run): ProceduralBonusEventState {
-    return {
-      offeredIds: [...(run.bonusEvents?.offeredIds ?? [])],
-      resolvedIds: [...(run.bonusEvents?.resolvedIds ?? [])],
-      skippedIds: [...(run.bonusEvents?.skippedIds ?? [])],
-    };
-  }
-
   private saveMissionBonusEvents(events: ProceduralBonusEventState): void {
-    const unique = (items: string[]): string[] => [...new Set(items)];
-    saveSystem.updateProceduralRun({
-      bonusEvents: {
-        offeredIds: unique(events.offeredIds),
-        resolvedIds: unique(events.resolvedIds),
-        skippedIds: unique(events.skippedIds),
-      },
-    });
+    saveSystem.updateProceduralRun({ bonusEvents: compactMissionBonusEvents(events) });
     this.run = saveSystem.data.proceduralRun ?? this.run;
   }
 
@@ -705,7 +806,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!result) return undefined;
     this.pendingMissionBonusResult = undefined;
     this.missionBonusResolvedThisCreate = true;
-    const events = this.normalizeMissionBonusEvents();
+    const events = normalizeMissionBonusEvents(this.run);
     this.saveMissionBonusEvents({
       ...events,
       offeredIds: [...events.offeredIds, result.id],
@@ -714,7 +815,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
     const rewardParts: string[] = [];
     if (result.passed && result.energyAward > 0) {
-      outcomeFeedback.grantActivityBonus(this, result.energyAward, `frattura ${this.missionBonusActivityTitle(result.activityKey)}`);
+      outcomeFeedback.grantActivityBonus(this, result.energyAward, `frattura ${missionBonusActivityTitle(result.activityKey)}`);
       rewardParts.push(`+${result.energyAward} energia`);
     }
     if (result.passed && result.timeAwardMs > 0 && this.applyMissionBonusTime(result.timeAwardMs)) {
@@ -754,8 +855,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id));
     if (solvedCount <= 0 || remaining.length === 0) return;
 
-    const events = this.normalizeMissionBonusEvents();
-    if (events.offeredIds.length >= this.maxMissionBonusEvents()) return;
+    const events = normalizeMissionBonusEvents(this.run);
+    const maxEvents = missionBonusEventLimit(this.isChapterTrial());
+    if (events.offeredIds.length >= maxEvents) return;
     const eventId = `${this.run.seed}:bonus:${solvedCount}`;
     if (
       events.offeredIds.includes(eventId)
@@ -764,142 +866,47 @@ export class ProceduralMissionScene extends Phaser.Scene {
     ) {
       return;
     }
-    if (!this.shouldOfferMissionBonus(eventId, solvedCount, events)) return;
-    const activityKey = this.selectMissionBonusActivity(eventId);
+    if (!shouldOfferMissionBonus(eventId, solvedCount, events.offeredIds.length, this.run.difficulty, this.isChapterTrial())) return;
+    const lastSolved = this.run.solvedPuzzleIds[this.run.solvedPuzzleIds.length - 1] ?? "";
+    const activityKey = selectMissionBonusActivity(eventId, lastSolved);
     this.showMissionBonusOffer(eventId, activityKey);
   }
 
-  private maxMissionBonusEvents(): number {
-    return this.isChapterTrial() ? 1 : 2;
-  }
-
-  private shouldOfferMissionBonus(eventId: string, solvedCount: number, events: ProceduralBonusEventState): boolean {
-    if (events.offeredIds.length === 0 && solvedCount >= 3) return true;
-    const chance = this.isChapterTrial() ? 0.18 : 0.26;
-    return new Random(`${eventId}:roll:${this.run.difficulty}`).bool(chance);
-  }
-
-  private selectMissionBonusActivity(eventId: string): LogicGymBonusActivityKey {
-    const random = new Random(`${eventId}:activity`);
-    const lastSolved = this.run.solvedPuzzleIds[this.run.solvedPuzzleIds.length - 1] ?? "";
-    const kind = puzzleKindFromId(lastSolved);
-    const weighted: LogicGymBonusActivityKey[] =
-      kind === "math" ? ["tables", "mental", "mental"]
-        : kind === "coding" || kind === "circuit" || kind === "robot" ? ["mental", "tables", "tables"]
-          : kind === "physics" ? ["geoPhysical", "mental", "geoPhysical"]
-            : kind === "english" || kind === "language" || kind === "latin" ? ["geo", "mental", "geo"]
-              : ["tables", "mental", "geo", "geoPhysical"];
-    return random.pick(weighted);
-  }
-
-  private missionBonusActivityTitle(activityKey: LogicGymBonusActivityKey): string {
-    switch (activityKey) {
-      case "tables": return "Tabelline Reactor";
-      case "mental": return "Calcolo Mentale";
-      case "geo": return "Geo Atlante";
-      case "geoPhysical": return "Geo Rilievi";
-    }
-  }
-
-  private missionBonusActivityTheme(activityKey: LogicGymBonusActivityKey): string {
-    switch (activityKey) {
-      case "tables": return "moltiplicazioni, fattori mancanti e inverse";
-      case "mental": return "strategie rapide, compensazioni e catene";
-      case "geo": return "capitali, paesi e continenti";
-      case "geoPhysical": return "fiumi, laghi, rilievi, deserti e mari";
-    }
-  }
-
-  private missionBonusActivityColor(activityKey: LogicGymBonusActivityKey): number {
-    switch (activityKey) {
-      case "tables": return 0xf6c85f;
-      case "mental": return 0x5ec8ff;
-      case "geo": return 0x70d68a;
-      case "geoPhysical": return 0x9f8cff;
-    }
-  }
-
-  private missionBonusRounds(activityKey: LogicGymBonusActivityKey): number {
-    if (activityKey === "geo" || activityKey === "geoPhysical") return this.run.difficulty >= 6 ? 5 : 4;
-    return this.run.difficulty >= 6 ? 6 : 5;
-  }
-
   private showMissionBonusOffer(eventId: string, activityKey: LogicGymBonusActivityKey): void {
-    const events = this.normalizeMissionBonusEvents();
+    const events = normalizeMissionBonusEvents(this.run);
     this.saveMissionBonusEvents({ ...events, offeredIds: [...events.offeredIds, eventId] });
-    const overlay = this.add.container(0, 0).setDepth(2100);
-    SceneChrome.modalInputBlocker(this, overlay, 0, 0, 0x02070b, 0.84);
-    const color = this.missionBonusActivityColor(activityKey);
-    overlay.add(this.add.rectangle(640, 360, 760, 416, 0x07151d, 0.99).setStrokeStyle(2, color, 0.82));
-    overlay.add(this.add.circle(320, 210, 46, color, 0.18).setStrokeStyle(2, color, 0.58));
-    overlay.add(this.add.text(320, 204, "⚡", { fontFamily: "Inter, Arial", fontSize: "30px", color: "#f7d37a" }).setOrigin(0.5));
-    overlay.add(this.add.text(390, 178, "Frattura energetica", {
-      fontFamily: "Inter, Arial",
-      fontSize: "30px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(390, 222, `NORA intercetta una scarica stabile: ${this.missionBonusActivityTitle(activityKey)}.`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "16px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      wordWrap: { width: 560 },
-    }));
-    overlay.add(this.add.text(390, 268, `Sfida breve: ${this.missionBonusRounds(activityKey)} round su ${this.missionBonusActivityTheme(activityKey)}. Se superi la soglia, ottieni energia bonus e, con precisione alta, stabilità timer. Se fallisci, la missione riprende senza penalità.`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 560 },
-      lineSpacing: 5,
-    }));
-    overlay.add(this.add.text(390, 384, `Eventi run: ${this.normalizeMissionBonusEvents().offeredIds.length}/${this.maxMissionBonusEvents()} · Profondità ${this.run.difficulty}/8`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-
-    let leaving = false;
-    overlay.add(new Button(this, 500, 474, "Affronta frattura", () => {
-      if (leaving) return;
-      leaving = true;
-      audioManager.playOutcome("complete");
-      saveSystem.pauseActiveProceduralRun();
-      this.run = saveSystem.data.proceduralRun ?? this.run;
-      this.clearOverlay();
-      void startScene(this, "LogicGymScene", {
-        mode: "missionBonus",
-        activityKey,
-        bonusId: eventId,
-        level: this.run.difficulty,
-        rounds: this.missionBonusRounds(activityKey),
-        returnScene: "ProceduralMissionScene",
-      }).catch(() => {
-        feedbackSystem.publish("Non sono riuscito ad aprire la frattura energetica. La missione resta in pausa e può riprendere.", "warning");
-        this.showRunReadyOverlay(true);
-      });
-    }, {
-      width: 260,
-      height: 54,
-      fill: 0x1f5a51,
-      stroke: color,
-      fontSize: 16,
-    }));
-    overlay.add(new Button(this, 794, 474, "Ignora", () => {
-      if (leaving) return;
-      const current = this.normalizeMissionBonusEvents();
-      this.saveMissionBonusEvents({ ...current, skippedIds: [...current.skippedIds, eventId] });
-      audioManager.playOutcome("neutral");
-      this.clearOverlay();
-      feedbackSystem.publish("Frattura ignorata: nessun premio, nessuna penalità. La missione continua.", "info");
-    }, {
-      width: 190,
-      height: 54,
-      fill: 0x263743,
-      fontSize: 15,
-    }));
-    this.overlay = overlay;
+    const offeredCount = normalizeMissionBonusEvents(this.run).offeredIds.length;
+    this.overlay = createMissionBonusOfferOverlay({
+      scene: this,
+      activityKey,
+      difficulty: this.run.difficulty,
+      offeredCount,
+      maxEvents: missionBonusEventLimit(this.isChapterTrial()),
+      onAccept: () => {
+        audioManager.playOutcome("complete");
+        saveSystem.pauseActiveProceduralRun();
+        this.run = saveSystem.data.proceduralRun ?? this.run;
+        this.clearOverlay();
+        void startScene(this, "LogicGymScene", {
+          mode: "missionBonus",
+          activityKey,
+          bonusId: eventId,
+          level: this.run.difficulty,
+          rounds: missionBonusRounds(activityKey, this.run.difficulty),
+          returnScene: "ProceduralMissionScene",
+        }).catch(() => {
+          feedbackSystem.publish("Non sono riuscito ad aprire la frattura energetica. La missione resta in pausa e può riprendere.", "warning");
+          this.showRunReadyOverlay(true);
+        });
+      },
+      onSkip: () => {
+        const current = normalizeMissionBonusEvents(this.run);
+        this.saveMissionBonusEvents({ ...current, skippedIds: [...current.skippedIds, eventId] });
+        audioManager.playOutcome("neutral");
+        this.clearOverlay();
+        feedbackSystem.publish("Frattura ignorata: nessun premio, nessuna penalità. La missione continua.", "info");
+      },
+    });
   }
 
   private runWhenActive(delayMs: number, callback: () => void): Phaser.Time.TimerEvent {
@@ -919,6 +926,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.progressiveSynthesisAttempts = 0;
     this.progressiveSynthesisOrder = [];
     this.timeoutSolutionOpen = false;
+    this.sprintPauseStartedAt = undefined;
     this.overlay = undefined;
     this.feedbackText = undefined;
     this.objectiveText = undefined;
@@ -932,7 +940,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
   private ensureRun(): ProceduralRunSave {
     if (saveSystem.data.proceduralRun && !saveSystem.data.proceduralRun.completedAt && !saveSystem.data.proceduralRun.failedAt) {
       const normalized = this.normalizeRunRules(saveSystem.data.proceduralRun);
-      if (this.runNeedsContentMigration(normalized)) {
+      if (runNeedsContentMigration(normalized)) {
         return this.replaceLegacyRun(normalized);
       }
       return normalized;
@@ -943,94 +951,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const timeLimitMs = pressureEnabled
       ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length))
       : undefined;
-    const run: ProceduralRunSave = {
-      seed: mission.seed,
-      difficulty: mission.difficulty,
+    const run = buildFreshProceduralRun({
+      mission,
       focus: ["libera"],
       mode: "mission",
-      mission,
-      hintsUsed: 0,
-      solvedPuzzleIds: [],
-      score: { total: 0, byPuzzle: {}, byDomain: {} },
-      puzzleStats: {},
-      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
-      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      pressureEnabled,
       timeLimitMs,
-      timerState: "preparing",
+      maxLives: proceduralRunRules.maxLives,
       createdAt,
-      activeElapsedMs: 0,
-      startedAt: createdAt,
-    };
+    });
     saveSystem.setProceduralRun(run);
     return run;
-  }
-
-  private runNeedsContentMigration(run: ProceduralRunSave): boolean {
-    const mode = proceduralRunRules.modeFor(run);
-    const focus = proceduralRunRules.focusFor(run);
-    const puzzles = run.mission.puzzles as Partial<ProceduralRunSave["mission"]["puzzles"]>;
-    const hasMusicPuzzle = Boolean(puzzles.music);
-    const hasModernMusicPuzzle = Boolean(puzzles.music?.answerMode);
-    const hasMusicObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "music");
-    const hasMusicHotspot = run.mission.map.hotspots.some((hotspot) => {
-      const id = hotspot.puzzleId ?? hotspot.id;
-      return hotspot.puzzleKind === "music" || id === "music" || id.startsWith("music-");
-    });
-    const hasMusicFocusSeries = Boolean(
-      run.mission.focusChallenges?.length
-      && run.mission.focusChallenges.every((challenge) => challenge.kind === "music"),
-    );
-    const hasCodingPuzzle = Boolean(puzzles.coding);
-    const hasCodingObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "coding");
-    const hasCodingHotspot = run.mission.map.hotspots.some((hotspot) => {
-      const id = hotspot.puzzleId ?? hotspot.id;
-      return hotspot.puzzleKind === "coding" || id === "coding" || id.startsWith("coding-");
-    });
-    const hasCodingFocusSeries = Boolean(
-      run.mission.focusChallenges?.length
-      && run.mission.focusChallenges.every((challenge) => challenge.kind === "coding"),
-    );
-    const hasPhysicsPuzzle = Boolean(puzzles.physics);
-    const hasPhysicsObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "physics");
-    const hasPhysicsHotspot = run.mission.map.hotspots.some((hotspot) => {
-      const id = hotspot.puzzleId ?? hotspot.id;
-      return hotspot.puzzleKind === "physics" || id === "physics" || id.startsWith("physics-");
-    });
-    const hasPhysicsFocusSeries = Boolean(
-      run.mission.focusChallenges?.length
-      && run.mission.focusChallenges.every((challenge) => challenge.kind === "physics"),
-    );
-    const hasLatinPuzzle = Boolean(puzzles.latin);
-    const hasLatinObjective = run.mission.objectives.some((objective) => puzzleKindFromId(objective.id.replace("procedural-", "")) === "latin");
-    const hasLatinHotspot = run.mission.map.hotspots.some((hotspot) => {
-      const id = hotspot.puzzleId ?? hotspot.id;
-      return hotspot.puzzleKind === "latin" || id === "latin" || id.startsWith("latin-");
-    });
-    const hasLatinFocusSeries = Boolean(
-      run.mission.focusChallenges?.length
-      && run.mission.focusChallenges.every((challenge) => challenge.kind === "latin"),
-    );
-    if (focus === "musica") {
-      return !(hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot && hasMusicFocusSeries);
-    }
-    if (focus === "coding") {
-      return !(hasCodingPuzzle && hasCodingObjective && hasCodingHotspot && hasCodingFocusSeries);
-    }
-    if (focus === "fisica") {
-      return !(hasPhysicsPuzzle && hasPhysicsObjective && hasPhysicsHotspot && hasPhysicsFocusSeries);
-    }
-    if (focus === "latino") {
-      return !(hasLatinPuzzle && hasLatinObjective && hasLatinHotspot && hasLatinFocusSeries);
-    }
-    if (mode === "mission" || focus === "libera") {
-      return !(
-        hasMusicPuzzle && hasModernMusicPuzzle && hasMusicObjective && hasMusicHotspot
-        && hasCodingPuzzle && hasCodingObjective && hasCodingHotspot
-        && hasPhysicsPuzzle && hasPhysicsObjective && hasPhysicsHotspot
-        && hasLatinPuzzle && hasLatinObjective && hasLatinHotspot
-      );
-    }
-    return false;
   }
 
   private replaceLegacyRun(run: ProceduralRunSave): ProceduralRunSave {
@@ -1049,37 +980,17 @@ export class ProceduralMissionScene extends Phaser.Scene {
         : pressureEnabled
           ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length))
           : undefined;
-    const replacement: ProceduralRunSave = {
-      seed: mission.seed,
-      difficulty: mission.difficulty,
+    const replacement = buildReplacementProceduralRun({
+      legacyRun: run,
+      mission,
       focus,
       mode,
-      mission,
-      chapterMissionId: run.chapterMissionId,
-      chapterExploreMissionId: run.chapterExploreMissionId,
-      hintsUsed: 0,
-      solvedPuzzleIds: [],
-      score: { total: 0, byPuzzle: {}, byDomain: {} },
-      puzzleStats: {},
-      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
-      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      pressureEnabled,
       timeLimitMs,
-      timerState: "preparing",
+      maxLives: proceduralRunRules.maxLives,
       createdAt,
-      activeElapsedMs: 0,
-      startedAt: createdAt,
-      progressive: mode === "progressive"
-        ? {
-            currentLevel: run.progressive?.currentLevel ?? run.difficulty,
-            unlockedLevel: run.progressive?.unlockedLevel ?? run.difficulty,
-            maxLevel: run.progressive?.maxLevel ?? 8,
-            levelStartedAt: createdAt,
-            levelTimeLimitMs: timeLimitMs ?? progressiveMissionBuilder.timeLimitMs(run.difficulty, Math.max(1, mission.objectives.length)),
-            levelDeadlineAt: createdAt,
-            results: run.progressive?.results ?? [],
-          }
-        : undefined,
-    };
+      progressiveLevelTimeLimitMs: timeLimitMs ?? progressiveMissionBuilder.timeLimitMs(run.difficulty, Math.max(1, mission.objectives.length)),
+    });
     saveSystem.setProceduralRun(replacement);
     return replacement;
   }
@@ -1090,28 +1001,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const timeLimitMs = pressureEnabled ? (run.timeLimitMs ?? (mode === "progressive"
       ? progressiveMissionBuilder.timeLimitMs(run.progressive?.currentLevel ?? run.difficulty, Math.max(1, run.mission.objectives.length))
       : proceduralRunRules.missionTimeLimitMs(run.difficulty, Math.max(1, run.mission.objectives.length)))) : undefined;
-    const update: Partial<ProceduralRunSave> = {};
-    if (mode === "progressive" && run.progressive) {
-      const currentLevel = run.progressive.currentLevel;
-      if (run.difficulty !== currentLevel) update.difficulty = currentLevel;
-      if (run.progressive.levelTimeLimitMs !== timeLimitMs) {
-        update.progressive = { ...run.progressive, levelTimeLimitMs: timeLimitMs! };
-      }
-    }
-    if (run.mode !== mode) update.mode = mode;
-    if (pressureEnabled) {
-      if (run.maxLives === undefined) update.maxLives = proceduralRunRules.maxLives;
-      if (run.lives === undefined) update.lives = proceduralRunRules.maxLives;
-      if (!run.timeLimitMs) update.timeLimitMs = timeLimitMs;
-    } else {
-      update.lives = undefined;
-      update.maxLives = undefined;
-      update.timeLimitMs = undefined;
-      update.deadlineAt = undefined;
-      update.pausedRemainingMs = undefined;
-    }
-    if (!run.timerState || run.timerState === "paused") update.timerState = "ready";
-    if (Object.keys(update).length > 0) {
+    const update = buildRunNormalizationUpdate({
+      run,
+      mode,
+      pressureEnabled,
+      timeLimitMs,
+      maxLives: proceduralRunRules.maxLives,
+    });
+    if (update) {
       saveSystem.updateProceduralRun(update);
       return saveSystem.data.proceduralRun ?? { ...run, ...update };
     }
@@ -1141,24 +1038,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const createdAt = new Date().toISOString();
     const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
     const timeLimitMs = pressureEnabled ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, Math.max(1, mission.objectives.length)) : undefined;
-    saveSystem.setProceduralRun({
-      seed: mission.seed,
-      difficulty: mission.difficulty,
+    saveSystem.setProceduralRun(buildFreshProceduralRun({
+      mission,
       focus: this.run.focus,
       mode,
-      mission,
-      hintsUsed: 0,
-      solvedPuzzleIds: [],
-      score: { total: 0, byPuzzle: {}, byDomain: {} },
-      puzzleStats: {},
-      lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
-      maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+      pressureEnabled,
       timeLimitMs,
-      timerState: "preparing",
+      maxLives: proceduralRunRules.maxLives,
       createdAt,
-      activeElapsedMs: 0,
-      startedAt: createdAt,
-    });
+    }));
     this.scene.restart();
   }
 
@@ -1211,36 +1099,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const mission = progressiveMissionBuilder.buildLevelMission(baseMission, level);
     const createdAt = new Date().toISOString();
     const timeLimitMs = progressiveMissionBuilder.timeLimitMs(level, Math.max(1, mission.objectives.length));
-    const highestUnlocked = previousResults.reduce<number>((max, result) => (
-      result.completed ? Math.max(max, Math.min(8, result.level + 1)) : max
-    ), level);
-    return {
-      seed: mission.seed,
-      difficulty: level,
-      focus: ["progressiva", levelFocus],
-      mode: "progressive",
+    return buildProgressiveProceduralRun({
+      level,
+      levelFocus,
       mission,
-      hintsUsed: 0,
-      solvedPuzzleIds: [],
-      score: { total: 0, byPuzzle: {}, byDomain: {} },
-      puzzleStats: {},
-      lives: proceduralRunRules.maxLives,
-      maxLives: proceduralRunRules.maxLives,
-      timeLimitMs,
-      timerState: "preparing",
       createdAt,
-      activeElapsedMs: 0,
-      startedAt: createdAt,
-      progressive: {
-        currentLevel: level,
-        unlockedLevel: Math.min(8, Math.max(level, highestUnlocked)) as DifficultyLevel,
-        maxLevel: 8,
-        levelStartedAt: createdAt,
-        levelTimeLimitMs: timeLimitMs,
-        levelDeadlineAt: createdAt,
-        results: previousResults,
-      },
-    };
+      timeLimitMs,
+      previousResults,
+      maxLives: proceduralRunRules.maxLives,
+    });
   }
 
   private startProgressiveLevel(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): void {
@@ -1273,7 +1140,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const nextProgressivePuzzle = this.nextPendingProgressivePuzzleId();
     if (nextProgressivePuzzle && hotspot.puzzleId !== nextProgressivePuzzle) {
-      feedbackSystem.publish(`Sequenza guidata: prima completa ${this.puzzleLabel(nextProgressivePuzzle)}.`, "hint");
+      feedbackSystem.publish(`Sequenza guidata: prima completa ${puzzleKindLabel(nextProgressivePuzzle)}.`, "hint");
       audioManager.playOutcome("hint");
       return;
     }
@@ -1317,7 +1184,88 @@ export class ProceduralMissionScene extends Phaser.Scene {
       } else {
         noraPresence.pulse(this, "thinking");
       }
+      this.maybeIntroduceConcept(systemId);
       this.maybeAutoScaffold(systemId);
+    }
+  }
+
+  /**
+   * Apprendimento graduale: la prima volta che il giocatore incontra un
+   * concetto, NORA apre da sola la scheda teorica (spiegazione, metodo,
+   * esempio guidato) PRIMA di lasciarlo all'esercizio. Dalla seconda volta la
+   * teoria resta a un tocco sul pulsante "Teoria NORA". Saltato nelle prove a
+   * tempo con vite (lì si testa, non si impara) e nella Torre.
+   */
+  private maybeIntroduceConcept(kind: ProceduralPuzzleId): void {
+    if (this.isTimedMissionMode() || this.isProgressiveMode() || this.isChapterTrial()) {
+      return;
+    }
+    const topic = theoryTopicForPuzzle(kind, this.currentPuzzleForTheory(kind));
+    if (!topic || saveSystem.isConceptIntroduced(topic.id)) {
+      return;
+    }
+    saveSystem.markConceptIntroduced(topic.id);
+    feedbackSystem.publish(`Concetto nuovo: «${topic.title}». NORA te lo spiega — poi tocca a te.`, "hint");
+    this.runWhenActive(520, () => {
+      if (this.activePuzzleKind !== kind || this.isRunInteractionLocked()) {
+        return;
+      }
+      // Il timer dello sprint è già partito quando la console si è aperta: metti
+      // in pausa il conteggio mentre lo studente legge la spiegazione, così il
+      // tempo speso a IMPARARE non gli viene tolto dalla gara.
+      this.pauseActiveSprintClocks();
+      showFirstEncounterPanel(
+        this,
+        topic,
+        (opened) => {
+          this.resumeActiveSprintClocks();
+          void startScene(this, "MathStudyScene", { pageId: opened.id }).catch(() => {
+            feedbackSystem.publish("Non riesco ad aprire l'Atlante in questo momento: riprova tra un istante.", "warning");
+          });
+        },
+        () => {
+          this.resumeActiveSprintClocks();
+          feedbackSystem.publish("Perfetto: ora tocca a te. Applica quello che hai appena visto.", "success");
+        },
+      );
+    });
+  }
+
+  /** Sessioni a tempo attive (ne è aperta al più una alla volta). */
+  private activeSprintSessions(): Array<{ startedAt: number; questionStartedAt?: number }> {
+    return [
+      this.mathMinigameSession,
+      this.languageMinigameSession,
+      this.englishMinigameSession,
+      this.codingMinigameSession,
+      this.circuitMinigameSession,
+      this.musicSession,
+    ].filter((session): session is NonNullable<typeof session> => Boolean(session));
+  }
+
+  private sprintPauseStartedAt?: number;
+
+  private isSprintPaused(): boolean {
+    return this.sprintPauseStartedAt !== undefined;
+  }
+
+  /** Congela il conteggio dello sprint (ricorda il momento della pausa). */
+  private pauseActiveSprintClocks(): void {
+    if (this.sprintPauseStartedAt !== undefined) return;
+    this.sprintPauseStartedAt = Date.now();
+  }
+
+  /** Riprende lo sprint spostando in avanti startedAt della durata della pausa. */
+  private resumeActiveSprintClocks(): void {
+    if (this.sprintPauseStartedAt === undefined) return;
+    const paused = Date.now() - this.sprintPauseStartedAt;
+    this.sprintPauseStartedAt = undefined;
+    if (paused <= 0) return;
+    for (const session of this.activeSprintSessions()) {
+      if (session.startedAt > 0) session.startedAt += paused;
+      if (session.questionStartedAt !== undefined && session.questionStartedAt > 0) {
+        session.questionStartedAt += paused;
+      }
     }
   }
 
@@ -1354,15 +1302,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private currentPuzzleHintsFor(kind: ProceduralPuzzleId): string[] {
     switch (kind) {
-      case "language": return this.puzzleHintTexts(this.currentLanguagePuzzle());
-      case "latin": return this.puzzleHintTexts(this.currentLatinPuzzle());
-      case "circuit": return this.puzzleHintTexts(this.currentCircuitPuzzle());
-      case "math": return this.puzzleHintTexts(this.currentMathPuzzle());
-      case "english": return this.puzzleHintTexts(this.currentEnglishPuzzle());
-      case "robot": return this.puzzleHintTexts(this.currentRobotPuzzle());
-      case "coding": return this.puzzleHintTexts(this.currentCodingPuzzle());
-      case "music": return this.puzzleHintTexts(this.currentMusicPuzzle());
-      case "physics": return this.puzzleHintTexts(this.currentPhysicsPuzzle());
+      case "language": return puzzleHintTexts(this.currentLanguagePuzzle());
+      case "latin": return puzzleHintTexts(this.currentLatinPuzzle());
+      case "circuit": return puzzleHintTexts(this.currentCircuitPuzzle());
+      case "math": return puzzleHintTexts(this.currentMathPuzzle());
+      case "english": return puzzleHintTexts(this.currentEnglishPuzzle());
+      case "robot": return puzzleHintTexts(this.currentRobotPuzzle());
+      case "coding": return puzzleHintTexts(this.currentCodingPuzzle());
+      case "music": return puzzleHintTexts(this.currentMusicPuzzle());
+      case "physics": return puzzleHintTexts(this.currentPhysicsPuzzle());
       default: return [];
     }
   }
@@ -1389,7 +1337,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     LanguageRepairConsole.addBrief(this, overlay, model, this.currentActiveHint());
     LanguageRepairConsole.addChoicePanel(this, overlay, model, {
       selectedOption: this.languageSelectedOption,
-      hintLabel: this.hintButtonLabel(puzzle, "Indizio mirato"),
+      hintLabel: hintButtonLabel(puzzle, this.activePuzzleHintsUsed(), "Indizio mirato"),
     }, {
       onSelect: (option) => {
         this.languageSelectedOption = option;
@@ -1656,10 +1604,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
         const selected = session.selectedIds.has(tile.id);
         const col = index % 2;
         const row = Math.floor(index / 2);
-        overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, this.choiceTileLabel(tile.label, selected), () => this.toggleLanguageMinigameTile(tile.id), {
+        overlay.add(new Button(this, tileStartX + col * 258, tileStartY + row * 68, choiceTileLabel(tile.label, selected), () => this.toggleLanguageMinigameTile(tile.id), {
           width: 232,
           height: 52,
-          fontSize: this.choiceTileFontSize(tile.label, 16),
+          fontSize: choiceTileFontSize(tile.label, 16),
           wordWrapWidth: 210,
           fill: selected ? 0x174d42 : 0x263743,
           stroke: selected ? 0xf7d37a : 0x6be7d6,
@@ -1821,7 +1769,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private refreshLanguageMinigameTimer(): void {
     const session = this.languageMinigameSession;
-    if (!session || session.summaryOpen) {
+    if (!session || session.summaryOpen || this.isSprintPaused()) {
       return;
     }
     const remaining = this.languageMinigameRemainingMs(session);
@@ -2125,76 +2073,71 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private showLanguageMinigameSummary(session: LanguageMinigameSession): void {
     const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
-    const modal = this.add.container(0, 0).setDepth(1300);
     const passed = this.languageMinigamePassed(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
     const mode = proceduralRunRules.modeFor(this.run);
-    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
-    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
-    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
-      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
-    modal.add(this.add.text(230, 160, passed ? "Sprint italiano completato" : "Sprint italiano da consolidare", {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: passed ? "#9ff5e9" : "#f7d37a",
-      fontStyle: "bold",
-    }));
-    modal.add(this.add.text(230, 210, [
-      `Risposte corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie migliore: ${session.bestStreak}`,
-      `Punti sprint: ${session.netScore}`,
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f5fbff",
-      lineSpacing: 7,
-    }));
-    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
-      .setStrokeStyle(1, 0x6be7d6, 0.3));
-    modal.add(this.add.text(572, 234, this.languageMinigameFeedback(session), {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 354 },
-      lineSpacing: 5,
-    }));
-    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
-      .setStrokeStyle(1, 0xf7d37a, 0.36));
-    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
-      ? passed
-        ? "La console italiana accetta il log: forma, coesione e pertinenza sono abbastanza stabili."
-        : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
-      : "Calibrazione registrabile: contano rapidità, precisione, serie positiva e uso consapevole degli aiuti.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 690 },
-      lineSpacing: 4,
-    }));
-    modal.add(this.add.text(254, 456, this.runEnergySummary(), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: 690 },
-    }));
-    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
-      modal.destroy(true);
-      if (!passed && (mode === "mission" || mode === "progressive")) {
-        this.loseMissionLife("sprint italiano sotto soglia: servono più risposte corrette con meno tentativi.");
-        return;
-      }
-      this.completeLanguageMinigame(session);
+    addSprintSummaryModal(this, overlay, {
+      title: passed ? "Sprint italiano completato" : "Sprint italiano da consolidare",
+      passed,
+      correct: session.correct,
+      wrong: session.wrong,
+      accuracy,
+      bestStreak: session.bestStreak,
+      netScore: session.netScore,
+      feedback: this.languageMinigameFeedback(session),
+      resolutionText: (mode === "mission" || mode === "progressive")
+        ? passed
+          ? "La console italiana accetta il log: forma, coesione e pertinenza sono abbastanza stabili."
+          : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
+        : "Calibrazione registrabile: contano rapidità, precisione, serie positiva e uso consapevole degli aiuti.",
+      energyText: this.runEnergySummary(),
+      actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
-      width: 270,
-      height: 54,
-      fill: passed ? 0x173b36 : 0x263743,
-      stroke: passed ? 0x6be7d6 : 0xf7d37a,
-      fontSize: 16,
-    }));
-    overlay.add(modal);
+      onAction: (modal) => {
+        modal.destroy(true);
+        if (!passed && (mode === "mission" || mode === "progressive")) {
+          this.loseMissionLife("sprint italiano sotto soglia: servono più risposte corrette con meno tentativi.");
+          return;
+        }
+        this.completeLanguageMinigame(session);
+      },
+    });
+  }
+
+  private completeSprintMinigameOutcome(options: CompleteSprintMinigameOptions): void {
+    const { session, score } = options;
+    const solvedKind = puzzleKindFromId(session.puzzleId);
+    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedKind);
+    const outcome = buildSprintCompletionOutcome({
+      solvedKind,
+      correct: session.correct,
+      wrong: session.wrong,
+      bestStreak: session.bestStreak,
+      difficulty: this.run.difficulty,
+      scoreTotal: score.total,
+      energySummary: this.runEnergySummary(),
+      remainingLabels: remaining.map(puzzleKindLabel),
+      copy: options.copy,
+      maxScoreBonus: options.maxScoreBonus,
+      scoreDivisor: options.scoreDivisor,
+    });
+    if (outcome.shouldRecordAutonomy) {
+      saveSystem.recordMasteryAutonomy(options.masteryBranchId ?? masterySystem.branchForPuzzleKind(outcome.solvedKind));
+    }
+    competencyTracker.award(options.competencies, outcome.competencyAward);
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    audioManager.playOutcome("correct");
+    outcomeFeedback.play(this, "success", `+${score.total}`);
+    this.clearOverlay();
+    options.clearSession();
+    feedbackSystem.publish(outcome.feedback, "success");
+    if (remaining.length === 0) {
+      this.certifyCompletedRun(outcome.certification);
+      return;
+    }
+    this.runWhenActive(options.restartDelayMs, () => this.scene.restart());
   }
 
   private completeLanguageMinigame(session: LanguageMinigameSession): void {
@@ -2202,71 +2145,27 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeLanguageMinigameScore(session);
-    if (session.wrong === 0 && session.correct > 0) {
-      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
-    }
-    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
-    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
-    this.run = saveSystem.data.proceduralRun ?? this.run;
-    audioManager.playOutcome("correct");
-    outcomeFeedback.play(this, "success", `+${score.total}`);
-    this.clearOverlay();
-    this.languageMinigameSession = undefined;
-    const solvedNode = puzzleKindFromId(session.puzzleId);
-    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
-    feedbackSystem.publish(
-      `Sprint italiano registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
-      "success",
-    );
-    if (remaining.length === 0) {
-      this.certifyCompletedRun("Console italiana stabilizzata: il sistema completo è certificabile.");
-      return;
-    }
-    if (this.isProgressiveMode()) {
-      this.runWhenActive(1750, () => this.scene.restart());
-      return;
-    }
-    this.runWhenActive(1750, () => this.scene.restart());
+    this.completeSprintMinigameOutcome({
+      session,
+      score,
+      competencies: session.game.competencies,
+      copy: {
+        summaryName: "Sprint italiano",
+        certification: "Console italiana stabilizzata: il sistema completo è certificabile.",
+      },
+      clearSession: () => {
+        this.languageMinigameSession = undefined;
+      },
+      restartDelayMs: 1750,
+    });
   }
 
   private finalizeLanguageMinigameScore(session: LanguageMinigameSession): ProceduralPuzzleScore {
     const run = saveSystem.data.proceduralRun ?? this.run;
     const existing = run.puzzleStats?.[session.puzzleId];
-    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
-    const completedAt = new Date().toISOString();
     const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.languageMinigameElapsedMs(session)));
-    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
-    const basePoints = session.correct * (9 + run.difficulty);
-    const difficultyBonus = session.correct * run.difficulty * 2;
-    const speedBonus = Math.min(90, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 34));
-    const focusBonus = run.focus.includes("italiano") || run.focus.some((item) => item.startsWith("italiano."))
-      ? 20 + run.difficulty * 3
-      : 0;
-    const supportPenalty = (existing?.hintsUsed ?? 0) * 5 + session.wrong * (5 + run.difficulty);
-    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
-    const score: ProceduralPuzzleScore = {
-      puzzleId: session.puzzleId,
-      domain: proceduralScoring.puzzleDomain(session.puzzleId),
-      startedAt,
-      completedAt,
-      elapsedMs,
-      hintsUsed: existing?.hintsUsed ?? 0,
-      attempts: Math.max(1, existing?.attempts ?? 1),
-      basePoints,
-      difficultyBonus,
-      speedBonus,
-      focusBonus,
-      supportPenalty,
-      total,
-      feedback: this.languageMinigameFeedback(session),
-    };
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(run.puzzleStats ?? {}),
-        [session.puzzleId]: score,
-      },
-      score: proceduralScoring.addToSummary(run.score, score),
-    });
+    const score = buildLanguageMinigameScore(session, run, existing, elapsedMs, this.languageMinigameFeedback(session));
+    saveSystem.updateProceduralRun(buildScoreRunUpdate(run, score));
     return score;
   }
 
@@ -2344,7 +2243,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           : `Hai aggiunto un intervento non necessario: ${faultLabels[extra[0]]}.`;
         this.animateCircuitTest(false, () => {
           outcomeFeedback.answer(this, false, selectedLabel, correctLabel, message);
-          this.handleIncorrectAnswer(`${message} ${this.nextPedagogicHint(puzzle, puzzle.hints[0] ?? "Rileggi il tester e collega sintomo a causa.")}`);
+          this.handleIncorrectAnswer(`${message} ${nextPedagogicHint(puzzle, this.activePuzzleHintsUsed(), puzzle.hints[0] ?? "Rileggi il tester e collega sintomo a causa.")}`);
         });
       },
     });
@@ -2483,7 +2382,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       showCoach: this.shouldShowExerciseCoach("math"),
       supportMessage: this.mathSupportMessage,
     }, {
-      onHint: () => this.showMathSupport(this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])),
+      onHint: () => this.showMathSupport(nextPedagogicHint(puzzle, this.activePuzzleHintsUsed(), puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])),
     });
   }
 
@@ -2668,7 +2567,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(new Button(this, 850, 650, needsReading ? "Rileggi" : "Ripristina", () => this.resetGraphWorkshop(puzzle), {
       width: 142, height: 42, fontSize: 12, fill: 0x263743, soundKey: "reset",
     }));
-    overlay.add(new Button(this, 1004, 650, this.hintButtonLabel(puzzle, "Indizio"), () => {
+    overlay.add(new Button(this, 1004, 650, hintButtonLabel(puzzle, this.activePuzzleHintsUsed(), "Indizio"), () => {
       this.useContextualHint(puzzle);
       this.openGraphWorkshop(puzzle);
     }, { width: 142, height: 42, fontSize: 12, fill: 0x263743 }));
@@ -3057,7 +2956,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         return;
       }
       this.mathEntry = "";
-      this.mathSupportMessage = `Il valore ${Number.isFinite(enteredValue) ? enteredValue : "inserito"} non chiude il terminale. Controlla un passaggio intermedio, non provare numeri a caso. ${this.nextPedagogicHint(puzzle, puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])}`;
+      this.mathSupportMessage = `Il valore ${Number.isFinite(enteredValue) ? enteredValue : "inserito"} non chiude il terminale. Controlla un passaggio intermedio, non provare numeri a caso. ${nextPedagogicHint(puzzle, this.activePuzzleHintsUsed(), puzzle.hints[Math.min(this.run.hintsUsed, puzzle.hints.length - 1)])}`;
       outcomeFeedback.answer(this, false, Number.isFinite(enteredValue) ? String(enteredValue) : "valore non valido", String(puzzle.answer), puzzle.solutionSteps?.join(" → "));
       if (this.handleIncorrectAnswer(this.mathSupportMessage)) {
         return;
@@ -3440,7 +3339,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private refreshMathMinigameTimer(): void {
     const session = this.mathMinigameSession;
-    if (!session || session.summaryOpen) {
+    if (!session || session.summaryOpen || this.isSprintPaused()) {
       return;
     }
     const remaining = this.mathMinigameRemainingMs(session);
@@ -3699,6 +3598,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
       session.orderedSelection = [];
       session.locked = false;
       this.openMathMinigame(session.puzzle);
+      // Insegnamento graduale: se la rotazione porta un concetto mai visto (es. da
+      // "frazioni" a "percentuali" nello stesso sprint), NORA lo introduce prima —
+      // l'orologio si ferma durante la spiegazione, così non costa tempo di gara.
+      this.maybeIntroduceConcept("math");
     });
   }
 
@@ -3778,72 +3681,27 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeMathMinigameScore(session);
-    if (session.wrong === 0 && session.correct > 0) {
-      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
-    }
-    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
-    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
-    this.run = saveSystem.data.proceduralRun ?? this.run;
-    audioManager.playOutcome("correct");
-    outcomeFeedback.play(this, "success", `+${score.total}`);
-    this.clearOverlay();
-    this.mathMinigameSession = undefined;
-    const solvedNode = puzzleKindFromId(session.puzzleId);
-    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
-    feedbackSystem.publish(
-      `Sprint matematico registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
-      "success",
-    );
-    if (remaining.length === 0) {
-      this.certifyCompletedRun("Console matematica stabilizzata: il sistema completo è certificabile.");
-      return;
-    }
-    if (this.isProgressiveMode()) {
-      this.runWhenActive(2200, () => this.scene.restart());
-      return;
-    }
-    this.runWhenActive(2200, () => this.scene.restart());
+    this.completeSprintMinigameOutcome({
+      session,
+      score,
+      competencies: session.game.competencies,
+      copy: {
+        summaryName: "Sprint matematico",
+        certification: "Console matematica stabilizzata: il sistema completo è certificabile.",
+      },
+      clearSession: () => {
+        this.mathMinigameSession = undefined;
+      },
+      restartDelayMs: 2200,
+    });
   }
 
   private finalizeMathMinigameScore(session: MathMinigameSession): ProceduralPuzzleScore {
     const run = saveSystem.data.proceduralRun ?? this.run;
     const existing = run.puzzleStats?.[session.puzzleId];
-    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
-    const completedAt = new Date().toISOString();
     const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.mathMinigameElapsedMs(session)));
-    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
-    const basePoints = session.correct * (10 + run.difficulty);
-    const difficultyBonus = session.correct * run.difficulty * 2;
-    const speedBonus = Math.min(110, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 36));
-    const focusBonus = run.focus.includes("matematica") || run.focus.some((item) => item.startsWith("matematica."))
-      ? 20 + run.difficulty * 3
-      : 0;
-    const hintsUsed = existing?.hintsUsed ?? 0;
-    const supportPenalty = Math.min(160, session.wrong * (10 + run.difficulty) + hintsUsed * 8);
-    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
-    const score: ProceduralPuzzleScore = {
-      puzzleId: session.puzzleId,
-      domain: "matematica",
-      startedAt,
-      completedAt,
-      elapsedMs,
-      hintsUsed,
-      attempts: session.wrong,
-      basePoints,
-      difficultyBonus,
-      speedBonus,
-      focusBonus,
-      supportPenalty,
-      total,
-      feedback: this.mathMinigameFeedback(session),
-    };
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(run.puzzleStats ?? {}),
-        [session.puzzleId]: score,
-      },
-      score: proceduralScoring.addToSummary(run.score, score),
-    });
+    const score = buildMathMinigameScore(session, run, existing, elapsedMs, this.mathMinigameFeedback(session));
+    saveSystem.updateProceduralRun(buildScoreRunUpdate(run, score));
     this.activePuzzleId = undefined;
     this.activePuzzleKind = undefined;
     this.activeChallenge = undefined;
@@ -3865,7 +3723,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(56, 104, `${this.englishChallengeLabel(puzzle.challengeType)}${puzzle.scenario ? ` | ${puzzle.scenario}` : ""}`, {
+    overlay.add(this.add.text(56, 104, `${englishChallengeLabel(puzzle.challengeType)}${puzzle.scenario ? ` | ${puzzle.scenario}` : ""}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#f7d37a",
@@ -3896,7 +3754,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     overlay.add(new Button(this, 738, 620, "Conferma risposta", () => {
       this.confirmEnglishReasoning(puzzle);
     }, { width: 240, height: 40, fontSize: 13, fill: 0x173b36, stroke: 0xf7d37a }));
-    overlay.add(new Button(this, 1002, 620, this.hintButtonLabel(puzzle, "Indizio mirato"), () => {
+    overlay.add(new Button(this, 1002, 620, hintButtonLabel(puzzle, this.activePuzzleHintsUsed(), "Indizio mirato"), () => {
       this.useContextualHint(puzzle);
       this.openEnglish();
     }, { width: 230, height: 40, fontSize: 13, fill: 0x263743 }));
@@ -3932,119 +3790,26 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const remaining = this.englishMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 560, 432, showCoach ? "1 · Leggi il comando operativo" : "Comando");
-    overlay.add(this.add.text(60, 154, prompt.targetLabel, {
-      fontFamily: "Inter, Arial",
-      fontSize: "25px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
-    }));
-    this.drawEnglishMinigameVisualizer(overlay, prompt, 60, 204, 500, 226, showCoach);
-    overlay.add(this.add.text(60, showCoach ? 456 : 438, `Concept: ${prompt.concept}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-      wordWrap: { width: 488 },
-    }));
-    if (showCoach) {
-      overlay.add(this.add.text(60, 486, this.englishMinigameMethodText(prompt), {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#9aaab0",
-        wordWrap: { width: 492, useAdvancedWrap: true },
-        lineSpacing: 3,
-      }));
-    }
-
-    const isOrdering = prompt.type === "sentence-build";
-    this.addMathPanel(overlay, 616, 112, 636, 432, showCoach ? this.englishSelectionPanelTitle(prompt) : prompt.targetLabel);
-    if (showCoach) {
-      overlay.add(this.add.text(648, 154, this.englishSelectionInstruction(prompt), {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#d9eaf1",
-        wordWrap: { width: 548 },
-        lineSpacing: 4,
-      }));
-    }
-    overlay.add(this.add.text(648, showCoach ? (isOrdering ? 190 : 214) : 164, prompt.instruction, {
-      fontFamily: "Inter, Arial",
-      fontSize: prompt.instruction.length > 92 ? "17px" : "20px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      wordWrap: { width: 548, useAdvancedWrap: true },
-      lineSpacing: 5,
-    }));
-    overlay.add(this.add.text(648, showCoach ? (isOrdering ? 224 : 290) : 246, prompt.glossary.slice(0, 4).map((entry) => `${entry.term}: ${entry.meaning}`).join("   "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      wordWrap: { width: 548, useAdvancedWrap: true },
-    }));
-
-    if (isOrdering) {
-      this.renderEnglishOrderingTiles(overlay, session, prompt);
-    } else {
-      const multiSelect = prompt.requiredSelectionCount > 1;
-      const tileStartX = multiSelect ? 792 : 788;
-      const tileStartY = 356;
-      const tileWidth = multiSelect ? 274 : 226;
-      const colSpacing = multiSelect ? 304 : 252;
-      const rowSpacing = multiSelect ? 76 : 68;
-      const tileHeight = multiSelect ? 64 : 52;
-      prompt.tiles.forEach((tile, index) => {
-        const selected = session.selectedIds.has(tile.id);
-        const col = index % 2;
-        const row = Math.floor(index / 2);
-        const displayLabel = this.choiceTileLabel(tile.label, selected);
-        overlay.add(new Button(this, tileStartX + col * colSpacing, tileStartY + row * rowSpacing, displayLabel, () => this.toggleEnglishMinigameTile(tile.id), {
-          width: tileWidth,
-          height: tileHeight,
-          fontSize: this.choiceTileFontSize(tile.label, multiSelect ? 13 : 15),
-          wordWrapWidth: tileWidth - 28,
-          fill: selected ? 0x174d42 : 0x263743,
-          stroke: selected ? 0xf7d37a : 0x6be7d6,
-        }));
-      });
-    }
-
-    this.addMathPanel(overlay, 28, 558, 1224, 130, showCoach ? "3 · Conferma e controlla l'esito" : "Esito");
-    this.englishMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
-      fontStyle: "bold",
-    });
-    overlay.add(this.englishMinigameTimerText);
-    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 640 },
-      lineSpacing: 4,
-    }));
-    if (showCoach || session.feedback) {
-      overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: session.feedback ? "#f7d37a" : "#9aaab0",
-        wordWrap: { width: 390, useAdvancedWrap: true },
-      }));
-    }
-    overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmEnglishMinigamePrompt(), {
-      width: 220,
-      height: 44,
-      fontSize: 14,
-      fill: 0x173b36,
-    }));
-    overlay.add(new Button(this, 820, 640, "Indizio", () => this.useEnglishMinigameHint(), {
-      width: 180,
-      height: 44,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
+    this.englishMinigameTimerText = renderEnglishSprintConsole({
+      scene: this,
+      overlay,
+      session,
+      prompt,
+      showCoach,
+      remainingMs: remaining,
+      accuracy,
+      scoringRule: puzzle.minigame.scoringRule,
+      addPanel: (x, y, width, height, title) => this.addMathPanel(overlay, x, y, width, height, title),
+      onToggleTile: (tileId) => this.toggleEnglishMinigameTile(tileId),
+      onToggleOrderTile: (tileId) => this.toggleEnglishOrderTile(tileId),
+      onClearOrder: () => {
+        session.orderedSelection = [];
+        audioManager.play("cancel");
+        this.openEnglishMinigame(session.puzzle);
+      },
+      onConfirm: () => this.confirmEnglishMinigamePrompt(),
+      onHint: () => this.useEnglishMinigameHint(),
+    }).timerText;
 
     this.englishMinigameTimerEvent?.remove(false);
     if (session.startedAt <= 0) session.startedAt = Date.now();
@@ -4118,108 +3883,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return [baseType, ...rotation.filter((type) => type !== baseType)];
   }
 
-  private drawEnglishMinigameVisualizer(
-    overlay: Phaser.GameObjects.Container,
-    prompt: EnglishMinigamePrompt,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    showCoach = true,
-  ): void {
-    const g = this.add.graphics();
-    g.fillStyle(0x07151d, 0.8);
-    g.fillRoundedRect(x, y, width, height, 12);
-    g.lineStyle(2, 0x6be7d6, 0.3);
-    g.strokeRoundedRect(x, y, width, height, 12);
-    overlay.add(g);
-
-    const accent = prompt.type === "action-relay" ? 0x6be7d6
-      : prompt.type === "sequence-switchboard" ? 0xf6c85f
-        : prompt.type === "reading-detective" ? 0x70d68a
-          : prompt.type === "error-diagnosis" ? 0xffb86b
-            : prompt.type === "dialogue-response" ? 0x5ec8ff
-              : 0x9f8cff;
-    overlay.add(this.add.rectangle(x + 24, y + 28, width - 48, 82, 0x102533, 0.84)
-      .setOrigin(0)
-      .setStrokeStyle(1, accent, 0.45));
-    overlay.add(this.add.text(x + 42, y + 46, prompt.context, {
-      fontFamily: "Inter, Arial",
-      fontSize: showCoach ? "14px" : "17px",
-      color: "#f5fbff",
-      wordWrap: { width: width - 84, useAdvancedWrap: true },
-      lineSpacing: 4,
-    }));
-    if (prompt.dataPoints && prompt.dataPoints.length > 0) {
-      prompt.dataPoints.slice(0, 4).forEach((point, index) => {
-        const rowY = y + 128 + index * 24;
-        overlay.add(this.add.rectangle(x + 42, rowY - 3, width - 84, 20, 0x0c2531, 0.9).setOrigin(0)
-          .setStrokeStyle(1, 0x6be7d6, 0.18));
-        overlay.add(this.add.text(x + 54, rowY, `${point.label}: ${point.value}`, {
-          fontFamily: "Inter, Arial",
-          fontSize: "11px",
-          color: "#d9eaf1",
-          wordWrap: { width: width - 110 },
-        }));
-      });
-      return;
-    }
-    if (!showCoach) {
-      return;
-    }
-    const visualLine = prompt.type === "action-relay"
-      ? "VERB -> OBJECT -> EVIDENCE"
-      : prompt.type === "grammar-fix"
-        ? "SIGNAL WORD -> RULE -> FORM"
-        : prompt.type === "sentence-build"
-          ? "SUBJECT -> VERB -> REST"
-          : prompt.type === "vocab-lab"
-            ? "CONTEXT -> MEANING -> BEST WORD"
-            : prompt.type === "translation-match"
-              ? "ENGLISH TERM -> ITALIAN MEANING -> CHECK"
-              : prompt.type === "reading-detective"
-                ? "QUESTION -> ANSWER -> TEXT EVIDENCE"
-                : prompt.type === "error-diagnosis"
-                  ? "WRONG SENTENCE -> REPAIR -> ERROR TYPE"
-                  : prompt.type === "dialogue-response"
-                    ? "SITUATION -> PURPOSE -> POLITE RESPONSE"
-                    : "TIME WORD -> FIRST EVENT -> SAFE ACTION";
-    overlay.add(this.add.text(x + 42, y + 138, visualLine, {
-      fontFamily: "Inter, Arial",
-      fontSize: "16px",
-      color: prompt.type === "action-relay" ? "#9ff5e9"
-        : (prompt.type === "grammar-fix" || prompt.type === "vocab-lab" || prompt.type === "translation-match" || prompt.type === "error-diagnosis") ? "#d8c9ff"
-          : prompt.type === "reading-detective" ? "#9ff5a7"
-            : prompt.type === "dialogue-response" ? "#a8ddff"
-              : "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: width - 84 },
-    }));
-    overlay.add(this.add.text(x + 42, y + 176, prompt.type === "action-relay"
-      ? "Scegli il significato operativo e la prova nel testo: verbo, oggetto e limitatore devono combaciare."
-      : prompt.type === "grammar-fix"
-        ? "Cerca il segnale grammaticale: tempo, quantità, comparativo, modale o preposizione."
-        : prompt.type === "sentence-build"
-          ? "Costruisci una frase inglese stabile: ordine naturale, o ausiliare prima del soggetto nelle domande."
-          : prompt.type === "vocab-lab"
-            ? "Non tradurre a orecchio: scegli la parola che rispetta contesto, registro e significato tecnico."
-            : prompt.type === "translation-match"
-              ? "Riconosci la traduzione corretta: attenzione ai falsi amici e alle parole troppo simili."
-              : prompt.type === "reading-detective"
-                ? "Scegli risposta e prova testuale: un'inferenza vale solo se il log la sostiene."
-                : prompt.type === "error-diagnosis"
-                  ? "Ripara la frase e nomina l'errore: forma corretta e diagnosi devono combaciare."
-                  : prompt.type === "dialogue-response"
-                    ? "Scegli una risposta naturale per situazione, registro e scopo comunicativo."
-                    : "Before, after, until e unless cambiano quando un comando è permesso.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9aaab0",
-      wordWrap: { width: width - 84, useAdvancedWrap: true },
-      lineSpacing: 3,
-    }));
-  }
-
   private currentEnglishMinigamePrompt(session: EnglishMinigameSession): EnglishMinigamePrompt {
     return session.game.prompts[session.promptIndex % session.game.prompts.length];
   }
@@ -4234,7 +3897,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private refreshEnglishMinigameTimer(): void {
     const session = this.englishMinigameSession;
-    if (!session || session.summaryOpen) {
+    if (!session || session.summaryOpen || this.isSprintPaused()) {
       return;
     }
     const remaining = this.englishMinigameRemainingMs(session);
@@ -4280,75 +3943,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.openEnglishMinigame(session.puzzle);
   }
 
-  private renderEnglishOrderingTiles(
-    overlay: Phaser.GameObjects.Container,
-    session: EnglishMinigameSession,
-    prompt: EnglishMinigamePrompt,
-  ): void {
-    const labelOf = (id: string): string => prompt.tiles.find((tile) => tile.id === id)?.label ?? "";
-    const assembled = session.orderedSelection.map(labelOf).join(" ");
-    overlay.add(this.add.rectangle(648, 262, 572, 56, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.7));
-    overlay.add(this.add.text(664, 276, assembled.length > 0 ? assembled : "(tap the words below)", {
-      fontFamily: "Inter, Arial",
-      fontSize: "16px",
-      color: assembled.length > 0 ? "#f5fbff" : "#7da2af",
-      wordWrap: { width: 544 },
-      lineSpacing: 3,
-    }));
-
-    let tileX = 648;
-    let tileY = 338;
-    prompt.tiles.forEach((tile) => {
-      const placedIndex = session.orderedSelection.indexOf(tile.id);
-      const placed = placedIndex >= 0;
-      const labelText = placed ? `${placedIndex + 1}. ${tile.label}` : tile.label;
-      const tileWidth = Math.max(56, labelText.length * 11 + 22);
-      if (tileX + tileWidth > 1232) {
-        tileX = 648;
-        tileY += 50;
-      }
-      overlay.add(new Button(this, tileX + tileWidth / 2, tileY + 20, labelText, () => this.toggleEnglishOrderTile(tile.id), {
-        width: tileWidth,
-        height: 40,
-        fontSize: 14,
-        fill: placed ? 0x174d42 : 0x263743,
-        stroke: placed ? 0xf7d37a : 0x6be7d6,
-      }));
-      tileX += tileWidth + 10;
-    });
-
-    overlay.add(new Button(this, 1150, 520, "Clear", () => {
-      session.orderedSelection = [];
-      audioManager.play("cancel");
-      this.openEnglishMinigame(session.puzzle);
-    }, { width: 110, height: 34, fontSize: 12, fill: 0x3a2525, stroke: 0xf6c85f }));
-  }
-
   private useEnglishMinigameHint(): void {
     const session = this.englishMinigameSession;
     if (!session || session.locked || session.summaryOpen) {
       return;
     }
     const prompt = this.currentEnglishMinigamePrompt(session);
-    const hint = prompt.type === "action-relay"
-      ? "Servono due scelte: una dice cosa fare, l'altra cita il vincolo inglese che lo dimostra."
-      : prompt.type === "sequence-switchboard"
-        ? "Prima traduci la parola-tempo: before = prima, after = dopo, until = aspetta fino a, unless = salvo se."
-        : prompt.type === "grammar-fix"
-          ? "Trova il segnale nella frase (every day, now, yesterday, than, must, on, any...) e scegli la forma che lo rispetta."
-          : prompt.type === "sentence-build"
-            ? "Parti dal soggetto, poi il verbo; nelle domande l'ausiliare (do/does/did) va prima del soggetto."
-            : prompt.type === "vocab-lab"
-              ? "Leggi il contesto: la parola giusta deve rispettare significato tecnico, registro e falsi amici."
-              : prompt.type === "translation-match"
-                ? "Prima traduci mentalmente il termine inglese, poi elimina le opzioni italiane che sono falsi amici o categorie diverse."
-                : prompt.type === "reading-detective"
-                  ? "Prima rispondi alla domanda, poi scegli la frase del log che prova quella risposta."
-                  : prompt.type === "error-diagnosis"
-                    ? "Servono due scelte: la frase corretta e il nome dell'errore. Cerca il segnale grammaticale."
-                    : prompt.type === "dialogue-response"
-                      ? "Leggi chi parla e perché: la risposta deve essere utile, naturale e del registro giusto."
-                      : "Guarda la soglia: below è sotto, above è sopra, between è dentro l'intervallo.";
+    const hint = englishMinigameHint(prompt);
     session.feedback = hint;
     this.useHint(hint);
     this.openEnglishMinigame(session.puzzle);
@@ -4384,14 +3985,14 @@ export class ProceduralMissionScene extends Phaser.Scene {
     } else {
       if (session.selectedIds.size === 0) {
         session.feedback = prompt.requiredSelectionCount > 1
-          ? `${this.englishSelectionRequirementText(prompt)} Il timer continua.`
+          ? `${englishSelectionRequirementText(prompt)} Il timer continua.`
           : "Select one tile first. The timer keeps running.";
         audioManager.playOutcome("hint");
         this.openEnglishMinigame(session.puzzle);
         return;
       }
       if (prompt.requiredSelectionCount > 1 && session.selectedIds.size < prompt.requiredSelectionCount) {
-        session.feedback = this.englishSelectionRequirementText(prompt);
+        session.feedback = englishSelectionRequirementText(prompt);
         audioManager.playOutcome("hint");
         this.openEnglishMinigame(session.puzzle);
         return;
@@ -4492,95 +4093,37 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return session.correct >= minCorrect && accuracy >= 0.62 && session.netScore > 0;
   }
 
-  private englishMinigameFeedback(session: EnglishMinigameSession): string {
-    if (session.answered === 0) {
-      return "No answers: start from action words and limiters, then choose.";
-    }
-    const accuracy = session.correct / session.answered;
-    if (accuracy >= 0.9 && session.bestStreak >= 8) {
-      return "Ottimo inglese operativo: hai letto comandi, limiti e dati senza anticipare.";
-    }
-    if (accuracy >= 0.72) {
-      return "Buona base: aumenta la velocità solo dopo aver riconosciuto la parola chiave.";
-    }
-    if (session.wrong >= session.correct) {
-      return "Troppi tentativi: prima nomina il vincolo inglese, poi scegli l'azione.";
-    }
-    return "Calibrazione utile: punta a serie pulite, non solo a risposte isolate.";
-  }
-
   private showEnglishMinigameSummary(session: EnglishMinigameSession): void {
     const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
-    const modal = this.add.container(0, 0).setDepth(1300);
     const passed = this.englishMinigamePassed(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
     const mode = proceduralRunRules.modeFor(this.run);
-    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
-    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
-    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
-      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
-    modal.add(this.add.text(230, 160, passed ? "Sprint inglese completato" : "Sprint inglese da consolidare", {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: passed ? "#9ff5e9" : "#f7d37a",
-      fontStyle: "bold",
-    }));
-    modal.add(this.add.text(230, 210, [
-      `Risposte corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie migliore: ${session.bestStreak}`,
-      `Punti sprint: ${session.netScore}`,
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f5fbff",
-      lineSpacing: 7,
-    }));
-    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
-      .setStrokeStyle(1, 0x6be7d6, 0.3));
-    modal.add(this.add.text(572, 234, this.englishMinigameFeedback(session), {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 354 },
-      lineSpacing: 5,
-    }));
-    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
-      .setStrokeStyle(1, 0xf7d37a, 0.36));
-    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
-      ? passed
-        ? "La console inglese accetta il protocollo: azioni, condizioni e dati sono stati interpretati."
-        : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
-      : "Calibrazione registrabile: il voto pesa rapidità, precisione, serie positiva e uso degli aiuti.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 690 },
-      lineSpacing: 4,
-    }));
-    modal.add(this.add.text(254, 456, this.runEnergySummary(), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: 690 },
-    }));
-    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
-      modal.destroy(true);
-      if (!passed && (mode === "mission" || mode === "progressive")) {
-        this.loseMissionLife("sprint inglese sotto soglia: servono più comandi corretti con meno tentativi.");
-        return;
-      }
-      this.completeEnglishMinigame(session);
+    addSprintSummaryModal(this, overlay, {
+      title: passed ? "Sprint inglese completato" : "Sprint inglese da consolidare",
+      passed,
+      correct: session.correct,
+      wrong: session.wrong,
+      accuracy,
+      bestStreak: session.bestStreak,
+      netScore: session.netScore,
+      feedback: englishMinigameFeedback(session),
+      resolutionText: (mode === "mission" || mode === "progressive")
+        ? passed
+          ? "La console inglese accetta il protocollo: azioni, condizioni e dati sono stati interpretati."
+          : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
+        : "Calibrazione registrabile: il voto pesa rapidità, precisione, serie positiva e uso degli aiuti.",
+      energyText: this.runEnergySummary(),
+      actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
-      width: 270,
-      height: 54,
-      fill: passed ? 0x173b36 : 0x263743,
-      stroke: passed ? 0x6be7d6 : 0xf7d37a,
-      fontSize: 16,
-    }));
-    overlay.add(modal);
+      onAction: (modal) => {
+        modal.destroy(true);
+        if (!passed && (mode === "mission" || mode === "progressive")) {
+          this.loseMissionLife("sprint inglese sotto soglia: servono più comandi corretti con meno tentativi.");
+          return;
+        }
+        this.completeEnglishMinigame(session);
+      },
+    });
   }
 
   private completeEnglishMinigame(session: EnglishMinigameSession): void {
@@ -4588,259 +4131,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeEnglishMinigameScore(session);
-    if (session.wrong === 0 && session.correct > 0) {
-      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
-    }
-    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
-    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
-    this.run = saveSystem.data.proceduralRun ?? this.run;
-    audioManager.playOutcome("correct");
-    outcomeFeedback.play(this, "success", `+${score.total}`);
-    this.clearOverlay();
-    this.englishMinigameSession = undefined;
-    const solvedNode = puzzleKindFromId(session.puzzleId);
-    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
-    feedbackSystem.publish(
-      `Sprint inglese registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
-      "success",
-    );
-    if (remaining.length === 0) {
-      this.certifyCompletedRun("Console inglese stabilizzata: il sistema completo è certificabile.");
-      return;
-    }
-    if (this.isProgressiveMode()) {
-      this.runWhenActive(1750, () => this.scene.restart());
-      return;
-    }
-    this.runWhenActive(1750, () => this.scene.restart());
+    this.completeSprintMinigameOutcome({
+      session,
+      score,
+      competencies: session.game.competencies,
+      copy: {
+        summaryName: "Sprint inglese",
+        certification: "Console inglese stabilizzata: il sistema completo è certificabile.",
+      },
+      clearSession: () => {
+        this.englishMinigameSession = undefined;
+      },
+      restartDelayMs: 1750,
+    });
   }
 
   private finalizeEnglishMinigameScore(session: EnglishMinigameSession): ProceduralPuzzleScore {
     const run = saveSystem.data.proceduralRun ?? this.run;
     const existing = run.puzzleStats?.[session.puzzleId];
-    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
-    const completedAt = new Date().toISOString();
     const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.englishMinigameElapsedMs(session)));
-    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
-    const basePoints = session.correct * (9 + run.difficulty);
-    const difficultyBonus = session.correct * run.difficulty * 2;
-    const speedBonus = Math.min(92, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 34));
-    const focusBonus = run.focus.includes("inglese") || run.focus.some((item) => item.startsWith("inglese."))
-      ? 20 + run.difficulty * 3
-      : 0;
-    const supportPenalty = (existing?.hintsUsed ?? 0) * 5 + session.wrong * (6 + run.difficulty);
-    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
-    const score: ProceduralPuzzleScore = {
-      puzzleId: session.puzzleId,
-      domain: proceduralScoring.puzzleDomain(session.puzzleId),
-      startedAt,
-      completedAt,
-      elapsedMs,
-      hintsUsed: existing?.hintsUsed ?? 0,
-      attempts: Math.max(1, existing?.attempts ?? 1),
-      basePoints,
-      difficultyBonus,
-      speedBonus,
-      focusBonus,
-      supportPenalty,
-      total,
-      feedback: this.englishMinigameFeedback(session),
-    };
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(run.puzzleStats ?? {}),
-        [session.puzzleId]: score,
-      },
-      score: proceduralScoring.addToSummary(run.score, score),
-    });
+    const score = buildEnglishMinigameScore(session, run, existing, elapsedMs, englishMinigameFeedback(session));
+    saveSystem.updateProceduralRun(buildScoreRunUpdate(run, score));
     return score;
-  }
-
-  private englishSelectionPanelTitle(prompt: EnglishMinigamePrompt): string {
-    if (prompt.type === "sentence-build") return "2 · Build the sentence";
-    if (prompt.type === "translation-match") return "2 · Riconosci la traduzione";
-    if (prompt.type === "reading-detective") return "2 · Inferenza e prova";
-    if (prompt.type === "error-diagnosis") return "2 · Correggi e diagnostica";
-    if (prompt.type === "dialogue-response") return "2 · Risposta e motivo";
-    if (prompt.requiredSelectionCount > 1) return "2 · Decodifica e prova";
-    if (prompt.type === "vocab-lab") return "2 · Scegli il vocabolo";
-    if (prompt.type === "grammar-fix") return "2 · Scegli la forma";
-    return "2 · Scegli un'azione";
-  }
-
-  private englishSelectionInstruction(prompt: EnglishMinigamePrompt): string {
-    if (prompt.type === "sentence-build") {
-      return "Tocca le parole nell'ordine giusto. Ritocca una parola per toglierla.";
-    }
-    if (prompt.type === "translation-match") {
-      return "Leggi il termine inglese, scegli la traduzione italiana corretta e premi Conferma.";
-    }
-    if (prompt.type === "reading-detective") {
-      return "Scegli 2 tessere: l'inferenza corretta e la frase del testo che la dimostra.";
-    }
-    if (prompt.type === "error-diagnosis") {
-      return "Scegli 2 tessere: la frase riparata e il tipo di errore grammaticale.";
-    }
-    if (prompt.type === "dialogue-response") {
-      return "Scegli 2 tessere: la risposta naturale e il motivo comunicativo.";
-    }
-    if (prompt.requiredSelectionCount > 1) {
-      return `Scegli ${prompt.requiredSelectionCount} tessere: il significato operativo e la prova linguistica.`;
-    }
-    if (prompt.type === "vocab-lab") {
-      return "Leggi il contesto, scegli UNA parola inglese precisa e premi Conferma.";
-    }
-    if (prompt.type === "grammar-fix") {
-      return "Trova il segnale grammaticale, scegli UNA forma corretta e premi Conferma.";
-    }
-    return "Come si gioca: trova verbo, oggetto e vincolo; clicca UNA risposta e premi Conferma.";
-  }
-
-  private englishSelectionRequirementText(prompt: EnglishMinigamePrompt): string {
-    if (prompt.type === "reading-detective") return "Scegli 2 tessere: inferenza e prova testuale.";
-    if (prompt.type === "error-diagnosis") return "Scegli 2 tessere: correzione e diagnosi.";
-    if (prompt.type === "dialogue-response") return "Scegli 2 tessere: risposta naturale e motivo.";
-    if (prompt.type === "action-relay") return "Scegli 2 tessere: azione e prova nel comando.";
-    return `Scegli ${prompt.requiredSelectionCount} tessere coerenti.`;
-  }
-
-  private choiceTileLabel(rawLabel: string, selected = false): string {
-    const prefixMatch = rawLabel.match(/^([^:]{3,22}):\s*(.+)$/);
-    if (!prefixMatch) {
-      return `${selected ? "✓ " : ""}${rawLabel}`;
-    }
-    const badge = this.choiceTileBadge(prefixMatch[1]);
-    const body = this.polishChoiceTileBody(prefixMatch[1], prefixMatch[2]);
-    return `${selected ? "✓ " : ""}${badge}\n${body}`;
-  }
-
-  private choiceTileBadge(prefix: string): string {
-    const key = prefix.trim().toLowerCase();
-    if (key === "risposta") return "RISPOSTA";
-    if (key === "motivo") return "MOTIVO";
-    if (key === "prova") return "PROVA";
-    if (key === "azione") return "AZIONE";
-    if (key === "correzione") return "CORREZIONE";
-    if (key === "diagnosi") return "DIAGNOSI";
-    if (key === "traduzione") return "TRADUZIONE";
-    return prefix.trim().toUpperCase();
-  }
-
-  private polishChoiceTileBody(prefix: string, body: string): string {
-    const trimmed = body.trim();
-    const lower = trimmed.toLowerCase();
-    const reasonText: Record<string, string> = {
-      "readiness now": "shows readiness now",
-      "completed past action": "talks about a past action",
-      "unrelated topic": "does not answer the situation",
-      "polite permission + object": "gives polite permission",
-      "past time": "uses the wrong time",
-      "place preposition": "talks about place, not reply",
-      "keep closed repeats the instruction": "matches the instruction",
-      "question form only": "only asks a question",
-      "polite request with could": "uses a polite request",
-      "command too direct": "sounds too direct",
-      "wrong word order": "has wrong word order",
-      "wh-question asks for proof": "asks for evidence",
-      "because gives a cause": "gives a cause",
-      "refusal to collaborate": "refuses to collaborate",
-      "identity sentence": "answers with identity, not place",
-      "collaborative suggestion": "suggests working together",
-      "wrong identity": "confuses the subject",
-      "past time confusion": "uses the wrong time",
-      "yes/no answer": "answers yes/no, not why",
-      "past-time mismatch": "uses the wrong time",
-      "permission with condition": "gives permission with a condition",
-      "no condition": "misses the condition",
-      "past irrelevant": "uses an irrelevant past action",
-      "polite interruption": "interrupts politely",
-      "rude command": "is too rude",
-      "asks for verification": "asks how to verify it",
-      "personal attack": "attacks the person",
-      "confirms deadline": "confirms the deadline",
-      "time words conflict": "mixes incompatible times",
-      "apology + repair action": "apologizes and repairs",
-      "denies responsibility": "denies responsibility",
-      "comparative adjective": "uses a comparative",
-      "incomplete answer": "does not fully answer",
-      "present perfect with yet": "uses not yet correctly",
-      "contradictory answer": "contradicts itself",
-      "conflicting time words": "mixes incompatible times",
-      "opposite action": "does the opposite",
-      "broken sentence": "is not a stable sentence",
-      "polite request": "asks politely",
-      "rude imperative": "uses a rude command",
-      "time mismatch": "uses the wrong time",
-      "fixed polite formula": "uses a fixed polite formula",
-      "literal translation": "is a literal translation trap",
-      "wrong verb": "uses the wrong verb",
-      "cautious action before decision": "waits for evidence first",
-      "overconfident conclusion": "concludes too early",
-      "proposes next action": "proposes a useful next step",
-      "unrelated adjective": "uses an unrelated adjective",
-      "time conflict": "mixes incompatible times",
-      "adverb of manner": "matches how to act",
-      "opposite manner": "does the opposite manner",
-      "polite disagreement with evidence": "disagrees politely with evidence",
-      "rude personal comment": "attacks the person",
-      "explains meaning in context": "explains the meaning in context",
-      "unrelated meaning": "uses an unrelated meaning",
-      "contrast with but": "uses contrast with but",
-      "broken syntax": "has broken syntax",
-      "overgeneralization": "says too much",
-      "not until sets a condition": "sets a clear condition",
-      "ignores condition": "ignores the condition",
-      "formal clarification request": "asks formally for clarification",
-      "too informal": "is too informal",
-    };
-    const polishedReason = reasonText[lower];
-    if (polishedReason) return polishedReason;
-    if (prefix.trim().toLowerCase() === "prova") {
-      return trimmed
-        .replace(/\s+(blocca|permette|impone|conferma|nega)\s+/u, " -> $1 ")
-        .replace(/\s+(rende)\s+/u, " -> $1 ");
-    }
-    return trimmed;
-  }
-
-  private choiceTileFontSize(rawLabel: string, baseSize: number): number {
-    const displayLabel = this.choiceTileLabel(rawLabel);
-    const longestLine = Math.max(...displayLabel.split("\n").map((line) => line.length));
-    if (longestLine > 44) return Math.max(10, baseSize - 3);
-    if (longestLine > 30) return Math.max(11, baseSize - 2);
-    if (longestLine > 20) return Math.max(12, baseSize - 1);
-    return baseSize;
-  }
-
-  private englishMinigameMethodText(prompt: EnglishMinigamePrompt): string {
-    if (prompt.type === "action-relay") {
-      return "Method: find the action verb, then object, then not/only/neither. One small word can reverse the command.";
-    }
-    if (prompt.type === "sequence-switchboard") {
-      return "Method: translate the time word first, then decide which event must happen before the safe action.";
-    }
-    if (prompt.type === "grammar-fix") {
-      return "Metodo: trova il segnale (every day, now, yesterday, than, must, on, any) e scegli la forma grammaticale che lo rispetta.";
-    }
-    if (prompt.type === "sentence-build") {
-      return "Metodo: soggetto + verbo + resto; nelle domande l'ausiliare (do/does/did) va prima del soggetto.";
-    }
-    if (prompt.type === "vocab-lab") {
-      return "Metodo: usa il contesto italiano e scegli la parola inglese che rispetta significato, categoria e registro.";
-    }
-    if (prompt.type === "translation-match") {
-      return "Metodo: traduci il termine inglese, poi scarta falsi amici e significati di categorie diverse.";
-    }
-    if (prompt.type === "reading-detective") {
-      return "Metodo: scegli prima l'inferenza, poi la prova testuale esatta che la sostiene.";
-    }
-    if (prompt.type === "error-diagnosis") {
-      return "Metodo: correggi la frase e nomina l'errore: tempo verbale, accordo, ordine, preposizione o condizione.";
-    }
-    if (prompt.type === "dialogue-response") {
-      return "Metodo: identifica situazione, scopo e registro; poi scegli risposta naturale e motivo.";
-    }
-    return "Method: compare data with the threshold. Choose the action only after checking below, above, between or comparative.";
   }
 
   private openCodingMinigame(puzzle: GeneratedCodingPuzzle): void {
@@ -4855,116 +4167,26 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const remaining = this.codingMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
-    this.addMathPanel(overlay, 28, 112, 582, 432, showCoach ? "1 · Leggi e simula il codice" : "Codice");
-    overlay.add(this.add.text(60, 154, prompt.targetLabel, {
-      fontFamily: "Inter, Arial",
-      fontSize: "25px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      shadow: { offsetX: 0, offsetY: 4, color: "#000000", blur: 8, fill: true },
-    }));
-    this.drawCodingMinigameCodePanel(overlay, prompt, 60, 206, 522, 228);
-    overlay.add(this.add.text(60, 458, `Concetto: ${prompt.concept}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-      wordWrap: { width: 500 },
-    }));
-    if (showCoach) {
-      overlay.add(this.add.text(60, 488, this.codingMinigameMethodText(prompt), {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: "#9aaab0",
-        wordWrap: { width: 506, useAdvancedWrap: true },
-        lineSpacing: 3,
-      }));
-    }
-
-    const isOrdering = prompt.type === "algorithm-order";
-    this.addMathPanel(overlay, 636, 112, 616, 432, showCoach ? (isOrdering ? "2 · Ordina i passi" : "2 · Scegli il blocco mancante") : "Scelte");
-    if (showCoach) {
-      overlay.add(this.add.text(668, 154, isOrdering
-        ? "Tocca i passi nell'ordine giusto. Ritocca un passo per toglierlo."
-        : "Come si gioca: segui il codice a sinistra, clicca UNA risposta e premi Conferma.", {
-        fontFamily: "Inter, Arial",
-        fontSize: "13px",
-        color: "#d9eaf1",
-        wordWrap: { width: 532 },
-        lineSpacing: 4,
-      }));
-    }
-    overlay.add(this.add.text(668, showCoach ? (isOrdering ? 188 : 210) : 164, prompt.question, {
-      fontFamily: "Inter, Arial",
-      fontSize: prompt.question.length > 92 ? "16px" : "18px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      wordWrap: { width: 532, useAdvancedWrap: true },
-      lineSpacing: 5,
-    }));
-    if (isOrdering) {
-      this.renderCodingOrderingTiles(overlay, session, prompt);
-    } else {
-      if (showCoach) {
-        overlay.add(this.add.text(668, 288, prompt.methodSteps.join("  ->  "), {
-          fontFamily: "Inter, Arial",
-          fontSize: "12px",
-          color: "#f7d37a",
-          wordWrap: { width: 532, useAdvancedWrap: true },
-        }));
-      }
-      const tileStartX = 802;
-      const tileStartY = 356;
-      prompt.tiles.forEach((tile, index) => {
-        const selected = session.selectedIds.has(tile.id);
-        const col = index % 2;
-        const row = Math.floor(index / 2);
-        overlay.add(new Button(this, tileStartX + col * 244, tileStartY + row * 68, this.choiceTileLabel(tile.label, selected), () => this.toggleCodingMinigameTile(tile.id), {
-          width: 218,
-          height: 52,
-          fontSize: this.choiceTileFontSize(tile.label, 15),
-          wordWrapWidth: 198,
-          fill: selected ? 0x174d42 : 0x263743,
-          stroke: selected ? 0xf7d37a : 0x6be7d6,
-        }));
-      });
-    }
-
-    this.addMathPanel(overlay, 28, 558, 1224, 130, showCoach ? "3 · Conferma e controlla l'esito" : "Esito");
-    this.codingMinigameTimerText = this.add.text(64, 604, `Tempo: ${formatDuration(remaining)}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: remaining <= 10_000 ? "#ff8f8f" : "#f7d37a",
-      fontStyle: "bold",
-    });
-    overlay.add(this.codingMinigameTimerText);
-    overlay.add(this.add.text(260, 592, `Serie: ${session.streak}    ·    Punti: ${session.netScore}    ·    Precisione: ${accuracy}%`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 640 },
-      lineSpacing: 4,
-    }));
-    if (showCoach || session.feedback) {
-      overlay.add(this.add.text(260, 636, session.feedback || puzzle.minigame.scoringRule, {
-        fontFamily: "Inter, Arial",
-        fontSize: "12px",
-        color: session.feedback ? "#f7d37a" : "#9aaab0",
-        wordWrap: { width: 390, useAdvancedWrap: true },
-      }));
-    }
-    overlay.add(new Button(this, 1080, 640, "Conferma", () => this.confirmCodingMinigamePrompt(), {
-      width: 220,
-      height: 44,
-      fontSize: 14,
-      fill: 0x173b36,
-    }));
-    overlay.add(new Button(this, 820, 640, "Indizio", () => this.useCodingMinigameHint(), {
-      width: 180,
-      height: 44,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
+    this.codingMinigameTimerText = renderCodingSprintConsole({
+      scene: this,
+      overlay,
+      session,
+      prompt,
+      showCoach,
+      remainingMs: remaining,
+      accuracy,
+      scoringRule: puzzle.minigame.scoringRule,
+      addPanel: (x, y, width, height, title) => this.addMathPanel(overlay, x, y, width, height, title),
+      onToggleTile: (tileId) => this.toggleCodingMinigameTile(tileId),
+      onToggleOrderTile: (tileId) => this.toggleCodingOrderTile(tileId),
+      onClearOrder: () => {
+        session.orderedSelection = [];
+        audioManager.play("cancel");
+        this.openCodingMinigame(session.puzzle);
+      },
+      onConfirm: () => this.confirmCodingMinigamePrompt(),
+      onHint: () => this.useCodingMinigameHint(),
+    }).timerText;
 
     this.codingMinigameTimerEvent?.remove(false);
     if (session.startedAt <= 0) session.startedAt = Date.now();
@@ -5026,45 +4248,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return this.codingMinigameSession;
   }
 
-  private drawCodingMinigameCodePanel(
-    overlay: Phaser.GameObjects.Container,
-    prompt: CodingMinigamePrompt,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    const g = this.add.graphics();
-    g.fillStyle(0x07151d, 0.84);
-    g.fillRoundedRect(x, y, width, height, 12);
-    g.lineStyle(2, 0x6be7d6, 0.3);
-    g.strokeRoundedRect(x, y, width, height, 12);
-    overlay.add(g);
-    overlay.add(this.add.text(x + 24, y + 18, prompt.title, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    const codeY = y + 52;
-    overlay.add(this.add.rectangle(x + 24, codeY, width - 48, Math.min(142, height - 82), 0x0b1f2b, 0.94).setOrigin(0)
-      .setStrokeStyle(1, 0x315766, 0.58));
-    prompt.codeLines.slice(0, 6).forEach((line, index) => {
-      const rowY = codeY + 14 + index * 22;
-      overlay.add(this.add.text(x + 40, rowY, String(index + 1).padStart(2, "0"), {
-        fontFamily: "Consolas, 'Courier New', monospace",
-        fontSize: "11px",
-        color: "#6f8793",
-      }));
-      overlay.add(this.add.text(x + 76, rowY, line, {
-        fontFamily: "Consolas, 'Courier New', monospace",
-        fontSize: "13px",
-        color: line.includes("?") ? "#f7d37a" : "#f5fbff",
-        wordWrap: { width: width - 116 },
-      }));
-    });
-  }
-
   private currentCodingMinigamePrompt(session: CodingMinigameSession): CodingMinigamePrompt {
     return session.game.prompts[session.promptIndex % session.game.prompts.length];
   }
@@ -5079,7 +4262,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private refreshCodingMinigameTimer(): void {
     const session = this.codingMinigameSession;
-    if (!session || session.summaryOpen) {
+    if (!session || session.summaryOpen || this.isSprintPaused()) {
       return;
     }
     const remaining = this.codingMinigameRemainingMs(session);
@@ -5115,66 +4298,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.openCodingMinigame(session.puzzle);
   }
 
-  private renderCodingOrderingTiles(
-    overlay: Phaser.GameObjects.Container,
-    session: CodingMinigameSession,
-    prompt: CodingMinigamePrompt,
-  ): void {
-    const labelOf = (id: string): string => prompt.tiles.find((tile) => tile.id === id)?.label ?? "";
-    const assembled = session.orderedSelection.map((id, position) => `${position + 1}. ${labelOf(id)}`).join("\n");
-    overlay.add(this.add.rectangle(668, 232, 556, 150, 0x07151d, 0.9).setOrigin(0).setStrokeStyle(2, 0x9f8cff, 0.7));
-    overlay.add(this.add.text(684, 244, assembled.length > 0 ? assembled : "(tocca i passi qui sotto)", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: assembled.length > 0 ? "#f5fbff" : "#7da2af",
-      wordWrap: { width: 528 },
-      lineSpacing: 4,
-    }));
-
-    let tileY = 398;
-    prompt.tiles.forEach((tile) => {
-      const placedIndex = session.orderedSelection.indexOf(tile.id);
-      const placed = placedIndex >= 0;
-      const labelText = placed ? `${placedIndex + 1}. ${tile.label}` : tile.label;
-      overlay.add(new Button(this, 914, tileY, labelText, () => this.toggleCodingOrderTile(tile.id), {
-        width: 556,
-        height: 32,
-        fontSize: 12,
-        wordWrapWidth: 528,
-        fill: placed ? 0x174d42 : 0x263743,
-        stroke: placed ? 0xf7d37a : 0x6be7d6,
-      }));
-      tileY += 38;
-    });
-
-    overlay.add(new Button(this, 1150, 520, "Svuota", () => {
-      session.orderedSelection = [];
-      audioManager.play("cancel");
-      this.openCodingMinigame(session.puzzle);
-    }, { width: 110, height: 30, fontSize: 12, fill: 0x3a2525, stroke: 0xf6c85f }));
-  }
-
   private useCodingMinigameHint(): void {
     const session = this.codingMinigameSession;
     if (!session || session.locked || session.summaryOpen) {
       return;
     }
     const prompt = this.currentCodingMinigamePrompt(session);
-    const hint = prompt.type === "sequence-builder"
-      ? "Chiediti quale istruzione cambia lo stato verso l'obiettivo senza alterare altre variabili."
-      : prompt.type === "state-tracer"
-        ? "Fai una mini-tabella: dopo ogni riga scrivi solo i valori cambiati."
-        : prompt.type === "binary-bits"
-          ? "Ogni bit, da destra, vale 1, 2, 4, 8, 16...: somma le potenze di 2 dove c'è un 1."
-          : prompt.type === "logic-gate"
-            ? "AND vuole tutti veri; OR almeno uno vero; NOT inverte. Valuta una porta alla volta."
-            : prompt.type === "loop-output"
-              ? "Esegui il ciclo a mano: scrivi il valore della variabile dopo ogni giro."
-              : prompt.type === "conditional-path"
-                ? "Controlla le condizioni in ordine: si esegue il primo ramo che risulta vero."
-                : prompt.type === "algorithm-order"
-                  ? "Parti dall'obiettivo: qual è il primo passo indispensabile? Poi concatena in ordine."
-                  : "Nel debug non compensare l'errore: cerca la prima riga che viola il requisito.";
+    const hint = codingMinigameHint(prompt);
     session.feedback = hint;
     this.useHint(hint);
     this.openCodingMinigame(session.puzzle);
@@ -5308,95 +4438,37 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return session.correct >= minCorrect && accuracy >= 0.62 && session.netScore > 0;
   }
 
-  private codingMinigameFeedback(session: CodingMinigameSession): string {
-    if (session.answered === 0) {
-      return "Nessuna risposta: nel coding devi simulare almeno un programma prima di decidere.";
-    }
-    const accuracy = session.correct / session.answered;
-    if (accuracy >= 0.9 && session.bestStreak >= 8) {
-      return "Ottimo controllo mentale: hai seguito stato, sequenza e bug senza tentativi ciechi.";
-    }
-    if (accuracy >= 0.72) {
-      return "Buon tracing: ora prova ad anticipare il risultato usando tabelle più compatte.";
-    }
-    if (session.wrong >= session.correct) {
-      return "Troppi tentativi: rallenta, simula una riga alla volta e scegli solo quando sai spiegare.";
-    }
-    return "Calibrazione utile: punta a serie pulite e correzioni minime.";
-  }
-
   private showCodingMinigameSummary(session: CodingMinigameSession): void {
     const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
-    const modal = this.add.container(0, 0).setDepth(1300);
     const passed = this.codingMinigamePassed(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
     const mode = proceduralRunRules.modeFor(this.run);
-    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
-    modal.add(this.add.rectangle(600, 334, 790, 368, 0x000000, 0.34));
-    modal.add(this.add.rectangle(600, 320, 790, 368, 0x07151d, 0.98)
-      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
-    modal.add(this.add.text(230, 160, passed ? "Sprint coding completato" : "Sprint coding da consolidare", {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: passed ? "#9ff5e9" : "#f7d37a",
-      fontStyle: "bold",
-    }));
-    modal.add(this.add.text(230, 210, [
-      `Risposte corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie migliore: ${session.bestStreak}`,
-      `Punti sprint: ${session.netScore}`,
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f5fbff",
-      lineSpacing: 7,
-    }));
-    modal.add(this.add.rectangle(548, 212, 408, 128, 0x102533, 0.78).setOrigin(0)
-      .setStrokeStyle(1, 0x6be7d6, 0.3));
-    modal.add(this.add.text(572, 234, this.codingMinigameFeedback(session), {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 354 },
-      lineSpacing: 5,
-    }));
-    modal.add(this.add.rectangle(230, 378, 740, 74, 0x0b1e2a, 0.82).setOrigin(0)
-      .setStrokeStyle(1, 0xf7d37a, 0.36));
-    modal.add(this.add.text(254, 394, (mode === "mission" || mode === "progressive")
-      ? passed
-        ? "La console coding certifica il programma: sequenza, stato e correzione sono coerenti."
-        : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
-      : "Calibrazione registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 690 },
-      lineSpacing: 4,
-    }));
-    modal.add(this.add.text(254, 456, this.runEnergySummary(), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: 690 },
-    }));
-    modal.add(new Button(this, 612, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
-      modal.destroy(true);
-      if (!passed && (mode === "mission" || mode === "progressive")) {
-        this.loseMissionLife("sprint coding sotto soglia: servono più simulazioni corrette con meno tentativi.");
-        return;
-      }
-      this.completeCodingMinigame(session);
+    addSprintSummaryModal(this, overlay, {
+      title: passed ? "Sprint coding completato" : "Sprint coding da consolidare",
+      passed,
+      correct: session.correct,
+      wrong: session.wrong,
+      accuracy,
+      bestStreak: session.bestStreak,
+      netScore: session.netScore,
+      feedback: codingMinigameFeedback(session),
+      resolutionText: (mode === "mission" || mode === "progressive")
+        ? passed
+          ? "La console coding certifica il programma: sequenza, stato e correzione sono coerenti."
+          : "La soglia minima non è stata raggiunta: perderai una vita, ma il riepilogo mostra cosa ripassare."
+        : "Calibrazione registrabile: il voto pesa precisione, velocità, serie corretta e uso degli aiuti.",
+      energyText: this.runEnergySummary(),
+      actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
-      width: 270,
-      height: 54,
-      fill: passed ? 0x173b36 : 0x263743,
-      stroke: passed ? 0x6be7d6 : 0xf7d37a,
-      fontSize: 16,
-    }));
-    overlay.add(modal);
+      onAction: (modal) => {
+        modal.destroy(true);
+        if (!passed && (mode === "mission" || mode === "progressive")) {
+          this.loseMissionLife("sprint coding sotto soglia: servono più simulazioni corrette con meno tentativi.");
+          return;
+        }
+        this.completeCodingMinigame(session);
+      },
+    });
   }
 
   private completeCodingMinigame(session: CodingMinigameSession): void {
@@ -5404,97 +4476,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeCodingMinigameScore(session);
-    if (session.wrong === 0 && session.correct > 0) {
-      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
-    }
-    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
-    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
-    this.run = saveSystem.data.proceduralRun ?? this.run;
-    audioManager.playOutcome("correct");
-    outcomeFeedback.play(this, "success", `+${score.total}`);
-    this.clearOverlay();
-    this.codingMinigameSession = undefined;
-    const solvedNode = puzzleKindFromId(session.puzzleId);
-    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
-    feedbackSystem.publish(
-      `Sprint coding registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
-      "success",
-    );
-    if (remaining.length === 0) {
-      this.certifyCompletedRun("Console coding stabilizzata: il sistema completo è certificabile.");
-      return;
-    }
-    if (this.isProgressiveMode()) {
-      this.runWhenActive(1750, () => this.scene.restart());
-      return;
-    }
-    this.runWhenActive(1750, () => this.scene.restart());
+    this.completeSprintMinigameOutcome({
+      session,
+      score,
+      competencies: session.game.competencies,
+      copy: {
+        summaryName: "Sprint coding",
+        certification: "Console coding stabilizzata: il sistema completo è certificabile.",
+      },
+      clearSession: () => {
+        this.codingMinigameSession = undefined;
+      },
+      restartDelayMs: 1750,
+    });
   }
 
   private finalizeCodingMinigameScore(session: CodingMinigameSession): ProceduralPuzzleScore {
     const run = saveSystem.data.proceduralRun ?? this.run;
     const existing = run.puzzleStats?.[session.puzzleId];
-    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
-    const completedAt = new Date().toISOString();
     const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.codingMinigameElapsedMs(session)));
-    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
-    const basePoints = session.correct * (10 + run.difficulty);
-    const difficultyBonus = session.correct * run.difficulty * 2;
-    const speedBonus = Math.min(100, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 36));
-    const focusBonus = run.focus.includes("coding") || run.focus.some((item) => item.startsWith("coding."))
-      ? 20 + run.difficulty * 3
-      : 0;
-    const supportPenalty = (existing?.hintsUsed ?? 0) * 6 + session.wrong * (8 + run.difficulty);
-    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
-    const score: ProceduralPuzzleScore = {
-      puzzleId: session.puzzleId,
-      domain: proceduralScoring.puzzleDomain(session.puzzleId),
-      startedAt,
-      completedAt,
-      elapsedMs,
-      hintsUsed: existing?.hintsUsed ?? 0,
-      attempts: Math.max(1, existing?.attempts ?? 1),
-      basePoints,
-      difficultyBonus,
-      speedBonus,
-      focusBonus,
-      supportPenalty,
-      total,
-      feedback: this.codingMinigameFeedback(session),
-    };
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(run.puzzleStats ?? {}),
-        [session.puzzleId]: score,
-      },
-      score: proceduralScoring.addToSummary(run.score, score),
-    });
+    const score = buildCodingMinigameScore(session, run, existing, elapsedMs, codingMinigameFeedback(session));
+    saveSystem.updateProceduralRun(buildScoreRunUpdate(run, score));
     return score;
-  }
-
-  private codingMinigameMethodText(prompt: CodingMinigamePrompt): string {
-    if (prompt.type === "sequence-builder") {
-      return "Metodo: leggi obiettivo e stato attuale; scegli solo il blocco che avvicina al risultato senza effetti collaterali.";
-    }
-    if (prompt.type === "state-tracer") {
-      return "Metodo: usa una tabella mentale. Ogni assegnazione cambia il valore a sinistra dell'uguale.";
-    }
-    if (prompt.type === "binary-bits") {
-      return "Metodo: ogni bit da destra vale 1, 2, 4, 8, 16...; somma le potenze di 2 dove c'è un 1.";
-    }
-    if (prompt.type === "logic-gate") {
-      return "Metodo: valuta una porta alla volta. AND vuole tutti veri, OR almeno uno vero, NOT inverte.";
-    }
-    if (prompt.type === "loop-output") {
-      return "Metodo: esegui il ciclo a mano e scrivi il valore della variabile dopo ogni iterazione.";
-    }
-    if (prompt.type === "conditional-path") {
-      return "Metodo: valuta le condizioni in ordine; si esegue il primo ramo che risulta vero.";
-    }
-    if (prompt.type === "algorithm-order") {
-      return "Metodo: parti dall'obiettivo, scegli il primo passo necessario, poi concatena i passi in ordine.";
-    }
-    return "Metodo: calcola cosa dovrebbe succedere, poi trova la prima riga che rompe la regola.";
   }
 
   private openCoding(): void {
@@ -5515,7 +4518,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(336, 72, `Tipo: ${this.codingChallengeLabel(puzzle.challengeType)}`, {
+    overlay.add(this.add.text(336, 72, `Tipo: ${codingChallengeLabel(puzzle.challengeType)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#f7d37a",
@@ -5632,7 +4635,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 238, useAdvancedWrap: true },
       lineSpacing: 2,
     }));
-    overlay.add(new Button(this, footerPanel.x + footerPanel.w - 110, footerPanel.y + 62, this.hintButtonLabel(puzzle, "Indizio"), () => {
+    overlay.add(new Button(this, footerPanel.x + footerPanel.w - 110, footerPanel.y + 62, hintButtonLabel(puzzle, this.activePuzzleHintsUsed(), "Indizio"), () => {
       this.useContextualHint(puzzle);
       this.openCoding();
     }, {
@@ -5658,7 +4661,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(356, 74, `Tipo: ${this.physicsExerciseLabel(puzzle.exerciseType)}`, {
+    overlay.add(this.add.text(356, 74, `Tipo: ${PhysicsConsole.exerciseLabel(puzzle.exerciseType)}`, {
       fontFamily: "Inter, Arial",
       fontSize: "13px",
       color: "#f7d37a",
@@ -5682,7 +4685,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: leftPanel.w - 40, useAdvancedWrap: true },
       lineSpacing: 4,
     }));
-    this.drawPhysicsVisual(overlay, puzzle, leftPanel.x + 24, leftPanel.y + 126, leftPanel.w - 48, 214);
+    PhysicsConsole.drawVisual(this, overlay, puzzle, leftPanel.x + 24, leftPanel.y + 126, leftPanel.w - 48, 214);
     overlay.add(this.add.text(leftPanel.x + 20, leftPanel.y + leftPanel.h - 42, puzzle.conceptTags.slice(0, 5).map((tag) => `#${tag}`).join("  "), {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
@@ -5771,7 +4774,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
         lineSpacing: 3,
       }));
     }
-    overlay.add(new Button(this, methodPanel.x + methodPanel.w - 100, methodPanel.y + 48, this.hintButtonLabel(puzzle, "Indizio"), () => {
+    overlay.add(new Button(this, methodPanel.x + methodPanel.w - 100, methodPanel.y + 48, hintButtonLabel(puzzle, this.activePuzzleHintsUsed(), "Indizio"), () => {
       this.useContextualHint(puzzle);
       this.openPhysics();
     }, {
@@ -5780,113 +4783,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
       fontSize: 13,
       fill: 0x263743,
     }));
-  }
-
-  private drawPhysicsVisual(
-    overlay: Phaser.GameObjects.Container,
-    puzzle: GeneratedPhysicsPuzzle,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
-    overlay.add(this.add.rectangle(x, y, width, height, 0x0b1f2b, 0.88).setOrigin(0).setStrokeStyle(1, 0x8fd3ff, 0.34));
-    overlay.add(this.add.text(x + 14, y + 12, puzzle.visual.title.toUpperCase(), {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#8fd3ff",
-      fontStyle: "bold",
-    }));
-    const g = this.add.graphics();
-    overlay.add(g);
-    const cx = x + width / 2;
-    const cy = y + height / 2 + 18;
-    g.lineStyle(2, 0x8fd3ff, 0.56);
-
-    if (puzzle.visual.kind === "motion-graph") {
-      const left = x + 54;
-      const bottom = y + height - 42;
-      g.lineBetween(left, bottom, x + width - 36, bottom);
-      g.lineBetween(left, bottom, left, y + 48);
-      const values = puzzle.visual.values ?? [0, 1, 2, 3, 4];
-      g.lineStyle(3, 0xf6c85f, 0.86);
-      values.forEach((value, index) => {
-        const px = left + index * ((width - 106) / Math.max(1, values.length - 1));
-        const py = bottom - Math.min(height - 100, value * 11);
-        g.fillStyle(0xf6c85f, 0.92);
-        g.fillCircle(px, py, 5);
-        if (index > 0) {
-          const prevValue = values[index - 1];
-          const prevX = left + (index - 1) * ((width - 106) / Math.max(1, values.length - 1));
-          const prevY = bottom - Math.min(height - 100, prevValue * 11);
-          g.lineBetween(prevX, prevY, px, py);
-        }
-      });
-    } else if (puzzle.visual.kind === "force-diagram") {
-      g.fillStyle(0x1b3d4e, 0.92);
-      g.fillRoundedRect(cx - 44, cy - 26, 88, 52, 6);
-      g.lineStyle(4, 0xf6c85f, 0.9);
-      g.lineBetween(cx, cy - 30, cx, cy - 82);
-      g.lineBetween(cx, cy + 30, cx, cy + 84);
-      g.fillTriangle(cx, cy - 88, cx - 8, cy - 72, cx + 8, cy - 72);
-      g.fillTriangle(cx, cy + 90, cx - 8, cy + 74, cx + 8, cy + 74);
-    } else if (puzzle.visual.kind === "energy-flow" || puzzle.visual.kind === "experiment-steps") {
-      puzzle.visual.labels.slice(0, 4).forEach((label, index, labels) => {
-        const px = x + 62 + index * ((width - 124) / Math.max(1, labels.length - 1));
-        g.fillStyle(index % 2 ? 0x153545 : 0x1f5a51, 0.9);
-        g.fillRoundedRect(px - 44, cy - 30, 88, 60, 8);
-        if (index < labels.length - 1) {
-          g.lineStyle(2, 0xf6c85f, 0.72);
-          g.lineBetween(px + 48, cy, px + ((width - 124) / Math.max(1, labels.length - 1)) - 48, cy);
-        }
-      });
-    } else if (puzzle.visual.kind === "wave") {
-      g.lineStyle(3, 0x8fd3ff, 0.9);
-      const startX = x + 42;
-      const midY = cy;
-      let prevX = startX;
-      let prevY = midY;
-      for (let step = 0; step <= 96; step += 1) {
-        const px = startX + step * ((width - 84) / 96);
-        const py = midY + Math.sin(step / 7) * 42;
-        if (step > 0) g.lineBetween(prevX, prevY, px, py);
-        prevX = px;
-        prevY = py;
-      }
-    } else if (puzzle.visual.kind === "ray") {
-      g.lineStyle(3, 0xf6c85f, 0.9);
-      g.lineBetween(x + 58, cy + 44, cx, cy);
-      g.lineBetween(cx, cy, x + width - 58, cy - 44);
-      g.lineStyle(2, 0x8fd3ff, 0.48);
-      g.lineBetween(cx, cy - 76, cx, cy + 76);
-      g.strokeCircle(cx, cy, 42);
-    } else {
-      const values = puzzle.visual.values ?? [1, 2, 3];
-      values.slice(0, 4).forEach((value, index) => {
-        const barH = Math.min(height - 92, Math.max(24, Number(value) * 18));
-        const px = x + 78 + index * 82;
-        g.fillStyle(index % 2 ? 0xf6c85f : 0x8fd3ff, 0.62);
-        g.fillRoundedRect(px, y + height - 42 - barH, 44, barH, 5);
-      });
-    }
-
-    puzzle.visual.labels.slice(0, 4).forEach((label, index) => {
-      overlay.add(this.add.text(x + 18 + index * 112, y + height - 24, label, {
-        fontFamily: "Inter, Arial",
-        fontSize: "10px",
-        color: index % 2 ? "#f7d37a" : "#d9eaf1",
-        wordWrap: { width: 104 },
-      }));
-    });
-    if (puzzle.visual.highlight) {
-      overlay.add(this.add.text(x + width - 154, y + 12, puzzle.visual.highlight, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#f7d37a",
-        fontStyle: "bold",
-        wordWrap: { width: 136 },
-      }));
-    }
   }
 
   private drawEnglishChallengePanel(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
@@ -5986,9 +4882,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const puzzle = session.current;
     const showCoach = this.shouldShowExerciseCoach("music");
     const overlay = this.createExerciseScreen("Osservatorio del Pentagramma");
-    MusicConsole.drawSessionHeader(this, overlay, puzzle, session);
-    MusicConsole.drawStaff(this, overlay, puzzle, 350, 328, showCoach);
-    MusicConsole.drawSupport(this, overlay, puzzle, session, showCoach, this.currentActiveHint());
     const signature = MusicConsole.puzzleSignature(puzzle);
     if (MusicConsole.isAuditoryPuzzle(puzzle) && session.lastAutoPreviewSignature !== signature) {
       session.lastAutoPreviewSignature = signature;
@@ -5998,71 +4891,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
         }
       });
     }
-    const timerText = this.add.text(922, 152, "", {
-      fontFamily: "Inter, Arial",
-      fontSize: "18px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }).setOrigin(0.5);
-    overlay.add(timerText);
-    this.startMusicSprintCountdown(puzzleId, timerText);
-
-    puzzle.choices.forEach((choice, index) => {
-      const x = 794 + (index % 2) * 244;
-      const y = 418 + Math.floor(index / 2) * 72;
-      overlay.add(new Button(this, x, y, choice.label, () => {
-        if (session.locked || session.summaryOpen) {
-          return;
-        }
-        if (MusicConsole.sprintExpired(session)) {
-          this.finishMusicSprint();
-          return;
-        }
-        this.answerMusicSprint(choice.isCorrect, choice.feedback, choice.label);
-      }, {
-        width: 218,
-        height: 60,
-        fontSize: ["note-hunt", "auditory-note"].includes(puzzle.challengeMode ?? "note-hunt") && puzzle.answerMode === "note-name" ? 22 : 14,
-        fill: 0x263743,
-        hoverFill: 0x23556a,
-      }));
+    MusicConsole.drawSprintScreen(this, overlay, puzzle, session, {
+      showCoach,
+      activeHint: this.currentActiveHint(),
+      hintLabel: hintButtonLabel(puzzle, this.activePuzzleHintsUsed(), "Indizio"),
+      onAnswer: (correct, feedback, selectedLabel) => this.answerMusicSprint(correct, feedback, selectedLabel),
+      onExpired: () => this.finishMusicSprint(),
+      onHint: () => {
+        this.useContextualHint(puzzle);
+        this.openMusic();
+      },
+      onStartCountdown: (timerText) => this.startMusicSprintCountdown(puzzleId, timerText),
     });
-
-    if (showCoach) {
-      this.addMethodStrip(overlay, 56, 586, 550, "Metodo", puzzle.methodSteps);
-    } else {
-      const visibleHint = this.currentActiveHint();
-      const compactStatus = visibleHint ? `Indizio attivo: ${visibleHint}` : session.feedback;
-      if (compactStatus) {
-        overlay.add(this.add.rectangle(331, 626, 550, 78, 0x07151d, 0.74).setStrokeStyle(1, 0xf7d37a, 0.18));
-        overlay.add(this.add.text(78, 600, compactStatus, {
-          fontFamily: "Inter, Arial",
-          fontSize: "12px",
-          color: visibleHint ? "#f7d37a" : "#d9eaf1",
-          wordWrap: { width: 500, useAdvancedWrap: true },
-          lineSpacing: 3,
-        }));
-      }
-    }
-    overlay.add(new Button(this, 778, 598, puzzle.audioPrompt?.replayLabel ?? "Ascolta sfida", () => MusicConsole.previewChallenge(puzzle), {
-      width: 220, height: 46, fontSize: 14, fill: 0x173b36,
-    }));
-    if ((puzzle.challengeMode === "interval-jump" || puzzle.challengeMode === "auditory-interval") && puzzle.secondaryNote) {
-      overlay.add(new Button(this, 778, 650, "Nota 1", () => MusicConsole.playNote(puzzle.noteName, puzzle.octave), {
-        width: 104, height: 38, fontSize: 12, fill: 0x263743,
-      }));
-      overlay.add(new Button(this, 894, 650, "Nota 2", () => MusicConsole.playNote(puzzle.secondaryNote!.noteName, puzzle.secondaryNote!.octave), {
-        width: 104, height: 38, fontSize: 12, fill: 0x263743,
-      }));
-    } else if (puzzle.challengeMode === "note-hunt" || puzzle.challengeMode === "scale-step") {
-      overlay.add(new Button(this, 778, 650, "Suona nota", () => MusicConsole.playNote(puzzle.noteName, puzzle.octave), {
-        width: 220, height: 38, fontSize: 12, fill: 0x263743,
-      }));
-    }
-    overlay.add(new Button(this, 1040, 598, this.hintButtonLabel(puzzle, "Indizio"), () => {
-      this.useContextualHint(puzzle);
-      this.openMusic();
-    }, { width: 240, height: 46, fontSize: 14, fill: 0x263743 }));
   }
 
   private ensureMusicSession(puzzleId: string): MusicTrainingSession {
@@ -6183,7 +5023,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const update = (): void => {
       const session = this.musicSession;
-      if (!text.active || !session || session.puzzleId !== puzzleId || session.summaryOpen) {
+      if (!text.active || !session || session.puzzleId !== puzzleId || session.summaryOpen || this.isSprintPaused()) {
         return;
       }
       const remaining = MusicConsole.sprintRemainingMs(session);
@@ -6226,89 +5066,43 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private showMusicSprintSummary(session: MusicTrainingSession): void {
     const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
-    const modal = this.add.container(0, 0).setDepth(1300);
     const passed = this.musicSprintPassed(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
     const title = passed ? "Sprint musicale completato" : "Sprint musicale da consolidare";
     const mode = proceduralRunRules.modeFor(this.run);
-    SceneChrome.modalInputBlocker(this, modal, overlay.x + modal.x, overlay.y + modal.y, 0x02070b, 0.64);
-    modal.add(this.add.rectangle(600, 334, 760, 356, 0x000000, 0.32));
-    modal.add(this.add.rectangle(600, 320, 760, 356, 0x07151d, 0.98)
-      .setStrokeStyle(2, passed ? 0x6be7d6 : 0xf7d37a, 0.76));
-    modal.add(this.add.text(250, 168, title, {
-      fontFamily: "Inter, Arial",
-      fontSize: "24px",
-      color: passed ? "#9ff5e9" : "#f7d37a",
-      fontStyle: "bold",
-    }));
-    modal.add(this.add.text(250, 216, [
-      `Risposte corrette: ${session.correct}`,
-      `Errori: ${session.wrong}`,
-      `Precisione: ${accuracy}%`,
-      `Serie migliore: ${session.bestStreak}`,
-      `Punti sprint: ${session.netScore}`,
-    ].join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "15px",
-      color: "#f5fbff",
-      lineSpacing: 7,
-    }));
-    modal.add(this.add.rectangle(560, 218, 390, 120, 0x102533, 0.78).setOrigin(0)
-      .setStrokeStyle(1, 0x6be7d6, 0.3));
-    modal.add(this.add.text(584, 240, MusicConsole.sprintFeedback(session), {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#d9eaf1",
-      wordWrap: { width: 340 },
-      lineSpacing: 5,
-    }));
-    modal.add(this.add.rectangle(250, 378, 700, 72, 0x0b1e2a, 0.82).setOrigin(0)
-      .setStrokeStyle(1, 0xf7d37a, 0.36));
-    modal.add(this.add.text(274, 394, (mode === "mission" || mode === "progressive")
-      ? passed
-        ? "La console musicale è stabile: il sistema accetta il riconoscimento rapido delle note."
-        : "In missione la console richiede una soglia minima: perderai una vita, ma potrai riprovare."
-      : "Calibrazione registrabile: il punteggio premia correttezza e serie, e penalizza gli errori casuali.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 650 },
-      lineSpacing: 4,
-    }));
-    modal.add(this.add.text(274, 456, this.runEnergySummary(), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-      wordWrap: { width: 650 },
-    }));
-    modal.add(new Button(this, 608, 506, (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua", () => {
-      modal.destroy(true);
-      if (!passed && (mode === "mission" || mode === "progressive")) {
-        this.loseMissionLife("sprint musicale sotto soglia: servono più riconoscimenti corretti nel tempo dato.");
-        return;
-      }
-      this.completeMusicSprint(session);
+    addSprintSummaryModal(this, overlay, {
+      title,
+      passed,
+      correct: session.correct,
+      wrong: session.wrong,
+      accuracy,
+      bestStreak: session.bestStreak,
+      netScore: session.netScore,
+      feedback: MusicConsole.sprintFeedback(session),
+      resolutionText: (mode === "mission" || mode === "progressive")
+        ? passed
+          ? "La console musicale è stabile: il sistema accetta il riconoscimento rapido delle note."
+          : "In missione la console richiede una soglia minima: perderai una vita, ma potrai riprovare."
+        : "Calibrazione registrabile: il punteggio premia correttezza e serie, e penalizza gli errori casuali.",
+      energyText: this.runEnergySummary(),
+      actionLabel: (mode === "mission" || mode === "progressive") && !passed ? "Ho capito" : "Registra e continua",
     }, {
-      width: 260,
-      height: 54,
-      fill: passed ? 0x173b36 : 0x263743,
-      stroke: passed ? 0x6be7d6 : 0xf7d37a,
-      fontSize: 16,
-    }));
-    overlay.add(modal);
+      onAction: (modal) => {
+        modal.destroy(true);
+        if (!passed && (mode === "mission" || mode === "progressive")) {
+          this.loseMissionLife("sprint musicale sotto soglia: servono più riconoscimenti corretti nel tempo dato.");
+          return;
+        }
+        this.completeMusicSprint(session);
+      },
+    });
   }
 
   private completeMusicSprint(session: MusicTrainingSession): void {
     if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
       return;
     }
-    const puzzleId = session.puzzleId;
-    if (session.wrong === 0 && session.correct > 0) {
-      saveSystem.recordMasteryAutonomy("musica");
-    }
     const score = this.finalizeMusicSprintScore(session);
-    saveSystem.markProceduralPuzzleSolved(puzzleId);
     const competencies = Array.from(new Set([
       "musica.pentagramma",
       "musica.letturaNote",
@@ -6316,67 +5110,31 @@ export class ProceduralMissionScene extends Phaser.Scene {
       "musica.chiaveBasso",
       ...session.current.competencies,
     ]));
-    competencyTracker.award(competencies, 8 + this.run.difficulty * 2 + Math.min(10, Math.floor(score.total / 35)));
-    this.run = saveSystem.data.proceduralRun ?? this.run;
-    audioManager.playOutcome("correct");
-    outcomeFeedback.play(this, "success", `+${score.total}`);
-    this.clearOverlay();
-    this.musicSession = undefined;
-    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id));
-    feedbackSystem.publish(
-      `Sprint musicale registrato: ${session.correct} corrette, ${session.wrong} errori, serie migliore ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
-      "success",
-    );
-    if (remaining.length === 0) {
-      this.certifyCompletedRun("Sprint finale completato: tutte le console richieste sono stabili.");
-      return;
-    }
-    if (this.isProgressiveMode()) {
-      this.runWhenActive(2200, () => this.scene.restart());
-      return;
-    }
-    this.runWhenActive(2200, () => this.scene.restart());
+    this.completeSprintMinigameOutcome({
+      session,
+      score,
+      competencies,
+      copy: {
+        summaryName: "Sprint musicale",
+        certification: "Sprint finale completato: tutte le console richieste sono stabili.",
+        bestStreakLabel: "serie migliore",
+      },
+      clearSession: () => {
+        this.musicSession = undefined;
+      },
+      restartDelayMs: 2200,
+      maxScoreBonus: 10,
+      scoreDivisor: 35,
+      masteryBranchId: "musica",
+    });
   }
 
   private finalizeMusicSprintScore(session: MusicTrainingSession): ProceduralPuzzleScore {
     const run = saveSystem.data.proceduralRun ?? this.run;
     const existing = run.puzzleStats?.[session.puzzleId];
-    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
-    const completedAt = new Date().toISOString();
     const elapsedMs = Math.max(1_000, Math.min(session.durationMs, MusicConsole.sprintElapsedMs(session)));
-    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
-    const basePoints = session.correct * (10 + run.difficulty);
-    const difficultyBonus = session.correct * run.difficulty * 2;
-    const speedBonus = Math.min(90, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 32));
-    const focusBonus = run.focus.includes("musica") || run.focus.some((item) => item.startsWith("musica."))
-      ? 20 + run.difficulty * 3
-      : 0;
-    const hintsUsed = existing?.hintsUsed ?? 0;
-    const supportPenalty = Math.min(140, session.wrong * (9 + run.difficulty) + hintsUsed * 6);
-    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
-    const score: ProceduralPuzzleScore = {
-      puzzleId: session.puzzleId,
-      domain: "musica",
-      startedAt,
-      completedAt,
-      elapsedMs,
-      hintsUsed,
-      attempts: session.wrong,
-      basePoints,
-      difficultyBonus,
-      speedBonus,
-      focusBonus,
-      supportPenalty,
-      total,
-      feedback: MusicConsole.sprintFeedback(session),
-    };
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(run.puzzleStats ?? {}),
-        [session.puzzleId]: score,
-      },
-      score: proceduralScoring.addToSummary(run.score, score),
-    });
+    const score = buildMusicSprintScore(session, run, existing, elapsedMs, MusicConsole.sprintFeedback(session));
+    saveSystem.updateProceduralRun(buildScoreRunUpdate(run, score));
     this.activePuzzleId = undefined;
     this.activePuzzleKind = undefined;
     this.activeChallenge = undefined;
@@ -6420,17 +5178,41 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: width - 96 },
       lineSpacing: 5,
     }));
+    const retryKind = this.activePuzzleKind;
+    const retryPuzzleId = this.activePuzzleId;
+    const canRetryVariant = !this.isTimedMissionMode() && !onTrainingContinue && Boolean(retryKind);
     modal.add(this.add.text(x + 30, y + 232, this.isTimedMissionMode()
       ? "Quando premi, l'errore verrà registrato e perderai una vita. I sistemi già completati restano validi."
       : onTrainingContinue
         ? "Quando premi, passi alla nota successiva della sequenza. La soluzione appena vista resta parte della calibrazione."
-        : "Quando premi, torni alla sala e puoi riprovare la prova con un nuovo timer.", {
+        : canRetryVariant
+          ? "Riprova subito con una variante (stesso concetto, dati nuovi) per fissare il metodo, oppure registra e prosegui."
+          : "Quando premi, torni alla sala e puoi riprovare la prova con un nuovo timer.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9aaab0",
       wordWrap: { width: 410 },
       lineSpacing: 3,
     }));
+    if (canRetryVariant && retryKind) {
+      // Retrieval practice: dopo aver letto la soluzione, applicarla subito a
+      // una variante fissa il metodo molto più del passare oltre.
+      modal.add(new Button(this, x + 158, y + height - 42, "🔁 Riprova con variante", () => {
+        modal.destroy(true);
+        this.timeoutSolutionOpen = false;
+        this.rotatePuzzleVariant(retryKind, retryPuzzleId);
+        this.discardActivePuzzleAttempt();
+        this.clearOverlay();
+        feedbackSystem.publish("Nuova variante pronta: stesso concetto, dati diversi. Applica il metodo appena letto.", "info");
+        this.runWhenActive(650, () => this.scene.restart({ autoOpenPuzzle: retryKind }));
+      }, {
+        width: 238,
+        height: 46,
+        fill: 0x1f4a44,
+        stroke: 0x6be7d6,
+        fontSize: 14,
+      }));
+    }
     modal.add(new Button(this, x + width - 126, y + height - 42, "Ho capito", () => {
       modal.destroy(true);
       this.timeoutSolutionOpen = false;
@@ -6473,8 +5255,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const { mapPanel, programPanel, objectivePanel, commandPanel } = RobotConsole.layout();
     RobotConsole.addPanels(this, overlay, { mapPanel, programPanel, objectivePanel, commandPanel });
     RobotConsole.addMapHeader(this, overlay, mapPanel, model, puzzle.cols, puzzle.rows);
-    RobotConsole.addMapLegend(this, overlay, mapPanel, this.facingLabel(puzzle.start.facing));
-    const grid = RobotConsole.addGrid(this, overlay, mapPanel, model, puzzle, (facing) => this.robotRotationFor(facing));
+    RobotConsole.addMapLegend(this, overlay, mapPanel, RobotConsole.facingLabel(puzzle.start.facing));
+    const grid = RobotConsole.addGrid(this, overlay, mapPanel, model, puzzle);
     this.robotOrigin = grid.origin;
     this.robotCellSize = grid.cellSize;
     this.robotSprite = grid.robotSprite;
@@ -6510,22 +5292,26 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const puzzle = this.currentRobotPuzzle();
     this.robotExecuting = true;
-    let state = { ...puzzle.start };
-    let hasKey = false;
-    const checkpoints = [...(puzzle.checkpoints ?? [])].sort((a, b) => a.order - b.order);
-    let checkpointIndex = 0;
-    const turn = (facing: GridFacing, direction: "L" | "R"): GridFacing => {
-      const order: GridFacing[] = ["N", "E", "S", "W"];
-      const offset = direction === "R" ? 1 : -1;
-      return order[(order.indexOf(facing) + offset + order.length) % order.length];
-    };
-
+    let state = initialRobotExecutionState(puzzle);
+    const checkpoints = sortedRobotCheckpoints(puzzle);
     const fail = (message: string, col = state.col, row = state.row): void => {
       this.robotExecuting = false;
       this.robotStatusText?.setColor("#f7d37a").setText(message);
-      this.flashRobotCell(col, row, 0xc94b55);
-      this.shakeRobot();
+      RobotConsole.flashCell(this, this.overlay, this.robotOrigin, this.robotCellSize, puzzle, col, row, 0xc94b55);
+      RobotConsole.shakeSprite(this, this.robotSprite);
+      audioManager.play("error");
       this.handleIncorrectAnswer(message);
+    };
+    const failureMessage = (failure: ReturnType<typeof robotProgramEndFailure>): string => {
+      const direct = robotFailureText(failure);
+      if (direct) return direct;
+      if (failure.kind === "wall") {
+        return mistakeAnalyzer.robotFailureMessage({ kind: "wall", commandIndex: failure.commandIndex }, this.robotCommands);
+      }
+      if (failure.kind === "premature-pickup") {
+        return mistakeAnalyzer.robotFailureMessage({ kind: "premature-pickup", commandIndex: failure.commandIndex }, this.robotCommands);
+      }
+      return mistakeAnalyzer.robotFailureMessage(failure.kind === "not-exited" ? { kind: "not-exited" } : { kind: "missing-key" }, this.robotCommands);
     };
 
     const runAt = (index: number): void => {
@@ -6533,69 +5319,50 @@ export class ProceduralMissionScene extends Phaser.Scene {
         return;
       }
       if (index >= this.robotCommands.length) {
-        if (checkpointIndex < checkpoints.length) {
-          fail(`Il programma si ferma prima del checkpoint ${checkpoints[checkpointIndex].label}: dividi la rotta in tappe e completa la prossima tappa.`);
-          return;
-        }
-        fail(hasKey ? mistakeAnalyzer.robotFailureMessage({ kind: "not-exited" }, this.robotCommands) : mistakeAnalyzer.robotFailureMessage({ kind: "missing-key" }, this.robotCommands));
+        const failure = robotProgramEndFailure(checkpoints, state);
+        fail(failureMessage(failure));
         return;
       }
       const command = this.robotCommands[index];
       this.robotStatusText?.setColor("#d9eaf1").setText(`Passo ${index + 1}: ${commandLabels[command]}`);
-      if (command === "TURN_LEFT") {
-        state.facing = turn(state.facing, "L");
+      const outcome = stepRobotCommand(puzzle, checkpoints, state, command, index);
+      if (outcome.kind === "failed") {
+        const failure = outcome.failure;
+        fail(failureMessage(failure), "col" in failure ? failure.col : state.col, "row" in failure ? failure.row : state.row);
+        return;
+      }
+      if (outcome.kind === "turned") {
+        state = outcome.state;
+        RobotConsole.setRobotFacing(this.robotSprite, state.facing);
         this.tweens.add({
           targets: this.robotSprite,
-          rotation: this.robotRotationFor(state.facing),
+          scale: { from: 1.08, to: 1 },
           duration: 180,
+          ease: "Sine.easeOut",
           onComplete: () => this.runWhenActive(90, () => runAt(index + 1)),
         });
         return;
-      } else if (command === "TURN_RIGHT") {
-        state.facing = turn(state.facing, "R");
-        this.tweens.add({
-          targets: this.robotSprite,
-          rotation: this.robotRotationFor(state.facing),
-          duration: 180,
-          onComplete: () => this.runWhenActive(90, () => runAt(index + 1)),
-        });
-        return;
-      } else if (command === "MOVE_FORWARD") {
-        const delta = { N: [0, -1], E: [1, 0], S: [0, 1], W: [-1, 0] }[state.facing];
-        const next = { col: state.col + delta[0], row: state.row + delta[1], facing: state.facing };
-        const blocked = next.col < 0 || next.row < 0 || next.col >= puzzle.cols || next.row >= puzzle.rows || puzzle.obstacles.some((cell) => cell.col === next.col && cell.row === next.row);
-        if (blocked) {
-          fail(mistakeAnalyzer.robotFailureMessage({ kind: "wall", commandIndex: index }, this.robotCommands), next.col, next.row);
-          return;
-        }
-        state = next;
-        const checkpoint = checkpoints[checkpointIndex];
-        if (checkpoint && state.col === checkpoint.col && state.row === checkpoint.row) {
-          checkpointIndex += 1;
-          this.flashRobotCell(state.col, state.row, 0x8a7cff);
-          this.robotStatusText?.setColor("#9ff5e9").setText(`Checkpoint ${checkpoint.label} validato. Prossimo sotto-obiettivo: ${checkpointIndex < checkpoints.length ? `checkpoint ${checkpoints[checkpointIndex].label}` : "chiave"}.`);
+      } else if (outcome.kind === "moved") {
+        state = outcome.state;
+        if (outcome.checkpoint) {
+          RobotConsole.flashCell(this, this.overlay, this.robotOrigin, this.robotCellSize, puzzle, state.col, state.row, 0x8a7cff);
+          this.robotStatusText?.setColor("#9ff5e9").setText(`Checkpoint ${outcome.checkpoint.label} validato. Prossimo sotto-obiettivo: ${outcome.nextCheckpoint ? `checkpoint ${outcome.nextCheckpoint.label}` : "chiave"}.`);
         }
         audioManager.play("footstep");
-        this.spawnRobotTrail();
+        if (this.overlay && this.robotSprite) {
+          RobotConsole.addTrail(this, this.overlay, this.robotSprite);
+        }
         this.tweens.add({
           targets: this.robotSprite,
-          x: this.robotCellX(state.col),
-          y: this.robotCellY(state.row),
+          x: RobotConsole.cellX(this.robotOrigin, this.robotCellSize, state.col),
+          y: RobotConsole.cellY(this.robotOrigin, this.robotCellSize, state.row),
           duration: 260,
           ease: "Sine.easeInOut",
           onComplete: () => this.runWhenActive(80, () => runAt(index + 1)),
         });
         return;
-      } else if (command === "PICK_UP") {
-        if (checkpointIndex < checkpoints.length) {
-          fail(`Hai provato a raccogliere prima di validare il checkpoint ${checkpoints[checkpointIndex].label}. Il programma deve rispettare l'ordine dei sotto-obiettivi.`, state.col, state.row);
-          return;
-        }
-        hasKey = state.col === puzzle.key.col && state.row === puzzle.key.row;
-        if (!hasKey) {
-          fail(mistakeAnalyzer.robotFailureMessage({ kind: "premature-pickup", commandIndex: index }, this.robotCommands));
-          return;
-        }
+      } else if (outcome.kind === "picked") {
+        state = outcome.state;
         audioManager.play("success");
         this.robotKeyMarker?.setAlpha(0.2).setScale(0.7);
         this.tweens.add({
@@ -6606,113 +5373,28 @@ export class ProceduralMissionScene extends Phaser.Scene {
           onComplete: () => this.runWhenActive(100, () => runAt(index + 1)),
         });
         return;
-      } else if (command === "EXIT") {
-        if (hasKey && checkpointIndex === checkpoints.length && state.col === puzzle.exit.col && state.row === puzzle.exit.row) {
-          this.robotStatusText?.setColor("#9ff5e9").setText("Percorso confermato: chiave recuperata e uscita raggiunta.");
-          this.flashRobotCell(state.col, state.row, 0x9ff5e9);
-          audioManager.play("success");
-          this.tweens.add({
-            targets: this.robotSprite,
-            scale: 1.35,
-            alpha: 0.25,
-            duration: 420,
-            yoyo: true,
-            onComplete: () => {
-              if (this.robotExecuting && this.overlay && this.robotSprite?.active) {
-                this.solvePuzzle(this.currentPuzzleId("robot"), puzzle.competencies);
-              }
-            },
-          });
-          return;
-        }
-        if (checkpointIndex < checkpoints.length) {
-          fail(`La porta robot rifiuta il programma: manca il checkpoint ${checkpoints[checkpointIndex].label}.`);
-          return;
-        }
-        fail(mistakeAnalyzer.robotFailureMessage(hasKey ? { kind: "not-exited" } : { kind: "missing-key" }, this.robotCommands));
+      } else if (outcome.kind === "exited") {
+        state = outcome.state;
+        this.robotStatusText?.setColor("#9ff5e9").setText("Percorso confermato: chiave recuperata e uscita raggiunta.");
+        RobotConsole.flashCell(this, this.overlay, this.robotOrigin, this.robotCellSize, puzzle, state.col, state.row, 0x9ff5e9);
+        audioManager.play("success");
+        this.tweens.add({
+          targets: this.robotSprite,
+          scale: 1.35,
+          alpha: 0.25,
+          duration: 420,
+          yoyo: true,
+          onComplete: () => {
+            if (this.robotExecuting && this.overlay && this.robotSprite?.active) {
+              this.solvePuzzle(this.currentPuzzleId("robot"), puzzle.competencies);
+            }
+          },
+        });
         return;
       }
     };
 
     runAt(0);
-  }
-
-  private spawnRobotTrail(): void {
-    if (settingsSystem.effectsReduced() || !this.robotSprite || !this.overlay) {
-      return;
-    }
-    const trail = this.add.image(this.robotSprite.x, this.robotSprite.y, "soft-glow")
-      .setTint(0x6be7d6)
-      .setAlpha(0.4)
-      .setScale(0.7);
-    this.overlay.add(trail);
-    this.tweens.add({
-      targets: trail,
-      alpha: 0,
-      scale: 0.3,
-      duration: 320,
-      ease: "Sine.easeOut",
-      onComplete: () => trail.destroy(),
-    });
-  }
-
-  private robotCellX(col: number): number {
-    return this.robotOrigin.x + col * this.robotCellSize;
-  }
-
-  private robotCellY(row: number): number {
-    return this.robotOrigin.y + row * this.robotCellSize;
-  }
-
-  private robotRotationFor(facing: GridFacing): number {
-    return {
-      N: 0,
-      E: Math.PI / 2,
-      S: Math.PI,
-      W: -Math.PI / 2,
-    }[facing];
-  }
-
-  private flashRobotCell(col: number, row: number, color: number): void {
-    const puzzle = this.currentRobotPuzzle();
-    const safeCol = Phaser.Math.Clamp(col, 0, puzzle.cols - 1);
-    const safeRow = Phaser.Math.Clamp(row, 0, puzzle.rows - 1);
-    const flash = this.add.rectangle(this.robotCellX(safeCol), this.robotCellY(safeRow), this.robotCellSize - 6, this.robotCellSize - 6, color, 0.32);
-    this.overlay?.add(flash);
-    this.tweens.add({
-      targets: flash,
-      alpha: 0,
-      scale: 1.2,
-      duration: 520,
-      onComplete: () => flash.destroy(),
-    });
-  }
-
-  private shakeRobot(): void {
-    if (!this.robotSprite) {
-      return;
-    }
-    const startX = this.robotSprite.x;
-    this.tweens.add({
-      targets: this.robotSprite,
-      x: { from: startX - 8, to: startX + 8 },
-      duration: 45,
-      yoyo: true,
-      repeat: 4,
-      onComplete: () => {
-        this.robotSprite?.setX(startX);
-      },
-    });
-    audioManager.play("error");
-  }
-
-  private facingLabel(facing: GridFacing): string {
-    return {
-      N: "punta verso nord",
-      E: "punta verso est",
-      S: "punta verso sud",
-      W: "punta verso ovest",
-    }[facing];
   }
 
   private openDoor(): void {
@@ -6721,7 +5403,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     const missing = this.requiredPuzzleIds().filter((id) => !this.isResolved(id));
     if (missing.length > 0) {
-      feedbackSystem.publish(`La porta resta in attesa: manca ancora ${missing.map((id) => this.puzzleLabel(id)).join(", ")}.`, "hint");
+      feedbackSystem.publish(doorMissingFeedback(missing.map(puzzleKindLabel)), "hint");
       audioManager.playOutcome("wrong");
       return;
     }
@@ -6746,10 +5428,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       markMissionExplored(chapterExploreMissionId);
       saveSystem.updateProceduralRun({ completedAt: new Date().toISOString() });
       this.run = saveSystem.data.proceduralRun ?? this.run;
-      feedbackSystem.publish(
-        `Fase Esplora completata: hai visto il metodo senza pressione. ${this.runEnergySummary()}. Ora la Prova del Capitolo è disponibile nella Storia.`,
-        "success",
-      );
+      feedbackSystem.publish(chapterExploreCompletionFeedback(this.runEnergySummary()), "success");
       this.runWhenActive(1500, () => this.scene.start("CampaignScene"));
       return;
     }
@@ -6765,10 +5444,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       this.run = saveSystem.data.proceduralRun ?? this.run;
       const recovered = noraCompanion.memories().find((memory) => memory.unlocked && !recoveredBefore.has(memory.id));
       noraPresence.storyMoment(this, "Il capitolo è salvo. Sento un ricordo avvicinarsi: non è più solo mio, Eli. Lo abbiamo riportato insieme.", "success", "NORA si ricompone");
-      feedbackSystem.publish(
-        `Sabotatore respinto! Hai disattivato ogni nodo prima che il tempo scadesse. ${this.runEnergySummary()}. Capitolo sbloccato!`,
-        "success",
-      );
+      feedbackSystem.publish(chapterTrialCompletionFeedback(this.runEnergySummary()), "success");
       this.runWhenActive(3600, () => {
         if (recovered) this.showMemoryRecovered(recovered, () => this.scene.start("CampaignScene"));
         else this.scene.start("CampaignScene");
@@ -6776,8 +5452,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const mode = proceduralRunRules.modeFor(this.run);
+    const completionCopy = standardCompletionCopy(mode, this.runEnergySummary(), this.run.score?.total ?? 0, this.run.ghost);
     audioManager.playOutcome("complete");
-    outcomeFeedback.play(this, "complete", mode === "training" ? "Calibrazione registrata" : "Missione completata");
+    outcomeFeedback.play(this, "complete", completionCopy.outcomeLabel);
     if (mode !== "training") {
       this.noraSay("victory");
       noraPresence.storyMoment(this, "La stanza respira di nuovo. Io tengo la luce accesa; tu hai letto il sistema fino in fondo.", "success", "Sistema stabilizzato");
@@ -6785,13 +5462,12 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     missionEngine.completeProceduralMission();
     this.run = saveSystem.data.proceduralRun ?? this.run;
-    feedbackSystem.publish(
-      mode === "training"
-        ? `Calibrazione completata. ${this.runEnergySummary()}. Il diario registra voto, miglior tempo e competenze del settore.`
-        : `Missione completata. ${this.runEnergySummary()}. Il diario registra seed, competenze, tempo e vite rimaste.`,
-      "success",
-    );
-    this.runWhenActive(mode === "training" ? 900 : 2600, () => this.scene.start("JournalScene"));
+    const ghost = this.run.ghost;
+    feedbackSystem.publish(completionCopy.feedback, "success");
+    if (ghost) {
+      noraPresence.speak(this, ghostNoraLine(this.run.score?.total ?? 0, ghost), "success", 4200);
+    }
+    this.runWhenActive(completionCopy.restartDelayMs, () => this.scene.start("JournalScene"));
   }
 
   /**
@@ -6939,38 +5615,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.overlay = overlay;
   }
 
-  /**
-   * The principle consolidated by completing a console — closes the
-   * "discovery → explanation" loop the pedagogy asks for, surfaced at the
-   * moment of success rather than only as a score.
-   */
-  private solvedPrinciple(kind: ProceduralPuzzleId): string {
-    const defaults: Record<ProceduralPuzzleId, string> = {
-      language: "il messaggio diventa eseguibile quando accordo e ordine delle parole dicono al sistema cosa fare.",
-      latin: "la forma latina si riconosce collegando desinenza, funzione e traduzione nel contesto.",
-      circuit: "il LED si accende solo se la corrente trova un percorso chiuso e il verso giusto.",
-      math: "il codice nasce rispettando l'ordine dei passaggi: ogni operazione trasforma il valore precedente.",
-      english: "la procedura sicura si estrae da condizioni, ordine e divieti, non traducendo tutto.",
-      robot: "la rotta migliore è la sequenza minima: osserva ostacoli e direzione prima di muovere.",
-      coding: "una sequenza corretta nasce leggendo l'effetto di ogni istruzione, un passo alla volta.",
-      music: "l'altezza di una nota si legge dalla sua posizione sul pentagramma, data la chiave.",
-      physics: "un fenomeno diventa prevedibile quando grandezze, unita, grafico e modello raccontano la stessa storia.",
-    };
-    return defaults[kind];
-  }
-
   private solvePuzzle(puzzleId: string, competencies: string[]): void {
     if (this.isRunInteractionLocked() || this.checkMissionTimeout()) {
       return;
     }
     const score = this.finalizePuzzleScore(puzzleId);
     saveSystem.markProceduralPuzzleSolved(puzzleId);
-    competencyTracker.award(competencies, 10 + this.run.difficulty * 2 + (score.focusBonus > 0 ? 4 : 0));
+    competencyTracker.award(competencies, puzzleCompetencyAward(this.run.difficulty, score.focusBonus));
     this.run = saveSystem.data.proceduralRun ?? this.run;
     audioManager.playOutcome("correct");
-    const cleanSolve = score.attempts <= 1 && score.hintsUsed === 0;
+    const cleanSolve = isCleanPuzzleSolve(score);
     const solvedNode = puzzleKindFromId(puzzleId);
-    const principle = this.solvedPrinciple(solvedNode);
+    const principle = solvedPrincipleForKind(solvedNode);
     this.playConsoleRestoredMoment(solvedNode);
     // Surface the learned principle prominently instead of only the score.
     outcomeFeedback.play(this, "success", `Principio: ${principle}`);
@@ -6980,10 +5636,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     }
     this.clearOverlay();
     const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
-    const nextLine = remaining.length > 0
-      ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.`
-      : "Percorso disciplinare completo: la porta finale è pronta.";
-    feedbackSystem.publish(`${this.dependencies.effectLine(solvedNode)} Hai consolidato: ${principle} +${score.total} punti (${formatDuration(score.elapsedMs)}). ${nextLine}`, "success");
+    feedbackSystem.publish(puzzleSolveFeedback(
+      this.dependencies.effectLine(solvedNode),
+      principle,
+      score.total,
+      formatDuration(score.elapsedMs),
+      remaining.map(puzzleKindLabel),
+    ), "success");
     if (remaining.length === 0) {
       this.certifyCompletedRun("Ultima console stabilizzata: il sistema completo e certificabile.");
       return;
@@ -7053,33 +5712,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.runMode() === "training") {
       return;
     }
-    const cleanCount = Object.values(this.run.puzzleStats ?? {}).filter(
-      (stat) => stat.attempts <= 1 && stat.hintsUsed === 0,
-    ).length;
-
-    const update: Partial<ProceduralRunSave> = {};
-    if (this.run.deadlineAt) {
-      const currentDeadline = new Date(this.run.deadlineAt).getTime();
-      update.deadlineAt = new Date(Math.max(Date.now(), currentDeadline) + 18_000).toISOString();
-    }
-    const maxLives = this.run.maxLives ?? proceduralRunRules.maxLives;
-    const lives = this.run.lives ?? maxLives;
-    const grantsLife = cleanCount === 3 && lives < maxLives;
-    if (grantsLife) {
-      update.lives = lives + 1;
-    }
-    if (Object.keys(update).length > 0) {
-      saveSystem.updateProceduralRun(update);
+    const reward = buildCleanSolveReward(this.run, proceduralRunRules.maxLives);
+    if (Object.keys(reward.update).length > 0) {
+      saveSystem.updateProceduralRun(reward.update);
       this.run = saveSystem.data.proceduralRun ?? this.run;
     }
     VisualKit.particleBurst(this, 640, 320, "circuit", "success");
-    noraChip.say(
-      this,
-      grantsLife
-        ? "Serie pulita! Tre diagnosi senza aiuti: ti restituisco una vita. Continua così."
-        : "Soluzione autonoma: ti recupero qualche secondo. Il metodo paga.",
-      "success",
-    );
+    noraChip.say(this, reward.message, "success");
   }
 
   private nextPendingProgressivePuzzleId(): string | undefined {
@@ -7102,14 +5741,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
         return;
       }
       this.refreshObjective();
-      feedbackSystem.publish(`Prossima console: ${this.puzzleLabel(nextPuzzleId)}. Rispondi con precisione: un errore costa una vita.`, "info");
+      feedbackSystem.publish(`Prossima console: ${puzzleKindLabel(nextPuzzleId)}. Rispondi con precisione: un errore costa una vita.`, "info");
       this.openPuzzleConsole(nextPuzzleId);
     });
-  }
-
-  private puzzleHintTexts(puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } }): string[] {
-    const ladder = puzzle.pedagogy?.hintLadder?.map((item) => item.text).filter(Boolean) ?? [];
-    return ladder.length > 0 ? ladder : puzzle.hints;
   }
 
   private activePuzzleHintsUsed(): number {
@@ -7122,21 +5756,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return this.activeHintPuzzleId === this.activePuzzleId ? this.activeHintText : undefined;
   }
 
-  private nextPedagogicHint(puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } }, fallback: string): string {
-    const hints = this.puzzleHintTexts(puzzle);
-    return hints[Math.min(this.activePuzzleHintsUsed(), hints.length - 1)] ?? fallback;
-  }
-
-  private hintButtonLabel(
-    puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } },
-    label: string,
-  ): string {
-    const total = this.puzzleHintTexts(puzzle).length;
-    const used = Math.min(this.activePuzzleHintsUsed(), total);
-    if (total === 0) return label;
-    return used >= total ? "Indizi esauriti" : `${label} ${used + 1}/${total}`;
-  }
-
   private shouldShowExerciseCoach(kind: ProceduralPuzzleId): boolean {
     const branchId = masterySystem.branchForPuzzleKind(kind);
     const branch = masterySystem.getBranches().find((item) => item.id === branchId);
@@ -7146,11 +5765,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private compactExerciseSubtitle(kind: ProceduralPuzzleId, learningSubtitle: string): string {
     if (this.shouldShowExerciseCoach(kind)) return learningSubtitle;
-    return `${this.puzzleLabel(kind)} · modalità pratica`;
+    return `${puzzleKindLabel(kind)} · modalità pratica`;
   }
 
   private useContextualHint(puzzle: { hints: string[]; pedagogy?: { hintLadder: Array<{ text: string }> } }): void {
-    const hints = this.puzzleHintTexts(puzzle);
+    const hints = puzzleHintTexts(puzzle);
     const used = this.activePuzzleHintsUsed();
     if (hints.length === 0 || used >= hints.length) {
       audioManager.playOutcome("hint");
@@ -7275,54 +5894,43 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (this.isRunInteractionLocked()) {
       return;
     }
-    const lives = this.run.lives ?? proceduralRunRules.maxLives;
-    const nextLives = Math.max(0, lives - 1);
     const failedKind = this.activePuzzleKind;
     const failedPuzzleId = this.activePuzzleId;
-    if (nextLives <= 0) {
-      if (this.isProgressiveMode()) {
-        this.missionFailureInProgress = true;
-        audioManager.playOutcome("wrong");
-        this.discardActivePuzzleAttempt();
-        this.clearOverlay();
-        saveSystem.updateProceduralRun({ lives: 0 });
-        this.run = saveSystem.data.proceduralRun ?? this.run;
-        this.completeProgressiveLevel(false, reason);
-        return;
-      }
+    const outcome = buildLifeLossOutcome({
+      run: this.run,
+      reason,
+      isProgressive: this.isProgressiveMode(),
+      isChapterTrial: this.isChapterTrial(),
+      maxLivesFallback: proceduralRunRules.maxLives,
+    });
+    if (outcome.kind === "mission-failed") {
       this.failMissionNow(reason);
+      return;
+    }
+    if (outcome.kind === "progressive-failed") {
+      this.missionFailureInProgress = true;
+      audioManager.playOutcome("wrong");
+      this.discardActivePuzzleAttempt();
+      this.clearOverlay();
+      saveSystem.updateProceduralRun(outcome.update);
+      this.run = saveSystem.data.proceduralRun ?? this.run;
+      this.completeProgressiveLevel(false, reason);
       return;
     }
 
     if (failedKind) {
       this.rotatePuzzleVariant(failedKind, failedPuzzleId);
     }
-    const trial = this.isChapterTrial();
-    const timePenaltyMs = 25_000;
     this.missionFailureInProgress = true;
     audioManager.playOutcome("wrong");
-    outcomeFeedback.play(this, "warning", trial ? "Il sabotatore avanza" : "Vita persa");
-    this.noraSay(trial ? "sabotage" : nextLives <= 1 ? "lowLife" : "lifeLost");
+    outcomeFeedback.play(this, "warning", outcome.outcomeLabel);
+    this.noraSay(outcome.noraCue);
     this.discardActivePuzzleAttempt();
     this.clearOverlay();
-
-    if (nextLives > 0) {
-      const update: Partial<ProceduralRunSave> = { lives: nextLives };
-      if (trial && this.run.deadlineAt) {
-        // A: a wrong answer in the duel doesn't restart the trial — it costs time
-        // (the saboteur gains ground). Failure only comes if the clock runs out.
-        update.deadlineAt = new Date(new Date(this.run.deadlineAt).getTime() - timePenaltyMs).toISOString();
-      }
-      saveSystem.updateProceduralRun(update);
-      this.run = saveSystem.data.proceduralRun ?? this.run;
-      feedbackSystem.publish(this.isProgressiveMode()
-        ? `Tentativo fallito: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. La scalata riapre automaticamente la prossima console non stabile.`
-        : trial
-          ? `Il sabotatore guadagna terreno (−${timePenaltyMs / 1000}s): ${reason} Ti restano ${nextLives} margini prima che vinca il round: una risposta pulita lo rallenta.`
-          : `Vita persa: ${reason} Restano ${nextLives}/${this.run.maxLives ?? proceduralRunRules.maxLives}. I sistemi già stabilizzati restano validi; scegli con attenzione la prossima console.`, "warning");
-      this.runWhenActive(2400, () => this.scene.restart());
-      return;
-    }
+    saveSystem.updateProceduralRun(outcome.update);
+    this.run = saveSystem.data.proceduralRun ?? this.run;
+    feedbackSystem.publish(outcome.feedback, "warning");
+    this.runWhenActive(outcome.restartDelayMs, () => this.scene.restart());
   }
 
   private rotatePuzzleVariant(kind: ProceduralPuzzleId, puzzleId?: string): void {
@@ -7370,13 +5978,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.noraSay("defeat");
     this.discardActivePuzzleAttempt();
     this.clearOverlay();
-    saveSystem.updateProceduralRun({
-      lives: 0,
-      failedAt: now,
-      pausedRemainingMs: undefined,
-    });
+    saveSystem.updateProceduralRun(buildMissionFailureUpdate(now));
     this.run = saveSystem.data.proceduralRun ?? this.run;
-    feedbackSystem.publish(`Missione fallita: ${reason} Non ci sono piu condizioni utili per proseguire: ricomincia dal menu con una nuova missione.`, "warning");
+    feedbackSystem.publish(missionFailureFeedback(reason), "warning");
     this.showMissionFailure(reason);
   }
 
@@ -7480,107 +6084,53 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const completedAt = new Date().toISOString();
     const required = this.requiredPuzzleIds();
     const solvedCount = required.filter((id) => this.isSolved(id)).length;
-    const elapsedMs = Math.max(1000, new Date(completedAt).getTime() - new Date(progressive.levelStartedAt).getTime());
-    const result: ProgressiveLevelResult = {
-      level: progressive.currentLevel,
-      completed: success,
-      solvedCount,
-      requiredCount: required.length,
-      elapsedMs,
-      score: this.run.score?.total ?? 0,
-      outcome: this.assessProgressiveOutcome(success, solvedCount, required.length),
-      completedAt,
-    };
-    if (success) this.unlockProgressiveTool(result.level);
-    const results = [...progressive.results.filter((item) => item.level !== result.level), result]
-      .sort((a, b) => a.level - b.level);
-    const unlockedLevel = success
-      ? Math.min(progressive.maxLevel, Math.max(progressive.unlockedLevel, result.level + 1)) as DifficultyLevel
-      : progressive.unlockedLevel;
+    const completion = buildProgressiveLevelCompletion(this.run, success, solvedCount, required.length, completedAt);
+    if (!completion) {
+      return;
+    }
+    if (success) this.unlockProgressiveTool(completion.result.level);
     saveSystem.updateProceduralRun({
       progressive: {
         ...progressive,
-        unlockedLevel,
-        results,
+        unlockedLevel: completion.unlockedLevel,
+        results: completion.results,
       },
       lives: this.run.lives,
     });
     this.run = saveSystem.data.proceduralRun ?? this.run;
-    const finalCompleted = success && result.level >= progressive.maxLevel;
-    if (finalCompleted) {
-      this.completeProgressiveRun(results);
+    if (completion.finalCompleted) {
+      this.completeProgressiveRun(completion.results);
     }
-    this.showProgressiveOutcome(result, reason, results, finalCompleted);
-    if (!finalCompleted) {
-      const resumeLevel = success
-        ? Math.min(progressive.maxLevel, result.level + 1) as DifficultyLevel
-        : result.level;
-      this.parkProgressiveLevel(resumeLevel, results);
+    this.showProgressiveOutcome(completion.result, reason, completion.results, completion.finalCompleted);
+    if (!completion.finalCompleted && completion.resumeLevel) {
+      this.parkProgressiveLevel(completion.resumeLevel, completion.results);
     }
   }
 
   private unlockProgressiveTool(level: DifficultyLevel): void {
-    const unlocks: Partial<Record<DifficultyLevel, { id: string; label: string }>> = {
-      1: { id: "nora-lens", label: "Lente causale: il primo indizio di ogni run è gratuito" },
-      3: { id: "nora-reserve", label: "Riserva rapida: gli impulsi NORA si caricano più velocemente" },
-      5: { id: "nora-shield", label: "Scudo rinforzato: una carica può recuperare due vite" },
-      8: { id: "nora-prismatic-core", label: "Nucleo prismatico: certificazione permanente della scalata" },
-    };
-    const unlock = unlocks[level];
+    const unlock = progressiveToolUnlockForLevel(level);
     if (!unlock || saveSystem.data.inventory.includes(unlock.id)) return;
     saveSystem.addInventoryItem(unlock.id);
     feedbackSystem.publish(`Nuovo strumento NORA sbloccato — ${unlock.label}.`, "success");
   }
 
-  private assessProgressiveOutcome(
-    success: boolean,
-    solvedCount: number,
-    requiredCount: number,
-  ): ProgressiveOutcomeTone {
-    const solvedRatio = requiredCount > 0 ? solvedCount / requiredCount : 0;
-    if (!success) {
-      if (solvedRatio <= 0.2) return "devastating-defeat";
-      if (solvedRatio < 0.7) return "defeat";
-      return "neutral";
-    }
-    const remainingRatio = this.run.timeLimitMs
-      ? Math.max(0, proceduralRunRules.remainingMs(this.run)) / this.run.timeLimitMs
-      : 0;
-    const attempts = Object.values(this.run.puzzleStats ?? {}).reduce((sum, score) => sum + score.attempts, 0);
-    const cleanRun = this.run.hintsUsed === 0 && attempts <= requiredCount + 1;
-    return remainingRatio >= 0.32 && cleanRun ? "grand-victory" : "light-victory";
-  }
-
   private completeProgressiveRun(results: ProgressiveLevelResult[]): void {
     const completedAt = new Date().toISOString();
-    const totalScore = results.reduce((sum, result) => sum + result.score, 0);
-    const totalElapsed = results.reduce((sum, result) => sum + result.elapsedMs, 0);
-    saveSystem.updateProceduralRun({
-      completedAt,
-      score: {
-        ...(this.run.score ?? { byPuzzle: {}, byDomain: {} }),
-        total: totalScore,
-      },
-    });
+    const completionUpdate = buildProgressiveRunCompletionUpdate(this.run, results, completedAt);
+    saveSystem.updateProceduralRun(completionUpdate);
     const completedRun = saveSystem.data.proceduralRun ?? {
       ...this.run,
       completedAt,
-      score: { ...(this.run.score ?? { byPuzzle: {}, byDomain: {} }), total: totalScore },
+      score: completionUpdate.score,
     };
     playerSystem.recordProceduralRun(completedRun);
     saveSystem.completeMission("mission-progressive-scalata");
-    saveSystem.addJournalEntry({
-      id: `progressive-summary-${completedRun.seed}`,
-      title: "Scalata progressiva completata",
-      lines: [
-        "Eli ha attraversato le otto stanze riconfigurabili: ogni settore ha intrecciato sistemi diversi con profondità crescente.",
-        `Punteggio totale: ${totalScore}. Tempo complessivo sulle profondità: ${formatDuration(totalElapsed)}.`,
-        `Profondità superate: ${results.filter((result) => result.completed).length}/8. Indizi usati nell'ultimo settore: ${completedRun.hintsUsed}.`,
-        "La porta del nucleo resta aperta: ora puoi ripetere la scalata per migliorare tempo, precisione e qualità delle decisioni.",
-      ],
-      badges: ["Scalatrice dell'Accademia", "Custode delle Discipline", "Stratega del Tempo"],
-      createdAt: completedAt,
-    });
+    saveSystem.addJournalEntry(buildProgressiveJournalEntry(
+      completedRun,
+      results,
+      completedAt,
+      formatDuration(progressiveTotalElapsedMs(results)),
+    ));
     this.run = saveSystem.data.proceduralRun ?? completedRun;
   }
 
@@ -7758,7 +6308,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
           ? "Porta del registro"
           : "Porta finale";
     const nextAction = nextPuzzleId
-      ? `Apri ${this.puzzleLabel(nextPuzzleId)} nella zona d'azione.`
+      ? `Apri ${puzzleKindLabel(nextPuzzleId)} nella zona d'azione.`
       : mode === "progressive"
         ? "Apri la porta e collega i passaggi nell'ordine corretto."
         : mode === "training"
@@ -7838,20 +6388,6 @@ export class ProceduralMissionScene extends Phaser.Scene {
     return proceduralRequiredPuzzleIds(this.run.mission.objectives);
   }
 
-  private puzzleLabel(id: string): string {
-    return {
-      language: "italiano",
-      latin: "latino",
-      circuit: "circuiti",
-      math: "matematica",
-      english: "inglese",
-      robot: "coding",
-      coding: "coding",
-      music: "musica",
-      physics: "fisica",
-    }[puzzleKindFromId(id)];
-  }
-
   private findFocusChallenge(id: string): GeneratedFocusChallenge | undefined {
     return this.run.mission.focusChallenges?.find((challenge) => challenge.id === id);
   }
@@ -7910,8 +6446,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const session = this.ensureCircuitMinigameSession(puzzleId, puzzle, puzzle.minigame);
     const showCoach = this.shouldShowExerciseCoach("circuit");
     const overlay = this.createMathOverlay(puzzle.minigame.title, this.compactExerciseSubtitle("circuit", "Elettronica · leggi lo schema, scegli la risposta, conferma"));
-    const prompt = this.currentCircuitMinigamePrompt(session);
-    const remaining = this.circuitMinigameRemainingMs(session);
+    const prompt = currentCircuitMinigamePrompt(session);
+    const remaining = circuitMinigameRemainingMs(session);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
 
     this.circuitMinigameTimerText = CircuitConsole.addMinigamePrompt(this, overlay, prompt, {
@@ -7940,53 +6476,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.refreshCircuitMinigameTimer();
   }
 
-  /**
-   * "Collega e si accende": on confirm, the circuit is energised and the student
-   * SEES the real behaviour — current flows to the first break, then the LED
-   * lights (success), flashes and burns (no resistor), or the path sparks where
-   * it is interrupted. Turns a prediction MCQ into a felt cause→effect.
-   */
-  private energizeCircuitMinigame(visual: Extract<CircuitMinigameVisual, { kind: "led-circuit" }>): void {
-    const overlay = this.overlay;
-    if (!overlay) return;
-    const y = 296;
-    const xLed = 402;
-    const reachesLed = visual.switchClosed && !visual.hasOpen && visual.ledForward;
-    const stopX = !visual.switchClosed ? 212 : visual.hasOpen ? 465 : !visual.ledForward ? xLed : 542;
-    const reduced = settingsSystem.effectsReduced();
-    const live = this.add.graphics();
-    live.lineStyle(5, 0x6be7d6, 0.95);
-    live.lineBetween(78, y, Math.max(78, stopX), y);
-    overlay.add(live);
-    this.tweens.add({ targets: live, alpha: { from: 0.25, to: 0.95 }, duration: 240, yoyo: true, repeat: reduced ? 0 : 2 });
-    if (!reduced) {
-      const pulse = this.add.circle(116, y, 6, 0x9ff5e9, 1);
-      overlay.add(pulse);
-      this.tweens.add({ targets: pulse, x: stopX, duration: 640, ease: "Sine.easeIn", onComplete: () => pulse.destroy() });
-    }
-    this.time.delayedCall(reduced ? 0 : 640, () => {
-      if (!this.overlay) return;
-      if (reachesLed && visual.lit) {
-        const glow = this.add.circle(xLed, y, 10, 0x9ff5a7, 0.9);
-        this.overlay.add(glow);
-        this.tweens.add({ targets: glow, scale: 3.2, alpha: { from: 0.9, to: 0 }, duration: 720, ease: "Sine.easeOut", onComplete: () => glow.destroy() });
-        VisualKit.particleBurst(this, xLed, y, "circuit", "success");
-      } else if (reachesLed && !visual.hasResistor) {
-        const burn = this.add.circle(xLed, y, 10, 0xff8f6b, 0.95);
-        this.overlay.add(burn);
-        this.tweens.add({ targets: burn, scale: 3.6, alpha: { from: 0.95, to: 0 }, duration: 520, ease: "Cubic.easeOut", onComplete: () => burn.destroy() });
-      } else {
-        const spark = this.add.circle(stopX, y, 8, 0xff6b6b, 0.95);
-        this.overlay.add(spark);
-        this.tweens.add({ targets: spark, scale: 2.2, alpha: { from: 0.95, to: 0 }, duration: 440, onComplete: () => spark.destroy() });
-      }
-    });
-  }
-
   private ensureCircuitMinigameSession(
     puzzleId: string,
     puzzle: GeneratedCircuitPuzzle,
-    game: GeneratedCircuitMinigame,
+    game: NonNullable<GeneratedCircuitPuzzle["minigame"]>,
   ): CircuitMinigameSession {
     if (this.circuitMinigameSession?.puzzleId === puzzleId && !this.circuitMinigameSession.summaryOpen) {
       return this.circuitMinigameSession;
@@ -7996,45 +6489,16 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const fresh = new CircuitFaultGenerator().generateMinigame(random, difficultyModel.getPreset(this.run.difficulty), [game.type]).minigame;
     const freshPrompts = fresh?.prompts?.length ? fresh.prompts : game.prompts;
     const variedGame = { ...game, prompts: random.shuffle(freshPrompts).map((prompt) => ({ ...prompt, tiles: random.shuffle(prompt.tiles) })) };
-    this.circuitMinigameSession = {
-      puzzleId,
-      puzzle,
-      game: variedGame,
-      startedAt: 0,
-      durationMs: game.durationMs,
-      promptIndex: 0,
-      answered: 0,
-      correct: 0,
-      wrong: 0,
-      streak: 0,
-      bestStreak: 0,
-      netScore: 0,
-      selectedIds: new Set<string>(),
-      feedback: "Leggi lo schema: componente, percorso, polarità o valori. Poi conferma una risposta.",
-      locked: false,
-      summaryOpen: false,
-    };
+    this.circuitMinigameSession = createCircuitMinigameSession(puzzleId, puzzle, variedGame, game.durationMs);
     return this.circuitMinigameSession;
-  }
-
-  private currentCircuitMinigamePrompt(session: CircuitMinigameSession): CircuitMinigamePrompt {
-    return session.game.prompts[session.promptIndex % session.game.prompts.length];
-  }
-
-  private circuitMinigameElapsedMs(session: CircuitMinigameSession): number {
-    return Date.now() - session.startedAt;
-  }
-
-  private circuitMinigameRemainingMs(session: CircuitMinigameSession): number {
-    return Math.max(0, session.durationMs - this.circuitMinigameElapsedMs(session));
   }
 
   private refreshCircuitMinigameTimer(): void {
     const session = this.circuitMinigameSession;
-    if (!session || session.summaryOpen) {
+    if (!session || session.summaryOpen || this.isSprintPaused()) {
       return;
     }
-    const remaining = this.circuitMinigameRemainingMs(session);
+    const remaining = circuitMinigameRemainingMs(session);
     this.circuitMinigameTimerText?.setText(`Tempo: ${formatDuration(remaining)}`);
     this.circuitMinigameTimerText?.setColor(remaining <= 10_000 ? "#ff8f8f" : "#f7d37a");
     if (remaining <= 0) {
@@ -8058,14 +6522,8 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!session || session.locked || session.summaryOpen) {
       return;
     }
-    const prompt = this.currentCircuitMinigamePrompt(session);
-    const hint = prompt.type === "component-id"
-      ? "Collega il nome alla funzione: cosa fa quel componente nel circuito?"
-      : prompt.type === "predict-led"
-        ? "Il LED si accende solo se: interruttore chiuso, percorso continuo, polarità giusta e resistenza che protegge."
-        : prompt.type === "ohms-law"
-          ? "Scrivi V = R × I e isola la grandezza richiesta prima di calcolare."
-          : "In serie le resistenze si sommano; in parallelo la resistenza totale scende.";
+    const prompt = currentCircuitMinigamePrompt(session);
+    const hint = circuitMinigameHint(prompt);
     session.feedback = hint;
     this.useHint(hint);
     this.openCircuitMinigame(session.puzzle);
@@ -8076,11 +6534,11 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!session || session.locked || session.summaryOpen) {
       return;
     }
-    if (this.circuitMinigameRemainingMs(session) <= 0) {
+    if (circuitMinigameRemainingMs(session) <= 0) {
       this.finishCircuitMinigame();
       return;
     }
-    const prompt = this.currentCircuitMinigamePrompt(session);
+    const prompt = currentCircuitMinigamePrompt(session);
     if (session.selectedIds.size === 0) {
       session.feedback = "Prima seleziona una risposta. Il timer continua.";
       audioManager.playOutcome("hint");
@@ -8090,8 +6548,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     const selected = prompt.tiles.find((tile) => tile.id === [...session.selectedIds][0]);
     // "Collega e si accende": energise the circuit so the student sees the real
     // behaviour (this also redraws the LED in its true lit state).
-    if (prompt.visual?.kind === "led-circuit") {
-      this.energizeCircuitMinigame(prompt.visual);
+    if (prompt.visual?.kind === "led-circuit" && this.overlay) {
+      const overlay = this.overlay;
+      CircuitConsole.energizeMinigameCircuit(this, overlay, prompt.visual, () => this.overlay === overlay);
     }
     if (!selected?.isCorrect) {
       if (this.isTimedMissionMode()) {
@@ -8128,7 +6587,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     session.correct += 1;
     session.streak += 1;
     session.bestStreak = Math.max(session.bestStreak, session.streak);
-    const award = 10 + this.run.difficulty * 2 + Math.min(12, session.streak * 2);
+    const award = circuitMinigameCorrectAward(session, this.run.difficulty);
     session.netScore += award;
     session.feedback = `Corretto: ${prompt.explanation} +${award}`;
     session.locked = true;
@@ -8149,13 +6608,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       if (this.circuitMinigameSession !== session || session.summaryOpen) {
         return;
       }
-      if (this.circuitMinigameRemainingMs(session) <= 0) {
+      if (circuitMinigameRemainingMs(session) <= 0) {
         this.finishCircuitMinigame();
         return;
       }
-      const previous = this.currentCircuitMinigamePrompt(session).signature;
+      const previous = currentCircuitMinigamePrompt(session).signature;
       session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
-      if (this.currentCircuitMinigamePrompt(session).signature === previous) {
+      if (currentCircuitMinigamePrompt(session).signature === previous) {
         session.promptIndex = (session.promptIndex + 1) % session.game.prompts.length;
       }
       session.selectedIds.clear();
@@ -8177,35 +6636,9 @@ export class ProceduralMissionScene extends Phaser.Scene {
     this.showCircuitMinigameSummary(session);
   }
 
-  private circuitMinigamePassed(session: CircuitMinigameSession): boolean {
-    if (!this.isTimedMissionMode()) {
-      return true;
-    }
-    const minCorrect = Math.max(5, Math.min(12, 4 + Math.ceil(this.run.difficulty * 0.75)));
-    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
-    return session.correct >= minCorrect && accuracy >= 0.62 && session.netScore > 0;
-  }
-
-  private circuitMinigameFeedback(session: CircuitMinigameSession): string {
-    if (session.answered === 0) {
-      return "Nessuna risposta: leggi lo schema e decidi su componente, percorso o valori.";
-    }
-    const accuracy = session.correct / session.answered;
-    if (accuracy >= 0.9 && session.bestStreak >= 8) {
-      return "Ottimo: riconosci componenti, prevedi il LED e applichi la legge di Ohm con sicurezza.";
-    }
-    if (accuracy >= 0.72) {
-      return "Buon lavoro: ora consolida la legge di Ohm e i collegamenti serie/parallelo.";
-    }
-    if (session.wrong >= session.correct) {
-      return "Troppi tentativi: rallenta, leggi lo schema e ragiona su percorso e polarità.";
-    }
-    return "Calibrazione utile: punta a serie pulite e risposte spiegabili.";
-  }
-
   private showCircuitMinigameSummary(session: CircuitMinigameSession): void {
     const overlay = this.overlay ?? this.add.container(0, 0).setDepth(1200);
-    const passed = this.circuitMinigamePassed(session);
+    const passed = circuitMinigamePassed(session, this.isTimedMissionMode(), this.run.difficulty);
     const accuracy = session.answered > 0 ? Math.round((session.correct / session.answered) * 100) : 0;
     const mode = proceduralRunRules.modeFor(this.run);
     CircuitConsole.addMinigameSummary(this, overlay, {
@@ -8215,7 +6648,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       accuracy,
       bestStreak: session.bestStreak,
       netScore: session.netScore,
-      feedback: this.circuitMinigameFeedback(session),
+      feedback: circuitMinigameFeedback(session),
       resolutionText: (mode === "mission" || mode === "progressive")
         ? passed
           ? "La console elettronica certifica le tue risposte: componenti, percorso e valori sono coerenti."
@@ -8240,67 +6673,26 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     const score = this.finalizeCircuitMinigameScore(session);
-    if (session.wrong === 0 && session.correct > 0) {
-      saveSystem.recordMasteryAutonomy(masterySystem.branchForPuzzleKind(puzzleKindFromId(session.puzzleId)));
-    }
-    saveSystem.markProceduralPuzzleSolved(session.puzzleId);
-    competencyTracker.award(session.game.competencies, 8 + this.run.difficulty * 2 + Math.min(12, Math.floor(score.total / 32)));
-    this.run = saveSystem.data.proceduralRun ?? this.run;
-    audioManager.playOutcome("correct");
-    outcomeFeedback.play(this, "success", `+${score.total}`);
-    this.clearOverlay();
-    this.circuitMinigameSession = undefined;
-    const solvedNode = puzzleKindFromId(session.puzzleId);
-    const remaining = this.requiredPuzzleIds().filter((id) => !this.isResolved(id) && id !== solvedNode);
-    feedbackSystem.publish(
-      `Sprint circuiti registrato: ${session.correct} corrette, ${session.wrong} errori, serie ${session.bestStreak}. +${score.total} punti. ${this.runEnergySummary()}. ${remaining.length > 0 ? `Restano: ${remaining.map((id) => this.puzzleLabel(id)).join(", ")}.` : "La porta finale è pronta."}`,
-      "success",
-    );
-    if (remaining.length === 0) {
-      this.certifyCompletedRun("Console elettronica stabilizzata: il sistema completo è certificabile.");
-      return;
-    }
-    this.runWhenActive(1750, () => this.scene.restart());
+    this.completeSprintMinigameOutcome({
+      session,
+      score,
+      competencies: session.game.competencies,
+      copy: {
+        summaryName: "Sprint circuiti",
+        certification: "Console elettronica stabilizzata: il sistema completo è certificabile.",
+      },
+      clearSession: () => {
+        this.circuitMinigameSession = undefined;
+      },
+      restartDelayMs: 1750,
+    });
   }
 
   private finalizeCircuitMinigameScore(session: CircuitMinigameSession): ProceduralPuzzleScore {
     const run = saveSystem.data.proceduralRun ?? this.run;
     const existing = run.puzzleStats?.[session.puzzleId];
-    const startedAt = existing?.startedAt ?? new Date(session.startedAt).toISOString();
-    const completedAt = new Date().toISOString();
-    const elapsedMs = Math.max(1_000, Math.min(session.durationMs, this.circuitMinigameElapsedMs(session)));
-    const accuracy = session.answered > 0 ? session.correct / session.answered : 0;
-    const basePoints = session.correct * (10 + run.difficulty);
-    const difficultyBonus = session.correct * run.difficulty * 2;
-    const speedBonus = Math.min(100, session.bestStreak * 6 + session.answered * 2 + Math.round(accuracy * 36));
-    const focusBonus = run.focus.includes("elettronica") || run.focus.some((item) => item.startsWith("elettronica."))
-      ? 20 + run.difficulty * 3
-      : 0;
-    const supportPenalty = (existing?.hintsUsed ?? 0) * 6 + session.wrong * (8 + run.difficulty);
-    const total = Math.max(0, basePoints + difficultyBonus + speedBonus + focusBonus - supportPenalty);
-    const score: ProceduralPuzzleScore = {
-      puzzleId: session.puzzleId,
-      domain: proceduralScoring.puzzleDomain(session.puzzleId),
-      startedAt,
-      completedAt,
-      elapsedMs,
-      hintsUsed: existing?.hintsUsed ?? 0,
-      attempts: Math.max(1, existing?.attempts ?? 1),
-      basePoints,
-      difficultyBonus,
-      speedBonus,
-      focusBonus,
-      supportPenalty,
-      total,
-      feedback: this.circuitMinigameFeedback(session),
-    };
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(run.puzzleStats ?? {}),
-        [session.puzzleId]: score,
-      },
-      score: proceduralScoring.addToSummary(run.score, score),
-    });
+    const score = buildCircuitMinigameScore(session, run, existing);
+    saveSystem.updateProceduralRun(buildScoreRunUpdate(run, score));
     return score;
   }
 
@@ -8325,6 +6717,24 @@ export class ProceduralMissionScene extends Phaser.Scene {
       difficultyModel.getPreset(this.run.difficulty),
     );
     return exerciseDirector.enrichMath(generated, this.run.difficulty);
+  }
+
+  /**
+   * Come currentMathPuzzle, ma se è aperto un minigioco a rotazione i cui prompt
+   * cambiano concetto (frazioni → percentuali → decimali…), sovrascrive i
+   * curriculumTags con il concetto del PROMPT corrente. Così la teoria (intro e
+   * pulsante "Teoria NORA") corrisponde all'esercizio che lo studente ha davanti.
+   */
+  private mathPuzzleForTheory(): GeneratedMathPuzzle {
+    const base = this.currentMathPuzzle();
+    const session = this.mathMinigameSession;
+    if (session && this.activePuzzleKind === "math" && !session.summaryOpen) {
+      const concept = this.currentMathMinigamePrompt(session).concept;
+      if (concept) {
+        return { ...base, curriculumTags: [concept, ...(base.curriculumTags ?? [])] };
+      }
+    }
+    return base;
   }
 
   private currentEnglishPuzzle(): GeneratedEnglishPuzzle {
@@ -8444,27 +6854,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (current?.startedAt) {
       return;
     }
-    const startedAt = new Date().toISOString();
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(run.puzzleStats ?? {}),
-        [puzzleId]: {
-          puzzleId,
-          domain: proceduralScoring.puzzleDomain(puzzleId),
-          startedAt,
-          elapsedMs: 0,
-          hintsUsed: 0,
-          attempts: 0,
-          basePoints: 0,
-          difficultyBonus: 0,
-          speedBonus: 0,
-          focusBonus: 0,
-          supportPenalty: 0,
-          total: 0,
-          feedback: "Timer avviato.",
-        },
-      },
-    });
+    saveSystem.updateProceduralRun(buildPuzzleTimerStartUpdate(run, puzzleId));
     this.run = saveSystem.data.proceduralRun ?? this.run;
   }
 
@@ -8483,15 +6873,10 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!stats) {
       return;
     }
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(refreshed.puzzleStats ?? {}),
-        [puzzleId]: {
-          ...stats,
-          hintsUsed: stats.hintsUsed + 1,
-        },
-      },
-    });
+    const update = buildPuzzleStatPatchUpdate(refreshed, puzzleId, { hintsUsed: stats.hintsUsed + 1 });
+    if (update) {
+      saveSystem.updateProceduralRun(update);
+    }
   }
 
   private recordPuzzleMistake(): void {
@@ -8509,39 +6894,18 @@ export class ProceduralMissionScene extends Phaser.Scene {
     if (!stats) {
       return;
     }
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(refreshed.puzzleStats ?? {}),
-        [puzzleId]: {
-          ...stats,
-          attempts: stats.attempts + 1,
-        },
-      },
-    });
+    const update = buildPuzzleStatPatchUpdate(refreshed, puzzleId, { attempts: stats.attempts + 1 });
+    if (update) {
+      saveSystem.updateProceduralRun(update);
+    }
     this.run = saveSystem.data.proceduralRun ?? this.run;
   }
 
   private finalizePuzzleScore(puzzleId: string) {
     const run = saveSystem.data.proceduralRun ?? this.run;
-    const startedAt = run.puzzleStats?.[puzzleId]?.startedAt ?? new Date().toISOString();
     const existing = run.puzzleStats?.[puzzleId];
-    const completedAt = new Date().toISOString();
-    const score = proceduralScoring.calculate({
-      puzzleId,
-      difficulty: run.difficulty,
-      focus: run.focus,
-      startedAt,
-      completedAt,
-      hintsUsed: existing?.hintsUsed ?? 0,
-      attempts: (existing?.attempts ?? 0) + 1,
-    });
-    saveSystem.updateProceduralRun({
-      puzzleStats: {
-        ...(run.puzzleStats ?? {}),
-        [puzzleId]: score,
-      },
-      score: proceduralScoring.addToSummary(run.score, score),
-    });
+    const score = buildStandardPuzzleScore(run, puzzleId, existing);
+    saveSystem.updateProceduralRun(buildScoreRunUpdate(run, score));
     this.activePuzzleId = undefined;
     this.activePuzzleKind = undefined;
     this.activeChallenge = undefined;
@@ -8551,190 +6915,26 @@ export class ProceduralMissionScene extends Phaser.Scene {
 
   private createExerciseScreen(title: string): Phaser.GameObjects.Container {
     this.clearOverlay();
-    const overlay = this.add.container(40, 0).setDepth(1200);
-    SceneChrome.modalInputBlocker(this, overlay, overlay.x, overlay.y);
-    const backgroundKey = this.exerciseBackgroundKey();
-    if (this.textures.exists(backgroundKey)) {
-      overlay.add(this.add.image(600, 360, backgroundKey).setDisplaySize(1320, 742).setAlpha(0.34));
-    }
-    overlay.add(this.add.rectangle(600, 360, 1280, 720, 0x02080d, 0.82));
-    const grid = this.add.graphics();
-    grid.lineStyle(1, 0x6be7d6, 0.045);
-    for (let x = -160; x < 1320; x += 72) {
-      grid.lineBetween(x, 0, x - 128, 720);
-    }
-    for (let y = 92; y < 720; y += 58) {
-      grid.lineBetween(-40, y, 1240, y + 10);
-    }
-    overlay.add(grid);
-    overlay.add(this.add.rectangle(600, 34, 1280, 68, 0x06131c, 0.92));
-    overlay.add(this.add.rectangle(600, 68, 1280, 2, 0x6be7d6, 0.42));
-    overlay.add(this.add.text(0, 14, title, {
-      fontFamily: "Inter, Arial",
-      fontSize: "28px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      wordWrap: { width: 1080, useAdvancedWrap: true },
-      shadow: { offsetX: 0, offsetY: 3, color: "#000000", blur: 6, fill: true },
-    }));
-    overlay.add(new Button(this, 1184, 34, "X", () => this.closeOverlayFromUser(), {
-      width: 56,
-      height: 42,
-      fontSize: 18,
-      fill: 0x263743,
-    }));
-    this.addNoraTheoryButton(overlay, 1066, 34);
+    const overlay = createExerciseScreenChrome(this, {
+      title,
+      backgroundKey: exerciseBackgroundKey(this.activePuzzleKind),
+      onClose: () => this.closeOverlayFromUser(),
+      addTheoryButton: (container) => this.addNoraTheoryButton(container, 1066, 34),
+    });
     this.overlay = overlay;
     return overlay;
   }
 
-  private exerciseBackgroundKey(): string {
-    const kind = this.activePuzzleKind ?? "coding";
-    return {
-      language: "mission-bg-italian",
-      latin: "mission-bg-italian",
-      circuit: "mission-bg-electronics",
-      math: "mission-bg-math",
-      english: "mission-bg-english",
-      robot: "mission-bg-coding",
-      coding: "mission-bg-coding",
-      music: "mission-bg-music",
-      physics: "mission-bg-synthesis",
-    }[kind];
-  }
-
-  private addEnglishBrief(overlay: Phaser.GameObjects.Container, puzzle: GeneratedEnglishPuzzle): void {
-    overlay.add(this.add.rectangle(400, 256, 704, 164, 0x07151d, 0.86).setStrokeStyle(1, 0x6be7d6, 0.24));
-    overlay.add(this.add.text(62, 184, "Sfida", {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#9ff5e9",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(62, 204, puzzle.taskPrompt ?? puzzle.commandGoal ?? "Trasforma l'istruzione inglese in una procedura sicura e non ambigua.", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#d9eaf1",
-      wordWrap: { width: 410 },
-      lineSpacing: 3,
-    }));
-    if (puzzle.sourceText) {
-      const sourceText = /^(log|broken log|source|fonte):/i.test(puzzle.sourceText)
-        ? puzzle.sourceText
-        : `Fonte: ${puzzle.sourceText}`;
-      overlay.add(this.add.text(62, 254, sourceText, {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#f5fbff",
-        wordWrap: { width: 410 },
-        lineSpacing: 3,
-      }));
-    }
-    overlay.add(this.add.text(62, 318, `Scopo: ${puzzle.learningPurpose ?? "Calibra inglese operativo dentro una decisione tecnica."}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "11px",
-      color: "#9aaab0",
-      wordWrap: { width: 642 },
-    }));
-    overlay.add(this.add.text(500, 184, (puzzle.conceptTags ?? ["action", "condition", "safety"]).slice(0, 3).map((tag) => `#${tag}`).join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      wordWrap: { width: 226 },
-      lineSpacing: 4,
-    }));
-    const dataPoints = (puzzle.dataPoints ?? []).slice(0, 3);
-    dataPoints.forEach((point, index) => {
-      const y = 232 + index * 30;
-      overlay.add(this.add.rectangle(610, y, 250, 24, 0x132835, 0.9).setStrokeStyle(1, 0x6be7d6, 0.25));
-      overlay.add(this.add.text(492, y - 8, `${point.label}: ${point.value}`, {
-        fontFamily: "Inter, Arial",
-        fontSize: "10px",
-        color: "#d9eaf1",
-        wordWrap: { width: 236 },
-      }));
-    });
-    const glossary = (puzzle.glossary ?? []).slice(0, 4);
-    if (glossary.length > 0 && dataPoints.length === 0) {
-      overlay.add(this.add.text(500, 244, glossary.map((item) => `${item.term}: ${item.meaning}`).join("\n"), {
-        fontFamily: "Inter, Arial",
-        fontSize: "11px",
-        color: "#d9eaf1",
-        wordWrap: { width: 238 },
-        lineSpacing: 2,
-      }));
-    }
-  }
-
-  private englishChallengeLabel(type: GeneratedEnglishPuzzle["challengeType"]): string {
-    return {
-      command: "Comando",
-      safety: "Sicurezza",
-      sequence: "Sequenza",
-      condition: "Condizione",
-      "data-reading": "Dati",
-      "procedure-debug": "Debug procedura",
-      "vocabulary-in-context": "Lessico in contesto",
-      "translation-recognition": "Traduzione lessicale",
-      inference: "Inferenza",
-    }[type ?? "command"];
-  }
-
-  private codingChallengeLabel(type: GeneratedCodingPuzzle["challengeType"]): string {
-    return {
-      "trace-output": "tracing output",
-      "variable-state": "stato variabili",
-      "loop-count": "ciclo",
-      "conditional-branch": "condizione",
-      "boolean-logic": "logica booleana",
-      "debug-line": "debug",
-    }[type];
-  }
-
-  private physicsExerciseLabel(type: GeneratedPhysicsPuzzle["exerciseType"]): string {
-    return {
-      "motion-graph": "grafico del moto",
-      "unit-check": "unita e misure",
-      "force-diagram": "diagramma forze",
-      "energy-transfer": "energia",
-      "experiment-order": "metodo sperimentale",
-      "density-pressure": "densita e pressione",
-      "heat-temperature": "calore e temperatura",
-      "wave-reading": "onde",
-      "optics-ray": "ottica geometrica",
-    }[type];
-  }
-
-  private addMethodStrip(overlay: Phaser.GameObjects.Container, x: number, y: number, width: number, title: string, steps: string[]): void {
-    overlay.add(this.add.rectangle(x, y, width, 52, 0x07151d, 0.82).setOrigin(0).setStrokeStyle(1, 0xf6c85f, 0.32));
-    overlay.add(this.add.text(x + 12, y + 8, title, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      fontStyle: "bold",
-    }));
-    overlay.add(this.add.text(x + 12, y + 27, steps.join("  ->  "), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: width - 24 },
-    }));
-  }
-
   private addNoraTheoryButton(overlay: Phaser.GameObjects.Container, x: number, y: number): void {
     const kind = this.activePuzzleKind;
-    if (!kind || !this.noraTheoryTopicFor(kind)) return;
-    overlay.add(new Button(this, x, y, "Teoria NORA", () => this.showNoraTheoryPanel(kind), {
-      width: 148,
-      height: 38,
-      fontSize: 12,
-      fill: 0x173b36,
-      stroke: 0xf6c85f,
-    }));
-  }
-
-  private noraTheoryTopicFor(kind: ProceduralPuzzleId): TheoryTopic | undefined {
-    return noraKnowledge.topicForPuzzle(kind, this.currentPuzzleForTheory(kind));
+    if (!kind) return;
+    addNoraTheoryButtonToOverlay(this, overlay, kind, this.currentPuzzleForTheory(kind), x, y, (topic) => {
+      // L'Atlante è una scena lazy: senza ensureScene lo start su chiave
+      // non registrata non parte e lascia lo schermo nero.
+      void startScene(this, "MathStudyScene", { pageId: topic.id }).catch(() => {
+        feedbackSystem.publish("Non riesco ad aprire l'Atlante in questo momento: riprova tra un istante.", "warning");
+      });
+    });
   }
 
   private currentPuzzleForTheory(kind: ProceduralPuzzleId):
@@ -8751,104 +6951,13 @@ export class ProceduralMissionScene extends Phaser.Scene {
       case "language": return this.currentLanguagePuzzle();
       case "latin": return this.currentLatinPuzzle();
       case "circuit": return this.currentCircuitPuzzle();
-      case "math": return this.currentMathPuzzle();
+      case "math": return this.mathPuzzleForTheory();
       case "english": return this.currentEnglishPuzzle();
       case "robot": return this.currentRobotPuzzle();
       case "coding": return this.currentCodingPuzzle();
       case "music": return this.currentMusicPuzzle();
       case "physics": return this.currentPhysicsPuzzle();
     }
-  }
-
-  private showNoraTheoryPanel(kind: ProceduralPuzzleId): void {
-    const topic = this.noraTheoryTopicFor(kind);
-    if (!topic) {
-      feedbackSystem.publish("NORA non ha ancora una scheda teorica pronta per questa console.", "hint");
-      return;
-    }
-    audioManager.playOutcome("hint");
-    noraPresence.speak(this, noraKnowledge.noraBrief(topic), "info", 5200);
-
-    const modal = this.add.container(0, 0).setDepth(1800);
-    SceneChrome.modalInputBlocker(this, modal);
-    modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02080d, 0.58));
-    modal.add(VisualKit.glassPanel(this, 210, 82, 860, 556, "archive", 0.96));
-    modal.add(this.add.rectangle(210, 82, 860, 5, 0xf6c85f, 0.95).setOrigin(0));
-    modal.add(this.add.text(244, 112, `NORA spiega · ${topic.title}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "25px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      wordWrap: { width: 760 },
-    }));
-    modal.add(this.add.text(246, 148, `${topic.area} · profondità ${topic.levelRange[0]}-${topic.levelRange[1]} · ${topic.tags.slice(0, 4).join(" · ")}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f7d37a",
-      wordWrap: { width: 760 },
-    }));
-
-    this.drawTheoryIllustration(modal, topic, 248, 188);
-    modal.add(this.add.text(512, 192, topic.noraExplanation, {
-      fontFamily: "Inter, Arial",
-      fontSize: "14px",
-      color: "#eaf4f8",
-      wordWrap: { width: 500, useAdvancedWrap: true },
-      lineSpacing: 4,
-    }));
-    modal.add(this.add.text(512, 286, `Metodo: ${topic.method.slice(0, 3).join("  ->  ")}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#9ff5e9",
-      wordWrap: { width: 500, useAdvancedWrap: true },
-      lineSpacing: 4,
-    }));
-
-    modal.add(this.add.rectangle(246, 384, 786, 124, 0x07151d, 0.78).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.28));
-    modal.add(this.add.text(268, 402, "ESEMPIO", {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#6be7d6",
-      fontStyle: "bold",
-    }));
-    modal.add(this.add.text(268, 424, topic.example.prompt, {
-      fontFamily: "Inter, Arial",
-      fontSize: "13px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-      wordWrap: { width: 350 },
-    }));
-    modal.add(this.add.text(640, 408, [...topic.example.steps.slice(0, 3), `= ${topic.example.answer}`].map((step) => `- ${step}`).join("\n"), {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#d9eaf1",
-      wordWrap: { width: 360, useAdvancedWrap: true },
-      lineSpacing: 4,
-    }));
-
-    modal.add(this.add.rectangle(246, 526, 786, 64, 0x1a1410, 0.86).setOrigin(0).setStrokeStyle(1, 0xffb36b, 0.36));
-    modal.add(this.add.text(268, 542, `Attenzione: ${topic.watchOut.slice(0, 2).join("  ·  ")}`, {
-      fontFamily: "Inter, Arial",
-      fontSize: "12px",
-      color: "#f3d9c4",
-      wordWrap: { width: 740, useAdvancedWrap: true },
-    }));
-
-    modal.add(new Button(this, 444, 620, "Apri scheda nell'Atlante", () => {
-      modal.destroy(true);
-      this.scene.start("MathStudyScene", { pageId: topic.id });
-    }, { width: 270, height: 38, fontSize: 13, fill: 0x173b36, stroke: 0x6be7d6 }));
-    modal.add(new Button(this, 806, 620, "Torna all'esercizio", () => modal.destroy(true), {
-      width: 220,
-      height: 38,
-      fontSize: 13,
-      fill: 0x263743,
-    }));
-  }
-
-  private drawTheoryIllustration(modal: Phaser.GameObjects.Container, topic: TheoryTopic, x: number, y: number): void {
-    // Shared schematic renderer (src/ui/TheoryVisual.ts) — same look everywhere.
-    modal.add(drawTheoryVisual(this, topic, x, y, { width: 220, height: 154 }));
   }
 
   private clearOverlay(): void {

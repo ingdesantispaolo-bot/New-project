@@ -113,7 +113,7 @@ export const mathStudyPages: MathStudyPage[] = [
     id: "frazioni",
     title: "Frazioni",
     area: "Numeri",
-    levelRange: [3, 6],
+    levelRange: [1, 6],
     tags: ["frazioni"],
     definition: "Una frazione a/b indica a parti di un intero diviso in b parti uguali.",
     formulas: [
@@ -232,7 +232,7 @@ export const mathStudyPages: MathStudyPage[] = [
     id: "percentuali",
     title: "Percentuali",
     area: "Numeri",
-    levelRange: [3, 7],
+    levelRange: [2, 7],
     tags: ["percentuale", "sconti"],
     definition: "Una percentuale è una frazione con denominatore 100: 25% = 25/100.",
     formulas: [
@@ -348,7 +348,7 @@ export const mathStudyPages: MathStudyPage[] = [
     id: "quadrilateri",
     title: "Quadrilateri e poligoni",
     area: "Geometria",
-    levelRange: [2, 6],
+    levelRange: [1, 6],
     tags: ["aree", "poligoni"],
     definition: "Poligoni con 4 lati (quadrilateri) o più; ciascuno ha la propria formula di area.",
     formulas: [
@@ -493,7 +493,7 @@ export const mathStudyPages: MathStudyPage[] = [
     id: "calcolo-letterale",
     title: "Calcolo letterale",
     area: "Relazioni e funzioni",
-    levelRange: [5, 8],
+    levelRange: [4, 8],
     tags: ["lettere", "termini simili"],
     definition: "Le lettere rappresentano numeri: si calcola con le regole, riducendo i termini simili.",
     formulas: [
@@ -517,7 +517,7 @@ export const mathStudyPages: MathStudyPage[] = [
     id: "equazioni",
     title: "Equazioni di primo grado",
     area: "Relazioni e funzioni",
-    levelRange: [5, 8],
+    levelRange: [4, 8],
     tags: ["equazioni", "incognita"],
     definition: "Un'equazione è un'uguaglianza con un'incognita x; risolverla significa trovare il valore che la rende vera.",
     formulas: [

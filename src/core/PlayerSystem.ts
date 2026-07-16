@@ -1,6 +1,7 @@
 import type { ProceduralPuzzleScore, ProceduralRunSave, ProceduralSpecialization } from "../procedural/ProceduralTypes";
 import { formatDuration, proceduralScoring } from "./ProceduralScoring";
 import { proceduralRunRules } from "./ProceduralRunRules";
+import type { SchoolYear } from "./schoolLevel";
 
 const PLAYER_STORE_KEY = "eli-quest-players-v1";
 
@@ -11,6 +12,8 @@ export type PlayerProfile = {
   name: string;
   createdAt: string;
   lastActiveAt: string;
+  /** Anno di scuola media (1-3): tiene un profilo giovane nella sua fascia. */
+  schoolYear?: SchoolYear;
 };
 
 export type PlayerResult = {
@@ -319,6 +322,18 @@ export class PlayerSystem {
     this.persist();
   }
 
+  getActiveSchoolYear(): SchoolYear | undefined {
+    return this.getActivePlayer().schoolYear;
+  }
+
+  /** Imposta (o azzera) l'anno scolastico del profilo attivo. */
+  setActiveSchoolYear(year: SchoolYear | undefined): void {
+    const player = this.getActivePlayer();
+    player.schoolYear = year;
+    player.lastActiveAt = nowIso();
+    this.persist();
+  }
+
   recordProceduralRun(run: ProceduralRunSave): void {
     if (!run.completedAt) return;
     const completedAt = run.completedAt;
@@ -441,6 +456,29 @@ export class PlayerSystem {
 
   topResults(category: ResultCategory, key?: string, limit = 20): PlayerResult[] {
     return sortedResults(this.store.results.filter((result) => result.category === category && (!key || result.key === key))).slice(0, limit);
+  }
+
+  /**
+   * Quaderno degli errori: gli esercizi recenti del giocatore attivo in cui ha
+   * inciampato (errori registrati o voto basso), il più recente per tipo.
+   * Alimenta il ripasso mirato: da ogni voce si può rilanciare l'allenamento.
+   */
+  recentStruggles(limit = 4): Array<PlayerResult & { domain: ProceduralPuzzleScore["domain"] }> {
+    const activeId = this.getActivePlayer().id;
+    const struggles = this.store.results
+      .filter((result) => result.playerId === activeId
+        && result.category === "exercise"
+        && (result.attempts > 0 || (result.grade !== undefined && result.grade < 6)))
+      .sort((a, b) => b.completedAt.localeCompare(a.completedAt));
+    const byKind = new Map<string, PlayerResult>();
+    struggles.forEach((result) => {
+      if (!byKind.has(result.key)) {
+        byKind.set(result.key, result);
+      }
+    });
+    return Array.from(byKind.values())
+      .slice(0, limit)
+      .map((result) => ({ ...result, domain: exerciseDomains[result.key] ?? "libera" }));
   }
 
   playerReport(playerId = this.getActivePlayer().id): PlayerReport {

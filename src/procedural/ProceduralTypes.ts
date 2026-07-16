@@ -1028,6 +1028,11 @@ export type ProceduralRunSave = {
    * machinery but never unlocks the chapter: completion only enables the trial.
    */
   chapterExploreMissionId?: string;
+  /**
+   * Sfida fantasma: la run è stata lanciata da una voce di classifica con lo
+   * stesso seed. A fine run il punteggio viene confrontato con il bersaglio.
+   */
+  ghost?: { playerName: string; targetScore: number };
   startedAt: string;
   completedAt?: string;
 };

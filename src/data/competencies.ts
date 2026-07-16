@@ -4,6 +4,33 @@ export type CompetencyDefinition = {
   description: string;
 };
 
+// Alcuni generatori assegnano una competenza con un nome storico diverso da
+// quello del registro (stesso concetto, etichetta diversa). Qui li riportiamo
+// all'id canonico, così la pratica NON viene persa e non nascono doppioni nel
+// report. I concetti davvero nuovi (fisica.*, musica.ritmo…) sono invece
+// registrati sotto, non aliasati.
+export const competencyAliases: Record<string, string> = {
+  "matematica.proporzioni": "matematica.proporzionalita",
+  "matematica.rapporti": "matematica.proporzionalita",
+  "matematica.unitaMisura": "matematica.misure",
+  "matematica.pitagora": "matematica.geometria",
+  "matematica.equivalenze": "matematica.frazioni",
+  "matematica.letturaDati": "matematica.statistica",
+  "coding.controlloErrore": "coding.debugging",
+  "inglese.scritturaBreve": "inglese.grammatica",
+  "scienze.energia": "scienze.sistemi",
+};
+
+/** Riporta un id al suo nome canonico registrato (o lo lascia com'è). */
+export function canonicalCompetencyId(id: string): string {
+  return competencyAliases[id] ?? id;
+}
+
+/** Vero se l'id (dopo alias) è una competenza registrata e tracciabile. */
+export function isKnownCompetency(id: string): boolean {
+  return competencies.some((competency) => competency.id === canonicalCompetencyId(id));
+}
+
 export const competencies: CompetencyDefinition[] = [
   {
     id: "matematica.calcolo",
@@ -344,5 +371,108 @@ export const competencies: CompetencyDefinition[] = [
     id: "latino.sintassi",
     label: "Sintassi del periodo",
     description: "Riconoscere participio, ablativo assoluto e le principali subordinate.",
+  },
+
+  // --- Fisica: il generatore fisica assegna queste; senza registro il ramo
+  //     Fisica resterebbe sempre a zero e la pratica non verrebbe tracciata. ---
+  {
+    id: "fisica.osservazione",
+    label: "Osservazione scientifica",
+    description: "Osservare un fenomeno e descriverlo con grandezze misurabili.",
+  },
+  {
+    id: "fisica.misure",
+    label: "Misure e unità",
+    description: "Collegare un numero a un'unità e confrontare grandezze omogenee.",
+  },
+  {
+    id: "fisica.metodoSperimentale",
+    label: "Metodo sperimentale",
+    description: "Cambiare una variabile alla volta per isolare la causa di un effetto.",
+  },
+  {
+    id: "fisica.moto",
+    label: "Moto e velocità",
+    description: "Descrivere il movimento con posizione, tempo e velocità, anche su grafici.",
+  },
+  {
+    id: "fisica.forze",
+    label: "Forze",
+    description: "Riconoscere intensità e direzione di una forza e i suoi effetti.",
+  },
+  {
+    id: "fisica.equilibrio",
+    label: "Equilibrio",
+    description: "Capire quando forze opposte si bilanciano e un corpo resta fermo.",
+  },
+  {
+    id: "fisica.energia",
+    label: "Energia e trasformazioni",
+    description: "Seguire l'energia mentre cambia forma, senza crearsi né distruggersi.",
+  },
+  {
+    id: "fisica.termologia",
+    label: "Calore e temperatura",
+    description: "Distinguere temperatura e calore e il passaggio dal caldo al freddo.",
+  },
+  {
+    id: "fisica.materia",
+    label: "Densità e pressione",
+    description: "Collegare massa, volume e forza su un'area.",
+  },
+  {
+    id: "fisica.onde",
+    label: "Onde",
+    description: "Descrivere un'onda con lunghezza d'onda, frequenza e velocità.",
+  },
+  {
+    id: "fisica.ottica",
+    label: "Ottica",
+    description: "Rappresentare la luce con raggi e prevederne la direzione.",
+  },
+  {
+    id: "fisica.modelli",
+    label: "Modelli e grafici",
+    description: "Usare grafici e modelli per rappresentare un fenomeno fisico.",
+  },
+
+  // --- Musica: durate, ritmo, intervalli, scale e ascolto, oltre alla lettura
+  //     delle note già registrata. ---
+  {
+    id: "musica.durate",
+    label: "Durate delle figure",
+    description: "Riconoscere quanti battiti dura ogni figura musicale.",
+  },
+  {
+    id: "musica.ritmo",
+    label: "Ritmo e battute",
+    description: "Completare una battuta rispettando i battiti indicati dal tempo.",
+  },
+  {
+    id: "musica.intervalli",
+    label: "Intervalli",
+    description: "Misurare la distanza di altezza tra due note.",
+  },
+  {
+    id: "musica.scale",
+    label: "Scale e gradi",
+    description: "Muoversi tra i gradi della scala Do-Re-Mi-Fa-Sol-La-Si.",
+  },
+  {
+    id: "musica.ascoltoVisivo",
+    label: "Ascolto e riconoscimento",
+    description: "Riconoscere note e intervalli anche dal suono, non solo dal pentagramma.",
+  },
+
+  // --- Coding: rappresentazione dei dati e lettura del codice. ---
+  {
+    id: "coding.culturaInformatica",
+    label: "Cultura informatica",
+    description: "Capire come il computer rappresenta i dati, per esempio in binario.",
+  },
+  {
+    id: "coding.linguaggiProgrammazione",
+    label: "Linguaggi di programmazione",
+    description: "Leggere ed eseguire istruzioni di codice riga per riga.",
   },
 ];

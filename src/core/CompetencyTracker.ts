@@ -1,10 +1,11 @@
-import { competencies } from "../data/competencies";
+import { competencies, canonicalCompetencyId, isKnownCompetency } from "../data/competencies";
 import { saveSystem } from "./SaveSystem";
 
 export class CompetencyTracker {
   award(ids: string[], amount = 12): void {
-    ids.forEach((id) => {
-      if (competencies.some((competency) => competency.id === id)) {
+    ids.forEach((rawId) => {
+      const id = canonicalCompetencyId(rawId);
+      if (isKnownCompetency(id)) {
         saveSystem.updateCompetency(id, amount);
       }
     });

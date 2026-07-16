@@ -1,7 +1,11 @@
 import Phaser from "phaser";
 import { formatDuration } from "../core/ProceduralScoring";
-import { playerSystem, type ResultCategory } from "../core/PlayerSystem";
+import { playerSystem, type PlayerResult, type ResultCategory } from "../core/PlayerSystem";
+import { proceduralRunRules } from "../core/ProceduralRunRules";
+import { saveSystem } from "../core/SaveSystem";
 import { startScene } from "../core/SceneNavigator";
+import { proceduralDirector } from "../procedural/ProceduralDirector";
+import type { ProceduralRunSave } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { VisualKit } from "../ui/VisualKit";
 
@@ -217,7 +221,73 @@ export class LeaderboardScene extends Phaser.Scene {
         fontSize: "12px",
         color: "#d9eaf1",
       });
+      if (this.canChallenge(result)) {
+        new Button(this, x + width - 38, rowY + 7, "⚔ Sfida", () => this.startGhostChallenge(result), {
+          width: 58,
+          height: 16,
+          fontSize: 9,
+          wordWrapWidth: 54,
+          fill: 0x3a2b20,
+          stroke: 0xf6c85f,
+          soundKey: "uiSelect",
+        });
+      }
     });
+    this.add.text(x + 28, y + height - 26, "⚔ Sfida fantasma: rigioca la stessa stanza (stesso seed) e prova a battere quel punteggio.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#f7d37a",
+    });
+  }
+
+  /** Le sfide valgono per focus e missioni con seed rigiocabile (no Scalata). */
+  private canChallenge(result: PlayerResult): boolean {
+    return (result.category === "focus" || result.category === "mission")
+      && result.mode !== "progressive"
+      && Boolean(result.seed);
+  }
+
+  /**
+   * Sfida fantasma: ricrea la run dal seed della voce di classifica, così la
+   * stanza è identica a quella del record. Il bersaglio da battere viaggia
+   * nel salvataggio della run e viene confrontato alla certificazione.
+   */
+  private startGhostChallenge(result: PlayerResult): void {
+    const focusList = result.category === "focus" ? [result.key] : ["libera"];
+    const mode = result.category === "focus" ? "training" as const : "mission" as const;
+    const difficulty = result.difficulty as ProceduralRunSave["difficulty"];
+    try {
+      const mission = proceduralDirector.generateMission(result.seed, difficulty, focusList);
+      const createdAt = new Date().toISOString();
+      const pressureEnabled = proceduralRunRules.pressureEnabledForMode(mode);
+      const objectiveCount = Math.max(1, mission.objectives.length);
+      const run: ProceduralRunSave = {
+        seed: result.seed,
+        difficulty,
+        focus: focusList,
+        mode,
+        mission,
+        hintsUsed: 0,
+        solvedPuzzleIds: [],
+        score: { total: 0, byPuzzle: {}, byDomain: {} },
+        puzzleStats: {},
+        lives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+        maxLives: pressureEnabled ? proceduralRunRules.maxLives : undefined,
+        timeLimitMs: pressureEnabled ? proceduralRunRules.missionTimeLimitMs(mission.difficulty, objectiveCount) : undefined,
+        timerState: "preparing",
+        createdAt,
+        activeElapsedMs: 0,
+        startedAt: createdAt,
+        ghost: { playerName: result.playerName, targetScore: result.score },
+      };
+      saveSystem.pauseActiveProceduralRun();
+      saveSystem.setProceduralRun(run);
+      void startScene(this, "ProceduralMissionScene").catch(() => {
+        this.scene.restart();
+      });
+    } catch {
+      this.scene.restart();
+    }
   }
 
   private drawHeader(x: number, y: number): void {

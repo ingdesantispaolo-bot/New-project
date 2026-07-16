@@ -17,6 +17,10 @@ import environmentPropsSheetUrl from "../assets/sprites/environment-props-sheet.
 import environmentPropsSheetJsonUrl from "../assets/sprites/environment-props-sheet.json?url";
 import missionConsoleSheetUrl from "../assets/sprites/mission-console-sheet.png";
 import missionConsoleSheetJsonUrl from "../assets/sprites/mission-console-sheet.json?url";
+import robotGridSheetUrl from "../assets/sprites/robot-grid-sheet.png";
+import robotGridSheetJsonUrl from "../assets/sprites/robot-grid-sheet.json?url";
+import logicGymSheetUrl from "../assets/sprites/logic-gym-sheet.png";
+import logicGymSheetJsonUrl from "../assets/sprites/logic-gym-sheet.json?url";
 
 export class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -37,6 +41,8 @@ export class PreloadScene extends Phaser.Scene {
     this.load.atlas("eli-robot-girl", eliRobotGirlSheetUrl, eliRobotGirlSheetJsonUrl);
     this.load.atlas("environment-props", environmentPropsSheetUrl, environmentPropsSheetJsonUrl);
     this.load.atlas("mission-consoles", missionConsoleSheetUrl, missionConsoleSheetJsonUrl);
+    this.load.atlas("robot-grid", robotGridSheetUrl, robotGridSheetJsonUrl);
+    this.load.atlas("logic-gym", logicGymSheetUrl, logicGymSheetJsonUrl);
   }
 
   create(): void {
@@ -44,10 +50,6 @@ export class PreloadScene extends Phaser.Scene {
     graphics.fillStyle(0x6be7d6, 1);
     graphics.fillCircle(16, 16, 16);
     graphics.generateTexture("soft-glow", 32, 32);
-    graphics.clear();
-    graphics.fillStyle(0xf6c85f, 1);
-    graphics.fillTriangle(16, 0, 32, 32, 0, 32);
-    graphics.generateTexture("robot-pointer", 32, 32);
     graphics.clear();
     graphics.lineStyle(2, 0x6be7d6, 0.8);
     graphics.strokeCircle(32, 32, 26);
@@ -127,6 +129,14 @@ export class PreloadScene extends Phaser.Scene {
     if (this.textures.exists("mission-consoles")) {
       warmers.push(this.add.image(-204, -180, "mission-consoles", "console_math_active").setAlpha(0.01).setScale(0.05));
       warmers.push(this.add.image(-212, -180, "mission-consoles", "console_exit_resolved").setAlpha(0.01).setScale(0.05));
+    }
+    if (this.textures.exists("robot-grid")) {
+      warmers.push(this.add.image(-214, -180, "robot-grid", "grid-cell").setAlpha(0.01).setScale(0.05));
+      warmers.push(this.add.image(-216, -180, "robot-grid", "grid-exit").setAlpha(0.01).setScale(0.05));
+    }
+    if (this.textures.exists("logic-gym")) {
+      warmers.push(this.add.image(-218, -180, "logic-gym", "gym-tables").setAlpha(0.01).setScale(0.04));
+      warmers.push(this.add.image(-220, -180, "logic-gym", "gym-geo").setAlpha(0.01).setScale(0.04));
     }
     if (this.textures.exists("environment-props")) {
       warmers.push(this.add.image(-220, -180, "environment-props", "env_wall_straight").setAlpha(0.01).setScale(0.05));

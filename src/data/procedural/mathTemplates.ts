@@ -41,6 +41,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "Il terminale misura un nucleo che va amplificato e poi raffreddato.",
     minComplexity: 1,
     archetype: "calcolo-diretto",
+    curriculumTags: ["calcolo ordinato", "operazioni"],
     build: (a, b, c) => ({
       prompt: `Il codice è il doppio di ${a}, più ${b}, meno ${c}.`,
       answer: a * 2 + b - c,
@@ -58,6 +59,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "La carica va triplicata, poi divisa in due camere solo dopo il raffreddamento.",
     minComplexity: 2,
     archetype: "calcolo-diretto",
+    curriculumTags: ["calcolo ordinato", "operazioni"],
     build: (a, b, c) => {
       const base = a * 3 - b;
       const adjusted = base % 2 === 0 ? base : base + 1;
@@ -79,6 +81,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "Il compressore accetta solo risultati divisibili senza resto.",
     minComplexity: 3,
     archetype: "vincolo",
+    curriculumTags: ["divisibilita", "calcolo ordinato"],
     build: (a, b, c) => {
       const dividend = a * b + c;
       const divisor = c % 2 === 0 ? 2 : 3;
@@ -101,6 +104,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "La macchina mostra il valore finale, ma l'ingresso è stato cancellato dal log.",
     minComplexity: 4,
     archetype: "ragionamento-inverso",
+    curriculumTags: ["operazione inversa", "calcolo ordinato"],
     build: (a, b, c) => {
       const multiplier = Math.max(2, Math.min(5, c));
       const target = (a + b) * multiplier;
@@ -122,6 +126,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "Tre impulsi rivelano la regola del trasmettitore, il quarto apre il vano.",
     minComplexity: 4,
     archetype: "sequenza",
+    curriculumTags: ["successioni numeriche", "regolarita"],
     build: (a, b, c) => {
       const step = Math.max(3, b);
       const first = a;
@@ -146,6 +151,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "La valvola non vuole il numero più grande: vuole il primo numero che rispetta due regole.",
     minComplexity: 5,
     archetype: "vincolo",
+    curriculumTags: ["divisibilita", "numeri pari", "multipli"],
     build: (a, b, c) => {
       const divisor = c % 2 === 0 ? 3 : 4;
       const threshold = a + b;
@@ -169,6 +175,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "La fabbrica ha scritto un risultato sbagliato: devi trovare il valore coerente, non fidarti del log.",
     minComplexity: 6,
     archetype: "diagnosi-errore",
+    curriculumTags: ["controllo del calcolo", "operazioni"],
     build: (a, b, c) => {
       const correct = (a - c) * 2 + b;
       const wrong = (a + c) * 2 + b;
@@ -190,6 +197,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "Il terminale non chiede un numero isolato: vuole una lettura stabile da tre sensori.",
     minComplexity: 3,
     archetype: "lettura-dati",
+    curriculumTags: ["media", "dati"],
     build: (a, b, c) => {
       const s1 = a + c;
       const s2 = a + b;
@@ -219,6 +227,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "La porta apre solo se resta energia dopo aver alimentato due sottosistemi.",
     minComplexity: 5,
     archetype: "vincolo",
+    curriculumTags: ["calcolo con vincolo", "operazioni"],
     build: (a, b, c) => {
       const reserve = a + b + c;
       const terminalCost = b * 2;
@@ -249,6 +258,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "Il radiatore non scala a caso: ogni modulo acceso consuma la stessa quota d'acqua.",
     minComplexity: 6,
     archetype: "proporzione",
+    curriculumTags: ["proporzioni", "quota per unita"],
     build: (a, b, c) => {
       const modules = Math.max(3, c);
       const waterPerModule = Math.max(4, Math.floor(b / 2));
@@ -277,6 +287,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "La porta legge i blocchi in ordine: prima il gruppo interno, poi il moltiplicatore.",
     minComplexity: 6,
     archetype: "pre-algebra",
+    curriculumTags: ["parentesi", "ordine delle operazioni"],
     build: (a, b, c) => {
       const multiplier = Math.max(2, Math.min(5, c));
       const inside = a - b;
@@ -299,6 +310,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "Il registro finale è leggibile, ma il numero iniziale è stato cancellato dalla macchina.",
     minComplexity: 7,
     archetype: "pre-algebra",
+    curriculumTags: ["incognita", "operazione inversa"],
     build: (a, b, c) => {
       const multiplier = Math.max(2, Math.min(5, c));
       const output = (a - b) * multiplier;
@@ -320,6 +332,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "La fabbrica usa anche numeri sotto zero: la temperatura è un segnale, non un errore.",
     minComplexity: 7,
     archetype: "vincolo",
+    curriculumTags: ["numeri relativi", "linea dei numeri"],
     build: (a, b, c) => {
       const start = -Math.max(4, c + 2);
       const cooling = Math.max(3, Math.floor(a / 3));
@@ -343,6 +356,7 @@ export const mathTemplates: MathTemplate[] = [
     narrative: "Due tecnici hanno registrato risultati diversi: solo uno rispetta l'ordine delle operazioni.",
     minComplexity: 8,
     archetype: "diagnosi-errore",
+    curriculumTags: ["ordine delle operazioni", "controllo del calcolo"],
     build: (a, b, c) => {
       const multiplier = Math.max(2, Math.min(4, c));
       const correct = a + b * multiplier - c;

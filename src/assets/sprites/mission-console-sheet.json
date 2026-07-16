@@ -20,130 +20,30 @@
         "h": 150
       }
     },
-    "console_italian_active": {
-      "frame": {
-        "x": 120,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 120,
-        "h": 150
-      }
-    },
-    "console_english_active": {
-      "frame": {
-        "x": 240,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 120,
-        "h": 150
-      }
-    },
-    "console_coding_active": {
-      "frame": {
-        "x": 360,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 120,
-        "h": 150
-      }
-    },
-    "console_electronics_active": {
-      "frame": {
-        "x": 480,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 120,
-        "h": 150
-      }
-    },
-    "console_music_active": {
-      "frame": {
-        "x": 600,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 120,
-        "h": 150
-      }
-    },
-    "console_exit_active": {
-      "frame": {
-        "x": 720,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 120,
-        "h": 150
-      },
-      "sourceSize": {
-        "w": 120,
-        "h": 150
-      }
-    },
     "console_math_resolved": {
       "frame": {
         "x": 0,
         "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_italian_active": {
+      "frame": {
+        "x": 120,
+        "y": 0,
         "w": 120,
         "h": 150
       },
@@ -180,10 +80,50 @@
         "h": 150
       }
     },
+    "console_english_active": {
+      "frame": {
+        "x": 240,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
     "console_english_resolved": {
       "frame": {
         "x": 240,
         "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_coding_active": {
+      "frame": {
+        "x": 360,
+        "y": 0,
         "w": 120,
         "h": 150
       },
@@ -220,10 +160,50 @@
         "h": 150
       }
     },
+    "console_electronics_active": {
+      "frame": {
+        "x": 480,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
     "console_electronics_resolved": {
       "frame": {
         "x": 480,
         "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_music_active": {
+      "frame": {
+        "x": 600,
+        "y": 0,
         "w": 120,
         "h": 150
       },
@@ -260,9 +240,229 @@
         "h": 150
       }
     },
-    "console_exit_resolved": {
+    "console_physics_active": {
       "frame": {
         "x": 720,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_physics_resolved": {
+      "frame": {
+        "x": 720,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_latin_active": {
+      "frame": {
+        "x": 840,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_latin_resolved": {
+      "frame": {
+        "x": 840,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_story_active": {
+      "frame": {
+        "x": 960,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_story_resolved": {
+      "frame": {
+        "x": 960,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_nora_active": {
+      "frame": {
+        "x": 1080,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_nora_resolved": {
+      "frame": {
+        "x": 1080,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_progressive_active": {
+      "frame": {
+        "x": 1200,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_progressive_resolved": {
+      "frame": {
+        "x": 1200,
+        "y": 150,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_exit_active": {
+      "frame": {
+        "x": 1320,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 120,
+        "h": 150
+      }
+    },
+    "console_exit_resolved": {
+      "frame": {
+        "x": 1320,
         "y": 150,
         "w": 120,
         "h": 150
@@ -282,11 +482,12 @@
     }
   },
   "meta": {
-    "app": "codex-imagegen-sharp",
+    "app": "Eli Quest generated asset pipeline",
+    "version": "1.1",
     "image": "mission-console-sheet.png",
     "format": "RGBA8888",
     "size": {
-      "w": 840,
+      "w": 1440,
       "h": 300
     },
     "scale": "1",
@@ -302,7 +503,7 @@
       "math": {
         "label": "matematica",
         "color": "#6be7d6",
-        "symbol": "divide"
+        "symbol": "math"
       },
       "italian": {
         "label": "italiano",
@@ -317,7 +518,7 @@
       "coding": {
         "label": "coding",
         "color": "#78f29a",
-        "symbol": "computer"
+        "symbol": "code"
       },
       "electronics": {
         "label": "elettronica",
@@ -328,6 +529,31 @@
         "label": "musica",
         "color": "#ff9f4a",
         "symbol": "music"
+      },
+      "physics": {
+        "label": "fisica",
+        "color": "#9ff5e9",
+        "symbol": "atom"
+      },
+      "latin": {
+        "label": "latino",
+        "color": "#d8a24a",
+        "symbol": "glyph"
+      },
+      "story": {
+        "label": "storia",
+        "color": "#f7d37a",
+        "symbol": "archive"
+      },
+      "nora": {
+        "label": "nora",
+        "color": "#9ff5e9",
+        "symbol": "core"
+      },
+      "progressive": {
+        "label": "scalata",
+        "color": "#ff8f6b",
+        "symbol": "spire"
       },
       "exit": {
         "label": "porta-uscita",
@@ -363,6 +589,26 @@
       "music": [
         "console_music_active",
         "console_music_resolved"
+      ],
+      "physics": [
+        "console_physics_active",
+        "console_physics_resolved"
+      ],
+      "latin": [
+        "console_latin_active",
+        "console_latin_resolved"
+      ],
+      "story": [
+        "console_story_active",
+        "console_story_resolved"
+      ],
+      "nora": [
+        "console_nora_active",
+        "console_nora_resolved"
+      ],
+      "progressive": [
+        "console_progressive_active",
+        "console_progressive_resolved"
       ],
       "exit": [
         "console_exit_active",

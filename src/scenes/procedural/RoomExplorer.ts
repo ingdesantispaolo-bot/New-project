@@ -204,17 +204,35 @@ export class RoomExplorer {
         .setOrigin(0.5, opt.originY ?? 0.75).setScale(opt.scale ?? 1).setDepth((opt.depth ?? 3) + y / 10000);
       if (opt.pulse) this.scene.tweens.add({ targets: img, alpha: 0.72, duration: 1800, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
     };
+    const addAtlasGlyph = (frame: string, x: number, y: number, tint: number): void => {
+      if (!this.scene.textures.exists("eli-atlas") || !this.scene.textures.getFrame("eli-atlas", frame)) return;
+      const img = this.scene.add.image(x, y, "eli-atlas", frame)
+        .setTint(tint)
+        .setAlpha(0.34)
+        .setScale(0.42)
+        .setDepth(2.2 + y / 10000);
+      this.scene.tweens.add({ targets: img, alpha: 0.58, duration: 2200, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    };
+    add("env_wall_corner", 118, 118, { depth: 2.5, originY: 0.5, scale: 0.9 });
+    add("env_wall_end", worldW - 118, 118, { depth: 2.5, originY: 0.5, scale: 0.9 });
+    add("env_railing", worldW / 2, 122, { depth: 2.6, originY: 0.5, scale: 1.1 });
     add("env_pillar_square", 555, 590, { depth: 4, pulse: true });
     add("env_pillar_light", 1205, 590, { depth: 4, pulse: true });
     add("env_floor_cable", 675, 690, { depth: 1.6, originY: 0.5 });
     add("env_floor_cable", 1025, 720, { depth: 1.6, scale: 0.85, originY: 0.5 });
     add("env_floor_vent", 890, 580, { depth: 1.5, originY: 0.5, pulse: true });
+    add("env_crate_stack", 210, 905, { depth: 4, scale: 0.88 });
     add("env_planter", 430, 150, { depth: 3 });
     add("env_plant_pod", 1515, 875, { depth: 4, pulse: true });
     add("env_terminal_wall", 155, 540, { depth: 4, pulse: true });
     add("env_terminal_kiosk", 1430, 700, { depth: 4, pulse: true });
     add("env_robot_decor", 555, 930, { depth: 4, scale: 0.9, pulse: true });
+    add("env_repair_drone", 1325, 312, { depth: 4, scale: 0.86, pulse: true });
     add("env_holo_beacon", worldW / 2, 1000, { depth: 4, scale: 0.9, pulse: true });
+    addAtlasGlyph("circuit-node", 672, 442, 0xf6c85f);
+    addAtlasGlyph("leaf-glyph", 428, 250, 0x7cf6a6);
+    addAtlasGlyph("gear-glyph", 1190, 444, 0x9ff5e9);
+    addAtlasGlyph("archive-glyph", 710, 352, 0x9f8cff);
   }
 
   private buildConsoles(): void {
@@ -242,7 +260,12 @@ export class RoomExplorer {
         c.add(this.scene.add.rectangle(0, 0, spot.w, spot.h, state === "locked" ? 0x101820 : 0x0c2130, 0.98).setStrokeStyle(3, stateMeta.color, 0.9));
         c.add(this.scene.add.rectangle(0, -spot.h / 2 + 8, spot.w - 16, 12, stateMeta.color, 0.9));
         c.add(this.scene.add.rectangle(0, -6, spot.w - 34, spot.h - 60, 0x03121b, 0.95).setStrokeStyle(1, spot.color, 0.5));
-        c.add(this.scene.add.text(0, -6, spot.glyph, { fontFamily: "Inter, Arial", fontSize: "40px" }).setOrigin(0.5));
+        const atlasGlyph = this.atlasGlyphFor(spot);
+        if (atlasGlyph && this.scene.textures.exists("eli-atlas") && this.scene.textures.getFrame("eli-atlas", atlasGlyph)) {
+          c.add(this.scene.add.image(0, -6, "eli-atlas", atlasGlyph).setTint(spot.color).setAlpha(0.92).setDisplaySize(48, 48));
+        } else {
+          c.add(this.scene.add.text(0, -6, spot.glyph, { fontFamily: "Inter, Arial", fontSize: "40px" }).setOrigin(0.5));
+        }
         c.add(this.scene.add.circle(spot.w / 2 - 14, -spot.h / 2 + 18, 8, stateMeta.color, 0.96).setStrokeStyle(2, 0x03121b, 0.9));
         c.add(this.scene.add.text(0, spot.h / 2 - 20, spot.label.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "13px", color: "#d9eaf1", fontStyle: "bold" }).setOrigin(0.5));
       }
@@ -250,6 +273,14 @@ export class RoomExplorer {
       else if (state === "failed") c.setAlpha(0.86);
       spot.container = c;
     });
+  }
+
+  private atlasGlyphFor(spot: RoomConsole): string | undefined {
+    if (spot.id === "physics" || spot.id === "spedizione") return "gear-glyph";
+    if (spot.id === "latin" || spot.id === "storia") return "archive-glyph";
+    if (spot.id === "circuit") return "circuit-node";
+    if (spot.id.includes("serra") || spot.id.includes("bio")) return "leaf-glyph";
+    return undefined;
   }
 
   private consoleStateMeta(state: RoomConsoleState, spot: RoomConsole): { color: number; prompt: string } {

@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import academyPaintedBgUrl from "../assets/images/academy-painted-bg.webp";
+import academyHomeBgUrl from "../assets/images/academy-home-bg.webp";
 import archivePaintedBgUrl from "../assets/images/archive-painted-bg.webp";
 import archiveConsoleUrl from "../assets/images/console-archive.webp";
 import factoryConsoleUrl from "../assets/images/console-factory.webp";
@@ -88,10 +89,11 @@ import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-vict
 import outcomeLightVictoryUrl from "../assets/images/outcomes/outcome-light-victory.webp";
 import outcomeNeutralUrl from "../assets/images/outcomes/outcome-neutral.webp";
 
-export type SceneAssetPack = "academy" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "logicGym" | "nora" | "procedural" | "story" | "storyBeats";
+export type SceneAssetPack = "academy" | "academyHome" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "logicGym" | "nora" | "procedural" | "story" | "storyBeats";
 
 const packs: Record<SceneAssetPack, Array<[string, string]>> = {
   academy: [["bg-academy-painted", academyPaintedBgUrl]],
+  academyHome: [["academy-home-bg", academyHomeBgUrl]],
   lab: [
     ["bg-lab-painted", labPaintedBgUrl], ["console-lab", labConsoleUrl],
   ],

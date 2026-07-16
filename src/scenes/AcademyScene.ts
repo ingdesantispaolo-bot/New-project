@@ -5,6 +5,7 @@ import { collectionSystem } from "../core/CollectionSystem";
 import { masterySystem } from "../core/MasterySystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { saveSystem } from "../core/SaveSystem";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { startScene } from "../core/SceneNavigator";
 import { settingsSystem } from "../core/SettingsSystem";
 import { Button } from "../ui/Button";
@@ -22,11 +23,15 @@ export class AcademyScene extends Phaser.Scene {
     super("AcademyScene");
   }
 
+  preload(): void {
+    queueSceneAssets(this, "academy", "academyHome");
+  }
+
   create(): void {
     playerSystem.load();
     saveSystem.load();
     this.cameras.main.setBackgroundColor("#071018");
-    VisualKit.background(this, "academy");
+    VisualKit.background(this, "academy", "academy-home-bg");
     VisualKit.vignette(this);
 
     const emblem = academySystem.getEmblem();

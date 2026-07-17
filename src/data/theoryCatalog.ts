@@ -17,7 +17,23 @@ export type TheoryVisualKind =
   | "grid"
   | "staff"
   | "physics-diagram"
-  | "latin-table";
+  | "latin-table"
+  // Schemi matematici specifici: la "formula" (parabola) va bene solo per i
+  // grafici; per gli altri concetti serve l'immagine giusta.
+  | "fraction-pie"
+  | "bar-chart"
+  | "number-line"
+  | "area-shape"
+  | "proportion"
+  | "dot-array"
+  | "triangle"
+  | "circle-radius"
+  | "balance"
+  | "line-graph"
+  | "nested-shapes"
+  | "solid"
+  | "lines-cross"
+  | "angle";
 
 export type TheoryExample = {
   prompt: string;
@@ -47,6 +63,41 @@ export type TheoryTopic = {
   prerequisites?: string[];
   /** Anno di scuola media in cui si introduce il concetto (vedi topicSchoolYear). */
   schoolYear?: SchoolYear;
+};
+
+// Visual specifico per i concetti matematici dove il grafico generico (parabola)
+// sarebbe fuorviante. I concetti che SONO grafici (funzioni, parabole, equazioni
+// di 2° grado, piano cartesiano) restano su "formula"; gli altri math senza un
+// visual adatto restano su "formula" ma NON mostrano l'immagine nel primo incontro.
+const topicVisualKind: Record<string, TheoryVisualKind> = {
+  frazioni: "fraction-pie",
+  percentuali: "fraction-pie",
+  probabilita: "fraction-pie",
+  statistica: "bar-chart",
+  "numeri-relativi": "number-line",
+  misure: "number-line",
+  "numeri-naturali": "number-line",
+  decimali: "number-line",
+  quadrilateri: "area-shape",
+  triangoli: "triangle",
+  pitagora: "triangle",
+  divisibilita: "dot-array",
+  "potenze-espressioni": "dot-array",
+  "radice-quadrata": "dot-array",
+  cerchio: "circle-radius",
+  equazioni: "balance",
+  "calcolo-letterale": "balance",
+  "funzioni-retta": "line-graph",
+  similitudine: "nested-shapes",
+  solidi: "solid",
+  "rapporti-proporzioni": "proportion",
+  proporzionalita: "proportion",
+  "angoli-rette": "angle",
+  // Topic matematici extra (grafici): parabola OK per parabole/quadratiche; il
+  // sistema mostra due rette che si incrociano.
+  "matematica-sistemi": "lines-cross",
+  // Legge di Ohm: uno schema di circuito, non la parabola generica.
+  "elettronica-legge-ohm": "circuit",
 };
 
 const subjectFromStudyPage = (subject?: "matematica" | "italiano"): TheorySubject =>
@@ -107,7 +158,7 @@ const studyTopics: TheoryTopic[] = [...mathStudyPages, ...italianStudyPages].map
     // invece del finale generico uguale per tutti: più chiara per un undicenne.
     noraExplanation: topicIntros[page.id]?.hook
       ?? `${page.definition} Prima riconosci il caso, poi applica una regola alla volta e verifica l'errore tipico.`,
-    visualKind: subject === "italiano" ? "timeline" : "formula",
+    visualKind: topicVisualKind[page.id] ?? (subject === "italiano" ? "timeline" : "formula"),
     intro: topicIntros[page.id],
     prerequisites: topicPrerequisites[page.id] ?? [],
     schoolYear: topicSchoolYear[page.id],
@@ -1210,6 +1261,7 @@ export const theoryTopics: TheoryTopic[] = [...studyTopics, ...extraTopics].map(
   prerequisites: topic.prerequisites ?? topicPrerequisites[topic.id],
   schoolYear: topic.schoolYear ?? topicSchoolYear[topic.id],
   competencies: Array.from(new Set([...(topic.competencies ?? []), ...(topicExtraCompetencies[topic.id] ?? [])])),
+  visualKind: topicVisualKind[topic.id] ?? topic.visualKind,
 }));
 
 export const theorySubjectLabels: Record<TheorySubject, string> = {

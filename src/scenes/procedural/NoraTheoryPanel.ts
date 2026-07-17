@@ -70,6 +70,14 @@ export function showFirstEncounterPanel(
     fontFamily: "Inter, Arial", fontSize: "27px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: 700 },
   }));
 
+  // Schema illustrato in alto a destra — ma solo se è davvero rappresentativo:
+  // niente parabola generica per frazioni & co. (i concetti-grafico la usano bene).
+  const showVisual = hasMeaningfulVisual(topic);
+  if (showVisual) {
+    drawTheoryVisual(scene, topic, 806, 196, { width: 198, height: 140 }).forEach((object) => modal.add(object));
+  }
+  const textWidth = showVisual ? 500 : 712;
+
   // Riga "si appoggia su" — mostra i mattoni precedenti, senza appesantire.
   const prereqTitles = (topic.prerequisites ?? [])
     .map((id) => theoryTopics.find((candidate) => candidate.id === id)?.title)
@@ -77,17 +85,19 @@ export function showFirstEncounterPanel(
   let hookTop = 194;
   if (prereqTitles.length > 0) {
     modal.add(scene.add.text(284, 184, `Si appoggia su: ${prereqTitles.join(" · ")}`, {
-      fontFamily: "Inter, Arial", fontSize: "12px", color: "#9aaab0", wordWrap: { width: 700 },
+      fontFamily: "Inter, Arial", fontSize: "12px", color: "#9aaab0", wordWrap: { width: textWidth },
     }));
     hookTop = 210;
   }
 
   // Aggancio concreto.
   modal.add(scene.add.text(284, hookTop, intro.hook, {
-    fontFamily: "Inter, Arial", fontSize: "17px", color: "#eaf4f8", wordWrap: { width: 712, useAdvancedWrap: true }, lineSpacing: 6,
+    fontFamily: "Inter, Arial", fontSize: "17px", color: "#eaf4f8", wordWrap: { width: textWidth, useAdvancedWrap: true }, lineSpacing: 6,
   }));
 
-  let cursorY = hookTop + measureHeight(scene, intro.hook, 17, 712, 6) + 22;
+  // I riquadri riprendono a piena larghezza, sotto lo schema.
+  let cursorY = hookTop + measureHeight(scene, intro.hook, 17, textWidth, 6) + 22;
+  if (showVisual) cursorY = Math.max(cursorY, 196 + 140 + 16);
 
   // Parole nuove.
   if (intro.newWords) {
@@ -122,6 +132,15 @@ export function showFirstEncounterPanel(
     modal.destroy(true);
     onOpenStudyPage(topic);
   }, { width: 300, height: 46, fontSize: 13, fill: 0x173b36, stroke: 0x6be7d6 }));
+}
+
+// I concetti-grafico usano bene la "formula" (piano cartesiano + curva); per gli
+// altri math senza uno schema dedicato, meglio nessuna immagine che una sbagliata.
+const GRAPH_TOPICS = new Set(["matematica-parabole-grafici", "matematica-equazioni-quadratiche", "piano-cartesiano"]);
+
+/** Vero se lo schema del topic rappresenta davvero il concetto (non la parabola generica). */
+function hasMeaningfulVisual(topic: TheoryTopic): boolean {
+  return topic.visualKind !== "formula" || GRAPH_TOPICS.has(topic.id);
 }
 
 /** Stima l'altezza di un testo con wrap, per impilare i riquadri senza sovrapposizioni. */

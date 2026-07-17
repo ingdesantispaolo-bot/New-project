@@ -57,6 +57,15 @@ const BIOME_DETAIL_COLORS: Record<OutdoorBiome, [number, number, number]> = {
   crystal: [0xc7b8ff, 0x7ad7ff, 0xffffff],
 };
 
+const BIOME_PAINTED_BACKDROPS: Record<OutdoorBiome, { key: string; alpha: number; tint?: number; veil: number }> = {
+  academy: { key: "bg-academy-painted", alpha: 0.3, tint: 0xcffaf2, veil: 0x071018 },
+  ruins: { key: "mission-electronics-bg", alpha: 0.28, tint: 0xffc0a0, veil: 0x100d14 },
+  geo: { key: "mission-atlas-bg", alpha: 0.32, tint: 0xc6ffe8, veil: 0x071815 },
+  logic: { key: "mission-coding-terminal-bg", alpha: 0.3, tint: 0xaed7ff, veil: 0x071221 },
+  wild: { key: "bg-greenhouse-painted", alpha: 0.34, tint: 0xc8ffd7, veil: 0x071a12 },
+  crystal: { key: "mission-bg-synthesis", alpha: 0.3, tint: 0xded5ff, veil: 0x090d22 },
+};
+
 const ENCOUNTER_GLYPHS: Record<OutdoorEncounterKind, string> = {
   times: "x",
   mental: "+",
@@ -134,7 +143,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "rewards");
+    queueSceneAssets(this, "outdoorPainted", "rewards");
   }
 
   create(): void {
@@ -378,22 +387,26 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private drawChunk(chunk: OutdoorChunk): Phaser.GameObjects.GameObject[] {
     const objects: Phaser.GameObjects.GameObject[] = [];
+    this.drawPaintedChunkBase(chunk, objects);
     const g = this.add.graphics();
+    g.setDepth(-16);
     objects.push(g);
-    g.fillStyle(0x071018, 1);
+    g.fillStyle(BIOME_PAINTED_BACKDROPS[chunk.biome].veil, 0.58);
     g.fillRect(chunk.worldX, chunk.worldY, chunk.size, chunk.size);
+    this.drawPaintedTerrainWash(g, chunk);
     for (let x = chunk.worldX; x < chunk.worldX + chunk.size; x += 96) {
       for (let y = chunk.worldY; y < chunk.worldY + chunk.size; y += 96) {
         const tint = (x / 96 + y / 96) % 2 === 0 ? 0x0a1820 : 0x08131b;
-        g.fillStyle(tint, 0.75);
+        g.fillStyle(tint, 0.24);
         g.fillRect(x, y, 96, 96);
       }
     }
-    g.lineStyle(2, 0x244451, 0.36);
+    g.lineStyle(2, 0xf5fbff, 0.08);
     g.strokeRect(chunk.worldX + 3, chunk.worldY + 3, chunk.size - 6, chunk.size - 6);
     const terrainBase = this.variedColor(chunk.patch.color, this.visualNoise(chunk.id, 901) * 0.14 - 0.07);
-    g.fillStyle(terrainBase, 0.74);
+    g.fillStyle(terrainBase, 0.52);
     g.fillRoundedRect(chunk.patch.x, chunk.patch.y, chunk.patch.w, chunk.patch.h, 52);
+    this.drawPaintedPatchGlaze(g, chunk);
     this.drawBiomeEdges(g, chunk);
     this.drawTerrainDetails(g, chunk);
     this.drawAmbientAccents(chunk, objects);
@@ -410,6 +423,56 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     chunk.treasures.forEach((treasure) => this.drawTreasure(treasure, objects));
     chunk.encounters.forEach((encounter) => this.drawEncounter(encounter, objects));
     return objects;
+  }
+
+  private drawPaintedChunkBase(chunk: OutdoorChunk, objects: Phaser.GameObjects.GameObject[]): void {
+    const backdrop = BIOME_PAINTED_BACKDROPS[chunk.biome];
+    if (!this.textures.exists(backdrop.key)) return;
+    const texture = this.textures.get(backdrop.key);
+    const source = texture.getSourceImage() as { width?: number; height?: number };
+    const sourceWidth = source.width ?? 1280;
+    const sourceHeight = source.height ?? 720;
+    const cropSize = Math.max(1, Math.min(sourceWidth, sourceHeight));
+    const cropX = Math.round((sourceWidth - cropSize) * this.visualNoise(chunk.id, 1101));
+    const cropY = Math.round((sourceHeight - cropSize) * this.visualNoise(chunk.id, 1102));
+    const image = this.add.image(chunk.worldX + chunk.size / 2, chunk.worldY + chunk.size / 2, backdrop.key)
+      .setDepth(-18)
+      .setAlpha(backdrop.alpha)
+      .setDisplaySize(chunk.size + 26, chunk.size + 26);
+    image.setCrop(cropX, cropY, cropSize, cropSize);
+    if (backdrop.tint !== undefined) image.setTint(backdrop.tint);
+    objects.push(image);
+  }
+
+  private drawPaintedTerrainWash(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
+    const accent = BIOME_ACCENTS[chunk.biome];
+    const palette = BIOME_DETAIL_COLORS[chunk.biome];
+    for (let i = 0; i < 10; i += 1) {
+      const x = chunk.worldX + this.visualNoise(chunk.id, 1200 + i * 4) * chunk.size;
+      const y = chunk.worldY + this.visualNoise(chunk.id, 1201 + i * 4) * chunk.size;
+      const w = 210 + this.visualNoise(chunk.id, 1202 + i * 4) * 360;
+      const h = 42 + this.visualNoise(chunk.id, 1203 + i * 4) * 94;
+      const color = i % 3 === 0 ? accent : palette[i % palette.length]!;
+      g.fillStyle(color, 0.035 + this.visualNoise(chunk.id, 1240 + i) * 0.035);
+      g.fillEllipse(x, y, w, h);
+    }
+  }
+
+  private drawPaintedPatchGlaze(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
+    const accent = BIOME_ACCENTS[chunk.biome];
+    const x = chunk.patch.x;
+    const y = chunk.patch.y;
+    const w = chunk.patch.w;
+    const h = chunk.patch.h;
+    g.fillStyle(0xffffff, 0.035);
+    g.fillRoundedRect(x + 18, y + 16, w - 36, Math.max(40, h * 0.22), 42);
+    g.lineStyle(12, 0x02070b, 0.13);
+    g.strokeRoundedRect(x + 8, y + 8, w - 16, h - 16, 50);
+    g.lineStyle(3, accent, 0.12);
+    for (let i = 0; i < 7; i += 1) {
+      const yy = y + 58 + this.visualNoise(chunk.id, 1320 + i) * Math.max(1, h - 116);
+      g.lineBetween(x + 48, yy, x + w - 48, yy + (this.visualNoise(chunk.id, 1330 + i) - 0.5) * 28);
+    }
   }
 
   private drawPaths(g: Phaser.GameObjects.Graphics, points = this.map.pathPoints.length > 1 ? this.map.pathPoints : [this.map.start], landmarks = this.map.landmarks): void {

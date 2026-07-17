@@ -98,7 +98,7 @@ import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-vict
 import outcomeLightVictoryUrl from "../assets/images/outcomes/outcome-light-victory.webp";
 import outcomeNeutralUrl from "../assets/images/outcomes/outcome-neutral.webp";
 
-export type SceneAssetPack = "academy" | "academyHome" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "logicGym" | "nora" | "procedural" | "robotGrid" | "shop" | "rewards" | "story" | "storyBeats";
+export type SceneAssetPack = "academy" | "academyHome" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "logicGym" | "nora" | "outdoorPainted" | "procedural" | "robotGrid" | "shop" | "rewards" | "story" | "storyBeats";
 
 type ImageEntry = { type: "image"; key: string; url: string };
 type AtlasEntry = { type: "atlas"; key: string; textureUrl: string; atlasUrl: string };
@@ -141,6 +141,14 @@ const packs: Record<SceneAssetPack, AssetEntry[]> = {
   ],
   nora: [
     image("nora-room-bg", noraRoomBgUrl),
+  ],
+  outdoorPainted: [
+    image("bg-academy-painted", academyPaintedBgUrl),
+    image("bg-greenhouse-painted", greenhousePaintedBgUrl),
+    image("mission-atlas-bg", missionAtlasBgUrl),
+    image("mission-coding-terminal-bg", missionCodingTerminalBgUrl),
+    image("mission-electronics-bg", missionElectronicsBgUrl),
+    image("mission-bg-synthesis", missionSynthesisBgUrl),
   ],
   robotGrid: [
     atlas("robot-grid", robotGridSheetUrl, robotGridSheetJsonUrl),

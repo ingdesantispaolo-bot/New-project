@@ -110,6 +110,7 @@ type ActiveOutdoorHazard = {
 type CozyLandscapeKind = "roundTree" | "flowerPatch" | "fence" | "pond" | "signpost" | "bench" | "steppingStones" | "gardenBed";
 
 export class OutdoorAdventureScene extends Phaser.Scene {
+  private returnScene = "MainMenuScene";
   private map!: OutdoorAdventureMap;
   private worldSeed = "";
   private avatar!: Phaser.GameObjects.Container;
@@ -164,7 +165,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     queueSceneAssets(this, "outdoorPainted", "rewards");
   }
 
-  create(): void {
+  create(data?: { returnScene?: string }): void {
+    this.returnScene = data?.returnScene ?? "MainMenuScene";
     saveSystem.load();
     const daySeed = new Date().toISOString().slice(0, 10);
     this.worldSeed = `outdoor-${daySeed}-${rewardSystem.playerLevel()}`;
@@ -1594,7 +1596,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       stroke: 0xc7b8ff,
       soundKey: "panelOpen",
     }).setScrollFactor(0).setDepth(130);
-    new Button(this, 1170, 48, "Menu", () => this.scene.start("MainMenuScene"), {
+    new Button(this, 1170, 48, this.returnScene === "ExplorableRoomScene" ? "Mondo" : "Menu", () => this.scene.start(this.returnScene), {
       width: 128,
       height: 42,
       fontSize: 14,

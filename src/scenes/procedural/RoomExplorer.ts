@@ -245,6 +245,11 @@ export class RoomExplorer {
       const state = spot.state ?? (spot.solved ? "resolved" : "active");
       const stateMeta = this.consoleStateMeta(state, spot);
       const c = this.scene.add.container(spot.x, spot.y).setDepth(5);
+      if (spot.assetId === "portal") {
+        this.drawPortalConsole(c, spot, stateMeta.color, state);
+        spot.container = c;
+        return;
+      }
       const frameState = state === "resolved" ? "resolved" : "active";
       const frame = `console_${spot.assetId ?? spot.id}_${frameState}`;
       const hasSprite = spot.assetId !== undefined
@@ -278,6 +283,35 @@ export class RoomExplorer {
       else if (state === "failed") c.setAlpha(0.86);
       spot.container = c;
     });
+  }
+
+  private drawPortalConsole(c: Phaser.GameObjects.Container, spot: RoomConsole, color: number, state: RoomConsoleState): void {
+    const active = state === "active";
+    c.add(this.scene.add.ellipse(0, spot.h / 2 - 10, spot.w * 1.24, 34, 0x000000, 0.34));
+    c.add(this.scene.add.ellipse(0, -8, spot.w * 0.72, spot.h * 0.94, 0x07151d, 0.72).setStrokeStyle(5, color, active ? 0.86 : 0.42));
+    c.add(this.scene.add.ellipse(0, -8, spot.w * 0.48, spot.h * 0.72, 0x123246, active ? 0.66 : 0.22).setStrokeStyle(2, 0xf5fbff, active ? 0.24 : 0.1));
+    c.add(this.scene.add.ellipse(0, -8, spot.w * 0.3, spot.h * 0.5, color, active ? 0.14 : 0.05));
+    const horizon = this.scene.add.rectangle(0, 6, spot.w * 0.46, 4, 0xf6c85f, active ? 0.72 : 0.24);
+    c.add(horizon);
+    c.add(this.scene.add.triangle(-16, -1, -36, 16, -16, -28, 8, 16, 0x3b9d60, active ? 0.7 : 0.28));
+    c.add(this.scene.add.triangle(20, 2, -2, 18, 18, -22, 42, 18, 0x8fe0a4, active ? 0.54 : 0.2));
+    c.add(this.scene.add.circle(22, -30, 8, 0xf6c85f, active ? 0.86 : 0.28));
+    c.add(this.scene.add.text(0, spot.h / 2 + 12, spot.label.toUpperCase(), {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#d9eaf1",
+      fontStyle: "bold",
+      stroke: "#03121b",
+      strokeThickness: 4,
+    }).setOrigin(0.5));
+    if (!active) {
+      c.setAlpha(0.58);
+      return;
+    }
+    const ring = this.scene.add.ellipse(0, -8, spot.w * 0.9, spot.h * 1.06, color, 0).setStrokeStyle(2, color, 0.34);
+    c.add(ring);
+    this.scene.tweens.add({ targets: ring, scaleX: 1.14, scaleY: 1.08, alpha: 0.08, duration: 1320, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    this.scene.tweens.add({ targets: horizon, alpha: 0.34, duration: 980, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
   }
 
   private atlasGlyphFor(spot: RoomConsole): string | undefined {
@@ -367,7 +401,7 @@ export class RoomExplorer {
     g.fillStyle(0x1a3644, 0.9);
     this.cfg.walls.forEach((w) => g.fillRect(ox + w.x * sx, oy + w.y * sy, Math.max(1, w.w * sx), Math.max(1, w.h * sy)));
     this.cfg.consoles.forEach((spot) => {
-      const isNav = spot.id === "exit" || spot.id.startsWith("to-");
+      const isNav = spot.id === "exit" || spot.id.startsWith("to-") || spot.assetId === "portal";
       g.fillStyle(isNav ? 0xffd75e : spot.color, 0.96);
       g.fillCircle(ox + spot.x * sx, oy + spot.y * sy, isNav ? 3.4 : 2.6);
     });

@@ -368,10 +368,14 @@ export class ExplorableRoomScene extends Phaser.Scene {
     if (this.launching) return;
     this.launching = true;
     this.explorer?.pauseForOverlay();
-    void startScene(this, sceneKey).catch(() => {
-      this.launching = false;
-      this.explorer?.resume();
-      this.showError("Non sono riuscito ad aprire questa console. Riprova tra un istante.");
+    audioManager.play("doorOpen");
+    this.cameras.main.fadeOut(260, 3, 8, 12);
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+      void startScene(this, sceneKey, { returnScene: "ExplorableRoomScene" }).catch(() => {
+        this.launching = false;
+        this.explorer?.resume();
+        this.showError("Non sono riuscito ad aprire questa console. Riprova tra un istante.");
+      });
     });
   }
 

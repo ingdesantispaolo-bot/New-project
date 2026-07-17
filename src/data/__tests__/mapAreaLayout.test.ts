@@ -85,4 +85,50 @@ describe("map area console layout", () => {
 
     expect(missingTargets).toEqual([]);
   });
+
+  it("keeps non-room navigation consoles pointed at known scenes", () => {
+    const allowedScenes = new Set(["CampaignScene", "OutdoorAdventureScene"]);
+    const unknownScenes: string[] = [];
+
+    Object.values(MAP_AREAS).forEach((area) => {
+      area.consoles.forEach((console) => {
+        if (console.targetScene && !allowedScenes.has(console.targetScene)) {
+          unknownScenes.push(`${area.id}: ${console.id} -> ${console.targetScene}`);
+        }
+      });
+    });
+
+    expect(unknownScenes).toEqual([]);
+  });
+
+  it("exposes the outdoor map as a visible portal in the central world", () => {
+    const lab = MAP_AREAS.laboratorio;
+    const portal = lab.consoles.find((console) => console.id === "outdoor-gate");
+
+    expect(portal).toMatchObject({
+      label: "Varco Esterno",
+      assetId: "portal",
+      targetScene: "OutdoorAdventureScene",
+    });
+  });
+
+  it("keeps explorable rooms visually distinct by background and accent", () => {
+    const duplicateBackgrounds: string[] = [];
+    const duplicateAccents: string[] = [];
+    const backgrounds = new Map<string, string>();
+    const accents = new Map<number, string>();
+
+    Object.values(MAP_AREAS).forEach((area) => {
+      const previousBackground = backgrounds.get(area.bgTexture);
+      if (previousBackground) duplicateBackgrounds.push(`${previousBackground} / ${area.id}: ${area.bgTexture}`);
+      backgrounds.set(area.bgTexture, area.id);
+
+      const previousAccent = accents.get(area.accent);
+      if (previousAccent) duplicateAccents.push(`${previousAccent} / ${area.id}: ${area.accent.toString(16)}`);
+      accents.set(area.accent, area.id);
+    });
+
+    expect(duplicateBackgrounds).toEqual([]);
+    expect(duplicateAccents).toEqual([]);
+  });
 });

@@ -99,6 +99,7 @@ const laboratorio: MapAreaDef = {
     { id: "to-musica", assetId: "exit", label: "Motore a Risonanza", glyph: "◆", color: 0xff9d5c, x: 1100, y: 560, w: 120, h: 150, summary: "Strumento-motore della nave: onde, ritmo e ascolto.", targetArea: "sala-musica" },
     { id: "to-archivio", assetId: "exit", label: "Data-core", glyph: "◇", color: 0x7ad7ff, x: 1460, y: 560, w: 120, h: 150, summary: "Memoria della nave: lingue, testi e codici.", targetArea: "archivio-biblioteca" },
     { id: "to-biblioteca", assetId: "exit", label: "Sala dei Glifi", glyph: "◆", color: 0xd8a24a, x: 1620, y: 560, w: 120, h: 150, summary: "Parete dei Primi: latino, glifi e radici antiche.", targetArea: "biblioteca-classica" },
+    { id: "outdoor-gate", assetId: "portal", label: "Varco Esterno", glyph: "🌄", color: 0x8fe0a4, x: 1420, y: 900, w: 136, h: 162, summary: "Esci dal Relitto: mappa esterna procedurale, biomi, tesori e pericoli giorno/notte.", targetScene: "OutdoorAdventureScene" },
     { id: "exit", assetId: "nora", label: "NORA", glyph: "◇", color: 0xffd75e, x: 1620, y: 900, w: 120, h: 150, summary: "La mente della nave: scorciatoie, progressi e strumenti." },
   ],
 };

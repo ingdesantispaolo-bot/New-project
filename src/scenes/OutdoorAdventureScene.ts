@@ -107,6 +107,8 @@ type ActiveOutdoorHazard = {
   node: Phaser.GameObjects.Container;
 };
 
+type CozyLandscapeKind = "roundTree" | "flowerPatch" | "fence" | "pond" | "signpost" | "bench" | "steppingStones" | "gardenBed";
+
 export class OutdoorAdventureScene extends Phaser.Scene {
   private map!: OutdoorAdventureMap;
   private worldSeed = "";
@@ -512,6 +514,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.drawPaintedPatchGlaze(g, chunk);
     this.drawBiomeEdges(g, chunk);
     this.drawTerrainDetails(g, chunk);
+    this.drawCozyLandscape(chunk, objects);
     this.drawAmbientAccents(chunk, objects);
     objects.push(this.add.text(chunk.patch.x + 34, chunk.patch.y + 28, chunk.patch.label, {
       fontFamily: "Inter, Arial",
@@ -690,6 +693,132 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         g.fillEllipse(x + 8, y - 4, 14, 5);
       } else {
         g.fillRoundedRect(x, y, 18 + nv * 26, 4 + nv * 8, 3);
+      }
+    }
+  }
+
+  private drawCozyLandscape(chunk: OutdoorChunk, objects: Phaser.GameObjects.GameObject[]): void {
+    const count = 7 + Math.floor(this.visualNoise(chunk.id, 1740) * 5);
+    for (let i = 0; i < count; i += 1) {
+      const x = chunk.patch.x + 82 + this.visualNoise(chunk.id, 1750 + i * 5) * (chunk.patch.w - 164);
+      const y = chunk.patch.y + 86 + this.visualNoise(chunk.id, 1751 + i * 5) * (chunk.patch.h - 172);
+      if (!this.isCozySpotClear(chunk, x, y)) continue;
+      const kind = this.cozyLandscapeKind(chunk, i);
+      const scale = 0.78 + this.visualNoise(chunk.id, 1752 + i * 5) * 0.34;
+      const c = this.add.container(x, y).setDepth(1.8 + y / 10000).setScale(scale);
+      objects.push(c);
+      this.drawCozyLandscapeItem(c, kind, chunk, i);
+    }
+  }
+
+  private isCozySpotClear(chunk: OutdoorChunk, x: number, y: number): boolean {
+    const busy = [
+      ...chunk.landmarks.map((item) => ({ x: item.x, y: item.y, r: 140 })),
+      ...chunk.treasures.map((item) => ({ x: item.x, y: item.y, r: 90 })),
+      ...chunk.encounters.map((item) => ({ x: item.x, y: item.y, r: 96 })),
+      ...chunk.obstacles.map((item) => ({ x: item.x, y: item.y, r: item.r + 54 })),
+    ];
+    return busy.every((item) => Math.hypot(item.x - x, item.y - y) > item.r);
+  }
+
+  private cozyLandscapeKind(chunk: OutdoorChunk, index: number): CozyLandscapeKind {
+    const options: Record<OutdoorBiome, CozyLandscapeKind[]> = {
+      academy: ["flowerPatch", "fence", "bench", "signpost", "gardenBed", "roundTree"],
+      ruins: ["steppingStones", "signpost", "bench", "flowerPatch", "fence"],
+      geo: ["pond", "steppingStones", "flowerPatch", "signpost", "roundTree", "bench"],
+      logic: ["bench", "signpost", "gardenBed", "steppingStones", "fence"],
+      wild: ["roundTree", "flowerPatch", "pond", "gardenBed", "fence", "steppingStones"],
+      crystal: ["flowerPatch", "steppingStones", "pond", "signpost", "gardenBed"],
+    };
+    const list = options[chunk.biome];
+    return list[Math.floor(this.visualNoise(chunk.id, 1780 + index) * list.length)]!;
+  }
+
+  private drawCozyLandscapeItem(container: Phaser.GameObjects.Container, kind: CozyLandscapeKind, chunk: OutdoorChunk, index: number): void {
+    const accent = BIOME_ACCENTS[chunk.biome];
+    const palette = BIOME_DETAIL_COLORS[chunk.biome];
+    if (kind === "roundTree") {
+      const trunk = chunk.biome === "crystal" ? 0x575078 : 0x6a4428;
+      const leaf = chunk.biome === "academy" ? 0x2f8a72 : chunk.biome === "geo" ? 0x3b9d60 : chunk.biome === "wild" ? 0x287345 : accent;
+      container.add(this.add.ellipse(0, 34, 68, 16, 0x000000, 0.18));
+      container.add(this.add.rectangle(0, 15, 14, 42, trunk, 0.94));
+      const crown = this.add.container(0, -14);
+      container.add(crown);
+      crown.add(this.add.circle(-20, 2, 25, leaf, 0.95).setStrokeStyle(2, 0xf5fbff, 0.09));
+      crown.add(this.add.circle(5, -12, 31, this.variedColor(leaf, 0.08), 0.96).setStrokeStyle(2, 0xf5fbff, 0.1));
+      crown.add(this.add.circle(24, 4, 23, this.variedColor(leaf, -0.07), 0.94));
+      for (let i = 0; i < 3; i += 1) {
+        crown.add(this.add.circle(-18 + i * 18, -10 + (i % 2) * 18, 4, i % 2 === 0 ? 0xf6c85f : 0xff8f6b, 0.76));
+      }
+      if (!settingsSystem.effectsReduced()) this.tweens.add({ targets: crown, y: -17, duration: 1800 + index * 90, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      return;
+    }
+    if (kind === "flowerPatch") {
+      container.add(this.add.ellipse(0, 12, 74, 30, chunk.biome === "crystal" ? 0x222950 : 0x14382b, 0.62).setStrokeStyle(1, accent, 0.18));
+      for (let i = 0; i < 9; i += 1) {
+        const x = -30 + (i % 5) * 15 + (i > 4 ? 8 : 0);
+        const y = 5 + Math.floor(i / 5) * 12 + (i % 2) * 3;
+        const color = palette[(i + index) % palette.length]!;
+        container.add(this.add.line(0, 0, x, y + 8, x, y - 5, 0x8fe0a4, 0.34).setOrigin(0));
+        container.add(this.add.circle(x, y - 6, 5, color, 0.88));
+        container.add(this.add.circle(x, y - 6, 2, 0xf6c85f, 0.82));
+      }
+      return;
+    }
+    if (kind === "fence") {
+      container.add(this.add.ellipse(0, 18, 110, 18, 0x000000, 0.12));
+      for (let i = 0; i < 5; i += 1) {
+        const x = -46 + i * 23;
+        container.add(this.add.rectangle(x, 0, 7, 38, 0xf1c27a, 0.9).setStrokeStyle(1, 0x4a321d, 0.24));
+        container.add(this.add.triangle(x, -25, -5, 0, 0, -8, 5, 0, 0xf6d99a, 0.9));
+      }
+      container.add(this.add.rectangle(0, -8, 104, 6, 0xf1c27a, 0.82));
+      container.add(this.add.rectangle(0, 9, 104, 6, 0xd9a15f, 0.82));
+      return;
+    }
+    if (kind === "pond") {
+      container.add(this.add.ellipse(0, 10, 100, 54, 0x123246, 0.86).setStrokeStyle(3, 0x7ad7ff, 0.34));
+      container.add(this.add.ellipse(-8, 4, 72, 28, 0x2d9bbf, 0.26));
+      container.add(this.add.ellipse(18, 13, 42, 14, 0x9ff5e9, 0.18));
+      for (let i = 0; i < 4; i += 1) {
+        container.add(this.add.ellipse(-48 + i * 31, 33 + (i % 2) * 3, 16, 8, 0x6c6575, 0.76));
+      }
+      container.add(this.add.line(0, 0, -38, -4, -25, -30, 0x8fe0a4, 0.42).setOrigin(0));
+      container.add(this.add.line(0, 0, -30, -4, -14, -26, 0x8fe0a4, 0.34).setOrigin(0));
+      return;
+    }
+    if (kind === "signpost") {
+      container.add(this.add.ellipse(0, 28, 54, 12, 0x000000, 0.15));
+      container.add(this.add.rectangle(0, 8, 8, 56, 0x6a4428, 0.94));
+      container.add(this.add.rectangle(0, -18, 76, 30, 0xd9a15f, 0.94).setStrokeStyle(2, 0x4a321d, 0.34));
+      container.add(this.add.triangle(45, -18, -3, -15, -3, 15, 18, 0, 0xd9a15f, 0.94).setStrokeStyle(1, 0x4a321d, 0.24));
+      container.add(this.add.text(-6, -18, "?", { fontFamily: "Inter, Arial", fontSize: "15px", color: "#173b36", fontStyle: "bold" }).setOrigin(0.5));
+      return;
+    }
+    if (kind === "bench") {
+      container.add(this.add.ellipse(0, 26, 86, 14, 0x000000, 0.16));
+      container.add(this.add.rectangle(0, -6, 82, 11, 0xd9a15f, 0.94).setStrokeStyle(1, 0x4a321d, 0.22));
+      container.add(this.add.rectangle(0, 9, 88, 11, 0xf1c27a, 0.92).setStrokeStyle(1, 0x4a321d, 0.2));
+      container.add(this.add.rectangle(-28, 24, 7, 28, 0x4a321d, 0.84));
+      container.add(this.add.rectangle(28, 24, 7, 28, 0x4a321d, 0.84));
+      return;
+    }
+    if (kind === "steppingStones") {
+      for (let i = 0; i < 6; i += 1) {
+        const x = -42 + i * 17;
+        const y = Math.sin(i * 0.9) * 10;
+        container.add(this.add.ellipse(x, y, 21, 13, i % 2 === 0 ? 0x7f8790 : 0x6c6575, 0.78).setStrokeStyle(1, 0xdde9ef, 0.12));
+      }
+      return;
+    }
+    container.add(this.add.ellipse(0, 20, 92, 28, 0x000000, 0.13));
+    container.add(this.add.rectangle(0, 4, 86, 38, chunk.biome === "logic" ? 0x10242d : 0x5a3a22, 0.9).setStrokeStyle(2, accent, 0.28));
+    for (let row = 0; row < 3; row += 1) {
+      const y = -8 + row * 12;
+      container.add(this.add.line(0, 0, -36, y, 36, y, 0xf1c27a, 0.2).setOrigin(0));
+      for (let i = 0; i < 4; i += 1) {
+        const x = -27 + i * 18 + (row % 2) * 4;
+        container.add(this.add.ellipse(x, y - 3, 13, 6, palette[(i + row) % palette.length]!, 0.58));
       }
     }
   }

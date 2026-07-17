@@ -522,18 +522,22 @@ export class MainMenuScene extends Phaser.Scene {
 
     this.addMistakeJournalPanel(modal, close);
 
-    modal.add(new Button(this, 268, 620, "📖 Codex", () => {
+    modal.add(new Button(this, 222, 620, "📖 Codex", () => {
       close();
       this.openMenuScene("CodexScene", "Non sono riuscito ad aprire il Codex. Riprova tra un istante.");
-    }, { width: 196, height: 44, fontSize: 14, fill: 0x1f4a44, stroke: 0x6be7d6 }));
-    modal.add(new Button(this, 476, 620, "🕹️ Mappa viva", () => {
+    }, { width: 168, height: 44, fontSize: 13, fill: 0x1f4a44, stroke: 0x6be7d6 }));
+    modal.add(new Button(this, 406, 620, "🕹️ Mappa viva", () => {
       close();
       this.openMenuScene("ExplorableRoomScene", "Non sono riuscito ad aprire la mappa esplorabile. Riprova tra un istante.");
-    }, { width: 190, height: 44, fontSize: 14, fill: 0x24344a, stroke: 0x7ad7ff }));
-    modal.add(new Button(this, 700, 620, "🛍️ Bottega", () => {
+    }, { width: 170, height: 44, fontSize: 13, fill: 0x24344a, stroke: 0x7ad7ff }));
+    modal.add(new Button(this, 594, 620, "🌄 Avventura", () => {
+      close();
+      this.openMenuScene("OutdoorAdventureScene", "Non sono riuscito ad aprire l'avventura esterna. Riprova tra un istante.");
+    }, { width: 178, height: 44, fontSize: 13, fill: 0x1f3f2f, stroke: 0x8fe0a4 }));
+    modal.add(new Button(this, 790, 620, "🛍️ Bottega", () => {
       close();
       this.openMenuScene("RewardShopScene", "Non sono riuscito ad aprire la Bottega. Riprova tra un istante.");
-    }, { width: 196, height: 44, fontSize: 14, fill: 0x3a3220, stroke: 0xf6c85f }));
+    }, { width: 170, height: 44, fontSize: 13, fill: 0x3a3220, stroke: 0xf6c85f }));
     modal.add(this.add.text(132, 596, "Studio, anteprime e ricompense:", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9fb6c2" }));
 
     modal.add(new Button(this, 1010, 620, "Chiudi", close, { width: 180, height: 44, fill: 0x263743 }));

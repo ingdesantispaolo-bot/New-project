@@ -1,3 +1,5 @@
+import { generateOutdoorAdventureRegion } from "./OutdoorChunkGenerator";
+
 export type OutdoorBiome = "academy" | "ruins" | "geo" | "logic" | "wild" | "crystal";
 export type OutdoorEncounterKind = "times" | "mental" | "capital" | "physicalGeo" | "guardian";
 
@@ -124,6 +126,10 @@ function insidePatch(random: () => number, patch: OutdoorBiomePatch, pad = 100):
 }
 
 export function generateOutdoorAdventureMap(seed: string): OutdoorAdventureMap {
+  return generateOutdoorAdventureRegion(seed, 2, 2);
+}
+
+export function generateOutdoorAdventureMapLegacy(seed: string): OutdoorAdventureMap {
   const random = rng(seed);
   const width = 3400;
   const height = 2380;

@@ -5,7 +5,8 @@ import { feedbackSystem } from "../core/FeedbackSystem";
 import { rewardSystem, type Cosmetic } from "../core/RewardSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
-import { generateOutdoorAdventureMap, type OutdoorAdventureMap, type OutdoorBiome, type OutdoorEncounter, type OutdoorEncounterKind, type OutdoorLandmark, type OutdoorObstacle, type OutdoorProp, type OutdoorTreasure } from "../procedural/OutdoorAdventureGenerator";
+import { type OutdoorAdventureMap, type OutdoorBiome, type OutdoorEncounter, type OutdoorEncounterKind, type OutdoorLandmark, type OutdoorObstacle, type OutdoorProp, type OutdoorTreasure } from "../procedural/OutdoorAdventureGenerator";
+import { generateOutdoorChunk, OUTDOOR_CHUNK_SIZE, type OutdoorChunk } from "../procedural/OutdoorChunkGenerator";
 import { Button } from "../ui/Button";
 
 type Dir = "down" | "up" | "left" | "right";
@@ -37,6 +38,15 @@ const BIOME_LABELS: Record<OutdoorBiome, string> = {
   crystal: "Nido cristallino",
 };
 
+const BIOME_ACCENTS: Record<OutdoorBiome, number> = {
+  academy: 0x6be7d6,
+  ruins: 0xff8f6b,
+  geo: 0x8fe0a4,
+  logic: 0x9f8cff,
+  wild: 0x74f0c5,
+  crystal: 0xc7b8ff,
+};
+
 const FORGE_REWARDS: Array<{ id: string; fragmentCost: number; guardianWins?: number }> = [
   { id: "accessory-halo", fragmentCost: 45 },
   { id: "avatar-shadow", fragmentCost: 80, guardianWins: 1 },
@@ -45,8 +55,18 @@ const FORGE_REWARDS: Array<{ id: string; fragmentCost: number; guardianWins?: nu
   { id: "pet-codex", fragmentCost: 190, guardianWins: 3 },
 ];
 
+const STREAM_RADIUS = 2;
+const VIRTUAL_WORLD_LIMIT = OUTDOOR_CHUNK_SIZE * 512;
+const DAILY_ROUTE_TARGET = 12;
+
+type ActiveOutdoorChunk = {
+  chunk: OutdoorChunk;
+  objects: Phaser.GameObjects.GameObject[];
+};
+
 export class OutdoorAdventureScene extends Phaser.Scene {
   private map!: OutdoorAdventureMap;
+  private worldSeed = "";
   private avatar!: Phaser.GameObjects.Container;
   private avatarSprite?: Phaser.GameObjects.Sprite;
   private petCompanion?: Phaser.GameObjects.Container;
@@ -56,6 +76,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private paused = false;
   private completed = new Set<string>();
   private collectedTreasures = new Set<string>();
+  private activeChunks = new Map<string, ActiveOutdoorChunk>();
+  private currentChunkId = "";
   private encounterNodes = new Map<string, Phaser.GameObjects.Container>();
   private treasureNodes = new Map<string, Phaser.GameObjects.Container>();
   private prompt!: Phaser.GameObjects.Container;
@@ -74,12 +96,13 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   create(): void {
     saveSystem.load();
     const daySeed = new Date().toISOString().slice(0, 10);
-    this.map = generateOutdoorAdventureMap(`outdoor-${daySeed}-${rewardSystem.playerLevel()}`);
+    this.worldSeed = `outdoor-${daySeed}-${rewardSystem.playerLevel()}`;
+    this.map = this.emptyOutdoorMap();
     this.completed = new Set(saveSystem.outdoorAdventure.completedEncounterIds);
     this.collectedTreasures = new Set(saveSystem.outdoorAdventure.collectedTreasureIds ?? []);
-    this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
+    this.cameras.main.setBounds(-VIRTUAL_WORLD_LIMIT, -VIRTUAL_WORLD_LIMIT, VIRTUAL_WORLD_LIMIT * 2, VIRTUAL_WORLD_LIMIT * 2);
     this.cameras.main.setBackgroundColor("#071018");
-    this.drawWorld();
+    this.syncOutdoorChunks(true);
     this.buildAvatar();
     this.buildPrompt();
     this.drawHud();
@@ -94,43 +117,117 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   update(_: number, delta: number): void {
     if (this.paused) return;
     this.updateMovement(delta / 1000);
+    this.syncOutdoorChunks();
     this.updatePet();
     this.updatePrompt();
   }
 
-  private drawWorld(): void {
+  private emptyOutdoorMap(): OutdoorAdventureMap {
+    return {
+      seed: this.worldSeed,
+      width: VIRTUAL_WORLD_LIMIT * 2,
+      height: VIRTUAL_WORLD_LIMIT * 2,
+      start: { x: OUTDOOR_CHUNK_SIZE / 2, y: OUTDOOR_CHUNK_SIZE / 2 },
+      patches: [],
+      obstacles: [],
+      props: [],
+      landmarks: [],
+      treasures: [],
+      encounters: [],
+      pathPoints: [],
+    };
+  }
+
+  private chunkId(chunkX: number, chunkY: number): string {
+    return `${chunkX},${chunkY}`;
+  }
+
+  private syncOutdoorChunks(force = false): void {
+    const origin = this.avatar ? { x: this.avatar.x, y: this.avatar.y } : this.map.start;
+    const chunkX = Math.floor(origin.x / OUTDOOR_CHUNK_SIZE);
+    const chunkY = Math.floor(origin.y / OUTDOOR_CHUNK_SIZE);
+    const centerId = this.chunkId(chunkX, chunkY);
+    if (!force && centerId === this.currentChunkId) return;
+    this.currentChunkId = centerId;
+
+    const wanted = new Set<string>();
+    for (let y = chunkY - STREAM_RADIUS; y <= chunkY + STREAM_RADIUS; y += 1) {
+      for (let x = chunkX - STREAM_RADIUS; x <= chunkX + STREAM_RADIUS; x += 1) {
+        wanted.add(this.chunkId(x, y));
+        if (!this.activeChunks.has(this.chunkId(x, y))) {
+          const chunk = generateOutdoorChunk(this.worldSeed, x, y);
+          const objects = this.drawChunk(chunk);
+          this.activeChunks.set(this.chunkId(x, y), { chunk, objects });
+        }
+      }
+    }
+
+    for (const [id, active] of this.activeChunks.entries()) {
+      if (wanted.has(id)) continue;
+      active.chunk.encounters.forEach((encounter) => this.encounterNodes.delete(encounter.id));
+      active.chunk.treasures.forEach((treasure) => this.treasureNodes.delete(treasure.id));
+      if (active.chunk.encounters.some((encounter) => encounter.id === this.activeEncounter?.id)) this.activeEncounter = undefined;
+      if (active.chunk.treasures.some((treasure) => treasure.id === this.activeTreasure?.id)) this.activeTreasure = undefined;
+      active.objects.forEach((object) => {
+        this.tweens.killTweensOf(object);
+        object.destroy();
+      });
+      this.activeChunks.delete(id);
+    }
+
+    this.rebuildActiveMap();
+    this.refreshHud();
+  }
+
+  private rebuildActiveMap(): void {
+    const chunks = [...this.activeChunks.values()].map((active) => active.chunk);
+    this.map = {
+      ...this.emptyOutdoorMap(),
+      patches: chunks.map((chunk) => chunk.patch),
+      obstacles: chunks.flatMap((chunk) => chunk.obstacles).filter((obstacle) => Math.hypot(obstacle.x - this.map.start.x, obstacle.y - this.map.start.y) > 170),
+      props: chunks.flatMap((chunk) => chunk.props),
+      landmarks: chunks.flatMap((chunk) => chunk.landmarks),
+      treasures: chunks.flatMap((chunk) => chunk.treasures),
+      encounters: chunks.flatMap((chunk) => chunk.encounters),
+      pathPoints: chunks.flatMap((chunk) => chunk.pathPoints),
+    };
+  }
+
+  private drawChunk(chunk: OutdoorChunk): Phaser.GameObjects.GameObject[] {
+    const objects: Phaser.GameObjects.GameObject[] = [];
     const g = this.add.graphics();
+    objects.push(g);
     g.fillStyle(0x071018, 1);
-    g.fillRect(0, 0, this.map.width, this.map.height);
-    for (let x = 0; x < this.map.width; x += 96) {
-      for (let y = 0; y < this.map.height; y += 96) {
+    g.fillRect(chunk.worldX, chunk.worldY, chunk.size, chunk.size);
+    for (let x = chunk.worldX; x < chunk.worldX + chunk.size; x += 96) {
+      for (let y = chunk.worldY; y < chunk.worldY + chunk.size; y += 96) {
         const tint = (x / 96 + y / 96) % 2 === 0 ? 0x0a1820 : 0x08131b;
         g.fillStyle(tint, 0.75);
         g.fillRect(x, y, 96, 96);
       }
     }
-    this.map.patches.forEach((patch) => {
-      g.fillStyle(patch.color, 0.74);
-      g.fillRoundedRect(patch.x, patch.y, patch.w, patch.h, 52);
-      g.lineStyle(3, patch.accent, 0.32);
-      g.strokeRoundedRect(patch.x, patch.y, patch.w, patch.h, 52);
-      this.add.text(patch.x + 34, patch.y + 28, patch.label, {
-        fontFamily: "Inter, Arial",
-        fontSize: "18px",
-        color: "#f5fbff",
-        fontStyle: "bold",
-      }).setAlpha(0.76);
-    });
-    this.drawPaths(g);
-    this.map.props.forEach((prop) => this.drawProp(prop));
-    this.map.obstacles.forEach((obstacle) => this.drawObstacle(obstacle));
-    this.map.landmarks.forEach((landmark) => this.drawLandmark(landmark));
-    this.map.treasures.forEach((treasure) => this.drawTreasure(treasure));
-    this.map.encounters.forEach((encounter) => this.drawEncounter(encounter));
+    g.lineStyle(2, 0x244451, 0.36);
+    g.strokeRect(chunk.worldX + 3, chunk.worldY + 3, chunk.size - 6, chunk.size - 6);
+    g.fillStyle(chunk.patch.color, 0.74);
+    g.fillRoundedRect(chunk.patch.x, chunk.patch.y, chunk.patch.w, chunk.patch.h, 52);
+    g.lineStyle(3, chunk.patch.accent, 0.32);
+    g.strokeRoundedRect(chunk.patch.x, chunk.patch.y, chunk.patch.w, chunk.patch.h, 52);
+    objects.push(this.add.text(chunk.patch.x + 34, chunk.patch.y + 28, chunk.patch.label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setAlpha(0.76));
+    this.drawPaths(g, chunk.pathPoints, chunk.landmarks);
+    chunk.props.forEach((prop) => this.drawProp(prop, objects));
+    chunk.obstacles.forEach((obstacle) => this.drawObstacle(obstacle, objects));
+    chunk.landmarks.forEach((landmark) => this.drawLandmark(landmark, objects));
+    chunk.treasures.forEach((treasure) => this.drawTreasure(treasure, objects));
+    chunk.encounters.forEach((encounter) => this.drawEncounter(encounter, objects));
+    return objects;
   }
 
-  private drawPaths(g: Phaser.GameObjects.Graphics): void {
-    const points = this.map.pathPoints.length > 1 ? this.map.pathPoints : [this.map.start];
+  private drawPaths(g: Phaser.GameObjects.Graphics, points = this.map.pathPoints.length > 1 ? this.map.pathPoints : [this.map.start], landmarks = this.map.landmarks): void {
     g.lineStyle(42, 0x132a33, 0.72);
     for (let i = 0; i < points.length - 1; i += 1) g.lineBetween(points[i]!.x, points[i]!.y, points[i + 1]!.x, points[i + 1]!.y);
     g.lineStyle(4, 0xf6c85f, 0.18);
@@ -138,13 +235,14 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const hub = points[1];
     if (!hub) return;
     g.lineStyle(18, 0x10242d, 0.42);
-    this.map.landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
+    landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
     g.lineStyle(2, 0x9ff5e9, 0.14);
-    this.map.landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
+    landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
   }
 
-  private drawProp(prop: OutdoorProp): void {
+  private drawProp(prop: OutdoorProp, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(prop.x, prop.y).setDepth(2 + prop.y / 10000);
+    objects?.push(c);
     if (prop.kind === "river") {
       c.add(this.add.ellipse(0, 0, 132, 34, 0x145f78, 0.72).setStrokeStyle(2, 0x7ad7ff, 0.48));
       return;
@@ -211,8 +309,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     c.add(this.add.text(0, 0, "?", { fontFamily: "Inter, Arial", fontSize: "18px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0.5));
   }
 
-  private drawObstacle(obstacle: OutdoorObstacle): void {
+  private drawObstacle(obstacle: OutdoorObstacle, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(obstacle.x, obstacle.y).setDepth(3 + obstacle.y / 10000);
+    objects?.push(c);
     if (obstacle.kind === "tree") {
       c.add(this.add.rectangle(0, obstacle.r * 0.45, obstacle.r * 0.5, obstacle.r, 0x4a321d, 1));
       c.add(this.add.circle(0, -obstacle.r * 0.25, obstacle.r, obstacle.color, 0.94).setStrokeStyle(2, 0x8fe0a4, 0.36));
@@ -249,8 +348,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     c.add(this.add.ellipse(0, 0, obstacle.r * 1.7, obstacle.r * 1.25, obstacle.color, 0.96).setStrokeStyle(2, 0xdde9ef, 0.18));
   }
 
-  private drawLandmark(landmark: OutdoorLandmark): void {
+  private drawLandmark(landmark: OutdoorLandmark, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(landmark.x, landmark.y).setDepth(5 + landmark.y / 10000);
+    objects?.push(c);
     const accent = landmark.color;
     c.add(this.add.ellipse(0, 44, 138, 32, 0x000000, 0.24));
     c.add(this.add.circle(0, -10, 78, accent, 0.09));
@@ -292,8 +392,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }).setOrigin(0.5, 0));
   }
 
-  private drawTreasure(treasure: OutdoorTreasure): void {
+  private drawTreasure(treasure: OutdoorTreasure, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(treasure.x, treasure.y).setDepth(7 + treasure.y / 10000);
+    objects?.push(c);
     const collected = this.collectedTreasures.has(treasure.id);
     const accent = this.biomeAccent(treasure.biome);
     c.add(this.add.ellipse(0, 24, 62, 16, 0x000000, 0.28));
@@ -331,10 +432,11 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.treasureNodes.set(treasure.id, c);
   }
 
-  private drawEncounter(encounter: OutdoorEncounter): void {
+  private drawEncounter(encounter: OutdoorEncounter, objects?: Phaser.GameObjects.GameObject[]): void {
     const patch = this.map.patches.find((candidate) => candidate.id === encounter.biome);
     const accent = patch?.accent ?? 0x6be7d6;
     const c = this.add.container(encounter.x, encounter.y).setDepth(8 + encounter.y / 10000);
+    objects?.push(c);
     const done = this.completed.has(encounter.id);
     c.add(this.add.circle(0, 0, encounter.kind === "guardian" ? 34 : 25, 0x061019, 0.94).setStrokeStyle(3, accent, 0.9));
     c.add(this.add.circle(0, 0, encounter.kind === "guardian" ? 17 : 11, accent, 0.78));
@@ -434,7 +536,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       fontStyle: "bold",
     }).setOrigin(1, 0);
     hud.add(this.energyText);
-    this.progressText = this.add.text(36, 84, `${this.completed.size}/${this.map.encounters.length} incontri · ${this.collectedTreasures.size}/${this.map.treasures.length} tesori · serie ${outdoor.currentStreak}`, {
+    this.progressText = this.add.text(36, 84, `${this.completed.size} incontri · ${this.collectedTreasures.size} tesori · ${this.activeChunks.size} zone · serie ${outdoor.currentStreak}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9ff5e9",
@@ -484,8 +586,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     dx /= len;
     dy /= len;
     const speed = rewardSystem.equippedId("accessory") === "accessory-jetpack" ? 300 : 260;
-    const nx = Phaser.Math.Clamp(this.avatar.x + dx * speed * dt, 42, this.map.width - 42);
-    const ny = Phaser.Math.Clamp(this.avatar.y + dy * speed * dt, 54, this.map.height - 54);
+    const nx = Phaser.Math.Clamp(this.avatar.x + dx * speed * dt, -VIRTUAL_WORLD_LIMIT + 42, VIRTUAL_WORLD_LIMIT - 42);
+    const ny = Phaser.Math.Clamp(this.avatar.y + dy * speed * dt, -VIRTUAL_WORLD_LIMIT + 54, VIRTUAL_WORLD_LIMIT - 54);
     if (this.isWalkable(nx, this.avatar.y)) this.avatar.x = nx;
     if (this.isWalkable(this.avatar.x, ny)) this.avatar.y = ny;
     this.avatar.setDepth(20 + this.avatar.y / 10000);
@@ -649,11 +751,11 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         fragments: 12,
       },
       {
-        id: "full-map",
-        title: "Giro completo",
-        description: "Ripulisci tutti gli incontri generati oggi.",
-        current: Math.min(this.completed.size, this.map.encounters.length),
-        target: this.map.encounters.length,
+        id: "daily-route-12",
+        title: "Rotta lunga",
+        description: "Supera dodici incontri esplorando più zone.",
+        current: Math.min(this.completed.size, DAILY_ROUTE_TARGET),
+        target: DAILY_ROUTE_TARGET,
         energy: 95,
         fragments: 24,
       },
@@ -998,7 +1100,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         wordWrap: { width: 440 },
       }).setOrigin(0.5));
     }
-    overlay.add(this.add.text(640, 382, `Mappa oggi: ${outdoor.completedEncounterIds.length}/${this.map.encounters.length} · serie migliore ${outdoor.bestStreak} · guardiani ${outdoor.guardianWins}`, {
+    overlay.add(this.add.text(640, 382, `Avventura oggi: ${outdoor.completedEncounterIds.length} incontri · serie migliore ${outdoor.bestStreak} · guardiani ${outdoor.guardianWins}`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7b8ff",
@@ -1061,7 +1163,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private refreshHud(): void {
     const outdoor = saveSystem.outdoorAdventure;
     this.energyText?.setText(`${rewardSystem.energy()} ⚡`);
-    this.progressText?.setText(`${this.completed.size}/${this.map.encounters.length} incontri · ${this.collectedTreasures.size}/${this.map.treasures.length} tesori · serie ${outdoor.currentStreak}`);
+    this.progressText?.setText(`${this.completed.size} incontri · ${this.collectedTreasures.size} tesori · ${this.activeChunks.size} zone · serie ${outdoor.currentStreak}`);
     this.fragmentText?.setText(`${outdoor.fragments} frammenti`);
   }
 
@@ -1088,7 +1190,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   private biomeAccent(biome: OutdoorBiome): number {
-    return this.map.patches.find((patch) => patch.id === biome)?.accent ?? 0x6be7d6;
+    return this.map.patches.find((patch) => patch.id === biome)?.accent ?? BIOME_ACCENTS[biome];
   }
 
   private subjectFor(kind: OutdoorEncounterKind): string {

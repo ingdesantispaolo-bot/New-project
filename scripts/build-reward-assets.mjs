@@ -72,6 +72,38 @@ function iconBody(item, accent) {
       ${commonGlyph}`;
   }
   if (item.slot === "pet") {
+    if (item.id === "pet-dog") {
+      return `
+      <ellipse cx="64" cy="76" rx="31" ry="20" fill="#d9a15f" stroke="${accent}" stroke-width="3"/>
+      <circle cx="64" cy="52" r="21" fill="#e7b46f" stroke="#fff0d6" stroke-opacity=".35" stroke-width="2"/>
+      <ellipse cx="46" cy="48" rx="9" ry="18" fill="#8b5a32"/>
+      <ellipse cx="82" cy="48" rx="9" ry="18" fill="#8b5a32"/>
+      <circle cx="56" cy="49" r="3" fill="#1b120c"/><circle cx="72" cy="49" r="3" fill="#1b120c"/>
+      <circle cx="64" cy="58" r="4" fill="#1b120c"/>
+      <path d="M84 76 Q104 59 109 76" fill="none" stroke="${accent}" stroke-width="6" stroke-linecap="round"/>
+      <path d="M55 65 Q64 72 73 65" fill="none" stroke="#fff0d6" stroke-width="3" stroke-linecap="round"/>`;
+    }
+    if (item.id === "pet-cat") {
+      return `
+      <ellipse cx="64" cy="76" rx="28" ry="20" fill="${accent}" opacity=".9" stroke="#f8fbff" stroke-opacity=".28" stroke-width="2"/>
+      <circle cx="64" cy="53" r="22" fill="${accent}" stroke="#07151d" stroke-opacity=".28" stroke-width="2"/>
+      <path d="M45 40 L53 17 L64 41 Z M83 40 L75 17 L64 41 Z" fill="${accent}" stroke="#f8fbff" stroke-opacity=".28" stroke-width="2"/>
+      <circle cx="56" cy="51" r="3" fill="#07151d"/><circle cx="72" cy="51" r="3" fill="#07151d"/>
+      <path d="M55 62 H32 M55 66 H34 M73 62 H96 M73 66 H94" stroke="#f8fbff" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      <path d="M85 78 Q107 80 99 57" fill="none" stroke="${accent}" stroke-width="7" stroke-linecap="round"/>`;
+    }
+    if (item.id === "pet-rabbit") {
+      return `
+      <ellipse cx="64" cy="80" rx="30" ry="19" fill="#f2f7ff" stroke="${accent}" stroke-width="3"/>
+      <circle cx="64" cy="55" r="20" fill="#ffffff" stroke="#cfdbea" stroke-width="2"/>
+      <rect x="49" y="16" width="10" height="33" rx="5" fill="#f2f7ff" stroke="#cfdbea" stroke-width="2"/>
+      <rect x="69" y="15" width="10" height="34" rx="5" fill="#f2f7ff" stroke="#cfdbea" stroke-width="2"/>
+      <rect x="53" y="22" width="3" height="22" rx="2" fill="${accent}" opacity=".35"/>
+      <rect x="73" y="21" width="3" height="23" rx="2" fill="${accent}" opacity=".35"/>
+      <circle cx="57" cy="54" r="3" fill="#07151d"/><circle cx="72" cy="54" r="3" fill="#07151d"/>
+      <circle cx="65" cy="62" r="3" fill="#ff9ad2"/>
+      <circle cx="92" cy="82" r="8" fill="#ffffff" opacity=".88"/>`;
+    }
     return `
       <circle cx="64" cy="64" r="35" fill="${accent}" opacity=".12"/>
       <circle cx="64" cy="64" r="24" fill="#07151d" stroke="${accent}" stroke-width="4"/>

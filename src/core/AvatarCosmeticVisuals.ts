@@ -199,7 +199,55 @@ export function drawPetVisual(scene: Phaser.Scene, parent: Phaser.GameObjects.Co
   g.lineStyle(2, color, 0.88);
   g.strokeCircle(0, 0, 11);
 
-  if (pet.id === "pet-orbit" || pet.id === "pet-satellite") {
+  if (pet.id === "pet-dog") {
+    g.fillStyle(0xd9a15f, 0.95);
+    g.fillEllipse(0, 5, 38, 28);
+    g.fillCircle(1, -12, 18);
+    g.fillStyle(0x8b5a32, 0.92);
+    g.fillEllipse(-15, -16, 12, 24);
+    g.fillEllipse(17, -16, 12, 24);
+    g.fillStyle(0x1b120c, 0.95);
+    g.fillCircle(-6, -14, 2.6);
+    g.fillCircle(8, -14, 2.6);
+    g.fillCircle(1, -7, 3.2);
+    g.lineStyle(2, 0xfff0d6, 0.78);
+    g.lineBetween(-4, -3, 1, 1);
+    g.lineBetween(6, -3, 1, 1);
+    g.lineStyle(3, color, 0.76);
+    g.lineBetween(18, 8, 32, -2);
+  } else if (pet.id === "pet-cat") {
+    g.fillStyle(color, 0.94);
+    g.fillEllipse(0, 4, 34, 28);
+    g.fillTriangle(-13, -16, -7, -33, 1, -15);
+    g.fillTriangle(13, -16, 7, -33, -1, -15);
+    g.fillCircle(0, -10, 18);
+    g.fillStyle(0x07151d, 0.95);
+    g.fillCircle(-6, -12, 2.4);
+    g.fillCircle(7, -12, 2.4);
+    g.lineStyle(1, 0xffffff, 0.55);
+    g.lineBetween(-10, -4, -27, -10);
+    g.lineBetween(-10, 0, -28, 0);
+    g.lineBetween(10, -4, 27, -10);
+    g.lineBetween(10, 0, 28, 0);
+    g.lineStyle(4, color, 0.62);
+    g.strokeCircle(21, 8, 13);
+  } else if (pet.id === "pet-rabbit") {
+    g.fillStyle(0xf2f7ff, 0.96);
+    g.fillEllipse(0, 8, 36, 28);
+    g.fillCircle(0, -8, 17);
+    g.fillRoundedRect(-11, -42, 9, 34, 5);
+    g.fillRoundedRect(4, -43, 9, 35, 5);
+    g.fillStyle(color, 0.32);
+    g.fillRoundedRect(-8, -37, 3, 24, 2);
+    g.fillRoundedRect(7, -38, 3, 25, 2);
+    g.fillStyle(0x07151d, 0.9);
+    g.fillCircle(-5, -11, 2.3);
+    g.fillCircle(7, -11, 2.3);
+    g.fillStyle(0xff9ad2, 0.8);
+    g.fillCircle(1, -5, 2.8);
+    g.fillStyle(0xffffff, 0.82);
+    g.fillCircle(19, 10, 6);
+  } else if (pet.id === "pet-orbit" || pet.id === "pet-satellite") {
     g.strokeEllipse(0, 0, 42, 17);
     c.add(scene.add.circle(20, 1, 4, color, 0.96));
   } else if (pet.id === "pet-prisma") {

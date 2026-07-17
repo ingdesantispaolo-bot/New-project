@@ -1407,14 +1407,24 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       this.petMood = "idle";
     }
     const nearestTreasure = this.nearestUncollectedTreasure(170);
-    const baseDistance = this.petMood === "treasure" ? 62 : this.petMood === "correct" ? 36 : nearestTreasure ? 42 : 48;
+    const species = this.equippedPetSpecies();
+    const baseDistance = this.petMood === "treasure"
+      ? species === "dog" ? 72 : 62
+      : this.petMood === "correct"
+        ? species === "rabbit" ? 30 : 36
+        : nearestTreasure
+          ? species === "dog" ? 34 : 42
+          : species === "cat" ? 58 : 48;
     const side = this.facing === "left" ? 1 : -1;
-    const orbit = Math.sin(this.time.now / (this.petMood === "correct" ? 170 : 360));
+    const rhythm = species === "rabbit" ? 210 : species === "cat" ? 520 : 320;
+    const orbit = Math.sin(this.time.now / (this.petMood === "correct" ? 170 : rhythm));
+    const hop = species === "rabbit" ? Math.max(0, Math.sin(this.time.now / 115)) * -16 : 0;
+    const catDrift = species === "cat" ? Math.sin(this.time.now / 740) * 18 : 0;
     const targetX = nearestTreasure && this.petMood === "idle"
       ? Phaser.Math.Linear(this.avatar.x + side * baseDistance, nearestTreasure.x, 0.18)
-      : this.avatar.x + side * baseDistance + orbit * (this.petMood === "correct" ? 10 : 4);
-    const targetY = this.avatar.y + 18 + Math.sin(this.time.now / 360) * 7 - (this.petMood === "correct" ? 18 : 0);
-    const follow = this.petMood === "idle" ? 0.07 : 0.14;
+      : this.avatar.x + side * baseDistance + orbit * (this.petMood === "correct" ? 10 : 4) + catDrift;
+    const targetY = this.avatar.y + 18 + Math.sin(this.time.now / 360) * 7 - (this.petMood === "correct" ? 18 : 0) + hop;
+    const follow = this.petMood === "idle" ? species === "cat" ? 0.055 : 0.07 : species === "dog" ? 0.18 : 0.14;
     this.petCompanion.x = Phaser.Math.Linear(this.petCompanion.x, targetX, follow);
     this.petCompanion.y = Phaser.Math.Linear(this.petCompanion.y, targetY, follow);
     this.petCompanion.setScale(this.petMood === "correct" ? 1.16 : this.petMood === "treasure" ? 1.1 : 1.05);
@@ -1423,6 +1433,14 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       this.petNextChirpAt = this.time.now + 2600;
       this.petSpark(nearestTreasure.x, nearestTreasure.y, this.biomeAccent(nearestTreasure.biome));
     }
+  }
+
+  private equippedPetSpecies(): "dog" | "cat" | "rabbit" | "other" {
+    const id = rewardSystem.equippedId("pet");
+    if (id === "pet-dog") return "dog";
+    if (id === "pet-cat") return "cat";
+    if (id === "pet-rabbit") return "rabbit";
+    return "other";
   }
 
   private nearestUncollectedTreasure(radius: number): OutdoorTreasure | undefined {
@@ -2242,7 +2260,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const outfit = rewardSystem.equippedId("avatar");
     const pet = rewardSystem.equippedId("pet");
     if (outfit === "avatar-captain" || outfit === "avatar-engineer") shield += 1;
-    if (pet === "pet-guardiano") shield += 1;
+    if (pet === "pet-guardiano" || pet === "pet-dog") shield += 1;
     return shield;
   }
 
@@ -2250,13 +2268,16 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     let damage = 1;
     if (rewardSystem.equippedId("emblem") === "emblem-bolt") damage += 1;
     if (rewardSystem.equippedId("accessory") === "accessory-visor" && damage === 1) damage += 1;
+    if (rewardSystem.equippedId("pet") === "pet-rabbit" && damage === 1) damage += 1;
     return damage;
   }
 
   private fragmentReward(encounter: OutdoorEncounter, correct: number, victory: boolean): number {
     const base = victory ? encounter.difficulty + (encounter.kind === "guardian" ? 4 : 1) : 1;
-    const codexBonus = rewardSystem.equippedId("pet") === "pet-codex" ? 2 : 0;
-    return Math.max(1, base + correct + codexBonus);
+    const pet = rewardSystem.equippedId("pet");
+    const codexBonus = pet === "pet-codex" ? 2 : 0;
+    const catBonus = pet === "pet-cat" && victory ? 1 : 0;
+    return Math.max(1, base + correct + codexBonus + catBonus);
   }
 
   private biomeAccent(biome: OutdoorBiome): number {

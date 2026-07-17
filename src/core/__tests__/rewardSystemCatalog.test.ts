@@ -26,6 +26,18 @@ describe("reward catalog", () => {
     expect(weakPets).toEqual([]);
   });
 
+  it("includes recognizable animal companions with meaningful progression costs", () => {
+    const animalPets = ["pet-dog", "pet-cat", "pet-rabbit"];
+    const missing = animalPets.filter((id) => !REWARD_CATALOG.some((item) => item.id === id && item.slot === "pet"));
+    const tooCheap = REWARD_CATALOG
+      .filter((item) => animalPets.includes(item.id))
+      .filter((item) => item.cost < 1500 || (item.minLevel ?? 1) < 4)
+      .map((item) => item.id);
+
+    expect(missing).toEqual([]);
+    expect(tooCheap).toEqual([]);
+  });
+
   it("keeps passive reward cards visually identifiable", () => {
     const passiveSlots: CosmeticSlot[] = ["upgrade", "decor"];
     const missingGlyphs = REWARD_CATALOG

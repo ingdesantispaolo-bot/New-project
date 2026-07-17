@@ -49,6 +49,9 @@ export const REWARD_CATALOG: Cosmetic[] = [
   { id: "accessory-jetpack", slot: "accessory", name: "Jetpack didattico", description: "Doppio modulo dorsale con scie luminose.", cost: 1700, glyph: "⇡", color: 0xffb85c, minLevel: 7 },
   { id: "accessory-halo", slot: "accessory", name: "Aureola prismatica", description: "Anello raro sospeso sopra l'avatar.", cost: 2600, glyph: "○", color: 0xffd75e, minLevel: 8 },
   // --- Pet-compagni: obiettivi costosi di lungo periodo -------------------
+  { id: "pet-dog", slot: "pet", name: "Cane Scout", description: "Compagno fedele: resta vicino e reagisce forte ai tesori.", cost: 1700, glyph: "🐶", color: 0xd9a15f, minLevel: 4 },
+  { id: "pet-cat", slot: "pet", name: "Gatto Prisma", description: "Agile e curioso: orbita con movimenti morbidi e precisi.", cost: 2200, glyph: "🐱", color: 0xc7b8ff, minLevel: 5 },
+  { id: "pet-rabbit", slot: "pet", name: "Coniglio Luma", description: "Saltella accanto all'avatar e scatta quando rispondi bene.", cost: 2800, glyph: "🐰", color: 0xf2f7ff, minLevel: 6 },
   { id: "pet-spark", slot: "pet", name: "Pet Scintilla", description: "Un nucleo luminoso che fluttua accanto all'avatar.", cost: 1500, glyph: "✦", color: 0xf6c85f, minLevel: 4 },
   { id: "pet-comet", slot: "pet", name: "Pet Cometa", description: "Una scia rapida che lascia una traccia morbida.", cost: 1900, glyph: "≋", color: 0xffb85c, minLevel: 5 },
   { id: "pet-orbit", slot: "pet", name: "Pet Orbita", description: "Una sfera ciano che segue i passi nelle aree del Relitto.", cost: 2400, glyph: "●", color: 0x9ff5e9, minLevel: 6 },

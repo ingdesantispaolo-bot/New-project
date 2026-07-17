@@ -18,23 +18,12 @@ import { prefetchCoreScenes, startScene } from "../core/SceneNavigator";
 import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { difficultyModel } from "../procedural/DifficultyModel";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
-import { progressiveMissionBuilder } from "../procedural/ProgressiveMissionBuilder";
 import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization, ProgressiveLevelResult } from "../procedural/ProceduralTypes";
+import { focusOptions, palestraFocusButtons, palestraShortcutButtons } from "./mainMenu/MainMenuNavigation";
 import { Button } from "../ui/Button";
 import { openDailyPanel, showDailyRewardToast } from "../ui/DailyPanel";
 import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
-
-const focusOptions: Array<{ id: ProceduralSpecialization; label: string }> = [
-  { id: "matematica", label: "Focus matematica" },
-  { id: "italiano", label: "Focus italiano" },
-  { id: "inglese", label: "Focus inglese" },
-  { id: "elettronica", label: "Focus circuiti" },
-  { id: "coding", label: "Focus coding" },
-  { id: "musica", label: "Focus musica" },
-  { id: "fisica", label: "Focus fisica" },
-  { id: "latino", label: "Focus latino" },
-];
 
 const TRAINING_DIFFICULTY_KEY = "eliQuest.trainingDifficulty";
 
@@ -280,10 +269,10 @@ export class MainMenuScene extends Phaser.Scene {
     this.transitioning = true;
     const clearBusy = this.showBusy("Preparo una missione validata...");
     saveSystem.load();
-    this.time.delayedCall(40, () => {
+    this.time.delayedCall(40, async () => {
       try {
         saveSystem.pauseActiveProceduralRun();
-        this.createProceduralRun("libera", this.activeDifficulty(), "mission");
+        await this.createProceduralRun("libera", this.activeDifficulty(), "mission");
         void startScene(this, "ProceduralMissionScene").catch(() => {
           clearBusy();
           this.transitioning = false;
@@ -326,12 +315,12 @@ export class MainMenuScene extends Phaser.Scene {
     }
     this.transitioning = true;
     const clearBusy = this.showBusy("Costruisco il percorso focus...");
-    this.time.delayedCall(40, () => {
+    this.time.delayedCall(40, async () => {
       try {
         saveSystem.pauseActiveProceduralRun();
         // Subject-adaptive by default; an explicit 1-8 pick this session forces the level.
         const focusLevel = this.userPickedDifficulty ? this.activeDifficulty() : this.recommendedDifficultyForFocus(focus);
-        this.createProceduralRun(focus, focusLevel, "training");
+        await this.createProceduralRun(focus, focusLevel, "training");
         void startScene(this, "ProceduralMissionScene").catch(() => {
           clearBusy();
           this.transitioning = false;
@@ -510,37 +499,32 @@ export class MainMenuScene extends Phaser.Scene {
     card(830, 0xf6c85f, "🧠", "Riscaldamento", "scalda logica e memoria prima di un capitolo", "Palestra mentale", () => this.openMenuScene("LogicGymScene", "Non sono riuscito ad aprire il riscaldamento. Riprova tra un istante."));
 
     modal.add(this.add.text(150, 486, "Calibrazione mirata per settore — la profondità si adatta a te", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9", fontStyle: "bold" }));
-    focusOptions.forEach((focus, index) => {
-      const col = index % 4;
-      const row = Math.floor(index / 4);
-      modal.add(new Button(this, 236 + col * 150, 522 + row * 46, focus.label.replace("Focus ", ""), () => { close(); this.startFocusTraining(focus.id); }, {
-        width: 142, height: 40, fontSize: 12,
-        fill: this.isSameFocus(trainingRun, focus.id) ? 0x1f5a51 : 0x173b36,
-        stroke: this.isSameFocus(trainingRun, focus.id) ? 0xf6c85f : 0x6be7d6,
+    palestraFocusButtons().forEach((button) => {
+      modal.add(new Button(this, button.x, button.y, button.label, () => { close(); this.startFocusTraining(button.focus); }, {
+        width: button.width, height: button.height, fontSize: 12,
+        fill: this.isSameFocus(trainingRun, button.focus) ? 0x1f5a51 : 0x173b36,
+        stroke: this.isSameFocus(trainingRun, button.focus) ? 0xf6c85f : 0x6be7d6,
       }));
     });
 
     this.addMistakeJournalPanel(modal, close);
 
-    modal.add(new Button(this, 222, 620, "📖 Codex", () => {
-      close();
-      this.openMenuScene("CodexScene", "Non sono riuscito ad aprire il Codex. Riprova tra un istante.");
-    }, { width: 168, height: 44, fontSize: 13, fill: 0x1f4a44, stroke: 0x6be7d6 }));
-    modal.add(new Button(this, 406, 620, "🕹️ Mappa viva", () => {
-      close();
-      this.openMenuScene("ExplorableRoomScene", "Non sono riuscito ad aprire la mappa esplorabile. Riprova tra un istante.");
-    }, { width: 170, height: 44, fontSize: 13, fill: 0x24344a, stroke: 0x7ad7ff }));
-    modal.add(new Button(this, 594, 620, "🌄 Avventura", () => {
-      close();
-      this.openMenuScene("OutdoorAdventureScene", "Non sono riuscito ad aprire l'avventura esterna. Riprova tra un istante.");
-    }, { width: 178, height: 44, fontSize: 13, fill: 0x1f3f2f, stroke: 0x8fe0a4 }));
-    modal.add(new Button(this, 790, 620, "🛍️ Bottega", () => {
-      close();
-      this.openMenuScene("RewardShopScene", "Non sono riuscito ad aprire la Bottega. Riprova tra un istante.");
-    }, { width: 170, height: 44, fontSize: 13, fill: 0x3a3220, stroke: 0xf6c85f }));
+    palestraShortcutButtons().forEach((button) => {
+      const action = button.sceneKey === "close"
+        ? close
+        : (): void => {
+          close();
+          this.openMenuScene(button.sceneKey, button.failureMessage ?? "Non sono riuscito ad aprire questa sezione. Riprova tra un istante.");
+        };
+      modal.add(new Button(this, button.x, button.y, button.label, action, {
+        width: button.width,
+        height: button.height,
+        fontSize: 13,
+        fill: button.fill,
+        stroke: button.stroke,
+      }));
+    });
     modal.add(this.add.text(132, 596, "Studio, anteprime e ricompense:", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#9fb6c2" }));
-
-    modal.add(new Button(this, 1010, 620, "Chiudi", close, { width: 180, height: 44, fill: 0x263743 }));
   }
 
   /**
@@ -600,10 +584,10 @@ export class MainMenuScene extends Phaser.Scene {
     this.transitioning = true;
     const clearBusy = this.showBusy("Preparo la scalata progressiva...");
     saveSystem.load();
-    this.time.delayedCall(40, () => {
+    this.time.delayedCall(40, async () => {
       try {
         saveSystem.pauseActiveProceduralRun();
-        this.createProgressiveRun(1, []);
+        await this.createProgressiveRun(1, []);
         void startScene(this, "ProceduralMissionScene").catch(() => {
           clearBusy();
           this.transitioning = false;
@@ -672,9 +656,9 @@ export class MainMenuScene extends Phaser.Scene {
     if (this.transitioning) return;
     this.transitioning = true;
     const clearBusy = this.showBusy("Azzero la scalata e preparo la profondità 1...");
-    this.time.delayedCall(40, () => {
+    this.time.delayedCall(40, async () => {
       try {
-        this.createProgressiveRun(1, []);
+        await this.createProgressiveRun(1, []);
         const resetRun = saveSystem.getProceduralProgressiveRun();
         if (!resetRun || resetRun.difficulty !== 1 || resetRun.progressive?.currentLevel !== 1 || resetRun.progressive.results.length !== 0) {
           throw new Error("Reset scalata non coerente");
@@ -741,11 +725,11 @@ export class MainMenuScene extends Phaser.Scene {
     });
   }
 
-  private createProceduralRun(
+  private async createProceduralRun(
     focus: ProceduralSpecialization = "libera",
     difficulty: DifficultyLevel = this.activeDifficulty(),
     mode: "mission" | "training" = focus === "libera" ? "mission" : "training",
-  ): void {
+  ): Promise<void> {
     const focusList = focus === "libera" ? ["libera"] : [focus];
     const mission = proceduralDirector.generateFreshMission(difficulty, focusList);
     const createdAt = new Date().toISOString();
@@ -773,7 +757,8 @@ export class MainMenuScene extends Phaser.Scene {
     saveSystem.setProceduralRun(run);
   }
 
-  private createProgressiveRun(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): void {
+  private async createProgressiveRun(level: DifficultyLevel, previousResults: ProgressiveLevelResult[]): Promise<void> {
+    const { progressiveMissionBuilder } = await import("../procedural/ProgressiveMissionBuilder");
     const levelFocus = progressiveMissionBuilder.focusForLevel(level);
     const base = proceduralDirector.generateFreshMission(level, [levelFocus]);
     const mission = progressiveMissionBuilder.buildLevelMission(base, level);

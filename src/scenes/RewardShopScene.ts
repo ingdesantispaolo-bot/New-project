@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { audioManager } from "../core/AudioManager";
 import { feedbackSystem } from "../core/FeedbackSystem";
 import { rewardSystem, type Cosmetic, type CosmeticSlot } from "../core/RewardSystem";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { startScene } from "../core/SceneNavigator";
 import { settingsSystem } from "../core/SettingsSystem";
 import { Button } from "../ui/Button";
@@ -27,6 +28,10 @@ export class RewardShopScene extends Phaser.Scene {
 
   constructor() {
     super("RewardShopScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "shop");
   }
 
   create(data?: { returnScene?: string }): void {

@@ -33,6 +33,15 @@ import logicGymFirewallBgUrl from "../assets/images/logic-gym-firewall-bg.webp";
 import noraRoomBgUrl from "../assets/images/nora-room-bg.webp";
 import missionAtlasBgUrl from "../assets/images/mission-atlas-bg.webp";
 import progressiveScalataBgUrl from "../assets/images/progressive-scalata-bg.webp";
+import rewardShopBgUrl from "../assets/images/reward-shop-bg.webp";
+import missionConsoleSheetUrl from "../assets/sprites/mission-console-sheet.png";
+import missionConsoleSheetJsonUrl from "../assets/sprites/mission-console-sheet.json?url";
+import robotGridSheetUrl from "../assets/sprites/robot-grid-sheet.png";
+import robotGridSheetJsonUrl from "../assets/sprites/robot-grid-sheet.json?url";
+import logicGymSheetUrl from "../assets/sprites/logic-gym-sheet.png";
+import logicGymSheetJsonUrl from "../assets/sprites/logic-gym-sheet.json?url";
+import rewardItemsSheetUrl from "../assets/sprites/reward-items-sheet.png";
+import rewardItemsSheetJsonUrl from "../assets/sprites/reward-items-sheet.json?url";
 import storyAcademyHubBgUrl from "../assets/images/story-academy-hub-bg.webp";
 import storyArchiveMemoryBgUrl from "../assets/images/story-archive-memory-bg.webp";
 import storyChapter01IntroUrl from "../assets/images/story-chapter-01-intro.webp";
@@ -89,103 +98,128 @@ import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-vict
 import outcomeLightVictoryUrl from "../assets/images/outcomes/outcome-light-victory.webp";
 import outcomeNeutralUrl from "../assets/images/outcomes/outcome-neutral.webp";
 
-export type SceneAssetPack = "academy" | "academyHome" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "logicGym" | "nora" | "procedural" | "story" | "storyBeats";
+export type SceneAssetPack = "academy" | "academyHome" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "logicGym" | "nora" | "procedural" | "robotGrid" | "shop" | "rewards" | "story" | "storyBeats";
 
-const packs: Record<SceneAssetPack, Array<[string, string]>> = {
-  academy: [["bg-academy-painted", academyPaintedBgUrl]],
-  academyHome: [["academy-home-bg", academyHomeBgUrl]],
+type ImageEntry = { type: "image"; key: string; url: string };
+type AtlasEntry = { type: "atlas"; key: string; textureUrl: string; atlasUrl: string };
+type AssetEntry = ImageEntry | AtlasEntry;
+
+const image = (key: string, url: string): ImageEntry => ({ type: "image", key, url });
+const atlas = (key: string, textureUrl: string, atlasUrl: string): AtlasEntry => ({ type: "atlas", key, textureUrl, atlasUrl });
+
+const packs: Record<SceneAssetPack, AssetEntry[]> = {
+  academy: [image("bg-academy-painted", academyPaintedBgUrl)],
+  academyHome: [image("academy-home-bg", academyHomeBgUrl)],
   lab: [
-    ["bg-lab-painted", labPaintedBgUrl], ["console-lab", labConsoleUrl],
+    image("bg-lab-painted", labPaintedBgUrl), image("console-lab", labConsoleUrl),
   ],
   greenhouse: [
-    ["bg-greenhouse-painted", greenhousePaintedBgUrl], ["console-greenhouse", greenhouseConsoleUrl],
-    ["painted-greenhouse-pod", paintedGreenhousePodUrl], ["painted-greenhouse-sensor", paintedGreenhouseSensorUrl],
-    ["painted-greenhouse-valve", paintedGreenhouseValveUrl],
+    image("bg-greenhouse-painted", greenhousePaintedBgUrl), image("console-greenhouse", greenhouseConsoleUrl),
+    image("painted-greenhouse-pod", paintedGreenhousePodUrl), image("painted-greenhouse-sensor", paintedGreenhouseSensorUrl),
+    image("painted-greenhouse-valve", paintedGreenhouseValveUrl),
   ],
   factory: [
-    ["bg-factory-painted", factoryPaintedBgUrl], ["console-factory", factoryConsoleUrl],
-    ["painted-factory-conveyor", paintedFactoryConveyorUrl], ["painted-factory-core", paintedFactoryCoreUrl],
-    ["painted-factory-machine", paintedFactoryMachineUrl],
+    image("bg-factory-painted", factoryPaintedBgUrl), image("console-factory", factoryConsoleUrl),
+    image("painted-factory-conveyor", paintedFactoryConveyorUrl), image("painted-factory-core", paintedFactoryCoreUrl),
+    image("painted-factory-machine", paintedFactoryMachineUrl),
   ],
   archive: [
-    ["bg-archive-painted", archivePaintedBgUrl], ["console-archive", archiveConsoleUrl],
-    ["painted-archive-desk", paintedArchiveDeskUrl], ["painted-archive-shelf", paintedArchiveShelfUrl],
-    ["painted-archive-terminal", paintedArchiveTerminalUrl],
+    image("bg-archive-painted", archivePaintedBgUrl), image("console-archive", archiveConsoleUrl),
+    image("painted-archive-desk", paintedArchiveDeskUrl), image("painted-archive-shelf", paintedArchiveShelfUrl),
+    image("painted-archive-terminal", paintedArchiveTerminalUrl),
   ],
   atlas: [
-    ["mission-atlas-bg", missionAtlasBgUrl],
+    image("mission-atlas-bg", missionAtlasBgUrl),
   ],
   progressive: [
-    ["progressive-scalata-bg", progressiveScalataBgUrl],
+    image("progressive-scalata-bg", progressiveScalataBgUrl),
   ],
   logicGym: [
-    ["logic-gym-hub-bg", logicGymHubBgUrl],
-    ["logic-gym-firewall-bg", logicGymFirewallBgUrl],
+    image("logic-gym-hub-bg", logicGymHubBgUrl),
+    image("logic-gym-firewall-bg", logicGymFirewallBgUrl),
+    atlas("logic-gym", logicGymSheetUrl, logicGymSheetJsonUrl),
   ],
   nora: [
-    ["nora-room-bg", noraRoomBgUrl],
+    image("nora-room-bg", noraRoomBgUrl),
+  ],
+  robotGrid: [
+    atlas("robot-grid", robotGridSheetUrl, robotGridSheetJsonUrl),
+  ],
+  rewards: [
+    atlas("reward-items", rewardItemsSheetUrl, rewardItemsSheetJsonUrl),
+  ],
+  shop: [
+    image("reward-shop-bg", rewardShopBgUrl),
+    atlas("reward-items", rewardItemsSheetUrl, rewardItemsSheetJsonUrl),
   ],
   story: [
-    ["story-academy-hub-bg", storyAcademyHubBgUrl],
-    ["story-archive-memory-bg", storyArchiveMemoryBgUrl],
-    ["story-clue-blackout-signal", storyClueBlackoutSignalUrl],
-    ["story-clue-archive-record", storyClueArchiveRecordUrl],
-    ["story-clue-sabotage-route", storyClueSabotageRouteUrl],
-    ["story-greenhouse-recovery-bg", storyGreenhouseRecoveryBgUrl],
-    ["story-lab-blackout-bg", storyLabBlackoutBgUrl],
-    ["story-number-factory-bg", storyNumberFactoryBgUrl],
-    ["story-nora-core-dormant", storyNoraCoreDormantUrl],
-    ["story-nora-core-awakening", storyNoraCoreAwakeningUrl],
-    ["story-nora-core-memory", storyNoraCoreMemoryUrl],
-    ["story-nora-core-restored", storyNoraCoreRestoredUrl],
-    ["story-nora-core-guardian", storyNoraCoreGuardianUrl],
-    ["story-phase-00-blackout-bg", storyPhase00BlackoutBgUrl],
-    ["story-phase-01-energy-bg", storyPhase01EnergyBgUrl],
-    ["story-phase-02-life-bg", storyPhase02LifeBgUrl],
-    ["story-phase-03-production-bg", storyPhase03ProductionBgUrl],
-    ["story-phase-04-restored-bg", storyPhase04RestoredBgUrl],
-    ["story-phase-05-signal-bg", storyPhase05SignalBgUrl],
-    ["story-phase-06-city-restored-bg", storyPhase06CityRestoredBgUrl],
-    ["story-primi-relitto", storyPrimiRelittoUrl],
-    ["story-primi-guardiano-broken", storyPrimiGuardianoBrokenUrl],
-    ["story-primi-guardiano-alleato", storyPrimiGuardianoAlleatoUrl],
-    ["story-primi-diario-bordo", storyPrimiDiarioBordoUrl],
-    ["story-primi-finale-dormiente", storyPrimiFinaleDormienteUrl],
-    ["story-primi-finale-accesa", storyPrimiFinaleAccesaUrl],
-    ["story-primi-finale-eli", storyPrimiFinaleEliUrl],
-    ["story-transition-explore", storyTransitionExploreUrl],
-    ["story-transition-trial", storyTransitionTrialUrl],
+    image("story-academy-hub-bg", storyAcademyHubBgUrl),
+    image("story-archive-memory-bg", storyArchiveMemoryBgUrl),
+    image("story-clue-blackout-signal", storyClueBlackoutSignalUrl),
+    image("story-clue-archive-record", storyClueArchiveRecordUrl),
+    image("story-clue-sabotage-route", storyClueSabotageRouteUrl),
+    image("story-greenhouse-recovery-bg", storyGreenhouseRecoveryBgUrl),
+    image("story-lab-blackout-bg", storyLabBlackoutBgUrl),
+    image("story-number-factory-bg", storyNumberFactoryBgUrl),
+    image("story-nora-core-dormant", storyNoraCoreDormantUrl),
+    image("story-nora-core-awakening", storyNoraCoreAwakeningUrl),
+    image("story-nora-core-memory", storyNoraCoreMemoryUrl),
+    image("story-nora-core-restored", storyNoraCoreRestoredUrl),
+    image("story-nora-core-guardian", storyNoraCoreGuardianUrl),
+    image("story-phase-00-blackout-bg", storyPhase00BlackoutBgUrl),
+    image("story-phase-01-energy-bg", storyPhase01EnergyBgUrl),
+    image("story-phase-02-life-bg", storyPhase02LifeBgUrl),
+    image("story-phase-03-production-bg", storyPhase03ProductionBgUrl),
+    image("story-phase-04-restored-bg", storyPhase04RestoredBgUrl),
+    image("story-phase-05-signal-bg", storyPhase05SignalBgUrl),
+    image("story-phase-06-city-restored-bg", storyPhase06CityRestoredBgUrl),
+    image("story-primi-relitto", storyPrimiRelittoUrl),
+    image("story-primi-guardiano-broken", storyPrimiGuardianoBrokenUrl),
+    image("story-primi-guardiano-alleato", storyPrimiGuardianoAlleatoUrl),
+    image("story-primi-diario-bordo", storyPrimiDiarioBordoUrl),
+    image("story-primi-finale-dormiente", storyPrimiFinaleDormienteUrl),
+    image("story-primi-finale-accesa", storyPrimiFinaleAccesaUrl),
+    image("story-primi-finale-eli", storyPrimiFinaleEliUrl),
+    image("story-transition-explore", storyTransitionExploreUrl),
+    image("story-transition-trial", storyTransitionTrialUrl),
   ],
   storyBeats: [
-    ["story-chapter-01-intro", storyChapter01IntroUrl], ["story-chapter-01-outro", storyChapter01OutroUrl],
-    ["story-chapter-02-intro", storyChapter02IntroUrl], ["story-chapter-02-outro", storyChapter02OutroUrl],
-    ["story-chapter-03-intro", storyChapter03IntroUrl], ["story-chapter-03-outro", storyChapter03OutroUrl],
-    ["story-chapter-04-intro", storyChapter04IntroUrl], ["story-chapter-04-outro", storyChapter04OutroUrl],
-    ["story-chapter-05-intro", storyChapter05IntroUrl], ["story-chapter-05-outro", storyChapter05OutroUrl],
-    ["story-chapter-06-intro", storyChapter06IntroUrl], ["story-chapter-06-outro", storyChapter06OutroUrl],
+    image("story-chapter-01-intro", storyChapter01IntroUrl), image("story-chapter-01-outro", storyChapter01OutroUrl),
+    image("story-chapter-02-intro", storyChapter02IntroUrl), image("story-chapter-02-outro", storyChapter02OutroUrl),
+    image("story-chapter-03-intro", storyChapter03IntroUrl), image("story-chapter-03-outro", storyChapter03OutroUrl),
+    image("story-chapter-04-intro", storyChapter04IntroUrl), image("story-chapter-04-outro", storyChapter04OutroUrl),
+    image("story-chapter-05-intro", storyChapter05IntroUrl), image("story-chapter-05-outro", storyChapter05OutroUrl),
+    image("story-chapter-06-intro", storyChapter06IntroUrl), image("story-chapter-06-outro", storyChapter06OutroUrl),
   ],
   procedural: [
-    ["bg-lab-painted", labPaintedBgUrl], ["console-lab", labConsoleUrl],
-    ["mission-bg-coding", missionCodingBgUrl], ["mission-bg-electronics", missionElectronicsBgUrl],
-    ["mission-bg-english", missionEnglishBgUrl], ["mission-bg-italian", missionItalianBgUrl],
-    ["mission-bg-math", missionMathBgUrl], ["mission-bg-music", missionMusicBgUrl],
-    ["mission-coding-robot-bg", missionCodingRobotBgUrl], ["mission-coding-terminal-bg", missionCodingTerminalBgUrl],
-    ["mission-electronics-bench-bg", missionElectronicsBenchBgUrl], ["mission-electronics-power-bg", missionElectronicsPowerBgUrl],
-    ["mission-english-control-bg", missionEnglishControlBgUrl], ["mission-english-radio-bg", missionEnglishRadioBgUrl],
-    ["mission-italian-archive-bg", missionItalianArchiveBgUrl], ["mission-italian-library-bg", missionItalianLibraryBgUrl],
-    ["mission-math-factory-bg", missionMathFactoryBgUrl], ["mission-math-grid-bg", missionMathGridBgUrl],
-    ["mission-music-audio-bg", missionMusicAudioBgUrl], ["mission-music-staff-bg", missionMusicStaffBgUrl],
-    ["mission-bg-synthesis", missionSynthesisBgUrl],
-    ["outcome-defeat", outcomeDefeatUrl], ["outcome-devastating-defeat", outcomeDevastatingDefeatUrl],
-    ["outcome-grand-victory", outcomeGrandVictoryUrl], ["outcome-light-victory", outcomeLightVictoryUrl],
-    ["outcome-neutral", outcomeNeutralUrl],
+    image("bg-lab-painted", labPaintedBgUrl), image("console-lab", labConsoleUrl),
+    image("mission-bg-coding", missionCodingBgUrl), image("mission-bg-electronics", missionElectronicsBgUrl),
+    image("mission-bg-english", missionEnglishBgUrl), image("mission-bg-italian", missionItalianBgUrl),
+    image("mission-bg-math", missionMathBgUrl), image("mission-bg-music", missionMusicBgUrl),
+    image("mission-coding-robot-bg", missionCodingRobotBgUrl), image("mission-coding-terminal-bg", missionCodingTerminalBgUrl),
+    image("mission-electronics-bench-bg", missionElectronicsBenchBgUrl), image("mission-electronics-power-bg", missionElectronicsPowerBgUrl),
+    image("mission-english-control-bg", missionEnglishControlBgUrl), image("mission-english-radio-bg", missionEnglishRadioBgUrl),
+    image("mission-italian-archive-bg", missionItalianArchiveBgUrl), image("mission-italian-library-bg", missionItalianLibraryBgUrl),
+    image("mission-math-factory-bg", missionMathFactoryBgUrl), image("mission-math-grid-bg", missionMathGridBgUrl),
+    image("mission-music-audio-bg", missionMusicAudioBgUrl), image("mission-music-staff-bg", missionMusicStaffBgUrl),
+    image("mission-bg-synthesis", missionSynthesisBgUrl),
+    image("outcome-defeat", outcomeDefeatUrl), image("outcome-devastating-defeat", outcomeDevastatingDefeatUrl),
+    image("outcome-grand-victory", outcomeGrandVictoryUrl), image("outcome-light-victory", outcomeLightVictoryUrl),
+    image("outcome-neutral", outcomeNeutralUrl),
+    atlas("mission-consoles", missionConsoleSheetUrl, missionConsoleSheetJsonUrl),
+    atlas("robot-grid", robotGridSheetUrl, robotGridSheetJsonUrl),
   ],
 };
 
 export function queueSceneAssets(scene: Phaser.Scene, ...requestedPacks: SceneAssetPack[]): void {
   const entries = requestedPacks.flatMap((pack) => packs[pack]);
-  const unique = new Map(entries);
-  unique.forEach((url, key) => {
-    if (!scene.textures.exists(key)) scene.load.image(key, url);
+  const unique = new Map(entries.map((entry) => [entry.key, entry]));
+  unique.forEach((entry) => {
+    if (scene.textures.exists(entry.key)) return;
+    if (entry.type === "image") {
+      scene.load.image(entry.key, entry.url);
+      return;
+    }
+    scene.load.atlas(entry.key, entry.textureUrl, entry.atlasUrl);
   });
 }

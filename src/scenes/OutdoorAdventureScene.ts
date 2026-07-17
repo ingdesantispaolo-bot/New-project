@@ -4,6 +4,7 @@ import { audioManager } from "../core/AudioManager";
 import { feedbackSystem } from "../core/FeedbackSystem";
 import { rewardSystem, type Cosmetic } from "../core/RewardSystem";
 import { saveSystem } from "../core/SaveSystem";
+import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { settingsSystem } from "../core/SettingsSystem";
 import { type OutdoorAdventureMap, type OutdoorBiome, type OutdoorEncounter, type OutdoorEncounterKind, type OutdoorLandmark, type OutdoorObstacle, type OutdoorProp, type OutdoorTreasure } from "../procedural/OutdoorAdventureGenerator";
 import { generateOutdoorChunk, OUTDOOR_CHUNK_SIZE, type OutdoorChunk } from "../procedural/OutdoorChunkGenerator";
@@ -130,6 +131,10 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   constructor() {
     super("OutdoorAdventureScene");
+  }
+
+  preload(): void {
+    queueSceneAssets(this, "rewards");
   }
 
   create(): void {

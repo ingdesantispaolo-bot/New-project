@@ -23,7 +23,7 @@ const commandLabels: Record<RobotCommand, string> = {
 
 export class RobotCodingScene extends Phaser.Scene {
   preload(): void {
-    queueSceneAssets(this, "lab");
+    queueSceneAssets(this, "lab", "robotGrid");
   }
   private robotPuzzle: RobotPuzzleDefinition = exerciseVariantSystem.getRobotPuzzle();
   private commands: RobotCommand[] = [];

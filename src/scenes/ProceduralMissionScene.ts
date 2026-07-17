@@ -113,6 +113,7 @@ import { MissionRoomAvatar } from "./procedural/MissionRoomAvatar";
 import { choiceTileFontSize, choiceTileLabel } from "./procedural/ChoiceTileText";
 import { addMethodStrip, codingChallengeLabel, englishChallengeLabel, exerciseBackgroundKey } from "./procedural/ExerciseUiHelpers";
 import { createExerciseScreenChrome } from "./procedural/ExerciseScreenChrome";
+import { buildNoraMicroLesson } from "./procedural/NoraAdaptiveRemediation";
 import { addNoraTheoryButton as addNoraTheoryButtonToOverlay, noraTheoryTopicFor as theoryTopicForPuzzle, showFirstEncounterPanel } from "./procedural/NoraTheoryPanel";
 import {
   codingMinigameFeedback,
@@ -5829,10 +5830,15 @@ export class ProceduralMissionScene extends Phaser.Scene {
       return;
     }
     this.wrongExplanationOpen = true;
+    this.pauseActiveSprintClocks();
+    const topic = this.activePuzzleKind ? theoryTopicForPuzzle(this.activePuzzleKind, this.currentPuzzleForTheory(this.activePuzzleKind)) : undefined;
+    const lesson = topic ? buildNoraMicroLesson(topic, message, attempts) : undefined;
     const modal = this.add.container(0, 0).setDepth(9900);
     modal.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.58).setInteractive());
-    modal.add(this.add.rectangle(640, 344, 760, 338, 0x07151d, 0.99).setStrokeStyle(3, 0xf7d37a, 0.86));
-    modal.add(this.add.rectangle(264, 184, 8, 320, 0xc94b55, 0.95));
+    const panelH = lesson ? 590 : 338;
+    const panelY = lesson ? 382 : 344;
+    modal.add(this.add.rectangle(640, panelY, 760, panelH, 0x07151d, 0.99).setStrokeStyle(3, lesson ? 0x6be7d6 : 0xf7d37a, 0.86));
+    modal.add(this.add.rectangle(264, panelY - panelH / 2 + 10, 8, panelH - 20, lesson ? 0x6be7d6 : 0xc94b55, 0.95));
     modal.add(this.add.text(300, 206, "RISPOSTA DA RIVEDERE", {
       fontFamily: "Inter, Arial",
       fontSize: "20px",
@@ -5845,14 +5851,98 @@ export class ProceduralMissionScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }));
-    modal.add(this.add.rectangle(300, 282, 680, 136, 0x102533, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
+    modal.add(this.add.rectangle(300, 282, 680, lesson ? 86 : 136, 0x102533, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.34));
     modal.add(this.add.text(322, 304, message, {
       fontFamily: "Inter, Arial",
-      fontSize: "14px",
+      fontSize: lesson ? "12px" : "14px",
       color: "#eaf4f8",
       wordWrap: { width: 636, useAdvancedWrap: true },
-      lineSpacing: 5,
+      lineSpacing: 4,
     }));
+
+    const close = (): void => {
+      modal.destroy(true);
+      this.wrongExplanationOpen = false;
+      this.resumeActiveSprintClocks();
+    };
+
+    if (lesson) {
+      modal.add(this.add.text(300, 386, `MICROLEZIONE NORA · ${lesson.title}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#6be7d6",
+        fontStyle: "bold",
+      }));
+      modal.add(this.add.text(300, 408, `Metodo: ${lesson.method}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "13px",
+        color: "#f5fbff",
+        wordWrap: { width: 662, useAdvancedWrap: true },
+        lineSpacing: 4,
+      }));
+      modal.add(this.add.text(300, 456, `Esempio: ${lesson.example}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#c7dce7",
+        wordWrap: { width: 662, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+      modal.add(this.add.text(300, 506, `Trappola: ${lesson.watch}`, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#f7d37a",
+        wordWrap: { width: 662, useAdvancedWrap: true },
+        lineSpacing: 3,
+      }));
+      modal.add(this.add.rectangle(300, 548, 680, 114, 0x10261d, 0.86).setOrigin(0).setStrokeStyle(1, 0x70d68a, 0.42));
+      modal.add(this.add.text(322, 562, lesson.twin.prompt, {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#eaf4f8",
+        wordWrap: { width: 636, useAdvancedWrap: true },
+      }));
+      const checkText = this.add.text(322, 636, "Risolvi il gemello per chiudere il pannello.", {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9ff5e9",
+        wordWrap: { width: 430, useAdvancedWrap: true },
+      });
+      modal.add(checkText);
+      const closeButton = new Button(this, 824, 642, "Chiudi e correggi", close, {
+        width: 244,
+        height: 42,
+        fill: 0x173b36,
+        stroke: 0x6be7d6,
+        fontSize: 13,
+        soundKey: "confirm",
+      }).setEnabled(false);
+      modal.add(closeButton);
+      lesson.twin.options.forEach((option, index) => {
+        const x = 420 + index * 182;
+        const button = new Button(this, x, 604, option, () => {
+          if (option === lesson.twin.correct) {
+            audioManager.playOutcome("correct");
+            checkText.setText(`Agganciato. ${lesson.twin.explanation}`);
+            checkText.setColor("#9ff5a7");
+            closeButton.setEnabled(true);
+            return;
+          }
+          audioManager.playOutcome("wrong");
+          checkText.setText("Non ancora: confronta il metodo con la trappola, poi scegli il controllo che chiude davvero l'esempio.");
+          checkText.setColor("#ffd0da");
+        }, {
+          width: 166,
+          height: 42,
+          fill: 0x173244,
+          stroke: 0x70d68a,
+          fontSize: 11,
+          wordWrapWidth: 144,
+        });
+        modal.add(button);
+      });
+      return;
+    }
+
     modal.add(this.add.text(300, 438, memoryCount >= 3
       ? "NORA ha registrato lo schema: alla prossima prova simile anticipa il controllo utile."
       : "Chiudi questo pannello solo quando sai dire quale passaggio correggere. La pagina sotto resta ferma.",
@@ -5863,10 +5953,7 @@ export class ProceduralMissionScene extends Phaser.Scene {
       wordWrap: { width: 660, useAdvancedWrap: true },
       lineSpacing: 4,
     }));
-    modal.add(new Button(this, 640, 512, "Ho letto, chiudi", () => {
-      modal.destroy(true);
-      this.wrongExplanationOpen = false;
-    }, {
+    modal.add(new Button(this, 640, 512, "Ho letto, chiudi", close, {
       width: 280,
       height: 50,
       fill: 0x173b36,

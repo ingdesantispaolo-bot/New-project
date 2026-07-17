@@ -59,7 +59,7 @@ export function prefetchScene(scene: Phaser.Scene, key: string): void {
 }
 
 export function prefetchCoreScenes(scene: Phaser.Scene): void {
-  ["ProceduralMissionScene", "PlayerReportScene", "LeaderboardScene", "MathStudyScene"].forEach((key) => prefetchScene(scene, key));
+  ["PlayerReportScene", "LeaderboardScene"].forEach((key) => prefetchScene(scene, key));
 }
 
 export async function startScene(scene: Phaser.Scene, key: string, data?: object): Promise<void> {

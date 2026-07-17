@@ -47,6 +47,23 @@ const BIOME_ACCENTS: Record<OutdoorBiome, number> = {
   crystal: 0xc7b8ff,
 };
 
+const BIOME_DETAIL_COLORS: Record<OutdoorBiome, [number, number, number]> = {
+  academy: [0x6be7d6, 0x8fe0a4, 0xf6c85f],
+  ruins: [0xff8f6b, 0x8a6c79, 0x4b4252],
+  geo: [0x8fe0a4, 0x7ad7ff, 0x355f47],
+  logic: [0x9f8cff, 0x6be7d6, 0x2e4f72],
+  wild: [0x74f0c5, 0x2b6c45, 0xf6c85f],
+  crystal: [0xc7b8ff, 0x7ad7ff, 0xffffff],
+};
+
+const ENCOUNTER_GLYPHS: Record<OutdoorEncounterKind, string> = {
+  times: "x",
+  mental: "+",
+  capital: "@",
+  physicalGeo: "~",
+  guardian: "!",
+};
+
 const FORGE_REWARDS: Array<{ id: string; fragmentCost: number; guardianWins?: number }> = [
   { id: "accessory-halo", fragmentCost: 45 },
   { id: "avatar-shadow", fragmentCost: 80, guardianWins: 1 },
@@ -87,6 +104,15 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private energyText?: Phaser.GameObjects.Text;
   private progressText?: Phaser.GameObjects.Text;
   private fragmentText?: Phaser.GameObjects.Text;
+  private biomeText?: Phaser.GameObjects.Text;
+  private coordText?: Phaser.GameObjects.Text;
+  private radar?: Phaser.GameObjects.Graphics;
+  private guideGraphics?: Phaser.GameObjects.Graphics;
+  private guideText?: Phaser.GameObjects.Text;
+  private currentBiome?: OutdoorBiome;
+  private biomeBanner?: Phaser.GameObjects.Container;
+  private ambientMotes: Phaser.GameObjects.GameObject[] = [];
+  private lastTrailAt = 0;
   private readonly onE = (): void => this.tryInteract();
 
   constructor() {
@@ -120,6 +146,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.syncOutdoorChunks();
     this.updatePet();
     this.updatePrompt();
+    this.updateObjectiveGuide();
   }
 
   private emptyOutdoorMap(): OutdoorAdventureMap {
@@ -168,15 +195,106 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       active.chunk.treasures.forEach((treasure) => this.treasureNodes.delete(treasure.id));
       if (active.chunk.encounters.some((encounter) => encounter.id === this.activeEncounter?.id)) this.activeEncounter = undefined;
       if (active.chunk.treasures.some((treasure) => treasure.id === this.activeTreasure?.id)) this.activeTreasure = undefined;
-      active.objects.forEach((object) => {
-        this.tweens.killTweensOf(object);
-        object.destroy();
-      });
+      active.objects.forEach((object) => this.destroyChunkObject(object));
       this.activeChunks.delete(id);
     }
 
     this.rebuildActiveMap();
+    this.updateBiomePresence(chunkX, chunkY);
     this.refreshHud();
+  }
+
+  private updateBiomePresence(chunkX: number, chunkY: number): void {
+    const active = this.activeChunks.get(this.chunkId(chunkX, chunkY));
+    if (!active) return;
+    if (active.chunk.biome !== this.currentBiome) {
+      this.currentBiome = active.chunk.biome;
+      this.cameras.main.setBackgroundColor(this.biomeBackground(this.currentBiome));
+      this.showBiomeBanner(active.chunk);
+      this.refreshAmbientMotes(active.chunk.biome);
+    }
+  }
+
+  private biomeBackground(biome: OutdoorBiome): string {
+    if (biome === "ruins") return "#100d14";
+    if (biome === "geo") return "#071815";
+    if (biome === "logic") return "#071221";
+    if (biome === "wild") return "#071a12";
+    if (biome === "crystal") return "#090d22";
+    return "#071018";
+  }
+
+  private showBiomeBanner(chunk: OutdoorChunk): void {
+    this.biomeBanner?.destroy(true);
+    const accent = BIOME_ACCENTS[chunk.biome];
+    const banner = this.add.container(640, 126).setDepth(180).setScrollFactor(0).setAlpha(0);
+    banner.add(this.add.rectangle(0, 0, 420, 64, 0x061019, 0.88).setStrokeStyle(2, accent, 0.58));
+    banner.add(this.add.rectangle(-202, -24, 5, 48, accent, 0.92));
+    banner.add(this.add.text(-178, -18, BIOME_LABELS[chunk.biome], {
+      fontFamily: "Inter, Arial",
+      fontSize: "22px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    banner.add(this.add.text(-178, 12, `zona ${chunk.chunkX}:${chunk.chunkY} · ${chunk.encounters.length} incontri vicini`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9fb6c2",
+      fontStyle: "bold",
+    }));
+    this.biomeBanner = banner;
+    this.tweens.add({
+      targets: banner,
+      alpha: 1,
+      y: 108,
+      duration: 260,
+      ease: "Cubic.easeOut",
+      yoyo: true,
+      hold: 1300,
+      onComplete: () => {
+        banner.destroy(true);
+        if (this.biomeBanner === banner) this.biomeBanner = undefined;
+      },
+    });
+  }
+
+  private refreshAmbientMotes(biome: OutdoorBiome): void {
+    this.ambientMotes.forEach((mote) => {
+      this.tweens.killTweensOf(mote);
+      mote.destroy();
+    });
+    this.ambientMotes = [];
+    if (settingsSystem.effectsReduced() || !this.textures.exists("soft-glow")) return;
+    const accent = BIOME_ACCENTS[biome];
+    const count = biome === "crystal" ? 12 : biome === "wild" || biome === "geo" ? 9 : 7;
+    for (let i = 0; i < count; i += 1) {
+      const mote = this.add.image(Phaser.Math.Between(80, 1200), Phaser.Math.Between(112, 680), "soft-glow")
+        .setTint(accent)
+        .setAlpha(0.05)
+        .setScale(Phaser.Math.FloatBetween(0.28, 0.72))
+        .setDepth(58)
+        .setScrollFactor(0);
+      this.ambientMotes.push(mote);
+      this.tweens.add({
+        targets: mote,
+        y: mote.y - Phaser.Math.Between(24, 76),
+        x: mote.x + Phaser.Math.Between(-24, 24),
+        alpha: Phaser.Math.FloatBetween(0.08, 0.16),
+        duration: Phaser.Math.Between(2600, 4600),
+        yoyo: true,
+        repeat: -1,
+        ease: "Sine.easeInOut",
+        delay: i * 120,
+      });
+    }
+  }
+
+  private destroyChunkObject(object: Phaser.GameObjects.GameObject): void {
+    this.tweens.killTweensOf(object);
+    if (object instanceof Phaser.GameObjects.Container) {
+      object.list.forEach((child) => this.tweens.killTweensOf(child));
+    }
+    object.destroy();
   }
 
   private rebuildActiveMap(): void {
@@ -212,6 +330,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     g.fillRoundedRect(chunk.patch.x, chunk.patch.y, chunk.patch.w, chunk.patch.h, 52);
     g.lineStyle(3, chunk.patch.accent, 0.32);
     g.strokeRoundedRect(chunk.patch.x, chunk.patch.y, chunk.patch.w, chunk.patch.h, 52);
+    this.drawTerrainDetails(g, chunk);
     objects.push(this.add.text(chunk.patch.x + 34, chunk.patch.y + 28, chunk.patch.label, {
       fontFamily: "Inter, Arial",
       fontSize: "18px",
@@ -240,9 +359,100 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
   }
 
+  private drawTerrainDetails(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
+    const palette = BIOME_DETAIL_COLORS[chunk.biome];
+    for (let i = 0; i < 34; i += 1) {
+      const nx = this.visualNoise(chunk.id, i * 3);
+      const ny = this.visualNoise(chunk.id, i * 3 + 1);
+      const nv = this.visualNoise(chunk.id, i * 3 + 2);
+      const x = chunk.worldX + 54 + nx * (chunk.size - 108);
+      const y = chunk.worldY + 54 + ny * (chunk.size - 108);
+      const color = palette[i % palette.length]!;
+      g.fillStyle(color, chunk.biome === "crystal" ? 0.18 : 0.12);
+      g.lineStyle(1, color, 0.16);
+      if (chunk.biome === "logic") {
+        g.strokeRect(x, y, 18 + nv * 38, 8 + nv * 18);
+        if (i % 3 === 0) g.lineBetween(x - 18, y + 4, x + 32, y + 4);
+      } else if (chunk.biome === "ruins") {
+        g.lineBetween(x - 18, y, x - 4, y + 10);
+        g.lineBetween(x - 4, y + 10, x + 20, y - 8);
+      } else if (chunk.biome === "geo") {
+        g.fillEllipse(x, y, 24 + nv * 42, 8 + nv * 12);
+      } else if (chunk.biome === "crystal") {
+        g.fillTriangle(x, y - 10, x - 8, y + 10, x + 8, y + 10);
+      } else if (chunk.biome === "wild") {
+        g.fillCircle(x, y, 3 + nv * 7);
+        g.fillEllipse(x + 8, y - 4, 14, 5);
+      } else {
+        g.fillRoundedRect(x, y, 18 + nv * 26, 4 + nv * 8, 3);
+      }
+    }
+  }
+
+  private visualNoise(seed: string, index: number): number {
+    let h = 2166136261;
+    const value = `${seed}:${index}`;
+    for (let i = 0; i < value.length; i += 1) {
+      h ^= value.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    h += 0x6d2b79f5;
+    let t = h;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+
+  private addAtlasProp(container: Phaser.GameObjects.Container, frame: string, width: number, height: number, y = 0, tint?: number, alpha = 1): Phaser.GameObjects.Image | undefined {
+    if (!this.textures.exists("environment-props") || !this.textures.getFrame("environment-props", frame)) return undefined;
+    const image = this.add.image(0, y, "environment-props", frame).setDisplaySize(width, height).setAlpha(alpha);
+    if (tint !== undefined) image.setTint(tint);
+    container.add(image);
+    return image;
+  }
+
   private drawProp(prop: OutdoorProp, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(prop.x, prop.y).setDepth(2 + prop.y / 10000);
     objects?.push(c);
+    if (prop.kind === "lamp" && this.addAtlasProp(c, "env_pillar_light", 42, 70, -12)) {
+      c.add(this.add.circle(0, -34, 24, prop.color, 0.18));
+      return;
+    }
+    if (prop.kind === "camp" && this.addAtlasProp(c, "env_crate_stack", 76, 54, 10)) {
+      c.add(this.add.circle(30, 30, 8, 0xf6c85f, 0.86));
+      return;
+    }
+    if (prop.kind === "tower" && this.addAtlasProp(c, "env_terminal_kiosk", 62, 76, -8)) {
+      c.add(this.add.circle(0, -34, 18, prop.color, 0.16));
+      return;
+    }
+    if (prop.kind === "bridge" && this.addAtlasProp(c, "env_railing", 118, 44, 0, 0xf1c27a, 0.92)) {
+      return;
+    }
+    if (prop.kind === "statue" && this.addAtlasProp(c, "env_robot_decor", 66, 78, -8)) {
+      c.add(this.add.rectangle(0, 34, 70, 14, 0x4b4252, 0.9).setStrokeStyle(2, prop.color, 0.42));
+      return;
+    }
+    if (prop.kind === "beacon" && this.addAtlasProp(c, "env_holo_beacon", 76, 92, -6)) {
+      c.add(this.add.circle(0, -8, 54, prop.color, 0.14));
+      return;
+    }
+    if (prop.kind === "garden" && this.addAtlasProp(c, "env_planter", 86, 46, 10)) {
+      c.add(this.add.circle(-28, -10, 10, prop.color, 0.34));
+      c.add(this.add.circle(24, -12, 8, 0xf6c85f, 0.28));
+      return;
+    }
+    if (prop.kind === "well" && this.addAtlasProp(c, "env_plant_pod", 66, 62, 6, prop.color, 0.88)) {
+      c.add(this.add.circle(0, 4, 30, 0x10242d, 0.35).setStrokeStyle(2, prop.color, 0.58));
+      return;
+    }
+    if (prop.kind === "arch" && this.addAtlasProp(c, "env_wall_corner", 84, 84, -4, prop.color, 0.82)) {
+      return;
+    }
+    if (prop.kind === "sign" && this.addAtlasProp(c, "env_terminal_wall", 66, 48, 0)) {
+      c.add(this.add.text(0, 2, "?", { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0.5));
+      return;
+    }
     if (prop.kind === "river") {
       c.add(this.add.ellipse(0, 0, 132, 34, 0x145f78, 0.72).setStrokeStyle(2, 0x7ad7ff, 0.48));
       return;
@@ -312,6 +522,14 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private drawObstacle(obstacle: OutdoorObstacle, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(obstacle.x, obstacle.y).setDepth(3 + obstacle.y / 10000);
     objects?.push(c);
+    if (obstacle.kind === "pillar" && this.addAtlasProp(c, "env_pillar_square", obstacle.r * 1.55, obstacle.r * 2.55, -obstacle.r * 0.25, 0xc7b8ff, 0.78)) {
+      c.add(this.add.ellipse(0, obstacle.r * 1.1, obstacle.r * 1.8, obstacle.r * 0.42, 0x000000, 0.22));
+      return;
+    }
+    if (obstacle.kind === "rock" && obstacle.r > 34 && this.addAtlasProp(c, "env_floor_vent", obstacle.r * 2.1, obstacle.r * 0.92, 0, obstacle.color, 0.62)) {
+      c.add(this.add.ellipse(0, 0, obstacle.r * 1.5, obstacle.r * 1.05, obstacle.color, 0.48).setStrokeStyle(2, 0xdde9ef, 0.14));
+      return;
+    }
     if (obstacle.kind === "tree") {
       c.add(this.add.rectangle(0, obstacle.r * 0.45, obstacle.r * 0.5, obstacle.r, 0x4a321d, 1));
       c.add(this.add.circle(0, -obstacle.r * 0.25, obstacle.r, obstacle.color, 0.94).setStrokeStyle(2, 0x8fe0a4, 0.36));
@@ -353,20 +571,32 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     objects?.push(c);
     const accent = landmark.color;
     c.add(this.add.ellipse(0, 44, 138, 32, 0x000000, 0.24));
-    c.add(this.add.circle(0, -10, 78, accent, 0.09));
+    if (this.textures.exists("soft-glow")) {
+      const glow = this.add.image(0, -8, "soft-glow").setTint(accent).setAlpha(0.2).setScale(3.2);
+      c.add(glow);
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({ targets: glow, alpha: 0.1, scale: 3.85, duration: 1600, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      }
+    } else {
+      c.add(this.add.circle(0, -10, 78, accent, 0.09));
+    }
     if (landmark.kind === "forge") {
       c.add(this.add.rectangle(0, 14, 86, 72, 0x2a1f3a, 0.96).setStrokeStyle(3, accent, 0.75));
       c.add(this.add.triangle(0, -54, -56, -18, 56, -18, 0x4a321d, 0.94).setStrokeStyle(2, 0xf6c85f, 0.45));
       c.add(this.add.circle(0, 18, 18, 0xf6c85f, 0.75));
+      c.add(this.add.rectangle(-28, -4, 18, 54, 0x4b4252, 0.88).setStrokeStyle(2, 0xf6c85f, 0.28));
+      c.add(this.add.circle(-28, -36, 10, 0xff8f6b, 0.32));
     } else if (landmark.kind === "atlasGate") {
       c.add(this.add.arc(0, -2, 58, 190, 350, false, accent, 0.9).setStrokeStyle(10, accent, 0.62));
       c.add(this.add.rectangle(-46, 18, 18, 92, 0x173b36, 0.96).setStrokeStyle(2, accent, 0.55));
       c.add(this.add.rectangle(46, 18, 18, 92, 0x173b36, 0.96).setStrokeStyle(2, accent, 0.55));
       c.add(this.add.circle(0, 12, 22, 0x145f78, 0.72).setStrokeStyle(2, 0x9ff5e9, 0.72));
+      c.add(this.add.circle(0, 12, 42, 0x7ad7ff, 0.1).setStrokeStyle(2, 0x9ff5e9, 0.34));
     } else if (landmark.kind === "logicSpire") {
       c.add(this.add.triangle(0, 40, -46, 48, 0, -82, 46, 48, 0x1c3148, 0.96).setStrokeStyle(3, accent, 0.82));
       c.add(this.add.rectangle(0, -10, 64, 12, accent, 0.36));
       c.add(this.add.circle(0, -48, 16, accent, 0.84));
+      c.add(this.add.line(0, 0, -54, -24, 54, -24, 0x6be7d6, 0.44).setOrigin(0));
     } else if (landmark.kind === "ancientCore") {
       c.add(this.add.rectangle(0, 18, 120, 48, 0x4b4252, 0.94).setStrokeStyle(3, accent, 0.55));
       c.add(this.add.circle(0, -24, 42, 0x061019, 0.96).setStrokeStyle(4, accent, 0.82));
@@ -398,7 +628,11 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const collected = this.collectedTreasures.has(treasure.id);
     const accent = this.biomeAccent(treasure.biome);
     c.add(this.add.ellipse(0, 24, 62, 16, 0x000000, 0.28));
-    c.add(this.add.circle(0, -4, 36, accent, collected ? 0.04 : 0.14));
+    if (this.textures.exists("soft-glow")) {
+      c.add(this.add.image(0, -4, "soft-glow").setTint(accent).setAlpha(collected ? 0.04 : 0.2).setScale(1.45));
+    } else {
+      c.add(this.add.circle(0, -4, 36, accent, collected ? 0.04 : 0.14));
+    }
     if (treasure.label.includes("scrigno")) {
       c.add(this.add.rectangle(0, 0, 48, 30, 0x7a4b28, 0.96).setStrokeStyle(2, 0xf6c85f, 0.86));
       c.add(this.add.rectangle(0, -9, 52, 8, 0xf6c85f, 0.82));
@@ -410,6 +644,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       c.add(this.add.circle(-12, 0, 10, 0xc7b8ff, 0.82));
       c.add(this.add.circle(2, -8, 12, accent, 0.78));
       c.add(this.add.circle(14, 4, 9, 0x9ff5e9, 0.78));
+    }
+    if (!collected) {
+      c.add(this.add.line(0, 0, -24, -22, 24, -32, 0xffffff, 0.38).setOrigin(0));
     }
     c.add(this.add.text(0, 36, collected ? "raccolto" : treasure.label, {
       fontFamily: "Inter, Arial",
@@ -440,6 +677,19 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const done = this.completed.has(encounter.id);
     c.add(this.add.circle(0, 0, encounter.kind === "guardian" ? 34 : 25, 0x061019, 0.94).setStrokeStyle(3, accent, 0.9));
     c.add(this.add.circle(0, 0, encounter.kind === "guardian" ? 17 : 11, accent, 0.78));
+    const frame = encounter.kind === "guardian"
+      ? "env_holo_beacon"
+      : encounter.kind === "capital" || encounter.kind === "physicalGeo"
+        ? "env_terminal_kiosk"
+        : "env_repair_drone";
+    const icon = this.addAtlasProp(c, frame, encounter.kind === "guardian" ? 52 : 38, encounter.kind === "guardian" ? 58 : 38, encounter.kind === "guardian" ? -4 : 0, accent, 0.72);
+    icon?.setBlendMode(Phaser.BlendModes.ADD);
+    c.add(this.add.text(0, encounter.kind === "guardian" ? 2 : 0, ENCOUNTER_GLYPHS[encounter.kind], {
+      fontFamily: "Inter, Arial",
+      fontSize: encounter.kind === "guardian" ? "20px" : "15px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
     c.add(this.add.text(0, 48, encounter.label, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
@@ -571,6 +821,29 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       fontSize: 14,
       fill: 0x263743,
     }).setScrollFactor(0).setDepth(130);
+    this.radar = this.add.graphics().setScrollFactor(0).setDepth(126);
+    this.biomeText = this.add.text(1068, 548, "Zona", {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setScrollFactor(0).setDepth(128);
+    this.coordText = this.add.text(1068, 566, "0:0", {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#9fb6c2",
+      fontStyle: "bold",
+    }).setScrollFactor(0).setDepth(128);
+    this.guideGraphics = this.add.graphics().setScrollFactor(0).setDepth(126);
+    this.guideText = this.add.text(640, 656, "Esplora", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      align: "center",
+    }).setOrigin(0.5).setScrollFactor(0).setDepth(128);
+    this.updateRadar();
+    this.updateObjectiveGuide();
   }
 
   private updateMovement(dt: number): void {
@@ -593,6 +866,28 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.avatar.setDepth(20 + this.avatar.y / 10000);
     this.facing = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up");
     this.avatarSprite?.anims.play(`outdoor-${this.facing}`, true);
+    this.emitMovementTrail();
+  }
+
+  private emitMovementTrail(): void {
+    if (settingsSystem.effectsReduced() || this.time.now - this.lastTrailAt < 115) return;
+    this.lastTrailAt = this.time.now;
+    const accent = this.currentBiome ? BIOME_ACCENTS[this.currentBiome] : 0x6be7d6;
+    const x = this.avatar.x + Phaser.Math.Between(-12, 12);
+    const y = this.avatar.y + 34 + Phaser.Math.Between(-3, 4);
+    const trail = this.textures.exists("soft-glow")
+      ? this.add.image(x, y, "soft-glow").setTint(accent).setAlpha(0.16).setScale(0.5)
+      : this.add.circle(x, y, 8, accent, 0.16);
+    trail.setDepth(9 + y / 10000);
+    this.tweens.add({
+      targets: trail,
+      alpha: 0,
+      scale: 0.18,
+      y: y + 8,
+      duration: 460,
+      ease: "Sine.easeOut",
+      onComplete: () => trail.destroy(),
+    });
   }
 
   private isWalkable(x: number, y: number): boolean {
@@ -659,6 +954,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.collectedTreasures.add(treasure.id);
     this.activeTreasure = undefined;
     this.prompt.setVisible(false);
+    this.showTreasureBurst(treasure);
     const node = this.treasureNodes.get(treasure.id);
     if (node) {
       this.tweens.killTweensOf(node);
@@ -668,6 +964,25 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.refreshHud();
     audioManager.play("success");
     feedbackSystem.publish(`Tesoro raccolto: +${treasure.rewardEnergy} energia, +${treasure.rewardFragments} frammenti.`, "success");
+  }
+
+  private showTreasureBurst(treasure: OutdoorTreasure): void {
+    if (settingsSystem.effectsReduced()) return;
+    const accent = this.biomeAccent(treasure.biome);
+    for (let i = 0; i < 10; i += 1) {
+      const angle = (Math.PI * 2 * i) / 10;
+      const spark = this.add.circle(treasure.x, treasure.y - 6, 4, i % 2 === 0 ? accent : 0xf6c85f, 0.9).setDepth(30 + treasure.y / 10000);
+      this.tweens.add({
+        targets: spark,
+        x: treasure.x + Math.cos(angle) * Phaser.Math.Between(34, 74),
+        y: treasure.y - 6 + Math.sin(angle) * Phaser.Math.Between(24, 62),
+        alpha: 0,
+        scale: 0.2,
+        duration: 540,
+        ease: "Cubic.easeOut",
+        onComplete: () => spark.destroy(),
+      });
+    }
   }
 
   private openBountyBoard(): void {
@@ -1165,6 +1480,107 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.energyText?.setText(`${rewardSystem.energy()} ⚡`);
     this.progressText?.setText(`${this.completed.size} incontri · ${this.collectedTreasures.size} tesori · ${this.activeChunks.size} zone · serie ${outdoor.currentStreak}`);
     this.fragmentText?.setText(`${outdoor.fragments} frammenti`);
+    this.updateRadar();
+  }
+
+  private updateRadar(): void {
+    if (!this.radar) return;
+    const current = this.currentChunkCoords();
+    const active = this.activeChunks.get(this.chunkId(current.x, current.y))?.chunk;
+    const accent = active ? BIOME_ACCENTS[active.biome] : 0x6be7d6;
+    const x0 = 1046;
+    const y0 = 536;
+    const size = 25;
+    this.radar.clear();
+    this.radar.fillStyle(0x061019, 0.82);
+    this.radar.fillRoundedRect(x0, y0, 190, 142, 8);
+    this.radar.lineStyle(1, accent, 0.42);
+    this.radar.strokeRoundedRect(x0, y0, 190, 142, 8);
+    for (const activeChunk of this.activeChunks.values()) {
+      const dx = activeChunk.chunk.chunkX - current.x;
+      const dy = activeChunk.chunk.chunkY - current.y;
+      if (Math.abs(dx) > STREAM_RADIUS || Math.abs(dy) > STREAM_RADIUS) continue;
+      const cellX = x0 + 58 + (dx + STREAM_RADIUS) * size;
+      const cellY = y0 + 50 + (dy + STREAM_RADIUS) * size;
+      const color = BIOME_ACCENTS[activeChunk.chunk.biome];
+      this.radar.fillStyle(color, dx === 0 && dy === 0 ? 0.66 : 0.25);
+      this.radar.fillRoundedRect(cellX, cellY, size - 5, size - 5, 4);
+      if (activeChunk.chunk.encounters.some((encounter) => !this.completed.has(encounter.id))) {
+        this.radar.fillStyle(0xf6c85f, 0.92);
+        this.radar.fillCircle(cellX + size - 9, cellY + 6, 3);
+      }
+      if (activeChunk.chunk.treasures.some((treasure) => !this.collectedTreasures.has(treasure.id))) {
+        this.radar.fillStyle(0xc7b8ff, 0.9);
+        this.radar.fillCircle(cellX + 6, cellY + size - 10, 3);
+      }
+    }
+    this.radar.lineStyle(2, 0xf5fbff, 0.86);
+    this.radar.strokeRoundedRect(x0 + 58 + STREAM_RADIUS * size - 1, y0 + 50 + STREAM_RADIUS * size - 1, size - 3, size - 3, 4);
+    this.biomeText?.setText(active ? BIOME_LABELS[active.biome] : "Zona");
+    this.biomeText?.setColor(`#${accent.toString(16).padStart(6, "0")}`);
+    this.coordText?.setText(`chunk ${current.x}:${current.y}`);
+  }
+
+  private updateObjectiveGuide(): void {
+    if (!this.guideGraphics || !this.guideText || !this.avatar) return;
+    const objective = this.nearestObjective();
+    const x = 640;
+    const y = 646;
+    this.guideGraphics.clear();
+    this.guideGraphics.fillStyle(0x061019, 0.78);
+    this.guideGraphics.fillRoundedRect(x - 152, y - 26, 304, 58, 8);
+    this.guideGraphics.lineStyle(1, 0x6be7d6, 0.28);
+    this.guideGraphics.strokeRoundedRect(x - 152, y - 26, 304, 58, 8);
+    if (!objective) {
+      this.guideText.setText("Esplora nuove zone");
+      this.guideText.setColor("#9fb6c2");
+      this.guideGraphics.fillStyle(0x6be7d6, 0.18);
+      this.guideGraphics.fillCircle(x - 118, y + 2, 12);
+      return;
+    }
+    const angle = Math.atan2(objective.y - this.avatar.y, objective.x - this.avatar.x);
+    const accent = BIOME_ACCENTS[objective.biome];
+    const arrowX = x - 118;
+    const arrowY = y + 2;
+    const tipX = arrowX + Math.cos(angle) * 18;
+    const tipY = arrowY + Math.sin(angle) * 18;
+    const leftX = arrowX + Math.cos(angle + 2.35) * 10;
+    const leftY = arrowY + Math.sin(angle + 2.35) * 10;
+    const rightX = arrowX + Math.cos(angle - 2.35) * 10;
+    const rightY = arrowY + Math.sin(angle - 2.35) * 10;
+    this.guideGraphics.fillStyle(accent, 0.18);
+    this.guideGraphics.fillCircle(arrowX, arrowY, 23);
+    this.guideGraphics.fillStyle(accent, 0.95);
+    this.guideGraphics.fillTriangle(tipX, tipY, leftX, leftY, rightX, rightY);
+    this.guideGraphics.lineStyle(2, 0xf5fbff, 0.42);
+    this.guideGraphics.lineBetween(arrowX, arrowY, tipX, tipY);
+    this.guideText.setText(`${objective.label} · ${Math.max(1, Math.round(objective.distance / 90))} zone`);
+    this.guideText.setColor(`#${accent.toString(16).padStart(6, "0")}`);
+  }
+
+  private nearestObjective(): { x: number; y: number; label: string; biome: OutdoorBiome; distance: number } | undefined {
+    let best: { x: number; y: number; label: string; biome: OutdoorBiome; distance: number } | undefined;
+    const consider = (x: number, y: number, label: string, biome: OutdoorBiome): void => {
+      const distance = Math.hypot(x - this.avatar.x, y - this.avatar.y);
+      if (!best || distance < best.distance) best = { x, y, label, biome, distance };
+    };
+    for (const encounter of this.map.encounters) {
+      if (this.completed.has(encounter.id)) continue;
+      consider(encounter.x, encounter.y, encounter.kind === "guardian" ? "Guardiano" : encounter.label, encounter.biome);
+    }
+    for (const treasure of this.map.treasures) {
+      if (this.collectedTreasures.has(treasure.id)) continue;
+      consider(treasure.x, treasure.y, treasure.label, treasure.biome);
+    }
+    return best;
+  }
+
+  private currentChunkCoords(): { x: number; y: number } {
+    const source = this.avatar ?? { x: this.map.start.x, y: this.map.start.y };
+    return {
+      x: Math.floor(source.x / OUTDOOR_CHUNK_SIZE),
+      y: Math.floor(source.y / OUTDOOR_CHUNK_SIZE),
+    };
   }
 
   private playerShieldFor(encounter: OutdoorEncounter): number {

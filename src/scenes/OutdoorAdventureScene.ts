@@ -136,6 +136,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private atmosphereGraphics?: Phaser.GameObjects.Graphics;
   private lastAmbientSparkAt = 0;
   private lastTrailAt = 0;
+  private petMood: "idle" | "treasure" | "correct" = "idle";
+  private petMoodUntil = 0;
+  private petNextChirpAt = 0;
   private readonly onE = (): void => this.tryInteract();
 
   constructor() {
@@ -162,8 +165,12 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.cursors = this.input.keyboard!.createCursorKeys();
     this.keys = this.input.keyboard!.addKeys("W,A,S,D") as Record<string, Phaser.Input.Keyboard.Key>;
     this.input.keyboard!.on("keydown-E", this.onE);
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.input.keyboard?.off("keydown-E", this.onE));
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.input.keyboard?.off("keydown-E", this.onE);
+      audioManager.stopMusic();
+    });
     this.cameras.main.startFollow(this.avatar, true, 0.12, 0.12);
+    audioManager.playMusic("labAmbience");
     audioManager.play("missionStart");
   }
 
@@ -241,7 +248,20 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       this.showBiomeBanner(active.chunk);
       this.refreshAmbientMotes(active.chunk.biome);
       this.refreshAtmosphere(active.chunk.biome);
+      this.playBiomeTransition(active.chunk.biome);
     }
+  }
+
+  private playBiomeTransition(biome: OutdoorBiome): void {
+    const motifs: Record<OutdoorBiome, Array<{ frequency: number; durationMs: number }>> = {
+      academy: [{ frequency: 392, durationMs: 90 }, { frequency: 523, durationMs: 120 }],
+      ruins: [{ frequency: 196, durationMs: 130 }, { frequency: 247, durationMs: 150 }],
+      geo: [{ frequency: 330, durationMs: 100 }, { frequency: 440, durationMs: 130 }],
+      logic: [{ frequency: 262, durationMs: 80 }, { frequency: 524, durationMs: 80 }, { frequency: 659, durationMs: 110 }],
+      wild: [{ frequency: 349, durationMs: 120 }, { frequency: 392, durationMs: 150 }],
+      crystal: [{ frequency: 523, durationMs: 90 }, { frequency: 784, durationMs: 130 }],
+    };
+    audioManager.playToneSequence(motifs[biome]);
   }
 
   private biomeBackground(biome: OutdoorBiome): string {
@@ -394,6 +414,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     g.fillStyle(BIOME_PAINTED_BACKDROPS[chunk.biome].veil, 0.58);
     g.fillRect(chunk.worldX, chunk.worldY, chunk.size, chunk.size);
     this.drawPaintedTerrainWash(g, chunk);
+    this.drawBiomeSilhouette(g, chunk);
     for (let x = chunk.worldX; x < chunk.worldX + chunk.size; x += 96) {
       for (let y = chunk.worldY; y < chunk.worldY + chunk.size; y += 96) {
         const tint = (x / 96 + y / 96) % 2 === 0 ? 0x0a1820 : 0x08131b;
@@ -472,6 +493,78 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     for (let i = 0; i < 7; i += 1) {
       const yy = y + 58 + this.visualNoise(chunk.id, 1320 + i) * Math.max(1, h - 116);
       g.lineBetween(x + 48, yy, x + w - 48, yy + (this.visualNoise(chunk.id, 1330 + i) - 0.5) * 28);
+    }
+  }
+
+  private drawBiomeSilhouette(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
+    const x = chunk.worldX;
+    const y = chunk.worldY;
+    const s = chunk.size;
+    const accent = BIOME_ACCENTS[chunk.biome];
+    g.fillStyle(0x02070b, 0.18);
+    g.lineStyle(3, accent, 0.12);
+    if (chunk.biome === "academy") {
+      for (let i = 0; i < 4; i += 1) {
+        const px = x + 118 + i * 164;
+        g.fillRoundedRect(px, y + 98, 34, 194, 12);
+        g.strokeRoundedRect(px, y + 98, 34, 194, 12);
+      }
+      g.strokeCircle(x + s - 168, y + 170, 70);
+      g.lineBetween(x + s - 238, y + 170, x + s - 98, y + 170);
+      return;
+    }
+    if (chunk.biome === "logic") {
+      for (let i = 0; i < 5; i += 1) {
+        const px = x + 96 + i * 138;
+        const h = 96 + this.visualNoise(chunk.id, 1500 + i) * 160;
+        g.fillRect(px, y + s - 140 - h, 44, h);
+        g.strokeRect(px, y + s - 140 - h, 44, h);
+        g.fillCircle(px + 22, y + s - 154 - h, 7);
+      }
+      for (let i = 0; i < 6; i += 1) {
+        const yy = y + 160 + i * 82;
+        g.lineBetween(x + 90, yy, x + s - 90, yy + (i % 2 === 0 ? 34 : -24));
+      }
+      return;
+    }
+    if (chunk.biome === "geo") {
+      g.fillTriangle(x + 82, y + s - 126, x + 254, y + 234, x + 420, y + s - 126);
+      g.fillTriangle(x + 306, y + s - 120, x + 526, y + 188, x + 746, y + s - 120);
+      g.strokeTriangle(x + 82, y + s - 126, x + 254, y + 234, x + 420, y + s - 126);
+      g.strokeTriangle(x + 306, y + s - 120, x + 526, y + 188, x + 746, y + s - 120);
+      for (let i = 0; i < 5; i += 1) {
+        g.strokeEllipse(x + 452, y + 188 + i * 54, 420 - i * 42, 96 + i * 18);
+      }
+      return;
+    }
+    if (chunk.biome === "ruins") {
+      for (let i = 0; i < 5; i += 1) {
+        const px = x + 106 + i * 142;
+        const h = 94 + this.visualNoise(chunk.id, 1540 + i) * 140;
+        g.fillRect(px, y + s - 112 - h, 42, h);
+        g.strokeRect(px, y + s - 112 - h, 42, h);
+        if (i % 2 === 0) g.lineBetween(px - 12, y + s - 126 - h, px + 64, y + s - 94 - h);
+      }
+      g.strokeCircle(x + s - 170, y + 190, 58);
+      g.lineBetween(x + s - 210, y + 230, x + s - 110, y + 124);
+      return;
+    }
+    if (chunk.biome === "crystal") {
+      for (let i = 0; i < 9; i += 1) {
+        const px = x + 92 + this.visualNoise(chunk.id, 1580 + i) * (s - 184);
+        const base = y + s - 96 - this.visualNoise(chunk.id, 1590 + i) * 210;
+        const h = 92 + this.visualNoise(chunk.id, 1600 + i) * 160;
+        g.fillTriangle(px, base, px - 32, base + h, px + 34, base + h);
+        g.strokeTriangle(px, base, px - 32, base + h, px + 34, base + h);
+      }
+      return;
+    }
+    for (let i = 0; i < 7; i += 1) {
+      const px = x + 90 + i * 112;
+      const py = y + s - 124 - this.visualNoise(chunk.id, 1640 + i) * 80;
+      g.fillRect(px, py - 94, 20, 120);
+      g.fillCircle(px, py - 124, 66);
+      g.strokeCircle(px, py - 124, 66);
     }
   }
 
@@ -1090,8 +1183,61 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }
     drawOutfitFront(this, this.avatar, outfit, 0.92);
     drawAccessoryVisual(this, this.avatar, accessory, 0.92);
+    this.addEquippedMicroAnimations(outfit, accessory, color);
     const petRoot = this.add.container(0, 0).setDepth(19);
     this.petCompanion = drawPetVisual(this, petRoot, pet, this.map.start.x - 48, this.map.start.y + 20, 1.05, false);
+    if (this.petCompanion && !settingsSystem.effectsReduced()) {
+      this.tweens.add({
+        targets: this.petCompanion,
+        angle: { from: -2, to: 2 },
+        duration: 1250,
+        yoyo: true,
+        repeat: -1,
+        ease: "Sine.easeInOut",
+      });
+    }
+  }
+
+  private addEquippedMicroAnimations(outfit: Cosmetic | undefined, accessory: Cosmetic | undefined, color: number): void {
+    if (settingsSystem.effectsReduced()) return;
+    if (outfit) {
+      const aura = this.add.ellipse(0, 16, 74, 104, color, 0.035).setStrokeStyle(2, color, 0.24);
+      this.avatar.addAt(aura, 1);
+      this.tweens.add({ targets: aura, alpha: 0.12, scale: 1.08, duration: 1500, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      if (outfit.id === "avatar-astral" || outfit.id === "avatar-aurora" || outfit.id === "avatar-nebula") {
+        for (let i = 0; i < 4; i += 1) {
+          const star = this.add.circle(-26 + i * 17, -44 + (i % 2) * 14, i % 2 === 0 ? 2 : 1.5, i % 2 === 0 ? 0xffffff : color, 0.78);
+          this.avatar.add(star);
+          this.tweens.add({
+            targets: star,
+            alpha: { from: 0.18, to: 0.9 },
+            y: star.y - 5,
+            duration: 860 + i * 180,
+            yoyo: true,
+            repeat: -1,
+            ease: "Sine.easeInOut",
+          });
+        }
+      }
+    }
+    if (!accessory) return;
+    if (accessory.id === "accessory-jetpack") {
+      [-34, 34].forEach((x, index) => {
+        const flame = this.add.triangle(x, 52, -5, 0, 5, 0, 0, 18, 0xf6c85f, 0.7);
+        this.avatar.add(flame);
+        this.tweens.add({ targets: flame, alpha: 0.18, scaleY: 1.35, duration: 180 + index * 40, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      });
+    } else if (accessory.id === "accessory-wings") {
+      const left = this.add.triangle(-46, 5, 0, -10, -32, 0, -4, 18, accessory.color ?? 0xf6c85f, 0.18);
+      const right = this.add.triangle(46, 5, 0, -10, 32, 0, 4, 18, accessory.color ?? 0xf6c85f, 0.18);
+      this.avatar.add([left, right]);
+      this.tweens.add({ targets: [left, right], alpha: 0.42, scaleY: 1.14, duration: 620, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    } else if (accessory.id === "accessory-halo" || accessory.id === "accessory-crown" || accessory.id === "accessory-compass") {
+      const ping = this.add.circle(accessory.id === "accessory-compass" ? 25 : 0, accessory.id === "accessory-compass" ? -2 : -56, 18, 0x000000, 0)
+        .setStrokeStyle(2, accessory.color ?? 0xf6c85f, 0.26);
+      this.avatar.add(ping);
+      this.tweens.add({ targets: ping, scale: 1.45, alpha: 0, duration: 1200, repeat: -1, ease: "Sine.easeOut" });
+    }
   }
 
   private ensureAnimations(): void {
@@ -1257,11 +1403,81 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private updatePet(): void {
     if (!this.petCompanion) return;
-    const targetX = this.avatar.x - (this.facing === "left" ? -48 : 48);
-    const targetY = this.avatar.y + 18 + Math.sin(this.time.now / 360) * 7;
-    this.petCompanion.x = Phaser.Math.Linear(this.petCompanion.x, targetX, 0.07);
-    this.petCompanion.y = Phaser.Math.Linear(this.petCompanion.y, targetY, 0.07);
+    if (this.petMood !== "idle" && this.time.now > this.petMoodUntil) {
+      this.petMood = "idle";
+    }
+    const nearestTreasure = this.nearestUncollectedTreasure(170);
+    const baseDistance = this.petMood === "treasure" ? 62 : this.petMood === "correct" ? 36 : nearestTreasure ? 42 : 48;
+    const side = this.facing === "left" ? 1 : -1;
+    const orbit = Math.sin(this.time.now / (this.petMood === "correct" ? 170 : 360));
+    const targetX = nearestTreasure && this.petMood === "idle"
+      ? Phaser.Math.Linear(this.avatar.x + side * baseDistance, nearestTreasure.x, 0.18)
+      : this.avatar.x + side * baseDistance + orbit * (this.petMood === "correct" ? 10 : 4);
+    const targetY = this.avatar.y + 18 + Math.sin(this.time.now / 360) * 7 - (this.petMood === "correct" ? 18 : 0);
+    const follow = this.petMood === "idle" ? 0.07 : 0.14;
+    this.petCompanion.x = Phaser.Math.Linear(this.petCompanion.x, targetX, follow);
+    this.petCompanion.y = Phaser.Math.Linear(this.petCompanion.y, targetY, follow);
+    this.petCompanion.setScale(this.petMood === "correct" ? 1.16 : this.petMood === "treasure" ? 1.1 : 1.05);
     this.petCompanion.setDepth(19 + this.petCompanion.y / 10000);
+    if (nearestTreasure && this.time.now > this.petNextChirpAt) {
+      this.petNextChirpAt = this.time.now + 2600;
+      this.petSpark(nearestTreasure.x, nearestTreasure.y, this.biomeAccent(nearestTreasure.biome));
+    }
+  }
+
+  private nearestUncollectedTreasure(radius: number): OutdoorTreasure | undefined {
+    let best: OutdoorTreasure | undefined;
+    let bestDistance = radius;
+    for (const treasure of this.map.treasures) {
+      if (this.collectedTreasures.has(treasure.id)) continue;
+      const distance = Math.hypot(treasure.x - this.avatar.x, treasure.y - this.avatar.y);
+      if (distance < bestDistance) {
+        best = treasure;
+        bestDistance = distance;
+      }
+    }
+    return best;
+  }
+
+  private reactPet(kind: "treasure" | "correct", biome: OutdoorBiome): void {
+    if (!this.petCompanion || settingsSystem.effectsReduced()) return;
+    this.petMood = kind;
+    this.petMoodUntil = this.time.now + (kind === "treasure" ? 1800 : 950);
+    const accent = this.biomeAccent(biome);
+    this.tweens.killTweensOf(this.petCompanion);
+    this.tweens.add({
+      targets: this.petCompanion,
+      scale: kind === "treasure" ? 1.34 : 1.28,
+      angle: kind === "treasure" ? 18 : -16,
+      duration: 150,
+      yoyo: true,
+      repeat: kind === "treasure" ? 2 : 1,
+      ease: "Sine.easeInOut",
+      onComplete: () => {
+        this.tweens.add({ targets: this.petCompanion, angle: { from: -2, to: 2 }, duration: 1250, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      },
+    });
+    for (let i = 0; i < (kind === "treasure" ? 9 : 6); i += 1) {
+      const angle = (Math.PI * 2 * i) / (kind === "treasure" ? 9 : 6);
+      this.petSpark(this.petCompanion.x + Math.cos(angle) * 28, this.petCompanion.y + Math.sin(angle) * 20, i % 2 === 0 ? accent : 0xffffff);
+    }
+  }
+
+  private petSpark(x: number, y: number, color: number): void {
+    if (settingsSystem.effectsReduced()) return;
+    const spark = this.textures.exists("soft-glow")
+      ? this.add.image(x, y, "soft-glow").setTint(color).setAlpha(0.16).setScale(0.24)
+      : this.add.circle(x, y, 5, color, 0.36);
+    spark.setDepth(32 + y / 10000);
+    this.tweens.add({
+      targets: spark,
+      y: y - 18,
+      alpha: 0,
+      scale: 0.08,
+      duration: 520,
+      ease: "Sine.easeOut",
+      onComplete: () => spark.destroy(),
+    });
   }
 
   private updatePrompt(): void {
@@ -1316,6 +1532,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.activeTreasure = undefined;
     this.prompt.setVisible(false);
     this.showTreasureBurst(treasure);
+    this.reactPet("treasure", treasure.biome);
     const node = this.treasureNodes.get(treasure.id);
     if (node) {
       this.tweens.killTweensOf(node);
@@ -1762,6 +1979,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
             correct += 1;
             enemyShield -= this.playerDamageBonus();
             audioManager.play("success");
+            this.reactPet("correct", encounter.biome);
+            this.showCombatPetReaction(arena, encounter.biome);
             this.flashStrike(arena, 360, 266, 920, 266, 0xf6c85f);
           } else {
             playerShield -= 1;
@@ -1839,6 +2058,38 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     drawAccessoryVisual(this, c, accessory, 1.55, 12);
     drawPetVisual(this, c, rewardSystem.equipped("pet"), -88, 36, 1.35, !settingsSystem.effectsReduced());
     parent.add(c);
+  }
+
+  private showCombatPetReaction(parent: Phaser.GameObjects.Container, biome: OutdoorBiome): void {
+    if (settingsSystem.effectsReduced()) return;
+    const accent = this.biomeAccent(biome);
+    const burst = this.add.container(272, 302);
+    parent.add(burst);
+    if (this.textures.exists("soft-glow")) {
+      burst.add(this.add.image(0, 0, "soft-glow").setTint(accent).setAlpha(0.22).setScale(0.7));
+    }
+    burst.add(this.add.circle(0, 0, 18, 0x000000, 0).setStrokeStyle(2, accent, 0.7));
+    for (let i = 0; i < 7; i += 1) {
+      const angle = (Math.PI * 2 * i) / 7;
+      const spark = this.add.circle(0, 0, i % 2 === 0 ? 4 : 3, i % 2 === 0 ? accent : 0xffffff, 0.9);
+      burst.add(spark);
+      this.tweens.add({
+        targets: spark,
+        x: Math.cos(angle) * Phaser.Math.Between(26, 54),
+        y: Math.sin(angle) * Phaser.Math.Between(18, 42),
+        alpha: 0,
+        duration: 520,
+        ease: "Cubic.easeOut",
+      });
+    }
+    this.tweens.add({
+      targets: burst,
+      y: burst.y - 16,
+      alpha: 0,
+      duration: 650,
+      ease: "Sine.easeOut",
+      onComplete: () => burst.destroy(true),
+    });
   }
 
   private drawEnemy(parent: Phaser.GameObjects.Container, encounter: OutdoorEncounter, x: number, y: number): void {

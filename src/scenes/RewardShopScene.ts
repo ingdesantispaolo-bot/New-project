@@ -147,6 +147,7 @@ export class RewardShopScene extends Phaser.Scene {
       layer.add(this.add.circle(1142, 236, 8, color, 1));
     }
     layer.add(this.add.text(1142, 292, equipped?.name ?? "Predefinito", { fontFamily: "Inter, Arial", fontSize: "13px", color: "#dce9f0", wordWrap: { width: 190 } }).setOrigin(0.5));
+    this.drawLegendaryShowcase(layer);
   }
 
   private drawPreviewPedestal(layer: Phaser.GameObjects.Container, equipped: Cosmetic | undefined, owned: number, total: number): void {
@@ -164,6 +165,72 @@ export class RewardShopScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     }).setOrigin(0.5));
+  }
+
+  private drawLegendaryShowcase(layer: Phaser.GameObjects.Container): void {
+    if (this.slot === "upgrade" || this.slot === "decor") return;
+    const legendary = rewardSystem.bySlot(this.slot).filter((item) => this.rarityFor(item).label === "leggendario");
+    if (legendary.length === 0) return;
+    const featured = legendary.find((item) => !rewardSystem.owned(item.id)) ?? legendary.find((item) => rewardSystem.isEquipped(item.id)) ?? legendary[0]!;
+    const rarity = this.rarityFor(featured);
+    const owned = rewardSystem.owned(featured.id);
+    const equipped = rewardSystem.isEquipped(featured.id);
+    const x = 1035;
+    const y = 388;
+    const w = 214;
+    const h = 244;
+    layer.add(this.add.rectangle(x, y, w, h, 0x050b14, 0.92).setOrigin(0).setStrokeStyle(2, rarity.color, 0.78));
+    layer.add(this.add.rectangle(x + 4, y + 4, w - 8, h - 8, 0x0b1622, 0.42).setOrigin(0).setStrokeStyle(1, 0xffffff, 0.08));
+    layer.add(this.add.text(x + w / 2, y + 18, "VETRINA LEGGENDARIA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: rarity.text,
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    const stage = this.add.container(x + w / 2, y + 106);
+    layer.add(stage);
+    stage.add(this.add.ellipse(0, 48, 128, 28, 0x000000, 0.28));
+    const ring = this.add.circle(0, 0, 58, 0x000000, 0).setStrokeStyle(3, rarity.color, 0.42);
+    const inner = this.add.circle(0, 0, 36, 0x000000, 0).setStrokeStyle(2, 0xffffff, 0.18);
+    stage.add([ring, inner]);
+    if (this.textures.exists("soft-glow")) {
+      stage.add(this.add.image(0, 0, "soft-glow").setTint(rarity.color).setAlpha(0.18).setScale(1.45));
+    }
+    this.drawRewardIcon(stage, featured, 0, 0, 92);
+    layer.add(this.add.text(x + w / 2, y + 176, featured.name, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 178 },
+    }).setOrigin(0.5));
+    layer.add(this.add.text(x + w / 2, y + 206, equipped ? "Equipaggiato" : owned ? "Sbloccato" : `Richiede ${featured.cost} energia`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: equipped ? "#8ff6c0" : owned ? "#9ff5e9" : rarity.text,
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 178 },
+    }).setOrigin(0.5));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: ring, angle: 360, duration: 7200, repeat: -1, ease: "Linear" });
+      this.tweens.add({ targets: inner, angle: -360, duration: 5200, repeat: -1, ease: "Linear" });
+      this.tweens.add({ targets: stage, y: stage.y - 5, duration: 1450, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      for (let i = 0; i < 6; i += 1) {
+        const beam = this.add.rectangle(x + 28 + i * 30, y + 42, 4, 172, i % 2 === 0 ? rarity.color : 0xffffff, 0.08).setOrigin(0.5, 0);
+        layer.add(beam);
+        this.tweens.add({
+          targets: beam,
+          alpha: { from: 0.03, to: 0.16 },
+          scaleY: { from: 0.6, to: 1 },
+          duration: 900 + i * 140,
+          yoyo: true,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        });
+      }
+    }
   }
 
   private drawCards(): void {

@@ -165,7 +165,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   preload(): void {
-    queueSceneAssets(this, "outdoorPainted", "rewards");
+    queueSceneAssets(this, "outdoorPainted", "outdoorWorld", "rewards");
   }
 
   create(data?: { returnScene?: string }): void {
@@ -195,6 +195,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       audioManager.stopMusic();
     });
     this.cameras.main.startFollow(this.avatar, true, 0.12, 0.12);
+    if (!settingsSystem.effectsReduced()) {
+      this.cameras.main.fadeIn(520, 2, 7, 11);
+    }
     audioManager.playMusic("labAmbience");
     audioManager.play("missionStart");
   }
@@ -273,8 +276,13 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const active = this.activeChunks.get(this.chunkId(chunkX, chunkY));
     if (!active) return;
     if (active.chunk.biome !== this.currentBiome) {
+      const previousBiome = this.currentBiome;
       this.currentBiome = active.chunk.biome;
       this.cameras.main.setBackgroundColor(this.biomeBackground(this.currentBiome));
+      if (previousBiome && !settingsSystem.effectsReduced()) {
+        const accent = BIOME_ACCENTS[this.currentBiome];
+        this.cameras.main.flash(160, (accent >> 16) & 0xff, (accent >> 8) & 0xff, accent & 0xff, false);
+      }
       this.showBiomeBanner(active.chunk);
       this.refreshAmbientMotes(active.chunk.biome);
       this.refreshAtmosphere(active.chunk.biome);
@@ -520,8 +528,10 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     g.fillStyle(BIOME_PAINTED_BACKDROPS[chunk.biome].veil, 0.34);
     g.fillRect(chunk.worldX - 6, chunk.worldY - 6, chunk.size + 12, chunk.size + 12);
     this.drawPaintedTerrainWash(g, chunk);
+    this.drawAtmosphericDepth(g, chunk);
     this.drawBiomeSilhouette(g, chunk);
     this.drawContinuousGroundTexture(g, chunk);
+    this.drawBiomeGroundMotifs(g, chunk);
     const terrainBase = this.variedColor(chunk.patch.color, this.visualNoise(chunk.id, 901) * 0.14 - 0.07);
     g.fillStyle(terrainBase, 0.28);
     g.fillEllipse(chunk.worldX + chunk.size / 2, chunk.worldY + chunk.size / 2, chunk.size * 1.18, chunk.size * 1.06);
@@ -570,20 +580,36 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private drawPaintedTerrainWash(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
     const accent = BIOME_ACCENTS[chunk.biome];
     const palette = BIOME_DETAIL_COLORS[chunk.biome];
-    for (let i = 0; i < 14; i += 1) {
-      const x = chunk.worldX - 120 + this.visualNoise(chunk.id, 1200 + i * 4) * (chunk.size + 240);
-      const y = chunk.worldY - 120 + this.visualNoise(chunk.id, 1201 + i * 4) * (chunk.size + 240);
-      const w = 260 + this.visualNoise(chunk.id, 1202 + i * 4) * 520;
-      const h = 72 + this.visualNoise(chunk.id, 1203 + i * 4) * 150;
+    for (let i = 0; i < 18; i += 1) {
+      const x = chunk.worldX - 160 + this.visualNoise(chunk.id, 1200 + i * 4) * (chunk.size + 320);
+      const y = chunk.worldY - 150 + this.visualNoise(chunk.id, 1201 + i * 4) * (chunk.size + 300);
+      const w = 300 + this.visualNoise(chunk.id, 1202 + i * 4) * 620;
+      const h = 74 + this.visualNoise(chunk.id, 1203 + i * 4) * 180;
       const color = i % 3 === 0 ? accent : palette[i % palette.length]!;
       g.fillStyle(color, 0.028 + this.visualNoise(chunk.id, 1240 + i) * 0.032);
       g.fillEllipse(x, y, w, h);
     }
   }
 
+  private drawAtmosphericDepth(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
+    const x = chunk.worldX;
+    const y = chunk.worldY;
+    const s = chunk.size;
+    const accent = BIOME_ACCENTS[chunk.biome];
+    const backdrop = BIOME_PAINTED_BACKDROPS[chunk.biome];
+    g.fillStyle(0xffffff, 0.026);
+    g.fillEllipse(x + s * 0.32, y + s * 0.17, s * 0.78, s * 0.22);
+    g.fillStyle(backdrop.veil, 0.12);
+    g.fillEllipse(x + s * 0.62, y + s * 0.86, s * 1.2, s * 0.36);
+    g.fillStyle(accent, 0.035);
+    g.fillEllipse(x + s * (0.24 + this.visualNoise(chunk.id, 1260) * 0.5), y + s * 0.56, s * 0.54, s * 0.92);
+    g.lineStyle(2, accent, 0.08);
+    g.strokeEllipse(x + s * 0.5, y + s * 0.52, s * 0.96, s * 0.82);
+  }
+
   private drawContinuousGroundTexture(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
     const palette = BIOME_DETAIL_COLORS[chunk.biome];
-    const grid = 128;
+    const grid = 112;
     const startX = Math.floor((chunk.worldX - 96) / grid) * grid;
     const endX = chunk.worldX + chunk.size + 96;
     const startY = Math.floor((chunk.worldY - 96) / grid) * grid;
@@ -603,6 +629,82 @@ export class OutdoorAdventureScene extends Phaser.Scene {
           g.lineBetween(x + 16, y + 54, x + 102, y + 48 + n * 30);
         }
       }
+    }
+  }
+
+  private drawBiomeGroundMotifs(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
+    const palette = BIOME_DETAIL_COLORS[chunk.biome];
+    const accent = BIOME_ACCENTS[chunk.biome];
+    const x = chunk.worldX;
+    const y = chunk.worldY;
+    const s = chunk.size;
+    if (chunk.biome === "logic") {
+      g.lineStyle(2, accent, 0.13);
+      for (let i = 0; i < 10; i += 1) {
+        const sx = x + 76 + this.visualNoise(chunk.id, 2100 + i * 3) * (s - 152);
+        const sy = y + 84 + this.visualNoise(chunk.id, 2101 + i * 3) * (s - 168);
+        const w = 46 + this.visualNoise(chunk.id, 2102 + i * 3) * 92;
+        g.lineBetween(sx, sy, sx + w, sy);
+        g.lineBetween(sx + w, sy, sx + w, sy + 24);
+        g.fillStyle(i % 2 === 0 ? 0x6be7d6 : 0xf6c85f, 0.18);
+        g.fillCircle(sx + w, sy + 24, 4);
+      }
+      return;
+    }
+    if (chunk.biome === "geo") {
+      g.lineStyle(2, 0x7ad7ff, 0.12);
+      for (let i = 0; i < 7; i += 1) {
+        const cx = x + 150 + this.visualNoise(chunk.id, 2140 + i) * (s - 300);
+        const cy = y + 130 + i * 78;
+        g.strokeEllipse(cx, cy, 360 - i * 24, 56 + i * 12);
+      }
+      g.lineStyle(5, 0x7ad7ff, 0.1);
+      for (let i = 0; i < 3; i += 1) {
+        const yy = y + 170 + this.visualNoise(chunk.id, 2160 + i) * (s - 340);
+        g.lineBetween(x + 72, yy, x + s * 0.38, yy + 42);
+        g.lineBetween(x + s * 0.38, yy + 42, x + s - 70, yy - 16);
+      }
+      return;
+    }
+    if (chunk.biome === "crystal") {
+      for (let i = 0; i < 16; i += 1) {
+        const px = x + 62 + this.visualNoise(chunk.id, 2180 + i * 3) * (s - 124);
+        const py = y + 66 + this.visualNoise(chunk.id, 2181 + i * 3) * (s - 132);
+        const h = 18 + this.visualNoise(chunk.id, 2182 + i * 3) * 42;
+        g.fillStyle(palette[i % palette.length]!, 0.1);
+        g.fillTriangle(px, py - h, px - h * 0.32, py + h * 0.2, px + h * 0.3, py + h * 0.2);
+        g.lineStyle(1, 0xffffff, 0.12);
+        g.strokeTriangle(px, py - h, px - h * 0.32, py + h * 0.2, px + h * 0.3, py + h * 0.2);
+      }
+      return;
+    }
+    if (chunk.biome === "ruins") {
+      g.lineStyle(2, 0xff8f6b, 0.13);
+      for (let i = 0; i < 12; i += 1) {
+        const px = x + 72 + this.visualNoise(chunk.id, 2220 + i * 3) * (s - 144);
+        const py = y + 78 + this.visualNoise(chunk.id, 2221 + i * 3) * (s - 156);
+        const len = 32 + this.visualNoise(chunk.id, 2222 + i * 3) * 78;
+        g.lineBetween(px, py, px + len * 0.38, py + 18);
+        g.lineBetween(px + len * 0.38, py + 18, px + len, py - 8);
+      }
+      return;
+    }
+    if (chunk.biome === "wild") {
+      for (let i = 0; i < 22; i += 1) {
+        const px = x + 58 + this.visualNoise(chunk.id, 2260 + i * 3) * (s - 116);
+        const py = y + 62 + this.visualNoise(chunk.id, 2261 + i * 3) * (s - 124);
+        const color = palette[i % palette.length]!;
+        g.fillStyle(color, 0.12);
+        g.fillEllipse(px, py, 26, 8);
+        g.fillEllipse(px + 12, py - 5, 20, 7);
+      }
+      return;
+    }
+    g.lineStyle(2, accent, 0.1);
+    for (let i = 0; i < 9; i += 1) {
+      const px = x + 82 + this.visualNoise(chunk.id, 2300 + i * 3) * (s - 164);
+      const py = y + 86 + this.visualNoise(chunk.id, 2301 + i * 3) * (s - 172);
+      g.strokeRoundedRect(px, py, 54 + this.visualNoise(chunk.id, 2302 + i * 3) * 78, 18, 8);
     }
   }
 
@@ -696,13 +798,19 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   private drawPaths(g: Phaser.GameObjects.Graphics, points = this.map.pathPoints.length > 1 ? this.map.pathPoints : [this.map.start], landmarks = this.map.landmarks): void {
-    g.lineStyle(42, 0x132a33, 0.72);
+    g.lineStyle(56, 0x02070b, 0.16);
+    for (let i = 0; i < points.length - 1; i += 1) g.lineBetween(points[i]!.x, points[i]!.y + 10, points[i + 1]!.x, points[i + 1]!.y + 10);
+    g.lineStyle(44, 0x132a33, 0.62);
     for (let i = 0; i < points.length - 1; i += 1) g.lineBetween(points[i]!.x, points[i]!.y, points[i + 1]!.x, points[i + 1]!.y);
-    g.lineStyle(4, 0xf6c85f, 0.18);
+    g.lineStyle(16, 0x9ff5e9, 0.045);
+    for (let i = 0; i < points.length - 1; i += 1) g.lineBetween(points[i]!.x, points[i]!.y - 2, points[i + 1]!.x, points[i + 1]!.y - 2);
+    g.lineStyle(4, 0xf6c85f, 0.2);
     for (let i = 0; i < points.length - 1; i += 1) g.lineBetween(points[i]!.x, points[i]!.y, points[i + 1]!.x, points[i + 1]!.y);
     const hub = points[1];
     if (!hub) return;
-    g.lineStyle(18, 0x10242d, 0.42);
+    g.lineStyle(22, 0x02070b, 0.12);
+    landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y + 5, landmark.x, landmark.y + 5));
+    g.lineStyle(18, 0x10242d, 0.36);
     landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
     g.lineStyle(2, 0x9ff5e9, 0.14);
     landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
@@ -779,6 +887,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const accent = BIOME_ACCENTS[chunk.biome];
     const palette = BIOME_DETAIL_COLORS[chunk.biome];
     if (kind === "roundTree") {
+      if (this.addOutdoorSprite(container, "out_tree_round", 96, 96, -8)) return;
       const trunk = chunk.biome === "crystal" ? 0x575078 : 0x6a4428;
       const leaf = chunk.biome === "academy" ? 0x2f8a72 : chunk.biome === "geo" ? 0x3b9d60 : chunk.biome === "wild" ? 0x287345 : accent;
       container.add(this.add.ellipse(0, 34, 68, 16, 0x000000, 0.18));
@@ -795,6 +904,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       return;
     }
     if (kind === "flowerPatch") {
+      if (this.addOutdoorSprite(container, "out_flower_patch", 88, 58, 4, accent, 0.95)) return;
       container.add(this.add.ellipse(0, 12, 74, 30, chunk.biome === "crystal" ? 0x222950 : 0x14382b, 0.62).setStrokeStyle(1, accent, 0.18));
       for (let i = 0; i < 9; i += 1) {
         const x = -30 + (i % 5) * 15 + (i > 4 ? 8 : 0);
@@ -818,6 +928,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       return;
     }
     if (kind === "pond") {
+      if (this.addOutdoorSprite(container, "out_geo_pond", 104, 66, 6)) return;
       container.add(this.add.ellipse(0, 10, 100, 54, 0x123246, 0.86).setStrokeStyle(3, 0x7ad7ff, 0.34));
       container.add(this.add.ellipse(-8, 4, 72, 28, 0x2d9bbf, 0.26));
       container.add(this.add.ellipse(18, 13, 42, 14, 0x9ff5e9, 0.18));
@@ -837,6 +948,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       return;
     }
     if (kind === "bench") {
+      if (this.addOutdoorSprite(container, "out_bench_cozy", 96, 62, 5)) return;
       container.add(this.add.ellipse(0, 26, 86, 14, 0x000000, 0.16));
       container.add(this.add.rectangle(0, -6, 82, 11, 0xd9a15f, 0.94).setStrokeStyle(1, 0x4a321d, 0.22));
       container.add(this.add.rectangle(0, 9, 88, 11, 0xf1c27a, 0.92).setStrokeStyle(1, 0x4a321d, 0.2));
@@ -964,9 +1076,27 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     return image;
   }
 
+  private addOutdoorSprite(container: Phaser.GameObjects.Container, frame: string, width: number, height: number, y = 0, tint?: number, alpha = 1): Phaser.GameObjects.Image | undefined {
+    if (!this.textures.exists("outdoor-world") || !this.textures.getFrame("outdoor-world", frame)) return undefined;
+    const image = this.add.image(0, y, "outdoor-world", frame).setDisplaySize(width, height).setAlpha(alpha);
+    if (tint !== undefined) image.setTint(tint);
+    container.add(image);
+    return image;
+  }
+
   private drawProp(prop: OutdoorProp, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(prop.x, prop.y).setDepth(2 + prop.y / 10000);
     objects?.push(c);
+    if (prop.kind === "lamp" && this.addOutdoorSprite(c, "out_lamp_post", 46, 74, -13)) {
+      c.add(this.add.circle(0, -38, 28, prop.color, 0.2));
+      return;
+    }
+    if (prop.kind === "bridge" && this.addOutdoorSprite(c, "out_bridge_plank", 124, 58, 0)) {
+      return;
+    }
+    if (prop.kind === "garden" && this.addOutdoorSprite(c, "out_flower_patch", 92, 60, 8, prop.color, 0.95)) {
+      return;
+    }
     if (prop.kind === "lamp" && this.addAtlasProp(c, "env_pillar_light", 42, 70, -12)) {
       c.add(this.add.circle(0, -34, 24, prop.color, 0.18));
       return;
@@ -1075,6 +1205,24 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private drawObstacle(obstacle: OutdoorObstacle, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(obstacle.x, obstacle.y).setDepth(3 + obstacle.y / 10000);
     objects?.push(c);
+    if (obstacle.kind === "tree") {
+      const pine = obstacle.r <= 36;
+      if (this.addOutdoorSprite(c, pine ? "out_tree_pine" : "out_tree_round", obstacle.r * 2.12, pine ? obstacle.r * 2.62 : obstacle.r * 2.12, -obstacle.r * 0.12, undefined, 0.96)) {
+        return;
+      }
+    }
+    if (obstacle.kind === "rock" && this.addOutdoorSprite(c, "out_rock_moss", obstacle.r * 1.9, obstacle.r * 1.2, 0, obstacle.color, 0.9)) {
+      return;
+    }
+    if (obstacle.kind === "crystal" && this.addOutdoorSprite(c, "out_crystal_cluster", obstacle.r * 2.2, obstacle.r * 2.2, -obstacle.r * 0.08, obstacle.color, 0.94)) {
+      return;
+    }
+    if (obstacle.kind === "ruin" && this.addOutdoorSprite(c, "out_ruin_column", obstacle.r * 1.45, obstacle.r * 2.05, -obstacle.r * 0.12, obstacle.color, 0.9)) {
+      return;
+    }
+    if (obstacle.kind === "bush" && this.addOutdoorSprite(c, "out_bush_bloom", obstacle.r * 2.1, obstacle.r * 1.45, 0, obstacle.color, 0.92)) {
+      return;
+    }
     if (obstacle.kind === "pillar" && this.addAtlasProp(c, "env_pillar_square", obstacle.r * 1.55, obstacle.r * 2.55, -obstacle.r * 0.25, 0xc7b8ff, 0.78)) {
       c.add(this.add.ellipse(0, obstacle.r * 1.1, obstacle.r * 1.8, obstacle.r * 0.42, 0x000000, 0.22));
       return;
@@ -1089,7 +1237,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       return;
     }
     if (obstacle.kind === "crystal") {
-      c.add(this.add.triangle(0, 0, -obstacle.r, obstacle.r, 0, -obstacle.r * 1.35, obstacle.r, obstacle.r, obstacle.color, 0.88).setStrokeStyle(2, 0x9ff5e9, 0.58));
+      this.drawPremiumCrystalCluster(c, obstacle.r, obstacle.color, 0x9ff5e9, 0.86);
       return;
     }
     if (obstacle.kind === "ruin") {
@@ -1117,6 +1265,29 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       return;
     }
     c.add(this.add.ellipse(0, 0, obstacle.r * 1.7, obstacle.r * 1.25, obstacle.color, 0.96).setStrokeStyle(2, 0xdde9ef, 0.18));
+  }
+
+  private drawPremiumCrystalCluster(container: Phaser.GameObjects.Container, radius: number, baseColor: number, accent = 0x7ad7ff, alpha = 0.9): void {
+    const scale = radius / 30;
+    container.add(this.add.ellipse(0, radius * 0.72, radius * 2.45, radius * 0.46, 0x000000, 0.24));
+    if (this.textures.exists("soft-glow")) {
+      container.add(this.add.image(0, -radius * 0.12, "soft-glow").setTint(accent).setAlpha(0.12 * alpha).setScale(scale * 1.15));
+    } else {
+      container.add(this.add.circle(0, -radius * 0.18, radius * 1.15, accent, 0.08 * alpha));
+    }
+    const shards = [
+      { x: -radius * 0.56, y: radius * 0.42, w: radius * 0.36, h: radius * 1.28, color: baseColor, tone: 0.72 },
+      { x: -radius * 0.1, y: radius * 0.48, w: radius * 0.48, h: radius * 1.75, color: accent, tone: 0.86 },
+      { x: radius * 0.44, y: radius * 0.5, w: radius * 0.34, h: radius * 1.22, color: 0xc7b8ff, tone: 0.62 },
+      { x: radius * 0.72, y: radius * 0.58, w: radius * 0.22, h: radius * 0.82, color: 0xf5fbff, tone: 0.36 },
+    ];
+    shards.forEach((shard, index) => {
+      const crystal = this.add.triangle(shard.x, shard.y, -shard.w, 0, 0, -shard.h, shard.w, 0, shard.color, shard.tone * alpha)
+        .setStrokeStyle(1, 0xffffff, (0.22 + index * 0.04) * alpha);
+      container.add(crystal);
+      container.add(this.add.line(0, 0, shard.x - shard.w * 0.18, shard.y - shard.h * 0.14, shard.x + shard.w * 0.08, shard.y - shard.h * 0.78, 0xffffff, 0.22 * alpha).setOrigin(0));
+    });
+    container.add(this.add.ellipse(0, radius * 0.5, radius * 1.75, radius * 0.22, accent, 0.16 * alpha).setStrokeStyle(1, 0xffffff, 0.12 * alpha));
   }
 
   private drawLandmark(landmark: OutdoorLandmark, objects?: Phaser.GameObjects.GameObject[]): void {
@@ -1149,9 +1320,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       c.add(this.add.circle(0, 12, 42, 0x7ad7ff, 0.1).setStrokeStyle(2, 0x9ff5e9, 0.34));
       this.decorateAtlasLandmark(c, accent);
     } else if (landmark.kind === "logicSpire") {
-      c.add(this.add.triangle(0, 40, -46, 48, 0, -82, 46, 48, 0x1c3148, 0.96).setStrokeStyle(3, accent, 0.82));
-      c.add(this.add.rectangle(0, -10, 64, 12, accent, 0.36));
-      c.add(this.add.circle(0, -48, 16, accent, 0.84));
+      this.drawPremiumLogicSpire(c, accent);
       this.decorateLogicLandmark(c);
     } else if (landmark.kind === "ancientCore") {
       c.add(this.add.rectangle(0, 18, 120, 48, 0x4b4252, 0.94).setStrokeStyle(3, accent, 0.55));
@@ -1164,8 +1333,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       c.add(this.add.circle(42, -18, 38, 0x1c7d51, 0.88));
     } else {
       c.add(this.add.ellipse(0, 20, 118, 48, 0x222950, 0.96).setStrokeStyle(3, accent, 0.82));
-      c.add(this.add.triangle(-26, -10, -46, 38, -26, -82, -4, 38, accent, 0.72));
-      c.add(this.add.triangle(24, -2, 2, 44, 24, -72, 48, 44, 0x7ad7ff, 0.64));
+      this.drawPremiumCrystalCluster(c, 38, accent, 0x7ad7ff, 0.82);
       c.add(this.add.circle(0, -10, 20, 0xffffff, 0.42));
       this.decorateCrystalLandmark(c, accent);
     }
@@ -1177,6 +1345,32 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       align: "center",
       wordWrap: { width: 160 },
     }).setOrigin(0.5, 0));
+  }
+
+  private drawPremiumLogicSpire(container: Phaser.GameObjects.Container, accent: number): void {
+    container.add(this.add.ellipse(0, 48, 120, 28, 0x000000, 0.22));
+    container.add(this.add.ellipse(0, 34, 112, 34, 0x101b30, 0.96).setStrokeStyle(2, accent, 0.42));
+    container.add(this.add.rectangle(0, 30, 82, 18, 0x18283f, 0.96).setStrokeStyle(1, 0x6be7d6, 0.34));
+    container.add(this.add.rectangle(-34, -6, 13, 78, 0x132451, 0.94).setStrokeStyle(1, accent, 0.42));
+    container.add(this.add.rectangle(34, -6, 13, 78, 0x132451, 0.94).setStrokeStyle(1, accent, 0.42));
+    container.add(this.add.rectangle(0, -14, 34, 104, 0x101b30, 0.98).setStrokeStyle(2, accent, 0.7));
+    container.add(this.add.rectangle(0, -14, 10, 96, accent, 0.16));
+    container.add(this.add.rectangle(0, -54, 72, 9, accent, 0.24).setStrokeStyle(1, 0xffffff, 0.18));
+    container.add(this.add.circle(0, -78, 18, 0x061019, 0.96).setStrokeStyle(3, accent, 0.82));
+    container.add(this.add.circle(0, -78, 7, 0xf5fbff, 0.78));
+    const orbit = this.add.container(0, -78);
+    orbit.add(this.add.arc(0, 0, 34, 0, 360, false, accent, 0.08).setStrokeStyle(2, accent, 0.34));
+    orbit.add(this.add.circle(34, 0, 4, 0xf6c85f, 0.86));
+    orbit.add(this.add.circle(-34, 0, 3, 0x6be7d6, 0.78));
+    container.add(orbit);
+    for (let i = 0; i < 3; i += 1) {
+      const y = -34 + i * 28;
+      container.add(this.add.line(0, 0, -45, y, -18, y + 8, 0x6be7d6, 0.32).setOrigin(0));
+      container.add(this.add.line(0, 0, 18, y + 5, 47, y - 3, 0x9f8cff, 0.3).setOrigin(0));
+    }
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: orbit, rotation: Math.PI * 2, duration: 5200, repeat: -1, ease: "Linear" });
+    }
   }
 
   private decorateForgeLandmark(container: Phaser.GameObjects.Container, lava: Phaser.GameObjects.Arc): void {
@@ -1273,12 +1467,12 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.decorateTreasure(c, kind, accent, collected);
     c.add(this.add.text(0, 36, collected ? "raccolto" : treasure.label, {
       fontFamily: "Inter, Arial",
-      fontSize: "11px",
+      fontSize: "10px",
       color: collected ? "#6f8794" : "#f7d37a",
       fontStyle: "bold",
       align: "center",
       wordWrap: { width: 120 },
-    }).setOrigin(0.5, 0));
+    }).setOrigin(0.5, 0).setAlpha(collected ? 0.48 : 0.74));
     if (collected) {
       c.setAlpha(0.32);
     } else {
@@ -1359,6 +1553,18 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   private drawHazardCore(container: Phaser.GameObjects.Container, hazard: OutdoorHazard, accent: number): void {
+    const atlasFrame = hazard.kind === "day-glare"
+      ? "out_hazard_sun"
+      : hazard.kind === "day-dust"
+        ? "out_hazard_dust"
+        : hazard.kind === "night-wisp"
+          ? "out_hazard_wisp"
+          : hazard.kind === "night-shadow"
+            ? "out_hazard_shadow"
+            : "out_crystal_cluster";
+    if (this.addOutdoorSprite(container, atlasFrame, hazard.activeIn === "night" ? 62 : 52, hazard.activeIn === "night" ? 58 : 52, -4, undefined, 0.96)) {
+      return;
+    }
     if (hazard.kind === "day-glare") {
       container.add(this.add.circle(0, -2, 13, 0xf6c85f, 0.88).setStrokeStyle(2, 0xffffff, 0.42));
       for (let i = 0; i < 8; i += 1) {
@@ -1381,9 +1587,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       container.add(this.add.ellipse(0, -1, 34, 15, 0x45133d, 0.8));
       container.add(this.add.circle(0, -1, 5, 0xf5fbff, 0.88));
     } else {
-      container.add(this.add.triangle(-13, 18, -24, 18, -2, -28, 7, 18, accent, 0.78).setStrokeStyle(1, 0xffffff, 0.28));
-      container.add(this.add.triangle(12, 18, 0, 18, 13, -18, 28, 18, 0x7ad7ff, 0.58).setStrokeStyle(1, 0xffffff, 0.18));
-      container.add(this.add.circle(0, -2, 26, accent, 0.08).setStrokeStyle(2, accent, 0.34));
+      this.drawPremiumCrystalCluster(container, 22, accent, 0x7ad7ff, 0.78);
+      container.add(this.add.circle(0, -5, 26, accent, 0.03).setStrokeStyle(2, accent, 0.28));
     }
   }
 
@@ -1393,6 +1598,10 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const c = this.add.container(encounter.x, encounter.y).setDepth(8 + encounter.y / 10000);
     objects?.push(c);
     const done = this.completed.has(encounter.id);
+    if (!done && this.addOutdoorSprite(c, "out_marker_beacon", encounter.kind === "guardian" ? 58 : 42, encounter.kind === "guardian" ? 66 : 48, encounter.kind === "guardian" ? -8 : -5, accent, 0.82)) {
+      const beaconGlow = this.add.circle(0, -8, encounter.kind === "guardian" ? 38 : 28, accent, 0.08);
+      c.addAt(beaconGlow, 0);
+    }
     c.add(this.add.circle(0, 0, encounter.kind === "guardian" ? 34 : 25, 0x061019, 0.94).setStrokeStyle(3, accent, 0.9));
     c.add(this.add.circle(0, 0, encounter.kind === "guardian" ? 17 : 11, accent, 0.78));
     const frame = encounter.kind === "guardian"
@@ -1641,21 +1850,21 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       fill: 0x263743,
     }).setScrollFactor(0).setDepth(130);
     this.radar = this.add.graphics().setScrollFactor(0).setDepth(126);
-    this.biomeText = this.add.text(1068, 548, "Zona", {
+    this.biomeText = this.add.text(1128, 572, "Zona", {
       fontFamily: "Inter, Arial",
-      fontSize: "13px",
+      fontSize: "12px",
       color: "#f5fbff",
       fontStyle: "bold",
     }).setScrollFactor(0).setDepth(128);
-    this.coordText = this.add.text(1068, 566, "0:0", {
+    this.coordText = this.add.text(1128, 588, "0:0", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: "#9fb6c2",
       fontStyle: "bold",
     }).setScrollFactor(0).setDepth(128);
-    this.radarLegendText = this.add.text(1068, 646, "incontri    tesori", {
+    this.radarLegendText = this.add.text(1128, 650, "incontri  tesori", {
       fontFamily: "Inter, Arial",
-      fontSize: "9px",
+      fontSize: "8px",
       color: "#9fb6c2",
       fontStyle: "bold",
     }).setScrollFactor(0).setDepth(128);
@@ -2705,48 +2914,52 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const current = this.currentChunkCoords();
     const active = this.activeChunks.get(this.chunkId(current.x, current.y))?.chunk;
     const accent = active ? BIOME_ACCENTS[active.biome] : 0x6be7d6;
-    const x0 = 1046;
-    const y0 = 536;
-    const size = 25;
+    const x0 = 1108;
+    const y0 = 558;
+    const size = 18;
+    const gridX = x0 + 20;
+    const gridY = y0 + 34;
     this.radar.clear();
-    this.radar.fillStyle(0x061019, 0.82);
-    this.radar.fillRoundedRect(x0, y0, 190, 142, 8);
+    this.radar.fillStyle(0x061019, 0.66);
+    this.radar.fillRoundedRect(x0, y0, 154, 106, 8);
     this.radar.lineStyle(1, accent, 0.42);
-    this.radar.strokeRoundedRect(x0, y0, 190, 142, 8);
+    this.radar.strokeRoundedRect(x0, y0, 154, 106, 8);
     for (const activeChunk of this.activeChunks.values()) {
       const dx = activeChunk.chunk.chunkX - current.x;
       const dy = activeChunk.chunk.chunkY - current.y;
       if (Math.abs(dx) > STREAM_RADIUS || Math.abs(dy) > STREAM_RADIUS) continue;
-      const cellX = x0 + 58 + (dx + STREAM_RADIUS) * size;
-      const cellY = y0 + 50 + (dy + STREAM_RADIUS) * size;
+      const cellX = gridX + (dx + STREAM_RADIUS) * size;
+      const cellY = gridY + (dy + STREAM_RADIUS) * size;
       const color = BIOME_ACCENTS[activeChunk.chunk.biome];
       this.radar.fillStyle(color, dx === 0 && dy === 0 ? 0.66 : 0.25);
-      this.radar.fillRoundedRect(cellX, cellY, size - 5, size - 5, 4);
+      this.radar.fillRoundedRect(cellX, cellY, size - 4, size - 4, 4);
       if (activeChunk.chunk.encounters.some((encounter) => !this.completed.has(encounter.id))) {
         this.radar.fillStyle(0xf6c85f, 0.92);
-        this.radar.fillCircle(cellX + size - 9, cellY + 6, 3);
+        this.radar.fillCircle(cellX + size - 8, cellY + 5, 2.5);
       }
       if (activeChunk.chunk.treasures.some((treasure) => !this.collectedTreasures.has(treasure.id))) {
         this.radar.fillStyle(0xc7b8ff, 0.9);
-        this.radar.fillCircle(cellX + 6, cellY + size - 10, 3);
+        this.radar.fillCircle(cellX + 5, cellY + size - 8, 2.5);
       }
       if ([...this.hazardNodes.values()].some((entry) => entry.hazard.chunkId === activeChunk.chunk.id && !this.clearedHazards.has(entry.hazard.id) && isOutdoorHazardActive(entry.hazard, this.currentDayPhase))) {
         this.radar.fillStyle(this.currentDayPhase === "night" ? 0xff6b7a : 0xf6c85f, 0.86);
-        this.radar.fillCircle(cellX + size - 9, cellY + size - 10, 3);
+        this.radar.fillCircle(cellX + size - 8, cellY + size - 8, 2.5);
       }
     }
     this.radar.lineStyle(2, 0xf5fbff, 0.86);
-    this.radar.strokeRoundedRect(x0 + 58 + STREAM_RADIUS * size - 1, y0 + 50 + STREAM_RADIUS * size - 1, size - 3, size - 3, 4);
+    this.radar.strokeRoundedRect(gridX + STREAM_RADIUS * size - 1, gridY + STREAM_RADIUS * size - 1, size - 2, size - 2, 4);
     this.radar.fillStyle(0xf6c85f, 0.94);
-    this.radar.fillCircle(x0 + 22, y0 + 116, 4);
+    this.radar.fillCircle(x0 + 18, y0 + 92, 3);
     this.radar.fillStyle(0xc7b8ff, 0.9);
-    this.radar.fillCircle(x0 + 84, y0 + 116, 4);
+    this.radar.fillCircle(x0 + 65, y0 + 92, 3);
+    this.radar.fillStyle(this.currentDayPhase === "night" ? 0xff6b7a : 0xf6c85f, 0.86);
+    this.radar.fillCircle(x0 + 108, y0 + 92, 3);
     this.radar.lineStyle(1, 0x9fb6c2, 0.26);
-    this.radar.lineBetween(x0 + 14, y0 + 128, x0 + 176, y0 + 128);
+    this.radar.lineBetween(x0 + 12, y0 + 100, x0 + 142, y0 + 100);
     this.biomeText?.setText(active ? BIOME_LABELS[active.biome] : "Zona");
     this.biomeText?.setColor(`#${accent.toString(16).padStart(6, "0")}`);
-    this.coordText?.setText(`chunk ${current.x}:${current.y}`);
-    this.radarLegendText?.setText("incontri    tesori    rischi");
+    this.coordText?.setText(`zona ${current.x}:${current.y}`);
+    this.radarLegendText?.setText("sfide    tesori    rischi");
   }
 
   private updateObjectiveGuide(): void {

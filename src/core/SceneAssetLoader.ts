@@ -42,6 +42,8 @@ import logicGymSheetUrl from "../assets/sprites/logic-gym-sheet.png";
 import logicGymSheetJsonUrl from "../assets/sprites/logic-gym-sheet.json?url";
 import rewardItemsSheetUrl from "../assets/sprites/reward-items-sheet.png";
 import rewardItemsSheetJsonUrl from "../assets/sprites/reward-items-sheet.json?url";
+import outdoorWorldSheetUrl from "../assets/sprites/outdoor-world-sheet.png";
+import outdoorWorldSheetJsonUrl from "../assets/sprites/outdoor-world-sheet.json?url";
 import storyAcademyHubBgUrl from "../assets/images/story-academy-hub-bg.webp";
 import storyArchiveMemoryBgUrl from "../assets/images/story-archive-memory-bg.webp";
 import storyChapter01IntroUrl from "../assets/images/story-chapter-01-intro.webp";
@@ -98,7 +100,7 @@ import outcomeGrandVictoryUrl from "../assets/images/outcomes/outcome-grand-vict
 import outcomeLightVictoryUrl from "../assets/images/outcomes/outcome-light-victory.webp";
 import outcomeNeutralUrl from "../assets/images/outcomes/outcome-neutral.webp";
 
-export type SceneAssetPack = "academy" | "academyHome" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "logicGym" | "nora" | "outdoorPainted" | "procedural" | "robotGrid" | "shop" | "rewards" | "story" | "storyBeats";
+export type SceneAssetPack = "academy" | "academyHome" | "lab" | "greenhouse" | "factory" | "archive" | "atlas" | "progressive" | "logicGym" | "nora" | "outdoorPainted" | "outdoorWorld" | "procedural" | "robotGrid" | "shop" | "rewards" | "story" | "storyBeats";
 
 type ImageEntry = { type: "image"; key: string; url: string };
 type AtlasEntry = { type: "atlas"; key: string; textureUrl: string; atlasUrl: string };
@@ -149,6 +151,9 @@ const packs: Record<SceneAssetPack, AssetEntry[]> = {
     image("mission-coding-terminal-bg", missionCodingTerminalBgUrl),
     image("mission-electronics-bg", missionElectronicsBgUrl),
     image("mission-bg-synthesis", missionSynthesisBgUrl),
+  ],
+  outdoorWorld: [
+    atlas("outdoor-world", outdoorWorldSheetUrl, outdoorWorldSheetJsonUrl),
   ],
   robotGrid: [
     atlas("robot-grid", robotGridSheetUrl, robotGridSheetJsonUrl),

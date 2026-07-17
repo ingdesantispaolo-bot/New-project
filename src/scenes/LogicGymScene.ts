@@ -9,83 +9,11 @@ import { buildMemoryPairs, generateBalance, LogicSequenceGenerator, type Balance
 import { Random } from "../procedural/Random";
 import type { LogicGymBonusActivityKey, LogicGymBonusResult, LogicGymSceneData } from "../types/logicGymBonus";
 import { Button } from "../ui/Button";
-import { placeHiddenAnomaly } from "../ui/HiddenAnomaly";
 import { VisualKit } from "../ui/VisualKit";
-
-type GymActivityKey = "tables" | "mental" | "geo" | "geoPhysical" | "simon" | "memory" | "code" | "seq" | "balance" | "flash" | "firewall";
-type ActivityMeta = { key: GymActivityKey; title: string; glyph: string; icon: string; theme: string; desc: string; color: number; start: () => void };
-type MemoryCard = { pairId: string; label: string; rect: Phaser.GameObjects.Rectangle; text: Phaser.GameObjects.Text; matched: boolean; flipped: boolean };
-type TablesChallengeMode = "product" | "missing" | "division" | "mental";
-type TablesChallenge = {
-  mode: TablesChallengeMode;
-  prompt: string;
-  answer: number;
-  options: number[];
-  explanation: string;
-  a: number;
-  b: number;
-};
-type MentalChallengeMode = "bridge" | "difference" | "chain" | "doubleHalf" | "percent" | "splitProduct";
-type MentalChallenge = {
-  mode: MentalChallengeMode;
-  prompt: string;
-  answer: number;
-  options: number[];
-  explanation: string;
-  focus: string;
-  chips: string[];
-};
-type GeoContinent = "Europa" | "Africa" | "Asia" | "America del Nord" | "America del Sud" | "Oceania";
-type GeoZone = "ovest" | "centro" | "est" | "nord" | "sud";
-type GeoItem = { country: string; capital: string; continent: GeoContinent; zone: GeoZone; fact: string; x: number; y: number };
-type GeoChallengeMode = "continent" | "capital" | "country" | "region";
-type GeoChallenge = {
-  mode: GeoChallengeMode;
-  item: GeoItem;
-  prompt: string;
-  answer: string;
-  options: string[];
-  explanation: string;
-  focus: string;
-};
-type PhysicalKind = "fiume" | "lago" | "montagna" | "catena montuosa" | "deserto" | "mare" | "stretto";
-type PhysicalFeature = { name: string; kind: PhysicalKind; continent: GeoContinent; region: GeoZone; clue: string; x: number; y: number };
-type PhysicalChallengeMode = "kind" | "continent" | "name" | "clue";
-type PhysicalChallenge = {
-  mode: PhysicalChallengeMode;
-  feature: PhysicalFeature;
-  prompt: string;
-  answer: string;
-  options: string[];
-  explanation: string;
-  focus: string;
-};
-type FirewallAction = "allow" | "block" | "quarantine" | "inspect";
-type FirewallLens = "identity" | "content" | "route" | "priority";
-type FirewallPayload = "pulito" | "rumoroso" | "criptato" | "esca";
-type FirewallRoute = "interna" | "esterna" | "sconosciuta";
-type FirewallSignal = {
-  id: string;
-  scenario: string;
-  task: string;
-  color: "blu" | "verde" | "rosso" | "ambra" | "viola";
-  origin: string;
-  port: number;
-  signature: "stabile" | "mancante" | "alterata" | "incerta";
-  payload: FirewallPayload;
-  route: FirewallRoute;
-  repeated: boolean;
-  priority: boolean;
-  threat: number;
-  diagnosis: string;
-  correctAction: FirewallAction;
-  reason: string;
-};
-
-const PAD_COLORS = [0xff5d7a, 0x6be7d6, 0xf6c85f, 0x70d68a, 0x9f8cff, 0xff9ad2];
-const CODE_SYMBOLS = ["🔴", "🔵", "🟡", "🟢", "🟣", "🟠"];
-const GYM_MIN_LEVEL = 1;
-const GYM_MAX_LEVEL = 8;
+import { CODE_SYMBOLS, GYM_MAX_LEVEL, GYM_MIN_LEVEL, LOGIC_GYM_ACTIVITIES, PAD_COLORS, logicGymActivityLevelLine, logicGymLevelSubtitle, type LogicGymLevelMetrics } from "./logicGym/LogicGymActivities";
+import { accuracyPercent, activityAward, firewallScore, memoryEfficiencyScore, missionBonusResult, roundAccuracyScore, timedActivityScore } from "./logicGym/LogicGymScoring";
+import { renderLogicGymBackBar, renderLogicGymHub, type LogicGymHubActivity } from "./logicGym/LogicGymHud";
+import type { ActivityMeta, FirewallAction, FirewallLens, FirewallPayload, FirewallRoute, FirewallSignal, GeoChallenge, GeoChallengeMode, GeoContinent, GeoItem, GeoZone, GymActivityKey, MemoryCard, MentalChallenge, MentalChallengeMode, PhysicalChallenge, PhysicalChallengeMode, PhysicalFeature, PhysicalKind, TablesChallenge, TablesChallengeMode } from "./logicGym/LogicGymTypes";
 const GEO_CONTINENTS: GeoContinent[] = ["Europa", "Africa", "Asia", "America del Nord", "America del Sud", "Oceania"];
 const GEO_ATLAS: GeoItem[] = [
   { country: "Italia", capital: "Roma", continent: "Europa", zone: "sud", fact: "penisola nel Mediterraneo", x: 596, y: 304 },
@@ -394,19 +322,20 @@ export class LogicGymScene extends Phaser.Scene {
   }
 
   private activities(): ActivityMeta[] {
-    return [
-      { key: "tables", title: "Tabelline Reactor", glyph: "x", icon: "gym-tables", theme: "Matematica rapida", color: 0xf6c85f, desc: "Ricarica il reattore con prodotti, fattori mancanti e operazioni inverse. Combo alta = punteggio alto.", start: () => this.startTables() },
-      { key: "mental", title: "Calcolo Mentale", glyph: "+-", icon: "gym-mental", theme: "Aritmetica sprint", color: 0x5ec8ff, desc: "Risolvi somme, differenze, catene, doppi, meta e percentuali con strategie rapide. Il tempo pesa.", start: () => this.startMental() },
-      { key: "geo", title: "Geo Atlante", glyph: "◎", icon: "gym-geo", theme: "Capitali e continenti", color: 0x70d68a, desc: "Segui rotte, capitali e continenti. Ogni risposta precisa accende un nuovo pin sulla mappa.", start: () => this.startGeo() },
-      { key: "geoPhysical", title: "Geo Rilievi", glyph: "△", icon: "gym-geo-physical", theme: "Geografia fisica", color: 0x9f8cff, desc: "Riconosci fiumi, laghi, montagne, deserti, mari e stretti. La mappa mostra forma, zona e traccia.", start: () => this.startPhysical() },
-      { key: "simon", title: "Sequenza Luminosa", glyph: "S", icon: "gym-simon", theme: "Memoria", color: 0x6be7d6, desc: "Guarda la sequenza di luci e ripetila. Si allunga a ogni turno!", start: () => this.startSimon() },
-      { key: "memory", title: "Memory delle Coppie", glyph: "M", icon: "gym-memory", theme: "Memoria", color: 0xff9ad2, desc: "Trova le coppie equivalenti (1/2 = 0,5, dog = cane…) con meno mosse possibili.", start: () => this.startMemory() },
-      { key: "code", title: "Codice Segreto", glyph: "C", icon: "gym-code", theme: "Logica", color: 0xf6c85f, desc: "Indovina il codice nascosto deducendolo dagli indizi. Stile Mastermind.", start: () => this.startCode() },
-      { key: "seq", title: "Sequenze Logiche", glyph: "→", icon: "gym-seq", theme: "Logica", color: 0x70d68a, desc: "Scopri la regola e trova il termine che continua la serie.", start: () => this.startSeq() },
-      { key: "balance", title: "Bilancia Logica", glyph: "=", icon: "gym-balance", theme: "Logica", color: 0xf6c85f, desc: "Deduci chi pesa di più (o di meno) mettendo in fila gli indizi.", start: () => this.startBalance() },
-      { key: "flash", title: "Griglia Lampo", glyph: "!", icon: "gym-flash", theme: "Memoria", color: 0x6be7d6, desc: "Memorizza le caselle che lampeggiano e ricostruiscile. Aumentano ogni turno!", start: () => this.startFlash() },
-      { key: "firewall", title: "Firewall NORA", glyph: "FW", icon: "gym-firewall", theme: "Cyber-logica", color: 0x5ec8ff, desc: "Classifica segnali: consenti, blocca, quarantena o ispeziona seguendo regole crescenti.", start: () => this.startFirewall() },
-    ];
+    const starts: Record<GymActivityKey, () => void> = {
+      tables: () => this.startTables(),
+      mental: () => this.startMental(),
+      geo: () => this.startGeo(),
+      geoPhysical: () => this.startPhysical(),
+      simon: () => this.startSimon(),
+      memory: () => this.startMemory(),
+      code: () => this.startCode(),
+      seq: () => this.startSeq(),
+      balance: () => this.startBalance(),
+      flash: () => this.startFlash(),
+      firewall: () => this.startFirewall(),
+    };
+    return LOGIC_GYM_ACTIVITIES.map((activity) => ({ ...activity, start: starts[activity.key] }));
   }
 
   // -- Tracking helpers ---------------------------------------------------
@@ -476,10 +405,7 @@ export class LogicGymScene extends Phaser.Scene {
   }
 
   private levelSubtitle(): string {
-    if (this.gymLevel <= 2) return "base guidata";
-    if (this.gymLevel <= 4) return "attenzione stabile";
-    if (this.gymLevel <= 6) return "deduzione rapida";
-    return "sfida esperta";
+    return logicGymLevelSubtitle(this.gymLevel);
   }
 
   // -- Hub ----------------------------------------------------------------
@@ -487,78 +413,61 @@ export class LogicGymScene extends Phaser.Scene {
   private showHub(): void {
     this.clearScreen();
     this.currentRestart = null;
-    this.t(this.add.text(56, 28, "Palestra della Mente", { fontFamily: "Inter, Arial", fontSize: "30px", color: "#f5fbff", fontStyle: "bold" }));
-    this.t(this.add.text(58, 68, "Calibrazione autonoma: scegli la profondità, poi gioca. I record sono separati per settore.", { fontFamily: "Inter, Arial", fontSize: "14px", color: "#9ff5e9", wordWrap: { width: 760 } }));
-    this.t(this.add.rectangle(1004, 54, 296, 54, 0x0c1d2a, 0.92).setStrokeStyle(2, 0xf6c85f, 0.48));
-    this.t(this.add.text(1004, 40, `Profondità ${this.gymLevel}/8`, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f6c85f", fontStyle: "bold" }).setOrigin(0.5));
-    this.t(this.add.text(1004, 66, this.levelSubtitle(), { fontFamily: "Inter, Arial", fontSize: "11px", color: "#c7dce7" }).setOrigin(0.5));
-    this.t(new Button(this, 870, 54, "−", () => this.setGymLevel(-1), { width: 42, height: 38, fontSize: 24, fill: 0x263743 }));
-    this.t(new Button(this, 1138, 54, "+", () => this.setGymLevel(1), { width: 42, height: 38, fontSize: 22, fill: 0x263743 }));
-    placeHiddenAnomaly(this, "LogicGymScene");
-
-    const cols = 4;
-    const w = 288;
-    const h = 172;
-    const gap = 10;
-    const startX = 40;
-    const startY = 110;
-    this.activities().forEach((activity, index) => {
-      const x = startX + (index % cols) * (w + gap);
-      const y = startY + Math.floor(index / cols) * (h + gap);
-      this.t(this.add.rectangle(x, y, w, h, 0x0c1d2a, 0.94).setOrigin(0).setStrokeStyle(2, activity.color, 0.55));
-      this.t(this.add.rectangle(x, y, w, 5, activity.color, 0.9).setOrigin(0));
-      this.addActivityIcon(activity, x + 34, y + 38);
-      this.t(this.add.text(x + 70, y + 14, activity.title, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 88 } }));
-      this.t(this.add.text(x + 72, y + 42, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "11px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
-      this.t(this.add.text(x + 20, y + 60, activity.desc, { fontFamily: "Inter, Arial", fontSize: "10px", color: "#c7dce7", wordWrap: { width: w - 40, useAdvancedWrap: true }, lineSpacing: 1 }));
-      this.t(this.add.text(x + 20, y + 110, this.activityLevelLine(activity.key), { fontFamily: "Inter, Arial", fontSize: "9px", color: "#9ff5e9", wordWrap: { width: w - 40, useAdvancedWrap: true } }));
-      this.t(this.add.text(x + 20, y + 142, `Record: ${this.best(activity.key)}`, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", fontStyle: "bold" }));
-      this.t(new Button(this, x + w - 62, y + 146, "Gioca", () => activity.start(), { width: 100, height: 34, fill: 0x1f5a51, stroke: activity.color, fontSize: 13 }));
+    const activities: LogicGymHubActivity[] = this.activities().map((activity) => ({
+      ...activity,
+      levelLine: this.activityLevelLine(activity.key),
+      record: this.best(activity.key),
+    }));
+    renderLogicGymHub(this, (object) => this.t(object), {
+      gymLevel: this.gymLevel,
+      levelSubtitle: this.levelSubtitle(),
+      activities,
+      onLevelDelta: (delta) => this.setGymLevel(delta),
+      onMenu: () => this.scene.start("MainMenuScene"),
     });
-
-    this.t(new Button(this, 132, 686, "Menu", () => this.scene.start("MainMenuScene"), { width: 170, height: 44, fill: 0x263743 }));
   }
 
   private backBar(restart: () => void): void {
     this.currentRestart = restart;
-    this.t(this.add.text(640, 686, `${this.bonusMode ? "Evento bonus" : `Profondità ${this.gymLevel}/8`} · ${this.levelSubtitle()}`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
-    this.t(new Button(this, 132, 686, this.bonusMode ? "Missione" : "Palestra", () => {
-      if (this.bonusMode) {
-        this.abortMissionBonus();
-        return;
-      }
-      this.showHub();
-    }, { width: 170, height: 44, fill: 0x263743 }));
-  }
-
-  private addActivityIcon(activity: ActivityMeta, x: number, y: number): void {
-    if (this.textures.exists("logic-gym") && this.textures.getFrame("logic-gym", activity.icon)) {
-      this.t(this.add.image(x, y, "logic-gym", activity.icon).setDisplaySize(46, 46));
-      return;
-    }
-    this.t(this.add.circle(x, y, 22, activity.color, 0.24).setStrokeStyle(2, activity.color, 0.72));
-    this.t(this.add.text(x, y, activity.glyph, {
-      fontFamily: "Inter, Arial",
-      fontSize: "16px",
-      color: "#f5fbff",
-      fontStyle: "bold",
-    }).setOrigin(0.5));
+    renderLogicGymBackBar(this, (object) => this.t(object), {
+      bonusMode: this.bonusMode,
+      gymLevel: this.gymLevel,
+      levelSubtitle: this.levelSubtitle(),
+      onBack: () => {
+        if (this.bonusMode) {
+          this.abortMissionBonus();
+          return;
+        }
+        this.showHub();
+      },
+    });
   }
 
   private activityLevelLine(key: GymActivityKey): string {
-    switch (key) {
-      case "tables": return `${this.tablesTotalForLevel()} round · fattori fino a ${this.tablesMaxFactor()} · ${this.gymLevel >= 5 ? "inverse e trucchi" : "prodotti rapidi"}`;
-      case "mental": return `${this.mentalTotalForLevel()} round · numeri fino a ${this.mentalNumberCap()} · ${this.gymLevel >= 5 ? "percentuali e catene" : "strategie base"}`;
-      case "geo": return `${this.geoTotalForLevel()} round · ${this.geoPoolForLevel().length} mete · ${this.gymLevel >= 5 ? "capitali inverse" : "continenti e capitali"}`;
-      case "geoPhysical": return `${this.physicalTotalForLevel()} round · ${this.physicalPoolForLevel().length} elementi · ${this.gymLevel >= 5 ? "indizi e posizione" : "tipo e continente"}`;
-      case "simon": return `${this.simonPadCount()} luci · ritmo ${this.gymLevel >= 6 ? "rapido" : "guidato"}`;
-      case "memory": return `${this.memoryPairCount()} coppie · ${this.gymLevel >= 5 ? "associazioni miste" : "associazioni base"}`;
-      case "code": return `${this.codeLengthForLevel()} simboli · ${this.codeMaxForLevel()} tentativi`;
-      case "seq": return `${this.roundsForLevel()} schemi · regole fino a profondità ${this.sequenceLevelForRound(this.roundsForLevel() - 1)}`;
-      case "balance": return `${this.roundsForLevel()} deduzioni · ${this.gymLevel >= 8 ? "anche dati insufficienti" : "ordine logico"}`;
-      case "flash": return `${this.flashGridSize()}x${this.flashGridSize()} · memoria ${this.gymLevel >= 7 ? "sequenziale" : "spaziale"}`;
-      case "firewall": return `${this.firewallRoundCount()} segnali · ${this.firewallRuleCount()} regole`;
-    }
+    return logicGymActivityLevelLine(key, this.gymLevel, this.levelMetrics());
+  }
+
+  private levelMetrics(): LogicGymLevelMetrics {
+    const rounds = this.roundsForLevel();
+    return {
+      tablesTotal: this.tablesTotalForLevel(),
+      tablesMaxFactor: this.tablesMaxFactor(),
+      mentalTotal: this.mentalTotalForLevel(),
+      mentalNumberCap: this.mentalNumberCap(),
+      geoTotal: this.geoTotalForLevel(),
+      geoPoolSize: this.geoPoolForLevel().length,
+      physicalTotal: this.physicalTotalForLevel(),
+      physicalPoolSize: this.physicalPoolForLevel().length,
+      simonPadCount: this.simonPadCount(),
+      memoryPairCount: this.memoryPairCount(),
+      codeLength: this.codeLengthForLevel(),
+      codeMaxAttempts: this.codeMaxForLevel(),
+      rounds,
+      maxSequenceLevel: this.sequenceLevelForRound(rounds - 1),
+      flashGridSize: this.flashGridSize(),
+      firewallRoundCount: this.firewallRoundCount(),
+      firewallRuleCount: this.firewallRuleCount(),
+    };
   }
 
   private simonPadCount(): number {
@@ -651,9 +560,9 @@ export class LogicGymScene extends Phaser.Scene {
   private nextTablesRound(): void {
     this.clearScreen();
     if (this.tablesRound >= this.tablesTotal) {
-      const accuracy = Math.round((this.tablesCorrect / Math.max(1, this.tablesTotal)) * 100);
-      const score = accuracy + this.tablesBestCombo * 8 + this.tablesTimeBonus + this.gymLevel * 3;
-      const award = Math.min(24, 5 + this.tablesCorrect + Math.floor(this.tablesBestCombo / 2) + Math.floor(this.gymLevel / 2));
+      const accuracy = accuracyPercent(this.tablesCorrect, this.tablesTotal);
+      const score = timedActivityScore({ correct: this.tablesCorrect, total: this.tablesTotal, bestCombo: this.tablesBestCombo, timeBonus: this.tablesTimeBonus, level: this.gymLevel, comboWeight: 8, levelWeight: 3 });
+      const award = activityAward({ correct: this.tablesCorrect, bestCombo: this.tablesBestCombo, level: this.gymLevel });
       const summary = `Reattore carico: ${this.tablesCorrect}/${this.tablesTotal} corrette, precisione ${accuracy}%, combo migliore x${this.tablesBestCombo}, bonus tempo +${this.tablesTimeBonus}.`;
       this.finishActivity("tables", "Tabelline Reactor", score, ["matematica.calcolo", "matematica.operazioni"], award, summary);
       return;
@@ -966,9 +875,9 @@ export class LogicGymScene extends Phaser.Scene {
   private nextMentalRound(): void {
     this.clearScreen();
     if (this.mentalRound >= this.mentalTotal) {
-      const accuracy = Math.round((this.mentalCorrect / Math.max(1, this.mentalTotal)) * 100);
-      const score = accuracy + this.mentalBestCombo * 9 + this.mentalTimeBonus + this.gymLevel * 4;
-      const award = Math.min(24, 5 + this.mentalCorrect + Math.floor(this.mentalBestCombo / 2) + Math.floor(this.gymLevel / 2));
+      const accuracy = accuracyPercent(this.mentalCorrect, this.mentalTotal);
+      const score = timedActivityScore({ correct: this.mentalCorrect, total: this.mentalTotal, bestCombo: this.mentalBestCombo, timeBonus: this.mentalTimeBonus, level: this.gymLevel, comboWeight: 9, levelWeight: 4 });
+      const award = activityAward({ correct: this.mentalCorrect, bestCombo: this.mentalBestCombo, level: this.gymLevel });
       const summary = `Sprint completato: ${this.mentalCorrect}/${this.mentalTotal} corrette, precisione ${accuracy}%, combo migliore x${this.mentalBestCombo}, bonus tempo +${this.mentalTimeBonus}.`;
       this.finishActivity("mental", "Calcolo Mentale", score, ["matematica.calcolo", "matematica.operazioni", "pensieroCritico"], award, summary);
       return;
@@ -1329,9 +1238,9 @@ export class LogicGymScene extends Phaser.Scene {
   private nextGeoRound(): void {
     this.clearScreen();
     if (this.geoRound >= this.geoTotal) {
-      const accuracy = Math.round((this.geoCorrect / Math.max(1, this.geoTotal)) * 100);
-      const score = accuracy + this.geoBestCombo * 8 + this.geoTimeBonus + this.gymLevel * 4;
-      const award = Math.min(24, 5 + this.geoCorrect + Math.floor(this.geoBestCombo / 2) + Math.floor(this.gymLevel / 2));
+      const accuracy = accuracyPercent(this.geoCorrect, this.geoTotal);
+      const score = timedActivityScore({ correct: this.geoCorrect, total: this.geoTotal, bestCombo: this.geoBestCombo, timeBonus: this.geoTimeBonus, level: this.gymLevel, comboWeight: 8, levelWeight: 4 });
+      const award = activityAward({ correct: this.geoCorrect, bestCombo: this.geoBestCombo, level: this.gymLevel });
       const summary = `Rotta completata: ${this.geoCorrect}/${this.geoTotal} corrette, precisione ${accuracy}%, combo migliore x${this.geoBestCombo}, bonus tempo +${this.geoTimeBonus}.`;
       this.finishActivity("geo", "Geo Atlante", score, ["geografia.orientamento", "geografia.scale", "pensieroCritico"], award, summary);
       return;
@@ -1668,9 +1577,9 @@ export class LogicGymScene extends Phaser.Scene {
   private nextPhysicalRound(): void {
     this.clearScreen();
     if (this.physRound >= this.physTotal) {
-      const accuracy = Math.round((this.physCorrect / Math.max(1, this.physTotal)) * 100);
-      const score = accuracy + this.physBestCombo * 8 + this.physTimeBonus + this.gymLevel * 4;
-      const award = Math.min(24, 5 + this.physCorrect + Math.floor(this.physBestCombo / 2) + Math.floor(this.gymLevel / 2));
+      const accuracy = accuracyPercent(this.physCorrect, this.physTotal);
+      const score = timedActivityScore({ correct: this.physCorrect, total: this.physTotal, bestCombo: this.physBestCombo, timeBonus: this.physTimeBonus, level: this.gymLevel, comboWeight: 8, levelWeight: 4 });
+      const award = activityAward({ correct: this.physCorrect, bestCombo: this.physBestCombo, level: this.gymLevel });
       const summary = `Rilievi calibrati: ${this.physCorrect}/${this.physTotal} corretti, precisione ${accuracy}%, combo migliore x${this.physBestCombo}, bonus tempo +${this.physTimeBonus}.`;
       this.finishActivity("geoPhysical", "Geo Rilievi", score, ["geografia.orientamento", "geografia.scale", "scienze.osservazione"], award, summary);
       return;
@@ -2213,9 +2122,7 @@ export class LogicGymScene extends Phaser.Scene {
       this.memMatched += 1;
       this.updateMemStatus();
       if (this.memMatched >= this.memPairs) {
-        const perfectMoves = this.memPairs;
-        const efficiency = Math.max(0, Math.round((perfectMoves / Math.max(perfectMoves, this.memMoves)) * 100));
-        const score = efficiency + this.gymLevel * 4;
+        const { efficiency, score } = memoryEfficiencyScore(this.memPairs, this.memMoves, this.gymLevel);
         this.finishActivity("memory", "Memory delle Coppie", score, ["trasversali.memoria", "pensieroCritico"], Math.min(20, 6 + Math.round(efficiency / 12) + Math.floor(this.gymLevel / 3)), `Tutte le ${this.memPairs} coppie trovate in ${this.memMoves} mosse. Efficienza: ${efficiency}%.`);
       }
     } else {
@@ -2343,7 +2250,7 @@ export class LogicGymScene extends Phaser.Scene {
   private nextSeq(): void {
     this.clearScreen();
     if (this.seqRound >= this.seqTotal) {
-      const score = Math.round((this.seqCorrect / this.seqTotal) * 100) + this.gymLevel * 3;
+      const score = roundAccuracyScore(this.seqCorrect, this.seqTotal, this.gymLevel);
       this.finishActivity("seq", "Sequenze Logiche", score, ["trasversali.logica", "pensieroCritico"], Math.min(22, 4 + this.seqCorrect * 2 + Math.floor(this.gymLevel / 2)), `Hai risolto ${this.seqCorrect} schemi su ${this.seqTotal}.`);
       return;
     }
@@ -2395,7 +2302,7 @@ export class LogicGymScene extends Phaser.Scene {
   private nextBalance(): void {
     this.clearScreen();
     if (this.balRound >= this.balTotal) {
-      const score = Math.round((this.balCorrect / this.balTotal) * 100) + this.gymLevel * 3;
+      const score = roundAccuracyScore(this.balCorrect, this.balTotal, this.gymLevel);
       this.finishActivity("balance", "Bilancia Logica", score, ["trasversali.logica", "pensieroCritico"], Math.min(22, 4 + this.balCorrect * 2 + Math.floor(this.gymLevel / 2)), `Hai risolto ${this.balCorrect} deduzioni su ${this.balTotal}.`);
       return;
     }
@@ -3014,8 +2921,8 @@ export class LogicGymScene extends Phaser.Scene {
   private finishFirewall(): void {
     audioManager.play(this.firewallErrors === 0 ? "circuitOn" : "success");
     const total = Math.max(1, this.firewallSignals.length);
-    const accuracy = Math.round((this.firewallCorrect / total) * 100);
-    const score = Math.max(0, accuracy + this.gymLevel * 4 + this.firewallStability + this.firewallBestStreak * 3 - this.firewallErrors * 4);
+    const accuracy = accuracyPercent(this.firewallCorrect, total);
+    const score = firewallScore({ correct: this.firewallCorrect, total, level: this.gymLevel, stability: this.firewallStability, bestStreak: this.firewallBestStreak, errors: this.firewallErrors });
     const award = Math.min(24, 6 + this.firewallCorrect * 2 + Math.floor(this.gymLevel / 2));
     const summary = `Rete stabilizzata: ${this.firewallCorrect}/${total} segnali corretti, precisione ${accuracy}%, stabilità ${this.firewallStability}%, combo migliore x${this.firewallBestStreak}.`;
     this.finishActivity("firewall", "Firewall NORA", score, ["trasversali.logica", "pensieroCritico"], award, summary);
@@ -3098,42 +3005,31 @@ export class LogicGymScene extends Phaser.Scene {
 
   private finishMissionBonus(key: LogicGymBonusActivityKey, label: string, score: number, comps: string[], award: number, summary: string): void {
     const stats = this.bonusStats(key);
-    const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-    const passed = stats.total > 0 && stats.correct >= Math.ceil(stats.total * 0.6) && accuracy >= 60;
-    const perfect = stats.total > 0 && stats.correct === stats.total;
-    const energyAward = passed ? Math.min(95, 32 + this.gymLevel * 4 + stats.bestCombo * 5 + (perfect ? 18 : 0)) : 0;
-    const timeAwardMs = passed ? (perfect ? 20_000 : accuracy >= 80 ? 12_000 : 0) : 0;
-    if (passed && award > 0) {
-      competencyTracker.award(comps, Math.min(10, Math.max(4, Math.ceil(award / 2))));
-      saveSystem.persistData();
-    }
-    const result: LogicGymBonusResult = {
+    const result = missionBonusResult({
       id: this.bonusId,
       activityKey: key,
       label,
       level: this.gymLevel,
-      rounds: stats.total,
-      correct: stats.correct,
       score,
-      accuracy,
-      passed,
-      perfect,
-      energyAward,
-      timeAwardMs,
       summary,
-    };
+      stats,
+    });
+    if (result.passed && award > 0) {
+      competencyTracker.award(comps, Math.min(10, Math.max(4, Math.ceil(award / 2))));
+      saveSystem.persistData();
+    }
 
     this.time.delayedCall(80, () => {
       this.clearScreen();
-      const tone = passed ? 0xf6c85f : 0xff5d7a;
+      const tone = result.passed ? 0xf6c85f : 0xff5d7a;
       this.t(this.add.rectangle(640, 360, 880, 382, 0x0b1922, 0.98).setStrokeStyle(2, tone, 0.78));
-      this.t(this.add.text(640, 226, passed ? "Frattura stabilizzata" : "Frattura instabile", {
+      this.t(this.add.text(640, 226, result.passed ? "Frattura stabilizzata" : "Frattura instabile", {
         fontFamily: "Inter, Arial",
         fontSize: "28px",
-        color: passed ? "#f7d37a" : "#ffd0da",
+        color: result.passed ? "#f7d37a" : "#ffd0da",
         fontStyle: "bold",
       }).setOrigin(0.5));
-      this.t(this.add.text(640, 270, `${label} · ${stats.correct}/${stats.total} · precisione ${accuracy}%`, {
+      this.t(this.add.text(640, 270, `${label} · ${stats.correct}/${stats.total} · precisione ${result.accuracy}%`, {
         fontFamily: "Inter, Arial",
         fontSize: "18px",
         color: "#f5fbff",
@@ -3147,18 +3043,18 @@ export class LogicGymScene extends Phaser.Scene {
         wordWrap: { width: 760 },
         lineSpacing: 4,
       }).setOrigin(0.5));
-      this.t(this.add.text(640, 394, passed
-        ? `Bonus missione: +${energyAward} energia${timeAwardMs > 0 ? ` · +${Math.round(timeAwardMs / 1000)}s stabilità timer` : ""}`
+      this.t(this.add.text(640, 394, result.passed
+        ? `Bonus missione: +${result.energyAward} energia${result.timeAwardMs > 0 ? ` · +${Math.round(result.timeAwardMs / 1000)}s stabilità timer` : ""}`
         : "Nessun malus: la missione riprende dal punto in cui era.", {
         fontFamily: "Inter, Arial",
         fontSize: "15px",
-        color: passed ? "#9ff5e9" : "#ffd0da",
+        color: result.passed ? "#9ff5e9" : "#ffd0da",
         fontStyle: "bold",
       }).setOrigin(0.5));
       this.t(new Button(this, 640, 482, "Torna alla missione", () => this.returnFromMissionBonus(result), {
         width: 300,
         height: 54,
-        fill: passed ? 0x1f5a51 : 0x263743,
+        fill: result.passed ? 0x1f5a51 : 0x263743,
         stroke: tone,
         fontSize: 17,
       }));

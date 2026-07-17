@@ -5,7 +5,7 @@ import { feedbackSystem } from "../core/FeedbackSystem";
 import { rewardSystem, type Cosmetic } from "../core/RewardSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { settingsSystem } from "../core/SettingsSystem";
-import { generateOutdoorAdventureMap, type OutdoorAdventureMap, type OutdoorBiome, type OutdoorEncounter, type OutdoorEncounterKind, type OutdoorObstacle, type OutdoorProp } from "../procedural/OutdoorAdventureGenerator";
+import { generateOutdoorAdventureMap, type OutdoorAdventureMap, type OutdoorBiome, type OutdoorEncounter, type OutdoorEncounterKind, type OutdoorLandmark, type OutdoorObstacle, type OutdoorProp, type OutdoorTreasure } from "../procedural/OutdoorAdventureGenerator";
 import { Button } from "../ui/Button";
 
 type Dir = "down" | "up" | "left" | "right";
@@ -33,6 +33,8 @@ const BIOME_LABELS: Record<OutdoorBiome, string> = {
   ruins: "Rovine",
   geo: "Geografia",
   logic: "Logica",
+  wild: "Bosco variabile",
+  crystal: "Nido cristallino",
 };
 
 const FORGE_REWARDS: Array<{ id: string; fragmentCost: number; guardianWins?: number }> = [
@@ -53,10 +55,13 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private facing: Dir = "down";
   private paused = false;
   private completed = new Set<string>();
+  private collectedTreasures = new Set<string>();
   private encounterNodes = new Map<string, Phaser.GameObjects.Container>();
+  private treasureNodes = new Map<string, Phaser.GameObjects.Container>();
   private prompt!: Phaser.GameObjects.Container;
   private promptText!: Phaser.GameObjects.Text;
   private activeEncounter?: OutdoorEncounter;
+  private activeTreasure?: OutdoorTreasure;
   private energyText?: Phaser.GameObjects.Text;
   private progressText?: Phaser.GameObjects.Text;
   private fragmentText?: Phaser.GameObjects.Text;
@@ -71,6 +76,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const daySeed = new Date().toISOString().slice(0, 10);
     this.map = generateOutdoorAdventureMap(`outdoor-${daySeed}-${rewardSystem.playerLevel()}`);
     this.completed = new Set(saveSystem.outdoorAdventure.completedEncounterIds);
+    this.collectedTreasures = new Set(saveSystem.outdoorAdventure.collectedTreasureIds ?? []);
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
     this.cameras.main.setBackgroundColor("#071018");
     this.drawWorld();
@@ -118,23 +124,23 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.drawPaths(g);
     this.map.props.forEach((prop) => this.drawProp(prop));
     this.map.obstacles.forEach((obstacle) => this.drawObstacle(obstacle));
+    this.map.landmarks.forEach((landmark) => this.drawLandmark(landmark));
+    this.map.treasures.forEach((treasure) => this.drawTreasure(treasure));
     this.map.encounters.forEach((encounter) => this.drawEncounter(encounter));
   }
 
   private drawPaths(g: Phaser.GameObjects.Graphics): void {
-    const points = [
-      this.map.start,
-      { x: 790, y: 760 },
-      { x: 1120, y: 560 },
-      { x: 1540, y: 400 },
-      { x: 1680, y: 1030 },
-      { x: 1110, y: 1010 },
-      { x: 790, y: 760 },
-    ];
+    const points = this.map.pathPoints.length > 1 ? this.map.pathPoints : [this.map.start];
     g.lineStyle(42, 0x132a33, 0.72);
     for (let i = 0; i < points.length - 1; i += 1) g.lineBetween(points[i]!.x, points[i]!.y, points[i + 1]!.x, points[i + 1]!.y);
     g.lineStyle(4, 0xf6c85f, 0.18);
     for (let i = 0; i < points.length - 1; i += 1) g.lineBetween(points[i]!.x, points[i]!.y, points[i + 1]!.x, points[i + 1]!.y);
+    const hub = points[1];
+    if (!hub) return;
+    g.lineStyle(18, 0x10242d, 0.42);
+    this.map.landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
+    g.lineStyle(2, 0x9ff5e9, 0.14);
+    this.map.landmarks.forEach((landmark) => g.lineBetween(hub.x, hub.y, landmark.x, landmark.y));
   }
 
   private drawProp(prop: OutdoorProp): void {
@@ -151,6 +157,49 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     if (prop.kind === "camp") {
       c.add(this.add.triangle(0, -18, -28, 34, 28, 34, 0x173b36, 0.9).setStrokeStyle(2, prop.color, 0.7));
       c.add(this.add.circle(0, 38, 8, 0xf6c85f, 0.9));
+      return;
+    }
+    if (prop.kind === "waterfall") {
+      c.add(this.add.rectangle(0, -14, 34, 86, 0x145f78, 0.68).setStrokeStyle(2, 0x7ad7ff, 0.62));
+      c.add(this.add.ellipse(0, 38, 74, 22, 0x9ff5e9, 0.32));
+      c.add(this.add.line(0, 0, -10, -46, -6, 24, 0xffffff, 0.32).setOrigin(0));
+      c.add(this.add.line(0, 0, 9, -42, 5, 28, 0xffffff, 0.26).setOrigin(0));
+      return;
+    }
+    if (prop.kind === "bridge") {
+      c.add(this.add.rectangle(0, 0, 102, 26, 0x5a3a22, 0.92).setStrokeStyle(2, prop.color, 0.58));
+      for (let x = -36; x <= 36; x += 18) c.add(this.add.rectangle(x, 0, 4, 30, 0xf1c27a, 0.55));
+      return;
+    }
+    if (prop.kind === "statue") {
+      c.add(this.add.rectangle(0, 24, 58, 16, 0x4b4252, 0.94).setStrokeStyle(2, prop.color, 0.46));
+      c.add(this.add.rectangle(0, -8, 30, 58, 0x6c6575, 0.9));
+      c.add(this.add.circle(0, -44, 18, 0x6c6575, 0.92).setStrokeStyle(2, prop.color, 0.5));
+      return;
+    }
+    if (prop.kind === "beacon") {
+      c.add(this.add.triangle(0, 6, -24, 46, 0, -56, 24, 46, prop.color, 0.84).setStrokeStyle(2, 0xffffff, 0.36));
+      c.add(this.add.circle(0, -8, 42, prop.color, 0.12));
+      c.add(this.add.circle(0, -8, 12, 0xffffff, 0.74));
+      return;
+    }
+    if (prop.kind === "garden") {
+      c.add(this.add.ellipse(0, 12, 86, 46, 0x14382b, 0.9).setStrokeStyle(2, prop.color, 0.42));
+      for (let i = 0; i < 7; i += 1) {
+        const angle = (Math.PI * 2 * i) / 7;
+        c.add(this.add.circle(Math.cos(angle) * 25, 10 + Math.sin(angle) * 12, 7, i % 2 === 0 ? prop.color : 0xf6c85f, 0.78));
+      }
+      return;
+    }
+    if (prop.kind === "well") {
+      c.add(this.add.circle(0, 10, 28, 0x10242d, 0.96).setStrokeStyle(3, prop.color, 0.64));
+      c.add(this.add.arc(0, -2, 34, 205, 335, false, prop.color, 0.78).setStrokeStyle(5, prop.color, 0.78));
+      return;
+    }
+    if (prop.kind === "arch") {
+      c.add(this.add.rectangle(-24, 10, 14, 70, 0x4b4252, 0.94).setStrokeStyle(1, prop.color, 0.45));
+      c.add(this.add.rectangle(24, 10, 14, 70, 0x4b4252, 0.94).setStrokeStyle(1, prop.color, 0.45));
+      c.add(this.add.arc(0, -22, 32, 190, 350, false, prop.color, 0.88).setStrokeStyle(7, prop.color, 0.74));
       return;
     }
     if (prop.kind === "lamp") {
@@ -178,7 +227,108 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       c.add(this.add.rectangle(-obstacle.r * 0.35, -obstacle.r * 0.8, obstacle.r * 0.46, obstacle.r * 0.9, obstacle.color, 0.8));
       return;
     }
+    if (obstacle.kind === "bush") {
+      c.add(this.add.circle(-obstacle.r * 0.45, 0, obstacle.r * 0.62, obstacle.color, 0.92));
+      c.add(this.add.circle(0, -obstacle.r * 0.22, obstacle.r * 0.72, obstacle.color, 0.92).setStrokeStyle(2, 0x8fe0a4, 0.24));
+      c.add(this.add.circle(obstacle.r * 0.45, 0, obstacle.r * 0.62, obstacle.color, 0.92));
+      return;
+    }
+    if (obstacle.kind === "pillar") {
+      c.add(this.add.rectangle(0, 0, obstacle.r * 0.9, obstacle.r * 2.2, obstacle.color, 0.92).setStrokeStyle(2, 0xc7b8ff, 0.34));
+      c.add(this.add.rectangle(0, -obstacle.r * 1.2, obstacle.r * 1.35, obstacle.r * 0.32, 0x6c6575, 0.88));
+      c.add(this.add.rectangle(0, obstacle.r * 1.2, obstacle.r * 1.45, obstacle.r * 0.34, 0x6c6575, 0.86));
+      return;
+    }
+    if (obstacle.kind === "mushroom") {
+      c.add(this.add.rectangle(0, obstacle.r * 0.28, obstacle.r * 0.44, obstacle.r * 0.96, 0xf1d9b7, 0.94));
+      c.add(this.add.ellipse(0, -obstacle.r * 0.24, obstacle.r * 1.8, obstacle.r, obstacle.color, 0.9).setStrokeStyle(2, 0xffffff, 0.28));
+      c.add(this.add.circle(-obstacle.r * 0.32, -obstacle.r * 0.34, obstacle.r * 0.13, 0xffffff, 0.78));
+      c.add(this.add.circle(obstacle.r * 0.28, -obstacle.r * 0.18, obstacle.r * 0.11, 0xffffff, 0.7));
+      return;
+    }
     c.add(this.add.ellipse(0, 0, obstacle.r * 1.7, obstacle.r * 1.25, obstacle.color, 0.96).setStrokeStyle(2, 0xdde9ef, 0.18));
+  }
+
+  private drawLandmark(landmark: OutdoorLandmark): void {
+    const c = this.add.container(landmark.x, landmark.y).setDepth(5 + landmark.y / 10000);
+    const accent = landmark.color;
+    c.add(this.add.ellipse(0, 44, 138, 32, 0x000000, 0.24));
+    c.add(this.add.circle(0, -10, 78, accent, 0.09));
+    if (landmark.kind === "forge") {
+      c.add(this.add.rectangle(0, 14, 86, 72, 0x2a1f3a, 0.96).setStrokeStyle(3, accent, 0.75));
+      c.add(this.add.triangle(0, -54, -56, -18, 56, -18, 0x4a321d, 0.94).setStrokeStyle(2, 0xf6c85f, 0.45));
+      c.add(this.add.circle(0, 18, 18, 0xf6c85f, 0.75));
+    } else if (landmark.kind === "atlasGate") {
+      c.add(this.add.arc(0, -2, 58, 190, 350, false, accent, 0.9).setStrokeStyle(10, accent, 0.62));
+      c.add(this.add.rectangle(-46, 18, 18, 92, 0x173b36, 0.96).setStrokeStyle(2, accent, 0.55));
+      c.add(this.add.rectangle(46, 18, 18, 92, 0x173b36, 0.96).setStrokeStyle(2, accent, 0.55));
+      c.add(this.add.circle(0, 12, 22, 0x145f78, 0.72).setStrokeStyle(2, 0x9ff5e9, 0.72));
+    } else if (landmark.kind === "logicSpire") {
+      c.add(this.add.triangle(0, 40, -46, 48, 0, -82, 46, 48, 0x1c3148, 0.96).setStrokeStyle(3, accent, 0.82));
+      c.add(this.add.rectangle(0, -10, 64, 12, accent, 0.36));
+      c.add(this.add.circle(0, -48, 16, accent, 0.84));
+    } else if (landmark.kind === "ancientCore") {
+      c.add(this.add.rectangle(0, 18, 120, 48, 0x4b4252, 0.94).setStrokeStyle(3, accent, 0.55));
+      c.add(this.add.circle(0, -24, 42, 0x061019, 0.96).setStrokeStyle(4, accent, 0.82));
+      c.add(this.add.circle(0, -24, 14, accent, 0.88));
+    } else if (landmark.kind === "skyTree") {
+      c.add(this.add.rectangle(0, 26, 28, 110, 0x5a3a22, 0.96));
+      c.add(this.add.circle(-34, -42, 42, 0x235b3a, 0.94).setStrokeStyle(2, accent, 0.34));
+      c.add(this.add.circle(18, -54, 52, 0x2b6c45, 0.95).setStrokeStyle(2, accent, 0.34));
+      c.add(this.add.circle(42, -18, 38, 0x1c7d51, 0.88));
+    } else {
+      c.add(this.add.ellipse(0, 20, 118, 48, 0x222950, 0.96).setStrokeStyle(3, accent, 0.82));
+      c.add(this.add.triangle(-26, -10, -46, 38, -26, -82, -4, 38, accent, 0.72));
+      c.add(this.add.triangle(24, -2, 2, 44, 24, -72, 48, 44, 0x7ad7ff, 0.64));
+      c.add(this.add.circle(0, -10, 20, 0xffffff, 0.42));
+    }
+    c.add(this.add.text(0, 86, landmark.label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 160 },
+    }).setOrigin(0.5, 0));
+  }
+
+  private drawTreasure(treasure: OutdoorTreasure): void {
+    const c = this.add.container(treasure.x, treasure.y).setDepth(7 + treasure.y / 10000);
+    const collected = this.collectedTreasures.has(treasure.id);
+    const accent = this.biomeAccent(treasure.biome);
+    c.add(this.add.ellipse(0, 24, 62, 16, 0x000000, 0.28));
+    c.add(this.add.circle(0, -4, 36, accent, collected ? 0.04 : 0.14));
+    if (treasure.label.includes("scrigno")) {
+      c.add(this.add.rectangle(0, 0, 48, 30, 0x7a4b28, 0.96).setStrokeStyle(2, 0xf6c85f, 0.86));
+      c.add(this.add.rectangle(0, -9, 52, 8, 0xf6c85f, 0.82));
+      c.add(this.add.circle(0, 5, 5, 0xf5fbff, 0.86));
+    } else if (treasure.label.includes("energia")) {
+      c.add(this.add.rectangle(0, 0, 42, 36, 0x173b36, 0.96).setStrokeStyle(2, 0x8fe0a4, 0.78));
+      c.add(this.add.triangle(0, -16, -10, 8, 4, 4, -2, 18, 0xf6c85f, 0.92));
+    } else {
+      c.add(this.add.circle(-12, 0, 10, 0xc7b8ff, 0.82));
+      c.add(this.add.circle(2, -8, 12, accent, 0.78));
+      c.add(this.add.circle(14, 4, 9, 0x9ff5e9, 0.78));
+    }
+    c.add(this.add.text(0, 36, collected ? "raccolto" : treasure.label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: collected ? "#6f8794" : "#f7d37a",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 120 },
+    }).setOrigin(0.5, 0));
+    if (collected) {
+      c.setAlpha(0.32);
+    } else {
+      const hit = this.add.circle(0, 0, 44, 0x000000, 0.001).setInteractive({ useHandCursor: true });
+      hit.on("pointerup", () => this.collectTreasure(treasure));
+      c.add(hit);
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({ targets: c, y: treasure.y - 5, duration: 1350, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      }
+    }
+    this.treasureNodes.set(treasure.id, c);
   }
 
   private drawEncounter(encounter: OutdoorEncounter): void {
@@ -284,7 +434,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       fontStyle: "bold",
     }).setOrigin(1, 0);
     hud.add(this.energyText);
-    this.progressText = this.add.text(36, 84, `${this.completed.size}/${this.map.encounters.length} incontri · serie ${outdoor.currentStreak}`, {
+    this.progressText = this.add.text(36, 84, `${this.completed.size}/${this.map.encounters.length} incontri · ${this.collectedTreasures.size}/${this.map.treasures.length} tesori · serie ${outdoor.currentStreak}`, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
       color: "#9ff5e9",
@@ -358,27 +508,64 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private updatePrompt(): void {
     let nearest: OutdoorEncounter | undefined;
+    let nearestTreasure: OutdoorTreasure | undefined;
+    let prompt = "";
     let best = Infinity;
     for (const encounter of this.map.encounters) {
       if (this.completed.has(encounter.id)) continue;
       const distance = Math.hypot(encounter.x - this.avatar.x, encounter.y - this.avatar.y);
       if (distance < 92 && distance < best) {
         nearest = encounter;
+        nearestTreasure = undefined;
+        prompt = `E / clicca · ${nearest.enemy}`;
+        best = distance;
+      }
+    }
+    for (const treasure of this.map.treasures) {
+      if (this.collectedTreasures.has(treasure.id)) continue;
+      const distance = Math.hypot(treasure.x - this.avatar.x, treasure.y - this.avatar.y);
+      if (distance < 82 && distance < best) {
+        nearest = undefined;
+        nearestTreasure = treasure;
+        prompt = `E / clicca · ${treasure.label}`;
         best = distance;
       }
     }
     this.activeEncounter = nearest;
-    if (!nearest) {
+    this.activeTreasure = nearestTreasure;
+    if (!nearest && !nearestTreasure) {
       this.prompt.setVisible(false);
       return;
     }
-    this.prompt.setPosition(nearest.x, nearest.y - 72).setVisible(true);
-    this.promptText.setText(`E / clicca · ${nearest.enemy}`);
+    const target = nearest ?? nearestTreasure!;
+    this.prompt.setPosition(target.x, target.y - 72).setVisible(true);
+    this.promptText.setText(prompt);
   }
 
   private tryInteract(): void {
-    if (this.paused || !this.activeEncounter) return;
-    this.startEncounter(this.activeEncounter);
+    if (this.paused) return;
+    if (this.activeTreasure) {
+      this.collectTreasure(this.activeTreasure);
+      return;
+    }
+    if (this.activeEncounter) this.startEncounter(this.activeEncounter);
+  }
+
+  private collectTreasure(treasure: OutdoorTreasure): void {
+    if (this.paused || this.collectedTreasures.has(treasure.id)) return;
+    if (!saveSystem.recordOutdoorTreasure(treasure.id, treasure.rewardEnergy, treasure.rewardFragments)) return;
+    this.collectedTreasures.add(treasure.id);
+    this.activeTreasure = undefined;
+    this.prompt.setVisible(false);
+    const node = this.treasureNodes.get(treasure.id);
+    if (node) {
+      this.tweens.killTweensOf(node);
+      node.destroy(true);
+      this.treasureNodes.delete(treasure.id);
+    }
+    this.refreshHud();
+    audioManager.play("success");
+    feedbackSystem.publish(`Tesoro raccolto: +${treasure.rewardEnergy} energia, +${treasure.rewardFragments} frammenti.`, "success");
   }
 
   private openBountyBoard(): void {
@@ -394,7 +581,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const claimed = new Set(outdoor.claimedBountyIds ?? []);
     const bounties = this.outdoorBounties();
     overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
-    overlay.add(this.add.rectangle(640, 360, 720, 510, 0x07151d, 0.98).setStrokeStyle(2, 0x8fe0a4, 0.82));
+    overlay.add(this.add.rectangle(640, 360, 760, 560, 0x07151d, 0.98).setStrokeStyle(2, 0x8fe0a4, 0.82));
     overlay.add(this.add.rectangle(326, 138, 5, 44, 0x8fe0a4, 0.95).setOrigin(0));
     overlay.add(this.add.text(344, 136, "Bacheca Avventura", {
       fontFamily: "Inter, Arial",
@@ -409,13 +596,13 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       wordWrap: { width: 580 },
     }));
     bounties.forEach((bounty, index) => {
-      this.drawBountyRow(overlay, bounty, claimed.has(bounty.id), 356, 232 + index * 82, () => {
+      this.drawBountyRow(overlay, bounty, claimed.has(bounty.id), 356, 224 + index * 76, () => {
         overlay.destroy(true);
         this.paused = false;
         this.openBountyBoard();
       });
     });
-    overlay.add(new Button(this, 640, 610, "Chiudi", close, {
+    overlay.add(new Button(this, 640, 632, "Chiudi", close, {
       width: 180,
       height: 44,
       fill: 0x263743,
@@ -451,6 +638,15 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         target: 1,
         energy: 60,
         fragments: 16,
+      },
+      {
+        id: "treasure-5",
+        title: "Cercatore di tesori",
+        description: "Raccogli cinque tesori nascosti nella mappa.",
+        current: Math.min(this.collectedTreasures.size, 5),
+        target: 5,
+        energy: 45,
+        fragments: 12,
       },
       {
         id: "full-map",
@@ -865,7 +1061,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private refreshHud(): void {
     const outdoor = saveSystem.outdoorAdventure;
     this.energyText?.setText(`${rewardSystem.energy()} ⚡`);
-    this.progressText?.setText(`${this.completed.size}/${this.map.encounters.length} incontri · serie ${outdoor.currentStreak}`);
+    this.progressText?.setText(`${this.completed.size}/${this.map.encounters.length} incontri · ${this.collectedTreasures.size}/${this.map.treasures.length} tesori · serie ${outdoor.currentStreak}`);
     this.fragmentText?.setText(`${outdoor.fragments} frammenti`);
   }
 

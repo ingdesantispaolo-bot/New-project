@@ -291,6 +291,23 @@ export class SaveSystem {
     return true;
   }
 
+  recordOutdoorTreasure(treasureId: string, energy: number, fragments: number): boolean {
+    const outdoor = this.outdoorAdventure;
+    outdoor.collectedTreasureIds = outdoor.collectedTreasureIds ?? [];
+    if (outdoor.collectedTreasureIds.includes(treasureId)) return false;
+    outdoor.collectedTreasureIds.push(treasureId);
+    outdoor.fragments += Math.max(0, fragments);
+    if (energy > 0) {
+      const rewards = this.rewards;
+      rewards.energy += energy;
+      rewards.earned += energy;
+      EventBus.emit(GameEvents.RewardsChanged, rewards);
+    }
+    outdoor.lastPlayedAt = new Date().toISOString();
+    this.persist();
+    return true;
+  }
+
   spendOutdoorFragments(amount: number): boolean {
     if (amount <= 0) return false;
     const outdoor = this.outdoorAdventure;
@@ -628,6 +645,7 @@ export class SaveSystem {
       bestStreak: Math.max(0, outdoor?.bestStreak ?? 0),
       currentStreak: sameDay ? Math.max(0, outdoor?.currentStreak ?? 0) : 0,
       claimedBountyIds: sameDay ? outdoor?.claimedBountyIds ?? [] : [],
+      collectedTreasureIds: sameDay ? outdoor?.collectedTreasureIds ?? [] : [],
       lastPlayedAt: outdoor?.lastPlayedAt,
     };
   }

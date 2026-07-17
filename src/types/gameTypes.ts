@@ -99,6 +99,8 @@ export type SaveData = {
     currentStreak: number;
     /** Daily adventure bounty ids already claimed. */
     claimedBountyIds?: string[];
+    /** Daily outdoor treasure ids already collected. */
+    collectedTreasureIds?: string[];
     lastPlayedAt?: string;
   };
   greenhouseRun?: GreenhouseRunSave;

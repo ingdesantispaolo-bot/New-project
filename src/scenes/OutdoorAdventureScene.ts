@@ -517,28 +517,22 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const g = this.add.graphics();
     g.setDepth(-16);
     objects.push(g);
-    g.fillStyle(BIOME_PAINTED_BACKDROPS[chunk.biome].veil, 0.58);
-    g.fillRect(chunk.worldX, chunk.worldY, chunk.size, chunk.size);
+    g.fillStyle(BIOME_PAINTED_BACKDROPS[chunk.biome].veil, 0.34);
+    g.fillRect(chunk.worldX - 6, chunk.worldY - 6, chunk.size + 12, chunk.size + 12);
     this.drawPaintedTerrainWash(g, chunk);
     this.drawBiomeSilhouette(g, chunk);
-    for (let x = chunk.worldX; x < chunk.worldX + chunk.size; x += 96) {
-      for (let y = chunk.worldY; y < chunk.worldY + chunk.size; y += 96) {
-        const tint = (x / 96 + y / 96) % 2 === 0 ? 0x0a1820 : 0x08131b;
-        g.fillStyle(tint, 0.24);
-        g.fillRect(x, y, 96, 96);
-      }
-    }
-    g.lineStyle(2, 0xf5fbff, 0.08);
-    g.strokeRect(chunk.worldX + 3, chunk.worldY + 3, chunk.size - 6, chunk.size - 6);
+    this.drawContinuousGroundTexture(g, chunk);
     const terrainBase = this.variedColor(chunk.patch.color, this.visualNoise(chunk.id, 901) * 0.14 - 0.07);
-    g.fillStyle(terrainBase, 0.52);
-    g.fillRoundedRect(chunk.patch.x, chunk.patch.y, chunk.patch.w, chunk.patch.h, 52);
+    g.fillStyle(terrainBase, 0.28);
+    g.fillEllipse(chunk.worldX + chunk.size / 2, chunk.worldY + chunk.size / 2, chunk.size * 1.18, chunk.size * 1.06);
+    g.fillStyle(terrainBase, 0.22);
+    g.fillEllipse(chunk.patch.x + chunk.patch.w / 2, chunk.patch.y + chunk.patch.h / 2, chunk.patch.w * 1.08, chunk.patch.h * 1.02);
     this.drawPaintedPatchGlaze(g, chunk);
     this.drawBiomeEdges(g, chunk);
     this.drawTerrainDetails(g, chunk);
     this.drawCozyLandscape(chunk, objects);
     this.drawAmbientAccents(chunk, objects);
-    objects.push(this.add.text(chunk.patch.x + 34, chunk.patch.y + 28, chunk.patch.label, {
+    objects.push(this.add.text(chunk.patch.x + 34, chunk.patch.y + 28, BIOME_LABELS[chunk.biome], {
       fontFamily: "Inter, Arial",
       fontSize: "18px",
       color: "#f5fbff",
@@ -576,29 +570,54 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private drawPaintedTerrainWash(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
     const accent = BIOME_ACCENTS[chunk.biome];
     const palette = BIOME_DETAIL_COLORS[chunk.biome];
-    for (let i = 0; i < 10; i += 1) {
-      const x = chunk.worldX + this.visualNoise(chunk.id, 1200 + i * 4) * chunk.size;
-      const y = chunk.worldY + this.visualNoise(chunk.id, 1201 + i * 4) * chunk.size;
-      const w = 210 + this.visualNoise(chunk.id, 1202 + i * 4) * 360;
-      const h = 42 + this.visualNoise(chunk.id, 1203 + i * 4) * 94;
+    for (let i = 0; i < 14; i += 1) {
+      const x = chunk.worldX - 120 + this.visualNoise(chunk.id, 1200 + i * 4) * (chunk.size + 240);
+      const y = chunk.worldY - 120 + this.visualNoise(chunk.id, 1201 + i * 4) * (chunk.size + 240);
+      const w = 260 + this.visualNoise(chunk.id, 1202 + i * 4) * 520;
+      const h = 72 + this.visualNoise(chunk.id, 1203 + i * 4) * 150;
       const color = i % 3 === 0 ? accent : palette[i % palette.length]!;
-      g.fillStyle(color, 0.035 + this.visualNoise(chunk.id, 1240 + i) * 0.035);
+      g.fillStyle(color, 0.028 + this.visualNoise(chunk.id, 1240 + i) * 0.032);
       g.fillEllipse(x, y, w, h);
+    }
+  }
+
+  private drawContinuousGroundTexture(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
+    const palette = BIOME_DETAIL_COLORS[chunk.biome];
+    const grid = 128;
+    const startX = Math.floor((chunk.worldX - 96) / grid) * grid;
+    const endX = chunk.worldX + chunk.size + 96;
+    const startY = Math.floor((chunk.worldY - 96) / grid) * grid;
+    const endY = chunk.worldY + chunk.size + 96;
+    for (let x = startX; x <= endX; x += grid) {
+      for (let y = startY; y <= endY; y += grid) {
+        const n = this.visualNoise(`${this.worldSeed}:ground:${Math.floor(x / grid)}:${Math.floor(y / grid)}`, 7);
+        const color = palette[Math.floor(n * palette.length) % palette.length]!;
+        g.fillStyle(color, 0.035 + n * 0.035);
+        if (n > 0.66) {
+          g.fillEllipse(x + 28 + n * 42, y + 38, 120 + n * 90, 22 + n * 22);
+        } else if (n > 0.34) {
+          g.fillCircle(x + 38 + n * 36, y + 42 + n * 22, 2 + n * 4);
+          g.fillCircle(x + 84, y + 78, 1.6 + n * 3);
+        } else {
+          g.lineStyle(1, color, 0.05);
+          g.lineBetween(x + 16, y + 54, x + 102, y + 48 + n * 30);
+        }
+      }
     }
   }
 
   private drawPaintedPatchGlaze(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
     const accent = BIOME_ACCENTS[chunk.biome];
-    const x = chunk.patch.x;
-    const y = chunk.patch.y;
-    const w = chunk.patch.w;
-    const h = chunk.patch.h;
+    const x = chunk.worldX + 26;
+    const y = chunk.worldY + 28;
+    const w = chunk.size - 52;
+    const h = chunk.size - 56;
     g.fillStyle(0xffffff, 0.035);
-    g.fillRoundedRect(x + 18, y + 16, w - 36, Math.max(40, h * 0.22), 42);
-    g.lineStyle(12, 0x02070b, 0.13);
-    g.strokeRoundedRect(x + 8, y + 8, w - 16, h - 16, 50);
-    g.lineStyle(3, accent, 0.12);
-    for (let i = 0; i < 7; i += 1) {
+    g.fillEllipse(x + w * 0.44, y + h * 0.18, w * 0.78, Math.max(50, h * 0.2));
+    g.fillStyle(0x02070b, 0.05);
+    g.fillEllipse(x + w * 0.55, y + h * 0.78, w * 0.96, h * 0.28);
+    g.lineStyle(3, accent, 0.08);
+    for (let i = 0; i < 9; i += 1) {
       const yy = y + 58 + this.visualNoise(chunk.id, 1320 + i) * Math.max(1, h - 116);
       g.lineBetween(x + 48, yy, x + w - 48, yy + (this.visualNoise(chunk.id, 1330 + i) - 0.5) * 28);
     }
@@ -898,22 +917,21 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private drawBiomeEdges(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
     const accent = chunk.patch.accent;
-    const x = chunk.patch.x;
-    const y = chunk.patch.y;
-    const w = chunk.patch.w;
-    const h = chunk.patch.h;
-    for (let i = 0; i < 4; i += 1) {
-      g.lineStyle(16 - i * 3, accent, 0.08 + i * 0.04);
-      g.strokeRoundedRect(x + i * 5, y + i * 5, w - i * 10, h - i * 10, 52 - i * 7);
+    const x = chunk.worldX;
+    const y = chunk.worldY;
+    const s = chunk.size;
+    for (let i = 0; i < 9; i += 1) {
+      const px = x - 80 + this.visualNoise(chunk.id, 520 + i * 3) * (s + 160);
+      const py = y - 80 + this.visualNoise(chunk.id, 521 + i * 3) * (s + 160);
+      const wide = 180 + this.visualNoise(chunk.id, 522 + i * 3) * 340;
+      g.fillStyle(accent, 0.025 + this.visualNoise(chunk.id, 720 + i) * 0.035);
+      g.fillEllipse(px, py, wide, 36 + this.visualNoise(chunk.id, 730 + i) * 82);
     }
-    g.lineStyle(1, 0xffffff, 0.1);
     for (let i = 0; i < 18; i += 1) {
-      const t = this.visualNoise(chunk.id, 520 + i);
-      const side = Math.floor(this.visualNoise(chunk.id, 620 + i) * 4);
-      const px = side < 2 ? x + t * w : side === 2 ? x : x + w;
-      const py = side >= 2 ? y + t * h : side === 0 ? y : y + h;
-      g.fillStyle(accent, 0.14);
-      g.fillCircle(px, py, 2 + this.visualNoise(chunk.id, 720 + i) * 5);
+      const px = x + this.visualNoise(`${this.worldSeed}:speck:${chunk.chunkX}:${chunk.chunkY}`, 620 + i) * s;
+      const py = y + this.visualNoise(`${this.worldSeed}:speck:${chunk.chunkY}:${chunk.chunkX}`, 640 + i) * s;
+      g.fillStyle(accent, 0.08);
+      g.fillCircle(px, py, 1.4 + this.visualNoise(chunk.id, 720 + i) * 3.2);
     }
   }
 

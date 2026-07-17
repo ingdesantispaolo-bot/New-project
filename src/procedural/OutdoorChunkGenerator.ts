@@ -204,11 +204,11 @@ export function generateOutdoorChunk(seed: string, chunkX: number, chunkY: numbe
   const patch: OutdoorBiomePatch = {
     ...style,
     id: biome,
-    label: `${style.label} ${chunkX}:${chunkY}`,
-    x: worldX + between(random, 24, 64),
-    y: worldY + between(random, 24, 64),
-    w: OUTDOOR_CHUNK_SIZE - between(random, 86, 138),
-    h: OUTDOOR_CHUNK_SIZE - between(random, 86, 138),
+    label: style.label,
+    x: worldX - between(random, 22, 54),
+    y: worldY - between(random, 22, 54),
+    w: OUTDOOR_CHUNK_SIZE + between(random, 44, 108),
+    h: OUTDOOR_CHUNK_SIZE + between(random, 44, 108),
   };
 
   const obstacleCount = between(random, 15, 24);

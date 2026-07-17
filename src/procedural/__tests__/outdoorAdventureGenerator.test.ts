@@ -40,8 +40,10 @@ describe("outdoor adventure generator", () => {
     expect(first).toEqual(second);
     expect(first).not.toEqual(neighbor);
     expect(first.id).toBe("chunk-3_-2");
-    expect(first.patch.x).toBeGreaterThanOrEqual(3 * OUTDOOR_CHUNK_SIZE);
-    expect(first.patch.y).toBeLessThanOrEqual(-2 * OUTDOOR_CHUNK_SIZE + OUTDOOR_CHUNK_SIZE);
+    expect(first.patch.x).toBeLessThanOrEqual(3 * OUTDOOR_CHUNK_SIZE);
+    expect(first.patch.x + first.patch.w).toBeGreaterThanOrEqual(4 * OUTDOOR_CHUNK_SIZE);
+    expect(first.patch.y).toBeLessThanOrEqual(-2 * OUTDOOR_CHUNK_SIZE);
+    expect(first.patch.y + first.patch.h).toBeGreaterThanOrEqual(-1 * OUTDOOR_CHUNK_SIZE);
   });
 
   it("can assemble larger regions without changing the chunk contract", () => {

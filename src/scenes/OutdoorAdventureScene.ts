@@ -64,6 +64,16 @@ const ENCOUNTER_GLYPHS: Record<OutdoorEncounterKind, string> = {
   guardian: "!",
 };
 
+const ENCOUNTER_COLORS: Record<OutdoorEncounterKind, number> = {
+  times: 0xf6c85f,
+  mental: 0x6be7d6,
+  capital: 0x8fe0a4,
+  physicalGeo: 0x7ad7ff,
+  guardian: 0xc7b8ff,
+};
+
+type OutdoorTreasureKind = "energy" | "fragments" | "rare";
+
 const FORGE_REWARDS: Array<{ id: string; fragmentCost: number; guardianWins?: number }> = [
   { id: "accessory-halo", fragmentCost: 45 },
   { id: "avatar-shadow", fragmentCost: 80, guardianWins: 1 },
@@ -106,12 +116,15 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private fragmentText?: Phaser.GameObjects.Text;
   private biomeText?: Phaser.GameObjects.Text;
   private coordText?: Phaser.GameObjects.Text;
+  private radarLegendText?: Phaser.GameObjects.Text;
   private radar?: Phaser.GameObjects.Graphics;
   private guideGraphics?: Phaser.GameObjects.Graphics;
   private guideText?: Phaser.GameObjects.Text;
   private currentBiome?: OutdoorBiome;
   private biomeBanner?: Phaser.GameObjects.Container;
   private ambientMotes: Phaser.GameObjects.GameObject[] = [];
+  private atmosphereGraphics?: Phaser.GameObjects.Graphics;
+  private lastAmbientSparkAt = 0;
   private lastTrailAt = 0;
   private readonly onE = (): void => this.tryInteract();
 
@@ -147,6 +160,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.updatePet();
     this.updatePrompt();
     this.updateObjectiveGuide();
+    this.updateAmbientSparkles();
   }
 
   private emptyOutdoorMap(): OutdoorAdventureMap {
@@ -212,6 +226,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       this.cameras.main.setBackgroundColor(this.biomeBackground(this.currentBiome));
       this.showBiomeBanner(active.chunk);
       this.refreshAmbientMotes(active.chunk.biome);
+      this.refreshAtmosphere(active.chunk.biome);
     }
   }
 
@@ -289,6 +304,51 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }
   }
 
+  private refreshAtmosphere(biome: OutdoorBiome): void {
+    this.atmosphereGraphics?.clear();
+    if (!this.atmosphereGraphics) {
+      this.atmosphereGraphics = this.add.graphics().setScrollFactor(0).setDepth(56);
+    }
+    const accent = BIOME_ACCENTS[biome];
+    const shadow = biome === "ruins" ? 0x2a1010 : biome === "crystal" ? 0x101444 : biome === "geo" || biome === "wild" ? 0x0d2b1d : 0x0b1d2b;
+    this.atmosphereGraphics.fillStyle(shadow, 0.16);
+    this.atmosphereGraphics.fillRect(0, 0, 1280, 720);
+    this.atmosphereGraphics.fillStyle(0x000000, 0.18);
+    this.atmosphereGraphics.fillRect(0, 0, 1280, 44);
+    this.atmosphereGraphics.fillRect(0, 672, 1280, 48);
+    this.atmosphereGraphics.fillStyle(accent, 0.035);
+    for (let i = 0; i < 5; i += 1) {
+      this.atmosphereGraphics.fillEllipse(160 + i * 260, 96 + (i % 2) * 504, 260, 58);
+    }
+  }
+
+  private updateAmbientSparkles(): void {
+    if (!this.avatar || !this.currentBiome || settingsSystem.effectsReduced()) return;
+    if (this.time.now - this.lastAmbientSparkAt < 420) return;
+    this.lastAmbientSparkAt = this.time.now;
+    const accent = BIOME_ACCENTS[this.currentBiome];
+    const x = this.avatar.x + Phaser.Math.Between(-86, 86);
+    const y = this.avatar.y + Phaser.Math.Between(-70, 56);
+    const spark = this.add.circle(x, y, this.currentBiome === "crystal" ? 3.8 : 2.8, accent, 0.24).setDepth(6 + y / 10000);
+    if (this.currentBiome === "logic") {
+      spark.setStrokeStyle(1, 0x6be7d6, 0.46);
+    } else if (this.currentBiome === "ruins") {
+      spark.setFillStyle(0xff8f6b, 0.22);
+    } else if (this.currentBiome === "geo") {
+      spark.setStrokeStyle(1, 0x7ad7ff, 0.38);
+    }
+    this.tweens.add({
+      targets: spark,
+      y: y - Phaser.Math.Between(16, 42),
+      x: x + Phaser.Math.Between(-18, 18),
+      alpha: 0,
+      scale: 1.8,
+      duration: 900,
+      ease: "Sine.easeOut",
+      onComplete: () => spark.destroy(),
+    });
+  }
+
   private destroyChunkObject(object: Phaser.GameObjects.GameObject): void {
     this.tweens.killTweensOf(object);
     if (object instanceof Phaser.GameObjects.Container) {
@@ -326,11 +386,12 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }
     g.lineStyle(2, 0x244451, 0.36);
     g.strokeRect(chunk.worldX + 3, chunk.worldY + 3, chunk.size - 6, chunk.size - 6);
-    g.fillStyle(chunk.patch.color, 0.74);
+    const terrainBase = this.variedColor(chunk.patch.color, this.visualNoise(chunk.id, 901) * 0.14 - 0.07);
+    g.fillStyle(terrainBase, 0.74);
     g.fillRoundedRect(chunk.patch.x, chunk.patch.y, chunk.patch.w, chunk.patch.h, 52);
-    g.lineStyle(3, chunk.patch.accent, 0.32);
-    g.strokeRoundedRect(chunk.patch.x, chunk.patch.y, chunk.patch.w, chunk.patch.h, 52);
+    this.drawBiomeEdges(g, chunk);
     this.drawTerrainDetails(g, chunk);
+    this.drawAmbientAccents(chunk, objects);
     objects.push(this.add.text(chunk.patch.x + 34, chunk.patch.y + 28, chunk.patch.label, {
       fontFamily: "Inter, Arial",
       fontSize: "18px",
@@ -361,7 +422,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private drawTerrainDetails(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
     const palette = BIOME_DETAIL_COLORS[chunk.biome];
-    for (let i = 0; i < 34; i += 1) {
+    for (let i = 0; i < 58; i += 1) {
       const nx = this.visualNoise(chunk.id, i * 3);
       const ny = this.visualNoise(chunk.id, i * 3 + 1);
       const nv = this.visualNoise(chunk.id, i * 3 + 2);
@@ -387,6 +448,85 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         g.fillRoundedRect(x, y, 18 + nv * 26, 4 + nv * 8, 3);
       }
     }
+  }
+
+  private drawAmbientAccents(chunk: OutdoorChunk, objects: Phaser.GameObjects.GameObject[]): void {
+    const accent = BIOME_ACCENTS[chunk.biome];
+    const count = 3 + Math.floor(this.visualNoise(chunk.id, 830) * 3);
+    for (let i = 0; i < count; i += 1) {
+      const x = chunk.patch.x + 82 + this.visualNoise(chunk.id, 840 + i * 4) * (chunk.patch.w - 164);
+      const y = chunk.patch.y + 92 + this.visualNoise(chunk.id, 841 + i * 4) * (chunk.patch.h - 184);
+      const scale = 0.78 + this.visualNoise(chunk.id, 842 + i * 4) * 0.36;
+      const c = this.add.container(x, y).setDepth(3 + y / 10000).setScale(scale);
+      objects.push(c);
+      if (this.textures.exists("soft-glow")) {
+        c.add(this.add.image(0, 0, "soft-glow").setTint(accent).setAlpha(0.08).setScale(0.55));
+      }
+      if (chunk.biome === "logic") {
+        c.add(this.add.rectangle(0, 0, 46, 18, 0x061019, 0.72).setStrokeStyle(1, accent, 0.42));
+        c.add(this.add.circle(-15, 0, 4, 0x6be7d6, 0.58));
+        c.add(this.add.circle(0, 0, 3, 0xf6c85f, 0.5));
+        c.add(this.add.line(0, 0, -15, 0, 18, 0, accent, 0.34).setOrigin(0));
+      } else if (chunk.biome === "ruins") {
+        c.add(this.add.rectangle(0, 8, 34, 12, 0x4b4252, 0.72).setStrokeStyle(1, 0xff8f6b, 0.24));
+        c.add(this.add.line(0, 0, -16, -2, 18, -14, 0xff8f6b, 0.32).setOrigin(0));
+        c.add(this.add.circle(8, -18, 4, 0xff8f6b, 0.28));
+      } else if (chunk.biome === "geo") {
+        c.add(this.add.arc(0, 0, 24, 14, 166, false, 0x7ad7ff, 0.03).setStrokeStyle(3, 0x7ad7ff, 0.36));
+        c.add(this.add.triangle(-4, -8, -10, 4, -2, -16, 8, 4, accent, 0.58));
+        c.add(this.add.circle(15, 7, 4, 0x8fe0a4, 0.34));
+      } else if (chunk.biome === "wild") {
+        c.add(this.add.ellipse(-8, 0, 28, 8, 0x74f0c5, 0.24));
+        c.add(this.add.ellipse(9, -4, 24, 7, 0x8fe0a4, 0.22));
+        c.add(this.add.circle(0, -14, 4, 0xf6c85f, 0.28));
+      } else if (chunk.biome === "crystal") {
+        c.add(this.add.triangle(-10, 10, -20, 14, -10, -18, 1, 14, accent, 0.36).setStrokeStyle(1, 0xffffff, 0.16));
+        c.add(this.add.triangle(10, 8, 0, 14, 10, -22, 22, 14, 0x7ad7ff, 0.32).setStrokeStyle(1, 0xffffff, 0.14));
+      } else {
+        c.add(this.add.rectangle(0, 0, 36, 10, 0x173b36, 0.48).setStrokeStyle(1, accent, 0.32));
+        c.add(this.add.circle(-16, 0, 4, accent, 0.54));
+        c.add(this.add.circle(16, 0, 4, 0xf6c85f, 0.4));
+      }
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({
+          targets: c,
+          alpha: 0.48,
+          y: y - 3,
+          duration: 1600 + i * 240,
+          yoyo: true,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        });
+      }
+    }
+  }
+
+  private drawBiomeEdges(g: Phaser.GameObjects.Graphics, chunk: OutdoorChunk): void {
+    const accent = chunk.patch.accent;
+    const x = chunk.patch.x;
+    const y = chunk.patch.y;
+    const w = chunk.patch.w;
+    const h = chunk.patch.h;
+    for (let i = 0; i < 4; i += 1) {
+      g.lineStyle(16 - i * 3, accent, 0.08 + i * 0.04);
+      g.strokeRoundedRect(x + i * 5, y + i * 5, w - i * 10, h - i * 10, 52 - i * 7);
+    }
+    g.lineStyle(1, 0xffffff, 0.1);
+    for (let i = 0; i < 18; i += 1) {
+      const t = this.visualNoise(chunk.id, 520 + i);
+      const side = Math.floor(this.visualNoise(chunk.id, 620 + i) * 4);
+      const px = side < 2 ? x + t * w : side === 2 ? x : x + w;
+      const py = side >= 2 ? y + t * h : side === 0 ? y : y + h;
+      g.fillStyle(accent, 0.14);
+      g.fillCircle(px, py, 2 + this.visualNoise(chunk.id, 720 + i) * 5);
+    }
+  }
+
+  private variedColor(color: number, amount: number): number {
+    const r = Phaser.Math.Clamp(((color >> 16) & 0xff) + Math.round(255 * amount), 0, 255);
+    const g = Phaser.Math.Clamp(((color >> 8) & 0xff) + Math.round(255 * amount), 0, 255);
+    const b = Phaser.Math.Clamp((color & 0xff) + Math.round(255 * amount), 0, 255);
+    return (r << 16) | (g << 8) | b;
   }
 
   private visualNoise(seed: string, index: number): number {
@@ -583,20 +723,23 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     if (landmark.kind === "forge") {
       c.add(this.add.rectangle(0, 14, 86, 72, 0x2a1f3a, 0.96).setStrokeStyle(3, accent, 0.75));
       c.add(this.add.triangle(0, -54, -56, -18, 56, -18, 0x4a321d, 0.94).setStrokeStyle(2, 0xf6c85f, 0.45));
-      c.add(this.add.circle(0, 18, 18, 0xf6c85f, 0.75));
+      const lava = this.add.circle(0, 18, 18, 0xf6c85f, 0.75);
+      c.add(lava);
       c.add(this.add.rectangle(-28, -4, 18, 54, 0x4b4252, 0.88).setStrokeStyle(2, 0xf6c85f, 0.28));
       c.add(this.add.circle(-28, -36, 10, 0xff8f6b, 0.32));
+      this.decorateForgeLandmark(c, lava);
     } else if (landmark.kind === "atlasGate") {
       c.add(this.add.arc(0, -2, 58, 190, 350, false, accent, 0.9).setStrokeStyle(10, accent, 0.62));
       c.add(this.add.rectangle(-46, 18, 18, 92, 0x173b36, 0.96).setStrokeStyle(2, accent, 0.55));
       c.add(this.add.rectangle(46, 18, 18, 92, 0x173b36, 0.96).setStrokeStyle(2, accent, 0.55));
       c.add(this.add.circle(0, 12, 22, 0x145f78, 0.72).setStrokeStyle(2, 0x9ff5e9, 0.72));
       c.add(this.add.circle(0, 12, 42, 0x7ad7ff, 0.1).setStrokeStyle(2, 0x9ff5e9, 0.34));
+      this.decorateAtlasLandmark(c, accent);
     } else if (landmark.kind === "logicSpire") {
       c.add(this.add.triangle(0, 40, -46, 48, 0, -82, 46, 48, 0x1c3148, 0.96).setStrokeStyle(3, accent, 0.82));
       c.add(this.add.rectangle(0, -10, 64, 12, accent, 0.36));
       c.add(this.add.circle(0, -48, 16, accent, 0.84));
-      c.add(this.add.line(0, 0, -54, -24, 54, -24, 0x6be7d6, 0.44).setOrigin(0));
+      this.decorateLogicLandmark(c);
     } else if (landmark.kind === "ancientCore") {
       c.add(this.add.rectangle(0, 18, 120, 48, 0x4b4252, 0.94).setStrokeStyle(3, accent, 0.55));
       c.add(this.add.circle(0, -24, 42, 0x061019, 0.96).setStrokeStyle(4, accent, 0.82));
@@ -611,6 +754,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       c.add(this.add.triangle(-26, -10, -46, 38, -26, -82, -4, 38, accent, 0.72));
       c.add(this.add.triangle(24, -2, 2, 44, 24, -72, 48, 44, 0x7ad7ff, 0.64));
       c.add(this.add.circle(0, -10, 20, 0xffffff, 0.42));
+      this.decorateCrystalLandmark(c, accent);
     }
     c.add(this.add.text(0, 86, landmark.label, {
       fontFamily: "Inter, Arial",
@@ -622,32 +766,98 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }).setOrigin(0.5, 0));
   }
 
+  private decorateForgeLandmark(container: Phaser.GameObjects.Container, lava: Phaser.GameObjects.Arc): void {
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: lava, alpha: 0.42, scale: 1.18, duration: 780, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
+    for (let i = 0; i < 3; i += 1) {
+      const smoke = this.add.circle(-30 + i * 8, -48 - i * 4, 7 + i * 2, 0xdde9ef, 0.13);
+      container.add(smoke);
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({
+          targets: smoke,
+          y: smoke.y - 28,
+          x: smoke.x + 6,
+          alpha: 0,
+          scale: 1.7,
+          duration: 1600 + i * 280,
+          repeat: -1,
+          delay: i * 260,
+          ease: "Sine.easeOut",
+        });
+      }
+    }
+  }
+
+  private decorateAtlasLandmark(container: Phaser.GameObjects.Container, accent: number): void {
+    const orbit = this.add.container(0, 12);
+    container.add(orbit);
+    orbit.add(this.add.circle(0, 0, 52, accent, 0.02).setStrokeStyle(2, accent, 0.34));
+    for (let i = 0; i < 4; i += 1) {
+      const angle = (Math.PI * 2 * i) / 4;
+      orbit.add(this.add.circle(Math.cos(angle) * 52, Math.sin(angle) * 52, 4, i % 2 === 0 ? 0x9ff5e9 : 0xf6c85f, 0.9));
+    }
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: orbit, rotation: Math.PI * 2, duration: 5200, repeat: -1, ease: "Linear" });
+    }
+  }
+
+  private decorateLogicLandmark(container: Phaser.GameObjects.Container): void {
+    for (let i = 0; i < 4; i += 1) {
+      const y = -42 + i * 17;
+      const line = this.add.line(0, 0, -58 + i * 6, y, 58 - i * 5, y, i % 2 === 0 ? 0x6be7d6 : 0x9f8cff, 0.38).setOrigin(0);
+      const node = this.add.circle(-36 + i * 24, y, 4, 0xf5fbff, 0.62);
+      container.add([line, node]);
+      if (!settingsSystem.effectsReduced()) {
+        this.tweens.add({ targets: [line, node], alpha: 0.12, duration: 520 + i * 170, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      }
+    }
+  }
+
+  private decorateCrystalLandmark(container: Phaser.GameObjects.Container, accent: number): void {
+    const orbit = this.add.container(0, -12);
+    container.add(orbit);
+    for (let i = 0; i < 5; i += 1) {
+      const angle = (Math.PI * 2 * i) / 5;
+      const x = Math.cos(angle) * 62;
+      const y = Math.sin(angle) * 22;
+      orbit.add(this.add.triangle(x, y, -6, 7, 0, -10, 6, 7, i % 2 === 0 ? accent : 0x7ad7ff, 0.72).setStrokeStyle(1, 0xffffff, 0.28));
+    }
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: orbit, rotation: Math.PI * 2, duration: 6800, repeat: -1, ease: "Linear" });
+    }
+  }
+
   private drawTreasure(treasure: OutdoorTreasure, objects?: Phaser.GameObjects.GameObject[]): void {
     const c = this.add.container(treasure.x, treasure.y).setDepth(7 + treasure.y / 10000);
     objects?.push(c);
     const collected = this.collectedTreasures.has(treasure.id);
     const accent = this.biomeAccent(treasure.biome);
+    const kind = this.treasureKind(treasure);
     c.add(this.add.ellipse(0, 24, 62, 16, 0x000000, 0.28));
     if (this.textures.exists("soft-glow")) {
       c.add(this.add.image(0, -4, "soft-glow").setTint(accent).setAlpha(collected ? 0.04 : 0.2).setScale(1.45));
     } else {
       c.add(this.add.circle(0, -4, 36, accent, collected ? 0.04 : 0.14));
     }
-    if (treasure.label.includes("scrigno")) {
+    const sprite = kind === "rare"
+      ? this.addAtlasProp(c, "env_crate_stack", 62, 44, 2, undefined, 0.96)
+      : kind === "energy"
+        ? this.addAtlasProp(c, "env_holo_beacon", 48, 58, -6, accent, 0.86)
+        : this.addAtlasProp(c, "env_plant_pod", 48, 42, 2, accent, 0.84);
+    if (!sprite && kind === "rare") {
       c.add(this.add.rectangle(0, 0, 48, 30, 0x7a4b28, 0.96).setStrokeStyle(2, 0xf6c85f, 0.86));
       c.add(this.add.rectangle(0, -9, 52, 8, 0xf6c85f, 0.82));
       c.add(this.add.circle(0, 5, 5, 0xf5fbff, 0.86));
-    } else if (treasure.label.includes("energia")) {
+    } else if (!sprite && kind === "energy") {
       c.add(this.add.rectangle(0, 0, 42, 36, 0x173b36, 0.96).setStrokeStyle(2, 0x8fe0a4, 0.78));
       c.add(this.add.triangle(0, -16, -10, 8, 4, 4, -2, 18, 0xf6c85f, 0.92));
-    } else {
+    } else if (!sprite) {
       c.add(this.add.circle(-12, 0, 10, 0xc7b8ff, 0.82));
       c.add(this.add.circle(2, -8, 12, accent, 0.78));
       c.add(this.add.circle(14, 4, 9, 0x9ff5e9, 0.78));
     }
-    if (!collected) {
-      c.add(this.add.line(0, 0, -24, -22, 24, -32, 0xffffff, 0.38).setOrigin(0));
-    }
+    this.decorateTreasure(c, kind, accent, collected);
     c.add(this.add.text(0, 36, collected ? "raccolto" : treasure.label, {
       fontFamily: "Inter, Arial",
       fontSize: "11px",
@@ -669,6 +879,41 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.treasureNodes.set(treasure.id, c);
   }
 
+  private treasureKind(treasure: OutdoorTreasure): OutdoorTreasureKind {
+    const label = treasure.label.toLowerCase();
+    if (label.includes("scrigno") || treasure.rewardFragments >= 10) return "rare";
+    if (label.includes("energia") || treasure.rewardEnergy >= treasure.rewardFragments * 4) return "energy";
+    return "fragments";
+  }
+
+  private decorateTreasure(container: Phaser.GameObjects.Container, kind: OutdoorTreasureKind, accent: number, collected: boolean): void {
+    const shineColor = kind === "energy" ? 0xf6c85f : kind === "rare" ? 0xffd27a : 0xc7b8ff;
+    if (kind === "rare") {
+      container.add(this.add.rectangle(0, -16, 56, 7, 0xf6c85f, 0.74));
+      container.add(this.add.circle(0, 1, 5, 0xf5fbff, 0.9));
+      container.add(this.add.triangle(-22, -24, -9, -12, -2, -28, 8, -12, 0xffd27a, 0.58));
+      container.add(this.add.triangle(23, -22, 8, -12, 17, -30, 32, -12, 0xffffff, 0.38));
+    } else if (kind === "energy") {
+      container.add(this.add.triangle(0, -28, -12, 2, 3, -2, -4, 24, 0xf6c85f, 0.95).setStrokeStyle(1, 0xffffff, 0.28));
+      container.add(this.add.circle(0, -3, 24, 0x8fe0a4, 0.08).setStrokeStyle(2, 0x8fe0a4, 0.38));
+    } else {
+      for (let i = 0; i < 5; i += 1) {
+        const x = -20 + i * 10;
+        const y = -6 + (i % 2) * 8;
+        container.add(this.add.triangle(x, y, -5, 7, 0, -8, 5, 7, i % 2 === 0 ? accent : 0x9ff5e9, 0.8).setStrokeStyle(1, 0xffffff, 0.24));
+      }
+    }
+    if (collected) return;
+    const shimmer = this.add.line(0, 0, -26, -24, 26, -34, 0xffffff, 0.42).setOrigin(0);
+    container.add(shimmer);
+    const pulse = this.add.circle(0, -5, kind === "rare" ? 34 : 28, shineColor, 0.08).setStrokeStyle(1, shineColor, 0.32);
+    container.add(pulse);
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: shimmer, alpha: 0.08, x: 8, duration: 720, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      this.tweens.add({ targets: pulse, scale: 1.28, alpha: 0.02, duration: 1180, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
+  }
+
   private drawEncounter(encounter: OutdoorEncounter, objects?: Phaser.GameObjects.GameObject[]): void {
     const patch = this.map.patches.find((candidate) => candidate.id === encounter.biome);
     const accent = patch?.accent ?? 0x6be7d6;
@@ -684,6 +929,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         : "env_repair_drone";
     const icon = this.addAtlasProp(c, frame, encounter.kind === "guardian" ? 52 : 38, encounter.kind === "guardian" ? 58 : 38, encounter.kind === "guardian" ? -4 : 0, accent, 0.72);
     icon?.setBlendMode(Phaser.BlendModes.ADD);
+    this.drawEncounterIdentity(c, encounter.kind, ENCOUNTER_COLORS[encounter.kind] ?? accent, done);
     c.add(this.add.text(0, encounter.kind === "guardian" ? 2 : 0, ENCOUNTER_GLYPHS[encounter.kind], {
       fontFamily: "Inter, Arial",
       fontSize: encounter.kind === "guardian" ? "20px" : "15px",
@@ -715,6 +961,47 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       this.tweens.add({ targets: c, y: encounter.y - 8, duration: 1400 + encounter.difficulty * 120, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
     }
     this.encounterNodes.set(encounter.id, c);
+  }
+
+  private drawEncounterIdentity(container: Phaser.GameObjects.Container, kind: OutdoorEncounterKind, accent: number, done: boolean): void {
+    const motif = this.add.container(0, 0);
+    container.add(motif);
+    if (kind === "times") {
+      motif.add(this.add.line(0, 0, -18, -18, 18, 18, accent, 0.82).setOrigin(0));
+      motif.add(this.add.line(0, 0, 18, -18, -18, 18, accent, 0.82).setOrigin(0));
+      for (const [x, y] of [[-22, -22], [22, -22], [-22, 22], [22, 22]]) {
+        motif.add(this.add.circle(x, y, 4, 0xf5fbff, 0.78));
+      }
+    } else if (kind === "mental") {
+      motif.add(this.add.triangle(0, -3, -9, -22, 8, -5, -3, -3, accent, 0.92));
+      motif.add(this.add.triangle(0, 5, 8, -2, -8, 20, 1, 2, 0xf6c85f, 0.86));
+      motif.add(this.add.arc(0, 0, 28, 205, 338, false, accent, 0.18).setStrokeStyle(4, accent, 0.34));
+    } else if (kind === "capital") {
+      motif.add(this.add.circle(0, 0, 21, 0x173b36, 0.68).setStrokeStyle(2, accent, 0.85));
+      motif.add(this.add.ellipse(0, 0, 12, 39, accent, 0.02).setStrokeStyle(1, accent, 0.58));
+      motif.add(this.add.ellipse(0, 0, 38, 12, accent, 0.02).setStrokeStyle(1, accent, 0.52));
+      motif.add(this.add.circle(10, -8, 4, 0xf6c85f, 0.9));
+    } else if (kind === "physicalGeo") {
+      motif.add(this.add.triangle(-6, 5, -25, 20, -4, -20, 14, 20, 0x8fe0a4, 0.74).setStrokeStyle(1, 0xffffff, 0.22));
+      motif.add(this.add.triangle(14, 8, -4, 21, 15, -13, 31, 21, accent, 0.6));
+      motif.add(this.add.arc(-1, 14, 25, 10, 168, false, 0x7ad7ff, 0.02).setStrokeStyle(3, 0x7ad7ff, 0.74));
+    } else {
+      motif.add(this.add.circle(0, 0, 31, accent, 0.04).setStrokeStyle(2, accent, 0.42));
+      motif.add(this.add.triangle(0, -31, -7, -14, 7, -14, accent, 0.82));
+      motif.add(this.add.triangle(0, 31, -7, 14, 7, 14, accent, 0.82));
+      motif.add(this.add.triangle(-31, 0, -14, -7, -14, 7, accent, 0.82));
+      motif.add(this.add.triangle(31, 0, 14, -7, 14, 7, accent, 0.82));
+    }
+    if (!done && !settingsSystem.effectsReduced()) {
+      this.tweens.add({
+        targets: motif,
+        rotation: kind === "guardian" || kind === "capital" ? Math.PI * 2 : 0.12,
+        duration: kind === "guardian" || kind === "capital" ? 5400 : 900,
+        yoyo: kind !== "guardian" && kind !== "capital",
+        repeat: -1,
+        ease: kind === "guardian" || kind === "capital" ? "Linear" : "Sine.easeInOut",
+      });
+    }
   }
 
   private buildAvatar(): void {
@@ -831,6 +1118,12 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.coordText = this.add.text(1068, 566, "0:0", {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
+      color: "#9fb6c2",
+      fontStyle: "bold",
+    }).setScrollFactor(0).setDepth(128);
+    this.radarLegendText = this.add.text(1068, 646, "incontri    tesori", {
+      fontFamily: "Inter, Arial",
+      fontSize: "9px",
       color: "#9fb6c2",
       fontStyle: "bold",
     }).setScrollFactor(0).setDepth(128);
@@ -958,7 +1251,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const node = this.treasureNodes.get(treasure.id);
     if (node) {
       this.tweens.killTweensOf(node);
-      node.destroy(true);
+      this.animateTreasurePickup(node, treasure);
       this.treasureNodes.delete(treasure.id);
     }
     this.refreshHud();
@@ -966,19 +1259,54 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     feedbackSystem.publish(`Tesoro raccolto: +${treasure.rewardEnergy} energia, +${treasure.rewardFragments} frammenti.`, "success");
   }
 
+  private animateTreasurePickup(node: Phaser.GameObjects.Container, treasure: OutdoorTreasure): void {
+    for (const child of node.list) {
+      this.tweens.killTweensOf(child);
+    }
+    if (settingsSystem.effectsReduced()) {
+      node.destroy(true);
+      return;
+    }
+    const kind = this.treasureKind(treasure);
+    const accent = this.biomeAccent(treasure.biome);
+    const lid = kind === "rare"
+      ? this.add.rectangle(0, -24, 54, 8, 0xf6c85f, 0.88)
+      : this.add.circle(0, -15, 16, kind === "energy" ? 0xf6c85f : accent, 0.24).setStrokeStyle(2, accent, 0.56);
+    node.add(lid);
+    this.tweens.add({
+      targets: lid,
+      y: lid.y - 22,
+      angle: kind === "rare" ? -16 : 0,
+      alpha: 0,
+      duration: 360,
+      ease: "Cubic.easeOut",
+    });
+    this.tweens.add({
+      targets: node,
+      scale: 1.22,
+      alpha: 0,
+      duration: 430,
+      ease: "Cubic.easeIn",
+      onComplete: () => node.destroy(true),
+    });
+  }
+
   private showTreasureBurst(treasure: OutdoorTreasure): void {
     if (settingsSystem.effectsReduced()) return;
     const accent = this.biomeAccent(treasure.biome);
-    for (let i = 0; i < 10; i += 1) {
-      const angle = (Math.PI * 2 * i) / 10;
-      const spark = this.add.circle(treasure.x, treasure.y - 6, 4, i % 2 === 0 ? accent : 0xf6c85f, 0.9).setDepth(30 + treasure.y / 10000);
+    const kind = this.treasureKind(treasure);
+    const count = kind === "rare" ? 18 : kind === "energy" ? 13 : 10;
+    for (let i = 0; i < count; i += 1) {
+      const angle = (Math.PI * 2 * i) / count;
+      const color = kind === "energy" ? (i % 2 === 0 ? 0xf6c85f : 0x8fe0a4) : kind === "rare" ? (i % 3 === 0 ? 0xffffff : 0xffd27a) : (i % 2 === 0 ? accent : 0xc7b8ff);
+      const spark = this.add.circle(treasure.x, treasure.y - 6, kind === "rare" ? 5 : 4, color, 0.9).setDepth(30 + treasure.y / 10000);
       this.tweens.add({
         targets: spark,
-        x: treasure.x + Math.cos(angle) * Phaser.Math.Between(34, 74),
-        y: treasure.y - 6 + Math.sin(angle) * Phaser.Math.Between(24, 62),
+        x: treasure.x + Math.cos(angle) * Phaser.Math.Between(34, kind === "rare" ? 96 : 74),
+        y: treasure.y - 6 + Math.sin(angle) * Phaser.Math.Between(24, kind === "rare" ? 78 : 62),
         alpha: 0,
         scale: 0.2,
-        duration: 540,
+        duration: kind === "rare" ? 720 : 540,
         ease: "Cubic.easeOut",
         onComplete: () => spark.destroy(),
       });
@@ -1516,9 +1844,16 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }
     this.radar.lineStyle(2, 0xf5fbff, 0.86);
     this.radar.strokeRoundedRect(x0 + 58 + STREAM_RADIUS * size - 1, y0 + 50 + STREAM_RADIUS * size - 1, size - 3, size - 3, 4);
+    this.radar.fillStyle(0xf6c85f, 0.94);
+    this.radar.fillCircle(x0 + 22, y0 + 116, 4);
+    this.radar.fillStyle(0xc7b8ff, 0.9);
+    this.radar.fillCircle(x0 + 84, y0 + 116, 4);
+    this.radar.lineStyle(1, 0x9fb6c2, 0.26);
+    this.radar.lineBetween(x0 + 14, y0 + 128, x0 + 176, y0 + 128);
     this.biomeText?.setText(active ? BIOME_LABELS[active.biome] : "Zona");
     this.biomeText?.setColor(`#${accent.toString(16).padStart(6, "0")}`);
     this.coordText?.setText(`chunk ${current.x}:${current.y}`);
+    this.radarLegendText?.setText("incontri    tesori");
   }
 
   private updateObjectiveGuide(): void {

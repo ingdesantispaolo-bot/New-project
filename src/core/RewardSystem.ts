@@ -100,6 +100,18 @@ class RewardSystem {
     return bought;
   }
 
+  unlockReward(id: string): boolean {
+    const cosmetic = this.find(id);
+    if (!cosmetic || this.owned(id)) return false;
+    const unlocked = saveSystem.unlockCosmetic(id);
+    if (unlocked && (cosmetic.slot === "upgrade" || cosmetic.slot === "decor")) {
+      saveSystem.addInventoryItem(id);
+    } else if (unlocked) {
+      saveSystem.equipCosmetic(cosmetic.slot, id);
+    }
+    return unlocked;
+  }
+
   equip(id: string): void {
     const cosmetic = this.find(id);
     if (!cosmetic || !this.owned(id)) return;

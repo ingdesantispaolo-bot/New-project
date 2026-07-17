@@ -18,12 +18,30 @@ type CombatQuestion = {
   subject: string;
 };
 
+type OutdoorBounty = {
+  id: string;
+  title: string;
+  description: string;
+  current: number;
+  target: number;
+  energy: number;
+  fragments: number;
+};
+
 const BIOME_LABELS: Record<OutdoorBiome, string> = {
   academy: "Radura Accademia",
   ruins: "Rovine",
   geo: "Geografia",
   logic: "Logica",
 };
+
+const FORGE_REWARDS: Array<{ id: string; fragmentCost: number; guardianWins?: number }> = [
+  { id: "accessory-halo", fragmentCost: 45 },
+  { id: "avatar-shadow", fragmentCost: 80, guardianWins: 1 },
+  { id: "pet-luma", fragmentCost: 110, guardianWins: 1 },
+  { id: "avatar-astral", fragmentCost: 145, guardianWins: 2 },
+  { id: "pet-codex", fragmentCost: 190, guardianWins: 3 },
+];
 
 export class OutdoorAdventureScene extends Phaser.Scene {
   private map!: OutdoorAdventureMap;
@@ -39,6 +57,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private prompt!: Phaser.GameObjects.Container;
   private promptText!: Phaser.GameObjects.Text;
   private activeEncounter?: OutdoorEncounter;
+  private energyText?: Phaser.GameObjects.Text;
+  private progressText?: Phaser.GameObjects.Text;
+  private fragmentText?: Phaser.GameObjects.Text;
   private readonly onE = (): void => this.tryInteract();
 
   constructor() {
@@ -46,8 +67,10 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   create(): void {
+    saveSystem.load();
     const daySeed = new Date().toISOString().slice(0, 10);
     this.map = generateOutdoorAdventureMap(`outdoor-${daySeed}-${rewardSystem.playerLevel()}`);
+    this.completed = new Set(saveSystem.outdoorAdventure.completedEncounterIds);
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
     this.cameras.main.setBackgroundColor("#071018");
     this.drawWorld();
@@ -162,6 +185,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const patch = this.map.patches.find((candidate) => candidate.id === encounter.biome);
     const accent = patch?.accent ?? 0x6be7d6;
     const c = this.add.container(encounter.x, encounter.y).setDepth(8 + encounter.y / 10000);
+    const done = this.completed.has(encounter.id);
     c.add(this.add.circle(0, 0, encounter.kind === "guardian" ? 34 : 25, 0x061019, 0.94).setStrokeStyle(3, accent, 0.9));
     c.add(this.add.circle(0, 0, encounter.kind === "guardian" ? 17 : 11, accent, 0.78));
     c.add(this.add.text(0, 48, encounter.label, {
@@ -172,10 +196,20 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       align: "center",
       wordWrap: { width: 142 },
     }).setOrigin(0.5, 0));
-    const hit = this.add.circle(0, 0, 48, 0x000000, 0.001).setInteractive({ useHandCursor: true });
-    hit.on("pointerup", () => this.startEncounter(encounter));
-    c.add(hit);
-    if (!settingsSystem.effectsReduced()) {
+    if (done) {
+      c.add(this.add.text(0, 0, "OK", {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#8ff6c0",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      c.setAlpha(0.36);
+    } else {
+      const hit = this.add.circle(0, 0, 48, 0x000000, 0.001).setInteractive({ useHandCursor: true });
+      hit.on("pointerup", () => this.startEncounter(encounter));
+      c.add(hit);
+    }
+    if (!done && !settingsSystem.effectsReduced()) {
       this.tweens.add({ targets: c, y: encounter.y - 8, duration: 1400 + encounter.difficulty * 120, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
     }
     this.encounterNodes.set(encounter.id, c);
@@ -230,7 +264,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private drawHud(): void {
     const hud = this.add.container(0, 0).setDepth(120).setScrollFactor(0);
-    hud.add(this.add.rectangle(18, 16, 360, 78, 0x061019, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.42));
+    hud.add(this.add.rectangle(18, 16, 360, 96, 0x061019, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.42));
     hud.add(this.add.text(36, 28, "Mappa Esterna", {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
@@ -242,12 +276,43 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       fontSize: "12px",
       color: "#9fb6c2",
     }));
-    hud.add(this.add.text(1040, 24, `${rewardSystem.energy()} ⚡`, {
+    const outdoor = saveSystem.outdoorAdventure;
+    this.energyText = this.add.text(1040, 24, `${rewardSystem.energy()} ⚡`, {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
       color: "#f6c85f",
       fontStyle: "bold",
-    }).setOrigin(1, 0));
+    }).setOrigin(1, 0);
+    hud.add(this.energyText);
+    this.progressText = this.add.text(36, 84, `${this.completed.size}/${this.map.encounters.length} incontri · serie ${outdoor.currentStreak}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9ff5e9",
+      fontStyle: "bold",
+    });
+    this.fragmentText = this.add.text(1040, 54, `${outdoor.fragments} frammenti`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7b8ff",
+      fontStyle: "bold",
+    }).setOrigin(1, 0);
+    hud.add([this.progressText, this.fragmentText]);
+    new Button(this, 776, 48, "Bacheca", () => this.openBountyBoard(), {
+      width: 126,
+      height: 42,
+      fontSize: 13,
+      fill: 0x173b36,
+      stroke: 0x8fe0a4,
+      soundKey: "panelOpen",
+    }).setScrollFactor(0).setDepth(130);
+    new Button(this, 920, 48, "Forgia", () => this.openForge(), {
+      width: 112,
+      height: 42,
+      fontSize: 13,
+      fill: 0x2a1f3a,
+      stroke: 0xc7b8ff,
+      soundKey: "panelOpen",
+    }).setScrollFactor(0).setDepth(130);
     new Button(this, 1170, 48, "Menu", () => this.scene.start("MainMenuScene"), {
       width: 128,
       height: 42,
@@ -316,6 +381,315 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.startEncounter(this.activeEncounter);
   }
 
+  private openBountyBoard(): void {
+    if (this.paused) return;
+    this.paused = true;
+    const overlay = this.add.container(0, 0).setDepth(2100).setScrollFactor(0);
+    const close = (): void => {
+      overlay.destroy(true);
+      this.paused = false;
+      this.refreshHud();
+    };
+    const outdoor = saveSystem.outdoorAdventure;
+    const claimed = new Set(outdoor.claimedBountyIds ?? []);
+    const bounties = this.outdoorBounties();
+    overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
+    overlay.add(this.add.rectangle(640, 360, 720, 510, 0x07151d, 0.98).setStrokeStyle(2, 0x8fe0a4, 0.82));
+    overlay.add(this.add.rectangle(326, 138, 5, 44, 0x8fe0a4, 0.95).setOrigin(0));
+    overlay.add(this.add.text(344, 136, "Bacheca Avventura", {
+      fontFamily: "Inter, Arial",
+      fontSize: "31px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(346, 178, "Obiettivi giornalieri della mappa esterna: completali e reclama energia + frammenti.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9fb6c2",
+      wordWrap: { width: 580 },
+    }));
+    bounties.forEach((bounty, index) => {
+      this.drawBountyRow(overlay, bounty, claimed.has(bounty.id), 356, 232 + index * 82, () => {
+        overlay.destroy(true);
+        this.paused = false;
+        this.openBountyBoard();
+      });
+    });
+    overlay.add(new Button(this, 640, 610, "Chiudi", close, {
+      width: 180,
+      height: 44,
+      fill: 0x263743,
+    }));
+  }
+
+  private outdoorBounties(): OutdoorBounty[] {
+    const outdoor = saveSystem.outdoorAdventure;
+    return [
+      {
+        id: "clear-3",
+        title: "Ricognizione esterna",
+        description: "Supera tre incontri sulla mappa di oggi.",
+        current: Math.min(this.completed.size, 3),
+        target: 3,
+        energy: 35,
+        fragments: 8,
+      },
+      {
+        id: "streak-2",
+        title: "Serie pulita",
+        description: "Vinci due incontri consecutivi senza ritirata.",
+        current: Math.min(outdoor.currentStreak, 2),
+        target: 2,
+        energy: 30,
+        fragments: 8,
+      },
+      {
+        id: "guardian-day",
+        title: "Guardiano del giorno",
+        description: "Sconfiggi il guardiano prismatico della mappa.",
+        current: Math.min(outdoor.guardianWinsToday ?? 0, 1),
+        target: 1,
+        energy: 60,
+        fragments: 16,
+      },
+      {
+        id: "full-map",
+        title: "Giro completo",
+        description: "Ripulisci tutti gli incontri generati oggi.",
+        current: Math.min(this.completed.size, this.map.encounters.length),
+        target: this.map.encounters.length,
+        energy: 95,
+        fragments: 24,
+      },
+    ];
+  }
+
+  private drawBountyRow(overlay: Phaser.GameObjects.Container, bounty: OutdoorBounty, claimed: boolean, x: number, y: number, refresh: () => void): void {
+    const done = bounty.current >= bounty.target;
+    overlay.add(this.add.rectangle(x, y, 568, 66, 0x0c1d2a, 0.95).setOrigin(0).setStrokeStyle(2, claimed ? 0x2ed889 : done ? 0xf6c85f : 0x244451, claimed ? 0.9 : 0.66));
+    overlay.add(this.add.rectangle(x, y, 4, 66, claimed ? 0x2ed889 : done ? 0xf6c85f : 0x8fe0a4, 0.95).setOrigin(0));
+    overlay.add(this.add.text(x + 20, y + 10, bounty.title, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(x + 20, y + 34, bounty.description, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9fb6c2",
+      wordWrap: { width: 330 },
+    }));
+    overlay.add(this.add.text(x + 390, y + 12, `${bounty.current}/${bounty.target}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: done ? "#f6c85f" : "#9fb6c2",
+      fontStyle: "bold",
+    }).setOrigin(0.5, 0));
+    overlay.add(this.add.text(x + 390, y + 38, `+${bounty.energy} ⚡  +${bounty.fragments} fram.`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#c7b8ff",
+      fontStyle: "bold",
+    }).setOrigin(0.5, 0));
+    if (claimed) {
+      overlay.add(this.add.text(x + 508, y + 33, "Reclamato", {
+        fontFamily: "Inter, Arial",
+        fontSize: "12px",
+        color: "#8ff6c0",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      return;
+    }
+    overlay.add(new Button(this, x + 508, y + 33, done ? "Reclama" : "In corso", () => {
+      if (!done) {
+        feedbackSystem.publish("Obiettivo non ancora completato.", "hint");
+        return;
+      }
+      if (saveSystem.claimOutdoorBounty(bounty.id, bounty.energy, bounty.fragments)) {
+        audioManager.play("shopPurchase");
+        feedbackSystem.publish(`Bacheca: +${bounty.energy} energia e +${bounty.fragments} frammenti.`, "success");
+        this.refreshHud();
+        refresh();
+      }
+    }, { width: 104, height: 34, fontSize: 12, fill: done ? 0x173b36 : 0x1a252e, stroke: done ? 0x8fe0a4 : 0x6a638d, soundKey: done ? "shopPurchase" : "shopLocked" }));
+  }
+
+  private openForge(): void {
+    if (this.paused) return;
+    this.paused = true;
+    const overlay = this.add.container(0, 0).setDepth(2100).setScrollFactor(0);
+    const close = (): void => {
+      overlay.destroy(true);
+      this.paused = false;
+      this.refreshHud();
+    };
+    const outdoor = saveSystem.outdoorAdventure;
+    overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
+    overlay.add(this.add.rectangle(640, 360, 760, 584, 0x07151d, 0.98).setStrokeStyle(2, 0xc7b8ff, 0.82));
+    overlay.add(this.add.rectangle(286, 102, 5, 46, 0xc7b8ff, 0.95).setOrigin(0));
+    overlay.add(this.add.text(304, 102, "Forgia dei Frammenti", {
+      fontFamily: "Inter, Arial",
+      fontSize: "32px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(306, 144, `${outdoor.fragments} frammenti disponibili · guardiani vinti ${outdoor.guardianWins}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#c7b8ff",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(304, 170, "Ricompense rare della Mappa Esterna: si sbloccano con frammenti e restano equipaggiabili nell'Armadio.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#9fb6c2",
+      wordWrap: { width: 640 },
+    }));
+
+    FORGE_REWARDS.forEach((entry, index) => {
+      const item = rewardSystem.find(entry.id);
+      if (!item) return;
+      this.drawForgeCard(overlay, item, entry.fragmentCost, entry.guardianWins ?? 0, 316, 220 + index * 74, () => {
+        overlay.destroy(true);
+        this.paused = false;
+        this.openForge();
+      });
+    });
+    overlay.add(new Button(this, 640, 650, "Chiudi", close, {
+      width: 180,
+      height: 44,
+      fill: 0x263743,
+    }));
+  }
+
+  private drawForgeCard(
+    overlay: Phaser.GameObjects.Container,
+    item: Cosmetic,
+    fragmentCost: number,
+    guardianWins: number,
+    x: number,
+    y: number,
+    refresh: () => void,
+  ): void {
+    const outdoor = saveSystem.outdoorAdventure;
+    const owned = rewardSystem.owned(item.id);
+    const levelOk = rewardSystem.playerLevel() >= (item.minLevel ?? 1);
+    const guardianOk = outdoor.guardianWins >= guardianWins;
+    const fragmentsOk = outdoor.fragments >= fragmentCost;
+    const canForge = !owned && levelOk && guardianOk && fragmentsOk;
+    const accent = item.color ?? 0xc7b8ff;
+    overlay.add(this.add.rectangle(x, y, 648, 62, 0x0c1d2a, 0.95).setOrigin(0).setStrokeStyle(2, owned ? 0x2ed889 : accent, owned ? 0.86 : 0.54));
+    overlay.add(this.add.rectangle(x, y, 4, 62, owned ? 0x2ed889 : accent, 0.94).setOrigin(0));
+    this.drawForgeIcon(overlay, item, x + 36, y + 31);
+    overlay.add(this.add.text(x + 76, y + 12, item.name, {
+      fontFamily: "Inter, Arial",
+      fontSize: "16px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }));
+    overlay.add(this.add.text(x + 76, y + 36, item.description, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9fb6c2",
+      wordWrap: { width: 340 },
+    }));
+    const req = [
+      `${fragmentCost} frammenti`,
+      item.minLevel ? `Liv. ${item.minLevel}` : "",
+      guardianWins > 0 ? `${guardianWins} guardiani` : "",
+    ].filter(Boolean).join(" · ");
+    overlay.add(this.add.text(x + 468, y + 12, req, {
+      fontFamily: "Inter, Arial",
+      fontSize: "10px",
+      color: "#c7b8ff",
+      fontStyle: "bold",
+      align: "right",
+      wordWrap: { width: 142 },
+    }).setOrigin(1, 0));
+    if (owned) {
+      overlay.add(new Button(this, x + 560, y + 31, rewardSystem.isEquipped(item.id) ? "In uso" : "Equip", () => {
+        rewardSystem.equip(item.id);
+        audioManager.play(item.slot === "pet" ? "petEquip" : "shopEquip");
+        refresh();
+      }, { width: 112, height: 34, fontSize: 12, fill: 0x173b36, stroke: 0x2ed889 }));
+      return;
+    }
+    const label = !levelOk ? `Liv. ${item.minLevel}` : !guardianOk ? "Guardiani" : !fragmentsOk ? "Frammenti" : "Forgiare";
+    overlay.add(new Button(this, x + 560, y + 31, label, () => {
+      if (!canForge) {
+        feedbackSystem.publish("La Forgia richiede più frammenti, livello o guardiani superati.", "warning");
+        return;
+      }
+      if (!saveSystem.spendOutdoorFragments(fragmentCost)) return;
+      rewardSystem.unlockReward(item.id);
+      this.refreshHud();
+      this.showForgeReveal(item, refresh);
+    }, { width: 112, height: 34, fontSize: 12, fill: canForge ? 0x2a1f3a : 0x1a252e, stroke: canForge ? 0xc7b8ff : 0x6a638d, soundKey: canForge ? "shopPurchase" : "shopLocked" }));
+  }
+
+  private drawForgeIcon(layer: Phaser.GameObjects.Container, item: Cosmetic, x: number, y: number): void {
+    if (this.textures.exists("reward-items") && this.textures.getFrame("reward-items", item.id)) {
+      layer.add(this.add.image(x, y, "reward-items", item.id).setDisplaySize(44, 44));
+      return;
+    }
+    layer.add(this.add.circle(x, y, 22, 0x061019, 0.95).setStrokeStyle(2, item.color ?? 0xc7b8ff, 0.9));
+    layer.add(this.add.text(x, y - 1, item.glyph ?? "*", {
+      fontFamily: "Inter, Arial",
+      fontSize: "18px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+  }
+
+  private showForgeReveal(item: Cosmetic, onClose: () => void): void {
+    const reveal = this.add.container(0, 0).setDepth(2300).setScrollFactor(0);
+    reveal.add(this.add.rectangle(640, 360, 1280, 720, 0x010407, 0.92).setInteractive());
+    reveal.add(this.add.rectangle(640, 360, 520, 430, 0x07151d, 0.98).setStrokeStyle(3, item.color ?? 0xffd75e, 0.92));
+    reveal.add(this.add.text(640, 202, "FORGIATURA COMPLETA", {
+      fontFamily: "Inter, Arial",
+      fontSize: "24px",
+      color: "#ffd75e",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    reveal.add(this.add.text(640, 238, item.name, {
+      fontFamily: "Inter, Arial",
+      fontSize: "32px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    if (this.textures.exists("soft-glow")) {
+      reveal.add(this.add.image(640, 342, "soft-glow").setTint(item.color ?? 0xffd75e).setAlpha(0.28).setScale(2));
+    }
+    this.drawForgeIcon(reveal, item, 640, 342);
+    reveal.add(this.add.text(640, 420, "L'oggetto è stato sbloccato ed equipaggiato. Lo ritrovi anche nell'Armadio Avatar.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "14px",
+      color: "#cfe3ec",
+      align: "center",
+      wordWrap: { width: 410 },
+    }).setOrigin(0.5));
+    if (!settingsSystem.effectsReduced()) {
+      for (let i = 0; i < 14; i += 1) {
+        const angle = (Math.PI * 2 * i) / 14;
+        const spark = this.add.circle(640, 342, 4, i % 2 === 0 ? item.color ?? 0xffd75e : 0xffffff, 0.9);
+        reveal.add(spark);
+        this.tweens.add({
+          targets: spark,
+          x: 640 + Math.cos(angle) * Phaser.Math.Between(88, 156),
+          y: 342 + Math.sin(angle) * Phaser.Math.Between(70, 128),
+          alpha: 0,
+          duration: 760,
+          ease: "Cubic.easeOut",
+        });
+      }
+    }
+    reveal.add(new Button(this, 640, 520, "Torna alla Forgia", () => {
+      reveal.destroy(true);
+      onClose();
+    }, { width: 210, height: 44, fontSize: 14, fill: 0x173b36, stroke: item.color ?? 0xffd75e }));
+  }
+
   private startEncounter(encounter: OutdoorEncounter): void {
     if (this.paused || this.completed.has(encounter.id)) return;
     this.paused = true;
@@ -346,7 +720,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
     let round = 0;
     let correct = 0;
-    let playerShield = 3;
+    let playerShield = this.playerShieldFor(encounter);
     let enemyShield = encounter.kind === "guardian" ? 4 : 3;
     const panel = this.add.container(0, 0);
     overlay.add(panel);
@@ -377,7 +751,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         panel.add(new Button(this, x, y, option, () => {
           if (option === question.correct) {
             correct += 1;
-            enemyShield -= 1 + (rewardSystem.equippedId("emblem") === "emblem-bolt" ? 1 : 0);
+            enemyShield -= this.playerDamageBonus();
             audioManager.play("success");
             this.flashStrike(arena, 360, 266, 920, 266, 0xf6c85f);
           } else {
@@ -396,11 +770,14 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private finishCombat(overlay: Phaser.GameObjects.Container, encounter: OutdoorEncounter, correct: number, victory: boolean): void {
     const reward = Math.max(6, (victory ? encounter.reward : 8) + correct * 10);
+    const fragments = this.fragmentReward(encounter, correct, victory);
     const varietyBonuses = saveSystem.recordDailyEnergySubject(`Avventura ${this.subjectFor(encounter.kind)}`);
     const bonus = varietyBonuses.reduce((sum, item) => sum + item.amount, 0);
     saveSystem.addEnergy(reward + bonus);
+    const outdoor = saveSystem.recordOutdoorEncounter(encounter.id, victory, fragments, encounter.kind === "guardian");
     this.completed.add(encounter.id);
     this.markEncounterDone(encounter);
+    this.refreshHud();
     overlay.removeAll(true);
     overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
     overlay.add(this.add.rectangle(640, 360, 560, 360, 0x07151d, 0.98).setStrokeStyle(2, victory ? 0x2ed889 : 0xf6c85f, 0.9));
@@ -410,7 +787,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       color: victory ? "#8ff6c0" : "#f6c85f",
       fontStyle: "bold",
     }).setOrigin(0.5));
-    overlay.add(this.add.text(640, 316, `${correct}/3 colpi precisi · +${reward + bonus} energia`, {
+    overlay.add(this.add.text(640, 316, `${correct}/3 colpi precisi · +${reward + bonus} energia · +${fragments} frammenti`, {
       fontFamily: "Inter, Arial",
       fontSize: "18px",
       color: "#f5fbff",
@@ -425,6 +802,13 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         wordWrap: { width: 440 },
       }).setOrigin(0.5));
     }
+    overlay.add(this.add.text(640, 382, `Mappa oggi: ${outdoor.completedEncounterIds.length}/${this.map.encounters.length} · serie migliore ${outdoor.bestStreak} · guardiani ${outdoor.guardianWins}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: "#c7b8ff",
+      align: "center",
+      wordWrap: { width: 470 },
+    }).setOrigin(0.5));
     overlay.add(new Button(this, 640, 436, "Torna alla mappa", () => {
       overlay.destroy(true);
       this.paused = false;
@@ -476,6 +860,35 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     if (!node) return;
     node.setAlpha(0.32);
     node.disableInteractive();
+  }
+
+  private refreshHud(): void {
+    const outdoor = saveSystem.outdoorAdventure;
+    this.energyText?.setText(`${rewardSystem.energy()} ⚡`);
+    this.progressText?.setText(`${this.completed.size}/${this.map.encounters.length} incontri · serie ${outdoor.currentStreak}`);
+    this.fragmentText?.setText(`${outdoor.fragments} frammenti`);
+  }
+
+  private playerShieldFor(encounter: OutdoorEncounter): number {
+    let shield = encounter.kind === "guardian" ? 4 : 3;
+    const outfit = rewardSystem.equippedId("avatar");
+    const pet = rewardSystem.equippedId("pet");
+    if (outfit === "avatar-captain" || outfit === "avatar-engineer") shield += 1;
+    if (pet === "pet-guardiano") shield += 1;
+    return shield;
+  }
+
+  private playerDamageBonus(): number {
+    let damage = 1;
+    if (rewardSystem.equippedId("emblem") === "emblem-bolt") damage += 1;
+    if (rewardSystem.equippedId("accessory") === "accessory-visor" && damage === 1) damage += 1;
+    return damage;
+  }
+
+  private fragmentReward(encounter: OutdoorEncounter, correct: number, victory: boolean): number {
+    const base = victory ? encounter.difficulty + (encounter.kind === "guardian" ? 4 : 1) : 1;
+    const codexBonus = rewardSystem.equippedId("pet") === "pet-codex" ? 2 : 0;
+    return Math.max(1, base + correct + codexBonus);
   }
 
   private biomeAccent(biome: OutdoorBiome): number {

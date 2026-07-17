@@ -81,6 +81,26 @@ export type SaveData = {
     level?: number;
     bestByLevel?: Record<string, Record<string, number>>;
   };
+  /** Optional outdoor adventure loop: daily encounter clears + long-term fragments. */
+  outdoorAdventure?: {
+    /** YYYY-MM-DD of the current outdoor map completion state. */
+    date: string;
+    /** Encounters cleared on today's generated outdoor map. */
+    completedEncounterIds: string[];
+    /** Long-term materials earned from outdoor battles, for future rare unlocks. */
+    fragments: number;
+    /** Lifetime guardian victories in the outdoor map. */
+    guardianWins: number;
+    /** Guardian victories on today's generated outdoor map. */
+    guardianWinsToday?: number;
+    /** Best consecutive victory streak in outdoor encounters. */
+    bestStreak: number;
+    /** Current daily consecutive victory streak. */
+    currentStreak: number;
+    /** Daily adventure bounty ids already claimed. */
+    claimedBountyIds?: string[];
+    lastPlayedAt?: string;
+  };
   greenhouseRun?: GreenhouseRunSave;
   numberFactoryRun?: NumberFactoryRunSave;
   /** Daily loop: refreshing session goals + play streak. */

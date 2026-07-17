@@ -55,6 +55,7 @@ export class SaveSystem {
         trainingRecords: parsed.trainingRecords ?? {},
         learningMemory: parsed.learningMemory ?? {},
         masteryAutonomy: parsed.masteryAutonomy ?? {},
+        outdoorAdventure: this.normalizeOutdoorAdventure(parsed.outdoorAdventure),
         greenhouseRun: parsed.greenhouseRun,
         numberFactoryRun: parsed.numberFactoryRun,
       };
@@ -252,6 +253,53 @@ export class SaveSystem {
     return bonuses;
   }
 
+  get outdoorAdventure(): NonNullable<SaveData["outdoorAdventure"]> {
+    this.saveData.outdoorAdventure = this.normalizeOutdoorAdventure(this.saveData.outdoorAdventure);
+    return this.saveData.outdoorAdventure!;
+  }
+
+  recordOutdoorEncounter(encounterId: string, victory: boolean, fragments: number, guardian = false): NonNullable<SaveData["outdoorAdventure"]> {
+    const outdoor = this.outdoorAdventure;
+    if (!outdoor.completedEncounterIds.includes(encounterId)) {
+      outdoor.completedEncounterIds.push(encounterId);
+    }
+    outdoor.fragments += Math.max(0, fragments);
+    outdoor.currentStreak = victory ? outdoor.currentStreak + 1 : 0;
+    outdoor.bestStreak = Math.max(outdoor.bestStreak, outdoor.currentStreak);
+    if (victory && guardian) {
+      outdoor.guardianWins += 1;
+      outdoor.guardianWinsToday = (outdoor.guardianWinsToday ?? 0) + 1;
+    }
+    outdoor.lastPlayedAt = new Date().toISOString();
+    this.persist();
+    return outdoor;
+  }
+
+  claimOutdoorBounty(id: string, energy: number, fragments: number): boolean {
+    const outdoor = this.outdoorAdventure;
+    outdoor.claimedBountyIds = outdoor.claimedBountyIds ?? [];
+    if (outdoor.claimedBountyIds.includes(id)) return false;
+    outdoor.claimedBountyIds.push(id);
+    outdoor.fragments += Math.max(0, fragments);
+    if (energy > 0) {
+      const rewards = this.rewards;
+      rewards.energy += energy;
+      rewards.earned += energy;
+      EventBus.emit(GameEvents.RewardsChanged, rewards);
+    }
+    this.persist();
+    return true;
+  }
+
+  spendOutdoorFragments(amount: number): boolean {
+    if (amount <= 0) return false;
+    const outdoor = this.outdoorAdventure;
+    if (outdoor.fragments < amount) return false;
+    outdoor.fragments -= amount;
+    this.persist();
+    return true;
+  }
+
   /** Grants a one-time energy bonus the first time all today's objectives are done. */
   claimDailyIfComplete(bonus = this.dailyRewardAmount()): number {
     this.rolloverDaily();
@@ -272,6 +320,15 @@ export class SaveSystem {
     const rewards = this.rewards;
     if (rewards.unlocked.includes(id) || rewards.energy < cost) return false;
     rewards.energy -= cost;
+    rewards.unlocked.push(id);
+    this.persist();
+    EventBus.emit(GameEvents.RewardsChanged, rewards);
+    return true;
+  }
+
+  unlockCosmetic(id: string): boolean {
+    const rewards = this.rewards;
+    if (rewards.unlocked.includes(id)) return false;
     rewards.unlocked.push(id);
     this.persist();
     EventBus.emit(GameEvents.RewardsChanged, rewards);
@@ -555,6 +612,23 @@ export class SaveSystem {
       trainingRecords: {},
       learningMemory: {},
       masteryAutonomy: {},
+      outdoorAdventure: this.normalizeOutdoorAdventure(),
+    };
+  }
+
+  private normalizeOutdoorAdventure(outdoor?: SaveData["outdoorAdventure"]): NonNullable<SaveData["outdoorAdventure"]> {
+    const today = this.todayKey();
+    const sameDay = outdoor?.date === today;
+    return {
+      date: today,
+      completedEncounterIds: sameDay ? outdoor?.completedEncounterIds ?? [] : [],
+      fragments: Math.max(0, outdoor?.fragments ?? 0),
+      guardianWins: Math.max(0, outdoor?.guardianWins ?? 0),
+      guardianWinsToday: sameDay ? Math.max(0, outdoor?.guardianWinsToday ?? 0) : 0,
+      bestStreak: Math.max(0, outdoor?.bestStreak ?? 0),
+      currentStreak: sameDay ? Math.max(0, outdoor?.currentStreak ?? 0) : 0,
+      claimedBountyIds: sameDay ? outdoor?.claimedBountyIds ?? [] : [],
+      lastPlayedAt: outdoor?.lastPlayedAt,
     };
   }
 

@@ -469,6 +469,20 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     });
   }
 
+  private beginMapOverlay(depth: number): Phaser.GameObjects.Container {
+    this.cameras.main.stopFollow();
+    this.cameras.main.setScroll(0, 0);
+    return this.add.container(0, 0).setDepth(depth).setScrollFactor(0);
+  }
+
+  private closeMapOverlay(overlay: Phaser.GameObjects.Container, afterClose?: () => void): void {
+    if (!overlay.active) return;
+    overlay.destroy(true);
+    this.paused = false;
+    this.cameras.main.startFollow(this.avatar, true, 0.12, 0.12);
+    afterClose?.();
+  }
+
   private destroyChunkObject(object: Phaser.GameObjects.GameObject): void {
     this.tweens.killTweensOf(object);
     if (object instanceof Phaser.GameObjects.Container) {
@@ -1713,7 +1727,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const night = hazard.activeIn === "night";
     audioManager.play(night ? "error" : "panelOpen");
 
-    const overlay = this.add.container(0, 0).setDepth(2100).setScrollFactor(0);
+    const overlay = this.beginMapOverlay(2100);
     overlay.add(this.add.rectangle(640, 360, 1280, 720, night ? 0x01030e : 0x02070b, night ? 0.9 : 0.82).setInteractive());
     overlay.add(this.add.rectangle(640, 360, 720, 470, night ? 0x07101f : 0x07151d, 0.98).setStrokeStyle(2, accent, night ? 0.96 : 0.72));
     overlay.add(this.add.text(640, 142, night ? "Pericolo notturno" : "Pericolo diurno", {
@@ -1766,11 +1780,19 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         align: "center",
         wordWrap: { width: 520 },
       }).setOrigin(0.5));
-      panel.add(new Button(this, 640, 456, "Torna alla mappa", () => {
-        overlay.destroy(true);
-        this.paused = false;
+      const close = (): void => {
+        this.closeMapOverlay(overlay);
         this.lastHazardHitAt = this.time.now;
-      }, { width: 220, height: 46, fontSize: 15, fill: night ? 0x2a1f3a : 0x173b36, stroke: accent }));
+      };
+      panel.add(new Button(this, 640, 456, "Torna alla mappa", close, { width: 220, height: 46, fontSize: 15, fill: night ? 0x2a1f3a : 0x173b36, stroke: accent }));
+      panel.add(this.add.text(640, 500, "Invio / Spazio per tornare alla mappa", {
+        fontFamily: "Inter, Arial",
+        fontSize: "11px",
+        color: "#9fb6c2",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      this.input.keyboard?.once("keydown-ENTER", close);
+      this.input.keyboard?.once("keydown-SPACE", close);
     };
 
     panel.add(this.add.text(640, 268, question.prompt, {
@@ -2045,11 +2067,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private openBountyBoard(): void {
     if (this.paused) return;
     this.paused = true;
-    const overlay = this.add.container(0, 0).setDepth(2100).setScrollFactor(0);
+    const overlay = this.beginMapOverlay(2100);
     const close = (): void => {
-      overlay.destroy(true);
-      this.paused = false;
-      this.refreshHud();
+      this.closeMapOverlay(overlay, () => this.refreshHud());
     };
     const outdoor = saveSystem.outdoorAdventure;
     const claimed = new Set(outdoor.claimedBountyIds ?? []);
@@ -2071,8 +2091,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }));
     bounties.forEach((bounty, index) => {
       this.drawBountyRow(overlay, bounty, claimed.has(bounty.id), 356, 224 + index * 76, () => {
-        overlay.destroy(true);
-        this.paused = false;
+        this.closeMapOverlay(overlay);
         this.openBountyBoard();
       });
     });
@@ -2188,11 +2207,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private openForge(): void {
     if (this.paused) return;
     this.paused = true;
-    const overlay = this.add.container(0, 0).setDepth(2100).setScrollFactor(0);
+    const overlay = this.beginMapOverlay(2100);
     const close = (): void => {
-      overlay.destroy(true);
-      this.paused = false;
-      this.refreshHud();
+      this.closeMapOverlay(overlay, () => this.refreshHud());
     };
     const outdoor = saveSystem.outdoorAdventure;
     overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.9).setInteractive());
@@ -2221,8 +2238,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       const item = rewardSystem.find(entry.id);
       if (!item) return;
       this.drawForgeCard(overlay, item, entry.fragmentCost, entry.guardianWins ?? 0, 316, 220 + index * 74, () => {
-        overlay.destroy(true);
-        this.paused = false;
+        this.closeMapOverlay(overlay);
         this.openForge();
       });
     });
@@ -2369,7 +2385,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   private runCombat(encounter: OutdoorEncounter): void {
-    const overlay = this.add.container(0, 0).setDepth(2000).setScrollFactor(0);
+    const overlay = this.beginMapOverlay(2000);
     overlay.add(this.add.rectangle(640, 360, 1280, 720, 0x02070b, 0.88).setInteractive());
     overlay.add(this.add.rectangle(640, 360, 780, 560, 0x07151d, 0.98).setStrokeStyle(2, this.biomeAccent(encounter.biome), 0.82));
     overlay.add(this.add.text(640, 116, encounter.enemy, {
@@ -2481,11 +2497,31 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       align: "center",
       wordWrap: { width: 470 },
     }).setOrigin(0.5));
-    overlay.add(new Button(this, 640, 436, "Torna alla mappa", () => {
-      overlay.destroy(true);
-      this.paused = false;
-      feedbackSystem.publish(`Energia avventura guadagnata: +${reward + bonus}`, "success");
-    }, { width: 220, height: 46, fontSize: 15, fill: 0x173b36, stroke: victory ? 0x2ed889 : 0xf6c85f }));
+    const close = (): void => {
+      this.closeMapOverlay(overlay, () => {
+        feedbackSystem.publish(`Energia avventura guadagnata: +${reward + bonus}`, "success");
+      });
+    };
+    overlay.add(new Button(this, 640, 436, "Torna alla mappa", close, {
+      width: 220,
+      height: 46,
+      fontSize: 15,
+      fill: 0x173b36,
+      stroke: victory ? 0x2ed889 : 0xf6c85f,
+    }));
+    const hint = this.add.text(640, 482, "Invio / Spazio per tornare alla mappa", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#9fb6c2",
+      fontStyle: "bold",
+    }).setOrigin(0.5);
+    overlay.add(hint);
+    const closeFromKeyboard = (): void => {
+      if (!overlay.active) return;
+      close();
+    };
+    this.input.keyboard?.once("keydown-ENTER", closeFromKeyboard);
+    this.input.keyboard?.once("keydown-SPACE", closeFromKeyboard);
   }
 
   private drawCombatAvatar(parent: Phaser.GameObjects.Container, x: number, y: number): void {

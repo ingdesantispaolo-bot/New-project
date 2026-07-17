@@ -317,6 +317,15 @@ export class SaveSystem {
     return true;
   }
 
+  grantOutdoorFragments(amount: number): NonNullable<SaveData["outdoorAdventure"]> {
+    const outdoor = this.outdoorAdventure;
+    if (amount <= 0) return outdoor;
+    outdoor.fragments += amount;
+    outdoor.lastPlayedAt = new Date().toISOString();
+    this.persist();
+    return outdoor;
+  }
+
   /** Grants a one-time energy bonus the first time all today's objectives are done. */
   claimDailyIfComplete(bonus = this.dailyRewardAmount()): number {
     this.rolloverDaily();

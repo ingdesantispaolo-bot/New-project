@@ -8,6 +8,7 @@ import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { settingsSystem } from "../core/SettingsSystem";
 import { type OutdoorAdventureMap, type OutdoorBiome, type OutdoorEncounter, type OutdoorEncounterKind, type OutdoorLandmark, type OutdoorObstacle, type OutdoorProp, type OutdoorTreasure } from "../procedural/OutdoorAdventureGenerator";
 import { generateOutdoorChunk, OUTDOOR_CHUNK_SIZE, type OutdoorChunk } from "../procedural/OutdoorChunkGenerator";
+import { generateOutdoorHazardsForChunk, isOutdoorHazardActive, outdoorHazardDifficulty, outdoorHazardReward, OUTDOOR_PHASE_LABELS, phaseForOutdoorTime, type OutdoorDayPhase, type OutdoorHazard } from "../procedural/OutdoorDayNight";
 import { Button } from "../ui/Button";
 
 type Dir = "down" | "up" | "left" | "right";
@@ -101,6 +102,11 @@ type ActiveOutdoorChunk = {
   objects: Phaser.GameObjects.GameObject[];
 };
 
+type ActiveOutdoorHazard = {
+  hazard: OutdoorHazard;
+  node: Phaser.GameObjects.Container;
+};
+
 export class OutdoorAdventureScene extends Phaser.Scene {
   private map!: OutdoorAdventureMap;
   private worldSeed = "";
@@ -117,6 +123,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private currentChunkId = "";
   private encounterNodes = new Map<string, Phaser.GameObjects.Container>();
   private treasureNodes = new Map<string, Phaser.GameObjects.Container>();
+  private hazardNodes = new Map<string, ActiveOutdoorHazard>();
+  private clearedHazards = new Set<string>();
   private prompt!: Phaser.GameObjects.Container;
   private promptText!: Phaser.GameObjects.Text;
   private activeEncounter?: OutdoorEncounter;
@@ -127,6 +135,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private biomeText?: Phaser.GameObjects.Text;
   private coordText?: Phaser.GameObjects.Text;
   private radarLegendText?: Phaser.GameObjects.Text;
+  private dayPhaseText?: Phaser.GameObjects.Text;
+  private dayNightOverlay?: Phaser.GameObjects.Graphics;
   private radar?: Phaser.GameObjects.Graphics;
   private guideGraphics?: Phaser.GameObjects.Graphics;
   private guideText?: Phaser.GameObjects.Text;
@@ -134,6 +144,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private biomeBanner?: Phaser.GameObjects.Container;
   private ambientMotes: Phaser.GameObjects.GameObject[] = [];
   private atmosphereGraphics?: Phaser.GameObjects.Graphics;
+  private dayCycleStartedAt = 0;
+  private currentDayPhase: OutdoorDayPhase = "day";
+  private lastHazardHitAt = 0;
   private lastAmbientSparkAt = 0;
   private lastTrailAt = 0;
   private petMood: "idle" | "treasure" | "correct" = "idle";
@@ -158,10 +171,13 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.collectedTreasures = new Set(saveSystem.outdoorAdventure.collectedTreasureIds ?? []);
     this.cameras.main.setBounds(-VIRTUAL_WORLD_LIMIT, -VIRTUAL_WORLD_LIMIT, VIRTUAL_WORLD_LIMIT * 2, VIRTUAL_WORLD_LIMIT * 2);
     this.cameras.main.setBackgroundColor("#071018");
+    this.dayCycleStartedAt = this.time.now;
     this.syncOutdoorChunks(true);
     this.buildAvatar();
     this.buildPrompt();
+    this.buildDayNightLayer();
     this.drawHud();
+    this.updateDayNightCycle(true);
     this.cursors = this.input.keyboard!.createCursorKeys();
     this.keys = this.input.keyboard!.addKeys("W,A,S,D") as Record<string, Phaser.Input.Keyboard.Key>;
     this.input.keyboard!.on("keydown-E", this.onE);
@@ -176,8 +192,10 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   update(_: number, delta: number): void {
     if (this.paused) return;
+    this.updateDayNightCycle();
     this.updateMovement(delta / 1000);
     this.syncOutdoorChunks();
+    this.updateHazards();
     this.updatePet();
     this.updatePrompt();
     this.updateObjectiveGuide();
@@ -228,6 +246,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       if (wanted.has(id)) continue;
       active.chunk.encounters.forEach((encounter) => this.encounterNodes.delete(encounter.id));
       active.chunk.treasures.forEach((treasure) => this.treasureNodes.delete(treasure.id));
+      [...this.hazardNodes.entries()]
+        .filter(([, entry]) => entry.hazard.chunkId === active.chunk.id)
+        .forEach(([hazardId]) => this.hazardNodes.delete(hazardId));
       if (active.chunk.encounters.some((encounter) => encounter.id === this.activeEncounter?.id)) this.activeEncounter = undefined;
       if (active.chunk.treasures.some((treasure) => treasure.id === this.activeTreasure?.id)) this.activeTreasure = undefined;
       active.objects.forEach((object) => this.destroyChunkObject(object));
@@ -356,6 +377,67 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }
   }
 
+  private buildDayNightLayer(): void {
+    this.dayNightOverlay = this.add.graphics().setScrollFactor(0).setDepth(59);
+  }
+
+  private updateDayNightCycle(force = false): void {
+    const phase = phaseForOutdoorTime(this.time.now - this.dayCycleStartedAt);
+    if (!force && phase === this.currentDayPhase) return;
+    const previous = this.currentDayPhase;
+    this.currentDayPhase = phase;
+    this.refreshDayNightOverlay();
+    this.refreshDayPhaseHud();
+    this.refreshHazardVisibility();
+    if (!force && previous !== phase) this.playDayPhaseCue(phase);
+  }
+
+  private refreshDayNightOverlay(): void {
+    if (!this.dayNightOverlay) return;
+    const overlay = this.dayNightOverlay;
+    overlay.clear();
+    const config: Record<OutdoorDayPhase, { color: number; alpha: number; horizon: number; stars: number }> = {
+      day: { color: 0xfff1b8, alpha: 0.025, horizon: 0xf6c85f, stars: 0 },
+      dusk: { color: 0x5e346d, alpha: 0.18, horizon: 0xff8f6b, stars: 10 },
+      night: { color: 0x02071d, alpha: 0.42, horizon: 0x6b7dff, stars: 34 },
+      dawn: { color: 0xb6f5ff, alpha: 0.1, horizon: 0x8fe0a4, stars: 5 },
+    };
+    const selected = config[this.currentDayPhase];
+    overlay.fillStyle(selected.color, selected.alpha);
+    overlay.fillRect(0, 0, 1280, 720);
+    overlay.fillStyle(selected.horizon, this.currentDayPhase === "night" ? 0.08 : 0.11);
+    overlay.fillEllipse(650, 696, 1160, 112);
+    if (selected.stars <= 0) return;
+    overlay.fillStyle(0xf5fbff, this.currentDayPhase === "night" ? 0.72 : 0.28);
+    for (let index = 0; index < selected.stars; index += 1) {
+      const x = 70 + ((index * 173) % 1140);
+      const y = 72 + ((index * 89) % 420);
+      const r = index % 5 === 0 ? 1.9 : 1.15;
+      overlay.fillCircle(x, y, r);
+    }
+  }
+
+  private refreshDayPhaseHud(): void {
+    const risk = this.currentDayPhase === "night"
+      ? "pericoli forti"
+      : this.currentDayPhase === "dusk"
+        ? "ombre in arrivo"
+        : "pericoli lievi";
+    const color = this.currentDayPhase === "night" ? "#c7b8ff" : this.currentDayPhase === "dusk" ? "#ffb48f" : "#f6c85f";
+    this.dayPhaseText?.setText(`${OUTDOOR_PHASE_LABELS[this.currentDayPhase]} · ${risk}`);
+    this.dayPhaseText?.setColor(color);
+  }
+
+  private playDayPhaseCue(phase: OutdoorDayPhase): void {
+    const cues: Record<OutdoorDayPhase, Array<{ frequency: number; durationMs: number }>> = {
+      day: [{ frequency: 523, durationMs: 100 }, { frequency: 659, durationMs: 120 }],
+      dusk: [{ frequency: 330, durationMs: 120 }, { frequency: 247, durationMs: 160 }],
+      night: [{ frequency: 196, durationMs: 180 }, { frequency: 147, durationMs: 220 }],
+      dawn: [{ frequency: 392, durationMs: 100 }, { frequency: 523, durationMs: 130 }],
+    };
+    audioManager.playToneSequence(cues[phase]);
+  }
+
   private updateAmbientSparkles(): void {
     if (!this.avatar || !this.currentBiome || settingsSystem.effectsReduced()) return;
     if (this.time.now - this.lastAmbientSparkAt < 420) return;
@@ -443,6 +525,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     chunk.landmarks.forEach((landmark) => this.drawLandmark(landmark, objects));
     chunk.treasures.forEach((treasure) => this.drawTreasure(treasure, objects));
     chunk.encounters.forEach((encounter) => this.drawEncounter(encounter, objects));
+    generateOutdoorHazardsForChunk(chunk, this.worldSeed).forEach((hazard) => this.drawHazard(hazard, objects));
     return objects;
   }
 
@@ -1075,6 +1158,66 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }
   }
 
+  private drawHazard(hazard: OutdoorHazard, objects?: Phaser.GameObjects.GameObject[]): void {
+    const active = isOutdoorHazardActive(hazard, this.currentDayPhase);
+    const accent = this.hazardColor(hazard);
+    const c = this.add.container(hazard.x, hazard.y).setDepth(6.5 + hazard.y / 10000).setAlpha(active ? 0.88 : 0.18);
+    objects?.push(c);
+    const danger = hazard.activeIn === "night";
+    c.add(this.add.ellipse(0, 28, danger ? 84 : 62, danger ? 20 : 14, 0x000000, danger ? 0.34 : 0.22));
+    const aura = this.textures.exists("soft-glow")
+      ? this.add.image(0, -4, "soft-glow").setTint(accent).setAlpha(danger ? 0.24 : 0.14).setScale(danger ? 1.45 : 1)
+      : this.add.circle(0, -4, danger ? 42 : 28, accent, danger ? 0.18 : 0.1);
+    c.add(aura);
+    this.drawHazardCore(c, hazard, accent);
+    const ring = this.add.circle(0, 0, danger ? 37 : 27, 0x000000, 0).setStrokeStyle(2, accent, danger ? 0.58 : 0.34);
+    c.add(ring);
+    c.add(this.add.text(0, danger ? 50 : 42, hazard.label, {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: danger ? "#c7b8ff" : "#f7d37a",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 130 },
+    }).setOrigin(0.5, 0));
+    if (!settingsSystem.effectsReduced()) {
+      this.tweens.add({ targets: ring, scale: danger ? 1.32 : 1.18, alpha: danger ? 0.16 : 0.22, duration: danger ? 980 : 1360, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      this.tweens.add({ targets: aura, alpha: danger ? 0.38 : 0.2, scale: danger ? 1.75 : 1.16, duration: danger ? 1180 : 1550, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      if (danger) this.tweens.add({ targets: c, y: hazard.y - 7, duration: 1320, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    }
+    this.hazardNodes.set(hazard.id, { hazard, node: c });
+    c.setVisible(!this.clearedHazards.has(hazard.id));
+  }
+
+  private drawHazardCore(container: Phaser.GameObjects.Container, hazard: OutdoorHazard, accent: number): void {
+    if (hazard.kind === "day-glare") {
+      container.add(this.add.circle(0, -2, 13, 0xf6c85f, 0.88).setStrokeStyle(2, 0xffffff, 0.42));
+      for (let i = 0; i < 8; i += 1) {
+        const angle = (Math.PI * 2 * i) / 8;
+        container.add(this.add.line(0, 0, Math.cos(angle) * 18, -2 + Math.sin(angle) * 18, Math.cos(angle) * 29, -2 + Math.sin(angle) * 29, 0xf6c85f, 0.52).setOrigin(0));
+      }
+    } else if (hazard.kind === "day-dust") {
+      for (let i = 0; i < 4; i += 1) {
+        container.add(this.add.arc(0, -2, 14 + i * 6, 210 - i * 22, 350 - i * 14, false, accent, 0.04).setStrokeStyle(3, accent, 0.32));
+      }
+      container.add(this.add.circle(-10, 12, 4, 0xf6c85f, 0.54));
+      container.add(this.add.circle(12, -14, 3, 0xffffff, 0.42));
+    } else if (hazard.kind === "night-wisp") {
+      container.add(this.add.circle(0, -2, 18, 0x132451, 0.92).setStrokeStyle(2, accent, 0.8));
+      container.add(this.add.triangle(0, -24, -12, 8, 0, 22, 12, 8, accent, 0.7));
+      container.add(this.add.circle(-6, -4, 4, 0xf5fbff, 0.78));
+      container.add(this.add.circle(7, -7, 3, 0xf5fbff, 0.62));
+    } else if (hazard.kind === "night-shadow") {
+      container.add(this.add.ellipse(0, 0, 58, 38, 0x02070b, 0.96).setStrokeStyle(3, accent, 0.66));
+      container.add(this.add.ellipse(0, -1, 34, 15, 0x45133d, 0.8));
+      container.add(this.add.circle(0, -1, 5, 0xf5fbff, 0.88));
+    } else {
+      container.add(this.add.triangle(-13, 18, -24, 18, -2, -28, 7, 18, accent, 0.78).setStrokeStyle(1, 0xffffff, 0.28));
+      container.add(this.add.triangle(12, 18, 0, 18, 13, -18, 28, 18, 0x7ad7ff, 0.58).setStrokeStyle(1, 0xffffff, 0.18));
+      container.add(this.add.circle(0, -2, 26, accent, 0.08).setStrokeStyle(2, accent, 0.34));
+    }
+  }
+
   private drawEncounter(encounter: OutdoorEncounter, objects?: Phaser.GameObjects.GameObject[]): void {
     const patch = this.map.patches.find((candidate) => candidate.id === encounter.biome);
     const accent = patch?.accent ?? 0x6be7d6;
@@ -1267,7 +1410,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private drawHud(): void {
     const hud = this.add.container(0, 0).setDepth(120).setScrollFactor(0);
-    hud.add(this.add.rectangle(18, 16, 360, 96, 0x061019, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.42));
+    hud.add(this.add.rectangle(18, 16, 390, 122, 0x061019, 0.86).setOrigin(0).setStrokeStyle(1, 0x6be7d6, 0.42));
     hud.add(this.add.text(36, 28, "Mappa Esterna", {
       fontFamily: "Inter, Arial",
       fontSize: "22px",
@@ -1293,13 +1436,19 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       color: "#9ff5e9",
       fontStyle: "bold",
     });
+    this.dayPhaseText = this.add.text(36, 106, "Giorno chiaro · pericoli lievi", {
+      fontFamily: "Inter, Arial",
+      fontSize: "11px",
+      color: "#f6c85f",
+      fontStyle: "bold",
+    });
     this.fragmentText = this.add.text(1040, 54, `${outdoor.fragments} frammenti`, {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#c7b8ff",
       fontStyle: "bold",
     }).setOrigin(1, 0);
-    hud.add([this.progressText, this.fragmentText]);
+    hud.add([this.progressText, this.dayPhaseText, this.fragmentText]);
     new Button(this, 776, 48, "Bacheca", () => this.openBountyBoard(), {
       width: 126,
       height: 42,
@@ -1399,6 +1548,152 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private isWalkable(x: number, y: number): boolean {
     return !this.map.obstacles.some((obstacle) => Math.hypot(obstacle.x - x, obstacle.y - y) < obstacle.r + 26);
+  }
+
+  private refreshHazardVisibility(): void {
+    for (const { hazard, node } of this.hazardNodes.values()) {
+      const active = isOutdoorHazardActive(hazard, this.currentDayPhase);
+      node.setVisible(!this.clearedHazards.has(hazard.id));
+      node.setAlpha(active ? (hazard.activeIn === "night" ? 0.95 : 0.78) : 0.16);
+    }
+    this.updateRadar();
+  }
+
+  private updateHazards(): void {
+    if (!this.avatar || this.time.now - this.lastHazardHitAt < 1800) return;
+    for (const { hazard } of this.hazardNodes.values()) {
+      if (this.clearedHazards.has(hazard.id) || !isOutdoorHazardActive(hazard, this.currentDayPhase)) continue;
+      if (Math.hypot(hazard.x - this.avatar.x, hazard.y - this.avatar.y) <= hazard.r) {
+        this.startHazardChallenge(hazard);
+        return;
+      }
+    }
+  }
+
+  private startHazardChallenge(hazard: OutdoorHazard): void {
+    if (this.paused || this.clearedHazards.has(hazard.id) || !isOutdoorHazardActive(hazard, this.currentDayPhase)) return;
+    this.paused = true;
+    this.lastHazardHitAt = this.time.now;
+    this.prompt.setVisible(false);
+    const difficulty = outdoorHazardDifficulty(hazard, this.currentDayPhase);
+    const reward = outdoorHazardReward(hazard, this.currentDayPhase);
+    const question = this.questionFor(hazard.encounterKind, difficulty);
+    const accent = this.hazardColor(hazard);
+    const night = hazard.activeIn === "night";
+    audioManager.play(night ? "error" : "panelOpen");
+
+    const overlay = this.add.container(0, 0).setDepth(2100).setScrollFactor(0);
+    overlay.add(this.add.rectangle(640, 360, 1280, 720, night ? 0x01030e : 0x02070b, night ? 0.9 : 0.82).setInteractive());
+    overlay.add(this.add.rectangle(640, 360, 720, 470, night ? 0x07101f : 0x07151d, 0.98).setStrokeStyle(2, accent, night ? 0.96 : 0.72));
+    overlay.add(this.add.text(640, 142, night ? "Pericolo notturno" : "Pericolo diurno", {
+      fontFamily: "Inter, Arial",
+      fontSize: "32px",
+      color: night ? "#c7b8ff" : "#f6c85f",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    overlay.add(this.add.text(640, 180, `${OUTDOOR_PHASE_LABELS[this.currentDayPhase]} · ${hazard.label} · ${BIOME_LABELS[hazard.biome]}`, {
+      fontFamily: "Inter, Arial",
+      fontSize: "13px",
+      color: "#9fb6c2",
+      align: "center",
+      wordWrap: { width: 600 },
+    }).setOrigin(0.5));
+    const icon = this.add.container(294, 312);
+    overlay.add(icon);
+    this.drawHazardCore(icon, hazard, accent);
+    icon.setScale(night ? 1.8 : 1.45);
+    if (!settingsSystem.effectsReduced()) this.tweens.add({ targets: icon, scale: night ? 2.02 : 1.62, duration: 820, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+
+    const panel = this.add.container(0, 0);
+    overlay.add(panel);
+    let answered = false;
+    const showResult = (correct: boolean): void => {
+      panel.removeAll(true);
+      if (correct) {
+        this.clearedHazards.add(hazard.id);
+        this.clearHazardNode(hazard);
+        saveSystem.addEnergy(reward.energy);
+        saveSystem.grantOutdoorFragments(reward.fragments);
+        audioManager.play("success");
+        this.reactPet("correct", hazard.biome);
+      } else {
+        audioManager.play("error");
+        this.knockBackFromHazard(hazard);
+        feedbackSystem.publish(question.explanation, "hint");
+      }
+      this.refreshHud();
+      panel.add(this.add.text(640, 324, correct ? "Pericolo neutralizzato" : "Ripiega e riprova", {
+        fontFamily: "Inter, Arial",
+        fontSize: "25px",
+        color: correct ? "#8ff6c0" : "#ffb48f",
+        fontStyle: "bold",
+      }).setOrigin(0.5));
+      panel.add(this.add.text(640, 366, correct ? `+${reward.energy} energia · +${reward.fragments} frammenti` : question.explanation, {
+        fontFamily: "Inter, Arial",
+        fontSize: "15px",
+        color: "#f5fbff",
+        align: "center",
+        wordWrap: { width: 520 },
+      }).setOrigin(0.5));
+      panel.add(new Button(this, 640, 456, "Torna alla mappa", () => {
+        overlay.destroy(true);
+        this.paused = false;
+        this.lastHazardHitAt = this.time.now;
+      }, { width: 220, height: 46, fontSize: 15, fill: night ? 0x2a1f3a : 0x173b36, stroke: accent }));
+    };
+
+    panel.add(this.add.text(640, 268, question.prompt, {
+      fontFamily: "Inter, Arial",
+      fontSize: "22px",
+      color: "#f5fbff",
+      fontStyle: "bold",
+      align: "center",
+      wordWrap: { width: 560 },
+    }).setOrigin(0.5));
+    panel.add(this.add.text(640, 316, night ? "Difficolta alta: la notte amplifica il pericolo." : "Difficolta leggera: passa il varco con calma.", {
+      fontFamily: "Inter, Arial",
+      fontSize: "12px",
+      color: night ? "#c7b8ff" : "#9ff5e9",
+      fontStyle: "bold",
+    }).setOrigin(0.5));
+    question.options.forEach((option, index) => {
+      const x = 440 + (index % 2) * 400;
+      const y = 386 + Math.floor(index / 2) * 62;
+      panel.add(new Button(this, x, y, option, () => {
+        if (answered) return;
+        answered = true;
+        showResult(option === question.correct);
+      }, { width: 320, height: 46, fontSize: 14, fill: 0x173b36, stroke: accent }));
+    });
+  }
+
+  private knockBackFromHazard(hazard: OutdoorHazard): void {
+    const dx = this.avatar.x - hazard.x;
+    const dy = this.avatar.y - hazard.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const distance = hazard.activeIn === "night" ? 96 : 52;
+    const nx = Phaser.Math.Clamp(this.avatar.x + (dx / len) * distance, -VIRTUAL_WORLD_LIMIT + 42, VIRTUAL_WORLD_LIMIT - 42);
+    const ny = Phaser.Math.Clamp(this.avatar.y + (dy / len) * distance, -VIRTUAL_WORLD_LIMIT + 54, VIRTUAL_WORLD_LIMIT - 54);
+    if (this.isWalkable(nx, ny)) {
+      this.tweens.add({ targets: this.avatar, x: nx, y: ny, duration: 220, ease: "Cubic.easeOut" });
+    }
+  }
+
+  private clearHazardNode(hazard: OutdoorHazard): void {
+    const entry = this.hazardNodes.get(hazard.id);
+    if (!entry) return;
+    this.tweens.killTweensOf(entry.node);
+    this.tweens.add({
+      targets: entry.node,
+      alpha: 0,
+      scale: 0.35,
+      duration: 280,
+      ease: "Cubic.easeIn",
+      onComplete: () => {
+        entry.node.destroy(true);
+        this.hazardNodes.delete(hazard.id);
+      },
+    });
   }
 
   private updatePet(): void {
@@ -2145,6 +2440,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.energyText?.setText(`${rewardSystem.energy()} ⚡`);
     this.progressText?.setText(`${this.completed.size} incontri · ${this.collectedTreasures.size} tesori · ${this.activeChunks.size} zone · serie ${outdoor.currentStreak}`);
     this.fragmentText?.setText(`${outdoor.fragments} frammenti`);
+    this.refreshDayPhaseHud();
     this.updateRadar();
   }
 
@@ -2178,6 +2474,10 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         this.radar.fillStyle(0xc7b8ff, 0.9);
         this.radar.fillCircle(cellX + 6, cellY + size - 10, 3);
       }
+      if ([...this.hazardNodes.values()].some((entry) => entry.hazard.chunkId === activeChunk.chunk.id && !this.clearedHazards.has(entry.hazard.id) && isOutdoorHazardActive(entry.hazard, this.currentDayPhase))) {
+        this.radar.fillStyle(this.currentDayPhase === "night" ? 0xff6b7a : 0xf6c85f, 0.86);
+        this.radar.fillCircle(cellX + size - 9, cellY + size - 10, 3);
+      }
     }
     this.radar.lineStyle(2, 0xf5fbff, 0.86);
     this.radar.strokeRoundedRect(x0 + 58 + STREAM_RADIUS * size - 1, y0 + 50 + STREAM_RADIUS * size - 1, size - 3, size - 3, 4);
@@ -2190,7 +2490,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.biomeText?.setText(active ? BIOME_LABELS[active.biome] : "Zona");
     this.biomeText?.setColor(`#${accent.toString(16).padStart(6, "0")}`);
     this.coordText?.setText(`chunk ${current.x}:${current.y}`);
-    this.radarLegendText?.setText("incontri    tesori");
+    this.radarLegendText?.setText("incontri    tesori    rischi");
   }
 
   private updateObjectiveGuide(): void {
@@ -2282,6 +2582,14 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private biomeAccent(biome: OutdoorBiome): number {
     return this.map.patches.find((patch) => patch.id === biome)?.accent ?? BIOME_ACCENTS[biome];
+  }
+
+  private hazardColor(hazard: OutdoorHazard): number {
+    if (hazard.kind === "day-glare") return 0xf6c85f;
+    if (hazard.kind === "day-dust") return 0xffb48f;
+    if (hazard.kind === "night-wisp") return 0x7ad7ff;
+    if (hazard.kind === "night-shadow") return 0xc7b8ff;
+    return 0x9f8cff;
   }
 
   private subjectFor(kind: OutdoorEncounterKind): string {

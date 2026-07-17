@@ -128,6 +128,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private treasureNodes = new Map<string, Phaser.GameObjects.Container>();
   private hazardNodes = new Map<string, ActiveOutdoorHazard>();
   private clearedHazards = new Set<string>();
+  private moveTarget?: { x: number; y: number };
+  private moveTargetMarker?: Phaser.GameObjects.Container;
   private prompt!: Phaser.GameObjects.Container;
   private promptText!: Phaser.GameObjects.Text;
   private activeEncounter?: OutdoorEncounter;
@@ -156,6 +158,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private petMoodUntil = 0;
   private petNextChirpAt = 0;
   private readonly onE = (): void => this.tryInteract();
+  private readonly onPointerDown = (pointer: Phaser.Input.Pointer): void => this.handlePointerMove(pointer);
 
   constructor() {
     super("OutdoorAdventureScene");
@@ -185,8 +188,10 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.cursors = this.input.keyboard!.createCursorKeys();
     this.keys = this.input.keyboard!.addKeys("W,A,S,D") as Record<string, Phaser.Input.Keyboard.Key>;
     this.input.keyboard!.on("keydown-E", this.onE);
+    this.input.on("pointerdown", this.onPointerDown);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.input.keyboard?.off("keydown-E", this.onE);
+      this.input.off("pointerdown", this.onPointerDown);
       audioManager.stopMusic();
     });
     this.cameras.main.startFollow(this.avatar, true, 0.12, 0.12);
@@ -470,6 +475,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   private beginMapOverlay(depth: number): Phaser.GameObjects.Container {
+    this.clearMoveTarget();
     this.cameras.main.stopFollow();
     this.cameras.main.setScroll(0, 0);
     return this.add.container(0, 0).setDepth(depth).setScrollFactor(0);
@@ -1562,7 +1568,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       color: "#f5fbff",
       fontStyle: "bold",
     }));
-    hud.add(this.add.text(36, 58, "Esplora, sfida i guardiani, usa equip e pet.", {
+    hud.add(this.add.text(36, 58, "Tocca/clicca il terreno o usa WASD/frecce.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9fb6c2",
@@ -1650,6 +1656,19 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private updateMovement(dt: number): void {
     let dx = (this.cursors.right.isDown || this.keys.D.isDown ? 1 : 0) - (this.cursors.left.isDown || this.keys.A.isDown ? 1 : 0);
     let dy = (this.cursors.down.isDown || this.keys.S.isDown ? 1 : 0) - (this.cursors.up.isDown || this.keys.W.isDown ? 1 : 0);
+    if (dx !== 0 || dy !== 0) {
+      this.clearMoveTarget();
+    } else if (this.moveTarget) {
+      const tx = this.moveTarget.x - this.avatar.x;
+      const ty = this.moveTarget.y - this.avatar.y;
+      const distance = Math.hypot(tx, ty);
+      if (distance < 10) {
+        this.clearMoveTarget();
+      } else {
+        dx = tx / distance;
+        dy = ty / distance;
+      }
+    }
     const moving = dx !== 0 || dy !== 0;
     if (!moving) {
       this.avatarSprite?.anims.stop();
@@ -1662,12 +1681,63 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     const speed = rewardSystem.equippedId("accessory") === "accessory-jetpack" ? 300 : 260;
     const nx = Phaser.Math.Clamp(this.avatar.x + dx * speed * dt, -VIRTUAL_WORLD_LIMIT + 42, VIRTUAL_WORLD_LIMIT - 42);
     const ny = Phaser.Math.Clamp(this.avatar.y + dy * speed * dt, -VIRTUAL_WORLD_LIMIT + 54, VIRTUAL_WORLD_LIMIT - 54);
+    const beforeX = this.avatar.x;
+    const beforeY = this.avatar.y;
     if (this.isWalkable(nx, this.avatar.y)) this.avatar.x = nx;
     if (this.isWalkable(this.avatar.x, ny)) this.avatar.y = ny;
+    if (this.moveTarget && Math.hypot(this.avatar.x - beforeX, this.avatar.y - beforeY) < 0.5) this.clearMoveTarget();
     this.avatar.setDepth(20 + this.avatar.y / 10000);
     this.facing = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up");
     this.avatarSprite?.anims.play(`outdoor-${this.facing}`, true);
     this.emitMovementTrail();
+  }
+
+  private handlePointerMove(pointer: Phaser.Input.Pointer): void {
+    if (this.paused || pointer.button > 0) return;
+    if (this.isScreenUiPoint(pointer.x, pointer.y)) return;
+    const world = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
+    if (!this.isWalkable(world.x, world.y)) {
+      this.showMovePing(world.x, world.y, 0xff6b7a);
+      return;
+    }
+    this.moveTarget = {
+      x: Phaser.Math.Clamp(world.x, -VIRTUAL_WORLD_LIMIT + 42, VIRTUAL_WORLD_LIMIT - 42),
+      y: Phaser.Math.Clamp(world.y, -VIRTUAL_WORLD_LIMIT + 54, VIRTUAL_WORLD_LIMIT - 54),
+    };
+    this.showMovePing(this.moveTarget.x, this.moveTarget.y, this.currentBiome ? BIOME_ACCENTS[this.currentBiome] : 0x6be7d6);
+  }
+
+  private isScreenUiPoint(x: number, y: number): boolean {
+    return (y <= 142 && (x <= 430 || x >= 720)) || (x >= 1030 && y >= 520);
+  }
+
+  private showMovePing(x: number, y: number, color: number): void {
+    this.clearMoveMarker();
+    const c = this.add.container(x, y).setDepth(18 + y / 10000);
+    c.add(this.add.circle(0, 0, 18, color, 0.08).setStrokeStyle(2, color, 0.7));
+    c.add(this.add.circle(0, 0, 4, color, 0.9));
+    this.moveTargetMarker = c;
+    this.tweens.add({
+      targets: c,
+      scale: 1.28,
+      alpha: 0.38,
+      duration: 520,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.easeInOut",
+    });
+  }
+
+  private clearMoveTarget(): void {
+    this.moveTarget = undefined;
+    this.clearMoveMarker();
+  }
+
+  private clearMoveMarker(): void {
+    if (!this.moveTargetMarker) return;
+    this.tweens.killTweensOf(this.moveTargetMarker);
+    this.moveTargetMarker.destroy(true);
+    this.moveTargetMarker = undefined;
   }
 
   private emitMovementTrail(): void {
@@ -1957,7 +2027,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       if (distance < 92 && distance < best) {
         nearest = encounter;
         nearestTreasure = undefined;
-        prompt = `E / clicca · ${nearest.enemy}`;
+        prompt = `E / clicca-tocca · ${nearest.enemy}`;
         best = distance;
       }
     }
@@ -1967,7 +2037,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       if (distance < 82 && distance < best) {
         nearest = undefined;
         nearestTreasure = treasure;
-        prompt = `E / clicca · ${treasure.label}`;
+        prompt = `E / clicca-tocca · ${treasure.label}`;
         best = distance;
       }
     }
@@ -1984,6 +2054,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private tryInteract(): void {
     if (this.paused) return;
+    this.clearMoveTarget();
     if (this.activeTreasure) {
       this.collectTreasure(this.activeTreasure);
       return;

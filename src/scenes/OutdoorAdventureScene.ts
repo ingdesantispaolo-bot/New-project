@@ -10,6 +10,7 @@ import { type OutdoorAdventureMap, type OutdoorBiome, type OutdoorEncounter, typ
 import { generateOutdoorChunk, OUTDOOR_CHUNK_SIZE, type OutdoorChunk } from "../procedural/OutdoorChunkGenerator";
 import { generateOutdoorHazardsForChunk, isOutdoorHazardActive, outdoorHazardDifficulty, outdoorHazardReward, OUTDOOR_PHASE_LABELS, phaseForOutdoorTime, type OutdoorDayPhase, type OutdoorHazard } from "../procedural/OutdoorDayNight";
 import { Button } from "../ui/Button";
+import { consumeOutdoorWorldResult, createOutdoorWorldRequest, openOutdoorGodot, type OutdoorResumeState, type OutdoorWorldResult } from "../integration/outdoorGodotBridge";
 
 type Dir = "down" | "up" | "left" | "right";
 
@@ -134,6 +135,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private promptText!: Phaser.GameObjects.Text;
   private activeEncounter?: OutdoorEncounter;
   private activeTreasure?: OutdoorTreasure;
+  private godotBounceResume?: OutdoorResumeState;
+  private godotAvailable = false;
   private energyText?: Phaser.GameObjects.Text;
   private progressText?: Phaser.GameObjects.Text;
   private fragmentText?: Phaser.GameObjects.Text;
@@ -171,6 +174,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   create(data?: { returnScene?: string }): void {
     this.returnScene = data?.returnScene ?? "MainMenuScene";
     saveSystem.load();
+    const godotResult = consumeOutdoorWorldResult();
     const daySeed = new Date().toISOString().slice(0, 10);
     this.worldSeed = `outdoor-${daySeed}-${rewardSystem.playerLevel()}`;
     this.map = this.emptyOutdoorMap();
@@ -200,6 +204,64 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }
     audioManager.playMusic("labAmbience");
     audioManager.play("missionStart");
+    void this.probeGodotAvailability();
+    if (godotResult?.pendingEncounter) {
+      // Rientro da Godot: gioca subito l'incontro rimandato, poi torna nel mondo.
+      const pendingResult = godotResult;
+      this.time.delayedCall(0, () => this.playPendingGodotEncounter(pendingResult));
+    }
+  }
+
+  private playPendingGodotEncounter(result: OutdoorWorldResult): void {
+    const pending = result.pendingEncounter;
+    if (!pending) return;
+    if (this.completed.has(pending.id)) {
+      this.reopenGodot(result.resume);
+      return;
+    }
+    const encounter: OutdoorEncounter = {
+      id: pending.id,
+      x: pending.x,
+      y: pending.y,
+      biome: pending.biome as OutdoorBiome,
+      kind: pending.kind as OutdoorEncounterKind,
+      label: pending.label,
+      enemy: pending.enemy,
+      difficulty: pending.difficulty,
+      reward: pending.reward,
+    };
+    this.godotBounceResume = result.resume ?? { playerX: encounter.x, playerY: encounter.y, dayClock: 0 };
+    this.startEncounter(encounter);
+  }
+
+  private godotUrl(): string {
+    // Percorso relativo al base URL (funziona anche sotto la sottocartella di
+    // GitHub Pages, es. /New-project/). Sovrascrivibile con VITE_GODOT_OUTDOOR_URL.
+    return import.meta.env.VITE_GODOT_OUTDOOR_URL ?? `${import.meta.env.BASE_URL}godot/outdoor/index.html`;
+  }
+
+  // Verifica una sola volta se esiste un export Godot Web reale. Sonda il file
+  // `index.wasm` (sentinella affidabile: il dev server non fa fallback SPA sui
+  // file con estensione), così la mancanza del bundle non rompe il gioco.
+  private async probeGodotAvailability(): Promise<void> {
+    const url = this.godotUrl();
+    const probe = `${url.replace(/index\.html$/, "")}index.wasm`;
+    try {
+      const response = await fetch(probe, { method: "HEAD", cache: "no-store" });
+      this.godotAvailable = response.ok;
+    } catch {
+      this.godotAvailable = false;
+    }
+  }
+
+  private reopenGodot(resume?: OutdoorResumeState): boolean {
+    if (!this.godotAvailable) {
+      feedbackSystem.publish("Mondo Godot non ancora compilato: continui nel mondo Phaser.", "hint");
+      return false;
+    }
+    const request = createOutdoorWorldRequest(saveSystem.data, rewardSystem.playerLevel(), window.location.href, resume);
+    openOutdoorGodot(this.godotUrl(), request);
+    return true;
   }
 
   update(_: number, delta: number): void {
@@ -1843,6 +1905,14 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       stroke: 0xc7b8ff,
       soundKey: "panelOpen",
     }).setScrollFactor(0).setDepth(130);
+    new Button(this, 650, 48, "Godot", () => this.openGodotOutdoor(), {
+      width: 112,
+      height: 42,
+      fontSize: 13,
+      fill: 0x17304a,
+      stroke: 0x7ad7ff,
+      soundKey: "panelOpen",
+    }).setScrollFactor(0).setDepth(130);
     new Button(this, 1170, 48, this.returnScene === "ExplorableRoomScene" ? "Mondo" : "Menu", () => this.scene.start(this.returnScene), {
       width: 128,
       height: 42,
@@ -1878,6 +1948,10 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }).setOrigin(0.5).setScrollFactor(0).setDepth(128);
     this.updateRadar();
     this.updateObjectiveGuide();
+  }
+
+  private openGodotOutdoor(): void {
+    this.reopenGodot();
   }
 
   private updateMovement(dt: number): void {
@@ -2796,6 +2870,13 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       wordWrap: { width: 470 },
     }).setOrigin(0.5));
     const close = (): void => {
+      if (this.godotBounceResume) {
+        // L'incontro veniva da Godot: torna nel mondo con l'esito applicato.
+        const resume = this.godotBounceResume;
+        this.godotBounceResume = undefined;
+        if (this.reopenGodot(resume)) return;
+        // Se il bundle Godot non è più disponibile, prosegui nel mondo Phaser.
+      }
       this.closeMapOverlay(overlay, () => {
         feedbackSystem.publish(`Energia avventura guadagnata: +${reward + bonus}`, "success");
       });

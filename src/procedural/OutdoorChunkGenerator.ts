@@ -76,6 +76,21 @@ function pick<T>(random: () => number, values: T[]): T {
   return values[Math.floor(random() * values.length)]!;
 }
 
+// Fisher-Yates seedato: consuma esattamente (n-1) estrazioni, in ordine
+// deterministico e riproducibile in GDScript. Sostituisce l'uso di
+// Array.prototype.sort con comparatore casuale, il cui numero di confronti
+// dipende dall'implementazione del motore JS e non è portabile.
+function shuffle<T>(random: () => number, values: T[]): T[] {
+  const copy = values.slice();
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(random() * (i + 1));
+    const tmp = copy[i]!;
+    copy[i] = copy[j]!;
+    copy[j] = tmp;
+  }
+  return copy;
+}
+
 function between(random: () => number, min: number, max: number): number {
   return Math.round(min + random() * (max - min));
 }
@@ -192,7 +207,7 @@ function encounterPlans(random: () => number, biome: OutdoorBiome, chunkX: numbe
     ],
   };
   const count = chunkX === 0 && chunkY === 0 ? 2 : random() > 0.56 ? 2 : 1;
-  return plans[biome].slice().sort(() => random() - 0.5).slice(0, count);
+  return shuffle(random, plans[biome]).slice(0, count);
 }
 
 export function generateOutdoorChunk(seed: string, chunkX: number, chunkY: number): OutdoorChunk {

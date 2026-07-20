@@ -1,5 +1,12 @@
 # Migrazione del mondo esterno a Godot
 
+> **Contesto strategico**: la direzione confermata del progetto è **full Godot**
+> (motore unico, niente Phaser). Questo documento descrive il modulo del mondo
+> esterno, che è la testa di ponte di quella migrazione. Visione e piano
+> complessivo: [VISIONE_DI_GIOCO.md](VISIONE_DI_GIOCO.md) ·
+> [DESIGN_COMPLETO.md](DESIGN_COMPLETO.md) ·
+> [ARCHITETTURA_FULL_GODOT.md](ARCHITETTURA_FULL_GODOT.md).
+
 ## Confine del modulo
 
 Il modulo Godot contiene rendering, movimento, camera, chunk streaming e

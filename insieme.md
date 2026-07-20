@@ -51,6 +51,265 @@ un elemento visivo apre una richiesta in questo file.
    posizioni gameplay o ricompense.
 5. Prima di unire due blocchi: `git diff --check`, audit Godot e test pertinenti.
 
+## Piano operativo autonomo · revisione 2
+
+Da questo punto i due percorsi avanzano in parallelo. Claude Opus non deve
+aspettare una nuova assegnazione: prende il prossimo blocco tecnico disponibile,
+rispetta i confini qui sotto e aggiorna il registro alla consegna. Codex procede
+in autonomia sui blocchi visivi e non modifica la semantica del gioco.
+
+### Confini dei file
+
+| Area | Proprietario | Regola |
+|---|---|---|
+| `godot/scripts/game/**` | Claude Opus | gameplay, save, contenuti, progressione, audit |
+| `godot/data/banks/**` | Claude Opus | banchi JSON e validatori |
+| `godot/scripts/ui/**`, `godot/scripts/visual/**` | Codex | HUD, marker, VFX, stile, composizione |
+| `godot/assets/**` | Codex | asset grafici, atlanti, import e ottimizzazione |
+| `godot/scripts/outdoor_world.gd` | Insieme | solo orchestrazione; modifiche annotate e non simultanee |
+| `godot/scripts/chunk_*.gd`, `visual_factory.gd` | Codex | rendering render-only; nessun cambio al contratto gameplay |
+| `save_bridge.gd`, `src/integration/**` | Claude Opus | contratto di persistenza/bridge; Codex li legge soltanto |
+| `Insieme.md` | Insieme | append-only per gli aggiornamenti, niente cancellazioni storiche |
+
+Obiettivo strutturale del primo blocco autonomo: spostare la logica gameplay da
+`outdoor_world.gd` in `godot/scripts/game/outdoor_gameplay.gd` e la presentazione
+in `godot/scripts/ui/outdoor_hud.gd`. Dopo questa separazione i due percorsi non
+devono più modificare lo stesso file nello stesso momento.
+
+### Contratto runtime tra i due percorsi
+
+Claude espone un dizionario `OutdoorRuntimeState` tramite segnale o metodo di
+lettura; Codex lo visualizza senza ricalcolarlo:
+
+```json
+{
+  "level": 1,
+  "focusSubject": "matematica",
+  "apparatus": "nucleo",
+  "missionsDone": 0,
+  "missionsRequired": 5,
+  "mastery": 0.0,
+  "masteryThreshold": 0.70,
+  "ready": false,
+  "energy": 120,
+  "fragments": 0,
+  "phase": "giorno",
+  "sessionActive": false
+}
+```
+
+Il contratto è informativo: la UI non concede ricompense, non apre gate e non
+modifica il save. Ogni campo aggiunto deve essere backward-compatible.
+
+## Percorso autonomo Claude Opus · C-02 → C-10
+
+Claude esegue i blocchi in ordine, può procedere al successivo quando i criteri
+di uscita sono verdi e deve lasciare il progetto compilabile a ogni consegna.
+
+### C-02 · Stabilizzazione e separazione dei confini
+
+- estrarre `outdoor_gameplay.gd` da `outdoor_world.gd`;
+- definire `OutdoorRuntimeState` e aggiornamento evento-driven;
+- eliminare rami legacy irraggiungibili e testi Phaser dal percorso missione;
+- mantenere il portale legacy solo finché la migrazione lo richiede.
+
+Uscita: editor scan, fixture, loop, round-trip e `c01_audit` verdi; nessuna
+logica di ricompensa nel codice HUD.
+
+### C-03 · Save canonico e migrazione
+
+- completare schema versionato con `narrative`, `daily`, `spacedRepetition`,
+  `modules`, `cosmetics` e `outdoor`;
+- rendere `migrate_from_phaser()` idempotente;
+- aggiungere fixture di save v0/v1 e audit di migrazione;
+- persistire `godotSave` senza perdere campi sconosciuti.
+
+Uscita: due migrazioni consecutive producono lo stesso JSON e nessun progresso
+viene perso.
+
+### C-04 · Contenuti e banchi
+
+- generare banchi verificati per matematica, italiano, inglese, coding, fisica,
+  musica, latino ed elettronica;
+- implementare audit: risposta valida, spiegazione presente, difficoltà valida;
+- selezione adattiva su livello, mastery e ripasso spaziato;
+- mantenere `ExercisePlayer` indipendente dalla materia.
+
+Uscita: ogni materia ha un banco minimo giocabile e un audit automatico verde.
+
+### C-05 · Scala di progressione 1→20+
+
+- spostare la tabella dei gate in dati tunable;
+- implementare apparati riparati per livello e reset corretto delle missioni;
+- aggiungere test per livelli 1, 2, 6, 12, 20 e 24;
+- verificare errore con penalità morbida e nessuna perdita distruttiva.
+
+Uscita: la scala completa è percorribile senza modificare codice di scena.
+
+### C-06 · Nave e apparati
+
+- creare `HubScene`/nave minimale funzionale;
+- stanze leggibili, requisiti, pulsante Ripara e stato riparato;
+- `final_exam` avviabile solo quando i gate sono soddisfatti;
+- ritorno al mondo senza ricarica distruttiva del save.
+
+Uscita: missioni fuori → ingresso nave → esame → apparato acceso → livello +1.
+
+### C-07 · NORA e narrazione
+
+- `NarrativeManager` agganciato agli apparati riparati;
+- beat NORA per livelli 1–6 come primo arco;
+- codex/frammenti opzionali senza bloccare il loop;
+- testi caricati da dati, non hard-coded nelle scene.
+
+Uscita: ogni riparazione produce un feedback narrativo persistente.
+
+### C-08 · Adattività, accessibilità e telemetria locale
+
+- mastery per argomento e ripasso spaziato;
+- modalità effetti ridotti, testi leggibili e input tastiera/touch;
+- report locale per livello, materia, mastery, missioni e tempo;
+- nessuna raccolta remota non autorizzata.
+
+Uscita: sessione breve completa con feedback didattico e report locale.
+
+### C-09 · Spegnimento progressivo Phaser
+
+- migrare un generatore alla volta in GDScript o banco Godot;
+- audit di parità per ogni generatore portato;
+- rimuovere dipendenze runtime Phaser solo quando il sostituto è coperto;
+- aggiornare il fallback e la matrice delle funzioni migrate.
+
+Uscita: nessun redirect durante il loop Godot e matrice di copertura aggiornata.
+
+### C-10 · Release full-Godot
+
+- un solo boot Godot Web alla radice del deploy;
+- export Windows/Web riproducibili;
+- smoke test da nuovo profilo, migrazione save e round-trip completo;
+- documento di rilascio con limiti noti e rollback.
+
+Uscita: artefatti pubblicabili e checklist release completamente verde.
+
+### Checklist Claude a ogni consegna
+
+```text
+[ ] Ho lavorato solo nei file di mia area o ho registrato il lock condiviso.
+[ ] Ho aggiunto/aggiornato un audit riproducibile.
+[ ] fixture_audit, loop_audit, roundtrip_audit e audit del blocco sono verdi.
+[ ] Ho eseguito git diff --check.
+[ ] Ho aggiornato il Registro consegne e indicato il prossimo blocco.
+```
+
+## Percorso autonomo Codex · V-02 → V-10
+
+### V-02 · Seam e linguaggio visivo dei biomi
+
+- chiudere le transizioni academy senza stacchi percepibili;
+- definire palette, densità, scala e silhouette per ogni bioma;
+- verificare chunk centrale, periferico e attraversamento del bordo.
+
+### V-03 · HUD e marker diegetici
+
+- spostare la UI in `outdoor_hud.gd`;
+- visualizzare `OutdoorRuntimeState` senza logica duplicata;
+- sostituire testi tecnici con obiettivi leggibili, icone e progress bars;
+- marker missione, apparato e portale con priorità visiva coerente.
+
+### V-04 · ExercisePlayer e feedback
+
+- mantenere il contratto di Claude, migliorare layout, focus, contrasto,
+  feedback giusto/errore, scudi e progressione;
+- verificare desktop 1280×720, Web responsive e touch;
+- nessun cambiamento a validatori o ricompense.
+
+### V-05 · Nave: kit artistico e gerarchia
+
+- scenografia modulare delle stanze/apparati;
+- apparato guasto, riparabile e acceso come tre stati visivi;
+- NORA, console e percorso di rientro leggibili senza testo invasivo.
+
+### V-06 · Biomi completi
+
+- estendere il kit a Bosco, Dorsale, Cratere, Rovine e Cristallo;
+- aggiungere landmark, quinte, acqua, rocce e vegetazione per bioma;
+- mantenere LOD e seed render-only.
+
+### V-07 · Atmosfera e vita del mondo
+
+- giorno/notte, foschia, bagliori, particelle e animazioni ambientali;
+- micro-variazioni controllate, niente rumore casuale vicino agli obiettivi;
+- accessibilità: intensità effetti ridotta.
+
+### V-08 · Responsive e accessibilità visiva
+
+- safe areas mobile, contrasto, font, outline, riduzione motion;
+- camera e HUD su aspect ratio diversi;
+- marker leggibili anche in notte e su fondali chiari.
+
+### V-09 · Performance grafica
+
+- misurare draw calls, texture memory, nodi per chunk e tempo di streaming;
+- LOD per chunk periferici e pooling degli effetti;
+- comprimere asset senza perdita percettibile.
+
+### V-10 · Polish e approvazione visiva
+
+- confronto screenshot con il modello Animal Crossing;
+- checklist per ogni bioma e scena nave;
+- aggiornamento art direction e gallery di riferimento;
+- nessun polish finale prima che C-06/C-07 espongano i dati definitivi.
+
+### Checklist Codex a ogni consegna
+
+```text
+[ ] Ho modificato solo rendering, asset o UI visuale.
+[ ] Non ho cambiato seed, collisioni, ricompense o gate.
+[ ] Ho verificato almeno editor scan + fixture + round-trip.
+[ ] Ho registrato eventuali dipendenze dal contratto runtime.
+[ ] Ho aggiornato Registro consegne e prossimo blocco V.
+```
+
+## Gate di integrazione tra i due percorsi
+
+I percorsi si incontrano solo ai seguenti gate:
+
+| Gate | Claude consegna | Codex verifica |
+|---|---|---|
+| I-01 | `OutdoorRuntimeState` stabile | HUD legge i dati senza duplicare logica |
+| I-02 | Nave/apparati con stati persistenti | stati visivi guasto/riparabile/acceso |
+| I-03 | NarrativeManager e beat | layout dialoghi e feedback NORA |
+| I-04 | banchi e generatori definitivi | densità marker, iconografia e leggibilità |
+| I-05 | build release full-Godot | screenshot, responsive e performance |
+
+Un gate non è superato da un audit headless soltanto: richiede anche la verifica
+del proprietario dell’altro percorso e una riga nel Registro consegne.
+
+## Ordine operativo immediato
+
+### Claude Opus
+
+1. C-02: separare gameplay e UI, stabilizzare `OutdoorRuntimeState`.
+2. C-03: completare schema save e audit migrazione.
+3. C-04: portare i banchi minimi delle materie mancanti.
+4. Fermarsi solo se un criterio di uscita è rosso; in quel caso registrare il
+   blocco, il comando che fallisce e il file responsabile.
+
+### Codex
+
+1. V-02: chiudere seam e palette tra chunk academy.
+2. V-03: estrarre HUD visuale dal mondo e collegarlo al contratto runtime.
+3. V-04: rifinire `ExercisePlayer` senza toccare la semantica.
+4. Procedere ai biomi e alla nave quando i gate I-01/I-02 saranno disponibili.
+
+### Regola di handoff
+
+Quando Claude consegna C-02, Codex non deve modificare la sua nuova area
+gameplay: legge il contratto e costruisce la UI. Quando Codex consegna V-03,
+Claude non deve incorporare logica di ricompensa nell'HUD: emette solo dati e
+segnali. Le richieste urgenti passano da una nuova riga nel registro, non da
+modifiche simultanee allo stesso file.
+
 ## Roadmap condivisa
 
 | Fase | Risultato | Responsabile primario | Stato |
@@ -62,8 +321,8 @@ un elemento visivo apre una richiesta in questo file.
 | 4 | Generatori nativi prioritari, spegnimento progressivo Phaser | Collaboratore | Da iniziare |
 | 5 | Export full Godot unico | Insieme | Da iniziare |
 | V-A | Radura Accademia: hero, natura, sentieri, luce e LOD | Codex | Vertical slice visivo presente |
-| V-B | Biomi coerenti e transizioni senza seam | Codex | Raccordo cromatico applicato; verifica visiva residua |
-| V-C | HUD/marker coerenti con livello, mastery e apparati | Codex | HUD dati runtime e overlay esercizi in polish |
+| V-B | Biomi coerenti e transizioni senza seam | Codex | Palette percettiva e fasce focus/neighbor applicate; verifica visiva residua |
+| V-C | HUD/marker coerenti con livello, mastery e apparati | Codex | Componente `OutdoorHud` pronta; collegamento dopo I-01 |
 | V-D | Polish finale, accessibilità visiva e performance | Codex | Da iniziare |
 
 ## Stato iniziale · 20 luglio 2026
@@ -125,7 +384,11 @@ su seam, luce e gerarchia visiva.
 | 2026-07-20 | Codex | V-00 | Hero v2, atlanti v2, composizione, LOD | fixture, round-trip, export Web/Windows | V-01 |
 | 2026-07-20 | Collaboratore | C-00 | Scheletro full-Godot e documenti bussola | loop audit Fase 1 verde | C-01 |
 | 2026-07-20 | Claude Opus + Codex | C-01/V-01 | Missione ed esame nativi; HUD runtime; raccordo chunk; overlay esercizi tematizzato | editor scan, fixture, round-trip missione+esame verdi | screenshot Web e rifinitura marker |
+| 2026-07-20 | Codex | QA V-01 | Build TypeScript e export Godot aggiornati | build 0, fixture 0, loop 0, round-trip 0, Web 0, Windows 0 | test screenshot manuale quando il browser è disponibile |
 | 2026-07-20 | Codex | V-01 parziale | Raccordi cromatici sui quattro chunk adiacenti alla Radura; hero meno rettangolare; portale ridotto e integrato con pietre/archi morbidi | editor scan e `git diff --check` verdi; fixture verde; round-trip da riallineare al C-01 | completare HUD dopo il contratto runtime |
+| 2026-07-20 | Codex | Coordinamento rev.2 | Percorsi Claude C-02→C-10 e Codex V-02→V-10; ownership file; contratto runtime; gate I-01→I-05 | `git diff --check` verde | Claude parte da C-02; Codex da V-02 |
+| 2026-07-20 | Codex | V-02 | Fasce di fusione academy, palette percettiva per sei biomi, fiori periferici coerenti | editor scan, fixture, loop, round-trip verdi | V-03 HUD separato |
+| 2026-07-20 | Codex | V-03 parziale | Creato `OutdoorHud` presentazionale con contratto `OutdoorRuntimeState`, progress bar mastery, risorse, prompt e vignetta | editor scan, fixture, round-trip verdi; C-01 audit verde | collegare al gameplay dopo I-01 |
 
 ## Formato aggiornamento obbligatorio
 
@@ -181,3 +444,23 @@ su seam, luce e gerarchia visiva.
   il portale di uscita resta intenzionalmente compatibile col bridge.
 - Prossimo passo: Codex può collegare HUD/marker ai dati runtime; poi aggiungere
   i banchi delle altre materie e la scena nave full-Godot.
+
+### Aggiornamento 2026-07-20 · Claude Opus (Collaboratore) · C-02 (parziale)
+- Fatto: estratta la logica gameplay in `godot/scripts/game/outdoor_gameplay.gd`
+  (nuovo) con il contratto `OutdoorRuntimeState` completo e segnali evento-driven
+  (`runtime_state_changed`, `session_requested`, `feedback`). Audit headless
+  `c02_audit.gd` che verifica contratto + loop nativo (missione → gate → esame →
+  riparazione → livello) e stato d'uscita. Nessuna logica di ricompensa fuori dal
+  componente gameplay.
+- File: `godot/scripts/game/outdoor_gameplay.gd`, `godot/scripts/game/c02_audit.gd`.
+- Test/export: `godot --headless --path godot --script res://scripts/game/c02_audit.gd`
+  (qui senza Godot: verificato per ispezione). c01_audit/loop_audit invariati.
+- Limiti o rischi: il WIRING in `outdoor_world.gd` (far delegare la scena al
+  componente e far leggere l'HUD da `runtime`) NON e' stato applicato: durante il
+  tentativo si e' verificata una COLLISIONE di editing simultaneo sul file
+  condiviso (regola 1). Ho ripristinato `outdoor_world.gd` all'ultimo commit
+  pulito (fbddfcd) per non lasciarlo rotto. Il componente e' pronto ma scollegato.
+- Prossimo passo: serve un LOCK ESCLUSIVO su `outdoor_world.gd` per applicare il
+  wiring senza modifiche simultanee. Appena il file e' libero e annotato qui,
+  applico il rewiring (delego a OutdoorGameplay, HUD legge runtime) in un'unica
+  passata e aggiorno il registro.

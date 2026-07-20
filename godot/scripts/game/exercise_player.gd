@@ -50,10 +50,17 @@ func _build_ui() -> void:
 	var panel := PanelContainer.new()
 	panel.set_anchors_preset(Control.PRESET_CENTER)
 	panel.custom_minimum_size = Vector2(660, 440)
+	panel.add_theme_stylebox_override("panel", _exercise_panel_style())
 	add_child(panel)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 14)
 	panel.add_child(box)
+
+	var heading := Label.new()
+	heading.text = "PROVA NORA" if str(session.get("kind", "mission")) == "mission" else "APPARATO · ESAME FINALE"
+	heading.add_theme_font_size_override("font_size", 16)
+	heading.add_theme_color_override("font_color", Color("6be7d6"))
+	box.add_child(heading)
 
 	_status = Label.new()
 	_status.add_theme_font_size_override("font_size", 14)
@@ -84,8 +91,29 @@ func _build_ui() -> void:
 	_next_button = Button.new()
 	_next_button.text = "Avanti"
 	_next_button.visible = false
+	_next_button.custom_minimum_size = Vector2(0, 42)
+	_next_button.add_theme_font_size_override("font_size", 16)
+	_next_button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.16, 0.32, 0.30, 0.98), Color(0.96, 0.78, 0.36, 0.72)))
 	_next_button.pressed.connect(_advance)
 	box.add_child(_next_button)
+
+func _exercise_panel_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.025, 0.10, 0.12, 0.96)
+	style.border_color = Color(0.42, 0.9, 0.84, 0.48)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(18)
+	style.set_content_margin_all(24)
+	return style
+
+func _exercise_button_style(fill: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.border_color = border
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(10)
+	style.set_content_margin_all(8)
+	return style
 
 func _show_current() -> void:
 	_answered = false
@@ -105,13 +133,20 @@ func _show_current() -> void:
 		for option in item.get("options", []):
 			var button := Button.new()
 			button.text = str(option)
+			button.custom_minimum_size = Vector2(0, 42)
+			button.add_theme_font_size_override("font_size", 16)
+			button.add_theme_color_override("font_color", Color("e7fff8"))
+			button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.22, 0.23, 0.92), Color(0.42, 0.9, 0.84, 0.28)))
+			button.add_theme_stylebox_override("hover", _exercise_button_style(Color(0.12, 0.34, 0.31, 0.98), Color(0.52, 0.96, 0.78, 0.75)))
+			button.add_theme_stylebox_override("pressed", _exercise_button_style(Color(0.18, 0.40, 0.34, 1.0), Color(0.96, 0.78, 0.36, 0.85)))
 			button.pressed.connect(_answer.bind(str(option)))
 			_options.add_child(button)
 	else:
 		_input.visible = true
 		_input.text = ""
 		_input.editable = true
-		_input.grab_focus()
+		if is_inside_tree():
+			_input.grab_focus()
 
 func _answer(given: String) -> void:
 	if _answered:
@@ -147,6 +182,8 @@ func _finish() -> void:
 	if passed:
 		_energy += int(session.get("rewards", {}).get("onComplete", {}).get("energy", 0))
 	session_finished.emit({
+		"sessionId": str(session.get("sessionId", "")),
+		"kind": str(session.get("kind", "mission")),
 		"correct": _correct,
 		"total": total,
 		"passed": passed,

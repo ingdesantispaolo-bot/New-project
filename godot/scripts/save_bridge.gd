@@ -78,11 +78,19 @@ func empty_result() -> Dictionary:
 	return {
 		"schemaVersion": SCHEMA_VERSION,
 		"energyEarned": 0,
+		"energySpent": 0,
 		"fragmentsEarned": 0,
 		"completedEncounterIds": [],
 		"collectedTreasureIds": [],
 		"guardianWins": 0,
-		"unlockedRewards": []
+		"unlockedRewards": [],
+		# Campi opzionali C-01: il bridge Phaser legacy li ignora, mentre il
+		# percorso full-Godot conserva il save canonico senza ricaricare la scena.
+		"godotSave": {},
+		"level": 1,
+		"missionsBySubject": {},
+		"mastery": {},
+		"apparatus": {}
 	}
 
 func result_from_request(request: Dictionary) -> Dictionary:

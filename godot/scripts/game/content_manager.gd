@@ -58,3 +58,14 @@ func build_mission(subject: String, level: int, node_count: int = 3, rng: Random
 		"shields": 3,
 		"rewards": {"energyPerCorrect": 10, "onComplete": {"energy": 30, "fragments": 2}},
 	}
+
+## Esame cumulativo dell'apparato corrente. In questa prima slice riusa il
+## banco matematico della missione ma cambia il contratto: kind=final_exam e
+## ricompensa di riparazione gestita da ProgressionManager.
+func build_final_exam(subject: String, level: int, node_count: int = 3, rng: RandomNumberGenerator = null) -> Dictionary:
+	var exam := build_mission(subject, level, node_count, rng)
+	exam["sessionId"] = "final-exam-%s-lvl%d" % [subject, level]
+	exam["kind"] = "final_exam"
+	exam["shields"] = 2
+	exam["rewards"] = {"energyPerCorrect": 12, "onComplete": {"energy": 40, "fragments": 4}}
+	return exam

@@ -69,3 +69,28 @@ func set_apparatus_repaired(id: String, repaired_level: int) -> void:
 
 func set_level(value: int) -> void:
 	data["level"] = value
+
+func spend_energy(amount: int) -> bool:
+	var cost := maxi(0, amount)
+	if int(data["energy"]) < cost:
+		return false
+	data["energy"] = int(data["energy"]) - cost
+	return true
+
+## Importa il minimo stato condiviso dal bridge Phaser senza sovrascrivere i
+## campi Godot più ricchi quando sono già presenti. Il bridge resta quindi
+## compatibile durante la migrazione, mentre il save canonico cresce in Godot.
+func import_bridge_request(request: Dictionary) -> void:
+	if request.has("playerLevel"):
+		set_level(maxi(1, int(request.get("playerLevel", level()))))
+	if request.has("energy"):
+		data["energy"] = maxi(0, int(request.get("energy", energy())))
+	var outdoor: Dictionary = request.get("outdoorState", {})
+	if outdoor.has("fragments"):
+		data["fragments"] = maxi(0, int(outdoor.get("fragments", data.get("fragments", 0))))
+	var canonical = request.get("godotSave", null)
+	if typeof(canonical) == TYPE_DICTIONARY and int(canonical.get("schemaVersion", 0)) == SCHEMA_VERSION:
+		data = canonical.duplicate(true)
+
+func bridge_snapshot() -> Dictionary:
+	return data.duplicate(true)

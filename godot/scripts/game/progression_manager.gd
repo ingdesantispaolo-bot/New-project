@@ -12,12 +12,13 @@ func _init(save_manager) -> void:
 
 # Registra l'esito di una missione esterna. Aggiorna conteggio (se superata),
 # padronanza (media mobile verso l'accuratezza) ed energia.
-func record_mission(subject: String, correct: int, total: int, energy_gained: int) -> void:
+func record_mission(subject: String, correct: int, total: int, energy_gained: int, session_passed: bool = true) -> void:
 	var accuracy := float(correct) / float(maxi(total, 1))
-	if accuracy >= 0.5:
+	if session_passed and accuracy >= 0.5:
 		save.add_mission(subject)
 	save.set_mastery(subject, lerpf(save.mastery_of(subject), accuracy, 0.25))
-	save.add_energy(energy_gained)
+	if energy_gained > 0:
+		save.add_energy(energy_gained)
 
 func current_gate() -> Dictionary:
 	return ApparatusConfig.level_gate(save.level())

@@ -11,12 +11,13 @@ var _walk_time := 0.0
 
 func _physics_process(delta: float) -> void:
 	var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var move_speed := speed * (1.65 if Input.is_action_pressed("sprint") else 1.0)
 	if input_vector.length() > 0.0:
-		velocity = input_vector * speed
+		velocity = input_vector * move_speed
 		touch_target = Vector2.INF
 	elif touch_target != Vector2.INF:
 		var direction := global_position.direction_to(touch_target)
-		velocity = direction * speed
+		velocity = direction * move_speed
 		if global_position.distance_to(touch_target) < 8.0:
 			touch_target = Vector2.INF
 			velocity = Vector2.ZERO

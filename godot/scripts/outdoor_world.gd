@@ -207,7 +207,7 @@ void fragment() {
 	phase_label.add_theme_font_size_override("font_size", 14)
 	info.add_child(phase_label)
 	var hint := Label.new()
-	hint.text = "WASD / frecce o tocca lo schermo · E: interagisci · ESC: torna a Phaser"
+	hint.text = "WASD / frecce · SHIFT: sprint · tocca lo schermo · E: interagisci · ESC: torna a Phaser"
 	hint.add_theme_color_override("font_color", Color("9fc4bb"))
 	hint.add_theme_font_size_override("font_size", 12)
 	info.add_child(hint)

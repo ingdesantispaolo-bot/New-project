@@ -57,7 +57,11 @@ func publish_result_and_return(result: Dictionary, return_url: String) -> void:
 	payload["schemaVersion"] = SCHEMA_VERSION
 	if is_web():
 		var encoded := JSON.stringify(payload)
-		JavaScriptBridge.eval("window.__ELI_OUTDOOR_RESULT__ = %s; window.localStorage.setItem('eli-quest-outdoor-result', JSON.stringify(window.__ELI_OUTDOOR_RESULT__)); window.location.href = %s;" % [encoded, JSON.stringify(return_url)], true)
+		var target_url := return_url if return_url != "" else "/"
+		# Delay navigation by one browser tick: quitting the Godot runtime in the
+		# same JS evaluation can otherwise cancel the Phaser return on Web.
+		JavaScriptBridge.eval("window.__ELI_OUTDOOR_RESULT__ = %s; window.localStorage.setItem('eli-quest-outdoor-result', JSON.stringify(window.__ELI_OUTDOOR_RESULT__)); window.setTimeout(function(){ window.location.href = %s; }, 50);" % [encoded, JSON.stringify(target_url)], true)
+		return
 	else:
 		write_result(payload)
 

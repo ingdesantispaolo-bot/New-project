@@ -16,6 +16,8 @@ extends RefCounted
 const AmbientAnim := preload("res://scripts/ambient_anim.gd")
 const TREASURE_TEXTURE: Texture2D = preload("res://assets/academy-treasure.svg")
 const ENCOUNTER_TEXTURE: Texture2D = preload("res://assets/academy-encounter.svg")
+const OUTDOOR_SHEET: Texture2D = preload("res://assets/outdoor-world-sheet.png")
+const PLAYER_SHEET: Texture2D = preload("res://assets/eli-robot-girl-sheet.png")
 
 const ENCOUNTER_COLORS := {
 	"times": Color("f6c85f"),
@@ -27,6 +29,40 @@ const ENCOUNTER_COLORS := {
 
 static var _glow_texture: Texture2D
 static var _add_material: CanvasItemMaterial
+
+static func outdoor_sprite(frame_name: String, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	var regions := {
+		"tree": Rect2(0, 0, 132, 132), "pine": Rect2(140, 0, 120, 148),
+		"bush": Rect2(268, 0, 124, 92), "flower": Rect2(400, 0, 132, 88),
+		"rock": Rect2(540, 0, 116, 76), "crystal": Rect2(664, 0, 132, 132),
+		"ruin": Rect2(804, 0, 108, 148), "lamp": Rect2(920, 0, 96, 152),
+		"bridge": Rect2(0, 160, 156, 72), "pond": Rect2(164, 160, 164, 104),
+		"bench": Rect2(336, 160, 132, 86), "sun": Rect2(476, 160, 104, 104),
+		"dust": Rect2(588, 160, 118, 92), "wisp": Rect2(714, 160, 104, 116),
+		"shadow": Rect2(826, 160, 126, 86), "beacon": Rect2(0, 284, 112, 128),
+	}
+	if not regions.has(frame_name):
+		return null
+	var atlas := AtlasTexture.new()
+	atlas.atlas = OUTDOOR_SHEET
+	atlas.region = regions[frame_name]
+	var sprite := Sprite2D.new()
+	sprite.texture = atlas
+	sprite.position.y = y
+	sprite.scale = target_size / atlas.region.size
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	return sprite
+
+static func player_sprite(target_size: Vector2 = Vector2(58, 58)) -> Sprite2D:
+	var atlas := AtlasTexture.new()
+	atlas.atlas = PLAYER_SHEET
+	atlas.region = Rect2(0, 0, 96, 96)
+	var sprite := Sprite2D.new()
+	sprite.texture = atlas
+	sprite.scale = target_size / atlas.region.size
+	sprite.position = Vector2(0, -17)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	return sprite
 
 # ---------------------------------------------------------------------------
 # Risorse condivise
@@ -141,6 +177,29 @@ static func make_sparkles(color: Color, spread_radius: float, amount: int) -> CP
 static func build_obstacle(kind: String, radius: float, rgb: int, variant: float) -> Node2D:
 	var root := Node2D.new()
 	var color := hex_color(rgb).darkened(variant * 0.16)
+	var sprite_name := ""
+	var target := Vector2.ZERO
+	match kind:
+		"tree":
+			sprite_name = "pine" if variant > 0.58 else "tree"
+			target = Vector2(radius * 1.65, radius * 1.85)
+		"bush":
+			sprite_name = "bush"
+			target = Vector2(radius * 1.75, radius * 1.3)
+		"crystal":
+			sprite_name = "crystal"
+			target = Vector2(radius * 1.65, radius * 1.65)
+		"ruin":
+			sprite_name = "ruin"
+			target = Vector2(radius * 1.45, radius * 1.9)
+		_:
+			if kind == "rock":
+				sprite_name = "rock"
+				target = Vector2(radius * 1.85, radius * 1.25)
+	if sprite_name != "":
+		root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
+		root.add_child(outdoor_sprite(sprite_name, target, -target.y * 0.42))
+		return root
 	match kind:
 		"tree":
 			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
@@ -251,6 +310,30 @@ static func build_obstacle(kind: String, radius: float, rgb: int, variant: float
 static func build_prop(kind: String, accent_rgb: int, variant: float) -> Node2D:
 	var root := Node2D.new()
 	var accent := hex_color(accent_rgb)
+	var sprite_name := ""
+	var target := Vector2.ZERO
+	match kind:
+		"lamp":
+			sprite_name = "lamp"
+			target = Vector2(58, 92)
+		"bridge":
+			sprite_name = "bridge"
+			target = Vector2(112, 52)
+		"river":
+			sprite_name = "pond"
+			target = Vector2(118, 74)
+		"bench":
+			sprite_name = "bench"
+			target = Vector2(88, 58)
+		"beacon":
+			sprite_name = "beacon"
+			target = Vector2(62, 74)
+	if sprite_name != "":
+		root.add_child(make_shadow(target.x * 0.34, target.y * 0.12, 0.24, 3))
+		var sprite := outdoor_sprite(sprite_name, target, -target.y * 0.38)
+		sprite.modulate = Color(1, 1, 1, 0.96)
+		root.add_child(sprite)
+		return root
 	match kind:
 		"lamp":
 			root.add_child(make_shadow(8, 3.4, 0.24, 2))
@@ -576,20 +659,10 @@ static func build_player(accent: Color) -> Node2D:
 	root.add_child(aura)
 	var visual := Node2D.new()
 	visual.name = "Visual"
-	visual.add_child(make_polygon(ellipse_polygon(12, 15, 18), accent.darkened(0.12), Vector2(0, -2)))
-	visual.add_child(make_polygon(ellipse_polygon(8, 10, 16), accent.lightened(0.1), Vector2(0, 0)))
-	visual.add_child(make_polygon(circle_polygon(9, 16), accent.lightened(0.24), Vector2(0, -18)))
-	visual.add_child(make_polygon(PackedVector2Array([
-		Vector2(-6, -21), Vector2(6, -21), Vector2(6, -16), Vector2(-6, -16),
-	]), Color(0.04, 0.1, 0.13, 0.92)))
-	visual.add_child(make_polygon(PackedVector2Array([
-		Vector2(-4.6, -20.2), Vector2(4.6, -20.2), Vector2(4.6, -18.6), Vector2(-4.6, -18.6),
-	]), Color(0.55, 0.95, 0.9, 0.9)))
-	visual.add_child(make_polygon(PackedVector2Array([
-		Vector2(-0.7, -27), Vector2(0.7, -27), Vector2(0.7, -31), Vector2(-0.7, -31),
-	]), accent.darkened(0.2)))
-	var tip := make_glow(6, accent.lightened(0.3), 1.0)
-	tip.position = Vector2(0, -32)
+	visual.add_child(player_sprite())
+	var tip := make_glow(7, accent.lightened(0.3), 0.72)
+	tip.position = Vector2(0, -43)
+	tip.add_to_group("night_glow")
 	visual.add_child(tip)
 	root.add_child(visual)
 	return root

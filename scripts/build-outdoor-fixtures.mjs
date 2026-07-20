@@ -36,11 +36,9 @@ const CASES = [
   { seed: "outdoor-2026-07-19-1", x: 2, y: 2 },
 ];
 
-const ENTRY = `export { generateOutdoorChunk, OUTDOOR_CHUNK_SIZE } from "./OutdoorChunkGenerator";`;
-
 async function loadModule() {
   const result = await build({
-    stdin: { contents: ENTRY, resolveDir: proceduralDir, loader: "ts", sourcefile: "fixture-entry.ts" },
+    entryPoints: [join(proceduralDir, "OutdoorChunkGenerator.ts")],
     bundle: true,
     format: "esm",
     platform: "node",

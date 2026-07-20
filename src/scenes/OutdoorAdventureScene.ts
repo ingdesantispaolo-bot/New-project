@@ -175,6 +175,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     this.returnScene = data?.returnScene ?? "MainMenuScene";
     saveSystem.load();
     const godotResult = consumeOutdoorWorldResult();
+    if (godotResult) this.applyGodotWorldResult(godotResult);
     const daySeed = new Date().toISOString().slice(0, 10);
     this.worldSeed = `outdoor-${daySeed}-${rewardSystem.playerLevel()}`;
     this.map = this.emptyOutdoorMap();
@@ -232,6 +233,19 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     };
     this.godotBounceResume = result.resume ?? { playerX: encounter.x, playerY: encounter.y, dayClock: 0 };
     this.startEncounter(encounter);
+  }
+
+  private applyGodotWorldResult(result: OutdoorWorldResult): void {
+    const previousEncounters = new Set(saveSystem.outdoorAdventure.completedEncounterIds);
+    const previousTreasures = new Set(saveSystem.outdoorAdventure.collectedTreasureIds ?? []);
+    result.completedEncounterIds
+      .filter((id) => !previousEncounters.has(id))
+      .forEach((id) => saveSystem.recordOutdoorEncounter(id, true, 0));
+    result.collectedTreasureIds
+      .filter((id) => !previousTreasures.has(id))
+      .forEach((id) => saveSystem.recordOutdoorTreasure(id, 0, 0));
+    if (result.fragmentsEarned > 0) saveSystem.grantOutdoorFragments(result.fragmentsEarned);
+    if (result.energyEarned > 0) saveSystem.addEnergy(result.energyEarned);
   }
 
   private godotUrl(): string {

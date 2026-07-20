@@ -61,6 +61,12 @@ Il test Vitest `src/integration/__tests__/outdoorGeneratorFixture.test.ts`
 verifica lo stesso file sul lato TypeScript. Qualsiasi modifica al generatore
 richiede di rigenerare la fixture e rieseguire entrambi i controlli.
 
+Smoke test del flusso Godot (tesoro → incontro pendente → risultato Phaser):
+
+```powershell
+godot --headless --path . --script res://scripts/roundtrip_audit.gd
+```
+
 ## Comandi della slice
 
 - `WASD`/frecce: movimento;

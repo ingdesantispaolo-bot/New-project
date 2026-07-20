@@ -3,6 +3,7 @@ import { audioManager } from "../core/AudioManager";
 import { campaignSystem } from "../core/CampaignSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
+import { rewardSystem } from "../core/RewardSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { startScene } from "../core/SceneNavigator";
 import { storySystem } from "../core/StorySystem";
@@ -14,6 +15,7 @@ import { proceduralDirector } from "../procedural/ProceduralDirector";
 import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { RoomExplorer, type RoomConsole, type RoomConsoleState } from "./procedural/RoomExplorer";
+import { consumeOutdoorWorldResult, createOutdoorWorldRequest, openOutdoorGodot, readOutdoorWorldResult, type OutdoorWorldResult } from "../integration/outdoorGodotBridge";
 
 /**
  * Hub esplorabile del Relitto. I ponti vivono in {@link MAP_AREAS} (dati puri) e
@@ -42,6 +44,14 @@ export class ExplorableRoomScene extends Phaser.Scene {
     playerSystem.load();
     saveSystem.load();
     saveSystem.rolloverDaily();
+    const godotResult = readOutdoorWorldResult();
+    if (godotResult?.pendingEncounter) {
+      // The Godot page returns to the Phaser shell; resume the NORA bounce
+      // through OutdoorAdventureScene, whose create() consumes the result.
+      void startScene(this, "OutdoorAdventureScene", { returnScene: "ExplorableRoomScene" });
+      return;
+    }
+    if (godotResult) this.applyGodotWorldResult(consumeOutdoorWorldResult());
     const dailyGranted = saveSystem.claimDailyIfComplete();
     const area = getMapArea(data?.areaId ?? this.areaId);
     this.areaId = area.id;
@@ -102,6 +112,20 @@ export class ExplorableRoomScene extends Phaser.Scene {
       });
     }
     audioManager.play("scan");
+  }
+
+  private applyGodotWorldResult(result?: OutdoorWorldResult): void {
+    if (!result) return;
+    const previousEncounters = new Set(saveSystem.outdoorAdventure.completedEncounterIds);
+    const previousTreasures = new Set(saveSystem.outdoorAdventure.collectedTreasureIds ?? []);
+    result.completedEncounterIds
+      .filter((id) => !previousEncounters.has(id))
+      .forEach((id) => saveSystem.recordOutdoorEncounter(id, true, 0));
+    result.collectedTreasureIds
+      .filter((id) => !previousTreasures.has(id))
+      .forEach((id) => saveSystem.recordOutdoorTreasure(id, 0, 0));
+    if (result.fragmentsEarned > 0) saveSystem.grantOutdoorFragments(result.fragmentsEarned);
+    if (result.energyEarned > 0) saveSystem.addEnergy(result.energyEarned);
   }
 
   private restorationItemId(areaId: string): string | undefined {
@@ -371,12 +395,34 @@ export class ExplorableRoomScene extends Phaser.Scene {
     audioManager.play("doorOpen");
     this.cameras.main.fadeOut(260, 3, 8, 12);
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+      if (sceneKey === "OutdoorAdventureScene") {
+        void this.openOutdoorGodotFromPortal();
+        return;
+      }
       void startScene(this, sceneKey, { returnScene: "ExplorableRoomScene" }).catch(() => {
         this.launching = false;
         this.explorer?.resume();
         this.showError("Non sono riuscito ad aprire questa console. Riprova tra un istante.");
       });
     });
+  }
+
+  /** The outdoor gate is the Godot boundary: do not enter the Phaser clone. */
+  private async openOutdoorGodotFromPortal(): Promise<void> {
+    const url = import.meta.env.VITE_GODOT_OUTDOOR_URL ?? `${import.meta.env.BASE_URL}godot/outdoor/index.html`;
+    const probe = `${url.replace(/index\.html$/, "")}index.wasm`;
+    try {
+      const response = await fetch(probe, { method: "HEAD", cache: "no-store" });
+      if (!response.ok) throw new Error(`Godot Web non disponibile (${response.status})`);
+      saveSystem.load();
+      const request = createOutdoorWorldRequest(saveSystem.data, rewardSystem.playerLevel(), window.location.href);
+      openOutdoorGodot(url, request);
+    } catch {
+      this.launching = false;
+      this.explorer?.resume();
+      this.cameras.main.fadeIn(260, 3, 8, 12);
+      this.showError("Il mondo Godot non è disponibile. Verifica l’export Web e riprova.");
+    }
   }
 
   private travelTo(areaId: string): void {

@@ -1,12 +1,6 @@
-import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import parityFixture from "../../../godot/data/parity-fixtures.json";
 import { generateOutdoorChunk, OUTDOOR_CHUNK_SIZE } from "../../procedural/OutdoorChunkGenerator";
-
-// Contratto di parità Godot ↔ Phaser per il generatore del mondo esterno.
-// La fixture ricca è prodotta da `node scripts/build-outdoor-fixtures.mjs`
-// (dal generatore reale) e riletta dall'audit Godot `fixture_audit.gd`.
-// Il confronto esatto qui garantisce che il generatore TS non cambi output
-// senza rigenerare la fixture; l'audit Godot chiude il cerchio sull'altro motore.
 
 type RichFixture = {
   schemaVersion: number;
@@ -15,8 +9,6 @@ type RichFixture = {
   seedFormat: string;
   cases: Array<{ seed: string; chunkX: number; chunkY: number; chunk: unknown }>;
 };
-
-const FIXTURE_URL = new URL("../../../godot/data/parity-fixtures.json", import.meta.url);
 
 describe("Outdoor generator parity contract", () => {
   it("is deterministic and stable across coordinates", () => {
@@ -46,13 +38,8 @@ describe("Outdoor generator parity contract", () => {
     }
   });
 
-  it("reproduces the shared parity fixture exactly when present", () => {
-    if (!existsSync(FIXTURE_URL)) {
-      // La fixture è un artefatto generato: `node scripts/build-outdoor-fixtures.mjs`.
-      // In sua assenza il contratto resta coperto dai controlli deterministici sopra.
-      return;
-    }
-    const fixture = JSON.parse(readFileSync(FIXTURE_URL, "utf8")) as RichFixture;
+  it("reproduces the shared parity fixture exactly", () => {
+    const fixture = parityFixture as RichFixture;
     expect(fixture.schemaVersion).toBe(2);
     expect(fixture.chunkSize).toBe(OUTDOOR_CHUNK_SIZE);
     expect(fixture.cases.length).toBeGreaterThan(0);

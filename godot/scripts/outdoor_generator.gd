@@ -133,7 +133,7 @@ func generate_chunk(seed: String, chunk_x: int, chunk_y: int) -> Dictionary:
 	for index in range(treasure_count):
 		var pos := _world_pos(random, chunk_x, chunk_y, 120)
 		var label := _treasure_label(random, index)
-		var reward_energy := random.between(7, 24) + min(18, floori(distance * 2.0))
+		var reward_energy: int = random.between(7, 24) + min(18, floori(distance * 2.0))
 		var reward_fragments_base := random.between(2, 9)
 		var reward_fragments := reward_fragments_base + (4 if random.next_float() > 0.78 else 0)
 		treasures.append({
@@ -260,7 +260,7 @@ func _encounter_plans(random, biome: String, chunk_x: int, chunk_y: int) -> Arra
 	var count := 2
 	if not (chunk_x == 0 and chunk_y == 0):
 		count = 2 if random.next_float() > 0.56 else 1
-	var shuffled := random.shuffle(ENCOUNTER_PLANS[biome])
+	var shuffled: Array = random.shuffle(ENCOUNTER_PLANS[biome])
 	return shuffled.slice(0, count)
 
 func _treasure_label(random, index: int) -> String:

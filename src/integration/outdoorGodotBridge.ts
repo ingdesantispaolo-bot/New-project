@@ -1,5 +1,4 @@
 import type { SaveData } from "../types/gameTypes";
-import { saveSystem } from "../core/SaveSystem";
 
 export const OUTDOOR_BRIDGE_SCHEMA = 1;
 
@@ -77,6 +76,9 @@ export function createOutdoorWorldRequest(save: SaveData, playerLevel: number, r
 
 export function openOutdoorGodot(url: string, request: OutdoorWorldRequest): void {
   window.__ELI_OUTDOOR_REQUEST__ = request;
+  // Never let a previous Godot session be consumed as the result of this one.
+  window.__ELI_OUTDOOR_RESULT__ = undefined;
+  window.localStorage.removeItem("eli-quest-outdoor-result");
   window.localStorage.setItem("eli-quest-outdoor-request", JSON.stringify(request));
   window.location.assign(url);
 }
@@ -98,16 +100,6 @@ export function consumeOutdoorWorldResult(): OutdoorWorldResult | undefined {
   if (!result) return undefined;
   window.__ELI_OUTDOOR_RESULT__ = undefined;
   window.localStorage.removeItem("eli-quest-outdoor-result");
-  const previousEncounters = new Set(saveSystem.outdoorAdventure.completedEncounterIds);
-  const previousTreasures = new Set(saveSystem.outdoorAdventure.collectedTreasureIds ?? []);
-  result.completedEncounterIds
-    .filter((id) => !previousEncounters.has(id))
-    .forEach((id) => saveSystem.recordOutdoorEncounter(id, true, 0));
-  result.collectedTreasureIds
-    .filter((id) => !previousTreasures.has(id))
-    .forEach((id) => saveSystem.recordOutdoorTreasure(id, 0, 0));
-  if (result.fragmentsEarned > 0) saveSystem.grantOutdoorFragments(result.fragmentsEarned);
-  if (result.energyEarned > 0) saveSystem.addEnergy(result.energyEarned);
   return result;
 }
 

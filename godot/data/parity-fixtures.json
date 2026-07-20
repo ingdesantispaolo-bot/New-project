@@ -1,0 +1,3186 @@
+{
+	"schemaVersion": 2,
+	"generator": "outdoor-chunk",
+	"chunkSize": 896,
+	"seedFormat": "<seed>:chunk:<chunkX>:<chunkY>",
+	"cases": [
+		{
+			"seed": "outdoor-parity-01",
+			"chunkX": 0,
+			"chunkY": 0,
+			"chunk": {
+				"id": "chunk-0_0",
+				"chunkX": 0,
+				"chunkY": 0,
+				"worldX": 0,
+				"worldY": 0,
+				"size": 896,
+				"biome": "academy",
+				"patch": {
+					"id": "academy",
+					"label": "Radura Accademia",
+					"color": 1522486,
+					"accent": 7071702,
+					"x": -50,
+					"y": -40,
+					"w": 997,
+					"h": 957
+				},
+				"obstacles": [
+					{
+						"id": "obs-0_0-0",
+						"x": 540,
+						"y": 542,
+						"r": 32,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_0-1",
+						"x": 790,
+						"y": 241,
+						"r": 29,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_0-2",
+						"x": 182,
+						"y": 817,
+						"r": 31,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-3",
+						"x": 491,
+						"y": 582,
+						"r": 32,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_0-4",
+						"x": 403,
+						"y": 587,
+						"r": 40,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-5",
+						"x": 697,
+						"y": 119,
+						"r": 35,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-6",
+						"x": 522,
+						"y": 626,
+						"r": 29,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-7",
+						"x": 396,
+						"y": 652,
+						"r": 29,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_0-8",
+						"x": 210,
+						"y": 287,
+						"r": 18,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-9",
+						"x": 604,
+						"y": 392,
+						"r": 30,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-10",
+						"x": 722,
+						"y": 507,
+						"r": 39,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_0-11",
+						"x": 546,
+						"y": 461,
+						"r": 22,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_0-12",
+						"x": 226,
+						"y": 289,
+						"r": 24,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-13",
+						"x": 754,
+						"y": 313,
+						"r": 39,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_0-14",
+						"x": 363,
+						"y": 303,
+						"r": 20,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-15",
+						"x": 226,
+						"y": 449,
+						"r": 19,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_0-16",
+						"x": 745,
+						"y": 188,
+						"r": 20,
+						"kind": "bush",
+						"color": 2845765
+					}
+				],
+				"props": [
+					{
+						"id": "prop-0_0-0",
+						"x": 232,
+						"y": 291,
+						"kind": "camp",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-1",
+						"x": 775,
+						"y": 452,
+						"kind": "tower",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-2",
+						"x": 547,
+						"y": 789,
+						"kind": "tower",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-3",
+						"x": 605,
+						"y": 792,
+						"kind": "lamp",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-4",
+						"x": 267,
+						"y": 260,
+						"kind": "sign",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-5",
+						"x": 711,
+						"y": 727,
+						"kind": "beacon",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-6",
+						"x": 110,
+						"y": 275,
+						"kind": "bridge",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-7",
+						"x": 238,
+						"y": 815,
+						"kind": "river",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-8",
+						"x": 272,
+						"y": 278,
+						"kind": "lamp",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-9",
+						"x": 380,
+						"y": 524,
+						"kind": "sign",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-10",
+						"x": 516,
+						"y": 200,
+						"kind": "sign",
+						"color": 7071702
+					}
+				],
+				"landmarks": [
+					{
+						"id": "landmark-0_0-0",
+						"x": 662,
+						"y": 687,
+						"biome": "academy",
+						"kind": "forge",
+						"label": "Forgia Esterna",
+						"color": 7071702
+					}
+				],
+				"treasures": [
+					{
+						"id": "treasure-0_0-0",
+						"x": 175,
+						"y": 392,
+						"biome": "academy",
+						"label": "cassa energia",
+						"rewardEnergy": 8,
+						"rewardFragments": 6
+					},
+					{
+						"id": "treasure-0_0-1",
+						"x": 506,
+						"y": 393,
+						"biome": "academy",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 17,
+						"rewardFragments": 9
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc-0_0-0",
+						"x": 537,
+						"y": 450,
+						"biome": "academy",
+						"kind": "mental",
+						"label": "Sprint mentale",
+						"enemy": "Sentinella Rapida",
+						"difficulty": 2,
+						"reward": 38
+					},
+					{
+						"id": "enc-0_0-1",
+						"x": 406,
+						"y": 595,
+						"biome": "academy",
+						"kind": "times",
+						"label": "Sentiero tabelline",
+						"enemy": "Drone Moltiplica",
+						"difficulty": 3,
+						"reward": 46
+					}
+				],
+				"pathPoints": [
+					{
+						"x": 0,
+						"y": 448
+					},
+					{
+						"x": 448,
+						"y": 448
+					},
+					{
+						"x": 896,
+						"y": 448
+					},
+					{
+						"x": 448,
+						"y": 448
+					},
+					{
+						"x": 448,
+						"y": 0
+					},
+					{
+						"x": 448,
+						"y": 448
+					},
+					{
+						"x": 448,
+						"y": 896
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-parity-01",
+			"chunkX": 1,
+			"chunkY": 0,
+			"chunk": {
+				"id": "chunk-1_0",
+				"chunkX": 1,
+				"chunkY": 0,
+				"worldX": 896,
+				"worldY": 0,
+				"size": 896,
+				"biome": "logic",
+				"patch": {
+					"id": "logic",
+					"label": "Cratere logico",
+					"color": 1847624,
+					"accent": 10456319,
+					"x": 845,
+					"y": -32,
+					"w": 976,
+					"h": 943
+				},
+				"obstacles": [
+					{
+						"id": "obs-1_0-0",
+						"x": 1012,
+						"y": 650,
+						"r": 31,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-1",
+						"x": 1433,
+						"y": 688,
+						"r": 27,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_0-2",
+						"x": 1666,
+						"y": 314,
+						"r": 37,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_0-3",
+						"x": 1446,
+						"y": 154,
+						"r": 18,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_0-4",
+						"x": 1552,
+						"y": 97,
+						"r": 22,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-5",
+						"x": 1555,
+						"y": 146,
+						"r": 40,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_0-6",
+						"x": 1617,
+						"y": 335,
+						"r": 19,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-7",
+						"x": 1665,
+						"y": 286,
+						"r": 36,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_0-8",
+						"x": 989,
+						"y": 623,
+						"r": 30,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-9",
+						"x": 1309,
+						"y": 194,
+						"r": 22,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-10",
+						"x": 1543,
+						"y": 790,
+						"r": 29,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-11",
+						"x": 1264,
+						"y": 300,
+						"r": 22,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-12",
+						"x": 1707,
+						"y": 388,
+						"r": 17,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_0-13",
+						"x": 1243,
+						"y": 797,
+						"r": 33,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_0-14",
+						"x": 1158,
+						"y": 232,
+						"r": 26,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-15",
+						"x": 1319,
+						"y": 178,
+						"r": 28,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_0-16",
+						"x": 1219,
+						"y": 454,
+						"r": 34,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-17",
+						"x": 1290,
+						"y": 331,
+						"r": 19,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_0-18",
+						"x": 1210,
+						"y": 216,
+						"r": 25,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_0-19",
+						"x": 1212,
+						"y": 254,
+						"r": 24,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_0-20",
+						"x": 1513,
+						"y": 326,
+						"r": 31,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_0-21",
+						"x": 1408,
+						"y": 638,
+						"r": 26,
+						"kind": "pillar",
+						"color": 4932178
+					}
+				],
+				"props": [
+					{
+						"id": "prop-1_0-0",
+						"x": 1579,
+						"y": 593,
+						"kind": "lamp",
+						"color": 10456319
+					},
+					{
+						"id": "prop-1_0-1",
+						"x": 1157,
+						"y": 692,
+						"kind": "garden",
+						"color": 10456319
+					},
+					{
+						"id": "prop-1_0-2",
+						"x": 1222,
+						"y": 550,
+						"kind": "arch",
+						"color": 10456319
+					},
+					{
+						"id": "prop-1_0-3",
+						"x": 1262,
+						"y": 640,
+						"kind": "lamp",
+						"color": 10456319
+					},
+					{
+						"id": "prop-1_0-4",
+						"x": 1273,
+						"y": 95,
+						"kind": "well",
+						"color": 10456319
+					},
+					{
+						"id": "prop-1_0-5",
+						"x": 1604,
+						"y": 776,
+						"kind": "sign",
+						"color": 10456319
+					},
+					{
+						"id": "prop-1_0-6",
+						"x": 1340,
+						"y": 479,
+						"kind": "garden",
+						"color": 10456319
+					},
+					{
+						"id": "prop-1_0-7",
+						"x": 1382,
+						"y": 123,
+						"kind": "well",
+						"color": 10456319
+					},
+					{
+						"id": "prop-1_0-8",
+						"x": 1495,
+						"y": 739,
+						"kind": "statue",
+						"color": 10456319
+					}
+				],
+				"landmarks": [
+					{
+						"id": "landmark-1_0-0",
+						"x": 1157,
+						"y": 409,
+						"biome": "logic",
+						"kind": "logicSpire",
+						"label": "Spira Logica",
+						"color": 10456319
+					}
+				],
+				"treasures": [
+					{
+						"id": "treasure-1_0-0",
+						"x": 1543,
+						"y": 684,
+						"biome": "logic",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 18,
+						"rewardFragments": 7
+					},
+					{
+						"id": "treasure-1_0-1",
+						"x": 1291,
+						"y": 767,
+						"biome": "logic",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 11,
+						"rewardFragments": 3
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc-1_0-0",
+						"x": 1365,
+						"y": 518,
+						"biome": "logic",
+						"kind": "mental",
+						"label": "Cratere dei calcoli",
+						"enemy": "Eco Numerico",
+						"difficulty": 2,
+						"reward": 38
+					},
+					{
+						"id": "enc-1_0-1",
+						"x": 1449,
+						"y": 372,
+						"biome": "logic",
+						"kind": "times",
+						"label": "Anello dei prodotti",
+						"enemy": "Modulo Pattern",
+						"difficulty": 1,
+						"reward": 30
+					}
+				],
+				"pathPoints": [
+					{
+						"x": 896,
+						"y": 448
+					},
+					{
+						"x": 1344,
+						"y": 448
+					},
+					{
+						"x": 1792,
+						"y": 448
+					},
+					{
+						"x": 1344,
+						"y": 448
+					},
+					{
+						"x": 1344,
+						"y": 0
+					},
+					{
+						"x": 1344,
+						"y": 448
+					},
+					{
+						"x": 1344,
+						"y": 896
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-parity-01",
+			"chunkX": 0,
+			"chunkY": 1,
+			"chunk": {
+				"id": "chunk-0_1",
+				"chunkX": 0,
+				"chunkY": 1,
+				"worldX": 0,
+				"worldY": 896,
+				"size": 896,
+				"biome": "geo",
+				"patch": {
+					"id": "geo",
+					"label": "Dorsale geografica",
+					"color": 1850670,
+					"accent": 9429156,
+					"x": -32,
+					"y": 861,
+					"w": 959,
+					"h": 1003
+				},
+				"obstacles": [
+					{
+						"id": "obs-0_1-0",
+						"x": 800,
+						"y": 1146,
+						"r": 33,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_1-1",
+						"x": 107,
+						"y": 1419,
+						"r": 41,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_1-2",
+						"x": 110,
+						"y": 1257,
+						"r": 40,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_1-3",
+						"x": 126,
+						"y": 1092,
+						"r": 22,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_1-4",
+						"x": 365,
+						"y": 1593,
+						"r": 26,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_1-5",
+						"x": 500,
+						"y": 1642,
+						"r": 28,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_1-6",
+						"x": 788,
+						"y": 1322,
+						"r": 28,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_1-7",
+						"x": 344,
+						"y": 987,
+						"r": 19,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_1-8",
+						"x": 373,
+						"y": 1698,
+						"r": 18,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_1-9",
+						"x": 585,
+						"y": 1158,
+						"r": 21,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_1-10",
+						"x": 543,
+						"y": 1154,
+						"r": 30,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_1-11",
+						"x": 593,
+						"y": 1433,
+						"r": 37,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_1-12",
+						"x": 526,
+						"y": 1382,
+						"r": 17,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_1-13",
+						"x": 540,
+						"y": 1114,
+						"r": 20,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_1-14",
+						"x": 125,
+						"y": 1173,
+						"r": 32,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_1-15",
+						"x": 98,
+						"y": 1144,
+						"r": 25,
+						"kind": "bush",
+						"color": 2845765
+					}
+				],
+				"props": [
+					{
+						"id": "prop-0_1-0",
+						"x": 255,
+						"y": 1065,
+						"kind": "river",
+						"color": 9429156
+					},
+					{
+						"id": "prop-0_1-1",
+						"x": 264,
+						"y": 1076,
+						"kind": "statue",
+						"color": 9429156
+					},
+					{
+						"id": "prop-0_1-2",
+						"x": 241,
+						"y": 1441,
+						"kind": "well",
+						"color": 9429156
+					},
+					{
+						"id": "prop-0_1-3",
+						"x": 815,
+						"y": 1404,
+						"kind": "arch",
+						"color": 9429156
+					},
+					{
+						"id": "prop-0_1-4",
+						"x": 451,
+						"y": 1563,
+						"kind": "statue",
+						"color": 9429156
+					},
+					{
+						"id": "prop-0_1-5",
+						"x": 578,
+						"y": 1286,
+						"kind": "garden",
+						"color": 9429156
+					},
+					{
+						"id": "prop-0_1-6",
+						"x": 286,
+						"y": 1311,
+						"kind": "lamp",
+						"color": 9429156
+					},
+					{
+						"id": "prop-0_1-7",
+						"x": 310,
+						"y": 1622,
+						"kind": "river",
+						"color": 9429156
+					}
+				],
+				"landmarks": [
+					{
+						"id": "landmark-0_1-0",
+						"x": 406,
+						"y": 1516,
+						"biome": "geo",
+						"kind": "atlasGate",
+						"label": "Porta dell'Atlante",
+						"color": 9429156
+					}
+				],
+				"treasures": [
+					{
+						"id": "treasure-0_1-0",
+						"x": 191,
+						"y": 1057,
+						"biome": "geo",
+						"label": "scrigno raro",
+						"rewardEnergy": 17,
+						"rewardFragments": 2
+					},
+					{
+						"id": "treasure-0_1-1",
+						"x": 678,
+						"y": 1080,
+						"biome": "geo",
+						"label": "cassa energia",
+						"rewardEnergy": 10,
+						"rewardFragments": 8
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc-0_1-0",
+						"x": 632,
+						"y": 1106,
+						"biome": "geo",
+						"kind": "capital",
+						"label": "Capitali e continenti",
+						"enemy": "Atlante Errante",
+						"difficulty": 2,
+						"reward": 38
+					},
+					{
+						"id": "enc-0_1-1",
+						"x": 186,
+						"y": 1481,
+						"biome": "geo",
+						"kind": "physicalGeo",
+						"label": "Fiumi, laghi, montagne",
+						"enemy": "Custode delle Carte",
+						"difficulty": 2,
+						"reward": 38
+					}
+				],
+				"pathPoints": [
+					{
+						"x": 0,
+						"y": 1344
+					},
+					{
+						"x": 448,
+						"y": 1344
+					},
+					{
+						"x": 896,
+						"y": 1344
+					},
+					{
+						"x": 448,
+						"y": 1344
+					},
+					{
+						"x": 448,
+						"y": 896
+					},
+					{
+						"x": 448,
+						"y": 1344
+					},
+					{
+						"x": 448,
+						"y": 1792
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-parity-01",
+			"chunkX": -1,
+			"chunkY": -1,
+			"chunk": {
+				"id": "chunk--1_-1",
+				"chunkX": -1,
+				"chunkY": -1,
+				"worldX": -896,
+				"worldY": -896,
+				"size": 896,
+				"biome": "ruins",
+				"patch": {
+					"id": "ruins",
+					"label": "Rovine del Relitto",
+					"color": 2827060,
+					"accent": 16748395,
+					"x": -950,
+					"y": -932,
+					"w": 979,
+					"h": 966
+				},
+				"obstacles": [
+					{
+						"id": "obs--1_-1-0",
+						"x": -625,
+						"y": -448,
+						"r": 41,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-1",
+						"x": -726,
+						"y": -373,
+						"r": 31,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-2",
+						"x": -492,
+						"y": -73,
+						"r": 21,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-3",
+						"x": -307,
+						"y": -493,
+						"r": 33,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-4",
+						"x": -508,
+						"y": -341,
+						"r": 26,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-5",
+						"x": -438,
+						"y": -706,
+						"r": 33,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-6",
+						"x": -591,
+						"y": -476,
+						"r": 31,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs--1_-1-7",
+						"x": -511,
+						"y": -165,
+						"r": 25,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-8",
+						"x": -352,
+						"y": -100,
+						"r": 36,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-9",
+						"x": -434,
+						"y": -123,
+						"r": 32,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-10",
+						"x": -563,
+						"y": -328,
+						"r": 22,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs--1_-1-11",
+						"x": -466,
+						"y": -639,
+						"r": 17,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-12",
+						"x": -403,
+						"y": -553,
+						"r": 35,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--1_-1-13",
+						"x": -371,
+						"y": -275,
+						"r": 25,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs--1_-1-14",
+						"x": -239,
+						"y": -425,
+						"r": 29,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--1_-1-15",
+						"x": -164,
+						"y": -611,
+						"r": 22,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs--1_-1-16",
+						"x": -243,
+						"y": -774,
+						"r": 16,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs--1_-1-17",
+						"x": -283,
+						"y": -281,
+						"r": 24,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--1_-1-18",
+						"x": -754,
+						"y": -580,
+						"r": 17,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--1_-1-19",
+						"x": -622,
+						"y": -766,
+						"r": 19,
+						"kind": "crystal",
+						"color": 8050687
+					}
+				],
+				"props": [
+					{
+						"id": "prop--1_-1-0",
+						"x": -445,
+						"y": -92,
+						"kind": "statue",
+						"color": 16748395
+					},
+					{
+						"id": "prop--1_-1-1",
+						"x": -248,
+						"y": -290,
+						"kind": "arch",
+						"color": 16748395
+					},
+					{
+						"id": "prop--1_-1-2",
+						"x": -686,
+						"y": -192,
+						"kind": "tower",
+						"color": 16748395
+					},
+					{
+						"id": "prop--1_-1-3",
+						"x": -86,
+						"y": -167,
+						"kind": "arch",
+						"color": 16748395
+					},
+					{
+						"id": "prop--1_-1-4",
+						"x": -227,
+						"y": -160,
+						"kind": "lamp",
+						"color": 16748395
+					},
+					{
+						"id": "prop--1_-1-5",
+						"x": -301,
+						"y": -150,
+						"kind": "beacon",
+						"color": 16748395
+					},
+					{
+						"id": "prop--1_-1-6",
+						"x": -305,
+						"y": -420,
+						"kind": "beacon",
+						"color": 16748395
+					},
+					{
+						"id": "prop--1_-1-7",
+						"x": -702,
+						"y": -346,
+						"kind": "sign",
+						"color": 16748395
+					},
+					{
+						"id": "prop--1_-1-8",
+						"x": -784,
+						"y": -397,
+						"kind": "river",
+						"color": 16748395
+					}
+				],
+				"landmarks": [
+					{
+						"id": "landmark--1_-1-0",
+						"x": -669,
+						"y": -604,
+						"biome": "ruins",
+						"kind": "ancientCore",
+						"label": "Nucleo Antico",
+						"color": 16748395
+					}
+				],
+				"treasures": [
+					{
+						"id": "treasure--1_-1-0",
+						"x": -614,
+						"y": -432,
+						"biome": "ruins",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 22,
+						"rewardFragments": 7
+					},
+					{
+						"id": "treasure--1_-1-1",
+						"x": -706,
+						"y": -680,
+						"biome": "ruins",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 25,
+						"rewardFragments": 7
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc--1_-1-0",
+						"x": -361,
+						"y": -575,
+						"biome": "ruins",
+						"kind": "capital",
+						"label": "Rotte del mondo",
+						"enemy": "Navigatore Smarrito",
+						"difficulty": 2,
+						"reward": 38
+					},
+					{
+						"id": "enc--1_-1-1",
+						"x": -700,
+						"y": -368,
+						"biome": "ruins",
+						"kind": "mental",
+						"label": "Rovine operative",
+						"enemy": "Guardia del Relitto",
+						"difficulty": 2,
+						"reward": 38
+					}
+				],
+				"pathPoints": [
+					{
+						"x": -896,
+						"y": -448
+					},
+					{
+						"x": -448,
+						"y": -448
+					},
+					{
+						"x": 0,
+						"y": -448
+					},
+					{
+						"x": -448,
+						"y": -448
+					},
+					{
+						"x": -448,
+						"y": -896
+					},
+					{
+						"x": -448,
+						"y": -448
+					},
+					{
+						"x": -448,
+						"y": 0
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-parity-01",
+			"chunkX": 1,
+			"chunkY": 1,
+			"chunk": {
+				"id": "chunk-1_1",
+				"chunkX": 1,
+				"chunkY": 1,
+				"worldX": 896,
+				"worldY": 896,
+				"size": 896,
+				"biome": "crystal",
+				"patch": {
+					"id": "crystal",
+					"label": "Nido cristallino",
+					"color": 2238800,
+					"accent": 13089023,
+					"x": 859,
+					"y": 843,
+					"w": 951,
+					"h": 952
+				},
+				"obstacles": [
+					{
+						"id": "obs-1_1-0",
+						"x": 1559,
+						"y": 1698,
+						"r": 21,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-1",
+						"x": 1636,
+						"y": 1318,
+						"r": 38,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_1-2",
+						"x": 1072,
+						"y": 1012,
+						"r": 20,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_1-3",
+						"x": 1280,
+						"y": 1611,
+						"r": 25,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_1-4",
+						"x": 1362,
+						"y": 1129,
+						"r": 42,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_1-5",
+						"x": 1355,
+						"y": 1350,
+						"r": 23,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-6",
+						"x": 1473,
+						"y": 1004,
+						"r": 38,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-7",
+						"x": 1664,
+						"y": 1491,
+						"r": 27,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-8",
+						"x": 1665,
+						"y": 1716,
+						"r": 31,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-9",
+						"x": 1436,
+						"y": 1698,
+						"r": 28,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-10",
+						"x": 1175,
+						"y": 1641,
+						"r": 24,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_1-11",
+						"x": 1686,
+						"y": 1666,
+						"r": 32,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-12",
+						"x": 1280,
+						"y": 1578,
+						"r": 19,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_1-13",
+						"x": 1010,
+						"y": 1329,
+						"r": 37,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_1-14",
+						"x": 1474,
+						"y": 1450,
+						"r": 17,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-15",
+						"x": 1440,
+						"y": 1581,
+						"r": 29,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-16",
+						"x": 998,
+						"y": 1558,
+						"r": 36,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_1-17",
+						"x": 1465,
+						"y": 1162,
+						"r": 18,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-18",
+						"x": 1292,
+						"y": 1296,
+						"r": 19,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_1-19",
+						"x": 1526,
+						"y": 1411,
+						"r": 20,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-1_1-20",
+						"x": 1405,
+						"y": 1008,
+						"r": 28,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-21",
+						"x": 1560,
+						"y": 1054,
+						"r": 16,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-1_1-22",
+						"x": 1644,
+						"y": 1019,
+						"r": 27,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-1_1-23",
+						"x": 1294,
+						"y": 1689,
+						"r": 18,
+						"kind": "rock",
+						"color": 4609116
+					}
+				],
+				"props": [
+					{
+						"id": "prop-1_1-0",
+						"x": 1284,
+						"y": 1555,
+						"kind": "arch",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-1",
+						"x": 1621,
+						"y": 1067,
+						"kind": "camp",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-2",
+						"x": 1436,
+						"y": 1238,
+						"kind": "garden",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-3",
+						"x": 1271,
+						"y": 1378,
+						"kind": "beacon",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-4",
+						"x": 1093,
+						"y": 1262,
+						"kind": "waterfall",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-5",
+						"x": 1321,
+						"y": 1199,
+						"kind": "well",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-6",
+						"x": 1114,
+						"y": 1436,
+						"kind": "lamp",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-7",
+						"x": 998,
+						"y": 1372,
+						"kind": "sign",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-8",
+						"x": 1687,
+						"y": 1386,
+						"kind": "garden",
+						"color": 13089023
+					},
+					{
+						"id": "prop-1_1-9",
+						"x": 1602,
+						"y": 1337,
+						"kind": "river",
+						"color": 13089023
+					}
+				],
+				"landmarks": [
+					{
+						"id": "landmark-1_1-0",
+						"x": 1200,
+						"y": 1100,
+						"biome": "crystal",
+						"kind": "crystalNest",
+						"label": "Nido Prisma",
+						"color": 13089023
+					}
+				],
+				"treasures": [
+					{
+						"id": "treasure-1_1-0",
+						"x": 1186,
+						"y": 1456,
+						"biome": "crystal",
+						"label": "cassa energia",
+						"rewardEnergy": 19,
+						"rewardFragments": 7
+					},
+					{
+						"id": "treasure-1_1-1",
+						"x": 1373,
+						"y": 1625,
+						"biome": "crystal",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 16,
+						"rewardFragments": 7
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc-1_1-0",
+						"x": 1371,
+						"y": 1144,
+						"biome": "crystal",
+						"kind": "mental",
+						"label": "Specchi numerici",
+						"enemy": "Cristallo Rapido",
+						"difficulty": 1,
+						"reward": 30
+					}
+				],
+				"pathPoints": [
+					{
+						"x": 896,
+						"y": 1344
+					},
+					{
+						"x": 1344,
+						"y": 1344
+					},
+					{
+						"x": 1792,
+						"y": 1344
+					},
+					{
+						"x": 1344,
+						"y": 1344
+					},
+					{
+						"x": 1344,
+						"y": 896
+					},
+					{
+						"x": 1344,
+						"y": 1344
+					},
+					{
+						"x": 1344,
+						"y": 1792
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-parity-01",
+			"chunkX": -1,
+			"chunkY": 0,
+			"chunk": {
+				"id": "chunk--1_0",
+				"chunkX": -1,
+				"chunkY": 0,
+				"worldX": -896,
+				"worldY": 0,
+				"size": 896,
+				"biome": "wild",
+				"patch": {
+					"id": "wild",
+					"label": "Bosco variabile",
+					"color": 1785650,
+					"accent": 7663813,
+					"x": -933,
+					"y": -36,
+					"w": 981,
+					"h": 1000
+				},
+				"obstacles": [
+					{
+						"id": "obs--1_0-0",
+						"x": -676,
+						"y": 817,
+						"r": 31,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--1_0-1",
+						"x": -105,
+						"y": 595,
+						"r": 20,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--1_0-2",
+						"x": -588,
+						"y": 446,
+						"r": 18,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--1_0-3",
+						"x": -794,
+						"y": 804,
+						"r": 21,
+						"kind": "mushroom",
+						"color": 10456319
+					},
+					{
+						"id": "obs--1_0-4",
+						"x": -514,
+						"y": 474,
+						"r": 35,
+						"kind": "mushroom",
+						"color": 10456319
+					},
+					{
+						"id": "obs--1_0-5",
+						"x": -435,
+						"y": 321,
+						"r": 22,
+						"kind": "mushroom",
+						"color": 10456319
+					},
+					{
+						"id": "obs--1_0-6",
+						"x": -755,
+						"y": 461,
+						"r": 41,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--1_0-7",
+						"x": -593,
+						"y": 602,
+						"r": 34,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--1_0-8",
+						"x": -508,
+						"y": 371,
+						"r": 24,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--1_0-9",
+						"x": -183,
+						"y": 815,
+						"r": 36,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--1_0-10",
+						"x": -444,
+						"y": 468,
+						"r": 28,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--1_0-11",
+						"x": -178,
+						"y": 676,
+						"r": 20,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--1_0-12",
+						"x": -760,
+						"y": 273,
+						"r": 29,
+						"kind": "mushroom",
+						"color": 10456319
+					},
+					{
+						"id": "obs--1_0-13",
+						"x": -345,
+						"y": 656,
+						"r": 22,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--1_0-14",
+						"x": -652,
+						"y": 717,
+						"r": 37,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--1_0-15",
+						"x": -160,
+						"y": 287,
+						"r": 18,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--1_0-16",
+						"x": -513,
+						"y": 579,
+						"r": 22,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--1_0-17",
+						"x": -658,
+						"y": 709,
+						"r": 21,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--1_0-18",
+						"x": -824,
+						"y": 194,
+						"r": 35,
+						"kind": "tree",
+						"color": 2317114
+					}
+				],
+				"props": [
+					{
+						"id": "prop--1_0-0",
+						"x": -445,
+						"y": 416,
+						"kind": "well",
+						"color": 7663813
+					},
+					{
+						"id": "prop--1_0-1",
+						"x": -122,
+						"y": 694,
+						"kind": "garden",
+						"color": 7663813
+					},
+					{
+						"id": "prop--1_0-2",
+						"x": -518,
+						"y": 376,
+						"kind": "bridge",
+						"color": 7663813
+					},
+					{
+						"id": "prop--1_0-3",
+						"x": -443,
+						"y": 769,
+						"kind": "river",
+						"color": 7663813
+					},
+					{
+						"id": "prop--1_0-4",
+						"x": -502,
+						"y": 266,
+						"kind": "lamp",
+						"color": 7663813
+					},
+					{
+						"id": "prop--1_0-5",
+						"x": -386,
+						"y": 617,
+						"kind": "garden",
+						"color": 7663813
+					},
+					{
+						"id": "prop--1_0-6",
+						"x": -241,
+						"y": 99,
+						"kind": "sign",
+						"color": 7663813
+					},
+					{
+						"id": "prop--1_0-7",
+						"x": -449,
+						"y": 385,
+						"kind": "lamp",
+						"color": 7663813
+					}
+				],
+				"landmarks": [
+					{
+						"id": "landmark--1_0-0",
+						"x": -529,
+						"y": 646,
+						"biome": "wild",
+						"kind": "skyTree",
+						"label": "Albero dei Percorsi",
+						"color": 7663813
+					}
+				],
+				"treasures": [
+					{
+						"id": "treasure--1_0-0",
+						"x": -628,
+						"y": 635,
+						"biome": "wild",
+						"label": "cassa energia",
+						"rewardEnergy": 18,
+						"rewardFragments": 12
+					},
+					{
+						"id": "treasure--1_0-1",
+						"x": -563,
+						"y": 743,
+						"biome": "wild",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 22,
+						"rewardFragments": 8
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc--1_0-0",
+						"x": -690,
+						"y": 558,
+						"biome": "wild",
+						"kind": "times",
+						"label": "Radici dei prodotti",
+						"enemy": "Ramo Pattern",
+						"difficulty": 2,
+						"reward": 38
+					},
+					{
+						"id": "enc--1_0-1",
+						"x": -414,
+						"y": 255,
+						"biome": "wild",
+						"kind": "physicalGeo",
+						"label": "Sentiero natura",
+						"enemy": "Custode del Bosco",
+						"difficulty": 1,
+						"reward": 30
+					}
+				],
+				"pathPoints": [
+					{
+						"x": -896,
+						"y": 448
+					},
+					{
+						"x": -448,
+						"y": 448
+					},
+					{
+						"x": 0,
+						"y": 448
+					},
+					{
+						"x": -448,
+						"y": 448
+					},
+					{
+						"x": -448,
+						"y": 0
+					},
+					{
+						"x": -448,
+						"y": 448
+					},
+					{
+						"x": -448,
+						"y": 896
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-parity-01",
+			"chunkX": 3,
+			"chunkY": -2,
+			"chunk": {
+				"id": "chunk-3_-2",
+				"chunkX": 3,
+				"chunkY": -2,
+				"worldX": 2688,
+				"worldY": -1792,
+				"size": 896,
+				"biome": "ruins",
+				"patch": {
+					"id": "ruins",
+					"label": "Rovine del Relitto",
+					"color": 2827060,
+					"accent": 16748395,
+					"x": 2651,
+					"y": -1838,
+					"w": 990,
+					"h": 960
+				},
+				"obstacles": [
+					{
+						"id": "obs-3_-2-0",
+						"x": 2993,
+						"y": -1364,
+						"r": 34,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-3_-2-1",
+						"x": 3105,
+						"y": -1561,
+						"r": 24,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-3_-2-2",
+						"x": 2807,
+						"y": -1006,
+						"r": 41,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-3_-2-3",
+						"x": 3240,
+						"y": -1118,
+						"r": 39,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-3_-2-4",
+						"x": 3159,
+						"y": -1447,
+						"r": 26,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-3_-2-5",
+						"x": 2771,
+						"y": -1128,
+						"r": 23,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-3_-2-6",
+						"x": 3486,
+						"y": -1051,
+						"r": 25,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-3_-2-7",
+						"x": 3160,
+						"y": -1408,
+						"r": 18,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-3_-2-8",
+						"x": 3142,
+						"y": -1397,
+						"r": 39,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-3_-2-9",
+						"x": 3251,
+						"y": -1647,
+						"r": 21,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-3_-2-10",
+						"x": 3146,
+						"y": -1311,
+						"r": 38,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-3_-2-11",
+						"x": 3355,
+						"y": -1350,
+						"r": 28,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-3_-2-12",
+						"x": 3060,
+						"y": -1524,
+						"r": 33,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-3_-2-13",
+						"x": 2952,
+						"y": -1401,
+						"r": 36,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-3_-2-14",
+						"x": 3383,
+						"y": -1033,
+						"r": 31,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-3_-2-15",
+						"x": 3209,
+						"y": -1460,
+						"r": 34,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-3_-2-16",
+						"x": 3417,
+						"y": -1373,
+						"r": 22,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-3_-2-17",
+						"x": 2964,
+						"y": -1411,
+						"r": 17,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-3_-2-18",
+						"x": 3078,
+						"y": -1321,
+						"r": 32,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-3_-2-19",
+						"x": 3186,
+						"y": -1575,
+						"r": 26,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-3_-2-20",
+						"x": 2797,
+						"y": -1501,
+						"r": 16,
+						"kind": "rock",
+						"color": 4609116
+					}
+				],
+				"props": [
+					{
+						"id": "prop-3_-2-0",
+						"x": 3341,
+						"y": -1644,
+						"kind": "tower",
+						"color": 16748395
+					},
+					{
+						"id": "prop-3_-2-1",
+						"x": 3459,
+						"y": -1133,
+						"kind": "statue",
+						"color": 16748395
+					},
+					{
+						"id": "prop-3_-2-2",
+						"x": 3389,
+						"y": -1581,
+						"kind": "tower",
+						"color": 16748395
+					},
+					{
+						"id": "prop-3_-2-3",
+						"x": 2972,
+						"y": -1386,
+						"kind": "sign",
+						"color": 16748395
+					},
+					{
+						"id": "prop-3_-2-4",
+						"x": 3201,
+						"y": -1242,
+						"kind": "camp",
+						"color": 16748395
+					},
+					{
+						"id": "prop-3_-2-5",
+						"x": 3418,
+						"y": -1091,
+						"kind": "beacon",
+						"color": 16748395
+					},
+					{
+						"id": "prop-3_-2-6",
+						"x": 3411,
+						"y": -1229,
+						"kind": "waterfall",
+						"color": 16748395
+					}
+				],
+				"landmarks": [],
+				"treasures": [
+					{
+						"id": "treasure-3_-2-0",
+						"x": 3040,
+						"y": -1032,
+						"biome": "ruins",
+						"label": "cassa energia",
+						"rewardEnergy": 16,
+						"rewardFragments": 8
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc-3_-2-0",
+						"x": 2859,
+						"y": -1600,
+						"biome": "ruins",
+						"kind": "guardian",
+						"label": "Cuore del Relitto",
+						"enemy": "Sentinella Antica",
+						"difficulty": 5,
+						"reward": 102
+					}
+				],
+				"pathPoints": [
+					{
+						"x": 2688,
+						"y": -1344
+					},
+					{
+						"x": 3136,
+						"y": -1344
+					},
+					{
+						"x": 3584,
+						"y": -1344
+					},
+					{
+						"x": 3136,
+						"y": -1344
+					},
+					{
+						"x": 3136,
+						"y": -1792
+					},
+					{
+						"x": 3136,
+						"y": -1344
+					},
+					{
+						"x": 3136,
+						"y": -896
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-parity-01",
+			"chunkX": -3,
+			"chunkY": 2,
+			"chunk": {
+				"id": "chunk--3_2",
+				"chunkX": -3,
+				"chunkY": 2,
+				"worldX": -2688,
+				"worldY": 1792,
+				"size": 896,
+				"biome": "geo",
+				"patch": {
+					"id": "geo",
+					"label": "Dorsale geografica",
+					"color": 1850670,
+					"accent": 9429156,
+					"x": -2721,
+					"y": 1747,
+					"w": 967,
+					"h": 990
+				},
+				"obstacles": [
+					{
+						"id": "obs--3_2-0",
+						"x": -2173,
+						"y": 2063,
+						"r": 39,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--3_2-1",
+						"x": -2129,
+						"y": 2022,
+						"r": 42,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--3_2-2",
+						"x": -2211,
+						"y": 2008,
+						"r": 17,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--3_2-3",
+						"x": -2216,
+						"y": 2363,
+						"r": 39,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--3_2-4",
+						"x": -2422,
+						"y": 2424,
+						"r": 39,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--3_2-5",
+						"x": -2558,
+						"y": 2262,
+						"r": 18,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--3_2-6",
+						"x": -1950,
+						"y": 2335,
+						"r": 32,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--3_2-7",
+						"x": -2355,
+						"y": 2439,
+						"r": 29,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--3_2-8",
+						"x": -2211,
+						"y": 1865,
+						"r": 17,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--3_2-9",
+						"x": -1964,
+						"y": 1921,
+						"r": 39,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--3_2-10",
+						"x": -2460,
+						"y": 2407,
+						"r": 24,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--3_2-11",
+						"x": -2484,
+						"y": 2404,
+						"r": 30,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--3_2-12",
+						"x": -2099,
+						"y": 1964,
+						"r": 28,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs--3_2-13",
+						"x": -1884,
+						"y": 2231,
+						"r": 17,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs--3_2-14",
+						"x": -1998,
+						"y": 1866,
+						"r": 40,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs--3_2-15",
+						"x": -2052,
+						"y": 2402,
+						"r": 20,
+						"kind": "tree",
+						"color": 2317114
+					}
+				],
+				"props": [
+					{
+						"id": "prop--3_2-0",
+						"x": -2498,
+						"y": 2132,
+						"kind": "bridge",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-1",
+						"x": -2469,
+						"y": 2185,
+						"kind": "garden",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-2",
+						"x": -2393,
+						"y": 2496,
+						"kind": "garden",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-3",
+						"x": -2163,
+						"y": 2401,
+						"kind": "garden",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-4",
+						"x": -1965,
+						"y": 2541,
+						"kind": "tower",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-5",
+						"x": -2585,
+						"y": 2382,
+						"kind": "river",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-6",
+						"x": -2254,
+						"y": 1899,
+						"kind": "camp",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-7",
+						"x": -2546,
+						"y": 2145,
+						"kind": "statue",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-8",
+						"x": -1888,
+						"y": 2153,
+						"kind": "camp",
+						"color": 9429156
+					},
+					{
+						"id": "prop--3_2-9",
+						"x": -2479,
+						"y": 2588,
+						"kind": "lamp",
+						"color": 9429156
+					}
+				],
+				"landmarks": [],
+				"treasures": [
+					{
+						"id": "treasure--3_2-0",
+						"x": -2196,
+						"y": 2332,
+						"biome": "geo",
+						"label": "scrigno raro",
+						"rewardEnergy": 24,
+						"rewardFragments": 2
+					},
+					{
+						"id": "treasure--3_2-1",
+						"x": -1973,
+						"y": 2393,
+						"biome": "geo",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 16,
+						"rewardFragments": 7
+					},
+					{
+						"id": "treasure--3_2-2",
+						"x": -2389,
+						"y": 1920,
+						"biome": "geo",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 15,
+						"rewardFragments": 7
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc--3_2-0",
+						"x": -1968,
+						"y": 2117,
+						"biome": "geo",
+						"kind": "physicalGeo",
+						"label": "Fiumi, laghi, montagne",
+						"enemy": "Custode delle Carte",
+						"difficulty": 1,
+						"reward": 30
+					}
+				],
+				"pathPoints": [
+					{
+						"x": -2688,
+						"y": 2240
+					},
+					{
+						"x": -2240,
+						"y": 2240
+					},
+					{
+						"x": -1792,
+						"y": 2240
+					},
+					{
+						"x": -2240,
+						"y": 2240
+					},
+					{
+						"x": -2240,
+						"y": 1792
+					},
+					{
+						"x": -2240,
+						"y": 2240
+					},
+					{
+						"x": -2240,
+						"y": 2688
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-2026-07-19-1",
+			"chunkX": 0,
+			"chunkY": 0,
+			"chunk": {
+				"id": "chunk-0_0",
+				"chunkX": 0,
+				"chunkY": 0,
+				"worldX": 0,
+				"worldY": 0,
+				"size": 896,
+				"biome": "academy",
+				"patch": {
+					"id": "academy",
+					"label": "Radura Accademia",
+					"color": 1522486,
+					"accent": 7071702,
+					"x": -51,
+					"y": -31,
+					"w": 990,
+					"h": 956
+				},
+				"obstacles": [
+					{
+						"id": "obs-0_0-0",
+						"x": 690,
+						"y": 391,
+						"r": 29,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-1",
+						"x": 722,
+						"y": 385,
+						"r": 33,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-2",
+						"x": 504,
+						"y": 105,
+						"r": 40,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-3",
+						"x": 587,
+						"y": 174,
+						"r": 23,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_0-4",
+						"x": 620,
+						"y": 691,
+						"r": 23,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-5",
+						"x": 664,
+						"y": 184,
+						"r": 28,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_0-6",
+						"x": 198,
+						"y": 346,
+						"r": 30,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_0-7",
+						"x": 258,
+						"y": 439,
+						"r": 22,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_0-8",
+						"x": 796,
+						"y": 528,
+						"r": 22,
+						"kind": "bush",
+						"color": 2845765
+					},
+					{
+						"id": "obs-0_0-9",
+						"x": 702,
+						"y": 453,
+						"r": 36,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-10",
+						"x": 672,
+						"y": 656,
+						"r": 29,
+						"kind": "tree",
+						"color": 2317114
+					},
+					{
+						"id": "obs-0_0-11",
+						"x": 382,
+						"y": 558,
+						"r": 39,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-12",
+						"x": 798,
+						"y": 474,
+						"r": 19,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-13",
+						"x": 217,
+						"y": 795,
+						"r": 32,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-0_0-14",
+						"x": 396,
+						"y": 620,
+						"r": 30,
+						"kind": "bush",
+						"color": 2845765
+					}
+				],
+				"props": [
+					{
+						"id": "prop-0_0-0",
+						"x": 500,
+						"y": 744,
+						"kind": "camp",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-1",
+						"x": 750,
+						"y": 213,
+						"kind": "bridge",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-2",
+						"x": 382,
+						"y": 211,
+						"kind": "waterfall",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-3",
+						"x": 388,
+						"y": 693,
+						"kind": "garden",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-4",
+						"x": 655,
+						"y": 271,
+						"kind": "bridge",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-5",
+						"x": 501,
+						"y": 146,
+						"kind": "river",
+						"color": 7071702
+					},
+					{
+						"id": "prop-0_0-6",
+						"x": 592,
+						"y": 751,
+						"kind": "bridge",
+						"color": 7071702
+					}
+				],
+				"landmarks": [
+					{
+						"id": "landmark-0_0-0",
+						"x": 493,
+						"y": 217,
+						"biome": "academy",
+						"kind": "forge",
+						"label": "Forgia Esterna",
+						"color": 7071702
+					}
+				],
+				"treasures": [
+					{
+						"id": "treasure-0_0-0",
+						"x": 484,
+						"y": 643,
+						"biome": "academy",
+						"label": "cassa energia",
+						"rewardEnergy": 11,
+						"rewardFragments": 3
+					},
+					{
+						"id": "treasure-0_0-1",
+						"x": 317,
+						"y": 354,
+						"biome": "academy",
+						"label": "cassa energia",
+						"rewardEnergy": 13,
+						"rewardFragments": 10
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc-0_0-0",
+						"x": 724,
+						"y": 707,
+						"biome": "academy",
+						"kind": "mental",
+						"label": "Sprint mentale",
+						"enemy": "Sentinella Rapida",
+						"difficulty": 1,
+						"reward": 30
+					},
+					{
+						"id": "enc-0_0-1",
+						"x": 714,
+						"y": 370,
+						"biome": "academy",
+						"kind": "times",
+						"label": "Sentiero tabelline",
+						"enemy": "Drone Moltiplica",
+						"difficulty": 3,
+						"reward": 46
+					}
+				],
+				"pathPoints": [
+					{
+						"x": 0,
+						"y": 448
+					},
+					{
+						"x": 448,
+						"y": 448
+					},
+					{
+						"x": 896,
+						"y": 448
+					},
+					{
+						"x": 448,
+						"y": 448
+					},
+					{
+						"x": 448,
+						"y": 0
+					},
+					{
+						"x": 448,
+						"y": 448
+					},
+					{
+						"x": 448,
+						"y": 896
+					}
+				]
+			}
+		},
+		{
+			"seed": "outdoor-2026-07-19-1",
+			"chunkX": 2,
+			"chunkY": 2,
+			"chunk": {
+				"id": "chunk-2_2",
+				"chunkX": 2,
+				"chunkY": 2,
+				"worldX": 1792,
+				"worldY": 1792,
+				"size": 896,
+				"biome": "ruins",
+				"patch": {
+					"id": "ruins",
+					"label": "Rovine del Relitto",
+					"color": 2827060,
+					"accent": 16748395,
+					"x": 1767,
+					"y": 1753,
+					"w": 967,
+					"h": 1001
+				},
+				"obstacles": [
+					{
+						"id": "obs-2_2-0",
+						"x": 2327,
+						"y": 2476,
+						"r": 26,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-2_2-1",
+						"x": 1982,
+						"y": 2145,
+						"r": 28,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-2",
+						"x": 2506,
+						"y": 2214,
+						"r": 39,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-2_2-3",
+						"x": 1904,
+						"y": 2129,
+						"r": 32,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-4",
+						"x": 2053,
+						"y": 1907,
+						"r": 42,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-5",
+						"x": 2419,
+						"y": 2117,
+						"r": 34,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-6",
+						"x": 2029,
+						"y": 2176,
+						"r": 39,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-7",
+						"x": 2422,
+						"y": 2363,
+						"r": 25,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-8",
+						"x": 2379,
+						"y": 2360,
+						"r": 24,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-9",
+						"x": 2297,
+						"y": 2209,
+						"r": 35,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-10",
+						"x": 2527,
+						"y": 2335,
+						"r": 35,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-11",
+						"x": 2518,
+						"y": 2102,
+						"r": 29,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-2_2-12",
+						"x": 2098,
+						"y": 2344,
+						"r": 25,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-2_2-13",
+						"x": 2276,
+						"y": 2537,
+						"r": 41,
+						"kind": "crystal",
+						"color": 8050687
+					},
+					{
+						"id": "obs-2_2-14",
+						"x": 1883,
+						"y": 2370,
+						"r": 22,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-15",
+						"x": 2013,
+						"y": 1946,
+						"r": 18,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-16",
+						"x": 1924,
+						"y": 1940,
+						"r": 28,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-2_2-17",
+						"x": 2563,
+						"y": 2257,
+						"r": 19,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-2_2-18",
+						"x": 2015,
+						"y": 2228,
+						"r": 35,
+						"kind": "pillar",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-19",
+						"x": 2563,
+						"y": 2576,
+						"r": 18,
+						"kind": "ruin",
+						"color": 4932178
+					},
+					{
+						"id": "obs-2_2-20",
+						"x": 1887,
+						"y": 2224,
+						"r": 32,
+						"kind": "rock",
+						"color": 4609116
+					},
+					{
+						"id": "obs-2_2-21",
+						"x": 2192,
+						"y": 2079,
+						"r": 39,
+						"kind": "rock",
+						"color": 4609116
+					}
+				],
+				"props": [
+					{
+						"id": "prop-2_2-0",
+						"x": 1975,
+						"y": 2030,
+						"kind": "tower",
+						"color": 16748395
+					},
+					{
+						"id": "prop-2_2-1",
+						"x": 2052,
+						"y": 2333,
+						"kind": "sign",
+						"color": 16748395
+					},
+					{
+						"id": "prop-2_2-2",
+						"x": 2404,
+						"y": 2397,
+						"kind": "garden",
+						"color": 16748395
+					},
+					{
+						"id": "prop-2_2-3",
+						"x": 2114,
+						"y": 2436,
+						"kind": "bridge",
+						"color": 16748395
+					},
+					{
+						"id": "prop-2_2-4",
+						"x": 2404,
+						"y": 2313,
+						"kind": "camp",
+						"color": 16748395
+					},
+					{
+						"id": "prop-2_2-5",
+						"x": 2546,
+						"y": 2537,
+						"kind": "lamp",
+						"color": 16748395
+					}
+				],
+				"landmarks": [],
+				"treasures": [
+					{
+						"id": "treasure-2_2-0",
+						"x": 2035,
+						"y": 2549,
+						"biome": "ruins",
+						"label": "frammenti dispersi",
+						"rewardEnergy": 28,
+						"rewardFragments": 4
+					}
+				],
+				"encounters": [
+					{
+						"id": "enc-2_2-0",
+						"x": 2416,
+						"y": 2300,
+						"biome": "ruins",
+						"kind": "mental",
+						"label": "Rovine operative",
+						"enemy": "Guardia del Relitto",
+						"difficulty": 2,
+						"reward": 38
+					}
+				],
+				"pathPoints": [
+					{
+						"x": 1792,
+						"y": 2240
+					},
+					{
+						"x": 2240,
+						"y": 2240
+					},
+					{
+						"x": 2688,
+						"y": 2240
+					},
+					{
+						"x": 2240,
+						"y": 2240
+					},
+					{
+						"x": 2240,
+						"y": 1792
+					},
+					{
+						"x": 2240,
+						"y": 2240
+					},
+					{
+						"x": 2240,
+						"y": 2688
+					}
+				]
+			}
+		}
+	]
+}

@@ -44,7 +44,7 @@ func _build_obstacles(decor) -> void:
 	for obstacle in chunk.get("obstacles", []):
 		var radius := float(obstacle["r"])
 		var node := OutdoorVisualFactory.build_obstacle(
-			str(obstacle["kind"]), radius, int(obstacle["color"]), decor.next_float())
+			str(obstacle["kind"]), radius, int(obstacle["color"]), decor.next_float(), str(chunk.get("biome", "")))
 		node.position = _local(obstacle["x"], obstacle["y"])
 		add_child(node)
 
@@ -59,7 +59,7 @@ func _build_obstacles(decor) -> void:
 func _build_props(decor) -> void:
 	for prop in chunk.get("props", []):
 		var node := OutdoorVisualFactory.build_prop(
-			str(prop["kind"]), int(prop["color"]), decor.next_float())
+			str(prop["kind"]), int(prop["color"]), decor.next_float(), str(chunk.get("biome", "")))
 		node.position = _local(prop["x"], prop["y"])
 		add_child(node)
 

@@ -16,6 +16,7 @@ import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization } fro
 import { Button } from "../ui/Button";
 import { RoomExplorer, type RoomConsole, type RoomConsoleState } from "./procedural/RoomExplorer";
 import { consumeOutdoorWorldResult, createOutdoorWorldRequest, openOutdoorGodot, readOutdoorWorldResult, type OutdoorWorldResult } from "../integration/outdoorGodotBridge";
+import { resolveOutdoorPresentation } from "../integration/outdoorAvatar";
 
 /**
  * Hub esplorabile del Relitto. I ponti vivono in {@link MAP_AREAS} (dati puri) e
@@ -415,7 +416,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
       const response = await fetch(probe, { method: "HEAD", cache: "no-store" });
       if (!response.ok) throw new Error(`Godot Web non disponibile (${response.status})`);
       saveSystem.load();
-      const request = createOutdoorWorldRequest(saveSystem.data, rewardSystem.playerLevel(), window.location.href);
+      const request = createOutdoorWorldRequest(saveSystem.data, rewardSystem.playerLevel(), window.location.href, undefined, resolveOutdoorPresentation(rewardSystem.playerLevel()));
       openOutdoorGodot(url, request);
     } catch {
       this.launching = false;

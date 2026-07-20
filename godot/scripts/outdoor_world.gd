@@ -21,12 +21,23 @@ var feedback_label: Label
 var feedback_panel: PanelContainer
 var phase_label: Label
 var biome_label: Label
+var objective_label: Label
 var portal: Node2D
 var camera: Camera2D
 var fireflies: CPUParticles2D
+var pet_companion: OutdoorPetCompanion
 var nearby: Array = []
 var day_clock := 0.0
 var current_biome_chunk := ""
+var energy_label: Label
+var fragment_label: Label
+var reward_name_label: Label
+var reward_bar: ProgressBar
+var reward_remaining_label: Label
+var base_energy := 0
+var base_fragments := 0
+var reward_cost := 0
+var reward_name := ""
 
 func _ready() -> void:
 	request = bridge.load_request()
@@ -109,9 +120,12 @@ func _create_player() -> void:
 	circle.radius = 18.0
 	shape.shape = circle
 	player.add_child(shape)
-	var body_visual := OutdoorVisualFactory.build_player(PLAYER_ACCENT)
+	var visual_data: Dictionary = request.get("avatarVisual", {})
+	var livery := _avatar_color(visual_data.get("bodyColor", -1), PLAYER_ACCENT)
+	var body_visual := OutdoorVisualFactory.build_player(livery)
 	player.add_child(body_visual)
 	player.visual = body_visual.get_node("Visual")
+	_apply_accessory(player.visual, visual_data)
 	fireflies = OutdoorVisualFactory.make_sparkles(Color(1.0, 0.93, 0.62, 0.85), 560.0, 24)
 	fireflies.lifetime = 5.0
 	fireflies.preprocess = 3.0
@@ -120,12 +134,34 @@ func _create_player() -> void:
 	fireflies.add_to_group("night_glow")
 	player.add_child(fireflies)
 	world_layer.add_child(player)
+	_spawn_pet(visual_data)
 	camera = Camera2D.new()
 	camera.name = "Camera2D"
 	camera.position = player.position
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 6.0
 	add_child(camera)
+
+func _avatar_color(value, fallback: Color) -> Color:
+	if (typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT) and int(value) >= 0:
+		return OutdoorVisualFactory.hex_color(int(value))
+	return fallback
+
+func _apply_accessory(visual_node: Node2D, visual_data: Dictionary) -> void:
+	var accessory = visual_data.get("accessory", null)
+	if typeof(accessory) != TYPE_DICTIONARY:
+		return
+	var color := OutdoorVisualFactory.hex_color(int(accessory.get("color", 0x9ff5e9)))
+	visual_node.add_child(OutdoorVisualFactory.build_accessory(str(accessory.get("id", "")), color))
+
+func _spawn_pet(visual_data: Dictionary) -> void:
+	var pet_data = visual_data.get("pet", null)
+	if typeof(pet_data) != TYPE_DICTIONARY:
+		return
+	var color := OutdoorVisualFactory.hex_color(int(pet_data.get("color", 0xf6c85f)))
+	pet_companion = OutdoorPetCompanion.new()
+	world_layer.add_child(pet_companion)
+	pet_companion.setup(str(pet_data.get("kind", "spark")), color, player)
 
 func _create_portal() -> void:
 	portal = PORTAL_VISUAL.new()
@@ -192,7 +228,7 @@ void fragment() {
 	info.add_theme_constant_override("separation", 4)
 	info_panel.add_child(info)
 	var title := Label.new()
-	title.text = "MONDO ESTERNO"
+	title.text = "ELI QUEST  ·  RADURA ACCADEMIA"
 	title.add_theme_color_override("font_color", Color("e7fff8"))
 	title.add_theme_font_size_override("font_size", 19)
 	info.add_child(title)
@@ -206,6 +242,13 @@ void fragment() {
 	phase_label.add_theme_color_override("font_color", Color("f6c85f"))
 	phase_label.add_theme_font_size_override("font_size", 14)
 	info.add_child(phase_label)
+	objective_label = Label.new()
+	objective_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	objective_label.custom_minimum_size = Vector2(280, 0)
+	objective_label.add_theme_color_override("font_color", Color("f6c85f"))
+	objective_label.add_theme_font_size_override("font_size", 13)
+	info.add_child(objective_label)
+	_update_objective()
 	var hint := Label.new()
 	hint.text = "WASD / frecce · SHIFT: sprint · tocca lo schermo · E: interagisci · ESC: torna a Phaser"
 	hint.add_theme_color_override("font_color", Color("9fc4bb"))
@@ -230,6 +273,88 @@ void fragment() {
 	feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	feedback_label.custom_minimum_size = Vector2(340, 0)
 	feedback_panel.add_child(feedback_label)
+
+	_create_economy_panel(root)
+
+func _create_economy_panel(root: Control) -> void:
+	base_energy = int(request.get("energy", 0))
+	base_fragments = int(request.get("outdoorState", {}).get("fragments", 0))
+	var next_reward = request.get("nextReward", null)
+	if typeof(next_reward) == TYPE_DICTIONARY:
+		reward_name = str(next_reward.get("name", ""))
+		reward_cost = int(next_reward.get("cost", 0))
+
+	var panel := PanelContainer.new()
+	panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE, 20)
+	panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	panel.add_theme_stylebox_override("panel", _panel_style())
+	root.add_child(panel)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 4)
+	box.custom_minimum_size = Vector2(210, 0)
+	panel.add_child(box)
+
+	energy_label = Label.new()
+	energy_label.add_theme_color_override("font_color", Color("f6c85f"))
+	energy_label.add_theme_font_size_override("font_size", 16)
+	box.add_child(energy_label)
+	fragment_label = Label.new()
+	fragment_label.add_theme_color_override("font_color", Color("c7b8ff"))
+	fragment_label.add_theme_font_size_override("font_size", 14)
+	box.add_child(fragment_label)
+
+	if reward_cost > 0:
+		var sep := HSeparator.new()
+		box.add_child(sep)
+		reward_name_label = Label.new()
+		reward_name_label.add_theme_color_override("font_color", Color("e7fff8"))
+		reward_name_label.add_theme_font_size_override("font_size", 13)
+		reward_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		reward_name_label.custom_minimum_size = Vector2(210, 0)
+		box.add_child(reward_name_label)
+		reward_bar = ProgressBar.new()
+		reward_bar.show_percentage = false
+		reward_bar.max_value = 100.0
+		reward_bar.custom_minimum_size = Vector2(210, 12)
+		box.add_child(reward_bar)
+		reward_remaining_label = Label.new()
+		reward_remaining_label.add_theme_color_override("font_color", Color("9fc4bb"))
+		reward_remaining_label.add_theme_font_size_override("font_size", 12)
+		box.add_child(reward_remaining_label)
+
+	_refresh_economy()
+
+func _refresh_economy() -> void:
+	var current := base_energy + int(result.get("energyEarned", 0))
+	if is_instance_valid(energy_label):
+		energy_label.text = "Energia %d" % current
+	if is_instance_valid(fragment_label):
+		fragment_label.text = "Frammenti %d" % (base_fragments + int(result.get("fragmentsEarned", 0)))
+	if reward_cost > 0 and is_instance_valid(reward_bar):
+		reward_name_label.text = "Prossimo: %s" % reward_name
+		reward_bar.value = clampf(float(current) / float(reward_cost) * 100.0, 0.0, 100.0)
+		var remaining := maxi(0, reward_cost - current)
+		reward_remaining_label.text = ("Ti manca %d energia" % remaining) if remaining > 0 else "Puoi comprarlo!"
+
+func _spawn_gain_popup(text: String, color: Color) -> void:
+	if not is_instance_valid(player):
+		return
+	var label := Label.new()
+	label.text = text
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_font_size_override("font_size", 18)
+	label.add_theme_constant_override("outline_size", 5)
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
+	label.z_index = 70
+	label.position = player.position + Vector2(-24, -50)
+	world_layer.add_child(label)
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(label, "position:y", label.position.y - 44.0, 0.9)
+	tween.tween_property(label, "modulate:a", 0.0, 0.9)
+	tween.set_parallel(false)
+	tween.tween_callback(label.queue_free)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:
@@ -330,6 +455,11 @@ func _interact() -> void:
 			result["energyEarned"] += int(payload["rewardEnergy"])
 			result["fragmentsEarned"] += int(payload["rewardFragments"])
 			_set_feedback("Tesoro raccolto: +%d energia, +%d frammenti" % [int(payload["rewardEnergy"]), int(payload["rewardFragments"])])
+			_update_objective()
+			_refresh_economy()
+			_spawn_gain_popup("+%d energia · +%d fr" % [int(payload["rewardEnergy"]), int(payload["rewardFragments"])], Color("f6c85f"))
+			if is_instance_valid(pet_companion):
+				pet_companion.react()
 			nearby.erase(target)
 			var owner_node := target.get_parent()
 			if is_instance_valid(owner_node):
@@ -344,6 +474,8 @@ func _interact() -> void:
 		# Rimbalzo a Phaser: l'incontro si gioca con il minigioco NORA. Salviamo
 		# l'incontro pendente e lo stato per riprendere il mondo al ritorno.
 		_set_feedback("Sfida in arrivo: torno a Phaser…")
+		if is_instance_valid(pet_companion):
+			pet_companion.react()
 		result["pendingEncounter"] = {
 			"id": id,
 			"x": int(payload["x"]), "y": int(payload["y"]), "biome": str(payload["biome"]),
@@ -366,3 +498,10 @@ func _set_feedback(message: String) -> void:
 		feedback_label.text = message
 	if is_instance_valid(feedback_panel):
 		feedback_panel.visible = message != ""
+
+func _update_objective() -> void:
+	if not is_instance_valid(objective_label):
+		return
+	var treasures := result.get("collectedTreasureIds", []).size()
+	var encounters := result.get("completedEncounterIds", []).size()
+	objective_label.text = "Obiettivo didattico\nTesori %d  ·  Sfide superate %d\nAvvicinati ai segnali luminosi e impara giocando." % [treasures, encounters]

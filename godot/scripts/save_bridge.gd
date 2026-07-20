@@ -19,6 +19,15 @@ func default_request(seed: String = "outdoor-dev-1") -> Dictionary:
 		"worldSeed": seed,
 		"playerLevel": 1,
 		"avatar": {"outfit": "avatar-base", "accessory": "", "pet": ""},
+		# Anteprima desktop: livrea ciano + pet scintilla, così il compagno si
+		# vede anche senza dati reali dalla bottega Phaser.
+		"avatarVisual": {
+			"bodyColor": 0x6be7d6,
+			"accessory": null,
+			"pet": {"id": "pet-spark", "kind": "spark", "color": 0xf6c85f},
+		},
+		"energy": 120,
+		"nextReward": {"name": "Outfit Oro", "cost": 220, "rarity": "raro"},
 		"outdoorState": {
 			"completedEncounterIds": [],
 			"collectedTreasureIds": [],

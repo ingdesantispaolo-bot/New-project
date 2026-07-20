@@ -15,6 +15,7 @@ const RNG := preload("res://scripts/deterministic_rng.gd")
 var chunk: Dictionary
 var blotches: Array = []   # [{pos, radius, alpha}]
 var speckles: Array = []   # [{pos, radius, color}]
+var tufts: Array = []      # [{pos, height, color}]
 
 func setup(data: Dictionary) -> void:
 	chunk = data
@@ -33,7 +34,7 @@ func setup(data: Dictionary) -> void:
 		})
 
 	speckles.clear()
-	for i in range(64):
+	for i in range(112):
 		var roll := decor.next_float()
 		var color: Color
 		var radius: float
@@ -50,6 +51,16 @@ func setup(data: Dictionary) -> void:
 			"pos": Vector2(8.0 + decor.next_float() * (size - 16.0), 8.0 + decor.next_float() * (size - 16.0)),
 			"radius": radius,
 			"color": color,
+		})
+
+	tufts.clear()
+	for i in range(46):
+		var tuft_roll := decor.next_float()
+		var tuft_color := Color(accent, 0.24) if tuft_roll > 0.76 else Color(tint.lightened(0.3), 0.22)
+		tufts.append({
+			"pos": Vector2(12.0 + decor.next_float() * (size - 24.0), 12.0 + decor.next_float() * (size - 24.0)),
+			"height": 3.0 + decor.next_float() * 6.0,
+			"color": tuft_color,
 		})
 	queue_redraw()
 
@@ -68,6 +79,13 @@ func _draw() -> void:
 
 	for speckle in speckles:
 		draw_circle(speckle["pos"], speckle["radius"], speckle["color"])
+
+	for tuft in tufts:
+		var base: Vector2 = tuft["pos"]
+		var height: float = tuft["height"]
+		var color: Color = tuft["color"]
+		draw_line(base, base + Vector2(-1.8, -height), color, 1.3, true)
+		draw_line(base + Vector2(1.0, 0), base + Vector2(2.8, -height * 0.78), color, 1.1, true)
 
 func _draw_paths() -> void:
 	var world_x := float(chunk.get("worldX", 0))

@@ -23,6 +23,32 @@ export type OutdoorResumeState = {
   dayClock: number;
 };
 
+// Cosmetici equipaggiati risolti in dati visivi (colori 0xRRGGBB) così Godot
+// li rende senza conoscere il catalogo. Chiude il loop shopping ↔ avventura:
+// ciò che compri nella bottega si vede addosso a Eli e nel pet che la segue.
+export type OutdoorAvatarVisual = {
+  bodyColor: number;
+  accessory: { id: string; color: number } | null;
+  pet: { id: string; kind: string; color: number } | null;
+};
+
+// Prossimo cosmetico-obiettivo mostrato nell'HUD Godot (goal-gradient): dà al
+// giocatore un traguardo concreto verso cui raccogliere energia.
+export type OutdoorNextReward = {
+  name: string;
+  cost: number;
+  rarity: string;
+};
+
+// Dati di presentazione risolti da Phaser (cosmetici + economia) per l'HUD e
+// l'avatar del mondo Godot. Raggruppati per non allungare la firma della
+// richiesta e per tenere il resolver fuori dal bridge.
+export type OutdoorPresentation = {
+  avatarVisual?: OutdoorAvatarVisual;
+  energy?: number;
+  nextReward?: OutdoorNextReward | null;
+};
+
 export type OutdoorWorldRequest = {
   schemaVersion: typeof OUTDOOR_BRIDGE_SCHEMA;
   playerId: string;
@@ -31,6 +57,9 @@ export type OutdoorWorldRequest = {
   returnUrl?: string;
   resume?: OutdoorResumeState;
   avatar: { outfit: string; accessory: string; pet: string };
+  avatarVisual?: OutdoorAvatarVisual;
+  energy?: number;
+  nextReward?: OutdoorNextReward;
   outdoorState: {
     completedEncounterIds: string[];
     collectedTreasureIds: string[];
@@ -51,7 +80,7 @@ export type OutdoorWorldResult = {
   resume?: OutdoorResumeState;
 };
 
-export function createOutdoorWorldRequest(save: SaveData, playerLevel: number, returnUrl?: string, resume?: OutdoorResumeState): OutdoorWorldRequest {
+export function createOutdoorWorldRequest(save: SaveData, playerLevel: number, returnUrl?: string, resume?: OutdoorResumeState, presentation?: OutdoorPresentation): OutdoorWorldRequest {
   const outdoor = save.outdoorAdventure;
   return {
     schemaVersion: OUTDOOR_BRIDGE_SCHEMA,
@@ -60,6 +89,9 @@ export function createOutdoorWorldRequest(save: SaveData, playerLevel: number, r
     playerLevel,
     ...(returnUrl ? { returnUrl } : {}),
     ...(resume ? { resume } : {}),
+    ...(presentation?.avatarVisual ? { avatarVisual: presentation.avatarVisual } : {}),
+    ...(presentation?.energy !== undefined ? { energy: presentation.energy } : {}),
+    ...(presentation?.nextReward ? { nextReward: presentation.nextReward } : {}),
     avatar: {
       outfit: save.rewards?.equipped?.outfit ?? "avatar-base",
       accessory: save.rewards?.equipped?.accessory ?? "",

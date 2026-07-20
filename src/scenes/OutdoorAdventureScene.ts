@@ -11,6 +11,7 @@ import { generateOutdoorChunk, OUTDOOR_CHUNK_SIZE, type OutdoorChunk } from "../
 import { generateOutdoorHazardsForChunk, isOutdoorHazardActive, outdoorHazardDifficulty, outdoorHazardReward, OUTDOOR_PHASE_LABELS, phaseForOutdoorTime, type OutdoorDayPhase, type OutdoorHazard } from "../procedural/OutdoorDayNight";
 import { Button } from "../ui/Button";
 import { consumeOutdoorWorldResult, createOutdoorWorldRequest, openOutdoorGodot, type OutdoorResumeState, type OutdoorWorldResult } from "../integration/outdoorGodotBridge";
+import { resolveOutdoorPresentation } from "../integration/outdoorAvatar";
 
 type Dir = "down" | "up" | "left" | "right";
 
@@ -273,7 +274,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       feedbackSystem.publish("Mondo Godot non ancora compilato: continui nel mondo Phaser.", "hint");
       return false;
     }
-    const request = createOutdoorWorldRequest(saveSystem.data, rewardSystem.playerLevel(), window.location.href, resume);
+    const request = createOutdoorWorldRequest(saveSystem.data, rewardSystem.playerLevel(), window.location.href, resume, resolveOutdoorPresentation(rewardSystem.playerLevel()));
     openOutdoorGodot(this.godotUrl(), request);
     return true;
   }

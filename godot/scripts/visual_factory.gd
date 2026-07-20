@@ -18,6 +18,10 @@ const TREASURE_TEXTURE: Texture2D = preload("res://assets/academy-treasure.svg")
 const ENCOUNTER_TEXTURE: Texture2D = preload("res://assets/academy-encounter.svg")
 const OUTDOOR_SHEET: Texture2D = preload("res://assets/outdoor-world-sheet.png")
 const PLAYER_SHEET: Texture2D = preload("res://assets/eli-robot-girl-sheet.png")
+const ACADEMY_NATURAL_ATLAS: Texture2D = preload("res://assets/radura-academia-natural-atlas.png")
+const WILD_NATURAL_ATLAS: Texture2D = preload("res://assets/bosco-variabile-natural-atlas.png")
+const GEO_NATURAL_ATLAS: Texture2D = preload("res://assets/dorsale-geografica-natural-atlas.png")
+const LOGIC_NATURAL_ATLAS: Texture2D = preload("res://assets/cratere-logico-natural-atlas.png")
 
 const ENCOUNTER_COLORS := {
 	"times": Color("f6c85f"),
@@ -63,6 +67,29 @@ static func player_sprite(target_size: Vector2 = Vector2(58, 58)) -> Sprite2D:
 	sprite.position = Vector2(0, -17)
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	return sprite
+
+static func natural_atlas_sprite(texture: Texture2D, cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	var atlas := AtlasTexture.new()
+	atlas.atlas = texture
+	atlas.region = Rect2(cell.x * 362, cell.y * 362, 362, 362)
+	var sprite := Sprite2D.new()
+	sprite.texture = atlas
+	sprite.position.y = y
+	sprite.scale = target_size / atlas.region.size
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	return sprite
+
+static func academy_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	return natural_atlas_sprite(ACADEMY_NATURAL_ATLAS, cell, target_size, y)
+
+static func wild_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	return natural_atlas_sprite(WILD_NATURAL_ATLAS, cell, target_size, y)
+
+static func geo_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	return natural_atlas_sprite(GEO_NATURAL_ATLAS, cell, target_size, y)
+
+static func logic_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	return natural_atlas_sprite(LOGIC_NATURAL_ATLAS, cell, target_size, y)
 
 # ---------------------------------------------------------------------------
 # Risorse condivise
@@ -174,9 +201,48 @@ static func make_sparkles(color: Color, spread_radius: float, amount: int) -> CP
 # Ostacoli
 # ---------------------------------------------------------------------------
 
-static func build_obstacle(kind: String, radius: float, rgb: int, variant: float) -> Node2D:
+static func build_obstacle(kind: String, radius: float, rgb: int, variant: float, biome: String = "") -> Node2D:
 	var root := Node2D.new()
 	var color := hex_color(rgb).darkened(variant * 0.16)
+	if biome == "academy":
+		var academy_cell := Vector2i(-1, -1)
+		if kind == "tree": academy_cell = Vector2i(0, 0)
+		elif kind == "bush": academy_cell = Vector2i(2, 0)
+		elif kind == "rock": academy_cell = Vector2i(1, 1)
+		if academy_cell.x >= 0:
+			var target := Vector2(radius * 1.85, radius * 1.85)
+			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
+			root.add_child(academy_natural_sprite(academy_cell, target, -target.y * 0.38))
+			return root
+	if biome == "wild":
+		var wild_cell := Vector2i(-1, -1)
+		if kind == "tree": wild_cell = Vector2i(0, 0)
+		elif kind == "bush": wild_cell = Vector2i(3, 0)
+		elif kind == "mushroom": wild_cell = Vector2i(0, 1)
+		if wild_cell.x >= 0:
+			var wild_target := Vector2(radius * 1.9, radius * 1.9)
+			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
+			root.add_child(wild_natural_sprite(wild_cell, wild_target, -wild_target.y * 0.38))
+			return root
+	if biome == "geo":
+		var geo_cell := Vector2i(-1, -1)
+		if kind == "rock": geo_cell = Vector2i(0, 2)
+		elif kind == "bush": geo_cell = Vector2i(2, 2)
+		if geo_cell.x >= 0:
+			var geo_target := Vector2(radius * 1.9, radius * 1.75)
+			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
+			root.add_child(geo_natural_sprite(geo_cell, geo_target, -geo_target.y * 0.38))
+			return root
+	if biome == "logic":
+		var logic_cell := Vector2i(-1, -1)
+		if kind == "crystal": logic_cell = Vector2i(0, 0)
+		elif kind == "pillar": logic_cell = Vector2i(2, 0)
+		elif kind == "rock": logic_cell = Vector2i(3, 2)
+		if logic_cell.x >= 0:
+			var logic_target := Vector2(radius * 1.85, radius * 1.8)
+			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
+			root.add_child(logic_natural_sprite(logic_cell, logic_target, -logic_target.y * 0.38))
+			return root
 	var sprite_name := ""
 	var target := Vector2.ZERO
 	match kind:
@@ -307,9 +373,54 @@ static func build_obstacle(kind: String, radius: float, rgb: int, variant: float
 # Prop
 # ---------------------------------------------------------------------------
 
-static func build_prop(kind: String, accent_rgb: int, variant: float) -> Node2D:
+static func build_prop(kind: String, accent_rgb: int, variant: float, biome: String = "") -> Node2D:
 	var root := Node2D.new()
 	var accent := hex_color(accent_rgb)
+	if biome == "academy":
+		var academy_cell := Vector2i(-1, -1)
+		if kind == "sign": academy_cell = Vector2i(3, 1)
+		elif kind == "river": academy_cell = Vector2i(0, 2)
+		elif kind == "garden": academy_cell = Vector2i(3, 2)
+		elif kind == "waterfall": academy_cell = Vector2i(1, 2)
+		if academy_cell.x >= 0:
+			var target := Vector2(104, 104)
+			root.add_child(make_shadow(34, 10, 0.22, 4))
+			root.add_child(academy_natural_sprite(academy_cell, target, -34))
+			return root
+	if biome == "wild":
+		var wild_cell := Vector2i(-1, -1)
+		if kind == "garden": wild_cell = Vector2i(2, 2)
+		elif kind == "camp": wild_cell = Vector2i(1, 1)
+		elif kind == "waterfall": wild_cell = Vector2i(3, 1)
+		if wild_cell.x >= 0:
+			var wild_target := Vector2(112, 112)
+			root.add_child(make_shadow(34, 10, 0.22, 4))
+			root.add_child(wild_natural_sprite(wild_cell, wild_target, -36))
+			return root
+	if biome == "geo":
+		var geo_cell := Vector2i(-1, -1)
+		if kind == "river": geo_cell = Vector2i(1, 0)
+		elif kind == "waterfall": geo_cell = Vector2i(2, 0)
+		elif kind == "bridge": geo_cell = Vector2i(3, 0)
+		elif kind == "well": geo_cell = Vector2i(1, 1)
+		elif kind == "garden": geo_cell = Vector2i(2, 2)
+		if geo_cell.x >= 0:
+			var geo_target := Vector2(116, 110)
+			root.add_child(make_shadow(36, 10, 0.22, 4))
+			root.add_child(geo_natural_sprite(geo_cell, geo_target, -36))
+			return root
+	if biome == "logic":
+		var logic_cell := Vector2i(-1, -1)
+		if kind == "beacon": logic_cell = Vector2i(1, 1)
+		elif kind == "arch": logic_cell = Vector2i(3, 1)
+		elif kind == "garden": logic_cell = Vector2i(3, 0)
+		elif kind == "well" or kind == "river": logic_cell = Vector2i(1, 2)
+		elif kind == "camp": logic_cell = Vector2i(2, 1)
+		if logic_cell.x >= 0:
+			var logic_target := Vector2(112, 110)
+			root.add_child(make_shadow(36, 10, 0.22, 4))
+			root.add_child(logic_natural_sprite(logic_cell, logic_target, -36))
+			return root
 	var sprite_name := ""
 	var target := Vector2.ZERO
 	match kind:
@@ -652,8 +763,15 @@ static func build_encounter(kind: String, difficulty: int) -> Node2D:
 # ---------------------------------------------------------------------------
 
 static func build_player(accent: Color) -> Node2D:
+	# `accent` è la livrea = colore dell'outfit equipaggiato in bottega: tinge
+	# aura, anello a terra e punta luminosa, così comprare un outfit cambia il
+	# colore-firma di Eli nel mondo.
 	var root := Node2D.new()
 	root.add_child(make_shadow(15, 5.6, 0.32, 16))
+	var ring := make_ring(15, Color(accent, 0.5), 2.0, 22)
+	ring.scale = Vector2(1, 0.4)
+	ring.position = Vector2(0, 15)
+	root.add_child(ring)
 	var aura := make_glow(27, accent, 0.16)
 	aura.position = Vector2(0, 4)
 	root.add_child(aura)
@@ -665,4 +783,76 @@ static func build_player(accent: Color) -> Node2D:
 	tip.add_to_group("night_glow")
 	visual.add_child(tip)
 	root.add_child(visual)
+	return root
+
+# Emblema dell'accessorio equipaggiato, montato sopra la testa del player.
+static func build_accessory(id: String, color: Color) -> Node2D:
+	var root := Node2D.new()
+	if "crown" in id or "halo" in id or "aureola" in id:
+		var ring := make_ring(8, color, 2.0, 18)
+		ring.scale = Vector2(1, 0.5)
+		ring.position = Vector2(0, -46)
+		root.add_child(ring)
+		var g := make_glow(12, color, 0.6)
+		g.position = Vector2(0, -46)
+		g.add_to_group("night_glow")
+		root.add_child(g)
+	elif "visor" in id:
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(-6, -38), Vector2(6, -38), Vector2(6, -35), Vector2(-6, -35),
+		]), color))
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(-4.5, -37.4), Vector2(4.5, -37.4), Vector2(4.5, -36.2), Vector2(-4.5, -36.2),
+		]), color.lightened(0.4)))
+	elif "wings" in id:
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(-9, -20), Vector2(-21, -27), Vector2(-16, -11),
+		]), Color(color, 0.75)))
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(9, -20), Vector2(21, -27), Vector2(16, -11),
+		]), Color(color, 0.75)))
+	elif "scarf" in id:
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(-6, -26), Vector2(6, -26), Vector2(7, -20), Vector2(-7, -20),
+		]), color))
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(3, -22), Vector2(7, -22), Vector2(6, -11), Vector2(2, -12),
+		]), color.darkened(0.12)))
+	else:
+		var gem := make_polygon(PackedVector2Array([
+			Vector2(0, -47), Vector2(3.4, -42.5), Vector2(0, -38), Vector2(-3.4, -42.5),
+		]), color)
+		root.add_child(gem)
+		var g := make_glow(9, color, 0.6)
+		g.position = Vector2(0, -42.5)
+		g.add_to_group("night_glow")
+		root.add_child(g)
+	return root
+
+# Compagno acquistato in bottega. Le creature (dog/cat/rabbit) hanno corpo,
+# orecchie e occhio; gli altri (spark/comet/orbit/…) sono nuclei luminosi.
+static func build_pet(kind: String, color: Color) -> Node2D:
+	var root := Node2D.new()
+	root.add_child(make_shadow(9, 3.4, 0.28, 6))
+	var glow := make_glow(18, color, 0.42)
+	glow.add_to_group("night_glow")
+	root.add_child(glow)
+	if kind == "dog" or kind == "cat" or kind == "rabbit":
+		root.add_child(make_polygon(ellipse_polygon(8, 6.5, 16), color))
+		root.add_child(make_polygon(circle_polygon(1.1, 8), color.lightened(0.3), Vector2(-6.5, -1)))
+		var ear_h := 9.0 if kind == "rabbit" else (5.5 if kind == "cat" else 4.0)
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(2.6, -8), Vector2(4.4, -8 - ear_h), Vector2(5.8, -6.6),
+		]), color.darkened(0.12)))
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(6.4, -8), Vector2(8.2, -8 - ear_h), Vector2(9.4, -6.6),
+		]), color.darkened(0.12)))
+		root.add_child(make_polygon(circle_polygon(5.2, 14), color.lightened(0.08), Vector2(5.4, -3.8)))
+		root.add_child(make_polygon(circle_polygon(1.2, 8), Color(0.05, 0.1, 0.12), Vector2(6.8, -4.4)))
+	else:
+		root.add_child(make_polygon(circle_polygon(6, 16), color.lightened(0.1)))
+		root.add_child(make_polygon(circle_polygon(2.4, 10), Color(1, 1, 1, 0.85), Vector2(-1.6, -1.6)))
+		var ring := make_ring(9, Color(color, 0.8), 1.6, 18)
+		root.add_child(ring)
+		attach_anim(ring, "spin", 1.4, 1.0)
 	return root

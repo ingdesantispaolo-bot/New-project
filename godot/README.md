@@ -30,7 +30,18 @@ separato dal runtime Phaser e non modifica il client web esistente.
   giorno), bagliori che si accendono al tramonto (gruppo `night_glow`),
   lucciole notturne, vignetta ai bordi, ping sul punto toccato;
 - micro-animazioni senza Tween (`ambient_anim.gd`) e dettagli deterministici
-  da RNG decorativo separato: la parità del generatore non è toccata.
+  da RNG decorativo separato: la parità del generatore non è toccata;
+- **cosmetici della bottega visibili nel mondo**: l'outfit equipaggiato tinge
+  la livrea di Eli (aura, anello, punta), l'accessorio compare come emblema
+  sopra la testa e il **pet acquistato segue il player e reagisce** quando
+  raccogli un tesoro o avvii una prova. I dati arrivano già risolti da Phaser
+  nel campo `avatarVisual` della richiesta (vedi `outdoorAvatar.ts`).
+- **HUD economia + obiettivo pinnato**: pannello con energia e frammenti della
+  sessione (aggiornati in tempo reale, con popup "+N" fluttuante alla raccolta)
+  e barra di avvicinamento al **prossimo cosmetico** della bottega
+  ("Ti manca X energia / Puoi comprarlo!"). I campi `energy` e `nextReward`
+  della richiesta sono risolti da `resolveOutdoorPresentation` in Phaser
+  (cosmetico più economico non ancora posseduto e alla portata di livello).
 
 ## Avvio
 

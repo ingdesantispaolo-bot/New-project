@@ -1,0 +1,24 @@
+{
+	"schemaVersion": 1,
+	"subject": "matematica",
+	"topic": "tabelline",
+	"generator": "sample-hand-authored",
+	"items": [
+		{ "id": "math-times-0001", "subject": "matematica", "topic": "tabelline", "difficulty": 1, "format": "multiple_choice", "prompt": "Quanto fa 2 × 3?", "options": ["5", "6", "8", "4"], "answer": "6", "explanation": "2 × 3 = 6: tre gruppi da due, oppure 2 + 2 + 2." },
+		{ "id": "math-times-0002", "subject": "matematica", "topic": "tabelline", "difficulty": 1, "format": "multiple_choice", "prompt": "Quanto fa 4 × 2?", "options": ["6", "8", "10", "9"], "answer": "8", "explanation": "4 × 2 = 8: due gruppi da quattro." },
+		{ "id": "math-times-0003", "subject": "matematica", "topic": "tabelline", "difficulty": 1, "format": "multiple_choice", "prompt": "Quanto fa 5 × 3?", "options": ["15", "12", "18", "10"], "answer": "15", "explanation": "5 × 3 = 15: conta a cinque tre volte (5, 10, 15)." },
+		{ "id": "math-times-0004", "subject": "matematica", "topic": "tabelline", "difficulty": 1, "format": "numeric_input", "prompt": "Quanto fa 3 × 3?", "options": [], "answer": "9", "explanation": "3 × 3 = 9." },
+		{ "id": "math-times-0005", "subject": "matematica", "topic": "tabelline", "difficulty": 2, "format": "multiple_choice", "prompt": "Quanto fa 6 × 4?", "options": ["24", "20", "28", "26"], "answer": "24", "explanation": "6 × 4 = 24: puoi fare 6 × 2 = 12, poi il doppio, 24." },
+		{ "id": "math-times-0006", "subject": "matematica", "topic": "tabelline", "difficulty": 2, "format": "multiple_choice", "prompt": "Quanto fa 7 × 3?", "options": ["21", "24", "18", "27"], "answer": "21", "explanation": "7 × 3 = 21: 7 + 7 + 7." },
+		{ "id": "math-times-0007", "subject": "matematica", "topic": "tabelline", "difficulty": 2, "format": "multiple_choice", "prompt": "Quanto fa 8 × 5?", "options": ["40", "45", "35", "48"], "answer": "40", "explanation": "8 × 5 = 40: la tabellina del 5 finisce in 0 o 5; 8 volte 5 = 40." },
+		{ "id": "math-times-0008", "subject": "matematica", "topic": "tabelline", "difficulty": 2, "format": "numeric_input", "prompt": "Quanto fa 6 × 6?", "options": [], "answer": "36", "explanation": "6 × 6 = 36." },
+		{ "id": "math-times-0009", "subject": "matematica", "topic": "tabelline", "difficulty": 3, "format": "multiple_choice", "prompt": "Quanto fa 7 × 8?", "options": ["54", "56", "63", "49"], "answer": "56", "explanation": "7 × 8 = 56: pensa a 7 × 8 = 7 × 10 − 7 × 2 = 70 − 14." },
+		{ "id": "math-times-0010", "subject": "matematica", "topic": "tabelline", "difficulty": 3, "format": "multiple_choice", "prompt": "Quanto fa 9 × 6?", "options": ["54", "56", "48", "63"], "answer": "54", "explanation": "9 × 6 = 54: 10 × 6 − 6 = 60 − 6." },
+		{ "id": "math-times-0011", "subject": "matematica", "topic": "tabelline", "difficulty": 3, "format": "multiple_choice", "prompt": "Quanto fa 8 × 7?", "options": ["56", "54", "64", "49"], "answer": "56", "explanation": "8 × 7 = 56 (uguale a 7 × 8)." },
+		{ "id": "math-times-0012", "subject": "matematica", "topic": "tabelline", "difficulty": 3, "format": "numeric_input", "prompt": "Quanto fa 9 × 9?", "options": [], "answer": "81", "explanation": "9 × 9 = 81: 10 × 9 − 9 = 90 − 9." },
+		{ "id": "math-times-0013", "subject": "matematica", "topic": "tabelline", "difficulty": 4, "format": "multiple_choice", "prompt": "Quanto fa 11 × 7?", "options": ["77", "72", "84", "70"], "answer": "77", "explanation": "11 × 7 = 77: 10 × 7 + 7 = 70 + 7." },
+		{ "id": "math-times-0014", "subject": "matematica", "topic": "tabelline", "difficulty": 4, "format": "multiple_choice", "prompt": "Quanto fa 12 × 8?", "options": ["96", "88", "104", "84"], "answer": "96", "explanation": "12 × 8 = 96: 10 × 8 + 2 × 8 = 80 + 16." },
+		{ "id": "math-times-0015", "subject": "matematica", "topic": "tabelline", "difficulty": 4, "format": "multiple_choice", "prompt": "Quanto fa 12 × 12?", "options": ["144", "124", "132", "148"], "answer": "144", "explanation": "12 × 12 = 144." },
+		{ "id": "math-times-0016", "subject": "matematica", "topic": "tabelline", "difficulty": 4, "format": "numeric_input", "prompt": "Quanto fa 11 × 11?", "options": [], "answer": "121", "explanation": "11 × 11 = 121." }
+	]
+}

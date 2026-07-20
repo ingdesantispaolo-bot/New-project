@@ -142,6 +142,19 @@ export class SaveSystem {
     EventBus.emit(GameEvents.RewardsChanged, rewards);
   }
 
+  /** Spends energy when the player enters an exercise. Participation is paid
+   * even if the attempt is not completed successfully. */
+  spendEnergy(amount: number): boolean {
+    const cost = Math.max(0, Math.floor(amount));
+    if (cost <= 0) return true;
+    const rewards = this.rewards;
+    if (rewards.energy < cost) return false;
+    rewards.energy -= cost;
+    this.persist();
+    EventBus.emit(GameEvents.RewardsChanged, rewards);
+    return true;
+  }
+
   // --- Daily loop ----------------------------------------------------------
 
   private todayKey(date = new Date()): string {

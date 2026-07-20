@@ -23,6 +23,9 @@ static func _default_data() -> Dictionary:
 		"apparatus": {},            # id -> {repairedLevel:int}
 		"cosmetics": {"unlocked": [], "equipped": {}},
 		"modules": {"owned": [], "equipped": []},
+		"narrative": {"seen": [], "beats": {}},
+		"daily": {"date": "", "missions": 0, "streak": 0},
+		"spacedRepetition": {"due": {}, "history": []},
 	}
 
 func load_save() -> void:
@@ -32,8 +35,8 @@ func load_save() -> void:
 	if file == null:
 		return
 	var parsed = JSON.parse_string(file.get_as_text())
-	if typeof(parsed) == TYPE_DICTIONARY and int(parsed.get("schemaVersion", 0)) == SCHEMA_VERSION:
-		data = parsed
+	if typeof(parsed) == TYPE_DICTIONARY:
+		data = migrate_from_phaser(parsed)
 
 func save() -> void:
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -89,8 +92,21 @@ func import_bridge_request(request: Dictionary) -> void:
 	if outdoor.has("fragments"):
 		data["fragments"] = maxi(0, int(outdoor.get("fragments", data.get("fragments", 0))))
 	var canonical = request.get("godotSave", null)
-	if typeof(canonical) == TYPE_DICTIONARY and int(canonical.get("schemaVersion", 0)) == SCHEMA_VERSION:
-		data = canonical.duplicate(true)
+	if typeof(canonical) == TYPE_DICTIONARY:
+		data = migrate_from_phaser(canonical)
+		# I campi bridge ricevuti nello stesso handshake hanno precedenza solo
+		# sui contatori esplicitamente dichiarati, mai sui campi sconosciuti.
+	if request.has("playerLevel"):
+		set_level(maxi(1, int(request.get("playerLevel", level()))))
+
+func migrate_from_phaser(source: Dictionary) -> Dictionary:
+	## Migrazione idempotente: non scarta campi futuri sconosciuti.
+	var migrated := source.duplicate(true)
+	for key in _default_data().keys():
+		if not migrated.has(key):
+			migrated[key] = _default_data()[key].duplicate(true) if typeof(_default_data()[key]) == TYPE_DICTIONARY else _default_data()[key]
+	migrated["schemaVersion"] = SCHEMA_VERSION
+	return migrated
 
 func bridge_snapshot() -> Dictionary:
 	return data.duplicate(true)

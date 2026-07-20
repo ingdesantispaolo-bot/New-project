@@ -3,7 +3,6 @@ import { audioManager } from "../core/AudioManager";
 import { campaignSystem } from "../core/CampaignSystem";
 import { playerSystem } from "../core/PlayerSystem";
 import { proceduralRunRules } from "../core/ProceduralRunRules";
-import { rewardSystem } from "../core/RewardSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { startScene } from "../core/SceneNavigator";
 import { storySystem } from "../core/StorySystem";
@@ -15,8 +14,8 @@ import { proceduralDirector } from "../procedural/ProceduralDirector";
 import type { DifficultyLevel, ProceduralRunSave, ProceduralSpecialization } from "../procedural/ProceduralTypes";
 import { Button } from "../ui/Button";
 import { RoomExplorer, type RoomConsole, type RoomConsoleState } from "./procedural/RoomExplorer";
-import { consumeOutdoorWorldResult, createOutdoorWorldRequest, openOutdoorGodot, readOutdoorWorldResult, type OutdoorWorldResult } from "../integration/outdoorGodotBridge";
-import { resolveOutdoorPresentation } from "../integration/outdoorAvatar";
+import { consumeOutdoorWorldResult, readOutdoorWorldResult, type OutdoorWorldResult } from "../integration/outdoorGodotBridge";
+import { openOutdoorWorld } from "../integration/outdoorEntry";
 
 /**
  * Hub esplorabile del Relitto. I ponti vivono in {@link MAP_AREAS} (dati puri) e
@@ -127,6 +126,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
       .forEach((id) => saveSystem.recordOutdoorTreasure(id, 0, 0));
     if (result.fragmentsEarned > 0) saveSystem.grantOutdoorFragments(result.fragmentsEarned);
     if (result.energyEarned > 0) saveSystem.addEnergy(result.energyEarned);
+    if ((result.energySpent ?? 0) > 0) saveSystem.spendEnergy(result.energySpent ?? 0);
   }
 
   private restorationItemId(areaId: string): string | undefined {
@@ -408,21 +408,15 @@ export class ExplorableRoomScene extends Phaser.Scene {
     });
   }
 
-  /** The outdoor gate is the Godot boundary: do not enter the Phaser clone. */
+  /** Varco esterno: ingresso unificato (Godot se disponibile, Phaser altrimenti). */
   private async openOutdoorGodotFromPortal(): Promise<void> {
-    const url = import.meta.env.VITE_GODOT_OUTDOOR_URL ?? `${import.meta.env.BASE_URL}godot/outdoor/index.html`;
-    const probe = `${url.replace(/index\.html$/, "")}index.wasm`;
     try {
-      const response = await fetch(probe, { method: "HEAD", cache: "no-store" });
-      if (!response.ok) throw new Error(`Godot Web non disponibile (${response.status})`);
-      saveSystem.load();
-      const request = createOutdoorWorldRequest(saveSystem.data, rewardSystem.playerLevel(), window.location.href, undefined, resolveOutdoorPresentation(rewardSystem.playerLevel()));
-      openOutdoorGodot(url, request);
+      await openOutdoorWorld(this);
     } catch {
       this.launching = false;
       this.explorer?.resume();
       this.cameras.main.fadeIn(260, 3, 8, 12);
-      this.showError("Il mondo Godot non è disponibile. Verifica l’export Web e riprova.");
+      this.showError("Non sono riuscito ad aprire l'avventura esterna. Riprova tra un istante.");
     }
   }
 

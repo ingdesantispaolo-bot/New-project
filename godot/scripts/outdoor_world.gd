@@ -52,15 +52,22 @@ var base_energy := 0
 var base_fragments := 0
 var reward_cost := 0
 var reward_name := ""
+var gameplay: OutdoorGameplay
+var runtime: Dictionary = {}
 
 func _ready() -> void:
 	request = bridge.load_request()
 	result = bridge.result_from_request(request)
-	game_save = GAME_SAVE_SCRIPT.new()
-	game_save.load_save()
-	game_save.import_bridge_request(request)
-	content_manager = CONTENT_MANAGER_SCRIPT.new()
-	progression_manager = PROGRESSION_MANAGER_SCRIPT.new(game_save)
+	gameplay = OutdoorGameplay.new()
+	gameplay.name = "OutdoorGameplay"
+	add_child(gameplay)
+	gameplay.runtime_state_changed.connect(_on_runtime_state)
+	gameplay.session_requested.connect(_on_gameplay_session_requested)
+	gameplay.feedback.connect(_set_feedback)
+	gameplay.setup(request, result)
+	game_save = gameplay.game_save
+	content_manager = gameplay.content_manager
+	progression_manager = gameplay.progression_manager
 	world_layer = Node2D.new()
 	world_layer.name = "WorldLayer"
 	world_layer.y_sort_enabled = true
@@ -90,6 +97,20 @@ func _apply_resume() -> void:
 	day_clock = float(resume.get("dayClock", 0.0))
 	if is_instance_valid(camera):
 		camera.position = player.position
+
+func _on_runtime_state(state: Dictionary) -> void:
+	runtime = state.duplicate(true)
+	_update_objective()
+	_refresh_economy()
+
+func _on_gameplay_session_requested(session: Dictionary) -> void:
+	if not is_instance_valid(exercise_player):
+		return
+	_set_feedback("")
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	exercise_player.visible = true
+	exercise_player.start_session(session)
 
 func _process(delta: float) -> void:
 	day_clock = fmod(day_clock + delta, DAY_LENGTH)
@@ -553,7 +574,7 @@ func _interact() -> void:
 		_leave_world()
 		return
 	if kind == "apparatus":
-		start_final_exam()
+		gameplay.try_start_final_exam()
 		return
 	if kind == "treasure":
 		var payload: Dictionary = target.get_meta("payload")
@@ -562,11 +583,11 @@ func _interact() -> void:
 			_set_feedback("Questa cassa è già stata raccolta.")
 		else:
 			collected.append(id)
-			result["fragmentsEarned"] += int(payload["rewardFragments"])
+			gameplay.collect_treasure(payload)
 			_update_objective()
 			_set_feedback("Tesoro raccolto: +%d frammenti. L'energia si guadagna solo con gli esercizi." % int(payload["rewardFragments"]))
 			_refresh_economy()
-			_spawn_gain_popup("+%d energia · +%d fr" % [int(payload["rewardEnergy"]), int(payload["rewardFragments"])], Color("f6c85f"))
+			_spawn_gain_popup("+%d frammenti" % int(payload["rewardFragments"]), Color("c7b8ff"))
 			if is_instance_valid(pet_companion):
 				pet_companion.react()
 			nearby.erase(target)
@@ -579,11 +600,7 @@ func _interact() -> void:
 		if result["completedEncounterIds"].has(id):
 			_set_feedback("Incontro già completato.")
 			return
-		if not game_save.spend_energy(EXERCISE_ENERGY_COST):
-			_set_feedback("Energia insufficiente: servono %d energia." % EXERCISE_ENERGY_COST)
-			return
-		result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
-		_start_mission_session(mission_payload, id)
+		gameplay.try_start_mission(mission_payload, id)
 		return
 
 
@@ -608,72 +625,22 @@ func _start_mission_session(payload: Dictionary, encounter_id: String) -> void:
 	exercise_player.start_session(session)
 
 func start_final_exam() -> bool:
-	if not is_instance_valid(exercise_player) or exercise_player.visible:
-		return false
-	if not progression_manager.can_repair():
-		_refresh_prompt()
-		return false
-	if not game_save.spend_energy(EXERCISE_ENERGY_COST):
-		_set_feedback("Energia insufficiente: servono %d energia per l'esame." % EXERCISE_ENERGY_COST)
-		return false
-	var gate := progression_manager.current_gate()
-	var subject := str(gate.get("subject", "matematica"))
-	var session := content_manager.build_final_exam(subject, game_save.level(), 3)
-	active_session_context = {"kind": "final_exam", "subject": subject, "apparatus": str(gate.get("apparatus", "nucleo"))}
-	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
-	_set_feedback("")
-	player.set_physics_process(false)
-	exercise_player.visible = true
-	exercise_player.start_session(session)
-	return true
+	return is_instance_valid(gameplay) and gameplay.try_start_final_exam()
 
 func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	if not is_instance_valid(exercise_player):
 		return
 	exercise_player.visible = false
-	player.set_physics_process(true)
-	var context := active_session_context.duplicate(true)
-	active_session_context = {}
-	var subject := str(context.get("subject", exercise_result.get("subject", "matematica")))
-	var gained := int(exercise_result.get("energyGained", 0))
-	var correct := int(exercise_result.get("correct", 0))
-	var total := int(exercise_result.get("total", 0))
-	var passed := bool(exercise_result.get("passed", false))
-	var energy_before := game_save.energy()
-	progression_manager.record_mission(subject, correct, total, gained, passed)
-	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
-	if str(context.get("kind", "mission")) == "mission":
-		var encounter_id := str(context.get("encounterId", ""))
-		if passed and encounter_id != "":
-			var completed: Array = result["completedEncounterIds"]
-			if not completed.has(encounter_id):
-				completed.append(encounter_id)
-			result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + 2
-			_update_objective()
-		_set_feedback("Missione superata: +%d energia · padronanza aggiornata" % gained if passed else "Missione da ripetere: hai ancora margine")
-	else:
-		if passed:
-			var advanced := progression_manager.repair_and_advance(true)
-			if advanced:
-				var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
-				result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
-				result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + 4
-				_set_feedback("Esame superato: apparato riparato · livello %d" % game_save.level())
-			else:
-				_set_feedback("Il gate non è più disponibile: riprova le missioni richieste.")
-		else:
-			_set_feedback("Esame non superato: l'apparato resta da riparare.")
-	game_save.save()
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	if is_instance_valid(gameplay):
+		gameplay.resolve_session(exercise_result)
 	_refresh_economy()
 	_refresh_prompt()
 
 func _leave_world() -> void:
-	game_save.save()
-	result["godotSave"] = game_save.bridge_snapshot()
-	result["level"] = game_save.level()
-	result["missionsBySubject"] = game_save.data.get("missionsBySubject", {}).duplicate(true)
-	result["mastery"] = game_save.data.get("mastery", {}).duplicate(true)
-	result["apparatus"] = game_save.data.get("apparatus", {}).duplicate(true)
+	if is_instance_valid(gameplay):
+		gameplay.publish_exit_state()
 	var return_url := str(request.get("returnUrl", ""))
 	bridge.publish_result_and_return(result, return_url)
 	get_tree().quit()

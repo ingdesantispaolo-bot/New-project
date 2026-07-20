@@ -9,19 +9,23 @@ resta originale e legata a Eli Quest, NORA e all'apprendimento.
 
 Il concept di riferimento è [Radura Accademia — concept v1](art-direction/radura-accademia-concept-v1.png).
 
-Il primo atlante AI operativo è `godot/assets/radura-academia-natural-atlas.png`:
+Il primo atlante AI sorgente è `godot/assets/radura-academia-natural-atlas.png`;
+la variante operativa con alpha è `godot/assets/radura-academia-natural-atlas-v2.png`:
 12 elementi naturali su griglia 4×3, integrati come atlas region soltanto nel
 bioma `academy` per mantenere distinti gli altri biomi.
 
-Il secondo atlante è `godot/assets/bosco-variabile-natural-atlas.png`, dedicato
+Il secondo atlante sorgente è `godot/assets/bosco-variabile-natural-atlas.png`;
+la variante operativa con alpha è `godot/assets/bosco-variabile-natural-atlas-v2.png`, dedicato
 al Bosco Variabile: usa silhouette più selvagge, muschio, radici, funghi e
 bacche, con mapping separato nel visual factory.
 
-Il terzo atlante è `godot/assets/dorsale-geografica-natural-atlas.png`, dedicato
+Il terzo atlante sorgente è `godot/assets/dorsale-geografica-natural-atlas.png`;
+la variante operativa con alpha è `godot/assets/dorsale-geografica-natural-atlas-v2.png`, dedicato
 alla Dorsale Geografica: acqua, cascate, ponti, rocce stratificate, pozze,
 segnali di sentiero e fiori alpini.
 
-Il quarto atlante è `godot/assets/cratere-logico-natural-atlas.png`, dedicato
+Il quarto atlante sorgente è `godot/assets/cratere-logico-natural-atlas.png`;
+la variante operativa con alpha è `godot/assets/cratere-logico-natural-atlas-v2.png`, dedicato
 al Cratere Logico: cristalli, cairn, fiori simmetrici, archi, pozze prismatiche
 e pattern naturali che comunicano il tema della logica senza ricorrere a
 macchinari o interfacce tecnologiche.

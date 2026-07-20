@@ -12,6 +12,7 @@ import { generateOutdoorHazardsForChunk, isOutdoorHazardActive, outdoorHazardDif
 import { Button } from "../ui/Button";
 import { consumeOutdoorWorldResult, createOutdoorWorldRequest, openOutdoorGodot, type OutdoorResumeState, type OutdoorWorldResult } from "../integration/outdoorGodotBridge";
 import { resolveOutdoorPresentation } from "../integration/outdoorAvatar";
+import { godotOutdoorUrl, isGodotOutdoorAvailable } from "../integration/outdoorEntry";
 
 type Dir = "down" | "up" | "left" | "right";
 
@@ -29,7 +30,6 @@ type OutdoorBounty = {
   description: string;
   current: number;
   target: number;
-  energy: number;
   fragments: number;
 };
 
@@ -41,6 +41,8 @@ const BIOME_LABELS: Record<OutdoorBiome, string> = {
   wild: "Bosco variabile",
   crystal: "Nido cristallino",
 };
+
+const OUTDOOR_EXERCISE_ENERGY_COST = 3;
 
 const BIOME_ACCENTS: Record<OutdoorBiome, number> = {
   academy: 0x6be7d6,
@@ -233,7 +235,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       reward: pending.reward,
     };
     this.godotBounceResume = result.resume ?? { playerX: encounter.x, playerY: encounter.y, dayClock: 0 };
-    this.startEncounter(encounter);
+    this.startEncounter(encounter, true);
   }
 
   private applyGodotWorldResult(result: OutdoorWorldResult): void {
@@ -247,26 +249,13 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       .forEach((id) => saveSystem.recordOutdoorTreasure(id, 0, 0));
     if (result.fragmentsEarned > 0) saveSystem.grantOutdoorFragments(result.fragmentsEarned);
     if (result.energyEarned > 0) saveSystem.addEnergy(result.energyEarned);
+    if ((result.energySpent ?? 0) > 0) saveSystem.spendEnergy(result.energySpent ?? 0);
   }
 
-  private godotUrl(): string {
-    // Percorso relativo al base URL (funziona anche sotto la sottocartella di
-    // GitHub Pages, es. /New-project/). Sovrascrivibile con VITE_GODOT_OUTDOOR_URL.
-    return import.meta.env.VITE_GODOT_OUTDOOR_URL ?? `${import.meta.env.BASE_URL}godot/outdoor/index.html`;
-  }
-
-  // Verifica una sola volta se esiste un export Godot Web reale. Sonda il file
-  // `index.wasm` (sentinella affidabile: il dev server non fa fallback SPA sui
-  // file con estensione), così la mancanza del bundle non rompe il gioco.
+  // Verifica una sola volta se esiste un export Godot Web reale (sonda condivisa
+  // con l'ingresso unificato), così la mancanza del bundle non rompe il gioco.
   private async probeGodotAvailability(): Promise<void> {
-    const url = this.godotUrl();
-    const probe = `${url.replace(/index\.html$/, "")}index.wasm`;
-    try {
-      const response = await fetch(probe, { method: "HEAD", cache: "no-store" });
-      this.godotAvailable = response.ok;
-    } catch {
-      this.godotAvailable = false;
-    }
+    this.godotAvailable = await isGodotOutdoorAvailable();
   }
 
   private reopenGodot(resume?: OutdoorResumeState): boolean {
@@ -275,7 +264,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       return false;
     }
     const request = createOutdoorWorldRequest(saveSystem.data, rewardSystem.playerLevel(), window.location.href, resume, resolveOutdoorPresentation(rewardSystem.playerLevel()));
-    openOutdoorGodot(this.godotUrl(), request);
+    openOutdoorGodot(godotOutdoorUrl(), request);
     return true;
   }
 
@@ -1542,7 +1531,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       c.add(this.add.circle(14, 4, 9, 0x9ff5e9, 0.78));
     }
     this.decorateTreasure(c, kind, accent, collected);
-    c.add(this.add.text(0, 36, collected ? "raccolto" : treasure.label, {
+    const displayLabel = treasure.label.toLowerCase().includes("energia") ? "scrigno frammenti" : treasure.label;
+    c.add(this.add.text(0, 36, collected ? "raccolto" : displayLabel, {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: collected ? "#6f8794" : "#f7d37a",
@@ -1566,7 +1556,8 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   private treasureKind(treasure: OutdoorTreasure): OutdoorTreasureKind {
     const label = treasure.label.toLowerCase();
     if (label.includes("scrigno") || treasure.rewardFragments >= 10) return "rare";
-    if (label.includes("energia") || treasure.rewardEnergy >= treasure.rewardFragments * 4) return "energy";
+    // Il campo legacy rewardEnergy resta nel contratto di parità, ma non
+    // determina più l'aspetto né una ricompensa: i tesori danno frammenti.
     return "fragments";
   }
 
@@ -2380,7 +2371,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
 
   private collectTreasure(treasure: OutdoorTreasure): void {
     if (this.paused || this.collectedTreasures.has(treasure.id)) return;
-    if (!saveSystem.recordOutdoorTreasure(treasure.id, treasure.rewardEnergy, treasure.rewardFragments)) return;
+    if (!saveSystem.recordOutdoorTreasure(treasure.id, 0, treasure.rewardFragments)) return;
     this.collectedTreasures.add(treasure.id);
     this.activeTreasure = undefined;
     this.prompt.setVisible(false);
@@ -2394,7 +2385,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }
     this.refreshHud();
     audioManager.play("success");
-    feedbackSystem.publish(`Tesoro raccolto: +${treasure.rewardEnergy} energia, +${treasure.rewardFragments} frammenti.`, "success");
+    feedbackSystem.publish(`Tesoro raccolto: +${treasure.rewardFragments} frammenti. L'energia si guadagna con gli esercizi.`, "success");
   }
 
   private animateTreasurePickup(node: Phaser.GameObjects.Container, treasure: OutdoorTreasure): void {
@@ -2470,7 +2461,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       color: "#f5fbff",
       fontStyle: "bold",
     }));
-    overlay.add(this.add.text(346, 178, "Obiettivi giornalieri della mappa esterna: completali e reclama energia + frammenti.", {
+    overlay.add(this.add.text(346, 178, "Obiettivi giornalieri della mappa esterna: completali e reclama frammenti.", {
       fontFamily: "Inter, Arial",
       fontSize: "12px",
       color: "#9fb6c2",
@@ -2498,7 +2489,6 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         description: "Supera tre incontri sulla mappa di oggi.",
         current: Math.min(this.completed.size, 3),
         target: 3,
-        energy: 35,
         fragments: 8,
       },
       {
@@ -2507,7 +2497,6 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         description: "Vinci due incontri consecutivi senza ritirata.",
         current: Math.min(outdoor.currentStreak, 2),
         target: 2,
-        energy: 30,
         fragments: 8,
       },
       {
@@ -2516,7 +2505,6 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         description: "Sconfiggi il guardiano prismatico della mappa.",
         current: Math.min(outdoor.guardianWinsToday ?? 0, 1),
         target: 1,
-        energy: 60,
         fragments: 16,
       },
       {
@@ -2525,7 +2513,6 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         description: "Raccogli cinque tesori nascosti nella mappa.",
         current: Math.min(this.collectedTreasures.size, 5),
         target: 5,
-        energy: 45,
         fragments: 12,
       },
       {
@@ -2534,7 +2521,6 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         description: "Supera dodici incontri esplorando più zone.",
         current: Math.min(this.completed.size, DAILY_ROUTE_TARGET),
         target: DAILY_ROUTE_TARGET,
-        energy: 95,
         fragments: 24,
       },
     ];
@@ -2562,7 +2548,7 @@ export class OutdoorAdventureScene extends Phaser.Scene {
       color: done ? "#f6c85f" : "#9fb6c2",
       fontStyle: "bold",
     }).setOrigin(0.5, 0));
-    overlay.add(this.add.text(x + 390, y + 38, `+${bounty.energy} ⚡  +${bounty.fragments} fram.`, {
+    overlay.add(this.add.text(x + 390, y + 38, `+${bounty.fragments} frammenti`, {
       fontFamily: "Inter, Arial",
       fontSize: "10px",
       color: "#c7b8ff",
@@ -2582,9 +2568,9 @@ export class OutdoorAdventureScene extends Phaser.Scene {
         feedbackSystem.publish("Obiettivo non ancora completato.", "hint");
         return;
       }
-      if (saveSystem.claimOutdoorBounty(bounty.id, bounty.energy, bounty.fragments)) {
+      if (saveSystem.claimOutdoorBounty(bounty.id, 0, bounty.fragments)) {
         audioManager.play("shopPurchase");
-        feedbackSystem.publish(`Bacheca: +${bounty.energy} energia e +${bounty.fragments} frammenti.`, "success");
+        feedbackSystem.publish(`Bacheca: +${bounty.fragments} frammenti. L'energia si guadagna con gli esercizi.`, "success");
         this.refreshHud();
         refresh();
       }
@@ -2763,8 +2749,12 @@ export class OutdoorAdventureScene extends Phaser.Scene {
     }, { width: 210, height: 44, fontSize: 14, fill: 0x173b36, stroke: item.color ?? 0xffd75e }));
   }
 
-  private startEncounter(encounter: OutdoorEncounter): void {
+  private startEncounter(encounter: OutdoorEncounter, energyAlreadySpent = false): void {
     if (this.paused || this.completed.has(encounter.id)) return;
+    if (!energyAlreadySpent && !saveSystem.spendEnergy(OUTDOOR_EXERCISE_ENERGY_COST)) {
+      feedbackSystem.publish(`Energia insufficiente: servono ${OUTDOOR_EXERCISE_ENERGY_COST} energia per partecipare.`, "warning");
+      return;
+    }
     this.paused = true;
     this.prompt.setVisible(false);
     audioManager.play("missionStart");
@@ -2844,9 +2834,11 @@ export class OutdoorAdventureScene extends Phaser.Scene {
   }
 
   private finishCombat(overlay: Phaser.GameObjects.Container, encounter: OutdoorEncounter, correct: number, victory: boolean): void {
-    const reward = Math.max(6, (victory ? encounter.reward : 8) + correct * 10);
+    // L'energia arriva dalla riuscita dell'esercizio, mai dal semplice
+    // ritrovamento di un oggetto o da una ritirata.
+    const reward = victory ? Math.max(6, encounter.reward + correct * 10) : 0;
     const fragments = this.fragmentReward(encounter, correct, victory);
-    const varietyBonuses = saveSystem.recordDailyEnergySubject(`Avventura ${this.subjectFor(encounter.kind)}`);
+    const varietyBonuses = victory ? saveSystem.recordDailyEnergySubject(`Avventura ${this.subjectFor(encounter.kind)}`) : [];
     const bonus = varietyBonuses.reduce((sum, item) => sum + item.amount, 0);
     saveSystem.addEnergy(reward + bonus);
     const outdoor = saveSystem.recordOutdoorEncounter(encounter.id, victory, fragments, encounter.kind === "guardian");

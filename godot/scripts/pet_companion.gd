@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 			side = -1.0
 		elif target.velocity.x < -8.0:
 			side = 1.0
-		var desired := target.global_position + Vector2(absf(offset.x) * side, offset.y)
+		var desired: Vector2 = target.global_position + Vector2(absf(offset.x) * side, offset.y)
 		global_position = global_position.lerp(desired, minf(1.0, delta * 5.0))
 	if visual != null:
 		var lift := sin(_bob * 3.2) * 3.0

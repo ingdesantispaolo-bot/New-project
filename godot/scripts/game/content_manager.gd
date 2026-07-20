@@ -7,6 +7,13 @@ extends RefCounted
 
 const BANKS := {
 	"matematica": "res://data/banks/matematica-tabelline.json",
+	"italiano": "res://data/banks/italiano-base.json",
+	"inglese": "res://data/banks/inglese-base.json",
+	"coding": "res://data/banks/coding-base.json",
+	"fisica": "res://data/banks/fisica-base.json",
+	"musica": "res://data/banks/musica-base.json",
+	"latino": "res://data/banks/latino-base.json",
+	"elettronica": "res://data/banks/elettronica-base.json",
 }
 
 var _cache: Dictionary = {}  # subject -> Array item

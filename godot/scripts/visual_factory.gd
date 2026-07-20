@@ -18,10 +18,10 @@ const TREASURE_TEXTURE: Texture2D = preload("res://assets/academy-treasure.svg")
 const ENCOUNTER_TEXTURE: Texture2D = preload("res://assets/academy-encounter.svg")
 const OUTDOOR_SHEET: Texture2D = preload("res://assets/outdoor-world-sheet.png")
 const PLAYER_SHEET: Texture2D = preload("res://assets/eli-robot-girl-sheet.png")
-const ACADEMY_NATURAL_ATLAS: Texture2D = preload("res://assets/radura-academia-natural-atlas.png")
-const WILD_NATURAL_ATLAS: Texture2D = preload("res://assets/bosco-variabile-natural-atlas.png")
-const GEO_NATURAL_ATLAS: Texture2D = preload("res://assets/dorsale-geografica-natural-atlas.png")
-const LOGIC_NATURAL_ATLAS: Texture2D = preload("res://assets/cratere-logico-natural-atlas.png")
+const ACADEMY_NATURAL_ATLAS: Texture2D = preload("res://assets/radura-academia-natural-atlas-v2.png")
+const WILD_NATURAL_ATLAS: Texture2D = preload("res://assets/bosco-variabile-natural-atlas-v2.png")
+const GEO_NATURAL_ATLAS: Texture2D = preload("res://assets/dorsale-geografica-natural-atlas-v2.png")
+const LOGIC_NATURAL_ATLAS: Texture2D = preload("res://assets/cratere-logico-natural-atlas-v2.png")
 
 const ENCOUNTER_COLORS := {
 	"times": Color("f6c85f"),
@@ -206,13 +206,21 @@ static func build_obstacle(kind: String, radius: float, rgb: int, variant: float
 	var color := hex_color(rgb).darkened(variant * 0.16)
 	if biome == "academy":
 		var academy_cell := Vector2i(-1, -1)
-		if kind == "tree": academy_cell = Vector2i(0, 0)
-		elif kind == "bush": academy_cell = Vector2i(2, 0)
+		if kind == "tree":
+			# Quercia piena + giovane alberello: stessa grammatica, due scale.
+			academy_cell = Vector2i(1, 0) if variant > 0.72 else Vector2i(0, 0)
+		elif kind == "bush":
+			# Siepe, aiuola fiorita e massa di girasoli evitano ripetizioni.
+			academy_cell = Vector2i(2, 0) if variant < 0.38 else (Vector2i(0, 1) if variant < 0.76 else Vector2i(3, 2))
 		elif kind == "rock": academy_cell = Vector2i(1, 1)
+		elif kind == "mushroom": academy_cell = Vector2i(2, 1)
 		if academy_cell.x >= 0:
-			var target := Vector2(radius * 1.85, radius * 1.85)
+			var scale_factor := 1.85 if academy_cell == Vector2i(0, 0) else (1.52 if academy_cell == Vector2i(1, 0) else 1.78)
+			var target := Vector2(radius * scale_factor, radius * scale_factor)
 			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
-			root.add_child(academy_natural_sprite(academy_cell, target, -target.y * 0.38))
+			var sprite := academy_natural_sprite(academy_cell, target, -target.y * 0.38)
+			sprite.modulate = Color(1.0, 0.96 + variant * 0.04, 0.9 + variant * 0.1, 1.0)
+			root.add_child(sprite)
 			return root
 	if biome == "wild":
 		var wild_cell := Vector2i(-1, -1)
@@ -380,12 +388,14 @@ static func build_prop(kind: String, accent_rgb: int, variant: float, biome: Str
 		var academy_cell := Vector2i(-1, -1)
 		if kind == "sign": academy_cell = Vector2i(3, 1)
 		elif kind == "river": academy_cell = Vector2i(0, 2)
-		elif kind == "garden": academy_cell = Vector2i(3, 2)
+		elif kind == "garden": academy_cell = Vector2i(0, 1) if variant < 0.5 else Vector2i(3, 2)
 		elif kind == "waterfall": academy_cell = Vector2i(1, 2)
 		if academy_cell.x >= 0:
-			var target := Vector2(104, 104)
+			var target := Vector2(104, 104) * (0.9 + variant * 0.16)
 			root.add_child(make_shadow(34, 10, 0.22, 4))
-			root.add_child(academy_natural_sprite(academy_cell, target, -34))
+			var sprite := academy_natural_sprite(academy_cell, target, -target.y * 0.34)
+			sprite.modulate = Color(1.0, 0.97 + variant * 0.03, 0.92 + variant * 0.08, 1.0)
+			root.add_child(sprite)
 			return root
 	if biome == "wild":
 		var wild_cell := Vector2i(-1, -1)
@@ -578,6 +588,89 @@ static func build_prop(kind: String, accent_rgb: int, variant: float, biome: Str
 	return root
 
 # ---------------------------------------------------------------------------
+# Set dressing Radura Accademia (solo render, senza collisioni/interazioni)
+# ---------------------------------------------------------------------------
+
+static func build_academy_pavilion() -> Node2D:
+	# Piccola aula/bottega di fondo: landmark visivo caldo che ordina il lato
+	# destro della radura senza introdurre un nuovo oggetto gameplay.
+	var root := Node2D.new()
+	root.add_child(make_shadow(76, 22, 0.26, 12))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-58, -8), Vector2(58, -8), Vector2(52, 28), Vector2(-52, 28),
+	]), Color("8f6a3e")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-54, -12), Vector2(0, -66), Vector2(58, -12), Vector2(48, 3), Vector2(-46, 3),
+	]), Color("277a79")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-45, -13), Vector2(0, -54), Vector2(46, -13), Vector2(40, -5), Vector2(-40, -5),
+	]), Color("3c9b8f")))
+	# Fascia lignea e travi per dare una silhouette leggibile a distanza.
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-58, -11), Vector2(58, -11), Vector2(58, -6), Vector2(-58, -6),
+	]), Color("c18a4e")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-44, 0), Vector2(-38, 0), Vector2(-38, 28), Vector2(-44, 28),
+	]), Color("6e492d")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(36, 0), Vector2(42, 0), Vector2(42, 28), Vector2(36, 28),
+	]), Color("6e492d")))
+	# Porta centrale e finestre dorate, con glow attenuato alla notte.
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-13, 28), Vector2(-13, 0), Vector2(13, 0), Vector2(13, 28),
+	]), Color("4d3326")))
+	for window_pos in [Vector2(-34, 8), Vector2(34, 8)]:
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(-9, -8), Vector2(9, -8), Vector2(9, 9), Vector2(-9, 9),
+		]), Color("ffe09a"), window_pos))
+		var window_glow := make_glow(15, Color("ffd56f"), 0.42)
+		window_glow.position = window_pos + Vector2(0, 0)
+		window_glow.add_to_group("night_glow")
+		root.add_child(window_glow)
+	for flower_pos in [Vector2(-64, 27), Vector2(-52, 30), Vector2(52, 30), Vector2(64, 27)]:
+		root.add_child(make_polygon(circle_polygon(5.0, 10), Color("f4b56b"), flower_pos))
+		root.add_child(make_polygon(circle_polygon(3.2, 10), Color("fff2be"), flower_pos + Vector2(4, -2)))
+	return root
+
+static func build_academy_fountain() -> Node2D:
+	var root := Node2D.new()
+	root.add_child(make_shadow(42, 14, 0.25, 8))
+	root.add_child(make_polygon(ellipse_polygon(42, 14, 24), Color("c9a35c"), Vector2(0, 7)))
+	root.add_child(make_polygon(ellipse_polygon(32, 10, 24), Color("4cc6bd"), Vector2(0, 4)))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-10, 3), Vector2(10, 3), Vector2(8, -20), Vector2(-8, -20),
+	]), Color("d4b477")))
+	root.add_child(make_polygon(ellipse_polygon(14, 5, 20), Color("e4c980"), Vector2(0, -20)))
+	var water := make_glow(22, Color("8dffe2"), 0.62)
+	water.position = Vector2(0, -31)
+	water.add_to_group("night_glow")
+	root.add_child(water)
+	attach_anim(water, "pulse", 1.2, 0.8)
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-2.5, -20), Vector2(0, -41), Vector2(2.5, -20),
+	]), Color("a7ffe7", 0.84)))
+	return root
+
+static func build_academy_bridge() -> Node2D:
+	var root := Node2D.new()
+	root.add_child(make_shadow(48, 13, 0.22, 8))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-46, -9), Vector2(46, -9), Vector2(46, 9), Vector2(-46, 9),
+	]), Color("9a6636")))
+	for i in range(7):
+		var x := -38.0 + float(i) * 12.7
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(x, -9), Vector2(x + 2, -9), Vector2(x + 2, 9), Vector2(x, 9),
+		]), Color("6b4329")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-48, -12), Vector2(48, -12), Vector2(48, -9), Vector2(-48, -9),
+	]), Color("d09a57")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-48, 9), Vector2(48, 9), Vector2(48, 12), Vector2(-48, 12),
+	]), Color("d09a57")))
+	return root
+
+# ---------------------------------------------------------------------------
 # Landmark
 # ---------------------------------------------------------------------------
 
@@ -705,6 +798,26 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 	text.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.75))
 	root.add_child(text)
 	return root
+
+## Landmark canonico per bioma: mantiene la stessa scala percettiva e cambia
+## solo silhouette/accento. Utile ai chunk periferici e alla scena nave.
+static func build_biome_landmark(biome: String, label: String = "") -> Node2D:
+	var key := biome.to_lower()
+	match key:
+		"academy", "radura", "radura_accademia":
+			return build_landmark("skyTree", label if label != "" else "Albero della Radura", 0x8fe0a4)
+		"wild", "bosco":
+			return build_landmark("skyTree", label if label != "" else "Sentiero del Bosco", 0x72d39a)
+		"geo", "dorsale", "dorsale_geografica":
+			return build_landmark("atlasGate", label if label != "" else "Passo delle Mappe", 0x80c7ff)
+		"logic", "cratere", "cratere_logico":
+			return build_landmark("logicSpire", label if label != "" else "Spira del Cratere", 0xb9a2ff)
+		"ruins", "rovine":
+			return build_landmark("ancientCore", label if label != "" else "Nucleo delle Rovine", 0xe0a37a)
+		"crystal", "cristallo":
+			return build_landmark("crystalNest", label if label != "" else "Nido di Cristallo", 0x9be7ff)
+		_:
+			return build_landmark("ancientCore", label, 0x6be7d6)
 
 # ---------------------------------------------------------------------------
 # Interagibili
@@ -855,4 +968,72 @@ static func build_pet(kind: String, color: Color) -> Node2D:
 		var ring := make_ring(9, Color(color, 0.8), 1.6, 18)
 		root.add_child(ring)
 		attach_anim(ring, "spin", 1.4, 1.0)
+	return root
+
+# ---------------------------------------------------------------------------
+# Kit nave / apparati (solo resa visiva, nessuna logica di riparazione).
+# `state` accetta: broken, ready, repaired. Il chiamante decide quando
+# cambiare stato e può sostituire il nodo senza alterare il salvataggio.
+# ---------------------------------------------------------------------------
+
+static func build_apparatus_terminal(state: String = "broken", accent: Color = Color("6be7d6"), label: String = "") -> Node2D:
+	var root := Node2D.new()
+	root.name = "ApparatusTerminalVisual"
+	var active := state == "repaired"
+	var ready := state == "ready"
+	var core_color := accent if active else (Color("f6c85f") if ready else Color("66777a"))
+	root.add_child(make_shadow(32, 9, 0.34, 12))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-28, 7), Vector2(-22, -7), Vector2(22, -7), Vector2(28, 7),
+	]), Color("203b3d")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-20, -7), Vector2(-13, -28), Vector2(13, -28), Vector2(20, -7),
+	]), Color("315b59")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-12, -27), Vector2(-8, -36), Vector2(8, -36), Vector2(12, -27),
+	]), Color("477c72")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-6, -24), Vector2(0, -34), Vector2(6, -24), Vector2(0, -12),
+	]), core_color))
+	var ring := make_ring(17, Color(core_color, 0.82), 2.2, 24)
+	ring.position.y = -23
+	root.add_child(ring)
+	if active or ready:
+		var glow := make_glow(30 if active else 22, core_color, 0.34 if active else 0.18)
+		glow.position = Vector2(0, -25)
+		glow.add_to_group("night_glow")
+		root.add_child(glow)
+		attach_anim(ring, "pulse", 0.8 if active else 0.45, 0.8)
+	else:
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(-15, -17), Vector2(-5, -13), Vector2(1, -20), Vector2(10, -14),
+		]), Color("1a282a")))
+	if label.strip_edges() != "":
+		var label_node := Label.new()
+		label_node.text = label
+		label_node.position = Vector2(-54, 15)
+		label_node.custom_minimum_size = Vector2(108, 18)
+		label_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label_node.add_theme_font_size_override("font_size", 11)
+		label_node.add_theme_color_override("font_color", Color(0.84, 0.96, 0.92, 0.88))
+		root.add_child(label_node)
+	return root
+
+static func build_ship_room_backdrop(room_id: String, accent: Color = Color("6be7d6")) -> Node2D:
+	var root := Node2D.new()
+	root.name = "ShipRoomBackdrop_%s" % room_id
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-420, 150), Vector2(-360, -150), Vector2(360, -150), Vector2(420, 150),
+	]), Color("102a31")))
+	root.add_child(make_polygon(PackedVector2Array([
+		Vector2(-390, 148), Vector2(-330, 88), Vector2(330, 88), Vector2(390, 148),
+	]), Color("1c4144")))
+	for x in [-270.0, -90.0, 90.0, 270.0]:
+		root.add_child(make_polygon(PackedVector2Array([
+			Vector2(x - 3, 82), Vector2(x + 3, 82), Vector2(x + 3, -108), Vector2(x - 3, -108),
+		]), Color(0.35, 0.68, 0.65, 0.18)))
+	var crest := make_glow(90, accent, 0.12)
+	crest.position = Vector2(0, -80)
+	crest.add_to_group("night_glow")
+	root.add_child(crest)
 	return root

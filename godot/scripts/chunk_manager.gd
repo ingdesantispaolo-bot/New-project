@@ -30,7 +30,8 @@ func update_stream(position: Vector2) -> void:
 			var id := "chunk-%d_%d" % [x, y]
 			required[id] = true
 			if not loaded.has(id):
-				_load_chunk(generator.generate_chunk(world_seed, x, y))
+				var visual_lod := 0 if x == center_x and y == center_y else 1
+				_load_chunk(generator.generate_chunk(world_seed, x, y), visual_lod)
 	var stale_ids: Array[String] = []
 	for id in loaded.keys():
 		if not required.has(id):
@@ -38,12 +39,12 @@ func update_stream(position: Vector2) -> void:
 	for id in stale_ids:
 		_unload_chunk(id)
 
-func _load_chunk(chunk: Dictionary) -> void:
+func _load_chunk(chunk: Dictionary, visual_lod: int = 0) -> void:
 	var node: OutdoorChunkVisual = CHUNK_VISUAL.new()
 	node.name = str(chunk["id"])
 	node.position = Vector2(chunk["worldX"], chunk["worldY"])
 	add_child(node)
-	node.configure(chunk, world)
+	node.configure(chunk, world, visual_lod)
 	loaded[chunk["id"]] = {"data": chunk, "node": node}
 
 func _unload_chunk(id: String) -> void:

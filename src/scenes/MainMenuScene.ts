@@ -15,6 +15,7 @@ import { rewardSystem } from "../core/RewardSystem";
 import { saveSystem } from "../core/SaveSystem";
 import { queueSceneAssets } from "../core/SceneAssetLoader";
 import { prefetchCoreScenes, startScene } from "../core/SceneNavigator";
+import { openOutdoorWorld } from "../integration/outdoorEntry";
 import { formatDuration, proceduralScoring } from "../core/ProceduralScoring";
 import { difficultyModel } from "../procedural/DifficultyModel";
 import { proceduralDirector } from "../procedural/ProceduralDirector";
@@ -253,11 +254,17 @@ export class MainMenuScene extends Phaser.Scene {
     if (this.transitioning) return;
     this.transitioning = true;
     this.setMenuButtonsEnabled(false);
-    void startScene(this, sceneKey).catch(() => {
+    const restore = (): void => {
       this.transitioning = false;
       this.setMenuButtonsEnabled(true);
       this.showMenuError(errorMessage);
-    });
+    };
+    // Ingresso unificato al mondo esterno: Godot se disponibile, Phaser altrimenti.
+    if (sceneKey === "OutdoorAdventureScene") {
+      void openOutdoorWorld(this).catch(restore);
+      return;
+    }
+    void startScene(this, sceneKey).catch(restore);
   }
 
   private rect(id: string, fallback: MapLayoutRect): MapLayoutRect {

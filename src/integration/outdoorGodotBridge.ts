@@ -70,7 +70,10 @@ export type OutdoorWorldRequest = {
 
 export type OutdoorWorldResult = {
   schemaVersion: typeof OUTDOOR_BRIDGE_SCHEMA;
+  /** Energy earned by correct answers in native Godot ExercisePlayer. */
   energyEarned: number;
+  /** Energy spent to enter exercises while this Godot session was open. */
+  energySpent?: number;
   fragmentsEarned: number;
   completedEncounterIds: string[];
   collectedTreasureIds: string[];

@@ -22,7 +22,15 @@ separato dal runtime Phaser e non modifica il client web esistente.
 - HUD responsivo (ancore `Control`) adatto a risoluzioni e aspect ratio diversi;
 - portale di uscita nel mondo, più pulsante di uscita nell'HUD;
 - contratto JSON per Phaser con stato in ingresso e risultati in uscita;
-- renderer procedurale colorato per bioma, sostituibile con asset artistici.
+- renderer procedurale per bioma ad alto dettaglio (`visual_factory.gd`):
+  ombre, glow additivi, alberi a chioma stratificata con ondeggiamento,
+  cristalli luminosi, 12 tipi di prop, 6 landmark animati, portale con
+  vortice e rune, player con camminata animata;
+- atmosfera: palette giorno/notte a tre fasi (notte blu → alba calda →
+  giorno), bagliori che si accendono al tramonto (gruppo `night_glow`),
+  lucciole notturne, vignetta ai bordi, ping sul punto toccato;
+- micro-animazioni senza Tween (`ambient_anim.gd`) e dettagli deterministici
+  da RNG decorativo separato: la parità del generatore non è toccata.
 
 ## Avvio
 

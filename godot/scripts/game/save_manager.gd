@@ -84,8 +84,9 @@ func spend_energy(amount: int) -> bool:
 ## campi Godot più ricchi quando sono già presenti. Il bridge resta quindi
 ## compatibile durante la migrazione, mentre il save canonico cresce in Godot.
 func import_bridge_request(request: Dictionary) -> void:
-	if request.has("playerLevel"):
-		set_level(maxi(1, int(request.get("playerLevel", level()))))
+	# Energia e frammenti restano autoritativi da Phaser (valuta della migrazione).
+	# Il LIVELLO invece è la scala apparati lato Godot: non deve regredire per un
+	# handshake stale o una transizione interna mondo↔nave.
 	if request.has("energy"):
 		data["energy"] = maxi(0, int(request.get("energy", energy())))
 	var outdoor: Dictionary = request.get("outdoorState", {})
@@ -93,11 +94,12 @@ func import_bridge_request(request: Dictionary) -> void:
 		data["fragments"] = maxi(0, int(outdoor.get("fragments", data.get("fragments", 0))))
 	var canonical = request.get("godotSave", null)
 	if typeof(canonical) == TYPE_DICTIONARY:
-		data = migrate_from_phaser(canonical)
-		# I campi bridge ricevuti nello stesso handshake hanno precedenza solo
-		# sui contatori esplicitamente dichiarati, mai sui campi sconosciuti.
+		var candidate := migrate_from_phaser(canonical)
+		# Applica il save canonico ricevuto solo se non fa regredire il livello.
+		if int(candidate.get("level", 0)) >= level():
+			data = candidate
 	if request.has("playerLevel"):
-		set_level(maxi(1, int(request.get("playerLevel", level()))))
+		set_level(maxi(level(), int(request.get("playerLevel", level()))))
 
 func migrate_from_phaser(source: Dictionary) -> Dictionary:
 	## Migrazione idempotente: non scarta campi futuri sconosciuti.

@@ -523,3 +523,30 @@ su seam, luce e gerarchia visiva.
   criticità #2 (loop nave↔mondo non cablato) e #3 (altri audit superficiali).
 - Prossimo passo: cablare la navigazione mondo↔nave (C-06) — richiede tocco a
   outdoor_world.gd (Insieme) + transizione di scena; da coordinare.
+
+### Aggiornamento 2026-07-20 · Claude Opus (Collaboratore) · fix criticità review (banchi, audit, nave)
+- Fatto (#altro — C-04 contenuti): arricchiti i 7 banchi (italiano, inglese,
+  coding, fisica, musica, latino, elettronica) da 3 a 8 item ciascuno, con campo
+  `topic` (2-4 argomenti per materia) e difficoltà 1-4. Ora il ripasso spaziato
+  è per-argomento e ogni materia è davvero giocabile.
+- Fatto (#3 — audit approfonditi): `c06_audit` ora verifica il LOOP di
+  riparazione (missioni→gate→exam_requested→repair→livello→gate richiuso);
+  `c07_audit` verifica i 6 beat NORA distinti + reveal idempotente + seen + clamp;
+  `c08_audit` verifica report vuoto, aggregazione e clamp dei valori.
+- Fatto (#2 — nave): `hub_scene.gd` ora è FUNZIONALE: avvia l'esame finale reale
+  via ExercisePlayer, ripara e sale di livello, con pulsante di ritorno. Fix
+  difensivo in `save_manager.import_bridge_request`: il bridge non può più far
+  REGREDIRE il livello (guardia su playerLevel e godotSave) — necessario per la
+  transizione mondo↔nave senza perdere progressi.
+- File: `godot/data/banks/*.json` (7), `godot/scripts/game/c06_audit.gd`,
+  `c07_audit.gd`, `c08_audit.gd`, `save_manager.gd`, `godot/scripts/hub_scene.gd`,
+  `godot/scenes/hub.tscn`, `godot/scripts/game/c10_audit.gd`.
+- Test/export: banchi validati (8 item, topic, difficoltà 1-4, answer nelle
+  opzioni, 0 campi mancanti); nessun ternario C-style; `git diff --check` pulito.
+  Da eseguire in editor: c04/c06/c07/c08/c10 + c01/c02/loop (retro-compatibili).
+- Limiti o rischi: la navigazione LIVE mondo↔nave sul percorso Web dipende ancora
+  dal bridge (energia/frammenti autoritativi da Phaser); la transizione piena è
+  un item di Fase 4 (post-bridge). La scena nave è pienamente giocabile standalone.
+  Mastery resta per-materia (il ripasso è per-topic). Banchi non-matematica a 8
+  item (arricchibili). Energia/frammenti restano da Phaser durante la migrazione.
+- Prossimo passo: criticità review chiuse; resta l'integrazione live nave (Fase 4).

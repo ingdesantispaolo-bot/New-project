@@ -1,1 +1,14 @@
-{"schemaVersion":1,"subject":"elettronica","items":[{"id":"ele-1","prompt":"Quale componente limita la corrente?","format":"multiple_choice","options":["Resistenza","LED","Interruttore"],"answer":"Resistenza","explanation":"La resistenza limita la corrente nel circuito.","difficulty":1},{"id":"ele-2","prompt":"Un circuito aperto lascia passare corrente?","format":"multiple_choice","options":["No","Sì sempre","Solo di notte"],"answer":"No","explanation":"Un circuito aperto interrompe il percorso.","difficulty":2},{"id":"ele-3","prompt":"Il LED è un componente che emette...","format":"multiple_choice","options":["Luce","Acqua","Suono soltanto"],"answer":"Luce","explanation":"LED significa diodo a emissione luminosa.","difficulty":3}]}
+{
+	"schemaVersion": 1,
+	"subject": "elettronica",
+	"items": [
+		{"id": "ele-com-1", "topic": "componenti", "difficulty": 1, "format": "multiple_choice", "prompt": "Quale componente limita la corrente?", "options": ["Resistore", "LED", "Interruttore"], "answer": "Resistore", "explanation": "Il resistore si oppone al passaggio di corrente."},
+		{"id": "ele-com-2", "topic": "componenti", "difficulty": 2, "format": "multiple_choice", "prompt": "Il LED è un componente che emette...", "options": ["Luce", "Acqua", "Solo suono"], "answer": "Luce", "explanation": "LED significa diodo a emissione luminosa."},
+		{"id": "ele-com-3", "topic": "componenti", "difficulty": 3, "format": "multiple_choice", "prompt": "Quale componente accumula carica elettrica?", "options": ["Condensatore", "Resistore", "Fusibile"], "answer": "Condensatore", "explanation": "Il condensatore immagazzina carica."},
+		{"id": "ele-gra-1", "topic": "grandezze", "difficulty": 1, "format": "multiple_choice", "prompt": "In quale unità si misura la tensione?", "options": ["Volt", "Ampere", "Watt"], "answer": "Volt", "explanation": "La tensione si misura in volt (V)."},
+		{"id": "ele-gra-2", "topic": "grandezze", "difficulty": 2, "format": "multiple_choice", "prompt": "In quale unità si misura la corrente?", "options": ["Ampere", "Volt", "Ohm"], "answer": "Ampere", "explanation": "La corrente si misura in ampere (A)."},
+		{"id": "ele-cir-1", "topic": "circuiti", "difficulty": 2, "format": "multiple_choice", "prompt": "Un circuito aperto lascia passare corrente?", "options": ["No", "Sì sempre", "Solo di notte"], "answer": "No", "explanation": "Un circuito aperto interrompe il percorso: niente corrente."},
+		{"id": "ele-cir-2", "topic": "circuiti", "difficulty": 3, "format": "multiple_choice", "prompt": "Nella legge di Ohm V = R × I, la I è...", "options": ["La corrente", "La potenza", "La resistenza"], "answer": "La corrente", "explanation": "I indica l'intensità di corrente."},
+		{"id": "ele-com-4", "topic": "componenti", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale componente protegge da sovracorrenti?", "options": ["Fusibile", "LED", "Condensatore"], "answer": "Fusibile", "explanation": "Il fusibile interrompe il circuito se la corrente è troppo alta."}
+	]
+}

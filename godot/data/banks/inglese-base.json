@@ -1,1 +1,14 @@
-{"schemaVersion":1,"subject":"inglese","items":[{"id":"eng-1","prompt":"What is the opposite of 'hot'?","format":"multiple_choice","options":["Cold","Tall","Fast"],"answer":"Cold","explanation":"Cold is the opposite of hot.","difficulty":1},{"id":"eng-2","prompt":"Complete: She ___ a book.","format":"multiple_choice","options":["read","reads","reading"],"answer":"reads","explanation":"With she, the verb takes -s in the present simple.","difficulty":2},{"id":"eng-3","prompt":"Choose the plural of 'child'.","format":"multiple_choice","options":["Childs","Children","Childes"],"answer":"Children","explanation":"Children is the irregular plural.","difficulty":3}]}
+{
+	"schemaVersion": 1,
+	"subject": "inglese",
+	"items": [
+		{"id": "eng-voc-1", "topic": "vocabulary", "difficulty": 1, "format": "multiple_choice", "prompt": "What is the opposite of 'hot'?", "options": ["Cold", "Tall", "Fast"], "answer": "Cold", "explanation": "Cold is the opposite of hot."},
+		{"id": "eng-voc-2", "topic": "vocabulary", "difficulty": 1, "format": "multiple_choice", "prompt": "How do you say 'cane' in English?", "options": ["Cat", "Dog", "Bird"], "answer": "Dog", "explanation": "'Cane' means dog."},
+		{"id": "eng-voc-3", "topic": "vocabulary", "difficulty": 2, "format": "multiple_choice", "prompt": "What is the opposite of 'big'?", "options": ["Small", "Long", "Loud"], "answer": "Small", "explanation": "Small is the opposite of big."},
+		{"id": "eng-gra-1", "topic": "grammar", "difficulty": 2, "format": "multiple_choice", "prompt": "Complete: She ___ a book.", "options": ["read", "reads", "reading"], "answer": "reads", "explanation": "With 'she', the present simple verb takes -s."},
+		{"id": "eng-gra-2", "topic": "grammar", "difficulty": 3, "format": "multiple_choice", "prompt": "Choose the plural of 'child'.", "options": ["Childs", "Children", "Childes"], "answer": "Children", "explanation": "Children is the irregular plural."},
+		{"id": "eng-gra-3", "topic": "grammar", "difficulty": 2, "format": "multiple_choice", "prompt": "Complete: They ___ happy.", "options": ["is", "are", "am"], "answer": "are", "explanation": "'They' takes 'are'."},
+		{"id": "eng-gra-4", "topic": "grammar", "difficulty": 3, "format": "multiple_choice", "prompt": "Complete: I ___ a book now.", "options": ["read", "am reading", "reads"], "answer": "am reading", "explanation": "'Now' needs the present continuous: am reading."},
+		{"id": "eng-voc-4", "topic": "vocabulary", "difficulty": 1, "format": "multiple_choice", "prompt": "How do you say 'grazie'?", "options": ["Please", "Sorry", "Thank you"], "answer": "Thank you", "explanation": "'Grazie' means thank you."}
+	]
+}

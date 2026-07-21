@@ -1,1 +1,14 @@
-{"schemaVersion":1,"subject":"coding","items":[{"id":"cod-1","prompt":"Quale simbolo indica un commento in GDScript?","format":"multiple_choice","options":["#","//","<!--"],"answer":"#","explanation":"In GDScript il commento inizia con #.","difficulty":1},{"id":"cod-2","prompt":"Cosa contiene una variabile?","format":"multiple_choice","options":["Un valore","Solo un colore","Un'immagine obbligatoria"],"answer":"Un valore","explanation":"Una variabile memorizza un valore.","difficulty":2},{"id":"cod-3","prompt":"Quale struttura ripete istruzioni?","format":"multiple_choice","options":["Ciclo","Titolo","Texture"],"answer":"Ciclo","explanation":"Un ciclo ripete un blocco di istruzioni.","difficulty":3}]}
+{
+	"schemaVersion": 1,
+	"subject": "coding",
+	"items": [
+		{"id": "cod-seq-1", "topic": "sequenze", "difficulty": 1, "format": "multiple_choice", "prompt": "Quale simbolo indica un commento in GDScript?", "options": ["#", "//", "<!--"], "answer": "#", "explanation": "In GDScript il commento inizia con #."},
+		{"id": "cod-seq-2", "topic": "sequenze", "difficulty": 1, "format": "multiple_choice", "prompt": "Cosa contiene una variabile?", "options": ["Un valore", "Solo un colore", "Un'immagine obbligatoria"], "answer": "Un valore", "explanation": "Una variabile memorizza un valore."},
+		{"id": "cod-cyc-1", "topic": "cicli", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale struttura ripete istruzioni?", "options": ["Titolo", "Ciclo", "Texture"], "answer": "Ciclo", "explanation": "Un ciclo ripete un blocco di istruzioni."},
+		{"id": "cod-cyc-2", "topic": "cicli", "difficulty": 2, "format": "numeric_input", "prompt": "Quante volte stampa 'for i in range(3)'?", "options": [], "answer": "3", "explanation": "range(3) produce 0,1,2: tre iterazioni."},
+		{"id": "cod-con-1", "topic": "condizioni", "difficulty": 1, "format": "multiple_choice", "prompt": "Se x = 5, l'espressione 'x > 3' è...", "options": ["Vero", "Falso", "Errore"], "answer": "Vero", "explanation": "5 è maggiore di 3, quindi vero."},
+		{"id": "cod-con-2", "topic": "condizioni", "difficulty": 3, "format": "multiple_choice", "prompt": "In 'if a == 2', il simbolo == significa...", "options": ["Assegna 2", "Confronta se uguale", "Somma 2"], "answer": "Confronta se uguale", "explanation": "== confronta due valori; = invece assegna."},
+		{"id": "cod-dbg-1", "topic": "debug", "difficulty": 1, "format": "multiple_choice", "prompt": "Cos'è un 'bug'?", "options": ["Un errore nel programma", "Un colore", "Un tasto"], "answer": "Un errore nel programma", "explanation": "Un bug è un errore che fa comportare male il codice."},
+		{"id": "cod-seq-3", "topic": "sequenze", "difficulty": 3, "format": "numeric_input", "prompt": "Quanto vale 2 + 3 * 2?", "options": [], "answer": "8", "explanation": "La moltiplicazione ha priorità: 3*2=6, poi 2+6=8."}
+	]
+}

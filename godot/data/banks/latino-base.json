@@ -1,1 +1,14 @@
-{"schemaVersion":1,"subject":"latino","items":[{"id":"lat-1","prompt":"'Aqua' significa...","format":"multiple_choice","options":["Acqua","Fuoco","Terra"],"answer":"Acqua","explanation":"Aqua è la parola latina per acqua.","difficulty":1},{"id":"lat-2","prompt":"Il nominativo indica spesso il...","format":"multiple_choice","options":["Soggetto","Luogo","Tempo"],"answer":"Soggetto","explanation":"Il nominativo è il caso del soggetto.","difficulty":2},{"id":"lat-3","prompt":"'Puer' significa...","format":"multiple_choice","options":["Ragazzo","Libro","Città"],"answer":"Ragazzo","explanation":"Puer significa ragazzo.","difficulty":3}]}
+{
+	"schemaVersion": 1,
+	"subject": "latino",
+	"items": [
+		{"id": "lat-les-1", "topic": "lessico", "difficulty": 1, "format": "multiple_choice", "prompt": "'Aqua' significa...", "options": ["Acqua", "Fuoco", "Terra"], "answer": "Acqua", "explanation": "Aqua è la parola latina per acqua."},
+		{"id": "lat-les-2", "topic": "lessico", "difficulty": 1, "format": "multiple_choice", "prompt": "'Puer' significa...", "options": ["Ragazzo", "Libro", "Città"], "answer": "Ragazzo", "explanation": "Puer significa ragazzo."},
+		{"id": "lat-les-3", "topic": "lessico", "difficulty": 2, "format": "multiple_choice", "prompt": "'Terra' significa...", "options": ["Terra", "Cielo", "Mare"], "answer": "Terra", "explanation": "Terra ha lo stesso significato dell'italiano."},
+		{"id": "lat-dec-1", "topic": "declinazioni", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale caso indica di solito il soggetto?", "options": ["Nominativo", "Accusativo", "Genitivo"], "answer": "Nominativo", "explanation": "Il nominativo è il caso del soggetto."},
+		{"id": "lat-dec-2", "topic": "declinazioni", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale caso indica il complemento oggetto?", "options": ["Accusativo", "Nominativo", "Dativo"], "answer": "Accusativo", "explanation": "Il complemento oggetto è in accusativo."},
+		{"id": "lat-dec-3", "topic": "declinazioni", "difficulty": 4, "format": "multiple_choice", "prompt": "In 'rosa, rosae', la forma 'rosae' può essere...", "options": ["Genitivo singolare", "Nominativo singolare", "Accusativo singolare"], "answer": "Genitivo singolare", "explanation": "Nella prima declinazione il genitivo singolare è in -ae."},
+		{"id": "lat-ver-1", "topic": "verbo", "difficulty": 1, "format": "multiple_choice", "prompt": "'Amo' significa...", "options": ["Io amo", "Tu ami", "Noi amiamo"], "answer": "Io amo", "explanation": "Amo è la prima persona singolare: io amo."},
+		{"id": "lat-ver-2", "topic": "verbo", "difficulty": 2, "format": "multiple_choice", "prompt": "'Sum' significa...", "options": ["Io sono", "Tu sei", "Egli è"], "answer": "Io sono", "explanation": "Sum è la prima persona: io sono."}
+	]
+}

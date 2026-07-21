@@ -1,1 +1,14 @@
-{"schemaVersion":1,"subject":"italiano","items":[{"id":"ita-1","prompt":"Qual è il sinonimo di 'rapido'?","format":"multiple_choice","options":["Lento","Veloce","Largo"],"answer":"Veloce","explanation":"Rapido significa veloce.","difficulty":1},{"id":"ita-2","prompt":"Completa: Il gatto ___ sul muretto.","format":"multiple_choice","options":["salta","saltano","saltare"],"answer":"salta","explanation":"Il soggetto singolare richiede 'salta'.","difficulty":2},{"id":"ita-3","prompt":"Quale parola è un nome?","format":"multiple_choice","options":["Correre","Giardino","Verde"],"answer":"Giardino","explanation":"Giardino indica una cosa ed è un nome.","difficulty":3}]}
+{
+	"schemaVersion": 1,
+	"subject": "italiano",
+	"items": [
+		{"id": "ita-syn-1", "topic": "sinonimi", "difficulty": 1, "format": "multiple_choice", "prompt": "Qual è il sinonimo di 'rapido'?", "options": ["Lento", "Veloce", "Largo"], "answer": "Veloce", "explanation": "Rapido significa veloce."},
+		{"id": "ita-syn-2", "topic": "sinonimi", "difficulty": 1, "format": "multiple_choice", "prompt": "Qual è il contrario di 'allegro'?", "options": ["Triste", "Felice", "Alto"], "answer": "Triste", "explanation": "Il contrario di allegro è triste."},
+		{"id": "ita-syn-3", "topic": "sinonimi", "difficulty": 3, "format": "multiple_choice", "prompt": "Qual è il sinonimo di 'coraggioso'?", "options": ["Timido", "Audace", "Stanco"], "answer": "Audace", "explanation": "Coraggioso e audace hanno lo stesso significato."},
+		{"id": "ita-gra-1", "topic": "grammatica", "difficulty": 2, "format": "multiple_choice", "prompt": "Completa: Il gatto ___ sul muretto.", "options": ["saltano", "salta", "saltare"], "answer": "salta", "explanation": "Il soggetto singolare 'gatto' richiede 'salta'."},
+		{"id": "ita-gra-2", "topic": "grammatica", "difficulty": 3, "format": "multiple_choice", "prompt": "Completa: Ieri io ___ al parco.", "options": ["vado", "sono andato", "andrò"], "answer": "sono andato", "explanation": "'Ieri' richiede il passato: sono andato."},
+		{"id": "ita-ana-1", "topic": "analisi", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale parola è un nome?", "options": ["Correre", "Giardino", "Verde"], "answer": "Giardino", "explanation": "Giardino indica una cosa: è un nome."},
+		{"id": "ita-ana-2", "topic": "analisi", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale parola è un aggettivo?", "options": ["Veloce", "Cane", "Saltare"], "answer": "Veloce", "explanation": "Veloce descrive una qualità: è un aggettivo."},
+		{"id": "ita-ana-3", "topic": "analisi", "difficulty": 4, "format": "numeric_input", "prompt": "Quante vocali ci sono nella parola 'aiuola'?", "options": [], "answer": "5", "explanation": "a-i-u-o-a sono 5 vocali."}
+	]
+}

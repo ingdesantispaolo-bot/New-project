@@ -1,1 +1,14 @@
-{"schemaVersion":1,"subject":"musica","items":[{"id":"mus-1","prompt":"Quante corde ha normalmente un violino?","format":"multiple_choice","options":["4","6","8"],"answer":"4","explanation":"Il violino ha quattro corde.","difficulty":1},{"id":"mus-2","prompt":"Quale simbolo indica una pausa?","format":"multiple_choice","options":["Silenzio","Accento","Diesis"],"answer":"Silenzio","explanation":"La pausa rappresenta un silenzio musicale.","difficulty":2},{"id":"mus-3","prompt":"Il pentagramma ha linee...","format":"multiple_choice","options":["Cinque","Tre","Dieci"],"answer":"Cinque","explanation":"Il pentagramma è formato da cinque linee.","difficulty":3}]}
+{
+	"schemaVersion": 1,
+	"subject": "musica",
+	"items": [
+		{"id": "mus-not-1", "topic": "note", "difficulty": 1, "format": "numeric_input", "prompt": "Quante note ci sono nella scala (do re mi fa sol la si)?", "options": [], "answer": "7", "explanation": "Le note della scala sono sette."},
+		{"id": "mus-not-2", "topic": "note", "difficulty": 1, "format": "multiple_choice", "prompt": "Quale nota viene dopo 'do'?", "options": ["re", "fa", "la"], "answer": "re", "explanation": "L'ordine è do, re, mi..."},
+		{"id": "mus-not-3", "topic": "note", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale nota viene prima di 'do' (nell'ottava)?", "options": ["si", "mi", "sol"], "answer": "si", "explanation": "Dopo 'si' ricomincia 'do'."},
+		{"id": "mus-let-1", "topic": "lettura", "difficulty": 1, "format": "multiple_choice", "prompt": "Su cosa si scrivono le note?", "options": ["Pentagramma", "Tastiera", "Spartito vuoto"], "answer": "Pentagramma", "explanation": "Le note si scrivono sul pentagramma a cinque linee."},
+		{"id": "mus-let-2", "topic": "lettura", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale simbolo indica un silenzio?", "options": ["Pausa", "Accento", "Diesis"], "answer": "Pausa", "explanation": "La pausa rappresenta un silenzio musicale."},
+		{"id": "mus-rit-1", "topic": "ritmo", "difficulty": 3, "format": "numeric_input", "prompt": "In 4/4, quanti movimenti ci sono per battuta?", "options": [], "answer": "4", "explanation": "Il numeratore 4 indica quattro movimenti."},
+		{"id": "mus-rit-2", "topic": "ritmo", "difficulty": 3, "format": "multiple_choice", "prompt": "Un tempo veloce si indica con...", "options": ["Allegro", "Adagio", "Lento"], "answer": "Allegro", "explanation": "'Allegro' indica un tempo vivace e veloce."},
+		{"id": "mus-let-3", "topic": "lettura", "difficulty": 2, "format": "multiple_choice", "prompt": "La chiave più comune per le note acute è...", "options": ["di violino", "di basso", "di tenore"], "answer": "di violino", "explanation": "La chiave di violino (di sol) è la più usata."}
+	]
+}

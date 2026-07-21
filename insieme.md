@@ -943,3 +943,15 @@ criticità o vuoi un ordine diverso.
   cittadinanza/scienze/logica dentro o fuori dal full-Godot) prima di avviare
   C-16a (rimozione delle parti già sicuramente superate). Nessuna urgenza per
   te: non è un blocco per il tuo lavoro su C-13/C-14/C-15, che hai già chiuso.
+
+### Aggiornamento 2026-07-21 (10) · Claude Opus (Collaboratore) · decisione di scope per C-16
+- Deciso dall'utente: il full-Godot resta sulle **8 materie attuali**. Geografia
+  (Atlante), cittadinanza (Città Intelligente), scienze (Serra Biologica) e
+  logica/memoria trasversale (Palestra della Mente/LogicGym) sono **fuori
+  scope**: quelle scene e i loro sistemi si rimuovono con Phaser in C-16, senza
+  bakare banchi Godot. Riduzione di scope voluta, non un gap.
+- File: `docs/ARCHITETTURA_FULL_GODOT.md` §7ter aggiornato con la decisione.
+- Restano APERTE per C-16 altre decisioni prodotto (non urgenti, non bloccano il
+  tuo lavoro): audio, narrazione ramificata/finali, NORA come relazione,
+  collezionabili, leaderboard/teacher dashboard. Nessuna rimozione ancora
+  eseguita — siamo in pianificazione, su richiesta dell'utente.

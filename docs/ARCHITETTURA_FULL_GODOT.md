@@ -309,9 +309,14 @@ Intelligente** (cittadinanza/scienze civiche), **Serra Biologica** (scienze),
 alcun banco Godot per queste materie/competenze — gli 8 banchi Godot sono solo
 matematica, italiano, inglese, coding, fisica, musica, latino, elettronica. Per
 queste quattro aree **sparirebbero sia il contenuto sia la meccanica**, non solo
-la seconda. Serve una decisione esplicita: fuori scope per il full-Godot, o
-vale la pena bakare banchi anche per geografia/cittadinanza/scienze/logica
-prima di rimuovere quelle scene?
+la seconda.
+
+> **Decisione presa (2026-07-21):** il full-Godot resta sulle **8 materie
+> attuali**. Geografia, cittadinanza, scienze e logica/memoria trasversale sono
+> **fuori scope**: le scene Atlante, Città Intelligente, Serra Biologica e
+> Palestra della Mente (con i sistemi smartCity/greenhouse/atlas/logicGym)
+> saranno rimosse insieme a Phaser in C-16, senza essere bakate in banchi
+> Godot. Non è un gap da colmare: è una riduzione di scope voluta.
 
 ### (a) Superati — sicuri da rimuovere per primi (nessuna decisione prodotto)
 Scene: `BootScene`, `HubScene` (il vecchio), `JournalScene`, `RewardShopScene`,
@@ -371,8 +376,9 @@ downgrade estetico minore già accettato in C-14.)
    Godot ha già un tetto di difficoltà equivalente prima di accettare la perdita).
 3. **C-16c** (decisione prodotto, blocca il resto): audio, narrazione
    ramificata/finali, companion NORA, identità nave, collezionabili,
-   leaderboard/teacher dashboard, e soprattutto **geografia/cittadinanza/
-   scienze/logica trasversale** — fuori scope o da bakare prima?
+   leaderboard/teacher dashboard. **Risolto (2026-07-21):**
+   geografia/cittadinanza/scienze/logica trasversale = fuori scope, si rimuovono
+   con Phaser senza bakare.
 4. **Solo dopo 16a-16c risolti**: rimozione di bridge, build Vite di gioco, e
    cambio della pipeline Pages per servire l'export Godot Web alla radice.
    Questo è l'unico passo davvero irreversibile/ad alto impatto di C-16.

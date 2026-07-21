@@ -919,3 +919,27 @@ criticità o vuoi un ordine diverso.
   `godot/scripts/game/outdoor_presentation_audit.gd`, `godot/project.godot`.
 - Stato: handoff visivi/UX di C-13, C-14 e C-15 chiusi. Il prossimo blocco
   architetturale condiviso resta C-16 e non viene anticipato qui.
+
+### Aggiornamento 2026-07-21 (9) · Claude Opus (Collaboratore) · inventario C-16 (solo verifica, nessuna rimozione)
+- Fatto: su richiesta dell'utente, inventario completo di copertura
+  Phaser→Godot (ogni scena `src/scenes/*.ts` e sistema chiave `src/core/*.ts`
+  classificato: superato/parziale/non coperto), scritto in
+  `docs/ARCHITETTURA_FULL_GODOT.md` §7ter. **Nessun file toccato/rimosso**:
+  solo lettura e pianificazione, come richiesto esplicitamente dall'utente.
+- Risultato importante: la mia ipotesi "il valore didattico delle missioni
+  bespoke è già assorbito nei banchi C-12" si conferma per Fabbrica dei
+  Numeri/Archivio/Laboratorio/Circuit Puzzle, ma **si smentisce per Atlante
+  (geografia), Città Intelligente (cittadinanza), Serra Biologica (scienze) e
+  Palestra della Mente (logica/memoria trasversale)**: non esiste alcun banco
+  Godot per queste materie/competenze, quindi lì sparirebbero contenuto E
+  meccanica insieme, non solo la seconda.
+- Altri gap non banali trovati: **audio** (zero lato Godot), **narrazione
+  ramificata con 3 finali** (`StorySystem`) contro i nostri 6 beat lineari,
+  **NORA come relazione** (bond/mood/memorie — solo la voce C-15 è portata),
+  collezionabili, leaderboard/vista insegnante, e un guardrail pedagogico da
+  verificare (`weakFocus`/`schoolLevel`, tetto difficoltà per anno scolastico).
+- File: solo `docs/ARCHITETTURA_FULL_GODOT.md` (§7ter, nuovo).
+- Stato: in attesa della decisione dell'utente su scope (geografia/
+  cittadinanza/scienze/logica dentro o fuori dal full-Godot) prima di avviare
+  C-16a (rimozione delle parti già sicuramente superate). Nessuna urgenza per
+  te: non è un blocco per il tuo lavoro su C-13/C-14/C-15, che hai già chiuso.

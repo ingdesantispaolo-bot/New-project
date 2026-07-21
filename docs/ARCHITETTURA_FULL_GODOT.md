@@ -286,6 +286,97 @@ prima perché più giocate); se mantenere `LeaderboardScene` come classifica
 locale in C-14/C-15 o eliminarla (il salvataggio non prevede rete, quindi è
 comunque solo cosmetica di presentazione).
 
+## 7ter. Inventario di copertura Phaser→Godot e piano di rimozione sicura (C-16, verifica luglio 2026)
+
+> C-12→C-15 sono chiusi e verificati **in editor** (non solo per ispezione):
+> 20/20 audit Godot verdi, 184/184 test Vitest, build/export Web e Windows
+> rigenerati. Prima di toccare qualunque cosa esecutiva o il deploy Pages
+> (l'unica parte di C-16 che è davvero irreversibile/ad alto impatto), è stato
+> fatto un inventario completo — file per file, non per assunzione — di cosa
+> in `src/` è già superato da Godot e cosa no. **Nessuna rimozione è ancora
+> avvenuta**: questo è solo l'inventario e il piano.
+
+### Risultato chiave: l'ipotesi "contenuto assorbito, solo meccanica persa" si conferma parzialmente
+
+Per **Fabbrica dei Numeri, Archivio delle Parole, Laboratorio e Circuit Puzzle**
+è vera: il contenuto (matematica/italiano/inglese/elettronica/coding) vive già
+nei banchi nativi Godot (C-12), quindi solo la meccanica bespoke (nastri
+trasportatori, ispezione oggetti, tester circuito) va persa — accettabile.
+
+**Si smentisce invece per quattro aree**: **Atlante** (geografia), **Città
+Intelligente** (cittadinanza/scienze civiche), **Serra Biologica** (scienze),
+**Palestra della Mente/LogicGym** (logica e memoria trasversali). Non esiste
+alcun banco Godot per queste materie/competenze — gli 8 banchi Godot sono solo
+matematica, italiano, inglese, coding, fisica, musica, latino, elettronica. Per
+queste quattro aree **sparirebbero sia il contenuto sia la meccanica**, non solo
+la seconda. Serve una decisione esplicita: fuori scope per il full-Godot, o
+vale la pena bakare banchi anche per geografia/cittadinanza/scienze/logica
+prima di rimuovere quelle scene?
+
+### (a) Superati — sicuri da rimuovere per primi (nessuna decisione prodotto)
+Scene: `BootScene`, `HubScene` (il vecchio), `JournalScene`, `RewardShopScene`,
+`AvatarEquipmentScene`, `MathLockScene`, `mainMenu/MainMenuNavigation.ts`.
+Core: `MapLayoutSystem`, `TiledSceneRenderer`, `PropRenderer`, `AssetPipeline`,
+`SceneAssetLoader`, `SceneNavigator`, `GameConfig`, `DialogueSystem`,
+`ReadableTextSystem`, `NumberFactorySolver`, `ExerciseVariantSystem` (questi
+ultimi due cadono insieme alle scene bespoke associate).
+(`RewardShopScene`/`AvatarEquipmentScene`: il catalogo è trascritto letteralmente
+in `reward_catalog.gd`; solo la resa di alcuni accessori/pet è più generica —
+downgrade estetico minore già accettato in C-14.)
+
+### (b) Parziali — completare qualcosa o accettare consapevolmente il downgrade
+- `ProceduralMissionScene` + tutto `procedural/*`: varietà infinita a seed →
+  banchi precompilati (~1783 item). Downgrade di varietà già accettato in C-12.
+- `MainMenuScene`, `ExplorableRoomScene`: l'esperienza "atrio" (narrazione,
+  daily panel, scelta focus) sparisce; il loop sostanziale resta.
+- `MasteryScene`, `CompetencyTracker`: dato aggregato (`mastery_of`) presente,
+  granularità per sotto-competenza e UI "albero" persi.
+- `SettingsScene`, `SettingsSystem`: solo l'accessibilità visiva è coperta
+  (`visual_accessibility.gd`); audio/testo/qualità grafica/pressure-mode no.
+- `PlayerReportScene`, `TrainingAssessment`: dato grezzo presente
+  (`local_progress_report.gd`), sintesi/voto/UI persi.
+- `NumberFactoryScene`, `WordArchiveScene`, `LaboratoryScene`,
+  `CircuitPuzzleScene`, `RobotCodingScene` (parzialmente): assorbimento
+  didattico plausibile nei banchi nativi, meccanica bespoke persa.
+- `MathStudyScene`, `NoraKnowledge`, `HintLadder`/`ExplanationBuilder`/
+  `MistakeAnalyzer`: teoria sfogliabile e spiegazioni testuali specifiche
+  senza equivalente diretto.
+- `weakFocus`/`schoolLevel` (tetto di difficoltà per anno scolastico): da
+  verificare esplicitamente lato Godot — è un guardrail pedagogico, non solo
+  estetico; non va perso silenziosamente.
+
+### (c) Non coperti — richiedono una decisione prodotto
+- **Audio**: `AudioManager` — zero suoni/musica lato Godot oggi.
+- **Narrazione strutturata**: `StorySystem` (diario + 3 bivi + 3 finali),
+  `DiarioScene`, `FinaleScene`, `CampaignScene`, `ProgressionSystem`,
+  `CampaignSystem`, `ChapterTrial` — Godot ha solo 6 beat lineari fissi
+  (`narrative_manager.gd`), nessuna ramificazione/scelta/epilogo.
+- **NORA come relazione**: `NoraCompanion` (bond/mood/memorie), `NoraScene` —
+  solo la voce contestuale (C-15) è portata, non il legame.
+- **Identità/casa persistente**: `AcademyScene`, `AcademySystem` (ali,
+  emblemi, trofei) — la nave Godot è funzionale, non personalizzabile.
+- **Collezionabili**: `CollectionScene`, `CollectionSystem` (12 frammenti lore).
+- **Meta-progressione sociale/adulta**: `LeaderboardScene`,
+  `TeacherDashboardScene`.
+- **Minigiochi bespoke senza contenuto assorbito**: `RobotCodingScene`,
+  `BossScene` (boss multi-dominio + memoria), `LogicGymScene`+`logicGym/*`.
+- **Reference/studio libero**: `CodexScene`.
+- **Utility di sistema**: `ViewportSystem` (tablet/orientamento/fullscreen),
+  `BackupSystem` (export/import save manuale).
+
+### Piano a fasi per C-16 (nessuna eseguita ancora)
+1. **C-16a** (sicura, nessuna decisione prodotto): rimuovere la lista (a).
+2. **C-16b**: per ogni voce (b), decidere esplicitamente "accetto il downgrade"
+   o "completo prima" (in particolare `weakFocus`/`schoolLevel`: verificare se
+   Godot ha già un tetto di difficoltà equivalente prima di accettare la perdita).
+3. **C-16c** (decisione prodotto, blocca il resto): audio, narrazione
+   ramificata/finali, companion NORA, identità nave, collezionabili,
+   leaderboard/teacher dashboard, e soprattutto **geografia/cittadinanza/
+   scienze/logica trasversale** — fuori scope o da bakare prima?
+4. **Solo dopo 16a-16c risolti**: rimozione di bridge, build Vite di gioco, e
+   cambio della pipeline Pages per servire l'export Godot Web alla radice.
+   Questo è l'unico passo davvero irreversibile/ad alto impatto di C-16.
+
 ## 8. Build e deploy
 
 - **Durante la migrazione**: resta la Pages Phaser; l'export Godot vive in

@@ -9,7 +9,8 @@ extends SceneTree
 
 const RUNTIME_KEYS := [
 	"level", "focusSubject", "apparatus", "missionsDone", "missionsRequired",
-	"mastery", "masteryThreshold", "ready", "energy", "fragments", "phase", "sessionActive",
+	"missionsRemaining", "missionProgress", "mastery", "masteryThreshold",
+	"masteryProgress", "ready", "energy", "fragments", "phase", "sessionActive",
 ]
 
 func _init() -> void:

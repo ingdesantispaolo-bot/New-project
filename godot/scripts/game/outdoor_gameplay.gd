@@ -47,14 +47,22 @@ func session_active() -> bool:
 
 func runtime_state() -> Dictionary:
 	var progress := progression_manager.repair_progress()
+	var missions_done := int(progress.get("missionsDone", 0))
+	var missions_required := int(progress.get("missionsRequired", 0))
+	var mastery := float(progress.get("mastery", 0.0))
+	var mastery_threshold := float(progress.get("masteryThreshold", 0.0))
 	return {
 		"level": game_save.level(),
 		"focusSubject": str(progress.get("subject", "matematica")),
 		"apparatus": str(progress.get("apparatus", "nucleo")),
-		"missionsDone": int(progress.get("missionsDone", 0)),
-		"missionsRequired": int(progress.get("missionsRequired", 0)),
-		"mastery": float(progress.get("mastery", 0.0)),
-		"masteryThreshold": float(progress.get("masteryThreshold", 0.0)),
+		"missionsDone": missions_done,
+		"missionsRequired": missions_required,
+		# Campi convenienza per HUD/marker (Codex): non ricalcolare lato UI.
+		"missionsRemaining": maxi(0, missions_required - missions_done),
+		"missionProgress": clampf(float(missions_done) / float(maxi(1, missions_required)), 0.0, 1.0),
+		"mastery": mastery,
+		"masteryThreshold": mastery_threshold,
+		"masteryProgress": clampf(mastery / maxf(0.001, mastery_threshold), 0.0, 1.0),
 		"ready": bool(progress.get("ready", false)),
 		"energy": game_save.energy(),
 		"fragments": base_fragments + int(result.get("fragmentsEarned", 0)),

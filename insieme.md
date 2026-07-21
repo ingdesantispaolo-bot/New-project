@@ -404,6 +404,7 @@ su seam, luce e gerarchia visiva.
 | 2026-07-20 | Codex su richiesta utente | C-06/C-09/C-10 chiusura tecnica | Aggiunti `hub.tscn`/`hub_scene.gd`, matrice Phaser→Godot e `c10_audit` da profilo nuovo | editor scan, C-06, C-10, fixture e round-trip verdi; Web/Windows export 0 | solo test click manuale in browser |
 | 2026-07-21 | Codex | Architettura biomi AAA | Definita pipeline globale A1→A6: chunk solo streaming, macro-layout continuo, spline, assemblies, hero pockets, profili bioma e HLOD | revisione tecnica su generator/rendering esistenti e fonti PCG AAA | A1: `WorldCompositionData` e sampler globale |
 | 2026-07-21 | Codex | Pipeline biomi AAA A1→A6 | Implementati composizione globale, pesi bioma continui, superficie senza hero rettangolare, spline/acqua, hero pockets, assemblies, sei profili, atmosfera interpolata e LOD 0/1/2 | composition audit, fixture, round-trip, C-10, build, Web e Windows verdi | QA screenshot manuale e tuning percettivo |
+| 2026-07-21 | Codex | Material pipeline world-space | Generati underpainting pittorici per prato, bosco, minerale, magia, acqua e terra; introdotti shader globali multi-scala/mirror-repeat, sentieri curvi texturizzati, laghi organici e assemblies a tre altezze | render probe diurno, composition audit, fixture, round-trip, loop, C-10, build, Web e Windows verdi; C-02 legacy segnala separatamente livello iniziale inatteso | test movimento reale giorno/notte e tuning compositivo dei landmark |
 
 ## Formato aggiornamento obbligatorio
 
@@ -550,3 +551,32 @@ su seam, luce e gerarchia visiva.
   Mastery resta per-materia (il ripasso è per-topic). Banchi non-matematica a 8
   item (arricchibili). Energia/frammenti restano da Phaser durante la migrazione.
 - Prossimo passo: criticità review chiuse; resta l'integrazione live nave (Fase 4).
+
+### Aggiornamento 2026-07-20 · Claude Opus (Collaboratore) · contratto marker + analisi grafica
+- Fatto: (1) corretto il refuso "Â·" nell'economy_hint (outdoor_world.gd, fix nel
+  working tree — lo includa Codex col prossimo commit rendering). (2) Arricchito
+  `OutdoorRuntimeState` con campi convenienza per HUD/marker, così Codex NON
+  ricalcola nulla lato UI: `missionsRemaining`, `missionProgress` (0..1),
+  `masteryProgress` (0..1). `c02_audit` valida i nuovi campi.
+- File: `godot/scripts/game/outdoor_gameplay.gd`, `c02_audit.gd`,
+  `godot/scripts/outdoor_world.gd` (solo la stringa del refuso).
+
+#### Richieste grafiche per Codex (dall'analisi dello screenshot in-game)
+Dati già disponibili nel contratto runtime — resta solo la resa:
+1. **Affordance interagibili** (priorità alta): casse/tenda/cartello/lampioni
+   sembrano decorazione. Servono marker/alone su missioni, tesori e apparato.
+   I visual di tesori/incontri sono in `chunk_visual`/`visual_factory` (Codex):
+   aggiungere lì un marker per kind. Per lo STATO usare il runtime.
+2. **Marker apparato "Nucleo"** e **bussola missione**: usare `runtime.ready`
+   (apparato riparabile → pulsa), `runtime.focusSubject` (materia del livello),
+   `runtime.missionsRemaining` (testo "N al Nucleo").
+3. **HUD in alto a sx → barre**: sostituire "Missioni 0/5" e "Mastery 0%/70%"
+   con due progress bar usando `runtime.missionProgress` e `runtime.masteryProgress`.
+4. **Composizione**: alternare radure calme e cluster focali (metà sinistra
+   molto densa); usare il sentiero per guidare verso i POI.
+5. **Leggibilità player**: contorno/alone leggermente più marcato (anche di notte).
+6. **Coerenza UI**: bottone "Esci dal mondo" nello stile dei pannelli arrotondati;
+   shimmer/bordo sulla pozza d'acqua; verificare marker leggibili di notte.
+- Nota: `runtime_state_changed` è il segnale unico; la scena inoltra `runtime`
+  all'HUD. Nessun accesso diretto a save/progression dalla UI (gate I-01).
+- Prossimo passo: Codex può implementare marker e barre sui campi sopra.

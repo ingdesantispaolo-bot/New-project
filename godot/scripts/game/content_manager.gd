@@ -17,6 +17,8 @@ const BANKS := {
 }
 
 var _cache: Dictionary = {}  # subject -> Array item
+var _recent_math_signatures: Array = []
+var _mission_serial := 0
 
 func _load_bank(subject: String) -> Array:
 	if _cache.has(subject):
@@ -43,6 +45,19 @@ static func target_difficulty(level: int) -> int:
 # "subject:topic" -> conteggio, dagli errori passati), poi item vicini alla
 # difficoltà del livello. Gli item di ripasso sono marcati `review:true`.
 func build_mission(subject: String, level: int, node_count: int = 3, review_due: Dictionary = {}, rng: RandomNumberGenerator = null) -> Dictionary:
+	var generator := rng
+	if generator == null:
+		generator = RandomNumberGenerator.new()
+		generator.randomize()
+	_mission_serial += 1
+	if subject == "matematica":
+		var review_topics: Array = []
+		for key in review_due.keys():
+			var prefix := "matematica:"
+			if str(key).begins_with(prefix) and int(review_due[key]) > 0:
+				review_topics.append(str(key).trim_prefix(prefix))
+		var generated := MathExerciseGenerator.new().build_nodes(level, node_count, generator, _recent_math_signatures, review_topics)
+		return _session(subject, level, generated)
 	var items := _load_bank(subject)
 	var target := target_difficulty(level)
 	var review_pool: Array = []
@@ -55,21 +70,20 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 			near_pool.append(item)
 	if near_pool.is_empty() and review_pool.is_empty():
 		near_pool = items.duplicate()
-	var generator := rng
-	if generator == null:
-		generator = RandomNumberGenerator.new()
-		generator.randomize()
 	var chosen: Array = []
 	_drain_into(chosen, review_pool, node_count, generator, true)
 	_drain_into(chosen, near_pool, node_count, generator, false)
 	while chosen.size() < node_count and not items.is_empty():
 		chosen.append(items[generator.randi_range(0, items.size() - 1)].duplicate())
+	return _session(subject, level, chosen)
+
+func _session(subject: String, level: int, nodes: Array) -> Dictionary:
 	return {
-		"sessionId": "mission-%s-lvl%d" % [subject, level],
+		"sessionId": "mission-%s-lvl%d-%d" % [subject, level, _mission_serial],
 		"kind": "mission",
 		"subject": subject,
 		"level": level,
-		"nodes": chosen,
+		"nodes": nodes,
 		"shields": 3,
 		"rewards": {"energyPerCorrect": 10, "onComplete": {"energy": 30, "fragments": 2}},
 	}

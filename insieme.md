@@ -407,6 +407,7 @@ su seam, luce e gerarchia visiva.
 | 2026-07-21 | Codex | Material pipeline world-space | Generati underpainting pittorici per prato, bosco, minerale, magia, acqua e terra; introdotti shader globali multi-scala/mirror-repeat, sentieri curvi texturizzati, laghi organici e assemblies a tre altezze | render probe diurno, composition audit, fixture, round-trip, loop, C-10, build, Web e Windows verdi; C-02 legacy segnala separatamente livello iniziale inatteso | test movimento reale giorno/notte e tuning compositivo dei landmark |
 
 | 2026-07-21 | Codex | Habitat e varieta compositiva | Fiume spline continuo, rive e ponti orientati; atlante RGBA da 16 micro-dettagli; spawner habitat-aware; quattro archetipi di assembly; sostituzione dei visual primitivi fuori stile; probe Radura/Dorsale/Bosco/Cratere | scene load, composition/habitat, fixture, round-trip, loop, C-10, build, Web e Windows verdi; quattro catture reali verificate | tuning manuale di scala e densita durante esplorazione |
+| 2026-07-21 | Codex | C-11 confini, materie e matematica | Fondale pittorico oltre il perimetro 8×8, barriera naturale continua e recupero save fuori mappa; routing bioma/incontro verso 8 materie; generatore matematico a 8 complessità con parametri variabili, anti-ripetizione e ripasso | C-01→C-11, fixture, loop, round-trip, enigma, composition, 184 test e build verdi; probe bordi/Rovine verificati | export Web/Windows e prova manuale esplorazione/materie |
 
 ## Formato aggiornamento obbligatorio
 

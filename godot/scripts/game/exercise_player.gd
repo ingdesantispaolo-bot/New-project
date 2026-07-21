@@ -66,7 +66,8 @@ func _build_ui() -> void:
 	panel.add_child(box)
 
 	var heading := Label.new()
-	heading.text = "PROVA NORA" if str(session.get("kind", "mission")) == "mission" else "APPARATO · ESAME FINALE"
+	var heading_kind := "PROVA NORA" if str(session.get("kind", "mission")) == "mission" else ("ENIGMA NORA" if str(session.get("kind", "mission")) == "enigma" else "APPARATO · ESAME FINALE")
+	heading.text = "%s  ·  %s" % [heading_kind, str(session.get("subject", "matematica")).capitalize()]
 	heading.add_theme_font_size_override("font_size", 16)
 	heading.add_theme_color_override("font_color", Color("6be7d6"))
 	box.add_child(heading)

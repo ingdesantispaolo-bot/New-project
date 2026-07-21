@@ -17,6 +17,27 @@ extends Node
 
 const EXERCISE_ENERGY_COST := 3
 
+const BIOME_ENCOUNTER_SUBJECTS := {
+	"academy:times": "matematica",
+	"academy:mental": "italiano",
+	"wild:times": "inglese",
+	"wild:physicalGeo": "fisica",
+	"logic:times": "coding",
+	"logic:mental": "elettronica",
+	"crystal:mental": "musica",
+	"crystal:guardian": "musica",
+	"geo:capital": "inglese",
+	"geo:physicalGeo": "fisica",
+	"ruins:mental": "latino",
+	"ruins:capital": "italiano",
+	"ruins:guardian": "elettronica",
+}
+
+const ENCOUNTER_SUBJECT_FALLBACK := {
+	"times": "matematica", "mental": "italiano", "capital": "inglese",
+	"physicalGeo": "fisica", "guardian": "coding",
+}
+
 signal runtime_state_changed(state: Dictionary)  # stato aggiornato (evento-driven)
 signal session_requested(session: Dictionary)    # la scena mostra l'ExercisePlayer
 signal feedback(message: String)                 # messaggio testuale per l'HUD
@@ -34,11 +55,12 @@ var active_session_context: Dictionary = {}
 var base_fragments := 0
 var current_phase := "giorno"
 
-func setup(request: Dictionary, bridge_result: Dictionary) -> void:
+func setup(request: Dictionary, bridge_result: Dictionary, load_local_save: bool = true) -> void:
 	result = bridge_result
 	base_fragments = int(request.get("outdoorState", {}).get("fragments", 0))
 	game_save = GameSaveManager.new()
-	game_save.load_save()
+	if load_local_save:
+		game_save.load_save()
 	game_save.import_bridge_request(request)
 	content_manager = ContentManager.new()
 	progression_manager = ProgressionManager.new(game_save)
@@ -230,7 +252,12 @@ func _emit_state() -> void:
 
 func _subject_for_payload(payload: Dictionary) -> String:
 	var explicit := str(payload.get("subject", "")).strip_edges().to_lower()
-	return explicit if explicit != "" else "matematica"
+	if explicit != "":
+		return explicit
+	var biome := str(payload.get("biome", "")).strip_edges()
+	var kind := str(payload.get("kind", "")).strip_edges()
+	var habitat_key := "%s:%s" % [biome, kind]
+	return str(BIOME_ENCOUNTER_SUBJECTS.get(habitat_key, ENCOUNTER_SUBJECT_FALLBACK.get(kind, "matematica")))
 
 # Mappa del ripasso spaziato ("subject:topic" -> conteggio) usata dalla selezione.
 func _due() -> Dictionary:

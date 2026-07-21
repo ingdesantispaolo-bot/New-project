@@ -36,7 +36,7 @@ func _init() -> void:
 	gameplay.session_requested.connect(func(session): requested["session"] = session)
 
 	# setup emette lo stato iniziale (evento-driven)
-	gameplay.setup(request, result)
+	gameplay.setup(request, result, false)
 	var state: Dictionary = last_state["v"]
 	for key in RUNTIME_KEYS:
 		assert(state.has(key), "manca il campo runtime '%s'" % key)

@@ -92,7 +92,8 @@ func _apply_resume() -> void:
 	var resume: Dictionary = request.get("resume", {})
 	if resume.is_empty():
 		return
-	player.position = Vector2(float(resume.get("playerX", player.position.x)), float(resume.get("playerY", player.position.y)))
+	var resumed := Vector2(float(resume.get("playerX", player.position.x)), float(resume.get("playerY", player.position.y)))
+	player.position = chunks.clamp_to_world(resumed)
 	day_clock = float(resume.get("dayClock", 0.0))
 	if is_instance_valid(camera):
 		camera.position = player.position

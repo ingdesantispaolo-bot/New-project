@@ -201,3 +201,33 @@ relazioni ecologiche leggibili:
   i sentieri sono spline uniche, piu sottili e fuse cromaticamente nel prato;
 - il render probe produce quattro immagini (`academy`, `geo`, `wild`, `logic`)
   per confronti percettivi ripetibili.
+
+## Confine diegetico e contenuti progressivi · 2026-07-21
+
+Il mondo utile resta una matrice 8×8 da 896 px per cella (7168×7168), ma la
+camera non espone più il clear grigio del viewport. Oltre il perimetro viene
+disegnata una fascia di underpainting world-space coerente con i pesi dei biomi;
+quattro collisioni continue sono mascherate da una cintura di alberi, rocce e
+cristalli. Un resume legacy fuori mappa viene ricondotto entro il margine sicuro.
+L'aspect `expand` elimina inoltre le bande nere nelle viewport Web non 16:9.
+
+Il probe comprende ora `ruins`, `north-edge` ed `east-edge`: verifica insieme
+la sostituzione delle primitive provvisorie di Rovine/Cristallo e la copertura
+visiva dei bordi.
+
+Gli incontri non ereditano più sempre Matematica. La coppia bioma/archetipo
+instrada le sessioni verso Matematica, Italiano, Inglese, Coding, Fisica,
+Musica, Latino ed Elettronica; la materia è esplicitata nel titolo della prova.
+La materia-focus dell'apparato resta indipendente: le altre missioni allenano
+la relativa mastery, mentre il gate corrente richiede la sua materia prevista.
+
+Per Matematica il piccolo banco statico è stato sostituito da un generatore
+parametrico cumulativo. I livelli 1–24 attraversano otto complessità (una ogni
+tre livelli), da calcolo, tabelline e sequenze fino a frazioni, geometria,
+percentuali, equazioni, coordinate e statistica. Le ultime 28 firme vengono
+ricordate per evitare ripetizioni ravvicinate; gli argomenti dovuti dal ripasso
+spaziato hanno priorità senza congelare i valori numerici.
+
+`c11_world_content_audit.gd` rende questi requisiti bloccanti: perimetro e
+barriere, recupero posizione, otto materie, assenza di firme duplicate fra due
+missioni consecutive, complessità 8 e presenza delle famiglie avanzate.

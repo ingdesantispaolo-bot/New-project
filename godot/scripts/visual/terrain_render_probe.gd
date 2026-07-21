@@ -5,6 +5,9 @@ const PROBES := [
 	{"id": "geo", "position": Vector2(-470, 2490)},
 	{"id": "wild", "position": Vector2(-2450, -500)},
 	{"id": "logic", "position": Vector2(2850, -650)},
+	{"id": "ruins", "position": Vector2(-2450, -2700)},
+	{"id": "north-edge", "position": Vector2(0, -3460)},
+	{"id": "east-edge", "position": Vector2(3460, 0)},
 ]
 
 func _initialize() -> void:

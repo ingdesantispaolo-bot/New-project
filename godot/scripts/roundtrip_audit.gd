@@ -35,32 +35,43 @@ func _run() -> void:
 	var exercise: ExercisePlayer = scene.get("exercise_player")
 	assert(exercise != null and exercise.visible, "ExercisePlayer deve aprirsi in-scena")
 	assert(str(exercise.session.get("kind", "")) == "mission")
-	assert(str(exercise.session.get("subject", "")) == "matematica")
+	var mission_subject := str(exercise.session.get("subject", ""))
+	assert(ContentManager.BANKS.has(mission_subject), "l'incontro deve instradare una materia disponibile")
+	var subject_missions_before := int(scene.get("game_save").missions_of(mission_subject))
 	var pending_result: Dictionary = scene.get("result")
 	assert(int(pending_result["energySpent"]) == 3)
 	scene.call("_on_exercise_finished", {
-		"kind": "mission", "subject": "matematica", "correct": 3,
+		"kind": "mission", "subject": mission_subject, "correct": 3,
 		"total": 3, "passed": true, "energyGained": 60,
 	})
 	var completed_result: Dictionary = scene.get("result")
 	assert(not completed_result.has("pendingEncounter"))
 	assert(completed_result["completedEncounterIds"].has(encounter["id"]))
 	assert(int(completed_result["energyEarned"]) == 60)
-	assert(int(scene.get("game_save").missions_of("matematica")) == 1)
+	assert(int(scene.get("game_save").missions_of(mission_subject)) == subject_missions_before + 1)
 	var progression: ProgressionManager = scene.get("progression_manager")
-	for _i in range(4):
-		progression.record_mission("matematica", 3, 3, 0, true)
-	assert(progression.can_repair(), "il gate del Nucleo deve aprirsi dopo 5 missioni")
+	var gate_before := progression.current_gate()
+	var initial_level := int(gate_before["level"])
+	var focus_subject := str(gate_before["subject"])
+	var focus_apparatus := str(gate_before["apparatus"])
+	# Il primo incontro puo allenare una materia diversa dalla materia-focus del
+	# livello. Completiamo soltanto le missioni della materia-focus necessarie al
+	# gate, verificando cosi sia il routing multi-materia sia l'esame corrente.
+	var guard := 0
+	while not progression.can_repair() and guard < 20:
+		progression.record_mission(focus_subject, 3, 3, 0, true)
+		guard += 1
+	assert(progression.can_repair(), "il gate dell'apparato deve aprirsi con missioni e mastery richieste")
 	assert(bool(scene.call("start_final_exam")), "l'esame finale deve essere avviabile in Godot")
 	var exam: ExercisePlayer = scene.get("exercise_player")
 	assert(exam.visible and str(exam.session.get("kind", "")) == "final_exam")
 	scene.call("_on_exercise_finished", {
-		"kind": "final_exam", "subject": "matematica", "correct": 3,
+		"kind": "final_exam", "subject": focus_subject, "correct": 3,
 		"total": 3, "passed": true, "energyGained": 76,
 	})
 	var final_save: GameSaveManager = scene.get("game_save")
-	assert(final_save.level() == 2, "l'esame deve far avanzare il livello")
-	assert(int(final_save.data["apparatus"]["nucleo"]["repairedLevel"]) == 1)
+	assert(final_save.level() == initial_level + 1, "l'esame deve far avanzare il livello")
+	assert(int(final_save.data["apparatus"][focus_apparatus]["repairedLevel"]) == initial_level)
 	print("Outdoor Godot native mission + final exam round-trip smoke OK")
 	quit(0)
 

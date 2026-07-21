@@ -53,6 +53,7 @@ signal enigma_progress(built: int, total: int, theme: String, encounter_id: Stri
 var game_save: GameSaveManager
 var content_manager: ContentManager
 var progression_manager: ProgressionManager
+var reward_manager: RewardManager
 var result: Dictionary                           # risultato bridge (handshake d'uscita)
 var active_session_context: Dictionary = {}
 var base_fragments := 0
@@ -67,6 +68,7 @@ func setup(request: Dictionary, bridge_result: Dictionary, load_local_save: bool
 	game_save.import_bridge_request(request)
 	content_manager = ContentManager.new()
 	progression_manager = ProgressionManager.new(game_save)
+	reward_manager = RewardManager.new(game_save)
 	_emit_state()
 
 # ---------------------------------------------------------------------------
@@ -99,6 +101,11 @@ func runtime_state() -> Dictionary:
 		"fragments": base_fragments + int(result.get("fragmentsEarned", 0)),
 		"phase": current_phase,
 		"sessionActive": session_active(),
+		# Bottega (C-14): catalogo statico in RewardCatalog.CATALOG, qui solo lo
+		# stato del giocatore. Codex non ricalcola owned/equipped lato UI.
+		"cosmeticsUnlocked": Array(game_save.data.get("cosmetics", {}).get("unlocked", [])).duplicate(),
+		"cosmeticsInventory": Array(game_save.data.get("cosmetics", {}).get("inventory", [])).duplicate(),
+		"cosmeticsEquipped": Dictionary(game_save.data.get("cosmetics", {}).get("equipped", {})).duplicate(),
 	}
 
 func update_phase(phase: String) -> void:
@@ -233,6 +240,42 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			feedback.emit("Il gate non è più disponibile: riprova le missioni richieste.")
 		else:
 			feedback.emit("Esame non superato: l'apparato resta da riparare.")
+	game_save.save()
+	_emit_state()
+
+# ---------------------------------------------------------------------------
+# Bottega (C-14): acquisto/equip cosmetici. La spesa passa da spend_energy() E
+# da result.energySpent, esattamente come le missioni: così il bridge riceve
+# il delta corretto senza bisogno di rendere l'energia autoritativa lato Godot
+# (quel salto resta un rischio da valutare in Fase 5/C-16, non qui).
+# ---------------------------------------------------------------------------
+
+func try_purchase_cosmetic(id: String) -> bool:
+	if not reward_manager.can_afford(id):
+		var reason := reward_manager.unavailable_reason(id)
+		feedback.emit(reason if reason != "" else "Cosmetico non disponibile.")
+		return false
+	var cosmetic := RewardCatalog.find(id)
+	var cost := int(cosmetic.get("cost", 0))
+	if not game_save.spend_energy(cost):
+		feedback.emit("Energia insufficiente per \"%s\"." % str(cosmetic.get("name", id)))
+		return false
+	result["energySpent"] = int(result.get("energySpent", 0)) + cost
+	reward_manager.unlock_and_equip(id)
+	game_save.save()
+	feedback.emit("Acquistato: %s" % str(cosmetic.get("name", id)))
+	_emit_state()
+	return true
+
+func equip_cosmetic(id: String) -> bool:
+	if not reward_manager.equip(id):
+		return false
+	game_save.save()
+	_emit_state()
+	return true
+
+func unequip_cosmetic(slot: String) -> void:
+	reward_manager.unequip(slot)
 	game_save.save()
 	_emit_state()
 

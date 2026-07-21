@@ -21,7 +21,7 @@ static func _default_data() -> Dictionary:
 		"mastery": {},              # subject -> float 0..1
 		"missionsBySubject": {},    # subject -> int (azzerato al salire di livello)
 		"apparatus": {},            # id -> {repairedLevel:int}
-		"cosmetics": {"unlocked": [], "equipped": {}},
+		"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []},
 		"modules": {"owned": [], "equipped": []},
 		"narrative": {"seen": [], "beats": {}},
 		"daily": {"date": "", "missions": 0, "streak": 0},

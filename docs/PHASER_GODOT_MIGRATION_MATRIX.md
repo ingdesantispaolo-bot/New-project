@@ -14,6 +14,7 @@
 | Telemetria locale | `LocalProgressReport` | migrata | C-08 |
 | Redirect missioni verso Phaser | nessun redirect nel loop Godot | eliminata | round-trip |
 | Contenuto esercizi (7 materie non-matematica) | banchi bakati da `scripts/build-exercise-banks.mjs`, generatori TS reali (vocabolari it/en, declinazioni latine, componenti circuiti, semi Python) o teoria curata (fisica/musica) | migrata (C-12) | validazione bake + c04_audit |
+| Bottega/cosmetici (`RewardCatalog`/`RewardSystem`) | `RewardCatalog.gd` (39 item reali) + `RewardManager.gd`, integrati in `OutdoorGameplay` | migrata (C-14) | reward_audit.gd — manca solo la UI (Codex) |
 
 Regola di rimozione: una voce può essere eliminata dal fallback Phaser solo dopo
 fixture parity, round-trip e smoke test Web verdi.

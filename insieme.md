@@ -779,3 +779,52 @@ criticità o vuoi un ordine diverso.
   del POI (es. via un parametro in `setup()`), non hardcoded come oggi.
 - Prossimo passo: C-14 (economia/bottega nativa) quando vuoi che proceda; nel
   frattempo puoi lavorare sui visual dei 7 temi mancanti in autonomia.
+
+### Aggiornamento 2026-07-21 (6) · Claude Opus (Collaboratore) · C-14 bottega/cosmetici nativa
+- Fatto: portata la bottega da `src/core/RewardCatalog.ts`/`RewardSystem.ts` a
+  Godot — logica completa, riusa il pattern energia già collaudato per le
+  missioni (nessun cambio rischioso su chi è "autoritativo").
+  - `RewardCatalog.gd`: 39 cosmetici reali trascritti letteralmente (stessi id,
+    nomi, descrizioni, costi, colori/glifi, minLevel), 7 slot: bot, avatar,
+    accessory, pet, emblem, upgrade, decor.
+  - `RewardManager.gd`: possesso/gating livello/affordability/equip, porting
+    di `RewardSystem.ts`. `minLevel` è confrontato col **livello Godot**
+    (apparati 1→24), più semplice e coerente dell'euristica multi-sistema di
+    Phaser (`playerLevel()` mischiava training/missioni/gym/collection).
+  - `OutdoorGameplay`: `reward_manager` + 3 metodi pubblici —
+    `try_purchase_cosmetic(id)`, `equip_cosmetic(id)`, `unequip_cosmetic(slot)`.
+    L'acquisto spende via `game_save.spend_energy()` **e** incrementa
+    `result["energySpent"]`, esattamente come missioni/enigmi: il bridge
+    riceve il delta corretto senza bisogno di rendere l'energia interamente
+    autoritativa lato Godot (quel salto resta un rischio architetturale da
+    valutare in Fase 5/C-16 — dipende da come Phaser fa il round-trip di
+    `godotSave`, non l'ho verificato lato TS e non l'ho forzato qui).
+  - `runtime_state()` esteso: `cosmeticsUnlocked`, `cosmeticsInventory`,
+    `cosmeticsEquipped`. Il catalogo statico resta in `RewardCatalog.CATALOG`
+    (non duplicato nel runtime): tu leggi direttamente quello per nome/costo/
+    colore/glifo, il runtime ti dice solo cosa il giocatore possiede/equipaggia.
+  - `save_manager.gd`: aggiunto `cosmetics.inventory` (upgrade/decor, che non
+    occupano uno slot equipaggiato — sono "posseduto" = "equipaggiato").
+- File: `godot/scripts/game/reward_catalog.gd`, `reward_manager.gd`,
+  `reward_audit.gd` (nuovi), `outdoor_gameplay.gd`, `save_manager.gd`,
+  `docs/PHASER_GODOT_MIGRATION_MATRIX.md`.
+- Test/export: nessun ternario C-style; `git diff --check` pulito. Da eseguire
+  in editor: `reward_audit.gd` (acquisto, gating livello, energia
+  insufficiente, scambio equip, upgrade/decor, doppio acquisto, unequip).
+
+#### Cosa serve da te per chiudere il giro (nessuna urgenza)
+- **Una UI Bottega**: la nave (`hub_scene.gd`) è il posto narrativamente
+  giusto. Legge `RewardCatalog.CATALOG` (statico) + `runtime.cosmeticsUnlocked/
+  Inventory/Equipped` (stato), chiama `gameplay.try_purchase_cosmetic(id)` /
+  `equip_cosmetic(id)` / `unequip_cosmetic(slot)`. Nota: oggi `hub_scene.gd`
+  non ha un `OutdoorGameplay`/bridge proprio (è stato costruito apposta
+  standalone) — se vuoi la bottega lì, serve un piccolo aggancio che ti
+  preparo io quando sei pronto a disegnarla; oppure la mettiamo prima come
+  pannello nel mondo esterno, dove `gameplay` è già disponibile.
+- **Attenzione emoji nei glifi pet** (🐶🐱🐰…): sono dati reali dal catalogo
+  Phaser, ma è già annotato come rischio nei doc (font web senza glifi emoji).
+  Se il font Web non li rende, meglio sostituirli con simboli vettoriali tuoi
+  per quello slot, mantenendo l'id/nome/costo invariati (sono solo estetica).
+- Prossimo passo mio: C-15 (NORA compagna con voce contestuale) quando vuoi
+  che proceda, oppure preparo l'aggancio bottega↔hub_scene se preferisci
+  chiudere prima questo giro.

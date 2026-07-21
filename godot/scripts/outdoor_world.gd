@@ -6,9 +6,10 @@ const DAY_LENGTH := 120.0
 const PORTAL_VISUAL := preload("res://scripts/portal_visual.gd")
 const EXERCISE_ENERGY_COST := 3
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
+const ENIGMA_STRUCTURE := preload("res://scripts/visual/enigma_structure.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
-const NIGHT_TINT := Color(0.34, 0.4, 0.66)
+const NIGHT_TINT := Color(0.46, 0.51, 0.70)
 const DAWN_TINT := Color(1.0, 0.84, 0.72)
 
 var request: Dictionary
@@ -82,7 +83,7 @@ func _ready() -> void:
 	_apply_resume()
 	_create_portal()
 	_create_apparatus_terminal()
-	_create_enigma_poi()
+	_create_enigma_pois()
 	_create_atmosphere()
 	_create_hud()
 	_create_exercise_player()
@@ -168,8 +169,8 @@ void fragment() {
     vec3 dawn_tint = vec3(1.0, 0.58, 0.28);
     vec3 tint = mix(night_tint, dawn_tint, dawn * 0.72);
     tint = mix(tint, biome_tint, 0.16);
-    float alpha = (night * 0.095) + (dawn * 0.035) + (edge * 0.075) + mist;
-    COLOR = vec4(tint, clamp(alpha, 0.0, 0.22));
+    float alpha = (night * 0.045) + (dawn * 0.028) + (edge * 0.050) + mist;
+    COLOR = vec4(tint, clamp(alpha, 0.0, 0.16));
 }
 """
 	atmosphere_material = ShaderMaterial.new()
@@ -224,6 +225,7 @@ func _create_player() -> void:
 	player.add_child(body_visual)
 	player.visual = body_visual.get_node("Visual")
 	_apply_accessory(player.visual, visual_data)
+	_add_player_night_light()
 	fireflies = OutdoorVisualFactory.make_sparkles(Color(1.0, 0.93, 0.62, 0.85), 560.0, 24)
 	fireflies.lifetime = 5.0
 	fireflies.preprocess = 3.0
@@ -239,6 +241,25 @@ func _create_player() -> void:
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 6.0
 	add_child(camera)
+
+func _add_player_night_light() -> void:
+	var gradient := Gradient.new()
+	gradient.colors = PackedColorArray([Color(1.0, 0.88, 0.58, 0.34), Color(0.32, 0.72, 0.82, 0.12), Color(0, 0, 0, 0)])
+	gradient.offsets = PackedFloat32Array([0.0, 0.42, 1.0])
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.width = 192
+	texture.height = 192
+	texture.fill = GradientTexture2D.FILL_RADIAL
+	texture.fill_from = Vector2(0.5, 0.5)
+	texture.fill_to = Vector2(1.0, 0.5)
+	var light := PointLight2D.new()
+	light.name = "PlayerNightLight"
+	light.texture = texture
+	light.energy = 0.46
+	light.texture_scale = 2.0
+	light.blend_mode = PointLight2D.BLEND_MODE_ADD
+	player.add_child(light)
 
 func _avatar_color(value, fallback: Color) -> Color:
 	if (typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT) and int(value) >= 0:
@@ -298,26 +319,48 @@ func _create_apparatus_terminal() -> void:
 	apparatus_terminal.body_entered.connect(func(body): on_interactable_entered(apparatus_terminal, body))
 	apparatus_terminal.body_exited.connect(func(body): on_interactable_exited(apparatus_terminal, body))
 
-func _create_enigma_poi() -> void:
-	# Enigma ambientale (prototipo matematica → tema "ponte"): POI gameplay-only.
-	# Come per il terminale apparato, il marker e la STRUTTURA che si costruisce
-	# (rotto→ponte) restano a Codex, che si abbona a `enigma_progress` e attacca il
-	# suo visual con `set_stage(built, total)` a questo nodo (gruppo "enigma_poi").
-	var enigma := Area2D.new()
-	enigma.name = "PonteEnigma"
-	enigma.position = PORTAL_POSITION + Vector2(-148, 120)
-	enigma.add_to_group("enigma_poi")
-	enigma.set_meta("kind", "enigma")
-	enigma.set_meta("id", "enigma-ponte-primi")
-	enigma.set_meta("payload", {"subject": "matematica", "label": "il Ponte dei Primi"})
-	var shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = INTERACTION_DISTANCE
-	shape.shape = circle
-	enigma.add_child(shape)
-	world_layer.add_child(enigma)
-	enigma.body_entered.connect(func(body): on_interactable_entered(enigma, body))
-	enigma.body_exited.connect(func(body): on_interactable_exited(enigma, body))
+# Un enigma ambientale per materia (C-13): stesso motore del Ponte dei Primi,
+# solo `theme`/etichetta diversi (ContentManager.enigma_theme). Il visual
+# dedicato (ponte) esiste solo per matematica; per le altre materie il POI è
+# pronto (gruppo "enigma_poi", meta id/payload, set_stage no-op sicuro) e
+# aspetta che Codex attacchi la struttura del proprio tema — vedi insieme.md.
+func _enigma_poi_specs() -> Array:
+	return [
+		{ "subject": "matematica", "id": "enigma-ponte-primi", "label": "il Ponte dei Primi", "offset": Vector2(-148, 120), "has_visual": true },
+		{ "subject": "italiano", "id": "enigma-porta-parole", "label": "la Porta delle Parole", "offset": Vector2(-148, -160) },
+		{ "subject": "inglese", "id": "enigma-porta-segnali", "label": "la Porta dei Segnali", "offset": Vector2(180, -180) },
+		{ "subject": "latino", "id": "enigma-porta-glifi", "label": "la Porta dei Glifi", "offset": Vector2(-320, 20) },
+		{ "subject": "coding", "id": "enigma-circuito-cicli", "label": "il Circuito dei Cicli", "offset": Vector2(320, 140) },
+		{ "subject": "elettronica", "id": "enigma-circuito-nucleo", "label": "il Circuito del Nucleo", "offset": Vector2(60, 260) },
+		{ "subject": "musica", "id": "enigma-cristalli-armonia", "label": "i Cristalli dell'Armonia", "offset": Vector2(-40, -260) },
+		{ "subject": "fisica", "id": "enigma-reattore-moti", "label": "il Reattore dei Moti", "offset": Vector2(300, -40) },
+	]
+
+func _create_enigma_pois() -> void:
+	for entry in _enigma_poi_specs():
+		var enigma := Area2D.new()
+		enigma.name = str(entry["id"]).capitalize().replace(" ", "")
+		enigma.position = PORTAL_POSITION + (entry["offset"] as Vector2)
+		enigma.add_to_group("enigma_poi")
+		enigma.set_meta("kind", "enigma")
+		enigma.set_meta("id", entry["id"])
+		enigma.set_meta("payload", {"subject": entry["subject"], "label": entry["label"]})
+		var shape := CollisionShape2D.new()
+		var circle := CircleShape2D.new()
+		circle.radius = INTERACTION_DISTANCE
+		shape.shape = circle
+		enigma.add_child(shape)
+		if bool(entry.get("has_visual", false)):
+			var visual := ENIGMA_STRUCTURE.new()
+			visual.name = "PonteDeiPrimiVisual"
+			visual.setup(ContentManager.enigma_theme(str(entry["subject"])))
+			enigma.add_child(visual)
+			world_layer.add_child(enigma)
+			visual.set_stage(4 if Array(result.get("completedEncounterIds", [])).has(entry["id"]) else 0, 4)
+		else:
+			world_layer.add_child(enigma)
+		enigma.body_entered.connect(func(body): on_interactable_entered(enigma, body))
+		enigma.body_exited.connect(func(body): on_interactable_exited(enigma, body))
 
 func _create_exercise_player() -> void:
 	exercise_player = EXERCISE_PLAYER_SCRIPT.new()
@@ -677,12 +720,17 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	_refresh_prompt()
 
 # Progresso dell'enigma: feedback testuale + popup a ogni campata (gameplay-only).
-# Se Codex ha attaccato un visual della struttura (metodo `set_stage`) ai nodi del
-# gruppo "enigma_poi", lo aggiorno; altrimenti resta il solo riscontro testuale.
-func _on_enigma_progress(built: int, total: int, theme: String) -> void:
-	for node in get_tree().get_nodes_in_group("enigma_poi"):
-		if node.has_method("set_stage"):
-			node.set_stage(built, total)
+# Aggiorna SOLO il POI il cui meta "id" combacia con l'encounter_id attivo (più
+# enigmi condividono il gruppo "enigma_poi": senza questo filtro, rispondere
+# all'enigma di coding farebbe "costruire" anche il ponte di matematica). Se
+# Codex non ha ancora attaccato un visual con `set_stage` a quel POI, resta un
+# no-op sicuro e vale solo il riscontro testuale.
+func _on_enigma_progress(built: int, total: int, theme: String, encounter_id: String) -> void:
+	for area in get_tree().get_nodes_in_group("enigma_poi"):
+		if area is Area2D and str(area.get_meta("id", "")) == encounter_id:
+			for child in area.get_children():
+				if child.has_method("set_stage"):
+					child.set_stage(built, total)
 	if built <= 0:
 		_set_feedback("Enigma avviato: costruisci %s rispondendo (%d campate)" % [theme, total])
 		return

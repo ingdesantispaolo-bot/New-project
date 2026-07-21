@@ -40,7 +40,7 @@ func _test_success() -> void:
 	var requested := {"session": {}}
 	gameplay.session_requested.connect(func(s): requested["session"] = s)
 	var progress: Array = []
-	gameplay.enigma_progress.connect(func(built, total, theme): progress.append([built, total, theme]))
+	gameplay.enigma_progress.connect(func(built, total, theme, encounter_id): progress.append([built, total, theme, encounter_id]))
 
 	assert(gameplay.try_start_enigma({"subject": subject}, "enigma-1"), "enigma avviabile")
 	assert(bool(gameplay.runtime_state()["sessionActive"]), "sessione attiva")
@@ -50,6 +50,9 @@ func _test_success() -> void:
 	assert(int(session["stages"]) == int(session["nodes"].size()), "una campata per esercizio")
 	# Stato iniziale della costruzione: 0 campate, per partire da "rotto".
 	assert(progress.size() == 1 and int(progress[0][0]) == 0, "progresso iniziale a 0")
+	# encounter_id nel segnale: instrada l'aggiornamento al POI giusto quando
+	# più enigmi coesistono nel mondo (senza, la scena aggiornerebbe tutti i POI).
+	assert(str(progress[0][3]) == "enigma-1", "encounter_id propagato nel progresso")
 
 	# Gioca tutto corretto cablando progress_changed → notify_progress (come la scena).
 	var res := _play(gameplay, session, true)
@@ -77,7 +80,7 @@ func _test_failure() -> void:
 	var requested := {"session": {}}
 	gameplay.session_requested.connect(func(s): requested["session"] = s)
 	var completed_full := {"v": false}
-	gameplay.enigma_progress.connect(func(built, total, _t):
+	gameplay.enigma_progress.connect(func(built, total, _theme, _encounter_id):
 		if int(built) == int(total) and int(total) > 0:
 			completed_full["v"] = true)
 

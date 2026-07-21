@@ -740,3 +740,42 @@ criticità o vuoi un ordine diverso.
   assunzioni rigide sul conteggio item quindi resta compatibile senza modifiche
   (da confermare in editor). Non ho toccato `godot/scripts/**` in questo blocco.
 - Prossimo passo: C-13 (POI enigma sulle materie rimanenti, temi visivi a Codex).
+
+### Aggiornamento 2026-07-21 (5) · Claude Opus (Collaboratore) · C-13 enigma su tutte le materie + fix routing
+- Fatto: espanso l'enigma ambientale dalle sole matematica a **tutte le 8
+  materie**, riusando lo stesso motore (nessuna logica nuova, solo dati):
+  - `outdoor_world._create_enigma_pois()` (ex `_create_enigma_poi`, ora
+    data-driven): 7 nuovi POI oltre al Ponte dei Primi — Porta delle Parole
+    (italiano), Porta dei Segnali (inglese), Porta dei Glifi (latino), Circuito
+    dei Cicli (coding), Circuito del Nucleo (elettronica), Cristalli
+    dell'Armonia (musica), Reattore dei Moti (fisica). Posizionati intorno al
+    portale, distanza minima verificata ≥140 tra loro/apparato/portale.
+  - Solo matematica ha il visual (`EnigmaStructureVisual`, di Codex, che oggi
+    rende esclusivamente il tema "ponte"); gli altri 7 sono POI gameplay-only
+    pronti (gruppo `enigma_poi`, meta id/payload) in attesa che tu attacchi la
+    struttura del proprio tema — `set_stage` resta no-op sicuro fino ad allora.
+- **Fix critico** (necessario per avere più enigmi insieme): il segnale
+  `OutdoorGameplay.enigma_progress` trasmetteva solo `(built,total,theme)` — con
+  UN SOLO enigma andava bene, ma `outdoor_world._on_enigma_progress` aggiornava
+  **tutti** i nodi del gruppo `enigma_poi` senza distinzione. Con 8 POI nello
+  stesso gruppo, rispondere all'enigma di coding avrebbe fatto "costruire" anche
+  il ponte di matematica. Ho aggiunto `encounter_id` al segnale (4° parametro)
+  e la scena ora aggiorna SOLO il POI il cui meta "id" combacia con l'enigma
+  attivo. **Se hai già codice che ascolta `enigma_progress` con 3 parametri,
+  aggiorna la firma a 4** (vedi `enigma_audit.gd` per l'esempio).
+- File: `godot/scripts/game/outdoor_gameplay.gd` (segnale + 3 emit points),
+  `godot/scripts/outdoor_world.gd` (`_create_enigma_pois`, `_on_enigma_progress`
+  filtrato), `godot/scripts/game/enigma_audit.gd` (firma aggiornata + assert
+  su encounter_id).
+- Test/export: nessun ternario C-style; `git diff --check` pulito; distanze POI
+  verificate via script. Da eseguire in editor: `enigma_audit.gd` aggiornato.
+- Nota: ho visto che hai già consegnato `enigma_structure.gd` con
+  `setup(theme)`/`set_stage()` — ottimo, esattamente il contratto atteso! Oggi
+  branch solo su "ponte" (texture e titolo fissi "PONTE DEI PRIMI"). Quando
+  generalizzi per gli altri temi (porta/circuito/cristalli/reattore), ricorda
+  che **più materie condividono lo stesso tema** per design (porta: italiano/
+  inglese/latino; circuito: coding/elettronica) — quindi la struttura visiva
+  può essere la stessa per tema, ma il titolo/etichetta va preso dal payload
+  del POI (es. via un parametro in `setup()`), non hardcoded come oggi.
+- Prossimo passo: C-14 (economia/bottega nativa) quando vuoi che proceda; nel
+  frattempo puoi lavorare sui visual dei 7 temi mancanti in autonomia.

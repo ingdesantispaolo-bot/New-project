@@ -42,10 +42,13 @@ signal runtime_state_changed(state: Dictionary)  # stato aggiornato (evento-driv
 signal session_requested(session: Dictionary)    # la scena mostra l'ExercisePlayer
 signal feedback(message: String)                 # messaggio testuale per l'HUD
 ## Progresso dell'enigma ambientale per la resa (Codex): `built` campate costruite
-## su `total`, con `theme` (ponte/porta/…). La scena inoltra qui il segnale
-## `progress_changed` dell'ExercisePlayer via `notify_progress`; la grafica si
-## abbona SOLO a questo, senza conoscere l'ExercisePlayer (gate I-01).
-signal enigma_progress(built: int, total: int, theme: String)
+## su `total`, con `theme` (ponte/porta/…) ed `encounter_id` per instradare
+## l'aggiornamento al POI giusto quando più enigmi coesistono nel mondo (con un
+## solo enigma non serviva, con più POI dello stesso gruppo sì: senza id la
+## scena aggiornerebbe la visuale di TUTTI gli enigmi, non solo quello attivo).
+## La scena inoltra qui il segnale `progress_changed` dell'ExercisePlayer via
+## `notify_progress`; la grafica si abbona SOLO a questo (gate I-01).
+signal enigma_progress(built: int, total: int, theme: String, encounter_id: String)
 
 var game_save: GameSaveManager
 var content_manager: ContentManager
@@ -157,17 +160,17 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
 	session_requested.emit(session)
 	# Stato iniziale della costruzione (0 campate) così la resa parte da "rotto".
-	enigma_progress.emit(0, int(session.get("stages", session.get("nodes", []).size())), theme)
+	enigma_progress.emit(0, int(session.get("stages", session.get("nodes", []).size())), theme, encounter_id)
 	_emit_state()
 	return true
 
 # Inoltro del progresso dall'ExercisePlayer (la scena connette qui
-# `progress_changed`): rilancia `enigma_progress` con il tema solo durante un
-# enigma, ignorando le sessioni normali.
+# `progress_changed`): rilancia `enigma_progress` con tema ed encounter_id solo
+# durante un enigma, ignorando le sessioni normali.
 func notify_progress(built: int, total: int) -> void:
 	if str(active_session_context.get("kind", "")) != "enigma":
 		return
-	enigma_progress.emit(built, total, str(active_session_context.get("theme", "ponte")))
+	enigma_progress.emit(built, total, str(active_session_context.get("theme", "ponte")), str(active_session_context.get("encounterId", "")))
 
 func try_start_final_exam() -> bool:
 	if session_active():
@@ -216,7 +219,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			# La costruzione si completa solo se l'enigma è superato; altrimenti
 			# resta alle campate raggiunte e la scena la ripristina alla ripetizione.
 			if passed:
-				enigma_progress.emit(total, total, str(context.get("theme", "ponte")))
+				enigma_progress.emit(total, total, str(context.get("theme", "ponte")), str(context.get("encounterId", "")))
 			feedback.emit("Enigma risolto: il %s è ricostruito · +%d energia" % [str(context.get("theme", "ponte")), gained] if passed else "L'enigma non regge ancora: riprova la costruzione")
 		else:
 			feedback.emit("Missione superata: +%d energia · padronanza aggiornata" % gained if passed else "Missione da ripetere: hai ancora margine")

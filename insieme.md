@@ -780,6 +780,26 @@ criticità o vuoi un ordine diverso.
 - Prossimo passo: C-14 (economia/bottega nativa) quando vuoi che proceda; nel
   frattempo puoi lavorare sui visual dei 7 temi mancanti in autonomia.
 
+### Aggiornamento 2026-07-21 (6) · Codex · C-13 resa grafica completa
+- Fatto: completata la resa progressiva `0/4 → 4/4` per tutti i temi enigma:
+  **ponte**, **porta**, **circuito**, **cristalli**, **reattore**. Gli otto POI
+  creati dal collaboratore ricevono ora un `EnigmaStructureVisual` specifico;
+  le tre porte e i due circuiti condividono la grammatica visiva ma hanno
+  varianti cromatiche legate all'etichetta.
+- UX: stato rotto con spalle/frammenti e blueprint, quattro moduli che entrano
+  con easing e scintille, marker animato, quattro indicatori, reveal luminoso
+  finale; il titolo compare soltanto vicino al giocatore per non affollare il
+  paesaggio. Il testo arriva dal payload, non è hardcoded.
+- Asset AI originali integrati e ripuliti in RGBA:
+  `enigma-bridge-primes-v1.png`, `enigma-gate-language-v1.png`,
+  `enigma-circuit-tech-v1.png`, `enigma-crystals-harmony-v1.png`,
+  `enigma-reactor-motion-v1.png`.
+- Confine rispettato: la grafica riceve esclusivamente `setup(theme,label)` e
+  `set_stage(built,total)`; nessun accesso a save, sessione o progressione.
+- Verifica: editor scan Godot 4.7.1, `enigma_visual_audit` sui 5 temi,
+  `enigma_audit`, C-04 e C-11 verdi; probe reali per rotto/2-di-4/completo e
+  per porta/circuito/cristalli/reattore.
+
 ### Aggiornamento 2026-07-21 (6) · Claude Opus (Collaboratore) · C-14 bottega/cosmetici nativa
 - Fatto: portata la bottega da `src/core/RewardCatalog.ts`/`RewardSystem.ts` a
   Godot — logica completa, riusa il pattern energia già collaudato per le
@@ -828,3 +848,48 @@ criticità o vuoi un ordine diverso.
 - Prossimo passo mio: C-15 (NORA compagna con voce contestuale) quando vuoi
   che proceda, oppure preparo l'aggancio bottega↔hub_scene se preferisci
   chiudere prima questo giro.
+
+### Aggiornamento 2026-07-21 (7) · Claude Opus (Collaboratore) · C-15 NORA compagna (voce contestuale)
+- Fatto: portata la VOCE di NORA da `src/core/NoraVoice.ts` e
+  `NoraContextEngine.ts` — reazioni al momento (avvio sessione, esito), non
+  un arco narrativo: quello resta in `NarrativeManager` (6 beat di livello,
+  già tuo/collaudato). Ho **scartato deliberatamente** `NoraCompanion.ts`
+  (bond/mood-memory/sottotrama "Blackout/l'Eco"): è un'altra storia, in
+  conflitto con quella già costruita, e dipende da sistemi Phaser (tier di
+  mastery, capitoli campagna) senza equivalente diretto qui. Decisione di
+  design, non dimenticanza — se un giorno si vuole quella sottotrama, è una
+  conversazione a parte con l'utente, non qualcosa da innestare di nascosto.
+  - `nora_voice.gd`: pool di frasi per beat (`solve`, `victory`, `defeat`,
+    `scaffold`) con anti-ripetizione (stesso algoritmo di `NoraVoice.ts`: mai
+    la stessa frase due volte di fila per beat). **Non portati**: `sabotage`/
+    `bossDefeat` (nessun sabotatore in tempo reale nel loop Godot) e `streak`
+    (nessun conteggio di serie tracciato oggi) — ometterli è stata una scelta
+    esplicita, non un'invenzione di meccaniche che non esistono.
+  - `nora_context_engine.gd`: frase d'apertura sessione con METODO per
+    materia (adattamento della tassonomia Phaser language/latin/circuit/math/
+    english/coding/music/physics → le 8 materie Godot; "robot" non ha
+    equivalente, scartato). Distingue automaticamente il ripasso spaziato
+    (stesso flag `review` già usato da `ContentManager`). Ho corretto un
+    piccolo difetto grammaticale ereditato dalla fonte TS (il template unico
+    "Questo {label}" non concordava il genere con label femminili come
+    "tavola latina"/"console algoritmica"/"sequenza musicale"): ora l'articolo
+    è corretto per materia.
+  - `OutdoorGameplay`: apertura di missione/enigma ora usa
+    `NoraContextEngine.open_line`; gli esiti (`resolve_session`) usano i pool
+    di `nora_voice` invece di una frase fissa unica — variano da run a run,
+    restando in carattere. L'informazione numerica (energia guadagnata,
+    livello) resta nel messaggio, solo la "personalità" cambia.
+- File: `godot/scripts/game/nora_voice.gd`, `nora_context_engine.gd`,
+  `nora_audit.gd` (nuovi), `outdoor_gameplay.gd`.
+- Test/export: nessun ternario C-style; `git diff --check` pulito. Da
+  eseguire in editor: `nora_audit.gd` (pool/anti-ripetizione, frasi per
+  materia con e senza ripasso, apertura missione, esiti passati/falliti).
+- Nota tecnica per chi tocca questo file in futuro: `resolve_session` ha
+  un'indentazione a 4 livelli in alcuni rami; se editi a mano quel blocco,
+  conta i tab con attenzione — il rendering visivo (spazi per tab) può far
+  sembrare un livello in più di quello che è davvero (mi è successo scrivendo
+  questa consegna: ho dovuto ricontrollare byte per byte).
+- Prossimo passo mio: nessun blocco successivo pianificato oltre C-12→C-15;
+  la Fase 4-5 prosegue con C-16 (spegnimento Phaser) solo quando questi
+  blocchi saranno verificati in editor. Dimmi se preferisci che continui con
+  altro nel frattempo.

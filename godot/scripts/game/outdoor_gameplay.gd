@@ -54,6 +54,7 @@ var game_save: GameSaveManager
 var content_manager: ContentManager
 var progression_manager: ProgressionManager
 var reward_manager: RewardManager
+var nora_voice := NoraVoice.new()
 var result: Dictionary                           # risultato bridge (handshake d'uscita)
 var active_session_context: Dictionary = {}
 var base_fragments := 0
@@ -141,6 +142,7 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 		return false
 	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
 	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject}
+	feedback.emit(NoraContextEngine.open_line(subject, _has_review_node(session)))
 	session_requested.emit(session)
 	_emit_state()
 	return true
@@ -165,6 +167,7 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
 	var theme := str(session.get("theme", "ponte"))
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
+	feedback.emit(NoraContextEngine.open_line(subject, _has_review_node(session)))
 	session_requested.emit(session)
 	# Stato iniziale della costruzione (0 campate) così la resa parte da "rotto".
 	enigma_progress.emit(0, int(session.get("stages", session.get("nodes", []).size())), theme, encounter_id)
@@ -227,19 +230,24 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			# resta alle campate raggiunte e la scena la ripristina alla ripetizione.
 			if passed:
 				enigma_progress.emit(total, total, str(context.get("theme", "ponte")), str(context.get("encounterId", "")))
-			feedback.emit("Enigma risolto: il %s è ricostruito · +%d energia" % [str(context.get("theme", "ponte")), gained] if passed else "L'enigma non regge ancora: riprova la costruzione")
+				feedback.emit("%s +%d energia" % [nora_voice.line("solve"), gained])
+			else:
+				feedback.emit(nora_voice.line("defeat"))
 		else:
-			feedback.emit("Missione superata: +%d energia · padronanza aggiornata" % gained if passed else "Missione da ripetere: hai ancora margine")
+			if passed:
+				feedback.emit("%s +%d energia · padronanza aggiornata" % [nora_voice.line("solve"), gained])
+			else:
+				feedback.emit(nora_voice.line("defeat"))
 	else:
 		if passed and progression_manager.repair_and_advance(true):
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
 			result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + 4
-			feedback.emit("Esame superato: apparato riparato · livello %d" % game_save.level())
+			feedback.emit("%s Livello %d." % [nora_voice.line("victory"), game_save.level()])
 		elif passed:
 			feedback.emit("Il gate non è più disponibile: riprova le missioni richieste.")
 		else:
-			feedback.emit("Esame non superato: l'apparato resta da riparare.")
+			feedback.emit(nora_voice.line("defeat"))
 	game_save.save()
 	_emit_state()
 
@@ -295,6 +303,14 @@ func publish_exit_state() -> void:
 
 func _emit_state() -> void:
 	runtime_state_changed.emit(runtime_state())
+
+# Vero se la sessione contiene almeno un item in ripasso spaziato (marcato
+# `review:true` da ContentManager): usato per la frase d'apertura di NORA.
+func _has_review_node(session: Dictionary) -> bool:
+	for node in session.get("nodes", []):
+		if bool(node.get("review", false)):
+			return true
+	return false
 
 func _subject_for_payload(payload: Dictionary) -> String:
 	var explicit := str(payload.get("subject", "")).strip_edges().to_lower()

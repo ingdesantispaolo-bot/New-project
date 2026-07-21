@@ -86,7 +86,7 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 		feedback.emit("Incontro già completato.")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := content_manager.build_mission(subject, game_save.level(), 3)
+	var session := content_manager.build_mission(subject, game_save.level(), 3, _due())
 	if Array(session.get("nodes", [])).is_empty():
 		feedback.emit("Banco esercizi non disponibile per %s." % subject)
 		return false
@@ -132,6 +132,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	var passed := bool(exercise_result.get("passed", false))
 	var energy_before := game_save.energy()
 	progression_manager.record_mission(subject, correct, total, gained, passed)
+	_update_spaced_repetition(subject, exercise_result)
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
 	if str(context.get("kind", "mission")) == "mission":
 		var encounter_id := str(context.get("encounterId", ""))
@@ -174,3 +175,24 @@ func _emit_state() -> void:
 func _subject_for_payload(payload: Dictionary) -> String:
 	var explicit := str(payload.get("subject", "")).strip_edges().to_lower()
 	return explicit if explicit != "" else "matematica"
+
+# Mappa del ripasso spaziato ("subject:topic" -> conteggio) usata dalla selezione.
+func _due() -> Dictionary:
+	return game_save.data.get("spacedRepetition", {}).get("due", {})
+
+# I topic sbagliati entrano/salgono in ripasso; i ripassi risolti scendono.
+func _update_spaced_repetition(subject: String, exercise_result: Dictionary) -> void:
+	if not game_save.data.has("spacedRepetition"):
+		game_save.data["spacedRepetition"] = {"due": {}, "history": []}
+	var due: Dictionary = game_save.data["spacedRepetition"].get("due", {})
+	for topic in exercise_result.get("missed", []):
+		var key := "%s:%s" % [subject, str(topic)]
+		due[key] = int(due.get(key, 0)) + 1
+	for topic in exercise_result.get("reviewedOk", []):
+		var key := "%s:%s" % [subject, str(topic)]
+		var value := int(due.get(key, 0)) - 1
+		if value <= 0:
+			due.erase(key)
+		else:
+			due[key] = value
+	game_save.data["spacedRepetition"]["due"] = due

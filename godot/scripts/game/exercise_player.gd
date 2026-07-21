@@ -18,6 +18,8 @@ var _shields := 3
 var _energy := 0
 var _energy_per_correct := 10
 var _answered := false
+var _missed: Array = []       # topic sbagliati → ripasso spaziato
+var _reviewed_ok: Array = []  # topic di ripasso risolti correttamente
 
 var _prompt: Label
 var _options: VBoxContainer
@@ -33,6 +35,8 @@ func start_session(new_session: Dictionary) -> void:
 	_correct = 0
 	_shields = int(session.get("shields", 3))
 	_energy = 0
+	_missed = []
+	_reviewed_ok = []
 	_energy_per_correct = int(session.get("rewards", {}).get("energyPerCorrect", 10))
 	_build_ui()
 	_show_current()
@@ -157,13 +161,18 @@ func _answer(given: String) -> void:
 		if child is Button:
 			(child as Button).disabled = true
 	var item: Dictionary = _nodes[_index]
+	var topic := str(item.get("topic", ""))
 	if given.strip_edges() == str(item.get("answer", "")).strip_edges():
 		_correct += 1
 		_energy += _energy_per_correct
+		if bool(item.get("review", false)) and topic != "":
+			_reviewed_ok.append(topic)
 		_feedback.add_theme_color_override("font_color", Color("8ff6c0"))
 		_feedback.text = "Giusto! +%d energia" % _energy_per_correct
 	else:
 		_shields -= 1
+		if topic != "":
+			_missed.append(topic)
 		_feedback.add_theme_color_override("font_color", Color("ffb3ba"))
 		_feedback.text = "Non corretto. %s" % str(item.get("explanation", ""))
 	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
@@ -190,4 +199,6 @@ func _finish() -> void:
 		"energyGained": _energy,
 		"shieldsLeft": _shields,
 		"subject": str(session.get("subject", "")),
+		"missed": _missed.duplicate(),
+		"reviewedOk": _reviewed_ok.duplicate(),
 	})

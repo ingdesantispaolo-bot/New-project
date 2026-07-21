@@ -403,6 +403,7 @@ su seam, luce e gerarchia visiva.
 | 2026-07-20 | Codex su richiesta utente | C-10 parziale | Build TypeScript, export Web e Windows completati con nuovi script/banchi; export exit 0 | build 0, Web 0, Windows 0; browser smoke test ancora manuale | C-09 matrice copertura e test browser |
 | 2026-07-20 | Codex su richiesta utente | C-06/C-09/C-10 chiusura tecnica | Aggiunti `hub.tscn`/`hub_scene.gd`, matrice Phaser→Godot e `c10_audit` da profilo nuovo | editor scan, C-06, C-10, fixture e round-trip verdi; Web/Windows export 0 | solo test click manuale in browser |
 | 2026-07-21 | Codex | Architettura biomi AAA | Definita pipeline globale A1→A6: chunk solo streaming, macro-layout continuo, spline, assemblies, hero pockets, profili bioma e HLOD | revisione tecnica su generator/rendering esistenti e fonti PCG AAA | A1: `WorldCompositionData` e sampler globale |
+| 2026-07-21 | Codex | Pipeline biomi AAA A1→A6 | Implementati composizione globale, pesi bioma continui, superficie senza hero rettangolare, spline/acqua, hero pockets, assemblies, sei profili, atmosfera interpolata e LOD 0/1/2 | composition audit, fixture, round-trip, C-10, build, Web e Windows verdi | QA screenshot manuale e tuning percettivo |
 
 ## Formato aggiornamento obbligatorio
 
@@ -501,3 +502,24 @@ su seam, luce e gerarchia visiva.
 - Prossimo passo: C-02 chiuso lato codice. Codex può cablare HUD/marker al
   contratto runtime (gate I-01 sbloccato). Io posso procedere alla review dei
   blocchi C-03→C-08 già presenti (opzione B) o proseguire il percorso.
+
+### Aggiornamento 2026-07-20 · Claude Opus (Collaboratore) · C-04 (adattività) — fix criticità
+- Fatto: implementato il RIPASSO SPAZIATO adattivo, che mancava (criticità #1
+  della review). `ExercisePlayer` ora emette `missed` (topic sbagliati) e
+  `reviewedOk` (ripassi risolti). `ContentManager.build_mission(..., review_due)`
+  prioritizza gli item dei topic in ripasso e li marca `review:true`, poi
+  completa con item vicini alla difficoltà del livello. `OutdoorGameplay`
+  aggiorna `save.spacedRepetition.due` dagli esiti e lo passa alla selezione.
+  `build_final_exam` corretto (non passava piu' rng nello slot giusto).
+  `c04_audit` approfondito: verifica che un topic in ripasso venga ripescato e
+  marcato, e che senza ripasso nessun item sia marcato.
+- File: `godot/scripts/game/exercise_player.gd`, `content_manager.gd`,
+  `outdoor_gameplay.gd`, `c04_audit.gd`.
+- Test/export: `git diff --check` pulito; nessun ternario C-style; tutte le
+  chiamate a `build_mission` verificate (nessuna passa rng come 4° arg). Da
+  eseguire in editor: c04_audit, c01/c02/loop audit (retro-compatibili).
+- Limiti o rischi: mastery resta per-materia (il ripasso è per-topic via due);
+  i banchi non-matematica hanno 3 item (da arricchire). Restano aperte le
+  criticità #2 (loop nave↔mondo non cablato) e #3 (altri audit superficiali).
+- Prossimo passo: cablare la navigazione mondo↔nave (C-06) — richiede tocco a
+  outdoor_world.gd (Insieme) + transizione di scena; da coordinare.

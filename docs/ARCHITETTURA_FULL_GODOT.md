@@ -383,6 +383,49 @@ downgrade estetico minore già accettato in C-14.)
    cambio della pipeline Pages per servire l'export Godot Web alla radice.
    Questo è l'unico passo davvero irreversibile/ad alto impatto di C-16.
 
+## 7quater. Scope ampliato: 12 materie + audio + narrazione + NORA (decisione 2026-07-21 sera)
+
+> L'utente ha **rovesciato** la riduzione di scope di §7ter: geografia,
+> cittadinanza, scienze e logica **entrano** in Godot; inoltre vuole audio
+> sofisticato, narrazione ampliata e coerente, e la relazione NORA integrata
+> nella storia. Il guardrail difficoltà resta **per livello raggiunto, non per
+> anno scolastico** (Godot già fa così: `target_difficulty(level)`; il tetto
+> `capDifficultyToSchoolYear` di Phaser NON va portato).
+
+### Fatto in questo giro (contenuto delle 4 nuove materie)
+- Banchi bakati e collegati: **geografia** (82 item, autorato — capitali/
+  continenti/fisica/Italia, fatti mainstream), **scienze** (13 — metodo/materia/
+  viventi + derivati dal simulatore serra reale), **cittadinanza** (10 — regole
+  civiche di `smartCity.ts` + nucleo di educazione civica), **logica** (22 —
+  generatore deterministico di sequenze/esclusioni). Totale gioco: **12 materie,
+  1910 item**.
+- Collegati in `ContentManager.BANKS`, `ENIGMA_THEMES` (mappa/serra/rete/griglia),
+  `NoraContextEngine` (label + metodo per materia). `c04_audit` esteso a 12.
+- **"Memoria" (Simon, griglia lampo) NON è entrata**: è meccanica interattiva a
+  tempo, non rappresentabile come `ExerciseItem`. Solo la parte "logica" è
+  bakabile; la memoria vera richiede un mini-gioco bespoke → decisione a parte.
+
+### Blocchi successivi (design/asset, richiedono Codex e/o decisioni)
+| Blocco | Contenuto | Owner | Nota |
+|---|---|---|---|
+| **C-17** ✅ | Banchi 4 nuove materie + wiring | Claude | fatto (questo giro); restano da ampliare scienze/cittadinanza (item pochi) |
+| **C-18** | **Audio sofisticato**: bus musica/effetti/ambiente, hook sui segnali esistenti (feedback, session, enigma_progress, solve/defeat), musica adattiva per fase giorno/notte e per esito | Claude (logica `AudioManager.gd` + hook) + Codex (asset audio: riusare/rigenerare i WAV di `src/assets/audio/generated`, o nuovi) | Godot ha `AudioStreamPlayer`/bus nativi; nessun Howler. Serve decisione asset. |
+| **C-19** | **Narrazione ampliata e coerente**: da 6 beat lineari a un arco che copre la scala 1→24 con la cornice apparati/nave/enigmi; **relazione NORA** (bond che cresce coi traguardi, memorie sbloccate a milestone) intessuta nella storia, non una schermata a parte | Claude (dati/logica narrativa + bond) + Codex (presentazione) | Richiede un **design pass** prima di implementare: struttura dell'arco, cosa si sblocca a quale livello, come il bond si lega ai progressi reali. |
+| **C-16** | Spegnimento Phaser | insieme | ora più lontano: prima si completano le 12 materie + audio + narrazione, poi si rimuove Phaser. Le 4 scene bespoke (Atlante/Città/Serra/Palestra) diventano rimovibili perché il **contenuto** è assorbito nei banchi (la meccanica bespoke si perde, come per le altre). |
+
+### Decisioni di design ancora aperte (servono all'utente)
+1. **Pacing degli apparati**: 12 materie su una scala 1→24. Le nuove entrano nel
+   ciclo di riparazione (`ApparatusConfig.SUBJECT_CYCLE`, oggi 6 materie) o
+   restano solo come enigmi/missioni esterne senza un apparato dedicato? Cambia
+   il ritmo della progressione — non l'ho forzato, è una scelta di gioco.
+2. **Profondità contenuti nuovi**: scienze/cittadinanza hanno pochi item (13/10)
+   perché il materiale sorgente era sottile; geografia/logica sono più ricchi.
+   Ampliare tutti a ~40-80 item come le materie forti?
+3. **Memoria come mini-gioco**: costruire un bespoke (Simon/griglia lampo) in
+   Godot, o lasciarla fuori e tenere solo "logica"?
+4. **Struttura narrativa** (C-19): quanti archi, quali milestone, tono — da
+   definire insieme prima di scrivere.
+
 ## 8. Build e deploy
 
 - **Durante la migrazione**: resta la Pages Phaser; l'export Godot vive in

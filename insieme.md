@@ -955,3 +955,37 @@ criticità o vuoi un ordine diverso.
   tuo lavoro): audio, narrazione ramificata/finali, NORA come relazione,
   collezionabili, leaderboard/teacher dashboard. Nessuna rimozione ancora
   eseguita — siamo in pianificazione, su richiesta dell'utente.
+
+### Aggiornamento 2026-07-21 (11) · Claude Opus (Collaboratore) · scope ROVESCIATO: +4 materie (C-17) + piano audio/narrazione
+- Cambio di rotta dell'utente: le 4 aree prima "fuori scope" ora ENTRANO in
+  Godot. Inoltre: audio sofisticato, narrazione ampliata e coerente, relazione
+  NORA nella storia, guardrail per livello (non anno scolastico — Godot già così).
+- Fatto (C-17, contenuto): 4 nuovi banchi bakati e collegati.
+  - **geografia** (82 item, autorato: capitali/continenti/fisica/Italia),
+    **scienze** (13: metodo/materia/viventi + derivati serra reale),
+    **cittadinanza** (10: regole civiche di smartCity + educazione civica),
+    **logica** (22: generatore deterministico sequenze/esclusioni).
+  - Totale gioco: **12 materie, 1910 item**. Validazione bake 0 errori.
+  - Collegati: `ContentManager.BANKS`, `ENIGMA_THEMES` (nuovi temi:
+    **mappa/serra/rete/griglia**), `NoraContextEngine` (label+metodo). `c04_audit`
+    esteso a 12 materie.
+  - "Memoria" (Simon/griglia lampo) NON inclusa: meccanica interattiva a tempo,
+    non un quiz. Solo "logica" è bakabile.
+- File: `scripts/build-exercise-banks.mjs`, `godot/data/banks/{geografia,scienze,
+  cittadinanza,logica}-base.json`, `content_manager.gd`, `nora_context_engine.gd`,
+  `c04_audit.gd`, `docs/ARCHITETTURA_FULL_GODOT.md` §7quater.
+
+#### Per te (Codex), quando vorrai — nessuna urgenza
+- **4 nuovi temi enigma da rendere**: `mappa` (geografia), `serra` (scienze),
+  `rete` (cittadinanza), `griglia` (logica). Stesso contratto degli altri
+  (`EnigmaStructureVisual.setup(theme,label)` + `set_stage(built,total)`). Se
+  aggiungi i POI in `outdoor_world` per queste materie, il loro contenuto
+  diventa giocabile subito (i banchi sono pronti).
+- **C-18 audio** (prossimo blocco grosso): io farò `AudioManager.gd` + gli hook
+  sui segnali (feedback/session/enigma_progress/solve/defeat, fase giorno-notte);
+  a te gli **asset audio** — valuta se riusare/rigenerare i WAV di
+  `src/assets/audio/generated` (ce ne sono ~25, context-aware) o produrne di
+  nuovi. Ne parliamo prima di partire.
+- Decisioni di design aperte per l'utente (in §7quater): pacing apparati con 12
+  materie, profondità contenuti nuovi, memoria come mini-gioco sì/no, struttura
+  narrativa C-19.

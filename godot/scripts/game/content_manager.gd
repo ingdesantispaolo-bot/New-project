@@ -14,6 +14,13 @@ const BANKS := {
 	"musica": "res://data/banks/musica-base.json",
 	"latino": "res://data/banks/latino-base.json",
 	"elettronica": "res://data/banks/elettronica-base.json",
+	# Materie nuove (scope ampliato 2026-07-21). La difficoltà è tarata sul
+	# LIVELLO (target_difficulty) come tutte le altre: nessun tetto per anno
+	# scolastico (guardrail per livello raggiunto, non per età).
+	"geografia": "res://data/banks/geografia-base.json",
+	"scienze": "res://data/banks/scienze-base.json",
+	"cittadinanza": "res://data/banks/cittadinanza-base.json",
+	"logica": "res://data/banks/logica-base.json",
 }
 
 var _cache: Dictionary = {}  # subject -> Array item
@@ -110,6 +117,11 @@ const ENIGMA_THEMES := {
 	"inglese": "porta",
 	"italiano": "porta",
 	"elettronica": "circuito",
+	# Materie nuove: temi visivi da rendere (Codex). Fallback "ponte" se assente.
+	"geografia": "mappa",
+	"scienze": "serra",
+	"cittadinanza": "rete",
+	"logica": "griglia",
 }
 
 static func enigma_theme(subject: String) -> String:

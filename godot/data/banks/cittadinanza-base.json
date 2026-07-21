@@ -1,0 +1,167 @@
+{
+	"schemaVersion": 1,
+	"subject": "cittadinanza",
+	"generator": "cittadinanza-authored-v1",
+	"items": [
+		{
+			"id": "cittadinanza-regole-41",
+			"subject": "cittadinanza",
+			"topic": "regole",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "A cosa servono le regole in una comunità?",
+			"options": [
+				"A far comandare i più forti",
+				"A non fare nulla",
+				"A vivere insieme in modo giusto e sicuro",
+				"A punire per divertimento"
+			],
+			"answer": "A vivere insieme in modo giusto e sicuro",
+			"explanation": "Le regole servono a proteggere tutti e a rendere possibile la convivenza."
+		},
+		{
+			"id": "cittadinanza-diritti-doveri-45",
+			"subject": "cittadinanza",
+			"topic": "diritti-doveri",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Andare a scuola per un bambino è soprattutto…",
+			"options": [
+				"Solo una punizione",
+				"Un favore agli insegnanti",
+				"Una scelta senza importanza",
+				"Un diritto (e insieme un dovere)"
+			],
+			"answer": "Un diritto (e insieme un dovere)",
+			"explanation": "L'istruzione è un diritto garantito e un dovere verso se stessi."
+		},
+		{
+			"id": "cittadinanza-diritti-doveri-47",
+			"subject": "cittadinanza",
+			"topic": "diritti-doveri",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Rispettare l'ambiente pulendo dove si sporca è…",
+			"options": [
+				"Inutile",
+				"Un dovere di ogni cittadino",
+				"Compito solo del Comune",
+				"Un obbligo solo per gli adulti"
+			],
+			"answer": "Un dovere di ogni cittadino",
+			"explanation": "Prendersi cura dei beni comuni è responsabilità di tutti."
+		},
+		{
+			"id": "cittadinanza-partecipazione-63",
+			"subject": "cittadinanza",
+			"topic": "partecipazione",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In una decisione di gruppo, il modo più giusto per scegliere è…",
+			"options": [
+				"Ascoltare tutti e poi votare",
+				"Decide solo il più rumoroso",
+				"Non decidere mai",
+				"Sceglie chi è arrivato prima"
+			],
+			"answer": "Ascoltare tutti e poi votare",
+			"explanation": "Ascolto e voto permettono una scelta condivisa e rispettosa."
+		},
+		{
+			"id": "cittadinanza-istituzioni-58",
+			"subject": "cittadinanza",
+			"topic": "istituzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la legge fondamentale dello Stato italiano?",
+			"options": [
+				"Il regolamento",
+				"Lo statuto comunale",
+				"Il decreto",
+				"La Costituzione"
+			],
+			"answer": "La Costituzione",
+			"explanation": "La Costituzione è la legge più importante, base di tutte le altre."
+		},
+		{
+			"id": "cittadinanza-convivenza-58",
+			"subject": "cittadinanza",
+			"topic": "convivenza",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Se qualcuno la pensa diversamente da te, la cosa giusta è…",
+			"options": [
+				"Ascoltarlo con rispetto",
+				"Ignorarlo",
+				"Prenderlo in giro",
+				"Costringerlo a cambiare"
+			],
+			"answer": "Ascoltarlo con rispetto",
+			"explanation": "Il rispetto delle idee altrui è alla base della convivenza civile."
+		},
+		{
+			"id": "cittadinanza-regola-overload",
+			"subject": "cittadinanza",
+			"topic": "servizi-pubblici",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "SE un nodo è in sovraccarico… …qual è la scelta giusta?",
+			"options": [
+				"Aumentare ancora il consumo",
+				"Spegnere l'intero distretto",
+				"Usare il valore di backup",
+				"Deviare energia da un nodo con margine"
+			],
+			"answer": "Deviare energia da un nodo con margine",
+			"explanation": "overloaded = troppa richiesta: serve spostare energia da chi ne ha in più, non toglierla a chi è già al limite."
+		},
+		{
+			"id": "cittadinanza-regola-sensorfault",
+			"subject": "cittadinanza",
+			"topic": "servizi-pubblici",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "SE un sensore è guasto… …qual è la scelta giusta?",
+			"options": [
+				"Usare il valore di backup",
+				"Spegnere tutti i semafori",
+				"Ignorare quel nodo",
+				"Deviare energia da un nodo con margine"
+			],
+			"answer": "Usare il valore di backup",
+			"explanation": "backup value = valore di riserva da usare quando il dato diretto non è affidabile."
+		},
+		{
+			"id": "cittadinanza-regola-emergency",
+			"subject": "cittadinanza",
+			"topic": "servizi-pubblici",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "SE arriva un'emergenza… …qual è la scelta giusta?",
+			"options": [
+				"Mettere il rosso ovunque",
+				"Dare priorità ai mezzi di soccorso",
+				"Deviare energia da un nodo con margine",
+				"Bloccare tutti gli incroci"
+			],
+			"answer": "Dare priorità ai mezzi di soccorso",
+			"explanation": "emergency = la sicurezza delle persone viene prima del traffico normale."
+		},
+		{
+			"id": "cittadinanza-dilemma",
+			"subject": "cittadinanza",
+			"topic": "priorità-civiche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Il sabotatore ha tagliato l'energia esterna. Ne resta solo per due settori su tre. Quali proteggi per primi?",
+			"options": [
+				"Ospedale + Centro commerciale",
+				"Trasporti + Illuminazione decorativa",
+				"Ospedale + Acqua potabile",
+				"Illuminazione decorativa + insegne"
+			],
+			"answer": "Ospedale + Acqua potabile",
+			"explanation": "Prima la vita e la salute: ospedale e acqua sono servizi salvavita, vengono prima di ogni comodità."
+		}
+	]
+}

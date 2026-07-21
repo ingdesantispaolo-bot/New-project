@@ -1,0 +1,1319 @@
+{
+	"schemaVersion": 1,
+	"subject": "geografia",
+	"generator": "geografia-authored-v1",
+	"items": [
+		{
+			"id": "geografia-cap-Roma",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Italia?",
+			"options": [
+				"Buenos Aires",
+				"Tokyo",
+				"Roma",
+				"Lisbona"
+			],
+			"answer": "Roma",
+			"explanation": "La capitale di Italia è Roma."
+		},
+		{
+			"id": "geografia-stato-Roma",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Roma?",
+			"options": [
+				"Italia",
+				"Germania",
+				"Polonia",
+				"Norvegia"
+			],
+			"answer": "Italia",
+			"explanation": "Roma è la capitale di Italia."
+		},
+		{
+			"id": "geografia-cont-Italia",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Italia?",
+			"options": [
+				"Europa",
+				"Asia",
+				"America del Nord",
+				"Africa"
+			],
+			"answer": "Europa",
+			"explanation": "Italia si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Parigi",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Francia?",
+			"options": [
+				"Il Cairo",
+				"Bruxelles",
+				"Parigi",
+				"Stoccolma"
+			],
+			"answer": "Parigi",
+			"explanation": "La capitale di Francia è Parigi."
+		},
+		{
+			"id": "geografia-stato-Parigi",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Parigi?",
+			"options": [
+				"Argentina",
+				"Italia",
+				"Portogallo",
+				"Francia"
+			],
+			"answer": "Francia",
+			"explanation": "Parigi è la capitale di Francia."
+		},
+		{
+			"id": "geografia-cont-Francia",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Francia?",
+			"options": [
+				"America del Sud",
+				"Oceania",
+				"Africa",
+				"Europa"
+			],
+			"answer": "Europa",
+			"explanation": "Francia si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Madrid",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Spagna?",
+			"options": [
+				"Madrid",
+				"Buenos Aires",
+				"Berlino",
+				"Nuova Delhi"
+			],
+			"answer": "Madrid",
+			"explanation": "La capitale di Spagna è Madrid."
+		},
+		{
+			"id": "geografia-stato-Madrid",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Madrid?",
+			"options": [
+				"Spagna",
+				"Norvegia",
+				"Canada",
+				"Messico"
+			],
+			"answer": "Spagna",
+			"explanation": "Madrid è la capitale di Spagna."
+		},
+		{
+			"id": "geografia-cont-Spagna",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Spagna?",
+			"options": [
+				"America del Sud",
+				"Europa",
+				"America del Nord",
+				"Asia"
+			],
+			"answer": "Europa",
+			"explanation": "Spagna si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Berlino",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Germania?",
+			"options": [
+				"Berlino",
+				"Brasília",
+				"Pechino",
+				"Ottawa"
+			],
+			"answer": "Berlino",
+			"explanation": "La capitale di Germania è Berlino."
+		},
+		{
+			"id": "geografia-stato-Berlino",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Berlino?",
+			"options": [
+				"Germania",
+				"Austria",
+				"Regno Unito",
+				"Argentina"
+			],
+			"answer": "Germania",
+			"explanation": "Berlino è la capitale di Germania."
+		},
+		{
+			"id": "geografia-cont-Germania",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Germania?",
+			"options": [
+				"America del Sud",
+				"Europa",
+				"Asia",
+				"America del Nord"
+			],
+			"answer": "Europa",
+			"explanation": "Germania si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Londra",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Regno Unito?",
+			"options": [
+				"Amsterdam",
+				"Londra",
+				"Vienna",
+				"Canberra"
+			],
+			"answer": "Londra",
+			"explanation": "La capitale di Regno Unito è Londra."
+		},
+		{
+			"id": "geografia-stato-Londra",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Londra?",
+			"options": [
+				"Australia",
+				"Regno Unito",
+				"India",
+				"Canada"
+			],
+			"answer": "Regno Unito",
+			"explanation": "Londra è la capitale di Regno Unito."
+		},
+		{
+			"id": "geografia-cont-Regno Unito",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Regno Unito?",
+			"options": [
+				"Africa",
+				"Asia",
+				"Antartide",
+				"Europa"
+			],
+			"answer": "Europa",
+			"explanation": "Regno Unito si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Lisbona",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Portogallo?",
+			"options": [
+				"Bruxelles",
+				"Lisbona",
+				"Roma",
+				"Nuova Delhi"
+			],
+			"answer": "Lisbona",
+			"explanation": "La capitale di Portogallo è Lisbona."
+		},
+		{
+			"id": "geografia-stato-Lisbona",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Lisbona?",
+			"options": [
+				"Argentina",
+				"Spagna",
+				"Portogallo",
+				"Grecia"
+			],
+			"answer": "Portogallo",
+			"explanation": "Lisbona è la capitale di Portogallo."
+		},
+		{
+			"id": "geografia-cont-Portogallo",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Portogallo?",
+			"options": [
+				"Asia",
+				"Oceania",
+				"Europa",
+				"Africa"
+			],
+			"answer": "Europa",
+			"explanation": "Portogallo si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Atene",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Grecia?",
+			"options": [
+				"Washington",
+				"Vienna",
+				"Atene",
+				"Roma"
+			],
+			"answer": "Atene",
+			"explanation": "La capitale di Grecia è Atene."
+		},
+		{
+			"id": "geografia-stato-Atene",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Atene?",
+			"options": [
+				"Spagna",
+				"Paesi Bassi",
+				"Grecia",
+				"Brasile"
+			],
+			"answer": "Grecia",
+			"explanation": "Atene è la capitale di Grecia."
+		},
+		{
+			"id": "geografia-cont-Grecia",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Grecia?",
+			"options": [
+				"Africa",
+				"Europa",
+				"Antartide",
+				"Asia"
+			],
+			"answer": "Europa",
+			"explanation": "Grecia si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Vienna",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Austria?",
+			"options": [
+				"Berlino",
+				"Oslo",
+				"Pechino",
+				"Vienna"
+			],
+			"answer": "Vienna",
+			"explanation": "La capitale di Austria è Vienna."
+		},
+		{
+			"id": "geografia-stato-Vienna",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Vienna?",
+			"options": [
+				"Austria",
+				"Russia",
+				"Spagna",
+				"Regno Unito"
+			],
+			"answer": "Austria",
+			"explanation": "Vienna è la capitale di Austria."
+		},
+		{
+			"id": "geografia-cont-Austria",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Austria?",
+			"options": [
+				"Africa",
+				"America del Nord",
+				"Asia",
+				"Europa"
+			],
+			"answer": "Europa",
+			"explanation": "Austria si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Bruxelles",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Belgio?",
+			"options": [
+				"Madrid",
+				"Amsterdam",
+				"Stoccolma",
+				"Bruxelles"
+			],
+			"answer": "Bruxelles",
+			"explanation": "La capitale di Belgio è Bruxelles."
+		},
+		{
+			"id": "geografia-stato-Bruxelles",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Bruxelles?",
+			"options": [
+				"Belgio",
+				"Svezia",
+				"Grecia",
+				"Australia"
+			],
+			"answer": "Belgio",
+			"explanation": "Bruxelles è la capitale di Belgio."
+		},
+		{
+			"id": "geografia-cont-Belgio",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Belgio?",
+			"options": [
+				"America del Sud",
+				"Europa",
+				"Africa",
+				"Antartide"
+			],
+			"answer": "Europa",
+			"explanation": "Belgio si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Amsterdam",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Paesi Bassi?",
+			"options": [
+				"Stoccolma",
+				"Mosca",
+				"Amsterdam",
+				"Oslo"
+			],
+			"answer": "Amsterdam",
+			"explanation": "La capitale di Paesi Bassi è Amsterdam."
+		},
+		{
+			"id": "geografia-stato-Amsterdam",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Amsterdam?",
+			"options": [
+				"Argentina",
+				"Cina",
+				"Messico",
+				"Paesi Bassi"
+			],
+			"answer": "Paesi Bassi",
+			"explanation": "Amsterdam è la capitale di Paesi Bassi."
+		},
+		{
+			"id": "geografia-cont-Paesi Bassi",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Paesi Bassi?",
+			"options": [
+				"Asia",
+				"Oceania",
+				"Antartide",
+				"Europa"
+			],
+			"answer": "Europa",
+			"explanation": "Paesi Bassi si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Varsavia",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Polonia?",
+			"options": [
+				"Varsavia",
+				"Città del Messico",
+				"Pechino",
+				"Stoccolma"
+			],
+			"answer": "Varsavia",
+			"explanation": "La capitale di Polonia è Varsavia."
+		},
+		{
+			"id": "geografia-stato-Varsavia",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Varsavia?",
+			"options": [
+				"Polonia",
+				"Norvegia",
+				"Spagna",
+				"Paesi Bassi"
+			],
+			"answer": "Polonia",
+			"explanation": "Varsavia è la capitale di Polonia."
+		},
+		{
+			"id": "geografia-cont-Polonia",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Polonia?",
+			"options": [
+				"Oceania",
+				"America del Nord",
+				"Europa",
+				"Antartide"
+			],
+			"answer": "Europa",
+			"explanation": "Polonia si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Stoccolma",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Svezia?",
+			"options": [
+				"Nuova Delhi",
+				"Stoccolma",
+				"Parigi",
+				"Londra"
+			],
+			"answer": "Stoccolma",
+			"explanation": "La capitale di Svezia è Stoccolma."
+		},
+		{
+			"id": "geografia-stato-Stoccolma",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Stoccolma?",
+			"options": [
+				"Egitto",
+				"Austria",
+				"Brasile",
+				"Svezia"
+			],
+			"answer": "Svezia",
+			"explanation": "Stoccolma è la capitale di Svezia."
+		},
+		{
+			"id": "geografia-cont-Svezia",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Svezia?",
+			"options": [
+				"Europa",
+				"Asia",
+				"Africa",
+				"America del Sud"
+			],
+			"answer": "Europa",
+			"explanation": "Svezia si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Oslo",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Norvegia?",
+			"options": [
+				"Oslo",
+				"Parigi",
+				"Varsavia",
+				"Stoccolma"
+			],
+			"answer": "Oslo",
+			"explanation": "La capitale di Norvegia è Oslo."
+		},
+		{
+			"id": "geografia-stato-Oslo",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Oslo?",
+			"options": [
+				"Cina",
+				"Norvegia",
+				"Grecia",
+				"Paesi Bassi"
+			],
+			"answer": "Norvegia",
+			"explanation": "Oslo è la capitale di Norvegia."
+		},
+		{
+			"id": "geografia-cont-Norvegia",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Norvegia?",
+			"options": [
+				"America del Nord",
+				"Europa",
+				"Asia",
+				"America del Sud"
+			],
+			"answer": "Europa",
+			"explanation": "Norvegia si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Mosca",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Russia?",
+			"options": [
+				"Mosca",
+				"Città del Messico",
+				"Berlino",
+				"Amsterdam"
+			],
+			"answer": "Mosca",
+			"explanation": "La capitale di Russia è Mosca."
+		},
+		{
+			"id": "geografia-stato-Mosca",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Mosca?",
+			"options": [
+				"Francia",
+				"Spagna",
+				"Italia",
+				"Russia"
+			],
+			"answer": "Russia",
+			"explanation": "Mosca è la capitale di Russia."
+		},
+		{
+			"id": "geografia-cont-Russia",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Russia?",
+			"options": [
+				"Africa",
+				"Oceania",
+				"Antartide",
+				"Europa"
+			],
+			"answer": "Europa",
+			"explanation": "Russia si trova in Europa."
+		},
+		{
+			"id": "geografia-cap-Washington",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Stati Uniti?",
+			"options": [
+				"Roma",
+				"Berlino",
+				"Città del Messico",
+				"Washington"
+			],
+			"answer": "Washington",
+			"explanation": "La capitale di Stati Uniti è Washington."
+		},
+		{
+			"id": "geografia-stato-Washington",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Washington?",
+			"options": [
+				"Spagna",
+				"Australia",
+				"Giappone",
+				"Stati Uniti"
+			],
+			"answer": "Stati Uniti",
+			"explanation": "Washington è la capitale di Stati Uniti."
+		},
+		{
+			"id": "geografia-cont-Stati Uniti",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Stati Uniti?",
+			"options": [
+				"America del Sud",
+				"America del Nord",
+				"Asia",
+				"Oceania"
+			],
+			"answer": "America del Nord",
+			"explanation": "Stati Uniti si trova in America del Nord."
+		},
+		{
+			"id": "geografia-cap-Ottawa",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Canada?",
+			"options": [
+				"Amsterdam",
+				"Lisbona",
+				"Bruxelles",
+				"Ottawa"
+			],
+			"answer": "Ottawa",
+			"explanation": "La capitale di Canada è Ottawa."
+		},
+		{
+			"id": "geografia-stato-Ottawa",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Ottawa?",
+			"options": [
+				"Regno Unito",
+				"Italia",
+				"Canada",
+				"Egitto"
+			],
+			"answer": "Canada",
+			"explanation": "Ottawa è la capitale di Canada."
+		},
+		{
+			"id": "geografia-cont-Canada",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Canada?",
+			"options": [
+				"Antartide",
+				"Oceania",
+				"America del Nord",
+				"Asia"
+			],
+			"answer": "America del Nord",
+			"explanation": "Canada si trova in America del Nord."
+		},
+		{
+			"id": "geografia-cap-Città del Messico",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Messico?",
+			"options": [
+				"Città del Messico",
+				"Oslo",
+				"Tokyo",
+				"Pechino"
+			],
+			"answer": "Città del Messico",
+			"explanation": "La capitale di Messico è Città del Messico."
+		},
+		{
+			"id": "geografia-stato-Città del Messico",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Città del Messico?",
+			"options": [
+				"Messico",
+				"Cina",
+				"Austria",
+				"Paesi Bassi"
+			],
+			"answer": "Messico",
+			"explanation": "Città del Messico è la capitale di Messico."
+		},
+		{
+			"id": "geografia-cont-Messico",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Messico?",
+			"options": [
+				"Oceania",
+				"Europa",
+				"America del Nord",
+				"Antartide"
+			],
+			"answer": "America del Nord",
+			"explanation": "Messico si trova in America del Nord."
+		},
+		{
+			"id": "geografia-cap-Brasília",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Brasile?",
+			"options": [
+				"Buenos Aires",
+				"Roma",
+				"Il Cairo",
+				"Brasília"
+			],
+			"answer": "Brasília",
+			"explanation": "La capitale di Brasile è Brasília."
+		},
+		{
+			"id": "geografia-stato-Brasília",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Brasília?",
+			"options": [
+				"Stati Uniti",
+				"Regno Unito",
+				"Brasile",
+				"Paesi Bassi"
+			],
+			"answer": "Brasile",
+			"explanation": "Brasília è la capitale di Brasile."
+		},
+		{
+			"id": "geografia-cont-Brasile",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Brasile?",
+			"options": [
+				"Antartide",
+				"Asia",
+				"America del Sud",
+				"Africa"
+			],
+			"answer": "America del Sud",
+			"explanation": "Brasile si trova in America del Sud."
+		},
+		{
+			"id": "geografia-cap-Buenos Aires",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Argentina?",
+			"options": [
+				"Varsavia",
+				"Pechino",
+				"Buenos Aires",
+				"Amsterdam"
+			],
+			"answer": "Buenos Aires",
+			"explanation": "La capitale di Argentina è Buenos Aires."
+		},
+		{
+			"id": "geografia-stato-Buenos Aires",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Buenos Aires?",
+			"options": [
+				"Francia",
+				"Argentina",
+				"Egitto",
+				"Russia"
+			],
+			"answer": "Argentina",
+			"explanation": "Buenos Aires è la capitale di Argentina."
+		},
+		{
+			"id": "geografia-cont-Argentina",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Argentina?",
+			"options": [
+				"Oceania",
+				"Africa",
+				"America del Nord",
+				"America del Sud"
+			],
+			"answer": "America del Sud",
+			"explanation": "Argentina si trova in America del Sud."
+		},
+		{
+			"id": "geografia-cap-Tokyo",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Giappone?",
+			"options": [
+				"Mosca",
+				"Amsterdam",
+				"Tokyo",
+				"Nuova Delhi"
+			],
+			"answer": "Tokyo",
+			"explanation": "La capitale di Giappone è Tokyo."
+		},
+		{
+			"id": "geografia-stato-Tokyo",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Tokyo?",
+			"options": [
+				"Francia",
+				"Austria",
+				"Belgio",
+				"Giappone"
+			],
+			"answer": "Giappone",
+			"explanation": "Tokyo è la capitale di Giappone."
+		},
+		{
+			"id": "geografia-cont-Giappone",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Giappone?",
+			"options": [
+				"Antartide",
+				"Asia",
+				"America del Nord",
+				"Africa"
+			],
+			"answer": "Asia",
+			"explanation": "Giappone si trova in Asia."
+		},
+		{
+			"id": "geografia-cap-Pechino",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Cina?",
+			"options": [
+				"Vienna",
+				"Pechino",
+				"Londra",
+				"Canberra"
+			],
+			"answer": "Pechino",
+			"explanation": "La capitale di Cina è Pechino."
+		},
+		{
+			"id": "geografia-stato-Pechino",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Pechino?",
+			"options": [
+				"Paesi Bassi",
+				"Brasile",
+				"Cina",
+				"Spagna"
+			],
+			"answer": "Cina",
+			"explanation": "Pechino è la capitale di Cina."
+		},
+		{
+			"id": "geografia-cont-Cina",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Cina?",
+			"options": [
+				"Asia",
+				"America del Nord",
+				"Antartide",
+				"Europa"
+			],
+			"answer": "Asia",
+			"explanation": "Cina si trova in Asia."
+		},
+		{
+			"id": "geografia-cap-Nuova Delhi",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di India?",
+			"options": [
+				"Canberra",
+				"Lisbona",
+				"Tokyo",
+				"Nuova Delhi"
+			],
+			"answer": "Nuova Delhi",
+			"explanation": "La capitale di India è Nuova Delhi."
+		},
+		{
+			"id": "geografia-stato-Nuova Delhi",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Nuova Delhi?",
+			"options": [
+				"Grecia",
+				"Francia",
+				"Messico",
+				"India"
+			],
+			"answer": "India",
+			"explanation": "Nuova Delhi è la capitale di India."
+		},
+		{
+			"id": "geografia-cont-India",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova India?",
+			"options": [
+				"Antartide",
+				"Europa",
+				"Asia",
+				"America del Nord"
+			],
+			"answer": "Asia",
+			"explanation": "India si trova in Asia."
+		},
+		{
+			"id": "geografia-cap-Il Cairo",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Egitto?",
+			"options": [
+				"Il Cairo",
+				"Ottawa",
+				"Pechino",
+				"Roma"
+			],
+			"answer": "Il Cairo",
+			"explanation": "La capitale di Egitto è Il Cairo."
+		},
+		{
+			"id": "geografia-stato-Il Cairo",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Il Cairo?",
+			"options": [
+				"Brasile",
+				"Germania",
+				"Egitto",
+				"Francia"
+			],
+			"answer": "Egitto",
+			"explanation": "Il Cairo è la capitale di Egitto."
+		},
+		{
+			"id": "geografia-cont-Egitto",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Egitto?",
+			"options": [
+				"Africa",
+				"America del Nord",
+				"America del Sud",
+				"Asia"
+			],
+			"answer": "Africa",
+			"explanation": "Egitto si trova in Africa."
+		},
+		{
+			"id": "geografia-cap-Canberra",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale di Australia?",
+			"options": [
+				"Lisbona",
+				"Varsavia",
+				"Canberra",
+				"Atene"
+			],
+			"answer": "Canberra",
+			"explanation": "La capitale di Australia è Canberra."
+		},
+		{
+			"id": "geografia-stato-Canberra",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Canberra?",
+			"options": [
+				"Regno Unito",
+				"Belgio",
+				"Stati Uniti",
+				"Australia"
+			],
+			"answer": "Australia",
+			"explanation": "Canberra è la capitale di Australia."
+		},
+		{
+			"id": "geografia-cont-Australia",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova Australia?",
+			"options": [
+				"Africa",
+				"Oceania",
+				"Antartide",
+				"America del Nord"
+			],
+			"answer": "Oceania",
+			"explanation": "Australia si trova in Oceania."
+		},
+		{
+			"id": "geografia-geografia-fisica-72",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova il deserto del Sahara?",
+			"options": [
+				"Europa",
+				"Asia",
+				"Oceania",
+				"Africa"
+			],
+			"answer": "Africa",
+			"explanation": "Il Sahara è il grande deserto caldo dell'Africa settentrionale."
+		},
+		{
+			"id": "geografia-geografia-fisica-73",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è l'oceano più grande della Terra?",
+			"options": [
+				"Oceano Indiano",
+				"Oceano Atlantico",
+				"Oceano Artico",
+				"Oceano Pacifico"
+			],
+			"answer": "Oceano Pacifico",
+			"explanation": "Il Pacifico è il più esteso e profondo degli oceani."
+		},
+		{
+			"id": "geografia-geografia-fisica-74",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la montagna più alta della Terra?",
+			"options": [
+				"Monte Bianco",
+				"Everest",
+				"Aconcagua",
+				"Kilimangiaro"
+			],
+			"answer": "Everest",
+			"explanation": "L'Everest, in Asia, supera gli 8800 metri."
+		},
+		{
+			"id": "geografia-geografia-fisica-75",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente scorre il Rio delle Amazzoni?",
+			"options": [
+				"Asia",
+				"America del Sud",
+				"America del Nord",
+				"Africa"
+			],
+			"answer": "America del Sud",
+			"explanation": "L'Amazzonia e il suo fiume si trovano in America del Sud."
+		},
+		{
+			"id": "geografia-geografia-fisica-76",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanti sono i continenti della Terra?",
+			"options": [
+				"8",
+				"6",
+				"5",
+				"7"
+			],
+			"answer": "7",
+			"explanation": "Europa, Asia, Africa, America del Nord, America del Sud, Oceania e Antartide."
+		},
+		{
+			"id": "geografia-geografia-italia-77",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è il fiume più lungo d'Italia?",
+			"options": [
+				"Adige",
+				"Po",
+				"Tevere",
+				"Arno"
+			],
+			"answer": "Po",
+			"explanation": "Il Po, che attraversa la Pianura Padana, è il fiume più lungo d'Italia."
+		},
+		{
+			"id": "geografia-geografia-italia-78",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quali sono le due isole più grandi d'Italia?",
+			"options": [
+				"Sardegna e Capri",
+				"Elba e Ischia",
+				"Sicilia e Sardegna",
+				"Sicilia ed Elba"
+			],
+			"answer": "Sicilia e Sardegna",
+			"explanation": "Sicilia e Sardegna sono le due isole maggiori italiane."
+		},
+		{
+			"id": "geografia-geografia-italia-79",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è il vulcano attivo più grande d'Europa, in Sicilia?",
+			"options": [
+				"Vulcano",
+				"Stromboli",
+				"Etna",
+				"Vesuvio"
+			],
+			"answer": "Etna",
+			"explanation": "L'Etna, in Sicilia, è il maggiore vulcano attivo europeo."
+		},
+		{
+			"id": "geografia-geografia-italia-80",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale catena montuosa percorre l'Italia da nord a sud?",
+			"options": [
+				"Pirenei",
+				"Appennini",
+				"Dolomiti",
+				"Alpi"
+			],
+			"answer": "Appennini",
+			"explanation": "Gli Appennini attraversano la penisola; le Alpi chiudono l'Italia a nord."
+		},
+		{
+			"id": "geografia-geografia-italia-81",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale mare bagna la costa orientale dell'Italia?",
+			"options": [
+				"Mar Adriatico",
+				"Mar Ionio",
+				"Mar Tirreno",
+				"Mar Ligure"
+			],
+			"answer": "Mar Adriatico",
+			"explanation": "L'Adriatico è a est, tra Italia e penisola balcanica."
+		}
+	]
+}

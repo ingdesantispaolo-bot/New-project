@@ -1,0 +1,213 @@
+{
+	"schemaVersion": 1,
+	"subject": "scienze",
+	"generator": "scienze-authored-v1",
+	"items": [
+		{
+			"id": "scienze-metodo-64",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In un esperimento controllato, quante variabili cambi per volta?",
+			"options": [
+				"Nessuna",
+				"Una sola",
+				"Almeno tre",
+				"Tutte insieme"
+			],
+			"answer": "Una sola",
+			"explanation": "Cambiando una sola variabile capisci quale causa l'effetto."
+		},
+		{
+			"id": "scienze-metodo-45",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa distingue un'ipotesi da una conclusione?",
+			"options": [
+				"La conclusione precede l'esperimento",
+				"L'ipotesi è una previsione da verificare",
+				"Sono la stessa cosa",
+				"L'ipotesi arriva dopo i dati"
+			],
+			"answer": "L'ipotesi è una previsione da verificare",
+			"explanation": "Prima l'ipotesi (previsione), poi i dati, infine la conclusione."
+		},
+		{
+			"id": "scienze-materia-48",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quali sono i tre stati principali della materia?",
+			"options": [
+				"Pieno, vuoto, misto",
+				"Caldo, freddo, tiepido",
+				"Duro, molle, liquido",
+				"Solido, liquido, gassoso"
+			],
+			"answer": "Solido, liquido, gassoso",
+			"explanation": "Solido, liquido e gassoso sono i tre stati fondamentali."
+		},
+		{
+			"id": "scienze-materia-59",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il passaggio dell'acqua da liquido a vapore?",
+			"options": [
+				"Evaporazione",
+				"Condensazione",
+				"Solidificazione",
+				"Fusione"
+			],
+			"answer": "Evaporazione",
+			"explanation": "Nell'evaporazione il liquido diventa gas; nella condensazione avviene il contrario."
+		},
+		{
+			"id": "scienze-materia-48",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il passaggio da solido a liquido?",
+			"options": [
+				"Sublimazione",
+				"Evaporazione",
+				"Fusione",
+				"Solidificazione"
+			],
+			"answer": "Fusione",
+			"explanation": "Il ghiaccio che diventa acqua è fusione."
+		},
+		{
+			"id": "scienze-viventi-56",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Di cosa hanno bisogno le piante per fare la fotosintesi?",
+			"options": [
+				"Solo terra",
+				"Luce, acqua e anidride carbonica",
+				"Buio e freddo",
+				"Solo acqua"
+			],
+			"answer": "Luce, acqua e anidride carbonica",
+			"explanation": "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno."
+		},
+		{
+			"id": "scienze-viventi-54",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale gas rilasciano le piante durante la fotosintesi?",
+			"options": [
+				"Anidride carbonica",
+				"Ossigeno",
+				"Idrogeno",
+				"Azoto"
+			],
+			"answer": "Ossigeno",
+			"explanation": "Le piante assorbono CO2 e liberano ossigeno."
+		},
+		{
+			"id": "scienze-viventi-59",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiamano gli animali che si nutrono solo di piante?",
+			"options": [
+				"Erbivori",
+				"Carnivori",
+				"Onnivori",
+				"Predatori"
+			],
+			"answer": "Erbivori",
+			"explanation": "Gli erbivori mangiano vegetali; i carnivori altri animali."
+		},
+		{
+			"id": "scienze-ecosistema-60",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In una catena alimentare, chi produce il proprio nutrimento?",
+			"options": [
+				"Gli erbivori",
+				"I predatori",
+				"I decompositori",
+				"Le piante (produttori)"
+			],
+			"answer": "Le piante (produttori)",
+			"explanation": "Le piante sono i produttori: creano nutrimento con la fotosintesi."
+		},
+		{
+			"id": "scienze-corpo-39",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale organo pompa il sangue nel corpo?",
+			"options": [
+				"Il cuore",
+				"Lo stomaco",
+				"Il fegato",
+				"I polmoni"
+			],
+			"answer": "Il cuore",
+			"explanation": "Il cuore spinge il sangue in tutto il corpo."
+		},
+		{
+			"id": "scienze-corpo-61",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale organo avviene lo scambio di ossigeno con il sangue?",
+			"options": [
+				"I polmoni",
+				"L'intestino",
+				"I reni",
+				"Il cuore"
+			],
+			"answer": "I polmoni",
+			"explanation": "Nei polmoni il sangue prende ossigeno e cede anidride carbonica."
+		},
+		{
+			"id": "scienze-serra-luce",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nella serra, quale pianta ha bisogno di più luce?",
+			"options": [
+				"Cactus di Vetro",
+				"Pomodoro Aurora",
+				"Felce Luna"
+			],
+			"answer": "Cactus di Vetro",
+			"explanation": "Cactus di Vetro: Conserva acqua, vuole luce intensa e non ama radici bagnate."
+		},
+		{
+			"id": "scienze-serra-ombra",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nella serra, quale pianta preferisce la luce più morbida?",
+			"options": [
+				"Pomodoro Aurora",
+				"Cactus di Vetro",
+				"Felce Luna"
+			],
+			"answer": "Felce Luna",
+			"explanation": "Felce Luna: Ama luce morbida e terreno umido, ma soffre quando la serra diventa troppo calda."
+		}
+	]
+}

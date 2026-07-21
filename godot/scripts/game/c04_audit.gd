@@ -1,6 +1,10 @@
 extends SceneTree
 
-const SUBJECTS := ["matematica", "italiano", "inglese", "coding", "fisica", "musica", "latino", "elettronica"]
+const SUBJECTS := [
+	"matematica", "italiano", "inglese", "coding", "fisica", "musica", "latino", "elettronica",
+	# Materie nuove (scope ampliato 2026-07-21).
+	"geografia", "scienze", "cittadinanza", "logica",
+]
 
 func _init() -> void:
 	var content := ContentManager.new()
@@ -28,5 +32,5 @@ func _init() -> void:
 	for node in plain["nodes"]:
 		assert(not bool(node.get("review", false)), "senza due nessun review")
 
-	print("C-04 audit OK — 8 materie, item validati e ripasso spaziato adattivo")
+	print("C-04 audit OK — %d materie, item validati e ripasso spaziato adattivo" % SUBJECTS.size())
 	quit(0)

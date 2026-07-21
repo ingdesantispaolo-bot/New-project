@@ -16,6 +16,10 @@ const SUBJECT_LABELS := {
 	"musica": "sequenza musicale",
 	"latino": "tavola latina",
 	"elettronica": "circuito",
+	"geografia": "mappa stellare",
+	"scienze": "banco di osservazione",
+	"cittadinanza": "rete civica",
+	"logica": "griglia logica",
 }
 
 const SUBJECT_METHODS := {
@@ -27,6 +31,10 @@ const SUBJECT_METHODS := {
 	"musica": "aggancia la nota guida, poi conta posizione e intervallo",
 	"latino": "parti dalla desinenza: funzione, numero, poi senso",
 	"elettronica": "segui il percorso della corrente prima di toccare i pezzi",
+	"geografia": "leggi prima gli assi della mappa, poi la posizione",
+	"scienze": "osserva, ipotizza, cambia una cosa sola, verifica",
+	"cittadinanza": "chiediti chi protegge la regola e chi resta indietro",
+	"logica": "trova la regola nascosta, poi applicala al passo successivo",
 }
 
 # Genere grammaticale della label, per l'articolo in "Apro il/la…"/"Questo/a…"
@@ -34,6 +42,7 @@ const SUBJECT_METHODS := {
 # label femminili come "tavola latina": qui l'accordo è corretto).
 const SUBJECT_FEMININE := {
 	"coding": true, "musica": true, "latino": true,
+	"geografia": true, "scienze": false, "cittadinanza": true, "logica": true,
 }
 
 static func subject_label(subject: String) -> String:

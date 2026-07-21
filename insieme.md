@@ -401,6 +401,8 @@ su seam, luce e gerarchia visiva.
 | 2026-07-20 | Codex su richiesta utente | C-07 | Aggiunto `NarrativeManager` con beat NORA livelli 1→6, persistenti e data-driven | C-07 audit verde | C-08 report locale/accessibilità |
 | 2026-07-20 | Codex su richiesta utente | C-08 | Aggiunto `LocalProgressReport` per sessioni, missioni, mastery e tempo senza rete | C-08 audit verde | C-09 matrice Phaser/Godot |
 | 2026-07-20 | Codex su richiesta utente | C-10 parziale | Build TypeScript, export Web e Windows completati con nuovi script/banchi; export exit 0 | build 0, Web 0, Windows 0; browser smoke test ancora manuale | C-09 matrice copertura e test browser |
+| 2026-07-20 | Codex su richiesta utente | C-06/C-09/C-10 chiusura tecnica | Aggiunti `hub.tscn`/`hub_scene.gd`, matrice Phaser→Godot e `c10_audit` da profilo nuovo | editor scan, C-06, C-10, fixture e round-trip verdi; Web/Windows export 0 | solo test click manuale in browser |
+| 2026-07-21 | Codex | Architettura biomi AAA | Definita pipeline globale A1→A6: chunk solo streaming, macro-layout continuo, spline, assemblies, hero pockets, profili bioma e HLOD | revisione tecnica su generator/rendering esistenti e fonti PCG AAA | A1: `WorldCompositionData` e sampler globale |
 
 ## Formato aggiornamento obbligatorio
 
@@ -476,3 +478,26 @@ su seam, luce e gerarchia visiva.
   wiring senza modifiche simultanee. Appena il file e' libero e annotato qui,
   applico il rewiring (delego a OutdoorGameplay, HUD legge runtime) in un'unica
   passata e aggiorno il registro.
+
+### Aggiornamento 2026-07-20 · Claude Opus (Collaboratore) · C-02 (completato)
+- Fatto: con lock esclusivo, sanato `outdoor_world.gd`. La scena ora usa un
+  UNICO stato (`OutdoorGameplay`): rimossi i vecchi manager alias
+  (`game_save`/`content_manager`/`progression_manager`), i loro const preload e
+  `base_energy`/`base_fragments`. HUD (`_refresh_economy`, `_update_objective`,
+  prompt apparato) legge SOLO dal `runtime` (contratto OutdoorRuntimeState) via
+  segnale `runtime_state_changed`. Aggiunto `gameplay.update_phase` nel ciclo
+  giorno/notte. Rimosse le funzioni morte `_start_mission_session`,
+  `start_final_exam`, `_subject_for_payload` e l'hack "energia" del popup tesori.
+  Nessun doppio stato: prima gli alias puntavano alla stessa istanza (non era un
+  bug di dati) ma la logica era duplicata; ora è separata e single-source.
+- File: `godot/scripts/outdoor_world.gd` (da ~703 a 622 righe).
+- Test/export: `git diff --check` pulito; nessun ternario C-style; nessun
+  riferimento residuo ai simboli rimossi. Da eseguire in editor: `c01_audit`,
+  `c02_audit`, `loop_audit`, `fixture_audit`, `roundtrip_audit` (qui senza Godot).
+- Limiti o rischi: verifica in editor non eseguita in questo ambiente. Il testo
+  HUD (incl. il refuso "Â·" nell'economy_hint) resta area Codex. La scala oltre
+  il Nucleo/livello 1 richiede i banchi delle altre materie (già presenti) e il
+  terminale apparato dinamico (oltre C-02).
+- Prossimo passo: C-02 chiuso lato codice. Codex può cablare HUD/marker al
+  contratto runtime (gate I-01 sbloccato). Io posso procedere alla review dei
+  blocchi C-03→C-08 già presenti (opzione B) o proseguire il percorso.

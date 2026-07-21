@@ -6,9 +6,6 @@ const DAY_LENGTH := 120.0
 const PORTAL_VISUAL := preload("res://scripts/portal_visual.gd")
 const EXERCISE_ENERGY_COST := 3
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
-const GAME_SAVE_SCRIPT := preload("res://scripts/game/save_manager.gd")
-const CONTENT_MANAGER_SCRIPT := preload("res://scripts/game/content_manager.gd")
-const PROGRESSION_MANAGER_SCRIPT := preload("res://scripts/game/progression_manager.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.34, 0.4, 0.66)
@@ -43,13 +40,7 @@ var reward_name_label: Label
 var reward_bar: ProgressBar
 var reward_remaining_label: Label
 var exercise_player: ExercisePlayer
-var game_save: GameSaveManager
-var content_manager: ContentManager
-var progression_manager: ProgressionManager
-var active_session_context: Dictionary = {}
 var apparatus_terminal: Area2D
-var base_energy := 0
-var base_fragments := 0
 var reward_cost := 0
 var reward_name := ""
 var gameplay: OutdoorGameplay
@@ -65,9 +56,6 @@ func _ready() -> void:
 	gameplay.session_requested.connect(_on_gameplay_session_requested)
 	gameplay.feedback.connect(_set_feedback)
 	gameplay.setup(request, result)
-	game_save = gameplay.game_save
-	content_manager = gameplay.content_manager
-	progression_manager = gameplay.progression_manager
 	world_layer = Node2D.new()
 	world_layer.name = "WorldLayer"
 	world_layer.y_sort_enabled = true
@@ -122,6 +110,8 @@ func _process(delta: float) -> void:
 		day_light.color = base.lerp(DAWN_TINT, dawn_mix * 0.35)
 		if is_instance_valid(phase_label):
 			phase_label.text = "Giorno" if daylight > 0.72 else "Alba" if daylight > 0.42 else "Notte"
+	if is_instance_valid(gameplay):
+		gameplay.update_phase("giorno" if daylight > 0.72 else "alba" if daylight > 0.42 else "notte")
 	if is_instance_valid(atmosphere_material):
 		atmosphere_material.set_shader_parameter("daylight", daylight)
 		atmosphere_material.set_shader_parameter("clock", day_clock / DAY_LENGTH)
@@ -388,8 +378,6 @@ void fragment() {
 	_create_economy_panel(root)
 
 func _create_economy_panel(root: Control) -> void:
-	base_energy = game_save.energy() if is_instance_valid(game_save) else int(request.get("energy", 0))
-	base_fragments = int(request.get("outdoorState", {}).get("fragments", 0))
 	var next_reward = request.get("nextReward", null)
 	if typeof(next_reward) == TYPE_DICTIONARY:
 		reward_name = str(next_reward.get("name", ""))
@@ -444,11 +432,13 @@ func _create_economy_panel(root: Control) -> void:
 	_refresh_economy()
 
 func _refresh_economy() -> void:
-	var current := game_save.energy() if is_instance_valid(game_save) else base_energy + int(result.get("energyEarned", 0)) - int(result.get("energySpent", 0))
+	if runtime.is_empty():
+		return
+	var current := int(runtime.get("energy", 0))
 	if is_instance_valid(energy_label):
 		energy_label.text = "Energia %d" % current
 	if is_instance_valid(fragment_label):
-		fragment_label.text = "Frammenti %d" % (base_fragments + int(result.get("fragmentsEarned", 0)))
+		fragment_label.text = "Frammenti %d" % int(runtime.get("fragments", 0))
 	if reward_cost > 0 and is_instance_valid(reward_bar):
 		reward_name_label.text = "Prossimo: %s" % reward_name
 		reward_bar.value = clampf(float(current) / float(reward_cost) * 100.0, 0.0, 100.0)
@@ -456,9 +446,6 @@ func _refresh_economy() -> void:
 		reward_remaining_label.text = ("Ti manca %d energia" % remaining) if remaining > 0 else "Puoi comprarlo!"
 
 func _spawn_gain_popup(text: String, color: Color) -> void:
-	if text.contains("energia"):
-		text = "+%d frammenti" % int(result.get("fragmentsEarned", 0))
-		color = Color("c7b8ff")
 	if not is_instance_valid(player):
 		return
 	var label := Label.new()
@@ -544,11 +531,7 @@ func _refresh_prompt() -> void:
 	if kind == "portal":
 		_set_feedback("Premi E per attraversare il portale e tornare a Phaser")
 	elif kind == "apparatus":
-		var progress := progression_manager.repair_progress()
-		if bool(progress.get("ready", false)):
-			_set_feedback("Premi E per affrontare l'esame finale del Nucleo")
-		else:
-			_set_feedback("Nucleo: %d/%d missioni · padronanza %.0f%%/%.0f%%" % [int(progress.get("missionsDone", 0)), int(progress.get("missionsRequired", 0)), float(progress.get("mastery", 0.0)) * 100.0, float(progress.get("masteryThreshold", 0.0)) * 100.0])
+		_set_feedback(gameplay.apparatus_prompt())
 	elif kind == "treasure":
 		if result["collectedTreasureIds"].has(id):
 			_set_feedback("Tesoro già raccolto")
@@ -604,29 +587,6 @@ func _interact() -> void:
 		return
 
 
-func _subject_for_payload(payload: Dictionary) -> String:
-	var explicit_subject := str(payload.get("subject", "")).strip_edges().to_lower()
-	if explicit_subject != "":
-		return explicit_subject
-	return "matematica"
-
-func _start_mission_session(payload: Dictionary, encounter_id: String) -> void:
-	var subject := _subject_for_payload(payload)
-	var session := content_manager.build_mission(subject, game_save.level(), 3)
-	if Array(session.get("nodes", [])).is_empty():
-		_set_feedback("Banco esercizi non disponibile per %s." % subject)
-		game_save.add_energy(EXERCISE_ENERGY_COST)
-		result["energySpent"] = maxi(0, int(result.get("energySpent", 0)) - EXERCISE_ENERGY_COST)
-		return
-	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject, "payload": payload}
-	_set_feedback("")
-	player.set_physics_process(false)
-	exercise_player.visible = true
-	exercise_player.start_session(session)
-
-func start_final_exam() -> bool:
-	return is_instance_valid(gameplay) and gameplay.try_start_final_exam()
-
 func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	if not is_instance_valid(exercise_player):
 		return
@@ -652,18 +612,11 @@ func _set_feedback(message: String) -> void:
 		feedback_panel.visible = message != ""
 
 func _update_objective() -> void:
-	if not is_instance_valid(objective_label):
+	if not is_instance_valid(objective_label) or runtime.is_empty():
 		return
-	if is_instance_valid(progression_manager) and is_instance_valid(game_save):
-		var progress := progression_manager.repair_progress()
-		var subject := str(progress.get("subject", "matematica")).capitalize()
-		var missions_done := int(progress.get("missionsDone", 0))
-		var missions_required := int(progress.get("missionsRequired", 0))
-		var mastery := float(progress.get("mastery", 0.0)) * 100.0
-		var mastery_threshold := float(progress.get("masteryThreshold", 0.0)) * 100.0
-		var apparatus := str(progress.get("apparatus", "nucleo")).replace("-", " ").capitalize()
-		objective_label.text = "Livello %d / Materia %s\n%s\nMissioni %d/%d / Mastery %.0f%%/%.0f%%" % [game_save.level(), subject, apparatus, missions_done, missions_required, mastery, mastery_threshold]
-		return
-	var treasures: int = Array(result.get("collectedTreasureIds", [])).size()
-	var encounters: int = Array(result.get("completedEncounterIds", [])).size()
-	objective_label.text = "Obiettivo didattico\nTesori %d  ·  Sfide superate %d\nAvvicinati ai segnali luminosi e impara giocando." % [treasures, encounters]
+	var subject := str(runtime.get("focusSubject", "matematica")).capitalize()
+	var apparatus := str(runtime.get("apparatus", "nucleo")).replace("-", " ").capitalize()
+	objective_label.text = "Livello %d / Materia %s\n%s\nMissioni %d/%d / Mastery %.0f%%/%.0f%%" % [
+		int(runtime.get("level", 1)), subject, apparatus,
+		int(runtime.get("missionsDone", 0)), int(runtime.get("missionsRequired", 0)),
+		float(runtime.get("mastery", 0.0)) * 100.0, float(runtime.get("masteryThreshold", 0.0)) * 100.0]

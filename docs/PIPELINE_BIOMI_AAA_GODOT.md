@@ -231,3 +231,23 @@ spaziato hanno priorità senza congelare i valori numerici.
 `c11_world_content_audit.gd` rende questi requisiti bloccanti: perimetro e
 barriere, recupero posizione, otto materie, assenza di firme duplicate fra due
 missioni consecutive, complessità 8 e presenza delle famiglie avanzate.
+
+## Pass ecotoni, sentieri e notte · 2026-07-21
+
+Il controllo in movimento ha evidenziato che una feature globale non deve
+essere ricostruita da ogni chunk che la vede. I sentieri sono quindi usciti da
+`ChunkGround`: `OutdoorWorldPathRenderer` crea tre spline persistenti, ciascuna
+una sola volta sotto lo streaming. Lo spessore è ora 20–29 px, con bordo morbido
+e usura centrale; spariscono accumulo di alpha, effetto autostrada e giunti a
+bulbo.
+
+Le transizioni usano una selezione di bioma pesata e accentuata per assemblies,
+ostacoli e micro-dettagli. I nuclei restano riconoscibili, mentre nelle ecotone
+le specie dei due lati si intrecciano e nascondono la frontiera del dominante.
+Ponti, corsi e cascate decorativi vengono inoltre istanziati solo vicino
+all'acqua della composizione globale.
+
+La notte mantiene la dominante blu, ma usa un `CanvasModulate` meno chiuso, un
+overlay atmosferico più leggero e un piccolo alone radiale sul giocatore. Il
+probe include ora `logic-night` e `academy-logic-transition`, oltre ai controlli
+di bioma e perimetro già esistenti.

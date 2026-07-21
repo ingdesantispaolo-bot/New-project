@@ -19,6 +19,8 @@ func _audit_world_boundary() -> void:
 	var recovered := manager.clamp_to_world(Vector2(-99999, 99999))
 	assert(recovered.x > bounds.position.x and recovered.y < bounds.end.y, "recupero salvataggio fuori mappa")
 	assert(manager.has_node("WorldBoundary/BoundaryBackdrop"), "fondale oltre confine assente")
+	assert(manager.has_node("GlobalNavigationPaths"), "sentieri globali assenti")
+	assert(manager.get_node("GlobalNavigationPaths").get_child_count() == 3, "ogni spline deve essere renderizzata una volta")
 	var canopy := manager.get_node("WorldBoundary/NaturalBoundaryCanopy")
 	assert(canopy.get_child_count() >= 100, "cintura naturale troppo rada")
 	manager.queue_free()

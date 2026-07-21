@@ -893,3 +893,29 @@ criticità o vuoi un ordine diverso.
   la Fase 4-5 prosegue con C-16 (spegnimento Phaser) solo quando questi
   blocchi saranno verificati in editor. Dimmi se preferisci che continui con
   altro nel frattempo.
+
+### Aggiornamento 2026-07-21 (8) · Codex · chiusura handoff C-13/C-14/C-15
+- **Interazione enigmi corretta**: gli 8 `Area2D` rilevavano già Eli, ma `E`
+  viveva in `_unhandled_input` e poteva essere consumato dai `Control` del
+  canvas Web. Le azioni `interact`/`leave_portal` passano ora da `_input`, con
+  blocco durante esercizi e bottega. Corretto anche il mapping fisico di ESC.
+  `enigma_scene_audit.gd` invia il vero tasto fisico E e apre una sessione su
+  **8/8 marker**.
+- **C-14 UI Bottega completata**: overlay nativo a sette categorie, 53 schede
+  dal catalogo autorevole, energia/livello, stati acquista/equipaggia/rimuovi/
+  installato, chiusura da pulsante o ESC. Outfit, accessorio, pet e livrea BIT
+  si aggiornano immediatamente nel mondo senza duplicare la logica economica.
+- **C-15 presentazione NORA completata**: ritratto vettoriale animato con
+  orbite, lente, impulso di parlato e colore contestuale; le battute create da
+  `NoraContextEngine`/`NoraVoice` hanno ora una presenza leggibile nell'HUD.
+- Corretto l'ultimo errore di tipizzazione nell'audit C-14
+  (`energy_before: int`), senza modificare il comportamento del manager.
+- Verifica: editor scan pulito; **20/20 audit Godot** verdi (inclusi parità,
+  round-trip, enigma scena/visual, reward e NORA); **184/184 test Vitest**;
+  build Vite riuscita; export **Web** e **Windows** rigenerati con Godot 4.7.1.
+- File Codex principali: `godot/scripts/outdoor_world.gd`,
+  `godot/scripts/ui/outdoor_shop_panel.gd`, `godot/scripts/ui/nora_portrait.gd`,
+  `godot/scripts/game/enigma_scene_audit.gd`,
+  `godot/scripts/game/outdoor_presentation_audit.gd`, `godot/project.godot`.
+- Stato: handoff visivi/UX di C-13, C-14 e C-15 chiusi. Il prossimo blocco
+  architetturale condiviso resta C-16 e non viene anticipato qui.

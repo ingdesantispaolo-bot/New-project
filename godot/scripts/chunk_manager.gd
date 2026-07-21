@@ -6,6 +6,7 @@ const WORLD_MIN := -4
 const WORLD_MAX := 3
 const ACTIVE_RADIUS := 1
 const CHUNK_VISUAL := preload("res://scripts/chunk_visual.gd")
+const WORLD_PATH_RENDERER := preload("res://scripts/visual/world_path_renderer.gd")
 const PAINTERLY_GROUND_SHADER: Shader = preload("res://shaders/painterly_ground.gdshader")
 const UNDERPAINT_ACADEMY: Texture2D = preload("res://assets/terrain-underpaint-academy.png")
 const UNDERPAINT_WILD: Texture2D = preload("res://assets/terrain-underpaint-wild.png")
@@ -26,7 +27,15 @@ func configure(seed: String, world_ref: Node = null) -> void:
 	world = world_ref
 	composition = WorldCompositionGenerator.generate(seed)
 	y_sort_enabled = true
+	_build_global_paths()
 	_build_world_boundaries()
+
+func _build_global_paths() -> void:
+	if has_node("GlobalNavigationPaths"):
+		return
+	var paths: Node2D = WORLD_PATH_RENDERER.new()
+	paths.configure(composition)
+	add_child(paths)
 
 func world_bounds() -> Rect2:
 	var minimum := Vector2(WORLD_MIN * CHUNK_SIZE, WORLD_MIN * CHUNK_SIZE)

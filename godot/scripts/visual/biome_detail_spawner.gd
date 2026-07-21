@@ -28,7 +28,7 @@ static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: 
 				var edge_roll := rng.next_float()
 				kind = "reeds" if edge_roll < 0.42 else "cattails" if edge_roll < 0.72 else "pebble_bank"
 			elif path_distance > 54.0:
-				kind = _land_kind(data.dominant_biome(pos), rng.next_float())
+				kind = _land_kind(data.sampled_biome(pos, rng.next_float()), rng.next_float())
 			if kind.is_empty():
 				continue
 			var base_chance := 0.82 if water > 0.28 or near_water else 0.58

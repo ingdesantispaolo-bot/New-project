@@ -7,6 +7,8 @@ const PORTAL_VISUAL := preload("res://scripts/portal_visual.gd")
 const EXERCISE_ENERGY_COST := 3
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
 const ENIGMA_STRUCTURE := preload("res://scripts/visual/enigma_structure.gd")
+const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
+const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -25,6 +27,7 @@ var atmosphere_material: ShaderMaterial
 var ui_layer: CanvasLayer
 var feedback_label: Label
 var feedback_panel: PanelContainer
+var nora_portrait: Control
 var phase_label: Label
 var biome_label: Label
 var objective_label: Label
@@ -32,6 +35,7 @@ var portal: Node2D
 var camera: Camera2D
 var fireflies: CPUParticles2D
 var pet_companion: OutdoorPetCompanion
+var player_presentation: Node2D
 var nearby: Array = []
 var day_clock := 0.0
 var current_biome_chunk := ""
@@ -41,6 +45,7 @@ var reward_name_label: Label
 var reward_bar: ProgressBar
 var reward_remaining_label: Label
 var exercise_player: ExercisePlayer
+var shop_panel: Control
 var apparatus_terminal: Area2D
 var reward_cost := 0
 var reward_name := ""
@@ -52,6 +57,7 @@ var game_save: GameSaveManager
 var progression_manager: ProgressionManager
 var content_manager: ContentManager
 var gain_popup_pool: Array[Label] = []
+var applied_cosmetic_signature := ""
 
 func _ready() -> void:
 	request = bridge.load_request()
@@ -103,6 +109,7 @@ func _on_runtime_state(state: Dictionary) -> void:
 	runtime = state.duplicate(true)
 	_update_objective()
 	_refresh_economy()
+	_apply_cosmetic_presentation()
 
 func _on_gameplay_session_requested(session: Dictionary) -> void:
 	if not is_instance_valid(exercise_player):
@@ -219,11 +226,12 @@ func _create_player() -> void:
 	circle.radius = 18.0
 	shape.shape = circle
 	player.add_child(shape)
-	var visual_data: Dictionary = request.get("avatarVisual", {})
+	var visual_data := _resolved_avatar_visual()
 	var livery := _avatar_color(visual_data.get("bodyColor", -1), PLAYER_ACCENT)
-	var body_visual := OutdoorVisualFactory.build_player(livery)
-	player.add_child(body_visual)
-	player.visual = body_visual.get_node("Visual")
+	player_presentation = OutdoorVisualFactory.build_player(livery)
+	player_presentation.name = "PlayerPresentation"
+	player.add_child(player_presentation)
+	player.visual = player_presentation.get_node("Visual")
 	_apply_accessory(player.visual, visual_data)
 	_add_player_night_light()
 	fireflies = OutdoorVisualFactory.make_sparkles(Color(1.0, 0.93, 0.62, 0.85), 560.0, 24)
@@ -241,6 +249,54 @@ func _create_player() -> void:
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 6.0
 	add_child(camera)
+	applied_cosmetic_signature = _cosmetic_signature()
+
+func _resolved_avatar_visual() -> Dictionary:
+	var visual_data: Dictionary = Dictionary(request.get("avatarVisual", {})).duplicate(true)
+	var equipped: Dictionary = runtime.get("cosmeticsEquipped", {})
+	var avatar_id := str(equipped.get("avatar", ""))
+	var avatar_item := RewardCatalog.find(avatar_id)
+	if not avatar_item.is_empty():
+		visual_data["bodyColor"] = int(avatar_item.get("color", 0x6be7d6))
+	var accessory_id := str(equipped.get("accessory", ""))
+	var accessory_item := RewardCatalog.find(accessory_id)
+	if not accessory_item.is_empty():
+		visual_data["accessory"] = {"id": accessory_id, "color": int(accessory_item.get("color", 0x9ff5e9))}
+	var pet_id := str(equipped.get("pet", ""))
+	var pet_item := RewardCatalog.find(pet_id)
+	if not pet_item.is_empty():
+		visual_data["pet"] = {"id": pet_id, "kind": pet_id.trim_prefix("pet-"), "color": int(pet_item.get("color", 0xf6c85f))}
+	return visual_data
+
+func _cosmetic_signature() -> String:
+	return JSON.stringify(runtime.get("cosmeticsEquipped", {}))
+
+func _apply_cosmetic_presentation() -> void:
+	if not is_instance_valid(player) or not is_instance_valid(world_layer):
+		return
+	var signature := _cosmetic_signature()
+	if signature == applied_cosmetic_signature:
+		return
+	applied_cosmetic_signature = signature
+	var visual_data := _resolved_avatar_visual()
+	var livery := _avatar_color(visual_data.get("bodyColor", -1), PLAYER_ACCENT)
+	if is_instance_valid(player_presentation):
+		player.remove_child(player_presentation)
+		player_presentation.queue_free()
+	player_presentation = OutdoorVisualFactory.build_player(livery)
+	player_presentation.name = "PlayerPresentation"
+	player.add_child(player_presentation)
+	player.visual = player_presentation.get_node("Visual")
+	_apply_accessory(player.visual, visual_data)
+	if is_instance_valid(pet_companion):
+		world_layer.remove_child(pet_companion)
+		pet_companion.queue_free()
+		pet_companion = null
+	_spawn_pet(visual_data)
+	var bot_id := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("bot", ""))
+	var bot_item := RewardCatalog.find(bot_id)
+	if not bot_item.is_empty() and is_instance_valid(nora_portrait):
+		nora_portrait.set_livery(OutdoorVisualFactory.hex_color(int(bot_item.get("color", 0x6be7d6))))
 
 func _add_player_night_light() -> void:
 	var gradient := Gradient.new()
@@ -320,13 +376,11 @@ func _create_apparatus_terminal() -> void:
 	apparatus_terminal.body_exited.connect(func(body): on_interactable_exited(apparatus_terminal, body))
 
 # Un enigma ambientale per materia (C-13): stesso motore del Ponte dei Primi,
-# solo `theme`/etichetta diversi (ContentManager.enigma_theme). Il visual
-# dedicato (ponte) esiste solo per matematica; per le altre materie il POI è
-# pronto (gruppo "enigma_poi", meta id/payload, set_stage no-op sicuro) e
-# aspetta che Codex attacchi la struttura del proprio tema — vedi insieme.md.
+# solo `theme`/etichetta diversi (ContentManager.enigma_theme). Tutti usano lo
+# stesso contratto visuale progressivo, con asset specifico per tema.
 func _enigma_poi_specs() -> Array:
 	return [
-		{ "subject": "matematica", "id": "enigma-ponte-primi", "label": "il Ponte dei Primi", "offset": Vector2(-148, 120), "has_visual": true },
+		{ "subject": "matematica", "id": "enigma-ponte-primi", "label": "il Ponte dei Primi", "offset": Vector2(-148, 120) },
 		{ "subject": "italiano", "id": "enigma-porta-parole", "label": "la Porta delle Parole", "offset": Vector2(-148, -160) },
 		{ "subject": "inglese", "id": "enigma-porta-segnali", "label": "la Porta dei Segnali", "offset": Vector2(180, -180) },
 		{ "subject": "latino", "id": "enigma-porta-glifi", "label": "la Porta dei Glifi", "offset": Vector2(-320, 20) },
@@ -350,15 +404,12 @@ func _create_enigma_pois() -> void:
 		circle.radius = INTERACTION_DISTANCE
 		shape.shape = circle
 		enigma.add_child(shape)
-		if bool(entry.get("has_visual", false)):
-			var visual := ENIGMA_STRUCTURE.new()
-			visual.name = "PonteDeiPrimiVisual"
-			visual.setup(ContentManager.enigma_theme(str(entry["subject"])))
-			enigma.add_child(visual)
-			world_layer.add_child(enigma)
-			visual.set_stage(4 if Array(result.get("completedEncounterIds", [])).has(entry["id"]) else 0, 4)
-		else:
-			world_layer.add_child(enigma)
+		var visual := ENIGMA_STRUCTURE.new()
+		visual.name = "EnigmaStructureVisual"
+		visual.setup(ContentManager.enigma_theme(str(entry["subject"])), str(entry["label"]))
+		enigma.add_child(visual)
+		world_layer.add_child(enigma)
+		visual.set_stage(4 if Array(result.get("completedEncounterIds", [])).has(entry["id"]) else 0, 4)
 		enigma.body_entered.connect(func(body): on_interactable_entered(enigma, body))
 		enigma.body_exited.connect(func(body): on_interactable_exited(enigma, body))
 
@@ -451,6 +502,18 @@ void fragment() {
 	exit_button.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
 	exit_button.pressed.connect(_leave_world)
 	root.add_child(exit_button)
+	var shop_button := Button.new()
+	shop_button.name = "OpenShopButton"
+	shop_button.text = "BOTTEGA"
+	shop_button.anchor_left = 1.0
+	shop_button.anchor_right = 1.0
+	shop_button.offset_left = -132.0
+	shop_button.offset_right = -16.0
+	shop_button.offset_top = 58.0
+	shop_button.offset_bottom = 96.0
+	shop_button.add_theme_color_override("font_color", Color("f6c85f"))
+	shop_button.pressed.connect(_open_shop)
+	root.add_child(shop_button)
 
 	feedback_panel = PanelContainer.new()
 	feedback_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, 24)
@@ -458,14 +521,51 @@ void fragment() {
 	feedback_panel.add_theme_stylebox_override("panel", _panel_style())
 	feedback_panel.visible = false
 	root.add_child(feedback_panel)
+	var feedback_row := HBoxContainer.new()
+	feedback_row.add_theme_constant_override("separation", 10)
+	feedback_panel.add_child(feedback_row)
+	var nora_column := VBoxContainer.new()
+	nora_column.custom_minimum_size = Vector2(82, 0)
+	feedback_row.add_child(nora_column)
+	var nora_name := Label.new()
+	nora_name.text = "NORA"
+	nora_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	nora_name.add_theme_font_size_override("font_size", 11)
+	nora_name.add_theme_color_override("font_color", Color("6be7d6"))
+	nora_column.add_child(nora_name)
+	nora_portrait = NORA_PORTRAIT_SCRIPT.new()
+	nora_column.add_child(nora_portrait)
+	var equipped_bot := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("bot", ""))
+	var equipped_bot_item := RewardCatalog.find(equipped_bot)
+	if not equipped_bot_item.is_empty():
+		nora_portrait.set_livery(OutdoorVisualFactory.hex_color(int(equipped_bot_item.get("color", 0x6be7d6))))
 	feedback_label = Label.new()
 	feedback_label.add_theme_color_override("font_color", Color("ffffff"))
 	feedback_label.add_theme_font_size_override("font_size", 15)
 	feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	feedback_label.custom_minimum_size = Vector2(340, 0)
-	feedback_panel.add_child(feedback_label)
+	feedback_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	feedback_row.add_child(feedback_label)
 
 	_create_economy_panel(root)
+	_create_shop_panel(root)
+
+func _create_shop_panel(root: Control) -> void:
+	shop_panel = SHOP_PANEL_SCRIPT.new()
+	root.add_child(shop_panel)
+	shop_panel.setup(gameplay)
+	shop_panel.closed.connect(_on_shop_closed)
+
+func _open_shop() -> void:
+	if not is_instance_valid(shop_panel):
+		return
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	shop_panel.open_panel()
+
+func _on_shop_closed() -> void:
+	if is_instance_valid(player) and not (is_instance_valid(exercise_player) and exercise_player.visible):
+		player.set_physics_process(true)
 
 func _create_economy_panel(root: Control) -> void:
 	var next_reward = request.get("nextReward", null)
@@ -572,6 +672,25 @@ func _release_gain_popup(label: Label) -> void:
 	label.text = ""
 	label.modulate = Color.WHITE
 
+func _input(event: InputEvent) -> void:
+	# Le azioni di gameplay devono arrivare prima dei Control dell'HUD. In Web
+	# un Control visibile/focalizzato puo consumare il tasto e impedire a
+	# `_unhandled_input` di riceverlo: era il motivo per cui E non avviava i POI.
+	# Durante un esercizio lasciamo invece tutto l'input alla sua UI.
+	if is_instance_valid(exercise_player) and exercise_player.visible:
+		return
+	if is_instance_valid(shop_panel) and shop_panel.visible:
+		if event.is_action_pressed("leave_portal") and not event.is_echo():
+			shop_panel.close_panel()
+			get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("interact") and not event.is_echo():
+		_interact()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("leave_portal") and not event.is_echo():
+		_leave_world()
+		get_viewport().set_input_as_handled()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:
 		var target := _to_world(event.position)
@@ -585,10 +704,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		_spawn_touch_ping(target)
 	elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
 		player.set_touch_target(_to_world(event.position))
-	if event.is_action_pressed("interact"):
-		_interact()
-	elif event.is_action_pressed("leave_portal"):
-		_leave_world()
 
 func _to_world(screen_pos: Vector2) -> Vector2:
 	return get_viewport().get_canvas_transform().affine_inverse() * screen_pos
@@ -752,6 +867,8 @@ func _set_feedback(message: String) -> void:
 		feedback_label.text = message
 	if is_instance_valid(feedback_panel):
 		feedback_panel.visible = message != ""
+	if message != "" and is_instance_valid(nora_portrait):
+		nora_portrait.speak(message)
 
 func _update_objective() -> void:
 	if not is_instance_valid(objective_label) or runtime.is_empty():

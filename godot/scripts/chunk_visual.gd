@@ -197,7 +197,7 @@ func _build_obstacles(decor) -> void:
 	for obstacle in chunk.get("obstacles", []):
 		var radius := float(obstacle["r"])
 		var world_pos := Vector2(float(obstacle["x"]), float(obstacle["y"]))
-		var render_biome := _render_biome(world_pos)
+		var render_biome := _render_biome(world_pos, decor.next_float())
 		var in_water := composition != null and composition.water_weight(world_pos) > 0.04
 		var visual_kind := "rock" if in_water else str(obstacle["kind"])
 		var node := OutdoorVisualFactory.build_obstacle(
@@ -226,9 +226,12 @@ func _build_obstacles(decor) -> void:
 func _build_props(decor) -> void:
 	for prop in chunk.get("props", []):
 		var world_pos := Vector2(float(prop["x"]), float(prop["y"]))
-		var render_biome := _render_biome(world_pos)
+		var render_biome := _render_biome(world_pos, decor.next_float())
 		var kind := str(prop["kind"])
 		var in_water := composition != null and composition.water_weight(world_pos) > 0.14
+		var near_water := composition != null and _near_composition_water(world_pos, 92.0)
+		if kind in ["bridge", "river", "waterfall"] and not near_water:
+			continue
 		if in_water and kind != "bridge":
 			continue
 		var node := OutdoorVisualFactory.build_prop(
@@ -238,8 +241,16 @@ func _build_props(decor) -> void:
 			node.rotation = composition.water_tangent(world_pos).angle() - PI * 0.5
 		add_child(node)
 
-func _render_biome(world_pos: Vector2) -> String:
-	return composition.dominant_biome(world_pos) if composition != null else str(chunk.get("biome", "academy"))
+func _render_biome(world_pos: Vector2, selector: float = 0.5) -> String:
+	return composition.sampled_biome(world_pos, selector) if composition != null else str(chunk.get("biome", "academy"))
+
+func _near_composition_water(world_pos: Vector2, distance: float) -> bool:
+	if composition.water_weight(world_pos) > 0.04:
+		return true
+	for direction in [Vector2.RIGHT, Vector2.LEFT, Vector2.UP, Vector2.DOWN]:
+		if composition.water_weight(world_pos + direction * distance) > 0.08:
+			return true
+	return false
 
 func _build_landmarks() -> void:
 	for landmark in chunk.get("landmarks", []):

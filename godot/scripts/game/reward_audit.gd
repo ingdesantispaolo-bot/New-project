@@ -11,7 +11,7 @@ func _init() -> void:
 	var gameplay := _new_gameplay(5000, 1)
 
 	# 1) Acquisto lecito: spende energia E riporta il delta al bridge.
-	var energy_before := gameplay.runtime_state()["energy"]
+	var energy_before: int = int(gameplay.runtime_state()["energy"])
 	assert(gameplay.try_purchase_cosmetic("bot-lime"), "acquisto valido riuscito")
 	var state := gameplay.runtime_state()
 	assert(int(state["energy"]) == int(energy_before) - 120, "energia scalata del costo")

@@ -34,6 +34,24 @@ func dominant_biome(world_pos: Vector2) -> String:
 			best_weight = float(weights[id])
 	return best
 
+func sampled_biome(world_pos: Vector2, selector: float) -> String:
+	# Il dominante puro produceva una frontiera di props netta anche quando il
+	# terreno era gia miscelato. Una selezione pesata e leggermente accentuata
+	# conserva l'identita dei nuclei, ma intreccia le specie nelle ecotone.
+	var weights := biome_weights(world_pos)
+	var ids: Array = weights.keys()
+	ids.sort()
+	var sharpened_total := 0.0
+	for id in ids:
+		sharpened_total += pow(float(weights[id]), 2.35)
+	var cursor := 0.0
+	var target := clampf(selector, 0.0, 0.999999) * maxf(sharpened_total, 0.0001)
+	for id in ids:
+		cursor += pow(float(weights[id]), 2.35)
+		if target <= cursor:
+			return str(id)
+	return dominant_biome(world_pos)
+
 func blended_ground(world_pos: Vector2) -> Color:
 	var weights := biome_weights(world_pos)
 	var color := Color(0, 0, 0, 1)

@@ -42,7 +42,6 @@ func setup(data: Dictionary, lod_level: int = 0, composition_data: WorldComposit
 	var decor = RNG.new(str(chunk.get("id", "chunk")) + ":ground")
 	var size := float(chunk.get("size", 896))
 	_build_painterly_surface(size)
-	_build_world_path_ribbons(size)
 	_build_world_water_features(size)
 	var patch: Dictionary = chunk.get("patch", {})
 	var biome := str(chunk.get("biome", "academy"))
@@ -189,37 +188,54 @@ func _build_world_path_ribbons(size: float) -> void:
 		var source_points: PackedVector2Array = path.get("points", PackedVector2Array())
 		if source_points.size() < 2:
 			continue
-		var width := clampf(float(path.get("width", 64.0)) * 0.50, 25.0, 38.0)
+		var width := clampf(float(path.get("width", 64.0)) * 0.39, 20.0, 29.0)
 		if not world_rect.intersects(_points_bounds(source_points).grow(width * 2.0)):
 			continue
-		var curved_world := _catmull_rom_polyline(source_points, 7)
-		var curved := _offset_points(curved_world, -world_origin)
-		var bank := Line2D.new()
-		bank.points = curved
-		bank.width = width + 8.0
-		bank.default_color = Color(0.38, 0.33, 0.17, 0.32)
-		bank.joint_mode = Line2D.LINE_JOINT_ROUND
-		bank.begin_cap_mode = Line2D.LINE_CAP_ROUND
-		bank.end_cap_mode = Line2D.LINE_CAP_ROUND
-		bank.antialiased = true
-		layer.add_child(bank)
-		var soil := Line2D.new()
-		soil.points = curved
-		soil.width = width
-		soil.texture = PATH_EARTH_TEXTURE
-		soil.texture_mode = Line2D.LINE_TEXTURE_TILE
-		soil.default_color = Color(0.66, 0.61, 0.45, 0.76)
-		soil.joint_mode = Line2D.LINE_JOINT_ROUND
-		soil.begin_cap_mode = Line2D.LINE_CAP_ROUND
-		soil.end_cap_mode = Line2D.LINE_CAP_ROUND
-		soil.antialiased = true
-		layer.add_child(soil)
-		var highlight := Line2D.new()
-		highlight.points = curved
-		highlight.width = maxf(2.0, width * 0.07)
-		highlight.default_color = Color(1.0, 0.90, 0.65, 0.12)
-		highlight.antialiased = true
-		layer.add_child(highlight)
+		var steps_per_segment := 7
+		var curved_world := _catmull_rom_polyline(source_points, steps_per_segment)
+		# Ogni segmento ha un unico chunk proprietario. Prima tutti i chunk che lo
+		# vedevano ridisegnavano l'intera spline, sommando opacita e saturazione.
+		for segment_index in range(source_points.size() - 1):
+			var midpoint := source_points[segment_index].lerp(source_points[segment_index + 1], 0.5)
+			var owner := Vector2i(floori(midpoint.x / size), floori(midpoint.y / size))
+			if owner != Vector2i(int(chunk.get("chunkX", 0)), int(chunk.get("chunkY", 0))):
+				continue
+			var segment_world := PackedVector2Array()
+			var first := segment_index * steps_per_segment
+			var last := mini(first + steps_per_segment, curved_world.size() - 1)
+			for point_index in range(first, last + 1):
+				segment_world.append(curved_world[point_index])
+			_add_path_ribbon(layer, _offset_points(segment_world, -world_origin), width)
+
+func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -> void:
+	if curved.size() < 2:
+		return
+	var bank := Line2D.new()
+	bank.points = curved
+	bank.width = width + 9.0
+	bank.default_color = Color(0.31, 0.30, 0.18, 0.22)
+	bank.joint_mode = Line2D.LINE_JOINT_ROUND
+	bank.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	bank.end_cap_mode = Line2D.LINE_CAP_ROUND
+	bank.antialiased = true
+	layer.add_child(bank)
+	var soil := Line2D.new()
+	soil.points = curved
+	soil.width = width
+	soil.texture = PATH_EARTH_TEXTURE
+	soil.texture_mode = Line2D.LINE_TEXTURE_TILE
+	soil.default_color = Color(0.72, 0.68, 0.53, 0.62)
+	soil.joint_mode = Line2D.LINE_JOINT_ROUND
+	soil.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	soil.end_cap_mode = Line2D.LINE_CAP_ROUND
+	soil.antialiased = true
+	layer.add_child(soil)
+	var highlight := Line2D.new()
+	highlight.points = curved
+	highlight.width = maxf(1.5, width * 0.055)
+	highlight.default_color = Color(1.0, 0.91, 0.68, 0.08)
+	highlight.antialiased = true
+	layer.add_child(highlight)
 
 func _curved_segment(a: Vector2, b: Vector2, world_origin: Vector2, segment_index: int) -> PackedVector2Array:
 	var points := PackedVector2Array()

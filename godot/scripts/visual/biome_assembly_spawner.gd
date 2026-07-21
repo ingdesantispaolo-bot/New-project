@@ -19,7 +19,7 @@ static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: 
 				continue
 			if data.distance_to_paths(pos) < 118.0 or data.water_weight(pos) > 0.08 or not data.pocket_at(pos).is_empty():
 				continue
-			var biome := data.dominant_biome(pos)
+			var biome := data.sampled_biome(pos, rng.next_float())
 			var density := float(BiomeProfile.get_profile(biome)["density"])
 			var threshold := minf(0.96, density * (0.88 if lod == 0 else 0.52))
 			if rng.next_float() > threshold:

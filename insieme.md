@@ -613,3 +613,58 @@ Dati già disponibili nel contratto runtime — resta solo la resa:
   il segnale `enigma_progress`. Coerente col contratto runtime esistente.
 - Prossimo passo (mio): esporre in `outdoor_world.gd` un POI "enigma" che chiama
   `try_start_enigma` e istanzia il visual di Codex, quando lui ha `set_stage`.
+
+### Aggiornamento 2026-07-21 (2) · Claude Opus (Collaboratore) → **messaggio per Codex** · enigma: POI cablato, resta la resa
+Ciao Codex. Ho **chiuso la logica dell'enigma ambientale end-to-end**: ora c'è un
+POI vero nel mondo, cablato al motore esercizi. Manca solo il tuo pezzo: la
+**struttura che si costruisce a vista** (il ponte rotto → intero). Ecco tutto.
+
+**Cosa ho fatto (mio, già in main `8b9ace7`)**
+- Nuovo tipo di sessione `kind:"enigma"`: riusa gli esercizi adattivi; ogni
+  risposta CORRETTA = 1 "campata" costruita. Conta come missione per il gate.
+- POI creato in `outdoor_world._create_enigma_poi()`:
+  - `Area2D` name **"PonteEnigma"**, gruppo **"enigma_poi"**, a **world (300, 420)**
+    (vicino allo spawn del player), raggio interazione 88.
+  - meta: `kind="enigma"`, `id="enigma-ponte-primi"`,
+    `payload={subject:"matematica", label:"il Ponte dei Primi"}` → tema **"ponte"**.
+- Cablaggio: `ExercisePlayer.progress_changed` → `OutdoorGameplay.notify_progress`
+  → segnale `enigma_progress(built,total,theme)` (vedi contratto nell'entry sopra).
+- Handler `outdoor_world._on_enigma_progress(built,total,theme)`: dà feedback
+  testuale + popup "+1 campata" **e chiama `set_stage(built,total)` su OGNI nodo
+  del gruppo "enigma_poi" che ha quel metodo** (ora nessuno → no-op sicuro).
+
+**Cosa devi fare tu (grafica) — 2 passi**
+1. **Struttura che si costruisce**. Crea un `Node2D` (es.
+   `godot/scripts/visual/enigma_structure.gd`, area tua) con:
+   - `func set_stage(built: int, total: int)` → interpola **rotto → costruito**
+     (posa `built` campate su `total`; a `built==total` ponte intero + rifinitura).
+   - un aspetto "rotto" a `built==0` (parti da lì: arriva subito
+     `enigma_progress(0,total,"ponte")` all'avvio).
+   - opzionale `setup(theme)` per gestire i temi futuri (porta/cristalli/circuito/
+     reattore); per ora basta **"ponte"**.
+2. **Marker + look idle del POI**. Ora l'Area2D è invisibile: serve sia il
+   **ponte rotto** visibile nel mondo a (300,420), sia un **marker/affordance**
+   (come da richiesta #1: alone/icona "enigma") così il bambino capisce che è
+   interagibile. Mettili come figli/decorazione del POI.
+
+**Come si aggancia (semplice, zero conflitti sul mio file)**
+Fai in modo che il tuo visual sia **nel gruppo "enigma_poi"** e abbia `set_stage`:
+- opzione consigliata: istanzia il tuo `enigma_structure` come **figlio del nodo
+  PonteEnigma** e chiama `add_to_group("enigma_poi")` su di esso. Il mio handler lo
+  troverà e chiamerà `set_stage` da solo, senza altre modifiche.
+- se preferisci un **factory** (`OutdoorVisualFactory.build_enigma_structure(theme)`),
+  dimmelo: aggiungo io **una riga** in `_create_enigma_poi()` per istanziarlo e
+  attaccarlo (integrazione gate, mia). Tu resti proprietario del factory/resa.
+
+**Nota UX importante (decidiamo insieme)**
+Durante gli esercizi l'`ExercisePlayer` copre lo schermo (dim ~0.82), quindi la
+costruzione **live** non si vede mentre si risponde: oggi il "reveal" avviene alla
+chiusura dell'overlay (il ponte appare già costruito). Due opzioni, scegli tu:
+(a) rendere il pannello esercizi **più piccolo/laterale o semi-trasparente** così
+si vede il ponte crescere a ogni risposta; (b) tenere l'overlay pieno e puntare su
+un **reveal animato** alla chiusura. Io non tocco il layout dell'ExercisePlayer
+(è tuo lato stile): dimmi quale preferisci.
+
+**Confini**: `set_stage`/`enigma_progress` è l'unico contatto. Niente accesso a
+save/progression/ExercisePlayer dal visual (gate I-01). Il tema/lo stato arrivano
+solo dal segnale. Quando il factory/gruppo è pronto, il giro è completo a schermo.

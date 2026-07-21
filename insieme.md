@@ -406,6 +406,8 @@ su seam, luce e gerarchia visiva.
 | 2026-07-21 | Codex | Pipeline biomi AAA A1→A6 | Implementati composizione globale, pesi bioma continui, superficie senza hero rettangolare, spline/acqua, hero pockets, assemblies, sei profili, atmosfera interpolata e LOD 0/1/2 | composition audit, fixture, round-trip, C-10, build, Web e Windows verdi | QA screenshot manuale e tuning percettivo |
 | 2026-07-21 | Codex | Material pipeline world-space | Generati underpainting pittorici per prato, bosco, minerale, magia, acqua e terra; introdotti shader globali multi-scala/mirror-repeat, sentieri curvi texturizzati, laghi organici e assemblies a tre altezze | render probe diurno, composition audit, fixture, round-trip, loop, C-10, build, Web e Windows verdi; C-02 legacy segnala separatamente livello iniziale inatteso | test movimento reale giorno/notte e tuning compositivo dei landmark |
 
+| 2026-07-21 | Codex | Habitat e varieta compositiva | Fiume spline continuo, rive e ponti orientati; atlante RGBA da 16 micro-dettagli; spawner habitat-aware; quattro archetipi di assembly; sostituzione dei visual primitivi fuori stile; probe Radura/Dorsale/Bosco/Cratere | scene load, composition/habitat, fixture, round-trip, loop, C-10, build, Web e Windows verdi; quattro catture reali verificate | tuning manuale di scala e densita durante esplorazione |
+
 ## Formato aggiornamento obbligatorio
 
 ```text
@@ -580,3 +582,33 @@ Dati già disponibili nel contratto runtime — resta solo la resa:
 - Nota: `runtime_state_changed` è il segnale unico; la scena inoltra `runtime`
   all'HUD. Nessun accesso diretto a save/progression dalla UI (gate I-01).
 - Prossimo passo: Codex può implementare marker e barre sui campi sopra.
+
+### Aggiornamento 2026-07-21 · Claude Opus (Collaboratore) · enigma ambientale (logica)
+- Fatto: scaffold SISTEMI del nuovo tipo di missione **enigma ambientale** (la
+  risposta corretta costruisce un elemento del mondo, una campata alla volta).
+  Solo logica/contratto; la RESA è di Codex. Loop invariato: l'enigma conta come
+  missione per il gate dell'apparato e completa l'incontro.
+- File: `godot/scripts/game/exercise_player.gd` (nuovo segnale `progress_changed`),
+  `content_manager.gd` (`build_enigma` + `enigma_theme`), `outdoor_gameplay.gd`
+  (`try_start_enigma`, `notify_progress`, segnale `enigma_progress`, esito nel
+  `resolve_session`), nuovo `godot/scripts/game/enigma_audit.gd`.
+- Test/export: nessun ternario C-style; `git diff --check` pulito. Da eseguire in
+  editor: `enigma_audit.gd` (verifica progresso live, completamento, penalità
+  morbida) + retro-compatibili c01/c02/loop.
+
+#### Contratto enigma per Codex (gate I-01 — dati pronti, resta la resa)
+- **Segnale unico da ascoltare**: `OutdoorGameplay.enigma_progress(built, total, theme)`.
+  `built`/`total` = campate costruite/totali; `theme` ∈ {ponte, porta, cristalli,
+  circuito, reattore} (mappa materia→tema in `ContentManager.ENIGMA_THEMES`).
+- **Ciclo di vita**: all'avvio arriva `enigma_progress(0, total, theme)` (parti da
+  "rotto"); a ogni risposta corretta `built` sale di 1; a enigma superato arriva
+  `enigma_progress(total, total, theme)` (costruzione piena). Su fallimento NON
+  arriva l'evento pieno: la struttura resta alle campate raggiunte (penalità morbida).
+- **Cosa serve da Codex**: un visual per tema con `set_stage(built, total)` che
+  interpola rotto→costruito (ponte che posa campate, porta che si apre a spicchi,
+  cristalli che si allineano). La scena inoltra `ExercisePlayer.progress_changed`
+  → `OutdoorGameplay.notify_progress` (cablaggio in `outdoor_world.gd`, area INSIEME).
+- **Nessun accesso diretto** a save/progression/ExercisePlayer dalla grafica: solo
+  il segnale `enigma_progress`. Coerente col contratto runtime esistente.
+- Prossimo passo (mio): esporre in `outdoor_world.gd` un POI "enigma" che chiama
+  `try_start_enigma` e istanzia il visual di Codex, quando lui ha `set_stage`.

@@ -9,3 +9,7 @@ vite-dev*.log
 .env
 .env.*
 .DS_Store
+
+# Output generati (export desktop e preview di render)
+build/
+artifacts/

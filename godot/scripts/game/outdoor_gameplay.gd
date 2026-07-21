@@ -2,8 +2,9 @@ class_name OutdoorGameplay
 extends Node
 
 ## Logica gameplay del mondo esterno, estratta da outdoor_world.gd (C-02):
-## possiede save/contenuti/progressione, il ciclo delle sessioni (missione ed
-## esame finale) e l'economia; espone lo stato leggibile `OutdoorRuntimeState`.
+## possiede save/contenuti/progressione, il ciclo delle sessioni (missione,
+## enigma ambientale ed esame finale) e l'economia; espone lo stato leggibile
+## `OutdoorRuntimeState`.
 ##
 ## SEPARAZIONE: qui vive solo la SEMANTICA (ricompense, gate, save). La scena e
 ## l'HUD leggono lo stato via `runtime_state()` / segnale `runtime_state_changed`
@@ -19,6 +20,11 @@ const EXERCISE_ENERGY_COST := 3
 signal runtime_state_changed(state: Dictionary)  # stato aggiornato (evento-driven)
 signal session_requested(session: Dictionary)    # la scena mostra l'ExercisePlayer
 signal feedback(message: String)                 # messaggio testuale per l'HUD
+## Progresso dell'enigma ambientale per la resa (Codex): `built` campate costruite
+## su `total`, con `theme` (ponte/porta/…). La scena inoltra qui il segnale
+## `progress_changed` dell'ExercisePlayer via `notify_progress`; la grafica si
+## abbona SOLO a questo, senza conoscere l'ExercisePlayer (gate I-01).
+signal enigma_progress(built: int, total: int, theme: String)
 
 var game_save: GameSaveManager
 var content_manager: ContentManager
@@ -107,6 +113,40 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	_emit_state()
 	return true
 
+# Enigma ambientale: come una missione, ma la sessione costruisce un elemento del
+# mondo (ponte/porta…) mentre si risponde. Conta a tutti gli effetti come missione
+# per il gate dell'apparato; il tema per la resa viaggia nel contesto e nel segnale.
+func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
+	if session_active():
+		return false
+	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
+		feedback.emit("Enigma già risolto.")
+		return false
+	var subject := _subject_for_payload(payload)
+	var session := content_manager.build_enigma(subject, game_save.level(), 4, _due())
+	if Array(session.get("nodes", [])).is_empty():
+		feedback.emit("Banco esercizi non disponibile per %s." % subject)
+		return false
+	if not game_save.spend_energy(EXERCISE_ENERGY_COST):
+		feedback.emit("Energia insufficiente: servono %d energia." % EXERCISE_ENERGY_COST)
+		return false
+	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
+	var theme := str(session.get("theme", "ponte"))
+	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
+	session_requested.emit(session)
+	# Stato iniziale della costruzione (0 campate) così la resa parte da "rotto".
+	enigma_progress.emit(0, int(session.get("stages", session.get("nodes", []).size())), theme)
+	_emit_state()
+	return true
+
+# Inoltro del progresso dall'ExercisePlayer (la scena connette qui
+# `progress_changed`): rilancia `enigma_progress` con il tema solo durante un
+# enigma, ignorando le sessioni normali.
+func notify_progress(built: int, total: int) -> void:
+	if str(active_session_context.get("kind", "")) != "enigma":
+		return
+	enigma_progress.emit(built, total, str(active_session_context.get("theme", "ponte")))
+
 func try_start_final_exam() -> bool:
 	if session_active():
 		return false
@@ -142,14 +182,22 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	progression_manager.record_mission(subject, correct, total, gained, passed)
 	_update_spaced_repetition(subject, exercise_result)
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
-	if str(context.get("kind", "mission")) == "mission":
+	var kind := str(context.get("kind", "mission"))
+	if kind == "mission" or kind == "enigma":
 		var encounter_id := str(context.get("encounterId", ""))
 		if passed and encounter_id != "":
 			var completed: Array = result["completedEncounterIds"]
 			if not completed.has(encounter_id):
 				completed.append(encounter_id)
-			result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + 2
-		feedback.emit("Missione superata: +%d energia · padronanza aggiornata" % gained if passed else "Missione da ripetere: hai ancora margine")
+			result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + (3 if kind == "enigma" else 2)
+		if kind == "enigma":
+			# La costruzione si completa solo se l'enigma è superato; altrimenti
+			# resta alle campate raggiunte e la scena la ripristina alla ripetizione.
+			if passed:
+				enigma_progress.emit(total, total, str(context.get("theme", "ponte")))
+			feedback.emit("Enigma risolto: il %s è ricostruito · +%d energia" % [str(context.get("theme", "ponte")), gained] if passed else "L'enigma non regge ancora: riprova la costruzione")
+		else:
+			feedback.emit("Missione superata: +%d energia · padronanza aggiornata" % gained if passed else "Missione da ripetere: hai ancora margine")
 	else:
 		if passed and progression_manager.repair_and_advance(true):
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)

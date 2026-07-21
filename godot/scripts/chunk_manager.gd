@@ -12,10 +12,12 @@ var generator := OutdoorGenerator.new()
 var loaded: Dictionary = {}
 var player_position := Vector2.ZERO
 var world: Node
+var composition: WorldCompositionData
 
 func configure(seed: String, world_ref: Node = null) -> void:
 	world_seed = seed
 	world = world_ref
+	composition = WorldCompositionGenerator.generate(seed)
 	y_sort_enabled = true
 
 func update_stream(position: Vector2) -> void:
@@ -30,7 +32,8 @@ func update_stream(position: Vector2) -> void:
 			var id := "chunk-%d_%d" % [x, y]
 			required[id] = true
 			if not loaded.has(id):
-				var visual_lod := 0 if x == center_x and y == center_y else 1
+				var cell_distance := absi(x - center_x) + absi(y - center_y)
+				var visual_lod := 0 if cell_distance == 0 else 1 if cell_distance == 1 else 2
 				_load_chunk(generator.generate_chunk(world_seed, x, y), visual_lod)
 	var stale_ids: Array[String] = []
 	for id in loaded.keys():
@@ -44,7 +47,7 @@ func _load_chunk(chunk: Dictionary, visual_lod: int = 0) -> void:
 	node.name = str(chunk["id"])
 	node.position = Vector2(chunk["worldX"], chunk["worldY"])
 	add_child(node)
-	node.configure(chunk, world, visual_lod)
+	node.configure(chunk, world, visual_lod, composition)
 	loaded[chunk["id"]] = {"data": chunk, "node": node}
 
 func _unload_chunk(id: String) -> void:

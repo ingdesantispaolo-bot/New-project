@@ -9,8 +9,14 @@ extends Node2D
 ## Tutti i valori casuali sono precalcolati in setup(): _draw() deve essere
 ## ripetibile senza consumare RNG.
 
-const GROUND_TEXTURE: Texture2D = preload("res://assets/academy-ground.svg")
-const ACADEMY_HERO_TEXTURE: Texture2D = preload("res://assets/radura-accademia-hero-backdrop-v2.png")
+const PAINTERLY_GROUND_SHADER: Shader = preload("res://shaders/painterly_ground.gdshader")
+const PAINTERLY_WATER_SHADER: Shader = preload("res://shaders/painterly_water.gdshader")
+const UNDERPAINT_ACADEMY: Texture2D = preload("res://assets/terrain-underpaint-academy.png")
+const UNDERPAINT_WILD: Texture2D = preload("res://assets/terrain-underpaint-wild.png")
+const UNDERPAINT_MINERAL: Texture2D = preload("res://assets/terrain-underpaint-mineral.png")
+const UNDERPAINT_MAGIC: Texture2D = preload("res://assets/terrain-underpaint-magic.png")
+const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
+const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
 
 var chunk: Dictionary
@@ -26,12 +32,18 @@ var academy_stones: Array[Vector2] = []
 var corridor_points: Array[Vector2] = []
 var anchor_points: Array[Vector2] = []
 var motif_points: Array[Vector2] = []
+var composition: WorldCompositionData
+var painterly_surface: Polygon2D
 
-func setup(data: Dictionary, lod_level: int = 0) -> void:
+func setup(data: Dictionary, lod_level: int = 0, composition_data: WorldCompositionData = null) -> void:
 	chunk = data
 	visual_lod = maxi(0, lod_level)
+	composition = composition_data
 	var decor = RNG.new(str(chunk.get("id", "chunk")) + ":ground")
 	var size := float(chunk.get("size", 896))
+	_build_painterly_surface(size)
+	_build_world_path_ribbons(size)
+	_build_world_water_features(size)
 	var patch: Dictionary = chunk.get("patch", {})
 	var biome := str(chunk.get("biome", "academy"))
 	var tint := _hex_color(int(patch.get("color", 0x173b36))).lerp(_biome_palette_tint(biome), 0.22)
@@ -107,6 +119,278 @@ func setup(data: Dictionary, lod_level: int = 0) -> void:
 		_prepare_academy_composition(decor, size)
 	queue_redraw()
 
+func _build_painterly_surface(size: float) -> void:
+	# Exact edge-to-edge polygons share identical world samples. Overdraw with
+	# different LOD materials would reintroduce a seam, so no cell bleed here.
+	var bleed := 0.0
+	painterly_surface = Polygon2D.new()
+	painterly_surface.name = "WorldSpaceUnderpainting"
+	painterly_surface.z_index = -20
+	painterly_surface.polygon = PackedVector2Array([
+		Vector2(-bleed, -bleed), Vector2(size + bleed, -bleed),
+		Vector2(size + bleed, size + bleed), Vector2(-bleed, size + bleed),
+	])
+	painterly_surface.texture = UNDERPAINT_ACADEMY
+	var texture_size := UNDERPAINT_ACADEMY.get_size()
+	painterly_surface.uv = PackedVector2Array([
+		Vector2(0, 0), Vector2(texture_size.x, 0),
+		texture_size, Vector2(0, texture_size.y),
+	])
+	var material := ShaderMaterial.new()
+	material.shader = PAINTERLY_GROUND_SHADER
+	material.set_shader_parameter("academy_tex", UNDERPAINT_ACADEMY)
+	material.set_shader_parameter("wild_tex", UNDERPAINT_WILD)
+	material.set_shader_parameter("mineral_tex", UNDERPAINT_MINERAL)
+	material.set_shader_parameter("magic_tex", UNDERPAINT_MAGIC)
+	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0))) - Vector2.ONE * bleed
+	var surface_size := size + bleed * 2.0
+	material.set_shader_parameter("surface_world_origin", world_origin)
+	material.set_shader_parameter("surface_world_size", Vector2.ONE * surface_size)
+	material.set_shader_parameter("detail_strength", 1.0)
+	var corners := [
+		world_origin,
+		world_origin + Vector2(surface_size, 0),
+		world_origin + Vector2(0, surface_size),
+		world_origin + Vector2.ONE * surface_size,
+	]
+	var names := ["weights_tl", "weights_tr", "weights_bl", "weights_br"]
+	for i in range(corners.size()):
+		material.set_shader_parameter(names[i], _material_weights(corners[i]))
+	painterly_surface.material = material
+	add_child(painterly_surface)
+
+func _material_weights(world_pos: Vector2) -> Vector4:
+	if composition == null:
+		return _biome_material_weights(str(chunk.get("biome", "academy")))
+	var weights := composition.biome_weights(world_pos)
+	return Vector4(
+		float(weights.get("academy", 0.0)),
+		float(weights.get("wild", 0.0)),
+		float(weights.get("geo", 0.0)) + float(weights.get("ruins", 0.0)),
+		float(weights.get("logic", 0.0)) + float(weights.get("crystal", 0.0)))
+
+func _biome_material_weights(biome: String) -> Vector4:
+	match biome:
+		"wild": return Vector4(0, 1, 0, 0)
+		"geo", "ruins": return Vector4(0, 0, 1, 0)
+		"logic", "crystal": return Vector4(0, 0, 0, 1)
+		_: return Vector4(1, 0, 0, 0)
+
+func _build_world_path_ribbons(size: float) -> void:
+	if composition == null:
+		return
+	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0)))
+	var world_rect := Rect2(world_origin, Vector2.ONE * size).grow(96.0)
+	var layer := Node2D.new()
+	layer.name = "PainterlyPathRibbons"
+	layer.z_index = -5
+	add_child(layer)
+	for path in composition.paths:
+		var source_points: PackedVector2Array = path.get("points", PackedVector2Array())
+		if source_points.size() < 2:
+			continue
+		var width := clampf(float(path.get("width", 64.0)) * 0.50, 25.0, 38.0)
+		if not world_rect.intersects(_points_bounds(source_points).grow(width * 2.0)):
+			continue
+		var curved_world := _catmull_rom_polyline(source_points, 7)
+		var curved := _offset_points(curved_world, -world_origin)
+		var bank := Line2D.new()
+		bank.points = curved
+		bank.width = width + 8.0
+		bank.default_color = Color(0.38, 0.33, 0.17, 0.32)
+		bank.joint_mode = Line2D.LINE_JOINT_ROUND
+		bank.begin_cap_mode = Line2D.LINE_CAP_ROUND
+		bank.end_cap_mode = Line2D.LINE_CAP_ROUND
+		bank.antialiased = true
+		layer.add_child(bank)
+		var soil := Line2D.new()
+		soil.points = curved
+		soil.width = width
+		soil.texture = PATH_EARTH_TEXTURE
+		soil.texture_mode = Line2D.LINE_TEXTURE_TILE
+		soil.default_color = Color(0.66, 0.61, 0.45, 0.76)
+		soil.joint_mode = Line2D.LINE_JOINT_ROUND
+		soil.begin_cap_mode = Line2D.LINE_CAP_ROUND
+		soil.end_cap_mode = Line2D.LINE_CAP_ROUND
+		soil.antialiased = true
+		layer.add_child(soil)
+		var highlight := Line2D.new()
+		highlight.points = curved
+		highlight.width = maxf(2.0, width * 0.07)
+		highlight.default_color = Color(1.0, 0.90, 0.65, 0.12)
+		highlight.antialiased = true
+		layer.add_child(highlight)
+
+func _curved_segment(a: Vector2, b: Vector2, world_origin: Vector2, segment_index: int) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	var delta := b - a
+	var normal := Vector2(-delta.y, delta.x).normalized()
+	var phase := sin((a.x * 0.0067) + (a.y * 0.0049) + float(segment_index) * 1.71)
+	var bend := phase * minf(delta.length() * 0.10, 82.0)
+	for step in range(13):
+		var t := float(step) / 12.0
+		var easing := 4.0 * t * (1.0 - t)
+		points.append(a.lerp(b, t) + normal * bend * easing - world_origin)
+	return points
+
+func _build_world_water_features(size: float) -> void:
+	if composition == null:
+		return
+	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0)))
+	var world_rect := Rect2(world_origin, Vector2.ONE * size)
+	for water in composition.waters:
+		if str(water.get("kind", "pond")) == "stream":
+			_build_stream_feature(water, world_origin, world_rect)
+			continue
+		var center: Vector2 = water["position"]
+		# The center cell owns the full visual. Active-radius streaming keeps that
+		# cell loaded whenever the player can see the feature.
+		if not world_rect.has_point(center):
+			continue
+		var radii: Vector2 = water["radii"]
+		var root := Node2D.new()
+		root.name = "PainterlyWater_%s" % str(water.get("id", "water"))
+		root.position = center - world_origin
+		root.z_index = -4
+		var outer_points := _organic_ellipse_points(radii * 1.12, center, 52)
+		var inner_points := _organic_ellipse_points(radii, center, 52)
+		var bank := Polygon2D.new()
+		bank.polygon = outer_points
+		bank.color = Color(0.25, 0.34, 0.17, 0.96)
+		root.add_child(bank)
+		var shore := Line2D.new()
+		var shore_points := inner_points.duplicate()
+		shore_points.append(inner_points[0])
+		shore.points = shore_points
+		shore.width = 18.0
+		shore.default_color = Color(0.58, 0.59, 0.34, 0.82)
+		shore.joint_mode = Line2D.LINE_JOINT_ROUND
+		shore.antialiased = true
+		root.add_child(shore)
+		var surface := Polygon2D.new()
+		surface.polygon = inner_points
+		surface.texture = WATER_POND_TEXTURE
+		var water_texture_size := WATER_POND_TEXTURE.get_size()
+		var water_uv := PackedVector2Array()
+		for point in inner_points:
+			var normalized := (point + radii) / (radii * 2.0)
+			water_uv.append(normalized * water_texture_size)
+		surface.uv = water_uv
+		var material := ShaderMaterial.new()
+		material.shader = PAINTERLY_WATER_SHADER
+		material.set_shader_parameter("water_tex", WATER_POND_TEXTURE)
+		material.set_shader_parameter("surface_world_origin", center - radii)
+		material.set_shader_parameter("surface_world_size", radii * 2.0)
+		surface.material = material
+		root.add_child(surface)
+		add_child(root)
+
+func _build_stream_feature(water: Dictionary, world_origin: Vector2, world_rect: Rect2) -> void:
+	var source_points: PackedVector2Array = water.get("points", PackedVector2Array())
+	if source_points.size() < 2:
+		return
+	var width := float(water.get("width", 200.0))
+	var source_bounds := _points_bounds(source_points).grow(width)
+	if not world_rect.grow(96.0).intersects(source_bounds):
+		return
+	# Ogni chunk visibile che interseca il corso ricostruisce la stessa sagoma
+	# globale. Le copie coincidono al pixel, quindi lo streaming non apre tagli.
+	var smooth_centerline := _catmull_rom_polyline(source_points, 8)
+	var inner_world := _stream_ribbon_points(smooth_centerline, width * 0.5)
+	var outer_world := _stream_ribbon_points(smooth_centerline, width * 0.5 + 28.0)
+	var root := Node2D.new()
+	root.name = "PainterlyStream_%s" % str(water.get("id", "stream"))
+	root.z_index = -4
+	var outer_local := _offset_points(outer_world, -world_origin)
+	var inner_local := _offset_points(inner_world, -world_origin)
+	var bank := Polygon2D.new()
+	bank.polygon = outer_local
+	bank.color = Color(0.20, 0.29, 0.14, 0.98)
+	root.add_child(bank)
+	var shore := Line2D.new()
+	var shore_points := inner_local.duplicate()
+	shore_points.append(inner_local[0])
+	shore.points = shore_points
+	shore.width = 17.0
+	shore.default_color = Color(0.56, 0.59, 0.34, 0.82)
+	shore.joint_mode = Line2D.LINE_JOINT_ROUND
+	shore.antialiased = true
+	root.add_child(shore)
+	var surface := Polygon2D.new()
+	surface.polygon = inner_local
+	surface.texture = WATER_POND_TEXTURE
+	var bounds := _points_bounds(inner_world)
+	var texture_size := WATER_POND_TEXTURE.get_size()
+	var water_uv := PackedVector2Array()
+	for point in inner_world:
+		water_uv.append((point - bounds.position) / bounds.size * texture_size)
+	surface.uv = water_uv
+	var material := ShaderMaterial.new()
+	material.shader = PAINTERLY_WATER_SHADER
+	material.set_shader_parameter("water_tex", WATER_POND_TEXTURE)
+	material.set_shader_parameter("surface_world_origin", bounds.position)
+	material.set_shader_parameter("surface_world_size", bounds.size)
+	material.set_shader_parameter("edge_glow_strength", 0.035)
+	surface.material = material
+	root.add_child(surface)
+	add_child(root)
+
+func _catmull_rom_polyline(source: PackedVector2Array, steps_per_segment: int) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	for index in range(source.size() - 1):
+		var p0 := source[maxi(index - 1, 0)]
+		var p1 := source[index]
+		var p2 := source[index + 1]
+		var p3 := source[mini(index + 2, source.size() - 1)]
+		for step in range(steps_per_segment):
+			var t := float(step) / float(steps_per_segment)
+			var t2 := t * t
+			var t3 := t2 * t
+			result.append(0.5 * ((2.0 * p1) + (-p0 + p2) * t + (2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3) * t2 + (-p0 + 3.0 * p1 - 3.0 * p2 + p3) * t3))
+	result.append(source[source.size() - 1])
+	return result
+
+func _stream_ribbon_points(centerline: PackedVector2Array, half_width: float) -> PackedVector2Array:
+	var left := PackedVector2Array()
+	var right := PackedVector2Array()
+	for index in range(centerline.size()):
+		var previous := centerline[maxi(index - 1, 0)]
+		var following := centerline[mini(index + 1, centerline.size() - 1)]
+		var tangent := (following - previous).normalized()
+		var normal := Vector2(-tangent.y, tangent.x)
+		var undulation := 1.0 + sin(float(index) * 0.73 + centerline[index].x * 0.0031) * 0.055
+		left.append(centerline[index] + normal * half_width * undulation)
+		right.append(centerline[index] - normal * half_width * (2.0 - undulation))
+	var polygon := left
+	for index in range(right.size() - 1, -1, -1):
+		polygon.append(right[index])
+	return polygon
+
+func _offset_points(points: PackedVector2Array, offset: Vector2) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	for point in points:
+		result.append(point + offset)
+	return result
+
+func _points_bounds(points: PackedVector2Array) -> Rect2:
+	if points.is_empty():
+		return Rect2()
+	var minimum := points[0]
+	var maximum := points[0]
+	for point in points:
+		minimum = Vector2(minf(minimum.x, point.x), minf(minimum.y, point.y))
+		maximum = Vector2(maxf(maximum.x, point.x), maxf(maximum.y, point.y))
+	return Rect2(minimum, Vector2(maxf(1.0, maximum.x - minimum.x), maxf(1.0, maximum.y - minimum.y)))
+
+func _organic_ellipse_points(radii: Vector2, seed_point: Vector2, segments: int) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	var phase := seed_point.x * 0.0071 + seed_point.y * 0.0043
+	for index in range(segments):
+		var angle := TAU * float(index) / float(segments)
+		var wobble := 1.0 + sin(angle * 5.0 + phase) * 0.035 + sin(angle * 9.0 - phase) * 0.018
+		points.append(Vector2(cos(angle) * radii.x, sin(angle) * radii.y) * wobble)
+	return points
+
 func _prepare_composition_masks(size: float) -> void:
 	corridor_points.clear()
 	anchor_points.clear()
@@ -161,43 +445,37 @@ func _is_composition_clear(pos: Vector2, radius: float = 0.0) -> bool:
 
 func _draw() -> void:
 	var size := float(chunk.get("size", 896))
-	# Bleed oltre il bordo tecnico: i ground adiacenti si coprono leggermente
-	# e non lasciano fessure o righe di separazione a schermo.
-	var bleed := 18.0
-	var ground_rect := Rect2(Vector2(-bleed, -bleed), Vector2(size + bleed * 2.0, size + bleed * 2.0))
-	# Underpainting del vertical slice: gli oggetti interattivi e il player
-	# restano nodi separati e continuano a seguire il mondo procedurale.
-	draw_texture_rect(GROUND_TEXTURE, ground_rect, true)
-
 	var patch: Dictionary = chunk.get("patch", {})
 	var biome := str(chunk.get("biome", "academy"))
 	var tint := _hex_color(int(patch.get("color", 0x173b36))).lerp(_biome_palette_tint(biome), 0.22)
 	var accent := _hex_color(int(patch.get("accent", 0x6be7d6))).lerp(_biome_palette_accent(biome), 0.18)
-	draw_rect(Rect2(Vector2(-bleed, -bleed), Vector2(size + bleed * 2.0, size + bleed * 2.0)), Color(tint, 0.28))
-	if academy_focus:
+	# Tinta quasi impercettibile: un overlay pieno al 28% rendeva visibili i
+	# rettangoli tecnici dei chunk sui biomi scuri. La palette resta leggibile
+	# ma il bordo non viene più percepito come una griglia.
+	if composition != null:
+		_draw_composition_surface(size)
+	if academy_focus and composition == null:
 		_draw_academy_composition(size, tint)
-		# Un velo leggermente trasparente lascia respirare il terreno ai bordi:
-		# il fondale hero non deve sembrare una texture rettangolare incollata.
-		draw_texture_rect(ACADEMY_HERO_TEXTURE, ground_rect, false, Color(1.0, 1.0, 1.0, 0.86))
-		_draw_academy_focus_transition(size)
-	elif biome == "academy":
+	elif biome == "academy" and composition == null:
 		# I chunk accanto alla Radura ricevono la stessa temperatura cromatica
 		# del vertical slice. In questo modo la camera può attraversare il bordo
 		# senza il salto netto fra hero dorato e terreno blu-verde del prototipo.
 		_draw_academy_peripheral_composition(size, tint, accent)
-	else:
+	elif composition == null:
 		_draw_biome_motif(size, tint, accent)
-	if not academy_focus and _is_academy_neighbor():
+	if composition == null and not academy_focus and _is_academy_neighbor():
 		_draw_academy_neighbor_transition(size, accent)
 
-	for blotch in blotches:
-		if _is_composition_clear(blotch["pos"], blotch["radius"] * 0.35):
-			continue
-		draw_circle(blotch["pos"], blotch["radius"], Color(tint.darkened(0.3), blotch["alpha"]))
+	if composition == null:
+		for blotch in blotches:
+			if _is_composition_clear(blotch["pos"], blotch["radius"] * 0.35):
+				continue
+			draw_circle(blotch["pos"], blotch["radius"], Color(tint.darkened(0.3), blotch["alpha"]))
 
 	# I punti di percorso restano nel contratto procedurale, ma non disegniamo
 	# più linee fino ai bordi del chunk: erano percepite come una griglia visiva.
-	_draw_meadow_clearing(size, tint)
+	if composition == null:
+		_draw_meadow_clearing(size, tint)
 
 	for speckle in speckles:
 		if _is_composition_clear(speckle["pos"], 2.0):
@@ -224,10 +502,31 @@ func _draw() -> void:
 		draw_circle(blossom_pos + Vector2(blossom_radius * 1.25, -blossom_radius * 0.55), blossom_radius * 0.72, blossom_color)
 		draw_circle(blossom_pos + Vector2(-blossom_radius * 1.1, -blossom_radius * 0.35), blossom_radius * 0.68, blossom_color)
 
+func _draw_composition_surface(_size: float) -> void:
+	# Surface, paths and water are child materials in absolute world space.
+	# Keeping this hook makes legacy calls harmless while removing circle splats.
+	pass
+
+func _draw_owned_global_features(world_rect: Rect2, world_origin: Vector2) -> void:
+	# Ogni feature globale ha un solo chunk proprietario e può debordare nel
+	# vicino: niente duplicazione alpha e nessuna giunzione sul confine.
+	for water in composition.waters:
+		var center: Vector2 = water["position"]
+		var radii: Vector2 = water["radii"]
+		var water_bounds := Rect2(center - radii * 1.18, radii * 2.36)
+		if not world_rect.grow(32.0).intersects(water_bounds):
+			continue
+		var local := center - world_origin
+		draw_set_transform(local, -0.08, Vector2(radii.x / 120.0, radii.y / 120.0))
+		draw_circle(Vector2.ZERO, 132.0, Color(0.24, 0.31, 0.20, 0.30))
+		draw_circle(Vector2.ZERO, 120.0, Color(0.13, 0.55, 0.58, 0.88))
+		draw_circle(Vector2(-22, -24), 78.0, Color(0.45, 0.85, 0.77, 0.30))
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
 func _draw_academy_peripheral_composition(size: float, tint: Color, accent: Color) -> void:
 	# Fascia di raccordo per i chunk non hero: colori caldi, radure morbide e
 	# piccoli gruppi naturali. È solo pittura sul terreno, senza collisioni.
-	draw_rect(Rect2(Vector2(-18, -18), Vector2(size + 36.0, size + 36.0)), Color(0.48, 0.54, 0.25, 0.17))
+	draw_rect(Rect2(Vector2(-18, -18), Vector2(size + 36.0, size + 36.0)), Color(0.48, 0.54, 0.25, 0.08))
 	var warm := Color(0.78, 0.62, 0.32, 0.16)
 	for point in [
 		Vector2(size * 0.12, size * 0.18),

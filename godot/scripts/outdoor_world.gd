@@ -45,6 +45,12 @@ var reward_cost := 0
 var reward_name := ""
 var gameplay: OutdoorGameplay
 var runtime: Dictionary = {}
+# Alias di compatibilità per audit/scene legacy; la proprietà resta di
+# OutdoorGameplay e non viene duplicata.
+var game_save: GameSaveManager
+var progression_manager: ProgressionManager
+var content_manager: ContentManager
+var gain_popup_pool: Array[Label] = []
 
 func _ready() -> void:
 	request = bridge.load_request()
@@ -55,7 +61,11 @@ func _ready() -> void:
 	gameplay.runtime_state_changed.connect(_on_runtime_state)
 	gameplay.session_requested.connect(_on_gameplay_session_requested)
 	gameplay.feedback.connect(_set_feedback)
+	gameplay.enigma_progress.connect(_on_enigma_progress)
 	gameplay.setup(request, result)
+	game_save = gameplay.game_save
+	progression_manager = gameplay.progression_manager
+	content_manager = gameplay.content_manager
 	world_layer = Node2D.new()
 	world_layer.name = "WorldLayer"
 	world_layer.y_sort_enabled = true
@@ -72,6 +82,7 @@ func _ready() -> void:
 	_apply_resume()
 	_create_portal()
 	_create_apparatus_terminal()
+	_create_enigma_poi()
 	_create_atmosphere()
 	_create_hud()
 	_create_exercise_player()
@@ -141,6 +152,7 @@ render_mode unshaded;
 
 uniform float daylight = 0.75;
 uniform float clock = 0.0;
+uniform vec3 biome_tint = vec3(0.42, 0.90, 0.84);
 
 void fragment() {
     vec2 uv = UV;
@@ -154,6 +166,7 @@ void fragment() {
     vec3 night_tint = vec3(0.08, 0.13, 0.28);
     vec3 dawn_tint = vec3(1.0, 0.58, 0.28);
     vec3 tint = mix(night_tint, dawn_tint, dawn * 0.72);
+    tint = mix(tint, biome_tint, 0.16);
     float alpha = (night * 0.095) + (dawn * 0.035) + (edge * 0.075) + mist;
     COLOR = vec4(tint, clamp(alpha, 0.0, 0.22));
 }
@@ -180,6 +193,15 @@ func _update_biome_hud() -> void:
 	if id == current_biome_chunk or not chunks.loaded.has(id):
 		return
 	current_biome_chunk = id
+	if chunks.composition != null:
+		var biome := chunks.composition.dominant_biome(player.position)
+		var profile := BiomeProfile.get_profile(biome)
+		biome_label.text = str(profile["label"])
+		var accent: Color = chunks.composition.blended_accent(player.position)
+		biome_label.add_theme_color_override("font_color", accent)
+		if is_instance_valid(atmosphere_material):
+			atmosphere_material.set_shader_parameter("biome_tint", Vector3(accent.r, accent.g, accent.b))
+		return
 	var data: Dictionary = chunks.loaded[id]["data"]
 	var patch: Dictionary = data.get("patch", {})
 	biome_label.text = str(patch.get("label", ""))
@@ -275,11 +297,35 @@ func _create_apparatus_terminal() -> void:
 	apparatus_terminal.body_entered.connect(func(body): on_interactable_entered(apparatus_terminal, body))
 	apparatus_terminal.body_exited.connect(func(body): on_interactable_exited(apparatus_terminal, body))
 
+func _create_enigma_poi() -> void:
+	# Enigma ambientale (prototipo matematica → tema "ponte"): POI gameplay-only.
+	# Come per il terminale apparato, il marker e la STRUTTURA che si costruisce
+	# (rotto→ponte) restano a Codex, che si abbona a `enigma_progress` e attacca il
+	# suo visual con `set_stage(built, total)` a questo nodo (gruppo "enigma_poi").
+	var enigma := Area2D.new()
+	enigma.name = "PonteEnigma"
+	enigma.position = PORTAL_POSITION + Vector2(-148, 120)
+	enigma.add_to_group("enigma_poi")
+	enigma.set_meta("kind", "enigma")
+	enigma.set_meta("id", "enigma-ponte-primi")
+	enigma.set_meta("payload", {"subject": "matematica", "label": "il Ponte dei Primi"})
+	var shape := CollisionShape2D.new()
+	var circle := CircleShape2D.new()
+	circle.radius = INTERACTION_DISTANCE
+	shape.shape = circle
+	enigma.add_child(shape)
+	world_layer.add_child(enigma)
+	enigma.body_entered.connect(func(body): on_interactable_entered(enigma, body))
+	enigma.body_exited.connect(func(body): on_interactable_exited(enigma, body))
+
 func _create_exercise_player() -> void:
 	exercise_player = EXERCISE_PLAYER_SCRIPT.new()
 	exercise_player.name = "ExercisePlayer"
 	exercise_player.visible = false
 	exercise_player.session_finished.connect(_on_exercise_finished)
+	# La costruzione dell'enigma avanza in tempo reale: inoltro il progresso alla
+	# logica, che rilancia `enigma_progress` (con tema) per la resa di Codex.
+	exercise_player.progress_changed.connect(gameplay.notify_progress)
 	ui_layer.add_child(exercise_player)
 
 func _panel_style() -> StyleBoxFlat:
@@ -403,7 +449,7 @@ func _create_economy_panel(root: Control) -> void:
 	fragment_label.add_theme_font_size_override("font_size", 14)
 	box.add_child(fragment_label)
 	var economy_hint := Label.new()
-	economy_hint.text = "Tesori: solo frammenti Â· Esercizio: -%d energia" % EXERCISE_ENERGY_COST
+	economy_hint.text = "Tesori: solo frammenti · Esercizio: -%d energia" % EXERCISE_ENERGY_COST
 	economy_hint.add_theme_color_override("font_color", Color("9fc4bb"))
 	economy_hint.add_theme_font_size_override("font_size", 11)
 	economy_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -448,7 +494,7 @@ func _refresh_economy() -> void:
 func _spawn_gain_popup(text: String, color: Color) -> void:
 	if not is_instance_valid(player):
 		return
-	var label := Label.new()
+	var label := _acquire_gain_popup()
 	label.text = text
 	label.add_theme_color_override("font_color", color)
 	label.add_theme_font_size_override("font_size", 18)
@@ -456,13 +502,31 @@ func _spawn_gain_popup(text: String, color: Color) -> void:
 	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
 	label.z_index = 70
 	label.position = player.position + Vector2(-24, -50)
-	world_layer.add_child(label)
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(label, "position:y", label.position.y - 44.0, 0.9)
 	tween.tween_property(label, "modulate:a", 0.0, 0.9)
 	tween.set_parallel(false)
-	tween.tween_callback(label.queue_free)
+	tween.tween_callback(_release_gain_popup.bind(label))
+
+func _acquire_gain_popup() -> Label:
+	for label in gain_popup_pool:
+		if is_instance_valid(label) and not label.visible:
+			label.visible = true
+			label.modulate = Color.WHITE
+			return label
+	var label := Label.new()
+	label.visible = true
+	gain_popup_pool.append(label)
+	world_layer.add_child(label)
+	return label
+
+func _release_gain_popup(label: Label) -> void:
+	if not is_instance_valid(label):
+		return
+	label.visible = false
+	label.text = ""
+	label.modulate = Color.WHITE
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:
@@ -532,6 +596,12 @@ func _refresh_prompt() -> void:
 		_set_feedback("Premi E per attraversare il portale e tornare a Phaser")
 	elif kind == "apparatus":
 		_set_feedback(gameplay.apparatus_prompt())
+	elif kind == "enigma":
+		var payload: Dictionary = target.get_meta("payload")
+		if result["completedEncounterIds"].has(id):
+			_set_feedback("%s è già ricostruito" % str(payload.get("label", "L'enigma")).capitalize())
+		else:
+			_set_feedback("Premi E per ricostruire %s con gli esercizi" % str(payload.get("label", "il ponte")))
 	elif kind == "treasure":
 		if result["collectedTreasureIds"].has(id):
 			_set_feedback("Tesoro già raccolto")
@@ -558,6 +628,13 @@ func _interact() -> void:
 		return
 	if kind == "apparatus":
 		gameplay.try_start_final_exam()
+		return
+	if kind == "enigma":
+		var enigma_payload: Dictionary = target.get_meta("payload")
+		if result["completedEncounterIds"].has(id):
+			_set_feedback("%s è già ricostruito." % str(enigma_payload.get("label", "L'enigma")).capitalize())
+			return
+		gameplay.try_start_enigma(enigma_payload, id)
 		return
 	if kind == "treasure":
 		var payload: Dictionary = target.get_meta("payload")
@@ -597,6 +674,22 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 		gameplay.resolve_session(exercise_result)
 	_refresh_economy()
 	_refresh_prompt()
+
+# Progresso dell'enigma: feedback testuale + popup a ogni campata (gameplay-only).
+# Se Codex ha attaccato un visual della struttura (metodo `set_stage`) ai nodi del
+# gruppo "enigma_poi", lo aggiorno; altrimenti resta il solo riscontro testuale.
+func _on_enigma_progress(built: int, total: int, theme: String) -> void:
+	for node in get_tree().get_nodes_in_group("enigma_poi"):
+		if node.has_method("set_stage"):
+			node.set_stage(built, total)
+	if built <= 0:
+		_set_feedback("Enigma avviato: costruisci %s rispondendo (%d campate)" % [theme, total])
+		return
+	_set_feedback("%s: %d/%d campate costruite" % [theme.capitalize(), built, total])
+	_spawn_gain_popup("+1 campata", Color("8ff6c0"))
+
+func start_final_exam() -> bool:
+	return is_instance_valid(gameplay) and gameplay.try_start_final_exam()
 
 func _leave_world() -> void:
 	if is_instance_valid(gameplay):

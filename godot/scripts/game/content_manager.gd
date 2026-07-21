@@ -85,6 +85,38 @@ func _drain_into(chosen: Array, pool: Array, node_count: int, generator: RandomN
 			item["review"] = true
 		chosen.append(item)
 
+# Tema visivo dell'enigma per materia: la logica è identica, cambia solo la
+# "costruzione" che Codex rende (ponte, cristalli, porta…). Default: "ponte".
+const ENIGMA_THEMES := {
+	"matematica": "ponte",
+	"coding": "circuito",
+	"musica": "cristalli",
+	"latino": "porta",
+	"fisica": "reattore",
+	"inglese": "porta",
+	"italiano": "porta",
+	"elettronica": "circuito",
+}
+
+static func enigma_theme(subject: String) -> String:
+	return str(ENIGMA_THEMES.get(subject, "ponte"))
+
+## Enigma ambientale: una missione la cui risposta corretta costruisce, campata
+## per campata, un elemento del mondo (il ponte, la porta…). Riusa la selezione
+## adattiva di `build_mission`; ogni esercizio corrisponde a una "campata"
+## (`stages` = node_count), così il progresso misura QUANTI hai capito, non la
+## grandezza dei numeri. Contratto in più rispetto alla missione: `theme` e
+## `stages` per la resa (vedi OutdoorGameplay.enigma_progress, gate I-01).
+func build_enigma(subject: String, level: int, node_count: int = 4, review_due: Dictionary = {}, rng: RandomNumberGenerator = null) -> Dictionary:
+	var session := build_mission(subject, level, node_count, review_due, rng)
+	session["sessionId"] = "enigma-%s-lvl%d" % [subject, level]
+	session["kind"] = "enigma"
+	session["theme"] = enigma_theme(subject)
+	session["stages"] = int(session.get("nodes", []).size())
+	session["shields"] = 3
+	session["rewards"] = {"energyPerCorrect": 10, "onComplete": {"energy": 35, "fragments": 3}}
+	return session
+
 ## Esame cumulativo dell'apparato corrente. In questa prima slice riusa il
 ## banco matematico della missione ma cambia il contratto: kind=final_exam e
 ## ricompensa di riparazione gestita da ProgressionManager.

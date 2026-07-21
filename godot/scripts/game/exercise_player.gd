@@ -9,6 +9,11 @@ extends Control
 ## esauriti la sessione fallisce e va ripetuta (nessun progresso cancellato).
 
 signal session_finished(result: Dictionary)
+## Emesso dopo ogni risposta: `built` = risposte corrette finora (avanza solo se
+## la risposta era giusta), `total` = numero di esercizi. Serve all'enigma
+## ambientale per far crescere la costruzione nel mondo (una campata per risposta
+## corretta). Le sessioni normali possono ignorarlo.
+signal progress_changed(built: int, total: int)
 
 var session: Dictionary
 var _nodes: Array = []
@@ -175,6 +180,9 @@ func _answer(given: String) -> void:
 			_missed.append(topic)
 		_feedback.add_theme_color_override("font_color", Color("ffb3ba"))
 		_feedback.text = "Non corretto. %s" % str(item.get("explanation", ""))
+	# La costruzione avanza di una campata per ogni risposta corretta (built =
+	# _correct); su errore resta ferma, senza mai regredire.
+	progress_changed.emit(_correct, _nodes.size())
 	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
 	_next_button.visible = true
 

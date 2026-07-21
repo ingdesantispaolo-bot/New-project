@@ -22,6 +22,18 @@ const ACADEMY_NATURAL_ATLAS: Texture2D = preload("res://assets/radura-academia-n
 const WILD_NATURAL_ATLAS: Texture2D = preload("res://assets/bosco-variabile-natural-atlas-v2.png")
 const GEO_NATURAL_ATLAS: Texture2D = preload("res://assets/dorsale-geografica-natural-atlas-v2.png")
 const LOGIC_NATURAL_ATLAS: Texture2D = preload("res://assets/cratere-logico-natural-atlas-v2.png")
+const NATURAL_DETAIL_ATLAS: Texture2D = preload("res://assets/natural-detail-atlas-v1.png")
+
+const NATURAL_DETAIL_CELLS := {
+	"reeds": Vector2i(0, 0), "cattails": Vector2i(1, 0),
+	"lilies": Vector2i(2, 0), "water_flowers": Vector2i(3, 0),
+	"fern": Vector2i(0, 1), "grass": Vector2i(1, 1),
+	"wildflowers": Vector2i(2, 1), "leaves": Vector2i(3, 1),
+	"pebble_bank": Vector2i(0, 2), "driftwood": Vector2i(1, 2),
+	"stump": Vector2i(2, 2), "stepping_stones": Vector2i(3, 2),
+	"mushrooms": Vector2i(0, 3), "crystal_moss": Vector2i(1, 3),
+	"glow_flowers": Vector2i(2, 3), "rune_pebbles": Vector2i(3, 3),
+}
 
 const ENCOUNTER_COLORS := {
 	"times": Color("f6c85f"),
@@ -90,6 +102,23 @@ static func geo_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 
 
 static func logic_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
 	return natural_atlas_sprite(LOGIC_NATURAL_ATLAS, cell, target_size, y)
+
+static func natural_detail_sprite(kind: String, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	if not NATURAL_DETAIL_CELLS.has(kind):
+		return null
+	var cell: Vector2i = NATURAL_DETAIL_CELLS[kind]
+	var atlas := AtlasTexture.new()
+	atlas.atlas = NATURAL_DETAIL_ATLAS
+	# L'atlante AI e' intenzionalmente indipendente dalla risoluzione: il crop
+	# deriva dai quattro quadranti, evitando costanti fragili nei futuri refresh.
+	var cell_size := NATURAL_DETAIL_ATLAS.get_size() / 4.0
+	atlas.region = Rect2(Vector2(cell) * cell_size, cell_size)
+	var sprite := Sprite2D.new()
+	sprite.texture = atlas
+	sprite.position.y = y
+	sprite.scale = target_size / cell_size
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	return sprite
 
 # ---------------------------------------------------------------------------
 # Risorse condivise
@@ -214,6 +243,9 @@ static func build_obstacle(kind: String, radius: float, rgb: int, variant: float
 			academy_cell = Vector2i(2, 0) if variant < 0.38 else (Vector2i(0, 1) if variant < 0.76 else Vector2i(3, 2))
 		elif kind == "rock": academy_cell = Vector2i(1, 1)
 		elif kind == "mushroom": academy_cell = Vector2i(2, 1)
+		elif kind == "pillar": academy_cell = Vector2i(3, 1)
+		elif kind == "ruin": academy_cell = Vector2i(1, 2)
+		elif kind == "crystal": academy_cell = Vector2i(1, 1)
 		if academy_cell.x >= 0:
 			var scale_factor := 1.85 if academy_cell == Vector2i(0, 0) else (1.52 if academy_cell == Vector2i(1, 0) else 1.78)
 			var target := Vector2(radius * scale_factor, radius * scale_factor)
@@ -227,6 +259,10 @@ static func build_obstacle(kind: String, radius: float, rgb: int, variant: float
 		if kind == "tree": wild_cell = Vector2i(0, 0)
 		elif kind == "bush": wild_cell = Vector2i(3, 0)
 		elif kind == "mushroom": wild_cell = Vector2i(0, 1)
+		elif kind == "rock": wild_cell = Vector2i(3, 2) if variant > 0.46 else Vector2i(0, 2)
+		elif kind == "pillar": wild_cell = Vector2i(0, 2)
+		elif kind == "ruin": wild_cell = Vector2i(3, 1)
+		elif kind == "crystal": wild_cell = Vector2i(1, 2)
 		if wild_cell.x >= 0:
 			var wild_target := Vector2(radius * 1.9, radius * 1.9)
 			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
@@ -236,6 +272,10 @@ static func build_obstacle(kind: String, radius: float, rgb: int, variant: float
 		var geo_cell := Vector2i(-1, -1)
 		if kind == "rock": geo_cell = Vector2i(0, 2)
 		elif kind == "bush": geo_cell = Vector2i(2, 2)
+		elif kind == "pillar": geo_cell = Vector2i(2, 1)
+		elif kind == "crystal": geo_cell = Vector2i(1, 2)
+		elif kind == "mushroom": geo_cell = Vector2i(0, 1)
+		elif kind == "tree": geo_cell = Vector2i(2, 2)
 		if geo_cell.x >= 0:
 			var geo_target := Vector2(radius * 1.9, radius * 1.75)
 			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
@@ -246,6 +286,10 @@ static func build_obstacle(kind: String, radius: float, rgb: int, variant: float
 		if kind == "crystal": logic_cell = Vector2i(0, 0)
 		elif kind == "pillar": logic_cell = Vector2i(2, 0)
 		elif kind == "rock": logic_cell = Vector2i(3, 2)
+		elif kind == "tree": logic_cell = Vector2i(2, 0)
+		elif kind == "bush": logic_cell = Vector2i(3, 0)
+		elif kind == "mushroom": logic_cell = Vector2i(0, 2)
+		elif kind == "ruin": logic_cell = Vector2i(2, 1)
 		if logic_cell.x >= 0:
 			var logic_target := Vector2(radius * 1.85, radius * 1.8)
 			root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))

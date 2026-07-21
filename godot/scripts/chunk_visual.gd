@@ -17,14 +17,18 @@ const RNG := preload("res://scripts/deterministic_rng.gd")
 var chunk: Dictionary
 var world: Node
 var visual_lod := 0
+var composition: WorldCompositionData
 
-func configure(data: Dictionary, world_ref: Node, lod_level: int = 0) -> void:
+func configure(data: Dictionary, world_ref: Node, lod_level: int = 0, composition_data: WorldCompositionData = null) -> void:
 	chunk = data
 	world = world_ref
 	visual_lod = maxi(0, lod_level)
+	composition = composition_data
 	y_sort_enabled = true
 	var decor = RNG.new(str(chunk.get("id", "chunk")) + ":decor")
 	_build_ground()
+	_build_global_details()
+	_build_global_assemblies()
 	if visual_lod == 0:
 		_build_academy_set_dressing()
 	_build_obstacles(decor)
@@ -32,6 +36,113 @@ func configure(data: Dictionary, world_ref: Node, lod_level: int = 0) -> void:
 	_build_landmarks()
 	_build_treasures()
 	_build_encounters()
+
+func _build_global_assemblies() -> void:
+	if composition == null:
+		return
+	var rect := Rect2(Vector2(float(chunk["worldX"]), float(chunk["worldY"])), Vector2(float(chunk["size"]), float(chunk["size"])))
+	var points := BiomeAssemblySpawner.points_for_rect(composition, rect, visual_lod)
+	var layer := Node2D.new()
+	layer.name = "BiomeAssemblies"
+	layer.z_index = -1
+	layer.y_sort_enabled = true
+	add_child(layer)
+	for point in points:
+		var biome := str(point["biome"])
+		var root := Node2D.new()
+		root.position = point["position"] - Vector2(float(chunk["worldX"]), float(chunk["worldY"]))
+		root.scale = Vector2.ONE * float(point["scale"])
+		var variant := float(point["variant"])
+		var spread := float(point.get("spread", 58.0))
+		var archetype := int(point.get("archetype", 0))
+		var phase := float(point.get("phase", 0.0))
+		var main_kind := _assembly_main_kind(biome, archetype)
+		var main_radius := 54.0 if main_kind == "tree" else 42.0
+		root.add_child(OutdoorVisualFactory.build_obstacle(main_kind, main_radius, 0x426f4a, variant, biome))
+		var offsets := _assembly_offsets(archetype, spread)
+		for index in range(offsets.size()):
+			var offset: Vector2 = Vector2(offsets[index]).rotated(phase)
+			var child_kind := _assembly_child_kind(biome, archetype, index)
+			var child_radius := 19.0 + float(index % 3) * 3.0
+			var child := OutdoorVisualFactory.build_obstacle(child_kind, child_radius, 0x526b55, fmod(variant + offset.x * 0.013 + float(index) * 0.17, 1.0), biome)
+			child.position = offset
+			child.scale = Vector2.ONE * (0.78 + float(index % 2) * 0.12)
+			root.add_child(child)
+		var accent_kind := _assembly_accent_kind(biome, archetype)
+		if not accent_kind.is_empty():
+			var accent := OutdoorVisualFactory.natural_detail_sprite(accent_kind, Vector2(76, 62), 0.0)
+			if accent != null:
+				accent.position = Vector2(spread * 0.36, 38.0).rotated(phase)
+				root.add_child(accent)
+		layer.add_child(root)
+
+func _build_global_details() -> void:
+	if composition == null:
+		return
+	var world_origin := Vector2(float(chunk["worldX"]), float(chunk["worldY"]))
+	var rect := Rect2(world_origin, Vector2(float(chunk["size"]), float(chunk["size"])))
+	var layer := Node2D.new()
+	layer.name = "HabitatDetails"
+	layer.z_index = -2
+	layer.y_sort_enabled = true
+	add_child(layer)
+	for point in BiomeDetailSpawner.points_for_rect(composition, rect, visual_lod):
+		var kind := str(point["kind"])
+		var size := _detail_size(kind) * float(point.get("scale", 1.0))
+		var sprite := OutdoorVisualFactory.natural_detail_sprite(kind, size, 0.0)
+		if sprite == null:
+			continue
+		sprite.position = point["position"] - world_origin
+		sprite.scale.x *= float(point.get("flip", 1.0))
+		if bool(point.get("water", false)):
+			sprite.modulate = Color(0.92, 1.0, 0.96, 0.94)
+		layer.add_child(sprite)
+
+func _detail_size(kind: String) -> Vector2:
+	match kind:
+		"reeds": return Vector2(54, 60)
+		"cattails": return Vector2(58, 72)
+		"lilies", "water_flowers": return Vector2(66, 48)
+		"pebble_bank", "stepping_stones": return Vector2(72, 48)
+		"driftwood", "stump": return Vector2(78, 60)
+		"mushrooms", "crystal_moss", "glow_flowers": return Vector2(66, 64)
+		_: return Vector2(58, 52)
+
+func _assembly_offsets(archetype: int, spread: float) -> Array:
+	match archetype:
+		1:
+			return [Vector2(-spread * 1.05, 4), Vector2(-spread * 0.42, 28), Vector2(spread * 0.30, 35), Vector2(spread * 0.92, 16)]
+		2:
+			return [Vector2(-spread * 0.82, 30), Vector2(-spread * 0.18, 45), Vector2(spread * 0.56, 38), Vector2(spread * 0.92, 5)]
+		3:
+			return [Vector2(-spread * 0.92, 12), Vector2(spread * 0.76, 25), Vector2(spread * 0.12, 50)]
+		_:
+			return [Vector2(-spread, 12), Vector2(spread * 0.78, 17), Vector2(-spread * 0.42, 31), Vector2(spread * 0.32, 35), Vector2(spread * 0.08, 48)]
+
+func _assembly_main_kind(biome: String, archetype: int) -> String:
+	if biome in ["academy", "wild"]:
+		return "bush" if archetype == 1 else "mushroom" if biome == "wild" and archetype == 2 else "tree"
+	if biome in ["geo", "ruins"]:
+		return "crystal" if archetype == 3 else "rock"
+	return "crystal"
+
+func _assembly_child_kind(biome: String, archetype: int, index: int) -> String:
+	if biome in ["academy", "wild"]:
+		if biome == "wild" and (archetype == 2 or index == 3):
+			return "mushroom"
+		return "flower" if archetype == 1 and index % 2 == 0 else "bush"
+	if biome in ["geo", "ruins"]:
+		return "crystal" if archetype == 3 and index == 0 else "rock"
+	return "crystal" if index % 2 == 0 else "rock"
+
+func _assembly_accent_kind(biome: String, archetype: int) -> String:
+	if biome == "academy":
+		return ["grass", "wildflowers", "stump", "leaves"][archetype]
+	if biome == "wild":
+		return ["fern", "mushrooms", "driftwood", "leaves"][archetype]
+	if biome in ["geo", "ruins"]:
+		return ["pebble_bank", "stepping_stones", "rune_pebbles", "crystal_moss"][archetype]
+	return ["rune_pebbles", "glow_flowers", "crystal_moss", "stepping_stones"][archetype]
 
 func _local(px, py) -> Vector2:
 	return Vector2(float(px) - float(chunk["worldX"]), float(py) - float(chunk["worldY"]))
@@ -42,7 +153,7 @@ func _build_ground() -> void:
 	ground.z_index = -10
 	ground.y_sort_enabled = false
 	add_child(ground)
-	ground.setup(chunk, visual_lod)
+	ground.setup(chunk, visual_lod, composition)
 
 func _build_academy_set_dressing() -> void:
 	# Scenografia fissa del vertical slice: solo Node2D visuali, senza Area2D
@@ -85,9 +196,23 @@ func _build_academy_set_dressing() -> void:
 func _build_obstacles(decor) -> void:
 	for obstacle in chunk.get("obstacles", []):
 		var radius := float(obstacle["r"])
+		var world_pos := Vector2(float(obstacle["x"]), float(obstacle["y"]))
+		var render_biome := _render_biome(world_pos)
+		var in_water := composition != null and composition.water_weight(world_pos) > 0.04
+		var visual_kind := "rock" if in_water else str(obstacle["kind"])
 		var node := OutdoorVisualFactory.build_obstacle(
-			str(obstacle["kind"]), radius, int(obstacle["color"]), decor.next_float(), str(chunk.get("biome", "")))
+			visual_kind, radius, int(obstacle["color"]), decor.next_float(), render_biome)
 		node.position = _local(obstacle["x"], obstacle["y"])
+		# Gameplay obstacles keep a single collision anchor, while their visuals
+		# receive a small planted skirt to eliminate the scattered-sticker look.
+		for index in range(2 if visual_lod == 0 else 1):
+			var angle: float = decor.next_float() * TAU
+			var offset: Vector2 = Vector2(cos(angle), sin(angle) * 0.55) * (radius + 18.0 + decor.next_float() * 18.0)
+			var skirt_kind := "rock" if in_water else "bush" if render_biome in ["academy", "wild"] else "rock" if render_biome in ["geo", "ruins"] else "crystal"
+			var skirt := OutdoorVisualFactory.build_obstacle(skirt_kind, maxf(11.0, radius * 0.42), int(obstacle["color"]), decor.next_float(), render_biome)
+			skirt.position = offset
+			skirt.scale = Vector2.ONE * 0.72
+			node.add_child(skirt)
 		add_child(node)
 
 		var body := StaticBody2D.new()
@@ -100,10 +225,21 @@ func _build_obstacles(decor) -> void:
 
 func _build_props(decor) -> void:
 	for prop in chunk.get("props", []):
+		var world_pos := Vector2(float(prop["x"]), float(prop["y"]))
+		var render_biome := _render_biome(world_pos)
+		var kind := str(prop["kind"])
+		var in_water := composition != null and composition.water_weight(world_pos) > 0.14
+		if in_water and kind != "bridge":
+			continue
 		var node := OutdoorVisualFactory.build_prop(
-			str(prop["kind"]), int(prop["color"]), decor.next_float(), str(chunk.get("biome", "")))
+			kind, int(prop["color"]), decor.next_float(), render_biome)
 		node.position = _local(prop["x"], prop["y"])
+		if in_water and kind == "bridge" and composition != null:
+			node.rotation = composition.water_tangent(world_pos).angle() - PI * 0.5
 		add_child(node)
+
+func _render_biome(world_pos: Vector2) -> String:
+	return composition.dominant_biome(world_pos) if composition != null else str(chunk.get("biome", "academy"))
 
 func _build_landmarks() -> void:
 	for landmark in chunk.get("landmarks", []):

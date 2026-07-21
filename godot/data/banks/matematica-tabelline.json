@@ -2,23 +2,4171 @@
 	"schemaVersion": 1,
 	"subject": "matematica",
 	"topic": "tabelline",
-	"generator": "sample-hand-authored",
+	"generator": "tabelline-v1",
 	"items": [
-		{ "id": "math-times-0001", "subject": "matematica", "topic": "tabelline", "difficulty": 1, "format": "multiple_choice", "prompt": "Quanto fa 2 × 3?", "options": ["5", "6", "8", "4"], "answer": "6", "explanation": "2 × 3 = 6: tre gruppi da due, oppure 2 + 2 + 2." },
-		{ "id": "math-times-0002", "subject": "matematica", "topic": "tabelline", "difficulty": 1, "format": "multiple_choice", "prompt": "Quanto fa 4 × 2?", "options": ["6", "8", "10", "9"], "answer": "8", "explanation": "4 × 2 = 8: due gruppi da quattro." },
-		{ "id": "math-times-0003", "subject": "matematica", "topic": "tabelline", "difficulty": 1, "format": "multiple_choice", "prompt": "Quanto fa 5 × 3?", "options": ["15", "12", "18", "10"], "answer": "15", "explanation": "5 × 3 = 15: conta a cinque tre volte (5, 10, 15)." },
-		{ "id": "math-times-0004", "subject": "matematica", "topic": "tabelline", "difficulty": 1, "format": "numeric_input", "prompt": "Quanto fa 3 × 3?", "options": [], "answer": "9", "explanation": "3 × 3 = 9." },
-		{ "id": "math-times-0005", "subject": "matematica", "topic": "tabelline", "difficulty": 2, "format": "multiple_choice", "prompt": "Quanto fa 6 × 4?", "options": ["24", "20", "28", "26"], "answer": "24", "explanation": "6 × 4 = 24: puoi fare 6 × 2 = 12, poi il doppio, 24." },
-		{ "id": "math-times-0006", "subject": "matematica", "topic": "tabelline", "difficulty": 2, "format": "multiple_choice", "prompt": "Quanto fa 7 × 3?", "options": ["21", "24", "18", "27"], "answer": "21", "explanation": "7 × 3 = 21: 7 + 7 + 7." },
-		{ "id": "math-times-0007", "subject": "matematica", "topic": "tabelline", "difficulty": 2, "format": "multiple_choice", "prompt": "Quanto fa 8 × 5?", "options": ["40", "45", "35", "48"], "answer": "40", "explanation": "8 × 5 = 40: la tabellina del 5 finisce in 0 o 5; 8 volte 5 = 40." },
-		{ "id": "math-times-0008", "subject": "matematica", "topic": "tabelline", "difficulty": 2, "format": "numeric_input", "prompt": "Quanto fa 6 × 6?", "options": [], "answer": "36", "explanation": "6 × 6 = 36." },
-		{ "id": "math-times-0009", "subject": "matematica", "topic": "tabelline", "difficulty": 3, "format": "multiple_choice", "prompt": "Quanto fa 7 × 8?", "options": ["54", "56", "63", "49"], "answer": "56", "explanation": "7 × 8 = 56: pensa a 7 × 8 = 7 × 10 − 7 × 2 = 70 − 14." },
-		{ "id": "math-times-0010", "subject": "matematica", "topic": "tabelline", "difficulty": 3, "format": "multiple_choice", "prompt": "Quanto fa 9 × 6?", "options": ["54", "56", "48", "63"], "answer": "54", "explanation": "9 × 6 = 54: 10 × 6 − 6 = 60 − 6." },
-		{ "id": "math-times-0011", "subject": "matematica", "topic": "tabelline", "difficulty": 3, "format": "multiple_choice", "prompt": "Quanto fa 8 × 7?", "options": ["56", "54", "64", "49"], "answer": "56", "explanation": "8 × 7 = 56 (uguale a 7 × 8)." },
-		{ "id": "math-times-0012", "subject": "matematica", "topic": "tabelline", "difficulty": 3, "format": "numeric_input", "prompt": "Quanto fa 9 × 9?", "options": [], "answer": "81", "explanation": "9 × 9 = 81: 10 × 9 − 9 = 90 − 9." },
-		{ "id": "math-times-0013", "subject": "matematica", "topic": "tabelline", "difficulty": 4, "format": "multiple_choice", "prompt": "Quanto fa 11 × 7?", "options": ["77", "72", "84", "70"], "answer": "77", "explanation": "11 × 7 = 77: 10 × 7 + 7 = 70 + 7." },
-		{ "id": "math-times-0014", "subject": "matematica", "topic": "tabelline", "difficulty": 4, "format": "multiple_choice", "prompt": "Quanto fa 12 × 8?", "options": ["96", "88", "104", "84"], "answer": "96", "explanation": "12 × 8 = 96: 10 × 8 + 2 × 8 = 80 + 16." },
-		{ "id": "math-times-0015", "subject": "matematica", "topic": "tabelline", "difficulty": 4, "format": "multiple_choice", "prompt": "Quanto fa 12 × 12?", "options": ["144", "124", "132", "148"], "answer": "144", "explanation": "12 × 12 = 144." },
-		{ "id": "math-times-0016", "subject": "matematica", "topic": "tabelline", "difficulty": 4, "format": "numeric_input", "prompt": "Quanto fa 11 × 11?", "options": [], "answer": "121", "explanation": "11 × 11 = 121." }
+		{
+			"id": "math-times-2x2-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 2 × 2?",
+			"answer": "4",
+			"explanation": "2 × 2 = 4.",
+			"format": "multiple_choice",
+			"options": [
+				"2",
+				"6",
+				"4",
+				"5"
+			]
+		},
+		{
+			"id": "math-times-2x3-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 2 × 3?",
+			"answer": "6",
+			"explanation": "2 × 3 = 6.",
+			"format": "multiple_choice",
+			"options": [
+				"4",
+				"6",
+				"9",
+				"8"
+			]
+		},
+		{
+			"id": "math-times-2x4-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 2 × 4?",
+			"answer": "8",
+			"explanation": "2 × 4 = 8.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"8",
+				"6",
+				"10"
+			]
+		},
+		{
+			"id": "math-times-2x5-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 2 × 5?",
+			"answer": "10",
+			"explanation": "2 × 5 = 10.",
+			"format": "multiple_choice",
+			"options": [
+				"8",
+				"10",
+				"15",
+				"12"
+			]
+		},
+		{
+			"id": "math-times-3x2-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 3 × 2?",
+			"answer": "6",
+			"explanation": "3 × 2 = 6.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-3x3-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 3 × 3?",
+			"answer": "9",
+			"explanation": "3 × 3 = 9.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-3x4-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 3 × 4?",
+			"answer": "12",
+			"explanation": "3 × 4 = 12.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-3x5-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 3 × 5?",
+			"answer": "15",
+			"explanation": "3 × 5 = 15.",
+			"format": "multiple_choice",
+			"options": [
+				"15",
+				"18",
+				"20",
+				"12"
+			]
+		},
+		{
+			"id": "math-times-4x2-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 4 × 2?",
+			"answer": "8",
+			"explanation": "4 × 2 = 8.",
+			"format": "multiple_choice",
+			"options": [
+				"8",
+				"10",
+				"4",
+				"12"
+			]
+		},
+		{
+			"id": "math-times-4x3-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 4 × 3?",
+			"answer": "12",
+			"explanation": "4 × 3 = 12.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"15",
+				"8",
+				"16"
+			]
+		},
+		{
+			"id": "math-times-4x4-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 4 × 4?",
+			"answer": "16",
+			"explanation": "4 × 4 = 16.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-4x5-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 4 × 5?",
+			"answer": "20",
+			"explanation": "4 × 5 = 20.",
+			"format": "multiple_choice",
+			"options": [
+				"16",
+				"25",
+				"20",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-5x2-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 5 × 2?",
+			"answer": "10",
+			"explanation": "5 × 2 = 10.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-5x3-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 5 × 3?",
+			"answer": "15",
+			"explanation": "5 × 3 = 15.",
+			"format": "multiple_choice",
+			"options": [
+				"18",
+				"10",
+				"20",
+				"15"
+			]
+		},
+		{
+			"id": "math-times-5x4-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 5 × 4?",
+			"answer": "20",
+			"explanation": "5 × 4 = 20.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"20",
+				"15",
+				"25"
+			]
+		},
+		{
+			"id": "math-times-5x5-d1",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 1,
+			"prompt": "Quanto fa 5 × 5?",
+			"answer": "25",
+			"explanation": "5 × 5 = 25.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"25",
+				"26",
+				"20"
+			]
+		},
+		{
+			"id": "math-times-2x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 2?",
+			"answer": "4",
+			"explanation": "2 × 2 = 4.",
+			"format": "multiple_choice",
+			"options": [
+				"4",
+				"2",
+				"6",
+				"5"
+			]
+		},
+		{
+			"id": "math-times-2x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 3?",
+			"answer": "6",
+			"explanation": "2 × 3 = 6.",
+			"format": "multiple_choice",
+			"options": [
+				"8",
+				"6",
+				"9",
+				"4"
+			]
+		},
+		{
+			"id": "math-times-2x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 4?",
+			"answer": "8",
+			"explanation": "2 × 4 = 8.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"8",
+				"6",
+				"10"
+			]
+		},
+		{
+			"id": "math-times-2x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 5?",
+			"answer": "10",
+			"explanation": "2 × 5 = 10.",
+			"format": "multiple_choice",
+			"options": [
+				"10",
+				"8",
+				"15",
+				"12"
+			]
+		},
+		{
+			"id": "math-times-2x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 6?",
+			"answer": "12",
+			"explanation": "2 × 6 = 12.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-2x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 7?",
+			"answer": "14",
+			"explanation": "2 × 7 = 14.",
+			"format": "multiple_choice",
+			"options": [
+				"21",
+				"14",
+				"12",
+				"16"
+			]
+		},
+		{
+			"id": "math-times-2x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 8?",
+			"answer": "16",
+			"explanation": "2 × 8 = 16.",
+			"format": "multiple_choice",
+			"options": [
+				"16",
+				"14",
+				"18",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-2x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 9?",
+			"answer": "18",
+			"explanation": "2 × 9 = 18.",
+			"format": "multiple_choice",
+			"options": [
+				"20",
+				"16",
+				"27",
+				"18"
+			]
+		},
+		{
+			"id": "math-times-2x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 2 × 10?",
+			"answer": "20",
+			"explanation": "2 × 10 = 20.",
+			"format": "multiple_choice",
+			"options": [
+				"22",
+				"30",
+				"20",
+				"18"
+			]
+		},
+		{
+			"id": "math-times-3x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 2?",
+			"answer": "6",
+			"explanation": "3 × 2 = 6.",
+			"format": "multiple_choice",
+			"options": [
+				"6",
+				"3",
+				"9",
+				"8"
+			]
+		},
+		{
+			"id": "math-times-3x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 3?",
+			"answer": "9",
+			"explanation": "3 × 3 = 9.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"9",
+				"10",
+				"6"
+			]
+		},
+		{
+			"id": "math-times-3x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 4?",
+			"answer": "12",
+			"explanation": "3 × 4 = 12.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-3x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 5?",
+			"answer": "15",
+			"explanation": "3 × 5 = 15.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"15",
+				"20",
+				"18"
+			]
+		},
+		{
+			"id": "math-times-3x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 6?",
+			"answer": "18",
+			"explanation": "3 × 6 = 18.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"15",
+				"21",
+				"18"
+			]
+		},
+		{
+			"id": "math-times-3x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 7?",
+			"answer": "21",
+			"explanation": "3 × 7 = 21.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-3x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 8?",
+			"answer": "24",
+			"explanation": "3 × 8 = 24.",
+			"format": "multiple_choice",
+			"options": [
+				"21",
+				"24",
+				"27",
+				"32"
+			]
+		},
+		{
+			"id": "math-times-3x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 9?",
+			"answer": "27",
+			"explanation": "3 × 9 = 27.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"30",
+				"27",
+				"36"
+			]
+		},
+		{
+			"id": "math-times-3x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 3 × 10?",
+			"answer": "30",
+			"explanation": "3 × 10 = 30.",
+			"format": "multiple_choice",
+			"options": [
+				"40",
+				"30",
+				"27",
+				"33"
+			]
+		},
+		{
+			"id": "math-times-4x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 2?",
+			"answer": "8",
+			"explanation": "4 × 2 = 8.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"8",
+				"10",
+				"4"
+			]
+		},
+		{
+			"id": "math-times-4x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 3?",
+			"answer": "12",
+			"explanation": "4 × 3 = 12.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-4x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 4?",
+			"answer": "16",
+			"explanation": "4 × 4 = 16.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-4x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 5?",
+			"answer": "20",
+			"explanation": "4 × 5 = 20.",
+			"format": "multiple_choice",
+			"options": [
+				"16",
+				"24",
+				"20",
+				"25"
+			]
+		},
+		{
+			"id": "math-times-4x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 6?",
+			"answer": "24",
+			"explanation": "4 × 6 = 24.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-4x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 7?",
+			"answer": "28",
+			"explanation": "4 × 7 = 28.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-4x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 8?",
+			"answer": "32",
+			"explanation": "4 × 8 = 32.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-4x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 9?",
+			"answer": "36",
+			"explanation": "4 × 9 = 36.",
+			"format": "multiple_choice",
+			"options": [
+				"32",
+				"36",
+				"45",
+				"40"
+			]
+		},
+		{
+			"id": "math-times-4x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 4 × 10?",
+			"answer": "40",
+			"explanation": "4 × 10 = 40.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-5x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 2?",
+			"answer": "10",
+			"explanation": "5 × 2 = 10.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-5x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 3?",
+			"answer": "15",
+			"explanation": "5 × 3 = 15.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-5x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 4?",
+			"answer": "20",
+			"explanation": "5 × 4 = 20.",
+			"format": "multiple_choice",
+			"options": [
+				"20",
+				"25",
+				"24",
+				"15"
+			]
+		},
+		{
+			"id": "math-times-5x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 5?",
+			"answer": "25",
+			"explanation": "5 × 5 = 25.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"20",
+				"26",
+				"25"
+			]
+		},
+		{
+			"id": "math-times-5x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 6?",
+			"answer": "30",
+			"explanation": "5 × 6 = 30.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"25",
+				"36",
+				"35"
+			]
+		},
+		{
+			"id": "math-times-5x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 7?",
+			"answer": "35",
+			"explanation": "5 × 7 = 35.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"35",
+				"42",
+				"40"
+			]
+		},
+		{
+			"id": "math-times-5x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 8?",
+			"answer": "40",
+			"explanation": "5 × 8 = 40.",
+			"format": "multiple_choice",
+			"options": [
+				"45",
+				"35",
+				"48",
+				"40"
+			]
+		},
+		{
+			"id": "math-times-5x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 9?",
+			"answer": "45",
+			"explanation": "5 × 9 = 45.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-5x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 5 × 10?",
+			"answer": "50",
+			"explanation": "5 × 10 = 50.",
+			"format": "multiple_choice",
+			"options": [
+				"60",
+				"55",
+				"50",
+				"45"
+			]
+		},
+		{
+			"id": "math-times-6x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 2?",
+			"answer": "12",
+			"explanation": "6 × 2 = 12.",
+			"format": "multiple_choice",
+			"options": [
+				"18",
+				"6",
+				"14",
+				"12"
+			]
+		},
+		{
+			"id": "math-times-6x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 3?",
+			"answer": "18",
+			"explanation": "6 × 3 = 18.",
+			"format": "multiple_choice",
+			"options": [
+				"21",
+				"24",
+				"12",
+				"18"
+			]
+		},
+		{
+			"id": "math-times-6x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 4?",
+			"answer": "24",
+			"explanation": "6 × 4 = 24.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 5?",
+			"answer": "30",
+			"explanation": "6 × 5 = 30.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"35",
+				"36",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-6x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 6?",
+			"answer": "36",
+			"explanation": "6 × 6 = 36.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 7?",
+			"answer": "42",
+			"explanation": "6 × 7 = 42.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"36",
+				"49",
+				"42"
+			]
+		},
+		{
+			"id": "math-times-6x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 8?",
+			"answer": "48",
+			"explanation": "6 × 8 = 48.",
+			"format": "multiple_choice",
+			"options": [
+				"42",
+				"54",
+				"48",
+				"56"
+			]
+		},
+		{
+			"id": "math-times-6x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 9?",
+			"answer": "54",
+			"explanation": "6 × 9 = 54.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"54",
+				"63",
+				"60"
+			]
+		},
+		{
+			"id": "math-times-6x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 6 × 10?",
+			"answer": "60",
+			"explanation": "6 × 10 = 60.",
+			"format": "multiple_choice",
+			"options": [
+				"54",
+				"70",
+				"66",
+				"60"
+			]
+		},
+		{
+			"id": "math-times-7x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 2?",
+			"answer": "14",
+			"explanation": "7 × 2 = 14.",
+			"format": "multiple_choice",
+			"options": [
+				"14",
+				"21",
+				"16",
+				"7"
+			]
+		},
+		{
+			"id": "math-times-7x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 3?",
+			"answer": "21",
+			"explanation": "7 × 3 = 21.",
+			"format": "multiple_choice",
+			"options": [
+				"21",
+				"24",
+				"14",
+				"28"
+			]
+		},
+		{
+			"id": "math-times-7x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 4?",
+			"answer": "28",
+			"explanation": "7 × 4 = 28.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-7x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 5?",
+			"answer": "35",
+			"explanation": "7 × 5 = 35.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-7x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 6?",
+			"answer": "42",
+			"explanation": "7 × 6 = 42.",
+			"format": "multiple_choice",
+			"options": [
+				"42",
+				"35",
+				"48",
+				"49"
+			]
+		},
+		{
+			"id": "math-times-7x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 7?",
+			"answer": "49",
+			"explanation": "7 × 7 = 49.",
+			"format": "multiple_choice",
+			"options": [
+				"50",
+				"56",
+				"42",
+				"49"
+			]
+		},
+		{
+			"id": "math-times-7x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 8?",
+			"answer": "56",
+			"explanation": "7 × 8 = 56.",
+			"format": "multiple_choice",
+			"options": [
+				"56",
+				"49",
+				"63",
+				"64"
+			]
+		},
+		{
+			"id": "math-times-7x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 9?",
+			"answer": "63",
+			"explanation": "7 × 9 = 63.",
+			"format": "multiple_choice",
+			"options": [
+				"63",
+				"72",
+				"56",
+				"70"
+			]
+		},
+		{
+			"id": "math-times-7x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 7 × 10?",
+			"answer": "70",
+			"explanation": "7 × 10 = 70.",
+			"format": "multiple_choice",
+			"options": [
+				"80",
+				"70",
+				"77",
+				"63"
+			]
+		},
+		{
+			"id": "math-times-8x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 2?",
+			"answer": "16",
+			"explanation": "8 × 2 = 16.",
+			"format": "multiple_choice",
+			"options": [
+				"18",
+				"24",
+				"16",
+				"8"
+			]
+		},
+		{
+			"id": "math-times-8x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 3?",
+			"answer": "24",
+			"explanation": "8 × 3 = 24.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"27",
+				"32",
+				"16"
+			]
+		},
+		{
+			"id": "math-times-8x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 4?",
+			"answer": "32",
+			"explanation": "8 × 4 = 32.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"32",
+				"36",
+				"40"
+			]
+		},
+		{
+			"id": "math-times-8x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 5?",
+			"answer": "40",
+			"explanation": "8 × 5 = 40.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-8x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 6?",
+			"answer": "48",
+			"explanation": "8 × 6 = 48.",
+			"format": "multiple_choice",
+			"options": [
+				"56",
+				"48",
+				"40",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-8x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 7?",
+			"answer": "56",
+			"explanation": "8 × 7 = 56.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"56",
+				"63",
+				"64"
+			]
+		},
+		{
+			"id": "math-times-8x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 8?",
+			"answer": "64",
+			"explanation": "8 × 8 = 64.",
+			"format": "multiple_choice",
+			"options": [
+				"56",
+				"64",
+				"72",
+				"65"
+			]
+		},
+		{
+			"id": "math-times-8x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 9?",
+			"answer": "72",
+			"explanation": "8 × 9 = 72.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-8x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 8 × 10?",
+			"answer": "80",
+			"explanation": "8 × 10 = 80.",
+			"format": "multiple_choice",
+			"options": [
+				"72",
+				"88",
+				"90",
+				"80"
+			]
+		},
+		{
+			"id": "math-times-9x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 2?",
+			"answer": "18",
+			"explanation": "9 × 2 = 18.",
+			"format": "multiple_choice",
+			"options": [
+				"20",
+				"27",
+				"18",
+				"9"
+			]
+		},
+		{
+			"id": "math-times-9x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 3?",
+			"answer": "27",
+			"explanation": "9 × 3 = 27.",
+			"format": "multiple_choice",
+			"options": [
+				"18",
+				"27",
+				"30",
+				"36"
+			]
+		},
+		{
+			"id": "math-times-9x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 4?",
+			"answer": "36",
+			"explanation": "9 × 4 = 36.",
+			"format": "multiple_choice",
+			"options": [
+				"45",
+				"40",
+				"36",
+				"27"
+			]
+		},
+		{
+			"id": "math-times-9x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 5?",
+			"answer": "45",
+			"explanation": "9 × 5 = 45.",
+			"format": "multiple_choice",
+			"options": [
+				"54",
+				"45",
+				"36",
+				"50"
+			]
+		},
+		{
+			"id": "math-times-9x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 6?",
+			"answer": "54",
+			"explanation": "9 × 6 = 54.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-9x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 7?",
+			"answer": "63",
+			"explanation": "9 × 7 = 63.",
+			"format": "multiple_choice",
+			"options": [
+				"70",
+				"72",
+				"63",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-9x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 8?",
+			"answer": "72",
+			"explanation": "9 × 8 = 72.",
+			"format": "multiple_choice",
+			"options": [
+				"80",
+				"81",
+				"72",
+				"63"
+			]
+		},
+		{
+			"id": "math-times-9x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 9?",
+			"answer": "81",
+			"explanation": "9 × 9 = 81.",
+			"format": "multiple_choice",
+			"options": [
+				"72",
+				"90",
+				"81",
+				"82"
+			]
+		},
+		{
+			"id": "math-times-9x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 9 × 10?",
+			"answer": "90",
+			"explanation": "9 × 10 = 90.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-10x2-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 2?",
+			"answer": "20",
+			"explanation": "10 × 2 = 20.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-10x3-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 3?",
+			"answer": "30",
+			"explanation": "10 × 3 = 30.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"40",
+				"33",
+				"20"
+			]
+		},
+		{
+			"id": "math-times-10x4-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 4?",
+			"answer": "40",
+			"explanation": "10 × 4 = 40.",
+			"format": "multiple_choice",
+			"options": [
+				"44",
+				"30",
+				"40",
+				"50"
+			]
+		},
+		{
+			"id": "math-times-10x5-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 5?",
+			"answer": "50",
+			"explanation": "10 × 5 = 50.",
+			"format": "multiple_choice",
+			"options": [
+				"60",
+				"40",
+				"50",
+				"55"
+			]
+		},
+		{
+			"id": "math-times-10x6-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 6?",
+			"answer": "60",
+			"explanation": "10 × 6 = 60.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-10x7-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 7?",
+			"answer": "70",
+			"explanation": "10 × 7 = 70.",
+			"format": "multiple_choice",
+			"options": [
+				"70",
+				"80",
+				"77",
+				"60"
+			]
+		},
+		{
+			"id": "math-times-10x8-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 8?",
+			"answer": "80",
+			"explanation": "10 × 8 = 80.",
+			"format": "multiple_choice",
+			"options": [
+				"80",
+				"90",
+				"88",
+				"70"
+			]
+		},
+		{
+			"id": "math-times-10x9-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 9?",
+			"answer": "90",
+			"explanation": "10 × 9 = 90.",
+			"format": "multiple_choice",
+			"options": [
+				"100",
+				"99",
+				"80",
+				"90"
+			]
+		},
+		{
+			"id": "math-times-10x10-d2",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 2,
+			"prompt": "Quanto fa 10 × 10?",
+			"answer": "100",
+			"explanation": "10 × 10 = 100.",
+			"format": "multiple_choice",
+			"options": [
+				"100",
+				"110",
+				"101",
+				"90"
+			]
+		},
+		{
+			"id": "math-times-3x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 2?",
+			"answer": "6",
+			"explanation": "3 × 2 = 6.",
+			"format": "multiple_choice",
+			"options": [
+				"3",
+				"8",
+				"9",
+				"6"
+			]
+		},
+		{
+			"id": "math-times-3x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 3?",
+			"answer": "9",
+			"explanation": "3 × 3 = 9.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"9",
+				"6",
+				"10"
+			]
+		},
+		{
+			"id": "math-times-3x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 4?",
+			"answer": "12",
+			"explanation": "3 × 4 = 12.",
+			"format": "multiple_choice",
+			"options": [
+				"16",
+				"15",
+				"9",
+				"12"
+			]
+		},
+		{
+			"id": "math-times-3x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 5?",
+			"answer": "15",
+			"explanation": "3 × 5 = 15.",
+			"format": "multiple_choice",
+			"options": [
+				"20",
+				"12",
+				"15",
+				"18"
+			]
+		},
+		{
+			"id": "math-times-3x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 6?",
+			"answer": "18",
+			"explanation": "3 × 6 = 18.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-3x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 7?",
+			"answer": "21",
+			"explanation": "3 × 7 = 21.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"18",
+				"21",
+				"28"
+			]
+		},
+		{
+			"id": "math-times-3x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 8?",
+			"answer": "24",
+			"explanation": "3 × 8 = 24.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-3x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 9?",
+			"answer": "27",
+			"explanation": "3 × 9 = 27.",
+			"format": "multiple_choice",
+			"options": [
+				"27",
+				"30",
+				"36",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-3x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 10?",
+			"answer": "30",
+			"explanation": "3 × 10 = 30.",
+			"format": "multiple_choice",
+			"options": [
+				"27",
+				"40",
+				"30",
+				"33"
+			]
+		},
+		{
+			"id": "math-times-3x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 11?",
+			"answer": "33",
+			"explanation": "3 × 11 = 33.",
+			"format": "multiple_choice",
+			"options": [
+				"36",
+				"44",
+				"30",
+				"33"
+			]
+		},
+		{
+			"id": "math-times-3x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 3 × 12?",
+			"answer": "36",
+			"explanation": "3 × 12 = 36.",
+			"format": "multiple_choice",
+			"options": [
+				"39",
+				"36",
+				"33",
+				"48"
+			]
+		},
+		{
+			"id": "math-times-4x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 2?",
+			"answer": "8",
+			"explanation": "4 × 2 = 8.",
+			"format": "multiple_choice",
+			"options": [
+				"4",
+				"12",
+				"10",
+				"8"
+			]
+		},
+		{
+			"id": "math-times-4x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 3?",
+			"answer": "12",
+			"explanation": "4 × 3 = 12.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"15",
+				"16",
+				"8"
+			]
+		},
+		{
+			"id": "math-times-4x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 4?",
+			"answer": "16",
+			"explanation": "4 × 4 = 16.",
+			"format": "multiple_choice",
+			"options": [
+				"17",
+				"12",
+				"16",
+				"20"
+			]
+		},
+		{
+			"id": "math-times-4x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 5?",
+			"answer": "20",
+			"explanation": "4 × 5 = 20.",
+			"format": "multiple_choice",
+			"options": [
+				"25",
+				"16",
+				"24",
+				"20"
+			]
+		},
+		{
+			"id": "math-times-4x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 6?",
+			"answer": "24",
+			"explanation": "4 × 6 = 24.",
+			"format": "multiple_choice",
+			"options": [
+				"20",
+				"30",
+				"24",
+				"28"
+			]
+		},
+		{
+			"id": "math-times-4x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 7?",
+			"answer": "28",
+			"explanation": "4 × 7 = 28.",
+			"format": "multiple_choice",
+			"options": [
+				"35",
+				"28",
+				"32",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-4x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 8?",
+			"answer": "32",
+			"explanation": "4 × 8 = 32.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-4x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 9?",
+			"answer": "36",
+			"explanation": "4 × 9 = 36.",
+			"format": "multiple_choice",
+			"options": [
+				"45",
+				"32",
+				"40",
+				"36"
+			]
+		},
+		{
+			"id": "math-times-4x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 10?",
+			"answer": "40",
+			"explanation": "4 × 10 = 40.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-4x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 11?",
+			"answer": "44",
+			"explanation": "4 × 11 = 44.",
+			"format": "multiple_choice",
+			"options": [
+				"55",
+				"44",
+				"40",
+				"48"
+			]
+		},
+		{
+			"id": "math-times-4x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 4 × 12?",
+			"answer": "48",
+			"explanation": "4 × 12 = 48.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"44",
+				"60",
+				"52"
+			]
+		},
+		{
+			"id": "math-times-5x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 2?",
+			"answer": "10",
+			"explanation": "5 × 2 = 10.",
+			"format": "multiple_choice",
+			"options": [
+				"15",
+				"12",
+				"10",
+				"5"
+			]
+		},
+		{
+			"id": "math-times-5x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 3?",
+			"answer": "15",
+			"explanation": "5 × 3 = 15.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-5x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 4?",
+			"answer": "20",
+			"explanation": "5 × 4 = 20.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"15",
+				"20",
+				"25"
+			]
+		},
+		{
+			"id": "math-times-5x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 5?",
+			"answer": "25",
+			"explanation": "5 × 5 = 25.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-5x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 6?",
+			"answer": "30",
+			"explanation": "5 × 6 = 30.",
+			"format": "multiple_choice",
+			"options": [
+				"36",
+				"30",
+				"25",
+				"35"
+			]
+		},
+		{
+			"id": "math-times-5x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 7?",
+			"answer": "35",
+			"explanation": "5 × 7 = 35.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-5x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 8?",
+			"answer": "40",
+			"explanation": "5 × 8 = 40.",
+			"format": "multiple_choice",
+			"options": [
+				"45",
+				"40",
+				"35",
+				"48"
+			]
+		},
+		{
+			"id": "math-times-5x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 9?",
+			"answer": "45",
+			"explanation": "5 × 9 = 45.",
+			"format": "multiple_choice",
+			"options": [
+				"40",
+				"54",
+				"50",
+				"45"
+			]
+		},
+		{
+			"id": "math-times-5x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 10?",
+			"answer": "50",
+			"explanation": "5 × 10 = 50.",
+			"format": "multiple_choice",
+			"options": [
+				"55",
+				"50",
+				"60",
+				"45"
+			]
+		},
+		{
+			"id": "math-times-5x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 11?",
+			"answer": "55",
+			"explanation": "5 × 11 = 55.",
+			"format": "multiple_choice",
+			"options": [
+				"60",
+				"50",
+				"66",
+				"55"
+			]
+		},
+		{
+			"id": "math-times-5x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 5 × 12?",
+			"answer": "60",
+			"explanation": "5 × 12 = 60.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 2?",
+			"answer": "12",
+			"explanation": "6 × 2 = 12.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 3?",
+			"answer": "18",
+			"explanation": "6 × 3 = 18.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"18",
+				"21",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-6x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 4?",
+			"answer": "24",
+			"explanation": "6 × 4 = 24.",
+			"format": "multiple_choice",
+			"options": [
+				"18",
+				"30",
+				"28",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-6x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 5?",
+			"answer": "30",
+			"explanation": "6 × 5 = 30.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 6?",
+			"answer": "36",
+			"explanation": "6 × 6 = 36.",
+			"format": "multiple_choice",
+			"options": [
+				"37",
+				"36",
+				"42",
+				"30"
+			]
+		},
+		{
+			"id": "math-times-6x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 7?",
+			"answer": "42",
+			"explanation": "6 × 7 = 42.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 8?",
+			"answer": "48",
+			"explanation": "6 × 8 = 48.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"42",
+				"54",
+				"56"
+			]
+		},
+		{
+			"id": "math-times-6x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 9?",
+			"answer": "54",
+			"explanation": "6 × 9 = 54.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"60",
+				"63",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-6x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 10?",
+			"answer": "60",
+			"explanation": "6 × 10 = 60.",
+			"format": "multiple_choice",
+			"options": [
+				"66",
+				"70",
+				"60",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-6x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 11?",
+			"answer": "66",
+			"explanation": "6 × 11 = 66.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 6 × 12?",
+			"answer": "72",
+			"explanation": "6 × 12 = 72.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-7x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 2?",
+			"answer": "14",
+			"explanation": "7 × 2 = 14.",
+			"format": "multiple_choice",
+			"options": [
+				"7",
+				"21",
+				"16",
+				"14"
+			]
+		},
+		{
+			"id": "math-times-7x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 3?",
+			"answer": "21",
+			"explanation": "7 × 3 = 21.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-7x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 4?",
+			"answer": "28",
+			"explanation": "7 × 4 = 28.",
+			"format": "multiple_choice",
+			"options": [
+				"32",
+				"35",
+				"28",
+				"21"
+			]
+		},
+		{
+			"id": "math-times-7x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 5?",
+			"answer": "35",
+			"explanation": "7 × 5 = 35.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-7x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 6?",
+			"answer": "42",
+			"explanation": "7 × 6 = 42.",
+			"format": "multiple_choice",
+			"options": [
+				"49",
+				"35",
+				"48",
+				"42"
+			]
+		},
+		{
+			"id": "math-times-7x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 7?",
+			"answer": "49",
+			"explanation": "7 × 7 = 49.",
+			"format": "multiple_choice",
+			"options": [
+				"42",
+				"56",
+				"50",
+				"49"
+			]
+		},
+		{
+			"id": "math-times-7x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 8?",
+			"answer": "56",
+			"explanation": "7 × 8 = 56.",
+			"format": "multiple_choice",
+			"options": [
+				"64",
+				"56",
+				"49",
+				"63"
+			]
+		},
+		{
+			"id": "math-times-7x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 9?",
+			"answer": "63",
+			"explanation": "7 × 9 = 63.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-7x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 10?",
+			"answer": "70",
+			"explanation": "7 × 10 = 70.",
+			"format": "multiple_choice",
+			"options": [
+				"77",
+				"80",
+				"63",
+				"70"
+			]
+		},
+		{
+			"id": "math-times-7x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 11?",
+			"answer": "77",
+			"explanation": "7 × 11 = 77.",
+			"format": "multiple_choice",
+			"options": [
+				"88",
+				"84",
+				"70",
+				"77"
+			]
+		},
+		{
+			"id": "math-times-7x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 7 × 12?",
+			"answer": "84",
+			"explanation": "7 × 12 = 84.",
+			"format": "multiple_choice",
+			"options": [
+				"77",
+				"84",
+				"96",
+				"91"
+			]
+		},
+		{
+			"id": "math-times-8x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 2?",
+			"answer": "16",
+			"explanation": "8 × 2 = 16.",
+			"format": "multiple_choice",
+			"options": [
+				"16",
+				"8",
+				"18",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-8x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 3?",
+			"answer": "24",
+			"explanation": "8 × 3 = 24.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"16",
+				"32",
+				"27"
+			]
+		},
+		{
+			"id": "math-times-8x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 4?",
+			"answer": "32",
+			"explanation": "8 × 4 = 32.",
+			"format": "multiple_choice",
+			"options": [
+				"36",
+				"24",
+				"32",
+				"40"
+			]
+		},
+		{
+			"id": "math-times-8x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 5?",
+			"answer": "40",
+			"explanation": "8 × 5 = 40.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"40",
+				"45",
+				"32"
+			]
+		},
+		{
+			"id": "math-times-8x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 6?",
+			"answer": "48",
+			"explanation": "8 × 6 = 48.",
+			"format": "multiple_choice",
+			"options": [
+				"40",
+				"54",
+				"56",
+				"48"
+			]
+		},
+		{
+			"id": "math-times-8x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 7?",
+			"answer": "56",
+			"explanation": "8 × 7 = 56.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"63",
+				"64",
+				"56"
+			]
+		},
+		{
+			"id": "math-times-8x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 8?",
+			"answer": "64",
+			"explanation": "8 × 8 = 64.",
+			"format": "multiple_choice",
+			"options": [
+				"56",
+				"72",
+				"65",
+				"64"
+			]
+		},
+		{
+			"id": "math-times-8x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 9?",
+			"answer": "72",
+			"explanation": "8 × 9 = 72.",
+			"format": "multiple_choice",
+			"options": [
+				"72",
+				"64",
+				"81",
+				"80"
+			]
+		},
+		{
+			"id": "math-times-8x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 10?",
+			"answer": "80",
+			"explanation": "8 × 10 = 80.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-8x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 11?",
+			"answer": "88",
+			"explanation": "8 × 11 = 88.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-8x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 8 × 12?",
+			"answer": "96",
+			"explanation": "8 × 12 = 96.",
+			"format": "multiple_choice",
+			"options": [
+				"96",
+				"108",
+				"88",
+				"104"
+			]
+		},
+		{
+			"id": "math-times-9x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 2?",
+			"answer": "18",
+			"explanation": "9 × 2 = 18.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-9x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 3?",
+			"answer": "27",
+			"explanation": "9 × 3 = 27.",
+			"format": "multiple_choice",
+			"options": [
+				"18",
+				"27",
+				"30",
+				"36"
+			]
+		},
+		{
+			"id": "math-times-9x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 4?",
+			"answer": "36",
+			"explanation": "9 × 4 = 36.",
+			"format": "multiple_choice",
+			"options": [
+				"36",
+				"40",
+				"27",
+				"45"
+			]
+		},
+		{
+			"id": "math-times-9x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 5?",
+			"answer": "45",
+			"explanation": "9 × 5 = 45.",
+			"format": "multiple_choice",
+			"options": [
+				"36",
+				"45",
+				"50",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-9x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 6?",
+			"answer": "54",
+			"explanation": "9 × 6 = 54.",
+			"format": "multiple_choice",
+			"options": [
+				"45",
+				"60",
+				"63",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-9x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 7?",
+			"answer": "63",
+			"explanation": "9 × 7 = 63.",
+			"format": "multiple_choice",
+			"options": [
+				"70",
+				"72",
+				"63",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-9x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 8?",
+			"answer": "72",
+			"explanation": "9 × 8 = 72.",
+			"format": "multiple_choice",
+			"options": [
+				"72",
+				"80",
+				"63",
+				"81"
+			]
+		},
+		{
+			"id": "math-times-9x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 9?",
+			"answer": "81",
+			"explanation": "9 × 9 = 81.",
+			"format": "multiple_choice",
+			"options": [
+				"82",
+				"72",
+				"81",
+				"90"
+			]
+		},
+		{
+			"id": "math-times-9x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 10?",
+			"answer": "90",
+			"explanation": "9 × 10 = 90.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-9x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 11?",
+			"answer": "99",
+			"explanation": "9 × 11 = 99.",
+			"format": "multiple_choice",
+			"options": [
+				"99",
+				"90",
+				"110",
+				"108"
+			]
+		},
+		{
+			"id": "math-times-9x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 9 × 12?",
+			"answer": "108",
+			"explanation": "9 × 12 = 108.",
+			"format": "multiple_choice",
+			"options": [
+				"117",
+				"99",
+				"120",
+				"108"
+			]
+		},
+		{
+			"id": "math-times-10x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 2?",
+			"answer": "20",
+			"explanation": "10 × 2 = 20.",
+			"format": "multiple_choice",
+			"options": [
+				"22",
+				"20",
+				"10",
+				"30"
+			]
+		},
+		{
+			"id": "math-times-10x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 3?",
+			"answer": "30",
+			"explanation": "10 × 3 = 30.",
+			"format": "multiple_choice",
+			"options": [
+				"20",
+				"30",
+				"40",
+				"33"
+			]
+		},
+		{
+			"id": "math-times-10x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 4?",
+			"answer": "40",
+			"explanation": "10 × 4 = 40.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"40",
+				"50",
+				"44"
+			]
+		},
+		{
+			"id": "math-times-10x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 5?",
+			"answer": "50",
+			"explanation": "10 × 5 = 50.",
+			"format": "multiple_choice",
+			"options": [
+				"60",
+				"55",
+				"50",
+				"40"
+			]
+		},
+		{
+			"id": "math-times-10x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 6?",
+			"answer": "60",
+			"explanation": "10 × 6 = 60.",
+			"format": "multiple_choice",
+			"options": [
+				"66",
+				"50",
+				"60",
+				"70"
+			]
+		},
+		{
+			"id": "math-times-10x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 7?",
+			"answer": "70",
+			"explanation": "10 × 7 = 70.",
+			"format": "multiple_choice",
+			"options": [
+				"80",
+				"60",
+				"77",
+				"70"
+			]
+		},
+		{
+			"id": "math-times-10x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 8?",
+			"answer": "80",
+			"explanation": "10 × 8 = 80.",
+			"format": "multiple_choice",
+			"options": [
+				"88",
+				"90",
+				"70",
+				"80"
+			]
+		},
+		{
+			"id": "math-times-10x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 9?",
+			"answer": "90",
+			"explanation": "10 × 9 = 90.",
+			"format": "multiple_choice",
+			"options": [
+				"80",
+				"100",
+				"99",
+				"90"
+			]
+		},
+		{
+			"id": "math-times-10x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 10?",
+			"answer": "100",
+			"explanation": "10 × 10 = 100.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-10x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 11?",
+			"answer": "110",
+			"explanation": "10 × 11 = 110.",
+			"format": "multiple_choice",
+			"options": [
+				"110",
+				"121",
+				"100",
+				"120"
+			]
+		},
+		{
+			"id": "math-times-10x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 10 × 12?",
+			"answer": "120",
+			"explanation": "10 × 12 = 120.",
+			"format": "multiple_choice",
+			"options": [
+				"132",
+				"130",
+				"120",
+				"110"
+			]
+		},
+		{
+			"id": "math-times-11x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 2?",
+			"answer": "22",
+			"explanation": "11 × 2 = 22.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-11x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 3?",
+			"answer": "33",
+			"explanation": "11 × 3 = 33.",
+			"format": "multiple_choice",
+			"options": [
+				"44",
+				"33",
+				"36",
+				"22"
+			]
+		},
+		{
+			"id": "math-times-11x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 4?",
+			"answer": "44",
+			"explanation": "11 × 4 = 44.",
+			"format": "multiple_choice",
+			"options": [
+				"44",
+				"33",
+				"48",
+				"55"
+			]
+		},
+		{
+			"id": "math-times-11x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 5?",
+			"answer": "55",
+			"explanation": "11 × 5 = 55.",
+			"format": "multiple_choice",
+			"options": [
+				"44",
+				"66",
+				"60",
+				"55"
+			]
+		},
+		{
+			"id": "math-times-11x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 6?",
+			"answer": "66",
+			"explanation": "11 × 6 = 66.",
+			"format": "multiple_choice",
+			"options": [
+				"77",
+				"72",
+				"66",
+				"55"
+			]
+		},
+		{
+			"id": "math-times-11x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 7?",
+			"answer": "77",
+			"explanation": "11 × 7 = 77.",
+			"format": "multiple_choice",
+			"options": [
+				"84",
+				"88",
+				"66",
+				"77"
+			]
+		},
+		{
+			"id": "math-times-11x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 8?",
+			"answer": "88",
+			"explanation": "11 × 8 = 88.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-11x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 9?",
+			"answer": "99",
+			"explanation": "11 × 9 = 99.",
+			"format": "multiple_choice",
+			"options": [
+				"99",
+				"108",
+				"88",
+				"110"
+			]
+		},
+		{
+			"id": "math-times-11x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 10?",
+			"answer": "110",
+			"explanation": "11 × 10 = 110.",
+			"format": "multiple_choice",
+			"options": [
+				"99",
+				"121",
+				"120",
+				"110"
+			]
+		},
+		{
+			"id": "math-times-11x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 11?",
+			"answer": "121",
+			"explanation": "11 × 11 = 121.",
+			"format": "multiple_choice",
+			"options": [
+				"110",
+				"132",
+				"122",
+				"121"
+			]
+		},
+		{
+			"id": "math-times-11x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 11 × 12?",
+			"answer": "132",
+			"explanation": "11 × 12 = 132.",
+			"format": "multiple_choice",
+			"options": [
+				"132",
+				"144",
+				"121",
+				"143"
+			]
+		},
+		{
+			"id": "math-times-12x2-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 2?",
+			"answer": "24",
+			"explanation": "12 × 2 = 24.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-12x3-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 3?",
+			"answer": "36",
+			"explanation": "12 × 3 = 36.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"24",
+				"39",
+				"36"
+			]
+		},
+		{
+			"id": "math-times-12x4-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 4?",
+			"answer": "48",
+			"explanation": "12 × 4 = 48.",
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"52",
+				"36",
+				"60"
+			]
+		},
+		{
+			"id": "math-times-12x5-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 5?",
+			"answer": "60",
+			"explanation": "12 × 5 = 60.",
+			"format": "multiple_choice",
+			"options": [
+				"72",
+				"60",
+				"48",
+				"65"
+			]
+		},
+		{
+			"id": "math-times-12x6-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 6?",
+			"answer": "72",
+			"explanation": "12 × 6 = 72.",
+			"format": "multiple_choice",
+			"options": [
+				"60",
+				"72",
+				"78",
+				"84"
+			]
+		},
+		{
+			"id": "math-times-12x7-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 7?",
+			"answer": "84",
+			"explanation": "12 × 7 = 84.",
+			"format": "multiple_choice",
+			"options": [
+				"91",
+				"72",
+				"96",
+				"84"
+			]
+		},
+		{
+			"id": "math-times-12x8-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 8?",
+			"answer": "96",
+			"explanation": "12 × 8 = 96.",
+			"format": "multiple_choice",
+			"options": [
+				"84",
+				"108",
+				"96",
+				"104"
+			]
+		},
+		{
+			"id": "math-times-12x9-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 9?",
+			"answer": "108",
+			"explanation": "12 × 9 = 108.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-12x10-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 10?",
+			"answer": "120",
+			"explanation": "12 × 10 = 120.",
+			"format": "multiple_choice",
+			"options": [
+				"120",
+				"108",
+				"132",
+				"130"
+			]
+		},
+		{
+			"id": "math-times-12x11-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 11?",
+			"answer": "132",
+			"explanation": "12 × 11 = 132.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-12x12-d3",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 3,
+			"prompt": "Quanto fa 12 × 12?",
+			"answer": "144",
+			"explanation": "12 × 12 = 144.",
+			"format": "multiple_choice",
+			"options": [
+				"132",
+				"156",
+				"145",
+				"144"
+			]
+		},
+		{
+			"id": "math-times-6x2-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 2?",
+			"answer": "12",
+			"explanation": "6 × 2 = 12.",
+			"format": "multiple_choice",
+			"options": [
+				"12",
+				"18",
+				"6",
+				"14"
+			]
+		},
+		{
+			"id": "math-times-6x3-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 3?",
+			"answer": "18",
+			"explanation": "6 × 3 = 18.",
+			"format": "multiple_choice",
+			"options": [
+				"24",
+				"12",
+				"18",
+				"21"
+			]
+		},
+		{
+			"id": "math-times-6x4-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 4?",
+			"answer": "24",
+			"explanation": "6 × 4 = 24.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"28",
+				"24",
+				"18"
+			]
+		},
+		{
+			"id": "math-times-6x5-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 5?",
+			"answer": "30",
+			"explanation": "6 × 5 = 30.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x6-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 6?",
+			"answer": "36",
+			"explanation": "6 × 6 = 36.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x7-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 7?",
+			"answer": "42",
+			"explanation": "6 × 7 = 42.",
+			"format": "multiple_choice",
+			"options": [
+				"36",
+				"42",
+				"49",
+				"48"
+			]
+		},
+		{
+			"id": "math-times-6x8-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 8?",
+			"answer": "48",
+			"explanation": "6 × 8 = 48.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x9-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 9?",
+			"answer": "54",
+			"explanation": "6 × 9 = 54.",
+			"format": "multiple_choice",
+			"options": [
+				"54",
+				"60",
+				"48",
+				"63"
+			]
+		},
+		{
+			"id": "math-times-6x10-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 10?",
+			"answer": "60",
+			"explanation": "6 × 10 = 60.",
+			"format": "multiple_choice",
+			"options": [
+				"66",
+				"54",
+				"70",
+				"60"
+			]
+		},
+		{
+			"id": "math-times-6x11-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 11?",
+			"answer": "66",
+			"explanation": "6 × 11 = 66.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-6x12-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 6 × 12?",
+			"answer": "72",
+			"explanation": "6 × 12 = 72.",
+			"format": "multiple_choice",
+			"options": [
+				"66",
+				"72",
+				"84",
+				"78"
+			]
+		},
+		{
+			"id": "math-times-7x2-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 2?",
+			"answer": "14",
+			"explanation": "7 × 2 = 14.",
+			"format": "multiple_choice",
+			"options": [
+				"21",
+				"16",
+				"7",
+				"14"
+			]
+		},
+		{
+			"id": "math-times-7x3-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 3?",
+			"answer": "21",
+			"explanation": "7 × 3 = 21.",
+			"format": "multiple_choice",
+			"options": [
+				"14",
+				"21",
+				"24",
+				"28"
+			]
+		},
+		{
+			"id": "math-times-7x4-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 4?",
+			"answer": "28",
+			"explanation": "7 × 4 = 28.",
+			"format": "multiple_choice",
+			"options": [
+				"21",
+				"32",
+				"28",
+				"35"
+			]
+		},
+		{
+			"id": "math-times-7x5-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 5?",
+			"answer": "35",
+			"explanation": "7 × 5 = 35.",
+			"format": "multiple_choice",
+			"options": [
+				"35",
+				"28",
+				"40",
+				"42"
+			]
+		},
+		{
+			"id": "math-times-7x6-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 6?",
+			"answer": "42",
+			"explanation": "7 × 6 = 42.",
+			"format": "multiple_choice",
+			"options": [
+				"49",
+				"42",
+				"48",
+				"35"
+			]
+		},
+		{
+			"id": "math-times-7x7-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 7?",
+			"answer": "49",
+			"explanation": "7 × 7 = 49.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-7x8-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 8?",
+			"answer": "56",
+			"explanation": "7 × 8 = 56.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-7x9-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 9?",
+			"answer": "63",
+			"explanation": "7 × 9 = 63.",
+			"format": "multiple_choice",
+			"options": [
+				"63",
+				"72",
+				"70",
+				"56"
+			]
+		},
+		{
+			"id": "math-times-7x10-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 10?",
+			"answer": "70",
+			"explanation": "7 × 10 = 70.",
+			"format": "multiple_choice",
+			"options": [
+				"70",
+				"77",
+				"80",
+				"63"
+			]
+		},
+		{
+			"id": "math-times-7x11-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 11?",
+			"answer": "77",
+			"explanation": "7 × 11 = 77.",
+			"format": "multiple_choice",
+			"options": [
+				"77",
+				"88",
+				"70",
+				"84"
+			]
+		},
+		{
+			"id": "math-times-7x12-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 7 × 12?",
+			"answer": "84",
+			"explanation": "7 × 12 = 84.",
+			"format": "multiple_choice",
+			"options": [
+				"96",
+				"84",
+				"91",
+				"77"
+			]
+		},
+		{
+			"id": "math-times-8x2-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 2?",
+			"answer": "16",
+			"explanation": "8 × 2 = 16.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-8x3-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 3?",
+			"answer": "24",
+			"explanation": "8 × 3 = 24.",
+			"format": "multiple_choice",
+			"options": [
+				"16",
+				"27",
+				"24",
+				"32"
+			]
+		},
+		{
+			"id": "math-times-8x4-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 4?",
+			"answer": "32",
+			"explanation": "8 × 4 = 32.",
+			"format": "multiple_choice",
+			"options": [
+				"32",
+				"40",
+				"24",
+				"36"
+			]
+		},
+		{
+			"id": "math-times-8x5-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 5?",
+			"answer": "40",
+			"explanation": "8 × 5 = 40.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-8x6-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 6?",
+			"answer": "48",
+			"explanation": "8 × 6 = 48.",
+			"format": "multiple_choice",
+			"options": [
+				"40",
+				"56",
+				"48",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-8x7-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 7?",
+			"answer": "56",
+			"explanation": "8 × 7 = 56.",
+			"format": "multiple_choice",
+			"options": [
+				"56",
+				"48",
+				"63",
+				"64"
+			]
+		},
+		{
+			"id": "math-times-8x8-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 8?",
+			"answer": "64",
+			"explanation": "8 × 8 = 64.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-8x9-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 9?",
+			"answer": "72",
+			"explanation": "8 × 9 = 72.",
+			"format": "multiple_choice",
+			"options": [
+				"80",
+				"64",
+				"72",
+				"81"
+			]
+		},
+		{
+			"id": "math-times-8x10-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 10?",
+			"answer": "80",
+			"explanation": "8 × 10 = 80.",
+			"format": "multiple_choice",
+			"options": [
+				"90",
+				"72",
+				"88",
+				"80"
+			]
+		},
+		{
+			"id": "math-times-8x11-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 11?",
+			"answer": "88",
+			"explanation": "8 × 11 = 88.",
+			"format": "multiple_choice",
+			"options": [
+				"96",
+				"88",
+				"80",
+				"99"
+			]
+		},
+		{
+			"id": "math-times-8x12-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 8 × 12?",
+			"answer": "96",
+			"explanation": "8 × 12 = 96.",
+			"format": "multiple_choice",
+			"options": [
+				"96",
+				"88",
+				"108",
+				"104"
+			]
+		},
+		{
+			"id": "math-times-9x2-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 2?",
+			"answer": "18",
+			"explanation": "9 × 2 = 18.",
+			"format": "multiple_choice",
+			"options": [
+				"20",
+				"27",
+				"18",
+				"9"
+			]
+		},
+		{
+			"id": "math-times-9x3-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 3?",
+			"answer": "27",
+			"explanation": "9 × 3 = 27.",
+			"format": "multiple_choice",
+			"options": [
+				"18",
+				"30",
+				"36",
+				"27"
+			]
+		},
+		{
+			"id": "math-times-9x4-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 4?",
+			"answer": "36",
+			"explanation": "9 × 4 = 36.",
+			"format": "multiple_choice",
+			"options": [
+				"40",
+				"45",
+				"36",
+				"27"
+			]
+		},
+		{
+			"id": "math-times-9x5-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 5?",
+			"answer": "45",
+			"explanation": "9 × 5 = 45.",
+			"format": "multiple_choice",
+			"options": [
+				"36",
+				"54",
+				"45",
+				"50"
+			]
+		},
+		{
+			"id": "math-times-9x6-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 6?",
+			"answer": "54",
+			"explanation": "9 × 6 = 54.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-9x7-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 7?",
+			"answer": "63",
+			"explanation": "9 × 7 = 63.",
+			"format": "multiple_choice",
+			"options": [
+				"70",
+				"63",
+				"72",
+				"54"
+			]
+		},
+		{
+			"id": "math-times-9x8-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 8?",
+			"answer": "72",
+			"explanation": "9 × 8 = 72.",
+			"format": "multiple_choice",
+			"options": [
+				"63",
+				"72",
+				"81",
+				"80"
+			]
+		},
+		{
+			"id": "math-times-9x9-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 9?",
+			"answer": "81",
+			"explanation": "9 × 9 = 81.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-9x10-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 10?",
+			"answer": "90",
+			"explanation": "9 × 10 = 90.",
+			"format": "multiple_choice",
+			"options": [
+				"99",
+				"81",
+				"90",
+				"100"
+			]
+		},
+		{
+			"id": "math-times-9x11-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 11?",
+			"answer": "99",
+			"explanation": "9 × 11 = 99.",
+			"format": "multiple_choice",
+			"options": [
+				"110",
+				"90",
+				"108",
+				"99"
+			]
+		},
+		{
+			"id": "math-times-9x12-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 9 × 12?",
+			"answer": "108",
+			"explanation": "9 × 12 = 108.",
+			"format": "multiple_choice",
+			"options": [
+				"117",
+				"120",
+				"99",
+				"108"
+			]
+		},
+		{
+			"id": "math-times-10x2-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 2?",
+			"answer": "20",
+			"explanation": "10 × 2 = 20.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-10x3-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 3?",
+			"answer": "30",
+			"explanation": "10 × 3 = 30.",
+			"format": "multiple_choice",
+			"options": [
+				"30",
+				"40",
+				"33",
+				"20"
+			]
+		},
+		{
+			"id": "math-times-10x4-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 4?",
+			"answer": "40",
+			"explanation": "10 × 4 = 40.",
+			"format": "multiple_choice",
+			"options": [
+				"50",
+				"44",
+				"40",
+				"30"
+			]
+		},
+		{
+			"id": "math-times-10x5-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 5?",
+			"answer": "50",
+			"explanation": "10 × 5 = 50.",
+			"format": "multiple_choice",
+			"options": [
+				"40",
+				"55",
+				"50",
+				"60"
+			]
+		},
+		{
+			"id": "math-times-10x6-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 6?",
+			"answer": "60",
+			"explanation": "10 × 6 = 60.",
+			"format": "multiple_choice",
+			"options": [
+				"66",
+				"50",
+				"60",
+				"70"
+			]
+		},
+		{
+			"id": "math-times-10x7-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 7?",
+			"answer": "70",
+			"explanation": "10 × 7 = 70.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-10x8-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 8?",
+			"answer": "80",
+			"explanation": "10 × 8 = 80.",
+			"format": "multiple_choice",
+			"options": [
+				"90",
+				"88",
+				"80",
+				"70"
+			]
+		},
+		{
+			"id": "math-times-10x9-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 9?",
+			"answer": "90",
+			"explanation": "10 × 9 = 90.",
+			"format": "multiple_choice",
+			"options": [
+				"100",
+				"80",
+				"99",
+				"90"
+			]
+		},
+		{
+			"id": "math-times-10x10-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 10?",
+			"answer": "100",
+			"explanation": "10 × 10 = 100.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-10x11-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 11?",
+			"answer": "110",
+			"explanation": "10 × 11 = 110.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-10x12-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 10 × 12?",
+			"answer": "120",
+			"explanation": "10 × 12 = 120.",
+			"format": "multiple_choice",
+			"options": [
+				"130",
+				"132",
+				"110",
+				"120"
+			]
+		},
+		{
+			"id": "math-times-11x2-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 2?",
+			"answer": "22",
+			"explanation": "11 × 2 = 22.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-11x3-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 3?",
+			"answer": "33",
+			"explanation": "11 × 3 = 33.",
+			"format": "multiple_choice",
+			"options": [
+				"33",
+				"36",
+				"44",
+				"22"
+			]
+		},
+		{
+			"id": "math-times-11x4-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 4?",
+			"answer": "44",
+			"explanation": "11 × 4 = 44.",
+			"format": "multiple_choice",
+			"options": [
+				"55",
+				"33",
+				"48",
+				"44"
+			]
+		},
+		{
+			"id": "math-times-11x5-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 5?",
+			"answer": "55",
+			"explanation": "11 × 5 = 55.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-11x6-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 6?",
+			"answer": "66",
+			"explanation": "11 × 6 = 66.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-11x7-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 7?",
+			"answer": "77",
+			"explanation": "11 × 7 = 77.",
+			"format": "multiple_choice",
+			"options": [
+				"66",
+				"77",
+				"84",
+				"88"
+			]
+		},
+		{
+			"id": "math-times-11x8-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 8?",
+			"answer": "88",
+			"explanation": "11 × 8 = 88.",
+			"format": "multiple_choice",
+			"options": [
+				"77",
+				"99",
+				"96",
+				"88"
+			]
+		},
+		{
+			"id": "math-times-11x9-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 9?",
+			"answer": "99",
+			"explanation": "11 × 9 = 99.",
+			"format": "multiple_choice",
+			"options": [
+				"88",
+				"108",
+				"99",
+				"110"
+			]
+		},
+		{
+			"id": "math-times-11x10-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 10?",
+			"answer": "110",
+			"explanation": "11 × 10 = 110.",
+			"format": "multiple_choice",
+			"options": [
+				"110",
+				"121",
+				"120",
+				"99"
+			]
+		},
+		{
+			"id": "math-times-11x11-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 11?",
+			"answer": "121",
+			"explanation": "11 × 11 = 121.",
+			"format": "multiple_choice",
+			"options": [
+				"121",
+				"122",
+				"132",
+				"110"
+			]
+		},
+		{
+			"id": "math-times-11x12-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 11 × 12?",
+			"answer": "132",
+			"explanation": "11 × 12 = 132.",
+			"format": "multiple_choice",
+			"options": [
+				"143",
+				"121",
+				"144",
+				"132"
+			]
+		},
+		{
+			"id": "math-times-12x2-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 2?",
+			"answer": "24",
+			"explanation": "12 × 2 = 24.",
+			"format": "multiple_choice",
+			"options": [
+				"26",
+				"36",
+				"12",
+				"24"
+			]
+		},
+		{
+			"id": "math-times-12x3-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 3?",
+			"answer": "36",
+			"explanation": "12 × 3 = 36.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-12x4-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 4?",
+			"answer": "48",
+			"explanation": "12 × 4 = 48.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-12x5-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 5?",
+			"answer": "60",
+			"explanation": "12 × 5 = 60.",
+			"format": "multiple_choice",
+			"options": [
+				"60",
+				"72",
+				"65",
+				"48"
+			]
+		},
+		{
+			"id": "math-times-12x6-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 6?",
+			"answer": "72",
+			"explanation": "12 × 6 = 72.",
+			"format": "multiple_choice",
+			"options": [
+				"60",
+				"84",
+				"78",
+				"72"
+			]
+		},
+		{
+			"id": "math-times-12x7-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 7?",
+			"answer": "84",
+			"explanation": "12 × 7 = 84.",
+			"format": "multiple_choice",
+			"options": [
+				"96",
+				"84",
+				"91",
+				"72"
+			]
+		},
+		{
+			"id": "math-times-12x8-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 8?",
+			"answer": "96",
+			"explanation": "12 × 8 = 96.",
+			"format": "multiple_choice",
+			"options": [
+				"104",
+				"84",
+				"108",
+				"96"
+			]
+		},
+		{
+			"id": "math-times-12x9-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 9?",
+			"answer": "108",
+			"explanation": "12 × 9 = 108.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-12x10-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 10?",
+			"answer": "120",
+			"explanation": "12 × 10 = 120.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-12x11-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 11?",
+			"answer": "132",
+			"explanation": "12 × 11 = 132.",
+			"format": "numeric_input",
+			"options": []
+		},
+		{
+			"id": "math-times-12x12-d4",
+			"subject": "matematica",
+			"topic": "tabelline",
+			"difficulty": 4,
+			"prompt": "Quanto fa 12 × 12?",
+			"answer": "144",
+			"explanation": "12 × 12 = 144.",
+			"format": "multiple_choice",
+			"options": [
+				"156",
+				"132",
+				"145",
+				"144"
+			]
+		}
 	]
 }

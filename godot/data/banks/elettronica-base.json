@@ -1,14 +1,551 @@
 {
 	"schemaVersion": 1,
 	"subject": "elettronica",
+	"generator": "circuit-templates-v1",
 	"items": [
-		{"id": "ele-com-1", "topic": "componenti", "difficulty": 1, "format": "multiple_choice", "prompt": "Quale componente limita la corrente?", "options": ["Resistore", "LED", "Interruttore"], "answer": "Resistore", "explanation": "Il resistore si oppone al passaggio di corrente."},
-		{"id": "ele-com-2", "topic": "componenti", "difficulty": 2, "format": "multiple_choice", "prompt": "Il LED è un componente che emette...", "options": ["Luce", "Acqua", "Solo suono"], "answer": "Luce", "explanation": "LED significa diodo a emissione luminosa."},
-		{"id": "ele-com-3", "topic": "componenti", "difficulty": 3, "format": "multiple_choice", "prompt": "Quale componente accumula carica elettrica?", "options": ["Condensatore", "Resistore", "Fusibile"], "answer": "Condensatore", "explanation": "Il condensatore immagazzina carica."},
-		{"id": "ele-gra-1", "topic": "grandezze", "difficulty": 1, "format": "multiple_choice", "prompt": "In quale unità si misura la tensione?", "options": ["Volt", "Ampere", "Watt"], "answer": "Volt", "explanation": "La tensione si misura in volt (V)."},
-		{"id": "ele-gra-2", "topic": "grandezze", "difficulty": 2, "format": "multiple_choice", "prompt": "In quale unità si misura la corrente?", "options": ["Ampere", "Volt", "Ohm"], "answer": "Ampere", "explanation": "La corrente si misura in ampere (A)."},
-		{"id": "ele-cir-1", "topic": "circuiti", "difficulty": 2, "format": "multiple_choice", "prompt": "Un circuito aperto lascia passare corrente?", "options": ["No", "Sì sempre", "Solo di notte"], "answer": "No", "explanation": "Un circuito aperto interrompe il percorso: niente corrente."},
-		{"id": "ele-cir-2", "topic": "circuiti", "difficulty": 3, "format": "multiple_choice", "prompt": "Nella legge di Ohm V = R × I, la I è...", "options": ["La corrente", "La potenza", "La resistenza"], "answer": "La corrente", "explanation": "I indica l'intensità di corrente."},
-		{"id": "ele-com-4", "topic": "componenti", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale componente protegge da sovracorrenti?", "options": ["Fusibile", "LED", "Condensatore"], "answer": "Fusibile", "explanation": "Il fusibile interrompe il circuito se la corrente è troppo alta."}
+		{
+			"id": "elettronica-funzione-battery",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Batteria\"?",
+			"options": [
+				"emette luce solo se polarità e corrente sono corrette",
+				"fornisce la spinta elettrica tra polo + e polo -",
+				"apre o chiude il passaggio della corrente",
+				"limita la corrente e protegge i componenti sensibili"
+			],
+			"answer": "fornisce la spinta elettrica tra polo + e polo -",
+			"explanation": "Batteria: fornisce una differenza di potenziale: nel gioco è la spinta che mette in moto la corrente."
+		},
+		{
+			"id": "elettronica-attenzione-battery",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Batteria\"?",
+			"options": [
+				"non è una resistenza: non limita la corrente, la alimenta",
+				"non genera corrente: decide solo se il percorso continua",
+				"non trattarlo come un unico filo in serie",
+				"non è solo un interruttore manuale: viene comandato elettricamente"
+			],
+			"answer": "non è una resistenza: non limita la corrente, la alimenta",
+			"explanation": "Batteria: controlla sempre dove sono + e -."
+		},
+		{
+			"id": "elettronica-funzione-switch",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Interruttore\"?",
+			"options": [
+				"usa un comando debole per chiudere un circuito di potenza",
+				"misura un segnale e invia dati al terminale",
+				"apre o chiude il passaggio della corrente",
+				"divide la corrente in rami che possono funzionare separatamente"
+			],
+			"answer": "apre o chiude il passaggio della corrente",
+			"explanation": "Interruttore: apre o chiude il percorso: se è aperto il circuito è interrotto anche se tutti i pezzi sono presenti."
+		},
+		{
+			"id": "elettronica-attenzione-switch",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Interruttore\"?",
+			"options": [
+				"non serve ad accendere di più: serve a non sovraccaricare",
+				"non genera corrente: decide solo se il percorso continua",
+				"non è una resistenza: non limita la corrente, la alimenta",
+				"non è una lampadina normale: il verso conta"
+			],
+			"answer": "non genera corrente: decide solo se il percorso continua",
+			"explanation": "Interruttore: verifica se la leva collega davvero i due contatti."
+		},
+		{
+			"id": "elettronica-funzione-resistor",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Resistenza\"?",
+			"options": [
+				"fornisce la spinta elettrica tra polo + e polo -",
+				"limita la corrente e protegge i componenti sensibili",
+				"trasforma energia elettrica in movimento",
+				"divide la corrente in rami che possono funzionare separatamente"
+			],
+			"answer": "limita la corrente e protegge i componenti sensibili",
+			"explanation": "Resistenza: limita la corrente e protegge il LED da impulsi troppo forti."
+		},
+		{
+			"id": "elettronica-attenzione-resistor",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Resistenza\"?",
+			"options": [
+				"non è una resistenza: non limita la corrente, la alimenta",
+				"non è una batteria: non produce energia nuova, la conserva per poco",
+				"non è una lampadina normale: il verso conta",
+				"non serve ad accendere di più: serve a non sovraccaricare"
+			],
+			"answer": "non serve ad accendere di più: serve a non sovraccaricare",
+			"explanation": "Resistenza: se manca, il LED non è certificabile anche quando si accende."
+		},
+		{
+			"id": "elettronica-funzione-led",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"LED\"?",
+			"options": [
+				"usa un comando debole per chiudere un circuito di potenza",
+				"emette luce solo se polarità e corrente sono corrette",
+				"divide la corrente in rami che possono funzionare separatamente",
+				"limita la corrente e protegge i componenti sensibili"
+			],
+			"answer": "emette luce solo se polarità e corrente sono corrette",
+			"explanation": "LED: è un diodo luminoso: lascia passare corrente quasi solo nel verso corretto."
+		},
+		{
+			"id": "elettronica-attenzione-led",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"LED\"?",
+			"options": [
+				"non è un interruttore: è un riferimento stabile",
+				"non è una lampadina normale: il verso conta",
+				"non è solo un interruttore manuale: viene comandato elettricamente",
+				"non è un sensore: consuma energia, non misura"
+			],
+			"answer": "non è una lampadina normale: il verso conta",
+			"explanation": "LED: se arriva corrente ma resta spento, controlla la polarità."
+		},
+		{
+			"id": "elettronica-funzione-sensor",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Sensore\"?",
+			"options": [
+				"divide la corrente in rami che possono funzionare separatamente",
+				"misura un segnale e invia dati al terminale",
+				"trasforma energia elettrica in movimento",
+				"fornisce la spinta elettrica tra polo + e polo -"
+			],
+			"answer": "misura un segnale e invia dati al terminale",
+			"explanation": "Sensore: misura un valore e lo manda al terminale, ma solo se è alimentato e collegato al bus dati."
+		},
+		{
+			"id": "elettronica-attenzione-sensor",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Sensore\"?",
+			"options": [
+				"non è una lampadina normale: il verso conta",
+				"non è un sensore: consuma energia, non misura",
+				"se non è alimentato, non può misurare",
+				"non trattarlo come un unico filo in serie"
+			],
+			"answer": "se non è alimentato, non può misurare",
+			"explanation": "Sensore: un sensore scollegato può sembrare guasto anche quando il circuito principale funziona."
+		},
+		{
+			"id": "elettronica-funzione-capacitor",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Condensatore\"?",
+			"options": [
+				"chiude il giro riportando la corrente al polo -",
+				"apre o chiude il passaggio della corrente",
+				"accumula carica e la rilascia per stabilizzare impulsi",
+				"trasforma energia elettrica in movimento"
+			],
+			"answer": "accumula carica e la rilascia per stabilizzare impulsi",
+			"explanation": "Condensatore: accumula una piccola carica e la rilascia per stabilizzare impulsi brevi."
+		},
+		{
+			"id": "elettronica-attenzione-capacitor",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Condensatore\"?",
+			"options": [
+				"non è un sensore: consuma energia, non misura",
+				"non è una batteria: non produce energia nuova, la conserva per poco",
+				"non serve ad accendere di più: serve a non sovraccaricare",
+				"se non è alimentato, non può misurare"
+			],
+			"answer": "non è una batteria: non produce energia nuova, la conserva per poco",
+			"explanation": "Condensatore: se è scarico, il LED può fare un lampo debole o ritardato."
+		},
+		{
+			"id": "elettronica-funzione-return",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Ritorno\"?",
+			"options": [
+				"emette luce solo se polarità e corrente sono corrette",
+				"trasforma energia elettrica in movimento",
+				"accumula carica e la rilascia per stabilizzare impulsi",
+				"chiude il giro riportando la corrente al polo -"
+			],
+			"answer": "chiude il giro riportando la corrente al polo -",
+			"explanation": "Ritorno: riporta il percorso verso il polo negativo: senza ritorno non c'è circuito chiuso."
+		},
+		{
+			"id": "elettronica-attenzione-return",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Ritorno\"?",
+			"options": [
+				"non è opzionale: ogni circuito deve tornare alla sorgente",
+				"non serve ad accendere di più: serve a non sovraccaricare",
+				"non è un sensore: consuma energia, non misura",
+				"non è una batteria: non produce energia nuova, la conserva per poco"
+			],
+			"answer": "non è opzionale: ogni circuito deve tornare alla sorgente",
+			"explanation": "Ritorno: segui il filo fino al - della batteria."
+		},
+		{
+			"id": "elettronica-funzione-branchLed",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Ramo parallelo\"?",
+			"options": [
+				"trasforma energia elettrica in movimento",
+				"usa un comando debole per chiudere un circuito di potenza",
+				"accumula carica e la rilascia per stabilizzare impulsi",
+				"divide la corrente in rami che possono funzionare separatamente"
+			],
+			"answer": "divide la corrente in rami che possono funzionare separatamente",
+			"explanation": "Ramo parallelo: crea un secondo percorso: un guasto su un ramo non deve per forza spegnere tutto il circuito."
+		},
+		{
+			"id": "elettronica-attenzione-branchLed",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Ramo parallelo\"?",
+			"options": [
+				"non serve ad accendere di più: serve a non sovraccaricare",
+				"non è un interruttore: è un riferimento stabile",
+				"non genera corrente: decide solo se il percorso continua",
+				"non trattarlo come un unico filo in serie"
+			],
+			"answer": "non trattarlo come un unico filo in serie",
+			"explanation": "Ramo parallelo: controlla quale ramo resta alimentato e quale si interrompe."
+		},
+		{
+			"id": "elettronica-funzione-relay",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Relè\"?",
+			"options": [
+				"limita la corrente e protegge i componenti sensibili",
+				"apre o chiude il passaggio della corrente",
+				"usa un comando debole per chiudere un circuito di potenza",
+				"stabilizza il riferimento comune del ritorno"
+			],
+			"answer": "usa un comando debole per chiudere un circuito di potenza",
+			"explanation": "Relè: usa una piccola corrente di comando per chiudere un circuito più potente."
+		},
+		{
+			"id": "elettronica-attenzione-relay",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Relè\"?",
+			"options": [
+				"non è una lampadina normale: il verso conta",
+				"non è solo un interruttore manuale: viene comandato elettricamente",
+				"non è un sensore: consuma energia, non misura",
+				"non serve ad accendere di più: serve a non sovraccaricare"
+			],
+			"answer": "non è solo un interruttore manuale: viene comandato elettricamente",
+			"explanation": "Relè: verifica sia la bobina di comando sia il contatto che alimenta il carico."
+		},
+		{
+			"id": "elettronica-funzione-motor",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Motore\"?",
+			"options": [
+				"accumula carica e la rilascia per stabilizzare impulsi",
+				"chiude il giro riportando la corrente al polo -",
+				"trasforma energia elettrica in movimento",
+				"divide la corrente in rami che possono funzionare separatamente"
+			],
+			"answer": "trasforma energia elettrica in movimento",
+			"explanation": "Motore: è un carico più esigente di un LED: richiede alimentazione stabile e protezione."
+		},
+		{
+			"id": "elettronica-attenzione-motor",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Motore\"?",
+			"options": [
+				"non è una batteria: non produce energia nuova, la conserva per poco",
+				"non è un interruttore: è un riferimento stabile",
+				"non è opzionale: ogni circuito deve tornare alla sorgente",
+				"non è un sensore: consuma energia, non misura"
+			],
+			"answer": "non è un sensore: consuma energia, non misura",
+			"explanation": "Motore: se il LED funziona ma il motore no, controlla caduta di tensione e relè."
+		},
+		{
+			"id": "elettronica-funzione-ground",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la funzione del componente \"Massa\"?",
+			"options": [
+				"limita la corrente e protegge i componenti sensibili",
+				"accumula carica e la rilascia per stabilizzare impulsi",
+				"chiude il giro riportando la corrente al polo -",
+				"stabilizza il riferimento comune del ritorno"
+			],
+			"answer": "stabilizza il riferimento comune del ritorno",
+			"explanation": "Massa: è il riferimento di ritorno del circuito: se è ballerina, le misure diventano instabili."
+		},
+		{
+			"id": "elettronica-attenzione-ground",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale attenzione vale per il componente \"Massa\"?",
+			"options": [
+				"non genera corrente: decide solo se il percorso continua",
+				"non è una resistenza: non limita la corrente, la alimenta",
+				"non è un interruttore: è un riferimento stabile",
+				"non è opzionale: ogni circuito deve tornare alla sorgente"
+			],
+			"answer": "non è un interruttore: è un riferimento stabile",
+			"explanation": "Massa: cerca letture che passano da continuità a interruzione."
+		},
+		{
+			"id": "elettronica-guasto-missing-wire",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"Segui il filo: se la strada si interrompe, la corrente non torna alla batteria.\"?",
+			"options": [
+				"Filo mancante",
+				"LED girato al contrario",
+				"Ramo parallelo aperto",
+				"Condensatore scarico"
+			],
+			"answer": "Filo mancante",
+			"explanation": "Segui il filo: se la strada si interrompe, la corrente non torna alla batteria."
+		},
+		{
+			"id": "elettronica-guasto-open-switch",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"L'interruttore è come un ponte: se è aperto, la corrente si ferma.\"?",
+			"options": [
+				"Relè non attivato",
+				"Ramo parallelo aperto",
+				"LED girato al contrario",
+				"Interruttore aperto"
+			],
+			"answer": "Interruttore aperto",
+			"explanation": "L'interruttore è come un ponte: se è aperto, la corrente si ferma."
+		},
+		{
+			"id": "elettronica-guasto-missing-resistor",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"La resistenza protegge il LED: senza di lei la corrente è troppo forte.\"?",
+			"options": [
+				"Componente scollegato",
+				"Interruttore aperto",
+				"Filo mancante",
+				"Resistenza assente"
+			],
+			"answer": "Resistenza assente",
+			"explanation": "La resistenza protegge il LED: senza di lei la corrente è troppo forte."
+		},
+		{
+			"id": "elettronica-guasto-reversed-led",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"Il LED ha un verso: se è girato al contrario, non lascia passare corrente.\"?",
+			"options": [
+				"Filo mancante",
+				"Relè non attivato",
+				"Ritorno instabile",
+				"LED girato al contrario"
+			],
+			"answer": "LED girato al contrario",
+			"explanation": "Il LED ha un verso: se è girato al contrario, non lascia passare corrente."
+		},
+		{
+			"id": "elettronica-guasto-wrong-resistor-value",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"La resistenza c'è, ma il suo valore non protegge bene il LED.\"?",
+			"options": [
+				"Relè non attivato",
+				"Ritorno instabile",
+				"Interruttore aperto",
+				"Resistenza sbagliata"
+			],
+			"answer": "Resistenza sbagliata",
+			"explanation": "La resistenza c'è, ma il suo valore non protegge bene il LED."
+		},
+		{
+			"id": "elettronica-guasto-disconnected-component",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"Un pezzo può essere presente ma fuori dal giro della corrente.\"?",
+			"options": [
+				"Ramo parallelo aperto",
+				"Componente scollegato",
+				"Corto circuito",
+				"Filo mancante"
+			],
+			"answer": "Componente scollegato",
+			"explanation": "Un pezzo può essere presente ma fuori dal giro della corrente."
+		},
+		{
+			"id": "elettronica-guasto-sensor-unpowered",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"Un sensore misura solo se riceve energia e ha un ritorno.\"?",
+			"options": [
+				"Filo mancante",
+				"Ramo parallelo aperto",
+				"Sensore senza energia",
+				"Corto circuito"
+			],
+			"answer": "Sensore senza energia",
+			"explanation": "Un sensore misura solo se riceve energia e ha un ritorno."
+		},
+		{
+			"id": "elettronica-guasto-parallel-branch-open",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.\"?",
+			"options": [
+				"Ramo parallelo aperto",
+				"Corto circuito",
+				"Relè non attivato",
+				"Interruttore aperto"
+			],
+			"answer": "Ramo parallelo aperto",
+			"explanation": "In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona."
+		},
+		{
+			"id": "elettronica-guasto-capacitor-discharged",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.\"?",
+			"options": [
+				"Resistenza assente",
+				"Condensatore scarico",
+				"Filo mancante",
+				"Relè non attivato"
+			],
+			"answer": "Condensatore scarico",
+			"explanation": "Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco."
+		},
+		{
+			"id": "elettronica-guasto-short-circuit",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"Nel corto la corrente trova una scorciatoia e salta i componenti utili.\"?",
+			"options": [
+				"Resistenza assente",
+				"Filo mancante",
+				"Corto circuito",
+				"Relè non attivato"
+			],
+			"answer": "Corto circuito",
+			"explanation": "Nel corto la corrente trova una scorciatoia e salta i componenti utili."
+		},
+		{
+			"id": "elettronica-guasto-loose-ground",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.\"?",
+			"options": [
+				"Resistenza sbagliata",
+				"Componente scollegato",
+				"Relè non attivato",
+				"Ritorno instabile"
+			],
+			"answer": "Ritorno instabile",
+			"explanation": "Il ritorno al polo negativo deve essere stabile, non funzionare a tratti."
+		},
+		{
+			"id": "elettronica-guasto-relay-not-armed",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale guasto corrisponde a questo indizio: \"Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico.\"?",
+			"options": [
+				"Condensatore scarico",
+				"Interruttore aperto",
+				"Relè non attivato",
+				"Componente scollegato"
+			],
+			"answer": "Relè non attivato",
+			"explanation": "Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico."
+		}
 	]
 }

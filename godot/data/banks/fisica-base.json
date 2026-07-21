@@ -1,14 +1,439 @@
 {
 	"schemaVersion": 1,
 	"subject": "fisica",
+	"generator": "theory-catalog-curated-v1",
 	"items": [
-		{"id": "fis-for-1", "topic": "forze", "difficulty": 1, "format": "multiple_choice", "prompt": "Quale forza ci tiene a terra?", "options": ["Gravità", "Eco", "Colore"], "answer": "Gravità", "explanation": "La gravità attrae i corpi verso la Terra."},
-		{"id": "fis-for-2", "topic": "forze", "difficulty": 2, "format": "multiple_choice", "prompt": "In quale unità si misura la forza?", "options": ["Newton", "Litro", "Grado"], "answer": "Newton", "explanation": "La forza si misura in newton (N)."},
-		{"id": "fis-for-3", "topic": "forze", "difficulty": 3, "format": "multiple_choice", "prompt": "Se raddoppio la massa, il peso...", "options": ["Raddoppia", "Dimezza", "Resta uguale"], "answer": "Raddoppia", "explanation": "Il peso è proporzionale alla massa: raddoppia."},
-		{"id": "fis-gra-1", "topic": "grandezze", "difficulty": 1, "format": "multiple_choice", "prompt": "Qual è l'unità della lunghezza?", "options": ["Metro", "Litro", "Secondo"], "answer": "Metro", "explanation": "La lunghezza si misura in metri."},
-		{"id": "fis-gra-2", "topic": "grandezze", "difficulty": 1, "format": "multiple_choice", "prompt": "Qual è l'unità della massa?", "options": ["Chilogrammo", "Newton", "Watt"], "answer": "Chilogrammo", "explanation": "La massa si misura in chilogrammi."},
-		{"id": "fis-mot-1", "topic": "moto", "difficulty": 2, "format": "multiple_choice", "prompt": "Velocità = spazio diviso...", "options": ["Tempo", "Massa", "Forza"], "answer": "Tempo", "explanation": "La velocità è spazio diviso tempo."},
-		{"id": "fis-mot-2", "topic": "moto", "difficulty": 3, "format": "multiple_choice", "prompt": "Un oggetto fermo ha velocità...", "options": ["Zero", "Dieci", "Infinita"], "answer": "Zero", "explanation": "Se non si muove, la velocità è zero."},
-		{"id": "fis-gra-3", "topic": "grandezze", "difficulty": 2, "format": "multiple_choice", "prompt": "L'unità del tempo è...", "options": ["Secondo", "Metro", "Ampere"], "answer": "Secondo", "explanation": "Il tempo si misura in secondi."}
+		{
+			"id": "fisica-misure-unita-definizione",
+			"subject": "fisica",
+			"topic": "Metodo fisico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Misure e unità\"?",
+			"options": [
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
+				"La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo.",
+				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.",
+				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni."
+			],
+			"answer": "Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
+			"explanation": "Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile."
+		},
+		{
+			"id": "fisica-misure-unita-esempio",
+			"subject": "fisica",
+			"topic": "Metodo fisico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "250 cm in metri.",
+			"options": [
+				"6 m/s",
+				"2,5 m",
+				"2 g/cm3",
+				"Il corpo si muove più velocemente."
+			],
+			"answer": "2,5 m",
+			"explanation": "da cm a m sono due scalini → 250 / 100 = 2,5."
+		},
+		{
+			"id": "fisica-misure-unita-attenzione",
+			"subject": "fisica",
+			"topic": "Metodo fisico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Misure e unità\"?",
+			"options": [
+				"Non sommare grandezze con unità diverse.",
+				"L'energia non nasce dal nulla: cerca sempre la forma di partenza.",
+				"Peso e massa non sono la stessa grandezza.",
+				"Un grafico posizione-tempo non è la mappa del percorso."
+			],
+			"answer": "Non sommare grandezze con unità diverse.",
+			"explanation": "Non sommare grandezze con unità diverse."
+		},
+		{
+			"id": "fisica-moto-forze-energia-definizione",
+			"subject": "fisica",
+			"topic": "Modelli fisici",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Moto, forze ed energia\"?",
+			"options": [
+				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.",
+				"L'energia non si crea né si distrugge: si trasforma da una forma all'altra.",
+				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
+				"La fisica descrive i fenomeni con grandezze misurabili e modelli: grafici, forze, energia e trasformazioni."
+			],
+			"answer": "La fisica descrive i fenomeni con grandezze misurabili e modelli: grafici, forze, energia e trasformazioni.",
+			"explanation": "La fisica descrive i fenomeni con grandezze misurabili e modelli: grafici, forze, energia e trasformazioni."
+		},
+		{
+			"id": "fisica-moto-forze-energia-esempio",
+			"subject": "fisica",
+			"topic": "Modelli fisici",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Una linea posizione-tempo diventa più ripida.",
+			"options": [
+				"Il corpo si muove più velocemente.",
+				"2 g/cm3",
+				"Vario solo la luce, tengo fisso il resto.",
+				"6 m/s"
+			],
+			"answer": "Il corpo si muove più velocemente.",
+			"explanation": "la pendenza aumenta → la velocità aumenta → il moto è più rapido."
+		},
+		{
+			"id": "fisica-moto-forze-energia-attenzione",
+			"subject": "fisica",
+			"topic": "Modelli fisici",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Moto, forze ed energia\"?",
+			"options": [
+				"Un grafico posizione-tempo non è la mappa del percorso.",
+				"Non confondere densità e pressione: hanno formule diverse.",
+				"Non sommare grandezze con unità diverse.",
+				"Un grafico non è un disegno del percorso."
+			],
+			"answer": "Un grafico non è un disegno del percorso.",
+			"explanation": "Un grafico non è un disegno del percorso."
+		},
+		{
+			"id": "fisica-onde-ottica-definizione",
+			"subject": "fisica",
+			"topic": "Modelli fisici",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Onde e ottica\"?",
+			"options": [
+				"La fisica descrive i fenomeni con grandezze misurabili e modelli: grafici, forze, energia e trasformazioni.",
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
+				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
+				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni."
+			],
+			"answer": "Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
+			"explanation": "Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni."
+		},
+		{
+			"id": "fisica-onde-ottica-esempio",
+			"subject": "fisica",
+			"topic": "Modelli fisici",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Onda con lambda = 2 m e f = 3 Hz.",
+			"options": [
+				"6 m/s",
+				"2,5 m",
+				"Nel tratto piatto il corpo è fermo.",
+				"La potenziale si trasforma in cinetica."
+			],
+			"answer": "6 m/s",
+			"explanation": "v = lambda x f → 2 x 3 = 6."
+		},
+		{
+			"id": "fisica-onde-ottica-attenzione",
+			"subject": "fisica",
+			"topic": "Modelli fisici",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Onde e ottica\"?",
+			"options": [
+				"Un grafico non è un disegno del percorso.",
+				"Peso e massa non sono la stessa grandezza.",
+				"Un grafico posizione-tempo non è la mappa del percorso.",
+				"Frequenza e periodo sono inversi."
+			],
+			"answer": "Frequenza e periodo sono inversi.",
+			"explanation": "Frequenza e periodo sono inversi."
+		},
+		{
+			"id": "fisica-moto-grafici-definizione",
+			"subject": "fisica",
+			"topic": "Cinematica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Moto e grafici\"?",
+			"options": [
+				"La densità è massa per volume; la pressione è forza per area.",
+				"L'energia non si crea né si distrugge: si trasforma da una forma all'altra.",
+				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
+				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni."
+			],
+			"answer": "Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
+			"explanation": "Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso."
+		},
+		{
+			"id": "fisica-moto-grafici-esempio",
+			"subject": "fisica",
+			"topic": "Cinematica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Una linea posizione-tempo è piatta per un tratto.",
+			"options": [
+				"Nel tratto piatto il corpo è fermo.",
+				"Il corpo si muove più velocemente.",
+				"Il calore passa dall'acqua al ghiaccio fino all'equilibrio.",
+				"È in equilibrio: peso e reazione si bilanciano."
+			],
+			"answer": "Nel tratto piatto il corpo è fermo.",
+			"explanation": "pendenza zero → posizione non cambia → il corpo è fermo."
+		},
+		{
+			"id": "fisica-moto-grafici-attenzione",
+			"subject": "fisica",
+			"topic": "Cinematica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Moto e grafici\"?",
+			"options": [
+				"Cambiare due cose insieme rende il risultato inutile.",
+				"Non sommare grandezze con unità diverse.",
+				"Un grafico posizione-tempo non è la mappa del percorso.",
+				"Frequenza e periodo sono inversi."
+			],
+			"answer": "Un grafico posizione-tempo non è la mappa del percorso.",
+			"explanation": "Un grafico posizione-tempo non è la mappa del percorso."
+		},
+		{
+			"id": "fisica-forze-equilibrio-definizione",
+			"subject": "fisica",
+			"topic": "Dinamica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Forze ed equilibrio\"?",
+			"options": [
+				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
+				"La densità è massa per volume; la pressione è forza per area.",
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
+				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio."
+			],
+			"answer": "Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.",
+			"explanation": "Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio."
+		},
+		{
+			"id": "fisica-forze-equilibrio-esempio",
+			"subject": "fisica",
+			"topic": "Dinamica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un libro fermo su un tavolo.",
+			"options": [
+				"2 g/cm3",
+				"È in equilibrio: peso e reazione si bilanciano.",
+				"Il corpo si muove più velocemente.",
+				"2,5 m"
+			],
+			"answer": "È in equilibrio: peso e reazione si bilanciano.",
+			"explanation": "peso verso il basso → reazione del tavolo verso l'alto → forze uguali: equilibrio."
+		},
+		{
+			"id": "fisica-forze-equilibrio-attenzione",
+			"subject": "fisica",
+			"topic": "Dinamica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Forze ed equilibrio\"?",
+			"options": [
+				"Peso e massa non sono la stessa grandezza.",
+				"Non sommare grandezze con unità diverse.",
+				"Cambiare due cose insieme rende il risultato inutile.",
+				"Frequenza e periodo sono inversi."
+			],
+			"answer": "Peso e massa non sono la stessa grandezza.",
+			"explanation": "Peso e massa non sono la stessa grandezza."
+		},
+		{
+			"id": "fisica-energia-trasformazioni-definizione",
+			"subject": "fisica",
+			"topic": "Energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Energia e trasformazioni\"?",
+			"options": [
+				"L'energia non si crea né si distrugge: si trasforma da una forma all'altra.",
+				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
+				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio."
+			],
+			"answer": "L'energia non si crea né si distrugge: si trasforma da una forma all'altra.",
+			"explanation": "L'energia non si crea né si distrugge: si trasforma da una forma all'altra."
+		},
+		{
+			"id": "fisica-energia-trasformazioni-esempio",
+			"subject": "fisica",
+			"topic": "Energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Una palla cade da un tavolo.",
+			"options": [
+				"6 m/s",
+				"Vario solo la luce, tengo fisso il resto.",
+				"È in equilibrio: peso e reazione si bilanciano.",
+				"La potenziale si trasforma in cinetica."
+			],
+			"answer": "La potenziale si trasforma in cinetica.",
+			"explanation": "in alto: energia potenziale → cadendo: diventa cinetica → l'energia si trasforma, non sparisce."
+		},
+		{
+			"id": "fisica-energia-trasformazioni-attenzione",
+			"subject": "fisica",
+			"topic": "Energia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Energia e trasformazioni\"?",
+			"options": [
+				"L'energia non nasce dal nulla: cerca sempre la forma di partenza.",
+				"Un grafico non è un disegno del percorso.",
+				"Cambiare due cose insieme rende il risultato inutile.",
+				"Un grafico posizione-tempo non è la mappa del percorso."
+			],
+			"answer": "L'energia non nasce dal nulla: cerca sempre la forma di partenza.",
+			"explanation": "L'energia non nasce dal nulla: cerca sempre la forma di partenza."
+		},
+		{
+			"id": "fisica-esperimento-metodo-definizione",
+			"subject": "fisica",
+			"topic": "Metodo fisico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Esperimento e metodo\"?",
+			"options": [
+				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
+				"L'energia non si crea né si distrugge: si trasforma da una forma all'altra.",
+				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio."
+			],
+			"answer": "Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
+			"explanation": "Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa."
+		},
+		{
+			"id": "fisica-esperimento-metodo-esempio",
+			"subject": "fisica",
+			"topic": "Metodo fisico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Vuoi vedere se più luce fa crescere le piante.",
+			"options": [
+				"Il corpo si muove più velocemente.",
+				"6 m/s",
+				"2 g/cm3",
+				"Vario solo la luce, tengo fisso il resto."
+			],
+			"answer": "Vario solo la luce, tengo fisso il resto.",
+			"explanation": "cambio solo la luce → acqua e terreno restano uguali → confronto la crescita."
+		},
+		{
+			"id": "fisica-esperimento-metodo-attenzione",
+			"subject": "fisica",
+			"topic": "Metodo fisico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Esperimento e metodo\"?",
+			"options": [
+				"Non confondere densità e pressione: hanno formule diverse.",
+				"Cambiare due cose insieme rende il risultato inutile.",
+				"Un grafico non è un disegno del percorso.",
+				"Temperatura alta non significa più calore totale: conta anche la massa."
+			],
+			"answer": "Cambiare due cose insieme rende il risultato inutile.",
+			"explanation": "Cambiare due cose insieme rende il risultato inutile."
+		},
+		{
+			"id": "fisica-densita-pressione-definizione",
+			"subject": "fisica",
+			"topic": "Fluidi e materia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Densità e pressione\"?",
+			"options": [
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
+				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
+				"La densità è massa per volume; la pressione è forza per area.",
+				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso."
+			],
+			"answer": "La densità è massa per volume; la pressione è forza per area.",
+			"explanation": "La densità è massa per volume; la pressione è forza per area."
+		},
+		{
+			"id": "fisica-densita-pressione-esempio",
+			"subject": "fisica",
+			"topic": "Fluidi e materia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Massa 200 g, volume 100 cm3. Trova la densità.",
+			"options": [
+				"2 g/cm3",
+				"Il corpo si muove più velocemente.",
+				"La potenziale si trasforma in cinetica.",
+				"6 m/s"
+			],
+			"answer": "2 g/cm3",
+			"explanation": "densità = massa / volume → 200 / 100 → 2 g/cm3."
+		},
+		{
+			"id": "fisica-densita-pressione-attenzione",
+			"subject": "fisica",
+			"topic": "Fluidi e materia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Densità e pressione\"?",
+			"options": [
+				"Temperatura alta non significa più calore totale: conta anche la massa.",
+				"Non confondere densità e pressione: hanno formule diverse.",
+				"Non sommare grandezze con unità diverse.",
+				"Un grafico non è un disegno del percorso."
+			],
+			"answer": "Non confondere densità e pressione: hanno formule diverse.",
+			"explanation": "Non confondere densità e pressione: hanno formule diverse."
+		},
+		{
+			"id": "fisica-calore-temperatura-definizione",
+			"subject": "fisica",
+			"topic": "Termologia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Calore e temperatura\"?",
+			"options": [
+				"La densità è massa per volume; la pressione è forza per area.",
+				"La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo.",
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
+				"La fisica descrive i fenomeni con grandezze misurabili e modelli: grafici, forze, energia e trasformazioni."
+			],
+			"answer": "La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo.",
+			"explanation": "La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo."
+		},
+		{
+			"id": "fisica-calore-temperatura-esempio",
+			"subject": "fisica",
+			"topic": "Termologia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un cubetto di ghiaccio in acqua tiepida.",
+			"options": [
+				"Il corpo si muove più velocemente.",
+				"È in equilibrio: peso e reazione si bilanciano.",
+				"2,5 m",
+				"Il calore passa dall'acqua al ghiaccio fino all'equilibrio."
+			],
+			"answer": "Il calore passa dall'acqua al ghiaccio fino all'equilibrio.",
+			"explanation": "l'acqua è più calda → il calore passa all'acqua verso il ghiaccio → tendono a una temperatura comune."
+		},
+		{
+			"id": "fisica-calore-temperatura-attenzione",
+			"subject": "fisica",
+			"topic": "Termologia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Calore e temperatura\"?",
+			"options": [
+				"Cambiare due cose insieme rende il risultato inutile.",
+				"Peso e massa non sono la stessa grandezza.",
+				"Frequenza e periodo sono inversi.",
+				"Temperatura alta non significa più calore totale: conta anche la massa."
+			],
+			"answer": "Temperatura alta non significa più calore totale: conta anche la massa.",
+			"explanation": "Temperatura alta non significa più calore totale: conta anche la massa."
+		}
 	]
 }

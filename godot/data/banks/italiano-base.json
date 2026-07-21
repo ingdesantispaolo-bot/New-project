@@ -1,14 +1,4647 @@
 {
 	"schemaVersion": 1,
 	"subject": "italiano",
+	"generator": "vocabulary-bank-v1",
 	"items": [
-		{"id": "ita-syn-1", "topic": "sinonimi", "difficulty": 1, "format": "multiple_choice", "prompt": "Qual è il sinonimo di 'rapido'?", "options": ["Lento", "Veloce", "Largo"], "answer": "Veloce", "explanation": "Rapido significa veloce."},
-		{"id": "ita-syn-2", "topic": "sinonimi", "difficulty": 1, "format": "multiple_choice", "prompt": "Qual è il contrario di 'allegro'?", "options": ["Triste", "Felice", "Alto"], "answer": "Triste", "explanation": "Il contrario di allegro è triste."},
-		{"id": "ita-syn-3", "topic": "sinonimi", "difficulty": 3, "format": "multiple_choice", "prompt": "Qual è il sinonimo di 'coraggioso'?", "options": ["Timido", "Audace", "Stanco"], "answer": "Audace", "explanation": "Coraggioso e audace hanno lo stesso significato."},
-		{"id": "ita-gra-1", "topic": "grammatica", "difficulty": 2, "format": "multiple_choice", "prompt": "Completa: Il gatto ___ sul muretto.", "options": ["saltano", "salta", "saltare"], "answer": "salta", "explanation": "Il soggetto singolare 'gatto' richiede 'salta'."},
-		{"id": "ita-gra-2", "topic": "grammatica", "difficulty": 3, "format": "multiple_choice", "prompt": "Completa: Ieri io ___ al parco.", "options": ["vado", "sono andato", "andrò"], "answer": "sono andato", "explanation": "'Ieri' richiede il passato: sono andato."},
-		{"id": "ita-ana-1", "topic": "analisi", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale parola è un nome?", "options": ["Correre", "Giardino", "Verde"], "answer": "Giardino", "explanation": "Giardino indica una cosa: è un nome."},
-		{"id": "ita-ana-2", "topic": "analisi", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale parola è un aggettivo?", "options": ["Veloce", "Cane", "Saltare"], "answer": "Veloce", "explanation": "Veloce descrive una qualità: è un aggettivo."},
-		{"id": "ita-ana-3", "topic": "analisi", "difficulty": 4, "format": "numeric_input", "prompt": "Quante vocali ci sono nella parola 'aiuola'?", "options": [], "answer": "5", "explanation": "a-i-u-o-a sono 5 vocali."}
+		{
+			"id": "italiano-casa-famiglia-famiglia-0",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"insieme delle persone legate da parentela o vita comune\"?",
+			"options": [
+				"ufficio",
+				"visita",
+				"famiglia",
+				"mappa"
+			],
+			"answer": "famiglia",
+			"explanation": "\"famiglia\": insieme delle persone legate da parentela o vita comune."
+		},
+		{
+			"id": "italiano-casa-famiglia-genitore-1",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"madre o padre rispetto ai figli\"?",
+			"options": [
+				"orecchio",
+				"temporale",
+				"foglia",
+				"genitore"
+			],
+			"answer": "genitore",
+			"explanation": "\"genitore\": madre o padre rispetto ai figli."
+		},
+		{
+			"id": "italiano-casa-famiglia-fratello-2",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"figlio degli stessi genitori\"?",
+			"options": [
+				"sorpresa",
+				"percorso",
+				"fratello",
+				"registro"
+			],
+			"answer": "fratello",
+			"explanation": "\"fratello\": figlio degli stessi genitori."
+		},
+		{
+			"id": "italiano-casa-famiglia-sorella-3",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"figlia degli stessi genitori\"?",
+			"options": [
+				"fatto",
+				"contesto",
+				"sorella",
+				"telefono"
+			],
+			"answer": "sorella",
+			"explanation": "\"sorella\": figlia degli stessi genitori."
+		},
+		{
+			"id": "italiano-casa-famiglia-parente-4",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"persona legata da parentela\"?",
+			"options": [
+				"disaccordo",
+				"ipotesi",
+				"carne",
+				"parente"
+			],
+			"answer": "parente",
+			"explanation": "\"parente\": persona legata da parentela."
+		},
+		{
+			"id": "italiano-casa-famiglia-vicino-5",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"persona che abita accanto o molto vicino\"?",
+			"options": [
+				"vicino",
+				"profilo",
+				"tesi",
+				"romanzo"
+			],
+			"answer": "vicino",
+			"explanation": "\"vicino\": persona che abita accanto o molto vicino."
+		},
+		{
+			"id": "italiano-casa-famiglia-ospite-6",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"persona accolta in casa\"?",
+			"options": [
+				"domanda",
+				"ufficio",
+				"collega",
+				"ospite"
+			],
+			"answer": "ospite",
+			"explanation": "\"ospite\": persona accolta in casa."
+		},
+		{
+			"id": "italiano-casa-famiglia-cucina-7",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"stanza in cui si preparano i pasti\"?",
+			"options": [
+				"promessa",
+				"cucina",
+				"cartella",
+				"fermata"
+			],
+			"answer": "cucina",
+			"explanation": "\"cucina\": stanza in cui si preparano i pasti."
+		},
+		{
+			"id": "italiano-casa-famiglia-soggiorno-8",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"stanza della casa usata per stare insieme\"?",
+			"options": [
+				"fiore",
+				"bocca",
+				"soggiorno",
+				"bicicletta"
+			],
+			"answer": "soggiorno",
+			"explanation": "\"soggiorno\": stanza della casa usata per stare insieme."
+		},
+		{
+			"id": "italiano-casa-famiglia-camera-9",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"stanza in cui si dorme o si studia\"?",
+			"options": [
+				"effetto",
+				"computer",
+				"camera",
+				"pomeriggio"
+			],
+			"answer": "camera",
+			"explanation": "\"camera\": stanza in cui si dorme o si studia."
+		},
+		{
+			"id": "italiano-casa-famiglia-bagno-10",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"stanza per lavarsi e curare l'igiene\"?",
+			"options": [
+				"bagno",
+				"tesi",
+				"diritto",
+				"ambiente"
+			],
+			"answer": "bagno",
+			"explanation": "\"bagno\": stanza per lavarsi e curare l'igiene."
+		},
+		{
+			"id": "italiano-casa-famiglia-balcone-11",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"spazio esterno collegato a una stanza\"?",
+			"options": [
+				"piscina",
+				"incrocio",
+				"fratello",
+				"balcone"
+			],
+			"answer": "balcone",
+			"explanation": "\"balcone\": spazio esterno collegato a una stanza."
+		},
+		{
+			"id": "italiano-casa-famiglia-tavolo-12",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mobile con piano usato per mangiare o lavorare\"?",
+			"options": [
+				"zaino",
+				"scontrino",
+				"tavolo",
+				"tastiera"
+			],
+			"answer": "tavolo",
+			"explanation": "\"tavolo\": mobile con piano usato per mangiare o lavorare."
+		},
+		{
+			"id": "italiano-casa-famiglia-sedia-13",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sedile con schienale\"?",
+			"options": [
+				"fermata",
+				"carrello",
+				"volontario",
+				"sedia"
+			],
+			"answer": "sedia",
+			"explanation": "\"sedia\": sedile con schienale."
+		},
+		{
+			"id": "italiano-casa-famiglia-armadio-14",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mobile in cui si tengono vestiti o oggetti\"?",
+			"options": [
+				"fumetto",
+				"scontrino",
+				"armadio",
+				"responsabile"
+			],
+			"answer": "armadio",
+			"explanation": "\"armadio\": mobile in cui si tengono vestiti o oggetti."
+		},
+		{
+			"id": "italiano-casa-famiglia-mensola-15",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"ripiano fissato alla parete\"?",
+			"options": [
+				"gentilezza",
+				"rifiuto",
+				"mensola",
+				"pranzo"
+			],
+			"answer": "mensola",
+			"explanation": "\"mensola\": ripiano fissato alla parete."
+		},
+		{
+			"id": "italiano-casa-famiglia-cassetto-16",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"vano estraibile di un mobile\"?",
+			"options": [
+				"allegato",
+				"cassetto",
+				"marciapiede",
+				"settimana"
+			],
+			"answer": "cassetto",
+			"explanation": "\"cassetto\": vano estraibile di un mobile."
+		},
+		{
+			"id": "italiano-casa-famiglia-chiave-17",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"oggetto usato per aprire una serratura\"?",
+			"options": [
+				"palestra",
+				"chiave",
+				"rispetto",
+				"risposta"
+			],
+			"answer": "chiave",
+			"explanation": "\"chiave\": oggetto usato per aprire una serratura."
+		},
+		{
+			"id": "italiano-casa-famiglia-campanello-18",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"dispositivo per avvisare chi è in casa\"?",
+			"options": [
+				"mare",
+				"campanello",
+				"mese",
+				"respiro"
+			],
+			"answer": "campanello",
+			"explanation": "\"campanello\": dispositivo per avvisare chi è in casa."
+		},
+		{
+			"id": "italiano-casa-famiglia-bolletta-19",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"documento con il costo di un servizio domestico\"?",
+			"options": [
+				"pasta",
+				"bolletta",
+				"pomeriggio",
+				"strada"
+			],
+			"answer": "bolletta",
+			"explanation": "\"bolletta\": documento con il costo di un servizio domestico."
+		},
+		{
+			"id": "italiano-casa-famiglia-ordinato-20",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"messo al posto giusto\"?",
+			"options": [
+				"piovoso",
+				"inquinato",
+				"allergico",
+				"ordinato"
+			],
+			"answer": "ordinato",
+			"explanation": "\"ordinato\": messo al posto giusto."
+		},
+		{
+			"id": "italiano-casa-famiglia-disordinato-21",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"senza ordine o organizzazione\"?",
+			"options": [
+				"leale",
+				"ordinato",
+				"disordinato",
+				"scaduto"
+			],
+			"answer": "disordinato",
+			"explanation": "\"disordinato\": senza ordine o organizzazione."
+		},
+		{
+			"id": "italiano-casa-famiglia-pulito-22",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"privo di sporco\"?",
+			"options": [
+				"leale",
+				"pulito",
+				"dolce",
+				"riciclabile"
+			],
+			"answer": "pulito",
+			"explanation": "\"pulito\": privo di sporco."
+		},
+		{
+			"id": "italiano-casa-famiglia-sporco-23",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"non pulito\"?",
+			"options": [
+				"sporco",
+				"freddo",
+				"responsabile",
+				"prudente"
+			],
+			"answer": "sporco",
+			"explanation": "\"sporco\": non pulito."
+		},
+		{
+			"id": "italiano-casa-famiglia-accogliente-24",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che fa sentire a proprio agio\"?",
+			"options": [
+				"economico",
+				"accogliente",
+				"responsabile",
+				"soleggiato"
+			],
+			"answer": "accogliente",
+			"explanation": "\"accogliente\": che fa sentire a proprio agio."
+		},
+		{
+			"id": "italiano-casa-famiglia-rumoroso-25",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"pieno di rumore\"?",
+			"options": [
+				"rumoroso",
+				"inquinato",
+				"silenzioso",
+				"urgente"
+			],
+			"answer": "rumoroso",
+			"explanation": "\"rumoroso\": pieno di rumore."
+		},
+		{
+			"id": "italiano-casa-famiglia-silenzioso-26",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con poco o nessun rumore\"?",
+			"options": [
+				"silenzioso",
+				"timido",
+				"inquinato",
+				"nutriente"
+			],
+			"answer": "silenzioso",
+			"explanation": "\"silenzioso\": con poco o nessun rumore."
+		},
+		{
+			"id": "italiano-casa-famiglia-comodo-27",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"facile o piacevole da usare\"?",
+			"options": [
+				"rinnovabile",
+				"riciclabile",
+				"piovoso",
+				"comodo"
+			],
+			"answer": "comodo",
+			"explanation": "\"comodo\": facile o piacevole da usare."
+		},
+		{
+			"id": "italiano-scuola-studio-quaderno-28",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"fascicolo su cui si scrive a scuola\"?",
+			"options": [
+				"quaderno",
+				"cerotto",
+				"responsabile",
+				"dettaglio"
+			],
+			"answer": "quaderno",
+			"explanation": "\"quaderno\": fascicolo su cui si scrive a scuola."
+		},
+		{
+			"id": "italiano-scuola-studio-diario-29",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"agenda scolastica per compiti e comunicazioni\"?",
+			"options": [
+				"punteggio",
+				"diario",
+				"tablet",
+				"dovere"
+			],
+			"answer": "diario",
+			"explanation": "\"diario\": agenda scolastica per compiti e comunicazioni."
+		},
+		{
+			"id": "italiano-scuola-studio-zaino-30",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"borsa da portare sulle spalle\"?",
+			"options": [
+				"responsabile",
+				"mappa",
+				"fonte",
+				"zaino"
+			],
+			"answer": "zaino",
+			"explanation": "\"zaino\": borsa da portare sulle spalle."
+		},
+		{
+			"id": "italiano-scuola-studio-astuccio-31",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"contenitore per penne e matite\"?",
+			"options": [
+				"gioia",
+				"scadenza",
+				"interrogazione",
+				"astuccio"
+			],
+			"answer": "astuccio",
+			"explanation": "\"astuccio\": contenitore per penne e matite."
+		},
+		{
+			"id": "italiano-scuola-studio-lavagna-32",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"superficie su cui l'insegnante scrive\"?",
+			"options": [
+				"lavagna",
+				"verdura",
+				"ingrediente",
+				"percorso"
+			],
+			"answer": "lavagna",
+			"explanation": "\"lavagna\": superficie su cui l'insegnante scrive."
+		},
+		{
+			"id": "italiano-scuola-studio-lezione-33",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"momento in cui si spiega o si impara un argomento\"?",
+			"options": [
+				"responsabile",
+				"link",
+				"lezione",
+				"domanda"
+			],
+			"answer": "lezione",
+			"explanation": "\"lezione\": momento in cui si spiega o si impara un argomento."
+		},
+		{
+			"id": "italiano-scuola-studio-compito-34",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"esercizio da svolgere a scuola o a casa\"?",
+			"options": [
+				"canzone",
+				"settimana",
+				"servizio",
+				"compito"
+			],
+			"answer": "compito",
+			"explanation": "\"compito\": esercizio da svolgere a scuola o a casa."
+		},
+		{
+			"id": "italiano-scuola-studio-verifica-35",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"prova per controllare ciò che si sa\"?",
+			"options": [
+				"verifica",
+				"privacy",
+				"cucina",
+				"ospite"
+			],
+			"answer": "verifica",
+			"explanation": "\"verifica\": prova per controllare ciò che si sa."
+		},
+		{
+			"id": "italiano-scuola-studio-interrogazione-36",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"prova orale su un argomento\"?",
+			"options": [
+				"punteggio",
+				"allenamento",
+				"interrogazione",
+				"risorsa"
+			],
+			"answer": "interrogazione",
+			"explanation": "\"interrogazione\": prova orale su un argomento."
+		},
+		{
+			"id": "italiano-scuola-studio-voto-37",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"valutazione espressa con un numero o giudizio\"?",
+			"options": [
+				"fratello",
+				"app",
+				"ricetta",
+				"voto"
+			],
+			"answer": "voto",
+			"explanation": "\"voto\": valutazione espressa con un numero o giudizio."
+		},
+		{
+			"id": "italiano-scuola-studio-argomento-38",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"tema di cui si parla o si studia\"?",
+			"options": [
+				"ambiguità",
+				"risposta",
+				"argomento",
+				"ospedale"
+			],
+			"answer": "argomento",
+			"explanation": "\"argomento\": tema di cui si parla o si studia."
+		},
+		{
+			"id": "italiano-scuola-studio-paragrafo-39",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte di un testo separata dalle altre\"?",
+			"options": [
+				"paragrafo",
+				"bagno",
+				"ingrediente",
+				"carne"
+			],
+			"answer": "paragrafo",
+			"explanation": "\"paragrafo\": parte di un testo separata dalle altre."
+		},
+		{
+			"id": "italiano-scuola-studio-riassunto-40",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"testo breve che conserva le informazioni principali\"?",
+			"options": [
+				"orario",
+				"riassunto",
+				"farmacia",
+				"schermo"
+			],
+			"answer": "riassunto",
+			"explanation": "\"riassunto\": testo breve che conserva le informazioni principali."
+		},
+		{
+			"id": "italiano-scuola-studio-schema-41",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"rappresentazione ordinata di idee o dati\"?",
+			"options": [
+				"respiro",
+				"schema",
+				"film",
+				"ricetta"
+			],
+			"answer": "schema",
+			"explanation": "\"schema\": rappresentazione ordinata di idee o dati."
+		},
+		{
+			"id": "italiano-scuola-studio-mappa-42",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"schema che collega concetti\"?",
+			"options": [
+				"mattina",
+				"cena",
+				"mappa",
+				"bocca"
+			],
+			"answer": "mappa",
+			"explanation": "\"mappa\": schema che collega concetti."
+		},
+		{
+			"id": "italiano-scuola-studio-fonte-43",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"origine di un'informazione\"?",
+			"options": [
+				"astuccio",
+				"quartiere",
+				"temporale",
+				"fonte"
+			],
+			"answer": "fonte",
+			"explanation": "\"fonte\": origine di un'informazione."
+		},
+		{
+			"id": "italiano-scuola-studio-esempio-44",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"caso concreto che chiarisce una regola\"?",
+			"options": [
+				"disaccordo",
+				"schema",
+				"esempio",
+				"bagno"
+			],
+			"answer": "esempio",
+			"explanation": "\"esempio\": caso concreto che chiarisce una regola."
+		},
+		{
+			"id": "italiano-scuola-studio-domanda-45",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"frase con cui si chiede qualcosa\"?",
+			"options": [
+				"piscina",
+				"gentilezza",
+				"campanello",
+				"domanda"
+			],
+			"answer": "domanda",
+			"explanation": "\"domanda\": frase con cui si chiede qualcosa."
+		},
+		{
+			"id": "italiano-scuola-studio-risposta-46",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"informazione data a una domanda\"?",
+			"options": [
+				"bolletta",
+				"frutta",
+				"risposta",
+				"turno"
+			],
+			"answer": "risposta",
+			"explanation": "\"risposta\": informazione data a una domanda."
+		},
+		{
+			"id": "italiano-scuola-studio-metodo-47",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"modo ordinato di lavorare o studiare\"?",
+			"options": [
+				"carrello",
+				"tavolo",
+				"metodo",
+				"parente"
+			],
+			"answer": "metodo",
+			"explanation": "\"metodo\": modo ordinato di lavorare o studiare."
+		},
+		{
+			"id": "italiano-scuola-studio-studiare-48",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"imparare un argomento con attenzione\"?",
+			"options": [
+				"studiare",
+				"bloccare",
+				"correggere",
+				"condividere"
+			],
+			"answer": "studiare",
+			"explanation": "\"studiare\": imparare un argomento con attenzione."
+		},
+		{
+			"id": "italiano-scuola-studio-ripassare-49",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"rivedere ciò che si è già studiato\"?",
+			"options": [
+				"aggiornare",
+				"ripassare",
+				"proteggere",
+				"vincere"
+			],
+			"answer": "ripassare",
+			"explanation": "\"ripassare\": rivedere ciò che si è già studiato."
+		},
+		{
+			"id": "italiano-scuola-studio-sottolineare-50",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"segnare una parte importante del testo\"?",
+			"options": [
+				"giocare",
+				"sottolineare",
+				"vincere",
+				"disegnare"
+			],
+			"answer": "sottolineare",
+			"explanation": "\"sottolineare\": segnare una parte importante del testo."
+		},
+		{
+			"id": "italiano-scuola-studio-riassumere-51",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"dire o scrivere solo le idee essenziali\"?",
+			"options": [
+				"caricare",
+				"giocare",
+				"riassumere",
+				"bloccare"
+			],
+			"answer": "riassumere",
+			"explanation": "\"riassumere\": dire o scrivere solo le idee essenziali."
+		},
+		{
+			"id": "italiano-scuola-studio-spiegare-52",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"rendere chiaro un contenuto\"?",
+			"options": [
+				"spiegare",
+				"correre",
+				"allenarsi",
+				"vincere"
+			],
+			"answer": "spiegare",
+			"explanation": "\"spiegare\": rendere chiaro un contenuto."
+		},
+		{
+			"id": "italiano-scuola-studio-confrontare-53",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mettere due elementi a paragone\"?",
+			"options": [
+				"bloccare",
+				"sottolineare",
+				"confrontare",
+				"vincere"
+			],
+			"answer": "confrontare",
+			"explanation": "\"confrontare\": mettere due elementi a paragone."
+		},
+		{
+			"id": "italiano-scuola-studio-verificare-54",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"controllare se una cosa è corretta\"?",
+			"options": [
+				"verificare",
+				"confrontare",
+				"disegnare",
+				"perdere"
+			],
+			"answer": "verificare",
+			"explanation": "\"verificare\": controllare se una cosa è corretta."
+		},
+		{
+			"id": "italiano-scuola-studio-correggere-55",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"eliminare un errore\"?",
+			"options": [
+				"dimostrare",
+				"correggere",
+				"verificare",
+				"spiegare"
+			],
+			"answer": "correggere",
+			"explanation": "\"correggere\": eliminare un errore."
+		},
+		{
+			"id": "italiano-scuola-studio-dimostrare-56",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mostrare con prove che una cosa è vera\"?",
+			"options": [
+				"dimostrare",
+				"argomentare",
+				"bloccare",
+				"confrontare"
+			],
+			"answer": "dimostrare",
+			"explanation": "\"dimostrare\": mostrare con prove che una cosa è vera."
+		},
+		{
+			"id": "italiano-scuola-studio-argomentare-57",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sostenere un'idea con ragioni e prove\"?",
+			"options": [
+				"argomentare",
+				"aggiornare",
+				"condividere",
+				"suonare"
+			],
+			"answer": "argomentare",
+			"explanation": "\"argomentare\": sostenere un'idea con ragioni e prove."
+		},
+		{
+			"id": "italiano-cibo-spesa-colazione-58",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"pasto del mattino\"?",
+			"options": [
+				"farmacia",
+				"colazione",
+				"responsabile",
+				"gentilezza"
+			],
+			"answer": "colazione",
+			"explanation": "\"colazione\": pasto del mattino."
+		},
+		{
+			"id": "italiano-cibo-spesa-pranzo-59",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"pasto principale di metà giornata\"?",
+			"options": [
+				"pranzo",
+				"giorno",
+				"lavagna",
+				"rabbia"
+			],
+			"answer": "pranzo",
+			"explanation": "\"pranzo\": pasto principale di metà giornata."
+		},
+		{
+			"id": "italiano-cibo-spesa-cena-60",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"pasto della sera\"?",
+			"options": [
+				"collaborazione",
+				"tablet",
+				"cena",
+				"strada"
+			],
+			"answer": "cena",
+			"explanation": "\"cena\": pasto della sera."
+		},
+		{
+			"id": "italiano-cibo-spesa-spuntino-61",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"piccolo pasto tra due pasti principali\"?",
+			"options": [
+				"raccolta",
+				"mano",
+				"spuntino",
+				"risorsa"
+			],
+			"answer": "spuntino",
+			"explanation": "\"spuntino\": piccolo pasto tra due pasti principali."
+		},
+		{
+			"id": "italiano-cibo-spesa-ricetta-62",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"istruzioni per preparare un piatto\"?",
+			"options": [
+				"mattina",
+				"promessa",
+				"fonte",
+				"ricetta"
+			],
+			"answer": "ricetta",
+			"explanation": "\"ricetta\": istruzioni per preparare un piatto."
+		},
+		{
+			"id": "italiano-cibo-spesa-ingrediente-63",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alimento usato in una ricetta\"?",
+			"options": [
+				"settimana",
+				"lavagna",
+				"ambiguità",
+				"ingrediente"
+			],
+			"answer": "ingrediente",
+			"explanation": "\"ingrediente\": alimento usato in una ricetta."
+		},
+		{
+			"id": "italiano-cibo-spesa-pane-64",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alimento base fatto con farina e acqua\"?",
+			"options": [
+				"mese",
+				"pane",
+				"privacy",
+				"allegato"
+			],
+			"answer": "pane",
+			"explanation": "\"pane\": alimento base fatto con farina e acqua."
+		},
+		{
+			"id": "italiano-cibo-spesa-pasta-65",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alimento tipico formato da farina e acqua\"?",
+			"options": [
+				"partita",
+				"stazione",
+				"pasta",
+				"mattina"
+			],
+			"answer": "pasta",
+			"explanation": "\"pasta\": alimento tipico formato da farina e acqua."
+		},
+		{
+			"id": "italiano-cibo-spesa-verdura-66",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alimento vegetale usato nei pasti\"?",
+			"options": [
+				"registro",
+				"mano",
+				"verdura",
+				"diritto"
+			],
+			"answer": "verdura",
+			"explanation": "\"verdura\": alimento vegetale usato nei pasti."
+		},
+		{
+			"id": "italiano-cibo-spesa-frutta-67",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alimento dolce prodotto dalle piante\"?",
+			"options": [
+				"contesto",
+				"argomento",
+				"soggiorno",
+				"frutta"
+			],
+			"answer": "frutta",
+			"explanation": "\"frutta\": alimento dolce prodotto dalle piante."
+		},
+		{
+			"id": "italiano-cibo-spesa-formaggio-68",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alimento derivato dal latte\"?",
+			"options": [
+				"formaggio",
+				"scusa",
+				"compito",
+				"bocca"
+			],
+			"answer": "formaggio",
+			"explanation": "\"formaggio\": alimento derivato dal latte."
+		},
+		{
+			"id": "italiano-cibo-spesa-carne-69",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alimento ricavato da animali allevati\"?",
+			"options": [
+				"prova",
+				"strada",
+				"carne",
+				"arbitro"
+			],
+			"answer": "carne",
+			"explanation": "\"carne\": alimento ricavato da animali allevati."
+		},
+		{
+			"id": "italiano-cibo-spesa-pesce-70",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alimento che viene dal mare o dall'acqua dolce\"?",
+			"options": [
+				"ora",
+				"campanello",
+				"pesce",
+				"tablet"
+			],
+			"answer": "pesce",
+			"explanation": "\"pesce\": alimento che viene dal mare o dall'acqua dolce."
+		},
+		{
+			"id": "italiano-cibo-spesa-prezzo-71",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"quantità di denaro richiesta per comprare qualcosa\"?",
+			"options": [
+				"prezzo",
+				"ufficio",
+				"fiume",
+				"zaino"
+			],
+			"answer": "prezzo",
+			"explanation": "\"prezzo\": quantità di denaro richiesta per comprare qualcosa."
+		},
+		{
+			"id": "italiano-cibo-spesa-scontrino-72",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"documento che prova un acquisto\"?",
+			"options": [
+				"scontrino",
+				"contesto",
+				"resto",
+				"bosco"
+			],
+			"answer": "scontrino",
+			"explanation": "\"scontrino\": documento che prova un acquisto."
+		},
+		{
+			"id": "italiano-cibo-spesa-resto-73",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"denaro restituito dopo un pagamento\"?",
+			"options": [
+				"carrello",
+				"cartella",
+				"resto",
+				"prezzo"
+			],
+			"answer": "resto",
+			"explanation": "\"resto\": denaro restituito dopo un pagamento."
+		},
+		{
+			"id": "italiano-cibo-spesa-offerta-74",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"prezzo ridotto per un prodotto\"?",
+			"options": [
+				"camera",
+				"offerta",
+				"energia",
+				"vicino"
+			],
+			"answer": "offerta",
+			"explanation": "\"offerta\": prezzo ridotto per un prodotto."
+		},
+		{
+			"id": "italiano-cibo-spesa-carrello-75",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"contenitore con ruote usato al supermercato\"?",
+			"options": [
+				"mestiere",
+				"tastiera",
+				"semaforo",
+				"carrello"
+			],
+			"answer": "carrello",
+			"explanation": "\"carrello\": contenitore con ruote usato al supermercato."
+		},
+		{
+			"id": "italiano-cibo-spesa-fresco-76",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"appena preparato o non rovinato\"?",
+			"options": [
+				"paziente",
+				"silenzioso",
+				"scaduto",
+				"fresco"
+			],
+			"answer": "fresco",
+			"explanation": "\"fresco\": appena preparato o non rovinato."
+		},
+		{
+			"id": "italiano-cibo-spesa-scaduto-77",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"oltre la data entro cui un prodotto va consumato\"?",
+			"options": [
+				"scaduto",
+				"rinnovabile",
+				"dolce",
+				"allergico"
+			],
+			"answer": "scaduto",
+			"explanation": "\"scaduto\": oltre la data entro cui un prodotto va consumato."
+		},
+		{
+			"id": "italiano-cibo-spesa-economico-78",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che costa poco\"?",
+			"options": [
+				"economico",
+				"costoso",
+				"nuvoloso",
+				"accogliente"
+			],
+			"answer": "economico",
+			"explanation": "\"economico\": che costa poco."
+		},
+		{
+			"id": "italiano-cibo-spesa-costoso-79",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che costa molto\"?",
+			"options": [
+				"amaro",
+				"sano",
+				"privato",
+				"costoso"
+			],
+			"answer": "costoso",
+			"explanation": "\"costoso\": che costa molto."
+		},
+		{
+			"id": "italiano-cibo-spesa-salato-80",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con molto sale\"?",
+			"options": [
+				"accogliente",
+				"sano",
+				"salato",
+				"prudente"
+			],
+			"answer": "salato",
+			"explanation": "\"salato\": con molto sale."
+		},
+		{
+			"id": "italiano-cibo-spesa-dolce-81",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con sapore zuccherino\"?",
+			"options": [
+				"dolce",
+				"dolorante",
+				"caldo",
+				"sano"
+			],
+			"answer": "dolce",
+			"explanation": "\"dolce\": con sapore zuccherino."
+		},
+		{
+			"id": "italiano-cibo-spesa-amaro-82",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con sapore forte non dolce\"?",
+			"options": [
+				"amaro",
+				"ventoso",
+				"nuvoloso",
+				"puntuale"
+			],
+			"answer": "amaro",
+			"explanation": "\"amaro\": con sapore forte non dolce."
+		},
+		{
+			"id": "italiano-cibo-spesa-nutriente-83",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che fornisce energia e sostanze utili\"?",
+			"options": [
+				"prudente",
+				"scaduto",
+				"nutriente",
+				"ordinato"
+			],
+			"answer": "nutriente",
+			"explanation": "\"nutriente\": che fornisce energia e sostanze utili."
+		},
+		{
+			"id": "italiano-tempo-meteo-minuto-84",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"unità di tempo pari a sessanta secondi\"?",
+			"options": [
+				"collaborazione",
+				"carrello",
+				"prezzo",
+				"minuto"
+			],
+			"answer": "minuto",
+			"explanation": "\"minuto\": unità di tempo pari a sessanta secondi."
+		},
+		{
+			"id": "italiano-tempo-meteo-ora-85",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"unità di tempo pari a sessanta minuti\"?",
+			"options": [
+				"ora",
+				"orecchio",
+				"collaborazione",
+				"marciapiede"
+			],
+			"answer": "ora",
+			"explanation": "\"ora\": unità di tempo pari a sessanta minuti."
+		},
+		{
+			"id": "italiano-tempo-meteo-giorno-86",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"periodo di ventiquattro ore\"?",
+			"options": [
+				"ufficio",
+				"giorno",
+				"balcone",
+				"vento"
+			],
+			"answer": "giorno",
+			"explanation": "\"giorno\": periodo di ventiquattro ore."
+		},
+		{
+			"id": "italiano-tempo-meteo-settimana-87",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"periodo di sette giorni\"?",
+			"options": [
+				"profilo",
+				"settimana",
+				"biblioteca",
+				"notifica"
+			],
+			"answer": "settimana",
+			"explanation": "\"settimana\": periodo di sette giorni."
+		},
+		{
+			"id": "italiano-tempo-meteo-mese-88",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte dell'anno\"?",
+			"options": [
+				"mese",
+				"cucina",
+				"argomento",
+				"ipotesi"
+			],
+			"answer": "mese",
+			"explanation": "\"mese\": parte dell'anno."
+		},
+		{
+			"id": "italiano-tempo-meteo-stagione-89",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"periodo dell'anno con clima simile\"?",
+			"options": [
+				"mano",
+				"stagione",
+				"strada",
+				"coerenza"
+			],
+			"answer": "stagione",
+			"explanation": "\"stagione\": periodo dell'anno con clima simile."
+		},
+		{
+			"id": "italiano-tempo-meteo-mattina-90",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"prima parte del giorno\"?",
+			"options": [
+				"mattina",
+				"anticipo",
+				"spiaggia",
+				"passeggiata"
+			],
+			"answer": "mattina",
+			"explanation": "\"mattina\": prima parte del giorno."
+		},
+		{
+			"id": "italiano-tempo-meteo-pomeriggio-91",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte del giorno dopo il pranzo\"?",
+			"options": [
+				"pomeriggio",
+				"stagione",
+				"ingrediente",
+				"risposta"
+			],
+			"answer": "pomeriggio",
+			"explanation": "\"pomeriggio\": parte del giorno dopo il pranzo."
+		},
+		{
+			"id": "italiano-tempo-meteo-sera-92",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte finale del giorno\"?",
+			"options": [
+				"telefono",
+				"sera",
+				"fiducia",
+				"orario"
+			],
+			"answer": "sera",
+			"explanation": "\"sera\": parte finale del giorno."
+		},
+		{
+			"id": "italiano-tempo-meteo-scadenza-93",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"termine entro cui fare qualcosa\"?",
+			"options": [
+				"mese",
+				"argomento",
+				"mattina",
+				"scadenza"
+			],
+			"answer": "scadenza",
+			"explanation": "\"scadenza\": termine entro cui fare qualcosa."
+		},
+		{
+			"id": "italiano-tempo-meteo-ritardo-94",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"arrivo o azione dopo l'orario previsto\"?",
+			"options": [
+				"semaforo",
+				"ritardo",
+				"computer",
+				"raccolta"
+			],
+			"answer": "ritardo",
+			"explanation": "\"ritardo\": arrivo o azione dopo l'orario previsto."
+		},
+		{
+			"id": "italiano-tempo-meteo-anticipo-95",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"arrivo o azione prima dell'orario previsto\"?",
+			"options": [
+				"anticipo",
+				"collaborazione",
+				"gentilezza",
+				"volontario"
+			],
+			"answer": "anticipo",
+			"explanation": "\"anticipo\": arrivo o azione prima dell'orario previsto."
+		},
+		{
+			"id": "italiano-tempo-meteo-pioggia-96",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"acqua che cade dalle nuvole\"?",
+			"options": [
+				"mattina",
+				"pioggia",
+				"ospedale",
+				"foglia"
+			],
+			"answer": "pioggia",
+			"explanation": "\"pioggia\": acqua che cade dalle nuvole."
+		},
+		{
+			"id": "italiano-tempo-meteo-vento-97",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"aria in movimento\"?",
+			"options": [
+				"vento",
+				"coerenza",
+				"notifica",
+				"cartella"
+			],
+			"answer": "vento",
+			"explanation": "\"vento\": aria in movimento."
+		},
+		{
+			"id": "italiano-tempo-meteo-nebbia-98",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"vapore che riduce la visibilità\"?",
+			"options": [
+				"nebbia",
+				"punteggio",
+				"tastiera",
+				"binario"
+			],
+			"answer": "nebbia",
+			"explanation": "\"nebbia\": vapore che riduce la visibilità."
+		},
+		{
+			"id": "italiano-tempo-meteo-temporale-99",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"pioggia forte con tuoni e lampi\"?",
+			"options": [
+				"anticipo",
+				"canzone",
+				"temporale",
+				"gioia"
+			],
+			"answer": "temporale",
+			"explanation": "\"temporale\": pioggia forte con tuoni e lampi."
+		},
+		{
+			"id": "italiano-tempo-meteo-puntuale-100",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che arriva o agisce all'orario previsto\"?",
+			"options": [
+				"puntuale",
+				"malato",
+				"soleggiato",
+				"rumoroso"
+			],
+			"answer": "puntuale",
+			"explanation": "\"puntuale\": che arriva o agisce all'orario previsto."
+		},
+		{
+			"id": "italiano-tempo-meteo-tardivo-101",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che avviene troppo tardi\"?",
+			"options": [
+				"responsabile",
+				"malato",
+				"dolce",
+				"tardivo"
+			],
+			"answer": "tardivo",
+			"explanation": "\"tardivo\": che avviene troppo tardi."
+		},
+		{
+			"id": "italiano-tempo-meteo-soleggiato-102",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con molto sole\"?",
+			"options": [
+				"prudente",
+				"impulsivo",
+				"puntuale",
+				"soleggiato"
+			],
+			"answer": "soleggiato",
+			"explanation": "\"soleggiato\": con molto sole."
+		},
+		{
+			"id": "italiano-tempo-meteo-nuvoloso-103",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"coperto da nuvole\"?",
+			"options": [
+				"timido",
+				"dolce",
+				"accogliente",
+				"nuvoloso"
+			],
+			"answer": "nuvoloso",
+			"explanation": "\"nuvoloso\": coperto da nuvole."
+		},
+		{
+			"id": "italiano-tempo-meteo-piovoso-104",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con molta pioggia\"?",
+			"options": [
+				"allergico",
+				"piovoso",
+				"freddo",
+				"fresco"
+			],
+			"answer": "piovoso",
+			"explanation": "\"piovoso\": con molta pioggia."
+		},
+		{
+			"id": "italiano-tempo-meteo-ventoso-105",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con molto vento\"?",
+			"options": [
+				"ventoso",
+				"paziente",
+				"rumoroso",
+				"allergico"
+			],
+			"answer": "ventoso",
+			"explanation": "\"ventoso\": con molto vento."
+		},
+		{
+			"id": "italiano-tempo-meteo-freddo-106",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con temperatura bassa\"?",
+			"options": [
+				"privato",
+				"sostenibile",
+				"freddo",
+				"ventoso"
+			],
+			"answer": "freddo",
+			"explanation": "\"freddo\": con temperatura bassa."
+		},
+		{
+			"id": "italiano-tempo-meteo-caldo-107",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con temperatura alta\"?",
+			"options": [
+				"leale",
+				"fresco",
+				"felice",
+				"caldo"
+			],
+			"answer": "caldo",
+			"explanation": "\"caldo\": con temperatura alta."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-strada-108",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"via per spostarsi a piedi o con mezzi\"?",
+			"options": [
+				"binario",
+				"effetto",
+				"strada",
+				"voto"
+			],
+			"answer": "strada",
+			"explanation": "\"strada\": via per spostarsi a piedi o con mezzi."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-incrocio-109",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"punto in cui si incontrano due strade\"?",
+			"options": [
+				"medicina",
+				"resto",
+				"ora",
+				"incrocio"
+			],
+			"answer": "incrocio",
+			"explanation": "\"incrocio\": punto in cui si incontrano due strade."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-marciapiede-110",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte della strada riservata ai pedoni\"?",
+			"options": [
+				"privacy",
+				"promessa",
+				"marciapiede",
+				"farmacia"
+			],
+			"answer": "marciapiede",
+			"explanation": "\"marciapiede\": parte della strada riservata ai pedoni."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-semaforo-111",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"segnale luminoso che regola il traffico\"?",
+			"options": [
+				"diritto",
+				"spuntino",
+				"semaforo",
+				"esempio"
+			],
+			"answer": "semaforo",
+			"explanation": "\"semaforo\": segnale luminoso che regola il traffico."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-fermata-112",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"punto in cui si aspetta un mezzo pubblico\"?",
+			"options": [
+				"volontario",
+				"fermata",
+				"cucina",
+				"pesce"
+			],
+			"answer": "fermata",
+			"explanation": "\"fermata\": punto in cui si aspetta un mezzo pubblico."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-stazione-113",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"luogo da cui partono treni o autobus\"?",
+			"options": [
+				"stazione",
+				"arbitro",
+				"diario",
+				"mattina"
+			],
+			"answer": "stazione",
+			"explanation": "\"stazione\": luogo da cui partono treni o autobus."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-binario-114",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"linea da cui parte o arriva un treno\"?",
+			"options": [
+				"compito",
+				"anticipo",
+				"binario",
+				"albero"
+			],
+			"answer": "binario",
+			"explanation": "\"binario\": linea da cui parte o arriva un treno."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-biglietto-115",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"documento che permette di viaggiare o entrare\"?",
+			"options": [
+				"raffreddore",
+				"tablet",
+				"biglietto",
+				"servizio"
+			],
+			"answer": "biglietto",
+			"explanation": "\"biglietto\": documento che permette di viaggiare o entrare."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-orario-116",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"tabella con tempi di partenza o attività\"?",
+			"options": [
+				"strada",
+				"ingrediente",
+				"orario",
+				"parente"
+			],
+			"answer": "orario",
+			"explanation": "\"orario\": tabella con tempi di partenza o attività."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-percorso-117",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"strada da seguire per arrivare\"?",
+			"options": [
+				"percorso",
+				"energia",
+				"fiducia",
+				"profilo"
+			],
+			"answer": "percorso",
+			"explanation": "\"percorso\": strada da seguire per arrivare."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-indirizzo-118",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"informazione che indica dove si trova un luogo\"?",
+			"options": [
+				"coerenza",
+				"indirizzo",
+				"armadio",
+				"foglia"
+			],
+			"answer": "indirizzo",
+			"explanation": "\"indirizzo\": informazione che indica dove si trova un luogo."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-quartiere-119",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"zona di una città\"?",
+			"options": [
+				"quartiere",
+				"responsabile",
+				"mano",
+				"posta"
+			],
+			"answer": "quartiere",
+			"explanation": "\"quartiere\": zona di una città."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-biblioteca-120",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"luogo dove si leggono o prendono libri\"?",
+			"options": [
+				"giorno",
+				"verdura",
+				"biblioteca",
+				"formaggio"
+			],
+			"answer": "biblioteca",
+			"explanation": "\"biblioteca\": luogo dove si leggono o prendono libri."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-farmacia-121",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"negozio dove si comprano medicine\"?",
+			"options": [
+				"farmacia",
+				"pasta",
+				"volontario",
+				"ufficio"
+			],
+			"answer": "farmacia",
+			"explanation": "\"farmacia\": negozio dove si comprano medicine."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-ospedale-122",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"luogo dove si curano persone malate\"?",
+			"options": [
+				"ospedale",
+				"piscina",
+				"lavagna",
+				"sorella"
+			],
+			"answer": "ospedale",
+			"explanation": "\"ospedale\": luogo dove si curano persone malate."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-municipio-123",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sede amministrativa di un comune\"?",
+			"options": [
+				"municipio",
+				"ferita",
+				"parente",
+				"regola"
+			],
+			"answer": "municipio",
+			"explanation": "\"municipio\": sede amministrativa di un comune."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-di-fronte-a-124",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"nella posizione opposta rispetto a qualcosa\"?",
+			"options": [
+				"all'angolo",
+				"dietro a",
+				"di fronte a",
+				"in fondo"
+			],
+			"answer": "di fronte a",
+			"explanation": "\"di fronte a\": nella posizione opposta rispetto a qualcosa."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-accanto-a-125",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"vicino sul lato\"?",
+			"options": [
+				"di fronte a",
+				"accanto a",
+				"all'angolo",
+				"dietro a"
+			],
+			"answer": "accanto a",
+			"explanation": "\"accanto a\": vicino sul lato."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-dietro-a-126",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"nella parte posteriore\"?",
+			"options": [
+				"dietro a",
+				"a sinistra",
+				"davanti a",
+				"all'angolo"
+			],
+			"answer": "dietro a",
+			"explanation": "\"dietro a\": nella parte posteriore."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-davanti-a-127",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"nella parte anteriore\"?",
+			"options": [
+				"a destra",
+				"davanti a",
+				"all'angolo",
+				"a sinistra"
+			],
+			"answer": "davanti a",
+			"explanation": "\"davanti a\": nella parte anteriore."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-a-destra-128",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sul lato destro\"?",
+			"options": [
+				"di fronte a",
+				"a destra",
+				"davanti a",
+				"all'angolo"
+			],
+			"answer": "a destra",
+			"explanation": "\"a destra\": sul lato destro."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-a-sinistra-129",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sul lato sinistro\"?",
+			"options": [
+				"a sinistra",
+				"accanto a",
+				"di fronte a",
+				"dietro a"
+			],
+			"answer": "a sinistra",
+			"explanation": "\"a sinistra\": sul lato sinistro."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-in-fondo-130",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"alla fine di uno spazio o percorso\"?",
+			"options": [
+				"in fondo",
+				"di fronte a",
+				"a destra",
+				"a sinistra"
+			],
+			"answer": "in fondo",
+			"explanation": "\"in fondo\": alla fine di uno spazio o percorso."
+		},
+		{
+			"id": "italiano-viaggi-luoghi-all-angolo-131",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"nel punto in cui si incontrano due lati o strade\"?",
+			"options": [
+				"dietro a",
+				"a sinistra",
+				"all'angolo",
+				"a destra"
+			],
+			"answer": "all'angolo",
+			"explanation": "\"all'angolo\": nel punto in cui si incontrano due lati o strade."
+		},
+		{
+			"id": "italiano-corpo-salute-testa-132",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte superiore del corpo\"?",
+			"options": [
+				"link",
+				"metodo",
+				"ricetta",
+				"testa"
+			],
+			"answer": "testa",
+			"explanation": "\"testa\": parte superiore del corpo."
+		},
+		{
+			"id": "italiano-corpo-salute-occhio-133",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"organo con cui si vede\"?",
+			"options": [
+				"stazione",
+				"palestra",
+				"occhio",
+				"dettaglio"
+			],
+			"answer": "occhio",
+			"explanation": "\"occhio\": organo con cui si vede."
+		},
+		{
+			"id": "italiano-corpo-salute-orecchio-134",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"organo con cui si sente\"?",
+			"options": [
+				"film",
+				"scontrino",
+				"quaderno",
+				"orecchio"
+			],
+			"answer": "orecchio",
+			"explanation": "\"orecchio\": organo con cui si sente."
+		},
+		{
+			"id": "italiano-corpo-salute-bocca-135",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte del viso usata per parlare e mangiare\"?",
+			"options": [
+				"balcone",
+				"bocca",
+				"sintesi",
+				"settimana"
+			],
+			"answer": "bocca",
+			"explanation": "\"bocca\": parte del viso usata per parlare e mangiare."
+		},
+		{
+			"id": "italiano-corpo-salute-mano-136",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte del corpo usata per afferrare\"?",
+			"options": [
+				"vicino",
+				"mano",
+				"mensola",
+				"anticipo"
+			],
+			"answer": "mano",
+			"explanation": "\"mano\": parte del corpo usata per afferrare."
+		},
+		{
+			"id": "italiano-corpo-salute-schiena-137",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte posteriore del busto\"?",
+			"options": [
+				"schiena",
+				"settimana",
+				"conclusione",
+				"famiglia"
+			],
+			"answer": "schiena",
+			"explanation": "\"schiena\": parte posteriore del busto."
+		},
+		{
+			"id": "italiano-corpo-salute-ginocchio-138",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"articolazione della gamba\"?",
+			"options": [
+				"pioggia",
+				"ginocchio",
+				"cena",
+				"ricerca"
+			],
+			"answer": "ginocchio",
+			"explanation": "\"ginocchio\": articolazione della gamba."
+		},
+		{
+			"id": "italiano-corpo-salute-respiro-139",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"atto di prendere e mandare fuori aria\"?",
+			"options": [
+				"respiro",
+				"paragrafo",
+				"municipio",
+				"pioggia"
+			],
+			"answer": "respiro",
+			"explanation": "\"respiro\": atto di prendere e mandare fuori aria."
+		},
+		{
+			"id": "italiano-corpo-salute-febbre-140",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"aumento della temperatura corporea\"?",
+			"options": [
+				"disaccordo",
+				"febbre",
+				"ambiente",
+				"servizio"
+			],
+			"answer": "febbre",
+			"explanation": "\"febbre\": aumento della temperatura corporea."
+		},
+		{
+			"id": "italiano-corpo-salute-tosse-141",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"colpo d'aria espulso dalla gola\"?",
+			"options": [
+				"schermo",
+				"metodo",
+				"pane",
+				"tosse"
+			],
+			"answer": "tosse",
+			"explanation": "\"tosse\": colpo d'aria espulso dalla gola."
+		},
+		{
+			"id": "italiano-corpo-salute-raffreddore-142",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"malessere con naso chiuso o che cola\"?",
+			"options": [
+				"registro",
+				"raffreddore",
+				"ginocchio",
+				"rabbia"
+			],
+			"answer": "raffreddore",
+			"explanation": "\"raffreddore\": malessere con naso chiuso o che cola."
+		},
+		{
+			"id": "italiano-corpo-salute-ferita-143",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"lesione della pelle o del corpo\"?",
+			"options": [
+				"ginocchio",
+				"lezione",
+				"appuntamento",
+				"ferita"
+			],
+			"answer": "ferita",
+			"explanation": "\"ferita\": lesione della pelle o del corpo."
+		},
+		{
+			"id": "italiano-corpo-salute-cerotto-144",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"piccola protezione adesiva per una ferita\"?",
+			"options": [
+				"cerotto",
+				"diario",
+				"schema",
+				"prezzo"
+			],
+			"answer": "cerotto",
+			"explanation": "\"cerotto\": piccola protezione adesiva per una ferita."
+		},
+		{
+			"id": "italiano-corpo-salute-medicina-145",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sostanza usata per curare\"?",
+			"options": [
+				"scadenza",
+				"palestra",
+				"spiaggia",
+				"medicina"
+			],
+			"answer": "medicina",
+			"explanation": "\"medicina\": sostanza usata per curare."
+		},
+		{
+			"id": "italiano-corpo-salute-visita-146",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"controllo fatto da un medico\"?",
+			"options": [
+				"mese",
+				"visita",
+				"genitore",
+				"mappa"
+			],
+			"answer": "visita",
+			"explanation": "\"visita\": controllo fatto da un medico."
+		},
+		{
+			"id": "italiano-corpo-salute-appuntamento-147",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"incontro fissato a un'ora precisa\"?",
+			"options": [
+				"appuntamento",
+				"ricerca",
+				"tristezza",
+				"riassunto"
+			],
+			"answer": "appuntamento",
+			"explanation": "\"appuntamento\": incontro fissato a un'ora precisa."
+		},
+		{
+			"id": "italiano-corpo-salute-stanco-148",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con poca energia\"?",
+			"options": [
+				"ventoso",
+				"responsabile",
+				"silenzioso",
+				"stanco"
+			],
+			"answer": "stanco",
+			"explanation": "\"stanco\": con poca energia."
+		},
+		{
+			"id": "italiano-corpo-salute-sano-149",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"in buona salute\"?",
+			"options": [
+				"ventoso",
+				"riposo",
+				"sano",
+				"piovoso"
+			],
+			"answer": "sano",
+			"explanation": "\"sano\": in buona salute."
+		},
+		{
+			"id": "italiano-corpo-salute-malato-150",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"non in buona salute\"?",
+			"options": [
+				"malato",
+				"silenzioso",
+				"stanco",
+				"accogliente"
+			],
+			"answer": "malato",
+			"explanation": "\"malato\": non in buona salute."
+		},
+		{
+			"id": "italiano-corpo-salute-dolorante-151",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che provoca o sente dolore\"?",
+			"options": [
+				"sereno",
+				"comodo",
+				"puntuale",
+				"dolorante"
+			],
+			"answer": "dolorante",
+			"explanation": "\"dolorante\": che provoca o sente dolore."
+		},
+		{
+			"id": "italiano-corpo-salute-allergico-152",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sensibile a una sostanza\"?",
+			"options": [
+				"nutriente",
+				"allergico",
+				"piovoso",
+				"affidabile"
+			],
+			"answer": "allergico",
+			"explanation": "\"allergico\": sensibile a una sostanza."
+		},
+		{
+			"id": "italiano-corpo-salute-prudente-153",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che evita rischi inutili\"?",
+			"options": [
+				"prudente",
+				"riciclabile",
+				"timido",
+				"preoccupato"
+			],
+			"answer": "prudente",
+			"explanation": "\"prudente\": che evita rischi inutili."
+		},
+		{
+			"id": "italiano-corpo-salute-idratato-154",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"con abbastanza acqua nel corpo\"?",
+			"options": [
+				"freddo",
+				"comodo",
+				"idratato",
+				"preoccupato"
+			],
+			"answer": "idratato",
+			"explanation": "\"idratato\": con abbastanza acqua nel corpo."
+		},
+		{
+			"id": "italiano-corpo-salute-riposo-155",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"non attivo o in pausa\"?",
+			"options": [
+				"riposo",
+				"disordinato",
+				"paziente",
+				"dolorante"
+			],
+			"answer": "riposo",
+			"explanation": "\"riposo\": non attivo o in pausa."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-gioia-156",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"emozione positiva e intensa\"?",
+			"options": [
+				"gioia",
+				"ufficio",
+				"prato",
+				"lavagna"
+			],
+			"answer": "gioia",
+			"explanation": "\"gioia\": emozione positiva e intensa."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-tristezza-157",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"emozione legata a perdita o delusione\"?",
+			"options": [
+				"scontrino",
+				"carne",
+				"tristezza",
+				"fiducia"
+			],
+			"answer": "tristezza",
+			"explanation": "\"tristezza\": emozione legata a perdita o delusione."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-rabbia-158",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"emozione di forte irritazione\"?",
+			"options": [
+				"stazione",
+				"vento",
+				"lavagna",
+				"rabbia"
+			],
+			"answer": "rabbia",
+			"explanation": "\"rabbia\": emozione di forte irritazione."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-paura-159",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"emozione davanti a un pericolo\"?",
+			"options": [
+				"quartiere",
+				"paura",
+				"strada",
+				"fatto"
+			],
+			"answer": "paura",
+			"explanation": "\"paura\": emozione davanti a un pericolo."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-sorpresa-160",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"reazione a qualcosa di inatteso\"?",
+			"options": [
+				"posta",
+				"scusa",
+				"contesto",
+				"sorpresa"
+			],
+			"answer": "sorpresa",
+			"explanation": "\"sorpresa\": reazione a qualcosa di inatteso."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-fiducia-161",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sicurezza verso qualcuno o qualcosa\"?",
+			"options": [
+				"parente",
+				"fiducia",
+				"nebbia",
+				"percorso"
+			],
+			"answer": "fiducia",
+			"explanation": "\"fiducia\": sicurezza verso qualcuno o qualcosa."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-rispetto-162",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"atteggiamento corretto verso gli altri\"?",
+			"options": [
+				"interrogazione",
+				"rispetto",
+				"tesi",
+				"bagno"
+			],
+			"answer": "rispetto",
+			"explanation": "\"rispetto\": atteggiamento corretto verso gli altri."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-gentilezza-163",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"modo cortese di trattare qualcuno\"?",
+			"options": [
+				"diritto",
+				"partita",
+				"gentilezza",
+				"carrello"
+			],
+			"answer": "gentilezza",
+			"explanation": "\"gentilezza\": modo cortese di trattare qualcuno."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-collaborazione-164",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"lavoro fatto insieme\"?",
+			"options": [
+				"collaborazione",
+				"profilo",
+				"municipio",
+				"raffreddore"
+			],
+			"answer": "collaborazione",
+			"explanation": "\"collaborazione\": lavoro fatto insieme."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-disaccordo-165",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mancanza di accordo\"?",
+			"options": [
+				"registro",
+				"diritto",
+				"ipotesi",
+				"disaccordo"
+			],
+			"answer": "disaccordo",
+			"explanation": "\"disaccordo\": mancanza di accordo."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-promessa-166",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"impegno a fare qualcosa\"?",
+			"options": [
+				"collega",
+				"promessa",
+				"registro",
+				"tastiera"
+			],
+			"answer": "promessa",
+			"explanation": "\"promessa\": impegno a fare qualcosa."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-scusa-167",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parola o gesto per riconoscere un errore\"?",
+			"options": [
+				"energia",
+				"scusa",
+				"pane",
+				"lezione"
+			],
+			"answer": "scusa",
+			"explanation": "\"scusa\": parola o gesto per riconoscere un errore."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-felice-168",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che prova gioia\"?",
+			"options": [
+				"felice",
+				"dolce",
+				"paziente",
+				"inquinato"
+			],
+			"answer": "felice",
+			"explanation": "\"felice\": che prova gioia."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-triste-169",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che prova tristezza\"?",
+			"options": [
+				"triste",
+				"stanco",
+				"timido",
+				"accogliente"
+			],
+			"answer": "triste",
+			"explanation": "\"triste\": che prova tristezza."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-preoccupato-170",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che teme un problema\"?",
+			"options": [
+				"dolorante",
+				"preoccupato",
+				"inquinato",
+				"affidabile"
+			],
+			"answer": "preoccupato",
+			"explanation": "\"preoccupato\": che teme un problema."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-arrabbiato-171",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che prova rabbia\"?",
+			"options": [
+				"arrabbiato",
+				"sporco",
+				"sereno",
+				"accogliente"
+			],
+			"answer": "arrabbiato",
+			"explanation": "\"arrabbiato\": che prova rabbia."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-sereno-172",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"calmo e tranquillo\"?",
+			"options": [
+				"sereno",
+				"ventoso",
+				"stanco",
+				"sano"
+			],
+			"answer": "sereno",
+			"explanation": "\"sereno\": calmo e tranquillo."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-timido-173",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che si espone con difficoltà\"?",
+			"options": [
+				"rinnovabile",
+				"timido",
+				"salato",
+				"stanco"
+			],
+			"answer": "timido",
+			"explanation": "\"timido\": che si espone con difficoltà."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-coraggioso-174",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che affronta una difficoltà\"?",
+			"options": [
+				"coraggioso",
+				"pulito",
+				"accogliente",
+				"freddo"
+			],
+			"answer": "coraggioso",
+			"explanation": "\"coraggioso\": che affronta una difficoltà."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-leale-175",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"fedele e corretto verso gli altri\"?",
+			"options": [
+				"piovoso",
+				"impulsivo",
+				"rumoroso",
+				"leale"
+			],
+			"answer": "leale",
+			"explanation": "\"leale\": fedele e corretto verso gli altri."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-paziente-176",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"capace di aspettare senza agitarsi\"?",
+			"options": [
+				"sereno",
+				"disordinato",
+				"paziente",
+				"piovoso"
+			],
+			"answer": "paziente",
+			"explanation": "\"paziente\": capace di aspettare senza agitarsi."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-impulsivo-177",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che agisce senza riflettere abbastanza\"?",
+			"options": [
+				"impulsivo",
+				"puntuale",
+				"salato",
+				"scaduto"
+			],
+			"answer": "impulsivo",
+			"explanation": "\"impulsivo\": che agisce senza riflettere abbastanza."
+		},
+		{
+			"id": "italiano-digitale-media-telefono-178",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"dispositivo per chiamare e comunicare\"?",
+			"options": [
+				"schiena",
+				"telefono",
+				"diritto",
+				"ora"
+			],
+			"answer": "telefono",
+			"explanation": "\"telefono\": dispositivo per chiamare e comunicare."
+		},
+		{
+			"id": "italiano-digitale-media-computer-179",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"macchina elettronica per lavorare con dati\"?",
+			"options": [
+				"anticipo",
+				"registro",
+				"riassunto",
+				"computer"
+			],
+			"answer": "computer",
+			"explanation": "\"computer\": macchina elettronica per lavorare con dati."
+		},
+		{
+			"id": "italiano-digitale-media-tablet-180",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"dispositivo portatile con schermo tattile\"?",
+			"options": [
+				"registro",
+				"binario",
+				"tablet",
+				"ufficio"
+			],
+			"answer": "tablet",
+			"explanation": "\"tablet\": dispositivo portatile con schermo tattile."
+		},
+		{
+			"id": "italiano-digitale-media-app-181",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"programma usato su telefono o tablet\"?",
+			"options": [
+				"disaccordo",
+				"app",
+				"schema",
+				"contesto"
+			],
+			"answer": "app",
+			"explanation": "\"app\": programma usato su telefono o tablet."
+		},
+		{
+			"id": "italiano-digitale-media-password-182",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parola segreta per accedere\"?",
+			"options": [
+				"contesto",
+				"opinione",
+				"formaggio",
+				"password"
+			],
+			"answer": "password",
+			"explanation": "\"password\": parola segreta per accedere."
+		},
+		{
+			"id": "italiano-digitale-media-profilo-183",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"spazio personale in un servizio digitale\"?",
+			"options": [
+				"vento",
+				"chiave",
+				"campanello",
+				"profilo"
+			],
+			"answer": "profilo",
+			"explanation": "\"profilo\": spazio personale in un servizio digitale."
+		},
+		{
+			"id": "italiano-digitale-media-messaggio-184",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"testo inviato a qualcuno\"?",
+			"options": [
+				"scontrino",
+				"squadra",
+				"stagione",
+				"messaggio"
+			],
+			"answer": "messaggio",
+			"explanation": "\"messaggio\": testo inviato a qualcuno."
+		},
+		{
+			"id": "italiano-digitale-media-notifica-185",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"avviso mostrato da un'app\"?",
+			"options": [
+				"cassetto",
+				"campanello",
+				"sorella",
+				"notifica"
+			],
+			"answer": "notifica",
+			"explanation": "\"notifica\": avviso mostrato da un'app."
+		},
+		{
+			"id": "italiano-digitale-media-allegato-186",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"file aggiunto a un messaggio\"?",
+			"options": [
+				"percorso",
+				"fonte",
+				"allegato",
+				"notifica"
+			],
+			"answer": "allegato",
+			"explanation": "\"allegato\": file aggiunto a un messaggio."
+		},
+		{
+			"id": "italiano-digitale-media-cartella-187",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"spazio in cui organizzare file\"?",
+			"options": [
+				"albero",
+				"sedia",
+				"pioggia",
+				"cartella"
+			],
+			"answer": "cartella",
+			"explanation": "\"cartella\": spazio in cui organizzare file."
+		},
+		{
+			"id": "italiano-digitale-media-schermo-188",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"superficie che mostra immagini o testi\"?",
+			"options": [
+				"password",
+				"schermo",
+				"posta",
+				"biglietto"
+			],
+			"answer": "schermo",
+			"explanation": "\"schermo\": superficie che mostra immagini o testi."
+		},
+		{
+			"id": "italiano-digitale-media-tastiera-189",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"insieme di tasti per scrivere\"?",
+			"options": [
+				"tastiera",
+				"anticipo",
+				"ambiguità",
+				"mappa"
+			],
+			"answer": "tastiera",
+			"explanation": "\"tastiera\": insieme di tasti per scrivere."
+		},
+		{
+			"id": "italiano-digitale-media-ricerca-190",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"azione di cercare informazioni\"?",
+			"options": [
+				"ricerca",
+				"verdura",
+				"bagno",
+				"esempio"
+			],
+			"answer": "ricerca",
+			"explanation": "\"ricerca\": azione di cercare informazioni."
+		},
+		{
+			"id": "italiano-digitale-media-link-191",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"collegamento a una pagina o risorsa\"?",
+			"options": [
+				"link",
+				"offerta",
+				"palestra",
+				"ufficio"
+			],
+			"answer": "link",
+			"explanation": "\"link\": collegamento a una pagina o risorsa."
+		},
+		{
+			"id": "italiano-digitale-media-fonte-192",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"origine di una notizia o informazione\"?",
+			"options": [
+				"messaggio",
+				"fonte",
+				"astuccio",
+				"voto"
+			],
+			"answer": "fonte",
+			"explanation": "\"fonte\": origine di una notizia o informazione."
+		},
+		{
+			"id": "italiano-digitale-media-privacy-193",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"protezione dei dati personali\"?",
+			"options": [
+				"privacy",
+				"contesto",
+				"foglia",
+				"canzone"
+			],
+			"answer": "privacy",
+			"explanation": "\"privacy\": protezione dei dati personali."
+		},
+		{
+			"id": "italiano-digitale-media-salvare-194",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"conservare un file o un dato\"?",
+			"options": [
+				"riassumere",
+				"salvare",
+				"sottolineare",
+				"ripassare"
+			],
+			"answer": "salvare",
+			"explanation": "\"salvare\": conservare un file o un dato."
+		},
+		{
+			"id": "italiano-digitale-media-caricare-195",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"inviare un file online o fornire energia\"?",
+			"options": [
+				"inoltrare",
+				"allenarsi",
+				"caricare",
+				"salvare"
+			],
+			"answer": "caricare",
+			"explanation": "\"caricare\": inviare un file online o fornire energia."
+		},
+		{
+			"id": "italiano-digitale-media-scaricare-196",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"ricevere un file da internet\"?",
+			"options": [
+				"scaricare",
+				"correre",
+				"studiare",
+				"allenarsi"
+			],
+			"answer": "scaricare",
+			"explanation": "\"scaricare\": ricevere un file da internet."
+		},
+		{
+			"id": "italiano-digitale-media-condividere-197",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mettere qualcosa a disposizione di altri\"?",
+			"options": [
+				"condividere",
+				"dimostrare",
+				"perdere",
+				"giocare"
+			],
+			"answer": "condividere",
+			"explanation": "\"condividere\": mettere qualcosa a disposizione di altri."
+		},
+		{
+			"id": "italiano-digitale-media-inoltrare-198",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mandare a un'altra persona un messaggio ricevuto\"?",
+			"options": [
+				"dimostrare",
+				"inoltrare",
+				"disegnare",
+				"argomentare"
+			],
+			"answer": "inoltrare",
+			"explanation": "\"inoltrare\": mandare a un'altra persona un messaggio ricevuto."
+		},
+		{
+			"id": "italiano-digitale-media-aggiornare-199",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"portare alla versione più recente\"?",
+			"options": [
+				"spiegare",
+				"aggiornare",
+				"condividere",
+				"ripassare"
+			],
+			"answer": "aggiornare",
+			"explanation": "\"aggiornare\": portare alla versione più recente."
+		},
+		{
+			"id": "italiano-digitale-media-bloccare-200",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"impedire un accesso o un'azione\"?",
+			"options": [
+				"salvare",
+				"bloccare",
+				"studiare",
+				"nuotare"
+			],
+			"answer": "bloccare",
+			"explanation": "\"bloccare\": impedire un accesso o un'azione."
+		},
+		{
+			"id": "italiano-digitale-media-proteggere-201",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mettere al sicuro da rischi\"?",
+			"options": [
+				"suonare",
+				"proteggere",
+				"correggere",
+				"riassumere"
+			],
+			"answer": "proteggere",
+			"explanation": "\"proteggere\": mettere al sicuro da rischi."
+		},
+		{
+			"id": "italiano-lavoro-comunita-mestiere-202",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"attività lavorativa abituale\"?",
+			"options": [
+				"mestiere",
+				"mattina",
+				"stazione",
+				"fiore"
+			],
+			"answer": "mestiere",
+			"explanation": "\"mestiere\": attività lavorativa abituale."
+		},
+		{
+			"id": "italiano-lavoro-comunita-collega-203",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"persona con cui si lavora\"?",
+			"options": [
+				"riassunto",
+				"collega",
+				"colazione",
+				"cucina"
+			],
+			"answer": "collega",
+			"explanation": "\"collega\": persona con cui si lavora."
+		},
+		{
+			"id": "italiano-lavoro-comunita-turno-204",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"periodo di lavoro assegnato\"?",
+			"options": [
+				"farmacia",
+				"turno",
+				"municipio",
+				"zaino"
+			],
+			"answer": "turno",
+			"explanation": "\"turno\": periodo di lavoro assegnato."
+		},
+		{
+			"id": "italiano-lavoro-comunita-responsabile-205",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"persona che guida o controlla un'attività\"?",
+			"options": [
+				"pioggia",
+				"verdura",
+				"tosse",
+				"responsabile"
+			],
+			"answer": "responsabile",
+			"explanation": "\"responsabile\": persona che guida o controlla un'attività."
+		},
+		{
+			"id": "italiano-lavoro-comunita-cliente-206",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"persona che compra o riceve un servizio\"?",
+			"options": [
+				"romanzo",
+				"cliente",
+				"testa",
+				"telefono"
+			],
+			"answer": "cliente",
+			"explanation": "\"cliente\": persona che compra o riceve un servizio."
+		},
+		{
+			"id": "italiano-lavoro-comunita-servizio-207",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"attività svolta per aiutare o rispondere a un bisogno\"?",
+			"options": [
+				"sorpresa",
+				"pomeriggio",
+				"orario",
+				"servizio"
+			],
+			"answer": "servizio",
+			"explanation": "\"servizio\": attività svolta per aiutare o rispondere a un bisogno."
+		},
+		{
+			"id": "italiano-lavoro-comunita-ufficio-208",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"luogo in cui si lavora con documenti o servizi\"?",
+			"options": [
+				"paura",
+				"romanzo",
+				"ufficio",
+				"palestra"
+			],
+			"answer": "ufficio",
+			"explanation": "\"ufficio\": luogo in cui si lavora con documenti o servizi."
+		},
+		{
+			"id": "italiano-lavoro-comunita-negozio-209",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"luogo in cui si vendono prodotti\"?",
+			"options": [
+				"fiore",
+				"negozio",
+				"canzone",
+				"pomeriggio"
+			],
+			"answer": "negozio",
+			"explanation": "\"negozio\": luogo in cui si vendono prodotti."
+		},
+		{
+			"id": "italiano-lavoro-comunita-posta-210",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"servizio per inviare lettere e pacchi\"?",
+			"options": [
+				"palestra",
+				"semaforo",
+				"turno",
+				"posta"
+			],
+			"answer": "posta",
+			"explanation": "\"posta\": servizio per inviare lettere e pacchi."
+		},
+		{
+			"id": "italiano-lavoro-comunita-regola-211",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"indicazione da rispettare\"?",
+			"options": [
+				"colazione",
+				"regola",
+				"allegato",
+				"password"
+			],
+			"answer": "regola",
+			"explanation": "\"regola\": indicazione da rispettare."
+		},
+		{
+			"id": "italiano-lavoro-comunita-diritto-212",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"cosa che una persona può pretendere giustamente\"?",
+			"options": [
+				"diritto",
+				"offerta",
+				"mappa",
+				"paura"
+			],
+			"answer": "diritto",
+			"explanation": "\"diritto\": cosa che una persona può pretendere giustamente."
+		},
+		{
+			"id": "italiano-lavoro-comunita-dovere-213",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"azione che una persona deve compiere\"?",
+			"options": [
+				"farmacia",
+				"respiro",
+				"dovere",
+				"energia"
+			],
+			"answer": "dovere",
+			"explanation": "\"dovere\": azione che una persona deve compiere."
+		},
+		{
+			"id": "italiano-lavoro-comunita-volontario-214",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"persona che aiuta senza essere obbligata\"?",
+			"options": [
+				"punteggio",
+				"volontario",
+				"pranzo",
+				"scadenza"
+			],
+			"answer": "volontario",
+			"explanation": "\"volontario\": persona che aiuta senza essere obbligata."
+		},
+		{
+			"id": "italiano-lavoro-comunita-comunita-215",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"gruppo di persone legate da luogo o scopo\"?",
+			"options": [
+				"comunità",
+				"bolletta",
+				"pesce",
+				"pranzo"
+			],
+			"answer": "comunità",
+			"explanation": "\"comunità\": gruppo di persone legate da luogo o scopo."
+		},
+		{
+			"id": "italiano-lavoro-comunita-responsabile-216",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che agisce pensando alle conseguenze\"?",
+			"options": [
+				"urgente",
+				"responsabile",
+				"sereno",
+				"coraggioso"
+			],
+			"answer": "responsabile",
+			"explanation": "\"responsabile\": che agisce pensando alle conseguenze."
+		},
+		{
+			"id": "italiano-lavoro-comunita-affidabile-217",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"di cui ci si può fidare\"?",
+			"options": [
+				"ventoso",
+				"affidabile",
+				"responsabile",
+				"costoso"
+			],
+			"answer": "affidabile",
+			"explanation": "\"affidabile\": di cui ci si può fidare."
+		},
+		{
+			"id": "italiano-lavoro-comunita-pubblico-218",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"aperto o appartenente alla comunità\"?",
+			"options": [
+				"pubblico",
+				"responsabile",
+				"amaro",
+				"preoccupato"
+			],
+			"answer": "pubblico",
+			"explanation": "\"pubblico\": aperto o appartenente alla comunità."
+		},
+		{
+			"id": "italiano-lavoro-comunita-privato-219",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"personale o non pubblico\"?",
+			"options": [
+				"felice",
+				"privato",
+				"impulsivo",
+				"pubblico"
+			],
+			"answer": "privato",
+			"explanation": "\"privato\": personale o non pubblico."
+		},
+		{
+			"id": "italiano-lavoro-comunita-urgente-220",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che va fatto presto\"?",
+			"options": [
+				"sporco",
+				"fresco",
+				"urgente",
+				"riciclabile"
+			],
+			"answer": "urgente",
+			"explanation": "\"urgente\": che va fatto presto."
+		},
+		{
+			"id": "italiano-lavoro-comunita-disponibile-221",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"pronto ad aiutare o utilizzabile\"?",
+			"options": [
+				"inquinato",
+				"disponibile",
+				"sporco",
+				"sano"
+			],
+			"answer": "disponibile",
+			"explanation": "\"disponibile\": pronto ad aiutare o utilizzabile."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-allenamento-222",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"esercizio svolto per migliorare\"?",
+			"options": [
+				"frutta",
+				"argomento",
+				"stazione",
+				"allenamento"
+			],
+			"answer": "allenamento",
+			"explanation": "\"allenamento\": esercizio svolto per migliorare."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-squadra-223",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"gruppo che gioca o lavora insieme\"?",
+			"options": [
+				"metodo",
+				"squadra",
+				"notifica",
+				"link"
+			],
+			"answer": "squadra",
+			"explanation": "\"squadra\": gruppo che gioca o lavora insieme."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-partita-224",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"gara tra due squadre o persone\"?",
+			"options": [
+				"zaino",
+				"rabbia",
+				"partita",
+				"camera"
+			],
+			"answer": "partita",
+			"explanation": "\"partita\": gara tra due squadre o persone."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-punteggio-225",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"numero di punti ottenuti\"?",
+			"options": [
+				"punteggio",
+				"febbre",
+				"pasta",
+				"allegato"
+			],
+			"answer": "punteggio",
+			"explanation": "\"punteggio\": numero di punti ottenuti."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-regola-226",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"norma che stabilisce come giocare\"?",
+			"options": [
+				"regola",
+				"tavolo",
+				"app",
+				"partita"
+			],
+			"answer": "regola",
+			"explanation": "\"regola\": norma che stabilisce come giocare."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-arbitro-227",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"persona che controlla una gara\"?",
+			"options": [
+				"registro",
+				"password",
+				"coerenza",
+				"arbitro"
+			],
+			"answer": "arbitro",
+			"explanation": "\"arbitro\": persona che controlla una gara."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-palestra-228",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"luogo in cui ci si allena\"?",
+			"options": [
+				"montagna",
+				"genitore",
+				"palestra",
+				"parente"
+			],
+			"answer": "palestra",
+			"explanation": "\"palestra\": luogo in cui ci si allena."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-piscina-229",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"luogo in cui si nuota\"?",
+			"options": [
+				"piscina",
+				"appuntamento",
+				"famiglia",
+				"profilo"
+			],
+			"answer": "piscina",
+			"explanation": "\"piscina\": luogo in cui si nuota."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-bicicletta-230",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mezzo a due ruote mosso pedalando\"?",
+			"options": [
+				"mano",
+				"bicicletta",
+				"schermo",
+				"marciapiede"
+			],
+			"answer": "bicicletta",
+			"explanation": "\"bicicletta\": mezzo a due ruote mosso pedalando."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-passeggiata-231",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"camminata fatta per piacere o salute\"?",
+			"options": [
+				"passeggiata",
+				"tosse",
+				"febbre",
+				"computer"
+			],
+			"answer": "passeggiata",
+			"explanation": "\"passeggiata\": camminata fatta per piacere o salute."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-film-232",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"opera audiovisiva da guardare\"?",
+			"options": [
+				"film",
+				"mensola",
+				"passeggiata",
+				"servizio"
+			],
+			"answer": "film",
+			"explanation": "\"film\": opera audiovisiva da guardare."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-canzone-233",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"brano musicale cantato\"?",
+			"options": [
+				"marciapiede",
+				"farmacia",
+				"prezzo",
+				"canzone"
+			],
+			"answer": "canzone",
+			"explanation": "\"canzone\": brano musicale cantato."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-romanzo-234",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"libro narrativo lungo\"?",
+			"options": [
+				"giorno",
+				"romanzo",
+				"registro",
+				"montagna"
+			],
+			"answer": "romanzo",
+			"explanation": "\"romanzo\": libro narrativo lungo."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-fumetto-235",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"storia raccontata con disegni e parole\"?",
+			"options": [
+				"regola",
+				"biblioteca",
+				"fratello",
+				"fumetto"
+			],
+			"answer": "fumetto",
+			"explanation": "\"fumetto\": storia raccontata con disegni e parole."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-allenarsi-236",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"fare esercizio per migliorare\"?",
+			"options": [
+				"dimostrare",
+				"condividere",
+				"allenarsi",
+				"correggere"
+			],
+			"answer": "allenarsi",
+			"explanation": "\"allenarsi\": fare esercizio per migliorare."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-giocare-237",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"praticare un gioco o uno sport\"?",
+			"options": [
+				"confrontare",
+				"spiegare",
+				"giocare",
+				"aggiornare"
+			],
+			"answer": "giocare",
+			"explanation": "\"giocare\": praticare un gioco o uno sport."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-vincere-238",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"ottenere il risultato migliore\"?",
+			"options": [
+				"riassumere",
+				"caricare",
+				"vincere",
+				"condividere"
+			],
+			"answer": "vincere",
+			"explanation": "\"vincere\": ottenere il risultato migliore."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-perdere-239",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"non vincere una gara\"?",
+			"options": [
+				"dimostrare",
+				"inoltrare",
+				"perdere",
+				"spiegare"
+			],
+			"answer": "perdere",
+			"explanation": "\"perdere\": non vincere una gara."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-nuotare-240",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"muoversi nell'acqua\"?",
+			"options": [
+				"dimostrare",
+				"nuotare",
+				"proteggere",
+				"correggere"
+			],
+			"answer": "nuotare",
+			"explanation": "\"nuotare\": muoversi nell'acqua."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-correre-241",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"muoversi velocemente a piedi\"?",
+			"options": [
+				"condividere",
+				"scaricare",
+				"verificare",
+				"correre"
+			],
+			"answer": "correre",
+			"explanation": "\"correre\": muoversi velocemente a piedi."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-disegnare-242",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"rappresentare con linee o colori\"?",
+			"options": [
+				"spiegare",
+				"caricare",
+				"disegnare",
+				"perdere"
+			],
+			"answer": "disegnare",
+			"explanation": "\"disegnare\": rappresentare con linee o colori."
+		},
+		{
+			"id": "italiano-sport-tempo-libero-suonare-243",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"produrre musica con uno strumento\"?",
+			"options": [
+				"aggiornare",
+				"nuotare",
+				"inoltrare",
+				"suonare"
+			],
+			"answer": "suonare",
+			"explanation": "\"suonare\": produrre musica con uno strumento."
+		},
+		{
+			"id": "italiano-natura-ambiente-albero-244",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"pianta con tronco e rami\"?",
+			"options": [
+				"collega",
+				"albero",
+				"regola",
+				"interrogazione"
+			],
+			"answer": "albero",
+			"explanation": "\"albero\": pianta con tronco e rami."
+		},
+		{
+			"id": "italiano-natura-ambiente-fiore-245",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte colorata di molte piante\"?",
+			"options": [
+				"contraddizione",
+				"ambiente",
+				"fiore",
+				"voto"
+			],
+			"answer": "fiore",
+			"explanation": "\"fiore\": parte colorata di molte piante."
+		},
+		{
+			"id": "italiano-natura-ambiente-foglia-246",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parte verde della pianta\"?",
+			"options": [
+				"spuntino",
+				"foglia",
+				"contraddizione",
+				"profilo"
+			],
+			"answer": "foglia",
+			"explanation": "\"foglia\": parte verde della pianta."
+		},
+		{
+			"id": "italiano-natura-ambiente-bosco-247",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"luogo con molti alberi\"?",
+			"options": [
+				"nebbia",
+				"scontrino",
+				"campanello",
+				"bosco"
+			],
+			"answer": "bosco",
+			"explanation": "\"bosco\": luogo con molti alberi."
+		},
+		{
+			"id": "italiano-natura-ambiente-prato-248",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"terreno coperto d'erba\"?",
+			"options": [
+				"ambiguità",
+				"prato",
+				"risorsa",
+				"respiro"
+			],
+			"answer": "prato",
+			"explanation": "\"prato\": terreno coperto d'erba."
+		},
+		{
+			"id": "italiano-natura-ambiente-fiume-249",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"corso d'acqua naturale\"?",
+			"options": [
+				"fiume",
+				"paragrafo",
+				"cliente",
+				"negozio"
+			],
+			"answer": "fiume",
+			"explanation": "\"fiume\": corso d'acqua naturale."
+		},
+		{
+			"id": "italiano-natura-ambiente-mare-250",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"grande distesa d'acqua salata\"?",
+			"options": [
+				"mare",
+				"schermo",
+				"verdura",
+				"soggiorno"
+			],
+			"answer": "mare",
+			"explanation": "\"mare\": grande distesa d'acqua salata."
+		},
+		{
+			"id": "italiano-natura-ambiente-montagna-251",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"rilievo alto del terreno\"?",
+			"options": [
+				"cucina",
+				"argomento",
+				"lezione",
+				"montagna"
+			],
+			"answer": "montagna",
+			"explanation": "\"montagna\": rilievo alto del terreno."
+		},
+		{
+			"id": "italiano-natura-ambiente-spiaggia-252",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"zona di sabbia o ciottoli vicino al mare\"?",
+			"options": [
+				"spiaggia",
+				"offerta",
+				"albero",
+				"conclusione"
+			],
+			"answer": "spiaggia",
+			"explanation": "\"spiaggia\": zona di sabbia o ciottoli vicino al mare."
+		},
+		{
+			"id": "italiano-natura-ambiente-rifiuto-253",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"oggetto da buttare o riciclare\"?",
+			"options": [
+				"messaggio",
+				"camera",
+				"rifiuto",
+				"anticipo"
+			],
+			"answer": "rifiuto",
+			"explanation": "\"rifiuto\": oggetto da buttare o riciclare."
+		},
+		{
+			"id": "italiano-natura-ambiente-raccolta-254",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"azione di riunire o separare materiali\"?",
+			"options": [
+				"raccolta",
+				"computer",
+				"privacy",
+				"esempio"
+			],
+			"answer": "raccolta",
+			"explanation": "\"raccolta\": azione di riunire o separare materiali."
+		},
+		{
+			"id": "italiano-natura-ambiente-energia-255",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"capacità di produrre movimento, calore o lavoro\"?",
+			"options": [
+				"argomento",
+				"negozio",
+				"schema",
+				"energia"
+			],
+			"answer": "energia",
+			"explanation": "\"energia\": capacità di produrre movimento, calore o lavoro."
+		},
+		{
+			"id": "italiano-natura-ambiente-risorsa-256",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"mezzo utile ma non infinito\"?",
+			"options": [
+				"appuntamento",
+				"risorsa",
+				"regola",
+				"domanda"
+			],
+			"answer": "risorsa",
+			"explanation": "\"risorsa\": mezzo utile ma non infinito."
+		},
+		{
+			"id": "italiano-natura-ambiente-ambiente-257",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"insieme dei luoghi e condizioni in cui viviamo\"?",
+			"options": [
+				"sintesi",
+				"allenamento",
+				"ambiente",
+				"regola"
+			],
+			"answer": "ambiente",
+			"explanation": "\"ambiente\": insieme dei luoghi e condizioni in cui viviamo."
+		},
+		{
+			"id": "italiano-natura-ambiente-naturale-258",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che appartiene alla natura\"?",
+			"options": [
+				"puntuale",
+				"naturale",
+				"economico",
+				"dolorante"
+			],
+			"answer": "naturale",
+			"explanation": "\"naturale\": che appartiene alla natura."
+		},
+		{
+			"id": "italiano-natura-ambiente-inquinato-259",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"reso sporco o dannoso\"?",
+			"options": [
+				"malato",
+				"inquinato",
+				"tardivo",
+				"costoso"
+			],
+			"answer": "inquinato",
+			"explanation": "\"inquinato\": reso sporco o dannoso."
+		},
+		{
+			"id": "italiano-natura-ambiente-riciclabile-260",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che può essere trasformato e riutilizzato\"?",
+			"options": [
+				"riciclabile",
+				"timido",
+				"tardivo",
+				"stanco"
+			],
+			"answer": "riciclabile",
+			"explanation": "\"riciclabile\": che può essere trasformato e riutilizzato."
+		},
+		{
+			"id": "italiano-natura-ambiente-sostenibile-261",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che rispetta risorse e futuro\"?",
+			"options": [
+				"sostenibile",
+				"silenzioso",
+				"costoso",
+				"sano"
+			],
+			"answer": "sostenibile",
+			"explanation": "\"sostenibile\": che rispetta risorse e futuro."
+		},
+		{
+			"id": "italiano-natura-ambiente-rinnovabile-262",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che si rigenera o non si esaurisce facilmente\"?",
+			"options": [
+				"rinnovabile",
+				"stanco",
+				"coraggioso",
+				"prudente"
+			],
+			"answer": "rinnovabile",
+			"explanation": "\"rinnovabile\": che si rigenera o non si esaurisce facilmente."
+		},
+		{
+			"id": "italiano-natura-ambiente-secco-263",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"senza acqua o umidità\"?",
+			"options": [
+				"paziente",
+				"secco",
+				"piovoso",
+				"tardivo"
+			],
+			"answer": "secco",
+			"explanation": "\"secco\": senza acqua o umidità."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-fatto-264",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"dato osservabile o verificabile\"?",
+			"options": [
+				"romanzo",
+				"esempio",
+				"tristezza",
+				"fatto"
+			],
+			"answer": "fatto",
+			"explanation": "\"fatto\": dato osservabile o verificabile."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-opinione-265",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"giudizio personale\"?",
+			"options": [
+				"mare",
+				"nebbia",
+				"opinione",
+				"bosco"
+			],
+			"answer": "opinione",
+			"explanation": "\"opinione\": giudizio personale."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-ipotesi-266",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"spiegazione possibile da verificare\"?",
+			"options": [
+				"riassunto",
+				"negozio",
+				"verifica",
+				"ipotesi"
+			],
+			"answer": "ipotesi",
+			"explanation": "\"ipotesi\": spiegazione possibile da verificare."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-prova-267",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"dato che sostiene una conclusione\"?",
+			"options": [
+				"mestiere",
+				"domanda",
+				"prova",
+				"fiume"
+			],
+			"answer": "prova",
+			"explanation": "\"prova\": dato che sostiene una conclusione."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-tesi-268",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"idea principale da sostenere\"?",
+			"options": [
+				"tesi",
+				"profilo",
+				"fermata",
+				"raffreddore"
+			],
+			"answer": "tesi",
+			"explanation": "\"tesi\": idea principale da sostenere."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-argomento-269",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"ragione usata per sostenere una tesi\"?",
+			"options": [
+				"cliente",
+				"anticipo",
+				"appuntamento",
+				"argomento"
+			],
+			"answer": "argomento",
+			"explanation": "\"argomento\": ragione usata per sostenere una tesi."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-causa-270",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"motivo per cui accade qualcosa\"?",
+			"options": [
+				"sintesi",
+				"collega",
+				"causa",
+				"rifiuto"
+			],
+			"answer": "causa",
+			"explanation": "\"causa\": motivo per cui accade qualcosa."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-effetto-271",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"conseguenza osservabile di una causa\"?",
+			"options": [
+				"appuntamento",
+				"mappa",
+				"orecchio",
+				"effetto"
+			],
+			"answer": "effetto",
+			"explanation": "\"effetto\": conseguenza osservabile di una causa."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-conclusione-272",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"risultato di un ragionamento\"?",
+			"options": [
+				"orecchio",
+				"schiena",
+				"conclusione",
+				"cartella"
+			],
+			"answer": "conclusione",
+			"explanation": "\"conclusione\": risultato di un ragionamento."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-contraddizione-273",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"presenza di informazioni incompatibili\"?",
+			"options": [
+				"paragrafo",
+				"mare",
+				"contraddizione",
+				"montagna"
+			],
+			"answer": "contraddizione",
+			"explanation": "\"contraddizione\": presenza di informazioni incompatibili."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-ambiguita-274",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"possibilità di interpretare in più modi\"?",
+			"options": [
+				"mese",
+				"ambiguità",
+				"dettaglio",
+				"appuntamento"
+			],
+			"answer": "ambiguità",
+			"explanation": "\"ambiguità\": possibilità di interpretare in più modi."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-sintesi-275",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"versione breve con le informazioni essenziali\"?",
+			"options": [
+				"schiena",
+				"sintesi",
+				"pioggia",
+				"anticipo"
+			],
+			"answer": "sintesi",
+			"explanation": "\"sintesi\": versione breve con le informazioni essenziali."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-dettaglio-276",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"informazione piccola o secondaria\"?",
+			"options": [
+				"camera",
+				"dettaglio",
+				"romanzo",
+				"balcone"
+			],
+			"answer": "dettaglio",
+			"explanation": "\"dettaglio\": informazione piccola o secondaria."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-contesto-277",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"situazione che aiuta a capire una frase\"?",
+			"options": [
+				"occhio",
+				"contesto",
+				"semaforo",
+				"testa"
+			],
+			"answer": "contesto",
+			"explanation": "\"contesto\": situazione che aiuta a capire una frase."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-registro-278",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"modo di esprimersi adatto alla situazione\"?",
+			"options": [
+				"registro",
+				"lezione",
+				"ginocchio",
+				"albero"
+			],
+			"answer": "registro",
+			"explanation": "\"registro\": modo di esprimersi adatto alla situazione."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-coerenza-279",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"accordo logico tra le parti di un testo\"?",
+			"options": [
+				"sorpresa",
+				"piscina",
+				"coerenza",
+				"energia"
+			],
+			"answer": "coerenza",
+			"explanation": "\"coerenza\": accordo logico tra le parti di un testo."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-perche-280",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce una causa o una spiegazione\"?",
+			"options": [
+				"però",
+				"perché",
+				"infatti",
+				"affinché"
+			],
+			"answer": "perché",
+			"explanation": "\"perché\": introduce una causa o una spiegazione."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-quindi-281",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce una conseguenza\"?",
+			"options": [
+				"infatti",
+				"affinché",
+				"però",
+				"quindi"
+			],
+			"answer": "quindi",
+			"explanation": "\"quindi\": introduce una conseguenza."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-pero-282",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce un contrasto\"?",
+			"options": [
+				"infatti",
+				"però",
+				"sebbene",
+				"affinché"
+			],
+			"answer": "però",
+			"explanation": "\"però\": introduce un contrasto."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-tuttavia-283",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce un contrasto in registro più formale\"?",
+			"options": [
+				"tuttavia",
+				"perché",
+				"inoltre",
+				"infatti"
+			],
+			"answer": "tuttavia",
+			"explanation": "\"tuttavia\": introduce un contrasto in registro più formale."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-infatti-284",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce una conferma o spiegazione\"?",
+			"options": [
+				"perché",
+				"sebbene",
+				"infatti",
+				"inoltre"
+			],
+			"answer": "infatti",
+			"explanation": "\"infatti\": introduce una conferma o spiegazione."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-inoltre-285",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"aggiunge un'informazione\"?",
+			"options": [
+				"inoltre",
+				"tuttavia",
+				"dunque",
+				"quindi"
+			],
+			"answer": "inoltre",
+			"explanation": "\"inoltre\": aggiunge un'informazione."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-sebbene-286",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce una concessione\"?",
+			"options": [
+				"quindi",
+				"sebbene",
+				"finché",
+				"perché"
+			],
+			"answer": "sebbene",
+			"explanation": "\"sebbene\": introduce una concessione."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-affinche-287",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce uno scopo\"?",
+			"options": [
+				"tuttavia",
+				"però",
+				"affinché",
+				"perché"
+			],
+			"answer": "affinché",
+			"explanation": "\"affinché\": introduce uno scopo."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-finche-288",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce un limite temporale\"?",
+			"options": [
+				"infatti",
+				"finché",
+				"però",
+				"affinché"
+			],
+			"answer": "finché",
+			"explanation": "\"finché\": introduce un limite temporale."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-dunque-289",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"introduce una conclusione\"?",
+			"options": [
+				"dunque",
+				"perché",
+				"tuttavia",
+				"però"
+			],
+			"answer": "dunque",
+			"explanation": "\"dunque\": introduce una conclusione."
+		}
 	]
 }

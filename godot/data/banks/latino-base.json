@@ -1,14 +1,999 @@
 {
 	"schemaVersion": 1,
 	"subject": "latino",
+	"generator": "latin-declension-v1",
 	"items": [
-		{"id": "lat-les-1", "topic": "lessico", "difficulty": 1, "format": "multiple_choice", "prompt": "'Aqua' significa...", "options": ["Acqua", "Fuoco", "Terra"], "answer": "Acqua", "explanation": "Aqua è la parola latina per acqua."},
-		{"id": "lat-les-2", "topic": "lessico", "difficulty": 1, "format": "multiple_choice", "prompt": "'Puer' significa...", "options": ["Ragazzo", "Libro", "Città"], "answer": "Ragazzo", "explanation": "Puer significa ragazzo."},
-		{"id": "lat-les-3", "topic": "lessico", "difficulty": 2, "format": "multiple_choice", "prompt": "'Terra' significa...", "options": ["Terra", "Cielo", "Mare"], "answer": "Terra", "explanation": "Terra ha lo stesso significato dell'italiano."},
-		{"id": "lat-dec-1", "topic": "declinazioni", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale caso indica di solito il soggetto?", "options": ["Nominativo", "Accusativo", "Genitivo"], "answer": "Nominativo", "explanation": "Il nominativo è il caso del soggetto."},
-		{"id": "lat-dec-2", "topic": "declinazioni", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale caso indica il complemento oggetto?", "options": ["Accusativo", "Nominativo", "Dativo"], "answer": "Accusativo", "explanation": "Il complemento oggetto è in accusativo."},
-		{"id": "lat-dec-3", "topic": "declinazioni", "difficulty": 4, "format": "multiple_choice", "prompt": "In 'rosa, rosae', la forma 'rosae' può essere...", "options": ["Genitivo singolare", "Nominativo singolare", "Accusativo singolare"], "answer": "Genitivo singolare", "explanation": "Nella prima declinazione il genitivo singolare è in -ae."},
-		{"id": "lat-ver-1", "topic": "verbo", "difficulty": 1, "format": "multiple_choice", "prompt": "'Amo' significa...", "options": ["Io amo", "Tu ami", "Noi amiamo"], "answer": "Io amo", "explanation": "Amo è la prima persona singolare: io amo."},
-		{"id": "lat-ver-2", "topic": "verbo", "difficulty": 2, "format": "multiple_choice", "prompt": "'Sum' significa...", "options": ["Io sono", "Tu sei", "Egli è"], "answer": "Io sono", "explanation": "Sum è la prima persona: io sono."}
+		{
+			"id": "latino-dominus-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"dominus\" (da \"dominus\", il signore/padrone)?",
+			"options": [
+				"accusativo singolare",
+				"accusativo plurale",
+				"nominativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-dominus-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"dominum\" (da \"dominus\", il signore/padrone)?",
+			"options": [
+				"genitivo plurale",
+				"nominativo singolare",
+				"accusativo plurale",
+				"accusativo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-dominus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"dominorum\" (da \"dominus\", il signore/padrone)?",
+			"options": [
+				"accusativo singolare",
+				"genitivo plurale",
+				"nominativo singolare",
+				"accusativo plurale"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-dominus-accusativo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"dominos\" (da \"dominus\", il signore/padrone)?",
+			"options": [
+				"accusativo singolare",
+				"genitivo plurale",
+				"nominativo singolare",
+				"accusativo plurale"
+			],
+			"answer": "accusativo plurale",
+			"explanation": "accusativo (spesso oggetto), plurale."
+		},
+		{
+			"id": "latino-servus-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"servus\" (da \"servus\", lo schiavo)?",
+			"options": [
+				"nominativo singolare",
+				"accusativo plurale",
+				"genitivo plurale",
+				"accusativo singolare"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-servus-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"servum\" (da \"servus\", lo schiavo)?",
+			"options": [
+				"accusativo singolare",
+				"accusativo plurale",
+				"genitivo plurale",
+				"nominativo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-servus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"servorum\" (da \"servus\", lo schiavo)?",
+			"options": [
+				"genitivo plurale",
+				"accusativo plurale",
+				"accusativo singolare",
+				"nominativo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-servus-accusativo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"servos\" (da \"servus\", lo schiavo)?",
+			"options": [
+				"nominativo singolare",
+				"accusativo plurale",
+				"genitivo plurale",
+				"accusativo singolare"
+			],
+			"answer": "accusativo plurale",
+			"explanation": "accusativo (spesso oggetto), plurale."
+		},
+		{
+			"id": "latino-amicus-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"amicus\" (da \"amicus\", l'amico)?",
+			"options": [
+				"nominativo singolare",
+				"accusativo singolare",
+				"accusativo plurale",
+				"genitivo plurale"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-amicus-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"amicum\" (da \"amicus\", l'amico)?",
+			"options": [
+				"accusativo plurale",
+				"genitivo plurale",
+				"nominativo singolare",
+				"accusativo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-amicus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"amicorum\" (da \"amicus\", l'amico)?",
+			"options": [
+				"accusativo plurale",
+				"nominativo singolare",
+				"genitivo plurale",
+				"accusativo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-amicus-accusativo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"amicos\" (da \"amicus\", l'amico)?",
+			"options": [
+				"genitivo plurale",
+				"nominativo singolare",
+				"accusativo plurale",
+				"accusativo singolare"
+			],
+			"answer": "accusativo plurale",
+			"explanation": "accusativo (spesso oggetto), plurale."
+		},
+		{
+			"id": "latino-populus-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"populus\" (da \"populus\", il popolo)?",
+			"options": [
+				"nominativo singolare",
+				"accusativo plurale",
+				"accusativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-populus-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"populum\" (da \"populus\", il popolo)?",
+			"options": [
+				"accusativo plurale",
+				"nominativo singolare",
+				"accusativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-populus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"populorum\" (da \"populus\", il popolo)?",
+			"options": [
+				"accusativo singolare",
+				"accusativo plurale",
+				"genitivo plurale",
+				"nominativo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-populus-accusativo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"populos\" (da \"populus\", il popolo)?",
+			"options": [
+				"accusativo plurale",
+				"accusativo singolare",
+				"nominativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "accusativo plurale",
+			"explanation": "accusativo (spesso oggetto), plurale."
+		},
+		{
+			"id": "latino-rex-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"rex\" (da \"rex\", il re)?",
+			"options": [
+				"nominativo singolare",
+				"ablativo singolare",
+				"genitivo singolare",
+				"genitivo plurale"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-rex-genitivo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"regis\" (da \"rex\", il re)?",
+			"options": [
+				"nominativo singolare",
+				"genitivo singolare",
+				"ablativo singolare",
+				"dativo singolare"
+			],
+			"answer": "genitivo singolare",
+			"explanation": "genitivo (specificazione), singolare."
+		},
+		{
+			"id": "latino-rex-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"regi\" (da \"rex\", il re)?",
+			"options": [
+				"accusativo singolare",
+				"dativo singolare",
+				"genitivo plurale",
+				"genitivo singolare"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-rex-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"regem\" (da \"rex\", il re)?",
+			"options": [
+				"dativo singolare",
+				"ablativo singolare",
+				"nominativo singolare",
+				"accusativo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-rex-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"rege\" (da \"rex\", il re)?",
+			"options": [
+				"genitivo plurale",
+				"nominativo singolare",
+				"ablativo singolare",
+				"dativo singolare"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-rex-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"regum\" (da \"rex\", il re)?",
+			"options": [
+				"ablativo singolare",
+				"genitivo plurale",
+				"nominativo singolare",
+				"accusativo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-consul-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"consul\" (da \"consul\", il console)?",
+			"options": [
+				"accusativo singolare",
+				"genitivo singolare",
+				"ablativo singolare",
+				"nominativo singolare"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-consul-genitivo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"consulis\" (da \"consul\", il console)?",
+			"options": [
+				"nominativo singolare",
+				"dativo singolare",
+				"ablativo singolare",
+				"genitivo singolare"
+			],
+			"answer": "genitivo singolare",
+			"explanation": "genitivo (specificazione), singolare."
+		},
+		{
+			"id": "latino-consul-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"consuli\" (da \"consul\", il console)?",
+			"options": [
+				"ablativo singolare",
+				"genitivo singolare",
+				"accusativo singolare",
+				"dativo singolare"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-consul-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"consulem\" (da \"consul\", il console)?",
+			"options": [
+				"genitivo plurale",
+				"accusativo singolare",
+				"genitivo singolare",
+				"nominativo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-consul-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"consule\" (da \"consul\", il console)?",
+			"options": [
+				"ablativo singolare",
+				"genitivo singolare",
+				"accusativo singolare",
+				"dativo singolare"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-consul-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"consulum\" (da \"consul\", il console)?",
+			"options": [
+				"ablativo singolare",
+				"accusativo singolare",
+				"dativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-miles-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"miles\" (da \"miles\", il soldato)?",
+			"options": [
+				"accusativo singolare",
+				"dativo singolare",
+				"ablativo singolare",
+				"nominativo singolare"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-miles-genitivo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"militis\" (da \"miles\", il soldato)?",
+			"options": [
+				"genitivo plurale",
+				"ablativo singolare",
+				"nominativo singolare",
+				"genitivo singolare"
+			],
+			"answer": "genitivo singolare",
+			"explanation": "genitivo (specificazione), singolare."
+		},
+		{
+			"id": "latino-miles-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"militi\" (da \"miles\", il soldato)?",
+			"options": [
+				"dativo singolare",
+				"ablativo singolare",
+				"accusativo singolare",
+				"nominativo singolare"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-miles-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"militem\" (da \"miles\", il soldato)?",
+			"options": [
+				"genitivo plurale",
+				"ablativo singolare",
+				"accusativo singolare",
+				"genitivo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-miles-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"milite\" (da \"miles\", il soldato)?",
+			"options": [
+				"nominativo singolare",
+				"accusativo singolare",
+				"ablativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-miles-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"militum\" (da \"miles\", il soldato)?",
+			"options": [
+				"accusativo singolare",
+				"dativo singolare",
+				"genitivo plurale",
+				"genitivo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-virtus-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"virtus\" (da \"virtus\", la virtù)?",
+			"options": [
+				"nominativo singolare",
+				"dativo singolare",
+				"accusativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-virtus-genitivo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"virtutis\" (da \"virtus\", la virtù)?",
+			"options": [
+				"genitivo singolare",
+				"dativo singolare",
+				"genitivo plurale",
+				"accusativo singolare"
+			],
+			"answer": "genitivo singolare",
+			"explanation": "genitivo (specificazione), singolare."
+		},
+		{
+			"id": "latino-virtus-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"virtuti\" (da \"virtus\", la virtù)?",
+			"options": [
+				"nominativo singolare",
+				"dativo singolare",
+				"genitivo singolare",
+				"ablativo singolare"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-virtus-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"virtutem\" (da \"virtus\", la virtù)?",
+			"options": [
+				"dativo singolare",
+				"genitivo singolare",
+				"nominativo singolare",
+				"accusativo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-virtus-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"virtute\" (da \"virtus\", la virtù)?",
+			"options": [
+				"genitivo plurale",
+				"dativo singolare",
+				"accusativo singolare",
+				"ablativo singolare"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-virtus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"virtutum\" (da \"virtus\", la virtù)?",
+			"options": [
+				"nominativo singolare",
+				"genitivo plurale",
+				"ablativo singolare",
+				"genitivo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-lex-nominativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"lex\" (da \"lex\", la legge)?",
+			"options": [
+				"nominativo singolare",
+				"genitivo plurale",
+				"ablativo singolare",
+				"accusativo singolare"
+			],
+			"answer": "nominativo singolare",
+			"explanation": "nominativo (spesso soggetto), singolare."
+		},
+		{
+			"id": "latino-lex-genitivo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"legis\" (da \"lex\", la legge)?",
+			"options": [
+				"dativo singolare",
+				"ablativo singolare",
+				"nominativo singolare",
+				"genitivo singolare"
+			],
+			"answer": "genitivo singolare",
+			"explanation": "genitivo (specificazione), singolare."
+		},
+		{
+			"id": "latino-lex-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"legi\" (da \"lex\", la legge)?",
+			"options": [
+				"nominativo singolare",
+				"dativo singolare",
+				"genitivo singolare",
+				"ablativo singolare"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-lex-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"legem\" (da \"lex\", la legge)?",
+			"options": [
+				"accusativo singolare",
+				"genitivo singolare",
+				"ablativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-lex-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"lege\" (da \"lex\", la legge)?",
+			"options": [
+				"dativo singolare",
+				"ablativo singolare",
+				"genitivo plurale",
+				"genitivo singolare"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-lex-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"legum\" (da \"lex\", la legge)?",
+			"options": [
+				"genitivo plurale",
+				"ablativo singolare",
+				"dativo singolare",
+				"accusativo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-corpus-genitivo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"corporis\" (da \"corpus\", il corpo)?",
+			"options": [
+				"ablativo singolare",
+				"genitivo singolare",
+				"genitivo plurale",
+				"dativo singolare"
+			],
+			"answer": "genitivo singolare",
+			"explanation": "genitivo (specificazione), singolare."
+		},
+		{
+			"id": "latino-corpus-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"corpori\" (da \"corpus\", il corpo)?",
+			"options": [
+				"genitivo singolare",
+				"ablativo singolare",
+				"genitivo plurale",
+				"dativo singolare"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-corpus-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"corpore\" (da \"corpus\", il corpo)?",
+			"options": [
+				"ablativo singolare",
+				"genitivo singolare",
+				"dativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-corpus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"corporum\" (da \"corpus\", il corpo)?",
+			"options": [
+				"genitivo plurale",
+				"dativo singolare",
+				"ablativo singolare",
+				"genitivo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-tempus-genitivo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"temporis\" (da \"tempus\", il tempo)?",
+			"options": [
+				"genitivo singolare",
+				"ablativo singolare",
+				"dativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "genitivo singolare",
+			"explanation": "genitivo (specificazione), singolare."
+		},
+		{
+			"id": "latino-tempus-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"tempori\" (da \"tempus\", il tempo)?",
+			"options": [
+				"genitivo plurale",
+				"genitivo singolare",
+				"ablativo singolare",
+				"dativo singolare"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-tempus-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"tempore\" (da \"tempus\", il tempo)?",
+			"options": [
+				"ablativo singolare",
+				"genitivo singolare",
+				"genitivo plurale",
+				"dativo singolare"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-tempus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"temporum\" (da \"tempus\", il tempo)?",
+			"options": [
+				"dativo singolare",
+				"genitivo singolare",
+				"ablativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-manus-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"manui\" (da \"manus\", la mano)?",
+			"options": [
+				"genitivo plurale",
+				"accusativo singolare",
+				"dativo singolare",
+				"ablativo singolare"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-manus-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"manum\" (da \"manus\", la mano)?",
+			"options": [
+				"dativo singolare",
+				"genitivo plurale",
+				"ablativo singolare",
+				"accusativo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-manus-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"manu\" (da \"manus\", la mano)?",
+			"options": [
+				"ablativo singolare",
+				"dativo singolare",
+				"accusativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-manus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"manuum\" (da \"manus\", la mano)?",
+			"options": [
+				"dativo singolare",
+				"genitivo plurale",
+				"accusativo singolare",
+				"ablativo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-exercitus-dativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"exercitui\" (da \"exercitus\", l'esercito)?",
+			"options": [
+				"accusativo singolare",
+				"ablativo singolare",
+				"dativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "dativo singolare",
+			"explanation": "dativo (termine), singolare."
+		},
+		{
+			"id": "latino-exercitus-accusativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"exercitum\" (da \"exercitus\", l'esercito)?",
+			"options": [
+				"genitivo plurale",
+				"ablativo singolare",
+				"dativo singolare",
+				"accusativo singolare"
+			],
+			"answer": "accusativo singolare",
+			"explanation": "accusativo (spesso oggetto), singolare."
+		},
+		{
+			"id": "latino-exercitus-ablativo-singolare",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"exercitu\" (da \"exercitus\", l'esercito)?",
+			"options": [
+				"ablativo singolare",
+				"accusativo singolare",
+				"dativo singolare",
+				"genitivo plurale"
+			],
+			"answer": "ablativo singolare",
+			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+		},
+		{
+			"id": "latino-exercitus-genitivo-plurale",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che caso e numero ha \"exercituum\" (da \"exercitus\", l'esercito)?",
+			"options": [
+				"genitivo plurale",
+				"dativo singolare",
+				"accusativo singolare",
+				"ablativo singolare"
+			],
+			"answer": "genitivo plurale",
+			"explanation": "genitivo (specificazione), plurale."
+		}
 	]
 }

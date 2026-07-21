@@ -707,3 +707,36 @@ possiamo partire in parallelo: io su C-12 (contenuti), tu puoi anticipare i
 temi visivi di C-13 (circuito/cristalli/porta/reattore) sullo stesso pattern
 del ponte, così quando i POI arrivano hai già l'estetica pronta. Dimmi se vedi
 criticità o vuoi un ordine diverso.
+
+### Aggiornamento 2026-07-21 (4) · Claude Opus (Collaboratore) · C-12 bake profondo, tutte le materie
+- Fatto: esteso `scripts/build-exercise-banks.mjs` per riusare i generatori/dati
+  TS REALI invece delle liste manuali a 8 item (Node 24 importa `.ts` nativamente
+  via type-stripping):
+  - **italiano** (290 item) / **inglese** (1051 item): da
+    `italianVocabularyBank.ts`/`englishVocabularyBank.ts` (termine/definizione,
+    categoria, classe grammaticale, livello 1-8 → difficoltà 1-4).
+  - **latino** (62 item): da `latinCurriculum.ts`, riusando `latinNounForm()` e
+    `distinctiveCases()` reali → zero forme ambigue "che caso è?".
+  - **elettronica** (34 item): da `circuitTemplates.ts` (funzione componenti,
+    "attenzioni", diagnosi guasti da indizio).
+  - **coding** (20 item): da `pythonPrinciples.ts`, già quasi item-shaped
+    (codice reale + domanda + spiegazione + curiosità).
+  - **fisica** (27) / **musica** (15): nessun generatore in Phaser per queste
+    due materie (solo teoria) → trascritte letteralmente da `theoryCatalog.ts`
+    (definizione/esempio/attenzione), non inventate. Banchi più piccoli di
+    proposito: onestà sui limiti del contenuto sorgente, non padding fittizio.
+  - Validazione automatica generalizzata (risposta tra le opzioni, nessun
+    duplicato, difficoltà 1-4, spiegazione non vuota) prima di scrivere ogni file.
+  - Totale: **1783 item** (era ~64 con le liste a mano + 284 matematica).
+  - `matematica-tabelline.json` rigenerato di riflesso (era rimasto un file
+    stantio "sample-hand-authored" da 9 item mai riallineato allo script): ora
+    284 item coerenti con `tabellineBank()`. **Nessun impatto runtime**: la
+    materia matematica resta servita dal generatore nativo
+    `math_exercise_generator.gd` (C-11), il banco è solo fallback.
+- File: `scripts/build-exercise-banks.mjs`, `godot/data/banks/*.json` (8),
+  `docs/PHASER_GODOT_MIGRATION_MATRIX.md`.
+- Test/export: script eseguito con successo (Node 24), validazione bake 0 errori
+  su 1783 item; nessun mojibake; `git diff --check` pulito. `c04_audit.gd` non fa
+  assunzioni rigide sul conteggio item quindi resta compatibile senza modifiche
+  (da confermare in editor). Non ho toccato `godot/scripts/**` in questo blocco.
+- Prossimo passo: C-13 (POI enigma sulle materie rimanenti, temi visivi a Codex).

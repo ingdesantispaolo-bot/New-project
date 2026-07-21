@@ -1,14 +1,247 @@
 {
 	"schemaVersion": 1,
 	"subject": "musica",
+	"generator": "theory-catalog-curated-v1",
 	"items": [
-		{"id": "mus-not-1", "topic": "note", "difficulty": 1, "format": "numeric_input", "prompt": "Quante note ci sono nella scala (do re mi fa sol la si)?", "options": [], "answer": "7", "explanation": "Le note della scala sono sette."},
-		{"id": "mus-not-2", "topic": "note", "difficulty": 1, "format": "multiple_choice", "prompt": "Quale nota viene dopo 'do'?", "options": ["re", "fa", "la"], "answer": "re", "explanation": "L'ordine è do, re, mi..."},
-		{"id": "mus-not-3", "topic": "note", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale nota viene prima di 'do' (nell'ottava)?", "options": ["si", "mi", "sol"], "answer": "si", "explanation": "Dopo 'si' ricomincia 'do'."},
-		{"id": "mus-let-1", "topic": "lettura", "difficulty": 1, "format": "multiple_choice", "prompt": "Su cosa si scrivono le note?", "options": ["Pentagramma", "Tastiera", "Spartito vuoto"], "answer": "Pentagramma", "explanation": "Le note si scrivono sul pentagramma a cinque linee."},
-		{"id": "mus-let-2", "topic": "lettura", "difficulty": 2, "format": "multiple_choice", "prompt": "Quale simbolo indica un silenzio?", "options": ["Pausa", "Accento", "Diesis"], "answer": "Pausa", "explanation": "La pausa rappresenta un silenzio musicale."},
-		{"id": "mus-rit-1", "topic": "ritmo", "difficulty": 3, "format": "numeric_input", "prompt": "In 4/4, quanti movimenti ci sono per battuta?", "options": [], "answer": "4", "explanation": "Il numeratore 4 indica quattro movimenti."},
-		{"id": "mus-rit-2", "topic": "ritmo", "difficulty": 3, "format": "multiple_choice", "prompt": "Un tempo veloce si indica con...", "options": ["Allegro", "Adagio", "Lento"], "answer": "Allegro", "explanation": "'Allegro' indica un tempo vivace e veloce."},
-		{"id": "mus-let-3", "topic": "lettura", "difficulty": 2, "format": "multiple_choice", "prompt": "La chiave più comune per le note acute è...", "options": ["di violino", "di basso", "di tenore"], "answer": "di violino", "explanation": "La chiave di violino (di sol) è la più usata."}
+		{
+			"id": "musica-pentagramma-chiavi-definizione",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Pentagramma e chiavi\"?",
+			"options": [
+				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
+				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
+			],
+			"answer": "Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
+			"explanation": "Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento."
+		},
+		{
+			"id": "musica-pentagramma-chiavi-esempio",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Nota nel secondo spazio in chiave di violino.",
+			"options": [
+				"Quinta.",
+				"La",
+				"La (ottava alta).",
+				"Non manca nessun battito."
+			],
+			"answer": "La",
+			"explanation": "chiave di violino → gli spazi sono Fa-La-Do-Mi → secondo spazio = La."
+		},
+		{
+			"id": "musica-pentagramma-chiavi-attenzione",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Pentagramma e chiavi\"?",
+			"options": [
+				"Non saltare le linee: vanno contate una per volta.",
+				"La croma vale mezzo battito, non uno.",
+				"La stessa posizione cambia nome se cambia chiave.",
+				"Una croma vale mezzo battito, non uno."
+			],
+			"answer": "La stessa posizione cambia nome se cambia chiave.",
+			"explanation": "La stessa posizione cambia nome se cambia chiave."
+		},
+		{
+			"id": "musica-ritmo-intervalli-definizione",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Ritmo e intervalli\"?",
+			"options": [
+				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
+				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
+				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota."
+			],
+			"answer": "Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
+			"explanation": "Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
+		},
+		{
+			"id": "musica-ritmo-intervalli-esempio",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In 4/4 ci sono due semiminime e una minima.",
+			"options": [
+				"Quinta.",
+				"Non manca nessun battito.",
+				"La (ottava alta).",
+				"La"
+			],
+			"answer": "Non manca nessun battito.",
+			"explanation": "1 + 1 + 2 = 4 → la battuta è completa."
+		},
+		{
+			"id": "musica-ritmo-intervalli-attenzione",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Ritmo e intervalli\"?",
+			"options": [
+				"Conta includendo la nota di partenza, non da zero.",
+				"Non saltare le linee: vanno contate una per volta.",
+				"La croma vale mezzo battito, non uno.",
+				"Una croma vale mezzo battito, non uno."
+			],
+			"answer": "Una croma vale mezzo battito, non uno.",
+			"explanation": "Una croma vale mezzo battito, non uno."
+		},
+		{
+			"id": "musica-linee-ottava-definizione",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Linee addizionali e ottava\"?",
+			"options": [
+				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
+				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
+				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota."
+			],
+			"answer": "Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
+			"explanation": "Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota."
+		},
+		{
+			"id": "musica-linee-ottava-esempio",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nota due linee sopra il pentagramma in chiave di violino.",
+			"options": [
+				"Quinta.",
+				"Manca una semiminima.",
+				"La (ottava alta).",
+				"La"
+			],
+			"answer": "La (ottava alta).",
+			"explanation": "dall'ultima riga salgo di due linee → conto righe e spazi in ordine → ottengo il La acuto."
+		},
+		{
+			"id": "musica-linee-ottava-attenzione",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Linee addizionali e ottava\"?",
+			"options": [
+				"Non saltare le linee: vanno contate una per volta.",
+				"Una croma vale mezzo battito, non uno.",
+				"La croma vale mezzo battito, non uno.",
+				"La stessa posizione cambia nome se cambia chiave."
+			],
+			"answer": "Non saltare le linee: vanno contate una per volta.",
+			"explanation": "Non saltare le linee: vanno contate una per volta."
+		},
+		{
+			"id": "musica-intervalli-scale-definizione",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Intervalli e scale\"?",
+			"options": [
+				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
+				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
+			],
+			"answer": "Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
+			"explanation": "Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo."
+		},
+		{
+			"id": "musica-intervalli-scale-esempio",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Intervallo da Do a Sol.",
+			"options": [
+				"La",
+				"Quinta.",
+				"Manca una semiminima.",
+				"La (ottava alta)."
+			],
+			"answer": "Quinta.",
+			"explanation": "Do, Re, Mi, Fa, Sol → conto cinque nomi → è una quinta."
+		},
+		{
+			"id": "musica-intervalli-scale-attenzione",
+			"subject": "musica",
+			"topic": "Lettura musicale",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Intervalli e scale\"?",
+			"options": [
+				"Conta includendo la nota di partenza, non da zero.",
+				"Una croma vale mezzo battito, non uno.",
+				"La croma vale mezzo battito, non uno.",
+				"Non saltare le linee: vanno contate una per volta."
+			],
+			"answer": "Conta includendo la nota di partenza, non da zero.",
+			"explanation": "Conta includendo la nota di partenza, non da zero."
+		},
+		{
+			"id": "musica-durate-tempo-definizione",
+			"subject": "musica",
+			"topic": "Ritmo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la definizione corretta di \"Durate e tempo\"?",
+			"options": [
+				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
+				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
+			],
+			"answer": "Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+			"explanation": "Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo."
+		},
+		{
+			"id": "musica-durate-tempo-esempio",
+			"subject": "musica",
+			"topic": "Ritmo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In 4/4 ci sono una minima e una semiminima. Cosa manca?",
+			"options": [
+				"Non manca nessun battito.",
+				"La",
+				"Quinta.",
+				"Manca una semiminima."
+			],
+			"answer": "Manca una semiminima.",
+			"explanation": "minima 2 + semiminima 1 = 3 → servono 4 → manca 1 battito."
+		},
+		{
+			"id": "musica-durate-tempo-attenzione",
+			"subject": "musica",
+			"topic": "Ritmo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale errore comune bisogna evitare in \"Durate e tempo\"?",
+			"options": [
+				"Una croma vale mezzo battito, non uno.",
+				"La stessa posizione cambia nome se cambia chiave.",
+				"Non saltare le linee: vanno contate una per volta.",
+				"La croma vale mezzo battito, non uno."
+			],
+			"answer": "La croma vale mezzo battito, non uno.",
+			"explanation": "La croma vale mezzo battito, non uno."
+		}
 	]
 }

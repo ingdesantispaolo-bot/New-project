@@ -231,6 +231,61 @@ criteri d'uscita non sono verdi.
   Godot Web servito su GitHub Pages alla radice.
 - **Uscita**: il repo builda **un solo** artefatto; Phaser cancellato.
 
+## 7bis. Piano operativo Fase 4-5 (blocchi Claude/Codex, luglio 2026)
+
+> Aggiornamento dopo il consuntivo C-01→C-11: il loop base (Fase 0-1), tutte le
+> materie a banco (Fase 2 minima), la nave/apparati, la narrazione a 6 beat e la
+> telemetria locale sono **migrati e verdi** (vedi `docs/PHASER_GODOT_MIGRATION_MATRIX.md`).
+> Codex ha già iniziato la Fase 4 di sua iniziativa: `math_exercise_generator.gd`
+> (C-11) genera matematica **nativa** in GDScript (8 complessità, anti-ripetizione,
+> ripasso), sostituendo il banco statico per quella materia. L'enigma ambientale
+> (C-11bis, ponte dei Primi) è il primo esempio di missione che rende visibile nel
+> mondo l'esito dello studio.
+>
+> **Domanda posta dall'utente**: conviene migrare anche il resto di Phaser?
+> **Risposta**: sì, con una precisazione che riduce di molto il lavoro percepito.
+>
+> Il codice Phaser rimasto (~73k righe: 36k scene, 18k generatori procedurali,
+> 11k dati, 8k core: NORA, reward, mastery, avatar, impostazioni) sembra enorme,
+> ma **non va portato 1:1**. Due osservazioni chiudono il problema:
+>
+> 1. **I "gioielli" sono i generatori di contenuto** (mathTemplates,
+>    englishTemplates/vocabularyBank, italianVocabularyBank, latinCurriculum,
+>    circuitTemplates, pythonPrinciples…), non le scene. Vanno **bakati** (o
+>    portati nativi come per matematica) dentro il `ContentManager` esistente:
+>    stesso contratto `ExerciseItem`, nessuna nuova UI.
+> 2. **Le scene-minigioco bespoke** (Serra biologica, Fabbrica dei numeri,
+>    Archivio delle parole, Atlante, Città intelligente, Circuit Puzzle, Logic
+>    Gym) **non richiedono un porting scena-per-scena**: la semplificazione già
+>    decisa dall'utente (missioni tutte nel mondo esterno, apparato = esame
+>    finale) le assorbe come **temi dell'enigma ambientale**, il meccanismo già
+>    costruito in C-11bis. "Fabbrica dei numeri" diventa il tema visivo
+>    `circuito`/`ingranaggi`, "Serra" diventa un tema `cristalli`/`serra`, ecc.
+>    Stessa logica dati-driven, vestito diverso per materia — a costo Codex, non
+>    a costo di nuova logica.
+>
+> Il vero lavoro restante non è "riscrivere 78 scene", è: **profondità dei
+> contenuti**, **economia/bottega nativa** (oggi energia/frammenti restano
+> autoritativi da Phaser), **compagna NORA con voce contestuale**, **cosmetici
+> avatar**, **report/classifica locali** (nessun elemento è remoto: la
+> `LeaderboardScene` filtra record locali, si assorbe in `LocalProgressReport`).
+
+### Blocchi proposti (continuano la numerazione C-xx già in uso in `insieme.md`)
+
+| Blocco | Owner | Contenuto | Riusa | Uscita |
+|---|---|---|---|---|
+| **C-12** | Claude (logica) | Bake profondo per materia: generalizzare lo script di bake per usare i generatori TS reali (o portarli nativi come C-11) invece delle liste manuali a 8 item. Priorità: italiano, inglese → coding, elettronica → fisica, musica, latino. | `ContentManager`, `build-exercise-banks.mjs` | Ogni materia ≥ 80-100 item su 4 fasce di difficoltà, validati (risposta nelle opzioni, spiegazione non vuota) |
+| **C-13** | Claude (logica) + Codex (visual per tema) | Un POI enigma per le materie rimanenti, riusando il motore C-11bis: nessuna scena bespoke, solo `theme` diverso (`circuito`→coding/elettronica, `cristalli`→musica, `porta`→latino/italiano/inglese, `reattore`→fisica). | `ContentManager.build_enigma`, `OutdoorGameplay.try_start_enigma`/`enigma_progress` | 8 POI enigma nel mondo, ognuno con audit come `enigma_audit.gd` |
+| **C-14** | Claude (logica: economia/cosmetici) + Codex (ShopScene UI) | Economia e Bottega native: `EconomyManager`/`RewardCatalog`/equip cosmetici in GDScript; energia/frammenti diventano autoritativi Godot (rimuove la dipendenza dal bridge per la spesa). | Save canonico esistente (`cosmetics`, `modules`) | Si compra ed equipaggia un cosmetico dentro Godot, senza bridge |
+| **C-15** | Claude (dialogue engine data-driven) + Codex (presentazione/animazione compagno) | NORA compagna: port di `NoraVoice`/`NoraCompanion`/`NoraContextEngine` come frasi contestuali agganciate a errori/traguardi, sopra `NarrativeManager` esistente. | `NarrativeManager`, `feedback` signal | NORA reagisce con frasi contestuali dentro Godot (errore, traguardo, ripasso) |
+| **C-16** | Claude + Codex insieme | Spegnimento Phaser (Fase 5): solo dopo C-12→C-15 verdi + parità fixture. Rimozione bridge, scene Phaser, build Vite di gioco; un solo export Godot Web servito da Pages. | matrice C-09 | Repo builda un solo artefatto; nessuna dipendenza runtime da Phaser |
+
+Decisioni aperte da confermare con l'utente (non bloccanti, si può default e
+correggere dopo): ordine di priorità materie in C-12 (proposto: italiano/inglese
+prima perché più giocate); se mantenere `LeaderboardScene` come classifica
+locale in C-14/C-15 o eliminarla (il salvataggio non prevede rete, quindi è
+comunque solo cosmetica di presentazione).
+
 ## 8. Build e deploy
 
 - **Durante la migrazione**: resta la Pages Phaser; l'export Godot vive in

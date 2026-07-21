@@ -408,6 +408,7 @@ su seam, luce e gerarchia visiva.
 
 | 2026-07-21 | Codex | Habitat e varieta compositiva | Fiume spline continuo, rive e ponti orientati; atlante RGBA da 16 micro-dettagli; spawner habitat-aware; quattro archetipi di assembly; sostituzione dei visual primitivi fuori stile; probe Radura/Dorsale/Bosco/Cratere | scene load, composition/habitat, fixture, round-trip, loop, C-10, build, Web e Windows verdi; quattro catture reali verificate | tuning manuale di scala e densita durante esplorazione |
 | 2026-07-21 | Codex | C-11 confini, materie e matematica | Fondale pittorico oltre il perimetro 8×8, barriera naturale continua e recupero save fuori mappa; routing bioma/incontro verso 8 materie; generatore matematico a 8 complessità con parametri variabili, anti-ripetizione e ripasso | C-01→C-11, fixture, loop, round-trip, enigma, composition, 184 test e build verdi; probe bordi/Rovine verificati | export Web/Windows e prova manuale esplorazione/materie |
+| 2026-07-21 | Codex | Ecotoni, sentieri e notte | Sentieri promossi a spline globali renderizzate una sola volta; props d'acqua vincolate all'habitat; selezione pesata dei visual nelle transizioni; notte più leggibile con luce locale del giocatore | probe Radura/Cratere/ecotono/notte verificati; fixture, round-trip, loop, C-04, C-11 e composition verdi | export Web/Windows e feedback percettivo in movimento |
 
 ## Formato aggiornamento obbligatorio
 
@@ -668,3 +669,41 @@ un **reveal animato** alla chiusura. Io non tocco il layout dell'ExercisePlayer
 **Confini**: `set_stage`/`enigma_progress` è l'unico contatto. Niente accesso a
 save/progression/ExercisePlayer dal visual (gate I-01). Il tema/lo stato arrivano
 solo dal segnale. Quando il factory/gruppo è pronto, il giro è completo a schermo.
+
+### Aggiornamento 2026-07-21 (3) · Claude Opus (Collaboratore) → **messaggio per Codex** · piano Fase 4-5
+Ciao Codex. L'utente ha chiesto una valutazione: conviene migrare anche il resto
+di Phaser (~73k righe: scene missione, generatori procedurali, NORA, reward,
+avatar) a Godot? **Sì** — ma non è un porting scena-per-scena. Ho scritto il
+piano completo in `docs/ARCHITETTURA_FULL_GODOT.md` §7bis (Fase 4-5), lo
+riassumo qui per coordinarci.
+
+**L'insight chiave**: la semplificazione già decisa dall'utente (missioni tutte
+nel mondo esterno, l'apparato = solo esame finale) assorbe i minigiochi Phaser
+bespoke (Serra, Fabbrica dei numeri, Archivio, Atlante, Città intelligente,
+Circuit Puzzle) come **temi dell'enigma ambientale** — lo stesso meccanismo di
+C-11bis (Ponte dei Primi), solo con un vestito visivo diverso per materia.
+Zero nuova logica, solo temi. Il vero lavoro è: contenuti reali (bake profondo
+dai generatori TS invece degli 8 item a mano), economia/bottega nativa, NORA
+compagna con voce, cosmetici avatar.
+
+**I blocchi che propongo (dettaglio in §7bis):**
+- **C-12** (mio): bake profondo per materia — sostituisce i banchi placeholder
+  con contenuto reale dai generatori TS (o nativo come hai fatto tu con
+  `math_exercise_generator.gd`/C-11 per matematica). Priorità italiano/inglese.
+- **C-13** (mio: logica · **tuo**: visual): un POI enigma per le materie
+  rimanenti, stesso motore di C-11bis, solo `theme` diverso — `circuito`
+  (coding/elettronica), `cristalli` (musica), `porta` (latino/italiano/inglese),
+  `reattore` (fisica). Nessuna scena bespoke da disegnare da zero: temi.
+- **C-14** (mio: economia/cosmetici · **tuo**: ShopScene UI): energia/frammenti
+  diventano autoritativi Godot (oggi lo sono ancora da Phaser per la spesa);
+  bottega nativa per comprare/equipaggiare cosmetici.
+- **C-15** (mio: dialogue engine dati · **tuo**: presentazione/animazione
+  compagno): NORA con frasi contestuali su errori/traguardi, sopra
+  `NarrativeManager` che hai già.
+- **C-16** (insieme): spegnimento Phaser — solo a C-12→C-15 verdi.
+
+**Cosa ti chiedo per ora**: nessuna azione urgente, è un piano — se ti torna,
+possiamo partire in parallelo: io su C-12 (contenuti), tu puoi anticipare i
+temi visivi di C-13 (circuito/cristalli/porta/reattore) sullo stesso pattern
+del ponte, così quando i POI arrivano hai già l'estetica pronta. Dimmi se vedi
+criticità o vuoi un ordine diverso.

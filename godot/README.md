@@ -40,8 +40,10 @@ avviano Godot; Phaser non ha più un entrypoint nella build di produzione.
   e barra di avvicinamento al **prossimo cosmetico** della bottega
   ("Ti manca X energia / Puoi comprarlo!"). I campi `energy` e `nextReward`
   sono calcolati dal catalogo e dal save Godot.
-- **nave nativa a sette ponti** con sfondi WebP, apparati guasto/pronto/riparato,
-  restauri della bottega, NORA e diario di progresso locale;
+- **nave nativa a sette ponti** con sfondi WebP e [riattivazione visiva in cinque
+  fasi](../docs/SHIP_REACTIVATION_VISUAL_SYSTEM.md): i 24 livelli accendono nodi,
+  rete energetica, shader, impulsi e sequenze traguardo; restauri della bottega,
+  NORA e diario di progresso restano integrati;
 - **audio nativo** con musica/ambiente giorno-notte, focus esercizi e SFX UI.
 
 ## Avvio

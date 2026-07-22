@@ -1512,3 +1512,26 @@ criticità o vuoi un ordine diverso.
   kind `minigame`; i dati sessione sono `format`+`items`/`correctOrder` (ordering)
   e `pairs:[{left,right}]` (matching).
 - Prossimo passo: resa Codex; oppure decisione archivio-vs-purge del Phaser morto.
+
+### Aggiornamento 2026-07-22 · Codex · riattivazione visiva progressiva della nave
+- Fatto: introdotto un modello unico che deriva la potenza dei sette ponti dai
+  **24 gate didattici reali**. Ogni livello superato completa un nodo della
+  materia/apparato correlato; missioni e padronanza anticipano solo una carica
+  parziale, mentre l'esame finale concede l'accensione completa.
+- Cinque stati visivi: **Sistema inerte → Riaccensione → Rete parziale →
+  Sincronizzato → Piena potenza**. Shader e overlay code-native controllano
+  saturazione, luminosità, circuiti, impulsi, nucleo, scansione e scintille.
+- Aggiunta sequenza traguardo dopo l'esame: flash, onda energetica, burst,
+  pannello con percentuale/nodi, SFX e battuta NORA. Rail e scheda del ponte
+  mostrano percentuali, fase e segmenti per rendere leggibile l'intera nave.
+- Razionalizzata la corrispondenza delle materie: Centrale 6 nodi
+  (matematica/coding/logica), Bio 4, Comando 4, Data-core 4 e due nodi ciascuno
+  per Reattore, Risonanza e Glifi. Corretto Cratere Logico → Ponte Centrale.
+- Chiuso il finale di campagna: dopo il livello 24 la nave è completa, l'ultimo
+  gate non può essere ripetuto e UI nave/mondo espongono lo stato conclusivo.
+- File principali: `ship_activation_model.gd`, `ship_power_overlay.gd`,
+  `hub_scene.gd`, `ship_room_catalog.gd`, `progression_manager.gd` e
+  `docs/SHIP_REACTIVATION_VISUAL_SYSTEM.md`.
+- Verifiche: audit attivazione (24 gate/7 ponti/5 fasi), sequenza reattivazione,
+  presentazione, C-05, round-trip e navigazione boot tutti verdi; tre catture GPU
+  prodotte in `artifacts/ship/` a stato inerte, intermedio e piena potenza.

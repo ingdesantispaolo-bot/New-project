@@ -6,7 +6,7 @@
 		{
 			"id": "fisica-misure-unita-definizione",
 			"subject": "fisica",
-			"topic": "Metodo fisico",
+			"topic": "misure",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Misure e unità\"?",
@@ -22,7 +22,7 @@
 		{
 			"id": "fisica-misure-unita-esempio",
 			"subject": "fisica",
-			"topic": "Metodo fisico",
+			"topic": "misure",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "250 cm in metri.",
@@ -38,7 +38,7 @@
 		{
 			"id": "fisica-misure-unita-attenzione",
 			"subject": "fisica",
-			"topic": "Metodo fisico",
+			"topic": "misure",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Misure e unità\"?",
@@ -54,7 +54,7 @@
 		{
 			"id": "fisica-moto-forze-energia-definizione",
 			"subject": "fisica",
-			"topic": "Modelli fisici",
+			"topic": "moto",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Moto, forze ed energia\"?",
@@ -70,7 +70,7 @@
 		{
 			"id": "fisica-moto-forze-energia-esempio",
 			"subject": "fisica",
-			"topic": "Modelli fisici",
+			"topic": "moto",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Una linea posizione-tempo diventa più ripida.",
@@ -86,7 +86,7 @@
 		{
 			"id": "fisica-moto-forze-energia-attenzione",
 			"subject": "fisica",
-			"topic": "Modelli fisici",
+			"topic": "moto",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Moto, forze ed energia\"?",
@@ -102,7 +102,7 @@
 		{
 			"id": "fisica-onde-ottica-definizione",
 			"subject": "fisica",
-			"topic": "Modelli fisici",
+			"topic": "onde-luce",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Onde e ottica\"?",
@@ -118,7 +118,7 @@
 		{
 			"id": "fisica-onde-ottica-esempio",
 			"subject": "fisica",
-			"topic": "Modelli fisici",
+			"topic": "onde-luce",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Onda con lambda = 2 m e f = 3 Hz.",
@@ -134,7 +134,7 @@
 		{
 			"id": "fisica-onde-ottica-attenzione",
 			"subject": "fisica",
-			"topic": "Modelli fisici",
+			"topic": "onde-luce",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Onde e ottica\"?",
@@ -150,7 +150,7 @@
 		{
 			"id": "fisica-moto-grafici-definizione",
 			"subject": "fisica",
-			"topic": "Cinematica",
+			"topic": "moto",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Moto e grafici\"?",
@@ -166,7 +166,7 @@
 		{
 			"id": "fisica-moto-grafici-esempio",
 			"subject": "fisica",
-			"topic": "Cinematica",
+			"topic": "moto",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Una linea posizione-tempo è piatta per un tratto.",
@@ -182,7 +182,7 @@
 		{
 			"id": "fisica-moto-grafici-attenzione",
 			"subject": "fisica",
-			"topic": "Cinematica",
+			"topic": "moto",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Moto e grafici\"?",
@@ -198,7 +198,7 @@
 		{
 			"id": "fisica-forze-equilibrio-definizione",
 			"subject": "fisica",
-			"topic": "Dinamica",
+			"topic": "forze",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Forze ed equilibrio\"?",
@@ -214,7 +214,7 @@
 		{
 			"id": "fisica-forze-equilibrio-esempio",
 			"subject": "fisica",
-			"topic": "Dinamica",
+			"topic": "forze",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Un libro fermo su un tavolo.",
@@ -230,7 +230,7 @@
 		{
 			"id": "fisica-forze-equilibrio-attenzione",
 			"subject": "fisica",
-			"topic": "Dinamica",
+			"topic": "forze",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Forze ed equilibrio\"?",
@@ -246,7 +246,7 @@
 		{
 			"id": "fisica-energia-trasformazioni-definizione",
 			"subject": "fisica",
-			"topic": "Energia",
+			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Energia e trasformazioni\"?",
@@ -262,7 +262,7 @@
 		{
 			"id": "fisica-energia-trasformazioni-esempio",
 			"subject": "fisica",
-			"topic": "Energia",
+			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Una palla cade da un tavolo.",
@@ -278,7 +278,7 @@
 		{
 			"id": "fisica-energia-trasformazioni-attenzione",
 			"subject": "fisica",
-			"topic": "Energia",
+			"topic": "energia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Energia e trasformazioni\"?",
@@ -294,7 +294,7 @@
 		{
 			"id": "fisica-esperimento-metodo-definizione",
 			"subject": "fisica",
-			"topic": "Metodo fisico",
+			"topic": "metodo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Esperimento e metodo\"?",
@@ -310,7 +310,7 @@
 		{
 			"id": "fisica-esperimento-metodo-esempio",
 			"subject": "fisica",
-			"topic": "Metodo fisico",
+			"topic": "metodo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Vuoi vedere se più luce fa crescere le piante.",
@@ -326,7 +326,7 @@
 		{
 			"id": "fisica-esperimento-metodo-attenzione",
 			"subject": "fisica",
-			"topic": "Metodo fisico",
+			"topic": "metodo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Esperimento e metodo\"?",
@@ -342,7 +342,7 @@
 		{
 			"id": "fisica-densita-pressione-definizione",
 			"subject": "fisica",
-			"topic": "Fluidi e materia",
+			"topic": "materia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Densità e pressione\"?",
@@ -358,7 +358,7 @@
 		{
 			"id": "fisica-densita-pressione-esempio",
 			"subject": "fisica",
-			"topic": "Fluidi e materia",
+			"topic": "materia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Massa 200 g, volume 100 cm3. Trova la densità.",
@@ -374,7 +374,7 @@
 		{
 			"id": "fisica-densita-pressione-attenzione",
 			"subject": "fisica",
-			"topic": "Fluidi e materia",
+			"topic": "materia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Densità e pressione\"?",
@@ -390,7 +390,7 @@
 		{
 			"id": "fisica-calore-temperatura-definizione",
 			"subject": "fisica",
-			"topic": "Termologia",
+			"topic": "calore",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Calore e temperatura\"?",
@@ -406,7 +406,7 @@
 		{
 			"id": "fisica-calore-temperatura-esempio",
 			"subject": "fisica",
-			"topic": "Termologia",
+			"topic": "calore",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Un cubetto di ghiaccio in acqua tiepida.",
@@ -422,7 +422,7 @@
 		{
 			"id": "fisica-calore-temperatura-attenzione",
 			"subject": "fisica",
-			"topic": "Termologia",
+			"topic": "calore",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Calore e temperatura\"?",
@@ -434,6 +434,262 @@
 			],
 			"answer": "Temperatura alta non significa più calore totale: conta anche la massa.",
 			"explanation": "Temperatura alta non significa più calore totale: conta anche la massa."
+		},
+		{
+			"id": "fisica-misure-0",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Con quale strumento misuri la lunghezza di un banco?",
+			"options": [
+				"Il metro (righello)",
+				"La bilancia",
+				"L'orologio",
+				"Il termometro"
+			],
+			"answer": "Il metro (righello)",
+			"explanation": "Il metro misura le lunghezze; la bilancia le masse."
+		},
+		{
+			"id": "fisica-misure-1",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanti centimetri sono 1 metro?",
+			"options": [
+				"10",
+				"50",
+				"100",
+				"1000"
+			],
+			"answer": "100",
+			"explanation": "1 metro = 100 centimetri."
+		},
+		{
+			"id": "fisica-misure-2",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Per misurare quanto pesi useresti…",
+			"options": [
+				"Una bilancia",
+				"Un metro",
+				"Un cronometro",
+				"Un termometro"
+			],
+			"answer": "Una bilancia",
+			"explanation": "La bilancia misura la massa/peso; il termometro la temperatura."
+		},
+		{
+			"id": "fisica-moto-3",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Un oggetto che non cambia posizione è…",
+			"options": [
+				"Veloce",
+				"Lento",
+				"Fermo",
+				"In caduta"
+			],
+			"answer": "Fermo",
+			"explanation": "Se la posizione non cambia, l'oggetto è fermo."
+		},
+		{
+			"id": "fisica-moto-4",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Se un'auto percorre più strada nello stesso tempo, è…",
+			"options": [
+				"Più lenta",
+				"Ferma",
+				"Più pesante",
+				"Più veloce"
+			],
+			"answer": "Più veloce",
+			"explanation": "Più spazio nello stesso tempo significa maggiore velocità."
+		},
+		{
+			"id": "fisica-moto-5",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In un grafico spazio-tempo, una linea più ripida indica…",
+			"options": [
+				"Una velocità maggiore",
+				"Un peso maggiore",
+				"Una salita reale in collina",
+				"Un oggetto fermo"
+			],
+			"answer": "Una velocità maggiore",
+			"explanation": "La pendenza del grafico rappresenta la velocità, non un percorso in salita."
+		},
+		{
+			"id": "fisica-forze-6",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale forza fa cadere gli oggetti verso il basso?",
+			"options": [
+				"La forza di gravità",
+				"La luce",
+				"Il vento",
+				"Il suono"
+			],
+			"answer": "La forza di gravità",
+			"explanation": "La gravità attira gli oggetti verso il centro della Terra."
+		},
+		{
+			"id": "fisica-forze-7",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa rallenta una palla che rotola sul pavimento?",
+			"options": [
+				"L'attrito",
+				"La luce",
+				"La gravità verso l'alto",
+				"Il colore della palla"
+			],
+			"answer": "L'attrito",
+			"explanation": "L'attrito tra palla e pavimento la frena a poco a poco."
+		},
+		{
+			"id": "fisica-forze-8",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Su un libro fermo sul tavolo, le forze…",
+			"options": [
+				"Si bilanciano",
+				"Non esistono",
+				"Spingono solo in alto",
+				"Spingono solo in basso"
+			],
+			"answer": "Si bilanciano",
+			"explanation": "Il peso verso il basso e la spinta del tavolo verso l'alto si equilibrano."
+		},
+		{
+			"id": "fisica-forze-9",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Massa e peso: quale frase è corretta?",
+			"options": [
+				"La massa è la quantità di materia; il peso è la forza di gravità su di essa",
+				"Sono esattamente la stessa cosa",
+				"La massa si misura sempre in newton",
+				"Il peso non cambia mai, ovunque"
+			],
+			"answer": "La massa è la quantità di materia; il peso è la forza di gravità su di essa",
+			"explanation": "La massa non cambia; il peso dipende dalla gravità (sulla Luna pesi meno)."
+		},
+		{
+			"id": "fisica-energia-10",
+			"subject": "fisica",
+			"topic": "energia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Una palla ferma in cima a uno scivolo ha soprattutto energia…",
+			"options": [
+				"Potenziale",
+				"Sonora",
+				"Luminosa",
+				"Cinetica"
+			],
+			"answer": "Potenziale",
+			"explanation": "In alto e ferma ha energia potenziale (di posizione)."
+		},
+		{
+			"id": "fisica-energia-11",
+			"subject": "fisica",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Mentre la palla scende lungo lo scivolo, l'energia potenziale si trasforma in…",
+			"options": [
+				"Suono",
+				"Energia cinetica (di movimento)",
+				"Più energia potenziale",
+				"Nulla, sparisce"
+			],
+			"answer": "Energia cinetica (di movimento)",
+			"explanation": "Scendendo, l'energia di posizione diventa energia di movimento."
+		},
+		{
+			"id": "fisica-calore-12",
+			"subject": "fisica",
+			"topic": "calore",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Il calore passa sempre…",
+			"options": [
+				"Dal freddo al caldo",
+				"Dal corpo più caldo a quello più freddo",
+				"In nessuna direzione",
+				"Dal piccolo al grande"
+			],
+			"answer": "Dal corpo più caldo a quello più freddo",
+			"explanation": "Il calore fluisce dal caldo al freddo finché non si equilibrano."
+		},
+		{
+			"id": "fisica-calore-13",
+			"subject": "fisica",
+			"topic": "calore",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Temperatura e calore: quale è vero?",
+			"options": [
+				"La temperatura è un tipo di energia",
+				"Il calore si misura in gradi",
+				"La temperatura dice quanto è caldo; il calore è l'energia che si trasferisce",
+				"Sono la stessa cosa"
+			],
+			"answer": "La temperatura dice quanto è caldo; il calore è l'energia che si trasferisce",
+			"explanation": "Sono grandezze diverse: gradi per la temperatura, energia per il calore."
+		},
+		{
+			"id": "fisica-onde-luce-14",
+			"subject": "fisica",
+			"topic": "onde-luce",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In aria limpida, la luce viaggia…",
+			"options": [
+				"In linea retta",
+				"Più lenta del suono",
+				"Solo di notte",
+				"A zig-zag sempre"
+			],
+			"answer": "In linea retta",
+			"explanation": "La luce si propaga in linea retta finché non incontra ostacoli."
+		},
+		{
+			"id": "fisica-onde-luce-15",
+			"subject": "fisica",
+			"topic": "onde-luce",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché durante un temporale vediamo il lampo prima di sentire il tuono?",
+			"options": [
+				"Il suono è più veloce",
+				"Il tuono parte dopo il lampo",
+				"La luce è molto più veloce del suono",
+				"Sono simultanei"
+			],
+			"answer": "La luce è molto più veloce del suono",
+			"explanation": "La luce arriva quasi subito; il suono, più lento, arriva dopo."
 		}
 	]
 }

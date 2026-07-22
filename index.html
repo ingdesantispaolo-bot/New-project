@@ -14,9 +14,35 @@
     <link rel="icon" href="./eli-quest-icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="./eli-quest-icon.svg" />
     <title>Eli Quest - Accademia delle Missioni</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #071018; color: #cfe9ee; }
+      .boot { display: flex; align-items: center; justify-content: center; height: 100%;
+              font-family: system-ui, sans-serif; font-size: 15px; letter-spacing: .3px; }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <!-- C-16: la root del deploy avvia esclusivamente l'app Godot nativa. -->
+    <div class="boot" id="boot">Avvio di Eli Quest…</div>
+    <script>
+      (function () {
+        var launched = false;
+        function launchGodot() {
+          if (launched) return;
+          launched = true;
+          window.location.replace("./godot/outdoor/index.html");
+        }
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.register("./sw.js").then(launchGodot, launchGodot);
+          window.setTimeout(launchGodot, 1000);
+        } else {
+          launchGodot();
+        }
+      })();
+    </script>
+    <noscript>
+      <p>Questa applicazione richiede JavaScript.
+        <a href="./godot/outdoor/index.html">Avvia Eli Quest</a>.
+      </p>
+    </noscript>
   </body>
 </html>

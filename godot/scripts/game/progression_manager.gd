@@ -20,6 +20,21 @@ func record_mission(subject: String, correct: int, total: int, energy_gained: in
 	if energy_gained > 0:
 		save.add_energy(energy_gained)
 
+# Aggiorna la padronanza PER-ARGOMENTO dagli esiti della sessione
+# (`topic_stats` = {topic: {"seen", "correct"}}). Media mobile un po' più reattiva
+# di quella per-materia (0.34 vs 0.25): i campioni per topic sono più radi. Al
+# primo incontro (topic sconosciuto) la mastery parte dall'accuratezza osservata.
+func record_topic_stats(subject: String, topic_stats: Dictionary) -> void:
+	for topic in topic_stats.keys():
+		var entry: Dictionary = topic_stats[topic]
+		var seen := int(entry.get("seen", 0))
+		if seen <= 0:
+			continue
+		var accuracy := float(int(entry.get("correct", 0))) / float(seen)
+		var prev: float = float(save.topic_mastery_of(subject, str(topic)))
+		var updated: float = accuracy if prev < 0.0 else lerpf(prev, accuracy, 0.34)
+		save.set_topic_mastery(subject, str(topic), updated)
+
 func current_gate() -> Dictionary:
 	return ApparatusConfig.level_gate(save.level())
 

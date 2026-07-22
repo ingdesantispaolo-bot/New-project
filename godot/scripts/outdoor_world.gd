@@ -16,7 +16,6 @@ const DAWN_TINT := Color(1.0, 0.84, 0.72)
 
 var request: Dictionary
 var result: Dictionary
-var bridge := OutdoorSaveBridge.new()
 var chunks: OutdoorChunkManager
 var player: OutdoorPlayerController
 var world_layer: Node2D
@@ -38,6 +37,7 @@ var pet_companion: OutdoorPetCompanion
 var player_presentation: Node2D
 var nearby: Array = []
 var day_clock := 0.0
+var current_audio_phase := ""
 var current_biome_chunk := ""
 var energy_label: Label
 var fragment_label: Label
@@ -60,8 +60,8 @@ var gain_popup_pool: Array[Label] = []
 var applied_cosmetic_signature := ""
 
 func _ready() -> void:
-	request = bridge.load_request()
-	result = bridge.result_from_request(request)
+	request = NativeWorldState.default_request()
+	result = NativeWorldState.result_for(request)
 	gameplay = OutdoorGameplay.new()
 	gameplay.name = "OutdoorGameplay"
 	add_child(gameplay)
@@ -94,6 +94,10 @@ func _ready() -> void:
 	_create_hud()
 	_create_exercise_player()
 	chunks.update_stream(player.position)
+	_set_feedback(str(gameplay.runtime_state().get("narrative", "")))
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play_environment", "day")
 
 func _apply_resume() -> void:
 	var resume: Dictionary = request.get("resume", {})
@@ -123,15 +127,21 @@ func _on_gameplay_session_requested(session: Dictionary) -> void:
 func _process(delta: float) -> void:
 	day_clock = fmod(day_clock + delta, DAY_LENGTH)
 	var daylight := (sin(day_clock / DAY_LENGTH * TAU - PI / 2.0) + 1.0) * 0.5
+	var phase_id := "giorno" if daylight > 0.72 else "alba" if daylight > 0.42 else "notte"
 	if is_instance_valid(day_light):
 		# notte → giorno con transizione calda (alba/tramonto) a metà corsa
 		var base := NIGHT_TINT.lerp(Color(1, 1, 1), daylight)
 		var dawn_mix := clampf(1.0 - absf(daylight - 0.5) * 2.2, 0.0, 1.0)
 		day_light.color = base.lerp(DAWN_TINT, dawn_mix * 0.35)
 		if is_instance_valid(phase_label):
-			phase_label.text = "Giorno" if daylight > 0.72 else "Alba" if daylight > 0.42 else "Notte"
+			phase_label.text = phase_id.capitalize()
 	if is_instance_valid(gameplay):
-		gameplay.update_phase("giorno" if daylight > 0.72 else "alba" if daylight > 0.42 else "notte")
+		gameplay.update_phase(phase_id)
+	if current_audio_phase != phase_id:
+		current_audio_phase = phase_id
+		var audio := get_node_or_null("/root/NativeAudio")
+		if audio != null:
+			audio.call("play_environment", "night" if phase_id == "notte" else "day")
 	if is_instance_valid(atmosphere_material):
 		atmosphere_material.set_shader_parameter("daylight", daylight)
 		atmosphere_material.set_shader_parameter("clock", day_clock / DAY_LENGTH)
@@ -233,6 +243,7 @@ func _create_player() -> void:
 	player.add_child(player_presentation)
 	player.visual = player_presentation.get_node("Visual")
 	_apply_accessory(player.visual, visual_data)
+	_apply_emblem(player.visual, visual_data)
 	_add_player_night_light()
 	fireflies = OutdoorVisualFactory.make_sparkles(Color(1.0, 0.93, 0.62, 0.85), 560.0, 24)
 	fireflies.lifetime = 5.0
@@ -266,6 +277,14 @@ func _resolved_avatar_visual() -> Dictionary:
 	var pet_item := RewardCatalog.find(pet_id)
 	if not pet_item.is_empty():
 		visual_data["pet"] = {"id": pet_id, "kind": pet_id.trim_prefix("pet-"), "color": int(pet_item.get("color", 0xf6c85f))}
+	var emblem_id := str(equipped.get("emblem", ""))
+	var emblem_item := RewardCatalog.find(emblem_id)
+	if not emblem_item.is_empty():
+		visual_data["emblem"] = {
+			"id": emblem_id,
+			"glyph": str(emblem_item.get("glyph", "◆")),
+			"color": int(emblem_item.get("color", 0xf6c85f)),
+		}
 	return visual_data
 
 func _cosmetic_signature() -> String:
@@ -288,6 +307,7 @@ func _apply_cosmetic_presentation() -> void:
 	player.add_child(player_presentation)
 	player.visual = player_presentation.get_node("Visual")
 	_apply_accessory(player.visual, visual_data)
+	_apply_emblem(player.visual, visual_data)
 	if is_instance_valid(pet_companion):
 		world_layer.remove_child(pet_companion)
 		pet_companion.queue_free()
@@ -328,6 +348,21 @@ func _apply_accessory(visual_node: Node2D, visual_data: Dictionary) -> void:
 		return
 	var color := OutdoorVisualFactory.hex_color(int(accessory.get("color", 0x9ff5e9)))
 	visual_node.add_child(OutdoorVisualFactory.build_accessory(str(accessory.get("id", "")), color))
+
+func _apply_emblem(visual_node: Node2D, visual_data: Dictionary) -> void:
+	var emblem = visual_data.get("emblem", null)
+	if typeof(emblem) != TYPE_DICTIONARY:
+		return
+	var badge := Label.new()
+	badge.name = "EquippedEmblem"
+	badge.text = str(emblem.get("glyph", "◆"))
+	badge.position = Vector2(22, -61)
+	badge.add_theme_font_size_override("font_size", 17)
+	badge.add_theme_constant_override("outline_size", 5)
+	badge.add_theme_color_override("font_color", OutdoorVisualFactory.hex_color(int(emblem.get("color", 0xf6c85f))))
+	badge.add_theme_color_override("font_outline_color", Color(0.01, 0.04, 0.06, 0.92))
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	visual_node.add_child(badge)
 
 func _spawn_pet(visual_data: Dictionary) -> void:
 	var pet_data = visual_data.get("pet", null)
@@ -597,7 +632,7 @@ func _create_economy_panel(root: Control) -> void:
 	fragment_label.add_theme_font_size_override("font_size", 14)
 	box.add_child(fragment_label)
 	var economy_hint := Label.new()
-	economy_hint.text = "Tesori: solo frammenti · Esercizio: -%d energia" % EXERCISE_ENERGY_COST
+	economy_hint.text = "Tesori: solo frammenti · Esercizio: -%d energia (gratis sotto soglia)" % EXERCISE_ENERGY_COST
 	economy_hint.add_theme_color_override("font_color", Color("9fc4bb"))
 	economy_hint.add_theme_font_size_override("font_size", 11)
 	economy_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -756,7 +791,7 @@ func _refresh_prompt() -> void:
 	var kind := str(target.get_meta("kind"))
 	var id := str(target.get_meta("id"))
 	if kind == "portal":
-		_set_feedback("Premi E per attraversare il portale e tornare a Phaser")
+		_set_feedback("Premi E per attraversare il portale ed entrare nella nave")
 	elif kind == "apparatus":
 		_set_feedback(gameplay.apparatus_prompt())
 	elif kind == "enigma":
@@ -853,6 +888,9 @@ func _on_enigma_progress(built: int, total: int, theme: String, encounter_id: St
 	if built <= 0:
 		_set_feedback("Enigma avviato: costruisci %s rispondendo (%d campate)" % [theme, total])
 		return
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play_event", "enigmaProgress", lerpf(0.9, 1.12, float(built) / maxf(float(total), 1.0)))
 	_set_feedback("%s: %d/%d campate costruite" % [theme.capitalize(), built, total])
 	_spawn_gain_popup("+1 campata", Color("8ff6c0"))
 
@@ -861,10 +899,11 @@ func start_final_exam() -> bool:
 
 func _leave_world() -> void:
 	if is_instance_valid(gameplay):
-		gameplay.publish_exit_state()
-	var return_url := str(request.get("returnUrl", ""))
-	bridge.publish_result_and_return(result, return_url)
-	get_tree().quit()
+		gameplay.game_save.save()
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play_event", "portalOpened")
+	get_tree().change_scene_to_file("res://scenes/hub.tscn")
 
 func _set_feedback(message: String) -> void:
 	if is_instance_valid(feedback_label):

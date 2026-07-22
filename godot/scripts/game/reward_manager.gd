@@ -2,8 +2,8 @@ class_name RewardManager
 extends RefCounted
 
 ## Logica di possesso/acquisto/equip dei cosmetici (C-14), porting di
-## src/core/RewardSystem.ts. Non tocca energia/bridge direttamente: la spesa e
-## la segnalazione al bridge restano a `OutdoorGameplay` (stesso pattern già
+## src/core/RewardSystem.ts. Non tocca energia o riepilogo direttamente: la spesa e
+## la segnalazione restano a `OutdoorGameplay` (stesso pattern già
 ## collaudato per missioni/enigmi: spend_energy + result.energySpent), qui
 ## vive solo "chi possiede/equipaggia cosa e a quali condizioni".
 ##

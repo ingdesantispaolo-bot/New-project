@@ -52,24 +52,32 @@ signal enigma_progress(built: int, total: int, theme: String, encounter_id: Stri
 
 var game_save: GameSaveManager
 var content_manager: ContentManager
+var minigame_manager := MinigameManager.new()
 var progression_manager: ProgressionManager
 var reward_manager: RewardManager
 var nora_voice := NoraVoice.new()
-var result: Dictionary                           # risultato bridge (handshake d'uscita)
+var narrative_manager := NarrativeManager.new()
+var progress_report := LocalProgressReport.new()
+var current_narrative := ""
+var result: Dictionary                           # delta della sessione mondo corrente
 var active_session_context: Dictionary = {}
 var base_fragments := 0
 var current_phase := "giorno"
 
-func setup(request: Dictionary, bridge_result: Dictionary, load_local_save: bool = true) -> void:
-	result = bridge_result
+func setup(request: Dictionary, session_result: Dictionary, load_local_save: bool = true) -> void:
+	result = session_result
 	base_fragments = int(request.get("outdoorState", {}).get("fragments", 0))
 	game_save = GameSaveManager.new()
 	if load_local_save:
 		game_save.load_save()
-	game_save.import_bridge_request(request)
+	game_save.apply_launch_state(request)
 	content_manager = ContentManager.new()
 	progression_manager = ProgressionManager.new(game_save)
 	reward_manager = RewardManager.new(game_save)
+	narrative_manager.setup(game_save)
+	progress_report.setup(game_save)
+	current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", ""))
+	game_save.save()
 	_emit_state()
 
 # ---------------------------------------------------------------------------
@@ -102,6 +110,8 @@ func runtime_state() -> Dictionary:
 		"fragments": base_fragments + int(result.get("fragmentsEarned", 0)),
 		"phase": current_phase,
 		"sessionActive": session_active(),
+		"narrative": current_narrative,
+		"progressReport": progress_report.summary(),
 		# Bottega (C-14): catalogo statico in RewardCatalog.CATALOG, qui solo lo
 		# stato del giocatore. Codex non ricalcola owned/equipped lato UI.
 		"cosmeticsUnlocked": Array(game_save.data.get("cosmetics", {}).get("unlocked", [])).duplicate(),
@@ -133,14 +143,11 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 		feedback.emit("Incontro già completato.")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := content_manager.build_mission(subject, game_save.level(), 3, _due())
+	var session := content_manager.build_mission(subject, game_save.level(), 3, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		feedback.emit("Banco esercizi non disponibile per %s." % subject)
 		return false
-	if not game_save.spend_energy(EXERCISE_ENERGY_COST):
-		feedback.emit("Energia insufficiente: servono %d energia." % EXERCISE_ENERGY_COST)
-		return false
-	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
+	_charge_exercise_entry()
 	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject}
 	feedback.emit(NoraContextEngine.open_line(subject, _has_review_node(session)))
 	session_requested.emit(session)
@@ -157,20 +164,38 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 		feedback.emit("Enigma già risolto.")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := content_manager.build_enigma(subject, game_save.level(), 4, _due())
+	var session := content_manager.build_enigma(subject, game_save.level(), 4, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		feedback.emit("Banco esercizi non disponibile per %s." % subject)
 		return false
-	if not game_save.spend_energy(EXERCISE_ENERGY_COST):
-		feedback.emit("Energia insufficiente: servono %d energia." % EXERCISE_ENERGY_COST)
-		return false
-	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
+	_charge_exercise_entry()
 	var theme := str(session.get("theme", "ponte"))
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
 	feedback.emit(NoraContextEngine.open_line(subject, _has_review_node(session)))
 	session_requested.emit(session)
 	# Stato iniziale della costruzione (0 campate) così la resa parte da "rotto".
 	enigma_progress.emit(0, int(session.get("stages", session.get("nodes", []).size())), theme, encounter_id)
+	_emit_state()
+	return true
+
+# Minigioco: un incontro risolto con formati interattivi (abbina/ordina) della
+# materia. Stessa pipeline delle missioni — conta per il gate dell'apparato,
+# aggiorna mastery per-topic ed energia; cambia solo la resa dei nodi.
+func try_start_minigame(payload: Dictionary, encounter_id: String) -> bool:
+	if session_active():
+		return false
+	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
+		feedback.emit("Minigioco già completato.")
+		return false
+	var subject := _subject_for_payload(payload)
+	var session := minigame_manager.build_minigame(subject, game_save.level())
+	if Array(session.get("nodes", [])).is_empty():
+		feedback.emit("Minigioco non disponibile per %s." % subject)
+		return false
+	_charge_exercise_entry()
+	active_session_context = {"kind": "minigame", "encounterId": encounter_id, "subject": subject}
+	feedback.emit(NoraContextEngine.open_line(subject, false))
+	session_requested.emit(session)
 	_emit_state()
 	return true
 
@@ -190,18 +215,27 @@ func try_start_final_exam() -> bool:
 		return false
 	var gate := progression_manager.current_gate()
 	var subject := str(gate.get("subject", "matematica"))
-	var session := content_manager.build_final_exam(subject, game_save.level(), 3)
+	var session := content_manager.build_final_exam(subject, game_save.level(), 3, null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		feedback.emit("Esame non disponibile.")
 		return false
-	if not game_save.spend_energy(EXERCISE_ENERGY_COST):
-		feedback.emit("Energia insufficiente: servono %d energia per l'esame." % EXERCISE_ENERGY_COST)
-		return false
-	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
+	_charge_exercise_entry()
 	active_session_context = {"kind": "final_exam", "subject": subject, "apparatus": str(gate.get("apparatus", "nucleo"))}
 	session_requested.emit(session)
 	_emit_state()
 	return true
+
+## Il loop educativo deve restare sempre avviabile. Con almeno 3 energia si
+## applica il costo normale; sotto soglia l'ingresso diventa di recupero e non
+## consuma il residuo. In questo modo un profilo nuovo o un acquisto in bottega
+## non possono bloccare per sempre l'unico modo di riguadagnare energia.
+func _charge_exercise_entry() -> int:
+	if game_save.energy() < EXERCISE_ENERGY_COST:
+		return 0
+	if not game_save.spend_energy(EXERCISE_ENERGY_COST):
+		return 0
+	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
+	return EXERCISE_ENERGY_COST
 
 # Risolve la sessione conclusa dall'ExercisePlayer: aggiorna save, progressione,
 # ricompense e (per l'esame) ripara l'apparato salendo di livello.
@@ -215,10 +249,12 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	var passed := bool(exercise_result.get("passed", false))
 	var energy_before := game_save.energy()
 	progression_manager.record_mission(subject, correct, total, gained, passed)
+	progression_manager.record_topic_stats(subject, exercise_result.get("topicStats", {}))
+	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
 	_update_spaced_repetition(subject, exercise_result)
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
 	var kind := str(context.get("kind", "mission"))
-	if kind == "mission" or kind == "enigma":
+	if kind == "mission" or kind == "enigma" or kind == "minigame":
 		var encounter_id := str(context.get("encounterId", ""))
 		if passed and encounter_id != "":
 			var completed: Array = result["completedEncounterIds"]
@@ -244,6 +280,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
 			result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + 4
 			feedback.emit("%s Livello %d." % [nora_voice.line("victory"), game_save.level()])
+			current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
 		elif passed:
 			feedback.emit("Il gate non è più disponibile: riprova le missioni richieste.")
 		else:
@@ -253,9 +290,8 @@ func resolve_session(exercise_result: Dictionary) -> void:
 
 # ---------------------------------------------------------------------------
 # Bottega (C-14): acquisto/equip cosmetici. La spesa passa da spend_energy() E
-# da result.energySpent, esattamente come le missioni: così il bridge riceve
-# il delta corretto senza bisogno di rendere l'energia autoritativa lato Godot
-# (quel salto resta un rischio da valutare in Fase 5/C-16, non qui).
+# da result.energySpent, esattamente come le missioni, così il riepilogo della
+# sessione resta coerente senza duplicare l'economia del save canonico.
 # ---------------------------------------------------------------------------
 
 func try_purchase_cosmetic(id: String) -> bool:
@@ -291,15 +327,6 @@ func unequip_cosmetic(slot: String) -> void:
 func collect_treasure(payload: Dictionary) -> void:
 	result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + int(payload.get("rewardFragments", 0))
 	_emit_state()
-
-# Prepara il risultato per il bridge Phaser all'uscita (portale legacy).
-func publish_exit_state() -> void:
-	game_save.save()
-	result["godotSave"] = game_save.bridge_snapshot()
-	result["level"] = game_save.level()
-	result["missionsBySubject"] = game_save.data.get("missionsBySubject", {}).duplicate(true)
-	result["mastery"] = game_save.data.get("mastery", {}).duplicate(true)
-	result["apparatus"] = game_save.data.get("apparatus", {}).duplicate(true)
 
 func _emit_state() -> void:
 	runtime_state_changed.emit(runtime_state())

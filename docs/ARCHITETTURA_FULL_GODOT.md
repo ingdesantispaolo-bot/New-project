@@ -1,5 +1,11 @@
 # Architettura & Migrazione a Full Godot
 
+> **Snapshot 22 luglio 2026:** il target descritto qui è ora il runtime di
+> produzione. Boot, mondo, esercizi, bottega, nave, NORA, report, audio e save
+> sono Godot; `OutdoorSaveBridge` è stato rimosso e l'export Web 4.7.1 parte
+> direttamente dalla main scene nativa. Le sezioni storiche sotto restano come
+> motivazione e cronologia del percorso.
+
 > Come si costruisce il gioco descritto in [DESIGN_COMPLETO.md](DESIGN_COMPLETO.md),
 > con l'obiettivo confermato in [VISIONE_DI_GIOCO.md](VISIONE_DI_GIOCO.md): **un
 > unico motore Godot**, niente Phaser, niente bridge, niente ricariche di pagina.

@@ -19,11 +19,13 @@ static func _default_data() -> Dictionary:
 		"energy": 0,
 		"fragments": 0,
 		"mastery": {},              # subject -> float 0..1
+		"masteryByTopic": {},       # "subject:topic" -> float 0..1 (adattività fine)
 		"missionsBySubject": {},    # subject -> int (azzerato al salire di livello)
 		"apparatus": {},            # id -> {repairedLevel:int}
 		"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []},
 		"modules": {"owned": [], "equipped": []},
 		"narrative": {"seen": [], "beats": {}},
+		"progressReport": {"events": []},
 		"daily": {"date": "", "missions": 0, "streak": 0},
 		"spacedRepetition": {"due": {}, "history": []},
 	}
@@ -36,7 +38,7 @@ func load_save() -> void:
 		return
 	var parsed = JSON.parse_string(file.get_as_text())
 	if typeof(parsed) == TYPE_DICTIONARY:
-		data = migrate_from_phaser(parsed)
+		data = migrate_legacy_save(parsed)
 
 func save() -> void:
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -61,6 +63,30 @@ func add_energy(amount: int) -> void:
 func set_mastery(subject: String, value: float) -> void:
 	data["mastery"][subject] = clampf(value, 0.0, 1.0)
 
+# --- Padronanza per-argomento (adattività fine dentro la materia) -------------
+# Chiave "subject:topic". Un topic mai incontrato torna -1.0 (sconosciuto), così
+# la selezione può distinguere "debole" (basso ma visto) da "nuovo" (mai visto).
+func topic_key(subject: String, topic: String) -> String:
+	return "%s:%s" % [subject, topic]
+
+func topic_mastery_of(subject: String, topic: String) -> float:
+	return float(data.get("masteryByTopic", {}).get(topic_key(subject, topic), -1.0))
+
+func set_topic_mastery(subject: String, topic: String, value: float) -> void:
+	if not data.has("masteryByTopic"):
+		data["masteryByTopic"] = {}
+	data["masteryByTopic"][topic_key(subject, topic)] = clampf(value, 0.0, 1.0)
+
+# Mappa topic -> mastery per una materia (solo i topic già incontrati). Serve alla
+# selezione per privilegiare gli argomenti più deboli.
+func topic_masteries(subject: String) -> Dictionary:
+	var out: Dictionary = {}
+	var prefix := "%s:" % subject
+	for key in data.get("masteryByTopic", {}).keys():
+		if str(key).begins_with(prefix):
+			out[str(key).trim_prefix(prefix)] = float(data["masteryByTopic"][key])
+	return out
+
 func add_mission(subject: String) -> void:
 	data["missionsBySubject"][subject] = missions_of(subject) + 1
 
@@ -80,28 +106,18 @@ func spend_energy(amount: int) -> bool:
 	data["energy"] = int(data["energy"]) - cost
 	return true
 
-## Importa il minimo stato condiviso dal bridge Phaser senza sovrascrivere i
-## campi Godot più ricchi quando sono già presenti. Il bridge resta quindi
-## compatibile durante la migrazione, mentre il save canonico cresce in Godot.
-func import_bridge_request(request: Dictionary) -> void:
-	# Energia e frammenti restano autoritativi da Phaser (valuta della migrazione).
-	# Il LIVELLO invece è la scala apparati lato Godot: non deve regredire per un
-	# handshake stale o una transizione interna mondo↔nave.
-	if request.has("energy"):
-		data["energy"] = maxi(0, int(request.get("energy", energy())))
-	var outdoor: Dictionary = request.get("outdoorState", {})
-	if outdoor.has("fragments"):
-		data["fragments"] = maxi(0, int(outdoor.get("fragments", data.get("fragments", 0))))
-	var canonical = request.get("godotSave", null)
+## Applica uno stato iniziale esplicito per audit/import controllati. Il normale
+## boot nativo non ne fornisce uno e mantiene il save locale autoritativo.
+func apply_launch_state(request: Dictionary) -> void:
+	var canonical = request.get("initialSave", null)
 	if typeof(canonical) == TYPE_DICTIONARY:
-		var candidate := migrate_from_phaser(canonical)
-		# Applica il save canonico ricevuto solo se non fa regredire il livello.
+		var candidate := migrate_legacy_save(canonical)
 		if int(candidate.get("level", 0)) >= level():
 			data = candidate
 	if request.has("playerLevel"):
 		set_level(maxi(level(), int(request.get("playerLevel", level()))))
 
-func migrate_from_phaser(source: Dictionary) -> Dictionary:
+func migrate_legacy_save(source: Dictionary) -> Dictionary:
 	## Migrazione idempotente: non scarta campi futuri sconosciuti.
 	var migrated := source.duplicate(true)
 	for key in _default_data().keys():
@@ -110,5 +126,5 @@ func migrate_from_phaser(source: Dictionary) -> Dictionary:
 	migrated["schemaVersion"] = SCHEMA_VERSION
 	return migrated
 
-func bridge_snapshot() -> Dictionary:
+func snapshot() -> Dictionary:
 	return data.duplicate(true)

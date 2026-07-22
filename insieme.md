@@ -11,6 +11,19 @@ Portare Eli Quest a **full Godot**, mantenendo il loop:
 
 > **Fuori si allenano le missioni · dentro si riparano gli apparati e si sale di livello.**
 
+### Consegna full-Godot · 22 luglio 2026
+
+- boot nativo `title → GIOCA → mondo`, portale `mondo ⇄ nave` senza shell;
+- nave fullscreen data-driven con sette ponti WebP, apparati, restauri e audio;
+- NORA e report locale persistente collegati al runtime e al diario di bordo;
+- scala 1–24 estesa a tutte le 12 materie con banchi verificati;
+- template Web 4.7.1 installati ed export completo rigenerato;
+- manifest asset in `docs/GODOT_ASSET_MANIFEST.json` e screenshot GPU in
+  `artifacts/ship`;
+- `OutdoorSaveBridge` rimosso; audit/probe esclusi dal PCK di release. I sorgenti
+  Phaser restano solo archivio offline per generatori e asset non ancora
+  dichiarati sostituibili dal manifest.
+
 La grafica deve comunicare un mondo caldo, leggibile e ricco in stile Animal
 Crossing; il codice deve rendere il loop giocabile, persistente e verificabile.
 
@@ -990,6 +1003,33 @@ criticità o vuoi un ordine diverso.
   materie, profondità contenuti nuovi, memoria come mini-gioco sì/no, struttura
   narrativa C-19.
 
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · C-17 chiusura logica + guard-rail
+- Fatto: verificato che la catena enigma a **12 materie** è già cablata
+  end-to-end (POI in `_enigma_poi_specs()` per tutte le 12, `ENIGMA_THEMES` con
+  mappa/serra/rete/griglia, `enigma_structure.gd` di Codex che rende già i 4
+  nuovi temi con texture/titoli/colori dedicati). Il solo pezzo mancante era un
+  **audit di regressione**: aggiunto `c17_audit.gd`. Verifica, per tutte le 12
+  materie, che il banco esista, il tema enigma sia RENDERIZZABILE (non solo il
+  fallback), e che `build_enigma` produca un contratto coerente
+  (kind=enigma, theme==enigma_theme, stages==#campate≥1, item validi). Lock
+  esplicito sui 4 temi C-17: `geografia→mappa`, `scienze→serra`,
+  `cittadinanza→rete`, `logica→griglia` — un edit futuro non può farli ricadere
+  silenziosamente su "ponte".
+- File: `godot/scripts/game/c17_audit.gd` (nuovo). Nessuna modifica a codice di
+  scena/gameplay/contenuti — solo un audit read-only sul contratto esistente.
+- Test/export: `git diff --check` pulito; nessun ternario C-style; audit al solo
+  livello `ContentManager` (nessuna istanza di scena, safe headless). Da eseguire
+  in editor: `c17_audit.gd` (+ retro-compatibili c04/enigma). Godot non nel PATH
+  in questo ambiente: esecuzione reale resta gate in editor come per gli altri.
+- Limiti o rischi: l'audit copre il contratto dati, non l'istanziazione dei POI
+  nel mondo (quella richiede la scena, coperta da `enigma_scene_audit` di Codex
+  sugli 8 marker originari — i 4 nuovi POI andrebbero aggiunti a quel conteggio
+  quando gira in editor). I banchi nuovi restano piccoli per onestà sul contenuto
+  sorgente (scienze 13, cittadinanza 10, logica 22).
+- Prossimo passo: C-17 chiuso lato logica. I candidati grossi restano **C-18
+  audio** (io: `AudioManager.gd` + hook; Codex: asset) e il nodo aperto di Fase 5:
+  verificare il round-trip `godotSave`/energia lato TS prima di spegnere Phaser (C-16).
+
 ### Aggiornamento 2026-07-22 (12) · Codex · C-17 visuale e 12 POI chiusi
 - Resi i quattro temi richiesti con asset dedicati, trasparenti e divisibili nei
   quattro stadi del contratto esistente: **Mappa Stellare** (`mappa`), **Serra
@@ -1013,3 +1053,404 @@ criticità o vuoi un ordine diverso.
   `godot/scripts/visual/terrain_render_probe.gd`.
 - Stato: **C-17 visuale chiuso**. C-18 audio resta il prossimo blocco condiviso;
   non sono stati anticipati asset o hook audio senza coordinamento.
+
+### Aggiornamento 2026-07-22 (13) · Codex · C-18 asset audio pronti
+- Valutati i 31 WAV Phaser: mantenuti 24 effetti brevi già riconoscibili; i due
+  loop storici (mono, 4–4,4 s) non erano adeguati al soundscape richiesto e non
+  sono stati portati come musica Godot.
+- Creato un pacchetto nativo di **36 asset** con pipeline deterministica:
+  **5 loop stereo sincronizzati da 16 s** (`music-day`, `music-night`,
+  `music-focus`, `ambience-day`, `ambience-night`), cue dedicati per geografia,
+  scienze, cittadinanza e logica, cue NORA, stinger completamento/sconfitta e
+  24 SFX selezionati dal gioco esistente.
+- `audio-manifest.json` definisce bus `Music`/`Ambience`/`SFX`/`UI`, volumi,
+  crossfade, cooldown/polyphony, mapping delle **12 materie** e mapping degli
+  eventi previsti da C-18. I tre layer musicali condividono durata e fase per
+  crossfade adattivi senza riavvio percepibile.
+- Pipeline: `npm run audio:godot` rigenera tutto senza servizi esterni;
+  `npm run audio:godot:audit` verifica header, loudness, clipping, seam, file e
+  riferimenti manifest. Godot importa i WAV in QOA (es. `music-day`: ~414 KB
+  importati) per contenere il peso Web.
+- Verifica: audit Node verde (**36 asset, 12 materie, 5 loop**); audit Godot
+  4.7.1 verde (**36 AudioStream caricati**, lunghezze loop sincronizzate).
+- File: `scripts/build-godot-audio-assets.mjs`, `godot/assets/audio/*`,
+  `godot/scripts/game/audio_asset_audit.gd`, `package.json`.
+- Handoff collaboratore: parte Codex di **C-18 pronta**. Restano da collegare
+  `AudioManager.gd`, bus e hook gameplay usando manifest `subjects`, `events` e
+  `adaptive`; nessun hook è stato duplicato lato presentazione.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · C-16 passo 1: Godot autosufficiente come root
+- Contesto (indagine, decisione utente = "ribalta boot → Godot root"): oggi il
+  deploy è ancora **Phaser-primary**. La root servita è l'app Vite/Phaser; l'export
+  Godot vive in `public/godot/` ed è lanciato da `OutdoorAdventureScene`/
+  `ExplorableRoomScene` via `openOutdoorGodot()` (navigazione). Il mondo Godot gioca
+  e **rimbalza** a Phaser (`_leave_world`→`returnUrl`). Confermato il rischio che
+  avevo segnalato: `OutdoorWorldResult` (bridge) riporta solo i delta
+  `energyEarned/energySpent/fragmentsEarned` + ID incontri; **`godotSave` non è mai
+  riletto lato TS** → l'intera progressione C-02→C-17 vive solo in Godot, mentre
+  Phaser resta autoritativo per l'economia dell'hub.
+- Fatto (passo 1 — rendere Godot capace di essere root, senza ancora cancellare
+  Phaser né spostare la root del deploy):
+  - **Scoperta abilitante**: Godot possiede GIÀ il save canonico nativo
+    (`user://eli-quest-save.json`, `load_save()`/`save()`), persistito dopo ogni
+    resolve/acquisto e in `publish_exit_state()`. La persistenza nativa esiste.
+  - **Fix del clobber economia** (il vero blocco): `import_bridge_request(default_request())`
+    faceva `energy→120` e `fragments→0` a ogni boot senza handshake Phaser: con
+    Godot root avrebbe azzerato i progressi. `default_request()` ora è marcata
+    `standalone:true` e `import_bridge_request` **salta l'overlay economia** in
+    standalone (il save nativo è la verità). Livello/godotSave restavano già
+    non-regressivi. Il ponte Phaser reale (senza `standalone`) è **invariato**.
+  - **Uscita standalone senza rimbalzo**: `_leave_world` in modalità standalone
+    entra nella nave nativa (`hub.tscn`) invece di navigare a Phaser e chiudere il
+    runtime. Percorso bridge legacy invariato quando `returnUrl` è presente.
+  - **Audit**: `c16_audit.gd` prova che boot standalone preserva energia/frammenti/
+    livello nativi e che il ponte Phaser reale fa ancora overlay.
+- File: `godot/scripts/save_bridge.gd`, `godot/scripts/game/save_manager.gd`,
+  `godot/scripts/game/c16_audit.gd` (nuovo), `godot/scripts/outdoor_world.gd`
+  (Insieme: solo `_leave_world`, branch standalone→nave, annotato).
+- Test/export: `git diff --check` pulito; nessun ternario C-style. Da eseguire in
+  editor: `c16_audit.gd` + retro-compatibili c01/c02/loop/round-trip (Godot non nel
+  PATH in questo ambiente). Non ho toccato TS: il ponte Phaser resta funzionante.
+- Limiti o rischi: `_leave_world` standalone→`hub.tscn` è una scelta di flusso da
+  validare con Codex (la nave non ha ancora un ritorno-al-mondo nativo). La **root
+  del deploy è ancora Phaser**: questo passo rende Godot *capace* di stare da solo,
+  non lo promuove ancora a root — quello è il passo 2 (serving/build) + poi la
+  rimozione progressiva Phaser (passo 3), da fare solo a passo 1 verde in editor.
+- Prossimo passo: passo 2 di C-16 — spostare la root servita sull'export Godot
+  (build/serving) e un boot/menu nativo; poi passo 3 (cancellazione Phaser guidata
+  dalla matrice). Coordinare con Codex per il flusso mondo↔nave↔ritorno.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · C-16 passo 2: root del deploy = Godot
+- Fatto: ribaltata la **root servita** dall'app Phaser all'export Godot, in modo
+  sicuro e reversibile (Phaser resta raggiungibile durante la migrazione).
+  - `index.html` non carica più `/src/main.ts`: ora è un **boot** che reindirizza
+    a `./godot/outdoor/index.html` (l'export Godot, che nel `.pck` impacchetta
+    tutto il progetto — mondo + `hub.tscn`). Escape legacy: `?shell=phaser`.
+  - `phaser.html` (nuovo): la vecchia shell Phaser (`/src/main.ts`), conservata
+    per la migrazione. Raggiungibile a `/phaser.html` o `/?shell=phaser`.
+  - `vite.config.mjs`: build **multi-pagina** (`input: index + phaser`). Necessario:
+    senza, con `index.html` che non importa più `main.ts`, Vite non avrebbe più
+    bundlato Phaser affatto. Ora entrambi gli entry sono emessi.
+- File: `index.html`, `phaser.html` (nuovo), `vite.config.mjs`.
+- Test/export: **`npm run build` verde** (tsc + vite, 7.94s). Verificato in `dist/`:
+  `index.html` = redirect a godot/outdoor (niente main.ts); `phaser.html` = carica
+  il bundle Phaser; `dist/godot/outdoor/{index.html,index.pck}` presenti (public/
+  copiato a root). TS intatto (tsc passato nel build).
+- Limiti o rischi (IMPORTANTE):
+  1. **Re-export del `.pck` necessario**: il `public/godot/outdoor/index.pck`
+     committato è un export PRECEDENTE ai fix di passo 1 (save_bridge/save_manager/
+     outdoor_world). La root ora fa boot su Godot, ma il comportamento standalone
+     (economia non azzerata, uscita→nave) sarà attivo solo dopo un **re-export Web
+     da Godot 4.7.1**. Gate in editor (Godot non nel PATH qui).
+  2. **Boot/menu nativo**: oggi Godot entra dritto in `outdoor_world.tscn` (ora
+     funziona standalone). Una vera scena title/menu è UI → **area Codex**
+     (`scripts/ui/**`): handoff sotto.
+  3. **PWA/service worker**: `manifest.start_url`/`sw.js` non toccati; con il
+     redirect a "/" dovrebbero funzionare, ma `sw.js` potrebbe servire una
+     index.html cache-ata vecchia al primo carico — da verificare nello smoke Web.
+- **Handoff per Codex**: (a) serve una **scena boot/menu nativa** Godot (title →
+  "Gioca" entra in `outdoor_world`, con slot per continua/impostazioni), che
+  diventerà la `run/main_scene`; (b) il **flusso nave↔ritorno-al-mondo**: oggi
+  `_leave_world` standalone entra in `hub.tscn` ma la nave non ha un ritorno
+  nativo al mondo — chiudiamo il giro insieme.
+- Prossimo passo: re-export Web con i fix di passo 1 + smoke test da nuovo profilo
+  (deve caricare Godot alla root, giocare, salvare, riavviare senza perdere
+  progressi). Poi passo 3: rimozione progressiva Phaser guidata dalla matrice
+  (togliendo l'input `phaser.html`, le scene bespoke e i sistemi già coperti).
+
+### Aggiornamento 2026-07-22 (14) · Codex · recupero economia + chiusura Bottega Godot
+- Corretto il deadlock del profilo nuovo: con meno di 3 energia missioni,
+  enigmi ed esami diventano ingressi di recupero gratuiti; con saldo sufficiente
+  il costo resta invariato. Nessun refill al boot e nessuna spesa fantasma nel
+  risultato bridge. `c16_audit` copre ora esplicitamente il primo esercizio a
+  energia zero; round-trip e 12/12 POI enigma tornano verdi.
+- Bottega consolidata: atlante completo **53/53**, sette categorie, geometria
+  full-viewport corretta, desktop a due colonne e layout compatto a una colonna
+  basato anche sulla dimensione fisica della finestra (necessario con stretch
+  `expand`). Gli audit/probe ora usano la stessa gerarchia HUD della scena reale
+  e il probe fallisce correttamente se manca un framebuffer, invece di stampare
+  un falso positivo.
+- Aggiunta la resa live degli emblemi sul player. I testi di potenziamenti NORA
+  e restauri non promettono più effetti assenti: acquisto e persistenza sono
+  attivi, mentre hook missione e scene native dedicate sono dichiarati come
+  blocchi successivi.
+- Verifica: editor scan pulito; **26/26 audit Godot verdi** (inclusi i nuovi
+  `adaptive_audit` e `pace_audit`); **184/184 Vitest**;
+  audit audio Node verde; build Vite verde; `git diff --check` pulito. Probe
+  grafico reale OpenGL verde con screenshot desktop/compact in
+  `artifacts/shop/`. Rigenerato `public/godot/outdoor/index.pck` via
+  `--export-pack` e verificato con `--main-pack`; build successiva lo ha copiato
+  in `dist/`.
+- File principali: `godot/scripts/game/outdoor_gameplay.gd`, `c16_audit.gd`,
+  `outdoor_presentation_audit.gd`, `enigma_scene_audit.gd`,
+  `shop_presentation_audit.gd`, `shop_render_probe.gd`,
+  `godot/scripts/ui/outdoor_shop_panel.gd`, `godot/scripts/outdoor_world.gd`,
+  `godot/scripts/roundtrip_audit.gd`, `godot/README.md`, matrice migrazione.
+- Limite toolchain: l'editor locale disponibile e Mono e non esporta Web
+  completo; mancano anche i template Windows. Il pack Web corrente e aggiornato
+  e compatibile col loader 4.7.1 esistente, ma per rigenerare loader/wasm ed EXE
+  serve l'editor standard 4.7.1 con export template.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · didattica: ragionamento senza limite di tempo
+- Valutazione (richiesta utente): gli esercizi che richiedono ragionamento
+  (coding, fisica, ecc.) non devono avere limite di tempo. **Constatazione**:
+  l'`ExercisePlayer` di Godot è già interamente turn-based — nessun timer, nessun
+  countdown: nell'architettura target (Godot-root) TUTTI gli esercizi sono già
+  senza tempo. Il limite di tempo vive solo nei minigiochi legacy di Phaser
+  (`ProceduralMissionScene.ts`: countdown math/coding/circuito/lingua), che C-16
+  sta rimuovendo → non ci investo.
+- Fatto (rendere la regola esplicita, comunicata e verificabile, non solo
+  "assente per caso"):
+  - `ContentManager.SUBJECT_PACE`: classificazione cognitiva delle 12 materie.
+    **Solo `matematica` è `fluency`** (tabelline = rapidità/automatismo, unica per
+    cui un tempo avrebbe senso didattico); le altre 11 sono `reasoning`. Default
+    prudente per materie nuove = `reasoning` (mai cronometrate). Helper
+    `subject_pace()` / `is_untimed()`.
+  - Ogni sessione (`_session`, quindi missione/enigma/esame) porta ora `pace` e
+    `timed:false`. Nessuna sessione è cronometrata oggi; il campo rende la
+    politica leggibile dalla UI e blindata da audit.
+  - `ExercisePlayer`: per le materie di ragionamento mostra una riga discreta
+    **"Senza limite di tempo · ragiona con calma"** — riduce l'ansia da
+    prestazione (le fluency non la mostrano).
+  - `pace_audit.gd` (nuovo): garantisce che le 11 materie di ragionamento siano
+    `reasoning` e mai `timed`, su missione/enigma/esame; matematica unica fluency.
+- File: `godot/scripts/game/content_manager.gd`, `exercise_player.gd`,
+  `pace_audit.gd` (nuovo).
+- Test/export: `git diff --check` pulito; nessun ternario C-style. Da eseguire in
+  editor: `pace_audit.gd` + retro-compatibili c04/enigma (nessun campo rimosso).
+- Limiti o rischi: nessun timer viene introdotto (né per la matematica); `timed`
+  resta `false` ovunque. Se un giorno si vorrà una "modalità velocità" sulle
+  tabelline, l'aggancio è `pace=="fluency"` e il ragionamento resta esente per
+  costruzione. La riga affordance è testo (area contenuto/gameplay, mia); se Codex
+  vuole rifinirne lo stile nell'HUD esercizi, il campo `pace` è già nel contratto.
+- Prossimo passo: didattica coperta per la regola richiesta; disponibile per
+  approfondire selezione adattiva/difficoltà o tornare a C-16 passo 3.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · selezione adattiva e difficoltà per materia
+- Valutazione (dati alla mano sui banchi): due difetti reali nella selezione.
+  1. **Difficoltà non calibrata per materia**: `target_difficulty(level)` mappava
+     livello→1-4 uguale per tutte, ma i banchi hanno range diversi — italiano 1-2,
+     inglese/coding/scienze fino a 3, fisica/musica partono da 2. A livello alto il
+     target (4) svuotava la finestra ±1 → **fallback CASUALE su tutto il banco**
+     (nessuna progressione) per le materie "corte".
+  2. **Mastery ignorata nella selezione**: la padronanza (EMA dell'accuratezza)
+     serviva SOLO ai gate. La difficoltà dipendeva dal solo livello → un bambino in
+     difficoltà a livello 12 riceveva comunque difficoltà 4.
+- Fatto:
+  - `subject_difficulty_range(subject)` (cache): min/max di difficoltà REALE nel
+    banco. `effective_difficulty(subject, level, mastery)` = banda di livello +
+    nudge di mastery, **poi clamp sul range del banco** → la selezione resta
+    significativa su ogni materia (niente più fallback casuale ai bordi).
+  - `mastery_nudge(mastery)`: chi fatica (<0.5) scende di un gradino, chi
+    padroneggia (≥0.85) sale; `mastery<0` = sconosciuta → nessun nudge
+    (retro-compatibile). Un profilo nuovo (mastery 0) parte dagli item più facili
+    disponibili e la difficoltà ramp-a man mano che risponde bene.
+  - Matematica generata resa adattiva: `math_effective_level(level, mastery)`
+    sposta il livello di ±3 (≈ ±1 gradino di complessità del generatore).
+  - `build_mission/enigma/final_exam` accettano `mastery` (param opzionale in
+    coda, default -1.0); `OutdoorGameplay` passa `game_save.mastery_of(subject)`.
+    Tutti i chiamanti/audit esistenti restano validi (solo-livello + calibrazione).
+  - `adaptive_audit.gd` (nuovo): calibrazione per materia (italiano mai oltre 2,
+    fisica mai sotto 2), monotonìa mastery (fatica<neutro<padronanza), matematica
+    adattiva, retro-compatibilità (-1), e bound deterministici sulla selezione reale.
+- File: `godot/scripts/game/content_manager.gd`, `outdoor_gameplay.gd`,
+  `adaptive_audit.gd` (nuovo).
+- Test/export: `git diff --check` pulito; nessun ternario C-style; verificati tutti
+  i chiamanti (nessun disallineamento). Da eseguire in editor: `adaptive_audit.gd`
+  + retro-compatibili c01/c04/c10/c11/loop/enigma/pace (nessun campo rimosso;
+  la calibrazione può cambiare QUALI item escono, non la loro validità).
+- Limiti o rischi: la mastery resta **per-materia** (non per-topic); il ripasso
+  spaziato resta l'unico segnale per-argomento. I banchi "corti" (italiano max 2,
+  scienze max 3) ora sono calibrati correttamente ma restano poco profondi in alto:
+  arricchirli è lavoro contenuti (C-12/bake), non di selezione.
+- Prossimo passo: possibile evoluzione mastery per-topic (adattività più fine
+  dentro la materia), oppure ritorno a C-16 passo 3.
+
+### Aggiornamento 2026-07-22 (15) · Codex · boot Godot e navigazione nativa completa
+- Chiuso l'handoff C-16 UI: aggiunti `boot_menu.tscn` e `boot_menu.gd`, con title
+  screen responsiva, sfondo dell'Accademia, focus da tastiera e pulsante **GIOCA**.
+  `run/main_scene` punta ora al menu; GIOCA apre `outdoor_world.tscn`.
+- Chiuso il giro nave: `_leave_world` standalone entra in `hub.tscn` e il
+  pulsante nominato `BackToWorldButton` salva e riapre il mondo. Il prompt del
+  portale parla ora della nave, non di Phaser. Il nuovo
+  `boot_navigation_audit.gd` attraversa realmente `menu → mondo → nave → mondo`.
+- Spento Phaser nel prodotto servito: eliminati `phaser.html`, escape
+  `?shell=phaser`, input multi-page e chunk manuali Vite. `npm run build` produce
+  solo la root Godot e non esegue più `tsc`; Phaser/Howler sono stati spostati in
+  `devDependencies` perché i sorgenti TS storici servono ancora offline a fixture,
+  bake e regressioni, ma non hanno più un entrypoint né finiscono nel deploy.
+- La root registra ora il service worker prima del redirect (timeout di sicurezza)
+  e la cache PWA passa a `v4-godot-root`, così un vecchio `.pck` Phaser-era non
+  resta bloccato nella cache `cacheFirst` dopo l'aggiornamento accettato.
+- Correzioni emerse dalla prova reale: tipizzazione esplicita della mastery in
+  `progression_manager.gd` (Godot 4.7.1 non riusciva a inferirla) e audit adattivo
+  riallineato al banco Fisica corrente, ora completo 1–4.
+- Verifica: editor scan pulito; **28/28 audit Godot verdi**, incluso il nuovo
+  round-trip di navigazione; **184/184 Vitest**; typecheck legacy pulito; build
+  Vite verde (2 moduli, nessun file/riferimento Phaser in `dist`);
+  `git diff --check` pulito. Rigenerato e smoke-testato il pack Web, SHA-256
+  `42137D138785DFB6694A4D292B9339C1D55AD32CD7DB9804F440DAD34507913D`, identico
+  tra `public/` e `dist/` prima del solo bump del service worker.
+- Limite toolchain invariato: l'editor Mono locale aggiorna e valida il `.pck`,
+  ma non rigenera loader/wasm Web; per un export Web completo serve l'editor
+  standard Godot 4.7.1 con template Web.
+
+### Toolchain locale Godot (nota utente 2026-07-22)
+- Installazione principale: `C:\Users\39351\Godot`.
+- Godot standard 4.7.1 console (preferito per export Web completo):
+  `C:\Users\39351\Godot\Godot_v4.7.1-stable_win64.exe\Godot_v4.7.1-stable_win64_console.exe`.
+- Godot standard GUI: stesso percorso, file `Godot_v4.7.1-stable_win64.exe`.
+- Godot Mono 4.7.1 resta disponibile sotto
+  `C:\Users\39351\Godot\Godot_v4.7.1-stable_mono_win64\Godot_v4.7.1-stable_mono_win64\`.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · mastery per-topic + arricchimento contenuti
+- Fatto (A — meccanismo mastery per-ARGOMENTO, adattività fine dentro la materia):
+  - Save: nuovo `masteryByTopic` ("subject:topic" -> float). Accessor
+    `topic_mastery_of` (−1 se mai visto), `set_topic_mastery`, `topic_masteries(subject)`.
+  - `ExercisePlayer` riporta `topicStats` ({topic: {seen, correct}}) nel risultato;
+    `ProgressionManager.record_topic_stats` aggiorna la mastery per-topic (EMA 0.34,
+    primo incontro = accuratezza osservata); chiamato in `resolve_session`.
+  - Selezione (`build_mission`): nuovo parametro `topic_mastery`; a parità di
+    difficoltà privilegia gli argomenti PIÙ DEBOLI (mastery < 0.6) — priorità
+    ripasso spaziato → argomenti deboli → resto vicino → riempimento. Propagato a
+    enigma/esame; `OutdoorGameplay` passa `game_save.topic_masteries(subject)`.
+    Retro-compatibile: senza mappa, comportamento identico a prima.
+  - Audit `topic_mastery_audit.gd`: EMA per-topic, mappa isolata per materia,
+    selezione weakness-first deterministica.
+- Fatto (B — arricchimento contenuti con percorso didattico topic-laddered):
+  esteso `scripts/build-exercise-banks.mjs` (materie autorate), ogni topic con
+  scala di difficoltà 1→4 dove possibile, contenuti concreti e vari:
+  - **scienze** 13→38 (+ topic energia, terra-universo, ambiente; ladder su
+    metodo/materia/viventi/ecosistema/corpo).
+  - **cittadinanza** 10→30 (+ sicurezza, cittadinanza digitale, denaro/economia
+    civica; ladder su regole/diritti-doveri/partecipazione/istituzioni).
+  - **logica** 22→38 (+ topic analogie e deduzioni — inferenze sempre dimostrabili;
+    + Fibonacci, sequenze decrescenti, esclusioni verbali per categoria).
+  - **geografia** 82→102 (+ topic climi, europa, mondo, geografia-umana/strumenti;
+    ladder su fisica/italia).
+  - **fisica** 27→43 e **musica** 15→29: aggiunte domande CONCRETE e quotidiane
+    (misure/moto/forze/energia/calore/onde-luce; note/lettura/ritmo/intervalli/
+    strumenti/timbro/dinamica) oltre alla teoria astratta del catalogo.
+  - Totale gioco: **2021 item** (era ~1910), 0 errori di validazione bake.
+- File: `godot/scripts/game/{save_manager,exercise_player,progression_manager,
+  content_manager,outdoor_gameplay}.gd`, `topic_mastery_audit.gd` (nuovo),
+  `scripts/build-exercise-banks.mjs`, `godot/data/banks/*.json` (rigenerati).
+- Test/export: `node scripts/build-exercise-banks.mjs` verde (validazione 0 errori);
+  nessun id duplicato; scale di difficoltà per topic verificate; `git diff --check`
+  pulito; nessun ternario C-style; tutti i chiamanti build_* verificati. Da eseguire
+  in editor: `topic_mastery_audit.gd` + retro-compatibili c03/c04/adaptive/pace.
+- Limiti o rischi: fisica/musica hanno topic "doppi" (aree teoria + slug concreti,
+  es. "Energia"/"energia-fisica"): la mastery per-topic li tratta separatamente —
+  granularità in più, non un errore. I vocabolari italiano/inglese e i generatori
+  latino/coding/elettronica erano già profondi: non arricchiti in questo giro.
+- Prossimo passo: eventuale unificazione etichette topic fisica/musica, oppure
+  ritorno a C-16 passo 3 (rimozione Phaser guidata dalla matrice).
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · arricchimento latino/coding/elettronica
+- Fatto: le tre materie generate da sorgenti TS avevano uno schema-domanda unico
+  (latino: solo "che caso è"; coding: 20 principi one-shot; elettronica:
+  componenti/guasti). Aggiunto un NUCLEO CURATO per ciascuna, con topic chiari e
+  scala di difficoltà, appeso all'output del generatore (stesso pattern
+  fisica/musica, via `authoredMcItems`):
+  - **latino** 62→80: + basi/storia, funzione dei casi (nominativo→vocativo),
+    declinazioni, vocabolario, verbo `sum`, e una frase tradotta ("Puella rosam
+    amat") che mostra soggetto/oggetto. Ladder completo su `casi`.
+  - **coding** 20→42: + Python concreto — output (`print`, concatenazione),
+    variabili, tipi, operatori (`%`, `**`), condizioni (`if`, `==`), cicli
+    (`range`), liste (indici), funzioni (`def`), booleani, pensiero
+    computazionale (algoritmo, bug).
+  - **elettronica** 34→50: + basi elettricità (corrente/tensione), circuito
+    aperto/chiuso, conduttori/isolanti, serie vs parallelo, sicurezza (prese,
+    acqua), misure (volt/ampere), resistore e polarità del LED.
+  - Totale gioco: **2077 item** (era 2021), 0 errori di validazione bake, nessun
+    id duplicato.
+- File: `scripts/build-exercise-banks.mjs`, `godot/data/banks/{latino,coding,
+  elettronica}-base.json` (rigenerati).
+- Test/export: `node scripts/build-exercise-banks.mjs` verde; `git diff --check`
+  pulito; scale di difficoltà per topic verificate.
+- Limiti o rischi: come per fisica/musica, coding ha topic "doppi" (slug dei semi
+  TS verbosi + slug curati puliti): granularità in più per la mastery per-topic,
+  non un errore. Tutte le 12 materie ora hanno un percorso didattico topic-laddered.
+- Prossimo passo: eventuale unificazione etichette topic (coding/fisica/musica),
+  oppure ritorno a C-16 passo 3.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · unificazione topic + matematica creativa
+- Fatto (A — unificazione etichette topic): eliminati i topic "doppi" nati
+  dall'arricchimento (slug verbosi dei generatori accanto a slug puliti).
+  - `build-exercise-banks.mjs`: mappa `THEORY_TOPIC` (per-id) porta gli item del
+    catalogo-teoria su topic canonici; fisica ora ha **8 topic puliti** (misure,
+    moto, forze, energia, materia, calore, onde-luce, metodo), musica **7**
+    (lettura, ritmo, intervalli, note, strumenti, timbro, dinamica).
+  - `CODING_TOPIC_MAP` normalizza i topic verbosi dei semi Python (es.
+    "stringhe: len()" → "stringhe"): coding ora ha **13 topic puliti**.
+  - Allineati gli slug autorati (energia-fisica→energia, lettura-musicale→lettura).
+  - Banchi rigenerati, validazione 0 errori; la mastery per-topic non frammenta
+    più lo stesso concetto.
+- Fatto (B — matematica creativa, problemi divertenti tarati per livello):
+  valutato il generatore nativo `math_exercise_generator.gd` (fonte runtime reale
+  della matematica; il banco è solo fallback): ricco di calcolo ma povero di
+  problemi narrati/coinvolgenti. Aggiunta una famiglia di **archetipi "a storia"**
+  con personaggi del mondo (scoiattolo Nocciola, robottino BIT, Eli, la piccola
+  Luce, draghetto Ember):
+  - `story_sum`/`story_take` (livello 1+), `story_groups`/`story_share`
+    (complessità 2+), `story_rate`/`story_change` (3+), `story_double` (4+).
+  - Stessa matematica calibrata, ma vestita da piccolo problema concreto e
+    divertente; topic `problemi` (utile alla mastery per-topic). Oggetti tutti
+    femminili plurali per accordo grammaticale corretto con ogni personaggio;
+    helper `_cap` per la maiuscola a inizio frase.
+  - Audit `math_story_audit.gd`: ogni archetipo produce nodo valido e risolvibile
+    (risposta tra le opzioni, 4 opzioni uniche); i problemi compaiono già a
+    livello 1.
+- File: `scripts/build-exercise-banks.mjs`, `godot/data/banks/*.json` (rigenerati),
+  `godot/scripts/game/math_exercise_generator.gd`, `math_story_audit.gd` (nuovo).
+- Test/export: `node scripts/build-exercise-banks.mjs` verde; `git diff --check`
+  pulito; nessun ternario C-style. Da eseguire in editor: `math_story_audit.gd`
+  + retro-compatibili c11 (contenuto matematica) e topic_mastery/adaptive.
+- Limiti o rischi: i problemi a storia usano numeri interi e risposte positive per
+  costruzione; nessun impatto sulla scala di complessità 1→8 esistente (si
+  aggiungono al repertorio, non lo sostituiscono).
+- Prossimo passo: ritorno a C-16 passo 3 (rimozione Phaser guidata dalla matrice),
+  o ulteriore polish didattico su richiesta.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · minigiochi con le competenze
+- Fatto: aggiunti minigiochi interattivi risolti con le competenze delle materie,
+  come nuovi FORMATI data-driven (non un motore separato):
+  - `ExercisePlayer`: due formati interattivi — **`ordering`** (tocca gli elementi
+    nell'ordine giusto) e **`matching`** (abbina le coppie sinistra↔destra), a
+    click, funzionali. Lo scoring è stato rifattorizzato in `_score_current`
+    (punto unico: mastery per-topic, energia, ripasso, progresso) usato da scelta
+    multipla, inserimento e minigiochi → **contratto invariato**. Un errore
+    intermedio nel minigioco costa uno scudo come una risposta sbagliata; risolverlo
+    vale 1 corretto.
+  - `MinigameManager` (nuovo): costruisce sessioni-minigioco per le 12 materie —
+    **matching** curato (inglese parola↔traduzione, geografia stato↔capitale,
+    scienze organo↔funzione, latino caso↔funzione, musica figura↔durata, italiano
+    contrari/categorie, cittadinanza, coding tipi/operatori, elettronica, fisica,
+    matematica) e **ordering** (numerico generato e tarato per matematica/logica;
+    autorato per scienze/geografia/musica/italiano). Difficoltà e n. elementi
+    calibrati sul livello; `pace`/`timed` coerenti col resto.
+  - `OutdoorGameplay.try_start_minigame(payload, id)` (kind `minigame`): stessa
+    pipeline delle missioni — conta per il gate, aggiorna mastery per-topic ed
+    energia (aggiunto `minigame` al ramo di completamento incontro in
+    `resolve_session`). Nessun tocco a missioni/enigmi esistenti → audit intatti.
+  - `minigame_audit.gd` (nuovo): costruzione ben formata su tutte le 12 materie
+    (lati destri univoci, ≥3 elementi), gioco reale via ExercisePlayer
+    (ordinamento e abbinamento risolti → passato con topicStats; errori → scudi →
+    fallimento), e integrazione end-to-end (try_start_minigame → gioco → resolve
+    conta come missione e completa l'incontro).
+- File: `godot/scripts/game/exercise_player.gd`, `minigame_manager.gd` (nuovo),
+  `minigame_audit.gd` (nuovo), `outdoor_gameplay.gd`.
+- Test/export: `git diff --check` pulito; nessun ternario C-style; banchi invariati
+  verdi. Da eseguire in editor: `minigame_audit.gd` + retro-compatibili
+  (topic_mastery/adaptive/pace/enigma/c04).
+- **Handoff per Codex (resa + mondo)**: (1) la resa dei formati `ordering`/`matching`
+  è funzionale ma grezza (pulsanti/colonne): tuo il polish (drag&drop, animazioni,
+  linee di collegamento, feedback) — il contratto dati è `format`, `items`+
+  `correctOrder` (ordering) e `pairs:[{left,right}]` (matching). (2) Un **POI
+  minigioco** nel mondo che chiama `OutdoorGameplay.try_start_minigame(payload, id)`
+  (payload con `subject`), come per gli enigmi: dimmi e aggiungo io la riga di
+  istanziazione lato gameplay quando hai il visual.
+- Limiti o rischi: confronto per testo nei pulsanti → i set curati hanno lati
+  destri univoci (verificato in audit) per evitare ambiguità. La navigazione
+  live nel mondo resta il pezzo di Codex/Insieme.
+- Prossimo passo: resa Codex dei minigiochi + POI, oppure C-16 passo 3.

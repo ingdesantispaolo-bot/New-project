@@ -15,6 +15,10 @@ func _init() -> void:
 	var player: CharacterBody2D = scene.get("player")
 	var gameplay: OutdoorGameplay = scene.get("gameplay")
 	assert(shop != null and portrait != null and feedback_panel != null, "presentazione C-14/C-15 incompleta")
+	# L'audit verifica il wiring acquisto/equip, quindi prepara esplicitamente la
+	# valuta necessaria invece di dipendere dal vecchio default Phaser da 120.
+	gameplay.game_save.data["energy"] = 120
+	gameplay.call("_emit_state")
 	assert(scene.find_child("OpenShopButton", true, false) != null, "pulsante bottega assente")
 	scene.call("_open_shop")
 	await process_frame
@@ -24,6 +28,11 @@ func _init() -> void:
 	await process_frame
 	assert(str(gameplay.runtime_state()["cosmeticsEquipped"].get("bot", "")) == "bot-lime", "equip bot non applicato")
 	assert((portrait.get("_accent") as Color).is_equal_approx(OutdoorVisualFactory.hex_color(0x7cf6a6)), "livrea NORA non aggiornata live")
+	gameplay.game_save.data["energy"] = 600
+	gameplay.call("_emit_state")
+	assert(gameplay.try_purchase_cosmetic("emblem-star"), "acquisto emblema di prova fallito")
+	await process_frame
+	assert(player.find_child("EquippedEmblem", true, false) != null, "emblema equipaggiato non visibile sul player")
 	shop.call("_select_slot", "pet")
 	await process_frame
 	await process_frame

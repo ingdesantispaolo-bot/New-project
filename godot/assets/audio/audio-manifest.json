@@ -1,0 +1,263 @@
+{
+  "version": 1,
+  "generatedBy": "scripts/build-godot-audio-assets.mjs",
+  "buses": [
+    {
+      "name": "Music",
+      "parent": "Master",
+      "defaultVolumeDb": -6
+    },
+    {
+      "name": "Ambience",
+      "parent": "Master",
+      "defaultVolumeDb": -8
+    },
+    {
+      "name": "SFX",
+      "parent": "Master",
+      "defaultVolumeDb": -3
+    },
+    {
+      "name": "UI",
+      "parent": "SFX",
+      "defaultVolumeDb": -2
+    }
+  ],
+  "adaptive": {
+    "day": [
+      "music.day",
+      "ambience.day"
+    ],
+    "night": [
+      "music.night",
+      "ambience.night"
+    ],
+    "focusLayer": "music.focus",
+    "crossfadeSeconds": 2.2
+  },
+  "subjects": {
+    "matematica": "context.math",
+    "italiano": "context.language",
+    "inglese": "context.english",
+    "latino": "context.language",
+    "coding": "context.coding",
+    "elettronica": "context.electronics",
+    "fisica": "context.electronics",
+    "musica": "context.music",
+    "geografia": "context.geography",
+    "scienze": "context.science",
+    "cittadinanza": "context.civics",
+    "logica": "context.logic"
+  },
+  "events": {
+    "sessionStarted": "mission.start",
+    "enigmaProgress": "enigma.step",
+    "answerCorrect": "answer.correct",
+    "answerWrong": "answer.wrong",
+    "hintShown": "hint",
+    "enigmaCompleted": "outcome.complete",
+    "sessionDefeated": "outcome.setback",
+    "noraSpoke": "nora.cue",
+    "portalOpened": "portal.open"
+  },
+  "assets": {
+    "music.day": {
+      "path": "res://assets/audio/music-day.wav",
+      "bus": "Music",
+      "volumeDb": -12,
+      "loop": true,
+      "role": "base"
+    },
+    "music.night": {
+      "path": "res://assets/audio/music-night.wav",
+      "bus": "Music",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "base"
+    },
+    "music.focus": {
+      "path": "res://assets/audio/music-focus.wav",
+      "bus": "Music",
+      "volumeDb": -17,
+      "loop": true,
+      "role": "layer"
+    },
+    "ambience.day": {
+      "path": "res://assets/audio/ambience-day.wav",
+      "bus": "Ambience",
+      "volumeDb": -11,
+      "loop": true
+    },
+    "ambience.night": {
+      "path": "res://assets/audio/ambience-night.wav",
+      "bus": "Ambience",
+      "volumeDb": -12,
+      "loop": true
+    },
+    "ui.select": {
+      "path": "res://assets/audio/ui-select.wav",
+      "bus": "UI",
+      "volumeDb": -8,
+      "polyphony": 3
+    },
+    "ui.confirm": {
+      "path": "res://assets/audio/ui-confirm.wav",
+      "bus": "UI",
+      "volumeDb": -7
+    },
+    "ui.cancel": {
+      "path": "res://assets/audio/ui-cancel.wav",
+      "bus": "UI",
+      "volumeDb": -9
+    },
+    "panel.open": {
+      "path": "res://assets/audio/panel-open.wav",
+      "bus": "UI",
+      "volumeDb": -9
+    },
+    "shop.open": {
+      "path": "res://assets/audio/shop-open.wav",
+      "bus": "UI",
+      "volumeDb": -8
+    },
+    "shop.purchase": {
+      "path": "res://assets/audio/shop-purchase.wav",
+      "bus": "UI",
+      "volumeDb": -6
+    },
+    "shop.equip": {
+      "path": "res://assets/audio/shop-equip.wav",
+      "bus": "UI",
+      "volumeDb": -7
+    },
+    "shop.locked": {
+      "path": "res://assets/audio/shop-locked.wav",
+      "bus": "UI",
+      "volumeDb": -9
+    },
+    "pet.equip": {
+      "path": "res://assets/audio/pet-equip.wav",
+      "bus": "SFX",
+      "volumeDb": -8
+    },
+    "mission.start": {
+      "path": "res://assets/audio/mission-start.wav",
+      "bus": "SFX",
+      "volumeDb": -7
+    },
+    "enigma.step": {
+      "path": "res://assets/audio/enigma-step.wav",
+      "bus": "SFX",
+      "volumeDb": -8,
+      "pitchByStage": [
+        0.92,
+        1,
+        1.08,
+        1.18
+      ]
+    },
+    "answer.correct": {
+      "path": "res://assets/audio/answer-correct.wav",
+      "bus": "SFX",
+      "volumeDb": -7,
+      "cooldownMs": 90
+    },
+    "answer.wrong": {
+      "path": "res://assets/audio/answer-wrong.wav",
+      "bus": "SFX",
+      "volumeDb": -9,
+      "cooldownMs": 90
+    },
+    "hint": {
+      "path": "res://assets/audio/hint.wav",
+      "bus": "SFX",
+      "volumeDb": -8
+    },
+    "scan": {
+      "path": "res://assets/audio/scan.wav",
+      "bus": "SFX",
+      "volumeDb": -10
+    },
+    "portal.open": {
+      "path": "res://assets/audio/portal-open.wav",
+      "bus": "SFX",
+      "volumeDb": -6
+    },
+    "footstep": {
+      "path": "res://assets/audio/footstep.wav",
+      "bus": "SFX",
+      "volumeDb": -15,
+      "polyphony": 2
+    },
+    "circuit.on": {
+      "path": "res://assets/audio/circuit-on.wav",
+      "bus": "SFX",
+      "volumeDb": -7
+    },
+    "nora.cue": {
+      "path": "res://assets/audio/nora-cue.wav",
+      "bus": "SFX",
+      "volumeDb": -10
+    },
+    "outcome.complete": {
+      "path": "res://assets/audio/completion-stinger.wav",
+      "bus": "SFX",
+      "volumeDb": -4
+    },
+    "outcome.setback": {
+      "path": "res://assets/audio/setback-stinger.wav",
+      "bus": "SFX",
+      "volumeDb": -7
+    },
+    "context.math": {
+      "path": "res://assets/audio/context-math.wav",
+      "bus": "SFX",
+      "volumeDb": -9
+    },
+    "context.language": {
+      "path": "res://assets/audio/context-language.wav",
+      "bus": "SFX",
+      "volumeDb": -9
+    },
+    "context.english": {
+      "path": "res://assets/audio/context-english.wav",
+      "bus": "SFX",
+      "volumeDb": -9
+    },
+    "context.electronics": {
+      "path": "res://assets/audio/context-electronics.wav",
+      "bus": "SFX",
+      "volumeDb": -8
+    },
+    "context.coding": {
+      "path": "res://assets/audio/context-coding.wav",
+      "bus": "SFX",
+      "volumeDb": -9
+    },
+    "context.music": {
+      "path": "res://assets/audio/context-music.wav",
+      "bus": "SFX",
+      "volumeDb": -8
+    },
+    "context.geography": {
+      "path": "res://assets/audio/context-geography.wav",
+      "bus": "SFX",
+      "volumeDb": -8
+    },
+    "context.science": {
+      "path": "res://assets/audio/context-science.wav",
+      "bus": "SFX",
+      "volumeDb": -8
+    },
+    "context.civics": {
+      "path": "res://assets/audio/context-civics.wav",
+      "bus": "SFX",
+      "volumeDb": -8
+    },
+    "context.logic": {
+      "path": "res://assets/audio/context-logic.wav",
+      "bus": "SFX",
+      "volumeDb": -8
+    }
+  }
+}

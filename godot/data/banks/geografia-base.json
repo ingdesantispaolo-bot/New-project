@@ -1175,17 +1175,17 @@
 			"id": "geografia-geografia-fisica-73",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Qual è l'oceano più grande della Terra?",
+			"prompt": "Come si chiama la linea immaginaria che divide la Terra in due metà uguali?",
 			"options": [
-				"Oceano Indiano",
-				"Oceano Atlantico",
-				"Oceano Artico",
-				"Oceano Pacifico"
+				"Tropico",
+				"Meridiano",
+				"Polo",
+				"Equatore"
 			],
-			"answer": "Oceano Pacifico",
-			"explanation": "Il Pacifico è il più esteso e profondo degli oceani."
+			"answer": "Equatore",
+			"explanation": "L'Equatore divide la Terra in emisfero nord e sud."
 		},
 		{
 			"id": "geografia-geografia-fisica-74",
@@ -1193,31 +1193,31 @@
 			"topic": "geografia-fisica",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Qual è la montagna più alta della Terra?",
+			"prompt": "Qual è l'oceano più grande della Terra?",
 			"options": [
-				"Monte Bianco",
-				"Everest",
-				"Aconcagua",
-				"Kilimangiaro"
+				"Oceano Atlantico",
+				"Oceano Pacifico",
+				"Oceano Artico",
+				"Oceano Indiano"
 			],
-			"answer": "Everest",
-			"explanation": "L'Everest, in Asia, supera gli 8800 metri."
+			"answer": "Oceano Pacifico",
+			"explanation": "Il Pacifico è il più esteso e profondo degli oceani."
 		},
 		{
 			"id": "geografia-geografia-fisica-75",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "In quale continente scorre il Rio delle Amazzoni?",
+			"prompt": "Qual è la montagna più alta della Terra?",
 			"options": [
-				"Asia",
-				"America del Sud",
-				"America del Nord",
-				"Africa"
+				"Kilimangiaro",
+				"Everest",
+				"Aconcagua",
+				"Monte Bianco"
 			],
-			"answer": "America del Sud",
-			"explanation": "L'Amazzonia e il suo fiume si trovano in America del Sud."
+			"answer": "Everest",
+			"explanation": "L'Everest, in Asia, supera gli 8800 metri."
 		},
 		{
 			"id": "geografia-geografia-fisica-76",
@@ -1236,39 +1236,103 @@
 			"explanation": "Europa, Asia, Africa, America del Nord, America del Sud, Oceania e Antartide."
 		},
 		{
-			"id": "geografia-geografia-italia-77",
+			"id": "geografia-geografia-fisica-77",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale continente scorre il Rio delle Amazzoni?",
+			"options": [
+				"America del Nord",
+				"America del Sud",
+				"Africa",
+				"Asia"
+			],
+			"answer": "America del Sud",
+			"explanation": "L'Amazzonia e il suo fiume si trovano in America del Sud."
+		},
+		{
+			"id": "geografia-geografia-fisica-78",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiamano le grandi masse di ghiaccio che scivolano lentamente verso valle?",
+			"options": [
+				"Cascate",
+				"Sorgenti",
+				"Ghiacciai",
+				"Iceberg"
+			],
+			"answer": "Ghiacciai",
+			"explanation": "I ghiacciai sono fiumi di ghiaccio che scendono dai monti; gli iceberg galleggiano nel mare."
+		},
+		{
+			"id": "geografia-geografia-fisica-79",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il punto più profondo degli oceani, nel Pacifico?",
+			"options": [
+				"Fossa di Giava",
+				"Golfo del Bengala",
+				"Fossa delle Marianne",
+				"Mar dei Sargassi"
+			],
+			"answer": "Fossa delle Marianne",
+			"explanation": "La Fossa delle Marianne supera gli 11 000 metri di profondità."
+		},
+		{
+			"id": "geografia-geografia-italia-80",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la capitale d'Italia?",
+			"options": [
+				"Napoli",
+				"Roma",
+				"Torino",
+				"Milano"
+			],
+			"answer": "Roma",
+			"explanation": "Roma è la capitale della Repubblica Italiana."
+		},
+		{
+			"id": "geografia-geografia-italia-81",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Qual è il fiume più lungo d'Italia?",
 			"options": [
-				"Adige",
 				"Po",
+				"Arno",
 				"Tevere",
-				"Arno"
+				"Adige"
 			],
 			"answer": "Po",
 			"explanation": "Il Po, che attraversa la Pianura Padana, è il fiume più lungo d'Italia."
 		},
 		{
-			"id": "geografia-geografia-italia-78",
+			"id": "geografia-geografia-italia-82",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quali sono le due isole più grandi d'Italia?",
 			"options": [
+				"Sicilia ed Elba",
 				"Sardegna e Capri",
 				"Elba e Ischia",
-				"Sicilia e Sardegna",
-				"Sicilia ed Elba"
+				"Sicilia e Sardegna"
 			],
 			"answer": "Sicilia e Sardegna",
 			"explanation": "Sicilia e Sardegna sono le due isole maggiori italiane."
 		},
 		{
-			"id": "geografia-geografia-italia-79",
+			"id": "geografia-geografia-italia-83",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 2,
@@ -1276,44 +1340,300 @@
 			"prompt": "Qual è il vulcano attivo più grande d'Europa, in Sicilia?",
 			"options": [
 				"Vulcano",
-				"Stromboli",
 				"Etna",
+				"Stromboli",
 				"Vesuvio"
 			],
 			"answer": "Etna",
 			"explanation": "L'Etna, in Sicilia, è il maggiore vulcano attivo europeo."
 		},
 		{
-			"id": "geografia-geografia-italia-80",
+			"id": "geografia-geografia-italia-84",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è il lago più grande d'Italia?",
+			"options": [
+				"Lago di Garda",
+				"Lago di Como",
+				"Lago Trasimeno",
+				"Lago Maggiore"
+			],
+			"answer": "Lago di Garda",
+			"explanation": "Il Lago di Garda è il maggiore lago italiano per superficie."
+		},
+		{
+			"id": "geografia-geografia-italia-85",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale catena montuosa percorre l'Italia da nord a sud?",
 			"options": [
-				"Pirenei",
-				"Appennini",
 				"Dolomiti",
-				"Alpi"
+				"Alpi",
+				"Appennini",
+				"Pirenei"
 			],
 			"answer": "Appennini",
 			"explanation": "Gli Appennini attraversano la penisola; le Alpi chiudono l'Italia a nord."
 		},
 		{
-			"id": "geografia-geografia-italia-81",
+			"id": "geografia-geografia-italia-86",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale mare bagna la costa orientale dell'Italia?",
 			"options": [
-				"Mar Adriatico",
+				"Mar Ligure",
 				"Mar Ionio",
 				"Mar Tirreno",
-				"Mar Ligure"
+				"Mar Adriatico"
 			],
 			"answer": "Mar Adriatico",
 			"explanation": "L'Adriatico è a est, tra Italia e penisola balcanica."
+		},
+		{
+			"id": "geografia-geografia-italia-87",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale regione italiana ha la maggiore superficie?",
+			"options": [
+				"Piemonte",
+				"Sardegna",
+				"Lombardia",
+				"Sicilia"
+			],
+			"answer": "Sicilia",
+			"explanation": "La Sicilia è la regione italiana più estesa, seguita dal Piemonte."
+		},
+		{
+			"id": "geografia-climi-88",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale zona della Terra fa caldo tutto l'anno?",
+			"options": [
+				"In cima alle montagne",
+				"Vicino ai Poli",
+				"Nelle grotte",
+				"Vicino all'Equatore"
+			],
+			"answer": "Vicino all'Equatore",
+			"explanation": "Vicino all'Equatore i raggi del Sole arrivano più diretti e riscaldano di più."
+		},
+		{
+			"id": "geografia-climi-89",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?",
+			"options": [
+				"Clima mediterraneo",
+				"Clima equatoriale",
+				"Clima polare",
+				"Clima desertico"
+			],
+			"answer": "Clima mediterraneo",
+			"explanation": "Il clima mediterraneo ha estati asciutte e inverni miti e piovosi."
+		},
+		{
+			"id": "geografia-climi-90",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Salendo in montagna, la temperatura di solito…",
+			"options": [
+				"Raddoppia",
+				"Diminuisce",
+				"Aumenta",
+				"Resta uguale"
+			],
+			"answer": "Diminuisce",
+			"explanation": "Più si sale in quota, più l'aria è fredda."
+		},
+		{
+			"id": "geografia-climi-91",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la grande foresta calda e piovosa vicino all'Equatore?",
+			"options": [
+				"Taiga",
+				"Foresta pluviale",
+				"Tundra",
+				"Savana"
+			],
+			"answer": "Foresta pluviale",
+			"explanation": "La foresta pluviale è calda e umida tutto l'anno; la tundra invece è fredda."
+		},
+		{
+			"id": "geografia-europa-92",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In quale continente si trova l'Italia?",
+			"options": [
+				"Africa",
+				"Asia",
+				"Europa",
+				"America"
+			],
+			"answer": "Europa",
+			"explanation": "L'Italia è uno Stato dell'Europa meridionale."
+		},
+		{
+			"id": "geografia-europa-93",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale fiume attraversa la città di Parigi?",
+			"options": [
+				"Senna",
+				"Danubio",
+				"Reno",
+				"Tamigi"
+			],
+			"answer": "Senna",
+			"explanation": "La Senna attraversa Parigi; il Tamigi passa per Londra."
+		},
+		{
+			"id": "geografia-europa-94",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale catena di monti segna il confine tra Europa e Asia?",
+			"options": [
+				"Alpi",
+				"Pirenei",
+				"Monti Urali",
+				"Carpazi"
+			],
+			"answer": "Monti Urali",
+			"explanation": "Gli Urali, in Russia, dividono convenzionalmente Europa e Asia."
+		},
+		{
+			"id": "geografia-europa-95",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama l'unione economica e politica di molti Stati europei?",
+			"options": [
+				"Nazioni Unite",
+				"Commonwealth",
+				"NATO",
+				"Unione Europea"
+			],
+			"answer": "Unione Europea",
+			"explanation": "L'Unione Europea riunisce numerosi Stati del continente."
+		},
+		{
+			"id": "geografia-mondo-96",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è il Paese più grande del mondo per superficie?",
+			"options": [
+				"Stati Uniti",
+				"Russia",
+				"Cina",
+				"Canada"
+			],
+			"answer": "Russia",
+			"explanation": "La Russia è lo Stato più esteso, tra Europa e Asia."
+		},
+		{
+			"id": "geografia-mondo-97",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è oggi il Paese più popoloso del mondo?",
+			"options": [
+				"Stati Uniti",
+				"Cina",
+				"India",
+				"Indonesia"
+			],
+			"answer": "India",
+			"explanation": "L'India ha superato la Cina come Paese con più abitanti."
+		},
+		{
+			"id": "geografia-mondo-98",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?",
+			"options": [
+				"Canale di Panama",
+				"Stretto di Gibilterra",
+				"Canale della Manica",
+				"Canale di Suez"
+			],
+			"answer": "Canale di Suez",
+			"explanation": "Il Canale di Suez, in Egitto, collega Mediterraneo e Mar Rosso."
+		},
+		{
+			"id": "geografia-geografia-umana-99",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Da quale punto cardinale sorge il Sole?",
+			"options": [
+				"Ovest",
+				"Nord",
+				"Sud",
+				"Est"
+			],
+			"answer": "Est",
+			"explanation": "Il Sole sorge a est e tramonta a ovest."
+		},
+		{
+			"id": "geografia-geografia-umana-100",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la rappresentazione ridotta della Terra disegnata su un foglio?",
+			"options": [
+				"Diario",
+				"Fotografia",
+				"Calendario",
+				"Carta geografica"
+			],
+			"answer": "Carta geografica",
+			"explanation": "La carta geografica riduce la realtà mantenendo le proporzioni."
+		},
+		{
+			"id": "geografia-geografia-umana-101",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Su una carta geografica, che cosa indica la scala?",
+			"options": [
+				"La temperatura",
+				"Di quanto è stata ridotta la realtà",
+				"Il nome delle vie",
+				"Il colore del mare"
+			],
+			"answer": "Di quanto è stata ridotta la realtà",
+			"explanation": "La scala dice quante volte le distanze reali sono state rimpicciolite."
 		}
 	]
 }

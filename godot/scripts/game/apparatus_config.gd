@@ -19,10 +19,17 @@ const SUBJECT_APPARATUS := {
 	"musica": "motore-risonanza",
 	"latino": "sala-glifi",
 	"elettronica": "reattore",
+	"geografia": "ponte-comando",
+	"scienze": "serra-bio",
+	"cittadinanza": "serra-bio",
+	"logica": "cratere-logico",
 }
 
 # Ordine di rotazione delle materie lungo la scala.
-const SUBJECT_CYCLE := ["matematica", "italiano", "coding", "inglese", "fisica", "musica"]
+const SUBJECT_CYCLE := [
+	"matematica", "italiano", "coding", "inglese", "fisica", "musica",
+	"latino", "elettronica", "geografia", "scienze", "cittadinanza", "logica",
+]
 
 # Gate del livello: {level, subject, apparatus, missionsRequired, masteryThreshold}.
 static func level_gate(level: int) -> Dictionary:

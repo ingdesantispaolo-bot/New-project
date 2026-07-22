@@ -1,8 +1,8 @@
 extends SceneTree
 
-## Headless smoke test for the Godot side of the bridge:
+## Headless smoke test del loop nativo Godot:
 ## spawn world -> collect treasure -> start native mission -> complete it.
-## The encounter must no longer emit pendingEncounter or redirect to Phaser.
+## L'incontro resta nella scena e non effettua redirect a runtime esterni.
 
 func _init() -> void:
 	call_deferred("_run")
@@ -14,6 +14,9 @@ func _run() -> void:
 	var chunks: Dictionary = scene.get("chunks").get("loaded")
 	var origin: Dictionary = chunks["chunk-0_0"]["data"]
 	var player: Node = scene.get("player")
+	# C-16: il profilo Godot-root nasce con 0 energia. Il primo esercizio deve
+	# comunque aprirsi come ingresso di recupero, senza costo fantasma.
+	scene.get("game_save").data["energy"] = 0
 
 	var treasure: Dictionary = origin["treasures"][0]
 	var treasure_area := _find_area(scene, "treasure", str(treasure["id"]))
@@ -39,7 +42,7 @@ func _run() -> void:
 	assert(ContentManager.BANKS.has(mission_subject), "l'incontro deve instradare una materia disponibile")
 	var subject_missions_before := int(scene.get("game_save").missions_of(mission_subject))
 	var pending_result: Dictionary = scene.get("result")
-	assert(int(pending_result["energySpent"]) == 3)
+	assert(int(pending_result["energySpent"]) == 0, "ingresso di recupero gratuito a energia zero")
 	scene.call("_on_exercise_finished", {
 		"kind": "mission", "subject": mission_subject, "correct": 3,
 		"total": 3, "passed": true, "energyGained": 60,

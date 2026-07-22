@@ -1,0 +1,994 @@
+{
+  "generatedAt": "2026-07-22T16:38:48.377Z",
+  "legacyVisualCount": 140,
+  "godotVisualCount": 43,
+  "counts": {
+    "replace-optimized": 7,
+    "replaced-by-native-world": 25,
+    "retain-story-source": 49,
+    "reuse-native": 8,
+    "review": 51
+  },
+  "assets": [
+    {
+      "legacyPath": "src/assets/images/academy-action-room-bg.png",
+      "bytes": 3834321,
+      "status": "replace-optimized",
+      "nativePath": "godot/assets/ship/academy-action-room-bg.webp",
+      "note": "Master PNG sostituito nel runtime dal WebP ottimizzato equivalente."
+    },
+    {
+      "legacyPath": "src/assets/images/academy-action-room-bg.webp",
+      "bytes": 320512,
+      "status": "reuse-native",
+      "nativePath": "godot/assets/ship/academy-action-room-bg.webp",
+      "note": "Asset presente nel runtime Godot."
+    },
+    {
+      "legacyPath": "src/assets/images/academy-home-bg.webp",
+      "bytes": 150260,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/academy-painted-bg.avif",
+      "bytes": 70447,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/academy-painted-bg.png",
+      "bytes": 2296219,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/academy-painted-bg.webp",
+      "bytes": 113200,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/archive-painted-bg.avif",
+      "bytes": 84560,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/archive-painted-bg.png",
+      "bytes": 2342833,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/archive-painted-bg.webp",
+      "bytes": 132380,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/area-bio-ponte-primi.png",
+      "bytes": 5498619,
+      "status": "replace-optimized",
+      "nativePath": "godot/assets/ship/area-bio-ponte-primi.webp",
+      "note": "Master PNG sostituito nel runtime dal WebP ottimizzato equivalente."
+    },
+    {
+      "legacyPath": "src/assets/images/area-bio-ponte-primi.webp",
+      "bytes": 218030,
+      "status": "reuse-native",
+      "nativePath": "godot/assets/ship/area-bio-ponte-primi.webp",
+      "note": "Asset presente nel runtime Godot."
+    },
+    {
+      "legacyPath": "src/assets/images/area-data-core-primi.png",
+      "bytes": 5542545,
+      "status": "replace-optimized",
+      "nativePath": "godot/assets/ship/area-data-core-primi.webp",
+      "note": "Master PNG sostituito nel runtime dal WebP ottimizzato equivalente."
+    },
+    {
+      "legacyPath": "src/assets/images/area-data-core-primi.webp",
+      "bytes": 234786,
+      "status": "reuse-native",
+      "nativePath": "godot/assets/ship/area-data-core-primi.webp",
+      "note": "Asset presente nel runtime Godot."
+    },
+    {
+      "legacyPath": "src/assets/images/area-motore-risonanza-primi.png",
+      "bytes": 5523182,
+      "status": "replace-optimized",
+      "nativePath": "godot/assets/ship/area-motore-risonanza-primi.webp",
+      "note": "Master PNG sostituito nel runtime dal WebP ottimizzato equivalente."
+    },
+    {
+      "legacyPath": "src/assets/images/area-motore-risonanza-primi.webp",
+      "bytes": 216378,
+      "status": "reuse-native",
+      "nativePath": "godot/assets/ship/area-motore-risonanza-primi.webp",
+      "note": "Asset presente nel runtime Godot."
+    },
+    {
+      "legacyPath": "src/assets/images/area-ponte-comando-primi.png",
+      "bytes": 5316515,
+      "status": "replace-optimized",
+      "nativePath": "godot/assets/ship/area-ponte-comando-primi.webp",
+      "note": "Master PNG sostituito nel runtime dal WebP ottimizzato equivalente."
+    },
+    {
+      "legacyPath": "src/assets/images/area-ponte-comando-primi.webp",
+      "bytes": 194812,
+      "status": "reuse-native",
+      "nativePath": "godot/assets/ship/area-ponte-comando-primi.webp",
+      "note": "Asset presente nel runtime Godot."
+    },
+    {
+      "legacyPath": "src/assets/images/area-reattore-primi.png",
+      "bytes": 4688469,
+      "status": "replace-optimized",
+      "nativePath": "godot/assets/ship/area-reattore-primi.webp",
+      "note": "Master PNG sostituito nel runtime dal WebP ottimizzato equivalente."
+    },
+    {
+      "legacyPath": "src/assets/images/area-reattore-primi.webp",
+      "bytes": 158998,
+      "status": "reuse-native",
+      "nativePath": "godot/assets/ship/area-reattore-primi.webp",
+      "note": "Asset presente nel runtime Godot."
+    },
+    {
+      "legacyPath": "src/assets/images/area-sala-glifi-primi.png",
+      "bytes": 4927023,
+      "status": "replace-optimized",
+      "nativePath": "godot/assets/ship/area-sala-glifi-primi.webp",
+      "note": "Master PNG sostituito nel runtime dal WebP ottimizzato equivalente."
+    },
+    {
+      "legacyPath": "src/assets/images/area-sala-glifi-primi.webp",
+      "bytes": 206934,
+      "status": "reuse-native",
+      "nativePath": "godot/assets/ship/area-sala-glifi-primi.webp",
+      "note": "Asset presente nel runtime Godot."
+    },
+    {
+      "legacyPath": "src/assets/images/console-archive.avif",
+      "bytes": 2634,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-archive.png",
+      "bytes": 64324,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-archive.webp",
+      "bytes": 7226,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-factory.avif",
+      "bytes": 3436,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-factory.png",
+      "bytes": 64545,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-factory.webp",
+      "bytes": 8456,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-greenhouse.avif",
+      "bytes": 2933,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-greenhouse.png",
+      "bytes": 67041,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-greenhouse.webp",
+      "bytes": 7772,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-lab.avif",
+      "bytes": 3149,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-lab.png",
+      "bytes": 64605,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/console-lab.webp",
+      "bytes": 7938,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/factory-painted-bg.avif",
+      "bytes": 85464,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/factory-painted-bg.png",
+      "bytes": 2302115,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/factory-painted-bg.webp",
+      "bytes": 132698,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/greenhouse-painted-bg.avif",
+      "bytes": 123689,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/greenhouse-painted-bg.png",
+      "bytes": 2661456,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/greenhouse-painted-bg.webp",
+      "bytes": 176510,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/lab-painted-bg.avif",
+      "bytes": 50284,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/lab-painted-bg.png",
+      "bytes": 2151995,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/lab-painted-bg.webp",
+      "bytes": 88846,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/logic-gym-firewall-bg.png",
+      "bytes": 2109822,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/logic-gym-firewall-bg.webp",
+      "bytes": 104646,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/logic-gym-hub-bg.webp",
+      "bytes": 133060,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-atlas-bg.webp",
+      "bytes": 164048,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-coding-bg.webp",
+      "bytes": 77030,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-coding-robot-bg.webp",
+      "bytes": 35006,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-coding-terminal-bg.webp",
+      "bytes": 32382,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-electronics-bench-bg.webp",
+      "bytes": 44806,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-electronics-bg.webp",
+      "bytes": 113088,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-electronics-power-bg.webp",
+      "bytes": 50288,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-english-bg.webp",
+      "bytes": 92176,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-english-control-bg.webp",
+      "bytes": 38968,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-english-radio-bg.webp",
+      "bytes": 43280,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-italian-archive-bg.webp",
+      "bytes": 41208,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-italian-bg.webp",
+      "bytes": 98208,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-italian-library-bg.webp",
+      "bytes": 41808,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-math-bg.webp",
+      "bytes": 143488,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-math-factory-bg.webp",
+      "bytes": 65190,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-math-grid-bg.webp",
+      "bytes": 68010,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-music-audio-bg.webp",
+      "bytes": 63018,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-music-bg.webp",
+      "bytes": 142184,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-music-staff-bg.webp",
+      "bytes": 62372,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/mission-synthesis-bg.webp",
+      "bytes": 149626,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/nora-room-bg.webp",
+      "bytes": 95232,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/outcomes/outcome-defeat.webp",
+      "bytes": 110410,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/outcomes/outcome-devastating-defeat.webp",
+      "bytes": 93298,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/outcomes/outcome-grand-victory.webp",
+      "bytes": 173984,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/outcomes/outcome-light-victory.webp",
+      "bytes": 100974,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/outcomes/outcome-neutral.webp",
+      "bytes": 142762,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-archivio-biblioteca-dock-overlay-preview.png",
+      "bytes": 41927,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-archivio-biblioteca-preview.png",
+      "bytes": 1093101,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-cantiere-circuiti-dock-overlay-preview.png",
+      "bytes": 42255,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-cantiere-circuiti-preview.png",
+      "bytes": 1071931,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-osservatorio-dock-overlay-preview.png",
+      "bytes": 41484,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-osservatorio-preview.png",
+      "bytes": 1143236,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-sala-musica-dock-overlay-preview.png",
+      "bytes": 40902,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-sala-musica-preview.png",
+      "bytes": 1127204,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-serra-bio-dock-overlay-preview.png",
+      "bytes": 42604,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/area-serra-bio-preview.png",
+      "bytes": 1140040,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/areas-02-05-contact-sheet.png",
+      "bytes": 1145660,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/previews/areas-02-05-docked-contact-sheet.png",
+      "bytes": 1141066,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/progressive-scalata-bg.webp",
+      "bytes": 124408,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/props/primi-prop-bio-capsula.png",
+      "bytes": 15354,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/props/primi-prop-comando-mappa.png",
+      "bytes": 19959,
+      "status": "replaced-by-native-world",
+      "nativePath": null,
+      "note": "Coperto dalla composizione outdoor, dagli atlanti o dagli enigmi nativi Godot; non copiare automaticamente."
+    },
+    {
+      "legacyPath": "src/assets/images/props/primi-prop-data-cristallo.png",
+      "bytes": 12159,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/props/primi-prop-glifi-tavola.png",
+      "bytes": 10164,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/props/primi-prop-reattore-condotto.png",
+      "bytes": 8615,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/props/primi-prop-risonanza-anello.png",
+      "bytes": 16398,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/reward-shop-bg-source.png",
+      "bytes": 2199514,
+      "status": "review",
+      "nativePath": null,
+      "note": "Non referenziato dal runtime Godot; valutazione artistica ancora necessaria."
+    },
+    {
+      "legacyPath": "src/assets/images/reward-shop-bg.webp",
+      "bytes": 124842,
+      "status": "reuse-native",
+      "nativePath": "godot/assets/shop/reward-shop-bg.webp",
+      "note": "Asset presente nel runtime Godot."
+    },
+    {
+      "legacyPath": "src/assets/images/story-academy-hub-bg.webp",
+      "bytes": 74774,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-archive-memory-bg.webp",
+      "bytes": 104968,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-01-intro.webp",
+      "bytes": 37492,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-01-outro.webp",
+      "bytes": 67412,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-02-intro.webp",
+      "bytes": 73130,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-02-outro.webp",
+      "bytes": 76632,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-03-intro.webp",
+      "bytes": 85964,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-03-outro.webp",
+      "bytes": 98670,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-04-intro.webp",
+      "bytes": 72506,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-04-outro.webp",
+      "bytes": 74646,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-05-intro.webp",
+      "bytes": 108646,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-05-outro.webp",
+      "bytes": 137372,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-06-intro.webp",
+      "bytes": 132132,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-chapter-06-outro.webp",
+      "bytes": 200454,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-clue-archive-record.webp",
+      "bytes": 172818,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-clue-blackout-signal.webp",
+      "bytes": 146060,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-clue-sabotage-route.webp",
+      "bytes": 165306,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-greenhouse-recovery-bg.webp",
+      "bytes": 116296,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-lab-blackout-bg.webp",
+      "bytes": 73812,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-nora-core-awakening.webp",
+      "bytes": 166432,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-nora-core-dormant.webp",
+      "bytes": 87914,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-nora-core-guardian.webp",
+      "bytes": 245496,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-nora-core-memory.webp",
+      "bytes": 200276,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-nora-core-restored.webp",
+      "bytes": 239878,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-number-factory-bg.webp",
+      "bytes": 117358,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-phase-00-blackout-bg.webp",
+      "bytes": 30358,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-phase-01-energy-bg.webp",
+      "bytes": 63498,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-phase-02-life-bg.webp",
+      "bytes": 85862,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-phase-03-production-bg.webp",
+      "bytes": 93306,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-phase-04-restored-bg.webp",
+      "bytes": 134384,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-phase-05-signal-bg.webp",
+      "bytes": 172766,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-phase-06-city-restored-bg.webp",
+      "bytes": 264164,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-diario-bordo.png",
+      "bytes": 3891445,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-diario-bordo.webp",
+      "bytes": 90562,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-finale-accesa.png",
+      "bytes": 5681364,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-finale-accesa.webp",
+      "bytes": 252278,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-finale-dormiente.png",
+      "bytes": 3938765,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-finale-dormiente.webp",
+      "bytes": 81004,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-finale-eli.png",
+      "bytes": 5066654,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-finale-eli.webp",
+      "bytes": 173118,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-guardiano-alleato.png",
+      "bytes": 5765742,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-guardiano-alleato.webp",
+      "bytes": 207240,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-guardiano-broken.png",
+      "bytes": 5156886,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-guardiano-broken.webp",
+      "bytes": 172614,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-relitto.png",
+      "bytes": 4338962,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-primi-relitto.webp",
+      "bytes": 127250,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-transition-explore.webp",
+      "bytes": 153500,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    },
+    {
+      "legacyPath": "src/assets/images/story-transition-trial.webp",
+      "bytes": 195790,
+      "status": "retain-story-source",
+      "nativePath": null,
+      "note": "Conservare come sorgente narrativa finché cutscene/dialoghi nativi non ne dichiarano la copertura."
+    }
+  ]
+}

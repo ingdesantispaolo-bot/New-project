@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"subject": "logica",
-	"generator": "logica-generated-v1",
+	"generator": "logica-generated-v2",
 	"items": [
 		{
 			"id": "logica-arit-2-2",
@@ -354,6 +354,262 @@
 			],
 			"answer": "25",
 			"explanation": "25 non è un multiplo di 10; gli altri sì."
+		},
+		{
+			"id": "logica-dec-20-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 20, 17, 14, 11, ?",
+			"options": [
+				"8",
+				"7",
+				"10",
+				"9"
+			],
+			"answer": "8",
+			"explanation": "Si toglie 3 ogni volta: 11 − 3 = 8."
+		},
+		{
+			"id": "logica-fib",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 1, 1, 2, 3, ?",
+			"options": [
+				"7",
+				"6",
+				"5",
+				"4"
+			],
+			"answer": "5",
+			"explanation": "Ogni numero è la somma dei due precedenti: 2 + 3 = 5."
+		},
+		{
+			"id": "logica-wodd-mela",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola non appartiene al gruppo: cane, mela, gatto, cavallo?",
+			"options": [
+				"cane",
+				"gatto",
+				"mela",
+				"cavallo"
+			],
+			"answer": "mela",
+			"explanation": "La mela è un frutto; gli altri sono animali."
+		},
+		{
+			"id": "logica-wodd-quercia",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola non appartiene al gruppo: rosa, tulipano, quercia, margherita?",
+			"options": [
+				"margherita",
+				"rosa",
+				"quercia",
+				"tulipano"
+			],
+			"answer": "quercia",
+			"explanation": "La quercia è un albero; gli altri sono fiori."
+		},
+		{
+			"id": "logica-wodd-tavolo",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola non appartiene al gruppo: rosso, verde, tavolo, blu?",
+			"options": [
+				"rosso",
+				"blu",
+				"tavolo",
+				"verde"
+			],
+			"answer": "tavolo",
+			"explanation": "Il tavolo non è un colore."
+		},
+		{
+			"id": "logica-wodd-marzo",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola non appartiene al gruppo: lunedì, marzo, giovedì, domenica?",
+			"options": [
+				"marzo",
+				"domenica",
+				"lunedì",
+				"giovedì"
+			],
+			"answer": "marzo",
+			"explanation": "Marzo è un mese; gli altri sono giorni della settimana."
+		},
+		{
+			"id": "logica-analogia-basso",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Grande sta a piccolo come alto sta a…?",
+			"options": [
+				"veloce",
+				"lungo",
+				"basso",
+				"largo"
+			],
+			"answer": "basso",
+			"explanation": "Sono coppie di contrari: grande/piccolo, alto/basso."
+		},
+		{
+			"id": "logica-analogia-gattino",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cane sta a cucciolo come gatto sta a…?",
+			"options": [
+				"gattino",
+				"agnello",
+				"cavallo",
+				"pulcino"
+			],
+			"answer": "gattino",
+			"explanation": "Il piccolo del gatto è il gattino."
+		},
+		{
+			"id": "logica-analogia-scarpa",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Mano sta a guanto come piede sta a…?",
+			"options": [
+				"scarpa",
+				"cintura",
+				"sciarpa",
+				"cappello"
+			],
+			"answer": "scarpa",
+			"explanation": "Il guanto veste la mano, la scarpa il piede."
+		},
+		{
+			"id": "logica-analogia-Luna",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Giorno sta a Sole come notte sta a…?",
+			"options": [
+				"lampada",
+				"stella cadente",
+				"Luna",
+				"buio totale"
+			],
+			"answer": "Luna",
+			"explanation": "Di giorno splende il Sole, di notte la Luna."
+		},
+		{
+			"id": "logica-analogia-ascoltare",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Libro sta a leggere come musica sta a…?",
+			"options": [
+				"annusare",
+				"scrivere",
+				"guardare",
+				"ascoltare"
+			],
+			"answer": "ascoltare",
+			"explanation": "Un libro si legge, la musica si ascolta."
+		},
+		{
+			"id": "logica-deduzione-58-ha la coda",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…",
+			"options": [
+				"non ha la coda",
+				"forse ha la coda",
+				"ha la coda",
+				"è un cane"
+			],
+			"answer": "ha la coda",
+			"explanation": "Se vale per tutti i gatti e Fufi è un gatto, vale anche per Fufi."
+		},
+		{
+			"id": "logica-deduzione-48-non vola",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nessun pesce vola. Nemo è un pesce. Quindi Nemo…",
+			"options": [
+				"forse vola",
+				"vola",
+				"non vola",
+				"è un uccello"
+			],
+			"answer": "non vola",
+			"explanation": "Se nessun pesce vola e Nemo è un pesce, allora Nemo non vola."
+		},
+		{
+			"id": "logica-deduzione-68-non sta piovendo",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…",
+			"options": [
+				"non sta piovendo",
+				"sta piovendo",
+				"ha perso l'ombrello",
+				"fa molto caldo"
+			],
+			"answer": "non sta piovendo",
+			"explanation": "Se piovesse avrebbe l'ombrello; non ce l'ha, quindi non piove."
+		},
+		{
+			"id": "logica-deduzione-69-Ugo",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?",
+			"options": [
+				"Sono uguali",
+				"Ugo",
+				"Sara",
+				"Marco"
+			],
+			"answer": "Ugo",
+			"explanation": "Marco > Sara > Ugo: il più basso è Ugo."
+		},
+		{
+			"id": "logica-deduzione-86-blu",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…",
+			"options": [
+				"blu",
+				"non si può sapere",
+				"verde",
+				"rossa"
+			],
+			"answer": "blu",
+			"explanation": "Ci sono solo rosse e blu: se non è rossa, per forza è blu."
 		}
 	]
 }

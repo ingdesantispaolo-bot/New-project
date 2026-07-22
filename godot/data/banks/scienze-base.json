@@ -4,7 +4,7 @@
 	"generator": "scienze-authored-v1",
 	"items": [
 		{
-			"id": "scienze-metodo-64",
+			"id": "scienze-metodo-0",
 			"subject": "scienze",
 			"topic": "metodo",
 			"difficulty": 1,
@@ -20,7 +20,7 @@
 			"explanation": "Cambiando una sola variabile capisci quale causa l'effetto."
 		},
 		{
-			"id": "scienze-metodo-45",
+			"id": "scienze-metodo-1",
 			"subject": "scienze",
 			"topic": "metodo",
 			"difficulty": 2,
@@ -36,119 +36,327 @@
 			"explanation": "Prima l'ipotesi (previsione), poi i dati, infine la conclusione."
 		},
 		{
-			"id": "scienze-materia-48",
+			"id": "scienze-metodo-2",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A cosa serve un 'gruppo di controllo' in un esperimento?",
+			"options": [
+				"A saltare le misure",
+				"A rendere l'esperimento più lungo",
+				"A cambiare più cose insieme",
+				"A confrontare con qualcosa che non è stato cambiato"
+			],
+			"answer": "A confrontare con qualcosa che non è stato cambiato",
+			"explanation": "Il gruppo di controllo mostra cosa succede senza la variabile che stai studiando."
+		},
+		{
+			"id": "scienze-metodo-3",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Cambi luce E acqua insieme e la pianta cresce di più. Cosa puoi concludere?",
+			"options": [
+				"Non sai quale delle due abbia agito",
+				"Sono state entrambe di sicuro",
+				"È stata solo l'acqua",
+				"È stata solo la luce"
+			],
+			"answer": "Non sai quale delle due abbia agito",
+			"explanation": "Cambiando due variabili insieme non puoi isolare la causa: vanno provate separatamente."
+		},
+		{
+			"id": "scienze-materia-4",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quali sono i tre stati principali della materia?",
 			"options": [
-				"Pieno, vuoto, misto",
-				"Caldo, freddo, tiepido",
 				"Duro, molle, liquido",
-				"Solido, liquido, gassoso"
+				"Caldo, freddo, tiepido",
+				"Solido, liquido, gassoso",
+				"Pieno, vuoto, misto"
 			],
 			"answer": "Solido, liquido, gassoso",
 			"explanation": "Solido, liquido e gassoso sono i tre stati fondamentali."
 		},
 		{
-			"id": "scienze-materia-59",
+			"id": "scienze-materia-5",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama l'acqua allo stato solido?",
+			"options": [
+				"Nuvola",
+				"Ghiaccio",
+				"Rugiada",
+				"Vapore"
+			],
+			"answer": "Ghiaccio",
+			"explanation": "L'acqua solida è il ghiaccio; allo stato gassoso è vapore."
+		},
+		{
+			"id": "scienze-materia-6",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio dell'acqua da liquido a vapore?",
 			"options": [
+				"Fusione",
 				"Evaporazione",
 				"Condensazione",
-				"Solidificazione",
-				"Fusione"
+				"Solidificazione"
 			],
 			"answer": "Evaporazione",
 			"explanation": "Nell'evaporazione il liquido diventa gas; nella condensazione avviene il contrario."
 		},
 		{
-			"id": "scienze-materia-48",
+			"id": "scienze-materia-7",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il passaggio da gas (vapore) a liquido?",
+			"options": [
+				"Condensazione",
+				"Evaporazione",
+				"Fusione",
+				"Sublimazione"
+			],
+			"answer": "Condensazione",
+			"explanation": "La condensazione forma le goccioline: è il contrario dell'evaporazione."
+		},
+		{
+			"id": "scienze-materia-8",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio da solido a liquido?",
 			"options": [
-				"Sublimazione",
+				"Solidificazione",
 				"Evaporazione",
-				"Fusione",
-				"Solidificazione"
+				"Sublimazione",
+				"Fusione"
 			],
 			"answer": "Fusione",
 			"explanation": "Il ghiaccio che diventa acqua è fusione."
 		},
 		{
-			"id": "scienze-viventi-56",
+			"id": "scienze-materia-9",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il passaggio diretto da solido a gas, senza passare per il liquido?",
+			"options": [
+				"Sublimazione",
+				"Condensazione",
+				"Evaporazione",
+				"Fusione"
+			],
+			"answer": "Sublimazione",
+			"explanation": "Nella sublimazione un solido diventa gas direttamente (es. la neve che 'sparisce' senza sciogliersi)."
+		},
+		{
+			"id": "scienze-viventi-10",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale parte della pianta assorbe l'acqua dal terreno?",
+			"options": [
+				"Le radici",
+				"I frutti",
+				"Le foglie",
+				"I fiori"
+			],
+			"answer": "Le radici",
+			"explanation": "Le radici assorbono acqua e sali minerali dal suolo."
+		},
+		{
+			"id": "scienze-viventi-11",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Di cosa hanno bisogno le piante per fare la fotosintesi?",
 			"options": [
-				"Solo terra",
+				"Solo acqua",
 				"Luce, acqua e anidride carbonica",
-				"Buio e freddo",
-				"Solo acqua"
+				"Solo terra",
+				"Buio e freddo"
 			],
 			"answer": "Luce, acqua e anidride carbonica",
 			"explanation": "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno."
 		},
 		{
-			"id": "scienze-viventi-54",
+			"id": "scienze-viventi-12",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale gas rilasciano le piante durante la fotosintesi?",
 			"options": [
-				"Anidride carbonica",
-				"Ossigeno",
+				"Azoto",
 				"Idrogeno",
-				"Azoto"
+				"Ossigeno",
+				"Anidride carbonica"
 			],
 			"answer": "Ossigeno",
 			"explanation": "Le piante assorbono CO2 e liberano ossigeno."
 		},
 		{
-			"id": "scienze-viventi-59",
+			"id": "scienze-viventi-13",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamano gli animali che si nutrono solo di piante?",
 			"options": [
-				"Erbivori",
+				"Predatori",
 				"Carnivori",
-				"Onnivori",
-				"Predatori"
+				"Erbivori",
+				"Onnivori"
 			],
 			"answer": "Erbivori",
 			"explanation": "Gli erbivori mangiano vegetali; i carnivori altri animali."
 		},
 		{
-			"id": "scienze-ecosistema-60",
+			"id": "scienze-viventi-14",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiamano gli animali che mangiano sia piante sia altri animali?",
+			"options": [
+				"Decompositori",
+				"Onnivori",
+				"Erbivori",
+				"Carnivori"
+			],
+			"answer": "Onnivori",
+			"explanation": "Gli onnivori (come l'orso o l'uomo) si nutrono di tutto."
+		},
+		{
+			"id": "scienze-viventi-15",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?",
+			"options": [
+				"Evaporazione",
+				"Respirazione cellulare",
+				"Digestione",
+				"Fotosintesi"
+			],
+			"answer": "Respirazione cellulare",
+			"explanation": "La respirazione cellulare libera l'energia del cibo; la fotosintesi invece la immagazzina nelle piante."
+		},
+		{
+			"id": "scienze-ecosistema-16",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In una catena alimentare, chi mangia gli erbivori?",
+			"options": [
+				"I carnivori",
+				"Le piante",
+				"I produttori",
+				"Il Sole"
+			],
+			"answer": "I carnivori",
+			"explanation": "I carnivori si nutrono di altri animali, come gli erbivori."
+		},
+		{
+			"id": "scienze-ecosistema-17",
 			"subject": "scienze",
 			"topic": "ecosistema",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In una catena alimentare, chi produce il proprio nutrimento?",
 			"options": [
-				"Gli erbivori",
 				"I predatori",
+				"Le piante (produttori)",
 				"I decompositori",
-				"Le piante (produttori)"
+				"Gli erbivori"
 			],
 			"answer": "Le piante (produttori)",
 			"explanation": "Le piante sono i produttori: creano nutrimento con la fotosintesi."
 		},
 		{
-			"id": "scienze-corpo-39",
+			"id": "scienze-ecosistema-18",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?",
+			"options": [
+				"Erbivori",
+				"Produttori",
+				"Predatori",
+				"Decompositori"
+			],
+			"answer": "Decompositori",
+			"explanation": "I decompositori riciclano la materia, restituendo sostanze utili al terreno."
+		},
+		{
+			"id": "scienze-ecosistema-19",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?",
+			"options": [
+				"Diminuirebbero per mancanza di cibo",
+				"Non cambierebbe nulla",
+				"Aumenterebbero",
+				"Diventerebbero carnivori"
+			],
+			"answer": "Diminuirebbero per mancanza di cibo",
+			"explanation": "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono."
+		},
+		{
+			"id": "scienze-corpo-20",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale organo ci permette di pensare e comandare il corpo?",
+			"options": [
+				"I muscoli",
+				"Il cervello",
+				"Lo stomaco",
+				"Il cuore"
+			],
+			"answer": "Il cervello",
+			"explanation": "Il cervello dirige il corpo e ci fa pensare."
+		},
+		{
+			"id": "scienze-corpo-21",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A cosa serve lo scheletro?",
+			"options": [
+				"A vedere",
+				"A respirare",
+				"A sostenere e proteggere il corpo",
+				"A digerire il cibo"
+			],
+			"answer": "A sostenere e proteggere il corpo",
+			"explanation": "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello)."
+		},
+		{
+			"id": "scienze-corpo-22",
 			"subject": "scienze",
 			"topic": "corpo",
 			"difficulty": 2,
@@ -156,28 +364,220 @@
 			"prompt": "Quale organo pompa il sangue nel corpo?",
 			"options": [
 				"Il cuore",
+				"I polmoni",
 				"Lo stomaco",
-				"Il fegato",
-				"I polmoni"
+				"Il fegato"
 			],
 			"answer": "Il cuore",
 			"explanation": "Il cuore spinge il sangue in tutto il corpo."
 		},
 		{
-			"id": "scienze-corpo-61",
+			"id": "scienze-corpo-23",
 			"subject": "scienze",
 			"topic": "corpo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In quale organo avviene lo scambio di ossigeno con il sangue?",
 			"options": [
-				"I polmoni",
 				"L'intestino",
-				"I reni",
-				"Il cuore"
+				"I polmoni",
+				"Il cuore",
+				"I reni"
 			],
 			"answer": "I polmoni",
 			"explanation": "Nei polmoni il sangue prende ossigeno e cede anidride carbonica."
+		},
+		{
+			"id": "scienze-corpo-24",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In quale organo il cibo digerito viene assorbito nel sangue?",
+			"options": [
+				"L'intestino",
+				"I reni",
+				"I polmoni",
+				"Il cuore"
+			],
+			"answer": "L'intestino",
+			"explanation": "Nell'intestino le sostanze nutritive passano nel sangue."
+		},
+		{
+			"id": "scienze-energia-25",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Da dove arriva quasi tutta l'energia che riscalda la Terra?",
+			"options": [
+				"Dal Sole",
+				"Dalla Luna",
+				"Dal vento",
+				"Dalle stelle lontane"
+			],
+			"answer": "Dal Sole",
+			"explanation": "Il Sole è la fonte principale di luce e calore per la Terra."
+		},
+		{
+			"id": "scienze-energia-26",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama l'energia prodotta dal vento che fa girare le pale?",
+			"options": [
+				"Energia nucleare",
+				"Energia eolica",
+				"Energia solare",
+				"Energia idroelettrica"
+			],
+			"answer": "Energia eolica",
+			"explanation": "L'energia eolica sfrutta il vento; quella idroelettrica l'acqua che scorre."
+		},
+		{
+			"id": "scienze-energia-27",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "L'energia dell'acqua che scorre e fa girare le turbine si chiama…",
+			"options": [
+				"Energia eolica",
+				"Energia idroelettrica",
+				"Energia geotermica",
+				"Energia solare"
+			],
+			"answer": "Energia idroelettrica",
+			"explanation": "Le dighe sfruttano l'acqua in movimento per produrre elettricità."
+		},
+		{
+			"id": "scienze-energia-28",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quali fonti di energia non si esauriscono e inquinano poco?",
+			"options": [
+				"Plastica bruciata",
+				"Gas e benzina",
+				"Sole, vento e acqua (rinnovabili)",
+				"Carbone e petrolio"
+			],
+			"answer": "Sole, vento e acqua (rinnovabili)",
+			"explanation": "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili."
+		},
+		{
+			"id": "scienze-terra-universo-29",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Attorno a cosa gira la Terra?",
+			"options": [
+				"Il Sole",
+				"La Luna",
+				"Una cometa",
+				"Marte"
+			],
+			"answer": "Il Sole",
+			"explanation": "La Terra orbita intorno al Sole in circa un anno."
+		},
+		{
+			"id": "scienze-terra-universo-30",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il satellite naturale della Terra?",
+			"options": [
+				"Venere",
+				"Marte",
+				"Il Sole",
+				"La Luna"
+			],
+			"answer": "La Luna",
+			"explanation": "La Luna gira intorno alla Terra."
+		},
+		{
+			"id": "scienze-terra-universo-31",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa provoca l'alternarsi del giorno e della notte?",
+			"options": [
+				"Le nuvole",
+				"La Terra che gira intorno al Sole",
+				"La Luna che si sposta",
+				"La rotazione della Terra su se stessa"
+			],
+			"answer": "La rotazione della Terra su se stessa",
+			"explanation": "Ruotando su se stessa, ogni punto della Terra si affaccia al Sole e poi all'ombra."
+		},
+		{
+			"id": "scienze-terra-universo-32",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Cosa provoca soprattutto l'alternarsi delle stagioni?",
+			"options": [
+				"Il vento",
+				"L'inclinazione della Terra mentre gira intorno al Sole",
+				"Le maree",
+				"La distanza dalla Luna"
+			],
+			"answer": "L'inclinazione della Terra mentre gira intorno al Sole",
+			"explanation": "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno."
+		},
+		{
+			"id": "scienze-ambiente-33",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?",
+			"options": [
+				"Buttarli tutti insieme",
+				"Lasciarli a terra",
+				"Fare la raccolta differenziata",
+				"Bruciarli in casa"
+			],
+			"answer": "Fare la raccolta differenziata",
+			"explanation": "Separare i rifiuti permette di riciclarli e sprecare meno risorse."
+		},
+		{
+			"id": "scienze-ambiente-34",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché è importante non sprecare l'acqua?",
+			"options": [
+				"Perché è colorata",
+				"È una risorsa preziosa e limitata",
+				"Perché è pesante",
+				"Non è importante"
+			],
+			"answer": "È una risorsa preziosa e limitata",
+			"explanation": "L'acqua dolce pulita è limitata: va usata con attenzione."
+		},
+		{
+			"id": "scienze-ambiente-35",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama l'aumento della temperatura del pianeta legato anche ai gas prodotti dall'uomo?",
+			"options": [
+				"Effetto marea",
+				"Riscaldamento globale",
+				"Effetto arcobaleno",
+				"Effetto eco"
+			],
+			"answer": "Riscaldamento globale",
+			"explanation": "L'eccesso di gas serra trattiene più calore e riscalda il pianeta."
 		},
 		{
 			"id": "scienze-serra-luce",
@@ -187,9 +587,9 @@
 			"format": "multiple_choice",
 			"prompt": "Nella serra, quale pianta ha bisogno di più luce?",
 			"options": [
+				"Felce Luna",
 				"Cactus di Vetro",
-				"Pomodoro Aurora",
-				"Felce Luna"
+				"Pomodoro Aurora"
 			],
 			"answer": "Cactus di Vetro",
 			"explanation": "Cactus di Vetro: Conserva acqua, vuole luce intensa e non ama radici bagnate."

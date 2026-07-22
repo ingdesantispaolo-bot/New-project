@@ -4,7 +4,7 @@
 	"generator": "cittadinanza-authored-v1",
 	"items": [
 		{
-			"id": "cittadinanza-regole-41",
+			"id": "cittadinanza-regole-0",
 			"subject": "cittadinanza",
 			"topic": "regole",
 			"difficulty": 1,
@@ -20,7 +20,55 @@
 			"explanation": "Le regole servono a proteggere tutti e a rendere possibile la convivenza."
 		},
 		{
-			"id": "cittadinanza-diritti-doveri-45",
+			"id": "cittadinanza-regole-1",
+			"subject": "cittadinanza",
+			"topic": "regole",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Se una regola è giusta e vale per tutti, deve valere anche…",
+			"options": [
+				"Solo per i bambini",
+				"Per nessuno in realtà",
+				"Solo per i più deboli",
+				"Per chi l'ha proposta"
+			],
+			"answer": "Per chi l'ha proposta",
+			"explanation": "Una regola giusta vale allo stesso modo per tutti, senza eccezioni di comodo."
+		},
+		{
+			"id": "cittadinanza-regole-2",
+			"subject": "cittadinanza",
+			"topic": "regole",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa succede a un gioco se ognuno cambia le regole a suo piacere?",
+			"options": [
+				"Non cambia nulla",
+				"Diventa ingiusto e si litiga",
+				"Diventa più bello",
+				"Finisce sempre in parità"
+			],
+			"answer": "Diventa ingiusto e si litiga",
+			"explanation": "Le regole condivise permettono di giocare (e vivere) senza litigare."
+		},
+		{
+			"id": "cittadinanza-diritti-doveri-3",
+			"subject": "cittadinanza",
+			"topic": "diritti-doveri",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Ricevere cure quando si è malati è un…",
+			"options": [
+				"Diritto",
+				"Favore",
+				"Premio",
+				"Lusso"
+			],
+			"answer": "Diritto",
+			"explanation": "La salute è un diritto garantito a ogni persona."
+		},
+		{
+			"id": "cittadinanza-diritti-doveri-4",
 			"subject": "cittadinanza",
 			"topic": "diritti-doveri",
 			"difficulty": 2,
@@ -36,55 +84,151 @@
 			"explanation": "L'istruzione è un diritto garantito e un dovere verso se stessi."
 		},
 		{
-			"id": "cittadinanza-diritti-doveri-47",
+			"id": "cittadinanza-diritti-doveri-5",
 			"subject": "cittadinanza",
 			"topic": "diritti-doveri",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Rispettare l'ambiente pulendo dove si sporca è…",
 			"options": [
-				"Inutile",
 				"Un dovere di ogni cittadino",
 				"Compito solo del Comune",
+				"Inutile",
 				"Un obbligo solo per gli adulti"
 			],
 			"answer": "Un dovere di ogni cittadino",
 			"explanation": "Prendersi cura dei beni comuni è responsabilità di tutti."
 		},
 		{
-			"id": "cittadinanza-partecipazione-63",
+			"id": "cittadinanza-diritti-doveri-6",
+			"subject": "cittadinanza",
+			"topic": "diritti-doveri",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "La libertà di una persona di solito finisce dove…",
+			"options": [
+				"Lei vuole",
+				"Comincia il suo capriccio",
+				"Nessuno la vede",
+				"Comincia il diritto di un'altra"
+			],
+			"answer": "Comincia il diritto di un'altra",
+			"explanation": "La mia libertà non può calpestare i diritti degli altri: è il limite della convivenza."
+		},
+		{
+			"id": "cittadinanza-partecipazione-7",
+			"subject": "cittadinanza",
+			"topic": "partecipazione",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In classe, per decidere insieme dove andare in gita, conviene…",
+			"options": [
+				"Parlarne e poi votare",
+				"Non andare da nessuna parte",
+				"Decide il più alto",
+				"Sceglie chi urla di più"
+			],
+			"answer": "Parlarne e poi votare",
+			"explanation": "Parlare e votare permette una scelta condivisa."
+		},
+		{
+			"id": "cittadinanza-partecipazione-8",
 			"subject": "cittadinanza",
 			"topic": "partecipazione",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "In una decisione di gruppo, il modo più giusto per scegliere è…",
 			"options": [
-				"Ascoltare tutti e poi votare",
-				"Decide solo il più rumoroso",
 				"Non decidere mai",
-				"Sceglie chi è arrivato prima"
+				"Ascoltare tutti e poi votare",
+				"Sceglie chi è arrivato prima",
+				"Decide solo il più rumoroso"
 			],
 			"answer": "Ascoltare tutti e poi votare",
 			"explanation": "Ascolto e voto permettono una scelta condivisa e rispettosa."
 		},
 		{
-			"id": "cittadinanza-istituzioni-58",
+			"id": "cittadinanza-partecipazione-9",
+			"subject": "cittadinanza",
+			"topic": "partecipazione",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa vuol dire rispettare il risultato di un voto?",
+			"options": [
+				"Fare comunque di testa propria",
+				"Rifare il voto finché vinci tu",
+				"Accettare la scelta della maggioranza",
+				"Arrabbiarsi con chi ha vinto"
+			],
+			"answer": "Accettare la scelta della maggioranza",
+			"explanation": "In una scelta democratica si accetta la decisione della maggioranza, nel rispetto delle minoranze."
+		},
+		{
+			"id": "cittadinanza-istituzioni-10",
+			"subject": "cittadinanza",
+			"topic": "istituzioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Chi guida un Comune ed è eletto dai cittadini?",
+			"options": [
+				"Il preside",
+				"Il giudice",
+				"Il medico",
+				"Il sindaco"
+			],
+			"answer": "Il sindaco",
+			"explanation": "Il sindaco è a capo del Comune, scelto col voto dei cittadini."
+		},
+		{
+			"id": "cittadinanza-istituzioni-11",
 			"subject": "cittadinanza",
 			"topic": "istituzioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama la legge fondamentale dello Stato italiano?",
 			"options": [
+				"La Costituzione",
 				"Il regolamento",
 				"Lo statuto comunale",
-				"Il decreto",
-				"La Costituzione"
+				"Il decreto"
 			],
 			"answer": "La Costituzione",
 			"explanation": "La Costituzione è la legge più importante, base di tutte le altre."
 		},
 		{
-			"id": "cittadinanza-convivenza-58",
+			"id": "cittadinanza-istituzioni-12",
+			"subject": "cittadinanza",
+			"topic": "istituzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A cosa serve soprattutto il Parlamento?",
+			"options": [
+				"A costruire le strade",
+				"A insegnare a scuola",
+				"A fare le leggi",
+				"A curare i malati"
+			],
+			"answer": "A fare le leggi",
+			"explanation": "Il Parlamento discute e approva le leggi dello Stato."
+		},
+		{
+			"id": "cittadinanza-istituzioni-13",
+			"subject": "cittadinanza",
+			"topic": "istituzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il diritto dei cittadini adulti di scegliere chi li governa?",
+			"options": [
+				"Il diritto di replica",
+				"Il diritto d'autore",
+				"Il diritto di voto",
+				"Il diritto di sciopero"
+			],
+			"answer": "Il diritto di voto",
+			"explanation": "Con il voto i cittadini scelgono i propri rappresentanti."
+		},
+		{
+			"id": "cittadinanza-convivenza-14",
 			"subject": "cittadinanza",
 			"topic": "convivenza",
 			"difficulty": 1,
@@ -92,12 +236,188 @@
 			"prompt": "Se qualcuno la pensa diversamente da te, la cosa giusta è…",
 			"options": [
 				"Ascoltarlo con rispetto",
+				"Costringerlo a cambiare",
 				"Ignorarlo",
-				"Prenderlo in giro",
-				"Costringerlo a cambiare"
+				"Prenderlo in giro"
 			],
 			"answer": "Ascoltarlo con rispetto",
 			"explanation": "Il rispetto delle idee altrui è alla base della convivenza civile."
+		},
+		{
+			"id": "cittadinanza-convivenza-15",
+			"subject": "cittadinanza",
+			"topic": "convivenza",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Se vedi un compagno preso in giro dagli altri, la cosa civile è…",
+			"options": [
+				"Filmarlo per gioco",
+				"Fare finta di niente",
+				"Difenderlo o avvisare un adulto",
+				"Ridere con gli altri"
+			],
+			"answer": "Difenderlo o avvisare un adulto",
+			"explanation": "Non restare indifferenti aiuta chi è in difficoltà."
+		},
+		{
+			"id": "cittadinanza-convivenza-16",
+			"subject": "cittadinanza",
+			"topic": "convivenza",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa significa 'tolleranza'?",
+			"options": [
+				"Ignorare tutti",
+				"Comandare gli altri",
+				"Rispettare chi è diverso da noi",
+				"Fare sempre come dico io"
+			],
+			"answer": "Rispettare chi è diverso da noi",
+			"explanation": "La tolleranza accetta le differenze come una ricchezza."
+		},
+		{
+			"id": "cittadinanza-sicurezza-17",
+			"subject": "cittadinanza",
+			"topic": "sicurezza",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quando attraversi la strada, devi farlo…",
+			"options": [
+				"Sulle strisce, guardando bene",
+				"Col cellulare in mano",
+				"Di corsa dove capita",
+				"A occhi chiusi"
+			],
+			"answer": "Sulle strisce, guardando bene",
+			"explanation": "Le strisce pedonali e l'attenzione ti proteggono."
+		},
+		{
+			"id": "cittadinanza-sicurezza-18",
+			"subject": "cittadinanza",
+			"topic": "sicurezza",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In bicicletta, cosa è bene indossare per proteggere la testa?",
+			"options": [
+				"Il casco",
+				"Niente",
+				"Le cuffie",
+				"Un cappello di lana"
+			],
+			"answer": "Il casco",
+			"explanation": "Il casco protegge in caso di caduta."
+		},
+		{
+			"id": "cittadinanza-sicurezza-19",
+			"subject": "cittadinanza",
+			"topic": "sicurezza",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Se scopri un pericolo (fuga di gas, un principio d'incendio), la cosa giusta è…",
+			"options": [
+				"Affrontarlo da solo",
+				"Aspettare che passi",
+				"Avvisare subito un adulto o i soccorsi",
+				"Nasconderti e tacere"
+			],
+			"answer": "Avvisare subito un adulto o i soccorsi",
+			"explanation": "Chiedere aiuto in fretta è la scelta più sicura."
+		},
+		{
+			"id": "cittadinanza-digitale-20",
+			"subject": "cittadinanza",
+			"topic": "digitale",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un compagno ti chiede la password del tuo account. Cosa fai?",
+			"options": [
+				"Non la dai: le password restano segrete",
+				"Gliela dici subito",
+				"La pubblichi in chat",
+				"La scrivi sul banco"
+			],
+			"answer": "Non la dai: le password restano segrete",
+			"explanation": "Le password sono personali: condividerle mette a rischio i tuoi dati."
+		},
+		{
+			"id": "cittadinanza-digitale-21",
+			"subject": "cittadinanza",
+			"topic": "digitale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Se online qualcuno ti tratta male (cyberbullismo), conviene…",
+			"options": [
+				"Rispondere con insulti",
+				"Non rispondere e dirlo a un adulto di fiducia",
+				"Vendicarti online",
+				"Tenerlo segreto per sempre"
+			],
+			"answer": "Non rispondere e dirlo a un adulto di fiducia",
+			"explanation": "Parlarne con un adulto aiuta a fermare il problema; rispondere lo peggiora."
+		},
+		{
+			"id": "cittadinanza-digitale-22",
+			"subject": "cittadinanza",
+			"topic": "digitale",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Prima di credere e condividere una notizia trovata sui social, è giusto…",
+			"options": [
+				"Verificarla su fonti affidabili",
+				"Crederci perché ha molti like",
+				"Ignorare da chi viene",
+				"Condividerla subito"
+			],
+			"answer": "Verificarla su fonti affidabili",
+			"explanation": "Controllare le fonti evita di diffondere notizie false."
+		},
+		{
+			"id": "cittadinanza-denaro-23",
+			"subject": "cittadinanza",
+			"topic": "denaro",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Cosa vuol dire 'risparmiare'?",
+			"options": [
+				"Prestare a tutti",
+				"Mettere da parte invece di spendere tutto",
+				"Spendere il doppio",
+				"Buttare i soldi"
+			],
+			"answer": "Mettere da parte invece di spendere tutto",
+			"explanation": "Risparmiare significa conservare una parte per il futuro."
+		},
+		{
+			"id": "cittadinanza-denaro-24",
+			"subject": "cittadinanza",
+			"topic": "denaro",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A cosa servono soprattutto le tasse pagate dai cittadini?",
+			"options": [
+				"A pagare servizi comuni: scuole, strade, ospedali",
+				"A far sparire i soldi",
+				"A niente di utile",
+				"A fare regali a chi governa"
+			],
+			"answer": "A pagare servizi comuni: scuole, strade, ospedali",
+			"explanation": "Le tasse finanziano i servizi che usiamo tutti."
+		},
+		{
+			"id": "cittadinanza-denaro-25",
+			"subject": "cittadinanza",
+			"topic": "denaro",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Comprare una cosa che non ti serve solo perché è in offerta è…",
+			"options": [
+				"Spesso uno spreco",
+				"Un dovere",
+				"Sempre un affare",
+				"Un risparmio sicuro"
+			],
+			"answer": "Spesso uno spreco",
+			"explanation": "Lo sconto conviene solo se ti serve davvero: altrimenti è denaro sprecato."
 		},
 		{
 			"id": "cittadinanza-regola-overload",
@@ -108,9 +428,9 @@
 			"prompt": "SE un nodo è in sovraccarico… …qual è la scelta giusta?",
 			"options": [
 				"Aumentare ancora il consumo",
+				"Deviare energia da un nodo con margine",
 				"Spegnere l'intero distretto",
-				"Usare il valore di backup",
-				"Deviare energia da un nodo con margine"
+				"Usare il valore di backup"
 			],
 			"answer": "Deviare energia da un nodo con margine",
 			"explanation": "overloaded = troppa richiesta: serve spostare energia da chi ne ha in più, non toglierla a chi è già al limite."
@@ -123,9 +443,9 @@
 			"format": "multiple_choice",
 			"prompt": "SE un sensore è guasto… …qual è la scelta giusta?",
 			"options": [
+				"Ignorare quel nodo",
 				"Usare il valore di backup",
 				"Spegnere tutti i semafori",
-				"Ignorare quel nodo",
 				"Deviare energia da un nodo con margine"
 			],
 			"answer": "Usare il valore di backup",
@@ -139,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "SE arriva un'emergenza… …qual è la scelta giusta?",
 			"options": [
+				"Bloccare tutti gli incroci",
 				"Mettere il rosso ovunque",
-				"Dare priorità ai mezzi di soccorso",
 				"Deviare energia da un nodo con margine",
-				"Bloccare tutti gli incroci"
+				"Dare priorità ai mezzi di soccorso"
 			],
 			"answer": "Dare priorità ai mezzi di soccorso",
 			"explanation": "emergency = la sicurezza delle persone viene prima del traffico normale."
@@ -156,8 +476,8 @@
 			"prompt": "Il sabotatore ha tagliato l'energia esterna. Ne resta solo per due settori su tre. Quali proteggi per primi?",
 			"options": [
 				"Ospedale + Centro commerciale",
-				"Trasporti + Illuminazione decorativa",
 				"Ospedale + Acqua potabile",
+				"Trasporti + Illuminazione decorativa",
 				"Illuminazione decorativa + insegne"
 			],
 			"answer": "Ospedale + Acqua potabile",

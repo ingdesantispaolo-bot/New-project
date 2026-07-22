@@ -8,6 +8,24 @@ extends RefCounted
 static func complexity_for_level(level: int) -> int:
 	return clampi(1 + floori(float(maxi(0, level - 1)) / 3.0), 1, 8)
 
+# "Sapori" narrativi: personaggi e oggetti del mondo di Eli Quest per vestire i
+# piccoli problemi. La matematica resta identica e calibrata; cambia solo la
+# storia, così l'esercizio è più divertente e concreto.
+const STORY_FLAVORS := [
+	{"actor": "lo scoiattolo Nocciola", "item": "ghiande"},
+	{"actor": "il robottino BIT", "item": "viti"},
+	{"actor": "Eli", "item": "gemme"},
+	{"actor": "la piccola Luce", "item": "stelline"},
+	{"actor": "il draghetto Ember", "item": "monete"},
+]
+
+func _flavor(rng: RandomNumberGenerator) -> Dictionary:
+	return STORY_FLAVORS[rng.randi_range(0, STORY_FLAVORS.size() - 1)]
+
+# Maiuscola a inizio frase quando il personaggio apre il problema.
+func _cap(s: String) -> String:
+	return (s.substr(0, 1).to_upper() + s.substr(1)) if s.length() > 0 else s
+
 func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_signatures: Array, review_topics: Array = []) -> Array:
 	var complexity := complexity_for_level(level)
 	var archetypes := _eligible_archetypes(complexity)
@@ -40,9 +58,10 @@ func _unique_node(preferred: String, complexity: int, rng: RandomNumberGenerator
 	return candidate
 
 func _eligible_archetypes(complexity: int) -> Array:
-	var result: Array = ["addition", "subtraction", "multiplication", "sequence"]
-	if complexity >= 2: result.append_array(["division", "missing_factor", "two_step"])
-	if complexity >= 3: result.append_array(["order_operations", "fraction_of", "perimeter"])
+	var result: Array = ["addition", "subtraction", "multiplication", "sequence", "story_sum", "story_take"]
+	if complexity >= 2: result.append_array(["division", "missing_factor", "two_step", "story_groups", "story_share"])
+	if complexity >= 3: result.append_array(["order_operations", "fraction_of", "perimeter", "story_rate", "story_change"])
+	if complexity >= 4: result.append("story_double")
 	if complexity >= 4: result.append_array(["area", "proportion", "average"])
 	if complexity >= 5: result.append_array(["percentage", "linear_equation", "data_reading"])
 	if complexity >= 6: result.append_array(["negative_expression", "scale", "pythagoras"])
@@ -180,6 +199,42 @@ func _build_archetype(archetype: String, complexity: int, rng: RandomNumberGener
 			second += posmod(first + second * 2, 3)
 			answer = floori(float(first + second * 2) / 3.0)
 			return _node("statistica", complexity, "Un test vale 1 parte e ha voto %d; un progetto vale 2 parti e ha voto %d. Qual è la media pesata?" % [first, second], answer, [floori(float(first + second) / 2.0), second, answer + 1], "Media pesata = (%d + 2×%d) ÷ 3 = %d." % [first, second, answer], rng, index)
+		"story_sum":
+			var fs := _flavor(rng)
+			var sa := rng.randi_range(3, 6 + complexity * 4)
+			var sb := rng.randi_range(2, 5 + complexity * 3)
+			return _node("problemi", complexity, "Nel Bosco %s raccoglie %d %s al mattino e %d nel pomeriggio. Quante ne ha in tutto?" % [fs["actor"], sa, fs["item"], sb], sa + sb, [sa, sb, sa + sb + 2], "Basta sommare: %d + %d = %d." % [sa, sb, sa + sb], rng, index)
+		"story_take":
+			var ft := _flavor(rng)
+			var ta := rng.randi_range(8, 10 + complexity * 4)
+			var tb := rng.randi_range(2, ta - 2)
+			return _node("problemi", complexity, "%s aveva %d %s e ne regala %d agli amici. Quante gliene restano?" % [_cap(str(ft["actor"])), ta, ft["item"], tb], ta - tb, [ta, tb, ta - tb + 2], "Si toglie cio che ha regalato: %d - %d = %d." % [ta, tb, ta - tb], rng, index)
+		"story_groups":
+			var fg := _flavor(rng)
+			var per_box := rng.randi_range(2, mini(9, 3 + complexity))
+			var boxes := rng.randi_range(2, mini(9, 3 + complexity))
+			return _node("problemi", complexity, "%s mette %d %s in ogni cesto e riempie %d cesti. Quante ne ha in tutto?" % [_cap(str(fg["actor"])), per_box, fg["item"], boxes], per_box * boxes, [per_box + boxes, per_box * boxes - per_box, per_box + boxes + 1], "Gruppi uguali: %d per %d = %d." % [per_box, boxes, per_box * boxes], rng, index)
+		"story_share":
+			var fh := _flavor(rng)
+			var each := rng.randi_range(2, 4 + complexity)
+			var friends := rng.randi_range(2, mini(6, 3 + complexity))
+			var share_total := each * friends
+			return _node("problemi", complexity, "%s divide %d %s tra %d amici in parti uguali. Quante ne riceve ciascuno?" % [_cap(str(fh["actor"])), share_total, fh["item"], friends], each, [each + 1, each - 1, share_total], "In parti uguali: %d diviso %d = %d." % [share_total, friends, each], rng, index)
+		"story_rate":
+			var rate := rng.randi_range(2, 5 + complexity)
+			var hours := rng.randi_range(2, 4 + complexity)
+			return _node("problemi", complexity, "Il robottino BIT ripara %d moduli ogni ora. Quanti moduli ripara in %d ore?" % [rate, hours], rate * hours, [rate + hours, rate * hours - rate, rate * hours + hours], "Ogni ora %d moduli, per %d ore: %d per %d = %d." % [rate, hours, rate, hours, rate * hours], rng, index)
+		"story_change":
+			var fc := _flavor(rng)
+			var qty := rng.randi_range(2, 5)
+			var price := rng.randi_range(2, 3 + complexity)
+			var buy_total := qty * price
+			var paid := buy_total + rng.randi_range(1, 8)
+			return _node("problemi", complexity, "%s compra %d pozioni da %d monete l'una e paga con %d monete. Quante monete di resto riceve?" % [_cap(str(fc["actor"])), qty, price, paid], paid - buy_total, [buy_total, paid, paid - buy_total + price], "Costo: %d per %d = %d; resto: %d - %d = %d." % [qty, price, buy_total, paid, buy_total, paid - buy_total], rng, index)
+		"story_double":
+			var fd := _flavor(rng)
+			var start := rng.randi_range(2, 4 + complexity)
+			return _node("problemi", complexity, "Un fiore di cristallo raddoppia le sue %s ogni giorno. Oggi %s ne ha %d. Quante saranno tra 2 giorni?" % [fd["item"], fd["actor"], start], start * 4, [start * 2, start * 3, start * 4 + start], "Raddoppia due volte: %d, poi il doppio, poi ancora il doppio = %d." % [start, start * 4], rng, index)
 		_:
 			var a := rng.randi_range(5, 18)
 			var multiplier := rng.randi_range(2, 5)

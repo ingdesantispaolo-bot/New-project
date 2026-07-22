@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "dev:lan": "vite --config vite.config.mjs --configLoader native --host 0.0.0.0",
-    "build": "tsc && vite build --config vite.config.mjs --configLoader native",
+    "build": "vite build --config vite.config.mjs --configLoader native",
+    "typecheck:legacy": "tsc --noEmit",
     "assets:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs && node scripts/build-visual-assets.mjs && node scripts/build-console-assets.mjs && node scripts/build-prop-assets.mjs && node scripts/build-outdoor-assets.mjs && node scripts/process-painted-prop-sheet.mjs && node scripts/build-audio-assets.mjs && node scripts/build-reward-assets.mjs && node scripts/optimize-assets.mjs",
     "assets:optimize": "node scripts/optimize-assets.mjs",
+    "audio:godot": "node scripts/build-godot-audio-assets.mjs",
+    "audio:godot:audit": "node scripts/build-godot-audio-assets.mjs --check",
     "maps:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -17,12 +20,10 @@
     "preview": "vite preview --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "preview:lan": "vite preview --config vite.config.mjs --configLoader native --host 0.0.0.0"
   },
-  "dependencies": {
-    "howler": "^2.2.4",
-    "phaser": "^4.1.0"
-  },
   "devDependencies": {
     "@types/howler": "^2.2.12",
+    "howler": "^2.2.4",
+    "phaser": "^4.1.0",
     "sharp": "^0.34.5",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",

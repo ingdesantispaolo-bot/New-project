@@ -14,6 +14,9 @@ func _init() -> void:
 	var exercise: Control = scene.get("exercise_player")
 	var gameplay: OutdoorGameplay = scene.get("gameplay")
 	assert(player != null and exercise != null and gameplay != null, "servizi scena mancanti")
+	# Un profilo nuovo parte senza energia: tutti i POI devono comunque poter
+	# aprire una sessione di recupero, altrimenti il loop resta irraggiungibile.
+	gameplay.game_save.data["energy"] = 0
 	var tested := 0
 	for node in get_nodes_in_group("enigma_poi"):
 		if not (node is Area2D):

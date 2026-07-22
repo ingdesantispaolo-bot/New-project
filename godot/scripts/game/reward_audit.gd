@@ -10,12 +10,12 @@ extends SceneTree
 func _init() -> void:
 	var gameplay := _new_gameplay(5000, 1)
 
-	# 1) Acquisto lecito: spende energia E riporta il delta al bridge.
+	# 1) Acquisto lecito: spende energia e aggiorna il delta della sessione.
 	var energy_before: int = int(gameplay.runtime_state()["energy"])
 	assert(gameplay.try_purchase_cosmetic("bot-lime"), "acquisto valido riuscito")
 	var state := gameplay.runtime_state()
 	assert(int(state["energy"]) == int(energy_before) - 120, "energia scalata del costo")
-	assert(int(gameplay.result["energySpent"]) == 120, "delta riportato al bridge")
+	assert(int(gameplay.result["energySpent"]) == 120, "delta sessione aggiornato")
 	assert(Array(state["cosmeticsUnlocked"]).has("bot-lime"), "sbloccato")
 	assert(str(state["cosmeticsEquipped"]["bot"]) == "bot-lime", "auto-equip sullo slot bot")
 
@@ -67,7 +67,7 @@ func _new_gameplay(energy: int, level: int) -> OutdoorGameplay:
 	root.add_child(gameplay)
 	var request := {
 		"outdoorState": {"fragments": 0},
-		"godotSave": {
+		"initialSave": {
 			"schemaVersion": 1, "playerId": "local", "level": level, "energy": energy, "fragments": 0,
 			"mastery": {}, "missionsBySubject": {}, "apparatus": {},
 			"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []}, "modules": {"owned": [], "equipped": []},

@@ -18,7 +18,7 @@ func _new_gameplay() -> OutdoorGameplay:
 	root.add_child(gameplay)
 	var request := {
 		"outdoorState": {"fragments": 0},
-		"godotSave": {
+		"initialSave": {
 			"schemaVersion": 1, "playerId": "local", "level": 1, "energy": 200, "fragments": 0,
 			"mastery": {}, "missionsBySubject": {}, "apparatus": {},
 			"cosmetics": {"unlocked": [], "equipped": {}}, "modules": {"owned": [], "equipped": []},

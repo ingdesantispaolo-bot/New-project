@@ -6,7 +6,7 @@
 		{
 			"id": "musica-pentagramma-chiavi-definizione",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "lettura",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Pentagramma e chiavi\"?",
@@ -22,7 +22,7 @@
 		{
 			"id": "musica-pentagramma-chiavi-esempio",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "lettura",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Nota nel secondo spazio in chiave di violino.",
@@ -38,7 +38,7 @@
 		{
 			"id": "musica-pentagramma-chiavi-attenzione",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "lettura",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Pentagramma e chiavi\"?",
@@ -54,7 +54,7 @@
 		{
 			"id": "musica-ritmo-intervalli-definizione",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "ritmo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Ritmo e intervalli\"?",
@@ -70,7 +70,7 @@
 		{
 			"id": "musica-ritmo-intervalli-esempio",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "ritmo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In 4/4 ci sono due semiminime e una minima.",
@@ -86,7 +86,7 @@
 		{
 			"id": "musica-ritmo-intervalli-attenzione",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "ritmo",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Ritmo e intervalli\"?",
@@ -102,7 +102,7 @@
 		{
 			"id": "musica-linee-ottava-definizione",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "lettura",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Linee addizionali e ottava\"?",
@@ -118,7 +118,7 @@
 		{
 			"id": "musica-linee-ottava-esempio",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "lettura",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Nota due linee sopra il pentagramma in chiave di violino.",
@@ -134,7 +134,7 @@
 		{
 			"id": "musica-linee-ottava-attenzione",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "lettura",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Linee addizionali e ottava\"?",
@@ -150,7 +150,7 @@
 		{
 			"id": "musica-intervalli-scale-definizione",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "intervalli",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Intervalli e scale\"?",
@@ -166,7 +166,7 @@
 		{
 			"id": "musica-intervalli-scale-esempio",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "intervalli",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Intervallo da Do a Sol.",
@@ -182,7 +182,7 @@
 		{
 			"id": "musica-intervalli-scale-attenzione",
 			"subject": "musica",
-			"topic": "Lettura musicale",
+			"topic": "intervalli",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Intervalli e scale\"?",
@@ -198,7 +198,7 @@
 		{
 			"id": "musica-durate-tempo-definizione",
 			"subject": "musica",
-			"topic": "Ritmo",
+			"topic": "ritmo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Durate e tempo\"?",
@@ -214,7 +214,7 @@
 		{
 			"id": "musica-durate-tempo-esempio",
 			"subject": "musica",
-			"topic": "Ritmo",
+			"topic": "ritmo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In 4/4 ci sono una minima e una semiminima. Cosa manca?",
@@ -230,7 +230,7 @@
 		{
 			"id": "musica-durate-tempo-attenzione",
 			"subject": "musica",
-			"topic": "Ritmo",
+			"topic": "ritmo",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Durate e tempo\"?",
@@ -242,6 +242,230 @@
 			],
 			"answer": "La croma vale mezzo battito, non uno.",
 			"explanation": "La croma vale mezzo battito, non uno."
+		},
+		{
+			"id": "musica-note-0",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quante sono le note musicali principali (do, re, mi, …)?",
+			"options": [
+				"10",
+				"5",
+				"8",
+				"7"
+			],
+			"answer": "7",
+			"explanation": "Do, Re, Mi, Fa, Sol, La, Si: sette note."
+		},
+		{
+			"id": "musica-note-1",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale nota viene subito dopo il Do?",
+			"options": [
+				"Si",
+				"Re",
+				"Fa",
+				"Mi"
+			],
+			"answer": "Re",
+			"explanation": "L'ordine è Do, Re, Mi, Fa, Sol, La, Si."
+		},
+		{
+			"id": "musica-note-2",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Dopo il Sol, quale nota viene?",
+			"options": [
+				"Do",
+				"Fa",
+				"Mi",
+				"La"
+			],
+			"answer": "La",
+			"explanation": "…Sol, La, Si, poi si ricomincia da Do."
+		},
+		{
+			"id": "musica-lettura-3",
+			"subject": "musica",
+			"topic": "lettura",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Su cosa si scrivono le note musicali?",
+			"options": [
+				"Su un foglio a quadretti",
+				"Sul pentagramma",
+				"Su un foglio bianco",
+				"Sulla tastiera del pc"
+			],
+			"answer": "Sul pentagramma",
+			"explanation": "Il pentagramma ha 5 righe e 4 spazi."
+		},
+		{
+			"id": "musica-lettura-4",
+			"subject": "musica",
+			"topic": "lettura",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quante righe ha il pentagramma?",
+			"options": [
+				"7",
+				"6",
+				"5",
+				"4"
+			],
+			"answer": "5",
+			"explanation": "Penta- significa cinque: cinque righe."
+		},
+		{
+			"id": "musica-ritmo-5",
+			"subject": "musica",
+			"topic": "ritmo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale figura musicale dura di più?",
+			"options": [
+				"La minima",
+				"La croma",
+				"La semiminima",
+				"La semibreve"
+			],
+			"answer": "La semibreve",
+			"explanation": "La semibreve vale 4 battiti: più di minima, semiminima e croma."
+		},
+		{
+			"id": "musica-ritmo-6",
+			"subject": "musica",
+			"topic": "ritmo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In 4/4, quanti battiti ci sono in una battuta?",
+			"options": [
+				"3",
+				"8",
+				"2",
+				"4"
+			],
+			"answer": "4",
+			"explanation": "Il 4 in alto indica quattro battiti per battuta."
+		},
+		{
+			"id": "musica-ritmo-7",
+			"subject": "musica",
+			"topic": "ritmo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Una minima dura, rispetto a una semiminima…",
+			"options": [
+				"Il triplo",
+				"La metà",
+				"Il doppio",
+				"Uguale"
+			],
+			"answer": "Il doppio",
+			"explanation": "La minima vale 2 battiti, la semiminima 1: il doppio."
+		},
+		{
+			"id": "musica-intervalli-8",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "L'intervallo da Do a Sol (contando le note) è una…",
+			"options": [
+				"Ottava",
+				"Terza",
+				"Quarta",
+				"Quinta"
+			],
+			"answer": "Quinta",
+			"explanation": "Do-Re-Mi-Fa-Sol: cinque note, quindi una quinta."
+		},
+		{
+			"id": "musica-strumenti-9",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale di questi è uno strumento a corde?",
+			"options": [
+				"La tromba",
+				"La chitarra",
+				"Il flauto",
+				"Il tamburo"
+			],
+			"answer": "La chitarra",
+			"explanation": "La chitarra produce suono con le corde."
+		},
+		{
+			"id": "musica-strumenti-10",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Il flauto è uno strumento a…",
+			"options": [
+				"Corde",
+				"Percussione",
+				"Tastiera",
+				"Fiato"
+			],
+			"answer": "Fiato",
+			"explanation": "Il flauto suona soffiando aria: è uno strumento a fiato."
+		},
+		{
+			"id": "musica-timbro-11",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa ci fa distinguere un pianoforte da una chitarra sulla stessa nota?",
+			"options": [
+				"Il volume",
+				"Il timbro",
+				"Il tempo",
+				"La durata"
+			],
+			"answer": "Il timbro",
+			"explanation": "Il timbro è il 'colore' del suono, diverso per ogni strumento."
+		},
+		{
+			"id": "musica-dinamica-12",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In musica 'forte' e 'piano' indicano…",
+			"options": [
+				"La durata",
+				"La velocità del brano",
+				"L'intensità del suono (il volume)",
+				"L'altezza della nota"
+			],
+			"answer": "L'intensità del suono (il volume)",
+			"explanation": "Le dinamiche dicono quanto suonare forte o piano."
+		},
+		{
+			"id": "musica-dinamica-13",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Il termine che indica quanto è veloce un brano è il…",
+			"options": [
+				"Timbro",
+				"Tempo (andamento)",
+				"Volume",
+				"Silenzio"
+			],
+			"answer": "Tempo (andamento)",
+			"explanation": "Il tempo indica la velocità: da lento (adagio) a veloce (allegro)."
 		}
 	]
 }

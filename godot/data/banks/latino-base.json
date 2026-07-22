@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"subject": "latino",
-	"generator": "latin-declension-v1",
+	"generator": "latin-declension-v2",
 	"items": [
 		{
 			"id": "latino-dominus-nominativo-singolare",
@@ -994,6 +994,294 @@
 			],
 			"answer": "genitivo plurale",
 			"explanation": "genitivo (specificazione), plurale."
+		},
+		{
+			"id": "latino-basi-0",
+			"subject": "latino",
+			"topic": "basi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Il latino era la lingua di quale antico popolo?",
+			"options": [
+				"I Celti",
+				"Gli Egizi",
+				"I Greci",
+				"I Romani"
+			],
+			"answer": "I Romani",
+			"explanation": "Il latino era la lingua degli antichi Romani."
+		},
+		{
+			"id": "latino-basi-1",
+			"subject": "latino",
+			"topic": "basi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?",
+			"options": [
+				"Il greco",
+				"Il latino",
+				"L'inglese",
+				"L'arabo"
+			],
+			"answer": "Il latino",
+			"explanation": "Sono lingue 'romanze', nate dal latino."
+		},
+		{
+			"id": "latino-basi-2",
+			"subject": "latino",
+			"topic": "basi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa significa l'espressione latina 'Carpe diem'?",
+			"options": [
+				"Vivi a lungo",
+				"Sii coraggioso",
+				"Studia ogni giorno",
+				"Cogli l'attimo"
+			],
+			"answer": "Cogli l'attimo",
+			"explanation": "Invita a vivere e apprezzare il presente."
+		},
+		{
+			"id": "latino-casi-3",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In latino, il caso del soggetto è il…",
+			"options": [
+				"Accusativo",
+				"Genitivo",
+				"Ablativo",
+				"Nominativo"
+			],
+			"answer": "Nominativo",
+			"explanation": "Il nominativo indica il soggetto della frase."
+		},
+		{
+			"id": "latino-casi-4",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Il complemento oggetto in latino si esprime con l'…",
+			"options": [
+				"Vocativo",
+				"Nominativo",
+				"Accusativo",
+				"Dativo"
+			],
+			"answer": "Accusativo",
+			"explanation": "L'accusativo indica di solito il complemento oggetto."
+		},
+		{
+			"id": "latino-casi-5",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Il complemento di specificazione (il 'di chi, di cosa') usa il…",
+			"options": [
+				"Ablativo",
+				"Genitivo",
+				"Accusativo",
+				"Dativo"
+			],
+			"answer": "Genitivo",
+			"explanation": "Il genitivo indica la specificazione (es. il libro di Marco)."
+		},
+		{
+			"id": "latino-casi-6",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Il complemento di termine (a chi, per chi) usa il…",
+			"options": [
+				"Nominativo",
+				"Genitivo",
+				"Dativo",
+				"Accusativo"
+			],
+			"answer": "Dativo",
+			"explanation": "Il dativo indica il termine (es. dono a Giulia)."
+		},
+		{
+			"id": "latino-casi-7",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale caso serve per chiamare o invocare qualcuno?",
+			"options": [
+				"Dativo",
+				"Nominativo",
+				"Ablativo",
+				"Vocativo"
+			],
+			"answer": "Vocativo",
+			"explanation": "Il vocativo si usa per rivolgersi direttamente a qualcuno."
+		},
+		{
+			"id": "latino-declinazioni-base-8",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quante sono le declinazioni del latino?",
+			"options": [
+				"4",
+				"3",
+				"6",
+				"5"
+			],
+			"answer": "5",
+			"explanation": "I nomi latini si dividono in cinque declinazioni."
+		},
+		{
+			"id": "latino-declinazioni-base-9",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "I nomi come 'rosa, rosae' appartengono alla…",
+			"options": [
+				"Quinta declinazione",
+				"Terza declinazione",
+				"Prima declinazione",
+				"Seconda declinazione"
+			],
+			"answer": "Prima declinazione",
+			"explanation": "La prima declinazione ha genitivo singolare in -ae."
+		},
+		{
+			"id": "latino-declinazioni-base-10",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "I nomi come 'lupus, lupi' appartengono alla…",
+			"options": [
+				"Quarta declinazione",
+				"Terza declinazione",
+				"Prima declinazione",
+				"Seconda declinazione"
+			],
+			"answer": "Seconda declinazione",
+			"explanation": "La seconda declinazione ha genitivo singolare in -i."
+		},
+		{
+			"id": "latino-vocabolario-11",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Cosa significa 'aqua' in italiano?",
+			"options": [
+				"Aria",
+				"Acqua",
+				"Terra",
+				"Fuoco"
+			],
+			"answer": "Acqua",
+			"explanation": "'Aqua' significa acqua."
+		},
+		{
+			"id": "latino-vocabolario-12",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Cosa significa 'puella' in italiano?",
+			"options": [
+				"Cane",
+				"Ragazzo",
+				"Casa",
+				"Fanciulla, ragazza"
+			],
+			"answer": "Fanciulla, ragazza",
+			"explanation": "'Puella' è la fanciulla."
+		},
+		{
+			"id": "latino-vocabolario-13",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa significa 'silva' in italiano?",
+			"options": [
+				"Bosco, selva",
+				"Città",
+				"Strada",
+				"Fiume"
+			],
+			"answer": "Bosco, selva",
+			"explanation": "'Silva' è il bosco (da cui 'selva')."
+		},
+		{
+			"id": "latino-verbo-sum-14",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si dice 'io sono' in latino?",
+			"options": [
+				"Sum",
+				"Est",
+				"Es",
+				"Sunt"
+			],
+			"answer": "Sum",
+			"explanation": "'Sum' = io sono; 'es' = tu sei; 'est' = egli è."
+		},
+		{
+			"id": "latino-verbo-sum-15",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Il verbo 'est' significa…",
+			"options": [
+				"(tu) sei",
+				"(loro) sono",
+				"(io) sono",
+				"(egli/ella) è"
+			],
+			"answer": "(egli/ella) è",
+			"explanation": "'Est' è la terza persona singolare di 'sum'."
+		},
+		{
+			"id": "latino-verbo-sum-16",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "'Sunt' significa…",
+			"options": [
+				"(io) sono",
+				"(loro) sono",
+				"(egli) è",
+				"(noi) siamo"
+			],
+			"answer": "(loro) sono",
+			"explanation": "'Sunt' è la terza persona plurale di 'sum'."
+		},
+		{
+			"id": "latino-frasi-17",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "'Puella rosam amat' significa…",
+			"options": [
+				"La rosa ama la fanciulla",
+				"La fanciulla ama la rosa",
+				"Le fanciulle amano le rose",
+				"La fanciulla guarda la rosa"
+			],
+			"answer": "La fanciulla ama la rosa",
+			"explanation": "'Rosam' è accusativo (oggetto): la fanciulla (soggetto) ama la rosa (oggetto)."
 		}
 	]
 }

@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v3-prompt-update";
+const CACHE_VERSION = "v4-godot-root";
 const STATIC_CACHE = `eli-quest-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `eli-quest-runtime-${CACHE_VERSION}`;
 const APP_SHELL = ["./manifest.webmanifest", "./eli-quest-icon.svg"];

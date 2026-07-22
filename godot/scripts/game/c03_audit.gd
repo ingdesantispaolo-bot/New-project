@@ -8,8 +8,8 @@ func _init() -> void:
 		"missionsBySubject": {"matematica": 2}, "futureField": {"keep": true},
 	}
 	var manager := GameSaveManager.new()
-	var first := manager.migrate_from_phaser(legacy)
-	var second := manager.migrate_from_phaser(first)
+	var first := manager.migrate_legacy_save(legacy)
+	var second := manager.migrate_legacy_save(first)
 	assert(first == second, "la migrazione deve essere idempotente")
 	assert(first.has("narrative"))
 	assert(first.has("daily"))

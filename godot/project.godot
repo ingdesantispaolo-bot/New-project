@@ -4,8 +4,11 @@ config_version=5
 
 [application]
 config/name="Eli Quest - Radura Accademia"
-run/main_scene="res://scenes/outdoor_world.tscn"
+run/main_scene="res://scenes/boot_menu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
+
+[autoload]
+NativeAudio="*res://scripts/game/native_audio_manager.gd"
 
 [display]
 window/size/viewport_width=1280

@@ -3,7 +3,7 @@ extends SceneTree
 ## Audit headless di C-02: il componente `OutdoorGameplay` estratto espone il
 ## contratto `OutdoorRuntimeState` completo, guida il loop (missione → gate →
 ## esame → riparazione → livello) in modo evento-driven e non concede ricompense
-## fuori dalla propria logica. Il save è isolato via `godotSave` nella richiesta,
+## fuori dalla propria logica. Il save è isolato via `initialSave` nella richiesta,
 ## così l'audit è deterministico a prescindere dal file persistito.
 ## Uso: godot --headless --path godot --script res://scripts/game/c02_audit.gd
 
@@ -19,7 +19,7 @@ func _init() -> void:
 
 	var request := {
 		"outdoorState": {"fragments": 5},
-		"godotSave": {
+		"initialSave": {
 			"schemaVersion": 1, "playerId": "local", "level": 1, "energy": 200, "fragments": 0,
 			"mastery": {}, "missionsBySubject": {}, "apparatus": {},
 			"cosmetics": {"unlocked": [], "equipped": {}}, "modules": {"owned": [], "equipped": []},
@@ -70,11 +70,6 @@ func _init() -> void:
 	gameplay.resolve_session(_play(exam, true))
 	assert(int(gameplay.runtime_state()["level"]) == level_before + 1, "livello avanzato dopo la riparazione")
 	assert(int(gameplay.runtime_state()["missionsDone"]) == 0, "conteggio missioni azzerato")
-
-	# 3) Stato d'uscita per il bridge.
-	gameplay.publish_exit_state()
-	assert(result.has("godotSave"))
-	assert(int(result["level"]) == int(gameplay.runtime_state()["level"]))
 
 	print("C-02 audit OK — contratto runtime completo + loop nativo; livello %d dopo %d missioni" % [int(gameplay.runtime_state()["level"]), played])
 	quit(0)

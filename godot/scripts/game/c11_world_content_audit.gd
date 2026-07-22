@@ -55,7 +55,7 @@ func _audit_subject_routing() -> void:
 	root.add_child(gameplay)
 	var request := {
 		"outdoorState": {"fragments": 0},
-		"godotSave": {
+		"initialSave": {
 			"schemaVersion": 1, "playerId": "c11", "level": 1, "energy": 500, "fragments": 0,
 			"mastery": {}, "missionsBySubject": {}, "apparatus": {},
 			"cosmetics": {"unlocked": [], "equipped": {}}, "modules": {"owned": [], "equipped": []},

@@ -1,7 +1,7 @@
 # Eli Quest — mondo esterno Godot
 
-Questo è il vertical slice Godot del mondo esterno procedurale. Il progetto è
-separato dal runtime Phaser e non modifica il client web esistente.
+Questo è il runtime nativo Godot di Eli Quest. La root Web e la scena principale
+avviano Godot; Phaser non ha più un entrypoint nella build di produzione.
 
 ## Scope
 
@@ -21,7 +21,7 @@ separato dal runtime Phaser e non modifica il client web esistente.
   di sfondo;
 - HUD responsivo (ancore `Control`) adatto a risoluzioni e aspect ratio diversi;
 - portale di uscita nel mondo, più pulsante di uscita nell'HUD;
-- contratto JSON per Phaser con stato in ingresso e risultati in uscita;
+- save canonico Godot con migrazione idempotente dei vecchi file locali;
 - renderer procedurale per bioma ad alto dettaglio (`visual_factory.gd`):
   ombre, glow additivi, alberi a chioma stratificata con ondeggiamento,
   cristalli luminosi, 12 tipi di prop, 6 landmark animati, portale con
@@ -31,23 +31,24 @@ separato dal runtime Phaser e non modifica il client web esistente.
   lucciole notturne, vignetta ai bordi, ping sul punto toccato;
 - micro-animazioni senza Tween (`ambient_anim.gd`) e dettagli deterministici
   da RNG decorativo separato: la parità del generatore non è toccata;
-- **cosmetici della bottega visibili nel mondo**: l'outfit equipaggiato tinge
-  la livrea di Eli (aura, anello, punta), l'accessorio compare come emblema
-  sopra la testa e il **pet acquistato segue il player e reagisce** quando
-  raccogli un tesoro o avvii una prova. I dati arrivano già risolti da Phaser
-  nel campo `avatarVisual` della richiesta (vedi `outdoorAvatar.ts`).
+- **bottega nativa Godot da 53 premi**: catalogo a sette categorie, acquisto,
+  gating livello, equip/rimozione e persistenza nel save canonico. Outfit,
+  accessorio, pet, livrea Bit ed emblema equipaggiato aggiornano subito la resa
+  nel mondo; `avatarVisual` è il fallback visivo della sessione nativa.
 - **HUD economia + obiettivo pinnato**: pannello con energia e frammenti della
   sessione (aggiornati in tempo reale, con popup "+N" fluttuante alla raccolta)
   e barra di avvicinamento al **prossimo cosmetico** della bottega
   ("Ti manca X energia / Puoi comprarlo!"). I campi `energy` e `nextReward`
-  della richiesta sono risolti da `resolveOutdoorPresentation` in Phaser
-  (cosmetico più economico non ancora posseduto e alla portata di livello).
+  sono calcolati dal catalogo e dal save Godot.
+- **nave nativa a sette ponti** con sfondi WebP, apparati guasto/pronto/riparato,
+  restauri della bottega, NORA e diario di progresso locale;
+- **audio nativo** con musica/ambiente giorno-notte, focus esercizi e SFX UI.
 
 ## Avvio
 
-Aprire la cartella `godot/` con Godot 4.x e avviare `scenes/outdoor_world.tscn`.
-Il progetto usa il renderer Compatibility per mantenere una base adatta a Web
-e Windows.
+Aprire la cartella `godot/` con Godot 4.x e avviare il progetto. La main scene è
+`scenes/boot_menu.tscn`; il pulsante **GIOCA** entra nel mondo. Il progetto usa
+il renderer Compatibility per mantenere una base adatta a Web e Windows.
 
 Per un controllo senza aprire la finestra:
 
@@ -55,14 +56,16 @@ Per un controllo senza aprire la finestra:
 & "C:\percorso\Godot_v4.7.1-stable_win64_console.exe" --headless --path . --quit-after 3
 ```
 
-## Contratto
+## Stato e persistenza
 
-Godot legge `user://eli-quest-outdoor-request.json` e scrive
-`user://eli-quest-outdoor-result.json`. Il formato versionato è documentato in
-`docs/OUTDOOR_GODOT_MIGRATION.md`.
+La persistenza economica, didattica, narrativa e cosmetica è autoritativa nel
+save `user://eli-quest-save.json`. `NativeWorldState` contiene soltanto seed e
+delta transitori della sessione. Non esistono più request/result file, bridge
+JavaScript o ritorni a una shell esterna.
 
-La persistenza economica resta sotto il controllo di Phaser: Godot restituisce
-eventi raccolti, non modifica direttamente energia o inventario.
+Missioni, enigmi ed esami applicano il costo normale di 3 energia quando il
+saldo lo consente. Sotto soglia diventano ingressi di recupero gratuiti: il
+giocatore non può restare bloccato fuori dall'unico loop che genera energia.
 
 ## Parità del generatore
 
@@ -80,10 +83,16 @@ Il test Vitest `src/integration/__tests__/outdoorGeneratorFixture.test.ts`
 verifica lo stesso file sul lato TypeScript. Qualsiasi modifica al generatore
 richiede di rigenerare la fixture e rieseguire entrambi i controlli.
 
-Smoke test del flusso Godot (tesoro → incontro pendente → risultato Phaser):
+Smoke test del gameplay Godot (tesoro → missione → esame finale):
 
 ```powershell
 godot --headless --path . --script res://scripts/roundtrip_audit.gd
+```
+
+Smoke test della navigazione completa (`menu → mondo → nave → mondo`):
+
+```powershell
+godot --headless --path . --script res://scripts/game/boot_navigation_audit.gd
 ```
 
 ## Comandi della slice
@@ -91,18 +100,18 @@ godot --headless --path . --script res://scripts/roundtrip_audit.gd
 - `WASD`/frecce: movimento;
 - touch: destinazione del personaggio;
 - `E`: raccoglie, affronta o attraversa il portale quando Eli è vicino;
-- `ESC`: uscita di emergenza con scrittura del risultato.
+- `ESC`: chiude un pannello oppure torna alla scena precedente salvando.
 
 ## Export
 
 I preset `Windows` e `Web` sono già presenti in `export_presets.cfg`.
-Per esportare servono anche gli Export Templates della stessa versione Godot
-(`4.7.1.stable`), installabili da `Editor > Manage Export Templates`.
+I template Web `4.7.1.stable` sono installati nella postazione documentata in
+`insieme.md`; per altre macchine usare `Editor > Manage Export Templates`.
 
 ```powershell
 godot --headless --path . --export-release Windows build/eli-quest-outdoor.exe
 godot --headless --path . --export-release Web ../public/godot/outdoor/index.html
 ```
 
-L'export Web va direttamente in `public/godot/outdoor`, così Vite lo serve
-all'URL `/godot/outdoor/index.html` usato dal pulsante Phaser.
+L'export Web va direttamente in `public/godot/outdoor`; la root Vite reindirizza
+direttamente a `/godot/outdoor/index.html` senza caricare codice Phaser.

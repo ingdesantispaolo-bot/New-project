@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"subject": "elettronica",
-	"generator": "circuit-templates-v1",
+	"generator": "circuit-templates-v2",
 	"items": [
 		{
 			"id": "elettronica-funzione-battery",
@@ -546,6 +546,262 @@
 			],
 			"answer": "Relè non attivato",
 			"explanation": "Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico."
+		},
+		{
+			"id": "elettronica-elettricita-base-0",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Cosa fa accendere una lampadina in un circuito?",
+			"options": [
+				"La corrente elettrica",
+				"Il suono",
+				"Il vento",
+				"La luce del Sole"
+			],
+			"answer": "La corrente elettrica",
+			"explanation": "La corrente che scorre nel filo accende la lampadina."
+		},
+		{
+			"id": "elettronica-elettricita-base-1",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il flusso di cariche elettriche in un filo?",
+			"options": [
+				"Magnetismo",
+				"Tensione statica",
+				"Calore",
+				"Corrente elettrica"
+			],
+			"answer": "Corrente elettrica",
+			"explanation": "La corrente è il movimento delle cariche nel conduttore."
+		},
+		{
+			"id": "elettronica-elettricita-base-2",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "La 'spinta' che mette in movimento la corrente si chiama…",
+			"options": [
+				"Tensione (voltaggio)",
+				"Frequenza",
+				"Massa",
+				"Resistenza"
+			],
+			"answer": "Tensione (voltaggio)",
+			"explanation": "La tensione (in volt) spinge la corrente nel circuito."
+		},
+		{
+			"id": "elettronica-circuito-3",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché una lampadina si accenda, il circuito deve essere…",
+			"options": [
+				"Aperto",
+				"Chiuso",
+				"Bagnato",
+				"Rotto"
+			],
+			"answer": "Chiuso",
+			"explanation": "Solo con il circuito chiuso la corrente può fare un giro completo."
+		},
+		{
+			"id": "elettronica-circuito-4",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A cosa serve un interruttore in un circuito?",
+			"options": [
+				"Ad aprire o chiudere il passaggio di corrente",
+				"A produrre luce",
+				"A misurare il tempo",
+				"A scaldare l'acqua"
+			],
+			"answer": "Ad aprire o chiudere il passaggio di corrente",
+			"explanation": "L'interruttore apre (spegne) o chiude (accende) il circuito."
+		},
+		{
+			"id": "elettronica-circuito-5",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In una torcia, cosa fornisce l'energia elettrica?",
+			"options": [
+				"L'interruttore",
+				"La pila (batteria)",
+				"Il filo",
+				"La lampadina"
+			],
+			"answer": "La pila (batteria)",
+			"explanation": "La pila è il generatore che alimenta il circuito."
+		},
+		{
+			"id": "elettronica-conduttori-6",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale materiale conduce bene l'elettricità?",
+			"options": [
+				"Il legno secco",
+				"Il rame (un metallo)",
+				"La plastica",
+				"La gomma"
+			],
+			"answer": "Il rame (un metallo)",
+			"explanation": "I metalli come il rame sono buoni conduttori."
+		},
+		{
+			"id": "elettronica-conduttori-7",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama un materiale che NON lascia passare la corrente?",
+			"options": [
+				"Generatore",
+				"Isolante",
+				"Conduttore",
+				"Magnete"
+			],
+			"answer": "Isolante",
+			"explanation": "Gomma e plastica sono isolanti: proteggono dai contatti."
+		},
+		{
+			"id": "elettronica-serie-parallelo-8",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In un collegamento in SERIE, se una lampadina si brucia, le altre…",
+			"options": [
+				"Si spengono",
+				"Si accendono di più",
+				"Cambiano colore",
+				"Restano accese"
+			],
+			"answer": "Si spengono",
+			"explanation": "In serie la corrente ha un unico percorso: si interrompe per tutte."
+		},
+		{
+			"id": "elettronica-serie-parallelo-9",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In un collegamento in PARALLELO, se una lampadina si brucia, le altre…",
+			"options": [
+				"Si spengono tutte",
+				"Si spengono a metà",
+				"Restano accese",
+				"Esplodono"
+			],
+			"answer": "Restano accese",
+			"explanation": "In parallelo ogni lampadina ha il suo percorso indipendente."
+		},
+		{
+			"id": "elettronica-sicurezza-elettrica-10",
+			"subject": "elettronica",
+			"topic": "sicurezza-elettrica",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché non si toccano le prese con le mani bagnate?",
+			"options": [
+				"Si sporca la presa",
+				"Consuma più energia",
+				"Fa rumore",
+				"L'acqua conduce e si rischia la scossa"
+			],
+			"answer": "L'acqua conduce e si rischia la scossa",
+			"explanation": "L'acqua rende il corpo conduttore: pericolo di scossa."
+		},
+		{
+			"id": "elettronica-sicurezza-elettrica-11",
+			"subject": "elettronica",
+			"topic": "sicurezza-elettrica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa NON bisogna mai infilare in una presa di corrente?",
+			"options": [
+				"Un copripresa di sicurezza",
+				"Oggetti metallici o le dita",
+				"La spina di un apparecchio",
+				"Niente, è sempre sicuro"
+			],
+			"answer": "Oggetti metallici o le dita",
+			"explanation": "I metalli conducono: infilarli nella presa è pericolosissimo."
+		},
+		{
+			"id": "elettronica-componenti-12",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A cosa serve un resistore in un circuito?",
+			"options": [
+				"A limitare la corrente",
+				"A spegnere il computer",
+				"A produrre corrente",
+				"A illuminare sempre"
+			],
+			"answer": "A limitare la corrente",
+			"explanation": "Il resistore riduce la corrente, proteggendo gli altri componenti."
+		},
+		{
+			"id": "elettronica-componenti-13",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un LED si accende solo se collegato…",
+			"options": [
+				"Nel verso giusto (ha una polarità)",
+				"Solo al buio",
+				"In qualsiasi verso",
+				"Solo con l'acqua"
+			],
+			"answer": "Nel verso giusto (ha una polarità)",
+			"explanation": "Il LED conduce in un solo verso: va rispettata la polarità."
+		},
+		{
+			"id": "elettronica-misure-elettriche-14",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Con quale unità si misura la tensione?",
+			"options": [
+				"Volt",
+				"Watt",
+				"Gradi",
+				"Metri"
+			],
+			"answer": "Volt",
+			"explanation": "La tensione si misura in volt (V)."
+		},
+		{
+			"id": "elettronica-misure-elettriche-15",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Con quale unità si misura la corrente elettrica?",
+			"options": [
+				"Secondi",
+				"Litri",
+				"Ampere",
+				"Volt"
+			],
+			"answer": "Ampere",
+			"explanation": "La corrente si misura in ampere (A)."
 		}
 	]
 }

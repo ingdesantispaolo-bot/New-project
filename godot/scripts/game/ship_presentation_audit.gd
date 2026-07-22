@@ -20,11 +20,16 @@ func _run() -> void:
 	var screen := hub.find_child("ShipScreen", true, false) as Control
 	var background := hub.find_child("RoomBackground", true, false) as TextureRect
 	var back := hub.find_child("BackToWorldButton", true, false) as Button
+	var power := hub.find_child("ShipPowerOverlay", true, false) as Control
+	var activation_bar := hub.find_child("ShipActivationProgress", true, false) as ProgressBar
+	var activation_phase := hub.find_child("ActivationPhase", true, false) as Label
 	assert(screen != null and screen.size == root.get_visible_rect().size,
 		"la nave deve occupare l'intero viewport")
 	assert(background != null and background.texture != null,
 		"sfondo nave non caricato")
 	assert(background.size == screen.size, "sfondo nave non fullscreen")
+	assert(power != null and power.size == screen.size, "rete energetica nave non fullscreen")
+	assert(activation_bar != null and activation_phase != null, "stato di riattivazione non esposto")
 	_assert_visible_control(back, "Torna al mondo")
 
 	var ids := ShipRoomCatalog.ids()
@@ -36,6 +41,7 @@ func _run() -> void:
 		assert(ResourceLoader.exists(texture_path), "asset nave assente: %s" % texture_path)
 		var button := hub.find_child("RoomButton_%s" % id, true, false) as Button
 		_assert_visible_control(button, "ponte %s" % id)
+		assert(button.text.contains("%"), "il ponte %s non mostra la propria potenza" % id)
 		hub.call("_select_room", id)
 		await process_frame
 		assert(background.texture != null and background.texture.resource_path == texture_path,
@@ -45,7 +51,7 @@ func _run() -> void:
 
 	var card := hub.find_child("ApparatusCard", true, false) as Control
 	_assert_visible_control(card, "scheda apparato")
-	print("SHIP PRESENTATION audit OK - 7 ponti WebP, layout fullscreen e controlli nel viewport")
+	print("SHIP PRESENTATION audit OK - 7 ponti WebP, rete energetica e potenza nel viewport")
 	quit(0)
 
 func _assert_visible_control(control: Control, label: String) -> void:

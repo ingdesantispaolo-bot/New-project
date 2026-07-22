@@ -79,14 +79,18 @@ func _test_integrazione_pipeline() -> void:
 	var subject := str(gameplay.runtime_state()["focusSubject"])
 	var requested := {"session": {}}
 	gameplay.session_requested.connect(func(s): requested["session"] = s)
+	var missions_before := int(gameplay.runtime_state()["missionsDone"])
+	var mastery_before := gameplay.game_save.mastery_of(subject)
 	assert(gameplay.try_start_minigame({"subject": subject}, "mg-1"), "minigioco avviabile")
 	var session: Dictionary = requested["session"]
 	assert(str(session.get("kind", "")) == "minigame", "kind minigame")
 	var res := _play_session(gameplay, session, true)
-	var missions_before := int(gameplay.runtime_state()["missionsDone"])
 	gameplay.resolve_session(res)
-	assert(int(gameplay.runtime_state()["missionsDone"]) == missions_before + 1, "il minigioco conta come missione")
-	assert(Array(result["completedEncounterIds"]).has("mg-1"), "incontro minigioco completato")
+	# Pratica: NON conta per il gate e NON completa un incontro (rigiocabile).
+	assert(int(gameplay.runtime_state()["missionsDone"]) == missions_before, "la pratica non deve contare per il gate")
+	assert(not Array(result["completedEncounterIds"]).has("mg-1"), "la pratica non deve completare un incontro")
+	assert(gameplay.game_save.mastery_of(subject) > mastery_before, "la pratica deve migliorare la padronanza")
+	assert(gameplay.try_start_minigame({"subject": subject}, "mg-1"), "la Palestra deve essere ripetibile")
 	gameplay.queue_free()
 
 # --- helper ------------------------------------------------------------------

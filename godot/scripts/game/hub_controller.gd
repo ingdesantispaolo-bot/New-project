@@ -21,7 +21,7 @@ func state() -> Dictionary:
 	var gate := progression.current_gate()
 	var apparatus := str(gate.get("apparatus", "nucleo"))
 	var repaired_level := int(save.data.get("apparatus", {}).get(apparatus, {}).get("repairedLevel", 0))
-	return {"level": save.level(), "apparatus": apparatus, "subject": str(gate.get("subject", "matematica")), "ready": progression.can_repair(), "repairedLevel": repaired_level}
+	return {"level": save.level(), "apparatus": apparatus, "subject": str(gate.get("subject", "matematica")), "ready": progression.can_repair(), "complete": progression.is_complete(), "repairedLevel": repaired_level}
 
 func request_exam() -> bool:
 	if not progression.can_repair():

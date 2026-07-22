@@ -5,6 +5,7 @@ extends Node2D
 
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
+const SHIP_POWER_OVERLAY_SCRIPT := preload("res://scripts/ui/ship_power_overlay.gd")
 
 var controller: HubController
 var content: ContentManager
@@ -18,6 +19,7 @@ var current_room_id := ShipRoomCatalog.DEFAULT_ROOM
 var room_state: Dictionary = {}
 var background: TextureRect
 var background_material: ShaderMaterial
+var power_overlay: ShipPowerOverlay
 var room_title: Label
 var room_description: Label
 var nora_portrait: Control
@@ -30,10 +32,18 @@ var mission_bar: ProgressBar
 var mastery_bar: ProgressBar
 var repair_button: Button
 var restoration_label: Label
+var activation_label: Label
+var activation_segments: Label
+var activation_bar: ProgressBar
 var terminal_mount: Control
 var terminal_visual: Node2D
 var room_buttons: Dictionary = {}
 var log_dialog: AcceptDialog
+var celebration_root: Control
+var celebration_flash: ColorRect
+var celebration_panel: PanelContainer
+var celebration_title: Label
+var celebration_detail: Label
 
 func _ready() -> void:
 	controller = HubController.new()
@@ -88,6 +98,11 @@ func _build_scene() -> void:
 	atmosphere.color = Color(0.01, 0.035, 0.055, 0.18)
 	atmosphere.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	screen.add_child(atmosphere)
+
+	power_overlay = SHIP_POWER_OVERLAY_SCRIPT.new()
+	power_overlay.name = "ShipPowerOverlay"
+	power_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	screen.add_child(power_overlay)
 
 	var safe := MarginContainer.new()
 	safe.name = "SafeArea"
@@ -202,6 +217,7 @@ func _build_body(parent: VBoxContainer) -> void:
 		button.text = str(spec.get("short", id))
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.custom_minimum_size.y = 45
+		button.add_theme_font_size_override("font_size", 13)
 		button.toggle_mode = true
 		button.pressed.connect(_select_room.bind(str(id)))
 		rail_box.add_child(button)
@@ -251,6 +267,24 @@ func _build_body(parent: VBoxContainer) -> void:
 	apparatus_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	apparatus_label.add_theme_font_size_override("font_size", 20)
 	card_box.add_child(apparatus_label)
+	activation_label = Label.new()
+	activation_label.name = "ActivationPhase"
+	activation_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	activation_label.add_theme_font_size_override("font_size", 13)
+	card_box.add_child(activation_label)
+	activation_bar = ProgressBar.new()
+	activation_bar.name = "ShipActivationProgress"
+	activation_bar.min_value = 0
+	activation_bar.max_value = 100
+	activation_bar.show_percentage = false
+	activation_bar.custom_minimum_size.y = 9
+	card_box.add_child(activation_bar)
+	activation_segments = Label.new()
+	activation_segments.name = "ActivationSegments"
+	activation_segments.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	activation_segments.add_theme_font_size_override("font_size", 11)
+	activation_segments.add_theme_color_override("font_color", Color("91aeb2"))
+	card_box.add_child(activation_segments)
 	restoration_label = Label.new()
 	restoration_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	restoration_label.add_theme_font_size_override("font_size", 11)
@@ -297,6 +331,55 @@ func _build_exercise_overlay() -> void:
 	log_dialog.title = "DIARIO DI BORDO · SOLO LOCALE"
 	log_dialog.min_size = Vector2i(620, 420)
 	exercise_layer.add_child(log_dialog)
+	_build_activation_celebration()
+
+func _build_activation_celebration() -> void:
+	var layer := CanvasLayer.new()
+	layer.name = "ActivationCelebrationLayer"
+	layer.layer = 30
+	add_child(layer)
+	celebration_root = Control.new()
+	celebration_root.name = "ActivationCelebration"
+	celebration_root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	celebration_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	celebration_root.visible = false
+	layer.add_child(celebration_root)
+	celebration_flash = ColorRect.new()
+	celebration_flash.name = "ActivationFlash"
+	celebration_flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	celebration_flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	celebration_root.add_child(celebration_flash)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	celebration_root.add_child(center)
+	celebration_panel = PanelContainer.new()
+	celebration_panel.name = "ActivationMilestone"
+	celebration_panel.custom_minimum_size = Vector2(590, 176)
+	center.add_child(celebration_panel)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 34)
+	margin.add_theme_constant_override("margin_top", 24)
+	margin.add_theme_constant_override("margin_right", 34)
+	margin.add_theme_constant_override("margin_bottom", 24)
+	celebration_panel.add_child(margin)
+	var copy := VBoxContainer.new()
+	copy.alignment = BoxContainer.ALIGNMENT_CENTER
+	copy.add_theme_constant_override("separation", 8)
+	margin.add_child(copy)
+	var eyebrow := Label.new()
+	eyebrow.text = "✦  PROTOCOLLO DI RIATTIVAZIONE  ✦"
+	eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	eyebrow.add_theme_font_size_override("font_size", 12)
+	copy.add_child(eyebrow)
+	celebration_title = Label.new()
+	celebration_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	celebration_title.add_theme_font_size_override("font_size", 30)
+	copy.add_child(celebration_title)
+	celebration_detail = Label.new()
+	celebration_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	celebration_detail.add_theme_font_size_override("font_size", 14)
+	copy.add_child(celebration_detail)
 
 func _select_room(id: String) -> void:
 	if not ShipRoomCatalog.ROOMS.has(id):
@@ -318,35 +401,51 @@ func _apply_state(state: Dictionary) -> void:
 		return
 	room_state = ShipRoomCatalog.room(current_room_id)
 	var accent := Color(str(room_state.get("accent", "6be7d6")))
+	var activation := ShipActivationModel.activation_for_room(save, current_room_id)
 	background.texture = load(str(room_state.get("texture", ""))) as Texture2D
 	background_material.set_shader_parameter("accent", accent)
+	background_material.set_shader_parameter("activation", float(activation.get("ratio", 0.0)))
+	if is_instance_valid(power_overlay):
+		power_overlay.set_activation(float(activation.get("ratio", 0.0)), int(activation.get("stage", 0)), accent)
 	room_title.text = "NAVE · %s" % str(room_state.get("label", "Ponte Centrale")).to_upper()
 	room_description.text = str(room_state.get("description", ""))
 	level_label.text = "LIVELLO %d\nENERGIA %d" % [save.level(), save.energy()]
 	for id in room_buttons:
 		var button: Button = room_buttons[id]
+		var room_activation := ShipActivationModel.activation_for_room(save, str(id))
+		var spec := ShipRoomCatalog.room(str(id))
+		button.text = "%s  %s · %d%%" % [str(room_activation.get("short", "○")), str(spec.get("short", id)), int(room_activation.get("percent", 0))]
+		button.tooltip_text = "%s — %s" % [str(spec.get("label", id)), str(room_activation.get("title", "SISTEMA INERTE"))]
 		button.button_pressed = str(id) == current_room_id
 
 	var current_gate := controller.progression.current_gate()
+	var campaign_complete := controller.progression.is_complete()
 	var gate_apparatus := str(current_gate.get("apparatus", "nucleo"))
 	var room_apparatus := str(room_state.get("apparatus", "nucleo"))
-	var is_current_gate := room_apparatus == gate_apparatus
-	var repaired_level := int(save.data.get("apparatus", {}).get(room_apparatus, {}).get("repairedLevel", 0))
+	var gate_room_id := ShipRoomCatalog.room_for_apparatus(gate_apparatus)
+	var is_current_gate := not campaign_complete and current_room_id == gate_room_id
 	var terminal_state := "broken"
 	if is_current_gate and bool(state.get("ready", false)):
 		terminal_state = "ready"
-	elif not is_current_gate and repaired_level > 0:
+	elif int(activation.get("completed", 0)) > 0:
 		terminal_state = "repaired"
-	_replace_terminal(terminal_state, accent, room_apparatus)
+	var displayed_apparatus := gate_apparatus if is_current_gate else room_apparatus
+	_replace_terminal(terminal_state, accent, displayed_apparatus)
 
 	var restoration_id := str(room_state.get("restoration", ""))
 	var restored := rewards.owned(restoration_id)
 	background_material.set_shader_parameter("restored", 1.0 if restored else 0.0)
 	restoration_label.text = "✦ RESTAURO ATTIVO" if restored else "RESTAURO DISPONIBILE IN BOTTEGA"
 	restoration_label.add_theme_color_override("font_color", Color("f7d37a") if restored else Color("809da2"))
-	status_chip.text = terminal_state.to_upper()
-	status_chip.add_theme_color_override("font_color", accent if terminal_state != "broken" else Color("a5b0b3"))
-	apparatus_label.text = room_apparatus.replace("-", " ").to_upper()
+	status_chip.text = str(activation.get("title", "SISTEMA INERTE"))
+	status_chip.add_theme_color_override("font_color", accent if int(activation.get("stage", 0)) > 0 else Color("a5b0b3"))
+	apparatus_label.text = displayed_apparatus.replace("-", " ").to_upper()
+	activation_label.text = "POTENZA DEL PONTE · %d%%" % int(activation.get("percent", 0))
+	activation_label.add_theme_color_override("font_color", accent if int(activation.get("stage", 0)) > 0 else Color("84999d"))
+	activation_bar.value = int(activation.get("percent", 0))
+	activation_bar.add_theme_stylebox_override("background", _progress_style(Color(0.02, 0.055, 0.065, 0.92), 4))
+	activation_bar.add_theme_stylebox_override("fill", _progress_style(Color(accent, 0.88), 4))
+	activation_segments.text = "%s   %d/%d NODI" % [str(activation.get("segments", "")), int(activation.get("completed", 0)), int(activation.get("total", 0))]
 
 	if is_current_gate:
 		var subject := str(current_gate.get("subject", "matematica"))
@@ -360,12 +459,20 @@ func _apply_state(state: Dictionary) -> void:
 		mastery_bar.value = mastery * 100.0
 		repair_button.text = "AVVIA ESAME FINALE" if bool(state.get("ready", false)) else "COMPLETA LE MISSIONI NEL MONDO"
 		repair_button.disabled = not bool(state.get("ready", false))
+	elif campaign_complete:
+		var completed_subjects := ", ".join(PackedStringArray(room_state.get("subjects", [])))
+		requirements_label.text = "Materie del ponte: %s\nTutti i nodi della nave sono operativi" % completed_subjects
+		mission_bar.max_value = maxi(1, int(activation.get("total", 1)))
+		mission_bar.value = int(activation.get("total", 1))
+		mastery_bar.value = 100
+		repair_button.text = "NAVE COMPLETAMENTE RIATTIVATA"
+		repair_button.disabled = true
 	else:
 		var subjects := ", ".join(PackedStringArray(room_state.get("subjects", [])))
-		requirements_label.text = "Materie del ponte: %s\nApparato corrente: %s" % [subjects, gate_apparatus.replace("-", " ").capitalize()]
-		mission_bar.max_value = 1
-		mission_bar.value = 1 if repaired_level > 0 else 0
-		mastery_bar.value = 100 if repaired_level > 0 else 0
+		requirements_label.text = "Materie del ponte: %s\nProssimo sistema: %s" % [subjects, gate_apparatus.replace("-", " ").capitalize()]
+		mission_bar.max_value = maxi(1, int(activation.get("total", 1)))
+		mission_bar.value = int(activation.get("completed", 0))
+		mastery_bar.value = int(activation.get("percent", 0))
 		repair_button.text = "VAI ALL'APPARATO CORRENTE"
 		repair_button.disabled = false
 
@@ -383,6 +490,8 @@ func _position_terminal() -> void:
 		terminal_visual.position = Vector2(terminal_mount.size.x * 0.5, terminal_mount.size.y * 0.72)
 
 func _repair_action() -> void:
+	if controller.progression.is_complete():
+		return
 	var gate := controller.progression.current_gate()
 	var target_room := ShipRoomCatalog.room_for_apparatus(str(gate.get("apparatus", "nucleo")))
 	if current_room_id != target_room:
@@ -402,17 +511,79 @@ func _start_exam() -> void:
 
 func _on_exam_finished(exam_result: Dictionary) -> void:
 	exercise_player.visible = false
+	var repaired_gate := controller.progression.current_gate()
+	var repaired_room := ShipRoomCatalog.room_for_apparatus(str(repaired_gate.get("apparatus", "nucleo")))
+	var activation_before := ShipActivationModel.activation_for_room(save, repaired_room)
 	if bool(exam_result.get("passed", false)):
-		controller.progression.repair_and_advance(true)
-		progress_report.record(save.level(), str(exam_result.get("subject", "matematica")), save.mastery_of(str(exam_result.get("subject", "matematica"))), 1, float(exam_result.get("seconds", 0.0)))
-		save.save()
-		nora_line.text = str(narrative.reveal_level(save.level()).get("text", "NORA: Apparato riparato. Una nuova rotta è disponibile."))
+		var advanced := controller.progression.repair_and_advance(true)
+		if advanced:
+			var subject := str(repaired_gate.get("subject", exam_result.get("subject", "matematica")))
+			progress_report.record(int(repaired_gate.get("level", save.level())), subject, save.mastery_of(subject), 1, float(exam_result.get("seconds", 0.0)))
+			save.save()
+			current_room_id = repaired_room
+			controller.refresh()
+			_apply_state(controller.state())
+			var activation_after := ShipActivationModel.activation_for_room(save, repaired_room)
+			nora_line.text = str(narrative.reveal_level(save.level()).get("text", "NORA: Apparato riparato. Una nuova rotta è disponibile."))
+			await _play_reactivation_sequence(repaired_room, activation_before, activation_after)
+		else:
+			nora_line.text = "NORA: Il protocollo non può essere applicato. Verifica i requisiti."
 	else:
 		progress_report.record(save.level(), str(exam_result.get("subject", "matematica")), save.mastery_of(str(exam_result.get("subject", "matematica"))), 0, float(exam_result.get("seconds", 0.0)))
 		nora_line.text = "NORA: La diagnosi resta valida. Torna quando vuoi e riprova."
 	save.save()
 	controller.refresh()
 	_apply_state(controller.state())
+
+func _play_reactivation_sequence(room_id: String, before: Dictionary, after: Dictionary) -> void:
+	if not is_instance_valid(celebration_root) or not is_instance_valid(background_material):
+		return
+	var spec := ShipRoomCatalog.room(room_id)
+	var accent := Color(str(spec.get("accent", "6be7d6")))
+	celebration_title.text = str(after.get("title", "SISTEMA RIATTIVATO"))
+	celebration_title.add_theme_color_override("font_color", accent.lightened(0.20))
+	celebration_detail.text = "%s · POTENZA %d%% · NODO %d/%d" % [
+		str(spec.get("label", room_id)).to_upper(),
+		int(after.get("percent", 0)),
+		int(after.get("completed", 0)),
+		int(after.get("total", 0)),
+	]
+	celebration_detail.add_theme_color_override("font_color", Color("d9f5ef"))
+	celebration_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.008, 0.035, 0.05, 0.97), accent, 18))
+	celebration_root.visible = true
+	celebration_flash.color = Color(accent, 0.72)
+	celebration_panel.modulate = Color(1, 1, 1, 0)
+	celebration_panel.scale = Vector2(0.82, 0.82)
+	await get_tree().process_frame
+	celebration_panel.pivot_offset = celebration_panel.size * 0.5
+	background_material.set_shader_parameter("transition_burst", 1.0)
+	if is_instance_valid(power_overlay):
+		power_overlay.burst = 1.0
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "circuit.on", 1.0 + minf(float(after.get("stage", 1)) * 0.035, 0.14))
+	var intro := create_tween().set_parallel(true)
+	intro.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	intro.tween_property(celebration_flash, "color:a", 0.0, 1.15)
+	intro.tween_property(celebration_panel, "modulate:a", 1.0, 0.28)
+	intro.tween_property(celebration_panel, "scale", Vector2.ONE, 0.52)
+	intro.tween_method(_set_activation_burst, 1.0, 0.0, 1.65)
+	await intro.finished
+	if int(after.get("stage", 0)) > int(before.get("stage", 0)):
+		nora_line.text = "NORA: %s ha raggiunto la fase %s." % [str(spec.get("label", room_id)), str(after.get("title", "online")).to_lower()]
+		if is_instance_valid(nora_portrait):
+			nora_portrait.speak(nora_line.text)
+	await get_tree().create_timer(0.72).timeout
+	var outro := create_tween()
+	outro.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	outro.tween_property(celebration_panel, "modulate:a", 0.0, 0.36)
+	await outro.finished
+	celebration_root.visible = false
+
+func _set_activation_burst(value: float) -> void:
+	background_material.set_shader_parameter("transition_burst", value)
+	if is_instance_valid(power_overlay):
+		power_overlay.burst = value
 
 func _show_ship_log() -> void:
 	if not is_instance_valid(log_dialog):
@@ -454,14 +625,27 @@ func _room_shader_material() -> ShaderMaterial:
 shader_type canvas_item;
 uniform vec4 accent : source_color = vec4(0.42, 0.91, 0.84, 1.0);
 uniform float restored : hint_range(0.0, 1.0) = 0.0;
+uniform float activation : hint_range(0.0, 1.0) = 0.0;
+uniform float transition_burst : hint_range(0.0, 1.0) = 0.0;
 void fragment() {
 	vec4 tex = texture(TEXTURE, UV);
 	float edge = smoothstep(0.30, 0.78, distance(UV, vec2(0.5)));
-	float pulse = (sin(TIME * 0.72) * 0.5 + 0.5) * (0.012 + restored * 0.02);
-	float base_light = mix(0.62, 0.92, restored);
-	vec3 color = tex.rgb * base_light;
-	color += accent.rgb * pulse;
-	color *= 1.0 - edge * 0.48;
+	float luma = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
+	float powered = smoothstep(0.0, 0.82, activation);
+	float pulse = (sin(TIME * (0.72 + activation * 1.4)) * 0.5 + 0.5);
+	float unstable = (1.0 - smoothstep(0.05, 0.28, activation)) * activation;
+	float flicker = 1.0 - unstable * (sin(TIME * 17.0) * 0.035 + 0.035);
+	float base_light = mix(0.42, 0.96, powered) + restored * 0.06;
+	vec3 dormant = mix(vec3(luma), tex.rgb, 0.38);
+	vec3 color = mix(dormant, tex.rgb, powered) * base_light * flicker;
+	float highlight = smoothstep(0.34, 0.82, luma);
+	color += accent.rgb * highlight * (0.025 + powered * 0.15);
+	float scan = 1.0 - smoothstep(0.0, 0.018, abs(fract(UV.y - TIME * (0.035 + activation * 0.05)) - 0.5));
+	color += accent.rgb * scan * activation * 0.055;
+	color += accent.rgb * pulse * (activation * 0.018 + restored * 0.018);
+	float ignition = transition_burst * (1.0 - smoothstep(0.0, 0.72, distance(UV, vec2(0.5))));
+	color += accent.rgb * ignition * 0.85;
+	color *= 1.0 - edge * mix(0.58, 0.32, powered);
 	COLOR = vec4(color, tex.a);
 }
 """
@@ -477,4 +661,10 @@ func _panel_style(fill: Color, border: Color, radius: int) -> StyleBoxFlat:
 	style.set_corner_radius_all(radius)
 	style.shadow_color = Color(0, 0, 0, 0.42)
 	style.shadow_size = 10
+	return style
+
+func _progress_style(fill: Color, radius: int) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.set_corner_radius_all(radius)
 	return style

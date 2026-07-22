@@ -106,6 +106,7 @@ func runtime_state() -> Dictionary:
 		"masteryThreshold": mastery_threshold,
 		"masteryProgress": clampf(mastery / maxf(0.001, mastery_threshold), 0.0, 1.0),
 		"ready": bool(progress.get("ready", false)),
+		"complete": bool(progress.get("complete", false)),
 		"energy": game_save.energy(),
 		"fragments": base_fragments + int(result.get("fragmentsEarned", 0)),
 		"phase": current_phase,
@@ -126,6 +127,8 @@ func update_phase(phase: String) -> void:
 
 func apparatus_prompt() -> String:
 	var progress := progression_manager.repair_progress()
+	if bool(progress.get("complete", false)):
+		return "Nave completamente riattivata · tutti i 24 nodi sono online"
 	if bool(progress.get("ready", false)):
 		return "Premi E per affrontare l'esame finale del Nucleo"
 	return "Nucleo: %d/%d missioni · padronanza %.0f%%/%.0f%%" % [
@@ -248,13 +251,24 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	var total := int(exercise_result.get("total", 0))
 	var passed := bool(exercise_result.get("passed", false))
 	var energy_before := game_save.energy()
-	progression_manager.record_mission(subject, correct, total, gained, passed)
+	var kind := str(context.get("kind", "mission"))
+	# I minigiochi sono PRATICA ripetibile: allenano padronanza ed energia ma non
+	# contano per il gate (nessun add_mission) e non completano un incontro.
+	if kind == "minigame":
+		progression_manager.record_practice(subject, correct, total, gained)
+	else:
+		progression_manager.record_mission(subject, correct, total, gained, passed)
 	progression_manager.record_topic_stats(subject, exercise_result.get("topicStats", {}))
 	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
 	_update_spaced_repetition(subject, exercise_result)
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
-	var kind := str(context.get("kind", "mission"))
-	if kind == "mission" or kind == "enigma" or kind == "minigame":
+	if kind == "minigame":
+		# Pratica: nessun gate, nessun completamento persistente → rigiocabile.
+		if passed:
+			feedback.emit("%s +%d energia · pratica completata" % [nora_voice.line("solve"), gained])
+		else:
+			feedback.emit(nora_voice.line("defeat"))
+	elif kind == "mission" or kind == "enigma":
 		var encounter_id := str(context.get("encounterId", ""))
 		if passed and encounter_id != "":
 			var completed: Array = result["completedEncounterIds"]

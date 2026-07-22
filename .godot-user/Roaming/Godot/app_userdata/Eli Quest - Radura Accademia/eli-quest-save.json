@@ -1,0 +1,81 @@
+{
+	"apparatus": {
+		"data-core": {
+			"repairedLevel": 2.0
+		},
+		"nucleo": {
+			"repairedLevel": 1.0
+		}
+	},
+	"cosmetics": {
+		"equipped": {},
+		"inventory": [],
+		"unlocked": []
+	},
+	"daily": {
+		"date": "",
+		"missions": 0.0,
+		"streak": 0.0
+	},
+	"energy": 213.0,
+	"fragments": 0.0,
+	"level": 3,
+	"mastery": {
+		"italiano": 0.822021484375,
+		"matematica": 0.7
+	},
+	"masteryByTopic": {},
+	"missionsBySubject": {},
+	"modules": {
+		"equipped": [],
+		"owned": []
+	},
+	"narrative": {
+		"beats": {
+			"2": "NORA: Il Nucleo risponde. La tua costanza trasforma energia in conoscenza.",
+			"3": "NORA: Le mappe della Dorsale mostrano nuove rotte: osserva, prova, ricorda."
+		},
+		"seen": [
+			"2",
+			"3"
+		]
+	},
+	"playerId": "local",
+	"progressReport": {
+		"events": [
+			{
+				"level": 1.0,
+				"mastery": 0.7,
+				"missions": 1.0,
+				"seconds": 1.0,
+				"subject": "matematica"
+			},
+			{
+				"level": 1.0,
+				"mastery": 0.7,
+				"missions": 1.0,
+				"seconds": 1.0,
+				"subject": "matematica"
+			},
+			{
+				"level": 2.0,
+				"mastery": 0.25,
+				"missions": 1.0,
+				"seconds": 0.0,
+				"subject": "italiano"
+			},
+			{
+				"level": 2.0,
+				"mastery": 0.822021484375,
+				"missions": 1.0,
+				"seconds": 0.0,
+				"subject": "italiano"
+			}
+		]
+	},
+	"schemaVersion": 1,
+	"spacedRepetition": {
+		"due": {},
+		"history": []
+	}
+}

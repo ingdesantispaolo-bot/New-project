@@ -1454,3 +1454,61 @@ criticità o vuoi un ordine diverso.
   destri univoci (verificato in audit) per evitare ambiguità. La navigazione
   live nel mondo resta il pezzo di Codex/Insieme.
 - Prossimo passo: resa Codex dei minigiochi + POI, oppure C-16 passo 3.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · controllo stato migrazione (post "godot full")
+- Fatto: verifica dello stato C-16 dopo il commit di Codex `5cb423f` ("godot full").
+  **Migrazione runtime Phaser→Godot COMPLETA e consistente**:
+  - Save nativo autoritativo (`NativeWorldState` ha sostituito `OutdoorSaveBridge`;
+    `apply_launch_state`/`initialSave`); zero riferimenti residui ai simboli
+    bridge rimossi (`import_bridge_request`/`godotSave`/`OutdoorSaveBridge`/…).
+  - Boot nativo (`boot_menu.tscn` = `run/main_scene`); `phaser.html` rimosso.
+  - **Build verificato da me**: `npm run build` → solo `index.html` (1.97 kB,
+    redirect a Godot), **nessun bundle Phaser**; deploy = export Godot.
+  - **Vitest verificato da me**: 184/184 verdi (l'archivio TS è auto-consistente,
+    nulla rotto dalla migrazione).
+  - Le mie audit toccate dal rename (c16/enigma/minigame) risultano già aggiornate
+    da Codex al nuovo contratto (`initialSave`).
+- **Cosa RESTA** (non è più meccanica di migrazione — sono decisioni/verifica/feature):
+  1. **Decisione archivio vs purge**: ~34 scene + ~40 sistemi `src/core` Phaser +
+     `main.ts` + `integration/outdoorGodotBridge.ts` e le dipendenze phaser/howler
+     restano come "archivio offline" (scelta deliberata di Codex, in matrice §C-16).
+     Non entrano nel deploy/runtime. Da decidere se cancellarli (tenendo `src/data`,
+     usato dal bake, e il generatore di parità) o mantenerli.
+  2. **Verifica in editor delle audit didattiche** aggiunte dopo il lavoro C-16:
+     `minigame_audit`, `math_story_audit`, `topic_mastery_audit`, `adaptive_audit`,
+     `pace_audit` (Godot non nel PATH nell'ambiente di sviluppo).
+  3. **Feature pendenti** (non migrazione): POI + resa dei minigiochi/enigmi nel
+     mondo (handoff Codex). `try_start_minigame` è pronto, non ancora cablato a un POI.
+- File: nessuno modificato (solo verifica).
+- Prossimo passo: attendo decisione utente su archivio vs purge del Phaser morto;
+  in parallelo, resa/POI minigiochi lato Codex.
+
+### Aggiornamento 2026-07-22 · Claude Opus (Collaboratore) · minigiochi cablati nel mondo (Palestra)
+- Fatto: cablato il POI dei minigiochi (prima `try_start_minigame` era pronto ma
+  non raggiungibile). Scelta di design: una **Palestra dei Minigiochi** di
+  **PRATICA ripetibile** sulla materia del livello corrente, distinta da enigmi e
+  incontri (one-shot, contano per il gate):
+  - `outdoor_world` (Insieme, tocco minimo annotato): `_create_minigame_pois()`
+    crea un POI `PalestraMinigiochi` (gruppo `minigame_poi`, kind `minigame`) vicino
+    al portale, con marker segnaposto (disco + ★). Dispatch aggiunta in
+    `_refresh_prompt` e `_interact`: la materia è quella del livello
+    (`runtime.focusSubject`), risolta al momento dell'interazione.
+  - `OutdoorGameplay.resolve_session`: ramo `minigame` dedicato → **pratica**
+    (padronanza per-topic + energia, ma **niente add_mission/gate e niente
+    completamento persistente** → rigiocabile). Nuovo
+    `ProgressionManager.record_practice` (mastery+energia senza contare per il gate).
+  - `minigame_audit` aggiornato alle semantiche di pratica: la Palestra non conta
+    per il gate, non completa un incontro, migliora la padronanza ed è ripetibile.
+- Rationale: una pratica ripetibile allena la mastery per-topic senza farmare i
+  requisiti dell'apparato; un solo POI = piazzamento sicuro (niente rischi di
+  geometria/overlap col cluster enigmi). Espandibile a più stazioni se serve.
+- File: `godot/scripts/outdoor_world.gd`, `godot/scripts/game/outdoor_gameplay.gd`,
+  `progression_manager.gd`, `minigame_audit.gd`.
+- Test/export: `git diff --check` pulito; nessun ternario C-style. Da eseguire in
+  editor: `minigame_audit.gd` (aggiornato) + retro-compatibili.
+- **Handoff Codex**: sostituire il marker segnaposto `MinigameMarker` con la resa
+  vera (icona/alone diegetico, come per gli altri POI) e il polish drag&drop dei
+  formati `ordering`/`matching`. Contratto invariato: gruppo `minigame_poi`,
+  kind `minigame`; i dati sessione sono `format`+`items`/`correctOrder` (ordering)
+  e `pairs:[{left,right}]` (matching).
+- Prossimo passo: resa Codex; oppure decisione archivio-vs-purge del Phaser morto.

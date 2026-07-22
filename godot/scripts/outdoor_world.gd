@@ -90,6 +90,7 @@ func _ready() -> void:
 	_create_portal()
 	_create_apparatus_terminal()
 	_create_enigma_pois()
+	_create_minigame_pois()
 	_create_atmosphere()
 	_create_hud()
 	_create_exercise_player()
@@ -452,6 +453,48 @@ func _create_enigma_pois() -> void:
 		enigma.body_entered.connect(func(body): on_interactable_entered(enigma, body))
 		enigma.body_exited.connect(func(body): on_interactable_exited(enigma, body))
 
+# Palestra dei Minigiochi: un POI di PRATICA ripetibile che allena la materia del
+# livello corrente con i formati interattivi (abbina/ordina). Diverso da enigmi e
+# incontri (one-shot, contano per il gate): qui si può tornare a esercitarsi senza
+# farmare i requisiti dell'apparato. Marker segnaposto — la resa raffinata è di Codex
+# (contratto dati: kind="minigame", payload.subject risolto al momento sull'HUD).
+func _create_minigame_pois() -> void:
+	var gym := Area2D.new()
+	gym.name = "PalestraMinigiochi"
+	gym.position = PORTAL_POSITION + Vector2(0, 175)
+	gym.add_to_group("minigame_poi")
+	gym.set_meta("kind", "minigame")
+	gym.set_meta("id", "minigame-gym")
+	gym.set_meta("payload", {"label": "la Palestra dei Minigiochi"})
+	var shape := CollisionShape2D.new()
+	var circle := CircleShape2D.new()
+	circle.radius = INTERACTION_DISTANCE
+	shape.shape = circle
+	gym.add_child(shape)
+	gym.add_child(_make_minigame_marker())
+	world_layer.add_child(gym)
+	gym.body_entered.connect(func(body): on_interactable_entered(gym, body))
+	gym.body_exited.connect(func(body): on_interactable_exited(gym, body))
+
+func _make_minigame_marker() -> Node2D:
+	var marker := Node2D.new()
+	marker.name = "MinigameMarker"
+	var disc := Polygon2D.new()
+	var pts := PackedVector2Array()
+	for i in range(24):
+		var a := TAU * float(i) / 24.0
+		pts.append(Vector2(cos(a), sin(a)) * 30.0)
+	disc.polygon = pts
+	disc.color = Color(0.10, 0.42, 0.46, 0.92)
+	marker.add_child(disc)
+	var label := Label.new()
+	label.text = "★"
+	label.add_theme_font_size_override("font_size", 26)
+	label.add_theme_color_override("font_color", Color("f6c85f"))
+	label.position = Vector2(-9, -20)
+	marker.add_child(label)
+	return marker
+
 func _create_exercise_player() -> void:
 	exercise_player = EXERCISE_PLAYER_SCRIPT.new()
 	exercise_player.name = "ExercisePlayer"
@@ -800,6 +843,9 @@ func _refresh_prompt() -> void:
 			_set_feedback("%s è già ricostruito" % str(payload.get("label", "L'enigma")).capitalize())
 		else:
 			_set_feedback("Premi E per ricostruire %s con gli esercizi" % str(payload.get("label", "il ponte")))
+	elif kind == "minigame":
+		var focus := str(gameplay.runtime_state().get("focusSubject", "matematica"))
+		_set_feedback("Premi E per allenarti con un minigioco di %s" % focus.capitalize())
 	elif kind == "treasure":
 		if result["collectedTreasureIds"].has(id):
 			_set_feedback("Tesoro già raccolto")
@@ -833,6 +879,11 @@ func _interact() -> void:
 			_set_feedback("%s è già ricostruito." % str(enigma_payload.get("label", "L'enigma")).capitalize())
 			return
 		gameplay.try_start_enigma(enigma_payload, id)
+		return
+	if kind == "minigame":
+		# Pratica ripetibile sulla materia del livello corrente (nessun lock).
+		var focus := str(gameplay.runtime_state().get("focusSubject", "matematica"))
+		gameplay.try_start_minigame({"subject": focus, "label": "la Palestra dei Minigiochi"}, id)
 		return
 	if kind == "treasure":
 		var payload: Dictionary = target.get_meta("payload")

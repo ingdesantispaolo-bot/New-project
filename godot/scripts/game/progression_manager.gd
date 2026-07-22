@@ -20,6 +20,16 @@ func record_mission(subject: String, correct: int, total: int, energy_gained: in
 	if energy_gained > 0:
 		save.add_energy(energy_gained)
 
+# PRATICA ripetibile (minigiochi): allena padronanza ed energia SENZA contare per
+# il gate dell'apparato (nessun add_mission) — così la Palestra è rigiocabile e
+# non farma i requisiti di riparazione. La mastery per-topic si aggiorna a parte
+# con record_topic_stats, come per le missioni.
+func record_practice(subject: String, correct: int, total: int, energy_gained: int) -> void:
+	var accuracy := float(correct) / float(maxi(total, 1))
+	save.set_mastery(subject, lerpf(save.mastery_of(subject), accuracy, 0.25))
+	if energy_gained > 0:
+		save.add_energy(energy_gained)
+
 # Aggiorna la padronanza PER-ARGOMENTO dagli esiti della sessione
 # (`topic_stats` = {topic: {"seen", "correct"}}). Media mobile un po' più reattiva
 # di quella per-materia (0.34 vs 0.25): i campioni per topic sono più radi. Al
@@ -38,8 +48,13 @@ func record_topic_stats(subject: String, topic_stats: Dictionary) -> void:
 func current_gate() -> Dictionary:
 	return ApparatusConfig.level_gate(save.level())
 
+func is_complete() -> bool:
+	return save.level() > ApparatusConfig.MAX_LEVEL
+
 # Requisiti soddisfatti per riparare l'apparato del livello corrente?
 func can_repair() -> bool:
+	if is_complete():
+		return false
 	var gate := current_gate()
 	var subject := str(gate["subject"])
 	return save.missions_of(subject) >= int(gate["missionsRequired"]) \
@@ -57,6 +72,7 @@ func repair_progress() -> Dictionary:
 		"mastery": save.mastery_of(subject),
 		"masteryThreshold": float(gate["masteryThreshold"]),
 		"ready": can_repair(),
+		"complete": is_complete(),
 	}
 
 # Ripara l'apparato (esercizio finale superato) e avanza di livello.

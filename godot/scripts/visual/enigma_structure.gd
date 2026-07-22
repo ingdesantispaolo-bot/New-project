@@ -10,6 +10,10 @@ const GATE_TEXTURE: Texture2D = preload("res://assets/enigma-gate-language-v1.pn
 const CIRCUIT_TEXTURE: Texture2D = preload("res://assets/enigma-circuit-tech-v1.png")
 const CRYSTAL_TEXTURE: Texture2D = preload("res://assets/enigma-crystals-harmony-v1.png")
 const REACTOR_TEXTURE: Texture2D = preload("res://assets/enigma-reactor-motion-v1.png")
+const MAP_TEXTURE: Texture2D = preload("res://assets/enigma-map-stars-v1.png")
+const GREENHOUSE_TEXTURE: Texture2D = preload("res://assets/enigma-greenhouse-bio-v1.png")
+const NETWORK_TEXTURE: Texture2D = preload("res://assets/enigma-network-civic-v1.png")
+const GRID_TEXTURE: Texture2D = preload("res://assets/enigma-grid-logic-v1.png")
 const SEGMENT_COUNT := 4
 
 var theme := "ponte"
@@ -284,6 +288,10 @@ func _texture_for_theme(value: String) -> Texture2D:
 		"circuito": return CIRCUIT_TEXTURE
 		"cristalli": return CRYSTAL_TEXTURE
 		"reattore": return REACTOR_TEXTURE
+		"mappa": return MAP_TEXTURE
+		"serra": return GREENHOUSE_TEXTURE
+		"rete": return NETWORK_TEXTURE
+		"griglia": return GRID_TEXTURE
 		_: return BRIDGE_TEXTURE
 
 func _theme_title() -> String:
@@ -294,6 +302,10 @@ func _theme_title() -> String:
 		"circuito": return "CIRCUITO"
 		"cristalli": return "CRISTALLI DELL'ARMONIA"
 		"reattore": return "REATTORE DEI MOTI"
+		"mappa": return "MAPPA STELLARE"
+		"serra": return "SERRA BIO"
+		"rete": return "RETE CIVICA"
+		"griglia": return "GRIGLIA LOGICA"
 		_: return "PONTE DEI PRIMI"
 
 func _accent_for_theme(value: String) -> Color:
@@ -302,12 +314,19 @@ func _accent_for_theme(value: String) -> Color:
 		"circuito": return Color("59e7f2")
 		"cristalli": return Color("b69aff")
 		"reattore": return Color("69e3ed")
+		"mappa": return Color("55dce8")
+		"serra": return Color("79e69d")
+		"rete": return Color("65d9ff")
+		"griglia": return Color("8dc7ff")
 		_: return Color("70ead8")
 
 func _complete_for_theme(value: String) -> Color:
 	match value:
 		"porta": return Color("82ead4")
 		"cristalli": return Color("75f0dd")
+		"serra": return Color("a6f28d")
+		"rete": return Color("8df2d8")
+		"griglia": return Color("ffe08a")
 		_: return Color("f7d56b")
 
 func _tint_for_label(value: String) -> Color:

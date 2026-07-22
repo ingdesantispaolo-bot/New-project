@@ -5,6 +5,8 @@ func _init() -> void:
 		["ponte", "il Ponte dei Primi"], ["porta", "la Porta delle Parole"],
 		["circuito", "il Circuito dei Cicli"], ["cristalli", "i Cristalli dell'Armonia"],
 		["reattore", "il Reattore dei Moti"],
+		["mappa", "la Mappa Stellare"], ["serra", "la Serra Bio"],
+		["rete", "la Rete Civica"], ["griglia", "la Griglia Logica"],
 	]
 	for test_case in cases:
 		var visual := EnigmaStructureVisual.new()
@@ -24,5 +26,5 @@ func _init() -> void:
 		assert(visual.get_node("CompletionGlow").energy > 0.0, "rifinitura finale assente")
 		visual.queue_free()
 		await process_frame
-	print("ENIGMA VISUAL audit OK - 5 temi, progressione, marker e completamento")
+	print("ENIGMA VISUAL audit OK - 9 temi, progressione, marker e completamento")
 	quit(0)

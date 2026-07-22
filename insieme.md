@@ -989,3 +989,27 @@ criticità o vuoi un ordine diverso.
 - Decisioni di design aperte per l'utente (in §7quater): pacing apparati con 12
   materie, profondità contenuti nuovi, memoria come mini-gioco sì/no, struttura
   narrativa C-19.
+
+### Aggiornamento 2026-07-22 (12) · Codex · C-17 visuale e 12 POI chiusi
+- Resi i quattro temi richiesti con asset dedicati, trasparenti e divisibili nei
+  quattro stadi del contratto esistente: **Mappa Stellare** (`mappa`), **Serra
+  Bio** (`serra`), **Rete Civica** (`rete`) e **Griglia Logica** (`griglia`).
+- Collegati texture, titoli e palette in `EnigmaStructureVisual`; nessun nuovo
+  contratto gameplay e nessuna lettura diretta di save/progressione dal visuale.
+- Aggiunti in `outdoor_world` i POI di geografia, scienze, cittadinanza e logica:
+  le 12 materie hanno ora una stazione giocabile. La Mappa Stellare è stata
+  ricollocata dopo il render probe per evitare l'occlusione di un albero.
+- Audit aggiornati: `enigma_visual_audit` verde su **9 temi** e progressione
+  0→4; `enigma_scene_audit` verde su **12 POI** con ingresso, prompt, tasto E e
+  sessione reale; `c04_audit` verde su **12 materie**. Editor scan/import Godot
+  4.7.1 pulito lato progetto.
+- Verifica grafica reale: `terrain_render_probe` verde su **20 probe**; controllati
+  i quattro nuovi screenshot completi nella Radura (scala, alpha, leggibilità,
+  occlusioni e HUD).
+- File: `godot/assets/enigma-{map-stars,greenhouse-bio,network-civic,
+  grid-logic}-v1.png`, `godot/scripts/visual/enigma_structure.gd`,
+  `godot/scripts/outdoor_world.gd`, `godot/scripts/visual/enigma_visual_audit.gd`,
+  `godot/scripts/game/enigma_scene_audit.gd`,
+  `godot/scripts/visual/terrain_render_probe.gd`.
+- Stato: **C-17 visuale chiuso**. C-18 audio resta il prossimo blocco condiviso;
+  non sono stati anticipati asset o hook audio senza coordinamento.

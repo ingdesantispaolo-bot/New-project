@@ -43,6 +43,6 @@ func _init() -> void:
 		assert(exercise.visible, "E non apre ExercisePlayer per %s" % str(area.get_meta("id", "")))
 		assert(gameplay.session_active(), "sessione enigma non avviata per %s" % str(area.get_meta("id", "")))
 		tested += 1
-	assert(tested == 8, "devono essere provati tutti gli 8 enigmi")
-	print("ENIGMA SCENE audit OK - Area2D, prompt, E e sessione su 8 POI")
+	assert(tested == 12, "devono essere provati tutti i 12 enigmi")
+	print("ENIGMA SCENE audit OK - Area2D, prompt, E e sessione su 12 POI")
 	quit(0)

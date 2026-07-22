@@ -388,6 +388,10 @@ func _enigma_poi_specs() -> Array:
 		{ "subject": "elettronica", "id": "enigma-circuito-nucleo", "label": "il Circuito del Nucleo", "offset": Vector2(60, 260) },
 		{ "subject": "musica", "id": "enigma-cristalli-armonia", "label": "i Cristalli dell'Armonia", "offset": Vector2(-40, -260) },
 		{ "subject": "fisica", "id": "enigma-reattore-moti", "label": "il Reattore dei Moti", "offset": Vector2(300, -40) },
+		{ "subject": "geografia", "id": "enigma-mappa-stellare", "label": "la Mappa Stellare", "offset": Vector2(-528, -220) },
+		{ "subject": "scienze", "id": "enigma-serra-bio", "label": "la Serra Bio", "offset": Vector2(-368, 400) },
+		{ "subject": "cittadinanza", "id": "enigma-rete-civica", "label": "la Rete Civica", "offset": Vector2(372, 400) },
+		{ "subject": "logica", "id": "enigma-griglia-logica", "label": "la Griglia Logica", "offset": Vector2(532, -200) },
 	]
 
 func _create_enigma_pois() -> void:

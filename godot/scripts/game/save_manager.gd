@@ -55,6 +55,9 @@ static func _default_data() -> Dictionary:
 		"codex": {},
 		# Stato relazionale di NORA (O-P4): integrità nave, ricordi, fiducia.
 		"nora": {"integrity": 0.0, "memory": 0, "trust": 0.5},
+		# Configurazione dell'esperienza (O-P6): fascia scolastica, curriculum e
+		# materie attive (tutte e 12 di default; configurabili senza toccare il codice).
+		"config": {"schoolBand": "primaria", "curriculum": "base", "activeSubjects": []},
 	}
 
 func load_save() -> void:

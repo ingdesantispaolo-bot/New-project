@@ -25,35 +25,18 @@ didattici trasformano visivamente mondo e nave.
 Codex è responsabile di runtime Godot, scene, resa, input, integrazione visuale,
 navigazione, performance ed export.
 
-### C-P5 — Strategia per completare i mondi 9–24
+### C-P5 — Strategia per completare i mondi 13–24
 
-Si procede con quattro ondate da quattro mondi. Una nuova ondata parte soltanto
-dopo audit, render e correzione visiva della precedente.
+Restano tre ondate da quattro mondi. Una nuova ondata parte soltanto dopo audit,
+render, correzione visiva e revisione semantica della precedente.
 
-#### Ondata C — Mondi 9–12
+#### Gate C — revisione Opus prima dell’Ondata D1
 
-Questa ondata deve consolidare la pipeline per acqua/isole, vegetazione
-architettonica, città e geometria dinamica.
-
-- [ ] **9 · Arcipelago Cartografico** — isole separate e rotte leggibili, torre
-  cartografica, approdi e segnali di quota; ogni successo illumina un tratto di
-  rotta e collega due isole.
-- [ ] **10 · Serra delle Simbiosi** — terrazze e cupole vive, flora/fauna
-  organizzata per habitat, Cupola Vivente; gli anelli dell’ecosistema si
-  attivano e fanno fiorire progressivamente la serra.
-- [ ] **11 · Città dei Patti** — piazze collegate a servizi civici, quartieri
-  distinguibili e Palazzo dei Patti; le decisioni corrette popolano una piazza
-  e aprono visivamente un servizio.
-- [ ] **12 · Labirinto delle Regole** — griglia modulare, settori e muri mobili,
-  Cuore del Labirinto; ogni regola individuata allinea un modulo e apre un
-  nuovo corridoio visibile.
-- [ ] Creare quattro underpaint, quattro landmark trasparenti e relativi
-  `.import`; aggiungere kit di prop, ingresso nave e reazioni a cinque stadi.
-- [ ] Creare `world_wave_c_audit.gd` e portare a verde le regressioni A/B/C.
-- [ ] Produrre per ogni mondo capture HUD desktop, clean desktop, HUD tablet,
-  clean tablet e landmark.
-- [ ] Gate C: nessuna topologia o firma visiva duplicata; budget Web ≤ 900 draw
-  call e mobile ≤ 700.
+- [ ] **Opus:** verificare che rotte cartografiche, ecosistemi, servizi civici e
+  regole mobili rappresentino correttamente i contratti didattici dei mondi
+  9–12; segnalare in questo file soltanto eventuali correzioni concrete.
+- [ ] **Codex:** applicare le eventuali correzioni semantiche richieste da Opus
+  senza indebolire leggibilità, input touch o budget prestazionale.
 
 #### Ondata D1 — Mondi 13–16
 
@@ -138,6 +121,9 @@ Definizione di completato per un mondo:
 
 ### C-P6 — Pass AAA e consegna
 
+- [ ] Riallineare `enigma_scene_audit.gd` al runtime per profili: non deve
+  presumere dodici enigmi caricati nella stessa scena e deve verificare tap,
+  avvicinamento e pulsante contestuale oltre alla tastiera.
 - [ ] Regia, camera, animazioni, transizioni e sound design dei traguardi.
 - [ ] Coerenza di art direction tra Eli, mondi, nave, NORA e UI.
 - [ ] Compressione audio e texture senza perdita percettibile.
@@ -158,8 +144,6 @@ fine di ogni ondata, senza modificare posizionamento o resa visuale.
 > rieseguirli sui mondi consegnati: il controllo semantico Opus si riduce a
 > confermare che la resa di Codex rispetti questi contratti già validati.
 
-- [ ] dopo C, verificare che rotte, ecosistemi, servizi civici e regole mobili
-  rappresentino correttamente i contratti dei mondi 9–12;
 - [ ] dopo D1, verificare trasferimento, testi NORA e coerenza disciplinare dei
   mondi 13–16;
 - [ ] dopo D2, verificare che le trasformazioni 17–20 comunichino davvero il

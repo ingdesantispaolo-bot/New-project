@@ -251,6 +251,22 @@ func _configure_profile_palette() -> void:
 		profile_night_tint = Color("638f98")
 		profile_dawn_tint = Color("246b72")
 		profile_day_tint = Color("b9d9d7")
+	elif world_level == 9:
+		profile_night_tint = Color("365d73")
+		profile_dawn_tint = Color("89b6c4")
+		profile_day_tint = Color("e0f1ed")
+	elif world_level == 10:
+		profile_night_tint = Color("426b51")
+		profile_dawn_tint = Color("91ba86")
+		profile_day_tint = Color("dff0d7")
+	elif world_level == 11:
+		profile_night_tint = Color("5f4a3c")
+		profile_dawn_tint = Color("d69a6e")
+		profile_day_tint = Color("f0dfc5")
+	elif world_level == 12:
+		profile_night_tint = Color("4b607a")
+		profile_dawn_tint = Color("7188a5")
+		profile_day_tint = Color("d5deea")
 	if not request.has("resume"):
 		var lighting := str(world_profile.get("lighting", "")).to_lower()
 		if "notte" in lighting or "penombra" in lighting:
@@ -588,6 +604,14 @@ func _hero_landmark_position() -> Vector2:
 		return PORTAL_POSITION + Vector2(0, 1450)
 	if world_level == 8:
 		return PORTAL_POSITION + Vector2(0, 1420)
+	if world_level == 9:
+		return PORTAL_POSITION + Vector2(0, 1420)
+	if world_level == 10:
+		return PORTAL_POSITION + Vector2(0, 1400)
+	if world_level == 11:
+		return PORTAL_POSITION + Vector2(0, 1450)
+	if world_level == 12:
+		return PORTAL_POSITION + Vector2(0, 1420)
 	return PORTAL_POSITION + Vector2(690, -210)
 
 func _create_profile_portal_dressing() -> void:
@@ -622,6 +646,26 @@ func _create_profile_portal_dressing() -> void:
 			{"kind": "circuit_node", "offset": Vector2(-150, 46), "variant": 0.26},
 			{"kind": "coil_tower", "offset": Vector2(150, 46), "variant": 0.77},
 		]
+	elif world_level == 9:
+		specs = [
+			{"kind": "route_beacon", "offset": Vector2(-150, 44), "variant": 0.24},
+			{"kind": "contour_plinth", "offset": Vector2(150, 44), "variant": 0.74},
+		]
+	elif world_level == 10:
+		specs = [
+			{"kind": "pollinator_lamp", "offset": Vector2(-150, 44), "variant": 0.25},
+			{"kind": "symbiosis_pod", "offset": Vector2(150, 44), "variant": 0.75},
+		]
+	elif world_level == 11:
+		specs = [
+			{"kind": "pact_column", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "civic_kiosk", "offset": Vector2(150, 46), "variant": 0.75},
+		]
+	elif world_level == 12:
+		specs = [
+			{"kind": "rule_node", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "logic_gate", "offset": Vector2(150, 46), "variant": 0.75},
+		]
 	for spec in specs:
 		var dressing := OutdoorVisualFactory.build_identity_prop(
 			str(spec["kind"]), "ship_entrance", float(spec["variant"]))
@@ -650,6 +694,10 @@ func _create_profile_landmark() -> void:
 		"resonantTree" if world_level == 6 else
 		"glyphArch" if world_level == 7 else
 		"circuitNode" if world_level == 8 else
+		"cartographyTower" if world_level == 9 else
+		"livingDome" if world_level == 10 else
+		"pactPalace" if world_level == 11 else
+		"labyrinthHeart" if world_level == 12 else
 		str(kinds.get(subject, "skyTree"))
 	)
 	var label := str(names[0]).replace("-", " ").capitalize()
@@ -660,7 +708,7 @@ func _create_profile_landmark() -> void:
 	landmark.set_meta("transform_trigger", str(environment_transform.get("trigger", "")))
 	landmark.set_meta("transform_effect", str(environment_transform.get("effect", "")))
 	landmark.position = _hero_landmark_position()
-	landmark.scale = Vector2.ONE * (1.52 if world_level in [3, 4] else 1.48 if world_level in [5, 6, 7, 8] else 1.32)
+	landmark.scale = Vector2.ONE * (1.52 if world_level in [3, 4] else 1.48 if world_level in [5, 6, 7, 8, 9, 10, 11, 12] else 1.32)
 	world_layer.add_child(landmark)
 	profile_hero_landmark = landmark
 	profile_environment_reaction = LEARNING_REACTION_SCRIPT.new()
@@ -671,7 +719,7 @@ func _create_profile_landmark() -> void:
 		environment_transform)
 	profile_environment_reaction.name = "ProfileEnvironmentTransform"
 	profile_environment_reaction.position = _hero_landmark_position() + Vector2(0, 42)
-	profile_environment_reaction.scale = Vector2.ONE * (1.75 if world_level in [3, 4, 5, 6, 7, 8] else 1.35)
+	profile_environment_reaction.scale = Vector2.ONE * (1.75 if world_level in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12] else 1.35)
 	world_layer.add_child(profile_environment_reaction)
 
 func _learning_reaction_theme() -> String:
@@ -689,6 +737,14 @@ func _learning_reaction_theme() -> String:
 		return "glyph_ruins"
 	if world_level == 8:
 		return "circuit_delta"
+	if world_level == 9:
+		return "charted_archipelago"
+	if world_level == 10:
+		return "symbiosis_greenhouse"
+	if world_level == 11:
+		return "civic_city"
+	if world_level == 12:
+		return "rule_labyrinth"
 	return "radura"
 
 func _sync_profile_environment_transform(animate: bool) -> void:
@@ -753,7 +809,11 @@ func _create_profile_events() -> void:
 		if director_kind == "enigma":
 			var visual := ENIGMA_STRUCTURE.new()
 			visual.name = "EnigmaStructureVisual"
-			visual.setup(ContentManager.enigma_theme(str(payload["subject"])), str(payload["label"]))
+			# La struttura antepone già "ENIGMA": il titolo deve contenere solo
+			# la materia, altrimenti appare "ENIGMA · ENIGMA DI …".
+			visual.setup(
+				ContentManager.enigma_theme(str(payload["subject"])),
+				str(payload["subject"]).capitalize())
 			var complete := Array(result.get("completedEncounterIds", [])).has(str(event.get("id", "")))
 			visual.set_stage(4 if complete else 0, 4)
 			area.add_child(visual)
@@ -771,7 +831,10 @@ func _create_profile_events() -> void:
 		reaction.position = Vector2(0, 28)
 		reaction.set_complete(Array(result.get("completedEncounterIds", [])).has(str(event.get("id", ""))))
 		area.add_child(reaction)
-		area.add_child(_make_event_caption(director_kind, str(payload["subject"])))
+		# EnigmaStructureVisual possiede già un titolo contestuale leggibile:
+		# aggiungerne un secondo produceva etichette sovrapposte su tablet.
+		if director_kind != "enigma":
+			area.add_child(_make_event_caption(director_kind, str(payload["subject"])))
 		world_layer.add_child(area)
 		area.body_entered.connect(func(body): on_interactable_entered(area, body))
 		area.body_exited.connect(func(body): on_interactable_exited(area, body))
@@ -858,6 +921,22 @@ func _create_profile_weather() -> void:
 		world_weather_particles.scale_amount_min = 0.08
 		world_weather_particles.scale_amount_max = 0.18
 		world_weather_particles.color = Color(0.78, 0.64, 1.0, 0.42)
+	elif world_level == 9:
+		world_weather_particles.amount = 38
+		world_weather_particles.direction = Vector2(1.0, -0.16)
+		world_weather_particles.gravity = Vector2(24, -5)
+		world_weather_particles.initial_velocity_min = 24.0
+		world_weather_particles.initial_velocity_max = 58.0
+		world_weather_particles.color = Color(0.72, 0.94, 1.0, 0.26)
+	elif world_level == 10:
+		world_weather_particles.amount = 34
+		world_weather_particles.direction = Vector2(0.34, -0.82)
+		world_weather_particles.gravity = Vector2(8, -8)
+		world_weather_particles.initial_velocity_min = 10.0
+		world_weather_particles.initial_velocity_max = 30.0
+		world_weather_particles.scale_amount_min = 0.07
+		world_weather_particles.scale_amount_max = 0.16
+		world_weather_particles.color = Color(0.78, 1.0, 0.70, 0.30)
 	elif "pioggia" in weather or "tempesta" in weather:
 		world_weather_particles.amount = 110 if "tempesta" in weather else 64
 		world_weather_particles.direction = Vector2(0.18, 1.0)

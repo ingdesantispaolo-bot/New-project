@@ -96,6 +96,22 @@ func _apply_world_soundscape_mix() -> void:
 			music_pitch = 1.06
 			ambience_pitch = 0.76
 			ambience_offset_db = 2.6
+		"gabbiani-e-risacca":
+			music_pitch = 1.08
+			ambience_pitch = 0.90
+			ambience_offset_db = 2.2
+		"vita-brulicante":
+			music_pitch = 1.12
+			ambience_pitch = 1.06
+			ambience_offset_db = 1.8
+		"folla-e-campane":
+			music_pitch = 0.98
+			ambience_pitch = 1.12
+			ambience_offset_db = 1.4
+		"scatti-e-silenzi":
+			music_pitch = 0.88
+			ambience_pitch = 0.70
+			ambience_offset_db = -1.0
 	_music.pitch_scale = music_pitch
 	_ambience.pitch_scale = ambience_pitch
 	if _environment != "":

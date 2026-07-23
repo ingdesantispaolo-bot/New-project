@@ -127,7 +127,7 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 			# Le vertical slice autorate tengono la decorazione procedurale come
 			# tessuto secondario: la topologia resta quella del profilo.
 			var level := int(world_profile.get("level", 1))
-			if level in [2, 3, 4, 5, 6, 7, 8] and field in ["obstacles", "props"]:
+			if level in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] and field in ["obstacles", "props"]:
 				var signature := str(item.get("id", "%s:%.1f:%.1f" % [field, position.x, position.y]))
 				var keep_percent := 58 if field == "obstacles" else 42
 				if level == 3:
@@ -142,6 +142,14 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 					keep_percent = 18 if field == "obstacles" else 10
 				elif level == 8:
 					keep_percent = 12 if field == "obstacles" else 8
+				elif level == 9:
+					keep_percent = 10 if field == "obstacles" else 8
+				elif level == 10:
+					keep_percent = 35 if field == "obstacles" else 24
+				elif level == 11:
+					keep_percent = 10 if field == "obstacles" else 6
+				elif level == 12:
+					keep_percent = 8 if field == "obstacles" else 5
 				if posmod(hash(signature), 100) >= keep_percent:
 					continue
 			kept.append(item)
@@ -219,6 +227,14 @@ func _boundary_palette() -> Array[Color]:
 			return [Color("3a271d"), Color("4a3020"), Color("33271f"), Color("3c2a22")]
 		"circuit_delta":
 			return [Color("061b23"), Color("082b30"), Color("071d28"), Color("051922")]
+		"charted_archipelago":
+			return [Color("0a3045"), Color("0d4656"), Color("16384b"), Color("092b40")]
+		"symbiosis_greenhouse":
+			return [Color("153c25"), Color("1d4a2c"), Color("173725"), Color("103321")]
+		"civic_city":
+			return [Color("3f2b20"), Color("513526"), Color("39271f"), Color("453025")]
+		"rule_labyrinth":
+			return [Color("0d1422"), Color("111a2b"), Color("0b1320"), Color("101827")]
 		_:
 			return [Color("10241d"), Color("14241f"), Color("13251d"), Color("111f22")]
 
@@ -281,6 +297,14 @@ func _add_boundary_motif(parent: Node2D, position: Vector2, index: int, edge: in
 		kind = "rock"
 	elif composition.visual_theme == "circuit_delta":
 		kind = "crystal" if (index + edge) % 2 == 0 else "rock"
+	elif composition.visual_theme == "charted_archipelago":
+		kind = "rock"
+	elif composition.visual_theme == "symbiosis_greenhouse":
+		kind = "tree" if (index + edge) % 4 != 0 else "crystal"
+	elif composition.visual_theme == "civic_city":
+		kind = "rock"
+	elif composition.visual_theme == "rule_labyrinth":
+		kind = "crystal" if (index + edge) % 5 == 0 else "rock"
 	var variant := fmod(float(index) * 0.371 + float(edge) * 0.219, 1.0)
 	var motif := OutdoorVisualFactory.build_obstacle(kind, 48.0 + variant * 14.0, 0x355b42, variant, biome)
 	motif.position = position + Vector2(sin(float(index) * 1.7 + edge) * 22.0, cos(float(index) * 1.13 + edge) * 10.0)

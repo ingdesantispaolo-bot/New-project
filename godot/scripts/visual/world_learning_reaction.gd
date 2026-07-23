@@ -39,6 +39,14 @@ func setup(
 			_build_glyph_ruins(event_kind, accent)
 		"circuit_delta":
 			_build_circuit_delta(event_kind, accent)
+		"charted_archipelago":
+			_build_charted_archipelago(event_kind, accent)
+		"symbiosis_greenhouse":
+			_build_symbiosis_greenhouse(event_kind, accent)
+		"civic_city":
+			_build_civic_city(event_kind, accent)
+		"rule_labyrinth":
+			_build_rule_labyrinth(event_kind, accent)
 		_:
 			_build_radure(event_kind, accent)
 	set_progress(0, active_parts.size(), false)
@@ -230,6 +238,102 @@ func _build_circuit_delta(event_kind: String, accent: Color) -> void:
 		charge.add_to_group("night_glow")
 		part.add_child(charge)
 		OutdoorVisualFactory.attach_anim(charge, "pulse", 0.70 + float(index) * 0.13, 0.66)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_charted_archipelago(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-45.0 + float(index) * 22.5, 8.0 + sin(float(index) * 1.4) * 5.0)
+		if index > 0:
+			var route := Line2D.new()
+			route.points = PackedVector2Array([Vector2(-22, -sin(float(index - 1) * 1.4) * 5.0), Vector2.ZERO])
+			route.width = 2.5
+			route.default_color = Color(accent, 0.86)
+			part.add_child(route)
+		var island := OutdoorVisualFactory.make_polygon(
+			OutdoorVisualFactory.ellipse_polygon(9, 5, 16), Color("d6ceb0"))
+		part.add_child(island)
+		var beacon := OutdoorVisualFactory.make_glow(11, accent, 0.78)
+		beacon.position = Vector2(0, -4)
+		beacon.add_to_group("night_glow")
+		part.add_child(beacon)
+		OutdoorVisualFactory.attach_anim(beacon, "pulse", 0.72 + float(index) * 0.12, 0.64)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_symbiosis_greenhouse(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 7.0 + float(index % 2) * 5.0)
+		var habitat := OutdoorVisualFactory.make_ring(10, Color("5fb879"), 2.5, 18)
+		habitat.scale.y = 0.62
+		part.add_child(habitat)
+		for leaf_index in range(3):
+			var angle := TAU * float(leaf_index) / 3.0
+			var leaf := OutdoorVisualFactory.make_polygon(
+				OutdoorVisualFactory.ellipse_polygon(5, 2.5, 10),
+				Color("8fd477"),
+				Vector2(cos(angle) * 7, sin(angle) * 5 - 4))
+			leaf.rotation = angle
+			part.add_child(leaf)
+		var bloom := OutdoorVisualFactory.make_glow(11, accent, 0.74)
+		bloom.position = Vector2(0, -4)
+		bloom.add_to_group("night_glow")
+		part.add_child(bloom)
+		OutdoorVisualFactory.attach_anim(bloom, "pulse", 0.76 + float(index) * 0.11, 0.62)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_civic_city(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0)
+		var service := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([
+				Vector2(-8, 5), Vector2(-7, -7), Vector2(0, -12),
+				Vector2(7, -7), Vector2(8, 5),
+			]), Color("c59b68"))
+		part.add_child(service)
+		var door := OutdoorVisualFactory.make_glow(9, accent, 0.76)
+		door.position = Vector2(0, 0)
+		door.add_to_group("night_glow")
+		part.add_child(door)
+		var plaza := OutdoorVisualFactory.make_ring(14, Color("dfbd70", 0.38), 1.7, 18)
+		plaza.scale.y = 0.38
+		plaza.position = Vector2(0, 6)
+		part.add_child(plaza)
+		OutdoorVisualFactory.attach_anim(door, "pulse", 0.80 + float(index) * 0.10, 0.58)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_rule_labyrinth(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0 + float(index % 2) * 6.0)
+		if index > 0:
+			var corridor := Line2D.new()
+			corridor.points = PackedVector2Array([Vector2(-22, -float(index % 2) * 6.0), Vector2.ZERO])
+			corridor.width = 3.0
+			corridor.default_color = Color(accent, 0.82)
+			part.add_child(corridor)
+		var wall := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-8, 6), Vector2(-8, -8), Vector2(8, -8), Vector2(8, 6)]),
+			Color("34435d"))
+		part.add_child(wall)
+		var rule := OutdoorVisualFactory.make_glow(11, accent.lightened(0.12), 0.82)
+		rule.position = Vector2(0, -2)
+		rule.add_to_group("night_glow")
+		part.add_child(rule)
+		OutdoorVisualFactory.attach_anim(rule, "pulse", 0.70 + float(index) * 0.13, 0.66)
 		active_parts.append(part)
 		add_child(part)
 	if event_kind == "enigma":

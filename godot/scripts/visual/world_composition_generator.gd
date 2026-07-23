@@ -79,6 +79,14 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		biomes = ["ruins", "geo", "academy"]
 	elif level == 8:
 		biomes = ["logic", "crystal", "geo"]
+	elif level == 9:
+		biomes = ["geo", "academy", "crystal"]
+	elif level == 10:
+		biomes = ["wild", "academy", "crystal"]
+	elif level == 11:
+		biomes = ["academy", "ruins", "geo"]
+	elif level == 12:
+		biomes = ["logic", "ruins", "crystal"]
 	var profile_id := str(profile.get("id", "world-%02d" % level))
 	data.visual_theme = (
 		"radura" if level == 1 else
@@ -89,6 +97,10 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		"resonance_garden" if level == 6 else
 		"glyph_ruins" if level == 7 else
 		"circuit_delta" if level == 8 else
+		"charted_archipelago" if level == 9 else
+		"symbiosis_greenhouse" if level == 10 else
+		"civic_city" if level == 11 else
+		"rule_labyrinth" if level == 12 else
 		str(profile.get("artKit", subject))
 	)
 	var rng := RandomNumberGenerator.new()
@@ -293,6 +305,113 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			PackedVector2Array([ship + Vector2(760, 560), ship + Vector2(1480, 1120), ship + Vector2(1770, 1580)]),
 		]:
 			data.paths.append({"id": "circuit-branch-%d" % data.paths.size(), "width": 46.0, "points": branch})
+	elif level == 9:
+		# Arcipelago: una rotta ad anello e tre approdi rendono orientamento,
+		# coordinate e collegamenti leggibili direttamente nella geografia.
+		data.paths.append({
+			"id": "chart-main-route", "width": 52.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1420, 730), ship + Vector2(-820, 560),
+				ship + Vector2(-80, 760), ship + Vector2(700, 560),
+				ship + Vector2(1430, 780), ship + Vector2(1040, 1330),
+				ship + Vector2(120, 1510), ship + Vector2(-900, 1320),
+				ship + Vector2(-1420, 730),
+			]),
+		})
+		for chart_route in [
+			{"id": "west", "points": PackedVector2Array([
+				ship + Vector2(-820, 560), ship + Vector2(-1350, 1060),
+				ship + Vector2(-1710, 1530)])},
+			{"id": "center", "points": PackedVector2Array([
+				ship + Vector2(-80, 760), ship + Vector2(40, 1110),
+				ship + Vector2(120, 1510)])},
+			{"id": "east", "points": PackedVector2Array([
+				ship + Vector2(700, 560), ship + Vector2(1330, 1060),
+				ship + Vector2(1710, 1510)])},
+		]:
+			data.paths.append({
+				"id": "chart-%s-approach" % str(chart_route["id"]),
+				"width": 46.0,
+				"points": chart_route["points"],
+			})
+	elif level == 10:
+		# Serra: tre anelli-habitat collegati da una nervatura centrale.
+		for terrace in [
+			{"id": "lower", "y": 690.0, "span": 1720.0},
+			{"id": "middle", "y": 1120.0, "span": 1420.0},
+			{"id": "upper", "y": 1510.0, "span": 1060.0},
+		]:
+			var terrace_y := float(terrace["y"])
+			var span := float(terrace["span"])
+			data.paths.append({
+				"id": "symbiosis-%s-terrace" % str(terrace["id"]),
+				"width": 58.0,
+				"points": PackedVector2Array([
+					ship + Vector2(-span, terrace_y), ship + Vector2(-span * 0.52, terrace_y - 150),
+					ship + Vector2(0, terrace_y), ship + Vector2(span * 0.52, terrace_y - 150),
+					ship + Vector2(span, terrace_y),
+				]),
+			})
+		data.paths.append({
+			"id": "symbiosis-root-spine", "width": 48.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 690), ship + Vector2(-120, 1050),
+				ship + Vector2(0, 1510),
+			]),
+		})
+	elif level == 11:
+		# Città civica: decumano, cardo e piazze collegate ai servizi.
+		data.paths.append({
+			"id": "civic-grand-avenue", "width": 92.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1800, 740), ship + Vector2(-900, 740),
+				ship + Vector2(0, 740), ship + Vector2(900, 740),
+				ship + Vector2(1800, 740),
+			]),
+		})
+		data.paths.append({
+			"id": "civic-assembly-axis", "width": 76.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 740), ship + Vector2(0, 1080),
+				ship + Vector2(0, 1450), ship + Vector2(0, 1830),
+			]),
+		})
+		for side in [-1.0, 1.0]:
+			data.paths.append({
+				"id": "civic-service-%s" % ("west" if side < 0 else "east"),
+				"width": 58.0,
+				"points": PackedVector2Array([
+					ship + Vector2(side * 900, 740), ship + Vector2(side * 1040, 1120),
+					ship + Vector2(side * 1370, 1450),
+				]),
+			})
+	elif level == 12:
+		# Labirinto: circuito rettangolare e assi interni. I corridoi restano
+		# percorribili, mentre i muri identitari comunicano la regola modulare.
+		data.paths.append({
+			"id": "rule-outer-circuit", "width": 60.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1450, 680), ship + Vector2(1450, 680),
+				ship + Vector2(1450, 1570), ship + Vector2(-1450, 1570),
+				ship + Vector2(-1450, 680),
+			]),
+		})
+		data.paths.append({
+			"id": "rule-central-axis", "width": 52.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 680), ship + Vector2(0, 1060),
+				ship + Vector2(0, 1420), ship + Vector2(0, 1810),
+			]),
+		})
+		for maze_cross_y in [1040.0, 1420.0]:
+			data.paths.append({
+				"id": "rule-cross-%d" % roundi(maze_cross_y), "width": 48.0,
+				"points": PackedVector2Array([
+					ship + Vector2(-1450, maze_cross_y), ship + Vector2(-620, maze_cross_y),
+					ship + Vector2(0, maze_cross_y), ship + Vector2(620, maze_cross_y),
+					ship + Vector2(1450, maze_cross_y),
+				]),
+			})
 	else:
 		# Gli altri profili mantengono una seconda arteria deterministica finché
 		# ricevono la propria vertical slice nelle ondate C-P5.
@@ -311,7 +430,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 
 	# Acqua/profile dressing: sempre fuori dalla zona nave e mascherato dal
 	# corridoio sicuro in WorldCompositionData.water_weight().
-	if level in [2, 3, 5, 7]:
+	if level in [2, 3, 5, 7, 11, 12]:
 		# L'Archivio non riusa il fiume naturale: la separazione fra le sale è
 		# resa da pavimenti sospesi, foschia e ponti di parole. Il Cratere usa
 		# invece terrazze asciutte: niente laghetto naturale nel canyon tecnico.
@@ -357,6 +476,26 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 				ship + Vector2(1820, 420), ship + Vector2(1510, 900),
 				ship + Vector2(1700, 1420), ship + Vector2(1390, 1990),
 			])},
+		]
+	elif level == 9:
+		data.waters = [
+			{"id": "chart-west-sea", "kind": "stream", "width": 420.0, "points": PackedVector2Array([
+				ship + Vector2(-1880, 360), ship + Vector2(-1520, 860),
+				ship + Vector2(-1720, 1340), ship + Vector2(-1380, 2030),
+			])},
+			{"id": "chart-center-sea", "kind": "stream", "width": 330.0, "points": PackedVector2Array([
+				ship + Vector2(-520, 390), ship + Vector2(-720, 900),
+				ship + Vector2(-480, 1400), ship + Vector2(-690, 2070),
+			])},
+			{"id": "chart-east-sea", "kind": "stream", "width": 390.0, "points": PackedVector2Array([
+				ship + Vector2(1840, 420), ship + Vector2(1490, 890),
+				ship + Vector2(1710, 1390), ship + Vector2(1370, 2010),
+			])},
+		]
+	elif level == 10:
+		data.waters = [
+			{"id": "symbiosis-west-pool", "kind": "pond", "position": ship + Vector2(-1180, 1210), "radii": Vector2(260, 165)},
+			{"id": "symbiosis-east-pool", "kind": "pond", "position": ship + Vector2(1180, 1050), "radii": Vector2(240, 155)},
 		]
 	elif level % 2 == 0:
 		data.waters = [{
@@ -484,6 +623,58 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			{"kind": "circuit_node", "position": ship + Vector2(820, 720), "variant": 0.68},
 			{"kind": "coil_tower", "position": ship + Vector2(1450, 760), "variant": 0.88},
 		]
+	elif level == 9:
+		data.identity_regions = [
+			{"id": "chart-central-island", "kind": "charted_island", "position": ship + Vector2(0, 1420), "radii": Vector2(600, 390), "rotation": 0.02},
+			{"id": "chart-west-island", "kind": "charted_island", "position": ship + Vector2(-1180, 840), "radii": Vector2(440, 300), "rotation": -0.10},
+			{"id": "chart-east-island", "kind": "charted_island", "position": ship + Vector2(1180, 820), "radii": Vector2(440, 300), "rotation": 0.10},
+		]
+		data.identity_props = [
+			{"kind": "route_beacon", "position": ship + Vector2(-1460, 720), "variant": 0.12},
+			{"kind": "contour_plinth", "position": ship + Vector2(-790, 700), "variant": 0.31},
+			{"kind": "dock_crane", "position": ship + Vector2(-260, 1160), "variant": 0.50},
+			{"kind": "contour_plinth", "position": ship + Vector2(790, 690), "variant": 0.69},
+			{"kind": "route_beacon", "position": ship + Vector2(1460, 730), "variant": 0.88},
+		]
+	elif level == 10:
+		data.identity_regions = [
+			{"id": "symbiosis-lower-habitat", "kind": "habitat_bed", "position": ship + Vector2(0, 720), "radii": Vector2(1500, 300), "rotation": -0.02},
+			{"id": "symbiosis-upper-habitat", "kind": "habitat_bed", "position": ship + Vector2(0, 1450), "radii": Vector2(980, 370), "rotation": 0.03},
+			{"id": "symbiosis-west-nursery", "kind": "greenhouse_terrace", "position": ship + Vector2(-1320, 1270), "radii": Vector2(340, 270), "rotation": -0.08},
+		]
+		data.identity_props = [
+			{"kind": "symbiosis_pod", "position": ship + Vector2(-1480, 720), "variant": 0.12},
+			{"kind": "root_arch", "position": ship + Vector2(-760, 650), "variant": 0.31},
+			{"kind": "pollinator_lamp", "position": ship + Vector2(-330, 1390), "variant": 0.50},
+			{"kind": "root_arch", "position": ship + Vector2(760, 660), "variant": 0.69},
+			{"kind": "symbiosis_pod", "position": ship + Vector2(1460, 760), "variant": 0.88},
+		]
+	elif level == 11:
+		data.identity_regions = [
+			{"id": "civic-grand-plaza", "kind": "civic_plaza", "position": ship + Vector2(0, 760), "radii": Vector2(1660, 300), "rotation": 0.0},
+			{"id": "civic-west-service", "kind": "service_court", "position": ship + Vector2(-1180, 1380), "radii": Vector2(420, 330), "rotation": -0.04},
+			{"id": "civic-east-service", "kind": "service_court", "position": ship + Vector2(1180, 1380), "radii": Vector2(420, 330), "rotation": 0.04},
+		]
+		data.identity_props = [
+			{"kind": "pact_column", "position": ship + Vector2(-1500, 650), "variant": 0.12},
+			{"kind": "civic_kiosk", "position": ship + Vector2(-760, 790), "variant": 0.31},
+			{"kind": "service_pavilion", "position": ship + Vector2(-1050, 1390), "variant": 0.50},
+			{"kind": "civic_kiosk", "position": ship + Vector2(760, 780), "variant": 0.69},
+			{"kind": "pact_column", "position": ship + Vector2(1500, 660), "variant": 0.88},
+		]
+	elif level == 12:
+		data.identity_regions = [
+			{"id": "rule-west-sector", "kind": "maze_sector", "position": ship + Vector2(-920, 1040), "radii": Vector2(520, 360), "rotation": 0.0},
+			{"id": "rule-central-chamber", "kind": "logic_chamber", "position": ship + Vector2(0, 1420), "radii": Vector2(610, 420), "rotation": 0.0},
+			{"id": "rule-east-sector", "kind": "maze_sector", "position": ship + Vector2(920, 1040), "radii": Vector2(520, 360), "rotation": 0.0},
+		]
+		data.identity_props = [
+			{"kind": "moving_wall", "position": ship + Vector2(-1420, 760), "variant": 0.12},
+			{"kind": "rule_node", "position": ship + Vector2(-720, 1060), "variant": 0.31},
+			{"kind": "logic_gate", "position": ship + Vector2(-280, 1420), "variant": 0.50},
+			{"kind": "rule_node", "position": ship + Vector2(720, 1050), "variant": 0.69},
+			{"kind": "moving_wall", "position": ship + Vector2(1420, 760), "variant": 0.88},
+		]
 
 	var safe_radius := float(profile.get("shipEntrance", {}).get("safeRadius", 340.0))
 	data.protected_zones = [{
@@ -518,5 +709,13 @@ static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
 	if level == 7:
 		return ship + Vector2(0, 1450)
 	if level == 8:
+		return ship + Vector2(0, 1420)
+	if level == 9:
+		return ship + Vector2(0, 1420)
+	if level == 10:
+		return ship + Vector2(0, 1400)
+	if level == 11:
+		return ship + Vector2(0, 1450)
+	if level == 12:
 		return ship + Vector2(0, 1420)
 	return ship + Vector2(690, -210)

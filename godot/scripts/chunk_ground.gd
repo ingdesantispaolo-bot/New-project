@@ -22,6 +22,10 @@ const UNDERPAINT_MOTION: Texture2D = preload("res://assets/officine-moto-underpa
 const UNDERPAINT_RESONANCE: Texture2D = preload("res://assets/giardino-risonanza-underpaint-v1.png")
 const UNDERPAINT_GLYPH: Texture2D = preload("res://assets/rovine-glifi-underpaint-v1.png")
 const UNDERPAINT_CIRCUIT: Texture2D = preload("res://assets/delta-circuiti-underpaint-v1.png")
+const UNDERPAINT_ARCHIPELAGO: Texture2D = preload("res://assets/arcipelago-cartografico-underpaint-v1.png")
+const UNDERPAINT_SYMBIOSIS: Texture2D = preload("res://assets/serra-simbiosi-underpaint-v1.png")
+const UNDERPAINT_CIVIC: Texture2D = preload("res://assets/citta-patti-underpaint-v1.png")
+const UNDERPAINT_LABYRINTH: Texture2D = preload("res://assets/labirinto-regole-underpaint-v1.png")
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -183,6 +187,22 @@ func _build_painterly_surface(size: float) -> void:
 			identity_texture = UNDERPAINT_CIRCUIT
 			identity_strength = 0.95
 			identity_calm = Color("153f45")
+		"charted_archipelago":
+			identity_texture = UNDERPAINT_ARCHIPELAGO
+			identity_strength = 0.95
+			identity_calm = Color("286f89")
+		"symbiosis_greenhouse":
+			identity_texture = UNDERPAINT_SYMBIOSIS
+			identity_strength = 0.94
+			identity_calm = Color("477858")
+		"civic_city":
+			identity_texture = UNDERPAINT_CIVIC
+			identity_strength = 0.94
+			identity_calm = Color("9a7650")
+		"rule_labyrinth":
+			identity_texture = UNDERPAINT_LABYRINTH
+			identity_strength = 0.96
+			identity_calm = Color("35445d")
 	material.set_shader_parameter("identity_tex", identity_texture)
 	material.set_shader_parameter("identity_strength", identity_strength)
 	material.set_shader_parameter("identity_calm_palette", identity_calm)
@@ -268,6 +288,31 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(outer)
 			root.add_child(inner)
 			_add_circuit_floor_ornament(root, radii)
+		elif kind == "charted_island":
+			outer.color = Color(0.06, 0.28, 0.42, 0.54)
+			inner.color = Color(0.72, 0.72, 0.61, 0.26)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_contour_floor_ornament(root, radii, Color("71dcf1", 0.24))
+		elif kind == "habitat_bed" or kind == "greenhouse_terrace":
+			outer.color = Color(0.08, 0.30, 0.17, 0.54)
+			inner.color = Color(0.43, 0.72, 0.39, 0.22)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_ecosystem_floor_ornament(root, radii)
+		elif kind == "civic_plaza" or kind == "service_court":
+			outer.color = Color(0.42, 0.27, 0.15, 0.44)
+			inner.color = Color(0.85, 0.69, 0.42, 0.20)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_contour_floor_ornament(root, radii, Color("3ca3b1", 0.18))
+			_add_radial_floor_lines(root, radii, Color("e5bb65", 0.16), 12 if kind == "civic_plaza" else 8)
+		elif kind == "maze_sector" or kind == "logic_chamber":
+			outer.color = Color(0.04, 0.07, 0.12, 0.66)
+			inner.color = Color(0.19, 0.27, 0.42, 0.26)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_maze_floor_ornament(root, radii, kind == "logic_chamber")
 		elif kind == "radura_garden":
 			outer.color = Color(0.14, 0.28, 0.16, 0.46)
 			inner.color = Color(0.52, 0.58, 0.25, 0.26)
@@ -385,6 +430,49 @@ func _add_circuit_floor_ornament(root: Node2D, radii: Vector2) -> void:
 		ring.antialiased = true
 		root.add_child(ring)
 
+func _add_contour_floor_ornament(root: Node2D, radii: Vector2, color: Color) -> void:
+	for index in range(5):
+		var factor := 0.22 + float(index) * 0.15
+		var ring := Line2D.new()
+		var points := _organic_ellipse_points(radii * factor, Vector2(radii.x, radii.y) * factor, 40)
+		points.append(points[0])
+		ring.points = points
+		ring.width = 1.4 if index % 2 == 0 else 2.2
+		ring.default_color = Color(color, minf(color.a + float(index) * 0.02, 1.0))
+		ring.antialiased = true
+		root.add_child(ring)
+
+func _add_ecosystem_floor_ornament(root: Node2D, radii: Vector2) -> void:
+	_add_contour_floor_ornament(root, radii, Color("91f0a0", 0.17))
+	for index in range(7):
+		var angle := TAU * float(index) / 7.0
+		var vein := Line2D.new()
+		vein.points = PackedVector2Array([
+			Vector2(cos(angle) * radii.x * 0.18, sin(angle) * radii.y * 0.18),
+			Vector2(cos(angle + 0.08) * radii.x * 0.74, sin(angle + 0.08) * radii.y * 0.74),
+		])
+		vein.width = 2.0
+		vein.default_color = Color("f0c85e", 0.16)
+		vein.antialiased = true
+		root.add_child(vein)
+
+func _add_maze_floor_ornament(root: Node2D, radii: Vector2, chamber: bool) -> void:
+	var line_count := 7 if chamber else 5
+	for index in range(line_count):
+		var factor := 0.28 + float(index) * 0.10
+		var frame := Line2D.new()
+		var x := radii.x * factor
+		var y := radii.y * factor
+		frame.points = PackedVector2Array([
+			Vector2(-x, -y), Vector2(x, -y), Vector2(x, y),
+			Vector2(-x, y), Vector2(-x, -y),
+		])
+		frame.width = 1.5 if index % 2 == 0 else 2.4
+		frame.default_color = Color("83cfff", 0.13 + float(index) * 0.018)
+		frame.antialiased = true
+		root.add_child(frame)
+	_add_radial_floor_lines(root, radii, Color("b99cff", 0.15), 4)
+
 func _add_radial_floor_lines(root: Node2D, radii: Vector2, color: Color, count: int) -> void:
 	for index in range(count):
 		var angle := TAU * float(index) / float(count)
@@ -476,6 +564,22 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 			bank_color = Color(0.01, 0.11, 0.15, 0.62)
 			soil_color = Color(0.16, 0.47, 0.47, 0.58)
 			highlight_color = Color(0.38, 1.0, 0.92, 0.24)
+		"charted_archipelago":
+			bank_color = Color(0.04, 0.20, 0.32, 0.56)
+			soil_color = Color(0.66, 0.65, 0.50, 0.60)
+			highlight_color = Color(0.45, 0.94, 1.0, 0.22)
+		"symbiosis_greenhouse":
+			bank_color = Color(0.08, 0.26, 0.14, 0.50)
+			soil_color = Color(0.34, 0.61, 0.38, 0.54)
+			highlight_color = Color(0.96, 0.79, 0.32, 0.20)
+		"civic_city":
+			bank_color = Color(0.30, 0.18, 0.10, 0.42)
+			soil_color = Color(0.78, 0.61, 0.39, 0.66)
+			highlight_color = Color(0.20, 0.66, 0.72, 0.15)
+		"rule_labyrinth":
+			bank_color = Color(0.02, 0.04, 0.09, 0.70)
+			soil_color = Color(0.19, 0.29, 0.43, 0.62)
+			highlight_color = Color(0.43, 0.86, 1.0, 0.25)
 	var bank := Line2D.new()
 	bank.points = curved
 	bank.width = width + 9.0

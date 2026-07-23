@@ -25,23 +25,116 @@ didattici trasformano visivamente mondo e nave.
 Codex è responsabile di runtime Godot, scene, resa, input, integrazione visuale,
 navigazione, performance ed export.
 
-### C-P5 — Mondi ancora da produrre
+### C-P5 — Strategia per completare i mondi 9–24
 
-- [ ] Ondata C: mondi 9–12.
-- [ ] Ondata D: mondi 13–20.
-- [ ] Ondata E: mondi 21–24 e finale.
+Si procede con quattro ondate da quattro mondi. Una nuova ondata parte soltanto
+dopo audit, render e correzione visiva della precedente.
 
-Per ogni mondo dell’ondata corrente:
+#### Ondata C — Mondi 9–12
 
-- [ ] silhouette e topologia proprie;
-- [ ] materiali, vegetazione o architettura proprie;
-- [ ] luce, meteo e soundscape propri;
-- [ ] landmark principale e ingresso nave autorati;
-- [ ] trasformazione ambientale collegata a `environmentTransform`;
-- [ ] interazione completa senza dipendere dal tasto `E`;
-- [ ] HLOD, streaming e budget Web/mobile verificati;
-- [ ] capture desktop, tablet con HUD e landmark approvata;
-- [ ] audit dell’ondata e regressioni precedenti verdi.
+Questa ondata deve consolidare la pipeline per acqua/isole, vegetazione
+architettonica, città e geometria dinamica.
+
+- [ ] **9 · Arcipelago Cartografico** — isole separate e rotte leggibili, torre
+  cartografica, approdi e segnali di quota; ogni successo illumina un tratto di
+  rotta e collega due isole.
+- [ ] **10 · Serra delle Simbiosi** — terrazze e cupole vive, flora/fauna
+  organizzata per habitat, Cupola Vivente; gli anelli dell’ecosistema si
+  attivano e fanno fiorire progressivamente la serra.
+- [ ] **11 · Città dei Patti** — piazze collegate a servizi civici, quartieri
+  distinguibili e Palazzo dei Patti; le decisioni corrette popolano una piazza
+  e aprono visivamente un servizio.
+- [ ] **12 · Labirinto delle Regole** — griglia modulare, settori e muri mobili,
+  Cuore del Labirinto; ogni regola individuata allinea un modulo e apre un
+  nuovo corridoio visibile.
+- [ ] Creare quattro underpaint, quattro landmark trasparenti e relativi
+  `.import`; aggiungere kit di prop, ingresso nave e reazioni a cinque stadi.
+- [ ] Creare `world_wave_c_audit.gd` e portare a verde le regressioni A/B/C.
+- [ ] Produrre per ogni mondo capture HUD desktop, clean desktop, HUD tablet,
+  clean tablet e landmark.
+- [ ] Gate C: nessuna topologia o firma visiva duplicata; budget Web ≤ 900 draw
+  call e mobile ≤ 700.
+
+#### Ondata D1 — Mondi 13–16
+
+- [ ] **13 · Deserto delle Orbite** — dune, cupole e osservatori; il telescopio
+  si allinea e proietta nel cielo una nuova traiettoria.
+- [ ] **14 · Biblioteca delle Voci** — gallerie narrative e camere d’eco, Sala
+  delle Voci; ogni comprensione illumina una galleria e libera un frammento
+  sonoro.
+- [ ] **15 · Città Macchina** — rete urbana, automi e Torre di Controllo; il
+  debug riavvia automi e rende attivi nuovi collegamenti.
+- [ ] **16 · Frontiera delle Lingue** — valichi e mercati con segnaletica
+  iconica, Porta delle Lingue; gli scambi corretti aprono un valico e animano il
+  mercato.
+- [ ] Creare asset, kit, reazioni, `world_wave_d1_audit.gd` e cinque capture per
+  mondo; rieseguire le regressioni A–D1.
+- [ ] Gate D1: notte del mondo 13 e neon del mondo 15 leggibili su tablet senza
+  appiattire i contrasti.
+
+#### Ondata D2 — Mondi 17–20
+
+È l’ondata tecnicamente più rischiosa per acqua profonda, grandi interni,
+penombra ed effetti atmosferici. Va affrontata soltanto dopo D1.
+
+- [ ] **17 · Oceano delle Forze** — correnti, piattaforme e abissi con
+  Cattedrale Sottomarina; l’equilibrio stabilizza una corrente e apre un varco.
+- [ ] **18 · Cattedrale del Suono** — navate, archi e Grande Organo; le canne si
+  accendono per gruppi e la luce delle vetrate reagisce all’armonia.
+- [ ] **19 · Necropoli delle Radici** — cripte, epigrafi astratte e Albero delle
+  Radici; ogni relazione etimologica illumina una cripta ed estende un ramo.
+- [ ] **20 · Tempesta Elettromagnetica** — torri, sensori e campi instabili; le
+  diagnosi corrette stabilizzano una torre e dissipano una zona di tempesta.
+- [ ] Creare asset, kit, reazioni, `world_wave_d2_audit.gd` e cinque capture per
+  mondo; rieseguire le regressioni A–D2.
+- [ ] Gate D2: particelle, acqua e lampi devono restare sotto budget anche su
+  mobile; nessun effetto può nascondere POI o ingresso nave.
+
+#### Ondata E — Mondi 21–24 e finale
+
+- [ ] **21 · Atlante Fratturato** — placche e biomi separati da faglie,
+  Pilastro Tettonico; le faglie si ricompongono e stabilizzano i biomi.
+- [ ] **22 · Biosfera Profonda** — caverne vive e catena energetica, Nucleo
+  Vivente; la bioluminescenza si propaga lungo il flusso dell’energia.
+- [ ] **23 · Concilio delle Colonie** — moduli orbitali, cupole e assemblee,
+  Sala del Concilio; gli accordi illuminano una cupola e rendono disponibile una
+  risorsa condivisa.
+- [ ] **24 · Cuore dei Primi** — dodici settori riconoscibili che convergono nel
+  Cuore; ogni prova finale accende un sistema e la conclusione apre la rotta.
+- [ ] Creare asset, kit, reazioni, `world_wave_e_audit.gd` e cinque capture per
+  mondo; rieseguire l’intera progressione 1→24.
+- [ ] Gate E1: i mondi 21–23 devono essere completi prima di iniziare il finale.
+- [ ] Gate E2 speciale mondo 24: convergenza dei dodici sistemi, beat conclusivo
+  NORA, riattivazione completa della nave e ritorno al mondo devono formare una
+  sola sequenza verificabile e non una serie di menu scollegati.
+
+#### Procedura obbligatoria di ogni ondata
+
+1. Congelare nomi, palette, topologia, landmark e trasformazione didattica.
+2. Implementare composizione, corridoio nave, regioni e prop prima degli asset
+   finali.
+3. Creare underpaint e landmark; verificare trasparenza, scala e assenza di
+   testo spurio.
+4. Collegare palette, meteo, soundscape e reazione ambientale a cinque stadi.
+5. Controllare interazione touch: tap sul POI, avvicinamento automatico e
+   pulsante contestuale, senza dipendenza da `E`.
+6. Eseguire audit semantico, audit di scena e regressioni delle ondate concluse.
+7. Renderizzare desktop e tablet, ispezionare le immagini e fare almeno un
+   passaggio correttivo su leggibilità, densità e coerenza.
+8. Verificare HLOD, streaming, draw call e assenza di sovrapposizioni tra nave,
+   landmark, acqua, muri e missioni.
+9. Aggiornare questo file eliminando l’ondata conclusa e creare un commit
+   autonomo prima di iniziare la successiva.
+
+Definizione di completato per un mondo:
+
+- topologia e silhouette riconoscibili senza leggere il titolo;
+- landmark dominante e ingresso nave chiaramente individuabile;
+- almeno tre famiglie di prop coerenti e nessun clutter legacy incongruo;
+- trasformazione didattica visibile in cinque passi e persistente nel save;
+- POI leggibili in ogni fase di luce e su viewport tablet;
+- audit verdi e cinque capture approvate;
+- budget Web e mobile rispettati.
 
 ### C-P6 — Pass AAA e consegna
 
@@ -54,20 +147,34 @@ Per ogni mondo dell’ondata corrente:
 
 ## Compiti Opus
 
-Non ci sono pacchetti contenutistici aperti assegnati a Opus. Opus interviene
-soltanto se una delle prossime ondate rivela:
+I contenuti base 9–24 sono già disponibili. Opus esegue un controllo mirato alla
+fine di ogni ondata, senza modificare posizionamento o resa visuale.
 
-- [ ] un contratto `WorldLessonCatalog` non consumabile dal runtime;
-- [ ] un topic, prerequisito o testo NORA da correggere dopo revisione docente;
-- [ ] una prova di trasferimento non compatibile con la topologia del mondo;
-- [ ] una modifica semantica che richiede aggiornamento coordinato di fixture e
-  consumer.
+> **Pronto per Codex.** Il lato CONTENUTI di ogni ondata è già pre-verificato:
+> `world_semantics_audit` (trasformazioni non decorative e distinte, trigger di
+> apprendimento, trasferimento con novità segnalata, NORA distinti, finale
+> trasversale), `world_lesson_audit` (24 mondi) e `mission_event_director_audit`
+> (raggiungibilità/non-blocco) sono **verdi**. Alla chiusura di ogni ondata basta
+> rieseguirli sui mondi consegnati: il controllo semantico Opus si riduce a
+> confermare che la resa di Codex rispetti questi contratti già validati.
+
+- [ ] dopo C, verificare che rotte, ecosistemi, servizi civici e regole mobili
+  rappresentino correttamente i contratti dei mondi 9–12;
+- [ ] dopo D1, verificare trasferimento, testi NORA e coerenza disciplinare dei
+  mondi 13–16;
+- [ ] dopo D2, verificare che le trasformazioni 17–20 comunichino davvero il
+  concetto appreso e non siano soltanto effetti decorativi;
+- [ ] prima del Gate E2, validare prova trasversale, beat conclusivo NORA e
+  semantica della convergenza dei dodici sistemi;
+- [ ] aggiornare fixture e consumer insieme soltanto se una revisione cambia un
+  contratto `WorldLessonCatalog`.
 
 ## Gate Codex ↔ Opus
 
 Ogni ondata si chiude soltanto quando mondo visuale, contratto didattico,
 trasformazione ambientale, input touch, capture e budget prestazionale sono
-verdi insieme. Nessuna ondata successiva parte con audit rossi.
+verdi insieme e Opus ha completato il controllo semantico previsto. Nessuna
+ondata successiva parte con audit rossi.
 
 Vincoli di responsabilità:
 
@@ -77,7 +184,7 @@ Vincoli di responsabilità:
 
 ## Decisioni ancora da prendere
 
-- [ ] Confermare nomi e temi definitivi dei 24 mondi.
+- [ ] Congelare nomi e temi dell’ondata corrente prima di produrre gli asset.
 - [ ] Decidere quali mondi restano liberamente rivisitabili e come scala la
   difficoltà dopo il completamento.
 - [ ] Definire fascia scolastica iniziale e curriculum di lancio.
@@ -85,10 +192,11 @@ Vincoli di responsabilità:
 - [ ] Validare con docenti il target scelta multipla ≤ 33%.
 - [ ] Definire quantità minima di prove e distanza temporale necessarie per
   dichiarare consolidato un topic.
-- [ ] Approvare mappa e finale trasversale dei mondi 13–24.
+- [ ] Approvare struttura del finale trasversale prima del Gate E2.
 - [ ] Fissare budget misurabili per FPS, memoria, download e caricamento sui
   dispositivi scolastici target.
-- [ ] Decidere priorità tra asset originali e riuso modulare per ogni ondata.
+- [ ] Stabilire prima di ogni ondata quali elementi richiedono asset originali
+  e quali possono riusare componenti modulari senza perdere identità.
 
 ## Vincoli
 

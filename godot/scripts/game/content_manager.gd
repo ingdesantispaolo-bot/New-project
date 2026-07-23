@@ -58,6 +58,7 @@ const BANKS := {
 
 var _cache: Dictionary = {}  # subject -> Array item
 var _difficulty_ranges: Dictionary = {}  # subject -> Vector2i(min,max) difficoltà nel banco
+var _topic_counts: Dictionary = {}  # subject -> int argomenti distinti (cache copertura)
 var _recent_math_signatures: Array = []
 var _mission_serial := 0
 
@@ -119,12 +120,15 @@ func subject_difficulty_range(subject: String) -> Vector2i:
 # copertura ripiega sul minimo assoluto (la copertura vissuta la traccia comunque
 # `masteryByTopic`, popolato dai topic del generatore).
 func subject_topic_count(subject: String) -> int:
+	if _topic_counts.has(subject):
+		return _topic_counts[subject]
 	var topics: Dictionary = {}
 	for item in _load_bank(subject):
 		var topic := str(item.get("topic", ""))
 		if topic != "":
 			topics[topic] = true
-	return topics.size()
+	_topic_counts[subject] = topics.size()
+	return _topic_counts[subject]
 
 # Difficoltà EFFETTIVA per materia: banda di livello + nudge di mastery, poi
 # calibrata (clamp) sul range che il banco può davvero servire. Così la selezione

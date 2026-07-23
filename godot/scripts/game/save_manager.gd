@@ -36,6 +36,11 @@ static func _default_data() -> Dictionary:
 		"missionsBySubject": {},    # subject -> int CUMULATIVO (mai azzerato, O-P0.3)
 		"gateConsumed": {},         # subject -> int già speso ai gate passati
 		"apparatus": {},            # id -> {repairedLevel:int}
+		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
+		# mondo attualmente giocato. Il rango `level` è la frontiera di
+		# progressione; `worlds.current` può puntare a un mondo già scoperto quando
+		# si rivisita. Lo stato persistente per mondo vive in `worldProgress`.
+		"worlds": {"unlocked": [1], "current": 1},
 		"worldProgress": {},        # "level" -> {completedEncounterIds, collectedTreasureIds, clearedHazardIds}
 		"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []},
 		"modules": {"owned": [], "equipped": []},
@@ -144,6 +149,32 @@ func reset_missions() -> void:
 	data["missionsBySubject"] = {}
 	data["gateConsumed"] = {}
 
+# --- Mondi sbloccati e mondo corrente (O-P1) ----------------------------------
+func _worlds() -> Dictionary:
+	if not data.has("worlds"):
+		data["worlds"] = {"unlocked": [1], "current": 1}
+	return data["worlds"]
+
+func unlocked_worlds() -> Array:
+	return Array(_worlds().get("unlocked", [1])).duplicate()
+
+func is_world_unlocked(world_level: int) -> bool:
+	return unlocked_worlds().has(world_level)
+
+func unlock_world(world_level: int) -> void:
+	var w := _worlds()
+	var list: Array = w.get("unlocked", [1])
+	if not list.has(world_level):
+		list.append(world_level)
+		list.sort()
+		w["unlocked"] = list
+
+func current_world() -> int:
+	return int(_worlds().get("current", 1))
+
+func set_current_world(world_level: int) -> void:
+	_worlds()["current"] = world_level
+
 # --- Stato persistente dei mondi (O-P0.4) -------------------------------------
 # Ogni mondo (per livello) ricorda incontri completati, tesori raccolti e hazard
 # neutralizzati, così rivisitarlo non ripropone ciò che è già stato risolto.
@@ -217,7 +248,27 @@ func migrate_legacy_save(source: Dictionary) -> Dictionary:
 		if not migrated.has(key):
 			migrated[key] = defaults[key].duplicate(true) if typeof(defaults[key]) == TYPE_DICTIONARY else defaults[key]
 	migrated = _migrate_spaced_repetition(migrated)
+	migrated = _migrate_worlds(migrated)
 	migrated["schemaVersion"] = SCHEMA_VERSION
+	return migrated
+
+# Mondi (O-P1): un save a livello N deve avere sbloccati i mondi 1..N (frontiera
+# di progressione) senza perdere sblocchi extra (mondi rivisitabili). `current`
+# resta se valido, altrimenti punta al livello corrente. Idempotente.
+func _migrate_worlds(migrated: Dictionary) -> Dictionary:
+	var w: Dictionary = migrated.get("worlds", {"unlocked": [1], "current": 1})
+	var level_now := int(migrated.get("level", 1))
+	var unlocked: Dictionary = {}   # set per dedup
+	for v in w.get("unlocked", []):
+		unlocked[int(v)] = true
+	for lvl in range(1, mini(level_now, 24) + 1):
+		unlocked[lvl] = true
+	var list: Array = unlocked.keys()
+	list.sort()
+	w["unlocked"] = list
+	if not list.has(int(w.get("current", 0))):
+		w["current"] = clampi(level_now, 1, 24)
+	migrated["worlds"] = w
 	return migrated
 
 # Ripasso spaziato v1 → v2: il vecchio {"due": {key: conteggio}} diventa uno

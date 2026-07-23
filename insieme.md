@@ -138,22 +138,35 @@ contratti dati, selezione adattiva e audit semantici.
 
 ### O-P1 — Contratti dei mondi e degli eventi
 
-- [ ] Definire schema e validatore `WorldProfile`.
-- [ ] Consegnare i 24 profili con id, livello, focus, mission grammar, art brief,
-  ingresso nave, spawn, percorso sicuro e budget.
-- [ ] Versionare nel save mondi sbloccati, mondo corrente, punti di viaggio e
-  stato persistente.
-- [ ] Implementare `MissionEventDirector` deterministico.
-- [ ] Garantire una quota di eventi del focus livello entro distanza
-  raggiungibile.
-- [ ] Evitare ripetizioni recenti di formato, topic e prompt.
-- [ ] Distinguere tappa di missione, evento libero di pratica ed enigma
-  persistente.
-- [ ] Fornire a Codex un contratto read-only; il visuale non decide ricompense o
-  completamenti.
+- [x] Definire schema e validatore `WorldProfile`. — *`world_profile.gd`
+  (`WorldProfileCatalog`): schema, geometria base autorata (ingresso nave a
+  origine, `safeRadius`, spawn, percorso sicuro) e `validate`/`validate_all`.*
+- [x] Consegnare i 24 profili con id, livello, focus, mission grammar, art brief,
+  ingresso nave, spawn, percorso sicuro e budget. — *24 profili dalla mappa AAA,
+  distinti e con focus derivato da `ApparatusConfig` (unica fonte di verità).*
+- [x] Versionare nel save mondi sbloccati, mondo corrente, punti di viaggio e
+  stato persistente. — *save v2 `worlds` {unlocked, current} + metodi
+  `unlock_world`/`current_world`; migrazione riconcilia 1..livello. Stato
+  persistente per mondo già in `worldProgress` (O-P0.4).*
+- [x] Implementare `MissionEventDirector` deterministico. — *`mission_event_director.gd`:
+  `plan(profile, context, worldSeed)` con RNG seminato da worldSeed+livello.*
+- [x] Garantire una quota di eventi del focus livello entro distanza
+  raggiungibile. — *`missionsRequired + 2` eventi-gate del focus, tutti
+  raggiungibili; `reachable_gate_events()` per il controllo di non-blocco.*
+- [x] Evitare ripetizioni recenti di formato, topic e prompt. — *`_next_format`
+  evita il formato precedente e quelli recenti; `topicHint` ruota su ripasso/deboli.*
+- [x] Distinguere tappa di missione, evento libero di pratica ed enigma
+  persistente. — *`kind` ∈ {mission, enigma, practice}; solo la pratica ha
+  `countsForGate=false`.*
+- [x] Fornire a Codex un contratto read-only; il visuale non decide ricompense o
+  completamenti. — *il director ritorna posizioni/formati/soggetti; conteggi e
+  ricompense restano in ProgressionManager/outdoor_gameplay.*
 
 **Gate Opus P1:** fixture deterministiche dimostrano disponibilità delle missioni,
-assenza di blocchi e rispetto della zona nave.
+assenza di blocchi e rispetto della zona nave. → *implementato e **verificato**:
+`mission_event_director_audit` e `world_profile_audit` **verdi** su tutti i 24
+mondi (determinismo, ≥ missioni richieste raggiungibili, nessun evento in zona
+nave, formati vari).*
 
 ### O-P2 — Specifica didattica dei primi due mondi
 
@@ -244,6 +257,29 @@ Regole:
 - un cambio di contratto richiede aggiornamento di fixture e consumer nello
   stesso gate;
 - nessuna ondata successiva parte con audit rossi nell’ondata corrente.
+
+## Handoff Opus → Codex · contratto O-P1 (per C-P1)
+
+Contratto **read-only** pronto da consumare nella `WorldScene`:
+
+- **`WorldProfileCatalog.profile(level)`** → il profilo del mondo: identità
+  (terreno, topologia, art kit, landmark, luce, meteo, soundscape),
+  `learningFocus`, `missionGrammar`, `eventPools.formats`, `performanceBudget`, e
+  la geometria autorata `shipEntrance {position, rotation, safeRadius}`, `spawn`,
+  `safeRoute`, `worldHalfExtent`. Coordinate in unità mondo, origine sull'ingresso
+  nave; la procedura riempie il profilo ma **non invade `safeRadius`** né cambia
+  l'identità. `validate_all()` disponibile.
+- **`MissionEventDirector.plan(profile, context, worldSeed)`** → gli eventi da
+  posizionare: `{id, kind(mission|enigma|practice), subject, format, topicHint,
+  position, countsForGate, reachable}`. Deterministico (seed+stato → stessi
+  eventi). Codex posiziona/renderizza e risolve la navigabilità nudgeando entro
+  tolleranza, ma **non** decide materia, conteggi o ricompense; `countsForGate`
+  lo stabilisce il contratto. `context` = {missionsRequired, weakTopics,
+  dueTopics, recentFormats}.
+- **Save**: `worlds {unlocked, current}` + `unlock_world`/`current_world` per la
+  mappa di viaggio nella nave; sblocco automatico al salire di livello.
+
+Fixture verdi: `world_profile_audit`, `mission_event_director_audit`.
 
 ## Decisioni ancora da valutare
 

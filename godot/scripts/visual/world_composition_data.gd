@@ -6,6 +6,11 @@ var biome_influences: Array = []
 var paths: Array = []
 var waters: Array = []
 var hero_pockets: Array = []
+## Zone e corridoi autorati dal WorldProfile. Acqua e decorazioni di terreno
+## possono lambirli, ma non devono rendere illeggibili ingresso nave e percorso
+## sicuro spawn→nave.
+var protected_zones: Array = []
+var protected_corridors: Array = []
 
 func biome_weights(world_pos: Vector2) -> Dictionary:
 	var raw := {}
@@ -90,7 +95,8 @@ func water_weight(world_pos: Vector2) -> float:
 			var radii: Vector2 = water["radii"]
 			var q := (world_pos - center) / radii
 			best = maxf(best, 1.0 - smoothstep(0.72, 1.0, q.length()))
-	return clampf(best, 0.0, 1.0)
+	var protection := _protection_weight(world_pos)
+	return clampf(best * (1.0 - protection), 0.0, 1.0)
 
 func water_tangent(world_pos: Vector2) -> Vector2:
 	var best_distance := INF
@@ -111,6 +117,32 @@ func pocket_at(world_pos: Vector2) -> Dictionary:
 		if world_pos.distance_to(pocket["position"]) <= float(pocket["radius"]):
 			return pocket
 	return {}
+
+func is_protected(world_pos: Vector2, extra_margin: float = 0.0) -> bool:
+	for zone in protected_zones:
+		if world_pos.distance_to(zone.get("position", Vector2.ZERO)) <= float(zone.get("radius", 0.0)) + extra_margin:
+			return true
+	for corridor in protected_corridors:
+		var points: PackedVector2Array = corridor.get("points", PackedVector2Array())
+		var width := float(corridor.get("width", 0.0)) + extra_margin
+		for index in range(maxi(0, points.size() - 1)):
+			if _distance_to_segment(world_pos, points[index], points[index + 1]) <= width:
+				return true
+	return false
+
+func _protection_weight(world_pos: Vector2) -> float:
+	var best := 0.0
+	for zone in protected_zones:
+		var radius := maxf(1.0, float(zone.get("radius", 0.0)))
+		var distance := world_pos.distance_to(zone.get("position", Vector2.ZERO))
+		best = maxf(best, 1.0 - smoothstep(radius, radius + 72.0, distance))
+	for corridor in protected_corridors:
+		var points: PackedVector2Array = corridor.get("points", PackedVector2Array())
+		var width := maxf(1.0, float(corridor.get("width", 0.0)))
+		for index in range(maxi(0, points.size() - 1)):
+			var distance := _distance_to_segment(world_pos, points[index], points[index + 1])
+			best = maxf(best, 1.0 - smoothstep(width, width + 54.0, distance))
+	return clampf(best, 0.0, 1.0)
 
 func _distance_to_segment(point: Vector2, a: Vector2, b: Vector2) -> float:
 	var ab := b - a

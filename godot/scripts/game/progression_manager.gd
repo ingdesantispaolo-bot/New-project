@@ -103,6 +103,11 @@ func repair_and_advance(exam_passed: bool) -> bool:
 	var gate := current_gate()
 	save.set_apparatus_repaired(str(gate["apparatus"]), save.level())
 	save.consume_gate(str(gate["subject"]))
-	save.set_level(save.level() + 1)
+	var next_level := save.level() + 1
+	save.set_level(next_level)
+	# Sblocca e rende corrente il nuovo mondo (O-P1); oltre la scala non si sblocca.
+	if next_level <= ApparatusConfig.MAX_LEVEL:
+		save.unlock_world(next_level)
+		save.set_current_world(next_level)
 	save.add_energy(80)
 	return true

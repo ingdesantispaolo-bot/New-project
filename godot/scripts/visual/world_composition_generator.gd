@@ -1,7 +1,9 @@
 class_name WorldCompositionGenerator
 extends RefCounted
 
-static func generate(seed: String) -> WorldCompositionData:
+static func generate(seed: String, profile: Dictionary = {}) -> WorldCompositionData:
+	if not profile.is_empty():
+		return _generate_profile_composition(seed, profile)
 	var data := WorldCompositionData.new()
 	data.seed = seed
 	# Influenze sovrapposte: i confini cadono dentro zone larghe, mai sui bordi
@@ -31,5 +33,104 @@ static func generate(seed: String) -> WorldCompositionData:
 		{"id": "portal", "position": Vector2(448, 300), "radius": 270.0},
 		{"id": "pond", "position": Vector2(160, 520), "radius": 300.0},
 		{"id": "academy-house", "position": Vector2(820, 430), "radius": 300.0},
+	]
+	return data
+
+const SUBJECT_BIOMES := {
+	"matematica": ["academy", "wild", "crystal"],
+	"italiano": ["ruins", "wild", "academy"],
+	"coding": ["logic", "crystal", "ruins"],
+	"inglese": ["geo", "academy", "wild"],
+	"fisica": ["geo", "logic", "crystal"],
+	"musica": ["crystal", "wild", "academy"],
+	"latino": ["ruins", "geo", "wild"],
+	"elettronica": ["logic", "crystal", "geo"],
+	"geografia": ["geo", "wild", "ruins"],
+	"scienze": ["wild", "academy", "crystal"],
+	"cittadinanza": ["academy", "ruins", "geo"],
+	"logica": ["logic", "ruins", "crystal"],
+}
+
+static func _generate_profile_composition(seed: String, profile: Dictionary) -> WorldCompositionData:
+	var data := WorldCompositionData.new()
+	data.seed = seed
+	var subject := str(profile.get("learningFocus", {}).get("subject", "matematica"))
+	var biomes: Array = Array(SUBJECT_BIOMES.get(subject, ["academy", "wild", "crystal"]))
+	var ship: Vector2 = profile.get("shipEntrance", {}).get("position", Vector2.ZERO)
+	var spawn: Vector2 = profile.get("spawn", ship + Vector2(0, 1180))
+	var half_extent := float(profile.get("worldHalfExtent", 2200.0))
+	var level := int(profile.get("level", 1))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = int(hash("%s::profile-composition::%d" % [seed, level]))
+	var phase := rng.randf_range(-0.35, 0.35)
+
+	# Il profilo decide l'identità dominante; biomi secondari creano ecotoni
+	# leggibili senza reintrodurre la stessa mappa multi-bioma in tutti i mondi.
+	data.biome_influences = [
+		{"biome": str(biomes[0]), "position": ship + Vector2(0, 360), "radius": half_extent * 0.92},
+		{"biome": str(biomes[1]), "position": ship + Vector2(-half_extent * 0.72, -half_extent * 0.34).rotated(phase), "radius": half_extent * 0.62},
+		{"biome": str(biomes[2]), "position": ship + Vector2(half_extent * 0.70, half_extent * 0.36).rotated(-phase), "radius": half_extent * 0.58},
+	]
+
+	var route := PackedVector2Array()
+	for point in profile.get("safeRoute", []):
+		route.append(point as Vector2)
+	data.paths = [{
+		"id": "profile-safe-route",
+		"width": 82.0,
+		"points": route,
+	}]
+	# Una seconda arteria usa la topologia/seed per dare una silhouette di
+	# navigazione diversa, mantenendo la rotta nave sempre autorata.
+	var cross_y := ship.y + 620.0 + float((level % 4) * 105)
+	var bend := rng.randf_range(-260.0, 260.0)
+	data.paths.append({
+		"id": "profile-topology-%s" % str(profile.get("topology", "aperta")),
+		"width": 58.0,
+		"points": PackedVector2Array([
+			ship + Vector2(-half_extent * 0.86, cross_y - ship.y + bend),
+			ship + Vector2(-half_extent * 0.34, cross_y - ship.y),
+			ship + Vector2(half_extent * 0.22, cross_y - ship.y - bend * 0.35),
+			ship + Vector2(half_extent * 0.84, cross_y - ship.y + bend * 0.22),
+		]),
+	})
+
+	# Acqua/profile dressing: sempre fuori dalla zona nave e mascherato dal
+	# corridoio sicuro in WorldCompositionData.water_weight().
+	if level % 2 == 0:
+		data.waters = [{
+			"id": "profile-stream-%d" % level,
+			"kind": "stream",
+			"width": 180.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-half_extent * 0.78, 310),
+				ship + Vector2(-half_extent * 0.58, 720),
+				ship + Vector2(-half_extent * 0.72, 1180),
+				ship + Vector2(-half_extent * 0.52, 1680),
+			]),
+		}]
+	else:
+		data.waters = [{
+			"id": "profile-pond-%d" % level,
+			"kind": "pond",
+			"position": ship + Vector2(-560, 620),
+			"radii": Vector2(250, 170),
+		}]
+
+	var safe_radius := float(profile.get("shipEntrance", {}).get("safeRadius", 340.0))
+	data.protected_zones = [{
+		"id": "ship-entrance",
+		"position": ship,
+		"radius": safe_radius,
+	}]
+	data.protected_corridors = [{
+		"id": "spawn-ship-route",
+		"points": route,
+		"width": 92.0,
+	}]
+	data.hero_pockets = [
+		{"id": "portal", "position": ship, "radius": safe_radius},
+		{"id": "spawn", "position": spawn, "radius": 180.0},
+		{"id": "hero-landmark", "position": ship + Vector2(690, -210), "radius": 170.0},
 	]
 	return data

@@ -53,11 +53,25 @@ func _build_identity_props() -> void:
 		node.name = "IdentityProp_%s" % kind
 		node.position = world_pos - world_origin
 		add_child(node)
-		if kind in ["archive_shelf", "archive_pillar", "archive_scriptorium"]:
+		if kind in [
+			"archive_shelf", "archive_pillar", "archive_scriptorium",
+			"sequence_pylon", "loop_engine", "gear_cluster",
+			"radio_mast", "signal_console",
+		]:
 			var body := StaticBody2D.new()
 			var shape := CollisionShape2D.new()
 			var rectangle := RectangleShape2D.new()
-			rectangle.size = Vector2(118, 30) if kind == "archive_shelf" else Vector2(52, 38)
+			var collision_sizes := {
+				"archive_shelf": Vector2(118, 30),
+				"archive_pillar": Vector2(52, 38),
+				"archive_scriptorium": Vector2(96, 40),
+				"sequence_pylon": Vector2(42, 32),
+				"loop_engine": Vector2(136, 52),
+				"gear_cluster": Vector2(116, 46),
+				"radio_mast": Vector2(56, 34),
+				"signal_console": Vector2(92, 42),
+			}
+			rectangle.size = collision_sizes.get(kind, Vector2(52, 38))
 			shape.shape = rectangle
 			shape.position = Vector2(0, -3)
 			body.add_child(shape)

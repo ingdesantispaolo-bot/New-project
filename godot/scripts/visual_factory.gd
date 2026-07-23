@@ -23,6 +23,8 @@ const WILD_NATURAL_ATLAS: Texture2D = preload("res://assets/bosco-variabile-natu
 const GEO_NATURAL_ATLAS: Texture2D = preload("res://assets/dorsale-geografica-natural-atlas-v2.png")
 const LOGIC_NATURAL_ATLAS: Texture2D = preload("res://assets/cratere-logico-natural-atlas-v2.png")
 const NATURAL_DETAIL_ATLAS: Texture2D = preload("res://assets/natural-detail-atlas-v1.png")
+const CYCLE_MACHINE_TEXTURE: Texture2D = preload("res://assets/cratere-cycle-machine-v1.png")
+const RADIO_LIGHTHOUSE_TEXTURE: Texture2D = preload("res://assets/baia-radio-lighthouse-v1.png")
 
 const NATURAL_DETAIL_CELLS := {
 	"reeds": Vector2i(0, 0), "cattails": Vector2i(1, 0),
@@ -820,6 +822,111 @@ static func build_identity_prop(kind: String, _theme: String, variant: float = 0
 				bead.add_to_group("night_glow")
 				root.add_child(bead)
 				attach_anim(bead, "pulse", 0.7 + float(index) * 0.12, 0.55)
+		"sequence_pylon":
+			root.add_child(make_shadow(38, 12, 0.34, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-20, 4), Vector2(-15, -92), Vector2(15, -92), Vector2(20, 4),
+			]), Color("263348")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-15, -92), Vector2(0, -110), Vector2(15, -92), Vector2(8, -78), Vector2(-8, -78),
+			]), Color("56648c")))
+			for index in range(4):
+				var y := -72.0 + float(index) * 19.0
+				root.add_child(make_polygon(PackedVector2Array([
+					Vector2(-11, y - 5), Vector2(11, y - 5), Vector2(9, y + 5), Vector2(-9, y + 5),
+				]), Color("3c4968")))
+				var node_glow := make_glow(11, Color("80e8ff") if index % 2 == 0 else Color("c4a8ff"), 0.66)
+				node_glow.position = Vector2(0, y)
+				node_glow.add_to_group("night_glow")
+				root.add_child(node_glow)
+				attach_anim(node_glow, "pulse", 0.75 + float(index) * 0.16 + variant * 0.2, 0.62)
+		"loop_engine":
+			root.add_child(make_shadow(78, 23, 0.40, 10))
+			var engine := Node2D.new()
+			engine.position = Vector2(0, -35)
+			for radius in [58.0, 43.0, 27.0]:
+				var ring := make_ring(radius, Color("95a8e8", 0.72), 5.0 if radius > 50.0 else 3.0, 36)
+				ring.scale.y = 0.66
+				engine.add_child(ring)
+			for index in range(8):
+				var angle := TAU * float(index) / 8.0
+				var tooth := make_polygon(PackedVector2Array([
+					Vector2(-6, -4), Vector2(6, -4), Vector2(7, 4), Vector2(-7, 4),
+				]), Color("c07f62"), Vector2(cos(angle) * 62.0, sin(angle) * 41.0))
+				tooth.rotation = angle
+				engine.add_child(tooth)
+			var core := make_glow(34, Color("75edff"), 0.92)
+			core.add_to_group("night_glow")
+			engine.add_child(core)
+			root.add_child(engine)
+			attach_anim(engine, "spin", 0.18 + variant * 0.08, 0.34)
+			attach_anim(core, "pulse", 1.0, 0.85)
+		"gear_cluster":
+			root.add_child(make_shadow(66, 18, 0.38, 9))
+			for spec in [
+				{"p": Vector2(-30, -22), "r": 28.0, "c": Color("6d789c")},
+				{"p": Vector2(20, -38), "r": 36.0, "c": Color("526087")},
+				{"p": Vector2(35, 0), "r": 22.0, "c": Color("9b685a")},
+			]:
+				var gear := Node2D.new()
+				gear.position = spec["p"]
+				gear.add_child(make_polygon(circle_polygon(float(spec["r"]), 14), spec["c"]))
+				gear.add_child(make_ring(float(spec["r"]) * 0.48, Color("1d2639"), 4.0, 24))
+				root.add_child(gear)
+				attach_anim(gear, "spin", 0.12 if float(spec["r"]) > 30 else -0.16, 0.30)
+		"signal_buoy":
+			root.add_child(make_shadow(34, 12, 0.30, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-22, 2), Vector2(-15, -46), Vector2(0, -68),
+				Vector2(15, -46), Vector2(22, 2),
+			]), Color("c66f5e")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-16, -36), Vector2(16, -36), Vector2(12, -22), Vector2(-12, -22),
+			]), Color("e8c58a")))
+			var beacon := make_glow(19, Color("9ff8e5"), 0.88)
+			beacon.position = Vector2(0, -70)
+			beacon.add_to_group("night_glow")
+			root.add_child(beacon)
+			for radius in [28.0, 42.0]:
+				var wave := make_ring(radius, Color("91f4e1", 0.30), 2.0, 28)
+				wave.scale.y = 0.42
+				wave.position = Vector2(0, -62)
+				root.add_child(wave)
+				attach_anim(wave, "pulse", 0.55 + radius * 0.008, 0.58)
+		"radio_mast":
+			root.add_child(make_shadow(46, 13, 0.34, 7))
+			for side in [-1.0, 1.0]:
+				var mast := Line2D.new()
+				mast.points = PackedVector2Array([Vector2(side * 24, 4), Vector2(0, -122)])
+				mast.width = 4.0
+				mast.default_color = Color("d0a66a")
+				root.add_child(mast)
+			for y: float in [-22.0, -54.0, -86.0]:
+				var brace := Line2D.new()
+				var width: float = 21.0 * (1.0 + y / 140.0)
+				brace.points = PackedVector2Array([Vector2(-width, y), Vector2(width, y)])
+				brace.width = 3.0
+				brace.default_color = Color("607d83")
+				root.add_child(brace)
+			var mast_glow := make_glow(22, Color("ffcf85"), 0.84)
+			mast_glow.position = Vector2(0, -124)
+			mast_glow.add_to_group("night_glow")
+			root.add_child(mast_glow)
+			attach_anim(mast_glow, "pulse", 1.0 + variant * 0.3, 0.88)
+		"signal_console":
+			root.add_child(make_shadow(54, 15, 0.34, 8))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-45, 2), Vector2(-38, -48), Vector2(38, -48), Vector2(45, 2),
+			]), Color("35535a")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-31, -43), Vector2(31, -43), Vector2(27, -16), Vector2(-27, -16),
+			]), Color("16343c")))
+			for x in [-19.0, 0.0, 19.0]:
+				var dot := make_glow(9, Color("8ff3df") if x <= 0 else Color("f2b176"), 0.64)
+				dot.position = Vector2(x, -29)
+				dot.add_to_group("night_glow")
+				root.add_child(dot)
+				attach_anim(dot, "pulse", 0.7 + absf(x) * 0.015, 0.55)
 		_:
 			root.add_child(make_polygon(circle_polygon(18, 8), Color("6be7d6")))
 	return root
@@ -833,6 +940,40 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 	root.add_child(ground_ring)
 	attach_anim(ground_ring, "pulse", 0.7, 0.8)
 	match kind:
+		"cycleMachine":
+			var cycle_sprite := Sprite2D.new()
+			cycle_sprite.texture = CYCLE_MACHINE_TEXTURE
+			cycle_sprite.position = Vector2(0, -66)
+			cycle_sprite.scale = Vector2(205, 164) / CYCLE_MACHINE_TEXTURE.get_size()
+			cycle_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(cycle_sprite)
+			var axle := make_glow(30, accent.lightened(0.18), 0.72)
+			axle.position = Vector2(0, -62)
+			axle.add_to_group("night_glow")
+			root.add_child(axle)
+			attach_anim(axle, "pulse", 1.05, 0.84)
+		"signalLighthouse":
+			var lighthouse_sprite := Sprite2D.new()
+			lighthouse_sprite.texture = RADIO_LIGHTHOUSE_TEXTURE
+			lighthouse_sprite.position = Vector2(0, -109)
+			lighthouse_sprite.scale = Vector2(150, 225) / RADIO_LIGHTHOUSE_TEXTURE.get_size()
+			lighthouse_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(lighthouse_sprite)
+			var beam := make_polygon(PackedVector2Array([
+				Vector2(0, -165), Vector2(126, -188), Vector2(126, -134),
+			]), Color(1.0, 0.84, 0.48, 0.10))
+			root.add_child(beam)
+			var lamp := make_glow(34, Color("ffd88e"), 1.0)
+			lamp.position = Vector2(0, -164)
+			lamp.add_to_group("night_glow")
+			root.add_child(lamp)
+			attach_anim(lamp, "pulse", 1.3, 1.0)
+			for radius in [44.0, 66.0, 88.0]:
+				var radio_wave := make_ring(radius, Color(accent, 0.26), 2.2, 34)
+				radio_wave.scale.y = 0.30
+				radio_wave.position = Vector2(0, -164)
+				root.add_child(radio_wave)
+				attach_anim(radio_wave, "pulse", 0.55 + radius * 0.006, 0.65)
 		"forge":
 			root.add_child(make_shadow(26, 9, 0.3, 8))
 			root.add_child(make_polygon(PackedVector2Array([
@@ -939,8 +1080,8 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 			root.add_child(make_polygon(circle_polygon(22, 6), accent))
 	var text := Label.new()
 	text.text = label
-	text.position = Vector2(-80, -96)
-	text.custom_minimum_size = Vector2(160, 0)
+	text.position = Vector2(-90, -207 if kind == "signalLighthouse" else -175 if kind == "cycleMachine" else -96)
+	text.custom_minimum_size = Vector2(180, 0)
 	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	text.add_theme_font_size_override("font_size", 13)
 	text.add_theme_color_override("font_color", Color("f2f7ff"))

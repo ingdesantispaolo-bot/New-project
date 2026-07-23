@@ -15,10 +15,15 @@ func setup(theme: String, event_kind: String, accent: Color) -> void:
 	base.scale = Vector2(1.0, 0.42)
 	base.position = Vector2(0, 10)
 	add_child(base)
-	if theme == "archive":
-		_build_archive(event_kind, accent)
-	else:
-		_build_radure(event_kind, accent)
+	match theme:
+		"archive":
+			_build_archive(event_kind, accent)
+		"crater":
+			_build_crater(event_kind, accent)
+		"signal_bay":
+			_build_signal_bay(event_kind, accent)
+		_:
+			_build_radure(event_kind, accent)
 	set_progress(0, active_parts.size(), false)
 
 func _build_radure(event_kind: String, accent: Color) -> void:
@@ -68,6 +73,53 @@ func _build_archive(event_kind: String, accent: Color) -> void:
 		add_child(part)
 	if event_kind == "enigma":
 		scale = Vector2.ONE * 1.12
+
+func _build_crater(event_kind: String, accent: Color) -> void:
+	# Ogni passaggio corretto chiude un nodo del circuito: una sequenza visiva
+	# leggibile, coerente con il tema coding, senza dipendere da testo o colore.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0 + float(index % 2) * 6.0)
+		if index > 0:
+			var trace := Line2D.new()
+			trace.points = PackedVector2Array([Vector2(-22, -float(index % 2) * 6.0), Vector2.ZERO])
+			trace.width = 3.0
+			trace.default_color = Color(accent, 0.78)
+			part.add_child(trace)
+		var socket := OutdoorVisualFactory.make_ring(9.0, Color("c4866c"), 2.5, 16)
+		socket.scale.y = 0.70
+		part.add_child(socket)
+		var node_glow := OutdoorVisualFactory.make_glow(13, accent, 0.82)
+		node_glow.add_to_group("night_glow")
+		part.add_child(node_glow)
+		OutdoorVisualFactory.attach_anim(node_glow, "pulse", 0.72 + float(index) * 0.12, 0.64)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_signal_bay(event_kind: String, accent: Color) -> void:
+	# Le risposte accendono una catena di boe/messaggi e propagano il segnale.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-45.0 + float(index) * 22.5, 7.0 + sin(float(index) * 1.25) * 5.0)
+		var buoy := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-6, 5), Vector2(-4, -7), Vector2(0, -12), Vector2(4, -7), Vector2(6, 5)]),
+			Color("d47b66"))
+		part.add_child(buoy)
+		var lamp := OutdoorVisualFactory.make_glow(12, accent.lightened(0.16), 0.86)
+		lamp.position = Vector2(0, -12)
+		lamp.add_to_group("night_glow")
+		part.add_child(lamp)
+		var wave := OutdoorVisualFactory.make_ring(15, Color(accent, 0.45), 1.6, 20)
+		wave.scale.y = 0.38
+		wave.position = Vector2(0, -10)
+		part.add_child(wave)
+		OutdoorVisualFactory.attach_anim(wave, "pulse", 0.66 + float(index) * 0.11, 0.52)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
 
 func set_progress(value: int, total: int, animate: bool = true) -> void:
 	var ratio := clampf(float(value) / maxf(float(total), 1.0), 0.0, 1.0)

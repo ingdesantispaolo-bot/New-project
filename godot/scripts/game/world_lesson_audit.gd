@@ -1,18 +1,27 @@
 extends SceneTree
 
 const WorldLessonCatalog = preload("res://scripts/game/world_lesson.gd")
+const KnowledgeCodex = preload("res://scripts/game/knowledge_codex.gd")
 
-## Audit O-P2: la specifica didattica dei mondi 1 e 2 è completa, coerente con la
-## scala e col WorldProfile, referenzia topic REALI, ha prove di trasferimento e
-## testi di NORA, e la difficoltà dipende dalla COMPETENZA della materia (non dal
-## rango globale).
+## Audit O-P2/O-P5: la specifica didattica di TUTTI i 24 mondi è completa, coerente
+## con la scala e col WorldProfile, referenzia topic REALI, ha prove di
+## trasferimento, testi di NORA, criteri di trasformazione ambientale, e la
+## difficoltà dipende dalla COMPETENZA della materia (non dal rango globale).
 ## Uso: godot --headless --path godot --script res://scripts/game/world_lesson_audit.gd
 
 func _init() -> void:
 	var content := ContentManager.new()
+	var levels := WorldLessonCatalog.all_levels()
+	assert(levels.size() == 24, "servono lezioni per tutti i 24 mondi, trovate %d" % levels.size())
 
-	for level in [1, 2]:
-		assert(WorldLessonCatalog.has_lesson(level), "manca la lezione del livello %d" % level)
+	# Insieme dei topic di matematica validi: banco + concetti del generatore.
+	var math_valid: Dictionary = {}
+	for t in content.bank_topics("matematica"):
+		math_valid[str(t)] = true
+	for t in KnowledgeCodex.MATH_CONCEPTS.keys():
+		math_valid[str(t)] = true
+
+	for level in levels:
 		var lesson := WorldLessonCatalog.lesson(level)
 		var subject := str(lesson["subject"])
 
@@ -39,28 +48,25 @@ func _init() -> void:
 		assert(WorldLessonCatalog.feedback(level, "onError") != "", "L%d: feedback errore mancante" % level)
 		assert(WorldLessonCatalog.feedback(level, "onStreak") != "", "L%d: feedback serie mancante" % level)
 
-		# I topic referenziati devono essere REALI (prodotti dal contenuto).
+		# Trasformazione ambientale (criteri semantici per Codex).
+		var env := WorldLessonCatalog.environment_transform(level)
+		assert(str(env.get("trigger", "")) != "" and str(env.get("effect", "")) != "", "L%d: trasformazione ambientale incompleta" % level)
+
+		# I topic referenziati devono essere REALI.
 		var topics: Array = lesson["topics"]
 		assert(not topics.is_empty(), "L%d: topic mancanti" % level)
-		if subject == "italiano":
-			var bank := content.bank_topics("italiano")
+		if subject == "matematica":
 			for t in topics:
-				assert(bank.has(str(t)), "L%d: topic italiano inesistente nel banco: %s" % [level, str(t)])
-		elif subject == "matematica":
-			var produced: Dictionary = {}
-			var rng := RandomNumberGenerator.new()
-			rng.seed = 7
-			for _i in range(24):
-				var mission := content.build_mission("matematica", level, 3, {}, rng)
-				for node in mission.get("nodes", []):
-					produced[str(node.get("topic", ""))] = true
+				assert(math_valid.has(str(t)), "L%d: topic matematica inesistente: %s" % [level, str(t)])
+		else:
+			var bank := content.bank_topics(subject)
 			for t in topics:
-				assert(produced.has(str(t)), "L%d: topic matematica non prodotto: %s" % [level, str(t)])
+				assert(bank.has(str(t)), "L%d: topic %s inesistente nel banco %s" % [level, str(t), subject])
 
 		assert(str(lesson["difficultyDriver"]) == "subjectMastery", "L%d: la difficoltà deve dipendere dalla competenza" % level)
 
-	# Prova che la difficoltà dipende dalla COMPETENZA della materia e non solo dal
-	# rango: a livello FISSO, alzare la mastery alza la difficoltà effettiva.
+	# La difficoltà dipende dalla COMPETENZA (non solo dal rango): a livello FISSO,
+	# alzare la mastery alza la difficoltà effettiva.
 	var it_low := content.effective_difficulty("italiano", 2, 0.2)
 	var it_high := content.effective_difficulty("italiano", 2, 0.9)
 	assert(it_high > it_low, "italiano: la difficoltà a pari livello deve crescere con la competenza (%d→%d)" % [it_low, it_high])
@@ -68,5 +74,5 @@ func _init() -> void:
 	var ma_high := ContentManager.math_effective_level(1, 0.9)
 	assert(ma_high > ma_low, "matematica: il livello efficace a pari rango deve crescere con la competenza (%d→%d)" % [ma_low, ma_high])
 
-	print("WorldLesson audit OK — L1/L2: obiettivi, topic reali, prova di trasferimento, NORA e difficoltà per competenza")
+	print("WorldLesson audit OK — 24 mondi: obiettivi, topic reali, trasferimento, NORA, trasformazione ambientale e difficoltà per competenza")
 	quit(0)

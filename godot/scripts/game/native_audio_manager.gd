@@ -13,6 +13,7 @@ var _music: AudioStreamPlayer
 var _ambience: AudioStreamPlayer
 var _focus: AudioStreamPlayer
 var _environment := ""
+var _world_soundscape := ""
 var _last_played_ms: Dictionary = {}
 
 func _ready() -> void:
@@ -56,6 +57,34 @@ func play_environment(phase: String) -> void:
 	_environment = normalized
 	_play_loop(_music, "music.%s" % normalized)
 	_play_loop(_ambience, "ambience.%s" % normalized)
+	_apply_world_soundscape_mix()
+
+func configure_world_soundscape(soundscape: String) -> void:
+	# I loop restano condivisi e leggeri per Web, ma ogni profilo ottiene un mix
+	# riconoscibile. Non modifica eventi didattici né stato di progressione.
+	_world_soundscape = soundscape.to_lower()
+	_apply_world_soundscape_mix()
+
+func _apply_world_soundscape_mix() -> void:
+	if not is_instance_valid(_music) or not is_instance_valid(_ambience):
+		return
+	var music_pitch := 1.0
+	var ambience_pitch := 1.0
+	var ambience_offset_db := 0.0
+	match _world_soundscape:
+		"ingranaggi-ritmici":
+			music_pitch = 0.92
+			ambience_pitch = 0.78
+			ambience_offset_db = 1.5
+		"onde-e-radio":
+			music_pitch = 1.04
+			ambience_pitch = 0.88
+			ambience_offset_db = 2.0
+	_music.pitch_scale = music_pitch
+	_ambience.pitch_scale = ambience_pitch
+	if _environment != "":
+		var ambience_spec: Dictionary = assets.get("ambience.%s" % _environment, {})
+		_ambience.volume_db = float(ambience_spec.get("volumeDb", 0.0)) + ambience_offset_db
 
 func set_focus(active: bool) -> void:
 	if active:

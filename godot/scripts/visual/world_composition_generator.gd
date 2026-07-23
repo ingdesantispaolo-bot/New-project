@@ -64,8 +64,21 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		# L'Archivio è vegetale nei dettagli, ma la sua massa deve restare
 		# minerale/arcana: niente prato e girasoli della Radura come dominanti.
 		biomes = ["ruins", "crystal", "logic"]
+	elif level == 3:
+		# Cratere: roccia modulare, minerali freddi e macchine. Nessuna massa
+		# vegetale dominante: la silhouette deve leggere come canyon tecnico.
+		biomes = ["logic", "crystal", "ruins"]
+	elif level == 4:
+		# Baia: costa, pietra salina e pochi nuclei più caldi sui moli.
+		biomes = ["geo", "crystal", "academy"]
 	var profile_id := str(profile.get("id", "world-%02d" % level))
-	data.visual_theme = "radura" if level == 1 else "archive" if level == 2 else str(profile.get("artKit", subject))
+	data.visual_theme = (
+		"radura" if level == 1 else
+		"archive" if level == 2 else
+		"crater" if level == 3 else
+		"signal_bay" if level == 4 else
+		str(profile.get("artKit", subject))
+	)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = int(hash("%s::profile-composition::%d" % [seed, level]))
 	var phase := rng.randf_range(-0.35, 0.35)
@@ -133,6 +146,55 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 				ship + Vector2(1180, 1510),
 			]),
 		})
+	elif level == 3:
+		# Canyon a gradoni: tre terrazze collegate da una traccia a zig-zag.
+		# Il giocatore vede fisicamente il concetto di sequenza/loop nel percorso.
+		data.paths.append({
+			"id": "crater-cycle-route",
+			"width": 72.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1660, 610), ship + Vector2(-1060, 610),
+				ship + Vector2(-700, 870), ship + Vector2(-120, 870),
+				ship + Vector2(250, 610), ship + Vector2(920, 610),
+				ship + Vector2(1320, 910), ship + Vector2(1700, 910),
+			]),
+		})
+		data.paths.append({
+			"id": "crater-inner-loop",
+			"width": 56.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-760, 1230), ship + Vector2(-300, 1040),
+				ship + Vector2(280, 1080), ship + Vector2(700, 1320),
+				ship + Vector2(260, 1570), ship + Vector2(-360, 1530),
+				ship + Vector2(-760, 1230),
+			]),
+		})
+	elif level == 4:
+		# Porto a moli: una banchina orizzontale e tre pontili leggibili. Le
+		# diramazioni incarnano messaggi inviati a destinatari diversi.
+		data.paths.append({
+			"id": "signal-harbour-walk",
+			"width": 86.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1760, 720), ship + Vector2(-980, 690),
+				ship + Vector2(-260, 740), ship + Vector2(480, 690),
+				ship + Vector2(1180, 750), ship + Vector2(1740, 690),
+			]),
+		})
+		for pier in [
+			{"id": "west", "x": -980.0, "end": Vector2(-1280, 1500)},
+			{"id": "center", "x": 120.0, "end": Vector2(240, 1610)},
+			{"id": "east", "x": 1180.0, "end": Vector2(1460, 1450)},
+		]:
+			data.paths.append({
+				"id": "signal-%s-pier" % str(pier["id"]),
+				"width": 64.0,
+				"points": PackedVector2Array([
+					ship + Vector2(float(pier["x"]), 720),
+					ship + Vector2(float(pier["x"]), 1120),
+					ship + (pier["end"] as Vector2),
+				]),
+			})
 	else:
 		# Gli altri profili mantengono una seconda arteria deterministica finché
 		# ricevono la propria vertical slice nelle ondate C-P5.
@@ -151,10 +213,33 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 
 	# Acqua/profile dressing: sempre fuori dalla zona nave e mascherato dal
 	# corridoio sicuro in WorldCompositionData.water_weight().
-	if level == 2:
+	if level == 2 or level == 3:
 		# L'Archivio non riusa il fiume naturale: la separazione fra le sale è
-		# resa da pavimenti sospesi, foschia e ponti di parole.
+		# resa da pavimenti sospesi, foschia e ponti di parole. Il Cratere usa
+		# invece terrazze asciutte: niente laghetto naturale nel canyon tecnico.
 		data.waters = []
+	elif level == 4:
+		# Canali marini ai bordi: il corridoio nave e i moli restano asciutti.
+		data.waters = [
+			{
+				"id": "signal-west-channel",
+				"kind": "stream",
+				"width": 390.0,
+				"points": PackedVector2Array([
+					ship + Vector2(-1860, 360), ship + Vector2(-1700, 920),
+					ship + Vector2(-1830, 1510), ship + Vector2(-1660, 2010),
+				]),
+			},
+			{
+				"id": "signal-east-channel",
+				"kind": "stream",
+				"width": 330.0,
+				"points": PackedVector2Array([
+					ship + Vector2(1840, 460), ship + Vector2(1700, 980),
+					ship + Vector2(1870, 1540), ship + Vector2(1710, 2050),
+				]),
+			},
+		]
 	elif level % 2 == 0:
 		data.waters = [{
 			"id": "profile-stream-%d" % level,
@@ -202,6 +287,33 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			{"kind": "archive_pillar", "position": ship + Vector2(1080, 1040), "variant": 0.74},
 			{"kind": "archive_scriptorium", "position": ship + Vector2(0, 1180), "variant": 0.52},
 		]
+	elif level == 3:
+		data.identity_regions = [
+			{"id": "crater-west-step", "kind": "crater_terrace", "position": ship + Vector2(-1040, 620), "radii": Vector2(520, 260), "rotation": -0.04},
+			{"id": "crater-cycle-floor", "kind": "crater_cycle", "position": ship + Vector2(0, 1280), "radii": Vector2(690, 390), "rotation": 0.03},
+			{"id": "crater-east-step", "kind": "crater_terrace", "position": ship + Vector2(1150, 820), "radii": Vector2(470, 250), "rotation": 0.06},
+		]
+		data.identity_props = [
+			{"kind": "sequence_pylon", "position": ship + Vector2(-1450, 520), "variant": 0.12},
+			{"kind": "sequence_pylon", "position": ship + Vector2(-680, 820), "variant": 0.36},
+			{"kind": "loop_engine", "position": ship + Vector2(-350, 1360), "variant": 0.54},
+			{"kind": "sequence_pylon", "position": ship + Vector2(720, 800), "variant": 0.72},
+			{"kind": "gear_cluster", "position": ship + Vector2(1390, 830), "variant": 0.88},
+		]
+	elif level == 4:
+		data.identity_regions = [
+			{"id": "signal-harbour", "kind": "signal_harbour", "position": ship + Vector2(0, 720), "radii": Vector2(1720, 250), "rotation": 0.01},
+			{"id": "signal-west-dock", "kind": "signal_dock", "position": ship + Vector2(-1120, 1320), "radii": Vector2(310, 330), "rotation": -0.06},
+			{"id": "signal-center-dock", "kind": "signal_dock", "position": ship + Vector2(180, 1390), "radii": Vector2(340, 390), "rotation": 0.03},
+			{"id": "signal-east-dock", "kind": "signal_dock", "position": ship + Vector2(1320, 1280), "radii": Vector2(300, 310), "rotation": 0.08},
+		]
+		data.identity_props = [
+			{"kind": "signal_buoy", "position": ship + Vector2(-1490, 1010), "variant": 0.15},
+			{"kind": "radio_mast", "position": ship + Vector2(-860, 660), "variant": 0.34},
+			{"kind": "signal_console", "position": ship + Vector2(160, 1140), "variant": 0.52},
+			{"kind": "radio_mast", "position": ship + Vector2(980, 700), "variant": 0.70},
+			{"kind": "signal_buoy", "position": ship + Vector2(1510, 1070), "variant": 0.88},
+		]
 
 	var safe_radius := float(profile.get("shipEntrance", {}).get("safeRadius", 340.0))
 	data.protected_zones = [{
@@ -217,9 +329,16 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 	data.hero_pockets = [
 		{"id": "portal", "position": ship, "radius": safe_radius},
 		{"id": "spawn", "position": spawn, "radius": 180.0},
-		{"id": "hero-landmark", "position": ship + Vector2(690, -210), "radius": 170.0},
+		{"id": "hero-landmark", "position": _profile_hero_position(ship, level), "radius": 210.0},
 	]
 	# Mantiene il seed semanticamente visibile negli strumenti di debug senza
 	# usarlo per prendere decisioni didattiche.
 	data.seed = "%s::%s" % [seed, profile_id]
 	return data
+
+static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
+	if level == 3:
+		return ship + Vector2(0, 1280)
+	if level == 4:
+		return ship + Vector2(1320, 1280)
+	return ship + Vector2(690, -210)

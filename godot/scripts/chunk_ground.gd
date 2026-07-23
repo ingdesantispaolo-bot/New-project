@@ -16,6 +16,8 @@ const UNDERPAINT_WILD: Texture2D = preload("res://assets/terrain-underpaint-wild
 const UNDERPAINT_MINERAL: Texture2D = preload("res://assets/terrain-underpaint-mineral.png")
 const UNDERPAINT_MAGIC: Texture2D = preload("res://assets/terrain-underpaint-magic.png")
 const UNDERPAINT_ARCHIVE: Texture2D = preload("res://assets/archivio-parole-underpaint-v1.png")
+const UNDERPAINT_CRATER: Texture2D = preload("res://assets/cratere-logico-underpaint-v1.png")
+const UNDERPAINT_SIGNAL_BAY: Texture2D = preload("res://assets/baia-segnali-underpaint-v1.png")
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -143,11 +145,26 @@ func _build_painterly_surface(size: float) -> void:
 	material.set_shader_parameter("wild_tex", UNDERPAINT_WILD)
 	material.set_shader_parameter("mineral_tex", UNDERPAINT_MINERAL)
 	material.set_shader_parameter("magic_tex", UNDERPAINT_MAGIC)
-	material.set_shader_parameter("identity_tex", UNDERPAINT_ARCHIVE)
 	var visual_theme := composition.visual_theme if composition != null else "legacy"
-	var archive_strength := 0.86 if visual_theme == "archive" else 0.0
-	material.set_shader_parameter("identity_strength", archive_strength)
-	material.set_shader_parameter("identity_calm_palette", Color("4b536f"))
+	var identity_texture: Texture2D = UNDERPAINT_ARCHIVE
+	var identity_strength := 0.0
+	var identity_calm := Color("4b536f")
+	match visual_theme:
+		"archive":
+			identity_texture = UNDERPAINT_ARCHIVE
+			identity_strength = 0.86
+			identity_calm = Color("4b536f")
+		"crater":
+			identity_texture = UNDERPAINT_CRATER
+			identity_strength = 0.92
+			identity_calm = Color("303a54")
+		"signal_bay":
+			identity_texture = UNDERPAINT_SIGNAL_BAY
+			identity_strength = 0.90
+			identity_calm = Color("286d6c")
+	material.set_shader_parameter("identity_tex", identity_texture)
+	material.set_shader_parameter("identity_strength", identity_strength)
+	material.set_shader_parameter("identity_calm_palette", identity_calm)
 	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0))) - Vector2.ONE * bleed
 	var surface_size := size + bleed * 2.0
 	material.set_shader_parameter("surface_world_origin", world_origin)
@@ -193,6 +210,18 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(outer)
 			root.add_child(inner)
 			_add_archive_floor_ornament(root, radii)
+		elif kind == "crater_terrace" or kind == "crater_cycle":
+			outer.color = Color(0.08, 0.10, 0.17, 0.48)
+			inner.color = Color(0.30, 0.34, 0.52, 0.16)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_crater_floor_ornament(root, radii, kind == "crater_cycle")
+		elif kind == "signal_harbour" or kind == "signal_dock":
+			outer.color = Color(0.04, 0.22, 0.23, 0.42)
+			inner.color = Color(0.55, 0.47, 0.31, 0.12)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_signal_floor_ornament(root, radii, kind == "signal_dock")
 		elif kind == "radura_garden":
 			outer.color = Color(0.14, 0.28, 0.16, 0.46)
 			inner.color = Color(0.52, 0.58, 0.25, 0.26)
@@ -218,6 +247,42 @@ func _add_archive_floor_ornament(root: Node2D, radii: Vector2) -> void:
 		ring.antialiased = true
 		root.add_child(ring)
 	_add_radial_floor_lines(root, radii, Color(0.42, 0.63, 0.86, 0.20), 8)
+
+func _add_crater_floor_ornament(root: Node2D, radii: Vector2, cycle: bool) -> void:
+	var ring_count := 5 if cycle else 3
+	for index in range(ring_count):
+		var ring := Line2D.new()
+		var factor := 0.24 + float(index) * (0.13 if cycle else 0.20)
+		var points := _organic_ellipse_points(radii * factor, Vector2(radii.x, radii.y) * factor, 32)
+		points.append(points[0])
+		ring.points = points
+		ring.width = 2.6 if index % 2 == 0 else 1.4
+		ring.default_color = Color("8aa8ff", 0.19 + float(index) * 0.018)
+		ring.antialiased = true
+		root.add_child(ring)
+	_add_radial_floor_lines(root, radii, Color("df936a", 0.18), 6 if cycle else 4)
+
+func _add_signal_floor_ornament(root: Node2D, radii: Vector2, dock: bool) -> void:
+	# Bande parallele da banchina e tre onde radio concentriche: leggibili senza
+	# testo e abbastanza leggere da non competere con POI e personaggio.
+	for index in range(3):
+		var ring := Line2D.new()
+		var factor := 0.34 + float(index) * 0.20
+		var points := _organic_ellipse_points(radii * factor, Vector2(radii.x, radii.y) * factor, 36)
+		points.append(points[0])
+		ring.points = points
+		ring.width = 2.0
+		ring.default_color = Color("9cf5e5", 0.14 + float(index) * 0.035)
+		ring.antialiased = true
+		root.add_child(ring)
+	var plank_count := 7 if dock else 12
+	for index in range(plank_count):
+		var x := lerpf(-radii.x * 0.78, radii.x * 0.78, float(index) / maxf(float(plank_count - 1), 1.0))
+		var line := Line2D.new()
+		line.points = PackedVector2Array([Vector2(x, -radii.y * 0.72), Vector2(x, radii.y * 0.72)])
+		line.width = 1.2
+		line.default_color = Color("e4bf7e", 0.10)
+		root.add_child(line)
 
 func _add_radial_floor_lines(root: Node2D, radii: Vector2, color: Color, count: int) -> void:
 	for index in range(count):
@@ -287,7 +352,11 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 	var bank := Line2D.new()
 	bank.points = curved
 	bank.width = width + 9.0
-	bank.default_color = Color(0.31, 0.30, 0.18, 0.22)
+	bank.default_color = (
+		Color(0.06, 0.08, 0.14, 0.36) if composition.visual_theme == "crater" else
+		Color(0.04, 0.18, 0.18, 0.32) if composition.visual_theme == "signal_bay" else
+		Color(0.31, 0.30, 0.18, 0.22)
+	)
 	bank.joint_mode = Line2D.LINE_JOINT_ROUND
 	bank.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	bank.end_cap_mode = Line2D.LINE_CAP_ROUND
@@ -298,7 +367,11 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 	soil.width = width
 	soil.texture = PATH_EARTH_TEXTURE
 	soil.texture_mode = Line2D.LINE_TEXTURE_TILE
-	soil.default_color = Color(0.72, 0.68, 0.53, 0.62)
+	soil.default_color = (
+		Color(0.68, 0.43, 0.34, 0.50) if composition.visual_theme == "crater" else
+		Color(0.67, 0.52, 0.32, 0.48) if composition.visual_theme == "signal_bay" else
+		Color(0.72, 0.68, 0.53, 0.62)
+	)
 	soil.joint_mode = Line2D.LINE_JOINT_ROUND
 	soil.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	soil.end_cap_mode = Line2D.LINE_CAP_ROUND

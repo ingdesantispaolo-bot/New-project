@@ -24,6 +24,9 @@ var result: Dictionary
 ## Override usato da audit/render probe prima dell'ingresso nell'albero. Nel
 ## gioco normale resta vuoto e viene usata NativeWorldState.default_request().
 var launch_request_override: Dictionary = {}
+## Riduzione controllata del raggio per audit/capture Web. Nel gioco resta -1 e
+## viene applicato il budget del WorldProfile.
+var launch_stream_radius_override := -1
 var world_profile: Dictionary = {}
 var world_level := 1
 var world_seed := ""
@@ -114,6 +117,8 @@ func _ready() -> void:
 		reserved_positions.append(event["position"])
 	reserved_positions.append(_hero_landmark_position())
 	chunks.configure(world_seed, self, world_profile, reserved_positions)
+	if launch_stream_radius_override >= 0:
+		chunks.active_radius = launch_stream_radius_override
 	_create_player()
 	_apply_resume()
 	_create_portal()
@@ -132,6 +137,7 @@ func _ready() -> void:
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_environment", "day")
+		audio.call("configure_world_soundscape", str(world_profile.get("soundscape", "")))
 		audio.call("play_subject", _world_subject())
 
 func _configure_world_profile() -> void:
@@ -212,6 +218,16 @@ func _configure_profile_palette() -> void:
 	profile_night_tint = NIGHT_TINT.lerp(accent.darkened(0.58), 0.28)
 	profile_dawn_tint = DAWN_TINT.lerp(accent.lightened(0.12), 0.30)
 	profile_day_tint = Color.WHITE.lerp(accent.lightened(0.42), 0.08)
+	if world_level == 3:
+		# Basalto freddo, rame e circuiti: il Cratere resta tecnico anche in pieno giorno.
+		profile_night_tint = Color("26314c")
+		profile_dawn_tint = Color("8f6b72")
+		profile_day_tint = Color("d9e2f1")
+	elif world_level == 4:
+		# Teal marino e tramonto corallo separano la Baia da ogni bioma terrestre.
+		profile_night_tint = Color("173d49")
+		profile_dawn_tint = Color("e89b83")
+		profile_day_tint = Color("d9f0ea")
 	if not request.has("resume"):
 		var lighting := str(world_profile.get("lighting", "")).to_lower()
 		if "notte" in lighting or "penombra" in lighting:
@@ -276,6 +292,7 @@ func _process(delta: float) -> void:
 		var audio := get_node_or_null("/root/NativeAudio")
 		if audio != null:
 			audio.call("play_environment", "night" if phase_id == "notte" else "day")
+			audio.call("configure_world_soundscape", str(world_profile.get("soundscape", "")))
 	if is_instance_valid(atmosphere_material):
 		atmosphere_material.set_shader_parameter("daylight", daylight)
 		atmosphere_material.set_shader_parameter("clock", day_clock / DAY_LENGTH)
@@ -534,9 +551,34 @@ func _create_portal() -> void:
 	portal.add_child(area)
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
 	area.body_exited.connect(func(body): on_interactable_exited(area, body))
+	_create_profile_portal_dressing()
 
 func _hero_landmark_position() -> Vector2:
+	if world_level == 3:
+		return PORTAL_POSITION + Vector2(0, 1280)
+	if world_level == 4:
+		return PORTAL_POSITION + Vector2(1320, 1280)
 	return PORTAL_POSITION + Vector2(690, -210)
+
+func _create_profile_portal_dressing() -> void:
+	var specs: Array[Dictionary] = []
+	if world_level == 3:
+		specs = [
+			{"kind": "sequence_pylon", "offset": Vector2(-142, 34), "variant": 0.22},
+			{"kind": "sequence_pylon", "offset": Vector2(142, 34), "variant": 0.78},
+		]
+	elif world_level == 4:
+		specs = [
+			{"kind": "radio_mast", "offset": Vector2(-158, 42), "variant": 0.28},
+			{"kind": "signal_buoy", "offset": Vector2(158, 42), "variant": 0.74},
+		]
+	for spec in specs:
+		var dressing := OutdoorVisualFactory.build_identity_prop(
+			str(spec["kind"]), "ship_entrance", float(spec["variant"]))
+		dressing.name = "ShipEntrance_%s" % str(spec["kind"])
+		dressing.position = PORTAL_POSITION + (spec["offset"] as Vector2)
+		dressing.z_index = 14
+		world_layer.add_child(dressing)
 
 func _create_profile_landmark() -> void:
 	var names: Array = world_profile.get("heroLandmarks", [])
@@ -551,12 +593,18 @@ func _create_profile_landmark() -> void:
 		"geografia": "atlasGate", "scienze": "skyTree",
 		"cittadinanza": "forge", "logica": "logicSpire",
 	}
+	var landmark_kind := (
+		"cycleMachine" if world_level == 3 else
+		"signalLighthouse" if world_level == 4 else
+		str(kinds.get(subject, "skyTree"))
+	)
 	var label := str(names[0]).replace("-", " ").capitalize()
 	var landmark := OutdoorVisualFactory.build_landmark(
-		str(kinds.get(subject, "skyTree")), label, _profile_accent_rgb())
+		landmark_kind, label, _profile_accent_rgb())
 	landmark.name = "ProfileHeroLandmark"
+	landmark.set_meta("landmark_kind", landmark_kind)
 	landmark.position = _hero_landmark_position()
-	landmark.scale = Vector2.ONE * 1.32
+	landmark.scale = Vector2.ONE * (1.52 if world_level in [3, 4] else 1.32)
 	world_layer.add_child(landmark)
 
 func _create_profile_events() -> void:
@@ -605,7 +653,7 @@ func _create_profile_events() -> void:
 				_event_visual_kind(str(payload["subject"])), clampi(floori(float(world_level) / 4.0) + 1, 1, 7)))
 		var reaction := LEARNING_REACTION_SCRIPT.new()
 		reaction.setup(
-			"archive" if world_level == 2 else "radura",
+			"archive" if world_level == 2 else "crater" if world_level == 3 else "signal_bay" if world_level == 4 else "radura",
 			director_kind,
 			OutdoorVisualFactory.hex_color(_profile_accent_rgb()))
 		reaction.position = Vector2(0, 28)
@@ -662,7 +710,7 @@ func _profile_accent_rgb() -> int:
 
 func _create_profile_weather() -> void:
 	var weather := str(world_profile.get("weather", "sereno")).to_lower()
-	if weather in ["sereno", "quiete", "controllato", "sereno-secco"]:
+	if world_level not in [3, 4] and weather in ["sereno", "quiete", "controllato", "sereno-secco"]:
 		return
 	world_weather_particles = CPUParticles2D.new()
 	world_weather_particles.name = "WorldProfileWeather"
@@ -675,7 +723,21 @@ func _create_profile_weather() -> void:
 	world_weather_particles.scale_amount_min = 0.05
 	world_weather_particles.scale_amount_max = 0.13
 	world_weather_particles.z_index = 42
-	if "pioggia" in weather or "tempesta" in weather:
+	if world_level == 3:
+		world_weather_particles.amount = 30
+		world_weather_particles.direction = Vector2(0.18, -1.0)
+		world_weather_particles.gravity = Vector2(5, -12)
+		world_weather_particles.initial_velocity_min = 10.0
+		world_weather_particles.initial_velocity_max = 28.0
+		world_weather_particles.color = Color(0.48, 0.88, 1.0, 0.34)
+	elif world_level == 4:
+		world_weather_particles.amount = 42
+		world_weather_particles.direction = Vector2(1.0, -0.10)
+		world_weather_particles.gravity = Vector2(22, -3)
+		world_weather_particles.initial_velocity_min = 22.0
+		world_weather_particles.initial_velocity_max = 52.0
+		world_weather_particles.color = Color(0.74, 0.96, 0.91, 0.28)
+	elif "pioggia" in weather or "tempesta" in weather:
 		world_weather_particles.amount = 110 if "tempesta" in weather else 64
 		world_weather_particles.direction = Vector2(0.18, 1.0)
 		world_weather_particles.gravity = Vector2(34, 520)

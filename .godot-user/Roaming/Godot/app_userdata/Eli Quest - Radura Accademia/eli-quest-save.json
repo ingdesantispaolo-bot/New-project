@@ -1,9 +1,6 @@
 {
 	"apparatus": {},
-	"codex": {
-		"matematica:problemi": "encountered",
-		"matematica:tabelline": "encountered"
-	},
+	"codex": {},
 	"codexUi": {
 		"favorites": []
 	},
@@ -14,13 +11,13 @@
 	},
 	"daily": {
 		"date": "",
-		"missions": 0.0,
-		"streak": 0.0
+		"missions": 0,
+		"streak": 0
 	},
-	"energy": 0.0,
-	"fragments": 0.0,
+	"energy": 0,
+	"fragments": 0,
 	"gateConsumed": {},
-	"level": 1,
+	"level": 4,
 	"mastery": {},
 	"masteryByTopic": {},
 	"missionsBySubject": {},
@@ -30,10 +27,10 @@
 	},
 	"narrative": {
 		"beats": {
-			"1": "NORA: Radura Accademia. Sento di nuovo i numeri: ogni tabellina che padroneggi riaccende una scheda del mio Nucleo. Comincia da qui."
+			"4": "NORA: Baia dei Segnali. Ho ricevuto una voce lontana in un'altra lingua. Tu la traduci, io la ricordo."
 		},
 		"seen": [
-			"1"
+			"4"
 		]
 	},
 	"nora": {
@@ -49,10 +46,10 @@
 	"spacedRepetition": {
 		"history": [],
 		"schedule": {},
-		"sessionClock": 0.0
+		"sessionClock": 0
 	},
 	"worldProgress": {
-		"1": {
+		"4": {
 			"clearedHazardIds": [],
 			"collectedTreasureIds": [],
 			"completedEncounterIds": [],
@@ -60,9 +57,12 @@
 		}
 	},
 	"worlds": {
-		"current": 1,
+		"current": 4,
 		"unlocked": [
-			1
+			1,
+			2,
+			3,
+			4
 		]
 	}
 }

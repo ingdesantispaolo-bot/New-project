@@ -124,11 +124,16 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 				continue
 			if _near_reserved_event(position, margin + 54.0):
 				continue
-			# L'Archivio usa sale e scaffali autorati: una quota ridotta degli
-			# ostacoli naturali evita l'effetto "Radura con una tinta diversa".
-			if int(world_profile.get("level", 1)) == 2 and field in ["obstacles", "props"]:
+			# Le vertical slice autorate tengono la decorazione procedurale come
+			# tessuto secondario: la topologia resta quella del profilo.
+			var level := int(world_profile.get("level", 1))
+			if level in [2, 3, 4] and field in ["obstacles", "props"]:
 				var signature := str(item.get("id", "%s:%.1f:%.1f" % [field, position.x, position.y]))
 				var keep_percent := 58 if field == "obstacles" else 42
+				if level == 3:
+					keep_percent = 70 if field == "obstacles" else 34
+				elif level == 4:
+					keep_percent = 46 if field == "obstacles" else 28
 				if posmod(hash(signature), 100) >= keep_percent:
 					continue
 			kept.append(item)
@@ -242,6 +247,10 @@ func _add_boundary_collider(parent: Node2D, position: Vector2, size: Vector2) ->
 func _add_boundary_motif(parent: Node2D, position: Vector2, index: int, edge: int) -> void:
 	var biome := composition.dominant_biome(position)
 	var kind := "tree" if biome in ["academy", "wild"] else "rock" if biome in ["geo", "ruins"] else "crystal"
+	if composition.visual_theme == "crater":
+		kind = "crystal" if (index + edge) % 4 == 0 else "rock"
+	elif composition.visual_theme == "signal_bay":
+		kind = "rock"
 	var variant := fmod(float(index) * 0.371 + float(edge) * 0.219, 1.0)
 	var motif := OutdoorVisualFactory.build_obstacle(kind, 48.0 + variant * 14.0, 0x355b42, variant, biome)
 	motif.position = position + Vector2(sin(float(index) * 1.7 + edge) * 22.0, cos(float(index) * 1.13 + edge) * 10.0)

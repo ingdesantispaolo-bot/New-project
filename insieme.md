@@ -31,7 +31,9 @@ navigazione, performance ed export.
 
 ### C-P5 — Produzione visuale dei mondi
 
-- [ ] ondata A: mondi 3–4;
+- [ ] chiudere il gate integrato dell’ondata A (mondi 3–4) dopo la consegna
+  O-P5A: collegare i nuovi contratti didattici ai consumer e rieseguire audit e
+  capture se cambiano eventi o criteri di trasformazione;
 - [ ] ondata B: mondi 5–8;
 - [ ] ondata C: mondi 9–12;
 - [ ] ondata D: mondi 13–20;
@@ -65,18 +67,31 @@ contratti dati, selezione adattiva e audit semantici.
 
 ### O-P5 — Contenuti dei mondi 3–24
 
-Per ogni ondata:
+Contenuto didattico consegnato per **tutti i 24 mondi** in `world_lesson.gd`
+(`WorldLessonCatalog`), dopo il completamento dei mondi visuali C-P5. Ogni
+lezione: obiettivi, prerequisiti, topic REALI, azioni-concetto diegetiche, prova
+di trasferimento, testi NORA (briefing/onError/onStreak/debrief) e
+`environmentTransform {trigger, effect}` (criteri semantici per Codex). I beat
+NORA per livello sono in `NarrativeManager` (O-P4, 24 beat).
 
-- [ ] curriculum e prerequisiti;
-- [ ] mission grammar ed event pool;
-- [ ] briefing, debrief e beat NORA;
-- [ ] manuale dei nuovi concetti;
-- [ ] prove finali di copertura e trasferimento;
-- [ ] criteri per la trasformazione ambientale;
-- [ ] audit didattici e di raggiungibilità.
+#### O-P5A — Gate immediato, mondi 3–4
 
-Opus consegna un’ondata soltanto quando quella precedente ha superato il gate
-integrato con Codex.
+- [x] curriculum, prerequisiti, mission grammar/event pool (dal `WorldProfile`),
+  briefing/debrief/beat NORA, manuale, prove finali di trasferimento, criteri di
+  trasformazione ambientale e audit — *Cratere Logico (coding) e Baia dei Segnali
+  (inglese) consegnati e verdi.*
+
+#### O-P5B–E — Mondi 5–24
+
+- [x] stessi deliverable per i mondi 5–24 (fisica, musica, latino, elettronica,
+  geografia, scienze, cittadinanza, logica + i cicli avanzati 13–24). Topic reali
+  dai banchi; matematica avanzata dai concetti del generatore.
+
+**Verificato**: `world_lesson_audit` **verde su 24 mondi** (obiettivi, topic
+reali, trasferimento, NORA, trasformazione ambientale, difficoltà per competenza);
+raggiungibilità/non-blocco degli eventi coperta da `mission_event_director_audit`
+(24 mondi). Ogni ONDATA resta da chiudere con l'integrazione C-P5 di Codex
+(collegare i criteri di trasformazione ai consumer e rieseguire capture).
 
 ### O-P6 — Validazione
 

@@ -43,6 +43,16 @@ Per ogni mondo dell’ondata corrente:
 - [ ] capture desktop, tablet con HUD e landmark approvata;
 - [ ] audit dell’ondata e regressioni precedenti verdi.
 
+> **Nota per Codex — da committare (Opus non li tocca).** Nel working tree ci sono
+> modifiche dell'ondata A/B non ancora committate, a nome tuo: asset dei mondi 5–8
+> (16 file `*.png` + `.import`: delta-circuiti, giardino, officine, rovine…), gli
+> script `chunk_ground/manager/visual`, `outdoor_world`, `visual_factory`,
+> `world_composition_generator`, `world_learning_reaction`,
+> `world_profiles_render_probe`, e gli audit `world_wave_a_audit`/`world_wave_b_audit`.
+> Ricorda inoltre di committare `godot/assets/archivio-parole-underpaint-v1.png.import`
+> insieme al suo PNG (senza, gli audit di scena danno parse error). Il commit
+> `4cf124d` (O-P6, Opus) ha volutamente lasciato fuori tutto questo.
+
 ### C-P6 — Pass AAA e consegna
 
 - [ ] Regia, camera, animazioni, transizioni e sound design dei traguardi.

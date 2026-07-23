@@ -25,6 +25,10 @@ const LOGIC_NATURAL_ATLAS: Texture2D = preload("res://assets/cratere-logico-natu
 const NATURAL_DETAIL_ATLAS: Texture2D = preload("res://assets/natural-detail-atlas-v1.png")
 const CYCLE_MACHINE_TEXTURE: Texture2D = preload("res://assets/cratere-cycle-machine-v1.png")
 const RADIO_LIGHTHOUSE_TEXTURE: Texture2D = preload("res://assets/baia-radio-lighthouse-v1.png")
+const MOTION_LEVER_TEXTURE: Texture2D = preload("res://assets/officine-grande-leva-v1.png")
+const RESONANT_TREE_TEXTURE: Texture2D = preload("res://assets/giardino-albero-risonante-v1.png")
+const GLYPH_ARCH_TEXTURE: Texture2D = preload("res://assets/rovine-arco-glifi-v1.png")
+const CIRCUIT_NODE_TEXTURE: Texture2D = preload("res://assets/delta-nodo-centrale-v1.png")
 
 const NATURAL_DETAIL_CELLS := {
 	"reeds": Vector2i(0, 0), "cattails": Vector2i(1, 0),
@@ -927,6 +931,180 @@ static func build_identity_prop(kind: String, _theme: String, variant: float = 0
 				dot.add_to_group("night_glow")
 				root.add_child(dot)
 				attach_anim(dot, "pulse", 0.7 + absf(x) * 0.015, 0.55)
+		"motion_piston":
+			root.add_child(make_shadow(38, 12, 0.36, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-25, 3), Vector2(-21, -60), Vector2(21, -60), Vector2(25, 3),
+			]), Color("31343b")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-31, -68), Vector2(31, -68), Vector2(27, -53), Vector2(-27, -53),
+			]), Color("a66d48")))
+			var rod := Line2D.new()
+			rod.points = PackedVector2Array([Vector2(0, -61), Vector2(0, -112)])
+			rod.width = 9.0
+			rod.default_color = Color("d1b07b")
+			root.add_child(rod)
+			var cap := make_glow(17, Color("ffb25f"), 0.62)
+			cap.position = Vector2(0, -112)
+			cap.add_to_group("night_glow")
+			root.add_child(cap)
+			attach_anim(cap, "pulse", 0.8 + variant * 0.3, 0.70)
+		"rail_switch":
+			root.add_child(make_shadow(52, 12, 0.34, 7))
+			for side in [-1.0, 1.0]:
+				var rail := Line2D.new()
+				rail.points = PackedVector2Array([Vector2(side * 24, 4), Vector2(side * 13, -68)])
+				rail.width = 6.0
+				rail.default_color = Color("997654")
+				root.add_child(rail)
+			var lever := Line2D.new()
+			lever.points = PackedVector2Array([Vector2(0, -20), Vector2(31 if variant > 0.5 else -31, -74)])
+			lever.width = 7.0
+			lever.default_color = Color("d4a14e")
+			root.add_child(lever)
+			var grip := make_glow(14, Color("ff9f45"), 0.78)
+			grip.position = lever.points[1]
+			grip.add_to_group("night_glow")
+			root.add_child(grip)
+		"force_cart":
+			root.add_child(make_shadow(58, 15, 0.36, 8))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-49, -43), Vector2(47, -43), Vector2(38, -6), Vector2(-39, -6),
+			]), Color("784d3d")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-42, -38), Vector2(39, -38), Vector2(33, -15), Vector2(-35, -15),
+			]), Color("bd784b")))
+			for x in [-31.0, 30.0]:
+				var wheel := make_ring(13, Color("24262d"), 5.0, 18)
+				wheel.position = Vector2(x, -1)
+				root.add_child(wheel)
+		"resonance_crystal":
+			root.add_child(make_shadow(34, 11, 0.28, 7))
+			var crystal_glow := make_glow(42, Color("ca9cff"), 0.54)
+			crystal_glow.position = Vector2(0, -45)
+			crystal_glow.add_to_group("night_glow")
+			root.add_child(crystal_glow)
+			for data in [[-18.0, 55.0, -0.18], [2.0, 82.0, 0.02], [22.0, 48.0, 0.20]]:
+				var shard := make_polygon(PackedVector2Array([
+					Vector2(0, -float(data[1])), Vector2(12, -15), Vector2(7, 4), Vector2(-7, 4), Vector2(-12, -15),
+				]), Color("9577c8"), Vector2(float(data[0]), 0))
+				shard.rotation = float(data[2])
+				root.add_child(shard)
+			attach_anim(crystal_glow, "pulse", 0.9 + variant * 0.4, 0.82)
+		"tuning_pod":
+			root.add_child(make_shadow(43, 13, 0.30, 7))
+			root.add_child(make_polygon(ellipse_polygon(41, 19, 28), Color("543b75"), Vector2(0, -8)))
+			for radius in [24.0, 39.0, 54.0]:
+				var wave := make_ring(radius, Color("9fe9ff", 0.26), 2.0, 28)
+				wave.scale.y = 0.40
+				wave.position = Vector2(0, -24)
+				root.add_child(wave)
+				attach_anim(wave, "pulse", 0.62 + radius * 0.008, 0.55)
+			var tone := make_glow(17, Color("efaaff"), 0.86)
+			tone.position = Vector2(0, -28)
+			tone.add_to_group("night_glow")
+			root.add_child(tone)
+		"echo_bloom":
+			root.add_child(make_shadow(30, 10, 0.25, 6))
+			var stem := Line2D.new()
+			stem.points = PackedVector2Array([Vector2(0, 2), Vector2(0, -51)])
+			stem.width = 5.0
+			stem.default_color = Color("50765e")
+			root.add_child(stem)
+			for index in range(6):
+				var angle := TAU * float(index) / 6.0
+				var petal := make_polygon(ellipse_polygon(14, 7, 16), Color("c68fe1"), Vector2(cos(angle) * 17, sin(angle) * 12 - 54))
+				petal.rotation = angle
+				root.add_child(petal)
+			var bloom_core := make_glow(13, Color("baf5ff"), 0.92)
+			bloom_core.position = Vector2(0, -54)
+			bloom_core.add_to_group("night_glow")
+			root.add_child(bloom_core)
+		"aqueduct_pillar":
+			root.add_child(make_shadow(34, 12, 0.34, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-25, 4), Vector2(-20, -105), Vector2(20, -105), Vector2(25, 4),
+			]), Color("ad8257")))
+			for y in [-89.0, -55.0, -21.0]:
+				root.add_child(make_polygon(PackedVector2Array([
+					Vector2(-22, y - 4), Vector2(22, y - 4), Vector2(20, y + 4), Vector2(-20, y + 4),
+				]), Color("d2ac72")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-31, -116), Vector2(31, -116), Vector2(27, -101), Vector2(-27, -101),
+			]), Color("74563f")))
+		"glyph_stele":
+			root.add_child(make_shadow(35, 11, 0.32, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-27, 3), Vector2(-24, -77), Vector2(-12, -93), Vector2(19, -88), Vector2(27, 3),
+			]), Color("9d7654")))
+			for index in range(4):
+				var mark := Line2D.new()
+				var y := -69.0 + float(index) * 17.0
+				mark.points = PackedVector2Array([Vector2(-13, y), Vector2(11, y - 4), Vector2(3, y + 5)])
+				mark.width = 2.4
+				mark.default_color = Color("6da9d2")
+				root.add_child(mark)
+			var glyph_glow := make_glow(24, Color("77c4ef"), 0.34)
+			glyph_glow.position = Vector2(0, -48)
+			glyph_glow.add_to_group("night_glow")
+			root.add_child(glyph_glow)
+		"mosaic_brazier":
+			root.add_child(make_shadow(39, 13, 0.34, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-31, 0), Vector2(-24, -38), Vector2(24, -38), Vector2(31, 0),
+			]), Color("77523b")))
+			for index in range(5):
+				var tile := make_polygon(circle_polygon(8, 4), Color("4f83a5") if index % 2 == 0 else Color("d0a052"))
+				tile.position = Vector2(-22.0 + float(index) * 11.0, -17)
+				tile.rotation = PI * 0.25
+				root.add_child(tile)
+			var flame := make_glow(23, Color("ffac54"), 0.86)
+			flame.position = Vector2(0, -49)
+			flame.add_to_group("night_glow")
+			root.add_child(flame)
+			attach_anim(flame, "pulse", 1.4 + variant * 0.5, 1.0)
+		"coil_tower":
+			root.add_child(make_shadow(36, 11, 0.36, 7))
+			var mast := Line2D.new()
+			mast.points = PackedVector2Array([Vector2(0, 2), Vector2(0, -112)])
+			mast.width = 7.0
+			mast.default_color = Color("b87948")
+			root.add_child(mast)
+			for y in [-23.0, -48.0, -73.0, -98.0]:
+				var coil := make_ring(24.0 - absf(y + 60.0) * 0.10, Color("5df3e5", 0.78), 3.0, 26)
+				coil.scale.y = 0.30
+				coil.position = Vector2(0, y)
+				root.add_child(coil)
+			var coil_glow := make_glow(21, Color("63fff0"), 0.90)
+			coil_glow.position = Vector2(0, -116)
+			coil_glow.add_to_group("night_glow")
+			root.add_child(coil_glow)
+			attach_anim(coil_glow, "pulse", 1.1 + variant * 0.3, 0.9)
+		"circuit_node":
+			root.add_child(make_shadow(36, 12, 0.28, 7))
+			for radius in [31.0, 21.0]:
+				var circuit_ring := make_ring(radius, Color("58d8cf"), 4.0, 28)
+				circuit_ring.scale.y = 0.56
+				circuit_ring.position = Vector2(0, -22)
+				root.add_child(circuit_ring)
+			var circuit_glow := make_glow(18, Color("f3a94e"), 0.92)
+			circuit_glow.position = Vector2(0, -22)
+			circuit_glow.add_to_group("night_glow")
+			root.add_child(circuit_glow)
+			attach_anim(circuit_glow, "pulse", 0.78 + variant * 0.35, 0.78)
+		"conductor_bridge":
+			root.add_child(make_shadow(59, 14, 0.32, 7))
+			for y in [-29.0, -12.0]:
+				var deck := Line2D.new()
+				deck.points = PackedVector2Array([Vector2(-52, y), Vector2(52, y)])
+				deck.width = 7.0
+				deck.default_color = Color("8b6246")
+				root.add_child(deck)
+			for x in [-44.0, 0.0, 44.0]:
+				var node_glow := make_glow(10, Color("63f2e8"), 0.78)
+				node_glow.position = Vector2(x, -31)
+				node_glow.add_to_group("night_glow")
+				root.add_child(node_glow)
 		_:
 			root.add_child(make_polygon(circle_polygon(18, 8), Color("6be7d6")))
 	return root
@@ -942,6 +1120,7 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 	match kind:
 		"cycleMachine":
 			var cycle_sprite := Sprite2D.new()
+			cycle_sprite.name = "LandmarkCycleMachineArt"
 			cycle_sprite.texture = CYCLE_MACHINE_TEXTURE
 			cycle_sprite.position = Vector2(0, -66)
 			cycle_sprite.scale = Vector2(205, 164) / CYCLE_MACHINE_TEXTURE.get_size()
@@ -954,6 +1133,7 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 			attach_anim(axle, "pulse", 1.05, 0.84)
 		"signalLighthouse":
 			var lighthouse_sprite := Sprite2D.new()
+			lighthouse_sprite.name = "LandmarkSignalLighthouseArt"
 			lighthouse_sprite.texture = RADIO_LIGHTHOUSE_TEXTURE
 			lighthouse_sprite.position = Vector2(0, -109)
 			lighthouse_sprite.scale = Vector2(150, 225) / RADIO_LIGHTHOUSE_TEXTURE.get_size()
@@ -974,6 +1154,59 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 				radio_wave.position = Vector2(0, -164)
 				root.add_child(radio_wave)
 				attach_anim(radio_wave, "pulse", 0.55 + radius * 0.006, 0.65)
+		"motionLever":
+			var lever_sprite := Sprite2D.new()
+			lever_sprite.name = "LandmarkMotionLeverArt"
+			lever_sprite.texture = MOTION_LEVER_TEXTURE
+			lever_sprite.position = Vector2(0, -101)
+			lever_sprite.scale = Vector2(205, 205) / MOTION_LEVER_TEXTURE.get_size()
+			lever_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(lever_sprite)
+			var fulcrum := make_glow(31, Color("ffad55"), 0.78)
+			fulcrum.position = Vector2(0, -69)
+			fulcrum.add_to_group("night_glow")
+			root.add_child(fulcrum)
+			attach_anim(fulcrum, "pulse", 1.18, 0.86)
+		"resonantTree":
+			var tree_sprite := Sprite2D.new()
+			tree_sprite.name = "LandmarkResonantTreeArt"
+			tree_sprite.texture = RESONANT_TREE_TEXTURE
+			tree_sprite.position = Vector2(0, -117)
+			tree_sprite.scale = Vector2(185, 220) / RESONANT_TREE_TEXTURE.get_size()
+			tree_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(tree_sprite)
+			for radius in [42.0, 66.0, 89.0]:
+				var tone_ring := make_ring(radius, Color(accent, 0.24), 2.0, 34)
+				tone_ring.scale.y = 0.30
+				tone_ring.position = Vector2(0, -117)
+				root.add_child(tone_ring)
+				attach_anim(tone_ring, "pulse", 0.63 + radius * 0.006, 0.62)
+		"glyphArch":
+			var arch_sprite := Sprite2D.new()
+			arch_sprite.name = "LandmarkGlyphArchArt"
+			arch_sprite.texture = GLYPH_ARCH_TEXTURE
+			arch_sprite.position = Vector2(0, -84)
+			arch_sprite.scale = Vector2(250, 167) / GLYPH_ARCH_TEXTURE.get_size()
+			arch_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(arch_sprite)
+			var glyph_aura := make_glow(38, Color("70bde7"), 0.46)
+			glyph_aura.position = Vector2(0, -103)
+			glyph_aura.add_to_group("night_glow")
+			root.add_child(glyph_aura)
+			attach_anim(glyph_aura, "pulse", 0.86, 0.74)
+		"circuitNode":
+			var node_sprite := Sprite2D.new()
+			node_sprite.name = "LandmarkCircuitNodeArt"
+			node_sprite.texture = CIRCUIT_NODE_TEXTURE
+			node_sprite.position = Vector2(0, -116)
+			node_sprite.scale = Vector2(210, 220) / CIRCUIT_NODE_TEXTURE.get_size()
+			node_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(node_sprite)
+			var node_core := make_glow(35, Color("5ffff0"), 0.96)
+			node_core.position = Vector2(0, -103)
+			node_core.add_to_group("night_glow")
+			root.add_child(node_core)
+			attach_anim(node_core, "pulse", 1.32, 1.0)
 		"forge":
 			root.add_child(make_shadow(26, 9, 0.3, 8))
 			root.add_child(make_polygon(PackedVector2Array([
@@ -1080,7 +1313,15 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 			root.add_child(make_polygon(circle_polygon(22, 6), accent))
 	var text := Label.new()
 	text.text = label
-	text.position = Vector2(-90, -207 if kind == "signalLighthouse" else -175 if kind == "cycleMachine" else -96)
+	var tall_label_y := {
+		"signalLighthouse": -207.0,
+		"cycleMachine": -175.0,
+		"motionLever": -220.0,
+		"resonantTree": -241.0,
+		"glyphArch": -190.0,
+		"circuitNode": -237.0,
+	}
+	text.position = Vector2(-90, float(tall_label_y.get(kind, -96.0)))
 	text.custom_minimum_size = Vector2(180, 0)
 	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	text.add_theme_font_size_override("font_size", 13)

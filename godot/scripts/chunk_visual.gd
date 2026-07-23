@@ -57,6 +57,10 @@ func _build_identity_props() -> void:
 			"archive_shelf", "archive_pillar", "archive_scriptorium",
 			"sequence_pylon", "loop_engine", "gear_cluster",
 			"radio_mast", "signal_console",
+			"motion_piston", "rail_switch", "force_cart",
+			"resonance_crystal", "tuning_pod",
+			"aqueduct_pillar", "glyph_stele", "mosaic_brazier",
+			"coil_tower", "circuit_node", "conductor_bridge",
 		]:
 			var body := StaticBody2D.new()
 			var shape := CollisionShape2D.new()
@@ -70,6 +74,17 @@ func _build_identity_props() -> void:
 				"gear_cluster": Vector2(116, 46),
 				"radio_mast": Vector2(56, 34),
 				"signal_console": Vector2(92, 42),
+				"motion_piston": Vector2(52, 38),
+				"rail_switch": Vector2(76, 34),
+				"force_cart": Vector2(98, 42),
+				"resonance_crystal": Vector2(72, 38),
+				"tuning_pod": Vector2(84, 40),
+				"aqueduct_pillar": Vector2(56, 42),
+				"glyph_stele": Vector2(58, 40),
+				"mosaic_brazier": Vector2(70, 38),
+				"coil_tower": Vector2(54, 38),
+				"circuit_node": Vector2(66, 38),
+				"conductor_bridge": Vector2(108, 40),
 			}
 			rectangle.size = collision_sizes.get(kind, Vector2(52, 38))
 			shape.shape = rectangle

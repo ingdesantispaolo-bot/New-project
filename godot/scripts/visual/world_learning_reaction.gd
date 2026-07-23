@@ -7,10 +7,19 @@ extends Node2D
 
 var active_parts: Array[CanvasItem] = []
 var completed := false
+var transform_semantics: Dictionary = {}
 
-func setup(theme: String, event_kind: String, accent: Color) -> void:
+func setup(
+	theme: String,
+	event_kind: String,
+	accent: Color,
+	semantics: Dictionary = {}
+) -> void:
 	name = "LearningReaction"
 	z_index = -1
+	transform_semantics = semantics.duplicate(true)
+	set_meta("transform_trigger", str(transform_semantics.get("trigger", "")))
+	set_meta("transform_effect", str(transform_semantics.get("effect", "")))
 	var base := OutdoorVisualFactory.make_ring(49, Color(accent.darkened(0.45), 0.48), 2.0, 28)
 	base.scale = Vector2(1.0, 0.42)
 	base.position = Vector2(0, 10)
@@ -22,6 +31,14 @@ func setup(theme: String, event_kind: String, accent: Color) -> void:
 			_build_crater(event_kind, accent)
 		"signal_bay":
 			_build_signal_bay(event_kind, accent)
+		"motion_forge":
+			_build_motion_forge(event_kind, accent)
+		"resonance_garden":
+			_build_resonance_garden(event_kind, accent)
+		"glyph_ruins":
+			_build_glyph_ruins(event_kind, accent)
+		"circuit_delta":
+			_build_circuit_delta(event_kind, accent)
 		_:
 			_build_radure(event_kind, accent)
 	set_progress(0, active_parts.size(), false)
@@ -116,6 +133,103 @@ func _build_signal_bay(event_kind: String, accent: Color) -> void:
 		wave.position = Vector2(0, -10)
 		part.add_child(wave)
 		OutdoorVisualFactory.attach_anim(wave, "pulse", 0.66 + float(index) * 0.11, 0.52)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_motion_forge(event_kind: String, accent: Color) -> void:
+	# Ogni esito sposta un carrello lungo una rampa: il moto diventa una
+	# conseguenza ambientale osservabile, non una semplice spia colorata.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-45.0 + float(index) * 22.5, 9.0 - float(index) * 3.0)
+		var rail := Line2D.new()
+		rail.points = PackedVector2Array([Vector2(-11, 5), Vector2(11, -1)])
+		rail.width = 3.0
+		rail.default_color = Color("9b7652")
+		part.add_child(rail)
+		var cart := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-8, -9), Vector2(8, -9), Vector2(7, 1), Vector2(-7, 1)]),
+			Color("c66f48"))
+		part.add_child(cart)
+		var force_glow := OutdoorVisualFactory.make_glow(12, accent, 0.76)
+		force_glow.position = Vector2(0, -8)
+		force_glow.add_to_group("night_glow")
+		part.add_child(force_glow)
+		OutdoorVisualFactory.attach_anim(force_glow, "pulse", 0.74 + float(index) * 0.11, 0.62)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_resonance_garden(event_kind: String, accent: Color) -> void:
+	# I boccioli si accordano progressivamente e propagano cerchi sonori.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 7.0 + sin(float(index) * 1.5) * 5.0)
+		for petal_index in range(4):
+			var angle := TAU * float(petal_index) / 4.0
+			var petal := OutdoorVisualFactory.make_polygon(
+				OutdoorVisualFactory.ellipse_polygon(7, 3.5, 12),
+				accent.lightened(0.10),
+				Vector2(cos(angle) * 7, sin(angle) * 5 - 7))
+			petal.rotation = angle
+			part.add_child(petal)
+		var wave := OutdoorVisualFactory.make_ring(15, Color(accent, 0.42), 1.8, 22)
+		wave.scale.y = 0.36
+		wave.position = Vector2(0, -7)
+		part.add_child(wave)
+		OutdoorVisualFactory.attach_anim(wave, "pulse", 0.68 + float(index) * 0.12, 0.58)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_glyph_ruins(event_kind: String, accent: Color) -> void:
+	# Le tessere ricompongono un fregio astratto, senza simulare testo latino.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 7.0)
+		var tile := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-9, -10), Vector2(9, -10), Vector2(8, 8), Vector2(-8, 8)]),
+			Color("b78b5d"))
+		part.add_child(tile)
+		var mark := Line2D.new()
+		mark.points = PackedVector2Array([
+			Vector2(-5, -4), Vector2(4, -6), Vector2(-1, 0), Vector2(5, 4),
+		])
+		mark.width = 2.0
+		mark.default_color = Color(accent, 0.92)
+		part.add_child(mark)
+		var glyph_glow := OutdoorVisualFactory.make_glow(13, accent, 0.48)
+		glyph_glow.add_to_group("night_glow")
+		part.add_child(glyph_glow)
+		OutdoorVisualFactory.attach_anim(glyph_glow, "pulse", 0.80 + float(index) * 0.10, 0.52)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_circuit_delta(event_kind: String, accent: Color) -> void:
+	# Ogni nodo chiude un ramo del circuito, con alternanza forma/altezza utile
+	# anche in assenza di colore.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 7.0 + float(index % 2) * 7.0)
+		if index > 0:
+			var trace := Line2D.new()
+			trace.points = PackedVector2Array([Vector2(-22, -float(index % 2) * 7.0), Vector2.ZERO])
+			trace.width = 3.0
+			trace.default_color = Color("bc7b48")
+			part.add_child(trace)
+		var socket := OutdoorVisualFactory.make_ring(9.5, Color("50c9c4"), 2.7, 16)
+		socket.scale.y = 0.62
+		part.add_child(socket)
+		var charge := OutdoorVisualFactory.make_glow(13, accent.lightened(0.14), 0.86)
+		charge.add_to_group("night_glow")
+		part.add_child(charge)
+		OutdoorVisualFactory.attach_anim(charge, "pulse", 0.70 + float(index) * 0.13, 0.66)
 		active_parts.append(part)
 		add_child(part)
 	if event_kind == "enigma":

@@ -18,6 +18,10 @@ const UNDERPAINT_MAGIC: Texture2D = preload("res://assets/terrain-underpaint-mag
 const UNDERPAINT_ARCHIVE: Texture2D = preload("res://assets/archivio-parole-underpaint-v1.png")
 const UNDERPAINT_CRATER: Texture2D = preload("res://assets/cratere-logico-underpaint-v1.png")
 const UNDERPAINT_SIGNAL_BAY: Texture2D = preload("res://assets/baia-segnali-underpaint-v1.png")
+const UNDERPAINT_MOTION: Texture2D = preload("res://assets/officine-moto-underpaint-v1.png")
+const UNDERPAINT_RESONANCE: Texture2D = preload("res://assets/giardino-risonanza-underpaint-v1.png")
+const UNDERPAINT_GLYPH: Texture2D = preload("res://assets/rovine-glifi-underpaint-v1.png")
+const UNDERPAINT_CIRCUIT: Texture2D = preload("res://assets/delta-circuiti-underpaint-v1.png")
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -47,6 +51,7 @@ func setup(data: Dictionary, lod_level: int = 0, composition_data: WorldComposit
 	_build_painterly_surface(size)
 	_build_world_water_features(size)
 	_build_identity_regions(size)
+	_build_world_path_ribbons(size)
 	var patch: Dictionary = chunk.get("patch", {})
 	var biome := str(chunk.get("biome", "academy"))
 	var tint := _hex_color(int(patch.get("color", 0x173b36))).lerp(_biome_palette_tint(biome), 0.22)
@@ -162,6 +167,22 @@ func _build_painterly_surface(size: float) -> void:
 			identity_texture = UNDERPAINT_SIGNAL_BAY
 			identity_strength = 0.90
 			identity_calm = Color("286d6c")
+		"motion_forge":
+			identity_texture = UNDERPAINT_MOTION
+			identity_strength = 0.94
+			identity_calm = Color("4a3c36")
+		"resonance_garden":
+			identity_texture = UNDERPAINT_RESONANCE
+			identity_strength = 0.92
+			identity_calm = Color("483c68")
+		"glyph_ruins":
+			identity_texture = UNDERPAINT_GLYPH
+			identity_strength = 0.93
+			identity_calm = Color("75533f")
+		"circuit_delta":
+			identity_texture = UNDERPAINT_CIRCUIT
+			identity_strength = 0.95
+			identity_calm = Color("153f45")
 	material.set_shader_parameter("identity_tex", identity_texture)
 	material.set_shader_parameter("identity_strength", identity_strength)
 	material.set_shader_parameter("identity_calm_palette", identity_calm)
@@ -222,6 +243,31 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(outer)
 			root.add_child(inner)
 			_add_signal_floor_ornament(root, radii, kind == "signal_dock")
+		elif kind == "motion_yard" or kind == "motion_ramp":
+			outer.color = Color(0.12, 0.12, 0.14, 0.58)
+			inner.color = Color(0.48, 0.31, 0.20, 0.24)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_linear_floor_ornament(root, radii, Color("f2ad59", 0.23), 7, kind == "motion_ramp")
+		elif kind == "resonance_terrace" or kind == "resonance_grove":
+			outer.color = Color(0.18, 0.10, 0.31, 0.52)
+			inner.color = Color(0.38, 0.27, 0.60, 0.22)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_resonance_floor_ornament(root, radii)
+		elif kind == "glyph_forum" or kind == "glyph_court":
+			outer.color = Color(0.34, 0.20, 0.12, 0.48)
+			inner.color = Color(0.78, 0.57, 0.30, 0.20)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_linear_floor_ornament(root, radii, Color("75a9d8", 0.20), 9, false)
+			_add_radial_floor_lines(root, radii, Color("d9b36c", 0.14), 8)
+		elif kind == "circuit_island":
+			outer.color = Color(0.02, 0.17, 0.21, 0.62)
+			inner.color = Color(0.10, 0.43, 0.45, 0.20)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_circuit_floor_ornament(root, radii)
 		elif kind == "radura_garden":
 			outer.color = Color(0.14, 0.28, 0.16, 0.46)
 			inner.color = Color(0.52, 0.58, 0.25, 0.26)
@@ -283,6 +329,61 @@ func _add_signal_floor_ornament(root: Node2D, radii: Vector2, dock: bool) -> voi
 		line.width = 1.2
 		line.default_color = Color("e4bf7e", 0.10)
 		root.add_child(line)
+
+func _add_linear_floor_ornament(
+	root: Node2D,
+	radii: Vector2,
+	color: Color,
+	count: int,
+	ramp: bool
+) -> void:
+	for index in range(count):
+		var ratio := float(index) / maxf(float(count - 1), 1.0)
+		var y := lerpf(-radii.y * 0.72, radii.y * 0.72, ratio)
+		var line := Line2D.new()
+		var skew := radii.x * 0.18 if ramp else 0.0
+		line.points = PackedVector2Array([
+			Vector2(-radii.x * 0.78 + skew, y),
+			Vector2(radii.x * 0.78 - skew, y),
+		])
+		line.width = 2.4 if index % 3 == 0 else 1.2
+		line.default_color = color
+		line.antialiased = true
+		root.add_child(line)
+	for side in [-1.0, 1.0]:
+		var rail := Line2D.new()
+		rail.points = PackedVector2Array([
+			Vector2(side * radii.x * 0.40, -radii.y * 0.80),
+			Vector2(side * radii.x * 0.40, radii.y * 0.80),
+		])
+		rail.width = 3.0
+		rail.default_color = Color(color, minf(color.a + 0.10, 1.0))
+		root.add_child(rail)
+
+func _add_resonance_floor_ornament(root: Node2D, radii: Vector2) -> void:
+	for index in range(5):
+		var factor := 0.22 + float(index) * 0.15
+		var ring := Line2D.new()
+		var points := _organic_ellipse_points(radii * factor, Vector2(radii.x, radii.y) * factor, 40)
+		points.append(points[0])
+		ring.points = points
+		ring.width = 1.5 + float(index % 2)
+		ring.default_color = Color("dda8ff", 0.13 + float(index) * 0.025)
+		ring.antialiased = true
+		root.add_child(ring)
+	_add_radial_floor_lines(root, radii, Color("8cecff", 0.16), 6)
+
+func _add_circuit_floor_ornament(root: Node2D, radii: Vector2) -> void:
+	_add_radial_floor_lines(root, radii, Color("65f5e8", 0.24), 8)
+	for factor in [0.30, 0.56, 0.78]:
+		var ring := Line2D.new()
+		var points := _organic_ellipse_points(radii * float(factor), Vector2(radii.x, radii.y) * float(factor), 32)
+		points.append(points[0])
+		ring.points = points
+		ring.width = 2.2
+		ring.default_color = Color("f4ad5f", 0.12 if float(factor) < 0.7 else 0.20)
+		ring.antialiased = true
+		root.add_child(ring)
 
 func _add_radial_floor_lines(root: Node2D, radii: Vector2, color: Color, count: int) -> void:
 	for index in range(count):
@@ -349,14 +450,36 @@ func _build_world_path_ribbons(size: float) -> void:
 func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -> void:
 	if curved.size() < 2:
 		return
+	var bank_color := Color(0.31, 0.30, 0.18, 0.22)
+	var soil_color := Color(0.72, 0.68, 0.53, 0.62)
+	var highlight_color := Color(1.0, 0.91, 0.68, 0.08)
+	match composition.visual_theme:
+		"crater":
+			bank_color = Color(0.06, 0.08, 0.14, 0.36)
+			soil_color = Color(0.68, 0.43, 0.34, 0.50)
+		"signal_bay":
+			bank_color = Color(0.04, 0.18, 0.18, 0.32)
+			soil_color = Color(0.67, 0.52, 0.32, 0.48)
+		"motion_forge":
+			bank_color = Color(0.05, 0.05, 0.07, 0.54)
+			soil_color = Color(0.50, 0.32, 0.22, 0.68)
+			highlight_color = Color(1.0, 0.63, 0.28, 0.20)
+		"resonance_garden":
+			bank_color = Color(0.16, 0.07, 0.27, 0.46)
+			soil_color = Color(0.50, 0.34, 0.67, 0.54)
+			highlight_color = Color(0.61, 0.93, 1.0, 0.17)
+		"glyph_ruins":
+			bank_color = Color(0.25, 0.13, 0.08, 0.40)
+			soil_color = Color(0.73, 0.53, 0.30, 0.66)
+			highlight_color = Color(0.47, 0.70, 0.92, 0.13)
+		"circuit_delta":
+			bank_color = Color(0.01, 0.11, 0.15, 0.62)
+			soil_color = Color(0.16, 0.47, 0.47, 0.58)
+			highlight_color = Color(0.38, 1.0, 0.92, 0.24)
 	var bank := Line2D.new()
 	bank.points = curved
 	bank.width = width + 9.0
-	bank.default_color = (
-		Color(0.06, 0.08, 0.14, 0.36) if composition.visual_theme == "crater" else
-		Color(0.04, 0.18, 0.18, 0.32) if composition.visual_theme == "signal_bay" else
-		Color(0.31, 0.30, 0.18, 0.22)
-	)
+	bank.default_color = bank_color
 	bank.joint_mode = Line2D.LINE_JOINT_ROUND
 	bank.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	bank.end_cap_mode = Line2D.LINE_CAP_ROUND
@@ -367,11 +490,7 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 	soil.width = width
 	soil.texture = PATH_EARTH_TEXTURE
 	soil.texture_mode = Line2D.LINE_TEXTURE_TILE
-	soil.default_color = (
-		Color(0.68, 0.43, 0.34, 0.50) if composition.visual_theme == "crater" else
-		Color(0.67, 0.52, 0.32, 0.48) if composition.visual_theme == "signal_bay" else
-		Color(0.72, 0.68, 0.53, 0.62)
-	)
+	soil.default_color = soil_color
 	soil.joint_mode = Line2D.LINE_JOINT_ROUND
 	soil.begin_cap_mode = Line2D.LINE_CAP_ROUND
 	soil.end_cap_mode = Line2D.LINE_CAP_ROUND
@@ -380,7 +499,7 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 	var highlight := Line2D.new()
 	highlight.points = curved
 	highlight.width = maxf(1.5, width * 0.055)
-	highlight.default_color = Color(1.0, 0.91, 0.68, 0.08)
+	highlight.default_color = highlight_color
 	highlight.antialiased = true
 	layer.add_child(highlight)
 

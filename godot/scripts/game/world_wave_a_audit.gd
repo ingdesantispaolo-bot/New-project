@@ -56,14 +56,44 @@ func _assert_wave_world(world: Node, level: int, theme: String, landmark_kind: S
 	var hero := world.find_child("ProfileHeroLandmark", true, false) as Node2D
 	assert(hero != null and str(hero.get_meta("landmark_kind", "")) == landmark_kind,
 		"landmark eroe errato")
+	var semantics := WorldLessonCatalog.environment_transform(level)
+	assert(str(hero.get_meta("transform_trigger", "")) == str(semantics["trigger"])
+		and str(hero.get_meta("transform_effect", "")) == str(semantics["effect"]),
+		"il landmark non consuma environmentTransform")
 	assert(hero.global_position.distance_to(portal.global_position) > float(profile["shipEntrance"]["safeRadius"]),
 		"landmark dentro la zona nave")
+	var profile_reaction := world.find_child("ProfileEnvironmentTransform", true, false)
+	assert(profile_reaction != null
+		and str(profile_reaction.get_meta("transform_effect", "")) == str(semantics["effect"]),
+		"trasformazione globale del profilo assente")
 
 	var first_event := world.find_child("MissionEvent_*", true, false)
 	assert(first_event != null, "nessuna missione visualizzata")
 	var reaction := first_event.get_node_or_null("LearningReaction")
 	assert(reaction != null and Array(reaction.get("active_parts")).size() == 5,
 		"trasformazione ambientale progressiva assente")
+	assert(str(reaction.get_meta("transform_trigger", "")) == str(semantics["trigger"]),
+		"il POI non consuma il trigger didattico")
+	var gate_event: Dictionary = {}
+	for event_data in world.get("mission_events"):
+		if bool(event_data.get("countsForGate", false)):
+			gate_event = event_data
+			break
+	assert(not gate_event.is_empty(), "evento gate assente")
+	var result_state: Dictionary = world.get("result")
+	var completed_ids: Array = result_state.get("completedEncounterIds", [])
+	completed_ids.append(str(gate_event["id"]))
+	result_state["completedEncounterIds"] = completed_ids
+	world.set("result", result_state)
+	var hero_art := hero.find_child("Landmark*Art", true, false) as CanvasItem
+	var inactive_color := hero_art.modulate
+	world.call("_sync_profile_environment_transform", false)
+	var visible_profile_parts := 0
+	for part in profile_reaction.get("active_parts"):
+		if part.visible:
+			visible_profile_parts += 1
+	assert(visible_profile_parts > 0, "il successo didattico non trasforma il landmark globale")
+	assert(hero_art.modulate != inactive_color, "il landmark non riflette il progresso didattico")
 
 	var budget: Dictionary = profile["performanceBudget"]["web"]
 	var mission_pois := world.get_tree().get_nodes_in_group("mission_poi").size()

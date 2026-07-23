@@ -127,13 +127,21 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 			# Le vertical slice autorate tengono la decorazione procedurale come
 			# tessuto secondario: la topologia resta quella del profilo.
 			var level := int(world_profile.get("level", 1))
-			if level in [2, 3, 4] and field in ["obstacles", "props"]:
+			if level in [2, 3, 4, 5, 6, 7, 8] and field in ["obstacles", "props"]:
 				var signature := str(item.get("id", "%s:%.1f:%.1f" % [field, position.x, position.y]))
 				var keep_percent := 58 if field == "obstacles" else 42
 				if level == 3:
 					keep_percent = 70 if field == "obstacles" else 34
 				elif level == 4:
 					keep_percent = 46 if field == "obstacles" else 28
+				elif level == 5:
+					keep_percent = 12 if field == "obstacles" else 8
+				elif level == 6:
+					keep_percent = 28 if field == "obstacles" else 22
+				elif level == 7:
+					keep_percent = 18 if field == "obstacles" else 10
+				elif level == 8:
+					keep_percent = 12 if field == "obstacles" else 8
 				if posmod(hash(signature), 100) >= keep_percent:
 					continue
 			kept.append(item)
@@ -173,10 +181,11 @@ func _build_world_boundaries() -> void:
 	backdrop.name = "BoundaryBackdrop"
 	backdrop.z_index = -30
 	root.add_child(backdrop)
-	_add_boundary_fill(backdrop, Rect2(bounds.position - Vector2(BOUNDARY_DEPTH, BOUNDARY_DEPTH), Vector2(bounds.size.x + BOUNDARY_DEPTH * 2.0, BOUNDARY_DEPTH)), Color("10241d"))
-	_add_boundary_fill(backdrop, Rect2(Vector2(bounds.position.x - BOUNDARY_DEPTH, bounds.end.y), Vector2(bounds.size.x + BOUNDARY_DEPTH * 2.0, BOUNDARY_DEPTH)), Color("14241f"))
-	_add_boundary_fill(backdrop, Rect2(Vector2(bounds.position.x - BOUNDARY_DEPTH, bounds.position.y), Vector2(BOUNDARY_DEPTH, bounds.size.y)), Color("13251d"))
-	_add_boundary_fill(backdrop, Rect2(Vector2(bounds.end.x, bounds.position.y), Vector2(BOUNDARY_DEPTH, bounds.size.y)), Color("111f22"))
+	var boundary_colors := _boundary_palette()
+	_add_boundary_fill(backdrop, Rect2(bounds.position - Vector2(BOUNDARY_DEPTH, BOUNDARY_DEPTH), Vector2(bounds.size.x + BOUNDARY_DEPTH * 2.0, BOUNDARY_DEPTH)), boundary_colors[0])
+	_add_boundary_fill(backdrop, Rect2(Vector2(bounds.position.x - BOUNDARY_DEPTH, bounds.end.y), Vector2(bounds.size.x + BOUNDARY_DEPTH * 2.0, BOUNDARY_DEPTH)), boundary_colors[1])
+	_add_boundary_fill(backdrop, Rect2(Vector2(bounds.position.x - BOUNDARY_DEPTH, bounds.position.y), Vector2(BOUNDARY_DEPTH, bounds.size.y)), boundary_colors[2])
+	_add_boundary_fill(backdrop, Rect2(Vector2(bounds.end.x, bounds.position.y), Vector2(BOUNDARY_DEPTH, bounds.size.y)), boundary_colors[3])
 
 	# Collisioni rettangolari continue: nessun varco tra i singoli alberi/sassi.
 	_add_boundary_collider(root, Vector2(bounds.position.x + 22.0, bounds.position.y + bounds.size.y * 0.5), Vector2(88, bounds.size.y + 180))
@@ -199,6 +208,19 @@ func _build_world_boundaries() -> void:
 		var y := bounds.position.y + float(index) * step
 		_add_boundary_motif(canopy, Vector2(bounds.position.x + 58.0, y), index, 2)
 		_add_boundary_motif(canopy, Vector2(bounds.end.x - 58.0, y), index, 3)
+
+func _boundary_palette() -> Array[Color]:
+	match composition.visual_theme:
+		"motion_forge":
+			return [Color("181619"), Color("241a17"), Color("1c191d"), Color("14171b")]
+		"resonance_garden":
+			return [Color("201333"), Color("28173d"), Color("171f35"), Color("25152f")]
+		"glyph_ruins":
+			return [Color("3a271d"), Color("4a3020"), Color("33271f"), Color("3c2a22")]
+		"circuit_delta":
+			return [Color("061b23"), Color("082b30"), Color("071d28"), Color("051922")]
+		_:
+			return [Color("10241d"), Color("14241f"), Color("13251d"), Color("111f22")]
 
 func _add_boundary_fill(parent: Node2D, rect: Rect2, color: Color) -> void:
 	var polygon := Polygon2D.new()
@@ -251,6 +273,14 @@ func _add_boundary_motif(parent: Node2D, position: Vector2, index: int, edge: in
 		kind = "crystal" if (index + edge) % 4 == 0 else "rock"
 	elif composition.visual_theme == "signal_bay":
 		kind = "rock"
+	elif composition.visual_theme == "motion_forge":
+		kind = "rock"
+	elif composition.visual_theme == "resonance_garden":
+		kind = "crystal" if (index + edge) % 3 != 0 else "tree"
+	elif composition.visual_theme == "glyph_ruins":
+		kind = "rock"
+	elif composition.visual_theme == "circuit_delta":
+		kind = "crystal" if (index + edge) % 2 == 0 else "rock"
 	var variant := fmod(float(index) * 0.371 + float(edge) * 0.219, 1.0)
 	var motif := OutdoorVisualFactory.build_obstacle(kind, 48.0 + variant * 14.0, 0x355b42, variant, biome)
 	motif.position = position + Vector2(sin(float(index) * 1.7 + edge) * 22.0, cos(float(index) * 1.13 + edge) * 10.0)

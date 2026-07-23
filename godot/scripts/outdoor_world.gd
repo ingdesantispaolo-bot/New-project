@@ -83,6 +83,9 @@ var world_weather_particles: CPUParticles2D
 var profile_night_tint := NIGHT_TINT
 var profile_dawn_tint := DAWN_TINT
 var profile_day_tint := Color.WHITE
+var environment_transform: Dictionary = {}
+var profile_hero_landmark: Node2D
+var profile_environment_reaction: WorldLearningReaction
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -124,6 +127,7 @@ func _ready() -> void:
 	_create_portal()
 	_create_profile_landmark()
 	_create_profile_events()
+	_sync_profile_environment_transform(false)
 	_create_profile_weather()
 	_create_atmosphere()
 	_create_hud()
@@ -154,6 +158,7 @@ func _configure_world_profile() -> void:
 		raw_profile = WorldProfileCatalog.profile(1)
 		world_level = 1
 	world_profile = _profile_in_scene_coordinates(raw_profile)
+	environment_transform = WORLD_LESSON_CATALOG.environment_transform(world_level)
 	world_seed = "%s::%s" % [str(request.get("worldSeed", "outdoor-dev-1")), str(world_profile.get("id", "world-01-radura"))]
 	mission_events = _planned_world_events()
 	_configure_profile_palette()
@@ -228,6 +233,24 @@ func _configure_profile_palette() -> void:
 		profile_night_tint = Color("173d49")
 		profile_dawn_tint = Color("e89b83")
 		profile_day_tint = Color("d9f0ea")
+	elif world_level == 5:
+		profile_night_tint = Color("28252b")
+		profile_dawn_tint = Color("b06f4f")
+		profile_day_tint = Color("e3d5c7")
+	elif world_level == 6:
+		profile_night_tint = Color("56416e")
+		profile_dawn_tint = Color("9e75bd")
+		profile_day_tint = Color("dcd4ef")
+	elif world_level == 7:
+		profile_night_tint = Color("3f3029")
+		profile_dawn_tint = Color("ca8d62")
+		profile_day_tint = Color("ead9bf")
+	elif world_level == 8:
+		# Notte elettrica leggibile anche su tablet: il fondo è già scuro, quindi
+		# la tinta deve preservare i mezzitoni anziché moltiplicarli fino al nero.
+		profile_night_tint = Color("638f98")
+		profile_dawn_tint = Color("246b72")
+		profile_day_tint = Color("b9d9d7")
 	if not request.has("resume"):
 		var lighting := str(world_profile.get("lighting", "")).to_lower()
 		if "notte" in lighting or "penombra" in lighting:
@@ -369,10 +392,9 @@ func _update_biome_hud() -> void:
 	current_biome_chunk = id
 	if chunks.composition != null:
 		var biome := chunks.composition.dominant_biome(player.position)
-		var profile := BiomeProfile.get_profile(biome)
 		biome_label.text = "%s · %s" % [
 			str(world_profile.get("terrainFamily", "territorio")).replace("-", " ").capitalize(),
-			str(profile["label"])]
+			str(world_profile.get("topology", "percorso")).replace("-", " ").capitalize()]
 		var accent: Color = chunks.composition.blended_accent(player.position)
 		biome_label.add_theme_color_override("font_color", accent)
 		if is_instance_valid(atmosphere_material):
@@ -558,6 +580,14 @@ func _hero_landmark_position() -> Vector2:
 		return PORTAL_POSITION + Vector2(0, 1280)
 	if world_level == 4:
 		return PORTAL_POSITION + Vector2(1320, 1280)
+	if world_level == 5:
+		return PORTAL_POSITION + Vector2(-180, 1450)
+	if world_level == 6:
+		return PORTAL_POSITION + Vector2(0, 1400)
+	if world_level == 7:
+		return PORTAL_POSITION + Vector2(0, 1450)
+	if world_level == 8:
+		return PORTAL_POSITION + Vector2(0, 1420)
 	return PORTAL_POSITION + Vector2(690, -210)
 
 func _create_profile_portal_dressing() -> void:
@@ -571,6 +601,26 @@ func _create_profile_portal_dressing() -> void:
 		specs = [
 			{"kind": "radio_mast", "offset": Vector2(-158, 42), "variant": 0.28},
 			{"kind": "signal_buoy", "offset": Vector2(158, 42), "variant": 0.74},
+		]
+	elif world_level == 5:
+		specs = [
+			{"kind": "rail_switch", "offset": Vector2(-154, 48), "variant": 0.25},
+			{"kind": "motion_piston", "offset": Vector2(154, 48), "variant": 0.76},
+		]
+	elif world_level == 6:
+		specs = [
+			{"kind": "echo_bloom", "offset": Vector2(-150, 44), "variant": 0.24},
+			{"kind": "tuning_pod", "offset": Vector2(150, 44), "variant": 0.72},
+		]
+	elif world_level == 7:
+		specs = [
+			{"kind": "glyph_stele", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "mosaic_brazier", "offset": Vector2(150, 46), "variant": 0.74},
+		]
+	elif world_level == 8:
+		specs = [
+			{"kind": "circuit_node", "offset": Vector2(-150, 46), "variant": 0.26},
+			{"kind": "coil_tower", "offset": Vector2(150, 46), "variant": 0.77},
 		]
 	for spec in specs:
 		var dressing := OutdoorVisualFactory.build_identity_prop(
@@ -596,6 +646,10 @@ func _create_profile_landmark() -> void:
 	var landmark_kind := (
 		"cycleMachine" if world_level == 3 else
 		"signalLighthouse" if world_level == 4 else
+		"motionLever" if world_level == 5 else
+		"resonantTree" if world_level == 6 else
+		"glyphArch" if world_level == 7 else
+		"circuitNode" if world_level == 8 else
 		str(kinds.get(subject, "skyTree"))
 	)
 	var label := str(names[0]).replace("-", " ").capitalize()
@@ -603,9 +657,66 @@ func _create_profile_landmark() -> void:
 		landmark_kind, label, _profile_accent_rgb())
 	landmark.name = "ProfileHeroLandmark"
 	landmark.set_meta("landmark_kind", landmark_kind)
+	landmark.set_meta("transform_trigger", str(environment_transform.get("trigger", "")))
+	landmark.set_meta("transform_effect", str(environment_transform.get("effect", "")))
 	landmark.position = _hero_landmark_position()
-	landmark.scale = Vector2.ONE * (1.52 if world_level in [3, 4] else 1.32)
+	landmark.scale = Vector2.ONE * (1.52 if world_level in [3, 4] else 1.48 if world_level in [5, 6, 7, 8] else 1.32)
 	world_layer.add_child(landmark)
+	profile_hero_landmark = landmark
+	profile_environment_reaction = LEARNING_REACTION_SCRIPT.new()
+	profile_environment_reaction.setup(
+		_learning_reaction_theme(),
+		"world",
+		OutdoorVisualFactory.hex_color(_profile_accent_rgb()),
+		environment_transform)
+	profile_environment_reaction.name = "ProfileEnvironmentTransform"
+	profile_environment_reaction.position = _hero_landmark_position() + Vector2(0, 42)
+	profile_environment_reaction.scale = Vector2.ONE * (1.75 if world_level in [3, 4, 5, 6, 7, 8] else 1.35)
+	world_layer.add_child(profile_environment_reaction)
+
+func _learning_reaction_theme() -> String:
+	if world_level == 2:
+		return "archive"
+	if world_level == 3:
+		return "crater"
+	if world_level == 4:
+		return "signal_bay"
+	if world_level == 5:
+		return "motion_forge"
+	if world_level == 6:
+		return "resonance_garden"
+	if world_level == 7:
+		return "glyph_ruins"
+	if world_level == 8:
+		return "circuit_delta"
+	return "radura"
+
+func _sync_profile_environment_transform(animate: bool) -> void:
+	if not is_instance_valid(profile_environment_reaction):
+		return
+	var completed_ids: Array = result.get("completedEncounterIds", [])
+	var completed_count := 0
+	var total_count := 0
+	for event_data in mission_events:
+		var event: Dictionary = event_data
+		if not bool(event.get("countsForGate", false)):
+			continue
+		total_count += 1
+		if completed_ids.has(str(event.get("id", ""))):
+			completed_count += 1
+	profile_environment_reaction.set_progress(completed_count, total_count, animate)
+	var ratio := clampf(float(completed_count) / maxf(float(total_count), 1.0), 0.0, 1.0)
+	if not is_instance_valid(profile_hero_landmark):
+		return
+	var art := profile_hero_landmark.find_child("Landmark*Art", true, false) as CanvasItem
+	if art == null:
+		return
+	var target := Color(0.76, 0.82, 0.91, 0.86).lerp(Color.WHITE, ratio)
+	if animate:
+		var tween := create_tween()
+		tween.tween_property(art, "modulate", target, 0.48).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	else:
+		art.modulate = target
 
 func _create_profile_events() -> void:
 	for event_data in mission_events:
@@ -653,9 +764,10 @@ func _create_profile_events() -> void:
 				_event_visual_kind(str(payload["subject"])), clampi(floori(float(world_level) / 4.0) + 1, 1, 7)))
 		var reaction := LEARNING_REACTION_SCRIPT.new()
 		reaction.setup(
-			"archive" if world_level == 2 else "crater" if world_level == 3 else "signal_bay" if world_level == 4 else "radura",
+			_learning_reaction_theme(),
 			director_kind,
-			OutdoorVisualFactory.hex_color(_profile_accent_rgb()))
+			OutdoorVisualFactory.hex_color(_profile_accent_rgb()),
+			environment_transform)
 		reaction.position = Vector2(0, 28)
 		reaction.set_complete(Array(result.get("completedEncounterIds", [])).has(str(event.get("id", ""))))
 		area.add_child(reaction)
@@ -737,6 +849,15 @@ func _create_profile_weather() -> void:
 		world_weather_particles.initial_velocity_min = 22.0
 		world_weather_particles.initial_velocity_max = 52.0
 		world_weather_particles.color = Color(0.74, 0.96, 0.91, 0.28)
+	elif world_level == 6:
+		world_weather_particles.amount = 38
+		world_weather_particles.direction = Vector2(0.72, -0.28)
+		world_weather_particles.gravity = Vector2(12, -10)
+		world_weather_particles.initial_velocity_min = 12.0
+		world_weather_particles.initial_velocity_max = 34.0
+		world_weather_particles.scale_amount_min = 0.08
+		world_weather_particles.scale_amount_max = 0.18
+		world_weather_particles.color = Color(0.78, 0.64, 1.0, 0.42)
 	elif "pioggia" in weather or "tempesta" in weather:
 		world_weather_particles.amount = 110 if "tempesta" in weather else 64
 		world_weather_particles.direction = Vector2(0.18, 1.0)
@@ -875,7 +996,7 @@ void fragment() {
 	info.add_child(ship_navigation_label)
 	_update_ship_navigation()
 	var hint := Label.new()
-	hint.text = "TOCCA UN POI o INTERAGISCI  ·  Tastiera: WASD / E  ·  SHIFT: scatto"
+	hint.text = "TOCCA UN POI o INTERAGISCI  ·  Movimento: joystick / WASD  ·  Scatto: pulsante / SHIFT"
 	hint.add_theme_color_override("font_color", Color("9fc4bb"))
 	hint.add_theme_font_size_override("font_size", 12)
 	info.add_child(hint)
@@ -1424,6 +1545,7 @@ func _complete_learning_reaction(encounter_id: String) -> void:
 			if reaction != null and reaction.has_method("set_complete"):
 				reaction.call("set_complete", true, true)
 			break
+	_sync_profile_environment_transform(true)
 
 # Progresso dell'enigma: feedback testuale + popup a ogni campata (gameplay-only).
 # Aggiorna SOLO il POI il cui meta "id" combacia con l'encounter_id attivo (più

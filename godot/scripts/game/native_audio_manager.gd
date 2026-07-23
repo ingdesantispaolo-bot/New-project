@@ -80,6 +80,22 @@ func _apply_world_soundscape_mix() -> void:
 			music_pitch = 1.04
 			ambience_pitch = 0.88
 			ambience_offset_db = 2.0
+		"metallo-e-vapore":
+			music_pitch = 0.90
+			ambience_pitch = 0.72
+			ambience_offset_db = 2.4
+		"campane-di-cristallo":
+			music_pitch = 1.12
+			ambience_pitch = 1.18
+			ambience_offset_db = 1.2
+		"eco-di-pietra":
+			music_pitch = 0.86
+			ambience_pitch = 0.82
+			ambience_offset_db = 0.8
+		"ronzio-e-acqua":
+			music_pitch = 1.06
+			ambience_pitch = 0.76
+			ambience_offset_db = 2.6
 	_music.pitch_scale = music_pitch
 	_ambience.pitch_scale = ambience_pitch
 	if _environment != "":

@@ -21,14 +21,38 @@ var loaded: Dictionary = {}
 var player_position := Vector2.ZERO
 var world: Node
 var composition: WorldCompositionData
+var world_profile: Dictionary = {}
+var reserved_event_positions: Array = []
+var profile_bounds := Rect2()
+var active_radius := ACTIVE_RADIUS
 
-func configure(seed: String, world_ref: Node = null) -> void:
+func configure(seed: String, world_ref: Node = null, profile: Dictionary = {}, event_positions: Array = []) -> void:
 	world_seed = seed
 	world = world_ref
-	composition = WorldCompositionGenerator.generate(seed)
+	world_profile = profile.duplicate(true)
+	reserved_event_positions = event_positions.duplicate()
+	if not world_profile.is_empty():
+		var ship: Vector2 = world_profile.get("shipEntrance", {}).get("position", Vector2.ZERO)
+		var half_extent := float(world_profile.get("worldHalfExtent", 2200.0))
+		profile_bounds = Rect2(ship - Vector2.ONE * half_extent, Vector2.ONE * half_extent * 2.0)
+		var budget: Dictionary = _performance_budget(world_profile)
+		active_radius = clampi(int(floor(float(budget.get("streamRadius", 1400)) / float(CHUNK_SIZE))), 1, 2)
+	composition = WorldCompositionGenerator.generate(seed, world_profile)
+	if composition != null and not world_profile.is_empty():
+		for index in range(reserved_event_positions.size()):
+			composition.protected_zones.append({
+				"id": "reserved-event-%d" % index,
+				"position": reserved_event_positions[index],
+				"radius": 104.0,
+			})
 	y_sort_enabled = true
 	_build_global_paths()
 	_build_world_boundaries()
+
+func _performance_budget(profile: Dictionary) -> Dictionary:
+	var budgets: Dictionary = profile.get("performanceBudget", {})
+	var tier := "mobile" if OS.has_feature("mobile") else "web" if OS.has_feature("web") else "desktop"
+	return Dictionary(budgets.get(tier, budgets.get("web", {})))
 
 func _build_global_paths() -> void:
 	if has_node("GlobalNavigationPaths"):
@@ -38,6 +62,8 @@ func _build_global_paths() -> void:
 	add_child(paths)
 
 func world_bounds() -> Rect2:
+	if profile_bounds.has_area():
+		return profile_bounds
 	var minimum := Vector2(WORLD_MIN * CHUNK_SIZE, WORLD_MIN * CHUNK_SIZE)
 	var span := float((WORLD_MAX - WORLD_MIN + 1) * CHUNK_SIZE)
 	return Rect2(minimum, Vector2.ONE * span)
@@ -53,16 +79,18 @@ func update_stream(position: Vector2) -> void:
 	var center_x := floori(position.x / CHUNK_SIZE)
 	var center_y := floori(position.y / CHUNK_SIZE)
 	var required := {}
-	for y in range(center_y - ACTIVE_RADIUS, center_y + ACTIVE_RADIUS + 1):
-		for x in range(center_x - ACTIVE_RADIUS, center_x + ACTIVE_RADIUS + 1):
+	for y in range(center_y - active_radius, center_y + active_radius + 1):
+		for x in range(center_x - active_radius, center_x + active_radius + 1):
 			if x < WORLD_MIN or x > WORLD_MAX or y < WORLD_MIN or y > WORLD_MAX:
+				continue
+			if not world_profile.is_empty() and not _chunk_rect(x, y).intersects(profile_bounds):
 				continue
 			var id := "chunk-%d_%d" % [x, y]
 			required[id] = true
 			if not loaded.has(id):
 				var cell_distance := absi(x - center_x) + absi(y - center_y)
 				var visual_lod := 0 if cell_distance == 0 else 1 if cell_distance == 1 else 2
-				_load_chunk(generator.generate_chunk(world_seed, x, y), visual_lod)
+				_load_chunk(_profile_filtered_chunk(generator.generate_chunk(world_seed, x, y)), visual_lod)
 	var stale_ids: Array[String] = []
 	for id in loaded.keys():
 		if not required.has(id):
@@ -77,6 +105,47 @@ func _load_chunk(chunk: Dictionary, visual_lod: int = 0) -> void:
 	add_child(node)
 	node.configure(chunk, world, visual_lod, composition)
 	loaded[chunk["id"]] = {"data": chunk, "node": node}
+
+func _chunk_rect(chunk_x: int, chunk_y: int) -> Rect2:
+	return Rect2(Vector2(chunk_x * CHUNK_SIZE, chunk_y * CHUNK_SIZE), Vector2.ONE * CHUNK_SIZE)
+
+func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
+	if world_profile.is_empty():
+		return source
+	var chunk := source.duplicate(true)
+	for field in ["obstacles", "props", "treasures"]:
+		var kept: Array = []
+		for item in chunk.get(field, []):
+			var position := Vector2(float(item.get("x", 0.0)), float(item.get("y", 0.0)))
+			var margin := float(item.get("r", 28.0)) + (42.0 if field == "obstacles" else 56.0)
+			if not profile_bounds.grow(-18.0).has_point(position):
+				continue
+			if composition != null and composition.is_protected(position, margin):
+				continue
+			if _near_reserved_event(position, margin + 54.0):
+				continue
+			# L'Archivio usa sale e scaffali autorati: una quota ridotta degli
+			# ostacoli naturali evita l'effetto "Radura con una tinta diversa".
+			if int(world_profile.get("level", 1)) == 2 and field in ["obstacles", "props"]:
+				var signature := str(item.get("id", "%s:%.1f:%.1f" % [field, position.x, position.y]))
+				var keep_percent := 58 if field == "obstacles" else 42
+				if posmod(hash(signature), 100) >= keep_percent:
+					continue
+			kept.append(item)
+		chunk[field] = kept
+	# Il profilo ha già un landmark eroe autorato: i landmark casuali legacy
+	# introducevano etichette di altri biomi ("Prisma", "Porta dell'Atlante").
+	chunk["landmarks"] = []
+	# Le missioni non provengono più dal generatore legacy: l'unica fonte è il
+	# MissionEventDirector O-P1, che garantisce quota focus e determinismo.
+	chunk["encounters"] = []
+	return chunk
+
+func _near_reserved_event(position: Vector2, radius: float) -> bool:
+	for reserved in reserved_event_positions:
+		if position.distance_to(reserved as Vector2) <= radius:
+			return true
+	return false
 
 func _unload_chunk(id: String) -> void:
 	var entry: Dictionary = loaded[id]

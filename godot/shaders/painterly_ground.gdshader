@@ -6,6 +6,7 @@ uniform sampler2D academy_tex : repeat_enable, filter_linear_mipmap;
 uniform sampler2D wild_tex : repeat_enable, filter_linear_mipmap;
 uniform sampler2D mineral_tex : repeat_enable, filter_linear_mipmap;
 uniform sampler2D magic_tex : repeat_enable, filter_linear_mipmap;
+uniform sampler2D identity_tex : repeat_enable, filter_linear_mipmap;
 
 uniform vec2 surface_world_origin = vec2(0.0);
 uniform vec2 surface_world_size = vec2(932.0);
@@ -14,6 +15,8 @@ uniform vec4 weights_tr = vec4(1.0, 0.0, 0.0, 0.0);
 uniform vec4 weights_bl = vec4(1.0, 0.0, 0.0, 0.0);
 uniform vec4 weights_br = vec4(1.0, 0.0, 0.0, 0.0);
 uniform float detail_strength = 1.0;
+uniform float identity_strength = 0.0;
+uniform vec4 identity_calm_palette : source_color = vec4(0.30, 0.34, 0.24, 1.0);
 
 float hash21(vec2 p) {
 	p = fract(p * vec2(123.34, 456.21));
@@ -67,12 +70,15 @@ void fragment() {
 	vec3 magic = mix(texture(magic_tex, sample_a).rgb, texture(magic_tex, sample_b).rgb, secondary_mix);
 	vec3 color = academy * biome_weights.x + wild * biome_weights.y
 		+ mineral * biome_weights.z + magic * biome_weights.w;
+	vec3 identity = mix(texture(identity_tex, sample_a).rgb, texture(identity_tex, sample_b).rgb, secondary_mix * 0.72);
+	color = mix(color, identity, clamp(identity_strength, 0.0, 1.0));
 	// Maschere macro in coordinate mondo: alternano prato calmo, sottobosco e
 	// tappeto fiorito su centinaia di metri senza creare rettangoli per chunk.
 	vec3 calm_palette = vec3(0.43, 0.50, 0.22) * biome_weights.x
 		+ vec3(0.16, 0.29, 0.18) * biome_weights.y
 		+ vec3(0.31, 0.35, 0.20) * biome_weights.z
 		+ vec3(0.14, 0.20, 0.30) * biome_weights.w;
+	calm_palette = mix(calm_palette, identity_calm_palette.rgb, clamp(identity_strength, 0.0, 1.0));
 	float clearing = smoothstep(0.51, 0.69, fbm((world + vec2(930.0, -410.0)) / 980.0));
 	float understory = smoothstep(0.58, 0.77, fbm((world + vec2(-370.0, 720.0)) / 610.0));
 	color = mix(color, calm_palette, clearing * 0.24);

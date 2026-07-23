@@ -9,6 +9,8 @@ const BACKDROP := preload("res://assets/radura-accademia-hero-backdrop-v2.png")
 var play_button: Button
 
 func _ready() -> void:
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("document.documentElement.dataset.eliScene = 'boot';")
 	_build_interface()
 	play_button.grab_focus()
 

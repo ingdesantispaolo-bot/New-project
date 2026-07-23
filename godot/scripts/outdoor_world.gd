@@ -9,8 +9,11 @@ const PORTAL_VISUAL := preload("res://scripts/portal_visual.gd")
 const EXERCISE_ENERGY_COST := 3
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
 const ENIGMA_STRUCTURE := preload("res://scripts/visual/enigma_structure.gd")
+const LEARNING_REACTION_SCRIPT := preload("res://scripts/visual/world_learning_reaction.gd")
 const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
+const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
+const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -18,6 +21,13 @@ const DAWN_TINT := Color(1.0, 0.84, 0.72)
 
 var request: Dictionary
 var result: Dictionary
+## Override usato da audit/render probe prima dell'ingresso nell'albero. Nel
+## gioco normale resta vuoto e viene usata NativeWorldState.default_request().
+var launch_request_override: Dictionary = {}
+var world_profile: Dictionary = {}
+var world_level := 1
+var world_seed := ""
+var mission_events: Array = []
 var chunks: OutdoorChunkManager
 var player: OutdoorPlayerController
 var world_layer: Node2D
@@ -27,11 +37,13 @@ var atmosphere_rect: ColorRect
 var atmosphere_material: ShaderMaterial
 var ui_layer: CanvasLayer
 var feedback_label: Label
+var feedback_source_label: Label
 var feedback_panel: PanelContainer
 var nora_portrait: Control
 var phase_label: Label
 var biome_label: Label
 var objective_label: Label
+var world_title_label: Label
 var ship_navigation_label: Label
 var guide_button: Button
 var interaction_button: Button
@@ -50,6 +62,7 @@ var reward_name_label: Label
 var reward_bar: ProgressBar
 var reward_remaining_label: Label
 var exercise_player: ExercisePlayer
+var knowledge_codex_panel: KnowledgeCodexPanel
 var shop_panel: Control
 var reward_cost := 0
 var reward_name := ""
@@ -63,21 +76,28 @@ var content_manager: ContentManager
 var gain_popup_pool: Array[Label] = []
 var applied_cosmetic_signature := ""
 var pending_touch_interaction: Area2D
+var world_weather_particles: CPUParticles2D
+var profile_night_tint := NIGHT_TINT
+var profile_dawn_tint := DAWN_TINT
+var profile_day_tint := Color.WHITE
 
 func _ready() -> void:
-	request = NativeWorldState.default_request()
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("document.documentElement.dataset.eliScene = 'world';")
+	request = launch_request_override.duplicate(true) if not launch_request_override.is_empty() else NativeWorldState.default_request()
 	result = NativeWorldState.result_for(request)
 	gameplay = OutdoorGameplay.new()
 	gameplay.name = "OutdoorGameplay"
 	add_child(gameplay)
 	gameplay.runtime_state_changed.connect(_on_runtime_state)
 	gameplay.session_requested.connect(_on_gameplay_session_requested)
-	gameplay.feedback.connect(_set_feedback)
+	gameplay.feedback_presented.connect(_present_feedback)
 	gameplay.enigma_progress.connect(_on_enigma_progress)
-	gameplay.setup(request, result)
+	gameplay.setup(request, result, bool(request.get("loadLocalSave", true)))
 	game_save = gameplay.game_save
 	progression_manager = gameplay.progression_manager
 	content_manager = gameplay.content_manager
+	_configure_world_profile()
 	world_layer = Node2D.new()
 	world_layer.name = "WorldLayer"
 	world_layer.y_sort_enabled = true
@@ -89,23 +109,124 @@ func _ready() -> void:
 	chunks = OutdoorChunkManager.new()
 	chunks.name = "ChunkManager"
 	world_layer.add_child(chunks)
-	chunks.configure(str(request.get("worldSeed", "outdoor-dev-1")), self)
+	var reserved_positions: Array = []
+	for event in mission_events:
+		reserved_positions.append(event["position"])
+	reserved_positions.append(_hero_landmark_position())
+	chunks.configure(world_seed, self, world_profile, reserved_positions)
 	_create_player()
 	_apply_resume()
 	_create_portal()
-	_create_enigma_pois()
-	_create_minigame_pois()
+	_create_profile_landmark()
+	_create_profile_events()
+	_create_profile_weather()
 	_create_atmosphere()
 	_create_hud()
 	_create_exercise_player()
+	if is_instance_valid(knowledge_codex_panel):
+		var lesson := WORLD_LESSON_CATALOG.lesson(world_level)
+		knowledge_codex_panel.mark_encountered(str(lesson.get("subject", _world_subject())), Array(lesson.get("topics", [])))
 	chunks.update_stream(player.position)
-	_set_feedback(str(gameplay.runtime_state().get("narrative", "")))
+	var lesson_briefing := WORLD_LESSON_CATALOG.briefing(world_level)
+	_set_nora_feedback(lesson_briefing if lesson_briefing != "" else str(gameplay.runtime_state().get("narrative", "")))
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_environment", "day")
+		audio.call("play_subject", _world_subject())
+
+func _configure_world_profile() -> void:
+	var frontier := clampi(game_save.level(), 1, WorldProfileCatalog.MAX_LEVEL)
+	world_level = clampi(int(request.get("worldLevel", game_save.current_world())), 1, WorldProfileCatalog.MAX_LEVEL)
+	if not game_save.is_world_unlocked(world_level):
+		world_level = frontier
+		game_save.unlock_world(world_level)
+	game_save.set_current_world(world_level)
+	var raw_profile := WorldProfileCatalog.profile(world_level)
+	var validation := WorldProfileCatalog.validate(raw_profile)
+	if not bool(validation.get("ok", false)):
+		push_error("WorldProfile %d non valido: %s" % [world_level, str(validation.get("errors", []))])
+		raw_profile = WorldProfileCatalog.profile(1)
+		world_level = 1
+	world_profile = _profile_in_scene_coordinates(raw_profile)
+	world_seed = "%s::%s" % [str(request.get("worldSeed", "outdoor-dev-1")), str(world_profile.get("id", "world-01-radura"))]
+	mission_events = _planned_world_events()
+	_configure_profile_palette()
+
+func _profile_in_scene_coordinates(profile: Dictionary) -> Dictionary:
+	var mapped := profile.duplicate(true)
+	var source_ship: Vector2 = profile.get("shipEntrance", {}).get("position", Vector2.ZERO)
+	var offset := PORTAL_POSITION - source_ship
+	var ship: Dictionary = mapped["shipEntrance"]
+	ship["position"] = source_ship + offset
+	mapped["shipEntrance"] = ship
+	mapped["spawn"] = (profile.get("spawn", Vector2.ZERO) as Vector2) + offset
+	var route: Array = []
+	for point in profile.get("safeRoute", []):
+		route.append((point as Vector2) + offset)
+	mapped["safeRoute"] = route
+	return mapped
+
+func _planned_world_events() -> Array:
+	var subject := _world_subject()
+	var due_topics: Array = []
+	for key in SpacedRepetition.due_map(game_save).keys():
+		var prefix := "%s:" % subject
+		if str(key).begins_with(prefix):
+			due_topics.append(str(key).trim_prefix(prefix))
+	var weak_topics: Array = []
+	for topic in game_save.topic_masteries(subject).keys():
+		if float(game_save.topic_masteries(subject).get(topic, 1.0)) < ContentManager.WEAK_TOPIC_THRESHOLD:
+			weak_topics.append(str(topic))
+	var context := {
+		"missionsRequired": int(ApparatusConfig.level_gate(world_level).get("missionsRequired", 5)),
+		"weakTopics": weak_topics,
+		"dueTopics": due_topics,
+		"recentFormats": [],
+	}
+	var planned := MissionEventDirector.plan(world_profile, context, world_seed)
+	var budget := _profile_performance_budget()
+	var maximum := maxi(int(context["missionsRequired"]) + MissionEventDirector.GATE_SURPLUS, int(budget.get("maxActivePois", 14)))
+	if planned.size() > maximum:
+		planned = planned.slice(0, maximum)
+	return planned
+
+func _profile_performance_budget() -> Dictionary:
+	var budgets: Dictionary = world_profile.get("performanceBudget", {})
+	var tier := "mobile" if OS.has_feature("mobile") else "web" if OS.has_feature("web") else "desktop"
+	return Dictionary(budgets.get(tier, budgets.get("web", {})))
+
+func _world_subject() -> String:
+	return str(world_profile.get("learningFocus", {}).get("subject", "matematica"))
+
+func _configure_profile_palette() -> void:
+	var subject := _world_subject()
+	var subject_colors := {
+		"matematica": Color("6be7d6"), "italiano": Color("e9a86d"),
+		"coding": Color("8fa7ff"), "inglese": Color("72c9ff"),
+		"fisica": Color("a2d8ff"), "musica": Color("d7a0ff"),
+		"latino": Color("d4b17a"), "elettronica": Color("79e7ff"),
+		"geografia": Color("7fd19b"), "scienze": Color("91dc72"),
+		"cittadinanza": Color("f2c96d"), "logica": Color("b7a2ff"),
+	}
+	var accent: Color = subject_colors.get(subject, PLAYER_ACCENT)
+	profile_night_tint = NIGHT_TINT.lerp(accent.darkened(0.58), 0.28)
+	profile_dawn_tint = DAWN_TINT.lerp(accent.lightened(0.12), 0.30)
+	profile_day_tint = Color.WHITE.lerp(accent.lightened(0.42), 0.08)
+	if not request.has("resume"):
+		var lighting := str(world_profile.get("lighting", "")).to_lower()
+		if "notte" in lighting or "penombra" in lighting:
+			day_clock = 0.0
+		elif "tramonto" in lighting or "crepuscolo" in lighting:
+			day_clock = DAY_LENGTH * 0.76
+		elif "mattino" in lighting:
+			day_clock = DAY_LENGTH * 0.36
+		else:
+			day_clock = DAY_LENGTH * 0.52
 
 func _apply_resume() -> void:
 	var resume: Dictionary = request.get("resume", {})
+	if resume.is_empty():
+		resume = game_save.world_resume(str(world_level))
 	if resume.is_empty():
 		return
 	var resumed := Vector2(float(resume.get("playerX", player.position.x)), float(resume.get("playerY", player.position.y)))
@@ -141,11 +262,13 @@ func _process(delta: float) -> void:
 	var phase_id := "giorno" if daylight > 0.72 else "alba" if daylight > 0.42 else "notte"
 	if is_instance_valid(day_light):
 		# notte → giorno con transizione calda (alba/tramonto) a metà corsa
-		var base := NIGHT_TINT.lerp(Color(1, 1, 1), daylight)
+		var base := profile_night_tint.lerp(profile_day_tint, daylight)
 		var dawn_mix := clampf(1.0 - absf(daylight - 0.5) * 2.2, 0.0, 1.0)
-		day_light.color = base.lerp(DAWN_TINT, dawn_mix * 0.35)
+		day_light.color = base.lerp(profile_dawn_tint, dawn_mix * 0.35)
 		if is_instance_valid(phase_label):
-			phase_label.text = phase_id.capitalize()
+			phase_label.text = "%s · %s" % [
+				phase_id.capitalize(),
+				str(world_profile.get("weather", "sereno")).replace("-", " ").capitalize()]
 	if is_instance_valid(gameplay):
 		gameplay.update_phase(phase_id)
 	if current_audio_phase != phase_id:
@@ -163,6 +286,8 @@ func _process(delta: float) -> void:
 			camera.position = player.position
 		if is_instance_valid(fireflies):
 			fireflies.emitting = daylight < 0.45
+		if is_instance_valid(world_weather_particles):
+			world_weather_particles.position = player.position
 		_update_biome_hud()
 		_update_ship_navigation()
 		_update_pending_touch_interaction()
@@ -228,7 +353,9 @@ func _update_biome_hud() -> void:
 	if chunks.composition != null:
 		var biome := chunks.composition.dominant_biome(player.position)
 		var profile := BiomeProfile.get_profile(biome)
-		biome_label.text = str(profile["label"])
+		biome_label.text = "%s · %s" % [
+			str(world_profile.get("terrainFamily", "territorio")).replace("-", " ").capitalize(),
+			str(profile["label"])]
 		var accent: Color = chunks.composition.blended_accent(player.position)
 		biome_label.add_theme_color_override("font_color", accent)
 		if is_instance_valid(atmosphere_material):
@@ -242,7 +369,7 @@ func _update_biome_hud() -> void:
 func _create_player() -> void:
 	player = OutdoorPlayerController.new()
 	player.name = "Eli"
-	player.position = Vector2(448, 448)
+	player.position = world_profile.get("spawn", PORTAL_POSITION + Vector2(0, 1180))
 	player.add_to_group("player")
 	var shape := CollisionShape2D.new()
 	var circle := CircleShape2D.new()
@@ -408,89 +535,161 @@ func _create_portal() -> void:
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
 	area.body_exited.connect(func(body): on_interactable_exited(area, body))
 
-# Un enigma ambientale per materia (C-13): stesso motore del Ponte dei Primi,
-# solo `theme`/etichetta diversi (ContentManager.enigma_theme). Tutti usano lo
-# stesso contratto visuale progressivo, con asset specifico per tema.
-func _enigma_poi_specs() -> Array:
-	return [
-		{ "subject": "matematica", "id": "enigma-ponte-primi", "label": "il Ponte dei Primi", "offset": Vector2(-148, 120) },
-		{ "subject": "italiano", "id": "enigma-porta-parole", "label": "la Porta delle Parole", "offset": Vector2(-148, -160) },
-		{ "subject": "inglese", "id": "enigma-porta-segnali", "label": "la Porta dei Segnali", "offset": Vector2(180, -180) },
-		{ "subject": "latino", "id": "enigma-porta-glifi", "label": "la Porta dei Glifi", "offset": Vector2(-320, 20) },
-		{ "subject": "coding", "id": "enigma-circuito-cicli", "label": "il Circuito dei Cicli", "offset": Vector2(320, 140) },
-		{ "subject": "elettronica", "id": "enigma-circuito-nucleo", "label": "il Circuito del Nucleo", "offset": Vector2(60, 260) },
-		{ "subject": "musica", "id": "enigma-cristalli-armonia", "label": "i Cristalli dell'Armonia", "offset": Vector2(-40, -260) },
-		{ "subject": "fisica", "id": "enigma-reattore-moti", "label": "il Reattore dei Moti", "offset": Vector2(300, -40) },
-		{ "subject": "geografia", "id": "enigma-mappa-stellare", "label": "la Mappa Stellare", "offset": Vector2(-528, -220) },
-		{ "subject": "scienze", "id": "enigma-serra-bio", "label": "la Serra Bio", "offset": Vector2(-368, 400) },
-		{ "subject": "cittadinanza", "id": "enigma-rete-civica", "label": "la Rete Civica", "offset": Vector2(372, 400) },
-		{ "subject": "logica", "id": "enigma-griglia-logica", "label": "la Griglia Logica", "offset": Vector2(532, -200) },
-	]
+func _hero_landmark_position() -> Vector2:
+	return PORTAL_POSITION + Vector2(690, -210)
 
-func _create_enigma_pois() -> void:
-	for entry in _enigma_poi_specs():
-		var enigma := Area2D.new()
-		enigma.name = str(entry["id"]).capitalize().replace(" ", "")
-		enigma.position = PORTAL_POSITION + (entry["offset"] as Vector2)
-		enigma.add_to_group("enigma_poi")
-		enigma.add_to_group("world_interactable")
-		enigma.set_meta("kind", "enigma")
-		enigma.set_meta("id", entry["id"])
-		enigma.set_meta("payload", {"subject": entry["subject"], "label": entry["label"]})
+func _create_profile_landmark() -> void:
+	var names: Array = world_profile.get("heroLandmarks", [])
+	if names.is_empty():
+		return
+	var subject := _world_subject()
+	var kinds := {
+		"matematica": "skyTree", "italiano": "ancientCore",
+		"coding": "logicSpire", "inglese": "atlasGate",
+		"fisica": "forge", "musica": "crystalNest",
+		"latino": "ancientCore", "elettronica": "logicSpire",
+		"geografia": "atlasGate", "scienze": "skyTree",
+		"cittadinanza": "forge", "logica": "logicSpire",
+	}
+	var label := str(names[0]).replace("-", " ").capitalize()
+	var landmark := OutdoorVisualFactory.build_landmark(
+		str(kinds.get(subject, "skyTree")), label, _profile_accent_rgb())
+	landmark.name = "ProfileHeroLandmark"
+	landmark.position = _hero_landmark_position()
+	landmark.scale = Vector2.ONE * 1.32
+	world_layer.add_child(landmark)
+
+func _create_profile_events() -> void:
+	for event_data in mission_events:
+		var event: Dictionary = event_data
+		var director_kind := str(event.get("kind", "mission"))
+		var scene_kind := "encounter" if director_kind == "mission" else "minigame" if director_kind == "practice" else "enigma"
+		var area := Area2D.new()
+		area.name = "MissionEvent_%s" % str(event.get("id", "event")).replace("-", "_")
+		area.position = event.get("position", Vector2.ZERO)
+		area.add_to_group("world_interactable")
+		if bool(event.get("countsForGate", false)):
+			area.add_to_group("mission_poi")
+		if director_kind == "enigma":
+			area.add_to_group("enigma_poi")
+		elif director_kind == "practice":
+			area.add_to_group("minigame_poi")
+		area.set_meta("kind", scene_kind)
+		area.set_meta("id", str(event.get("id", "")))
+		area.set_meta("directorEvent", event.duplicate(true))
+		var payload := {
+			"subject": str(event.get("subject", _world_subject())),
+			"label": _event_label(event),
+			"format": str(event.get("format", "multiple_choice")),
+			"topicHint": str(event.get("topicHint", "")),
+			"countsForGate": bool(event.get("countsForGate", false)),
+			"directorKind": director_kind,
+		}
+		area.set_meta("payload", payload)
 		var shape := CollisionShape2D.new()
 		var circle := CircleShape2D.new()
 		circle.radius = INTERACTION_DISTANCE
 		shape.shape = circle
-		enigma.add_child(shape)
-		var visual := ENIGMA_STRUCTURE.new()
-		visual.name = "EnigmaStructureVisual"
-		visual.setup(ContentManager.enigma_theme(str(entry["subject"])), str(entry["label"]))
-		enigma.add_child(visual)
-		world_layer.add_child(enigma)
-		visual.set_stage(4 if Array(result.get("completedEncounterIds", [])).has(entry["id"]) else 0, 4)
-		enigma.body_entered.connect(func(body): on_interactable_entered(enigma, body))
-		enigma.body_exited.connect(func(body): on_interactable_exited(enigma, body))
+		area.add_child(shape)
+		if director_kind == "enigma":
+			var visual := ENIGMA_STRUCTURE.new()
+			visual.name = "EnigmaStructureVisual"
+			visual.setup(ContentManager.enigma_theme(str(payload["subject"])), str(payload["label"]))
+			var complete := Array(result.get("completedEncounterIds", [])).has(str(event.get("id", "")))
+			visual.set_stage(4 if complete else 0, 4)
+			area.add_child(visual)
+		elif director_kind == "practice":
+			area.add_child(_make_minigame_marker())
+		else:
+			area.add_child(OutdoorVisualFactory.build_encounter(
+				_event_visual_kind(str(payload["subject"])), clampi(floori(float(world_level) / 4.0) + 1, 1, 7)))
+		var reaction := LEARNING_REACTION_SCRIPT.new()
+		reaction.setup(
+			"archive" if world_level == 2 else "radura",
+			director_kind,
+			OutdoorVisualFactory.hex_color(_profile_accent_rgb()))
+		reaction.position = Vector2(0, 28)
+		reaction.set_complete(Array(result.get("completedEncounterIds", [])).has(str(event.get("id", ""))))
+		area.add_child(reaction)
+		area.add_child(_make_event_caption(director_kind, str(payload["subject"])))
+		world_layer.add_child(area)
+		area.body_entered.connect(func(body): on_interactable_entered(area, body))
+		area.body_exited.connect(func(body): on_interactable_exited(area, body))
 
-# Palestre dei Minigiochi: un POI di PRATICA ripetibile PER BIOMA, sulla materia
-# dominante (tematica) di quel bioma, con i formati interattivi (abbina/ordina).
-# Diversi da enigmi e incontri (one-shot, contano per il gate): qui ci si allena
-# senza farmare i requisiti dell'apparato. Piazzati all'ancora del bioma
-# (ANCHOR_BIOMES). Marker segnaposto — la resa raffinata (icona per bioma) è di
-# Codex. Contratto dati: gruppo "minigame_poi", kind="minigame", payload.subject fisso.
-func _minigame_poi_specs() -> Array:
-	# `chunk` = chunk-ancora del bioma (OutdoorGenerator.ANCHOR_BIOMES); `offset`
-	# scosta dal landmark centrale (da rifinire con Codex).
-	return [
-		{ "subject": "matematica", "chunk": Vector2i(0, 0), "label": "Palestra dei Numeri", "offset": Vector2(-180, 60) },
-		{ "subject": "logica", "chunk": Vector2i(1, 0), "label": "Palestra della Logica", "offset": Vector2(0, -150) },
-		{ "subject": "scienze", "chunk": Vector2i(-1, 0), "label": "Palestra della Natura", "offset": Vector2(0, -150) },
-		{ "subject": "geografia", "chunk": Vector2i(0, 1), "label": "Palestra delle Mappe", "offset": Vector2(0, -150) },
-		{ "subject": "musica", "chunk": Vector2i(1, 1), "label": "Palestra dell'Armonia", "offset": Vector2(0, -150) },
-		{ "subject": "latino", "chunk": Vector2i(-1, -1), "label": "Palestra Antica", "offset": Vector2(0, -150) },
-	]
+func _event_label(event: Dictionary) -> String:
+	var subject := str(event.get("subject", _world_subject())).capitalize()
+	match str(event.get("kind", "mission")):
+		"enigma":
+			return "enigma di %s" % subject
+		"practice":
+			return "evento di pratica · %s" % subject
+	return "tappa di missione · %s" % subject
 
-func _create_minigame_pois() -> void:
-	var chunk_size := float(OutdoorChunkManager.CHUNK_SIZE)
-	for spec in _minigame_poi_specs():
-		var chunk := spec["chunk"] as Vector2i
-		var center := Vector2(chunk.x * chunk_size + chunk_size / 2.0, chunk.y * chunk_size + chunk_size / 2.0)
-		var poi := Area2D.new()
-		poi.name = "Palestra%s" % str(spec["subject"]).capitalize()
-		poi.position = center + (spec["offset"] as Vector2)
-		poi.add_to_group("minigame_poi")
-		poi.add_to_group("world_interactable")
-		poi.set_meta("kind", "minigame")
-		poi.set_meta("id", "minigame-%s" % str(spec["subject"]))
-		poi.set_meta("payload", {"subject": str(spec["subject"]), "label": str(spec["label"])})
-		var shape := CollisionShape2D.new()
-		var circle := CircleShape2D.new()
-		circle.radius = INTERACTION_DISTANCE
-		shape.shape = circle
-		poi.add_child(shape)
-		poi.add_child(_make_minigame_marker())
-		world_layer.add_child(poi)
-		poi.body_entered.connect(func(body): on_interactable_entered(poi, body))
-		poi.body_exited.connect(func(body): on_interactable_exited(poi, body))
+func _event_visual_kind(subject: String) -> String:
+	if subject in ["matematica", "fisica"]:
+		return "times"
+	if subject in ["geografia", "inglese"]:
+		return "capital"
+	if subject in ["coding", "elettronica", "logica"]:
+		return "guardian"
+	if subject in ["scienze", "cittadinanza"]:
+		return "physicalGeo"
+	return "mental"
+
+func _make_event_caption(kind: String, subject: String) -> Label:
+	var label := Label.new()
+	label.position = Vector2(-72, -86)
+	label.custom_minimum_size = Vector2(144, 24)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.text = ("%s · %s" % [
+		"PRATICA" if kind == "practice" else "ENIGMA" if kind == "enigma" else "MISSIONE",
+		subject.to_upper()])
+	label.add_theme_font_size_override("font_size", 11)
+	label.add_theme_constant_override("outline_size", 5)
+	label.add_theme_color_override("font_color", Color("f6c85f") if kind != "practice" else PLAYER_ACCENT)
+	label.add_theme_color_override("font_outline_color", Color(0.01, 0.035, 0.04, 0.92))
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return label
+
+func _profile_accent_rgb() -> int:
+	var colors := {
+		"matematica": 0x6be7d6, "italiano": 0xe9a86d, "coding": 0x8fa7ff,
+		"inglese": 0x72c9ff, "fisica": 0xa2d8ff, "musica": 0xd7a0ff,
+		"latino": 0xd4b17a, "elettronica": 0x79e7ff, "geografia": 0x7fd19b,
+		"scienze": 0x91dc72, "cittadinanza": 0xf2c96d, "logica": 0xb7a2ff,
+	}
+	return int(colors.get(_world_subject(), 0x6be7d6))
+
+func _create_profile_weather() -> void:
+	var weather := str(world_profile.get("weather", "sereno")).to_lower()
+	if weather in ["sereno", "quiete", "controllato", "sereno-secco"]:
+		return
+	world_weather_particles = CPUParticles2D.new()
+	world_weather_particles.name = "WorldProfileWeather"
+	world_weather_particles.position = world_profile.get("spawn", PORTAL_POSITION)
+	world_weather_particles.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	world_weather_particles.emission_rect_extents = Vector2(680, 430)
+	world_weather_particles.local_coords = false
+	world_weather_particles.lifetime = 2.8
+	world_weather_particles.preprocess = 2.0
+	world_weather_particles.scale_amount_min = 0.05
+	world_weather_particles.scale_amount_max = 0.13
+	world_weather_particles.z_index = 42
+	if "pioggia" in weather or "tempesta" in weather:
+		world_weather_particles.amount = 110 if "tempesta" in weather else 64
+		world_weather_particles.direction = Vector2(0.18, 1.0)
+		world_weather_particles.gravity = Vector2(34, 520)
+		world_weather_particles.initial_velocity_min = 120.0
+		world_weather_particles.initial_velocity_max = 210.0
+		world_weather_particles.color = Color(0.62, 0.82, 1.0, 0.58)
+	else:
+		world_weather_particles.amount = 32
+		world_weather_particles.direction = Vector2(1.0, -0.08)
+		world_weather_particles.gravity = Vector2(18, -4)
+		world_weather_particles.initial_velocity_min = 18.0
+		world_weather_particles.initial_velocity_max = 48.0
+		world_weather_particles.color = Color(profile_dawn_tint, 0.32)
+	world_layer.add_child(world_weather_particles)
 
 func _make_minigame_marker() -> Node2D:
 	var marker := Node2D.new()
@@ -516,10 +715,16 @@ func _create_exercise_player() -> void:
 	exercise_player.name = "ExercisePlayer"
 	exercise_player.visible = false
 	exercise_player.session_finished.connect(_on_exercise_finished)
+	exercise_player.concept_help_requested.connect(_open_contextual_codex)
+	exercise_player.learning_signal.connect(_on_nora_learning_signal)
 	# La costruzione dell'enigma avanza in tempo reale: inoltro il progresso alla
 	# logica, che rilancia `enigma_progress` (con tema) per la resa di Codex.
-	exercise_player.progress_changed.connect(gameplay.notify_progress)
+	exercise_player.progress_changed.connect(_on_exercise_progress)
 	ui_layer.add_child(exercise_player)
+	knowledge_codex_panel = KNOWLEDGE_CODEX_PANEL_SCRIPT.new()
+	knowledge_codex_panel.setup(game_save, content_manager)
+	knowledge_codex_panel.panel_closed.connect(_on_codex_closed)
+	ui_layer.add_child(knowledge_codex_panel)
 
 func _panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -577,18 +782,19 @@ void fragment() {
 	var info := VBoxContainer.new()
 	info.add_theme_constant_override("separation", 4)
 	info_panel.add_child(info)
-	var title := Label.new()
-	title.text = "ELI QUEST  ·  RADURA ACCADEMIA"
-	title.add_theme_color_override("font_color", Color("e7fff8"))
-	title.add_theme_font_size_override("font_size", 19)
-	info.add_child(title)
+	world_title_label = Label.new()
+	world_title_label.name = "WorldProfileTitle"
+	world_title_label.text = "ELI QUEST  ·  %s" % str(world_profile.get("title", "Radura Accademia")).to_upper()
+	world_title_label.add_theme_color_override("font_color", Color("e7fff8"))
+	world_title_label.add_theme_font_size_override("font_size", 19)
+	info.add_child(world_title_label)
 	biome_label = Label.new()
 	biome_label.text = ""
 	biome_label.add_theme_font_size_override("font_size", 14)
 	biome_label.add_theme_color_override("font_color", PLAYER_ACCENT)
 	info.add_child(biome_label)
 	phase_label = Label.new()
-	phase_label.text = "Giorno"
+	phase_label.text = "Giorno · %s" % str(world_profile.get("weather", "sereno")).replace("-", " ").capitalize()
 	phase_label.add_theme_color_override("font_color", Color("f6c85f"))
 	phase_label.add_theme_font_size_override("font_size", 14)
 	info.add_child(phase_label)
@@ -654,6 +860,19 @@ void fragment() {
 	shop_button.add_theme_color_override("font_color", Color("f6c85f"))
 	shop_button.pressed.connect(_open_shop)
 	root.add_child(shop_button)
+	var manual_button := Button.new()
+	manual_button.name = "OpenKnowledgeCodexButton"
+	manual_button.text = "MANUALE NORA"
+	manual_button.anchor_left = 1.0
+	manual_button.anchor_right = 1.0
+	manual_button.offset_left = -164.0
+	manual_button.offset_right = -16.0
+	manual_button.offset_top = 104.0
+	manual_button.offset_bottom = 150.0
+	manual_button.custom_minimum_size.y = 46
+	manual_button.add_theme_color_override("font_color", Color("6be7d6"))
+	manual_button.pressed.connect(_open_codex)
+	root.add_child(manual_button)
 
 	feedback_panel = PanelContainer.new()
 	feedback_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, 24)
@@ -667,18 +886,21 @@ void fragment() {
 	var nora_column := VBoxContainer.new()
 	nora_column.custom_minimum_size = Vector2(82, 0)
 	feedback_row.add_child(nora_column)
-	var nora_name := Label.new()
-	nora_name.text = "NORA"
-	nora_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	nora_name.add_theme_font_size_override("font_size", 11)
-	nora_name.add_theme_color_override("font_color", Color("6be7d6"))
-	nora_column.add_child(nora_name)
+	feedback_source_label = Label.new()
+	feedback_source_label.name = "FeedbackSource"
+	feedback_source_label.text = "NORA"
+	feedback_source_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	feedback_source_label.add_theme_font_size_override("font_size", 11)
+	feedback_source_label.add_theme_color_override("font_color", Color("6be7d6"))
+	nora_column.add_child(feedback_source_label)
 	nora_portrait = NORA_PORTRAIT_SCRIPT.new()
 	nora_column.add_child(nora_portrait)
 	var equipped_bot := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("bot", ""))
 	var equipped_bot_item := RewardCatalog.find(equipped_bot)
 	if not equipped_bot_item.is_empty():
 		nora_portrait.set_livery(OutdoorVisualFactory.hex_color(int(equipped_bot_item.get("color", 0x6be7d6))))
+	if nora_portrait.has_method("set_integrity"):
+		nora_portrait.call("set_integrity", _nora_integrity_ratio(), false, NoraState.trust(game_save))
 	feedback_label = Label.new()
 	feedback_label.add_theme_color_override("font_color", Color("ffffff"))
 	feedback_label.add_theme_font_size_override("font_size", 15)
@@ -707,9 +929,43 @@ func _open_shop() -> void:
 	shop_panel.open_panel()
 
 func _on_shop_closed() -> void:
-	if is_instance_valid(player) and not (is_instance_valid(exercise_player) and exercise_player.visible):
+	if is_instance_valid(player) and not (is_instance_valid(exercise_player) and exercise_player.visible) and not (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible):
 		player.set_physics_process(true)
 	_refresh_prompt()
+
+func _open_codex() -> void:
+	_open_contextual_codex(_world_subject(), "")
+
+func _open_contextual_codex(subject: String, topic: String) -> void:
+	if not is_instance_valid(knowledge_codex_panel):
+		return
+	_cancel_pending_touch_interaction()
+	if is_instance_valid(interaction_button):
+		interaction_button.visible = false
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	var use_context := str(exercise_player.session.get("kind", "practice")) if is_instance_valid(exercise_player) and exercise_player.visible else "world"
+	if topic != "" and is_instance_valid(exercise_player) and exercise_player.visible:
+		NoraState.register(game_save, "help_request")
+		game_save.save()
+	knowledge_codex_panel.open_codex(subject, topic, use_context)
+
+func _on_codex_closed() -> void:
+	if is_instance_valid(player) and not (is_instance_valid(exercise_player) and exercise_player.visible) and not (is_instance_valid(shop_panel) and shop_panel.visible):
+		player.set_physics_process(true)
+	_refresh_prompt()
+
+func _on_nora_learning_signal(signal_name: String) -> void:
+	if not is_instance_valid(game_save):
+		return
+	NoraState.register(game_save, signal_name)
+	game_save.save()
+
+func _nora_integrity_ratio() -> float:
+	if not is_instance_valid(game_save):
+		return 0.0
+	NoraState.sync_from_progress(game_save)
+	return NoraState.integrity(game_save)
 
 func _create_economy_panel(root: Control) -> void:
 	var next_reward = request.get("nextReward", null)
@@ -821,6 +1077,8 @@ func _input(event: InputEvent) -> void:
 	# un Control visibile/focalizzato puo consumare il tasto e impedire a
 	# `_unhandled_input` di riceverlo: era il motivo per cui E non avviava i POI.
 	# Durante un esercizio lasciamo invece tutto l'input alla sua UI.
+	if is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible:
+		return
 	if is_instance_valid(exercise_player) and exercise_player.visible:
 		return
 	if is_instance_valid(shop_panel) and shop_panel.visible:
@@ -981,14 +1239,14 @@ func _refresh_prompt() -> void:
 func _refresh_interaction_button(target: Area2D) -> void:
 	if not is_instance_valid(interaction_button):
 		return
-	var blocked := target == null or (is_instance_valid(exercise_player) and exercise_player.visible) or (is_instance_valid(shop_panel) and shop_panel.visible)
+	var blocked := target == null or (is_instance_valid(exercise_player) and exercise_player.visible) or (is_instance_valid(shop_panel) and shop_panel.visible) or (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible)
 	interaction_button.visible = not blocked
 	if blocked:
 		return
 	var completed := _interaction_is_completed(target)
 	interaction_button.disabled = completed
 	interaction_button.text = "✓ GIÀ COMPLETATO" if completed else _interaction_action_text(target)
-	interaction_button.tooltip_text = "Azione touch contestuale · alternativa al tasto E"
+	interaction_button.tooltip_text = "Azione contestuale disponibile con tocco, click o tastiera"
 
 func _interaction_action_text(target: Area2D) -> String:
 	if target == null:
@@ -1074,9 +1332,36 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(true)
 	if is_instance_valid(gameplay):
+		var context := gameplay.active_session_context.duplicate(true)
 		gameplay.resolve_session(exercise_result)
+		if bool(exercise_result.get("passed", false)) and str(context.get("kind", "")) in ["mission", "enigma"]:
+			_complete_learning_reaction(str(context.get("encounterId", "")))
 	_refresh_economy()
 	_refresh_prompt()
+
+func _on_exercise_progress(correct: int, total: int) -> void:
+	if not is_instance_valid(gameplay):
+		return
+	gameplay.notify_progress(correct, total)
+	var encounter_id := str(gameplay.active_session_context.get("encounterId", ""))
+	if encounter_id == "":
+		return
+	for node in get_tree().get_nodes_in_group("world_interactable"):
+		if node is Area2D and str(node.get_meta("id", "")) == encounter_id:
+			var reaction := node.get_node_or_null("LearningReaction")
+			if reaction != null and reaction.has_method("set_progress"):
+				reaction.call("set_progress", correct, total, true)
+			break
+
+func _complete_learning_reaction(encounter_id: String) -> void:
+	if encounter_id == "":
+		return
+	for node in get_tree().get_nodes_in_group("world_interactable"):
+		if node is Area2D and str(node.get_meta("id", "")) == encounter_id:
+			var reaction := node.get_node_or_null("LearningReaction")
+			if reaction != null and reaction.has_method("set_complete"):
+				reaction.call("set_complete", true, true)
+			break
 
 # Progresso dell'enigma: feedback testuale + popup a ogni campata (gameplay-only).
 # Aggiorna SOLO il POI il cui meta "id" combacia con l'encounter_id attivo (più
@@ -1101,6 +1386,8 @@ func _on_enigma_progress(built: int, total: int, theme: String, encounter_id: St
 
 func _leave_world() -> void:
 	if is_instance_valid(gameplay):
+		if is_instance_valid(player):
+			gameplay.game_save.set_world_resume(str(world_level), player.global_position, day_clock)
 		gameplay.game_save.save()
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
@@ -1151,7 +1438,7 @@ func _update_ship_navigation() -> void:
 		mission = _nearest_available_mission()
 		if mission != null:
 			target_position = mission.global_position
-			prefix = "MISSIONE %s" % str(runtime.get("focusSubject", "matematica")).to_upper()
+			prefix = "MISSIONE %s" % str(_mission_payload_for(mission).get("subject", _world_subject())).to_upper()
 	if bool(runtime.get("complete", false)):
 		prefix = "NAVE RIATTIVATA"
 	var delta := target_position - player.global_position
@@ -1187,13 +1474,10 @@ func _mission_payload_for(area: Area2D) -> Dictionary:
 	if area == null:
 		return {}
 	var payload: Dictionary = Dictionary(area.get_meta("payload", {})).duplicate(true)
-	# Gli incontri procedurali legacy non dichiarano una materia. Fino al
-	# MissionEventDirector P1, li rendiamo missioni naturali del focus corrente:
-	# ogni livello ha così abbastanza POI unici, persistenti e raggiungibili,
-	# senza reload né ripetizione artificiale dello stesso incontro. Un futuro
-	# evento con `subject` esplicito mantiene invece la propria materia.
+	# Compatibilità difensiva per POI non-director; gli eventi O-P1 dichiarano
+	# sempre la materia e restano autoritativi.
 	if str(payload.get("subject", "")).strip_edges() == "":
-		payload["subject"] = str(runtime.get("focusSubject", "matematica")).to_lower()
+		payload["subject"] = _world_subject()
 	return payload
 
 func _direction_arrow(delta: Vector2) -> String:
@@ -1205,23 +1489,37 @@ func _direction_arrow(delta: Vector2) -> String:
 	return arrows[index]
 
 func _set_feedback(message: String) -> void:
+	_present_feedback(message, "system")
+
+func _set_nora_feedback(message: String) -> void:
+	_present_feedback(message, "nora")
+
+func _present_feedback(message: String, source: String = "system") -> void:
 	if is_instance_valid(feedback_label):
 		feedback_label.text = message
 	if is_instance_valid(feedback_panel):
 		feedback_panel.visible = message != ""
-	if message != "" and is_instance_valid(nora_portrait):
+	if is_instance_valid(feedback_source_label):
+		feedback_source_label.text = "NORA" if source == "nora" else "SISTEMA"
+		feedback_source_label.add_theme_color_override("font_color", Color("6be7d6") if source == "nora" else Color("9fc4bb"))
+	if message != "" and source == "nora" and is_instance_valid(nora_portrait):
 		nora_portrait.speak(message)
 
 func _update_objective() -> void:
 	if not is_instance_valid(objective_label) or runtime.is_empty():
 		return
 	var subject := str(runtime.get("focusSubject", "matematica")).capitalize()
+	var profile_subject := _world_subject().capitalize()
 	var apparatus := str(runtime.get("apparatus", "nucleo")).replace("-", " ").capitalize()
 	if bool(runtime.get("complete", false)):
 		objective_label.text = "NAVE COMPLETAMENTE RIATTIVATA\nTutti i 24 sistemi sono online"
 	elif bool(runtime.get("ready", false)):
 		objective_label.text = "LIVELLO %d · %s\n%s PRONTO\nRaggiungi la nave per l’esame finale" % [
 			int(runtime.get("level", 1)), subject, apparatus.to_upper()]
+	elif world_level != int(runtime.get("level", 1)):
+		objective_label.text = "MONDO %d · %s · RIVISITA\nFocus locale: %s · Frontiera: livello %d, %s\nLe missioni qui allenano %s; usa la nave per cambiare rotta" % [
+			world_level, str(world_profile.get("title", "")), profile_subject,
+			int(runtime.get("level", 1)), subject, profile_subject]
 	else:
 		objective_label.text = "Livello %d · Materia %s\nApparato: %s\nMissioni %d/%d · Padronanza %.0f%%/%.0f%%" % [
 			int(runtime.get("level", 1)), subject, apparatus,

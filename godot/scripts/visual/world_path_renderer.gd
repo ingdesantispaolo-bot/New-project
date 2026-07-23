@@ -15,32 +15,34 @@ func configure(data: WorldCompositionData) -> void:
 		if source.size() < 2:
 			continue
 		var width := clampf(float(path.get("width", 64.0)) * 0.39, 20.0, 29.0)
-		_add_ribbon(_catmull_rom_polyline(source, 9), width, str(path.get("id", "path")))
+		_add_ribbon(_catmull_rom_polyline(source, 9), width, str(path.get("id", "path")), data.visual_theme)
 
-func _add_ribbon(points: PackedVector2Array, width: float, id: String) -> void:
+func _add_ribbon(points: PackedVector2Array, width: float, id: String, theme: String) -> void:
 	var root := Node2D.new()
 	root.name = "Path_%s" % id
+	var archive := theme == "archive"
 	var verge := Line2D.new()
 	verge.name = "SoftVerge"
 	verge.points = points
 	verge.width = width + 11.0
-	verge.default_color = Color(0.29, 0.29, 0.18, 0.20)
+	verge.default_color = Color(0.10, 0.11, 0.20, 0.48) if archive else Color(0.29, 0.29, 0.18, 0.20)
 	_style_line(verge)
 	root.add_child(verge)
 	var soil := Line2D.new()
 	soil.name = "Earth"
 	soil.points = points
 	soil.width = width
-	soil.texture = PATH_EARTH_TEXTURE
-	soil.texture_mode = Line2D.LINE_TEXTURE_TILE
-	soil.default_color = Color(0.72, 0.68, 0.53, 0.60)
+	if not archive:
+		soil.texture = PATH_EARTH_TEXTURE
+		soil.texture_mode = Line2D.LINE_TEXTURE_TILE
+	soil.default_color = Color(0.62, 0.61, 0.72, 0.72) if archive else Color(0.72, 0.68, 0.53, 0.60)
 	_style_line(soil)
 	root.add_child(soil)
 	var center_wear := Line2D.new()
 	center_wear.name = "CenterWear"
 	center_wear.points = points
 	center_wear.width = maxf(2.0, width * 0.12)
-	center_wear.default_color = Color(1.0, 0.91, 0.69, 0.075)
+	center_wear.default_color = Color(0.50, 0.67, 1.0, 0.24) if archive else Color(1.0, 0.91, 0.69, 0.075)
 	_style_line(center_wear)
 	root.add_child(center_wear)
 	add_child(root)

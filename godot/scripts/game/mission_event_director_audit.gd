@@ -30,6 +30,7 @@ func _init() -> void:
 		# Seed diverso → almeno una posizione diversa (varietà tra mondi/seed).
 		var run3 := MissionEventDirector.plan(profile, ctx, seed_b)
 		assert(run3.size() == run1.size(), "livello %d: la struttura non dipende dal seed" % level)
+		assert(run3 != run1, "livello %d: seed diversi devono produrre una disposizione diversa" % level)
 
 		# 2) Disponibilità / non-blocco: abbastanza eventi-gate del focus raggiungibili.
 		var reachable := MissionEventDirector.reachable_gate_events(run1, subject)

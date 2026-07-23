@@ -152,7 +152,7 @@ const REQUIRED_KEYS := [
 	"id", "level", "title", "learningFocus", "terrainFamily", "topology",
 	"artKit", "heroLandmarks", "lighting", "weather", "soundscape",
 	"missionGrammar", "eventPools", "shipEntrance", "spawn", "safeRoute",
-	"performanceBudget",
+	"worldHalfExtent", "performanceBudget",
 ]
 
 static func validate(p: Dictionary) -> Dictionary:
@@ -216,6 +216,7 @@ static func validate_all() -> Dictionary:
 		var res := validate(p)
 		if not bool(res["ok"]):
 			all_errors[lvl] = res["errors"]
+
 		# Unicità di id e titolo tra i mondi (distinzione richiesta dal piano).
 		var id := str(p["id"])
 		if ids.has(id):

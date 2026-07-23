@@ -28,7 +28,7 @@ static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: 
 				var edge_roll := rng.next_float()
 				kind = "reeds" if edge_roll < 0.42 else "cattails" if edge_roll < 0.72 else "pebble_bank"
 			elif path_distance > 54.0:
-				kind = _land_kind(data.sampled_biome(pos, rng.next_float()), rng.next_float())
+				kind = _archive_kind(rng.next_float()) if data.visual_theme == "archive" else _land_kind(data.sampled_biome(pos, rng.next_float()), rng.next_float())
 			if kind.is_empty():
 				continue
 			var base_chance := 0.82 if water > 0.28 or near_water else 0.58
@@ -44,6 +44,9 @@ static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: 
 				"water": water > 0.28,
 			})
 	return points
+
+static func _archive_kind(roll: float) -> String:
+	return "rune_pebbles" if roll < 0.34 else "stepping_stones" if roll < 0.62 else "crystal_moss" if roll < 0.84 else "leaves"
 
 static func _near_water(data: WorldCompositionData, pos: Vector2, distance: float) -> bool:
 	if data.water_weight(pos) > 0.02:

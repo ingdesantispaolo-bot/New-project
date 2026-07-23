@@ -1,6 +1,8 @@
 class_name ContentManager
 extends RefCounted
 
+const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
+
 ## Carica i banchi di esercizi (JSON prodotti da scripts/build-exercise-banks.mjs)
 ## e costruisce le missioni selezionando item vicini alla difficoltà del livello.
 ## Vedi docs/ARCHITETTURA_FULL_GODOT.md §3 (strategia "bake prima, port poi").
@@ -60,6 +62,9 @@ var _cache: Dictionary = {}  # subject -> Array item
 var _difficulty_ranges: Dictionary = {}  # subject -> Vector2i(min,max) difficoltà nel banco
 var _topic_counts: Dictionary = {}  # subject -> int argomenti distinti (cache copertura)
 var _recent_math_signatures: Array = []
+# Sorgente di nodi NON a scelta multipla (abbina/ordina) per diversificare i
+# formati (O-P3, policy "scelta multipla non dominante") ed esami multi-formato.
+var minigame_manager := MinigameManager.new()
 var _mission_serial := 0
 
 func _load_bank(subject: String) -> Array:
@@ -120,15 +125,21 @@ func subject_difficulty_range(subject: String) -> Vector2i:
 # copertura ripiega sul minimo assoluto (la copertura vissuta la traccia comunque
 # `masteryByTopic`, popolato dai topic del generatore).
 func subject_topic_count(subject: String) -> int:
+	return bank_topics(subject).size()
+
+# Argomenti DISTINTI presenti nel banco statico della materia (cache). Per la
+# matematica, generata a runtime, il banco statico può elencarne pochi: i topic
+# effettivi emergono dal generatore (vedi build_mission).
+func bank_topics(subject: String) -> Array:
 	if _topic_counts.has(subject):
-		return _topic_counts[subject]
+		return Array(_topic_counts[subject]).duplicate()
 	var topics: Dictionary = {}
 	for item in _load_bank(subject):
 		var topic := str(item.get("topic", ""))
 		if topic != "":
 			topics[topic] = true
-	_topic_counts[subject] = topics.size()
-	return _topic_counts[subject]
+	_topic_counts[subject] = topics.keys()
+	return Array(_topic_counts[subject]).duplicate()
 
 # Difficoltà EFFETTIVA per materia: banda di livello + nudge di mastery, poi
 # calibrata (clamp) sul range che il banco può davvero servire. Così la selezione
@@ -258,13 +269,86 @@ func build_enigma(subject: String, level: int, node_count: int = 4, review_due: 
 	session["rewards"] = {"energyPerCorrect": 10, "onComplete": {"energy": 35, "fragments": 3}}
 	return session
 
-## Esame cumulativo dell'apparato corrente. In questa prima slice riusa il
-## banco matematico della missione ma cambia il contratto: kind=final_exam e
-## ricompensa di riparazione gestita da ProgressionManager.
+## Esame cumulativo dell'apparato corrente. MULTI-FORMATO (O-P3): non è mai
+## composto soltanto da scelta multipla — include almeno un nodo non-MC
+## (abbina/ordina) e marca un nodo di TRASFERIMENTO (applicazione in un contesto
+## diverso), così l'esame verifica applicazione e trasferimento, non solo memoria.
 func build_final_exam(subject: String, level: int, node_count: int = 3, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
-	var exam := build_mission(subject, level, node_count, {}, rng, mastery, topic_mastery)
+	var generator := rng
+	if generator == null:
+		generator = RandomNumberGenerator.new()
+		generator.randomize()
+	var exam := build_mission(subject, level, node_count, {}, generator, mastery, topic_mastery)
+	# Diversifica: garantisci almeno un formato oltre la scelta multipla.
+	exam["nodes"] = inject_non_mc(exam.get("nodes", []), subject, level, 1, generator)
+	_flag_transfer_node(exam.get("nodes", []))
 	exam["sessionId"] = "final-exam-%s-lvl%d" % [subject, level]
 	exam["kind"] = "final_exam"
 	exam["shields"] = 2
 	exam["rewards"] = {"energyPerCorrect": 12, "onComplete": {"energy": 40, "fragments": 4}}
 	return exam
+
+## Missione a formati VARI (O-P3, policy "scelta multipla non dominante"): come
+## build_mission ma con la scelta multipla portata a ≤ 1/3 dei nodi iniettando
+## nodi non-MC (abbina/ordina) della materia. Dal gate C-P3 questa è la variante
+## usata dal percorso live delle missioni esterne.
+func build_varied_mission(subject: String, level: int, node_count: int = 3, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
+	var generator := rng
+	if generator == null:
+		generator = RandomNumberGenerator.new()
+		generator.randomize()
+	var session := build_mission(subject, level, node_count, review_due, generator, mastery, topic_mastery)
+	# Porta la scelta multipla a ≤ 1/3: mantieni al più floor(n/3) nodi MC.
+	var nodes: Array = session.get("nodes", [])
+	var keep_mc := int(nodes.size() / 3)
+	var mc_count := 0
+	for n in nodes:
+		if ExerciseInteraction.is_multiple_choice(n):
+			mc_count += 1
+	var to_replace := maxi(0, mc_count - keep_mc)
+	session["nodes"] = inject_non_mc(nodes, subject, level, to_replace, generator)
+	return session
+
+# Sostituisce fino a `count` nodi a scelta multipla con nodi NON-MC (abbina/ordina)
+# della stessa materia, presi dal MinigameManager (topic/difficoltà coerenti). I
+# nodi iniettati restano nel contratto comune (ExerciseInteraction): stesso
+# scoring/scudi/mastery. Sostituisce partendo dagli ultimi nodi MC.
+func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: RandomNumberGenerator) -> Array:
+	if count <= 0:
+		return nodes
+	var mg := minigame_manager.build_minigame(subject, level, rng)
+	var pool: Array = []
+	for n in mg.get("nodes", []):
+		if not ExerciseInteraction.is_multiple_choice(n):
+			pool.append(n)
+	if pool.is_empty():
+		return nodes
+	var out := nodes.duplicate()
+	var injected := 0
+	for i in range(out.size() - 1, -1, -1):
+		if injected >= count:
+			break
+		if ExerciseInteraction.is_multiple_choice(out[i]):
+			out[i] = (pool[injected % pool.size()] as Dictionary).duplicate(true)
+			injected += 1
+	return out
+
+# Marca un nodo di TRASFERIMENTO: preferisci il nodo (non-MC escluso) di
+# difficoltà più alta e, a parità, di topic diverso dal primo — un'applicazione
+# in contesto più impegnativo/altro. Se non c'è, marca l'ultimo nodo utile.
+func _flag_transfer_node(nodes: Array) -> void:
+	if nodes.is_empty():
+		return
+	var base_topic := str((nodes[0] as Dictionary).get("topic", ""))
+	var best := -1
+	var best_diff := -1
+	for i in nodes.size():
+		var n: Dictionary = nodes[i]
+		var d := int(n.get("difficulty", 1))
+		var other_topic := 1 if str(n.get("topic", "")) != base_topic else 0
+		var score := d * 2 + other_topic
+		if score > best_diff:
+			best_diff = score
+			best = i
+	if best >= 0:
+		(nodes[best] as Dictionary)["transfer"] = true

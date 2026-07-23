@@ -12,6 +12,7 @@
     "assets:optimize": "node scripts/optimize-assets.mjs",
     "audio:godot": "node scripts/build-godot-audio-assets.mjs",
     "audio:godot:audit": "node scripts/build-godot-audio-assets.mjs --check",
+    "smoke:web:godot": "node scripts/smoke-godot-web.mjs",
     "maps:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs",
     "test": "vitest run",
     "test:watch": "vitest",

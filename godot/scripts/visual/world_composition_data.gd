@@ -6,6 +6,12 @@ var biome_influences: Array = []
 var paths: Array = []
 var waters: Array = []
 var hero_pockets: Array = []
+## Identità visuale del profilo: il terreno può scegliere un underpaint
+## specifico e le regioni/props autorate definiscono la silhouette del mondo.
+## Sono dati puramente visuali e non modificano progressione o ricompense.
+var visual_theme := "legacy"
+var identity_regions: Array = []
+var identity_props: Array = []
 ## Zone e corridoi autorati dal WorldProfile. Acqua e decorazioni di terreno
 ## possono lambirli, ma non devono rendere illeggibili ingresso nave e percorso
 ## sicuro spawn→nave.

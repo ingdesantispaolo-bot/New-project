@@ -15,6 +15,7 @@ const UNDERPAINT_ACADEMY: Texture2D = preload("res://assets/terrain-underpaint-a
 const UNDERPAINT_WILD: Texture2D = preload("res://assets/terrain-underpaint-wild.png")
 const UNDERPAINT_MINERAL: Texture2D = preload("res://assets/terrain-underpaint-mineral.png")
 const UNDERPAINT_MAGIC: Texture2D = preload("res://assets/terrain-underpaint-magic.png")
+const UNDERPAINT_ARCHIVE: Texture2D = preload("res://assets/archivio-parole-underpaint-v1.png")
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -43,6 +44,7 @@ func setup(data: Dictionary, lod_level: int = 0, composition_data: WorldComposit
 	var size := float(chunk.get("size", 896))
 	_build_painterly_surface(size)
 	_build_world_water_features(size)
+	_build_identity_regions(size)
 	var patch: Dictionary = chunk.get("patch", {})
 	var biome := str(chunk.get("biome", "academy"))
 	var tint := _hex_color(int(patch.get("color", 0x173b36))).lerp(_biome_palette_tint(biome), 0.22)
@@ -141,6 +143,11 @@ func _build_painterly_surface(size: float) -> void:
 	material.set_shader_parameter("wild_tex", UNDERPAINT_WILD)
 	material.set_shader_parameter("mineral_tex", UNDERPAINT_MINERAL)
 	material.set_shader_parameter("magic_tex", UNDERPAINT_MAGIC)
+	material.set_shader_parameter("identity_tex", UNDERPAINT_ARCHIVE)
+	var visual_theme := composition.visual_theme if composition != null else "legacy"
+	var archive_strength := 0.86 if visual_theme == "archive" else 0.0
+	material.set_shader_parameter("identity_strength", archive_strength)
+	material.set_shader_parameter("identity_calm_palette", Color("4b536f"))
 	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0))) - Vector2.ONE * bleed
 	var surface_size := size + bleed * 2.0
 	material.set_shader_parameter("surface_world_origin", world_origin)
@@ -157,6 +164,73 @@ func _build_painterly_surface(size: float) -> void:
 		material.set_shader_parameter(names[i], _material_weights(corners[i]))
 	painterly_surface.material = material
 	add_child(painterly_surface)
+
+func _build_identity_regions(size: float) -> void:
+	if composition == null or composition.identity_regions.is_empty():
+		return
+	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0)))
+	var world_rect := Rect2(world_origin, Vector2.ONE * size)
+	for region in composition.identity_regions:
+		var center: Vector2 = region.get("position", Vector2.ZERO)
+		# Una sola cella possiede la piattaforma. Le regioni sono più piccole del
+		# raggio di streaming, quindi restano caricate quando entrano in camera.
+		if not world_rect.has_point(center):
+			continue
+		var radii: Vector2 = region.get("radii", Vector2(320, 210))
+		var root := Node2D.new()
+		root.name = "IdentityRegion_%s" % str(region.get("id", "region"))
+		root.position = center - world_origin
+		root.rotation = float(region.get("rotation", 0.0))
+		root.z_index = -7
+		var kind := str(region.get("kind", "radura_clearing"))
+		var outer := Polygon2D.new()
+		outer.polygon = _organic_ellipse_points(radii * 1.10, center, 48)
+		var inner := Polygon2D.new()
+		inner.polygon = _organic_ellipse_points(radii, center + Vector2(31, -17), 48)
+		if kind == "archive_room":
+			outer.color = Color(0.08, 0.10, 0.18, 0.78)
+			inner.color = Color(0.57, 0.55, 0.52, 0.32)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_archive_floor_ornament(root, radii)
+		elif kind == "radura_garden":
+			outer.color = Color(0.14, 0.28, 0.16, 0.46)
+			inner.color = Color(0.52, 0.58, 0.25, 0.26)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_radial_floor_lines(root, radii, Color(0.78, 0.93, 0.48, 0.16), 10)
+		else:
+			outer.color = Color(0.30, 0.38, 0.17, 0.38)
+			inner.color = Color(0.76, 0.65, 0.30, 0.14)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_radial_floor_lines(root, radii, Color(1.0, 0.83, 0.42, 0.12), 12)
+		add_child(root)
+
+func _add_archive_floor_ornament(root: Node2D, radii: Vector2) -> void:
+	for scale_value in [0.82, 0.58, 0.34]:
+		var ring := Line2D.new()
+		var ring_points := _organic_ellipse_points(radii * float(scale_value), Vector2(radii.x, radii.y) * float(scale_value), 40)
+		ring_points.append(ring_points[0])
+		ring.points = ring_points
+		ring.width = 3.0 if float(scale_value) > 0.7 else 2.0
+		ring.default_color = Color(0.86, 0.72, 0.39, 0.22)
+		ring.antialiased = true
+		root.add_child(ring)
+	_add_radial_floor_lines(root, radii, Color(0.42, 0.63, 0.86, 0.20), 8)
+
+func _add_radial_floor_lines(root: Node2D, radii: Vector2, color: Color, count: int) -> void:
+	for index in range(count):
+		var angle := TAU * float(index) / float(count)
+		var line := Line2D.new()
+		line.points = PackedVector2Array([
+			Vector2(cos(angle) * radii.x * 0.20, sin(angle) * radii.y * 0.20),
+			Vector2(cos(angle) * radii.x * 0.86, sin(angle) * radii.y * 0.86),
+		])
+		line.width = 1.5
+		line.default_color = color
+		line.antialiased = true
+		root.add_child(line)
 
 func _material_weights(world_pos: Vector2) -> Vector4:
 	if composition == null:

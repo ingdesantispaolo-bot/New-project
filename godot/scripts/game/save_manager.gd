@@ -50,6 +50,11 @@ static func _default_data() -> Dictionary:
 		# Ripasso spaziato con PIANIFICAZIONE TEMPORALE reale (O-P0.7): un orologio
 		# di sessioni monotòno e, per ogni "subject:topic", quando ripresentarlo.
 		"spacedRepetition": {"sessionClock": 0, "schedule": {}, "history": []},
+		# Manuale NORA (O-P4): stato di conoscenza per argomento ("subject:topic" ->
+		# unknown/encountered/consulted/applied/consolidated).
+		"codex": {},
+		# Stato relazionale di NORA (O-P4): integrità nave, ricordi, fiducia.
+		"nora": {"integrity": 0.0, "memory": 0, "trust": 0.5},
 	}
 
 func load_save() -> void:
@@ -186,8 +191,12 @@ func _world_bucket(world_id: String) -> Dictionary:
 			"completedEncounterIds": [],
 			"collectedTreasureIds": [],
 			"clearedHazardIds": [],
+			"resume": {},
 		}
-	return data["worldProgress"][world_id]
+	var bucket: Dictionary = data["worldProgress"][world_id]
+	if not bucket.has("resume"):
+		bucket["resume"] = {}
+	return bucket
 
 func world_progress(world_id: String) -> Dictionary:
 	return _world_bucket(world_id).duplicate(true)
@@ -214,6 +223,16 @@ func mark_treasure_collected(world_id: String, treasure_id: String) -> bool:
 
 func mark_hazard_cleared(world_id: String, hazard_id: String) -> bool:
 	return _mark_world_id(world_id, "clearedHazardIds", hazard_id)
+
+func world_resume(world_id: String) -> Dictionary:
+	return Dictionary(_world_bucket(world_id).get("resume", {})).duplicate(true)
+
+func set_world_resume(world_id: String, position: Vector2, day_clock: float) -> void:
+	_world_bucket(world_id)["resume"] = {
+		"playerX": position.x,
+		"playerY": position.y,
+		"dayClock": day_clock,
+	}
 
 func set_apparatus_repaired(id: String, repaired_level: int) -> void:
 	data["apparatus"][id] = {"repairedLevel": repaired_level}

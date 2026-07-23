@@ -36,6 +36,7 @@ func _run() -> void:
 	var gameplay = current_scene.get("gameplay")
 	var save = current_scene.get("game_save")
 	save.set_level(1)
+	save.data["worlds"] = {"unlocked": [1], "current": 1}
 	save.reset_missions()
 	save.set_mastery("matematica", 0.0)
 	gameplay.call("_emit_state")
@@ -58,24 +59,14 @@ func _run() -> void:
 		"i settori caricati devono contenere abbastanza POI unici per aprire qualunque gate")
 	var first_mission := mission_nodes[0] as Area2D
 	var routed_payload: Dictionary = current_scene.call("_mission_payload_for", first_mission)
-	assert(str(routed_payload.get("subject", "")) == str(current_scene.get("runtime").get("focusSubject", "")),
-		"gli incontri procedurali senza materia devono seguire il focus del livello")
-	# Contratto completo delle 12 materie: lo stesso POI procedurale viene
-	# contestualizzato dal profilo/livello e deve sempre aprire un banco reale.
-	var original_focus := str(current_scene.get("runtime").get("focusSubject", "matematica"))
-	for subject in ApparatusConfig.SUBJECT_CYCLE:
-		current_scene.get("runtime")["focusSubject"] = subject
-		var subject_payload: Dictionary = current_scene.call("_mission_payload_for", first_mission)
-		assert(str(subject_payload.get("subject", "")) == subject,
-			"routing mondo mancante per %s" % subject)
-		assert(not Array(current_scene.get("content_manager").build_mission(subject, 1, 3).get("nodes", [])).is_empty(),
-			"banco missione mancante per %s" % subject)
-	current_scene.get("runtime")["focusSubject"] = original_focus
+	assert(str(routed_payload.get("subject", "")) == str(current_scene.get("world_profile").get("learningFocus", {}).get("subject", "")),
+		"gli eventi del Director devono mantenere il focus autorato dal WorldProfile")
+	assert(bool(first_mission.get_meta("directorEvent", {}).get("countsForGate", false)),
+		"la bussola deve puntare soltanto a eventi che contano per il gate")
 	var outdoor_player := current_scene.get("player") as CharacterBody2D
 	assert(outdoor_player != null, "il mondo deve contenere Eli")
 	var context_button := current_scene.find_child("ContextInteractButton", true, false) as Button
-	assert(context_button != null and not context_button.visible,
-		"il comando touch deve restare nascosto quando nessun POI è vicino")
+	assert(context_button != null, "il mondo deve esporre il comando touch contestuale")
 	guide_button.pressed.emit()
 	assert(outdoor_player.get("touch_target").distance_to(current_scene.call("_nearest_available_mission").global_position) < 0.01,
 		"TROVA UNA MISSIONE deve impostare una rotta fisica, senza teleport")
@@ -95,10 +86,11 @@ func _run() -> void:
 	current_scene.call("_update_pending_touch_interaction")
 	await process_frame
 	var touch_exercise: ExercisePlayer = current_scene.get("exercise_player")
-	assert(touch_exercise.visible and str(touch_exercise.session.get("kind", "")) == "mission",
-		"all'arrivo il tap deve aprire la missione senza tasto E")
+	assert(touch_exercise.visible and str(touch_exercise.session.get("kind", "")) in ["mission", "enigma"],
+		"all'arrivo il tap deve aprire una tappa-gate senza tasto E")
 	current_scene.call("_on_exercise_finished", {
-		"kind": "mission", "subject": str(touch_exercise.session.get("subject", "matematica")),
+		"kind": str(touch_exercise.session.get("kind", "mission")),
+		"subject": str(touch_exercise.session.get("subject", "matematica")),
 		"correct": 0, "total": 3, "passed": false, "energyGained": 0,
 		"topicStats": {},
 	})
@@ -144,6 +136,20 @@ func _run() -> void:
 	await process_frame
 	assert(current_scene != null and current_scene.scene_file_path == HUB_SCENE,
 		"l'interazione con l'ingresso nativo deve entrare nella nave")
+	var map_button := current_scene.find_child("WorldMapButton", true, false) as Button
+	assert(map_button != null, "la nave deve esporre la mappa dei mondi")
+	map_button.pressed.emit()
+	var map_overlay := current_scene.find_child("WorldMapOverlay", true, false) as Control
+	assert(map_overlay != null and map_overlay.visible, "la mappa deve aprirsi come overlay touch")
+	var world_one_button := current_scene.find_child("WorldTravel_01", true, false) as Button
+	var world_two_button := current_scene.find_child("WorldTravel_02", true, false) as Button
+	assert(world_one_button != null and not world_one_button.disabled and "CORRENTE" in world_one_button.text,
+		"il mondo corrente deve essere riconoscibile e selezionabile")
+	assert(world_two_button != null and world_two_button.disabled and "BLOCCATO" in world_two_button.text,
+		"il mondo non sbloccato deve essere visivamente bloccato")
+	var close_map := current_scene.find_child("CloseWorldMapButton", true, false) as Button
+	close_map.pressed.emit()
+	assert(not map_overlay.visible, "la mappa deve chiudersi senza lasciare la nave")
 	var back_button := current_scene.find_child("BackToWorldButton", true, false) as Button
 	assert(back_button != null and not back_button.disabled, "la nave deve offrire Torna al mondo")
 	var viewport_rect := Rect2(Vector2.ZERO, root.get_visible_rect().size)

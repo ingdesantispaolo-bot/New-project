@@ -29,13 +29,39 @@ func configure(data: Dictionary, world_ref: Node, lod_level: int = 0, compositio
 	_build_ground()
 	_build_global_details()
 	_build_global_assemblies()
-	if visual_lod == 0:
+	_build_identity_props()
+	if visual_lod == 0 and (composition == null or composition.protected_zones.is_empty()):
 		_build_academy_set_dressing()
 	_build_obstacles(decor)
 	_build_props(decor)
 	_build_landmarks()
 	_build_treasures()
 	_build_encounters()
+
+func _build_identity_props() -> void:
+	if composition == null or composition.identity_props.is_empty():
+		return
+	var world_origin := Vector2(float(chunk["worldX"]), float(chunk["worldY"]))
+	var rect := Rect2(world_origin, Vector2(float(chunk["size"]), float(chunk["size"])))
+	for prop in composition.identity_props:
+		var world_pos: Vector2 = prop.get("position", Vector2.ZERO)
+		if not rect.has_point(world_pos) or composition.is_protected(world_pos, 64.0):
+			continue
+		var kind := str(prop.get("kind", ""))
+		var node := OutdoorVisualFactory.build_identity_prop(
+			kind, composition.visual_theme, float(prop.get("variant", 0.5)))
+		node.name = "IdentityProp_%s" % kind
+		node.position = world_pos - world_origin
+		add_child(node)
+		if kind in ["archive_shelf", "archive_pillar", "archive_scriptorium"]:
+			var body := StaticBody2D.new()
+			var shape := CollisionShape2D.new()
+			var rectangle := RectangleShape2D.new()
+			rectangle.size = Vector2(118, 30) if kind == "archive_shelf" else Vector2(52, 38)
+			shape.shape = rectangle
+			shape.position = Vector2(0, -3)
+			body.add_child(shape)
+			node.add_child(body)
 
 func _build_global_assemblies() -> void:
 	if composition == null:
@@ -48,6 +74,8 @@ func _build_global_assemblies() -> void:
 	layer.y_sort_enabled = true
 	add_child(layer)
 	for point in points:
+		if composition.is_protected(point["position"], 78.0):
+			continue
 		var biome := str(point["biome"])
 		var root := Node2D.new()
 		root.position = point["position"] - Vector2(float(chunk["worldX"]), float(chunk["worldY"]))
@@ -87,6 +115,8 @@ func _build_global_details() -> void:
 	layer.y_sort_enabled = true
 	add_child(layer)
 	for point in BiomeDetailSpawner.points_for_rect(composition, rect, visual_lod):
+		if composition.is_protected(point["position"], 46.0):
+			continue
 		var kind := str(point["kind"])
 		var size := _detail_size(kind) * float(point.get("scale", 1.0))
 		var sprite := OutdoorVisualFactory.natural_detail_sprite(kind, size, 0.0)

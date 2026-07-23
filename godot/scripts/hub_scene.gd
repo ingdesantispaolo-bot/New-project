@@ -6,6 +6,7 @@ extends Node2D
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const SHIP_POWER_OVERLAY_SCRIPT := preload("res://scripts/ui/ship_power_overlay.gd")
+const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
 
 var controller: HubController
 var content: ContentManager
@@ -14,6 +15,7 @@ var rewards: RewardManager
 var narrative: NarrativeManager
 var progress_report: LocalProgressReport
 var exercise_player: ExercisePlayer
+var knowledge_codex_panel: KnowledgeCodexPanel
 
 var current_room_id := ShipRoomCatalog.DEFAULT_ROOM
 var room_state: Dictionary = {}
@@ -44,8 +46,13 @@ var celebration_flash: ColorRect
 var celebration_panel: PanelContainer
 var celebration_title: Label
 var celebration_detail: Label
+var world_map_overlay: Control
+var world_map_grid: GridContainer
+var world_map_summary: Label
 
 func _ready() -> void:
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("document.documentElement.dataset.eliScene = 'ship';")
 	controller = HubController.new()
 	add_child(controller)
 	save = GameSaveManager.new()
@@ -118,6 +125,7 @@ func _build_scene() -> void:
 	safe.add_child(layout)
 	_build_header(layout)
 	_build_body(layout)
+	_build_world_map_overlay(screen)
 
 func _build_header(parent: VBoxContainer) -> void:
 	var panel := PanelContainer.new()
@@ -171,7 +179,7 @@ func _build_header(parent: VBoxContainer) -> void:
 
 	var log_button := Button.new()
 	log_button.name = "ShipLogButton"
-	log_button.text = "DIARIO"
+	log_button.text = "MANUALE"
 	log_button.custom_minimum_size = Vector2(104, 48)
 	log_button.pressed.connect(_show_ship_log)
 	row.add_child(log_button)
@@ -210,6 +218,14 @@ func _build_body(parent: VBoxContainer) -> void:
 	rail_title.add_theme_font_size_override("font_size", 13)
 	rail_title.add_theme_color_override("font_color", Color("8fb7bd"))
 	rail_box.add_child(rail_title)
+	var world_map_button := Button.new()
+	world_map_button.name = "WorldMapButton"
+	world_map_button.text = "MAPPA DEI MONDI"
+	world_map_button.custom_minimum_size.y = 48
+	world_map_button.add_theme_font_size_override("font_size", 13)
+	world_map_button.add_theme_color_override("font_color", Color("f7d37a"))
+	world_map_button.pressed.connect(_show_world_map)
+	rail_box.add_child(world_map_button)
 	for id in ShipRoomCatalog.ids():
 		var spec := ShipRoomCatalog.room(str(id))
 		var button := Button.new()
@@ -316,6 +332,138 @@ func _build_body(parent: VBoxContainer) -> void:
 	repair_button.pressed.connect(_repair_action)
 	card_box.add_child(repair_button)
 
+func _build_world_map_overlay(screen: Control) -> void:
+	world_map_overlay = Control.new()
+	world_map_overlay.name = "WorldMapOverlay"
+	world_map_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	world_map_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	world_map_overlay.visible = false
+	screen.add_child(world_map_overlay)
+
+	var dimmer := ColorRect.new()
+	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dimmer.color = Color(0.005, 0.018, 0.028, 0.88)
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	world_map_overlay.add_child(dimmer)
+
+	var panel := PanelContainer.new()
+	panel.anchor_left = 0.06
+	panel.anchor_top = 0.06
+	panel.anchor_right = 0.94
+	panel.anchor_bottom = 0.94
+	panel.add_theme_stylebox_override("panel", _panel_style(Color(0.012, 0.055, 0.075, 0.98), Color("6be7d6"), 18))
+	world_map_overlay.add_child(panel)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 20)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_right", 20)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	panel.add_child(margin)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 10)
+	margin.add_child(column)
+	var header := HBoxContainer.new()
+	column.add_child(header)
+	var title := Label.new()
+	title.text = "MAPPA DEI MONDI"
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.add_theme_font_size_override("font_size", 25)
+	title.add_theme_color_override("font_color", Color("f5fbff"))
+	header.add_child(title)
+	var close := Button.new()
+	close.name = "CloseWorldMapButton"
+	close.text = "CHIUDI"
+	close.custom_minimum_size = Vector2(112, 48)
+	close.pressed.connect(_hide_world_map)
+	header.add_child(close)
+	world_map_summary = Label.new()
+	world_map_summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	world_map_summary.add_theme_font_size_override("font_size", 13)
+	world_map_summary.add_theme_color_override("font_color", Color("9fd6d4"))
+	column.add_child(world_map_summary)
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	column.add_child(scroll)
+	world_map_grid = GridContainer.new()
+	world_map_grid.columns = 3
+	world_map_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	world_map_grid.add_theme_constant_override("h_separation", 10)
+	world_map_grid.add_theme_constant_override("v_separation", 10)
+	scroll.add_child(world_map_grid)
+
+func _show_world_map() -> void:
+	if not is_instance_valid(world_map_overlay):
+		return
+	_refresh_world_map()
+	world_map_overlay.visible = true
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "panel.open")
+
+func _hide_world_map() -> void:
+	if is_instance_valid(world_map_overlay):
+		world_map_overlay.visible = false
+
+func _refresh_world_map() -> void:
+	for child in world_map_grid.get_children():
+		world_map_grid.remove_child(child)
+		child.queue_free()
+	var frontier := clampi(save.level(), 1, WorldProfileCatalog.MAX_LEVEL)
+	var selected := save.current_world()
+	world_map_summary.text = "Frontiera didattica: mondo %d · Destinazione attuale: mondo %d\nI mondi completati restano visitabili senza perdere progressi o posizione." % [frontier, selected]
+	for level in range(1, WorldProfileCatalog.MAX_LEVEL + 1):
+		var profile := WorldProfileCatalog.profile(level)
+		var unlocked := save.is_world_unlocked(level)
+		var status := _world_map_status(level, frontier, selected, unlocked)
+		var button := Button.new()
+		button.name = "WorldTravel_%02d" % level
+		button.text = "%02d · %s\n%s · %s" % [
+			level, str(profile.get("title", "")),
+			str(profile.get("learningFocus", {}).get("subject", "")).capitalize(),
+			status]
+		button.custom_minimum_size = Vector2(220, 76)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 12)
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.disabled = not unlocked
+		button.tooltip_text = "%s · %s · %s" % [
+			str(profile.get("terrainFamily", "")).replace("-", " "),
+			str(profile.get("topology", "")).replace("-", " "),
+			str(profile.get("weather", "")).replace("-", " ")]
+		if unlocked:
+			button.pressed.connect(_travel_to_world.bind(level))
+			button.add_theme_color_override(
+				"font_color",
+				Color("f7d37a") if level == selected else Color("d8f8f1") if level == frontier else Color("9fc4bb"))
+		world_map_grid.add_child(button)
+
+func _world_map_status(level: int, frontier: int, selected: int, unlocked: bool) -> String:
+	if not unlocked:
+		return "BLOCCATO"
+	var bucket: Dictionary = save.data.get("worldProgress", {}).get(str(level), {})
+	var has_activity := not Array(bucket.get("completedEncounterIds", [])).is_empty() or not Array(bucket.get("collectedTreasureIds", [])).is_empty()
+	if level == selected and level == frontier:
+		return "◎ CORRENTE" if has_activity else "◎ CORRENTE · NUOVO"
+	if level == selected:
+		return "◎ IN VISITA"
+	if level < frontier:
+		return "✓ COMPLETATO · RIVISITABILE"
+	if level == frontier:
+		return "NUOVO"
+	return "SBLOCCATO"
+
+func _travel_to_world(level: int) -> void:
+	if not save.is_world_unlocked(level):
+		return
+	save.set_current_world(level)
+	save.save()
+	_hide_world_map()
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play_event", "portalOpened")
+	get_tree().change_scene_to_file("res://scenes/outdoor_world.tscn")
+
 func _build_exercise_overlay() -> void:
 	var exercise_layer := CanvasLayer.new()
 	exercise_layer.name = "ExerciseLayer"
@@ -325,7 +473,11 @@ func _build_exercise_overlay() -> void:
 	exercise_player.name = "ExercisePlayer"
 	exercise_player.visible = false
 	exercise_player.session_finished.connect(_on_exam_finished)
+	exercise_player.learning_signal.connect(_on_nora_learning_signal)
 	exercise_layer.add_child(exercise_player)
+	knowledge_codex_panel = KNOWLEDGE_CODEX_PANEL_SCRIPT.new()
+	knowledge_codex_panel.setup(save, content)
+	exercise_layer.add_child(knowledge_codex_panel)
 	log_dialog = AcceptDialog.new()
 	log_dialog.name = "ShipLogDialog"
 	log_dialog.title = "DIARIO DI BORDO · SOLO LOCALE"
@@ -407,6 +559,8 @@ func _apply_state(state: Dictionary) -> void:
 	background_material.set_shader_parameter("activation", float(activation.get("ratio", 0.0)))
 	if is_instance_valid(power_overlay):
 		power_overlay.set_activation(float(activation.get("ratio", 0.0)), int(activation.get("stage", 0)), accent)
+	if is_instance_valid(nora_portrait) and nora_portrait.has_method("set_integrity"):
+		nora_portrait.call("set_integrity", _nora_integrity_ratio(), false, NoraState.trust(save))
 	room_title.text = "NAVE · %s" % str(room_state.get("label", "Ponte Centrale")).to_upper()
 	room_description.text = str(room_state.get("description", ""))
 	level_label.text = "LIVELLO %d\nENERGIA %d" % [save.level(), save.energy()]
@@ -586,27 +740,18 @@ func _set_activation_burst(value: float) -> void:
 		power_overlay.burst = value
 
 func _show_ship_log() -> void:
-	if not is_instance_valid(log_dialog):
+	if not is_instance_valid(knowledge_codex_panel):
 		return
-	var report := progress_report.summary()
-	var lines := PackedStringArray([
-		"NORA · MEMORIA DEL RELITTO",
-		str(narrative.beat_for_level(save.level())),
-		"",
-		"PROGRESSO LOCALE",
-		"Sessioni: %d   Missioni superate: %d   Tempo attivo: %d min" % [int(report.get("sessions", 0)), int(report.get("missions", 0)), int(float(report.get("seconds", 0.0)) / 60.0)],
-		"",
-		"Nessun dato viene inviato in rete.",
-	])
-	var recent: Array = report.get("events", [])
-	for index in range(maxi(0, recent.size() - 5), recent.size()):
-		var event: Dictionary = recent[index]
-		lines.append("L%d · %s · padronanza %.0f%%" % [int(event.get("level", 1)), str(event.get("subject", "")).capitalize(), float(event.get("mastery", 0.0)) * 100.0])
-	log_dialog.dialog_text = "\n".join(lines)
-	log_dialog.popup_centered()
-	var audio := get_node_or_null("/root/NativeAudio")
-	if audio != null:
-		audio.call("play", "panel.open")
+	var gate := controller.progression.current_gate()
+	knowledge_codex_panel.open_codex(str(gate.get("subject", "")), "", "ship")
+
+func _nora_integrity_ratio() -> float:
+	NoraState.sync_from_progress(save)
+	return NoraState.integrity(save)
+
+func _on_nora_learning_signal(signal_name: String) -> void:
+	NoraState.register(save, signal_name)
+	save.save()
 
 func _return_to_world() -> void:
 	save.save()
@@ -616,8 +761,13 @@ func _return_to_world() -> void:
 	get_tree().change_scene_to_file("res://scenes/outdoor_world.tscn")
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible:
+		return
 	if event.is_action_pressed("ui_cancel") and not exercise_player.visible:
-		_return_to_world()
+		if is_instance_valid(world_map_overlay) and world_map_overlay.visible:
+			_hide_world_map()
+		else:
+			_return_to_world()
 
 func _room_shader_material() -> ShaderMaterial:
 	var shader := Shader.new()

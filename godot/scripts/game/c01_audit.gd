@@ -66,8 +66,33 @@ func _play(session: Dictionary, answer_correct: bool) -> Dictionary:
 		if not (holder["result"] as Dictionary).is_empty():
 			break
 		var item: Dictionary = nodes[i]
-		var given := str(item["answer"]) if answer_correct else "__risposta_sbagliata__"
-		player._answer(given)
+		if answer_correct:
+			_solve_correct(player, item)
+		else:
+			player._answer("__risposta_sbagliata__")
 		player._advance()
 	player.queue_free()
 	return holder["result"]
+
+# Risolve correttamente il nodo secondo il suo FORMATO (l'esame è multi-formato:
+# scelta multipla/inserimento, abbinamento, ordinamento).
+func _solve_correct(player: ExercisePlayer, item: Dictionary) -> void:
+	match str(item.get("format", "multiple_choice")):
+		"matching":
+			var pairs: Array = item.get("pairs", [])
+			for i in pairs.size():
+				player._matching_left(i)
+				player._matching_right(str((pairs[i] as Dictionary).get("right", "")), item)
+		"ordering":
+			var items: Array = item.get("items", [])
+			var order: Array = item.get("correctOrder", [])
+			for expected in order:
+				var idx := -1
+				for k in items.size():
+					if str(items[k]) == str(expected):
+						idx = k
+						break
+				if idx >= 0:
+					player._ordering_click(idx, item)
+		_:
+			player._answer(str(item.get("answer", "")))

@@ -13,13 +13,29 @@ func _run() -> void:
 	current_scene = scene
 	await process_frame
 	var chunks: Dictionary = scene.get("chunks").get("loaded")
-	var origin: Dictionary = chunks["chunk-0_0"]["data"]
 	var player: Node = scene.get("player")
 	# C-16: il profilo Godot-root nasce con 0 energia. Il primo esercizio deve
 	# comunque aprirsi come ingresso di recupero, senza costo fantasma.
 	scene.get("game_save").data["energy"] = 0
+	# Isolamento del test (O-P0.4): lo stato persistente dei mondi ora ricorda
+	# incontri/tesori risolti. Un run precedente potrebbe averli marcati sul save
+	# di sviluppo; azzeriamo qui così missione e tesoro ripartono davvero freschi.
+	scene.get("game_save").data["worldProgress"] = {}
+	var fresh_result: Dictionary = scene.get("result")
+	fresh_result["completedEncounterIds"] = []
+	fresh_result["collectedTreasureIds"] = []
 
-	var treasure: Dictionary = origin["treasures"][0]
+	var treasure: Dictionary = {}
+	var already_collected: Array = scene.get("result").get("collectedTreasureIds", [])
+	for entry in chunks.values():
+		var available: Array = entry["data"].get("treasures", [])
+		for candidate in available:
+			if not already_collected.has(str(candidate.get("id", ""))):
+				treasure = candidate
+				break
+		if not treasure.is_empty():
+			break
+	assert(not treasure.is_empty(), "almeno un tesoro deve sopravvivere ai vincoli del WorldProfile")
 	var treasure_area := _find_area(scene, "treasure", str(treasure["id"]))
 	assert(treasure_area != null)
 	player.position = Vector2(treasure["x"], treasure["y"])
@@ -30,10 +46,15 @@ func _run() -> void:
 	assert(int(treasure_result["energyEarned"]) == 0)
 	assert(int(treasure_result["fragmentsEarned"]) > 0)
 
-	var encounter: Dictionary = origin["encounters"][0]
+	var encounter: Dictionary = {}
+	for event in scene.get("mission_events"):
+		if str(event.get("kind", "")) == "mission":
+			encounter = event
+			break
+	assert(not encounter.is_empty(), "il MissionEventDirector deve fornire una tappa ordinaria")
 	var encounter_area := _find_area(scene, "encounter", str(encounter["id"]))
 	assert(encounter_area != null)
-	player.position = Vector2(encounter["x"], encounter["y"])
+	player.position = encounter["position"]
 	scene.call("on_interactable_entered", encounter_area, player)
 	scene.call("_interact")
 	var exercise: ExercisePlayer = scene.get("exercise_player")
@@ -41,8 +62,8 @@ func _run() -> void:
 	assert(str(exercise.session.get("kind", "")) == "mission")
 	var mission_subject := str(exercise.session.get("subject", ""))
 	assert(ContentManager.BANKS.has(mission_subject), "l'incontro deve instradare una materia disponibile")
-	assert(mission_subject == str(scene.get("runtime").get("focusSubject", "")),
-		"l'incontro procedurale deve essere una missione della materia-focus")
+	assert(mission_subject == str(scene.get("world_profile").get("learningFocus", {}).get("subject", "")),
+		"l'evento deve mantenere la materia autorata dal WorldProfile")
 	var subject_missions_before := int(scene.get("game_save").missions_of(mission_subject))
 	var pending_result: Dictionary = scene.get("result")
 	assert(int(pending_result["energySpent"]) == 0, "ingresso di recupero gratuito a energia zero")

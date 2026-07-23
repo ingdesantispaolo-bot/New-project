@@ -60,6 +60,12 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 	var spawn: Vector2 = profile.get("spawn", ship + Vector2(0, 1180))
 	var half_extent := float(profile.get("worldHalfExtent", 2200.0))
 	var level := int(profile.get("level", 1))
+	if level == 2:
+		# L'Archivio è vegetale nei dettagli, ma la sua massa deve restare
+		# minerale/arcana: niente prato e girasoli della Radura come dominanti.
+		biomes = ["ruins", "crystal", "logic"]
+	var profile_id := str(profile.get("id", "world-%02d" % level))
+	data.visual_theme = "radura" if level == 1 else "archive" if level == 2 else str(profile.get("artKit", subject))
 	var rng := RandomNumberGenerator.new()
 	rng.seed = int(hash("%s::profile-composition::%d" % [seed, level]))
 	var phase := rng.randf_range(-0.35, 0.35)
@@ -80,24 +86,76 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		"width": 82.0,
 		"points": route,
 	}]
-	# Una seconda arteria usa la topologia/seed per dare una silhouette di
-	# navigazione diversa, mantenendo la rotta nave sempre autorata.
-	var cross_y := ship.y + 620.0 + float((level % 4) * 105)
-	var bend := rng.randf_range(-260.0, 260.0)
-	data.paths.append({
-		"id": "profile-topology-%s" % str(profile.get("topology", "aperta")),
-		"width": 58.0,
-		"points": PackedVector2Array([
-			ship + Vector2(-half_extent * 0.86, cross_y - ship.y + bend),
-			ship + Vector2(-half_extent * 0.34, cross_y - ship.y),
-			ship + Vector2(half_extent * 0.22, cross_y - ship.y - bend * 0.35),
-			ship + Vector2(half_extent * 0.84, cross_y - ship.y + bend * 0.22),
-		]),
-	})
+	if level == 1:
+		# Radura: percorso aperto e curvo che avvolge il prato centrale.
+		data.paths.append({
+			"id": "radura-learning-loop",
+			"width": 66.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1460, 840), ship + Vector2(-850, 620),
+				ship + Vector2(-260, 760), ship + Vector2(420, 650),
+				ship + Vector2(1060, 880), ship + Vector2(1510, 620),
+			]),
+		})
+		data.paths.append({
+			"id": "radura-crystal-spur",
+			"width": 48.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-260, 760), ship + Vector2(-620, 1180),
+				ship + Vector2(-980, 1450),
+			]),
+		})
+	elif level == 2:
+		# Archivio: sale collegate da assi e ponti. Il ritmo ortogonale è
+		# deliberatamente opposto alla radura organica.
+		data.paths.append({
+			"id": "archive-gallery-axis",
+			"width": 86.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1720, 720), ship + Vector2(-860, 720),
+				ship + Vector2(0, 720), ship + Vector2(860, 720),
+				ship + Vector2(1720, 720),
+			]),
+		})
+		data.paths.append({
+			"id": "archive-west-bridge",
+			"width": 62.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-860, 720), ship + Vector2(-860, 1180),
+				ship + Vector2(-1180, 1510),
+			]),
+		})
+		data.paths.append({
+			"id": "archive-east-bridge",
+			"width": 62.0,
+			"points": PackedVector2Array([
+				ship + Vector2(860, 720), ship + Vector2(860, 1160),
+				ship + Vector2(1180, 1510),
+			]),
+		})
+	else:
+		# Gli altri profili mantengono una seconda arteria deterministica finché
+		# ricevono la propria vertical slice nelle ondate C-P5.
+		var cross_y := ship.y + 620.0 + float((level % 4) * 105)
+		var bend := rng.randf_range(-260.0, 260.0)
+		data.paths.append({
+			"id": "profile-topology-%s" % str(profile.get("topology", "aperta")),
+			"width": 58.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-half_extent * 0.86, cross_y - ship.y + bend),
+				ship + Vector2(-half_extent * 0.34, cross_y - ship.y),
+				ship + Vector2(half_extent * 0.22, cross_y - ship.y - bend * 0.35),
+				ship + Vector2(half_extent * 0.84, cross_y - ship.y + bend * 0.22),
+			]),
+		})
 
 	# Acqua/profile dressing: sempre fuori dalla zona nave e mascherato dal
 	# corridoio sicuro in WorldCompositionData.water_weight().
-	if level % 2 == 0:
+	if level == 2:
+		# L'Archivio non riusa il fiume naturale: la separazione fra le sale è
+		# resa da pavimenti sospesi, foschia e ponti di parole.
+		data.waters = []
+	elif level % 2 == 0:
 		data.waters = [{
 			"id": "profile-stream-%d" % level,
 			"kind": "stream",
@@ -117,6 +175,34 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			"radii": Vector2(250, 170),
 		}]
 
+	if level == 1:
+		data.identity_regions = [
+			{"id": "radura-courtyard", "kind": "radura_clearing", "position": ship + Vector2(0, 720), "radii": Vector2(570, 330), "rotation": -0.05},
+			{"id": "radura-crystal-garden", "kind": "radura_garden", "position": ship + Vector2(-960, 1450), "radii": Vector2(310, 190), "rotation": 0.12},
+		]
+		data.identity_props = [
+			{"kind": "number_stone", "position": ship + Vector2(-520, 1010), "variant": 0.14},
+			{"kind": "number_stone", "position": ship + Vector2(520, 980), "variant": 0.48},
+			{"kind": "number_stone", "position": ship + Vector2(1050, 690), "variant": 0.82},
+		]
+	elif level == 2:
+		data.identity_regions = [
+			{"id": "archive-west-hall", "kind": "archive_room", "position": ship + Vector2(-900, 720), "radii": Vector2(430, 270), "rotation": -0.04},
+			{"id": "archive-central-hall", "kind": "archive_room", "position": ship + Vector2(0, 720), "radii": Vector2(510, 300), "rotation": 0.02},
+			{"id": "archive-east-hall", "kind": "archive_room", "position": ship + Vector2(900, 720), "radii": Vector2(430, 270), "rotation": 0.05},
+			{"id": "archive-west-vault", "kind": "archive_room", "position": ship + Vector2(-1180, 1510), "radii": Vector2(350, 235), "rotation": 0.08},
+			{"id": "archive-east-vault", "kind": "archive_room", "position": ship + Vector2(1180, 1510), "radii": Vector2(350, 235), "rotation": -0.08},
+		]
+		data.identity_props = [
+			{"kind": "archive_shelf", "position": ship + Vector2(-1220, 520), "variant": 0.12},
+			{"kind": "archive_shelf", "position": ship + Vector2(-610, 470), "variant": 0.37},
+			{"kind": "archive_shelf", "position": ship + Vector2(630, 470), "variant": 0.61},
+			{"kind": "archive_shelf", "position": ship + Vector2(1230, 520), "variant": 0.86},
+			{"kind": "archive_pillar", "position": ship + Vector2(-1080, 1040), "variant": 0.24},
+			{"kind": "archive_pillar", "position": ship + Vector2(1080, 1040), "variant": 0.74},
+			{"kind": "archive_scriptorium", "position": ship + Vector2(0, 1180), "variant": 0.52},
+		]
+
 	var safe_radius := float(profile.get("shipEntrance", {}).get("safeRadius", 340.0))
 	data.protected_zones = [{
 		"id": "ship-entrance",
@@ -133,4 +219,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		{"id": "spawn", "position": spawn, "radius": 180.0},
 		{"id": "hero-landmark", "position": ship + Vector2(690, -210), "radius": 170.0},
 	]
+	# Mantiene il seed semanticamente visibile negli strumenti di debug senza
+	# usarlo per prendere decisioni didattiche.
+	data.seed = "%s::%s" % [seed, profile_id]
 	return data

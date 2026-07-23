@@ -258,9 +258,12 @@ func _node(topic: String, difficulty: int, prompt: String, answer: int, distract
 		_shuffle(values, rng)
 		for value in values.slice(0, 4): options.append(str(value))
 	var signature := "%s|%s" % [topic, prompt]
+	# La difficoltà è una banda COARSE 1..4 (come i banchi): la complessità fine
+	# del generatore resta interna. Clamp per rispettare il contratto comune.
+	var band := clampi(difficulty, 1, 4)
 	return {
-		"id": "math-generated-%d-%d" % [difficulty, absi(signature.hash())],
-		"subject": "matematica", "topic": topic, "difficulty": difficulty,
+		"id": "math-generated-%d-%d" % [band, absi(signature.hash())],
+		"subject": "matematica", "topic": topic, "difficulty": band,
 		"format": "multiple_choice" if multiple_choice else "numeric_input",
 		"prompt": prompt, "options": options, "answer": str(answer),
 		"explanation": explanation, "signature": signature,

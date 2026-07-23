@@ -97,8 +97,9 @@ func _play(session: Dictionary, answer_correct: bool) -> Dictionary:
 		if not (holder["result"] as Dictionary).is_empty():
 			break
 		var item: Dictionary = nodes[i]
-		var given := str(item["answer"]) if answer_correct else "__risposta_sbagliata__"
-		player._answer(given)
+		# Le missioni live sono multi-formato (O-P3): qui interessa l'esito e la
+		# conseguente voce di NORA, non ripetere il test di ogni renderer.
+		player._score_current(answer_correct, item)
 		player._advance()
 	player.queue_free()
 	return holder["result"]

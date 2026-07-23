@@ -1,6 +1,9 @@
 class_name ProgressionManager
 extends RefCounted
 
+const KnowledgeCodex = preload("res://scripts/game/knowledge_codex.gd")
+const NoraState = preload("res://scripts/game/nora_state.gd")
+
 ## Logica di progressione: registra l'esito delle missioni (padronanza + evidenza
 ## cumulativa + energia), valuta la readiness del gate a 4 dimensioni
 ## (GateReadiness) e ripara l'apparato facendo salire di livello SENZA azzerare il
@@ -51,6 +54,15 @@ func record_topic_stats(subject: String, topic_stats: Dictionary) -> void:
 		var prev: float = float(save.topic_mastery_of(subject, str(topic)))
 		var updated: float = accuracy if prev < 0.0 else lerpf(prev, accuracy, 0.34)
 		save.set_topic_mastery(subject, str(topic), updated)
+		# Manuale NORA (O-P4): avanza lo stato di conoscenza dell'argomento e nutre
+		# la fiducia sul MIGLIORAMENTO (non sulla singola risposta giusta).
+		KnowledgeCodex.advance_state(save, subject, str(topic), "seen")
+		if accuracy >= 0.5:
+			KnowledgeCodex.advance_state(save, subject, str(topic), "correct")
+		if updated >= 0.85:
+			KnowledgeCodex.advance_state(save, subject, str(topic), "consolidated")
+		if prev >= 0.0 and updated > prev + 0.05:
+			NoraState.register(save, "improvement")
 
 func current_gate() -> Dictionary:
 	return ApparatusConfig.level_gate(save.level())
@@ -102,8 +114,9 @@ func repair_and_advance(exam_passed: bool) -> bool:
 		return false
 	var gate := current_gate()
 	save.set_apparatus_repaired(str(gate["apparatus"]), save.level())
+	NoraState.sync_from_progress(save)
 	save.consume_gate(str(gate["subject"]))
-	var next_level := save.level() + 1
+	var next_level: int = int(save.level()) + 1
 	save.set_level(next_level)
 	# Sblocca e rende corrente il nuovo mondo (O-P1); oltre la scala non si sblocca.
 	if next_level <= ApparatusConfig.MAX_LEVEL:

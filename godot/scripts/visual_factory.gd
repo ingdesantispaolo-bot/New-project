@@ -736,6 +736,94 @@ static func build_academy_bridge() -> Node2D:
 # Landmark
 # ---------------------------------------------------------------------------
 
+## Props identitari dei WorldProfile. Sono silhouette di scena, non POI:
+## nessuna logica didattica o ricompensa viene decisa qui.
+static func build_identity_prop(kind: String, _theme: String, variant: float = 0.5) -> Node2D:
+	var root := Node2D.new()
+	match kind:
+		"archive_shelf":
+			root.add_child(make_shadow(72, 14, 0.36, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-66, -112), Vector2(66, -112), Vector2(61, 4), Vector2(-61, 4),
+			]), Color("302a3e")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-58, -104), Vector2(57, -104), Vector2(53, -7), Vector2(-54, -7),
+			]), Color("57455a")))
+			for shelf_y in [-80.0, -52.0, -24.0]:
+				root.add_child(make_polygon(PackedVector2Array([
+					Vector2(-60, shelf_y), Vector2(58, shelf_y),
+					Vector2(58, shelf_y + 5), Vector2(-60, shelf_y + 5),
+				]), Color("c09a63")))
+				for index in range(7):
+					var x := -52.0 + float(index) * 16.0
+					var book_height := 14.0 + fmod(float(index) * 5.0 + variant * 17.0, 10.0)
+					var colors := [Color("d8c69a"), Color("7585ad"), Color("9b6f83"), Color("5f9a8a")]
+					root.add_child(make_polygon(PackedVector2Array([
+						Vector2(x, shelf_y - book_height), Vector2(x + 10, shelf_y - book_height),
+						Vector2(x + 10, shelf_y - 1), Vector2(x, shelf_y - 1),
+					]), colors[(index + roundi(variant * 3.0)) % colors.size()]))
+			var shelf_glow := make_glow(34, Color("8ea9ff"), 0.30)
+			shelf_glow.position = Vector2(0, -54)
+			shelf_glow.add_to_group("night_glow")
+			root.add_child(shelf_glow)
+			attach_anim(shelf_glow, "pulse", 0.75 + variant * 0.4, 0.7)
+		"archive_pillar":
+			root.add_child(make_shadow(31, 11, 0.34, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-22, -82), Vector2(22, -82), Vector2(18, 4), Vector2(-18, 4),
+			]), Color("54566d")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-29, -91), Vector2(29, -91), Vector2(25, -78), Vector2(-25, -78),
+			]), Color("8b8190")))
+			for y in [-69.0, -46.0, -23.0]:
+				root.add_child(make_polygon(PackedVector2Array([
+					Vector2(-11, y - 7), Vector2(0, y - 11), Vector2(11, y - 7),
+					Vector2(8, y + 5), Vector2(-8, y + 5),
+				]), Color(0.72, 0.78, 0.96, 0.20)))
+			var page_glow := make_glow(31, Color("c8d3ff"), 0.68)
+			page_glow.position = Vector2(0, -101)
+			page_glow.add_to_group("night_glow")
+			root.add_child(page_glow)
+			attach_anim(page_glow, "pulse", 1.2 + variant * 0.4, 0.8)
+			for offset in [Vector2(-28, -112), Vector2(25, -122), Vector2(5, -138)]:
+				var page := make_polygon(PackedVector2Array([
+					Vector2(-7, -4), Vector2(7, -3), Vector2(6, 5), Vector2(-7, 4),
+				]), Color("e7dec4"), offset)
+				page.rotation = (offset.x + variant * 30.0) * 0.012
+				root.add_child(page)
+		"archive_scriptorium":
+			root.add_child(make_shadow(54, 16, 0.34, 7))
+			root.add_child(make_polygon(ellipse_polygon(50, 20, 24), Color("3a3044"), Vector2(0, -8)))
+			root.add_child(make_polygon(ellipse_polygon(44, 16, 24), Color("9b7652"), Vector2(0, -13)))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-36, -35), Vector2(-2, -42), Vector2(0, -15), Vector2(-34, -10),
+			]), Color("e2d4ad")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(2, -42), Vector2(36, -34), Vector2(34, -10), Vector2(0, -15),
+			]), Color("d4c49d")))
+			var ink := make_glow(18, Color("8aa6ff"), 0.46)
+			ink.position = Vector2(0, -28)
+			ink.add_to_group("night_glow")
+			root.add_child(ink)
+			attach_anim(ink, "pulse", 0.9, 0.8)
+		"number_stone":
+			root.add_child(make_shadow(34, 11, 0.28, 6))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-27, -45), Vector2(-17, -59), Vector2(20, -56),
+				Vector2(29, -37), Vector2(23, 4), Vector2(-23, 4),
+			]), Color("59634d")))
+			var count := 2 + int(floor(variant * 4.0))
+			for index in range(count):
+				var x := (float(index) - float(count - 1) * 0.5) * 10.0
+				var bead := make_glow(9, Color("f6cf65"), 0.72)
+				bead.position = Vector2(x, -28)
+				bead.add_to_group("night_glow")
+				root.add_child(bead)
+				attach_anim(bead, "pulse", 0.7 + float(index) * 0.12, 0.55)
+		_:
+			root.add_child(make_polygon(circle_polygon(18, 8), Color("6be7d6")))
+	return root
+
 static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node2D:
 	var root := Node2D.new()
 	var accent := hex_color(accent_rgb)

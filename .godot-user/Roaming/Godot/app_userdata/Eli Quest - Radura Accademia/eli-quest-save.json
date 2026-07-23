@@ -1,134 +1,68 @@
 {
-	"apparatus": {
-		"nucleo": {
-			"repairedLevel": 1.0
-		}
+	"apparatus": {},
+	"codex": {
+		"matematica:problemi": "encountered",
+		"matematica:tabelline": "encountered"
+	},
+	"codexUi": {
+		"favorites": []
 	},
 	"cosmetics": {
-		"equipped": {
-			"bot": "bot-lime",
-			"emblem": "emblem-star"
-		},
+		"equipped": {},
 		"inventory": [],
-		"unlocked": [
-			"bot-lime",
-			"emblem-star"
-		]
+		"unlocked": []
 	},
 	"daily": {
 		"date": "",
 		"missions": 0.0,
 		"streak": 0.0
 	},
-	"energy": 197.0,
+	"energy": 0.0,
 	"fragments": 0.0,
 	"gateConsumed": {},
 	"level": 1,
-	"mastery": {
-		"matematica": 0.7
-	},
-	"masteryByTopic": {
-		"matematica:a": 0.7,
-		"matematica:audit-a": 1.0,
-		"matematica:audit-b": 1.0,
-		"matematica:audit-c": 1.0,
-		"matematica:b": 0.7,
-		"matematica:c": 0.7
-	},
-	"missionsBySubject": {
-		"matematica": 5.0
-	},
+	"mastery": {},
+	"masteryByTopic": {},
+	"missionsBySubject": {},
 	"modules": {
 		"equipped": [],
 		"owned": []
 	},
 	"narrative": {
 		"beats": {
-			"1": "NORA: La Radura Accademia è il primo passo. Ogni esercizio accende una parte della nave.",
-			"2": "NORA: Il Nucleo risponde. La tua costanza trasforma energia in conoscenza."
+			"1": "NORA: Radura Accademia. Sento di nuovo i numeri: ogni tabellina che padroneggi riaccende una scheda del mio Nucleo. Comincia da qui."
 		},
 		"seen": [
-			"2",
 			"1"
 		]
 	},
+	"nora": {
+		"integrity": 0.0,
+		"memory": 0,
+		"trust": 0.5
+	},
 	"playerId": "local",
 	"progressReport": {
-		"events": [
-			{
-				"level": 1.0,
-				"mastery": 0.25,
-				"missions": 1.0,
-				"seconds": 0.007,
-				"subject": "matematica"
-			},
-			{
-				"level": 1.0,
-				"mastery": 0.4375,
-				"missions": 1.0,
-				"seconds": 0.001,
-				"subject": "matematica"
-			},
-			{
-				"level": 1.0,
-				"mastery": 0.578125,
-				"missions": 1.0,
-				"seconds": 0.001,
-				"subject": "matematica"
-			},
-			{
-				"level": 1.0,
-				"mastery": 0.68359375,
-				"missions": 1.0,
-				"seconds": 0.001,
-				"subject": "matematica"
-			},
-			{
-				"level": 1.0,
-				"mastery": 0.7626953125,
-				"missions": 1.0,
-				"seconds": 0.001,
-				"subject": "matematica"
-			},
-			{
-				"level": 1.0,
-				"mastery": 0.822021484375,
-				"missions": 1.0,
-				"seconds": 0.001,
-				"subject": "matematica"
-			},
-			{
-				"level": 1.0,
-				"mastery": 0.7,
-				"missions": 1.0,
-				"seconds": 1.0,
-				"subject": "matematica"
-			},
-			{
-				"level": 1.0,
-				"mastery": 0.0,
-				"missions": 0.0,
-				"seconds": 0.0,
-				"subject": "matematica"
-			}
-		]
+		"events": []
 	},
 	"schemaVersion": 2,
 	"spacedRepetition": {
 		"history": [],
 		"schedule": {},
-		"sessionClock": 1.0
+		"sessionClock": 0.0
 	},
 	"worldProgress": {
 		"1": {
 			"clearedHazardIds": [],
 			"collectedTreasureIds": [],
-			"completedEncounterIds": []
-		},
-		"2": {
-			"clearedHazardIds": [],
-			"collectedTreasureIds": [],
-			"completedEncounterIds": []
+			"completedEncounterIds": [],
+			"resume": {}
 		}
+	},
+	"worlds": {
+		"current": 1,
+		"unlocked": [
+			1
+		]
 	}
 }

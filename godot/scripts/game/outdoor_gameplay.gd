@@ -41,6 +41,10 @@ const ENCOUNTER_SUBJECT_FALLBACK := {
 signal runtime_state_changed(state: Dictionary)  # stato aggiornato (evento-driven)
 signal session_requested(session: Dictionary)    # la scena mostra l'ExercisePlayer
 signal feedback(message: String)                 # messaggio testuale per l'HUD
+## Stesso messaggio con provenienza esplicita. `feedback` resta per consumer
+## legacy (bottega/audit); la scena usa questo per non far pronunciare a NORA
+## errori tecnici, costi o messaggi di sistema.
+signal feedback_presented(message: String, source: String)
 ## Progresso dell'enigma ambientale per la resa (Codex): `built` campate costruite
 ## su `total`, con `theme` (ponte/porta/…) ed `encounter_id` per instradare
 ## l'aggiornamento al POI giusto quando più enigmi coesistono nel mondo (con un
@@ -63,6 +67,10 @@ var result: Dictionary                           # delta della sessione mondo co
 var active_session_context: Dictionary = {}
 var base_fragments := 0
 var current_phase := "giorno"
+
+func _present_feedback(message: String, source: String = "system") -> void:
+	feedback.emit(message)
+	feedback_presented.emit(message, source)
 
 func setup(request: Dictionary, session_result: Dictionary, load_local_save: bool = true) -> void:
 	result = session_result
@@ -93,9 +101,11 @@ func setup(request: Dictionary, session_result: Dictionary, load_local_save: boo
 	game_save.save()
 	_emit_state()
 
-# ID del mondo corrente nel save persistente: un mondo per livello (mappa dei 24).
+# ID del mondo visitato nel save persistente. È distinto dal rango `level`:
+# dalla nave si può tornare in un mondo già sbloccato senza contaminare incontri,
+# tesori o posizione della frontiera didattica corrente.
 func _world_id() -> String:
-	return str(game_save.level())
+	return str(game_save.current_world())
 
 # Fonde nel `result` di sessione gli id già risolti nel save canonico del mondo.
 func _hydrate_world_progress() -> void:
@@ -165,7 +175,7 @@ func apparatus_prompt() -> String:
 	if bool(progress.get("complete", false)):
 		return "Nave completamente riattivata · tutti i 24 nodi sono online"
 	if bool(progress.get("ready", false)):
-		return "Premi E per affrontare l'esame finale del Nucleo"
+		return "Interagisci con il Nucleo per affrontare l'esame finale"
 	return "Nucleo: %d/%d missioni · padronanza %.0f%%/%.0f%%" % [
 		int(progress.get("missionsDone", 0)), int(progress.get("missionsRequired", 0)),
 		float(progress.get("mastery", 0.0)) * 100.0, float(progress.get("masteryThreshold", 0.0)) * 100.0]
@@ -178,16 +188,19 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	if session_active():
 		return false
 	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
-		feedback.emit("Incontro già completato.")
+		_present_feedback("Incontro già completato.", "system")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := content_manager.build_mission(subject, game_save.level(), 3, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
+	# C-P3: il percorso live usa il mix validato da O-P3. I renderer emettono
+	# soltanto l'esito del contratto comune; scoring/mastery restano qui e
+	# nell'ExercisePlayer.
+	var session := content_manager.build_varied_mission(subject, game_save.level(), 3, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
-		feedback.emit("Banco esercizi non disponibile per %s." % subject)
+		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
 	_charge_exercise_entry()
 	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject}
-	feedback.emit(NoraContextEngine.open_line(subject, _has_review_node(session)))
+	_present_feedback(NoraContextEngine.open_line(subject, _has_review_node(session)), "nora")
 	session_requested.emit(session)
 	_emit_state()
 	return true
@@ -199,17 +212,17 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	if session_active():
 		return false
 	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
-		feedback.emit("Enigma già risolto.")
+		_present_feedback("Enigma già risolto.", "system")
 		return false
 	var subject := _subject_for_payload(payload)
 	var session := content_manager.build_enigma(subject, game_save.level(), 4, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
-		feedback.emit("Banco esercizi non disponibile per %s." % subject)
+		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
 	_charge_exercise_entry()
 	var theme := str(session.get("theme", "ponte"))
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
-	feedback.emit(NoraContextEngine.open_line(subject, _has_review_node(session)))
+	_present_feedback(NoraContextEngine.open_line(subject, _has_review_node(session)), "nora")
 	session_requested.emit(session)
 	# Stato iniziale della costruzione (0 campate) così la resa parte da "rotto".
 	enigma_progress.emit(0, int(session.get("stages", session.get("nodes", []).size())), theme, encounter_id)
@@ -223,16 +236,16 @@ func try_start_minigame(payload: Dictionary, encounter_id: String) -> bool:
 	if session_active():
 		return false
 	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
-		feedback.emit("Minigioco già completato.")
+		_present_feedback("Minigioco già completato.", "system")
 		return false
 	var subject := _subject_for_payload(payload)
 	var session := minigame_manager.build_minigame(subject, game_save.level())
 	if Array(session.get("nodes", [])).is_empty():
-		feedback.emit("Minigioco non disponibile per %s." % subject)
+		_present_feedback("Minigioco non disponibile per %s." % subject, "system")
 		return false
 	_charge_exercise_entry()
 	active_session_context = {"kind": "minigame", "encounterId": encounter_id, "subject": subject}
-	feedback.emit(NoraContextEngine.open_line(subject, false))
+	_present_feedback(NoraContextEngine.open_line(subject, false), "nora")
 	session_requested.emit(session)
 	_emit_state()
 	return true
@@ -255,7 +268,7 @@ func try_start_final_exam() -> bool:
 	var subject := str(gate.get("subject", "matematica"))
 	var session := content_manager.build_final_exam(subject, game_save.level(), 3, null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
-		feedback.emit("Esame non disponibile.")
+		_present_feedback("Esame non disponibile.", "system")
 		return false
 	_charge_exercise_entry()
 	active_session_context = {"kind": "final_exam", "subject": subject, "apparatus": str(gate.get("apparatus", "nucleo"))}
@@ -300,9 +313,9 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	if kind == "minigame":
 		# Pratica: nessun gate, nessun completamento persistente → rigiocabile.
 		if passed:
-			feedback.emit("%s +%d energia · pratica completata" % [nora_voice.line("solve"), gained])
+			_present_feedback("%s +%d energia · pratica completata" % [nora_voice.line("solve"), gained], "nora")
 		else:
-			feedback.emit(nora_voice.line("defeat"))
+			_present_feedback(nora_voice.line("defeat"), "nora")
 	elif kind == "mission" or kind == "enigma":
 		var encounter_id := str(context.get("encounterId", ""))
 		if passed and encounter_id != "":
@@ -317,25 +330,25 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			# resta alle campate raggiunte e la scena la ripristina alla ripetizione.
 			if passed:
 				enigma_progress.emit(total, total, str(context.get("theme", "ponte")), str(context.get("encounterId", "")))
-				feedback.emit("%s +%d energia" % [nora_voice.line("solve"), gained])
+				_present_feedback("%s +%d energia" % [nora_voice.line("solve"), gained], "nora")
 			else:
-				feedback.emit(nora_voice.line("defeat"))
+				_present_feedback(nora_voice.line("defeat"), "nora")
 		else:
 			if passed:
-				feedback.emit("%s +%d energia · padronanza aggiornata" % [nora_voice.line("solve"), gained])
+				_present_feedback("%s +%d energia · padronanza aggiornata" % [nora_voice.line("solve"), gained], "nora")
 			else:
-				feedback.emit(nora_voice.line("defeat"))
+				_present_feedback(nora_voice.line("defeat"), "nora")
 	else:
 		if passed and progression_manager.repair_and_advance(true):
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
 			_award_fragments(4)
-			feedback.emit("%s Livello %d." % [nora_voice.line("victory"), game_save.level()])
+			_present_feedback("%s Livello %d." % [nora_voice.line("victory"), game_save.level()], "nora")
 			current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
 		elif passed:
-			feedback.emit("Il gate non è più disponibile: riprova le missioni richieste.")
+			_present_feedback("Il gate non è più disponibile: riprova le missioni richieste.", "system")
 		else:
-			feedback.emit(nora_voice.line("defeat"))
+			_present_feedback(nora_voice.line("defeat"), "nora")
 	game_save.save()
 	_emit_state()
 
@@ -348,17 +361,17 @@ func resolve_session(exercise_result: Dictionary) -> void:
 func try_purchase_cosmetic(id: String) -> bool:
 	if not reward_manager.can_afford(id):
 		var reason := reward_manager.unavailable_reason(id)
-		feedback.emit(reason if reason != "" else "Cosmetico non disponibile.")
+		_present_feedback(reason if reason != "" else "Cosmetico non disponibile.", "system")
 		return false
 	var cosmetic := RewardCatalog.find(id)
 	var cost := int(cosmetic.get("cost", 0))
 	if not game_save.spend_energy(cost):
-		feedback.emit("Energia insufficiente per \"%s\"." % str(cosmetic.get("name", id)))
+		_present_feedback("Energia insufficiente per \"%s\"." % str(cosmetic.get("name", id)), "system")
 		return false
 	result["energySpent"] = int(result.get("energySpent", 0)) + cost
 	reward_manager.unlock_and_equip(id)
 	game_save.save()
-	feedback.emit("Acquistato: %s" % str(cosmetic.get("name", id)))
+	_present_feedback("Acquistato: %s" % str(cosmetic.get("name", id)), "system")
 	_emit_state()
 	return true
 

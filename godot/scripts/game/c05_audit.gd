@@ -19,14 +19,17 @@ func _init() -> void:
 		assert(str(gate["subject"]) != "")
 		assert(str(gate["apparatus"]) != "")
 	var save := GameSaveManager.new()
-	var progression := ProgressionManager.new(save)
+	var progression := ProgressionManager.new(save, content)
 	save.set_level(1)
 	for _i in range(5):
 		progression.record_mission("matematica", 3, 3, 10, true)
+		# Evidenza per-argomento: alimenta la dimensione COPERTURA del gate.
+		progression.record_topic_stats("matematica", {"tabelline": {"seen": 3, "correct": 3}})
 	assert(progression.can_repair())
 	assert(progression.repair_and_advance(true))
 	assert(save.level() == 2)
-	assert(save.missions_of("matematica") == 0)
+	# Cumulativo preservato; azzerato solo il progresso-verso-gate (gate consumato).
+	assert(save.missions_toward_gate("matematica") == 0)
 	assert(save.data["apparatus"]["nucleo"]["repairedLevel"] == 1)
 	print("C-05 audit OK — 12 materie, gate livelli 1/2/6/12/20/24 e reset apparato")
 	quit(0)

@@ -29,7 +29,9 @@ Il verbo centrale non è *rispondere*, è **esplorare-conquistare-crescere**.
 attuale**; **dentro** (la nave) si riparano gli **apparati** superando un
 **esercizio finale** per ogni livello. Progressione lunga: **almeno 20 livelli**.
 Riparare un apparato richiede padronanza della materia **e** un certo numero di
-missioni di quella materia svolte all'esterno. Dettaglio in
+missioni di quella materia svolte all'esterno. Ogni livello completato riattiva
+una parte della nave e sblocca un **nuovo mondo esterno**, con identità grafica,
+tema, topologia, atmosfera e grammatica di missione proprie. Dettaglio in
 [DESIGN_COMPLETO.md](DESIGN_COMPLETO.md).
 
 ## I 5 pilastri
@@ -46,8 +48,29 @@ missioni di quella materia svolte all'esterno. Dettaglio in
    puoi fallire e ripetere la missione) — mai una penalità distruttiva.
 4. **L'energia è potere reale.** Guadagnata solo svolgendo missioni, spesa per
    potenziare Eli (moduli, compagni) e per esprimersi (estetica).
-5. **Un solo mondo, un solo motore.** Esperienza continua e senza cuciture:
+5. **Un solo universo, molti mondi, un solo motore.** Ogni livello apre un
+   mondo esterno diverso, ma l'esperienza resta continua e senza cuciture:
    **full Godot** (vedi decisione sotto).
+
+## Decisioni vincolanti 2026-07-23
+
+1. **Un mondo per livello.** I 24 livelli della campagna sbloccano 24 mondi
+   esterni distinti e rivisitabili. Un mondo non può essere soltanto una palette
+   diversa: deve cambiare almeno composizione, materiali/vegetazione o
+   architettura, luce/meteo, landmark principale, soundscape e tipo di missioni.
+2. **Minigiochi dentro le missioni.** Le attività oggi chiamate "Palestre"
+   diventano eventi casuali trovati durante l'esplorazione o tappe di una
+   missione. Non restano un menu o una stazione fissa da farmare.
+3. **Ingresso nave deterministico.** Ogni mondo possiede un ingresso al Relitto
+   in una posizione autorata, sicura, sempre raggiungibile e mai affidata alla
+   generazione procedurale. È il riferimento visivo e navigazionale del livello.
+4. **Manuale NORA.** I concetti importanti hanno spiegazioni brevi, esempi,
+   errori tipici e dimostrazioni consultabili. NORA li introduce nel contesto e
+   li archivia in un manuale accessibile dalla nave e dal mondo.
+5. **Interazioni oltre la scelta multipla.** La scelta multipla resta utile per
+   diagnosi e controlli rapidi, ma non è il formato dominante. Manipolazione,
+   costruzione, ordinamento, abbinamento, mappe, grafici, circuiti, codice e
+   simulazioni devono trasformare la conoscenza in azione.
 
 ## North-star metric
 
@@ -66,11 +89,12 @@ Piano e architettura in [ARCHITETTURA_FULL_GODOT.md](ARCHITETTURA_FULL_GODOT.md)
 
 ## Ambientazione in breve
 
-- **Il Relitto dei Primi**: nave-mondo antica incagliata su un pianeta di biomi,
+- **Il Relitto dei Primi**: nave-mondo antica che permette di raggiungere mondi
+  esterni progressivamente riaperti, ognuno con un'identità visiva e narrativa,
   stile grafico *Animal Crossing* (caldo, luminoso, ricco, leggibile, costruito
   attorno a punti focali). **Dentro** = la nave con gli **apparati** da riparare
-  (gli esami finali); **fuori** = il **pianeta procedurale** dove si svolgono
-  **tutte le missioni**.
+  (gli esami finali); **fuori** = i **mondi-livello** dove si svolgono tutte le
+  missioni.
 - **NORA**: la mente della nave, frammentata all'inizio, guida e narratrice che
   torna cosciente man mano che Eli ripara gli apparati.
 - **Eli**: l'esploratrice-robot giocante; cresce di livello (1 → 20+), si

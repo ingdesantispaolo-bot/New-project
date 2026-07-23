@@ -19,8 +19,15 @@ func _run() -> void:
 	for _index in int(gate["missionsRequired"]):
 		save.add_mission(str(gate["subject"]))
 	save.set_mastery(str(gate["subject"]), float(gate["masteryThreshold"]))
+	# Il gate P0 usa quattro dimensioni: oltre a confidenza e accuratezza,
+	# l'audit deve preparare anche una copertura reale di topic. La ritenzione è
+	# soddisfatta perché il save nuovo non contiene ripassi arretrati.
+	for topic in ["audit-a", "audit-b", "audit-c"]:
+		save.set_topic_mastery(str(gate["subject"]), topic, 1.0)
 	var controller: HubController = hub.get("controller")
 	controller.refresh()
+	assert(controller.progression.can_repair(),
+		"fixture nave incompleta: il gate a quattro dimensioni non è pronto")
 	await hub.call("_on_exam_finished", {
 		"passed": true,
 		"subject": str(gate["subject"]),

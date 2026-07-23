@@ -34,7 +34,9 @@ static func activation_for_room(save, room_id: String) -> Dictionary:
 	if save.level() <= ApparatusConfig.MAX_LEVEL \
 	and ShipRoomCatalog.room_for_apparatus(str(current_gate.get("apparatus", ""))) == room_id:
 		var subject := str(current_gate.get("subject", "matematica"))
-		var mission_ratio := clampf(float(save.missions_of(subject)) / float(maxi(1, int(current_gate.get("missionsRequired", 1)))), 0.0, 1.0)
+		# Progresso VERSO il gate corrente (non il cumulativo): a un ciclo successivo
+		# il nodo non deve apparire già pieno per il lavoro del ciclo precedente.
+		var mission_ratio := clampf(float(save.missions_toward_gate(subject)) / float(maxi(1, int(current_gate.get("missionsRequired", 1)))), 0.0, 1.0)
 		var mastery_ratio := clampf(save.mastery_of(subject) / maxf(0.001, float(current_gate.get("masteryThreshold", 0.7))), 0.0, 1.0)
 		# Il gate pronto arriva all'85% della propria tacca: l'ultimo impulso viene
 		# concesso soltanto dall'esame superato.

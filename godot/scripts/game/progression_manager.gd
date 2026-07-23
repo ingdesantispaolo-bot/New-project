@@ -1,17 +1,24 @@
 class_name ProgressionManager
 extends RefCounted
 
-## Logica di progressione: registra l'esito delle missioni (padronanza + conteggio
-## + energia), verifica il gate del livello e ripara l'apparato facendo salire di
-## livello. Vedi docs/DESIGN_COMPLETO.md §1–2.
+## Logica di progressione: registra l'esito delle missioni (padronanza + evidenza
+## cumulativa + energia), valuta la readiness del gate a 4 dimensioni
+## (GateReadiness) e ripara l'apparato facendo salire di livello SENZA azzerare il
+## lavoro svolto. Vedi docs/DESIGN_COMPLETO.md §1–2 e O-P0 in insieme.md.
 
 var save  # GameSaveManager
+var content  # ContentManager opzionale: serve alla dimensione COPERTURA (numero
+             # di argomenti che la materia può proporre). Se null, la copertura
+             # ripiega sul minimo assoluto (retro-compatibile con audit/probe).
 
-func _init(save_manager) -> void:
+func _init(save_manager, content_manager = null) -> void:
 	save = save_manager
+	content = content_manager
 
-# Registra l'esito di una missione esterna. Aggiorna conteggio (se superata),
-# padronanza (media mobile verso l'accuratezza) ed energia.
+# Registra l'esito di una missione esterna. Aggiorna evidenza cumulativa (se
+# superata), padronanza (media mobile verso l'accuratezza) ed energia. Il
+# conteggio è CUMULATIVO e non viene mai azzerato: il progresso verso il gate è
+# la differenza con quanto già consumato (vedi GameSaveManager).
 func record_mission(subject: String, correct: int, total: int, energy_gained: int, session_passed: bool = true) -> void:
 	var accuracy := float(correct) / float(maxi(total, 1))
 	if session_passed and accuracy >= 0.5:
@@ -21,7 +28,7 @@ func record_mission(subject: String, correct: int, total: int, energy_gained: in
 		save.add_energy(energy_gained)
 
 # PRATICA ripetibile (minigiochi): allena padronanza ed energia SENZA contare per
-# il gate dell'apparato (nessun add_mission) — così la Palestra è rigiocabile e
+# il gate dell'apparato (nessun add_mission) — così la pratica è rigiocabile e
 # non farma i requisiti di riparazione. La mastery per-topic si aggiorna a parte
 # con record_topic_stats, come per le missioni.
 func record_practice(subject: String, correct: int, total: int, energy_gained: int) -> void:
@@ -51,37 +58,51 @@ func current_gate() -> Dictionary:
 func is_complete() -> bool:
 	return save.level() > ApparatusConfig.MAX_LEVEL
 
+# Numero di argomenti che la materia corrente può proporre (dal banco), o -1 se
+# non è disponibile un ContentManager. Alimenta la dimensione COPERTURA del gate.
+func _total_topics(subject: String) -> int:
+	if content == null:
+		return -1
+	return content.subject_topic_count(subject)
+
+# Readiness completa del gate del livello corrente (4 dimensioni, GateReadiness).
+func readiness() -> Dictionary:
+	var gate := current_gate()
+	return GateReadiness.evaluate(save, gate, _total_topics(str(gate["subject"])))
+
 # Requisiti soddisfatti per riparare l'apparato del livello corrente?
 func can_repair() -> bool:
 	if is_complete():
 		return false
-	var gate := current_gate()
-	var subject := str(gate["subject"])
-	return save.missions_of(subject) >= int(gate["missionsRequired"]) \
-		and save.mastery_of(subject) >= float(gate["masteryThreshold"])
+	return bool(readiness()["ready"])
 
 func repair_progress() -> Dictionary:
-	# Utile all'HUD: quanto manca al prossimo apparato.
+	# Utile all'HUD: quanto manca al prossimo apparato. Include le 4 dimensioni.
 	var gate := current_gate()
 	var subject := str(gate["subject"])
+	var r := readiness()
 	return {
 		"subject": subject,
 		"apparatus": str(gate["apparatus"]),
-		"missionsDone": save.missions_of(subject),
+		"missionsDone": save.missions_toward_gate(subject),
 		"missionsRequired": int(gate["missionsRequired"]),
 		"mastery": save.mastery_of(subject),
 		"masteryThreshold": float(gate["masteryThreshold"]),
-		"ready": can_repair(),
+		"ready": bool(r["ready"]),
 		"complete": is_complete(),
+		# Dimensioni del gate (lette da HUD/marker, non ricalcolate).
+		"readiness": r,
 	}
 
-# Ripara l'apparato (esercizio finale superato) e avanza di livello.
+# Ripara l'apparato (esercizio finale superato) e avanza di livello. NON azzera il
+# conteggio missioni: segna come consumate quelle correnti della materia, così il
+# lavoro resta e la prossima ricomparsa della materia richiede missioni nuove.
 func repair_and_advance(exam_passed: bool) -> bool:
 	if not can_repair() or not exam_passed:
 		return false
 	var gate := current_gate()
 	save.set_apparatus_repaired(str(gate["apparatus"]), save.level())
+	save.consume_gate(str(gate["subject"]))
 	save.set_level(save.level() + 1)
-	save.reset_missions()
 	save.add_energy(80)
 	return true

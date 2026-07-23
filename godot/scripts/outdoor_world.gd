@@ -2,6 +2,8 @@ extends Node2D
 
 const PORTAL_POSITION := Vector2(448, 300)
 const INTERACTION_DISTANCE := 88.0
+const TOUCH_POI_RADIUS := 104.0
+const TOUCH_APPROACH_DISTANCE := 58.0
 const DAY_LENGTH := 120.0
 const PORTAL_VISUAL := preload("res://scripts/portal_visual.gd")
 const EXERCISE_ENERGY_COST := 3
@@ -30,6 +32,9 @@ var nora_portrait: Control
 var phase_label: Label
 var biome_label: Label
 var objective_label: Label
+var ship_navigation_label: Label
+var guide_button: Button
+var interaction_button: Button
 var portal: Node2D
 var camera: Camera2D
 var fireflies: CPUParticles2D
@@ -46,7 +51,6 @@ var reward_bar: ProgressBar
 var reward_remaining_label: Label
 var exercise_player: ExercisePlayer
 var shop_panel: Control
-var apparatus_terminal: Area2D
 var reward_cost := 0
 var reward_name := ""
 var gameplay: OutdoorGameplay
@@ -58,6 +62,7 @@ var progression_manager: ProgressionManager
 var content_manager: ContentManager
 var gain_popup_pool: Array[Label] = []
 var applied_cosmetic_signature := ""
+var pending_touch_interaction: Area2D
 
 func _ready() -> void:
 	request = NativeWorldState.default_request()
@@ -88,7 +93,6 @@ func _ready() -> void:
 	_create_player()
 	_apply_resume()
 	_create_portal()
-	_create_apparatus_terminal()
 	_create_enigma_pois()
 	_create_minigame_pois()
 	_create_atmosphere()
@@ -113,12 +117,18 @@ func _apply_resume() -> void:
 func _on_runtime_state(state: Dictionary) -> void:
 	runtime = state.duplicate(true)
 	_update_objective()
+	_update_ship_navigation()
 	_refresh_economy()
 	_apply_cosmetic_presentation()
+	if is_instance_valid(portal) and portal.has_method("set_gate_state"):
+		portal.call("set_gate_state", bool(runtime.get("ready", false)), str(runtime.get("apparatus", "nucleo")), bool(runtime.get("complete", false)))
 
 func _on_gameplay_session_requested(session: Dictionary) -> void:
 	if not is_instance_valid(exercise_player):
 		return
+	_cancel_pending_touch_interaction()
+	if is_instance_valid(interaction_button):
+		interaction_button.visible = false
 	_set_feedback("")
 	if is_instance_valid(player):
 		player.set_physics_process(false)
@@ -154,6 +164,8 @@ func _process(delta: float) -> void:
 		if is_instance_valid(fireflies):
 			fireflies.emitting = daylight < 0.45
 		_update_biome_hud()
+		_update_ship_navigation()
+		_update_pending_touch_interaction()
 
 func _create_atmosphere() -> void:
 	# Layer screen-space tra mondo e HUD: aggiunge profondità cromatica senza
@@ -378,9 +390,12 @@ func _create_portal() -> void:
 	portal = PORTAL_VISUAL.new()
 	portal.name = "ExitPortal"
 	portal.position = PORTAL_POSITION
-	portal.z_index = 5
+	portal.z_index = 18
 	world_layer.add_child(portal)
+	if portal.has_method("set_gate_state"):
+		portal.call("set_gate_state", bool(runtime.get("ready", false)), str(runtime.get("apparatus", "nucleo")), bool(runtime.get("complete", false)))
 	var area := Area2D.new()
+	area.add_to_group("world_interactable")
 	area.set_meta("kind", "portal")
 	area.set_meta("id", "portal")
 	area.set_meta("payload", {})
@@ -392,24 +407,6 @@ func _create_portal() -> void:
 	portal.add_child(area)
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
 	area.body_exited.connect(func(body): on_interactable_exited(area, body))
-
-func _create_apparatus_terminal() -> void:
-	# Terminale gameplay-only: il marker e la gerarchia visiva restano a Codex.
-	# L'Area2D rende comunque raggiungibile l'esame finale nella slice attuale.
-	apparatus_terminal = Area2D.new()
-	apparatus_terminal.name = "NucleoApparatusTerminal"
-	apparatus_terminal.position = PORTAL_POSITION + Vector2(132, 0)
-	apparatus_terminal.set_meta("kind", "apparatus")
-	apparatus_terminal.set_meta("id", "nucleo")
-	apparatus_terminal.set_meta("payload", {"apparatus": "nucleo"})
-	var shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = INTERACTION_DISTANCE
-	shape.shape = circle
-	apparatus_terminal.add_child(shape)
-	world_layer.add_child(apparatus_terminal)
-	apparatus_terminal.body_entered.connect(func(body): on_interactable_entered(apparatus_terminal, body))
-	apparatus_terminal.body_exited.connect(func(body): on_interactable_exited(apparatus_terminal, body))
 
 # Un enigma ambientale per materia (C-13): stesso motore del Ponte dei Primi,
 # solo `theme`/etichetta diversi (ContentManager.enigma_theme). Tutti usano lo
@@ -436,6 +433,7 @@ func _create_enigma_pois() -> void:
 		enigma.name = str(entry["id"]).capitalize().replace(" ", "")
 		enigma.position = PORTAL_POSITION + (entry["offset"] as Vector2)
 		enigma.add_to_group("enigma_poi")
+		enigma.add_to_group("world_interactable")
 		enigma.set_meta("kind", "enigma")
 		enigma.set_meta("id", entry["id"])
 		enigma.set_meta("payload", {"subject": entry["subject"], "label": entry["label"]})
@@ -453,28 +451,46 @@ func _create_enigma_pois() -> void:
 		enigma.body_entered.connect(func(body): on_interactable_entered(enigma, body))
 		enigma.body_exited.connect(func(body): on_interactable_exited(enigma, body))
 
-# Palestra dei Minigiochi: un POI di PRATICA ripetibile che allena la materia del
-# livello corrente con i formati interattivi (abbina/ordina). Diverso da enigmi e
-# incontri (one-shot, contano per il gate): qui si può tornare a esercitarsi senza
-# farmare i requisiti dell'apparato. Marker segnaposto — la resa raffinata è di Codex
-# (contratto dati: kind="minigame", payload.subject risolto al momento sull'HUD).
+# Palestre dei Minigiochi: un POI di PRATICA ripetibile PER BIOMA, sulla materia
+# dominante (tematica) di quel bioma, con i formati interattivi (abbina/ordina).
+# Diversi da enigmi e incontri (one-shot, contano per il gate): qui ci si allena
+# senza farmare i requisiti dell'apparato. Piazzati all'ancora del bioma
+# (ANCHOR_BIOMES). Marker segnaposto — la resa raffinata (icona per bioma) è di
+# Codex. Contratto dati: gruppo "minigame_poi", kind="minigame", payload.subject fisso.
+func _minigame_poi_specs() -> Array:
+	# `chunk` = chunk-ancora del bioma (OutdoorGenerator.ANCHOR_BIOMES); `offset`
+	# scosta dal landmark centrale (da rifinire con Codex).
+	return [
+		{ "subject": "matematica", "chunk": Vector2i(0, 0), "label": "Palestra dei Numeri", "offset": Vector2(-180, 60) },
+		{ "subject": "logica", "chunk": Vector2i(1, 0), "label": "Palestra della Logica", "offset": Vector2(0, -150) },
+		{ "subject": "scienze", "chunk": Vector2i(-1, 0), "label": "Palestra della Natura", "offset": Vector2(0, -150) },
+		{ "subject": "geografia", "chunk": Vector2i(0, 1), "label": "Palestra delle Mappe", "offset": Vector2(0, -150) },
+		{ "subject": "musica", "chunk": Vector2i(1, 1), "label": "Palestra dell'Armonia", "offset": Vector2(0, -150) },
+		{ "subject": "latino", "chunk": Vector2i(-1, -1), "label": "Palestra Antica", "offset": Vector2(0, -150) },
+	]
+
 func _create_minigame_pois() -> void:
-	var gym := Area2D.new()
-	gym.name = "PalestraMinigiochi"
-	gym.position = PORTAL_POSITION + Vector2(0, 175)
-	gym.add_to_group("minigame_poi")
-	gym.set_meta("kind", "minigame")
-	gym.set_meta("id", "minigame-gym")
-	gym.set_meta("payload", {"label": "la Palestra dei Minigiochi"})
-	var shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = INTERACTION_DISTANCE
-	shape.shape = circle
-	gym.add_child(shape)
-	gym.add_child(_make_minigame_marker())
-	world_layer.add_child(gym)
-	gym.body_entered.connect(func(body): on_interactable_entered(gym, body))
-	gym.body_exited.connect(func(body): on_interactable_exited(gym, body))
+	var chunk_size := float(OutdoorChunkManager.CHUNK_SIZE)
+	for spec in _minigame_poi_specs():
+		var chunk := spec["chunk"] as Vector2i
+		var center := Vector2(chunk.x * chunk_size + chunk_size / 2.0, chunk.y * chunk_size + chunk_size / 2.0)
+		var poi := Area2D.new()
+		poi.name = "Palestra%s" % str(spec["subject"]).capitalize()
+		poi.position = center + (spec["offset"] as Vector2)
+		poi.add_to_group("minigame_poi")
+		poi.add_to_group("world_interactable")
+		poi.set_meta("kind", "minigame")
+		poi.set_meta("id", "minigame-%s" % str(spec["subject"]))
+		poi.set_meta("payload", {"subject": str(spec["subject"]), "label": str(spec["label"])})
+		var shape := CollisionShape2D.new()
+		var circle := CircleShape2D.new()
+		circle.radius = INTERACTION_DISTANCE
+		shape.shape = circle
+		poi.add_child(shape)
+		poi.add_child(_make_minigame_marker())
+		world_layer.add_child(poi)
+		poi.body_entered.connect(func(body): on_interactable_entered(poi, body))
+		poi.body_exited.connect(func(body): on_interactable_exited(poi, body))
 
 func _make_minigame_marker() -> Node2D:
 	var marker := Node2D.new()
@@ -512,6 +528,17 @@ func _panel_style() -> StyleBoxFlat:
 	style.set_content_margin_all(12)
 	style.set_border_width_all(1)
 	style.border_color = Color(0.42, 0.9, 0.84, 0.25)
+	return style
+
+func _touch_action_style(background: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.set_corner_radius_all(16)
+	style.set_content_margin_all(14)
+	style.set_border_width_all(2)
+	style.border_color = border
+	style.shadow_color = Color(0.0, 0.02, 0.03, 0.62)
+	style.shadow_size = 8
 	return style
 
 func _create_hud() -> void:
@@ -566,24 +593,55 @@ void fragment() {
 	phase_label.add_theme_font_size_override("font_size", 14)
 	info.add_child(phase_label)
 	objective_label = Label.new()
+	objective_label.name = "CurrentObjective"
 	objective_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	objective_label.custom_minimum_size = Vector2(300, 0)
 	objective_label.add_theme_color_override("font_color", Color("f6c85f"))
 	objective_label.add_theme_font_size_override("font_size", 13)
 	info.add_child(objective_label)
 	_update_objective()
+	ship_navigation_label = Label.new()
+	ship_navigation_label.name = "ShipNavigation"
+	ship_navigation_label.add_theme_font_size_override("font_size", 12)
+	ship_navigation_label.add_theme_color_override("font_color", Color("9fc4bb"))
+	info.add_child(ship_navigation_label)
+	_update_ship_navigation()
 	var hint := Label.new()
-	hint.text = "WASD / frecce  ·  SHIFT: scatto  ·  E: interagisci"
+	hint.text = "TOCCA UN POI o INTERAGISCI  ·  Tastiera: WASD / E  ·  SHIFT: scatto"
 	hint.add_theme_color_override("font_color", Color("9fc4bb"))
-	hint.text = "WASD / frecce  ·  SHIFT: scatto  ·  E: interagisci"
 	hint.add_theme_font_size_override("font_size", 12)
 	info.add_child(hint)
 
-	var exit_button := Button.new()
-	exit_button.text = "Esci dal mondo"
-	exit_button.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
-	exit_button.pressed.connect(_leave_world)
-	root.add_child(exit_button)
+	guide_button = Button.new()
+	guide_button.name = "GuideToShipButton"
+	guide_button.text = "TROVA UNA MISSIONE"
+	guide_button.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
+	guide_button.pressed.connect(_guide_to_objective)
+	root.add_child(guide_button)
+
+	# Azione primaria touch: compare soltanto vicino a un POI e offre un bersaglio
+	# da almeno 64 px, comodo per tablet. È disponibile anche con mouse/gamepad
+	# come alternativa accessibile al tasto E.
+	interaction_button = Button.new()
+	interaction_button.name = "ContextInteractButton"
+	interaction_button.visible = false
+	interaction_button.anchor_left = 0.5
+	interaction_button.anchor_right = 0.5
+	interaction_button.anchor_top = 1.0
+	interaction_button.anchor_bottom = 1.0
+	interaction_button.offset_left = -160.0
+	interaction_button.offset_right = 160.0
+	interaction_button.offset_top = -96.0
+	interaction_button.offset_bottom = -28.0
+	interaction_button.custom_minimum_size = Vector2(320, 68)
+	interaction_button.add_theme_font_size_override("font_size", 18)
+	interaction_button.add_theme_color_override("font_color", Color("06272a"))
+	interaction_button.add_theme_color_override("font_hover_color", Color("031d20"))
+	interaction_button.add_theme_stylebox_override("normal", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
+	interaction_button.add_theme_stylebox_override("hover", _touch_action_style(Color("83f4df"), Color.WHITE))
+	interaction_button.add_theme_stylebox_override("pressed", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
+	interaction_button.pressed.connect(_interact)
+	root.add_child(interaction_button)
 	var shop_button := Button.new()
 	shop_button.name = "OpenShopButton"
 	shop_button.text = "BOTTEGA"
@@ -641,6 +699,9 @@ func _create_shop_panel(root: Control) -> void:
 func _open_shop() -> void:
 	if not is_instance_valid(shop_panel):
 		return
+	_cancel_pending_touch_interaction()
+	if is_instance_valid(interaction_button):
+		interaction_button.visible = false
 	if is_instance_valid(player):
 		player.set_physics_process(false)
 	shop_panel.open_panel()
@@ -648,6 +709,7 @@ func _open_shop() -> void:
 func _on_shop_closed() -> void:
 	if is_instance_valid(player) and not (is_instance_valid(exercise_player) and exercise_player.visible):
 		player.set_physics_process(true)
+	_refresh_prompt()
 
 func _create_economy_panel(root: Control) -> void:
 	var next_reward = request.get("nextReward", null)
@@ -770,21 +832,19 @@ func _input(event: InputEvent) -> void:
 		_interact()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("leave_portal") and not event.is_echo():
-		_leave_world()
+		_guide_to_ship()
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:
-		var target := _to_world(event.position)
-		player.set_touch_target(target)
-		_spawn_touch_ping(target)
+		_handle_world_tap(_to_world(event.position))
 	elif event is InputEventScreenDrag:
+		_cancel_pending_touch_interaction()
 		player.set_touch_target(_to_world(event.position))
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		var target := _to_world(event.position)
-		player.set_touch_target(target)
-		_spawn_touch_ping(target)
+		_handle_world_tap(_to_world(event.position))
 	elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
+		_cancel_pending_touch_interaction()
 		player.set_touch_target(_to_world(event.position))
 
 func _to_world(screen_pos: Vector2) -> Vector2:
@@ -797,6 +857,65 @@ func _spawn_touch_ping(world_pos: Vector2) -> void:
 	ping.add_child(OutdoorVisualFactory.make_ring(16, Color(PLAYER_ACCENT, 0.9), 2.5, 22))
 	OutdoorVisualFactory.attach_anim(ping, "ping", 1.0, 1.0)
 	world_layer.add_child(ping)
+
+func _handle_world_tap(world_pos: Vector2) -> void:
+	if not is_instance_valid(player):
+		return
+	var target := _interactable_at(world_pos)
+	if target == null:
+		_cancel_pending_touch_interaction()
+		player.set_touch_target(world_pos)
+		_spawn_touch_ping(world_pos)
+		return
+	pending_touch_interaction = target
+	var approach := _touch_approach_position(target)
+	player.set_touch_target(approach)
+	_spawn_touch_ping(target.global_position)
+	if player.global_position.distance_to(target.global_position) <= INTERACTION_DISTANCE:
+		_update_pending_touch_interaction()
+	else:
+		_set_feedback("Eli si avvicina · %s" % _interaction_action_text(target).to_lower())
+
+func _interactable_at(world_pos: Vector2) -> Area2D:
+	var best: Area2D = null
+	var best_distance := TOUCH_POI_RADIUS * TOUCH_POI_RADIUS
+	for node in get_tree().get_nodes_in_group("world_interactable"):
+		if not node is Area2D or not is_instance_valid(node) or node.is_queued_for_deletion():
+			continue
+		var area := node as Area2D
+		var distance := world_pos.distance_squared_to(area.global_position)
+		if distance <= best_distance:
+			best_distance = distance
+			best = area
+	return best
+
+func _touch_approach_position(target: Area2D) -> Vector2:
+	var away := target.global_position.direction_to(player.global_position)
+	if away.is_zero_approx():
+		away = Vector2.DOWN
+	return chunks.clamp_to_world(target.global_position + away * TOUCH_APPROACH_DISTANCE)
+
+func _update_pending_touch_interaction() -> void:
+	if pending_touch_interaction == null:
+		return
+	if not is_instance_valid(pending_touch_interaction) or pending_touch_interaction.is_queued_for_deletion():
+		pending_touch_interaction = null
+		return
+	var distance := player.global_position.distance_to(pending_touch_interaction.global_position)
+	if distance <= INTERACTION_DISTANCE:
+		var target := pending_touch_interaction
+		pending_touch_interaction = null
+		if not nearby.has(target):
+			nearby.append(target)
+		_refresh_prompt()
+		_interact()
+	elif player.touch_target == Vector2.INF:
+		# Movimento manuale o arrivo impossibile: niente interazioni ritardate a
+		# sorpresa. Il pulsante contestuale resta disponibile se Eli è vicino.
+		pending_touch_interaction = null
+
+func _cancel_pending_touch_interaction() -> void:
+	pending_touch_interaction = null
 
 func on_interactable_entered(area: Area2D, body: Node) -> void:
 	if not body.is_in_group("player"):
@@ -828,35 +947,73 @@ func _nearest() -> Area2D:
 
 func _refresh_prompt() -> void:
 	var target := _nearest()
+	_refresh_interaction_button(target)
 	if target == null:
 		_set_feedback("")
 		return
 	var kind := str(target.get_meta("kind"))
 	var id := str(target.get_meta("id"))
 	if kind == "portal":
-		_set_feedback("Premi E per attraversare il portale ed entrare nella nave")
-	elif kind == "apparatus":
-		_set_feedback(gameplay.apparatus_prompt())
+		_set_feedback(_ship_entry_prompt())
 	elif kind == "enigma":
 		var payload: Dictionary = target.get_meta("payload")
 		if result["completedEncounterIds"].has(id):
 			_set_feedback("%s è già ricostruito" % str(payload.get("label", "L'enigma")).capitalize())
 		else:
-			_set_feedback("Premi E per ricostruire %s con gli esercizi" % str(payload.get("label", "il ponte")))
+			_set_feedback("Interagisci per ricostruire %s con gli esercizi" % str(payload.get("label", "il ponte")))
 	elif kind == "minigame":
-		var focus := str(gameplay.runtime_state().get("focusSubject", "matematica"))
-		_set_feedback("Premi E per allenarti con un minigioco di %s" % focus.capitalize())
+		var mg_payload: Dictionary = target.get_meta("payload")
+		_set_feedback("Interagisci · %s: minigioco di %s" % [str(mg_payload.get("label", "Palestra")), str(mg_payload.get("subject", "matematica")).capitalize()])
 	elif kind == "treasure":
 		if result["collectedTreasureIds"].has(id):
 			_set_feedback("Tesoro già raccolto")
 		else:
-			_set_feedback("Premi E per raccogliere il tesoro")
+			_set_feedback("Interagisci per raccogliere il tesoro")
 	elif kind == "encounter":
-		var payload: Dictionary = target.get_meta("payload")
+		var payload := _mission_payload_for(target)
 		if result["completedEncounterIds"].has(id):
 			_set_feedback("Incontro già completato")
 		else:
-			_set_feedback("Premi E per affrontare: %s" % str(payload.get("label", "incontro")))
+			_set_feedback("Interagisci · missione di %s: %s" % [
+				str(payload.get("subject", "matematica")).capitalize(),
+				str(payload.get("label", "incontro"))])
+
+func _refresh_interaction_button(target: Area2D) -> void:
+	if not is_instance_valid(interaction_button):
+		return
+	var blocked := target == null or (is_instance_valid(exercise_player) and exercise_player.visible) or (is_instance_valid(shop_panel) and shop_panel.visible)
+	interaction_button.visible = not blocked
+	if blocked:
+		return
+	var completed := _interaction_is_completed(target)
+	interaction_button.disabled = completed
+	interaction_button.text = "✓ GIÀ COMPLETATO" if completed else _interaction_action_text(target)
+	interaction_button.tooltip_text = "Azione touch contestuale · alternativa al tasto E"
+
+func _interaction_action_text(target: Area2D) -> String:
+	if target == null:
+		return "INTERAGISCI"
+	match str(target.get_meta("kind", "")):
+		"portal":
+			return "ENTRA NELLA NAVE"
+		"enigma":
+			return "RICOSTRUISCI"
+		"minigame":
+			return "ALLENATI"
+		"treasure":
+			return "RACCOGLI"
+		"encounter":
+			return "AVVIA MISSIONE"
+	return "INTERAGISCI"
+
+func _interaction_is_completed(target: Area2D) -> bool:
+	var kind := str(target.get_meta("kind", ""))
+	var id := str(target.get_meta("id", ""))
+	if kind == "treasure":
+		return Array(result.get("collectedTreasureIds", [])).has(id)
+	if kind == "encounter" or kind == "enigma":
+		return Array(result.get("completedEncounterIds", [])).has(id)
+	return false
 
 func _interact() -> void:
 	var target := _nearest()
@@ -867,11 +1024,8 @@ func _interact() -> void:
 	var id := str(target.get_meta("id"))
 	var completed: Array = result["completedEncounterIds"]
 	if kind == "portal":
-		_set_feedback("Portale pronto: salvataggio in corso…")
+		_set_feedback("Ingresso nave attivo: salvataggio in corso…")
 		_leave_world()
-		return
-	if kind == "apparatus":
-		gameplay.try_start_final_exam()
 		return
 	if kind == "enigma":
 		var enigma_payload: Dictionary = target.get_meta("payload")
@@ -881,9 +1035,8 @@ func _interact() -> void:
 		gameplay.try_start_enigma(enigma_payload, id)
 		return
 	if kind == "minigame":
-		# Pratica ripetibile sulla materia del livello corrente (nessun lock).
-		var focus := str(gameplay.runtime_state().get("focusSubject", "matematica"))
-		gameplay.try_start_minigame({"subject": focus, "label": "la Palestra dei Minigiochi"}, id)
+		# Pratica ripetibile sulla materia dominante del bioma (nessun lock).
+		gameplay.try_start_minigame(target.get_meta("payload"), id)
 		return
 	if kind == "treasure":
 		var payload: Dictionary = target.get_meta("payload")
@@ -892,7 +1045,7 @@ func _interact() -> void:
 			_set_feedback("Questa cassa è già stata raccolta.")
 		else:
 			collected.append(id)
-			gameplay.collect_treasure(payload)
+			gameplay.collect_treasure(payload, id)
 			_update_objective()
 			_set_feedback("Tesoro raccolto: +%d frammenti. L'energia si guadagna solo con gli esercizi." % int(payload["rewardFragments"]))
 			_refresh_economy()
@@ -903,9 +1056,10 @@ func _interact() -> void:
 			var owner_node := target.get_parent()
 			if is_instance_valid(owner_node):
 				owner_node.queue_free()
+			_refresh_prompt()
 		return
 	if kind == "encounter":
-		var mission_payload: Dictionary = target.get_meta("payload")
+		var mission_payload := _mission_payload_for(target)
 		if result["completedEncounterIds"].has(id):
 			_set_feedback("Incontro già completato.")
 			return
@@ -945,9 +1099,6 @@ func _on_enigma_progress(built: int, total: int, theme: String, encounter_id: St
 	_set_feedback("%s: %d/%d campate costruite" % [theme.capitalize(), built, total])
 	_spawn_gain_popup("+1 campata", Color("8ff6c0"))
 
-func start_final_exam() -> bool:
-	return is_instance_valid(gameplay) and gameplay.try_start_final_exam()
-
 func _leave_world() -> void:
 	if is_instance_valid(gameplay):
 		gameplay.game_save.save()
@@ -955,6 +1106,103 @@ func _leave_world() -> void:
 	if audio != null:
 		audio.call("play_event", "portalOpened")
 	get_tree().change_scene_to_file("res://scenes/hub.tscn")
+
+func _guide_to_ship() -> void:
+	if not is_instance_valid(player):
+		return
+	player.set_touch_target(PORTAL_POSITION)
+	var apparatus := str(runtime.get("apparatus", "nucleo")).replace("-", " ").capitalize()
+	var message := "Ingresso nave evidenziato. Raggiungi il portale."
+	if bool(runtime.get("ready", false)):
+		message = "%s pronto: torna alla nave per l'esame finale." % apparatus
+	_set_feedback(message)
+	_spawn_touch_ping(PORTAL_POSITION)
+
+func _guide_to_objective() -> void:
+	if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)):
+		_guide_to_ship()
+		return
+	var mission := _nearest_available_mission()
+	if mission == null:
+		_set_feedback("Nessuna missione disponibile nei settori vicini. Esplora il sentiero.")
+		return
+	player.set_touch_target(mission.global_position)
+	var payload := _mission_payload_for(mission)
+	_set_feedback("Rotta impostata: missione di %s · %s" % [
+		str(payload.get("subject", "matematica")).capitalize(),
+		str(payload.get("label", "incontro"))])
+	_spawn_touch_ping(mission.global_position)
+
+func _ship_entry_prompt() -> String:
+	var apparatus := str(runtime.get("apparatus", "nucleo")).replace("-", " ").capitalize()
+	if bool(runtime.get("complete", false)):
+		return "Interagisci per entrare nella nave completamente riattivata"
+	if bool(runtime.get("ready", false)):
+		return "Interagisci per entrare nella nave · esame %s pronto" % apparatus
+	return "Interagisci per entrare nella nave · %s ancora in preparazione" % apparatus
+
+func _update_ship_navigation() -> void:
+	if not is_instance_valid(ship_navigation_label) or not is_instance_valid(player):
+		return
+	var target_position := PORTAL_POSITION
+	var prefix := "ESAME PRONTO" if bool(runtime.get("ready", false)) else "INGRESSO NAVE"
+	var mission: Area2D = null
+	if not bool(runtime.get("ready", false)) and not bool(runtime.get("complete", false)):
+		mission = _nearest_available_mission()
+		if mission != null:
+			target_position = mission.global_position
+			prefix = "MISSIONE %s" % str(runtime.get("focusSubject", "matematica")).to_upper()
+	if bool(runtime.get("complete", false)):
+		prefix = "NAVE RIATTIVATA"
+	var delta := target_position - player.global_position
+	var steps := maxi(0, int(round(delta.length() / 32.0)))
+	var arrow := _direction_arrow(delta)
+	ship_navigation_label.text = "%s  %s  ·  %d passi" % [prefix, arrow, steps]
+	ship_navigation_label.add_theme_color_override(
+		"font_color",
+		Color("f6c85f") if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)) else PLAYER_ACCENT
+	)
+	if is_instance_valid(guide_button):
+		guide_button.text = "RAGGIUNGI LA NAVE" if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)) else "TROVA UNA MISSIONE"
+
+func _nearest_available_mission() -> Area2D:
+	if not is_instance_valid(player):
+		return null
+	var completed: Array = result.get("completedEncounterIds", [])
+	var best: Area2D = null
+	var best_distance := INF
+	for node in get_tree().get_nodes_in_group("mission_poi"):
+		if not node is Area2D or not is_instance_valid(node):
+			continue
+		var area := node as Area2D
+		if completed.has(str(area.get_meta("id", ""))):
+			continue
+		var distance := player.global_position.distance_squared_to(area.global_position)
+		if distance < best_distance:
+			best_distance = distance
+			best = area
+	return best
+
+func _mission_payload_for(area: Area2D) -> Dictionary:
+	if area == null:
+		return {}
+	var payload: Dictionary = Dictionary(area.get_meta("payload", {})).duplicate(true)
+	# Gli incontri procedurali legacy non dichiarano una materia. Fino al
+	# MissionEventDirector P1, li rendiamo missioni naturali del focus corrente:
+	# ogni livello ha così abbastanza POI unici, persistenti e raggiungibili,
+	# senza reload né ripetizione artificiale dello stesso incontro. Un futuro
+	# evento con `subject` esplicito mantiene invece la propria materia.
+	if str(payload.get("subject", "")).strip_edges() == "":
+		payload["subject"] = str(runtime.get("focusSubject", "matematica")).to_lower()
+	return payload
+
+func _direction_arrow(delta: Vector2) -> String:
+	if delta.length() < INTERACTION_DISTANCE:
+		return "◎"
+	var angle := fposmod(delta.angle() + PI / 8.0, TAU)
+	var index := int(floor(angle / (PI / 4.0))) % 8
+	var arrows := PackedStringArray(["→", "↘", "↓", "↙", "←", "↖", "↑", "↗"])
+	return arrows[index]
 
 func _set_feedback(message: String) -> void:
 	if is_instance_valid(feedback_label):
@@ -969,7 +1217,13 @@ func _update_objective() -> void:
 		return
 	var subject := str(runtime.get("focusSubject", "matematica")).capitalize()
 	var apparatus := str(runtime.get("apparatus", "nucleo")).replace("-", " ").capitalize()
-	objective_label.text = "Livello %d / Materia %s\n%s\nMissioni %d/%d / Mastery %.0f%%/%.0f%%" % [
-		int(runtime.get("level", 1)), subject, apparatus,
-		int(runtime.get("missionsDone", 0)), int(runtime.get("missionsRequired", 0)),
-		float(runtime.get("mastery", 0.0)) * 100.0, float(runtime.get("masteryThreshold", 0.0)) * 100.0]
+	if bool(runtime.get("complete", false)):
+		objective_label.text = "NAVE COMPLETAMENTE RIATTIVATA\nTutti i 24 sistemi sono online"
+	elif bool(runtime.get("ready", false)):
+		objective_label.text = "LIVELLO %d · %s\n%s PRONTO\nRaggiungi la nave per l’esame finale" % [
+			int(runtime.get("level", 1)), subject, apparatus.to_upper()]
+	else:
+		objective_label.text = "Livello %d · Materia %s\nApparato: %s\nMissioni %d/%d · Padronanza %.0f%%/%.0f%%" % [
+			int(runtime.get("level", 1)), subject, apparatus,
+			int(runtime.get("missionsDone", 0)), int(runtime.get("missionsRequired", 0)),
+			float(runtime.get("mastery", 0.0)) * 100.0, float(runtime.get("masteryThreshold", 0.0)) * 100.0]

@@ -40,7 +40,8 @@ DENTRO (nave) = apparati da riparare
 
 AVANZAMENTO
    riparato l'apparato del livello → SALI DI LIVELLO (1 → 20+)
-   → le missioni esterne diventano più difficili (tarate sul nuovo livello)
+   → si sblocca un NUOVO MONDO ESTERNO con grafica e tema propri
+   → le missioni diventano più difficili (tarate sul nuovo livello)
    → la nave si accende, la storia avanza
 ```
 
@@ -70,6 +71,8 @@ Niente più missioni sparse nelle stanze: la nave contiene **solo** gli apparati
    riparazione, nella nave).
 
 Superato → **apparato riparato**, **livello completato**, si sale a **L+1**.
+Il nuovo livello apre anche il relativo **WorldProfile**; i mondi precedenti
+restano visitabili per ripasso, collezione e contenuti secondari.
 
 ### Esempio di scala (tunable, dati)
 | Livello | Materia in focus | Apparato (stanza) | Missioni richieste (N) | Soglia mastery |
@@ -96,7 +99,23 @@ verso l'esercizio finale del livello corrente.
 
 ## 3. Il mondo esterno: le missioni
 
-**Tutte** le missioni vivono nel mondo esterno procedurale (Godot).
+**Tutte** le missioni vivono nei mondi esterni Godot. Ogni livello possiede un
+mondo distinto: la procedura distribuisce contenuti dentro un'identità autorata,
+non decide l'identità del mondo.
+
+### Un mondo esterno per ogni livello
+
+Ogni `WorldProfile` definisce almeno: tema, famiglia di terreno, topologia,
+palette/materiali, vegetazione o architettura, luce/meteo, soundscape, landmark
+principale, pool di missioni/eventi e posizione dell'ingresso nave.
+
+- Il nuovo mondo deve essere immediatamente riconoscibile in una cattura senza HUD.
+- L'ingresso della nave ha posizione deterministica, area libera riservata,
+  percorso iniziale sicuro e indicazione in bussola.
+- Il generatore non può collocare ostacoli, acqua, incontri o tesori nella zona
+  protetta dell'ingresso.
+- I mondi sbloccati sono rivisitabili da una mappa di navigazione della nave.
+- Una semplice ricolorazione non soddisfa il criterio di mondo nuovo.
 
 - Una **missione** è una sfida-esercizio (o una breve catena di 2–4 esercizi)
   della materia della missione, **tarata sul livello attuale del giocatore**.
@@ -119,7 +138,16 @@ Tipi di missione (per non annoiare):
 | Prova NORA | combattimento a quiz (esiste): rispondi per "colpire". |
 | Missione a tappe | 2–4 esercizi crescenti nello stesso luogo. |
 | Enigma ambientale | usa la conoscenza per agire sul mondo (allinea i cristalli, costruisci il ponte). |
+| Evento-minigioco | attività breve casuale — ordina, abbina, classifica, costruisci — incontrata sulla mappa o innestata in una missione. |
 | Beacon a tempo | missione notturna opzionale, ricompense rare. |
+
+Le Palestre fisse non sono il target finale. Un `MissionEventDirector` sceglie
+eventi compatibili con mondo, materia, livello e bisogno didattico. La posizione
+è variabile ma deterministica rispetto al seed; una quota minima di eventi utili
+è garantita vicino ai percorsi raggiungibili, per evitare blocchi dovuti al caso.
+Se il minigioco è una tappa di missione, vale come tappa e non come missione
+aggiuntiva; gli eventi di pratica libera migliorano mastery/ripasso ma non
+farmano il gate.
 
 ---
 
@@ -171,7 +199,15 @@ Gli esercizi sono l'anima: **tanti, vari, corretti, spiegati**.
 
 **Formati** (mix): scelta multipla, inserimento numerico/testuale,
 ordinamento/sequenza, abbinamento, vero/falso motivato, lettura di grafici/carte,
-mini-debug.
+mini-debug, drag-and-drop, hotspot su immagini/mappe, costruzione di circuiti,
+composizione di frasi, tracciamento di grafici, simulazioni e manipolazione
+diretta di oggetti nel mondo.
+
+La scelta multipla resta nel repertorio ma non è il formato dominante: come
+target iniziale non deve superare un terzo dei nodi di una missione standard.
+Un esercizio finale deve usare almeno due famiglie d'interazione e contenere una
+prova di trasferimento in un contesto nuovo; non può essere composto soltanto da
+scelte multiple.
 
 **Ciclo di un esercizio**
 1. Una domanda per schermata, testo breve.
@@ -265,6 +301,22 @@ La storia **cavalca la scala dei livelli**: non un sistema a parte.
   danno colore senza appesantire il loop.
 
 Niente "capitoli" separati da gestire: il capitolo è *il livello*.
+
+### Manuale NORA dei concetti
+
+NORA possiede un manuale didattico consultabile dal mondo e dalla nave. Ogni
+voce contiene: spiegazione essenziale, prerequisiti, esempio svolto, errore
+tipico, strategia suggerita, eventuale dimostrazione interattiva e collegamenti
+ai topic vicini.
+
+- Le voci si sbloccano incontrando il concetto, non acquistandole.
+- Un errore può proporre la voce pertinente senza obbligare a interrompere la
+  missione.
+- Durante un esame il manuale non rivela la soluzione: può essere consultato
+  prima o dopo la prova secondo le regole del livello.
+- Il linguaggio si adatta alla fascia scolastica e supporta testo breve,
+  illustrazione, esempio e lettura accessibile.
+- Ogni topic usato da missioni o esami deve avere almeno una voce validata.
 
 ---
 

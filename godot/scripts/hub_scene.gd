@@ -449,7 +449,7 @@ func _apply_state(state: Dictionary) -> void:
 
 	if is_current_gate:
 		var subject := str(current_gate.get("subject", "matematica"))
-		var done := save.missions_of(subject)
+		var done := save.missions_toward_gate(subject)
 		var required := int(current_gate.get("missionsRequired", 1))
 		var mastery := save.mastery_of(subject)
 		var threshold := float(current_gate.get("masteryThreshold", 0.7))

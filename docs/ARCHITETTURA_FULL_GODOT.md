@@ -48,6 +48,7 @@ economia + UI**. Niente Phaser, niente bridge.
 │  Autoload (singleton, sempre attivi)                                  │
 │   SaveManager · EconomyManager · MasteryManager · ContentManager      │
 │   NarrativeManager · ProgressionManager · AudioManager · Settings     │
+│   WorldProfileCatalog · MissionEventDirector · KnowledgeCodex         │
 │                                                                       │
 │  Scene principali                                                     │
 │   BootScene → HubScene (Relitto) ⇄ WorldScene (mondo esterno)         │
@@ -61,6 +62,13 @@ economia + UI**. Niente Phaser, niente bridge.
 
 Vantaggi: esperienza **senza cuciture** (l'esercizio si apre *dentro* il mondo,
 non ricarica la pagina), un solo save, un solo deploy, un solo linguaggio.
+
+L'espansione AAA-didattica usa una sola `WorldScene`, configurata da 24
+`WorldProfile` sbloccabili. Il profilo controlla identità visuale, composizione,
+audio, missioni, eventi e ingresso nave autorato; non si duplicano 24 scene
+monolitiche. Il motore esercizi espone renderer/interazioni specializzate e il
+`KnowledgeCodex` fornisce le spiegazioni di NORA. Piano operativo e criteri in
+[PIANO_EVOLUZIONE_AAA_DIDATTICO.md](PIANO_EVOLUZIONE_AAA_DIDATTICO.md).
 
 ## 3. Il grande nodo: i contenuti
 

@@ -113,6 +113,19 @@ func subject_difficulty_range(subject: String) -> Vector2i:
 	_difficulty_ranges[subject] = span
 	return span
 
+# Numero di argomenti DISTINTI che la materia può proporre (dal banco). Alimenta
+# la dimensione COPERTURA del gate (GateReadiness). Per la matematica, generata a
+# runtime, il banco statico può non elencare topic: in tal caso torna 0 e la
+# copertura ripiega sul minimo assoluto (la copertura vissuta la traccia comunque
+# `masteryByTopic`, popolato dai topic del generatore).
+func subject_topic_count(subject: String) -> int:
+	var topics: Dictionary = {}
+	for item in _load_bank(subject):
+		var topic := str(item.get("topic", ""))
+		if topic != "":
+			topics[topic] = true
+	return topics.size()
+
 # Difficoltà EFFETTIVA per materia: banda di livello + nudge di mastery, poi
 # calibrata (clamp) sul range che il banco può davvero servire. Così la selezione
 # resta significativa su ogni materia, anche con banchi di ampiezza diversa.

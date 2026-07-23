@@ -114,8 +114,10 @@ func _make_persistent_player(node_name: String, bus_name: String) -> AudioStream
 
 func _play_loop(player: AudioStreamPlayer, key: String) -> void:
 	var spec: Dictionary = assets.get(key, {})
+	if spec.is_empty():
+		return
 	var stream := _stream_for(key)
-	if spec.is_empty() or stream == null:
+	if stream == null:
 		return
 	if player.playing and player.stream == stream:
 		return
@@ -129,7 +131,10 @@ func _stream_for(key: String) -> AudioStream:
 	if _stream_cache.has(key):
 		return _stream_cache[key] as AudioStream
 	var spec: Dictionary = assets.get(key, {})
-	var stream := load(str(spec.get("path", ""))) as AudioStream
+	var path := str(spec.get("path", "")).strip_edges()
+	if path == "" or not ResourceLoader.exists(path):
+		return null
+	var stream := load(path) as AudioStream
 	if stream is AudioStreamWAV and bool(spec.get("loop", false)):
 		(stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 	_stream_cache[key] = stream

@@ -20,7 +20,9 @@ func _init() -> void:
 	var progression := hub.progression
 	for _i in range(5):
 		progression.record_mission("matematica", 3, 3, 0, true)
-	assert(bool(hub.state()["ready"]), "gate pronto dopo missioni + padronanza")
+		# Evidenza per-argomento per la dimensione COPERTURA del gate.
+		progression.record_topic_stats("matematica", {"tabelline": {"seen": 3, "correct": 3}})
+	assert(bool(hub.state()["ready"]), "gate pronto dopo missioni + padronanza + copertura")
 	assert(hub.request_exam(), "esame disponibile dopo il gate")
 	assert(exam_signals["count"] == 1, "request_exam deve emettere exam_requested")
 

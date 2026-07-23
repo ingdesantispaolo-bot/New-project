@@ -8,7 +8,7 @@ extends SceneTree
 func _init() -> void:
 	var save := GameSaveManager.new()
 	var content := ContentManager.new()
-	var prog := ProgressionManager.new(save)
+	var prog := ProgressionManager.new(save, content)  # content: dimensione copertura
 	save.data["energy"] = 200  # energia iniziale per pagare gli ingressi
 
 	var gate := prog.current_gate()
@@ -26,6 +26,7 @@ func _init() -> void:
 		assert(bool(res["passed"]), "missione con tutte corrette deve passare")
 		assert(int(res["energyGained"]) > 0, "risposte corrette danno energia")
 		prog.record_mission(subject, int(res["correct"]), int(res["total"]), int(res["energyGained"]), true)
+		prog.record_topic_stats(subject, res.get("topicStats", {}))
 		missions += 1
 	assert(prog.can_repair(), "il gate deve aprirsi dopo missioni + padronanza")
 
@@ -39,7 +40,7 @@ func _init() -> void:
 		save.add_energy(int(exam_res["energyGained"]))
 	assert(prog.repair_and_advance(true), "riparazione deve avanzare di livello")
 	assert(save.level() == level_before + 1)
-	assert(save.missions_of(subject) == 0, "conteggio missioni azzerato al salire")
+	assert(save.missions_toward_gate(subject) == 0, "progresso-verso-gate azzerato dal consume (cumulativo preservato)")
 	assert(int(save.data["apparatus"][str(gate["apparatus"])]["repairedLevel"]) == level_before)
 
 	# 3) Missione fallita (tutte sbagliate): non passa e non fa avanzare indebitamente.

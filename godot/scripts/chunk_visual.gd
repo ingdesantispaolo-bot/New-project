@@ -285,6 +285,12 @@ func _attach_interactable(node: Node2D, kind: String, id: String, payload: Dicti
 	area.set_meta("kind", kind)
 	area.set_meta("id", id)
 	area.set_meta("payload", payload)
+	area.add_to_group("world_interactable")
+	if kind == "encounter":
+		# Contratto di navigazione C-P0: la scena individua gli incontri caricati
+		# senza scandire l'intero albero e senza conoscere l'implementazione dei
+		# chunk. Il gruppo scompare automaticamente quando il chunk viene scaricato.
+		area.add_to_group("mission_poi")
 	var shape := CollisionShape2D.new()
 	var circle := CircleShape2D.new()
 	circle.radius = INTERACTION_RADIUS

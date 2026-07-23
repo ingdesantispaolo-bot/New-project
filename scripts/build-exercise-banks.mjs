@@ -113,20 +113,29 @@ function levelToDifficulty(level) {
   return Math.min(4, Math.max(1, Math.ceil(level / 2)));
 }
 
-function vocabularyBank(subject, entries, { termField, defField, promptFor }) {
+// I distrattori DEVONO essere nella stessa lingua/campo della risposta: se la
+// domanda chiede la traduzione italiana, le opzioni sbagliate devono essere altre
+// parole italiane (della stessa classe grammaticale), non parole inglesi — altrimenti
+// la risposta è l'unica nella lingua giusta e diventa banale. `promptFor` indica con
+// `field` da quale campo pescare i distrattori; qui costruiamo un pool per campo.
+function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
   const rand = rng(subject === "italiano" ? 20260721 : 20260722);
-  const byClass = new Map();
-  for (const entry of entries) {
-    const list = byClass.get(entry.wordClass) ?? [];
-    list.push(entry[termField]);
-    byClass.set(entry.wordClass, list);
+  const pools = new Map(); // field -> Map(wordClass -> valori[])
+  for (const field of fields) {
+    const byClass = new Map();
+    for (const entry of entries) {
+      const list = byClass.get(entry.wordClass) ?? [];
+      list.push(entry[field]);
+      byClass.set(entry.wordClass, list);
+    }
+    pools.set(field, byClass);
   }
   const items = [];
   entries.forEach((entry, index) => {
-    const pool = byClass.get(entry.wordClass) ?? [];
-    const distractors = pickDistractors(pool, entry[termField], 3, rand);
+    const { prompt, answer, field } = promptFor(entry, index);
+    const pool = pools.get(field).get(entry.wordClass) ?? [];
+    const distractors = pickDistractors(pool, answer, 3, rand);
     if (distractors.length < 3) return; // classe troppo piccola, salta (nessun distrattore fittizio)
-    const { prompt, answer } = promptFor(entry, index);
     items.push(
       multipleChoiceItem(
         {
@@ -137,31 +146,35 @@ function vocabularyBank(subject, entries, { termField, defField, promptFor }) {
           prompt,
           answer,
           distractors,
-          explanation: `"${entry[termField]}": ${entry[defField]}.`,
+          explanation: `"${entry.term}": ${entry[defField]}.`,
         },
         rand,
       ),
     );
   });
-  return { schemaVersion: 1, subject, generator: "vocabulary-bank-v1", items };
+  return { schemaVersion: 1, subject, generator: "vocabulary-bank-v2", items };
 }
 
 function italianoBank(entries) {
   return vocabularyBank("italiano", entries, {
-    termField: "term",
+    fields: ["term"],
     defField: "clue",
-    promptFor: (entry) => ({ prompt: `Quale parola corrisponde a: "${entry.clue}"?`, answer: entry.term }),
+    // risposta = parola italiana; distrattori = altre parole italiane (campo "term").
+    promptFor: (entry) => ({ prompt: `Quale parola corrisponde a: "${entry.clue}"?`, answer: entry.term, field: "term" }),
   });
 }
 
 function ingleseBank(entries) {
   return vocabularyBank("inglese", entries, {
-    termField: "term",
+    fields: ["term", "meaning"],
     defField: "meaning",
+    // Alterna le due direzioni; i distrattori vengono SEMPRE dal campo della risposta:
+    //  - "come si dice in inglese?" → risposta inglese, distrattori inglesi (term)
+    //  - "cosa significa in italiano?" → risposta italiana, distrattori italiani (meaning)
     promptFor: (entry, index) =>
       index % 2 === 0
-        ? { prompt: `Come si dice in inglese: "${entry.meaning}"?`, answer: entry.term }
-        : { prompt: `Cosa significa in italiano "${entry.term}"?`, answer: entry.meaning },
+        ? { prompt: `Come si dice in inglese: "${entry.meaning}"?`, answer: entry.term, field: "term" }
+        : { prompt: `Cosa significa in italiano "${entry.term}"?`, answer: entry.meaning, field: "meaning" },
   });
 }
 

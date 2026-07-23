@@ -66,19 +66,50 @@ var current_phase := "giorno"
 
 func setup(request: Dictionary, session_result: Dictionary, load_local_save: bool = true) -> void:
 	result = session_result
-	base_fragments = int(request.get("outdoorState", {}).get("fragments", 0))
 	game_save = GameSaveManager.new()
 	if load_local_save:
 		game_save.load_save()
 	game_save.apply_launch_state(request)
 	content_manager = ContentManager.new()
-	progression_manager = ProgressionManager.new(game_save)
+	# ContentManager prima di ProgressionManager: serve alla dimensione COPERTURA
+	# del gate (numero di argomenti che la materia può proporre).
+	progression_manager = ProgressionManager.new(game_save, content_manager)
 	reward_manager = RewardManager.new(game_save)
 	narrative_manager.setup(game_save)
 	progress_report.setup(game_save)
 	current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", ""))
+	# Frammenti CANONICI (O-P0.4): la valuta vive nel save, non nello stato
+	# transitorio della sessione, così un reboot non la perde. Riconciliazione una
+	# tantum: se un save precedente portava frammenti solo nel bridge transitorio,
+	# li adottiamo nel canonico (max), poi il canonico è la fonte autoritativa.
+	var bridged_fragments := int(request.get("outdoorState", {}).get("fragments", 0))
+	if bridged_fragments > game_save.fragments():
+		game_save.add_fragments(bridged_fragments - game_save.fragments())
+	base_fragments = game_save.fragments()
+	# Incontri/tesori CANONICI: idrata il delta della sessione dal save del mondo
+	# corrente (merge additivo: aggiunge solo id già risolti, non ne toglie mai),
+	# così ciò che era già stato completato non viene riproposto dopo un reboot.
+	_hydrate_world_progress()
 	game_save.save()
 	_emit_state()
+
+# ID del mondo corrente nel save persistente: un mondo per livello (mappa dei 24).
+func _world_id() -> String:
+	return str(game_save.level())
+
+# Fonde nel `result` di sessione gli id già risolti nel save canonico del mondo.
+func _hydrate_world_progress() -> void:
+	var bucket := game_save.world_progress(_world_id())
+	var completed: Array = result.get("completedEncounterIds", [])
+	for id in bucket.get("completedEncounterIds", []):
+		if not completed.has(id):
+			completed.append(id)
+	result["completedEncounterIds"] = completed
+	var treasures: Array = result.get("collectedTreasureIds", [])
+	for id in bucket.get("collectedTreasureIds", []):
+		if not treasures.has(id):
+			treasures.append(id)
+	result["collectedTreasureIds"] = treasures
 
 # ---------------------------------------------------------------------------
 # Stato leggibile (contratto runtime)
@@ -106,9 +137,13 @@ func runtime_state() -> Dictionary:
 		"masteryThreshold": mastery_threshold,
 		"masteryProgress": clampf(mastery / maxf(0.001, mastery_threshold), 0.0, 1.0),
 		"ready": bool(progress.get("ready", false)),
+		# Le 4 dimensioni del gate (accuratezza/copertura/confidenza/ritenzione) per
+		# l'HUD: mostra PERCHÉ il gate non è pronto, senza ricalcolare lato UI.
+		"readiness": progress.get("readiness", {}),
 		"complete": bool(progress.get("complete", false)),
 		"energy": game_save.energy(),
-		"fragments": base_fragments + int(result.get("fragmentsEarned", 0)),
+		# Frammenti canonici (O-P0.4): fonte unica nel save, coerente dopo un reboot.
+		"fragments": game_save.fragments(),
 		"phase": current_phase,
 		"sessionActive": session_active(),
 		"narrative": current_narrative,
@@ -274,7 +309,9 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			var completed: Array = result["completedEncounterIds"]
 			if not completed.has(encounter_id):
 				completed.append(encounter_id)
-			result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + (3 if kind == "enigma" else 2)
+			# Incontro persistente nel save canonico del mondo (O-P0.4).
+			game_save.mark_encounter_completed(_world_id(), encounter_id)
+			_award_fragments(3 if kind == "enigma" else 2)
 		if kind == "enigma":
 			# La costruzione si completa solo se l'enigma è superato; altrimenti
 			# resta alle campate raggiunte e la scena la ripristina alla ripetizione.
@@ -292,7 +329,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		if passed and progression_manager.repair_and_advance(true):
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
-			result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + 4
+			_award_fragments(4)
 			feedback.emit("%s Livello %d." % [nora_voice.line("victory"), game_save.level()])
 			current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
 		elif passed:
@@ -337,10 +374,24 @@ func unequip_cosmetic(slot: String) -> void:
 	game_save.save()
 	_emit_state()
 
-# Raccolta tesoro: solo frammenti (l'energia si guadagna con gli esercizi).
-func collect_treasure(payload: Dictionary) -> void:
-	result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + int(payload.get("rewardFragments", 0))
+# Raccolta tesoro: solo frammenti (l'energia si guadagna con gli esercizi). Il
+# tesoro è persistente nel save canonico del mondo: raccolto una volta, non torna
+# nemmeno dopo un reboot. `treasure_id` è l'id univoco della cassa (dalla scena).
+func collect_treasure(payload: Dictionary, treasure_id: String = "") -> void:
+	var id := treasure_id if treasure_id != "" else str(payload.get("treasureId", payload.get("id", "")))
+	if id != "" and not game_save.mark_treasure_collected(_world_id(), id):
+		return  # già raccolto in questo mondo: nessuna doppia ricompensa
+	_award_fragments(int(payload.get("rewardFragments", 0)))
+	game_save.save()
 	_emit_state()
+
+# Concede frammenti aggiornando SIA il delta di sessione (riepilogo/HUD) SIA il
+# save canonico (O-P0.4): la valuta sopravvive a un reboot.
+func _award_fragments(amount: int) -> void:
+	if amount == 0:
+		return
+	result["fragmentsEarned"] = int(result.get("fragmentsEarned", 0)) + amount
+	game_save.add_fragments(amount)
 
 func _emit_state() -> void:
 	runtime_state_changed.emit(runtime_state())
@@ -362,23 +413,14 @@ func _subject_for_payload(payload: Dictionary) -> String:
 	var habitat_key := "%s:%s" % [biome, kind]
 	return str(BIOME_ENCOUNTER_SUBJECTS.get(habitat_key, ENCOUNTER_SUBJECT_FALLBACK.get(kind, "matematica")))
 
-# Mappa del ripasso spaziato ("subject:topic" -> conteggio) usata dalla selezione.
+# Argomenti DOVUTI ora ("subject:topic" -> 1) dallo scheduler temporale: forma
+# attesa dalla selezione di ContentManager (ogni chiave con valore > 0 è ripasso).
 func _due() -> Dictionary:
-	return game_save.data.get("spacedRepetition", {}).get("due", {})
+	return SpacedRepetition.due_map(game_save)
 
-# I topic sbagliati entrano/salgono in ripasso; i ripassi risolti scendono.
+# Applica gli esiti al ripasso spaziato (O-P0.7): i topic sbagliati rientrano a
+# breve, quelli ripassati bene vengono allontanati (intervallo espansivo), e
+# l'orologio delle sessioni avanza di un passo.
 func _update_spaced_repetition(subject: String, exercise_result: Dictionary) -> void:
-	if not game_save.data.has("spacedRepetition"):
-		game_save.data["spacedRepetition"] = {"due": {}, "history": []}
-	var due: Dictionary = game_save.data["spacedRepetition"].get("due", {})
-	for topic in exercise_result.get("missed", []):
-		var key := "%s:%s" % [subject, str(topic)]
-		due[key] = int(due.get(key, 0)) + 1
-	for topic in exercise_result.get("reviewedOk", []):
-		var key := "%s:%s" % [subject, str(topic)]
-		var value := int(due.get(key, 0)) - 1
-		if value <= 0:
-			due.erase(key)
-		else:
-			due[key] = value
-	game_save.data["spacedRepetition"]["due"] = due
+	SpacedRepetition.apply_outcome(game_save, subject, exercise_result.get("missed", []), exercise_result.get("reviewedOk", []))
+	SpacedRepetition.tick(game_save)

@@ -12,7 +12,9 @@ var progression: ProgressionManager
 
 func setup(save_manager: GameSaveManager) -> void:
 	save = save_manager
-	progression = ProgressionManager.new(save)
+	# ContentManager alla progressione: la readiness del gate della nave usa la
+	# dimensione COPERTURA con lo stesso metro del mondo esterno (coerenza gate).
+	progression = ProgressionManager.new(save, ContentManager.new())
 	_emit_state()
 
 func state() -> Dictionary:

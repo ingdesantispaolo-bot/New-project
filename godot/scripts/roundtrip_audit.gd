@@ -1,8 +1,8 @@
 extends SceneTree
 
 ## Headless smoke test del loop nativo Godot:
-## spawn world -> collect treasure -> start native mission -> complete it.
-## L'incontro resta nella scena e non effettua redirect a runtime esterni.
+## mondo -> tesoro -> missione -> gate -> ingresso nave -> esame -> riattivazione.
+## L'esame non è più raggiungibile dal mondo esterno.
 
 func _init() -> void:
 	call_deferred("_run")
@@ -10,6 +10,7 @@ func _init() -> void:
 func _run() -> void:
 	var scene = load("res://scenes/outdoor_world.tscn").instantiate()
 	root.add_child(scene)
+	current_scene = scene
 	await process_frame
 	var chunks: Dictionary = scene.get("chunks").get("loaded")
 	var origin: Dictionary = chunks["chunk-0_0"]["data"]
@@ -40,6 +41,8 @@ func _run() -> void:
 	assert(str(exercise.session.get("kind", "")) == "mission")
 	var mission_subject := str(exercise.session.get("subject", ""))
 	assert(ContentManager.BANKS.has(mission_subject), "l'incontro deve instradare una materia disponibile")
+	assert(mission_subject == str(scene.get("runtime").get("focusSubject", "")),
+		"l'incontro procedurale deve essere una missione della materia-focus")
 	var subject_missions_before := int(scene.get("game_save").missions_of(mission_subject))
 	var pending_result: Dictionary = scene.get("result")
 	assert(int(pending_result["energySpent"]) == 0, "ingresso di recupero gratuito a energia zero")
@@ -57,22 +60,41 @@ func _run() -> void:
 	var initial_level := int(gate_before["level"])
 	var focus_subject := str(gate_before["subject"])
 	var focus_apparatus := str(gate_before["apparatus"])
-	# Il primo incontro puo allenare una materia diversa dalla materia-focus del
-	# livello. Completiamo soltanto le missioni della materia-focus necessarie al
-	# gate, verificando cosi sia il routing multi-materia sia l'esame corrente.
+	# Completiamo le restanti evidenze della materia-focus necessarie al gate e
+	# verifichiamo poi che l'esame resti disponibile soltanto nella nave.
 	var guard := 0
-	while not progression.can_repair() and guard < 20:
+	while not progression.can_repair() and guard < 40:
 		progression.record_mission(focus_subject, 3, 3, 0, true)
+		# Evidenza per-argomento (dimensione COPERTURA): tre topic distinti coprono
+		# qualsiasi materia-focus indipendentemente dalla dimensione del suo banco.
+		progression.record_topic_stats(focus_subject, {"a": {"seen": 1, "correct": 1}, "b": {"seen": 1, "correct": 1}, "c": {"seen": 1, "correct": 1}})
 		guard += 1
-	assert(progression.can_repair(), "il gate dell'apparato deve aprirsi con missioni e mastery richieste")
-	assert(bool(scene.call("start_final_exam")), "l'esame finale deve essere avviabile in Godot")
-	var exam: ExercisePlayer = scene.get("exercise_player")
+	assert(progression.can_repair(), "il gate dell'apparato deve aprirsi con missioni, padronanza e copertura")
+	assert(not scene.has_method("start_final_exam"), "il mondo non deve esporre l'esame finale")
+	scene.get("gameplay").call("_emit_state")
+	await process_frame
+	var portal := scene.find_child("ExitPortal", true, false) as Node2D
+	assert(portal != null and bool(portal.get("gate_ready")), "l'ingresso nave deve segnalare il gate pronto")
+	var portal_area := _find_area(scene, "portal", "portal")
+	assert(portal_area != null, "l'ingresso nave deve essere interagibile")
+	player.global_position = portal.global_position
+	scene.call("on_interactable_entered", portal_area, player)
+	scene.call("_interact")
+	await process_frame
+	await process_frame
+	assert(current_scene != null and current_scene.scene_file_path == "res://scenes/hub.tscn",
+		"il gate pronto deve proseguire nella nave")
+	var hub = current_scene
+	assert(bool(hub.get("controller").state().get("ready", false)), "la nave deve ricevere il gate pronto")
+	hub.call("_repair_action")
+	await process_frame
+	var exam: ExercisePlayer = hub.get("exercise_player")
 	assert(exam.visible and str(exam.session.get("kind", "")) == "final_exam")
-	scene.call("_on_exercise_finished", {
+	await hub.call("_on_exam_finished", {
 		"kind": "final_exam", "subject": focus_subject, "correct": 3,
 		"total": 3, "passed": true, "energyGained": 76,
 	})
-	var final_save: GameSaveManager = scene.get("game_save")
+	var final_save: GameSaveManager = hub.get("save")
 	assert(final_save.level() == initial_level + 1, "l'esame deve far avanzare il livello")
 	assert(int(final_save.data["apparatus"][focus_apparatus]["repairedLevel"]) == initial_level)
 	print("Outdoor Godot native mission + final exam round-trip smoke OK")

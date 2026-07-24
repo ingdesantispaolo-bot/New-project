@@ -17,8 +17,9 @@ func _init() -> void:
 	_test_costruzione_tutte_materie()
 	_test_gioco_ordering()
 	_test_gioco_matching()
+	_test_gioco_specialisti()
 	_test_integrazione_pipeline()
-	print("Minigame audit OK — abbina/ordina validi, giocabili e integrati nel loop")
+	print("Minigame audit OK — 6 formati validi, giocabili e integrati nel loop")
 	quit(0)
 
 # Ogni materia produce almeno un nodo minigioco ben formato.
@@ -86,6 +87,23 @@ func _test_gioco_matching() -> void:
 	var res_fail := _play_single(_wrap_session("inglese", "minigame", [matching_node]), false)
 	assert(not bool(res_fail.get("passed", false)), "sbagliando l'abbinamento non deve passare")
 
+# Gioca i formati SPECIALISTI (grafico, circuito, code-debug, classificazione)
+# attraverso il player reale: risolti bene passano, sbagliati no.
+func _test_gioco_specialisti() -> void:
+	var mg := MinigameManager.new()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 13
+	for pair in [["fisica", "graph"], ["elettronica", "circuit"], ["coding", "code_debug"], ["italiano", "classification"]]:
+		var subject := str(pair[0])
+		var fmt := str(pair[1])
+		var session := mg.build_minigame(subject, 6, rng)
+		var node := _first_of_format(session, fmt)
+		assert(not node.is_empty(), "%s dovrebbe includere il formato %s" % [subject, fmt])
+		var res := _play_single(_wrap_session(subject, "minigame", [node]), true)
+		assert(bool(res.get("passed", false)), "%s risolto bene deve passare" % fmt)
+		var res_fail := _play_single(_wrap_session(subject, "minigame", [node]), false)
+		assert(not bool(res_fail.get("passed", false)), "%s sbagliato non deve passare" % fmt)
+
 # try_start_minigame → gioca → resolve: conta come missione e completa l'incontro.
 func _test_integrazione_pipeline() -> void:
 	var gameplay := _new_gameplay()
@@ -151,6 +169,12 @@ func _play_session(gameplay, session: Dictionary, solve_correctly: bool) -> Dict
 			_solve_ordering(player, node, solve_correctly)
 		elif fmt == "matching":
 			_solve_matching(player, node, solve_correctly)
+		elif fmt == "classification":
+			_solve_classification(player, node, solve_correctly)
+		elif fmt in ["graph", "circuit", "hotspot"]:
+			_solve_visual(player, node, solve_correctly)
+		elif fmt == "code_debug":
+			_solve_code(player, node, solve_correctly)
 		else:
 			player._answer(str(node.get("answer", "")) if solve_correctly else "__sbagliata__")
 		if not (holder["result"] as Dictionary).is_empty():
@@ -186,6 +210,40 @@ func _solve_matching(player, node: Dictionary, correctly: bool) -> void:
 			player._matching_left(i)
 			var wrong_idx := (i + 1) % pairs.size()
 			player._matching_right(str((pairs[wrong_idx] as Dictionary).get("right", "")), node)
+
+func _solve_classification(player, node: Dictionary, correctly: bool) -> void:
+	var assignments: Dictionary = node.get("assignments", {})
+	var categories: Array = node.get("categories", [])
+	for key in assignments.keys():
+		var right := str(assignments[key])
+		var chosen := right
+		if not correctly:
+			for c in categories:
+				if str(c) != right:
+					chosen = str(c)
+					break
+		player._classification_assign(str(key), chosen)
+	player._classification_submit(node)
+
+func _solve_visual(player, node: Dictionary, correctly: bool) -> void:
+	var answer := str(node.get("answer", ""))
+	var pick := answer
+	if not correctly:
+		var fmt := str(node.get("format", ""))
+		var points: Array = node.get("hotspots", []) if fmt == "hotspot" else node.get("points", []) if fmt == "graph" else node.get("components", [])
+		for p in points:
+			if str((p as Dictionary).get("id", "")) != answer:
+				pick = str((p as Dictionary).get("id", ""))
+				break
+	player._visual_select(pick)
+	player._visual_submit(node)
+
+func _solve_code(player, node: Dictionary, correctly: bool) -> void:
+	var line := int(node.get("answerLine", 1))
+	if not correctly:
+		line = 2 if line == 1 else 1
+	player._code_line_select(line)
+	player._code_submit(node)
 
 func _button_index(buttons: Array, text: String) -> int:
 	for i in buttons.size():

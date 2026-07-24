@@ -32,11 +32,12 @@ render, correzione visiva e revisione semantica della precedente.
 
 #### Gate D1 — revisione Opus prima dell’Ondata D2
 
-- [ ] **Opus:** verificare trasferimento, testi NORA e coerenza disciplinare dei
-  mondi 13–16; confermare che orbite, prospettive narrative, reti/debug e
-  scambi linguistici rappresentino i rispettivi contratti didattici.
-- [ ] **Codex:** applicare eventuali correzioni semantiche richieste da Opus
-  senza indebolire leggibilità notturna, input touch o budget prestazionale.
+- [x] **Opus:** orbite (13), prospettive narrative (14), reti/debug (15) e scambi
+  linguistici (16) rappresentano CORRETTAMENTE i contratti. Trasferimento reale
+  (contesto nuovo, ≥2 formati), testi NORA distinti e coerenti con la materia,
+  reazioni che consumano `environment_transform`. `world_semantics_audit` e
+  `world_wave_d1_audit` verdi. **Nessuna correzione concreta richiesta.**
+- [x] **Codex:** nessuna correzione semantica da applicare → **Ondata D2 sbloccata.**
 
 #### Ondata D2 — Mondi 17–20
 

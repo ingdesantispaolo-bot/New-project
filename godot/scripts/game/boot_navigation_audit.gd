@@ -12,6 +12,9 @@ func _init() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
+	# Il percorso più vincolante viene giocato nel viewport tablet target. Il
+	# round-trip desktop è coperto da roundtrip_audit.gd.
+	root.size = Vector2i(900, 600)
 	assert(str(ProjectSettings.get_setting("application/run/main_scene")) == BOOT_SCENE,
 		"run/main_scene deve puntare al menu Godot nativo")
 
@@ -22,6 +25,11 @@ func _run() -> void:
 	await process_frame
 	var play_button := boot.find_child("PlayButton", true, false) as Button
 	assert(play_button != null and play_button.text == "GIOCA", "il menu deve esporre il pulsante GIOCA")
+	var boot_hint := boot.find_child("BootInputHint", true, false) as Label
+	assert(boot_hint != null and "Tocca GIOCA" in boot_hint.text,
+		"il boot deve dichiarare il percorso touch, non soltanto la tastiera")
+	assert(play_button.size.y >= 58.0 and play_button.get_global_rect().intersection(root.get_visible_rect()).has_area(),
+		"GIOCA deve restare un bersaglio touch visibile nel viewport tablet")
 	play_button.pressed.emit()
 	await process_frame
 	await process_frame
@@ -161,5 +169,21 @@ func _run() -> void:
 	assert(current_scene != null and current_scene.scene_file_path == WORLD_SCENE,
 		"Torna al mondo deve riaprire outdoor_world.tscn")
 
+	var ending_scene := current_scene
+	root.remove_child(ending_scene)
+	ending_scene.queue_free()
+	current_scene = null
+	await process_frame
+	await process_frame
+	var audio := root.get_node_or_null("NativeAudio")
+	if audio != null:
+		for child in audio.get_children():
+			if child is AudioStreamPlayer:
+				child.stop()
+				child.stream = null
+				if child.name not in ["MusicBase", "AmbienceBase", "MusicFocus"]:
+					child.free()
+		audio.set("_stream_cache", {})
+	await create_timer(0.15).timeout
 	print("C-16 boot/navigation audit OK — touch POI -> missione, menu -> mondo -> nave -> mondo")
 	quit(0)

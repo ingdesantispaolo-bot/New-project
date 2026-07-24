@@ -107,7 +107,8 @@ func _build_interface() -> void:
 	column.add_child(play_button)
 
 	var hint := Label.new()
-	hint.text = "Invio / Spazio per iniziare"
+	hint.name = "BootInputHint"
+	hint.text = "Tocca GIOCA · Invio / Spazio"
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.add_theme_color_override("font_color", Color("9fb7bb"))
 	hint.add_theme_font_size_override("font_size", 13)

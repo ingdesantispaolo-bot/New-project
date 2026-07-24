@@ -214,7 +214,7 @@ func _build_ui() -> void:
 	_help_button.name = "ConceptHelpButton"
 	_help_button.text = "SPIEGA CON NORA"
 	_help_button.visible = false
-	_help_button.custom_minimum_size = Vector2(0, 44)
+	_help_button.custom_minimum_size = Vector2(0, 48)
 	_help_button.add_theme_color_override("font_color", Color("06272a"))
 	_help_button.add_theme_stylebox_override("normal", _exercise_button_style(Color("6be7d6"), Color("d8fff8")))
 	_help_button.pressed.connect(_request_concept_help)
@@ -223,7 +223,7 @@ func _build_ui() -> void:
 	_next_button = Button.new()
 	_next_button.text = "Avanti"
 	_next_button.visible = false
-	_next_button.custom_minimum_size = Vector2(0, 42)
+	_next_button.custom_minimum_size = Vector2(0, 48)
 	_next_button.add_theme_font_size_override("font_size", 16)
 	_next_button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.16, 0.32, 0.30, 0.98), Color(0.96, 0.78, 0.36, 0.72)))
 	_next_button.pressed.connect(_advance)
@@ -298,7 +298,7 @@ func _show_current() -> void:
 			for option in item.get("options", []):
 				var button := Button.new()
 				button.text = str(option)
-				button.custom_minimum_size = Vector2(0, 42)
+				button.custom_minimum_size = Vector2(0, 48)
 				button.add_theme_font_size_override("font_size", 16)
 				button.add_theme_color_override("font_color", Color("e7fff8"))
 				button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.22, 0.23, 0.92), Color(0.42, 0.9, 0.84, 0.28)))
@@ -412,7 +412,7 @@ func _build_ordering(item: Dictionary) -> void:
 		var button := EXERCISE_DRAG_BUTTON.new()
 		button.name = "OrderingItem_%02d" % i
 		button.text = str(elements[i])
-		button.custom_minimum_size = Vector2(150, 46)
+		button.custom_minimum_size = Vector2(150, 48)
 		button.add_theme_font_size_override("font_size", 16)
 		button.add_theme_color_override("font_color", Color("e7fff8"))
 		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.22, 0.23, 0.92), Color(0.42, 0.9, 0.84, 0.28)))
@@ -430,7 +430,7 @@ func _build_ordering(item: Dictionary) -> void:
 		var slot := EXERCISE_DROP_BUTTON.new()
 		slot.name = "OrderingSlot_%02d" % slot_index
 		slot.text = "%d · —" % (slot_index + 1)
-		slot.custom_minimum_size = Vector2(0, 44)
+		slot.custom_minimum_size = Vector2(0, 48)
 		slot.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		slot.add_theme_font_size_override("font_size", 15)
 		slot.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.04, 0.13, 0.16, 0.96), Color("527980")))
@@ -552,7 +552,7 @@ func _build_matching(item: Dictionary) -> void:
 
 func _style_matching_button(b: Button, text: String) -> void:
 	b.text = text
-	b.custom_minimum_size = Vector2(0, 44)
+	b.custom_minimum_size = Vector2(0, 48)
 	b.add_theme_font_size_override("font_size", 15)
 	b.add_theme_color_override("font_color", Color("e7fff8"))
 	b.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.22, 0.23, 0.92), Color(0.42, 0.9, 0.84, 0.28)))
@@ -634,7 +634,7 @@ func _build_classification(item: Dictionary) -> void:
 		var button := EXERCISE_DRAG_BUTTON.new()
 		button.name = "ClassificationItem_%s" % key.validate_node_name()
 		button.text = key
-		button.custom_minimum_size = Vector2(150, 46)
+		button.custom_minimum_size = Vector2(150, 48)
 		button.add_theme_font_size_override("font_size", 15)
 		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.22, 0.23, 0.96), Color("527980")))
 		button.call("configure", key, "classification")
@@ -740,7 +740,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		button.name = "VisualChoice_%s" % id.validate_node_name()
 		button.text = str(spec.get("label", id))
 		button.tooltip_text = str(spec.get("description", button.text))
-		button.custom_minimum_size = Vector2(74, 42)
+		button.custom_minimum_size = Vector2(74, 48)
 		button.focus_mode = Control.FOCUS_ALL
 		button.add_theme_font_size_override("font_size", 13)
 		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.03, 0.15, 0.18, 0.96), Color("f6c85f")))
@@ -751,8 +751,8 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		button.anchor_bottom = normalized.y
 		button.offset_left = -48
 		button.offset_right = 48
-		button.offset_top = -23
-		button.offset_bottom = 23
+		button.offset_top = -24
+		button.offset_bottom = 24
 		button.pressed.connect(_visual_select.bind(id))
 		diagram.add_child(button)
 		_visual_buttons[id] = button
@@ -799,7 +799,7 @@ func _build_code_debug(item: Dictionary) -> void:
 		button.name = "CodeLine_%02d" % line_number
 		button.text = "%02d  │  %s" % [line_number, str(lines[index])]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.custom_minimum_size = Vector2(0, 42)
+		button.custom_minimum_size = Vector2(0, 48)
 		button.focus_mode = Control.FOCUS_ALL
 		button.add_theme_font_size_override("font_size", 15)
 		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.025, 0.08, 0.10, 0.98), Color("527980")))
@@ -824,7 +824,7 @@ func _add_interaction_actions(undo_callback: Callable, submit_callback: Callable
 	var undo := Button.new()
 	undo.name = "InteractionUndo"
 	undo.text = "ANNULLA"
-	undo.custom_minimum_size = Vector2(140, 44)
+	undo.custom_minimum_size = Vector2(140, 48)
 	undo.focus_mode = Control.FOCUS_ALL
 	undo.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.09, 0.15, 0.18, 0.96), Color("75999f")))
 	undo.pressed.connect(undo_callback)
@@ -833,7 +833,7 @@ func _add_interaction_actions(undo_callback: Callable, submit_callback: Callable
 	submit.name = "InteractionSubmit"
 	submit.text = "VERIFICA"
 	submit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	submit.custom_minimum_size = Vector2(180, 44)
+	submit.custom_minimum_size = Vector2(180, 48)
 	submit.focus_mode = Control.FOCUS_ALL
 	submit.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.13, 0.38, 0.32, 1.0), Color("8ff6d2")))
 	submit.pressed.connect(submit_callback)

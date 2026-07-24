@@ -126,7 +126,7 @@ func _run() -> void:
 	for node in player.find_children("*", "Button", true, false):
 		var button := node as Button
 		assert(button.focus_mode == Control.FOCUS_ALL, "tastiera: bottone senza focus %s" % button.name)
-		assert(button.custom_minimum_size.y >= 42.0, "touch target troppo basso: %s" % button.name)
+		assert(button.custom_minimum_size.y >= 48.0, "touch target troppo basso: %s" % button.name)
 
 	# Il percorso realmente usato nel mondo deve chiedere la missione variata,
 	# non lasciare la policy O-P3 disponibile ma scollegata.
@@ -143,6 +143,22 @@ func _run() -> void:
 	assert(INTERACTION.distinct_formats(live_nodes).size() >= 2, "missione live con una sola famiglia")
 	assert(INTERACTION.multiple_choice_ratio(live_nodes) <= 0.34, "missione live oltre 1/3 MC")
 
+	root.remove_child(gameplay)
+	gameplay.free()
+	root.remove_child(player)
+	player.free()
+	player = null
+	await process_frame
+	var audio := root.get_node_or_null("NativeAudio")
+	if audio != null:
+		for child in audio.get_children():
+			if child is AudioStreamPlayer:
+				child.stop()
+				child.stream = null
+				if child.name not in ["MusicBase", "AmbienceBase", "MusicFocus"]:
+					child.free()
+		audio.set("_stream_cache", {})
+	await create_timer(0.15).timeout
 	print("EXERCISE RENDERER audit OK — ordering/matching drag+click, classification, hotspot, graph, circuit, code-debug, exam/accessibilità")
 	quit(0)
 

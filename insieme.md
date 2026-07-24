@@ -27,27 +27,26 @@ navigazione, performance, regressioni ed export.
 
 ### C-P6 — Pass AAA e consegna
 
+Il playthrough integrato è verde su desktop e viewport tablet: boot → mondo →
+missione touch → nave → esame → mondo successivo. Sono verdi anche progressione
+naturale 1→24, finale trasversale e rivisitazione del mondo 24. Opus può quindi
+procedere con la revisione didattica finale senza attendere altri gate.
+
 Procedere in quest’ordine:
 
-1. [ ] Riallineare `enigma_scene_audit.gd` al runtime per profili: non deve
-   presumere dodici enigmi caricati nella stessa scena e deve verificare tap,
-   avvicinamento e pulsante contestuale oltre alla tastiera.
-2. [ ] Eseguire un playthrough manuale completo su desktop e tablet:
-   boot → mondo → missioni → nave → esame → mondo successivo, includendo il
-   finale trasversale e la rivisitazione dopo il livello 24.
-3. [ ] Rifinire regia, camera, animazioni, transizioni e sound design dei
+1. [ ] Rifinire regia, camera, animazioni, transizioni e sound design dei
    traguardi, con priorità a riattivazioni della nave e finale.
-4. [ ] Verificare coerenza di art direction tra Eli, 24 mondi, nave, NORA e UI;
+2. [ ] Verificare coerenza di art direction tra Eli, 24 mondi, nave, NORA e UI;
    correggere soltanto incoerenze visibili nelle capture o nel playthrough.
-5. [ ] Comprimere audio e texture senza perdita percettibile e misurare peso
+3. [ ] Comprimere audio e texture senza perdita percettibile e misurare peso
    finale del download.
-6. [ ] Profilare FPS, memoria, caricamenti, streaming e draw call su desktop,
+4. [ ] Profilare FPS, memoria, caricamenti, streaming e draw call su desktop,
    Web e hardware scolastico/tablet reale.
-7. [ ] Completare test di input touch, aspect ratio, leggibilità, contrasto,
+5. [ ] Completare test di input touch, aspect ratio, leggibilità, contrasto,
    riduzione movimento e accessibilità.
-8. [ ] Produrre export Web riproducibile ed eseguire smoke test della build
+6. [ ] Produrre export Web riproducibile ed eseguire smoke test della build
    pubblicabile.
-9. [ ] Eseguire la suite finale completa, aggiornare i documenti di consegna e
+7. [ ] Eseguire la suite finale completa, aggiornare i documenti di consegna e
    creare il commit/release candidate.
 
 Definizione di completato C-P6:

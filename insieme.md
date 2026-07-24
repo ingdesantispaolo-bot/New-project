@@ -125,13 +125,14 @@ I 13 rilievi divisi per competenza. Dettaglio e motivazioni in
   (unità istruttiva per 122 topic) + `teaching_moment` (NORA pre-insegna al primo
   incontro, ri-insegna sull'errore). `codex_teaching_audit` verde. Resta il wiring
   UI a Codex.
-- [~] **#11** Design dei minigiochi + descrizione grafica per Codex in
-  [docs/MINIGAMES_DESIGN.md](docs/MINIGAMES_DESIGN.md) (studio di giochi
-  avvincenti, catalogo formati→materie, principi di feel). Contenuto:
-  aggiunto il formato **classificazione** (drag-to-sort) per 10 materie in
-  `MinigameManager` → i minigiochi ora usano abbina+ordina+**classifica**.
-  Resta: attivare `build_varied_mission` come default live (wiring Codex) e i
-  DATI dei formati visivi quando Codex fissa gli asset immagine. *(insieme a Codex)*
+- [x] **#11** *(lato Opus, autonomo)* Design + handoff grafico in
+  [docs/MINIGAMES_DESIGN.md](docs/MINIGAMES_DESIGN.md). Le missioni live usano
+  GIÀ `build_varied_mission` (≤⅓ scelta multipla). **Sei formati interattivi**
+  live e play-testati (c01 li gioca dal player reale): abbina, ordina,
+  classifica, **grafico, circuito, code-debug** — tutti **senza asset immagine**
+  (resa procedurale di `exercise_diagram`). Varietà ampliata (2° gruppo
+  classificazione per i primi mondi). Resta a **Codex**: juice/feel dei renderer
+  e (opzionale) immagini reali per hotspot.
 - [x] **#10** Taratura difficoltà per livello — diagnosi (`difficulty_calibration_audit`)
   e fix: l'unica materia tappata (italiano ≤d2) è stata arricchita con 36 voci
   avanzate (lessico astratto/figurato, mondo 14) → ora **tutte le 12 materie

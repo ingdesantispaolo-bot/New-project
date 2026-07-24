@@ -32,16 +32,23 @@ Opus non chiude il Gate E1 e non viene congelata la sequenza conclusiva.
 
 #### Gate E1 — revisione Opus prima del finale
 
-- [ ] **Opus:** verificare che faglie/climi/insediamenti (21), cellula/flusso
-  energetico/adattamento (22) e accordi/beni comuni/impatto (23) siano
-  comunicati dalle trasformazioni a cinque stadi e non da effetti decorativi.
-  Confermare trasferimento reale, testi NORA distinti e coerenza tra landmark,
-  missioni e `environment_transform`.
-- [ ] **Opus:** congelare la struttura del mondo 24: prova trasversale, sequenza
-  dei dodici sistemi, beat conclusivo NORA, riattivazione completa della nave e
-  ritorno al mondo devono costituire un solo flusso verificabile.
-- [ ] **Codex:** applicare le eventuali correzioni E1 e iniziare il mondo 24
-  soltanto dopo l’approvazione della struttura conclusiva.
+- [x] **Opus:** faglie/climi/insediamenti (21), cellula/flusso energetico/
+  adattamento (22) e accordi/beni comuni/impatto (23) sono COMUNICATI dalle
+  trasformazioni a cinque stadi (placche colore-clima + faglie; membrane +
+  link energetici; cupole + anelli d'accordo), non decorativi. Trasferimento
+  reale, NORA distinti, coerenza landmark/missioni/`environment_transform`.
+  `world_semantics_audit` e `world_wave_e1_audit` verdi. **Nessuna correzione.**
+- [x] **Opus:** struttura del mondo 24 **CONGELATA** in
+  [docs/FINALE_SPEC.md](docs/FINALE_SPEC.md). Prova trasversale già disponibile
+  come contratto: `ContentManager.build_final_transversal_exam(24, rng,
+  mastery_by_subject)` — 12 sistemi (uno per materia) + nodo di sintesi di
+  trasferimento, multi-formato, senza tempo, deterministico
+  (`finale_transversal_audit` verde). Flusso unico: prova → convergenza dei 12
+  sistemi → beat finale NORA (`NarrativeManager.FINAL_BEAT`) → riattivazione
+  completa nave (`is_complete`) → ritorno al mondo.
+- [ ] **Codex:** costruire il mondo 24 e `world_wave_e2_audit.gd` consumando la
+  struttura congelata (Gate E2). Wiring nave: usare
+  `build_final_transversal_exam` al livello 24 al posto dell'esame monomateria.
 
 #### Gate E2 — Mondo 24 e finale
 

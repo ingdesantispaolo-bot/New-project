@@ -288,6 +288,51 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 	exam["rewards"] = {"energyPerCorrect": 12, "onComplete": {"energy": 40, "fragments": 4}}
 	return exam
 
+## Esame FINALE TRASVERSALE del mondo 24 (Gate E2 — struttura congelata da Opus):
+## i DODICI SISTEMI convergono. Una prova per ciascuna delle 12 materie, in ordine
+## canonico (la "sequenza dei dodici sistemi"): ogni nodo risolto accende il proprio
+## sistema (`system`). Chiude un nodo di SINTESI interattivo marcato `transfer`:
+## non una materia, ma tutte insieme applicate a un caso nuovo. È l'unica prova di
+## trasferimento a scala d'avventura. `mastery_by_subject` (opzionale) rende ogni
+## sistema adattivo alla competenza reale della materia.
+func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: RandomNumberGenerator = null, mastery_by_subject: Dictionary = {}) -> Dictionary:
+	var generator := rng
+	if generator == null:
+		generator = RandomNumberGenerator.new()
+		generator.randomize()
+	var nodes: Array = []
+	for subject in ApparatusConfig.SUBJECT_CYCLE:  # 12 sistemi, ordine canonico
+		var subject_mastery := float(mastery_by_subject.get(str(subject), -1.0))
+		var mission := build_mission(str(subject), level, 1, {}, generator, subject_mastery)
+		for node in mission.get("nodes", []):
+			var n: Dictionary = (node as Dictionary).duplicate(true)
+			n["system"] = str(subject)   # quale sistema accende questo nodo
+			nodes.append(n)
+			break
+	# Nodo di SINTESI finale: un formato interattivo (non scelta multipla) di logica,
+	# marcato come prova di trasferimento — l'ultimo impulso che accende il Cuore.
+	var synth := minigame_manager.build_minigame("logica", level, generator)
+	for node in synth.get("nodes", []):
+		if not ExerciseInteraction.is_multiple_choice(node):
+			var s: Dictionary = (node as Dictionary).duplicate(true)
+			s["system"] = "sintesi"
+			s["transfer"] = true
+			nodes.append(s)
+			break
+	return {
+		"sessionId": "final-transversal-exam",
+		"kind": "final_exam",
+		"subject": "trasversale",
+		"transversal": true,
+		"level": level,
+		"nodes": nodes,
+		"systems": Array(ApparatusConfig.SUBJECT_CYCLE).duplicate(),
+		"shields": 3,
+		"pace": PACE_REASONING,
+		"timed": false,
+		"rewards": {"energyPerCorrect": 12, "onComplete": {"energy": 120, "fragments": 12}},
+	}
+
 ## Missione a formati VARI (O-P3, policy "scelta multipla non dominante"): come
 ## build_mission ma con la scelta multipla portata a ≤ 1/3 dei nodi iniettando
 ## nodi non-MC (abbina/ordina) della materia. Dal gate C-P3 questa è la variante

@@ -77,8 +77,18 @@ competenze e validazione del percorso educativo.
 1. [ ] Rieseguire la revisione didattica finale sui 24 mondi e sul finale
    trasversale dopo il playthrough C-P6; segnalare soltanto problemi che cambiano
    comprensione, trasferimento, difficoltà o relazione con NORA.
-2. [ ] Validare la distribuzione reale dei formati di esercizio e proporre
+2. [~] Validare la distribuzione reale dei formati di esercizio e proporre
    correzioni dove la scelta multipla resta dominante nell’esperienza giocata.
+   > **Italiano (24 lug):** era il caso peggiore (banco 100% scelta multipla di
+   > vocabolario). Approfondito con 21 gruppi interattivi su 5 formati —
+   > abbina (sinonimi, definizioni, modi di dire, figure retoriche), ordina
+   > (costruzione frase, sequenza narrativa), classifica (tempi verbali,
+   > concreto/astratto), **grafico "arco narrativo"** (curva della tensione:
+   > esposizione→climax→scioglimento) e **"caccia all'errore"** (code_debug
+   > riusato: individua la frase con l'errore di ortografia/accordo/tempo). Il
+   > nodo specialista ora ruota, così le missioni alternano arco e caccia.
+   > Meccaniche nuove, zero asset immagine (resa procedurale). Prossime materie
+   > da approfondire con lo stesso metodo su richiesta.
 3. [x] Matrice livello → competenze → evidenze → apparato consegnata e GENERATA
    dai contratti in [docs/COMPETENCY_MATRIX.md](docs/COMPETENCY_MATRIX.md)
    (`competency_matrix.gd`, nessun drift), utilizzabile da docenti e pilota.

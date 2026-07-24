@@ -33,6 +33,10 @@ const MATCHING := {
 	"italiano": [
 		{"topic": "contrari", "pairs": [["alto", "basso"], ["grande", "piccolo"], ["giorno", "notte"], ["caldo", "freddo"], ["veloce", "lento"]]},
 		{"topic": "categorie", "pairs": [["correre", "verbo"], ["gatto", "nome"], ["rosso", "aggettivo"], ["velocemente", "avverbio"]]},
+		{"topic": "sinonimi", "pairs": [["felice", "contento"], ["veloce", "rapido"], ["bello", "stupendo"], ["triste", "malinconico"], ["furbo", "astuto"]]},
+		{"topic": "definizioni", "pairs": [["effimero", "che dura poco"], ["arduo", "molto difficile"], ["placido", "calmo e tranquillo"], ["arguto", "acuto e spiritoso"], ["tenace", "che non si arrende"]]},
+		{"topic": "modi-di-dire", "pairs": [["In bocca al lupo", "Buona fortuna"], ["Tagliare la corda", "Scappare via"], ["Avere le mani in pasta", "Essere coinvolti"], ["Costare un occhio", "Essere carissimo"], ["Perdere la testa", "Innamorarsi o agitarsi"]]},
+		{"topic": "figure-retoriche", "pairs": [["Veloce come il vento", "Similitudine"], ["Il sole sorride nel cielo", "Personificazione"], ["Ho un mare di compiti", "Iperbole"], ["Che silenzio assordante", "Ossimoro"]]},
 	],
 	"cittadinanza": [
 		{"topic": "istituzioni", "pairs": [["Sindaco", "Comune"], ["Parlamento", "Fa le leggi"], ["Costituzione", "Legge fondamentale"], ["Voto", "Scelta dei rappresentanti"]]},
@@ -74,6 +78,9 @@ const ORDERING := {
 	],
 	"italiano": [
 		{"topic": "ortografia", "prompt": "Metti in ordine alfabetico", "correctOrder": ["albero", "casa", "fiore", "sole"]},
+		{"topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Il", "gatto", "dorme", "sul", "divano"]},
+		{"topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Domani", "andremo", "tutti", "al", "mare"]},
+		{"topic": "testo-narrativo", "prompt": "Metti in ordine gli eventi della storia.", "correctOrder": ["C'era una volta un re", "Il re partì per un lungo viaggio", "Incontrò un drago feroce", "Con astuzia lo sconfisse", "Tornò a casa vittorioso"]},
 	],
 	"coding": [
 		{"topic": "algoritmi", "prompt": "Ordina i passi del programma", "correctOrder": ["Chiedi il numero", "Controlla se è pari", "Se è pari stampa 'pari'", "Altrimenti stampa 'dispari'"]},
@@ -106,6 +113,12 @@ const CLASSIFICATION := {
 		{"topic": "pensiero-linguaggio", "prompt": "Smista ogni parola: singolare o plurale?",
 			"categories": ["singolare", "plurale"],
 			"assignments": {"libro": "singolare", "fiore": "singolare", "casa": "singolare", "libri": "plurale", "fiori": "plurale", "case": "plurale"}},
+		{"topic": "verbo", "prompt": "Smista ogni verbo nel suo tempo.",
+			"categories": ["passato", "presente", "futuro"],
+			"assignments": {"ho letto": "passato", "mangiai": "passato", "corro": "presente", "gioca": "presente", "andrò": "futuro", "vedremo": "futuro"}},
+		{"topic": "lessico", "prompt": "Smista ogni nome: concreto o astratto?",
+			"categories": ["concreto", "astratto"],
+			"assignments": {"tavolo": "concreto", "cane": "concreto", "montagna": "concreto", "amore": "astratto", "libertà": "astratto", "coraggio": "astratto"}},
 	],
 	"scienze": [
 		{"topic": "viventi", "prompt": "Smista ogni animale per come si nutre.",
@@ -212,6 +225,23 @@ const GRAPH := {
 			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.70, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.95, "label": "D"}],
 			"explanation": "La curva sale sempre: l'ultimo punto D è il più alto."},
 	],
+	# ITALIANO — "L'arco narrativo": la curva della tensione di un racconto, a forma
+	# di montagna (esposizione A -> complicazione B -> climax C -> scioglimento D ->
+	# finale E). Stessa curva, domande diverse: si legge la struttura di una storia.
+	"italiano": [
+		{"topic": "testo-narrativo", "xLabel": "tempo del racconto", "yLabel": "tensione", "answer": "C",
+			"prompt": "La curva mostra la tensione di un racconto dall'inizio (A) alla fine (E). In quale punto c'è il climax, la massima suspense?",
+			"points": [{"id": "A", "x": 0.08, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.52, "label": "B"}, {"id": "C", "x": 0.52, "y": 0.94, "label": "C"}, {"id": "D", "x": 0.75, "y": 0.46, "label": "D"}, {"id": "E", "x": 0.93, "y": 0.16, "label": "E"}],
+			"explanation": "Il climax è il punto più alto della tensione: C. Dopo, la storia si avvia allo scioglimento."},
+		{"topic": "testo-narrativo", "xLabel": "tempo del racconto", "yLabel": "tensione", "answer": "A",
+			"prompt": "In quale punto la storia presenta con calma personaggi e luogo, prima che arrivino i problemi (l'esposizione)?",
+			"points": [{"id": "A", "x": 0.08, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.52, "label": "B"}, {"id": "C", "x": 0.52, "y": 0.94, "label": "C"}, {"id": "D", "x": 0.75, "y": 0.46, "label": "D"}, {"id": "E", "x": 0.93, "y": 0.16, "label": "E"}],
+			"explanation": "L'esposizione è l'inizio calmo, con tensione bassa: il punto A."},
+		{"topic": "testo-narrativo", "xLabel": "tempo del racconto", "yLabel": "tensione", "answer": "D",
+			"prompt": "Superato il climax (C), la tensione cala e i nodi si sciolgono: quale punto è lo scioglimento?",
+			"points": [{"id": "A", "x": 0.08, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.52, "label": "B"}, {"id": "C", "x": 0.52, "y": 0.94, "label": "C"}, {"id": "D", "x": 0.75, "y": 0.46, "label": "D"}, {"id": "E", "x": 0.93, "y": 0.16, "label": "E"}],
+			"explanation": "Lo scioglimento è la discesa dopo il climax: il punto D, prima della situazione finale E."},
+	],
 }
 
 # CIRCUITO (schema + collegamenti disegnati proceduralmente): scegli il componente
@@ -249,6 +279,27 @@ const CODE_DEBUG := {
 			"codeLines": ["Tutti i gatti sono felini.", "Alcuni felini sono neri.", "Quindi tutti i gatti sono neri.", "# dove si rompe il ragionamento?"],
 			"explanation": "La riga 3 generalizza indebitamente: da 'alcuni felini neri' non segue 'tutti i gatti neri'."},
 	],
+	# ITALIANO — "Caccia all'errore": fra più frasi corrette, una nasconde uno
+	# sbaglio (ortografia, accordo, tempo verbale). Si clicca la riga sbagliata: la
+	# correzione di bozze come sfida, ben più coinvolgente della scelta multipla.
+	"italiano": [
+		{"topic": "ortografia", "answerLine": 3,
+			"prompt": "Una frase contiene un errore di ortografia. Quale riga?",
+			"codeLines": ["Bevo un po' d'acqua fresca.", "Qual è il tuo colore preferito?", "A scuola studio la sciensa.", "# tutte tranne una sono corrette"],
+			"explanation": "Riga 3: si scrive 'scienza' con -sci-, non 'sciensa'. ('un po'' e 'qual è' sono invece corretti)."},
+		{"topic": "morfologia", "answerLine": 2,
+			"prompt": "Una frase ha un errore di accordo (genere o numero). Quale riga?",
+			"codeLines": ["I bambini giocano in giardino.", "La macchina rosse è veloce.", "Le case sono grandi e luminose.", "# trova l'accordo sbagliato"],
+			"explanation": "Riga 2: 'macchina' è singolare femminile, quindi 'rossa', non 'rosse'."},
+		{"topic": "verbo", "answerLine": 3,
+			"prompt": "Una frase sbaglia il tempo del verbo. Quale riga?",
+			"codeLines": ["Ieri ho finito i compiti.", "Domani andremo al mare.", "L'anno scorso vado in montagna.", "# quale verbo non concorda col tempo?"],
+			"explanation": "Riga 3: 'l'anno scorso' è passato, quindi 'sono andato' o 'andavo', non 'vado'."},
+		{"topic": "punteggiatura", "answerLine": 2,
+			"prompt": "Una frase usa male l'apostrofo. Quale riga?",
+			"codeLines": ["Un'amica mi ha aiutato molto.", "Ho visto un'orso nel bosco.", "L'albero è pieno di frutti.", "# dove l'apostrofo è di troppo?"],
+			"explanation": "Riga 2: 'orso' è maschile, quindi 'un orso' senza apostrofo (l'apostrofo va solo con il femminile: un'amica)."},
+	],
 }
 
 const NUMERIC_ORDERING_SUBJECTS := ["matematica", "logica"]
@@ -283,12 +334,23 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		nodes.append(_classification_node(subject, _pick(CLASSIFICATION[subject], generator), level, generator, 2))
 	# Quarto nodo (formato SPECIALISTA): grafico/circuito/code-debug se la materia
 	# ne ha — leggere dati, schemi o codice: la competenza come sfida visuale.
+	# Quando una materia ne ha più d'uno (es. italiano: arco narrativo + caccia
+	# all'errore) si ruota a caso, così le missioni non ripetono sempre lo stesso.
+	var specialists: Array = []
 	if GRAPH.has(subject):
-		nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator), level, generator, 3))
-	elif CIRCUIT.has(subject):
-		nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator), level, generator, 3))
-	elif CODE_DEBUG.has(subject):
-		nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator), level, generator, 3))
+		specialists.append("graph")
+	if CIRCUIT.has(subject):
+		specialists.append("circuit")
+	if CODE_DEBUG.has(subject):
+		specialists.append("code_debug")
+	if not specialists.is_empty():
+		var pick_fmt := str(specialists[generator.randi_range(0, specialists.size() - 1)])
+		if pick_fmt == "graph":
+			nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator), level, generator, 3))
+		elif pick_fmt == "circuit":
+			nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator), level, generator, 3))
+		else:
+			nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator), level, generator, 3))
 	if nodes.is_empty():
 		# Fallback generico: un abbinamento numerico sempre valido.
 		nodes.append(_numeric_ordering_node(subject, level, generator, 0))

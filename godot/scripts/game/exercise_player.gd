@@ -6,6 +6,7 @@ const EXERCISE_DRAG_BUTTON := preload("res://scripts/ui/exercise_drag_button.gd"
 const EXERCISE_DROP_BUTTON := preload("res://scripts/ui/exercise_drop_button.gd")
 const EXERCISE_CONNECTION_CANVAS := preload("res://scripts/ui/exercise_connection_canvas.gd")
 const EXERCISE_DIAGRAM := preload("res://scripts/ui/exercise_diagram.gd")
+const FINAL_CONVERGENCE_DISPLAY := preload("res://scripts/ui/final_convergence_display.gd")
 
 ## UI data-driven degli esercizi: riceve una sessione (missione o esame finale) e
 ## la gioca item per item. Supporta scelta/input, ordering, matching,
@@ -21,6 +22,9 @@ signal session_finished(result: Dictionary)
 ## ambientale per far crescere la costruzione nel mondo (una campata per risposta
 ## corretta). Le sessioni normali possono ignorarlo.
 signal progress_changed(built: int, total: int)
+## Emesso dal solo esame trasversale: ogni nodo completato accende il sistema
+## corrispondente, indipendentemente dall'esito usato poi per il punteggio.
+signal system_resolved(system: String, correct: bool, resolved: int, total_systems: int)
 ## Richiesta esplicita di aiuto sul concetto corrente. La scena apre il Manuale
 ## NORA sopra la sessione senza ricrearla; negli esami il pulsante non compare.
 signal concept_help_requested(subject: String, topic: String)
@@ -43,6 +47,7 @@ var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per
 var _topic_correct: Dictionary = {}  # topic -> risposte corrette
 var _wrong_attempts: Dictionary = {}  # topic -> tentativi errati nella sessione
 var _learning_emitted: Dictionary = {}
+var _systems_resolved: Dictionary = {}
 
 var _prompt: Label
 var _options: VBoxContainer
@@ -51,6 +56,7 @@ var _status: Label
 var _next_button: Button
 var _help_button: Button
 var _input: LineEdit
+var _convergence_display: FinalConvergenceDisplay
 
 # Stato dei minigiochi interattivi (formati "ordering" e "matching"). Ogni nodo
 # minigioco vale come un esercizio: risolverlo = 1 corretto; gli errori intermedi
@@ -105,6 +111,8 @@ func start_session(new_session: Dictionary) -> void:
 	_topic_correct = {}
 	_wrong_attempts = {}
 	_learning_emitted = {}
+	_systems_resolved = {}
+	_convergence_display = null
 	if _rng == null:
 		_rng = RandomNumberGenerator.new()
 		_rng.randomize()
@@ -145,8 +153,9 @@ func _build_ui() -> void:
 
 	var heading := Label.new()
 	heading.name = "ExerciseHeading"
+	var transversal := bool(session.get("transversal", false))
 	var heading_kind := "PROVA NORA" if str(session.get("kind", "mission")) == "mission" else ("ENIGMA NORA" if str(session.get("kind", "mission")) == "enigma" else "APPARATO · ESAME FINALE")
-	heading.text = "%s  ·  %s" % [heading_kind, str(session.get("subject", "matematica")).capitalize()]
+	heading.text = "CUORE DEI PRIMI · PROVA TRASVERSALE" if transversal else "%s  ·  %s" % [heading_kind, str(session.get("subject", "matematica")).capitalize()]
 	heading.add_theme_font_size_override("font_size", 19 if is_exam else 16)
 	heading.add_theme_color_override("font_color", Color("f6c85f") if is_exam else Color("6be7d6"))
 	box.add_child(heading)
@@ -161,6 +170,12 @@ func _build_ui() -> void:
 		pace_hint.add_theme_font_size_override("font_size", 12)
 		pace_hint.add_theme_color_override("font_color", Color(0.62, 0.86, 0.82, 0.85))
 		box.add_child(pace_hint)
+
+	if transversal:
+		_convergence_display = FINAL_CONVERGENCE_DISPLAY.new()
+		_convergence_display.name = "FinalConvergenceDisplay"
+		_convergence_display.setup(Array(session.get("systems", [])))
+		box.add_child(_convergence_display)
 
 	_status = Label.new()
 	_status.add_theme_font_size_override("font_size", 14)
@@ -300,7 +315,11 @@ func _show_current() -> void:
 
 func _refresh_status() -> void:
 	if is_instance_valid(_status):
-		_status.text = "Esercizio %d/%d   ·   Scudi %d" % [_index + 1, _nodes.size(), _shields]
+		if bool(session.get("transversal", false)) and _index < _nodes.size():
+			var system := str((_nodes[_index] as Dictionary).get("system", "sintesi")).replace("_", " ").capitalize()
+			_status.text = "Sistema %d/%d · %s   ·   Stabilità %d" % [_index + 1, _nodes.size(), system, _shields]
+		else:
+			_status.text = "Esercizio %d/%d   ·   Scudi %d" % [_index + 1, _nodes.size(), _shields]
 
 func _answer(given: String) -> void:
 	if _answered:
@@ -308,7 +327,7 @@ func _answer(given: String) -> void:
 	var item: Dictionary = _nodes[_index]
 	var is_correct := ExerciseInteraction.answers_equivalent(given, str(item.get("answer", "")))
 	if not is_correct:
-		_shields -= 1
+		_spend_shield()
 		_register_wrong_attempt(item)
 	_score_current(is_correct, item)
 
@@ -353,6 +372,13 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 	# La costruzione avanza di una campata per ogni nodo risolto (built = _correct);
 	# su errore resta ferma, senza mai regredire.
 	progress_changed.emit(_correct, _nodes.size())
+	var system := str(item.get("system", ""))
+	if system != "":
+		if system != "sintesi":
+			_systems_resolved[system] = is_correct
+		if is_instance_valid(_convergence_display):
+			_convergence_display.resolve_system(system, is_correct)
+		system_resolved.emit(system, is_correct, _systems_resolved.size(), int(Array(session.get("systems", [])).size()))
 	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
 	_next_button.visible = true
 
@@ -578,7 +604,7 @@ func _matching_right(value: String, item: Dictionary) -> void:
 		if _mg_matched >= pairs.size():
 			_score_current(true, item)
 	else:
-		_shields -= 1
+		_spend_shield()
 		_refresh_status()
 		_flash_feedback("Coppia sbagliata: riprova.")
 		if _mg_selected_left >= 0 and not _mg_left_buttons[_mg_selected_left].disabled:
@@ -818,13 +844,21 @@ func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -
 	if correct:
 		_score_current(true, item)
 		return
-	_shields -= 1
+	_spend_shield()
 	_register_wrong_attempt(item)
 	_refresh_status()
 	_flash_feedback(retry_message)
 	_offer_concept_help(item)
 	if _shields <= 0:
 		_score_current(false, item)
+
+func _spend_shield() -> void:
+	_shields -= 1
+	# Il finale deve far attraversare tutti i dodici sistemi anche quando un
+	# minigioco richiede più tentativi. L'accuratezza resta decisiva per passare,
+	# ma la sessione non si tronca prima della sintesi.
+	if bool(session.get("completeAllSystems", false)):
+		_shields = maxi(1, _shields)
 
 # Feedback temporaneo durante un minigioco (senza chiudere il nodo).
 func _flash_feedback(message: String) -> void:
@@ -878,7 +912,8 @@ func _advance() -> void:
 
 func _finish() -> void:
 	var total := _nodes.size()
-	var passed := _shields > 0 and _correct * 2 >= total
+	var minimum_correct := int(session.get("minimumCorrect", ceili(float(total) * 0.5)))
+	var passed := _shields > 0 and _correct >= minimum_correct
 	var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 	if audio != null:
 		audio.call("set_focus", false)
@@ -897,6 +932,8 @@ func _finish() -> void:
 		"seconds": maxf(0.0, float(Time.get_ticks_msec() - _started_at_msec) / 1000.0),
 		"missed": _missed.duplicate(),
 		"reviewedOk": _reviewed_ok.duplicate(),
+		"systemsResolved": _systems_resolved.keys(),
+		"synthesisResolved": is_instance_valid(_convergence_display) and _convergence_display.synthesis_resolved,
 		# Esiti per-argomento della sessione: {topic: {"seen": n, "correct": k}}.
 		# Alimentano la mastery per-topic (adattività fine dentro la materia).
 		"topicStats": _build_topic_stats(),

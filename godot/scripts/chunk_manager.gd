@@ -127,7 +127,7 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 			# Le vertical slice autorate tengono la decorazione procedurale come
 			# tessuto secondario: la topologia resta quella del profilo.
 			var level := int(world_profile.get("level", 1))
-			if level in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23] and field in ["obstacles", "props"]:
+			if level in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] and field in ["obstacles", "props"]:
 				var signature := str(item.get("id", "%s:%.1f:%.1f" % [field, position.x, position.y]))
 				var keep_percent := 58 if field == "obstacles" else 42
 				if level == 3:
@@ -171,6 +171,8 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 				elif level == 22:
 					keep_percent = 3 if field == "obstacles" else 2
 				elif level == 23:
+					keep_percent = 0
+				elif level == 24:
 					keep_percent = 0
 				if posmod(hash(signature), 100) >= keep_percent:
 					continue
@@ -279,6 +281,8 @@ func _boundary_palette() -> Array[Color]:
 			return [Color("102b27"), Color("17483d"), Color("202944"), Color("133832")]
 		"colony_council":
 			return [Color("111b31"), Color("263b5b"), Color("172641"), Color("202f4a")]
+		"first_heart":
+			return [Color("241d33"), Color("4a3c5a"), Color("252e48"), Color("503b35")]
 		_:
 			return [Color("10241d"), Color("14241f"), Color("13251d"), Color("111f22")]
 
@@ -371,6 +375,8 @@ func _add_boundary_motif(parent: Node2D, position: Vector2, index: int, edge: in
 		kind = "crystal" if (index + edge) % 3 == 0 else "tree"
 	elif composition.visual_theme == "colony_council":
 		kind = "crystal" if (index + edge) % 4 == 0 else "rock"
+	elif composition.visual_theme == "first_heart":
+		kind = "crystal"
 	var variant := fmod(float(index) * 0.371 + float(edge) * 0.219, 1.0)
 	var motif := OutdoorVisualFactory.build_obstacle(kind, 48.0 + variant * 14.0, 0x355b42, variant, biome)
 	motif.position = position + Vector2(sin(float(index) * 1.7 + edge) * 22.0, cos(float(index) * 1.13 + edge) * 10.0)

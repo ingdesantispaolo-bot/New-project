@@ -53,7 +53,17 @@ static func trust(save) -> float:
 # Allinea integrità e memoria al progresso della nave: quanti apparati sono stati
 # riparati (memoria = ricordi recuperati; integrità = frazione della nave online).
 static func sync_from_progress(save) -> void:
-	var repaired := int(save.data.get("apparatus", {}).size())
+	# Un apparato fisico ospita più nodi lungo i 24 livelli; contare soltanto le
+	# chiavi del dizionario fermava NORA a 7/24 anche a campagna completata.
+	# Ogni gate è online quando il repairedLevel dell'apparato ha raggiunto quel
+	# livello, lo stesso criterio usato da ShipActivationModel.
+	var repaired := 0
+	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
+		var gate := ApparatusConfig.level_gate(level)
+		var apparatus := str(gate.get("apparatus", ""))
+		var repaired_level := int(save.data.get("apparatus", {}).get(apparatus, {}).get("repairedLevel", 0))
+		if repaired_level >= level:
+			repaired += 1
 	var n := _nora(save)
 	n["memory"] = repaired
 	n["integrity"] = clampf(float(repaired) / float(ApparatusConfig.MAX_LEVEL), 0.0, 1.0)

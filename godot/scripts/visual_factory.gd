@@ -44,6 +44,7 @@ const FIELD_TOWER_TEXTURE: Texture2D = preload("res://assets/tempesta-torre-camp
 const TECTONIC_PILLAR_TEXTURE: Texture2D = preload("res://assets/atlante-pilastro-tettonico-v1.png")
 const LIVING_CORE_TEXTURE: Texture2D = preload("res://assets/biosfera-nucleo-vivente-v1.png")
 const COUNCIL_HALL_TEXTURE: Texture2D = preload("res://assets/concilio-sala-concilio-v1.png")
+const FIRST_HEART_TEXTURE: Texture2D = preload("res://assets/cuore-primi-landmark-v1.png")
 
 const NATURAL_DETAIL_CELLS := {
 	"reeds": Vector2i(0, 0), "cattails": Vector2i(1, 0),
@@ -1583,6 +1584,31 @@ static func build_identity_prop(kind: String, _theme: String, variant: float = 0
 				civic_trim.width = 3.0
 				civic_trim.default_color = Color("d8ac58")
 				root.add_child(civic_trim)
+		"system_pylon", "convergence_relay", "synthesis_anchor":
+			var system_palette := [
+				Color("f5c85b"), Color("ed8878"), Color("55a8ef"), Color("63d9e6"),
+				Color("777fe8"), Color("bc72e8"), Color("c7a06b"), Color("f09a44"),
+				Color("70b6d2"), Color("69c59a"), Color("ebe3c5"), Color("9c82f0"),
+			]
+			var palette_index := clampi(roundi(variant * 11.0), 0, 11)
+			var system_color: Color = system_palette[palette_index]
+			var system_width := 31.0 if kind == "system_pylon" else 48.0 if kind == "convergence_relay" else 58.0
+			root.add_child(make_shadow(system_width + 8.0, 12, 0.34, 8))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-system_width, 3), Vector2(-system_width * 0.68, -50),
+				Vector2(0, -78 if kind == "system_pylon" else -66),
+				Vector2(system_width * 0.68, -50), Vector2(system_width, 3),
+			]), Color("d9d4c5") if kind != "convergence_relay" else Color("343853")))
+			for system_ring_radius in [system_width * 0.42, system_width * 0.68]:
+				var system_ring := make_ring(system_ring_radius, Color(system_color, 0.72), 2.8, 28)
+				system_ring.scale.y = 0.32
+				system_ring.position = Vector2(0, -34)
+				root.add_child(system_ring)
+			var system_core := make_glow(17 if kind == "system_pylon" else 24, system_color, 0.92)
+			system_core.position = Vector2(0, -39)
+			system_core.add_to_group("night_glow")
+			root.add_child(system_core)
+			attach_anim(system_core, "pulse", 0.82 + variant * 0.45, 0.92)
 		_:
 			root.add_child(make_polygon(circle_polygon(18, 8), Color("6be7d6")))
 	return root
@@ -1887,6 +1913,25 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 				accord_ring.scale.y = 0.30
 				accord_ring.position = Vector2(0, -92)
 				root.add_child(accord_ring)
+		"firstHeart":
+			var first_heart_sprite := Sprite2D.new()
+			first_heart_sprite.name = "LandmarkFirstHeartArt"
+			first_heart_sprite.texture = FIRST_HEART_TEXTURE
+			first_heart_sprite.position = Vector2(0, -128)
+			first_heart_sprite.scale = Vector2(250, 250) / FIRST_HEART_TEXTURE.get_size()
+			first_heart_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(first_heart_sprite)
+			var heart_core := make_glow(58, Color("fff0b0"), 0.86)
+			heart_core.position = Vector2(0, -128)
+			heart_core.add_to_group("night_glow")
+			root.add_child(heart_core)
+			attach_anim(heart_core, "pulse", 1.16, 0.92)
+			for convergence_radius in [64.0, 94.0, 124.0]:
+				var convergence_ring := make_ring(convergence_radius, Color(accent, 0.24), 2.4, 42)
+				convergence_ring.scale.y = 0.52
+				convergence_ring.position = Vector2(0, -128)
+				root.add_child(convergence_ring)
+				attach_anim(convergence_ring, "pulse", 0.68 + convergence_radius * 0.003, 0.62)
 		"forge":
 			root.add_child(make_shadow(26, 9, 0.3, 8))
 			root.add_child(make_polygon(PackedVector2Array([
@@ -2015,6 +2060,7 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"tectonicPillar": -258.0,
 		"livingCore": -282.0,
 		"councilHall": -284.0,
+		"firstHeart": -286.0,
 	}
 	text.position = Vector2(-90, float(tall_label_y.get(kind, -96.0)))
 	text.custom_minimum_size = Vector2(180, 0)

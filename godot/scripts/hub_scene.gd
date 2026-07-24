@@ -656,7 +656,14 @@ func _repair_action() -> void:
 func _start_exam() -> void:
 	var gate := controller.progression.current_gate()
 	var subject := str(gate.get("subject", "matematica"))
-	var session := content.build_final_exam(subject, save.level(), 3, null, save.mastery_of(subject), save.topic_masteries(subject))
+	var session: Dictionary
+	if save.level() == ApparatusConfig.MAX_LEVEL:
+		var mastery_by_subject: Dictionary = {}
+		for system_subject in ApparatusConfig.SUBJECT_CYCLE:
+			mastery_by_subject[str(system_subject)] = save.mastery_of(str(system_subject))
+		session = content.build_final_transversal_exam(save.level(), null, mastery_by_subject)
+	else:
+		session = content.build_final_exam(subject, save.level(), 3, null, save.mastery_of(subject), save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		nora_line.text = "NORA: Banco esame non disponibile per %s." % subject
 		return
@@ -680,6 +687,14 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 			var activation_after := ShipActivationModel.activation_for_room(save, repaired_room)
 			nora_line.text = str(narrative.reveal_level(save.level()).get("text", "NORA: Apparato riparato. Una nuova rotta è disponibile."))
 			await _play_reactivation_sequence(repaired_room, activation_before, activation_after)
+			if controller.progression.is_complete():
+				NoraState.sync_from_progress(save)
+				nora_line.text = str(narrative.reveal_level(save.level()).get("text", NarrativeManager.FINAL_BEAT))
+				if is_instance_valid(nora_portrait):
+					nora_portrait.speak(nora_line.text)
+				var audio := get_node_or_null("/root/NativeAudio")
+				if audio != null:
+					audio.call("play_event", "portalOpened")
 		else:
 			nora_line.text = "NORA: Il protocollo non può essere applicato. Verifica i requisiti."
 	else:

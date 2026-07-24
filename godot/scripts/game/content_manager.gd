@@ -327,7 +327,12 @@ func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: R
 		"level": level,
 		"nodes": nodes,
 		"systems": Array(ApparatusConfig.SUBJECT_CYCLE).duplicate(),
-		"shields": 3,
+		# Tutti i dodici sistemi devono essere attraversati: la stabilità ampia
+		# impedisce che tre errori tronchino il viaggio prima della convergenza.
+		# Il superamento richiede circa il 70%, più severo dell'esame ordinario.
+		"shields": nodes.size() + 1,
+		"minimumCorrect": ceili(float(nodes.size()) * 0.69),
+		"completeAllSystems": true,
 		"pace": PACE_REASONING,
 		"timed": false,
 		"rewards": {"energyPerCorrect": 12, "onComplete": {"energy": 120, "fragments": 12}},

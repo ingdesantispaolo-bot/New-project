@@ -156,6 +156,10 @@ func _apply_world_soundscape_mix() -> void:
 			music_pitch = 1.04
 			ambience_pitch = 1.08
 			ambience_offset_db = 1.0
+		"coro-dei-sistemi":
+			music_pitch = 1.12
+			ambience_pitch = 0.88
+			ambience_offset_db = 0.4
 	_music.pitch_scale = music_pitch
 	_ambience.pitch_scale = ambience_pitch
 	if _environment != "":

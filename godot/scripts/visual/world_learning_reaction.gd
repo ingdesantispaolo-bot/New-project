@@ -69,6 +69,8 @@ func setup(
 			_build_deep_biosphere(event_kind, accent)
 		"colony_council":
 			_build_colony_council(event_kind, accent)
+		"first_heart":
+			_build_first_heart(event_kind, accent)
 		_:
 			_build_radure(event_kind, accent)
 	set_progress(0, active_parts.size(), false)
@@ -599,6 +601,34 @@ func _build_colony_council(event_kind: String, accent: Color) -> void:
 		add_child(part)
 	if event_kind == "enigma":
 		scale = Vector2.ONE * 1.14
+
+func _build_first_heart(event_kind: String, accent: Color) -> void:
+	# Cinque fasi macroscopiche della convergenza. I dodici sistemi restano
+	# leggibili nei piloni e nell'esame; qui si vede l'avanzamento del Cuore:
+	# aggancio, sincronizzazione, memoria, coscienza e rotta.
+	var phase_colors := [
+		Color("68d8ed"), Color("8c82ee"), Color("e891c8"),
+		Color("f1bd63"), Color("fff0ae"),
+	]
+	for index in range(5):
+		var part := Node2D.new()
+		var phase_radius := 34.0 + float(index) * 14.0
+		var ring := OutdoorVisualFactory.make_ring(
+			phase_radius, Color(phase_colors[index], 0.82), 3.2, 40)
+		ring.scale.y = 0.46
+		ring.position = Vector2(0, -5)
+		part.add_child(ring)
+		var phase_glow := OutdoorVisualFactory.make_glow(
+			13.0 + float(index) * 4.0, phase_colors[index].lerp(accent, 0.22), 0.48)
+		phase_glow.position = Vector2(0, -5)
+		phase_glow.add_to_group("night_glow")
+		part.add_child(phase_glow)
+		OutdoorVisualFactory.attach_anim(
+			ring, "pulse", 0.62 + float(index) * 0.14, 0.58)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.18
 
 func set_progress(value: int, total: int, animate: bool = true) -> void:
 	var ratio := clampf(float(value) / maxf(float(total), 1.0), 0.0, 1.0)

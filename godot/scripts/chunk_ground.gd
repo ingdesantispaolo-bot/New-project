@@ -37,6 +37,7 @@ const UNDERPAINT_EM_STORM: Texture2D = preload("res://assets/tempesta-elettromag
 const UNDERPAINT_FRACTURED_ATLAS: Texture2D = preload("res://assets/atlante-fratturato-underpaint-v1.png")
 const UNDERPAINT_DEEP_BIOSPHERE: Texture2D = preload("res://assets/biosfera-profonda-underpaint-v1.png")
 const UNDERPAINT_COLONY_COUNCIL: Texture2D = preload("res://assets/concilio-colonie-underpaint-v1.png")
+const UNDERPAINT_FIRST_HEART: Texture2D = preload("res://assets/cuore-primi-underpaint-v1.png")
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -258,9 +259,19 @@ func _build_painterly_surface(size: float) -> void:
 			identity_texture = UNDERPAINT_COLONY_COUNCIL
 			identity_strength = 0.96
 			identity_calm = Color("3a4a68")
+		"first_heart":
+			identity_texture = UNDERPAINT_FIRST_HEART
+			identity_strength = 0.98
+			identity_calm = Color("6e665f")
 	material.set_shader_parameter("identity_tex", identity_texture)
 	material.set_shader_parameter("identity_strength", identity_strength)
 	material.set_shader_parameter("identity_calm_palette", identity_calm)
+	material.set_shader_parameter("identity_unique_map", visual_theme == "first_heart")
+	if visual_theme == "first_heart":
+		# La tavola 16:9 è una mappa autorata, non una texture da ripetere. Il
+		# suo alloggiamento centrale coincide con il nucleo a y=1500.
+		material.set_shader_parameter("identity_world_origin", Vector2(-2200, 262.5))
+		material.set_shader_parameter("identity_world_size", Vector2(4400, 2475))
 	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0))) - Vector2.ONE * bleed
 	var surface_size := size + bleed * 2.0
 	material.set_shader_parameter("surface_world_origin", world_origin)
@@ -445,6 +456,20 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(inner)
 			_add_circuit_floor_ornament(root, radii)
 			_add_radial_floor_lines(root, radii, Color("efc86d", 0.15), 12)
+		elif kind == "system_convergence" or kind == "system_sector":
+			var sector_palette := [
+				Color("f5c85b"), Color("ed8878"), Color("55a8ef"), Color("63d9e6"),
+				Color("777fe8"), Color("bc72e8"), Color("c7a06b"), Color("f09a44"),
+				Color("70b6d2"), Color("69c59a"), Color("ebe3c5"), Color("9c82f0"),
+			]
+			var sector_index := clampi(roundi(float(region.get("variant", 0.5)) * 11.0), 0, 11)
+			var sector_color: Color = sector_palette[sector_index]
+			outer.color = Color("17172d", 0.22) if kind == "system_convergence" else Color(sector_color.darkened(0.48), 0.15)
+			inner.color = Color("f5e4bc", 0.08) if kind == "system_convergence" else Color(sector_color, 0.06)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_radial_floor_lines(root, radii, Color(sector_color, 0.20), 12 if kind == "system_convergence" else 5)
+			_add_contour_floor_ornament(root, radii, Color("f4d98a", 0.14))
 		elif kind == "radura_garden":
 			outer.color = Color(0.14, 0.28, 0.16, 0.46)
 			inner.color = Color(0.52, 0.58, 0.25, 0.26)
@@ -756,6 +781,10 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 			bank_color = Color(0.02, 0.06, 0.16, 0.20)
 			soil_color = Color(0.45, 0.70, 0.95, 0.18)
 			highlight_color = Color(0.95, 0.77, 0.36, 0.16)
+		"first_heart":
+			bank_color = Color(0.08, 0.07, 0.14, 0.24)
+			soil_color = Color(0.86, 0.80, 0.67, 0.24)
+			highlight_color = Color(0.99, 0.84, 0.42, 0.22)
 	var bank := Line2D.new()
 	bank.points = curved
 	bank.width = width + 9.0

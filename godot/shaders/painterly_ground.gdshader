@@ -17,6 +17,9 @@ uniform vec4 weights_br = vec4(1.0, 0.0, 0.0, 0.0);
 uniform float detail_strength = 1.0;
 uniform float identity_strength = 0.0;
 uniform vec4 identity_calm_palette : source_color = vec4(0.30, 0.34, 0.24, 1.0);
+uniform bool identity_unique_map = false;
+uniform vec2 identity_world_origin = vec2(-2200.0, -2200.0);
+uniform vec2 identity_world_size = vec2(4400.0, 4400.0);
 
 float hash21(vec2 p) {
 	p = fract(p * vec2(123.34, 456.21));
@@ -70,7 +73,13 @@ void fragment() {
 	vec3 magic = mix(texture(magic_tex, sample_a).rgb, texture(magic_tex, sample_b).rgb, secondary_mix);
 	vec3 color = academy * biome_weights.x + wild * biome_weights.y
 		+ mineral * biome_weights.z + magic * biome_weights.w;
-	vec3 identity = mix(texture(identity_tex, sample_a).rgb, texture(identity_tex, sample_b).rgb, secondary_mix * 0.72);
+	vec2 identity_uv = clamp(
+		(world - identity_world_origin) / max(identity_world_size, vec2(1.0)),
+		vec2(0.0), vec2(1.0));
+	vec3 identity = texture(identity_tex, identity_unique_map ? identity_uv : sample_a).rgb;
+	if (!identity_unique_map) {
+		identity = mix(identity, texture(identity_tex, sample_b).rgb, secondary_mix * 0.72);
+	}
 	color = mix(color, identity, clamp(identity_strength, 0.0, 1.0));
 	// Maschere macro in coordinate mondo: alternano prato calmo, sottobosco e
 	// tappeto fiorito su centinaia di metri senza creare rettangoli per chunk.

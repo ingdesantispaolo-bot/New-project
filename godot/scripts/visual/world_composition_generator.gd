@@ -109,6 +109,10 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		biomes = ["wild", "crystal", "logic"]
 	elif level == 23:
 		biomes = ["academy", "logic", "ruins"]
+	elif level == 24:
+		# Il Cuore non appartiene più a un solo bioma: le tre famiglie visive
+		# sostengono il mosaico dei dodici sistemi senza introdurre natura casuale.
+		biomes = ["crystal", "logic", "ruins"]
 	var profile_id := str(profile.get("id", "world-%02d" % level))
 	data.visual_theme = (
 		"radura" if level == 1 else
@@ -134,6 +138,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		"fractured_atlas" if level == 21 else
 		"deep_biosphere" if level == 22 else
 		"colony_council" if level == 23 else
+		"first_heart" if level == 24 else
 		str(profile.get("artKit", subject))
 	)
 	var rng := RandomNumberGenerator.new()
@@ -705,6 +710,41 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 				ship + Vector2(1120, 1700),
 			]),
 		})
+	elif level == 24:
+		# Finale: tre firme di percorso leggibili convergono nel Cuore. I dodici
+		# settori sono affidati all'underpaint e ai piloni semantici; le corsie
+		# restano larghe e non trasformano la mappa in una ragnatela illeggibile.
+		data.paths.append({
+			"id": "heart-convergence-axis", "width": 84.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 600), ship + Vector2(0, 980),
+				ship + Vector2(0, 1500), ship + Vector2(0, 1980),
+			]),
+		})
+		data.paths.append({
+			"id": "heart-west-arc", "width": 58.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1680, 820), ship + Vector2(-1220, 1160),
+				ship + Vector2(-720, 1430), ship + Vector2(0, 1500),
+			]),
+		})
+		data.paths.append({
+			"id": "heart-east-arc", "width": 58.0,
+			"points": PackedVector2Array([
+				ship + Vector2(1680, 820), ship + Vector2(1220, 1160),
+				ship + Vector2(720, 1430), ship + Vector2(0, 1500),
+			]),
+		})
+		data.paths.append({
+			"id": "heart-synthesis-ring", "width": 48.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-760, 1500), ship + Vector2(-540, 1160),
+				ship + Vector2(0, 1020), ship + Vector2(540, 1160),
+				ship + Vector2(760, 1500), ship + Vector2(540, 1840),
+				ship + Vector2(0, 1980), ship + Vector2(-540, 1840),
+				ship + Vector2(-760, 1500),
+			]),
+		})
 	else:
 		# Gli altri profili mantengono una seconda arteria deterministica finché
 		# ricevono la propria vertical slice nelle ondate C-P5.
@@ -723,7 +763,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 
 	# Acqua/profile dressing: sempre fuori dalla zona nave e mascherato dal
 	# corridoio sicuro in WorldCompositionData.water_weight().
-	if level in [2, 3, 5, 7, 11, 12, 13, 14, 15, 18, 19, 20, 21, 23]:
+	if level in [2, 3, 5, 7, 11, 12, 13, 14, 15, 18, 19, 20, 21, 23, 24]:
 		# L'Archivio non riusa il fiume naturale: la separazione fra le sale è
 		# resa da pavimenti sospesi, foschia e ponti di parole. Il Cratere usa
 		# invece terrazze asciutte: niente laghetto naturale nel canyon tecnico.
@@ -1142,6 +1182,34 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			{"kind": "commons_terminal", "position": ship + Vector2(720, 1110), "variant": 0.69},
 			{"kind": "colony_pod", "position": ship + Vector2(1450, 730), "variant": 0.88},
 		]
+	elif level == 24:
+		var heart_center := ship + Vector2(0, 1500)
+		data.identity_regions = [{
+			"id": "heart-convergence-core", "kind": "system_convergence",
+			"position": heart_center, "radii": Vector2(720, 510), "rotation": 0.0,
+		}]
+		data.identity_props = [
+			{"kind": "synthesis_anchor", "position": heart_center + Vector2(0, 470), "variant": 0.5},
+			{"kind": "convergence_relay", "position": heart_center + Vector2(-520, 0), "variant": 0.2},
+			{"kind": "convergence_relay", "position": heart_center + Vector2(520, 0), "variant": 0.8},
+		]
+		for sector_index in 12:
+			var angle := -PI * 0.5 + TAU * float(sector_index) / 12.0
+			var sector_offset := Vector2(cos(angle) * 1260.0, sin(angle) * 720.0)
+			data.identity_regions.append({
+				"id": "heart-system-sector-%02d" % (sector_index + 1),
+				"kind": "system_sector",
+				"position": heart_center + sector_offset,
+				"radii": Vector2(340, 230),
+				"rotation": angle,
+				"variant": float(sector_index) / 11.0,
+			})
+			data.identity_props.append({
+				"kind": "system_pylon",
+				"position": heart_center + sector_offset * 0.78,
+				"variant": float(sector_index) / 11.0,
+				"systemIndex": sector_index,
+			})
 
 	var safe_radius := float(profile.get("shipEntrance", {}).get("safeRadius", 340.0))
 	data.protected_zones = [{
@@ -1207,4 +1275,8 @@ static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
 		return ship + Vector2(0, 1460)
 	if level == 23:
 		return ship + Vector2(0, 1510)
+	if level == 24:
+		# Il root è alla base del landmark; il centro dell'arte cade sul nucleo
+		# autorato dell'underpaint (y=1500).
+		return ship + Vector2(0, 1690)
 	return ship + Vector2(690, -210)

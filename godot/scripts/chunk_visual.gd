@@ -76,6 +76,7 @@ func _build_identity_props() -> void:
 			"climate_beacon", "fault_marker", "terrain_model",
 			"cell_pod", "energy_vein", "adaptation_spore",
 			"colony_pod", "commons_terminal", "accord_beacon",
+			"system_pylon", "convergence_relay", "synthesis_anchor",
 		]:
 			var body := StaticBody2D.new()
 			var shape := CollisionShape2D.new()
@@ -145,6 +146,9 @@ func _build_identity_props() -> void:
 				"colony_pod": Vector2(72, 42),
 				"commons_terminal": Vector2(82, 42),
 				"accord_beacon": Vector2(50, 38),
+				"system_pylon": Vector2(58, 40),
+				"convergence_relay": Vector2(84, 44),
+				"synthesis_anchor": Vector2(96, 46),
 			}
 			rectangle.size = collision_sizes.get(kind, Vector2(52, 38))
 			shape.shape = rectangle
@@ -155,7 +159,7 @@ func _build_identity_props() -> void:
 func _build_global_assemblies() -> void:
 	if composition == null:
 		return
-	if composition.visual_theme in ["fractured_atlas", "deep_biosphere", "colony_council"]:
+	if composition.visual_theme in ["fractured_atlas", "deep_biosphere", "colony_council", "first_heart"]:
 		return
 	var rect := Rect2(Vector2(float(chunk["worldX"]), float(chunk["worldY"])), Vector2(float(chunk["size"]), float(chunk["size"])))
 	var points := BiomeAssemblySpawner.points_for_rect(composition, rect, visual_lod)
@@ -198,7 +202,7 @@ func _build_global_assemblies() -> void:
 func _build_global_details() -> void:
 	if composition == null:
 		return
-	if composition.visual_theme in ["fractured_atlas", "deep_biosphere", "colony_council"]:
+	if composition.visual_theme in ["fractured_atlas", "deep_biosphere", "colony_council", "first_heart"]:
 		return
 	var world_origin := Vector2(float(chunk["worldX"]), float(chunk["worldY"]))
 	var rect := Rect2(world_origin, Vector2(float(chunk["size"]), float(chunk["size"])))

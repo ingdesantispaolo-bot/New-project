@@ -62,7 +62,12 @@ func _run() -> void:
 		"codeLines": ["energia = 3", "if energia = 0:", "    accendi_portale()", "mostra(energia)"],
 		"answerLine": 2,
 	}), "mission", Vector2i(900, 600))
-	print("EXERCISE RENDER probe OK — 6 capture desktop/tablet")
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 2424
+	var final_session := ContentManager.new().build_final_transversal_exam(24, rng)
+	await _capture_session("final-transversal-desktop", final_session, Vector2i(1280, 720))
+	await _capture_session("final-transversal-tablet", final_session, Vector2i(900, 600))
+	print("EXERCISE RENDER probe OK — 8 capture desktop/tablet, incluso finale trasversale")
 	quit(0)
 
 func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vector2i) -> void:
@@ -78,6 +83,16 @@ func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vecto
 		"timed": false,
 		"rewards": {"energyPerCorrect": 10, "onComplete": {}},
 	})
+	await process_frame
+	await process_frame
+	await process_frame
+	var image := root.get_texture().get_image()
+	image.save_png(ProjectSettings.globalize_path("%s/%s.png" % [OUTPUT, name]))
+
+func _capture_session(name: String, session: Dictionary, viewport_size: Vector2i) -> void:
+	DisplayServer.window_set_size(viewport_size)
+	root.size = viewport_size
+	player.start_session(session)
 	await process_frame
 	await process_frame
 	await process_frame

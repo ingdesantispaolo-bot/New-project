@@ -34,9 +34,18 @@ const MATCHING := {
 		{"topic": "contrari", "pairs": [["alto", "basso"], ["grande", "piccolo"], ["giorno", "notte"], ["caldo", "freddo"], ["veloce", "lento"]]},
 		{"topic": "categorie", "pairs": [["correre", "verbo"], ["gatto", "nome"], ["rosso", "aggettivo"], ["velocemente", "avverbio"]]},
 		{"topic": "sinonimi", "pairs": [["felice", "contento"], ["veloce", "rapido"], ["bello", "stupendo"], ["triste", "malinconico"], ["furbo", "astuto"]]},
-		{"topic": "definizioni", "pairs": [["effimero", "che dura poco"], ["arduo", "molto difficile"], ["placido", "calmo e tranquillo"], ["arguto", "acuto e spiritoso"], ["tenace", "che non si arrende"]]},
-		{"topic": "modi-di-dire", "pairs": [["In bocca al lupo", "Buona fortuna"], ["Tagliare la corda", "Scappare via"], ["Avere le mani in pasta", "Essere coinvolti"], ["Costare un occhio", "Essere carissimo"], ["Perdere la testa", "Innamorarsi o agitarsi"]]},
-		{"topic": "figure-retoriche", "pairs": [["Veloce come il vento", "Similitudine"], ["Il sole sorride nel cielo", "Personificazione"], ["Ho un mare di compiti", "Iperbole"], ["Che silenzio assordante", "Ossimoro"]]},
+		{"topic": "definizioni", "minLevel": 7, "pairs": [["effimero", "che dura poco"], ["arduo", "molto difficile"], ["placido", "calmo e tranquillo"], ["arguto", "acuto e spiritoso"], ["tenace", "che non si arrende"]]},
+		{"topic": "modi-di-dire", "minLevel": 6, "pairs": [["In bocca al lupo", "Buona fortuna"], ["Tagliare la corda", "Scappare via"], ["Avere le mani in pasta", "Essere coinvolti"], ["Costare un occhio", "Essere carissimo"], ["Perdere la testa", "Innamorarsi o agitarsi"]]},
+		{"topic": "figure-retoriche", "minLevel": 8, "pairs": [["Veloce come il vento", "Similitudine"], ["Il sole sorride nel cielo", "Personificazione"], ["Ho un mare di compiti", "Iperbole"], ["Che silenzio assordante", "Ossimoro"]]},
+		# Scuola media — analisi grammaticale: ogni parola alla sua parte del discorso.
+		{"topic": "analisi-grammaticale", "minLevel": 8, "pairs": [["il", "articolo"], ["gatto", "nome"], ["dorme", "verbo"], ["pigro", "aggettivo"], ["sotto", "preposizione"]]},
+		# Scuola media — modi e tempi del verbo (terminologia esplicita).
+		{"topic": "modi-verbali", "minLevel": 9, "pairs": [["io leggo", "indicativo"], ["che io legga", "congiuntivo"], ["io leggerei", "condizionale"], ["leggi!", "imperativo"]]},
+		{"topic": "tempi-indicativo", "minLevel": 9, "pairs": [["ho letto", "passato prossimo"], ["leggevo", "imperfetto"], ["leggerò", "futuro semplice"], ["lessi", "passato remoto"]]},
+		{"topic": "modi-indefiniti", "minLevel": 10, "pairs": [["leggere", "infinito"], ["leggendo", "gerundio"], ["letto", "participio"]]},
+		# Scuola media — analisi logica: ogni sintagma alla sua funzione.
+		# Frase: "Il gatto insegue il topo nel prato".
+		{"topic": "analisi-logica", "minLevel": 11, "pairs": [["Il gatto", "soggetto"], ["insegue", "predicato verbale"], ["il topo", "complemento oggetto"], ["nel prato", "complemento di luogo"]]},
 	],
 	"cittadinanza": [
 		{"topic": "istituzioni", "pairs": [["Sindaco", "Comune"], ["Parlamento", "Fa le leggi"], ["Costituzione", "Legge fondamentale"], ["Voto", "Scelta dei rappresentanti"]]},
@@ -119,6 +128,22 @@ const CLASSIFICATION := {
 		{"topic": "lessico", "prompt": "Smista ogni nome: concreto o astratto?",
 			"categories": ["concreto", "astratto"],
 			"assignments": {"tavolo": "concreto", "cane": "concreto", "montagna": "concreto", "amore": "astratto", "libertà": "astratto", "coraggio": "astratto"}},
+		# Scuola media — tempi dell'indicativo con i loro nomi.
+		{"topic": "tempi-indicativo", "minLevel": 9, "prompt": "Smista ogni voce verbale nel suo tempo dell'indicativo.",
+			"categories": ["presente", "imperfetto", "passato prossimo", "futuro"],
+			"assignments": {"mangio": "presente", "leggo": "presente", "mangiavo": "imperfetto", "leggevo": "imperfetto", "ho mangiato": "passato prossimo", "ho letto": "passato prossimo", "mangerò": "futuro", "leggerò": "futuro"}},
+		# Scuola media — modi finiti del verbo.
+		{"topic": "modi-verbali", "minLevel": 10, "prompt": "Smista ogni voce verbale nel suo modo.",
+			"categories": ["indicativo", "congiuntivo", "condizionale", "imperativo"],
+			"assignments": {"io canto": "indicativo", "tu cantavi": "indicativo", "che io canti": "congiuntivo", "che tu cantassi": "congiuntivo", "io canterei": "condizionale", "tu canteresti": "condizionale", "canta!": "imperativo", "cantate!": "imperativo"}},
+		# Scuola media — analisi grammaticale: parti del discorso.
+		{"topic": "analisi-grammaticale", "minLevel": 8, "prompt": "Smista ogni parola nella sua parte del discorso.",
+			"categories": ["articolo", "nome", "verbo", "preposizione"],
+			"assignments": {"il": "articolo", "la": "articolo", "cane": "nome", "sole": "nome", "corre": "verbo", "salta": "verbo", "con": "preposizione", "tra": "preposizione"}},
+		# Scuola media — analisi logica: riconoscere i complementi.
+		{"topic": "analisi-logica", "minLevel": 11, "prompt": "Smista ogni espressione nel suo complemento.",
+			"categories": ["compl. di luogo", "compl. di tempo", "compl. di mezzo"],
+			"assignments": {"a Roma": "compl. di luogo", "in giardino": "compl. di luogo", "alle otto": "compl. di tempo", "di sera": "compl. di tempo", "con la penna": "compl. di mezzo", "in treno": "compl. di mezzo"}},
 	],
 	"scienze": [
 		{"topic": "viventi", "prompt": "Smista ogni animale per come si nutre.",
@@ -299,6 +324,19 @@ const CODE_DEBUG := {
 			"prompt": "Una frase usa male l'apostrofo. Quale riga?",
 			"codeLines": ["Un'amica mi ha aiutato molto.", "Ho visto un'orso nel bosco.", "L'albero è pieno di frutti.", "# dove l'apostrofo è di troppo?"],
 			"explanation": "Riga 2: 'orso' è maschile, quindi 'un orso' senza apostrofo (l'apostrofo va solo con il femminile: un'amica)."},
+		# Scuola media — la caccia all'errore diventa correzione di un'analisi.
+		{"topic": "analisi-grammaticale", "minLevel": 8, "answerLine": 2,
+			"prompt": "Analisi grammaticale di 'La bianca luna splende': quale riga sbaglia?",
+			"codeLines": ["La = articolo determinativo", "bianca = nome comune", "luna = nome comune", "splende = verbo"],
+			"explanation": "Riga 2: 'bianca' è un aggettivo qualificativo (descrive la luna), non un nome."},
+		{"topic": "verbo", "minLevel": 9, "answerLine": 2,
+			"prompt": "Modo e tempo dei verbi: quale analisi è errata?",
+			"codeLines": ["mangerò = futuro semplice", "che io mangi = indicativo presente", "mangiando = gerundio", "# quale voce verbale è analizzata male?"],
+			"explanation": "Riga 2: 'che io mangi' è congiuntivo presente, non indicativo (l'indicativo presente è 'io mangio')."},
+		{"topic": "analisi-logica", "minLevel": 11, "answerLine": 3,
+			"prompt": "Analisi logica di 'Marco regala un libro a Luca': quale riga sbaglia?",
+			"codeLines": ["Marco = soggetto", "regala = predicato verbale", "un libro = complemento di termine", "a Luca = complemento di termine"],
+			"explanation": "Riga 3: 'un libro' risponde a 'che cosa?', è complemento oggetto. Il complemento di termine (a chi?) è 'a Luca'."},
 	],
 }
 
@@ -316,22 +354,22 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	var nodes: Array = []
 	# Primo nodo: preferisci un abbinamento (più ricco); ripiega su ordinamento.
 	if has_match:
-		nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator), level, generator, 0))
+		nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator, level), level, generator, 0))
 	elif numeric:
 		nodes.append(_numeric_ordering_node(subject, level, generator, 0))
 	elif has_order:
-		nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator), level, generator, 0))
+		nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator, level), level, generator, 0))
 	# Secondo nodo: preferisci un formato DIVERSO per varietà.
 	if numeric:
 		nodes.append(_numeric_ordering_node(subject, level, generator, 1))
 	elif has_order:
-		nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator), level, generator, 1))
+		nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator, level), level, generator, 1))
 	elif has_match:
-		nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator), level, generator, 1))
+		nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator, level), level, generator, 1))
 	# Terzo nodo (se disponibile): smistamento drag-to-sort — il formato più
 	# distante da abbinamento/ordinamento, per esercizi davvero vari (#11).
 	if has_classify:
-		nodes.append(_classification_node(subject, _pick(CLASSIFICATION[subject], generator), level, generator, 2))
+		nodes.append(_classification_node(subject, _pick(CLASSIFICATION[subject], generator, level), level, generator, 2))
 	# Quarto nodo (formato SPECIALISTA): grafico/circuito/code-debug se la materia
 	# ne ha — leggere dati, schemi o codice: la competenza come sfida visuale.
 	# Quando una materia ne ha più d'uno (es. italiano: arco narrativo + caccia
@@ -346,11 +384,11 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	if not specialists.is_empty():
 		var pick_fmt := str(specialists[generator.randi_range(0, specialists.size() - 1)])
 		if pick_fmt == "graph":
-			nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator), level, generator, 3))
+			nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator, level), level, generator, 3))
 		elif pick_fmt == "circuit":
-			nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator), level, generator, 3))
+			nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator, level), level, generator, 3))
 		else:
-			nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator), level, generator, 3))
+			nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator, level), level, generator, 3))
 	if nodes.is_empty():
 		# Fallback generico: un abbinamento numerico sempre valido.
 		nodes.append(_numeric_ordering_node(subject, level, generator, 0))
@@ -366,7 +404,18 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		"rewards": {"energyPerCorrect": 12, "onComplete": {"energy": 30, "fragments": 2}},
 	}
 
-func _pick(list: Array, rng: RandomNumberGenerator) -> Dictionary:
+func _pick(list: Array, rng: RandomNumberGenerator, level: int = -1) -> Dictionary:
+	# Con `level` >= 0 si scartano gli spec con "minLevel" oltre il livello: così i
+	# contenuti da scuola media (analisi grammaticale/logica, modi e tempi) arrivano
+	# nei mondi avanzati e non spiazzano un principiante. Se nessuno è ammesso si
+	# ripiega sull'intera lista, per non lasciare mai la materia senza minigioco.
+	if level >= 0:
+		var eligible: Array = []
+		for spec in list:
+			if int((spec as Dictionary).get("minLevel", 0)) <= level:
+				eligible.append(spec)
+		if not eligible.is_empty():
+			return eligible[rng.randi_range(0, eligible.size() - 1)]
 	return list[rng.randi_range(0, list.size() - 1)]
 
 func _matching_node(subject: String, group: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:

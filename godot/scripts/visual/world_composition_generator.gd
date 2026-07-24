@@ -103,6 +103,12 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		biomes = ["ruins", "wild", "geo"]
 	elif level == 20:
 		biomes = ["logic", "crystal", "geo"]
+	elif level == 21:
+		biomes = ["geo", "wild", "academy"]
+	elif level == 22:
+		biomes = ["wild", "crystal", "logic"]
+	elif level == 23:
+		biomes = ["academy", "logic", "ruins"]
 	var profile_id := str(profile.get("id", "world-%02d" % level))
 	data.visual_theme = (
 		"radura" if level == 1 else
@@ -125,6 +131,9 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		"sound_cathedral" if level == 18 else
 		"root_necropolis" if level == 19 else
 		"electromagnetic_storm" if level == 20 else
+		"fractured_atlas" if level == 21 else
+		"deep_biosphere" if level == 22 else
+		"colony_council" if level == 23 else
 		str(profile.get("artKit", subject))
 	)
 	var rng := RandomNumberGenerator.new()
@@ -623,6 +632,79 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 				ship + Vector2(1600, 1210),
 			]),
 		})
+	elif level == 21:
+		# Atlante: quattro placche climatiche sono separate da faglie leggibili
+		# e collegate da una dorsale che culmina nel pilastro tettonico.
+		data.paths.append({
+			"id": "atlas-tectonic-spine", "width": 68.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 610), ship + Vector2(-120, 980),
+				ship + Vector2(0, 1460), ship + Vector2(140, 1870),
+			]),
+		})
+		data.paths.append({
+			"id": "atlas-west-fault", "width": 54.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1660, 720), ship + Vector2(-1080, 980),
+				ship + Vector2(-520, 1330), ship + Vector2(0, 1460),
+			]),
+		})
+		data.paths.append({
+			"id": "atlas-east-fault", "width": 54.0,
+			"points": PackedVector2Array([
+				ship + Vector2(1660, 720), ship + Vector2(1080, 1020),
+				ship + Vector2(520, 1330), ship + Vector2(0, 1460),
+			]),
+		})
+	elif level == 22:
+		# Biosfera: una catena energetica centrale alimenta due camere cellulari.
+		data.paths.append({
+			"id": "biosphere-energy-chain", "width": 66.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 620), ship + Vector2(-140, 990),
+				ship + Vector2(0, 1410), ship + Vector2(0, 1860),
+			]),
+		})
+		data.paths.append({
+			"id": "biosphere-west-membrane", "width": 50.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1550, 820), ship + Vector2(-1020, 1080),
+				ship + Vector2(-520, 1410), ship + Vector2(0, 1410),
+			]),
+		})
+		data.paths.append({
+			"id": "biosphere-east-membrane", "width": 50.0,
+			"points": PackedVector2Array([
+				ship + Vector2(1550, 840), ship + Vector2(1020, 1100),
+				ship + Vector2(520, 1410), ship + Vector2(0, 1410),
+			]),
+		})
+	elif level == 23:
+		# Concilio: tre moduli coloniali convergono nell'assemblea centrale,
+		# con una corsia separata per il bene comune condiviso.
+		data.paths.append({
+			"id": "council-assembly-axis", "width": 76.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 610), ship + Vector2(0, 1030),
+				ship + Vector2(0, 1510), ship + Vector2(0, 1880),
+			]),
+		})
+		data.paths.append({
+			"id": "council-colony-ring", "width": 58.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1500, 1040), ship + Vector2(-760, 1260),
+				ship + Vector2(0, 1510), ship + Vector2(760, 1260),
+				ship + Vector2(1500, 1040),
+			]),
+		})
+		data.paths.append({
+			"id": "council-commons-route", "width": 50.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1120, 1700), ship + Vector2(-520, 1550),
+				ship + Vector2(0, 1510), ship + Vector2(520, 1550),
+				ship + Vector2(1120, 1700),
+			]),
+		})
 	else:
 		# Gli altri profili mantengono una seconda arteria deterministica finché
 		# ricevono la propria vertical slice nelle ondate C-P5.
@@ -641,7 +723,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 
 	# Acqua/profile dressing: sempre fuori dalla zona nave e mascherato dal
 	# corridoio sicuro in WorldCompositionData.water_weight().
-	if level in [2, 3, 5, 7, 11, 12, 13, 14, 15, 18, 19, 20]:
+	if level in [2, 3, 5, 7, 11, 12, 13, 14, 15, 18, 19, 20, 21, 23]:
 		# L'Archivio non riusa il fiume naturale: la separazione fra le sale è
 		# resa da pavimenti sospesi, foschia e ponti di parole. Il Cratere usa
 		# invece terrazze asciutte: niente laghetto naturale nel canyon tecnico.
@@ -731,6 +813,14 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 				ship + Vector2(1740, 1440), ship + Vector2(1320, 2070),
 			])},
 		]
+	elif level == 22:
+		data.waters = [{
+			"id": "biosphere-luminous-flow", "kind": "stream", "width": 250.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1840, 420), ship + Vector2(-1480, 900),
+				ship + Vector2(-1580, 1430), ship + Vector2(-1260, 2050),
+			]),
+		}]
 	elif level % 2 == 0:
 		data.waters = [{
 			"id": "profile-stream-%d" % level,
@@ -1013,6 +1103,45 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			{"kind": "sensor_probe", "position": ship + Vector2(720, 1060), "variant": 0.69},
 			{"kind": "field_tower", "position": ship + Vector2(1450, 730), "variant": 0.88},
 		]
+	elif level == 21:
+		data.identity_regions = [
+			{"id": "atlas-central-plate", "kind": "climate_plate", "position": ship + Vector2(0, 1460), "radii": Vector2(640, 430), "rotation": 0.0},
+			{"id": "atlas-west-basin", "kind": "settlement_basin", "position": ship + Vector2(-1120, 1040), "radii": Vector2(470, 330), "rotation": -0.08},
+			{"id": "atlas-east-basin", "kind": "settlement_basin", "position": ship + Vector2(1120, 1080), "radii": Vector2(470, 330), "rotation": 0.08},
+		]
+		data.identity_props = [
+			{"kind": "climate_beacon", "position": ship + Vector2(-1460, 720), "variant": 0.12},
+			{"kind": "fault_marker", "position": ship + Vector2(-720, 1050), "variant": 0.31},
+			{"kind": "terrain_model", "position": ship + Vector2(0, 1460), "variant": 0.50},
+			{"kind": "fault_marker", "position": ship + Vector2(720, 1080), "variant": 0.69},
+			{"kind": "climate_beacon", "position": ship + Vector2(1460, 740), "variant": 0.88},
+		]
+	elif level == 22:
+		data.identity_regions = [
+			{"id": "biosphere-central-cell", "kind": "cell_cavern", "position": ship + Vector2(0, 1460), "radii": Vector2(650, 440), "rotation": 0.0},
+			{"id": "biosphere-west-chain", "kind": "energy_chain", "position": ship + Vector2(-1120, 1080), "radii": Vector2(470, 340), "rotation": -0.06},
+			{"id": "biosphere-east-chain", "kind": "energy_chain", "position": ship + Vector2(1120, 1120), "radii": Vector2(470, 340), "rotation": 0.06},
+		]
+		data.identity_props = [
+			{"kind": "cell_pod", "position": ship + Vector2(-1450, 730), "variant": 0.12},
+			{"kind": "energy_vein", "position": ship + Vector2(-720, 1080), "variant": 0.31},
+			{"kind": "adaptation_spore", "position": ship + Vector2(0, 1460), "variant": 0.50},
+			{"kind": "energy_vein", "position": ship + Vector2(720, 1120), "variant": 0.69},
+			{"kind": "cell_pod", "position": ship + Vector2(1450, 760), "variant": 0.88},
+		]
+	elif level == 23:
+		data.identity_regions = [
+			{"id": "council-central-dome", "kind": "assembly_dome", "position": ship + Vector2(0, 1510), "radii": Vector2(650, 430), "rotation": 0.0},
+			{"id": "council-west-commons", "kind": "commons_module", "position": ship + Vector2(-1120, 1120), "radii": Vector2(470, 340), "rotation": -0.04},
+			{"id": "council-east-commons", "kind": "commons_module", "position": ship + Vector2(1120, 1120), "radii": Vector2(470, 340), "rotation": 0.04},
+		]
+		data.identity_props = [
+			{"kind": "colony_pod", "position": ship + Vector2(-1450, 730), "variant": 0.12},
+			{"kind": "commons_terminal", "position": ship + Vector2(-720, 1110), "variant": 0.31},
+			{"kind": "accord_beacon", "position": ship + Vector2(0, 1510), "variant": 0.50},
+			{"kind": "commons_terminal", "position": ship + Vector2(720, 1110), "variant": 0.69},
+			{"kind": "colony_pod", "position": ship + Vector2(1450, 730), "variant": 0.88},
+		]
 
 	var safe_radius := float(profile.get("shipEntrance", {}).get("safeRadius", 340.0))
 	data.protected_zones = [{
@@ -1071,5 +1200,11 @@ static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
 	if level == 19:
 		return ship + Vector2(0, 1460)
 	if level == 20:
+		return ship + Vector2(0, 1510)
+	if level == 21:
+		return ship + Vector2(0, 1460)
+	if level == 22:
+		return ship + Vector2(0, 1460)
+	if level == 23:
 		return ship + Vector2(0, 1510)
 	return ship + Vector2(690, -210)

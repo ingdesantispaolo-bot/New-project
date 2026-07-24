@@ -41,6 +41,9 @@ const UNDERWATER_CATHEDRAL_TEXTURE: Texture2D = preload("res://assets/oceano-cat
 const GRAND_ORGAN_TEXTURE: Texture2D = preload("res://assets/cattedrale-grande-organo-v1.png")
 const ROOT_TREE_TEXTURE: Texture2D = preload("res://assets/necropoli-albero-radici-v1.png")
 const FIELD_TOWER_TEXTURE: Texture2D = preload("res://assets/tempesta-torre-campo-v1.png")
+const TECTONIC_PILLAR_TEXTURE: Texture2D = preload("res://assets/atlante-pilastro-tettonico-v1.png")
+const LIVING_CORE_TEXTURE: Texture2D = preload("res://assets/biosfera-nucleo-vivente-v1.png")
+const COUNCIL_HALL_TEXTURE: Texture2D = preload("res://assets/concilio-sala-concilio-v1.png")
 
 const NATURAL_DETAIL_CELLS := {
 	"reeds": Vector2i(0, 0), "cattails": Vector2i(1, 0),
@@ -1531,6 +1534,55 @@ static func build_identity_prop(kind: String, _theme: String, variant: float = 0
 			field_core.position = Vector2(0, -42)
 			field_core.add_to_group("night_glow")
 			root.add_child(field_core)
+		"climate_beacon", "fault_marker", "terrain_model":
+			var atlas_width := 26.0 if kind == "climate_beacon" else 38.0 if kind == "fault_marker" else 52.0
+			root.add_child(make_shadow(atlas_width, 10, 0.31, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-atlas_width, 3), Vector2(-atlas_width * 0.65, -58),
+				Vector2(0, -76), Vector2(atlas_width * 0.65, -58), Vector2(atlas_width, 3),
+			]), Color("6f6244")))
+			for strata_y in [-14.0, -31.0, -48.0]:
+				var strata := Line2D.new()
+				strata.points = PackedVector2Array([Vector2(-atlas_width * 0.68, strata_y), Vector2(atlas_width * 0.68, strata_y)])
+				strata.width = 3.0
+				strata.default_color = Color("d2aa61") if strata_y != -31.0 else Color("71b6c9")
+				root.add_child(strata)
+			var atlas_core := make_glow(14, Color("8be2ed"), 0.78)
+			atlas_core.position = Vector2(0, -41)
+			atlas_core.add_to_group("night_glow")
+			root.add_child(atlas_core)
+		"cell_pod", "energy_vein", "adaptation_spore":
+			var bio_width := 30.0 if kind != "energy_vein" else 44.0
+			root.add_child(make_shadow(bio_width, 11, 0.30, 7))
+			root.add_child(make_polygon(ellipse_polygon(bio_width, 30, 28), Color("385f52"), Vector2(0, -26)))
+			for membrane_radius in [bio_width * 0.38, bio_width * 0.68]:
+				var membrane := make_ring(membrane_radius, Color("82e8b2", 0.62), 2.4, 24)
+				membrane.scale.y = 0.70
+				membrane.position = Vector2(0, -26)
+				root.add_child(membrane)
+			var bio_core := make_glow(15, Color("69f2b4"), 0.84)
+			bio_core.position = Vector2(0, -26)
+			bio_core.add_to_group("night_glow")
+			root.add_child(bio_core)
+		"colony_pod", "commons_terminal", "accord_beacon":
+			var civic_width := 36.0 if kind == "colony_pod" else 45.0 if kind == "commons_terminal" else 27.0
+			root.add_child(make_shadow(civic_width, 11, 0.31, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-civic_width, 3), Vector2(-civic_width * 0.75, -48),
+				Vector2(0, -68), Vector2(civic_width * 0.75, -48), Vector2(civic_width, 3),
+			]), Color("d2d1c8")))
+			var civic_window := make_polygon(ellipse_polygon(civic_width * 0.58, 20, 24), Color("23658a"), Vector2(0, -34))
+			root.add_child(civic_window)
+			var accord_light := make_glow(15, Color("71e2ef"), 0.82)
+			accord_light.position = Vector2(0, -37)
+			accord_light.add_to_group("night_glow")
+			root.add_child(accord_light)
+			for civic_side in [-1.0, 1.0]:
+				var civic_trim := Line2D.new()
+				civic_trim.points = PackedVector2Array([Vector2(civic_side * civic_width * 0.72, -5), Vector2(civic_side * civic_width * 0.48, -48)])
+				civic_trim.width = 3.0
+				civic_trim.default_color = Color("d8ac58")
+				root.add_child(civic_trim)
 		_:
 			root.add_child(make_polygon(circle_polygon(18, 8), Color("6be7d6")))
 	return root
@@ -1794,6 +1846,47 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 				tower_field.position = Vector2(0, -102)
 				root.add_child(tower_field)
 				attach_anim(tower_field, "pulse", 0.72 + field_radius * 0.004, 0.68)
+		"tectonicPillar":
+			var tectonic_sprite := Sprite2D.new()
+			tectonic_sprite.name = "LandmarkTectonicPillarArt"
+			tectonic_sprite.texture = TECTONIC_PILLAR_TEXTURE
+			tectonic_sprite.position = Vector2(0, -125)
+			tectonic_sprite.scale = Vector2(220, 220) / TECTONIC_PILLAR_TEXTURE.get_size()
+			tectonic_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(tectonic_sprite)
+			for fault_angle in [-0.72, -0.24, 0.24, 0.72]:
+				var fault_line := Line2D.new()
+				fault_line.points = PackedVector2Array([Vector2.ZERO, Vector2(sin(fault_angle) * 54.0, 12), Vector2(sin(fault_angle) * 92.0, 20)])
+				fault_line.width = 3.5
+				fault_line.default_color = Color("82dce8", 0.62)
+				root.add_child(fault_line)
+		"livingCore":
+			var living_sprite := Sprite2D.new()
+			living_sprite.name = "LandmarkLivingCoreArt"
+			living_sprite.texture = LIVING_CORE_TEXTURE
+			living_sprite.position = Vector2(0, -138)
+			living_sprite.scale = Vector2(252, 252) / LIVING_CORE_TEXTURE.get_size()
+			living_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(living_sprite)
+			for pulse_radius in [43.0, 67.0, 91.0]:
+				var life_pulse := make_ring(pulse_radius, Color("70f0b3", 0.26), 2.2, 36)
+				life_pulse.scale.y = 0.30
+				life_pulse.position = Vector2(0, -103)
+				root.add_child(life_pulse)
+				attach_anim(life_pulse, "pulse", 0.76 + pulse_radius * 0.004, 0.62)
+		"councilHall":
+			var council_sprite := Sprite2D.new()
+			council_sprite.name = "LandmarkCouncilHallArt"
+			council_sprite.texture = COUNCIL_HALL_TEXTURE
+			council_sprite.position = Vector2(0, -140)
+			council_sprite.scale = Vector2(252, 252) / COUNCIL_HALL_TEXTURE.get_size()
+			council_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(council_sprite)
+			for accord_radius in [47.0, 72.0, 97.0]:
+				var accord_ring := make_ring(accord_radius, Color("efc56c", 0.24), 2.0, 36)
+				accord_ring.scale.y = 0.30
+				accord_ring.position = Vector2(0, -92)
+				root.add_child(accord_ring)
 		"forge":
 			root.add_child(make_shadow(26, 9, 0.3, 8))
 			root.add_child(make_polygon(PackedVector2Array([
@@ -1919,6 +2012,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"grandOrgan": -281.0,
 		"rootTree": -284.0,
 		"fieldTower": -289.0,
+		"tectonicPillar": -258.0,
+		"livingCore": -282.0,
+		"councilHall": -284.0,
 	}
 	text.position = Vector2(-90, float(tall_label_y.get(kind, -96.0)))
 	text.custom_minimum_size = Vector2(180, 0)

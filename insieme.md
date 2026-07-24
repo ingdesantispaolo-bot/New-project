@@ -25,38 +25,32 @@ didattici trasformano visivamente mondo e nave.
 Codex è responsabile di runtime Godot, scene, resa, input, integrazione visuale,
 navigazione, performance ed export.
 
-### C-P5 — Strategia per completare i mondi 21–24
+### C-P5 — Strategia per completare il mondo 24
 
-Resta un’ondata da quattro mondi. Non parte finché Opus non chiude il Gate D2
-e Codex non applica le eventuali correzioni richieste.
+I mondi 21–23 sono tecnicamente completi. Resta il finale, che non parte finché
+Opus non chiude il Gate E1 e non viene congelata la sequenza conclusiva.
 
-#### Gate D2 — revisione Opus prima dell’Ondata E
+#### Gate E1 — revisione Opus prima del finale
 
-- [x] **Opus:** le trasformazioni COMUNICANO il concetto (non decorative):
-  17 corrente direzionale + galleggiamento, 18 canne d'organo di altezza variabile
-  (note) + armonia, 19 radici ramificate (etimologia), 20 conduttori serie/parallelo
-  + sensori + messa a terra. Trasferimento reale, NORA distinti, landmark/missioni/
-  `environment_transform` coerenti. `world_semantics_audit` e `world_wave_d2_audit`
-  verdi. **Nessuna correzione concreta richiesta.**
-- [x] **Codex:** nessuna correzione semantica da applicare → **Ondata E sbloccata.**
+- [ ] **Opus:** verificare che faglie/climi/insediamenti (21), cellula/flusso
+  energetico/adattamento (22) e accordi/beni comuni/impatto (23) siano
+  comunicati dalle trasformazioni a cinque stadi e non da effetti decorativi.
+  Confermare trasferimento reale, testi NORA distinti e coerenza tra landmark,
+  missioni e `environment_transform`.
+- [ ] **Opus:** congelare la struttura del mondo 24: prova trasversale, sequenza
+  dei dodici sistemi, beat conclusivo NORA, riattivazione completa della nave e
+  ritorno al mondo devono costituire un solo flusso verificabile.
+- [ ] **Codex:** applicare le eventuali correzioni E1 e iniziare il mondo 24
+  soltanto dopo l’approvazione della struttura conclusiva.
 
-#### Ondata E — Mondi 21–24 e finale
+#### Gate E2 — Mondo 24 e finale
 
-- [ ] **21 · Atlante Fratturato** — placche e biomi separati da faglie,
-  Pilastro Tettonico; le faglie si ricompongono e stabilizzano i biomi.
-- [ ] **22 · Biosfera Profonda** — caverne vive e catena energetica, Nucleo
-  Vivente; la bioluminescenza si propaga lungo il flusso dell’energia.
-- [ ] **23 · Concilio delle Colonie** — moduli orbitali, cupole e assemblee,
-  Sala del Concilio; gli accordi illuminano una cupola e rendono disponibile una
-  risorsa condivisa.
 - [ ] **24 · Cuore dei Primi** — dodici settori riconoscibili che convergono nel
   Cuore; ogni prova finale accende un sistema e la conclusione apre la rotta.
-- [ ] Creare asset, kit, reazioni, `world_wave_e_audit.gd` e cinque capture per
-  mondo; rieseguire l’intera progressione 1→24.
-- [ ] Gate E1: i mondi 21–23 devono essere completi prima di iniziare il finale.
-- [ ] Gate E2 speciale mondo 24: convergenza dei dodici sistemi, beat conclusivo
-  NORA, riattivazione completa della nave e ritorno al mondo devono formare una
-  sola sequenza verificabile e non una serie di menu scollegati.
+- [ ] Creare asset, kit, reazione finale, `world_wave_e2_audit.gd` e cinque
+  capture del mondo; rieseguire l’intera progressione 1→24.
+- [ ] Verificare in un audit integrato convergenza dei dodici sistemi, beat NORA,
+  riattivazione completa della nave e ritorno al mondo.
 
 #### Procedura obbligatoria di ogni ondata
 
@@ -111,9 +105,7 @@ fine di ogni ondata, senza modificare posizionamento o resa visuale.
 > rieseguirli sui mondi consegnati: il controllo semantico Opus si riduce a
 > confermare che la resa di Codex rispetti questi contratti già validati.
 
-- [ ] completare il Gate D2 descritto sopra prima che Codex inizi l’Ondata E;
-- [ ] prima del Gate E2, validare prova trasversale, beat conclusivo NORA e
-  semantica della convergenza dei dodici sistemi;
+- [ ] completare il Gate E1 descritto sopra prima che Codex inizi il mondo 24;
 - [ ] aggiornare fixture e consumer insieme soltanto se una revisione cambia un
   contratto `WorldLessonCatalog`.
 

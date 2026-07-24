@@ -63,6 +63,12 @@ func setup(
 			_build_root_necropolis(event_kind, accent)
 		"electromagnetic_storm":
 			_build_electromagnetic_storm(event_kind, accent)
+		"fractured_atlas":
+			_build_fractured_atlas(event_kind, accent)
+		"deep_biosphere":
+			_build_deep_biosphere(event_kind, accent)
+		"colony_council":
+			_build_colony_council(event_kind, accent)
 		_:
 			_build_radure(event_kind, accent)
 	set_progress(0, active_parts.size(), false)
@@ -523,6 +529,72 @@ func _build_electromagnetic_storm(event_kind: String, accent: Color) -> void:
 		grounded_core.add_to_group("night_glow")
 		part.add_child(grounded_core)
 		OutdoorVisualFactory.attach_anim(grounded_core, "pulse", 0.64 + float(index) * 0.12, 0.58)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_fractured_atlas(event_kind: String, accent: Color) -> void:
+	var climate_colors := [Color("7fc9e8"), Color("d6b46b"), Color("76b77a"), Color("db7651"), accent]
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0 + absf(float(index) - 2.0) * 3.0)
+		var plate := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-10, -7), Vector2(7, -10), Vector2(11, 4), Vector2(-5, 8)]),
+			climate_colors[index])
+		part.add_child(plate)
+		var seam := Line2D.new()
+		seam.points = PackedVector2Array([Vector2(-8, 3), Vector2(-1, -3), Vector2(8, 2)])
+		seam.width = 2.4
+		seam.default_color = Color("f4e3a0")
+		part.add_child(seam)
+		var stable_core := OutdoorVisualFactory.make_glow(11, accent, 0.70)
+		stable_core.add_to_group("night_glow")
+		part.add_child(stable_core)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_deep_biosphere(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0 + sin(float(index) * 1.4) * 5.0)
+		if index > 0:
+			var energy_link := Line2D.new()
+			energy_link.points = PackedVector2Array([Vector2(-22, -sin(float(index - 1) * 1.4) * 5.0), Vector2.ZERO])
+			energy_link.width = 4.0
+			energy_link.default_color = Color("79efac")
+			part.add_child(energy_link)
+		var membrane := OutdoorVisualFactory.make_ring(10, Color("82e8b2"), 2.4, 22)
+		membrane.scale.y = 0.72
+		part.add_child(membrane)
+		var cell_core := OutdoorVisualFactory.make_glow(12, accent, 0.82)
+		cell_core.add_to_group("night_glow")
+		part.add_child(cell_core)
+		OutdoorVisualFactory.attach_anim(cell_core, "pulse", 0.70 + float(index) * 0.11, 0.60)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_colony_council(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		var angle := lerpf(-2.72, -0.42, float(index) / 4.0)
+		part.position = Vector2(cos(angle) * 46.0, sin(angle) * 18.0 + 8.0)
+		var dome := OutdoorVisualFactory.make_polygon(
+			OutdoorVisualFactory.ellipse_polygon(11, 8, 20),
+			Color("d8d6ca"))
+		part.add_child(dome)
+		var shared_light := OutdoorVisualFactory.make_glow(12, accent, 0.82)
+		shared_light.position = Vector2(0, -3)
+		shared_light.add_to_group("night_glow")
+		part.add_child(shared_light)
+		var accord := OutdoorVisualFactory.make_ring(14, Color("edc46a", 0.50), 1.8, 22)
+		accord.scale.y = 0.42
+		accord.position = Vector2(0, -3)
+		part.add_child(accord)
 		active_parts.append(part)
 		add_child(part)
 	if event_kind == "enigma":

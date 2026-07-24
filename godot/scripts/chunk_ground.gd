@@ -34,6 +34,9 @@ const UNDERPAINT_FORCE_OCEAN: Texture2D = preload("res://assets/oceano-forze-und
 const UNDERPAINT_SOUND_CATHEDRAL: Texture2D = preload("res://assets/cattedrale-suono-underpaint-v1.png")
 const UNDERPAINT_ROOT_NECROPOLIS: Texture2D = preload("res://assets/necropoli-radici-underpaint-v1.png")
 const UNDERPAINT_EM_STORM: Texture2D = preload("res://assets/tempesta-elettromagnetica-underpaint-v1.png")
+const UNDERPAINT_FRACTURED_ATLAS: Texture2D = preload("res://assets/atlante-fratturato-underpaint-v1.png")
+const UNDERPAINT_DEEP_BIOSPHERE: Texture2D = preload("res://assets/biosfera-profonda-underpaint-v1.png")
+const UNDERPAINT_COLONY_COUNCIL: Texture2D = preload("res://assets/concilio-colonie-underpaint-v1.png")
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -243,6 +246,18 @@ func _build_painterly_surface(size: float) -> void:
 			identity_texture = UNDERPAINT_EM_STORM
 			identity_strength = 0.96
 			identity_calm = Color("263b55")
+		"fractured_atlas":
+			identity_texture = UNDERPAINT_FRACTURED_ATLAS
+			identity_strength = 0.95
+			identity_calm = Color("6a684d")
+		"deep_biosphere":
+			identity_texture = UNDERPAINT_DEEP_BIOSPHERE
+			identity_strength = 0.96
+			identity_calm = Color("244f46")
+		"colony_council":
+			identity_texture = UNDERPAINT_COLONY_COUNCIL
+			identity_strength = 0.96
+			identity_calm = Color("3a4a68")
 	material.set_shader_parameter("identity_tex", identity_texture)
 	material.set_shader_parameter("identity_strength", identity_strength)
 	material.set_shader_parameter("identity_calm_palette", identity_calm)
@@ -409,6 +424,27 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(inner)
 			_add_circuit_floor_ornament(root, radii)
 			_add_radial_floor_lines(root, radii, Color("bd83ff", 0.18), 12 if kind == "sensor_array" else 7)
+		elif kind == "climate_plate" or kind == "settlement_basin":
+			outer.color = Color(0.24, 0.23, 0.12, 0.18)
+			inner.color = Color(0.55, 0.61, 0.32, 0.07)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_contour_floor_ornament(root, radii, Color("d4bd72", 0.18))
+			_add_radial_floor_lines(root, radii, Color("78b7d4", 0.14), 8)
+		elif kind == "cell_cavern" or kind == "energy_chain":
+			outer.color = Color(0.04, 0.20, 0.17, 0.18)
+			inner.color = Color(0.28, 0.67, 0.46, 0.07)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_resonance_floor_ornament(root, radii)
+			_add_radial_floor_lines(root, radii, Color("80f4b8", 0.16), 10)
+		elif kind == "assembly_dome" or kind == "commons_module":
+			outer.color = Color(0.06, 0.11, 0.25, 0.18)
+			inner.color = Color(0.32, 0.47, 0.72, 0.07)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_circuit_floor_ornament(root, radii)
+			_add_radial_floor_lines(root, radii, Color("efc86d", 0.15), 12)
 		elif kind == "radura_garden":
 			outer.color = Color(0.14, 0.28, 0.16, 0.46)
 			inner.color = Color(0.52, 0.58, 0.25, 0.26)
@@ -708,6 +744,18 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 			bank_color = Color(0.01, 0.03, 0.10, 0.22)
 			soil_color = Color(0.15, 0.27, 0.46, 0.22)
 			highlight_color = Color(0.62, 0.42, 1.0, 0.19)
+		"fractured_atlas":
+			bank_color = Color(0.16, 0.12, 0.07, 0.20)
+			soil_color = Color(0.52, 0.46, 0.27, 0.22)
+			highlight_color = Color(0.63, 0.84, 0.92, 0.15)
+		"deep_biosphere":
+			bank_color = Color(0.02, 0.14, 0.12, 0.20)
+			soil_color = Color(0.16, 0.48, 0.35, 0.22)
+			highlight_color = Color(0.51, 1.0, 0.72, 0.18)
+		"colony_council":
+			bank_color = Color(0.02, 0.06, 0.16, 0.20)
+			soil_color = Color(0.45, 0.70, 0.95, 0.18)
+			highlight_color = Color(0.95, 0.77, 0.36, 0.16)
 	var bank := Line2D.new()
 	bank.points = curved
 	bank.width = width + 9.0

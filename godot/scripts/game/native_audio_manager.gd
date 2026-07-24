@@ -144,6 +144,18 @@ func _apply_world_soundscape_mix() -> void:
 			music_pitch = 0.94
 			ambience_pitch = 0.84
 			ambience_offset_db = 2.8
+		"terra-e-vento":
+			music_pitch = 0.90
+			ambience_pitch = 0.78
+			ambience_offset_db = 1.8
+		"pulsazioni-vitali":
+			music_pitch = 0.96
+			ambience_pitch = 0.72
+			ambience_offset_db = 2.2
+		"voci-in-assemblea":
+			music_pitch = 1.04
+			ambience_pitch = 1.08
+			ambience_offset_db = 1.0
 	_music.pitch_scale = music_pitch
 	_ambience.pitch_scale = ambience_pitch
 	if _environment != "":

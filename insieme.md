@@ -84,6 +84,48 @@ competenze e validazione del percorso educativo.
 4. [ ] Aggiornare fixture e consumer insieme soltanto se una revisione cambia un
    contratto `WorldLessonCatalog` o `ContentManager`.
 
+## Rilievi del playthrough C-P6
+
+I 13 rilievi divisi per competenza. Dettaglio e motivazioni in
+[docs/PLAYTHROUGH_TRIAGE.md](docs/PLAYTHROUGH_TRIAGE.md).
+
+### Rilievi → Codex (resa, runtime, meccaniche)
+
+- [ ] **#1** Rimuovere gli elementi grafici fuori contesto che distraggono.
+- [ ] **#5** Dare funzione o rimuovere elementi che sembrano importanti ma inutili
+  (albero dei percorsi, nucleo antico…).
+- [ ] **#12** Integrare gli elementi sopra la mappa, coerenti con mappa e livello.
+- [ ] **#3** Sfera/incontro completato: sparisce anche graficamente (il dato è già
+  persistito, `completedEncounterIds`/`worldProgress`; manca solo la resa).
+- [ ] **#8** Sprite del personaggio di qualità AAA (movimento e combattimento).
+- [ ] **#2** Fiumi con sorgente/cascata coerenti, attraversabili solo con ponti da
+  costruire (il "ponte via esercizio" ha già il contratto `build_enigma`). *(con Design)*
+- [ ] **#6** Equipaggiamento realmente utile: torcia con notte molto più buia,
+  falce per l'erba alta invalicabile; situazioni che rendono l'equipaggiamento
+  indispensabile per certe sfere/tesori. *(meccanica nuova, con Design)*
+- [ ] **#7** Nemici per livello che ostacolano la missione. *(meccanica nuova, con Design)*
+- [ ] **#9** Enigmi: feedback negativo visibile e **cooldown fra i tentativi**
+  sull'errore (l'esito no-ricompensa e il costo-energia esistono già lato Opus;
+  qui serve la UI del cooldown/feedback). Il cooldown è **tra** i tentativi, non
+  un timer durante l'esercizio.
+- [ ] **#11** Renderer interattivi dei formati non-MC (classificazione, hotspot,
+  grafico, circuito, codice) attivi nel percorso live. *(insieme a Opus)*
+- [ ] **#13** UI **atlante consultabile** e aggancio nel flusso dei momenti
+  d'insegnamento di NORA (`KnowledgeCodex.mini_lesson`/`teaching_moment` pronti). *(insieme a Opus)*
+
+### Rilievi → Opus (contenuti, didattica)
+
+- [x] **#4** Risposta corretta non sempre prima — **verificato pulito**: banchi
+  uniformi (25,6% in prima posizione) e matematica mescolata (Fisher-Yates).
+- [x] **#13** *(lato contenuti)* `KnowledgeCodex` ora **insegna**: `mini_lesson`
+  (unità istruttiva per 122 topic) + `teaching_moment` (NORA pre-insegna al primo
+  incontro, ri-insegna sull'errore). `codex_teaching_audit` verde. Resta il wiring
+  UI a Codex.
+- [ ] **#11** Portare `build_varied_mission` (≤⅓ scelta multipla) come default del
+  percorso live e ampliare i contenuti dei formati interattivi. *(insieme a Codex)*
+- [ ] **#10** Alzare la qualità/taratura delle domande nelle fasce alte
+  (distrattori più fini, profondità), mantenendo la scala di difficoltà per livello.
+
 ## Gate Codex ↔ Opus
 
 Il release candidate si chiude soltanto quando runtime, contenuti, input touch,

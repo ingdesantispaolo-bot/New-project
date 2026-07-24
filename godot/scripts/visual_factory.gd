@@ -33,6 +33,10 @@ const CARTOGRAPHY_TOWER_TEXTURE: Texture2D = preload("res://assets/arcipelago-to
 const LIVING_DOME_TEXTURE: Texture2D = preload("res://assets/serra-cupola-vivente-v1.png")
 const PACT_PALACE_TEXTURE: Texture2D = preload("res://assets/citta-palazzo-patti-v1.png")
 const LABYRINTH_HEART_TEXTURE: Texture2D = preload("res://assets/labirinto-cuore-regole-v1.png")
+const ORBITAL_OBSERVATORY_TEXTURE: Texture2D = preload("res://assets/deserto-osservatorio-v1.png")
+const HALL_OF_VOICES_TEXTURE: Texture2D = preload("res://assets/biblioteca-sala-voci-v1.png")
+const CONTROL_TOWER_TEXTURE: Texture2D = preload("res://assets/citta-torre-controllo-v1.png")
+const LANGUAGE_GATE_TEXTURE: Texture2D = preload("res://assets/frontiera-porta-lingue-v1.png")
 
 const NATURAL_DETAIL_CELLS := {
 	"reeds": Vector2i(0, 0), "cattails": Vector2i(1, 0),
@@ -1280,6 +1284,184 @@ static func build_identity_prop(kind: String, _theme: String, variant: float = 0
 			gate_glow.position = Vector2(0, -108)
 			gate_glow.add_to_group("night_glow")
 			root.add_child(gate_glow)
+		"trajectory_pylon":
+			root.add_child(make_shadow(32, 10, 0.30, 7))
+			var trajectory_mast := Line2D.new()
+			trajectory_mast.points = PackedVector2Array([Vector2(0, 3), Vector2(0, -104)])
+			trajectory_mast.width = 6.0
+			trajectory_mast.default_color = Color("9a744f")
+			root.add_child(trajectory_mast)
+			for orbit_radius in [18.0, 30.0, 42.0]:
+				var orbit_band := make_ring(orbit_radius, Color("79bfff", 0.42), 2.0, 28)
+				orbit_band.scale.y = 0.32
+				orbit_band.position = Vector2(0, -91)
+				root.add_child(orbit_band)
+			var trajectory_light := make_glow(15, Color("ffd17a"), 0.90)
+			trajectory_light.position = Vector2(0, -105)
+			trajectory_light.add_to_group("night_glow")
+			root.add_child(trajectory_light)
+		"fraction_dial":
+			root.add_child(make_shadow(43, 13, 0.28, 7))
+			var fraction_ring := make_ring(38, Color("d49d58"), 6.0, 32)
+			fraction_ring.scale.y = 0.66
+			fraction_ring.position = Vector2(0, -27)
+			root.add_child(fraction_ring)
+			for fraction_index in range(4):
+				var fraction_mark := Line2D.new()
+				var fraction_angle := TAU * float(fraction_index) / 4.0
+				fraction_mark.points = PackedVector2Array([
+					Vector2(cos(fraction_angle) * 12, sin(fraction_angle) * 8 - 27),
+					Vector2(cos(fraction_angle) * 34, sin(fraction_angle) * 23 - 27),
+				])
+				fraction_mark.width = 2.5
+				fraction_mark.default_color = Color("83c8ff")
+				root.add_child(fraction_mark)
+			var fraction_core := make_glow(14, Color("ffcb6b"), 0.82)
+			fraction_core.position = Vector2(0, -27)
+			fraction_core.add_to_group("night_glow")
+			root.add_child(fraction_core)
+		"orbit_scope":
+			root.add_child(make_shadow(52, 14, 0.34, 8))
+			var scope_mount := Line2D.new()
+			scope_mount.points = PackedVector2Array([Vector2(-24, 2), Vector2(0, -54), Vector2(31, -75)])
+			scope_mount.width = 9.0
+			scope_mount.default_color = Color("8c694d")
+			root.add_child(scope_mount)
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-11, -84), Vector2(45, -106), Vector2(54, -83), Vector2(-4, -62),
+			]), Color("54677c")))
+			var lens := make_glow(20, Color("77cfff"), 0.90)
+			lens.position = Vector2(48, -94)
+			lens.add_to_group("night_glow")
+			root.add_child(lens)
+			attach_anim(lens, "pulse", 0.85 + variant * 0.3, 0.76)
+		"voice_shelf":
+			root.add_child(make_shadow(62, 14, 0.34, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-55, 3), Vector2(-52, -92), Vector2(52, -92), Vector2(55, 3),
+			]), Color("513346")))
+			for voice_shelf_y in [-70.0, -42.0, -14.0]:
+				var shelf_line := Line2D.new()
+				shelf_line.points = PackedVector2Array([Vector2(-48, voice_shelf_y), Vector2(48, voice_shelf_y)])
+				shelf_line.width = 4.0
+				shelf_line.default_color = Color("c49764")
+				root.add_child(shelf_line)
+			var shelf_echo := make_glow(26, Color("d99bea"), 0.38)
+			shelf_echo.position = Vector2(0, -49)
+			shelf_echo.add_to_group("night_glow")
+			root.add_child(shelf_echo)
+		"echo_lectern":
+			root.add_child(make_shadow(42, 12, 0.30, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-29, 3), Vector2(-17, -55), Vector2(17, -55), Vector2(29, 3),
+			]), Color("74513f")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-38, -71), Vector2(-2, -82), Vector2(0, -56), Vector2(-34, -49),
+				Vector2(0, -56), Vector2(3, -82), Vector2(38, -71), Vector2(34, -49),
+			]), Color("ddc99c")))
+			for echo_radius in [24.0, 39.0, 54.0]:
+				var echo_wave := make_ring(echo_radius, Color("dfa7f0", 0.28), 1.8, 26)
+				echo_wave.scale.y = 0.30
+				echo_wave.position = Vector2(0, -74)
+				root.add_child(echo_wave)
+				attach_anim(echo_wave, "pulse", 0.62 + echo_radius * 0.007, 0.52)
+		"memory_lantern":
+			root.add_child(make_shadow(28, 9, 0.24, 6))
+			var lantern_post := Line2D.new()
+			lantern_post.points = PackedVector2Array([Vector2(0, 3), Vector2(0, -72)])
+			lantern_post.width = 5.0
+			lantern_post.default_color = Color("8c6546")
+			root.add_child(lantern_post)
+			var memory_light := make_glow(26, Color("ffc77a"), 0.92)
+			memory_light.position = Vector2(0, -82)
+			memory_light.add_to_group("night_glow")
+			root.add_child(memory_light)
+			attach_anim(memory_light, "pulse", 0.85 + variant * 0.4, 0.75)
+		"data_relay":
+			root.add_child(make_shadow(34, 11, 0.34, 7))
+			var relay_mast := Line2D.new()
+			relay_mast.points = PackedVector2Array([Vector2(0, 3), Vector2(0, -112)])
+			relay_mast.width = 7.0
+			relay_mast.default_color = Color("46546b")
+			root.add_child(relay_mast)
+			for relay_y in [-28.0, -56.0, -84.0]:
+				var relay_node := make_glow(12, Color("52f0e4"), 0.82)
+				relay_node.position = Vector2(0, relay_y)
+				relay_node.add_to_group("night_glow")
+				root.add_child(relay_node)
+			var relay_tip := make_glow(18, Color("ff6fc8"), 0.88)
+			relay_tip.position = Vector2(0, -116)
+			relay_tip.add_to_group("night_glow")
+			root.add_child(relay_tip)
+		"automaton_station":
+			root.add_child(make_shadow(54, 15, 0.38, 8))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-45, 3), Vector2(-40, -73), Vector2(40, -73), Vector2(45, 3),
+			]), Color("24384c")))
+			for automaton_x in [-23.0, 0.0, 23.0]:
+				var automaton_eye := make_glow(10, Color("5af5e8"), 0.82)
+				automaton_eye.position = Vector2(automaton_x, -45)
+				automaton_eye.add_to_group("night_glow")
+				root.add_child(automaton_eye)
+			var automaton_bus := Line2D.new()
+			automaton_bus.points = PackedVector2Array([Vector2(-34, -20), Vector2(34, -20)])
+			automaton_bus.width = 4.0
+			automaton_bus.default_color = Color("e36cac")
+			root.add_child(automaton_bus)
+		"debug_console":
+			root.add_child(make_shadow(50, 14, 0.34, 8))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-43, 3), Vector2(-36, -62), Vector2(36, -62), Vector2(43, 3),
+			]), Color("25384a")))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-28, -55), Vector2(28, -55), Vector2(25, -24), Vector2(-25, -24),
+			]), Color("0b1e2a")))
+			for debug_index in range(4):
+				var debug_line := Line2D.new()
+				debug_line.points = PackedVector2Array([
+					Vector2(-20, -47 + debug_index * 7), Vector2(18 - debug_index * 5, -47 + debug_index * 7),
+				])
+				debug_line.width = 2.0
+				debug_line.default_color = Color("55f0df") if debug_index != 2 else Color("ff6aaf")
+				root.add_child(debug_line)
+		"passage_beacon":
+			root.add_child(make_shadow(32, 10, 0.28, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-18, 3), Vector2(-14, -91), Vector2(14, -91), Vector2(18, 3),
+			]), Color("b98352")))
+			for beacon_color in [Color("57d7d3"), Color("efb45f"), Color("e87178")]:
+				var passage_light := make_glow(12, beacon_color, 0.76)
+				passage_light.position = Vector2(0, -28 - root.get_child_count() * 5)
+				passage_light.add_to_group("night_glow")
+				root.add_child(passage_light)
+		"market_stall":
+			root.add_child(make_shadow(61, 16, 0.34, 8))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-52, 3), Vector2(-46, -55), Vector2(46, -55), Vector2(52, 3),
+			]), Color("9b6a43")))
+			var awning_colors := [Color("d7635c"), Color("e7b655"), Color("4fa8a6")]
+			for awning_index in range(5):
+				root.add_child(make_polygon(PackedVector2Array([
+					Vector2(-55 + awning_index * 22, -71), Vector2(-34 + awning_index * 22, -71),
+						Vector2(-38 + awning_index * 22, -51), Vector2(-51 + awning_index * 22, -51),
+				]), awning_colors[awning_index % awning_colors.size()]))
+		"connector_arch":
+			root.add_child(make_shadow(50, 14, 0.32, 7))
+			for connector_side in [-1.0, 1.0]:
+				root.add_child(make_polygon(PackedVector2Array([
+					Vector2(connector_side * 45, 3), Vector2(connector_side * 41, -91),
+					Vector2(connector_side * 24, -91), Vector2(connector_side * 27, 3),
+				]), Color("a9774e")))
+			var arch_bridge := Line2D.new()
+			arch_bridge.points = PackedVector2Array([Vector2(-34, -87), Vector2(0, -112), Vector2(34, -87)])
+			arch_bridge.width = 7.0
+			arch_bridge.default_color = Color("d9a95e")
+			root.add_child(arch_bridge)
+			for connector_x in [-20.0, 0.0, 20.0]:
+				var connector_light := make_glow(10, Color("61d5d2"), 0.78)
+				connector_light.position = Vector2(connector_x, -91 - absf(connector_x) * 0.35)
+				connector_light.add_to_group("night_glow")
+				root.add_child(connector_light)
 		_:
 			root.add_child(make_polygon(circle_polygon(18, 8), Color("6be7d6")))
 	return root
@@ -1435,6 +1617,60 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 			logic_core.add_to_group("night_glow")
 			root.add_child(logic_core)
 			attach_anim(logic_core, "pulse", 1.26, 0.96)
+		"orbitalObservatory":
+			var observatory_sprite := Sprite2D.new()
+			observatory_sprite.name = "LandmarkOrbitalObservatoryArt"
+			observatory_sprite.texture = ORBITAL_OBSERVATORY_TEXTURE
+			observatory_sprite.position = Vector2(0, -110)
+			observatory_sprite.scale = Vector2(240, 210) / ORBITAL_OBSERVATORY_TEXTURE.get_size()
+			observatory_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(observatory_sprite)
+			for observatory_radius in [48.0, 76.0, 104.0]:
+				var observatory_orbit := make_ring(observatory_radius, Color(accent, 0.28), 2.0, 38)
+				observatory_orbit.scale.y = 0.30
+				observatory_orbit.position = Vector2(0, -145)
+				root.add_child(observatory_orbit)
+				attach_anim(observatory_orbit, "pulse", 0.58 + observatory_radius * 0.006, 0.64)
+		"hallOfVoices":
+			var voices_sprite := Sprite2D.new()
+			voices_sprite.name = "LandmarkHallOfVoicesArt"
+			voices_sprite.texture = HALL_OF_VOICES_TEXTURE
+			voices_sprite.position = Vector2(0, -104)
+			voices_sprite.scale = Vector2(250, 202) / HALL_OF_VOICES_TEXTURE.get_size()
+			voices_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(voices_sprite)
+			for voices_radius in [46.0, 70.0, 94.0]:
+				var voices_echo := make_ring(voices_radius, Color("dda6f2", 0.25), 2.0, 34)
+				voices_echo.scale.y = 0.32
+				voices_echo.position = Vector2(0, -115)
+				root.add_child(voices_echo)
+				attach_anim(voices_echo, "pulse", 0.65 + voices_radius * 0.006, 0.60)
+		"controlTower":
+			var control_sprite := Sprite2D.new()
+			control_sprite.name = "LandmarkControlTowerArt"
+			control_sprite.texture = CONTROL_TOWER_TEXTURE
+			control_sprite.position = Vector2(0, -122)
+			control_sprite.scale = Vector2(205, 230) / CONTROL_TOWER_TEXTURE.get_size()
+			control_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(control_sprite)
+			var control_core := make_glow(35, Color("52f2df"), 0.92)
+			control_core.position = Vector2(0, -131)
+			control_core.add_to_group("night_glow")
+			root.add_child(control_core)
+			attach_anim(control_core, "pulse", 1.30, 0.98)
+		"languageGate":
+			var language_sprite := Sprite2D.new()
+			language_sprite.name = "LandmarkLanguageGateArt"
+			language_sprite.texture = LANGUAGE_GATE_TEXTURE
+			language_sprite.position = Vector2(0, -102)
+			language_sprite.scale = Vector2(245, 205) / LANGUAGE_GATE_TEXTURE.get_size()
+			language_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(language_sprite)
+			var exchange_core := make_glow(31, Color("62dad2"), 0.78)
+			exchange_core.position = Vector2(0, -104)
+			exchange_core.add_to_group("night_glow")
+			root.add_child(exchange_core)
+			attach_anim(exchange_core, "pulse", 0.96, 0.82)
 		"forge":
 			root.add_child(make_shadow(26, 9, 0.3, 8))
 			root.add_child(make_polygon(PackedVector2Array([
@@ -1552,6 +1788,10 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"livingDome": -206.0,
 		"pactPalace": -226.0,
 		"labyrinthHeart": -238.0,
+		"orbitalObservatory": -232.0,
+		"hallOfVoices": -225.0,
+		"controlTower": -250.0,
+		"languageGate": -226.0,
 	}
 	text.position = Vector2(-90, float(tall_label_y.get(kind, -96.0)))
 	text.custom_minimum_size = Vector2(180, 0)

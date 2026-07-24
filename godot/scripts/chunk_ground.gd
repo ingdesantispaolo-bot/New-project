@@ -26,6 +26,10 @@ const UNDERPAINT_ARCHIPELAGO: Texture2D = preload("res://assets/arcipelago-carto
 const UNDERPAINT_SYMBIOSIS: Texture2D = preload("res://assets/serra-simbiosi-underpaint-v1.png")
 const UNDERPAINT_CIVIC: Texture2D = preload("res://assets/citta-patti-underpaint-v1.png")
 const UNDERPAINT_LABYRINTH: Texture2D = preload("res://assets/labirinto-regole-underpaint-v1.png")
+const UNDERPAINT_ORBITAL: Texture2D = preload("res://assets/deserto-orbite-underpaint-v1.png")
+const UNDERPAINT_VOICES: Texture2D = preload("res://assets/biblioteca-voci-underpaint-v1.png")
+const UNDERPAINT_MACHINE: Texture2D = preload("res://assets/citta-macchina-underpaint-v1.png")
+const UNDERPAINT_FRONTIER: Texture2D = preload("res://assets/frontiera-lingue-underpaint-v1.png")
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -203,6 +207,22 @@ func _build_painterly_surface(size: float) -> void:
 			identity_texture = UNDERPAINT_LABYRINTH
 			identity_strength = 0.96
 			identity_calm = Color("35445d")
+		"orbital_desert":
+			identity_texture = UNDERPAINT_ORBITAL
+			identity_strength = 0.96
+			identity_calm = Color("65513d")
+		"voices_library":
+			identity_texture = UNDERPAINT_VOICES
+			identity_strength = 0.95
+			identity_calm = Color("62483e")
+		"machine_city":
+			identity_texture = UNDERPAINT_MACHINE
+			identity_strength = 0.96
+			identity_calm = Color("28384b")
+		"language_frontier":
+			identity_texture = UNDERPAINT_FRONTIER
+			identity_strength = 0.94
+			identity_calm = Color("8a6644")
 	material.set_shader_parameter("identity_tex", identity_texture)
 	material.set_shader_parameter("identity_strength", identity_strength)
 	material.set_shader_parameter("identity_calm_palette", identity_calm)
@@ -313,6 +333,34 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(outer)
 			root.add_child(inner)
 			_add_maze_floor_ornament(root, radii, kind == "logic_chamber")
+		elif kind == "orbit_dune" or kind == "observatory_pad":
+			outer.color = Color(0.28, 0.18, 0.10, 0.56)
+			inner.color = Color(0.77, 0.57, 0.32, 0.22)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_contour_floor_ornament(root, radii, Color("f1b85f", 0.19))
+			_add_radial_floor_lines(root, radii, Color("81bfff", 0.18), 12 if kind == "observatory_pad" else 7)
+		elif kind == "narrative_gallery" or kind == "echo_chamber":
+			outer.color = Color(0.22, 0.10, 0.16, 0.58)
+			inner.color = Color(0.70, 0.48, 0.30, 0.22)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_contour_floor_ornament(root, radii, Color("d59be7", 0.17))
+			_add_radial_floor_lines(root, radii, Color("f0c77b", 0.16), 9 if kind == "echo_chamber" else 6)
+		elif kind == "machine_grid" or kind == "automaton_yard":
+			outer.color = Color(0.03, 0.07, 0.12, 0.68)
+			inner.color = Color(0.16, 0.34, 0.47, 0.25)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_maze_floor_ornament(root, radii, kind == "machine_grid")
+			_add_linear_floor_ornament(root, radii, Color("55f2e3", 0.18), 8, false)
+		elif kind == "border_market" or kind == "language_pass":
+			outer.color = Color(0.30, 0.19, 0.10, 0.48)
+			inner.color = Color(0.81, 0.61, 0.33, 0.20)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_contour_floor_ornament(root, radii, Color("5ac9cf", 0.17))
+			_add_radial_floor_lines(root, radii, Color("eea95e", 0.15), 10 if kind == "border_market" else 6)
 		elif kind == "radura_garden":
 			outer.color = Color(0.14, 0.28, 0.16, 0.46)
 			inner.color = Color(0.52, 0.58, 0.25, 0.26)
@@ -580,6 +628,22 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 			bank_color = Color(0.02, 0.04, 0.09, 0.70)
 			soil_color = Color(0.19, 0.29, 0.43, 0.62)
 			highlight_color = Color(0.43, 0.86, 1.0, 0.25)
+		"orbital_desert":
+			bank_color = Color(0.20, 0.10, 0.06, 0.58)
+			soil_color = Color(0.68, 0.47, 0.24, 0.66)
+			highlight_color = Color(0.48, 0.76, 1.0, 0.20)
+		"voices_library":
+			bank_color = Color(0.18, 0.07, 0.13, 0.58)
+			soil_color = Color(0.62, 0.42, 0.30, 0.66)
+			highlight_color = Color(0.88, 0.61, 0.94, 0.18)
+		"machine_city":
+			bank_color = Color(0.01, 0.04, 0.08, 0.74)
+			soil_color = Color(0.13, 0.31, 0.42, 0.66)
+			highlight_color = Color(0.28, 1.0, 0.88, 0.26)
+		"language_frontier":
+			bank_color = Color(0.23, 0.13, 0.07, 0.52)
+			soil_color = Color(0.73, 0.52, 0.29, 0.65)
+			highlight_color = Color(0.25, 0.76, 0.78, 0.18)
 	var bank := Line2D.new()
 	bank.points = curved
 	bank.width = width + 9.0

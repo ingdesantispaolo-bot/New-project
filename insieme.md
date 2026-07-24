@@ -1,6 +1,6 @@
 # Eli Quest — Piano operativo condiviso
 
-Aggiornato al 23 luglio 2026.
+Aggiornato al 24 luglio 2026.
 
 Questo file contiene soltanto lavoro aperto o decisioni ancora da prendere.
 L’ordine P5 → P6 è vincolante.
@@ -25,36 +25,18 @@ didattici trasformano visivamente mondo e nave.
 Codex è responsabile di runtime Godot, scene, resa, input, integrazione visuale,
 navigazione, performance ed export.
 
-### C-P5 — Strategia per completare i mondi 13–24
+### C-P5 — Strategia per completare i mondi 17–24
 
-Restano tre ondate da quattro mondi. Una nuova ondata parte soltanto dopo audit,
+Restano due ondate da quattro mondi. Una nuova ondata parte soltanto dopo audit,
 render, correzione visiva e revisione semantica della precedente.
 
-#### Gate C — revisione Opus prima dell’Ondata D1
+#### Gate D1 — revisione Opus prima dell’Ondata D2
 
-- [x] **Opus:** rotte cartografiche (9), ecosistemi (10), servizi civici (11) e
-  regole mobili (12) rappresentano CORRETTAMENTE i contratti didattici. Landmark
-  e reazione ambientale consumano `WorldLessonCatalog.environment_transform`
-  (unica fonte di verità). `world_semantics_audit` e `world_wave_c_audit` verdi.
-  **Nessuna correzione concreta richiesta.**
-- [x] **Codex:** nessuna correzione semantica da applicare → **Ondata D1 sbloccata.**
-
-#### Ondata D1 — Mondi 13–16
-
-- [ ] **13 · Deserto delle Orbite** — dune, cupole e osservatori; il telescopio
-  si allinea e proietta nel cielo una nuova traiettoria.
-- [ ] **14 · Biblioteca delle Voci** — gallerie narrative e camere d’eco, Sala
-  delle Voci; ogni comprensione illumina una galleria e libera un frammento
-  sonoro.
-- [ ] **15 · Città Macchina** — rete urbana, automi e Torre di Controllo; il
-  debug riavvia automi e rende attivi nuovi collegamenti.
-- [ ] **16 · Frontiera delle Lingue** — valichi e mercati con segnaletica
-  iconica, Porta delle Lingue; gli scambi corretti aprono un valico e animano il
-  mercato.
-- [ ] Creare asset, kit, reazioni, `world_wave_d1_audit.gd` e cinque capture per
-  mondo; rieseguire le regressioni A–D1.
-- [ ] Gate D1: notte del mondo 13 e neon del mondo 15 leggibili su tablet senza
-  appiattire i contrasti.
+- [ ] **Opus:** verificare trasferimento, testi NORA e coerenza disciplinare dei
+  mondi 13–16; confermare che orbite, prospettive narrative, reti/debug e
+  scambi linguistici rappresentino i rispettivi contratti didattici.
+- [ ] **Codex:** applicare eventuali correzioni semantiche richieste da Opus
+  senza indebolire leggibilità notturna, input touch o budget prestazionale.
 
 #### Ondata D2 — Mondi 17–20
 
@@ -145,8 +127,6 @@ fine di ogni ondata, senza modificare posizionamento o resa visuale.
 > rieseguirli sui mondi consegnati: il controllo semantico Opus si riduce a
 > confermare che la resa di Codex rispetti questi contratti già validati.
 
-- [ ] dopo D1, verificare trasferimento, testi NORA e coerenza disciplinare dei
-  mondi 13–16;
 - [ ] dopo D2, verificare che le trasformazioni 17–20 comunichino davvero il
   concetto appreso e non siano soltanto effetti decorativi;
 - [ ] prima del Gate E2, validare prova trasversale, beat conclusivo NORA e

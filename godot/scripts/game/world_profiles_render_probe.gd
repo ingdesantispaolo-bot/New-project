@@ -11,8 +11,8 @@ func _init() -> void:
 
 func _request_for(level: int) -> Dictionary:
 	var initial := GameSaveManager._default_data()
-	initial["level"] = 12
-	initial["worlds"] = {"unlocked": range(1, 13), "current": level}
+	initial["level"] = 16
+	initial["worlds"] = {"unlocked": range(1, 17), "current": level}
 	var request := NativeWorldState.default_request("world-profile-capture")
 	request["loadLocalSave"] = false
 	request["initialSave"] = initial
@@ -77,7 +77,7 @@ func _capture_profile(
 
 func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT_DIR))
-	for level in [9, 10, 11, 12]:
+	for level in [13, 14, 15, 16]:
 		for capture in [
 			{"size": Vector2i(1440, 900), "suffix": "", "hud": true, "landmark": false},
 			{"size": Vector2i(1440, 900), "suffix": "-desktop-clean", "hud": false, "landmark": false},
@@ -88,10 +88,10 @@ func _run() -> void:
 				push_error("WORLD PROFILE RENDER probe: cattura fallita al livello %d (%s)" % [level, str(capture["suffix"])])
 				quit(2)
 				return
-		if level in [9, 10, 11, 12]:
+		if level in [13, 14, 15, 16]:
 			if await _capture_profile(level, Vector2i(1440, 900), "-landmark-clean", false, true) != OK:
 				push_error("WORLD PROFILE RENDER probe: cattura landmark fallita al livello %d" % level)
 				quit(2)
 				return
-	print("WORLD PROFILE RENDER probe OK — ondata P5 mondi 9/12, HUD + clean desktop/compatto + landmark")
+	print("WORLD PROFILE RENDER probe OK — ondata P5 mondi 13/16, HUD + clean desktop/compatto + landmark")
 	quit(0)

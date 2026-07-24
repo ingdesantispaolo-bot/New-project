@@ -87,6 +87,14 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		biomes = ["academy", "ruins", "geo"]
 	elif level == 12:
 		biomes = ["logic", "ruins", "crystal"]
+	elif level == 13:
+		biomes = ["geo", "crystal", "ruins"]
+	elif level == 14:
+		biomes = ["ruins", "academy", "crystal"]
+	elif level == 15:
+		biomes = ["logic", "crystal", "geo"]
+	elif level == 16:
+		biomes = ["geo", "academy", "wild"]
 	var profile_id := str(profile.get("id", "world-%02d" % level))
 	data.visual_theme = (
 		"radura" if level == 1 else
@@ -101,6 +109,10 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		"symbiosis_greenhouse" if level == 10 else
 		"civic_city" if level == 11 else
 		"rule_labyrinth" if level == 12 else
+		"orbital_desert" if level == 13 else
+		"voices_library" if level == 14 else
+		"machine_city" if level == 15 else
+		"language_frontier" if level == 16 else
 		str(profile.get("artKit", subject))
 	)
 	var rng := RandomNumberGenerator.new()
@@ -412,6 +424,97 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 					ship + Vector2(1450, maze_cross_y),
 				]),
 			})
+	elif level == 13:
+		# Deserto orbitale: osservatorio centrale, tre bracci di misura e due
+		# archi concentrici rendono visibili angoli, frazioni e traiettorie.
+		for orbital_arm in [-1.0, 0.0, 1.0]:
+			data.paths.append({
+				"id": "orbit-measure-arm-%d" % roundi((orbital_arm + 1.0) * 10.0),
+				"width": 50.0,
+				"points": PackedVector2Array([
+					ship + Vector2(orbital_arm * 1480.0, 720),
+					ship + Vector2(orbital_arm * 720.0, 1080),
+					ship + Vector2(0, 1460),
+				]),
+			})
+		data.paths.append({
+			"id": "orbit-inner-arc", "width": 42.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-980, 1380), ship + Vector2(-520, 1680),
+				ship + Vector2(0, 1780), ship + Vector2(520, 1680),
+				ship + Vector2(980, 1380),
+			]),
+		})
+	elif level == 14:
+		# Biblioteca: una spina narrativa attraversa tre camere d'eco laterali.
+		data.paths.append({
+			"id": "voices-story-spine", "width": 76.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 620), ship + Vector2(0, 980),
+				ship + Vector2(0, 1380), ship + Vector2(0, 1830),
+			]),
+		})
+		data.paths.append({
+			"id": "voices-west-gallery", "width": 58.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 850), ship + Vector2(-720, 760),
+				ship + Vector2(-1370, 1030), ship + Vector2(-720, 1260),
+				ship + Vector2(0, 1180),
+			]),
+		})
+		data.paths.append({
+			"id": "voices-east-gallery", "width": 58.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 1080), ship + Vector2(720, 910),
+				ship + Vector2(1390, 1190), ship + Vector2(760, 1500),
+				ship + Vector2(0, 1380),
+			]),
+		})
+	elif level == 15:
+		# Città Macchina: rete ortogonale con nodi sfalsati e dorsale dati.
+		for machine_lane_y in [720.0, 1120.0, 1520.0]:
+			data.paths.append({
+				"id": "machine-data-lane-%d" % roundi(machine_lane_y),
+				"width": 54.0,
+				"points": PackedVector2Array([
+					ship + Vector2(-1640, machine_lane_y),
+					ship + Vector2(-620, machine_lane_y),
+					ship + Vector2(420, machine_lane_y),
+					ship + Vector2(1640, machine_lane_y),
+				]),
+			})
+		data.paths.append({
+			"id": "machine-control-bus", "width": 66.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-620, 620), ship + Vector2(-620, 1120),
+				ship + Vector2(420, 1120), ship + Vector2(420, 1520),
+				ship + Vector2(0, 1840),
+			]),
+		})
+	elif level == 16:
+		# Frontiera: un valico sinuoso attraversa tre mercati e due passaggi.
+		data.paths.append({
+			"id": "language-main-pass", "width": 72.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1700, 680), ship + Vector2(-980, 830),
+				ship + Vector2(-320, 720), ship + Vector2(260, 1050),
+				ship + Vector2(930, 940), ship + Vector2(1710, 1240),
+			]),
+		})
+		data.paths.append({
+			"id": "language-market-west", "width": 60.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-980, 830), ship + Vector2(-1160, 1330),
+				ship + Vector2(-620, 1630),
+			]),
+		})
+		data.paths.append({
+			"id": "language-market-east", "width": 60.0,
+			"points": PackedVector2Array([
+				ship + Vector2(260, 1050), ship + Vector2(520, 1460),
+				ship + Vector2(1080, 1690),
+			]),
+		})
 	else:
 		# Gli altri profili mantengono una seconda arteria deterministica finché
 		# ricevono la propria vertical slice nelle ondate C-P5.
@@ -430,7 +533,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 
 	# Acqua/profile dressing: sempre fuori dalla zona nave e mascherato dal
 	# corridoio sicuro in WorldCompositionData.water_weight().
-	if level in [2, 3, 5, 7, 11, 12]:
+	if level in [2, 3, 5, 7, 11, 12, 13, 14, 15]:
 		# L'Archivio non riusa il fiume naturale: la separazione fra le sale è
 		# resa da pavimenti sospesi, foschia e ponti di parole. Il Cratere usa
 		# invece terrazze asciutte: niente laghetto naturale nel canyon tecnico.
@@ -497,6 +600,14 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			{"id": "symbiosis-west-pool", "kind": "pond", "position": ship + Vector2(-1180, 1210), "radii": Vector2(260, 165)},
 			{"id": "symbiosis-east-pool", "kind": "pond", "position": ship + Vector2(1180, 1050), "radii": Vector2(240, 155)},
 		]
+	elif level == 16:
+		data.waters = [{
+			"id": "frontier-border-stream", "kind": "stream", "width": 240.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1840, 390), ship + Vector2(-1480, 920),
+				ship + Vector2(-1600, 1450), ship + Vector2(-1280, 2050),
+			]),
+		}]
 	elif level % 2 == 0:
 		data.waters = [{
 			"id": "profile-stream-%d" % level,
@@ -675,6 +786,58 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			{"kind": "rule_node", "position": ship + Vector2(720, 1050), "variant": 0.69},
 			{"kind": "moving_wall", "position": ship + Vector2(1420, 760), "variant": 0.88},
 		]
+	elif level == 13:
+		data.identity_regions = [
+			{"id": "orbit-central-pad", "kind": "observatory_pad", "position": ship + Vector2(0, 1460), "radii": Vector2(650, 420), "rotation": 0.0},
+			{"id": "orbit-west-dune", "kind": "orbit_dune", "position": ship + Vector2(-1120, 980), "radii": Vector2(470, 300), "rotation": -0.10},
+			{"id": "orbit-east-dune", "kind": "orbit_dune", "position": ship + Vector2(1120, 980), "radii": Vector2(470, 300), "rotation": 0.10},
+		]
+		data.identity_props = [
+			{"kind": "trajectory_pylon", "position": ship + Vector2(-1450, 730), "variant": 0.12},
+			{"kind": "fraction_dial", "position": ship + Vector2(-760, 1050), "variant": 0.31},
+			{"kind": "orbit_scope", "position": ship + Vector2(-260, 1440), "variant": 0.50},
+			{"kind": "fraction_dial", "position": ship + Vector2(760, 1050), "variant": 0.69},
+			{"kind": "trajectory_pylon", "position": ship + Vector2(1450, 730), "variant": 0.88},
+		]
+	elif level == 14:
+		data.identity_regions = [
+			{"id": "voices-central-gallery", "kind": "narrative_gallery", "position": ship + Vector2(0, 1220), "radii": Vector2(620, 520), "rotation": 0.0},
+			{"id": "voices-west-chamber", "kind": "echo_chamber", "position": ship + Vector2(-1080, 1020), "radii": Vector2(470, 330), "rotation": -0.05},
+			{"id": "voices-east-chamber", "kind": "echo_chamber", "position": ship + Vector2(1080, 1190), "radii": Vector2(470, 330), "rotation": 0.05},
+		]
+		data.identity_props = [
+			{"kind": "voice_shelf", "position": ship + Vector2(-1440, 730), "variant": 0.12},
+			{"kind": "echo_lectern", "position": ship + Vector2(-720, 980), "variant": 0.31},
+			{"kind": "memory_lantern", "position": ship + Vector2(0, 1460), "variant": 0.50},
+			{"kind": "echo_lectern", "position": ship + Vector2(720, 1110), "variant": 0.69},
+			{"kind": "voice_shelf", "position": ship + Vector2(1440, 820), "variant": 0.88},
+		]
+	elif level == 15:
+		data.identity_regions = [
+			{"id": "machine-control-grid", "kind": "machine_grid", "position": ship + Vector2(0, 1120), "radii": Vector2(1640, 500), "rotation": 0.0},
+			{"id": "machine-west-yard", "kind": "automaton_yard", "position": ship + Vector2(-1080, 1570), "radii": Vector2(430, 300), "rotation": 0.0},
+			{"id": "machine-east-yard", "kind": "automaton_yard", "position": ship + Vector2(1080, 1570), "radii": Vector2(430, 300), "rotation": 0.0},
+		]
+		data.identity_props = [
+			{"kind": "data_relay", "position": ship + Vector2(-1480, 720), "variant": 0.12},
+			{"kind": "automaton_station", "position": ship + Vector2(-720, 1120), "variant": 0.31},
+			{"kind": "debug_console", "position": ship + Vector2(0, 1510), "variant": 0.50},
+			{"kind": "automaton_station", "position": ship + Vector2(720, 1120), "variant": 0.69},
+			{"kind": "data_relay", "position": ship + Vector2(1480, 720), "variant": 0.88},
+		]
+	elif level == 16:
+		data.identity_regions = [
+			{"id": "frontier-west-market", "kind": "border_market", "position": ship + Vector2(-1050, 1280), "radii": Vector2(520, 360), "rotation": -0.06},
+			{"id": "frontier-central-pass", "kind": "language_pass", "position": ship + Vector2(120, 1050), "radii": Vector2(560, 340), "rotation": 0.08},
+			{"id": "frontier-east-market", "kind": "border_market", "position": ship + Vector2(1050, 1510), "radii": Vector2(520, 360), "rotation": 0.05},
+		]
+		data.identity_props = [
+			{"kind": "passage_beacon", "position": ship + Vector2(-1460, 700), "variant": 0.12},
+			{"kind": "market_stall", "position": ship + Vector2(-920, 1260), "variant": 0.31},
+			{"kind": "connector_arch", "position": ship + Vector2(120, 1040), "variant": 0.50},
+			{"kind": "market_stall", "position": ship + Vector2(920, 1480), "variant": 0.69},
+			{"kind": "passage_beacon", "position": ship + Vector2(1480, 1240), "variant": 0.88},
+		]
 
 	var safe_radius := float(profile.get("shipEntrance", {}).get("safeRadius", 340.0))
 	data.protected_zones = [{
@@ -718,4 +881,12 @@ static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
 		return ship + Vector2(0, 1450)
 	if level == 12:
 		return ship + Vector2(0, 1420)
+	if level == 13:
+		return ship + Vector2(0, 1460)
+	if level == 14:
+		return ship + Vector2(0, 1500)
+	if level == 15:
+		return ship + Vector2(0, 1510)
+	if level == 16:
+		return ship + Vector2(120, 1520)
 	return ship + Vector2(690, -210)

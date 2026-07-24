@@ -65,6 +65,10 @@ func _build_identity_props() -> void:
 			"symbiosis_pod", "root_arch", "pollinator_lamp",
 			"pact_column", "civic_kiosk", "service_pavilion",
 			"moving_wall", "rule_node", "logic_gate",
+			"trajectory_pylon", "fraction_dial", "orbit_scope",
+			"voice_shelf", "echo_lectern", "memory_lantern",
+			"data_relay", "automaton_station", "debug_console",
+			"passage_beacon", "market_stall", "connector_arch",
 		]:
 			var body := StaticBody2D.new()
 			var shape := CollisionShape2D.new()
@@ -101,6 +105,18 @@ func _build_identity_props() -> void:
 				"moving_wall": Vector2(98, 42),
 				"rule_node": Vector2(64, 38),
 				"logic_gate": Vector2(86, 42),
+				"trajectory_pylon": Vector2(46, 36),
+				"fraction_dial": Vector2(76, 40),
+				"orbit_scope": Vector2(92, 44),
+				"voice_shelf": Vector2(112, 34),
+				"echo_lectern": Vector2(74, 38),
+				"memory_lantern": Vector2(42, 34),
+				"data_relay": Vector2(48, 36),
+				"automaton_station": Vector2(96, 44),
+				"debug_console": Vector2(92, 42),
+				"passage_beacon": Vector2(46, 36),
+				"market_stall": Vector2(108, 44),
+				"connector_arch": Vector2(92, 42),
 			}
 			rectangle.size = collision_sizes.get(kind, Vector2(52, 38))
 			shape.shape = rectangle

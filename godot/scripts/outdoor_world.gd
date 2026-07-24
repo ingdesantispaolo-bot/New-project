@@ -267,6 +267,25 @@ func _configure_profile_palette() -> void:
 		profile_night_tint = Color("4b607a")
 		profile_dawn_tint = Color("7188a5")
 		profile_day_tint = Color("d5deea")
+	elif world_level == 13:
+		# Notte desertica: sabbia e strumenti restano leggibili senza perdere il
+		# cielo blu profondo richiesto dal profilo.
+		profile_night_tint = Color("b8a4ac")
+		profile_dawn_tint = Color("c88365")
+		profile_day_tint = Color("ead0a2")
+	elif world_level == 14:
+		profile_night_tint = Color("664b62")
+		profile_dawn_tint = Color("d39a72")
+		profile_day_tint = Color("ead7bd")
+	elif world_level == 15:
+		# Neon controllato: preserva mezzitoni e contrasto sui pannelli tablet.
+		profile_night_tint = Color("4f7183")
+		profile_dawn_tint = Color("416b79")
+		profile_day_tint = Color("b5d6da")
+	elif world_level == 16:
+		profile_night_tint = Color("5f5144")
+		profile_dawn_tint = Color("e2a26b")
+		profile_day_tint = Color("f0ddbc")
 	if not request.has("resume"):
 		var lighting := str(world_profile.get("lighting", "")).to_lower()
 		if "notte" in lighting or "penombra" in lighting:
@@ -612,6 +631,14 @@ func _hero_landmark_position() -> Vector2:
 		return PORTAL_POSITION + Vector2(0, 1450)
 	if world_level == 12:
 		return PORTAL_POSITION + Vector2(0, 1420)
+	if world_level == 13:
+		return PORTAL_POSITION + Vector2(0, 1460)
+	if world_level == 14:
+		return PORTAL_POSITION + Vector2(0, 1500)
+	if world_level == 15:
+		return PORTAL_POSITION + Vector2(0, 1510)
+	if world_level == 16:
+		return PORTAL_POSITION + Vector2(120, 1520)
 	return PORTAL_POSITION + Vector2(690, -210)
 
 func _create_profile_portal_dressing() -> void:
@@ -666,6 +693,26 @@ func _create_profile_portal_dressing() -> void:
 			{"kind": "rule_node", "offset": Vector2(-150, 46), "variant": 0.25},
 			{"kind": "logic_gate", "offset": Vector2(150, 46), "variant": 0.75},
 		]
+	elif world_level == 13:
+		specs = [
+			{"kind": "trajectory_pylon", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "fraction_dial", "offset": Vector2(150, 46), "variant": 0.75},
+		]
+	elif world_level == 14:
+		specs = [
+			{"kind": "memory_lantern", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "echo_lectern", "offset": Vector2(150, 46), "variant": 0.75},
+		]
+	elif world_level == 15:
+		specs = [
+			{"kind": "data_relay", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "debug_console", "offset": Vector2(150, 46), "variant": 0.75},
+		]
+	elif world_level == 16:
+		specs = [
+			{"kind": "passage_beacon", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "market_stall", "offset": Vector2(150, 46), "variant": 0.75},
+		]
 	for spec in specs:
 		var dressing := OutdoorVisualFactory.build_identity_prop(
 			str(spec["kind"]), "ship_entrance", float(spec["variant"]))
@@ -698,6 +745,10 @@ func _create_profile_landmark() -> void:
 		"livingDome" if world_level == 10 else
 		"pactPalace" if world_level == 11 else
 		"labyrinthHeart" if world_level == 12 else
+		"orbitalObservatory" if world_level == 13 else
+		"hallOfVoices" if world_level == 14 else
+		"controlTower" if world_level == 15 else
+		"languageGate" if world_level == 16 else
 		str(kinds.get(subject, "skyTree"))
 	)
 	var label := str(names[0]).replace("-", " ").capitalize()
@@ -708,7 +759,7 @@ func _create_profile_landmark() -> void:
 	landmark.set_meta("transform_trigger", str(environment_transform.get("trigger", "")))
 	landmark.set_meta("transform_effect", str(environment_transform.get("effect", "")))
 	landmark.position = _hero_landmark_position()
-	landmark.scale = Vector2.ONE * (1.52 if world_level in [3, 4] else 1.48 if world_level in [5, 6, 7, 8, 9, 10, 11, 12] else 1.32)
+	landmark.scale = Vector2.ONE * (1.52 if world_level in [3, 4] else 1.48 if world_level in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] else 1.32)
 	world_layer.add_child(landmark)
 	profile_hero_landmark = landmark
 	profile_environment_reaction = LEARNING_REACTION_SCRIPT.new()
@@ -719,7 +770,7 @@ func _create_profile_landmark() -> void:
 		environment_transform)
 	profile_environment_reaction.name = "ProfileEnvironmentTransform"
 	profile_environment_reaction.position = _hero_landmark_position() + Vector2(0, 42)
-	profile_environment_reaction.scale = Vector2.ONE * (1.75 if world_level in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12] else 1.35)
+	profile_environment_reaction.scale = Vector2.ONE * (1.75 if world_level in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] else 1.35)
 	world_layer.add_child(profile_environment_reaction)
 
 func _learning_reaction_theme() -> String:
@@ -745,6 +796,14 @@ func _learning_reaction_theme() -> String:
 		return "civic_city"
 	if world_level == 12:
 		return "rule_labyrinth"
+	if world_level == 13:
+		return "orbital_desert"
+	if world_level == 14:
+		return "voices_library"
+	if world_level == 15:
+		return "machine_city"
+	if world_level == 16:
+		return "language_frontier"
 	return "radura"
 
 func _sync_profile_environment_transform(animate: bool) -> void:
@@ -885,7 +944,7 @@ func _profile_accent_rgb() -> int:
 
 func _create_profile_weather() -> void:
 	var weather := str(world_profile.get("weather", "sereno")).to_lower()
-	if world_level not in [3, 4] and weather in ["sereno", "quiete", "controllato", "sereno-secco"]:
+	if world_level not in [3, 4, 13] and weather in ["sereno", "quiete", "controllato", "sereno-secco"]:
 		return
 	world_weather_particles = CPUParticles2D.new()
 	world_weather_particles.name = "WorldProfileWeather"
@@ -937,6 +996,15 @@ func _create_profile_weather() -> void:
 		world_weather_particles.scale_amount_min = 0.07
 		world_weather_particles.scale_amount_max = 0.16
 		world_weather_particles.color = Color(0.78, 1.0, 0.70, 0.30)
+	elif world_level == 13:
+		world_weather_particles.amount = 46
+		world_weather_particles.direction = Vector2(0.95, -0.20)
+		world_weather_particles.gravity = Vector2(26, -5)
+		world_weather_particles.initial_velocity_min = 24.0
+		world_weather_particles.initial_velocity_max = 62.0
+		world_weather_particles.scale_amount_min = 0.05
+		world_weather_particles.scale_amount_max = 0.13
+		world_weather_particles.color = Color(0.94, 0.70, 0.39, 0.30)
 	elif "pioggia" in weather or "tempesta" in weather:
 		world_weather_particles.amount = 110 if "tempesta" in weather else 64
 		world_weather_particles.direction = Vector2(0.18, 1.0)

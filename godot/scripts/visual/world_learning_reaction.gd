@@ -47,6 +47,14 @@ func setup(
 			_build_civic_city(event_kind, accent)
 		"rule_labyrinth":
 			_build_rule_labyrinth(event_kind, accent)
+		"orbital_desert":
+			_build_orbital_desert(event_kind, accent)
+		"voices_library":
+			_build_voices_library(event_kind, accent)
+		"machine_city":
+			_build_machine_city(event_kind, accent)
+		"language_frontier":
+			_build_language_frontier(event_kind, accent)
 		_:
 			_build_radure(event_kind, accent)
 	set_progress(0, active_parts.size(), false)
@@ -334,6 +342,98 @@ func _build_rule_labyrinth(event_kind: String, accent: Color) -> void:
 		rule.add_to_group("night_glow")
 		part.add_child(rule)
 		OutdoorVisualFactory.attach_anim(rule, "pulse", 0.70 + float(index) * 0.13, 0.66)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_orbital_desert(event_kind: String, accent: Color) -> void:
+	# Ogni risultato allinea un segmento della traiettoria prevista.
+	for index in range(5):
+		var part := Node2D.new()
+		var angle := lerpf(-2.85, -0.30, float(index) / 4.0)
+		part.position = Vector2(cos(angle) * 47.0, sin(angle) * 20.0 + 8.0)
+		var orbit_arc := OutdoorVisualFactory.make_ring(12, Color("77bfff", 0.52), 2.0, 22)
+		orbit_arc.scale.y = 0.42
+		part.add_child(orbit_arc)
+		var astro := OutdoorVisualFactory.make_glow(11, accent.lightened(0.16), 0.86)
+		astro.position = Vector2(cos(angle) * 3.0, -4)
+		astro.add_to_group("night_glow")
+		part.add_child(astro)
+		OutdoorVisualFactory.attach_anim(astro, "pulse", 0.70 + float(index) * 0.13, 0.66)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_voices_library(event_kind: String, accent: Color) -> void:
+	# Le prospettive comprese illuminano cinque camere e liberano onde narrative.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0 + sin(float(index) * 1.35) * 4.0)
+		var page := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-8, -7), Vector2(8, -6), Vector2(7, 7), Vector2(-8, 6)]),
+			Color("ddc99f"))
+		part.add_child(page)
+		var voice_wave := OutdoorVisualFactory.make_ring(14, Color("dda5ed", 0.40), 1.7, 22)
+		voice_wave.scale.y = 0.34
+		voice_wave.position = Vector2(0, -7)
+		part.add_child(voice_wave)
+		var memory := OutdoorVisualFactory.make_glow(10, accent, 0.72)
+		memory.position = Vector2(0, -6)
+		memory.add_to_group("night_glow")
+		part.add_child(memory)
+		OutdoorVisualFactory.attach_anim(voice_wave, "pulse", 0.66 + float(index) * 0.12, 0.56)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_machine_city(event_kind: String, accent: Color) -> void:
+	# Il debug riaccende nodi collegati: la rete cresce in una sequenza leggibile.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0 + float(index % 2) * 7.0)
+		if index > 0:
+			var data_trace := Line2D.new()
+			data_trace.points = PackedVector2Array([Vector2(-22, -float(index % 2) * 7.0), Vector2.ZERO])
+			data_trace.width = 3.0
+			data_trace.default_color = Color("54eee0")
+			part.add_child(data_trace)
+		var automaton := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-8, 7), Vector2(-8, -8), Vector2(8, -8), Vector2(8, 7)]),
+			Color("263b50"))
+		part.add_child(automaton)
+		var online := OutdoorVisualFactory.make_glow(11, accent.lightened(0.12), 0.88)
+		online.position = Vector2(0, -2)
+		online.add_to_group("night_glow")
+		part.add_child(online)
+		OutdoorVisualFactory.attach_anim(online, "pulse", 0.70 + float(index) * 0.13, 0.68)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_language_frontier(event_kind: String, accent: Color) -> void:
+	# Ogni scambio corretto apre un varco e accende un banco del mercato.
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0 + float(index % 2) * 5.0)
+		var stall := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([
+				Vector2(-9, 6), Vector2(-8, -6), Vector2(0, -12),
+				Vector2(8, -6), Vector2(9, 6),
+			]), Color("b9784e") if index % 2 == 0 else Color("4c9d9d"))
+		part.add_child(stall)
+		var exchange := OutdoorVisualFactory.make_glow(10, accent, 0.78)
+		exchange.position = Vector2(0, -2)
+		exchange.add_to_group("night_glow")
+		part.add_child(exchange)
+		var open_gate := OutdoorVisualFactory.make_ring(14, Color("f0b75f", 0.38), 1.8, 18)
+		open_gate.scale.y = 0.38
+		open_gate.position = Vector2(0, 6)
+		part.add_child(open_gate)
+		OutdoorVisualFactory.attach_anim(exchange, "pulse", 0.78 + float(index) * 0.11, 0.60)
 		active_parts.append(part)
 		add_child(part)
 	if event_kind == "enigma":

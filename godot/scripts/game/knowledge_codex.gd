@@ -188,3 +188,50 @@ func entry_for_context(subject: String, topic: String, context: String) -> Dicti
 		entry["example"] = ex
 		entry["answerHidden"] = true
 	return entry
+
+# --- Insegnamento (playthrough #13: gli esercizi non devono solo interrogare) --
+# Una MINI-LEZIONE istruttiva per l'argomento: NORA/atlante SPIEGANO prima di
+# chiedere. Assembla la voce in un'unità didattica — intro, spiegazione, esempio
+# SVOLTO (con risposta e perché), strategia e trabocchetto da evitare. È la
+# conoscenza che il gioco produce, non solo la verifica.
+func mini_lesson(subject: String, topic: String) -> Dictionary:
+	var entry := entry_for(subject, topic)
+	var example: Dictionary = entry.get("example", {})
+	var typical: Dictionary = entry.get("typicalError", {})
+	return {
+		"subject": subject,
+		"topic": topic,
+		"intro": "Prima di provare, guardiamo insieme: %s" % str(entry.get("shortExplanation", "")),
+		"explanation": str(entry.get("shortExplanation", "")),
+		"workedExample": example,               # prompt → risposta, con il perché
+		"strategy": str(entry.get("noraStrategy", "")),
+		"watchOut": typical,                    # errore tipico + perché è sbagliato
+	}
+
+# Momento d'insegnamento quando si AVVIA un esercizio su questo argomento:
+#   "pre_teach"  → primo incontro assoluto: NORA insegna prima di chiedere;
+#   "re_teach"   → errore ricorrente (già sbagliato e di nuovo dovuto): si rivede;
+#   "none"       → già applicato e non arretrato: l'atlante resta consultabile.
+static func teaching_moment(save, subject: String, topic: String) -> String:
+	var key := "%s:%s" % [subject, topic]
+	var sr: Dictionary = save.data.get("spacedRepetition", {})
+	var schedule: Dictionary = sr.get("schedule", {})
+	var clock := int(sr.get("sessionClock", 0))
+	if schedule.has(key):
+		var e: Dictionary = schedule[key]
+		if int(e.get("lapses", 0)) >= 1 and int(e.get("dueAt", 0)) <= clock:
+			return "re_teach"
+	if state_of(save, subject, topic) == STATE_UNKNOWN:
+		return "pre_teach"
+	return "none"
+
+# Frase con cui NORA introduce il momento d'insegnamento (distinta dai messaggi
+# di sistema e dal prompt dell'esercizio).
+static func teach_line(moment: String) -> String:
+	match moment:
+		"pre_teach":
+			return "Nuovo concetto: te lo spiego prima di metterti alla prova. Imparare viene prima di rispondere."
+		"re_teach":
+			return "Questo ti è già sfuggito una volta: rivediamolo insieme, poi riprovi con un metodo in più."
+		_:
+			return ""

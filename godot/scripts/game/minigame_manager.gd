@@ -129,6 +129,66 @@ const CLASSIFICATION := {
 	],
 }
 
+# Lettura di GRAFICO (assi + curva disegnati proceduralmente): scegli il punto
+# richiesto. Nessun asset immagine. `points` in coordinate normalizzate 0..1.
+const GRAPH := {
+	"fisica": [
+		{"topic": "moto", "xLabel": "tempo", "yLabel": "velocità", "answer": "C",
+			"prompt": "Il grafico mostra la velocità nel tempo: in quale punto è massima?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.50, "label": "D"}],
+			"explanation": "La velocità è massima dove la curva è più in alto: il punto C."},
+	],
+	"matematica": [
+		{"topic": "coordinate", "xLabel": "x", "yLabel": "y", "answer": "Q",
+			"prompt": "Quale punto si trova più in alto (ordinata y maggiore)?",
+			"points": [{"id": "P", "x": 0.20, "y": 0.35, "label": "P"}, {"id": "Q", "x": 0.50, "y": 0.85, "label": "Q"}, {"id": "R", "x": 0.80, "y": 0.55, "label": "R"}],
+			"explanation": "Il punto Q ha l'ordinata (y) più grande."},
+	],
+	"scienze": [
+		{"topic": "metodo", "xLabel": "giorni", "yLabel": "altezza", "answer": "D",
+			"prompt": "La pianta cresce nel tempo: in quale punto è più alta?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.70, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.95, "label": "D"}],
+			"explanation": "La curva sale sempre: l'ultimo punto D è il più alto."},
+	],
+}
+
+# CIRCUITO (schema + collegamenti disegnati proceduralmente): scegli il componente
+# richiesto. `components` in coordinate 0..1, `connections` come coppie di id.
+const CIRCUIT := {
+	"elettronica": [
+		{"topic": "circuito", "answer": "interruttore",
+			"prompt": "Quale componente apre e chiude il passaggio della corrente?",
+			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "interruttore", "x": 0.50, "y": 0.22, "label": "Interruttore"}, {"id": "resistore", "x": 0.80, "y": 0.50, "label": "Resistore"}, {"id": "led", "x": 0.50, "y": 0.78, "label": "LED"}],
+			"connections": [["pila", "interruttore"], ["interruttore", "resistore"], ["resistore", "led"], ["led", "pila"]],
+			"explanation": "L'interruttore apre e chiude il circuito: accende o spegne il LED."},
+		{"topic": "componenti", "answer": "led",
+			"prompt": "Quale componente emette luce quando la corrente lo attraversa?",
+			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "resistore", "x": 0.50, "y": 0.24, "label": "Resistore"}, {"id": "led", "x": 0.80, "y": 0.50, "label": "LED"}, {"id": "filo", "x": 0.50, "y": 0.78, "label": "Filo"}],
+			"connections": [["pila", "resistore"], ["resistore", "led"], ["led", "filo"], ["filo", "pila"]],
+			"explanation": "Il LED emette luce quando è attraversato dalla corrente."},
+	],
+}
+
+# CODE-DEBUG (righe numerate selezionabili): trova la riga con l'errore. Testo puro.
+const CODE_DEBUG := {
+	"coding": [
+		{"topic": "cicli", "answerLine": 2,
+			"prompt": "Dovrebbe stampare 1, 2, 3. Quale riga contiene l'errore?",
+			"codeLines": ["for i in [1, 2, 3]:", "    print(i + 1)", "# atteso: 1, 2, 3"],
+			"explanation": "La riga 2 stampa i+1 (2, 3, 4): va corretta in print(i)."},
+		{"topic": "condizioni", "answerLine": 1,
+			"prompt": "Vogliamo salutare solo se il nome NON è vuoto. Quale riga sbaglia?",
+			"codeLines": ["if nome == \"\":", "    print('Ciao ' + nome)", "# salutare solo se c'è un nome"],
+			"explanation": "La riga 1 controlla se il nome È vuoto: la condizione va invertita (nome != '')."},
+	],
+	"logica": [
+		{"topic": "deduzioni", "answerLine": 3,
+			"prompt": "Segui la deduzione: quale passo è sbagliato?",
+			"codeLines": ["Tutti i gatti sono felini.", "Alcuni felini sono neri.", "Quindi tutti i gatti sono neri.", "# dove si rompe il ragionamento?"],
+			"explanation": "La riga 3 generalizza indebitamente: da 'alcuni felini neri' non segue 'tutti i gatti neri'."},
+	],
+}
+
 const NUMERIC_ORDERING_SUBJECTS := ["matematica", "logica"]
 
 func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
@@ -159,6 +219,14 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	# distante da abbinamento/ordinamento, per esercizi davvero vari (#11).
 	if has_classify:
 		nodes.append(_classification_node(subject, _pick(CLASSIFICATION[subject], generator), level, generator, 2))
+	# Quarto nodo (formato SPECIALISTA): grafico/circuito/code-debug se la materia
+	# ne ha — leggere dati, schemi o codice: la competenza come sfida visuale.
+	if GRAPH.has(subject):
+		nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator), level, generator, 3))
+	elif CIRCUIT.has(subject):
+		nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator), level, generator, 3))
+	elif CODE_DEBUG.has(subject):
+		nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator), level, generator, 3))
 	if nodes.is_empty():
 		# Fallback generico: un abbinamento numerico sempre valido.
 		nodes.append(_numeric_ordering_node(subject, level, generator, 0))
@@ -211,6 +279,49 @@ func _classification_node(subject: String, spec: Dictionary, level: int, rng: Ra
 		"categories": Array(spec["categories"]).duplicate(),
 		"assignments": assignments.duplicate(true),
 		"explanation": "Ogni tessera va nel gruppo giusto secondo la sua proprietà.",
+	}
+
+func _graph_node(subject: String, spec: Dictionary, level: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	return {
+		"id": "minigame-graph-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": ContentManager.target_difficulty(level),
+		"format": "graph",
+		"prompt": str(spec["prompt"]),
+		"points": (spec["points"] as Array).duplicate(true),
+		"xLabel": str(spec.get("xLabel", "x")),
+		"yLabel": str(spec.get("yLabel", "y")),
+		"answer": str(spec["answer"]),
+		"explanation": str(spec["explanation"]),
+	}
+
+func _circuit_node(subject: String, spec: Dictionary, level: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	return {
+		"id": "minigame-circuit-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": ContentManager.target_difficulty(level),
+		"format": "circuit",
+		"prompt": str(spec["prompt"]),
+		"components": (spec["components"] as Array).duplicate(true),
+		"connections": (spec["connections"] as Array).duplicate(true),
+		"answer": str(spec["answer"]),
+		"explanation": str(spec["explanation"]),
+	}
+
+func _code_debug_node(subject: String, spec: Dictionary, level: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	return {
+		"id": "minigame-code-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": ContentManager.target_difficulty(level),
+		"format": "code_debug",
+		"prompt": str(spec["prompt"]),
+		"codeLines": (spec["codeLines"] as Array).duplicate(),
+		"answerLine": int(spec["answerLine"]),
+		"answer": str(spec["answerLine"]),
+		"explanation": str(spec["explanation"]),
 	}
 
 func _ordering_node(subject: String, spec: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:

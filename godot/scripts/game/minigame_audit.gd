@@ -1,5 +1,7 @@
 extends SceneTree
 
+const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
+
 ## Audit dei minigiochi (formati "matching" e "ordering"). Verifica: (1) ogni
 ## materia costruisce nodi minigioco ben formati; (2) l'ExercisePlayer li gioca e
 ## li punteggia (soluzione → passato, con topicStats); (3) l'integrazione nella
@@ -31,10 +33,14 @@ func _test_costruzione_tutte_materie() -> void:
 		assert(str(session.get("kind", "")) == "minigame", "kind errato per %s" % subject)
 		for node in nodes:
 			var fmt := str(node.get("format", ""))
-			assert(fmt in ["matching", "ordering", "classification"], "formato inatteso (%s): %s" % [subject, fmt])
+			assert(fmt in ["matching", "ordering", "classification", "graph", "circuit", "code_debug"], "formato inatteso (%s): %s" % [subject, fmt])
 			assert(str(node.get("topic", "")) != "", "topic vuoto (%s)" % subject)
 			assert(int(node.get("difficulty", 0)) in [1, 2, 3, 4], "difficoltà invalida (%s)" % subject)
-			if fmt == "matching":
+			if fmt in ["graph", "circuit", "code_debug"]:
+				# Formati specialisti: valida col contratto comune.
+				var res := ExerciseInteraction.validate(node)
+				assert(bool(res["ok"]), "nodo %s non valido (%s): %s" % [fmt, subject, str(res["errors"])])
+			elif fmt == "matching":
 				var pairs: Array = node.get("pairs", [])
 				assert(pairs.size() >= 3, "troppe poche coppie (%s)" % subject)
 				assert(_unique_sides(pairs), "lati destri non univoci (%s): ambiguo" % subject)

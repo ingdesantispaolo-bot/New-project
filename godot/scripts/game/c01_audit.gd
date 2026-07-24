@@ -104,5 +104,11 @@ func _solve_correct(player: ExercisePlayer, item: Dictionary) -> void:
 			for key in assignments.keys():
 				player._classification_assign(str(key), str(assignments[key]))
 			player._classification_submit(item)
+		"graph", "circuit", "hotspot":
+			player._visual_select(str(item.get("answer", "")))
+			player._visual_submit(item)
+		"code_debug":
+			player._code_line_select(int(item.get("answerLine", 0)))
+			player._code_submit(item)
 		_:
 			player._answer(str(item.get("answer", "")))

@@ -31,13 +31,21 @@ func _test_costruzione_tutte_materie() -> void:
 		assert(str(session.get("kind", "")) == "minigame", "kind errato per %s" % subject)
 		for node in nodes:
 			var fmt := str(node.get("format", ""))
-			assert(fmt == "matching" or fmt == "ordering", "formato inatteso (%s): %s" % [subject, fmt])
+			assert(fmt in ["matching", "ordering", "classification"], "formato inatteso (%s): %s" % [subject, fmt])
 			assert(str(node.get("topic", "")) != "", "topic vuoto (%s)" % subject)
 			assert(int(node.get("difficulty", 0)) in [1, 2, 3, 4], "difficoltà invalida (%s)" % subject)
 			if fmt == "matching":
 				var pairs: Array = node.get("pairs", [])
 				assert(pairs.size() >= 3, "troppe poche coppie (%s)" % subject)
 				assert(_unique_sides(pairs), "lati destri non univoci (%s): ambiguo" % subject)
+			elif fmt == "classification":
+				var cats: Array = node.get("categories", [])
+				var items: Array = node.get("items", [])
+				var assign: Dictionary = node.get("assignments", {})
+				assert(cats.size() >= 2, "troppe poche categorie (%s)" % subject)
+				assert(items.size() >= 2, "troppi pochi item (%s)" % subject)
+				for it in items:
+					assert(assign.has(str(it)) and cats.has(str(assign[str(it)])), "assegnazione invalida (%s): %s" % [subject, str(it)])
 			else:
 				var correct: Array = node.get("correctOrder", [])
 				assert(correct.size() >= 3, "sequenza troppo corta (%s)" % subject)
@@ -146,20 +154,17 @@ func _play_session(gameplay, session: Dictionary, solve_correctly: bool) -> Dict
 	return holder["result"]
 
 func _solve_ordering(player, node: Dictionary, correctly: bool) -> void:
+	# Modello a SLOT numerati (refactor C-P6): ogni click riempie lo slot vuoto
+	# successivo; la valutazione avviene al submit, non a ogni click.
 	var correct: Array = node.get("correctOrder", [])
-	if correctly:
-		for target in correct:
-			var idx := _button_index(player._mg_buttons, str(target))
-			if idx >= 0:
-				player._ordering_click(idx, node)
-	else:
-		# Clicca in ordine inverso per forzare gli errori fino a esaurire gli scudi.
-		var reversed_order := correct.duplicate()
-		reversed_order.reverse()
-		for target in reversed_order:
-			var idx := _button_index(player._mg_buttons, str(target))
-			if idx >= 0 and not player._answered:
-				player._ordering_click(idx, node)
+	var sequence := correct.duplicate()
+	if not correctly:
+		sequence.reverse()  # riempimento in ordine inverso → esito sbagliato
+	for target in sequence:
+		var idx := _button_index(player._mg_buttons, str(target))
+		if idx >= 0:
+			player._ordering_click(idx, node)
+	player._ordering_submit(node)
 
 func _solve_matching(player, node: Dictionary, correctly: bool) -> void:
 	var pairs: Array = node.get("pairs", [])

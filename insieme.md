@@ -109,8 +109,11 @@ I 13 rilievi divisi per competenza. Dettaglio e motivazioni in
   sull'errore (l'esito no-ricompensa e il costo-energia esistono già lato Opus;
   qui serve la UI del cooldown/feedback). Il cooldown è **tra** i tentativi, non
   un timer durante l'esercizio.
-- [ ] **#11** Renderer interattivi dei formati non-MC (classificazione, hotspot,
-  grafico, circuito, codice) attivi nel percorso live. *(insieme a Opus)*
+- [ ] **#11** Feel & juice dei renderer non-MC (snap, luce, suono, board che si
+  anima) tematizzati per materia; **asset immagine** per hotspot/grafico/circuito
+  (mappa, corpo/cellula, pentagramma, schema); attivare `build_varied_mission`
+  come default del percorso live. Guida completa in
+  [docs/MINIGAMES_DESIGN.md](docs/MINIGAMES_DESIGN.md). *(insieme a Opus)*
 - [ ] **#13** UI **atlante consultabile** e aggancio nel flusso dei momenti
   d'insegnamento di NORA (`KnowledgeCodex.mini_lesson`/`teaching_moment` pronti). *(insieme a Opus)*
 
@@ -122,8 +125,13 @@ I 13 rilievi divisi per competenza. Dettaglio e motivazioni in
   (unità istruttiva per 122 topic) + `teaching_moment` (NORA pre-insegna al primo
   incontro, ri-insegna sull'errore). `codex_teaching_audit` verde. Resta il wiring
   UI a Codex.
-- [ ] **#11** Portare `build_varied_mission` (≤⅓ scelta multipla) come default del
-  percorso live e ampliare i contenuti dei formati interattivi. *(insieme a Codex)*
+- [~] **#11** Design dei minigiochi + descrizione grafica per Codex in
+  [docs/MINIGAMES_DESIGN.md](docs/MINIGAMES_DESIGN.md) (studio di giochi
+  avvincenti, catalogo formati→materie, principi di feel). Contenuto:
+  aggiunto il formato **classificazione** (drag-to-sort) per 10 materie in
+  `MinigameManager` → i minigiochi ora usano abbina+ordina+**classifica**.
+  Resta: attivare `build_varied_mission` come default live (wiring Codex) e i
+  DATI dei formati visivi quando Codex fissa gli asset immagine. *(insieme a Codex)*
 - [x] **#10** Taratura difficoltà per livello — diagnosi (`difficulty_calibration_audit`)
   e fix: l'unica materia tappata (italiano ≤d2) è stata arricchita con 36 voci
   avanzate (lessico astratto/figurato, mondo 14) → ora **tutte le 12 materie

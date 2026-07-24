@@ -73,6 +73,62 @@ const ORDERING := {
 	],
 }
 
+# Smistamento in categorie (drag-to-sort), per materia. Ogni item ha UNA categoria
+# corretta (`assignments`); il renderer classification li fa trascinare nei bidoni.
+# Formato testuale ad alto coinvolgimento, senza asset (playthrough #11).
+const CLASSIFICATION := {
+	"italiano": [
+		{"topic": "categorie", "prompt": "Smista ogni parola nella sua classe grammaticale.",
+			"categories": ["nome", "verbo", "aggettivo", "avverbio"],
+			"assignments": {"gatto": "nome", "casa": "nome", "correre": "verbo", "saltare": "verbo", "rosso": "aggettivo", "felice": "aggettivo", "velocemente": "avverbio", "lentamente": "avverbio"}},
+	],
+	"scienze": [
+		{"topic": "viventi", "prompt": "Smista ogni animale per come si nutre.",
+			"categories": ["erbivoro", "carnivoro", "onnivoro"],
+			"assignments": {"Mucca": "erbivoro", "Coniglio": "erbivoro", "Leone": "carnivoro", "Lupo": "carnivoro", "Orso": "onnivoro", "Maiale": "onnivoro"}},
+	],
+	"coding": [
+		{"topic": "tipi", "prompt": "Smista ogni valore nel suo tipo di dato.",
+			"categories": ["intero", "stringa", "booleano", "lista"],
+			"assignments": {"7": "intero", "42": "intero", "'ciao'": "stringa", "'sole'": "stringa", "True": "booleano", "False": "booleano", "[1, 2]": "lista", "[3, 4, 5]": "lista"}},
+	],
+	"cittadinanza": [
+		{"topic": "diritti-doveri", "prompt": "Smista ciascuna azione: diritto o dovere?",
+			"categories": ["diritto", "dovere"],
+			"assignments": {"Curarsi": "diritto", "Esprimere la propria opinione": "diritto", "Essere istruiti": "diritto", "Pagare le tasse": "dovere", "Rispettare l'ambiente": "dovere", "Rispettare le regole": "dovere"}},
+	],
+	"geografia": [
+		{"topic": "continenti", "prompt": "Smista ogni Paese nel suo continente.",
+			"categories": ["Africa", "Europa", "Asia", "America"],
+			"assignments": {"Egitto": "Africa", "Kenya": "Africa", "Italia": "Europa", "Francia": "Europa", "Giappone": "Asia", "Cina": "Asia", "Brasile": "America", "Canada": "America"}},
+	],
+	"matematica": [
+		{"topic": "numeri", "prompt": "Smista i numeri in pari e dispari.",
+			"categories": ["pari", "dispari"],
+			"assignments": {"4": "pari", "8": "pari", "12": "pari", "7": "dispari", "15": "dispari", "21": "dispari"}},
+	],
+	"fisica": [
+		{"topic": "energia", "prompt": "Smista ogni situazione per l'energia prevalente.",
+			"categories": ["potenziale", "cinetica"],
+			"assignments": {"Palla in cima a una rampa": "potenziale", "Molla compressa": "potenziale", "Palla che rotola": "cinetica", "Auto in corsa": "cinetica"}},
+	],
+	"musica": [
+		{"topic": "strumenti", "prompt": "Smista ogni strumento nella sua famiglia.",
+			"categories": ["corde", "fiati", "percussioni"],
+			"assignments": {"Chitarra": "corde", "Violino": "corde", "Flauto": "fiati", "Tromba": "fiati", "Tamburo": "percussioni", "Timpani": "percussioni"}},
+	],
+	"elettronica": [
+		{"topic": "conduttori", "prompt": "Smista ogni materiale.",
+			"categories": ["conduttore", "isolante"],
+			"assignments": {"Rame": "conduttore", "Ferro": "conduttore", "Alluminio": "conduttore", "Plastica": "isolante", "Legno": "isolante", "Gomma": "isolante"}},
+	],
+	"inglese": [
+		{"topic": "categorie", "prompt": "Sort each word into its category.",
+			"categories": ["animals", "food", "colours", "actions"],
+			"assignments": {"dog": "animals", "cat": "animals", "apple": "food", "bread": "food", "red": "colours", "blue": "colours", "run": "actions", "jump": "actions"}},
+	],
+}
+
 const NUMERIC_ORDERING_SUBJECTS := ["matematica", "logica"]
 
 func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
@@ -82,6 +138,7 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		generator.randomize()
 	var has_match := MATCHING.has(subject)
 	var has_order := ORDERING.has(subject)
+	var has_classify := CLASSIFICATION.has(subject)
 	var numeric := NUMERIC_ORDERING_SUBJECTS.has(subject)
 	var nodes: Array = []
 	# Primo nodo: preferisci un abbinamento (più ricco); ripiega su ordinamento.
@@ -98,6 +155,10 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator), level, generator, 1))
 	elif has_match:
 		nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator), level, generator, 1))
+	# Terzo nodo (se disponibile): smistamento drag-to-sort — il formato più
+	# distante da abbinamento/ordinamento, per esercizi davvero vari (#11).
+	if has_classify:
+		nodes.append(_classification_node(subject, _pick(CLASSIFICATION[subject], generator), level, generator, 2))
 	if nodes.is_empty():
 		# Fallback generico: un abbinamento numerico sempre valido.
 		nodes.append(_numeric_ordering_node(subject, level, generator, 0))
@@ -133,6 +194,23 @@ func _matching_node(subject: String, group: Dictionary, level: int, rng: RandomN
 		"prompt": "Abbina ogni elemento alla sua coppia.",
 		"pairs": pairs,
 		"explanation": "Collega ogni elemento a sinistra con quello giusto a destra.",
+	}
+
+func _classification_node(subject: String, spec: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var assignments: Dictionary = spec["assignments"]
+	var items: Array = assignments.keys()
+	_shuffle(items, rng)
+	return {
+		"id": "minigame-classify-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": ContentManager.target_difficulty(level),
+		"format": "classification",
+		"prompt": str(spec["prompt"]),
+		"items": items,
+		"categories": Array(spec["categories"]).duplicate(),
+		"assignments": assignments.duplicate(true),
+		"explanation": "Ogni tessera va nel gruppo giusto secondo la sua proprietà.",
 	}
 
 func _ordering_node(subject: String, spec: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:

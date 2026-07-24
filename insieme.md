@@ -32,14 +32,13 @@ e Codex non applica le eventuali correzioni richieste.
 
 #### Gate D2 — revisione Opus prima dell’Ondata E
 
-- [ ] **Opus:** verificare che pressione/equilibrio (17), armonia e dinamica
-  (18), etimologia/declinazione (19) e diagnosi serie-parallelo/sensori (20)
-  siano comunicati dalle trasformazioni a cinque stadi e non da effetti
-  puramente decorativi. Confermare trasferimento reale, testi NORA distinti e
-  coerenza tra landmark, missioni e `environment_transform`.
-- [ ] **Codex:** applicare le eventuali correzioni concrete di Opus, rieseguire
-  `world_semantics_audit.gd`, `world_wave_d2_audit.gd` e le capture interessate;
-  solo allora dichiarare sbloccata l’Ondata E.
+- [x] **Opus:** le trasformazioni COMUNICANO il concetto (non decorative):
+  17 corrente direzionale + galleggiamento, 18 canne d'organo di altezza variabile
+  (note) + armonia, 19 radici ramificate (etimologia), 20 conduttori serie/parallelo
+  + sensori + messa a terra. Trasferimento reale, NORA distinti, landmark/missioni/
+  `environment_transform` coerenti. `world_semantics_audit` e `world_wave_d2_audit`
+  verdi. **Nessuna correzione concreta richiesta.**
+- [x] **Codex:** nessuna correzione semantica da applicare → **Ondata E sbloccata.**
 
 #### Ondata E — Mondi 21–24 e finale
 

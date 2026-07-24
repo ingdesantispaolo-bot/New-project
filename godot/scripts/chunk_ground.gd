@@ -30,6 +30,10 @@ const UNDERPAINT_ORBITAL: Texture2D = preload("res://assets/deserto-orbite-under
 const UNDERPAINT_VOICES: Texture2D = preload("res://assets/biblioteca-voci-underpaint-v1.png")
 const UNDERPAINT_MACHINE: Texture2D = preload("res://assets/citta-macchina-underpaint-v1.png")
 const UNDERPAINT_FRONTIER: Texture2D = preload("res://assets/frontiera-lingue-underpaint-v1.png")
+const UNDERPAINT_FORCE_OCEAN: Texture2D = preload("res://assets/oceano-forze-underpaint-v1.png")
+const UNDERPAINT_SOUND_CATHEDRAL: Texture2D = preload("res://assets/cattedrale-suono-underpaint-v1.png")
+const UNDERPAINT_ROOT_NECROPOLIS: Texture2D = preload("res://assets/necropoli-radici-underpaint-v1.png")
+const UNDERPAINT_EM_STORM: Texture2D = preload("res://assets/tempesta-elettromagnetica-underpaint-v1.png")
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -223,6 +227,22 @@ func _build_painterly_surface(size: float) -> void:
 			identity_texture = UNDERPAINT_FRONTIER
 			identity_strength = 0.94
 			identity_calm = Color("8a6644")
+		"force_ocean":
+			identity_texture = UNDERPAINT_FORCE_OCEAN
+			identity_strength = 0.96
+			identity_calm = Color("174f67")
+		"sound_cathedral":
+			identity_texture = UNDERPAINT_SOUND_CATHEDRAL
+			identity_strength = 0.95
+			identity_calm = Color("58456b")
+		"root_necropolis":
+			identity_texture = UNDERPAINT_ROOT_NECROPOLIS
+			identity_strength = 0.95
+			identity_calm = Color("4f4034")
+		"electromagnetic_storm":
+			identity_texture = UNDERPAINT_EM_STORM
+			identity_strength = 0.96
+			identity_calm = Color("263b55")
 	material.set_shader_parameter("identity_tex", identity_texture)
 	material.set_shader_parameter("identity_strength", identity_strength)
 	material.set_shader_parameter("identity_calm_palette", identity_calm)
@@ -361,6 +381,34 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(inner)
 			_add_contour_floor_ornament(root, radii, Color("5ac9cf", 0.17))
 			_add_radial_floor_lines(root, radii, Color("eea95e", 0.15), 10 if kind == "border_market" else 6)
+		elif kind == "pressure_platform" or kind == "abyss_shelf":
+			outer.color = Color(0.02, 0.19, 0.29, 0.20)
+			inner.color = Color(0.18, 0.57, 0.67, 0.08)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_contour_floor_ornament(root, radii, Color("68e4f0", 0.22))
+			_add_radial_floor_lines(root, radii, Color("b4efff", 0.17), 10 if kind == "pressure_platform" else 6)
+		elif kind == "sound_nave" or kind == "resonance_chapel":
+			outer.color = Color(0.16, 0.08, 0.25, 0.18)
+			inner.color = Color(0.52, 0.34, 0.70, 0.07)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_resonance_floor_ornament(root, radii)
+			_add_linear_floor_ornament(root, radii, Color("f0c76b", 0.16), 8, false)
+		elif kind == "root_crypt" or kind == "etymology_archive":
+			outer.color = Color(0.13, 0.09, 0.08, 0.20)
+			inner.color = Color(0.40, 0.31, 0.20, 0.08)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_contour_floor_ornament(root, radii, Color("8ab46f", 0.17))
+			_add_radial_floor_lines(root, radii, Color("d4a96b", 0.15), 9 if kind == "etymology_archive" else 6)
+		elif kind == "field_sector" or kind == "sensor_array":
+			outer.color = Color(0.03, 0.06, 0.14, 0.20)
+			inner.color = Color(0.16, 0.31, 0.50, 0.08)
+			root.add_child(outer)
+			root.add_child(inner)
+			_add_circuit_floor_ornament(root, radii)
+			_add_radial_floor_lines(root, radii, Color("bd83ff", 0.18), 12 if kind == "sensor_array" else 7)
 		elif kind == "radura_garden":
 			outer.color = Color(0.14, 0.28, 0.16, 0.46)
 			inner.color = Color(0.52, 0.58, 0.25, 0.26)
@@ -644,6 +692,22 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 			bank_color = Color(0.23, 0.13, 0.07, 0.52)
 			soil_color = Color(0.73, 0.52, 0.29, 0.65)
 			highlight_color = Color(0.25, 0.76, 0.78, 0.18)
+		"force_ocean":
+			bank_color = Color(0.01, 0.12, 0.21, 0.20)
+			soil_color = Color(0.15, 0.46, 0.57, 0.22)
+			highlight_color = Color(0.44, 0.94, 1.0, 0.18)
+		"sound_cathedral":
+			bank_color = Color(0.13, 0.05, 0.22, 0.18)
+			soil_color = Color(0.48, 0.31, 0.62, 0.20)
+			highlight_color = Color(0.95, 0.72, 0.36, 0.15)
+		"root_necropolis":
+			bank_color = Color(0.10, 0.07, 0.06, 0.20)
+			soil_color = Color(0.42, 0.31, 0.20, 0.22)
+			highlight_color = Color(0.52, 0.73, 0.38, 0.14)
+		"electromagnetic_storm":
+			bank_color = Color(0.01, 0.03, 0.10, 0.22)
+			soil_color = Color(0.15, 0.27, 0.46, 0.22)
+			highlight_color = Color(0.62, 0.42, 1.0, 0.19)
 	var bank := Line2D.new()
 	bank.points = curved
 	bank.width = width + 9.0

@@ -37,6 +37,10 @@ const ORBITAL_OBSERVATORY_TEXTURE: Texture2D = preload("res://assets/deserto-oss
 const HALL_OF_VOICES_TEXTURE: Texture2D = preload("res://assets/biblioteca-sala-voci-v1.png")
 const CONTROL_TOWER_TEXTURE: Texture2D = preload("res://assets/citta-torre-controllo-v1.png")
 const LANGUAGE_GATE_TEXTURE: Texture2D = preload("res://assets/frontiera-porta-lingue-v1.png")
+const UNDERWATER_CATHEDRAL_TEXTURE: Texture2D = preload("res://assets/oceano-cattedrale-sottomarina-v1.png")
+const GRAND_ORGAN_TEXTURE: Texture2D = preload("res://assets/cattedrale-grande-organo-v1.png")
+const ROOT_TREE_TEXTURE: Texture2D = preload("res://assets/necropoli-albero-radici-v1.png")
+const FIELD_TOWER_TEXTURE: Texture2D = preload("res://assets/tempesta-torre-campo-v1.png")
 
 const NATURAL_DETAIL_CELLS := {
 	"reeds": Vector2i(0, 0), "cattails": Vector2i(1, 0),
@@ -1462,6 +1466,71 @@ static func build_identity_prop(kind: String, _theme: String, variant: float = 0
 				connector_light.position = Vector2(connector_x, -91 - absf(connector_x) * 0.35)
 				connector_light.add_to_group("night_glow")
 				root.add_child(connector_light)
+		"pressure_buoy", "current_vane", "ballast_station":
+			var ocean_width := 28.0 if kind == "pressure_buoy" else 46.0 if kind == "current_vane" else 58.0
+			root.add_child(make_shadow(ocean_width, 10, 0.30, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-ocean_width, 2), Vector2(-ocean_width * 0.72, -42),
+				Vector2(ocean_width * 0.72, -42), Vector2(ocean_width, 2),
+			]), Color("315c68")))
+			var ocean_core := make_glow(18 if kind != "ballast_station" else 24, Color("55e7ec"), 0.82)
+			ocean_core.position = Vector2(0, -27)
+			ocean_core.add_to_group("night_glow")
+			root.add_child(ocean_core)
+			for ocean_band_y in [-15.0, -34.0]:
+				var ocean_band := Line2D.new()
+				ocean_band.points = PackedVector2Array([Vector2(-ocean_width * 0.68, ocean_band_y), Vector2(ocean_width * 0.68, ocean_band_y)])
+				ocean_band.width = 3.0
+				ocean_band.default_color = Color("c59557")
+				root.add_child(ocean_band)
+		"organ_pipe", "harmony_arch", "timbre_resonator":
+			var sound_width := 26.0 if kind == "organ_pipe" else 50.0 if kind == "harmony_arch" else 39.0
+			root.add_child(make_shadow(sound_width, 11, 0.31, 7))
+			for sound_index in range(3):
+				var pipe_height := 55.0 + float(sound_index) * 17.0 + variant * 8.0
+				var pipe_x := (float(sound_index) - 1.0) * sound_width * 0.48
+				root.add_child(make_polygon(PackedVector2Array([
+					Vector2(pipe_x - 6, 2), Vector2(pipe_x - 5, -pipe_height),
+					Vector2(pipe_x + 5, -pipe_height), Vector2(pipe_x + 6, 2),
+				]), Color("c69a55") if sound_index != 1 else Color("b9b7c8")))
+			var sound_resonance := make_ring(sound_width * 0.72, Color("e198ed", 0.72), 3.0, 28)
+			sound_resonance.scale.y = 0.34
+			sound_resonance.position = Vector2(0, -34)
+			root.add_child(sound_resonance)
+		"root_obelisk", "lineage_tablet", "crypt_lantern":
+			var root_width := 24.0 if kind != "lineage_tablet" else 40.0
+			root.add_child(make_shadow(root_width + 8.0, 11, 0.34, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-root_width, 3), Vector2(-root_width * 0.72, -65),
+				Vector2(0, -82 if kind == "root_obelisk" else -65),
+				Vector2(root_width * 0.72, -65), Vector2(root_width, 3),
+			]), Color("66563d")))
+			for root_side in [-1.0, 1.0]:
+				var root_line := Line2D.new()
+				root_line.points = PackedVector2Array([Vector2(root_side * root_width * 0.75, 0), Vector2(root_side * 8.0, -31), Vector2(root_side * root_width * 0.45, -60)])
+				root_line.width = 4.0
+				root_line.default_color = Color("b78b49")
+				root.add_child(root_line)
+			var ancestry_light := make_glow(14, Color("ffc56a"), 0.78)
+			ancestry_light.position = Vector2(0, -42)
+			ancestry_light.add_to_group("night_glow")
+			root.add_child(ancestry_light)
+		"field_tower", "sensor_probe", "surge_grounder":
+			var field_width := 27.0 if kind == "field_tower" else 38.0 if kind == "sensor_probe" else 50.0
+			root.add_child(make_shadow(field_width, 10, 0.32, 7))
+			root.add_child(make_polygon(PackedVector2Array([
+				Vector2(-field_width, 3), Vector2(-field_width * 0.44, -63),
+				Vector2(field_width * 0.44, -63), Vector2(field_width, 3),
+			]), Color("29394f")))
+			for field_y in [-18.0, -40.0, -62.0]:
+				var field_ring := make_ring(field_width * 0.54, Color("8f73f2", 0.82), 3.0, 24)
+				field_ring.scale.y = 0.28
+				field_ring.position = Vector2(0, field_y)
+				root.add_child(field_ring)
+			var field_core := make_glow(17, Color("62e7ff"), 0.88)
+			field_core.position = Vector2(0, -42)
+			field_core.add_to_group("night_glow")
+			root.add_child(field_core)
 		_:
 			root.add_child(make_polygon(circle_polygon(18, 8), Color("6be7d6")))
 	return root
@@ -1671,6 +1740,60 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 			exchange_core.add_to_group("night_glow")
 			root.add_child(exchange_core)
 			attach_anim(exchange_core, "pulse", 0.96, 0.82)
+		"underwaterCathedral":
+			var cathedral_sprite := Sprite2D.new()
+			cathedral_sprite.name = "LandmarkUnderwaterCathedralArt"
+			cathedral_sprite.texture = UNDERWATER_CATHEDRAL_TEXTURE
+			cathedral_sprite.position = Vector2(0, -133)
+			cathedral_sprite.scale = Vector2(252, 252) / UNDERWATER_CATHEDRAL_TEXTURE.get_size()
+			cathedral_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(cathedral_sprite)
+			for current_radius in [45.0, 69.0, 93.0]:
+				var current_ring := make_ring(current_radius, Color("56e6ef", 0.24), 2.2, 36)
+				current_ring.scale.y = 0.28
+				current_ring.position = Vector2(0, -31)
+				root.add_child(current_ring)
+		"grandOrgan":
+			var organ_sprite := Sprite2D.new()
+			organ_sprite.name = "LandmarkGrandOrganArt"
+			organ_sprite.texture = GRAND_ORGAN_TEXTURE
+			organ_sprite.position = Vector2(0, -139)
+			organ_sprite.scale = Vector2(245, 245) / GRAND_ORGAN_TEXTURE.get_size()
+			organ_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(organ_sprite)
+			for echo_radius in [48.0, 72.0, 96.0]:
+				var organ_echo := make_ring(echo_radius, Color("e89af2", 0.24), 2.0, 34)
+				organ_echo.scale.y = 0.30
+				organ_echo.position = Vector2(0, -98)
+				root.add_child(organ_echo)
+		"rootTree":
+			var root_tree_sprite := Sprite2D.new()
+			root_tree_sprite.name = "LandmarkRootTreeArt"
+			root_tree_sprite.texture = ROOT_TREE_TEXTURE
+			root_tree_sprite.position = Vector2(0, -138)
+			root_tree_sprite.scale = Vector2(260, 260) / ROOT_TREE_TEXTURE.get_size()
+			root_tree_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(root_tree_sprite)
+			for root_angle in [-0.65, -0.22, 0.22, 0.65]:
+				var lineage_root := Line2D.new()
+				lineage_root.points = PackedVector2Array([Vector2(0, -20), Vector2(sin(root_angle) * 62.0, -1), Vector2(sin(root_angle) * 91.0, 7)])
+				lineage_root.width = 5.0
+				lineage_root.default_color = Color("d2a45c", 0.64)
+				root.add_child(lineage_root)
+		"fieldTower":
+			var tower_sprite := Sprite2D.new()
+			tower_sprite.name = "LandmarkFieldTowerArt"
+			tower_sprite.texture = FIELD_TOWER_TEXTURE
+			tower_sprite.position = Vector2(0, -145)
+			tower_sprite.scale = Vector2(242, 242) / FIELD_TOWER_TEXTURE.get_size()
+			tower_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+			root.add_child(tower_sprite)
+			for field_radius in [42.0, 68.0, 94.0]:
+				var tower_field := make_ring(field_radius, Color("8f72ff", 0.30), 2.3, 36)
+				tower_field.scale.y = 0.30
+				tower_field.position = Vector2(0, -102)
+				root.add_child(tower_field)
+				attach_anim(tower_field, "pulse", 0.72 + field_radius * 0.004, 0.68)
 		"forge":
 			root.add_child(make_shadow(26, 9, 0.3, 8))
 			root.add_child(make_polygon(PackedVector2Array([
@@ -1792,6 +1915,10 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"hallOfVoices": -225.0,
 		"controlTower": -250.0,
 		"languageGate": -226.0,
+		"underwaterCathedral": -277.0,
+		"grandOrgan": -281.0,
+		"rootTree": -284.0,
+		"fieldTower": -289.0,
 	}
 	text.position = Vector2(-90, float(tall_label_y.get(kind, -96.0)))
 	text.custom_minimum_size = Vector2(180, 0)

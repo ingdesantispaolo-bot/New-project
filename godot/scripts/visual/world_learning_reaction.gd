@@ -55,6 +55,14 @@ func setup(
 			_build_machine_city(event_kind, accent)
 		"language_frontier":
 			_build_language_frontier(event_kind, accent)
+		"force_ocean":
+			_build_force_ocean(event_kind, accent)
+		"sound_cathedral":
+			_build_sound_cathedral(event_kind, accent)
+		"root_necropolis":
+			_build_root_necropolis(event_kind, accent)
+		"electromagnetic_storm":
+			_build_electromagnetic_storm(event_kind, accent)
 		_:
 			_build_radure(event_kind, accent)
 	set_progress(0, active_parts.size(), false)
@@ -434,6 +442,87 @@ func _build_language_frontier(event_kind: String, accent: Color) -> void:
 		open_gate.position = Vector2(0, 6)
 		part.add_child(open_gate)
 		OutdoorVisualFactory.attach_anim(exchange, "pulse", 0.78 + float(index) * 0.11, 0.60)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_force_ocean(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-45.0 + float(index) * 22.5, 8.0 + sin(float(index) * 1.3) * 6.0)
+		var current := Line2D.new()
+		current.points = PackedVector2Array([Vector2(-10, 4), Vector2(-2, -5), Vector2(10, -2)])
+		current.width = 4.0
+		current.default_color = Color(accent, 0.88)
+		part.add_child(current)
+		var current_tip := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(9, -7), Vector2(16, -1), Vector2(8, 4)]),
+			accent.lightened(0.16))
+		part.add_child(current_tip)
+		var buoyancy := OutdoorVisualFactory.make_ring(12, Color("69eaf0", 0.48), 1.8, 20)
+		buoyancy.scale.y = 0.38
+		part.add_child(buoyancy)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_sound_cathedral(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0)
+		var pipe_height := 30.0 + float(index % 3) * 7.0
+		part.add_child(OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-5, 5), Vector2(-4, -pipe_height), Vector2(4, -pipe_height), Vector2(5, 5)]),
+			Color("c8a264")))
+		var harmony := OutdoorVisualFactory.make_ring(13, Color(accent, 0.48), 1.8, 22)
+		harmony.scale.y = 0.36
+		harmony.position = Vector2(0, -pipe_height * 0.55)
+		part.add_child(harmony)
+		OutdoorVisualFactory.attach_anim(harmony, "pulse", 0.68 + float(index) * 0.10, 0.56)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_root_necropolis(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0 + absf(float(index) - 2.0) * 2.0)
+		var root_segment := Line2D.new()
+		root_segment.points = PackedVector2Array([
+			Vector2(-13, 5), Vector2(-4, -4), Vector2(5, 2), Vector2(13, -7),
+		])
+		root_segment.width = 5.0
+		root_segment.default_color = Color("b38b58")
+		part.add_child(root_segment)
+		var ancestor := OutdoorVisualFactory.make_glow(11, accent, 0.72)
+		ancestor.position = Vector2(5, 1)
+		ancestor.add_to_group("night_glow")
+		part.add_child(ancestor)
+		active_parts.append(part)
+		add_child(part)
+	if event_kind == "enigma":
+		scale = Vector2.ONE * 1.14
+
+func _build_electromagnetic_storm(event_kind: String, accent: Color) -> void:
+	for index in range(5):
+		var part := Node2D.new()
+		part.position = Vector2(-45.0 + float(index) * 22.5, 8.0 + float(index % 2) * 4.0)
+		if index > 0:
+			var conductor := Line2D.new()
+			conductor.points = PackedVector2Array([Vector2(-22, -float(index % 2) * 4.0), Vector2.ZERO])
+			conductor.width = 3.0
+			conductor.default_color = Color("62dff3")
+			part.add_child(conductor)
+		var sensor := OutdoorVisualFactory.make_ring(10, Color("9a7cff"), 2.6, 20)
+		sensor.scale.y = 0.58
+		part.add_child(sensor)
+		var grounded_core := OutdoorVisualFactory.make_glow(13, accent, 0.84)
+		grounded_core.add_to_group("night_glow")
+		part.add_child(grounded_core)
+		OutdoorVisualFactory.attach_anim(grounded_core, "pulse", 0.64 + float(index) * 0.12, 0.58)
 		active_parts.append(part)
 		add_child(part)
 	if event_kind == "enigma":

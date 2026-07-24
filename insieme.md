@@ -25,37 +25,21 @@ didattici trasformano visivamente mondo e nave.
 Codex è responsabile di runtime Godot, scene, resa, input, integrazione visuale,
 navigazione, performance ed export.
 
-### C-P5 — Strategia per completare i mondi 17–24
+### C-P5 — Strategia per completare i mondi 21–24
 
-Restano due ondate da quattro mondi. Una nuova ondata parte soltanto dopo audit,
-render, correzione visiva e revisione semantica della precedente.
+Resta un’ondata da quattro mondi. Non parte finché Opus non chiude il Gate D2
+e Codex non applica le eventuali correzioni richieste.
 
-#### Gate D1 — revisione Opus prima dell’Ondata D2
+#### Gate D2 — revisione Opus prima dell’Ondata E
 
-- [x] **Opus:** orbite (13), prospettive narrative (14), reti/debug (15) e scambi
-  linguistici (16) rappresentano CORRETTAMENTE i contratti. Trasferimento reale
-  (contesto nuovo, ≥2 formati), testi NORA distinti e coerenti con la materia,
-  reazioni che consumano `environment_transform`. `world_semantics_audit` e
-  `world_wave_d1_audit` verdi. **Nessuna correzione concreta richiesta.**
-- [x] **Codex:** nessuna correzione semantica da applicare → **Ondata D2 sbloccata.**
-
-#### Ondata D2 — Mondi 17–20
-
-È l’ondata tecnicamente più rischiosa per acqua profonda, grandi interni,
-penombra ed effetti atmosferici. Va affrontata soltanto dopo D1.
-
-- [ ] **17 · Oceano delle Forze** — correnti, piattaforme e abissi con
-  Cattedrale Sottomarina; l’equilibrio stabilizza una corrente e apre un varco.
-- [ ] **18 · Cattedrale del Suono** — navate, archi e Grande Organo; le canne si
-  accendono per gruppi e la luce delle vetrate reagisce all’armonia.
-- [ ] **19 · Necropoli delle Radici** — cripte, epigrafi astratte e Albero delle
-  Radici; ogni relazione etimologica illumina una cripta ed estende un ramo.
-- [ ] **20 · Tempesta Elettromagnetica** — torri, sensori e campi instabili; le
-  diagnosi corrette stabilizzano una torre e dissipano una zona di tempesta.
-- [ ] Creare asset, kit, reazioni, `world_wave_d2_audit.gd` e cinque capture per
-  mondo; rieseguire le regressioni A–D2.
-- [ ] Gate D2: particelle, acqua e lampi devono restare sotto budget anche su
-  mobile; nessun effetto può nascondere POI o ingresso nave.
+- [ ] **Opus:** verificare che pressione/equilibrio (17), armonia e dinamica
+  (18), etimologia/declinazione (19) e diagnosi serie-parallelo/sensori (20)
+  siano comunicati dalle trasformazioni a cinque stadi e non da effetti
+  puramente decorativi. Confermare trasferimento reale, testi NORA distinti e
+  coerenza tra landmark, missioni e `environment_transform`.
+- [ ] **Codex:** applicare le eventuali correzioni concrete di Opus, rieseguire
+  `world_semantics_audit.gd`, `world_wave_d2_audit.gd` e le capture interessate;
+  solo allora dichiarare sbloccata l’Ondata E.
 
 #### Ondata E — Mondi 21–24 e finale
 
@@ -128,8 +112,7 @@ fine di ogni ondata, senza modificare posizionamento o resa visuale.
 > rieseguirli sui mondi consegnati: il controllo semantico Opus si riduce a
 > confermare che la resa di Codex rispetti questi contratti già validati.
 
-- [ ] dopo D2, verificare che le trasformazioni 17–20 comunichino davvero il
-  concetto appreso e non siano soltanto effetti decorativi;
+- [ ] completare il Gate D2 descritto sopra prima che Codex inizi l’Ondata E;
 - [ ] prima del Gate E2, validare prova trasversale, beat conclusivo NORA e
   semantica della convergenza dei dodici sistemi;
 - [ ] aggiornare fixture e consumer insieme soltanto se una revisione cambia un
@@ -150,7 +133,6 @@ Vincoli di responsabilità:
 
 ## Decisioni ancora da prendere
 
-- [ ] Congelare nomi e temi dell’ondata corrente prima di produrre gli asset.
 - [ ] Decidere quali mondi restano liberamente rivisitabili e come scala la
   difficoltà dopo il completamento.
 - [ ] Definire fascia scolastica iniziale e curriculum di lancio.

@@ -95,6 +95,14 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		biomes = ["logic", "crystal", "geo"]
 	elif level == 16:
 		biomes = ["geo", "academy", "wild"]
+	elif level == 17:
+		biomes = ["geo", "crystal", "logic"]
+	elif level == 18:
+		biomes = ["ruins", "crystal", "academy"]
+	elif level == 19:
+		biomes = ["ruins", "wild", "geo"]
+	elif level == 20:
+		biomes = ["logic", "crystal", "geo"]
 	var profile_id := str(profile.get("id", "world-%02d" % level))
 	data.visual_theme = (
 		"radura" if level == 1 else
@@ -113,6 +121,10 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		"voices_library" if level == 14 else
 		"machine_city" if level == 15 else
 		"language_frontier" if level == 16 else
+		"force_ocean" if level == 17 else
+		"sound_cathedral" if level == 18 else
+		"root_necropolis" if level == 19 else
+		"electromagnetic_storm" if level == 20 else
 		str(profile.get("artKit", subject))
 	)
 	var rng := RandomNumberGenerator.new()
@@ -515,6 +527,102 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 				ship + Vector2(1080, 1690),
 			]),
 		})
+	elif level == 17:
+		# Oceano: piattaforme collegate da tre correnti controllabili. I percorsi
+		# sicuri mostrano spinta e direzione senza coprire la zona nave.
+		data.paths.append({
+			"id": "force-pressure-spine", "width": 64.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 620), ship + Vector2(-180, 980),
+				ship + Vector2(0, 1390), ship + Vector2(0, 1840),
+			]),
+		})
+		data.paths.append({
+			"id": "force-west-current", "width": 52.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1640, 760), ship + Vector2(-980, 950),
+				ship + Vector2(-420, 1320), ship + Vector2(0, 1390),
+			]),
+		})
+		data.paths.append({
+			"id": "force-east-current", "width": 52.0,
+			"points": PackedVector2Array([
+				ship + Vector2(1640, 760), ship + Vector2(1040, 1020),
+				ship + Vector2(520, 1360), ship + Vector2(0, 1390),
+			]),
+		})
+	elif level == 18:
+		# Cattedrale: navata, transetto e cappelle laterali disegnano il riverbero.
+		data.paths.append({
+			"id": "sound-grand-nave", "width": 92.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 600), ship + Vector2(0, 980),
+				ship + Vector2(0, 1420), ship + Vector2(0, 1860),
+			]),
+		})
+		data.paths.append({
+			"id": "sound-transept", "width": 76.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1650, 1110), ship + Vector2(-760, 1110),
+				ship + Vector2(0, 1110), ship + Vector2(760, 1110),
+				ship + Vector2(1650, 1110),
+			]),
+		})
+		data.paths.append({
+			"id": "sound-choir-arc", "width": 58.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1050, 1510), ship + Vector2(-520, 1710),
+				ship + Vector2(0, 1810), ship + Vector2(520, 1710),
+				ship + Vector2(1050, 1510),
+			]),
+		})
+	elif level == 19:
+		# Necropoli: la radice principale si ramifica verso quattro cripte.
+		data.paths.append({
+			"id": "root-ancestral-spine", "width": 70.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 620), ship + Vector2(-90, 1000),
+				ship + Vector2(0, 1420), ship + Vector2(120, 1850),
+			]),
+		})
+		data.paths.append({
+			"id": "root-west-branch", "width": 52.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-90, 1000), ship + Vector2(-720, 920),
+				ship + Vector2(-1440, 1210), ship + Vector2(-1120, 1660),
+			]),
+		})
+		data.paths.append({
+			"id": "root-east-branch", "width": 52.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 1420), ship + Vector2(680, 1170),
+				ship + Vector2(1410, 1370), ship + Vector2(1120, 1740),
+			]),
+		})
+	elif level == 20:
+		# Tempesta: triangolo di stabilizzazione e dorsali dei sensori.
+		data.paths.append({
+			"id": "storm-field-triangle", "width": 58.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1360, 820), ship + Vector2(0, 1540),
+				ship + Vector2(1360, 820), ship + Vector2(-1360, 820),
+			]),
+		})
+		data.paths.append({
+			"id": "storm-sensor-spine", "width": 52.0,
+			"points": PackedVector2Array([
+				ship + Vector2(0, 610), ship + Vector2(0, 980),
+				ship + Vector2(0, 1540), ship + Vector2(0, 1880),
+			]),
+		})
+		data.paths.append({
+			"id": "storm-parallel-bus", "width": 46.0,
+			"points": PackedVector2Array([
+				ship + Vector2(-1600, 1210), ship + Vector2(-680, 1210),
+				ship + Vector2(0, 1540), ship + Vector2(680, 1210),
+				ship + Vector2(1600, 1210),
+			]),
+		})
 	else:
 		# Gli altri profili mantengono una seconda arteria deterministica finché
 		# ricevono la propria vertical slice nelle ondate C-P5.
@@ -533,7 +641,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 
 	# Acqua/profile dressing: sempre fuori dalla zona nave e mascherato dal
 	# corridoio sicuro in WorldCompositionData.water_weight().
-	if level in [2, 3, 5, 7, 11, 12, 13, 14, 15]:
+	if level in [2, 3, 5, 7, 11, 12, 13, 14, 15, 18, 19, 20]:
 		# L'Archivio non riusa il fiume naturale: la separazione fra le sale è
 		# resa da pavimenti sospesi, foschia e ponti di parole. Il Cratere usa
 		# invece terrazze asciutte: niente laghetto naturale nel canyon tecnico.
@@ -608,6 +716,21 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 				ship + Vector2(-1600, 1450), ship + Vector2(-1280, 2050),
 			]),
 		}]
+	elif level == 17:
+		data.waters = [
+			{"id": "force-west-abyss", "kind": "stream", "width": 480.0, "points": PackedVector2Array([
+				ship + Vector2(-1900, 380), ship + Vector2(-1500, 920),
+				ship + Vector2(-1740, 1450), ship + Vector2(-1320, 2080),
+			])},
+			{"id": "force-center-abyss", "kind": "stream", "width": 330.0, "points": PackedVector2Array([
+				ship + Vector2(-560, 420), ship + Vector2(-720, 900),
+				ship + Vector2(-520, 1420), ship + Vector2(-710, 2070),
+			])},
+			{"id": "force-east-abyss", "kind": "stream", "width": 450.0, "points": PackedVector2Array([
+				ship + Vector2(1900, 400), ship + Vector2(1510, 930),
+				ship + Vector2(1740, 1440), ship + Vector2(1320, 2070),
+			])},
+		]
 	elif level % 2 == 0:
 		data.waters = [{
 			"id": "profile-stream-%d" % level,
@@ -838,6 +961,58 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			{"kind": "market_stall", "position": ship + Vector2(920, 1480), "variant": 0.69},
 			{"kind": "passage_beacon", "position": ship + Vector2(1480, 1240), "variant": 0.88},
 		]
+	elif level == 17:
+		data.identity_regions = [
+			{"id": "force-central-platform", "kind": "pressure_platform", "position": ship + Vector2(0, 1460), "radii": Vector2(650, 420), "rotation": 0.0},
+			{"id": "force-west-shelf", "kind": "abyss_shelf", "position": ship + Vector2(-1130, 940), "radii": Vector2(430, 300), "rotation": -0.08},
+			{"id": "force-east-shelf", "kind": "abyss_shelf", "position": ship + Vector2(1130, 980), "radii": Vector2(430, 300), "rotation": 0.08},
+		]
+		data.identity_props = [
+			{"kind": "pressure_buoy", "position": ship + Vector2(-1460, 730), "variant": 0.12},
+			{"kind": "current_vane", "position": ship + Vector2(-760, 1040), "variant": 0.31},
+			{"kind": "ballast_station", "position": ship + Vector2(0, 1460), "variant": 0.50},
+			{"kind": "current_vane", "position": ship + Vector2(760, 1060), "variant": 0.69},
+			{"kind": "pressure_buoy", "position": ship + Vector2(1460, 730), "variant": 0.88},
+		]
+	elif level == 18:
+		data.identity_regions = [
+			{"id": "sound-central-nave", "kind": "sound_nave", "position": ship + Vector2(0, 1220), "radii": Vector2(620, 620), "rotation": 0.0},
+			{"id": "sound-west-chapel", "kind": "resonance_chapel", "position": ship + Vector2(-1120, 1120), "radii": Vector2(430, 340), "rotation": -0.04},
+			{"id": "sound-east-chapel", "kind": "resonance_chapel", "position": ship + Vector2(1120, 1120), "radii": Vector2(430, 340), "rotation": 0.04},
+		]
+		data.identity_props = [
+			{"kind": "organ_pipe", "position": ship + Vector2(-1450, 720), "variant": 0.12},
+			{"kind": "harmony_arch", "position": ship + Vector2(-720, 1100), "variant": 0.31},
+			{"kind": "timbre_resonator", "position": ship + Vector2(0, 1510), "variant": 0.50},
+			{"kind": "harmony_arch", "position": ship + Vector2(720, 1100), "variant": 0.69},
+			{"kind": "organ_pipe", "position": ship + Vector2(1450, 720), "variant": 0.88},
+		]
+	elif level == 19:
+		data.identity_regions = [
+			{"id": "root-central-archive", "kind": "etymology_archive", "position": ship + Vector2(0, 1460), "radii": Vector2(610, 440), "rotation": 0.0},
+			{"id": "root-west-crypt", "kind": "root_crypt", "position": ship + Vector2(-1120, 1180), "radii": Vector2(470, 340), "rotation": -0.05},
+			{"id": "root-east-crypt", "kind": "root_crypt", "position": ship + Vector2(1120, 1320), "radii": Vector2(470, 340), "rotation": 0.05},
+		]
+		data.identity_props = [
+			{"kind": "root_obelisk", "position": ship + Vector2(-1450, 720), "variant": 0.12},
+			{"kind": "lineage_tablet", "position": ship + Vector2(-720, 1110), "variant": 0.31},
+			{"kind": "crypt_lantern", "position": ship + Vector2(0, 1460), "variant": 0.50},
+			{"kind": "lineage_tablet", "position": ship + Vector2(720, 1240), "variant": 0.69},
+			{"kind": "root_obelisk", "position": ship + Vector2(1450, 780), "variant": 0.88},
+		]
+	elif level == 20:
+		data.identity_regions = [
+			{"id": "storm-central-array", "kind": "sensor_array", "position": ship + Vector2(0, 1510), "radii": Vector2(650, 430), "rotation": 0.0},
+			{"id": "storm-west-sector", "kind": "field_sector", "position": ship + Vector2(-1120, 1030), "radii": Vector2(470, 330), "rotation": -0.06},
+			{"id": "storm-east-sector", "kind": "field_sector", "position": ship + Vector2(1120, 1030), "radii": Vector2(470, 330), "rotation": 0.06},
+		]
+		data.identity_props = [
+			{"kind": "field_tower", "position": ship + Vector2(-1450, 730), "variant": 0.12},
+			{"kind": "sensor_probe", "position": ship + Vector2(-720, 1060), "variant": 0.31},
+			{"kind": "surge_grounder", "position": ship + Vector2(0, 1510), "variant": 0.50},
+			{"kind": "sensor_probe", "position": ship + Vector2(720, 1060), "variant": 0.69},
+			{"kind": "field_tower", "position": ship + Vector2(1450, 730), "variant": 0.88},
+		]
 
 	var safe_radius := float(profile.get("shipEntrance", {}).get("safeRadius", 340.0))
 	data.protected_zones = [{
@@ -889,4 +1064,12 @@ static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
 		return ship + Vector2(0, 1510)
 	if level == 16:
 		return ship + Vector2(120, 1520)
+	if level == 17:
+		return ship + Vector2(0, 1460)
+	if level == 18:
+		return ship + Vector2(0, 1510)
+	if level == 19:
+		return ship + Vector2(0, 1460)
+	if level == 20:
+		return ship + Vector2(0, 1510)
 	return ship + Vector2(690, -210)

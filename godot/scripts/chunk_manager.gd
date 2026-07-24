@@ -127,7 +127,7 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 			# Le vertical slice autorate tengono la decorazione procedurale come
 			# tessuto secondario: la topologia resta quella del profilo.
 			var level := int(world_profile.get("level", 1))
-			if level in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] and field in ["obstacles", "props"]:
+			if level in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] and field in ["obstacles", "props"]:
 				var signature := str(item.get("id", "%s:%.1f:%.1f" % [field, position.x, position.y]))
 				var keep_percent := 58 if field == "obstacles" else 42
 				if level == 3:
@@ -158,6 +158,14 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 					keep_percent = 6 if field == "obstacles" else 5
 				elif level == 16:
 					keep_percent = 16 if field == "obstacles" else 10
+				elif level == 17:
+					keep_percent = 3
+				elif level == 18:
+					keep_percent = 6 if field == "obstacles" else 4
+				elif level == 19:
+					keep_percent = 6 if field == "obstacles" else 4
+				elif level == 20:
+					keep_percent = 5 if field == "obstacles" else 4
 				if posmod(hash(signature), 100) >= keep_percent:
 					continue
 			kept.append(item)
@@ -251,6 +259,14 @@ func _boundary_palette() -> Array[Color]:
 			return [Color("07131e"), Color("0a1c29"), Color("06101a"), Color("0b1724")]
 		"language_frontier":
 			return [Color("49301e"), Color("5d3b24"), Color("3d2b1d"), Color("523620")]
+		"force_ocean":
+			return [Color("102b3b"), Color("17475a"), Color("123447"), Color("0c2536")]
+		"sound_cathedral":
+			return [Color("211a32"), Color("493556"), Color("2b203c"), Color("372944")]
+		"root_necropolis":
+			return [Color("2a241d"), Color("514431"), Color("322b21"), Color("453a2b")]
+		"electromagnetic_storm":
+			return [Color("101829"), Color("263b55"), Color("17243a"), Color("201e3d")]
 		_:
 			return [Color("10241d"), Color("14241f"), Color("13251d"), Color("111f22")]
 
@@ -329,6 +345,14 @@ func _add_boundary_motif(parent: Node2D, position: Vector2, index: int, edge: in
 		kind = "crystal" if (index + edge) % 3 == 0 else "rock"
 	elif composition.visual_theme == "language_frontier":
 		kind = "tree" if (index + edge) % 5 == 0 else "rock"
+	elif composition.visual_theme == "force_ocean":
+		kind = "crystal" if (index + edge) % 3 == 0 else "rock"
+	elif composition.visual_theme == "sound_cathedral":
+		kind = "crystal" if (index + edge) % 5 == 0 else "rock"
+	elif composition.visual_theme == "root_necropolis":
+		kind = "tree" if (index + edge) % 3 == 0 else "rock"
+	elif composition.visual_theme == "electromagnetic_storm":
+		kind = "crystal" if (index + edge) % 2 == 0 else "rock"
 	var variant := fmod(float(index) * 0.371 + float(edge) * 0.219, 1.0)
 	var motif := OutdoorVisualFactory.build_obstacle(kind, 48.0 + variant * 14.0, 0x355b42, variant, biome)
 	motif.position = position + Vector2(sin(float(index) * 1.7 + edge) * 22.0, cos(float(index) * 1.13 + edge) * 10.0)

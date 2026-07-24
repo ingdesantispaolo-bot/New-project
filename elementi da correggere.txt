@@ -1,0 +1,24 @@
+Elementi da correggere:
+
+nei mondi esterni ci sono elementi grafici che sono fuori contesto e che non servono anulla ma distraggono.
+
+2 i fiumi devono avere inizio e fine coerenti, una cascata, una sorgente. Devono poter essere attraversati solo con dei ponti che vanno costruiti.
+
+3 quando una sfera viene completata con gli esercizi va elimnata dalla mappa anche graficamente.
+
+4 negli esercizi controlla che la risposta giusta non sia sempre la prima
+
+5 vedo elementi grafici che sembrano importanti ma che non sembrano servire a nulla .albero dei percorsi, nucleo antico, etc etc
+
+6 equipaggiamento deve servire realmente, ad esempio una torcia che illumina una zona davanti al personaggio di notte e la notte deve essere molto piu buia. Una falce per aprirsi un varco tra l'erba alta altrimenti invalicabile. Quindi va studiato un insieme di situazioni che rendono parte equipaggiamento utile se non indispensabile a raggiungere certe sfere e tesori .
+
+7 dobbiamo introdurre dei personaggi nemici a seconda del livello che infastidiscono la nostra missione . Il sistema va studiato con attenzione
+
+8 gli sprite del personaggiovanno resi di qualità AAA anche neimovimenti e combattimenti.
+
+9 negli enigmi se le risposte non sono corrette non devono dare ricompense e devono graficamente dare feedback negativo ed impostare un timer nel quale non si può riprovare esercizio. Partecipare ad esercizio consuma energia per evitare che studente riprovi semplicemente a caso un numero indefinito di volte.
+
+10 la qualità delle domande deve salire di livello ed essere tarata con precisione nei vari livelli
+
+11 gli esercizi non devono essere solo a risposta multipla ma studiati come minigiochi nei quali usare le competenze come sfida e gioco. Questa è la parte da curare con massima attenzione
+

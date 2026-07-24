@@ -66,6 +66,12 @@ const MATCHING := {
 	"matematica": [
 		{"topic": "tabelline", "pairs": [["3 × 4", "12"], ["6 × 7", "42"], ["8 × 5", "40"], ["9 × 3", "27"]]},
 		{"topic": "calcolo", "pairs": [["10 + 5", "15"], ["20 - 8", "12"], ["4 × 4", "16"], ["18 ÷ 3", "6"], ["7 + 6", "13"]]},
+		# Fluenza tra rappresentazioni: la stessa quantità in forme diverse (idea CPA).
+		{"topic": "frazioni", "minLevel": 4, "pairs": [["1/2", "0,5"], ["1/4", "0,25"], ["3/4", "0,75"], ["1/5", "0,2"]]},
+		{"topic": "percentuali", "minLevel": 5, "pairs": [["1/2", "50%"], ["1/4", "25%"], ["1/5", "20%"], ["3/4", "75%"]]},
+		# Scuola media — potenze e formule di geometria.
+		{"topic": "potenze", "minLevel": 6, "pairs": [["2³", "8"], ["3²", "9"], ["5²", "25"], ["10³", "1000"]]},
+		{"topic": "geometria", "minLevel": 5, "pairs": [["Area del quadrato", "lato × lato"], ["Perimetro del rettangolo", "(base + altezza) × 2"], ["Area del triangolo", "base × altezza ÷ 2"], ["Area del cerchio", "π × raggio²"]]},
 	],
 	"logica": [
 		{"topic": "analogie", "pairs": [["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acqua"], ["Cavallo", "Stalla"]]},
@@ -184,6 +190,23 @@ const CLASSIFICATION := {
 		{"topic": "calcolo", "prompt": "Smista ogni numero: minore di 10 oppure 10 o più.",
 			"categories": ["minore di 10", "10 o più"],
 			"assignments": {"3": "minore di 10", "6": "minore di 10", "9": "minore di 10", "10": "10 o più", "14": "10 o più", "23": "10 o più"}},
+		# Il segno "=" come bilancia: l'uguaglianza è vera o falsa? (misconcezione classica)
+		{"topic": "uguaglianze", "minLevel": 2, "prompt": "Ogni uguaglianza è vera o falsa?",
+			"categories": ["vera", "falsa"],
+			"assignments": {"3 + 4 = 7": "vera", "10 - 6 = 4": "vera", "2 × 5 = 10": "vera", "5 + 3 = 9": "falsa", "12 ÷ 3 = 5": "falsa", "6 × 2 = 10": "falsa"}},
+		{"topic": "multipli", "minLevel": 3, "prompt": "Smista: è multiplo di 3 oppure no?",
+			"categories": ["multiplo di 3", "non multiplo"],
+			"assignments": {"9": "multiplo di 3", "12": "multiplo di 3", "15": "multiplo di 3", "7": "non multiplo", "10": "non multiplo", "14": "non multiplo"}},
+		# Scuola media — numeri primi, frazioni rispetto a 1/2, interi.
+		{"topic": "primi", "minLevel": 5, "prompt": "Smista ogni numero: primo o composto?",
+			"categories": ["primo", "composto"],
+			"assignments": {"2": "primo", "5": "primo", "7": "primo", "4": "composto", "6": "composto", "9": "composto"}},
+		{"topic": "frazioni", "minLevel": 6, "prompt": "Smista ogni frazione rispetto a 1/2.",
+			"categories": ["minore di 1/2", "uguale a 1/2", "maggiore di 1/2"],
+			"assignments": {"1/4": "minore di 1/2", "1/3": "minore di 1/2", "2/4": "uguale a 1/2", "3/6": "uguale a 1/2", "3/4": "maggiore di 1/2", "5/6": "maggiore di 1/2"}},
+		{"topic": "interi", "minLevel": 6, "prompt": "Smista ogni numero intero: positivo o negativo?",
+			"categories": ["positivo", "negativo"],
+			"assignments": {"5": "positivo", "12": "positivo", "3": "positivo", "-3": "negativo", "-8": "negativo", "-1": "negativo"}},
 	],
 	"fisica": [
 		{"topic": "energia", "prompt": "Smista ogni situazione per l'energia prevalente.",
@@ -243,6 +266,19 @@ const GRAPH := {
 			"prompt": "Quale punto si trova più in alto (ordinata y maggiore)?",
 			"points": [{"id": "P", "x": 0.20, "y": 0.35, "label": "P"}, {"id": "Q", "x": 0.50, "y": 0.85, "label": "Q"}, {"id": "R", "x": 0.80, "y": 0.55, "label": "R"}],
 			"explanation": "Il punto Q ha l'ordinata (y) più grande."},
+		# Lettura di grafici: competenza chiave di dati e statistica.
+		{"topic": "dati", "xLabel": "ora", "yLabel": "temperatura", "answer": "C",
+			"prompt": "Il grafico mostra la temperatura durante il giorno: in quale punto è massima?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.25, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.60, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.55, "label": "D"}],
+			"explanation": "La temperatura è massima dove la curva è più in alto: il punto C."},
+		{"topic": "dati", "xLabel": "settimana", "yLabel": "risparmi", "answer": "A",
+			"prompt": "Il grafico mostra i risparmi settimana per settimana: in quale punto sono minimi?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.40, "y": 0.45, "label": "B"}, {"id": "C", "x": 0.68, "y": 0.70, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.92, "label": "D"}],
+			"explanation": "I risparmi sono minimi dove la curva è più in basso: il punto A."},
+		{"topic": "funzioni", "minLevel": 6, "xLabel": "x", "yLabel": "y", "answer": "A",
+			"prompt": "La retta sale da sinistra a destra: in quale punto tocca l'asse x (y = 0)?",
+			"points": [{"id": "A", "x": 0.15, "y": 0.05, "label": "A"}, {"id": "B", "x": 0.45, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.72, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.90, "label": "D"}],
+			"explanation": "La retta interseca l'asse x dove y vale (quasi) zero: il punto A, in basso."},
 	],
 	"scienze": [
 		{"topic": "metodo", "xLabel": "giorni", "yLabel": "altezza", "answer": "D",
@@ -337,6 +373,27 @@ const CODE_DEBUG := {
 			"prompt": "Analisi logica di 'Marco regala un libro a Luca': quale riga sbaglia?",
 			"codeLines": ["Marco = soggetto", "regala = predicato verbale", "un libro = complemento di termine", "a Luca = complemento di termine"],
 			"explanation": "Riga 3: 'un libro' risponde a 'che cosa?', è complemento oggetto. Il complemento di termine (a chi?) è 'a Luca'."},
+	],
+	# MATEMATICA — "Caccia all'errore nel calcolo": si segue un procedimento passo
+	# per passo e si smaschera la riga sbagliata. Colpisce le misconcezioni tipiche
+	# (priorità, area vs perimetro, somma di frazioni): più coinvolgente che ripetere.
+	"matematica": [
+		{"topic": "calcolo", "answerLine": 2,
+			"prompt": "Controlla il calcolo passo per passo: quale riga sbaglia?",
+			"codeLines": ["7 + 5", "= 13", "# quanto fa davvero?"],
+			"explanation": "Riga 2: 7 + 5 = 12, non 13."},
+		{"topic": "espressioni", "minLevel": 3, "answerLine": 2,
+			"prompt": "Calcolo di 2 + 3 × 4 passo per passo: quale riga sbaglia?",
+			"codeLines": ["2 + 3 × 4", "= 5 × 4   (ho sommato 2 + 3)", "= 20", "# le priorità sono rispettate?"],
+			"explanation": "Riga 2: prima la moltiplicazione! 3 × 4 = 12, poi 2 + 12 = 14. Non si somma 2 + 3 per primo."},
+		{"topic": "geometria", "minLevel": 4, "answerLine": 2,
+			"prompt": "Perimetro di un rettangolo 5 m × 3 m: quale riga sbaglia?",
+			"codeLines": ["Perimetro del rettangolo 5 × 3", "= 5 × 3", "= 15 m", "# è davvero il perimetro?"],
+			"explanation": "Riga 2: 5 × 3 è l'AREA. Il perimetro è 2 × (5 + 3) = 16 m."},
+		{"topic": "frazioni", "minLevel": 6, "answerLine": 2,
+			"prompt": "Somma 1/2 + 1/4 passo per passo: quale riga sbaglia?",
+			"codeLines": ["1/2 + 1/4", "= 2/6   (somma sopra e sotto)", "= 1/3", "# si sommano così le frazioni?"],
+			"explanation": "Riga 2: non si sommano numeratori e denominatori. Con lo stesso denominatore: 2/4 + 1/4 = 3/4."},
 	],
 }
 

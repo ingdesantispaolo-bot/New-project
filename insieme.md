@@ -66,6 +66,15 @@ Definizione di completato C-P6:
 Opus è responsabile di contenuti, coerenza didattica, difficoltà, copertura delle
 competenze e validazione del percorso educativo.
 
+> **Gate E2 · finale verificato.** Il mondo 24 e il finale trasversale funzionano
+> come un solo flusso: prova dei 12 sistemi + sintesi → Cuore a 5 fasi →
+> riattivazione completa della nave (`is_complete`, integrità NORA 1.0, memoria 24)
+> → beat finale NORA → ritorno giocabile. Verdi: `world_wave_e2_audit`,
+> `finale_transversal_audit`, `nora_arc_audit`, e l'intero percorso
+> (`world_semantics_audit`, `world_lesson_audit`, `progression_1to24_audit`).
+> Nessuna correzione richiesta. La revisione didattica del punto 1 qui sotto è la
+> ripassata **dopo** il playthrough manuale C-P6.
+
 1. [ ] Rieseguire la revisione didattica finale sui 24 mondi e sul finale
    trasversale dopo il playthrough C-P6; segnalare soltanto problemi che cambiano
    comprensione, trasferimento, difficoltà o relazione con NORA.

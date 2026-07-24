@@ -16,10 +16,12 @@ func _init() -> void:
 	assert(save.level() == 1)
 	assert(not prog.can_repair())
 
-	# 1) Missioni native (tutte corrette) finché il gate non si apre.
+	# 1) Missioni native (tutte corrette) finché il gate non si apre. Usa la
+	# variante a formati VARI (≤⅓ scelta multipla), la stessa del percorso live:
+	# così l'audit gioca davvero abbina/ordina/classifica attraverso il player.
 	var missions := 0
 	while not prog.can_repair() and missions < 200:
-		var mission := content.build_mission(subject, save.level(), 3)
+		var mission := content.build_varied_mission(subject, save.level(), 3)
 		assert(not Array(mission["nodes"]).is_empty(), "banco mancante: node scripts/build-exercise-banks.mjs")
 		assert(save.spend_energy(3), "energia sufficiente per la missione")
 		var res := _play(mission, true)
@@ -84,15 +86,23 @@ func _solve_correct(player: ExercisePlayer, item: Dictionary) -> void:
 				player._matching_left(i)
 				player._matching_right(str((pairs[i] as Dictionary).get("right", "")), item)
 		"ordering":
+			# Modello a slot numerati: riempi in ordine corretto, poi invia.
 			var items: Array = item.get("items", [])
 			var order: Array = item.get("correctOrder", [])
 			for expected in order:
-				var idx := -1
-				for k in items.size():
-					if str(items[k]) == str(expected):
-						idx = k
-						break
+				var idx := items.find(expected)
+				if idx < 0:
+					for k in items.size():
+						if str(items[k]) == str(expected):
+							idx = k
+							break
 				if idx >= 0:
 					player._ordering_click(idx, item)
+			player._ordering_submit(item)
+		"classification":
+			var assignments: Dictionary = item.get("assignments", {})
+			for key in assignments.keys():
+				player._classification_assign(str(key), str(assignments[key]))
+			player._classification_submit(item)
 		_:
 			player._answer(str(item.get("answer", "")))

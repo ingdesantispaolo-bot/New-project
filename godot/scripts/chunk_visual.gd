@@ -13,6 +13,7 @@ extends Node2D
 const INTERACTION_RADIUS := 88.0
 const GROUND_SCRIPT := preload("res://scripts/chunk_ground.gd")
 const RNG := preload("res://scripts/deterministic_rng.gd")
+const EQUIPMENT_GATE := preload("res://scripts/visual/equipment_gate.gd")
 
 var chunk: Dictionary
 var world: Node
@@ -396,6 +397,13 @@ func _build_treasures() -> void:
 		var node := OutdoorVisualFactory.build_treasure(treasure_label)
 		node.position = _local(treasure["x"], treasure["y"])
 		add_child(node)
+		var required_tool := str(treasure.get("requiredTool", ""))
+		if required_tool != "":
+			var gate := EQUIPMENT_GATE.new()
+			gate.name = "EquipmentGate"
+			node.add_child(gate)
+			var equipped_tool := str(world.call("equipped_field_tool")) if world != null and world.has_method("equipped_field_tool") else ""
+			gate.configure(required_tool, equipped_tool)
 		_attach_interactable(node, "treasure", str(treasure["id"]), treasure)
 
 func _build_encounters() -> void:

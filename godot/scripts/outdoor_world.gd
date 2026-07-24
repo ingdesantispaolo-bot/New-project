@@ -14,6 +14,7 @@ const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
 const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
+const EQUIPMENT_GATE_SCRIPT := preload("res://scripts/visual/equipment_gate.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -79,6 +80,7 @@ var content_manager: ContentManager
 var gain_popup_pool: Array[Label] = []
 var applied_cosmetic_signature := ""
 var pending_touch_interaction: Area2D
+var interaction_countdown_second := -1
 var world_weather_particles: CPUParticles2D
 var profile_night_tint := NIGHT_TINT
 var profile_dawn_tint := DAWN_TINT
@@ -86,6 +88,8 @@ var profile_day_tint := Color.WHITE
 var environment_transform: Dictionary = {}
 var profile_hero_landmark: Node2D
 var profile_environment_reaction: WorldLearningReaction
+var last_traversable_position := Vector2.ZERO
+var water_block_feedback_msec := 0
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -120,10 +124,14 @@ func _ready() -> void:
 		reserved_positions.append(event["position"])
 	reserved_positions.append(_hero_landmark_position())
 	chunks.configure(world_seed, self, world_profile, reserved_positions)
+	_bind_water_crossing_events()
 	if launch_stream_radius_override >= 0:
 		chunks.active_radius = launch_stream_radius_override
 	_create_player()
 	_apply_resume()
+	if _water_blocks_position(player.position):
+		player.position = world_profile.get("spawn", PORTAL_POSITION + Vector2(0, 1180))
+	last_traversable_position = player.position
 	_create_portal()
 	_create_profile_landmark()
 	_create_profile_events()
@@ -161,7 +169,35 @@ func _configure_world_profile() -> void:
 	environment_transform = WORLD_LESSON_CATALOG.environment_transform(world_level)
 	world_seed = "%s::%s" % [str(request.get("worldSeed", "outdoor-dev-1")), str(world_profile.get("id", "world-01-radura"))]
 	mission_events = _planned_world_events()
+	_align_enigma_to_water_crossing()
 	_configure_profile_palette()
+
+func _align_enigma_to_water_crossing() -> void:
+	var preview := WorldCompositionGenerator.generate(world_seed, world_profile)
+	if preview == null or preview.crossings.is_empty():
+		return
+	var crossing: Dictionary = preview.crossings[0]
+	for index in range(mission_events.size()):
+		var event: Dictionary = mission_events[index]
+		if str(event.get("kind", "")) != "enigma":
+			continue
+		event["position"] = crossing.get("approach", event.get("position", Vector2.ZERO))
+		event["crossingId"] = str(crossing.get("id", ""))
+		event["bridgeCenter"] = crossing.get("position", event["position"])
+		event["bridgeNormal"] = crossing.get("normal", Vector2.RIGHT)
+		mission_events[index] = event
+		return
+
+func _bind_water_crossing_events() -> void:
+	if chunks == null or chunks.composition == null:
+		return
+	for crossing_data in chunks.composition.crossings:
+		var crossing: Dictionary = crossing_data
+		for event_data in mission_events:
+			var event: Dictionary = event_data
+			if str(event.get("crossingId", "")) == str(crossing.get("id", "")):
+				crossing["eventId"] = str(event.get("id", ""))
+				break
 
 func _profile_in_scene_coordinates(profile: Dictionary) -> Dictionary:
 	var mapped := profile.duplicate(true)
@@ -370,6 +406,10 @@ func _process(delta: float) -> void:
 	if is_instance_valid(day_light):
 		# notte → giorno con transizione calda (alba/tramonto) a metà corsa
 		var base := profile_night_tint.lerp(profile_day_tint, daylight)
+		# Senza torcia la notte è una vera condizione di esplorazione; con la
+		# torcia resta scura globalmente ma il chiarore locale diventa ampio.
+		var night_depth := (1.0 - daylight) * (0.28 if equipped_field_tool() == "tool-torch" else 0.58)
+		base = base.darkened(night_depth)
 		var dawn_mix := clampf(1.0 - absf(daylight - 0.5) * 2.2, 0.0, 1.0)
 		day_light.color = base.lerp(profile_dawn_tint, dawn_mix * 0.35)
 		if is_instance_valid(phase_label):
@@ -389,6 +429,7 @@ func _process(delta: float) -> void:
 		atmosphere_material.set_shader_parameter("clock", day_clock / DAY_LENGTH)
 	_update_night_glow(daylight)
 	if is_instance_valid(player):
+		_enforce_water_traversal()
 		chunks.update_stream(player.position)
 		if is_instance_valid(camera):
 			camera.position = player.position
@@ -399,6 +440,43 @@ func _process(delta: float) -> void:
 		_update_biome_hud()
 		_update_ship_navigation()
 		_update_pending_touch_interaction()
+		_update_interaction_countdown()
+
+func _enforce_water_traversal() -> void:
+	if not is_instance_valid(player) or chunks == null or chunks.composition == null:
+		return
+	if not _water_blocks_position(player.position):
+		last_traversable_position = player.position
+		return
+	player.position = last_traversable_position
+	player.velocity = Vector2.ZERO
+	player.touch_target = Vector2.INF
+	var now := Time.get_ticks_msec()
+	if now - water_block_feedback_msec > 1500:
+		water_block_feedback_msec = now
+		_set_feedback("La corrente è invalicabile · ricostruisci il ponte-enigma dalla riva.")
+
+func _water_blocks_position(position: Vector2) -> bool:
+	if chunks == null or chunks.composition == null:
+		return false
+	var composition := chunks.composition
+	# Le zone protette sono terra/causeway autorati: l'acqua viene già mascherata
+	# anche visivamente e non costituisce un guado nascosto.
+	if composition.is_protected(position):
+		return false
+	if composition.raw_water_weight(position) < 0.58:
+		return false
+	for crossing_data in composition.crossings:
+		var crossing: Dictionary = crossing_data
+		var event_id := str(crossing.get("eventId", ""))
+		if event_id == "" or not Array(result.get("completedEncounterIds", [])).has(event_id):
+			continue
+		var delta := position - (crossing.get("position", Vector2.ZERO) as Vector2)
+		var tangent: Vector2 = crossing.get("tangent", Vector2.DOWN)
+		var normal: Vector2 = crossing.get("normal", Vector2.RIGHT)
+		if absf(delta.dot(tangent)) <= 72.0 and absf(delta.dot(normal)) <= float(crossing.get("halfWidth", 100.0)) + 86.0:
+			return false
+	return true
 
 func _create_atmosphere() -> void:
 	# Layer screen-space tra mondo e HUD: aggiunge profondità cromatica senza
@@ -560,6 +638,7 @@ func _apply_cosmetic_presentation() -> void:
 		pet_companion.queue_free()
 		pet_companion = null
 	_spawn_pet(visual_data)
+	_update_equipment_presentation()
 	var bot_id := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("bot", ""))
 	var bot_item := RewardCatalog.find(bot_id)
 	if not bot_item.is_empty() and is_instance_valid(nora_portrait):
@@ -583,6 +662,21 @@ func _add_player_night_light() -> void:
 	light.texture_scale = 2.0
 	light.blend_mode = PointLight2D.BLEND_MODE_ADD
 	player.add_child(light)
+	_update_equipment_presentation()
+
+func equipped_field_tool() -> String:
+	return str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("tool", ""))
+
+func _update_equipment_presentation() -> void:
+	var tool := equipped_field_tool()
+	if is_instance_valid(player):
+		var light := player.get_node_or_null("PlayerNightLight") as PointLight2D
+		if light != null:
+			light.energy = 1.08 if tool == "tool-torch" else 0.10
+			light.texture_scale = 3.0 if tool == "tool-torch" else 1.15
+	for gate in get_tree().get_nodes_in_group("equipment_gate"):
+		if gate.has_method("set_equipped_tool"):
+			gate.call("set_equipped_tool", tool)
 
 func _avatar_color(value, fallback: Color) -> Color:
 	if (typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT) and int(value) >= 0:
@@ -951,18 +1045,27 @@ func _create_profile_events() -> void:
 		var event: Dictionary = event_data
 		var director_kind := str(event.get("kind", "mission"))
 		var scene_kind := "encounter" if director_kind == "mission" else "minigame" if director_kind == "practice" else "enigma"
+		var event_id := str(event.get("id", ""))
+		var completed := (
+			director_kind != "practice"
+			and Array(result.get("completedEncounterIds", [])).has(event_id)
+		)
 		var area := Area2D.new()
-		area.name = "MissionEvent_%s" % str(event.get("id", "event")).replace("-", "_")
+		area.name = "MissionEvent_%s" % event_id.replace("-", "_")
 		area.position = event.get("position", Vector2.ZERO)
-		area.add_to_group("world_interactable")
-		if bool(event.get("countsForGate", false)):
-			area.add_to_group("mission_poi")
-		if director_kind == "enigma":
-			area.add_to_group("enigma_poi")
-		elif director_kind == "practice":
-			area.add_to_group("minigame_poi")
+		area.monitoring = not completed
+		area.monitorable = not completed
+		area.set_meta("completed", completed)
+		if not completed:
+			area.add_to_group("world_interactable")
+			if bool(event.get("countsForGate", false)):
+				area.add_to_group("mission_poi")
+			if director_kind == "enigma":
+				area.add_to_group("enigma_poi")
+			elif director_kind == "practice":
+				area.add_to_group("minigame_poi")
 		area.set_meta("kind", scene_kind)
-		area.set_meta("id", str(event.get("id", "")))
+		area.set_meta("id", event_id)
 		area.set_meta("directorEvent", event.duplicate(true))
 		var payload := {
 			"subject": str(event.get("subject", _world_subject())),
@@ -972,11 +1075,18 @@ func _create_profile_events() -> void:
 			"countsForGate": bool(event.get("countsForGate", false)),
 			"directorKind": director_kind,
 		}
+		if director_kind == "practice" and world_level >= 2:
+			# Solo deviazioni opzionali: nessuno strumento può bloccare il gate.
+			payload["requiredTool"] = (
+				"tool-torch" if posmod(hash(event_id), 2) == 0 else "tool-scythe"
+			)
 		area.set_meta("payload", payload)
 		var shape := CollisionShape2D.new()
+		shape.name = "EventCollision"
 		var circle := CircleShape2D.new()
 		circle.radius = INTERACTION_DISTANCE
 		shape.shape = circle
+		shape.disabled = completed
 		area.add_child(shape)
 		if director_kind == "enigma":
 			var visual := ENIGMA_STRUCTURE.new()
@@ -984,16 +1094,27 @@ func _create_profile_events() -> void:
 			# La struttura antepone già "ENIGMA": il titolo deve contenere solo
 			# la materia, altrimenti appare "ENIGMA · ENIGMA DI …".
 			visual.setup(
-				ContentManager.enigma_theme(str(payload["subject"])),
+				"ponte" if event.has("bridgeCenter") else ContentManager.enigma_theme(str(payload["subject"])),
 				str(payload["subject"]).capitalize())
-			var complete := Array(result.get("completedEncounterIds", [])).has(str(event.get("id", "")))
-			visual.set_stage(4 if complete else 0, 4)
+			if event.has("bridgeCenter"):
+				var bridge_center: Vector2 = event.get("bridgeCenter", area.position)
+				var bridge_normal: Vector2 = event.get("bridgeNormal", Vector2.RIGHT)
+				visual.position = bridge_center - area.position
+				visual.rotation = bridge_normal.angle()
+			visual.set_stage(4 if completed else 0, 4)
 			area.add_child(visual)
 		elif director_kind == "practice":
 			area.add_child(_make_minigame_marker())
-		else:
-			area.add_child(OutdoorVisualFactory.build_encounter(
-				_event_visual_kind(str(payload["subject"])), clampi(floori(float(world_level) / 4.0) + 1, 1, 7)))
+			var equipment_gate := EQUIPMENT_GATE_SCRIPT.new()
+			equipment_gate.name = "EquipmentGate"
+			area.add_child(equipment_gate)
+			equipment_gate.configure(str(payload.get("requiredTool", "")), equipped_field_tool())
+		elif not completed:
+			var marker := OutdoorVisualFactory.build_encounter(
+				_event_visual_kind(str(payload["subject"])),
+				clampi(floori(float(world_level) / 4.0) + 1, 1, 7))
+			marker.name = "EventMarker"
+			area.add_child(marker)
 		var reaction := LEARNING_REACTION_SCRIPT.new()
 		reaction.setup(
 			_learning_reaction_theme(),
@@ -1001,12 +1122,16 @@ func _create_profile_events() -> void:
 			OutdoorVisualFactory.hex_color(_profile_accent_rgb()),
 			environment_transform)
 		reaction.position = Vector2(0, 28)
-		reaction.set_complete(Array(result.get("completedEncounterIds", [])).has(str(event.get("id", ""))))
+		reaction.set_complete(completed)
 		area.add_child(reaction)
 		# EnigmaStructureVisual possiede già un titolo contestuale leggibile:
 		# aggiungerne un secondo produceva etichette sovrapposte su tablet.
-		if director_kind != "enigma":
-			area.add_child(_make_event_caption(director_kind, str(payload["subject"])))
+		# Una missione già conclusa conserva la trasformazione ambientale, ma non
+		# la sfera/caption che la facevano sembrare ancora disponibile.
+		if director_kind != "enigma" and not completed:
+			var caption := _make_event_caption(director_kind, str(payload["subject"]))
+			caption.name = "EventCaption"
+			area.add_child(caption)
 		world_layer.add_child(area)
 		area.body_entered.connect(func(body): on_interactable_entered(area, body))
 		area.body_exited.connect(func(body): on_interactable_exited(area, body))
@@ -1388,6 +1513,7 @@ void fragment() {
 	if nora_portrait.has_method("set_integrity"):
 		nora_portrait.call("set_integrity", _nora_integrity_ratio(), false, NoraState.trust(game_save))
 	feedback_label = Label.new()
+	feedback_label.name = "FeedbackText"
 	feedback_label.add_theme_color_override("font_color", Color("ffffff"))
 	feedback_label.add_theme_font_size_override("font_size", 15)
 	feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1703,14 +1829,23 @@ func _refresh_prompt() -> void:
 		var payload: Dictionary = target.get_meta("payload")
 		if result["completedEncounterIds"].has(id):
 			_set_feedback("%s è già ricostruito" % str(payload.get("label", "L'enigma")).capitalize())
+		elif is_instance_valid(gameplay) and gameplay.enigma_retry_seconds(id) > 0:
+			_set_warning_feedback(
+				"Ricostruzione instabile · nessuna ricompensa · ricalibrazione %d s" %
+				gameplay.enigma_retry_seconds(id))
 		else:
 			_set_feedback("Interagisci per ricostruire %s con gli esercizi" % str(payload.get("label", "il ponte")))
 	elif kind == "minigame":
 		var mg_payload: Dictionary = target.get_meta("payload")
-		_set_feedback("Interagisci · %s: minigioco di %s" % [str(mg_payload.get("label", "Palestra")), str(mg_payload.get("subject", "matematica")).capitalize()])
+		if not _equipment_requirement_met(target):
+			_set_feedback(_equipment_requirement_message(target))
+		else:
+			_set_feedback("Interagisci · %s: minigioco di %s" % [str(mg_payload.get("label", "Palestra")), str(mg_payload.get("subject", "matematica")).capitalize()])
 	elif kind == "treasure":
 		if result["collectedTreasureIds"].has(id):
 			_set_feedback("Tesoro già raccolto")
+		elif not _equipment_requirement_met(target):
+			_set_feedback(_equipment_requirement_message(target))
 		else:
 			_set_feedback("Interagisci per raccogliere il tesoro")
 	elif kind == "encounter":
@@ -1730,13 +1865,38 @@ func _refresh_interaction_button(target: Area2D) -> void:
 	if blocked:
 		return
 	var completed := _interaction_is_completed(target)
-	interaction_button.disabled = completed
-	interaction_button.text = "✓ GIÀ COMPLETATO" if completed else _interaction_action_text(target)
+	var cooldown := (
+		gameplay.enigma_retry_seconds(str(target.get_meta("id", "")))
+		if str(target.get_meta("kind", "")) == "enigma" and is_instance_valid(gameplay)
+		else 0
+	)
+	interaction_button.disabled = completed or cooldown > 0
+	interaction_button.text = (
+		"✓ GIÀ COMPLETATO" if completed
+		else "RICALIBRAZIONE · %d s" % cooldown if cooldown > 0
+		else _interaction_action_text(target)
+	)
 	interaction_button.tooltip_text = "Azione contestuale disponibile con tocco, click o tastiera"
+
+func _update_interaction_countdown() -> void:
+	if not is_instance_valid(interaction_button) or not interaction_button.visible:
+		interaction_countdown_second = -1
+		return
+	var target := _nearest()
+	if target == null or str(target.get_meta("kind", "")) != "enigma":
+		interaction_countdown_second = -1
+		return
+	var seconds := gameplay.enigma_retry_seconds(str(target.get_meta("id", "")))
+	if seconds == interaction_countdown_second:
+		return
+	interaction_countdown_second = seconds
+	_refresh_prompt()
 
 func _interaction_action_text(target: Area2D) -> String:
 	if target == null:
 		return "INTERAGISCI"
+	if not _equipment_requirement_met(target):
+		return "SERVE TORCIA" if _required_tool(target) == "tool-torch" else "SERVE FALCE"
 	match str(target.get_meta("kind", "")):
 		"portal":
 			return "ENTRA NELLA NAVE"
@@ -1759,6 +1919,23 @@ func _interaction_is_completed(target: Area2D) -> bool:
 		return Array(result.get("completedEncounterIds", [])).has(id)
 	return false
 
+func _required_tool(target: Area2D) -> String:
+	if target == null:
+		return ""
+	var payload: Dictionary = target.get_meta("payload", {})
+	return str(payload.get("requiredTool", ""))
+
+func _equipment_requirement_met(target: Area2D) -> bool:
+	var required := _required_tool(target)
+	return required == "" or required == equipped_field_tool()
+
+func _equipment_requirement_message(target: Area2D) -> String:
+	return (
+		"Oscurità impenetrabile · equipaggia la Torcia da ricognizione in bottega."
+		if _required_tool(target) == "tool-torch"
+		else "Erba alta invalicabile · equipaggia la Falce da campo in bottega."
+	)
+
 func _interact() -> void:
 	var target := _nearest()
 	if target == null:
@@ -1779,11 +1956,17 @@ func _interact() -> void:
 		gameplay.try_start_enigma(enigma_payload, id)
 		return
 	if kind == "minigame":
+		if not _equipment_requirement_met(target):
+			_set_feedback(_equipment_requirement_message(target))
+			return
 		# Pratica ripetibile sulla materia dominante del bioma (nessun lock).
 		gameplay.try_start_minigame(target.get_meta("payload"), id)
 		return
 	if kind == "treasure":
 		var payload: Dictionary = target.get_meta("payload")
+		if not _equipment_requirement_met(target):
+			_set_feedback(_equipment_requirement_message(target))
+			return
 		var collected: Array = result["collectedTreasureIds"]
 		if collected.has(id):
 			_set_feedback("Questa cassa è già stata raccolta.")
@@ -1847,8 +2030,36 @@ func _complete_learning_reaction(encounter_id: String) -> void:
 			var reaction := node.get_node_or_null("LearningReaction")
 			if reaction != null and reaction.has_method("set_complete"):
 				reaction.call("set_complete", true, true)
+			_retire_completed_event(node as Area2D)
 			break
 	_sync_profile_environment_transform(true)
+
+func _retire_completed_event(area: Area2D) -> void:
+	## Mantiene l'esito ambientale conquistato, ma ritira affordance, collisione
+	## e sfera della tappa. Gli enigmi conservano invece la struttura costruita.
+	if not is_instance_valid(area):
+		return
+	area.set_meta("completed", true)
+	for group in ["world_interactable", "mission_poi", "enigma_poi"]:
+		if area.is_in_group(group):
+			area.remove_from_group(group)
+	nearby.erase(area)
+	if pending_touch_interaction == area:
+		pending_touch_interaction = null
+	var collision := area.get_node_or_null("EventCollision") as CollisionShape2D
+	if collision != null:
+		collision.set_deferred("disabled", true)
+	area.set_deferred("monitoring", false)
+	area.set_deferred("monitorable", false)
+	for child_name in ["EventMarker", "EventCaption"]:
+		var visual := area.get_node_or_null(child_name) as CanvasItem
+		if visual == null:
+			continue
+		var tween := create_tween().set_parallel(true)
+		tween.tween_property(visual, "modulate:a", 0.0, 0.30)
+		tween.tween_property(visual, "scale", Vector2.ONE * 0.32, 0.34).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		tween.chain().tween_callback(visual.queue_free)
+	_refresh_prompt()
 
 # Progresso dell'enigma: feedback testuale + popup a ogni campata (gameplay-only).
 # Aggiorna SOLO il POI il cui meta "id" combacia con l'encounter_id attivo (più
@@ -1981,14 +2192,28 @@ func _set_feedback(message: String) -> void:
 func _set_nora_feedback(message: String) -> void:
 	_present_feedback(message, "nora")
 
+func _set_warning_feedback(message: String) -> void:
+	_present_feedback(message, "warning")
+
 func _present_feedback(message: String, source: String = "system") -> void:
 	if is_instance_valid(feedback_label):
 		feedback_label.text = message
+		feedback_label.add_theme_color_override(
+			"font_color",
+			Color("ffd08a") if source == "warning" else Color("d6eceb"))
 	if is_instance_valid(feedback_panel):
 		feedback_panel.visible = message != ""
 	if is_instance_valid(feedback_source_label):
-		feedback_source_label.text = "NORA" if source == "nora" else "SISTEMA"
-		feedback_source_label.add_theme_color_override("font_color", Color("6be7d6") if source == "nora" else Color("9fc4bb"))
+		feedback_source_label.text = (
+			"NORA" if source == "nora"
+			else "RICALIBRAZIONE" if source == "warning"
+			else "SISTEMA"
+		)
+		feedback_source_label.add_theme_color_override(
+			"font_color",
+			Color("6be7d6") if source == "nora"
+			else Color("f6a85f") if source == "warning"
+			else Color("9fc4bb"))
 	if message != "" and source == "nora" and is_instance_valid(nora_portrait):
 		nora_portrait.speak(message)
 

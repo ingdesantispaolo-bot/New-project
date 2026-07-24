@@ -56,12 +56,17 @@ func _failed_result(exercise: ExercisePlayer) -> Dictionary:
 		"topicStats": {},
 	}
 
-func _close_failed_session(world: Node, exercise: ExercisePlayer) -> void:
+func _close_failed_session(world: Node, exercise: ExercisePlayer, encounter_id: String) -> void:
 	assert(exercise.visible, "la sessione da chiudere non è visibile")
 	world.call("_on_exercise_finished", _failed_result(exercise))
 	await process_frame
 	assert(not exercise.visible, "ExercisePlayer non si chiude dopo l'esito")
 	assert(not world.get("gameplay").session_active(), "contesto enigma rimasto attivo")
+	# Questo audit deve provare tre vie d'ingresso consecutive sullo stesso POI;
+	# il cooldown è verificato separatamente da enigma_cooldown_audit.gd.
+	var gameplay := world.get("gameplay") as OutdoorGameplay
+	gameplay.game_save.clear_enigma_cooldown(str(gameplay.game_save.current_world()), encounter_id)
+	world.call("_refresh_prompt")
 
 func _test_touch_path(world: Node, area: Area2D) -> void:
 	var player := world.get("player") as CharacterBody2D
@@ -88,7 +93,7 @@ func _test_touch_path(world: Node, area: Area2D) -> void:
 	assert(exercise.visible, "l'arrivo non apre l'enigma %s" % str(area.get_meta("id", "")))
 	assert(gameplay.session_active(), "sessione enigma non avviata dopo il tap")
 	assert(str(exercise.session.get("kind", "")) == "enigma", "il POI apre il tipo di sessione errato")
-	await _close_failed_session(world, exercise)
+	await _close_failed_session(world, exercise, str(area.get_meta("id", "")))
 
 func _test_context_button(world: Node, area: Area2D) -> void:
 	var player := world.get("player") as CharacterBody2D
@@ -105,7 +110,7 @@ func _test_context_button(world: Node, area: Area2D) -> void:
 	await process_frame
 	assert(exercise.visible and world.get("gameplay").session_active(),
 		"RICOSTRUISCI non apre ExercisePlayer")
-	await _close_failed_session(world, exercise)
+	await _close_failed_session(world, exercise, str(area.get_meta("id", "")))
 
 func _test_keyboard_path(world: Node, area: Area2D) -> void:
 	var player := world.get("player") as CharacterBody2D
@@ -119,7 +124,7 @@ func _test_keyboard_path(world: Node, area: Area2D) -> void:
 	await process_frame
 	assert(exercise.visible and world.get("gameplay").session_active(),
 		"l'azione tastiera interact non apre l'enigma")
-	await _close_failed_session(world, exercise)
+	await _close_failed_session(world, exercise, str(area.get_meta("id", "")))
 
 func _dispose_world(world: Node) -> void:
 	if is_instance_valid(world):

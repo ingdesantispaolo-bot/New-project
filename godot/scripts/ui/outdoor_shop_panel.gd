@@ -14,12 +14,13 @@ const SLOT_LABELS := {
 	"bot": "BIT",
 	"avatar": "OUTFIT",
 	"accessory": "ACCESSORI",
+	"tool": "STRUMENTI",
 	"pet": "COMPAGNI",
 	"emblem": "EMBLEMI",
 	"upgrade": "NORA",
 	"decor": "RESTAURI",
 }
-const SLOT_ORDER := ["bot", "avatar", "accessory", "pet", "emblem", "upgrade", "decor"]
+const SLOT_ORDER := ["bot", "avatar", "accessory", "tool", "pet", "emblem", "upgrade", "decor"]
 const SLOT_META := {
 	"bot": {
 		"title": "Livree di Bit",
@@ -35,6 +36,11 @@ const SLOT_META := {
 		"title": "Moduli e accessori",
 		"intro": "Dettagli tecnici, segni di metodo e strumenti per personalizzare l'equipaggio.",
 		"impact": "Puoi indossare un accessorio alla volta e sostituirlo senza altri costi.",
+	},
+	"tool": {
+		"title": "Strumenti da esplorazione",
+		"intro": "Torcia e falce aprono deviazioni opzionali del mondo esterno.",
+		"impact": "La torcia illumina la notte; la falce libera l'erba alta invalicabile.",
 	},
 	"pet": {
 		"title": "Compagni di rotta",

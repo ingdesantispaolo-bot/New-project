@@ -124,6 +124,7 @@ func start_session(new_session: Dictionary) -> void:
 		audio.call("set_focus", true)
 	_build_ui()
 	_show_current()
+	_show_teaching_overlay()
 
 func _build_ui() -> void:
 	for child in get_children():
@@ -246,6 +247,106 @@ func _exercise_button_style(fill: Color, border: Color) -> StyleBoxFlat:
 	style.set_corner_radius_all(10)
 	style.set_content_margin_all(8)
 	return style
+
+## Primo contatto e ripasso non sono un'altra domanda: una scheda modale copre
+## integralmente l'esercizio e lo rende raggiungibile soltanto dopo che lo
+## studente ha letto la spiegazione. Il layout è scrollabile e il CTA è alto
+## 56 px, quindi resta usabile anche su tablet.
+func _show_teaching_overlay() -> void:
+	var lesson: Dictionary = session.get("teachingLesson", {})
+	var moment := str(session.get("teachingMoment", "none"))
+	if lesson.is_empty() or moment == "none":
+		return
+	var overlay := Control.new()
+	overlay.name = "TeachingOverlay"
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var scrim := ColorRect.new()
+	scrim.color = Color(0.008, 0.025, 0.035, 0.96)
+	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.add_child(scrim)
+
+	var panel := PanelContainer.new()
+	panel.anchor_left = 0.07
+	panel.anchor_top = 0.04
+	panel.anchor_right = 0.93
+	panel.anchor_bottom = 0.96
+	panel.add_theme_stylebox_override("panel", _exercise_panel_style(false))
+	overlay.add_child(panel)
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	panel.add_child(scroll)
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 14)
+	scroll.add_child(box)
+
+	var eyebrow := Label.new()
+	eyebrow.text = "RIPASSO MIRATO CON NORA" if moment == "re_teach" else "NUOVO CONCETTO · NORA SPIEGA"
+	eyebrow.add_theme_font_size_override("font_size", 16)
+	eyebrow.add_theme_color_override("font_color", Color("6be7d6"))
+	box.add_child(eyebrow)
+	_add_teaching_text(box, str(session.get("teachingLine", "")), Color("f6c85f"), 20)
+	_add_teaching_text(box, str(lesson.get("intro", "")), Color("e7fffb"), 17)
+
+	var example: Dictionary = lesson.get("workedExample", {})
+	var example_text := str(example.get("prompt", "")).strip_edges()
+	var answer := str(example.get("answer", "")).strip_edges()
+	var explanation := str(example.get("explanation", "")).strip_edges()
+	if answer != "":
+		example_text += "\n\nRisultato: %s" % answer
+	if explanation != "":
+		example_text += "\nPerché: %s" % explanation
+	_add_teaching_section(box, "ESEMPIO SVOLTO", example_text)
+	_add_teaching_section(box, "METODO DI NORA", str(lesson.get("strategy", "")))
+
+	var watch_out: Dictionary = lesson.get("watchOut", {})
+	var warning := str(watch_out.get("wrong", "")).strip_edges()
+	var why := str(watch_out.get("why", "")).strip_edges()
+	if why != "":
+		warning += "\nPerché non funziona: %s" % why
+	if warning != "":
+		_add_teaching_section(box, "ATTENZIONE A…", warning)
+
+	var begin := Button.new()
+	begin.name = "TeachingStartButton"
+	begin.text = "HO CAPITO · INIZIA LA PROVA"
+	begin.custom_minimum_size = Vector2(0, 56)
+	begin.add_theme_font_size_override("font_size", 17)
+	begin.add_theme_stylebox_override("normal", _exercise_button_style(Color("147d75"), Color("a7fff2")))
+	begin.pressed.connect(_dismiss_teaching_overlay.bind(overlay))
+	box.add_child(begin)
+	begin.call_deferred("grab_focus")
+
+func _add_teaching_section(box: VBoxContainer, title: String, body: String) -> void:
+	if body.strip_edges() == "":
+		return
+	var title_label := Label.new()
+	title_label.text = title
+	title_label.add_theme_font_size_override("font_size", 13)
+	title_label.add_theme_color_override("font_color", Color("6be7d6"))
+	box.add_child(title_label)
+	_add_teaching_text(box, body, Color("e7f4f2"), 16)
+
+func _add_teaching_text(box: VBoxContainer, value: String, color: Color, font_size: int) -> void:
+	if value.strip_edges() == "":
+		return
+	var label := Label.new()
+	label.text = value
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
+	box.add_child(label)
+
+func _dismiss_teaching_overlay(overlay: Control) -> void:
+	if is_instance_valid(overlay):
+		overlay.queue_free()
+	if is_instance_valid(_input) and _input.visible:
+		_input.grab_focus()
 
 func _show_current() -> void:
 	_answered = false

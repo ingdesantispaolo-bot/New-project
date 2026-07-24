@@ -1,6 +1,8 @@
 class_name OutdoorGameplay
 extends Node
 
+const ENIGMA_RETRY_COOLDOWN_SECONDS := 20
+
 ## Logica gameplay del mondo esterno, estratta da outdoor_world.gd (C-02):
 ## possiede save/contenuti/progressione, il ciclo delle sessioni (missione,
 ## enigma ambientale ed esame finale) e l'economia; espone lo stato leggibile
@@ -198,9 +200,11 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
+	session = _decorate_teaching_session(session, subject)
 	_charge_exercise_entry()
 	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject}
-	_present_feedback(NoraContextEngine.open_line(subject, _has_review_node(session)), "nora")
+	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session))))
+	_present_feedback(nora_line, "nora")
 	session_requested.emit(session)
 	_emit_state()
 	return true
@@ -214,20 +218,61 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
 		_present_feedback("Enigma già risolto.", "system")
 		return false
+	var retry_seconds := enigma_retry_seconds(encounter_id)
+	if retry_seconds > 0:
+		_present_feedback(
+			"Ricostruzione instabile · nessuna ricompensa · ricalibrazione %d s" % retry_seconds,
+			"warning")
+		return false
 	var subject := _subject_for_payload(payload)
 	var session := content_manager.build_enigma(subject, game_save.level(), 4, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
+	session = _decorate_teaching_session(session, subject)
 	_charge_exercise_entry()
 	var theme := str(session.get("theme", "ponte"))
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
-	_present_feedback(NoraContextEngine.open_line(subject, _has_review_node(session)), "nora")
+	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session))))
+	_present_feedback(nora_line, "nora")
 	session_requested.emit(session)
 	# Stato iniziale della costruzione (0 campate) così la resa parte da "rotto".
 	enigma_progress.emit(0, int(session.get("stages", session.get("nodes", []).size())), theme, encounter_id)
 	_emit_state()
 	return true
+
+func enigma_retry_seconds(encounter_id: String) -> int:
+	if game_save == null or encounter_id == "":
+		return 0
+	return game_save.enigma_cooldown_remaining(_world_id(), encounter_id)
+
+## Inserisce l'insegnamento nel flusso live, non soltanto nel Manuale. Al primo
+## incontro NORA presenta la mini-lezione prima della domanda; dopo un errore
+## nuovamente dovuto la stessa UI diventa ripasso mirato. Lo stato "seen" viene
+## registrato qui, quando la lezione è effettivamente consegnata al renderer.
+func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictionary:
+	var session := source.duplicate(true)
+	var topic := ""
+	for raw_node in Array(session.get("nodes", [])):
+		var node: Dictionary = raw_node
+		topic = str(node.get("topic", "")).strip_edges()
+		if topic != "":
+			break
+	if topic == "":
+		return session
+	var moment := KnowledgeCodex.teaching_moment(game_save, subject, topic)
+	if moment == "none":
+		return session
+	var lesson := KnowledgeCodex.new(content_manager).mini_lesson(subject, topic)
+	if lesson.is_empty():
+		return session
+	session["teachingMoment"] = moment
+	session["teachingTopic"] = topic
+	session["teachingLine"] = KnowledgeCodex.teach_line(moment)
+	session["teachingLesson"] = lesson
+	KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
+	game_save.save()
+	return session
 
 # Minigioco: un incontro risolto con formati interattivi (abbina/ordina) della
 # materia. Stessa pipeline delle missioni — conta per il gate dell'apparato,
@@ -329,10 +374,16 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			# La costruzione si completa solo se l'enigma è superato; altrimenti
 			# resta alle campate raggiunte e la scena la ripristina alla ripetizione.
 			if passed:
+				game_save.clear_enigma_cooldown(_world_id(), encounter_id)
 				enigma_progress.emit(total, total, str(context.get("theme", "ponte")), str(context.get("encounterId", "")))
 				_present_feedback("%s +%d energia" % [nora_voice.line("solve"), gained], "nora")
 			else:
-				_present_feedback(nora_voice.line("defeat"), "nora")
+				game_save.set_enigma_cooldown(
+					_world_id(), encounter_id, ENIGMA_RETRY_COOLDOWN_SECONDS)
+				_present_feedback(
+					"Ricostruzione instabile · nessuna ricompensa · ricalibrazione %d s" %
+					ENIGMA_RETRY_COOLDOWN_SECONDS,
+					"warning")
 		else:
 			if passed:
 				_present_feedback("%s +%d energia · padronanza aggiornata" % [nora_voice.line("solve"), gained], "nora")

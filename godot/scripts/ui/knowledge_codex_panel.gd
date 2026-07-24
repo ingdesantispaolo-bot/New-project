@@ -296,6 +296,9 @@ func _render_detail(entry: Dictionary) -> void:
 	favorite.pressed.connect(_toggle_favorite.bind(selected_key))
 	heading_row.add_child(favorite)
 	_add_label("%s · difficoltà %d · %s" % [subject.capitalize(), int(entry.get("difficulty", 1)), _state_label(KNOWLEDGE_CODEX.state_of(game_save, subject, topic))], Color("6be7d6"), 13)
+	if not bool(entry.get("answerHidden", false)):
+		var lesson := codex.mini_lesson(subject, topic)
+		_add_section("MINI-LEZIONE DI NORA", str(lesson.get("intro", "")))
 	_add_section("IN BREVE", str(entry.get("shortExplanation", "")))
 
 	var example: Dictionary = entry.get("example", {})

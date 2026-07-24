@@ -1227,10 +1227,55 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		{"id": "spawn", "position": spawn, "radius": 180.0},
 		{"id": "hero-landmark", "position": _profile_hero_position(ship, level), "radius": 210.0},
 	]
+	_author_stream_crossing(data, spawn, ship)
 	# Mantiene il seed semanticamente visibile negli strumenti di debug senza
 	# usarlo per prendere decisioni didattiche.
 	data.seed = "%s::%s" % [seed, profile_id]
 	return data
+
+## Sceglie il corso d'acqua più vicino all'asse della nave (i canali esterni
+## restano confini naturali) e vi definisce un solo varco costruibile. La scena
+## lega il varco al primo enigma senza spostare missioni obbligatorie.
+static func _author_stream_crossing(data: WorldCompositionData, spawn: Vector2, ship: Vector2) -> void:
+	var selected: Dictionary = {}
+	var best_distance := INF
+	for water_data in data.waters:
+		var water: Dictionary = water_data
+		if str(water.get("kind", "")) != "stream":
+			continue
+		var points: PackedVector2Array = water.get("points", PackedVector2Array())
+		if points.size() < 2:
+			continue
+		var middle := points[floori(float(points.size()) * 0.5)]
+		var distance := absf(middle.x - ship.x) + absf(middle.y - (ship.y + 1100.0)) * 0.18
+		if distance < best_distance:
+			best_distance = distance
+			selected = water
+	if selected.is_empty():
+		return
+	var points: PackedVector2Array = selected.get("points", PackedVector2Array())
+	var segment := clampi(floori(float(points.size() - 1) * 0.5), 0, points.size() - 2)
+	var a := points[segment]
+	var b := points[segment + 1]
+	var center := a.lerp(b, 0.5)
+	var tangent := (b - a).normalized()
+	var normal := Vector2(-tangent.y, tangent.x)
+	var half_width := float(selected.get("width", 200.0)) * 0.5
+	var bank_a := center + normal * (half_width + 62.0)
+	var bank_b := center - normal * (half_width + 62.0)
+	var approach := bank_a if spawn.distance_to(bank_a) <= spawn.distance_to(bank_b) else bank_b
+	if approach == bank_b:
+		normal = -normal
+	data.crossings = [{
+		"id": "%s-crossing" % str(selected.get("id", "stream")),
+		"waterId": str(selected.get("id", "stream")),
+		"position": center,
+		"approach": approach,
+		"tangent": tangent,
+		"normal": normal,
+		"halfWidth": half_width,
+		"eventId": "",
+	}]
 
 static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
 	if level == 3:

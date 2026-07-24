@@ -77,7 +77,10 @@ func _capture_profile(
 
 func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT_DIR))
-	for level in [24]:
+	# Campione C-P6: onboarding, primo cambio-mondo, landmark organico,
+	# secondo ciclo, mondo tardo e finale. È sufficiente a intercettare prop
+	# legacy o overlay incoerenti senza ricatturare 24×4 tavole a ogni pass.
+	for level in [1, 2, 6, 13, 19, 24]:
 		for capture in [
 			{"size": Vector2i(1440, 900), "suffix": "", "hud": true, "landmark": false},
 			{"size": Vector2i(1440, 900), "suffix": "-desktop-clean", "hud": false, "landmark": false},
@@ -93,5 +96,5 @@ func _run() -> void:
 				push_error("WORLD PROFILE RENDER probe: cattura landmark fallita al livello %d" % level)
 				quit(2)
 				return
-	print("WORLD PROFILE RENDER probe OK — Gate E2 mondo 24, HUD + clean desktop/compatto + landmark")
+	print("WORLD PROFILE RENDER probe OK — campione C-P6 1/2/6/13/19/24, HUD + clean desktop/compatto")
 	quit(0)

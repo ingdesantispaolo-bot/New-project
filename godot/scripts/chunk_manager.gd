@@ -114,6 +114,13 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 		return source
 	var chunk := source.duplicate(true)
 	for field in ["obstacles", "props", "treasures"]:
+		# I prop casuali del generatore base (torri, statue, pozzi, insegne…)
+		# mescolavano grammatiche visive di mondi diversi. Ogni WorldProfile ha
+		# già identity props, assembly e micro-dettagli autorati: nel percorso
+		# profilato i prop legacy non devono arrivare al renderer.
+		if field == "props":
+			chunk[field] = []
+			continue
 		var kept: Array = []
 		for item in chunk.get(field, []):
 			var position := Vector2(float(item.get("x", 0.0)), float(item.get("y", 0.0)))
@@ -176,7 +183,16 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 					keep_percent = 0
 				if posmod(hash(signature), 100) >= keep_percent:
 					continue
-			kept.append(item)
+			var kept_item: Dictionary = Dictionary(item).duplicate(true)
+			if field == "treasures" and int(world_profile.get("level", 1)) >= 2:
+				# Solo una parte dei tesori è strumentale: gli altri restano
+				# subito accessibili. L'id rende stabile la scelta al reload.
+				var tool_roll := posmod(hash(str(kept_item.get("id", ""))), 3)
+				if tool_roll == 0:
+					kept_item["requiredTool"] = "tool-torch"
+				elif tool_roll == 1:
+					kept_item["requiredTool"] = "tool-scythe"
+			kept.append(kept_item)
 		chunk[field] = kept
 	# Il profilo ha già un landmark eroe autorato: i landmark casuali legacy
 	# introducevano etichette di altri biomi ("Prisma", "Porta dell'Atlante").

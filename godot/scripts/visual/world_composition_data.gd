@@ -5,6 +5,10 @@ var seed := "outdoor-dev-1"
 var biome_influences: Array = []
 var paths: Array = []
 var waters: Array = []
+## Un solo varco narrativo principale per profilo acquatico. Il Director lega
+## qui il primo enigma: `approach` resta sulla riva, `position` è il centro del
+## ponte e `eventId` viene valorizzato dalla scena.
+var crossings: Array = []
 var hero_pockets: Array = []
 ## Identità visuale del profilo: il terreno può scegliere un underpaint
 ## specifico e le regioni/props autorate definiscono la silhouette del mondo.
@@ -88,6 +92,11 @@ func distance_to_paths(world_pos: Vector2) -> float:
 	return best
 
 func water_weight(world_pos: Vector2) -> float:
+	var best := raw_water_weight(world_pos)
+	var protection := _protection_weight(world_pos)
+	return clampf(best * (1.0 - protection), 0.0, 1.0)
+
+func raw_water_weight(world_pos: Vector2) -> float:
 	var best := 0.0
 	for water in waters:
 		if str(water.get("kind", "pond")) == "stream":
@@ -101,8 +110,7 @@ func water_weight(world_pos: Vector2) -> float:
 			var radii: Vector2 = water["radii"]
 			var q := (world_pos - center) / radii
 			best = maxf(best, 1.0 - smoothstep(0.72, 1.0, q.length()))
-	var protection := _protection_weight(world_pos)
-	return clampf(best * (1.0 - protection), 0.0, 1.0)
+	return clampf(best, 0.0, 1.0)
 
 func water_tangent(world_pos: Vector2) -> Vector2:
 	var best_distance := INF

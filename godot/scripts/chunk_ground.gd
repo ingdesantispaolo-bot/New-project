@@ -924,7 +924,72 @@ func _build_stream_feature(water: Dictionary, world_origin: Vector2, world_rect:
 	material.set_shader_parameter("edge_glow_strength", 0.035)
 	surface.material = material
 	root.add_child(surface)
+	_build_stream_terminals(root, smooth_centerline, width, world_origin, world_rect, str(water.get("id", "stream")))
 	add_child(root)
+
+func _build_stream_terminals(root: Node2D, centerline: PackedVector2Array, width: float, world_origin: Vector2, world_rect: Rect2, water_id: String) -> void:
+	if centerline.size() < 2:
+		return
+	var source_world := centerline[0]
+	if world_rect.has_point(source_world):
+		var source := Node2D.new()
+		source.name = "StreamSource_%s" % water_id
+		source.position = source_world - world_origin
+		var basin := Polygon2D.new()
+		basin.polygon = _organic_ellipse_points(Vector2(width * 0.48, width * 0.34), source_world, 36)
+		basin.color = Color(0.12, 0.42, 0.51, 0.94)
+		source.add_child(basin)
+		for radius in [width * 0.16, width * 0.27]:
+			var ripple := Line2D.new()
+			var ripple_points := _organic_ellipse_points(Vector2(radius, radius * 0.62), source_world + Vector2(radius, 0), 28)
+			ripple_points.append(ripple_points[0])
+			ripple.points = ripple_points
+			ripple.width = 3.0
+			ripple.default_color = Color(0.68, 0.94, 0.92, 0.46)
+			ripple.antialiased = true
+			source.add_child(ripple)
+		root.add_child(source)
+
+	var falls_world := centerline[centerline.size() - 1]
+	if not world_rect.has_point(falls_world):
+		return
+	var tangent := (falls_world - centerline[centerline.size() - 2]).normalized()
+	var normal := Vector2(-tangent.y, tangent.x)
+	var falls := Node2D.new()
+	falls.name = "StreamWaterfall_%s" % water_id
+	falls.position = falls_world - world_origin
+	var mouth := width * 0.42
+	var length := minf(105.0, width * 0.54)
+	var cascade := Polygon2D.new()
+	cascade.polygon = PackedVector2Array([
+		-normal * mouth, normal * mouth,
+		tangent * length + normal * mouth * 0.68,
+		tangent * length - normal * mouth * 0.68,
+	])
+	cascade.color = Color(0.25, 0.68, 0.74, 0.92)
+	falls.add_child(cascade)
+	for stripe_index in range(5):
+		var offset := lerpf(-mouth * 0.76, mouth * 0.76, float(stripe_index) / 4.0)
+		var stripe := Line2D.new()
+		stripe.points = PackedVector2Array([
+			normal * offset,
+			tangent * length + normal * offset * 0.68,
+		])
+		stripe.width = 3.0
+		stripe.default_color = Color(0.83, 0.98, 0.96, 0.72)
+		stripe.antialiased = true
+		falls.add_child(stripe)
+	var foam := Line2D.new()
+	var foam_points := PackedVector2Array()
+	for point_index in range(18):
+		var t := float(point_index) / 17.0
+		foam_points.append(tangent * length + normal * lerpf(-mouth * 0.76, mouth * 0.76, t) + tangent * sin(t * PI * 5.0) * 5.0)
+	foam.points = foam_points
+	foam.width = 9.0
+	foam.default_color = Color(0.88, 1.0, 0.96, 0.86)
+	foam.antialiased = true
+	falls.add_child(foam)
+	root.add_child(falls)
 
 func _catmull_rom_polyline(source: PackedVector2Array, steps_per_segment: int) -> PackedVector2Array:
 	var result := PackedVector2Array()

@@ -6,7 +6,7 @@ extends RefCounted
 ## qui `minLevel` è confrontato col LIVELLO Godot (apparati riparati 1→24), la
 ## spina dorsale unica del gioco, non l'euristica multi-sistema del prototipo
 ## Phaser (playerLevel() combinava run di training, missioni, gym, ecc.).
-## Slot: bot, avatar, accessory, pet, emblem, upgrade, decor.
+## Slot: bot, avatar, accessory, tool, pet, emblem, upgrade, decor.
 ## upgrade/decor non occupano uno slot equipaggiato: sono "posseduti" e basta
 ## (finiscono in cosmetics.inventory, non in cosmetics.equipped).
 
@@ -40,6 +40,11 @@ const CATALOG := [
 	{"id": "accessory-wings", "slot": "accessory", "name": "Ali stabilizzatrici", "description": "Pannelli laterali traslucidi per il movimento.", "cost": 1300, "glyph": "⟐", "color": 0x74f0c5, "minLevel": 6},
 	{"id": "accessory-jetpack", "slot": "accessory", "name": "Jetpack didattico", "description": "Doppio modulo dorsale con scie luminose.", "cost": 1700, "glyph": "⇡", "color": 0xffb85c, "minLevel": 7},
 	{"id": "accessory-halo", "slot": "accessory", "name": "Aureola prismatica", "description": "Anello raro sospeso sopra l'avatar.", "cost": 2600, "glyph": "○", "color": 0xffd75e, "minLevel": 8},
+	# --- Strumenti da esplorazione -------------------------------------------
+	# Cambiano leggibilità/percorribilità di POI opzionali, senza alterare
+	# mastery, gate o ricompense didattiche.
+	{"id": "tool-torch", "slot": "tool", "name": "Torcia da ricognizione", "description": "Illumina la notte profonda e rivela tesori schermati dall'oscurità.", "cost": 140, "glyph": "✦", "color": 0xffc76b},
+	{"id": "tool-scythe", "slot": "tool", "name": "Falce da campo", "description": "Taglia l'erba alta che protegge deviazioni e tesori opzionali.", "cost": 180, "glyph": "⌁", "color": 0x91dc72, "minLevel": 2},
 	# --- Pet-compagni: obiettivi costosi di lungo periodo --------------------
 	{"id": "pet-dog", "slot": "pet", "name": "Cane Scout", "description": "Compagno fedele: resta vicino e reagisce forte ai tesori.", "cost": 1700, "glyph": "🐶", "color": 0xd9a15f, "minLevel": 4},
 	{"id": "pet-cat", "slot": "pet", "name": "Gatto Prisma", "description": "Agile e curioso: orbita con movimenti morbidi e precisi.", "cost": 2200, "glyph": "🐱", "color": 0xc7b8ff, "minLevel": 5},

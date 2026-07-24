@@ -8,6 +8,7 @@ var touch_target := Vector2.INF
 ## bob e inclinazione durante la camminata, flip orizzontale sulla direzione.
 var visual: Node2D
 var _walk_time := 0.0
+var _action_until_msec := 0
 
 func _physics_process(delta: float) -> void:
 	var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -29,16 +30,27 @@ func _physics_process(delta: float) -> void:
 func set_touch_target(target: Vector2) -> void:
 	touch_target = target
 
+func play_pulse_action() -> void:
+	_action_until_msec = Time.get_ticks_msec() + 360
+
 func _animate(delta: float) -> void:
 	if visual == null:
 		return
+	var sprite := visual.find_child("EliSprite", true, false) as Sprite2D
+	var direction_row := 0
+	if absf(velocity.x) > absf(velocity.y):
+		direction_row = 3 if velocity.x > 0.0 else 2
+	elif velocity.y < -8.0:
+		direction_row = 1
 	if velocity.length() > 8.0:
-		_walk_time += delta * 11.0
-		visual.position.y = -absf(sin(_walk_time)) * 3.2
-		visual.rotation = sin(_walk_time) * 0.05
-		if absf(velocity.x) > 8.0:
-			visual.scale.x = -1.0 if velocity.x < 0.0 else 1.0
+		_walk_time += delta * 9.5
+		visual.position.y = -absf(sin(_walk_time * 0.5)) * 1.5
+		visual.rotation = sin(_walk_time) * 0.025
 	else:
 		_walk_time = 0.0
 		visual.position.y = lerpf(visual.position.y, 0.0, minf(10.0 * delta, 1.0))
 		visual.rotation = lerpf(visual.rotation, 0.0, minf(10.0 * delta, 1.0))
+	visual.scale.x = absf(visual.scale.x)
+	if sprite != null and sprite.texture is AtlasTexture:
+		var frame := 4 if Time.get_ticks_msec() < _action_until_msec else (1 + posmod(floori(_walk_time), 4) if velocity.length() > 8.0 else 0)
+		(sprite.texture as AtlasTexture).region = Rect2(frame * 96, direction_row * 96, 96, 96)

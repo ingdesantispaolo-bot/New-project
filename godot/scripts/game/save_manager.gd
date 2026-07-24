@@ -41,7 +41,7 @@ static func _default_data() -> Dictionary:
 		# progressione; `worlds.current` può puntare a un mondo già scoperto quando
 		# si rivisita. Lo stato persistente per mondo vive in `worldProgress`.
 		"worlds": {"unlocked": [1], "current": 1},
-		"worldProgress": {},        # "level" -> {completedEncounterIds, collectedTreasureIds, clearedHazardIds}
+		"worldProgress": {},        # "level" -> {completedEncounterIds, collectedTreasureIds, clearedHazardIds, enigmaCooldowns}
 		"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []},
 		"modules": {"owned": [], "equipped": []},
 		"narrative": {"seen": [], "beats": {}},
@@ -194,11 +194,14 @@ func _world_bucket(world_id: String) -> Dictionary:
 			"completedEncounterIds": [],
 			"collectedTreasureIds": [],
 			"clearedHazardIds": [],
+			"enigmaCooldowns": {},
 			"resume": {},
 		}
 	var bucket: Dictionary = data["worldProgress"][world_id]
 	if not bucket.has("resume"):
 		bucket["resume"] = {}
+	if not bucket.has("enigmaCooldowns"):
+		bucket["enigmaCooldowns"] = {}
 	return bucket
 
 func world_progress(world_id: String) -> Dictionary:
@@ -226,6 +229,31 @@ func mark_treasure_collected(world_id: String, treasure_id: String) -> bool:
 
 func mark_hazard_cleared(world_id: String, hazard_id: String) -> bool:
 	return _mark_world_id(world_id, "clearedHazardIds", hazard_id)
+
+func set_enigma_cooldown(
+	world_id: String,
+	encounter_id: String,
+	duration_seconds: int,
+	now_unix: int = -1
+) -> void:
+	if encounter_id == "":
+		return
+	var now := int(Time.get_unix_time_from_system()) if now_unix < 0 else now_unix
+	var cooldowns: Dictionary = _world_bucket(world_id)["enigmaCooldowns"]
+	cooldowns[encounter_id] = now + maxi(0, duration_seconds)
+
+func enigma_cooldown_remaining(
+	world_id: String,
+	encounter_id: String,
+	now_unix: int = -1
+) -> int:
+	var now := int(Time.get_unix_time_from_system()) if now_unix < 0 else now_unix
+	var cooldowns: Dictionary = _world_bucket(world_id)["enigmaCooldowns"]
+	return maxi(0, int(cooldowns.get(encounter_id, 0)) - now)
+
+func clear_enigma_cooldown(world_id: String, encounter_id: String) -> void:
+	var cooldowns: Dictionary = _world_bucket(world_id)["enigmaCooldowns"]
+	cooldowns.erase(encounter_id)
 
 func world_resume(world_id: String) -> Dictionary:
 	return Dictionary(_world_bucket(world_id).get("resume", {})).duplicate(true)

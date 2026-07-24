@@ -52,6 +52,7 @@ const MATCHING := {
 	],
 	"matematica": [
 		{"topic": "tabelline", "pairs": [["3 × 4", "12"], ["6 × 7", "42"], ["8 × 5", "40"], ["9 × 3", "27"]]},
+		{"topic": "calcolo", "pairs": [["10 + 5", "15"], ["20 - 8", "12"], ["4 × 4", "16"], ["18 ÷ 3", "6"], ["7 + 6", "13"]]},
 	],
 }
 
@@ -70,6 +71,15 @@ const ORDERING := {
 	],
 	"italiano": [
 		{"topic": "ortografia", "prompt": "Metti in ordine alfabetico", "correctOrder": ["albero", "casa", "fiore", "sole"]},
+	],
+	"coding": [
+		{"topic": "algoritmi", "prompt": "Ordina i passi del programma", "correctOrder": ["Chiedi il numero", "Controlla se è pari", "Se è pari stampa 'pari'", "Altrimenti stampa 'dispari'"]},
+	],
+	"cittadinanza": [
+		{"topic": "partecipazione", "prompt": "Ordina come nasce una legge", "correctOrder": ["Si propone una legge", "Si discute in Parlamento", "Si vota", "La legge entra in vigore"]},
+	],
+	"latino": [
+		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
 	],
 }
 
@@ -105,11 +115,17 @@ const CLASSIFICATION := {
 		{"topic": "diritti-doveri", "prompt": "Smista ciascuna azione: diritto o dovere?",
 			"categories": ["diritto", "dovere"],
 			"assignments": {"Curarsi": "diritto", "Esprimere la propria opinione": "diritto", "Essere istruiti": "diritto", "Pagare le tasse": "dovere", "Rispettare l'ambiente": "dovere", "Rispettare le regole": "dovere"}},
+		{"topic": "istituzioni", "prompt": "Smista ogni istituzione per il suo livello.",
+			"categories": ["locale", "nazionale"],
+			"assignments": {"Sindaco": "locale", "Comune": "locale", "Consiglio comunale": "locale", "Parlamento": "nazionale", "Governo": "nazionale", "Presidente della Repubblica": "nazionale"}},
 	],
 	"geografia": [
 		{"topic": "continenti", "prompt": "Smista ogni Paese nel suo continente.",
 			"categories": ["Africa", "Europa", "Asia", "America"],
 			"assignments": {"Egitto": "Africa", "Kenya": "Africa", "Italia": "Europa", "Francia": "Europa", "Giappone": "Asia", "Cina": "Asia", "Brasile": "America", "Canada": "America"}},
+		{"topic": "geografia-fisica", "prompt": "Smista ogni elemento: d'acqua o di terra?",
+			"categories": ["acqua", "terra"],
+			"assignments": {"Fiume": "acqua", "Lago": "acqua", "Mare": "acqua", "Montagna": "terra", "Pianura": "terra", "Collina": "terra"}},
 	],
 	"matematica": [
 		{"topic": "numeri", "prompt": "Smista i numeri in pari e dispari.",
@@ -123,21 +139,43 @@ const CLASSIFICATION := {
 		{"topic": "energia", "prompt": "Smista ogni situazione per l'energia prevalente.",
 			"categories": ["potenziale", "cinetica"],
 			"assignments": {"Palla in cima a una rampa": "potenziale", "Molla compressa": "potenziale", "Palla che rotola": "cinetica", "Auto in corsa": "cinetica"}},
+		{"topic": "materia", "prompt": "Smista ogni materiale nel suo stato.",
+			"categories": ["solido", "liquido", "gassoso"],
+			"assignments": {"Ghiaccio": "solido", "Ferro": "solido", "Acqua": "liquido", "Latte": "liquido", "Vapore": "gassoso", "Aria": "gassoso"}},
 	],
 	"musica": [
 		{"topic": "strumenti", "prompt": "Smista ogni strumento nella sua famiglia.",
 			"categories": ["corde", "fiati", "percussioni"],
 			"assignments": {"Chitarra": "corde", "Violino": "corde", "Flauto": "fiati", "Tromba": "fiati", "Tamburo": "percussioni", "Timpani": "percussioni"}},
+		{"topic": "timbro", "prompt": "Smista ogni strumento: acustico o elettronico?",
+			"categories": ["acustico", "elettronico"],
+			"assignments": {"Violino": "acustico", "Chitarra classica": "acustico", "Pianoforte": "acustico", "Sintetizzatore": "elettronico", "Tastiera elettronica": "elettronico", "Batteria elettronica": "elettronico"}},
 	],
 	"elettronica": [
-		{"topic": "conduttori", "prompt": "Smista ogni materiale.",
+		{"topic": "conduttori", "prompt": "Smista ogni materiale: conduttore o isolante?",
 			"categories": ["conduttore", "isolante"],
 			"assignments": {"Rame": "conduttore", "Ferro": "conduttore", "Alluminio": "conduttore", "Plastica": "isolante", "Legno": "isolante", "Gomma": "isolante"}},
+		{"topic": "componenti", "prompt": "Smista ogni componente: dà energia o la usa?",
+			"categories": ["fornisce energia", "usa energia"],
+			"assignments": {"Pila": "fornisce energia", "Batteria": "fornisce energia", "LED": "usa energia", "Motorino": "usa energia", "Lampadina": "usa energia", "Cella solare": "fornisce energia"}},
 	],
 	"inglese": [
 		{"topic": "categorie", "prompt": "Sort each word into its category.",
 			"categories": ["animals", "food", "colours", "actions"],
 			"assignments": {"dog": "animals", "cat": "animals", "apple": "food", "bread": "food", "red": "colours", "blue": "colours", "run": "actions", "jump": "actions"}},
+		{"topic": "home-family", "prompt": "Sort each word: family, school or nature.",
+			"categories": ["family", "school", "nature"],
+			"assignments": {"mother": "family", "father": "family", "teacher": "school", "book": "school", "tree": "nature", "river": "nature"}},
+	],
+	"latino": [
+		{"topic": "vocabolario", "prompt": "Smista ogni parola latina per campo di significato.",
+			"categories": ["natura", "persone", "animali"],
+			"assignments": {"aqua": "natura", "silva": "natura", "terra": "natura", "puella": "persone", "poeta": "persone", "lupus": "animali", "equus": "animali"}},
+	],
+	"logica": [
+		{"topic": "esclusioni", "prompt": "Smista ogni elemento nel suo insieme.",
+			"categories": ["animale", "pianta"],
+			"assignments": {"Cane": "animale", "Aquila": "animale", "Gatto": "animale", "Rosa": "pianta", "Quercia": "pianta", "Tulipano": "pianta"}},
 	],
 }
 

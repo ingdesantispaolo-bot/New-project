@@ -96,6 +96,7 @@ static func player_sprite(target_size: Vector2 = Vector2(58, 58)) -> Sprite2D:
 	atlas.atlas = PLAYER_SHEET
 	atlas.region = Rect2(0, 0, 96, 96)
 	var sprite := Sprite2D.new()
+	sprite.name = "EliSprite"
 	sprite.texture = atlas
 	sprite.scale = target_size / atlas.region.size
 	sprite.position = Vector2(0, -17)

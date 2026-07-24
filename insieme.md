@@ -104,6 +104,15 @@ I 13 rilievi divisi per competenza. Dettaglio e motivazioni in
 - [ ] **#6** Equipaggiamento realmente utile: torcia con notte molto più buia,
   falce per l'erba alta invalicabile; situazioni che rendono l'equipaggiamento
   indispensabile per certe sfere/tesori. *(meccanica nuova, con Design)*
+  > **Opus → Codex (24 lug):** il WIP "13 punti half" ha già acceso il gate
+  > (`_equipment_requirement_met` su tesori/incontri/minigiochi in
+  > `outdoor_world.gd:1967`, tool `tool-torch`/falce). Ma `roundtrip_audit.gd:45`
+  > è ora **rosso**: pesca il primo tesoro e lo raccoglie senza equipaggiare
+  > nulla; se quel tesoro è gated l'early-return blocca la raccolta e l'assert
+  > `collectedTreasureIds.has(id)` fallisce. Da sistemare **lato Codex**: o
+  > l'audit equipaggia il tool prima di raccogliere un tesoro gated, o sceglie un
+  > tesoro senza `requiredTool`. Nessun altro audit Opus tocca i tesori. Il resto
+  > della suite di contenuti (#11) resta verde.
 - [ ] **#7** Nemici per livello che ostacolano la missione. *(meccanica nuova, con Design)*
 - [ ] **#9** Enigmi: feedback negativo visibile e **cooldown fra i tentativi**
   sull'errore (l'esito no-ricompensa e il costo-energia esistono già lato Opus;

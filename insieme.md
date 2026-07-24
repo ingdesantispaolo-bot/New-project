@@ -32,11 +32,12 @@ render, correzione visiva e revisione semantica della precedente.
 
 #### Gate C — revisione Opus prima dell’Ondata D1
 
-- [ ] **Opus:** verificare che rotte cartografiche, ecosistemi, servizi civici e
-  regole mobili rappresentino correttamente i contratti didattici dei mondi
-  9–12; segnalare in questo file soltanto eventuali correzioni concrete.
-- [ ] **Codex:** applicare le eventuali correzioni semantiche richieste da Opus
-  senza indebolire leggibilità, input touch o budget prestazionale.
+- [x] **Opus:** rotte cartografiche (9), ecosistemi (10), servizi civici (11) e
+  regole mobili (12) rappresentano CORRETTAMENTE i contratti didattici. Landmark
+  e reazione ambientale consumano `WorldLessonCatalog.environment_transform`
+  (unica fonte di verità). `world_semantics_audit` e `world_wave_c_audit` verdi.
+  **Nessuna correzione concreta richiesta.**
+- [x] **Codex:** nessuna correzione semantica da applicare → **Ondata D1 sbloccata.**
 
 #### Ondata D1 — Mondi 13–16
 

@@ -1,6 +1,6 @@
 Elementi da correggere:
 
-nei mondi esterni ci sono elementi grafici che sono fuori contesto e che non servono anulla ma distraggono.
+1 nei mondi esterni ci sono elementi grafici che sono fuori contesto e che non servono anulla ma distraggono.
 
 2 i fiumi devono avere inizio e fine coerenti, una cascata, una sorgente. Devono poter essere attraversati solo con dei ponti che vanno costruiti.
 
@@ -22,3 +22,7 @@ nei mondi esterni ci sono elementi grafici che sono fuori contesto e che non ser
 
 11 gli esercizi non devono essere solo a risposta multipla ma studiati come minigiochi nei quali usare le competenze come sfida e gioco. Questa è la parte da curare con massima attenzione
 
+12 elementi grafici sopra la mappa devono essere integrati e coerenti con la mappa ed il livello
+
+
+- 13 esercizi indagan competenze ma non insegnano, questo è un punto cruciale. Dobbiamo creare schede informative sui vari argomenti consulatbili, Quindi atlante e nora devono produrre queste conoscenze insegnando le competenze.

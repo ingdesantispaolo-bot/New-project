@@ -11,10 +11,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"insieme delle persone legate da parentela o vita comune\"?",
 			"options": [
-				"ufficio",
-				"visita",
+				"orario",
+				"ora",
 				"famiglia",
-				"mappa"
+				"paura"
 			],
 			"answer": "famiglia",
 			"explanation": "\"famiglia\": insieme delle persone legate da parentela o vita comune."
@@ -27,10 +27,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"madre o padre rispetto ai figli\"?",
 			"options": [
-				"orecchio",
-				"temporale",
-				"foglia",
-				"genitore"
+				"balcone",
+				"genitore",
+				"analogia",
+				"conclusione"
 			],
 			"answer": "genitore",
 			"explanation": "\"genitore\": madre o padre rispetto ai figli."
@@ -43,10 +43,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"figlio degli stessi genitori\"?",
 			"options": [
-				"sorpresa",
-				"percorso",
+				"cartella",
+				"pioggia",
 				"fratello",
-				"registro"
+				"denotazione"
 			],
 			"answer": "fratello",
 			"explanation": "\"fratello\": figlio degli stessi genitori."
@@ -59,10 +59,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"figlia degli stessi genitori\"?",
 			"options": [
-				"fatto",
-				"contesto",
-				"sorella",
-				"telefono"
+				"presupposto",
+				"rassegnazione",
+				"film",
+				"sorella"
 			],
 			"answer": "sorella",
 			"explanation": "\"sorella\": figlia degli stessi genitori."
@@ -75,10 +75,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"persona legata da parentela\"?",
 			"options": [
-				"disaccordo",
-				"ipotesi",
-				"carne",
-				"parente"
+				"ritardo",
+				"tosse",
+				"parente",
+				"schermo"
 			],
 			"answer": "parente",
 			"explanation": "\"parente\": persona legata da parentela."
@@ -91,10 +91,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"persona che abita accanto o molto vicino\"?",
 			"options": [
+				"responsabile",
+				"schermo",
 				"vicino",
-				"profilo",
-				"tesi",
-				"romanzo"
+				"scontrino"
 			],
 			"answer": "vicino",
 			"explanation": "\"vicino\": persona che abita accanto o molto vicino."
@@ -107,10 +107,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"persona accolta in casa\"?",
 			"options": [
-				"domanda",
-				"ufficio",
-				"collega",
-				"ospite"
+				"mattina",
+				"ospite",
+				"rifiuto",
+				"malinconia"
 			],
 			"answer": "ospite",
 			"explanation": "\"ospite\": persona accolta in casa."
@@ -123,10 +123,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"stanza in cui si preparano i pasti\"?",
 			"options": [
-				"promessa",
+				"dettaglio",
 				"cucina",
-				"cartella",
-				"fermata"
+				"cerotto",
+				"spiaggia"
 			],
 			"answer": "cucina",
 			"explanation": "\"cucina\": stanza in cui si preparano i pasti."
@@ -139,10 +139,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"stanza della casa usata per stare insieme\"?",
 			"options": [
-				"fiore",
-				"bocca",
+				"tablet",
 				"soggiorno",
-				"bicicletta"
+				"frutta",
+				"premessa"
 			],
 			"answer": "soggiorno",
 			"explanation": "\"soggiorno\": stanza della casa usata per stare insieme."
@@ -155,10 +155,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"stanza in cui si dorme o si studia\"?",
 			"options": [
-				"effetto",
-				"computer",
 				"camera",
-				"pomeriggio"
+				"stagione",
+				"spiaggia",
+				"mensola"
 			],
 			"answer": "camera",
 			"explanation": "\"camera\": stanza in cui si dorme o si studia."
@@ -171,10 +171,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"stanza per lavarsi e curare l'igiene\"?",
 			"options": [
-				"bagno",
-				"tesi",
-				"diritto",
-				"ambiente"
+				"schermo",
+				"ambivalenza",
+				"allenamento",
+				"bagno"
 			],
 			"answer": "bagno",
 			"explanation": "\"bagno\": stanza per lavarsi e curare l'igiene."
@@ -187,10 +187,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"spazio esterno collegato a una stanza\"?",
 			"options": [
-				"piscina",
-				"incrocio",
-				"fratello",
-				"balcone"
+				"collaborazione",
+				"causa",
+				"balcone",
+				"sfumatura"
 			],
 			"answer": "balcone",
 			"explanation": "\"balcone\": spazio esterno collegato a una stanza."
@@ -203,10 +203,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"mobile con piano usato per mangiare o lavorare\"?",
 			"options": [
-				"zaino",
-				"scontrino",
 				"tavolo",
-				"tastiera"
+				"schiena",
+				"app",
+				"tristezza"
 			],
 			"answer": "tavolo",
 			"explanation": "\"tavolo\": mobile con piano usato per mangiare o lavorare."
@@ -219,10 +219,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"sedile con schienale\"?",
 			"options": [
-				"fermata",
-				"carrello",
-				"volontario",
-				"sedia"
+				"pane",
+				"zaino",
+				"sedia",
+				"marciapiede"
 			],
 			"answer": "sedia",
 			"explanation": "\"sedia\": sedile con schienale."
@@ -235,10 +235,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"mobile in cui si tengono vestiti o oggetti\"?",
 			"options": [
-				"fumetto",
-				"scontrino",
 				"armadio",
-				"responsabile"
+				"biglietto",
+				"collaborazione",
+				"link"
 			],
 			"answer": "armadio",
 			"explanation": "\"armadio\": mobile in cui si tengono vestiti o oggetti."
@@ -251,10 +251,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"ripiano fissato alla parete\"?",
 			"options": [
-				"gentilezza",
-				"rifiuto",
+				"frutta",
 				"mensola",
-				"pranzo"
+				"interrogazione",
+				"ora"
 			],
 			"answer": "mensola",
 			"explanation": "\"mensola\": ripiano fissato alla parete."
@@ -267,10 +267,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"vano estraibile di un mobile\"?",
 			"options": [
-				"allegato",
 				"cassetto",
-				"marciapiede",
-				"settimana"
+				"sedia",
+				"minuto",
+				"tenerezza"
 			],
 			"answer": "cassetto",
 			"explanation": "\"cassetto\": vano estraibile di un mobile."
@@ -283,10 +283,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"oggetto usato per aprire una serratura\"?",
 			"options": [
-				"palestra",
+				"febbre",
+				"montagna",
 				"chiave",
-				"rispetto",
-				"risposta"
+				"orecchio"
 			],
 			"answer": "chiave",
 			"explanation": "\"chiave\": oggetto usato per aprire una serratura."
@@ -299,10 +299,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"dispositivo per avvisare chi è in casa\"?",
 			"options": [
-				"mare",
+				"posta",
 				"campanello",
-				"mese",
-				"respiro"
+				"soggiorno",
+				"tavolo"
 			],
 			"answer": "campanello",
 			"explanation": "\"campanello\": dispositivo per avvisare chi è in casa."
@@ -315,10 +315,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"documento con il costo di un servizio domestico\"?",
 			"options": [
-				"pasta",
-				"bolletta",
-				"pomeriggio",
-				"strada"
+				"registro",
+				"esempio",
+				"nostalgia",
+				"bolletta"
 			],
 			"answer": "bolletta",
 			"explanation": "\"bolletta\": documento con il costo di un servizio domestico."
@@ -332,9 +332,9 @@
 			"prompt": "Quale parola corrisponde a: \"messo al posto giusto\"?",
 			"options": [
 				"piovoso",
-				"inquinato",
-				"allergico",
-				"ordinato"
+				"nutriente",
+				"ordinato",
+				"rinnovabile"
 			],
 			"answer": "ordinato",
 			"explanation": "\"ordinato\": messo al posto giusto."
@@ -347,10 +347,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"senza ordine o organizzazione\"?",
 			"options": [
-				"leale",
-				"ordinato",
 				"disordinato",
-				"scaduto"
+				"piovoso",
+				"secco",
+				"fresco"
 			],
 			"answer": "disordinato",
 			"explanation": "\"disordinato\": senza ordine o organizzazione."
@@ -363,10 +363,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"privo di sporco\"?",
 			"options": [
-				"leale",
+				"amaro",
+				"comodo",
 				"pulito",
-				"dolce",
-				"riciclabile"
+				"disordinato"
 			],
 			"answer": "pulito",
 			"explanation": "\"pulito\": privo di sporco."
@@ -379,10 +379,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"non pulito\"?",
 			"options": [
+				"rinnovabile",
 				"sporco",
-				"freddo",
-				"responsabile",
-				"prudente"
+				"soleggiato",
+				"leale"
 			],
 			"answer": "sporco",
 			"explanation": "\"sporco\": non pulito."
@@ -395,10 +395,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che fa sentire a proprio agio\"?",
 			"options": [
-				"economico",
+				"pulito",
 				"accogliente",
-				"responsabile",
-				"soleggiato"
+				"scaduto",
+				"secco"
 			],
 			"answer": "accogliente",
 			"explanation": "\"accogliente\": che fa sentire a proprio agio."
@@ -411,10 +411,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"pieno di rumore\"?",
 			"options": [
+				"coraggioso",
+				"contraddittorio",
 				"rumoroso",
-				"inquinato",
-				"silenzioso",
-				"urgente"
+				"sereno"
 			],
 			"answer": "rumoroso",
 			"explanation": "\"rumoroso\": pieno di rumore."
@@ -428,9 +428,9 @@
 			"prompt": "Quale parola corrisponde a: \"con poco o nessun rumore\"?",
 			"options": [
 				"silenzioso",
-				"timido",
-				"inquinato",
-				"nutriente"
+				"dolorante",
+				"felice",
+				"ventoso"
 			],
 			"answer": "silenzioso",
 			"explanation": "\"silenzioso\": con poco o nessun rumore."
@@ -443,8 +443,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"facile o piacevole da usare\"?",
 			"options": [
-				"rinnovabile",
-				"riciclabile",
+				"triste",
+				"dolorante",
 				"piovoso",
 				"comodo"
 			],
@@ -459,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"fascicolo su cui si scrive a scuola\"?",
 			"options": [
+				"ferita",
 				"quaderno",
-				"cerotto",
-				"responsabile",
-				"dettaglio"
+				"schiena",
+				"campanello"
 			],
 			"answer": "quaderno",
 			"explanation": "\"quaderno\": fascicolo su cui si scrive a scuola."
@@ -475,10 +475,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"agenda scolastica per compiti e comunicazioni\"?",
 			"options": [
-				"punteggio",
-				"diario",
 				"tablet",
-				"dovere"
+				"pesce",
+				"diario",
+				"febbre"
 			],
 			"answer": "diario",
 			"explanation": "\"diario\": agenda scolastica per compiti e comunicazioni."
@@ -491,10 +491,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"borsa da portare sulle spalle\"?",
 			"options": [
-				"responsabile",
-				"mappa",
-				"fonte",
-				"zaino"
+				"punteggio",
+				"zaino",
+				"pasta",
+				"computer"
 			],
 			"answer": "zaino",
 			"explanation": "\"zaino\": borsa da portare sulle spalle."
@@ -507,10 +507,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"contenitore per penne e matite\"?",
 			"options": [
-				"gioia",
-				"scadenza",
-				"interrogazione",
-				"astuccio"
+				"vento",
+				"astuccio",
+				"rabbia",
+				"percorso"
 			],
 			"answer": "astuccio",
 			"explanation": "\"astuccio\": contenitore per penne e matite."
@@ -524,9 +524,9 @@
 			"prompt": "Quale parola corrisponde a: \"superficie su cui l'insegnante scrive\"?",
 			"options": [
 				"lavagna",
-				"verdura",
-				"ingrediente",
-				"percorso"
+				"arbitro",
+				"ospite",
+				"collaborazione"
 			],
 			"answer": "lavagna",
 			"explanation": "\"lavagna\": superficie su cui l'insegnante scrive."
@@ -539,10 +539,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"momento in cui si spiega o si impara un argomento\"?",
 			"options": [
-				"responsabile",
-				"link",
 				"lezione",
-				"domanda"
+				"sorpresa",
+				"collega",
+				"biglietto"
 			],
 			"answer": "lezione",
 			"explanation": "\"lezione\": momento in cui si spiega o si impara un argomento."
@@ -555,10 +555,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"esercizio da svolgere a scuola o a casa\"?",
 			"options": [
-				"canzone",
-				"settimana",
-				"servizio",
-				"compito"
+				"rimpianto",
+				"app",
+				"compito",
+				"sedia"
 			],
 			"answer": "compito",
 			"explanation": "\"compito\": esercizio da svolgere a scuola o a casa."
@@ -571,10 +571,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"prova per controllare ciò che si sa\"?",
 			"options": [
+				"ambiente",
 				"verifica",
-				"privacy",
-				"cucina",
-				"ospite"
+				"biglietto",
+				"paragrafo"
 			],
 			"answer": "verifica",
 			"explanation": "\"verifica\": prova per controllare ciò che si sa."
@@ -587,10 +587,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"prova orale su un argomento\"?",
 			"options": [
-				"punteggio",
-				"allenamento",
-				"interrogazione",
-				"risorsa"
+				"esempio",
+				"prato",
+				"balcone",
+				"interrogazione"
 			],
 			"answer": "interrogazione",
 			"explanation": "\"interrogazione\": prova orale su un argomento."
@@ -603,9 +603,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"valutazione espressa con un numero o giudizio\"?",
 			"options": [
-				"fratello",
-				"app",
-				"ricetta",
+				"settimana",
+				"contesto",
+				"bicicletta",
 				"voto"
 			],
 			"answer": "voto",
@@ -619,10 +619,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"tema di cui si parla o si studia\"?",
 			"options": [
-				"ambiguità",
-				"risposta",
+				"cucina",
 				"argomento",
-				"ospedale"
+				"appuntamento",
+				"ipotesi"
 			],
 			"answer": "argomento",
 			"explanation": "\"argomento\": tema di cui si parla o si studia."
@@ -635,10 +635,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte di un testo separata dalle altre\"?",
 			"options": [
+				"diario",
 				"paragrafo",
-				"bagno",
-				"ingrediente",
-				"carne"
+				"conclusione",
+				"dettaglio"
 			],
 			"answer": "paragrafo",
 			"explanation": "\"paragrafo\": parte di un testo separata dalle altre."
@@ -651,10 +651,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"testo breve che conserva le informazioni principali\"?",
 			"options": [
-				"orario",
+				"indirizzo",
 				"riassunto",
-				"farmacia",
-				"schermo"
+				"contraddizione",
+				"allegoria"
 			],
 			"answer": "riassunto",
 			"explanation": "\"riassunto\": testo breve che conserva le informazioni principali."
@@ -667,10 +667,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"rappresentazione ordinata di idee o dati\"?",
 			"options": [
-				"respiro",
+				"prezzo",
+				"palestra",
 				"schema",
-				"film",
-				"ricetta"
+				"ambiguità"
 			],
 			"answer": "schema",
 			"explanation": "\"schema\": rappresentazione ordinata di idee o dati."
@@ -683,10 +683,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"schema che collega concetti\"?",
 			"options": [
+				"fermata",
+				"balcone",
 				"mattina",
-				"cena",
-				"mappa",
-				"bocca"
+				"mappa"
 			],
 			"answer": "mappa",
 			"explanation": "\"mappa\": schema che collega concetti."
@@ -699,9 +699,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"origine di un'informazione\"?",
 			"options": [
-				"astuccio",
-				"quartiere",
-				"temporale",
+				"punteggio",
+				"comunità",
+				"marciapiede",
 				"fonte"
 			],
 			"answer": "fonte",
@@ -715,10 +715,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"caso concreto che chiarisce una regola\"?",
 			"options": [
-				"disaccordo",
-				"schema",
 				"esempio",
-				"bagno"
+				"cucina",
+				"effetto",
+				"binario"
 			],
 			"answer": "esempio",
 			"explanation": "\"esempio\": caso concreto che chiarisce una regola."
@@ -731,10 +731,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"frase con cui si chiede qualcosa\"?",
 			"options": [
-				"piscina",
-				"gentilezza",
-				"campanello",
-				"domanda"
+				"energia",
+				"cerotto",
+				"domanda",
+				"paradosso"
 			],
 			"answer": "domanda",
 			"explanation": "\"domanda\": frase con cui si chiede qualcosa."
@@ -747,10 +747,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"informazione data a una domanda\"?",
 			"options": [
-				"bolletta",
-				"frutta",
 				"risposta",
-				"turno"
+				"ferita",
+				"fumetto",
+				"bicicletta"
 			],
 			"answer": "risposta",
 			"explanation": "\"risposta\": informazione data a una domanda."
@@ -763,10 +763,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"modo ordinato di lavorare o studiare\"?",
 			"options": [
-				"carrello",
-				"tavolo",
+				"balcone",
+				"gentilezza",
 				"metodo",
-				"parente"
+				"ufficio"
 			],
 			"answer": "metodo",
 			"explanation": "\"metodo\": modo ordinato di lavorare o studiare."
@@ -779,10 +779,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"imparare un argomento con attenzione\"?",
 			"options": [
+				"confrontare",
+				"giocare",
 				"studiare",
-				"bloccare",
-				"correggere",
-				"condividere"
+				"vincere"
 			],
 			"answer": "studiare",
 			"explanation": "\"studiare\": imparare un argomento con attenzione."
@@ -795,10 +795,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"rivedere ciò che si è già studiato\"?",
 			"options": [
-				"aggiornare",
+				"correre",
 				"ripassare",
 				"proteggere",
-				"vincere"
+				"disegnare"
 			],
 			"answer": "ripassare",
 			"explanation": "\"ripassare\": rivedere ciò che si è già studiato."
@@ -811,10 +811,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"segnare una parte importante del testo\"?",
 			"options": [
-				"giocare",
 				"sottolineare",
-				"vincere",
-				"disegnare"
+				"studiare",
+				"correggere",
+				"dimostrare"
 			],
 			"answer": "sottolineare",
 			"explanation": "\"sottolineare\": segnare una parte importante del testo."
@@ -827,10 +827,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"dire o scrivere solo le idee essenziali\"?",
 			"options": [
-				"caricare",
-				"giocare",
-				"riassumere",
-				"bloccare"
+				"perdere",
+				"dimostrare",
+				"proteggere",
+				"riassumere"
 			],
 			"answer": "riassumere",
 			"explanation": "\"riassumere\": dire o scrivere solo le idee essenziali."
@@ -843,10 +843,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"rendere chiaro un contenuto\"?",
 			"options": [
-				"spiegare",
+				"confrontare",
 				"correre",
-				"allenarsi",
-				"vincere"
+				"spiegare",
+				"riassumere"
 			],
 			"answer": "spiegare",
 			"explanation": "\"spiegare\": rendere chiaro un contenuto."
@@ -860,9 +860,9 @@
 			"prompt": "Quale parola corrisponde a: \"mettere due elementi a paragone\"?",
 			"options": [
 				"bloccare",
-				"sottolineare",
-				"confrontare",
-				"vincere"
+				"suonare",
+				"perdere",
+				"confrontare"
 			],
 			"answer": "confrontare",
 			"explanation": "\"confrontare\": mettere due elementi a paragone."
@@ -875,10 +875,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"controllare se una cosa è corretta\"?",
 			"options": [
+				"perdere",
 				"verificare",
-				"confrontare",
-				"disegnare",
-				"perdere"
+				"aggiornare",
+				"spiegare"
 			],
 			"answer": "verificare",
 			"explanation": "\"verificare\": controllare se una cosa è corretta."
@@ -891,10 +891,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"eliminare un errore\"?",
 			"options": [
-				"dimostrare",
+				"sottolineare",
+				"proteggere",
 				"correggere",
-				"verificare",
-				"spiegare"
+				"bloccare"
 			],
 			"answer": "correggere",
 			"explanation": "\"correggere\": eliminare un errore."
@@ -907,10 +907,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"mostrare con prove che una cosa è vera\"?",
 			"options": [
+				"condividere",
 				"dimostrare",
-				"argomentare",
-				"bloccare",
-				"confrontare"
+				"correre",
+				"salvare"
 			],
 			"answer": "dimostrare",
 			"explanation": "\"dimostrare\": mostrare con prove che una cosa è vera."
@@ -924,9 +924,9 @@
 			"prompt": "Quale parola corrisponde a: \"sostenere un'idea con ragioni e prove\"?",
 			"options": [
 				"argomentare",
-				"aggiornare",
-				"condividere",
-				"suonare"
+				"nuotare",
+				"ripassare",
+				"perdere"
 			],
 			"answer": "argomentare",
 			"explanation": "\"argomentare\": sostenere un'idea con ragioni e prove."
@@ -939,10 +939,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"pasto del mattino\"?",
 			"options": [
-				"farmacia",
+				"ora",
+				"arbitro",
 				"colazione",
-				"responsabile",
-				"gentilezza"
+				"carne"
 			],
 			"answer": "colazione",
 			"explanation": "\"colazione\": pasto del mattino."
@@ -955,10 +955,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"pasto principale di metà giornata\"?",
 			"options": [
-				"pranzo",
-				"giorno",
-				"lavagna",
-				"rabbia"
+				"foglia",
+				"tristezza",
+				"romanzo",
+				"pranzo"
 			],
 			"answer": "pranzo",
 			"explanation": "\"pranzo\": pasto principale di metà giornata."
@@ -971,10 +971,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"pasto della sera\"?",
 			"options": [
-				"collaborazione",
-				"tablet",
 				"cena",
-				"strada"
+				"tablet",
+				"percorso",
+				"nostalgia"
 			],
 			"answer": "cena",
 			"explanation": "\"cena\": pasto della sera."
@@ -987,10 +987,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"piccolo pasto tra due pasti principali\"?",
 			"options": [
-				"raccolta",
-				"mano",
+				"inferenza",
+				"allegoria",
 				"spuntino",
-				"risorsa"
+				"carne"
 			],
 			"answer": "spuntino",
 			"explanation": "\"spuntino\": piccolo pasto tra due pasti principali."
@@ -1003,10 +1003,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"istruzioni per preparare un piatto\"?",
 			"options": [
-				"mattina",
-				"promessa",
-				"fonte",
-				"ricetta"
+				"ufficio",
+				"ricetta",
+				"piscina",
+				"tenerezza"
 			],
 			"answer": "ricetta",
 			"explanation": "\"ricetta\": istruzioni per preparare un piatto."
@@ -1019,10 +1019,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"alimento usato in una ricetta\"?",
 			"options": [
-				"settimana",
-				"lavagna",
-				"ambiguità",
-				"ingrediente"
+				"bicicletta",
+				"ingrediente",
+				"sorpresa",
+				"opinione"
 			],
 			"answer": "ingrediente",
 			"explanation": "\"ingrediente\": alimento usato in una ricetta."
@@ -1035,10 +1035,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"alimento base fatto con farina e acqua\"?",
 			"options": [
-				"mese",
 				"pane",
-				"privacy",
-				"allegato"
+				"causa",
+				"farmacia",
+				"vicino"
 			],
 			"answer": "pane",
 			"explanation": "\"pane\": alimento base fatto con farina e acqua."
@@ -1051,10 +1051,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"alimento tipico formato da farina e acqua\"?",
 			"options": [
-				"partita",
-				"stazione",
+				"responsabile",
 				"pasta",
-				"mattina"
+				"mese",
+				"metodo"
 			],
 			"answer": "pasta",
 			"explanation": "\"pasta\": alimento tipico formato da farina e acqua."
@@ -1067,10 +1067,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"alimento vegetale usato nei pasti\"?",
 			"options": [
-				"registro",
-				"mano",
+				"fonte",
 				"verdura",
-				"diritto"
+				"formaggio",
+				"biblioteca"
 			],
 			"answer": "verdura",
 			"explanation": "\"verdura\": alimento vegetale usato nei pasti."
@@ -1083,10 +1083,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"alimento dolce prodotto dalle piante\"?",
 			"options": [
-				"contesto",
-				"argomento",
-				"soggiorno",
-				"frutta"
+				"frutta",
+				"tosse",
+				"collega",
+				"premessa"
 			],
 			"answer": "frutta",
 			"explanation": "\"frutta\": alimento dolce prodotto dalle piante."
@@ -1099,10 +1099,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"alimento derivato dal latte\"?",
 			"options": [
+				"gioia",
 				"formaggio",
-				"scusa",
-				"compito",
-				"bocca"
+				"albero",
+				"armadio"
 			],
 			"answer": "formaggio",
 			"explanation": "\"formaggio\": alimento derivato dal latte."
@@ -1115,10 +1115,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"alimento ricavato da animali allevati\"?",
 			"options": [
-				"prova",
-				"strada",
+				"profilo",
 				"carne",
-				"arbitro"
+				"famiglia",
+				"raccolta"
 			],
 			"answer": "carne",
 			"explanation": "\"carne\": alimento ricavato da animali allevati."
@@ -1131,10 +1131,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"alimento che viene dal mare o dall'acqua dolce\"?",
 			"options": [
-				"ora",
-				"campanello",
+				"cerotto",
+				"ritardo",
 				"pesce",
-				"tablet"
+				"offerta"
 			],
 			"answer": "pesce",
 			"explanation": "\"pesce\": alimento che viene dal mare o dall'acqua dolce."
@@ -1147,10 +1147,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"quantità di denaro richiesta per comprare qualcosa\"?",
 			"options": [
+				"nostalgia",
+				"spuntino",
 				"prezzo",
-				"ufficio",
-				"fiume",
-				"zaino"
+				"schiena"
 			],
 			"answer": "prezzo",
 			"explanation": "\"prezzo\": quantità di denaro richiesta per comprare qualcosa."
@@ -1163,10 +1163,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"documento che prova un acquisto\"?",
 			"options": [
-				"scontrino",
-				"contesto",
 				"resto",
-				"bosco"
+				"semaforo",
+				"marciapiede",
+				"scontrino"
 			],
 			"answer": "scontrino",
 			"explanation": "\"scontrino\": documento che prova un acquisto."
@@ -1179,10 +1179,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"denaro restituito dopo un pagamento\"?",
 			"options": [
-				"carrello",
-				"cartella",
 				"resto",
-				"prezzo"
+				"binario",
+				"rassegnazione",
+				"bagno"
 			],
 			"answer": "resto",
 			"explanation": "\"resto\": denaro restituito dopo un pagamento."
@@ -1195,10 +1195,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"prezzo ridotto per un prodotto\"?",
 			"options": [
-				"camera",
+				"registro",
+				"voto",
 				"offerta",
-				"energia",
-				"vicino"
+				"cerotto"
 			],
 			"answer": "offerta",
 			"explanation": "\"offerta\": prezzo ridotto per un prodotto."
@@ -1211,10 +1211,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"contenitore con ruote usato al supermercato\"?",
 			"options": [
-				"mestiere",
-				"tastiera",
-				"semaforo",
-				"carrello"
+				"disaccordo",
+				"passeggiata",
+				"carrello",
+				"lavagna"
 			],
 			"answer": "carrello",
 			"explanation": "\"carrello\": contenitore con ruote usato al supermercato."
@@ -1227,10 +1227,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"appena preparato o non rovinato\"?",
 			"options": [
-				"paziente",
-				"silenzioso",
-				"scaduto",
-				"fresco"
+				"disordinato",
+				"fresco",
+				"idratato",
+				"sereno"
 			],
 			"answer": "fresco",
 			"explanation": "\"fresco\": appena preparato o non rovinato."
@@ -1243,10 +1243,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"oltre la data entro cui un prodotto va consumato\"?",
 			"options": [
+				"ambiguo",
+				"felice",
 				"scaduto",
-				"rinnovabile",
-				"dolce",
-				"allergico"
+				"responsabile"
 			],
 			"answer": "scaduto",
 			"explanation": "\"scaduto\": oltre la data entro cui un prodotto va consumato."
@@ -1259,10 +1259,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che costa poco\"?",
 			"options": [
+				"arrabbiato",
 				"economico",
 				"costoso",
-				"nuvoloso",
-				"accogliente"
+				"ordinato"
 			],
 			"answer": "economico",
 			"explanation": "\"economico\": che costa poco."
@@ -1275,10 +1275,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che costa molto\"?",
 			"options": [
-				"amaro",
-				"sano",
-				"privato",
-				"costoso"
+				"arrabbiato",
+				"sporco",
+				"costoso",
+				"inquinato"
 			],
 			"answer": "costoso",
 			"explanation": "\"costoso\": che costa molto."
@@ -1291,10 +1291,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con molto sale\"?",
 			"options": [
-				"accogliente",
-				"sano",
+				"sereno",
+				"comodo",
 				"salato",
-				"prudente"
+				"freddo"
 			],
 			"answer": "salato",
 			"explanation": "\"salato\": con molto sale."
@@ -1307,10 +1307,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con sapore zuccherino\"?",
 			"options": [
+				"secco",
+				"prudente",
 				"dolce",
-				"dolorante",
-				"caldo",
-				"sano"
+				"timido"
 			],
 			"answer": "dolce",
 			"explanation": "\"dolce\": con sapore zuccherino."
@@ -1323,10 +1323,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con sapore forte non dolce\"?",
 			"options": [
+				"arrabbiato",
 				"amaro",
-				"ventoso",
-				"nuvoloso",
-				"puntuale"
+				"nutriente",
+				"malato"
 			],
 			"answer": "amaro",
 			"explanation": "\"amaro\": con sapore forte non dolce."
@@ -1339,10 +1339,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che fornisce energia e sostanze utili\"?",
 			"options": [
-				"prudente",
-				"scaduto",
 				"nutriente",
-				"ordinato"
+				"sereno",
+				"puntuale",
+				"riciclabile"
 			],
 			"answer": "nutriente",
 			"explanation": "\"nutriente\": che fornisce energia e sostanze utili."
@@ -1355,10 +1355,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"unità di tempo pari a sessanta secondi\"?",
 			"options": [
-				"collaborazione",
-				"carrello",
-				"prezzo",
-				"minuto"
+				"argomento",
+				"balcone",
+				"minuto",
+				"tablet"
 			],
 			"answer": "minuto",
 			"explanation": "\"minuto\": unità di tempo pari a sessanta secondi."
@@ -1371,10 +1371,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"unità di tempo pari a sessanta minuti\"?",
 			"options": [
+				"fiore",
+				"app",
 				"ora",
-				"orecchio",
-				"collaborazione",
-				"marciapiede"
+				"fatto"
 			],
 			"answer": "ora",
 			"explanation": "\"ora\": unità di tempo pari a sessanta minuti."
@@ -1387,10 +1387,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"periodo di ventiquattro ore\"?",
 			"options": [
-				"ufficio",
-				"giorno",
-				"balcone",
-				"vento"
+				"premessa",
+				"allenamento",
+				"visita",
+				"giorno"
 			],
 			"answer": "giorno",
 			"explanation": "\"giorno\": periodo di ventiquattro ore."
@@ -1403,10 +1403,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"periodo di sette giorni\"?",
 			"options": [
-				"profilo",
 				"settimana",
-				"biblioteca",
-				"notifica"
+				"mattina",
+				"ambiente",
+				"visita"
 			],
 			"answer": "settimana",
 			"explanation": "\"settimana\": periodo di sette giorni."
@@ -1419,10 +1419,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte dell'anno\"?",
 			"options": [
+				"comunità",
+				"coerenza",
 				"mese",
-				"cucina",
-				"argomento",
-				"ipotesi"
+				"sintesi"
 			],
 			"answer": "mese",
 			"explanation": "\"mese\": parte dell'anno."
@@ -1435,10 +1435,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"periodo dell'anno con clima simile\"?",
 			"options": [
-				"mano",
-				"stagione",
-				"strada",
-				"coerenza"
+				"prato",
+				"pioggia",
+				"foglia",
+				"stagione"
 			],
 			"answer": "stagione",
 			"explanation": "\"stagione\": periodo dell'anno con clima simile."
@@ -1451,10 +1451,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"prima parte del giorno\"?",
 			"options": [
-				"mattina",
-				"anticipo",
-				"spiaggia",
-				"passeggiata"
+				"scontrino",
+				"verifica",
+				"cartella",
+				"mattina"
 			],
 			"answer": "mattina",
 			"explanation": "\"mattina\": prima parte del giorno."
@@ -1467,10 +1467,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte del giorno dopo il pranzo\"?",
 			"options": [
+				"tenerezza",
 				"pomeriggio",
-				"stagione",
-				"ingrediente",
-				"risposta"
+				"ritardo",
+				"negozio"
 			],
 			"answer": "pomeriggio",
 			"explanation": "\"pomeriggio\": parte del giorno dopo il pranzo."
@@ -1483,10 +1483,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte finale del giorno\"?",
 			"options": [
-				"telefono",
+				"privacy",
+				"soggiorno",
 				"sera",
-				"fiducia",
-				"orario"
+				"lezione"
 			],
 			"answer": "sera",
 			"explanation": "\"sera\": parte finale del giorno."
@@ -1499,10 +1499,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"termine entro cui fare qualcosa\"?",
 			"options": [
-				"mese",
-				"argomento",
-				"mattina",
-				"scadenza"
+				"visita",
+				"bolletta",
+				"scadenza",
+				"schiena"
 			],
 			"answer": "scadenza",
 			"explanation": "\"scadenza\": termine entro cui fare qualcosa."
@@ -1515,10 +1515,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"arrivo o azione dopo l'orario previsto\"?",
 			"options": [
-				"semaforo",
-				"ritardo",
-				"computer",
-				"raccolta"
+				"fatto",
+				"campanello",
+				"soggiorno",
+				"ritardo"
 			],
 			"answer": "ritardo",
 			"explanation": "\"ritardo\": arrivo o azione dopo l'orario previsto."
@@ -1532,9 +1532,9 @@
 			"prompt": "Quale parola corrisponde a: \"arrivo o azione prima dell'orario previsto\"?",
 			"options": [
 				"anticipo",
-				"collaborazione",
-				"gentilezza",
-				"volontario"
+				"camera",
+				"pranzo",
+				"stazione"
 			],
 			"answer": "anticipo",
 			"explanation": "\"anticipo\": arrivo o azione prima dell'orario previsto."
@@ -1547,10 +1547,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"acqua che cade dalle nuvole\"?",
 			"options": [
-				"mattina",
 				"pioggia",
-				"ospedale",
-				"foglia"
+				"settimana",
+				"ambiente",
+				"tastiera"
 			],
 			"answer": "pioggia",
 			"explanation": "\"pioggia\": acqua che cade dalle nuvole."
@@ -1564,9 +1564,9 @@
 			"prompt": "Quale parola corrisponde a: \"aria in movimento\"?",
 			"options": [
 				"vento",
-				"coerenza",
-				"notifica",
-				"cartella"
+				"famiglia",
+				"fatto",
+				"riassunto"
 			],
 			"answer": "vento",
 			"explanation": "\"vento\": aria in movimento."
@@ -1580,9 +1580,9 @@
 			"prompt": "Quale parola corrisponde a: \"vapore che riduce la visibilità\"?",
 			"options": [
 				"nebbia",
-				"punteggio",
-				"tastiera",
-				"binario"
+				"ambiguità",
+				"cartella",
+				"posta"
 			],
 			"answer": "nebbia",
 			"explanation": "\"nebbia\": vapore che riduce la visibilità."
@@ -1595,10 +1595,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"pioggia forte con tuoni e lampi\"?",
 			"options": [
-				"anticipo",
-				"canzone",
 				"temporale",
-				"gioia"
+				"rimpianto",
+				"albero",
+				"balcone"
 			],
 			"answer": "temporale",
 			"explanation": "\"temporale\": pioggia forte con tuoni e lampi."
@@ -1611,10 +1611,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che arriva o agisce all'orario previsto\"?",
 			"options": [
+				"paziente",
+				"triste",
 				"puntuale",
-				"malato",
-				"soleggiato",
-				"rumoroso"
+				"plausibile"
 			],
 			"answer": "puntuale",
 			"explanation": "\"puntuale\": che arriva o agisce all'orario previsto."
@@ -1627,10 +1627,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che avviene troppo tardi\"?",
 			"options": [
-				"responsabile",
-				"malato",
-				"dolce",
-				"tardivo"
+				"amaro",
+				"riciclabile",
+				"tardivo",
+				"triste"
 			],
 			"answer": "tardivo",
 			"explanation": "\"tardivo\": che avviene troppo tardi."
@@ -1643,10 +1643,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con molto sole\"?",
 			"options": [
-				"prudente",
-				"impulsivo",
-				"puntuale",
-				"soleggiato"
+				"stanco",
+				"soleggiato",
+				"pulito",
+				"riciclabile"
 			],
 			"answer": "soleggiato",
 			"explanation": "\"soleggiato\": con molto sole."
@@ -1659,10 +1659,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"coperto da nuvole\"?",
 			"options": [
-				"timido",
-				"dolce",
-				"accogliente",
-				"nuvoloso"
+				"riposo",
+				"piovoso",
+				"nuvoloso",
+				"coraggioso"
 			],
 			"answer": "nuvoloso",
 			"explanation": "\"nuvoloso\": coperto da nuvole."
@@ -1675,10 +1675,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con molta pioggia\"?",
 			"options": [
-				"allergico",
+				"preoccupato",
 				"piovoso",
-				"freddo",
-				"fresco"
+				"leale",
+				"coraggioso"
 			],
 			"answer": "piovoso",
 			"explanation": "\"piovoso\": con molta pioggia."
@@ -1691,10 +1691,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con molto vento\"?",
 			"options": [
+				"sostenibile",
 				"ventoso",
-				"paziente",
-				"rumoroso",
-				"allergico"
+				"privato",
+				"malato"
 			],
 			"answer": "ventoso",
 			"explanation": "\"ventoso\": con molto vento."
@@ -1707,10 +1707,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con temperatura bassa\"?",
 			"options": [
-				"privato",
-				"sostenibile",
-				"freddo",
-				"ventoso"
+				"sporco",
+				"piovoso",
+				"affidabile",
+				"freddo"
 			],
 			"answer": "freddo",
 			"explanation": "\"freddo\": con temperatura bassa."
@@ -1723,10 +1723,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con temperatura alta\"?",
 			"options": [
-				"leale",
-				"fresco",
-				"felice",
-				"caldo"
+				"disponibile",
+				"caldo",
+				"paziente",
+				"implicito"
 			],
 			"answer": "caldo",
 			"explanation": "\"caldo\": con temperatura alta."
@@ -1739,10 +1739,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"via per spostarsi a piedi o con mezzi\"?",
 			"options": [
-				"binario",
-				"effetto",
+				"esempio",
+				"presupposto",
 				"strada",
-				"voto"
+				"responsabile"
 			],
 			"answer": "strada",
 			"explanation": "\"strada\": via per spostarsi a piedi o con mezzi."
@@ -1755,10 +1755,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"punto in cui si incontrano due strade\"?",
 			"options": [
-				"medicina",
-				"resto",
-				"ora",
-				"incrocio"
+				"vento",
+				"risentimento",
+				"incrocio",
+				"schermo"
 			],
 			"answer": "incrocio",
 			"explanation": "\"incrocio\": punto in cui si incontrano due strade."
@@ -1771,10 +1771,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte della strada riservata ai pedoni\"?",
 			"options": [
-				"privacy",
-				"promessa",
-				"marciapiede",
-				"farmacia"
+				"schermo",
+				"cena",
+				"resto",
+				"marciapiede"
 			],
 			"answer": "marciapiede",
 			"explanation": "\"marciapiede\": parte della strada riservata ai pedoni."
@@ -1787,10 +1787,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"segnale luminoso che regola il traffico\"?",
 			"options": [
-				"diritto",
-				"spuntino",
-				"semaforo",
-				"esempio"
+				"eufemismo",
+				"astuccio",
+				"registro",
+				"semaforo"
 			],
 			"answer": "semaforo",
 			"explanation": "\"semaforo\": segnale luminoso che regola il traffico."
@@ -1803,10 +1803,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"punto in cui si aspetta un mezzo pubblico\"?",
 			"options": [
-				"volontario",
+				"rabbia",
+				"cartella",
 				"fermata",
-				"cucina",
-				"pesce"
+				"diritto"
 			],
 			"answer": "fermata",
 			"explanation": "\"fermata\": punto in cui si aspetta un mezzo pubblico."
@@ -1819,10 +1819,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"luogo da cui partono treni o autobus\"?",
 			"options": [
-				"stazione",
-				"arbitro",
-				"diario",
-				"mattina"
+				"profilo",
+				"indignazione",
+				"fiore",
+				"stazione"
 			],
 			"answer": "stazione",
 			"explanation": "\"stazione\": luogo da cui partono treni o autobus."
@@ -1835,10 +1835,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"linea da cui parte o arriva un treno\"?",
 			"options": [
-				"compito",
-				"anticipo",
+				"bagno",
 				"binario",
-				"albero"
+				"genitore",
+				"biglietto"
 			],
 			"answer": "binario",
 			"explanation": "\"binario\": linea da cui parte o arriva un treno."
@@ -1851,10 +1851,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"documento che permette di viaggiare o entrare\"?",
 			"options": [
-				"raffreddore",
-				"tablet",
+				"giorno",
+				"rimpianto",
 				"biglietto",
-				"servizio"
+				"lezione"
 			],
 			"answer": "biglietto",
 			"explanation": "\"biglietto\": documento che permette di viaggiare o entrare."
@@ -1867,10 +1867,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"tabella con tempi di partenza o attività\"?",
 			"options": [
-				"strada",
-				"ingrediente",
+				"lezione",
 				"orario",
-				"parente"
+				"campanello",
+				"iperbole"
 			],
 			"answer": "orario",
 			"explanation": "\"orario\": tabella con tempi di partenza o attività."
@@ -1883,10 +1883,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"strada da seguire per arrivare\"?",
 			"options": [
+				"ora",
 				"percorso",
-				"energia",
-				"fiducia",
-				"profilo"
+				"offerta",
+				"gentilezza"
 			],
 			"answer": "percorso",
 			"explanation": "\"percorso\": strada da seguire per arrivare."
@@ -1899,10 +1899,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"informazione che indica dove si trova un luogo\"?",
 			"options": [
-				"coerenza",
+				"pasta",
 				"indirizzo",
-				"armadio",
-				"foglia"
+				"cerotto",
+				"negozio"
 			],
 			"answer": "indirizzo",
 			"explanation": "\"indirizzo\": informazione che indica dove si trova un luogo."
@@ -1915,10 +1915,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"zona di una città\"?",
 			"options": [
+				"film",
+				"marciapiede",
 				"quartiere",
-				"responsabile",
-				"mano",
-				"posta"
+				"ferita"
 			],
 			"answer": "quartiere",
 			"explanation": "\"quartiere\": zona di una città."
@@ -1931,10 +1931,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"luogo dove si leggono o prendono libri\"?",
 			"options": [
-				"giorno",
-				"verdura",
 				"biblioteca",
-				"formaggio"
+				"arbitro",
+				"scadenza",
+				"denotazione"
 			],
 			"answer": "biblioteca",
 			"explanation": "\"biblioteca\": luogo dove si leggono o prendono libri."
@@ -1948,9 +1948,9 @@
 			"prompt": "Quale parola corrisponde a: \"negozio dove si comprano medicine\"?",
 			"options": [
 				"farmacia",
-				"pasta",
-				"volontario",
-				"ufficio"
+				"canzone",
+				"ingrediente",
+				"resto"
 			],
 			"answer": "farmacia",
 			"explanation": "\"farmacia\": negozio dove si comprano medicine."
@@ -1963,10 +1963,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"luogo dove si curano persone malate\"?",
 			"options": [
+				"bicicletta",
 				"ospedale",
-				"piscina",
-				"lavagna",
-				"sorella"
+				"posta",
+				"gratitudine"
 			],
 			"answer": "ospedale",
 			"explanation": "\"ospedale\": luogo dove si curano persone malate."
@@ -1979,10 +1979,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"sede amministrativa di un comune\"?",
 			"options": [
+				"medicina",
 				"municipio",
-				"ferita",
-				"parente",
-				"regola"
+				"ginocchio",
+				"causa"
 			],
 			"answer": "municipio",
 			"explanation": "\"municipio\": sede amministrativa di un comune."
@@ -1996,9 +1996,9 @@
 			"prompt": "Quale parola corrisponde a: \"nella posizione opposta rispetto a qualcosa\"?",
 			"options": [
 				"all'angolo",
-				"dietro a",
+				"in fondo",
 				"di fronte a",
-				"in fondo"
+				"a destra"
 			],
 			"answer": "di fronte a",
 			"explanation": "\"di fronte a\": nella posizione opposta rispetto a qualcosa."
@@ -2011,10 +2011,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"vicino sul lato\"?",
 			"options": [
-				"di fronte a",
+				"dietro a",
+				"a sinistra",
 				"accanto a",
-				"all'angolo",
-				"dietro a"
+				"in fondo"
 			],
 			"answer": "accanto a",
 			"explanation": "\"accanto a\": vicino sul lato."
@@ -2028,9 +2028,9 @@
 			"prompt": "Quale parola corrisponde a: \"nella parte posteriore\"?",
 			"options": [
 				"dietro a",
-				"a sinistra",
-				"davanti a",
-				"all'angolo"
+				"all'angolo",
+				"in fondo",
+				"accanto a"
 			],
 			"answer": "dietro a",
 			"explanation": "\"dietro a\": nella parte posteriore."
@@ -2043,10 +2043,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"nella parte anteriore\"?",
 			"options": [
-				"a destra",
-				"davanti a",
+				"dietro a",
 				"all'angolo",
-				"a sinistra"
+				"accanto a",
+				"davanti a"
 			],
 			"answer": "davanti a",
 			"explanation": "\"davanti a\": nella parte anteriore."
@@ -2059,10 +2059,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"sul lato destro\"?",
 			"options": [
-				"di fronte a",
+				"in fondo",
 				"a destra",
-				"davanti a",
-				"all'angolo"
+				"di fronte a",
+				"dietro a"
 			],
 			"answer": "a destra",
 			"explanation": "\"a destra\": sul lato destro."
@@ -2075,10 +2075,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"sul lato sinistro\"?",
 			"options": [
+				"davanti a",
+				"dietro a",
 				"a sinistra",
-				"accanto a",
-				"di fronte a",
-				"dietro a"
+				"all'angolo"
 			],
 			"answer": "a sinistra",
 			"explanation": "\"a sinistra\": sul lato sinistro."
@@ -2092,9 +2092,9 @@
 			"prompt": "Quale parola corrisponde a: \"alla fine di uno spazio o percorso\"?",
 			"options": [
 				"in fondo",
-				"di fronte a",
-				"a destra",
-				"a sinistra"
+				"a sinistra",
+				"davanti a",
+				"di fronte a"
 			],
 			"answer": "in fondo",
 			"explanation": "\"in fondo\": alla fine di uno spazio o percorso."
@@ -2107,10 +2107,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"nel punto in cui si incontrano due lati o strade\"?",
 			"options": [
-				"dietro a",
-				"a sinistra",
 				"all'angolo",
-				"a destra"
+				"dietro a",
+				"accanto a",
+				"davanti a"
 			],
 			"answer": "all'angolo",
 			"explanation": "\"all'angolo\": nel punto in cui si incontrano due lati o strade."
@@ -2123,9 +2123,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte superiore del corpo\"?",
 			"options": [
-				"link",
-				"metodo",
-				"ricetta",
+				"posta",
+				"raffreddore",
+				"mensola",
 				"testa"
 			],
 			"answer": "testa",
@@ -2139,10 +2139,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"organo con cui si vede\"?",
 			"options": [
-				"stazione",
-				"palestra",
-				"occhio",
-				"dettaglio"
+				"bocca",
+				"cena",
+				"inferenza",
+				"occhio"
 			],
 			"answer": "occhio",
 			"explanation": "\"occhio\": organo con cui si vede."
@@ -2155,10 +2155,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"organo con cui si sente\"?",
 			"options": [
-				"film",
-				"scontrino",
-				"quaderno",
-				"orecchio"
+				"rifiuto",
+				"orecchio",
+				"bagno",
+				"percorso"
 			],
 			"answer": "orecchio",
 			"explanation": "\"orecchio\": organo con cui si sente."
@@ -2171,10 +2171,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte del viso usata per parlare e mangiare\"?",
 			"options": [
-				"balcone",
+				"ospedale",
+				"causa",
 				"bocca",
-				"sintesi",
-				"settimana"
+				"connotazione"
 			],
 			"answer": "bocca",
 			"explanation": "\"bocca\": parte del viso usata per parlare e mangiare."
@@ -2187,10 +2187,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte del corpo usata per afferrare\"?",
 			"options": [
-				"vicino",
-				"mano",
-				"mensola",
-				"anticipo"
+				"stagione",
+				"responsabile",
+				"fiume",
+				"mano"
 			],
 			"answer": "mano",
 			"explanation": "\"mano\": parte del corpo usata per afferrare."
@@ -2204,9 +2204,9 @@
 			"prompt": "Quale parola corrisponde a: \"parte posteriore del busto\"?",
 			"options": [
 				"schiena",
-				"settimana",
-				"conclusione",
-				"famiglia"
+				"tristezza",
+				"chiave",
+				"vento"
 			],
 			"answer": "schiena",
 			"explanation": "\"schiena\": parte posteriore del busto."
@@ -2219,10 +2219,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"articolazione della gamba\"?",
 			"options": [
-				"pioggia",
+				"foglia",
+				"contraddizione",
 				"ginocchio",
-				"cena",
-				"ricerca"
+				"retorica"
 			],
 			"answer": "ginocchio",
 			"explanation": "\"ginocchio\": articolazione della gamba."
@@ -2235,10 +2235,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"atto di prendere e mandare fuori aria\"?",
 			"options": [
+				"testa",
 				"respiro",
-				"paragrafo",
-				"municipio",
-				"pioggia"
+				"mese",
+				"arbitro"
 			],
 			"answer": "respiro",
 			"explanation": "\"respiro\": atto di prendere e mandare fuori aria."
@@ -2251,10 +2251,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"aumento della temperatura corporea\"?",
 			"options": [
-				"disaccordo",
-				"febbre",
-				"ambiente",
-				"servizio"
+				"sorpresa",
+				"tristezza",
+				"canzone",
+				"febbre"
 			],
 			"answer": "febbre",
 			"explanation": "\"febbre\": aumento della temperatura corporea."
@@ -2267,10 +2267,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"colpo d'aria espulso dalla gola\"?",
 			"options": [
-				"schermo",
-				"metodo",
-				"pane",
-				"tosse"
+				"metafora",
+				"scontrino",
+				"tosse",
+				"montagna"
 			],
 			"answer": "tosse",
 			"explanation": "\"tosse\": colpo d'aria espulso dalla gola."
@@ -2283,10 +2283,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"malessere con naso chiuso o che cola\"?",
 			"options": [
-				"registro",
+				"fiducia",
+				"sfumatura",
 				"raffreddore",
-				"ginocchio",
-				"rabbia"
+				"prospettiva"
 			],
 			"answer": "raffreddore",
 			"explanation": "\"raffreddore\": malessere con naso chiuso o che cola."
@@ -2299,10 +2299,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"lesione della pelle o del corpo\"?",
 			"options": [
-				"ginocchio",
-				"lezione",
-				"appuntamento",
-				"ferita"
+				"bicicletta",
+				"ferita",
+				"spiaggia",
+				"bosco"
 			],
 			"answer": "ferita",
 			"explanation": "\"ferita\": lesione della pelle o del corpo."
@@ -2315,10 +2315,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"piccola protezione adesiva per una ferita\"?",
 			"options": [
-				"cerotto",
-				"diario",
-				"schema",
-				"prezzo"
+				"mestiere",
+				"ipotesi",
+				"tosse",
+				"cerotto"
 			],
 			"answer": "cerotto",
 			"explanation": "\"cerotto\": piccola protezione adesiva per una ferita."
@@ -2331,10 +2331,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"sostanza usata per curare\"?",
 			"options": [
-				"scadenza",
-				"palestra",
-				"spiaggia",
-				"medicina"
+				"medicina",
+				"orecchio",
+				"voto",
+				"sera"
 			],
 			"answer": "medicina",
 			"explanation": "\"medicina\": sostanza usata per curare."
@@ -2347,10 +2347,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"controllo fatto da un medico\"?",
 			"options": [
-				"mese",
+				"tristezza",
+				"pane",
 				"visita",
-				"genitore",
-				"mappa"
+				"empatia"
 			],
 			"answer": "visita",
 			"explanation": "\"visita\": controllo fatto da un medico."
@@ -2363,10 +2363,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"incontro fissato a un'ora precisa\"?",
 			"options": [
+				"promessa",
 				"appuntamento",
-				"ricerca",
-				"tristezza",
-				"riassunto"
+				"malinconia",
+				"chiave"
 			],
 			"answer": "appuntamento",
 			"explanation": "\"appuntamento\": incontro fissato a un'ora precisa."
@@ -2379,9 +2379,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con poca energia\"?",
 			"options": [
+				"fresco",
 				"ventoso",
-				"responsabile",
-				"silenzioso",
+				"plausibile",
 				"stanco"
 			],
 			"answer": "stanco",
@@ -2395,10 +2395,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"in buona salute\"?",
 			"options": [
-				"ventoso",
-				"riposo",
 				"sano",
-				"piovoso"
+				"stanco",
+				"dolce",
+				"pulito"
 			],
 			"answer": "sano",
 			"explanation": "\"sano\": in buona salute."
@@ -2411,10 +2411,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"non in buona salute\"?",
 			"options": [
+				"sereno",
+				"urgente",
 				"malato",
-				"silenzioso",
-				"stanco",
-				"accogliente"
+				"rinnovabile"
 			],
 			"answer": "malato",
 			"explanation": "\"malato\": non in buona salute."
@@ -2427,10 +2427,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che provoca o sente dolore\"?",
 			"options": [
-				"sereno",
-				"comodo",
-				"puntuale",
-				"dolorante"
+				"dolorante",
+				"paziente",
+				"scaduto",
+				"sostenibile"
 			],
 			"answer": "dolorante",
 			"explanation": "\"dolorante\": che provoca o sente dolore."
@@ -2443,10 +2443,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"sensibile a una sostanza\"?",
 			"options": [
-				"nutriente",
 				"allergico",
-				"piovoso",
-				"affidabile"
+				"secco",
+				"preoccupato",
+				"sano"
 			],
 			"answer": "allergico",
 			"explanation": "\"allergico\": sensibile a una sostanza."
@@ -2460,9 +2460,9 @@
 			"prompt": "Quale parola corrisponde a: \"che evita rischi inutili\"?",
 			"options": [
 				"prudente",
-				"riciclabile",
-				"timido",
-				"preoccupato"
+				"dolorante",
+				"riposo",
+				"idratato"
 			],
 			"answer": "prudente",
 			"explanation": "\"prudente\": che evita rischi inutili."
@@ -2475,10 +2475,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"con abbastanza acqua nel corpo\"?",
 			"options": [
-				"freddo",
-				"comodo",
+				"privato",
+				"scaduto",
 				"idratato",
-				"preoccupato"
+				"secco"
 			],
 			"answer": "idratato",
 			"explanation": "\"idratato\": con abbastanza acqua nel corpo."
@@ -2491,10 +2491,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"non attivo o in pausa\"?",
 			"options": [
+				"affidabile",
+				"piovoso",
 				"riposo",
-				"disordinato",
-				"paziente",
-				"dolorante"
+				"salato"
 			],
 			"answer": "riposo",
 			"explanation": "\"riposo\": non attivo o in pausa."
@@ -2508,9 +2508,9 @@
 			"prompt": "Quale parola corrisponde a: \"emozione positiva e intensa\"?",
 			"options": [
 				"gioia",
-				"ufficio",
-				"prato",
-				"lavagna"
+				"canzone",
+				"ricerca",
+				"mappa"
 			],
 			"answer": "gioia",
 			"explanation": "\"gioia\": emozione positiva e intensa."
@@ -2523,10 +2523,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"emozione legata a perdita o delusione\"?",
 			"options": [
-				"scontrino",
-				"carne",
-				"tristezza",
-				"fiducia"
+				"gioia",
+				"spiaggia",
+				"bagno",
+				"tristezza"
 			],
 			"answer": "tristezza",
 			"explanation": "\"tristezza\": emozione legata a perdita o delusione."
@@ -2539,10 +2539,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"emozione di forte irritazione\"?",
 			"options": [
-				"stazione",
-				"vento",
-				"lavagna",
-				"rabbia"
+				"respiro",
+				"scadenza",
+				"rabbia",
+				"partita"
 			],
 			"answer": "rabbia",
 			"explanation": "\"rabbia\": emozione di forte irritazione."
@@ -2555,10 +2555,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"emozione davanti a un pericolo\"?",
 			"options": [
-				"quartiere",
+				"incrocio",
+				"rifiuto",
 				"paura",
-				"strada",
-				"fatto"
+				"cerotto"
 			],
 			"answer": "paura",
 			"explanation": "\"paura\": emozione davanti a un pericolo."
@@ -2571,9 +2571,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"reazione a qualcosa di inatteso\"?",
 			"options": [
-				"posta",
-				"scusa",
-				"contesto",
+				"causa",
+				"formaggio",
+				"camera",
 				"sorpresa"
 			],
 			"answer": "sorpresa",
@@ -2587,10 +2587,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"sicurezza verso qualcuno o qualcosa\"?",
 			"options": [
-				"parente",
+				"computer",
 				"fiducia",
-				"nebbia",
-				"percorso"
+				"sottotesto",
+				"sorpresa"
 			],
 			"answer": "fiducia",
 			"explanation": "\"fiducia\": sicurezza verso qualcuno o qualcosa."
@@ -2603,10 +2603,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"atteggiamento corretto verso gli altri\"?",
 			"options": [
-				"interrogazione",
+				"ospite",
 				"rispetto",
-				"tesi",
-				"bagno"
+				"allegato",
+				"mensola"
 			],
 			"answer": "rispetto",
 			"explanation": "\"rispetto\": atteggiamento corretto verso gli altri."
@@ -2619,10 +2619,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"modo cortese di trattare qualcuno\"?",
 			"options": [
-				"diritto",
-				"partita",
+				"sintesi",
+				"paura",
 				"gentilezza",
-				"carrello"
+				"ambiente"
 			],
 			"answer": "gentilezza",
 			"explanation": "\"gentilezza\": modo cortese di trattare qualcuno."
@@ -2635,10 +2635,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"lavoro fatto insieme\"?",
 			"options": [
-				"collaborazione",
-				"profilo",
-				"municipio",
-				"raffreddore"
+				"soggiorno",
+				"effetto",
+				"comunità",
+				"collaborazione"
 			],
 			"answer": "collaborazione",
 			"explanation": "\"collaborazione\": lavoro fatto insieme."
@@ -2651,10 +2651,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"mancanza di accordo\"?",
 			"options": [
-				"registro",
-				"diritto",
-				"ipotesi",
-				"disaccordo"
+				"febbre",
+				"sorpresa",
+				"disaccordo",
+				"scontrino"
 			],
 			"answer": "disaccordo",
 			"explanation": "\"disaccordo\": mancanza di accordo."
@@ -2667,10 +2667,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"impegno a fare qualcosa\"?",
 			"options": [
-				"collega",
-				"promessa",
-				"registro",
-				"tastiera"
+				"canzone",
+				"opinione",
+				"retorica",
+				"promessa"
 			],
 			"answer": "promessa",
 			"explanation": "\"promessa\": impegno a fare qualcosa."
@@ -2683,10 +2683,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parola o gesto per riconoscere un errore\"?",
 			"options": [
-				"energia",
+				"gioia",
 				"scusa",
-				"pane",
-				"lezione"
+				"computer",
+				"gratitudine"
 			],
 			"answer": "scusa",
 			"explanation": "\"scusa\": parola o gesto per riconoscere un errore."
@@ -2699,10 +2699,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che prova gioia\"?",
 			"options": [
+				"ordinato",
+				"pubblico",
 				"felice",
-				"dolce",
-				"paziente",
-				"inquinato"
+				"caldo"
 			],
 			"answer": "felice",
 			"explanation": "\"felice\": che prova gioia."
@@ -2716,9 +2716,9 @@
 			"prompt": "Quale parola corrisponde a: \"che prova tristezza\"?",
 			"options": [
 				"triste",
-				"stanco",
-				"timido",
-				"accogliente"
+				"arrabbiato",
+				"esplicito",
+				"affidabile"
 			],
 			"answer": "triste",
 			"explanation": "\"triste\": che prova tristezza."
@@ -2731,10 +2731,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che teme un problema\"?",
 			"options": [
-				"dolorante",
+				"rumoroso",
 				"preoccupato",
-				"inquinato",
-				"affidabile"
+				"caldo",
+				"fresco"
 			],
 			"answer": "preoccupato",
 			"explanation": "\"preoccupato\": che teme un problema."
@@ -2748,9 +2748,9 @@
 			"prompt": "Quale parola corrisponde a: \"che prova rabbia\"?",
 			"options": [
 				"arrabbiato",
-				"sporco",
-				"sereno",
-				"accogliente"
+				"plausibile",
+				"salato",
+				"pertinente"
 			],
 			"answer": "arrabbiato",
 			"explanation": "\"arrabbiato\": che prova rabbia."
@@ -2763,10 +2763,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"calmo e tranquillo\"?",
 			"options": [
+				"sostenibile",
 				"sereno",
-				"ventoso",
-				"stanco",
-				"sano"
+				"paziente",
+				"pubblico"
 			],
 			"answer": "sereno",
 			"explanation": "\"sereno\": calmo e tranquillo."
@@ -2779,10 +2779,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che si espone con difficoltà\"?",
 			"options": [
-				"rinnovabile",
+				"preoccupato",
+				"disponibile",
 				"timido",
-				"salato",
-				"stanco"
+				"ordinato"
 			],
 			"answer": "timido",
 			"explanation": "\"timido\": che si espone con difficoltà."
@@ -2795,10 +2795,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che affronta una difficoltà\"?",
 			"options": [
+				"soleggiato",
+				"affidabile",
 				"coraggioso",
-				"pulito",
-				"accogliente",
-				"freddo"
+				"paziente"
 			],
 			"answer": "coraggioso",
 			"explanation": "\"coraggioso\": che affronta una difficoltà."
@@ -2811,10 +2811,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"fedele e corretto verso gli altri\"?",
 			"options": [
-				"piovoso",
-				"impulsivo",
-				"rumoroso",
-				"leale"
+				"sporco",
+				"leale",
+				"preoccupato",
+				"contraddittorio"
 			],
 			"answer": "leale",
 			"explanation": "\"leale\": fedele e corretto verso gli altri."
@@ -2827,10 +2827,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"capace di aspettare senza agitarsi\"?",
 			"options": [
-				"sereno",
-				"disordinato",
-				"paziente",
-				"piovoso"
+				"salato",
+				"costoso",
+				"responsabile",
+				"paziente"
 			],
 			"answer": "paziente",
 			"explanation": "\"paziente\": capace di aspettare senza agitarsi."
@@ -2843,10 +2843,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che agisce senza riflettere abbastanza\"?",
 			"options": [
-				"impulsivo",
+				"fresco",
 				"puntuale",
-				"salato",
-				"scaduto"
+				"riposo",
+				"impulsivo"
 			],
 			"answer": "impulsivo",
 			"explanation": "\"impulsivo\": che agisce senza riflettere abbastanza."
@@ -2859,10 +2859,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"dispositivo per chiamare e comunicare\"?",
 			"options": [
-				"schiena",
-				"telefono",
-				"diritto",
-				"ora"
+				"verosimiglianza",
+				"bosco",
+				"raccolta",
+				"telefono"
 			],
 			"answer": "telefono",
 			"explanation": "\"telefono\": dispositivo per chiamare e comunicare."
@@ -2875,10 +2875,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"macchina elettronica per lavorare con dati\"?",
 			"options": [
-				"anticipo",
-				"registro",
-				"riassunto",
-				"computer"
+				"minuto",
+				"computer",
+				"verosimiglianza",
+				"mattina"
 			],
 			"answer": "computer",
 			"explanation": "\"computer\": macchina elettronica per lavorare con dati."
@@ -2891,10 +2891,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"dispositivo portatile con schermo tattile\"?",
 			"options": [
-				"registro",
-				"binario",
+				"contesto",
 				"tablet",
-				"ufficio"
+				"ipotesi",
+				"collaborazione"
 			],
 			"answer": "tablet",
 			"explanation": "\"tablet\": dispositivo portatile con schermo tattile."
@@ -2907,10 +2907,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"programma usato su telefono o tablet\"?",
 			"options": [
-				"disaccordo",
+				"balcone",
 				"app",
-				"schema",
-				"contesto"
+				"testa",
+				"cartella"
 			],
 			"answer": "app",
 			"explanation": "\"app\": programma usato su telefono o tablet."
@@ -2923,10 +2923,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parola segreta per accedere\"?",
 			"options": [
-				"contesto",
-				"opinione",
+				"negozio",
+				"password",
 				"formaggio",
-				"password"
+				"dovere"
 			],
 			"answer": "password",
 			"explanation": "\"password\": parola segreta per accedere."
@@ -2939,10 +2939,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"spazio personale in un servizio digitale\"?",
 			"options": [
-				"vento",
-				"chiave",
-				"campanello",
-				"profilo"
+				"profilo",
+				"fiducia",
+				"fiume",
+				"risposta"
 			],
 			"answer": "profilo",
 			"explanation": "\"profilo\": spazio personale in un servizio digitale."
@@ -2955,10 +2955,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"testo inviato a qualcuno\"?",
 			"options": [
-				"scontrino",
-				"squadra",
-				"stagione",
-				"messaggio"
+				"messaggio",
+				"computer",
+				"farmacia",
+				"diario"
 			],
 			"answer": "messaggio",
 			"explanation": "\"messaggio\": testo inviato a qualcuno."
@@ -2971,10 +2971,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"avviso mostrato da un'app\"?",
 			"options": [
-				"cassetto",
-				"campanello",
-				"sorella",
-				"notifica"
+				"sottotesto",
+				"notifica",
+				"carrello",
+				"paradosso"
 			],
 			"answer": "notifica",
 			"explanation": "\"notifica\": avviso mostrato da un'app."
@@ -2987,10 +2987,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"file aggiunto a un messaggio\"?",
 			"options": [
-				"percorso",
-				"fonte",
-				"allegato",
-				"notifica"
+				"denotazione",
+				"conclusione",
+				"giorno",
+				"allegato"
 			],
 			"answer": "allegato",
 			"explanation": "\"allegato\": file aggiunto a un messaggio."
@@ -3003,10 +3003,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"spazio in cui organizzare file\"?",
 			"options": [
-				"albero",
-				"sedia",
-				"pioggia",
-				"cartella"
+				"presupposto",
+				"vento",
+				"cartella",
+				"resto"
 			],
 			"answer": "cartella",
 			"explanation": "\"cartella\": spazio in cui organizzare file."
@@ -3019,10 +3019,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"superficie che mostra immagini o testi\"?",
 			"options": [
+				"mappa",
 				"password",
-				"schermo",
-				"posta",
-				"biglietto"
+				"formaggio",
+				"schermo"
 			],
 			"answer": "schermo",
 			"explanation": "\"schermo\": superficie che mostra immagini o testi."
@@ -3035,10 +3035,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"insieme di tasti per scrivere\"?",
 			"options": [
+				"mese",
+				"testa",
 				"tastiera",
-				"anticipo",
-				"ambiguità",
-				"mappa"
+				"settimana"
 			],
 			"answer": "tastiera",
 			"explanation": "\"tastiera\": insieme di tasti per scrivere."
@@ -3051,10 +3051,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"azione di cercare informazioni\"?",
 			"options": [
+				"computer",
 				"ricerca",
-				"verdura",
-				"bagno",
-				"esempio"
+				"anticipo",
+				"domanda"
 			],
 			"answer": "ricerca",
 			"explanation": "\"ricerca\": azione di cercare informazioni."
@@ -3067,10 +3067,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"collegamento a una pagina o risorsa\"?",
 			"options": [
+				"sfumatura",
+				"rabbia",
 				"link",
-				"offerta",
-				"palestra",
-				"ufficio"
+				"farmacia"
 			],
 			"answer": "link",
 			"explanation": "\"link\": collegamento a una pagina o risorsa."
@@ -3083,10 +3083,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"origine di una notizia o informazione\"?",
 			"options": [
-				"messaggio",
 				"fonte",
-				"astuccio",
-				"voto"
+				"inferenza",
+				"tablet",
+				"squadra"
 			],
 			"answer": "fonte",
 			"explanation": "\"fonte\": origine di una notizia o informazione."
@@ -3100,9 +3100,9 @@
 			"prompt": "Quale parola corrisponde a: \"protezione dei dati personali\"?",
 			"options": [
 				"privacy",
-				"contesto",
-				"foglia",
-				"canzone"
+				"presupposto",
+				"offerta",
+				"risorsa"
 			],
 			"answer": "privacy",
 			"explanation": "\"privacy\": protezione dei dati personali."
@@ -3115,10 +3115,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"conservare un file o un dato\"?",
 			"options": [
-				"riassumere",
-				"salvare",
+				"bloccare",
+				"ripassare",
 				"sottolineare",
-				"ripassare"
+				"salvare"
 			],
 			"answer": "salvare",
 			"explanation": "\"salvare\": conservare un file o un dato."
@@ -3131,10 +3131,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"inviare un file online o fornire energia\"?",
 			"options": [
-				"inoltrare",
-				"allenarsi",
-				"caricare",
-				"salvare"
+				"verificare",
+				"confrontare",
+				"giocare",
+				"caricare"
 			],
 			"answer": "caricare",
 			"explanation": "\"caricare\": inviare un file online o fornire energia."
@@ -3147,10 +3147,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"ricevere un file da internet\"?",
 			"options": [
+				"spiegare",
 				"scaricare",
-				"correre",
-				"studiare",
-				"allenarsi"
+				"condividere",
+				"giocare"
 			],
 			"answer": "scaricare",
 			"explanation": "\"scaricare\": ricevere un file da internet."
@@ -3164,9 +3164,9 @@
 			"prompt": "Quale parola corrisponde a: \"mettere qualcosa a disposizione di altri\"?",
 			"options": [
 				"condividere",
-				"dimostrare",
-				"perdere",
-				"giocare"
+				"inoltrare",
+				"spiegare",
+				"nuotare"
 			],
 			"answer": "condividere",
 			"explanation": "\"condividere\": mettere qualcosa a disposizione di altri."
@@ -3179,10 +3179,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"mandare a un'altra persona un messaggio ricevuto\"?",
 			"options": [
-				"dimostrare",
+				"vincere",
+				"correggere",
 				"inoltrare",
-				"disegnare",
-				"argomentare"
+				"studiare"
 			],
 			"answer": "inoltrare",
 			"explanation": "\"inoltrare\": mandare a un'altra persona un messaggio ricevuto."
@@ -3195,10 +3195,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"portare alla versione più recente\"?",
 			"options": [
-				"spiegare",
-				"aggiornare",
-				"condividere",
-				"ripassare"
+				"verificare",
+				"scaricare",
+				"correre",
+				"aggiornare"
 			],
 			"answer": "aggiornare",
 			"explanation": "\"aggiornare\": portare alla versione più recente."
@@ -3211,10 +3211,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"impedire un accesso o un'azione\"?",
 			"options": [
-				"salvare",
+				"sottolineare",
 				"bloccare",
-				"studiare",
-				"nuotare"
+				"allenarsi",
+				"vincere"
 			],
 			"answer": "bloccare",
 			"explanation": "\"bloccare\": impedire un accesso o un'azione."
@@ -3227,10 +3227,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"mettere al sicuro da rischi\"?",
 			"options": [
-				"suonare",
+				"studiare",
+				"disegnare",
 				"proteggere",
-				"correggere",
-				"riassumere"
+				"verificare"
 			],
 			"answer": "proteggere",
 			"explanation": "\"proteggere\": mettere al sicuro da rischi."
@@ -3243,10 +3243,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"attività lavorativa abituale\"?",
 			"options": [
+				"famiglia",
+				"connotazione",
 				"mestiere",
-				"mattina",
-				"stazione",
-				"fiore"
+				"vento"
 			],
 			"answer": "mestiere",
 			"explanation": "\"mestiere\": attività lavorativa abituale."
@@ -3259,10 +3259,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"persona con cui si lavora\"?",
 			"options": [
-				"riassunto",
+				"montagna",
+				"strada",
 				"collega",
-				"colazione",
-				"cucina"
+				"ginocchio"
 			],
 			"answer": "collega",
 			"explanation": "\"collega\": persona con cui si lavora."
@@ -3275,10 +3275,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"periodo di lavoro assegnato\"?",
 			"options": [
-				"farmacia",
+				"settimana",
 				"turno",
-				"municipio",
-				"zaino"
+				"camera",
+				"servizio"
 			],
 			"answer": "turno",
 			"explanation": "\"turno\": periodo di lavoro assegnato."
@@ -3291,10 +3291,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"persona che guida o controlla un'attività\"?",
 			"options": [
-				"pioggia",
-				"verdura",
-				"tosse",
-				"responsabile"
+				"cerotto",
+				"responsabile",
+				"mestiere",
+				"spuntino"
 			],
 			"answer": "responsabile",
 			"explanation": "\"responsabile\": persona che guida o controlla un'attività."
@@ -3307,10 +3307,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"persona che compra o riceve un servizio\"?",
 			"options": [
-				"romanzo",
-				"cliente",
-				"testa",
-				"telefono"
+				"armadio",
+				"stazione",
+				"genitore",
+				"cliente"
 			],
 			"answer": "cliente",
 			"explanation": "\"cliente\": persona che compra o riceve un servizio."
@@ -3323,10 +3323,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"attività svolta per aiutare o rispondere a un bisogno\"?",
 			"options": [
-				"sorpresa",
-				"pomeriggio",
-				"orario",
-				"servizio"
+				"turno",
+				"bicicletta",
+				"servizio",
+				"ora"
 			],
 			"answer": "servizio",
 			"explanation": "\"servizio\": attività svolta per aiutare o rispondere a un bisogno."
@@ -3339,10 +3339,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"luogo in cui si lavora con documenti o servizi\"?",
 			"options": [
-				"paura",
-				"romanzo",
-				"ufficio",
-				"palestra"
+				"scadenza",
+				"allegoria",
+				"servizio",
+				"ufficio"
 			],
 			"answer": "ufficio",
 			"explanation": "\"ufficio\": luogo in cui si lavora con documenti o servizi."
@@ -3355,10 +3355,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"luogo in cui si vendono prodotti\"?",
 			"options": [
-				"fiore",
-				"negozio",
-				"canzone",
-				"pomeriggio"
+				"disaccordo",
+				"parente",
+				"bolletta",
+				"negozio"
 			],
 			"answer": "negozio",
 			"explanation": "\"negozio\": luogo in cui si vendono prodotti."
@@ -3371,10 +3371,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"servizio per inviare lettere e pacchi\"?",
 			"options": [
-				"palestra",
-				"semaforo",
-				"turno",
-				"posta"
+				"incrocio",
+				"pranzo",
+				"posta",
+				"medicina"
 			],
 			"answer": "posta",
 			"explanation": "\"posta\": servizio per inviare lettere e pacchi."
@@ -3387,10 +3387,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"indicazione da rispettare\"?",
 			"options": [
-				"colazione",
+				"mattina",
+				"orario",
 				"regola",
-				"allegato",
-				"password"
+				"eufemismo"
 			],
 			"answer": "regola",
 			"explanation": "\"regola\": indicazione da rispettare."
@@ -3403,10 +3403,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"cosa che una persona può pretendere giustamente\"?",
 			"options": [
-				"diritto",
-				"offerta",
-				"mappa",
-				"paura"
+				"indignazione",
+				"presupposto",
+				"sorpresa",
+				"diritto"
 			],
 			"answer": "diritto",
 			"explanation": "\"diritto\": cosa che una persona può pretendere giustamente."
@@ -3419,10 +3419,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"azione che una persona deve compiere\"?",
 			"options": [
-				"farmacia",
-				"respiro",
+				"pioggia",
 				"dovere",
-				"energia"
+				"tosse",
+				"retorica"
 			],
 			"answer": "dovere",
 			"explanation": "\"dovere\": azione che una persona deve compiere."
@@ -3435,10 +3435,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"persona che aiuta senza essere obbligata\"?",
 			"options": [
-				"punteggio",
+				"pasta",
 				"volontario",
-				"pranzo",
-				"scadenza"
+				"ambivalenza",
+				"allenamento"
 			],
 			"answer": "volontario",
 			"explanation": "\"volontario\": persona che aiuta senza essere obbligata."
@@ -3451,10 +3451,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"gruppo di persone legate da luogo o scopo\"?",
 			"options": [
+				"link",
+				"cucina",
 				"comunità",
-				"bolletta",
-				"pesce",
-				"pranzo"
+				"risposta"
 			],
 			"answer": "comunità",
 			"explanation": "\"comunità\": gruppo di persone legate da luogo o scopo."
@@ -3467,10 +3467,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che agisce pensando alle conseguenze\"?",
 			"options": [
-				"urgente",
 				"responsabile",
-				"sereno",
-				"coraggioso"
+				"puntuale",
+				"silenzioso",
+				"stanco"
 			],
 			"answer": "responsabile",
 			"explanation": "\"responsabile\": che agisce pensando alle conseguenze."
@@ -3483,10 +3483,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"di cui ci si può fidare\"?",
 			"options": [
-				"ventoso",
 				"affidabile",
-				"responsabile",
-				"costoso"
+				"contraddittorio",
+				"accogliente",
+				"fresco"
 			],
 			"answer": "affidabile",
 			"explanation": "\"affidabile\": di cui ci si può fidare."
@@ -3500,9 +3500,9 @@
 			"prompt": "Quale parola corrisponde a: \"aperto o appartenente alla comunità\"?",
 			"options": [
 				"pubblico",
-				"responsabile",
-				"amaro",
-				"preoccupato"
+				"piovoso",
+				"nutriente",
+				"salato"
 			],
 			"answer": "pubblico",
 			"explanation": "\"pubblico\": aperto o appartenente alla comunità."
@@ -3515,10 +3515,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"personale o non pubblico\"?",
 			"options": [
-				"felice",
-				"privato",
-				"impulsivo",
-				"pubblico"
+				"ventoso",
+				"sostenibile",
+				"freddo",
+				"privato"
 			],
 			"answer": "privato",
 			"explanation": "\"privato\": personale o non pubblico."
@@ -3531,10 +3531,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che va fatto presto\"?",
 			"options": [
-				"sporco",
-				"fresco",
-				"urgente",
-				"riciclabile"
+				"implicito",
+				"paziente",
+				"prudente",
+				"urgente"
 			],
 			"answer": "urgente",
 			"explanation": "\"urgente\": che va fatto presto."
@@ -3547,10 +3547,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"pronto ad aiutare o utilizzabile\"?",
 			"options": [
-				"inquinato",
+				"preoccupato",
 				"disponibile",
-				"sporco",
-				"sano"
+				"prudente",
+				"inquinato"
 			],
 			"answer": "disponibile",
 			"explanation": "\"disponibile\": pronto ad aiutare o utilizzabile."
@@ -3563,10 +3563,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"esercizio svolto per migliorare\"?",
 			"options": [
-				"frutta",
-				"argomento",
-				"stazione",
-				"allenamento"
+				"contraddizione",
+				"allenamento",
+				"astuccio",
+				"fratello"
 			],
 			"answer": "allenamento",
 			"explanation": "\"allenamento\": esercizio svolto per migliorare."
@@ -3579,10 +3579,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"gruppo che gioca o lavora insieme\"?",
 			"options": [
-				"metodo",
 				"squadra",
-				"notifica",
-				"link"
+				"collega",
+				"romanzo",
+				"tesi"
 			],
 			"answer": "squadra",
 			"explanation": "\"squadra\": gruppo che gioca o lavora insieme."
@@ -3595,10 +3595,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"gara tra due squadre o persone\"?",
 			"options": [
-				"zaino",
-				"rabbia",
 				"partita",
-				"camera"
+				"rimpianto",
+				"allenamento",
+				"promessa"
 			],
 			"answer": "partita",
 			"explanation": "\"partita\": gara tra due squadre o persone."
@@ -3611,10 +3611,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"numero di punti ottenuti\"?",
 			"options": [
-				"punteggio",
-				"febbre",
-				"pasta",
-				"allegato"
+				"settimana",
+				"interrogazione",
+				"partita",
+				"punteggio"
 			],
 			"answer": "punteggio",
 			"explanation": "\"punteggio\": numero di punti ottenuti."
@@ -3627,10 +3627,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"norma che stabilisce come giocare\"?",
 			"options": [
+				"responsabile",
 				"regola",
-				"tavolo",
-				"app",
-				"partita"
+				"testa",
+				"bicicletta"
 			],
 			"answer": "regola",
 			"explanation": "\"regola\": norma che stabilisce come giocare."
@@ -3643,10 +3643,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"persona che controlla una gara\"?",
 			"options": [
-				"registro",
-				"password",
-				"coerenza",
-				"arbitro"
+				"piscina",
+				"arbitro",
+				"disaccordo",
+				"pesce"
 			],
 			"answer": "arbitro",
 			"explanation": "\"arbitro\": persona che controlla una gara."
@@ -3659,10 +3659,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"luogo in cui ci si allena\"?",
 			"options": [
-				"montagna",
-				"genitore",
+				"pane",
 				"palestra",
-				"parente"
+				"risentimento",
+				"tastiera"
 			],
 			"answer": "palestra",
 			"explanation": "\"palestra\": luogo in cui ci si allena."
@@ -3675,10 +3675,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"luogo in cui si nuota\"?",
 			"options": [
+				"registro",
+				"bicicletta",
 				"piscina",
-				"appuntamento",
-				"famiglia",
-				"profilo"
+				"ufficio"
 			],
 			"answer": "piscina",
 			"explanation": "\"piscina\": luogo in cui si nuota."
@@ -3691,10 +3691,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"mezzo a due ruote mosso pedalando\"?",
 			"options": [
-				"mano",
 				"bicicletta",
-				"schermo",
-				"marciapiede"
+				"prova",
+				"denotazione",
+				"analogia"
 			],
 			"answer": "bicicletta",
 			"explanation": "\"bicicletta\": mezzo a due ruote mosso pedalando."
@@ -3708,9 +3708,9 @@
 			"prompt": "Quale parola corrisponde a: \"camminata fatta per piacere o salute\"?",
 			"options": [
 				"passeggiata",
-				"tosse",
-				"febbre",
-				"computer"
+				"mestiere",
+				"schema",
+				"fiume"
 			],
 			"answer": "passeggiata",
 			"explanation": "\"passeggiata\": camminata fatta per piacere o salute."
@@ -3723,10 +3723,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"opera audiovisiva da guardare\"?",
 			"options": [
+				"parente",
 				"film",
-				"mensola",
-				"passeggiata",
-				"servizio"
+				"password",
+				"offerta"
 			],
 			"answer": "film",
 			"explanation": "\"film\": opera audiovisiva da guardare."
@@ -3739,9 +3739,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"brano musicale cantato\"?",
 			"options": [
-				"marciapiede",
-				"farmacia",
-				"prezzo",
+				"computer",
+				"anticipo",
+				"ipotesi",
 				"canzone"
 			],
 			"answer": "canzone",
@@ -3755,10 +3755,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"libro narrativo lungo\"?",
 			"options": [
-				"giorno",
 				"romanzo",
-				"registro",
-				"montagna"
+				"servizio",
+				"punteggio",
+				"genitore"
 			],
 			"answer": "romanzo",
 			"explanation": "\"romanzo\": libro narrativo lungo."
@@ -3771,10 +3771,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"storia raccontata con disegni e parole\"?",
 			"options": [
-				"regola",
-				"biblioteca",
-				"fratello",
-				"fumetto"
+				"fumetto",
+				"montagna",
+				"volontario",
+				"paura"
 			],
 			"answer": "fumetto",
 			"explanation": "\"fumetto\": storia raccontata con disegni e parole."
@@ -3787,10 +3787,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"fare esercizio per migliorare\"?",
 			"options": [
-				"dimostrare",
-				"condividere",
-				"allenarsi",
-				"correggere"
+				"spiegare",
+				"bloccare",
+				"giocare",
+				"allenarsi"
 			],
 			"answer": "allenarsi",
 			"explanation": "\"allenarsi\": fare esercizio per migliorare."
@@ -3803,10 +3803,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"praticare un gioco o uno sport\"?",
 			"options": [
-				"confrontare",
 				"spiegare",
-				"giocare",
-				"aggiornare"
+				"correggere",
+				"bloccare",
+				"giocare"
 			],
 			"answer": "giocare",
 			"explanation": "\"giocare\": praticare un gioco o uno sport."
@@ -3819,10 +3819,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"ottenere il risultato migliore\"?",
 			"options": [
-				"riassumere",
-				"caricare",
-				"vincere",
-				"condividere"
+				"condividere",
+				"bloccare",
+				"suonare",
+				"vincere"
 			],
 			"answer": "vincere",
 			"explanation": "\"vincere\": ottenere il risultato migliore."
@@ -3835,10 +3835,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"non vincere una gara\"?",
 			"options": [
-				"dimostrare",
-				"inoltrare",
+				"allenarsi",
 				"perdere",
-				"spiegare"
+				"verificare",
+				"proteggere"
 			],
 			"answer": "perdere",
 			"explanation": "\"perdere\": non vincere una gara."
@@ -3851,10 +3851,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"muoversi nell'acqua\"?",
 			"options": [
-				"dimostrare",
 				"nuotare",
-				"proteggere",
-				"correggere"
+				"vincere",
+				"inoltrare",
+				"suonare"
 			],
 			"answer": "nuotare",
 			"explanation": "\"nuotare\": muoversi nell'acqua."
@@ -3867,10 +3867,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"muoversi velocemente a piedi\"?",
 			"options": [
-				"condividere",
-				"scaricare",
-				"verificare",
-				"correre"
+				"bloccare",
+				"correre",
+				"giocare",
+				"disegnare"
 			],
 			"answer": "correre",
 			"explanation": "\"correre\": muoversi velocemente a piedi."
@@ -3883,10 +3883,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"rappresentare con linee o colori\"?",
 			"options": [
-				"spiegare",
-				"caricare",
+				"studiare",
+				"giocare",
 				"disegnare",
-				"perdere"
+				"allenarsi"
 			],
 			"answer": "disegnare",
 			"explanation": "\"disegnare\": rappresentare con linee o colori."
@@ -3899,10 +3899,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"produrre musica con uno strumento\"?",
 			"options": [
-				"aggiornare",
-				"nuotare",
+				"suonare",
+				"proteggere",
 				"inoltrare",
-				"suonare"
+				"bloccare"
 			],
 			"answer": "suonare",
 			"explanation": "\"suonare\": produrre musica con uno strumento."
@@ -3915,10 +3915,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"pianta con tronco e rami\"?",
 			"options": [
-				"collega",
+				"ipotesi",
 				"albero",
-				"regola",
-				"interrogazione"
+				"compassione",
+				"risposta"
 			],
 			"answer": "albero",
 			"explanation": "\"albero\": pianta con tronco e rami."
@@ -3931,10 +3931,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte colorata di molte piante\"?",
 			"options": [
-				"contraddizione",
-				"ambiente",
+				"riassunto",
 				"fiore",
-				"voto"
+				"opinione",
+				"disaccordo"
 			],
 			"answer": "fiore",
 			"explanation": "\"fiore\": parte colorata di molte piante."
@@ -3947,10 +3947,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"parte verde della pianta\"?",
 			"options": [
-				"spuntino",
 				"foglia",
-				"contraddizione",
-				"profilo"
+				"prospettiva",
+				"formaggio",
+				"scusa"
 			],
 			"answer": "foglia",
 			"explanation": "\"foglia\": parte verde della pianta."
@@ -3963,10 +3963,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"luogo con molti alberi\"?",
 			"options": [
-				"nebbia",
-				"scontrino",
-				"campanello",
-				"bosco"
+				"servizio",
+				"mese",
+				"bosco",
+				"scontrino"
 			],
 			"answer": "bosco",
 			"explanation": "\"bosco\": luogo con molti alberi."
@@ -3979,10 +3979,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"terreno coperto d'erba\"?",
 			"options": [
-				"ambiguità",
-				"prato",
-				"risorsa",
-				"respiro"
+				"allenamento",
+				"sottotesto",
+				"voto",
+				"prato"
 			],
 			"answer": "prato",
 			"explanation": "\"prato\": terreno coperto d'erba."
@@ -3996,9 +3996,9 @@
 			"prompt": "Quale parola corrisponde a: \"corso d'acqua naturale\"?",
 			"options": [
 				"fiume",
-				"paragrafo",
-				"cliente",
-				"negozio"
+				"coerenza",
+				"astuccio",
+				"pranzo"
 			],
 			"answer": "fiume",
 			"explanation": "\"fiume\": corso d'acqua naturale."
@@ -4011,10 +4011,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"grande distesa d'acqua salata\"?",
 			"options": [
+				"ora",
 				"mare",
-				"schermo",
-				"verdura",
-				"soggiorno"
+				"fonte",
+				"interrogazione"
 			],
 			"answer": "mare",
 			"explanation": "\"mare\": grande distesa d'acqua salata."
@@ -4027,9 +4027,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"rilievo alto del terreno\"?",
 			"options": [
-				"cucina",
-				"argomento",
-				"lezione",
+				"ora",
+				"servizio",
+				"messaggio",
 				"montagna"
 			],
 			"answer": "montagna",
@@ -4043,10 +4043,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"zona di sabbia o ciottoli vicino al mare\"?",
 			"options": [
+				"spuntino",
+				"cassetto",
 				"spiaggia",
-				"offerta",
-				"albero",
-				"conclusione"
+				"ora"
 			],
 			"answer": "spiaggia",
 			"explanation": "\"spiaggia\": zona di sabbia o ciottoli vicino al mare."
@@ -4059,10 +4059,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"oggetto da buttare o riciclare\"?",
 			"options": [
-				"messaggio",
-				"camera",
 				"rifiuto",
-				"anticipo"
+				"indirizzo",
+				"mensola",
+				"scusa"
 			],
 			"answer": "rifiuto",
 			"explanation": "\"rifiuto\": oggetto da buttare o riciclare."
@@ -4075,10 +4075,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"azione di riunire o separare materiali\"?",
 			"options": [
+				"vicino",
 				"raccolta",
-				"computer",
-				"privacy",
-				"esempio"
+				"contesto",
+				"conclusione"
 			],
 			"answer": "raccolta",
 			"explanation": "\"raccolta\": azione di riunire o separare materiali."
@@ -4091,9 +4091,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"capacità di produrre movimento, calore o lavoro\"?",
 			"options": [
-				"argomento",
-				"negozio",
-				"schema",
+				"tavolo",
+				"disaccordo",
+				"balcone",
 				"energia"
 			],
 			"answer": "energia",
@@ -4107,10 +4107,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"mezzo utile ma non infinito\"?",
 			"options": [
-				"appuntamento",
-				"risorsa",
-				"regola",
-				"domanda"
+				"diritto",
+				"pranzo",
+				"raffreddore",
+				"risorsa"
 			],
 			"answer": "risorsa",
 			"explanation": "\"risorsa\": mezzo utile ma non infinito."
@@ -4123,10 +4123,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"insieme dei luoghi e condizioni in cui viviamo\"?",
 			"options": [
-				"sintesi",
-				"allenamento",
+				"nostalgia",
+				"fermata",
 				"ambiente",
-				"regola"
+				"formaggio"
 			],
 			"answer": "ambiente",
 			"explanation": "\"ambiente\": insieme dei luoghi e condizioni in cui viviamo."
@@ -4139,10 +4139,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che appartiene alla natura\"?",
 			"options": [
-				"puntuale",
-				"naturale",
-				"economico",
-				"dolorante"
+				"rinnovabile",
+				"nuvoloso",
+				"prudente",
+				"naturale"
 			],
 			"answer": "naturale",
 			"explanation": "\"naturale\": che appartiene alla natura."
@@ -4155,10 +4155,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"reso sporco o dannoso\"?",
 			"options": [
-				"malato",
-				"inquinato",
-				"tardivo",
-				"costoso"
+				"timido",
+				"triste",
+				"affidabile",
+				"inquinato"
 			],
 			"answer": "inquinato",
 			"explanation": "\"inquinato\": reso sporco o dannoso."
@@ -4171,10 +4171,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che può essere trasformato e riutilizzato\"?",
 			"options": [
+				"caldo",
+				"esplicito",
 				"riciclabile",
-				"timido",
-				"tardivo",
-				"stanco"
+				"coraggioso"
 			],
 			"answer": "riciclabile",
 			"explanation": "\"riciclabile\": che può essere trasformato e riutilizzato."
@@ -4187,10 +4187,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che rispetta risorse e futuro\"?",
 			"options": [
+				"prudente",
 				"sostenibile",
-				"silenzioso",
-				"costoso",
-				"sano"
+				"triste",
+				"plausibile"
 			],
 			"answer": "sostenibile",
 			"explanation": "\"sostenibile\": che rispetta risorse e futuro."
@@ -4203,10 +4203,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"che si rigenera o non si esaurisce facilmente\"?",
 			"options": [
+				"freddo",
+				"sereno",
 				"rinnovabile",
-				"stanco",
-				"coraggioso",
-				"prudente"
+				"costoso"
 			],
 			"answer": "rinnovabile",
 			"explanation": "\"rinnovabile\": che si rigenera o non si esaurisce facilmente."
@@ -4219,10 +4219,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"senza acqua o umidità\"?",
 			"options": [
-				"paziente",
 				"secco",
-				"piovoso",
-				"tardivo"
+				"rumoroso",
+				"nuvoloso",
+				"timido"
 			],
 			"answer": "secco",
 			"explanation": "\"secco\": senza acqua o umidità."
@@ -4235,10 +4235,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"dato osservabile o verificabile\"?",
 			"options": [
-				"romanzo",
-				"esempio",
-				"tristezza",
-				"fatto"
+				"frutta",
+				"fatto",
+				"servizio",
+				"telefono"
 			],
 			"answer": "fatto",
 			"explanation": "\"fatto\": dato osservabile o verificabile."
@@ -4251,10 +4251,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"giudizio personale\"?",
 			"options": [
-				"mare",
-				"nebbia",
+				"fatto",
 				"opinione",
-				"bosco"
+				"anticipo",
+				"effetto"
 			],
 			"answer": "opinione",
 			"explanation": "\"opinione\": giudizio personale."
@@ -4267,10 +4267,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"spiegazione possibile da verificare\"?",
 			"options": [
-				"riassunto",
-				"negozio",
-				"verifica",
-				"ipotesi"
+				"rispetto",
+				"ipotesi",
+				"ufficio",
+				"metafora"
 			],
 			"answer": "ipotesi",
 			"explanation": "\"ipotesi\": spiegazione possibile da verificare."
@@ -4283,10 +4283,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"dato che sostiene una conclusione\"?",
 			"options": [
-				"mestiere",
-				"domanda",
+				"malinconia",
+				"fonte",
 				"prova",
-				"fiume"
+				"argomento"
 			],
 			"answer": "prova",
 			"explanation": "\"prova\": dato che sostiene una conclusione."
@@ -4299,10 +4299,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"idea principale da sostenere\"?",
 			"options": [
+				"rassegnazione",
 				"tesi",
-				"profilo",
-				"fermata",
-				"raffreddore"
+				"dovere",
+				"compito"
 			],
 			"answer": "tesi",
 			"explanation": "\"tesi\": idea principale da sostenere."
@@ -4315,10 +4315,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"ragione usata per sostenere una tesi\"?",
 			"options": [
-				"cliente",
-				"anticipo",
-				"appuntamento",
-				"argomento"
+				"computer",
+				"cassetto",
+				"argomento",
+				"frutta"
 			],
 			"answer": "argomento",
 			"explanation": "\"argomento\": ragione usata per sostenere una tesi."
@@ -4331,10 +4331,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"motivo per cui accade qualcosa\"?",
 			"options": [
-				"sintesi",
-				"collega",
 				"causa",
-				"rifiuto"
+				"analogia",
+				"prova",
+				"verifica"
 			],
 			"answer": "causa",
 			"explanation": "\"causa\": motivo per cui accade qualcosa."
@@ -4347,9 +4347,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"conseguenza osservabile di una causa\"?",
 			"options": [
-				"appuntamento",
-				"mappa",
-				"orecchio",
+				"risorsa",
+				"gioia",
+				"fatto",
 				"effetto"
 			],
 			"answer": "effetto",
@@ -4363,10 +4363,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"risultato di un ragionamento\"?",
 			"options": [
-				"orecchio",
-				"schiena",
 				"conclusione",
-				"cartella"
+				"verdura",
+				"zaino",
+				"ricetta"
 			],
 			"answer": "conclusione",
 			"explanation": "\"conclusione\": risultato di un ragionamento."
@@ -4379,10 +4379,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"presenza di informazioni incompatibili\"?",
 			"options": [
-				"paragrafo",
-				"mare",
 				"contraddizione",
-				"montagna"
+				"responsabile",
+				"verdura",
+				"tesi"
 			],
 			"answer": "contraddizione",
 			"explanation": "\"contraddizione\": presenza di informazioni incompatibili."
@@ -4395,10 +4395,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"possibilità di interpretare in più modi\"?",
 			"options": [
-				"mese",
+				"fonte",
+				"mattina",
 				"ambiguità",
-				"dettaglio",
-				"appuntamento"
+				"rabbia"
 			],
 			"answer": "ambiguità",
 			"explanation": "\"ambiguità\": possibilità di interpretare in più modi."
@@ -4411,10 +4411,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"versione breve con le informazioni essenziali\"?",
 			"options": [
-				"schiena",
 				"sintesi",
-				"pioggia",
-				"anticipo"
+				"farmacia",
+				"respiro",
+				"ora"
 			],
 			"answer": "sintesi",
 			"explanation": "\"sintesi\": versione breve con le informazioni essenziali."
@@ -4427,10 +4427,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"informazione piccola o secondaria\"?",
 			"options": [
-				"camera",
 				"dettaglio",
-				"romanzo",
-				"balcone"
+				"partita",
+				"visita",
+				"romanzo"
 			],
 			"answer": "dettaglio",
 			"explanation": "\"dettaglio\": informazione piccola o secondaria."
@@ -4443,10 +4443,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"situazione che aiuta a capire una frase\"?",
 			"options": [
-				"occhio",
+				"cliente",
 				"contesto",
-				"semaforo",
-				"testa"
+				"pesce",
+				"verifica"
 			],
 			"answer": "contesto",
 			"explanation": "\"contesto\": situazione che aiuta a capire una frase."
@@ -4459,10 +4459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"modo di esprimersi adatto alla situazione\"?",
 			"options": [
-				"registro",
-				"lezione",
-				"ginocchio",
-				"albero"
+				"mestiere",
+				"gratitudine",
+				"telefono",
+				"registro"
 			],
 			"answer": "registro",
 			"explanation": "\"registro\": modo di esprimersi adatto alla situazione."
@@ -4475,10 +4475,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"accordo logico tra le parti di un testo\"?",
 			"options": [
-				"sorpresa",
-				"piscina",
+				"farmacia",
 				"coerenza",
-				"energia"
+				"tristezza",
+				"fiume"
 			],
 			"answer": "coerenza",
 			"explanation": "\"coerenza\": accordo logico tra le parti di un testo."
@@ -4491,10 +4491,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"introduce una causa o una spiegazione\"?",
 			"options": [
+				"quindi",
 				"però",
-				"perché",
-				"infatti",
-				"affinché"
+				"dunque",
+				"perché"
 			],
 			"answer": "perché",
 			"explanation": "\"perché\": introduce una causa o una spiegazione."
@@ -4507,10 +4507,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"introduce una conseguenza\"?",
 			"options": [
-				"infatti",
-				"affinché",
+				"quindi",
+				"tuttavia",
 				"però",
-				"quindi"
+				"perché"
 			],
 			"answer": "quindi",
 			"explanation": "\"quindi\": introduce una conseguenza."
@@ -4523,9 +4523,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"introduce un contrasto\"?",
 			"options": [
-				"infatti",
+				"dunque",
 				"però",
-				"sebbene",
+				"perché",
 				"affinché"
 			],
 			"answer": "però",
@@ -4539,10 +4539,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"introduce un contrasto in registro più formale\"?",
 			"options": [
-				"tuttavia",
-				"perché",
+				"sebbene",
 				"inoltre",
-				"infatti"
+				"tuttavia",
+				"finché"
 			],
 			"answer": "tuttavia",
 			"explanation": "\"tuttavia\": introduce un contrasto in registro più formale."
@@ -4556,9 +4556,9 @@
 			"prompt": "Quale parola corrisponde a: \"introduce una conferma o spiegazione\"?",
 			"options": [
 				"perché",
-				"sebbene",
+				"dunque",
 				"infatti",
-				"inoltre"
+				"affinché"
 			],
 			"answer": "infatti",
 			"explanation": "\"infatti\": introduce una conferma o spiegazione."
@@ -4571,10 +4571,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"aggiunge un'informazione\"?",
 			"options": [
+				"però",
 				"inoltre",
-				"tuttavia",
-				"dunque",
-				"quindi"
+				"perché",
+				"affinché"
 			],
 			"answer": "inoltre",
 			"explanation": "\"inoltre\": aggiunge un'informazione."
@@ -4587,10 +4587,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"introduce una concessione\"?",
 			"options": [
-				"quindi",
 				"sebbene",
-				"finché",
-				"perché"
+				"quindi",
+				"inoltre",
+				"affinché"
 			],
 			"answer": "sebbene",
 			"explanation": "\"sebbene\": introduce una concessione."
@@ -4603,10 +4603,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"introduce uno scopo\"?",
 			"options": [
-				"tuttavia",
-				"però",
 				"affinché",
-				"perché"
+				"inoltre",
+				"infatti",
+				"però"
 			],
 			"answer": "affinché",
 			"explanation": "\"affinché\": introduce uno scopo."
@@ -4619,10 +4619,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"introduce un limite temporale\"?",
 			"options": [
+				"tuttavia",
 				"infatti",
-				"finché",
-				"però",
-				"affinché"
+				"perché",
+				"finché"
 			],
 			"answer": "finché",
 			"explanation": "\"finché\": introduce un limite temporale."
@@ -4635,13 +4635,589 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola corrisponde a: \"introduce una conclusione\"?",
 			"options": [
+				"però",
 				"dunque",
-				"perché",
-				"tuttavia",
-				"però"
+				"quindi",
+				"finché"
 			],
 			"answer": "dunque",
 			"explanation": "\"dunque\": introduce una conclusione."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-inferenza-290",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"conclusione tratta da indizi non detti esplicitamente\"?",
+			"options": [
+				"opinione",
+				"romanzo",
+				"denotazione",
+				"inferenza"
+			],
+			"answer": "inferenza",
+			"explanation": "\"inferenza\": conclusione tratta da indizi non detti esplicitamente."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-premessa-291",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"affermazione da cui parte un ragionamento\"?",
+			"options": [
+				"premessa",
+				"tenerezza",
+				"pranzo",
+				"sera"
+			],
+			"answer": "premessa",
+			"explanation": "\"premessa\": affermazione da cui parte un ragionamento."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-sfumatura-292",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"differenza sottile di significato\"?",
+			"options": [
+				"sfumatura",
+				"lavagna",
+				"eufemismo",
+				"minuto"
+			],
+			"answer": "sfumatura",
+			"explanation": "\"sfumatura\": differenza sottile di significato."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-paradosso-293",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"affermazione che sembra contraddirsi ma ha un senso\"?",
+			"options": [
+				"spiaggia",
+				"paradosso",
+				"sedia",
+				"ricetta"
+			],
+			"answer": "paradosso",
+			"explanation": "\"paradosso\": affermazione che sembra contraddirsi ma ha un senso."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-analogia-294",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"somiglianza usata per spiegare un'idea\"?",
+			"options": [
+				"analogia",
+				"comunità",
+				"schermo",
+				"zaino"
+			],
+			"answer": "analogia",
+			"explanation": "\"analogia\": somiglianza usata per spiegare un'idea."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-presupposto-295",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"ciò che si dà per scontato in un discorso\"?",
+			"options": [
+				"bocca",
+				"presupposto",
+				"ambiente",
+				"pomeriggio"
+			],
+			"answer": "presupposto",
+			"explanation": "\"presupposto\": ciò che si dà per scontato in un discorso."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-empatia-296",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"capacità di sentire ciò che prova un altro\"?",
+			"options": [
+				"pane",
+				"collaborazione",
+				"empatia",
+				"cena"
+			],
+			"answer": "empatia",
+			"explanation": "\"empatia\": capacità di sentire ciò che prova un altro."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-nostalgia-297",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"rimpianto affettuoso per ciò che è passato\"?",
+			"options": [
+				"metafora",
+				"bagno",
+				"tosse",
+				"nostalgia"
+			],
+			"answer": "nostalgia",
+			"explanation": "\"nostalgia\": rimpianto affettuoso per ciò che è passato."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-risentimento-298",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"rancore trattenuto per un torto subito\"?",
+			"options": [
+				"comunità",
+				"risentimento",
+				"password",
+				"coerenza"
+			],
+			"answer": "risentimento",
+			"explanation": "\"risentimento\": rancore trattenuto per un torto subito."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-gratitudine-299",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"riconoscenza per un bene ricevuto\"?",
+			"options": [
+				"albero",
+				"negozio",
+				"gratitudine",
+				"marciapiede"
+			],
+			"answer": "gratitudine",
+			"explanation": "\"gratitudine\": riconoscenza per un bene ricevuto."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-insofferenza-300",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"difficoltà a sopportare qualcosa o qualcuno\"?",
+			"options": [
+				"insofferenza",
+				"fiducia",
+				"sorpresa",
+				"esempio"
+			],
+			"answer": "insofferenza",
+			"explanation": "\"insofferenza\": difficoltà a sopportare qualcosa o qualcuno."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-tenerezza-301",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"affetto delicato e protettivo\"?",
+			"options": [
+				"dettaglio",
+				"ambiente",
+				"tenerezza",
+				"scadenza"
+			],
+			"answer": "tenerezza",
+			"explanation": "\"tenerezza\": affetto delicato e protettivo."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-ambiguo-302",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che si può interpretare in più modi\"?",
+			"options": [
+				"ambiguo",
+				"dolorante",
+				"accogliente",
+				"rinnovabile"
+			],
+			"answer": "ambiguo",
+			"explanation": "\"ambiguo\": che si può interpretare in più modi."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-pertinente-303",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"attinente e adatto all'argomento\"?",
+			"options": [
+				"arrabbiato",
+				"accogliente",
+				"costoso",
+				"pertinente"
+			],
+			"answer": "pertinente",
+			"explanation": "\"pertinente\": attinente e adatto all'argomento."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-implicito-304",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sottinteso, non espresso apertamente\"?",
+			"options": [
+				"implicito",
+				"pubblico",
+				"riposo",
+				"stanco"
+			],
+			"answer": "implicito",
+			"explanation": "\"implicito\": sottinteso, non espresso apertamente."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-plausibile-305",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"credibile, che può essere vero\"?",
+			"options": [
+				"inquinato",
+				"amaro",
+				"dolce",
+				"plausibile"
+			],
+			"answer": "plausibile",
+			"explanation": "\"plausibile\": credibile, che può essere vero."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-contraddittorio-306",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"che afferma cose incompatibili tra loro\"?",
+			"options": [
+				"felice",
+				"contraddittorio",
+				"malato",
+				"ordinato"
+			],
+			"answer": "contraddittorio",
+			"explanation": "\"contraddittorio\": che afferma cose incompatibili tra loro."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-esplicito-307",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"detto in modo chiaro e diretto\"?",
+			"options": [
+				"paziente",
+				"rumoroso",
+				"esplicito",
+				"arrabbiato"
+			],
+			"answer": "esplicito",
+			"explanation": "\"esplicito\": detto in modo chiaro e diretto."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-connotazione-308",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"significato affettivo o evocativo di una parola\"?",
+			"options": [
+				"compito",
+				"quartiere",
+				"connotazione",
+				"tristezza"
+			],
+			"answer": "connotazione",
+			"explanation": "\"connotazione\": significato affettivo o evocativo di una parola."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-denotazione-309",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"significato letterale e oggettivo di una parola\"?",
+			"options": [
+				"palestra",
+				"collaborazione",
+				"verosimiglianza",
+				"denotazione"
+			],
+			"answer": "denotazione",
+			"explanation": "\"denotazione\": significato letterale e oggettivo di una parola."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-metafora-310",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"figura che trasferisce un significato per somiglianza\"?",
+			"options": [
+				"allegato",
+				"registro",
+				"metafora",
+				"mensola"
+			],
+			"answer": "metafora",
+			"explanation": "\"metafora\": figura che trasferisce un significato per somiglianza."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-ironia-311",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"dire il contrario di ciò che si pensa, per far riflettere\"?",
+			"options": [
+				"allegoria",
+				"ironia",
+				"indignazione",
+				"domanda"
+			],
+			"answer": "ironia",
+			"explanation": "\"ironia\": dire il contrario di ciò che si pensa, per far riflettere."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-retorica-312",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"arte di usare il linguaggio per convincere\"?",
+			"options": [
+				"inferenza",
+				"retorica",
+				"ipotesi",
+				"farmacia"
+			],
+			"answer": "retorica",
+			"explanation": "\"retorica\": arte di usare il linguaggio per convincere."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-prospettiva-313",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"punto di vista da cui si racconta o si giudica\"?",
+			"options": [
+				"frutta",
+				"prospettiva",
+				"marciapiede",
+				"tavolo"
+			],
+			"answer": "prospettiva",
+			"explanation": "\"prospettiva\": punto di vista da cui si racconta o si giudica."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-malinconia-314",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"tristezza dolce e senza una causa precisa\"?",
+			"options": [
+				"vicino",
+				"ospedale",
+				"malinconia",
+				"romanzo"
+			],
+			"answer": "malinconia",
+			"explanation": "\"malinconia\": tristezza dolce e senza una causa precisa."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-indignazione-315",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"sdegno di fronte a un'ingiustizia\"?",
+			"options": [
+				"computer",
+				"esempio",
+				"indignazione",
+				"eufemismo"
+			],
+			"answer": "indignazione",
+			"explanation": "\"indignazione\": sdegno di fronte a un'ingiustizia."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-rassegnazione-316",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"accettazione passiva di ciò che non si può cambiare\"?",
+			"options": [
+				"servizio",
+				"rassegnazione",
+				"campanello",
+				"carne"
+			],
+			"answer": "rassegnazione",
+			"explanation": "\"rassegnazione\": accettazione passiva di ciò che non si può cambiare."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-ambivalenza-317",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"presenza di sentimenti opposti insieme\"?",
+			"options": [
+				"argomento",
+				"ambivalenza",
+				"gentilezza",
+				"orecchio"
+			],
+			"answer": "ambivalenza",
+			"explanation": "\"ambivalenza\": presenza di sentimenti opposti insieme."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-rimpianto-318",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"dispiacere per qualcosa che non si è fatto\"?",
+			"options": [
+				"partita",
+				"rimpianto",
+				"sfumatura",
+				"bicicletta"
+			],
+			"answer": "rimpianto",
+			"explanation": "\"rimpianto\": dispiacere per qualcosa che non si è fatto."
+		},
+		{
+			"id": "italiano-emozioni-relazioni-compassione-319",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"partecipazione al dolore di un altro\"?",
+			"options": [
+				"spiaggia",
+				"compassione",
+				"foglia",
+				"genitore"
+			],
+			"answer": "compassione",
+			"explanation": "\"compassione\": partecipazione al dolore di un altro."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-sottotesto-320",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"significato nascosto sotto le parole\"?",
+			"options": [
+				"empatia",
+				"sottotesto",
+				"conclusione",
+				"biblioteca"
+			],
+			"answer": "sottotesto",
+			"explanation": "\"sottotesto\": significato nascosto sotto le parole."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-allegoria-321",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"racconto che rappresenta un'idea con immagini\"?",
+			"options": [
+				"giorno",
+				"allegoria",
+				"dovere",
+				"registro"
+			],
+			"answer": "allegoria",
+			"explanation": "\"allegoria\": racconto che rappresenta un'idea con immagini."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-reticenza-322",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"il tacere volutamente qualcosa\"?",
+			"options": [
+				"pane",
+				"prova",
+				"reticenza",
+				"ufficio"
+			],
+			"answer": "reticenza",
+			"explanation": "\"reticenza\": il tacere volutamente qualcosa."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-verosimiglianza-323",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"apparenza di verità in un racconto\"?",
+			"options": [
+				"pranzo",
+				"messaggio",
+				"premessa",
+				"verosimiglianza"
+			],
+			"answer": "verosimiglianza",
+			"explanation": "\"verosimiglianza\": apparenza di verità in un racconto."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-eufemismo-324",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"parola più delicata al posto di una cruda\"?",
+			"options": [
+				"inferenza",
+				"analogia",
+				"gentilezza",
+				"eufemismo"
+			],
+			"answer": "eufemismo",
+			"explanation": "\"eufemismo\": parola più delicata al posto di una cruda."
+		},
+		{
+			"id": "italiano-pensiero-linguaggio-iperbole-325",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola corrisponde a: \"esagerazione voluta per dare enfasi\"?",
+			"options": [
+				"verifica",
+				"iperbole",
+				"sintesi",
+				"risorsa"
+			],
+			"answer": "iperbole",
+			"explanation": "\"iperbole\": esagerazione voluta per dare enfasi."
 		}
 	]
 }

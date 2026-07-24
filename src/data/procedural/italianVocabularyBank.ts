@@ -396,6 +396,58 @@ const vocabularyRows = [
     ["finché", "introduce un limite temporale"],
     ["dunque", "introduce una conclusione"],
   ]),
+  // --- Lessico AVANZATO (difficoltà 3–4, mondi alti: Biblioteca delle Voci) ----
+  // Parole astratte, figurate e di comprensione profonda: prospettiva, senso non
+  // letterale, sfumature. Alimentano la scala di difficoltà oltre d2 (playthrough
+  // #10: la qualità delle domande deve salire ai livelli alti).
+  ...topicRows("pensiero-linguaggio", "nome", 5, [
+    ["inferenza", "conclusione tratta da indizi non detti esplicitamente"],
+    ["premessa", "affermazione da cui parte un ragionamento"],
+    ["sfumatura", "differenza sottile di significato"],
+    ["paradosso", "affermazione che sembra contraddirsi ma ha un senso"],
+    ["analogia", "somiglianza usata per spiegare un'idea"],
+    ["presupposto", "ciò che si dà per scontato in un discorso"],
+  ]),
+  ...topicRows("emozioni-relazioni", "nome", 5, [
+    ["empatia", "capacità di sentire ciò che prova un altro"],
+    ["nostalgia", "rimpianto affettuoso per ciò che è passato"],
+    ["risentimento", "rancore trattenuto per un torto subito"],
+    ["gratitudine", "riconoscenza per un bene ricevuto"],
+    ["insofferenza", "difficoltà a sopportare qualcosa o qualcuno"],
+    ["tenerezza", "affetto delicato e protettivo"],
+  ]),
+  ...topicRows("pensiero-linguaggio", "aggettivo", 6, [
+    ["ambiguo", "che si può interpretare in più modi"],
+    ["pertinente", "attinente e adatto all'argomento"],
+    ["implicito", "sottinteso, non espresso apertamente"],
+    ["plausibile", "credibile, che può essere vero"],
+    ["contraddittorio", "che afferma cose incompatibili tra loro"],
+    ["esplicito", "detto in modo chiaro e diretto"],
+  ]),
+  ...topicRows("pensiero-linguaggio", "nome", 7, [
+    ["connotazione", "significato affettivo o evocativo di una parola"],
+    ["denotazione", "significato letterale e oggettivo di una parola"],
+    ["metafora", "figura che trasferisce un significato per somiglianza"],
+    ["ironia", "dire il contrario di ciò che si pensa, per far riflettere"],
+    ["retorica", "arte di usare il linguaggio per convincere"],
+    ["prospettiva", "punto di vista da cui si racconta o si giudica"],
+  ]),
+  ...topicRows("emozioni-relazioni", "nome", 7, [
+    ["malinconia", "tristezza dolce e senza una causa precisa"],
+    ["indignazione", "sdegno di fronte a un'ingiustizia"],
+    ["rassegnazione", "accettazione passiva di ciò che non si può cambiare"],
+    ["ambivalenza", "presenza di sentimenti opposti insieme"],
+    ["rimpianto", "dispiacere per qualcosa che non si è fatto"],
+    ["compassione", "partecipazione al dolore di un altro"],
+  ]),
+  ...topicRows("pensiero-linguaggio", "nome", 8, [
+    ["sottotesto", "significato nascosto sotto le parole"],
+    ["allegoria", "racconto che rappresenta un'idea con immagini"],
+    ["reticenza", "il tacere volutamente qualcosa"],
+    ["verosimiglianza", "apparenza di verità in un racconto"],
+    ["eufemismo", "parola più delicata al posto di una cruda"],
+    ["iperbole", "esagerazione voluta per dare enfasi"],
+  ]),
 ] as const;
 
 export const italianVocabularyEntries: ItalianVocabularyEntry[] = vocabularyRows.map(({ category, item }, index) => {

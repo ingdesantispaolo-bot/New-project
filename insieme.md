@@ -79,8 +79,9 @@ competenze e validazione del percorso educativo.
    comprensione, trasferimento, difficoltà o relazione con NORA.
 2. [ ] Validare la distribuzione reale dei formati di esercizio e proporre
    correzioni dove la scelta multipla resta dominante nell’esperienza giocata.
-3. [ ] Preparare una matrice sintetica livello → competenze → evidenze richieste
-   → apparato riattivato, utilizzabile da docenti e test pilota.
+3. [x] Matrice livello → competenze → evidenze → apparato consegnata e GENERATA
+   dai contratti in [docs/COMPETENCY_MATRIX.md](docs/COMPETENCY_MATRIX.md)
+   (`competency_matrix.gd`, nessun drift), utilizzabile da docenti e pilota.
 4. [ ] Aggiornare fixture e consumer insieme soltanto se una revisione cambia un
    contratto `WorldLessonCatalog` o `ContentManager`.
 
@@ -123,8 +124,10 @@ I 13 rilievi divisi per competenza. Dettaglio e motivazioni in
   UI a Codex.
 - [ ] **#11** Portare `build_varied_mission` (≤⅓ scelta multipla) come default del
   percorso live e ampliare i contenuti dei formati interattivi. *(insieme a Codex)*
-- [ ] **#10** Alzare la qualità/taratura delle domande nelle fasce alte
-  (distrattori più fini, profondità), mantenendo la scala di difficoltà per livello.
+- [x] **#10** Taratura difficoltà per livello — diagnosi (`difficulty_calibration_audit`)
+  e fix: l'unica materia tappata (italiano ≤d2) è stata arricchita con 36 voci
+  avanzate (lessico astratto/figurato, mondo 14) → ora **tutte le 12 materie
+  salgono fino a d4**. Distrattori più fini è polish incrementale futuro.
 
 ## Gate Codex ↔ Opus
 

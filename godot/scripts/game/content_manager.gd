@@ -363,14 +363,28 @@ func build_varied_mission(subject: String, level: int, node_count: int = 3, revi
 # della stessa materia, presi dal MinigameManager (topic/difficoltà coerenti). I
 # nodi iniettati restano nel contratto comune (ExerciseInteraction): stesso
 # scoring/scudi/mastery. Sostituisce partendo dagli ultimi nodi MC.
+const SPECIALIST_FORMATS := ["graph", "circuit", "code_debug", "hotspot"]
+
 func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: RandomNumberGenerator) -> Array:
 	if count <= 0:
 		return nodes
 	var mg := minigame_manager.build_minigame(subject, level, rng)
-	var pool: Array = []
+	var specialist: Array = []
+	var basic: Array = []
 	for n in mg.get("nodes", []):
-		if not ExerciseInteraction.is_multiple_choice(n):
-			pool.append(n)
+		if ExerciseInteraction.is_multiple_choice(n):
+			continue
+		if str(n.get("format", "")) in SPECIALIST_FORMATS:
+			specialist.append(n)
+		else:
+			basic.append(n)
+	# La pool guida uno SPECIALE per primo (se la materia ne ha): così grafico,
+	# circuito e code-debug arrivano davvero nelle missioni, non solo abbina/ordina.
+	var pool: Array = []
+	if not specialist.is_empty():
+		pool.append(specialist[rng.randi_range(0, specialist.size() - 1)])
+	pool.append_array(basic)
+	pool.append_array(specialist)
 	if pool.is_empty():
 		return nodes
 	var out := nodes.duplicate()

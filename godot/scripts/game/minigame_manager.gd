@@ -54,6 +54,9 @@ const MATCHING := {
 		{"topic": "tabelline", "pairs": [["3 × 4", "12"], ["6 × 7", "42"], ["8 × 5", "40"], ["9 × 3", "27"]]},
 		{"topic": "calcolo", "pairs": [["10 + 5", "15"], ["20 - 8", "12"], ["4 × 4", "16"], ["18 ÷ 3", "6"], ["7 + 6", "13"]]},
 	],
+	"logica": [
+		{"topic": "analogie", "pairs": [["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acqua"], ["Cavallo", "Stalla"]]},
+	],
 }
 
 # Sequenze da ordinare, per materia (l'ordine dato è quello CORRETTO).
@@ -80,6 +83,15 @@ const ORDERING := {
 	],
 	"latino": [
 		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
+	],
+	"inglese": [
+		{"topic": "everyday-phrases", "prompt": "Order the words to make a sentence", "correctOrder": ["I", "like", "green", "apples"]},
+	],
+	"fisica": [
+		{"topic": "moto", "prompt": "Ordina per velocità crescente", "correctOrder": ["Lumaca", "Persona a piedi", "Bicicletta", "Automobile"]},
+	],
+	"elettronica": [
+		{"topic": "misure-elettriche", "prompt": "Ordina le tensioni dalla più piccola", "correctOrder": ["1 V", "5 V", "12 V", "220 V"]},
 	],
 }
 

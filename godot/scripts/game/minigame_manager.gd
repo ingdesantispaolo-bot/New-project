@@ -61,6 +61,13 @@ const MATCHING := {
 	"coding": [
 		{"topic": "tipi", "pairs": [["7", "intero"], ["'ciao'", "stringa"], ["True", "booleano"], ["[1, 2, 3]", "lista"]]},
 		{"topic": "operatori", "pairs": [["+", "somma"], ["*", "moltiplicazione"], ["%", "resto"], ["**", "potenza"]]},
+		{"topic": "concetti", "minLevel": 3, "pairs": [["variabile", "contenitore di un valore"], ["ciclo", "ripete istruzioni"], ["funzione", "blocco riutilizzabile"], ["condizione", "sceglie un percorso"]]},
+		{"topic": "simboli", "minLevel": 4, "pairs": [["==", "uguale a"], ["!=", "diverso da"], [">=", "maggiore o uguale"], ["=", "assegnazione"]]},
+		# Prevedi l'output: leggere il codice come lo legge il computer.
+		{"topic": "output", "minLevel": 5, "pairs": [["print(2 + 3)", "5"], ["print('ab' * 2)", "abab"], ["print(10 // 3)", "3"], ["len('ciao')", "4"]]},
+		# Scuola media — numeri binari (fondamenti dell'informatica). Prefisso 0b
+		# come in Python: chiarisce che è binario e insegna il letterale reale.
+		{"topic": "binario", "minLevel": 7, "pairs": [["0b10", "2"], ["0b11", "3"], ["0b100", "4"], ["0b101", "5"], ["0b1000", "8"]]},
 	],
 	"elettronica": [
 		{"topic": "componenti", "pairs": [["Pila", "Fornisce energia"], ["Interruttore", "Apre e chiude"], ["Resistore", "Limita la corrente"], ["LED", "Emette luce"]]},
@@ -106,6 +113,9 @@ const ORDERING := {
 	],
 	"coding": [
 		{"topic": "algoritmi", "prompt": "Ordina i passi del programma", "correctOrder": ["Chiedi il numero", "Controlla se è pari", "Se è pari stampa 'pari'", "Altrimenti stampa 'dispari'"]},
+		# Pensiero computazionale "unplugged": la vita quotidiana come algoritmo.
+		{"topic": "algoritmi", "minLevel": 2, "prompt": "Ordina i passi dell'algoritmo per fare un tè.", "correctOrder": ["Scalda l'acqua", "Metti la bustina nella tazza", "Versa l'acqua calda", "Aspetta due minuti", "Togli la bustina"]},
+		{"topic": "algoritmi", "minLevel": 5, "prompt": "Ordina i passi per trovare il numero più grande in una lista.", "correctOrder": ["Prendi il primo numero come massimo", "Guarda il numero successivo", "Se è più grande, aggiorna il massimo", "Ripeti fino alla fine", "Restituisci il massimo"]},
 	],
 	"cittadinanza": [
 		{"topic": "partecipazione", "prompt": "Ordina come nasce una legge", "correctOrder": ["Si propone una legge", "Si discute in Parlamento", "Si vota", "La legge entra in vigore"]},
@@ -179,6 +189,17 @@ const CLASSIFICATION := {
 		{"topic": "operatori", "prompt": "Smista ogni operatore nella sua famiglia.",
 			"categories": ["aritmetico", "confronto", "logico"],
 			"assignments": {"+": "aritmetico", "*": "aritmetico", ">": "confronto", "==": "confronto", "and": "logico", "or": "logico"}},
+		# Valuta l'espressione come il computer: è vera o falsa?
+		{"topic": "booleani", "minLevel": 4, "prompt": "Ogni espressione: è True o False?",
+			"categories": ["True", "False"],
+			"assignments": {"5 > 3": "True", "2 == 2": "True", "10 < 1": "False", "'a' == 'b'": "False"}},
+		{"topic": "controllo", "minLevel": 5, "prompt": "Smista ogni riga nella sua struttura di controllo.",
+			"categories": ["ciclo", "condizione", "funzione"],
+			"assignments": {"for i in range(3):": "ciclo", "while x > 0:": "ciclo", "if x > 5:": "condizione", "else:": "condizione", "def saluta():": "funzione", "def somma(a, b):": "funzione"}},
+		# Scuola media — regole dei nomi di variabile (Python).
+		{"topic": "nomi", "minLevel": 6, "prompt": "Smista ogni nome di variabile: valido o no?",
+			"categories": ["valido", "non valido"],
+			"assignments": {"nome": "valido", "x1": "valido", "_temp": "valido", "2cose": "non valido", "mia var": "non valido", "3x": "non valido"}},
 	],
 	"cittadinanza": [
 		{"topic": "diritti-doveri", "prompt": "Smista ciascuna azione: diritto o dovere?",
@@ -347,6 +368,21 @@ const CIRCUIT := {
 			"connections": [["pila", "resistore"], ["resistore", "led"], ["led", "filo"], ["filo", "pila"]],
 			"explanation": "Il LED emette luce quando è attraversato dalla corrente."},
 	],
+	# CODING — il renderer nodi+collegamenti diventa un DIAGRAMMA DI FLUSSO: si
+	# legge il percorso di un programma e si sceglie il blocco richiesto. (Codex
+	# potrà poi dare al blocco-decisione la forma a rombo tipica dei flowchart.)
+	"coding": [
+		{"topic": "diagramma-flusso", "minLevel": 4, "answer": "decisione",
+			"prompt": "Questo è il diagramma di flusso di un programma. Quale blocco DECIDE il percorso (la condizione)?",
+			"components": [{"id": "inizio", "x": 0.50, "y": 0.10, "label": "Inizio"}, {"id": "leggi", "x": 0.50, "y": 0.30, "label": "Leggi n"}, {"id": "decisione", "x": 0.50, "y": 0.52, "label": "n pari?"}, {"id": "pari", "x": 0.24, "y": 0.75, "label": "pari"}, {"id": "dispari", "x": 0.76, "y": 0.75, "label": "dispari"}, {"id": "fine", "x": 0.50, "y": 0.92, "label": "Fine"}],
+			"connections": [["inizio", "leggi"], ["leggi", "decisione"], ["decisione", "pari"], ["decisione", "dispari"], ["pari", "fine"], ["dispari", "fine"]],
+			"explanation": "Il blocco 'n pari?' è la condizione: da lì il flusso si divide in due strade."},
+		{"topic": "diagramma-flusso", "minLevel": 5, "answer": "controllo",
+			"prompt": "In questo diagramma di flusso, quale blocco controlla quante volte si ripete il ciclo?",
+			"components": [{"id": "inizio", "x": 0.50, "y": 0.10, "label": "Inizio"}, {"id": "init", "x": 0.50, "y": 0.30, "label": "i = 0"}, {"id": "controllo", "x": 0.50, "y": 0.52, "label": "i < 3?"}, {"id": "corpo", "x": 0.24, "y": 0.72, "label": "stampa i"}, {"id": "fine", "x": 0.78, "y": 0.72, "label": "Fine"}],
+			"connections": [["inizio", "init"], ["init", "controllo"], ["controllo", "corpo"], ["corpo", "controllo"], ["controllo", "fine"]],
+			"explanation": "Il blocco 'i < 3?' è la condizione del ciclo: finché è vera si ripete 'stampa i'."},
+	],
 }
 
 # CODE-DEBUG (righe numerate selezionabili): trova la riga con l'errore. Testo puro.
@@ -360,6 +396,22 @@ const CODE_DEBUG := {
 			"prompt": "Vogliamo salutare solo se il nome NON è vuoto. Quale riga sbaglia?",
 			"codeLines": ["if nome == \"\":", "    print('Ciao ' + nome)", "# salutare solo se c'è un nome"],
 			"explanation": "La riga 1 controlla se il nome È vuoto: la condizione va invertita (nome != '')."},
+		{"topic": "confronto", "minLevel": 3, "answerLine": 2,
+			"prompt": "Vogliamo controllare se x vale 5. Quale riga sbaglia?",
+			"codeLines": ["x = 5", "if x = 5:", "    print('cinque')", "# come si confronta in Python?"],
+			"explanation": "Riga 2: per confrontare serve '==' (uguaglianza), non '=' (che assegna)."},
+		{"topic": "cicli", "minLevel": 4, "answerLine": 1,
+			"prompt": "Dovrebbe stampare 0, 1, 2. Quale riga sbaglia?",
+			"codeLines": ["for i in range(1, 3):", "    print(i)", "# atteso: 0, 1, 2"],
+			"explanation": "Riga 1: range(1, 3) dà 1, 2. Per 0, 1, 2 serve range(3)."},
+		{"topic": "indentazione", "minLevel": 5, "answerLine": 2,
+			"prompt": "Il numero dovrebbe stamparsi dentro il ciclo. Quale riga sbaglia?",
+			"codeLines": ["for i in range(3):", "print(i)", "# print deve stare dentro il for"],
+			"explanation": "Riga 2: manca l'indentazione. print(i) va rientrato per stare dentro il for."},
+		{"topic": "logica-booleana", "minLevel": 6, "answerLine": 2,
+			"prompt": "Deve essere vero solo se l'età è tra 6 e 10. Quale riga sbaglia?",
+			"codeLines": ["eta = 8", "if eta >= 6 or eta <= 10:", "    print('ok')", "# dentro l'intervallo, non fuori"],
+			"explanation": "Riga 2: con 'or' è sempre vero. Per l'intervallo serve 'and': eta >= 6 and eta <= 10."},
 	],
 	"logica": [
 		{"topic": "deduzioni", "answerLine": 3,
@@ -482,12 +534,15 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	# ne ha — leggere dati, schemi o codice: la competenza come sfida visuale.
 	# Quando una materia ne ha più d'uno (es. italiano: arco narrativo + caccia
 	# all'errore) si ruota a caso, così le missioni non ripetono sempre lo stesso.
+	# Un formato specialista entra nella rotazione solo se ha almeno uno spec
+	# idoneo a questo livello: così un formato tutto "da scuola media" (es. il
+	# diagramma di flusso del coding) non trapela nei primi mondi via fallback.
 	var specialists: Array = []
-	if GRAPH.has(subject):
+	if GRAPH.has(subject) and _has_eligible(GRAPH[subject], level):
 		specialists.append("graph")
-	if CIRCUIT.has(subject):
+	if CIRCUIT.has(subject) and _has_eligible(CIRCUIT[subject], level):
 		specialists.append("circuit")
-	if CODE_DEBUG.has(subject):
+	if CODE_DEBUG.has(subject) and _has_eligible(CODE_DEBUG[subject], level):
 		specialists.append("code_debug")
 	if not specialists.is_empty():
 		var pick_fmt := str(specialists[generator.randi_range(0, specialists.size() - 1)])
@@ -525,6 +580,12 @@ func _pick(list: Array, rng: RandomNumberGenerator, level: int = -1) -> Dictiona
 		if not eligible.is_empty():
 			return eligible[rng.randi_range(0, eligible.size() - 1)]
 	return list[rng.randi_range(0, list.size() - 1)]
+
+func _has_eligible(list: Array, level: int) -> bool:
+	for spec in list:
+		if int((spec as Dictionary).get("minLevel", 0)) <= level:
+			return true
+	return false
 
 func _matching_node(subject: String, group: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var all: Array = (group["pairs"] as Array).duplicate()

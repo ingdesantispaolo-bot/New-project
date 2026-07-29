@@ -92,13 +92,19 @@ func _test_gioco_matching() -> void:
 func _test_gioco_specialisti() -> void:
 	var mg := MinigameManager.new()
 	var rng := RandomNumberGenerator.new()
-	rng.seed = 13
-	for pair in [["fisica", "graph"], ["elettronica", "circuit"], ["coding", "code_debug"], ["italiano", "classification"]]:
+	# Alcune materie ora RUOTANO più formati specialisti (es. coding: diagramma di
+	# flusso + caccia all'errore). Cerchiamo il formato su più seed anziché
+	# presumere che un singolo build lo produca sempre.
+	for pair in [["fisica", "graph"], ["matematica", "graph"], ["elettronica", "circuit"], ["coding", "circuit"], ["coding", "code_debug"], ["italiano", "classification"]]:
 		var subject := str(pair[0])
 		var fmt := str(pair[1])
-		var session := mg.build_minigame(subject, 6, rng)
-		var node := _first_of_format(session, fmt)
-		assert(not node.is_empty(), "%s dovrebbe includere il formato %s" % [subject, fmt])
+		var node := {}
+		for seed_i in range(40):
+			rng.seed = seed_i
+			node = _first_of_format(mg.build_minigame(subject, 8, rng), fmt)
+			if not node.is_empty():
+				break
+		assert(not node.is_empty(), "%s dovrebbe poter includere il formato %s" % [subject, fmt])
 		var res := _play_single(_wrap_session(subject, "minigame", [node]), true)
 		assert(bool(res.get("passed", false)), "%s risolto bene deve passare" % fmt)
 		var res_fail := _play_single(_wrap_session(subject, "minigame", [node]), false)

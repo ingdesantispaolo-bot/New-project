@@ -9,7 +9,8 @@ Il passaggio artistico attuale riusa anche gli sprite Phaser già approvati:
 | Asset | Uso Godot |
 | --- | --- |
 | `outdoor-world-sheet.png` | alberi, cespugli, rocce, cristalli, rovine, ponti, laghetti, panchine, lampade e beacon |
-| `eli-robot-girl-sheet.png` | sprite principale di Eli nel mondo esterno |
+| `eli-adventure-girl-sheet-v2.png` | foglio pittorico 5×4 di Eli nel mondo esterno |
+| `eli-robot-girl-sheet.png` | foglio legacy conservato per confronto e rollback |
 
 Sono letti come atlas region in `scripts/visual_factory.gd`; la grafica
 procedurale resta come fallback per i tipi non ancora coperti e per gli effetti

@@ -17,7 +17,7 @@ const AmbientAnim := preload("res://scripts/ambient_anim.gd")
 const TREASURE_TEXTURE: Texture2D = preload("res://assets/academy-treasure.svg")
 const ENCOUNTER_TEXTURE: Texture2D = preload("res://assets/academy-encounter.svg")
 const OUTDOOR_SHEET: Texture2D = preload("res://assets/outdoor-world-sheet.png")
-const PLAYER_SHEET: Texture2D = preload("res://assets/eli-robot-girl-sheet.png")
+const PLAYER_SHEET: Texture2D = preload("res://assets/eli-adventure-girl-sheet-v2.png")
 const ACADEMY_NATURAL_ATLAS: Texture2D = preload("res://assets/radura-academia-natural-atlas-v2.png")
 const WILD_NATURAL_ATLAS: Texture2D = preload("res://assets/bosco-variabile-natural-atlas-v2.png")
 const GEO_NATURAL_ATLAS: Texture2D = preload("res://assets/dorsale-geografica-natural-atlas-v2.png")
@@ -91,7 +91,7 @@ static func outdoor_sprite(frame_name: String, target_size: Vector2, y: float = 
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	return sprite
 
-static func player_sprite(target_size: Vector2 = Vector2(58, 58)) -> Sprite2D:
+static func player_sprite(target_size: Vector2 = Vector2(72, 72)) -> Sprite2D:
 	var atlas := AtlasTexture.new()
 	atlas.atlas = PLAYER_SHEET
 	atlas.region = Rect2(0, 0, 96, 96)
@@ -2154,19 +2154,19 @@ static func build_player(accent: Color) -> Node2D:
 	# aura, anello a terra e punta luminosa, così comprare un outfit cambia il
 	# colore-firma di Eli nel mondo.
 	var root := Node2D.new()
-	root.add_child(make_shadow(15, 5.6, 0.32, 16))
-	var ring := make_ring(15, Color(accent, 0.5), 2.0, 22)
+	root.add_child(make_shadow(19, 6.8, 0.34, 17))
+	var ring := make_ring(19, Color(accent, 0.56), 2.4, 24)
 	ring.scale = Vector2(1, 0.4)
-	ring.position = Vector2(0, 15)
+	ring.position = Vector2(0, 18)
 	root.add_child(ring)
-	var aura := make_glow(27, accent, 0.16)
+	var aura := make_glow(34, accent, 0.19)
 	aura.position = Vector2(0, 4)
 	root.add_child(aura)
 	var visual := Node2D.new()
 	visual.name = "Visual"
 	visual.add_child(player_sprite())
 	var tip := make_glow(7, accent.lightened(0.3), 0.72)
-	tip.position = Vector2(0, -43)
+	tip.position = Vector2(0, -50)
 	tip.add_to_group("night_glow")
 	visual.add_child(tip)
 	root.add_child(visual)

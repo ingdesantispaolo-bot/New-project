@@ -49,11 +49,24 @@ func _build_collision() -> void:
 func _build_visual(level: int) -> void:
 	var visual := Node2D.new()
 	visual.name = "EnemyVisual"
-	visual.add_child(OutdoorVisualFactory.make_shadow(20.0, 7.0, 0.38, 18.0))
-	var aura := OutdoorVisualFactory.make_glow(36.0 + tier * 4.0, accent, 0.34)
+	visual.scale = Vector2.ONE * (1.06 + float(tier) * 0.055)
+	visual.add_child(OutdoorVisualFactory.make_shadow(24.0, 8.0, 0.42, 20.0))
+	var aura := OutdoorVisualFactory.make_glow(40.0 + tier * 4.0, accent, 0.30)
 	aura.add_to_group("night_glow")
 	visual.add_child(aura)
 	var shell_color := accent.darkened(0.34)
+	var outer_ring := OutdoorVisualFactory.make_ring(31.0 + tier * 2.0, Color(accent, 0.56), 2.6, 28)
+	outer_ring.scale = Vector2(1.0, 0.82)
+	outer_ring.position.y = -6
+	visual.add_child(outer_ring)
+	for shard_index in range(3 + tier):
+		var shard_angle := TAU * float(shard_index) / float(3 + tier) + phase * 0.15
+		var shard := OutdoorVisualFactory.make_polygon(PackedVector2Array([
+			Vector2(-4, 5), Vector2(0, -7), Vector2(4, 5), Vector2(0, 2),
+		]), Color(accent, 0.78))
+		shard.position = Vector2(cos(shard_angle), sin(shard_angle)) * Vector2(36.0 + tier, 27.0 + tier)
+		shard.rotation = shard_angle + PI * 0.5
+		visual.add_child(shard)
 	match posmod(level - 1, 4):
 		0:
 			visual.add_child(OutdoorVisualFactory.make_polygon(
@@ -82,6 +95,12 @@ func _build_visual(level: int) -> void:
 	visual.add_child(eye)
 	visual.add_child(OutdoorVisualFactory.make_polygon(
 		OutdoorVisualFactory.circle_polygon(3.8, 12), accent.lightened(0.28), Vector2(0, -8)))
+	visual.add_child(OutdoorVisualFactory.make_polygon(PackedVector2Array([
+		Vector2(-11, -9), Vector2(-4, -13), Vector2(4, -13),
+		Vector2(11, -9), Vector2(4, -5), Vector2(-4, -5),
+	]), Color(0.02, 0.05, 0.08, 0.88)))
+	visual.add_child(OutdoorVisualFactory.make_polygon(
+		OutdoorVisualFactory.circle_polygon(3.2, 12), accent.lightened(0.42), Vector2(0, -9)))
 	var tier_ring := OutdoorVisualFactory.make_ring(27.0 + tier * 2.0, Color(accent, 0.72), 2.0, 24)
 	tier_ring.scale = Vector2(1.0, 0.34)
 	tier_ring.position.y = 17
@@ -91,11 +110,11 @@ func _build_visual(level: int) -> void:
 	var label := Label.new()
 	label.name = "EnemyLabel"
 	label.text = "%s · T%d" % [enemy_name.to_upper(), tier]
-	label.position = Vector2(-70, -58)
+	label.position = Vector2(-80, -76)
 	label.custom_minimum_size.x = 140
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 11)
-	label.add_theme_constant_override("outline_size", 5)
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_constant_override("outline_size", 6)
 	label.add_theme_color_override("font_color", accent.lightened(0.25))
 	add_child(label)
 

@@ -422,7 +422,9 @@ func _process(delta: float) -> void:
 		var base := profile_night_tint.lerp(profile_day_tint, daylight)
 		# Senza torcia la notte è una vera condizione di esplorazione; con la
 		# torcia resta scura globalmente ma il chiarore locale diventa ampio.
-		var night_depth := (1.0 - daylight) * (0.28 if equipped_field_tool() == "tool-torch" else 0.58)
+		# La notte deve cambiare lettura e valorizzare la torcia, non cancellare
+		# Eli, POI e percorsi sui pannelli scolastici a contrasto ridotto.
+		var night_depth := (1.0 - daylight) * (0.06 if equipped_field_tool() == "tool-torch" else 0.20)
 		base = base.darkened(night_depth)
 		var dawn_mix := clampf(1.0 - absf(daylight - 0.5) * 2.2, 0.0, 1.0)
 		day_light.color = base.lerp(profile_dawn_tint, dawn_mix * 0.35)
@@ -1601,6 +1603,7 @@ void fragment() {
 	pulse_button.add_theme_color_override("font_color", Color("06272a"))
 	pulse_button.add_theme_stylebox_override("normal", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
 	pulse_button.add_theme_stylebox_override("pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
+	pulse_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("5b5131"), Color("9f9462")))
 	pulse_button.pressed.connect(_combat_pulse)
 	root.add_child(pulse_button)
 	var shop_button := Button.new()

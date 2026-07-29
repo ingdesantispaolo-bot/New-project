@@ -57,6 +57,8 @@ var _next_button: Button
 var _help_button: Button
 var _input: LineEdit
 var _convergence_display: FinalConvergenceDisplay
+var _exercise_panel: PanelContainer
+var _options_scroll: ScrollContainer
 
 # Stato dei minigiochi interattivi (formati "ordering" e "matching"). Ogni nodo
 # minigioco vale come un esercizio: risolverlo = 1 corretto; gli errori intermedi
@@ -139,18 +141,18 @@ func _build_ui() -> void:
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
 
-	var panel := PanelContainer.new()
-	panel.anchor_left = 0.08
-	panel.anchor_top = 0.04
-	panel.anchor_right = 0.92
-	panel.anchor_bottom = 0.96
-	panel.custom_minimum_size = Vector2(640, 480)
+	_exercise_panel = PanelContainer.new()
+	_exercise_panel.anchor_left = 0.08
+	_exercise_panel.anchor_top = 0.04
+	_exercise_panel.anchor_right = 0.92
+	_exercise_panel.anchor_bottom = 0.96
+	_exercise_panel.custom_minimum_size = Vector2(640, 480)
 	var is_exam := str(session.get("kind", "mission")) == "final_exam"
-	panel.add_theme_stylebox_override("panel", _exercise_panel_style(is_exam))
-	add_child(panel)
+	_exercise_panel.add_theme_stylebox_override("panel", _exercise_panel_style(is_exam))
+	add_child(_exercise_panel)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 14)
-	panel.add_child(box)
+	_exercise_panel.add_child(box)
 
 	var heading := Label.new()
 	heading.name = "ExerciseHeading"
@@ -189,16 +191,16 @@ func _build_ui() -> void:
 	_prompt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(_prompt)
 
-	var options_scroll := ScrollContainer.new()
-	options_scroll.name = "ExerciseOptionsScroll"
-	options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	options_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	options_scroll.custom_minimum_size.y = 180
-	box.add_child(options_scroll)
+	_options_scroll = ScrollContainer.new()
+	_options_scroll.name = "ExerciseOptionsScroll"
+	_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_options_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_options_scroll.custom_minimum_size.y = 180
+	box.add_child(_options_scroll)
 	_options = VBoxContainer.new()
 	_options.add_theme_constant_override("separation", 8)
 	_options.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	options_scroll.add_child(_options)
+	_options_scroll.add_child(_options)
 
 	_input = LineEdit.new()
 	_input.placeholder_text = "Scrivi la risposta e premi Invio"
@@ -232,12 +234,37 @@ func _build_ui() -> void:
 
 func _exercise_panel_style(is_exam: bool = false) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.055, 0.075, 0.10, 0.98) if is_exam else Color(0.025, 0.10, 0.12, 0.96)
-	style.border_color = Color.WHITE if high_contrast else Color("f6c85f") if is_exam else Color(0.42, 0.9, 0.84, 0.48)
+	var accent := _subject_accent()
+	style.bg_color = Color(0.055, 0.075, 0.10, 0.98) if is_exam else Color(0.018, 0.055, 0.07, 0.97).lerp(Color(accent, 0.97), 0.075)
+	style.border_color = Color.WHITE if high_contrast else Color("f6c85f") if is_exam else Color(accent, 0.62)
 	style.set_border_width_all(4 if high_contrast else 3 if is_exam else 2)
 	style.set_corner_radius_all(18)
 	style.set_content_margin_all(24)
 	return style
+
+func _subject_accent() -> Color:
+	var colors := {
+		"matematica": Color("6be7d6"), "italiano": Color("e9a86d"),
+		"coding": Color("8fa7ff"), "inglese": Color("72c9ff"),
+		"fisica": Color("a2d8ff"), "musica": Color("d7a0ff"),
+		"latino": Color("d4b17a"), "elettronica": Color("79e7ff"),
+		"geografia": Color("7fd19b"), "scienze": Color("91dc72"),
+		"cittadinanza": Color("f2c96d"), "logica": Color("b7a2ff"),
+	}
+	return colors.get(str(session.get("subject", "matematica")).to_lower(), Color("6be7d6"))
+
+func _apply_format_layout(format: String) -> void:
+	if not is_instance_valid(_exercise_panel) or not is_instance_valid(_options_scroll):
+		return
+	var compact := format in ["multiple_choice", "matching", "classification"]
+	if bool(session.get("transversal", false)):
+		compact = false
+	_exercise_panel.anchor_top = 0.06 if compact else 0.04
+	_exercise_panel.anchor_bottom = 0.74 if compact else 0.96
+	_exercise_panel.custom_minimum_size.y = 400.0 if compact else 480.0
+	# Lo scroll deve continuare a ricevere l'altezza residua: matching e
+	# classificazione includono il CTA verifica nello stesso contenitore.
+	_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 
 func _exercise_button_style(fill: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -378,6 +405,7 @@ func _show_current() -> void:
 	for child in _options.get_children():
 		child.queue_free()
 	var fmt := str(item.get("format", "multiple_choice"))
+	_apply_format_layout(fmt)
 	match fmt:
 		"ordering":
 			_input.visible = false

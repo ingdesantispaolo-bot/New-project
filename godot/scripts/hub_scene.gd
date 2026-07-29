@@ -155,17 +155,17 @@ func _build_header(parent: VBoxContainer) -> void:
 	row.add_child(titles)
 	room_title = Label.new()
 	room_title.name = "RoomTitle"
-	room_title.add_theme_font_size_override("font_size", 25)
+	room_title.add_theme_font_size_override("font_size", 22)
 	room_title.add_theme_color_override("font_color", Color("f5fbff"))
 	titles.add_child(room_title)
 	room_description = Label.new()
-	room_description.add_theme_font_size_override("font_size", 13)
+	room_description.add_theme_font_size_override("font_size", 12)
 	room_description.add_theme_color_override("font_color", Color("b9d3d7"))
 	titles.add_child(room_description)
 	nora_line = Label.new()
 	nora_line.name = "NoraShipLine"
 	nora_line.text = "NORA: Seleziona un ponte. Ogni apparato conserva una parte della rotta."
-	nora_line.add_theme_font_size_override("font_size", 12)
+	nora_line.add_theme_font_size_override("font_size", 11)
 	nora_line.add_theme_color_override("font_color", Color("8ff6d2"))
 	nora_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	titles.add_child(nora_line)
@@ -174,21 +174,22 @@ func _build_header(parent: VBoxContainer) -> void:
 	level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	level_label.add_theme_font_size_override("font_size", 14)
 	level_label.add_theme_color_override("font_color", Color("f7d37a"))
-	level_label.custom_minimum_size.x = 170
+	level_label.custom_minimum_size.x = 96
 	row.add_child(level_label)
 
 	var log_button := Button.new()
 	log_button.name = "ShipLogButton"
 	log_button.text = "MANUALE"
-	log_button.custom_minimum_size = Vector2(104, 48)
+	log_button.custom_minimum_size = Vector2(92, 48)
+	log_button.add_theme_font_size_override("font_size", 12)
 	log_button.pressed.connect(_show_ship_log)
 	row.add_child(log_button)
 
 	var back_button := Button.new()
 	back_button.name = "BackToWorldButton"
 	back_button.text = "TORNA AL MONDO"
-	back_button.custom_minimum_size = Vector2(176, 48)
-	back_button.add_theme_font_size_override("font_size", 14)
+	back_button.custom_minimum_size = Vector2(140, 48)
+	back_button.add_theme_font_size_override("font_size", 12)
 	back_button.pressed.connect(_return_to_world)
 	row.add_child(back_button)
 

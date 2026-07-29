@@ -15,7 +15,9 @@ il lavoro ancora aperto resta in `insieme.md`.
 - 66 audit Godot su 66 verdi, eseguiti con save locali isolati;
 - round-trip missione → nave → esame → mondo successivo verde;
 - touch essenziale, contrasto elevato e riduzione movimento coperti da audit;
-- streaming a raggio Web/tablet: massimo 9 chunk nei mondi campione.
+- streaming a raggio Web/tablet: massimo 9 chunk nei mondi campione;
+- probe GPU desktop/tablet: massimo 665 draw call, sotto il budget mobile
+  provvisorio di 700.
 
 Campione headless con mondi 1, 7, 13, 19 e 24:
 
@@ -37,12 +39,24 @@ Le 44 grandi tavole pittoriche dei mondi usano import texture lossy a qualità
 
 | File | Dimensione |
 | --- | ---: |
-| `index.pck` | 29,62 MiB |
+| `index.pck` | 29,76 MiB |
 | `index.wasm` | 37,68 MiB |
-| export completo | 67,62 MiB |
+| export completo | 67,76 MiB |
 
 Prima della compressione l’export misurava 132,17 MiB e il PCK 94,17 MiB.
-La riduzione del download totale è 64,55 MiB, circa il 48,8%.
+La riduzione del download totale è 64,41 MiB, circa il 48,7%.
+
+## Controllo visuale
+
+- le tavole compresse dei mondi campione non mostrano banding, aloni o perdita
+  percettibile su landmark e testo;
+- Eli usa il nuovo foglio pittorico femminile a 20 frame
+  `eli-adventure-girl-sheet-v2.png`, coerente con l’identità narrativa;
+- i quattro tier di anomalie hanno silhouette, frammenti e intensità distinte;
+- header nave, oscurità del mondo 13 e board degli esercizi non-MC sono stati
+  corretti dopo le capture desktop/tablet;
+- evidenze riproducibili: `artifacts/eli-enemies`,
+  `artifacts/exercise-renderers` e le capture C-P6.
 
 Comando di export:
 
@@ -53,5 +67,5 @@ $env:LOCALAPPDATA='D:\AppElis\New-project\.tmp\godot-localappdata'
   --headless --path godot --export-release Web '..\.tmp\web-cp6\index.html'
 ```
 
-L’export è tecnicamente riproducibile; smoke browser, controllo percettivo delle
-texture e profiling su tablet restano criteri aperti in `insieme.md`.
+L’export è tecnicamente riproducibile; smoke browser e profiling su tablet reale
+restano criteri aperti in `insieme.md`.

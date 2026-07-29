@@ -33,26 +33,21 @@ Procedere in quest’ordine:
 1. [ ] Eseguire un playthrough manuale mirato dei mondi acquatici e dei mondi
    1, 7, 13, 19 e 24: verificare ponte-enigma, torcia/falce, densità e
    aggressività delle anomalie, ritorno alla nave e assenza di soft-lock.
-2. [ ] Catturare Eli fermo/in movimento/in impulso su desktop e tablet; decidere
-   severamente se il foglio a 20 frame regge l’art direction finale o richiede
-   un nuovo asset. Verificare anche silhouette dei quattro tier di anomalie.
-3. [ ] Verificare nelle capture che la compressione lossy delle 44 tavole mondo
-   non produca banding, aloni o perdita percettibile su testo e landmark.
-4. [ ] Rifinire feel e juice dei renderer non-MC: snap, luce, suono, feedback
-   causale e board tematizzata per materia. Valutare asset immagine soltanto per
-   hotspot/grafico/circuito dove migliorano davvero la comprensione.
-5. [ ] Rifinire regia, camera, animazioni, transizioni e sound design dei
+2. [ ] Completare feel e juice dei renderer non-MC con feedback sonoro e
+   causale specifico per snap, collegamenti ed errori; valutare asset immagine
+   soltanto per hotspot/grafico/circuito dove migliorano la comprensione.
+3. [ ] Rifinire regia, camera, animazioni, transizioni e sound design dei
    traguardi, con priorità a riattivazioni della nave e finale.
-6. [ ] Verificare coerenza di art direction tra Eli, 24 mondi, nave, NORA e UI;
-   correggere soltanto incoerenze osservabili nelle capture o nel playthrough.
-7. [ ] Profilare FPS, memoria, caricamenti e draw call nel browser e su hardware
+4. [ ] Correggere soltanto le incoerenze di art direction ancora osservabili
+   durante il playthrough, con priorità alla nave e ai mondi finali.
+5. [ ] Profilare FPS, memoria, caricamenti e draw call nel browser e su hardware
    scolastico/tablet reale; fissare i budget definitivi partendo dalla baseline
    headless in `docs/RELEASE_CANDIDATE.md`.
-8. [ ] Provare su tablet reale tutti i comandi touch, viewport landscape e
+6. [ ] Provare su tablet reale tutti i comandi touch, viewport landscape e
    portrait, leggibilità, contrasto elevato e riduzione movimento.
-9. [ ] Eseguire smoke test in un browser reale dell’export Web da 67,62 MiB:
+7. [ ] Eseguire smoke test in un browser reale dell’export Web da 67,76 MiB:
    boot, missione touch, nave, esame, ritorno al mondo successivo, audio e save.
-10. [ ] Correggere soltanto i difetti osservati nelle verifiche 1–9, rieseguire
+8. [ ] Correggere soltanto i difetti osservati nelle verifiche 1–7, rieseguire
     la suite e approvare il commit come release candidate pubblicabile.
 
 Definizione di completato C-P6:

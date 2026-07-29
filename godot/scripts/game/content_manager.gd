@@ -339,25 +339,37 @@ func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: R
 	}
 
 ## Missione a formati VARI (O-P3, policy "scelta multipla non dominante"): come
-## build_mission ma con la scelta multipla portata a ≤ 1/3 dei nodi iniettando
-## nodi non-MC (abbina/ordina) della materia. Dal gate C-P3 questa è la variante
-## usata dal percorso live delle missioni esterne.
+## Frazione bersaglio di scelta multipla nell'esperienza giocata (~20%).
+const MC_TARGET_RATIO := 0.20
+
+## build_mission ma con la scelta multipla portata al ~20% dei nodi iniettando
+## nodi non-MC (abbina/ordina/classifica + specialisti) della materia. Dal gate
+## C-P3 questa è la variante usata dal percorso live delle missioni esterne.
 func build_varied_mission(subject: String, level: int, node_count: int = 3, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
 	var generator := rng
 	if generator == null:
 		generator = RandomNumberGenerator.new()
 		generator.randomize()
 	var session := build_mission(subject, level, node_count, review_due, generator, mastery, topic_mastery)
-	# Porta la scelta multipla a ≤ 1/3: mantieni al più floor(n/3) nodi MC.
+	# Mix target dell'esperienza giocata: la scelta multipla è un formato tra tanti,
+	# non il dominante. Obiettivo ~20% MC, ~20% abbina, ~60% al resto (ordina,
+	# classifica, grafico, circuito, caccia-all'errore). Con poche campate per
+	# missione l'arrotondamento è stocastico per centrare la media sull'insieme.
 	var nodes: Array = session.get("nodes", [])
-	var keep_mc := int(nodes.size() / 3)
+	var target_mc := _stochastic_round(MC_TARGET_RATIO * float(nodes.size()), generator)
 	var mc_count := 0
 	for n in nodes:
 		if ExerciseInteraction.is_multiple_choice(n):
 			mc_count += 1
-	var to_replace := maxi(0, mc_count - keep_mc)
+	var to_replace := maxi(0, mc_count - target_mc)
 	session["nodes"] = inject_non_mc(nodes, subject, level, to_replace, generator)
 	return session
+
+# Arrotonda a intero mantenendo la media: la parte frazionaria diventa la
+# probabilità di arrotondare per eccesso (es. 0.6 → 1 nel 60% dei casi).
+func _stochastic_round(x: float, rng: RandomNumberGenerator) -> int:
+	var base := int(floor(x))
+	return base + (1 if rng.randf() < (x - float(base)) else 0)
 
 # Sostituisce fino a `count` nodi a scelta multipla con nodi NON-MC (abbina/ordina)
 # della stessa materia, presi dal MinigameManager (topic/difficoltà coerenti). I
@@ -365,37 +377,59 @@ func build_varied_mission(subject: String, level: int, node_count: int = 3, revi
 # scoring/scudi/mastery. Sostituisce partendo dagli ultimi nodi MC.
 const SPECIALIST_FORMATS := ["graph", "circuit", "code_debug", "hotspot"]
 
+# Peso di ogni formato tra i nodi NON-MC iniettati. Calibrato perché, con MC ~20%,
+# l'esperienza giocata risulti ~20% abbina e ~60% al resto (ordina/classifica +
+# specialisti). Un formato già usato nella stessa missione viene smorzato, così le
+# poche campate restano varie e nessun formato torna a dominare.
+const NONMC_FORMAT_WEIGHTS := {
+	"matching": 20, "ordering": 15, "classification": 13,
+	"graph": 25, "circuit": 25, "code_debug": 25, "hotspot": 18,
+}
+
 func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: RandomNumberGenerator) -> Array:
 	if count <= 0:
 		return nodes
 	var mg := minigame_manager.build_minigame(subject, level, rng)
-	var specialist: Array = []
-	var basic: Array = []
+	# Tavolozza: un nodo per ciascun formato non-MC disponibile per la materia.
+	var palette: Dictionary = {}
 	for n in mg.get("nodes", []):
 		if ExerciseInteraction.is_multiple_choice(n):
 			continue
-		if str(n.get("format", "")) in SPECIALIST_FORMATS:
-			specialist.append(n)
-		else:
-			basic.append(n)
-	# La pool guida uno SPECIALE per primo (se la materia ne ha): così grafico,
-	# circuito e code-debug arrivano davvero nelle missioni, non solo abbina/ordina.
-	var pool: Array = []
-	if not specialist.is_empty():
-		pool.append(specialist[rng.randi_range(0, specialist.size() - 1)])
-	pool.append_array(basic)
-	pool.append_array(specialist)
-	if pool.is_empty():
+		var f := str(n.get("format", ""))
+		if not palette.has(f):
+			palette[f] = n
+	if palette.is_empty():
 		return nodes
 	var out := nodes.duplicate()
+	var used: Dictionary = {}
 	var injected := 0
 	for i in range(out.size() - 1, -1, -1):
 		if injected >= count:
 			break
 		if ExerciseInteraction.is_multiple_choice(out[i]):
-			out[i] = (pool[injected % pool.size()] as Dictionary).duplicate(true)
+			var fmt := _pick_weighted_format(palette.keys(), used, rng)
+			out[i] = (palette[fmt] as Dictionary).duplicate(true)
+			used[fmt] = int(used.get(fmt, 0)) + 1
 			injected += 1
 	return out
+
+# Sceglie un formato tra quelli disponibili con probabilità proporzionale al peso,
+# smorzando i formati già usati in questa missione (varietà dentro la singola
+# missione oltre che nell'insieme).
+func _pick_weighted_format(formats: Array, used: Dictionary, rng: RandomNumberGenerator) -> String:
+	var weighted: Array = []
+	var total := 0.0
+	for f in formats:
+		var w := float(NONMC_FORMAT_WEIGHTS.get(f, 10))
+		w /= float(1 + int(used.get(f, 0)) * 3)
+		weighted.append([str(f), w])
+		total += w
+	var r := rng.randf() * total
+	for pair in weighted:
+		r -= float(pair[1])
+		if r <= 0.0:
+			return str(pair[0])
+	return str(weighted[weighted.size() - 1][0])
 
 # Marca un nodo di TRASFERIMENTO: preferisci il nodo (non-MC escluso) di
 # difficoltà più alta e, a parità, di topic diverso dal primo — un'applicazione

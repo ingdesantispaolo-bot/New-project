@@ -72,6 +72,10 @@ const MATCHING := {
 	"elettronica": [
 		{"topic": "componenti", "pairs": [["Pila", "Fornisce energia"], ["Interruttore", "Apre e chiude"], ["Resistore", "Limita la corrente"], ["LED", "Emette luce"]]},
 		{"topic": "misure-elettriche", "pairs": [["Tensione", "Volt"], ["Corrente", "Ampere"], ["Resistenza", "Ohm"]]},
+		{"topic": "grandezze", "minLevel": 3, "pairs": [["Potenza", "Watt"], ["Energia", "Joule"], ["Frequenza", "Hertz"]]},
+		# Scuola media — legge di Ohm e prefissi delle unità.
+		{"topic": "legge-ohm", "minLevel": 6, "pairs": [["Tensione (V)", "R × I"], ["Corrente (I)", "V / R"], ["Resistenza (R)", "V / I"]]},
+		{"topic": "prefissi", "minLevel": 7, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
 	],
 	"fisica": [
 		{"topic": "misure", "pairs": [["Lunghezza", "Metro"], ["Massa", "Chilogrammo"], ["Tempo", "Secondo"], ["Temperatura", "Grado"]]},
@@ -137,6 +141,8 @@ const ORDERING := {
 	],
 	"elettronica": [
 		{"topic": "misure-elettriche", "prompt": "Ordina le tensioni dalla più piccola", "correctOrder": ["1 V", "5 V", "12 V", "220 V"]},
+		{"topic": "montaggio", "minLevel": 3, "prompt": "Ordina i passi per costruire un circuito che accende un LED.", "correctOrder": ["Prendi la pila", "Collega il filo al polo +", "Aggiungi l'interruttore", "Collega il LED", "Chiudi il circuito al polo -"]},
+		{"topic": "misure-elettriche", "minLevel": 5, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
 	],
 }
 
@@ -265,6 +271,10 @@ const CLASSIFICATION := {
 		{"topic": "componenti", "prompt": "Smista ogni componente: dà energia o la usa?",
 			"categories": ["fornisce energia", "usa energia"],
 			"assignments": {"Pila": "fornisce energia", "Batteria": "fornisce energia", "LED": "usa energia", "Motorino": "usa energia", "Lampadina": "usa energia", "Cella solare": "fornisce energia"}},
+		# Ruolo nel circuito: sorgente, conduttore, isolante o carico.
+		{"topic": "ruoli", "minLevel": 4, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
+			"categories": ["sorgente", "conduttore", "isolante", "carico"],
+			"assignments": {"Pila": "sorgente", "Batteria": "sorgente", "Rame": "conduttore", "Filo": "conduttore", "Plastica": "isolante", "Gomma": "isolante", "LED": "carico", "Lampadina": "carico"}},
 	],
 	"inglese": [
 		{"topic": "categorie", "prompt": "Sort each word into its category.",
@@ -303,6 +313,12 @@ const CLASSIFICATION := {
 # Lettura di GRAFICO (assi + curva disegnati proceduralmente): scegli il punto
 # richiesto. Nessun asset immagine. `points` in coordinate normalizzate 0..1.
 const GRAPH := {
+	"elettronica": [
+		{"topic": "legge-ohm", "minLevel": 6, "xLabel": "tensione", "yLabel": "corrente", "answer": "D",
+			"prompt": "Il grafico mostra la corrente al crescere della tensione (legge di Ohm): in quale punto la corrente è massima?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.42, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
+			"explanation": "La corrente cresce in modo proporzionale alla tensione: è massima all'ultimo punto, D."},
+	],
 	"fisica": [
 		{"topic": "moto", "xLabel": "tempo", "yLabel": "velocità", "answer": "C",
 			"prompt": "Il grafico mostra la velocità nel tempo: in quale punto è massima?",
@@ -367,6 +383,16 @@ const CIRCUIT := {
 			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "resistore", "x": 0.50, "y": 0.24, "label": "Resistore"}, {"id": "led", "x": 0.80, "y": 0.50, "label": "LED"}, {"id": "filo", "x": 0.50, "y": 0.78, "label": "Filo"}],
 			"connections": [["pila", "resistore"], ["resistore", "led"], ["led", "filo"], ["filo", "pila"]],
 			"explanation": "Il LED emette luce quando è attraversato dalla corrente."},
+		{"topic": "sorgente", "answer": "pila",
+			"prompt": "Quale componente fornisce l'energia a tutto il circuito?",
+			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "interruttore", "x": 0.50, "y": 0.22, "label": "Interruttore"}, {"id": "resistore", "x": 0.80, "y": 0.50, "label": "Resistore"}, {"id": "led", "x": 0.50, "y": 0.78, "label": "LED"}],
+			"connections": [["pila", "interruttore"], ["interruttore", "resistore"], ["resistore", "led"], ["led", "pila"]],
+			"explanation": "La pila è la sorgente: spinge la corrente in tutto il circuito."},
+		{"topic": "protezione", "minLevel": 3, "answer": "resistore",
+			"prompt": "Quale componente limita la corrente così il LED non si brucia?",
+			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "resistore", "x": 0.50, "y": 0.24, "label": "Resistore"}, {"id": "led", "x": 0.80, "y": 0.50, "label": "LED"}, {"id": "filo", "x": 0.50, "y": 0.78, "label": "Filo"}],
+			"connections": [["pila", "resistore"], ["resistore", "led"], ["led", "filo"], ["filo", "pila"]],
+			"explanation": "Il resistore limita la corrente: protegge il LED dal bruciarsi."},
 	],
 	# CODING — il renderer nodi+collegamenti diventa un DIAGRAMMA DI FLUSSO: si
 	# legge il percorso di un programma e si sceglie il blocco richiesto. (Codex
@@ -497,6 +523,18 @@ const CODE_DEBUG := {
 			"prompt": "One negative sentence is wrong. Which line?",
 			"codeLines": ["I don't like fish.", "He don't like tea.", "We don't watch TV.", "# which negative is wrong?"],
 			"explanation": "Line 2: third person singular uses 'doesn't': 'He doesn't like tea'."},
+	],
+	# ELETTRONICA — "Caccia all'errore": si scova l'affermazione falsa sul circuito
+	# o il passaggio sbagliato nel calcolo elettrico. Il ragionamento come sfida.
+	"elettronica": [
+		{"topic": "circuito", "answerLine": 3,
+			"prompt": "Una sola affermazione sul circuito è falsa. Quale riga?",
+			"codeLines": ["La pila fornisce energia.", "Il LED emette luce.", "Il filo di rame blocca la corrente.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: il rame è un conduttore, quindi il filo LASCIA passare la corrente, non la blocca."},
+		{"topic": "legge-ohm", "minLevel": 6, "answerLine": 2,
+			"prompt": "Corrente con V = 10 V e R = 2 Ω: quale riga sbaglia?",
+			"codeLines": ["V = 10 V, R = 2 Ω", "I = V × R", "I = 20 A", "# come si calcola la corrente?"],
+			"explanation": "Riga 2: la legge di Ohm è I = V / R (10 / 2 = 5 A), non V × R (che darebbe 20)."},
 	],
 }
 

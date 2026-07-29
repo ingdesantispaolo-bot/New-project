@@ -38,8 +38,11 @@ func _audit_math_progression() -> void:
 		assert(not first_signatures.has(str(node["signature"])), "esercizio matematico ripetuto nella missione successiva")
 	var advanced := content.build_mission("matematica", 24, 25, {}, rng)
 	var topics := {}
+	# La complessità FINE del generatore arriva a 8 al livello 24; sul nodo viaggia
+	# la banda 1..4 del contratto comune (ExerciseInteraction), non la complessità.
+	assert(MathExerciseGenerator.complexity_for_level(24) == 8, "livello 24 deve usare complessita 8")
 	for node in advanced["nodes"]:
-		assert(int(node["difficulty"]) == 8, "livello 24 deve usare complessita 8")
+		assert(int(node["difficulty"]) == 4, "al livello 24 la banda di difficoltà deve essere la massima (4)")
 		topics[str(node["topic"])] = true
 	assert(topics.size() >= 14, "repertorio avanzato troppo stretto")
 	assert(topics.has("equazioni") and topics.has("coordinate") and topics.has("statistica"), "mancano famiglie matematiche avanzate")

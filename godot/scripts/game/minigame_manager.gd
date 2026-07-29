@@ -925,6 +925,18 @@ const CODE_DEBUG := {
 
 const NUMERIC_ORDERING_SUBJECTS := ["matematica", "logica"]
 
+# Argomenti che la materia sa servire con i minigiochi (oltre al banco statico).
+# Sono contenuto reale a tutti gli effetti: una lezione può prometterli e il
+# mondo li serve davvero (verificato in `world_lesson_audit`).
+static func topics_for(subject: String) -> Array:
+	var topics: Dictionary = {}
+	for table in [MATCHING, ORDERING, CLASSIFICATION, GRAPH, CIRCUIT, CODE_DEBUG]:
+		for spec in Array((table as Dictionary).get(subject, [])):
+			var topic := str((spec as Dictionary).get("topic", ""))
+			if topic != "":
+				topics[topic] = true
+	return topics.keys()
+
 func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
 	var generator := rng
 	if generator == null:

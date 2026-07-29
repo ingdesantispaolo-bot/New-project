@@ -187,7 +187,7 @@ export const pythonPrincipleSeeds: PythonPrincipleSeed[] = [
     codeLines: ['if True:', 'print("ciao")'],
     question: "Perché questo codice Python dà errore?",
     correct: "manca l'indentazione dopo i due punti",
-    distractors: ["manca un punto e virgola", "print è scritto male", "True va minuscolo"],
+    distractors: ["manca un punto e virgola finale", "print è scritto in modo sbagliato", "True va scritto tutto minuscolo"],
     explanation:
       "In Python gli spazi contano: dopo i due punti la riga dentro l'if DEVE essere indentata (spostata a destra). Senza rientro dà IndentationError.",
     explore: "Approfondisci: in molti linguaggi le { } definiscono i blocchi; Python usa invece l'indentazione. È la sua firma.",
@@ -199,7 +199,7 @@ export const pythonPrincipleSeeds: PythonPrincipleSeed[] = [
     codeLines: ["# questo è un commento", "punti = 5", "print(punti)  # stampa 5"],
     question: "Cosa fa Python con le righe che iniziano con #?",
     correct: "le ignora: sono commenti per gli umani",
-    distractors: ["le stampa a schermo", "dà errore", "le esegue due volte"],
+    distractors: ["le stampa a schermo come testo", "dà errore e ferma il programma", "le esegue due volte di seguito"],
     explanation:
       "Tutto ciò che segue # è un commento: Python lo ignora completamente. Serve a spiegare il codice a chi lo legge, non alla macchina.",
     explore: "Approfondisci: i buoni commenti spiegano il PERCHÉ, non il COSA (che si vede già dal codice).",

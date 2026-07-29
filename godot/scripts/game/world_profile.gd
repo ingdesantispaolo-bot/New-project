@@ -35,21 +35,27 @@ static func performance_budget() -> Dictionary:
 		"desktop": {"maxDrawCalls": 1400, "maxActivePois": 20, "streamRadius": 2000},
 	}
 
-# Formati d'esercizio coerenti con la materia (famiglie ExerciseInteraction).
+# Formati d'esercizio REALMENTE serviti dalla materia (famiglie ExerciseInteraction).
 # Servono all'event pool per variare le tappe evitando la scelta multipla ovunque.
+# Non è una preferenza: è il repertorio misurato sull'esperienza giocata
+# (`format_mix_audit`), cioè quanto ContentManager e MinigameManager sanno
+# costruire per quella materia. Se una materia guadagna o perde un formato, questa
+# tabella e le lezioni (`WorldLessonCatalog.transferTest.formats`) vanno aggiornate
+# insieme: `world_lesson_audit` verifica che nessuna lezione prometta un formato
+# che il mondo non serve.
 const SUBJECT_FORMATS := {
-	"matematica": ["numeric_input", "multiple_choice", "ordering"],
-	"italiano": ["multiple_choice", "matching", "ordering"],
-	"coding": ["ordering", "multiple_choice", "matching"],
-	"inglese": ["multiple_choice", "matching"],
-	"fisica": ["numeric_input", "multiple_choice", "ordering"],
-	"musica": ["matching", "ordering", "multiple_choice"],
-	"latino": ["matching", "multiple_choice", "ordering"],
-	"elettronica": ["matching", "numeric_input", "multiple_choice"],
-	"geografia": ["matching", "multiple_choice", "ordering"],
-	"scienze": ["matching", "multiple_choice", "ordering"],
-	"storia": ["multiple_choice", "matching", "ordering"],
-	"logica": ["ordering", "multiple_choice", "numeric_input"],
+	"matematica": ["numeric_input", "multiple_choice", "ordering", "matching", "classification", "graph", "code_debug"],
+	"italiano": ["multiple_choice", "matching", "ordering", "classification", "graph", "code_debug"],
+	"coding": ["ordering", "multiple_choice", "matching", "classification", "circuit", "code_debug"],
+	"inglese": ["multiple_choice", "matching", "ordering", "classification", "circuit", "code_debug"],
+	"fisica": ["multiple_choice", "graph", "ordering", "matching", "classification", "circuit", "code_debug"],
+	"musica": ["matching", "ordering", "multiple_choice", "classification", "graph", "circuit", "code_debug"],
+	"latino": ["matching", "multiple_choice", "ordering", "classification", "circuit", "code_debug"],
+	"elettronica": ["circuit", "matching", "multiple_choice", "ordering", "classification", "graph", "code_debug"],
+	"geografia": ["matching", "multiple_choice", "ordering", "classification", "graph", "circuit", "code_debug"],
+	"scienze": ["matching", "multiple_choice", "ordering", "classification", "graph", "circuit", "code_debug"],
+	"storia": ["multiple_choice", "matching", "ordering", "classification", "graph", "circuit", "code_debug"],
+	"logica": ["ordering", "multiple_choice", "matching", "classification", "graph", "circuit", "code_debug"],
 }
 
 # --- Identità dei 24 mondi (mappa del piano AAA) ------------------------------
@@ -67,7 +73,7 @@ const IDENTITIES := [
 	{"id": "world-08-delta", "title": "Delta dei Circuiti", "terrainFamily": "acqua-conduttiva", "topology": "isolotti-e-nodi", "artKit": "generatori-e-cavi", "heroLandmarks": ["nodo-centrale"], "lighting": "notte-elettrica", "weather": "pioggia-lieve", "soundscape": "ronzio-e-acqua", "brief": ["circuiti e nodi", "misure elettriche"]},
 	{"id": "world-09-arcipelago", "title": "Arcipelago Cartografico", "terrainFamily": "isole-e-rotte", "topology": "arcipelago", "artKit": "mappe-e-quote", "heroLandmarks": ["torre-cartografica"], "lighting": "giorno-limpido", "weather": "vento-di-mare", "soundscape": "gabbiani-e-risacca", "brief": ["carte e coordinate", "rotte e quote"]},
 	{"id": "world-10-serra", "title": "Serra delle Simbiosi", "terrainFamily": "ecosistema-vivo", "topology": "serra-a-livelli", "artKit": "flora-e-fauna", "heroLandmarks": ["cupola-vivente"], "lighting": "verde-diffuso", "weather": "umido", "soundscape": "vita-brulicante", "brief": ["ecosistemi", "osservazione scientifica"]},
-	{"id": "world-11-patti", "title": "Città dei Patti", "terrainFamily": "quartieri-civici", "topology": "piazze-e-servizi", "artKit": "edifici-e-insegne", "heroLandmarks": ["palazzo-dei-patti"], "lighting": "giorno-urbano", "weather": "sereno", "soundscape": "folla-e-campane", "brief": ["regole e servizi", "decisioni comuni"]},
+	{"id": "world-11-patti", "title": "Soglia del Tempo", "terrainFamily": "strati-archeologici", "topology": "linea-del-tempo-e-scavi", "artKit": "reperti-e-prime-civiltà", "heroLandmarks": ["portale-delle-epoche"], "lighting": "sole-archeologico", "weather": "sereno", "soundscape": "vento-e-tracce", "brief": ["cronologia e prime civiltà", "fonti storiche"]},
 	{"id": "world-12-labirinto", "title": "Labirinto delle Regole", "terrainFamily": "geometrie-mobili", "topology": "labirinto-modulare", "artKit": "muri-mobili", "heroLandmarks": ["cuore-del-labirinto"], "lighting": "luce-fredda", "weather": "sereno", "soundscape": "scatti-e-silenzi", "brief": ["deduzione", "sequenze e regole"]},
 	{"id": "world-13-orbite", "title": "Deserto delle Orbite", "terrainFamily": "deserto-osservatorio", "topology": "dune-e-cupole", "artKit": "strumenti-astrali", "heroLandmarks": ["osservatorio"], "lighting": "notte-stellata", "weather": "sereno-secco", "soundscape": "vento-di-sabbia", "brief": ["traiettorie", "proporzioni e stime"]},
 	{"id": "world-14-voci", "title": "Biblioteca delle Voci", "terrainFamily": "biblioteca-voci", "topology": "gallerie-narrative", "artKit": "libri-e-eco", "heroLandmarks": ["sala-delle-voci"], "lighting": "ambra-calda", "weather": "quiete", "soundscape": "sussurri-narranti", "brief": ["prospettive narrative", "comprensione profonda"]},
@@ -79,7 +85,7 @@ const IDENTITIES := [
 	{"id": "world-20-tempesta", "title": "Tempesta Elettromagnetica", "terrainFamily": "campi-instabili", "topology": "torri-e-sensori", "artKit": "sensori-e-scariche", "heroLandmarks": ["torre-di-campo"], "lighting": "lampi-intermittenti", "weather": "tempesta", "soundscape": "statica-e-tuoni", "brief": ["campi e sensori", "reti instabili"]},
 	{"id": "world-21-atlante", "title": "Atlante Fratturato", "terrainFamily": "placche-e-climi", "topology": "faglie-e-biomi", "artKit": "strati-e-climi", "heroLandmarks": ["pilastro-tettonico"], "lighting": "cielo-variabile", "weather": "climi-misti", "soundscape": "terra-e-vento", "brief": ["sistemi territoriali", "placche e climi"]},
 	{"id": "world-22-biosfera", "title": "Biosfera Profonda", "terrainFamily": "biosfera-profonda", "topology": "caverne-vive", "artKit": "cellule-e-energia", "heroLandmarks": ["nucleo-vivente"], "lighting": "bioluminescente", "weather": "umido-caldo", "soundscape": "pulsazioni-vitali", "brief": ["cellule ed energia", "adattamento"]},
-	{"id": "world-23-concilio", "title": "Concilio delle Colonie", "terrainFamily": "colonie-orbitali", "topology": "cupole-e-assemblee", "artKit": "moduli-e-bandiere", "heroLandmarks": ["sala-del-concilio"], "lighting": "luce-artificiale", "weather": "controllato", "soundscape": "voci-in-assemblea", "brief": ["negoziazione", "beni comuni"]},
+	{"id": "world-23-concilio", "title": "Sala delle Ere", "terrainFamily": "archivio-storico-orbitale", "topology": "roma-medioevo-e-cronache", "artKit": "mosaici-manoscritti-e-fonti", "heroLandmarks": ["archivio-delle-ere"], "lighting": "luce-d-archivio", "weather": "controllato", "soundscape": "pagine-e-memorie", "brief": ["Roma e Medioevo", "cause conseguenze e fonti"]},
 	{"id": "world-24-cuore", "title": "Cuore dei Primi", "terrainFamily": "convergenza-finale", "topology": "nucleo-trasversale", "artKit": "sintesi-di-tutti", "heroLandmarks": ["cuore-dei-primi"], "lighting": "luce-convergente", "weather": "sospeso", "soundscape": "coro-dei-sistemi", "brief": ["sintesi interdisciplinare", "prova finale"]},
 ]
 

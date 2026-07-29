@@ -267,10 +267,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"rex\" (da \"rex\", il re)?",
 			"options": [
+				"genitivo plurale",
 				"nominativo singolare",
-				"ablativo singolare",
-				"genitivo singolare",
-				"genitivo plurale"
+				"accusativo singolare",
+				"ablativo singolare"
 			],
 			"answer": "nominativo singolare",
 			"explanation": "nominativo (spesso soggetto), singolare."
@@ -283,10 +283,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"regis\" (da \"rex\", il re)?",
 			"options": [
-				"nominativo singolare",
 				"genitivo singolare",
-				"ablativo singolare",
-				"dativo singolare"
+				"dativo singolare",
+				"nominativo singolare",
+				"accusativo singolare"
 			],
 			"answer": "genitivo singolare",
 			"explanation": "genitivo (specificazione), singolare."
@@ -299,9 +299,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"regi\" (da \"rex\", il re)?",
 			"options": [
-				"accusativo singolare",
-				"dativo singolare",
 				"genitivo plurale",
+				"ablativo singolare",
+				"dativo singolare",
 				"genitivo singolare"
 			],
 			"answer": "dativo singolare",
@@ -316,9 +316,9 @@
 			"prompt": "Che caso e numero ha \"regem\" (da \"rex\", il re)?",
 			"options": [
 				"dativo singolare",
-				"ablativo singolare",
-				"nominativo singolare",
-				"accusativo singolare"
+				"accusativo singolare",
+				"genitivo singolare",
+				"nominativo singolare"
 			],
 			"answer": "accusativo singolare",
 			"explanation": "accusativo (spesso oggetto), singolare."
@@ -331,10 +331,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"rege\" (da \"rex\", il re)?",
 			"options": [
-				"genitivo plurale",
 				"nominativo singolare",
+				"genitivo plurale",
 				"ablativo singolare",
-				"dativo singolare"
+				"accusativo singolare"
 			],
 			"answer": "ablativo singolare",
 			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
@@ -347,10 +347,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"regum\" (da \"rex\", il re)?",
 			"options": [
+				"genitivo singolare",
 				"ablativo singolare",
-				"genitivo plurale",
-				"nominativo singolare",
-				"accusativo singolare"
+				"dativo singolare",
+				"genitivo plurale"
 			],
 			"answer": "genitivo plurale",
 			"explanation": "genitivo (specificazione), plurale."
@@ -363,10 +363,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"consul\" (da \"consul\", il console)?",
 			"options": [
-				"accusativo singolare",
-				"genitivo singolare",
+				"genitivo plurale",
+				"nominativo singolare",
 				"ablativo singolare",
-				"nominativo singolare"
+				"accusativo singolare"
 			],
 			"answer": "nominativo singolare",
 			"explanation": "nominativo (spesso soggetto), singolare."
@@ -379,7 +379,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"consulis\" (da \"consul\", il console)?",
 			"options": [
-				"nominativo singolare",
+				"accusativo singolare",
 				"dativo singolare",
 				"ablativo singolare",
 				"genitivo singolare"
@@ -397,7 +397,7 @@
 			"options": [
 				"ablativo singolare",
 				"genitivo singolare",
-				"accusativo singolare",
+				"genitivo plurale",
 				"dativo singolare"
 			],
 			"answer": "dativo singolare",
@@ -411,9 +411,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"consulem\" (da \"consul\", il console)?",
 			"options": [
-				"genitivo plurale",
-				"accusativo singolare",
 				"genitivo singolare",
+				"accusativo singolare",
+				"ablativo singolare",
 				"nominativo singolare"
 			],
 			"answer": "accusativo singolare",
@@ -427,10 +427,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"consule\" (da \"consul\", il console)?",
 			"options": [
-				"ablativo singolare",
+				"nominativo singolare",
+				"dativo singolare",
 				"genitivo singolare",
-				"accusativo singolare",
-				"dativo singolare"
+				"ablativo singolare"
 			],
 			"answer": "ablativo singolare",
 			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
@@ -443,8 +443,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"consulum\" (da \"consul\", il console)?",
 			"options": [
-				"ablativo singolare",
 				"accusativo singolare",
+				"genitivo singolare",
 				"dativo singolare",
 				"genitivo plurale"
 			],
@@ -459,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"miles\" (da \"miles\", il soldato)?",
 			"options": [
-				"accusativo singolare",
-				"dativo singolare",
+				"nominativo singolare",
+				"genitivo plurale",
 				"ablativo singolare",
-				"nominativo singolare"
+				"genitivo singolare"
 			],
 			"answer": "nominativo singolare",
 			"explanation": "nominativo (spesso soggetto), singolare."
@@ -475,10 +475,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"militis\" (da \"miles\", il soldato)?",
 			"options": [
+				"genitivo singolare",
 				"genitivo plurale",
 				"ablativo singolare",
-				"nominativo singolare",
-				"genitivo singolare"
+				"nominativo singolare"
 			],
 			"answer": "genitivo singolare",
 			"explanation": "genitivo (specificazione), singolare."
@@ -492,8 +492,8 @@
 			"prompt": "Che caso e numero ha \"militi\" (da \"miles\", il soldato)?",
 			"options": [
 				"dativo singolare",
-				"ablativo singolare",
-				"accusativo singolare",
+				"genitivo singolare",
+				"genitivo plurale",
 				"nominativo singolare"
 			],
 			"answer": "dativo singolare",
@@ -508,9 +508,9 @@
 			"prompt": "Che caso e numero ha \"militem\" (da \"miles\", il soldato)?",
 			"options": [
 				"genitivo plurale",
-				"ablativo singolare",
+				"genitivo singolare",
 				"accusativo singolare",
-				"genitivo singolare"
+				"ablativo singolare"
 			],
 			"answer": "accusativo singolare",
 			"explanation": "accusativo (spesso oggetto), singolare."
@@ -523,10 +523,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"milite\" (da \"miles\", il soldato)?",
 			"options": [
-				"nominativo singolare",
+				"genitivo singolare",
 				"accusativo singolare",
-				"ablativo singolare",
-				"genitivo plurale"
+				"nominativo singolare",
+				"ablativo singolare"
 			],
 			"answer": "ablativo singolare",
 			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
@@ -539,9 +539,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"militum\" (da \"miles\", il soldato)?",
 			"options": [
-				"accusativo singolare",
 				"dativo singolare",
 				"genitivo plurale",
+				"ablativo singolare",
 				"genitivo singolare"
 			],
 			"answer": "genitivo plurale",
@@ -555,10 +555,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"virtus\" (da \"virtus\", la virtù)?",
 			"options": [
+				"genitivo singolare",
 				"nominativo singolare",
 				"dativo singolare",
-				"accusativo singolare",
-				"genitivo plurale"
+				"accusativo singolare"
 			],
 			"answer": "nominativo singolare",
 			"explanation": "nominativo (spesso soggetto), singolare."
@@ -571,10 +571,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"virtutis\" (da \"virtus\", la virtù)?",
 			"options": [
+				"ablativo singolare",
+				"accusativo singolare",
 				"genitivo singolare",
-				"dativo singolare",
-				"genitivo plurale",
-				"accusativo singolare"
+				"dativo singolare"
 			],
 			"answer": "genitivo singolare",
 			"explanation": "genitivo (specificazione), singolare."
@@ -587,10 +587,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"virtuti\" (da \"virtus\", la virtù)?",
 			"options": [
-				"nominativo singolare",
 				"dativo singolare",
 				"genitivo singolare",
-				"ablativo singolare"
+				"ablativo singolare",
+				"nominativo singolare"
 			],
 			"answer": "dativo singolare",
 			"explanation": "dativo (termine), singolare."
@@ -603,9 +603,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"virtutem\" (da \"virtus\", la virtù)?",
 			"options": [
+				"nominativo singolare",
 				"dativo singolare",
 				"genitivo singolare",
-				"nominativo singolare",
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
@@ -619,10 +619,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"virtute\" (da \"virtus\", la virtù)?",
 			"options": [
-				"genitivo plurale",
-				"dativo singolare",
+				"ablativo singolare",
 				"accusativo singolare",
-				"ablativo singolare"
+				"nominativo singolare",
+				"genitivo singolare"
 			],
 			"answer": "ablativo singolare",
 			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
@@ -635,10 +635,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"virtutum\" (da \"virtus\", la virtù)?",
 			"options": [
-				"nominativo singolare",
-				"genitivo plurale",
+				"genitivo singolare",
+				"dativo singolare",
 				"ablativo singolare",
-				"genitivo singolare"
+				"genitivo plurale"
 			],
 			"answer": "genitivo plurale",
 			"explanation": "genitivo (specificazione), plurale."
@@ -651,10 +651,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"lex\" (da \"lex\", la legge)?",
 			"options": [
-				"nominativo singolare",
-				"genitivo plurale",
 				"ablativo singolare",
-				"accusativo singolare"
+				"accusativo singolare",
+				"genitivo plurale",
+				"nominativo singolare"
 			],
 			"answer": "nominativo singolare",
 			"explanation": "nominativo (spesso soggetto), singolare."
@@ -667,9 +667,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"legis\" (da \"lex\", la legge)?",
 			"options": [
-				"dativo singolare",
 				"ablativo singolare",
 				"nominativo singolare",
+				"accusativo singolare",
 				"genitivo singolare"
 			],
 			"answer": "genitivo singolare",
@@ -683,10 +683,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"legi\" (da \"lex\", la legge)?",
 			"options": [
-				"nominativo singolare",
+				"genitivo plurale",
 				"dativo singolare",
-				"genitivo singolare",
-				"ablativo singolare"
+				"ablativo singolare",
+				"genitivo singolare"
 			],
 			"answer": "dativo singolare",
 			"explanation": "dativo (termine), singolare."
@@ -699,10 +699,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"legem\" (da \"lex\", la legge)?",
 			"options": [
-				"accusativo singolare",
-				"genitivo singolare",
 				"ablativo singolare",
-				"genitivo plurale"
+				"genitivo singolare",
+				"dativo singolare",
+				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
 			"explanation": "accusativo (spesso oggetto), singolare."
@@ -715,10 +715,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"lege\" (da \"lex\", la legge)?",
 			"options": [
-				"dativo singolare",
 				"ablativo singolare",
-				"genitivo plurale",
-				"genitivo singolare"
+				"genitivo singolare",
+				"dativo singolare",
+				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
 			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
@@ -732,8 +732,8 @@
 			"prompt": "Che caso e numero ha \"legum\" (da \"lex\", la legge)?",
 			"options": [
 				"genitivo plurale",
+				"genitivo singolare",
 				"ablativo singolare",
-				"dativo singolare",
 				"accusativo singolare"
 			],
 			"answer": "genitivo plurale",
@@ -748,9 +748,9 @@
 			"prompt": "Che caso e numero ha \"corporis\" (da \"corpus\", il corpo)?",
 			"options": [
 				"ablativo singolare",
-				"genitivo singolare",
+				"dativo singolare",
 				"genitivo plurale",
-				"dativo singolare"
+				"genitivo singolare"
 			],
 			"answer": "genitivo singolare",
 			"explanation": "genitivo (specificazione), singolare."
@@ -764,9 +764,9 @@
 			"prompt": "Che caso e numero ha \"corpori\" (da \"corpus\", il corpo)?",
 			"options": [
 				"genitivo singolare",
-				"ablativo singolare",
+				"dativo singolare",
 				"genitivo plurale",
-				"dativo singolare"
+				"ablativo singolare"
 			],
 			"answer": "dativo singolare",
 			"explanation": "dativo (termine), singolare."
@@ -779,10 +779,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"corpore\" (da \"corpus\", il corpo)?",
 			"options": [
-				"ablativo singolare",
 				"genitivo singolare",
-				"dativo singolare",
-				"genitivo plurale"
+				"genitivo plurale",
+				"ablativo singolare",
+				"dativo singolare"
 			],
 			"answer": "ablativo singolare",
 			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
@@ -795,10 +795,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"corporum\" (da \"corpus\", il corpo)?",
 			"options": [
-				"genitivo plurale",
 				"dativo singolare",
 				"ablativo singolare",
-				"genitivo singolare"
+				"genitivo singolare",
+				"genitivo plurale"
 			],
 			"answer": "genitivo plurale",
 			"explanation": "genitivo (specificazione), plurale."
@@ -811,10 +811,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"temporis\" (da \"tempus\", il tempo)?",
 			"options": [
+				"genitivo plurale",
 				"genitivo singolare",
 				"ablativo singolare",
-				"dativo singolare",
-				"genitivo plurale"
+				"dativo singolare"
 			],
 			"answer": "genitivo singolare",
 			"explanation": "genitivo (specificazione), singolare."
@@ -827,10 +827,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"tempori\" (da \"tempus\", il tempo)?",
 			"options": [
-				"genitivo plurale",
+				"dativo singolare",
 				"genitivo singolare",
 				"ablativo singolare",
-				"dativo singolare"
+				"genitivo plurale"
 			],
 			"answer": "dativo singolare",
 			"explanation": "dativo (termine), singolare."
@@ -843,10 +843,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"tempore\" (da \"tempus\", il tempo)?",
 			"options": [
-				"ablativo singolare",
-				"genitivo singolare",
 				"genitivo plurale",
-				"dativo singolare"
+				"dativo singolare",
+				"genitivo singolare",
+				"ablativo singolare"
 			],
 			"answer": "ablativo singolare",
 			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
@@ -859,10 +859,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"temporum\" (da \"tempus\", il tempo)?",
 			"options": [
-				"dativo singolare",
+				"genitivo plurale",
 				"genitivo singolare",
-				"ablativo singolare",
-				"genitivo plurale"
+				"dativo singolare",
+				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
 			"explanation": "genitivo (specificazione), plurale."
@@ -875,9 +875,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"manui\" (da \"manus\", la mano)?",
 			"options": [
+				"dativo singolare",
 				"genitivo plurale",
 				"accusativo singolare",
-				"dativo singolare",
 				"ablativo singolare"
 			],
 			"answer": "dativo singolare",
@@ -891,10 +891,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"manum\" (da \"manus\", la mano)?",
 			"options": [
-				"dativo singolare",
 				"genitivo plurale",
-				"ablativo singolare",
-				"accusativo singolare"
+				"accusativo singolare",
+				"dativo singolare",
+				"ablativo singolare"
 			],
 			"answer": "accusativo singolare",
 			"explanation": "accusativo (spesso oggetto), singolare."
@@ -907,8 +907,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"manu\" (da \"manus\", la mano)?",
 			"options": [
-				"ablativo singolare",
 				"dativo singolare",
+				"ablativo singolare",
 				"accusativo singolare",
 				"genitivo plurale"
 			],
@@ -924,9 +924,9 @@
 			"prompt": "Che caso e numero ha \"manuum\" (da \"manus\", la mano)?",
 			"options": [
 				"dativo singolare",
+				"ablativo singolare",
 				"genitivo plurale",
-				"accusativo singolare",
-				"ablativo singolare"
+				"accusativo singolare"
 			],
 			"answer": "genitivo plurale",
 			"explanation": "genitivo (specificazione), plurale."
@@ -939,9 +939,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"exercitui\" (da \"exercitus\", l'esercito)?",
 			"options": [
-				"accusativo singolare",
 				"ablativo singolare",
 				"dativo singolare",
+				"accusativo singolare",
 				"genitivo plurale"
 			],
 			"answer": "dativo singolare",
@@ -955,9 +955,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"exercitum\" (da \"exercitus\", l'esercito)?",
 			"options": [
+				"dativo singolare",
 				"genitivo plurale",
 				"ablativo singolare",
-				"dativo singolare",
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
@@ -971,9 +971,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"exercitu\" (da \"exercitus\", l'esercito)?",
 			"options": [
-				"ablativo singolare",
-				"accusativo singolare",
 				"dativo singolare",
+				"accusativo singolare",
+				"ablativo singolare",
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
@@ -987,10 +987,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che caso e numero ha \"exercituum\" (da \"exercitus\", l'esercito)?",
 			"options": [
-				"genitivo plurale",
-				"dativo singolare",
 				"accusativo singolare",
-				"ablativo singolare"
+				"dativo singolare",
+				"ablativo singolare",
+				"genitivo plurale"
 			],
 			"answer": "genitivo plurale",
 			"explanation": "genitivo (specificazione), plurale."
@@ -1003,10 +1003,10 @@
 			"format": "multiple_choice",
 			"prompt": "Il latino era la lingua di quale antico popolo?",
 			"options": [
+				"I Romani",
 				"I Celti",
 				"Gli Egizi",
-				"I Greci",
-				"I Romani"
+				"I Greci"
 			],
 			"answer": "I Romani",
 			"explanation": "Il latino era la lingua degli antichi Romani."
@@ -1019,9 +1019,9 @@
 			"format": "multiple_choice",
 			"prompt": "Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?",
 			"options": [
-				"Il greco",
-				"Il latino",
 				"L'inglese",
+				"Il latino",
+				"Il greco",
 				"L'arabo"
 			],
 			"answer": "Il latino",
@@ -1036,8 +1036,8 @@
 			"prompt": "Cosa significa l'espressione latina 'Carpe diem'?",
 			"options": [
 				"Vivi a lungo",
-				"Sii coraggioso",
 				"Studia ogni giorno",
+				"Sii coraggioso",
 				"Cogli l'attimo"
 			],
 			"answer": "Cogli l'attimo",
@@ -1051,10 +1051,10 @@
 			"format": "multiple_choice",
 			"prompt": "In latino, il caso del soggetto è il…",
 			"options": [
-				"Accusativo",
-				"Genitivo",
 				"Ablativo",
-				"Nominativo"
+				"Nominativo",
+				"Genitivo",
+				"Accusativo"
 			],
 			"answer": "Nominativo",
 			"explanation": "Il nominativo indica il soggetto della frase."
@@ -1068,9 +1068,9 @@
 			"prompt": "Il complemento oggetto in latino si esprime con l'…",
 			"options": [
 				"Vocativo",
-				"Nominativo",
 				"Accusativo",
-				"Dativo"
+				"Dativo",
+				"Nominativo"
 			],
 			"answer": "Accusativo",
 			"explanation": "L'accusativo indica di solito il complemento oggetto."
@@ -1083,10 +1083,10 @@
 			"format": "multiple_choice",
 			"prompt": "Il complemento di specificazione (il 'di chi, di cosa') usa il…",
 			"options": [
-				"Ablativo",
-				"Genitivo",
 				"Accusativo",
-				"Dativo"
+				"Dativo",
+				"Genitivo",
+				"Ablativo"
 			],
 			"answer": "Genitivo",
 			"explanation": "Il genitivo indica la specificazione (es. il libro di Marco)."
@@ -1099,10 +1099,10 @@
 			"format": "multiple_choice",
 			"prompt": "Il complemento di termine (a chi, per chi) usa il…",
 			"options": [
-				"Nominativo",
-				"Genitivo",
 				"Dativo",
-				"Accusativo"
+				"Nominativo",
+				"Accusativo",
+				"Genitivo"
 			],
 			"answer": "Dativo",
 			"explanation": "Il dativo indica il termine (es. dono a Giulia)."
@@ -1115,10 +1115,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale caso serve per chiamare o invocare qualcuno?",
 			"options": [
-				"Dativo",
+				"Vocativo",
 				"Nominativo",
-				"Ablativo",
-				"Vocativo"
+				"Dativo",
+				"Ablativo"
 			],
 			"answer": "Vocativo",
 			"explanation": "Il vocativo si usa per rivolgersi direttamente a qualcuno."
@@ -1131,9 +1131,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quante sono le declinazioni del latino?",
 			"options": [
-				"4",
 				"3",
 				"6",
+				"4",
 				"5"
 			],
 			"answer": "5",
@@ -1147,10 +1147,10 @@
 			"format": "multiple_choice",
 			"prompt": "I nomi come 'rosa, rosae' appartengono alla…",
 			"options": [
-				"Quinta declinazione",
+				"Seconda declinazione",
 				"Terza declinazione",
 				"Prima declinazione",
-				"Seconda declinazione"
+				"Quinta declinazione"
 			],
 			"answer": "Prima declinazione",
 			"explanation": "La prima declinazione ha genitivo singolare in -ae."
@@ -1163,10 +1163,10 @@
 			"format": "multiple_choice",
 			"prompt": "I nomi come 'lupus, lupi' appartengono alla…",
 			"options": [
-				"Quarta declinazione",
-				"Terza declinazione",
+				"Seconda declinazione",
 				"Prima declinazione",
-				"Seconda declinazione"
+				"Terza declinazione",
+				"Quarta declinazione"
 			],
 			"answer": "Seconda declinazione",
 			"explanation": "La seconda declinazione ha genitivo singolare in -i."
@@ -1180,9 +1180,9 @@
 			"prompt": "Cosa significa 'aqua' in italiano?",
 			"options": [
 				"Aria",
-				"Acqua",
+				"Fuoco",
 				"Terra",
-				"Fuoco"
+				"Acqua"
 			],
 			"answer": "Acqua",
 			"explanation": "'Aqua' significa acqua."
@@ -1195,10 +1195,10 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa significa 'puella' in italiano?",
 			"options": [
-				"Cane",
 				"Ragazzo",
-				"Casa",
-				"Fanciulla, ragazza"
+				"Fanciulla, ragazza",
+				"Cane",
+				"Casa"
 			],
 			"answer": "Fanciulla, ragazza",
 			"explanation": "'Puella' è la fanciulla."
@@ -1211,10 +1211,10 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa significa 'silva' in italiano?",
 			"options": [
+				"Fiume",
 				"Bosco, selva",
-				"Città",
 				"Strada",
-				"Fiume"
+				"Città"
 			],
 			"answer": "Bosco, selva",
 			"explanation": "'Silva' è il bosco (da cui 'selva')."
@@ -1227,10 +1227,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si dice 'io sono' in latino?",
 			"options": [
-				"Sum",
+				"Sunt",
 				"Est",
 				"Es",
-				"Sunt"
+				"Sum"
 			],
 			"answer": "Sum",
 			"explanation": "'Sum' = io sono; 'es' = tu sei; 'est' = egli è."
@@ -1243,9 +1243,9 @@
 			"format": "multiple_choice",
 			"prompt": "Il verbo 'est' significa…",
 			"options": [
-				"(tu) sei",
-				"(loro) sono",
 				"(io) sono",
+				"(loro) sono",
+				"(tu) sei",
 				"(egli/ella) è"
 			],
 			"answer": "(egli/ella) è",
@@ -1259,9 +1259,9 @@
 			"format": "multiple_choice",
 			"prompt": "'Sunt' significa…",
 			"options": [
-				"(io) sono",
-				"(loro) sono",
 				"(egli) è",
+				"(loro) sono",
+				"(io) sono",
 				"(noi) siamo"
 			],
 			"answer": "(loro) sono",
@@ -1275,10 +1275,10 @@
 			"format": "multiple_choice",
 			"prompt": "'Puella rosam amat' significa…",
 			"options": [
-				"La rosa ama la fanciulla",
-				"La fanciulla ama la rosa",
+				"La fanciulla guarda la rosa",
 				"Le fanciulle amano le rose",
-				"La fanciulla guarda la rosa"
+				"La fanciulla ama la rosa",
+				"La rosa ama la fanciulla"
 			],
 			"answer": "La fanciulla ama la rosa",
 			"explanation": "'Rosam' è accusativo (oggetto): la fanciulla (soggetto) ama la rosa (oggetto)."

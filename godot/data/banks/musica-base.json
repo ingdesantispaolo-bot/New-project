@@ -12,8 +12,8 @@
 			"prompt": "Qual è la definizione corretta di \"Pentagramma e chiavi\"?",
 			"options": [
 				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
-				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
 				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
+				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
 				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
 			],
 			"answer": "Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
@@ -27,10 +27,10 @@
 			"format": "multiple_choice",
 			"prompt": "Nota nel secondo spazio in chiave di violino.",
 			"options": [
-				"Quinta.",
-				"La",
 				"La (ottava alta).",
-				"Non manca nessun battito."
+				"Non manca nessun battito.",
+				"La",
+				"Quinta."
 			],
 			"answer": "La",
 			"explanation": "chiave di violino → gli spazi sono Fa-La-Do-Mi → secondo spazio = La."
@@ -43,10 +43,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Pentagramma e chiavi\"?",
 			"options": [
-				"Non saltare le linee: vanno contate una per volta.",
 				"La croma vale mezzo battito, non uno.",
 				"La stessa posizione cambia nome se cambia chiave.",
-				"Una croma vale mezzo battito, non uno."
+				"Una croma vale mezzo battito, non uno.",
+				"Non saltare le linee: vanno contate una per volta."
 			],
 			"answer": "La stessa posizione cambia nome se cambia chiave.",
 			"explanation": "La stessa posizione cambia nome se cambia chiave."
@@ -59,10 +59,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Ritmo e intervalli\"?",
 			"options": [
-				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
+				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
+				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
 				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
-				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
-				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota."
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
 			],
 			"answer": "Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
 			"explanation": "Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
@@ -75,10 +75,10 @@
 			"format": "multiple_choice",
 			"prompt": "In 4/4 ci sono due semiminime e una minima.",
 			"options": [
+				"La",
 				"Quinta.",
 				"Non manca nessun battito.",
-				"La (ottava alta).",
-				"La"
+				"La (ottava alta)."
 			],
 			"answer": "Non manca nessun battito.",
 			"explanation": "1 + 1 + 2 = 4 → la battuta è completa."
@@ -91,10 +91,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Ritmo e intervalli\"?",
 			"options": [
-				"Conta includendo la nota di partenza, non da zero.",
+				"Una croma vale mezzo battito, non uno.",
+				"La stessa posizione cambia nome se cambia chiave.",
 				"Non saltare le linee: vanno contate una per volta.",
-				"La croma vale mezzo battito, non uno.",
-				"Una croma vale mezzo battito, non uno."
+				"La croma vale mezzo battito, non uno."
 			],
 			"answer": "Una croma vale mezzo battito, non uno.",
 			"explanation": "Una croma vale mezzo battito, non uno."
@@ -107,10 +107,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Linee addizionali e ottava\"?",
 			"options": [
-				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
 				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
+				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
 				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
-				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota."
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
 			],
 			"answer": "Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
 			"explanation": "Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota."
@@ -123,10 +123,10 @@
 			"format": "multiple_choice",
 			"prompt": "Nota due linee sopra il pentagramma in chiave di violino.",
 			"options": [
-				"Quinta.",
-				"Manca una semiminima.",
 				"La (ottava alta).",
-				"La"
+				"Non manca nessun battito.",
+				"La",
+				"Quinta."
 			],
 			"answer": "La (ottava alta).",
 			"explanation": "dall'ultima riga salgo di due linee → conto righe e spazi in ordine → ottengo il La acuto."
@@ -139,10 +139,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Linee addizionali e ottava\"?",
 			"options": [
-				"Non saltare le linee: vanno contate una per volta.",
-				"Una croma vale mezzo battito, non uno.",
+				"La stessa posizione cambia nome se cambia chiave.",
 				"La croma vale mezzo battito, non uno.",
-				"La stessa posizione cambia nome se cambia chiave."
+				"Non saltare le linee: vanno contate una per volta.",
+				"Conta includendo la nota di partenza, non da zero."
 			],
 			"answer": "Non saltare le linee: vanno contate una per volta.",
 			"explanation": "Non saltare le linee: vanno contate una per volta."
@@ -155,10 +155,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Intervalli e scale\"?",
 			"options": [
-				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
 				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
-				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
-				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
+				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
+				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo."
 			],
 			"answer": "Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
 			"explanation": "Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo."
@@ -171,10 +171,10 @@
 			"format": "multiple_choice",
 			"prompt": "Intervallo da Do a Sol.",
 			"options": [
-				"La",
-				"Quinta.",
+				"Non manca nessun battito.",
+				"La (ottava alta).",
 				"Manca una semiminima.",
-				"La (ottava alta)."
+				"Quinta."
 			],
 			"answer": "Quinta.",
 			"explanation": "Do, Re, Mi, Fa, Sol → conto cinque nomi → è una quinta."
@@ -187,10 +187,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Intervalli e scale\"?",
 			"options": [
-				"Conta includendo la nota di partenza, non da zero.",
 				"Una croma vale mezzo battito, non uno.",
-				"La croma vale mezzo battito, non uno.",
-				"Non saltare le linee: vanno contate una per volta."
+				"Non saltare le linee: vanno contate una per volta.",
+				"Conta includendo la nota di partenza, non da zero.",
+				"La stessa posizione cambia nome se cambia chiave."
 			],
 			"answer": "Conta includendo la nota di partenza, non da zero.",
 			"explanation": "Conta includendo la nota di partenza, non da zero."
@@ -203,10 +203,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Durate e tempo\"?",
 			"options": [
-				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
 				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
 				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
-				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
+				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento."
 			],
 			"answer": "Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
 			"explanation": "Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo."
@@ -219,8 +219,8 @@
 			"format": "multiple_choice",
 			"prompt": "In 4/4 ci sono una minima e una semiminima. Cosa manca?",
 			"options": [
+				"La (ottava alta).",
 				"Non manca nessun battito.",
-				"La",
 				"Quinta.",
 				"Manca una semiminima."
 			],
@@ -236,9 +236,9 @@
 			"prompt": "Quale errore comune bisogna evitare in \"Durate e tempo\"?",
 			"options": [
 				"Una croma vale mezzo battito, non uno.",
-				"La stessa posizione cambia nome se cambia chiave.",
-				"Non saltare le linee: vanno contate una per volta.",
-				"La croma vale mezzo battito, non uno."
+				"La croma vale mezzo battito, non uno.",
+				"Conta includendo la nota di partenza, non da zero.",
+				"La stessa posizione cambia nome se cambia chiave."
 			],
 			"answer": "La croma vale mezzo battito, non uno.",
 			"explanation": "La croma vale mezzo battito, non uno."
@@ -443,10 +443,10 @@
 			"format": "multiple_choice",
 			"prompt": "In musica 'forte' e 'piano' indicano…",
 			"options": [
-				"La durata",
-				"La velocità del brano",
+				"La durata di ogni nota scritta",
+				"La velocità con cui si suona",
 				"L'intensità del suono (il volume)",
-				"L'altezza della nota"
+				"L'altezza (acuto o grave)"
 			],
 			"answer": "L'intensità del suono (il volume)",
 			"explanation": "Le dinamiche dicono quanto suonare forte o piano."
@@ -459,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Il termine che indica quanto è veloce un brano è il…",
 			"options": [
-				"Timbro",
+				"Timbro (colore)",
 				"Tempo (andamento)",
-				"Volume",
-				"Silenzio"
+				"Volume (intensità)",
+				"Silenzio (pausa)"
 			],
 			"answer": "Tempo (andamento)",
 			"explanation": "Il tempo indica la velocità: da lento (adagio) a veloce (allegro)."

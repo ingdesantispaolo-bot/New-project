@@ -50,10 +50,24 @@ function rng(seed) {
   };
 }
 
+// Distrattori PLAUSIBILI, non soltanto diversi. Due criteri didattici:
+//  - lunghezza confrontabile con la risposta: se la risposta corretta è sempre
+//    l'opzione più lunga, il bambino la indovina senza sapere il contenuto e la
+//    padronanza misurata non vale nulla (indizio "test-wise" classico);
+//  - varietà: tra i candidati di lunghezza simile si sceglie a caso, così due
+//    item con risposte simili non ricevono sempre gli stessi distrattori.
+const LENGTH_WINDOW = 4; // candidati per distrattore tra cui sorteggiare
 function pickDistractors(pool, exclude, count, rand) {
-  const candidates = pool.filter((v) => v !== exclude);
-  const unique = [...new Set(candidates)];
-  return shuffle(unique, rand).slice(0, count);
+  const unique = [...new Set(pool.filter((v) => v !== exclude))];
+  if (unique.length <= count) return shuffle(unique, rand);
+  const target = String(exclude).length;
+  // La rosa di candidati resta comunque più stretta del pool, altrimenti su pool
+  // piccoli la preferenza di lunghezza non avrebbe alcun effetto.
+  const window = Math.max(count + 1, Math.min(count * LENGTH_WINDOW, Math.ceil(unique.length / 2)));
+  const shortlist = shuffle(unique, rand)
+    .sort((a, b) => Math.abs(String(a).length - target) - Math.abs(String(b).length - target))
+    .slice(0, window);
+  return shuffle(shortlist, rand).slice(0, count);
 }
 
 function multipleChoiceItem({ id, subject, topic, difficulty, prompt, answer, distractors, explanation }, rand) {
@@ -120,20 +134,31 @@ function levelToDifficulty(level) {
 // `field` da quale campo pescare i distrattori; qui costruiamo un pool per campo.
 function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
   const rand = rng(subject === "italiano" ? 20260721 : 20260722);
-  const pools = new Map(); // field -> Map(wordClass -> valori[])
+  // Due pool per campo: uno per (classe grammaticale + AREA di significato) e uno
+  // per sola classe grammaticale. I distrattori migliori vengono dalla stessa area
+  // ("premessa" contro "ipotesi/conclusione", non contro "pranzo"): così l'item
+  // chiede davvero di distinguere il significato, non il campo semantico.
+  const pools = new Map(); // field -> {byTopic: Map, byClass: Map}
   for (const field of fields) {
+    const byTopic = new Map();
     const byClass = new Map();
     for (const entry of entries) {
-      const list = byClass.get(entry.wordClass) ?? [];
-      list.push(entry[field]);
-      byClass.set(entry.wordClass, list);
+      const topicKey = `${entry.wordClass}::${entry.category}`;
+      byTopic.set(topicKey, [...(byTopic.get(topicKey) ?? []), entry[field]]);
+      byClass.set(entry.wordClass, [...(byClass.get(entry.wordClass) ?? []), entry[field]]);
     }
-    pools.set(field, byClass);
+    pools.set(field, { byTopic, byClass });
   }
   const items = [];
   entries.forEach((entry, index) => {
     const { prompt, answer, field } = promptFor(entry, index);
-    const pool = pools.get(field).get(entry.wordClass) ?? [];
+    const fieldPools = pools.get(field);
+    // Ripiego sulla sola classe grammaticale solo se l'area non ha abbastanza
+    // parole: mai distrattori fittizi, mai item senza tre alternative.
+    const sameTopic = fieldPools.byTopic.get(`${entry.wordClass}::${entry.category}`) ?? [];
+    const pool = new Set(sameTopic.filter((v) => v !== answer)).size >= 3
+      ? sameTopic
+      : fieldPools.byClass.get(entry.wordClass) ?? [];
     const distractors = pickDistractors(pool, answer, 3, rand);
     if (distractors.length < 3) return; // classe troppo piccola, salta (nessun distrattore fittizio)
     items.push(
@@ -270,25 +295,25 @@ const COMPONENT_DIFFICULTY = {
 // serie/parallelo, sicurezza e misure, con scala di difficoltà per topic.
 const ELETTRONICA_EXTRA = [
   // Basi dell'elettricità
-  { topic: "elettricita-base", difficulty: 1, prompt: "Cosa fa accendere una lampadina in un circuito?", answer: "La corrente elettrica", distractors: ["Il suono", "La luce del Sole", "Il vento"], explanation: "La corrente che scorre nel filo accende la lampadina." },
+  { topic: "elettricita-base", difficulty: 1, prompt: "Cosa fa accendere una lampadina in un circuito?", answer: "La corrente elettrica", distractors: ["Il rumore del vento", "La luce del Sole", "Il soffio dell'aria"], explanation: "La corrente che scorre nel filo accende la lampadina." },
   { topic: "elettricita-base", difficulty: 2, prompt: "Come si chiama il flusso di cariche elettriche in un filo?", answer: "Corrente elettrica", distractors: ["Tensione statica", "Calore", "Magnetismo"], explanation: "La corrente è il movimento delle cariche nel conduttore." },
-  { topic: "elettricita-base", difficulty: 3, prompt: "La 'spinta' che mette in movimento la corrente si chiama…", answer: "Tensione (voltaggio)", distractors: ["Resistenza", "Massa", "Frequenza"], explanation: "La tensione (in volt) spinge la corrente nel circuito." },
+  { topic: "elettricita-base", difficulty: 3, prompt: "La 'spinta' che mette in movimento la corrente si chiama…", answer: "Tensione (voltaggio)", distractors: ["Resistenza (in ohm)", "Massa (in chili)", "Frequenza (in hertz)"], explanation: "La tensione (in volt) spinge la corrente nel circuito." },
   // Il circuito
   { topic: "circuito", difficulty: 1, prompt: "Perché una lampadina si accenda, il circuito deve essere…", answer: "Chiuso", distractors: ["Aperto", "Rotto", "Bagnato"], explanation: "Solo con il circuito chiuso la corrente può fare un giro completo." },
-  { topic: "circuito", difficulty: 2, prompt: "A cosa serve un interruttore in un circuito?", answer: "Ad aprire o chiudere il passaggio di corrente", distractors: ["A produrre luce", "A misurare il tempo", "A scaldare l'acqua"], explanation: "L'interruttore apre (spegne) o chiude (accende) il circuito." },
+  { topic: "circuito", difficulty: 2, prompt: "A cosa serve un interruttore in un circuito?", answer: "Ad aprire o chiudere il passaggio di corrente", distractors: ["A produrre da solo la luce del circuito", "A misurare il tempo che passa", "A scaldare l'acqua del bicchiere"], explanation: "L'interruttore apre (spegne) o chiude (accende) il circuito." },
   { topic: "circuito", difficulty: 2, prompt: "In una torcia, cosa fornisce l'energia elettrica?", answer: "La pila (batteria)", distractors: ["L'interruttore", "Il filo", "La lampadina"], explanation: "La pila è il generatore che alimenta il circuito." },
   // Conduttori e isolanti
-  { topic: "conduttori", difficulty: 2, prompt: "Quale materiale conduce bene l'elettricità?", answer: "Il rame (un metallo)", distractors: ["La gomma", "La plastica", "Il legno secco"], explanation: "I metalli come il rame sono buoni conduttori." },
+  { topic: "conduttori", difficulty: 2, prompt: "Quale materiale conduce bene l'elettricità?", answer: "Il rame (un metallo)", distractors: ["La gomma dura", "La plastica dura", "Il legno ben secco"], explanation: "I metalli come il rame sono buoni conduttori." },
   { topic: "conduttori", difficulty: 3, prompt: "Come si chiama un materiale che NON lascia passare la corrente?", answer: "Isolante", distractors: ["Conduttore", "Magnete", "Generatore"], explanation: "Gomma e plastica sono isolanti: proteggono dai contatti." },
   // Serie e parallelo
   { topic: "serie-parallelo", difficulty: 3, prompt: "In un collegamento in SERIE, se una lampadina si brucia, le altre…", answer: "Si spengono", distractors: ["Restano accese", "Si accendono di più", "Cambiano colore"], explanation: "In serie la corrente ha un unico percorso: si interrompe per tutte." },
   { topic: "serie-parallelo", difficulty: 4, prompt: "In un collegamento in PARALLELO, se una lampadina si brucia, le altre…", answer: "Restano accese", distractors: ["Si spengono tutte", "Si spengono a metà", "Esplodono"], explanation: "In parallelo ogni lampadina ha il suo percorso indipendente." },
   // Sicurezza
-  { topic: "sicurezza-elettrica", difficulty: 1, prompt: "Perché non si toccano le prese con le mani bagnate?", answer: "L'acqua conduce e si rischia la scossa", distractors: ["Si sporca la presa", "Fa rumore", "Consuma più energia"], explanation: "L'acqua rende il corpo conduttore: pericolo di scossa." },
+  { topic: "sicurezza-elettrica", difficulty: 1, prompt: "Perché non si toccano le prese con le mani bagnate?", answer: "L'acqua conduce e si rischia la scossa", distractors: ["Si sporca la presa di corrente", "Fa rumore e disturba gli altri", "Si consuma molta più energia"], explanation: "L'acqua rende il corpo conduttore: pericolo di scossa." },
   { topic: "sicurezza-elettrica", difficulty: 2, prompt: "Cosa NON bisogna mai infilare in una presa di corrente?", answer: "Oggetti metallici o le dita", distractors: ["La spina di un apparecchio", "Un copripresa di sicurezza", "Niente, è sempre sicuro"], explanation: "I metalli conducono: infilarli nella presa è pericolosissimo." },
   // Componenti (stesso topic dei generati)
   { topic: "componenti", difficulty: 2, prompt: "A cosa serve un resistore in un circuito?", answer: "A limitare la corrente", distractors: ["A produrre corrente", "A spegnere il computer", "A illuminare sempre"], explanation: "Il resistore riduce la corrente, proteggendo gli altri componenti." },
-  { topic: "componenti", difficulty: 2, prompt: "Un LED si accende solo se collegato…", answer: "Nel verso giusto (ha una polarità)", distractors: ["In qualsiasi verso", "Solo al buio", "Solo con l'acqua"], explanation: "Il LED conduce in un solo verso: va rispettata la polarità." },
+  { topic: "componenti", difficulty: 2, prompt: "Un LED si accende solo se collegato…", answer: "Nel verso giusto (ha una polarità)", distractors: ["In qualsiasi verso, non importa", "Solo al buio completo", "Solo con l'acqua vicino"], explanation: "Il LED conduce in un solo verso: va rispettata la polarità." },
   // Misure elettriche
   { topic: "misure-elettriche", difficulty: 3, prompt: "Con quale unità si misura la tensione?", answer: "Volt", distractors: ["Watt", "Metri", "Gradi"], explanation: "La tensione si misura in volt (V)." },
   { topic: "misure-elettriche", difficulty: 3, prompt: "Con quale unità si misura la corrente elettrica?", answer: "Ampere", distractors: ["Volt", "Litri", "Secondi"], explanation: "La corrente si misura in ampere (A)." },
@@ -373,11 +398,11 @@ const CODING_EXTRA = [
   { topic: "output", difficulty: 2, prompt: "Cosa stampa: print(3 + 4)?", answer: "7", distractors: ["34", "3 + 4", "'7'"], explanation: "Con i numeri, + è la somma: 3 + 4 = 7." },
   { topic: "output", difficulty: 3, prompt: "Cosa stampa: print('3' + '4')?", answer: "34", distractors: ["7", "'34'", "errore"], explanation: "Con le stringhe, + le unisce (concatenazione): '3'+'4' = '34'." },
   // Variabili
-  { topic: "variabili", difficulty: 1, prompt: "In x = 5, che cos'è x?", answer: "Una variabile che vale 5", distractors: ["Una funzione", "Un errore", "Un testo fisso"], explanation: "Una variabile è un contenitore con un nome e un valore." },
+  { topic: "variabili", difficulty: 1, prompt: "In x = 5, che cos'è x?", answer: "Una variabile che vale 5", distractors: ["Una funzione senza nome", "Un errore di scrittura", "Un testo fisso tra virgolette"], explanation: "Una variabile è un contenitore con un nome e un valore." },
   { topic: "variabili", difficulty: 2, prompt: "Dopo x = 5 e poi x = x + 1, quanto vale x?", answer: "6", distractors: ["5", "51", "errore"], explanation: "x + 1 = 5 + 1 = 6, e viene rimesso in x." },
   // Tipi di dato
   { topic: "tipi", difficulty: 2, prompt: "Di che tipo è il valore 'ciao'?", answer: "Stringa (testo)", distractors: ["Numero intero", "Booleano", "Lista"], explanation: "Il testo tra virgolette è una stringa." },
-  { topic: "tipi", difficulty: 2, prompt: "Di che tipo è il valore 7?", answer: "Numero intero (int)", distractors: ["Stringa", "Booleano", "Lista"], explanation: "7 senza virgolette è un numero intero." },
+  { topic: "tipi", difficulty: 2, prompt: "Di che tipo è il valore 7?", answer: "Numero intero (int)", distractors: ["Stringa di testo", "Booleano (vero/falso)", "Lista di valori"], explanation: "7 senza virgolette è un numero intero." },
   // Operatori
   { topic: "operatori", difficulty: 2, prompt: "Cosa calcola 10 % 3 in Python (operatore modulo)?", answer: "1 (il resto)", distractors: ["3", "30", "3.33"], explanation: "% dà il resto della divisione: 10 = 3×3 + 1." },
   { topic: "operatori", difficulty: 3, prompt: "Cosa calcola 2 ** 3 in Python?", answer: "8", distractors: ["6", "9", "5"], explanation: "** è l'elevamento a potenza: 2 alla 3 = 8." },
@@ -386,20 +411,20 @@ const CODING_EXTRA = [
   { topic: "condizioni", difficulty: 3, prompt: "Con x = 4, cosa stampa: if x > 3: print('grande')?", answer: "grande", distractors: ["4", "niente", "errore"], explanation: "4 > 3 è vero, quindi esegue print('grande')." },
   { topic: "condizioni", difficulty: 3, prompt: "Quale operatore verifica se due valori sono uguali?", answer: "==", distractors: ["=", "=>", "><"], explanation: "= assegna un valore; == confronta due valori." },
   // Cicli
-  { topic: "cicli", difficulty: 2, prompt: "Quale istruzione ripete del codice più volte?", answer: "for (oppure while)", distractors: ["if", "def", "print"], explanation: "I cicli for e while ripetono un blocco di istruzioni." },
+  { topic: "cicli", difficulty: 2, prompt: "Quale istruzione ripete del codice più volte?", answer: "for (oppure while)", distractors: ["if (oppure else)", "def (oppure return)", "print (oppure input)"], explanation: "I cicli for e while ripetono un blocco di istruzioni." },
   { topic: "cicli", difficulty: 3, prompt: "Quante volte stampa: for i in range(3): print(i)?", answer: "3 volte (0, 1, 2)", distractors: ["1 volta", "3 volte (1, 2, 3)", "4 volte"], explanation: "range(3) genera 0, 1, 2: tre ripetizioni." },
   // Liste
   { topic: "liste", difficulty: 2, prompt: "Come si scrive in Python una lista con tre numeri?", answer: "[1, 2, 3]", distractors: ["(1 2 3)", "{1;2;3}", "<1,2,3>"], explanation: "Le liste si scrivono tra parentesi quadre, con virgole." },
   { topic: "liste", difficulty: 3, prompt: "Data lista = [10, 20, 30], cosa vale lista[0]?", answer: "10", distractors: ["20", "30", "1"], explanation: "Gli indici partono da 0: lista[0] è il primo elemento." },
   // Funzioni
   { topic: "funzioni", difficulty: 3, prompt: "Quale parola chiave definisce una funzione in Python?", answer: "def", distractors: ["func", "function", "let"], explanation: "def introduce la definizione di una funzione." },
-  { topic: "funzioni", difficulty: 4, prompt: "A cosa serve soprattutto una funzione?", answer: "A riusare un blocco di codice dandogli un nome", distractors: ["A colorare il testo", "A spegnere il computer", "A creare errori"], explanation: "Le funzioni evitano di ripetere lo stesso codice." },
+  { topic: "funzioni", difficulty: 4, prompt: "A cosa serve soprattutto una funzione?", answer: "A riusare un blocco di codice dandogli un nome", distractors: ["A colorare il testo del programma", "A spegnere il computer da solo", "A creare di proposito errori nel codice"], explanation: "Le funzioni evitano di ripetere lo stesso codice." },
   // Booleani
   { topic: "booleani", difficulty: 2, prompt: "Quali sono i due valori booleani in Python?", answer: "True e False", distractors: ["1 e 2", "Sì e No", "On e Off"], explanation: "Un booleano può essere solo True (vero) o False (falso)." },
   { topic: "booleani", difficulty: 3, prompt: "Cosa vale l'espressione 5 > 3 in Python?", answer: "True", distractors: ["False", "5", "errore"], explanation: "5 è maggiore di 3, quindi il confronto è True." },
   // Pensiero computazionale
-  { topic: "algoritmi", difficulty: 1, prompt: "Che cos'è un algoritmo?", answer: "Una sequenza di passi per risolvere un problema", distractors: ["Un tipo di computer", "Un linguaggio di programmazione", "Un errore"], explanation: "L'algoritmo descrive i passi, come una ricetta." },
-  { topic: "algoritmi", difficulty: 2, prompt: "Cosa significa 'bug' in programmazione?", answer: "Un errore nel programma", distractors: ["Un tipo di dato", "Un comando utile", "Una funzione"], explanation: "Un bug è un difetto che fa comportare male il programma." },
+  { topic: "algoritmi", difficulty: 1, prompt: "Che cos'è un algoritmo?", answer: "Una sequenza di passi per risolvere un problema", distractors: ["Un tipo di computer molto potente", "Un linguaggio di programmazione nuovo", "Un errore che blocca il programma"], explanation: "L'algoritmo descrive i passi, come una ricetta." },
+  { topic: "algoritmi", difficulty: 2, prompt: "Cosa significa 'bug' in programmazione?", answer: "Un errore nel programma", distractors: ["Un tipo di dato nuovo", "Un comando molto utile", "Una funzione di sistema"], explanation: "Un bug è un difetto che fa comportare male il programma." },
 ];
 
 // Normalizza i topic verbosi dei semi Python sui topic canonici puliti, così la
@@ -540,16 +565,28 @@ const THEORY_TOPIC = {
   "musica-durate-tempo": "ritmo",
 };
 
+// Distrattori della teoria: prima quelli della STESSA area (quasi-corretti, il
+// bambino deve distinguere calore da temperatura, non fisica da musica), poi —
+// solo se l'area non ne offre tre — il resto della materia. Con il pool globale
+// le alternative venivano da argomenti lontani ("2 g/cm3" sotto una domanda di
+// equilibrio) e si escludevano a colpo d'occhio, senza sapere la risposta.
+function nearestFirst(all, sameArea, answer, rand) {
+  const near = sameArea.filter((v) => v !== answer);
+  return new Set(near).size >= 3 ? pickDistractors(near, answer, 3, rand) : pickDistractors(all, answer, 3, rand);
+}
+
 function curatedTheoryBank(subject, topics, seed) {
   const rand = rng(seed);
+  const areaOf = (t) => THEORY_TOPIC[t.id] ?? t.area;
   const definitions = topics.map((t) => t.definition);
   const exampleAnswers = topics.map((t) => t.example.answer);
   const firstWatchOuts = topics.map((t) => t.watchOut[0]);
   const items = [];
   for (const topic of topics) {
-    const canonTopic = THEORY_TOPIC[topic.id] ?? topic.area;
+    const canonTopic = areaOf(topic);
+    const sameArea = topics.filter((t) => areaOf(t) === canonTopic);
     const difficulty = Math.min(4, Math.max(1, Math.round(((topic.levelRange[0] + topic.levelRange[1]) / 2) / 2)));
-    const defDistractors = pickDistractors(definitions, topic.definition, 3, rand);
+    const defDistractors = nearestFirst(definitions, sameArea.map((t) => t.definition), topic.definition, rand);
     if (defDistractors.length === 3) {
       items.push(
         multipleChoiceItem(
@@ -567,7 +604,7 @@ function curatedTheoryBank(subject, topics, seed) {
         ),
       );
     }
-    const exDistractors = pickDistractors(exampleAnswers, topic.example.answer, 3, rand);
+    const exDistractors = nearestFirst(exampleAnswers, sameArea.map((t) => t.example.answer), topic.example.answer, rand);
     if (exDistractors.length === 3) {
       items.push(
         multipleChoiceItem(
@@ -585,7 +622,7 @@ function curatedTheoryBank(subject, topics, seed) {
         ),
       );
     }
-    const watchDistractors = pickDistractors(firstWatchOuts, topic.watchOut[0], 3, rand);
+    const watchDistractors = nearestFirst(firstWatchOuts, sameArea.map((t) => t.watchOut[0]), topic.watchOut[0], rand);
     if (watchDistractors.length === 3) {
       items.push(
         multipleChoiceItem(
@@ -617,7 +654,7 @@ function authoredMcItems(subject, questions, rand) {
 
 const FISICA_EXTRA = [
   // Misure
-  { topic: "misure", difficulty: 1, prompt: "Con quale strumento misuri la lunghezza di un banco?", answer: "Il metro (righello)", distractors: ["La bilancia", "Il termometro", "L'orologio"], explanation: "Il metro misura le lunghezze; la bilancia le masse." },
+  { topic: "misure", difficulty: 1, prompt: "Con quale strumento misuri la lunghezza di un banco?", answer: "Il metro (righello)", distractors: ["La bilancia da cucina", "Il termometro", "L'orologio da polso"], explanation: "Il metro misura le lunghezze; la bilancia le masse." },
   { topic: "misure", difficulty: 2, prompt: "Quanti centimetri sono 1 metro?", answer: "100", distractors: ["10", "1000", "50"], explanation: "1 metro = 100 centimetri." },
   { topic: "misure", difficulty: 3, prompt: "Per misurare quanto pesi useresti…", answer: "Una bilancia", distractors: ["Un metro", "Un termometro", "Un cronometro"], explanation: "La bilancia misura la massa/peso; il termometro la temperatura." },
   // Moto
@@ -625,16 +662,16 @@ const FISICA_EXTRA = [
   { topic: "moto", difficulty: 2, prompt: "Se un'auto percorre più strada nello stesso tempo, è…", answer: "Più veloce", distractors: ["Più lenta", "Ferma", "Più pesante"], explanation: "Più spazio nello stesso tempo significa maggiore velocità." },
   { topic: "moto", difficulty: 3, prompt: "In un grafico spazio-tempo, una linea più ripida indica…", answer: "Una velocità maggiore", distractors: ["Un oggetto fermo", "Una salita reale in collina", "Un peso maggiore"], explanation: "La pendenza del grafico rappresenta la velocità, non un percorso in salita." },
   // Forze
-  { topic: "forze", difficulty: 1, prompt: "Quale forza fa cadere gli oggetti verso il basso?", answer: "La forza di gravità", distractors: ["Il vento", "La luce", "Il suono"], explanation: "La gravità attira gli oggetti verso il centro della Terra." },
+  { topic: "forze", difficulty: 1, prompt: "Quale forza fa cadere gli oggetti verso il basso?", answer: "La forza di gravità", distractors: ["Il vento leggero", "La luce del Sole", "Il suono forte"], explanation: "La gravità attira gli oggetti verso il centro della Terra." },
   { topic: "forze", difficulty: 2, prompt: "Cosa rallenta una palla che rotola sul pavimento?", answer: "L'attrito", distractors: ["La gravità verso l'alto", "La luce", "Il colore della palla"], explanation: "L'attrito tra palla e pavimento la frena a poco a poco." },
   { topic: "forze", difficulty: 3, prompt: "Su un libro fermo sul tavolo, le forze…", answer: "Si bilanciano", distractors: ["Spingono solo in basso", "Spingono solo in alto", "Non esistono"], explanation: "Il peso verso il basso e la spinta del tavolo verso l'alto si equilibrano." },
-  { topic: "forze", difficulty: 4, prompt: "Massa e peso: quale frase è corretta?", answer: "La massa è la quantità di materia; il peso è la forza di gravità su di essa", distractors: ["Sono esattamente la stessa cosa", "Il peso non cambia mai, ovunque", "La massa si misura sempre in newton"], explanation: "La massa non cambia; il peso dipende dalla gravità (sulla Luna pesi meno)." },
+  { topic: "forze", difficulty: 4, prompt: "Massa e peso: quale frase è corretta?", answer: "La massa è la quantità di materia; il peso è la forza di gravità su di essa", distractors: ["Massa e peso sono esattamente la stessa grandezza, con lo stesso nome", "Il peso resta identico ovunque, anche sulla Luna e su Marte", "La massa si misura sempre in newton, esattamente come il peso"], explanation: "La massa non cambia; il peso dipende dalla gravità (sulla Luna pesi meno)." },
   // Energia
   { topic: "energia", difficulty: 2, prompt: "Una palla ferma in cima a uno scivolo ha soprattutto energia…", answer: "Potenziale", distractors: ["Cinetica", "Sonora", "Luminosa"], explanation: "In alto e ferma ha energia potenziale (di posizione)." },
-  { topic: "energia", difficulty: 3, prompt: "Mentre la palla scende lungo lo scivolo, l'energia potenziale si trasforma in…", answer: "Energia cinetica (di movimento)", distractors: ["Più energia potenziale", "Suono", "Nulla, sparisce"], explanation: "Scendendo, l'energia di posizione diventa energia di movimento." },
+  { topic: "energia", difficulty: 3, prompt: "Mentre la palla scende lungo lo scivolo, l'energia potenziale si trasforma in…", answer: "Energia cinetica (di movimento)", distractors: ["Ancora più energia potenziale", "Energia sonora (rumore)", "Nulla: l'energia sparisce"], explanation: "Scendendo, l'energia di posizione diventa energia di movimento." },
   // Calore
-  { topic: "calore", difficulty: 2, prompt: "Il calore passa sempre…", answer: "Dal corpo più caldo a quello più freddo", distractors: ["Dal freddo al caldo", "Dal piccolo al grande", "In nessuna direzione"], explanation: "Il calore fluisce dal caldo al freddo finché non si equilibrano." },
-  { topic: "calore", difficulty: 3, prompt: "Temperatura e calore: quale è vero?", answer: "La temperatura dice quanto è caldo; il calore è l'energia che si trasferisce", distractors: ["Sono la stessa cosa", "Il calore si misura in gradi", "La temperatura è un tipo di energia"], explanation: "Sono grandezze diverse: gradi per la temperatura, energia per il calore." },
+  { topic: "calore", difficulty: 2, prompt: "Il calore passa sempre…", answer: "Dal corpo più caldo a quello più freddo", distractors: ["Dal corpo più freddo a quello più caldo", "Dal corpo più piccolo a quello più grande", "In nessuna direzione precisa"], explanation: "Il calore fluisce dal caldo al freddo finché non si equilibrano." },
+  { topic: "calore", difficulty: 3, prompt: "Temperatura e calore: quale è vero?", answer: "La temperatura dice quanto è caldo; il calore è l'energia che si trasferisce", distractors: ["Temperatura e calore sono la stessa identica grandezza fisica", "Il calore si misura in gradi, esattamente come la temperatura", "La temperatura è un tipo di energia che passa fra i corpi"], explanation: "Sono grandezze diverse: gradi per la temperatura, energia per il calore." },
   // Onde e luce
   { topic: "onde-luce", difficulty: 2, prompt: "In aria limpida, la luce viaggia…", answer: "In linea retta", distractors: ["A zig-zag sempre", "Solo di notte", "Più lenta del suono"], explanation: "La luce si propaga in linea retta finché non incontra ostacoli." },
   { topic: "onde-luce", difficulty: 3, prompt: "Perché durante un temporale vediamo il lampo prima di sentire il tuono?", answer: "La luce è molto più veloce del suono", distractors: ["Il suono è più veloce", "Sono simultanei", "Il tuono parte dopo il lampo"], explanation: "La luce arriva quasi subito; il suono, più lento, arriva dopo." },
@@ -658,8 +695,8 @@ const MUSICA_EXTRA = [
   { topic: "strumenti", difficulty: 2, prompt: "Il flauto è uno strumento a…", answer: "Fiato", distractors: ["Corde", "Percussione", "Tastiera"], explanation: "Il flauto suona soffiando aria: è uno strumento a fiato." },
   { topic: "timbro", difficulty: 3, prompt: "Cosa ci fa distinguere un pianoforte da una chitarra sulla stessa nota?", answer: "Il timbro", distractors: ["Il volume", "La durata", "Il tempo"], explanation: "Il timbro è il 'colore' del suono, diverso per ogni strumento." },
   // Dinamica e tempo
-  { topic: "dinamica", difficulty: 2, prompt: "In musica 'forte' e 'piano' indicano…", answer: "L'intensità del suono (il volume)", distractors: ["La velocità del brano", "L'altezza della nota", "La durata"], explanation: "Le dinamiche dicono quanto suonare forte o piano." },
-  { topic: "dinamica", difficulty: 3, prompt: "Il termine che indica quanto è veloce un brano è il…", answer: "Tempo (andamento)", distractors: ["Timbro", "Volume", "Silenzio"], explanation: "Il tempo indica la velocità: da lento (adagio) a veloce (allegro)." },
+  { topic: "dinamica", difficulty: 2, prompt: "In musica 'forte' e 'piano' indicano…", answer: "L'intensità del suono (il volume)", distractors: ["La velocità con cui si suona", "L'altezza (acuto o grave)", "La durata di ogni nota scritta"], explanation: "Le dinamiche dicono quanto suonare forte o piano." },
+  { topic: "dinamica", difficulty: 3, prompt: "Il termine che indica quanto è veloce un brano è il…", answer: "Tempo (andamento)", distractors: ["Timbro (colore)", "Volume (intensità)", "Silenzio (pausa)"], explanation: "Il tempo indica la velocità: da lento (adagio) a veloce (allegro)." },
 ];
 
 function fisicaBank(rand) {
@@ -787,7 +824,7 @@ const SCIENZE_CORE = [
   // --- Metodo scientifico (dal fare al ragionare sul perché) ---
   { topic: "metodo", difficulty: 1, prompt: "In un esperimento controllato, quante variabili cambi per volta?", answer: "Una sola", distractors: ["Tutte insieme", "Almeno tre", "Nessuna"], explanation: "Cambiando una sola variabile capisci quale causa l'effetto." },
   { topic: "metodo", difficulty: 2, prompt: "Cosa distingue un'ipotesi da una conclusione?", answer: "L'ipotesi è una previsione da verificare", distractors: ["Sono la stessa cosa", "L'ipotesi arriva dopo i dati", "La conclusione precede l'esperimento"], explanation: "Prima l'ipotesi (previsione), poi i dati, infine la conclusione." },
-  { topic: "metodo", difficulty: 3, prompt: "A cosa serve un 'gruppo di controllo' in un esperimento?", answer: "A confrontare con qualcosa che non è stato cambiato", distractors: ["A rendere l'esperimento più lungo", "A cambiare più cose insieme", "A saltare le misure"], explanation: "Il gruppo di controllo mostra cosa succede senza la variabile che stai studiando." },
+  { topic: "metodo", difficulty: 3, prompt: "A cosa serve un 'gruppo di controllo' in un esperimento?", answer: "A confrontare con qualcosa che non è stato cambiato", distractors: ["A rendere l'esperimento molto più lungo del solito", "A cambiare più cose insieme e vedere", "A saltare qualche misura per fare prima"], explanation: "Il gruppo di controllo mostra cosa succede senza la variabile che stai studiando." },
   { topic: "metodo", difficulty: 4, prompt: "Cambi luce E acqua insieme e la pianta cresce di più. Cosa puoi concludere?", answer: "Non sai quale delle due abbia agito", distractors: ["È stata solo la luce", "È stata solo l'acqua", "Sono state entrambe di sicuro"], explanation: "Cambiando due variabili insieme non puoi isolare la causa: vanno provate separatamente." },
   // --- Materia e stati (aggiungere un passaggio di stato alla volta) ---
   { topic: "materia", difficulty: 1, prompt: "Quali sono i tre stati principali della materia?", answer: "Solido, liquido, gassoso", distractors: ["Caldo, freddo, tiepido", "Duro, molle, liquido", "Pieno, vuoto, misto"], explanation: "Solido, liquido e gassoso sono i tre stati fondamentali." },
@@ -798,19 +835,19 @@ const SCIENZE_CORE = [
   { topic: "materia", difficulty: 4, prompt: "Come si chiama il passaggio diretto da solido a gas, senza passare per il liquido?", answer: "Sublimazione", distractors: ["Fusione", "Evaporazione", "Condensazione"], explanation: "Nella sublimazione un solido diventa gas direttamente (es. la neve che 'sparisce' senza sciogliersi)." },
   // --- Esseri viventi ---
   { topic: "viventi", difficulty: 1, prompt: "Quale parte della pianta assorbe l'acqua dal terreno?", answer: "Le radici", distractors: ["I fiori", "Le foglie", "I frutti"], explanation: "Le radici assorbono acqua e sali minerali dal suolo." },
-  { topic: "viventi", difficulty: 1, prompt: "Di cosa hanno bisogno le piante per fare la fotosintesi?", answer: "Luce, acqua e anidride carbonica", distractors: ["Solo acqua", "Buio e freddo", "Solo terra"], explanation: "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno." },
+  { topic: "viventi", difficulty: 1, prompt: "Di cosa hanno bisogno le piante per fare la fotosintesi?", answer: "Luce, acqua e anidride carbonica", distractors: ["Soltanto acqua abbondante", "Buio completo e freddo", "Soltanto terra da giardino"], explanation: "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno." },
   { topic: "viventi", difficulty: 2, prompt: "Quale gas rilasciano le piante durante la fotosintesi?", answer: "Ossigeno", distractors: ["Anidride carbonica", "Azoto", "Idrogeno"], explanation: "Le piante assorbono CO2 e liberano ossigeno." },
   { topic: "viventi", difficulty: 2, prompt: "Come si chiamano gli animali che si nutrono solo di piante?", answer: "Erbivori", distractors: ["Carnivori", "Onnivori", "Predatori"], explanation: "Gli erbivori mangiano vegetali; i carnivori altri animali." },
   { topic: "viventi", difficulty: 3, prompt: "Come si chiamano gli animali che mangiano sia piante sia altri animali?", answer: "Onnivori", distractors: ["Erbivori", "Carnivori", "Decompositori"], explanation: "Gli onnivori (come l'orso o l'uomo) si nutrono di tutto." },
-  { topic: "viventi", difficulty: 4, prompt: "Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?", answer: "Respirazione cellulare", distractors: ["Fotosintesi", "Digestione", "Evaporazione"], explanation: "La respirazione cellulare libera l'energia del cibo; la fotosintesi invece la immagazzina nelle piante." },
+  { topic: "viventi", difficulty: 4, prompt: "Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?", answer: "Respirazione cellulare", distractors: ["Fotosintesi", "Digestione lenta", "Evaporazione rapida"], explanation: "La respirazione cellulare libera l'energia del cibo; la fotosintesi invece la immagazzina nelle piante." },
   // --- Ecosistema ---
   { topic: "ecosistema", difficulty: 2, prompt: "In una catena alimentare, chi mangia gli erbivori?", answer: "I carnivori", distractors: ["Le piante", "Il Sole", "I produttori"], explanation: "I carnivori si nutrono di altri animali, come gli erbivori." },
-  { topic: "ecosistema", difficulty: 3, prompt: "In una catena alimentare, chi produce il proprio nutrimento?", answer: "Le piante (produttori)", distractors: ["I predatori", "I decompositori", "Gli erbivori"], explanation: "Le piante sono i produttori: creano nutrimento con la fotosintesi." },
+  { topic: "ecosistema", difficulty: 3, prompt: "In una catena alimentare, chi produce il proprio nutrimento?", answer: "Le piante (produttori)", distractors: ["I predatori (carnivori)", "I decompositori", "Gli erbivori"], explanation: "Le piante sono i produttori: creano nutrimento con la fotosintesi." },
   { topic: "ecosistema", difficulty: 3, prompt: "Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?", answer: "Decompositori", distractors: ["Produttori", "Predatori", "Erbivori"], explanation: "I decompositori riciclano la materia, restituendo sostanze utili al terreno." },
-  { topic: "ecosistema", difficulty: 4, prompt: "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?", answer: "Diminuirebbero per mancanza di cibo", distractors: ["Aumenterebbero", "Non cambierebbe nulla", "Diventerebbero carnivori"], explanation: "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono." },
+  { topic: "ecosistema", difficulty: 4, prompt: "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?", answer: "Diminuirebbero per mancanza di cibo", distractors: ["Aumenterebbero di numero", "Non cambierebbe proprio nulla", "Diventerebbero tutti carnivori"], explanation: "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono." },
   // --- Corpo umano ---
   { topic: "corpo", difficulty: 1, prompt: "Quale organo ci permette di pensare e comandare il corpo?", answer: "Il cervello", distractors: ["Il cuore", "Lo stomaco", "I muscoli"], explanation: "Il cervello dirige il corpo e ci fa pensare." },
-  { topic: "corpo", difficulty: 2, prompt: "A cosa serve lo scheletro?", answer: "A sostenere e proteggere il corpo", distractors: ["A digerire il cibo", "A respirare", "A vedere"], explanation: "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello)." },
+  { topic: "corpo", difficulty: 2, prompt: "A cosa serve lo scheletro?", answer: "A sostenere e proteggere il corpo", distractors: ["A digerire il cibo più in fretta", "A respirare più a lungo", "A vedere meglio i colori"], explanation: "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello)." },
   { topic: "corpo", difficulty: 2, prompt: "Quale organo pompa il sangue nel corpo?", answer: "Il cuore", distractors: ["I polmoni", "Il fegato", "Lo stomaco"], explanation: "Il cuore spinge il sangue in tutto il corpo." },
   { topic: "corpo", difficulty: 3, prompt: "In quale organo avviene lo scambio di ossigeno con il sangue?", answer: "I polmoni", distractors: ["Il cuore", "I reni", "L'intestino"], explanation: "Nei polmoni il sangue prende ossigeno e cede anidride carbonica." },
   { topic: "corpo", difficulty: 4, prompt: "In quale organo il cibo digerito viene assorbito nel sangue?", answer: "L'intestino", distractors: ["I polmoni", "Il cuore", "I reni"], explanation: "Nell'intestino le sostanze nutritive passano nel sangue." },
@@ -818,15 +855,15 @@ const SCIENZE_CORE = [
   { topic: "energia", difficulty: 2, prompt: "Da dove arriva quasi tutta l'energia che riscalda la Terra?", answer: "Dal Sole", distractors: ["Dalla Luna", "Dal vento", "Dalle stelle lontane"], explanation: "Il Sole è la fonte principale di luce e calore per la Terra." },
   { topic: "energia", difficulty: 3, prompt: "Come si chiama l'energia prodotta dal vento che fa girare le pale?", answer: "Energia eolica", distractors: ["Energia idroelettrica", "Energia solare", "Energia nucleare"], explanation: "L'energia eolica sfrutta il vento; quella idroelettrica l'acqua che scorre." },
   { topic: "energia", difficulty: 3, prompt: "L'energia dell'acqua che scorre e fa girare le turbine si chiama…", answer: "Energia idroelettrica", distractors: ["Energia eolica", "Energia solare", "Energia geotermica"], explanation: "Le dighe sfruttano l'acqua in movimento per produrre elettricità." },
-  { topic: "energia", difficulty: 4, prompt: "Quali fonti di energia non si esauriscono e inquinano poco?", answer: "Sole, vento e acqua (rinnovabili)", distractors: ["Carbone e petrolio", "Gas e benzina", "Plastica bruciata"], explanation: "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili." },
+  { topic: "energia", difficulty: 4, prompt: "Quali fonti di energia non si esauriscono e inquinano poco?", answer: "Sole, vento e acqua (rinnovabili)", distractors: ["Carbone e petrolio estratti", "Gas e benzina dei motori", "Plastica bruciata negli inceneritori"], explanation: "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili." },
   // --- Terra e universo (nuovo topic) ---
   { topic: "terra-universo", difficulty: 1, prompt: "Attorno a cosa gira la Terra?", answer: "Il Sole", distractors: ["La Luna", "Marte", "Una cometa"], explanation: "La Terra orbita intorno al Sole in circa un anno." },
   { topic: "terra-universo", difficulty: 2, prompt: "Come si chiama il satellite naturale della Terra?", answer: "La Luna", distractors: ["Marte", "Il Sole", "Venere"], explanation: "La Luna gira intorno alla Terra." },
   { topic: "terra-universo", difficulty: 2, prompt: "Cosa provoca l'alternarsi del giorno e della notte?", answer: "La rotazione della Terra su se stessa", distractors: ["La Terra che gira intorno al Sole", "Le nuvole", "La Luna che si sposta"], explanation: "Ruotando su se stessa, ogni punto della Terra si affaccia al Sole e poi all'ombra." },
-  { topic: "terra-universo", difficulty: 4, prompt: "Cosa provoca soprattutto l'alternarsi delle stagioni?", answer: "L'inclinazione della Terra mentre gira intorno al Sole", distractors: ["La distanza dalla Luna", "Il vento", "Le maree"], explanation: "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno." },
+  { topic: "terra-universo", difficulty: 4, prompt: "Cosa provoca soprattutto l'alternarsi delle stagioni?", answer: "L'inclinazione della Terra mentre gira intorno al Sole", distractors: ["La distanza che cambia dalla Luna", "Il vento che soffia da nord per tutto l'anno", "Le maree provocate dalla Luna"], explanation: "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno." },
   // --- Ambiente (nuovo topic) ---
-  { topic: "ambiente", difficulty: 1, prompt: "Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?", answer: "Fare la raccolta differenziata", distractors: ["Buttarli tutti insieme", "Bruciarli in casa", "Lasciarli a terra"], explanation: "Separare i rifiuti permette di riciclarli e sprecare meno risorse." },
-  { topic: "ambiente", difficulty: 2, prompt: "Perché è importante non sprecare l'acqua?", answer: "È una risorsa preziosa e limitata", distractors: ["Perché è pesante", "Perché è colorata", "Non è importante"], explanation: "L'acqua dolce pulita è limitata: va usata con attenzione." },
+  { topic: "ambiente", difficulty: 1, prompt: "Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?", answer: "Fare la raccolta differenziata", distractors: ["Buttarli tutti nello stesso sacco", "Bruciarli nel cortile di casa", "Lasciarli per terra dove capita"], explanation: "Separare i rifiuti permette di riciclarli e sprecare meno risorse." },
+  { topic: "ambiente", difficulty: 2, prompt: "Perché è importante non sprecare l'acqua?", answer: "È una risorsa preziosa e limitata", distractors: ["Perché è pesante da trasportare", "Perché è di colore trasparente", "Non è importante, ce n'è tanta"], explanation: "L'acqua dolce pulita è limitata: va usata con attenzione." },
   { topic: "ambiente", difficulty: 3, prompt: "Come si chiama l'aumento della temperatura del pianeta legato anche ai gas prodotti dall'uomo?", answer: "Riscaldamento globale", distractors: ["Effetto arcobaleno", "Effetto marea", "Effetto eco"], explanation: "L'eccesso di gas serra trattiene più calore e riscalda il pianeta." },
 ];
 
@@ -847,76 +884,62 @@ function scienzeBank(greenhousePlants) {
 }
 
 // ---------------------------------------------------------------------------
-// Cittadinanza (materia nuova). Regole civiche e dilemma da src/data/smartCity.ts
-// (contenuto reale del prototipo) + nucleo curato di educazione civica. Valori,
-// non politica di parte.
+// Storia (materia del Data-core, ex cittadinanza). Nucleo curato: metodo e fonti,
+// cronologia, preistoria, Egizi, Grecia, Roma e Medioevo. La progressione per ERA
+// è governata a runtime da ContentManager.ERA_GATED_TOPICS (roma/medioevo dal
+// livello 18): il mondo 11 resta sulle prime civiltà, il 23 tratta Roma e Medioevo.
 // ---------------------------------------------------------------------------
 
-const CITTADINANZA_CORE = [
-  // --- Regole ---
-  { topic: "regole", difficulty: 1, prompt: "A cosa servono le regole in una comunità?", answer: "A vivere insieme in modo giusto e sicuro", distractors: ["A punire per divertimento", "A far comandare i più forti", "A non fare nulla"], explanation: "Le regole servono a proteggere tutti e a rendere possibile la convivenza." },
-  { topic: "regole", difficulty: 2, prompt: "Se una regola è giusta e vale per tutti, deve valere anche…", answer: "Per chi l'ha proposta", distractors: ["Solo per i bambini", "Solo per i più deboli", "Per nessuno in realtà"], explanation: "Una regola giusta vale allo stesso modo per tutti, senza eccezioni di comodo." },
-  { topic: "regole", difficulty: 3, prompt: "Cosa succede a un gioco se ognuno cambia le regole a suo piacere?", answer: "Diventa ingiusto e si litiga", distractors: ["Diventa più bello", "Non cambia nulla", "Finisce sempre in parità"], explanation: "Le regole condivise permettono di giocare (e vivere) senza litigare." },
-  // --- Diritti e doveri ---
-  { topic: "diritti-doveri", difficulty: 1, prompt: "Ricevere cure quando si è malati è un…", answer: "Diritto", distractors: ["Favore", "Premio", "Lusso"], explanation: "La salute è un diritto garantito a ogni persona." },
-  { topic: "diritti-doveri", difficulty: 2, prompt: "Andare a scuola per un bambino è soprattutto…", answer: "Un diritto (e insieme un dovere)", distractors: ["Solo una punizione", "Una scelta senza importanza", "Un favore agli insegnanti"], explanation: "L'istruzione è un diritto garantito e un dovere verso se stessi." },
-  { topic: "diritti-doveri", difficulty: 3, prompt: "Rispettare l'ambiente pulendo dove si sporca è…", answer: "Un dovere di ogni cittadino", distractors: ["Compito solo del Comune", "Inutile", "Un obbligo solo per gli adulti"], explanation: "Prendersi cura dei beni comuni è responsabilità di tutti." },
-  { topic: "diritti-doveri", difficulty: 4, prompt: "La libertà di una persona di solito finisce dove…", answer: "Comincia il diritto di un'altra", distractors: ["Comincia il suo capriccio", "Lei vuole", "Nessuno la vede"], explanation: "La mia libertà non può calpestare i diritti degli altri: è il limite della convivenza." },
-  // --- Partecipazione ---
-  { topic: "partecipazione", difficulty: 1, prompt: "In classe, per decidere insieme dove andare in gita, conviene…", answer: "Parlarne e poi votare", distractors: ["Decide il più alto", "Non andare da nessuna parte", "Sceglie chi urla di più"], explanation: "Parlare e votare permette una scelta condivisa." },
-  { topic: "partecipazione", difficulty: 2, prompt: "In una decisione di gruppo, il modo più giusto per scegliere è…", answer: "Ascoltare tutti e poi votare", distractors: ["Decide solo il più rumoroso", "Non decidere mai", "Sceglie chi è arrivato prima"], explanation: "Ascolto e voto permettono una scelta condivisa e rispettosa." },
-  { topic: "partecipazione", difficulty: 3, prompt: "Cosa vuol dire rispettare il risultato di un voto?", answer: "Accettare la scelta della maggioranza", distractors: ["Fare comunque di testa propria", "Rifare il voto finché vinci tu", "Arrabbiarsi con chi ha vinto"], explanation: "In una scelta democratica si accetta la decisione della maggioranza, nel rispetto delle minoranze." },
-  // --- Istituzioni ---
-  { topic: "istituzioni", difficulty: 2, prompt: "Chi guida un Comune ed è eletto dai cittadini?", answer: "Il sindaco", distractors: ["Il preside", "Il giudice", "Il medico"], explanation: "Il sindaco è a capo del Comune, scelto col voto dei cittadini." },
-  { topic: "istituzioni", difficulty: 3, prompt: "Come si chiama la legge fondamentale dello Stato italiano?", answer: "La Costituzione", distractors: ["Il regolamento", "Il decreto", "Lo statuto comunale"], explanation: "La Costituzione è la legge più importante, base di tutte le altre." },
-  { topic: "istituzioni", difficulty: 3, prompt: "A cosa serve soprattutto il Parlamento?", answer: "A fare le leggi", distractors: ["A costruire le strade", "A insegnare a scuola", "A curare i malati"], explanation: "Il Parlamento discute e approva le leggi dello Stato." },
-  { topic: "istituzioni", difficulty: 4, prompt: "Come si chiama il diritto dei cittadini adulti di scegliere chi li governa?", answer: "Il diritto di voto", distractors: ["Il diritto d'autore", "Il diritto di sciopero", "Il diritto di replica"], explanation: "Con il voto i cittadini scelgono i propri rappresentanti." },
-  // --- Convivenza ---
-  { topic: "convivenza", difficulty: 1, prompt: "Se qualcuno la pensa diversamente da te, la cosa giusta è…", answer: "Ascoltarlo con rispetto", distractors: ["Ignorarlo", "Prenderlo in giro", "Costringerlo a cambiare"], explanation: "Il rispetto delle idee altrui è alla base della convivenza civile." },
-  { topic: "convivenza", difficulty: 2, prompt: "Se vedi un compagno preso in giro dagli altri, la cosa civile è…", answer: "Difenderlo o avvisare un adulto", distractors: ["Ridere con gli altri", "Fare finta di niente", "Filmarlo per gioco"], explanation: "Non restare indifferenti aiuta chi è in difficoltà." },
-  { topic: "convivenza", difficulty: 3, prompt: "Cosa significa 'tolleranza'?", answer: "Rispettare chi è diverso da noi", distractors: ["Fare sempre come dico io", "Ignorare tutti", "Comandare gli altri"], explanation: "La tolleranza accetta le differenze come una ricchezza." },
-  // --- Sicurezza (nuovo topic) ---
-  { topic: "sicurezza", difficulty: 1, prompt: "Quando attraversi la strada, devi farlo…", answer: "Sulle strisce, guardando bene", distractors: ["Di corsa dove capita", "Col cellulare in mano", "A occhi chiusi"], explanation: "Le strisce pedonali e l'attenzione ti proteggono." },
-  { topic: "sicurezza", difficulty: 2, prompt: "In bicicletta, cosa è bene indossare per proteggere la testa?", answer: "Il casco", distractors: ["Le cuffie", "Un cappello di lana", "Niente"], explanation: "Il casco protegge in caso di caduta." },
-  { topic: "sicurezza", difficulty: 3, prompt: "Se scopri un pericolo (fuga di gas, un principio d'incendio), la cosa giusta è…", answer: "Avvisare subito un adulto o i soccorsi", distractors: ["Nasconderti e tacere", "Affrontarlo da solo", "Aspettare che passi"], explanation: "Chiedere aiuto in fretta è la scelta più sicura." },
-  // --- Cittadinanza digitale (nuovo topic) ---
-  { topic: "digitale", difficulty: 2, prompt: "Un compagno ti chiede la password del tuo account. Cosa fai?", answer: "Non la dai: le password restano segrete", distractors: ["Gliela dici subito", "La scrivi sul banco", "La pubblichi in chat"], explanation: "Le password sono personali: condividerle mette a rischio i tuoi dati." },
-  { topic: "digitale", difficulty: 3, prompt: "Se online qualcuno ti tratta male (cyberbullismo), conviene…", answer: "Non rispondere e dirlo a un adulto di fiducia", distractors: ["Rispondere con insulti", "Tenerlo segreto per sempre", "Vendicarti online"], explanation: "Parlarne con un adulto aiuta a fermare il problema; rispondere lo peggiora." },
-  { topic: "digitale", difficulty: 4, prompt: "Prima di credere e condividere una notizia trovata sui social, è giusto…", answer: "Verificarla su fonti affidabili", distractors: ["Condividerla subito", "Crederci perché ha molti like", "Ignorare da chi viene"], explanation: "Controllare le fonti evita di diffondere notizie false." },
-  // --- Denaro ed economia civica (nuovo topic) ---
-  { topic: "denaro", difficulty: 1, prompt: "Cosa vuol dire 'risparmiare'?", answer: "Mettere da parte invece di spendere tutto", distractors: ["Spendere il doppio", "Prestare a tutti", "Buttare i soldi"], explanation: "Risparmiare significa conservare una parte per il futuro." },
-  { topic: "denaro", difficulty: 2, prompt: "A cosa servono soprattutto le tasse pagate dai cittadini?", answer: "A pagare servizi comuni: scuole, strade, ospedali", distractors: ["A fare regali a chi governa", "A niente di utile", "A far sparire i soldi"], explanation: "Le tasse finanziano i servizi che usiamo tutti." },
-  { topic: "denaro", difficulty: 3, prompt: "Comprare una cosa che non ti serve solo perché è in offerta è…", answer: "Spesso uno spreco", distractors: ["Sempre un affare", "Un dovere", "Un risparmio sicuro"], explanation: "Lo sconto conviene solo se ti serve davvero: altrimenti è denaro sprecato." },
+const STORIA_CORE = [
+  // --- metodo ---
+  { topic: "metodo", difficulty: 1, prompt: "Chi studia il passato usando le tracce che ci ha lasciato?", answer: "Lo storico", distractors: ["Il meteorologo", "Il geologo", "L'astronomo"], explanation: "Lo storico ricostruisce il passato interpretando le fonti." },
+  { topic: "metodo", difficulty: 2, prompt: "Che cosa sono le fonti storiche?", answer: "Le tracce che ci parlano del passato", distractors: ["Le sorgenti d'acqua di montagna", "Soltanto i libri stampati oggi", "Le previsioni sul futuro lontano"], explanation: "Documenti, oggetti, resti e racconti sono fonti: ci fanno conoscere il passato." },
+  { topic: "metodo", difficulty: 3, prompt: "Una piramide egizia è un esempio di fonte…", answer: "materiale", distractors: ["scritta", "orale", "immaginaria"], explanation: "Le fonti materiali sono oggetti e costruzioni; quelle scritte sono i testi." },
+  // --- cronologia ---
+  { topic: "cronologia", difficulty: 1, prompt: "Quanti anni dura un secolo?", answer: "Cento", distractors: ["Dieci", "Mille", "Cinquanta"], explanation: "Un secolo è un periodo di cento anni." },
+  { topic: "cronologia", difficulty: 2, prompt: "Come si indicano gli anni prima della nascita di Cristo?", answer: "a.C.", distractors: ["d.C.", "km", "d.o.c."], explanation: "a.C. significa 'avanti Cristo'; d.C. significa 'dopo Cristo'." },
+  { topic: "cronologia", difficulty: 3, prompt: "A quale secolo appartiene l'anno 1492?", answer: "XV secolo", distractors: ["XIV secolo", "XVI secolo", "XIII secolo"], explanation: "Gli anni dal 1401 al 1500 formano il XV secolo (il '400)." },
+  // --- preistoria ---
+  { topic: "preistoria", difficulty: 2, prompt: "Che cosa distingue la Preistoria dalla Storia?", answer: "L'assenza della scrittura", distractors: ["L'assenza del fuoco", "L'assenza degli animali", "L'assenza del Sole"], explanation: "La Storia inizia con l'invenzione della scrittura; prima c'è la Preistoria." },
+  { topic: "preistoria", difficulty: 2, prompt: "Di che cosa viveva soprattutto l'uomo del Paleolitico?", answer: "Caccia e raccolta", distractors: ["Agricoltura intensiva", "Commercio con l'estero", "Allevamento in stalla"], explanation: "Nel Paleolitico l'uomo era nomade e viveva di caccia, pesca e raccolta." },
+  { topic: "preistoria", difficulty: 3, prompt: "Quale grande scoperta segnò il passaggio al Neolitico?", answer: "L'agricoltura", distractors: ["La ruota a motore", "L'elettricità", "La stampa"], explanation: "Con l'agricoltura l'uomo diventò sedentario e nacquero i primi villaggi." },
+  { topic: "preistoria", difficulty: 3, prompt: "Da quale metallo prende il nome l'Età del Bronzo?", answer: "Dal bronzo", distractors: ["Dal ferro", "Dall'oro", "Dall'argento"], explanation: "Il bronzo è una lega di rame e stagno: diede il nome a quell'età." },
+  // --- egizi ---
+  { topic: "egizi", difficulty: 1, prompt: "Come si chiamava il re dell'antico Egitto?", answer: "Faraone", distractors: ["Console", "Imperatore", "Doge"], explanation: "Il faraone era il sovrano dell'Egitto, considerato quasi un dio." },
+  { topic: "egizi", difficulty: 2, prompt: "Lungo quale fiume nacque la civiltà egizia?", answer: "Il Nilo", distractors: ["Il Tevere", "Il Po", "Il Danubio"], explanation: "La civiltà egizia fiorì lungo le rive del Nilo." },
+  { topic: "egizi", difficulty: 3, prompt: "Perché il Nilo era fondamentale per gli Egizi?", answer: "Perché con le piene rendeva fertili i campi", distractors: ["Perché era sempre gelato tutto l'anno", "Perché non aveva mai una goccia d'acqua", "Perché era pieno di pepite d'oro"], explanation: "Le piene del Nilo lasciavano fango fertile: permettevano l'agricoltura." },
+  { topic: "egizi", difficulty: 2, prompt: "Come si chiamava la scrittura degli antichi Egizi?", answer: "Geroglifici", distractors: ["Alfabeto latino", "Numeri romani", "Braille"], explanation: "Gli Egizi scrivevano con i geroglifici, piccoli disegni-simbolo." },
+  // --- grecia ---
+  { topic: "grecia", difficulty: 2, prompt: "Quale città greca era famosa per i suoi guerrieri e la disciplina?", answer: "Sparta", distractors: ["Atene", "Corinto", "Tebe"], explanation: "A Sparta l'educazione era tutta rivolta alla vita militare." },
+  { topic: "grecia", difficulty: 3, prompt: "In quale città greca nacque la democrazia?", answer: "Atene", distractors: ["Sparta", "Olimpia", "Micene"], explanation: "Ad Atene i cittadini partecipavano alle decisioni: nacque la democrazia." },
+  { topic: "grecia", difficulty: 3, prompt: "Come si chiamavano le città-stato indipendenti della Grecia antica?", answer: "Pòleis", distractors: ["Province", "Regioni", "Contee"], explanation: "La Grecia era divisa in tante pòleis, città-stato indipendenti." },
+  { topic: "grecia", difficulty: 2, prompt: "In quale luogo si tenevano gli antichi Giochi Olimpici?", answer: "A Olimpia", distractors: ["A Roma", "Ad Alessandria", "A Cartagine"], explanation: "I Giochi si svolgevano a Olimpia, in onore del dio Zeus." },
+  // --- roma ---
+  { topic: "roma", difficulty: 1, prompt: "Quale lingua parlavano gli antichi Romani?", answer: "Il latino", distractors: ["Il greco", "L'italiano", "L'inglese"], explanation: "I Romani parlavano latino, da cui deriva anche l'italiano." },
+  { topic: "roma", difficulty: 2, prompt: "Secondo la leggenda, chi fondò Roma?", answer: "Romolo", distractors: ["Enea", "Cesare", "Annibale"], explanation: "La leggenda narra che Roma fu fondata da Romolo, con il fratello Remo." },
+  { topic: "roma", difficulty: 3, prompt: "In quale anno la tradizione colloca la fondazione di Roma?", answer: "753 a.C.", distractors: ["1492 d.C.", "476 d.C.", "100 d.C."], explanation: "La tradizione fissa la nascita di Roma nel 753 a.C." },
+  { topic: "roma", difficulty: 3, prompt: "Dopo la monarchia, quale forma di governo ebbe Roma?", answer: "La repubblica", distractors: ["L'anarchia", "Il feudalesimo", "La democrazia diretta"], explanation: "Cacciato l'ultimo re, Roma diventò una repubblica guidata dai consoli." },
+  { topic: "roma", difficulty: 3, prompt: "Come si chiamava l'assemblea dei senatori a Roma?", answer: "Il Senato", distractors: ["Il Colosseo", "Il Foro", "La Curia dei re"], explanation: "Il Senato riuniva i patrizi e consigliava chi governava Roma." },
+  { topic: "roma", difficulty: 2, prompt: "Chi guidava l'Impero Romano?", answer: "L'imperatore", distractors: ["Il faraone", "Il doge", "Il presidente"], explanation: "Dopo la repubblica, Roma fu guidata da un imperatore, il primo fu Augusto." },
+  // --- medioevo ---
+  { topic: "medioevo", difficulty: 3, prompt: "Quale evento segna l'inizio del Medioevo?", answer: "La caduta dell'Impero Romano d'Occidente", distractors: ["La fondazione della città di Roma", "La scoperta dell'America nel 1492", "L'unità d'Italia con i Savoia"], explanation: "Il Medioevo inizia nel 476 d.C., con la caduta dell'Impero Romano d'Occidente." },
+  { topic: "medioevo", difficulty: 4, prompt: "Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?", answer: "Feudalesimo", distractors: ["Democrazia", "Repubblica", "Impero"], explanation: "Nel feudalesimo il signore concedeva un feudo in cambio di fedeltà e aiuto militare." },
+  { topic: "medioevo", difficulty: 2, prompt: "A che cosa serviva soprattutto un castello medievale?", answer: "A difendersi dagli attacchi", distractors: ["A coltivare il grano nei campi", "A fare gare sportive fra nobili", "A conservare l'acqua piovana"], explanation: "Il castello, con mura e torri, proteggeva il signore e gli abitanti." },
+  { topic: "medioevo", difficulty: 3, prompt: "Chi copiava a mano i libri nei monasteri medievali?", answer: "I monaci amanuensi", distractors: ["I cavalieri armati", "I mercanti stranieri", "I contadini del feudo"], explanation: "I monaci amanuensi ricopiavano a mano i testi, custodendo il sapere." },
+  { topic: "medioevo", difficulty: 2, prompt: "Come si chiamavano i guerrieri a cavallo al servizio di un signore?", answer: "Cavalieri", distractors: ["Faraoni", "Consoli", "Legionari"], explanation: "I cavalieri combattevano a cavallo e giuravano fedeltà al loro signore." },
+  { topic: "medioevo", difficulty: 3, prompt: "Dove si conservava e si copiava il sapere nell'Alto Medioevo?", answer: "Nei monasteri", distractors: ["Nei supermercati", "Nelle fabbriche", "Nei porti"], explanation: "I monasteri furono centri di cultura: vi si custodivano e copiavano i libri." },
 ];
 
-function cittadinanzaBank(cityRules, civicDilemma, energyPlans) {
-  const rand = rng(20260730);
-  const items = CITTADINANZA_CORE.map((q, i) =>
-    multipleChoiceItem({ id: `cittadinanza-${q.topic}-${i}`, subject: "cittadinanza", topic: q.topic, difficulty: q.difficulty, prompt: q.prompt, answer: q.answer, distractors: q.distractors, explanation: q.explanation }, rand),
-  );
-  // Regole civiche della Città Intelligente (logica condizionale + priorità).
-  for (const rule of cityRules) {
-    const distractors = rule.options.filter((o) => o !== rule.answer);
-    if (distractors.length >= 3) distractors.length = 3;
-    if (distractors.length === (rule.options.length - 1) && distractors.length >= 2) {
-      // riempi a 3 se servono, con opzioni di altre regole
-      const extra = cityRules.flatMap((r) => r.options).filter((o) => o !== rule.answer && !distractors.includes(o));
-      while (distractors.length < 3 && extra.length) distractors.push(extra.shift());
-    }
-    if (distractors.length === 3) {
-      items.push(multipleChoiceItem({ id: `cittadinanza-regola-${rule.id}`, subject: "cittadinanza", topic: "servizi-pubblici", difficulty: 3, prompt: `${rule.condition} …qual è la scelta giusta?`, answer: rule.answer, distractors, explanation: rule.hint }, rand));
-    }
-  }
-  // Dilemma civico: la vita e la salute vengono prima.
-  const correct = civicDilemma.options.find((o) => o.correct);
-  const wrong = civicDilemma.options.filter((o) => !o.correct).map((o) => o.label);
-  if (correct && wrong.length >= 2) {
-    const distractors = wrong.slice(0, 2);
-    // servono 3 distrattori: aggiungi un'opzione neutra plausibile
-    distractors.push("Illuminazione decorativa + insegne");
-    items.push(multipleChoiceItem({ id: "cittadinanza-dilemma", subject: "cittadinanza", topic: "priorità-civiche", difficulty: 4, prompt: civicDilemma.prompt, answer: correct.label, distractors: distractors.slice(0, 3), explanation: correct.reason }, rand));
-  }
-  return { schemaVersion: 1, subject: "cittadinanza", generator: "cittadinanza-authored-v1", items };
+function storiaBank() {
+  const rand = rng(20260734);
+  return {
+    schemaVersion: 1,
+    subject: "storia",
+    generator: "storia-authored-v1",
+    items: STORIA_CORE.map((q, i) =>
+      multipleChoiceItem({ id: `storia-${q.topic}-${i}`, subject: "storia", topic: q.topic, difficulty: q.difficulty, prompt: q.prompt, answer: q.answer, distractors: q.distractors, explanation: q.explanation }, rand),
+    ),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -1053,14 +1076,13 @@ function validate(name, bank) {
 
 const tsUrl = (...parts) => pathToFileURL(join(root, "src", "data", "procedural", ...parts)).href;
 const dataUrl = (...parts) => pathToFileURL(join(root, "src", "data", ...parts)).href;
-const [italianMod, englishMod, latinMod, circuitMod, pythonMod, greenhouseMod, smartCityMod] = await Promise.all([
+const [italianMod, englishMod, latinMod, circuitMod, pythonMod, greenhouseMod] = await Promise.all([
   import(tsUrl("italianVocabularyBank.ts")),
   import(tsUrl("englishVocabularyBank.ts")),
   import(tsUrl("latinCurriculum.ts")),
   import(tsUrl("circuitTemplates.ts")),
   import(tsUrl("pythonPrinciples.ts")),
   import(dataUrl("greenhouse.ts")),
-  import(dataUrl("smartCity.ts")),
 ]);
 
 const BANKS = {
@@ -1075,7 +1097,7 @@ const BANKS = {
   // Materie nuove (scope ampliato 2026-07-21):
   "geografia-base": geografiaBank(),
   "scienze-base": scienzeBank(greenhouseMod.greenhousePlants),
-  "cittadinanza-base": cittadinanzaBank(smartCityMod.cityRules, smartCityMod.civicDilemma, smartCityMod.energyPlans),
+  "storia-base": storiaBank(),
   "logica-base": logicaBank(),
 };
 

@@ -11,10 +11,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Italia?",
 			"options": [
-				"Buenos Aires",
-				"Tokyo",
+				"Ottawa",
+				"Londra",
 				"Roma",
-				"Lisbona"
+				"Tokyo"
 			],
 			"answer": "Roma",
 			"explanation": "La capitale di Italia è Roma."
@@ -27,10 +27,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Roma?",
 			"options": [
+				"Svezia",
+				"Messico",
 				"Italia",
-				"Germania",
-				"Polonia",
-				"Norvegia"
+				"Brasile"
 			],
 			"answer": "Italia",
 			"explanation": "Roma è la capitale di Italia."
@@ -43,9 +43,9 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Italia?",
 			"options": [
-				"Europa",
 				"Asia",
-				"America del Nord",
+				"Antartide",
+				"Europa",
 				"Africa"
 			],
 			"answer": "Europa",
@@ -59,10 +59,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Francia?",
 			"options": [
-				"Il Cairo",
-				"Bruxelles",
-				"Parigi",
-				"Stoccolma"
+				"Roma",
+				"Madrid",
+				"Berlino",
+				"Parigi"
 			],
 			"answer": "Parigi",
 			"explanation": "La capitale di Francia è Parigi."
@@ -75,10 +75,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Parigi?",
 			"options": [
-				"Argentina",
-				"Italia",
-				"Portogallo",
-				"Francia"
+				"Germania",
+				"Austria",
+				"Francia",
+				"Messico"
 			],
 			"answer": "Francia",
 			"explanation": "Parigi è la capitale di Francia."
@@ -91,10 +91,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Francia?",
 			"options": [
-				"America del Sud",
+				"Europa",
+				"Asia",
 				"Oceania",
-				"Africa",
-				"Europa"
+				"Africa"
 			],
 			"answer": "Europa",
 			"explanation": "Francia si trova in Europa."
@@ -107,10 +107,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Spagna?",
 			"options": [
+				"Canberra",
+				"Mosca",
 				"Madrid",
-				"Buenos Aires",
-				"Berlino",
-				"Nuova Delhi"
+				"Tokyo"
 			],
 			"answer": "Madrid",
 			"explanation": "La capitale di Spagna è Madrid."
@@ -123,10 +123,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Madrid?",
 			"options": [
+				"Egitto",
+				"Messico",
 				"Spagna",
-				"Norvegia",
-				"Canada",
-				"Messico"
+				"Svezia"
 			],
 			"answer": "Spagna",
 			"explanation": "Madrid è la capitale di Spagna."
@@ -139,10 +139,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Spagna?",
 			"options": [
-				"America del Sud",
-				"Europa",
-				"America del Nord",
-				"Asia"
+				"Antartide",
+				"Africa",
+				"Asia",
+				"Europa"
 			],
 			"answer": "Europa",
 			"explanation": "Spagna si trova in Europa."
@@ -156,8 +156,8 @@
 			"prompt": "Qual è la capitale di Germania?",
 			"options": [
 				"Berlino",
+				"Il Cairo",
 				"Brasília",
-				"Pechino",
 				"Ottawa"
 			],
 			"answer": "Berlino",
@@ -171,10 +171,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Berlino?",
 			"options": [
-				"Germania",
-				"Austria",
-				"Regno Unito",
-				"Argentina"
+				"Spagna",
+				"Brasile",
+				"Australia",
+				"Germania"
 			],
 			"answer": "Germania",
 			"explanation": "Berlino è la capitale di Germania."
@@ -187,10 +187,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Germania?",
 			"options": [
-				"America del Sud",
-				"Europa",
 				"Asia",
-				"America del Nord"
+				"Antartide",
+				"Europa",
+				"Africa"
 			],
 			"answer": "Europa",
 			"explanation": "Germania si trova in Europa."
@@ -203,10 +203,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Regno Unito?",
 			"options": [
-				"Amsterdam",
+				"Mosca",
 				"Londra",
-				"Vienna",
-				"Canberra"
+				"Oslo",
+				"Lisbona"
 			],
 			"answer": "Londra",
 			"explanation": "La capitale di Regno Unito è Londra."
@@ -219,10 +219,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Londra?",
 			"options": [
-				"Australia",
+				"Giappone",
 				"Regno Unito",
-				"India",
-				"Canada"
+				"Paesi Bassi",
+				"Polonia"
 			],
 			"answer": "Regno Unito",
 			"explanation": "Londra è la capitale di Regno Unito."
@@ -235,10 +235,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Regno Unito?",
 			"options": [
-				"Africa",
-				"Asia",
+				"Europa",
 				"Antartide",
-				"Europa"
+				"Oceania",
+				"Asia"
 			],
 			"answer": "Europa",
 			"explanation": "Regno Unito si trova in Europa."
@@ -251,10 +251,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Portogallo?",
 			"options": [
-				"Bruxelles",
+				"Vienna",
+				"Madrid",
 				"Lisbona",
-				"Roma",
-				"Nuova Delhi"
+				"Parigi"
 			],
 			"answer": "Lisbona",
 			"explanation": "La capitale di Portogallo è Lisbona."
@@ -267,10 +267,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Lisbona?",
 			"options": [
-				"Argentina",
-				"Spagna",
-				"Portogallo",
-				"Grecia"
+				"Regno Unito",
+				"Messico",
+				"Paesi Bassi",
+				"Portogallo"
 			],
 			"answer": "Portogallo",
 			"explanation": "Lisbona è la capitale di Portogallo."
@@ -283,10 +283,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Portogallo?",
 			"options": [
-				"Asia",
-				"Oceania",
 				"Europa",
-				"Africa"
+				"Asia",
+				"Africa",
+				"Oceania"
 			],
 			"answer": "Europa",
 			"explanation": "Portogallo si trova in Europa."
@@ -299,10 +299,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Grecia?",
 			"options": [
-				"Washington",
+				"Londra",
+				"Ottawa",
 				"Vienna",
-				"Atene",
-				"Roma"
+				"Atene"
 			],
 			"answer": "Atene",
 			"explanation": "La capitale di Grecia è Atene."
@@ -316,9 +316,9 @@
 			"prompt": "Di quale Stato è capitale Atene?",
 			"options": [
 				"Spagna",
-				"Paesi Bassi",
-				"Grecia",
-				"Brasile"
+				"Francia",
+				"Svezia",
+				"Grecia"
 			],
 			"answer": "Grecia",
 			"explanation": "Atene è la capitale di Grecia."
@@ -331,10 +331,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Grecia?",
 			"options": [
-				"Africa",
-				"Europa",
 				"Antartide",
-				"Asia"
+				"Oceania",
+				"Europa",
+				"Africa"
 			],
 			"answer": "Europa",
 			"explanation": "Grecia si trova in Europa."
@@ -347,10 +347,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Austria?",
 			"options": [
-				"Berlino",
-				"Oslo",
+				"Vienna",
 				"Pechino",
-				"Vienna"
+				"Ottawa",
+				"Berlino"
 			],
 			"answer": "Vienna",
 			"explanation": "La capitale di Austria è Vienna."
@@ -363,10 +363,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Vienna?",
 			"options": [
+				"Egitto",
 				"Austria",
-				"Russia",
-				"Spagna",
-				"Regno Unito"
+				"Italia",
+				"Giappone"
 			],
 			"answer": "Austria",
 			"explanation": "Vienna è la capitale di Austria."
@@ -379,10 +379,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Austria?",
 			"options": [
-				"Africa",
-				"America del Nord",
+				"Oceania",
 				"Asia",
-				"Europa"
+				"Europa",
+				"Africa"
 			],
 			"answer": "Europa",
 			"explanation": "Austria si trova in Europa."
@@ -395,9 +395,9 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Belgio?",
 			"options": [
-				"Madrid",
-				"Amsterdam",
 				"Stoccolma",
+				"Amsterdam",
+				"Canberra",
 				"Bruxelles"
 			],
 			"answer": "Bruxelles",
@@ -411,10 +411,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Bruxelles?",
 			"options": [
-				"Belgio",
-				"Svezia",
-				"Grecia",
-				"Australia"
+				"Spagna",
+				"Canada",
+				"Francia",
+				"Belgio"
 			],
 			"answer": "Belgio",
 			"explanation": "Bruxelles è la capitale di Belgio."
@@ -427,9 +427,9 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Belgio?",
 			"options": [
-				"America del Sud",
 				"Europa",
-				"Africa",
+				"Oceania",
+				"Asia",
 				"Antartide"
 			],
 			"answer": "Europa",
@@ -443,10 +443,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Paesi Bassi?",
 			"options": [
-				"Stoccolma",
-				"Mosca",
+				"Varsavia",
+				"Lisbona",
 				"Amsterdam",
-				"Oslo"
+				"Il Cairo"
 			],
 			"answer": "Amsterdam",
 			"explanation": "La capitale di Paesi Bassi è Amsterdam."
@@ -459,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Amsterdam?",
 			"options": [
-				"Argentina",
-				"Cina",
 				"Messico",
-				"Paesi Bassi"
+				"Australia",
+				"Paesi Bassi",
+				"Francia"
 			],
 			"answer": "Paesi Bassi",
 			"explanation": "Amsterdam è la capitale di Paesi Bassi."
@@ -475,10 +475,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Paesi Bassi?",
 			"options": [
-				"Asia",
+				"Europa",
+				"Africa",
 				"Oceania",
-				"Antartide",
-				"Europa"
+				"Asia"
 			],
 			"answer": "Europa",
 			"explanation": "Paesi Bassi si trova in Europa."
@@ -491,10 +491,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Polonia?",
 			"options": [
+				"Berlino",
+				"Canberra",
 				"Varsavia",
-				"Città del Messico",
-				"Pechino",
-				"Stoccolma"
+				"Amsterdam"
 			],
 			"answer": "Varsavia",
 			"explanation": "La capitale di Polonia è Varsavia."
@@ -509,8 +509,8 @@
 			"options": [
 				"Polonia",
 				"Norvegia",
-				"Spagna",
-				"Paesi Bassi"
+				"Germania",
+				"Canada"
 			],
 			"answer": "Polonia",
 			"explanation": "Varsavia è la capitale di Polonia."
@@ -523,9 +523,9 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Polonia?",
 			"options": [
-				"Oceania",
-				"America del Nord",
+				"Africa",
 				"Europa",
+				"Oceania",
 				"Antartide"
 			],
 			"answer": "Europa",
@@ -539,10 +539,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Svezia?",
 			"options": [
-				"Nuova Delhi",
+				"Brasília",
 				"Stoccolma",
-				"Parigi",
-				"Londra"
+				"Lisbona",
+				"Bruxelles"
 			],
 			"answer": "Stoccolma",
 			"explanation": "La capitale di Svezia è Stoccolma."
@@ -555,10 +555,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Stoccolma?",
 			"options": [
-				"Egitto",
-				"Austria",
-				"Brasile",
-				"Svezia"
+				"Belgio",
+				"Svezia",
+				"Francia",
+				"Brasile"
 			],
 			"answer": "Svezia",
 			"explanation": "Stoccolma è la capitale di Svezia."
@@ -571,10 +571,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Svezia?",
 			"options": [
-				"Europa",
-				"Asia",
 				"Africa",
-				"America del Sud"
+				"Oceania",
+				"Asia",
+				"Europa"
 			],
 			"answer": "Europa",
 			"explanation": "Svezia si trova in Europa."
@@ -587,10 +587,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Norvegia?",
 			"options": [
-				"Oslo",
+				"Vienna",
 				"Parigi",
-				"Varsavia",
-				"Stoccolma"
+				"Mosca",
+				"Oslo"
 			],
 			"answer": "Oslo",
 			"explanation": "La capitale di Norvegia è Oslo."
@@ -603,10 +603,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Oslo?",
 			"options": [
-				"Cina",
-				"Norvegia",
-				"Grecia",
-				"Paesi Bassi"
+				"Polonia",
+				"Italia",
+				"Giappone",
+				"Norvegia"
 			],
 			"answer": "Norvegia",
 			"explanation": "Oslo è la capitale di Norvegia."
@@ -619,10 +619,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Norvegia?",
 			"options": [
-				"America del Nord",
 				"Europa",
-				"Asia",
-				"America del Sud"
+				"Oceania",
+				"Antartide",
+				"Asia"
 			],
 			"answer": "Europa",
 			"explanation": "Norvegia si trova in Europa."
@@ -636,9 +636,9 @@
 			"prompt": "Qual è la capitale di Russia?",
 			"options": [
 				"Mosca",
-				"Città del Messico",
-				"Berlino",
-				"Amsterdam"
+				"Tokyo",
+				"Roma",
+				"Berlino"
 			],
 			"answer": "Mosca",
 			"explanation": "La capitale di Russia è Mosca."
@@ -651,9 +651,9 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Mosca?",
 			"options": [
-				"Francia",
 				"Spagna",
-				"Italia",
+				"Polonia",
+				"Svezia",
 				"Russia"
 			],
 			"answer": "Russia",
@@ -668,7 +668,7 @@
 			"prompt": "In quale continente si trova Russia?",
 			"options": [
 				"Africa",
-				"Oceania",
+				"Asia",
 				"Antartide",
 				"Europa"
 			],
@@ -683,10 +683,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Stati Uniti?",
 			"options": [
-				"Roma",
-				"Berlino",
-				"Città del Messico",
-				"Washington"
+				"Washington",
+				"Lisbona",
+				"Pechino",
+				"Varsavia"
 			],
 			"answer": "Washington",
 			"explanation": "La capitale di Stati Uniti è Washington."
@@ -699,10 +699,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Washington?",
 			"options": [
-				"Spagna",
-				"Australia",
-				"Giappone",
-				"Stati Uniti"
+				"Portogallo",
+				"Stati Uniti",
+				"Messico",
+				"Argentina"
 			],
 			"answer": "Stati Uniti",
 			"explanation": "Washington è la capitale di Stati Uniti."
@@ -715,10 +715,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Stati Uniti?",
 			"options": [
-				"America del Sud",
-				"America del Nord",
-				"Asia",
-				"Oceania"
+				"Europa",
+				"Oceania",
+				"Antartide",
+				"America del Nord"
 			],
 			"answer": "America del Nord",
 			"explanation": "Stati Uniti si trova in America del Nord."
@@ -731,10 +731,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Canada?",
 			"options": [
-				"Amsterdam",
-				"Lisbona",
-				"Bruxelles",
-				"Ottawa"
+				"Ottawa",
+				"Tokyo",
+				"Varsavia",
+				"Londra"
 			],
 			"answer": "Ottawa",
 			"explanation": "La capitale di Canada è Ottawa."
@@ -747,10 +747,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Ottawa?",
 			"options": [
-				"Regno Unito",
-				"Italia",
-				"Canada",
-				"Egitto"
+				"Francia",
+				"Grecia",
+				"India",
+				"Canada"
 			],
 			"answer": "Canada",
 			"explanation": "Ottawa è la capitale di Canada."
@@ -763,10 +763,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Canada?",
 			"options": [
-				"Antartide",
-				"Oceania",
 				"America del Nord",
-				"Asia"
+				"Antartide",
+				"America del Sud",
+				"Oceania"
 			],
 			"answer": "America del Nord",
 			"explanation": "Canada si trova in America del Nord."
@@ -779,10 +779,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Messico?",
 			"options": [
+				"Brasília",
 				"Città del Messico",
-				"Oslo",
-				"Tokyo",
-				"Pechino"
+				"Il Cairo",
+				"Berlino"
 			],
 			"answer": "Città del Messico",
 			"explanation": "La capitale di Messico è Città del Messico."
@@ -796,9 +796,9 @@
 			"prompt": "Di quale Stato è capitale Città del Messico?",
 			"options": [
 				"Messico",
-				"Cina",
-				"Austria",
-				"Paesi Bassi"
+				"Russia",
+				"Germania",
+				"Spagna"
 			],
 			"answer": "Messico",
 			"explanation": "Città del Messico è la capitale di Messico."
@@ -811,10 +811,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Messico?",
 			"options": [
-				"Oceania",
 				"Europa",
 				"America del Nord",
-				"Antartide"
+				"America del Sud",
+				"Oceania"
 			],
 			"answer": "America del Nord",
 			"explanation": "Messico si trova in America del Nord."
@@ -827,10 +827,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Brasile?",
 			"options": [
-				"Buenos Aires",
-				"Roma",
-				"Il Cairo",
-				"Brasília"
+				"Brasília",
+				"Washington",
+				"Canberra",
+				"Amsterdam"
 			],
 			"answer": "Brasília",
 			"explanation": "La capitale di Brasile è Brasília."
@@ -843,10 +843,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Brasília?",
 			"options": [
-				"Stati Uniti",
-				"Regno Unito",
+				"Giappone",
+				"Grecia",
 				"Brasile",
-				"Paesi Bassi"
+				"Belgio"
 			],
 			"answer": "Brasile",
 			"explanation": "Brasília è la capitale di Brasile."
@@ -859,10 +859,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Brasile?",
 			"options": [
+				"Africa",
+				"Oceania",
 				"Antartide",
-				"Asia",
-				"America del Sud",
-				"Africa"
+				"America del Sud"
 			],
 			"answer": "America del Sud",
 			"explanation": "Brasile si trova in America del Sud."
@@ -875,10 +875,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Argentina?",
 			"options": [
-				"Varsavia",
+				"Nuova Delhi",
 				"Pechino",
-				"Buenos Aires",
-				"Amsterdam"
+				"Amsterdam",
+				"Buenos Aires"
 			],
 			"answer": "Buenos Aires",
 			"explanation": "La capitale di Argentina è Buenos Aires."
@@ -891,10 +891,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Buenos Aires?",
 			"options": [
-				"Francia",
+				"Brasile",
 				"Argentina",
-				"Egitto",
-				"Russia"
+				"Norvegia",
+				"Stati Uniti"
 			],
 			"answer": "Argentina",
 			"explanation": "Buenos Aires è la capitale di Argentina."
@@ -907,10 +907,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Argentina?",
 			"options": [
-				"Oceania",
-				"Africa",
 				"America del Nord",
-				"America del Sud"
+				"Antartide",
+				"America del Sud",
+				"Africa"
 			],
 			"answer": "America del Sud",
 			"explanation": "Argentina si trova in America del Sud."
@@ -923,10 +923,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Giappone?",
 			"options": [
-				"Mosca",
-				"Amsterdam",
 				"Tokyo",
-				"Nuova Delhi"
+				"Lisbona",
+				"Mosca",
+				"Oslo"
 			],
 			"answer": "Tokyo",
 			"explanation": "La capitale di Giappone è Tokyo."
@@ -939,10 +939,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Tokyo?",
 			"options": [
-				"Francia",
-				"Austria",
-				"Belgio",
-				"Giappone"
+				"Canada",
+				"Russia",
+				"Giappone",
+				"Messico"
 			],
 			"answer": "Giappone",
 			"explanation": "Tokyo è la capitale di Giappone."
@@ -955,10 +955,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Giappone?",
 			"options": [
-				"Antartide",
 				"Asia",
-				"America del Nord",
-				"Africa"
+				"Antartide",
+				"Africa",
+				"Oceania"
 			],
 			"answer": "Asia",
 			"explanation": "Giappone si trova in Asia."
@@ -971,10 +971,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Cina?",
 			"options": [
-				"Vienna",
 				"Pechino",
 				"Londra",
-				"Canberra"
+				"Il Cairo",
+				"Varsavia"
 			],
 			"answer": "Pechino",
 			"explanation": "La capitale di Cina è Pechino."
@@ -987,10 +987,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Pechino?",
 			"options": [
-				"Paesi Bassi",
-				"Brasile",
 				"Cina",
-				"Spagna"
+				"Svezia",
+				"Messico",
+				"Belgio"
 			],
 			"answer": "Cina",
 			"explanation": "Pechino è la capitale di Cina."
@@ -1003,9 +1003,9 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Cina?",
 			"options": [
+				"Africa",
 				"Asia",
-				"America del Nord",
-				"Antartide",
+				"Oceania",
 				"Europa"
 			],
 			"answer": "Asia",
@@ -1019,9 +1019,9 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di India?",
 			"options": [
-				"Canberra",
-				"Lisbona",
-				"Tokyo",
+				"Bruxelles",
+				"Il Cairo",
+				"Amsterdam",
 				"Nuova Delhi"
 			],
 			"answer": "Nuova Delhi",
@@ -1035,10 +1035,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Nuova Delhi?",
 			"options": [
-				"Grecia",
-				"Francia",
+				"Italia",
+				"India",
 				"Messico",
-				"India"
+				"Grecia"
 			],
 			"answer": "India",
 			"explanation": "Nuova Delhi è la capitale di India."
@@ -1052,9 +1052,9 @@
 			"prompt": "In quale continente si trova India?",
 			"options": [
 				"Antartide",
-				"Europa",
+				"Africa",
 				"Asia",
-				"America del Nord"
+				"Oceania"
 			],
 			"answer": "Asia",
 			"explanation": "India si trova in Asia."
@@ -1067,10 +1067,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Egitto?",
 			"options": [
-				"Il Cairo",
-				"Ottawa",
-				"Pechino",
-				"Roma"
+				"Berlino",
+				"Vienna",
+				"Varsavia",
+				"Il Cairo"
 			],
 			"answer": "Il Cairo",
 			"explanation": "La capitale di Egitto è Il Cairo."
@@ -1084,9 +1084,9 @@
 			"prompt": "Di quale Stato è capitale Il Cairo?",
 			"options": [
 				"Brasile",
-				"Germania",
-				"Egitto",
-				"Francia"
+				"India",
+				"Russia",
+				"Egitto"
 			],
 			"answer": "Egitto",
 			"explanation": "Il Cairo è la capitale di Egitto."
@@ -1100,9 +1100,9 @@
 			"prompt": "In quale continente si trova Egitto?",
 			"options": [
 				"Africa",
-				"America del Nord",
-				"America del Sud",
-				"Asia"
+				"Asia",
+				"Oceania",
+				"Antartide"
 			],
 			"answer": "Africa",
 			"explanation": "Egitto si trova in Africa."
@@ -1115,10 +1115,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale di Australia?",
 			"options": [
-				"Lisbona",
+				"Parigi",
 				"Varsavia",
-				"Canberra",
-				"Atene"
+				"Berlino",
+				"Canberra"
 			],
 			"answer": "Canberra",
 			"explanation": "La capitale di Australia è Canberra."
@@ -1131,8 +1131,8 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Canberra?",
 			"options": [
-				"Regno Unito",
-				"Belgio",
+				"Norvegia",
+				"Giappone",
 				"Stati Uniti",
 				"Australia"
 			],
@@ -1147,10 +1147,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova Australia?",
 			"options": [
-				"Africa",
 				"Oceania",
-				"Antartide",
-				"America del Nord"
+				"Africa",
+				"Europa",
+				"Antartide"
 			],
 			"answer": "Oceania",
 			"explanation": "Australia si trova in Oceania."
@@ -1163,10 +1163,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il deserto del Sahara?",
 			"options": [
-				"Europa",
 				"Asia",
+				"Africa",
 				"Oceania",
-				"Africa"
+				"Europa"
 			],
 			"answer": "Africa",
 			"explanation": "Il Sahara è il grande deserto caldo dell'Africa settentrionale."
@@ -1179,8 +1179,8 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama la linea immaginaria che divide la Terra in due metà uguali?",
 			"options": [
-				"Tropico",
 				"Meridiano",
+				"Tropico",
 				"Polo",
 				"Equatore"
 			],
@@ -1195,10 +1195,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è l'oceano più grande della Terra?",
 			"options": [
-				"Oceano Atlantico",
 				"Oceano Pacifico",
+				"Oceano Indiano",
 				"Oceano Artico",
-				"Oceano Indiano"
+				"Oceano Atlantico"
 			],
 			"answer": "Oceano Pacifico",
 			"explanation": "Il Pacifico è il più esteso e profondo degli oceani."
@@ -1227,10 +1227,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quanti sono i continenti della Terra?",
 			"options": [
-				"8",
 				"6",
 				"5",
-				"7"
+				"7",
+				"8"
 			],
 			"answer": "7",
 			"explanation": "Europa, Asia, Africa, America del Nord, America del Sud, Oceania e Antartide."
@@ -1243,10 +1243,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente scorre il Rio delle Amazzoni?",
 			"options": [
-				"America del Nord",
 				"America del Sud",
-				"Africa",
-				"Asia"
+				"America del Nord",
+				"Asia",
+				"Africa"
 			],
 			"answer": "America del Sud",
 			"explanation": "L'Amazzonia e il suo fiume si trovano in America del Sud."
@@ -1259,10 +1259,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiamano le grandi masse di ghiaccio che scivolano lentamente verso valle?",
 			"options": [
-				"Cascate",
 				"Sorgenti",
+				"Iceberg",
 				"Ghiacciai",
-				"Iceberg"
+				"Cascate"
 			],
 			"answer": "Ghiacciai",
 			"explanation": "I ghiacciai sono fiumi di ghiaccio che scendono dai monti; gli iceberg galleggiano nel mare."
@@ -1275,9 +1275,9 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il punto più profondo degli oceani, nel Pacifico?",
 			"options": [
-				"Fossa di Giava",
 				"Golfo del Bengala",
 				"Fossa delle Marianne",
+				"Fossa di Giava",
 				"Mar dei Sargassi"
 			],
 			"answer": "Fossa delle Marianne",
@@ -1291,10 +1291,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale d'Italia?",
 			"options": [
-				"Napoli",
-				"Roma",
 				"Torino",
-				"Milano"
+				"Napoli",
+				"Milano",
+				"Roma"
 			],
 			"answer": "Roma",
 			"explanation": "Roma è la capitale della Repubblica Italiana."
@@ -1323,9 +1323,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quali sono le due isole più grandi d'Italia?",
 			"options": [
-				"Sicilia ed Elba",
-				"Sardegna e Capri",
 				"Elba e Ischia",
+				"Sardegna e Capri",
+				"Sicilia ed Elba",
 				"Sicilia e Sardegna"
 			],
 			"answer": "Sicilia e Sardegna",
@@ -1339,10 +1339,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è il vulcano attivo più grande d'Europa, in Sicilia?",
 			"options": [
-				"Vulcano",
+				"Vesuvio",
 				"Etna",
 				"Stromboli",
-				"Vesuvio"
+				"Vulcano"
 			],
 			"answer": "Etna",
 			"explanation": "L'Etna, in Sicilia, è il maggiore vulcano attivo europeo."
@@ -1355,10 +1355,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è il lago più grande d'Italia?",
 			"options": [
-				"Lago di Garda",
 				"Lago di Como",
+				"Lago Maggiore",
 				"Lago Trasimeno",
-				"Lago Maggiore"
+				"Lago di Garda"
 			],
 			"answer": "Lago di Garda",
 			"explanation": "Il Lago di Garda è il maggiore lago italiano per superficie."
@@ -1371,8 +1371,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale catena montuosa percorre l'Italia da nord a sud?",
 			"options": [
-				"Dolomiti",
 				"Alpi",
+				"Dolomiti",
 				"Appennini",
 				"Pirenei"
 			],
@@ -1387,10 +1387,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale mare bagna la costa orientale dell'Italia?",
 			"options": [
-				"Mar Ligure",
-				"Mar Ionio",
 				"Mar Tirreno",
-				"Mar Adriatico"
+				"Mar Ligure",
+				"Mar Adriatico",
+				"Mar Ionio"
 			],
 			"answer": "Mar Adriatico",
 			"explanation": "L'Adriatico è a est, tra Italia e penisola balcanica."
@@ -1403,9 +1403,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale regione italiana ha la maggiore superficie?",
 			"options": [
-				"Piemonte",
-				"Sardegna",
 				"Lombardia",
+				"Sardegna",
+				"Piemonte",
 				"Sicilia"
 			],
 			"answer": "Sicilia",
@@ -1419,10 +1419,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale zona della Terra fa caldo tutto l'anno?",
 			"options": [
-				"In cima alle montagne",
-				"Vicino ai Poli",
 				"Nelle grotte",
-				"Vicino all'Equatore"
+				"Vicino all'Equatore",
+				"In cima alle montagne",
+				"Vicino ai Poli"
 			],
 			"answer": "Vicino all'Equatore",
 			"explanation": "Vicino all'Equatore i raggi del Sole arrivano più diretti e riscaldano di più."
@@ -1435,9 +1435,9 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?",
 			"options": [
-				"Clima mediterraneo",
 				"Clima equatoriale",
 				"Clima polare",
+				"Clima mediterraneo",
 				"Clima desertico"
 			],
 			"answer": "Clima mediterraneo",
@@ -1451,10 +1451,10 @@
 			"format": "multiple_choice",
 			"prompt": "Salendo in montagna, la temperatura di solito…",
 			"options": [
-				"Raddoppia",
+				"Resta uguale",
 				"Diminuisce",
 				"Aumenta",
-				"Resta uguale"
+				"Raddoppia"
 			],
 			"answer": "Diminuisce",
 			"explanation": "Più si sale in quota, più l'aria è fredda."
@@ -1468,9 +1468,9 @@
 			"prompt": "Come si chiama la grande foresta calda e piovosa vicino all'Equatore?",
 			"options": [
 				"Taiga",
-				"Foresta pluviale",
 				"Tundra",
-				"Savana"
+				"Savana",
+				"Foresta pluviale"
 			],
 			"answer": "Foresta pluviale",
 			"explanation": "La foresta pluviale è calda e umida tutto l'anno; la tundra invece è fredda."
@@ -1483,10 +1483,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova l'Italia?",
 			"options": [
-				"Africa",
 				"Asia",
-				"Europa",
-				"America"
+				"America",
+				"Africa",
+				"Europa"
 			],
 			"answer": "Europa",
 			"explanation": "L'Italia è uno Stato dell'Europa meridionale."
@@ -1499,10 +1499,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale fiume attraversa la città di Parigi?",
 			"options": [
-				"Senna",
-				"Danubio",
 				"Reno",
-				"Tamigi"
+				"Tamigi",
+				"Danubio",
+				"Senna"
 			],
 			"answer": "Senna",
 			"explanation": "La Senna attraversa Parigi; il Tamigi passa per Londra."
@@ -1515,10 +1515,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale catena di monti segna il confine tra Europa e Asia?",
 			"options": [
-				"Alpi",
+				"Carpazi",
 				"Pirenei",
-				"Monti Urali",
-				"Carpazi"
+				"Alpi",
+				"Monti Urali"
 			],
 			"answer": "Monti Urali",
 			"explanation": "Gli Urali, in Russia, dividono convenzionalmente Europa e Asia."
@@ -1531,8 +1531,8 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'unione economica e politica di molti Stati europei?",
 			"options": [
-				"Nazioni Unite",
 				"Commonwealth",
+				"Nazioni Unite",
 				"NATO",
 				"Unione Europea"
 			],
@@ -1547,10 +1547,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è il Paese più grande del mondo per superficie?",
 			"options": [
-				"Stati Uniti",
+				"Canada",
 				"Russia",
 				"Cina",
-				"Canada"
+				"Stati Uniti"
 			],
 			"answer": "Russia",
 			"explanation": "La Russia è lo Stato più esteso, tra Europa e Asia."
@@ -1563,9 +1563,9 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è oggi il Paese più popoloso del mondo?",
 			"options": [
-				"Stati Uniti",
-				"Cina",
 				"India",
+				"Cina",
+				"Stati Uniti",
 				"Indonesia"
 			],
 			"answer": "India",
@@ -1579,10 +1579,10 @@
 			"format": "multiple_choice",
 			"prompt": "Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?",
 			"options": [
-				"Canale di Panama",
-				"Stretto di Gibilterra",
 				"Canale della Manica",
-				"Canale di Suez"
+				"Stretto di Gibilterra",
+				"Canale di Suez",
+				"Canale di Panama"
 			],
 			"answer": "Canale di Suez",
 			"explanation": "Il Canale di Suez, in Egitto, collega Mediterraneo e Mar Rosso."
@@ -1595,10 +1595,10 @@
 			"format": "multiple_choice",
 			"prompt": "Da quale punto cardinale sorge il Sole?",
 			"options": [
-				"Ovest",
-				"Nord",
 				"Sud",
-				"Est"
+				"Est",
+				"Ovest",
+				"Nord"
 			],
 			"answer": "Est",
 			"explanation": "Il Sole sorge a est e tramonta a ovest."
@@ -1611,9 +1611,9 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama la rappresentazione ridotta della Terra disegnata su un foglio?",
 			"options": [
-				"Diario",
 				"Fotografia",
 				"Calendario",
+				"Diario",
 				"Carta geografica"
 			],
 			"answer": "Carta geografica",
@@ -1627,10 +1627,10 @@
 			"format": "multiple_choice",
 			"prompt": "Su una carta geografica, che cosa indica la scala?",
 			"options": [
-				"La temperatura",
 				"Di quanto è stata ridotta la realtà",
-				"Il nome delle vie",
-				"Il colore del mare"
+				"Il colore del mare",
+				"La temperatura",
+				"Il nome delle vie"
 			],
 			"answer": "Di quanto è stata ridotta la realtà",
 			"explanation": "La scala dice quante volte le distanze reali sono state rimpicciolite."

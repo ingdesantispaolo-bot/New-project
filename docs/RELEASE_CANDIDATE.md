@@ -12,7 +12,12 @@ il lavoro ancora aperto resta in `insieme.md`.
 
 ## Verifiche automatiche
 
-- 66 audit Godot su 66 verdi, eseguiti con save locali isolati;
+- 68 audit Godot su 68 verdi, eseguiti con save locali isolati (l'isolamento non
+  è un dettaglio: `roundtrip_audit` legge il save reale e un salvataggio lasciato
+  da una prova precedente può far fallire il gate);
+- nota di metodo: un `assert` fallito in uno script Godot headless stampa
+  `SCRIPT ERROR` ma **non** cambia l'exit code — un audit va considerato verde
+  solo se l'output non contiene asserzioni fallite;
 - round-trip missione → nave → esame → mondo successivo verde;
 - touch essenziale, contrasto elevato e riduzione movimento coperti da audit;
 - streaming a raggio Web/tablet: massimo 9 chunk nei mondi campione;

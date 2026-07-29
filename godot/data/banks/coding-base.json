@@ -219,9 +219,9 @@
 			"format": "multiple_choice",
 			"prompt": "if True:\nprint(\"ciao\")\n\nPerché questo codice Python dà errore?",
 			"options": [
-				"True va minuscolo",
-				"print è scritto male",
-				"manca un punto e virgola",
+				"True va scritto tutto minuscolo",
+				"print è scritto in modo sbagliato",
+				"manca un punto e virgola finale",
 				"manca l'indentazione dopo i due punti"
 			],
 			"answer": "manca l'indentazione dopo i due punti",
@@ -235,10 +235,10 @@
 			"format": "multiple_choice",
 			"prompt": "# questo è un commento\npunti = 5\nprint(punti)  # stampa 5\n\nCosa fa Python con le righe che iniziano con #?",
 			"options": [
-				"le esegue due volte",
-				"dà errore",
+				"le esegue due volte di seguito",
+				"dà errore e ferma il programma",
 				"le ignora: sono commenti per gli umani",
-				"le stampa a schermo"
+				"le stampa a schermo come testo"
 			],
 			"answer": "le ignora: sono commenti per gli umani",
 			"explanation": "Tutto ciò che segue # è un commento: Python lo ignora completamente. Serve a spiegare il codice a chi lo legge, non alla macchina."
@@ -379,9 +379,9 @@
 			"format": "multiple_choice",
 			"prompt": "In x = 5, che cos'è x?",
 			"options": [
-				"Una funzione",
-				"Un testo fisso",
-				"Un errore",
+				"Una funzione senza nome",
+				"Un testo fisso tra virgolette",
+				"Un errore di scrittura",
 				"Una variabile che vale 5"
 			],
 			"answer": "Una variabile che vale 5",
@@ -427,10 +427,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di che tipo è il valore 7?",
 			"options": [
-				"Booleano",
+				"Booleano (vero/falso)",
 				"Numero intero (int)",
-				"Lista",
-				"Stringa"
+				"Lista di valori",
+				"Stringa di testo"
 			],
 			"answer": "Numero intero (int)",
 			"explanation": "7 senza virgolette è un numero intero."
@@ -523,10 +523,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale istruzione ripete del codice più volte?",
 			"options": [
-				"print",
+				"print (oppure input)",
 				"for (oppure while)",
-				"if",
-				"def"
+				"if (oppure else)",
+				"def (oppure return)"
 			],
 			"answer": "for (oppure while)",
 			"explanation": "I cicli for e while ripetono un blocco di istruzioni."
@@ -603,9 +603,9 @@
 			"format": "multiple_choice",
 			"prompt": "A cosa serve soprattutto una funzione?",
 			"options": [
-				"A colorare il testo",
-				"A creare errori",
-				"A spegnere il computer",
+				"A colorare il testo del programma",
+				"A creare di proposito errori nel codice",
+				"A spegnere il computer da solo",
 				"A riusare un blocco di codice dandogli un nome"
 			],
 			"answer": "A riusare un blocco di codice dandogli un nome",
@@ -652,9 +652,9 @@
 			"prompt": "Che cos'è un algoritmo?",
 			"options": [
 				"Una sequenza di passi per risolvere un problema",
-				"Un tipo di computer",
-				"Un linguaggio di programmazione",
-				"Un errore"
+				"Un tipo di computer molto potente",
+				"Un linguaggio di programmazione nuovo",
+				"Un errore che blocca il programma"
 			],
 			"answer": "Una sequenza di passi per risolvere un problema",
 			"explanation": "L'algoritmo descrive i passi, come una ricetta."
@@ -667,9 +667,9 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa significa 'bug' in programmazione?",
 			"options": [
-				"Un comando utile",
-				"Un tipo di dato",
-				"Una funzione",
+				"Un comando molto utile",
+				"Un tipo di dato nuovo",
+				"Una funzione di sistema",
 				"Un errore nel programma"
 			],
 			"answer": "Un errore nel programma",

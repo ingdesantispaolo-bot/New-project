@@ -43,9 +43,9 @@
 			"format": "multiple_choice",
 			"prompt": "A cosa serve un 'gruppo di controllo' in un esperimento?",
 			"options": [
-				"A saltare le misure",
-				"A rendere l'esperimento più lungo",
-				"A cambiare più cose insieme",
+				"A saltare qualche misura per fare prima",
+				"A rendere l'esperimento molto più lungo del solito",
+				"A cambiare più cose insieme e vedere",
 				"A confrontare con qualcosa che non è stato cambiato"
 			],
 			"answer": "A confrontare con qualcosa che non è stato cambiato",
@@ -187,10 +187,10 @@
 			"format": "multiple_choice",
 			"prompt": "Di cosa hanno bisogno le piante per fare la fotosintesi?",
 			"options": [
-				"Solo acqua",
+				"Soltanto acqua abbondante",
 				"Luce, acqua e anidride carbonica",
-				"Solo terra",
-				"Buio e freddo"
+				"Soltanto terra da giardino",
+				"Buio completo e freddo"
 			],
 			"answer": "Luce, acqua e anidride carbonica",
 			"explanation": "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno."
@@ -251,9 +251,9 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?",
 			"options": [
-				"Evaporazione",
+				"Evaporazione rapida",
 				"Respirazione cellulare",
-				"Digestione",
+				"Digestione lenta",
 				"Fotosintesi"
 			],
 			"answer": "Respirazione cellulare",
@@ -283,7 +283,7 @@
 			"format": "multiple_choice",
 			"prompt": "In una catena alimentare, chi produce il proprio nutrimento?",
 			"options": [
-				"I predatori",
+				"I predatori (carnivori)",
 				"Le piante (produttori)",
 				"I decompositori",
 				"Gli erbivori"
@@ -316,9 +316,9 @@
 			"prompt": "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?",
 			"options": [
 				"Diminuirebbero per mancanza di cibo",
-				"Non cambierebbe nulla",
-				"Aumenterebbero",
-				"Diventerebbero carnivori"
+				"Non cambierebbe proprio nulla",
+				"Aumenterebbero di numero",
+				"Diventerebbero tutti carnivori"
 			],
 			"answer": "Diminuirebbero per mancanza di cibo",
 			"explanation": "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono."
@@ -347,10 +347,10 @@
 			"format": "multiple_choice",
 			"prompt": "A cosa serve lo scheletro?",
 			"options": [
-				"A vedere",
-				"A respirare",
+				"A vedere meglio i colori",
+				"A respirare più a lungo",
 				"A sostenere e proteggere il corpo",
-				"A digerire il cibo"
+				"A digerire il cibo più in fretta"
 			],
 			"answer": "A sostenere e proteggere il corpo",
 			"explanation": "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello)."
@@ -459,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quali fonti di energia non si esauriscono e inquinano poco?",
 			"options": [
-				"Plastica bruciata",
-				"Gas e benzina",
+				"Plastica bruciata negli inceneritori",
+				"Gas e benzina dei motori",
 				"Sole, vento e acqua (rinnovabili)",
-				"Carbone e petrolio"
+				"Carbone e petrolio estratti"
 			],
 			"answer": "Sole, vento e acqua (rinnovabili)",
 			"explanation": "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili."
@@ -523,10 +523,10 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa provoca soprattutto l'alternarsi delle stagioni?",
 			"options": [
-				"Il vento",
+				"Il vento che soffia da nord per tutto l'anno",
 				"L'inclinazione della Terra mentre gira intorno al Sole",
-				"Le maree",
-				"La distanza dalla Luna"
+				"Le maree provocate dalla Luna",
+				"La distanza che cambia dalla Luna"
 			],
 			"answer": "L'inclinazione della Terra mentre gira intorno al Sole",
 			"explanation": "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno."
@@ -539,10 +539,10 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?",
 			"options": [
-				"Buttarli tutti insieme",
-				"Lasciarli a terra",
+				"Buttarli tutti nello stesso sacco",
+				"Lasciarli per terra dove capita",
 				"Fare la raccolta differenziata",
-				"Bruciarli in casa"
+				"Bruciarli nel cortile di casa"
 			],
 			"answer": "Fare la raccolta differenziata",
 			"explanation": "Separare i rifiuti permette di riciclarli e sprecare meno risorse."
@@ -555,10 +555,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché è importante non sprecare l'acqua?",
 			"options": [
-				"Perché è colorata",
+				"Perché è di colore trasparente",
 				"È una risorsa preziosa e limitata",
-				"Perché è pesante",
-				"Non è importante"
+				"Perché è pesante da trasportare",
+				"Non è importante, ce n'è tanta"
 			],
 			"answer": "È una risorsa preziosa e limitata",
 			"explanation": "L'acqua dolce pulita è limitata: va usata con attenzione."

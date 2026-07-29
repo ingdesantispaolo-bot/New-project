@@ -84,8 +84,18 @@ func _load_bank(subject: String) -> Array:
 
 # Difficoltà target in base al SOLO livello del giocatore (banda 1-4). È la base;
 # la difficoltà effettiva la corregge con la mastery e la calibra sul banco reale.
+#
+# La scala segue le DUE COMPARSE di ogni materia, non solo il numero del mondo.
+# Prima passata (mondi 1-12): il mondo di INTRODUZIONE della materia, difficoltà
+# da 1 a 3. Seconda passata (13-24): la stessa materia torna per APPROFONDIRE,
+# da 3 a 4. Con la vecchia rampa (1 + (livello-1)/3) la difficoltà saturava a 4
+# già dal livello 10: le ultime materie del ciclo (scienze, storia, logica)
+# nascevano al massimo — nessuna introduzione — e la loro seconda comparsa non
+# poteva più crescere (misurato: 3.90 → 3.91 di difficoltà media giocata).
 static func target_difficulty(level: int) -> int:
-	return clampi(1 + (level - 1) / 3, 1, 4)
+	if level <= 12:
+		return clampi(1 + (level - 1) / 5, 1, 3)
+	return clampi(3 + (level - 13) / 6, 3, 4)
 
 # Correzione di difficoltà secondo la padronanza (mastery 0..1): chi fatica scende
 # di un gradino, chi padroneggia sale. `mastery < 0` = sconosciuta → nessun nudge
@@ -204,29 +214,67 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 	var items := _era_gated(subject, level, _load_bank(subject))
 	# Difficoltà efficace: livello + mastery, calibrata sul range reale del banco.
 	var target := effective_difficulty(subject, level, mastery)
+	var lesson := lesson_topic_set(subject, level)
 	var review_pool: Array = []
-	var weak_near_pool: Array = []  # item vicini alla difficoltà su argomenti deboli
-	var near_pool: Array = []       # gli altri item vicini alla difficoltà
+	var weak_near_pool: Array = []   # item vicini alla difficoltà su argomenti deboli
+	var near_pool: Array = []        # gli altri item vicini alla difficoltà
+	var lesson_weak_pool: Array = [] # argomenti del mondo, ancora deboli
+	var lesson_near_pool: Array = [] # argomenti del mondo
 	for item in items:
 		var topic := str(item.get("topic", ""))
 		if int(review_due.get("%s:%s" % [subject, topic], 0)) > 0:
 			review_pool.append(item)
 		elif abs(int(item.get("difficulty", 1)) - target) <= 1:
 			var tm := float(topic_mastery.get(topic, -1.0))
-			if tm >= 0.0 and tm < WEAK_TOPIC_THRESHOLD:
+			var weak := tm >= 0.0 and tm < WEAK_TOPIC_THRESHOLD
+			if lesson.has(topic):
+				if weak:
+					lesson_weak_pool.append(item)
+				else:
+					lesson_near_pool.append(item)
+			elif weak:
 				weak_near_pool.append(item)
 			else:
 				near_pool.append(item)
-	if review_pool.is_empty() and weak_near_pool.is_empty() and near_pool.is_empty():
+	if review_pool.is_empty() and weak_near_pool.is_empty() and near_pool.is_empty() \
+			and lesson_weak_pool.is_empty() and lesson_near_pool.is_empty():
 		near_pool = items.duplicate()
 	var chosen: Array = []
-	# Priorità: ripasso spaziato → argomenti deboli → resto vicino → riempimento.
+	# Priorità: ripasso spaziato → argomenti del mondo (quota morbida) → argomenti
+	# deboli → resto vicino → di nuovo argomenti del mondo → riempimento.
 	_drain_into(chosen, review_pool, node_count, generator, true)
+	var lesson_quota := int(ceil(float(node_count) * LESSON_TOPIC_SHARE))
+	_drain_into(chosen, lesson_weak_pool, lesson_quota, generator, false)
+	_drain_into(chosen, lesson_near_pool, lesson_quota, generator, false)
 	_drain_into(chosen, weak_near_pool, node_count, generator, false)
 	_drain_into(chosen, near_pool, node_count, generator, false)
+	_drain_into(chosen, lesson_weak_pool, node_count, generator, false)
+	_drain_into(chosen, lesson_near_pool, node_count, generator, false)
 	while chosen.size() < node_count and not items.is_empty():
 		chosen.append(items[generator.randi_range(0, items.size() - 1)].duplicate())
 	return _session(subject, level, chosen)
+
+## Quota dei nodi riservata agli argomenti che la LEZIONE del mondo promette.
+## Senza questa preferenza la selezione guarda solo la difficoltà: i mondi delle
+## materie con banchi larghi servivano altro (misurato: il mondo 16 "Frontiera
+## delle Lingue" proponeva il 2% di nodi sui topic promessi, il mondo 11 di storia
+## trattava Roma). È una preferenza MORBIDA — circa due nodi su tre — perché il
+## resto resti disponibile a ripasso e varietà.
+const LESSON_TOPIC_SHARE := 0.67
+
+# Argomenti promessi dalla lezione del mondo, come insieme. Vuoto se il livello
+# non ha lezione o se la lezione è di un'ALTRA materia (caso dell'esame finale
+# trasversale, dove tutte le 12 materie usano lo stesso livello).
+static func lesson_topic_set(subject: String, level: int) -> Dictionary:
+	if not WorldLessonCatalog.has_lesson(level):
+		return {}
+	var lesson := WorldLessonCatalog.lesson(level)
+	if str(lesson.get("subject", "")) != subject:
+		return {}
+	var out: Dictionary = {}
+	for topic in Array(lesson.get("topics", [])):
+		out[str(topic)] = true
+	return out
 
 func _session(subject: String, level: int, nodes: Array) -> Dictionary:
 	return {
@@ -283,7 +331,11 @@ static func enigma_theme(subject: String) -> String:
 ## grandezza dei numeri. Contratto in più rispetto alla missione: `theme` e
 ## `stages` per la resa (vedi OutdoorGameplay.enigma_progress, gate I-01).
 func build_enigma(subject: String, level: int, node_count: int = 4, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
-	var session := build_mission(subject, level, node_count, review_due, rng, mastery, topic_mastery)
+	# Campate a formati VARI come le missioni: l'enigma è la prova più lunga del
+	# mondo (4 campate) e, se restasse a sola scelta multipla, riporterebbe la
+	# scelta multipla a dominare l'esperienza giocata (misurato: 41% nei mondi con
+	# due enigmi). Ogni campata resta un esercizio del contratto comune.
+	var session := build_varied_mission(subject, level, node_count, review_due, rng, mastery, topic_mastery)
 	session["sessionId"] = "enigma-%s-lvl%d" % [subject, level]
 	session["kind"] = "enigma"
 	session["theme"] = enigma_theme(subject)
@@ -409,18 +461,30 @@ const NONMC_FORMAT_WEIGHTS := {
 	"graph": 25, "circuit": 25, "code_debug": 25, "hotspot": 18,
 }
 
+# Quante costruzioni di minigioco attingere per la tavolozza: con più prove per
+# formato una campata non ripete mai la prova della campata precedente.
+const PALETTE_DRAWS := 3
+
 func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: RandomNumberGenerator) -> Array:
 	if count <= 0:
 		return nodes
-	var mg := minigame_manager.build_minigame(subject, level, rng)
-	# Tavolozza: un nodo per ciascun formato non-MC disponibile per la materia.
-	var palette: Dictionary = {}
-	for n in mg.get("nodes", []):
-		if ExerciseInteraction.is_multiple_choice(n):
-			continue
-		var f := str(n.get("format", ""))
-		if not palette.has(f):
-			palette[f] = n
+	# Tavolozza: per ciascun formato non-MC una CODA di prove distinte. Con una sola
+	# prova per formato una sessione lunga (l'enigma ha 4 campate) rischiava di
+	# ripetere lo stesso esercizio due volte: la ripetizione non insegna nulla.
+	var palette: Dictionary = {}   # format -> Array[Dictionary] prove distinte
+	var seen: Dictionary = {}      # firma prova -> true
+	for draw in range(PALETTE_DRAWS):
+		for n in minigame_manager.build_minigame(subject, level, rng).get("nodes", []):
+			if ExerciseInteraction.is_multiple_choice(n):
+				continue
+			var signature := "%s|%s" % [str(n.get("format", "")), str(n.get("prompt", ""))]
+			if seen.has(signature):
+				continue
+			seen[signature] = true
+			var f := str(n.get("format", ""))
+			var queue: Array = palette.get(f, [])
+			queue.append(n)
+			palette[f] = queue
 	if palette.is_empty():
 		return nodes
 	var out := nodes.duplicate()
@@ -429,11 +493,20 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 	for i in range(out.size() - 1, -1, -1):
 		if injected >= count:
 			break
-		if ExerciseInteraction.is_multiple_choice(out[i]):
-			var fmt := _pick_weighted_format(palette.keys(), used, rng)
-			out[i] = (palette[fmt] as Dictionary).duplicate(true)
-			used[fmt] = int(used.get(fmt, 0)) + 1
-			injected += 1
+		if not ExerciseInteraction.is_multiple_choice(out[i]):
+			continue
+		# Solo i formati con una prova ancora disponibile restano nella scelta.
+		var available: Array = []
+		for f in palette.keys():
+			if not (palette[f] as Array).is_empty():
+				available.append(f)
+		if available.is_empty():
+			break
+		var fmt := _pick_weighted_format(available, used, rng)
+		var queue: Array = palette[fmt]
+		out[i] = (queue.pop_front() as Dictionary).duplicate(true)
+		used[fmt] = int(used.get(fmt, 0)) + 1
+		injected += 1
 	return out
 
 # Sceglie un formato tra quelli disponibili con probabilità proporzionale al peso,

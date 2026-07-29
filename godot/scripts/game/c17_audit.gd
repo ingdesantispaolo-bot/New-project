@@ -1,5 +1,7 @@
 extends SceneTree
 
+const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
+
 ## Audit C-17: la catena enigma copre TUTTE le 12 materie (scope ampliato
 ## 2026-07-21). Guard-rail di regressione al livello dati/contratto — non tocca
 ## la scena: verifica che ogni materia abbia un banco giocabile, un tema enigma
@@ -50,7 +52,10 @@ func _init() -> void:
 		assert(stages == nodes.size(), "stages != numero campate: %s" % subject)
 		assert(stages >= 1, "enigma senza campate giocabili: %s" % subject)
 		for item in nodes:
-			assert(str(item.get("answer", "")).strip_edges() != "", "risposta mancante (%s)" % subject)
+			# Le campate sono a formati vari: la soluzione può essere `answer`,
+			# coppie, ordine o assegnazioni. Il contratto comune le valida tutte.
+			var check := ExerciseInteraction.validate(item)
+			assert(bool(check["ok"]), "campata non valida (%s): %s" % [subject, str(check["errors"])])
 			assert(str(item.get("explanation", "")).strip_edges() != "", "spiegazione mancante (%s)" % subject)
 			assert(int(item.get("difficulty", 0)) in [1, 2, 3, 4], "difficolta invalida (%s)" % subject)
 

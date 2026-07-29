@@ -27,7 +27,7 @@ const LESSONS := {
 			{"concept": "la tabellina come addizione ripetuta veloce", "worldAction": "accendi le pietre-numero saltando di 2, di 3, di 5 lungo il sentiero"},
 			{"concept": "problema a storia", "worldAction": "aiuta un abitante della radura a dividere il raccolto in parti uguali"},
 		],
-		"transferTest": {"description": "Un problema mai visto, ambientato nella radura, che chiede di scegliere l'operazione giusta e applicarla.", "formats": ["numeric_input", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un problema mai visto, ambientato nella radura, che chiede di scegliere l'operazione giusta e applicarla.", "formats": ["numeric_input", "multiple_choice", "graph", "ordering"], "novelContext": true},
 		"nora": {
 			"briefing": "La Radura Accademia si accende con i numeri. Oggi impari a vedere i gruppi: moltiplicare è contare più in fretta. Ogni tabellina che padroneggi accende una parte della nave.",
 			"onError": "Numero sbagliato, non strategia sbagliata. Torna ai gruppi: quante volte, quanti per volta?",
@@ -51,7 +51,7 @@ const LESSONS := {
 			{"concept": "significato in contesto", "worldAction": "scegli la parola giusta per completare l'iscrizione sul ponte delle frasi"},
 			{"concept": "campi semantici", "worldAction": "raccogli le parole dello stesso tema per ricomporre uno scaffale dell'Archivio"},
 		],
-		"transferTest": {"description": "Riconoscere il significato o la classe di una parola nuova, incontrata in un tema diverso da quello di studio.", "formats": ["multiple_choice", "matching"], "novelContext": true},
+		"transferTest": {"description": "Riconoscere il significato o la classe di una parola nuova, incontrata in un tema diverso da quello di studio.", "formats": ["multiple_choice", "matching", "graph", "code_debug"], "novelContext": true},
 		"nora": {
 			"briefing": "L'Archivio delle Parole custodisce il linguaggio. Oggi dai a ogni parola il suo posto: che cosa significa e a quale classe appartiene. Le parole giuste ricostruiscono i ponti dell'Archivio.",
 			"onError": "Rileggi con calma. Cerca prima chi fa cosa, poi scegli la forma più chiara.",
@@ -71,7 +71,7 @@ const LESSONS := {
 			{"concept": "condizione", "worldAction": "scegli il bivio giusto in base al segnale (se… allora…)"},
 			{"concept": "sequenza/algoritmo", "worldAction": "ordina le leve nell'ordine corretto per avviare il meccanismo"},
 		],
-		"transferTest": {"description": "Un mini-programma mai visto: prevedi cosa produce o riordina i passi per ottenere il risultato.", "formats": ["ordering", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un mini-programma mai visto: prevedi cosa produce o riordina i passi per ottenere il risultato.", "formats": ["ordering", "code_debug", "circuit", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "Il Cratere Logico funziona a loop e bivii. Oggi impari a far ripetere e a far decidere una macchina: ordine e condizioni. Ogni meccanismo che avvii riattiva una scheda del mio Nucleo logico.",
 			"onError": "Non correre: simula una riga alla volta — stato, ciclo, uscita.",
@@ -91,7 +91,7 @@ const LESSONS := {
 			{"concept": "frase quotidiana", "worldAction": "completa il messaggio radio scegliendo la parola mancante"},
 			{"concept": "parole-chiave", "worldAction": "accendi il faro individuando l'azione richiesta nel segnale"},
 		],
-		"transferTest": {"description": "Un messaggio nuovo in inglese: scegli la risposta giusta cogliendo azione e oggetto.", "formats": ["multiple_choice", "matching"], "novelContext": true},
+		"transferTest": {"description": "Un messaggio nuovo in inglese: scegli la risposta giusta cogliendo azione e oggetto.", "formats": ["multiple_choice", "matching", "code_debug", "classification"], "novelContext": true},
 		"nora": {
 			"briefing": "La Baia dei Segnali riceve voci lontane in inglese. Oggi impari a capirle: oggetti, azioni, frasi d'uso. Ogni segnale che decifri riaccende un canale della nave.",
 			"onError": "Isola azione, oggetto e contesto: il resto è rumore.",
@@ -111,7 +111,7 @@ const LESSONS := {
 			{"concept": "leva", "worldAction": "posiziona il fulcro per sollevare il masso con meno sforzo"},
 			{"concept": "energia", "worldAction": "carica la molla e libera l'energia per avviare il ponte comando"},
 		],
-		"transferTest": {"description": "Una situazione nuova di moto o leva: prevedi l'effetto della forza.", "formats": ["numeric_input", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Una situazione nuova di moto o leva: prevedi l'effetto della forza.", "formats": ["graph", "multiple_choice", "ordering", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "Le Officine del Moto rispondono alle spinte giuste. Oggi impari forze, moto e leve: come cambiare il movimento con metodo. Ogni meccanismo tarato riattiva il ponte comando.",
 			"onError": "Metti insieme grandezza, unità e modello prima del numero.",
@@ -131,7 +131,7 @@ const LESSONS := {
 			{"concept": "ritmo", "worldAction": "batti la sequenza ritmica giusta per far vibrare l'albero risonante"},
 			{"concept": "intervalli", "worldAction": "collega due fiori sonori alla distanza giusta per aprire il varco"},
 		],
-		"transferTest": {"description": "Una melodia o un ritmo nuovo: riconosci la nota o la durata mancante.", "formats": ["matching", "ordering"], "novelContext": true},
+		"transferTest": {"description": "Una melodia o un ritmo nuovo: riconosci la nota o la durata mancante.", "formats": ["matching", "ordering", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "Il Giardino della Risonanza suona se lo accordi. Oggi impari note, ritmo e intervalli: la musica come struttura. Ogni accordo giusto riaccende un mio circuito sonoro.",
 			"onError": "Aggancia la nota guida, poi conta posizione e intervallo.",
@@ -151,7 +151,7 @@ const LESSONS := {
 			{"concept": "lessico", "worldAction": "abbina la parola latina al suo significato per aprire l'arco"},
 			{"concept": "desinenza", "worldAction": "scegli la desinenza corretta per completare l'iscrizione"},
 		],
-		"transferTest": {"description": "Un'iscrizione nuova: riconosci caso o significato di una parola mai vista.", "formats": ["matching", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un'iscrizione nuova: riconosci caso o significato di una parola mai vista.", "formats": ["matching", "multiple_choice", "classification", "code_debug"], "novelContext": true},
 		"nora": {
 			"briefing": "Le Rovine dei Glifi parlano latino. Oggi impari i casi e il lessico: la desinenza dice la funzione. Ogni iscrizione che sciogli illumina la sala dei glifi.",
 			"onError": "Parti dalla desinenza: funzione, numero, poi senso.",
@@ -171,7 +171,7 @@ const LESSONS := {
 			{"concept": "componenti", "worldAction": "abbina ogni componente alla sua funzione"},
 			{"concept": "misure", "worldAction": "associa tensione, corrente e resistenza alla loro unità"},
 		],
-		"transferTest": {"description": "Uno schema nuovo: individua perché non funziona o quale unità serve.", "formats": ["matching", "numeric_input"], "novelContext": true},
+		"transferTest": {"description": "Uno schema nuovo: individua perché non funziona o quale unità serve.", "formats": ["circuit", "matching", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "Il Delta dei Circuiti scorre come acqua nei nodi giusti. Oggi impari componenti, percorso e misure: la corrente ha regole. Ogni nodo che chiudi fa pulsare il reattore.",
 			"onError": "Segui il percorso della corrente prima di toccare i pezzi.",
@@ -191,7 +191,7 @@ const LESSONS := {
 			{"concept": "continenti", "worldAction": "assegna ogni isola al continente giusto"},
 			{"concept": "elementi fisici", "worldAction": "leggi la quota per scegliere il passaggio navigabile"},
 		],
-		"transferTest": {"description": "Una carta nuova: individua la posizione o l'elemento fisico richiesto.", "formats": ["matching", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Una carta nuova: individua la posizione o l'elemento fisico richiesto.", "formats": ["matching", "multiple_choice", "graph", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "L'Arcipelago Cartografico è fatto di rotte e quote. Oggi impari a localizzare e leggere una carta: dove sono le cose e come raggiungerle. Ogni rotta tracciata ricostruisce la mia mappa.",
 			"onError": "Leggi prima gli assi della mappa, poi la posizione.",
@@ -211,7 +211,7 @@ const LESSONS := {
 			{"concept": "catena alimentare", "worldAction": "collega gli anelli della catena per far vivere la serra"},
 			{"concept": "metodo scientifico", "worldAction": "cambia una sola variabile e osserva l'effetto sulla pianta"},
 		],
-		"transferTest": {"description": "Un ecosistema nuovo: prevedi l'effetto di un cambiamento o classifica un vivente.", "formats": ["matching", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un ecosistema nuovo: prevedi l'effetto di un cambiamento o classifica un vivente.", "formats": ["matching", "multiple_choice", "circuit", "graph"], "novelContext": true},
 		"nora": {
 			"briefing": "La Serra delle Simbiosi mostra che tutto è collegato. Oggi impari viventi, ecosistemi e metodo: osserva, ipotizza, verifica. Ogni relazione compresa fa crescere la cupola vivente.",
 			"onError": "Osserva, ipotizza, cambia una cosa sola, verifica.",
@@ -231,7 +231,7 @@ const LESSONS := {
 			{"concept": "prime civiltà", "worldAction": "abbina ogni civiltà al luogo o all'invenzione che la distingue"},
 			{"concept": "fonti storiche", "worldAction": "smista ogni reperto nella sua fonte: materiale, scritta o orale"},
 		],
-		"transferTest": {"description": "Un reperto mai visto: collocalo nell'epoca giusta e riconosci di che fonte si tratta.", "formats": ["multiple_choice", "matching"], "novelContext": true},
+		"transferTest": {"description": "Un reperto mai visto: collocalo nell'epoca giusta e riconosci di che fonte si tratta.", "formats": ["multiple_choice", "matching", "ordering", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "La Soglia del Tempo custodisce le tracce del passato. Oggi impari a leggere la linea del tempo, le prime civiltà e le fonti: come sappiamo ciò che è accaduto. Ogni traccia interpretata riaccende una scena del passato.",
 			"onError": "Chiediti da quale traccia lo sai e in quale epoca ci porta.",
@@ -251,7 +251,7 @@ const LESSONS := {
 			{"concept": "deduzione", "worldAction": "scegli l'unica strada coerente con gli indizi"},
 			{"concept": "analogia", "worldAction": "completa l'analogia per allineare i settori del labirinto"},
 		],
-		"transferTest": {"description": "Un pattern nuovo: trova la regola nascosta e applicala.", "formats": ["multiple_choice", "ordering"], "novelContext": true},
+		"transferTest": {"description": "Un pattern nuovo: trova la regola nascosta e applicala.", "formats": ["ordering", "multiple_choice", "graph", "classification"], "novelContext": true},
 		"nora": {
 			"briefing": "Il Labirinto delle Regole premia chi trova la regola nascosta. Oggi impari sequenze, deduzioni e analogie: pensare per regole. Chiudere questo mondo completa il primo ciclo dei dodici sistemi.",
 			"onError": "Trova la regola nascosta, poi applicala al passo successivo.",
@@ -271,7 +271,7 @@ const LESSONS := {
 			{"concept": "frazione", "worldAction": "calcola la frazione di orbita percorsa per allineare l'osservatorio"},
 			{"concept": "geometria", "worldAction": "traccia l'angolo giusto per prevedere la traiettoria"},
 		],
-		"transferTest": {"description": "Una traiettoria nuova: usa proporzioni o geometria per prevedere dove arriva.", "formats": ["numeric_input", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Una traiettoria nuova: usa proporzioni o geometria per prevedere dove arriva.", "formats": ["numeric_input", "multiple_choice", "graph", "ordering"], "novelContext": true},
 		"nora": {
 			"briefing": "Il Deserto delle Orbite chiede stime e proporzioni. Oggi porti la matematica alle traiettorie: rapporti, frazioni, angoli. Ogni previsione giusta riapre gli occhi del mio osservatorio.",
 			"onError": "Nomina il vincolo, poi fai un passaggio alla volta.",
@@ -285,13 +285,13 @@ const LESSONS := {
 		"subject": "italiano",
 		"objectives": ["Cogliere il punto di vista in un testo.", "Ampliare il lessico di emozioni e relazioni.", "Comprendere un testo oltre il significato letterale."],
 		"prerequisites": ["Riconoscere le classi di parole (L2).", "Leggere un breve testo con comprensione."],
-		"topics": ["pensiero-linguaggio", "emozioni-relazioni", "viaggi-luoghi"],
+		"topics": ["pensiero-linguaggio", "emozioni-relazioni", "testo-narrativo"],
 		"conceptActions": [
 			{"concept": "punto di vista", "worldAction": "scegli la voce narrante coerente con la scena"},
 			{"concept": "lessico delle emozioni", "worldAction": "abbina la parola all'emozione giusta per aprire la sala"},
 			{"concept": "comprensione profonda", "worldAction": "scegli il significato implicito che completa la storia"},
 		],
-		"transferTest": {"description": "Un brano nuovo: individua prospettiva o significato non letterale.", "formats": ["multiple_choice", "matching"], "novelContext": true},
+		"transferTest": {"description": "Un brano nuovo: individua prospettiva o significato non letterale.", "formats": ["multiple_choice", "matching", "graph", "code_debug"], "novelContext": true},
 		"nora": {
 			"briefing": "La Biblioteca delle Voci custodisce storie dentro storie. Oggi vai oltre le parole: prospettive, emozioni, sensi nascosti. Ogni voce che comprendi mi restituisce un ricordo.",
 			"onError": "Cerca prima chi parla e perché, poi il senso.",
@@ -311,7 +311,7 @@ const LESSONS := {
 			{"concept": "flusso di dati", "worldAction": "instrada il dato nella rete fino al nodo giusto"},
 			{"concept": "debug", "worldAction": "trova la riga che rompe l'automa e correggila"},
 		],
-		"transferTest": {"description": "Un programma nuovo con un bug: individua e correggi l'errore.", "formats": ["ordering", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un programma nuovo con un bug: individua e correggi l'errore.", "formats": ["ordering", "code_debug", "circuit", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "La Città Macchina è fatta di automi e reti. Oggi impari funzioni, flussi e debug: costruire e riparare sistemi. Ogni automa che sistemi ricompone la mia coscienza distribuita.",
 			"onError": "Simula una riga alla volta: stato, ciclo, uscita.",
@@ -331,7 +331,7 @@ const LESSONS := {
 			{"concept": "connettivi", "worldAction": "lega le due frasi col connettivo corretto"},
 			{"concept": "opinioni e ruoli", "worldAction": "abbina mestiere o luogo alla frase che lo descrive"},
 		],
-		"transferTest": {"description": "Uno scambio nuovo: scegli la frase o il connettivo adatto al contesto.", "formats": ["multiple_choice", "matching"], "novelContext": true},
+		"transferTest": {"description": "Uno scambio nuovo: scegli la frase o il connettivo adatto al contesto.", "formats": ["multiple_choice", "matching", "code_debug", "classification"], "novelContext": true},
 		"nora": {
 			"briefing": "La Frontiera delle Lingue è fatta di scambi. Oggi comunichi davvero: viaggi, connettivi, opinioni. Ogni valico che apri allarga il mio vocabolario.",
 			"onError": "Isola azione, oggetto e contesto: il resto è rumore.",
@@ -351,7 +351,7 @@ const LESSONS := {
 			{"concept": "galleggiamento", "worldAction": "bilancia la spinta per far galleggiare il modulo"},
 			{"concept": "correnti", "worldAction": "sfrutta la corrente giusta per raggiungere la cattedrale sottomarina"},
 		],
-		"transferTest": {"description": "Una situazione nuova in acqua: prevedi pressione, spinta o effetto della corrente.", "formats": ["numeric_input", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Una situazione nuova in acqua: prevedi pressione, spinta o effetto della corrente.", "formats": ["graph", "multiple_choice", "ordering", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "L'Oceano delle Forze schiaccia chi non ha metodo. Oggi impari pressione, galleggiamento e correnti: le forze dell'acqua. Ogni equilibrio giusto mi fa reggere la profondità.",
 			"onError": "Metti insieme grandezza, unità e modello prima del numero.",
@@ -371,7 +371,7 @@ const LESSONS := {
 			{"concept": "dinamica", "worldAction": "dosa piano e forte per far risuonare l'organo senza rompere i vetri"},
 			{"concept": "timbro", "worldAction": "riconosci lo strumento dal suo timbro per completare il coro"},
 		],
-		"transferTest": {"description": "Un brano nuovo: riconosci armonia, dinamica o timbro richiesti.", "formats": ["matching", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un brano nuovo: riconosci armonia, dinamica o timbro richiesti.", "formats": ["matching", "ordering", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "La Cattedrale del Suono vive di armonia e riverbero. Oggi impari accordi, dinamica e timbri: la musica come insieme. Ogni armonia giusta ricompone un mio ricordo in frammenti.",
 			"onError": "Aggancia la nota guida, poi ascolta l'insieme.",
@@ -391,7 +391,7 @@ const LESSONS := {
 			{"concept": "declinazione", "worldAction": "scegli la forma declinata giusta per completare l'epigrafe"},
 			{"concept": "frase", "worldAction": "ordina le parole per ricostruire la frase incisa"},
 		],
-		"transferTest": {"description": "Una parola o frase nuova: ricostruisci significato o forma dalle radici.", "formats": ["matching", "ordering"], "novelContext": true},
+		"transferTest": {"description": "Una parola o frase nuova: ricostruisci significato o forma dalle radici.", "formats": ["matching", "multiple_choice", "classification", "code_debug"], "novelContext": true},
 		"nora": {
 			"briefing": "La Necropoli delle Radici custodisce le origini delle parole. Oggi impari etimologie, declinazioni e frasi: da dove vengono le parole. Ogni radice che segui mi riporta a chi ero.",
 			"onError": "Parti dalla desinenza: funzione, numero, poi senso.",
@@ -411,7 +411,7 @@ const LESSONS := {
 			{"concept": "sensori", "worldAction": "leggi il valore del sensore per orientare la torre di campo"},
 			{"concept": "diagnosi", "worldAction": "individua il componente guasto che fa cadere la rete"},
 		],
-		"transferTest": {"description": "Una rete nuova instabile: diagnostica il guasto o scegli il collegamento robusto.", "formats": ["matching", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Una rete nuova instabile: diagnostica il guasto o scegli il collegamento robusto.", "formats": ["circuit", "matching", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "La Tempesta Elettromagnetica mette alla prova ogni rete. Oggi impari serie e parallelo, sensori e diagnosi: reggere l'instabilità. La tua calma nella tempesta è la mia bussola.",
 			"onError": "Segui il percorso della corrente prima di toccare i pezzi.",
@@ -431,7 +431,7 @@ const LESSONS := {
 			{"concept": "sistemi fisici", "worldAction": "allinea le placche per stabilizzare il pilastro tettonico"},
 			{"concept": "uomo-ambiente", "worldAction": "scegli l'insediamento adatto al territorio"},
 		],
-		"transferTest": {"description": "Una regione nuova: deduci clima o rischio dall'insieme dei dati.", "formats": ["matching", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Una regione nuova: deduci clima o rischio dall'insieme dei dati.", "formats": ["matching", "multiple_choice", "graph", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "L'Atlante Fratturato mostra un mondo intero da ricomporre. Oggi colleghi clima, territorio e persone: sistemi che si influenzano. Ogni tessera al posto giusto mi mostra la rotta completa.",
 			"onError": "Leggi prima gli assi della mappa, poi la relazione.",
@@ -451,7 +451,7 @@ const LESSONS := {
 			{"concept": "flusso di energia", "worldAction": "instrada l'energia lungo la catena per illuminare la caverna"},
 			{"concept": "adattamento", "worldAction": "scegli l'adattamento adatto all'ambiente profondo"},
 		],
-		"transferTest": {"description": "Un ambiente nuovo: prevedi l'adattamento o segui il flusso di energia.", "formats": ["matching", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un ambiente nuovo: prevedi l'adattamento o segui il flusso di energia.", "formats": ["matching", "multiple_choice", "circuit", "graph"], "novelContext": true},
 		"nora": {
 			"briefing": "La Biosfera Profonda pulsa di vita che si adatta. Oggi impari cellule, energia e adattamento: come la vita resiste. Anch'io mi sto adattando a essere di nuovo viva.",
 			"onError": "Osserva, ipotizza, cambia una cosa sola, verifica.",
@@ -471,7 +471,7 @@ const LESSONS := {
 			{"concept": "causa e conseguenza", "worldAction": "collega ogni evento alla sua conseguenza nel tempo"},
 			{"concept": "leggere le fonti", "worldAction": "scegli la fonte che spiega meglio quel cambiamento"},
 		],
-		"transferTest": {"description": "Un cambiamento storico mai visto: mettilo in ordine di tempo e spiegalo con la fonte giusta.", "formats": ["multiple_choice", "matching"], "novelContext": true},
+		"transferTest": {"description": "Un cambiamento storico mai visto: mettilo in ordine di tempo e spiegalo con la fonte giusta.", "formats": ["multiple_choice", "matching", "ordering", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "La Sala delle Ere ricostruisce come il mondo è cambiato. Oggi colleghi Roma e il Medioevo, cause e conseguenze, e leggi le fonti: capire perché è accaduto. Il racconto finale sarà nostro.",
 			"onError": "Chiediti cosa è venuto prima e quale causa ha spinto il cambiamento.",
@@ -491,7 +491,7 @@ const LESSONS := {
 			{"concept": "trasferimento tra materie", "worldAction": "applica un metodo di un'altra materia al passo mancante"},
 			{"concept": "deduzione finale", "worldAction": "concludi la catena di indizi per aprire il nucleo"},
 		],
-		"transferTest": {"description": "Un problema finale interdisciplinare: combina metodi diversi per dedurre la soluzione.", "formats": ["ordering", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un problema finale interdisciplinare: combina metodi diversi per dedurre la soluzione.", "formats": ["ordering", "multiple_choice", "graph", "classification"], "novelContext": true},
 		"nora": {
 			"briefing": "Il Cuore dei Primi è dove tutti i sistemi convergono. Oggi non impari una materia: le usi tutte insieme, trasferendo i metodi. È la prova finale, e la affrontiamo da equipaggio.",
 			"onError": "Trova la regola nascosta, poi applicala — anche da un'altra materia.",

@@ -43,10 +43,10 @@ Procedere in quest’ordine:
 1. [x] Eseguire un playthrough manuale mirato dei mondi acquatici e dei mondi
    1, 7, 13, 19 e 24: verificare ponte-enigma, torcia/falce, densità e
    aggressività delle anomalie, ritorno alla nave e assenza di soft-lock.
-2. [ ] Completare feel e juice dei renderer non-MC con feedback sonoro e
+2. [x] Completare feel e juice dei renderer non-MC con feedback sonoro e
    causale specifico per snap, collegamenti ed errori; valutare asset immagine
    soltanto per hotspot/grafico/circuito dove migliorano la comprensione.
-3. [ ] Rifinire regia, camera, animazioni, transizioni e sound design dei
+3. [x] Rifinire regia, camera, animazioni, transizioni e sound design dei
    traguardi, con priorità a riattivazioni della nave e finale.
 4. [ ] Correggere soltanto le incoerenze di art direction ancora osservabili
    durante il playthrough, con priorità alla nave e ai mondi finali.
@@ -60,6 +60,70 @@ Procedere in quest’ordine:
 8. [ ] Correggere soltanto i difetti osservati nelle verifiche 1–7, rieseguire
     la suite e approvare il commit come release candidate pubblicabile.
 
+Pre-verifica Codex touch/Web (29 luglio):
+
+- eliminata ogni dipendenza essenziale dai tasti fisici: **AZIONE** resta
+  visibile e si abilita vicino ai POI; **IMPULSO**, missione/nave, Bottega,
+  Manuale e conferma delle risposte testuali hanno pulsanti touch dedicati;
+- aggiunto **COMANDI TOUCH**, persistente nel save, con lato dell'impulso,
+  dimensione standard/grande e visibilità piena/leggera;
+- verificato il layout a 900×600 senza sovrapposizioni con NORA o pannello
+  economia; cattura `artifacts/c-p6-playthrough/03b-comandi-touch-tablet.png`;
+- rigenerato `public/godot/outdoor/index.pck` il 29 luglio e aggiornato il
+  service worker a `v5-godot-touch-controls` con asset Godot network-first.
+  Resta da eseguire il punto 6 su hardware tablet reale.
+
+Revisione leggibilità mondo/UI Codex (29 luglio):
+
+- compattato l'HUD: le utility secondarie sono raccolte in **OPZIONI**, il
+  pannello economico mostra solo valori utili e il terreno resta più visibile;
+- tutte le strade autorate sono ora corsie protette: ostacoli, assembly, prop
+  identitari e micro-dettagli rispettano larghezza e margine della rete;
+- ridotta la densità di piccoli dettagli e gruppi naturali, mantenendoli
+  scenografici e non bloccanti;
+- gli esercizi sono collocati ai bordi delle strade con separazione minima e
+  copertura di almeno quattro settori; l'audit attraversa tutti i 24 mondi;
+- i varchi d'acqua mostrano sia nel paesaggio sia nell'HUD che il passaggio è
+  bloccato e che occorre risolvere il ponte-enigma;
+- i landmark eroe, incluso l'**Obelisco dei Numeri**, sono interattivi e
+  dichiarano la propria funzione tramite il progresso delle tappe.
+
+Esito Codex del punto 2 (29 luglio):
+
+- introdotto un vocabolario causale condiviso per **presa**, **selezione**,
+  **snap**, **collegamento**, **annullamento** ed **errore**, con firme sonore
+  distinte basate sugli SFX esistenti e micro-animazioni compatibili con
+  riduzione movimento;
+- ordering e classificazione reagiscono al trascinamento e allo snap; matching
+  pulsa sul nuovo collegamento e mantiene linee bordo-bordo e tessere risolte
+  leggibili; gli errori intermedi scuotono il contesto senza chiudere il nodo;
+- hotspot, grafico e circuito mostrano lo stato direttamente sulla superficie:
+  anello selezionato, guide incrociate sul grafico, rosso causale in errore e
+  attivazione verde/circuito alla soluzione;
+- non introdotti nuovi asset raster: i dati di hotspot/grafico/circuito sono
+  dinamici e la resa procedurale comunica meglio coordinate e connessioni senza
+  creare decorazioni non sincronizzate;
+- audit esteso verde e 12 catture in `artifacts/exercise-renderers/`, incluse
+  `matching-connected-tablet.png`, `classification-snapped-tablet.png`,
+  `graph-error-desktop.png` e `circuit-connected-desktop.png`.
+
+Esito Codex del punto 3 (29 luglio):
+
+- ogni riattivazione della nave segue ora tre tempi leggibili e causali:
+  **messa a fuoco**, **accensione** dell'apparato/rete e **rivelazione** del
+  traguardo, con camera simulata, barre cinematografiche e ripristino completo;
+- il sound design stratifica conferma, circuito e stinger già approvati senza
+  introdurre suoni decorativi scollegati dall'evento;
+- durante la prova trasversale ogni sistema risolto invia un impulso colorato al
+  Cuore, accende il collegamento e alza progressivamente la firma sonora;
+- l'ultimo nodo continua nella stessa regia: convergenza dei dodici sistemi,
+  **ROTTA APERTA**, beat conclusivo di NORA e apertura del portale, senza
+  schermate intermedie;
+- audit di sequenza nave e Gate E2 verdi; catture mirate
+  `artifacts/ship/nave-02b-regia-accensione-wide.png`,
+  `artifacts/ship/nave-04-finale-rotta-aperta-compact.png` e
+  `artifacts/exercise-renderers/final-convergence-progress-desktop.png`.
+
 Esito Codex del punto 1 (29 luglio):
 
 - ispezionati in scena i mondi 1, 7, 13, 19 e 24 e tutti i profili con acqua
@@ -72,7 +136,10 @@ Esito Codex del punto 1 (29 luglio):
 - verificato il percorso reale boot → missione → nave → esame → ritorno al mondo
   successivo con `c_p6_playthrough_render_probe.gd`;
 - controllato il foglio Eli a 20 frame: sprite portato a 84 px, leggibilità
-  migliorata e ultima direzione conservata in idle;
+  migliorata e ultima direzione conservata in idle; corretto il 29 luglio il
+  mapping laterale dell'atlas (riga 2 = destra, riga 3 = sinistra), che faceva
+  apparire Eli in camminata all'indietro, e aggiunto l'audit delle quattro
+  direzioni;
 - tutte le catture restano entro il budget mobile di 700 draw call (picco 690
   nel mondo 11 compatto). Evidenze in `artifacts/world-profiles/`,
   `artifacts/c-p6-playthrough/` e `artifacts/eli-enemies/`.
@@ -93,7 +160,7 @@ Definizione di completato C-P6:
 Opus è responsabile di contenuti, coerenza didattica, difficoltà, copertura delle
 competenze e validazione del percorso educativo.
 
-1. [ ] Rieseguire la revisione didattica finale sui 24 mondi e sul finale
+1. [x] Rieseguire la revisione didattica finale sui 24 mondi e sul finale
    trasversale dopo il playthrough manuale C-P6; segnalare soltanto problemi che
    cambiano comprensione, trasferimento, difficoltà o relazione con NORA.
 
@@ -127,13 +194,93 @@ competenze e validazione del percorso educativo.
    > minigioco chiaramente romane/medievali. Ora il mondo 11 serve **100% prime
    > civiltà, 0% Roma/Medioevo**, e il mondo 23 è **l'unico** con Roma e Medioevo.
    > Verdi: minigame, exercise_contract, world_lesson, progression_1to24.
-2. [ ] Validare la distribuzione reale dei formati nell’esperienza giocata,
+2. [x] Validare la distribuzione reale dei formati nell’esperienza giocata,
    materia per materia; proporre correzioni soltanto dove scelta multipla o una
    singola meccanica restano dominanti.
-3. [ ] Verificare profondità, distrattori e qualità dei livelli alti dopo le
+3. [x] Verificare profondità, distrattori e qualità dei livelli alti dopo le
    espansioni di italiano e matematica.
-4. [ ] Aggiornare fixture e consumer insieme soltanto se una revisione cambia un
+4. [x] Aggiornare fixture e consumer insieme soltanto se una revisione cambia un
    contratto `WorldLessonCatalog`, `ContentManager` o `MinigameManager`.
+
+### Esito Opus dei punti 1–4 (29 luglio)
+
+Misure prese sull’esperienza **giocata**, non sui banchi: per ogni mondo si
+ricostruiscono gli eventi del `MissionEventDirector` (missioni-tappa, enigmi,
+pratica) più l’esame della nave e si contano i nodi che l’`ExercisePlayer`
+riceverebbe davvero. Due audit nuovi conservano le misure:
+`format_mix_audit.gd` e `content_depth_audit.gd`.
+
+**Punto 2 — formati.** Prima: scelta multipla al 33–42% per materia (dominante
+nei mondi con due enigmi: coding, musica, geografia, logica). Causa: l’enigma
+generava campate a sola scelta multipla, azzerando il mix 20/20/60 delle
+missioni. Ora `build_enigma` usa lo stesso mix vario: **17% di scelta multipla
+sui 7.648 nodi giocati dei 24 mondi**, nessun formato oltre il 21%, 6–7 formati
+distinti per materia. In più `inject_non_mc` pesca da una coda di prove distinte
+per formato: nessuna sessione ripete due volte lo stesso esercizio.
+
+**Punto 3 — profondità e distrattori.**
+
+- *Rampa di difficoltà*: `target_difficulty` saturava a 4 dal livello 10, quindi
+  scienze, storia e logica nascevano al massimo e la loro seconda comparsa non
+  cresceva (3,90 → 3,91 di difficoltà media). Ora la scala segue le due comparse
+  della materia: mondi 1–12 da 1 a 3 (introduzione), mondi 13–24 da 3 a 4
+  (approfondimento). Ogni materia ha un mondo d’introduzione e un secondo mondo
+  davvero più impegnativo (≥ 85% di prove d≥3).
+- *Distrattori*: nelle domande a frasi la risposta corretta era l’opzione più
+  lunga ben oltre il caso (scienze 70%, coding 82%, storia 43%, elettronica 39%,
+  fisica 37%) — un indizio che permette di indovinare senza sapere, e che falsa
+  la mastery da cui dipende il gate. Corretti 38 item curati e resa la scelta
+  dei distrattori sensibile alla lunghezza; per il lessico (italiano/inglese) i
+  distrattori vengono ora dalla **stessa area di significato** (“premessa” contro
+  “ipotesi”, non contro “pranzo”) e per la teoria (fisica/musica) dallo **stesso
+  argomento**. Residuo ≤ 6% per materia, sotto la soglia dell’audit (8%).
+- *Pipeline dei contenuti*: il bake produceva ancora il banco morto
+  `cittadinanza-base` e **non** produceva `storia-base` (era un JSON orfano). Ora
+  `storia` è autorata in `scripts/build-exercise-banks.mjs` come le altre materie
+  (stessi 30 item, stessi topic) e il banco obsoleto è stato rimosso.
+
+**Punto 1 — revisione dei 24 mondi e del finale.** Il problema segnalato per
+storia era generale: la selezione ignorava i `topics` della lezione. Misurato su
+tutti i mondi: il mondo 16 “Frontiera delle Lingue” serviva il **2%** di nodi
+sugli argomenti promessi (viaggi, mestieri) e cinque mondi non servivano affatto
+un topic dichiarato. Ora `build_mission` applica una preferenza morbida (~2 nodi
+su 3) per gli argomenti della lezione, con fallback su difficoltà: **ogni mondo
+serve tutti i topic che promette**, con quota 18–74%. Interventi collegati:
+
+- banco inglese avanzato per `travel-places` e `jobs-community` (50 voci nuove ai
+  livelli 6–7): il mondo 16 può finalmente insegnare ciò che dichiara;
+- mondo 14 (Biblioteca delle Voci): `viaggi-luoghi` — servibile solo a
+  difficoltà 1 e fuori identità — sostituito con `testo-narrativo`, che i
+  minigiochi servono davvero (arco narrativo, riordino degli eventi);
+- il finale trasversale resta invariato: 12 sistemi + nodo di sintesi non-MC, la
+  preferenza per i topic non lo tocca (lezione di un’altra materia → nessun
+  vincolo). `finale_transversal_audit` verde.
+
+**Punto 4 — contratti, fixture e consumer.**
+
+- `WorldProfileCatalog.SUBJECT_FORMATS` non elencava più 3 formati legacy ma il
+  repertorio reale misurato per materia (6–7 formati);
+- `WorldLessonCatalog.transferTest.formats` allineato materia per materia;
+  `world_lesson_audit` ora fallisce se una lezione promette un formato che il
+  mondo non serve, e accetta come “topic reale” anche quelli dei minigiochi;
+- `MinigameManager.topics_for(subject)` espone gli argomenti dei minigiochi;
+- audit rimessi in pari con i contenuti (erano rossi prima di questo giro):
+  `c02` e `c17` rispondevano a ogni nodo con `answer` e non completavano più le
+  sessioni a formati vari — ora usano `exercise_autoplay.gd`, un pilota unico che
+  risolve qualsiasi formato; `adaptive` presupponeva il banco italiano fermo a
+  difficoltà 2; `c11` attendeva la complessità 8 sul nodo invece della banda 1–4.
+
+**Verifiche**: 64/64 audit Godot verdi (più `fixture_audit`), vitest 184/184,
+`node scripts/build-exercise-banks.mjs` riproducibile.
+
+> **Opus → Codex (29 lug) · cosa cambia per te.** (1) Gli **enigmi** ora hanno
+> campate a formati vari, non solo scelta multipla: la struttura avanza di una
+> campata per prova risolta come prima (verificato in `enigma_audit`), ma la
+> board mostra abbina/ordina/classifica/grafico anche dentro l’enigma. (2)
+> `WorldProfileCatalog.SUBJECT_FORMATS` ora dichiara il repertorio reale: se usi
+> `eventPools.formats` per l’aspetto dei POI, ti arrivano più valori di prima
+> (`classification`, `graph`, `circuit`, `code_debug`). (3) Nessun cambio di
+> geometria, budget o contratto visivo.
 
 ## Gate Codex ↔ Opus
 

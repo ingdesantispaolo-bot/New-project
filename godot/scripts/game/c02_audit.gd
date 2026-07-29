@@ -7,6 +7,8 @@ extends SceneTree
 ## così l'audit è deterministico a prescindere dal file persistito.
 ## Uso: godot --headless --path godot --script res://scripts/game/c02_audit.gd
 
+const Autoplay = preload("res://scripts/game/exercise_autoplay.gd")
+
 const RUNTIME_KEYS := [
 	"level", "focusSubject", "apparatus", "missionsDone", "missionsRequired",
 	"missionsRemaining", "missionProgress", "mastery", "masteryThreshold",
@@ -74,19 +76,7 @@ func _init() -> void:
 	print("C-02 audit OK — contratto runtime completo + loop nativo; livello %d dopo %d missioni" % [int(gameplay.runtime_state()["level"]), played])
 	quit(0)
 
+# Le missioni del percorso live sono a formati VARI: ogni nodo va risolto con la
+# propria interazione (vedi ExerciseAutoplay), non rispondendo sempre con `answer`.
 func _play(session: Dictionary, answer_correct: bool) -> Dictionary:
-	var player := ExercisePlayer.new()
-	root.add_child(player)
-	var holder := {"result": {}}
-	player.session_finished.connect(func(r): holder["result"] = r)
-	player.start_session(session)
-	var nodes: Array = session["nodes"]
-	for i in range(nodes.size()):
-		if not (holder["result"] as Dictionary).is_empty():
-			break
-		var item: Dictionary = nodes[i]
-		var given := str(item["answer"]) if answer_correct else "__risposta_sbagliata__"
-		player._answer(given)
-		player._advance()
-	player.queue_free()
-	return holder["result"]
+	return Autoplay.play(root, session, answer_correct)

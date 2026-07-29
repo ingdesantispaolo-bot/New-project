@@ -2,6 +2,7 @@ extends SceneTree
 
 const WorldLessonCatalog = preload("res://scripts/game/world_lesson.gd")
 const KnowledgeCodex = preload("res://scripts/game/knowledge_codex.gd")
+const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
 
 ## Audit O-P2/O-P5: la specifica didattica di TUTTI i 24 mondi è completa, coerente
 ## con la scala e col WorldProfile, referenzia topic REALI, ha prove di
@@ -37,10 +38,16 @@ func _init() -> void:
 		for ca in actions:
 			assert(str(ca["concept"]) != "" and str(ca["worldAction"]) != "", "L%d: azione-concetto incompleta" % level)
 
-		# Prova di trasferimento: contesto nuovo + formati dichiarati.
+		# Prova di trasferimento: contesto nuovo + formati dichiarati. I formati
+		# devono essere implementati E realmente serviti dalla materia: una lezione
+		# non può promettere una forma di prova che il mondo non sa costruire.
 		var tt: Dictionary = lesson["transferTest"]
 		assert(str(tt["description"]) != "" and bool(tt["novelContext"]), "L%d: prova di trasferimento incompleta" % level)
 		assert(not Array(tt["formats"]).is_empty(), "L%d: formati della prova mancanti" % level)
+		var served: Array = WorldProfileCatalog.formats_for(subject)
+		for fmt in tt["formats"]:
+			assert(ExerciseInteraction.is_implemented(str(fmt)), "L%d: formato non implementato: %s" % [level, str(fmt)])
+			assert(served.has(str(fmt)), "L%d: la lezione promette '%s', che %s non serve" % [level, str(fmt), subject])
 
 		# Testi di NORA: briefing, feedback (errore/serie) e debrief.
 		assert(WorldLessonCatalog.briefing(level) != "", "L%d: briefing NORA mancante" % level)
@@ -59,9 +66,13 @@ func _init() -> void:
 			for t in topics:
 				assert(math_valid.has(str(t)), "L%d: topic matematica inesistente: %s" % [level, str(t)])
 		else:
-			var bank := content.bank_topics(subject)
+			# Un topic è REALE se la materia lo serve: dal banco statico oppure dai
+			# minigiochi (arco narrativo, catena alimentare, linea del tempo…), che
+			# sono contenuto giocato a tutti gli effetti.
+			var servable := content.bank_topics(subject)
+			servable.append_array(MinigameManager.topics_for(subject))
 			for t in topics:
-				assert(bank.has(str(t)), "L%d: topic %s inesistente nel banco %s" % [level, str(t), subject])
+				assert(servable.has(str(t)), "L%d: topic %s non servito da %s (né banco né minigiochi)" % [level, str(t), subject])
 
 		assert(str(lesson["difficultyDriver"]) == "subjectMastery", "L%d: la difficoltà deve dipendere dalla competenza" % level)
 

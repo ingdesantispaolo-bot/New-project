@@ -1,5 +1,7 @@
 extends SceneTree
 
+const Autoplay = preload("res://scripts/game/exercise_autoplay.gd")
+
 ## Audit headless dell'enigma ambientale: `try_start_enigma` produce una sessione
 ## kind=enigma con `theme`/`stages`; l'ExercisePlayer, cablato a `notify_progress`,
 ## fa avanzare `enigma_progress` una campata per risposta corretta; il completamento
@@ -100,20 +102,7 @@ func _test_failure() -> void:
 	gameplay.queue_free()
 
 # Gioca la sessione con l'ExercisePlayer reale, cablando il progresso come la scena.
+# Le campate dell'enigma sono a formati VARI (non solo scelta multipla): ogni
+# formato va risolto con la propria interazione, come farebbe un dito sullo schermo.
 func _play(gameplay: OutdoorGameplay, session: Dictionary, answer_correct: bool) -> Dictionary:
-	var player := ExercisePlayer.new()
-	root.add_child(player)
-	player.progress_changed.connect(gameplay.notify_progress)
-	var holder := {"result": {}}
-	player.session_finished.connect(func(r): holder["result"] = r)
-	player.start_session(session)
-	var nodes: Array = session["nodes"]
-	for i in range(nodes.size()):
-		if not (holder["result"] as Dictionary).is_empty():
-			break
-		var item: Dictionary = nodes[i]
-		var given := str(item["answer"]) if answer_correct else "__risposta_sbagliata__"
-		player._answer(given)
-		player._advance()
-	player.queue_free()
-	return holder["result"]
+	return Autoplay.play(root, session, answer_correct, func(player): player.progress_changed.connect(gameplay.notify_progress))

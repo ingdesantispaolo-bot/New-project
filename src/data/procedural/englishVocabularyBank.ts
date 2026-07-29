@@ -395,6 +395,21 @@ const everydayVocabularyRows = [
     ["near", "vicino"], ["far from", "lontano da"], ["next to", "accanto a"], ["opposite", "di fronte a"], ["behind", "dietro"],
     ["in front of", "davanti a"], ["along", "lungo"], ["towards", "verso"], ["around", "intorno a"], ["past", "oltre / dopo"],
   ]),
+  // Viaggio e scambio a livello avanzato (mondo 16, Frontiera delle Lingue): il
+  // lessico del viaggio reale — biglietteria, ritardi, dogana, alloggio — che la
+  // lezione promette e che ai livelli alti mancava (il banco si fermava al livello 1).
+  ...topicRows("travel-places", "noun", 6, [
+    ["departure", "partenza"], ["arrival", "arrivo"], ["delay", "ritardo"], ["timetable", "orario"], ["fare", "tariffa"],
+    ["route", "percorso / itinerario"], ["connection", "coincidenza"], ["luggage", "bagaglio"], ["suitcase", "valigia"], ["passenger", "passeggero"],
+  ]),
+  ...topicRows("travel-places", "noun", 7, [
+    ["boarding pass", "carta d'imbarco"], ["customs", "dogana"], ["border", "confine"], ["accommodation", "alloggio"], ["destination", "destinazione"],
+    ["return ticket", "biglietto di andata e ritorno"], ["single ticket", "biglietto di sola andata"], ["left luggage", "deposito bagagli"], ["waiting room", "sala d'attesa"], ["lost property", "oggetti smarriti"],
+  ]),
+  ...topicRows("travel-places", "verb", 7, [
+    ["board", "salire a bordo"], ["check in", "fare il check-in"], ["book", "prenotare"], ["cancel", "annullare"], ["depart", "partire"],
+    ["arrive", "arrivare"], ["change trains", "cambiare treno"], ["miss the train", "perdere il treno"], ["get off", "scendere"], ["set off", "mettersi in viaggio"],
+  ]),
   ...topicRows("body-health", "noun", 1, [
     ["body", "corpo"], ["head", "testa"], ["face", "viso"], ["eye", "occhio"], ["ear", "orecchio"],
     ["nose", "naso"], ["mouth", "bocca"], ["tooth", "dente"], ["teeth", "denti"], ["hair", "capelli"],
@@ -449,6 +464,16 @@ const everydayVocabularyRows = [
   ...topicRows("jobs-community", "adjective", 4, [
     ["local", "locale"], ["public", "pubblico"], ["private", "privato"], ["professional", "professionale"], ["responsible", "responsabile"],
     ["temporary", "temporaneo"], ["full-time", "a tempo pieno"], ["part-time", "part-time"], ["busy", "occupato"], ["available", "disponibile"],
+  ]),
+  // Mestieri e comunità a livello avanzato (mondo 16): candidature, turni, diritti
+  // e doveri — il lessico degli scambi tra persone che la lezione promette.
+  ...topicRows("jobs-community", "noun", 6, [
+    ["interview", "colloquio"], ["salary", "stipendio"], ["shift", "turno"], ["colleague", "collega"], ["customer", "cliente"],
+    ["appointment", "appuntamento"], ["council", "consiglio comunale"], ["citizen", "cittadino"], ["duty", "dovere / mansione"], ["volunteer", "volontario"],
+  ]),
+  ...topicRows("jobs-community", "verb", 7, [
+    ["apply for", "candidarsi a"], ["hire", "assumere"], ["earn", "guadagnare"], ["manage", "gestire"], ["deliver", "consegnare"],
+    ["repair", "riparare"], ["serve", "servire"], ["train", "formare / addestrare"], ["retire", "andare in pensione"], ["cooperate", "collaborare"],
   ]),
   ...topicRows("leisure-culture", "noun", 1, [
     ["sport", "sport"], ["football", "calcio"], ["basketball", "pallacanestro"], ["tennis", "tennis"], ["volleyball", "pallavolo"],

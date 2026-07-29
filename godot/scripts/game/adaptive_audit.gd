@@ -3,7 +3,8 @@ extends SceneTree
 ## Audit selezione adattiva · difficoltà per materia.
 ## Verifica due proprietà nuove:
 ##  1) CALIBRAZIONE PER MATERIA: la difficoltà effettiva non esce mai dal range
-##     che il banco può servire (es. italiano arriva a 2: mai target 4 → casuale).
+##     che il banco può servire (un target fuori banco svuoterebbe la finestra di
+##     selezione e la scelta diventerebbe casuale).
 ##  2) ADATTIVITÀ SU MASTERY: a parità di livello, chi fatica riceve item più
 ##     facili, chi padroneggia più difficili (materie e matematica generata).
 ## Uso: godot --headless --path godot --script res://scripts/game/adaptive_audit.gd
@@ -20,15 +21,21 @@ func _init() -> void:
 
 # La difficoltà effettiva resta dentro il range reale del banco, a ogni livello.
 func _test_calibrazione_per_materia(content: ContentManager) -> void:
-	# italiano: banco 1-2. Anche a livello alto e mastery piena non deve superare 2.
-	var italiano := content.subject_difficulty_range("italiano")
-	assert(italiano.y <= 2, "italiano dovrebbe arrivare al più a difficoltà 2 (banco)")
-	assert(content.effective_difficulty("italiano", 24, 0.95) <= italiano.y, "italiano: difficoltà oltre il banco")
-	# fisica ora copre 1-4: anche dopo l'espansione del banco, il target resta
-	# confinato al range realmente disponibile.
-	var fisica := content.subject_difficulty_range("fisica")
-	assert(fisica == Vector2i(1, 4), "fisica deve esporre il range completo 1-4 del banco")
-	assert(content.effective_difficulty("fisica", 1, 0.1) >= fisica.x, "fisica: difficoltà sotto il banco")
+	# Vale per OGNI materia, sia quando il banco copre tutta la scala sia quando è
+	# più stretto: il clamp sul range reale è la garanzia che la finestra di
+	# selezione non resti mai vuota.
+	for subject in ApparatusConfig.SUBJECT_CYCLE:
+		var s := str(subject)
+		if s == "matematica":
+			continue  # generata a runtime: nessun banco statico da calibrare
+		var span := content.subject_difficulty_range(s)
+		assert(span.x >= 1 and span.y <= 4 and span.x <= span.y, "%s: range di banco non valido (%d-%d)" % [s, span.x, span.y])
+		for level in [1, 6, 12, 18, 24]:
+			for mastery in [0.1, 0.65, 0.95]:
+				var eff := content.effective_difficulty(s, level, mastery)
+				assert(eff >= span.x and eff <= span.y, "%s L%d: difficoltà %d fuori dal banco (%d-%d)" % [s, level, eff, span.x, span.y])
+	# fisica copre 1-4: dopo l'espansione del banco il range resta completo.
+	assert(content.subject_difficulty_range("fisica") == Vector2i(1, 4), "fisica deve esporre il range completo 1-4 del banco")
 
 # A parità di livello, la mastery alza/abbassa la difficoltà effettiva.
 func _test_adattivita_mastery(content: ContentManager) -> void:

@@ -163,6 +163,29 @@ static func math_effective_level(level: int, mastery: float = -1.0) -> int:
 # bambino esercita dentro la materia proprio ciò che padroneggia meno.
 const WEAK_TOPIC_THRESHOLD := 0.6
 
+# Progressione per ERA della storia. I due mondi storia (livelli 11 e 23) hanno la
+# stessa difficoltà bersaglio (target_difficulty satura a 4 dal livello 10), quindi
+# la difficoltà non li distingue. Le ere "tarde" restano riservate al mondo
+# avanzato: così il mondo 11 "Soglia del Tempo" resta sulle prime civiltà e il 23
+# "Sala delle Ere" è l'unico a trattare Roma e Medioevo. Mappa topic -> livello min.
+const ERA_GATED_TOPICS := {
+	"storia": {"roma": 18, "medioevo": 18},
+}
+
+# Toglie dal banco gli item la cui era non è ancora sbloccata a questo livello.
+# Fallback prudente: se il filtro svuotasse il banco, restituisce l'originale.
+func _era_gated(subject: String, level: int, items: Array) -> Array:
+	if not ERA_GATED_TOPICS.has(subject):
+		return items
+	var gate: Dictionary = ERA_GATED_TOPICS[subject]
+	var out: Array = []
+	for it in items:
+		var topic := str((it as Dictionary).get("topic", ""))
+		if gate.has(topic) and level < int(gate[topic]):
+			continue
+		out.append(it)
+	return out if not out.is_empty() else items
+
 func build_mission(subject: String, level: int, node_count: int = 3, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
 	var generator := rng
 	if generator == null:
@@ -178,7 +201,7 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 		# La mastery sposta il livello efficace: matematica generata adattiva.
 		var generated := MathExerciseGenerator.new().build_nodes(math_effective_level(level, mastery), node_count, generator, _recent_math_signatures, review_topics)
 		return _session(subject, level, generated)
-	var items := _load_bank(subject)
+	var items := _era_gated(subject, level, _load_bank(subject))
 	# Difficoltà efficace: livello + mastery, calibrata sul range reale del banco.
 	var target := effective_difficulty(subject, level, mastery)
 	var review_pool: Array = []

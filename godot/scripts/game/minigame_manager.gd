@@ -76,7 +76,7 @@ const MATCHING := {
 		{"topic": "civilta", "pairs": [["Egizi", "Nilo"], ["Romani", "Roma"], ["Greci", "Grecia"], ["Sumeri", "Mesopotamia"]]},
 		{"topic": "invenzioni", "minLevel": 4, "pairs": [["Egizi", "Piramidi"], ["Romani", "Acquedotti"], ["Greci", "Democrazia"], ["Fenici", "Alfabeto"]]},
 		# Scuola media — personaggi e le loro imprese.
-		{"topic": "personaggi", "minLevel": 5, "pairs": [["Romolo", "Fondò Roma"], ["Giulio Cesare", "Conquistò la Gallia"], ["Colombo", "Arrivò in America"], ["Marco Polo", "Viaggiò in Cina"]]},
+		{"topic": "personaggi", "minLevel": 18, "pairs": [["Romolo", "Fondò Roma"], ["Giulio Cesare", "Conquistò la Gallia"], ["Colombo", "Arrivò in America"], ["Marco Polo", "Viaggiò in Cina"]]},
 		{"topic": "cronologia", "minLevel": 5, "pairs": [["Fondazione di Roma", "753 a.C."], ["Nascita di Cristo", "Anno 0"], ["Caduta di Roma", "476 d.C."], ["Scoperta dell'America", "1492"]]},
 		{"topic": "civilta", "minLevel": 6, "pairs": [["Colosseo", "Romani"], ["Partenone", "Greci"], ["Piramidi", "Egizi"], ["Ziggurat", "Sumeri"]]},
 	],
@@ -168,7 +168,7 @@ const ORDERING := {
 	"storia": [
 		{"topic": "ere", "prompt": "Ordina le grandi età della storia, dalla più antica.", "correctOrder": ["Preistoria", "Età antica", "Medioevo", "Età moderna", "Età contemporanea"]},
 		{"topic": "preistoria", "minLevel": 4, "prompt": "Ordina i periodi della preistoria, dal più antico.", "correctOrder": ["Paleolitico", "Neolitico", "Età dei metalli"]},
-		{"topic": "roma", "minLevel": 5, "prompt": "Ordina le fasi della storia di Roma.", "correctOrder": ["Monarchia", "Repubblica", "Impero"]},
+		{"topic": "roma", "minLevel": 18, "prompt": "Ordina le fasi della storia di Roma.", "correctOrder": ["Monarchia", "Repubblica", "Impero"]},
 		# Scuola media — ordinare eventi lontani per data.
 		{"topic": "cronologia", "minLevel": 6, "prompt": "Ordina questi eventi dal più antico al più recente.", "correctOrder": ["Fondazione di Roma", "Nascita di Cristo", "Caduta dell'Impero Romano", "Scoperta dell'America"]},
 	],
@@ -517,7 +517,7 @@ const GRAPH := {
 			"prompt": "Il grafico mostra gli abitanti di una città nei secoli: in quale punto la città era più popolosa?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
 			"explanation": "La città era più popolosa dove la curva è più in alto: il punto C. Poi la popolazione è calata."},
-		{"topic": "roma", "minLevel": 6, "xLabel": "secoli", "yLabel": "estensione", "answer": "C",
+		{"topic": "roma", "minLevel": 18, "xLabel": "secoli", "yLabel": "estensione", "answer": "C",
 			"prompt": "Il grafico mostra l'estensione dell'Impero Romano nei secoli: in quale punto era più vasto (al massimo)?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.25, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.60, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.35, "label": "D"}],
 			"explanation": "L'Impero era più vasto al culmine (punto C); poi si ridusse fino alla caduta."},
@@ -882,7 +882,7 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Gli Egizi costruirono le piramidi.", "I Romani parlavano latino.", "La Preistoria viene dopo il Medioevo.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: la Preistoria è il periodo più antico, viene molto PRIMA del Medioevo."},
-		{"topic": "personaggi", "minLevel": 4, "answerLine": 3,
+		{"topic": "personaggi", "minLevel": 18, "answerLine": 3,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Ad Atene nacque la democrazia.", "Roma fu fondata nel 753 a.C.", "Cristoforo Colombo era un faraone egizio.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: Colombo era un navigatore del Quattrocento, non un faraone egizio."},

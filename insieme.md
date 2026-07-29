@@ -119,6 +119,14 @@ competenze e validazione del percorso educativo.
    > due mondi. Minori: `transferTest.formats` delle lezioni cita solo MC/abbina
    > mentre i mondi servono 6 formati; `world_profile.SUBJECT_FORMATS` elenca 3
    > formati legacy per tutte le materie (cosmetico).
+   >
+   > **RISOLTO (fix semplice, 29 lug).** `target_difficulty` satura a 4 dal livello
+   > 10, quindi i mondi 11 e 23 hanno pari difficoltà e la difficoltà non li
+   > separa. Introdotto un gate per ERA solo su storia (`ERA_GATED_TOPICS` in
+   > `ContentManager`: roma/medioevo dal livello 18) + `minLevel:18` sulle prove
+   > minigioco chiaramente romane/medievali. Ora il mondo 11 serve **100% prime
+   > civiltà, 0% Roma/Medioevo**, e il mondo 23 è **l'unico** con Roma e Medioevo.
+   > Verdi: minigame, exercise_contract, world_lesson, progression_1to24.
 2. [ ] Validare la distribuzione reale dei formati nell’esperienza giocata,
    materia per materia; proporre correzioni soltanto dove scelta multipla o una
    singola meccanica restano dominanti.

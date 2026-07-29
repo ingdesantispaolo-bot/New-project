@@ -40,6 +40,11 @@ const MATCHING := {
 	"latino": [
 		{"topic": "casi", "pairs": [["Nominativo", "Soggetto"], ["Accusativo", "Oggetto"], ["Genitivo", "Specificazione"], ["Dativo", "Termine"], ["Vocativo", "Invocazione"]]},
 		{"topic": "vocabolario", "pairs": [["aqua", "acqua"], ["silva", "bosco"], ["puella", "fanciulla"], ["lupus", "lupo"], ["terra", "terra"]]},
+		# Le radici latine vive nell'italiano: aggancio culturale forte.
+		{"topic": "etimologia", "minLevel": 4, "pairs": [["aqua", "acquedotto"], ["terra", "territorio"], ["liber", "libreria"], ["schola", "scuola"]]},
+		{"topic": "verbo-sum", "minLevel": 5, "pairs": [["sum", "io sono"], ["es", "tu sei"], ["est", "egli è"], ["sumus", "noi siamo"]]},
+		# Scuola media — la prima declinazione (rosa): desinenza -> caso.
+		{"topic": "declinazioni-base", "minLevel": 6, "pairs": [["rosa", "Nominativo"], ["rosam", "Accusativo"], ["rosae", "Genitivo"], ["rosā", "Ablativo"]]},
 	],
 	"musica": [
 		{"topic": "ritmo", "pairs": [["Semibreve", "4 battiti"], ["Minima", "2 battiti"], ["Semiminima", "1 battito"], ["Croma", "mezzo battito"]]},
@@ -165,6 +170,9 @@ const ORDERING := {
 	],
 	"latino": [
 		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
+		{"topic": "frasi", "minLevel": 4, "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «il poeta ama la patria»", "correctOrder": ["Poeta", "patriam", "amat"]},
+		# Scuola media — l'ordine tradizionale dei casi (come sul libro).
+		{"topic": "casi", "minLevel": 5, "prompt": "Ordina i casi latini nell'ordine tradizionale.", "correctOrder": ["Nominativo", "Genitivo", "Dativo", "Accusativo", "Vocativo", "Ablativo"]},
 	],
 	"inglese": [
 		{"topic": "everyday-phrases", "prompt": "Order the words to make a sentence", "correctOrder": ["I", "like", "green", "apples"]},
@@ -378,6 +386,13 @@ const CLASSIFICATION := {
 		{"topic": "vocabolario", "prompt": "Smista ogni parola latina per campo di significato.",
 			"categories": ["natura", "persone", "animali"],
 			"assignments": {"aqua": "natura", "silva": "natura", "terra": "natura", "puella": "persone", "poeta": "persone", "lupus": "animali", "equus": "animali"}},
+		{"topic": "casi", "minLevel": 5, "prompt": "Smista ogni parola latina nel suo genere.",
+			"categories": ["maschile", "femminile", "neutro"],
+			"assignments": {"lupus": "maschile", "poeta": "maschile", "puella": "femminile", "rosa": "femminile", "templum": "neutro", "bellum": "neutro"}},
+		# Scuola media — riconoscere la declinazione di appartenenza.
+		{"topic": "declinazioni-base", "minLevel": 6, "prompt": "Smista ogni parola nella sua declinazione.",
+			"categories": ["1ª declinazione", "2ª declinazione", "3ª declinazione"],
+			"assignments": {"rosa": "1ª declinazione", "puella": "1ª declinazione", "lupus": "2ª declinazione", "templum": "2ª declinazione", "rex": "3ª declinazione", "miles": "3ª declinazione"}},
 	],
 	"logica": [
 		{"topic": "esclusioni", "prompt": "Smista ogni elemento nel suo insieme.",
@@ -616,6 +631,16 @@ const CIRCUIT := {
 			"connections": [["strofa1", "ritornello1"], ["ritornello1", "strofa2"], ["strofa2", "ritornello2"], ["ritornello2", "finale"]],
 			"explanation": "Il ritornello è la parte che torna uguale: qui è il secondo 'Ritornello', che ripete il primo."},
 	],
+	# LATINO — il renderer nodi+collegamenti diventa un ALBERO DELL'ETIMOLOGIA: una
+	# radice latina al centro e le parole italiane che ne derivano. Si sceglie la
+	# radice comune: il latino che vive ancora nell'italiano.
+	"latino": [
+		{"topic": "etimologia", "minLevel": 4, "answer": "aqua",
+			"prompt": "Queste parole italiane derivano tutte dalla stessa radice latina. Qual è la radice comune?",
+			"components": [{"id": "aqua", "x": 0.50, "y": 0.20, "label": "aqua"}, {"id": "acqua", "x": 0.18, "y": 0.65, "label": "acqua"}, {"id": "acquedotto", "x": 0.50, "y": 0.82, "label": "acquedotto"}, {"id": "acquario", "x": 0.82, "y": 0.65, "label": "acquario"}],
+			"connections": [["aqua", "acqua"], ["aqua", "acquedotto"], ["aqua", "acquario"]],
+			"explanation": "La radice è 'aqua' (acqua in latino): da lì nascono acqua, acquedotto, acquario."},
+	],
 }
 
 # CODE-DEBUG (righe numerate selezionabili): trova la riga con l'errore. Testo puro.
@@ -831,6 +856,21 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione sulla scala è falsa. Quale riga?",
 			"codeLines": ["La scala è Do Re Mi Fa Sol La Si.", "Dopo il Si si torna al Do.", "Tra il Do e il Re c'è il La.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: tra Do e Re non c'è il La; il La viene più avanti, dopo il Sol."},
+	],
+	# LATINO — "Caccia all'errore": analisi o affermazione sbagliata sul latino.
+	"latino": [
+		{"topic": "frasi", "minLevel": 3, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Il latino usa i casi per la funzione delle parole.", "'aqua' significa acqua.", "In latino il verbo di solito sta all'inizio della frase.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: in latino il verbo di solito sta alla FINE della frase (ordine soggetto-oggetto-verbo)."},
+		{"topic": "casi", "minLevel": 5, "answerLine": 3,
+			"prompt": "Analisi della frase 'Puella rosam amat': quale riga sbaglia?",
+			"codeLines": ["Puella = nominativo (soggetto)", "rosam = accusativo (oggetto)", "amat = genitivo", "# quale analisi è sbagliata?"],
+			"explanation": "Riga 3: 'amat' è un verbo (3ª persona di amare), non un caso. I casi valgono per i nomi."},
+		{"topic": "declinazioni-base", "minLevel": 6, "answerLine": 3,
+			"prompt": "Una sola affermazione sulla declinazione è falsa. Quale riga?",
+			"codeLines": ["'rosa' è nominativo singolare.", "'rosam' è accusativo singolare.", "'rosarum' è nominativo singolare.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: 'rosarum' è genitivo PLURALE ('delle rose'), non nominativo singolare."},
 	],
 }
 

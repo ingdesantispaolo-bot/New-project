@@ -77,6 +77,8 @@ const MATCHING := {
 		{"topic": "invenzioni", "minLevel": 4, "pairs": [["Egizi", "Piramidi"], ["Romani", "Acquedotti"], ["Greci", "Democrazia"], ["Fenici", "Alfabeto"]]},
 		# Scuola media — personaggi e le loro imprese.
 		{"topic": "personaggi", "minLevel": 5, "pairs": [["Romolo", "Fondò Roma"], ["Giulio Cesare", "Conquistò la Gallia"], ["Colombo", "Arrivò in America"], ["Marco Polo", "Viaggiò in Cina"]]},
+		{"topic": "cronologia", "minLevel": 5, "pairs": [["Fondazione di Roma", "753 a.C."], ["Nascita di Cristo", "Anno 0"], ["Caduta di Roma", "476 d.C."], ["Scoperta dell'America", "1492"]]},
+		{"topic": "civilta", "minLevel": 6, "pairs": [["Colosseo", "Romani"], ["Partenone", "Greci"], ["Piramidi", "Egizi"], ["Ziggurat", "Sumeri"]]},
 	],
 	"coding": [
 		{"topic": "tipi", "pairs": [["7", "intero"], ["'ciao'", "stringa"], ["True", "booleano"], ["[1, 2, 3]", "lista"]]},
@@ -120,6 +122,8 @@ const MATCHING := {
 		{"topic": "analogie", "pairs": [["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acqua"], ["Cavallo", "Stalla"]]},
 		{"topic": "analogie", "minLevel": 3, "pairs": [["Penna", "Scrivere"], ["Forbici", "Tagliare"], ["Martello", "Battere"], ["Chiave", "Aprire"]]},
 		{"topic": "categorie", "minLevel": 4, "pairs": [["Rosa", "Fiore"], ["Cane", "Animale"], ["Mela", "Frutto"], ["Tavolo", "Mobile"]]},
+		{"topic": "analogie", "minLevel": 4, "pairs": [["Ruota", "Automobile"], ["Foglia", "Albero"], ["Pagina", "Libro"], ["Dito", "Mano"]]},
+		{"topic": "opposti", "minLevel": 5, "pairs": [["Giorno", "Notte"], ["Salita", "Discesa"], ["Pieno", "Vuoto"], ["Inizio", "Fine"]]},
 	],
 }
 
@@ -405,6 +409,9 @@ const CLASSIFICATION := {
 		{"topic": "quantificatori", "minLevel": 6, "prompt": "Ogni cosa accade sempre, a volte o mai?",
 			"categories": ["sempre", "a volte", "mai"],
 			"assignments": {"Un triangolo ha 3 lati": "sempre", "Il ghiaccio è freddo": "sempre", "Piove": "a volte", "Un bambino dorme": "a volte", "Un cerchio ha spigoli": "mai", "2 è un numero dispari": "mai"}},
+		{"topic": "insiemi", "minLevel": 3, "prompt": "Smista ogni elemento nel suo insieme.",
+			"categories": ["colori", "forme", "numeri"],
+			"assignments": {"Rosso": "colori", "Blu": "colori", "Cerchio": "forme", "Quadrato": "forme", "Uno": "numeri", "Due": "numeri"}},
 	],
 }
 
@@ -416,6 +423,10 @@ const GRAPH := {
 			"prompt": "Il grafico mostra la corrente al crescere della tensione (legge di Ohm): in quale punto la corrente è massima?",
 			"points": [{"id": "A", "x": 0.12, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.42, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
 			"explanation": "La corrente cresce in modo proporzionale alla tensione: è massima all'ultimo punto, D."},
+		{"topic": "misure-elettriche", "minLevel": 5, "xLabel": "tempo", "yLabel": "carica", "answer": "D",
+			"prompt": "Il grafico mostra la carica di una batteria mentre si scarica usandola: in quale punto è più scarica?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.66, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.38, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.12, "label": "D"}],
+			"explanation": "Usandola la carica cala nel tempo: la batteria è più scarica alla fine, nel punto D."},
 	],
 	"fisica": [
 		{"topic": "moto", "xLabel": "tempo", "yLabel": "velocità", "answer": "C",
@@ -484,6 +495,10 @@ const GRAPH := {
 			"prompt": "Questi punti seguono uno schema che sale in linea, ma uno è fuori posto: quale rompe lo schema?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.35, "label": "B"}, {"id": "C", "x": 0.50, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.70, "y": 0.72, "label": "D"}, {"id": "E", "x": 0.90, "y": 0.92, "label": "E"}],
 			"explanation": "Gli altri salgono in modo regolare; il punto C schizza troppo in alto: è l'intruso fuori schema."},
+		{"topic": "schemi", "minLevel": 5, "xLabel": "posizione", "yLabel": "valore", "answer": "B",
+			"prompt": "Questi punti scendono in modo regolare, ma uno è fuori posto: quale rompe lo schema?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.90, "label": "A"}, {"id": "B", "x": 0.34, "y": 0.22, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.52, "label": "C"}, {"id": "D", "x": 0.86, "y": 0.30, "label": "D"}],
+			"explanation": "Gli altri scendono in modo regolare; il punto B crolla troppo in basso: è l'intruso fuori schema."},
 	],
 	# GEOGRAFIA — leggere climogrammi e profili altimetrici: competenza cartografica.
 	"geografia": [
@@ -502,6 +517,10 @@ const GRAPH := {
 			"prompt": "Il grafico mostra gli abitanti di una città nei secoli: in quale punto la città era più popolosa?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
 			"explanation": "La città era più popolosa dove la curva è più in alto: il punto C. Poi la popolazione è calata."},
+		{"topic": "roma", "minLevel": 6, "xLabel": "secoli", "yLabel": "estensione", "answer": "C",
+			"prompt": "Il grafico mostra l'estensione dell'Impero Romano nei secoli: in quale punto era più vasto (al massimo)?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.25, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.60, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.35, "label": "D"}],
+			"explanation": "L'Impero era più vasto al culmine (punto C); poi si ridusse fino alla caduta."},
 	],
 	# MUSICA — il contorno melodico: l'altezza delle note nel tempo. Leggere se il
 	# suono sale o scende è una competenza musicale di base.
@@ -593,6 +612,11 @@ const CIRCUIT := {
 			"components": [{"id": "ali", "x": 0.50, "y": 0.12, "label": "Ha le ali?"}, {"id": "uccello", "x": 0.22, "y": 0.52, "label": "Uccello"}, {"id": "pinne", "x": 0.72, "y": 0.44, "label": "Ha le pinne?"}, {"id": "pesce", "x": 0.55, "y": 0.86, "label": "Pesce"}, {"id": "mammifero", "x": 0.90, "y": 0.86, "label": "Mammifero"}],
 			"connections": [["ali", "uccello"], ["ali", "pinne"], ["pinne", "pesce"], ["pinne", "mammifero"]],
 			"explanation": "Ha le ali → sì → il ramo porta a 'Uccello'."},
+		{"topic": "albero-decisioni", "minLevel": 6, "answer": "quadrato",
+			"prompt": "Segui l'albero: una figura ha 4 lati UGUALI e 4 angoli retti. Dove arrivi?",
+			"components": [{"id": "quattro", "x": 0.50, "y": 0.12, "label": "Ha 4 lati?"}, {"id": "triangolo", "x": 0.20, "y": 0.52, "label": "Triangolo"}, {"id": "uguali", "x": 0.70, "y": 0.44, "label": "Lati uguali?"}, {"id": "quadrato", "x": 0.55, "y": 0.86, "label": "Quadrato"}, {"id": "rettangolo", "x": 0.90, "y": 0.86, "label": "Rettangolo"}],
+			"connections": [["quattro", "triangolo"], ["quattro", "uguali"], ["uguali", "quadrato"], ["uguali", "rettangolo"]],
+			"explanation": "4 lati → sì → lati uguali → sì → il ramo porta a 'Quadrato'."},
 	],
 	# GEOGRAFIA — il renderer nodi+collegamenti diventa il CORSO DI UN FIUME, con un
 	# affluente che confluisce: si legge dove nasce e dove sfocia.
@@ -630,6 +654,11 @@ const CIRCUIT := {
 			"components": [{"id": "strofa1", "x": 0.12, "y": 0.50, "label": "Strofa"}, {"id": "ritornello1", "x": 0.34, "y": 0.50, "label": "Ritornello"}, {"id": "strofa2", "x": 0.56, "y": 0.50, "label": "Strofa 2"}, {"id": "ritornello2", "x": 0.78, "y": 0.50, "label": "Ritornello"}, {"id": "finale", "x": 0.95, "y": 0.50, "label": "Finale"}],
 			"connections": [["strofa1", "ritornello1"], ["ritornello1", "strofa2"], ["strofa2", "ritornello2"], ["ritornello2", "finale"]],
 			"explanation": "Il ritornello è la parte che torna uguale: qui è il secondo 'Ritornello', che ripete il primo."},
+		{"topic": "lettura", "minLevel": 5, "answer": "ponte",
+			"prompt": "In questa struttura, quale sezione è il PONTE, quella diversa che appare una volta sola tra due ritornelli?",
+			"components": [{"id": "strofa", "x": 0.10, "y": 0.50, "label": "Strofa"}, {"id": "ritornello1", "x": 0.32, "y": 0.50, "label": "Ritornello"}, {"id": "ponte", "x": 0.55, "y": 0.50, "label": "Ponte"}, {"id": "ritornello2", "x": 0.78, "y": 0.50, "label": "Ritornello"}, {"id": "finale", "x": 0.95, "y": 0.50, "label": "Finale"}],
+			"connections": [["strofa", "ritornello1"], ["ritornello1", "ponte"], ["ponte", "ritornello2"], ["ritornello2", "finale"]],
+			"explanation": "Il ponte è la sezione nuova che compare una sola volta, tra i due ritornelli: crea varietà."},
 	],
 	# LATINO — il renderer nodi+collegamenti diventa un ALBERO DELL'ETIMOLOGIA: una
 	# radice latina al centro e le parole italiane che ne derivano. Si sceglie la
@@ -640,6 +669,11 @@ const CIRCUIT := {
 			"components": [{"id": "aqua", "x": 0.50, "y": 0.20, "label": "aqua"}, {"id": "acqua", "x": 0.18, "y": 0.65, "label": "acqua"}, {"id": "acquedotto", "x": 0.50, "y": 0.82, "label": "acquedotto"}, {"id": "acquario", "x": 0.82, "y": 0.65, "label": "acquario"}],
 			"connections": [["aqua", "acqua"], ["aqua", "acquedotto"], ["aqua", "acquario"]],
 			"explanation": "La radice è 'aqua' (acqua in latino): da lì nascono acqua, acquedotto, acquario."},
+		{"topic": "etimologia", "minLevel": 6, "answer": "terra",
+			"prompt": "Anche queste parole italiane vengono dalla stessa radice latina. Qual è la radice comune?",
+			"components": [{"id": "terra", "x": 0.50, "y": 0.20, "label": "terra"}, {"id": "territorio", "x": 0.18, "y": 0.65, "label": "territorio"}, {"id": "terrestre", "x": 0.50, "y": 0.82, "label": "terrestre"}, {"id": "sotterraneo", "x": 0.82, "y": 0.65, "label": "sotterraneo"}],
+			"connections": [["terra", "territorio"], ["terra", "terrestre"], ["terra", "sotterraneo"]],
+			"explanation": "La radice è 'terra': da lì nascono territorio, terrestre e sotterraneo."},
 	],
 	# INGLESE — il renderer nodi+collegamenti diventa un ALBERO DELLE PAROLE: una
 	# parola base e le parole inglesi che ne derivano (morfologia). Si sceglie la

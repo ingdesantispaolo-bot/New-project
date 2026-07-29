@@ -47,7 +47,7 @@ const SUBJECT_BIOMES := {
 	"elettronica": ["logic", "crystal", "geo"],
 	"geografia": ["geo", "wild", "ruins"],
 	"scienze": ["wild", "academy", "crystal"],
-	"cittadinanza": ["academy", "ruins", "geo"],
+	"storia": ["academy", "ruins", "geo"],
 	"logica": ["logic", "ruins", "crystal"],
 }
 

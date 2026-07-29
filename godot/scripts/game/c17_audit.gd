@@ -11,14 +11,14 @@ extends SceneTree
 # Le 12 materie del full-Godot, nell'ordine dello scope.
 const SUBJECTS := [
 	"matematica", "italiano", "inglese", "coding", "fisica", "musica", "latino", "elettronica",
-	"geografia", "scienze", "cittadinanza", "logica",
+	"geografia", "scienze", "storia", "logica",
 ]
 
 # I 4 temi introdotti da C-17 devono mappare esattamente questi, non "ponte".
 const NEW_SUBJECT_THEMES := {
 	"geografia": "mappa",
 	"scienze": "serra",
-	"cittadinanza": "rete",
+	"storia": "rete",
 	"logica": "griglia",
 }
 

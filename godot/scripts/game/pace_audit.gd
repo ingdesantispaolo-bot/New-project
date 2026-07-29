@@ -9,7 +9,7 @@ extends SceneTree
 
 const REASONING := [
 	"italiano", "inglese", "coding", "fisica", "musica", "latino", "elettronica",
-	"geografia", "scienze", "cittadinanza", "logica",
+	"geografia", "scienze", "storia", "logica",
 ]
 
 func _init() -> void:

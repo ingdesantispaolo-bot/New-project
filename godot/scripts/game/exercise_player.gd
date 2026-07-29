@@ -249,7 +249,7 @@ func _subject_accent() -> Color:
 		"fisica": Color("a2d8ff"), "musica": Color("d7a0ff"),
 		"latino": Color("d4b17a"), "elettronica": Color("79e7ff"),
 		"geografia": Color("7fd19b"), "scienze": Color("91dc72"),
-		"cittadinanza": Color("f2c96d"), "logica": Color("b7a2ff"),
+		"storia": Color("f2c96d"), "logica": Color("b7a2ff"),
 	}
 	return colors.get(str(session.get("subject", "matematica")).to_lower(), Color("6be7d6"))
 

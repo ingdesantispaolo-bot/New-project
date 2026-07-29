@@ -21,14 +21,14 @@ const SUBJECT_APPARATUS := {
 	"elettronica": "reattore",
 	"geografia": "ponte-comando",
 	"scienze": "serra-bio",
-	"cittadinanza": "serra-bio",
+	"storia": "serra-bio",
 	"logica": "cratere-logico",
 }
 
 # Ordine di rotazione delle materie lungo la scala.
 const SUBJECT_CYCLE := [
 	"matematica", "italiano", "coding", "inglese", "fisica", "musica",
-	"latino", "elettronica", "geografia", "scienze", "cittadinanza", "logica",
+	"latino", "elettronica", "geografia", "scienze", "storia", "logica",
 ]
 
 # Gate del livello: {level, subject, apparatus, missionsRequired, masteryThreshold}.

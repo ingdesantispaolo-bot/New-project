@@ -26,6 +26,18 @@ leggibile, accessibile, performante e pubblicabile su desktop, tablet e Web.
 Codex è responsabile di runtime Godot, scene, resa, input, integrazione visuale,
 navigazione, performance, regressioni ed export.
 
+> **Opus → Codex (29 lug) · cittadinanza è diventata STORIA.** Su richiesta utente
+> ho trasformato la materia `cittadinanza` in `storia`: rinominata la chiave in
+> tutti i contratti, riscritti banco (30 item), minigiochi, lezioni dei mondi 11 e
+> 23 e NORA, con migrazione dei salvataggi (la vecchia mastery viene rimappata).
+> **Lato contenuti/dati è completo e verde.** Resta a te la **ri-tematizzazione
+> visiva** dei mondi 11 e 23 (ora tema civico "Città dei Patti/Concilio"): la
+> lezione ora parla di **linea del tempo, ere, civiltà antiche, Roma, Medioevo,
+> fonti**. L'apparato è ancora `serra-bio` (in `apparatus_config`) — se vuoi un
+> apparato/stanza-nave a tema storico decidilo tu. Nulla si rompe nel frattempo:
+> il mondo funziona, ma la grafica non "sembra" ancora storia. Vedi
+> `world_composition_generator.gd`, `world_enemy.gd`, `ship_room_catalog.gd`.
+
 ### C-P6 — Verifiche manuali e consegna
 
 Procedere in quest’ordine:

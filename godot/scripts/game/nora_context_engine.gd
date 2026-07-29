@@ -18,7 +18,7 @@ const SUBJECT_LABELS := {
 	"elettronica": "circuito",
 	"geografia": "mappa stellare",
 	"scienze": "banco di osservazione",
-	"cittadinanza": "rete civica",
+	"storia": "linea del tempo",
 	"logica": "griglia logica",
 }
 
@@ -33,7 +33,7 @@ const SUBJECT_METHODS := {
 	"elettronica": "segui il percorso della corrente prima di toccare i pezzi",
 	"geografia": "leggi prima gli assi della mappa, poi la posizione",
 	"scienze": "osserva, ipotizza, cambia una cosa sola, verifica",
-	"cittadinanza": "chiediti chi protegge la regola e chi resta indietro",
+	"storia": "colloca l'evento nel tempo e chiediti da quale fonte lo sai",
 	"logica": "trova la regola nascosta, poi applicala al passo successivo",
 }
 
@@ -42,7 +42,7 @@ const SUBJECT_METHODS := {
 # label femminili come "tavola latina": qui l'accordo è corretto).
 const SUBJECT_FEMININE := {
 	"coding": true, "musica": true, "latino": true,
-	"geografia": true, "scienze": false, "cittadinanza": true, "logica": true,
+	"geografia": true, "scienze": false, "storia": true, "logica": true,
 }
 
 static func subject_label(subject: String) -> String:

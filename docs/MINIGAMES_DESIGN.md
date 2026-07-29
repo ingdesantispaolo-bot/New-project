@@ -55,11 +55,11 @@ Per ciascuno: meccanica, competenza, materie, **contratto dati (Opus)** e
 - **Gioco:** trascina ogni tessera nel contenitore giusto; ordinare "riempie" gli
   scaffali/habitat/quartieri. Riassegnabile prima di verificare.
 - **Competenza:** categorie e criteri — italiano (classi di parole), scienze
-  (viventi per dieta), coding (tipi di dato), cittadinanza (diritto/dovere),
+  (viventi per dieta), coding (tipi di dato), storia (diritto/dovere),
   geografia (paese→continente), matematica (pari/dispari, proprietà).
 - **Dati:** `items`, `categories`, `assignments: {item→categoria}`. *(implementato)*
 - **Resa & feel (Codex):** tessere trascinabili in "bidoni" tematizzati per materia
-  (scaffali per italiano, habitat per scienze, quartieri per cittadinanza); una
+  (scaffali per italiano, habitat per scienze, quartieri per storia); una
   tessera nel bidone giusto si posa con luce verde, in quello sbagliato torna
   indietro con un pulse ambra. A board completa, i contenitori si animano.
 
@@ -123,7 +123,7 @@ Per ciascuno: meccanica, competenza, materie, **contratto dati (Opus)** e
 | elettronica | circuit · matching (grandezza↔unità) · classification (serie/parallelo) |
 | geografia | hotspot (mappa) · matching (capitali) · classification (continenti) |
 | scienze | classification (viventi/ecosistemi) · hotspot (corpo/cellula) · graph (crescita) |
-| cittadinanza | classification (diritto/dovere) · matching (istituzioni) · ordering (iter) |
+| storia | classification (diritto/dovere) · matching (istituzioni) · ordering (iter) |
 | logica | ordering (sequenze) · classification (esclusioni) · code_debug (deduzione) |
 
 ## Cosa serve a Codex per completare #11

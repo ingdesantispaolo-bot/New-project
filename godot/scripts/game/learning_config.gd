@@ -11,7 +11,7 @@ extends RefCounted
 ## `is_subject_active`; nessuna materia disattivata deve comparire.
 
 const SCHOOL_BANDS := ["primaria", "secondaria-1", "secondaria-2"]
-const ALL_SUBJECTS := ["matematica", "italiano", "coding", "inglese", "fisica", "musica", "latino", "elettronica", "geografia", "scienze", "cittadinanza", "logica"]
+const ALL_SUBJECTS := ["matematica", "italiano", "coding", "inglese", "fisica", "musica", "latino", "elettronica", "geografia", "scienze", "storia", "logica"]
 
 static func _config(save) -> Dictionary:
 	if not save.data.has("config"):

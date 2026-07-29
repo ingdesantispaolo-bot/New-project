@@ -30,7 +30,7 @@ const ROOMS := {
 		"apparatus": "serra-bio",
 		"apparatuses": ["serra-bio"],
 		"restoration": "decor-serra",
-		"subjects": ["scienze", "cittadinanza"],
+		"subjects": ["scienze", "storia"],
 		"description": "Ecosistemi, osservazione e sistemi di supporto vitale.",
 	},
 	"reactor": {

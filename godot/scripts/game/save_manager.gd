@@ -299,8 +299,37 @@ func migrate_legacy_save(source: Dictionary) -> Dictionary:
 			migrated[key] = defaults[key].duplicate(true) if typeof(defaults[key]) == TYPE_DICTIONARY else defaults[key]
 	migrated = _migrate_spaced_repetition(migrated)
 	migrated = _migrate_worlds(migrated)
+	migrated = _migrate_renamed_subjects(migrated)
 	migrated["schemaVersion"] = SCHEMA_VERSION
 	return migrated
+
+# Rinomina materia (cittadinanza → storia): i vecchi salvataggi conservano la
+# competenza sotto la vecchia chiave; la rimappiamo così la progressione non va
+# persa. Idempotente: se la vecchia chiave non c'è, non fa nulla.
+const RENAMED_SUBJECTS := {"cittadinanza": "storia"}
+
+func _migrate_renamed_subjects(migrated: Dictionary) -> Dictionary:
+	for old_key in RENAMED_SUBJECTS:
+		var new_key: String = RENAMED_SUBJECTS[old_key]
+		var mastery: Dictionary = migrated.get("mastery", {})
+		if mastery.has(old_key):
+			if not mastery.has(new_key):
+				mastery[new_key] = mastery[old_key]
+			mastery.erase(old_key)
+		_rename_prefixed_keys(migrated.get("masteryByTopic", {}), old_key + ":", new_key + ":")
+		var sr: Dictionary = migrated.get("spacedRepetition", {})
+		if typeof(sr) == TYPE_DICTIONARY:
+			_rename_prefixed_keys(sr.get("schedule", {}), old_key + ":", new_key + ":")
+	return migrated
+
+func _rename_prefixed_keys(d: Dictionary, old_prefix: String, new_prefix: String) -> void:
+	for key in d.keys():   # keys() è una copia: erase durante l'iterazione è sicuro
+		var ks := str(key)
+		if ks.begins_with(old_prefix):
+			var nk := new_prefix + ks.substr(old_prefix.length())
+			if not d.has(nk):
+				d[nk] = d[key]
+			d.erase(key)
 
 # Mondi (O-P1): un save a livello N deve avere sbloccati i mondi 1..N (frontiera
 # di progressione) senza perdere sblocchi extra (mondi rivisitabili). `current`

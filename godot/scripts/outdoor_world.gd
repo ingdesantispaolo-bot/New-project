@@ -262,7 +262,7 @@ func _configure_profile_palette() -> void:
 		"fisica": Color("a2d8ff"), "musica": Color("d7a0ff"),
 		"latino": Color("d4b17a"), "elettronica": Color("79e7ff"),
 		"geografia": Color("7fd19b"), "scienze": Color("91dc72"),
-		"cittadinanza": Color("f2c96d"), "logica": Color("b7a2ff"),
+		"storia": Color("f2c96d"), "logica": Color("b7a2ff"),
 	}
 	var accent: Color = subject_colors.get(subject, PLAYER_ACCENT)
 	profile_night_tint = NIGHT_TINT.lerp(accent.darkened(0.58), 0.28)
@@ -934,7 +934,7 @@ func _create_profile_landmark() -> void:
 		"fisica": "forge", "musica": "crystalNest",
 		"latino": "ancientCore", "elettronica": "logicSpire",
 		"geografia": "atlasGate", "scienze": "skyTree",
-		"cittadinanza": "forge", "logica": "logicSpire",
+		"storia": "forge", "logica": "logicSpire",
 	}
 	var landmark_kind := (
 		"cycleMachine" if world_level == 3 else
@@ -1277,7 +1277,7 @@ func _event_visual_kind(subject: String) -> String:
 		return "capital"
 	if subject in ["coding", "elettronica", "logica"]:
 		return "guardian"
-	if subject in ["scienze", "cittadinanza"]:
+	if subject in ["scienze", "storia"]:
 		return "physicalGeo"
 	return "mental"
 
@@ -1301,7 +1301,7 @@ func _profile_accent_rgb() -> int:
 		"matematica": 0x6be7d6, "italiano": 0xe9a86d, "coding": 0x8fa7ff,
 		"inglese": 0x72c9ff, "fisica": 0xa2d8ff, "musica": 0xd7a0ff,
 		"latino": 0xd4b17a, "elettronica": 0x79e7ff, "geografia": 0x7fd19b,
-		"scienze": 0x91dc72, "cittadinanza": 0xf2c96d, "logica": 0xb7a2ff,
+		"scienze": 0x91dc72, "storia": 0xf2c96d, "logica": 0xb7a2ff,
 	}
 	return int(colors.get(_world_subject(), 0x6be7d6))
 

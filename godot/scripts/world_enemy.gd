@@ -182,6 +182,6 @@ func _name_for_subject(subject: String, rank: int) -> String:
 		"fisica": "Custode d'Inerzia", "musica": "Dissonanza",
 		"latino": "Guardia dei Glifi", "elettronica": "Impulso Errante",
 		"geografia": "Atlante Mobile", "scienze": "Spora Guardiana",
-		"cittadinanza": "Arbitro Corrotto", "logica": "Paradosso",
+		"storia": "Arbitro Corrotto", "logica": "Paradosso",
 	}
 	return "%s %s" % [str(names.get(subject, "Anomalia")), ["I", "II", "III", "IV"][rank - 1]]

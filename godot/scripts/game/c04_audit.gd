@@ -3,7 +3,7 @@ extends SceneTree
 const SUBJECTS := [
 	"matematica", "italiano", "inglese", "coding", "fisica", "musica", "latino", "elettronica",
 	# Materie nuove (scope ampliato 2026-07-21).
-	"geografia", "scienze", "cittadinanza", "logica",
+	"geografia", "scienze", "storia", "logica",
 ]
 
 func _init() -> void:

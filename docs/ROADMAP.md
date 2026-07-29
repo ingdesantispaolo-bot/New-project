@@ -18,7 +18,7 @@ Focus su geografia, mappe, coordinate, scale, orientamento e inglese operativo. 
 
 ## Missione 6: Citta Intelligente
 
-Focus su elettronica, dati, energia, logica condizionale e cittadinanza tecnologica. Sistemi: semafori, sensori, rete elettrica, priorita e conseguenze.
+Focus su elettronica, dati, energia, logica condizionale e storia tecnologica. Sistemi: semafori, sensori, rete elettrica, priorita e conseguenze.
 
 ## Generazione Procedurale Controllata
 

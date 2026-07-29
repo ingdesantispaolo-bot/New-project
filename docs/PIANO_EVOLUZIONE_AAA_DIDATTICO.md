@@ -114,7 +114,7 @@ I nomi sono di lavoro, ma la distinzione richiesta è vincolante.
 | 8 | Delta dei Circuiti | elettronica | acqua conduttiva, nodi e generatori |
 | 9 | Arcipelago Cartografico | geografia | isole, quote e rotte |
 | 10 | Serra delle Simbiosi | scienze | ecosistemi vivi e osservazione |
-| 11 | Città dei Patti | cittadinanza | quartieri, servizi e decisioni comuni |
+| 11 | Città dei Patti | storia | quartieri, servizi e decisioni comuni |
 | 12 | Labirinto delle Regole | logica | geometrie mobili e deduzione |
 | 13 | Deserto delle Orbite | matematica | osservatorio, ombre e traiettorie |
 | 14 | Biblioteca delle Voci | italiano | narrazioni, prospettive e memoria |
@@ -126,7 +126,7 @@ I nomi sono di lavoro, ma la distinzione richiesta è vincolante.
 | 20 | Tempesta Elettromagnetica | elettronica | campi, sensori e reti instabili |
 | 21 | Atlante Fratturato | geografia | placche, climi e sistemi territoriali |
 | 22 | Biosfera Profonda | scienze | adattamento, cellule ed energia |
-| 23 | Concilio delle Colonie | cittadinanza | negoziazione e beni comuni |
+| 23 | Concilio delle Colonie | storia | negoziazione e beni comuni |
 | 24 | Cuore dei Primi | logica/trasversale | convergenza dei sistemi e finale |
 
 Ogni mondo richiede almeno una silhouette, topologia, famiglia di materiali,

@@ -9,7 +9,7 @@ soltanto superando l'esame finale del livello associato.
 | Ponte | Materie che lo alimentano | Nodi sui 24 livelli |
 |---|---|---:|
 | Ponte Centrale | matematica, coding, logica | 6 |
-| Bio-ponte | scienze, cittadinanza | 4 |
+| Bio-ponte | scienze, storia | 4 |
 | Reattore | elettronica | 2 |
 | Ponte di Comando | fisica, geografia | 4 |
 | Motore a Risonanza | musica | 2 |

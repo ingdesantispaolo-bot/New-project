@@ -48,7 +48,7 @@ const SUBJECT_FORMATS := {
 	"elettronica": ["matching", "numeric_input", "multiple_choice"],
 	"geografia": ["matching", "multiple_choice", "ordering"],
 	"scienze": ["matching", "multiple_choice", "ordering"],
-	"cittadinanza": ["multiple_choice", "matching", "ordering"],
+	"storia": ["multiple_choice", "matching", "ordering"],
 	"logica": ["ordering", "multiple_choice", "numeric_input"],
 }
 

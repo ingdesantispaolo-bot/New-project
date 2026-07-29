@@ -27,7 +27,7 @@ const SUBJECT_PACE := {
 	"elettronica": PACE_REASONING,
 	"geografia": PACE_REASONING,
 	"scienze": PACE_REASONING,
-	"cittadinanza": PACE_REASONING,
+	"storia": PACE_REASONING,
 	"logica": PACE_REASONING,
 }
 
@@ -54,7 +54,7 @@ const BANKS := {
 	# scolastico (guardrail per livello raggiunto, non per età).
 	"geografia": "res://data/banks/geografia-base.json",
 	"scienze": "res://data/banks/scienze-base.json",
-	"cittadinanza": "res://data/banks/cittadinanza-base.json",
+	"storia": "res://data/banks/storia-base.json",
 	"logica": "res://data/banks/logica-base.json",
 }
 
@@ -246,7 +246,7 @@ const ENIGMA_THEMES := {
 	# Materie nuove: temi visivi da rendere (Codex). Fallback "ponte" se assente.
 	"geografia": "mappa",
 	"scienze": "serra",
-	"cittadinanza": "rete",
+	"storia": "rete",
 	"logica": "griglia",
 }
 

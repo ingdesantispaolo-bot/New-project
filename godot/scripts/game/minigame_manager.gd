@@ -62,9 +62,11 @@ const MATCHING := {
 		# Frase: "Il gatto insegue il topo nel prato".
 		{"topic": "analisi-logica", "minLevel": 11, "pairs": [["Il gatto", "soggetto"], ["insegue", "predicato verbale"], ["il topo", "complemento oggetto"], ["nel prato", "complemento di luogo"]]},
 	],
-	"cittadinanza": [
-		{"topic": "istituzioni", "pairs": [["Sindaco", "Comune"], ["Parlamento", "Fa le leggi"], ["Costituzione", "Legge fondamentale"], ["Voto", "Scelta dei rappresentanti"]]},
-		{"topic": "diritti-doveri", "pairs": [["Studiare", "Diritto e dovere"], ["Curarsi", "Diritto"], ["Rispettare l'ambiente", "Dovere"]]},
+	"storia": [
+		{"topic": "civilta", "pairs": [["Egizi", "Nilo"], ["Romani", "Roma"], ["Greci", "Grecia"], ["Sumeri", "Mesopotamia"]]},
+		{"topic": "invenzioni", "minLevel": 4, "pairs": [["Egizi", "Piramidi"], ["Romani", "Acquedotti"], ["Greci", "Democrazia"], ["Fenici", "Alfabeto"]]},
+		# Scuola media — personaggi e le loro imprese.
+		{"topic": "personaggi", "minLevel": 5, "pairs": [["Romolo", "Fondò Roma"], ["Giulio Cesare", "Conquistò la Gallia"], ["Colombo", "Arrivò in America"], ["Marco Polo", "Viaggiò in Cina"]]},
 	],
 	"coding": [
 		{"topic": "tipi", "pairs": [["7", "intero"], ["'ciao'", "stringa"], ["True", "booleano"], ["[1, 2, 3]", "lista"]]},
@@ -145,8 +147,12 @@ const ORDERING := {
 		{"topic": "algoritmi", "minLevel": 2, "prompt": "Ordina i passi dell'algoritmo per fare un tè.", "correctOrder": ["Scalda l'acqua", "Metti la bustina nella tazza", "Versa l'acqua calda", "Aspetta due minuti", "Togli la bustina"]},
 		{"topic": "algoritmi", "minLevel": 5, "prompt": "Ordina i passi per trovare il numero più grande in una lista.", "correctOrder": ["Prendi il primo numero come massimo", "Guarda il numero successivo", "Se è più grande, aggiorna il massimo", "Ripeti fino alla fine", "Restituisci il massimo"]},
 	],
-	"cittadinanza": [
-		{"topic": "partecipazione", "prompt": "Ordina come nasce una legge", "correctOrder": ["Si propone una legge", "Si discute in Parlamento", "Si vota", "La legge entra in vigore"]},
+	"storia": [
+		{"topic": "ere", "prompt": "Ordina le grandi età della storia, dalla più antica.", "correctOrder": ["Preistoria", "Età antica", "Medioevo", "Età moderna", "Età contemporanea"]},
+		{"topic": "preistoria", "minLevel": 4, "prompt": "Ordina i periodi della preistoria, dal più antico.", "correctOrder": ["Paleolitico", "Neolitico", "Età dei metalli"]},
+		{"topic": "roma", "minLevel": 5, "prompt": "Ordina le fasi della storia di Roma.", "correctOrder": ["Monarchia", "Repubblica", "Impero"]},
+		# Scuola media — ordinare eventi lontani per data.
+		{"topic": "cronologia", "minLevel": 6, "prompt": "Ordina questi eventi dal più antico al più recente.", "correctOrder": ["Fondazione di Roma", "Nascita di Cristo", "Caduta dell'Impero Romano", "Scoperta dell'America"]},
 	],
 	"latino": [
 		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
@@ -246,13 +252,17 @@ const CLASSIFICATION := {
 			"categories": ["valido", "non valido"],
 			"assignments": {"nome": "valido", "x1": "valido", "_temp": "valido", "2cose": "non valido", "mia var": "non valido", "3x": "non valido"}},
 	],
-	"cittadinanza": [
-		{"topic": "diritti-doveri", "prompt": "Smista ciascuna azione: diritto o dovere?",
-			"categories": ["diritto", "dovere"],
-			"assignments": {"Curarsi": "diritto", "Esprimere la propria opinione": "diritto", "Essere istruiti": "diritto", "Pagare le tasse": "dovere", "Rispettare l'ambiente": "dovere", "Rispettare le regole": "dovere"}},
-		{"topic": "istituzioni", "prompt": "Smista ogni istituzione per il suo livello.",
-			"categories": ["locale", "nazionale"],
-			"assignments": {"Sindaco": "locale", "Comune": "locale", "Consiglio comunale": "locale", "Parlamento": "nazionale", "Governo": "nazionale", "Presidente della Repubblica": "nazionale"}},
+	"storia": [
+		{"topic": "tempo", "prompt": "Smista ogni oggetto: molto antico o moderno?",
+			"categories": ["molto antico", "moderno"],
+			"assignments": {"Piramide": "molto antico", "Anfora": "molto antico", "Ruota di pietra": "molto antico", "Smartphone": "moderno", "Automobile": "moderno", "Computer": "moderno"}},
+		{"topic": "fonti", "minLevel": 3, "prompt": "Smista ogni fonte storica nel suo tipo.",
+			"categories": ["materiale", "scritta", "orale"],
+			"assignments": {"Piramide": "materiale", "Vaso antico": "materiale", "Papiro": "scritta", "Lettera antica": "scritta", "Racconto del nonno": "orale", "Leggenda tramandata": "orale"}},
+		# Scuola media — collocare oggetti e monumenti nella loro epoca.
+		{"topic": "epoca", "minLevel": 5, "prompt": "Smista ogni cosa nella sua epoca storica.",
+			"categories": ["preistoria", "antichità", "medioevo"],
+			"assignments": {"Pittura rupestre": "preistoria", "Selce scheggiata": "preistoria", "Colosseo": "antichità", "Anfora romana": "antichità", "Castello": "medioevo", "Cattedrale gotica": "medioevo"}},
 	],
 	"geografia": [
 		{"topic": "continenti", "prompt": "Smista ogni Paese nel suo continente.",
@@ -458,6 +468,13 @@ const GRAPH := {
 			"points": [{"id": "A", "x": 0.10, "y": 0.30, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.60, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
 			"explanation": "La vetta è il punto più in alto del profilo: il punto C."},
 	],
+	# STORIA — leggere un grafico storico: come cambia un dato nei secoli.
+	"storia": [
+		{"topic": "cronologia", "minLevel": 5, "xLabel": "secoli", "yLabel": "abitanti", "answer": "C",
+			"prompt": "Il grafico mostra gli abitanti di una città nei secoli: in quale punto la città era più popolosa?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
+			"explanation": "La città era più popolosa dove la curva è più in alto: il punto C. Poi la popolazione è calata."},
+	],
 }
 
 # CIRCUITO (schema + collegamenti disegnati proceduralmente): scegli il componente
@@ -550,6 +567,20 @@ const CIRCUIT := {
 			"components": [{"id": "sorgente", "x": 0.20, "y": 0.12, "label": "Sorgente"}, {"id": "affluente", "x": 0.72, "y": 0.20, "label": "Affluente"}, {"id": "confluenza", "x": 0.48, "y": 0.50, "label": "Confluenza"}, {"id": "foce", "x": 0.60, "y": 0.90, "label": "Foce"}],
 			"connections": [["sorgente", "confluenza"], ["affluente", "confluenza"], ["confluenza", "foce"]],
 			"explanation": "La sorgente è dove il fiume nasce, in alto: da lì l'acqua scende verso la foce."},
+	],
+	# STORIA — il renderer nodi+collegamenti diventa una LINEA DEL TEMPO: le ere in
+	# fila, si sceglie la più antica o la più recente.
+	"storia": [
+		{"topic": "ere", "minLevel": 4, "answer": "preistoria",
+			"prompt": "Questa è la linea del tempo delle grandi età. Quale era è la più antica, all'inizio di tutto?",
+			"components": [{"id": "preistoria", "x": 0.10, "y": 0.50, "label": "Preistoria"}, {"id": "antica", "x": 0.32, "y": 0.50, "label": "Età antica"}, {"id": "medioevo", "x": 0.55, "y": 0.50, "label": "Medioevo"}, {"id": "moderna", "x": 0.77, "y": 0.50, "label": "Età moderna"}, {"id": "contemporanea", "x": 0.95, "y": 0.50, "label": "Contemporanea"}],
+			"connections": [["preistoria", "antica"], ["antica", "medioevo"], ["medioevo", "moderna"], ["moderna", "contemporanea"]],
+			"explanation": "La Preistoria è la più antica: è la prima era, prima ancora della scrittura."},
+		{"topic": "ere", "minLevel": 5, "answer": "contemporanea",
+			"prompt": "In questa linea del tempo, quale era è la più recente, quella in cui viviamo?",
+			"components": [{"id": "preistoria", "x": 0.10, "y": 0.50, "label": "Preistoria"}, {"id": "antica", "x": 0.32, "y": 0.50, "label": "Età antica"}, {"id": "medioevo", "x": 0.55, "y": 0.50, "label": "Medioevo"}, {"id": "moderna", "x": 0.77, "y": 0.50, "label": "Età moderna"}, {"id": "contemporanea", "x": 0.95, "y": 0.50, "label": "Contemporanea"}],
+			"connections": [["preistoria", "antica"], ["antica", "medioevo"], ["medioevo", "moderna"], ["moderna", "contemporanea"]],
+			"explanation": "L'Età contemporanea è l'ultima della linea: è quella in cui viviamo oggi."},
 	],
 }
 
@@ -736,6 +767,21 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["L'equatore divide la Terra in due emisferi.", "Al Polo Nord fa molto freddo.", "Nel deserto piove quasi ogni giorno.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il deserto è arido, con pochissime piogge in tutto l'anno."},
+	],
+	# STORIA — "Caccia all'errore": affermazione falsa o cronologia sbagliata.
+	"storia": [
+		{"topic": "civilta", "minLevel": 3, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Gli Egizi costruirono le piramidi.", "I Romani parlavano latino.", "La Preistoria viene dopo il Medioevo.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: la Preistoria è il periodo più antico, viene molto PRIMA del Medioevo."},
+		{"topic": "personaggi", "minLevel": 4, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Ad Atene nacque la democrazia.", "Roma fu fondata nel 753 a.C.", "Cristoforo Colombo era un faraone egizio.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: Colombo era un navigatore del Quattrocento, non un faraone egizio."},
+		{"topic": "cronologia", "minLevel": 6, "answerLine": 3,
+			"prompt": "Come si contano gli anni avanti Cristo? Quale riga sbaglia?",
+			"codeLines": ["Ci sono il 100 a.C. e il 50 a.C.", "Più il numero è grande, più l'anno è antico.", "Quindi il 100 a.C. viene dopo il 50 a.C.", "# quale passaggio è sbagliato?"],
+			"explanation": "Riga 3: negli anni a.C. i numeri grandi sono più antichi, quindi il 100 a.C. viene PRIMA del 50 a.C."},
 	],
 }
 

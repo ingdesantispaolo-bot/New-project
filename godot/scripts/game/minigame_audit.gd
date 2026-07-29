@@ -10,7 +10,7 @@ const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd"
 
 const SUBJECTS := [
 	"matematica", "italiano", "inglese", "coding", "fisica", "musica", "latino",
-	"elettronica", "geografia", "scienze", "cittadinanza", "logica",
+	"elettronica", "geografia", "scienze", "storia", "logica",
 ]
 
 func _init() -> void:

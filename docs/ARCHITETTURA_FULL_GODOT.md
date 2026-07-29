@@ -318,7 +318,7 @@ nei banchi nativi Godot (C-12), quindi solo la meccanica bespoke (nastri
 trasportatori, ispezione oggetti, tester circuito) va persa — accettabile.
 
 **Si smentisce invece per quattro aree**: **Atlante** (geografia), **Città
-Intelligente** (cittadinanza/scienze civiche), **Serra Biologica** (scienze),
+Intelligente** (storia/scienze civiche), **Serra Biologica** (scienze),
 **Palestra della Mente/LogicGym** (logica e memoria trasversali). Non esiste
 alcun banco Godot per queste materie/competenze — gli 8 banchi Godot sono solo
 matematica, italiano, inglese, coding, fisica, musica, latino, elettronica. Per
@@ -326,7 +326,7 @@ queste quattro aree **sparirebbero sia il contenuto sia la meccanica**, non solo
 la seconda.
 
 > **Decisione presa (2026-07-21):** il full-Godot resta sulle **8 materie
-> attuali**. Geografia, cittadinanza, scienze e logica/memoria trasversale sono
+> attuali**. Geografia, storia, scienze e logica/memoria trasversale sono
 > **fuori scope**: le scene Atlante, Città Intelligente, Serra Biologica e
 > Palestra della Mente (con i sistemi smartCity/greenhouse/atlas/logicGym)
 > saranno rimosse insieme a Phaser in C-16, senza essere bakate in banchi
@@ -391,7 +391,7 @@ downgrade estetico minore già accettato in C-14.)
 3. **C-16c** (decisione prodotto, blocca il resto): audio, narrazione
    ramificata/finali, companion NORA, identità nave, collezionabili,
    leaderboard/teacher dashboard. **Risolto (2026-07-21):**
-   geografia/cittadinanza/scienze/logica trasversale = fuori scope, si rimuovono
+   geografia/storia/scienze/logica trasversale = fuori scope, si rimuovono
    con Phaser senza bakare.
 4. **Solo dopo 16a-16c risolti**: rimozione di bridge, build Vite di gioco, e
    cambio della pipeline Pages per servire l'export Godot Web alla radice.
@@ -400,7 +400,7 @@ downgrade estetico minore già accettato in C-14.)
 ## 7quater. Scope ampliato: 12 materie + audio + narrazione + NORA (decisione 2026-07-21 sera)
 
 > L'utente ha **rovesciato** la riduzione di scope di §7ter: geografia,
-> cittadinanza, scienze e logica **entrano** in Godot; inoltre vuole audio
+> storia, scienze e logica **entrano** in Godot; inoltre vuole audio
 > sofisticato, narrazione ampliata e coerente, e la relazione NORA integrata
 > nella storia. Il guardrail difficoltà resta **per livello raggiunto, non per
 > anno scolastico** (Godot già fa così: `target_difficulty(level)`; il tetto
@@ -409,7 +409,7 @@ downgrade estetico minore già accettato in C-14.)
 ### Fatto in questo giro (contenuto delle 4 nuove materie)
 - Banchi bakati e collegati: **geografia** (82 item, autorato — capitali/
   continenti/fisica/Italia, fatti mainstream), **scienze** (13 — metodo/materia/
-  viventi + derivati dal simulatore serra reale), **cittadinanza** (10 — regole
+  viventi + derivati dal simulatore serra reale), **storia** (10 — regole
   civiche di `smartCity.ts` + nucleo di educazione civica), **logica** (22 —
   generatore deterministico di sequenze/esclusioni). Totale gioco: **12 materie,
   1910 item**.
@@ -422,7 +422,7 @@ downgrade estetico minore già accettato in C-14.)
 ### Blocchi successivi (design/asset, richiedono Codex e/o decisioni)
 | Blocco | Contenuto | Owner | Nota |
 |---|---|---|---|
-| **C-17** ✅ | Banchi 4 nuove materie + wiring | Claude | fatto (questo giro); restano da ampliare scienze/cittadinanza (item pochi) |
+| **C-17** ✅ | Banchi 4 nuove materie + wiring | Claude | fatto (questo giro); restano da ampliare scienze/storia (item pochi) |
 | **C-18** | **Audio sofisticato**: bus musica/effetti/ambiente, hook sui segnali esistenti (feedback, session, enigma_progress, solve/defeat), musica adattiva per fase giorno/notte e per esito | Claude (logica `AudioManager.gd` + hook) + Codex (asset audio: riusare/rigenerare i WAV di `src/assets/audio/generated`, o nuovi) | Godot ha `AudioStreamPlayer`/bus nativi; nessun Howler. Serve decisione asset. |
 | **C-19** | **Narrazione ampliata e coerente**: da 6 beat lineari a un arco che copre la scala 1→24 con la cornice apparati/nave/enigmi; **relazione NORA** (bond che cresce coi traguardi, memorie sbloccate a milestone) intessuta nella storia, non una schermata a parte | Claude (dati/logica narrativa + bond) + Codex (presentazione) | Richiede un **design pass** prima di implementare: struttura dell'arco, cosa si sblocca a quale livello, come il bond si lega ai progressi reali. |
 | **C-16** | Spegnimento Phaser | insieme | ora più lontano: prima si completano le 12 materie + audio + narrazione, poi si rimuove Phaser. Le 4 scene bespoke (Atlante/Città/Serra/Palestra) diventano rimovibili perché il **contenuto** è assorbito nei banchi (la meccanica bespoke si perde, come per le altre). |
@@ -432,7 +432,7 @@ downgrade estetico minore già accettato in C-14.)
    ciclo di riparazione (`ApparatusConfig.SUBJECT_CYCLE`, oggi 6 materie) o
    restano solo come enigmi/missioni esterne senza un apparato dedicato? Cambia
    il ritmo della progressione — non l'ho forzato, è una scelta di gioco.
-2. **Profondità contenuti nuovi**: scienze/cittadinanza hanno pochi item (13/10)
+2. **Profondità contenuti nuovi**: scienze/storia hanno pochi item (13/10)
    perché il materiale sorgente era sottile; geografia/logica sono più ricchi.
    Ampliare tutti a ~40-80 item come le materie forti?
 3. **Memoria come mini-gioco**: costruire un bespoke (Simon/griglia lampo) in

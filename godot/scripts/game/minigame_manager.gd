@@ -24,6 +24,10 @@ const MATCHING := {
 	"geografia": [
 		{"topic": "capitali", "pairs": [["Italia", "Roma"], ["Francia", "Parigi"], ["Spagna", "Madrid"], ["Germania", "Berlino"], ["Portogallo", "Lisbona"], ["Grecia", "Atene"]]},
 		{"topic": "continenti", "pairs": [["Egitto", "Africa"], ["Brasile", "America del Sud"], ["Giappone", "Asia"], ["Italia", "Europa"], ["Australia", "Oceania"]]},
+		{"topic": "monumenti", "minLevel": 3, "pairs": [["Colosseo", "Italia"], ["Tour Eiffel", "Francia"], ["Piramidi", "Egitto"], ["Statua della Libertà", "Stati Uniti"]]},
+		# Scuola media — monete del mondo ed elementi fisici d'Italia.
+		{"topic": "monete", "minLevel": 5, "pairs": [["Italia", "Euro"], ["Stati Uniti", "Dollaro"], ["Giappone", "Yen"], ["Regno Unito", "Sterlina"]]},
+		{"topic": "italia-fisica", "minLevel": 4, "pairs": [["Po", "Fiume"], ["Etna", "Vulcano"], ["Garda", "Lago"], ["Alpi", "Catena montuosa"]]},
 	],
 	"scienze": [
 		{"topic": "corpo", "pairs": [["Cuore", "Pompa il sangue"], ["Polmoni", "Respirazione"], ["Cervello", "Comanda il corpo"], ["Stomaco", "Digestione"], ["Occhi", "Vista"]]},
@@ -120,6 +124,10 @@ const ORDERING := {
 	],
 	"geografia": [
 		{"topic": "geografia-umana", "prompt": "Ordina dal più piccolo al più grande", "correctOrder": ["Paese", "Regione", "Nazione", "Continente"]},
+		{"topic": "geografia-fisica", "minLevel": 3, "prompt": "Ordina il corso di un fiume, dalla nascita al mare.", "correctOrder": ["Sorgente", "Torrente", "Fiume", "Foce"]},
+		{"topic": "geografia-umana", "minLevel": 4, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Via", "Quartiere", "Città", "Regione"]},
+		# Scuola media — montagne italiane per altezza.
+		{"topic": "italia-fisica", "minLevel": 6, "prompt": "Ordina i rilievi per altezza crescente.", "correctOrder": ["Collina", "Appennini", "Alpi", "Monte Bianco"]},
 	],
 	"musica": [
 		{"topic": "note", "prompt": "Metti in ordine le note dopo il Do", "correctOrder": ["Re", "Mi", "Fa", "Sol"]},
@@ -253,6 +261,13 @@ const CLASSIFICATION := {
 		{"topic": "geografia-fisica", "prompt": "Smista ogni elemento: d'acqua o di terra?",
 			"categories": ["acqua", "terra"],
 			"assignments": {"Fiume": "acqua", "Lago": "acqua", "Mare": "acqua", "Montagna": "terra", "Pianura": "terra", "Collina": "terra"}},
+		{"topic": "climi", "minLevel": 4, "prompt": "Smista ogni luogo nel suo clima.",
+			"categories": ["caldo", "temperato", "freddo"],
+			"assignments": {"Sahara": "caldo", "Equatore": "caldo", "Italia": "temperato", "California": "temperato", "Polo Nord": "freddo", "Siberia": "freddo"}},
+		# Scuola media — i grandi paesaggi d'Italia.
+		{"topic": "italia-fisica", "minLevel": 5, "prompt": "Smista ogni elemento nel suo paesaggio italiano.",
+			"categories": ["montagna", "pianura", "mare"],
+			"assignments": {"Alpi": "montagna", "Appennini": "montagna", "Pianura Padana": "pianura", "Tavoliere": "pianura", "Mar Adriatico": "mare", "Mar Tirreno": "mare"}},
 	],
 	"matematica": [
 		{"topic": "numeri", "prompt": "Smista i numeri in pari e dispari.",
@@ -432,6 +447,17 @@ const GRAPH := {
 			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.35, "label": "B"}, {"id": "C", "x": 0.50, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.70, "y": 0.72, "label": "D"}, {"id": "E", "x": 0.90, "y": 0.92, "label": "E"}],
 			"explanation": "Gli altri salgono in modo regolare; il punto C schizza troppo in alto: è l'intruso fuori schema."},
 	],
+	# GEOGRAFIA — leggere climogrammi e profili altimetrici: competenza cartografica.
+	"geografia": [
+		{"topic": "climi", "minLevel": 4, "xLabel": "mese", "yLabel": "temperatura", "answer": "C",
+			"prompt": "Il climogramma mostra la temperatura mese per mese: in quale punto (mese) fa più caldo?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.55, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.80, "y": 0.60, "label": "D"}],
+			"explanation": "Il punto più in alto è il mese più caldo (l'estate): il punto C."},
+		{"topic": "geografia-fisica", "minLevel": 5, "xLabel": "percorso", "yLabel": "altitudine", "answer": "C",
+			"prompt": "Il profilo altimetrico mostra l'altitudine lungo un percorso: quale punto è la vetta più alta?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.30, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.60, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
+			"explanation": "La vetta è il punto più in alto del profilo: il punto C."},
+	],
 }
 
 # CIRCUITO (schema + collegamenti disegnati proceduralmente): scegli il componente
@@ -510,6 +536,20 @@ const CIRCUIT := {
 			"components": [{"id": "ali", "x": 0.50, "y": 0.12, "label": "Ha le ali?"}, {"id": "uccello", "x": 0.22, "y": 0.52, "label": "Uccello"}, {"id": "pinne", "x": 0.72, "y": 0.44, "label": "Ha le pinne?"}, {"id": "pesce", "x": 0.55, "y": 0.86, "label": "Pesce"}, {"id": "mammifero", "x": 0.90, "y": 0.86, "label": "Mammifero"}],
 			"connections": [["ali", "uccello"], ["ali", "pinne"], ["pinne", "pesce"], ["pinne", "mammifero"]],
 			"explanation": "Ha le ali → sì → il ramo porta a 'Uccello'."},
+	],
+	# GEOGRAFIA — il renderer nodi+collegamenti diventa il CORSO DI UN FIUME, con un
+	# affluente che confluisce: si legge dove nasce e dove sfocia.
+	"geografia": [
+		{"topic": "fiume", "minLevel": 4, "answer": "foce",
+			"prompt": "Questo è il corso di un fiume. In quale punto sfocia nel mare (la foce)?",
+			"components": [{"id": "sorgente", "x": 0.20, "y": 0.12, "label": "Sorgente"}, {"id": "affluente", "x": 0.72, "y": 0.20, "label": "Affluente"}, {"id": "confluenza", "x": 0.48, "y": 0.50, "label": "Confluenza"}, {"id": "foce", "x": 0.60, "y": 0.90, "label": "Foce"}],
+			"connections": [["sorgente", "confluenza"], ["affluente", "confluenza"], ["confluenza", "foce"]],
+			"explanation": "La foce è dove il fiume finisce nel mare, il punto più in basso del corso."},
+		{"topic": "fiume", "minLevel": 5, "answer": "sorgente",
+			"prompt": "In questo corso d'acqua, dove nasce il fiume principale (la sorgente)?",
+			"components": [{"id": "sorgente", "x": 0.20, "y": 0.12, "label": "Sorgente"}, {"id": "affluente", "x": 0.72, "y": 0.20, "label": "Affluente"}, {"id": "confluenza", "x": 0.48, "y": 0.50, "label": "Confluenza"}, {"id": "foce", "x": 0.60, "y": 0.90, "label": "Foce"}],
+			"connections": [["sorgente", "confluenza"], ["affluente", "confluenza"], ["confluenza", "foce"]],
+			"explanation": "La sorgente è dove il fiume nasce, in alto: da lì l'acqua scende verso la foce."},
 	],
 }
 
@@ -681,6 +721,21 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["La palla in alto ha energia potenziale.", "Cadendo si trasforma in energia cinetica.", "Toccando terra l'energia sparisce nel nulla.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: l'energia non sparisce, si trasforma (in calore, suono, deformazione): è la conservazione dell'energia."},
+	],
+	# GEOGRAFIA — "Caccia all'errore": fra tre affermazioni una è falsa.
+	"geografia": [
+		{"topic": "mondo", "minLevel": 3, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Roma è la capitale d'Italia.", "Il Nilo è un fiume.", "L'Everest è un oceano.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: l'Everest è la montagna più alta del mondo, non un oceano."},
+		{"topic": "italia", "minLevel": 4, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Il Po è il fiume più lungo d'Italia.", "L'Etna è un vulcano.", "La Sicilia è una catena montuosa.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: la Sicilia è un'isola, non una catena montuosa."},
+		{"topic": "climi", "minLevel": 5, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["L'equatore divide la Terra in due emisferi.", "Al Polo Nord fa molto freddo.", "Nel deserto piove quasi ogni giorno.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: il deserto è arido, con pochissime piogge in tutto l'anno."},
 	],
 }
 

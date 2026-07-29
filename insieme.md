@@ -48,7 +48,7 @@ Procedere in quest’ordine:
    soltanto per hotspot/grafico/circuito dove migliorano la comprensione.
 3. [x] Rifinire regia, camera, animazioni, transizioni e sound design dei
    traguardi, con priorità a riattivazioni della nave e finale.
-4. [ ] Correggere soltanto le incoerenze di art direction ancora osservabili
+4. [x] Correggere soltanto le incoerenze di art direction ancora osservabili
    durante il playthrough, con priorità alla nave e ai mondi finali.
 5. [ ] Profilare FPS, memoria, caricamenti e draw call nel browser e su hardware
    scolastico/tablet reale; fissare i budget definitivi partendo dalla baseline
@@ -123,6 +123,32 @@ Esito Codex del punto 3 (29 luglio):
   `artifacts/ship/nave-02b-regia-accensione-wide.png`,
   `artifacts/ship/nave-04-finale-rotta-aperta-compact.png` e
   `artifacts/exercise-renderers/final-convergence-progress-desktop.png`.
+
+Esito Codex del punto 4 (29 luglio):
+
+- eliminato il doppio rendering dei sentieri (renderer globale più copia in ogni
+  chunk), causa delle corsie marroni sovrapposte alle tavole pittoriche;
+- i mondi 19–24 usano ora corsie coerenti con necropoli, tempesta, atlante,
+  biosfera, archivio storico e Cuore dei Primi, mantenendo leggibile la guida
+  senza coprire il paesaggio;
+- nella nave completata **PONTI DEL RELITTO** diventa **SISTEMI DELLA NAVE**;
+- ricontrollate le catture desktop/tablet di nave e mondi finali; il picco GPU
+  del campione scende a 620 draw call.
+
+Esito parziale Codex del punto 5 (29 luglio):
+
+- introdotta telemetria Web per scena: FPS, draw call, nodi e risorse Godot,
+  affiancati da heap JS, embedder e backing storage rilevati da Chrome;
+- `npm run profile:web:godot` esegue il round-trip touch con CPU rallentata 4× e
+  rete scolastica simulata 20/5 Mbps, 40 ms: mondo ed esercizio stabilizzati a
+  30 FPS, picco 667 draw call, circa 80 MiB misurabili, cold boot 37,6 s;
+- fissati budget Web/tablet: target 30 FPS, minimo stabile 24, massimo 700/750
+  draw call, 128 MiB e 45 s di cold boot a 20 Mbps;
+- PCK/WASM/JS sono cache-first con cache versionata, mentre HTML resta
+  network-first per rendere visibili gli aggiornamenti;
+- report in `artifacts/web-profile-current/web-smoke-report.json`. Resta
+  obbligatoria la conferma su tablet scolastico fisico prima di spuntare il
+  punto 5.
 
 Esito Codex del punto 1 (29 luglio):
 
@@ -295,17 +321,57 @@ accessibilità, performance ed export sono verdi insieme.
 - Nessun nemico o strumento può sottrarre mastery, consumare energia didattica o
   bloccare gli eventi minimi necessari al gate.
 
-## Decisioni ancora da prendere
+## Decisioni prese (29 luglio)
 
-- [ ] Decidere come scala la difficoltà nelle rivisitazioni dopo il
-  completamento.
-- [ ] Definire fascia scolastica iniziale e curriculum di lancio.
-- [ ] Decidere se tutte le 12 materie sono obbligatorie o configurabili.
-- [ ] Validare con docenti il target scelta multipla ≤ 33%.
-- [ ] Definire quantità minima di prove e distanza temporale necessarie per
-  dichiarare consolidato un topic.
-- [ ] Fissare budget misurabili per FPS, memoria, download e caricamento sui
-  dispositivi scolastici target.
+Le sei decisioni aperte sono state prese dall'utente. Valgono come vincolo per
+entrambi: una proposta che le contraddice va discussa, non implementata.
+
+1. **Fascia scolastica e curriculum: 10–13 anni** (quinta primaria + scuola
+   media). È l'arco che i contenuti già coprono — tabelline e lessico base nei
+   primi mondi, equazioni, Pitagora, declinazioni e false friends nei mondi alti —
+   quindi la rampa attuale (mondi 1–12 da difficoltà 1 a 3, mondi 13–24 da 3 a 4)
+   resta valida e nessun banco va rifatto.
+2. **Tutte e 12 le materie sono obbligatorie.** La struttura resta 24 mondi = 12
+   materie × 2 comparse, e il finale trasversale continua ad accendere i dodici
+   sistemi. Nessuna materia disattivabile: la nave perderebbe significato.
+3. **Rivisitazioni dopo il completamento: ripasso mirato sui punti deboli.**
+   Nessuna banda di difficoltà 5 e nessun contenuto nuovo da scrivere: il rigioco
+   serve argomenti deboli e in scadenza di ripasso spaziato. Vedi il compito
+   Opus 5: oggi la rivisitazione non si comporta così.
+4. **Un topic è CONSOLIDATO con 3 risposte corrette in sessioni distinte, di cui
+   almeno una a ≥ 3 giorni di distanza.** È l'unico dei criteri proposti che
+   misura davvero la ritenzione. Vedi il compito Opus 6: richiede tempo reale nel
+   save, che oggi non esiste.
+5. **Scelta multipla: tetto 33%, target ~20%.** Formalizza il comportamento
+   attuale (misurato: 17%). Gli audit sono già allineati (`format_mix_audit`
+   fallisce oltre il 33%, `MC_TARGET_RATIO` è 0.20). La validazione con i docenti
+   resta utile come riscontro sul campo, non come blocco del release candidate.
+6. **Budget prestazionali confermati** ai valori misurati e già fissati in
+   `world_profile.performance_budget`: tablet 30 FPS (minimo stabile 24), 700
+   draw call, 128 MiB, avvio a freddo 45 s a 20 Mbps; Web 750 draw call; desktop
+   60 FPS e 1.200 draw call. Resta aperta la sola **verifica** su tablet fisico
+   (punto C-P6 #5), che non è una decisione.
+
+## Lavoro aperto che nasce dalle decisioni
+
+Due decisioni non descrivono il comportamento attuale: sono compiti Opus.
+
+5. [ ] **Rivisitazioni come ripasso mirato** (decisione 3). Oggi una missione è
+   costruita sul livello del giocatore, non sul mondo visitato: chi torna al
+   mondo 5 dopo il 24 riceve difficoltà 4 e nessuna preferenza per gli argomenti
+   di quel mondo (la lezione al livello corrente è di un'altra materia, quindi la
+   preferenza si disattiva). Serve costruire la sessione sul mondo visitato e
+   dare priorità agli argomenti deboli e in scadenza di ripasso. Interessa
+   `OutdoorGameplay` (che passa `game_save.level()`) e `ContentManager`; nessun
+   contenuto nuovo.
+6. [ ] **Criterio di consolidamento a tempo reale** (decisione 4). Lo scheduler
+   del ripasso usa di proposito un orologio a SESSIONI (`sessionClock`), non il
+   tempo di parete: è deterministico e testabile headless. Il criterio scelto
+   («≥ 3 giorni») richiede quindi un secondo orologio, reale, salvato per topic —
+   con sorgente di tempo iniettabile, altrimenti gli audit diventano dipendenti
+   dalla data. Da agganciare a `KnowledgeCodex` (dove oggi «consolidated» è solo
+   mastery ≥ 0.85, cieco al tempo) e alla dimensione RITENZIONE del gate.
+   Comporta una migrazione del save.
 
 ## Vincoli
 

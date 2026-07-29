@@ -3,6 +3,7 @@ extends RefCounted
 
 const KnowledgeCodex = preload("res://scripts/game/knowledge_codex.gd")
 const NoraState = preload("res://scripts/game/nora_state.gd")
+const TopicEvidence = preload("res://scripts/game/topic_evidence.gd")
 
 ## Logica di progressione: registra l'esito delle missioni (padronanza + evidenza
 ## cumulativa + energia), valuta la readiness del gate a 4 dimensioni
@@ -59,7 +60,15 @@ func record_topic_stats(subject: String, topic_stats: Dictionary) -> void:
 		KnowledgeCodex.advance_state(save, subject, str(topic), "seen")
 		if accuracy >= 0.5:
 			KnowledgeCodex.advance_state(save, subject, str(topic), "correct")
-		if updated >= 0.85:
+			# Evidenza di ritenzione: una sessione risolta bene su questo argomento.
+			# La chiave è la sessione, non la singola risposta, così tre risposte
+			# nella stessa missione non valgono tre prove.
+			TopicEvidence.record_correct(save, subject, str(topic), SpacedRepetition.session_clock(save))
+		# CONSOLIDATO (decisione utente del 29 luglio 2026): tre sessioni corrette
+		# distinte con almeno tre giorni tra la prima e l'ultima. Prima bastava una
+		# padronanza alta, che si può raggiungere in una sera sola: non era
+		# ritenzione, era una fotografia.
+		if TopicEvidence.is_consolidated(save, subject, str(topic)):
 			KnowledgeCodex.advance_state(save, subject, str(topic), "consolidated")
 		if prev >= 0.0 and updated > prev + 0.05:
 			NoraState.register(save, "improvement")

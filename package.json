@@ -12,14 +12,16 @@
     "assets:optimize": "node scripts/optimize-assets.mjs",
     "audio:godot": "node scripts/build-godot-audio-assets.mjs",
     "audio:godot:audit": "node scripts/build-godot-audio-assets.mjs --check",
-    "smoke:web:godot": "node scripts/smoke-godot-web.mjs",
+    "smoke:web:godot": "node scripts/smoke-godot-web.mjs public/godot/outdoor artifacts/web-smoke-current",
+    "profile:web:godot": "node scripts/smoke-godot-web.mjs public/godot/outdoor artifacts/web-profile-current --school-profile",
     "maps:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:seeds": "node scripts/test-procedural-seeds.mjs 100",
     "audit:mission-layout": "node scripts/audit-mission-layout.mjs",
     "preview": "vite preview --config vite.config.mjs --configLoader native --host 127.0.0.1",
-    "preview:lan": "vite preview --config vite.config.mjs --configLoader native --host 0.0.0.0"
+    "preview:lan": "vite preview --config vite.config.mjs --configLoader native --host 0.0.0.0",
+    "audit:godot": "node scripts/run-godot-audits.mjs"
   },
   "devDependencies": {
     "@types/howler": "^2.2.12",

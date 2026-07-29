@@ -20,7 +20,7 @@ extends RefCounted
 ##   - `worldProgress`    → stato persistente di ogni mondo (incontri/tesori).
 
 const SAVE_PATH := "user://eli-quest-save.json"
-const SCHEMA_VERSION := 2
+const SCHEMA_VERSION := 3
 
 var data: Dictionary = _default_data()
 
@@ -53,11 +53,25 @@ static func _default_data() -> Dictionary:
 		# Manuale NORA (O-P4): stato di conoscenza per argomento ("subject:topic" ->
 		# unknown/encountered/consulted/applied/consolidated).
 		"codex": {},
+		# Evidenza di ritenzione per argomento (decisione 29 luglio 2026): sessioni
+		# distinte risolte bene e distanza in tempo REALE tra la prima e l'ultima.
+		# Alimenta lo stato "consolidato"; vedi topic_evidence.gd.
+		"topicEvidence": {},
 		# Stato relazionale di NORA (O-P4): integrità nave, ricordi, fiducia.
 		"nora": {"integrity": 0.0, "memory": 0, "trust": 0.5},
 		# Configurazione dell'esperienza (O-P6): fascia scolastica, curriculum e
-		# materie attive (tutte e 12 di default; configurabili senza toccare il codice).
-		"config": {"schoolBand": "primaria", "curriculum": "base", "activeSubjects": []},
+		# materie attive. Fascia di lancio decisa il 29 luglio 2026: 10-13 anni
+		# (fine primaria + medie). Le 12 materie sono tutte obbligatorie.
+		"config": {
+			"schoolBand": LearningConfig.BAND_LAUNCH,
+			"curriculum": "base",
+			"activeSubjects": [],
+			"touchControls": {"side": "right", "size": "large", "opacity": 1.0},
+		},
+		"accessibility": {
+			"highContrast": false,
+			"reducedMotion": false,
+		},
 	}
 
 func load_save() -> void:
@@ -300,6 +314,7 @@ func migrate_legacy_save(source: Dictionary) -> Dictionary:
 	migrated = _migrate_spaced_repetition(migrated)
 	migrated = _migrate_worlds(migrated)
 	migrated = _migrate_renamed_subjects(migrated)
+	migrated = _migrate_history_apparatus(migrated)
 	migrated["schemaVersion"] = SCHEMA_VERSION
 	return migrated
 
@@ -320,6 +335,18 @@ func _migrate_renamed_subjects(migrated: Dictionary) -> Dictionary:
 		var sr: Dictionary = migrated.get("spacedRepetition", {})
 		if typeof(sr) == TYPE_DICTIONARY:
 			_rename_prefixed_keys(sr.get("schedule", {}), old_key + ":", new_key + ":")
+	return migrated
+
+# Storia non condivide più la serra con Scienze: i save che avevano già
+# superato il primo o il secondo gate storico conservano la riparazione nel
+# nuovo Archivio temporale. La serra resta intatta per i livelli scientifici.
+func _migrate_history_apparatus(migrated: Dictionary) -> Dictionary:
+	var apparatus: Dictionary = migrated.get("apparatus", {})
+	if apparatus.has("archivio-temporale"):
+		return migrated
+	var old_level := int(Dictionary(apparatus.get("serra-bio", {})).get("repairedLevel", 0))
+	if old_level >= 11:
+		apparatus["archivio-temporale"] = {"repairedLevel": old_level}
 	return migrated
 
 func _rename_prefixed_keys(d: Dictionary, old_prefix: String, new_prefix: String) -> void:

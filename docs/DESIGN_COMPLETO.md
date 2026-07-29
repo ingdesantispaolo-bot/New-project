@@ -56,8 +56,19 @@ Niente più missioni sparse nelle stanze: la nave contiene **solo** gli apparati
 
 ## 2. Livelli e progressione
 
+- **Fascia di lancio: 10–13 anni** (fine primaria + secondaria di primo grado),
+  decisa il 29 luglio 2026. Tutte e **12 le materie sono obbligatorie**: i 24
+  mondi sono 12 materie × 2 comparse e il finale accende i dodici sistemi.
 - Il giocatore ha **un livello globale L**, da **1 ad almeno 20** (spina dorsale
   della progressione, tarabile fino a 24+).
+- La difficoltà segue le **due comparse** di ogni materia, non il solo numero del
+  mondo: mondi 1–12 sono l'**introduzione** (difficoltà bersaglio da 1 a 3),
+  mondi 13–24 l'**approfondimento** (da 3 a 4). Così ogni materia ha un mondo in
+  cui si conosce e uno in cui si approfondisce, comprese le ultime del ciclo.
+- **Dopo il mondo 24** le rivisitazioni sono **ripasso mirato**: nel mondo che si
+  torna a visitare le prove sono quelle di quel mondo (suoi argomenti, sua banda)
+  con priorità agli argomenti deboli e in scadenza di ripasso. Nessuna banda di
+  difficoltà oltre la 4. L'esame dell'apparato resta al rango del giocatore.
 - L'avanzamento è una **scala di riparazioni**: ogni gradino/livello = riparare
   **un apparato** (esercizio finale) nella nave.
 - Ogni livello ha una **materia in focus** (a rotazione): la scala cicla le
@@ -73,6 +84,18 @@ Niente più missioni sparse nelle stanze: la nave contiene **solo** gli apparati
 Superato → **apparato riparato**, **livello completato**, si sale a **L+1**.
 Il nuovo livello apre anche il relativo **WorldProfile**; i mondi precedenti
 restano visitabili per ripasso, collezione e contenuti secondari.
+
+### Argomento CONSOLIDATO (≠ requisito del gate)
+Un argomento è dichiarato **consolidato** con **tre risposte corrette in sessioni
+distinte**, di cui almeno una a **≥ 3 giorni** dalla prima (decisione del 29
+luglio 2026). Rispondere bene tre volte nella stessa mezz'ora non è ritenzione:
+serve che la conoscenza sopravviva a una notte di sonno.
+
+Il consolidamento **non è un requisito per avanzare**: se lo fosse, un mondo non
+sarebbe completabile in un pomeriggio e la progressione dipenderebbe dal
+calendario. È ciò che si dichiara all'adulto (Manuale, report) e la soglia dello
+stato "consolidato" nel Codex. La dimensione RITENZIONE del gate continua a
+chiedere soltanto che nessun argomento sia arretrato nel ripasso spaziato.
 
 ### Esempio di scala (tunable, dati)
 | Livello | Materia in focus | Apparato (stanza) | Missioni richieste (N) | Soglia mastery |

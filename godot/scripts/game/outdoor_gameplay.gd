@@ -109,6 +109,28 @@ func setup(request: Dictionary, session_result: Dictionary, load_local_save: boo
 func _world_id() -> String:
 	return str(game_save.current_world())
 
+## Livello con cui costruire una prova nel mondo VISITATO (decisione utente del
+## 29 luglio: le rivisitazioni sono ripasso mirato). Tornando in un mondo già
+## superato la prova deve essere quella di QUEL mondo — i suoi argomenti, la sua
+## banda di difficoltà — non quella della frontiera corrente: altrimenti chi torna
+## al mondo 5 dopo il 24 riceve difficoltà massima e nessuna preferenza per gli
+## argomenti di quel mondo (la lezione del livello corrente è di un'altra materia,
+## quindi la preferenza si spegne da sola). La competenza reale continua a pesare
+## attraverso la mastery, che alza o abbassa la difficoltà dentro quella banda.
+##
+## L'ESAME dell'apparato NON usa questo livello: è la prova del gate corrente e
+## resta al rango del giocatore, così il ripasso non offre una scorciatoia.
+func _learning_level() -> int:
+	var world := int(game_save.current_world())
+	var rank := int(game_save.level())
+	if world > 0 and world < rank:
+		return world
+	return rank
+
+# Vero se il mondo visitato è un ritorno su terreno già superato.
+func is_revisit() -> bool:
+	return _learning_level() != int(game_save.level())
+
 # Fonde nel `result` di sessione gli id già risolti nel save canonico del mondo.
 func _hydrate_world_progress() -> void:
 	var bucket := game_save.world_progress(_world_id())
@@ -138,6 +160,11 @@ func runtime_state() -> Dictionary:
 	var mastery_threshold := float(progress.get("masteryThreshold", 0.0))
 	return {
 		"level": game_save.level(),
+		# Ritorno su un mondo già superato: le prove sono ripasso di QUEL mondo
+		# (vedi `_learning_level`). Campo read-only per l'HUD, che può dirlo al
+		# bambino; nessun effetto su gate o ricompense.
+		"revisit": is_revisit(),
+		"learningLevel": _learning_level(),
 		"focusSubject": str(progress.get("subject", "matematica")),
 		"apparatus": str(progress.get("apparatus", "nucleo")),
 		"missionsDone": missions_done,
@@ -196,7 +223,7 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	# C-P3: il percorso live usa il mix validato da O-P3. I renderer emettono
 	# soltanto l'esito del contratto comune; scoring/mastery restano qui e
 	# nell'ExercisePlayer.
-	var session := content_manager.build_varied_mission(subject, game_save.level(), 3, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
+	var session := content_manager.build_varied_mission(subject, _learning_level(), 3, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
@@ -225,7 +252,7 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 			"warning")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := content_manager.build_enigma(subject, game_save.level(), 4, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
+	var session := content_manager.build_enigma(subject, _learning_level(), 4, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
@@ -284,7 +311,7 @@ func try_start_minigame(payload: Dictionary, encounter_id: String) -> bool:
 		_present_feedback("Minigioco già completato.", "system")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := minigame_manager.build_minigame(subject, game_save.level())
+	var session := minigame_manager.build_minigame(subject, _learning_level())
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Minigioco non disponibile per %s." % subject, "system")
 		return false

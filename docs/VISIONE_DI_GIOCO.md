@@ -118,7 +118,13 @@ Piano e architettura in [ARCHITETTURA_FULL_GODOT.md](ARCHITETTURA_FULL_GODOT.md)
 
 ## Pubblico e vincoli
 
-- **Studenti** (scuola primaria/secondaria di primo grado come fascia centrale).
+- **Studenti di 10–13 anni**: fine della scuola primaria e secondaria di primo
+  grado. Fascia di lancio decisa il 29 luglio 2026 ed è l'arco che i contenuti
+  coprono davvero — tabelline e lessico di base nei primi mondi, equazioni,
+  Pitagora, declinazioni latine e false friends nei mondi alti. La rampa di
+  difficoltà è tarata su questo: mondi 1–12 come introduzione (difficoltà 1→3),
+  mondi 13–24 come approfondimento (3→4). Nel save la fascia è
+  `config.schoolBand = "primaria-secondaria-1"` (`LearningConfig.BAND_LAUNCH`).
 - **Web-first**, distribuito su GitHub Pages; deve girare su hardware modesto e
   su schermi/aspect ratio diversi (mobile incluso).
 - **Materie multiple** già presenti; l'architettura deve renderne facile

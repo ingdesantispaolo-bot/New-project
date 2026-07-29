@@ -26,7 +26,7 @@ func _init() -> void:
 	# Report completo.
 	var report := ValidationReport.build(save, content)
 	assert(report.has("aggregate") and report.has("bySubject"), "report incompleto")
-	assert(str(report["schoolBand"]) == "primaria", "fascia di default attesa")
+	assert(str(report["schoolBand"]) == LearningConfig.BAND_LAUNCH, "fascia di default attesa: 10-13 anni")
 	assert(Array(report["activeSubjects"]).size() == 12, "di default tutte le materie sono attive")
 	assert(report["bySubject"].size() == 12, "il report deve coprire le materie attive")
 

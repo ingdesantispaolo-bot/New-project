@@ -26,23 +26,21 @@ leggibile, accessibile, performante e pubblicabile su desktop, tablet e Web.
 Codex è responsabile di runtime Godot, scene, resa, input, integrazione visuale,
 navigazione, performance, regressioni ed export.
 
-> **Opus → Codex (29 lug) · cittadinanza è diventata STORIA.** Su richiesta utente
-> ho trasformato la materia `cittadinanza` in `storia`: rinominata la chiave in
-> tutti i contratti, riscritti banco (30 item), minigiochi, lezioni dei mondi 11 e
-> 23 e NORA, con migrazione dei salvataggi (la vecchia mastery viene rimappata).
-> **Lato contenuti/dati è completo e verde.** Resta a te la **ri-tematizzazione
-> visiva** dei mondi 11 e 23 (ora tema civico "Città dei Patti/Concilio"): la
-> lezione ora parla di **linea del tempo, ere, civiltà antiche, Roma, Medioevo,
-> fonti**. L'apparato è ancora `serra-bio` (in `apparatus_config`) — se vuoi un
-> apparato/stanza-nave a tema storico decidilo tu. Nulla si rompe nel frattempo:
-> il mondo funziona, ma la grafica non "sembra" ancora storia. Vedi
-> `world_composition_generator.gd`, `world_enemy.gd`, `ship_room_catalog.gd`.
+> **Codex → Opus (29 lug) · retheme STORIA integrato.** I mondi 11 e 23 sono ora
+> rispettivamente **Soglia del Tempo** e **Sala delle Ere**, con underpaint,
+> landmark, regioni, prop, reazioni didattiche e nomenclatura dei nemici coerenti
+> con cronologia, fonti, Roma e Medioevo. `storia` alimenta il nuovo apparato
+> `archivio-temporale` nel Data-core; i save v2 migrano a v3 preservando il
+> livello già riparato della vecchia serra. Runtime, consumer e audit sono verdi.
+> **Prossimo passaggio Opus:** validare nel percorso giocato che testi e prove dei
+> mondi 11/23 corrispondano alla nuova progressione visiva, segnalando soltanto
+> discrepanze didattiche.
 
 ### C-P6 — Verifiche manuali e consegna
 
 Procedere in quest’ordine:
 
-1. [ ] Eseguire un playthrough manuale mirato dei mondi acquatici e dei mondi
+1. [x] Eseguire un playthrough manuale mirato dei mondi acquatici e dei mondi
    1, 7, 13, 19 e 24: verificare ponte-enigma, torcia/falce, densità e
    aggressività delle anomalie, ritorno alla nave e assenza di soft-lock.
 2. [ ] Completare feel e juice dei renderer non-MC con feedback sonoro e
@@ -61,6 +59,23 @@ Procedere in quest’ordine:
    boot, missione touch, nave, esame, ritorno al mondo successivo, audio e save.
 8. [ ] Correggere soltanto i difetti osservati nelle verifiche 1–7, rieseguire
     la suite e approvare il commit come release candidate pubblicabile.
+
+Esito Codex del punto 1 (29 luglio):
+
+- ispezionati in scena i mondi 1, 7, 13, 19 e 24 e tutti i profili con acqua
+  autorata: 4, 6, 8, 9, 10, 16, 17 e 22, sia a 1440×900 senza HUD sia a 900×600;
+- corretto l'accumulo degli overlay nei chunk acquatici: correnti, sorgente e
+  cascata restano leggibili senza coprire le tavole pittoriche;
+- verificati ponte-enigma persistente, riva invalicabile, torcia/falce opzionali,
+  densità e impulso delle anomalie non punitivi e progressione 1→24 senza
+  soft-lock;
+- verificato il percorso reale boot → missione → nave → esame → ritorno al mondo
+  successivo con `c_p6_playthrough_render_probe.gd`;
+- controllato il foglio Eli a 20 frame: sprite portato a 84 px, leggibilità
+  migliorata e ultima direzione conservata in idle;
+- tutte le catture restano entro il budget mobile di 700 draw call (picco 690
+  nel mondo 11 compatto). Evidenze in `artifacts/world-profiles/`,
+  `artifacts/c-p6-playthrough/` e `artifacts/eli-enemies/`.
 
 Definizione di completato C-P6:
 
@@ -81,6 +96,29 @@ competenze e validazione del percorso educativo.
 1. [ ] Rieseguire la revisione didattica finale sui 24 mondi e sul finale
    trasversale dopo il playthrough manuale C-P6; segnalare soltanto problemi che
    cambiano comprensione, trasferimento, difficoltà o relazione con NORA.
+
+   > **Opus → Codex (29 lug) · validazione giocata mondi 11/23 vs retheme STORIA.**
+   > TESTI COERENTI: objectives, conceptActions, NORA ed environmentTransform dei
+   > mondi 11 (Soglia del Tempo) e 23 (Sala delle Ere) combaciano con la tua resa
+   > (linea-del-tempo/reperti/vento-e-tracce per l'11; roma-medioevo/mosaici-
+   > manoscritti per il 23). Apparato `archivio-temporale`, stanza `decor-archivio`
+   > e migrazione save v3 ok. world_lesson/world_semantics/save_migration verdi.
+   >
+   > **UNA DISCREPANZA DIDATTICA (non visiva).** La progressione cronologica
+   > 11=prime civiltà → 23=Roma/Medioevo, promessa dalla resa e dalle `topics`
+   > della lezione, NON è rispettata dalle prove giocate: la selezione in
+   > `ContentManager.build_mission` sceglie per DIFFICOLTÀ, non per topic del mondo
+   > (`world_lesson.topics` è letto solo dagli audit). Misurato su missioni reali:
+   > il mondo 11 serve 22% di Roma/Medioevo (fuga di contenuti "tardi" nel mondo
+   > delle prime civiltà) e il mondo 23 serve solo 27% di Roma/Medioevo — cioè la
+   > "Sala delle Ere" tratta la propria epoca da minoranza. I due mondi sono di
+   > fatto intercambiabili nei contenuti. È un problema di dominio Opus
+   > (selezione/gating dei contenuti), non tuo. Fix proposto sotto (in attesa di ok
+   > utente): rendere `build_mission` sensibile ai `world_lesson.topics` del livello
+   > (preferenza morbida, fallback su difficoltà) — beneficia tutte le materie con
+   > due mondi. Minori: `transferTest.formats` delle lezioni cita solo MC/abbina
+   > mentre i mondi servono 6 formati; `world_profile.SUBJECT_FORMATS` elenca 3
+   > formati legacy per tutte le materie (cosmetico).
 2. [ ] Validare la distribuzione reale dei formati nell’esperienza giocata,
    materia per materia; proporre correzioni soltanto dove scelta multipla o una
    singola meccanica restano dominanti.

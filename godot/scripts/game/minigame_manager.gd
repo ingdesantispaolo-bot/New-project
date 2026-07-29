@@ -13,6 +13,13 @@ const MATCHING := {
 	"inglese": [
 		{"topic": "vocabolario", "pairs": [["dog", "cane"], ["cat", "gatto"], ["sun", "sole"], ["house", "casa"], ["water", "acqua"], ["book", "libro"], ["tree", "albero"], ["red", "rosso"]]},
 		{"topic": "vocabolario", "pairs": [["one", "uno"], ["two", "due"], ["three", "tre"], ["four", "quattro"], ["five", "cinque"], ["ten", "dieci"]]},
+		{"topic": "opposites", "minLevel": 3, "pairs": [["hot", "cold"], ["big", "small"], ["fast", "slow"], ["happy", "sad"], ["old", "new"]]},
+		# Conversazione: micro-scambi domanda -> risposta.
+		{"topic": "conversation", "minLevel": 5, "pairs": [["What's your name?", "I'm Anna"], ["How old are you?", "I'm ten"], ["Where are you from?", "From Italy"], ["How are you?", "I'm fine"]]},
+		# Scuola media — le forme che l'inglese non regolarizza.
+		{"topic": "contractions", "minLevel": 6, "pairs": [["I am", "I'm"], ["you are", "you're"], ["do not", "don't"], ["cannot", "can't"], ["it is", "it's"]]},
+		{"topic": "irregular-past", "minLevel": 7, "pairs": [["go", "went"], ["eat", "ate"], ["see", "saw"], ["have", "had"], ["make", "made"]]},
+		{"topic": "irregular-plural", "minLevel": 8, "pairs": [["child", "children"], ["man", "men"], ["foot", "feet"], ["mouse", "mice"], ["tooth", "teeth"]]},
 	],
 	"geografia": [
 		{"topic": "capitali", "pairs": [["Italia", "Roma"], ["Francia", "Parigi"], ["Spagna", "Madrid"], ["Germania", "Berlino"], ["Portogallo", "Lisbona"], ["Grecia", "Atene"]]},
@@ -108,6 +115,12 @@ const ORDERING := {
 	],
 	"inglese": [
 		{"topic": "everyday-phrases", "prompt": "Order the words to make a sentence", "correctOrder": ["I", "like", "green", "apples"]},
+		# Word order inglese: soggetto-verbo-oggetto e adjective prima del nome.
+		{"topic": "sentence", "minLevel": 3, "prompt": "Order the words to make a sentence.", "correctOrder": ["She", "reads", "a", "book"]},
+		{"topic": "negative", "minLevel": 5, "prompt": "Order the words to make a negative sentence.", "correctOrder": ["He", "does", "not", "play"]},
+		# Domande: inversione dell'ausiliare (diverso dall'italiano).
+		{"topic": "question", "minLevel": 5, "prompt": "Order the words to make a question.", "correctOrder": ["Do", "you", "like", "pizza?"]},
+		{"topic": "wh-question", "minLevel": 6, "prompt": "Order the words to make a question.", "correctOrder": ["Where", "do", "you", "live?"]},
 	],
 	"fisica": [
 		{"topic": "moto", "prompt": "Ordina per velocità crescente", "correctOrder": ["Lumaca", "Persona a piedi", "Bicicletta", "Automobile"]},
@@ -239,6 +252,20 @@ const CLASSIFICATION := {
 		{"topic": "home-family", "prompt": "Sort each word: family, school or nature.",
 			"categories": ["family", "school", "nature"],
 			"assignments": {"mother": "family", "father": "family", "teacher": "school", "book": "school", "tree": "nature", "river": "nature"}},
+		# Articolo a/an secondo il suono iniziale: regola tipica dell'inglese.
+		{"topic": "articles", "minLevel": 5, "prompt": "Sort each word: does it take 'a' or 'an'?",
+			"categories": ["a", "an"],
+			"assignments": {"apple": "an", "orange": "an", "umbrella": "an", "dog": "a", "car": "a", "book": "a"}},
+		{"topic": "parts-of-speech", "minLevel": 6, "prompt": "Sort each word into its part of speech.",
+			"categories": ["noun", "verb", "adjective"],
+			"assignments": {"dog": "noun", "house": "noun", "run": "verb", "eat": "verb", "big": "adjective", "red": "adjective"}},
+		# Scuola media — verbi regolari/irregolari e nomi numerabili/non numerabili.
+		{"topic": "verbs", "minLevel": 8, "prompt": "Sort each past-tense verb: regular or irregular?",
+			"categories": ["regular", "irregular"],
+			"assignments": {"played": "regular", "walked": "regular", "watched": "regular", "went": "irregular", "ate": "irregular", "saw": "irregular"}},
+		{"topic": "nouns", "minLevel": 9, "prompt": "Sort each noun: countable or uncountable?",
+			"categories": ["countable", "uncountable"],
+			"assignments": {"apple": "countable", "book": "countable", "car": "countable", "water": "uncountable", "milk": "uncountable", "rice": "uncountable"}},
 	],
 	"latino": [
 		{"topic": "vocabolario", "prompt": "Smista ogni parola latina per campo di significato.",
@@ -394,6 +421,30 @@ const CODE_DEBUG := {
 			"prompt": "Somma 1/2 + 1/4 passo per passo: quale riga sbaglia?",
 			"codeLines": ["1/2 + 1/4", "= 2/6   (somma sopra e sotto)", "= 1/3", "# si sommano così le frazioni?"],
 			"explanation": "Riga 2: non si sommano numeratori e denominatori. Con lo stesso denominatore: 2/4 + 1/4 = 3/4."},
+	],
+	# INGLESE — "Find the mistake": error correction, il cuore dell'apprendimento
+	# di una lingua straniera. Una frase su tante nasconde lo sbaglio: si clicca.
+	"inglese": [
+		{"topic": "spelling", "answerLine": 2,
+			"prompt": "One word is spelled wrong. Which line?",
+			"codeLines": ["I have a cat.", "The sun is yelow.", "She likes books.", "# find the spelling mistake"],
+			"explanation": "Line 2: 'yellow' has a double L."},
+		{"topic": "articles", "minLevel": 5, "answerLine": 3,
+			"prompt": "One article is wrong. Which line?",
+			"codeLines": ["I have a dog.", "There is an egg.", "She eats a apple.", "# which article is wrong?"],
+			"explanation": "Line 3: before a vowel sound use 'an': 'an apple'."},
+		{"topic": "third-person", "minLevel": 6, "answerLine": 2,
+			"prompt": "One sentence has a grammar mistake. Which line?",
+			"codeLines": ["I like pizza.", "She go to school every day.", "They play football.", "# find the sentence with the error"],
+			"explanation": "Line 2: third person singular needs -s: 'She goes to school'."},
+		{"topic": "past-tense", "minLevel": 7, "answerLine": 2,
+			"prompt": "One past tense is wrong. Which line?",
+			"codeLines": ["Yesterday I played tennis.", "She goed home.", "We watched a film.", "# which past tense is wrong?"],
+			"explanation": "Line 2: 'go' is irregular, the past is 'went', not 'goed'."},
+		{"topic": "do-does", "minLevel": 7, "answerLine": 2,
+			"prompt": "One negative sentence is wrong. Which line?",
+			"codeLines": ["I don't like fish.", "He don't like tea.", "We don't watch TV.", "# which negative is wrong?"],
+			"explanation": "Line 2: third person singular uses 'doesn't': 'He doesn't like tea'."},
 	],
 }
 

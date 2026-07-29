@@ -87,8 +87,18 @@ competenze e validazione del percorso educativo.
    > esposizione→climax→scioglimento) e **"caccia all'errore"** (code_debug
    > riusato: individua la frase con l'errore di ortografia/accordo/tempo). Il
    > nodo specialista ora ruota, così le missioni alternano arco e caccia.
-   > Meccaniche nuove, zero asset immagine (resa procedurale). Prossime materie
-   > da approfondire con lo stesso metodo su richiesta.
+   > Meccaniche nuove, zero asset immagine (resa procedurale).
+   > **Matematica (24 lug):** oltre ai problemi generati, meccaniche interattive —
+   > abbina rappresentazioni (frazione/decimale/percentuale, potenze, formule),
+   > classifica (uguaglianze vere/false, primi, multipli, frazioni vs 1/2, interi),
+   > grafico (lettura dati: max/min, intercetta) e caccia-all'errore nel calcolo
+   > (priorità, area vs perimetro, somma di frazioni).
+   > **Inglese (24 lug):** word order (frasi, domande con inversione), verbi/plurali
+   > irregolari, contrazioni, articoli a/an, parti del discorso, numerabili/non, e
+   > "find the mistake" (error correction: 3ª persona, past tense, do/does).
+   > Tutte con gate per livello (minLevel): la grammatica da scuola media arriva nei
+   > mondi avanzati, verificato a lv2 (niente avanzato) e lv12 (spread completo).
+   > Prossime materie con lo stesso metodo su richiesta.
 3. [x] Matrice livello → competenze → evidenze → apparato consegnata e GENERATA
    dai contratti in [docs/COMPETENCY_MATRIX.md](docs/COMPETENCY_MATRIX.md)
    (`competency_matrix.gd`, nessun drift), utilizzabile da docenti e pilota.

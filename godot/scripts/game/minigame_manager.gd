@@ -44,6 +44,11 @@ const MATCHING := {
 	"musica": [
 		{"topic": "ritmo", "pairs": [["Semibreve", "4 battiti"], ["Minima", "2 battiti"], ["Semiminima", "1 battito"], ["Croma", "mezzo battito"]]},
 		{"topic": "strumenti", "pairs": [["Chitarra", "Corde"], ["Flauto", "Fiato"], ["Tamburo", "Percussione"], ["Pianoforte", "Tastiera"]]},
+		{"topic": "dinamica", "minLevel": 3, "pairs": [["forte (f)", "suonare forte"], ["piano (p)", "suonare piano"], ["crescendo", "aumentare a poco a poco"], ["staccato", "note staccate e brevi"]]},
+		# Termini italiani di tempo (usati in tutto il mondo).
+		{"topic": "tempo", "minLevel": 4, "pairs": [["Adagio", "lento"], ["Andante", "camminando, moderato"], ["Allegro", "veloce e vivace"], ["Presto", "molto veloce"]]},
+		# Scuola media — compositori e opere celebri.
+		{"topic": "compositori", "minLevel": 6, "pairs": [["Beethoven", "Quinta Sinfonia"], ["Vivaldi", "Le Quattro Stagioni"], ["Mozart", "Il Flauto Magico"], ["Verdi", "Aida"]]},
 	],
 	"italiano": [
 		{"topic": "contrari", "pairs": [["alto", "basso"], ["grande", "piccolo"], ["giorno", "notte"], ["caldo", "freddo"], ["veloce", "lento"]]},
@@ -134,6 +139,10 @@ const ORDERING := {
 	"musica": [
 		{"topic": "note", "prompt": "Metti in ordine le note dopo il Do", "correctOrder": ["Re", "Mi", "Fa", "Sol"]},
 		{"topic": "ritmo", "prompt": "Ordina dalla durata più breve alla più lunga", "correctOrder": ["Croma", "Semiminima", "Minima", "Semibreve"]},
+		{"topic": "note", "minLevel": 3, "prompt": "Ordina la scala musicale completa, dal Do.", "correctOrder": ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"]},
+		# Scuola media — dinamiche dal più piano al più forte, tempi dal più lento.
+		{"topic": "dinamica", "minLevel": 5, "prompt": "Ordina le dinamiche dal più piano al più forte.", "correctOrder": ["pianissimo", "piano", "mezzoforte", "forte", "fortissimo"]},
+		{"topic": "tempo", "minLevel": 5, "prompt": "Ordina i tempi dal più lento al più veloce.", "correctOrder": ["Adagio", "Andante", "Allegro", "Presto"]},
 	],
 	"italiano": [
 		{"topic": "ortografia", "prompt": "Metti in ordine alfabetico", "correctOrder": ["albero", "casa", "fiore", "sole"]},
@@ -326,6 +335,10 @@ const CLASSIFICATION := {
 		{"topic": "timbro", "prompt": "Smista ogni strumento: acustico o elettronico?",
 			"categories": ["acustico", "elettronico"],
 			"assignments": {"Violino": "acustico", "Chitarra classica": "acustico", "Pianoforte": "acustico", "Sintetizzatore": "elettronico", "Tastiera elettronica": "elettronico", "Batteria elettronica": "elettronico"}},
+		# Altezza del suono: strumenti acuti o gravi.
+		{"topic": "intervalli", "minLevel": 4, "prompt": "Smista ogni strumento per l'altezza del suono.",
+			"categories": ["acuto", "grave"],
+			"assignments": {"Flauto": "acuto", "Ottavino": "acuto", "Violino": "acuto", "Violoncello": "grave", "Contrabbasso": "grave", "Tuba": "grave"}},
 	],
 	"elettronica": [
 		{"topic": "conduttori", "prompt": "Smista ogni materiale: conduttore o isolante?",
@@ -475,6 +488,18 @@ const GRAPH := {
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
 			"explanation": "La città era più popolosa dove la curva è più in alto: il punto C. Poi la popolazione è calata."},
 	],
+	# MUSICA — il contorno melodico: l'altezza delle note nel tempo. Leggere se il
+	# suono sale o scende è una competenza musicale di base.
+	"musica": [
+		{"topic": "note", "minLevel": 4, "xLabel": "tempo", "yLabel": "altezza", "answer": "C",
+			"prompt": "Il grafico è il contorno di una melodia (l'altezza delle note nel tempo): in quale punto la nota è più ACUTA (più alta)?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.30, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.40, "label": "D"}],
+			"explanation": "La nota più acuta è dove la linea è più in alto: il punto C. Più in basso = più grave."},
+		{"topic": "dinamica", "minLevel": 5, "xLabel": "tempo", "yLabel": "volume", "answer": "D",
+			"prompt": "Il grafico mostra il volume in un diminuendo: in quale punto il suono è più DEBOLE?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.40, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.12, "label": "D"}],
+			"explanation": "Nel diminuendo il volume cala nel tempo: è più debole alla fine, dove la linea è più in basso, il punto D."},
+	],
 }
 
 # CIRCUITO (schema + collegamenti disegnati proceduralmente): scegli il componente
@@ -581,6 +606,15 @@ const CIRCUIT := {
 			"components": [{"id": "preistoria", "x": 0.10, "y": 0.50, "label": "Preistoria"}, {"id": "antica", "x": 0.32, "y": 0.50, "label": "Età antica"}, {"id": "medioevo", "x": 0.55, "y": 0.50, "label": "Medioevo"}, {"id": "moderna", "x": 0.77, "y": 0.50, "label": "Età moderna"}, {"id": "contemporanea", "x": 0.95, "y": 0.50, "label": "Contemporanea"}],
 			"connections": [["preistoria", "antica"], ["antica", "medioevo"], ["medioevo", "moderna"], ["moderna", "contemporanea"]],
 			"explanation": "L'Età contemporanea è l'ultima della linea: è quella in cui viviamo oggi."},
+	],
+	# MUSICA — il renderer nodi+collegamenti diventa la FORMA DI UNA CANZONE: le
+	# sezioni in fila, si riconosce quella che torna uguale (il ritornello).
+	"musica": [
+		{"topic": "lettura", "minLevel": 4, "answer": "ritornello2",
+			"prompt": "Questa è la struttura di una canzone. Quale sezione RIPETE il ritornello già sentito?",
+			"components": [{"id": "strofa1", "x": 0.12, "y": 0.50, "label": "Strofa"}, {"id": "ritornello1", "x": 0.34, "y": 0.50, "label": "Ritornello"}, {"id": "strofa2", "x": 0.56, "y": 0.50, "label": "Strofa 2"}, {"id": "ritornello2", "x": 0.78, "y": 0.50, "label": "Ritornello"}, {"id": "finale", "x": 0.95, "y": 0.50, "label": "Finale"}],
+			"connections": [["strofa1", "ritornello1"], ["ritornello1", "strofa2"], ["strofa2", "ritornello2"], ["ritornello2", "finale"]],
+			"explanation": "Il ritornello è la parte che torna uguale: qui è il secondo 'Ritornello', che ripete il primo."},
 	],
 }
 
@@ -782,6 +816,21 @@ const CODE_DEBUG := {
 			"prompt": "Come si contano gli anni avanti Cristo? Quale riga sbaglia?",
 			"codeLines": ["Ci sono il 100 a.C. e il 50 a.C.", "Più il numero è grande, più l'anno è antico.", "Quindi il 100 a.C. viene dopo il 50 a.C.", "# quale passaggio è sbagliato?"],
 			"explanation": "Riga 3: negli anni a.C. i numeri grandi sono più antichi, quindi il 100 a.C. viene PRIMA del 50 a.C."},
+	],
+	# MUSICA — "Caccia all'errore": affermazione falsa di teoria musicale.
+	"musica": [
+		{"topic": "strumenti", "minLevel": 3, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Il violino è uno strumento a corde.", "La tromba è uno strumento a fiato.", "Il flauto è uno strumento a percussione.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: il flauto è uno strumento a fiato, non a percussione."},
+		{"topic": "ritmo", "minLevel": 5, "answerLine": 3,
+			"prompt": "Controlla le durate: quale riga sbaglia?",
+			"codeLines": ["Una minima vale 2 semiminime.", "Una semiminima vale 1 battito.", "Una semibreve vale 2 semiminime.", "# quanti battiti dura la semibreve?"],
+			"explanation": "Riga 3: la semibreve vale 4 semiminime (4 battiti), non 2."},
+		{"topic": "note", "minLevel": 4, "answerLine": 3,
+			"prompt": "Una sola affermazione sulla scala è falsa. Quale riga?",
+			"codeLines": ["La scala è Do Re Mi Fa Sol La Si.", "Dopo il Si si torna al Do.", "Tra il Do e il Re c'è il La.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: tra Do e Re non c'è il La; il La viene più avanti, dopo il Sol."},
 	],
 }
 

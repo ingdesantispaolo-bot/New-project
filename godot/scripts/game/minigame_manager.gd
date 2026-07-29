@@ -641,6 +641,21 @@ const CIRCUIT := {
 			"connections": [["aqua", "acqua"], ["aqua", "acquedotto"], ["aqua", "acquario"]],
 			"explanation": "La radice è 'aqua' (acqua in latino): da lì nascono acqua, acquedotto, acquario."},
 	],
+	# INGLESE — il renderer nodi+collegamenti diventa un ALBERO DELLE PAROLE: una
+	# parola base e le parole inglesi che ne derivano (morfologia). Si sceglie la
+	# base comune.
+	"inglese": [
+		{"topic": "word-family", "minLevel": 5, "answer": "play",
+			"prompt": "These English words belong to the same family. Which is the base word (the root)?",
+			"components": [{"id": "play", "x": 0.50, "y": 0.20, "label": "play"}, {"id": "player", "x": 0.18, "y": 0.65, "label": "player"}, {"id": "playful", "x": 0.50, "y": 0.82, "label": "playful"}, {"id": "playground", "x": 0.82, "y": 0.65, "label": "playground"}],
+			"connections": [["play", "player"], ["play", "playful"], ["play", "playground"]],
+			"explanation": "The base word is 'play': player, playful and playground all come from it."},
+		{"topic": "word-family", "minLevel": 6, "answer": "help",
+			"prompt": "These words share the same root. Which is the base word?",
+			"components": [{"id": "help", "x": 0.50, "y": 0.20, "label": "help"}, {"id": "helper", "x": 0.20, "y": 0.68, "label": "helper"}, {"id": "helpful", "x": 0.52, "y": 0.84, "label": "helpful"}, {"id": "helpless", "x": 0.82, "y": 0.66, "label": "helpless"}],
+			"connections": [["help", "helper"], ["help", "helpful"], ["help", "helpless"]],
+			"explanation": "The base word is 'help': helper, helpful and helpless are built from it."},
+	],
 }
 
 # CODE-DEBUG (righe numerate selezionabili): trova la riga con l'errore. Testo puro.

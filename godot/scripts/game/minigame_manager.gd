@@ -28,6 +28,10 @@ const MATCHING := {
 	"scienze": [
 		{"topic": "corpo", "pairs": [["Cuore", "Pompa il sangue"], ["Polmoni", "Respirazione"], ["Cervello", "Comanda il corpo"], ["Stomaco", "Digestione"], ["Occhi", "Vista"]]},
 		{"topic": "viventi", "pairs": [["Erbivoro", "Mangia piante"], ["Carnivoro", "Mangia animali"], ["Onnivoro", "Mangia tutto"], ["Decompositore", "Ricicla i resti"]]},
+		{"topic": "classi", "minLevel": 5, "pairs": [["Rana", "Anfibio"], ["Serpente", "Rettile"], ["Aquila", "Uccello"], ["Balena", "Mammifero"], ["Trota", "Pesce"]]},
+		# Scuola media — sistemi del corpo e passaggi di stato.
+		{"topic": "sistemi", "minLevel": 6, "pairs": [["Cuore", "Sistema circolatorio"], ["Polmoni", "Sistema respiratorio"], ["Stomaco", "Sistema digerente"], ["Cervello", "Sistema nervoso"]]},
+		{"topic": "passaggi-stato", "minLevel": 5, "pairs": [["Fusione", "solido → liquido"], ["Evaporazione", "liquido → gas"], ["Solidificazione", "liquido → solido"], ["Condensazione", "gas → liquido"]]},
 	],
 	"latino": [
 		{"topic": "casi", "pairs": [["Nominativo", "Soggetto"], ["Accusativo", "Oggetto"], ["Genitivo", "Specificazione"], ["Dativo", "Termine"], ["Vocativo", "Invocazione"]]},
@@ -101,6 +105,11 @@ const ORDERING := {
 	"scienze": [
 		{"topic": "viventi", "prompt": "Metti in ordine le fasi della farfalla", "correctOrder": ["Uovo", "Bruco", "Crisalide", "Farfalla"]},
 		{"topic": "materia", "prompt": "Ordina per temperatura crescente", "correctOrder": ["Ghiaccio", "Acqua fredda", "Acqua calda", "Vapore"]},
+		{"topic": "ciclo-acqua", "minLevel": 3, "prompt": "Ordina le fasi del ciclo dell'acqua.", "correctOrder": ["Evaporazione", "Condensazione", "Precipitazione", "Raccolta nei fiumi"]},
+		{"topic": "catena", "minLevel": 4, "prompt": "Ordina la catena alimentare, da chi produce energia a chi la mangia.", "correctOrder": ["Erba", "Cavalletta", "Rana", "Serpente", "Aquila"]},
+		{"topic": "metodo", "minLevel": 4, "prompt": "Ordina i passi del metodo scientifico.", "correctOrder": ["Fai una domanda", "Formula un'ipotesi", "Fai l'esperimento", "Osserva i risultati", "Trai la conclusione"]},
+		# Scuola media — livelli di organizzazione dei viventi.
+		{"topic": "organizzazione", "minLevel": 7, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Cellula", "Tessuto", "Organo", "Sistema", "Organismo"]},
 	],
 	"geografia": [
 		{"topic": "geografia-umana", "prompt": "Ordina dal più piccolo al più grande", "correctOrder": ["Paese", "Regione", "Nazione", "Continente"]},
@@ -187,6 +196,19 @@ const CLASSIFICATION := {
 		{"topic": "ecosistema", "prompt": "Smista ogni animale nel suo ambiente.",
 			"categories": ["acqua", "aria", "terra"],
 			"assignments": {"Pesce": "acqua", "Delfino": "acqua", "Aquila": "aria", "Rondine": "aria", "Talpa": "terra", "Lombrico": "terra"}},
+		{"topic": "viventi", "minLevel": 2, "prompt": "Smista ogni cosa: vivente o non vivente?",
+			"categories": ["vivente", "non vivente"],
+			"assignments": {"Cane": "vivente", "Albero": "vivente", "Fiore": "vivente", "Roccia": "non vivente", "Acqua": "non vivente", "Nuvola": "non vivente"}},
+		{"topic": "materia", "minLevel": 3, "prompt": "Smista ogni sostanza nel suo stato.",
+			"categories": ["solido", "liquido", "gassoso"],
+			"assignments": {"Ghiaccio": "solido", "Ferro": "solido", "Acqua": "liquido", "Latte": "liquido", "Vapore": "gassoso", "Aria": "gassoso"}},
+		{"topic": "classi", "minLevel": 5, "prompt": "Smista ogni animale: vertebrato o invertebrato?",
+			"categories": ["vertebrato", "invertebrato"],
+			"assignments": {"Cane": "vertebrato", "Uccello": "vertebrato", "Pesce": "vertebrato", "Verme": "invertebrato", "Ragno": "invertebrato", "Farfalla": "invertebrato"}},
+		# Scuola media — ruoli nella rete trofica.
+		{"topic": "ecosistema", "minLevel": 6, "prompt": "Smista ogni organismo per il suo ruolo nell'ecosistema.",
+			"categories": ["produttore", "consumatore", "decompositore"],
+			"assignments": {"Erba": "produttore", "Albero": "produttore", "Coniglio": "consumatore", "Lupo": "consumatore", "Fungo": "decompositore", "Batterio": "decompositore"}},
 	],
 	"coding": [
 		{"topic": "tipi", "prompt": "Smista ogni valore nel suo tipo di dato.",
@@ -349,6 +371,10 @@ const GRAPH := {
 			"prompt": "La pianta cresce nel tempo: in quale punto è più alta?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.70, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.95, "label": "D"}],
 			"explanation": "La curva sale sempre: l'ultimo punto D è il più alto."},
+		{"topic": "materia", "minLevel": 4, "xLabel": "tempo", "yLabel": "temperatura", "answer": "D",
+			"prompt": "Una tazza di tè si raffredda: in quale punto la temperatura è più bassa?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.38, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
+			"explanation": "La curva scende raffreddandosi: la temperatura è più bassa alla fine, nel punto D."},
 	],
 	# ITALIANO — "L'arco narrativo": la curva della tensione di un racconto, a forma
 	# di montagna (esposizione A -> complicazione B -> climax C -> scioglimento D ->
@@ -408,6 +434,20 @@ const CIRCUIT := {
 			"components": [{"id": "inizio", "x": 0.50, "y": 0.10, "label": "Inizio"}, {"id": "init", "x": 0.50, "y": 0.30, "label": "i = 0"}, {"id": "controllo", "x": 0.50, "y": 0.52, "label": "i < 3?"}, {"id": "corpo", "x": 0.24, "y": 0.72, "label": "stampa i"}, {"id": "fine", "x": 0.78, "y": 0.72, "label": "Fine"}],
 			"connections": [["inizio", "init"], ["init", "controllo"], ["controllo", "corpo"], ["corpo", "controllo"], ["controllo", "fine"]],
 			"explanation": "Il blocco 'i < 3?' è la condizione del ciclo: finché è vera si ripete 'stampa i'."},
+	],
+	# SCIENZE — il renderer nodi+collegamenti diventa una CATENA ALIMENTARE: si
+	# legge il flusso di energia e si sceglie l'organismo richiesto.
+	"scienze": [
+		{"topic": "catena", "minLevel": 4, "answer": "erba",
+			"prompt": "In questa catena alimentare l'energia sale da un anello all'altro. Quale organismo è il PRODUTTORE, alla base di tutto?",
+			"components": [{"id": "erba", "x": 0.12, "y": 0.82, "label": "Erba"}, {"id": "cavalletta", "x": 0.32, "y": 0.62, "label": "Cavalletta"}, {"id": "rana", "x": 0.52, "y": 0.44, "label": "Rana"}, {"id": "serpente", "x": 0.72, "y": 0.30, "label": "Serpente"}, {"id": "aquila", "x": 0.90, "y": 0.14, "label": "Aquila"}],
+			"connections": [["erba", "cavalletta"], ["cavalletta", "rana"], ["rana", "serpente"], ["serpente", "aquila"]],
+			"explanation": "L'erba è il produttore: crea energia con la fotosintesi e tutti gli altri dipendono da lei."},
+		{"topic": "catena", "minLevel": 5, "answer": "aquila",
+			"prompt": "In questa catena alimentare, quale organismo è il predatore al vertice, che nessuno mangia?",
+			"components": [{"id": "erba", "x": 0.12, "y": 0.82, "label": "Erba"}, {"id": "cavalletta", "x": 0.32, "y": 0.62, "label": "Cavalletta"}, {"id": "rana", "x": 0.52, "y": 0.44, "label": "Rana"}, {"id": "serpente", "x": 0.72, "y": 0.30, "label": "Serpente"}, {"id": "aquila", "x": 0.90, "y": 0.14, "label": "Aquila"}],
+			"connections": [["erba", "cavalletta"], ["cavalletta", "rana"], ["rana", "serpente"], ["serpente", "aquila"]],
+			"explanation": "L'aquila è il predatore all'apice: in questa catena nessuno la caccia."},
 	],
 }
 
@@ -535,6 +575,22 @@ const CODE_DEBUG := {
 			"prompt": "Corrente con V = 10 V e R = 2 Ω: quale riga sbaglia?",
 			"codeLines": ["V = 10 V, R = 2 Ω", "I = V × R", "I = 20 A", "# come si calcola la corrente?"],
 			"explanation": "Riga 2: la legge di Ohm è I = V / R (10 / 2 = 5 A), non V × R (che darebbe 20)."},
+	],
+	# SCIENZE — "Caccia all'errore": fra tre affermazioni una è falsa. Colpisce le
+	# misconcezioni classiche (la Luna, le branchie, il vapore).
+	"scienze": [
+		{"topic": "astronomia", "minLevel": 3, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Il Sole è una stella.", "La Terra gira intorno al Sole.", "La Luna produce luce propria.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: la Luna non produce luce, riflette quella del Sole."},
+		{"topic": "corpo", "minLevel": 4, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Le piante fanno la fotosintesi.", "Gli animali respirano ossigeno.", "I pesci respirano con i polmoni.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: i pesci respirano con le branchie, non con i polmoni."},
+		{"topic": "materia", "minLevel": 5, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["L'acqua bolle a 100 °C.", "Il ghiaccio è acqua allo stato solido.", "Il vapore è più freddo dell'acqua.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: il vapore è più caldo, si forma quando l'acqua bolle a 100 °C."},
 	],
 }
 

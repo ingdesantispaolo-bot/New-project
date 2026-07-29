@@ -84,6 +84,11 @@ const MATCHING := {
 	"fisica": [
 		{"topic": "misure", "pairs": [["Lunghezza", "Metro"], ["Massa", "Chilogrammo"], ["Tempo", "Secondo"], ["Temperatura", "Grado"]]},
 		{"topic": "energia", "pairs": [["Palla in alto", "Energia potenziale"], ["Palla che cade", "Energia cinetica"], ["Cibo", "Energia chimica"], ["Lampadina accesa", "Energia luminosa"]]},
+		{"topic": "strumenti", "minLevel": 3, "pairs": [["Righello", "lunghezza"], ["Bilancia", "massa"], ["Cronometro", "tempo"], ["Termometro", "temperatura"]]},
+		{"topic": "forze", "minLevel": 4, "pairs": [["Attrito", "Rallenta il moto"], ["Gravità", "Attira verso il basso"], ["Spinta", "Mette in moto"], ["Magnetismo", "Attira il ferro"]]},
+		# Scuola media — macchine semplici e formule.
+		{"topic": "macchine", "minLevel": 6, "pairs": [["Leva", "Solleva con meno forza"], ["Carrucola", "Cambia direzione alla forza"], ["Piano inclinato", "Riduce lo sforzo in salita"], ["Ruota", "Riduce l'attrito"]]},
+		{"topic": "formule", "minLevel": 7, "pairs": [["Velocità", "spazio / tempo"], ["Densità", "massa / volume"], ["Forza peso", "massa × gravità"]]},
 	],
 	"matematica": [
 		{"topic": "tabelline", "pairs": [["3 × 4", "12"], ["6 × 7", "42"], ["8 × 5", "40"], ["9 × 3", "27"]]},
@@ -147,6 +152,8 @@ const ORDERING := {
 	],
 	"fisica": [
 		{"topic": "moto", "prompt": "Ordina per velocità crescente", "correctOrder": ["Lumaca", "Persona a piedi", "Bicicletta", "Automobile"]},
+		{"topic": "misure", "minLevel": 3, "prompt": "Ordina gli oggetti per massa crescente.", "correctOrder": ["Piuma", "Mela", "Gatto", "Automobile"]},
+		{"topic": "materia", "minLevel": 5, "prompt": "Ordina gli stati per energia delle particelle, dal minore al maggiore.", "correctOrder": ["Solido", "Liquido", "Gassoso"]},
 	],
 	"elettronica": [
 		{"topic": "misure-elettriche", "prompt": "Ordina le tensioni dalla più piccola", "correctOrder": ["1 V", "5 V", "12 V", "220 V"]},
@@ -277,6 +284,13 @@ const CLASSIFICATION := {
 		{"topic": "materia", "prompt": "Smista ogni materiale nel suo stato.",
 			"categories": ["solido", "liquido", "gassoso"],
 			"assignments": {"Ghiaccio": "solido", "Ferro": "solido", "Acqua": "liquido", "Latte": "liquido", "Vapore": "gassoso", "Aria": "gassoso"}},
+		# Scuola media — forze di contatto o a distanza, e la luce nei materiali.
+		{"topic": "forze", "minLevel": 5, "prompt": "Smista ogni forza: agisce per contatto o a distanza?",
+			"categories": ["contatto", "a distanza"],
+			"assignments": {"Attrito": "contatto", "Spinta": "contatto", "Tensione della fune": "contatto", "Gravità": "a distanza", "Magnetismo": "a distanza"}},
+		{"topic": "luce", "minLevel": 6, "prompt": "Smista ogni materiale per come lascia passare la luce.",
+			"categories": ["trasparente", "opaco", "translucido"],
+			"assignments": {"Vetro": "trasparente", "Aria": "trasparente", "Muro": "opaco", "Legno": "opaco", "Carta velina": "translucido", "Vetro smerigliato": "translucido"}},
 	],
 	"musica": [
 		{"topic": "strumenti", "prompt": "Smista ogni strumento nella sua famiglia.",
@@ -346,6 +360,14 @@ const GRAPH := {
 			"prompt": "Il grafico mostra la velocità nel tempo: in quale punto è massima?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.50, "label": "D"}],
 			"explanation": "La velocità è massima dove la curva è più in alto: il punto C."},
+		{"topic": "moto", "minLevel": 4, "xLabel": "tempo", "yLabel": "distanza", "answer": "D",
+			"prompt": "Il grafico mostra la distanza percorsa nel tempo: in quale punto l'oggetto è più lontano dalla partenza?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.66, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.95, "label": "D"}],
+			"explanation": "La distanza cresce sempre: l'oggetto è più lontano alla fine, nel punto D."},
+		{"topic": "caduta", "minLevel": 6, "xLabel": "tempo", "yLabel": "velocità", "answer": "D",
+			"prompt": "Un sasso cade e accelera per gravità: in quale punto va più veloce?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.08, "label": "A"}, {"id": "B", "x": 0.40, "y": 0.28, "label": "B"}, {"id": "C", "x": 0.68, "y": 0.58, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.95, "label": "D"}],
+			"explanation": "Cadendo la velocità cresce sempre di più: è massima alla fine, nel punto D."},
 	],
 	"matematica": [
 		{"topic": "coordinate", "xLabel": "x", "yLabel": "y", "answer": "Q",
@@ -448,6 +470,20 @@ const CIRCUIT := {
 			"components": [{"id": "erba", "x": 0.12, "y": 0.82, "label": "Erba"}, {"id": "cavalletta", "x": 0.32, "y": 0.62, "label": "Cavalletta"}, {"id": "rana", "x": 0.52, "y": 0.44, "label": "Rana"}, {"id": "serpente", "x": 0.72, "y": 0.30, "label": "Serpente"}, {"id": "aquila", "x": 0.90, "y": 0.14, "label": "Aquila"}],
 			"connections": [["erba", "cavalletta"], ["cavalletta", "rana"], ["rana", "serpente"], ["serpente", "aquila"]],
 			"explanation": "L'aquila è il predatore all'apice: in questa catena nessuno la caccia."},
+	],
+	# FISICA — il renderer nodi+collegamenti diventa la CATENA DI TRASFORMAZIONI
+	# dell'energia: si segue come l'energia cambia forma e si sceglie quella giusta.
+	"fisica": [
+		{"topic": "energia", "minLevel": 5, "answer": "potenziale",
+			"prompt": "Una pallina viene sollevata, cade e rimbalza. Quando è ferma in alto, prima di cadere, che energia possiede?",
+			"components": [{"id": "potenziale", "x": 0.18, "y": 0.18, "label": "Ferma in alto"}, {"id": "cinetica", "x": 0.50, "y": 0.72, "label": "Sta cadendo"}, {"id": "elastica", "x": 0.82, "y": 0.88, "label": "Tocca il suolo"}, {"id": "risalita", "x": 0.86, "y": 0.34, "label": "Risale"}],
+			"connections": [["potenziale", "cinetica"], ["cinetica", "elastica"], ["elastica", "risalita"]],
+			"explanation": "Ferma in alto la pallina ha energia potenziale (di posizione); cadendo diventa cinetica."},
+		{"topic": "energia", "minLevel": 6, "answer": "cinetica",
+			"prompt": "Segui la trasformazione dell'energia della pallina: in quale fase l'energia è tutta cinetica (di movimento)?",
+			"components": [{"id": "potenziale", "x": 0.18, "y": 0.18, "label": "Ferma in alto"}, {"id": "cinetica", "x": 0.50, "y": 0.72, "label": "Sta cadendo"}, {"id": "elastica", "x": 0.82, "y": 0.88, "label": "Tocca il suolo"}, {"id": "risalita", "x": 0.86, "y": 0.34, "label": "Risale"}],
+			"connections": [["potenziale", "cinetica"], ["cinetica", "elastica"], ["elastica", "risalita"]],
+			"explanation": "Mentre cade, l'energia potenziale si è trasformata tutta in cinetica: è il momento più veloce."},
 	],
 }
 
@@ -591,6 +627,22 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["L'acqua bolle a 100 °C.", "Il ghiaccio è acqua allo stato solido.", "Il vapore è più freddo dell'acqua.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il vapore è più caldo, si forma quando l'acqua bolle a 100 °C."},
+	],
+	# FISICA — "Caccia all'errore": affermazione falsa o calcolo sbagliato. Colpisce
+	# le misconcezioni classiche (Galileo, la formula della velocità, l'energia).
+	"fisica": [
+		{"topic": "gravita", "minLevel": 4, "answerLine": 1,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["Gli oggetti pesanti cadono più veloci di quelli leggeri.", "La gravità attira gli oggetti verso il basso.", "L'attrito dell'aria rallenta la caduta.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 1: senza aria tutti gli oggetti cadono insieme, come mostrò Galileo (piuma e martello sulla Luna cadono uguale)."},
+		{"topic": "moto", "minLevel": 5, "answerLine": 2,
+			"prompt": "Velocità di un'auto che fa 100 km in 2 ore: quale riga sbaglia?",
+			"codeLines": ["Spazio = 100 km, tempo = 2 h", "velocità = spazio × tempo", "= 200 km/h", "# come si calcola la velocità?"],
+			"explanation": "Riga 2: la velocità è spazio / tempo (100 / 2 = 50 km/h), non spazio × tempo."},
+		{"topic": "energia", "minLevel": 6, "answerLine": 3,
+			"prompt": "Una sola affermazione è falsa. Quale riga?",
+			"codeLines": ["La palla in alto ha energia potenziale.", "Cadendo si trasforma in energia cinetica.", "Toccando terra l'energia sparisce nel nulla.", "# quale affermazione è falsa?"],
+			"explanation": "Riga 3: l'energia non sparisce, si trasforma (in calore, suono, deformazione): è la conservazione dell'energia."},
 	],
 }
 

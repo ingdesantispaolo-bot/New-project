@@ -1,0 +1,57 @@
+# Eli Quest — Baseline release candidate
+
+Rilevazione tecnica del 29 luglio 2026. Questo documento conserva le misure;
+il lavoro ancora aperto resta in `insieme.md`.
+
+## Ambiente
+
+- Godot `4.7.1.stable`
+- eseguibile locale:
+  `C:\Users\39351\Godot\Godot_v4.7.1-stable_win64.exe\Godot_v4.7.1-stable_win64_console.exe`
+- preset: `Web`, release
+
+## Verifiche automatiche
+
+- 66 audit Godot su 66 verdi, eseguiti con save locali isolati;
+- round-trip missione → nave → esame → mondo successivo verde;
+- touch essenziale, contrasto elevato e riduzione movimento coperti da audit;
+- streaming a raggio Web/tablet: massimo 9 chunk nei mondi campione.
+
+Campione headless con mondi 1, 7, 13, 19 e 24:
+
+| Mondo | Avvio | Nodi | Chunk |
+| --- | ---: | ---: | ---: |
+| 1 | 256 ms | 3.322 | 9 |
+| 7 | 171 ms | 2.147 | 9 |
+| 13 | 210 ms | 2.403 | 9 |
+| 19 | 189 ms | 2.292 | 9 |
+| 24 | 114 ms | 1.600 | 9 |
+
+Queste misure intercettano regressioni strutturali, ma non sostituiscono FPS,
+memoria e draw call misurati in un browser e su tablet reale.
+
+## Export Web
+
+Le 44 grandi tavole pittoriche dei mondi usano import texture lossy a qualità
+`0.85`; i sorgenti PNG restano invariati.
+
+| File | Dimensione |
+| --- | ---: |
+| `index.pck` | 29,62 MiB |
+| `index.wasm` | 37,68 MiB |
+| export completo | 67,62 MiB |
+
+Prima della compressione l’export misurava 132,17 MiB e il PCK 94,17 MiB.
+La riduzione del download totale è 64,55 MiB, circa il 48,8%.
+
+Comando di export:
+
+```powershell
+$env:APPDATA='D:\AppElis\New-project\.tmp\godot-appdata'
+$env:LOCALAPPDATA='D:\AppElis\New-project\.tmp\godot-localappdata'
+& 'C:\Users\39351\Godot\Godot_v4.7.1-stable_win64.exe\Godot_v4.7.1-stable_win64_console.exe' `
+  --headless --path godot --export-release Web '..\.tmp\web-cp6\index.html'
+```
+
+L’export è tecnicamente riproducibile; smoke browser, controllo percettivo delle
+texture e profiling su tablet restano criteri aperti in `insieme.md`.

@@ -36,6 +36,14 @@ func _run() -> void:
 		if not treasure.is_empty():
 			break
 	assert(not treasure.is_empty(), "almeno un tesoro deve sopravvivere ai vincoli del WorldProfile")
+	# C-P6 #6: alcuni tesori sono deviazioni strumentali. Il roundtrip verifica
+	# la raccolta, quindi prepara esplicitamente il relativo loadout di fixture
+	# senza alterare economia o progressione della partita.
+	var required_tool := str(treasure.get("requiredTool", ""))
+	if required_tool != "":
+		scene.get("gameplay").reward_manager.unlock_and_equip(required_tool)
+		scene.get("gameplay").call("_emit_state")
+		await process_frame
 	var treasure_area := _find_area(scene, "treasure", str(treasure["id"]))
 	assert(treasure_area != null)
 	player.position = Vector2(treasure["x"], treasure["y"])

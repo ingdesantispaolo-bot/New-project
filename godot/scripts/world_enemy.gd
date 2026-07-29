@@ -13,6 +13,7 @@ var enemy_name := "Sentinella"
 var phase := 0.0
 var stunned_until_msec := 0
 var contact_ready_msec := 0
+var reduced_motion := false
 var body_shape: CollisionShape2D
 var contact_area: Area2D
 
@@ -126,6 +127,10 @@ func stun(seconds: float = 5.0) -> void:
 	velocity = Vector2.ZERO
 	body_shape.set_deferred("disabled", true)
 	(contact_area.get_child(0) as CollisionShape2D).set_deferred("disabled", true)
+	if reduced_motion:
+		modulate.a = 0.22
+		scale = Vector2.ONE * 0.72
+		return
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(self, "modulate:a", 0.22, 0.18)

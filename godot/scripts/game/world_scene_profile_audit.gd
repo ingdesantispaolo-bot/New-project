@@ -161,6 +161,12 @@ func _run() -> void:
 	# Viaggio reale dalla mappa della nave: il save lasciato dal mondo 2 ha
 	# entrambi i mondi sbloccati; scegliendo il mondo 1 devono tornare profilo,
 	# stato e posizione propri di quella destinazione.
+	# Le due scene sopra usano fixture non persistenti: materializziamo qui lo
+	# stesso stato nel save locale dell'audit, invece di dipendere da esecuzioni
+	# precedenti o parallele.
+	var travel_save := GameSaveManager.new()
+	travel_save.data = Dictionary(_request_for(2)["initialSave"]).duplicate(true)
+	travel_save.save()
 	var hub := (load("res://scenes/hub.tscn") as PackedScene).instantiate()
 	root.add_child(hub)
 	current_scene = hub

@@ -23,7 +23,10 @@ func _init() -> void:
 
 	assert(shop.visible, "la bottega non si apre")
 	assert(shop.size.x > 0.0 and shop.size.y > 0.0, "pannello non dimensionato rispetto all'host HUD")
-	assert((shop.get("_atlas_regions") as Dictionary).size() == RewardCatalog.CATALOG.size(), "atlante ricompense incompleto")
+	for cosmetic in RewardCatalog.CATALOG:
+		var item_id := str(cosmetic.get("id", ""))
+		assert(shop.call("_item_texture", item_id) != null,
+			"illustrazione ricompensa assente: %s" % item_id)
 	assert(get_nodes_in_group("shop_item_card").size() == RewardCatalog.by_slot("bot").size(), "catalogo Bit incompleto")
 	assert(get_nodes_in_group("shop_item_thumbnail").size() == RewardCatalog.by_slot("bot").size(), "illustrazioni Bit incomplete")
 	var preview := shop.find_child("ShopDetailPreview", true, false) as TextureRect

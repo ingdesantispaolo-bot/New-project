@@ -7,6 +7,7 @@ var touch_target := Vector2.INF
 ## Contenitore visivo animato (assegnato da outdoor_world alla creazione):
 ## bob e inclinazione durante la camminata, flip orizzontale sulla direzione.
 var visual: Node2D
+var reduced_motion := false
 var _walk_time := 0.0
 var _action_until_msec := 0
 
@@ -42,7 +43,11 @@ func _animate(delta: float) -> void:
 		direction_row = 3 if velocity.x > 0.0 else 2
 	elif velocity.y < -8.0:
 		direction_row = 1
-	if velocity.length() > 8.0:
+	if reduced_motion:
+		_walk_time = 0.0
+		visual.position.y = 0.0
+		visual.rotation = 0.0
+	elif velocity.length() > 8.0:
 		_walk_time += delta * 9.5
 		visual.position.y = -absf(sin(_walk_time * 0.5)) * 1.5
 		visual.rotation = sin(_walk_time) * 0.025
@@ -52,5 +57,6 @@ func _animate(delta: float) -> void:
 		visual.rotation = lerpf(visual.rotation, 0.0, minf(10.0 * delta, 1.0))
 	visual.scale.x = absf(visual.scale.x)
 	if sprite != null and sprite.texture is AtlasTexture:
-		var frame := 4 if Time.get_ticks_msec() < _action_until_msec else (1 + posmod(floori(_walk_time), 4) if velocity.length() > 8.0 else 0)
+		var walk_frame := 1 if reduced_motion else 1 + posmod(floori(_walk_time), 4)
+		var frame := 4 if Time.get_ticks_msec() < _action_until_msec else (walk_frame if velocity.length() > 8.0 else 0)
 		(sprite.texture as AtlasTexture).region = Rect2(frame * 96, direction_row * 96, 96, 96)

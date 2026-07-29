@@ -15,6 +15,7 @@ const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
 const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
 const EQUIPMENT_GATE_SCRIPT := preload("res://scripts/visual/equipment_gate.gd")
+const WORLD_ENEMY_SCRIPT := preload("res://scripts/world_enemy.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -51,6 +52,7 @@ var world_title_label: Label
 var ship_navigation_label: Label
 var guide_button: Button
 var interaction_button: Button
+var pulse_button: Button
 var portal: Node2D
 var camera: Camera2D
 var fireflies: CPUParticles2D
@@ -90,11 +92,17 @@ var profile_hero_landmark: Node2D
 var profile_environment_reaction: WorldLearningReaction
 var last_traversable_position := Vector2.ZERO
 var water_block_feedback_msec := 0
+var pulse_ready_msec := 0
+var high_contrast := false
+var reduced_motion := false
 
 func _ready() -> void:
 	if OS.has_feature("web"):
 		JavaScriptBridge.eval("document.documentElement.dataset.eliScene = 'world';")
 	request = launch_request_override.duplicate(true) if not launch_request_override.is_empty() else NativeWorldState.default_request()
+	var accessibility: Dictionary = request.get("accessibility", {})
+	high_contrast = bool(accessibility.get("highContrast", false))
+	reduced_motion = bool(accessibility.get("reducedMotion", false))
 	result = NativeWorldState.result_for(request)
 	gameplay = OutdoorGameplay.new()
 	gameplay.name = "OutdoorGameplay"
@@ -135,6 +143,7 @@ func _ready() -> void:
 	_create_portal()
 	_create_profile_landmark()
 	_create_profile_events()
+	_create_world_enemies()
 	_sync_profile_environment_transform(false)
 	_create_profile_weather()
 	_create_atmosphere()
@@ -397,7 +406,12 @@ func _on_gameplay_session_requested(session: Dictionary) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(false)
 	exercise_player.visible = true
-	exercise_player.start_session(session)
+	var accessible_session := session.duplicate(true)
+	accessible_session["accessibility"] = {
+		"highContrast": high_contrast,
+		"reducedMotion": reduced_motion,
+	}
+	exercise_player.start_session(accessible_session)
 
 func _process(delta: float) -> void:
 	day_clock = fmod(day_clock + delta, DAY_LENGTH)
@@ -426,7 +440,7 @@ func _process(delta: float) -> void:
 			audio.call("configure_world_soundscape", str(world_profile.get("soundscape", "")))
 	if is_instance_valid(atmosphere_material):
 		atmosphere_material.set_shader_parameter("daylight", daylight)
-		atmosphere_material.set_shader_parameter("clock", day_clock / DAY_LENGTH)
+		atmosphere_material.set_shader_parameter("clock", 0.0 if reduced_motion else day_clock / DAY_LENGTH)
 	_update_night_glow(daylight)
 	if is_instance_valid(player):
 		_enforce_water_traversal()
@@ -434,13 +448,14 @@ func _process(delta: float) -> void:
 		if is_instance_valid(camera):
 			camera.position = player.position
 		if is_instance_valid(fireflies):
-			fireflies.emitting = daylight < 0.45
+			fireflies.emitting = not reduced_motion and daylight < 0.45
 		if is_instance_valid(world_weather_particles):
 			world_weather_particles.position = player.position
 		_update_biome_hud()
 		_update_ship_navigation()
 		_update_pending_touch_interaction()
 		_update_interaction_countdown()
+		_update_pulse_button()
 
 func _enforce_water_traversal() -> void:
 	if not is_instance_valid(player) or chunks == null or chunks.composition == null:
@@ -567,6 +582,7 @@ func _create_player() -> void:
 	player_presentation.name = "PlayerPresentation"
 	player.add_child(player_presentation)
 	player.visual = player_presentation.get_node("Visual")
+	player.reduced_motion = reduced_motion
 	_apply_accessory(player.visual, visual_data)
 	_apply_emblem(player.visual, visual_data)
 	_add_player_night_light()
@@ -576,13 +592,14 @@ func _create_player() -> void:
 	fireflies.scale_amount_min = 0.04
 	fireflies.scale_amount_max = 0.08
 	fireflies.add_to_group("night_glow")
+	fireflies.emitting = not reduced_motion
 	player.add_child(fireflies)
 	world_layer.add_child(player)
 	_spawn_pet(visual_data)
 	camera = Camera2D.new()
 	camera.name = "Camera2D"
 	camera.position = player.position
-	camera.position_smoothing_enabled = true
+	camera.position_smoothing_enabled = not reduced_motion
 	camera.position_smoothing_speed = 6.0
 	add_child(camera)
 	applied_cosmetic_signature = _cosmetic_signature()
@@ -1034,7 +1051,7 @@ func _sync_profile_environment_transform(animate: bool) -> void:
 	if art == null:
 		return
 	var target := Color(0.76, 0.82, 0.91, 0.86).lerp(Color.WHITE, ratio)
-	if animate:
+	if animate and not reduced_motion:
 		var tween := create_tween()
 		tween.tween_property(art, "modulate", target, 0.48).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	else:
@@ -1145,6 +1162,112 @@ func _event_label(event: Dictionary) -> String:
 			return "evento di pratica · %s" % subject
 	return "tappa di missione · %s" % subject
 
+func _create_world_enemies() -> void:
+	if mission_events.is_empty() or chunks == null or chunks.composition == null:
+		return
+	var count := clampi(1 + floori(float(world_level - 1) / 6.0), 1, 4)
+	var subject := _world_subject()
+	for index in range(count):
+		var event: Dictionary = mission_events[(index * 2 + 1) % mission_events.size()]
+		var base: Vector2 = event.get("position", world_profile.get("spawn", Vector2.ZERO))
+		var angle := float(posmod(hash("%s:enemy:%d" % [world_seed, index]), 6283)) / 1000.0
+		var enemy_position := base + Vector2.RIGHT.rotated(angle) * (170.0 + index * 24.0)
+		for attempt in range(8):
+			if (
+				not chunks.composition.is_protected(enemy_position, 58.0)
+				and chunks.composition.raw_water_weight(enemy_position) < 0.35
+			):
+				break
+			angle += PI * 0.5
+			enemy_position = base + Vector2.RIGHT.rotated(angle) * (170.0 + index * 24.0)
+		enemy_position = chunks.clamp_to_world(enemy_position)
+		var enemy := WORLD_ENEMY_SCRIPT.new()
+		enemy.name = "WorldEnemy_%02d" % index
+		var accent := chunks.composition.blended_accent(enemy_position)
+		enemy.setup(self, enemy_position, world_level, subject, accent, index)
+		enemy.reduced_motion = reduced_motion
+		world_layer.add_child(enemy)
+
+func enemy_gameplay_active() -> bool:
+	return (
+		is_instance_valid(player)
+		and player.is_physics_processing()
+		and not (is_instance_valid(exercise_player) and exercise_player.visible)
+		and not (is_instance_valid(shop_panel) and shop_panel.visible)
+		and not (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible)
+	)
+
+func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
+	if body != player or not enemy_gameplay_active():
+		return
+	var away := enemy.global_position.direction_to(player.global_position)
+	if away.length_squared() < 0.01:
+		away = Vector2.DOWN
+	var target := chunks.clamp_to_world(player.global_position + away * 104.0)
+	if _water_blocks_position(target):
+		target = last_traversable_position
+	player.global_position = target
+	player.velocity = Vector2.ZERO
+	player.touch_target = Vector2.INF
+	last_traversable_position = target
+	_set_feedback("%s blocca il percorso · usa IMPULSO per stabilizzarlo." % str(enemy.get("enemy_name")))
+	if is_instance_valid(player_presentation):
+		if reduced_motion:
+			player_presentation.modulate = Color.WHITE
+			return
+		var tween := create_tween()
+		tween.tween_property(player_presentation, "modulate", Color(1.0, 0.46, 0.42), 0.08)
+		tween.tween_property(player_presentation, "modulate", Color.WHITE, 0.22)
+
+func _combat_pulse() -> void:
+	if not enemy_gameplay_active():
+		return
+	var now := Time.get_ticks_msec()
+	if now < pulse_ready_msec:
+		return
+	pulse_ready_msec = now + 1250
+	player.play_pulse_action()
+	_spawn_combat_pulse_visual()
+	var hits := 0
+	for enemy in get_tree().get_nodes_in_group("world_enemy"):
+		if enemy is Node2D and player.global_position.distance_to(enemy.global_position) <= 168.0:
+			enemy.call("stun", 5.5)
+			hits += 1
+	_set_feedback(
+		"Impulso stabilizzante · varco libero per alcuni secondi."
+		if hits > 0
+		else "Impulso emesso · nessuna anomalia nel raggio."
+	)
+	_update_pulse_button()
+
+func _spawn_combat_pulse_visual() -> void:
+	var pulse := Node2D.new()
+	pulse.name = "EliCombatPulse"
+	pulse.position = player.global_position
+	pulse.z_index = 80
+	var ring := OutdoorVisualFactory.make_ring(24.0, Color("6be7d6"), 5.0, 36)
+	pulse.add_child(ring)
+	world_layer.add_child(pulse)
+	if reduced_motion:
+		pulse.scale = Vector2.ONE * 1.35
+		pulse.modulate.a = 0.72
+		await get_tree().create_timer(0.12).timeout
+		pulse.queue_free()
+		return
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(pulse, "scale", Vector2.ONE * 6.8, 0.34).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(pulse, "modulate:a", 0.0, 0.34)
+	tween.set_parallel(false)
+	tween.tween_callback(pulse.queue_free)
+
+func _update_pulse_button() -> void:
+	if not is_instance_valid(pulse_button):
+		return
+	var remaining := maxi(0, pulse_ready_msec - Time.get_ticks_msec())
+	pulse_button.disabled = remaining > 0 or not enemy_gameplay_active()
+	pulse_button.text = "IMPULSO\n%.1f s" % (float(remaining) / 1000.0) if remaining > 0 else "IMPULSO\n◉"
+
 func _event_visual_kind(subject: String) -> String:
 	if subject in ["matematica", "fisica"]:
 		return "times"
@@ -1186,6 +1309,7 @@ func _create_profile_weather() -> void:
 		return
 	world_weather_particles = CPUParticles2D.new()
 	world_weather_particles.name = "WorldProfileWeather"
+	world_weather_particles.emitting = not reduced_motion
 	world_weather_particles.position = world_profile.get("spawn", PORTAL_POSITION)
 	world_weather_particles.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
 	world_weather_particles.emission_rect_extents = Vector2(680, 430)
@@ -1325,6 +1449,7 @@ func _create_exercise_player() -> void:
 	exercise_player = EXERCISE_PLAYER_SCRIPT.new()
 	exercise_player.name = "ExercisePlayer"
 	exercise_player.visible = false
+	exercise_player.configure_accessibility(high_contrast, reduced_motion)
 	exercise_player.session_finished.connect(_on_exercise_finished)
 	exercise_player.concept_help_requested.connect(_open_contextual_codex)
 	exercise_player.learning_signal.connect(_on_nora_learning_signal)
@@ -1342,8 +1467,8 @@ func _panel_style() -> StyleBoxFlat:
 	style.bg_color = Color(0.02, 0.09, 0.12, 0.72)
 	style.set_corner_radius_all(10)
 	style.set_content_margin_all(12)
-	style.set_border_width_all(1)
-	style.border_color = Color(0.42, 0.9, 0.84, 0.25)
+	style.set_border_width_all(3 if high_contrast else 1)
+	style.border_color = Color.WHITE if high_contrast else Color(0.42, 0.9, 0.84, 0.25)
 	return style
 
 func _touch_action_style(background: Color, border: Color) -> StyleBoxFlat:
@@ -1351,7 +1476,7 @@ func _touch_action_style(background: Color, border: Color) -> StyleBoxFlat:
 	style.bg_color = background
 	style.set_corner_radius_all(16)
 	style.set_content_margin_all(14)
-	style.set_border_width_all(2)
+	style.set_border_width_all(4 if high_contrast else 2)
 	style.border_color = border
 	style.shadow_color = Color(0.0, 0.02, 0.03, 0.62)
 	style.shadow_size = 8
@@ -1424,7 +1549,7 @@ void fragment() {
 	info.add_child(ship_navigation_label)
 	_update_ship_navigation()
 	var hint := Label.new()
-	hint.text = "TOCCA UN POI o INTERAGISCI  ·  Movimento: joystick / WASD  ·  Scatto: pulsante / SHIFT"
+	hint.text = "TOCCA UN POI  ·  Movimento: joystick / WASD  ·  Impulso: pulsante / F"
 	hint.add_theme_color_override("font_color", Color("9fc4bb"))
 	hint.add_theme_font_size_override("font_size", 12)
 	info.add_child(hint)
@@ -1459,6 +1584,25 @@ void fragment() {
 	interaction_button.add_theme_stylebox_override("pressed", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
 	interaction_button.pressed.connect(_interact)
 	root.add_child(interaction_button)
+	pulse_button = Button.new()
+	pulse_button.name = "CombatPulseButton"
+	pulse_button.text = "IMPULSO\n◉"
+	pulse_button.anchor_left = 1.0
+	pulse_button.anchor_right = 1.0
+	pulse_button.anchor_top = 1.0
+	pulse_button.anchor_bottom = 1.0
+	pulse_button.offset_left = -112.0
+	pulse_button.offset_right = -28.0
+	pulse_button.offset_top = -196.0
+	pulse_button.offset_bottom = -112.0
+	pulse_button.custom_minimum_size = Vector2(84, 84)
+	pulse_button.tooltip_text = "Stabilizza temporaneamente le anomalie vicine · tasto F"
+	pulse_button.add_theme_font_size_override("font_size", 14)
+	pulse_button.add_theme_color_override("font_color", Color("06272a"))
+	pulse_button.add_theme_stylebox_override("normal", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
+	pulse_button.add_theme_stylebox_override("pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
+	pulse_button.pressed.connect(_combat_pulse)
+	root.add_child(pulse_button)
 	var shop_button := Button.new()
 	shop_button.name = "OpenShopButton"
 	shop_button.text = "BOTTEGA"
@@ -1658,6 +1802,9 @@ func _spawn_gain_popup(text: String, color: Color) -> void:
 	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
 	label.z_index = 70
 	label.position = player.position + Vector2(-24, -50)
+	if reduced_motion:
+		_release_gain_popup(label)
+		return
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(label, "position:y", label.position.y - 44.0, 0.9)
@@ -1700,6 +1847,9 @@ func _input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("interact") and not event.is_echo():
 		_interact()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("combat_pulse") and not event.is_echo():
+		_combat_pulse()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("leave_portal") and not event.is_echo():
 		_guide_to_ship()
@@ -2054,6 +2204,9 @@ func _retire_completed_event(area: Area2D) -> void:
 	for child_name in ["EventMarker", "EventCaption"]:
 		var visual := area.get_node_or_null(child_name) as CanvasItem
 		if visual == null:
+			continue
+		if reduced_motion:
+			visual.queue_free()
 			continue
 		var tween := create_tween().set_parallel(true)
 		tween.tween_property(visual, "modulate:a", 0.0, 0.30)

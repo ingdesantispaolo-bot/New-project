@@ -77,5 +77,6 @@ func _new_gameplay(energy: int, level: int) -> OutdoorGameplay:
 		"schemaVersion": 1, "energyEarned": 0, "energySpent": 0, "fragmentsEarned": 0,
 		"completedEncounterIds": [], "collectedTreasureIds": [],
 	}
-	gameplay.setup(request, result)
+	# Fixture isolata: non deve dipendere dal save lasciato da altri audit.
+	gameplay.setup(request, result, false)
 	return gameplay

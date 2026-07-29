@@ -16,6 +16,10 @@ static func default_request(seed: String = "outdoor-dev-1") -> Dictionary:
 			"accessory": null,
 			"pet": {"id": "pet-spark", "kind": "spark", "color": 0xf6c85f},
 		},
+		"accessibility": {
+			"highContrast": false,
+			"reducedMotion": false,
+		},
 		"outdoorState": {
 			"completedEncounterIds": [],
 			"collectedTreasureIds": [],

@@ -102,6 +102,8 @@ const MATCHING := {
 	],
 	"logica": [
 		{"topic": "analogie", "pairs": [["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acqua"], ["Cavallo", "Stalla"]]},
+		{"topic": "analogie", "minLevel": 3, "pairs": [["Penna", "Scrivere"], ["Forbici", "Tagliare"], ["Martello", "Battere"], ["Chiave", "Aprire"]]},
+		{"topic": "categorie", "minLevel": 4, "pairs": [["Rosa", "Fiore"], ["Cane", "Animale"], ["Mela", "Frutto"], ["Tavolo", "Mobile"]]},
 	],
 }
 
@@ -343,6 +345,13 @@ const CLASSIFICATION := {
 		{"topic": "esclusioni", "prompt": "Smista ogni elemento nel suo insieme.",
 			"categories": ["animale", "pianta"],
 			"assignments": {"Cane": "animale", "Aquila": "animale", "Gatto": "animale", "Rosa": "pianta", "Quercia": "pianta", "Tulipano": "pianta"}},
+		{"topic": "verita", "minLevel": 4, "prompt": "Ogni affermazione: è vera o falsa?",
+			"categories": ["vera", "falsa"],
+			"assignments": {"Tutti i quadrati hanno 4 lati": "vera", "Alcuni uccelli volano": "vera", "Ogni numero pari è divisibile per 2": "vera", "Tutti i pesci volano": "falsa", "Un triangolo ha 4 lati": "falsa", "Nessun cane è un animale": "falsa"}},
+		# Scuola media — ragionamento sui quantificatori.
+		{"topic": "quantificatori", "minLevel": 6, "prompt": "Ogni cosa accade sempre, a volte o mai?",
+			"categories": ["sempre", "a volte", "mai"],
+			"assignments": {"Un triangolo ha 3 lati": "sempre", "Il ghiaccio è freddo": "sempre", "Piove": "a volte", "Un bambino dorme": "a volte", "Un cerchio ha spigoli": "mai", "2 è un numero dispari": "mai"}},
 	],
 }
 
@@ -415,6 +424,14 @@ const GRAPH := {
 			"points": [{"id": "A", "x": 0.08, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.52, "label": "B"}, {"id": "C", "x": 0.52, "y": 0.94, "label": "C"}, {"id": "D", "x": 0.75, "y": 0.46, "label": "D"}, {"id": "E", "x": 0.93, "y": 0.16, "label": "E"}],
 			"explanation": "Lo scioglimento è la discesa dopo il climax: il punto D, prima della situazione finale E."},
 	],
+	# LOGICA — riconoscimento di schemi: i punti salgono in linea, ma uno è fuori
+	# posto. Trovare l'intruso è ragionamento visivo puro.
+	"logica": [
+		{"topic": "schemi", "minLevel": 4, "xLabel": "posizione", "yLabel": "valore", "answer": "C",
+			"prompt": "Questi punti seguono uno schema che sale in linea, ma uno è fuori posto: quale rompe lo schema?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.35, "label": "B"}, {"id": "C", "x": 0.50, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.70, "y": 0.72, "label": "D"}, {"id": "E", "x": 0.90, "y": 0.92, "label": "E"}],
+			"explanation": "Gli altri salgono in modo regolare; il punto C schizza troppo in alto: è l'intruso fuori schema."},
+	],
 }
 
 # CIRCUITO (schema + collegamenti disegnati proceduralmente): scegli il componente
@@ -485,6 +502,15 @@ const CIRCUIT := {
 			"connections": [["potenziale", "cinetica"], ["cinetica", "elastica"], ["elastica", "risalita"]],
 			"explanation": "Mentre cade, l'energia potenziale si è trasformata tutta in cinetica: è il momento più veloce."},
 	],
+	# LOGICA — il renderer nodi+collegamenti diventa un ALBERO DELLE DECISIONI: si
+	# seguono le risposte sì/no fino alla conclusione giusta.
+	"logica": [
+		{"topic": "albero-decisioni", "minLevel": 5, "answer": "uccello",
+			"prompt": "Segui l'albero: un animale HA le ali. A quale conclusione arrivi?",
+			"components": [{"id": "ali", "x": 0.50, "y": 0.12, "label": "Ha le ali?"}, {"id": "uccello", "x": 0.22, "y": 0.52, "label": "Uccello"}, {"id": "pinne", "x": 0.72, "y": 0.44, "label": "Ha le pinne?"}, {"id": "pesce", "x": 0.55, "y": 0.86, "label": "Pesce"}, {"id": "mammifero", "x": 0.90, "y": 0.86, "label": "Mammifero"}],
+			"connections": [["ali", "uccello"], ["ali", "pinne"], ["pinne", "pesce"], ["pinne", "mammifero"]],
+			"explanation": "Ha le ali → sì → il ramo porta a 'Uccello'."},
+	],
 }
 
 # CODE-DEBUG (righe numerate selezionabili): trova la riga con l'errore. Testo puro.
@@ -520,6 +546,18 @@ const CODE_DEBUG := {
 			"prompt": "Segui la deduzione: quale passo è sbagliato?",
 			"codeLines": ["Tutti i gatti sono felini.", "Alcuni felini sono neri.", "Quindi tutti i gatti sono neri.", "# dove si rompe il ragionamento?"],
 			"explanation": "La riga 3 generalizza indebitamente: da 'alcuni felini neri' non segue 'tutti i gatti neri'."},
+		{"topic": "sequenze", "minLevel": 3, "answerLine": 3,
+			"prompt": "Segui la regola della sequenza: quale passo sbaglia?",
+			"codeLines": ["Sequenza: 2, 4, 6, 8, ...", "La regola aggiunge 2 ogni volta", "Il numero dopo l'8 è 9", "# controlla la regola"],
+			"explanation": "Riga 3: con +2, dopo l'8 viene 10, non 9."},
+		{"topic": "deduzioni", "minLevel": 5, "answerLine": 3,
+			"prompt": "Segui la catena dei confronti: quale conclusione sbaglia?",
+			"codeLines": ["Marco è più alto di Luca.", "Luca è più alto di Sara.", "Quindi Sara è più alta di Marco.", "# metti tutti in fila per altezza"],
+			"explanation": "Riga 3: se Marco > Luca > Sara, il più alto è Marco. Sara è la più bassa, non la più alta."},
+		{"topic": "deduzioni", "minLevel": 7, "answerLine": 3,
+			"prompt": "Segui il ragionamento: quale passo non è valido?",
+			"codeLines": ["Se piove, la strada è bagnata.", "La strada è bagnata.", "Quindi ha piovuto di sicuro.", "# la strada può bagnarsi in altri modi?"],
+			"explanation": "Riga 3: la strada può essere bagnata anche senza pioggia (un annaffiatoio). Non è certo che abbia piovuto."},
 	],
 	# ITALIANO — "Caccia all'errore": fra più frasi corrette, una nasconde uno
 	# sbaglio (ortografia, accordo, tempo verbale). Si clicca la riga sbagliata: la

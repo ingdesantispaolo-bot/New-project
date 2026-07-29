@@ -11,8 +11,8 @@
 			"format": "multiple_choice",
 			"prompt": "Chi studia il passato usando le tracce che ci ha lasciato?",
 			"options": [
-				"L'astronomo",
 				"Lo storico",
+				"L'astronomo",
 				"Il geologo",
 				"Il meteorologo"
 			],
@@ -28,9 +28,9 @@
 			"prompt": "Che cosa sono le fonti storiche?",
 			"options": [
 				"Le previsioni sul futuro lontano",
+				"Le tracce che ci parlano del passato",
 				"Le sorgenti d'acqua di montagna",
-				"Soltanto i libri stampati oggi",
-				"Le tracce che ci parlano del passato"
+				"Soltanto i libri stampati oggi"
 			],
 			"answer": "Le tracce che ci parlano del passato",
 			"explanation": "Documenti, oggetti, resti e racconti sono fonti: ci fanno conoscere il passato."
@@ -43,10 +43,10 @@
 			"format": "multiple_choice",
 			"prompt": "Una piramide egizia è un esempio di fonte…",
 			"options": [
+				"scritta",
 				"orale",
-				"immaginaria",
 				"materiale",
-				"scritta"
+				"immaginaria"
 			],
 			"answer": "materiale",
 			"explanation": "Le fonti materiali sono oggetti e costruzioni; quelle scritte sono i testi."
@@ -59,10 +59,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quanti anni dura un secolo?",
 			"options": [
+				"Mille",
 				"Cinquanta",
 				"Dieci",
-				"Cento",
-				"Mille"
+				"Cento"
 			],
 			"answer": "Cento",
 			"explanation": "Un secolo è un periodo di cento anni."
@@ -75,10 +75,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si indicano gli anni prima della nascita di Cristo?",
 			"options": [
-				"d.o.c.",
-				"km",
+				"a.C.",
 				"d.C.",
-				"a.C."
+				"km",
+				"d.o.c."
 			],
 			"answer": "a.C.",
 			"explanation": "a.C. significa 'avanti Cristo'; d.C. significa 'dopo Cristo'."
@@ -91,10 +91,10 @@
 			"format": "multiple_choice",
 			"prompt": "A quale secolo appartiene l'anno 1492?",
 			"options": [
-				"XIV secolo",
-				"XVI secolo",
+				"XIII secolo",
 				"XV secolo",
-				"XIII secolo"
+				"XVI secolo",
+				"XIV secolo"
 			],
 			"answer": "XV secolo",
 			"explanation": "Gli anni dal 1401 al 1500 formano il XV secolo (il '400)."
@@ -107,10 +107,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa distingue la Preistoria dalla Storia?",
 			"options": [
-				"L'assenza della scrittura",
 				"L'assenza del Sole",
-				"L'assenza del fuoco",
-				"L'assenza degli animali"
+				"L'assenza degli animali",
+				"L'assenza della scrittura",
+				"L'assenza del fuoco"
 			],
 			"answer": "L'assenza della scrittura",
 			"explanation": "La Storia inizia con l'invenzione della scrittura; prima c'è la Preistoria."
@@ -125,8 +125,8 @@
 			"options": [
 				"Agricoltura intensiva",
 				"Allevamento in stalla",
-				"Caccia e raccolta",
-				"Commercio con l'estero"
+				"Commercio con l'estero",
+				"Caccia e raccolta"
 			],
 			"answer": "Caccia e raccolta",
 			"explanation": "Nel Paleolitico l'uomo era nomade e viveva di caccia, pesca e raccolta."
@@ -139,10 +139,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale grande scoperta segnò il passaggio al Neolitico?",
 			"options": [
-				"La ruota a motore",
 				"L'agricoltura",
+				"L'elettricità",
 				"La stampa",
-				"L'elettricità"
+				"La ruota a motore"
 			],
 			"answer": "L'agricoltura",
 			"explanation": "Con l'agricoltura l'uomo diventò sedentario e nacquero i primi villaggi."
@@ -155,10 +155,10 @@
 			"format": "multiple_choice",
 			"prompt": "Da quale metallo prende il nome l'Età del Bronzo?",
 			"options": [
-				"Dal bronzo",
 				"Dall'oro",
-				"Dall'argento",
-				"Dal ferro"
+				"Dal bronzo",
+				"Dal ferro",
+				"Dall'argento"
 			],
 			"answer": "Dal bronzo",
 			"explanation": "Il bronzo è una lega di rame e stagno: diede il nome a quell'età."
@@ -171,10 +171,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiamava il re dell'antico Egitto?",
 			"options": [
-				"Faraone",
+				"Console",
 				"Doge",
-				"Imperatore",
-				"Console"
+				"Faraone",
+				"Imperatore"
 			],
 			"answer": "Faraone",
 			"explanation": "Il faraone era il sovrano dell'Egitto, considerato quasi un dio."
@@ -187,10 +187,10 @@
 			"format": "multiple_choice",
 			"prompt": "Lungo quale fiume nacque la civiltà egizia?",
 			"options": [
-				"Il Tevere",
+				"Il Po",
 				"Il Danubio",
-				"Il Nilo",
-				"Il Po"
+				"Il Tevere",
+				"Il Nilo"
 			],
 			"answer": "Il Nilo",
 			"explanation": "La civiltà egizia fiorì lungo le rive del Nilo."
@@ -203,10 +203,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché il Nilo era fondamentale per gli Egizi?",
 			"options": [
+				"Perché con le piene rendeva fertili i campi",
 				"Perché era sempre gelato tutto l'anno",
-				"Perché non aveva mai una goccia d'acqua",
 				"Perché era pieno di pepite d'oro",
-				"Perché con le piene rendeva fertili i campi"
+				"Perché non aveva mai una goccia d'acqua"
 			],
 			"answer": "Perché con le piene rendeva fertili i campi",
 			"explanation": "Le piene del Nilo lasciavano fango fertile: permettevano l'agricoltura."
@@ -219,9 +219,9 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiamava la scrittura degli antichi Egizi?",
 			"options": [
-				"Alfabeto latino",
-				"Geroglifici",
 				"Braille",
+				"Geroglifici",
+				"Alfabeto latino",
 				"Numeri romani"
 			],
 			"answer": "Geroglifici",
@@ -235,10 +235,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale città greca era famosa per i suoi guerrieri e la disciplina?",
 			"options": [
-				"Tebe",
 				"Atene",
-				"Corinto",
-				"Sparta"
+				"Tebe",
+				"Sparta",
+				"Corinto"
 			],
 			"answer": "Sparta",
 			"explanation": "A Sparta l'educazione era tutta rivolta alla vita militare."
@@ -251,10 +251,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale città greca nacque la democrazia?",
 			"options": [
+				"Micene",
 				"Olimpia",
-				"Atene",
 				"Sparta",
-				"Micene"
+				"Atene"
 			],
 			"answer": "Atene",
 			"explanation": "Ad Atene i cittadini partecipavano alle decisioni: nacque la democrazia."
@@ -267,10 +267,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiamavano le città-stato indipendenti della Grecia antica?",
 			"options": [
-				"Regioni",
-				"Contee",
+				"Pòleis",
 				"Province",
-				"Pòleis"
+				"Regioni",
+				"Contee"
 			],
 			"answer": "Pòleis",
 			"explanation": "La Grecia era divisa in tante pòleis, città-stato indipendenti."
@@ -283,10 +283,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale luogo si tenevano gli antichi Giochi Olimpici?",
 			"options": [
-				"A Cartagine",
 				"Ad Alessandria",
-				"A Roma",
-				"A Olimpia"
+				"A Olimpia",
+				"A Cartagine",
+				"A Roma"
 			],
 			"answer": "A Olimpia",
 			"explanation": "I Giochi si svolgevano a Olimpia, in onore del dio Zeus."
@@ -299,9 +299,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale lingua parlavano gli antichi Romani?",
 			"options": [
-				"Il latino",
 				"L'italiano",
 				"L'inglese",
+				"Il latino",
 				"Il greco"
 			],
 			"answer": "Il latino",
@@ -315,10 +315,10 @@
 			"format": "multiple_choice",
 			"prompt": "Secondo la leggenda, chi fondò Roma?",
 			"options": [
-				"Romolo",
 				"Annibale",
+				"Cesare",
 				"Enea",
-				"Cesare"
+				"Romolo"
 			],
 			"answer": "Romolo",
 			"explanation": "La leggenda narra che Roma fu fondata da Romolo, con il fratello Remo."
@@ -331,8 +331,8 @@
 			"format": "multiple_choice",
 			"prompt": "In quale anno la tradizione colloca la fondazione di Roma?",
 			"options": [
-				"476 d.C.",
 				"753 a.C.",
+				"476 d.C.",
 				"1492 d.C.",
 				"100 d.C."
 			],
@@ -347,10 +347,10 @@
 			"format": "multiple_choice",
 			"prompt": "Dopo la monarchia, quale forma di governo ebbe Roma?",
 			"options": [
-				"Il feudalesimo",
-				"L'anarchia",
 				"La democrazia diretta",
-				"La repubblica"
+				"La repubblica",
+				"Il feudalesimo",
+				"L'anarchia"
 			],
 			"answer": "La repubblica",
 			"explanation": "Cacciato l'ultimo re, Roma diventò una repubblica guidata dai consoli."
@@ -364,9 +364,9 @@
 			"prompt": "Come si chiamava l'assemblea dei senatori a Roma?",
 			"options": [
 				"Il Colosseo",
-				"Il Foro",
+				"La Curia dei re",
 				"Il Senato",
-				"La Curia dei re"
+				"Il Foro"
 			],
 			"answer": "Il Senato",
 			"explanation": "Il Senato riuniva i patrizi e consigliava chi governava Roma."
@@ -380,8 +380,8 @@
 			"prompt": "Chi guidava l'Impero Romano?",
 			"options": [
 				"Il presidente",
-				"Il doge",
 				"Il faraone",
+				"Il doge",
 				"L'imperatore"
 			],
 			"answer": "L'imperatore",
@@ -395,10 +395,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale evento segna l'inizio del Medioevo?",
 			"options": [
+				"La caduta dell'Impero Romano d'Occidente",
 				"L'unità d'Italia con i Savoia",
-				"La fondazione della città di Roma",
 				"La scoperta dell'America nel 1492",
-				"La caduta dell'Impero Romano d'Occidente"
+				"La fondazione della città di Roma"
 			],
 			"answer": "La caduta dell'Impero Romano d'Occidente",
 			"explanation": "Il Medioevo inizia nel 476 d.C., con la caduta dell'Impero Romano d'Occidente."
@@ -411,10 +411,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?",
 			"options": [
-				"Repubblica",
-				"Democrazia",
+				"Impero",
 				"Feudalesimo",
-				"Impero"
+				"Democrazia",
+				"Repubblica"
 			],
 			"answer": "Feudalesimo",
 			"explanation": "Nel feudalesimo il signore concedeva un feudo in cambio di fedeltà e aiuto militare."
@@ -428,9 +428,9 @@
 			"prompt": "A che cosa serviva soprattutto un castello medievale?",
 			"options": [
 				"A coltivare il grano nei campi",
-				"A fare gare sportive fra nobili",
 				"A conservare l'acqua piovana",
-				"A difendersi dagli attacchi"
+				"A difendersi dagli attacchi",
+				"A fare gare sportive fra nobili"
 			],
 			"answer": "A difendersi dagli attacchi",
 			"explanation": "Il castello, con mura e torri, proteggeva il signore e gli abitanti."
@@ -444,9 +444,9 @@
 			"prompt": "Chi copiava a mano i libri nei monasteri medievali?",
 			"options": [
 				"I cavalieri armati",
+				"I contadini del feudo",
 				"I mercanti stranieri",
-				"I monaci amanuensi",
-				"I contadini del feudo"
+				"I monaci amanuensi"
 			],
 			"answer": "I monaci amanuensi",
 			"explanation": "I monaci amanuensi ricopiavano a mano i testi, custodendo il sapere."
@@ -459,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiamavano i guerrieri a cavallo al servizio di un signore?",
 			"options": [
-				"Legionari",
-				"Faraoni",
 				"Cavalieri",
-				"Consoli"
+				"Faraoni",
+				"Consoli",
+				"Legionari"
 			],
 			"answer": "Cavalieri",
 			"explanation": "I cavalieri combattevano a cavallo e giuravano fedeltà al loro signore."
@@ -475,10 +475,10 @@
 			"format": "multiple_choice",
 			"prompt": "Dove si conservava e si copiava il sapere nell'Alto Medioevo?",
 			"options": [
-				"Nelle fabbriche",
+				"Nei supermercati",
 				"Nei monasteri",
 				"Nei porti",
-				"Nei supermercati"
+				"Nelle fabbriche"
 			],
 			"answer": "Nei monasteri",
 			"explanation": "I monasteri furono centri di cultura: vi si custodivano e copiavano i libri."

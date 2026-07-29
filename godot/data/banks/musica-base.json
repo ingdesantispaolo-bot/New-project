@@ -27,10 +27,10 @@
 			"format": "multiple_choice",
 			"prompt": "Nota nel secondo spazio in chiave di violino.",
 			"options": [
-				"La (ottava alta).",
-				"Non manca nessun battito.",
+				"Manca una semiminima.",
 				"La",
-				"Quinta."
+				"Quinta.",
+				"Non manca nessun battito."
 			],
 			"answer": "La",
 			"explanation": "chiave di violino → gli spazi sono Fa-La-Do-Mi → secondo spazio = La."
@@ -43,10 +43,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Pentagramma e chiavi\"?",
 			"options": [
+				"Conta includendo la nota di partenza, non da zero.",
 				"La croma vale mezzo battito, non uno.",
 				"La stessa posizione cambia nome se cambia chiave.",
-				"Una croma vale mezzo battito, non uno.",
-				"Non saltare le linee: vanno contate una per volta."
+				"Una croma vale mezzo battito, non uno."
 			],
 			"answer": "La stessa posizione cambia nome se cambia chiave.",
 			"explanation": "La stessa posizione cambia nome se cambia chiave."
@@ -59,9 +59,9 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Ritmo e intervalli\"?",
 			"options": [
-				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
-				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
 				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
+				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
 				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
 			],
 			"answer": "Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
@@ -75,10 +75,10 @@
 			"format": "multiple_choice",
 			"prompt": "In 4/4 ci sono due semiminime e una minima.",
 			"options": [
-				"La",
-				"Quinta.",
 				"Non manca nessun battito.",
-				"La (ottava alta)."
+				"La",
+				"La (ottava alta).",
+				"Quinta."
 			],
 			"answer": "Non manca nessun battito.",
 			"explanation": "1 + 1 + 2 = 4 → la battuta è completa."
@@ -91,10 +91,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Ritmo e intervalli\"?",
 			"options": [
-				"Una croma vale mezzo battito, non uno.",
 				"La stessa posizione cambia nome se cambia chiave.",
+				"Una croma vale mezzo battito, non uno.",
 				"Non saltare le linee: vanno contate una per volta.",
-				"La croma vale mezzo battito, non uno."
+				"Conta includendo la nota di partenza, non da zero."
 			],
 			"answer": "Una croma vale mezzo battito, non uno.",
 			"explanation": "Una croma vale mezzo battito, non uno."
@@ -108,9 +108,9 @@
 			"prompt": "Qual è la definizione corretta di \"Linee addizionali e ottava\"?",
 			"options": [
 				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
 				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
-				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
-				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note."
+				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento."
 			],
 			"answer": "Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
 			"explanation": "Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota."
@@ -123,10 +123,10 @@
 			"format": "multiple_choice",
 			"prompt": "Nota due linee sopra il pentagramma in chiave di violino.",
 			"options": [
-				"La (ottava alta).",
-				"Non manca nessun battito.",
+				"Manca una semiminima.",
 				"La",
-				"Quinta."
+				"Quinta.",
+				"La (ottava alta)."
 			],
 			"answer": "La (ottava alta).",
 			"explanation": "dall'ultima riga salgo di due linee → conto righe e spazi in ordine → ottengo il La acuto."
@@ -139,10 +139,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Linee addizionali e ottava\"?",
 			"options": [
-				"La stessa posizione cambia nome se cambia chiave.",
-				"La croma vale mezzo battito, non uno.",
 				"Non saltare le linee: vanno contate una per volta.",
-				"Conta includendo la nota di partenza, non da zero."
+				"Una croma vale mezzo battito, non uno.",
+				"La stessa posizione cambia nome se cambia chiave.",
+				"La croma vale mezzo battito, non uno."
 			],
 			"answer": "Non saltare le linee: vanno contate una per volta.",
 			"explanation": "Non saltare le linee: vanno contate una per volta."
@@ -155,10 +155,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la definizione corretta di \"Intervalli e scale\"?",
 			"options": [
+				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
+				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
 				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
-				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
-				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
-				"Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo."
+				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo."
 			],
 			"answer": "Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo.",
 			"explanation": "Un intervallo è la distanza tra due note; si conta includendo la nota di partenza e quella di arrivo."
@@ -171,10 +171,10 @@
 			"format": "multiple_choice",
 			"prompt": "Intervallo da Do a Sol.",
 			"options": [
-				"Non manca nessun battito.",
 				"La (ottava alta).",
-				"Manca una semiminima.",
-				"Quinta."
+				"Non manca nessun battito.",
+				"Quinta.",
+				"Manca una semiminima."
 			],
 			"answer": "Quinta.",
 			"explanation": "Do, Re, Mi, Fa, Sol → conto cinque nomi → è una quinta."
@@ -187,10 +187,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Intervalli e scale\"?",
 			"options": [
-				"Una croma vale mezzo battito, non uno.",
+				"La croma vale mezzo battito, non uno.",
 				"Non saltare le linee: vanno contate una per volta.",
-				"Conta includendo la nota di partenza, non da zero.",
-				"La stessa posizione cambia nome se cambia chiave."
+				"La stessa posizione cambia nome se cambia chiave.",
+				"Conta includendo la nota di partenza, non da zero."
 			],
 			"answer": "Conta includendo la nota di partenza, non da zero.",
 			"explanation": "Conta includendo la nota di partenza, non da zero."
@@ -204,9 +204,9 @@
 			"prompt": "Qual è la definizione corretta di \"Durate e tempo\"?",
 			"options": [
 				"Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
+				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento.",
 				"Il ritmo organizza la durata dei suoni; l'intervallo misura la distanza tra due note.",
-				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota.",
-				"Il pentagramma usa righe e spazi per indicare l'altezza delle note; la chiave cambia il punto di riferimento."
+				"Le linee addizionali estendono il pentagramma oltre le cinque righe e possono cambiare l'ottava della nota."
 			],
 			"answer": "Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo.",
 			"explanation": "Ogni figura ha una durata in battiti; la battuta deve contenere esattamente i battiti indicati dal tempo."
@@ -219,10 +219,10 @@
 			"format": "multiple_choice",
 			"prompt": "In 4/4 ci sono una minima e una semiminima. Cosa manca?",
 			"options": [
-				"La (ottava alta).",
-				"Non manca nessun battito.",
+				"La",
+				"Manca una semiminima.",
 				"Quinta.",
-				"Manca una semiminima."
+				"Non manca nessun battito."
 			],
 			"answer": "Manca una semiminima.",
 			"explanation": "minima 2 + semiminima 1 = 3 → servono 4 → manca 1 battito."
@@ -235,10 +235,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale errore comune bisogna evitare in \"Durate e tempo\"?",
 			"options": [
+				"La stessa posizione cambia nome se cambia chiave.",
 				"Una croma vale mezzo battito, non uno.",
 				"La croma vale mezzo battito, non uno.",
-				"Conta includendo la nota di partenza, non da zero.",
-				"La stessa posizione cambia nome se cambia chiave."
+				"Conta includendo la nota di partenza, non da zero."
 			],
 			"answer": "La croma vale mezzo battito, non uno.",
 			"explanation": "La croma vale mezzo battito, non uno."
@@ -252,8 +252,8 @@
 			"prompt": "Quante sono le note musicali principali (do, re, mi, …)?",
 			"options": [
 				"10",
-				"5",
 				"8",
+				"5",
 				"7"
 			],
 			"answer": "7",
@@ -267,10 +267,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale nota viene subito dopo il Do?",
 			"options": [
-				"Si",
 				"Re",
 				"Fa",
-				"Mi"
+				"Mi",
+				"Si"
 			],
 			"answer": "Re",
 			"explanation": "L'ordine è Do, Re, Mi, Fa, Sol, La, Si."
@@ -283,10 +283,10 @@
 			"format": "multiple_choice",
 			"prompt": "Dopo il Sol, quale nota viene?",
 			"options": [
-				"Do",
-				"Fa",
 				"Mi",
-				"La"
+				"La",
+				"Fa",
+				"Do"
 			],
 			"answer": "La",
 			"explanation": "…Sol, La, Si, poi si ricomincia da Do."
@@ -299,10 +299,10 @@
 			"format": "multiple_choice",
 			"prompt": "Su cosa si scrivono le note musicali?",
 			"options": [
-				"Su un foglio a quadretti",
-				"Sul pentagramma",
+				"Sulla tastiera del pc",
 				"Su un foglio bianco",
-				"Sulla tastiera del pc"
+				"Sul pentagramma",
+				"Su un foglio a quadretti"
 			],
 			"answer": "Sul pentagramma",
 			"explanation": "Il pentagramma ha 5 righe e 4 spazi."
@@ -315,10 +315,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quante righe ha il pentagramma?",
 			"options": [
-				"7",
+				"4",
 				"6",
-				"5",
-				"4"
+				"7",
+				"5"
 			],
 			"answer": "5",
 			"explanation": "Penta- significa cinque: cinque righe."
@@ -331,10 +331,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale figura musicale dura di più?",
 			"options": [
-				"La minima",
-				"La croma",
+				"La semibreve",
 				"La semiminima",
-				"La semibreve"
+				"La croma",
+				"La minima"
 			],
 			"answer": "La semibreve",
 			"explanation": "La semibreve vale 4 battiti: più di minima, semiminima e croma."
@@ -347,10 +347,10 @@
 			"format": "multiple_choice",
 			"prompt": "In 4/4, quanti battiti ci sono in una battuta?",
 			"options": [
-				"3",
 				"8",
+				"4",
 				"2",
-				"4"
+				"3"
 			],
 			"answer": "4",
 			"explanation": "Il 4 in alto indica quattro battiti per battuta."
@@ -379,9 +379,9 @@
 			"format": "multiple_choice",
 			"prompt": "L'intervallo da Do a Sol (contando le note) è una…",
 			"options": [
-				"Ottava",
 				"Terza",
 				"Quarta",
+				"Ottava",
 				"Quinta"
 			],
 			"answer": "Quinta",
@@ -395,10 +395,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale di questi è uno strumento a corde?",
 			"options": [
-				"La tromba",
 				"La chitarra",
-				"Il flauto",
-				"Il tamburo"
+				"La tromba",
+				"Il tamburo",
+				"Il flauto"
 			],
 			"answer": "La chitarra",
 			"explanation": "La chitarra produce suono con le corde."
@@ -411,10 +411,10 @@
 			"format": "multiple_choice",
 			"prompt": "Il flauto è uno strumento a…",
 			"options": [
-				"Corde",
-				"Percussione",
 				"Tastiera",
-				"Fiato"
+				"Fiato",
+				"Percussione",
+				"Corde"
 			],
 			"answer": "Fiato",
 			"explanation": "Il flauto suona soffiando aria: è uno strumento a fiato."
@@ -427,10 +427,10 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa ci fa distinguere un pianoforte da una chitarra sulla stessa nota?",
 			"options": [
-				"Il volume",
-				"Il timbro",
 				"Il tempo",
-				"La durata"
+				"La durata",
+				"Il timbro",
+				"Il volume"
 			],
 			"answer": "Il timbro",
 			"explanation": "Il timbro è il 'colore' del suono, diverso per ogni strumento."
@@ -444,9 +444,9 @@
 			"prompt": "In musica 'forte' e 'piano' indicano…",
 			"options": [
 				"La durata di ogni nota scritta",
+				"L'altezza (acuto o grave)",
 				"La velocità con cui si suona",
-				"L'intensità del suono (il volume)",
-				"L'altezza (acuto o grave)"
+				"L'intensità del suono (il volume)"
 			],
 			"answer": "L'intensità del suono (il volume)",
 			"explanation": "Le dinamiche dicono quanto suonare forte o piano."
@@ -459,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Il termine che indica quanto è veloce un brano è il…",
 			"options": [
-				"Timbro (colore)",
 				"Tempo (andamento)",
-				"Volume (intensità)",
-				"Silenzio (pausa)"
+				"Timbro (colore)",
+				"Silenzio (pausa)",
+				"Volume (intensità)"
 			],
 			"answer": "Tempo (andamento)",
 			"explanation": "Il tempo indica la velocità: da lento (adagio) a veloce (allegro)."

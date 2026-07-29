@@ -1,6 +1,8 @@
 class_name MinigameManager
 extends RefCounted
 
+const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
+
 ## Costruisce sessioni-MINIGIOCO risolte con le competenze delle materie. Due
 ## formati interattivi (resi da ExercisePlayer): "matching" (abbina le coppie) e
 ## "ordering" (metti in ordine). Riusa il contratto di sessione di ContentManager
@@ -737,37 +739,52 @@ const CODE_DEBUG := {
 			"prompt": "Segui il ragionamento: quale passo non è valido?",
 			"codeLines": ["Se piove, la strada è bagnata.", "La strada è bagnata.", "Quindi ha piovuto di sicuro.", "# la strada può bagnarsi in altri modi?"],
 			"explanation": "Riga 3: la strada può essere bagnata anche senza pioggia (un annaffiatoio). Non è certo che abbia piovuto."},
+		# L'errore non sta sempre nella conclusione: qui è la REGOLA a essere letta
+		# male, lì una premessa falsa. Senza queste varianti bastava scegliere
+		# l'ultimo passo per superare ogni caccia all'errore di logica.
+		{"topic": "sequenze", "minLevel": 4, "answerLine": 2,
+			"prompt": "Segui la regola della sequenza: quale passo sbaglia?",
+			"codeLines": ["Sequenza: 3, 6, 9, 12, ...", "La regola aggiunge 2 ogni volta", "Il numero dopo il 12 è 15", "# confronta la regola con i numeri"],
+			"explanation": "Riga 2: tra 3 e 6 la differenza è 3, non 2. La regola giusta è +3, e infatti dopo il 12 viene 15."},
+		{"topic": "deduzioni", "minLevel": 6, "answerLine": 1,
+			"prompt": "Segui il ragionamento: quale passo non è valido?",
+			"codeLines": ["Tutti gli uccelli volano.", "Il pinguino è un uccello.", "Eppure il pinguino non vola.", "# quale affermazione è troppo assoluta?"],
+			"explanation": "Riga 1: \"tutti gli uccelli volano\" è falsa. Il pinguino è la prova: il ragionamento regge, sbaglia la premessa."},
+		{"topic": "insiemi", "minLevel": 8, "answerLine": 2,
+			"prompt": "Segui la classificazione: quale passo sbaglia?",
+			"codeLines": ["Ogni quadrato è un rettangolo.", "Ogni rettangolo è un quadrato.", "Quindi quadrato e rettangolo sono la stessa cosa.", "# la relazione vale in entrambi i versi?"],
+			"explanation": "Riga 2: un rettangolo lungo e stretto non è un quadrato. La relazione vale in un verso solo."},
 	],
 	# ITALIANO — "Caccia all'errore": fra più frasi corrette, una nasconde uno
 	# sbaglio (ortografia, accordo, tempo verbale). Si clicca la riga sbagliata: la
 	# correzione di bozze come sfida, ben più coinvolgente della scelta multipla.
 	"italiano": [
-		{"topic": "ortografia", "answerLine": 3,
+		{"topic": "ortografia", "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una frase contiene un errore di ortografia. Quale riga?",
 			"codeLines": ["Bevo un po' d'acqua fresca.", "Qual è il tuo colore preferito?", "A scuola studio la sciensa.", "# tutte tranne una sono corrette"],
 			"explanation": "Riga 3: si scrive 'scienza' con -sci-, non 'sciensa'. ('un po'' e 'qual è' sono invece corretti)."},
-		{"topic": "morfologia", "answerLine": 2,
+		{"topic": "morfologia", "answerLine": 2, "shuffleLines": true,
 			"prompt": "Una frase ha un errore di accordo (genere o numero). Quale riga?",
 			"codeLines": ["I bambini giocano in giardino.", "La macchina rosse è veloce.", "Le case sono grandi e luminose.", "# trova l'accordo sbagliato"],
 			"explanation": "Riga 2: 'macchina' è singolare femminile, quindi 'rossa', non 'rosse'."},
-		{"topic": "verbo", "answerLine": 3,
+		{"topic": "verbo", "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una frase sbaglia il tempo del verbo. Quale riga?",
 			"codeLines": ["Ieri ho finito i compiti.", "Domani andremo al mare.", "L'anno scorso vado in montagna.", "# quale verbo non concorda col tempo?"],
 			"explanation": "Riga 3: 'l'anno scorso' è passato, quindi 'sono andato' o 'andavo', non 'vado'."},
-		{"topic": "punteggiatura", "answerLine": 2,
+		{"topic": "punteggiatura", "answerLine": 2, "shuffleLines": true,
 			"prompt": "Una frase usa male l'apostrofo. Quale riga?",
 			"codeLines": ["Un'amica mi ha aiutato molto.", "Ho visto un'orso nel bosco.", "L'albero è pieno di frutti.", "# dove l'apostrofo è di troppo?"],
 			"explanation": "Riga 2: 'orso' è maschile, quindi 'un orso' senza apostrofo (l'apostrofo va solo con il femminile: un'amica)."},
 		# Scuola media — la caccia all'errore diventa correzione di un'analisi.
-		{"topic": "analisi-grammaticale", "minLevel": 8, "answerLine": 2,
+		{"topic": "analisi-grammaticale", "minLevel": 8, "answerLine": 2, "shuffleLines": true,
 			"prompt": "Analisi grammaticale di 'La bianca luna splende': quale riga sbaglia?",
 			"codeLines": ["La = articolo determinativo", "bianca = nome comune", "luna = nome comune", "splende = verbo"],
 			"explanation": "Riga 2: 'bianca' è un aggettivo qualificativo (descrive la luna), non un nome."},
-		{"topic": "verbo", "minLevel": 9, "answerLine": 2,
+		{"topic": "verbo", "minLevel": 9, "answerLine": 2, "shuffleLines": true,
 			"prompt": "Modo e tempo dei verbi: quale analisi è errata?",
 			"codeLines": ["mangerò = futuro semplice", "che io mangi = indicativo presente", "mangiando = gerundio", "# quale voce verbale è analizzata male?"],
 			"explanation": "Riga 2: 'che io mangi' è congiuntivo presente, non indicativo (l'indicativo presente è 'io mangio')."},
-		{"topic": "analisi-logica", "minLevel": 11, "answerLine": 3,
+		{"topic": "analisi-logica", "minLevel": 11, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Analisi logica di 'Marco regala un libro a Luca': quale riga sbaglia?",
 			"codeLines": ["Marco = soggetto", "regala = predicato verbale", "un libro = complemento di termine", "a Luca = complemento di termine"],
 			"explanation": "Riga 3: 'un libro' risponde a 'che cosa?', è complemento oggetto. Il complemento di termine (a chi?) è 'a Luca'."},
@@ -792,27 +809,43 @@ const CODE_DEBUG := {
 			"prompt": "Somma 1/2 + 1/4 passo per passo: quale riga sbaglia?",
 			"codeLines": ["1/2 + 1/4", "= 2/6   (somma sopra e sotto)", "= 1/3", "# si sommano così le frazioni?"],
 			"explanation": "Riga 2: non si sommano numeratori e denominatori. Con lo stesso denominatore: 2/4 + 1/4 = 3/4."},
+		# Le righe di un calcolo non si possono rimescolare (l'ordine è il
+		# ragionamento), quindi l'errore va autorato in punti diversi: senza queste
+		# varianti bastava scegliere sempre la seconda riga. Qui sbaglia la
+		# traduzione del problema, lì l'ultimo conto dopo un'impostazione giusta.
+		{"topic": "problemi", "minLevel": 3, "answerLine": 1,
+			"prompt": "Tre scatole con 15 gemme ciascuna: quale riga tradisce il problema?",
+			"codeLines": ["3 + 15", "= 18 gemme", "# 'tre scatole DA 15' come si calcola?"],
+			"explanation": "Riga 1: \"tre scatole da 15\" sono gruppi uguali, quindi 3 × 15 = 45. L'addizione traduce male il problema."},
+		{"topic": "calcolo", "minLevel": 4, "answerLine": 3,
+			"prompt": "Calcolo di 12 × 4 passo per passo: quale riga sbaglia?",
+			"codeLines": ["12 × 4", "= (10 × 4) + (2 × 4)", "= 40 + 8 = 46", "# la scomposizione è giusta: e la somma?"],
+			"explanation": "Riga 3: 40 + 8 fa 48, non 46. La scomposizione in decine e unità era corretta."},
+		{"topic": "frazioni", "minLevel": 7, "answerLine": 3,
+			"prompt": "Calcolo di 3/4 di 20: quale riga sbaglia?",
+			"codeLines": ["3/4 di 20", "= 20 : 4 × 3", "= 5 × 3 = 12", "# l'impostazione è giusta: e il conto finale?"],
+			"explanation": "Riga 3: 5 × 3 fa 15, non 12. Dividere per il denominatore e moltiplicare per il numeratore era la strada giusta."},
 	],
 	# INGLESE — "Find the mistake": error correction, il cuore dell'apprendimento
 	# di una lingua straniera. Una frase su tante nasconde lo sbaglio: si clicca.
 	"inglese": [
-		{"topic": "spelling", "answerLine": 2,
+		{"topic": "spelling", "answerLine": 2, "shuffleLines": true,
 			"prompt": "One word is spelled wrong. Which line?",
 			"codeLines": ["I have a cat.", "The sun is yelow.", "She likes books.", "# find the spelling mistake"],
 			"explanation": "Line 2: 'yellow' has a double L."},
-		{"topic": "articles", "minLevel": 5, "answerLine": 3,
+		{"topic": "articles", "minLevel": 5, "answerLine": 3, "shuffleLines": true,
 			"prompt": "One article is wrong. Which line?",
 			"codeLines": ["I have a dog.", "There is an egg.", "She eats a apple.", "# which article is wrong?"],
 			"explanation": "Line 3: before a vowel sound use 'an': 'an apple'."},
-		{"topic": "third-person", "minLevel": 6, "answerLine": 2,
+		{"topic": "third-person", "minLevel": 6, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One sentence has a grammar mistake. Which line?",
 			"codeLines": ["I like pizza.", "She go to school every day.", "They play football.", "# find the sentence with the error"],
 			"explanation": "Line 2: third person singular needs -s: 'She goes to school'."},
-		{"topic": "past-tense", "minLevel": 7, "answerLine": 2,
+		{"topic": "past-tense", "minLevel": 7, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One past tense is wrong. Which line?",
 			"codeLines": ["Yesterday I played tennis.", "She goed home.", "We watched a film.", "# which past tense is wrong?"],
 			"explanation": "Line 2: 'go' is irregular, the past is 'went', not 'goed'."},
-		{"topic": "do-does", "minLevel": 7, "answerLine": 2,
+		{"topic": "do-does", "minLevel": 7, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One negative sentence is wrong. Which line?",
 			"codeLines": ["I don't like fish.", "He don't like tea.", "We don't watch TV.", "# which negative is wrong?"],
 			"explanation": "Line 2: third person singular uses 'doesn't': 'He doesn't like tea'."},
@@ -820,11 +853,11 @@ const CODE_DEBUG := {
 	# ELETTRONICA — "Caccia all'errore": si scova l'affermazione falsa sul circuito
 	# o il passaggio sbagliato nel calcolo elettrico. Il ragionamento come sfida.
 	"elettronica": [
-		{"topic": "circuito", "answerLine": 3,
+		{"topic": "circuito", "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione sul circuito è falsa. Quale riga?",
 			"codeLines": ["La pila fornisce energia.", "Il LED emette luce.", "Il filo di rame blocca la corrente.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il rame è un conduttore, quindi il filo LASCIA passare la corrente, non la blocca."},
-		{"topic": "legge-ohm", "minLevel": 6, "answerLine": 2,
+		{"topic": "legge-ohm", "minLevel": 6, "answerLine": 2, "shuffleLines": true,
 			"prompt": "Corrente con V = 10 V e R = 2 Ω: quale riga sbaglia?",
 			"codeLines": ["V = 10 V, R = 2 Ω", "I = V × R", "I = 20 A", "# come si calcola la corrente?"],
 			"explanation": "Riga 2: la legge di Ohm è I = V / R (10 / 2 = 5 A), non V × R (che darebbe 20)."},
@@ -832,15 +865,15 @@ const CODE_DEBUG := {
 	# SCIENZE — "Caccia all'errore": fra tre affermazioni una è falsa. Colpisce le
 	# misconcezioni classiche (la Luna, le branchie, il vapore).
 	"scienze": [
-		{"topic": "astronomia", "minLevel": 3, "answerLine": 3,
+		{"topic": "astronomia", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Il Sole è una stella.", "La Terra gira intorno al Sole.", "La Luna produce luce propria.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: la Luna non produce luce, riflette quella del Sole."},
-		{"topic": "corpo", "minLevel": 4, "answerLine": 3,
+		{"topic": "corpo", "minLevel": 4, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Le piante fanno la fotosintesi.", "Gli animali respirano ossigeno.", "I pesci respirano con i polmoni.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: i pesci respirano con le branchie, non con i polmoni."},
-		{"topic": "materia", "minLevel": 5, "answerLine": 3,
+		{"topic": "materia", "minLevel": 5, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["L'acqua bolle a 100 °C.", "Il ghiaccio è acqua allo stato solido.", "Il vapore è più freddo dell'acqua.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il vapore è più caldo, si forma quando l'acqua bolle a 100 °C."},
@@ -848,75 +881,75 @@ const CODE_DEBUG := {
 	# FISICA — "Caccia all'errore": affermazione falsa o calcolo sbagliato. Colpisce
 	# le misconcezioni classiche (Galileo, la formula della velocità, l'energia).
 	"fisica": [
-		{"topic": "gravita", "minLevel": 4, "answerLine": 1,
+		{"topic": "gravita", "minLevel": 4, "answerLine": 1, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Gli oggetti pesanti cadono più veloci di quelli leggeri.", "La gravità attira gli oggetti verso il basso.", "L'attrito dell'aria rallenta la caduta.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 1: senza aria tutti gli oggetti cadono insieme, come mostrò Galileo (piuma e martello sulla Luna cadono uguale)."},
-		{"topic": "moto", "minLevel": 5, "answerLine": 2,
+		{"topic": "moto", "minLevel": 5, "answerLine": 2, "shuffleLines": true,
 			"prompt": "Velocità di un'auto che fa 100 km in 2 ore: quale riga sbaglia?",
 			"codeLines": ["Spazio = 100 km, tempo = 2 h", "velocità = spazio × tempo", "= 200 km/h", "# come si calcola la velocità?"],
 			"explanation": "Riga 2: la velocità è spazio / tempo (100 / 2 = 50 km/h), non spazio × tempo."},
-		{"topic": "energia", "minLevel": 6, "answerLine": 3,
+		{"topic": "energia", "minLevel": 6, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["La palla in alto ha energia potenziale.", "Cadendo si trasforma in energia cinetica.", "Toccando terra l'energia sparisce nel nulla.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: l'energia non sparisce, si trasforma (in calore, suono, deformazione): è la conservazione dell'energia."},
 	],
 	# GEOGRAFIA — "Caccia all'errore": fra tre affermazioni una è falsa.
 	"geografia": [
-		{"topic": "mondo", "minLevel": 3, "answerLine": 3,
+		{"topic": "mondo", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Roma è la capitale d'Italia.", "Il Nilo è un fiume.", "L'Everest è un oceano.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: l'Everest è la montagna più alta del mondo, non un oceano."},
-		{"topic": "italia", "minLevel": 4, "answerLine": 3,
+		{"topic": "italia", "minLevel": 4, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Il Po è il fiume più lungo d'Italia.", "L'Etna è un vulcano.", "La Sicilia è una catena montuosa.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: la Sicilia è un'isola, non una catena montuosa."},
-		{"topic": "climi", "minLevel": 5, "answerLine": 3,
+		{"topic": "climi", "minLevel": 5, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["L'equatore divide la Terra in due emisferi.", "Al Polo Nord fa molto freddo.", "Nel deserto piove quasi ogni giorno.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il deserto è arido, con pochissime piogge in tutto l'anno."},
 	],
 	# STORIA — "Caccia all'errore": affermazione falsa o cronologia sbagliata.
 	"storia": [
-		{"topic": "civilta", "minLevel": 3, "answerLine": 3,
+		{"topic": "civilta", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Gli Egizi costruirono le piramidi.", "I Romani parlavano latino.", "La Preistoria viene dopo il Medioevo.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: la Preistoria è il periodo più antico, viene molto PRIMA del Medioevo."},
-		{"topic": "personaggi", "minLevel": 18, "answerLine": 3,
+		{"topic": "personaggi", "minLevel": 18, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Ad Atene nacque la democrazia.", "Roma fu fondata nel 753 a.C.", "Cristoforo Colombo era un faraone egizio.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: Colombo era un navigatore del Quattrocento, non un faraone egizio."},
-		{"topic": "cronologia", "minLevel": 6, "answerLine": 3,
+		{"topic": "cronologia", "minLevel": 6, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Come si contano gli anni avanti Cristo? Quale riga sbaglia?",
 			"codeLines": ["Ci sono il 100 a.C. e il 50 a.C.", "Più il numero è grande, più l'anno è antico.", "Quindi il 100 a.C. viene dopo il 50 a.C.", "# quale passaggio è sbagliato?"],
 			"explanation": "Riga 3: negli anni a.C. i numeri grandi sono più antichi, quindi il 100 a.C. viene PRIMA del 50 a.C."},
 	],
 	# MUSICA — "Caccia all'errore": affermazione falsa di teoria musicale.
 	"musica": [
-		{"topic": "strumenti", "minLevel": 3, "answerLine": 3,
+		{"topic": "strumenti", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Il violino è uno strumento a corde.", "La tromba è uno strumento a fiato.", "Il flauto è uno strumento a percussione.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il flauto è uno strumento a fiato, non a percussione."},
-		{"topic": "ritmo", "minLevel": 5, "answerLine": 3,
+		{"topic": "ritmo", "minLevel": 5, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Controlla le durate: quale riga sbaglia?",
 			"codeLines": ["Una minima vale 2 semiminime.", "Una semiminima vale 1 battito.", "Una semibreve vale 2 semiminime.", "# quanti battiti dura la semibreve?"],
 			"explanation": "Riga 3: la semibreve vale 4 semiminime (4 battiti), non 2."},
-		{"topic": "note", "minLevel": 4, "answerLine": 3,
+		{"topic": "note", "minLevel": 4, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione sulla scala è falsa. Quale riga?",
 			"codeLines": ["La scala è Do Re Mi Fa Sol La Si.", "Dopo il Si si torna al Do.", "Tra il Do e il Re c'è il La.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: tra Do e Re non c'è il La; il La viene più avanti, dopo il Sol."},
 	],
 	# LATINO — "Caccia all'errore": analisi o affermazione sbagliata sul latino.
 	"latino": [
-		{"topic": "frasi", "minLevel": 3, "answerLine": 3,
+		{"topic": "frasi", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Il latino usa i casi per la funzione delle parole.", "'aqua' significa acqua.", "In latino il verbo di solito sta all'inizio della frase.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: in latino il verbo di solito sta alla FINE della frase (ordine soggetto-oggetto-verbo)."},
-		{"topic": "casi", "minLevel": 5, "answerLine": 3,
+		{"topic": "casi", "minLevel": 5, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Analisi della frase 'Puella rosam amat': quale riga sbaglia?",
 			"codeLines": ["Puella = nominativo (soggetto)", "rosam = accusativo (oggetto)", "amat = genitivo", "# quale analisi è sbagliata?"],
 			"explanation": "Riga 3: 'amat' è un verbo (3ª persona di amare), non un caso. I casi valgono per i nomi."},
-		{"topic": "declinazioni-base", "minLevel": 6, "answerLine": 3,
+		{"topic": "declinazioni-base", "minLevel": 6, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione sulla declinazione è falsa. Quale riga?",
 			"codeLines": ["'rosa' è nominativo singolare.", "'rosam' è accusativo singolare.", "'rosarum' è nominativo singolare.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: 'rosarum' è genitivo PLURALE ('delle rose'), non nominativo singolare."},
@@ -1087,7 +1120,31 @@ func _circuit_node(subject: String, spec: Dictionary, level: int, _rng: RandomNu
 		"explanation": str(spec["explanation"]),
 	}
 
-func _code_debug_node(subject: String, spec: Dictionary, level: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
+## Caccia all'errore. Dove le righe sono AFFERMAZIONI INDIPENDENTI (`shuffleLines`)
+## vengono rimescolate a ogni partita e la riga giusta viene ricalcolata: senza,
+## la soluzione resterebbe sempre nella stessa posizione e in alcune materie era
+## *sempre* la terza — bastava impararlo per superare la prova senza leggerla.
+## Dove invece l'ordine porta significato (codice, passaggi di un calcolo, premesse
+## di un sillogismo) le righe non si toccano: mescolarle distruggerebbe l'esercizio.
+func _code_debug_node(subject: String, spec: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var lines: Array = (spec["codeLines"] as Array).duplicate()
+	var answer_line := int(spec["answerLine"])
+	var explanation := str(spec["explanation"])
+	if bool(spec.get("shuffleLines", false)):
+		var solution := str(lines[answer_line - 1])
+		# Le righe di commento ("# quale…?") restano in coda: sono la consegna.
+		var body: Array = []
+		var trailer: Array = []
+		for line in lines:
+			if str(line).begins_with("#"):
+				trailer.append(line)
+			else:
+				body.append(line)
+		if body.size() >= 2:
+			ExerciseInteraction.shuffle_avoiding(body, rng, body.duplicate())
+			lines = body + trailer
+			answer_line = lines.find(solution) + 1
+			explanation = _renumber_explanation(explanation, answer_line)
 	return {
 		"id": "minigame-code-%s-%d" % [subject, idx],
 		"subject": subject,
@@ -1095,16 +1152,27 @@ func _code_debug_node(subject: String, spec: Dictionary, level: int, _rng: Rando
 		"difficulty": ContentManager.target_difficulty(level),
 		"format": "code_debug",
 		"prompt": str(spec["prompt"]),
-		"codeLines": (spec["codeLines"] as Array).duplicate(),
-		"answerLine": int(spec["answerLine"]),
-		"answer": str(spec["answerLine"]),
-		"explanation": str(spec["explanation"]),
+		"codeLines": lines,
+		"answerLine": answer_line,
+		"answer": str(answer_line),
+		"explanation": explanation,
 	}
+
+# Le spiegazioni della caccia all'errore iniziano con "Riga N:". Se le righe sono
+# state rimescolate quel numero va corretto, altrimenti la spiegazione indicherebbe
+# una riga innocente — peggio dell'errore stesso, perché insegna la cosa sbagliata.
+func _renumber_explanation(explanation: String, answer_line: int) -> String:
+	var regex := RegEx.create_from_string("^Riga\\s+\\d+")
+	if regex.search(explanation) == null:
+		return explanation
+	return regex.sub(explanation, "Riga %d" % answer_line)
 
 func _ordering_node(subject: String, spec: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var correct: Array = (spec["correctOrder"] as Array).duplicate()
 	var items := correct.duplicate()
-	_shuffle(items, rng)
+	# Mai presentare gli elementi già ordinati: sarebbe una prova che si risolve
+	# premendo in fila (misurato: capitava a un ordinamento su ventuno).
+	ExerciseInteraction.shuffle_avoiding(items, rng, correct)
 	return {
 		"id": "minigame-order-%s-%d" % [subject, idx],
 		"subject": subject,
@@ -1134,7 +1202,7 @@ func _numeric_ordering_node(subject: String, level: int, rng: RandomNumberGenera
 	for v in ordered:
 		correct.append(str(v))
 	var items := correct.duplicate()
-	_shuffle(items, rng)
+	ExerciseInteraction.shuffle_avoiding(items, rng, correct)
 	return {
 		"id": "minigame-numorder-%s-%d" % [subject, idx],
 		"subject": subject,

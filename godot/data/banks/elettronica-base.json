@@ -12,8 +12,8 @@
 			"prompt": "Qual è la funzione del componente \"Batteria\"?",
 			"options": [
 				"fornisce la spinta elettrica tra polo + e polo -",
-				"chiude il giro riportando la corrente al polo -",
 				"limita la corrente e protegge i componenti sensibili",
+				"chiude il giro riportando la corrente al polo -",
 				"emette luce solo se polarità e corrente sono corrette"
 			],
 			"answer": "fornisce la spinta elettrica tra polo + e polo -",
@@ -27,10 +27,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Batteria\"?",
 			"options": [
-				"non è solo un interruttore manuale: viene comandato elettricamente",
-				"non genera corrente: decide solo se il percorso continua",
-				"non è un interruttore: è un riferimento stabile",
-				"non è una resistenza: non limita la corrente, la alimenta"
+				"non è una batteria: non produce energia nuova, la conserva per poco",
+				"non è una resistenza: non limita la corrente, la alimenta",
+				"non serve ad accendere di più: serve a non sovraccaricare",
+				"non è solo un interruttore manuale: viene comandato elettricamente"
 			],
 			"answer": "non è una resistenza: non limita la corrente, la alimenta",
 			"explanation": "Batteria: controlla sempre dove sono + e -."
@@ -43,10 +43,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Interruttore\"?",
 			"options": [
+				"stabilizza il riferimento comune del ritorno",
 				"misura un segnale e invia dati al terminale",
 				"apre o chiude il passaggio della corrente",
-				"trasforma energia elettrica in movimento",
-				"stabilizza il riferimento comune del ritorno"
+				"trasforma energia elettrica in movimento"
 			],
 			"answer": "apre o chiude il passaggio della corrente",
 			"explanation": "Interruttore: apre o chiude il percorso: se è aperto il circuito è interrotto anche se tutti i pezzi sono presenti."
@@ -59,10 +59,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Interruttore\"?",
 			"options": [
-				"non genera corrente: decide solo se il percorso continua",
-				"non è opzionale: ogni circuito deve tornare alla sorgente",
+				"non è una resistenza: non limita la corrente, la alimenta",
+				"non è un interruttore: è un riferimento stabile",
 				"non è solo un interruttore manuale: viene comandato elettricamente",
-				"non è una resistenza: non limita la corrente, la alimenta"
+				"non genera corrente: decide solo se il percorso continua"
 			],
 			"answer": "non genera corrente: decide solo se il percorso continua",
 			"explanation": "Interruttore: verifica se la leva collega davvero i due contatti."
@@ -76,9 +76,9 @@
 			"prompt": "Qual è la funzione del componente \"Resistenza\"?",
 			"options": [
 				"limita la corrente e protegge i componenti sensibili",
-				"accumula carica e la rilascia per stabilizzare impulsi",
-				"usa un comando debole per chiudere un circuito di potenza",
-				"fornisce la spinta elettrica tra polo + e polo -"
+				"emette luce solo se polarità e corrente sono corrette",
+				"chiude il giro riportando la corrente al polo -",
+				"usa un comando debole per chiudere un circuito di potenza"
 			],
 			"answer": "limita la corrente e protegge i componenti sensibili",
 			"explanation": "Resistenza: limita la corrente e protegge il LED da impulsi troppo forti."
@@ -91,10 +91,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Resistenza\"?",
 			"options": [
-				"non è una batteria: non produce energia nuova, la conserva per poco",
+				"non è una resistenza: non limita la corrente, la alimenta",
 				"non serve ad accendere di più: serve a non sovraccaricare",
-				"non è solo un interruttore manuale: viene comandato elettricamente",
-				"non genera corrente: decide solo se il percorso continua"
+				"non è una batteria: non produce energia nuova, la conserva per poco",
+				"non è solo un interruttore manuale: viene comandato elettricamente"
 			],
 			"answer": "non serve ad accendere di più: serve a non sovraccaricare",
 			"explanation": "Resistenza: se manca, il LED non è certificabile anche quando si accende."
@@ -107,10 +107,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"LED\"?",
 			"options": [
-				"fornisce la spinta elettrica tra polo + e polo -",
 				"accumula carica e la rilascia per stabilizzare impulsi",
-				"limita la corrente e protegge i componenti sensibili",
-				"emette luce solo se polarità e corrente sono corrette"
+				"chiude il giro riportando la corrente al polo -",
+				"emette luce solo se polarità e corrente sono corrette",
+				"fornisce la spinta elettrica tra polo + e polo -"
 			],
 			"answer": "emette luce solo se polarità e corrente sono corrette",
 			"explanation": "LED: è un diodo luminoso: lascia passare corrente quasi solo nel verso corretto."
@@ -123,10 +123,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"LED\"?",
 			"options": [
-				"non è una lampadina normale: il verso conta",
-				"non trattarlo come un unico filo in serie",
+				"se non è alimentato, non può misurare",
 				"non genera corrente: decide solo se il percorso continua",
-				"non è un interruttore: è un riferimento stabile"
+				"non è un sensore: consuma energia, non misura",
+				"non è una lampadina normale: il verso conta"
 			],
 			"answer": "non è una lampadina normale: il verso conta",
 			"explanation": "LED: se arriva corrente ma resta spento, controlla la polarità."
@@ -139,10 +139,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Sensore\"?",
 			"options": [
-				"apre o chiude il passaggio della corrente",
 				"misura un segnale e invia dati al terminale",
-				"trasforma energia elettrica in movimento",
-				"fornisce la spinta elettrica tra polo + e polo -"
+				"chiude il giro riportando la corrente al polo -",
+				"stabilizza il riferimento comune del ritorno",
+				"trasforma energia elettrica in movimento"
 			],
 			"answer": "misura un segnale e invia dati al terminale",
 			"explanation": "Sensore: misura un valore e lo manda al terminale, ma solo se è alimentato e collegato al bus dati."
@@ -155,10 +155,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Sensore\"?",
 			"options": [
+				"non trattarlo come un unico filo in serie",
 				"se non è alimentato, non può misurare",
-				"non genera corrente: decide solo se il percorso continua",
-				"non è un sensore: consuma energia, non misura",
-				"non è una lampadina normale: il verso conta"
+				"non è una lampadina normale: il verso conta",
+				"non è un sensore: consuma energia, non misura"
 			],
 			"answer": "se non è alimentato, non può misurare",
 			"explanation": "Sensore: un sensore scollegato può sembrare guasto anche quando il circuito principale funziona."
@@ -171,10 +171,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Condensatore\"?",
 			"options": [
-				"usa un comando debole per chiudere un circuito di potenza",
-				"chiude il giro riportando la corrente al polo -",
+				"limita la corrente e protegge i componenti sensibili",
+				"fornisce la spinta elettrica tra polo + e polo -",
 				"accumula carica e la rilascia per stabilizzare impulsi",
-				"emette luce solo se polarità e corrente sono corrette"
+				"usa un comando debole per chiudere un circuito di potenza"
 			],
 			"answer": "accumula carica e la rilascia per stabilizzare impulsi",
 			"explanation": "Condensatore: accumula una piccola carica e la rilascia per stabilizzare impulsi brevi."
@@ -187,9 +187,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Condensatore\"?",
 			"options": [
+				"non è solo un interruttore manuale: viene comandato elettricamente",
 				"non serve ad accendere di più: serve a non sovraccaricare",
-				"non è una resistenza: non limita la corrente, la alimenta",
-				"non è opzionale: ogni circuito deve tornare alla sorgente",
+				"non genera corrente: decide solo se il percorso continua",
 				"non è una batteria: non produce energia nuova, la conserva per poco"
 			],
 			"answer": "non è una batteria: non produce energia nuova, la conserva per poco",
@@ -203,9 +203,9 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Ritorno\"?",
 			"options": [
-				"limita la corrente e protegge i componenti sensibili",
-				"apre o chiude il passaggio della corrente",
 				"chiude il giro riportando la corrente al polo -",
+				"misura un segnale e invia dati al terminale",
+				"limita la corrente e protegge i componenti sensibili",
 				"stabilizza il riferimento comune del ritorno"
 			],
 			"answer": "chiude il giro riportando la corrente al polo -",
@@ -219,10 +219,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Ritorno\"?",
 			"options": [
-				"non è un interruttore: è un riferimento stabile",
-				"non serve ad accendere di più: serve a non sovraccaricare",
-				"non è solo un interruttore manuale: viene comandato elettricamente",
-				"non è opzionale: ogni circuito deve tornare alla sorgente"
+				"non genera corrente: decide solo se il percorso continua",
+				"non è opzionale: ogni circuito deve tornare alla sorgente",
+				"non è una resistenza: non limita la corrente, la alimenta",
+				"non è una batteria: non produce energia nuova, la conserva per poco"
 			],
 			"answer": "non è opzionale: ogni circuito deve tornare alla sorgente",
 			"explanation": "Ritorno: segui il filo fino al - della batteria."
@@ -236,9 +236,9 @@
 			"prompt": "Qual è la funzione del componente \"Ramo parallelo\"?",
 			"options": [
 				"fornisce la spinta elettrica tra polo + e polo -",
-				"emette luce solo se polarità e corrente sono corrette",
-				"accumula carica e la rilascia per stabilizzare impulsi",
-				"divide la corrente in rami che possono funzionare separatamente"
+				"limita la corrente e protegge i componenti sensibili",
+				"divide la corrente in rami che possono funzionare separatamente",
+				"emette luce solo se polarità e corrente sono corrette"
 			],
 			"answer": "divide la corrente in rami che possono funzionare separatamente",
 			"explanation": "Ramo parallelo: crea un secondo percorso: un guasto su un ramo non deve per forza spegnere tutto il circuito."
@@ -251,10 +251,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Ramo parallelo\"?",
 			"options": [
-				"non trattarlo come un unico filo in serie",
-				"se non è alimentato, non può misurare",
 				"non è un sensore: consuma energia, non misura",
-				"non è un interruttore: è un riferimento stabile"
+				"non è un interruttore: è un riferimento stabile",
+				"se non è alimentato, non può misurare",
+				"non trattarlo come un unico filo in serie"
 			],
 			"answer": "non trattarlo come un unico filo in serie",
 			"explanation": "Ramo parallelo: controlla quale ramo resta alimentato e quale si interrompe."
@@ -267,10 +267,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Relè\"?",
 			"options": [
-				"emette luce solo se polarità e corrente sono corrette",
-				"divide la corrente in rami che possono funzionare separatamente",
 				"usa un comando debole per chiudere un circuito di potenza",
-				"accumula carica e la rilascia per stabilizzare impulsi"
+				"divide la corrente in rami che possono funzionare separatamente",
+				"limita la corrente e protegge i componenti sensibili",
+				"emette luce solo se polarità e corrente sono corrette"
 			],
 			"answer": "usa un comando debole per chiudere un circuito di potenza",
 			"explanation": "Relè: usa una piccola corrente di comando per chiudere un circuito più potente."
@@ -283,10 +283,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Relè\"?",
 			"options": [
-				"non genera corrente: decide solo se il percorso continua",
-				"non è opzionale: ogni circuito deve tornare alla sorgente",
+				"non serve ad accendere di più: serve a non sovraccaricare",
 				"non è solo un interruttore manuale: viene comandato elettricamente",
-				"non serve ad accendere di più: serve a non sovraccaricare"
+				"non è opzionale: ogni circuito deve tornare alla sorgente",
+				"non è una batteria: non produce energia nuova, la conserva per poco"
 			],
 			"answer": "non è solo un interruttore manuale: viene comandato elettricamente",
 			"explanation": "Relè: verifica sia la bobina di comando sia il contatto che alimenta il carico."
@@ -299,10 +299,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Motore\"?",
 			"options": [
-				"apre o chiude il passaggio della corrente",
-				"fornisce la spinta elettrica tra polo + e polo -",
 				"stabilizza il riferimento comune del ritorno",
-				"trasforma energia elettrica in movimento"
+				"chiude il giro riportando la corrente al polo -",
+				"trasforma energia elettrica in movimento",
+				"apre o chiude il passaggio della corrente"
 			],
 			"answer": "trasforma energia elettrica in movimento",
 			"explanation": "Motore: è un carico più esigente di un LED: richiede alimentazione stabile e protezione."
@@ -315,10 +315,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Motore\"?",
 			"options": [
-				"non è un sensore: consuma energia, non misura",
-				"se non è alimentato, non può misurare",
-				"non genera corrente: decide solo se il percorso continua",
-				"non è una lampadina normale: il verso conta"
+				"non trattarlo come un unico filo in serie",
+				"non è una lampadina normale: il verso conta",
+				"non è un interruttore: è un riferimento stabile",
+				"non è un sensore: consuma energia, non misura"
 			],
 			"answer": "non è un sensore: consuma energia, non misura",
 			"explanation": "Motore: se il LED funziona ma il motore no, controlla caduta di tensione e relè."
@@ -331,10 +331,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Massa\"?",
 			"options": [
-				"trasforma energia elettrica in movimento",
 				"stabilizza il riferimento comune del ritorno",
-				"apre o chiude il passaggio della corrente",
-				"chiude il giro riportando la corrente al polo -"
+				"misura un segnale e invia dati al terminale",
+				"fornisce la spinta elettrica tra polo + e polo -",
+				"apre o chiude il passaggio della corrente"
 			],
 			"answer": "stabilizza il riferimento comune del ritorno",
 			"explanation": "Massa: è il riferimento di ritorno del circuito: se è ballerina, le misure diventano instabili."
@@ -347,10 +347,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Massa\"?",
 			"options": [
-				"non trattarlo come un unico filo in serie",
-				"non è un interruttore: è un riferimento stabile",
 				"non è una lampadina normale: il verso conta",
-				"non è un sensore: consuma energia, non misura"
+				"non è un interruttore: è un riferimento stabile",
+				"non è un sensore: consuma energia, non misura",
+				"non genera corrente: decide solo se il percorso continua"
 			],
 			"answer": "non è un interruttore: è un riferimento stabile",
 			"explanation": "Massa: cerca letture che passano da continuità a interruzione."
@@ -363,10 +363,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"Segui il filo: se la strada si interrompe, la corrente non torna alla batteria.\"?",
 			"options": [
-				"Resistenza sbagliata",
+				"Relè non attivato",
+				"Ritorno instabile",
 				"Filo mancante",
-				"Interruttore aperto",
-				"Corto circuito"
+				"Condensatore scarico"
 			],
 			"answer": "Filo mancante",
 			"explanation": "Segui il filo: se la strada si interrompe, la corrente non torna alla batteria."
@@ -379,10 +379,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"L'interruttore è come un ponte: se è aperto, la corrente si ferma.\"?",
 			"options": [
-				"Interruttore aperto",
+				"Condensatore scarico",
+				"Resistenza sbagliata",
 				"Sensore senza energia",
-				"Ritorno instabile",
-				"Resistenza assente"
+				"Interruttore aperto"
 			],
 			"answer": "Interruttore aperto",
 			"explanation": "L'interruttore è come un ponte: se è aperto, la corrente si ferma."
@@ -395,10 +395,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"La resistenza protegge il LED: senza di lei la corrente è troppo forte.\"?",
 			"options": [
-				"Condensatore scarico",
-				"Resistenza sbagliata",
 				"Resistenza assente",
-				"Interruttore aperto"
+				"Condensatore scarico",
+				"Interruttore aperto",
+				"Ritorno instabile"
 			],
 			"answer": "Resistenza assente",
 			"explanation": "La resistenza protegge il LED: senza di lei la corrente è troppo forte."
@@ -411,9 +411,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"Il LED ha un verso: se è girato al contrario, non lascia passare corrente.\"?",
 			"options": [
-				"Interruttore aperto",
-				"LED girato al contrario",
 				"Resistenza sbagliata",
+				"LED girato al contrario",
+				"Ramo parallelo aperto",
 				"Sensore senza energia"
 			],
 			"answer": "LED girato al contrario",
@@ -427,10 +427,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"La resistenza c'è, ma il suo valore non protegge bene il LED.\"?",
 			"options": [
-				"Resistenza sbagliata",
 				"Ramo parallelo aperto",
 				"Interruttore aperto",
-				"Condensatore scarico"
+				"Resistenza sbagliata",
+				"Componente scollegato"
 			],
 			"answer": "Resistenza sbagliata",
 			"explanation": "La resistenza c'è, ma il suo valore non protegge bene il LED."
@@ -443,10 +443,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"Un pezzo può essere presente ma fuori dal giro della corrente.\"?",
 			"options": [
-				"Componente scollegato",
-				"LED girato al contrario",
+				"Sensore senza energia",
 				"Ramo parallelo aperto",
-				"Interruttore aperto"
+				"LED girato al contrario",
+				"Componente scollegato"
 			],
 			"answer": "Componente scollegato",
 			"explanation": "Un pezzo può essere presente ma fuori dal giro della corrente."
@@ -462,7 +462,7 @@
 				"Sensore senza energia",
 				"LED girato al contrario",
 				"Ramo parallelo aperto",
-				"Interruttore aperto"
+				"Condensatore scarico"
 			],
 			"answer": "Sensore senza energia",
 			"explanation": "Un sensore misura solo se riceve energia e ha un ritorno."
@@ -475,10 +475,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.\"?",
 			"options": [
-				"Componente scollegato",
 				"Resistenza sbagliata",
 				"Ramo parallelo aperto",
-				"Condensatore scarico"
+				"Sensore senza energia",
+				"Componente scollegato"
 			],
 			"answer": "Ramo parallelo aperto",
 			"explanation": "In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona."
@@ -491,10 +491,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.\"?",
 			"options": [
+				"Componente scollegato",
+				"Resistenza sbagliata",
 				"Condensatore scarico",
-				"Ramo parallelo aperto",
-				"Sensore senza energia",
-				"Componente scollegato"
+				"Ramo parallelo aperto"
 			],
 			"answer": "Condensatore scarico",
 			"explanation": "Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco."
@@ -507,10 +507,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"Nel corto la corrente trova una scorciatoia e salta i componenti utili.\"?",
 			"options": [
-				"Corto circuito",
 				"Ritorno instabile",
 				"Resistenza assente",
-				"Condensatore scarico"
+				"Condensatore scarico",
+				"Corto circuito"
 			],
 			"answer": "Corto circuito",
 			"explanation": "Nel corto la corrente trova una scorciatoia e salta i componenti utili."
@@ -524,9 +524,9 @@
 			"prompt": "Quale guasto corrisponde a questo indizio: \"Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.\"?",
 			"options": [
 				"Ritorno instabile",
+				"Corto circuito",
 				"Relè non attivato",
-				"Condensatore scarico",
-				"Corto circuito"
+				"Condensatore scarico"
 			],
 			"answer": "Ritorno instabile",
 			"explanation": "Il ritorno al polo negativo deve essere stabile, non funzionare a tratti."
@@ -539,10 +539,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale guasto corrisponde a questo indizio: \"Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico.\"?",
 			"options": [
+				"Resistenza assente",
+				"Relè non attivato",
 				"Interruttore aperto",
-				"Condensatore scarico",
-				"Resistenza sbagliata",
-				"Relè non attivato"
+				"Condensatore scarico"
 			],
 			"answer": "Relè non attivato",
 			"explanation": "Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico."
@@ -571,10 +571,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il flusso di cariche elettriche in un filo?",
 			"options": [
+				"Tensione statica",
 				"Magnetismo",
 				"Calore",
-				"Corrente elettrica",
-				"Tensione statica"
+				"Corrente elettrica"
 			],
 			"answer": "Corrente elettrica",
 			"explanation": "La corrente è il movimento delle cariche nel conduttore."
@@ -603,10 +603,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché una lampadina si accenda, il circuito deve essere…",
 			"options": [
+				"Bagnato",
 				"Chiuso",
-				"Rotto",
 				"Aperto",
-				"Bagnato"
+				"Rotto"
 			],
 			"answer": "Chiuso",
 			"explanation": "Solo con il circuito chiuso la corrente può fare un giro completo."
@@ -619,10 +619,10 @@
 			"format": "multiple_choice",
 			"prompt": "A cosa serve un interruttore in un circuito?",
 			"options": [
-				"A produrre da solo la luce del circuito",
 				"A scaldare l'acqua del bicchiere",
-				"A misurare il tempo che passa",
-				"Ad aprire o chiudere il passaggio di corrente"
+				"A produrre da solo la luce del circuito",
+				"Ad aprire o chiudere il passaggio di corrente",
+				"A misurare il tempo che passa"
 			],
 			"answer": "Ad aprire o chiudere il passaggio di corrente",
 			"explanation": "L'interruttore apre (spegne) o chiude (accende) il circuito."
@@ -635,9 +635,9 @@
 			"format": "multiple_choice",
 			"prompt": "In una torcia, cosa fornisce l'energia elettrica?",
 			"options": [
+				"La lampadina",
 				"L'interruttore",
 				"Il filo",
-				"La lampadina",
 				"La pila (batteria)"
 			],
 			"answer": "La pila (batteria)",
@@ -652,8 +652,8 @@
 			"prompt": "Quale materiale conduce bene l'elettricità?",
 			"options": [
 				"Il rame (un metallo)",
-				"Il legno ben secco",
 				"La gomma dura",
+				"Il legno ben secco",
 				"La plastica dura"
 			],
 			"answer": "Il rame (un metallo)",
@@ -668,9 +668,9 @@
 			"prompt": "Come si chiama un materiale che NON lascia passare la corrente?",
 			"options": [
 				"Conduttore",
+				"Isolante",
 				"Generatore",
-				"Magnete",
-				"Isolante"
+				"Magnete"
 			],
 			"answer": "Isolante",
 			"explanation": "Gomma e plastica sono isolanti: proteggono dai contatti."
@@ -683,10 +683,10 @@
 			"format": "multiple_choice",
 			"prompt": "In un collegamento in SERIE, se una lampadina si brucia, le altre…",
 			"options": [
-				"Si accendono di più",
+				"Restano accese",
 				"Cambiano colore",
 				"Si spengono",
-				"Restano accese"
+				"Si accendono di più"
 			],
 			"answer": "Si spengono",
 			"explanation": "In serie la corrente ha un unico percorso: si interrompe per tutte."
@@ -699,9 +699,9 @@
 			"format": "multiple_choice",
 			"prompt": "In un collegamento in PARALLELO, se una lampadina si brucia, le altre…",
 			"options": [
+				"Si spengono a metà",
 				"Esplodono",
 				"Si spengono tutte",
-				"Si spengono a metà",
 				"Restano accese"
 			],
 			"answer": "Restano accese",
@@ -715,10 +715,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché non si toccano le prese con le mani bagnate?",
 			"options": [
-				"Si sporca la presa di corrente",
+				"L'acqua conduce e si rischia la scossa",
 				"Fa rumore e disturba gli altri",
-				"Si consuma molta più energia",
-				"L'acqua conduce e si rischia la scossa"
+				"Si sporca la presa di corrente",
+				"Si consuma molta più energia"
 			],
 			"answer": "L'acqua conduce e si rischia la scossa",
 			"explanation": "L'acqua rende il corpo conduttore: pericolo di scossa."
@@ -731,10 +731,10 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa NON bisogna mai infilare in una presa di corrente?",
 			"options": [
-				"Un copripresa di sicurezza",
 				"Niente, è sempre sicuro",
+				"Oggetti metallici o le dita",
 				"La spina di un apparecchio",
-				"Oggetti metallici o le dita"
+				"Un copripresa di sicurezza"
 			],
 			"answer": "Oggetti metallici o le dita",
 			"explanation": "I metalli conducono: infilarli nella presa è pericolosissimo."
@@ -747,10 +747,10 @@
 			"format": "multiple_choice",
 			"prompt": "A cosa serve un resistore in un circuito?",
 			"options": [
+				"A illuminare sempre",
 				"A spegnere il computer",
 				"A limitare la corrente",
-				"A produrre corrente",
-				"A illuminare sempre"
+				"A produrre corrente"
 			],
 			"answer": "A limitare la corrente",
 			"explanation": "Il resistore riduce la corrente, proteggendo gli altri componenti."
@@ -764,9 +764,9 @@
 			"prompt": "Un LED si accende solo se collegato…",
 			"options": [
 				"Solo al buio completo",
-				"Nel verso giusto (ha una polarità)",
+				"Solo con l'acqua vicino",
 				"In qualsiasi verso, non importa",
-				"Solo con l'acqua vicino"
+				"Nel verso giusto (ha una polarità)"
 			],
 			"answer": "Nel verso giusto (ha una polarità)",
 			"explanation": "Il LED conduce in un solo verso: va rispettata la polarità."
@@ -779,10 +779,10 @@
 			"format": "multiple_choice",
 			"prompt": "Con quale unità si misura la tensione?",
 			"options": [
-				"Watt",
 				"Volt",
 				"Gradi",
-				"Metri"
+				"Metri",
+				"Watt"
 			],
 			"answer": "Volt",
 			"explanation": "La tensione si misura in volt (V)."
@@ -795,9 +795,9 @@
 			"format": "multiple_choice",
 			"prompt": "Con quale unità si misura la corrente elettrica?",
 			"options": [
-				"Secondi",
 				"Litri",
 				"Ampere",
+				"Secondi",
 				"Volt"
 			],
 			"answer": "Ampere",

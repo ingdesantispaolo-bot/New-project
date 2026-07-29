@@ -11,10 +11,10 @@
 			"format": "multiple_choice",
 			"prompt": "In un esperimento controllato, quante variabili cambi per volta?",
 			"options": [
-				"Nessuna",
 				"Una sola",
-				"Almeno tre",
-				"Tutte insieme"
+				"Tutte insieme",
+				"Nessuna",
+				"Almeno tre"
 			],
 			"answer": "Una sola",
 			"explanation": "Cambiando una sola variabile capisci quale causa l'effetto."
@@ -27,9 +27,9 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa distingue un'ipotesi da una conclusione?",
 			"options": [
-				"La conclusione precede l'esperimento",
-				"L'ipotesi è una previsione da verificare",
 				"Sono la stessa cosa",
+				"L'ipotesi è una previsione da verificare",
+				"La conclusione precede l'esperimento",
 				"L'ipotesi arriva dopo i dati"
 			],
 			"answer": "L'ipotesi è una previsione da verificare",
@@ -45,8 +45,8 @@
 			"options": [
 				"A saltare qualche misura per fare prima",
 				"A rendere l'esperimento molto più lungo del solito",
-				"A cambiare più cose insieme e vedere",
-				"A confrontare con qualcosa che non è stato cambiato"
+				"A confrontare con qualcosa che non è stato cambiato",
+				"A cambiare più cose insieme e vedere"
 			],
 			"answer": "A confrontare con qualcosa che non è stato cambiato",
 			"explanation": "Il gruppo di controllo mostra cosa succede senza la variabile che stai studiando."
@@ -59,10 +59,10 @@
 			"format": "multiple_choice",
 			"prompt": "Cambi luce E acqua insieme e la pianta cresce di più. Cosa puoi concludere?",
 			"options": [
-				"Non sai quale delle due abbia agito",
 				"Sono state entrambe di sicuro",
 				"È stata solo l'acqua",
-				"È stata solo la luce"
+				"È stata solo la luce",
+				"Non sai quale delle due abbia agito"
 			],
 			"answer": "Non sai quale delle due abbia agito",
 			"explanation": "Cambiando due variabili insieme non puoi isolare la causa: vanno provate separatamente."
@@ -75,9 +75,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quali sono i tre stati principali della materia?",
 			"options": [
+				"Solido, liquido, gassoso",
 				"Duro, molle, liquido",
 				"Caldo, freddo, tiepido",
-				"Solido, liquido, gassoso",
 				"Pieno, vuoto, misto"
 			],
 			"answer": "Solido, liquido, gassoso",
@@ -91,10 +91,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'acqua allo stato solido?",
 			"options": [
-				"Nuvola",
+				"Vapore",
 				"Ghiaccio",
 				"Rugiada",
-				"Vapore"
+				"Nuvola"
 			],
 			"answer": "Ghiaccio",
 			"explanation": "L'acqua solida è il ghiaccio; allo stato gassoso è vapore."
@@ -107,10 +107,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio dell'acqua da liquido a vapore?",
 			"options": [
+				"Solidificazione",
 				"Fusione",
 				"Evaporazione",
-				"Condensazione",
-				"Solidificazione"
+				"Condensazione"
 			],
 			"answer": "Evaporazione",
 			"explanation": "Nell'evaporazione il liquido diventa gas; nella condensazione avviene il contrario."
@@ -123,10 +123,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio da gas (vapore) a liquido?",
 			"options": [
-				"Condensazione",
-				"Evaporazione",
 				"Fusione",
-				"Sublimazione"
+				"Evaporazione",
+				"Sublimazione",
+				"Condensazione"
 			],
 			"answer": "Condensazione",
 			"explanation": "La condensazione forma le goccioline: è il contrario dell'evaporazione."
@@ -139,10 +139,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio da solido a liquido?",
 			"options": [
-				"Solidificazione",
-				"Evaporazione",
+				"Fusione",
 				"Sublimazione",
-				"Fusione"
+				"Evaporazione",
+				"Solidificazione"
 			],
 			"answer": "Fusione",
 			"explanation": "Il ghiaccio che diventa acqua è fusione."
@@ -155,10 +155,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio diretto da solido a gas, senza passare per il liquido?",
 			"options": [
+				"Fusione",
 				"Sublimazione",
 				"Condensazione",
-				"Evaporazione",
-				"Fusione"
+				"Evaporazione"
 			],
 			"answer": "Sublimazione",
 			"explanation": "Nella sublimazione un solido diventa gas direttamente (es. la neve che 'sparisce' senza sciogliersi)."
@@ -171,9 +171,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parte della pianta assorbe l'acqua dal terreno?",
 			"options": [
-				"Le radici",
 				"I frutti",
 				"Le foglie",
+				"Le radici",
 				"I fiori"
 			],
 			"answer": "Le radici",
@@ -188,9 +188,9 @@
 			"prompt": "Di cosa hanno bisogno le piante per fare la fotosintesi?",
 			"options": [
 				"Soltanto acqua abbondante",
-				"Luce, acqua e anidride carbonica",
+				"Buio completo e freddo",
 				"Soltanto terra da giardino",
-				"Buio completo e freddo"
+				"Luce, acqua e anidride carbonica"
 			],
 			"answer": "Luce, acqua e anidride carbonica",
 			"explanation": "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno."
@@ -203,9 +203,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale gas rilasciano le piante durante la fotosintesi?",
 			"options": [
-				"Azoto",
-				"Idrogeno",
 				"Ossigeno",
+				"Idrogeno",
+				"Azoto",
 				"Anidride carbonica"
 			],
 			"answer": "Ossigeno",
@@ -220,8 +220,8 @@
 			"prompt": "Come si chiamano gli animali che si nutrono solo di piante?",
 			"options": [
 				"Predatori",
-				"Carnivori",
 				"Erbivori",
+				"Carnivori",
 				"Onnivori"
 			],
 			"answer": "Erbivori",
@@ -235,10 +235,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiamano gli animali che mangiano sia piante sia altri animali?",
 			"options": [
-				"Decompositori",
-				"Onnivori",
 				"Erbivori",
-				"Carnivori"
+				"Carnivori",
+				"Onnivori",
+				"Decompositori"
 			],
 			"answer": "Onnivori",
 			"explanation": "Gli onnivori (come l'orso o l'uomo) si nutrono di tutto."
@@ -252,9 +252,9 @@
 			"prompt": "Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?",
 			"options": [
 				"Evaporazione rapida",
-				"Respirazione cellulare",
 				"Digestione lenta",
-				"Fotosintesi"
+				"Fotosintesi",
+				"Respirazione cellulare"
 			],
 			"answer": "Respirazione cellulare",
 			"explanation": "La respirazione cellulare libera l'energia del cibo; la fotosintesi invece la immagazzina nelle piante."
@@ -269,8 +269,8 @@
 			"options": [
 				"I carnivori",
 				"Le piante",
-				"I produttori",
-				"Il Sole"
+				"Il Sole",
+				"I produttori"
 			],
 			"answer": "I carnivori",
 			"explanation": "I carnivori si nutrono di altri animali, come gli erbivori."
@@ -283,9 +283,9 @@
 			"format": "multiple_choice",
 			"prompt": "In una catena alimentare, chi produce il proprio nutrimento?",
 			"options": [
-				"I predatori (carnivori)",
-				"Le piante (produttori)",
 				"I decompositori",
+				"Le piante (produttori)",
+				"I predatori (carnivori)",
 				"Gli erbivori"
 			],
 			"answer": "Le piante (produttori)",
@@ -301,8 +301,8 @@
 			"options": [
 				"Erbivori",
 				"Produttori",
-				"Predatori",
-				"Decompositori"
+				"Decompositori",
+				"Predatori"
 			],
 			"answer": "Decompositori",
 			"explanation": "I decompositori riciclano la materia, restituendo sostanze utili al terreno."
@@ -315,10 +315,10 @@
 			"format": "multiple_choice",
 			"prompt": "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?",
 			"options": [
-				"Diminuirebbero per mancanza di cibo",
-				"Non cambierebbe proprio nulla",
 				"Aumenterebbero di numero",
-				"Diventerebbero tutti carnivori"
+				"Non cambierebbe proprio nulla",
+				"Diventerebbero tutti carnivori",
+				"Diminuirebbero per mancanza di cibo"
 			],
 			"answer": "Diminuirebbero per mancanza di cibo",
 			"explanation": "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono."
@@ -331,8 +331,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale organo ci permette di pensare e comandare il corpo?",
 			"options": [
-				"I muscoli",
 				"Il cervello",
+				"I muscoli",
 				"Lo stomaco",
 				"Il cuore"
 			],
@@ -347,10 +347,10 @@
 			"format": "multiple_choice",
 			"prompt": "A cosa serve lo scheletro?",
 			"options": [
-				"A vedere meglio i colori",
-				"A respirare più a lungo",
+				"A digerire il cibo più in fretta",
 				"A sostenere e proteggere il corpo",
-				"A digerire il cibo più in fretta"
+				"A respirare più a lungo",
+				"A vedere meglio i colori"
 			],
 			"answer": "A sostenere e proteggere il corpo",
 			"explanation": "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello)."
@@ -363,10 +363,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale organo pompa il sangue nel corpo?",
 			"options": [
-				"Il cuore",
-				"I polmoni",
+				"Il fegato",
 				"Lo stomaco",
-				"Il fegato"
+				"Il cuore",
+				"I polmoni"
 			],
 			"answer": "Il cuore",
 			"explanation": "Il cuore spinge il sangue in tutto il corpo."
@@ -379,10 +379,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale organo avviene lo scambio di ossigeno con il sangue?",
 			"options": [
-				"L'intestino",
-				"I polmoni",
+				"I reni",
 				"Il cuore",
-				"I reni"
+				"L'intestino",
+				"I polmoni"
 			],
 			"answer": "I polmoni",
 			"explanation": "Nei polmoni il sangue prende ossigeno e cede anidride carbonica."
@@ -396,8 +396,8 @@
 			"prompt": "In quale organo il cibo digerito viene assorbito nel sangue?",
 			"options": [
 				"L'intestino",
-				"I reni",
 				"I polmoni",
+				"I reni",
 				"Il cuore"
 			],
 			"answer": "L'intestino",
@@ -411,8 +411,8 @@
 			"format": "multiple_choice",
 			"prompt": "Da dove arriva quasi tutta l'energia che riscalda la Terra?",
 			"options": [
-				"Dal Sole",
 				"Dalla Luna",
+				"Dal Sole",
 				"Dal vento",
 				"Dalle stelle lontane"
 			],
@@ -427,10 +427,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'energia prodotta dal vento che fa girare le pale?",
 			"options": [
-				"Energia nucleare",
-				"Energia eolica",
 				"Energia solare",
-				"Energia idroelettrica"
+				"Energia idroelettrica",
+				"Energia eolica",
+				"Energia nucleare"
 			],
 			"answer": "Energia eolica",
 			"explanation": "L'energia eolica sfrutta il vento; quella idroelettrica l'acqua che scorre."
@@ -443,10 +443,10 @@
 			"format": "multiple_choice",
 			"prompt": "L'energia dell'acqua che scorre e fa girare le turbine si chiama…",
 			"options": [
-				"Energia eolica",
-				"Energia idroelettrica",
 				"Energia geotermica",
-				"Energia solare"
+				"Energia solare",
+				"Energia eolica",
+				"Energia idroelettrica"
 			],
 			"answer": "Energia idroelettrica",
 			"explanation": "Le dighe sfruttano l'acqua in movimento per produrre elettricità."
@@ -459,10 +459,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quali fonti di energia non si esauriscono e inquinano poco?",
 			"options": [
-				"Plastica bruciata negli inceneritori",
-				"Gas e benzina dei motori",
 				"Sole, vento e acqua (rinnovabili)",
-				"Carbone e petrolio estratti"
+				"Carbone e petrolio estratti",
+				"Plastica bruciata negli inceneritori",
+				"Gas e benzina dei motori"
 			],
 			"answer": "Sole, vento e acqua (rinnovabili)",
 			"explanation": "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili."
@@ -475,8 +475,8 @@
 			"format": "multiple_choice",
 			"prompt": "Attorno a cosa gira la Terra?",
 			"options": [
-				"Il Sole",
 				"La Luna",
+				"Il Sole",
 				"Una cometa",
 				"Marte"
 			],
@@ -491,10 +491,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il satellite naturale della Terra?",
 			"options": [
-				"Venere",
 				"Marte",
-				"Il Sole",
-				"La Luna"
+				"Venere",
+				"La Luna",
+				"Il Sole"
 			],
 			"answer": "La Luna",
 			"explanation": "La Luna gira intorno alla Terra."
@@ -507,9 +507,9 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa provoca l'alternarsi del giorno e della notte?",
 			"options": [
-				"Le nuvole",
-				"La Terra che gira intorno al Sole",
 				"La Luna che si sposta",
+				"La Terra che gira intorno al Sole",
+				"Le nuvole",
 				"La rotazione della Terra su se stessa"
 			],
 			"answer": "La rotazione della Terra su se stessa",
@@ -523,8 +523,8 @@
 			"format": "multiple_choice",
 			"prompt": "Cosa provoca soprattutto l'alternarsi delle stagioni?",
 			"options": [
-				"Il vento che soffia da nord per tutto l'anno",
 				"L'inclinazione della Terra mentre gira intorno al Sole",
+				"Il vento che soffia da nord per tutto l'anno",
 				"Le maree provocate dalla Luna",
 				"La distanza che cambia dalla Luna"
 			],
@@ -540,8 +540,8 @@
 			"prompt": "Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?",
 			"options": [
 				"Buttarli tutti nello stesso sacco",
-				"Lasciarli per terra dove capita",
 				"Fare la raccolta differenziata",
+				"Lasciarli per terra dove capita",
 				"Bruciarli nel cortile di casa"
 			],
 			"answer": "Fare la raccolta differenziata",
@@ -555,10 +555,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché è importante non sprecare l'acqua?",
 			"options": [
-				"Perché è di colore trasparente",
-				"È una risorsa preziosa e limitata",
 				"Perché è pesante da trasportare",
-				"Non è importante, ce n'è tanta"
+				"Non è importante, ce n'è tanta",
+				"È una risorsa preziosa e limitata",
+				"Perché è di colore trasparente"
 			],
 			"answer": "È una risorsa preziosa e limitata",
 			"explanation": "L'acqua dolce pulita è limitata: va usata con attenzione."
@@ -571,10 +571,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'aumento della temperatura del pianeta legato anche ai gas prodotti dall'uomo?",
 			"options": [
-				"Effetto marea",
-				"Riscaldamento globale",
+				"Effetto eco",
 				"Effetto arcobaleno",
-				"Effetto eco"
+				"Effetto marea",
+				"Riscaldamento globale"
 			],
 			"answer": "Riscaldamento globale",
 			"explanation": "L'eccesso di gas serra trattiene più calore e riscalda il pianeta."
@@ -602,8 +602,8 @@
 			"format": "multiple_choice",
 			"prompt": "Nella serra, quale pianta preferisce la luce più morbida?",
 			"options": [
-				"Pomodoro Aurora",
 				"Cactus di Vetro",
+				"Pomodoro Aurora",
 				"Felce Luna"
 			],
 			"answer": "Felce Luna",

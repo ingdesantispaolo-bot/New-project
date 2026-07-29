@@ -29,6 +29,30 @@ const MIN_ORDER := 2        # ordinamento: almeno 2 elementi
 static func format_of(node: Dictionary) -> String:
 	return str(node.get("format", "multiple_choice"))
 
+## Mescola EVITANDO una disposizione vietata — di norma la soluzione. Una prova
+## che si presenta già risolta non chiede nulla: basta premere in fila. Con pochi
+## elementi la probabilità non è affatto trascurabile (una volta su sei con tre
+## elementi, e con tre elementi si gioca spesso), quindi va esclusa, non sperata.
+## Se dopo alcuni tentativi il caso non aiuta, si forza uno scambio.
+static func shuffle_avoiding(values: Array, rng: RandomNumberGenerator, forbidden: Array) -> void:
+	if values.size() < 2:
+		return
+	for attempt in range(8):
+		for i in range(values.size() - 1, 0, -1):
+			var j := rng.randi_range(0, i)
+			var tmp = values[i]
+			values[i] = values[j]
+			values[j] = tmp
+		if values != forbidden:
+			return
+	# Fallback deterministico: scambia i primi due elementi diversi tra loro.
+	for i in range(values.size() - 1):
+		if str(values[i]) != str(values[i + 1]):
+			var tmp = values[i]
+			values[i] = values[i + 1]
+			values[i + 1] = tmp
+			return
+
 static func is_multiple_choice(node: Dictionary) -> bool:
 	return format_of(node) == "multiple_choice"
 
@@ -127,6 +151,10 @@ static func _validate_ordering(node: Dictionary, errors: Array) -> void:
 	var b := order.map(func(x): return str(x)); b.sort()
 	if a != b:
 		errors.append("correctOrder non è una permutazione degli elementi")
+	# Gli elementi non possono essere presentati NELL'ORDINE GIUSTO: l'esercizio
+	# sarebbe già risolto e si supererebbe premendo in fila, senza ordinare nulla.
+	if items.size() >= 2 and items.map(func(x): return str(x)) == order.map(func(x): return str(x)):
+		errors.append("gli elementi sono già nell'ordine corretto: la prova si risolve da sola")
 	var seen: Dictionary = {}
 	for x in order:
 		var s := str(x)

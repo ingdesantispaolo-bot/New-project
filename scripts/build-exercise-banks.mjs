@@ -70,8 +70,20 @@ function pickDistractors(pool, exclude, count, rand) {
   return shuffle(shortlist, rand).slice(0, count);
 }
 
+// Posizione della risposta: a ROTAZIONE, non a caso. Con un mescolamento puro i
+// banchi piccoli finiscono sbilanciati per solo effetto del caso (misurato: la
+// risposta di logica cadeva in terza posizione nel 45% degli item, quella di
+// scienze in seconda nel 42%) e un bambino che ne fa molti può accorgersene. La
+// rotazione per materia rende la posizione esattamente uniforme; i distrattori
+// restano mescolati tra loro, quindi le alternative non si ripetono in ordine fisso.
+const answerSlotBySubject = new Map();
+
 function multipleChoiceItem({ id, subject, topic, difficulty, prompt, answer, distractors, explanation }, rand) {
-  const options = shuffle([answer, ...distractors], rand);
+  const options = shuffle(distractors, rand);
+  const slots = options.length + 1;
+  const slot = (answerSlotBySubject.get(subject) ?? 0) % slots;
+  answerSlotBySubject.set(subject, slot + 1);
+  options.splice(slot, 0, answer);
   return { id, subject, topic, difficulty, format: "multiple_choice", prompt, options, answer, explanation };
 }
 

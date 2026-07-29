@@ -113,6 +113,29 @@ implementata.
 6. **Budget prestazionali confermati** ai valori di `performance_budget`. Resta
    solo la verifica su tablet fisico (punto C-P6 #5).
 
+## Difetti corretti dopo segnalazione (29 luglio)
+
+Un ordinamento dell'esame di matematica è arrivato **già risolto**: gli elementi
+erano presentati nell'ordine giusto e bastava premerli in fila. Cercandone altri
+della stessa famiglia — la presentazione che regala la risposta — ne sono emersi
+tre, tutti misurati sull'esperienza giocata:
+
+- **ordinamenti già risolti**: 355 su 7.532 (4,7%), esami compresi. Ora il
+  rimescolamento non può restituire la soluzione e il contratto
+  (`ExerciseInteraction.validate`) rifiuta un ordinamento presentato ordinato;
+- **caccia all'errore prevedibile**: la riga sbagliata era la terza nel 56% dei
+  casi e in sei materie *sempre* la terza. Dove le righe sono affermazioni
+  indipendenti ora vengono rimescolate a ogni partita (con la spiegazione
+  rinumerata); dove l'ordine è il ragionamento — codice, passaggi di un calcolo,
+  premesse di un sillogismo — sono stati autorati sei spec con l'errore in
+  posizioni diverse;
+- **posizione della risposta nei banchi piccoli**: logica al 45% in terza
+  posizione, scienze al 42% in seconda. Al bake la posizione ora ruota per
+  materia: tutte tra il 23% e il 28%.
+
+Guard-rail: `giveaway_audit.gd`. La colonna destra degli abbinamenti non può più
+risultare allineata alla sinistra (si risolveva riga per riga).
+
 ## Rischi noti
 
 - **L'export in `public/godot/outdoor/` invecchia più in fretta dei contenuti.**

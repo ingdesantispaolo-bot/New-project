@@ -56,6 +56,7 @@ var _status: Label
 var _next_button: Button
 var _help_button: Button
 var _input: LineEdit
+var _input_submit: Button
 var _convergence_display: FinalConvergenceDisplay
 var _exercise_panel: PanelContainer
 var _options_scroll: ScrollContainer
@@ -78,6 +79,7 @@ var _classification_buttons: Dictionary = {}
 var _classification_selected := ""
 var _visual_selected := ""
 var _visual_buttons: Dictionary = {}
+var _visual_diagram: Control
 var _rng: RandomNumberGenerator
 var high_contrast := false
 var reduced_motion := false
@@ -177,7 +179,7 @@ func _build_ui() -> void:
 	if transversal:
 		_convergence_display = FINAL_CONVERGENCE_DISPLAY.new()
 		_convergence_display.name = "FinalConvergenceDisplay"
-		_convergence_display.setup(Array(session.get("systems", [])))
+		_convergence_display.setup(Array(session.get("systems", [])), reduced_motion)
 		box.add_child(_convergence_display)
 
 	_status = Label.new()
@@ -203,10 +205,23 @@ func _build_ui() -> void:
 	_options_scroll.add_child(_options)
 
 	_input = LineEdit.new()
-	_input.placeholder_text = "Scrivi la risposta e premi Invio"
+	_input.placeholder_text = "Scrivi la risposta"
 	_input.visible = false
 	_input.text_submitted.connect(func(text): _answer(text))
 	box.add_child(_input)
+	_input_submit = Button.new()
+	_input_submit.name = "TextAnswerSubmit"
+	_input_submit.text = "CONFERMA RISPOSTA"
+	_input_submit.visible = false
+	_input_submit.custom_minimum_size = Vector2(0, 52)
+	_input_submit.add_theme_font_size_override("font_size", 16)
+	_input_submit.add_theme_color_override("font_color", Color("06272a"))
+	_input_submit.add_theme_stylebox_override(
+		"normal",
+		_exercise_button_style(Color("6be7d6"), Color("d8fff8"))
+	)
+	_input_submit.pressed.connect(func(): _answer(_input.text))
+	box.add_child(_input_submit)
 
 	_feedback = Label.new()
 	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -226,6 +241,9 @@ func _build_ui() -> void:
 	_next_button = Button.new()
 	_next_button.text = "Avanti"
 	_next_button.visible = false
+	if is_instance_valid(_input_submit):
+		_input_submit.visible = false
+		_input_submit.disabled = false
 	_next_button.custom_minimum_size = Vector2(0, 48)
 	_next_button.add_theme_font_size_override("font_size", 16)
 	_next_button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.16, 0.32, 0.30, 0.98), Color(0.96, 0.78, 0.36, 0.72)))
@@ -396,6 +414,7 @@ func _show_current() -> void:
 	_classification_selected = ""
 	_visual_selected = ""
 	_visual_buttons = {}
+	_visual_diagram = null
 	if _index >= _nodes.size():
 		_finish()
 		return
@@ -439,6 +458,7 @@ func _show_current() -> void:
 			_input.visible = true
 			_input.text = ""
 			_input.editable = true
+			_input_submit.visible = true
 			if is_inside_tree():
 				_input.grab_focus()
 
@@ -507,12 +527,22 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 			_systems_resolved[system] = is_correct
 		if is_instance_valid(_convergence_display):
 			_convergence_display.resolve_system(system, is_correct)
+		var convergence_audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
+		if convergence_audio != null:
+			if system == "sintesi" and is_correct:
+				convergence_audio.call("play", "circuit.on", 1.18)
+			elif system != "sintesi":
+				var total_systems := maxi(1, int(Array(session.get("systems", [])).size()))
+				var stage_pitch := lerpf(0.90, 1.16, float(_systems_resolved.size()) / float(total_systems))
+				convergence_audio.call("play_event", "enigmaProgress", stage_pitch)
 		system_resolved.emit(system, is_correct, _systems_resolved.size(), int(Array(session.get("systems", [])).size()))
 	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
 	_next_button.visible = true
 
 func _lock_interactions() -> void:
 	_input.editable = false
+	if is_instance_valid(_input_submit):
+		_input_submit.disabled = true
 	_disable_buttons(_options)
 
 func _disable_buttons(node: Node) -> void:
@@ -548,6 +578,7 @@ func _build_ordering(item: Dictionary) -> void:
 		button.add_theme_stylebox_override("hover", _exercise_button_style(Color(0.12, 0.34, 0.31, 0.98), Color(0.52, 0.96, 0.78, 0.75)))
 		button.tooltip_text = "Elemento %s: trascina o premi Invio per inserirlo" % str(elements[i])
 		button.call("configure", str(i), "ordering")
+		button.connect("drag_started", _on_drag_started.bind(button))
 		button.pressed.connect(_ordering_click.bind(i, item))
 		source_row.add_child(button)
 		_mg_buttons.append(button)
@@ -598,6 +629,7 @@ func _ordering_place(source_id: String, target_slot: int) -> void:
 	_ordering_state[target_slot] = source_id
 	(_mg_buttons[source] as Button).disabled = true
 	_refresh_ordering_slots()
+	_causal_feedback("snap", _ordering_slots[target_slot], 0.96 + float(target_slot) * 0.035)
 
 func _ordering_clear_slot(slot_index: int) -> void:
 	if _answered or slot_index < 0 or slot_index >= _ordering_state.size():
@@ -608,6 +640,7 @@ func _ordering_clear_slot(slot_index: int) -> void:
 	_ordering_state[slot_index] = ""
 	(_mg_buttons[int(source)] as Button).disabled = false
 	_refresh_ordering_slots()
+	_causal_feedback("cancel", _ordering_slots[slot_index], 0.94)
 
 func _ordering_undo() -> void:
 	for index in range(_ordering_state.size() - 1, -1, -1):
@@ -659,13 +692,16 @@ func _build_matching(item: Dictionary) -> void:
 		_style_matching_button(lb, str((pairs[i] as Dictionary).get("left", "")))
 		lb.name = "MatchingLeft_%02d" % i
 		lb.call("configure", str(i), "matching")
+		lb.connect("drag_started", _on_drag_started.bind(lb))
 		lb.pressed.connect(_matching_left.bind(i))
 		left_col.add_child(lb)
 		_mg_left_buttons.append(lb)
 	var rights: Array = []
 	for p in pairs:
 		rights.append(str((p as Dictionary).get("right", "")))
-	_shuffle(rights, _rng)
+	# La colonna destra non può risultare allineata alla sinistra: l'abbinamento si
+	# risolverebbe riga per riga, senza sapere nulla delle coppie.
+	ExerciseInteraction.shuffle_avoiding(rights, _rng, rights.duplicate())
 	for j in rights.size():
 		var rb := EXERCISE_DROP_BUTTON.new()
 		_style_matching_button(rb, str(rights[j]))
@@ -684,8 +720,10 @@ func _style_matching_button(b: Button, text: String) -> void:
 	b.custom_minimum_size = Vector2(0, 48)
 	b.add_theme_font_size_override("font_size", 15)
 	b.add_theme_color_override("font_color", Color("e7fff8"))
+	b.add_theme_color_override("font_disabled_color", Color("d9fff0"))
 	b.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.22, 0.23, 0.92), Color(0.42, 0.9, 0.84, 0.28)))
 	b.add_theme_stylebox_override("hover", _exercise_button_style(Color(0.12, 0.34, 0.31, 0.98), Color(0.52, 0.96, 0.78, 0.75)))
+	b.add_theme_stylebox_override("disabled", _exercise_button_style(Color(0.08, 0.28, 0.24, 0.96), Color("8ff6d2")))
 	b.focus_mode = Control.FOCUS_ALL
 
 func _shuffle(values: Array, random: RandomNumberGenerator) -> void:
@@ -699,6 +737,7 @@ func _matching_left(i: int) -> void:
 	if _answered or _mg_left_buttons[i].disabled:
 		return
 	_mg_selected_left = i
+	_causal_feedback("select", _mg_left_buttons[i], 0.94)
 	for k in _mg_left_buttons.size():
 		var b: Button = _mg_left_buttons[k]
 		if not b.disabled:
@@ -727,12 +766,15 @@ func _matching_right(value: String, item: Dictionary) -> void:
 				})
 				if is_instance_valid(_matching_canvas):
 					_matching_canvas.call("set_connections", _matching_connections)
+				_causal_feedback("connect", rb, 0.96 + float(_mg_matched) * 0.07)
+				_causal_feedback("snap", _mg_left_buttons[_mg_selected_left], 1.04)
 				break
 		_mg_matched += 1
 		_mg_selected_left = -1
 		if _mg_matched >= pairs.size():
 			_score_current(true, item)
 	else:
+		_causal_feedback("error", _mg_left_buttons[_mg_selected_left], 0.88)
 		_spend_shield()
 		_refresh_status()
 		_flash_feedback("Coppia sbagliata: riprova.")
@@ -767,6 +809,7 @@ func _build_classification(item: Dictionary) -> void:
 		button.add_theme_font_size_override("font_size", 15)
 		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.22, 0.23, 0.96), Color("527980")))
 		button.call("configure", key, "classification")
+		button.connect("drag_started", _on_drag_started.bind(button))
 		button.pressed.connect(_classification_select.bind(key))
 		button.tooltip_text = "%s: trascina o seleziona per assegnare" % key
 		source_row.add_child(button)
@@ -799,6 +842,7 @@ func _classification_select(key: String) -> void:
 		var button := _classification_buttons[item_key] as Button
 		button.modulate = Color("f6c85f") if str(item_key) == key else Color.WHITE
 	_flash_feedback("Ora scegli la categoria per “%s”." % key)
+	_causal_feedback("select", _classification_buttons[key], 0.94)
 
 func _classification_category(category: String) -> void:
 	if _classification_selected == "":
@@ -818,6 +862,7 @@ func _classification_assign(key: String, category: String) -> void:
 	button.text = "%s  →  %s" % [key, category]
 	button.modulate = Color(0.72, 1.0, 0.84)
 	_flash_feedback("Assegnato a %s. Puoi ancora cambiarlo." % category)
+	_causal_feedback("snap", button, 1.02 + float(_classification_state.size()) * 0.025)
 
 func _classification_undo() -> void:
 	if _classification_selected != "":
@@ -834,6 +879,7 @@ func _classification_undo() -> void:
 	var button := _classification_buttons[key] as Button
 	button.text = key
 	button.modulate = Color.WHITE
+	_causal_feedback("cancel", button, 0.92)
 
 func _classification_submit(item: Dictionary) -> void:
 	var expected: Dictionary = item.get("assignments", {})
@@ -860,6 +906,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 	var diagram := EXERCISE_DIAGRAM.new()
 	diagram.name = "ExerciseDiagram_%s" % fmt
 	diagram.call("configure", fmt, item)
+	_visual_diagram = diagram
 	_options.add_child(diagram)
 	var points: Array = item.get("hotspots", []) if fmt == "hotspot" else item.get("points", []) if fmt == "graph" else item.get("components", [])
 	for point in points:
@@ -902,17 +949,28 @@ func _visual_select(id: String) -> void:
 		var button := _visual_buttons[key] as Button
 		button.modulate = Color("f6c85f") if str(key) == id else Color.WHITE
 	_flash_feedback("Selezione: %s. Verifica quando sei sicuro." % str((_visual_buttons[id] as Button).text))
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_feedback", id, "selected")
+	_causal_feedback("select", _visual_buttons[id], 0.98)
 
 func _visual_clear() -> void:
 	_visual_selected = ""
 	for button in _visual_buttons.values():
 		(button as Button).modulate = Color.WHITE
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_feedback", "", "")
+	_causal_feedback("cancel", _visual_diagram, 0.92)
 
 func _visual_submit(item: Dictionary) -> void:
 	if _visual_selected == "":
 		_flash_feedback("Seleziona prima un punto.")
 		return
-	_retryable_result(_visual_selected == str(item.get("answer", "")), item, "Quel punto non spiega il fenomeno: osserva di nuovo la struttura.")
+	var correct := _visual_selected == str(item.get("answer", ""))
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_feedback", _visual_selected, "correct" if correct else "error")
+	if correct and str(item.get("format", "")) == "circuit":
+		_causal_feedback("connect", _visual_buttons.get(_visual_selected) as Control, 1.14)
+	_retryable_result(correct, item, "Quel punto non spiega il fenomeno: osserva di nuovo la struttura.")
 
 # --- CODE DEBUG (righe selezionabili, numerate e leggibili da tastiera) --------
 func _build_code_debug(item: Dictionary) -> void:
@@ -973,6 +1031,7 @@ func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -
 	if correct:
 		_score_current(true, item)
 		return
+	_causal_feedback("error", _options, 0.86)
 	_spend_shield()
 	_register_wrong_attempt(item)
 	_refresh_status()
@@ -994,6 +1053,57 @@ func _flash_feedback(message: String) -> void:
 	if is_instance_valid(_feedback):
 		_feedback.add_theme_color_override("font_color", Color("ffd37a"))
 		_feedback.text = message
+
+## Vocabolario causale comune a tutti i renderer non-MC. Ogni gesto produce
+## una firma sonora e visiva distinta; il meta rende il contratto auditabile.
+func _causal_feedback(cue: String, target: Control = null, pitch: float = 1.0) -> void:
+	set_meta("last_causal_feedback", cue)
+	var audio: Node = get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
+	var sound_key: String = str({
+		"pickup": "ui.select",
+		"select": "ui.select",
+		"snap": "ui.confirm",
+		"connect": "circuit.on",
+		"cancel": "ui.cancel",
+		"error": "answer.wrong",
+	}.get(cue, ""))
+	if audio != null and sound_key != "":
+		audio.call("play", sound_key, pitch)
+	if not is_instance_valid(target):
+		return
+	target.pivot_offset = target.size * 0.5
+	if reduced_motion:
+		target.modulate = (
+			Color(0.72, 1.0, 0.84) if cue in ["snap", "connect"]
+			else Color("f6c85f") if cue in ["pickup", "select"]
+			else Color.WHITE
+		)
+		return
+	var original_scale := target.scale
+	var original_position := target.position
+	var original_modulate := target.modulate
+	var accent := (
+		Color(0.72, 1.0, 0.84) if cue in ["snap", "connect"]
+		else Color("ff9faa") if cue == "error"
+		else Color("f6c85f")
+	)
+	var tween := create_tween()
+	if cue == "error":
+		target.modulate = accent
+		tween.tween_property(target, "position:x", original_position.x - 8.0, 0.045)
+		tween.tween_property(target, "position:x", original_position.x + 7.0, 0.055)
+		tween.tween_property(target, "position:x", original_position.x, 0.055)
+		tween.parallel().tween_property(target, "modulate", original_modulate, 0.18)
+	else:
+		target.modulate = accent
+		target.scale = original_scale * 0.96
+		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tween.tween_property(target, "scale", original_scale * 1.045, 0.10)
+		tween.tween_property(target, "scale", original_scale, 0.12)
+		tween.parallel().tween_property(target, "modulate", original_modulate, 0.22)
+
+func _on_drag_started(source: Control) -> void:
+	_causal_feedback("pickup", source, 0.92)
 
 func _offer_concept_help(item: Dictionary) -> void:
 	if not is_instance_valid(_help_button):
@@ -1049,6 +1159,8 @@ func _finish() -> void:
 		audio.call("play_event", "enigmaCompleted" if passed else "sessionDefeated")
 	if passed:
 		_energy += int(session.get("rewards", {}).get("onComplete", {}).get("energy", 0))
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("delete document.documentElement.dataset.eliExercise;")
 	session_finished.emit({
 		"sessionId": str(session.get("sessionId", "")),
 		"kind": str(session.get("kind", "mission")),

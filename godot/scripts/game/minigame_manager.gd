@@ -199,6 +199,21 @@ const ORDERING := {
 		{"topic": "montaggio", "minLevel": 3, "prompt": "Ordina i passi per costruire un circuito che accende un LED.", "correctOrder": ["Prendi la pila", "Collega il filo al polo +", "Aggiungi l'interruttore", "Collega il LED", "Chiudi il circuito al polo -"]},
 		{"topic": "misure-elettriche", "minLevel": 5, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
 	],
+	# Logica (mondi 12 e 24). Prima di queste specifiche la logica riceveva
+	# l'ordinamento procedurale di numeri nudi, che dichiarava `topic: "sequenze"`
+	# senza avere nessuna regola da scoprire: sequenza è "trova la regola che
+	# genera i termini", non "ordina tre interi". Qui l'ordine È il ragionamento.
+	"logica": [
+		{"topic": "sequenze", "prompt": "Ordina i passi per scoprire la regola di una sequenza.", "correctOrder": ["Confronta due termini vicini", "Di' a parole che cosa cambia", "Verifica la regola su un altro termine", "Applica la regola al termine dopo"]},
+		{"topic": "deduzioni", "prompt": "Ordina la deduzione: prima le premesse, poi la conclusione.", "correctOrder": ["Tutti i pianeti girano attorno a una stella", "La Terra è un pianeta", "Allora la Terra gira attorno a una stella"]},
+		{"topic": "analogie", "prompt": "Ordina i passi per risolvere un'analogia.", "correctOrder": ["Guarda la prima coppia", "Di' a parole come sono legate", "Cerca lo stesso legame nella seconda coppia", "Scegli la parola che lo completa"]},
+		# Una sequenza che NON si risolve ordinando per grandezza: la regola
+		# alterna ×2 e −1, quindi i termini salgono e scendono. È la prova che
+		# distingue "so applicare una regola" da "so confrontare due numeri".
+		{"topic": "sequenze", "minLevel": 18, "prompt": "La regola è: ×2, poi −1, poi ×2, poi −1. Rimetti i termini nell'ordine giusto partendo da 3.", "correctOrder": ["3", "6", "5", "10", "9"]},
+		{"topic": "deduzioni", "minLevel": 20, "prompt": "Ordina i passi per risolvere un indovinello a eliminazione.", "correctOrder": ["Elenca tutti i casi possibili", "Applica il primo indizio e scarta", "Applica il secondo indizio e scarta", "Controlla che resti un solo caso", "Scrivi la conclusione"]},
+		{"topic": "analogie", "minLevel": 20, "prompt": "Ordina le relazioni dalla più stretta alla più ampia.", "correctOrder": ["Cucciolo : cane", "Cane : mammifero", "Mammifero : animale", "Animale : vivente"]},
+	],
 }
 
 # Smistamento in categorie (drag-to-sort), per materia. Ogni item ha UNA categoria
@@ -697,26 +712,26 @@ const CIRCUIT := {
 # CODE-DEBUG (righe numerate selezionabili): trova la riga con l'errore. Testo puro.
 const CODE_DEBUG := {
 	"coding": [
-		{"topic": "cicli", "answerLine": 2,
+		{"topic": "cicli", "answerLine": 3,
 			"prompt": "Dovrebbe stampare 1, 2, 3. Quale riga contiene l'errore?",
-			"codeLines": ["for i in [1, 2, 3]:", "    print(i + 1)", "# atteso: 1, 2, 3"],
-			"explanation": "La riga 2 stampa i+1 (2, 3, 4): va corretta in print(i)."},
-		{"topic": "condizioni", "answerLine": 1,
+			"codeLines": ["numeri = [1, 2, 3]", "for i in numeri:", "    print(i + 1)", "# atteso: 1, 2, 3"],
+			"explanation": "Riga 3: stampa i+1, cioè 2, 3, 4. Va corretta in print(i)."},
+		{"topic": "condizioni", "answerLine": 2,
 			"prompt": "Vogliamo salutare solo se il nome NON è vuoto. Quale riga sbaglia?",
-			"codeLines": ["if nome == \"\":", "    print('Ciao ' + nome)", "# salutare solo se c'è un nome"],
-			"explanation": "La riga 1 controlla se il nome È vuoto: la condizione va invertita (nome != '')."},
+			"codeLines": ["nome = 'Sofia'", "if nome == '':", "    print('Ciao ' + nome)", "# salutare solo se c'è un nome"],
+			"explanation": "Riga 2: controlla se il nome È vuoto. La condizione va invertita: nome != ''."},
 		{"topic": "confronto", "minLevel": 3, "answerLine": 2,
 			"prompt": "Vogliamo controllare se x vale 5. Quale riga sbaglia?",
 			"codeLines": ["x = 5", "if x = 5:", "    print('cinque')", "# come si confronta in Python?"],
 			"explanation": "Riga 2: per confrontare serve '==' (uguaglianza), non '=' (che assegna)."},
 		{"topic": "cicli", "minLevel": 4, "answerLine": 1,
-			"prompt": "Dovrebbe stampare 0, 1, 2. Quale riga sbaglia?",
-			"codeLines": ["for i in range(1, 3):", "    print(i)", "# atteso: 0, 1, 2"],
+			"prompt": "Dovrebbe stampare 0, 1, 2 e poi 'fine'. Quale riga sbaglia?",
+			"codeLines": ["for i in range(1, 3):", "    print(i)", "print('fine')", "# atteso: 0, 1, 2, poi fine"],
 			"explanation": "Riga 1: range(1, 3) dà 1, 2. Per 0, 1, 2 serve range(3)."},
-		{"topic": "indentazione", "minLevel": 5, "answerLine": 2,
-			"prompt": "Il numero dovrebbe stamparsi dentro il ciclo. Quale riga sbaglia?",
-			"codeLines": ["for i in range(3):", "print(i)", "# print deve stare dentro il for"],
-			"explanation": "Riga 2: manca l'indentazione. print(i) va rientrato per stare dentro il for."},
+		{"topic": "indentazione", "minLevel": 5, "answerLine": 3,
+			"prompt": "Il totale dovrebbe stamparsi a ogni giro. Quale riga sbaglia?",
+			"codeLines": ["for i in range(3):", "    totale = i * 2", "print(totale)", "# il print deve stare dentro il for"],
+			"explanation": "Riga 3: print(totale) è fuori dal ciclo, quindi stampa una volta sola. Va rientrato dentro il for."},
 		{"topic": "logica-booleana", "minLevel": 6, "answerLine": 2,
 			"prompt": "Deve essere vero solo se l'età è tra 6 e 10. Quale riga sbaglia?",
 			"codeLines": ["eta = 8", "if eta >= 6 or eta <= 10:", "    print('ok')", "# dentro l'intervallo, non fuori"],
@@ -793,10 +808,16 @@ const CODE_DEBUG := {
 	# per passo e si smaschera la riga sbagliata. Colpisce le misconcezioni tipiche
 	# (priorità, area vs perimetro, somma di frazioni): più coinvolgente che ripetere.
 	"matematica": [
-		{"topic": "calcolo", "answerLine": 2,
+		# Riscritta il 30 luglio dopo una segnalazione: era ["7 + 5", "= 13",
+		# "# quanto fa davvero?"]. Due sole righe candidate (quasi testa o croce) e
+		# soprattutto non erano PASSAGGI: "7 + 5" e "= 13" sono i due pezzi di una
+		# sola uguaglianza, quindi «quale riga sbaglia» era ambiguo — l'errore stava
+		# nella relazione fra le due, non dentro una delle due. Ora sono tre passaggi
+		# veri e l'errore è nell'ultimo, dopo un primo passaggio corretto.
+		{"topic": "calcolo", "answerLine": 3,
 			"prompt": "Controlla il calcolo passo per passo: quale riga sbaglia?",
-			"codeLines": ["7 + 5", "= 13", "# quanto fa davvero?"],
-			"explanation": "Riga 2: 7 + 5 = 12, non 13."},
+			"codeLines": ["7 + 5 + 6", "= 12 + 6", "= 19", "# controlla ogni passaggio"],
+			"explanation": "Riga 3: 12 + 6 fa 18, non 19. Il primo passaggio (7 + 5 = 12) era giusto."},
 		{"topic": "espressioni", "minLevel": 3, "answerLine": 2,
 			"prompt": "Calcolo di 2 + 3 × 4 passo per passo: quale riga sbaglia?",
 			"codeLines": ["2 + 3 × 4", "= 5 × 4   (ho sommato 2 + 3)", "= 20", "# le priorità sono rispettate?"],
@@ -813,10 +834,10 @@ const CODE_DEBUG := {
 		# ragionamento), quindi l'errore va autorato in punti diversi: senza queste
 		# varianti bastava scegliere sempre la seconda riga. Qui sbaglia la
 		# traduzione del problema, lì l'ultimo conto dopo un'impostazione giusta.
-		{"topic": "problemi", "minLevel": 3, "answerLine": 1,
+		{"topic": "problemi", "minLevel": 3, "answerLine": 2,
 			"prompt": "Tre scatole con 15 gemme ciascuna: quale riga tradisce il problema?",
-			"codeLines": ["3 + 15", "= 18 gemme", "# 'tre scatole DA 15' come si calcola?"],
-			"explanation": "Riga 1: \"tre scatole da 15\" sono gruppi uguali, quindi 3 × 15 = 45. L'addizione traduce male il problema."},
+			"codeLines": ["Tre scatole da 15 gemme", "3 + 15", "= 18 gemme", "# 'tre scatole DA 15' come si calcola?"],
+			"explanation": "Riga 2: \"tre scatole da 15\" sono gruppi uguali, quindi 3 × 15 = 45. L'addizione traduce male il problema."},
 		{"topic": "calcolo", "minLevel": 4, "answerLine": 3,
 			"prompt": "Calcolo di 12 × 4 passo per passo: quale riga sbaglia?",
 			"codeLines": ["12 × 4", "= (10 × 4) + (2 × 4)", "= 40 + 8 = 46", "# la scomposizione è giusta: e la somma?"],
@@ -956,7 +977,21 @@ const CODE_DEBUG := {
 	],
 }
 
-const NUMERIC_ORDERING_SUBJECTS := ["matematica", "logica"]
+## Materie il cui ordinamento è QUANTITATIVO e generato (non a tabella).
+## La logica è stata rimossa il 30 luglio: ordinare numeri non può servire
+## onestamente `sequenze`/`deduzioni`/`analogie`, quindi ora ha specifiche
+## autorate in `ORDERING` come le altre dieci materie.
+const NUMERIC_ORDERING_SUBJECTS := ["matematica"]
+
+## Argomenti serviti dal generatore quantitativo, che NON compare in nessuna
+## tabella. Dichiararli qui è obbligatorio: `topics_for()` si costruisce dalle
+## tabelle, quindi un generatore procedurale non dichiarato resta **invisibile a
+## ogni audit** — ed è esattamente così che il difetto del 30 luglio (topic
+## "sequenze" iniettato nei mondi di matematica, che dichiarano tabelline/problemi
+## e proporzioni/frazioni/geometria) è passato inosservato fino a un playthrough.
+const NUMERIC_ORDERING_TOPICS := {
+	"matematica": ["tabelline", "frazioni"],
+}
 
 # Argomenti che la materia sa servire con i minigiochi (oltre al banco statico).
 # Sono contenuto reale a tutti gli effetti: una lezione può prometterli e il
@@ -968,6 +1003,10 @@ static func topics_for(subject: String) -> Array:
 			var topic := str((spec as Dictionary).get("topic", ""))
 			if topic != "":
 				topics[topic] = true
+	# Il generatore quantitativo non è a tabella: i suoi argomenti vanno aggiunti
+	# a mano, altrimenti resta fuori dal registro e nessun audit lo controlla.
+	for topic in Array(NUMERIC_ORDERING_TOPICS.get(subject, [])):
+		topics[str(topic)] = true
 	return topics.keys()
 
 func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
@@ -1185,35 +1224,134 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, rng: RandomNu
 		"explanation": "Ordine giusto: %s." % ", ".join(PackedStringArray(correct)),
 	}
 
+## Ordinamento QUANTITATIVO di matematica. Non ordina numeri nudi: ordina il
+## RISULTATO di operazioni, così il compito richiede davvero di calcolare.
+##
+## Difetto corretto il 30 luglio, segnalato da un playthrough. La versione
+## precedente estraeva `count = 3 + level/6` interi distinti in `1..5 + level*2`
+## e chiedeva di ordinarli: al livello 1 erano tre numeri sotto il 7 («metti in
+## ordine 5, 6, 2»), al livello 24 cinque numeri sotto il 53. Tre difetti in uno:
+##
+##  1. **sotto la fascia 10–13** — ordinare tre interi a una cifra non è
+##     difficoltà 1 per la secondaria di primo grado, è un compito di prima
+##     elementare;
+##  2. **fuori dalla lezione** — dichiarava `topic: "sequenze"`, che non è tra gli
+##     argomenti di nessuno dei due mondi di matematica (il mondo 1 dichiara
+##     tabelline/problemi, il 13 proporzioni/frazioni/geometria). Accumulava così
+##     padronanza su un argomento mai insegnato lì, e quella padronanza conta
+##     nella dimensione COPERTURA del gate e verso lo stato "consolidato";
+##  3. **invisibile agli audit** — essendo procedurale non compariva in
+##     `topics_for()`, che si costruisce dalle tabelle: nessun controllo poteva
+##     vedere il topic che emetteva davvero a runtime.
+##
+## Ora l'argomento è quello che il mondo dichiara: `tabelline` fino al 12,
+## `frazioni` dal 13.
 func _numeric_ordering_node(subject: String, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
-	var count := clampi(3 + int(level / 6.0), 3, 5)
-	var span := 5 + level * 2
-	var values: Array = []
-	while values.size() < count:
-		var v := rng.randi_range(1, span)
-		if not values.has(v):
-			values.append(v)
+	var count := clampi(4 + int(level / 9.0), 4, 5)
 	var ascending := rng.randf() < 0.5
-	var ordered := values.duplicate()
-	ordered.sort()
+	var quantitative := level <= 12
+	var topic := "tabelline" if quantitative else "frazioni"
+	var cards := (
+		_multiplication_cards(count, rng) if quantitative else _fraction_cards(count, rng))
+
+	# Ordina per valore, non per etichetta: "10/12" viene dopo "1/2" per valore,
+	# ma prima in ordine alfabetico.
+	cards.sort_custom(func(a, b): return float(a["value"]) < float(b["value"]))
 	if not ascending:
-		ordered.reverse()
+		cards.reverse()
+
 	var correct: Array = []
-	for v in ordered:
-		correct.append(str(v))
+	var worked: Array = []
+	for card in cards:
+		correct.append(str(card["label"]))
+		worked.append(str(card["worked"]))
 	var items := correct.duplicate()
+	# Mai presentare gli elementi già ordinati (guard-rail del 29 luglio).
 	ExerciseInteraction.shuffle_avoiding(items, rng, correct)
+
+	var direction := (
+		"dal risultato più piccolo al più grande"
+		if ascending
+		else "dal risultato più grande al più piccolo")
+	var prompt := ""
+	if quantitative:
+		prompt = "Ordina le moltiplicazioni %s." % direction
+	else:
+		prompt = "Ordina le frazioni %s." % (
+			"dalla più piccola alla più grande"
+			if ascending
+			else "dalla più grande alla più piccola")
+
 	return {
 		"id": "minigame-numorder-%s-%d" % [subject, idx],
 		"subject": subject,
-		"topic": "sequenze",
+		"topic": topic,
 		"difficulty": ContentManager.target_difficulty(level),
 		"format": "ordering",
-		"prompt": "Metti i numeri in ordine %s." % ("crescente" if ascending else "decrescente"),
+		"prompt": prompt,
 		"items": items,
 		"correctOrder": correct,
-		"explanation": "Ordine giusto: %s." % ", ".join(PackedStringArray(correct)),
+		# La spiegazione mostra i valori calcolati: chi sbaglia vede il confronto,
+		# non solo la sequenza giusta.
+		"explanation": "Ordine giusto: %s." % ", ".join(PackedStringArray(worked)),
 	}
+
+## Carte "a × b" con prodotti tutti DIVERSI e almeno due primi fattori distinti.
+## Il secondo vincolo non è estetico: se tutte le carte condividessero il primo
+## fattore (7×3, 7×5, 7×8) si potrebbe ordinare guardando solo l'altro fattore,
+## senza calcolare nulla — la stessa famiglia di scorciatoie ripulita il 29 luglio.
+func _multiplication_cards(count: int, rng: RandomNumberGenerator) -> Array:
+	var cards: Array = []
+	var seen_products: Dictionary = {}
+	var first_factors: Dictionary = {}
+	var guard := 0
+	while cards.size() < count and guard < 400:
+		guard += 1
+		var a := rng.randi_range(2, 10)
+		var b := rng.randi_range(2, 10)
+		var product := a * b
+		if seen_products.has(product):
+			continue
+		# All'ultima carta pretendi che i primi fattori non siano tutti uguali.
+		if cards.size() == count - 1 and first_factors.size() == 1 and first_factors.has(a):
+			continue
+		seen_products[product] = true
+		first_factors[a] = true
+		cards.append({
+			"label": "%d × %d" % [a, b],
+			"value": float(product),
+			"worked": "%d × %d = %d" % [a, b, product],
+		})
+	return cards
+
+## Frazioni proprie con denominatori tutti diversi e valori tutti distinti
+## (mai una coppia equivalente come 2/4 e 1/2, che renderebbe l'ordine ambiguo).
+## Confrontarle richiede denominatore comune: è l'argomento che i mondi alti di
+## matematica dichiarano davvero.
+func _fraction_cards(count: int, rng: RandomNumberGenerator) -> Array:
+	const DENOMINATORS := [2, 3, 4, 5, 6, 8, 10, 12]
+	var cards: Array = []
+	var used_denominators: Dictionary = {}
+	var seen_values: Dictionary = {}
+	var guard := 0
+	while cards.size() < count and guard < 600:
+		guard += 1
+		var d := int(DENOMINATORS[rng.randi_range(0, DENOMINATORS.size() - 1)])
+		if used_denominators.has(d):
+			continue
+		var n := rng.randi_range(1, d - 1)
+		var value := float(n) / float(d)
+		var key := "%.4f" % value
+		if seen_values.has(key):
+			continue
+		used_denominators[d] = true
+		seen_values[key] = true
+		cards.append({
+			"label": "%d/%d" % [n, d],
+			"value": value,
+			"worked": "%d/%d" % [n, d],
+		})
+	return cards
 
 func _shuffle(values: Array, rng: RandomNumberGenerator) -> void:
 	for i in range(values.size() - 1, 0, -1):

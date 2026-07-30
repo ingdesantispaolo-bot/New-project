@@ -79,6 +79,22 @@ func current_gate() -> Dictionary:
 func is_complete() -> bool:
 	return save.level() > ApparatusConfig.MAX_LEVEL
 
+# Avanzamento della campagna per la presentazione (voce di menu del Secondo
+# Viaggio, report): quanti mondi sono completati e se la rotta è aperta.
+#
+# Prodotto QUI e non nella UI: derivare la progressione da `level()` per conto
+# proprio è esattamente il disallineamento che l'invariante «la presentazione non
+# calcola» vieta (vedi insieme.md). Un mondo è completato quando il suo apparato
+# è riparato, cioè quando il livello è avanzato oltre di esso: al livello L sono
+# completati L-1 mondi. Il conteggio è limitato alla scala, così un livello oltre
+# il massimo non produce "29/24".
+func campaign_progress() -> Dictionary:
+	return {
+		"worldsCompleted": clampi(save.level() - 1, 0, ApparatusConfig.MAX_LEVEL),
+		"worldsTotal": ApparatusConfig.MAX_LEVEL,
+		"complete": is_complete(),
+	}
+
 # Numero di argomenti che la materia corrente può proporre (dal banco), o -1 se
 # non è disponibile un ContentManager. Alimenta la dimensione COPERTURA del gate.
 func _total_topics(subject: String) -> int:

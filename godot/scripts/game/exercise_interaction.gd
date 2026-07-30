@@ -244,6 +244,19 @@ static func _validate_code_debug(node: Dictionary, errors: Array) -> void:
 		errors.append("code-debug con meno di 2 righe")
 	if answer_line < 1 or answer_line > lines.size():
 		errors.append("answerLine fuori dal codice: %d" % answer_line)
+		return
+	# Una riga che inizia con '#' è la consegna, non un passaggio: non è
+	# selezionabile e quindi non può essere la risposta. Senza questo controllo un
+	# nodo poteva dichiarare come soluzione una riga che il giocatore non può
+	# nemmeno scegliere — prova impossibile, e nessun audit se ne accorgeva.
+	if str(lines[answer_line - 1]).strip_edges().begins_with("#"):
+		errors.append("answerLine punta a una riga di consegna: %d" % answer_line)
+	var candidates := 0
+	for line in lines:
+		if not str(line).strip_edges().begins_with("#"):
+			candidates += 1
+	if candidates < 2:
+		errors.append("code-debug con meno di 2 righe selezionabili")
 
 # Valida un'intera sessione: nodi non vuoti, scudi ≥ 1 e ogni nodo conforme.
 # Ritorna {ok, errors: Array[String]} con gli errori prefissati dall'indice nodo.

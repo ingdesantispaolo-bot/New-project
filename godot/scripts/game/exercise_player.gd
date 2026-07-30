@@ -974,17 +974,39 @@ func _visual_submit(item: Dictionary) -> void:
 
 # --- CODE DEBUG (righe selezionabili, numerate e leggibili da tastiera) --------
 func _build_code_debug(item: Dictionary) -> void:
+	var lines: Array = item.get("codeLines", [])
+	# La riga che inizia con '#' è la CONSEGNA (l'intento: "atteso: 1, 2, 3"), non un
+	# passaggio: non può mai essere la risposta. Prima era resa come un pulsante
+	# numerato identico agli altri, quindi era selezionabile — e chi la sceglieva
+	# riceveva "Quella riga è valida: segui i valori passo per passo", che per un
+	# commento non significa nulla. Segnalato giocando il 30 luglio: su tre righe
+	# mostrate una non era nemmeno un candidato.
+	var note_text := ""
+	for line in lines:
+		if _is_code_note(str(line)):
+			note_text = str(line).strip_edges().trim_prefix("#").strip_edges()
+			break
+
 	var instruction := Label.new()
-	instruction.text = "Seleziona la riga che contiene l'errore. Il numero di riga è parte dell'indizio."
+	instruction.text = (
+		"Tocca la riga sbagliata. Le righe numerate sono i passaggi; in grigio la consegna."
+		if note_text != ""
+		else "Tocca la riga che contiene l'errore.")
 	instruction.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	instruction.add_theme_color_override("font_color", Color("b8d7dc"))
 	_options.add_child(instruction)
-	var lines: Array = item.get("codeLines", [])
+
 	for index in lines.size():
+		var raw := str(lines[index])
+		if _is_code_note(raw):
+			continue
+		# Il numero mostrato resta l'indice in `codeLines`, così `answerLine` non
+		# cambia significato. La consegna sta sempre in ultima posizione (verificato
+		# da `code_debug_clarity_audit`), quindi la numerazione resta contigua.
 		var line_number := index + 1
 		var button := Button.new()
 		button.name = "CodeLine_%02d" % line_number
-		button.text = "%02d  │  %s" % [line_number, str(lines[index])]
+		button.text = "%02d  │  %s" % [line_number, raw]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.custom_minimum_size = Vector2(0, 48)
 		button.focus_mode = Control.FOCUS_ALL
@@ -993,7 +1015,21 @@ func _build_code_debug(item: Dictionary) -> void:
 		button.pressed.connect(_code_line_select.bind(line_number))
 		_options.add_child(button)
 		_visual_buttons[str(line_number)] = button
+
+	if note_text != "":
+		var note := Label.new()
+		note.name = "CodeNote"
+		note.text = note_text
+		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		note.add_theme_font_size_override("font_size", 14)
+		note.add_theme_color_override("font_color", Color("8ba3a7"))
+		_options.add_child(note)
+
 	_add_interaction_actions(_visual_clear, _code_submit.bind(item))
+
+## Una riga di consegna, non un passaggio: si legge, non si seleziona.
+func _is_code_note(line: String) -> bool:
+	return line.strip_edges().begins_with("#")
 
 func _code_line_select(line_number: int) -> void:
 	_visual_select(str(line_number))

@@ -130,10 +130,22 @@ I preset `Windows` e `Web` sono già presenti in `export_presets.cfg`.
 I template Web `4.7.1.stable` sono installati nella postazione documentata in
 `insieme.md`; per altre macchine usare `Editor > Manage Export Templates`.
 
+Sulla postazione documentata sono installati **solo i template Web**: l'export
+`Windows` richiede prima `Editor > Manage Export Templates`.
+
 ```powershell
-godot --headless --path . --export-release Windows build/eli-quest-outdoor.exe
 godot --headless --path . --export-release Web ../public/godot/outdoor/index.html
+npm run web:sync     # dalla root: allinea build.json + sw.js e bumpa la cache
+npm run audit:web
 ```
 
 L'export Web va direttamente in `public/godot/outdoor`; la root Vite reindirizza
 direttamente a `/godot/outdoor/index.html` senza caricare codice Phaser.
+
+**L'export da solo non basta.** `audit:web` pretende che quattro valori
+combacino: `buildId` e `cacheVersion` fra `public/build.json` e `public/sw.js`, e
+le dimensioni di `index.pck`/`index.wasm` fra file reale, manifest e HTML
+generato da Godot. Un export cambia le dimensioni e lascia indietro gli altri
+due file, quindi l'audit diventa rosso: `npm run web:sync` risincronizza e
+**bumpa la versione di cache**, che è ciò che fa scadere la PWA. Senza bump un
+tablet che ha già aperto il gioco continua a servire il PCK vecchio.

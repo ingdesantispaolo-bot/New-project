@@ -7,6 +7,8 @@ const WORLD_SCENE := "res://scenes/outdoor_world.tscn"
 const BACKDROP := preload("res://assets/radura-accademia-hero-backdrop-v2.png")
 
 var play_button: Button
+var second_journey_button: Button
+var second_journey_status: Label
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -115,6 +117,103 @@ func _build_interface() -> void:
 	hint.add_theme_font_size_override("font_size", 13)
 	column.add_child(hint)
 
+	column.add_child(_build_second_journey_card())
+
+## Voce del Secondo Viaggio: presente e BLOCCATA dal primo avvio, con il
+## contatore dei mondi completati.
+##
+## Mostrare il progresso invece di un lucchetto muto è deliberato: è un
+## goal-gradient — si sa sempre quanto manca — e trasforma i 24 mondi in un
+## percorso verso qualcosa invece che in una lista. Vedi docs/SECONDO_VIAGGIO.md §3.
+##
+## Lo stato non è calcolato qui: arriva da `ProgressionManager.campaign_progress()`.
+func _build_second_journey_card() -> Control:
+	var progress := _campaign_progress()
+	var unlocked := bool(progress.get("complete", false))
+	var completed := int(progress.get("worldsCompleted", 0))
+	var total := int(progress.get("worldsTotal", 24))
+
+	var card := PanelContainer.new()
+	card.name = "SecondJourneyCard"
+	card.add_theme_stylebox_override("panel", _card_style(unlocked))
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 14)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 14)
+	margin.add_theme_constant_override("margin_bottom", 12)
+	card.add_child(margin)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	margin.add_child(box)
+
+	var heading := Label.new()
+	heading.name = "SecondJourneyTitle"
+	heading.text = "IL SECONDO VIAGGIO"
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	heading.add_theme_font_size_override("font_size", 15)
+	heading.add_theme_color_override(
+		"font_color", Color("ffd75e") if unlocked else Color("8ba3a7"))
+	box.add_child(heading)
+
+	second_journey_status = Label.new()
+	second_journey_status.name = "SecondJourneyStatus"
+	second_journey_status.text = (
+		"Rotta aperta" if unlocked else "Rotta chiusa · %d/%d" % [completed, total])
+	second_journey_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	second_journey_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	second_journey_status.add_theme_font_size_override("font_size", 13)
+	second_journey_status.add_theme_color_override(
+		"font_color", Color("ffe9a8") if unlocked else Color("9fb7bb"))
+	box.add_child(second_journey_status)
+
+	var bar := ProgressBar.new()
+	bar.name = "SecondJourneyProgress"
+	bar.show_percentage = false
+	bar.min_value = 0.0
+	bar.max_value = float(maxi(total, 1))
+	bar.value = float(completed)
+	bar.custom_minimum_size = Vector2(0, 8)
+	bar.add_theme_stylebox_override("background", _bar_style(Color(0.05, 0.13, 0.15, 0.92)))
+	bar.add_theme_stylebox_override(
+		"fill", _bar_style(Color("ffd75e") if unlocked else Color(0.42, 0.78, 0.72, 0.85)))
+	box.add_child(bar)
+
+	second_journey_button = Button.new()
+	second_journey_button.name = "SecondJourneyButton"
+	second_journey_button.custom_minimum_size = Vector2(0, 40)
+	second_journey_button.add_theme_font_size_override("font_size", 15)
+	# Bloccata finché la campagna non è completa. Non esiste percorso alternativo:
+	# nessuna energia, nessun cosmetico e nessun modulo la aprono.
+	second_journey_button.disabled = not unlocked
+	second_journey_button.text = "ROTTA APERTA" if unlocked else "ROTTA CHIUSA"
+	second_journey_button.tooltip_text = (
+		"Le undici sorelle ti aspettano."
+		if unlocked
+		else "Ripara i %d apparati che restano per aprire la rotta." % maxi(total - completed, 0))
+	second_journey_button.pressed.connect(_on_second_journey_pressed)
+	box.add_child(second_journey_button)
+
+	return card
+
+## Segnaposto dichiarato: la modalità non esiste ancora (tappa 9). Meglio un
+## messaggio onesto che un pulsante che porta a una scena vuota, e meglio un
+## pulsante attivo che uno disabilitato a 24/24, che somiglierebbe a un difetto
+## subito dopo la celebrazione del finale.
+func _on_second_journey_pressed() -> void:
+	if not is_instance_valid(second_journey_status):
+		return
+	second_journey_status.text = "Rotta aperta · in arrivo"
+
+## Progresso della campagna letto dal salvataggio locale. Un save assente
+## produce il profilo di default (livello 1 → 0/24), quindi la voce è sempre
+## disegnabile anche al primissimo avvio.
+func _campaign_progress() -> Dictionary:
+	var save := GameSaveManager.new()
+	save.load_save()
+	return ProgressionManager.new(save).campaign_progress()
+
 func _play() -> void:
 	play_button.disabled = true
 	play_button.text = "AVVIO…"
@@ -169,6 +268,22 @@ func _panel_style() -> StyleBoxFlat:
 	style.set_corner_radius_all(18)
 	style.shadow_color = Color(0, 0, 0, 0.48)
 	style.shadow_size = 18
+	return style
+
+func _card_style(unlocked: bool) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = (
+		Color(0.10, 0.09, 0.03, 0.62) if unlocked else Color(0.02, 0.06, 0.07, 0.58))
+	style.border_color = (
+		Color(1.0, 0.84, 0.37, 0.72) if unlocked else Color(0.42, 0.60, 0.62, 0.34))
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(12)
+	return style
+
+func _bar_style(fill: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.set_corner_radius_all(4)
 	return style
 
 func _button_style(fill: Color, border: Color) -> StyleBoxFlat:

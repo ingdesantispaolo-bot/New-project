@@ -3,9 +3,15 @@
 > Specifica del **mondo abitato**: chi vive nei 24 mondi, come parla, come
 > assegna le missioni, come i personaggi si parlano tra loro e come gli edifici
 > raccontano la storia.
-> Trama e mistero in [TRAMA_E_MISTERO.md](TRAMA_E_MISTERO.md), loop e gate in
-> [DESIGN_COMPLETO.md](DESIGN_COMPLETO.md), compagno in
-> [PET_CUSTODE.md](PET_CUSTODE.md).
+> Trama e colpi di scena in [TRAMA_E_MISTERO.md](TRAMA_E_MISTERO.md), loop e gate
+> in [DESIGN_COMPLETO.md](DESIGN_COMPLETO.md), compagno in
+> [PET_CUSTODE.md](PET_CUSTODE.md), gioco sbloccato in
+> [SECONDO_VIAGGIO.md](SECONDO_VIAGGIO.md).
+>
+> Gli abitanti **portano i semi dei colpi di scena**: la filastrocca di nonna
+> Ersilia nel mondo 1 contiene il nome cancellato del Tredicesimo, e le battute
+> di Cinabro fanno da falsa pista per quattro atti. Chi scrive dialoghi deve
+> tenere aperto [TRAMA_E_MISTERO.md](TRAMA_E_MISTERO.md) §3.
 >
 > **Vincolo architetturale non negoziabile**: gli abitanti **non creano una
 > seconda progressione**. Non generano missioni nuove, non danno mastery, non
@@ -38,13 +44,22 @@ meccanica naturale invece che un esercizio travestito.
 | Anello | Quanti | Dove | Funzione |
 |---|---|---|---|
 | **Residenti** | 2 per mondo (48) | Uno solo mondo, sempre lì | Incarnano la materia del mondo; hanno l'errore di comprensione da correggere |
+| **Bislacchi** | 1 per mondo (24) | Uno solo mondo, di passaggio | **Comicità pura.** Nessun carico didattico, 4–6 battute, esistono per far ridere |
 | **Itineranti** | 6 in totale | Ovunque, a rotazione | Continuità affettiva: gli amici che ritrovi. Ricordano cosa hai fatto altrove |
-| **Voci (i Maestri)** | 12 | Solo nella nave | Non camminano: sono le inflessioni di NORA (vedi TRAMA §3) |
+| **Voci (i Maestri)** | 12 | Solo nella nave | Non camminano: sono le inflessioni di NORA (vedi TRAMA §7) |
 
 Budget: **massimo 4 abitanti attivi contemporaneamente** in scena (2 residenti +
-1 itinerante + 1 di passaggio). Rientra nel `performance_budget` esistente
-usando lo stesso streaming dei POI: fuori dal `streamRadius` un abitante non è
-istanziato.
+1 itinerante + 1 bislacco). Rientra nel `performance_budget` esistente usando lo
+stesso streaming dei POI: fuori dal `streamRadius` un abitante non è istanziato.
+
+**Perché i Bislacchi sono un anello a sé.** Se ogni personaggio del mondo ha una
+convinzione sbagliata e un arco di crescita, il gioco diventa monotono anche
+essendo scritto bene: tutti parlano allo stesso modo, tutti *significano*
+qualcosa. Il Bislacco non significa niente. Fa ridere e se ne va. Costa 4–6
+battute e vale come il doppio dei residenti per la sensazione di mondo vivo.
+Esempi: **Puccio** (mondo 1) è convinto che i cristalli siano suoi parenti e li
+saluta per nome, tutti e quaranta; **Zufolo** (mondo 6) cerca da anni la nota che
+gli ha rubato il cappello.
 
 ### 2.1 Anatomia di un residente
 
@@ -54,16 +69,47 @@ nasce dalla combinazione, non dalla quantità di testo.
 | Campo | Cos'è | Perché |
 |---|---|---|
 | `ruolo` | Cosa fa nel mondo | Lo lega all'identità del mondo |
+| `registro` | **Il tono**: curioso, misterioso, buffo, divertente, caloroso, burbero, solenne, sognante | Impedisce che 48 personaggi suonino tutti uguali |
 | `tic` | Un intercalare, un modo di chiamare Eli, un gesto ricorrente | È il trucco di Animal Crossing: rende memorabile un personaggio con 10 battute |
 | `convinzione` | **Un'idea sbagliata reale** sulla materia | È il gancio didattico: la stessa misconcezione che ha il giocatore |
 | `bisogno` | Cosa chiede a Eli | Diventa il motivo della missione |
 | `arco` | Come cambia in 3 stadi | Rende visibile che il mondo evolve |
 
-La `convinzione` è il cuore del design. Non sono personaggi decorativi: ognuno
-sbaglia **come sbagliano i bambini**, e vederlo cambiare idea è il modello di
-ciò che sta succedendo al giocatore.
+La `convinzione` è il cuore didattico: ognuno sbaglia **come sbagliano i
+bambini**, e vederlo cambiare idea è il modello di ciò che sta succedendo al
+giocatore. Il `registro` è il cuore *piacevole*: senza, il cast diventa una fila
+di casi clinici.
 
-### 2.2 I tre stadi di relazione
+### 2.2 Gli otto registri, e la regola di mescolanza
+
+| Registro | Come parla | Esempio dal cast |
+|---|---|---|
+| **Curioso** | Fa domande, si entusiasma, interrompe | Vera, Zeno (7), Pila (15) |
+| **Misterioso** | Dice meno di quanto sa, risponde di sbieco | Cinabro, Doria (8), Fondo (22) |
+| **Buffo** | Involontariamente comico. Non sa di esserlo | Sesto, tutti i Bislacchi, Puccio (1) |
+| **Divertente** | Comico di proposito, prende in giro con affetto | Nima, Marco dei Valichi (16), Bea (18) |
+| **Caloroso** | Accoglie, incoraggia, offre da mangiare | Nonna Ersilia (1), Lucilla, Mirta (10) |
+| **Burbero** | Brontola, poi aiuta comunque | Orsolo, Numa (19), Coral (17) |
+| **Solenne** | Parla come se ogni frase contasse | Livia (7), Cronia (23), Oreste (6) |
+| **Sognante** | Distratto, poetico, altrove | Duna (13), Fiorina (19), Ambra (6) |
+
+**Regola vincolante di mescolanza** (verificata da `npc_catalog_audit`):
+
+1. I due residenti di un mondo hanno **registri diversi**, e mai entrambi
+   «solenne».
+2. Ogni mondo ha **almeno un personaggio che fa ridere** — il Bislacco basta.
+3. Su tre mondi consecutivi non si ripete la stessa coppia di registri.
+4. Ogni registro compare **almeno due volte** nell'arco dei 24 mondi: nessuno è
+   decorativo.
+5. Un registro cambia **come** dice le cose, mai **cosa** insegna. Un buffo e un
+   solenne che spiegano lo stesso concetto lo spiegano ugualmente bene.
+
+Il registro governa anche i parametri di resa: velocità del testo, ampiezza
+dell'animazione di idle, suono della voce (bip in scala), pausa prima di
+rispondere. Otto registri × un pool di battute danno otto personaggi percepiti
+al costo di uno.
+
+### 2.3 I tre stadi di relazione
 
 Non si comprano, non si regalano oggetti. Avanzano su ciò che Eli **impara**.
 
@@ -77,20 +123,31 @@ Lo stadio 2 non richiede l'esame: si può ottenere prima di riparare l'apparato.
 Così la ricompensa sociale arriva quando il giocatore ha fatto il lavoro, non
 quando supera un test.
 
-### 2.3 I sei itineranti
+### 2.4 I sei itineranti
 
 Sono il cast fisso, quello a cui ci si affeziona. Uno solo è presente in un mondo
 alla volta (rotazione deterministica dal seed + livello), e ognuno ha una
-**funzione di gioco**, non solo un carattere.
+**funzione di gioco** e un **registro** distinto: sono deliberatamente sei toni
+diversi, così qualunque mondo tu apra c'è una compagnia che cambia colore.
 
-| Nome | Chi è | Tic | Funzione di gioco |
-|---|---|---|---|
-| **Nima** | Cartografa girovaga, allegra, baratta domande invece di merci | Ti chiama sempre «capitana» | **Orientamento**: dice dove sono le cose e cosa non hai ancora visto in questo mondo |
-| **Vera** | Ragazzina della tua età, apprendista di niente, vuole imparare tutto | Finisce ogni battuta con una domanda | **Consolidamento**: ti chiede di rispiegarle ciò che hai appena imparato (§5.3) |
-| **Orsolo** | Vecchio riparatore, brontolone, non crede alle "storie dei Primi" | «Mah.» | **Attrito**: mette in dubbio il mistero, obbliga a portare prove. Si converte lentamente |
-| **Sesto** | Uno Sbiadito restituito a se stesso nel mondo 3. Dimentica le cose | Scambia le parole («passami il… coso che conta») | **Ripasso spaziato**: chiede aiuto proprio sugli argomenti che *tu* hai in scadenza di ripasso |
-| **Cinabro** | Narratore mascherato, baratta storie in cambio di fatti | Parla in terza persona | **Mistero**: consegna il lore dei Primi come favole. Ambiguo: sembra sapere troppo |
-| **Lucilla** | Alleva e cura i Custodi (i pet) | Parla ai pet, non a te | **Compagno**: dà il primo Custode, apre la schermata del pet, commenta il legame |
+| Nome | Registro | Chi è | Tic | Funzione di gioco |
+|---|---|---|---|---|
+| **Nima** | Divertente | Cartografa girovaga: baratta domande invece di merci, e le sue mappe sono bellissime e leggermente sbagliate | Ti chiama «capitana», e non smette nemmeno quando le spieghi che non lo sei | **Orientamento**: dice dove sono le cose e cosa non hai ancora visto |
+| **Vera** | Curioso | Coetanea, apprendista di niente, vuole imparare tutto e subito | Finisce ogni battuta con una domanda, comprese quelle in cui rispondeva | **Consolidamento**: ti chiede di rispiegarle ciò che hai imparato (§5.3) |
+| **Orsolo** | Burbero | Vecchio riparatore. Non crede alle «storie dei Primi» e lo ripete anche quando gliele dimostri | «Mah.» — e quando è d'accordo, «Mah» detto più piano | **Attrito**: mette in dubbio il mistero, obbliga a portare prove. Si converte lentamente e non lo ammetterà mai |
+| **Sesto** | Buffo | Uno Sbiadito restituito a se stesso nel mondo 3. Dimentica, e ci scherza sopra prima che lo faccia qualcun altro | Scambia le parole: «passami il… coso che conta. Il conta-coso» | **Ripasso spaziato**: chiede aiuto proprio sugli argomenti che *tu* hai in scadenza |
+| **Cinabro** | Misterioso | Narratore mascherato, baratta storie in cambio di fatti | Parla di sé in terza persona, e sbaglia apposta il nome | **Mistero e falsa pista**: sa troppo, ed è sempre nel mondo dove la spirale è più fresca. Il giocatore deve sospettare che sia lui a inciderle. Al colpo 6 si scopre che **lo è** — insieme ad altre centinaia |
+| **Lucilla** | Caloroso | Alleva e cura i Custodi. Ha un'opinione molto forte su ogni pet e nessuna sulle persone | Parla al tuo Custode, non a te, e riferisce a te ciò che il Custode «ha detto» | **Compagno**: dà il primo Custode, apre la schermata del pet, commenta il legame |
+
+Due note di regia sulla comicità, che è la cosa più facile da sbagliare:
+
+- **Nessuno fa battute sul giocatore.** Si ride *con* Eli, mai di lei, e mai di
+  un errore. Il bersaglio comico è sempre il personaggio stesso, un oggetto, o
+  Orsolo.
+- **Sesto è comico perché ci scherza per primo.** Un personaggio che dimentica
+  potrebbe essere triste: lo è solo se il gioco lo tratta come un problema. Sesto
+  arriva sempre prima con la battuta, e così la sua smemoratezza diventa il suo
+  numero comico invece che la sua ferita. Regola vincolante per chi lo scrive.
 
 Note di regia:
 
@@ -116,14 +173,14 @@ sapere di sapere, e indica la Rovina). In corsivo la convinzione da smontare.
 
 | # · Mondo · Materia | Specialista | Testimone | Traccia (nella Rovina) |
 |---|---|---|---|
-| **1 · Radura Accademia · matematica** | **Tobia**, conta i cristalli uno per uno. Tic: chiude le frasi con «…e uno». *«Contare in fretta è barare.»* | **Nonna Ersilia**, canta una filastrocca che è la tabellina del 7 e non lo sa | Bastone da conteggio dei Primi, tacche a gruppi di dieci: «contare in gruppi non è pigrizia, è vedere lontano» |
+| **1 · Radura Accademia · matematica** | **Tobia**, conta i cristalli uno per uno. Tic: chiude le frasi con «…e uno». *«Contare in fretta è barare.»* | **Nonna Ersilia**, canta una filastrocca che è la tabellina del 7 e non lo sa. **Nella conta ci sono tre sillabe senza senso che nessuno ha mai capito** | Bastone da conteggio dei Primi, tacche a gruppi di dieci: «contare in gruppi non è pigrizia, è vedere lontano» |
 | **2 · Archivio delle Parole · italiano** | **Corinna**, ordina le parole per lunghezza. Tic: misura tutto con le dita. *«L'ordine giusto è quello che si vede.»* | **Bruno**, bambino che inventa parole e viene sgridato — ha ragione lui | Catalogo dei Primi ordinato per **funzione**, non per forma |
 | **3 · Cratere Logico · coding** | **Ruggine**, riavvia la macchina a mano ogni giro. Tic: soffia sugli attrezzi. *«I cicli sono per i pigri.»* | **Sesto**, lo Sbiadito che qui torna se stesso e poi ti segue ovunque | Schema di telaio: «ripetere non è fatica, è un'istruzione» |
 | **4 · Baia dei Segnali · inglese** | **Marea**, ripete i messaggi senza capirli per paura di sbagliare. Tic: sussurra prima di parlare. *«Capire è tradurre parola per parola.»* | **Vecchio Lino**, pescatore con venti parole d'inglese e zero timidezza | Quaderno bilingue dei Primi: la stessa lezione in due lingue affiancate |
-| **5 · Officine del Moto · fisica** | **Gerbo**, sposta i massi a forza bruta. Tic: si sputa sulle mani. *«Le leve sono trucchi da deboli.»* | **Tilla**, ha capito il fulcro sull'altalena e nessuno le dà retta | **Prima spirale aperta**, incisa secoli dopo la caduta: «chi solleva con la testa non è meno forte» |
+| **5 · Officine del Moto · fisica** | **Gerbo**, sposta i massi a forza bruta. Tic: si sputa sulle mani. *«Le leve sono trucchi da deboli.»* | **Tilla**, ha capito il fulcro sull'altalena e nessuno le dà retta | ⟡ **Colpo 1** — la spirale aperta, e il taglio è **fresco di settimane**: «chi solleva con la testa non è meno forte» |
 | **6 · Giardino della Risonanza · musica** | **Ambra**, accorda a orecchio benissimo, non sa nominare un intervallo. Tic: canticchia le risposte. *«Dare un nome alla musica la rovina.»* | **Oreste**, sordo, legge la musica con le mani sulle corde | Diapason dei Primi: «un suono con un nome si può regalare a qualcuno» |
 | **7 · Rovine dei Glifi · latino** | **Livia**, la migliore copista: copia perfettamente senza leggere. Tic: soffia sull'inchiostro. *«Copiare bene è già capire.»* | **Zeno**, gioca a «trova la parola parente» e indovina i significati | Dizionario delle radici: una radice per pagina, i suoi discendenti sotto |
-| **8 · Delta dei Circuiti · elettronica** | **Ciro**, collega i cavi a memoria; se lo schema cambia si blocca. Tic: conta i nodi a voce. *«Basta ricordare lo schema giusto.»* | **Doria**, guardiana delle chiuse: capisce la corrente per analogia con l'acqua | **Traccia decisiva 1** — sigillo d'equipaggio con **tredici** posti e dodici nomi |
+| **8 · Delta dei Circuiti · elettronica** | **Ciro**, collega i cavi a memoria; se lo schema cambia si blocca. Tic: conta i nodi a voce. *«Basta ricordare lo schema giusto.»* | **Doria**, guardiana delle chiuse: capisce la corrente per analogia con l'acqua | ⟡ **Colpo 2** — sigillo d'equipaggio: **tredici** posti, **undici** nomi, uno raschiato con una lama dall'interno e uno **mai inciso** |
 
 ### Atto II — Chi ha taciuto
 
@@ -132,24 +189,59 @@ sapere di sapere, e indica la Rovina). In corsivo la convinzione da smontare.
 | **9 · Arcipelago Cartografico · geografia** | **Alma**, disegna solo ciò che ha visto. Tic: bagna la matita. *«I numeri non sono posti.»* | **Remo**, traghettatore che sta perdendo la memoria delle rotte e vuole scriverle | Carta della rotta della nave: non una fuga, un **giro** che si ripete |
 | **10 · Serra delle Simbiosi · scienze** | **Ortensia**, quando un esperimento fallisce cambia tre cose insieme. Tic: parla alle piante. *«Se cambio tutto, prima o poi funziona.»* | **Mirta**, quarant'anni di diario di osservazioni senza sapere che è scienza | Le provviste chiuse con ordine e gli appunti impilati: nessuno è stato sorpreso |
 | **11 · Soglia del Tempo · storia** | **Danio**, data i reperti «a occhio» e crede alla prima storia che sente. Tic: scommette su tutto. *«Se lo dicono tutti, è vero.»* | **Vesta**, custodisce due cronache che si contraddicono e non sa quale bruciare | Due datazioni discordanti del Silenzio — nessuna delle due va bruciata |
-| **12 · Labirinto delle Regole · logica** | **Quinto**, sa il percorso a memoria; se i muri si spostano è perduto. Tic: conta i passi. *«Ricordare la strada è saperla.»* | **Isa**, segna i bivi con un filo: ha inventato il metodo da sola | **La scheda d'iscrizione di NORA**, allieva n.1 dei Dodici |
-| **13 · Deserto delle Orbite · matematica** | **Solano**, misura tutto e non stima mai; senza strumenti è paralizzato. Tic: pulisce le lenti. *«Stimare è tirare a indovinare.»* | **Duna**, indovina le distanze a occhio e crede sia un dono, non un metodo | Registro di Abaco: «abbiamo chiuso il sapere per salvarlo. Non tutti erano d'accordo» |
-| **14 · Biblioteca delle Voci · italiano** | **Elmo**, riassume tutto in una frase e perde il punto di vista. Tic: taglia l'aria con la mano. *«Se so come finisce, ho capito.»* | **Ottavia**, racconta di mestiere la stessa storia da tre prospettive | **Traccia decisiva 2** — verbali con una tredicesima voce che dissente e perde |
-| **15 · Città Macchina · coding** | **Gru**, riavvia invece di leggere l'errore. Tic: dà un colpetto alle macchine. *«L'errore è solo sfortuna.»* | **Pila**, bambina con un quaderno di tutti i guasti e le cause: ha inventato il log | La frase esatta: «una conoscenza chiusa è già silenzio» |
-| **16 · Frontiera delle Lingue · inglese** | **Talia**, interprete che traduce alla lettera e crea equivoci. Tic: si scusa sempre. *«Ogni parola ha una sola traduzione.»* | **Marco dei Valichi**, commercia in sei lingue con cento parole ciascuna | I rituali degli abitanti riconosciuti come **lezioni consumate** della Tredicesima |
+| **12 · Labirinto delle Regole · logica** | **Quinto**, sa il percorso a memoria; se i muri si spostano è perduto. Tic: conta i passi. *«Ricordare la strada è saperla.»* | **Isa**, segna i bivi con un filo: ha inventato il metodo da sola | ⟡ **Colpo 3** — la scheda di NORA (allieva n.1) e accanto **altre dodici schede numerate**. La tua è la dodici |
+| **13 · Deserto delle Orbite · matematica** | **Solano**, misura tutto e non stima mai; senza strumenti è paralizzato. Tic: pulisce le lenti. *«Stimare è tirare a indovinare.»* | **Duna**, indovina le distanze a occhio e crede sia un dono, non un metodo | Un registro di manutenzione con **undici voci cancellate** e la dodicesima aperta oggi |
+| **14 · Biblioteca delle Voci · italiano** | **Elmo**, riassume tutto in una frase e perde il punto di vista. Tic: taglia l'aria con la mano. *«Se so come finisce, ho capito.»* | **Ottavia**, racconta di mestiere la stessa storia da tre prospettive | I verbali della seduta: la tredicesima voce **propone** la chiusura e convince i dodici in un'ora |
+| **15 · Città Macchina · coding** | **Gru**, riavvia invece di leggere l'errore. Tic: dà un colpetto alle macchine. *«L'errore è solo sfortuna.»* | **Pila**, bambina con un quaderno di tutti i guasti e le cause: ha inventato il log | Le sezioni della nave che non tornano: **un volume senza porta**, alimentato da quattro secoli |
+| **16 · Frontiera delle Lingue · inglese** | **Talia**, interprete che traduce alla lettera e crea equivoci. Tic: si scusa sempre. *«Ogni parola ha una sola traduzione.»* | **Marco dei Valichi**, commercia in sei lingue con cento parole ciascuna | ⟡ **Colpo 4** — la mappa vera della nave, e sedici mondi di deviazioni di NORA attorno a una stanza sola |
 
 ### Atto III — Chi continua
 
 | # · Mondo · Materia | Specialista | Testimone | Traccia (nella Rovina) |
 |---|---|---|---|
-| **17 · Oceano delle Forze · fisica** | **Nerea**, palombara, scende sempre più giù «a sentimento». Tic: trattiene il fiato mentre parla. *«Il corpo sa da solo quanto reggere.»* | **Coral**, ha smesso di scendere e sa dire esattamente perché: fa i conti | Il nome: **Meridiana**, uno strumento che non funziona al chiuso |
-| **18 · Cattedrale del Suono · musica** | **Silo**, organista che suona solo forte. Tic: conta il riverbero. *«Il piano qui non si sente.»* | **Bea**, canta nei punti giusti della navata: ha mappato l'eco | Il progetto costruttivo di **Eli**, firmato con la spirale aperta |
-| **19 · Necropoli delle Radici · latino** | **Numa**, epigrafista: considera le parole moderne «corrotte». Tic: lucida le lapidi. *«La lingua di prima era quella giusta.»* | **Fiorina**, chiama le piante con nomi antichi senza sapere che lo sono | Il perché: «il sapere che cammina sopravvive a quello che si nasconde» |
-| **20 · Tempesta Elettromagnetica · elettronica** | **Sferza**, quando un sensore sbaglia alza la potenza. Tic: batte le nocche sui quadri. *«Se non legge, spingi di più.»* | **Quieto**, legge i lampi e prevede la scarica | Misure che dicono una cosa sola: il Silenzio si assottiglia dove sei passata |
-| **21 · Atlante Fratturato · geografia** | **Terza**, studia un clima alla volta e non vede il sistema. Tic: allinea i fogli. *«Ogni posto fa storia a sé.»* | **Mino**, pastore con un calendario tramandato che è un modello climatico | Le zone tornate leggibili sovrapposte alla rotta antica: la stessa figura |
-| **22 · Biosfera Profonda · scienze** | **Vesca**, cerca l'organismo «più forte». Tic: annusa tutto. *«Vince sempre il più forte.»* | **Fondo**, guida delle caverne: conosce ogni nicchia e chi ci vive | La domanda di NORA scritta da un Maestro: archivio o viaggiatore? |
-| **23 · Sala delle Ere · storia** | **Cronia**, conserva solo la versione ufficiale. Tic: timbra tutto. *«Le fonti scomode confondono.»* | **Ovidio**, copista: le ha conservate di nascosto per quarant'anni | **Traccia decisiva 3** — nome, firma e scelta della Tredicesima, per intero |
-| **24 · Cuore dei Primi · trasversale** | *Nessun nuovo residente*: al Cuore convergono i sei itineranti e i residenti portati allo stadio 2 (max 4 in scena a rotazione) | — | L'ultima nota di Meridiana, scritta a mano, indirizzata a Eli, datata **prima** della sua costruzione |
+| **17 · Oceano delle Forze · fisica** | **Nerea**, palombara, scende sempre più giù «a sentimento». Tic: trattiene il fiato mentre parla. *«Il corpo sa da solo quanto reggere.»* | **Coral**, ha smesso di scendere e sa dire esattamente perché: fa i conti | Le insegne sbiancate del molo riempite da sole con una parola sola: **FERMATI** |
+| **18 · Cattedrale del Suono · musica** | **Silo**, organista che suona solo forte. Tic: conta il riverbero. *«Il piano qui non si sente.»* | **Bea**, canta nei punti giusti della navata: ha mappato l'eco | Il turno di guardia del Tredicesimo: quattrocento anni, **nessun cambio** |
+| **19 · Necropoli delle Radici · latino** | **Numa**, epigrafista: considera le parole moderne «corrotte». Tic: lucida le lapidi. *«La lingua di prima era quella giusta.»* | **Fiorina**, chiama le piante con nomi antichi senza sapere che lo sono | ⟡ **Colpo 5a** — il progetto di NORA, firmato dal tredicesimo posto. **È lui che l'ha costruita** |
+| **20 · Tempesta Elettromagnetica · elettronica** | **Sferza**, quando un sensore sbaglia alza la potenza. Tic: batte le nocche sui quadri. *«Se non legge, spingi di più.»* | **Quieto**, legge i lampi e prevede la scarica | ⟡ **Colpo 5b** — quattro secoli di misure della quarantena, e la curva che **sta cedendo adesso** |
+| **21 · Atlante Fratturato · geografia** | **Terza**, studia un clima alla volta e non vede il sistema. Tic: allinea i fogli. *«Ogni posto fa storia a sé.»* | **Mino**, pastore con un calendario tramandato che è un modello climatico | La tesi di Scala per esteso: il Silenzio come **sottoprodotto** del sapere che passa di mano senza essere capito |
+| **22 · Biosfera Profonda · scienze** | **Vesca**, cerca l'organismo «più forte». Tic: annusa tutto. *«Vince sempre il più forte.»* | **Fondo**, guida delle caverne: conosce ogni nicchia e chi ci vive | Archivio o viaggiatore: la domanda lasciata a NORA da un Maestro, mai risposta |
+| **23 · Sala delle Ere · storia** | **Cronia**, conserva solo la versione ufficiale. Tic: timbra tutto. *«Le fonti scomode confondono.»* | **Ovidio**, copista: le ha conservate di nascosto per quarant'anni | ⟡ **Colpo 6** — il registro del mondo 2: **Meridiana, allieva locale, undici anni**, partita verso il centro del Silenzio e **mai tornata — né mai registrata come perduta**. E le quattrocento spirali dopo di lei, di mani tutte diverse |
+| **24 · Cuore dei Primi · trasversale** | *Nessun nuovo residente*: al Cuore convergono i sei itineranti e i residenti portati allo stadio 2 (max 4 in scena a rotazione) | — | ⟡ **Colpo 7** — undici quaderni di NORA, uno per sorella, pieni di risposte date. Il dodicesimo è **vuoto** |
+
+---
+
+### 3.1 I ventiquattro Bislacchi
+
+Uno per mondo, 4–6 battute, zero carico didattico. Non hanno arco, non hanno
+convinzioni da correggere, non danno missioni. Esistono perché un mondo in cui
+tutti hanno una lezione da imparare è un mondo faticoso.
+
+| Mondo | Bislacco |
+|---|---|
+| 1 | **Puccio** saluta i cristalli per nome. Tutti e quaranta. Se lo interrompi ricomincia |
+| 2 | **Ditino** ha inventato una parola nuova e adesso non ricorda cosa voleva dire |
+| 3 | **Manetta** dà istruzioni precise a una macchina spenta da secoli. La macchina, dice, è timida |
+| 4 | **Boa** risponde a tutti i segnali radio, anche quelli non diretti a lui. Soprattutto quelli |
+| 5 | **Peso** solleva cose che non vanno sollevate per allenarsi a sollevare cose |
+| 6 | **Zufolo** cerca da anni la nota che gli ha rubato il cappello |
+| 7 | **Postilla** corregge le iscrizioni antiche con annotazioni sue. Nessuna è pertinente |
+| 8 | **Scintilla** si presenta come «il capo di questa palude». Non c'è nessuna palude |
+| 9 | **Bora** disegna mappe di posti che deve ancora inventare |
+| 10 | **Terriccio** ha dato un nome a ogni foglia e adesso ha un problema di memoria |
+| 11 | **Anticaglia** vende reperti falsissimi con una passione commovente |
+| 12 | **Svolta** entra nel labirinto ogni mattina per «tenerlo in esercizio» |
+| 13 | **Miraggio** giura di aver visto qualcosa. Non ricorda cosa. Ma era enorme |
+| 14 | **Prefazio** racconta solo l'inizio delle storie. Dice che il resto è ovvio |
+| 15 | **Ronzino** è convinto di essere un automa e nessuno ha il coraggio di dirglielo |
+| 16 | **Tuttolingue** parla una lingua che ha inventato lui e si stupisce che nessuno la sappia |
+| 17 | **Scafandro** ha paura dell'acqua e fa il palombaro per orgoglio |
+| 18 | **Controcanto** canta sempre mezzo tono sotto e ne è fierissimo |
+| 19 | **Lapidario** legge le epigrafi ad alta voce come se fossero notizie del giorno |
+| 20 | **Parafulmine** aspetta di essere colpito da un fulmine per «vedere l'effetto che fa» |
+| 21 | **Meteora** prevede il tempo di ieri con precisione impressionante |
+| 22 | **Muffa** ha allevato una colonia di funghi e li considera colleghi |
+| 23 | **Errata** timbra documenti a caso «per portarsi avanti» |
+| 24 | **Tutti quanti** — al Cuore i Bislacchi che hai incontrato arrivano insieme, e sono il momento più assurdo e più caldo del gioco |
 
 ---
 
@@ -393,7 +485,8 @@ salvataggio senza queste chiavi parte da vuoto e gioca normalmente.
 
 | Audit | Verifica |
 |---|---|
-| `npc_catalog_audit.gd` | 2 residenti per mondo; ogni residente ha ruolo/tic/convinzione/bisogno/3 stadi; ≥12 battute; id unici; nessun tic duplicato nello stesso mondo |
+| `npc_catalog_audit.gd` | 2 residenti + 1 bislacco per mondo; ogni residente ha ruolo/registro/tic/convinzione/bisogno/3 stadi; ≥12 battute (≥4 per un bislacco); id unici; nessun tic duplicato nello stesso mondo |
+| `register_mix_audit.gd` | Le 5 regole di mescolanza di §2.2: registri diversi tra i due residenti; almeno un comico per mondo; nessuna coppia di registri ripetuta su tre mondi consecutivi; ogni registro usato ≥2 volte; nessun registro correlato alla qualità della spiegazione |
 | `dialogue_audit.gd` | Nessuna battuta oltre il limite di caratteri; nessun duplicato in un pool; anti-ripetizione efficace su 200 estrazioni; determinismo a parità di seed |
 | `world_life_audit.gd` | Ogni mondo ha ≥1 conversazione per stadio; abitanti mai in acqua/`safeRadius`/`safeRoute`; ≤4 attivi; le notizie decadono |
 | `building_audit.gd` | 3 edifici per mondo con ruoli distinti; Rovina allineata al landmark eroe; nessuna collisione con POI del gate |

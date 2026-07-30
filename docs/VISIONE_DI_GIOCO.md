@@ -7,6 +7,7 @@
 > Documenti collegati: [DESIGN_COMPLETO.md](DESIGN_COMPLETO.md) ·
 > [TRAMA_E_MISTERO.md](TRAMA_E_MISTERO.md) ·
 > [ABITANTI_E_LUOGHI.md](ABITANTI_E_LUOGHI.md) · [PET_CUSTODE.md](PET_CUSTODE.md) ·
+> [SECONDO_VIAGGIO.md](SECONDO_VIAGGIO.md) ·
 > [ARCHITETTURA_FULL_GODOT.md](ARCHITETTURA_FULL_GODOT.md)
 
 ## Pitch in una frase
@@ -104,15 +105,36 @@ Piano e architettura in [ARCHITETTURA_FULL_GODOT.md](ARCHITETTURA_FULL_GODOT.md)
   ha lasciato i metodi e le ha tolto i contenuti: impara *con* Eli, non prima di
   lei, e per questo non può mai dare la risposta. Recupera un Maestro — e una
   sfumatura di voce — a ogni apparato riparato.
-- **Eli**: l'allieva-robot giocante, costruita dalla Tredicesima Maestra per
-  dimostrare una tesi; cresce di livello (1 → 24), si potenzia, si personalizza.
+- **Eli**: l'allieva-robot giocante. Cresce di livello (1 → 24), si potenzia, si
+  personalizza — e **non è la prima**: undici l'hanno preceduta.
 - **Il Custode**: il compagno sempre accanto a Eli, con un volto sempre in vista
-  che reagisce a ciò che accade — e che sente dove il significato è svanito.
-- **I Primi**: la civiltà scomparsa. Non morta: **chiusa per scelta**. Il
-  mistero centrale è chi si rifiutò, e perché. Dettaglio in
-  [TRAMA_E_MISTERO.md](TRAMA_E_MISTERO.md).
-- **Il Silenzio**: l'antagonista. Non distrugge le cose, scioglie il legame tra
-  una cosa e il suo significato. Si dirada dove qualcuno capisce.
+  che reagisce a ciò che accade, che si accarezza e che ogni tanto fa una figura
+  barbina mentre NORA prende appunti. È anche l'unico che sente dove il
+  significato è svanito.
+- **Gli abitanti**: 48 residenti + 24 comici di passaggio + 6 compagni
+  ricorrenti, su **otto registri di tono** — curiosi, misteriosi, buffi,
+  divertenti, calorosi, burberi, solenni, sognanti. Ogni mondo ne mescola almeno
+  due e ha sempre qualcuno che fa ridere.
+- **I Primi**: la civiltà scomparsa. Non morta: **chiusa per scelta**. E il loro
+  viaggio non era un giro di lezioni: era una **ricerca**. I posti
+  dell'equipaggio erano tredici, i nomi incisi sono undici, uno è stato raschiato
+  via e **uno non è mai stato inciso** — la cattedra era apparecchiata per ciò
+  che stavano cercando.
+- **La Cattedra Vuota**: lo scopo filosofico del gioco. Esiste un sapere sotto
+  tutti gli altri? Tre personaggi rispondono in tre modi opposti; la quarta
+  risposta la produce il giocatore risolvendo il nodo di sintesi che nessuno gli
+  ha spiegato — e la nave gli assegna il tredicesimo posto.
+- **Il Tredicesimo**: propose la chiusura, si escluse, e da quattrocento anni
+  tiene fuori il Silenzio da solo. Non è un mostro: è esausto, e ha ragioni.
+- **Il Silenzio**: scioglie il legame tra una cosa e il suo significato. Si
+  dirada dove qualcuno capisce. Da dove venga resta un'ipotesi.
+- **Sette colpi di scena** (mondi 5, 8, 12, 16, 19–20, 23, 24). L'ultimo
+  riscrive all'indietro **la meccanica del gioco**: dettaglio in
+  [TRAMA_E_MISTERO.md](TRAMA_E_MISTERO.md) §3.
+- **Il Secondo Viaggio**: finire la campagna sblocca un gioco nuovo in cui il
+  loop si inverte — non impari, **insegni**. Voce di menu visibile e bloccata
+  dal primo avvio, con il contatore dei mondi.
+  Specifica in [SECONDO_VIAGGIO.md](SECONDO_VIAGGIO.md).
 - **Apparati = materie**: ogni apparato (stanza) è legato a una materia —
   matematica/logica = Nucleo, coding = Cratere Logico, lingue = Data-core, latino
   = Sala dei Glifi, fisica/geografia = Ponte di Comando, musica = Motore a

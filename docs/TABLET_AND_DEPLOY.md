@@ -43,10 +43,15 @@ dimensione standard/grande e visibilità piena/leggera. Movimento, azione,
 impulso, missione/nave, Bottega, Manuale e conferma delle risposte dispongono
 di un bersaglio touch: la tastiera è soltanto una scorciatoia.
 
-Se il tablet mostra ancora una build precedente, chiudi tutte le schede di Eli
-Quest e riapri l'indirizzo. La cache `v8-tablet-assets` elimina le versioni
-precedenti durante l'attivazione del nuovo service worker; il primo accesso
-scarica il pacchetto, quelli successivi lo riusano dalla cache.
+Il launcher confronta `build.json` con il service worker attivo e, quando trova
+una versione nuova, attende il passaggio al worker aggiornato prima di aprire
+Godot. Questo evita che una vecchia cache fornisca il PCK precedente durante il
+primo accesso dopo la pubblicazione.
+
+Se il tablet mostra comunque una build precedente, chiudi tutte le schede di Eli
+Quest e riapri l'indirizzo. La cache `v9-web-loader` elimina le versioni
+precedenti durante l'attivazione; il primo accesso scarica il pacchetto, quelli
+successivi lo riusano dalla cache.
 
 ## Budget Asset Tablet
 
@@ -63,6 +68,14 @@ atlanti dei biomi non correnti vengono caricati su richiesta e mantenuti in una
 cache runtime condivisa, evitando di decodificare all'avvio gli asset dei 24
 mondi.
 
+Con `npm run dev:lan` e `npm run preview:lan`, Vite invia il WASM in Brotli
+quando il browser lo supporta: il trasferimento del file scende da 37,68 MiB a
+circa 7,92 MiB. Il PCK resta a 23,85 MiB perché comprimerlo nuovamente offre un
+risparmio ridotto; il download freddo del nucleo passa così da circa 61,54 MiB
+a circa 31,83 MiB, oltre alla piccola shell. La dimensione occupata nella cache
+e in memoria non cambia. In pubblicazione la compressione dipende dal server
+che ospita i file.
+
 Quando si aggiunge un asset:
 
 1. confrontare la risoluzione sorgente con la dimensione massima a schermo;
@@ -70,6 +83,16 @@ Quando si aggiunge un asset:
 3. usare `ResourceLoader.load()` al momento d'uso per contenuti specifici di un
    mondo; riservare `preload()` agli asset comuni della prima scena;
 4. rigenerare l'export Web e incrementare `CACHE_VERSION` in `public/sw.js`.
+
+Prima della build eseguire:
+
+```bash
+npm run audit:web
+```
+
+L'audit blocca la release se `build.json`, versione della cache, dimensioni
+PCK/WASM e configurazione dell'export Godot non coincidono. `npm run build`
+esegue automaticamente lo stesso controllo.
 
 ## Prova Build Di Produzione Su Tablet
 

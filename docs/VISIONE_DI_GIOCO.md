@@ -5,14 +5,18 @@
 > qui descritta?"*. In caso di dubbio, questo documento vince.
 >
 > Documenti collegati: [DESIGN_COMPLETO.md](DESIGN_COMPLETO.md) ·
+> [TRAMA_E_MISTERO.md](TRAMA_E_MISTERO.md) ·
+> [ABITANTI_E_LUOGHI.md](ABITANTI_E_LUOGHI.md) · [PET_CUSTODE.md](PET_CUSTODE.md) ·
 > [ARCHITETTURA_FULL_GODOT.md](ARCHITETTURA_FULL_GODOT.md)
 
 ## Pitch in una frase
 
-Eli, giovane esploratrice-robot, risveglia **NORA** — la mente dormiente del
-**Relitto dei Primi** — riparandone i sistemi; e ogni sistema è una disciplina.
-**Studiare è il potere che riaccende la nave** e svela perché i Primi sono
-scomparsi… e cosa sta tornando.
+Il **Relitto dei Primi** era una nave-scuola; il **Silenzio** ha sciolto il
+legame tra le cose e il loro significato, e i suoi Maestri si sono chiusi dentro
+dodici apparati — uno per disciplina — per salvarlo. Eli risveglia **NORA**, la
+loro prima allieva, riparandoli: e l'unico modo per riaccendere un apparato è che
+qualcuno **capisca davvero** ciò che custodiva. **La comprensione non si copia,
+si rifà**: per questo studiare è il potere che riapre la rotta.
 
 ## La fantasia (cosa prova lo studente)
 
@@ -89,17 +93,26 @@ Piano e architettura in [ARCHITETTURA_FULL_GODOT.md](ARCHITETTURA_FULL_GODOT.md)
 
 ## Ambientazione in breve
 
-- **Il Relitto dei Primi**: nave-mondo antica che permette di raggiungere mondi
-  esterni progressivamente riaperti, ognuno con un'identità visiva e narrativa,
-  stile grafico *Animal Crossing* (caldo, luminoso, ricco, leggibile, costruito
-  attorno a punti focali). **Dentro** = la nave con gli **apparati** da riparare
-  (gli esami finali); **fuori** = i **mondi-livello** dove si svolgono tutte le
-  missioni.
-- **NORA**: la mente della nave, frammentata all'inizio, guida e narratrice che
-  torna cosciente man mano che Eli ripara gli apparati.
-- **Eli**: l'esploratrice-robot giocante; cresce di livello (1 → 20+), si
-  potenzia, si personalizza.
-- **I Primi**: la civiltà scomparsa; il mistero centrale della storia.
+- **Il Relitto dei Primi**: nave-**scuola** antica che percorreva un circuito di
+  mondi portando e raccogliendo modi di capire. Ogni mondo è **abitato** dai
+  discendenti dei suoi allievi, che ripetono ancora i gesti dell'insegnamento
+  senza saperne più il senso. Stile grafico *Animal Crossing* (caldo, luminoso,
+  leggibile, costruito attorno a punti focali). **Dentro** = la nave con gli
+  **apparati** da riparare (gli esami finali); **fuori** = i **mondi-livello**
+  dove si svolgono tutte le missioni e vivono le persone.
+- **NORA**: non la mente della nave, ma la sua **prima allieva**. Il Silenzio le
+  ha lasciato i metodi e le ha tolto i contenuti: impara *con* Eli, non prima di
+  lei, e per questo non può mai dare la risposta. Recupera un Maestro — e una
+  sfumatura di voce — a ogni apparato riparato.
+- **Eli**: l'allieva-robot giocante, costruita dalla Tredicesima Maestra per
+  dimostrare una tesi; cresce di livello (1 → 24), si potenzia, si personalizza.
+- **Il Custode**: il compagno sempre accanto a Eli, con un volto sempre in vista
+  che reagisce a ciò che accade — e che sente dove il significato è svanito.
+- **I Primi**: la civiltà scomparsa. Non morta: **chiusa per scelta**. Il
+  mistero centrale è chi si rifiutò, e perché. Dettaglio in
+  [TRAMA_E_MISTERO.md](TRAMA_E_MISTERO.md).
+- **Il Silenzio**: l'antagonista. Non distrugge le cose, scioglie il legame tra
+  una cosa e il suo significato. Si dirada dove qualcuno capisce.
 - **Apparati = materie**: ogni apparato (stanza) è legato a una materia —
   matematica/logica = Nucleo, coding = Cratere Logico, lingue = Data-core, latino
   = Sala dei Glifi, fisica/geografia = Ponte di Comando, musica = Motore a

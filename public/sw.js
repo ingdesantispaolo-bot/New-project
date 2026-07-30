@@ -1,4 +1,5 @@
-const CACHE_VERSION = "v8-tablet-assets";
+const BUILD_ID = "2026.07.30-web-loader-1";
+const CACHE_VERSION = "v9-web-loader";
 const STATIC_CACHE = `eli-quest-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `eli-quest-runtime-${CACHE_VERSION}`;
 const APP_SHELL = ["./manifest.webmanifest", "./eli-quest-icon.svg"];
@@ -24,6 +25,10 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") {
     self.skipWaiting();
+    return;
+  }
+  if (event.data?.type === "GET_BUILD_ID" && event.ports?.[0]) {
+    event.ports[0].postMessage({ buildId: BUILD_ID, cacheVersion: CACHE_VERSION });
   }
 });
 
@@ -38,6 +43,10 @@ self.addEventListener("fetch", (event) => {
   }
 
   const requestUrl = new URL(event.request.url);
+  if (requestUrl.pathname.endsWith("/build.json")) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
   if (requestUrl.pathname.includes("/godot/outdoor/")) {
     event.respondWith(
       requestUrl.pathname.endsWith(".html")

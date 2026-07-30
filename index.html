@@ -15,28 +15,176 @@
     <link rel="apple-touch-icon" href="./eli-quest-icon.svg" />
     <title>Eli Quest - Accademia delle Missioni</title>
     <style>
-      html, body { margin: 0; height: 100%; background: #071018; color: #cfe9ee; }
-      .boot { display: flex; align-items: center; justify-content: center; height: 100%;
-              font-family: system-ui, sans-serif; font-size: 15px; letter-spacing: .3px; }
+      :root { color-scheme: dark; font-family: system-ui, -apple-system, sans-serif; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; background: #071018; color: #e4f5f7; }
+      body {
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: max(24px, env(safe-area-inset-top))
+          max(24px, env(safe-area-inset-right))
+          max(24px, env(safe-area-inset-bottom))
+          max(24px, env(safe-area-inset-left));
+        background:
+          radial-gradient(circle at 50% 28%, rgba(48, 166, 158, .22), transparent 42%),
+          linear-gradient(160deg, #071018 0%, #0b2429 100%);
+      }
+      .boot {
+        width: min(520px, 100%);
+        text-align: center;
+        padding: clamp(28px, 6vw, 48px);
+        border: 1px solid rgba(120, 224, 214, .3);
+        border-radius: 24px;
+        background: rgba(5, 21, 25, .82);
+        box-shadow: 0 22px 70px rgba(0, 0, 0, .35);
+      }
+      .boot h1 { margin: 0 0 8px; color: #f4cf69; font-size: clamp(28px, 7vw, 42px); }
+      .boot p { margin: 8px 0; line-height: 1.5; }
+      .status { color: #aee9e4; min-height: 1.5em; }
+      .track {
+        height: 10px;
+        margin: 24px 0 14px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .1);
+      }
+      .track span {
+        display: block;
+        width: 42%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #42cbbf, #f4cf69);
+        animation: loading 1.25s ease-in-out infinite alternate;
+      }
+      .slow { display: none; color: #b8c9cb; font-size: 14px; }
+      .slow.visible { display: block; }
+      .retry {
+        display: none;
+        min-height: 48px;
+        margin: 18px auto 0;
+        padding: 10px 22px;
+        border: 1px solid #f4cf69;
+        border-radius: 14px;
+        color: #071018;
+        background: #f4cf69;
+        font: inherit;
+        font-weight: 700;
+      }
+      .retry.visible { display: block; }
+      @keyframes loading { from { transform: translateX(-15%); } to { transform: translateX(150%); } }
+      @media (prefers-reduced-motion: reduce) {
+        .track span { width: 65%; animation: none; }
+      }
     </style>
   </head>
   <body>
     <!-- C-16: la root del deploy avvia esclusivamente l'app Godot nativa. -->
-    <div class="boot" id="boot">Avvio di Eli Quest…</div>
+    <main class="boot" id="boot" aria-live="polite">
+      <h1>Eli Quest</h1>
+      <p>Accademia delle Missioni</p>
+      <div class="track" aria-hidden="true"><span></span></div>
+      <p class="status" id="boot-status">Controllo della versione…</p>
+      <p class="slow" id="boot-slow">Il primo avvio può richiedere qualche istante. I successivi useranno la copia salvata sul tablet.</p>
+      <button class="retry" id="boot-retry" type="button">RIPROVA</button>
+    </main>
     <script>
       (function () {
         var launched = false;
+        var status = document.getElementById("boot-status");
+        var slow = document.getElementById("boot-slow");
+        var retry = document.getElementById("boot-retry");
+        var fallbackTimer = window.setTimeout(function () {
+          slow.classList.add("visible");
+        }, 6000);
+
+        function setStatus(message) {
+          status.textContent = message;
+        }
+
         function launchGodot() {
           if (launched) return;
           launched = true;
+          window.clearTimeout(fallbackTimer);
+          setStatus("Apertura del mondo…");
           window.location.replace("./godot/outdoor/index.html");
         }
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("./sw.js").then(launchGodot, launchGodot);
-          window.setTimeout(launchGodot, 1000);
-        } else {
-          launchGodot();
+
+        function waitForControllerChange(timeout) {
+          return new Promise(function (resolve) {
+            var settled = false;
+            var timer = window.setTimeout(done, timeout);
+            function done() {
+              if (settled) return;
+              settled = true;
+              window.clearTimeout(timer);
+              navigator.serviceWorker.removeEventListener("controllerchange", done);
+              resolve();
+            }
+            navigator.serviceWorker.addEventListener("controllerchange", done);
+          });
         }
+
+        function controllerBuild(timeout) {
+          return new Promise(function (resolve) {
+            var controller = navigator.serviceWorker.controller;
+            if (!controller) {
+              resolve("");
+              return;
+            }
+            var channel = new MessageChannel();
+            var timer = window.setTimeout(function () { resolve(""); }, timeout);
+            channel.port1.onmessage = function (event) {
+              window.clearTimeout(timer);
+              resolve(event.data && event.data.buildId || "");
+            };
+            controller.postMessage({ type: "GET_BUILD_ID" }, [channel.port2]);
+          });
+        }
+
+        async function expectedBuild() {
+          try {
+            var response = await fetch("./build.json?check=" + Date.now(), { cache: "no-store" });
+            if (!response.ok) return "";
+            var manifest = await response.json();
+            return manifest.buildId || "";
+          } catch (_) {
+            return "";
+          }
+        }
+
+        async function prepare() {
+          if (!("serviceWorker" in navigator)) {
+            launchGodot();
+            return;
+          }
+          try {
+            var wantedBuild = await expectedBuild();
+            setStatus("Aggiornamento della copia locale…");
+            var registration = await navigator.serviceWorker.register("./sw.js");
+            await registration.update();
+            if (registration.waiting) {
+              registration.waiting.postMessage({ type: "SKIP_WAITING" });
+            }
+            var currentBuild = await controllerBuild(800);
+            if (wantedBuild && currentBuild !== wantedBuild) {
+              await waitForControllerChange(5000);
+            }
+            await navigator.serviceWorker.ready;
+            launchGodot();
+          } catch (error) {
+            console.warn("Avvio senza aggiornamento service worker:", error);
+            setStatus(navigator.onLine ? "Avvio della copia disponibile…" : "Avvio offline…");
+            launchGodot();
+          }
+        }
+
+        retry.addEventListener("click", function () { window.location.reload(); });
+        window.addEventListener("offline", function () { setStatus("Connessione assente: provo la copia salvata…"); });
+        prepare().catch(function () {
+          setStatus("Impossibile preparare il gioco.");
+          retry.classList.add("visible");
+        });
       })();
     </script>
     <noscript>

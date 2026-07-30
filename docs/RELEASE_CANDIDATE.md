@@ -50,10 +50,13 @@ Chrome DevTools misura separatamente heap JS, embedder e backing storage.
 | Nave | 30 dopo transizione | 152 | 69,1 MiB |
 | Esercizio grafico | 30 | 589 | 78,1 MiB |
 
-Il primo avvio sulla rete simulata richiede 37,6 s: `index.wasm` impiega 29,0 s
-e `index.pck` 26,1 s, scaricati in parallelo. Per i riavvii il service worker
-`v7-touch-accessibility` mantiene PCK/WASM/JS in cache; HTML resta network-first
-e il cambio di versione invalida la cache quando viene pubblicato un export.
+La misura storica del primo avvio sulla rete simulata era 37,6 s: `index.wasm`
+impiegava 29,0 s e `index.pck` 26,1 s, scaricati in parallelo. L'export corrente
+ha un PCK più piccolo e, sui server Vite di sviluppo e anteprima, il WASM viene
+trasferito in Brotli (circa 7,92 MiB invece di 37,68 MiB). Il dato temporale va
+quindi rimisurato su tablet reale. Per i riavvii il service worker
+`v9-web-loader` mantiene PCK/WASM/JS in cache; HTML e `build.json` restano
+network-first.
 
 Budget release fissati nei `WorldProfile`:
 
@@ -81,12 +84,12 @@ Le 44 grandi tavole pittoriche dei mondi usano import texture lossy a qualità
 
 | File | Dimensione |
 | --- | ---: |
-| `index.pck` | 30,79 MiB |
+| `index.pck` | 23,85 MiB |
 | `index.wasm` | 37,68 MiB |
-| export completo | 68,79 MiB |
+| export completo | 61,86 MiB |
 
 Prima della compressione l’export misurava 132,17 MiB e il PCK 94,17 MiB.
-La riduzione del download totale è 64,41 MiB, circa il 48,7%.
+La riduzione complessiva rispetto a quell'export è 70,31 MiB, circa il 53,2%.
 
 ## Controllo visuale
 
@@ -129,9 +132,11 @@ ora rimosso dal DOM alla chiusura, evitando falsi positivi fra esame e missione.
 Report e catture sono in `artifacts/web-smoke-current/`; gli errori console
 rilevati sono zero.
 
-Il service worker usa la cache `v7-touch-accessibility`: PCK/WASM/JS restano
-cache-first, ma il cambio versione forza i dispositivi già usati ad acquisire
-l’export corrente.
+Il service worker usa la cache `v9-web-loader`: PCK/WASM/JS restano cache-first.
+Il launcher confronta il build ID network-first, attende l'attivazione del nuovo
+worker e soltanto dopo apre Godot, evitando il caricamento del PCK precedente.
+`npm run audit:web` controlla l'allineamento tra build ID, cache, file esportati
+e dimensioni dichiarate prima della build.
 
 ## Registro dei lavori C-P6 (29 luglio)
 

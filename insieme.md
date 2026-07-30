@@ -11,6 +11,9 @@ Documenti autoritativi:
 
 - [Visione](docs/VISIONE_DI_GIOCO.md)
 - [Design completo](docs/DESIGN_COMPLETO.md)
+- [Trama e mistero](docs/TRAMA_E_MISTERO.md)
+- [Abitanti e luoghi](docs/ABITANTI_E_LUOGHI.md)
+- [Il Custode (pet)](docs/PET_CUSTODE.md)
 - [Architettura Godot](docs/ARCHITETTURA_FULL_GODOT.md)
 - [Piano AAA didattico](docs/PIANO_EVOLUZIONE_AAA_DIDATTICO.md)
 - [Riattivazione della nave](docs/SHIP_REACTIVATION_VISUAL_SYSTEM.md)
@@ -113,6 +116,49 @@ implementata.
 6. **Budget prestazionali confermati** ai valori di `performance_budget`. Resta
    solo la verifica su tablet fisico (punto C-P6 #5).
 
+## Nuovo asse di lavoro: il mondo abitato (30 luglio)
+
+Decisione dell'utente: il gioco integra tre caratteristiche nuove — **abitanti
+parlanti**, **Custode sempre visibile**, **NORA ridefinita** — dentro una trama
+riscritta. Progetto completo nei tre documenti nuovi; qui solo il lavoro aperto.
+
+Perno della riscrittura: la nave era una **nave-scuola**, il Silenzio scioglie il
+legame tra le cose e il loro significato, i Dodici Maestri si sono chiusi negli
+apparati, la Tredicesima (**Meridiana**) si è rifiutata ed è andata a insegnare
+nei mondi — e ha costruito Eli. NORA non è la mente della nave: è **la prima
+allieva**, ha i metodi e non i contenuti. Da qui la risposta alla domanda che il
+gioco non aveva: *la comprensione non si copia, si rifà* — ed è per questo che
+Eli deve studiare.
+
+Vincoli che questo asse non può violare (valgono come le decisioni del 29):
+
+1. **Nessuna seconda progressione.** Gli abitanti danno volto e motivo agli
+   eventi che `MissionEventDirector` pianifica già: niente missioni nuove,
+   niente mastery, niente energia, nessun effetto sul gate.
+2. **Nessun contenuto narrativo obbligatorio.** 1→24 resta completabile senza
+   parlare con nessuno e senza leggere una Traccia.
+3. **Il Custode non è mai punitivo**: nessun accudimento a decadimento, nessuna
+   espressione negativa, e all'errore fa la faccia *incoraggiante*.
+4. **Nessun personaggio regala risposte.** Metodo, contesto e incoraggiamento
+   sì; soluzioni no — sarebbe Silenzio in miniatura. Estende `giveaway_audit`.
+5. **Budget invariato**: max 4 abitanti in scena, streaming come i POI.
+
+### Lavoro aperto
+
+- [ ] **A1** ossatura dialoghi + mondo 1 (2 residenti, 12 battute a testa)
+- [ ] **A2** `ownerNpc` sugli eventi esistenti (richiesta → svolgimento → ritorno)
+- [ ] **A3** edifici: Casa del mestiere · Ritrovo · Rovina dei Primi
+- [ ] **A4** i 6 itineranti, incluso «rispiegamelo» di Vera
+- [ ] **A5** vita di mondo: routine, notizie, conversazioni al Ritrovo
+- [ ] **A6** estensione ai 24 mondi (48 residenti, 72 conversazioni, 24 Tracce)
+- [ ] **A7** mistero e finale: 24 beat riscritti, Tracce nel Codex, Cuore
+- [ ] **P1–P6** Custode: stato, volto sempre visibile, schermata, legame, indole
+- [ ] audit nuovi: `npc_catalog`, `dialogue`, `world_life`, `building`,
+      `mystery`, `pet_expression`
+
+Prima di A6/A7 va giocata A1–A5 sul mondo 1: 54 personaggi si scrivono **dopo**
+aver verificato che parlare con qualcuno cambi davvero la sensazione del gioco.
+
 ## Difetti corretti dopo segnalazione (29 luglio)
 
 Un ordinamento dell'esame di matematica è arrivato **già risolto**: gli elementi
@@ -146,8 +192,14 @@ risultare allineata alla sinistra (si risolveva riga per riga).
   effettiva, non da coordinate rigide;
 - tavole identitarie, landmark, atlanti di bioma ed enigmi caricati soltanto per
   il mondo/tema corrente e riusati tramite cache condivise;
-- cache PWA aggiornata a `v8-tablet-assets`, così il tablet non continua a usare
-  il vecchio PCK;
+- cache PWA aggiornata a `v9-web-loader`; il launcher confronta il build ID,
+  attende l'attivazione del nuovo service worker e poi apre Godot, così il
+  tablet non riceve il vecchio PCK al primo accesso dopo una pubblicazione;
+- compressione selettiva Brotli/Gzip per WASM e JavaScript nei server Vite
+  sviluppo/anteprima: il WASM trasferito scende da 37,68 a circa 7,92 MiB con
+  Brotli; il PCK resta non ricompresso perché il guadagno è marginale;
+- `npm run audit:web` verifica build ID, versione cache e dimensioni PCK/WASM
+  prima di ogni build;
 - verifica: export Godot riuscito, 184/184 test TypeScript verdi, audit diretti
   dei mondi 21–23 e del mondo/finale 24 verdi. Lo smoke Chrome automatizzato è
   attualmente bloccato dal canale DevTools locale prima della navigazione e va

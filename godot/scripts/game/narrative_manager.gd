@@ -18,7 +18,7 @@ const BEATS := {
 	8: "NORA: Delta dei Circuiti. Corrente nei nodi giusti: il reattore ausiliario pulsa con te.",
 	9: "NORA: Arcipelago Cartografico. Rotte e quote: sto ricostruendo la mappa di dove eravamo diretti.",
 	10: "NORA: Serra delle Simbiosi. Tutto è collegato — piante, animali, scelte. Anche noi due, ormai.",
-	11: "NORA: Città dei Patti. Regole condivise tengono in piedi una comunità… e un equipaggio. Mi fido di come decidi.",
+	11: "NORA: Soglia del Tempo. Ogni fonte interpretata riaccende una scena del passato. Mi fido di come leggi le tracce.",
 	12: "NORA: Labirinto delle Regole. Hai chiuso il primo ciclo: dodici sistemi online. Un blocco di memoria è di nuovo mio.",
 	13: "NORA: Deserto delle Orbite. Traiettorie e stime: guardo le stelle con occhi che credevo spenti.",
 	14: "NORA: Biblioteca delle Voci. Storie dentro storie: ricordo perché questa missione conta, non solo come.",
@@ -30,7 +30,7 @@ const BEATS := {
 	20: "NORA: Tempesta Elettromagnetica. Campi instabili, sensori impazziti: la tua calma è la mia bussola.",
 	21: "NORA: Atlante Fratturato. Placche e climi di un mondo intero: quasi vedo la rotta completa.",
 	22: "NORA: Biosfera Profonda. Cellule, energia, vita che si adatta: anch'io mi sto adattando a essere di nuovo viva.",
-	23: "NORA: Concilio delle Colonie. Si negozia il bene comune: la decisione finale sarà nostra, insieme.",
+	23: "NORA: Sala delle Ere. Roma e Medioevo tornano a collegarsi: il racconto del passato sarà nostro, insieme.",
 	24: "NORA: Cuore dei Primi. Tutti i sistemi convergono. Ricordo tutto, ora — e ricordo grazie a chi. Accendiamo la rotta.",
 }
 

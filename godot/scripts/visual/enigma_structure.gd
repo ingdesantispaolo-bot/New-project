@@ -5,16 +5,19 @@ extends Node2D
 ## `set_stage(built, total)` dal contratto OutdoorGameplay e non legge save,
 ## sessioni o progressione.
 
-const BRIDGE_TEXTURE: Texture2D = preload("res://assets/enigma-bridge-primes-v1.png")
-const GATE_TEXTURE: Texture2D = preload("res://assets/enigma-gate-language-v1.png")
-const CIRCUIT_TEXTURE: Texture2D = preload("res://assets/enigma-circuit-tech-v1.png")
-const CRYSTAL_TEXTURE: Texture2D = preload("res://assets/enigma-crystals-harmony-v1.png")
-const REACTOR_TEXTURE: Texture2D = preload("res://assets/enigma-reactor-motion-v1.png")
-const MAP_TEXTURE: Texture2D = preload("res://assets/enigma-map-stars-v1.png")
-const GREENHOUSE_TEXTURE: Texture2D = preload("res://assets/enigma-greenhouse-bio-v1.png")
-const NETWORK_TEXTURE: Texture2D = preload("res://assets/enigma-network-civic-v1.png")
-const GRID_TEXTURE: Texture2D = preload("res://assets/enigma-grid-logic-v1.png")
+const TEXTURE_PATHS := {
+	"ponte": "res://assets/enigma-bridge-primes-v1.png",
+	"porta": "res://assets/enigma-gate-language-v1.png",
+	"circuito": "res://assets/enigma-circuit-tech-v1.png",
+	"cristalli": "res://assets/enigma-crystals-harmony-v1.png",
+	"reattore": "res://assets/enigma-reactor-motion-v1.png",
+	"mappa": "res://assets/enigma-map-stars-v1.png",
+	"serra": "res://assets/enigma-greenhouse-bio-v1.png",
+	"rete": "res://assets/enigma-network-civic-v1.png",
+	"griglia": "res://assets/enigma-grid-logic-v1.png",
+}
 const SEGMENT_COUNT := 4
+static var _texture_cache: Dictionary = {}
 
 var theme := "ponte"
 var display_label := ""
@@ -283,16 +286,10 @@ func _process(delta: float) -> void:
 		_title.modulate.a = move_toward(_title.modulate.a, target_alpha, delta * 4.5)
 
 func _texture_for_theme(value: String) -> Texture2D:
-	match value:
-		"porta": return GATE_TEXTURE
-		"circuito": return CIRCUIT_TEXTURE
-		"cristalli": return CRYSTAL_TEXTURE
-		"reattore": return REACTOR_TEXTURE
-		"mappa": return MAP_TEXTURE
-		"serra": return GREENHOUSE_TEXTURE
-		"rete": return NETWORK_TEXTURE
-		"griglia": return GRID_TEXTURE
-		_: return BRIDGE_TEXTURE
+	var path := str(TEXTURE_PATHS.get(value, TEXTURE_PATHS["ponte"]))
+	if not _texture_cache.has(path):
+		_texture_cache[path] = ResourceLoader.load(path, "Texture2D")
+	return _texture_cache[path] as Texture2D
 
 func _theme_title() -> String:
 	if display_label != "":

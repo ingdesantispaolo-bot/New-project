@@ -128,15 +128,25 @@ func _assert_live_finale() -> void:
 	assert(NoraState.memory(save) == 24)
 	var nora_line := hub.find_child("NoraShipLine", true, false) as Label
 	assert(nora_line != null and nora_line.text == NarrativeManager.FINAL_BEAT)
+	assert(str(hub.get_meta("last_milestone_kind", "")) == "finale",
+		"il traguardo 24 non usa la regia finale")
+	assert(Array(hub.get_meta("last_milestone_cues", [])).has("finale")
+		and bool(hub.get_meta("last_milestone_complete", false)),
+		"convergenza e rivelazione finale non completate")
 	assert(save.current_world() == 24 and save.is_world_unlocked(24))
 
 	hub.call("_return_to_world")
-	await process_frame
-	await process_frame
+	for _frame in 12:
+		await process_frame
+		if current_scene != null and current_scene != hub:
+			var pending_profile = current_scene.get("world_profile")
+			if pending_profile is Dictionary and not pending_profile.is_empty():
+				break
 	var returned := current_scene
 	assert(returned != null and returned != hub, "ritorno dalla nave non eseguito")
 	var returned_profile: Dictionary = returned.get("world_profile")
-	assert(int(returned_profile.get("level", 0)) == 24)
+	assert(int(returned_profile.get("level", 0)) == 24,
+		"ritorno sul mondo errato: %s · save corrente %d" % [str(returned_profile.get("id", "?")), save.current_world()])
 	assert(returned.get("player") != null, "mondo finale non giocabile dopo i titoli")
 	root.remove_child(returned)
 	returned.queue_free()

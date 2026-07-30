@@ -2,9 +2,10 @@
 
 ## Obiettivo
 
-Eli Quest resta un'app web Phaser/Vite senza backend. Per tablet usiamo:
+Eli Quest usa il runtime Godot esportato sul Web, senza backend. Vite serve la
+shell e l'export presente in `public/godot/outdoor`. Per tablet usiamo:
 
-- canvas 1280x720 scalato con `Phaser.Scale.FIT`;
+- viewport Godot responsivo;
 - uso consigliato in landscape;
 - overlay se il tablet è in verticale;
 - aree touch più grandi di bottoni e hotspot;
@@ -15,7 +16,9 @@ Eli Quest resta un'app web Phaser/Vite senza backend. Per tablet usiamo:
 
 1. Avvia il server esposto sulla rete locale:
 
-```bash
+```powershell
+& "C:\percorso\Godot_v4.7.1-stable_win64_console.exe" --headless --path godot `
+  --export-release Web public/godot/outdoor/index.html
 npm run dev:lan
 ```
 
@@ -34,6 +37,39 @@ http://192.168.1.45:5173
 ```
 
 Se Windows chiede il permesso firewall per Node.js, autorizza sulle reti private.
+
+Il pulsante **COMANDI TOUCH** permette di scegliere lato destro/sinistro,
+dimensione standard/grande e visibilità piena/leggera. Movimento, azione,
+impulso, missione/nave, Bottega, Manuale e conferma delle risposte dispongono
+di un bersaglio touch: la tastiera è soltanto una scorciatoia.
+
+Se il tablet mostra ancora una build precedente, chiudi tutte le schede di Eli
+Quest e riapri l'indirizzo. La cache `v8-tablet-assets` elimina le versioni
+precedenti durante l'attivazione del nuovo service worker; il primo accesso
+scarica il pacchetto, quelli successivi lo riusano dalla cache.
+
+## Budget Asset Tablet
+
+L'export Web ottimizzato misura **61,86 MiB** complessivi:
+
+- `index.wasm`: 37,68 MiB, runtime Godot;
+- `index.pck`: 23,85 MiB, gioco e asset;
+- shell e icone: circa 0,33 MiB.
+
+Rispetto al precedente export da 68,79 MiB il trasferimento è diminuito di
+6,93 MiB (circa il 10%). Landmark, atlanti naturali ed enigmi vengono importati
+alla risoluzione massima utile a schermo. Le tavole dei mondi, i landmark e gli
+atlanti dei biomi non correnti vengono caricati su richiesta e mantenuti in una
+cache runtime condivisa, evitando di decodificare all'avvio gli asset dei 24
+mondi.
+
+Quando si aggiunge un asset:
+
+1. confrontare la risoluzione sorgente con la dimensione massima a schermo;
+2. impostare `process/size_limit` nel relativo `.import` con margine 2×;
+3. usare `ResourceLoader.load()` al momento d'uso per contenuti specifici di un
+   mondo; riservare `preload()` agli asset comuni della prima scena;
+4. rigenerare l'export Web e incrementare `CACHE_VERSION` in `public/sw.js`.
 
 ## Prova Build Di Produzione Su Tablet
 

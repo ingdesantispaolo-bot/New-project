@@ -5,6 +5,7 @@ uniform vec2 surface_world_origin = vec2(0.0);
 uniform vec2 surface_world_size = vec2(400.0);
 uniform float animation_speed = 1.0;
 uniform float edge_glow_strength = 0.10;
+uniform float surface_alpha : hint_range(0.0, 1.0) = 0.78;
 
 vec2 mirror_repeat(vec2 uv) {
 	vec2 cell = floor(uv);
@@ -21,5 +22,5 @@ void fragment() {
 	vec3 color = mix(a, b, 0.24);
 	float edge_light = smoothstep(0.78, 1.0, length(UV - vec2(0.5)) * 1.75);
 	color = mix(color, vec3(0.46, 0.87, 0.74), edge_light * edge_glow_strength);
-	COLOR = vec4(color * vec3(0.78, 0.92, 0.88), 0.94);
+	COLOR = vec4(color * vec3(0.78, 0.92, 0.88), surface_alpha);
 }

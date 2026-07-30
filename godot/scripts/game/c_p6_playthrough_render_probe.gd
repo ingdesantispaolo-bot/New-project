@@ -108,6 +108,29 @@ func _run() -> void:
 	var world := current_scene
 	assert(world != null and world.scene_file_path == WORLD_SCENE)
 	await _capture("03-world-tablet.png")
+	world.call("_toggle_touch_controls_panel")
+	var touch_customizer := world.find_child("TouchControlsCustomizer", true, false) as PanelContainer
+	assert(touch_customizer != null and touch_customizer.visible,
+		"personalizzazione dei comandi touch non apribile")
+	_assert_touch_targets(touch_customizer)
+	await _capture("03b-comandi-touch-tablet.png")
+	var contrast_toggle := world.find_child("HighContrastToggle", true, false) as Button
+	var motion_toggle := world.find_child("ReducedMotionToggle", true, false) as Button
+	assert(contrast_toggle != null and motion_toggle != null,
+		"preferenze accessibilità non disponibili nel pannello touch")
+	contrast_toggle.pressed.emit()
+	motion_toggle.pressed.emit()
+	assert(bool(world.get("high_contrast")) and bool(world.get("reduced_motion")),
+		"preferenze accessibilità non applicate in tempo reale")
+	assert(bool(world.get("game_save").data.get("accessibility", {}).get("highContrast", false))
+		and bool(world.get("game_save").data.get("accessibility", {}).get("reducedMotion", false)),
+		"preferenze accessibilità non persistite nel save")
+	root.size = Vector2i(600, 900)
+	await _capture("03c-comandi-touch-portrait.png")
+	_assert_touch_targets(touch_customizer)
+	root.size = Vector2i(900, 600)
+	await process_frame
+	world.call("_toggle_touch_controls_panel")
 	var player := world.get("player") as CharacterBody2D
 	var mission := _first_gate_mission(world)
 	assert(player != null and mission != null, "missione touch non disponibile")

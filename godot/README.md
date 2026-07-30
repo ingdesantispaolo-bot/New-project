@@ -52,6 +52,22 @@ Aprire la cartella `godot/` con Godot 4.x e avviare il progetto. La main scene �
 `scenes/boot_menu.tscn`; il pulsante **GIOCA** entra nel mondo. Il progetto usa
 il renderer Compatibility per mantenere una base adatta a Web e Windows.
 
+Per vedere immediatamente le modifiche locali, avviare il progetto Godot, non
+il vecchio runtime TypeScript:
+
+```powershell
+& "C:\percorso\Godot_v4.7.1-stable_win64.exe" --path godot
+```
+
+`npm run dev` serve invece l'ultimo export già presente in
+`public/godot/outdoor`. Dopo modifiche Godot bisogna prima rigenerarlo:
+
+```powershell
+& "C:\percorso\Godot_v4.7.1-stable_win64_console.exe" --headless --path godot `
+  --export-release Web public/godot/outdoor/index.html
+npm run dev:lan
+```
+
 Per un controllo senza aprire la finestra:
 
 ```powershell
@@ -99,10 +115,14 @@ godot --headless --path . --script res://scripts/game/boot_navigation_audit.gd
 
 ## Comandi della slice
 
-- `WASD`/frecce: movimento;
-- touch: destinazione del personaggio;
-- `E`: raccoglie, affronta o attraversa il portale quando Eli è vicino;
-- `ESC`: chiude un pannello oppure torna alla scena precedente salvando.
+- touch sul terreno o trascinamento: movimento;
+- pulsante **AZIONE**: raccoglie, affronta o attraversa il portale;
+- pulsante **IMPULSO**: stabilizza temporaneamente le anomalie;
+- pulsanti dedicati: rotta missione/nave, Bottega e Manuale NORA;
+- **COMANDI TOUCH**: lato, dimensione e visibilità dei comandi persistenti.
+
+Tastiera e gamepad restano scorciatoie opzionali; nessuna interazione essenziale
+su tablet dipende da `E`, `F`, `Invio` o `Esc`.
 
 ## Export
 

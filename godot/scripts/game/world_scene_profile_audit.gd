@@ -110,6 +110,8 @@ func _assert_world(world: Node, expected_level: int) -> Dictionary:
 			var pos := Vector2(float(obstacle["x"]), float(obstacle["y"]))
 			assert(not chunks.composition.is_protected(pos, float(obstacle.get("r", 0.0))),
 				"ostacolo dentro nave/percorso sicuro nel mondo %d" % expected_level)
+			assert(chunks.composition.is_path_clear(pos, float(obstacle.get("r", 0.0)) + 18.0),
+				"ostacolo sovrapposto a una strada nel mondo %d" % expected_level)
 	assert(has_ground, "il terreno del profilo non è stato compilato/istanziato")
 	return {
 		"id": str(profile["id"]),
@@ -168,6 +170,7 @@ func _run() -> void:
 	travel_save.data = Dictionary(_request_for(2)["initialSave"]).duplicate(true)
 	travel_save.save()
 	var hub := (load("res://scenes/hub.tscn") as PackedScene).instantiate()
+	hub.set("launch_save_override", travel_save.data.duplicate(true))
 	root.add_child(hub)
 	current_scene = hub
 	await process_frame

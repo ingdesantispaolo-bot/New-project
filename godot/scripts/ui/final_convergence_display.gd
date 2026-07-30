@@ -15,14 +15,21 @@ var systems: Array = []
 var resolved: Dictionary = {}
 var synthesis_resolved := false
 var synthesis_correct := false
+var reduced_motion := false
+var _last_resolved_system := ""
+var _resolve_started_msec := 0
 
-func setup(system_names: Array) -> void:
+func setup(system_names: Array, use_reduced_motion: bool = false) -> void:
 	systems = system_names.duplicate()
 	resolved.clear()
 	synthesis_resolved = false
 	synthesis_correct = false
+	reduced_motion = use_reduced_motion
+	_last_resolved_system = ""
+	_resolve_started_msec = 0
 	custom_minimum_size = Vector2(0, 124)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	set_process(not reduced_motion)
 	queue_redraw()
 
 func resolve_system(system: String, correct: bool) -> void:
@@ -31,6 +38,17 @@ func resolve_system(system: String, correct: bool) -> void:
 		synthesis_correct = correct
 	elif systems.has(system):
 		resolved[system] = correct
+	_last_resolved_system = system
+	_resolve_started_msec = Time.get_ticks_msec()
+	set_process(not reduced_motion)
+	queue_redraw()
+
+func _process(_delta: float) -> void:
+	if _last_resolved_system == "":
+		return
+	if Time.get_ticks_msec() - _resolve_started_msec > 760:
+		_last_resolved_system = ""
+		set_process(false)
 	queue_redraw()
 
 func resolved_system_count() -> int:
@@ -57,8 +75,16 @@ func _draw() -> void:
 		var fill := Color(color, 0.96 if is_resolved else 0.16)
 		if is_resolved and not bool(resolved[subject]):
 			fill = Color(color.lerp(Color("ff9a72"), 0.38), 0.82)
+		if is_resolved:
+			draw_line(position, center, Color(color, 0.34), 1.7, true)
 		draw_circle(position, 6.5 if is_resolved else 5.2, fill)
 		draw_arc(position, 8.5, 0.0, TAU, 22, Color(color, 0.78 if is_resolved else 0.24), 1.6, true)
+		if subject == _last_resolved_system and not reduced_motion:
+			var elapsed := clampf(float(Time.get_ticks_msec() - _resolve_started_msec) / 760.0, 0.0, 1.0)
+			var traveling := position.lerp(center, ease(elapsed, 0.65))
+			draw_line(position, traveling, Color(color, 0.88 * (1.0 - elapsed)), 3.2, true)
+			draw_circle(traveling, 4.8 + sin(elapsed * PI) * 2.6, Color(color, 0.92 * (1.0 - elapsed)))
+			draw_arc(position, 10.0 + elapsed * 12.0, 0.0, TAU, 28, Color(color, 0.72 * (1.0 - elapsed)), 2.0, true)
 	if synthesis_resolved:
 		draw_circle(center, 5.0, Color("fff2bd") if synthesis_correct else Color("ffad83"))
 	var text_x := maxf(205.0, size.x * 0.39)

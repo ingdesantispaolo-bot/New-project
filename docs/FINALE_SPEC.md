@@ -30,6 +30,9 @@ Contratto Opus **già disponibile**: `ContentManager.build_final_transversal_exa
 **Resa Codex:** ogni nodo risolto accende visibilmente il settore/sistema
 corrispondente; la reazione a cinque stadi del Cuore avanza con i sistemi accesi.
 La prova vive nella nave/Cuore, non nel mondo esterno (l'esame è sempre nella nave).
+Il sistema appena risolto invia un impulso visibile verso il Cuore e produce una
+firma sonora crescente: il giocatore percepisce causa e avanzamento senza dover
+leggere soltanto il contatore.
 
 ## 3 · Convergenza dei dodici sistemi
 
@@ -47,6 +50,9 @@ La prova vive nella nave/Cuore, non nel mondo esterno (l'esame è sempre nella n
   risultano riparati. `NoraState.integrity` → 1.0.
 - La riattivazione e il beat sono parte della stessa sequenza, senza schermate
   intermedie scollegate.
+- La regia finale riusa focus e accensione degli altri traguardi, poi li supera:
+  convergenza, titolo **ROTTA APERTA**, beat di NORA e portale sono quattro tempi
+  della stessa transizione continua.
 
 ## 5 · Ritorno al mondo
 

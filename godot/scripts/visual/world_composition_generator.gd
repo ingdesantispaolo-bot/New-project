@@ -108,7 +108,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 	elif level == 22:
 		biomes = ["wild", "crystal", "logic"]
 	elif level == 23:
-		biomes = ["academy", "logic", "ruins"]
+		biomes = ["ruins", "logic", "academy"]
 	elif level == 24:
 		# Il Cuore non appartiene più a un solo bioma: le tre famiglie visive
 		# sostengono il mosaico dei dodici sistemi senza introdurre natura casuale.
@@ -125,7 +125,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		"circuit_delta" if level == 8 else
 		"charted_archipelago" if level == 9 else
 		"symbiosis_greenhouse" if level == 10 else
-		"civic_city" if level == 11 else
+		"history_threshold" if level == 11 else
 		"rule_labyrinth" if level == 12 else
 		"orbital_desert" if level == 13 else
 		"voices_library" if level == 14 else
@@ -137,7 +137,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		"electromagnetic_storm" if level == 20 else
 		"fractured_atlas" if level == 21 else
 		"deep_biosphere" if level == 22 else
-		"colony_council" if level == 23 else
+		"hall_of_eras" if level == 23 else
 		"first_heart" if level == 24 else
 		str(profile.get("artKit", subject))
 	)
@@ -398,9 +398,10 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			]),
 		})
 	elif level == 11:
-		# Città civica: decumano, cardo e piazze collegate ai servizi.
+		# Soglia del Tempo: una linea cronologica attraversa aree di scavo e
+		# corti delle prime civiltà, mantenendo il percorso principale leggibile.
 		data.paths.append({
-			"id": "civic-grand-avenue", "width": 92.0,
+			"id": "history-main-timeline", "width": 92.0,
 			"points": PackedVector2Array([
 				ship + Vector2(-1800, 740), ship + Vector2(-900, 740),
 				ship + Vector2(0, 740), ship + Vector2(900, 740),
@@ -408,7 +409,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			]),
 		})
 		data.paths.append({
-			"id": "civic-assembly-axis", "width": 76.0,
+			"id": "history-source-axis", "width": 76.0,
 			"points": PackedVector2Array([
 				ship + Vector2(0, 740), ship + Vector2(0, 1080),
 				ship + Vector2(0, 1450), ship + Vector2(0, 1830),
@@ -416,7 +417,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		})
 		for side in [-1.0, 1.0]:
 			data.paths.append({
-				"id": "civic-service-%s" % ("west" if side < 0 else "east"),
+				"id": "history-excavation-%s" % ("west" if side < 0 else "east"),
 				"width": 58.0,
 				"points": PackedVector2Array([
 					ship + Vector2(side * 900, 740), ship + Vector2(side * 1040, 1120),
@@ -685,17 +686,17 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			]),
 		})
 	elif level == 23:
-		# Concilio: tre moduli coloniali convergono nell'assemblea centrale,
-		# con una corsia separata per il bene comune condiviso.
+		# Sala delle Ere: Roma e Medioevo convergono nell'archivio centrale;
+		# una seconda corsia visualizza cause, conseguenze e fonti.
 		data.paths.append({
-			"id": "council-assembly-axis", "width": 76.0,
+			"id": "eras-chronology-axis", "width": 76.0,
 			"points": PackedVector2Array([
 				ship + Vector2(0, 610), ship + Vector2(0, 1030),
 				ship + Vector2(0, 1510), ship + Vector2(0, 1880),
 			]),
 		})
 		data.paths.append({
-			"id": "council-colony-ring", "width": 58.0,
+			"id": "eras-rome-medieval-link", "width": 58.0,
 			"points": PackedVector2Array([
 				ship + Vector2(-1500, 1040), ship + Vector2(-760, 1260),
 				ship + Vector2(0, 1510), ship + Vector2(760, 1260),
@@ -703,7 +704,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 			]),
 		})
 		data.paths.append({
-			"id": "council-commons-route", "width": 50.0,
+			"id": "eras-sources-route", "width": 50.0,
 			"points": PackedVector2Array([
 				ship + Vector2(-1120, 1700), ship + Vector2(-520, 1550),
 				ship + Vector2(0, 1510), ship + Vector2(520, 1550),
@@ -1015,16 +1016,16 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		]
 	elif level == 11:
 		data.identity_regions = [
-			{"id": "civic-grand-plaza", "kind": "civic_plaza", "position": ship + Vector2(0, 760), "radii": Vector2(1660, 300), "rotation": 0.0},
-			{"id": "civic-west-service", "kind": "service_court", "position": ship + Vector2(-1180, 1380), "radii": Vector2(420, 330), "rotation": -0.04},
-			{"id": "civic-east-service", "kind": "service_court", "position": ship + Vector2(1180, 1380), "radii": Vector2(420, 330), "rotation": 0.04},
+			{"id": "history-chronology-plaza", "kind": "chronology_plaza", "position": ship + Vector2(0, 760), "radii": Vector2(1660, 300), "rotation": 0.0},
+			{"id": "history-west-excavation", "kind": "excavation_court", "position": ship + Vector2(-1180, 1380), "radii": Vector2(420, 330), "rotation": -0.04},
+			{"id": "history-east-archive", "kind": "source_archive", "position": ship + Vector2(1180, 1380), "radii": Vector2(420, 330), "rotation": 0.04},
 		]
 		data.identity_props = [
-			{"kind": "pact_column", "position": ship + Vector2(-1500, 650), "variant": 0.12},
-			{"kind": "civic_kiosk", "position": ship + Vector2(-760, 790), "variant": 0.31},
-			{"kind": "service_pavilion", "position": ship + Vector2(-1050, 1390), "variant": 0.50},
-			{"kind": "civic_kiosk", "position": ship + Vector2(760, 780), "variant": 0.69},
-			{"kind": "pact_column", "position": ship + Vector2(1500, 660), "variant": 0.88},
+			{"kind": "source_stele", "position": ship + Vector2(-1500, 650), "variant": 0.12},
+			{"kind": "timeline_relay", "position": ship + Vector2(-760, 790), "variant": 0.31},
+			{"kind": "artifact_table", "position": ship + Vector2(-1050, 1390), "variant": 0.50},
+			{"kind": "timeline_relay", "position": ship + Vector2(760, 780), "variant": 0.69},
+			{"kind": "source_stele", "position": ship + Vector2(1500, 660), "variant": 0.88},
 		]
 	elif level == 12:
 		data.identity_regions = [
@@ -1171,16 +1172,16 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		]
 	elif level == 23:
 		data.identity_regions = [
-			{"id": "council-central-dome", "kind": "assembly_dome", "position": ship + Vector2(0, 1510), "radii": Vector2(650, 430), "rotation": 0.0},
-			{"id": "council-west-commons", "kind": "commons_module", "position": ship + Vector2(-1120, 1120), "radii": Vector2(470, 340), "rotation": -0.04},
-			{"id": "council-east-commons", "kind": "commons_module", "position": ship + Vector2(1120, 1120), "radii": Vector2(470, 340), "rotation": 0.04},
+			{"id": "eras-central-archive", "kind": "era_archive", "position": ship + Vector2(0, 1510), "radii": Vector2(650, 430), "rotation": 0.0},
+			{"id": "eras-roman-wing", "kind": "roman_archive", "position": ship + Vector2(-1120, 1120), "radii": Vector2(470, 340), "rotation": -0.04},
+			{"id": "eras-medieval-wing", "kind": "medieval_archive", "position": ship + Vector2(1120, 1120), "radii": Vector2(470, 340), "rotation": 0.04},
 		]
 		data.identity_props = [
-			{"kind": "colony_pod", "position": ship + Vector2(-1450, 730), "variant": 0.12},
-			{"kind": "commons_terminal", "position": ship + Vector2(-720, 1110), "variant": 0.31},
-			{"kind": "accord_beacon", "position": ship + Vector2(0, 1510), "variant": 0.50},
-			{"kind": "commons_terminal", "position": ship + Vector2(720, 1110), "variant": 0.69},
-			{"kind": "colony_pod", "position": ship + Vector2(1450, 730), "variant": 0.88},
+			{"kind": "roman_archive_pod", "position": ship + Vector2(-1450, 730), "variant": 0.12},
+			{"kind": "causality_terminal", "position": ship + Vector2(-720, 1110), "variant": 0.31},
+			{"kind": "era_beacon", "position": ship + Vector2(0, 1510), "variant": 0.50},
+			{"kind": "causality_terminal", "position": ship + Vector2(720, 1110), "variant": 0.69},
+			{"kind": "medieval_archive_pod", "position": ship + Vector2(1450, 730), "variant": 0.88},
 		]
 	elif level == 24:
 		var heart_center := ship + Vector2(0, 1500)
@@ -1278,6 +1279,8 @@ static func _author_stream_crossing(data: WorldCompositionData, spawn: Vector2, 
 	}]
 
 static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
+	if level == 1:
+		return ship + Vector2(160, 1050)
 	if level == 3:
 		return ship + Vector2(0, 1280)
 	if level == 4:

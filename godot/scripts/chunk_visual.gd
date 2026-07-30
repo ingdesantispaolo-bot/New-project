@@ -46,7 +46,11 @@ func _build_identity_props() -> void:
 	var rect := Rect2(world_origin, Vector2(float(chunk["size"]), float(chunk["size"])))
 	for prop in composition.identity_props:
 		var world_pos: Vector2 = prop.get("position", Vector2.ZERO)
-		if not rect.has_point(world_pos) or composition.is_protected(world_pos, 64.0):
+		if (
+			not rect.has_point(world_pos)
+			or composition.is_protected(world_pos, 64.0)
+			or not composition.is_path_clear(world_pos, 58.0)
+		):
 			continue
 		var kind := str(prop.get("kind", ""))
 		var node := OutdoorVisualFactory.build_identity_prop(
@@ -64,7 +68,7 @@ func _build_identity_props() -> void:
 			"coil_tower", "circuit_node", "conductor_bridge",
 			"route_beacon", "contour_plinth", "dock_crane",
 			"symbiosis_pod", "root_arch", "pollinator_lamp",
-			"pact_column", "civic_kiosk", "service_pavilion",
+			"source_stele", "timeline_relay", "artifact_table",
 			"moving_wall", "rule_node", "logic_gate",
 			"trajectory_pylon", "fraction_dial", "orbit_scope",
 			"voice_shelf", "echo_lectern", "memory_lantern",
@@ -76,7 +80,7 @@ func _build_identity_props() -> void:
 			"field_tower", "sensor_probe", "surge_grounder",
 			"climate_beacon", "fault_marker", "terrain_model",
 			"cell_pod", "energy_vein", "adaptation_spore",
-			"colony_pod", "commons_terminal", "accord_beacon",
+			"roman_archive_pod", "medieval_archive_pod", "causality_terminal", "era_beacon",
 			"system_pylon", "convergence_relay", "synthesis_anchor",
 		]:
 			var body := StaticBody2D.new()
@@ -108,9 +112,9 @@ func _build_identity_props() -> void:
 				"symbiosis_pod": Vector2(64, 44),
 				"root_arch": Vector2(88, 38),
 				"pollinator_lamp": Vector2(42, 34),
-				"pact_column": Vector2(44, 38),
-				"civic_kiosk": Vector2(86, 42),
-				"service_pavilion": Vector2(108, 48),
+				"source_stele": Vector2(44, 38),
+				"timeline_relay": Vector2(76, 40),
+				"artifact_table": Vector2(108, 48),
 				"moving_wall": Vector2(98, 42),
 				"rule_node": Vector2(64, 38),
 				"logic_gate": Vector2(86, 42),
@@ -144,9 +148,10 @@ func _build_identity_props() -> void:
 				"cell_pod": Vector2(58, 40),
 				"energy_vein": Vector2(76, 38),
 				"adaptation_spore": Vector2(52, 36),
-				"colony_pod": Vector2(72, 42),
-				"commons_terminal": Vector2(82, 42),
-				"accord_beacon": Vector2(50, 38),
+				"roman_archive_pod": Vector2(72, 42),
+				"medieval_archive_pod": Vector2(72, 42),
+				"causality_terminal": Vector2(82, 42),
+				"era_beacon": Vector2(50, 38),
 				"system_pylon": Vector2(58, 40),
 				"convergence_relay": Vector2(84, 44),
 				"synthesis_anchor": Vector2(96, 46),
@@ -160,7 +165,7 @@ func _build_identity_props() -> void:
 func _build_global_assemblies() -> void:
 	if composition == null:
 		return
-	if composition.visual_theme in ["fractured_atlas", "deep_biosphere", "colony_council", "first_heart"]:
+	if composition.visual_theme in ["fractured_atlas", "deep_biosphere", "hall_of_eras", "first_heart"]:
 		return
 	var rect := Rect2(Vector2(float(chunk["worldX"]), float(chunk["worldY"])), Vector2(float(chunk["size"]), float(chunk["size"])))
 	var points := BiomeAssemblySpawner.points_for_rect(composition, rect, visual_lod)
@@ -170,7 +175,10 @@ func _build_global_assemblies() -> void:
 	layer.y_sort_enabled = true
 	add_child(layer)
 	for point in points:
-		if composition.is_protected(point["position"], 78.0):
+		if (
+			composition.is_protected(point["position"], 78.0)
+			or not composition.is_path_clear(point["position"], 72.0)
+		):
 			continue
 		var biome := str(point["biome"])
 		var root := Node2D.new()
@@ -203,7 +211,7 @@ func _build_global_assemblies() -> void:
 func _build_global_details() -> void:
 	if composition == null:
 		return
-	if composition.visual_theme in ["fractured_atlas", "deep_biosphere", "colony_council", "first_heart"]:
+	if composition.visual_theme in ["fractured_atlas", "deep_biosphere", "hall_of_eras", "first_heart"]:
 		return
 	var world_origin := Vector2(float(chunk["worldX"]), float(chunk["worldY"]))
 	var rect := Rect2(world_origin, Vector2(float(chunk["size"]), float(chunk["size"])))
@@ -213,7 +221,10 @@ func _build_global_details() -> void:
 	layer.y_sort_enabled = true
 	add_child(layer)
 	for point in BiomeDetailSpawner.points_for_rect(composition, rect, visual_lod):
-		if composition.is_protected(point["position"], 46.0):
+		if (
+			composition.is_protected(point["position"], 46.0)
+			or not composition.is_path_clear(point["position"], 34.0)
+		):
 			continue
 		var kind := str(point["kind"])
 		var size := _detail_size(kind) * float(point.get("scale", 1.0))

@@ -1,6 +1,7 @@
 # Eli Quest - Accademia delle Missioni
 
-Web game 2D educativo in TypeScript, Vite, Phaser 4 e Howler.js. Eli Quest unisce missioni narrative, esercizi procedurali, teoria spiegata da NORA, allenamento rapido e ricompense di energia in un unico percorso interdisciplinare.
+Gioco educativo 2D con runtime autoritativo Godot. Vite serve l'export Web
+Godot; il codice TypeScript/Phaser rimane soltanto come implementazione legacy.
 
 La direzione attuale non e piu solo "MVP laboratorio": il gioco ruota intorno a missioni procedurali e capitoli narrativi, con la Palestra della Mente usata sia come riscaldamento autonomo sia come evento bonus dentro le missioni.
 
@@ -10,6 +11,10 @@ La direzione attuale non e piu solo "MVP laboratorio": il gioco ruota intorno a 
 npm install
 npm run dev
 ```
+
+Il comando completo di export è documentato in
+`godot/README.md`. Senza questo passaggio `npm run dev` mostra l'ultimo `.pck`
+esportato e non le modifiche correnti agli script o agli asset Godot.
 
 Per provare da tablet sulla stessa rete Wi-Fi:
 

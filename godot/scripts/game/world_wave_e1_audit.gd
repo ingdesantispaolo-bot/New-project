@@ -21,9 +21,9 @@ const SPECS := {
 		"water": 1,
 	},
 	23: {
-		"theme": "colony_council",
-		"landmark": "councilHall",
-		"underpaint": "res://assets/concilio-colonie-underpaint-v1.png",
+		"theme": "hall_of_eras",
+		"landmark": "hallOfEras",
+		"underpaint": "res://assets/sala-ere-underpaint-v2.png",
 		"texture": "res://assets/concilio-sala-concilio-v1.png",
 		"water": 0,
 	},

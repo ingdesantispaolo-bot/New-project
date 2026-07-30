@@ -15,29 +15,31 @@ const UNDERPAINT_ACADEMY: Texture2D = preload("res://assets/terrain-underpaint-a
 const UNDERPAINT_WILD: Texture2D = preload("res://assets/terrain-underpaint-wild.png")
 const UNDERPAINT_MINERAL: Texture2D = preload("res://assets/terrain-underpaint-mineral.png")
 const UNDERPAINT_MAGIC: Texture2D = preload("res://assets/terrain-underpaint-magic.png")
-const UNDERPAINT_ARCHIVE: Texture2D = preload("res://assets/archivio-parole-underpaint-v1.png")
-const UNDERPAINT_CRATER: Texture2D = preload("res://assets/cratere-logico-underpaint-v1.png")
-const UNDERPAINT_SIGNAL_BAY: Texture2D = preload("res://assets/baia-segnali-underpaint-v1.png")
-const UNDERPAINT_MOTION: Texture2D = preload("res://assets/officine-moto-underpaint-v1.png")
-const UNDERPAINT_RESONANCE: Texture2D = preload("res://assets/giardino-risonanza-underpaint-v1.png")
-const UNDERPAINT_GLYPH: Texture2D = preload("res://assets/rovine-glifi-underpaint-v1.png")
-const UNDERPAINT_CIRCUIT: Texture2D = preload("res://assets/delta-circuiti-underpaint-v1.png")
-const UNDERPAINT_ARCHIPELAGO: Texture2D = preload("res://assets/arcipelago-cartografico-underpaint-v1.png")
-const UNDERPAINT_SYMBIOSIS: Texture2D = preload("res://assets/serra-simbiosi-underpaint-v1.png")
-const UNDERPAINT_CIVIC: Texture2D = preload("res://assets/citta-patti-underpaint-v1.png")
-const UNDERPAINT_LABYRINTH: Texture2D = preload("res://assets/labirinto-regole-underpaint-v1.png")
-const UNDERPAINT_ORBITAL: Texture2D = preload("res://assets/deserto-orbite-underpaint-v1.png")
-const UNDERPAINT_VOICES: Texture2D = preload("res://assets/biblioteca-voci-underpaint-v1.png")
-const UNDERPAINT_MACHINE: Texture2D = preload("res://assets/citta-macchina-underpaint-v1.png")
-const UNDERPAINT_FRONTIER: Texture2D = preload("res://assets/frontiera-lingue-underpaint-v1.png")
-const UNDERPAINT_FORCE_OCEAN: Texture2D = preload("res://assets/oceano-forze-underpaint-v1.png")
-const UNDERPAINT_SOUND_CATHEDRAL: Texture2D = preload("res://assets/cattedrale-suono-underpaint-v1.png")
-const UNDERPAINT_ROOT_NECROPOLIS: Texture2D = preload("res://assets/necropoli-radici-underpaint-v1.png")
-const UNDERPAINT_EM_STORM: Texture2D = preload("res://assets/tempesta-elettromagnetica-underpaint-v1.png")
-const UNDERPAINT_FRACTURED_ATLAS: Texture2D = preload("res://assets/atlante-fratturato-underpaint-v1.png")
-const UNDERPAINT_DEEP_BIOSPHERE: Texture2D = preload("res://assets/biosfera-profonda-underpaint-v1.png")
-const UNDERPAINT_COLONY_COUNCIL: Texture2D = preload("res://assets/concilio-colonie-underpaint-v1.png")
-const UNDERPAINT_FIRST_HEART: Texture2D = preload("res://assets/cuore-primi-underpaint-v1.png")
+const IDENTITY_UNDERPAINT_PATHS := {
+	"archive": "res://assets/archivio-parole-underpaint-v1.png",
+	"crater": "res://assets/cratere-logico-underpaint-v1.png",
+	"signal_bay": "res://assets/baia-segnali-underpaint-v1.png",
+	"motion_forge": "res://assets/officine-moto-underpaint-v1.png",
+	"resonance_garden": "res://assets/giardino-risonanza-underpaint-v1.png",
+	"glyph_ruins": "res://assets/rovine-glifi-underpaint-v1.png",
+	"circuit_delta": "res://assets/delta-circuiti-underpaint-v1.png",
+	"charted_archipelago": "res://assets/arcipelago-cartografico-underpaint-v1.png",
+	"symbiosis_greenhouse": "res://assets/serra-simbiosi-underpaint-v1.png",
+	"history_threshold": "res://assets/soglia-tempo-underpaint-v2.png",
+	"rule_labyrinth": "res://assets/labirinto-regole-underpaint-v1.png",
+	"orbital_desert": "res://assets/deserto-orbite-underpaint-v1.png",
+	"voices_library": "res://assets/biblioteca-voci-underpaint-v1.png",
+	"machine_city": "res://assets/citta-macchina-underpaint-v1.png",
+	"language_frontier": "res://assets/frontiera-lingue-underpaint-v1.png",
+	"force_ocean": "res://assets/oceano-forze-underpaint-v1.png",
+	"sound_cathedral": "res://assets/cattedrale-suono-underpaint-v1.png",
+	"root_necropolis": "res://assets/necropoli-radici-underpaint-v1.png",
+	"electromagnetic_storm": "res://assets/tempesta-elettromagnetica-underpaint-v1.png",
+	"fractured_atlas": "res://assets/atlante-fratturato-underpaint-v1.png",
+	"deep_biosphere": "res://assets/biosfera-profonda-underpaint-v1.png",
+	"hall_of_eras": "res://assets/sala-ere-underpaint-v2.png",
+	"first_heart": "res://assets/cuore-primi-underpaint-v1.png",
+}
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
 const RNG := preload("res://scripts/deterministic_rng.gd")
@@ -57,6 +59,15 @@ var anchor_points: Array[Vector2] = []
 var motif_points: Array[Vector2] = []
 var composition: WorldCompositionData
 var painterly_surface: Polygon2D
+static var _identity_texture_cache: Dictionary = {}
+
+static func _identity_texture(visual_theme: String) -> Texture2D:
+	var path := str(IDENTITY_UNDERPAINT_PATHS.get(visual_theme, ""))
+	if path.is_empty():
+		return UNDERPAINT_ACADEMY
+	if not _identity_texture_cache.has(path):
+		_identity_texture_cache[path] = ResourceLoader.load(path, "Texture2D")
+	return _identity_texture_cache[path] as Texture2D
 
 func setup(data: Dictionary, lod_level: int = 0, composition_data: WorldCompositionData = null) -> void:
 	chunk = data
@@ -67,7 +78,9 @@ func setup(data: Dictionary, lod_level: int = 0, composition_data: WorldComposit
 	_build_painterly_surface(size)
 	_build_world_water_features(size)
 	_build_identity_regions(size)
-	_build_world_path_ribbons(size)
+	# I percorsi sono disegnati una sola volta dal renderer globale del manager.
+	# Ridisegnarli anche per chunk sommava texture e alpha, creando corsie marroni
+	# pesanti soprattutto nelle tavole pittoriche dei mondi finali.
 	var patch: Dictionary = chunk.get("patch", {})
 	var biome := str(chunk.get("biome", "academy"))
 	var tint := _hex_color(int(patch.get("color", 0x173b36))).lerp(_biome_palette_tint(biome), 0.22)
@@ -167,100 +180,77 @@ func _build_painterly_surface(size: float) -> void:
 	material.set_shader_parameter("mineral_tex", UNDERPAINT_MINERAL)
 	material.set_shader_parameter("magic_tex", UNDERPAINT_MAGIC)
 	var visual_theme := composition.visual_theme if composition != null else "legacy"
-	var identity_texture: Texture2D = UNDERPAINT_ARCHIVE
+	var identity_texture: Texture2D = _identity_texture(visual_theme)
 	var identity_strength := 0.0
 	var identity_calm := Color("4b536f")
 	match visual_theme:
 		"archive":
-			identity_texture = UNDERPAINT_ARCHIVE
 			identity_strength = 0.86
 			identity_calm = Color("4b536f")
 		"crater":
-			identity_texture = UNDERPAINT_CRATER
 			identity_strength = 0.92
 			identity_calm = Color("303a54")
 		"signal_bay":
-			identity_texture = UNDERPAINT_SIGNAL_BAY
 			identity_strength = 0.90
 			identity_calm = Color("286d6c")
 		"motion_forge":
-			identity_texture = UNDERPAINT_MOTION
 			identity_strength = 0.94
 			identity_calm = Color("4a3c36")
 		"resonance_garden":
-			identity_texture = UNDERPAINT_RESONANCE
 			identity_strength = 0.92
 			identity_calm = Color("483c68")
 		"glyph_ruins":
-			identity_texture = UNDERPAINT_GLYPH
 			identity_strength = 0.93
 			identity_calm = Color("75533f")
 		"circuit_delta":
-			identity_texture = UNDERPAINT_CIRCUIT
 			identity_strength = 0.95
 			identity_calm = Color("153f45")
 		"charted_archipelago":
-			identity_texture = UNDERPAINT_ARCHIPELAGO
 			identity_strength = 0.95
 			identity_calm = Color("286f89")
 		"symbiosis_greenhouse":
-			identity_texture = UNDERPAINT_SYMBIOSIS
 			identity_strength = 0.94
 			identity_calm = Color("477858")
-		"civic_city":
-			identity_texture = UNDERPAINT_CIVIC
-			identity_strength = 0.94
-			identity_calm = Color("9a7650")
+		"history_threshold":
+			identity_strength = 0.96
+			identity_calm = Color("8c6842")
 		"rule_labyrinth":
-			identity_texture = UNDERPAINT_LABYRINTH
 			identity_strength = 0.96
 			identity_calm = Color("35445d")
 		"orbital_desert":
-			identity_texture = UNDERPAINT_ORBITAL
 			identity_strength = 0.96
 			identity_calm = Color("65513d")
 		"voices_library":
-			identity_texture = UNDERPAINT_VOICES
 			identity_strength = 0.95
 			identity_calm = Color("62483e")
 		"machine_city":
-			identity_texture = UNDERPAINT_MACHINE
 			identity_strength = 0.96
 			identity_calm = Color("28384b")
 		"language_frontier":
-			identity_texture = UNDERPAINT_FRONTIER
 			identity_strength = 0.94
 			identity_calm = Color("8a6644")
 		"force_ocean":
-			identity_texture = UNDERPAINT_FORCE_OCEAN
 			identity_strength = 0.96
 			identity_calm = Color("174f67")
 		"sound_cathedral":
-			identity_texture = UNDERPAINT_SOUND_CATHEDRAL
 			identity_strength = 0.95
 			identity_calm = Color("58456b")
 		"root_necropolis":
-			identity_texture = UNDERPAINT_ROOT_NECROPOLIS
 			identity_strength = 0.95
 			identity_calm = Color("4f4034")
 		"electromagnetic_storm":
-			identity_texture = UNDERPAINT_EM_STORM
 			identity_strength = 0.96
 			identity_calm = Color("263b55")
 		"fractured_atlas":
-			identity_texture = UNDERPAINT_FRACTURED_ATLAS
 			identity_strength = 0.95
 			identity_calm = Color("6a684d")
 		"deep_biosphere":
-			identity_texture = UNDERPAINT_DEEP_BIOSPHERE
 			identity_strength = 0.96
 			identity_calm = Color("244f46")
-		"colony_council":
-			identity_texture = UNDERPAINT_COLONY_COUNCIL
-			identity_strength = 0.96
-			identity_calm = Color("3a4a68")
+		"hall_of_eras":
+			identity_strength = 0.97
+			identity_calm = Color("3b465f")
 		"first_heart":
-			identity_texture = UNDERPAINT_FIRST_HEART
 			identity_strength = 0.98
 			identity_calm = Color("6e665f")
 	material.set_shader_parameter("identity_tex", identity_texture)
@@ -366,13 +356,13 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(outer)
 			root.add_child(inner)
 			_add_ecosystem_floor_ornament(root, radii)
-		elif kind == "civic_plaza" or kind == "service_court":
-			outer.color = Color(0.42, 0.27, 0.15, 0.44)
-			inner.color = Color(0.85, 0.69, 0.42, 0.20)
+		elif kind in ["chronology_plaza", "excavation_court", "source_archive"]:
+			outer.color = Color(0.34, 0.22, 0.12, 0.38)
+			inner.color = Color(0.84, 0.66, 0.35, 0.17)
 			root.add_child(outer)
 			root.add_child(inner)
-			_add_contour_floor_ornament(root, radii, Color("3ca3b1", 0.18))
-			_add_radial_floor_lines(root, radii, Color("e5bb65", 0.16), 12 if kind == "civic_plaza" else 8)
+			_add_contour_floor_ornament(root, radii, Color("3ca3b1", 0.15))
+			_add_radial_floor_lines(root, radii, Color("f0b84f", 0.20), 12 if kind == "chronology_plaza" else 8)
 		elif kind == "maze_sector" or kind == "logic_chamber":
 			outer.color = Color(0.04, 0.07, 0.12, 0.66)
 			inner.color = Color(0.19, 0.27, 0.42, 0.26)
@@ -449,13 +439,14 @@ func _build_identity_regions(size: float) -> void:
 			root.add_child(inner)
 			_add_resonance_floor_ornament(root, radii)
 			_add_radial_floor_lines(root, radii, Color("80f4b8", 0.16), 10)
-		elif kind == "assembly_dome" or kind == "commons_module":
-			outer.color = Color(0.06, 0.11, 0.25, 0.18)
-			inner.color = Color(0.32, 0.47, 0.72, 0.07)
+		elif kind in ["era_archive", "roman_archive", "medieval_archive"]:
+			var era_color := Color("d89b57") if kind == "roman_archive" else Color("688cc7") if kind == "medieval_archive" else Color("e9c46a")
+			outer.color = Color(era_color.darkened(0.58), 0.18)
+			inner.color = Color(era_color, 0.07)
 			root.add_child(outer)
 			root.add_child(inner)
-			_add_circuit_floor_ornament(root, radii)
-			_add_radial_floor_lines(root, radii, Color("efc86d", 0.15), 12)
+			_add_contour_floor_ornament(root, radii, Color(era_color, 0.17))
+			_add_radial_floor_lines(root, radii, Color("efc86d", 0.17), 12)
 		elif kind == "system_convergence" or kind == "system_sector":
 			var sector_palette := [
 				Color("f5c85b"), Color("ed8878"), Color("55a8ef"), Color("63d9e6"),
@@ -729,10 +720,10 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 			bank_color = Color(0.08, 0.26, 0.14, 0.50)
 			soil_color = Color(0.34, 0.61, 0.38, 0.54)
 			highlight_color = Color(0.96, 0.79, 0.32, 0.20)
-		"civic_city":
-			bank_color = Color(0.30, 0.18, 0.10, 0.42)
-			soil_color = Color(0.78, 0.61, 0.39, 0.66)
-			highlight_color = Color(0.20, 0.66, 0.72, 0.15)
+		"history_threshold":
+			bank_color = Color(0.27, 0.16, 0.08, 0.42)
+			soil_color = Color(0.76, 0.56, 0.31, 0.64)
+			highlight_color = Color(0.95, 0.67, 0.22, 0.20)
 		"rule_labyrinth":
 			bank_color = Color(0.02, 0.04, 0.09, 0.70)
 			soil_color = Color(0.19, 0.29, 0.43, 0.62)
@@ -777,10 +768,10 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 			bank_color = Color(0.02, 0.14, 0.12, 0.20)
 			soil_color = Color(0.16, 0.48, 0.35, 0.22)
 			highlight_color = Color(0.51, 1.0, 0.72, 0.18)
-		"colony_council":
-			bank_color = Color(0.02, 0.06, 0.16, 0.20)
-			soil_color = Color(0.45, 0.70, 0.95, 0.18)
-			highlight_color = Color(0.95, 0.77, 0.36, 0.16)
+		"hall_of_eras":
+			bank_color = Color(0.02, 0.05, 0.14, 0.20)
+			soil_color = Color(0.70, 0.58, 0.42, 0.17)
+			highlight_color = Color(0.95, 0.69, 0.31, 0.19)
 		"first_heart":
 			bank_color = Color(0.08, 0.07, 0.14, 0.24)
 			soil_color = Color(0.86, 0.80, 0.67, 0.24)
@@ -827,6 +818,7 @@ func _curved_segment(a: Vector2, b: Vector2, world_origin: Vector2, segment_inde
 func _build_world_water_features(size: float) -> void:
 	if composition == null:
 		return
+	var overlay_alpha := _water_overlay_alpha()
 	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0)))
 	var world_rect := Rect2(world_origin, Vector2.ONE * size)
 	for water in composition.waters:
@@ -847,14 +839,14 @@ func _build_world_water_features(size: float) -> void:
 		var inner_points := _organic_ellipse_points(radii, center, 52)
 		var bank := Polygon2D.new()
 		bank.polygon = outer_points
-		bank.color = Color(0.25, 0.34, 0.17, 0.96)
+		bank.color = Color(0.25, 0.34, 0.17, overlay_alpha * 0.72)
 		root.add_child(bank)
 		var shore := Line2D.new()
 		var shore_points := inner_points.duplicate()
 		shore_points.append(inner_points[0])
 		shore.points = shore_points
 		shore.width = 18.0
-		shore.default_color = Color(0.58, 0.59, 0.34, 0.82)
+		shore.default_color = Color(0.58, 0.59, 0.34, overlay_alpha * 0.78)
 		shore.joint_mode = Line2D.LINE_JOINT_ROUND
 		shore.antialiased = true
 		root.add_child(shore)
@@ -872,6 +864,7 @@ func _build_world_water_features(size: float) -> void:
 		material.set_shader_parameter("water_tex", WATER_POND_TEXTURE)
 		material.set_shader_parameter("surface_world_origin", center - radii)
 		material.set_shader_parameter("surface_world_size", radii * 2.0)
+		material.set_shader_parameter("surface_alpha", overlay_alpha)
 		surface.material = material
 		root.add_child(surface)
 		add_child(root)
@@ -881,6 +874,7 @@ func _build_stream_feature(water: Dictionary, world_origin: Vector2, world_rect:
 	if source_points.size() < 2:
 		return
 	var width := float(water.get("width", 200.0))
+	var overlay_alpha := _water_overlay_alpha()
 	var source_bounds := _points_bounds(source_points).grow(width)
 	if not world_rect.grow(96.0).intersects(source_bounds):
 		return
@@ -896,14 +890,14 @@ func _build_stream_feature(water: Dictionary, world_origin: Vector2, world_rect:
 	var inner_local := _offset_points(inner_world, -world_origin)
 	var bank := Polygon2D.new()
 	bank.polygon = outer_local
-	bank.color = Color(0.20, 0.29, 0.14, 0.98)
+	bank.color = Color(0.20, 0.29, 0.14, overlay_alpha * 0.72)
 	root.add_child(bank)
 	var shore := Line2D.new()
 	var shore_points := inner_local.duplicate()
 	shore_points.append(inner_local[0])
 	shore.points = shore_points
 	shore.width = 17.0
-	shore.default_color = Color(0.56, 0.59, 0.34, 0.82)
+	shore.default_color = Color(0.56, 0.59, 0.34, overlay_alpha * 0.78)
 	shore.joint_mode = Line2D.LINE_JOINT_ROUND
 	shore.antialiased = true
 	root.add_child(shore)
@@ -922,14 +916,45 @@ func _build_stream_feature(water: Dictionary, world_origin: Vector2, world_rect:
 	material.set_shader_parameter("surface_world_origin", bounds.position)
 	material.set_shader_parameter("surface_world_size", bounds.size)
 	material.set_shader_parameter("edge_glow_strength", 0.035)
+	material.set_shader_parameter("surface_alpha", overlay_alpha)
 	surface.material = material
 	root.add_child(surface)
-	_build_stream_terminals(root, smooth_centerline, width, world_origin, world_rect, str(water.get("id", "stream")))
+	_build_stream_terminals(
+		root,
+		smooth_centerline,
+		width,
+		world_origin,
+		world_rect,
+		str(water.get("id", "stream")),
+		overlay_alpha
+	)
 	add_child(root)
 
-func _build_stream_terminals(root: Node2D, centerline: PackedVector2Array, width: float, world_origin: Vector2, world_rect: Rect2, water_id: String) -> void:
+func _water_overlay_alpha() -> float:
+	if composition != null and composition.visual_theme in [
+		"signal_bay", "resonance_garden", "circuit_delta",
+		"charted_archipelago", "symbiosis_greenhouse", "language_frontier",
+		"force_ocean", "deep_biosphere",
+	]:
+		# Le tavole pittoriche contengono già coste e correnti. Uno stream può
+		# essere ricostruito da più chunk visibili e le alpha si sommano: qui
+		# basta un velo leggero per comunicare collisione/movimento senza creare
+		# una lastra turchese sopra l'underpaint.
+		return 0.04
+	return 0.78
+
+func _build_stream_terminals(
+	root: Node2D,
+	centerline: PackedVector2Array,
+	width: float,
+	world_origin: Vector2,
+	world_rect: Rect2,
+	water_id: String,
+	overlay_alpha: float
+) -> void:
 	if centerline.size() < 2:
 		return
+	var terminal_alpha_scale := clampf(overlay_alpha / 0.78, 0.0, 1.0)
 	var source_world := centerline[0]
 	if world_rect.has_point(source_world):
 		var source := Node2D.new()
@@ -937,7 +962,7 @@ func _build_stream_terminals(root: Node2D, centerline: PackedVector2Array, width
 		source.position = source_world - world_origin
 		var basin := Polygon2D.new()
 		basin.polygon = _organic_ellipse_points(Vector2(width * 0.48, width * 0.34), source_world, 36)
-		basin.color = Color(0.12, 0.42, 0.51, 0.94)
+		basin.color = Color(0.12, 0.42, 0.51, 0.94 * terminal_alpha_scale)
 		source.add_child(basin)
 		for radius in [width * 0.16, width * 0.27]:
 			var ripple := Line2D.new()
@@ -945,7 +970,7 @@ func _build_stream_terminals(root: Node2D, centerline: PackedVector2Array, width
 			ripple_points.append(ripple_points[0])
 			ripple.points = ripple_points
 			ripple.width = 3.0
-			ripple.default_color = Color(0.68, 0.94, 0.92, 0.46)
+			ripple.default_color = Color(0.68, 0.94, 0.92, 0.46 * terminal_alpha_scale)
 			ripple.antialiased = true
 			source.add_child(ripple)
 		root.add_child(source)
@@ -966,7 +991,7 @@ func _build_stream_terminals(root: Node2D, centerline: PackedVector2Array, width
 		tangent * length + normal * mouth * 0.68,
 		tangent * length - normal * mouth * 0.68,
 	])
-	cascade.color = Color(0.25, 0.68, 0.74, 0.92)
+	cascade.color = Color(0.25, 0.68, 0.74, 0.92 * terminal_alpha_scale)
 	falls.add_child(cascade)
 	for stripe_index in range(5):
 		var offset := lerpf(-mouth * 0.76, mouth * 0.76, float(stripe_index) / 4.0)
@@ -976,7 +1001,7 @@ func _build_stream_terminals(root: Node2D, centerline: PackedVector2Array, width
 			tangent * length + normal * offset * 0.68,
 		])
 		stripe.width = 3.0
-		stripe.default_color = Color(0.83, 0.98, 0.96, 0.72)
+		stripe.default_color = Color(0.83, 0.98, 0.96, 0.72 * terminal_alpha_scale)
 		stripe.antialiased = true
 		falls.add_child(stripe)
 	var foam := Line2D.new()
@@ -986,7 +1011,7 @@ func _build_stream_terminals(root: Node2D, centerline: PackedVector2Array, width
 		foam_points.append(tangent * length + normal * lerpf(-mouth * 0.76, mouth * 0.76, t) + tangent * sin(t * PI * 5.0) * 5.0)
 	foam.points = foam_points
 	foam.width = 9.0
-	foam.default_color = Color(0.88, 1.0, 0.96, 0.86)
+	foam.default_color = Color(0.88, 1.0, 0.96, 0.86 * terminal_alpha_scale)
 	foam.antialiased = true
 	falls.add_child(foam)
 	root.add_child(falls)

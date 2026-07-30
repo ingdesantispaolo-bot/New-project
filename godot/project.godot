@@ -9,6 +9,7 @@ config/features=PackedStringArray("4.3", "GL Compatibility")
 
 [autoload]
 NativeAudio="*res://scripts/game/native_audio_manager.gd"
+PerformanceTelemetry="*res://scripts/game/performance_telemetry.gd"
 
 [display]
 window/size/viewport_width=1280

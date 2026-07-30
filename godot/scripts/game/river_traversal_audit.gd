@@ -36,6 +36,14 @@ func _run() -> void:
 			break
 	assert(str(event.get("kind", "")) == "enigma", "il ponte deve essere costruito da un enigma")
 	assert(event.has("bridgeCenter") and event.has("crossingId"), "contratto ponte incompleto")
+	var gate_sign := world.find_child("WaterGateObjective", true, false) as Label
+	assert(gate_sign != null and str(gate_sign.text).contains("PASSAGGIO BLOCCATO")
+		and str(gate_sign.text).contains("RISOLVI L'ENIGMA"),
+		"il blocco d'acqua non comunica chiaramente come aprire il passaggio")
+	var objective := world.find_child("CurrentObjective", true, false) as Label
+	assert(objective != null and str(objective.text).contains("PASSAGGIO D'ACQUA BLOCCATO")
+		and str(objective.text).contains("ponte-enigma"),
+		"l'HUD non anticipa l'obiettivo di attraversamento")
 	var area := world.find_child("MissionEvent_%s" % event_id.replace("-", "_"), true, false) as Area2D
 	var visual := area.get_node("EnigmaStructureVisual")
 	assert(str(visual.get("theme")) == "ponte", "il varco acquatico deve rendere un ponte")

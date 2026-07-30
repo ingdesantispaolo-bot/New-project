@@ -51,8 +51,23 @@ var objective_label: Label
 var world_title_label: Label
 var ship_navigation_label: Label
 var guide_button: Button
+var utility_menu_button: Button
+var shop_button: Button
+var manual_button: Button
 var interaction_button: Button
 var pulse_button: Button
+var touch_controls_button: Button
+var touch_controls_panel: PanelContainer
+var touch_side_button: Button
+var touch_size_button: Button
+var touch_opacity_button: Button
+var high_contrast_button: Button
+var reduced_motion_button: Button
+var touch_controls_settings := {
+	"side": "right",
+	"size": "large",
+	"opacity": 1.0,
+}
 var portal: Node2D
 var camera: Camera2D
 var fireflies: CPUParticles2D
@@ -98,8 +113,16 @@ var reduced_motion := false
 
 func _ready() -> void:
 	if OS.has_feature("web"):
-		JavaScriptBridge.eval("document.documentElement.dataset.eliScene = 'world';")
-	request = launch_request_override.duplicate(true) if not launch_request_override.is_empty() else NativeWorldState.default_request()
+		JavaScriptBridge.eval("""
+document.documentElement.dataset.eliScene = 'world';
+delete document.documentElement.dataset.eliExercise;
+delete document.documentElement.dataset.eliExam;
+""")
+	if not launch_request_override.is_empty():
+		request = launch_request_override.duplicate(true)
+	else:
+		var staged_request := NativeWorldState.take_launch_request()
+		request = staged_request if not staged_request.is_empty() else NativeWorldState.default_request()
 	var accessibility: Dictionary = request.get("accessibility", {})
 	high_contrast = bool(accessibility.get("highContrast", false))
 	reduced_motion = bool(accessibility.get("reducedMotion", false))
@@ -113,6 +136,10 @@ func _ready() -> void:
 	gameplay.enigma_progress.connect(_on_enigma_progress)
 	gameplay.setup(request, result, bool(request.get("loadLocalSave", true)))
 	game_save = gameplay.game_save
+	var saved_accessibility: Dictionary = game_save.data.get("accessibility", {})
+	if not bool(request.get("accessibilityExplicit", false)) and bool(request.get("loadLocalSave", true)):
+		high_contrast = bool(saved_accessibility.get("highContrast", false))
+		reduced_motion = bool(saved_accessibility.get("reducedMotion", false))
 	progression_manager = gameplay.progression_manager
 	content_manager = gameplay.content_manager
 	_configure_world_profile()
@@ -160,6 +187,7 @@ func _ready() -> void:
 		audio.call("play_environment", "day")
 		audio.call("configure_world_soundscape", str(world_profile.get("soundscape", "")))
 		audio.call("play_subject", _world_subject())
+	_publish_web_accessibility_state()
 
 func _configure_world_profile() -> void:
 	var frontier := clampi(game_save.level(), 1, WorldProfileCatalog.MAX_LEVEL)
@@ -402,6 +430,8 @@ func _on_gameplay_session_requested(session: Dictionary) -> void:
 	_cancel_pending_touch_interaction()
 	if is_instance_valid(interaction_button):
 		interaction_button.visible = false
+	if is_instance_valid(touch_controls_panel):
+		touch_controls_panel.visible = false
 	_set_feedback("")
 	if is_instance_valid(player):
 		player.set_physics_process(false)
@@ -757,6 +787,8 @@ func _create_portal() -> void:
 	_create_profile_portal_dressing()
 
 func _hero_landmark_position() -> Vector2:
+	if world_level == 1:
+		return PORTAL_POSITION + Vector2(160, 1050)
 	if world_level == 3:
 		return PORTAL_POSITION + Vector2(0, 1280)
 	if world_level == 4:
@@ -847,8 +879,8 @@ func _create_profile_portal_dressing() -> void:
 		]
 	elif world_level == 11:
 		specs = [
-			{"kind": "pact_column", "offset": Vector2(-150, 46), "variant": 0.25},
-			{"kind": "civic_kiosk", "offset": Vector2(150, 46), "variant": 0.75},
+			{"kind": "source_stele", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "timeline_relay", "offset": Vector2(150, 46), "variant": 0.75},
 		]
 	elif world_level == 12:
 		specs = [
@@ -907,8 +939,8 @@ func _create_profile_portal_dressing() -> void:
 		]
 	elif world_level == 23:
 		specs = [
-			{"kind": "colony_pod", "offset": Vector2(-150, 46), "variant": 0.25},
-			{"kind": "accord_beacon", "offset": Vector2(150, 46), "variant": 0.75},
+			{"kind": "roman_archive_pod", "offset": Vector2(-150, 46), "variant": 0.25},
+			{"kind": "medieval_archive_pod", "offset": Vector2(150, 46), "variant": 0.75},
 		]
 	elif world_level == 24:
 		specs = [
@@ -945,7 +977,7 @@ func _create_profile_landmark() -> void:
 		"circuitNode" if world_level == 8 else
 		"cartographyTower" if world_level == 9 else
 		"livingDome" if world_level == 10 else
-		"pactPalace" if world_level == 11 else
+		"timeThreshold" if world_level == 11 else
 		"labyrinthHeart" if world_level == 12 else
 		"orbitalObservatory" if world_level == 13 else
 		"hallOfVoices" if world_level == 14 else
@@ -957,13 +989,17 @@ func _create_profile_landmark() -> void:
 		"fieldTower" if world_level == 20 else
 		"tectonicPillar" if world_level == 21 else
 		"livingCore" if world_level == 22 else
-		"councilHall" if world_level == 23 else
+		"hallOfEras" if world_level == 23 else
 		"firstHeart" if world_level == 24 else
 		str(kinds.get(subject, "skyTree"))
 	)
 	var label := str(names[0]).replace("-", " ").capitalize()
 	var landmark := OutdoorVisualFactory.build_landmark(
 		landmark_kind, label, _profile_accent_rgb())
+	# Il landmark espone una sola caption funzionale con stato/progresso; la
+	# label puramente ornamentale del builder produrrebbe un doppione.
+	for decorative_label in landmark.find_children("*", "Label", true, false):
+		(decorative_label as Label).visible = false
 	landmark.name = "ProfileHeroLandmark"
 	landmark.set_meta("landmark_kind", landmark_kind)
 	landmark.set_meta("transform_trigger", str(environment_transform.get("trigger", "")))
@@ -972,6 +1008,25 @@ func _create_profile_landmark() -> void:
 	landmark.scale = Vector2.ONE * (1.48 if world_level == 24 else 1.34 if world_level == 21 else 1.52 if world_level in [3, 4] else 1.48 if world_level in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 23] else 1.32)
 	world_layer.add_child(landmark)
 	profile_hero_landmark = landmark
+	var landmark_area := Area2D.new()
+	landmark_area.name = "HeroLandmarkInteraction"
+	landmark_area.add_to_group("world_interactable")
+	landmark_area.set_meta("kind", "landmark")
+	landmark_area.set_meta("id", "hero-landmark")
+	landmark_area.set_meta("payload", {
+		"label": label,
+		"purpose": str(environment_transform.get("effect", "si trasforma completando le missioni")),
+	})
+	var landmark_shape := CollisionShape2D.new()
+	var landmark_circle := CircleShape2D.new()
+	landmark_circle.radius = INTERACTION_DISTANCE + 34.0
+	landmark_shape.shape = landmark_circle
+	landmark_area.add_child(landmark_shape)
+	landmark.add_child(landmark_area)
+	landmark_area.body_entered.connect(func(body): on_interactable_entered(landmark_area, body))
+	landmark_area.body_exited.connect(func(body): on_interactable_exited(landmark_area, body))
+	var purpose := _make_landmark_caption(label, 0, 1)
+	landmark.add_child(purpose)
 	profile_environment_reaction = LEARNING_REACTION_SCRIPT.new()
 	profile_environment_reaction.setup(
 		_learning_reaction_theme(),
@@ -1003,7 +1058,7 @@ func _learning_reaction_theme() -> String:
 	if world_level == 10:
 		return "symbiosis_greenhouse"
 	if world_level == 11:
-		return "civic_city"
+		return "history_threshold"
 	if world_level == 12:
 		return "rule_labyrinth"
 	if world_level == 13:
@@ -1027,7 +1082,7 @@ func _learning_reaction_theme() -> String:
 	if world_level == 22:
 		return "deep_biosphere"
 	if world_level == 23:
-		return "colony_council"
+		return "hall_of_eras"
 	if world_level == 24:
 		return "first_heart"
 	return "radura"
@@ -1049,6 +1104,13 @@ func _sync_profile_environment_transform(animate: bool) -> void:
 	var ratio := clampf(float(completed_count) / maxf(float(total_count), 1.0), 0.0, 1.0)
 	if not is_instance_valid(profile_hero_landmark):
 		return
+	var purpose := profile_hero_landmark.get_node_or_null("LandmarkPurpose") as Label
+	if purpose != null:
+		purpose.text = "%s\nPROGRESSO %d/%d" % [
+			str(world_profile.get("heroLandmarks", ["PUNTO CHIAVE"])[0]).replace("-", " ").to_upper(),
+			completed_count,
+			total_count,
+		]
 	var art := profile_hero_landmark.find_child("Landmark*Art", true, false) as CanvasItem
 	if art == null:
 		return
@@ -1120,6 +1182,9 @@ func _create_profile_events() -> void:
 				var bridge_normal: Vector2 = event.get("bridgeNormal", Vector2.RIGHT)
 				visual.position = bridge_center - area.position
 				visual.rotation = bridge_normal.angle()
+				var water_gate_sign := _make_water_gate_sign(completed)
+				water_gate_sign.name = "WaterGateObjective"
+				area.add_child(water_gate_sign)
 			visual.set_stage(4 if completed else 0, 4)
 			area.add_child(visual)
 		elif director_kind == "practice":
@@ -1268,7 +1333,7 @@ func _update_pulse_button() -> void:
 		return
 	var remaining := maxi(0, pulse_ready_msec - Time.get_ticks_msec())
 	pulse_button.disabled = remaining > 0 or not enemy_gameplay_active()
-	pulse_button.text = "IMPULSO\n%.1f s" % (float(remaining) / 1000.0) if remaining > 0 else "IMPULSO\n◉"
+	pulse_button.text = "IMPULSO\n%.1f s" % (float(remaining) / 1000.0) if remaining > 0 else "IMPULSO\nTOCCA"
 
 func _event_visual_kind(subject: String) -> String:
 	if subject in ["matematica", "fisica"]:
@@ -1293,6 +1358,37 @@ func _make_event_caption(kind: String, subject: String) -> Label:
 	label.add_theme_constant_override("outline_size", 5)
 	label.add_theme_color_override("font_color", Color("f6c85f") if kind != "practice" else PLAYER_ACCENT)
 	label.add_theme_color_override("font_outline_color", Color(0.01, 0.035, 0.04, 0.92))
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return label
+
+func _make_landmark_caption(label_text: String, completed: int, total: int) -> Label:
+	var label := Label.new()
+	label.name = "LandmarkPurpose"
+	label.position = Vector2(-132, -146)
+	label.custom_minimum_size = Vector2(264, 48)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.text = "%s\nPROGRESSO %d/%d" % [label_text.to_upper(), completed, total]
+	label.add_theme_font_size_override("font_size", 12)
+	label.add_theme_constant_override("outline_size", 6)
+	label.add_theme_color_override("font_color", Color("f6c85f"))
+	label.add_theme_color_override("font_outline_color", Color(0.01, 0.035, 0.04, 0.94))
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return label
+
+func _make_water_gate_sign(completed: bool) -> Label:
+	var label := Label.new()
+	label.position = Vector2(-150, -142)
+	label.custom_minimum_size = Vector2(300, 58)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.text = (
+		"PASSAGGIO APERTO · PONTE COSTRUITO"
+		if completed
+		else "PASSAGGIO BLOCCATO\nRISOLVI L'ENIGMA PER COSTRUIRE IL PONTE"
+	)
+	label.add_theme_font_size_override("font_size", 12)
+	label.add_theme_constant_override("outline_size", 7)
+	label.add_theme_color_override("font_color", Color("6be7d6") if completed else Color("f6c85f"))
+	label.add_theme_color_override("font_outline_color", Color(0.01, 0.025, 0.035, 0.96))
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return label
 
@@ -1524,7 +1620,7 @@ void fragment() {
 	world_title_label.name = "WorldProfileTitle"
 	world_title_label.text = "ELI QUEST  ·  %s" % str(world_profile.get("title", "Radura Accademia")).to_upper()
 	world_title_label.add_theme_color_override("font_color", Color("e7fff8"))
-	world_title_label.add_theme_font_size_override("font_size", 19)
+	world_title_label.add_theme_font_size_override("font_size", 17)
 	info.add_child(world_title_label)
 	biome_label = Label.new()
 	biome_label.text = ""
@@ -1539,7 +1635,7 @@ void fragment() {
 	objective_label = Label.new()
 	objective_label.name = "CurrentObjective"
 	objective_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	objective_label.custom_minimum_size = Vector2(300, 0)
+	objective_label.custom_minimum_size = Vector2(270, 0)
 	objective_label.add_theme_color_override("font_color", Color("f6c85f"))
 	objective_label.add_theme_font_size_override("font_size", 13)
 	info.add_child(objective_label)
@@ -1551,54 +1647,59 @@ void fragment() {
 	info.add_child(ship_navigation_label)
 	_update_ship_navigation()
 	var hint := Label.new()
-	hint.text = "TOCCA UN POI  ·  Movimento: joystick / WASD  ·  Impulso: pulsante / F"
+	hint.text = "TOCCA IL TERRENO PER MUOVERTI  ·  USA I PULSANTI TOUCH"
 	hint.add_theme_color_override("font_color", Color("9fc4bb"))
 	hint.add_theme_font_size_override("font_size", 12)
+	hint.visible = false
 	info.add_child(hint)
 
 	guide_button = Button.new()
 	guide_button.name = "GuideToShipButton"
 	guide_button.text = "TROVA UNA MISSIONE"
+	guide_button.custom_minimum_size = Vector2(180, 46)
 	guide_button.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
 	guide_button.pressed.connect(_guide_to_objective)
 	root.add_child(guide_button)
+	utility_menu_button = Button.new()
+	utility_menu_button.name = "OpenUtilityMenuButton"
+	utility_menu_button.text = "OPZIONI"
+	utility_menu_button.anchor_left = 1.0
+	utility_menu_button.anchor_right = 1.0
+	utility_menu_button.offset_left = -148.0
+	utility_menu_button.offset_right = -16.0
+	utility_menu_button.offset_top = 68.0
+	utility_menu_button.offset_bottom = 114.0
+	utility_menu_button.custom_minimum_size.y = 46
+	utility_menu_button.pressed.connect(_toggle_utility_menu)
+	root.add_child(utility_menu_button)
 
-	# Azione primaria touch: compare soltanto vicino a un POI e offre un bersaglio
-	# da almeno 64 px, comodo per tablet. È disponibile anche con mouse/gamepad
-	# come alternativa accessibile al tasto E.
+	# Azione primaria persistente: su tablet è sempre riconoscibile e si abilita
+	# vicino a un POI. Tastiera e gamepad restano scorciatoie non essenziali.
 	interaction_button = Button.new()
 	interaction_button.name = "ContextInteractButton"
-	interaction_button.visible = false
-	interaction_button.anchor_left = 0.5
-	interaction_button.anchor_right = 0.5
+	interaction_button.text = "AZIONE\nAVVICINATI A UN PUNTO"
+	interaction_button.disabled = true
+	interaction_button.anchor_left = 1.0
+	interaction_button.anchor_right = 1.0
 	interaction_button.anchor_top = 1.0
 	interaction_button.anchor_bottom = 1.0
-	interaction_button.offset_left = -160.0
-	interaction_button.offset_right = 160.0
-	interaction_button.offset_top = -96.0
-	interaction_button.offset_bottom = -28.0
-	interaction_button.custom_minimum_size = Vector2(320, 68)
 	interaction_button.add_theme_font_size_override("font_size", 18)
 	interaction_button.add_theme_color_override("font_color", Color("06272a"))
 	interaction_button.add_theme_color_override("font_hover_color", Color("031d20"))
 	interaction_button.add_theme_stylebox_override("normal", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
 	interaction_button.add_theme_stylebox_override("hover", _touch_action_style(Color("83f4df"), Color.WHITE))
 	interaction_button.add_theme_stylebox_override("pressed", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
+	interaction_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("426a68"), Color("739b96")))
 	interaction_button.pressed.connect(_interact)
 	root.add_child(interaction_button)
 	pulse_button = Button.new()
 	pulse_button.name = "CombatPulseButton"
-	pulse_button.text = "IMPULSO\n◉"
+	pulse_button.text = "IMPULSO\nTOCCA"
 	pulse_button.anchor_left = 1.0
 	pulse_button.anchor_right = 1.0
 	pulse_button.anchor_top = 1.0
 	pulse_button.anchor_bottom = 1.0
-	pulse_button.offset_left = -112.0
-	pulse_button.offset_right = -28.0
-	pulse_button.offset_top = -196.0
-	pulse_button.offset_bottom = -112.0
-	pulse_button.custom_minimum_size = Vector2(84, 84)
-	pulse_button.tooltip_text = "Stabilizza temporaneamente le anomalie vicine · tasto F"
+	pulse_button.tooltip_text = "Stabilizza temporaneamente le anomalie vicine"
 	pulse_button.add_theme_font_size_override("font_size", 14)
 	pulse_button.add_theme_color_override("font_color", Color("06272a"))
 	pulse_button.add_theme_stylebox_override("normal", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
@@ -1606,31 +1707,37 @@ void fragment() {
 	pulse_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("5b5131"), Color("9f9462")))
 	pulse_button.pressed.connect(_combat_pulse)
 	root.add_child(pulse_button)
-	var shop_button := Button.new()
+	shop_button = Button.new()
 	shop_button.name = "OpenShopButton"
 	shop_button.text = "BOTTEGA"
 	shop_button.anchor_left = 1.0
 	shop_button.anchor_right = 1.0
 	shop_button.offset_left = -132.0
 	shop_button.offset_right = -16.0
-	shop_button.offset_top = 58.0
-	shop_button.offset_bottom = 96.0
+	shop_button.offset_top = 120.0
+	shop_button.offset_bottom = 164.0
+	shop_button.custom_minimum_size = Vector2(116, 44)
 	shop_button.add_theme_color_override("font_color", Color("f6c85f"))
 	shop_button.pressed.connect(_open_shop)
+	shop_button.visible = false
 	root.add_child(shop_button)
-	var manual_button := Button.new()
+	manual_button = Button.new()
 	manual_button.name = "OpenKnowledgeCodexButton"
 	manual_button.text = "MANUALE NORA"
 	manual_button.anchor_left = 1.0
 	manual_button.anchor_right = 1.0
 	manual_button.offset_left = -164.0
 	manual_button.offset_right = -16.0
-	manual_button.offset_top = 104.0
-	manual_button.offset_bottom = 150.0
+	manual_button.offset_top = 168.0
+	manual_button.offset_bottom = 214.0
 	manual_button.custom_minimum_size.y = 46
 	manual_button.add_theme_color_override("font_color", Color("6be7d6"))
 	manual_button.pressed.connect(_open_codex)
+	manual_button.visible = false
 	root.add_child(manual_button)
+	_create_touch_controls_customizer(root)
+	_load_touch_controls_settings()
+	_apply_touch_controls_layout()
 
 	feedback_panel = PanelContainer.new()
 	feedback_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, 24)
@@ -1677,12 +1784,250 @@ func _create_shop_panel(root: Control) -> void:
 	shop_panel.setup(gameplay)
 	shop_panel.closed.connect(_on_shop_closed)
 
+func _create_touch_controls_customizer(root: Control) -> void:
+	touch_controls_button = Button.new()
+	touch_controls_button.name = "CustomizeTouchControlsButton"
+	touch_controls_button.text = "COMANDI TOUCH"
+	touch_controls_button.anchor_left = 1.0
+	touch_controls_button.anchor_right = 1.0
+	touch_controls_button.offset_left = -164.0
+	touch_controls_button.offset_right = -16.0
+	touch_controls_button.offset_top = 218.0
+	touch_controls_button.offset_bottom = 264.0
+	touch_controls_button.custom_minimum_size.y = 46
+	touch_controls_button.add_theme_color_override("font_color", Color("f6c85f"))
+	touch_controls_button.pressed.connect(_toggle_touch_controls_panel)
+	touch_controls_button.visible = false
+	root.add_child(touch_controls_button)
+
+	touch_controls_panel = PanelContainer.new()
+	touch_controls_panel.name = "TouchControlsCustomizer"
+	touch_controls_panel.visible = false
+	touch_controls_panel.anchor_left = 1.0
+	touch_controls_panel.anchor_right = 1.0
+	touch_controls_panel.offset_left = -360.0
+	touch_controls_panel.offset_right = -16.0
+	touch_controls_panel.offset_top = 120.0
+	touch_controls_panel.offset_bottom = 448.0
+	touch_controls_panel.add_theme_stylebox_override("panel", _panel_style())
+	root.add_child(touch_controls_panel)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	touch_controls_panel.add_child(box)
+	var title := Label.new()
+	title.text = "PERSONALIZZA L’ESPERIENZA"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_color_override("font_color", Color("e7fff8"))
+	title.add_theme_font_size_override("font_size", 14)
+	box.add_child(title)
+	touch_side_button = Button.new()
+	touch_side_button.name = "TouchControlsSide"
+	touch_side_button.custom_minimum_size.y = 44
+	touch_side_button.pressed.connect(_cycle_touch_side)
+	box.add_child(touch_side_button)
+	touch_size_button = Button.new()
+	touch_size_button.name = "TouchControlsSize"
+	touch_size_button.custom_minimum_size.y = 44
+	touch_size_button.pressed.connect(_cycle_touch_size)
+	box.add_child(touch_size_button)
+	touch_opacity_button = Button.new()
+	touch_opacity_button.name = "TouchControlsOpacity"
+	touch_opacity_button.custom_minimum_size.y = 44
+	touch_opacity_button.pressed.connect(_cycle_touch_opacity)
+	box.add_child(touch_opacity_button)
+	high_contrast_button = Button.new()
+	high_contrast_button.name = "HighContrastToggle"
+	high_contrast_button.custom_minimum_size.y = 44
+	high_contrast_button.pressed.connect(_toggle_high_contrast)
+	box.add_child(high_contrast_button)
+	reduced_motion_button = Button.new()
+	reduced_motion_button.name = "ReducedMotionToggle"
+	reduced_motion_button.custom_minimum_size.y = 44
+	reduced_motion_button.pressed.connect(_toggle_reduced_motion)
+	box.add_child(reduced_motion_button)
+
+func _load_touch_controls_settings() -> void:
+	if not is_instance_valid(game_save):
+		return
+	var config: Dictionary = game_save.data.get("config", {})
+	var saved: Dictionary = config.get("touchControls", {})
+	var side := str(saved.get("side", "right"))
+	var size := str(saved.get("size", "large"))
+	touch_controls_settings["side"] = side if side in ["left", "right"] else "right"
+	touch_controls_settings["size"] = size if size in ["standard", "large"] else "large"
+	touch_controls_settings["opacity"] = clampf(float(saved.get("opacity", 1.0)), 0.65, 1.0)
+
+func _persist_touch_controls_settings() -> void:
+	if not is_instance_valid(game_save):
+		return
+	var config: Dictionary = game_save.data.get("config", {})
+	config["touchControls"] = touch_controls_settings.duplicate(true)
+	game_save.data["config"] = config
+	game_save.save()
+
+func _apply_touch_controls_layout() -> void:
+	if not is_instance_valid(interaction_button) or not is_instance_valid(pulse_button):
+		return
+	var on_left := str(touch_controls_settings.get("side", "right")) == "left"
+	var is_large := str(touch_controls_settings.get("size", "large")) == "large"
+	var margin := 28.0
+	var action_width := 332.0 if is_large else 280.0
+	var action_height := 72.0 if is_large else 64.0
+	var pulse_side := 92.0 if is_large else 76.0
+	var lower_hud_clearance := 116.0
+	interaction_button.anchor_left = 0.5
+	interaction_button.anchor_right = 0.5
+	interaction_button.anchor_top = 1.0
+	interaction_button.anchor_bottom = 1.0
+	interaction_button.offset_left = -action_width * 0.5
+	interaction_button.offset_right = action_width * 0.5
+	pulse_button.anchor_left = 0.0 if on_left else 1.0
+	pulse_button.anchor_right = 0.0 if on_left else 1.0
+	pulse_button.anchor_top = 1.0
+	pulse_button.anchor_bottom = 1.0
+	if on_left:
+		pulse_button.offset_left = margin
+		pulse_button.offset_right = margin + pulse_side
+	else:
+		pulse_button.offset_left = -margin - pulse_side
+		pulse_button.offset_right = -margin
+	interaction_button.offset_top = -lower_hud_clearance - action_height
+	interaction_button.offset_bottom = -lower_hud_clearance
+	pulse_button.offset_top = -lower_hud_clearance - action_height - 16.0 - pulse_side
+	pulse_button.offset_bottom = -lower_hud_clearance - action_height - 16.0
+	interaction_button.custom_minimum_size = Vector2(action_width, action_height)
+	pulse_button.custom_minimum_size = Vector2(pulse_side, pulse_side)
+	interaction_button.add_theme_font_size_override("font_size", 18 if is_large else 15)
+	pulse_button.add_theme_font_size_override("font_size", 14 if is_large else 10)
+	var opacity := float(touch_controls_settings.get("opacity", 1.0))
+	interaction_button.modulate.a = opacity
+	pulse_button.modulate.a = opacity
+	_refresh_touch_controls_labels()
+
+func _refresh_touch_controls_labels() -> void:
+	if is_instance_valid(touch_side_button):
+		touch_side_button.text = "IMPULSO: %s" % ("SINISTRA" if str(touch_controls_settings["side"]) == "left" else "DESTRA")
+	if is_instance_valid(touch_size_button):
+		touch_size_button.text = "DIMENSIONE: %s" % ("GRANDE" if str(touch_controls_settings["size"]) == "large" else "STANDARD")
+	if is_instance_valid(touch_opacity_button):
+		touch_opacity_button.text = "VISIBILITÀ: %s" % ("PIENA" if float(touch_controls_settings["opacity"]) > 0.9 else "LEGGERA")
+	if is_instance_valid(high_contrast_button):
+		high_contrast_button.text = "CONTRASTO ELEVATO: %s" % ("SÌ" if high_contrast else "NO")
+	if is_instance_valid(reduced_motion_button):
+		reduced_motion_button.text = "RIDUZIONE MOVIMENTO: %s" % ("SÌ" if reduced_motion else "NO")
+
+func _toggle_touch_controls_panel() -> void:
+	if not is_instance_valid(touch_controls_panel):
+		return
+	touch_controls_panel.visible = not touch_controls_panel.visible
+	if touch_controls_panel.visible:
+		_set_utility_menu_visible(false)
+
+func _toggle_utility_menu() -> void:
+	if is_instance_valid(touch_controls_panel) and touch_controls_panel.visible:
+		touch_controls_panel.visible = false
+		_set_utility_menu_visible(true)
+		return
+	_set_utility_menu_visible(not (is_instance_valid(shop_button) and shop_button.visible))
+
+func _set_utility_menu_visible(value: bool) -> void:
+	if is_instance_valid(shop_button):
+		shop_button.visible = value
+	if is_instance_valid(manual_button):
+		manual_button.visible = value
+	if is_instance_valid(touch_controls_button):
+		touch_controls_button.visible = value
+	if is_instance_valid(utility_menu_button):
+		utility_menu_button.text = "CHIUDI" if value else "OPZIONI"
+
+func _cycle_touch_side() -> void:
+	touch_controls_settings["side"] = "left" if str(touch_controls_settings["side"]) == "right" else "right"
+	_apply_touch_controls_layout()
+	_persist_touch_controls_settings()
+
+func _cycle_touch_size() -> void:
+	touch_controls_settings["size"] = "standard" if str(touch_controls_settings["size"]) == "large" else "large"
+	_apply_touch_controls_layout()
+	_persist_touch_controls_settings()
+
+func _cycle_touch_opacity() -> void:
+	touch_controls_settings["opacity"] = 0.72 if float(touch_controls_settings["opacity"]) > 0.9 else 1.0
+	_apply_touch_controls_layout()
+	_persist_touch_controls_settings()
+
+func _toggle_high_contrast() -> void:
+	high_contrast = not high_contrast
+	_apply_accessibility_settings()
+
+func _toggle_reduced_motion() -> void:
+	reduced_motion = not reduced_motion
+	_apply_accessibility_settings()
+
+func _apply_accessibility_settings() -> void:
+	request["accessibility"] = {
+		"highContrast": high_contrast,
+		"reducedMotion": reduced_motion,
+	}
+	request["accessibilityExplicit"] = true
+	if is_instance_valid(game_save):
+		game_save.data["accessibility"] = Dictionary(request["accessibility"]).duplicate(true)
+		game_save.save()
+	if is_instance_valid(player):
+		player.reduced_motion = reduced_motion
+	if is_instance_valid(camera):
+		camera.position_smoothing_enabled = not reduced_motion
+	if is_instance_valid(fireflies):
+		fireflies.emitting = not reduced_motion
+	if is_instance_valid(world_weather_particles):
+		world_weather_particles.emitting = not reduced_motion
+	for enemy in get_tree().get_nodes_in_group("world_enemy"):
+		if is_instance_valid(enemy):
+			enemy.set("reduced_motion", reduced_motion)
+	if is_instance_valid(exercise_player):
+		exercise_player.configure_accessibility(high_contrast, reduced_motion)
+	if is_instance_valid(ui_layer):
+		for panel in ui_layer.find_children("*", "PanelContainer", true, false):
+			(panel as PanelContainer).add_theme_stylebox_override("panel", _panel_style())
+	if is_instance_valid(interaction_button):
+		interaction_button.add_theme_stylebox_override(
+			"normal", _touch_action_style(Color("4b746f"), Color("b5d8d3")))
+		interaction_button.add_theme_stylebox_override(
+			"disabled", _touch_action_style(Color("31514f"), Color("789b97")))
+	if is_instance_valid(pulse_button):
+		pulse_button.add_theme_stylebox_override(
+			"normal", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
+		pulse_button.add_theme_stylebox_override(
+			"pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
+	_refresh_touch_controls_labels()
+	_publish_web_accessibility_state()
+
+func _publish_web_accessibility_state() -> void:
+	if not OS.has_feature("web"):
+		return
+	var nearest_mission := {}
+	if NativeWorldState.release_smoke_enabled():
+		var mission := _nearest_available_mission()
+		if mission != null:
+			var screen_position := get_viewport().get_canvas_transform() * mission.global_position
+			nearest_mission = {"x": screen_position.x, "y": screen_position.y}
+	JavaScriptBridge.eval("window.__eliAccessibility = %s;" % JSON.stringify({
+		"highContrast": high_contrast,
+		"reducedMotion": reduced_motion,
+		"viewportWidth": int(get_viewport_rect().size.x),
+		"viewportHeight": int(get_viewport_rect().size.y),
+		"worldLevel": world_level,
+		"saveMarker": str(game_save.data.get("releaseSmokeMarker", "")) if is_instance_valid(game_save) else "",
+		"nearestMission": nearest_mission,
+	}))
+
 func _open_shop() -> void:
 	if not is_instance_valid(shop_panel):
 		return
 	_cancel_pending_touch_interaction()
 	if is_instance_valid(interaction_button):
 		interaction_button.visible = false
+	if is_instance_valid(touch_controls_panel):
+		touch_controls_panel.visible = false
 	if is_instance_valid(player):
 		player.set_physics_process(false)
 	shop_panel.open_panel()
@@ -1701,6 +2046,8 @@ func _open_contextual_codex(subject: String, topic: String) -> void:
 	_cancel_pending_touch_interaction()
 	if is_instance_valid(interaction_button):
 		interaction_button.visible = false
+	if is_instance_valid(touch_controls_panel):
+		touch_controls_panel.visible = false
 	if is_instance_valid(player):
 		player.set_physics_process(false)
 	var use_context := str(exercise_player.session.get("kind", "practice")) if is_instance_valid(exercise_player) and exercise_player.visible else "world"
@@ -1751,14 +2098,6 @@ func _create_economy_panel(root: Control) -> void:
 	fragment_label.add_theme_color_override("font_color", Color("c7b8ff"))
 	fragment_label.add_theme_font_size_override("font_size", 14)
 	box.add_child(fragment_label)
-	var economy_hint := Label.new()
-	economy_hint.text = "Tesori: solo frammenti · Esercizio: -%d energia (gratis sotto soglia)" % EXERCISE_ENERGY_COST
-	economy_hint.add_theme_color_override("font_color", Color("9fc4bb"))
-	economy_hint.add_theme_font_size_override("font_size", 11)
-	economy_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	economy_hint.custom_minimum_size = Vector2(210, 0)
-	box.add_child(economy_hint)
-
 	if reward_cost > 0:
 		var sep := HSeparator.new()
 		box.add_child(sep)
@@ -1978,6 +2317,12 @@ func _refresh_prompt() -> void:
 	var id := str(target.get_meta("id"))
 	if kind == "portal":
 		_set_feedback(_ship_entry_prompt())
+	elif kind == "landmark":
+		var landmark_payload: Dictionary = target.get_meta("payload", {})
+		_set_feedback("%s · %s. Le missioni vicine ne mostrano il progresso." % [
+			str(landmark_payload.get("label", "Punto chiave")).capitalize(),
+			str(landmark_payload.get("purpose", "si trasforma completando le missioni")),
+		])
 	elif kind == "enigma":
 		var payload: Dictionary = target.get_meta("payload")
 		if result["completedEncounterIds"].has(id):
@@ -2013,9 +2358,14 @@ func _refresh_prompt() -> void:
 func _refresh_interaction_button(target: Area2D) -> void:
 	if not is_instance_valid(interaction_button):
 		return
-	var blocked := target == null or (is_instance_valid(exercise_player) and exercise_player.visible) or (is_instance_valid(shop_panel) and shop_panel.visible) or (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible)
-	interaction_button.visible = not blocked
-	if blocked:
+	var panel_open := (is_instance_valid(exercise_player) and exercise_player.visible) or (is_instance_valid(shop_panel) and shop_panel.visible) or (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible)
+	interaction_button.visible = not panel_open
+	if panel_open:
+		return
+	if target == null:
+		interaction_button.disabled = true
+		interaction_button.text = "AZIONE\nAVVICINATI A UN PUNTO"
+		interaction_button.tooltip_text = "Si abilita quando Eli è vicino a un punto interattivo"
 		return
 	var completed := _interaction_is_completed(target)
 	var cooldown := (
@@ -2029,7 +2379,7 @@ func _refresh_interaction_button(target: Area2D) -> void:
 		else "RICALIBRAZIONE · %d s" % cooldown if cooldown > 0
 		else _interaction_action_text(target)
 	)
-	interaction_button.tooltip_text = "Azione contestuale disponibile con tocco, click o tastiera"
+	interaction_button.tooltip_text = "Azione contestuale disponibile al tocco"
 
 func _update_interaction_countdown() -> void:
 	if not is_instance_valid(interaction_button) or not interaction_button.visible:
@@ -2053,6 +2403,8 @@ func _interaction_action_text(target: Area2D) -> String:
 	match str(target.get_meta("kind", "")):
 		"portal":
 			return "ENTRA NELLA NAVE"
+		"landmark":
+			return "SCOPRI LA FUNZIONE"
 		"enigma":
 			return "RICOSTRUISCI"
 		"minigame":
@@ -2100,6 +2452,14 @@ func _interact() -> void:
 	if kind == "portal":
 		_set_feedback("Ingresso nave attivo: salvataggio in corso…")
 		_leave_world()
+		return
+	if kind == "landmark":
+		var landmark_payload: Dictionary = target.get_meta("payload", {})
+		_set_feedback("%s: %s. Completa le tappe indicate sulla mappa per trasformarlo." % [
+			str(landmark_payload.get("label", "Punto chiave")).capitalize(),
+			str(landmark_payload.get("purpose", "reagisce ai progressi")),
+		])
+		_guide_to_objective()
 		return
 	if kind == "enigma":
 		var enigma_payload: Dictionary = target.get_meta("payload")
@@ -2393,3 +2753,11 @@ func _update_objective() -> void:
 			int(runtime.get("level", 1)), subject, apparatus,
 			int(runtime.get("missionsDone", 0)), int(runtime.get("missionsRequired", 0)),
 			float(runtime.get("mastery", 0.0)) * 100.0, float(runtime.get("masteryThreshold", 0.0)) * 100.0]
+	for event_data in mission_events:
+		var event: Dictionary = event_data
+		if (
+			event.has("crossingId")
+			and not Array(result.get("completedEncounterIds", [])).has(str(event.get("id", "")))
+		):
+			objective_label.text = "PASSAGGIO D'ACQUA BLOCCATO\nTrova il ponte-enigma: risolvilo per attraversare\n%s" % objective_label.text
+			break

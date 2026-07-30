@@ -30,7 +30,7 @@ const ROOMS := {
 		"apparatus": "serra-bio",
 		"apparatuses": ["serra-bio"],
 		"restoration": "decor-serra",
-		"subjects": ["scienze", "storia"],
+		"subjects": ["scienze"],
 		"description": "Ecosistemi, osservazione e sistemi di supporto vitale.",
 	},
 	"reactor": {
@@ -72,10 +72,10 @@ const ROOMS := {
 		"texture": "res://assets/ship/area-data-core-primi.webp",
 		"accent": "7ad7ff",
 		"apparatus": "data-core",
-		"apparatuses": ["data-core"],
+		"apparatuses": ["data-core", "archivio-temporale"],
 		"restoration": "decor-archivio",
-		"subjects": ["italiano", "inglese"],
-		"description": "Memoria, lingue, registri e protocolli della nave.",
+		"subjects": ["italiano", "inglese", "storia"],
+		"description": "Memoria, lingue, cronache, registri e protocolli della nave.",
 	},
 	"glyphs": {
 		"label": "Sala dei Glifi",

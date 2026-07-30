@@ -129,6 +129,8 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 				continue
 			if composition != null and composition.is_protected(position, margin):
 				continue
+			if composition != null and not composition.is_path_clear(position, margin + 18.0):
+				continue
 			if _near_reserved_event(position, margin + 54.0):
 				continue
 			# Le vertical slice autorate tengono la decorazione procedurale come
@@ -271,8 +273,8 @@ func _boundary_palette() -> Array[Color]:
 			return [Color("0a3045"), Color("0d4656"), Color("16384b"), Color("092b40")]
 		"symbiosis_greenhouse":
 			return [Color("153c25"), Color("1d4a2c"), Color("173725"), Color("103321")]
-		"civic_city":
-			return [Color("3f2b20"), Color("513526"), Color("39271f"), Color("453025")]
+		"history_threshold":
+			return [Color("35251b"), Color("49301f"), Color("30231c"), Color("3f2b20")]
 		"rule_labyrinth":
 			return [Color("0d1422"), Color("111a2b"), Color("0b1320"), Color("101827")]
 		"orbital_desert":
@@ -295,8 +297,8 @@ func _boundary_palette() -> Array[Color]:
 			return [Color("353127"), Color("4d5637"), Color("293f48"), Color("4a3025")]
 		"deep_biosphere":
 			return [Color("102b27"), Color("17483d"), Color("202944"), Color("133832")]
-		"colony_council":
-			return [Color("111b31"), Color("263b5b"), Color("172641"), Color("202f4a")]
+		"hall_of_eras":
+			return [Color("111a2d"), Color("30364f"), Color("20263c"), Color("362a36")]
 		"first_heart":
 			return [Color("241d33"), Color("4a3c5a"), Color("252e48"), Color("503b35")]
 		_:
@@ -365,7 +367,7 @@ func _add_boundary_motif(parent: Node2D, position: Vector2, index: int, edge: in
 		kind = "rock"
 	elif composition.visual_theme == "symbiosis_greenhouse":
 		kind = "tree" if (index + edge) % 4 != 0 else "crystal"
-	elif composition.visual_theme == "civic_city":
+	elif composition.visual_theme == "history_threshold":
 		kind = "rock"
 	elif composition.visual_theme == "rule_labyrinth":
 		kind = "crystal" if (index + edge) % 5 == 0 else "rock"
@@ -389,7 +391,7 @@ func _add_boundary_motif(parent: Node2D, position: Vector2, index: int, edge: in
 		kind = "tree" if (index + edge) % 4 == 0 else "rock"
 	elif composition.visual_theme == "deep_biosphere":
 		kind = "crystal" if (index + edge) % 3 == 0 else "tree"
-	elif composition.visual_theme == "colony_council":
+	elif composition.visual_theme == "hall_of_eras":
 		kind = "crystal" if (index + edge) % 4 == 0 else "rock"
 	elif composition.visual_theme == "first_heart":
 		kind = "crystal"

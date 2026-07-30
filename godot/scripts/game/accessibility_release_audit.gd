@@ -45,10 +45,26 @@ func _run() -> void:
 		"ContextInteractButton",
 		"CombatPulseButton",
 		"OpenKnowledgeCodexButton",
+		"CustomizeTouchControlsButton",
 	]:
 		var button := world.find_child(button_name, true, false) as Button
 		assert(button != null and button.custom_minimum_size.y >= 44.0,
 			"bersaglio touch insufficiente: %s" % button_name)
+	var action := world.find_child("ContextInteractButton", true, false) as Button
+	assert(action.visible and action.disabled,
+		"il comando AZIONE deve restare visibile anche lontano dai POI")
+	assert(str(action.text).contains("AVVICINATI"),
+		"il comando AZIONE inattivo non spiega come abilitarlo")
+	var customizer := world.find_child("TouchControlsCustomizer", true, false) as PanelContainer
+	assert(customizer != null, "pannello di personalizzazione touch assente")
+	world.set("touch_controls_settings", {"side": "left", "size": "standard", "opacity": 0.72})
+	world.call("_apply_touch_controls_layout")
+	var pulse_button := world.find_child("CombatPulseButton", true, false) as Button
+	assert(action.anchor_left == 0.5 and pulse_button.anchor_left == 0.0
+		and action.custom_minimum_size.y >= 64.0,
+		"preset touch mancino/standard non applicato")
+	assert(is_equal_approx(action.modulate.a, 0.72),
+		"visibilità personalizzata dei comandi non applicata")
 
 	var panel_style: StyleBoxFlat = world.call("_panel_style")
 	assert(panel_style.border_width_left >= 3 and panel_style.border_color == Color.WHITE,
@@ -66,6 +82,20 @@ func _run() -> void:
 	await create_timer(0.16).timeout
 	assert(not is_instance_valid(pulse) or pulse.is_queued_for_deletion(),
 		"feedback ridotto dell'impulso non viene ritirato")
+
+	exercise.start_session({
+		"kind": "practice",
+		"subject": "italiano",
+		"nodes": [{
+			"format": "short_answer",
+			"prompt": "Scrivi sì",
+			"answer": "sì",
+			"explanation": "Risposta test.",
+		}],
+	})
+	var text_submit := exercise.find_child("TextAnswerSubmit", true, false) as Button
+	assert(text_submit != null and text_submit.visible and text_submit.custom_minimum_size.y >= 48.0,
+		"risposta testuale ancora dipendente dal tasto Invio")
 
 	world.queue_free()
 	await process_frame

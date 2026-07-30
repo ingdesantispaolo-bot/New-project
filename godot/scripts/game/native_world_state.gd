@@ -4,6 +4,22 @@ extends RefCounted
 ## Stato transitorio della sessione Godot. Il save persistente resta
 ## GameSaveManager; qui vivono soltanto seed, presentazione e delta del mondo.
 
+static var _pending_launch_request: Dictionary = {}
+
+static func release_smoke_enabled() -> bool:
+	return (
+		OS.get_cmdline_user_args().has("--eli-release-smoke")
+		or OS.get_cmdline_args().has("--eli-release-smoke")
+	)
+
+static func stage_launch_request(request: Dictionary) -> void:
+	_pending_launch_request = request.duplicate(true)
+
+static func take_launch_request() -> Dictionary:
+	var request := _pending_launch_request.duplicate(true)
+	_pending_launch_request.clear()
+	return request
+
 static func default_request(seed: String = "outdoor-dev-1") -> Dictionary:
 	return {
 		"schemaVersion": GameSaveManager.SCHEMA_VERSION,

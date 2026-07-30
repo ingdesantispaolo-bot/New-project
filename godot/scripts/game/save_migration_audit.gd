@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Audit O-P6 (save migration): profili legacy di forme diverse migrano a v2 senza
+## Audit O-P6 (save migration): profili legacy di forme diverse migrano a v3 senza
 ## crash, senza perdere dati validi, in modo idempotente; i campi nuovi
 ## (gateConsumed, worlds, worldProgress, spacedRepetition schedule, codex, nora,
 ## config) vengono aggiunti e il ripasso vecchio "due" convertito.
@@ -43,11 +43,15 @@ func _init() -> void:
 	assert(m1["gateConsumed"] == {}, "gateConsumed deve partire vuoto")
 	assert(mgr.migrate_legacy_save(m1) == m1, "migrazione non idempotente (v1)")
 
-	# 3) Un save già v2 (default) resta invariato attraverso la migrazione.
+	# 3) Il vecchio apparato condiviso conserva i gate di Storia nel nuovo
+	# Archivio temporale senza sottrarre la riparazione scientifica alla serra.
 	var v2 := GameSaveManager._default_data()
-	assert(mgr.migrate_legacy_save(v2) == mgr.migrate_legacy_save(v2), "migrazione non deterministica su v2")
+	v2["schemaVersion"] = 2
+	v2["apparatus"] = {"serra-bio": {"repairedLevel": 23}}
 	var m2 := mgr.migrate_legacy_save(v2)
-	assert(mgr.migrate_legacy_save(m2) == m2, "v2 non idempotente")
+	assert(int(m2["apparatus"]["serra-bio"]["repairedLevel"]) == 23, "riparazione serra persa")
+	assert(int(m2["apparatus"]["archivio-temporale"]["repairedLevel"]) == 23, "riparazione Storia non migrata")
+	assert(mgr.migrate_legacy_save(m2) == m2, "v3 non idempotente")
 
 	# 4) apply_launch_state con un initialSave legacy non deve degradare il livello
 	# locale né perdere campi.
@@ -55,7 +59,7 @@ func _init() -> void:
 	save.set_level(2)
 	save.apply_launch_state({"initialSave": {"schemaVersion": 1, "level": 7, "energy": 5}, "playerLevel": 7})
 	assert(save.level() == 7, "apply_launch_state deve adottare il livello superiore")
-	assert(save.data.has("worlds") and save.data.has("codex"), "apply_launch_state deve migrare a v2")
+	assert(save.data.has("worlds") and save.data.has("codex"), "apply_launch_state deve migrare a v3")
 
-	print("Save migration audit OK — v0/v1 → v2 idempotente, nessuna perdita, mondi riconciliati, ripasso convertito, campi nuovi presenti")
+	print("Save migration audit OK — v0/v1/v2 → v3 idempotente, Archivio temporale preservato")
 	quit(0)

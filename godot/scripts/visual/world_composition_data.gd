@@ -91,6 +91,17 @@ func distance_to_paths(world_pos: Vector2) -> float:
 			best = minf(best, _distance_to_segment(world_pos, points[i], points[i + 1]))
 	return best
 
+## Le strade sono spazio di navigazione, non aree decorative. Il margine si
+## somma a metà della larghezza autorata per tenere liberi anche i bordi.
+func is_path_clear(world_pos: Vector2, extra_margin: float = 0.0) -> bool:
+	for path in paths:
+		var points: PackedVector2Array = path.get("points", PackedVector2Array())
+		var clearance := float(path.get("width", 64.0)) * 0.5 + extra_margin
+		for index in range(maxi(0, points.size() - 1)):
+			if _distance_to_segment(world_pos, points[index], points[index + 1]) <= clearance:
+				return false
+	return true
+
 func water_weight(world_pos: Vector2) -> float:
 	var best := raw_water_weight(world_pos)
 	var protection := _protection_weight(world_pos)

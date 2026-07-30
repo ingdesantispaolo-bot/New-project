@@ -44,6 +44,8 @@ func _run() -> void:
 	player.call("_ordering_place", "1", 0)
 	player.call("_ordering_place", "0", 1)
 	player.call("_ordering_place", "2", 2)
+	assert(str(player.get_meta("last_causal_feedback", "")) == "snap",
+		"ordering: lo snap non emette feedback causale")
 	player.call("_ordering_submit", ordering)
 	_assert_scored("ordering")
 
@@ -60,6 +62,8 @@ func _run() -> void:
 		player.call("_matching_right", str(matching["pairs"][i]["right"]), matching)
 	_assert_scored("matching")
 	assert((player.get("_matching_connections") as Array).size() == 3, "matching: linee/snap non registrati")
+	assert(str(player.get_meta("last_causal_feedback", "")) in ["connect", "snap"],
+		"matching: collegamento senza feedback causale")
 
 	var classification := _base("classification")
 	classification.merge({
@@ -74,6 +78,8 @@ func _run() -> void:
 	player.call("_classification_submit", classification)
 	assert(not bool(player.get("_answered")) and int(player.get("_shields")) == 2,
 		"classification: errore correggibile deve togliere uno scudo senza chiudere il nodo")
+	assert(str(player.get_meta("last_causal_feedback", "")) == "error",
+		"classification: errore senza feedback distinto")
 	player.call("_classification_assign", "sole", "astro")
 	player.call("_classification_submit", classification)
 	_assert_scored("classification")
@@ -86,7 +92,7 @@ func _run() -> void:
 		],
 		"answer": "north",
 	})
-	await _visual_success(hotspot)
+	await _visual_success(hotspot, "south")
 
 	var graph := _base("graph")
 	graph.merge({
@@ -96,7 +102,7 @@ func _run() -> void:
 		],
 		"answer": "high",
 	})
-	await _visual_success(graph)
+	await _visual_success(graph, "low")
 
 	var circuit := _base("circuit")
 	circuit.merge({
@@ -108,7 +114,7 @@ func _run() -> void:
 		"connections": [["battery", "switch"], ["switch", "lamp"]],
 		"answer": "switch",
 	})
-	await _visual_success(circuit)
+	await _visual_success(circuit, "battery")
 
 	var code := _base("code_debug")
 	code.merge({"codeLines": ["x = 2", "if x = 2:", "    print(x)"], "answerLine": 2})
@@ -169,12 +175,23 @@ func _start(node: Dictionary, kind: String = "mission") -> void:
 	await process_frame
 	await process_frame
 
-func _visual_success(node: Dictionary) -> void:
+func _visual_success(node: Dictionary, wrong_id: String = "") -> void:
 	await _start(node)
-	assert(player.find_child("ExerciseDiagram_%s" % str(node["format"]), true, false) != null,
+	var diagram := player.find_child("ExerciseDiagram_%s" % str(node["format"]), true, false)
+	assert(diagram != null,
 		"%s: diagramma mancante" % str(node["format"]))
+	if wrong_id != "":
+		player.call("_visual_select", wrong_id)
+		assert(str(diagram.get("feedback_state")) == "selected",
+			"%s: selezione non riflessa sulla superficie" % str(node["format"]))
+		player.call("_visual_submit", node)
+		assert(str(diagram.get("feedback_state")) == "error"
+			and str(player.get_meta("last_causal_feedback", "")) == "error",
+			"%s: errore privo di feedback causale" % str(node["format"]))
 	player.call("_visual_select", str(node["answer"]))
 	player.call("_visual_submit", node)
+	assert(str(diagram.get("feedback_state")) == "correct",
+		"%s: soluzione non evidenziata sulla superficie" % str(node["format"]))
 	_assert_scored(str(node["format"]))
 
 func _assert_scored(fmt: String) -> void:

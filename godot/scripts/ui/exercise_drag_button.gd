@@ -1,5 +1,8 @@
 extends Button
 
+signal drag_started
+signal drag_finished
+
 ## Sorgente drag accessibile: il click resta sempre disponibile per touch e
 ## tastiera, mentre mouse/touch con trascinamento ricevono una preview esplicita.
 
@@ -14,6 +17,10 @@ func configure(id: String, kind: String) -> void:
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	if disabled or drag_id == "":
 		return null
+	pivot_offset = size * 0.5
+	scale = Vector2(1.04, 1.04)
+	modulate = Color(1.0, 0.90, 0.58)
+	drag_started.emit()
 	var preview := Label.new()
 	preview.text = text
 	preview.add_theme_font_size_override("font_size", 15)
@@ -29,3 +36,9 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	panel.add_child(preview)
 	set_drag_preview(panel)
 	return {"eli_exercise_drag": true, "kind": drag_kind, "source": drag_id}
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_DRAG_END:
+		scale = Vector2.ONE
+		modulate = Color.WHITE
+		drag_finished.emit()

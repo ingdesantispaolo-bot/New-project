@@ -30,6 +30,16 @@ func _run() -> void:
 	if await _capture("nave-02-riattivazione-wide.png") != OK:
 		quit(2)
 		return
+	var reactor_after := ShipActivationModel.activation_for_room(hub.get("save"), "reactor")
+	var reactor_before := reactor_after.duplicate()
+	reactor_before["stage"] = maxi(0, int(reactor_after.get("stage", 1)) - 1)
+	reactor_before["ratio"] = maxf(0.0, float(reactor_after.get("ratio", 0.2)) - 0.12)
+	hub.call("_play_reactivation_sequence", "reactor", reactor_before, reactor_after)
+	await create_timer(0.62).timeout
+	if await _capture("nave-02b-regia-accensione-wide.png") != OK:
+		quit(2)
+		return
+	await create_timer(2.4).timeout
 
 	root.size = Vector2i(1024, 720)
 	await _settle()
@@ -39,7 +49,16 @@ func _run() -> void:
 	if await _capture("nave-03-piena-potenza-compact.png") != OK:
 		quit(2)
 		return
-	print("SHIP RENDER probe OK - artifacts/ship")
+	var final_after := ShipActivationModel.activation_for_room(hub.get("save"), "glyphs")
+	var final_before := final_after.duplicate()
+	final_before["stage"] = 4
+	final_before["ratio"] = 0.92
+	hub.call("_play_reactivation_sequence", "glyphs", final_before, final_after)
+	await create_timer(1.72).timeout
+	if await _capture("nave-04-finale-rotta-aperta-compact.png") != OK:
+		quit(2)
+		return
+	print("SHIP RENDER probe OK - 5 capture in artifacts/ship, incluse regia e finale")
 	quit(0)
 
 func _set_completed_levels(hub: Node, completed_levels: int) -> void:

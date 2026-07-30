@@ -3,7 +3,7 @@ extends RefCounted
 
 ## Global blue-noise-like assembly lattice. Positions are seeded in world
 ## coordinates and never regenerated per chunk, so groves cross stream cells.
-const CELL_SIZE := 210.0
+const CELL_SIZE := 270.0
 
 static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: int = 0) -> Array:
 	var points: Array = []
@@ -21,7 +21,7 @@ static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: 
 				continue
 			var biome := data.sampled_biome(pos, rng.next_float())
 			var density := float(BiomeProfile.get_profile(biome)["density"])
-			var threshold := minf(0.96, density * (0.88 if lod == 0 else 0.52))
+			var threshold := minf(0.82, density * (0.66 if lod == 0 else 0.38))
 			if rng.next_float() > threshold:
 				continue
 			points.append({

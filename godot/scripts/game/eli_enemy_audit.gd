@@ -25,11 +25,20 @@ func _run() -> void:
 		"foglio Eli non conforme al contratto 5x4 da 96 px")
 	controller.velocity = Vector2.RIGHT * 100.0
 	controller.call("_animate", 0.2)
-	assert((sprite.texture as AtlasTexture).region.position.y == 288.0, "direzione destra non usa la riga corretta")
+	assert((sprite.texture as AtlasTexture).region.position.y == 192.0, "direzione destra non usa la riga che guarda a destra")
 	assert((sprite.texture as AtlasTexture).region.position.x > 0.0, "camminata ferma sul frame idle")
+	controller.velocity = Vector2.LEFT * 100.0
+	controller.call("_animate", 0.2)
+	assert((sprite.texture as AtlasTexture).region.position.y == 288.0, "direzione sinistra non usa la riga che guarda a sinistra")
 	controller.velocity = Vector2.UP * 100.0
 	controller.call("_animate", 0.2)
 	assert((sprite.texture as AtlasTexture).region.position.y == 96.0, "direzione su non usa la riga corretta")
+	controller.velocity = Vector2.DOWN * 100.0
+	controller.call("_animate", 0.2)
+	assert((sprite.texture as AtlasTexture).region.position.y == 0.0, "direzione giù non usa la riga corretta")
+	controller.velocity = Vector2.ZERO
+	controller.call("_animate", 0.2)
+	assert((sprite.texture as AtlasTexture).region.position.y == 0.0, "Eli cambia direzione quando si ferma")
 	controller.play_pulse_action()
 	controller.call("_animate", 0.01)
 	assert((sprite.texture as AtlasTexture).region.position.x == 384.0, "posa impulso assente")

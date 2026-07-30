@@ -27,12 +27,14 @@ const WORLD_HALF_EXTENT := 2200.0      # semi-lato dell'area giocabile (clamp)
 static func safe_route() -> Array:
 	return [SPAWN, Vector2(0, 760), Vector2(0, 400), Vector2(0, SHIP_SAFE_RADIUS)]
 
-# Budget prestazionale per tier (indicativo; Codex lo affina con capture reali).
+# Budget release C-P6: fissati dopo capture GPU e profiling Chrome con CPU 4×,
+# rete 20 Mbps e viewport touch. Le soglie di memoria includono heap JS,
+# embedder e backing storage del runtime Web, non la VRAM del driver.
 static func performance_budget() -> Dictionary:
 	return {
-		"web": {"maxDrawCalls": 900, "maxActivePois": 14, "streamRadius": 1600},
-		"mobile": {"maxDrawCalls": 700, "maxActivePois": 10, "streamRadius": 1400},
-		"desktop": {"maxDrawCalls": 1400, "maxActivePois": 20, "streamRadius": 2000},
+		"web": {"targetFps": 30, "minSteadyFps": 24, "maxDrawCalls": 750, "maxMemoryMiB": 128, "maxActivePois": 14, "streamRadius": 1600},
+		"mobile": {"targetFps": 30, "minSteadyFps": 24, "maxDrawCalls": 700, "maxMemoryMiB": 128, "maxActivePois": 10, "streamRadius": 1400},
+		"desktop": {"targetFps": 60, "minSteadyFps": 30, "maxDrawCalls": 1200, "maxMemoryMiB": 192, "maxActivePois": 20, "streamRadius": 2000},
 	}
 
 # Formati d'esercizio REALMENTE serviti dalla materia (famiglie ExerciseInteraction).

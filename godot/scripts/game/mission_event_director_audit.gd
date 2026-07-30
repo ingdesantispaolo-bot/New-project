@@ -43,12 +43,23 @@ func _init() -> void:
 		var has_enigma := false
 		var has_practice := false
 		var last_format := ""
+		var occupied_cells := {}
+		var gate_positions: Array[Vector2] = []
+		var composition := WorldCompositionGenerator.generate(seed_a, profile)
 		for e in run1:
 			# 3) Zona nave: nessun evento entro il raggio protetto.
 			var pos: Vector2 = e["position"]
 			assert(pos.distance_to(ship) >= safe_radius, "livello %d: evento %s dentro la zona nave" % [level, str(e["id"])])
 			# Dentro l'area giocabile.
 			assert(absf(pos.x - ship.x) <= half_extent + 1.0 and absf(pos.y - ship.y) <= half_extent + 1.0, "livello %d: evento fuori area" % level)
+			assert(composition.distance_to_paths(pos) <= 190.0,
+				"livello %d: evento %s isolato dalla rete di strade" % [level, str(e["id"])])
+			if bool(e["countsForGate"]):
+				occupied_cells[Vector2i(floori(pos.x / 420.0), floori(pos.y / 420.0))] = true
+				for previous in gate_positions:
+					assert(pos.distance_to(previous) >= 96.0,
+						"livello %d: esercizi sovrapposti nello stesso punto" % level)
+				gate_positions.append(pos)
 			# 4) Nessun formato ripetuto tra eventi consecutivi.
 			var fmt := str(e["format"])
 			assert(fmt != last_format, "livello %d: formato ripetuto consecutivo (%s)" % [level, fmt])
@@ -71,6 +82,8 @@ func _init() -> void:
 
 		assert(has_mission, "livello %d: manca almeno una missione-tappa" % level)
 		assert(has_practice, "livello %d: manca almeno un evento di pratica" % level)
+		assert(occupied_cells.size() >= mini(4, required),
+			"livello %d: esercizi concentrati in soli %d settori" % [level, occupied_cells.size()])
 		# L'enigma è presente dove la grammatica lo ammette (multipli di 3 e non solo).
 		if int(profile["missionGrammar"].get("enigma", 0)) > 0:
 			assert(has_enigma, "livello %d: la grammatica ammette enigmi ma nessuno è stato generato" % level)

@@ -6,6 +6,9 @@ extends Control
 var diagram_kind := ""
 var model: Dictionary = {}
 var background_texture: Texture2D
+var selected_id := ""
+var feedback_state := ""
+var feedback_started_msec := 0
 
 func configure(kind: String, data: Dictionary) -> void:
 	diagram_kind = kind
@@ -14,6 +17,17 @@ func configure(kind: String, data: Dictionary) -> void:
 	background_texture = load(background_path) as Texture2D if background_path != "" and ResourceLoader.exists(background_path) else null
 	custom_minimum_size = Vector2(0, 230)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	set_process(true)
+	queue_redraw()
+
+func _process(_delta: float) -> void:
+	if selected_id != "":
+		queue_redraw()
+
+func set_feedback(id: String, state: String) -> void:
+	selected_id = id
+	feedback_state = state
+	feedback_started_msec = Time.get_ticks_msec()
 	queue_redraw()
 
 func point_position(point: Dictionary) -> Vector2:
@@ -33,6 +47,47 @@ func _draw() -> void:
 			_draw_circuit(bounds)
 		_:
 			_draw_hotspot(bounds)
+	_draw_selection_feedback()
+
+func _draw_selection_feedback() -> void:
+	if selected_id == "":
+		return
+	var points: Array = (
+		model.get("hotspots", [])
+		if diagram_kind == "hotspot"
+		else model.get("points", [])
+		if diagram_kind == "graph"
+		else model.get("components", [])
+	)
+	for point_data in points:
+		var point: Dictionary = point_data
+		if str(point.get("id", "")) != selected_id:
+			continue
+		var center := (
+			_graph_feedback_position(point)
+			if diagram_kind == "graph"
+			else point_position(point)
+		)
+		var age := float(Time.get_ticks_msec() - feedback_started_msec) / 1000.0
+		var pulse := 0.5 + 0.5 * sin(age * 12.0)
+		var color := (
+			Color("8ff6c0") if feedback_state == "correct"
+			else Color("ff8f9b") if feedback_state == "error"
+			else Color("f6c85f")
+		)
+		if diagram_kind == "graph":
+			draw_line(Vector2(center.x, size.y - 46.0), center, Color(color, 0.42), 2.0, true)
+			draw_line(Vector2(56.0, center.y), center, Color(color, 0.42), 2.0, true)
+		draw_circle(center, 30.0 + pulse * 5.0, Color(color, 0.12))
+		draw_arc(center, 27.0 + pulse * 4.0, 0.0, TAU, 40, color, 3.0, true)
+		break
+
+func _graph_feedback_position(point: Dictionary) -> Vector2:
+	var bounds := Rect2(Vector2(8, 8), size - Vector2(16, 16))
+	var origin := Vector2(bounds.position.x + 48, bounds.end.y - 38)
+	var end_x := Vector2(bounds.end.x - 24, origin.y)
+	var end_y := Vector2(origin.x, bounds.position.y + 24)
+	return _graph_position(point, origin, end_x, end_y)
 
 func _draw_graph(bounds: Rect2) -> void:
 	var origin := Vector2(bounds.position.x + 48, bounds.end.y - 38)

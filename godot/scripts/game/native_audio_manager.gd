@@ -15,6 +15,7 @@ var _focus: AudioStreamPlayer
 var _environment := ""
 var _world_soundscape := ""
 var _last_played_ms: Dictionary = {}
+var _play_count := 0
 
 func _ready() -> void:
 	_load_manifest()
@@ -23,6 +24,7 @@ func _ready() -> void:
 	_ambience = _make_persistent_player("AmbienceBase", "Ambience")
 	_focus = _make_persistent_player("MusicFocus", "Music")
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_publish_web_state()
 
 func _load_manifest() -> void:
 	var file := FileAccess.open(MANIFEST_PATH, FileAccess.READ)
@@ -58,12 +60,14 @@ func play_environment(phase: String) -> void:
 	_play_loop(_music, "music.%s" % normalized)
 	_play_loop(_ambience, "ambience.%s" % normalized)
 	_apply_world_soundscape_mix()
+	call_deferred("_publish_web_state")
 
 func configure_world_soundscape(soundscape: String) -> void:
 	# I loop restano condivisi e leggeri per Web, ma ogni profilo ottiene un mix
 	# riconoscibile. Non modifica eventi didattici né stato di progressione.
 	_world_soundscape = soundscape.to_lower()
 	_apply_world_soundscape_mix()
+	call_deferred("_publish_web_state")
 
 func _apply_world_soundscape_mix() -> void:
 	if not is_instance_valid(_music) or not is_instance_valid(_ambience):
@@ -203,6 +207,8 @@ func play(key: String, pitch_scale: float = 1.0) -> void:
 	add_child(player)
 	player.finished.connect(player.queue_free)
 	player.play()
+	_play_count += 1
+	call_deferred("_publish_web_state")
 
 func set_bus_volume(bus_name: String, linear: float) -> void:
 	var index := AudioServer.get_bus_index(bus_name)
@@ -213,6 +219,22 @@ func set_muted(muted: bool) -> void:
 	var master := AudioServer.get_bus_index("Master")
 	if master >= 0:
 		AudioServer.set_bus_mute(master, muted)
+	_publish_web_state()
+
+func _publish_web_state() -> void:
+	if not OS.has_feature("web"):
+		return
+	var master := AudioServer.get_bus_index("Master")
+	var snapshot := {
+		"environment": _environment,
+		"soundscape": _world_soundscape,
+		"musicPlaying": is_instance_valid(_music) and _music.playing,
+		"ambiencePlaying": is_instance_valid(_ambience) and _ambience.playing,
+		"focusPlaying": is_instance_valid(_focus) and _focus.playing,
+		"muted": master >= 0 and AudioServer.is_bus_mute(master),
+		"playCount": _play_count,
+	}
+	JavaScriptBridge.eval("window.__eliAudioState = %s;" % JSON.stringify(snapshot))
 
 func _make_persistent_player(node_name: String, bus_name: String) -> AudioStreamPlayer:
 	var player := AudioStreamPlayer.new()

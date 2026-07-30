@@ -43,8 +43,8 @@ func setup(
 			_build_charted_archipelago(event_kind, accent)
 		"symbiosis_greenhouse":
 			_build_symbiosis_greenhouse(event_kind, accent)
-		"civic_city":
-			_build_civic_city(event_kind, accent)
+		"history_threshold":
+			_build_history_threshold(event_kind, accent)
 		"rule_labyrinth":
 			_build_rule_labyrinth(event_kind, accent)
 		"orbital_desert":
@@ -67,8 +67,8 @@ func setup(
 			_build_fractured_atlas(event_kind, accent)
 		"deep_biosphere":
 			_build_deep_biosphere(event_kind, accent)
-		"colony_council":
-			_build_colony_council(event_kind, accent)
+		"hall_of_eras":
+			_build_hall_of_eras(event_kind, accent)
 		"first_heart":
 			_build_first_heart(event_kind, accent)
 		_:
@@ -315,25 +315,27 @@ func _build_symbiosis_greenhouse(event_kind: String, accent: Color) -> void:
 	if event_kind == "enigma":
 		scale = Vector2.ONE * 1.14
 
-func _build_civic_city(event_kind: String, accent: Color) -> void:
+func _build_history_threshold(event_kind: String, accent: Color) -> void:
 	for index in range(5):
 		var part := Node2D.new()
 		part.position = Vector2(-44.0 + float(index) * 22.0, 8.0)
-		var service := OutdoorVisualFactory.make_polygon(
-			PackedVector2Array([
-				Vector2(-8, 5), Vector2(-7, -7), Vector2(0, -12),
-				Vector2(7, -7), Vector2(8, 5),
-			]), Color("c59b68"))
-		part.add_child(service)
-		var door := OutdoorVisualFactory.make_glow(9, accent, 0.76)
-		door.position = Vector2(0, 0)
-		door.add_to_group("night_glow")
-		part.add_child(door)
-		var plaza := OutdoorVisualFactory.make_ring(14, Color("dfbd70", 0.38), 1.7, 18)
-		plaza.scale.y = 0.38
-		plaza.position = Vector2(0, 6)
-		part.add_child(plaza)
-		OutdoorVisualFactory.attach_anim(door, "pulse", 0.80 + float(index) * 0.10, 0.58)
+		if index > 0:
+			var timeline := Line2D.new()
+			timeline.points = PackedVector2Array([Vector2(-22, 0), Vector2.ZERO])
+			timeline.width = 3.0
+			timeline.default_color = Color("d49a48")
+			part.add_child(timeline)
+		var trace := OutdoorVisualFactory.make_polygon(
+			OutdoorVisualFactory.ellipse_polygon(8, 5, 14),
+			Color("b68a59") if index < 2 else Color("4f8790"))
+		part.add_child(trace)
+		var era_light := OutdoorVisualFactory.make_glow(9, accent, 0.76)
+		era_light.add_to_group("night_glow")
+		part.add_child(era_light)
+		var date_ring := OutdoorVisualFactory.make_ring(13, Color("e8b85d", 0.42), 1.7, 18)
+		date_ring.scale.y = 0.38
+		part.add_child(date_ring)
+		OutdoorVisualFactory.attach_anim(era_light, "pulse", 0.80 + float(index) * 0.10, 0.58)
 		active_parts.append(part)
 		add_child(part)
 	if event_kind == "enigma":
@@ -580,23 +582,25 @@ func _build_deep_biosphere(event_kind: String, accent: Color) -> void:
 	if event_kind == "enigma":
 		scale = Vector2.ONE * 1.14
 
-func _build_colony_council(event_kind: String, accent: Color) -> void:
+func _build_hall_of_eras(event_kind: String, accent: Color) -> void:
 	for index in range(5):
 		var part := Node2D.new()
-		var angle := lerpf(-2.72, -0.42, float(index) / 4.0)
-		part.position = Vector2(cos(angle) * 46.0, sin(angle) * 18.0 + 8.0)
-		var dome := OutdoorVisualFactory.make_polygon(
-			OutdoorVisualFactory.ellipse_polygon(11, 8, 20),
-			Color("d8d6ca"))
-		part.add_child(dome)
-		var shared_light := OutdoorVisualFactory.make_glow(12, accent, 0.82)
-		shared_light.position = Vector2(0, -3)
-		shared_light.add_to_group("night_glow")
-		part.add_child(shared_light)
-		var accord := OutdoorVisualFactory.make_ring(14, Color("edc46a", 0.50), 1.8, 22)
-		accord.scale.y = 0.42
-		accord.position = Vector2(0, -3)
-		part.add_child(accord)
+		part.position = Vector2(-44.0 + float(index) * 22.0, 7.0)
+		if index > 0:
+			var cause_link := Line2D.new()
+			cause_link.points = PackedVector2Array([Vector2(-22, 0), Vector2.ZERO])
+			cause_link.width = 3.2
+			cause_link.default_color = Color("d8a65b") if index < 3 else Color("6d96d4")
+			part.add_child(cause_link)
+		var source_tablet := OutdoorVisualFactory.make_polygon(
+			PackedVector2Array([Vector2(-7, 5), Vector2(-7, -7), Vector2(7, -7), Vector2(7, 5)]),
+			Color("c9b18a"))
+		part.add_child(source_tablet)
+		var era_light := OutdoorVisualFactory.make_glow(
+			11, Color("df9a55") if index < 2 else Color("7199dd"), 0.84)
+		era_light.add_to_group("night_glow")
+		part.add_child(era_light)
+		OutdoorVisualFactory.attach_anim(era_light, "pulse", 0.72 + float(index) * 0.10, 0.64)
 		active_parts.append(part)
 		add_child(part)
 	if event_kind == "enigma":

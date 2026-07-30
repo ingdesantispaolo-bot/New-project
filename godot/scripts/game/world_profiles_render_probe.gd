@@ -77,24 +77,23 @@ func _capture_profile(
 
 func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT_DIR))
-	# Campione C-P6: onboarding, primo cambio-mondo, landmark organico,
-	# secondo ciclo, mondo tardo e finale. È sufficiente a intercettare prop
-	# legacy o overlay incoerenti senza ricatturare 24×4 tavole a ogni pass.
-	for level in [1, 2, 6, 13, 19, 24]:
+	# Campione C-P6 manuale: mondi richiesti (1/7/13/19/24), tutti i profili
+	# con acqua autorata (4/6/8/9/10/16/17/22) e i due mondi di Storia (11/23).
+	# HUD compatto verifica la leggibilità giocata; tavola desktop pulita rende
+	# osservabili acqua, densità, anomalie, prop e coerenza d'art direction.
+	for level in [1, 4, 6, 7, 8, 9, 10, 11, 13, 16, 17, 19, 20, 21, 22, 23, 24]:
 		for capture in [
-			{"size": Vector2i(1440, 900), "suffix": "", "hud": true, "landmark": false},
 			{"size": Vector2i(1440, 900), "suffix": "-desktop-clean", "hud": false, "landmark": false},
 			{"size": Vector2i(900, 600), "suffix": "-compact-hud", "hud": true, "landmark": false},
-			{"size": Vector2i(900, 600), "suffix": "-compact-clean", "hud": false, "landmark": false},
 		]:
 			if await _capture_profile(level, capture["size"], str(capture["suffix"]), bool(capture["hud"]), bool(capture["landmark"])) != OK:
 				push_error("WORLD PROFILE RENDER probe: cattura fallita al livello %d (%s)" % [level, str(capture["suffix"])])
 				quit(2)
 				return
-		if level == 24:
+		if level in [11, 23, 24]:
 			if await _capture_profile(level, Vector2i(1440, 900), "-landmark-clean", false, true) != OK:
 				push_error("WORLD PROFILE RENDER probe: cattura landmark fallita al livello %d" % level)
 				quit(2)
 				return
-	print("WORLD PROFILE RENDER probe OK — campione C-P6 1/2/6/13/19/24, HUD + clean desktop/compatto")
+	print("WORLD PROFILE RENDER probe OK — C-P6 mirato, mondi acquatici e Storia, HUD compatto + clean desktop")
 	quit(0)

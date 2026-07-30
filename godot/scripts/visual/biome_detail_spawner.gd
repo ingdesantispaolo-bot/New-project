@@ -4,7 +4,9 @@ extends RefCounted
 ## Micro-dettagli globali, deterministici e consapevoli dell'habitat. Il reticolo
 ## vive in coordinate mondo: ninfee, canneti e sottobosco non si interrompono ai
 ## confini dei chunk e non consumano l'RNG del gameplay.
-const CELL_SIZE := 132.0
+# Un dettaglio ogni ~180 px mantiene varietà senza trasformare il terreno in
+# una griglia di piccoli oggetti visivamente equivalenti ai POI.
+const CELL_SIZE := 180.0
 
 static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: int = 0) -> Array:
 	var points: Array = []
@@ -31,7 +33,7 @@ static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: 
 				kind = _archive_kind(rng.next_float()) if data.visual_theme == "archive" else _land_kind(data.sampled_biome(pos, rng.next_float()), rng.next_float())
 			if kind.is_empty():
 				continue
-			var base_chance := 0.82 if water > 0.28 or near_water else 0.58
+			var base_chance := 0.68 if water > 0.28 or near_water else 0.42
 			if lod > 0:
 				base_chance *= 0.45
 			if rng.next_float() > base_chance:

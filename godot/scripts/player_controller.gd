@@ -5,11 +5,17 @@ extends CharacterBody2D
 
 var touch_target := Vector2.INF
 ## Contenitore visivo animato (assegnato da outdoor_world alla creazione):
-## bob e inclinazione durante la camminata, flip orizzontale sulla direzione.
+## bob e inclinazione durante la camminata, con una riga atlas per direzione.
 var visual: Node2D
 var reduced_motion := false
 var _walk_time := 0.0
 var _action_until_msec := 0
+var _facing_row := 0
+
+const FACING_DOWN_ROW := 0
+const FACING_UP_ROW := 1
+const FACING_RIGHT_ROW := 2
+const FACING_LEFT_ROW := 3
 
 func _physics_process(delta: float) -> void:
 	var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -38,11 +44,13 @@ func _animate(delta: float) -> void:
 	if visual == null:
 		return
 	var sprite := visual.find_child("EliSprite", true, false) as Sprite2D
-	var direction_row := 0
-	if absf(velocity.x) > absf(velocity.y):
-		direction_row = 3 if velocity.x > 0.0 else 2
-	elif velocity.y < -8.0:
-		direction_row = 1
+	if velocity.length() > 8.0:
+		if absf(velocity.x) > absf(velocity.y):
+			_facing_row = FACING_RIGHT_ROW if velocity.x > 0.0 else FACING_LEFT_ROW
+		elif velocity.y < -8.0:
+			_facing_row = FACING_UP_ROW
+		else:
+			_facing_row = FACING_DOWN_ROW
 	if reduced_motion:
 		_walk_time = 0.0
 		visual.position.y = 0.0
@@ -59,4 +67,4 @@ func _animate(delta: float) -> void:
 	if sprite != null and sprite.texture is AtlasTexture:
 		var walk_frame := 1 if reduced_motion else 1 + posmod(floori(_walk_time), 4)
 		var frame := 4 if Time.get_ticks_msec() < _action_until_msec else (walk_frame if velocity.length() > 8.0 else 0)
-		(sprite.texture as AtlasTexture).region = Rect2(frame * 96, direction_row * 96, 96, 96)
+		(sprite.texture as AtlasTexture).region = Rect2(frame * 96, _facing_row * 96, 96, 96)

@@ -45,12 +45,16 @@ func _run() -> void:
 		var mobile_budget: Dictionary = profile.get("performanceBudget", {}).get("mobile", {})
 		assert(not mobile_budget.is_empty() and int(mobile_budget.get("maxDrawCalls", 0)) > 0,
 			"WorldProfile %d privo di budget mobile" % level)
+		assert(int(mobile_budget.get("targetFps", 0)) == 30
+			and int(mobile_budget.get("minSteadyFps", 0)) >= 24
+			and int(mobile_budget.get("maxMemoryMiB", 0)) <= 128,
+			"budget tablet definitivo assente nel mondo %d" % level)
 		assert(chunks.loaded.size() <= 9,
 			"streaming oltre raggio 1 nel mondo %d: %d chunk" % [level, chunks.loaded.size()])
 		# Le tavole pittoriche e i marker sono composti da molti CanvasItem
 		# piccoli; il limite intercetta duplicazioni grossolane, mentre le draw
 		# call reali restano responsabilità della sonda GPU.
-		assert(node_count < 5000,
+		assert(node_count < 3500,
 			"scene graph fuori scala nel mondo %d: %d nodi" % [level, node_count])
 		peak_nodes = maxi(peak_nodes, node_count)
 		slowest_msec = maxi(slowest_msec, elapsed)
@@ -62,6 +66,7 @@ func _run() -> void:
 		await process_frame
 		await process_frame
 
-	print("PERFORMANCE BUDGET audit OK — picco %d nodi, avvio headless massimo %d ms" % [
+	assert(slowest_msec < 500, "avvio headless oltre budget: %d ms" % slowest_msec)
+	print("PERFORMANCE BUDGET audit OK — picco %d/3500 nodi, avvio %d/500 ms" % [
 		peak_nodes, slowest_msec])
 	quit(0)

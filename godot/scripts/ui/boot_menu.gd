@@ -11,6 +11,7 @@ var play_button: Button
 func _ready() -> void:
 	if OS.has_feature("web"):
 		JavaScriptBridge.eval("document.documentElement.dataset.eliScene = 'boot';")
+		_publish_saved_smoke_marker()
 	_build_interface()
 	play_button.grab_focus()
 
@@ -108,7 +109,7 @@ func _build_interface() -> void:
 
 	var hint := Label.new()
 	hint.name = "BootInputHint"
-	hint.text = "Tocca GIOCA · Invio / Spazio"
+	hint.text = "Tocca GIOCA per iniziare"
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.add_theme_color_override("font_color", Color("9fb7bb"))
 	hint.add_theme_font_size_override("font_size", 13)
@@ -117,7 +118,48 @@ func _build_interface() -> void:
 func _play() -> void:
 	play_button.disabled = true
 	play_button.text = "AVVIO…"
+	if NativeWorldState.release_smoke_enabled():
+		_prepare_release_smoke_save()
 	get_tree().change_scene_to_file(WORLD_SCENE)
+
+func _prepare_release_smoke_save() -> void:
+	# Fixture attivabile soltanto dagli argomenti dell'istanza di collaudo. La
+	# build pubblicata continua ad avviare il profilo locale normale.
+	var save := GameSaveManager.new()
+	save.data = GameSaveManager._default_data()
+	var content := ContentManager.new()
+	var progression := ProgressionManager.new(save, content)
+	var gate := progression.current_gate()
+	var subject := str(gate.get("subject", "matematica"))
+	for _index in range(int(gate.get("missionsRequired", 1))):
+		save.add_mission(subject)
+	save.set_mastery(subject, float(gate.get("masteryThreshold", 0.7)))
+	var topic_target := GateReadiness.coverage_target(content.subject_topic_count(subject))
+	for index in range(maxi(topic_target, 1)):
+		save.set_topic_mastery(subject, "release-smoke-topic-%d" % index, 1.0)
+	save.data["accessibility"] = {
+		"highContrast": true,
+		"reducedMotion": true,
+	}
+	save.data["releaseSmokeMarker"] = "web-release-save-v1"
+	save.save()
+	var request := NativeWorldState.default_request("web-release-smoke")
+	request["loadLocalSave"] = false
+	request["initialSave"] = save.data.duplicate(true)
+	request["worldLevel"] = 1
+	request["accessibility"] = Dictionary(save.data["accessibility"]).duplicate(true)
+	request["accessibilityExplicit"] = true
+	NativeWorldState.stage_launch_request(request)
+
+func _publish_saved_smoke_marker() -> void:
+	if not NativeWorldState.release_smoke_enabled():
+		return
+	var save := GameSaveManager.new()
+	save.load_save()
+	JavaScriptBridge.eval(
+		"document.documentElement.dataset.eliSaveMarker = %s;" %
+		JSON.stringify(str(save.data.get("releaseSmokeMarker", "")))
+	)
 
 func _panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()

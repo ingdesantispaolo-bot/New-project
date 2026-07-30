@@ -6,7 +6,9 @@ import os from "node:os";
 import path from "node:path";
 import process from "node:process";
 
-const root = path.resolve(process.argv[2] ?? "artifacts/web-smoke-optimized");
+const root = path.resolve(process.argv[2] ?? "public/godot/outdoor");
+const outputRoot = path.resolve(process.argv[3] ?? "artifacts/web-smoke-current");
+const schoolProfile = process.argv.includes("--school-profile");
 const chromeCandidates = [
   process.env.ELI_CHROME,
   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
@@ -54,6 +56,21 @@ function startStaticServer() {
       const info = await stat(requestedPath);
       if (!info.isFile()) {
         response.writeHead(404).end("Not found");
+        return;
+      }
+      if (path.basename(requestedPath) === "index.html") {
+        const source = await readFile(requestedPath, "utf8");
+        const instrumented = source.replace(
+          '"args":[]',
+          '"args":["--eli-release-smoke"]',
+        );
+        const body = Buffer.from(instrumented, "utf8");
+        response.writeHead(200, {
+          "Cache-Control": "no-store",
+          "Content-Length": String(body.length),
+          "Content-Type": "text/html; charset=utf-8",
+        });
+        response.end(body);
         return;
       }
 
@@ -108,6 +125,7 @@ class Cdp {
         const waiter = this.pending.get(message.id);
         if (!waiter) return;
         this.pending.delete(message.id);
+        clearTimeout(waiter.timeoutId);
         if (message.error) waiter.reject(new Error(message.error.message));
         else waiter.resolve(message.result);
         return;
@@ -118,8 +136,14 @@ class Cdp {
 
   call(method, params = {}, sessionId = undefined) {
     const id = ++this.serial;
-    this.socket.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }));
-    return new Promise((resolve, reject) => this.pending.set(id, { resolve, reject }));
+    return new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        this.pending.delete(id);
+        reject(new Error(`DevTools non ha risposto a ${method} entro 30 secondi.`));
+      }, 30_000);
+      this.pending.set(id, { resolve, reject, timeoutId });
+      this.socket.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }));
+    });
   }
 
   on(method, listener) {
@@ -182,9 +206,37 @@ async function capture(cdp, sessionId, destination) {
   await writeFile(destination, Buffer.from(screenshot.data, "base64"));
 }
 
+async function collectRuntimeProfile(cdp, sessionId, label) {
+  const telemetry = await evaluate(
+    cdp,
+    sessionId,
+    "window.__eliTelemetry ? JSON.parse(JSON.stringify(window.__eliTelemetry)) : null",
+  );
+  const performanceMetrics = await cdp.call("Performance.getMetrics", {}, sessionId);
+  const heapUsage = await cdp.call("Runtime.getHeapUsage", {}, sessionId);
+  const metricMap = Object.fromEntries(
+    performanceMetrics.metrics.map(({ name, value }) => [name, value]),
+  );
+  const dom = await cdp.call("Memory.getDOMCounters", {}, sessionId);
+  return {
+    label,
+    telemetry,
+    browser: {
+      jsHeapUsedMiB: Math.round((metricMap.JSHeapUsedSize ?? 0) / 104857.6) / 10,
+      jsHeapTotalMiB: Math.round((metricMap.JSHeapTotalSize ?? 0) / 104857.6) / 10,
+      embedderHeapUsedMiB: Math.round((heapUsage.embedderHeapUsedSize ?? 0) / 104857.6) / 10,
+      backingStorageMiB: Math.round((heapUsage.backingStorageSize ?? 0) / 104857.6) / 10,
+      documents: dom.documents,
+      nodes: dom.nodes,
+      eventListeners: dom.jsEventListeners,
+    },
+  };
+}
+
 await access(path.join(root, "index.html"));
 await access(path.join(root, "index.pck"));
 await access(path.join(root, "index.wasm"));
+await mkdir(outputRoot, { recursive: true });
 
 const chromePath = await firstExisting(chromeCandidates);
 const server = await startStaticServer();
@@ -231,13 +283,25 @@ try {
   await cdp.call("Runtime.enable", {}, sessionId);
   await cdp.call("Log.enable", {}, sessionId);
   await cdp.call("Network.enable", {}, sessionId);
+  await cdp.call("Performance.enable", {}, sessionId);
   await cdp.call("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 }, sessionId);
+  if (schoolProfile) {
+    await cdp.call("Emulation.setCPUThrottlingRate", { rate: 4 }, sessionId);
+    await cdp.call("Network.emulateNetworkConditions", {
+      offline: false,
+      latency: 40,
+      downloadThroughput: 2_500_000,
+      uploadThroughput: 625_000,
+      connectionType: "wifi",
+    }, sessionId);
+  }
 
   const startedAt = performance.now();
+  const runtimeProfiles = [];
   await cdp.call("Page.navigate", { url: `http://127.0.0.1:${port}/index.html` }, sessionId);
   await waitForScene(cdp, sessionId, "boot", 60_000);
   const bootMs = Math.round(performance.now() - startedAt);
-  await capture(cdp, sessionId, path.join(root, "smoke-menu.png"));
+  await capture(cdp, sessionId, path.join(outputRoot, "smoke-menu.png"));
 
   const canvas = await evaluate(
     cdp,
@@ -269,7 +333,24 @@ try {
 
   const worldMs = Math.round(performance.now() - startedAt);
   await delay(2_000);
-  await capture(cdp, sessionId, path.join(root, "smoke-world.png"));
+  await capture(cdp, sessionId, path.join(outputRoot, "smoke-world.png"));
+  runtimeProfiles.push(await collectRuntimeProfile(cdp, sessionId, "world"));
+  const accessibility = await evaluate(
+    cdp,
+    sessionId,
+    "window.__eliAccessibility ? JSON.parse(JSON.stringify(window.__eliAccessibility)) : null",
+  );
+  if (!accessibility?.highContrast || !accessibility?.reducedMotion) {
+    throw new Error("Il profilo browser non ha applicato contrasto elevato e riduzione movimento.");
+  }
+  const audioAtWorld = await evaluate(
+    cdp,
+    sessionId,
+    "window.__eliAudioState ? JSON.parse(JSON.stringify(window.__eliAudioState)) : null",
+  );
+  if (!audioAtWorld?.musicPlaying || !audioAtWorld?.ambiencePlaying || audioAtWorld.playCount < 1) {
+    throw new Error("Musica, ambiente o feedback audio non risultano attivi dopo il gesto touch.");
+  }
 
   // Nel runtime live Esc imposta una rotta fisica verso la nave: non cambia
   // scena e attraversa quindi davvero corridoio sicuro, collisioni e streaming.
@@ -288,7 +369,7 @@ try {
   await delay(6_000);
 
   const actionX = canvas.left + canvas.width * 0.5;
-  const actionY = canvas.top + canvas.height * 0.91;
+  const actionY = canvas.top + canvas.height * 0.79;
   await cdp.call("Input.dispatchTouchEvent", {
     type: "touchStart",
     touchPoints: [{ x: actionX, y: actionY, radiusX: 2, radiusY: 2, force: 1 }],
@@ -318,7 +399,60 @@ try {
   }
   const shipMs = Math.round(performance.now() - startedAt);
   await delay(1_500);
-  await capture(cdp, sessionId, path.join(root, "smoke-ship.png"));
+  await capture(cdp, sessionId, path.join(outputRoot, "smoke-ship.png"));
+  runtimeProfiles.push(await collectRuntimeProfile(cdp, sessionId, "ship"));
+
+  const shipState = await evaluate(
+    cdp,
+    sessionId,
+    "window.__eliShipState ? JSON.parse(JSON.stringify(window.__eliShipState)) : null",
+  );
+  if (!shipState?.examReady) throw new Error("La fixture Web non rende disponibile l’esame.");
+  // Il Control vive in container annidati: Godot Web 4.7 può restituire un
+  // get_global_rect() verticale pre-layout errato. Il banco resta ancorato al
+  // fondo della scheda destra, quindi il rapporto di viewport è autoritativo.
+  const repairX = canvas.left + canvas.width * 0.87;
+  const repairY = canvas.top + canvas.height * 0.91;
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: repairX, y: repairY, radiusX: 2, radiusY: 2, force: 1 }],
+  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+  const examOpenDeadline = Date.now() + 8_000;
+  while (
+    Date.now() < examOpenDeadline
+    && await evaluate(cdp, sessionId, "document.documentElement.dataset.eliExam || ''") !== "open"
+  ) {
+    await delay(250);
+  }
+  if (await evaluate(cdp, sessionId, "document.documentElement.dataset.eliExam || ''") !== "open") {
+    throw new Error(
+      `Il touch sul banco nave non ha aperto l’esame: ${JSON.stringify({
+        shipState,
+        canvas,
+        repairX,
+        repairY,
+      })}`,
+    );
+  }
+  await capture(cdp, sessionId, path.join(outputRoot, "smoke-exam.png"));
+  const completeExamX = canvas.left + canvas.width * 0.5;
+  const completeExamY = canvas.top + canvas.height * 0.95;
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: completeExamX, y: completeExamY, radiusX: 2, radiusY: 2, force: 1 }],
+  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+  const examPassedDeadline = Date.now() + 15_000;
+  while (
+    Date.now() < examPassedDeadline
+    && await evaluate(cdp, sessionId, "document.documentElement.dataset.eliExam || ''") !== "passed"
+  ) {
+    await delay(250);
+  }
+  if (await evaluate(cdp, sessionId, "document.documentElement.dataset.eliExam || ''") !== "passed") {
+    throw new Error("L’esame di collaudo non ha completato la progressione.");
+  }
 
   // Il pulsante TORNA AL MONDO occupa l'estremità destra della barra superiore.
   const backX = canvas.left + canvas.width * 0.92;
@@ -331,36 +465,81 @@ try {
   await waitForScene(cdp, sessionId, "world", 12_000);
   const roundTripMs = Math.round(performance.now() - startedAt);
   await delay(1_500);
-  await capture(cdp, sessionId, path.join(root, "smoke-world-return.png"));
-
-  // Dal ritorno presso il portale, il comando in alto a destra guida alla
-  // missione più vicina. Il secondo tap usa il grande pulsante contestuale.
-  const guideX = canvas.left + canvas.width * 0.92;
-  const guideY = canvas.top + canvas.height * 0.04;
+  await capture(cdp, sessionId, path.join(outputRoot, "smoke-world-return.png"));
+  runtimeProfiles.push(await collectRuntimeProfile(cdp, sessionId, "world-return"));
+  const returnedState = await evaluate(
+    cdp,
+    sessionId,
+    "window.__eliAccessibility ? JSON.parse(JSON.stringify(window.__eliAccessibility)) : null",
+  );
+  if (returnedState?.worldLevel !== 2 || returnedState?.saveMarker !== "web-release-save-v1") {
+    throw new Error("Il ritorno post-esame non ha conservato mondo successivo e marcatore del save.");
+  }
+  // Tocca davvero il POI più vicino nella stessa trasformazione canvas usata
+  // dal giocatore; il grande pulsante contestuale conferma poi l'ingresso.
+  const missionPoint = returnedState.nearestMission;
+  if (!Number.isFinite(missionPoint?.x) || !Number.isFinite(missionPoint?.y)) {
+    throw new Error("Il mondo 2 non espone una missione disponibile al touch.");
+  }
+  const guideX = canvas.left
+    + missionPoint.x * (canvas.width / returnedState.viewportWidth);
+  const guideY = canvas.top
+    + missionPoint.y * (canvas.height / returnedState.viewportHeight);
   await cdp.call("Input.dispatchTouchEvent", {
     type: "touchStart",
     touchPoints: [{ x: guideX, y: guideY, radiusX: 2, radiusY: 2, force: 1 }],
   }, sessionId);
   await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
   await delay(6_000);
-  await cdp.call("Input.dispatchTouchEvent", {
-    type: "touchStart",
-    touchPoints: [{ x: actionX, y: actionY, radiusX: 2, radiusY: 2, force: 1 }],
-  }, sessionId);
-  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
-  const exerciseDeadline = Date.now() + 10_000;
   let exerciseFormat = "";
-  while (Date.now() < exerciseDeadline && exerciseFormat === "") {
-    exerciseFormat = await evaluate(
-      cdp,
-      sessionId,
-      "document.documentElement.dataset.eliExercise || ''",
-    );
-    if (exerciseFormat === "") await delay(250);
+  for (const actionRatio of [0.79, 0.82, 0.76]) {
+    const contextualY = canvas.top + canvas.height * actionRatio;
+    await cdp.call("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: actionX, y: contextualY, radiusX: 2, radiusY: 2, force: 1 }],
+    }, sessionId);
+    await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+    const attemptDeadline = Date.now() + 3_000;
+    while (Date.now() < attemptDeadline && exerciseFormat === "") {
+      exerciseFormat = await evaluate(
+        cdp,
+        sessionId,
+        "document.documentElement.dataset.eliExercise || ''",
+      );
+      if (exerciseFormat === "") await delay(250);
+    }
+    if (exerciseFormat !== "") break;
   }
   if (exerciseFormat === "") throw new Error("Il touch sul POI non ha aperto una missione variata.");
-  await delay(800);
-  await capture(cdp, sessionId, path.join(root, "smoke-exercise.png"));
+  await delay(2_000);
+  await capture(cdp, sessionId, path.join(outputRoot, "smoke-exercise.png"));
+  runtimeProfiles.push(await collectRuntimeProfile(cdp, sessionId, "exercise"));
+  await cdp.call("Emulation.setDeviceMetricsOverride", {
+    width: 1024,
+    height: 600,
+    deviceScaleFactor: 1,
+    mobile: true,
+    screenOrientation: { type: "landscapePrimary", angle: 90 },
+  }, sessionId);
+  await delay(700);
+  await capture(cdp, sessionId, path.join(outputRoot, "smoke-world-landscape.png"));
+  await cdp.call("Emulation.setDeviceMetricsOverride", {
+    width: 600,
+    height: 900,
+    deviceScaleFactor: 1,
+    mobile: true,
+    screenOrientation: { type: "portraitPrimary", angle: 0 },
+  }, sessionId);
+  await delay(700);
+  await capture(cdp, sessionId, path.join(outputRoot, "smoke-world-portrait.png"));
+  await cdp.call("Emulation.setDeviceMetricsOverride", {
+    width: 1280,
+    height: 720,
+    deviceScaleFactor: 1,
+    mobile: false,
+    screenOrientation: { type: "landscapePrimary", angle: 90 },
+  }, sessionId);
+  await delay(700);
 
   const timings = await evaluate(
     cdp,
@@ -378,24 +557,43 @@ try {
   if (!engineStarted) throw new Error("Il log del browser non conferma l'avvio del motore Godot.");
   if (exceptions.length > 0) throw new Error(`Eccezioni JavaScript: ${exceptions.join(" | ")}`);
 
+  await cdp.call("Page.reload", { ignoreCache: true }, sessionId);
+  await waitForScene(cdp, sessionId, "boot", 60_000);
+  const persistedSaveMarker = await evaluate(
+    cdp,
+    sessionId,
+    "document.documentElement.dataset.eliSaveMarker || ''",
+  );
+  if (persistedSaveMarker !== "web-release-save-v1") {
+    throw new Error("Il save Web non è sopravvissuto al reload completo della pagina.");
+  }
+
   const report = {
     ok: true,
+    profileMode: schoolProfile ? "school-simulated" : "native",
+    cpuThrottle: schoolProfile ? 4 : 1,
+    networkProfile: schoolProfile ? "20 Mbps down / 5 Mbps up / 40 ms" : "local",
     browser: chromePath,
     bootMs,
     worldMs,
     shipMs,
     roundTripMs,
-    touchNavigation: "boot -> world -> ship -> world",
+    touchNavigation: "boot -> world -> ship -> exam -> world 2 -> exercise",
     shipEntry,
     exerciseFormat,
+    accessibility,
+    audioAtWorld,
+    persistedSaveMarker,
     resources: timings,
+    runtimeProfiles,
     consoleErrors: consoleMessages.filter((line) => /^error:/i.test(line)),
   };
-  await writeFile(path.join(root, "web-smoke-report.json"), `${JSON.stringify(report, null, 2)}\n`);
+  await writeFile(path.join(outputRoot, "web-smoke-report.json"), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report, null, 2));
 } finally {
   if (socket?.readyState === WebSocket.OPEN) socket.close();
   browser.kill();
+  server.closeAllConnections?.();
   await new Promise((resolve) => server.close(resolve));
   const tempRoot = path.resolve(os.tmpdir());
   const resolvedProfile = path.resolve(profileDir);

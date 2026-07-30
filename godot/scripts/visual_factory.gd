@@ -18,33 +18,37 @@ const TREASURE_TEXTURE: Texture2D = preload("res://assets/academy-treasure.svg")
 const ENCOUNTER_TEXTURE: Texture2D = preload("res://assets/academy-encounter.svg")
 const OUTDOOR_SHEET: Texture2D = preload("res://assets/outdoor-world-sheet.png")
 const PLAYER_SHEET: Texture2D = preload("res://assets/eli-adventure-girl-sheet-v2.png")
-const ACADEMY_NATURAL_ATLAS: Texture2D = preload("res://assets/radura-academia-natural-atlas-v2.png")
-const WILD_NATURAL_ATLAS: Texture2D = preload("res://assets/bosco-variabile-natural-atlas-v2.png")
-const GEO_NATURAL_ATLAS: Texture2D = preload("res://assets/dorsale-geografica-natural-atlas-v2.png")
-const LOGIC_NATURAL_ATLAS: Texture2D = preload("res://assets/cratere-logico-natural-atlas-v2.png")
+const NATURAL_ATLAS_PATHS := {
+	"academy": "res://assets/radura-academia-natural-atlas-v2.png",
+	"wild": "res://assets/bosco-variabile-natural-atlas-v2.png",
+	"geo": "res://assets/dorsale-geografica-natural-atlas-v2.png",
+	"logic": "res://assets/cratere-logico-natural-atlas-v2.png",
+}
 const NATURAL_DETAIL_ATLAS: Texture2D = preload("res://assets/natural-detail-atlas-v1.png")
-const CYCLE_MACHINE_TEXTURE: Texture2D = preload("res://assets/cratere-cycle-machine-v1.png")
-const RADIO_LIGHTHOUSE_TEXTURE: Texture2D = preload("res://assets/baia-radio-lighthouse-v1.png")
-const MOTION_LEVER_TEXTURE: Texture2D = preload("res://assets/officine-grande-leva-v1.png")
-const RESONANT_TREE_TEXTURE: Texture2D = preload("res://assets/giardino-albero-risonante-v1.png")
-const GLYPH_ARCH_TEXTURE: Texture2D = preload("res://assets/rovine-arco-glifi-v1.png")
-const CIRCUIT_NODE_TEXTURE: Texture2D = preload("res://assets/delta-nodo-centrale-v1.png")
-const CARTOGRAPHY_TOWER_TEXTURE: Texture2D = preload("res://assets/arcipelago-torre-cartografica-v1.png")
-const LIVING_DOME_TEXTURE: Texture2D = preload("res://assets/serra-cupola-vivente-v1.png")
-const PACT_PALACE_TEXTURE: Texture2D = preload("res://assets/citta-palazzo-patti-v1.png")
-const LABYRINTH_HEART_TEXTURE: Texture2D = preload("res://assets/labirinto-cuore-regole-v1.png")
-const ORBITAL_OBSERVATORY_TEXTURE: Texture2D = preload("res://assets/deserto-osservatorio-v1.png")
-const HALL_OF_VOICES_TEXTURE: Texture2D = preload("res://assets/biblioteca-sala-voci-v1.png")
-const CONTROL_TOWER_TEXTURE: Texture2D = preload("res://assets/citta-torre-controllo-v1.png")
-const LANGUAGE_GATE_TEXTURE: Texture2D = preload("res://assets/frontiera-porta-lingue-v1.png")
-const UNDERWATER_CATHEDRAL_TEXTURE: Texture2D = preload("res://assets/oceano-cattedrale-sottomarina-v1.png")
-const GRAND_ORGAN_TEXTURE: Texture2D = preload("res://assets/cattedrale-grande-organo-v1.png")
-const ROOT_TREE_TEXTURE: Texture2D = preload("res://assets/necropoli-albero-radici-v1.png")
-const FIELD_TOWER_TEXTURE: Texture2D = preload("res://assets/tempesta-torre-campo-v1.png")
-const TECTONIC_PILLAR_TEXTURE: Texture2D = preload("res://assets/atlante-pilastro-tettonico-v1.png")
-const LIVING_CORE_TEXTURE: Texture2D = preload("res://assets/biosfera-nucleo-vivente-v1.png")
-const COUNCIL_HALL_TEXTURE: Texture2D = preload("res://assets/concilio-sala-concilio-v1.png")
-const FIRST_HEART_TEXTURE: Texture2D = preload("res://assets/cuore-primi-landmark-v1.png")
+const LANDMARK_TEXTURE_PATHS := {
+	"cycle_machine": "res://assets/cratere-cycle-machine-v1.png",
+	"radio_lighthouse": "res://assets/baia-radio-lighthouse-v1.png",
+	"motion_lever": "res://assets/officine-grande-leva-v1.png",
+	"resonant_tree": "res://assets/giardino-albero-risonante-v1.png",
+	"glyph_arch": "res://assets/rovine-arco-glifi-v1.png",
+	"circuit_node": "res://assets/delta-nodo-centrale-v1.png",
+	"cartography_tower": "res://assets/arcipelago-torre-cartografica-v1.png",
+	"living_dome": "res://assets/serra-cupola-vivente-v1.png",
+	"pact_palace": "res://assets/citta-palazzo-patti-v1.png",
+	"labyrinth_heart": "res://assets/labirinto-cuore-regole-v1.png",
+	"orbital_observatory": "res://assets/deserto-osservatorio-v1.png",
+	"hall_of_voices": "res://assets/biblioteca-sala-voci-v1.png",
+	"control_tower": "res://assets/citta-torre-controllo-v1.png",
+	"language_gate": "res://assets/frontiera-porta-lingue-v1.png",
+	"underwater_cathedral": "res://assets/oceano-cattedrale-sottomarina-v1.png",
+	"grand_organ": "res://assets/cattedrale-grande-organo-v1.png",
+	"root_tree": "res://assets/necropoli-albero-radici-v1.png",
+	"field_tower": "res://assets/tempesta-torre-campo-v1.png",
+	"tectonic_pillar": "res://assets/atlante-pilastro-tettonico-v1.png",
+	"living_core": "res://assets/biosfera-nucleo-vivente-v1.png",
+	"council_hall": "res://assets/concilio-sala-concilio-v1.png",
+	"first_heart": "res://assets/cuore-primi-landmark-v1.png",
+}
 
 const NATURAL_DETAIL_CELLS := {
 	"reeds": Vector2i(0, 0), "cattails": Vector2i(1, 0),
@@ -67,6 +71,26 @@ const ENCOUNTER_COLORS := {
 
 static var _glow_texture: Texture2D
 static var _add_material: CanvasItemMaterial
+static var _landmark_texture_cache: Dictionary = {}
+static var _natural_atlas_cache: Dictionary = {}
+
+static func _landmark_texture(asset_id: String) -> Texture2D:
+	var path := str(LANDMARK_TEXTURE_PATHS.get(asset_id, ""))
+	if path.is_empty():
+		push_error("Landmark texture sconosciuta: %s" % asset_id)
+		return OUTDOOR_SHEET
+	if not _landmark_texture_cache.has(path):
+		_landmark_texture_cache[path] = ResourceLoader.load(path, "Texture2D")
+	return _landmark_texture_cache[path] as Texture2D
+
+static func _natural_atlas(biome_id: String) -> Texture2D:
+	var path := str(NATURAL_ATLAS_PATHS.get(biome_id, ""))
+	if path.is_empty():
+		push_error("Atlante naturale sconosciuto: %s" % biome_id)
+		return OUTDOOR_SHEET
+	if not _natural_atlas_cache.has(path):
+		_natural_atlas_cache[path] = ResourceLoader.load(path, "Texture2D")
+	return _natural_atlas_cache[path] as Texture2D
 
 static func outdoor_sprite(frame_name: String, target_size: Vector2, y: float = 0.0) -> Sprite2D:
 	var regions := {
@@ -91,7 +115,7 @@ static func outdoor_sprite(frame_name: String, target_size: Vector2, y: float = 
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	return sprite
 
-static func player_sprite(target_size: Vector2 = Vector2(72, 72)) -> Sprite2D:
+static func player_sprite(target_size: Vector2 = Vector2(84, 84)) -> Sprite2D:
 	var atlas := AtlasTexture.new()
 	atlas.atlas = PLAYER_SHEET
 	atlas.region = Rect2(0, 0, 96, 96)
@@ -99,14 +123,15 @@ static func player_sprite(target_size: Vector2 = Vector2(72, 72)) -> Sprite2D:
 	sprite.name = "EliSprite"
 	sprite.texture = atlas
 	sprite.scale = target_size / atlas.region.size
-	sprite.position = Vector2(0, -17)
+	sprite.position = Vector2(0, -21)
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	return sprite
 
 static func natural_atlas_sprite(texture: Texture2D, cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
 	var atlas := AtlasTexture.new()
 	atlas.atlas = texture
-	atlas.region = Rect2(cell.x * 362, cell.y * 362, 362, 362)
+	var cell_size := texture.get_size().x / 4.0
+	atlas.region = Rect2(Vector2(cell) * cell_size, Vector2.ONE * cell_size)
 	var sprite := Sprite2D.new()
 	sprite.texture = atlas
 	sprite.position.y = y
@@ -115,16 +140,16 @@ static func natural_atlas_sprite(texture: Texture2D, cell: Vector2i, target_size
 	return sprite
 
 static func academy_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
-	return natural_atlas_sprite(ACADEMY_NATURAL_ATLAS, cell, target_size, y)
+	return natural_atlas_sprite(_natural_atlas("academy"), cell, target_size, y)
 
 static func wild_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
-	return natural_atlas_sprite(WILD_NATURAL_ATLAS, cell, target_size, y)
+	return natural_atlas_sprite(_natural_atlas("wild"), cell, target_size, y)
 
 static func geo_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
-	return natural_atlas_sprite(GEO_NATURAL_ATLAS, cell, target_size, y)
+	return natural_atlas_sprite(_natural_atlas("geo"), cell, target_size, y)
 
 static func logic_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
-	return natural_atlas_sprite(LOGIC_NATURAL_ATLAS, cell, target_size, y)
+	return natural_atlas_sprite(_natural_atlas("logic"), cell, target_size, y)
 
 static func natural_detail_sprite(kind: String, target_size: Vector2, y: float = 0.0) -> Sprite2D:
 	if not NATURAL_DETAIL_CELLS.has(kind):
@@ -1214,46 +1239,45 @@ static func build_identity_prop(kind: String, _theme: String, variant: float = 0
 			pollen.add_to_group("night_glow")
 			root.add_child(pollen)
 			attach_anim(pollen, "pulse", 1.1 + variant * 0.3, 0.80)
-		"pact_column":
+		"source_stele":
 			root.add_child(make_shadow(31, 11, 0.30, 7))
 			root.add_child(make_polygon(PackedVector2Array([
 				Vector2(-20, 3), Vector2(-17, -93), Vector2(17, -93), Vector2(20, 3),
-			]), Color("c9a675")))
+			]), Color("b99461")))
 			for y in [-78.0, -48.0, -18.0]:
-				var civic_band := Line2D.new()
-				civic_band.points = PackedVector2Array([Vector2(-14, y), Vector2(14, y)])
-				civic_band.width = 4.0
-				civic_band.default_color = Color("3c8791")
-				root.add_child(civic_band)
-			var pact_glow := make_glow(17, Color("f3c45f"), 0.76)
-			pact_glow.position = Vector2(0, -98)
-			pact_glow.add_to_group("night_glow")
-			root.add_child(pact_glow)
-		"civic_kiosk":
+				var source_mark := Line2D.new()
+				source_mark.points = PackedVector2Array([Vector2(-12, y), Vector2(12, y)])
+				source_mark.width = 3.0
+				source_mark.default_color = Color("4b7f86") if y == -48.0 else Color("d6aa5c")
+				root.add_child(source_mark)
+			var source_glow := make_glow(17, Color("f3b84f"), 0.76)
+			source_glow.position = Vector2(0, -98)
+			source_glow.add_to_group("night_glow")
+			root.add_child(source_glow)
+		"timeline_relay":
 			root.add_child(make_shadow(47, 14, 0.30, 7))
-			root.add_child(make_polygon(PackedVector2Array([
-				Vector2(-39, 2), Vector2(-35, -50), Vector2(35, -50), Vector2(39, 2),
-			]), Color("b38a5f")))
-			root.add_child(make_polygon(PackedVector2Array([
-				Vector2(-48, -52), Vector2(0, -76), Vector2(48, -52), Vector2(39, -42), Vector2(-39, -42),
-			]), Color("b85f43")))
-			for x in [-20.0, 0.0, 20.0]:
-				var service_light := make_glow(8, Color("64d4d3"), 0.68)
-				service_light.position = Vector2(x, -28)
-				service_light.add_to_group("night_glow")
-				root.add_child(service_light)
-		"service_pavilion":
+			var timeline := Line2D.new()
+			timeline.points = PackedVector2Array([Vector2(-42, -24), Vector2(42, -24)])
+			timeline.width = 6.0
+			timeline.default_color = Color("c59648")
+			root.add_child(timeline)
+			for x in [-36.0, -18.0, 0.0, 18.0, 36.0]:
+				var era_node := make_glow(8, Color("ffc35a") if x <= 0.0 else Color("66ced0"), 0.78)
+				era_node.position = Vector2(x, -24)
+				era_node.add_to_group("night_glow")
+				root.add_child(era_node)
+		"artifact_table":
 			root.add_child(make_shadow(58, 16, 0.32, 8))
 			root.add_child(make_polygon(PackedVector2Array([
-				Vector2(-52, 3), Vector2(-47, -63), Vector2(47, -63), Vector2(52, 3),
-			]), Color("c8a276")))
-			root.add_child(make_polygon(PackedVector2Array([
-				Vector2(-61, -65), Vector2(0, -94), Vector2(61, -65), Vector2(50, -54), Vector2(-50, -54),
-			]), Color("a95640")))
+				Vector2(-54, 3), Vector2(-48, -28), Vector2(48, -28), Vector2(54, 3),
+			]), Color("8c623f")))
 			for x in [-31.0, 0.0, 31.0]:
-				root.add_child(make_polygon(PackedVector2Array([
-					Vector2(x - 8, -48), Vector2(x + 8, -48), Vector2(x + 8, -12), Vector2(x - 8, -12),
-				]), Color("256975")))
+				var artifact_color := Color("d3a45b") if x < 0.0 else Color("5c9da1") if x > 0.0 else Color("c8b17b")
+				root.add_child(make_polygon(ellipse_polygon(11, 7, 14), artifact_color, Vector2(x, -34)))
+			var archive_light := make_glow(18, Color("f4bd5e"), 0.54)
+			archive_light.position = Vector2(0, -34)
+			archive_light.add_to_group("night_glow")
+			root.add_child(archive_light)
 		"moving_wall":
 			root.add_child(make_shadow(55, 14, 0.38, 8))
 			root.add_child(make_polygon(PackedVector2Array([
@@ -1566,25 +1590,25 @@ static func build_identity_prop(kind: String, _theme: String, variant: float = 0
 			bio_core.position = Vector2(0, -26)
 			bio_core.add_to_group("night_glow")
 			root.add_child(bio_core)
-		"colony_pod", "commons_terminal", "accord_beacon":
-			var civic_width := 36.0 if kind == "colony_pod" else 45.0 if kind == "commons_terminal" else 27.0
-			root.add_child(make_shadow(civic_width, 11, 0.31, 7))
+		"roman_archive_pod", "medieval_archive_pod", "causality_terminal", "era_beacon":
+			var archive_width := 36.0 if kind.ends_with("_pod") else 45.0 if kind == "causality_terminal" else 27.0
+			var era_color := Color("d38a4a") if kind == "roman_archive_pod" else Color("698dcc") if kind == "medieval_archive_pod" else Color("e7b95e")
+			root.add_child(make_shadow(archive_width, 11, 0.31, 7))
 			root.add_child(make_polygon(PackedVector2Array([
-				Vector2(-civic_width, 3), Vector2(-civic_width * 0.75, -48),
-				Vector2(0, -68), Vector2(civic_width * 0.75, -48), Vector2(civic_width, 3),
-			]), Color("d2d1c8")))
-			var civic_window := make_polygon(ellipse_polygon(civic_width * 0.58, 20, 24), Color("23658a"), Vector2(0, -34))
-			root.add_child(civic_window)
-			var accord_light := make_glow(15, Color("71e2ef"), 0.82)
-			accord_light.position = Vector2(0, -37)
-			accord_light.add_to_group("night_glow")
-			root.add_child(accord_light)
-			for civic_side in [-1.0, 1.0]:
-				var civic_trim := Line2D.new()
-				civic_trim.points = PackedVector2Array([Vector2(civic_side * civic_width * 0.72, -5), Vector2(civic_side * civic_width * 0.48, -48)])
-				civic_trim.width = 3.0
-				civic_trim.default_color = Color("d8ac58")
-				root.add_child(civic_trim)
+				Vector2(-archive_width, 3), Vector2(-archive_width * 0.75, -48),
+				Vector2(0, -68), Vector2(archive_width * 0.75, -48), Vector2(archive_width, 3),
+			]), Color("d2cec2")))
+			var archive_window := make_polygon(ellipse_polygon(archive_width * 0.58, 20, 24), era_color.darkened(0.34), Vector2(0, -34))
+			root.add_child(archive_window)
+			for ring_radius in [archive_width * 0.34, archive_width * 0.58]:
+				var chronology_ring := make_ring(ring_radius, Color(era_color, 0.72), 2.2, 24)
+				chronology_ring.scale.y = 0.42
+				chronology_ring.position = Vector2(0, -35)
+				root.add_child(chronology_ring)
+			var era_light := make_glow(15, era_color.lightened(0.18), 0.82)
+			era_light.position = Vector2(0, -37)
+			era_light.add_to_group("night_glow")
+			root.add_child(era_light)
 		"system_pylon", "convergence_relay", "synthesis_anchor":
 			var system_palette := [
 				Color("f5c85b"), Color("ed8878"), Color("55a8ef"), Color("63d9e6"),
@@ -1626,9 +1650,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"cycleMachine":
 			var cycle_sprite := Sprite2D.new()
 			cycle_sprite.name = "LandmarkCycleMachineArt"
-			cycle_sprite.texture = CYCLE_MACHINE_TEXTURE
+			cycle_sprite.texture = _landmark_texture("cycle_machine")
 			cycle_sprite.position = Vector2(0, -66)
-			cycle_sprite.scale = Vector2(205, 164) / CYCLE_MACHINE_TEXTURE.get_size()
+			cycle_sprite.scale = Vector2(205, 164) / cycle_sprite.texture.get_size()
 			cycle_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(cycle_sprite)
 			var axle := make_glow(30, accent.lightened(0.18), 0.72)
@@ -1639,9 +1663,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"signalLighthouse":
 			var lighthouse_sprite := Sprite2D.new()
 			lighthouse_sprite.name = "LandmarkSignalLighthouseArt"
-			lighthouse_sprite.texture = RADIO_LIGHTHOUSE_TEXTURE
+			lighthouse_sprite.texture = _landmark_texture("radio_lighthouse")
 			lighthouse_sprite.position = Vector2(0, -109)
-			lighthouse_sprite.scale = Vector2(150, 225) / RADIO_LIGHTHOUSE_TEXTURE.get_size()
+			lighthouse_sprite.scale = Vector2(150, 225) / lighthouse_sprite.texture.get_size()
 			lighthouse_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(lighthouse_sprite)
 			var beam := make_polygon(PackedVector2Array([
@@ -1662,9 +1686,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"motionLever":
 			var lever_sprite := Sprite2D.new()
 			lever_sprite.name = "LandmarkMotionLeverArt"
-			lever_sprite.texture = MOTION_LEVER_TEXTURE
+			lever_sprite.texture = _landmark_texture("motion_lever")
 			lever_sprite.position = Vector2(0, -101)
-			lever_sprite.scale = Vector2(205, 205) / MOTION_LEVER_TEXTURE.get_size()
+			lever_sprite.scale = Vector2(205, 205) / lever_sprite.texture.get_size()
 			lever_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(lever_sprite)
 			var fulcrum := make_glow(31, Color("ffad55"), 0.78)
@@ -1675,9 +1699,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"resonantTree":
 			var tree_sprite := Sprite2D.new()
 			tree_sprite.name = "LandmarkResonantTreeArt"
-			tree_sprite.texture = RESONANT_TREE_TEXTURE
+			tree_sprite.texture = _landmark_texture("resonant_tree")
 			tree_sprite.position = Vector2(0, -117)
-			tree_sprite.scale = Vector2(185, 220) / RESONANT_TREE_TEXTURE.get_size()
+			tree_sprite.scale = Vector2(185, 220) / tree_sprite.texture.get_size()
 			tree_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(tree_sprite)
 			for radius in [42.0, 66.0, 89.0]:
@@ -1689,9 +1713,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"glyphArch":
 			var arch_sprite := Sprite2D.new()
 			arch_sprite.name = "LandmarkGlyphArchArt"
-			arch_sprite.texture = GLYPH_ARCH_TEXTURE
+			arch_sprite.texture = _landmark_texture("glyph_arch")
 			arch_sprite.position = Vector2(0, -84)
-			arch_sprite.scale = Vector2(250, 167) / GLYPH_ARCH_TEXTURE.get_size()
+			arch_sprite.scale = Vector2(250, 167) / arch_sprite.texture.get_size()
 			arch_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(arch_sprite)
 			var glyph_aura := make_glow(38, Color("70bde7"), 0.46)
@@ -1702,9 +1726,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"circuitNode":
 			var node_sprite := Sprite2D.new()
 			node_sprite.name = "LandmarkCircuitNodeArt"
-			node_sprite.texture = CIRCUIT_NODE_TEXTURE
+			node_sprite.texture = _landmark_texture("circuit_node")
 			node_sprite.position = Vector2(0, -116)
-			node_sprite.scale = Vector2(210, 220) / CIRCUIT_NODE_TEXTURE.get_size()
+			node_sprite.scale = Vector2(210, 220) / node_sprite.texture.get_size()
 			node_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(node_sprite)
 			var node_core := make_glow(35, Color("5ffff0"), 0.96)
@@ -1715,9 +1739,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"cartographyTower":
 			var tower_sprite := Sprite2D.new()
 			tower_sprite.name = "LandmarkCartographyTowerArt"
-			tower_sprite.texture = CARTOGRAPHY_TOWER_TEXTURE
+			tower_sprite.texture = _landmark_texture("cartography_tower")
 			tower_sprite.position = Vector2(0, -119)
-			tower_sprite.scale = Vector2(178, 225) / CARTOGRAPHY_TOWER_TEXTURE.get_size()
+			tower_sprite.scale = Vector2(178, 225) / tower_sprite.texture.get_size()
 			tower_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(tower_sprite)
 			for radius in [46.0, 72.0, 98.0]:
@@ -1729,9 +1753,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"livingDome":
 			var dome_sprite := Sprite2D.new()
 			dome_sprite.name = "LandmarkLivingDomeArt"
-			dome_sprite.texture = LIVING_DOME_TEXTURE
+			dome_sprite.texture = _landmark_texture("living_dome")
 			dome_sprite.position = Vector2(0, -101)
-			dome_sprite.scale = Vector2(250, 180) / LIVING_DOME_TEXTURE.get_size()
+			dome_sprite.scale = Vector2(250, 180) / dome_sprite.texture.get_size()
 			dome_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(dome_sprite)
 			var life_core := make_glow(38, Color("72f0c4"), 0.70)
@@ -1739,25 +1763,30 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 			life_core.add_to_group("night_glow")
 			root.add_child(life_core)
 			attach_anim(life_core, "pulse", 1.0, 0.86)
-		"pactPalace":
+		"timeThreshold":
 			var palace_sprite := Sprite2D.new()
-			palace_sprite.name = "LandmarkPactPalaceArt"
-			palace_sprite.texture = PACT_PALACE_TEXTURE
+			palace_sprite.name = "LandmarkTimeThresholdArt"
+			palace_sprite.texture = _landmark_texture("pact_palace")
 			palace_sprite.position = Vector2(0, -103)
-			palace_sprite.scale = Vector2(235, 208) / PACT_PALACE_TEXTURE.get_size()
+			palace_sprite.scale = Vector2(235, 208) / palace_sprite.texture.get_size()
 			palace_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(palace_sprite)
-			var consensus := make_glow(29, Color("f3c35d"), 0.78)
-			consensus.position = Vector2(0, -111)
-			consensus.add_to_group("night_glow")
-			root.add_child(consensus)
-			attach_anim(consensus, "pulse", 0.95, 0.80)
+			for radius in [34.0, 55.0, 76.0]:
+				var era_ring := make_ring(radius, Color("f3b84f", 0.28), 2.0, 30)
+				era_ring.scale.y = 0.32
+				era_ring.position = Vector2(0, -111)
+				root.add_child(era_ring)
+			var chronology := make_glow(29, Color("f3b84f"), 0.78)
+			chronology.position = Vector2(0, -111)
+			chronology.add_to_group("night_glow")
+			root.add_child(chronology)
+			attach_anim(chronology, "pulse", 0.95, 0.80)
 		"labyrinthHeart":
 			var heart_sprite := Sprite2D.new()
 			heart_sprite.name = "LandmarkLabyrinthHeartArt"
-			heart_sprite.texture = LABYRINTH_HEART_TEXTURE
+			heart_sprite.texture = _landmark_texture("labyrinth_heart")
 			heart_sprite.position = Vector2(0, -108)
-			heart_sprite.scale = Vector2(230, 220) / LABYRINTH_HEART_TEXTURE.get_size()
+			heart_sprite.scale = Vector2(230, 220) / heart_sprite.texture.get_size()
 			heart_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(heart_sprite)
 			var logic_core := make_glow(33, Color("8edbff"), 0.90)
@@ -1768,9 +1797,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"orbitalObservatory":
 			var observatory_sprite := Sprite2D.new()
 			observatory_sprite.name = "LandmarkOrbitalObservatoryArt"
-			observatory_sprite.texture = ORBITAL_OBSERVATORY_TEXTURE
+			observatory_sprite.texture = _landmark_texture("orbital_observatory")
 			observatory_sprite.position = Vector2(0, -110)
-			observatory_sprite.scale = Vector2(240, 210) / ORBITAL_OBSERVATORY_TEXTURE.get_size()
+			observatory_sprite.scale = Vector2(240, 210) / observatory_sprite.texture.get_size()
 			observatory_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(observatory_sprite)
 			for observatory_radius in [48.0, 76.0, 104.0]:
@@ -1782,9 +1811,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"hallOfVoices":
 			var voices_sprite := Sprite2D.new()
 			voices_sprite.name = "LandmarkHallOfVoicesArt"
-			voices_sprite.texture = HALL_OF_VOICES_TEXTURE
+			voices_sprite.texture = _landmark_texture("hall_of_voices")
 			voices_sprite.position = Vector2(0, -104)
-			voices_sprite.scale = Vector2(250, 202) / HALL_OF_VOICES_TEXTURE.get_size()
+			voices_sprite.scale = Vector2(250, 202) / voices_sprite.texture.get_size()
 			voices_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(voices_sprite)
 			for voices_radius in [46.0, 70.0, 94.0]:
@@ -1796,9 +1825,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"controlTower":
 			var control_sprite := Sprite2D.new()
 			control_sprite.name = "LandmarkControlTowerArt"
-			control_sprite.texture = CONTROL_TOWER_TEXTURE
+			control_sprite.texture = _landmark_texture("control_tower")
 			control_sprite.position = Vector2(0, -122)
-			control_sprite.scale = Vector2(205, 230) / CONTROL_TOWER_TEXTURE.get_size()
+			control_sprite.scale = Vector2(205, 230) / control_sprite.texture.get_size()
 			control_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(control_sprite)
 			var control_core := make_glow(35, Color("52f2df"), 0.92)
@@ -1809,9 +1838,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"languageGate":
 			var language_sprite := Sprite2D.new()
 			language_sprite.name = "LandmarkLanguageGateArt"
-			language_sprite.texture = LANGUAGE_GATE_TEXTURE
+			language_sprite.texture = _landmark_texture("language_gate")
 			language_sprite.position = Vector2(0, -102)
-			language_sprite.scale = Vector2(245, 205) / LANGUAGE_GATE_TEXTURE.get_size()
+			language_sprite.scale = Vector2(245, 205) / language_sprite.texture.get_size()
 			language_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(language_sprite)
 			var exchange_core := make_glow(31, Color("62dad2"), 0.78)
@@ -1822,9 +1851,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"underwaterCathedral":
 			var cathedral_sprite := Sprite2D.new()
 			cathedral_sprite.name = "LandmarkUnderwaterCathedralArt"
-			cathedral_sprite.texture = UNDERWATER_CATHEDRAL_TEXTURE
+			cathedral_sprite.texture = _landmark_texture("underwater_cathedral")
 			cathedral_sprite.position = Vector2(0, -133)
-			cathedral_sprite.scale = Vector2(252, 252) / UNDERWATER_CATHEDRAL_TEXTURE.get_size()
+			cathedral_sprite.scale = Vector2(252, 252) / cathedral_sprite.texture.get_size()
 			cathedral_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(cathedral_sprite)
 			for current_radius in [45.0, 69.0, 93.0]:
@@ -1835,9 +1864,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"grandOrgan":
 			var organ_sprite := Sprite2D.new()
 			organ_sprite.name = "LandmarkGrandOrganArt"
-			organ_sprite.texture = GRAND_ORGAN_TEXTURE
+			organ_sprite.texture = _landmark_texture("grand_organ")
 			organ_sprite.position = Vector2(0, -139)
-			organ_sprite.scale = Vector2(245, 245) / GRAND_ORGAN_TEXTURE.get_size()
+			organ_sprite.scale = Vector2(245, 245) / organ_sprite.texture.get_size()
 			organ_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(organ_sprite)
 			for echo_radius in [48.0, 72.0, 96.0]:
@@ -1848,9 +1877,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"rootTree":
 			var root_tree_sprite := Sprite2D.new()
 			root_tree_sprite.name = "LandmarkRootTreeArt"
-			root_tree_sprite.texture = ROOT_TREE_TEXTURE
+			root_tree_sprite.texture = _landmark_texture("root_tree")
 			root_tree_sprite.position = Vector2(0, -138)
-			root_tree_sprite.scale = Vector2(260, 260) / ROOT_TREE_TEXTURE.get_size()
+			root_tree_sprite.scale = Vector2(260, 260) / root_tree_sprite.texture.get_size()
 			root_tree_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(root_tree_sprite)
 			for root_angle in [-0.65, -0.22, 0.22, 0.65]:
@@ -1862,9 +1891,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"fieldTower":
 			var tower_sprite := Sprite2D.new()
 			tower_sprite.name = "LandmarkFieldTowerArt"
-			tower_sprite.texture = FIELD_TOWER_TEXTURE
+			tower_sprite.texture = _landmark_texture("field_tower")
 			tower_sprite.position = Vector2(0, -145)
-			tower_sprite.scale = Vector2(242, 242) / FIELD_TOWER_TEXTURE.get_size()
+			tower_sprite.scale = Vector2(242, 242) / tower_sprite.texture.get_size()
 			tower_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(tower_sprite)
 			for field_radius in [42.0, 68.0, 94.0]:
@@ -1876,9 +1905,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"tectonicPillar":
 			var tectonic_sprite := Sprite2D.new()
 			tectonic_sprite.name = "LandmarkTectonicPillarArt"
-			tectonic_sprite.texture = TECTONIC_PILLAR_TEXTURE
+			tectonic_sprite.texture = _landmark_texture("tectonic_pillar")
 			tectonic_sprite.position = Vector2(0, -125)
-			tectonic_sprite.scale = Vector2(220, 220) / TECTONIC_PILLAR_TEXTURE.get_size()
+			tectonic_sprite.scale = Vector2(220, 220) / tectonic_sprite.texture.get_size()
 			tectonic_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(tectonic_sprite)
 			for fault_angle in [-0.72, -0.24, 0.24, 0.72]:
@@ -1890,9 +1919,9 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"livingCore":
 			var living_sprite := Sprite2D.new()
 			living_sprite.name = "LandmarkLivingCoreArt"
-			living_sprite.texture = LIVING_CORE_TEXTURE
+			living_sprite.texture = _landmark_texture("living_core")
 			living_sprite.position = Vector2(0, -138)
-			living_sprite.scale = Vector2(252, 252) / LIVING_CORE_TEXTURE.get_size()
+			living_sprite.scale = Vector2(252, 252) / living_sprite.texture.get_size()
 			living_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(living_sprite)
 			for pulse_radius in [43.0, 67.0, 91.0]:
@@ -1901,25 +1930,30 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 				life_pulse.position = Vector2(0, -103)
 				root.add_child(life_pulse)
 				attach_anim(life_pulse, "pulse", 0.76 + pulse_radius * 0.004, 0.62)
-		"councilHall":
+		"hallOfEras":
 			var council_sprite := Sprite2D.new()
-			council_sprite.name = "LandmarkCouncilHallArt"
-			council_sprite.texture = COUNCIL_HALL_TEXTURE
+			council_sprite.name = "LandmarkHallOfErasArt"
+			council_sprite.texture = _landmark_texture("council_hall")
 			council_sprite.position = Vector2(0, -140)
-			council_sprite.scale = Vector2(252, 252) / COUNCIL_HALL_TEXTURE.get_size()
+			council_sprite.scale = Vector2(252, 252) / council_sprite.texture.get_size()
 			council_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(council_sprite)
-			for accord_radius in [47.0, 72.0, 97.0]:
-				var accord_ring := make_ring(accord_radius, Color("efc56c", 0.24), 2.0, 36)
-				accord_ring.scale.y = 0.30
-				accord_ring.position = Vector2(0, -92)
-				root.add_child(accord_ring)
+			for index in range(5):
+				var time_link := make_glow(10, Color("e0a75a") if index < 2 else Color("6f9ddd"), 0.72)
+				time_link.position = Vector2(-48.0 + float(index) * 24.0, -104)
+				time_link.add_to_group("night_glow")
+				root.add_child(time_link)
+			var era_core := make_glow(35, Color("e8c16b"), 0.82)
+			era_core.position = Vector2(0, -104)
+			era_core.add_to_group("night_glow")
+			root.add_child(era_core)
+			attach_anim(era_core, "pulse", 0.91, 0.82)
 		"firstHeart":
 			var first_heart_sprite := Sprite2D.new()
 			first_heart_sprite.name = "LandmarkFirstHeartArt"
-			first_heart_sprite.texture = FIRST_HEART_TEXTURE
+			first_heart_sprite.texture = _landmark_texture("first_heart")
 			first_heart_sprite.position = Vector2(0, -128)
-			first_heart_sprite.scale = Vector2(250, 250) / FIRST_HEART_TEXTURE.get_size()
+			first_heart_sprite.scale = Vector2(250, 250) / first_heart_sprite.texture.get_size()
 			first_heart_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			root.add_child(first_heart_sprite)
 			var heart_core := make_glow(58, Color("fff0b0"), 0.86)
@@ -2048,7 +2082,7 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"circuitNode": -237.0,
 		"cartographyTower": -245.0,
 		"livingDome": -206.0,
-		"pactPalace": -226.0,
+		"timeThreshold": -184.0,
 		"labyrinthHeart": -238.0,
 		"orbitalObservatory": -232.0,
 		"hallOfVoices": -225.0,
@@ -2060,7 +2094,7 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 		"fieldTower": -289.0,
 		"tectonicPillar": -258.0,
 		"livingCore": -282.0,
-		"councilHall": -284.0,
+		"hallOfEras": -220.0,
 		"firstHeart": -286.0,
 	}
 	text.position = Vector2(-90, float(tall_label_y.get(kind, -96.0)))
@@ -2154,19 +2188,19 @@ static func build_player(accent: Color) -> Node2D:
 	# aura, anello a terra e punta luminosa, così comprare un outfit cambia il
 	# colore-firma di Eli nel mondo.
 	var root := Node2D.new()
-	root.add_child(make_shadow(19, 6.8, 0.34, 17))
-	var ring := make_ring(19, Color(accent, 0.56), 2.4, 24)
+	root.add_child(make_shadow(22, 7.6, 0.36, 19))
+	var ring := make_ring(22, Color(accent, 0.62), 2.6, 24)
 	ring.scale = Vector2(1, 0.4)
-	ring.position = Vector2(0, 18)
+	ring.position = Vector2(0, 20)
 	root.add_child(ring)
-	var aura := make_glow(34, accent, 0.19)
-	aura.position = Vector2(0, 4)
+	var aura := make_glow(39, accent, 0.21)
+	aura.position = Vector2(0, 3)
 	root.add_child(aura)
 	var visual := Node2D.new()
 	visual.name = "Visual"
 	visual.add_child(player_sprite())
-	var tip := make_glow(7, accent.lightened(0.3), 0.72)
-	tip.position = Vector2(0, -50)
+	var tip := make_glow(8, accent.lightened(0.3), 0.76)
+	tip.position = Vector2(0, -59)
 	tip.add_to_group("night_glow")
 	visual.add_child(tip)
 	root.add_child(visual)
@@ -2178,18 +2212,18 @@ static func build_accessory(id: String, color: Color) -> Node2D:
 	if "crown" in id or "halo" in id or "aureola" in id:
 		var ring := make_ring(8, color, 2.0, 18)
 		ring.scale = Vector2(1, 0.5)
-		ring.position = Vector2(0, -46)
+		ring.position = Vector2(0, -55)
 		root.add_child(ring)
 		var g := make_glow(12, color, 0.6)
-		g.position = Vector2(0, -46)
+		g.position = Vector2(0, -55)
 		g.add_to_group("night_glow")
 		root.add_child(g)
 	elif "visor" in id:
 		root.add_child(make_polygon(PackedVector2Array([
-			Vector2(-6, -38), Vector2(6, -38), Vector2(6, -35), Vector2(-6, -35),
+			Vector2(-7, -46), Vector2(7, -46), Vector2(7, -42), Vector2(-7, -42),
 		]), color))
 		root.add_child(make_polygon(PackedVector2Array([
-			Vector2(-4.5, -37.4), Vector2(4.5, -37.4), Vector2(4.5, -36.2), Vector2(-4.5, -36.2),
+			Vector2(-5.2, -45.2), Vector2(5.2, -45.2), Vector2(5.2, -43.3), Vector2(-5.2, -43.3),
 		]), color.lightened(0.4)))
 	elif "wings" in id:
 		root.add_child(make_polygon(PackedVector2Array([

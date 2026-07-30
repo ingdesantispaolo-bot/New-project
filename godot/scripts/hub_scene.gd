@@ -40,15 +40,21 @@ var activation_bar: ProgressBar
 var terminal_mount: Control
 var terminal_visual: Node2D
 var room_buttons: Dictionary = {}
+var room_rail_title: Label
 var log_dialog: AcceptDialog
 var celebration_root: Control
 var celebration_flash: ColorRect
+var celebration_top_bar: ColorRect
+var celebration_bottom_bar: ColorRect
 var celebration_panel: PanelContainer
+var celebration_eyebrow: Label
 var celebration_title: Label
 var celebration_detail: Label
 var world_map_overlay: Control
 var world_map_grid: GridContainer
 var world_map_summary: Label
+var launch_save_override: Dictionary = {}
+var release_smoke_exam_button: Button
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -57,6 +63,8 @@ func _ready() -> void:
 	add_child(controller)
 	save = GameSaveManager.new()
 	save.load_save()
+	if not launch_save_override.is_empty():
+		save.data = save.migrate_legacy_save(launch_save_override)
 	rewards = RewardManager.new(save)
 	narrative = NarrativeManager.new()
 	narrative.setup(save)
@@ -78,6 +86,24 @@ func _ready() -> void:
 	if audio != null:
 		audio.call("play_environment", "night")
 		audio.call("play", "panel.open")
+	call_deferred("_publish_release_smoke_hub_state")
+
+func _publish_release_smoke_hub_state() -> void:
+	if not NativeWorldState.release_smoke_enabled() or not is_instance_valid(repair_button):
+		return
+	var rect := repair_button.get_global_rect()
+	JavaScriptBridge.eval("window.__eliShipState = %s;" % JSON.stringify({
+		"level": save.level(),
+		"examReady": not repair_button.disabled,
+		"viewportWidth": get_viewport_rect().size.x,
+		"viewportHeight": get_viewport_rect().size.y,
+		"repairButton": {
+			"x": rect.position.x,
+			"y": rect.position.y,
+			"width": rect.size.x,
+			"height": rect.size.y,
+		},
+	}))
 
 func _build_scene() -> void:
 	var ui := CanvasLayer.new()
@@ -214,11 +240,11 @@ func _build_body(parent: VBoxContainer) -> void:
 	var rail_box := VBoxContainer.new()
 	rail_box.add_theme_constant_override("separation", 6)
 	rail_margin.add_child(rail_box)
-	var rail_title := Label.new()
-	rail_title.text = "PONTI DEL RELITTO"
-	rail_title.add_theme_font_size_override("font_size", 13)
-	rail_title.add_theme_color_override("font_color", Color("8fb7bd"))
-	rail_box.add_child(rail_title)
+	room_rail_title = Label.new()
+	room_rail_title.text = "PONTI DEL RELITTO"
+	room_rail_title.add_theme_font_size_override("font_size", 13)
+	room_rail_title.add_theme_color_override("font_color", Color("8fb7bd"))
+	rail_box.add_child(room_rail_title)
 	var world_map_button := Button.new()
 	world_map_button.name = "WorldMapButton"
 	world_map_button.text = "MAPPA DEI MONDI"
@@ -460,6 +486,7 @@ func _travel_to_world(level: int) -> void:
 	save.set_current_world(level)
 	save.save()
 	_hide_world_map()
+	_stage_world_launch("ship-map")
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_event", "portalOpened")
@@ -484,6 +511,22 @@ func _build_exercise_overlay() -> void:
 	log_dialog.title = "DIARIO DI BORDO · SOLO LOCALE"
 	log_dialog.min_size = Vector2i(620, 420)
 	exercise_layer.add_child(log_dialog)
+	if NativeWorldState.release_smoke_enabled():
+		release_smoke_exam_button = Button.new()
+		release_smoke_exam_button.name = "ReleaseSmokeCompleteExam"
+		release_smoke_exam_button.text = "COLLAUDO · COMPLETA ESAME"
+		release_smoke_exam_button.anchor_left = 0.5
+		release_smoke_exam_button.anchor_right = 0.5
+		release_smoke_exam_button.anchor_top = 1.0
+		release_smoke_exam_button.anchor_bottom = 1.0
+		release_smoke_exam_button.offset_left = -170.0
+		release_smoke_exam_button.offset_right = 170.0
+		release_smoke_exam_button.offset_top = -74.0
+		release_smoke_exam_button.offset_bottom = -18.0
+		release_smoke_exam_button.custom_minimum_size.y = 56.0
+		release_smoke_exam_button.visible = false
+		release_smoke_exam_button.pressed.connect(_complete_release_smoke_exam)
+		exercise_layer.add_child(release_smoke_exam_button)
 	_build_activation_celebration()
 
 func _build_activation_celebration() -> void:
@@ -502,6 +545,21 @@ func _build_activation_celebration() -> void:
 	celebration_flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	celebration_flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	celebration_root.add_child(celebration_flash)
+	celebration_top_bar = ColorRect.new()
+	celebration_top_bar.name = "CinematicTopBar"
+	celebration_top_bar.anchor_right = 1.0
+	celebration_top_bar.anchor_bottom = 0.085
+	celebration_top_bar.color = Color(0.002, 0.012, 0.02, 0.0)
+	celebration_top_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	celebration_root.add_child(celebration_top_bar)
+	celebration_bottom_bar = ColorRect.new()
+	celebration_bottom_bar.name = "CinematicBottomBar"
+	celebration_bottom_bar.anchor_top = 0.915
+	celebration_bottom_bar.anchor_right = 1.0
+	celebration_bottom_bar.anchor_bottom = 1.0
+	celebration_bottom_bar.color = Color(0.002, 0.012, 0.02, 0.0)
+	celebration_bottom_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	celebration_root.add_child(celebration_bottom_bar)
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -520,11 +578,11 @@ func _build_activation_celebration() -> void:
 	copy.alignment = BoxContainer.ALIGNMENT_CENTER
 	copy.add_theme_constant_override("separation", 8)
 	margin.add_child(copy)
-	var eyebrow := Label.new()
-	eyebrow.text = "✦  PROTOCOLLO DI RIATTIVAZIONE  ✦"
-	eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	eyebrow.add_theme_font_size_override("font_size", 12)
-	copy.add_child(eyebrow)
+	celebration_eyebrow = Label.new()
+	celebration_eyebrow.text = "✦  PROTOCOLLO DI RIATTIVAZIONE  ✦"
+	celebration_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	celebration_eyebrow.add_theme_font_size_override("font_size", 12)
+	copy.add_child(celebration_eyebrow)
 	celebration_title = Label.new()
 	celebration_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	celebration_title.add_theme_font_size_override("font_size", 30)
@@ -575,6 +633,8 @@ func _apply_state(state: Dictionary) -> void:
 
 	var current_gate := controller.progression.current_gate()
 	var campaign_complete := controller.progression.is_complete()
+	if is_instance_valid(room_rail_title):
+		room_rail_title.text = "SISTEMI DELLA NAVE" if campaign_complete else "PONTI DEL RELITTO"
 	var gate_apparatus := str(current_gate.get("apparatus", "nucleo"))
 	var room_apparatus := str(room_state.get("apparatus", "nucleo"))
 	var gate_room_id := ShipRoomCatalog.room_for_apparatus(gate_apparatus)
@@ -670,6 +730,26 @@ func _start_exam() -> void:
 		return
 	exercise_player.visible = true
 	exercise_player.start_session(session)
+	if is_instance_valid(release_smoke_exam_button):
+		release_smoke_exam_button.visible = true
+		JavaScriptBridge.eval("document.documentElement.dataset.eliExam = 'open';")
+
+func _complete_release_smoke_exam() -> void:
+	if not NativeWorldState.release_smoke_enabled() or not exercise_player.visible:
+		return
+	release_smoke_exam_button.visible = false
+	JavaScriptBridge.eval("delete document.documentElement.dataset.eliExercise;")
+	var subject := str(exercise_player.session.get("subject", "matematica"))
+	_on_exam_finished({
+		"kind": "final_exam",
+		"subject": subject,
+		"correct": 3,
+		"total": 3,
+		"passed": true,
+		"energyGained": 30,
+		"seconds": 1.0,
+		"topicStats": {},
+	})
 
 func _on_exam_finished(exam_result: Dictionary) -> void:
 	exercise_player.visible = false
@@ -690,12 +770,6 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 			await _play_reactivation_sequence(repaired_room, activation_before, activation_after)
 			if controller.progression.is_complete():
 				NoraState.sync_from_progress(save)
-				nora_line.text = str(narrative.reveal_level(save.level()).get("text", NarrativeManager.FINAL_BEAT))
-				if is_instance_valid(nora_portrait):
-					nora_portrait.speak(nora_line.text)
-				var audio := get_node_or_null("/root/NativeAudio")
-				if audio != null:
-					audio.call("play_event", "portalOpened")
 		else:
 			nora_line.text = "NORA: Il protocollo non può essere applicato. Verifica i requisiti."
 	else:
@@ -704,51 +778,111 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 	save.save()
 	controller.refresh()
 	_apply_state(controller.state())
+	if NativeWorldState.release_smoke_enabled():
+		JavaScriptBridge.eval(
+			"document.documentElement.dataset.eliExam = %s;" %
+			JSON.stringify("passed" if bool(exam_result.get("passed", false)) else "failed")
+		)
+		call_deferred("_publish_release_smoke_hub_state")
 
 func _play_reactivation_sequence(room_id: String, before: Dictionary, after: Dictionary) -> void:
 	if not is_instance_valid(celebration_root) or not is_instance_valid(background_material):
 		return
 	var spec := ShipRoomCatalog.room(room_id)
 	var accent := Color(str(spec.get("accent", "6be7d6")))
-	celebration_title.text = str(after.get("title", "SISTEMA RIATTIVATO"))
+	var final_activation := controller.progression.is_complete()
+	var reduced := bool(save.data.get("accessibility", {}).get("reducedMotion", false))
+	var cue_log: Array[String] = ["focus", "ignition", "reveal"]
+	if final_activation:
+		cue_log.append("finale")
+	set_meta("last_milestone_kind", "finale" if final_activation else "ship_reactivation")
+	set_meta("last_milestone_cues", cue_log)
+	celebration_eyebrow.text = "✦  CONVERGENZA DEI DODICI SISTEMI  ✦" if final_activation else "✦  PROTOCOLLO DI RIATTIVAZIONE  ✦"
+	celebration_title.text = "TUTTI I SISTEMI CONVERGONO" if final_activation else str(after.get("title", "SISTEMA RIATTIVATO"))
 	celebration_title.add_theme_color_override("font_color", accent.lightened(0.20))
-	celebration_detail.text = "%s · POTENZA %d%% · NODO %d/%d" % [
-		str(spec.get("label", room_id)).to_upper(),
-		int(after.get("percent", 0)),
-		int(after.get("completed", 0)),
-		int(after.get("total", 0)),
-	]
+	celebration_detail.text = (
+		"CUORE DEI PRIMI · 12/12 SISTEMI · NAVE A PIENA POTENZA"
+		if final_activation
+		else "%s · POTENZA %d%% · NODO %d/%d" % [
+			str(spec.get("label", room_id)).to_upper(),
+			int(after.get("percent", 0)),
+			int(after.get("completed", 0)),
+			int(after.get("total", 0)),
+		]
+	)
 	celebration_detail.add_theme_color_override("font_color", Color("d9f5ef"))
 	celebration_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.008, 0.035, 0.05, 0.97), accent, 18))
 	celebration_root.visible = true
-	celebration_flash.color = Color(accent, 0.72)
+	celebration_flash.color = Color(accent, 0.0)
+	celebration_top_bar.color.a = 0.0
+	celebration_bottom_bar.color.a = 0.0
 	celebration_panel.modulate = Color(1, 1, 1, 0)
 	celebration_panel.scale = Vector2(0.82, 0.82)
 	await get_tree().process_frame
 	celebration_panel.pivot_offset = celebration_panel.size * 0.5
-	background_material.set_shader_parameter("transition_burst", 1.0)
-	if is_instance_valid(power_overlay):
-		power_overlay.burst = 1.0
+	background.pivot_offset = background.size * 0.5
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
+		audio.call("play", "ui.confirm", 0.92)
+
+	# 1 · Messa a fuoco: un lieve push-in porta lo sguardo dal ponte al terminale.
+	if not reduced:
+		var focus := create_tween().set_parallel(true)
+		focus.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+		focus.tween_property(background, "scale", Vector2(1.035, 1.035), 0.34)
+		focus.tween_property(terminal_visual, "scale", Vector2(1.96, 1.96), 0.34)
+		focus.tween_property(celebration_top_bar, "color:a", 0.92, 0.28)
+		focus.tween_property(celebration_bottom_bar, "color:a", 0.92, 0.28)
+		focus.tween_method(_set_activation_burst, 0.0, 0.28, 0.34)
+		await focus.finished
+	else:
+		celebration_top_bar.color.a = 0.92
+		celebration_bottom_bar.color.a = 0.92
+
+	# 2 · Accensione: luce e suono partono dall'apparato prima del cartello.
+	if audio != null:
 		audio.call("play", "circuit.on", 1.0 + minf(float(after.get("stage", 1)) * 0.035, 0.14))
-	var intro := create_tween().set_parallel(true)
-	intro.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	intro.tween_property(celebration_flash, "color:a", 0.0, 1.15)
-	intro.tween_property(celebration_panel, "modulate:a", 1.0, 0.28)
-	intro.tween_property(celebration_panel, "scale", Vector2.ONE, 0.52)
-	intro.tween_method(_set_activation_burst, 1.0, 0.0, 1.65)
-	await intro.finished
-	if int(after.get("stage", 0)) > int(before.get("stage", 0)):
-		nora_line.text = "NORA: %s ha raggiunto la fase %s." % [str(spec.get("label", room_id)), str(after.get("title", "online")).to_lower()]
+	celebration_flash.color = Color(accent, 0.68 if not reduced else 0.28)
+	_set_activation_burst(1.0)
+	var ignition := create_tween().set_parallel(true)
+	ignition.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	ignition.tween_property(celebration_flash, "color:a", 0.0, 0.92)
+	ignition.tween_property(celebration_panel, "modulate:a", 1.0, 0.30).set_delay(0.12)
+	ignition.tween_property(celebration_panel, "scale", Vector2.ONE, 0.48).set_delay(0.12)
+	ignition.tween_property(terminal_visual, "scale", Vector2(1.8, 1.8), 0.62)
+	ignition.tween_method(_set_activation_burst, 1.0, 0.0, 1.25)
+	await ignition.finished
+
+	# 3 · Rivelazione: il finale non è un secondo popup, ma il culmine dello
+	# stesso movimento che ha acceso l'ultimo nodo.
+	if final_activation:
+		NoraState.sync_from_progress(save)
+		celebration_title.text = "ROTTA APERTA"
+		celebration_detail.text = "NAVE RIATTIVATA · NORA INTEGRA · EQUIPAGGIO PRONTO"
+		nora_line.text = str(narrative.reveal_level(save.level()).get("text", NarrativeManager.FINAL_BEAT))
 		if is_instance_valid(nora_portrait):
 			nora_portrait.speak(nora_line.text)
-	await get_tree().create_timer(0.72).timeout
-	var outro := create_tween()
+		if audio != null:
+			audio.call("play_event", "enigmaCompleted", 1.04)
+			audio.call("play_event", "portalOpened", 0.94)
+	if int(after.get("stage", 0)) > int(before.get("stage", 0)):
+		if not final_activation:
+			nora_line.text = "NORA: %s ha raggiunto la fase %s." % [str(spec.get("label", room_id)), str(after.get("title", "online")).to_lower()]
+			if is_instance_valid(nora_portrait):
+				nora_portrait.speak(nora_line.text)
+	await get_tree().create_timer(1.05 if final_activation else 0.72).timeout
+	var outro := create_tween().set_parallel(true)
 	outro.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	outro.tween_property(celebration_panel, "modulate:a", 0.0, 0.36)
+	outro.tween_property(celebration_top_bar, "color:a", 0.0, 0.42)
+	outro.tween_property(celebration_bottom_bar, "color:a", 0.0, 0.42)
+	outro.tween_property(background, "scale", Vector2.ONE, 0.48)
 	await outro.finished
 	celebration_root.visible = false
+	background.scale = Vector2.ONE
+	if is_instance_valid(terminal_visual):
+		terminal_visual.scale = Vector2(1.8, 1.8)
+	set_meta("last_milestone_complete", true)
 
 func _set_activation_burst(value: float) -> void:
 	background_material.set_shader_parameter("transition_burst", value)
@@ -771,10 +905,20 @@ func _on_nora_learning_signal(signal_name: String) -> void:
 
 func _return_to_world() -> void:
 	save.save()
+	_stage_world_launch("ship-return")
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_event", "portalOpened")
 	get_tree().change_scene_to_file("res://scenes/outdoor_world.tscn")
+
+func _stage_world_launch(seed: String) -> void:
+	var request := NativeWorldState.default_request(seed)
+	request["loadLocalSave"] = false
+	request["initialSave"] = save.data.duplicate(true)
+	request["worldLevel"] = save.current_world()
+	request["accessibility"] = Dictionary(save.data.get("accessibility", {})).duplicate(true)
+	request["accessibilityExplicit"] = true
+	NativeWorldState.stage_launch_request(request)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible:

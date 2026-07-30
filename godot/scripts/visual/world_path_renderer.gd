@@ -20,32 +20,53 @@ func configure(data: WorldCompositionData) -> void:
 func _add_ribbon(points: PackedVector2Array, width: float, id: String, theme: String) -> void:
 	var root := Node2D.new()
 	root.name = "Path_%s" % id
-	var archive := theme == "archive"
+	var style := _path_style(theme)
 	var verge := Line2D.new()
 	verge.name = "SoftVerge"
 	verge.points = points
 	verge.width = width + 11.0
-	verge.default_color = Color(0.10, 0.11, 0.20, 0.48) if archive else Color(0.29, 0.29, 0.18, 0.20)
+	verge.default_color = style["verge"]
 	_style_line(verge)
 	root.add_child(verge)
 	var soil := Line2D.new()
 	soil.name = "Earth"
 	soil.points = points
 	soil.width = width
-	if not archive:
+	if bool(style["texture"]):
 		soil.texture = PATH_EARTH_TEXTURE
 		soil.texture_mode = Line2D.LINE_TEXTURE_TILE
-	soil.default_color = Color(0.62, 0.61, 0.72, 0.72) if archive else Color(0.72, 0.68, 0.53, 0.60)
+	soil.default_color = style["surface"]
 	_style_line(soil)
 	root.add_child(soil)
 	var center_wear := Line2D.new()
 	center_wear.name = "CenterWear"
 	center_wear.points = points
 	center_wear.width = maxf(2.0, width * 0.12)
-	center_wear.default_color = Color(0.50, 0.67, 1.0, 0.24) if archive else Color(1.0, 0.91, 0.69, 0.075)
+	center_wear.default_color = style["guide"]
 	_style_line(center_wear)
 	root.add_child(center_wear)
 	add_child(root)
+
+func _path_style(theme: String) -> Dictionary:
+	# Le tavole dal mondo 19 in poi hanno superfici già molto caratterizzate:
+	# una strada di terra generica sembrava incollata sopra il dipinto. Queste
+	# corsie mantengono la leggibilità di navigazione usando i materiali del
+	# mondo, senza aumentare geometria o draw call.
+	match theme:
+		"root_necropolis":
+			return {"verge": Color(0.08, 0.055, 0.045, 0.25), "surface": Color(0.38, 0.28, 0.18, 0.30), "guide": Color(0.48, 0.68, 0.34, 0.18), "texture": true}
+		"electromagnetic_storm":
+			return {"verge": Color(0.015, 0.03, 0.11, 0.28), "surface": Color(0.12, 0.25, 0.48, 0.28), "guide": Color(0.66, 0.48, 1.0, 0.34), "texture": false}
+		"fractured_atlas":
+			return {"verge": Color(0.15, 0.11, 0.06, 0.24), "surface": Color(0.48, 0.42, 0.24, 0.30), "guide": Color(0.62, 0.83, 0.91, 0.22), "texture": true}
+		"deep_biosphere":
+			return {"verge": Color(0.015, 0.12, 0.10, 0.26), "surface": Color(0.12, 0.43, 0.31, 0.25), "guide": Color(0.48, 1.0, 0.70, 0.30), "texture": false}
+		"hall_of_eras", "archive":
+			return {"verge": Color(0.02, 0.045, 0.13, 0.30), "surface": Color(0.58, 0.48, 0.34, 0.26), "guide": Color(0.96, 0.70, 0.31, 0.32), "texture": false}
+		"first_heart":
+			return {"verge": Color(0.08, 0.06, 0.16, 0.28), "surface": Color(0.76, 0.66, 0.42, 0.22), "guide": Color(0.38, 0.93, 0.94, 0.42), "texture": false}
+		_:
+			return {"verge": Color(0.29, 0.29, 0.18, 0.20), "surface": Color(0.72, 0.68, 0.53, 0.60), "guide": Color(1.0, 0.91, 0.69, 0.075), "texture": true}
 
 func _style_line(line: Line2D) -> void:
 	line.joint_mode = Line2D.LINE_JOINT_ROUND

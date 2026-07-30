@@ -1,15 +1,13 @@
-const CACHE_VERSION = "v4-godot-root";
+const CACHE_VERSION = "v8-tablet-assets";
 const STATIC_CACHE = `eli-quest-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `eli-quest-runtime-${CACHE_VERSION}`;
 const APP_SHELL = ["./manifest.webmanifest", "./eli-quest-icon.svg"];
 
-// L'aggiornamento NON è più automatico: il nuovo service worker resta in
-// "waiting" finché la pagina non invia SKIP_WAITING (dopo il consenso del
-// giocatore). Così un deploy non interrompe mai una missione in corso.
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) => cache.addAll(APP_SHELL)),
   );
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -36,6 +34,16 @@ self.addEventListener("fetch", (event) => {
 
   if (isHtmlRequest(event.request)) {
     event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  const requestUrl = new URL(event.request.url);
+  if (requestUrl.pathname.includes("/godot/outdoor/")) {
+    event.respondWith(
+      requestUrl.pathname.endsWith(".html")
+        ? networkFirst(event.request)
+        : cacheFirst(event.request),
+    );
     return;
   }
 

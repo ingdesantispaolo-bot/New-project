@@ -48,6 +48,83 @@ static func _placed(rng: RandomNumberGenerator, spawn: Vector2, ship: Vector2, s
 	pos.y = clampf(pos.y, ship.y - half_extent, ship.y + half_extent)
 	return pos
 
+## Porta il POI sul bordo della strada più vicina. Gli esercizi restano
+## raggiungibili e leggibili dalla rete principale, senza occupare la corsia.
+static func _beside_path(composition: WorldCompositionData, target: Vector2, index: int) -> Vector2:
+	if composition == null:
+		return target
+	var best_point := target
+	var best_tangent := Vector2.RIGHT
+	var best_width := 64.0
+	var best_distance := INF
+	for path in composition.paths:
+		var points: PackedVector2Array = path.get("points", PackedVector2Array())
+		for segment in range(maxi(0, points.size() - 1)):
+			var a := points[segment]
+			var b := points[segment + 1]
+			var ab := b - a
+			var amount := clampf((target - a).dot(ab) / maxf(ab.length_squared(), 0.001), 0.0, 1.0)
+			var candidate := a + ab * amount
+			var distance := target.distance_squared_to(candidate)
+			if distance < best_distance:
+				best_distance = distance
+				best_point = candidate
+				best_tangent = ab.normalized()
+				best_width = float(path.get("width", 64.0))
+	var normal := Vector2(-best_tangent.y, best_tangent.x)
+	if posmod(index, 2) == 1:
+		normal = -normal
+	var offset := best_width * 0.5 + 112.0
+	var result := best_point + normal * offset
+	# Se il lato scelto cade in acqua, prova l'altro bordo della stessa strada.
+	if composition.raw_water_weight(result) > 0.28:
+		var opposite := best_point - normal * offset
+		if composition.raw_water_weight(opposite) < composition.raw_water_weight(result):
+			result = opposite
+	return result
+
+static func _inside_playfield(position: Vector2, ship: Vector2, safe_radius: float, half_extent: float) -> Vector2:
+	var result := position
+	var from_ship := result - ship
+	if from_ship.length() < safe_radius + SHIP_MARGIN:
+		var direction := from_ship.normalized() if from_ship.length() > 0.001 else Vector2.DOWN
+		result = ship + direction * (safe_radius + SHIP_MARGIN)
+	result.x = clampf(result.x, ship.x - half_extent, ship.x + half_extent)
+	result.y = clampf(result.y, ship.y - half_extent, ship.y + half_extent)
+	return result
+
+static func _distributed_position(
+	rng: RandomNumberGenerator,
+	composition: WorldCompositionData,
+	spawn: Vector2,
+	ship: Vector2,
+	safe_radius: float,
+	index: int,
+	t: float,
+	min_r: float,
+	max_r: float,
+	half_extent: float,
+	events: Array
+) -> Vector2:
+	var candidate := spawn
+	for attempt in range(10):
+		var radial := _placed(
+			rng, spawn, ship, safe_radius,
+			index + attempt * 11, fmod(t + float(attempt) * 0.137, 1.0),
+			min_r, max_r, half_extent)
+		candidate = _inside_playfield(
+			_beside_path(composition, radial, index + attempt),
+			ship, safe_radius, half_extent)
+		var separated := true
+		for previous_data in events:
+			var previous: Vector2 = (previous_data as Dictionary).get("position", Vector2.INF)
+			if candidate.distance_to(previous) < 176.0:
+				separated = false
+				break
+		if separated:
+			return candidate
+	return candidate
+
 # Sceglie un formato dalla pool evitando il precedente e quelli recenti (se
 # possibile), in modo deterministico (avanza un indice).
 static func _next_format(formats: Array, used_index: int, last_format: String, recent: Array) -> String:
@@ -93,6 +170,7 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 	var recent_formats: Array = context.get("recentFormats", [])
 
 	var rng := _make_rng(world_seed, level)
+	var composition := WorldCompositionGenerator.generate(world_seed, profile)
 	var events: Array = []
 	var last_format := ""
 	var fmt_index := 0
@@ -111,13 +189,17 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		var fmt := _next_format(formats, fmt_index, last_format, recent_formats)
 		last_format = fmt
 		fmt_index += 1
+		var event_position := _distributed_position(
+			rng, composition, spawn, ship, safe_radius, i, t,
+			GATE_MIN_R, GATE_MAX_R, half_extent, events)
 		events.append({
 			"id": "evt-%d-gate-%d" % [level, i],
 			"kind": kind,
 			"subject": subject,
 			"format": fmt,
 			"topicHint": _topic_hint(due_topics, weak_topics, i),
-			"position": _placed(rng, spawn, ship, safe_radius, i, t, GATE_MIN_R, GATE_MAX_R, half_extent),
+			"position": event_position,
+			"navigationSector": posmod(i, 6),
 			"countsForGate": true,
 			"reachable": true,
 		})
@@ -132,7 +214,9 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		var fmt2 := _next_format(formats, fmt_index, last_format, recent_formats)
 		last_format = fmt2
 		fmt_index += 1
-		var pos: Vector2 = _placed(rng, spawn, ship, safe_radius, idx, t2, GATE_MAX_R, reach + 350.0, half_extent)
+		var pos: Vector2 = _distributed_position(
+			rng, composition, spawn, ship, safe_radius, idx, t2,
+			GATE_MAX_R, reach + 350.0, half_extent, events)
 		events.append({
 			"id": "evt-%d-practice-%d" % [level, j],
 			"kind": "practice",
@@ -140,6 +224,7 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 			"format": fmt2,
 			"topicHint": _topic_hint(due_topics, weak_topics, idx),
 			"position": pos,
+			"navigationSector": posmod(idx, 6),
 			"countsForGate": false,
 			"reachable": spawn.distance_to(pos) <= reach,
 		})

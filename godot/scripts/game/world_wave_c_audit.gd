@@ -21,9 +21,9 @@ const SPECS := {
 		"water": 2,
 	},
 	11: {
-		"theme": "civic_city",
-		"landmark": "pactPalace",
-		"underpaint": "res://assets/citta-patti-underpaint-v1.png",
+		"theme": "history_threshold",
+		"landmark": "timeThreshold",
+		"underpaint": "res://assets/soglia-tempo-underpaint-v2.png",
 		"texture": "res://assets/citta-palazzo-patti-v1.png",
 		"water": 0,
 	},

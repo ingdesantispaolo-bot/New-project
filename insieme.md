@@ -136,6 +136,23 @@ tre, tutti misurati sull'esperienza giocata:
 Guard-rail: `giveaway_audit.gd`. La colonna destra degli abbinamenti non può più
 risultare allineata alla sinistra (si risolveva riga per riga).
 
+## Ottimizzazione asset tablet
+
+- export Web ridotto da **68,79 MiB** a **61,86 MiB**: `index.pck` da 30,79 a
+  23,85 MiB, −6,93 MiB complessivi (circa −10%);
+- landmark 1254–1536 px importati con limite 512 px, adeguato alla resa massima
+  di circa 260 px; sorgenti originali conservati;
+- atlanti naturali importati a 1024 px con crop calcolato dalla dimensione
+  effettiva, non da coordinate rigide;
+- tavole identitarie, landmark, atlanti di bioma ed enigmi caricati soltanto per
+  il mondo/tema corrente e riusati tramite cache condivise;
+- cache PWA aggiornata a `v8-tablet-assets`, così il tablet non continua a usare
+  il vecchio PCK;
+- verifica: export Godot riuscito, 184/184 test TypeScript verdi, audit diretti
+  dei mondi 21–23 e del mondo/finale 24 verdi. Lo smoke Chrome automatizzato è
+  attualmente bloccato dal canale DevTools locale prima della navigazione e va
+  ripetuto sul dispositivo fisico.
+
 ## Rischi noti
 
 - **L'export in `public/godot/outdoor/` invecchia più in fretta dei contenuti.**

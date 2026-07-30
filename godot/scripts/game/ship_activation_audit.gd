@@ -38,5 +38,7 @@ func _init() -> void:
 		assert(int(activation["percent"]) == 100, "%s non arriva al 100%%" % room_id)
 	assert(gate_total == ApparatusConfig.MAX_LEVEL, "ogni gate deve alimentare esattamente un ponte")
 	assert(ShipRoomCatalog.room_for_apparatus("cratere-logico") == "central", "Coding/Logica devono alimentare il Ponte Centrale")
+	assert(ShipRoomCatalog.room_for_apparatus("archivio-temporale") == "data_core", "Storia deve alimentare il Data-core")
+	assert(ShipRoomCatalog.room_for_subject("storia") == "data_core", "Storia deve essere presentata nel Data-core")
 	print("SHIP ACTIVATION audit OK - 24 gate, 7 ponti, 5 fasi monotone")
 	quit(0)

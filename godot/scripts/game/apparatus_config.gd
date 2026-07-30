@@ -21,7 +21,7 @@ const SUBJECT_APPARATUS := {
 	"elettronica": "reattore",
 	"geografia": "ponte-comando",
 	"scienze": "serra-bio",
-	"storia": "serra-bio",
+	"storia": "archivio-temporale",
 	"logica": "cratere-logico",
 }
 

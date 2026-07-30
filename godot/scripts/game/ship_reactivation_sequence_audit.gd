@@ -42,5 +42,16 @@ func _run() -> void:
 	assert(celebration != null and not celebration.visible, "overlay celebrativo rimasto visibile")
 	var material: ShaderMaterial = hub.get("background_material")
 	assert(float(material.get_shader_parameter("transition_burst")) <= 0.001, "burst shader non terminato")
-	print("SHIP REACTIVATION SEQUENCE audit OK - esame, nodo, VFX e chiusura overlay")
+	assert(str(hub.get_meta("last_milestone_kind", "")) == "ship_reactivation",
+		"regia del traguardo non classificata")
+	assert(Array(hub.get_meta("last_milestone_cues", [])).has("focus")
+		and Array(hub.get_meta("last_milestone_cues", [])).has("ignition")
+		and Array(hub.get_meta("last_milestone_cues", [])).has("reveal"),
+		"la sequenza non contiene i tre tempi di regia")
+	assert(bool(hub.get_meta("last_milestone_complete", false)),
+		"sequenza non arrivata al ripristino finale")
+	var background := hub.get("background") as TextureRect
+	assert(background != null and background.scale.is_equal_approx(Vector2.ONE),
+		"camera simulata non ripristinata")
+	print("SHIP REACTIVATION SEQUENCE audit OK - focus, accensione, reveal, audio e chiusura")
 	quit(0)

@@ -229,13 +229,21 @@ func _prepare_release_smoke_save() -> void:
 	var content := ContentManager.new()
 	var progression := ProgressionManager.new(save, content)
 	var gate := progression.current_gate()
-	var subject := str(gate.get("subject", "matematica"))
-	for _index in range(int(gate.get("missionsRequired", 1))):
+	var threshold := float(gate.get("masteryThreshold", 0.7))
+	# Il gate del livello è il NUCLEO: la fixture deve soddisfare accuratezza e
+	# copertura su tutte e tre le materie, non su quella del mondo. Più la materia
+	# ospite, perché il collaudo apre anche l'esame dell'apparato.
+	var prepared: Array = Array(ApparatusConfig.CORE_SUBJECTS).duplicate()
+	var host := ApparatusConfig.world_subject(save.level())
+	if not prepared.has(host):
+		prepared.append(host)
+	for subject_data in prepared:
+		var subject := str(subject_data)
 		save.add_mission(subject)
-	save.set_mastery(subject, float(gate.get("masteryThreshold", 0.7)))
-	var topic_target := GateReadiness.coverage_target(content.subject_topic_count(subject))
-	for index in range(maxi(topic_target, 1)):
-		save.set_topic_mastery(subject, "release-smoke-topic-%d" % index, 1.0)
+		save.set_mastery(subject, threshold)
+		var topic_target := GateReadiness.coverage_target(content.subject_topic_count(subject))
+		for index in range(maxi(topic_target, 1)):
+			save.set_topic_mastery(subject, "release-smoke-topic-%d" % index, 1.0)
 	save.data["accessibility"] = {
 		"highContrast": true,
 		"reducedMotion": true,

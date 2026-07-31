@@ -17,7 +17,7 @@ func _init() -> void:
 	for lvl in range(1, WorldProfileCatalog.MAX_LEVEL + 1):
 		var p := WorldProfileCatalog.profile(lvl)
 		var subject := str(p["learningFocus"]["subject"])
-		assert(subject == str(ApparatusConfig.level_gate(lvl)["subject"]), "focus livello %d incoerente" % lvl)
+		assert(subject == ApparatusConfig.world_subject(lvl), "focus livello %d incoerente" % lvl)
 		subjects_seen[subject] = true
 		# Ogni mondo deve stare dentro l'area giocabile e con spawn raggiungibile.
 		var spawn: Vector2 = p["spawn"]

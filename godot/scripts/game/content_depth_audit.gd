@@ -21,7 +21,8 @@ const REPEATS := 6              # mondi simulati per livello
 const MIN_TOPICS_PER_WORLD := 4 # argomenti distinti incontrati in un mondo
 const MIN_HARD_SHARE := 0.50    # quota di prove d≥3 nei mondi alti (13–24)
 const MIN_DIFFICULTY_STEP := 0.3  # scalino di difficoltà media tra le due comparse
-const MIN_PROMISED_SHARE := 0.15  # quota minima di nodi sugli argomenti della lezione
+const MIN_PROMISED_SHARE := 0.15  # quota minima di nodi DELLA MATERIA sugli argomenti della lezione
+const MIN_FOCUS_SHARE := 0.30     # quota minima di nodi della materia del mondo
 const CUE_RATIO := 1.3          # risposta "molto più lunga" di ogni distrattore
 const MAX_CUE_SHARE := 0.08     # quota massima di item con quell'indizio
 
@@ -36,12 +37,13 @@ func _init() -> void:
 		var subject := str(ApparatusConfig.SUBJECT_CYCLE[index])
 		var low := _world_stats(content, subject, index + 1)
 		var high := _world_stats(content, subject, index + 13)
-		print("%-13s %2d+%2d  %5.2f → %5.2f   %3.0f%% → %3.0f%%   %2d → %2d   lezione %2.0f%% → %2.0f%%" % [
+		print("%-13s %2d+%2d  %5.2f → %5.2f   %3.0f%% → %3.0f%%   %2d → %2d   lezione %2.0f%% → %2.0f%%   focus %2.0f%% → %2.0f%%" % [
 			subject, index + 1, index + 13,
 			low["difficulty"], high["difficulty"],
 			low["hard"] * 100.0, high["hard"] * 100.0,
 			int(low["topics"]), int(high["topics"]),
-			float(low["promisedShare"]) * 100.0, float(high["promisedShare"]) * 100.0])
+			float(low["promisedShare"]) * 100.0, float(high["promisedShare"]) * 100.0,
+			float(low["focusShare"]) * 100.0, float(high["focusShare"]) * 100.0])
 		if int(low["topics"]) < MIN_TOPICS_PER_WORLD:
 			failures.append("%s L%d: solo %d argomenti nel mondo" % [subject, index + 1, int(low["topics"])])
 		if int(high["topics"]) < MIN_TOPICS_PER_WORLD:
@@ -58,8 +60,13 @@ func _init() -> void:
 			for missing in Array(stats["missingTopics"]):
 				failures.append("L%d (%s): la lezione promette '%s' ma il mondo non lo serve mai" % [lvl, subject, str(missing)])
 			if float(stats["promisedShare"]) < MIN_PROMISED_SHARE:
-				failures.append("L%d (%s): solo il %.0f%% dei nodi sugli argomenti promessi dalla lezione (min %.0f%%)" % [
+				failures.append("L%d (%s): solo il %.0f%% dei nodi DELLA MATERIA sugli argomenti promessi (min %.0f%%)" % [
 					lvl, subject, float(stats["promisedShare"]) * 100.0, MIN_PROMISED_SHARE * 100.0])
+			# Ogni mondo ospita tutte e dodici le materie, ma la sua deve restare
+			# dominante: è ciò che regge lezione, landmark, gate e identità.
+			if float(stats["focusShare"]) < MIN_FOCUS_SHARE:
+				failures.append("L%d (%s): la materia del mondo è solo il %.0f%% dei nodi (min %.0f%%)" % [
+					lvl, subject, float(stats["focusShare"]) * 100.0, MIN_FOCUS_SHARE * 100.0])
 
 	# --- 2) Qualità dei distrattori nei banchi ------------------------------------
 	print("Indizio di lunghezza nei banchi (risposta a frase più lunga di %.0f%% di ogni distrattore)" % ((CUE_RATIO - 1.0) * 100.0))
@@ -102,6 +109,7 @@ func _world_stats(content: ContentManager, subject: String, level: int) -> Dicti
 	var topics: Dictionary = {}
 	var topic_counts: Dictionary = {}
 	var total := 0
+	var focus_nodes := 0
 	var hard := 0
 	var difficulty_sum := 0.0
 	for repeat in range(REPEATS):
@@ -110,17 +118,25 @@ func _world_stats(content: ContentManager, subject: String, level: int) -> Dicti
 		var sessions: Array = []
 		for event in events:
 			var kind := str((event as Dictionary).get("kind", "mission"))
+			# La materia è quella dell'EVENTO, non quella del mondo: da quando ogni
+			# mondo ospita tutte e dodici le materie (decisione del 30 luglio), usare
+			# sempre il focus misurava un'esperienza che non esiste — diciotto
+			# sessioni della materia del mondo invece di sette.
+			var event_subject := str((event as Dictionary).get("subject", subject))
 			if kind == "enigma":
-				sessions.append(content.build_enigma(subject, level, 4, {}, rng))
+				sessions.append(content.build_enigma(event_subject, level, 4, {}, rng))
 			elif kind == "practice":
-				sessions.append(content.minigame_manager.build_minigame(subject, level, rng))
+				sessions.append(content.minigame_manager.build_minigame(event_subject, level, rng))
 			else:
-				sessions.append(content.build_varied_mission(subject, level, 3, {}, rng))
+				sessions.append(content.build_varied_mission(event_subject, level, 3, {}, rng))
 		sessions.append(content.build_final_exam(subject, level, 3, rng))
 		for session in sessions:
+			var session_subject := str((session as Dictionary).get("subject", subject))
 			for node in (session as Dictionary).get("nodes", []):
 				var n: Dictionary = node
 				total += 1
+				if session_subject == subject:
+					focus_nodes += 1
 				var d := int(n.get("difficulty", 1))
 				difficulty_sum += float(d)
 				if d >= 3:
@@ -146,7 +162,15 @@ func _world_stats(content: ContentManager, subject: String, level: int) -> Dicti
 		"difficulty": difficulty_sum / float(maxi(1, total)),
 		"hard": float(hard) / float(maxi(1, total)),
 		"topics": topics.size(),
-		"promisedShare": float(promised_nodes) / float(maxi(1, total)),
+		# La quota si misura sui nodi della materia DEL MONDO, non su tutti: gli
+		# eventi di varietà sono per definizione di altre materie, e la promessa
+		# della lezione riguarda la materia del mondo. Misurarla su tutto
+		# significherebbe punire il mondo per essere vario, che è ciò che gli
+		# abbiamo chiesto di essere.
+		"promisedShare": float(promised_nodes) / float(maxi(1, focus_nodes)),
+		# La materia del mondo deve restare DOMINANTE: "leggermente dominante" è
+		# comunque dominante, ed è ciò che tiene in piedi lezione, landmark e gate.
+		"focusShare": float(focus_nodes) / float(maxi(1, total)),
 		"missingTopics": missing,
 	}
 

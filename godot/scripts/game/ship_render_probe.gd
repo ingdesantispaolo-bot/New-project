@@ -65,7 +65,7 @@ func _set_completed_levels(hub: Node, completed_levels: int) -> void:
 	var save: GameSaveManager = hub.get("save")
 	save.data = GameSaveManager._default_data()
 	for level in range(1, mini(completed_levels, ApparatusConfig.MAX_LEVEL) + 1):
-		var gate := ApparatusConfig.level_gate(level)
+		var gate := ApparatusConfig.apparatus_gate(ApparatusConfig.world_subject(level), level)
 		save.set_apparatus_repaired(str(gate["apparatus"]), level)
 	save.set_level(mini(completed_levels, ApparatusConfig.MAX_LEVEL) + 1)
 	var controller: HubController = hub.get("controller")

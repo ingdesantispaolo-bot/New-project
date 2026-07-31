@@ -416,7 +416,7 @@ esportabile e giocabile, e ognuna chiude con tre cose fisse:
 | # | Tappa | Cosa vedi tu | Etichette |
 |---|---|---|---|
 | **1** ✅ | **La voce bloccata in menu** | Al primo avvio: «IL SECONDO VIAGGIO — Rotta chiusa · 0/24». I 24 mondi diventano un percorso verso qualcosa | S0 |
-| **2** | **Il Custode** | Un cucciolo a cui dai un nome, con la faccia sempre in un angolo, che si accarezza, reagisce e ogni tanto fa una figura barbina mentre NORA prende appunti | P1–P3 |
+| **2** ◐ | **Il Custode** | Un cucciolo a cui dai un nome, con la faccia sempre in un angolo, che si accarezza e reagisce. **Fatto**: stato, legame, motore delle espressioni, volto a 10 facce, carezza, pannello del nome. **Manca**: combinelle, regalo di Lucilla, schermata di personalizzazione | P1–P2 |
 | **3** | **Parlare con qualcuno** | Tobia, nonna Ersilia e Puccio nella Radura. Si parla, e rispondono in carattere | A1 + O-P6.1 |
 | **4** | **Missioni con un volto** | La stessa missione di prima, ma chiesta da Tobia, con la bussola che punta e una battuta al ritorno — anche se hai fallito | A2 + O-P6.7 |
 | **5** | **Gli edifici del mondo 1** | Casa del Conto, Fontana dei Filari, Obelisco dei Numeri. Le finestre si accendono man mano | A3 |
@@ -450,6 +450,15 @@ moltiplica per ventiquattro.
 ### Segnaposti aperti
 
 Ogni segnaposto introdotto va elencato qui e chiuso entro la tappa dichiarata.
+
+- **Il primo Custode arriva senza Lucilla.** La consegna avviene alla prima
+  sessione conclusa, con il pannello del nome; la cornice narrativa (l'allevatrice
+  che te lo affida) richiede gli itineranti. **Qui c'è la meccanica, non la
+  scena**: si chiude alla tappa 4. Il testo attuale del pannello non nomina
+  nessuno, quindi non andrà riscritto, solo preceduto.
+- **`pet_face_widget` apre la carezza al tocco, non la schermata.** Il tocco lungo
+  che apre la personalizzazione arriva con `pet_screen.gd`. **Tappa 2, seconda
+  parte.**
 
 - **`boot_menu.gd` · `_on_second_journey_pressed()`** — a rotta aperta il pulsante
   scrive «Rotta aperta · in arrivo» invece di caricare la modalità, che non esiste
@@ -512,6 +521,520 @@ per le materie autorate — es. `ORDERING["scienze"]` serve `materia`, `ciclo-ac
 `catena`, `organizzazione`, mentre il mondo 10 dichiara `viventi/ecosistema/metodo`.
 Per un evento di *pratica* è difendibile come ampliamento, ma diluisce il «ripasso
 mirato» della decisione 3 del 29 luglio. Il nuovo audit **non** lo vieta.
+
+## Difetto grave aperto (31 luglio) — le prove si ripetono
+
+Segnalato giocando: «italiano e matematica sono sempre gli stessi, non solo la
+tipologia ma anche **gli stessi numeri**: lo studente si trova due prove uguali».
+
+### La misura che mancava
+
+Nessun audit misurava la cosa che il bambino percepisce. `format_mix` misura la
+varietà dei FORMATI, `content_depth` la profondità degli ARGOMENTI: un mondo può
+essere verde su entrambi e servire cinque volte la stessa identica prova.
+Ora c'è **`variety_audit.gd`**: simula 10 missioni consecutive per materia e conta
+quante prove *distinte* capitano davvero.
+
+Prima misura, ed è severa — la stessa prova ricapitava fino a **9 volte su 30**
+(fisica L1 e scienze L1, formato `graph`; logica L1 `code_debug` ×8).
+
+### Le tre cause, misurate
+
+1. **Banchi magri.** Item per (argomento, difficoltà): **mediana 1** in otto
+   materie su dodici. musica 29 item totali, storia 30, scienze e logica 38,
+   coding 42. Quando il selettore sceglie quell'argomento a quella difficoltà,
+   c'è **un solo item**: è quello, sempre.
+2. **Specifiche dei minigiochi statiche e poche.** 16–33 per materia spalmate su
+   sei formati, e sono **dati fissi**: stessa specifica = stessi numeri. Col gate
+   `minLevel`, ai livelli bassi restano spesso **una o due** specifiche per
+   formato specialista.
+3. **Nessuna memoria anti-ripetizione** fra sessioni. Esisteva solo per la
+   matematica generata (`_recent_math_signatures`, finestra 28); ai formati
+   specialisti mancava del tutto.
+
+### L'ironia che vale la pena registrare
+
+**La correzione della varietà dei formati ha peggiorato la varietà dei contenuti.**
+La decisione 5 del 29 luglio (scelta multipla al ~20%) ha instradato l'80% delle
+campate sulle tabelle di specifiche piccole, che prima servivano una quota
+marginale. Ogni volta che si sposta il traffico su una sorgente, va misurata la
+profondità della sorgente.
+
+### Cosa ho corretto ora (palliativi, non la cura)
+
+- **Memoria anti-ripetizione** delle prove non-MC (finestra 24), l'equivalente di
+  quella che la matematica aveva già;
+- **rotazione a livello di formato**: se la prossima prova di un formato è già
+  stata vista, si preferisce un altro formato — perché con una sola specifica
+  disponibile l'unico modo di non ripetere è cambiare formato.
+
+Effetto misurato: peggiore da **×9 a ×6**, problemi da 15 a 1. Non è la cura:
+con un insieme di uno nessun algoritmo può ruotare.
+
+Regressione presa dagli audit strada facendo: avevo allargato la chiave di
+deduplica *dentro* la sessione, e `format_mix_audit` ha intercettato prove
+ripetute nella stessa missione. Chiave riportata stretta.
+
+### La cura: profondità estrema, in fasi
+
+Piano completo in [docs/PROFONDITA_CONTENUTI.md](docs/PROFONDITA_CONTENUTI.md).
+Obiettivo dell'utente: **cinquanta partite senza ripetersi, e voglia di farne
+altre cento.**
+
+Il conto che decide la strategia: ogni materia viene incontrata **~138 volte per
+partita** (2 mondi da ospite + 22 da varietà). Cinquanta partite = **~7.000
+esercizi distinti per materia**, ~84.000 in tutto. Oggi ce ne sono ~2.450 in
+totale. **Autorare è fuori scala di due ordini di grandezza**: la profondità non
+si scrive, si genera.
+
+La leva: una specifica che pesca **4 elementi da un insieme di 32** produce 35.960
+prove diverse — da sola supera il bisogno di cinquanta partite. Regola operativa:
+**ogni insieme deve superare le 10.000 combinazioni**, cioè 24–32 elementi per
+coppia (materia, formato). 12 materie × 6 formati = **72 insiemi, ~2.000 elementi
+da autorare** invece di 84.000.
+
+| Fase | Contenuto | Insiemi | Bersaglio `variety_audit` |
+|---|---|---|---|
+| **0** | Infrastruttura: specifiche a insieme + misura di profondità combinatoria | — | invariato (abilitatore) |
+| **1** | Nucleo: italiano, matematica, inglese | 18 | ×5 · 0,32 |
+| **2** | Banchi magri: musica, storia, scienze, coding, fisica, elettronica | 36 | ×3 · 0,25 |
+| **3** | Restanti: latino, geografia, logica | 18 | ×3 · 0,20 |
+| **4** | Ricchezza: più argomenti nei mondi alti, banda 4 popolata, trasferimento | — | — |
+| **5** | Cricchetto al bersaglio + soglia combinatoria | — | difende il risultato |
+
+I due numeri del cricchetto sono lo stato di fatto, **non** una promozione:
+possono solo scendere, e sono l'unico rendiconto del progresso.
+
+### Fase 0 — chiusa il 31 luglio (l'infrastruttura)
+
+Nessun contenuto nuovo, come previsto. Tre pezzi, e una scoperta che ne ha
+cambiato l'ordine di importanza.
+
+**1. Il meccanismo a insieme** — `godot/scripts/game/exercise_pool.gd`. Una
+specifica statica è semplicemente un insieme da cui si pesca tutto: **lo stesso
+codice serve entrambe le forme**, quindi le fasi successive migrano una materia
+alla volta senza rompere le altre. Estrazione deterministica per seed, vincoli di
+non-ambiguità applicati *prima* di costruire il nodo invece che validati dopo, e
+per lo smistamento un'estrazione che garantisce ogni contenitore non vuoto.
+Ordinamento e smistamento hanno ora una forma a insieme che prima non esisteva;
+l'abbinamento era già un'estrazione e ora passa dalla stessa strada.
+
+**2. La misura di profondità** — `combinatorial_depth_audit`. Diceva il piano:
+senza, non si sa quando una materia è finita. Il primo responso è netto:
+
+| | prove distinte producibili (peggiore fra L1 e L13) |
+|---|---|
+| matematica | 132.110 |
+| inglese | 80 |
+| italiano | 39 |
+| geografia | 33 |
+| latino | 22 |
+| scienze | 19 |
+| logica | 15 |
+| coding | 13 |
+| fisica · musica · elettronica | 12 |
+| storia | 6 |
+
+**Una coppia (materia, formato) su 67 raggiunge le 10.000 combinazioni**, ed è
+l'ordinamento generato di matematica — l'unica sorgente già combinatoria del
+progetto. Undici materie su dodici stanno fra 6 e 124: con ~138 incontri per
+partita, **la prima partita esaurisce già il materiale**. Il numero è congelato
+come pavimento: da qui può solo salire.
+
+**3. L'identità di contenuto** — `godot/scripts/game/exercise_signature.gd`. Non
+era in programma, ed è il pezzo che contava di più.
+
+Esistevano **tre** definizioni diverse di «stessa prova»: la deduplica dentro la
+sessione usava `formato|testo`, la memoria delle prove recenti
+`formato|testo|risposta`, l'audit di varietà i payload serializzati. Da quello
+scarto nascevano due difetti veri:
+
+- **la memoria anti-ripetizione era spenta sui formati specialisti.** Il confronto
+  «l'ho già vista» metteva la chiave stretta contro una lista di chiavi larghe:
+  combaciavano solo dove la risposta è vuota. Per grafico, circuito e caccia
+  all'errore — cioè proprio i formati con le ripetizioni peggiori misurate — non
+  poteva riuscire mai;
+- **la misura contava le presentazioni, non le prove.** Righe rimescolate ed
+  elementi in altro ordine risultavano prove nuove: **i numeri del 31 luglio
+  descrivevano un gioco più vario di quello che esisteva.**
+
+Ora la firma è una sola, guarda il contenuto e mai la presentazione, e la usano
+tutti e tre. Effetto: fisica **×8 → ×4**, scienze **×7 → ×5**, inglese **×6 → ×2**
+— non per contenuto nuovo, ma perché una macchina che c'era ha ricominciato a
+funzionare. In compenso storia, logica e musica peggiorano sulla carta: erano già
+così, non si vedeva.
+
+**Il cricchetto è stato rialzato una volta sola, e non tornerà a succedere.**
+0,38 → 0,67 perché è cambiata la *misura*, non il contenuto: i vecchi numeri non
+sono comparabili con i nuovi. Questi sono i primi onesti.
+
+Aggiunto anche un secondo cricchetto in `format_mix_audit`: **162 sessioni su
+3.648 (4,4%)** chiedono lo stesso argomento nello stesso formato due volte. Non è
+la stessa prova — quella ora è zero — ma è la stessa competenza a pochi minuti di
+distanza: sintomo di insiemi poveri, che le Fasi 1–3 fanno scendere da sé.
+
+Suite 79/79 verde. Esportato: `2026.07.31-web-loader-4` / `v18-web-loader`.
+
+### Fase 1 — chiusa il 31 luglio (il nucleo)
+
+~700 elementi autorati in italiano, matematica e inglese. Risultato misurato:
+
+| | prima | dopo |
+|---|---|---|
+| italiano | 39 | **8.074.778** |
+| inglese | 80 | **7.785.076** |
+| matematica | 132.110 | **407.510** |
+| ripetizioni del nucleo | fino a ×6 | **×1, 0–3%** |
+
+Il nucleo è **oltre il bersaglio finale** (×3 · 20%): tre materie su tre a ×1.
+Coppie (materia, formato) sopra le 10.000 combinazioni: da 1 a **9 su 67**.
+
+Cosa ha funzionato, e cosa no:
+
+- **abbinamento** — regge un insieme profondo solo dove ogni voce ha una risposta
+  sua: contrari, sinonimi, definizioni, modi di dire, vocaboli, tabelline. I
+  contenuti «a categoria» (classe grammaticale, tempo verbale) **non possono
+  crescere lì**: con quattro risposte per venti voci l'abbinamento diventa
+  ambiguo. Sono migrati allo smistamento, che è fatto apposta;
+- **smistamento** — il formato che regge meglio: poche categorie leggibili, ma
+  ventiquattro-trentadue tessere, e si pescano sei. È da solo il grosso degli otto
+  milioni;
+- **ordinamento** — parametrizzabile solo dove l'ordine è una proprietà
+  *misurabile* (alfabeto, valore numerico). Il riordino di una frase resta a dato
+  fisso: l'ordine giusto è quello di *quella* frase, non c'è insieme da cui pescare.
+
+Due difetti presi e corretti mentre scrivevo i contenuti, entrambi della stessa
+famiglia — **contenuto che regala la risposta**:
+
+1. per evitare risultati duplicati avevo scritto etichette come `12 (144÷12)`: la
+   carta della risposta conteneva l'operazione, quindi si abbinava senza calcolare.
+   Corretto rendendo tutti i risultati **naturalmente distinti**;
+2. la misura di varietà giocava **una** partita casuale e oscillava fra il 60% e il
+   70%: un cricchetto su un numero che balla passa per fortuna o fallisce per
+   sfortuna. Ora gioca cinque partite a semi fissi e riporta la peggiore.
+
+I due cricchetti della varietà si sono mossi una seconda volta (0,60/×7 →
+0,70/×8), sempre per un cambio di misura e non di contenuto. **Con questo la
+strumentazione è chiusa**: da qui in poi ogni movimento è contenuto, e solo in
+discesa. Restano alti perché li detta storia — sei prove distinte in tutto, ed è
+la prima della Fase 2.
+
+Suite 79/79 verde. Esportato: `2026.07.31-web-loader-5` / `v19-web-loader`.
+
+### Fase 2 — chiusa il 31 luglio (i banchi magri)
+
+Sei materie: musica, storia, scienze, coding, fisica, elettronica.
+
+| | prima | dopo | peggiore ripetizione |
+|---|---|---|---|
+| coding | 13 | **7.666.565** | ×3 |
+| fisica | 12 | **248.258** | ×2 |
+| musica | 12 | **243.414** | ×3 |
+| scienze | 19 | **221.329** | ×3 |
+| elettronica | 12 | **213.551** | ×2 |
+| storia | 6 | **133.313** | ×3 |
+
+**Nove materie su dodici sono al bersaglio finale** (×1–×3). Restano latino,
+geografia e logica: sono la Fase 3, e sono loro a tenere alti i due cricchetti
+(0,50 · ×7). Coppie sopra le 10.000 combinazioni: da 9 a **17 su 67**.
+
+La scoperta di questa fase: **in storia e in fisica l'ordinamento è il formato
+migliore, non il peggiore.** Vale ovunque l'ordine sia una *grandezza* e non una
+convenzione — l'anno di un evento, i km/h, i kg, i battiti al minuto di un tempo
+musicale, i volt. Ventotto eventi storici con il loro anno danno 20.475 prove
+diverse, e ogni estrazione è una domanda di storia sensata perché la linea del
+tempo è una sola.
+
+Con un limite che ho dovuto scrivere in codice: l'insieme cronologico grande
+parte dal mondo 6. Pescandone tre a caso al mondo 1 poteva uscire «Hammurabi,
+prima crociata, peste nera» — che non è una prova difficile, è una prova
+impossibile a dieci anni. Sotto c'è un secondo insieme di eventi notissimi e
+molto distanti, dove l'ordine si ricava dal senso storico e non dalla memoria
+delle date.
+
+**Due difetti presi dagli audit, entrambi causati dal successo della Fase 1:**
+
+1. `format_mix_audit` ha visto le sessioni con lo stesso argomento nello stesso
+   formato **salire** da 141 a 184. Contro-intuitivo ma logico: con gli insiemi
+   profondi due estrazioni dello stesso insieme non sono più identiche, quindi
+   non venivano più scartate. Per chi gioca però restano due volte la stessa
+   consegna a un minuto di distanza. Corretto separando **due chiavi dichiarate**
+   — dentro la sessione conta (formato, argomento), fra le sessioni conta
+   l'identità di contenuto. Sceso a **74 su 3.648 (2%)**;
+2. `content_depth_audit` ha visto sparire **«proporzioni»** dal mondo 13: la
+   lezione lo prometteva, ma era servito solo dal banco a scelta multipla, e la
+   tavolozza più ricca ne sostituisce di più. La cura non è iniettare meno
+   minigiochi — è dare ai minigiochi l'argomento che il mondo promette.
+
+Suite 79/79 verde. Esportato: `2026.07.31-web-loader-6` / `v20-web-loader`.
+
+### Fase 3 — chiusa il 31 luglio (le ultime tre)
+
+latino, geografia, logica.
+
+| | prima | dopo | peggiore ripetizione |
+|---|---|---|---|
+| geografia | 33 | **7.791.351** | ×2 |
+| latino | 22 | **297.163** | ×3 |
+| logica | 15 | **133.892** | ×4 |
+
+**Dodici materie su dodici sono a posto.** La più povera è ora elettronica con
+213.551 prove distinte producibili — millecinquecento volte quello che serve per
+una partita intera.
+
+Ogni materia ha richiesto una strategia diversa, e questa è la lezione più utile
+dell'intero piano:
+
+- **geografia** è la materia più facile da rendere profonda: quasi ogni ordine è
+  una grandezza (metri, chilometri, abitanti) e quasi ogni fatto è una coppia
+  unica (Paese → capitale). Da 33 a 7,8 milioni senza inventare niente;
+- **latino** è l'opposto: l'ordine dei casi è convenzione pura — si recitano così
+  perché così li recita il libro, non perché uno sia «maggiore». Lì l'ordinamento
+  resta a dato fisso, e tutta la profondità è dovuta venire da smistamento e
+  abbinamento;
+- **logica** è il caso più delicato. La profondità non può venire da **più
+  elementi**: un insieme di trenta cani e trenta rose non rende il ragionamento
+  più ricco, solo più lungo. Deve venire da **più regole** — quantificatori
+  diversi, negazioni, affermazioni vere per ragioni diverse («alcuni numeri primi
+  sono pari» è vera, e capire perché è tutto l'esercizio). E ogni insieme di
+  analogie è **una relazione sola**, dichiarata: mescolarle renderebbe
+  l'abbinamento indovinabile per associazione, che è il contrario di ciò che la
+  materia allena.
+
+**I cricchetti sono scesi a 0,17 · ×4** — la quota di ripetizioni è *sotto* il
+bersaglio dichiarato (0,20), il ×4 lo supera di uno. Quel residuo è logica al
+primo mondo e non è un problema di insiemi: viene dalla caccia all'errore, che è
+un formato a dato fisso dove ogni specifica vale una prova sola. Portarlo a ×3
+vuol dire più specifiche specialiste ai livelli bassi — cioè la Fase 4.
+
+Attivata anche la **soglia di sufficienza** prevista dalla Fase 5: sotto le 1.380
+prove distinte per materia l'audit è rosso. È dieci volte il fabbisogno di una
+partita, e da oggi difende il risultato invece di limitarsi a misurarlo.
+
+Suite 79/79 verde. Esportato: `2026.07.31-web-loader-7` / `v21-web-loader`.
+
+### Fase 4 — chiusa il 31 luglio (la ricchezza)
+
+Obiettivo diverso dalle prime tre: quelle toglievano la noia, questa serve a
+guadagnare la voglia di continuare. Tre cose, e due errori miei corretti in corsa.
+
+**1. Il gradiente di difficoltà dentro la sessione.** Fino a ieri *ogni* minigioco
+di un mondo aveva la stessa identica difficoltà: al mondo 3 tutto a 1, al mondo 20
+tutto a 4. Una sessione piatta non è solo monotona, è didatticamente peggiore — si
+entra senza scaldarsi e si esce senza essere stati messi alla prova. Ora la prima
+campata scende di un gradino e l'ultima sale: **riscaldamento, corpo, sfida**. La
+media resta quella del livello, quindi la progressione della campagna non cambia.
+
+Effetto misurato sulla copertura delle bande: le prove a difficoltà ≥3 nella
+seconda comparsa di una materia passano dal 100% al 71–79% (torna a esistere il
+riscaldamento), e nella prima comparsa dal 3–5% al 24–27% (comincia a esistere la
+sfida). Le bande estreme non spariscono più di colpo.
+
+**2. Le bande vuote dei banchi.** Era il pezzo di Fase 2 che avevo lasciato
+indietro: musica e fisica avevano **tre** item a difficoltà 1, storia quattro e un
+solo item a difficoltà 4, coding uno. Con tre item in una banda il banco ripropone
+la stessa domanda quattro volte su trenta. **89 item nuovi** su sette materie.
+
+**3. Musica al primo mondo** aveva otto abbinamenti possibili in tutto — due
+specifiche da quattro coppie. Portata a 375 con durate in battiti, nomi
+internazionali delle note e modo di produrre il suono.
+
+**I due errori, che vale la pena aver registrati:**
+
+- ho legato il numero di tessere alla difficoltà **assoluta**. Risultato misurato:
+  la profondità del primo mondo è crollata da 200.000 a 15.000 e le ripetizioni
+  sono risalite dal 17% al 23%, perché al mondo 1 *ogni* campata pescava meno, non
+  solo il riscaldamento. Il gradiente deve variare **dentro** la sessione, non
+  spostare la campagna verso il basso: rifatto legandolo al passo (−1 / +1);
+- ho scritto gli 89 item nuovi con la risposta sempre in prima posizione — comodo
+  da autorare, ma `giveaway_audit` l'ha preso subito: la posizione fissa è un
+  indizio gratuito. Ridistribuita sulle quattro posizioni.
+
+**Il risultato che non mi aspettavo.** Le sessioni con lo stesso argomento nello
+stesso formato sono passate da 72 a **zero su 3.648**. Non per contenuto: avevo
+attribuito il problema a insiemi poveri, e mi sbagliavo — era la **selezione**. Il
+banco pescava senza guardare quali argomenti fossero già nella sessione. Ora
+preferisce un argomento non ancora usato, e il cricchetto è assoluto: una sola
+sessione che chiede due volte lo stesso argomento fa fallire l'audit.
+
+Suite 79/79 verde. Esportato: `2026.07.31-web-loader-8` / `v22-web-loader`.
+
+### Dove siamo, alla fine del piano
+
+| | prima | dopo |
+|---|---|---|
+| prove distinte producibili | ~2.450 | **oltre 33 milioni** |
+| coppie (materia, formato) sopra 10.000 | 1 su 67 | **23 su 67** |
+| peggiore ripetizione | ×8 · 38% *(misura non onesta)* | **×4 · 17%** |
+| sessioni con argomento ripetuto | 184 al picco | **0 su 3.648** |
+| materia più povera | storia, 6 prove | elettronica, **213.551** |
+
+Tre cricchetti difendono il risultato: le ripetizioni possono solo scendere, la
+profondità solo salire, e le sessioni con argomento ripetuto devono restare zero.
+
+## Ruolo degli esercizi di allenamento — da ridefinire
+
+Domanda aperta dell'utente: gli esercizi di pratica devono valere qualcosa.
+
+Stato attuale, che è già cambiato senza che ce ne accorgessimo: da quando il gate
+non conta più le missioni ma la **padronanza**, la pratica di una materia del
+nucleo **muove già il livello** — perché muove la mastery. Prima non contava per
+definizione (`countsForGate: false`), ora conta eccome.
+
+Quindi il lavoro non è dare valore alla pratica: è **renderlo visibile** e
+distinguerlo per tipo di materia.
+
+- Pratica di una materia del **nucleo** → avvicina il livello. Va detto nell'HUD.
+- Pratica di una materia **satellite** → avvicina l'apparato di quella materia,
+  cioè una stanza della nave, cioè il Cuore. Va detto anche questo.
+- In entrambi i casi resta vero il vincolo: **nessuna ricompensa scavalca una
+  prova di competenza**.
+
+Da decidere insieme: se la pratica debba dare anche una ricompensa propria
+(energia, frammenti, facce del Custode) e con quale curva per le materie
+trascurate — è la leva 3 delle quattro di copertura.
+
+## Decisione (30 luglio) — nucleo e satelliti
+
+**Si sale di livello con tre materie; si finisce il gioco con dodici.**
+Italiano, matematica e inglese gatano il livello; le altre nove danno ricompense,
+accendono le stanze della nave e restano obbligatorie per il finale.
+E il gate del livello non conta più le missioni: **soglia sulla padronanza**.
+
+Progetto completo in [DESIGN_COMPLETO.md](docs/DESIGN_COMPLETO.md) §2. In sintesi:
+
+- **Livello** ← nucleo (accuratezza + copertura + ritenzione per ciascuna delle tre,
+  **nessun conteggio di missioni**). Senza il conteggio sono copertura e ritenzione
+  a impedire che una serie fortunata apra il gate: non sono un contorno, sono la
+  difesa. Chi fatica non si blocca perché la difficoltà adattiva scende.
+- **Apparati** ← ogni materia, quando si vuole. Riparare **non fa più salire di
+  livello**: accende una stanza.
+- **Mondi** ← invariati: la materia che li abita resta la loro identità.
+
+Possibile **solo** grazie alla decisione dello stesso giorno sulla varietà: prima
+il nucleo non era praticabile nel mondo 7.
+
+### Il vicolo cieco che questa decisione crea
+
+Se il livello sale col solo nucleo, si può arrivare al 24 senza aver mai toccato
+latino — e trovarsi davanti la prova a dodici sistemi del Cuore, impossibile.
+**Il Cuore deve aprirsi con dodici stanze accese, non con ventiquattro livelli**,
+e la nave deve dichiararlo dall'inizio. È la garanzia strutturale che tutte le
+competenze vengano acquisite: i premi da soli non bastano, i gate sì.
+
+### Lavoro: fatto e da fare
+
+- [x] **Passo 1 — separare identità e gate.** `ApparatusConfig.world_subject()` e
+      `apparatus_of()` distinguono «quale materia abita il mondo N» da «cosa apre
+      il livello». Cambiamento a comportamento identico, fatto per ridurre il
+      raggio d'azione del passo 2 — 19 consumatori di `level_gate`, di cui 10 audit.
+- [x] **Passo 2 — il gate è il nucleo.** `GateReadiness.evaluate_subject()` (tre
+      dimensioni) ed `evaluate_core()` (le tre materie). `level_gate()` non
+      contiene più `subject` né `missionsRequired`.
+- [x] **Passo 3 — apparato e livello scollegati.** `repair_apparatus(subject)` e
+      `advance_level()` sono due atti distinti; `repair_and_advance()` resta come
+      compatibilità e può riuscirne solo uno.
+- [x] **Passo 4 — HUD**: da «Missioni 3/5» a «Nucleo · Ita 82% · Mat 91% · Ing 64%»,
+      più il contatore delle stanze accese.
+- [x] **Passo 5 — il Cuore richiede dodici stanze accese.** `can_open_heart()`
+      gatta la prova trasversale e `advance_level()` non supera l'ultimo gradino
+      con materie mai affrontate. Il conteggio «Cuore N/12 stanze» è nel contratto
+      **dal livello 1** e compare nel prompt dell'apparato: l'obiettivo si scopre
+      all'inizio, non al mondo 24. Se il Cuore è chiuso, NORA dice **quali**
+      stanze mancano — una porta chiusa senza spiegazione è un difetto quanto la
+      porta impossibile. Guard-rail: `heart_gate_audit.gd`.
+- [ ] **Passo 6 — le quattro leve di copertura**: nave incompleta visibile, bonus
+      crescente sulle materie trascurate, collezione del Custode, «esploratore
+      completo».
+- [x] **Salvataggi**: profili attuali dichiarati sacrificabili dall'utente. Nessuna
+      migrazione scritta: un save vecchio conserva livello e conteggi, che ora
+      significano un'altra cosa (i conteggi non gatano più).
+
+### Cosa è servito davvero: quindici audit riscritti
+
+La migrazione ha toccato 19 consumatori, ma il lavoro vero è stato negli audit:
+**codificavano le regole vecchie**, quindi diventavano rossi *correttamente*.
+Riscritti sulla nuova semantica: `c01`, `c02`, `c05`, `c06`, `loop`,
+`progression_1to24`, `boot_navigation`, `guardrails`, `topic_evidence`,
+`ship_activation`, `ship_reactivation_sequence`, `world_wave_e2`, `roundtrip`,
+più due probe. Misura finale: **75/75 verdi**, livello 2 dopo 15 missioni
+(cinque per materia del nucleo).
+
+Due difetti del *runner* trovati strada facendo, entrambi corretti:
+
+- **`EBUSY` in pulizia abortiva l'intera suite** al primo audit appeso, nascondendo
+  tutti i risultati successivi: su Windows l'handle su `godot.log` resta aperto
+  qualche istante dopo il kill. Ora la pulizia non può far fallire la suite, e da
+  lì si è passati da «vedo due errori» a «li vedo tutti insieme».
+- Ho lanciato **due suite in parallelo** e si sono pestate i piedi sulla stessa
+  cartella temporanea. Vale come regola: una suite per volta.
+
+### Difetto trovato strada facendo: un file senza audit
+
+Ho rimosso una variabile ancora usata in `competency_matrix.gd` e **la suite è
+rimasta verde**: quel file non è coperto da nessun audit. Corretto subito, ma il
+buco resta — la matrice delle competenze è l'artefatto per i docenti, e oggi
+nessuno verifica che si generi. Da coprire.
+
+## Decisione (30 luglio) — un mondo è un LIVELLO, non una materia
+
+Segnalata giocando: «girando trovo solo missioni di matematica, perché?».
+
+Causa doppia. Una **inerente**: al mondo 1 matematica è l'unica materia
+introdotta, quindi lì è quasi inevitabile. Una **no**:
+`MissionEventDirector.plan()` leggeva la materia dal focus del mondo una volta
+sola e la assegnava a **tutti** gli eventi, compresi i tre di pratica che non
+contano per il gate; e `_planned_world_events()` filtrava il ripasso spaziato
+sulla sola materia del mondo. Quindi anche al mondo 12, con sei materie
+incontrate, si vedeva solo logica. `DESIGN_COMPLETO.md` §3 prometteva il
+contrario da sempre, e nessuna decisione l'aveva revocato.
+
+**Decisione dell'utente**: ogni mondo deve avere missioni di **tutte e dodici le
+materie**, con quella del focus soltanto *leggermente dominante*. Il mondo è
+definito dal **livello** (la banda di difficoltà), non dalla materia.
+
+Implementazione:
+
+- gli eventi che **contano per il gate restano sul focus** — devono: il gate conta
+  missioni di quella materia, ed è ciò che dà al mondo lezione, landmark e
+  trasformazione ambientale. È lì che sta la dominanza;
+- **undici eventi di varietà**, uno per ogni altra materia, `countsForGate: false`.
+  I formati seguono la materia dell'evento, non quella del mondo;
+- l'ordine delle altre materie parte da quella successiva al focus nel ciclo:
+  mondi diversi le presentano in ordini diversi, **senza introdurre casualità**
+  (il determinismo per seed resta un contratto);
+- il ripasso spaziato diventa **per materia**: `weakBySubject`/`dueBySubject`.
+  Prima un argomento debole di un'altra materia non poteva riemergere mai — delle
+  tabelline arrugginite al mondo 12 restavano arrugginite.
+
+Perché conta oltre alla varietà percepita: sette missioni di fila della stessa
+materia sono **pratica bloccata**, inferiore a quella alternata per ritenzione e
+trasferimento.
+
+### Il costo, e perché non si è pagato
+
+Da 10 a 18 POI per mondo. Prima misura: mondo 1 a **2916 nodi** e avvio a
+769/500 ms — fuori budget.
+
+Invece di rinunciare alla decisione ho guardato dove andava il tempo: a POI non
+completato `WorldLearningReaction` costruiva **cinque gruppi di nodi e li
+nascondeva subito** (`set_progress(0, …)` li rende tutti invisibili). Con un solo
+POI contava poco; con diciotto era il costo di avvio più grosso del mondo 1. Ora
+le parti si costruiscono **al primo progresso reale**, che è quando si vedono; il
+landmark — uno solo per mondo — resta eager perché le sue fasi devono essere
+ispezionabili dal caricamento.
+
+Esito: **2441 nodi con 18 POI, meno dei 2668 che c'erano con 10**. Avvio del mondo
+1 su sei misure: 349, 360, 365, 398, 434 e un 623 isolato sotto contesa. Più
+veloce di prima, con quasi il doppio dei POI.
+
+Sei audit di wave verificavano `active_parts.size() == 5` **al caricamento**:
+un dettaglio implementativo travestito da contratto. Ora verificano il
+comportamento — che la trasformazione progressiva esista e avanzi dopo il primo
+progresso — che è un test più forte di quello che sostituisce.
+
+**Resta aperto**: il bonus «esploratore completo» promesso da `DESIGN_COMPLETO.md`
+§3 per chi tocca materie diverse nella stessa sessione. Non implementato.
 
 ## Difetto corretto dopo segnalazione (30 luglio) — caccia all'errore poco chiara
 

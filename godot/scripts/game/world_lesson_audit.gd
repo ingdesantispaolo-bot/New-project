@@ -27,7 +27,7 @@ func _init() -> void:
 		var subject := str(lesson["subject"])
 
 		# Coerenza con la scala di progressione e col WorldProfile.
-		assert(subject == str(ApparatusConfig.level_gate(level)["subject"]), "focus lezione L%d incoerente con la scala" % level)
+		assert(subject == ApparatusConfig.world_subject(level), "focus lezione L%d incoerente con la scala" % level)
 		assert(subject == str(WorldProfileCatalog.profile(level)["learningFocus"]["subject"]), "focus lezione L%d incoerente col profilo" % level)
 
 		# Contenuto didattico completo.

@@ -14,6 +14,7 @@ const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
 const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
+const PET_FACE_WIDGET_SCRIPT := preload("res://scripts/ui/pet_face_widget.gd")
 const EQUIPMENT_GATE_SCRIPT := preload("res://scripts/visual/equipment_gate.gd")
 const WORLD_ENEMY_SCRIPT := preload("res://scripts/world_enemy.gd")
 
@@ -41,6 +42,9 @@ var atmosphere_layer: CanvasLayer
 var atmosphere_rect: ColorRect
 var atmosphere_material: ShaderMaterial
 var ui_layer: CanvasLayer
+var pet_face: PetFaceWidget
+var pet_naming_panel: PanelContainer
+var _pet_cuddles_this_session := 0
 var feedback_label: Label
 var feedback_source_label: Label
 var feedback_panel: PanelContainer
@@ -252,24 +256,48 @@ func _profile_in_scene_coordinates(profile: Dictionary) -> Dictionary:
 
 func _planned_world_events() -> Array:
 	var subject := _world_subject()
-	var due_topics: Array = []
+	# Argomenti deboli e in scadenza per OGNI materia, non solo per quella del
+	# mondo: gli eventi di varietà sono di altre materie, e un suggerimento filtrato
+	# sul solo focus li lascerebbe senza priorità di ripasso — che è metà del motivo
+	# per cui esistono.
+	var due_by_subject: Dictionary = {}
 	for key in SpacedRepetition.due_map(game_save).keys():
-		var prefix := "%s:" % subject
-		if str(key).begins_with(prefix):
-			due_topics.append(str(key).trim_prefix(prefix))
-	var weak_topics: Array = []
-	for topic in game_save.topic_masteries(subject).keys():
-		if float(game_save.topic_masteries(subject).get(topic, 1.0)) < ContentManager.WEAK_TOPIC_THRESHOLD:
-			weak_topics.append(str(topic))
+		var parts := str(key).split(":", true, 1)
+		if parts.size() == 2:
+			var bucket: Array = due_by_subject.get(parts[0], [])
+			bucket.append(parts[1])
+			due_by_subject[parts[0]] = bucket
+	var weak_by_subject: Dictionary = {}
+	for candidate in ApparatusConfig.SUBJECT_CYCLE:
+		var masteries := game_save.topic_masteries(str(candidate))
+		var weak: Array = []
+		for topic in masteries.keys():
+			if float(masteries.get(topic, 1.0)) < ContentManager.WEAK_TOPIC_THRESHOLD:
+				weak.append(str(topic))
+		if not weak.is_empty():
+			weak_by_subject[str(candidate)] = weak
 	var context := {
-		"missionsRequired": int(ApparatusConfig.level_gate(world_level).get("missionsRequired", 5)),
-		"weakTopics": weak_topics,
-		"dueTopics": due_topics,
+		# Quanti POI della materia ospite: presenza nel mondo, non requisito del gate.
+		"missionsRequired": MissionEventDirector.HOST_EVENTS,
+		# Compatibilità con i consumer che leggono ancora il solo focus.
+		"weakTopics": Array(weak_by_subject.get(subject, [])),
+		"dueTopics": Array(due_by_subject.get(subject, [])),
+		"weakBySubject": weak_by_subject,
+		"dueBySubject": due_by_subject,
+		# Argomenti che la lezione del mondo promette: gli eventi del focus ci
+		# restano sopra quando non c'è ripasso in sospeso.
+		"lessonTopics": WORLD_LESSON_CATALOG.topics(world_level),
 		"recentFormats": [],
 	}
 	var planned := MissionEventDirector.plan(world_profile, context, world_seed)
+	# Il tetto deve lasciar passare TUTTE le materie: troncare qui farebbe sparire
+	# sempre le ultime della rotazione, e alcune materie non comparirebbero mai in
+	# nessun mondo. Gli eventi sono distribuiti su tutta l'area giocabile, quindi
+	# quanti ne sono *attivi insieme* lo decide lo streaming, non questo elenco.
+	var minimum := int(context["missionsRequired"]) + MissionEventDirector.GATE_SURPLUS \
+		+ MissionEventDirector.other_subjects(subject).size()
 	var budget := _profile_performance_budget()
-	var maximum := maxi(int(context["missionsRequired"]) + MissionEventDirector.GATE_SURPLUS, int(budget.get("maxActivePois", 14)))
+	var maximum := maxi(minimum, int(budget.get("maxActivePois", 14)))
 	if planned.size() > maximum:
 		planned = planned.slice(0, maximum)
 	return planned
@@ -1032,7 +1060,8 @@ func _create_profile_landmark() -> void:
 		_learning_reaction_theme(),
 		"world",
 		OutdoorVisualFactory.hex_color(_profile_accent_rgb()),
-		environment_transform)
+		environment_transform,
+		true)  # landmark: una sola per mondo, costruita subito
 	profile_environment_reaction.name = "ProfileEnvironmentTransform"
 	profile_environment_reaction.position = _hero_landmark_position() + Vector2(0, 42)
 	profile_environment_reaction.scale = Vector2.ONE * (2.0 if world_level == 24 else 1.75 if world_level in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23] else 1.35)
@@ -1551,6 +1580,7 @@ func _create_exercise_player() -> void:
 	exercise_player.session_finished.connect(_on_exercise_finished)
 	exercise_player.concept_help_requested.connect(_open_contextual_codex)
 	exercise_player.learning_signal.connect(_on_nora_learning_signal)
+	exercise_player.answer_resolved.connect(_on_pet_answer_resolved)
 	# La costruzione dell'enigma avanza in tempo reale: inoltro il progresso alla
 	# logica, che rilancia `enigma_progress` (con tema) per la resa di Codex.
 	exercise_player.progress_changed.connect(_on_exercise_progress)
@@ -1776,6 +1806,7 @@ void fragment() {
 	feedback_row.add_child(feedback_label)
 
 	_create_economy_panel(root)
+	_create_pet_face(root)
 	_create_shop_panel(root)
 
 func _create_shop_panel(root: Control) -> void:
@@ -2061,11 +2092,181 @@ func _on_codex_closed() -> void:
 		player.set_physics_process(true)
 	_refresh_prompt()
 
+# --- Custode (volto sempre visibile) ------------------------------------------
+# La scena non decide le espressioni: inoltra SEGNALI DI GIOCO al widget, che li
+# traduce con `PetExpressionEngine`. Vedi docs/PET_CUSTODE.md.
+
+func _create_pet_face(root: Control) -> void:
+	pet_face = PET_FACE_WIDGET_SCRIPT.new()
+	pet_face.name = "PetFaceWidget"
+	pet_face.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	pet_face.position = Vector2(-104.0, -122.0)
+	pet_face.cuddled.connect(_on_pet_cuddled)
+	root.add_child(pet_face)
+	_refresh_pet_face()
+
+func _refresh_pet_face() -> void:
+	if not is_instance_valid(pet_face) or not is_instance_valid(game_save):
+		return
+	pet_face.visible = PetState.is_granted(game_save)
+	pet_face.configure(
+		PetState.name_of(game_save),
+		PetState.livery(game_save),
+		PetState.temperament(game_save),
+		PetState.resting_face(game_save),
+		PetState.bond(game_save),
+		PetState.faces(game_save),
+		reduced_motion)
+
+func _pet_react(game_signal: String) -> void:
+	if is_instance_valid(pet_face) and pet_face.visible:
+		pet_face.react_to(game_signal)
+
+func _on_pet_answer_resolved(is_correct: bool) -> void:
+	_pet_react("answer_correct" if is_correct else "answer_wrong")
+
+func _on_pet_cuddled() -> void:
+	if not is_instance_valid(game_save):
+		return
+	# Tetto per sessione: le coccole non devono diventare un lavoro né una barra
+	# da riempire. Nessun contatore visibile, nessun obiettivo dichiarato.
+	if _pet_cuddles_this_session >= PetState.CUDDLES_PER_SESSION:
+		_pet_react("cuddle")
+		return
+	_pet_cuddles_this_session += 1
+	var unlocked := PetState.register_cuddle(game_save)
+	game_save.save()
+	_pet_react("cuddle")
+	_announce_pet_unlocks(unlocked)
+
+## Consegna il primo Custode: gratuito, e alla prima missione superata. Il volto
+## sta sempre in schermo, quindi non si può aspettare il livello 4 e 1500 di
+## energia guardando un buco. La cornice narrativa (Lucilla che lo affida) arriva
+## con gli itineranti: qui c'è la meccanica, non la scena.
+func _grant_pet_if_needed() -> void:
+	if not is_instance_valid(game_save) or PetState.is_granted(game_save):
+		return
+	if not PetState.grant(game_save, world_level):
+		return
+	game_save.save()
+	_refresh_pet_face()
+	_pet_react("festa")
+	if PetState.needs_name(game_save):
+		_open_pet_naming()
+
+## Chiede il nome. È la prima cosa che si fa col Custode, e non è un dettaglio:
+## dare un nome nei primi minuti è ciò che trasforma un compagno in *il proprio*
+## compagno. Si può rimandare — il pannello si chiude e il nome resta vuoto —
+## perché nessuna richiesta del gioco deve bloccare il gioco.
+func _open_pet_naming() -> void:
+	if is_instance_valid(pet_naming_panel):
+		return
+	pet_naming_panel = PanelContainer.new()
+	pet_naming_panel.name = "PetNamingPanel"
+	pet_naming_panel.add_theme_stylebox_override(
+		"panel", _panel_style_with_border(Color(0.02, 0.10, 0.11, 0.96), Color("ffd75e")))
+	pet_naming_panel.set_anchors_preset(Control.PRESET_CENTER)
+	pet_naming_panel.custom_minimum_size = Vector2(320, 0)
+	pet_naming_panel.pivot_offset = Vector2(160, 60)
+	pet_naming_panel.position = Vector2(-160, -70)
+
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 10)
+	pet_naming_panel.add_child(box)
+
+	var title := Label.new()
+	title.text = "Ti si è affezionato qualcosa."
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_size_override("font_size", 17)
+	title.add_theme_color_override("font_color", Color("ffe9a8"))
+	box.add_child(title)
+
+	var body := Label.new()
+	body.text = "È un Custode. Sente dove le cose hanno ancora un significato.\nCome lo chiami?"
+	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.add_theme_font_size_override("font_size", 13)
+	body.add_theme_color_override("font_color", Color("cfe4e6"))
+	box.add_child(body)
+
+	var field := LineEdit.new()
+	field.name = "PetNameField"
+	field.placeholder_text = "un nome"
+	field.max_length = PetState.MAX_NAME_LENGTH
+	field.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	field.custom_minimum_size = Vector2(0, 44)
+	field.add_theme_font_size_override("font_size", 17)
+	box.add_child(field)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	box.add_child(row)
+
+	var later := Button.new()
+	later.text = "DOPO"
+	later.custom_minimum_size = Vector2(96, 44)
+	later.pressed.connect(_close_pet_naming)
+	row.add_child(later)
+
+	var confirm := Button.new()
+	confirm.name = "PetNameConfirm"
+	confirm.text = "È TUO"
+	confirm.custom_minimum_size = Vector2(0, 44)
+	confirm.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	confirm.add_theme_color_override("font_color", Color("07181d"))
+	confirm.add_theme_stylebox_override(
+		"normal", _touch_action_style(Color("ffd75e"), Color("fff0c0")))
+	confirm.pressed.connect(_confirm_pet_name.bind(field))
+	row.add_child(confirm)
+
+	ui_layer.add_child(pet_naming_panel)
+	field.grab_focus()
+
+func _confirm_pet_name(field: LineEdit) -> void:
+	if not is_instance_valid(field) or not is_instance_valid(game_save):
+		_close_pet_naming()
+		return
+	var chosen := PetState.set_pet_name(game_save, field.text)
+	if chosen == "":
+		# Nessun nome, nessun rimprovero: si può fare dopo.
+		_close_pet_naming()
+		return
+	game_save.save()
+	_close_pet_naming()
+	_refresh_pet_face()
+	_pet_react("festa")
+	_spawn_gain_popup("%s è con te" % chosen, Color("ffd75e"))
+
+func _close_pet_naming() -> void:
+	if is_instance_valid(pet_naming_panel):
+		pet_naming_panel.queue_free()
+	pet_naming_panel = null
+
+func _panel_style_with_border(fill: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(16)
+	style.set_content_margin_all(18)
+	return style
+
+func _announce_pet_unlocks(unlocked: Array) -> void:
+	if unlocked.is_empty():
+		return
+	_refresh_pet_face()
+	_spawn_gain_popup("Il Custode ha imparato una faccia", Color("ffd75e"))
+
 func _on_nora_learning_signal(signal_name: String) -> void:
 	if not is_instance_valid(game_save):
 		return
 	NoraState.register(game_save, signal_name)
 	game_save.save()
+	# Anche il Custode reagisce ai segnali di apprendimento, con il prefisso che il
+	# motore conosce. Nessuno di questi produce una faccia negativa, nemmeno
+	# `recurring_error`: la mappa vieta le facce negative per costruzione.
+	_pet_react("learning:%s" % signal_name)
 
 func _nora_integrity_ratio() -> float:
 	if not is_instance_valid(game_save):
@@ -2513,11 +2714,21 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	exercise_player.visible = false
 	if is_instance_valid(player):
 		player.set_physics_process(true)
+	var session_passed := bool(exercise_result.get("passed", false))
 	if is_instance_valid(gameplay):
 		var context := gameplay.active_session_context.duplicate(true)
 		gameplay.resolve_session(exercise_result)
-		if bool(exercise_result.get("passed", false)) and str(context.get("kind", "")) in ["mission", "enigma"]:
+		if session_passed and str(context.get("kind", "")) in ["mission", "enigma"]:
 			_complete_learning_reaction(str(context.get("encounterId", "")))
+	# Il legame cresce per aver GIOCATO, superata o no: conta aver provato. Se
+	# dipendesse dall'esito, sbagliare costerebbe anche l'affetto del compagno.
+	if is_instance_valid(game_save):
+		var unlocked := PetState.register_session(game_save)
+		_pet_cuddles_this_session = 0
+		game_save.save()
+		_announce_pet_unlocks(unlocked)
+		_grant_pet_if_needed()
+	_pet_react("session_passed" if session_passed else "session_failed")
 	_refresh_economy()
 	_refresh_prompt()
 
@@ -2749,10 +2960,19 @@ func _update_objective() -> void:
 			world_level, str(world_profile.get("title", "")), profile_subject,
 			int(runtime.get("level", 1)), subject, profile_subject]
 	else:
-		objective_label.text = "Livello %d · Materia %s\nApparato: %s\nMissioni %d/%d · Padronanza %.0f%%/%.0f%%" % [
+		# Il livello si apre col nucleo; l'apparato con la materia del mondo.
+		var core_parts: Array = []
+		for entry_data in Array(runtime.get("core", [])):
+			var entry: Dictionary = entry_data
+			core_parts.append("%s %.0f%%" % [
+				str(entry.get("subject", "")).substr(0, 3).to_upper(),
+				float(entry.get("progress", 0.0)) * 100.0])
+		objective_label.text = "Livello %d · Materia %s\nApparato: %s · padronanza %.0f%%/%.0f%%\nNucleo: %s · stanze %d/%d" % [
 			int(runtime.get("level", 1)), subject, apparatus,
-			int(runtime.get("missionsDone", 0)), int(runtime.get("missionsRequired", 0)),
-			float(runtime.get("mastery", 0.0)) * 100.0, float(runtime.get("masteryThreshold", 0.0)) * 100.0]
+			float(runtime.get("mastery", 0.0)) * 100.0,
+			float(runtime.get("masteryThreshold", 0.0)) * 100.0,
+			" · ".join(PackedStringArray(core_parts)),
+			int(runtime.get("apparatusRepaired", 0)), int(runtime.get("apparatusTotal", 12))]
 	for event_data in mission_events:
 		var event: Dictionary = event_data
 		if (

@@ -70,8 +70,21 @@ func _assert_wave_world(world: Node, level: int, theme: String, landmark_kind: S
 	var first_event := world.find_child("MissionEvent_*", true, false)
 	assert(first_event != null, "nessuna missione visualizzata")
 	var reaction := first_event.get_node_or_null("LearningReaction")
-	assert(reaction != null and Array(reaction.get("active_parts")).size() == 5,
-		"trasformazione ambientale progressiva assente")
+	assert(reaction != null, "trasformazione ambientale assente dal POI")
+	# Le parti della trasformazione sono costruite alla PRIMA risposta corretta, non
+	# al caricamento: a progresso zero sarebbero comunque tutte invisibili, e con
+	# diciotto POI per mondo costruirle subito era il costo di avvio più grosso del
+	# mondo 1. Qui si verifica il COMPORTAMENTO — che la trasformazione progressiva
+	# esista e avanzi — invece della sua rappresentazione al caricamento, che era un
+	# dettaglio implementativo travestito da contratto.
+	assert(Array(reaction.get("active_parts")).is_empty(),
+		"le parti non devono esistere prima del primo progresso")
+	reaction.call("set_progress", 1, 5, false)
+	var parts: Array = Array(reaction.get("active_parts"))
+	assert(parts.size() == 5, "trasformazione ambientale progressiva assente")
+	assert((parts[0] as CanvasItem).visible, "la prima fase deve comparire al primo progresso")
+	assert(not (parts[4] as CanvasItem).visible, "l'ultima fase non deve comparire al primo progresso")
+	reaction.call("set_progress", 0, 5, false)
 	assert(str(reaction.get_meta("transform_trigger", "")) == str(semantics["trigger"]),
 		"il POI non consuma il trigger didattico")
 	var gate_event: Dictionary = {}

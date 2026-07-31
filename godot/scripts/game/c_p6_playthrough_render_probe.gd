@@ -31,8 +31,8 @@ func _prepare_gate(world: Node) -> void:
 	var save: GameSaveManager = world.get("game_save")
 	var progression: ProgressionManager = world.get("progression_manager")
 	var gate := progression.current_gate()
-	var subject := str(gate.get("subject", "matematica"))
-	for _index in range(int(gate.get("missionsRequired", 1))):
+	var subject := ApparatusConfig.world_subject(save.level())
+	for _index in range(5):
 		save.add_mission(subject)
 	save.set_mastery(subject, float(gate.get("masteryThreshold", 0.7)))
 	var topic_target := GateReadiness.coverage_target(world.get("content_manager").subject_topic_count(subject))

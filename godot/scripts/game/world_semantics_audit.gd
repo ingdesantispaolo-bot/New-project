@@ -59,7 +59,7 @@ func _init() -> void:
 
 		# 4) Coerenza disciplinare: almeno un'azione-concetto e un obiettivo non vuoti,
 		# e il focus coincide con la scala (unica fonte di verità).
-		assert(subject == str(ApparatusConfig.level_gate(level)["subject"]), "L%d: focus incoerente" % level)
+		assert(subject == ApparatusConfig.world_subject(level), "L%d: focus incoerente" % level)
 		var actions: Array = lesson["conceptActions"]
 		assert(actions.size() >= 2, "L%d: servono ≥2 azioni-concetto per rappresentare la materia" % level)
 

@@ -41,7 +41,18 @@ func apply_runtime_state(state: Dictionary) -> void:
 	_level_label.text = "LIVELLO %d" % int(runtime_state.get("level", 1))
 	_focus_label.text = "Materia focus · %s" % _pretty(str(runtime_state.get("focusSubject", "matematica")))
 	_apparatus_label.text = "Apparato · %s" % _pretty(str(runtime_state.get("apparatus", "nucleo")))
-	_mission_label.text = "Missioni %d/%d" % [int(runtime_state.get("missionsDone", 0)), int(runtime_state.get("missionsRequired", 0))]
+	# Il gate del livello non conta più le missioni: mostra le tre del nucleo, che
+	# è più leggibile di un contatore e più onesto — dice competenza, non giri.
+	var core_parts: Array = []
+	for entry_data in Array(runtime_state.get("core", [])):
+		var entry: Dictionary = entry_data
+		core_parts.append("%s %.0f%%" % [
+			str(entry.get("subject", "")).substr(0, 3).capitalize(),
+			float(entry.get("progress", 0.0)) * 100.0])
+	_mission_label.text = (
+		"Nucleo · %s" % " · ".join(PackedStringArray(core_parts))
+		if not core_parts.is_empty()
+		else "Nucleo · —")
 	var mastery := float(runtime_state.get("mastery", 0.0))
 	var threshold := float(runtime_state.get("masteryThreshold", 0.70))
 	_mastery_label.text = "Mastery %.0f%% / %.0f%%" % [mastery * 100.0, threshold * 100.0]

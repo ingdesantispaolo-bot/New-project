@@ -19,7 +19,24 @@ const MAX_MC_RATIO := 0.33    # scelta multipla non dominante
 const MAX_ANY_RATIO := 0.40   # nessuna meccanica dominante
 const MIN_DISTINCT := 4       # varietà minima di formati nel mondo
 
-var _repeats: Dictionary = {}   # "materia L· tipo" -> numero di sessioni con una prova ripetuta
+## Sessioni che ripropongono lo stesso ARGOMENTO nello stesso formato. Non è la
+## stessa prova (quella è un fallimento secco, sotto): è la stessa competenza
+## chiesta due volte nello stesso modo a pochi minuti di distanza.
+##
+## L'avevo attribuito a insiemi poveri. Sbagliato: era la SELEZIONE. Con gli
+## insiemi profondi il numero era anzi SALITO, perché due estrazioni diverse non
+## venivano più scartate come duplicati.
+##
+## Sceso a ZERO nella Fase 4: da 184 al picco a nessuna sessione. Non è stato il
+## contenuto a portarlo lì ma la SELEZIONE — la tavolozza dei minigiochi tiene un
+## nodo per (formato, argomento) e il banco preferisce argomenti non ancora usati
+## nella sessione. Da qui in poi il cricchetto è assoluto: una sola sessione che
+## chiede due volte lo stesso argomento fa fallire l'audit.
+const MAX_SAME_TOPIC_SESSIONS := 0
+
+var _repeats: Dictionary = {}      # "materia L· tipo" -> sessioni con la STESSA prova due volte
+var _same_topic := 0               # sessioni con lo stesso (formato, argomento) due volte
+var _sessions := 0                 # sessioni totali ricostruite, per dare la scala al numero sopra
 
 func _init() -> void:
 	var content := ContentManager.new()
@@ -99,6 +116,14 @@ func _init() -> void:
 			worst.append("%s ×%d" % [str(key), int(_repeats[key])])
 		failures.append("prove ripetute nella stessa sessione: %s" % ", ".join(PackedStringArray(worst)))
 
+	print("sessioni con lo stesso argomento nello stesso formato: %d su %d (%.1f%%, max %d)" % [
+		_same_topic, _sessions, float(_same_topic) / float(maxi(1, _sessions)) * 100.0,
+		MAX_SAME_TOPIC_SESSIONS])
+	if _same_topic > MAX_SAME_TOPIC_SESSIONS:
+		failures.append(
+			"%d sessioni chiedono due volte lo stesso argomento nello stesso formato (max %d): insiemi troppo poveri" % [
+				_same_topic, MAX_SAME_TOPIC_SESSIONS])
+
 	if not failures.is_empty():
 		print("Format mix audit FALLITO — distribuzione fuori policy:")
 		for f in failures:
@@ -121,18 +146,35 @@ func _tally(counts: Dictionary, session: Dictionary) -> void:
 		var fmt := ExerciseInteraction.format_of(node)
 		counts[fmt] = int(counts.get(fmt, 0)) + 1
 
-# Segnala le sessioni che propongono due volte la stessa prova (stesso prompt).
+# Segnala le sessioni che propongono due volte la stessa prova.
+#
+# La chiave è l'identità di contenuto condivisa (`ExerciseSignature`), non più il
+# solo testo della consegna. Il testo non basta in nessuna delle due direzioni:
+# tutti gli abbinamenti condividono la stessa consegna generica («Abbina ogni
+# elemento alla sua coppia»), quindi due abbinamenti con coppie completamente
+# diverse risultavano «la stessa prova»; e viceversa la stessa caccia all'errore
+# con le righe rimescolate cambia numero di riga ma non consegna.
+#
+# Accanto resta la misura più severa che il testo intendeva catturare: lo stesso
+# ARGOMENTO nello stesso formato due volte nella stessa sessione.
 func _check_repeats(session: Dictionary, subject: String, level: int, kind: String) -> void:
+	_sessions += 1
 	var seen: Dictionary = {}
-	for node in session.get("nodes", []):
-		var key := str((node as Dictionary).get("prompt", ""))
-		if key == "":
-			continue
+	var topics: Dictionary = {}
+	var flagged_topic := false
+	for node_data in session.get("nodes", []):
+		var node := node_data as Dictionary
+		var key := ExerciseSignature.of(node)
 		if seen.has(key):
 			var label := "%s L%d %s" % [subject, level, kind]
 			_repeats[label] = int(_repeats.get(label, 0)) + 1
 			return
 		seen[key] = true
+		var topic_key := "%s|%s" % [str(node.get("format", "")), str(node.get("topic", ""))]
+		if topics.has(topic_key) and not flagged_topic:
+			flagged_topic = true
+			_same_topic += 1
+		topics[topic_key] = true
 
 func _merge(by_subject: Dictionary, subject: String, counts: Dictionary) -> void:
 	var acc: Dictionary = by_subject.get(subject, {})

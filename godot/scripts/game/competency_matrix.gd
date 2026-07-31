@@ -18,8 +18,11 @@ func _init() -> void:
 
 	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
 		var profile := WorldProfileCatalog.profile(level)
-		var gate := ApparatusConfig.level_gate(level)
-		var subject := str(gate["subject"])
+		# Materia che abita il mondo (identità) e regola di gate: da oggi sono due
+		# cose distinte, e questa matrice per i docenti le mostra entrambe.
+		var subject := ApparatusConfig.world_subject(level)
+		var apparatus := ApparatusConfig.apparatus_of(subject)
+		var gate := ApparatusConfig.apparatus_gate(subject, level)
 		assert(WorldLessonCatalog.has_lesson(level), "manca la lezione L%d" % level)
 		var lesson := WorldLessonCatalog.lesson(level)
 
@@ -27,8 +30,9 @@ func _init() -> void:
 		var competencies: Array = lesson["objectives"]
 		var topics: Array = lesson["topics"]
 		var coverage_target := GateReadiness.coverage_target(content.subject_topic_count(subject))
-		var evidence := "%d missioni · padronanza ≥ %s · copertura ≥ %d argomenti · ritenzione (ripasso saldato)" % [
-			int(gate["missionsRequired"]), _pct(float(gate["masteryThreshold"])), coverage_target]
+		# Il gate non conta più le missioni: padronanza, copertura e ritenzione.
+		var evidence := "padronanza ≥ %s · copertura ≥ %d argomenti · ritenzione (ripasso saldato)" % [
+			_pct(float(gate["masteryThreshold"])), coverage_target]
 		var transfer := str(lesson["transferTest"]["description"])
 
 		assert(not competencies.is_empty(), "L%d senza competenze" % level)

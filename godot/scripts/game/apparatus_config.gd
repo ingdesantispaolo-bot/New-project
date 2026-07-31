@@ -31,17 +31,57 @@ const SUBJECT_CYCLE := [
 	"latino", "elettronica", "geografia", "scienze", "storia", "logica",
 ]
 
-# Gate del livello: {level, subject, apparatus, missionsRequired, masteryThreshold}.
+## Materie del NUCLEO: le uniche che gatano il livello (decisione del 30 luglio).
+## Sono le competenze abilitanti — leggere, calcolare, comunicare — su cui le
+## altre nove poggiano. Le satelliti danno ricompense, accendono le stanze della
+## nave e restano obbligatorie per il finale, ma non fermano la progressione.
+## Vedi docs/DESIGN_COMPLETO.md §2.
+const CORE_SUBJECTS := ["italiano", "matematica", "inglese"]
+
+static func is_core(subject: String) -> bool:
+	return CORE_SUBJECTS.has(subject)
+
+## Materia che ABITA il mondo del livello: ne determina lezione, landmark,
+## abitanti e trasformazione ambientale.
+##
+## Distinta da `level_gate()` di proposito. Finché le due cose coincidevano una
+## sola funzione bastava; da quando il livello è gatato dal nucleo e il mondo
+## resta caratterizzato dalla sua materia, confonderle significherebbe far
+## dipendere l'identità di ventiquattro mondi dalla regola di progressione — e
+## cambiarne una romperebbe l'altra.
+static func world_subject(level: int) -> String:
+	var lvl := clampi(level, 1, MAX_LEVEL)
+	return str(SUBJECT_CYCLE[(lvl - 1) % SUBJECT_CYCLE.size()])
+
+## Apparato (stanza della nave) di una materia.
+static func apparatus_of(subject: String) -> String:
+	return str(SUBJECT_APPARATUS.get(subject, "nucleo"))
+
+## Soglia di padronanza del livello: cresce piano lungo la scala.
+static func mastery_threshold(level: int) -> float:
+	return minf(0.70 + float(clampi(level, 1, MAX_LEVEL) - 1) * 0.007, 0.90)
+
+## Gate del LIVELLO: le tre materie del nucleo, con la soglia di padronanza.
+##
+## Non contiene più `subject` né `missionsRequired`. Prima il gate era «una materia
+## e N missioni»; dal 30 luglio si sale con la competenza nelle tre strumentali e
+## **senza conteggio di giri**. Chi cerca «quale materia abita il mondo N» usa
+## `world_subject()`: sono due domande diverse, e tenerle nella stessa funzione
+## faceva dipendere l'identità dei mondi dalla regola di progressione.
 static func level_gate(level: int) -> Dictionary:
 	var lvl := clampi(level, 1, MAX_LEVEL)
-	var subject: String = SUBJECT_CYCLE[(lvl - 1) % SUBJECT_CYCLE.size()]
-	var cycle := (lvl - 1) / SUBJECT_CYCLE.size()  # 0,1,2,… : difficoltà crescente
-	var missions := 5 + cycle
-	var mastery := minf(0.70 + float(lvl - 1) * 0.007, 0.90)
 	return {
 		"level": lvl,
+		"coreSubjects": Array(CORE_SUBJECTS).duplicate(),
+		"masteryThreshold": mastery_threshold(lvl),
+	}
+
+## Gate di un APPARATO: padronanza della sua materia. Riparare un apparato non fa
+## salire di livello — accende una stanza.
+static func apparatus_gate(subject: String, level: int) -> Dictionary:
+	return {
 		"subject": subject,
-		"apparatus": SUBJECT_APPARATUS.get(subject, "nucleo"),
-		"missionsRequired": missions,
-		"masteryThreshold": mastery,
+		"apparatus": apparatus_of(subject),
+		"masteryThreshold": mastery_threshold(level),
+		"core": is_core(subject),
 	}

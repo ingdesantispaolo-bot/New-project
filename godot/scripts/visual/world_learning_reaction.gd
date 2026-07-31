@@ -9,11 +9,28 @@ var active_parts: Array[CanvasItem] = []
 var completed := false
 var transform_semantics: Dictionary = {}
 
+var _theme := ""
+var _event_kind := ""
+var _accent := Color.WHITE
+var _parts_built := false
+
+## Scala dell'enigma per tema. Vive qui e non solo dentro i costruttori delle
+## parti: con la costruzione pigra le parti possono non esistere ancora, ma
+## l'anello di base è già in scena e deve avere la dimensione giusta dal primo
+## fotogramma — altrimenti alla prima risposta corretta si vedrebbe uno scatto.
+const ENIGMA_SCALE := {"radure": 1.10, "archive": 1.12, "first_heart": 1.18}
+const ENIGMA_SCALE_DEFAULT := 1.14
+
+## `build_now` forza la costruzione immediata delle parti. Serve alla
+## trasformazione del LANDMARK, che è una sola per mondo — lì il risparmio non
+## esiste, e le sue fasi devono essere ispezionabili dal caricamento
+## (`world_visual_triage_audit`). I POI la lasciano pigra: sono diciotto.
 func setup(
 	theme: String,
 	event_kind: String,
 	accent: Color,
-	semantics: Dictionary = {}
+	semantics: Dictionary = {},
+	build_now: bool = false
 ) -> void:
 	name = "LearningReaction"
 	z_index = -1
@@ -24,6 +41,29 @@ func setup(
 	base.scale = Vector2(1.0, 0.42)
 	base.position = Vector2(0, 10)
 	add_child(base)
+	_theme = theme
+	_event_kind = event_kind
+	_accent = accent
+	if event_kind == "enigma":
+		scale = Vector2.ONE * float(ENIGMA_SCALE.get(theme, ENIGMA_SCALE_DEFAULT))
+	# Le parti NON si costruiscono qui. A progresso zero sarebbero comunque tutte
+	# invisibili (`set_progress` le nasconde subito): costruirle al caricamento
+	# significa pagare cinque gruppi di nodi per POI che nessuno vede. Con un solo
+	# POI contava poco; da quando ogni mondo ospita tutte e dodici le materie sono
+	# diciotto POI, ed è diventato il costo di avvio più grosso del mondo 1.
+	# Si costruiscono al primo progresso reale, che è quando si vedono davvero.
+	if build_now:
+		_ensure_parts()
+		set_progress(0, maxi(active_parts.size(), 1), false)
+
+## Costruisce le parti una sola volta, alla prima occasione in cui servono.
+func _ensure_parts() -> void:
+	if _parts_built:
+		return
+	_parts_built = true
+	_build_parts(_theme, _event_kind, _accent)
+
+func _build_parts(theme: String, event_kind: String, accent: Color) -> void:
 	match theme:
 		"archive":
 			_build_archive(event_kind, accent)
@@ -73,7 +113,6 @@ func setup(
 			_build_first_heart(event_kind, accent)
 		_:
 			_build_radure(event_kind, accent)
-	set_progress(0, active_parts.size(), false)
 
 func _build_radure(event_kind: String, accent: Color) -> void:
 	for index in range(5):
@@ -636,6 +675,11 @@ func _build_first_heart(event_kind: String, accent: Color) -> void:
 
 func set_progress(value: int, total: int, animate: bool = true) -> void:
 	var ratio := clampf(float(value) / maxf(float(total), 1.0), 0.0, 1.0)
+	completed = ratio >= 0.999
+	# A progresso zero non c'è niente da mostrare: si evita anche di costruire.
+	if ratio <= 0.0 and not _parts_built:
+		return
+	_ensure_parts()
 	var visible_count := ceili(ratio * float(active_parts.size()))
 	for index in range(active_parts.size()):
 		var part := active_parts[index]
@@ -652,4 +696,8 @@ func set_progress(value: int, total: int, animate: bool = true) -> void:
 	completed = ratio >= 0.999
 
 func set_complete(value: bool, animate: bool = false) -> void:
-	set_progress(active_parts.size() if value else 0, active_parts.size(), animate)
+	if value:
+		# Un POI già completato mostra la trasformazione fin dal caricamento:
+		# qui le parti servono davvero, quindi si costruiscono subito.
+		_ensure_parts()
+	set_progress(active_parts.size() if value else 0, maxi(active_parts.size(), 1), animate)

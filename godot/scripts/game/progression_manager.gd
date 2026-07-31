@@ -102,50 +102,136 @@ func _total_topics(subject: String) -> int:
 		return -1
 	return content.subject_topic_count(subject)
 
-# Readiness completa del gate del livello corrente (4 dimensioni, GateReadiness).
-func readiness() -> Dictionary:
-	var gate := current_gate()
-	return GateReadiness.evaluate(save, gate, _total_topics(str(gate["subject"])))
+# Numero di argomenti proponibili per ciascuna materia del nucleo (per la copertura).
+func _core_topic_counts() -> Dictionary:
+	var out: Dictionary = {}
+	for subject in ApparatusConfig.CORE_SUBJECTS:
+		out[str(subject)] = _total_topics(str(subject))
+	return out
 
-# Requisiti soddisfatti per riparare l'apparato del livello corrente?
-func can_repair() -> bool:
+# Prontezza del LIVELLO: accuratezza, copertura e ritenzione su italiano,
+# matematica e inglese. Nessun conteggio di missioni (decisione del 30 luglio).
+func readiness() -> Dictionary:
+	return GateReadiness.evaluate_core(
+		save, ApparatusConfig.mastery_threshold(save.level()), _core_topic_counts())
+
+# Prontezza di un APPARATO: le stesse tre dimensioni sulla sua materia.
+func apparatus_readiness(subject: String) -> Dictionary:
+	return GateReadiness.evaluate_subject(
+		save, subject, ApparatusConfig.mastery_threshold(save.level()), _total_topics(subject))
+
+# Si può salire di livello?
+func can_level_up() -> bool:
 	if is_complete():
 		return false
 	return bool(readiness()["ready"])
 
+# Si può riparare l'apparato di questa materia?
+func can_repair_apparatus(subject: String) -> bool:
+	return bool(apparatus_readiness(subject)["ready"])
+
+# Compatibilità: l'apparato del mondo corrente. Da preferire la forma esplicita
+# `can_repair_apparatus(subject)`, che dice quale stanza si sta aprendo.
+func can_repair() -> bool:
+	if is_complete():
+		return false
+	return can_repair_apparatus(ApparatusConfig.world_subject(save.level()))
+
+# Un apparato è acceso? (`repairedLevel > 0`)
+func is_apparatus_repaired(subject: String) -> bool:
+	var apparatus := ApparatusConfig.apparatus_of(subject)
+	return int(save.data.get("apparatus", {}).get(apparatus, {}).get("repairedLevel", 0)) > 0
+
+# Quante delle dodici stanze sono accese. Il Cuore si apre con dodici, non con
+# ventiquattro livelli: è la garanzia che tutte le competenze vengano acquisite.
+func repaired_apparatus_count() -> int:
+	var count := 0
+	for subject in ApparatusConfig.SUBJECT_CYCLE:
+		if is_apparatus_repaired(str(subject)):
+			count += 1
+	return count
+
+func all_apparatus_repaired() -> bool:
+	return repaired_apparatus_count() >= ApparatusConfig.SUBJECT_CYCLE.size()
+
+# Le materie la cui stanza è ancora spenta. Serve a DIRLO al giocatore, che è
+# metà del rimedio: una porta chiusa senza spiegazione è un difetto.
+func missing_apparatus_subjects() -> Array:
+	var missing: Array = []
+	for subject in ApparatusConfig.SUBJECT_CYCLE:
+		if not is_apparatus_repaired(str(subject)):
+			missing.append(str(subject))
+	return missing
+
+## Il Cuore si apre con DODICI STANZE ACCESE, non con ventiquattro livelli.
+##
+## È la garanzia che tutte le competenze vengano acquisite, e chiude il vicolo
+## cieco creato dalla decisione del 30 luglio: col livello gatato dal solo nucleo
+## si poteva arrivare al 24 senza aver mai toccato latino e trovarsi davanti una
+## prova a dodici sistemi impossibile. Ora la prova non si apre proprio, e il
+## gioco dice quali stanze mancano.
+func can_open_heart() -> bool:
+	return save.level() >= ApparatusConfig.MAX_LEVEL and all_apparatus_repaired()
+
 func repair_progress() -> Dictionary:
-	# Utile all'HUD: quanto manca al prossimo apparato. Include le 4 dimensioni.
-	var gate := current_gate()
-	var subject := str(gate["subject"])
+	# Contratto per l'HUD: quanto manca al prossimo livello, materia per materia.
+	# La presentazione legge, non ricalcola.
 	var r := readiness()
+	var world := ApparatusConfig.world_subject(save.level())
 	return {
-		"subject": subject,
-		"apparatus": str(gate["apparatus"]),
-		"missionsDone": save.missions_toward_gate(subject),
-		"missionsRequired": int(gate["missionsRequired"]),
-		"mastery": save.mastery_of(subject),
-		"masteryThreshold": float(gate["masteryThreshold"]),
+		# Materia che ABITA il mondo corrente (identità, non gate).
+		"worldSubject": world,
+		"apparatus": ApparatusConfig.apparatus_of(world),
+		"coreSubjects": Array(r["coreSubjects"]).duplicate(),
+		"masteryThreshold": float(r["masteryThreshold"]),
+		"progress": float(r["progress"]),
+		"missing": Array(r["missing"]).duplicate(),
 		"ready": bool(r["ready"]),
 		"complete": is_complete(),
-		# Dimensioni del gate (lette da HUD/marker, non ricalcolate).
 		"readiness": r,
+		# Collezione delle stanze: è questa, non il livello, che apre il Cuore.
+		"apparatusRepaired": repaired_apparatus_count(),
+		"apparatusTotal": ApparatusConfig.SUBJECT_CYCLE.size(),
 	}
 
-# Ripara l'apparato (esercizio finale superato) e avanza di livello. NON azzera il
-# conteggio missioni: segna come consumate quelle correnti della materia, così il
-# lavoro resta e la prossima ricomparsa della materia richiede missioni nuove.
-func repair_and_advance(exam_passed: bool) -> bool:
-	if not can_repair() or not exam_passed:
+# Ripara l'apparato di una materia (esame superato). **Non fa salire di livello**:
+# accende una stanza. I tre del nucleo si accendono lungo la strada; i nove
+# satelliti quando il giocatore vuole — ma servono tutti e dodici per il Cuore.
+func repair_apparatus(subject: String, exam_passed: bool) -> bool:
+	if not exam_passed or not can_repair_apparatus(subject):
 		return false
-	var gate := current_gate()
-	save.set_apparatus_repaired(str(gate["apparatus"]), save.level())
+	save.set_apparatus_repaired(ApparatusConfig.apparatus_of(subject), save.level())
 	NoraState.sync_from_progress(save)
-	save.consume_gate(str(gate["subject"]))
+	save.consume_gate(subject)
+	save.add_energy(80)
+	return true
+
+# Sale di livello quando il nucleo è pronto. Separato dalla riparazione: prima
+# erano lo stesso atto, e finché lo sono stati non si poteva avere un livello
+# gatato da tre materie e dodici apparati riparabili a piacere.
+func advance_level() -> bool:
+	if not can_level_up():
+		return false
+	# L'ultimo gradino chiude la campagna: si supera solo con le dodici stanze
+	# accese. Senza questo, il nucleo da solo porterebbe oltre la scala lasciando
+	# nove materie mai toccate.
+	if save.level() >= ApparatusConfig.MAX_LEVEL and not all_apparatus_repaired():
+		return false
+	for subject in ApparatusConfig.CORE_SUBJECTS:
+		save.consume_gate(str(subject))
 	var next_level: int = int(save.level()) + 1
 	save.set_level(next_level)
-	# Sblocca e rende corrente il nuovo mondo (O-P1); oltre la scala non si sblocca.
 	if next_level <= ApparatusConfig.MAX_LEVEL:
 		save.unlock_world(next_level)
 		save.set_current_world(next_level)
 	save.add_energy(80)
+	NoraState.sync_from_progress(save)
 	return true
+
+# Compatibilità con i consumer storici: ripara l'apparato del mondo corrente e,
+# se il nucleo è pronto, sale di livello. Le due cose non sono più legate, quindi
+# può riuscirne una sola.
+func repair_and_advance(exam_passed: bool) -> bool:
+	var repaired := repair_apparatus(ApparatusConfig.world_subject(save.level()), exam_passed)
+	var advanced := advance_level()
+	return repaired or advanced

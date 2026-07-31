@@ -95,6 +95,12 @@ func _assert_world(world: Node, level: int, spec: Dictionary) -> Dictionary:
 	var first_event := world.find_child("MissionEvent_*", true, false)
 	assert(first_event != null, "nessuna missione visualizzata")
 	var reaction := first_event.get_node_or_null("LearningReaction")
+	# Le parti della trasformazione nascono al PRIMO progresso, non al
+	# caricamento (vedi world_learning_reaction.gd): a schermo vuoto sarebbero
+	# comunque invisibili, e con diciotto POI per mondo costruirle subito era il
+	# costo di avvio piu grosso. Qui si verifica il comportamento.
+	if reaction != null:
+		reaction.call("set_progress", 1, 5, false)
 	assert(reaction != null
 		and Array(reaction.get("active_parts")).size() == 5
 		and str(reaction.get_meta("transform_trigger", "")) == str(semantics["trigger"]),

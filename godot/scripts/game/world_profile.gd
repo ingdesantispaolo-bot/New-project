@@ -112,15 +112,17 @@ static func mission_grammar_for(level: int) -> Dictionary:
 static func profile(level: int) -> Dictionary:
 	var lvl := clampi(level, 1, MAX_LEVEL)
 	var identity: Dictionary = IDENTITIES[lvl - 1]
-	var gate := ApparatusConfig.level_gate(lvl)
-	var subject := str(gate["subject"])
+	# Identità del mondo, non regola di progressione: da quando il livello è gatato
+	# dal nucleo (italiano/matematica/inglese) la materia che ABITA il mondo è una
+	# cosa distinta da ciò che apre il livello.
+	var subject := ApparatusConfig.world_subject(lvl)
 	return {
 		"id": str(identity["id"]),
 		"level": lvl,
 		"title": str(identity["title"]),
 		"learningFocus": {
 			"subject": subject,
-			"apparatus": str(gate["apparatus"]),
+			"apparatus": ApparatusConfig.apparatus_of(subject),
 			"competencies": Array(identity["brief"]).duplicate(),
 		},
 		"terrainFamily": str(identity["terrainFamily"]),
@@ -176,7 +178,7 @@ static func validate(p: Dictionary) -> Dictionary:
 		errors.append("livello fuori scala: %d" % lvl)
 
 	# Il focus deve coincidere con la scala di progressione (unica fonte di verità).
-	var expected_subject := str(ApparatusConfig.level_gate(lvl)["subject"])
+	var expected_subject := ApparatusConfig.world_subject(lvl)
 	if str(p["learningFocus"].get("subject", "")) != expected_subject:
 		errors.append("focus incoerente col livello %d: atteso %s" % [lvl, expected_subject])
 

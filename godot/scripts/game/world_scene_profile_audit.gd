@@ -52,7 +52,7 @@ func _assert_world(world: Node, expected_level: int) -> Dictionary:
 		"ingresso nave non mappato sulle coordinate del profilo")
 	var events: Array = world.get("mission_events")
 	var subject := str(profile["learningFocus"]["subject"])
-	var required := int(ApparatusConfig.level_gate(expected_level).get("missionsRequired", 5))
+	var required := MissionEventDirector.HOST_EVENTS
 	assert(MissionEventDirector.reachable_gate_events(events, subject) >= required,
 		"eventi focus insufficienti nella scena del mondo %d" % expected_level)
 	var practices := 0

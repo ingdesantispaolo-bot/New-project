@@ -154,10 +154,22 @@ func session_active() -> bool:
 
 func runtime_state() -> Dictionary:
 	var progress := progression_manager.repair_progress()
-	var missions_done := int(progress.get("missionsDone", 0))
-	var missions_required := int(progress.get("missionsRequired", 0))
-	var mastery := float(progress.get("mastery", 0.0))
+	var world_subject := str(progress.get("worldSubject", "matematica"))
 	var mastery_threshold := float(progress.get("masteryThreshold", 0.0))
+	# Padronanza per ciascuna materia del nucleo: è ciò che apre il livello, e
+	# l'HUD la mostra come tre barre invece di un contatore di missioni.
+	var core: Array = []
+	var readiness: Dictionary = progress.get("readiness", {})
+	var subjects: Dictionary = readiness.get("subjects", {})
+	for subject in Array(progress.get("coreSubjects", [])):
+		var evaluation: Dictionary = subjects.get(str(subject), {})
+		core.append({
+			"subject": str(subject),
+			"mastery": float(evaluation.get("mastery", 0.0)),
+			"progress": float(evaluation.get("progress", 0.0)),
+			"ready": bool(evaluation.get("ready", false)),
+			"reasons": Array(evaluation.get("reasons", [])).duplicate(),
+		})
 	return {
 		"level": game_save.level(),
 		# Ritorno su un mondo già superato: le prove sono ripasso di QUEL mondo
@@ -165,20 +177,36 @@ func runtime_state() -> Dictionary:
 		# bambino; nessun effetto su gate o ricompense.
 		"revisit": is_revisit(),
 		"learningLevel": _learning_level(),
-		"focusSubject": str(progress.get("subject", "matematica")),
+		# Materia che ABITA il mondo (identità). Non è ciò che apre il livello.
+		"focusSubject": world_subject,
 		"apparatus": str(progress.get("apparatus", "nucleo")),
-		"missionsDone": missions_done,
-		"missionsRequired": missions_required,
-		# Campi convenienza per HUD/marker (Codex): non ricalcolare lato UI.
-		"missionsRemaining": maxi(0, missions_required - missions_done),
-		"missionProgress": clampf(float(missions_done) / float(maxi(1, missions_required)), 0.0, 1.0),
-		"mastery": mastery,
+		# Il gate del livello: le tre del nucleo, senza conteggio di missioni.
+		"coreSubjects": Array(progress.get("coreSubjects", [])).duplicate(),
+		"core": core,
+		"coreProgress": float(progress.get("progress", 0.0)),
+		"coreMissing": Array(progress.get("missing", [])).duplicate(),
+		# Missioni svolte nella materia del mondo. **Non sono più un requisito**: il
+		# livello si apre con la padronanza del nucleo. Restano come informazione —
+		# quante ne hai fatte, quante ne offre il mondo — perché sono un dato vero e
+		# perché toglierle avrebbe rotto mezza UI per nessun guadagno.
+		"missionsDone": game_save.missions_toward_gate(world_subject),
+		"missionsRequired": MissionEventDirector.HOST_EVENTS,
+		"missionsRemaining": maxi(
+			0, MissionEventDirector.HOST_EVENTS - game_save.missions_toward_gate(world_subject)),
+		"missionProgress": clampf(
+			float(game_save.missions_toward_gate(world_subject))
+			/ float(maxi(1, MissionEventDirector.HOST_EVENTS)), 0.0, 1.0),
+		"mastery": game_save.mastery_of(world_subject),
 		"masteryThreshold": mastery_threshold,
-		"masteryProgress": clampf(mastery / maxf(0.001, mastery_threshold), 0.0, 1.0),
+		"masteryProgress": clampf(
+			game_save.mastery_of(world_subject) / maxf(0.001, mastery_threshold), 0.0, 1.0),
 		"ready": bool(progress.get("ready", false)),
-		# Le 4 dimensioni del gate (accuratezza/copertura/confidenza/ritenzione) per
-		# l'HUD: mostra PERCHÉ il gate non è pronto, senza ricalcolare lato UI.
-		"readiness": progress.get("readiness", {}),
+		# Le stanze accese: è questa collezione, non il livello, ad aprire il Cuore.
+		"apparatusRepaired": int(progress.get("apparatusRepaired", 0)),
+		"apparatusTotal": int(progress.get("apparatusTotal", 12)),
+		# Le tre dimensioni del gate (accuratezza/copertura/ritenzione) per l'HUD:
+		# mostra PERCHÉ non è pronto, senza ricalcolare lato UI.
+		"readiness": readiness,
 		"complete": bool(progress.get("complete", false)),
 		"energy": game_save.energy(),
 		# Frammenti canonici (O-P0.4): fonte unica nel save, coerente dopo un reboot.
@@ -203,11 +231,24 @@ func apparatus_prompt() -> String:
 	var progress := progression_manager.repair_progress()
 	if bool(progress.get("complete", false)):
 		return "Nave completamente riattivata · tutti i 24 nodi sono online"
+	# Il Cuore si apre con dodici stanze accese: si dice DALL'INIZIO, non al mondo
+	# 24. Un obiettivo scoperto alla fine è un vicolo cieco travestito da sorpresa.
+	var repaired := int(progress.get("apparatusRepaired", 0))
+	var total_rooms := int(progress.get("apparatusTotal", 12))
+	var rooms := " · Cuore %d/%d stanze" % [repaired, total_rooms]
 	if bool(progress.get("ready", false)):
-		return "Interagisci con il Nucleo per affrontare l'esame finale"
-	return "Nucleo: %d/%d missioni · padronanza %.0f%%/%.0f%%" % [
-		int(progress.get("missionsDone", 0)), int(progress.get("missionsRequired", 0)),
-		float(progress.get("mastery", 0.0)) * 100.0, float(progress.get("masteryThreshold", 0.0)) * 100.0]
+		return "Interagisci con il Nucleo per affrontare l'esame finale%s" % rooms
+	# Si dice che cosa manca, non quanti giri restano: il gate è competenza.
+	var missing := Array(progress.get("missing", []))
+	if missing.is_empty():
+		return "Nucleo pronto"
+	var names: Array = []
+	for subject in missing:
+		names.append(str(subject).capitalize())
+	return "Per salire di livello: %s · padronanza ≥ %.0f%%%s" % [
+		", ".join(PackedStringArray(names)),
+		float(progress.get("masteryThreshold", 0.0)) * 100.0,
+		rooms]
 
 # ---------------------------------------------------------------------------
 # Ciclo delle sessioni
@@ -333,17 +374,22 @@ func notify_progress(built: int, total: int) -> void:
 func try_start_final_exam() -> bool:
 	if session_active():
 		return false
-	if not progression_manager.can_repair():
+	# L'esame è quello dell'apparato della materia che ABITA il mondo: si ripara
+	# una stanza per volta, e la stanza è quella del mondo in cui ti trovi.
+	var subject := ApparatusConfig.world_subject(game_save.level())
+	if not progression_manager.can_repair_apparatus(subject):
 		_emit_state()
 		return false
-	var gate := progression_manager.current_gate()
-	var subject := str(gate.get("subject", "matematica"))
 	var session := content_manager.build_final_exam(subject, game_save.level(), 3, null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Esame non disponibile.", "system")
 		return false
 	_charge_exercise_entry()
-	active_session_context = {"kind": "final_exam", "subject": subject, "apparatus": str(gate.get("apparatus", "nucleo"))}
+	active_session_context = {
+		"kind": "final_exam",
+		"subject": subject,
+		"apparatus": ApparatusConfig.apparatus_of(subject),
+	}
 	session_requested.emit(session)
 	_emit_state()
 	return true

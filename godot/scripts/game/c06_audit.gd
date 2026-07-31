@@ -28,10 +28,19 @@ func _init() -> void:
 
 	# Esame superato → riparazione → livello sale e apparato acceso.
 	var level_before := int(hub.state()["level"])
-	assert(progression.repair_and_advance(true))
-	assert(int(hub.state()["level"]) == level_before + 1)
+	# Riparare accende una stanza; per salire di livello serve il nucleo.
+	assert(progression.repair_apparatus(ApparatusConfig.world_subject(level_before), true))
 	assert(int(save.data["apparatus"]["nucleo"]["repairedLevel"]) == level_before)
-	assert(not bool(hub.state()["ready"]), "dopo la riparazione il gate del nuovo livello è chiuso")
+	for core_data in ApparatusConfig.CORE_SUBJECTS:
+		var core_subject := str(core_data)
+		for _round in range(6):
+			progression.record_mission(core_subject, 3, 3, 0, true)
+			progression.record_topic_stats(core_subject, {
+				"t1": {"seen": 3, "correct": 3}, "t2": {"seen": 3, "correct": 3},
+				"t3": {"seen": 3, "correct": 3}})
+	assert(progression.advance_level(), "col nucleo pronto si deve salire")
+	assert(int(hub.state()["level"]) == level_before + 1)
+	assert(progression.repaired_apparatus_count() == 1, "una sola stanza accesa dopo la prima riparazione")
 
 	print("C-06 audit OK — Hub: gate, esame richiesto e loop riparazione→livello")
 	quit(0)

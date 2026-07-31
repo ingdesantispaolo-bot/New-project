@@ -87,8 +87,9 @@ func _run() -> void:
 	var progression: ProgressionManager = scene.get("progression_manager")
 	var gate_before := progression.current_gate()
 	var initial_level := int(gate_before["level"])
-	var focus_subject := str(gate_before["subject"])
-	var focus_apparatus := str(gate_before["apparatus"])
+	# La materia dell'apparato è quella che ABITA il mondo, non più quella del gate.
+	var focus_subject := ApparatusConfig.world_subject(initial_level)
+	var focus_apparatus := ApparatusConfig.apparatus_of(focus_subject)
 	# Completiamo le restanti evidenze della materia-focus necessarie al gate e
 	# verifichiamo poi che l'esame resti disponibile soltanto nella nave.
 	var guard := 0
@@ -98,7 +99,16 @@ func _run() -> void:
 		# qualsiasi materia-focus indipendentemente dalla dimensione del suo banco.
 		progression.record_topic_stats(focus_subject, {"a": {"seen": 1, "correct": 1}, "b": {"seen": 1, "correct": 1}, "c": {"seen": 1, "correct": 1}})
 		guard += 1
-	assert(progression.can_repair(), "il gate dell'apparato deve aprirsi con missioni, padronanza e copertura")
+	assert(progression.can_repair(), "il gate dell'apparato deve aprirsi con padronanza e copertura")
+	# Il portale segnala la prontezza del LIVELLO, che dipende dal nucleo.
+	for core_data in ApparatusConfig.CORE_SUBJECTS:
+		var core_subject := str(core_data)
+		for _round in range(8):
+			progression.record_mission(core_subject, 3, 3, 0, true)
+			progression.record_topic_stats(core_subject, {
+				"a": {"seen": 1, "correct": 1}, "b": {"seen": 1, "correct": 1},
+				"c": {"seen": 1, "correct": 1}})
+	assert(progression.can_level_up(), "il nucleo allenato deve aprire il livello")
 	assert(not scene.has_method("start_final_exam"), "il mondo non deve esporre l'esame finale")
 	scene.get("gameplay").call("_emit_state")
 	await process_frame

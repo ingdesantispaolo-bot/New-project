@@ -81,7 +81,7 @@ func _test_tre_sessioni_in_tre_giorni_consolidano() -> void:
 func _test_il_gate_non_richiede_il_consolidamento() -> void:
 	var save := _new_save()
 	var progression := ProgressionManager.new(save)
-	var subject := str(progression.current_gate()["subject"])
+	var subject := ApparatusConfig.world_subject(save.level())
 	TopicEvidence.set_clock(T0)
 	var guard := 0
 	while not progression.can_repair() and guard < 40:

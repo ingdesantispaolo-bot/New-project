@@ -62,7 +62,7 @@ func _run() -> void:
 	var mission_nodes := get_nodes_in_group("mission_poi")
 	var max_required := 0
 	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
-		max_required = maxi(max_required, int(ApparatusConfig.level_gate(level).get("missionsRequired", 0)))
+		max_required = maxi(max_required, MissionEventDirector.HOST_EVENTS)
 	assert(mission_nodes.size() >= max_required,
 		"i settori caricati devono contenere abbastanza POI unici per aprire qualunque gate")
 	var first_mission := mission_nodes[0] as Area2D
@@ -107,13 +107,20 @@ func _run() -> void:
 	var portal := current_scene.find_child("ExitPortal", true, false) as Node2D
 	assert(portal != null, "il mondo deve contenere l'ingresso nave deterministico")
 	var ready_gate: Dictionary = current_scene.get("progression_manager").current_gate()
-	var ready_subject := str(ready_gate.get("subject", "matematica"))
-	for index in range(int(ready_gate.get("missionsRequired", 1))):
+	var ready_threshold := float(ready_gate.get("masteryThreshold", 0.7))
+	# L'esame dell'apparato dipende dalla materia che ABITA il mondo; il livello dal
+	# nucleo. La fixture soddisfa entrambi.
+	var ready_subjects: Array = Array(ready_gate.get("coreSubjects", [])).duplicate()
+	var host_subject := ApparatusConfig.world_subject(save.level())
+	if not ready_subjects.has(host_subject):
+		ready_subjects.append(host_subject)
+	for subject_data in ready_subjects:
+		var ready_subject := str(subject_data)
 		save.add_mission(ready_subject)
-	save.set_mastery(ready_subject, float(ready_gate.get("masteryThreshold", 0.7)))
-	# Evidenza per-argomento: la readiness del gate richiede anche COPERTURA.
-	for topic in ["a", "b", "c"]:
-		save.set_topic_mastery(ready_subject, topic, float(ready_gate.get("masteryThreshold", 0.7)))
+		save.set_mastery(ready_subject, ready_threshold)
+		# La readiness richiede anche COPERTURA per argomento.
+		for topic in ["a", "b", "c"]:
+			save.set_topic_mastery(ready_subject, topic, ready_threshold)
 	gameplay.call("_emit_state")
 	await process_frame
 	assert(bool(portal.get("gate_ready")), "il portale deve cambiare stato quando l'esame è pronto")

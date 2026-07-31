@@ -26,7 +26,7 @@ func _init() -> void:
 	# non fa avanzare il progresso-verso-gate né apre il gate.
 	var save := GameSaveManager.new()
 	var prog := ProgressionManager.new(save, content)
-	var focus := str(prog.current_gate()["subject"])
+	var focus := ApparatusConfig.world_subject(prog.save.level())
 	for _i in range(20):
 		prog.record_practice(focus, 3, 3, 12)
 	assert(save.missions_toward_gate(focus) == 0, "la pratica non deve contare per il gate")

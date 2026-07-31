@@ -32,6 +32,12 @@ signal concept_help_requested(subject: String, topic: String)
 ## semantico decide come persisterli nello stato NORA.
 signal learning_signal(signal_name: String)
 
+## Esito di una singola risposta. I `learning_signal` sono una-volta-per-argomento
+## (perseveranza, trasferimento, errore ricorrente): servono alla relazione con
+## NORA, non al battito dell'esercizio. Questo segnala ogni risposta, e lo consuma
+## il Custode per reagire. Annuncia, non comanda: chi ascolta decide cosa farne.
+signal answer_resolved(is_correct: bool)
+
 var session: Dictionary
 var _nodes: Array = []
 var _index := 0
@@ -493,6 +499,7 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 	var topic := str(item.get("topic", ""))
 	if topic != "":
 		_topic_seen[topic] = int(_topic_seen.get(topic, 0)) + 1
+	answer_resolved.emit(is_correct)
 	if is_correct:
 		var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 		if audio != null:

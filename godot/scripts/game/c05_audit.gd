@@ -5,8 +5,7 @@ func _init() -> void:
 	var first_cycle := {}
 	var content := ContentManager.new()
 	for level in range(1, 13):
-		var cycle_gate := ApparatusConfig.level_gate(level)
-		var subject := str(cycle_gate["subject"])
+		var subject := ApparatusConfig.world_subject(level)
 		first_cycle[subject] = true
 		assert(not Array(content.build_mission(subject, level, 1).get("nodes", [])).is_empty(),
 			"banco contenuti assente per %s" % subject)
@@ -14,18 +13,23 @@ func _init() -> void:
 	for level in [1, 2, 6, 12, 20, 24]:
 		var gate := ApparatusConfig.level_gate(level)
 		assert(int(gate["level"]) == level)
-		assert(int(gate["missionsRequired"]) >= 5)
 		assert(float(gate["masteryThreshold"]) >= 0.70 and float(gate["masteryThreshold"]) <= 0.90)
-		assert(str(gate["subject"]) != "")
-		assert(str(gate["apparatus"]) != "")
+		assert(Array(gate["coreSubjects"]).size() == 3, "il gate del livello e il nucleo")
+		assert(ApparatusConfig.world_subject(level) != "")
 	var save := GameSaveManager.new()
 	var progression := ProgressionManager.new(save, content)
 	save.set_level(1)
+	# Il livello si apre col NUCLEO, l'apparato con la materia del mondo.
 	for _i in range(5):
-		progression.record_mission("matematica", 3, 3, 10, true)
-		# Evidenza per-argomento: alimenta la dimensione COPERTURA del gate.
-		progression.record_topic_stats("matematica", {"tabelline": {"seen": 3, "correct": 3}})
-	assert(progression.can_repair())
+		for subject_data in ApparatusConfig.CORE_SUBJECTS:
+			var core_subject := str(subject_data)
+			progression.record_mission(core_subject, 3, 3, 10, true)
+			# Evidenza per-argomento: alimenta la dimensione COPERTURA del gate.
+			progression.record_topic_stats(core_subject, {
+				"t1": {"seen": 3, "correct": 3}, "t2": {"seen": 3, "correct": 3},
+				"t3": {"seen": 3, "correct": 3}})
+	assert(progression.can_repair(), "l'apparato di matematica deve essere riparabile")
+	assert(progression.can_level_up(), "il nucleo pronto deve aprire il livello")
 	assert(progression.repair_and_advance(true))
 	assert(save.level() == 2)
 	# Cumulativo preservato; azzerato solo il progresso-verso-gate (gate consumato).

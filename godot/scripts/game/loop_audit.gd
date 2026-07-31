@@ -24,9 +24,8 @@ func _init() -> void:
 	assert(save.level() == 1)
 	assert(not prog.can_repair())
 
-	var gate := prog.current_gate()
-	var subject := str(gate["subject"])
-	var apparatus := str(gate["apparatus"])
+	var subject := ApparatusConfig.world_subject(save.level())
+	var apparatus := ApparatusConfig.apparatus_of(subject)
 
 	# Svolge missioni (tutte corrette) finché il gate del livello non si apre,
 	# registrando anche l'evidenza per-argomento (necessaria a copertura/ritenzione).
@@ -46,9 +45,21 @@ func _init() -> void:
 	assert(prog.can_repair(), "il gate deve aprirsi dopo missioni + padronanza + copertura")
 
 	var level_before := save.level()
+	# Riparare un apparato NON fa più salire di livello: sono due assi distinti.
+	# Il livello si apre col nucleo, che qui va allenato a parte.
+	assert(prog.repair_apparatus(subject, true), "l'esame superato deve riparare l'apparato")
+	assert(save.level() == level_before, "la riparazione non deve far salire di livello")
+	for core_data in ApparatusConfig.CORE_SUBJECTS:
+		var core_subject := str(core_data)
+		for _round in range(6):
+			prog.record_mission(core_subject, 3, 3, 0, true)
+			prog.record_topic_stats(core_subject, {
+				"t1": {"seen": 3, "correct": 3}, "t2": {"seen": 3, "correct": 3},
+				"t3": {"seen": 3, "correct": 3}})
+	assert(prog.can_level_up(), "il nucleo allenato deve aprire il livello")
+	# Si misura qui: la salita consuma il progresso-VERSO-gate, non il cumulativo.
 	var cumulative_before := save.missions_of(subject)
-	var advanced := prog.repair_and_advance(true)
-	assert(advanced, "la riparazione deve avanzare di livello")
+	assert(prog.advance_level(), "col nucleo pronto si deve salire")
 	assert(save.level() == level_before + 1)
 	# Il conteggio cumulativo NON si azzera (il lavoro resta); azzera solo il
 	# progresso-verso-gate della materia, perché il gate è stato consumato.

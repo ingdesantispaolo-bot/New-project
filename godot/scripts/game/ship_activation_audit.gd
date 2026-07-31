@@ -8,10 +8,10 @@ func _init() -> void:
 	var fresh := ShipActivationModel.activation_for_room(save, "central")
 	assert(int(fresh["stage"]) == 0 and float(fresh["ratio"]) == 0.0, "una nave nuova deve essere inerte")
 
-	var gate := ApparatusConfig.level_gate(1)
-	for _index in int(gate["missionsRequired"]):
-		save.add_mission(str(gate["subject"]))
-	save.set_mastery(str(gate["subject"]), float(gate["masteryThreshold"]))
+	var host := ApparatusConfig.world_subject(1)
+	var gate := ApparatusConfig.apparatus_gate(host, 1)
+	save.add_mission(host)
+	save.set_mastery(host, float(gate["masteryThreshold"]))
 	var ready := ShipActivationModel.activation_for_room(save, "central")
 	assert(float(ready["ratio"]) > 0.0, "lo studio deve illuminare progressivamente il ponte")
 	assert(int(ready["completed"]) == 0, "il gate pronto non equivale all'esame superato")
@@ -24,12 +24,12 @@ func _init() -> void:
 	assert(float(repaired["ratio"]) > float(fresh["ratio"]), "la riattivazione deve essere monotona")
 
 	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
-		var level_gate := ApparatusConfig.level_gate(level)
-		save.set_apparatus_repaired(str(level_gate["apparatus"]), level)
+		save.set_apparatus_repaired(
+			ApparatusConfig.apparatus_of(ApparatusConfig.world_subject(level)), level)
 	save.set_level(ApparatusConfig.MAX_LEVEL + 1)
 	var completed_progression := ProgressionManager.new(save)
 	assert(completed_progression.is_complete(), "il livello successivo all'ultimo gate deve chiudere la campagna")
-	assert(not completed_progression.can_repair(), "a nave completa l'ultimo gate non deve poter essere ripetuto")
+	assert(not completed_progression.can_level_up(), "a campagna completa non si sale oltre")
 	var gate_total := 0
 	for room_id in ShipRoomCatalog.ids():
 		var activation := ShipActivationModel.activation_for_room(save, str(room_id))

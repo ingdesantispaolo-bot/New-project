@@ -85,7 +85,15 @@ for (const file of audits) {
   const resPath = `res://scripts/${name}.gd`;
   const saveDir = await mkdtemp(join(tmpdir(), "eli-audit-"));
   const { code, output } = await runAudit(resPath, saveDir);
-  await rm(saveDir, { recursive: true, force: true });
+  // La pulizia non deve poter far fallire la suite. Su Windows, quando un audit
+  // va in timeout il processo viene ucciso ma l'handle su godot.log resta aperto
+  // per qualche istante: l'unlink alza EBUSY e, non gestito, abortiva l'intera
+  // esecuzione al PRIMO audit appeso — nascondendo tutti i risultati successivi.
+  try {
+    await rm(saveDir, { recursive: true, force: true });
+  } catch (error) {
+    console.log(`        (pulizia rinviata: ${error.code ?? error.message})`);
+  }
   const problems = output
     .split(/\r?\n/)
     .filter((line) => FAILURE_MARKERS.some((marker) => marker.test(line)));

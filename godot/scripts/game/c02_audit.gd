@@ -50,11 +50,14 @@ func _init() -> void:
 
 	var subject := str(state["focusSubject"])
 
-	# 1) Missioni native fino all'apertura del gate.
+	# 1) Missioni native fino all'apertura del gate. `ready` è la prontezza del
+	# LIVELLO, che dal 30 luglio dipende dalle tre materie del nucleo: allenare la
+	# sola materia del mondo non lo aprirebbe mai.
 	var played := 0
 	while not bool(gameplay.runtime_state()["ready"]) and played < 200:
 		requested["session"] = {}
-		assert(gameplay.try_start_mission({"subject": subject}, "enc-%d" % played), "missione avviabile")
+		var turn_subject := str(ApparatusConfig.CORE_SUBJECTS[played % ApparatusConfig.CORE_SUBJECTS.size()])
+		assert(gameplay.try_start_mission({"subject": turn_subject}, "enc-%d" % played), "missione avviabile")
 		assert(bool(gameplay.runtime_state()["sessionActive"]), "sessione attiva dopo l'avvio")
 		var session: Dictionary = requested["session"]
 		assert(not session.is_empty(), "session_requested emesso")

@@ -13,20 +13,94 @@ const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd"
 # Coppie da abbinare, per materia → gruppi tematici (topic + lista [sinistra, destra]).
 const MATCHING := {
 	"inglese": [
-		{"topic": "vocabolario", "pairs": [["dog", "cane"], ["cat", "gatto"], ["sun", "sole"], ["house", "casa"], ["water", "acqua"], ["book", "libro"], ["tree", "albero"], ["red", "rosso"]]},
-		{"topic": "vocabolario", "pairs": [["one", "uno"], ["two", "due"], ["three", "tre"], ["four", "quattro"], ["five", "cinque"], ["ten", "dieci"]]},
-		{"topic": "opposites", "minLevel": 3, "pairs": [["hot", "cold"], ["big", "small"], ["fast", "slow"], ["happy", "sad"], ["old", "new"]]},
+		# Tre insiemi di vocabolario già dal primo mondo: al livello 1 si pescano solo
+		# 3 coppie, quindi la profondità di una singola specifica non basta — servono
+		# più insiemi idonei fin da subito, non insiemi più grandi più tardi.
+		{"topic": "vocabolario", "pairs": [
+			["dog", "cane"], ["cat", "gatto"], ["sun", "sole"], ["house", "casa"],
+			["water", "acqua"], ["book", "libro"], ["tree", "albero"], ["red", "rosso"],
+			["moon", "luna"], ["star", "stella"], ["bread", "pane"], ["milk", "latte"],
+			["door", "porta"], ["window", "finestra"], ["chair", "sedia"], ["table", "tavolo"],
+			["hand", "mano"], ["head", "testa"], ["friend", "amico"], ["school", "scuola"],
+			["city", "città"], ["river", "fiume"], ["mountain", "montagna"], ["sea", "mare"],
+			["bird", "uccello"], ["horse", "cavallo"], ["flower", "fiore"], ["key", "chiave"],
+			["road", "strada"], ["cloud", "nuvola"], ["snow", "neve"], ["fire", "fuoco"]]},
+		{"topic": "vocabolario", "pairs": [
+			["one", "uno"], ["two", "due"], ["three", "tre"], ["four", "quattro"],
+			["five", "cinque"], ["six", "sei"], ["seven", "sette"], ["eight", "otto"],
+			["nine", "nove"], ["ten", "dieci"], ["eleven", "undici"], ["twelve", "dodici"],
+			["thirteen", "tredici"], ["fifteen", "quindici"], ["twenty", "venti"], ["thirty", "trenta"],
+			["forty", "quaranta"], ["fifty", "cinquanta"], ["hundred", "cento"], ["thousand", "mille"]]},
+		# Verbi di uso quotidiano: il terzo insieme disponibile dal mondo 1.
+		{"topic": "vocabolario", "pairs": [
+			["to run", "correre"], ["to eat", "mangiare"], ["to drink", "bere"], ["to sleep", "dormire"],
+			["to read", "leggere"], ["to write", "scrivere"], ["to play", "giocare"], ["to sing", "cantare"],
+			["to walk", "camminare"], ["to swim", "nuotare"], ["to laugh", "ridere"], ["to cry", "piangere"],
+			["to open", "aprire"], ["to close", "chiudere"], ["to buy", "comprare"], ["to help", "aiutare"],
+			["to listen", "ascoltare"], ["to look", "guardare"], ["to speak", "parlare"], ["to learn", "imparare"],
+			["to teach", "insegnare"], ["to build", "costruire"], ["to find", "trovare"], ["to lose", "perdere"],
+			["to give", "dare"], ["to take", "prendere"], ["to bring", "portare"], ["to answer", "rispondere"],
+			["to ask", "chiedere"], ["to wait", "aspettare"]]},
+		{"topic": "opposites", "minLevel": 3, "pairs": [
+			["hot", "cold"], ["big", "small"], ["fast", "slow"], ["happy", "sad"],
+			["old", "new"], ["long", "short"], ["high", "low"], ["light", "heavy"],
+			["full", "empty"], ["open", "shut"], ["clean", "dirty"], ["easy", "hard"],
+			["strong", "weak"], ["rich", "poor"], ["near", "far"], ["young", "elderly"],
+			["loud", "quiet"], ["wet", "dry"], ["early", "late"], ["first", "last"],
+			["day", "night"], ["summer", "winter"], ["inside", "outside"], ["above", "below"],
+			["always", "never"], ["everything", "nothing"]]},
 		# Conversazione: micro-scambi domanda -> risposta.
-		{"topic": "conversation", "minLevel": 5, "pairs": [["What's your name?", "I'm Anna"], ["How old are you?", "I'm ten"], ["Where are you from?", "From Italy"], ["How are you?", "I'm fine"]]},
+		{"topic": "conversation", "minLevel": 5, "pairs": [
+			["What's your name?", "I'm Anna"], ["How old are you?", "I'm ten"],
+			["Where are you from?", "From Italy"], ["How are you?", "I'm fine, thanks"],
+			["What time is it?", "It's half past four"], ["Where do you live?", "In a small town"],
+			["Have you got a pet?", "Yes, a grey cat"], ["What's your favourite subject?", "History"],
+			["Can you help me?", "Of course I can"], ["What are you doing?", "I'm reading"],
+			["Do you like pizza?", "Yes, I love it"], ["When is your birthday?", "In March"],
+			["How much is it?", "Three euros"], ["What's the weather like?", "It's raining"],
+			["Would you like some tea?", "No, thank you"], ["See you tomorrow!", "See you!"],
+			["How do you go to school?", "By bus"], ["Whose book is this?", "It's mine"]]},
 		# Scuola media — le forme che l'inglese non regolarizza.
-		{"topic": "contractions", "minLevel": 6, "pairs": [["I am", "I'm"], ["you are", "you're"], ["do not", "don't"], ["cannot", "can't"], ["it is", "it's"]]},
-		{"topic": "irregular-past", "minLevel": 7, "pairs": [["go", "went"], ["eat", "ate"], ["see", "saw"], ["have", "had"], ["make", "made"]]},
-		{"topic": "irregular-plural", "minLevel": 8, "pairs": [["child", "children"], ["man", "men"], ["foot", "feet"], ["mouse", "mice"], ["tooth", "teeth"]]},
+		{"topic": "contractions", "minLevel": 6, "pairs": [
+			["I am", "I'm"], ["you are", "you're"], ["do not", "don't"], ["cannot", "can't"],
+			["it is", "it's"], ["she is", "she's"], ["they are", "they're"], ["we are", "we're"],
+			["does not", "doesn't"], ["did not", "didn't"], ["is not", "isn't"], ["are not", "aren't"],
+			["was not", "wasn't"], ["were not", "weren't"], ["will not", "won't"], ["would not", "wouldn't"],
+			["has not", "hasn't"], ["have not", "haven't"], ["I will", "I'll"], ["I have", "I've"]]},
+		{"topic": "irregular-past", "minLevel": 7, "pairs": [
+			["go", "went"], ["eat", "ate"], ["see", "saw"], ["have", "had"], ["make", "made"],
+			["take", "took"], ["give", "gave"], ["come", "came"], ["write", "wrote"], ["read", "read /red/"],
+			["run", "ran"], ["swim", "swam"], ["sing", "sang"], ["drink", "drank"], ["begin", "began"],
+			["buy", "bought"], ["bring", "brought"], ["think", "thought"], ["teach", "taught"], ["catch", "caught"],
+			["find", "found"], ["lose", "lost"], ["sleep", "slept"], ["keep", "kept"], ["leave", "left"],
+			["speak", "spoke"], ["break", "broke"], ["choose", "chose"]]},
+		{"topic": "irregular-plural", "minLevel": 8, "pairs": [
+			["child", "children"], ["man", "men"], ["foot", "feet"], ["mouse", "mice"],
+			["tooth", "teeth"], ["woman", "women"], ["goose", "geese"], ["person", "people"],
+			["knife", "knives"], ["leaf", "leaves"], ["wife", "wives"], ["shelf", "shelves"],
+			["life", "lives"], ["city", "cities"], ["baby", "babies"], ["sheep", "sheep (invariato)"],
+			["fish", "fish (invariato)"], ["potato", "potatoes"]]},
 	],
 	"geografia": [
-		{"topic": "capitali", "pairs": [["Italia", "Roma"], ["Francia", "Parigi"], ["Spagna", "Madrid"], ["Germania", "Berlino"], ["Portogallo", "Lisbona"], ["Grecia", "Atene"]]},
+		{"topic": "capitali", "pairs": [
+			["Italia", "Roma"], ["Francia", "Parigi"], ["Spagna", "Madrid"], ["Germania", "Berlino"],
+			["Portogallo", "Lisbona"], ["Grecia", "Atene"], ["Austria", "Vienna"], ["Belgio", "Bruxelles"],
+			["Paesi Bassi", "Amsterdam"], ["Danimarca", "Copenaghen"], ["Svezia", "Stoccolma"], ["Norvegia", "Oslo"],
+			["Finlandia", "Helsinki"], ["Polonia", "Varsavia"], ["Ungheria", "Budapest"], ["Irlanda", "Dublino"],
+			["Svizzera", "Berna"], ["Croazia", "Zagabria"], ["Regno Unito", "Londra"], ["Repubblica Ceca", "Praga"],
+			["Egitto", "Il Cairo"], ["Marocco", "Rabat"], ["Kenya", "Nairobi"], ["Giappone", "Tokyo"],
+			["Cina", "Pechino"], ["India", "Nuova Delhi"], ["Brasile", "Brasilia"], ["Argentina", "Buenos Aires"],
+			["Messico", "Città del Messico"], ["Canada", "Ottawa"], ["Australia", "Canberra"], ["Perù", "Lima"]]},
 		{"topic": "continenti", "pairs": [["Egitto", "Africa"], ["Brasile", "America del Sud"], ["Giappone", "Asia"], ["Italia", "Europa"], ["Australia", "Oceania"]]},
-		{"topic": "monumenti", "minLevel": 3, "pairs": [["Colosseo", "Italia"], ["Tour Eiffel", "Francia"], ["Piramidi", "Egitto"], ["Statua della Libertà", "Stati Uniti"]]},
+		{"topic": "monumenti", "minLevel": 3, "pairs": [
+			["Colosseo", "Italia"], ["Tour Eiffel", "Francia"], ["Piramidi di Giza", "Egitto"],
+			["Statua della Libertà", "Stati Uniti"], ["Big Ben", "Regno Unito"], ["Sagrada Família", "Spagna"],
+			["Partenone", "Grecia"], ["Muraglia cinese", "Cina"], ["Taj Mahal", "India"],
+			["Cristo Redentore", "Brasile"], ["Machu Picchu", "Perù"], ["Monte Fuji", "Giappone"],
+			["Opera House", "Australia"], ["Petra", "Giordania"], ["Stonehenge", "Inghilterra"],
+			["Mulini di Kinderdijk", "Paesi Bassi"], ["Castello di Neuschwanstein", "Germania"], ["Cattedrale di San Basilio", "Russia"],
+			["Chichén Itzá", "Messico"], ["Angkor Wat", "Cambogia"], ["Torre di Pisa", "Italia"],
+			["Fiordi di Geiranger", "Norvegia"], ["Cascate Vittoria", "Zambia"], ["Colosso di Rodi (rovine)", "Grecia"]]},
 		# Scuola media — monete del mondo ed elementi fisici d'Italia.
 		{"topic": "monete", "minLevel": 5, "pairs": [["Italia", "Euro"], ["Stati Uniti", "Dollaro"], ["Giappone", "Yen"], ["Regno Unito", "Sterlina"]]},
 		{"topic": "italia-fisica", "minLevel": 4, "pairs": [["Po", "Fiume"], ["Etna", "Vulcano"], ["Garda", "Lago"], ["Alpi", "Catena montuosa"]]},
@@ -41,16 +115,49 @@ const MATCHING := {
 	],
 	"latino": [
 		{"topic": "casi", "pairs": [["Nominativo", "Soggetto"], ["Accusativo", "Oggetto"], ["Genitivo", "Specificazione"], ["Dativo", "Termine"], ["Vocativo", "Invocazione"]]},
-		{"topic": "vocabolario", "pairs": [["aqua", "acqua"], ["silva", "bosco"], ["puella", "fanciulla"], ["lupus", "lupo"], ["terra", "terra"]]},
+		{"topic": "vocabolario", "pairs": [
+			["aqua", "acqua"], ["silva", "bosco"], ["puella", "fanciulla"], ["lupus", "lupo"],
+			["terra", "terra"], ["stella", "stella"], ["luna", "luna"], ["sol", "sole"],
+			["mare", "mare"], ["flumen", "fiume"], ["arbor", "albero"], ["ventus", "vento"],
+			["mons", "monte"], ["campus", "campo"], ["rex", "re"], ["regina", "regina"],
+			["miles", "soldato"], ["nauta", "marinaio"], ["agricola", "contadino"], ["magister", "maestro"],
+			["puer", "fanciullo"], ["equus", "cavallo"], ["canis", "cane"], ["avis", "uccello"],
+			["piscis", "pesce"], ["aquila", "aquila"], ["templum", "tempio"], ["bellum", "guerra"],
+			["donum", "dono"], ["liber", "libro"], ["porta", "porta"], ["hortus", "giardino"]]},
 		# Le radici latine vive nell'italiano: aggancio culturale forte.
-		{"topic": "etimologia", "minLevel": 4, "pairs": [["aqua", "acquedotto"], ["terra", "territorio"], ["liber", "libreria"], ["schola", "scuola"]]},
+		{"topic": "etimologia", "minLevel": 4, "pairs": [
+			["aqua", "acquedotto"], ["terra", "territorio"], ["liber", "libreria"], ["schola", "scuola"],
+			["bellum", "bellicoso"], ["navis", "navigare"], ["manus", "manuale"], ["pes", "pedone"],
+			["oculus", "oculista"], ["dens", "dentista"], ["cor", "cordiale"], ["caput", "capitale"],
+			["ignis", "ignifugo"], ["lux", "lucido"], ["nox", "notturno"], ["annus", "annuale"],
+			["dies", "diario"], ["via", "viadotto"], ["urbs", "urbano"], ["ager", "agricoltura"],
+			["populus", "popolare"], ["civis", "civile"], ["vox", "vocale"], ["tempus", "temporale"]]},
 		{"topic": "verbo-sum", "minLevel": 5, "pairs": [["sum", "io sono"], ["es", "tu sei"], ["est", "egli è"], ["sumus", "noi siamo"]]},
 		# Scuola media — la prima declinazione (rosa): desinenza -> caso.
 		{"topic": "declinazioni-base", "minLevel": 6, "pairs": [["rosa", "Nominativo"], ["rosam", "Accusativo"], ["rosae", "Genitivo"], ["rosā", "Ablativo"]]},
 	],
 	"musica": [
-		{"topic": "ritmo", "pairs": [["Semibreve", "4 battiti"], ["Minima", "2 battiti"], ["Semiminima", "1 battito"], ["Croma", "mezzo battito"]]},
-		{"topic": "strumenti", "pairs": [["Chitarra", "Corde"], ["Flauto", "Fiato"], ["Tamburo", "Percussione"], ["Pianoforte", "Tastiera"]]},
+		# Al primo mondo musica aveva otto abbinamenti possibili in tutto: due
+		# specifiche da quattro coppie. Era la materia con la ripetizione peggiore
+		# rimasta, e la cura non è pescare meno ma avere più materiale con risposte
+		# uniche — durata in battiti, nome internazionale, modo di produrre il suono.
+		{"topic": "ritmo", "pairs": [
+			["Breve", "8 battiti"], ["Semibreve", "4 battiti"], ["Minima puntata", "3 battiti"],
+			["Minima", "2 battiti"], ["Semiminima puntata", "1 battito e mezzo"], ["Semiminima", "1 battito"],
+			["Croma puntata", "tre quarti di battito"], ["Croma", "mezzo battito"],
+			["Semicroma", "un quarto di battito"], ["Biscroma", "un ottavo di battito"]]},
+		# I nomi internazionali delle note: si trovano su ogni spartito e su ogni
+		# accordo di chitarra, quindi non è nozionismo ma alfabeto pratico.
+		{"topic": "note", "pairs": [
+			["Do", "C"], ["Re", "D"], ["Mi", "E"], ["Fa", "F"],
+			["Sol", "G"], ["La", "A"], ["Si", "B"]]},
+		{"topic": "strumenti", "pairs": [
+			["Chitarra", "corde pizzicate con le dita"], ["Violino", "corde sfregate con l'archetto"],
+			["Pianoforte", "corde percosse da martelletti"], ["Flauto", "aria soffiata in un tubo"],
+			["Tromba", "labbra che vibrano nel bocchino"], ["Tamburo", "pelle tesa percossa"],
+			["Xilofono", "lamine di legno percosse"], ["Arpa", "corde pizzicate a mano libera"],
+			["Organo a canne", "aria spinta dentro le canne"], ["Fisarmonica", "ance mosse dal mantice"],
+			["Maracas", "semi che sbattono dentro il guscio"], ["Triangolo", "barra di metallo percossa"]]},
 		{"topic": "dinamica", "minLevel": 3, "pairs": [["forte (f)", "suonare forte"], ["piano (p)", "suonare piano"], ["crescendo", "aumentare a poco a poco"], ["staccato", "note staccate e brevi"]]},
 		# Termini italiani di tempo (usati in tutto il mondo).
 		{"topic": "tempo", "minLevel": 4, "pairs": [["Adagio", "lento"], ["Andante", "camminando, moderato"], ["Allegro", "veloce e vivace"], ["Presto", "molto veloce"]]},
@@ -58,12 +165,62 @@ const MATCHING := {
 		{"topic": "compositori", "minLevel": 6, "pairs": [["Beethoven", "Quinta Sinfonia"], ["Vivaldi", "Le Quattro Stagioni"], ["Mozart", "Il Flauto Magico"], ["Verdi", "Aida"]]},
 	],
 	"italiano": [
-		{"topic": "contrari", "pairs": [["alto", "basso"], ["grande", "piccolo"], ["giorno", "notte"], ["caldo", "freddo"], ["veloce", "lento"]]},
+		# --- Insiemi profondi (Fase 1) ---------------------------------------------
+		# L'abbinamento regge un insieme profondo solo quando OGNI voce ha una
+		# risposta sua: contrari, sinonimi, definizioni, modi di dire. I contenuti
+		# «a categoria» (classe grammaticale, tempo verbale) non possono crescere
+		# qui — con quattro risposte per venti voci l'abbinamento sarebbe ambiguo:
+		# quelli stanno nello smistamento, che è fatto apposta.
+		{"topic": "contrari", "pairs": [
+			["alto", "basso"], ["grande", "piccolo"], ["giorno", "notte"], ["caldo", "freddo"],
+			["veloce", "lento"], ["pieno", "vuoto"], ["aperto", "chiuso"], ["ricco", "povero"],
+			["pulito", "sporco"], ["forte", "debole"], ["chiaro", "scuro"], ["dolce", "amaro"],
+			["duro", "morbido"], ["largo", "stretto"], ["lungo", "corto"], ["pesante", "leggero"],
+			["vicino", "lontano"], ["salire", "scendere"], ["entrare", "uscire"], ["ridere", "piangere"],
+			["iniziare", "finire"], ["vincere", "perdere"], ["dare", "ricevere"], ["sopra", "sotto"],
+			["davanti", "dietro"], ["dentro", "fuori"], ["prima", "dopo"], ["sempre", "mai"],
+			["giovane", "vecchio"], ["asciutto", "bagnato"], ["liscio", "ruvido"], ["utile", "inutile"]]},
 		{"topic": "categorie", "pairs": [["correre", "verbo"], ["gatto", "nome"], ["rosso", "aggettivo"], ["velocemente", "avverbio"]]},
-		{"topic": "sinonimi", "pairs": [["felice", "contento"], ["veloce", "rapido"], ["bello", "stupendo"], ["triste", "malinconico"], ["furbo", "astuto"]]},
-		{"topic": "definizioni", "minLevel": 7, "pairs": [["effimero", "che dura poco"], ["arduo", "molto difficile"], ["placido", "calmo e tranquillo"], ["arguto", "acuto e spiritoso"], ["tenace", "che non si arrende"]]},
-		{"topic": "modi-di-dire", "minLevel": 6, "pairs": [["In bocca al lupo", "Buona fortuna"], ["Tagliare la corda", "Scappare via"], ["Avere le mani in pasta", "Essere coinvolti"], ["Costare un occhio", "Essere carissimo"], ["Perdere la testa", "Innamorarsi o agitarsi"]]},
-		{"topic": "figure-retoriche", "minLevel": 8, "pairs": [["Veloce come il vento", "Similitudine"], ["Il sole sorride nel cielo", "Personificazione"], ["Ho un mare di compiti", "Iperbole"], ["Che silenzio assordante", "Ossimoro"]]},
+		{"topic": "sinonimi", "pairs": [
+			["felice", "contento"], ["veloce", "rapido"], ["bello", "stupendo"], ["triste", "malinconico"],
+			["furbo", "astuto"], ["grande", "enorme"], ["minuto", "minuscolo"], ["difficile", "arduo"],
+			["facile", "semplice"], ["silenzioso", "quieto"], ["coraggioso", "valoroso"], ["stanco", "spossato"],
+			["arrabbiato", "furioso"], ["buffo", "comico"], ["strano", "bizzarro"], ["sudicio", "lurido"],
+			["agiato", "benestante"], ["anziano", "attempato"], ["iniziare", "cominciare"], ["terminare", "concludere"],
+			["guardare", "osservare"], ["parlare", "conversare"], ["camminare", "passeggiare"], ["capire", "comprendere"],
+			["sbagliare", "errare"], ["aiutare", "soccorrere"], ["nascondere", "celare"], ["scoprire", "svelare"],
+			["urlare", "gridare"], ["saltare", "balzare"]]},
+		{"topic": "definizioni", "minLevel": 7, "pairs": [
+			["effimero", "che dura pochissimo"], ["arduo", "molto difficile"], ["placido", "calmo e tranquillo"],
+			["arguto", "acuto e spiritoso"], ["tenace", "che non si arrende"], ["esiguo", "molto scarso"],
+			["mendace", "che dice il falso"], ["magnanimo", "generoso e nobile d'animo"], ["ostinato", "che non cambia idea"],
+			["sagace", "che capisce in fretta"], ["taciturno", "che parla poco"], ["ameno", "piacevole e gradevole"],
+			["insolito", "fuori dal comune"], ["meticoloso", "attento a ogni dettaglio"], ["irruento", "impetuoso e scomposto"],
+			["frugale", "sobrio, senza sprechi"], ["arcano", "misterioso e oscuro"], ["ligio", "fedele alle regole"],
+			["prolisso", "che si dilunga troppo"], ["temerario", "audace fino all'imprudenza"], ["candido", "innocente e sincero"],
+			["arcigno", "dall'aria severa e scontrosa"], ["solerte", "svelto e diligente"], ["vetusto", "molto antico"],
+			["mite", "dolce e non violento"], ["astruso", "difficile da capire"]]},
+		{"topic": "modi-di-dire", "minLevel": 6, "pairs": [
+			["In bocca al lupo", "Buona fortuna"], ["Tagliare la corda", "Scappare via"],
+			["Avere le mani in pasta", "Essere coinvolti"], ["Costare un occhio", "Essere carissimo"],
+			["Perdere la testa", "Agitarsi o innamorarsi"], ["Prendere due piccioni con una fava", "Risolvere due cose insieme"],
+			["Essere al verde", "Non avere più soldi"], ["Cadere dalle nuvole", "Essere molto sorpresi"],
+			["Avere un diavolo per capello", "Essere furiosi"], ["Mettere il carro davanti ai buoi", "Fare le cose fuori ordine"],
+			["Non vedere l'ora", "Aspettare con impazienza"], ["Tenere il piede in due scarpe", "Non voler scegliere"],
+			["Fare orecchie da mercante", "Fingere di non sentire"], ["Essere una spugna", "Imparare tutto in fretta"],
+			["Avere la testa fra le nuvole", "Essere distratti"], ["Piove sul bagnato", "Capita ancora a chi ne ha già"],
+			["Rompere il ghiaccio", "Superare l'imbarazzo iniziale"], ["Dormire sugli allori", "Smettere di impegnarsi"],
+			["Prendere un granchio", "Fare un grosso errore"], ["Essere di manica larga", "Perdonare facilmente"],
+			["Restare a bocca aperta", "Stupirsi moltissimo"], ["Vuotare il sacco", "Confessare tutto"],
+			["Fare il passo più lungo della gamba", "Pretendere troppo da sé"], ["Essere un pesce fuor d'acqua", "Sentirsi a disagio"],
+			["Battere il ferro finché è caldo", "Approfittare del momento giusto"], ["Andare a gonfie vele", "Procedere benissimo"]]},
+		{"topic": "figure-retoriche", "minLevel": 8, "pairs": [
+			["Veloce come il vento", "Similitudine"], ["Il sole sorride nel cielo", "Personificazione"],
+			["Ho un mare di compiti", "Iperbole"], ["Che silenzio assordante", "Ossimoro"],
+			["Sei un leone in campo", "Metafora"], ["Il tic tac dell'orologio", "Onomatopea"],
+			["Fischia il fiato fra le foglie", "Allitterazione"], ["Non è per niente stupido", "Litote"],
+			["Non temo, non tremo, non cedo", "Anafora"], ["Bianco di neve, nero di pece", "Antitesi"],
+			["Non è forte: è fortissimo, è invincibile", "Climax"], ["Le vele lasciarono il porto", "Sineddoche"]]},
 		# Scuola media — analisi grammaticale: ogni parola alla sua parte del discorso.
 		{"topic": "analisi-grammaticale", "minLevel": 8, "pairs": [["il", "articolo"], ["gatto", "nome"], ["dorme", "verbo"], ["pigro", "aggettivo"], ["sotto", "preposizione"]]},
 		# Scuola media — modi e tempi del verbo (terminologia esplicita).
@@ -77,9 +234,33 @@ const MATCHING := {
 	"storia": [
 		{"topic": "civilta", "pairs": [["Egizi", "Nilo"], ["Romani", "Roma"], ["Greci", "Grecia"], ["Sumeri", "Mesopotamia"]]},
 		{"topic": "invenzioni", "minLevel": 4, "pairs": [["Egizi", "Piramidi"], ["Romani", "Acquedotti"], ["Greci", "Democrazia"], ["Fenici", "Alfabeto"]]},
-		# Scuola media — personaggi e le loro imprese.
-		{"topic": "personaggi", "minLevel": 18, "pairs": [["Romolo", "Fondò Roma"], ["Giulio Cesare", "Conquistò la Gallia"], ["Colombo", "Arrivò in America"], ["Marco Polo", "Viaggiò in Cina"]]},
-		{"topic": "cronologia", "minLevel": 5, "pairs": [["Fondazione di Roma", "753 a.C."], ["Nascita di Cristo", "Anno 0"], ["Caduta di Roma", "476 d.C."], ["Scoperta dell'America", "1492"]]},
+		# Scuola media — personaggi e le loro imprese. Ogni personaggio ha una sola
+		# impresa e ogni impresa un solo personaggio: è la condizione che permette a
+		# un abbinamento di diventare profondo senza diventare ambiguo.
+		{"topic": "personaggi", "minLevel": 18, "pairs": [
+			["Romolo", "Fondò Roma secondo la leggenda"], ["Giulio Cesare", "Conquistò la Gallia"],
+			["Cristoforo Colombo", "Arrivò in America nel 1492"], ["Marco Polo", "Viaggiò fino alla Cina"],
+			["Alessandro Magno", "Conquistò l'impero persiano"], ["Augusto", "Fu il primo imperatore romano"],
+			["Annibale", "Attraversò le Alpi con gli elefanti"], ["Carlo Magno", "Fu incoronato imperatore nell'800"],
+			["Gutenberg", "Inventò la stampa a caratteri mobili"], ["Leonardo da Vinci", "Dipinse la Gioconda"],
+			["Galileo Galilei", "Puntò il telescopio sui pianeti"], ["Giuseppe Garibaldi", "Guidò la spedizione dei Mille"],
+			["Pericle", "Guidò Atene nella sua età d'oro"], ["Archimede", "Scoprì la spinta idrostatica"],
+			["Tutankhamon", "Fu sepolto in una tomba intatta"], ["Amerigo Vespucci", "Diede il nome all'America"],
+			["Ferdinando Magellano", "Organizzò il primo giro del mondo"], ["Ipazia", "Insegnò matematica ad Alessandria"],
+			["Costantino", "Rese lecito il cristianesimo"], ["Attila", "Guidò gli Unni in Europa"],
+			["Cleopatra", "Fu l'ultima regina d'Egitto"], ["Erodoto", "È detto il padre della storia"],
+			["Solone", "Diede ad Atene le prime leggi scritte"], ["Traiano", "Portò Roma alla massima estensione"]]},
+		{"topic": "cronologia", "minLevel": 5, "pairs": [
+			["Fondazione di Roma", "753 a.C."], ["Nascita di Cristo", "Anno 0"],
+			["Caduta di Roma d'Occidente", "476 d.C."], ["Scoperta dell'America", "1492"],
+			["Primi Giochi olimpici", "776 a.C."], ["Eruzione di Pompei", "79 d.C."],
+			["Incoronazione di Carlo Magno", "800 d.C."], ["Prima crociata", "1096"],
+			["Viaggio di Marco Polo", "1271"], ["Peste nera in Europa", "1347"],
+			["Stampa di Gutenberg", "1455"], ["Rivoluzione francese", "1789"],
+			["Unità d'Italia", "1861"], ["Prima guerra mondiale", "1914"],
+			["Sbarco sulla Luna", "1969"], ["Democrazia ad Atene", "508 a.C."],
+			["Costruzione del Partenone", "447 a.C."], ["Cesare in Gallia", "52 a.C."],
+			["Augusto imperatore", "27 a.C."], ["Codice di Hammurabi", "1750 a.C."]]},
 		{"topic": "civilta", "minLevel": 6, "pairs": [["Colosseo", "Romani"], ["Partenone", "Greci"], ["Piramidi", "Egizi"], ["Ziggurat", "Sumeri"]]},
 	],
 	"coding": [
@@ -111,21 +292,81 @@ const MATCHING := {
 		{"topic": "formule", "minLevel": 7, "pairs": [["Velocità", "spazio / tempo"], ["Densità", "massa / volume"], ["Forza peso", "massa × gravità"]]},
 	],
 	"matematica": [
-		{"topic": "tabelline", "pairs": [["3 × 4", "12"], ["6 × 7", "42"], ["8 × 5", "40"], ["9 × 3", "27"]]},
-		{"topic": "calcolo", "pairs": [["10 + 5", "15"], ["20 - 8", "12"], ["4 × 4", "16"], ["18 ÷ 3", "6"], ["7 + 6", "13"]]},
+		# Prodotti tutti DIVERSI dentro l'insieme: due voci con lo stesso risultato
+		# renderebbero l'abbinamento ambiguo appena capitassero insieme.
+		{"topic": "tabelline", "pairs": [
+			["3 × 4", "12"], ["6 × 7", "42"], ["8 × 5", "40"], ["9 × 3", "27"],
+			["7 × 8", "56"], ["6 × 9", "54"], ["4 × 7", "28"], ["8 × 8", "64"],
+			["9 × 7", "63"], ["6 × 6", "36"], ["8 × 9", "72"], ["4 × 6", "24"],
+			["7 × 5", "35"], ["9 × 9", "81"], ["8 × 6", "48"], ["3 × 7", "21"],
+			["5 × 9", "45"], ["4 × 8", "32"], ["7 × 7", "49"], ["6 × 5", "30"],
+			["11 × 4", "44"], ["12 × 3", "33"], ["11 × 6", "66"], ["11 × 7", "77"],
+			["4 × 4", "16"], ["9 × 2", "18"], ["7 × 2", "14"], ["12 × 5", "60"],
+			["11 × 9", "99"], ["12 × 7", "84"], ["11 × 8", "88"], ["12 × 9", "108"]]},
+		{"topic": "calcolo", "pairs": [
+			["10 + 5", "15"], ["20 - 8", "12"], ["18 ÷ 3", "6"], ["7 + 6", "13"],
+			["25 + 17", "42"], ["63 - 28", "35"], ["196 ÷ 14", "14"], ["17 × 3", "51"],
+			["350 ÷ 7", "50"], ["45 + 38", "83"], ["100 - 47", "53"], ["23 × 4", "92"],
+			["120 ÷ 5", "24"], ["56 + 29", "85"], ["81 - 36", "45"], ["19 × 5", "95"],
+			["150 ÷ 6", "25"], ["74 + 48", "122"], ["200 - 133", "67"], ["16 × 7", "112"],
+			["480 ÷ 12", "40"], ["87 + 96", "183"], ["310 - 145", "165"], ["24 × 6", "144"],
+			["729 ÷ 9", "81"], ["108 + 97", "205"], ["500 - 264", "236"], ["32 × 8", "256"],
+			["441 ÷ 21", "21"], ["76 + 88", "164"], ["1000 - 375", "625"], ["45 × 12", "540"]]},
 		# Fluenza tra rappresentazioni: la stessa quantità in forme diverse (idea CPA).
-		{"topic": "frazioni", "minLevel": 4, "pairs": [["1/2", "0,5"], ["1/4", "0,25"], ["3/4", "0,75"], ["1/5", "0,2"]]},
-		{"topic": "percentuali", "minLevel": 5, "pairs": [["1/2", "50%"], ["1/4", "25%"], ["1/5", "20%"], ["3/4", "75%"]]},
+		{"topic": "frazioni", "minLevel": 4, "pairs": [
+			["1/2", "0,5"], ["1/4", "0,25"], ["3/4", "0,75"], ["1/5", "0,2"],
+			["1/10", "0,1"], ["3/10", "0,3"], ["7/10", "0,7"], ["1/8", "0,125"],
+			["3/8", "0,375"], ["5/8", "0,625"], ["1/20", "0,05"], ["3/5", "0,6"],
+			["2/5", "0,4"], ["4/5", "0,8"], ["1/100", "0,01"], ["9/10", "0,9"],
+			["7/8", "0,875"], ["1/25", "0,04"], ["11/10", "1,1"], ["5/2", "2,5"]]},
+		{"topic": "percentuali", "minLevel": 5, "pairs": [
+			["1/2", "50%"], ["1/4", "25%"], ["1/5", "20%"], ["3/4", "75%"],
+			["1/10", "10%"], ["3/10", "30%"], ["7/10", "70%"], ["9/10", "90%"],
+			["2/5", "40%"], ["3/5", "60%"], ["4/5", "80%"], ["1/20", "5%"],
+			["1/100", "1%"], ["1/1", "100%"], ["1/8", "12,5%"], ["3/8", "37,5%"]]},
 		# Scuola media — potenze e formule di geometria.
-		{"topic": "potenze", "minLevel": 6, "pairs": [["2³", "8"], ["3²", "9"], ["5²", "25"], ["10³", "1000"]]},
+		{"topic": "potenze", "minLevel": 6, "pairs": [
+			["2³", "8"], ["3²", "9"], ["5²", "25"], ["10³", "1000"],
+			["2⁴", "16"], ["2⁵", "32"], ["3³", "27"], ["4³", "64"],
+			["6²", "36"], ["7²", "49"], ["2⁷", "128"], ["9²", "81"],
+			["11²", "121"], ["12²", "144"], ["10²", "100"], ["10⁴", "10000"],
+			["5³", "125"], ["4⁴", "256"], ["6³", "216"], ["1⁹", "1"]]},
 		{"topic": "geometria", "minLevel": 5, "pairs": [["Area del quadrato", "lato × lato"], ["Perimetro del rettangolo", "(base + altezza) × 2"], ["Area del triangolo", "base × altezza ÷ 2"], ["Area del cerchio", "π × raggio²"]]},
 	],
 	"logica": [
-		{"topic": "analogie", "pairs": [["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acqua"], ["Cavallo", "Stalla"]]},
-		{"topic": "analogie", "minLevel": 3, "pairs": [["Penna", "Scrivere"], ["Forbici", "Tagliare"], ["Martello", "Battere"], ["Chiave", "Aprire"]]},
+		# Ogni insieme è UNA relazione sola, dichiarata nel commento: è questo che lo
+		# rende un esercizio di logica invece che di vocabolario. Mescolare relazioni
+		# diverse nello stesso insieme renderebbe l'abbinamento indovinabile per
+		# associazione, che è il contrario di quello che la materia allena.
+		# Relazione: «chi ci abita».
+		{"topic": "analogie", "pairs": [
+			["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acquario"],
+			["Cavallo", "Stalla"], ["Topo", "Tana"], ["Formica", "Formicaio"], ["Ragno", "Ragnatela"],
+			["Coniglio", "Conigliera"], ["Maiale", "Porcile"], ["Aquila", "Nido d'aquila"], ["Castoro", "Diga"],
+			["Volpe", "Tana scavata"], ["Gallina", "Pollaio"], ["Pecora", "Ovile"], ["Orso", "Caverna"],
+			["Talpa", "Galleria"], ["Lumaca", "Guscio"], ["Termite", "Termitaio"], ["Marmotta", "Cunicolo"]]},
+		# Relazione: «a che cosa serve».
+		{"topic": "analogie", "minLevel": 3, "pairs": [
+			["Penna", "Scrivere"], ["Forbici", "Tagliare"], ["Martello", "Battere"], ["Chiave", "Aprire"],
+			["Scopa", "Spazzare"], ["Ago", "Cucire"], ["Pettine", "Pettinare"], ["Termometro", "Misurare la febbre"],
+			["Bussola", "Orientarsi"], ["Ombrello", "Ripararsi dalla pioggia"], ["Bilancia", "Pesare"], ["Telescopio", "Osservare lontano"],
+			["Lente", "Ingrandire"], ["Remo", "Spingere la barca"], ["Sega", "Segare"], ["Freno", "Fermare"],
+			["Setaccio", "Separare"], ["Imbuto", "Travasare"], ["Livella", "Verificare l'orizzontale"], ["Pinza", "Afferrare"]]},
 		{"topic": "categorie", "minLevel": 4, "pairs": [["Rosa", "Fiore"], ["Cane", "Animale"], ["Mela", "Frutto"], ["Tavolo", "Mobile"]]},
-		{"topic": "analogie", "minLevel": 4, "pairs": [["Ruota", "Automobile"], ["Foglia", "Albero"], ["Pagina", "Libro"], ["Dito", "Mano"]]},
-		{"topic": "opposti", "minLevel": 5, "pairs": [["Giorno", "Notte"], ["Salita", "Discesa"], ["Pieno", "Vuoto"], ["Inizio", "Fine"]]},
+		# Relazione: «parte di».
+		{"topic": "analogie", "minLevel": 4, "pairs": [
+			["Ruota", "Automobile"], ["Foglia", "Albero"], ["Pagina", "Libro"], ["Dito", "Mano"],
+			["Tasto", "Pianoforte"], ["Petalo", "Fiore"], ["Corda", "Chitarra"], ["Gradino", "Scala"],
+			["Ala", "Uccello"], ["Radice", "Pianta"], ["Nota", "Melodia"], ["Mattone", "Muro"],
+			["Stanza", "Casa"], ["Capitolo", "Romanzo"], ["Isola", "Arcipelago"], ["Vagone", "Treno"],
+			["Lettera", "Parola"], ["Cellula", "Tessuto"], ["Fotogramma", "Film"], ["Stella", "Costellazione"]]},
+		# Relazione: «il contrario di».
+		{"topic": "opposti", "minLevel": 5, "pairs": [
+			["Giorno", "Notte"], ["Salita", "Discesa"], ["Pieno", "Vuoto"], ["Inizio", "Fine"],
+			["Vittoria", "Sconfitta"], ["Silenzio", "Rumore"], ["Ordine", "Disordine"], ["Verità", "Menzogna"],
+			["Domanda", "Risposta"], ["Entrata", "Uscita"], ["Ricordo", "Oblio"], ["Guerra", "Pace"],
+			["Partenza", "Arrivo"], ["Luce", "Buio"], ["Coraggio", "Paura"], ["Successo", "Fallimento"],
+			["Presenza", "Assenza"], ["Movimento", "Quiete"], ["Nascita", "Morte"], ["Certezza", "Dubbio"]]},
 	],
 }
 
@@ -139,13 +380,51 @@ const ORDERING := {
 		{"topic": "metodo", "minLevel": 4, "prompt": "Ordina i passi del metodo scientifico.", "correctOrder": ["Fai una domanda", "Formula un'ipotesi", "Fai l'esperimento", "Osserva i risultati", "Trai la conclusione"]},
 		# Scuola media — livelli di organizzazione dei viventi.
 		{"topic": "organizzazione", "minLevel": 7, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Cellula", "Tessuto", "Organo", "Sistema", "Organismo"]},
+		# Insieme a estrazione sulle dimensioni reali dei viventi (`value` in metri).
+		# Ordinare esseri viventi per grandezza è biologia, non aritmetica: costringe
+		# a farsi un'idea di scala, che è ciò che i numeri da soli non insegnano.
+		{"topic": "organizzazione", "minLevel": 7, "kind": "pool", "draw": 4, "prompt": "Ordina questi viventi dal più piccolo al più grande.", "pool": [
+			{"label": "Virus", "value": 0.0000001}, {"label": "Batterio", "value": 0.000002},
+			{"label": "Globulo rosso", "value": 0.000007}, {"label": "Cellula vegetale", "value": 0.00005},
+			{"label": "Acaro della polvere", "value": 0.0003}, {"label": "Pulce", "value": 0.002},
+			{"label": "Formica", "value": 0.005}, {"label": "Ape", "value": 0.013},
+			{"label": "Coccinella", "value": 0.007}, {"label": "Lombrico", "value": 0.12},
+			{"label": "Topolino", "value": 0.08}, {"label": "Rana", "value": 0.09},
+			{"label": "Passero", "value": 0.15}, {"label": "Scoiattolo", "value": 0.25},
+			{"label": "Gatto", "value": 0.5}, {"label": "Cane pastore", "value": 0.9},
+			{"label": "Essere umano", "value": 1.7}, {"label": "Cavallo", "value": 2.4},
+			{"label": "Giraffa", "value": 5.5}, {"label": "Elefante africano", "value": 3.3},
+			{"label": "Balenottera azzurra", "value": 30.0}, {"label": "Sequoia gigante", "value": 85.0}]},
 	],
 	"geografia": [
 		{"topic": "geografia-umana", "prompt": "Ordina dal più piccolo al più grande", "correctOrder": ["Paese", "Regione", "Nazione", "Continente"]},
 		{"topic": "geografia-fisica", "minLevel": 3, "prompt": "Ordina il corso di un fiume, dalla nascita al mare.", "correctOrder": ["Sorgente", "Torrente", "Fiume", "Foce"]},
 		{"topic": "geografia-umana", "minLevel": 4, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Via", "Quartiere", "Città", "Regione"]},
-		# Scuola media — montagne italiane per altezza.
-		{"topic": "italia-fisica", "minLevel": 6, "prompt": "Ordina i rilievi per altezza crescente.", "correctOrder": ["Collina", "Appennini", "Alpi", "Monte Bianco"]},
+		# Insiemi a estrazione: in geografia quasi ogni ordine è una GRANDEZZA —
+		# altezza in metri, lunghezza in chilometri, abitanti. È lo stesso motivo per
+		# cui la cronologia funziona in storia: c'è un numero vero sotto l'etichetta.
+		{"topic": "italia-fisica", "minLevel": 6, "kind": "pool", "draw": 4, "prompt": "Ordina le cime per altezza crescente (in metri).", "pool": [
+			{"label": "Monte Bianco", "value": 4808.0}, {"label": "Monte Rosa", "value": 4634.0},
+			{"label": "Cervino", "value": 4478.0}, {"label": "Gran Paradiso", "value": 4061.0},
+			{"label": "Ortles", "value": 3905.0}, {"label": "Marmolada", "value": 3343.0},
+			{"label": "Gran Sasso", "value": 2912.0}, {"label": "Etna", "value": 3357.0},
+			{"label": "Monte Cimone", "value": 2165.0}, {"label": "Monte Terminillo", "value": 2217.0},
+			{"label": "Monte Amiata", "value": 1738.0}, {"label": "Vesuvio", "value": 1281.0},
+			{"label": "Monte Titano", "value": 749.0}, {"label": "Colli Euganei", "value": 601.0},
+			{"label": "Vulture", "value": 1326.0}, {"label": "Monte Baldo", "value": 2218.0},
+			{"label": "Punta La Marmora", "value": 1834.0}, {"label": "Monte Pollino", "value": 2248.0},
+			{"label": "Monte Velino", "value": 2487.0}, {"label": "Monte Grappa", "value": 1775.0}]},
+		{"topic": "geografia-fisica", "minLevel": 5, "kind": "pool", "draw": 4, "prompt": "Ordina i fiumi per lunghezza crescente (in chilometri).", "pool": [
+			{"label": "Arno", "value": 241.0}, {"label": "Tevere", "value": 405.0},
+			{"label": "Po", "value": 652.0}, {"label": "Adige", "value": 410.0},
+			{"label": "Piave", "value": 220.0}, {"label": "Ticino", "value": 248.0},
+			{"label": "Senna", "value": 777.0}, {"label": "Tamigi", "value": 346.0},
+			{"label": "Reno (europeo)", "value": 1233.0}, {"label": "Elba", "value": 1091.0},
+			{"label": "Danubio", "value": 2860.0}, {"label": "Volga", "value": 3530.0},
+			{"label": "Gange", "value": 2525.0}, {"label": "Indo", "value": 3180.0},
+			{"label": "Mekong", "value": 4350.0}, {"label": "Yangtze", "value": 6300.0},
+			{"label": "Nilo", "value": 6650.0}, {"label": "Rio delle Amazzoni", "value": 6400.0},
+			{"label": "Mississippi", "value": 3770.0}, {"label": "Congo", "value": 4700.0}]},
 	],
 	"musica": [
 		{"topic": "note", "prompt": "Metti in ordine le note dopo il Do", "correctOrder": ["Re", "Mi", "Fa", "Sol"]},
@@ -153,10 +432,43 @@ const ORDERING := {
 		{"topic": "note", "minLevel": 3, "prompt": "Ordina la scala musicale completa, dal Do.", "correctOrder": ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"]},
 		# Scuola media — dinamiche dal più piano al più forte, tempi dal più lento.
 		{"topic": "dinamica", "minLevel": 5, "prompt": "Ordina le dinamiche dal più piano al più forte.", "correctOrder": ["pianissimo", "piano", "mezzoforte", "forte", "fortissimo"]},
-		{"topic": "tempo", "minLevel": 5, "prompt": "Ordina i tempi dal più lento al più veloce.", "correctOrder": ["Adagio", "Andante", "Allegro", "Presto"]},
+		# I termini italiani di tempo hanno un valore vero: i battiti al minuto. Sono
+		# la stessa scala che il metronomo mostra, quindi ordinarli è leggere una
+		# grandezza, non ricordare un elenco.
+		{"topic": "tempo", "minLevel": 5, "kind": "pool", "draw": 4, "prompt": "Ordina i tempi dal più lento al più veloce.", "pool": [
+			{"label": "Grave", "value": 40.0}, {"label": "Largo", "value": 50.0},
+			{"label": "Lento", "value": 55.0}, {"label": "Adagio", "value": 66.0},
+			{"label": "Larghetto", "value": 63.0}, {"label": "Andante", "value": 80.0},
+			{"label": "Andantino", "value": 88.0}, {"label": "Moderato", "value": 100.0},
+			{"label": "Allegretto", "value": 112.0}, {"label": "Allegro", "value": 130.0},
+			{"label": "Vivace", "value": 150.0}, {"label": "Presto", "value": 175.0},
+			{"label": "Prestissimo", "value": 200.0}, {"label": "Adagietto", "value": 72.0},
+			{"label": "Allegro molto", "value": 140.0}, {"label": "Largamente", "value": 46.0}]},
 	],
 	"italiano": [
-		{"topic": "ortografia", "prompt": "Metti in ordine alfabetico", "correctOrder": ["albero", "casa", "fiore", "sole"]},
+		# Insieme a estrazione: si pescano 4 parole fra trentadue e si ordinano per
+		# `value`, che è il posto della parola nel dizionario. Trentadue parole
+		# danno C(32,4) = 35.960 prove diverse da una sola specifica — ed è il
+		# motivo per cui i valori sono scritti a mano invece che calcolati: qui
+		# l'ordine alfabetico è il CONTENUTO della prova, quindi va autorato e
+		# controllato, non dedotto a runtime da una funzione di confronto.
+		{"topic": "ortografia", "kind": "pool", "draw": 4, "prompt": "Metti le parole in ordine alfabetico.", "pool": [
+			{"label": "albero", "value": 1.0}, {"label": "amico", "value": 2.0},
+			{"label": "barca", "value": 3.0}, {"label": "bosco", "value": 4.0},
+			{"label": "casa", "value": 5.0}, {"label": "chiave", "value": 6.0},
+			{"label": "denaro", "value": 7.0}, {"label": "dono", "value": 8.0},
+			{"label": "elmo", "value": 9.0}, {"label": "erba", "value": 10.0},
+			{"label": "faro", "value": 11.0}, {"label": "fiore", "value": 12.0},
+			{"label": "gatto", "value": 13.0}, {"label": "giorno", "value": 14.0},
+			{"label": "isola", "value": 15.0}, {"label": "lampada", "value": 16.0},
+			{"label": "luna", "value": 17.0}, {"label": "mare", "value": 18.0},
+			{"label": "monte", "value": 19.0}, {"label": "nave", "value": 20.0},
+			{"label": "nube", "value": 21.0}, {"label": "ombra", "value": 22.0},
+			{"label": "porta", "value": 23.0}, {"label": "quaderno", "value": 24.0},
+			{"label": "ramo", "value": 25.0}, {"label": "rosa", "value": 26.0},
+			{"label": "sole", "value": 27.0}, {"label": "strada", "value": 28.0},
+			{"label": "tempo", "value": 29.0}, {"label": "torre", "value": 30.0},
+			{"label": "vento", "value": 31.0}, {"label": "voce", "value": 32.0}]},
 		{"topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Il", "gatto", "dorme", "sul", "divano"]},
 		{"topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Domani", "andremo", "tutti", "al", "mare"]},
 		{"topic": "testo-narrativo", "prompt": "Metti in ordine gli eventi della storia.", "correctOrder": ["C'era una volta un re", "Il re partì per un lungo viaggio", "Incontrò un drago feroce", "Con astuzia lo sconfisse", "Tornò a casa vittorioso"]},
@@ -169,10 +481,69 @@ const ORDERING := {
 	],
 	"storia": [
 		{"topic": "ere", "prompt": "Ordina le grandi età della storia, dalla più antica.", "correctOrder": ["Preistoria", "Età antica", "Medioevo", "Età moderna", "Età contemporanea"]},
+		# Insieme cronologico PER I PRIMI MONDI. L'insieme grande (28 eventi, più
+		# sotto) parte dal mondo 6 perché contiene date che a dieci anni non si
+		# possono conoscere: pescandone tre a caso poteva uscire «Hammurabi, prima
+		# crociata, peste nera», che non è una prova difficile ma una prova
+		# impossibile. Qui gli eventi sono pochi, notissimi e molto distanti fra
+		# loro: l'ordine si ricava dal senso storico, non dalla memoria delle date.
+		{"topic": "cronologia", "kind": "pool", "draw": 3,
+			"prompt": "Ordina questi eventi dal più antico al più recente.", "pool": [
+			{"label": "Gli uomini vivevano nelle caverne", "value": -30000.0},
+			{"label": "Nascono l'agricoltura e i primi villaggi", "value": -9000.0},
+			{"label": "Vengono costruite le piramidi d'Egitto", "value": -2560.0},
+			{"label": "Si disputano i primi Giochi olimpici", "value": -776.0},
+			{"label": "Viene fondata Roma", "value": -753.0},
+			{"label": "Ad Atene nasce la democrazia", "value": -508.0},
+			{"label": "Giulio Cesare conquista la Gallia", "value": -52.0},
+			{"label": "Il Vesuvio seppellisce Pompei", "value": 79.0},
+			{"label": "Cade l'Impero Romano d'Occidente", "value": 476.0},
+			{"label": "Si costruiscono i castelli e le cattedrali", "value": 1200.0},
+			{"label": "Marco Polo arriva in Cina", "value": 1271.0},
+			{"label": "Colombo arriva in America", "value": 1492.0},
+			{"label": "Nasce il Regno d'Italia", "value": 1861.0},
+			{"label": "Si costruiscono le prime automobili", "value": 1890.0},
+			{"label": "Scoppia la Prima guerra mondiale", "value": 1914.0},
+			{"label": "L'uomo cammina sulla Luna", "value": 1969.0}]},
 		{"topic": "preistoria", "minLevel": 4, "prompt": "Ordina i periodi della preistoria, dal più antico.", "correctOrder": ["Paleolitico", "Neolitico", "Età dei metalli"]},
 		{"topic": "roma", "minLevel": 18, "prompt": "Ordina le fasi della storia di Roma.", "correctOrder": ["Monarchia", "Repubblica", "Impero"]},
 		# Scuola media — ordinare eventi lontani per data.
-		{"topic": "cronologia", "minLevel": 6, "prompt": "Ordina questi eventi dal più antico al più recente.", "correctOrder": ["Fondazione di Roma", "Nascita di Cristo", "Caduta dell'Impero Romano", "Scoperta dell'America"]},
+		#
+		# Il caso in cui l'ordinamento si parametrizza meglio di ogni altro: l'ordine
+		# giusto NON è una convenzione da ricordare, è una proprietà misurabile
+		# (l'anno). Ventotto eventi danno C(28,4) = 20.475 prove diverse, e ogni
+		# estrazione è una domanda storica sensata perché la linea del tempo è una
+		# sola. `value` è l'anno con segno: negativo prima di Cristo.
+		{"topic": "cronologia", "minLevel": 6, "kind": "pool", "draw": 4,
+			"prompt": "Ordina questi eventi dal più antico al più recente.", "pool": [
+			{"label": "Prime pitture rupestri", "value": -30000.0},
+			{"label": "Nascita dell'agricoltura", "value": -9000.0},
+			{"label": "Prime città sumere", "value": -3500.0},
+			{"label": "Invenzione della scrittura", "value": -3200.0},
+			{"label": "Costruzione delle piramidi di Giza", "value": -2560.0},
+			{"label": "Codice di Hammurabi", "value": -1750.0},
+			{"label": "Guerra di Troia (tradizione)", "value": -1200.0},
+			{"label": "Primi Giochi olimpici", "value": -776.0},
+			{"label": "Fondazione di Roma (tradizione)", "value": -753.0},
+			{"label": "Nascita della democrazia ad Atene", "value": -508.0},
+			{"label": "Costruzione del Partenone", "value": -447.0},
+			{"label": "Impero di Alessandro Magno", "value": -330.0},
+			{"label": "Cesare conquista la Gallia", "value": -52.0},
+			{"label": "Augusto primo imperatore", "value": -27.0},
+			{"label": "Nascita di Cristo", "value": 0.0},
+			{"label": "Eruzione che seppellisce Pompei", "value": 79.0},
+			{"label": "Inaugurazione del Colosseo", "value": 80.0},
+			{"label": "Caduta dell'Impero Romano d'Occidente", "value": 476.0},
+			{"label": "Incoronazione di Carlo Magno", "value": 800.0},
+			{"label": "Prima crociata", "value": 1096.0},
+			{"label": "Viaggio di Marco Polo in Cina", "value": 1271.0},
+			{"label": "La peste nera in Europa", "value": 1347.0},
+			{"label": "Stampa a caratteri mobili di Gutenberg", "value": 1455.0},
+			{"label": "Colombo arriva in America", "value": 1492.0},
+			{"label": "Rivoluzione francese", "value": 1789.0},
+			{"label": "Unità d'Italia", "value": 1861.0},
+			{"label": "Prima guerra mondiale", "value": 1914.0},
+			{"label": "Primo uomo sulla Luna", "value": 1969.0}]},
 	],
 	"latino": [
 		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
@@ -182,6 +553,23 @@ const ORDERING := {
 	],
 	"inglese": [
 		{"topic": "everyday-phrases", "prompt": "Order the words to make a sentence", "correctOrder": ["I", "like", "green", "apples"]},
+		# Insieme a estrazione: i numeri scritti a parole, ordinati per valore.
+		# Ventiquattro voci → C(24,4) = 10.626 prove. Il riordino di una frase non
+		# si può parametrizzare (l'ordine è quello di QUELLA frase); i numeri sì, e
+		# sono contenuto d'inglese vero quanto il word order.
+		{"topic": "vocabolario", "kind": "pool", "draw": 4, "prompt": "Order the numbers from the smallest to the largest.", "pool": [
+			{"label": "one", "value": 1.0}, {"label": "three", "value": 3.0},
+			{"label": "four", "value": 4.0}, {"label": "six", "value": 6.0},
+			{"label": "seven", "value": 7.0}, {"label": "nine", "value": 9.0},
+			{"label": "eleven", "value": 11.0}, {"label": "twelve", "value": 12.0},
+			{"label": "fourteen", "value": 14.0}, {"label": "sixteen", "value": 16.0},
+			{"label": "eighteen", "value": 18.0}, {"label": "nineteen", "value": 19.0},
+			{"label": "twenty-two", "value": 22.0}, {"label": "twenty-five", "value": 25.0},
+			{"label": "thirty", "value": 30.0}, {"label": "thirty-seven", "value": 37.0},
+			{"label": "forty", "value": 40.0}, {"label": "forty-eight", "value": 48.0},
+			{"label": "fifty", "value": 50.0}, {"label": "sixty-three", "value": 63.0},
+			{"label": "seventy", "value": 70.0}, {"label": "eighty-one", "value": 81.0},
+			{"label": "ninety", "value": 90.0}, {"label": "one hundred", "value": 100.0}]},
 		# Word order inglese: soggetto-verbo-oggetto e adjective prima del nome.
 		{"topic": "sentence", "minLevel": 3, "prompt": "Order the words to make a sentence.", "correctOrder": ["She", "reads", "a", "book"]},
 		{"topic": "negative", "minLevel": 5, "prompt": "Order the words to make a negative sentence.", "correctOrder": ["He", "does", "not", "play"]},
@@ -190,12 +578,50 @@ const ORDERING := {
 		{"topic": "wh-question", "minLevel": 6, "prompt": "Order the words to make a question.", "correctOrder": ["Where", "do", "you", "live?"]},
 	],
 	"fisica": [
-		{"topic": "moto", "prompt": "Ordina per velocità crescente", "correctOrder": ["Lumaca", "Persona a piedi", "Bicicletta", "Automobile"]},
-		{"topic": "misure", "minLevel": 3, "prompt": "Ordina gli oggetti per massa crescente.", "correctOrder": ["Piuma", "Mela", "Gatto", "Automobile"]},
+		# Insiemi a estrazione: in fisica l'ordine NON è una convenzione da ricordare,
+		# è una grandezza. `value` è la grandezza vera (km/h, kg), quindi ogni
+		# estrazione è una domanda sensata e la risposta è verificabile.
+		{"topic": "moto", "kind": "pool", "draw": 4, "prompt": "Ordina per velocità crescente.", "pool": [
+			{"label": "Lumaca", "value": 0.05}, {"label": "Tartaruga", "value": 0.3},
+			{"label": "Persona che cammina", "value": 5.0}, {"label": "Corridore", "value": 15.0},
+			{"label": "Bicicletta", "value": 25.0}, {"label": "Cavallo al galoppo", "value": 55.0},
+			{"label": "Automobile in città", "value": 50.0}, {"label": "Ghepardo", "value": 110.0},
+			{"label": "Automobile in autostrada", "value": 130.0}, {"label": "Treno regionale", "value": 140.0},
+			{"label": "Falco pellegrino in picchiata", "value": 320.0}, {"label": "Treno ad alta velocità", "value": 300.0},
+			{"label": "Aereo di linea", "value": 900.0}, {"label": "Suono nell'aria", "value": 1235.0},
+			{"label": "Proiettile", "value": 3000.0}, {"label": "Stazione spaziale in orbita", "value": 27600.0},
+			{"label": "Formica", "value": 0.9}, {"label": "Monopattino elettrico", "value": 20.0},
+			{"label": "Delfino che nuota", "value": 40.0}, {"label": "Motocicletta", "value": 160.0}]},
+		{"topic": "misure", "minLevel": 3, "kind": "pool", "draw": 4, "prompt": "Ordina gli oggetti per massa crescente.", "pool": [
+			{"label": "Piuma", "value": 0.0005}, {"label": "Formica", "value": 0.000005},
+			{"label": "Graffetta", "value": 0.001}, {"label": "Moneta da 1 euro", "value": 0.0075},
+			{"label": "Uovo", "value": 0.06}, {"label": "Mela", "value": 0.15},
+			{"label": "Bottiglia d'acqua da 1,5 L", "value": 1.5}, {"label": "Libro di testo", "value": 0.9},
+			{"label": "Mattone", "value": 2.5}, {"label": "Gatto", "value": 4.0},
+			{"label": "Zaino pieno", "value": 8.0}, {"label": "Cane di taglia media", "value": 20.0},
+			{"label": "Bicicletta", "value": 12.0}, {"label": "Ragazzo di undici anni", "value": 38.0},
+			{"label": "Lavatrice", "value": 70.0}, {"label": "Motocicletta", "value": 180.0},
+			{"label": "Pianoforte a coda", "value": 400.0}, {"label": "Cavallo", "value": 500.0},
+			{"label": "Automobile", "value": 1300.0}, {"label": "Elefante africano", "value": 6000.0},
+			{"label": "Autobus", "value": 12000.0}, {"label": "Balenottera azzurra", "value": 150000.0}]},
 		{"topic": "materia", "minLevel": 5, "prompt": "Ordina gli stati per energia delle particelle, dal minore al maggiore.", "correctOrder": ["Solido", "Liquido", "Gassoso"]},
 	],
 	"elettronica": [
-		{"topic": "misure-elettriche", "prompt": "Ordina le tensioni dalla più piccola", "correctOrder": ["1 V", "5 V", "12 V", "220 V"]},
+		# Tensioni reali, dalla pila a bottone alla linea ad alta tensione: qui il
+		# valore da ordinare è scritto sull'etichetta, quindi l'esercizio allena a
+		# leggere gli ordini di grandezza (mV, V, kV) invece di ricordare una lista.
+		{"topic": "misure-elettriche", "kind": "pool", "draw": 4, "prompt": "Ordina le tensioni dalla più piccola alla più grande.", "pool": [
+			{"label": "50 mV", "value": 0.05}, {"label": "300 mV", "value": 0.3},
+			{"label": "1,2 V", "value": 1.2}, {"label": "1,5 V", "value": 1.5},
+			{"label": "3 V", "value": 3.0}, {"label": "3,7 V", "value": 3.7},
+			{"label": "5 V", "value": 5.0}, {"label": "9 V", "value": 9.0},
+			{"label": "12 V", "value": 12.0}, {"label": "24 V", "value": 24.0},
+			{"label": "48 V", "value": 48.0}, {"label": "110 V", "value": 110.0},
+			{"label": "230 V", "value": 230.0}, {"label": "400 V", "value": 400.0},
+			{"label": "1 kV", "value": 1000.0}, {"label": "15 kV", "value": 15000.0},
+			{"label": "132 kV", "value": 132000.0}, {"label": "380 kV", "value": 380000.0},
+			{"label": "750 mV", "value": 0.75}, {"label": "6 V", "value": 6.0},
+			{"label": "18 V", "value": 18.0}, {"label": "36 V", "value": 36.0}]},
 		{"topic": "montaggio", "minLevel": 3, "prompt": "Ordina i passi per costruire un circuito che accende un LED.", "correctOrder": ["Prendi la pila", "Collega il filo al polo +", "Aggiungi l'interruttore", "Collega il LED", "Chiudi il circuito al polo -"]},
 		{"topic": "misure-elettriche", "minLevel": 5, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
 	],
@@ -221,22 +647,61 @@ const ORDERING := {
 # Formato testuale ad alto coinvolgimento, senza asset (playthrough #11).
 const CLASSIFICATION := {
 	"italiano": [
-		{"topic": "categorie", "prompt": "Smista ogni parola nella sua classe grammaticale.",
+		# --- Insiemi profondi (Fase 1) ---------------------------------------------
+		# Lo smistamento è il formato che regge meglio la profondità: le categorie
+		# restano poche (il bidone si deve poter leggere), ma le tessere possono
+		# essere trenta. `draw` dice quante se ne pescano; l'estrazione garantisce
+		# almeno una tessera per bidone, altrimenti la prova sarebbe rotta.
+		{"topic": "categorie", "draw": 8, "prompt": "Smista ogni parola nella sua classe grammaticale.",
 			"categories": ["nome", "verbo", "aggettivo", "avverbio"],
-			"assignments": {"gatto": "nome", "casa": "nome", "correre": "verbo", "saltare": "verbo", "rosso": "aggettivo", "felice": "aggettivo", "velocemente": "avverbio", "lentamente": "avverbio"}},
-		{"topic": "pensiero-linguaggio", "prompt": "Smista ogni parola: singolare o plurale?",
+			"assignments": {
+				"gatto": "nome", "casa": "nome", "montagna": "nome", "quaderno": "nome",
+				"amicizia": "nome", "treno": "nome", "finestra": "nome", "coraggio": "nome",
+				"correre": "verbo", "saltare": "verbo", "leggere": "verbo", "dormire": "verbo",
+				"costruire": "verbo", "ridere": "verbo", "scrivere": "verbo", "partire": "verbo",
+				"rosso": "aggettivo", "felice": "aggettivo", "enorme": "aggettivo", "gentile": "aggettivo",
+				"antico": "aggettivo", "buio": "aggettivo", "leggero": "aggettivo", "curioso": "aggettivo",
+				"velocemente": "avverbio", "lentamente": "avverbio", "domani": "avverbio", "sempre": "avverbio",
+				"forse": "avverbio", "bene": "avverbio", "quasi": "avverbio", "altrove": "avverbio"}},
+		{"topic": "pensiero-linguaggio", "draw": 6, "prompt": "Smista ogni parola: singolare o plurale?",
 			"categories": ["singolare", "plurale"],
-			"assignments": {"libro": "singolare", "fiore": "singolare", "casa": "singolare", "libri": "plurale", "fiori": "plurale", "case": "plurale"}},
-		{"topic": "verbo", "prompt": "Smista ogni verbo nel suo tempo.",
+			"assignments": {
+				"libro": "singolare", "fiore": "singolare", "casa": "singolare", "città": "singolare",
+				"uovo": "singolare", "braccio": "singolare", "amico": "singolare", "problema": "singolare",
+				"crisi": "singolare", "specie": "singolare", "dito": "singolare", "lenzuolo": "singolare",
+				"libri": "plurale", "fiori": "plurale", "case": "plurale", "uova": "plurale",
+				"braccia": "plurale", "amici": "plurale", "problemi": "plurale", "dita": "plurale",
+				"lenzuola": "plurale", "valigie": "plurale", "camicie": "plurale", "ciliegie": "plurale"}},
+		{"topic": "verbo", "draw": 6, "prompt": "Smista ogni verbo nel suo tempo.",
 			"categories": ["passato", "presente", "futuro"],
-			"assignments": {"ho letto": "passato", "mangiai": "passato", "corro": "presente", "gioca": "presente", "andrò": "futuro", "vedremo": "futuro"}},
-		{"topic": "lessico", "prompt": "Smista ogni nome: concreto o astratto?",
+			"assignments": {
+				"ho letto": "passato", "mangiai": "passato", "correvo": "passato", "avete visto": "passato",
+				"partimmo": "passato", "era": "passato", "hanno deciso": "passato", "dormivi": "passato",
+				"corro": "presente", "gioca": "presente", "leggiamo": "presente", "sono": "presente",
+				"dormono": "presente", "capisci": "presente", "costruisce": "presente", "aspettate": "presente",
+				"andrò": "futuro", "vedremo": "futuro", "partirai": "futuro", "saranno": "futuro",
+				"dormirà": "futuro", "leggerete": "futuro", "capiremo": "futuro", "costruiranno": "futuro"}},
+		{"topic": "lessico", "draw": 6, "prompt": "Smista ogni nome: concreto o astratto?",
 			"categories": ["concreto", "astratto"],
-			"assignments": {"tavolo": "concreto", "cane": "concreto", "montagna": "concreto", "amore": "astratto", "libertà": "astratto", "coraggio": "astratto"}},
+			"assignments": {
+				"tavolo": "concreto", "cane": "concreto", "montagna": "concreto", "chiave": "concreto",
+				"pioggia": "concreto", "quaderno": "concreto", "nave": "concreto", "lampada": "concreto",
+				"scarpa": "concreto", "fiume": "concreto", "pane": "concreto", "vetro": "concreto",
+				"amore": "astratto", "libertà": "astratto", "coraggio": "astratto", "paura": "astratto",
+				"giustizia": "astratto", "speranza": "astratto", "noia": "astratto", "pazienza": "astratto",
+				"silenzio": "astratto", "fantasia": "astratto", "amicizia": "astratto", "orgoglio": "astratto"}},
 		# Scuola media — tempi dell'indicativo con i loro nomi.
-		{"topic": "tempi-indicativo", "minLevel": 9, "prompt": "Smista ogni voce verbale nel suo tempo dell'indicativo.",
+		{"topic": "tempi-indicativo", "minLevel": 9, "draw": 8, "prompt": "Smista ogni voce verbale nel suo tempo dell'indicativo.",
 			"categories": ["presente", "imperfetto", "passato prossimo", "futuro"],
-			"assignments": {"mangio": "presente", "leggo": "presente", "mangiavo": "imperfetto", "leggevo": "imperfetto", "ho mangiato": "passato prossimo", "ho letto": "passato prossimo", "mangerò": "futuro", "leggerò": "futuro"}},
+			"assignments": {
+				"mangio": "presente", "leggo": "presente", "parti": "presente", "costruiamo": "presente",
+				"dormite": "presente", "capiscono": "presente",
+				"mangiavo": "imperfetto", "leggevo": "imperfetto", "partivi": "imperfetto", "costruivamo": "imperfetto",
+				"dormivate": "imperfetto", "capivano": "imperfetto",
+				"ho mangiato": "passato prossimo", "ho letto": "passato prossimo", "sei partito": "passato prossimo",
+				"abbiamo costruito": "passato prossimo", "avete dormito": "passato prossimo", "hanno capito": "passato prossimo",
+				"mangerò": "futuro", "leggerò": "futuro", "partirai": "futuro", "costruiremo": "futuro",
+				"dormirete": "futuro", "capiranno": "futuro"}},
 		# Scuola media — modi finiti del verbo.
 		{"topic": "modi-verbali", "minLevel": 10, "prompt": "Smista ogni voce verbale nel suo modo.",
 			"categories": ["indicativo", "congiuntivo", "condizionale", "imperativo"],
@@ -251,184 +716,561 @@ const CLASSIFICATION := {
 			"assignments": {"a Roma": "compl. di luogo", "in giardino": "compl. di luogo", "alle otto": "compl. di tempo", "di sera": "compl. di tempo", "con la penna": "compl. di mezzo", "in treno": "compl. di mezzo"}},
 	],
 	"scienze": [
-		{"topic": "viventi", "prompt": "Smista ogni animale per come si nutre.",
+		{"topic": "viventi", "draw": 6, "prompt": "Smista ogni animale per come si nutre.",
 			"categories": ["erbivoro", "carnivoro", "onnivoro"],
-			"assignments": {"Mucca": "erbivoro", "Coniglio": "erbivoro", "Leone": "carnivoro", "Lupo": "carnivoro", "Orso": "onnivoro", "Maiale": "onnivoro"}},
-		{"topic": "ecosistema", "prompt": "Smista ogni animale nel suo ambiente.",
+			"assignments": {
+				"Mucca": "erbivoro", "Coniglio": "erbivoro", "Cavallo": "erbivoro", "Giraffa": "erbivoro",
+				"Elefante": "erbivoro", "Pecora": "erbivoro", "Capriolo": "erbivoro", "Bruco": "erbivoro",
+				"Leone": "carnivoro", "Lupo": "carnivoro", "Aquila": "carnivoro", "Squalo": "carnivoro",
+				"Ragno": "carnivoro", "Coccodrillo": "carnivoro", "Gufo": "carnivoro", "Ghepardo": "carnivoro",
+				"Orso": "onnivoro", "Maiale": "onnivoro", "Cinghiale": "onnivoro", "Corvo": "onnivoro",
+				"Riccio": "onnivoro", "Scimpanzé": "onnivoro", "Gabbiano": "onnivoro", "Volpe": "onnivoro"}},
+		{"topic": "ecosistema", "draw": 6, "prompt": "Smista ogni animale nel suo ambiente.",
 			"categories": ["acqua", "aria", "terra"],
-			"assignments": {"Pesce": "acqua", "Delfino": "acqua", "Aquila": "aria", "Rondine": "aria", "Talpa": "terra", "Lombrico": "terra"}},
-		{"topic": "viventi", "minLevel": 2, "prompt": "Smista ogni cosa: vivente o non vivente?",
+			"assignments": {
+				"Pesce": "acqua", "Delfino": "acqua", "Polpo": "acqua", "Granchio": "acqua",
+				"Balena": "acqua", "Medusa": "acqua", "Stella marina": "acqua", "Anguilla": "acqua",
+				"Aquila": "aria", "Rondine": "aria", "Pipistrello": "aria", "Libellula": "aria",
+				"Farfalla": "aria", "Gabbiano": "aria", "Ape": "aria", "Falco": "aria",
+				"Talpa": "terra", "Lombrico": "terra", "Formica": "terra", "Lupo": "terra",
+				"Scoiattolo": "terra", "Serpente": "terra", "Tasso": "terra", "Riccio": "terra"}},
+		{"topic": "viventi", "minLevel": 2, "draw": 6, "prompt": "Smista ogni cosa: vivente o non vivente?",
 			"categories": ["vivente", "non vivente"],
-			"assignments": {"Cane": "vivente", "Albero": "vivente", "Fiore": "vivente", "Roccia": "non vivente", "Acqua": "non vivente", "Nuvola": "non vivente"}},
-		{"topic": "materia", "minLevel": 3, "prompt": "Smista ogni sostanza nel suo stato.",
+			"assignments": {
+				"Cane": "vivente", "Albero": "vivente", "Fiore": "vivente", "Fungo": "vivente",
+				"Muschio": "vivente", "Batterio": "vivente", "Alga": "vivente", "Lombrico": "vivente",
+				"Felce": "vivente", "Lievito": "vivente", "Corallo": "vivente", "Seme germogliato": "vivente",
+				"Roccia": "non vivente", "Acqua": "non vivente", "Nuvola": "non vivente", "Sabbia": "non vivente",
+				"Vento": "non vivente", "Cristallo di sale": "non vivente", "Fuoco": "non vivente", "Ghiaccio": "non vivente",
+				"Vetro": "non vivente", "Ferro": "non vivente", "Fulmine": "non vivente", "Argilla": "non vivente"}},
+		{"topic": "materia", "minLevel": 3, "draw": 6, "prompt": "Smista ogni sostanza nel suo stato a temperatura ambiente.",
 			"categories": ["solido", "liquido", "gassoso"],
-			"assignments": {"Ghiaccio": "solido", "Ferro": "solido", "Acqua": "liquido", "Latte": "liquido", "Vapore": "gassoso", "Aria": "gassoso"}},
-		{"topic": "classi", "minLevel": 5, "prompt": "Smista ogni animale: vertebrato o invertebrato?",
+			"assignments": {
+				"Ghiaccio": "solido", "Ferro": "solido", "Legno": "solido", "Sale": "solido",
+				"Vetro": "solido", "Sabbia": "solido", "Rame": "solido", "Zucchero": "solido",
+				"Acqua": "liquido", "Latte": "liquido", "Olio": "liquido", "Miele": "liquido",
+				"Alcol": "liquido", "Succo": "liquido", "Mercurio": "liquido", "Aceto": "liquido",
+				"Vapore": "gassoso", "Aria": "gassoso", "Ossigeno": "gassoso", "Anidride carbonica": "gassoso",
+				"Elio": "gassoso", "Azoto": "gassoso", "Metano": "gassoso", "Vapore acqueo": "gassoso"}},
+		{"topic": "classi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni animale: vertebrato o invertebrato?",
 			"categories": ["vertebrato", "invertebrato"],
-			"assignments": {"Cane": "vertebrato", "Uccello": "vertebrato", "Pesce": "vertebrato", "Verme": "invertebrato", "Ragno": "invertebrato", "Farfalla": "invertebrato"}},
+			"assignments": {
+				"Cane": "vertebrato", "Uccello": "vertebrato", "Pesce": "vertebrato", "Rana": "vertebrato",
+				"Serpente": "vertebrato", "Balena": "vertebrato", "Tartaruga": "vertebrato", "Pipistrello": "vertebrato",
+				"Squalo": "vertebrato", "Aquila": "vertebrato", "Cavallo": "vertebrato", "Salamandra": "vertebrato",
+				"Verme": "invertebrato", "Ragno": "invertebrato", "Farfalla": "invertebrato", "Polpo": "invertebrato",
+				"Medusa": "invertebrato", "Granchio": "invertebrato", "Lumaca": "invertebrato", "Ape": "invertebrato",
+				"Formica": "invertebrato", "Stella marina": "invertebrato", "Scorpione": "invertebrato", "Cozza": "invertebrato"}},
 		# Scuola media — ruoli nella rete trofica.
-		{"topic": "ecosistema", "minLevel": 6, "prompt": "Smista ogni organismo per il suo ruolo nell'ecosistema.",
+		{"topic": "ecosistema", "minLevel": 6, "draw": 6, "prompt": "Smista ogni organismo per il suo ruolo nell'ecosistema.",
 			"categories": ["produttore", "consumatore", "decompositore"],
-			"assignments": {"Erba": "produttore", "Albero": "produttore", "Coniglio": "consumatore", "Lupo": "consumatore", "Fungo": "decompositore", "Batterio": "decompositore"}},
+			"assignments": {
+				"Erba": "produttore", "Albero": "produttore", "Alga": "produttore", "Felce": "produttore",
+				"Muschio": "produttore", "Girasole": "produttore", "Fitoplancton": "produttore", "Cespuglio": "produttore",
+				"Coniglio": "consumatore", "Lupo": "consumatore", "Cavalletta": "consumatore", "Aquila": "consumatore",
+				"Cervo": "consumatore", "Rana": "consumatore", "Volpe": "consumatore", "Pesce": "consumatore",
+				"Fungo": "decompositore", "Batterio": "decompositore", "Muffa": "decompositore", "Lombrico": "decompositore",
+				"Scarabeo stercorario": "decompositore", "Millepiedi": "decompositore", "Lievito": "decompositore", "Termite del legno morto": "decompositore"}},
 	],
 	"coding": [
-		{"topic": "tipi", "prompt": "Smista ogni valore nel suo tipo di dato.",
+		{"topic": "tipi", "draw": 8, "prompt": "Smista ogni valore nel suo tipo di dato.",
 			"categories": ["intero", "stringa", "booleano", "lista"],
-			"assignments": {"7": "intero", "42": "intero", "'ciao'": "stringa", "'sole'": "stringa", "True": "booleano", "False": "booleano", "[1, 2]": "lista", "[3, 4, 5]": "lista"}},
-		{"topic": "operatori", "prompt": "Smista ogni operatore nella sua famiglia.",
+			"assignments": {
+				"7": "intero", "42": "intero", "-5": "intero", "0": "intero",
+				"1000": "intero", "-128": "intero", "99": "intero", "256": "intero",
+				"'ciao'": "stringa", "'sole'": "stringa", "'42'": "stringa", "''": "stringa",
+				"'True'": "stringa", "'a b c'": "stringa", "'3.14'": "stringa", "'[1, 2]'": "stringa",
+				"True": "booleano", "False": "booleano", "3 > 2": "booleano", "1 == 2": "booleano",
+				"not True": "booleano", "5 != 5": "booleano", "'a' in 'casa'": "booleano", "bool(0)": "booleano",
+				"[1, 2]": "lista", "[3, 4, 5]": "lista", "[]": "lista", "['a', 'b']": "lista",
+				"[True, False]": "lista", "[[1], [2]]": "lista", "list('ciao')": "lista", "[0] * 3": "lista"}},
+		# Insieme volutamente SBILANCIATO: Python ha tre soli operatori logici, e
+		# inventarne altri cinque per fare simmetria sarebbe contenuto falso.
+		# L'estrazione garantisce comunque almeno una voce per famiglia.
+		{"topic": "operatori", "draw": 6, "prompt": "Smista ogni operatore nella sua famiglia.",
 			"categories": ["aritmetico", "confronto", "logico"],
-			"assignments": {"+": "aritmetico", "*": "aritmetico", ">": "confronto", "==": "confronto", "and": "logico", "or": "logico"}},
+			"assignments": {
+				"+": "aritmetico", "*": "aritmetico", "-": "aritmetico", "/": "aritmetico",
+				"//": "aritmetico", "%": "aritmetico", "**": "aritmetico",
+				">": "confronto", "==": "confronto", "<": "confronto", "!=": "confronto",
+				">=": "confronto", "<=": "confronto", "is": "confronto", "in": "confronto",
+				"and": "logico", "or": "logico", "not": "logico"}},
 		# Valuta l'espressione come il computer: è vera o falsa?
-		{"topic": "booleani", "minLevel": 4, "prompt": "Ogni espressione: è True o False?",
+		{"topic": "booleani", "minLevel": 4, "draw": 6, "prompt": "Ogni espressione: è True o False?",
 			"categories": ["True", "False"],
-			"assignments": {"5 > 3": "True", "2 == 2": "True", "10 < 1": "False", "'a' == 'b'": "False"}},
-		{"topic": "controllo", "minLevel": 5, "prompt": "Smista ogni riga nella sua struttura di controllo.",
+			"assignments": {
+				"5 > 3": "True", "2 == 2": "True", "7 != 4": "True", "10 >= 10": "True",
+				"'a' < 'b'": "True", "3 in [1, 2, 3]": "True", "not False": "True", "len('ciao') == 4": "True",
+				"2 ** 3 == 8": "True", "9 % 3 == 0": "True", "True and True": "True", "False or True": "True",
+				"10 < 1": "False", "'a' == 'b'": "False", "4 != 4": "False", "3 >= 7": "False",
+				"5 in [1, 2, 3]": "False", "not True": "False", "len('ciao') == 5": "False", "2 ** 3 == 6": "False",
+				"9 % 2 == 0": "False", "True and False": "False", "False or False": "False", "'B' == 'b'": "False"}},
+		{"topic": "controllo", "minLevel": 5, "draw": 6, "prompt": "Smista ogni riga nella sua struttura di controllo.",
 			"categories": ["ciclo", "condizione", "funzione"],
-			"assignments": {"for i in range(3):": "ciclo", "while x > 0:": "ciclo", "if x > 5:": "condizione", "else:": "condizione", "def saluta():": "funzione", "def somma(a, b):": "funzione"}},
+			"assignments": {
+				"for i in range(3):": "ciclo", "while x > 0:": "ciclo", "for nome in lista:": "ciclo",
+				"while True:": "ciclo", "for c in 'ciao':": "ciclo", "for i in range(1, 10, 2):": "ciclo",
+				"while conta < 5:": "ciclo", "for chiave in dizionario:": "ciclo",
+				"if x > 5:": "condizione", "else:": "condizione", "elif x == 0:": "condizione",
+				"if nome in lista:": "condizione", "if a and b:": "condizione", "if not trovato:": "condizione",
+				"if len(parola) > 3:": "condizione", "elif y < 0:": "condizione",
+				"def saluta():": "funzione", "def somma(a, b):": "funzione", "def area(base, altezza):": "funzione",
+				"return risultato": "funzione", "def massimo(lista):": "funzione", "def stampa(testo):": "funzione",
+				"return a + b": "funzione", "def conta(parola):": "funzione"}},
 		# Scuola media — regole dei nomi di variabile (Python).
-		{"topic": "nomi", "minLevel": 6, "prompt": "Smista ogni nome di variabile: valido o no?",
+		{"topic": "nomi", "minLevel": 6, "draw": 6, "prompt": "Smista ogni nome di variabile: valido o no?",
 			"categories": ["valido", "non valido"],
-			"assignments": {"nome": "valido", "x1": "valido", "_temp": "valido", "2cose": "non valido", "mia var": "non valido", "3x": "non valido"}},
+			"assignments": {
+				"nome": "valido", "x1": "valido", "_temp": "valido", "conta_righe": "valido",
+				"Totale": "valido", "n2n": "valido", "_": "valido", "areaDelCerchio": "valido",
+				"lista_1": "valido", "MAX": "valido", "prezzo_euro": "valido", "a1b2": "valido",
+				"2cose": "non valido", "mia var": "non valido", "3x": "non valido", "nome-utente": "non valido",
+				"class": "non valido", "prezzo€": "non valido", "for": "non valido", "totale!": "non valido",
+				"1_lista": "non valido", "if": "non valido", "a+b": "non valido", "mio.valore": "non valido"}},
 	],
 	"storia": [
-		{"topic": "tempo", "prompt": "Smista ogni oggetto: molto antico o moderno?",
+		{"topic": "tempo", "draw": 6, "prompt": "Smista ogni oggetto: molto antico o moderno?",
 			"categories": ["molto antico", "moderno"],
-			"assignments": {"Piramide": "molto antico", "Anfora": "molto antico", "Ruota di pietra": "molto antico", "Smartphone": "moderno", "Automobile": "moderno", "Computer": "moderno"}},
-		{"topic": "fonti", "minLevel": 3, "prompt": "Smista ogni fonte storica nel suo tipo.",
+			"assignments": {
+				"Piramide": "molto antico", "Anfora": "molto antico", "Ruota di pietra": "molto antico",
+				"Papiro": "molto antico", "Clessidra": "molto antico", "Spada di bronzo": "molto antico",
+				"Acquedotto romano": "molto antico", "Tavoletta di argilla": "molto antico",
+				"Mosaico": "molto antico", "Carro trainato da buoi": "molto antico",
+				"Toga": "molto antico", "Arco e frecce": "molto antico",
+				"Smartphone": "moderno", "Automobile": "moderno", "Computer": "moderno",
+				"Aereo di linea": "moderno", "Frigorifero": "moderno", "Televisore": "moderno",
+				"Vaccino": "moderno", "Satellite": "moderno", "Bicicletta": "moderno",
+				"Macchina fotografica": "moderno", "Lampadina elettrica": "moderno", "Ascensore": "moderno"}},
+		{"topic": "fonti", "minLevel": 3, "draw": 6, "prompt": "Smista ogni fonte storica nel suo tipo.",
 			"categories": ["materiale", "scritta", "orale"],
-			"assignments": {"Piramide": "materiale", "Vaso antico": "materiale", "Papiro": "scritta", "Lettera antica": "scritta", "Racconto del nonno": "orale", "Leggenda tramandata": "orale"}},
+			"assignments": {
+				"Piramide": "materiale", "Vaso antico": "materiale", "Moneta romana": "materiale",
+				"Punta di lancia": "materiale", "Mosaico di una villa": "materiale", "Rovine di un tempio": "materiale",
+				"Scheletro in una tomba": "materiale", "Anello d'oro": "materiale",
+				"Papiro": "scritta", "Lettera antica": "scritta", "Iscrizione su pietra": "scritta",
+				"Diario di viaggio": "scritta", "Registro di un mercante": "scritta", "Cronaca di un monaco": "scritta",
+				"Trattato di pace": "scritta", "Elenco delle tasse": "scritta",
+				"Racconto del nonno": "orale", "Leggenda tramandata": "orale", "Canto popolare": "orale",
+				"Filastrocca antica": "orale", "Intervista a un testimone": "orale", "Proverbio del paese": "orale",
+				"Fiaba raccontata a voce": "orale", "Ninna nanna tradizionale": "orale"}},
 		# Scuola media — collocare oggetti e monumenti nella loro epoca.
-		{"topic": "epoca", "minLevel": 5, "prompt": "Smista ogni cosa nella sua epoca storica.",
+		{"topic": "epoca", "minLevel": 5, "draw": 6, "prompt": "Smista ogni cosa nella sua epoca storica.",
 			"categories": ["preistoria", "antichità", "medioevo"],
-			"assignments": {"Pittura rupestre": "preistoria", "Selce scheggiata": "preistoria", "Colosseo": "antichità", "Anfora romana": "antichità", "Castello": "medioevo", "Cattedrale gotica": "medioevo"}},
+			"assignments": {
+				"Pittura rupestre": "preistoria", "Selce scheggiata": "preistoria", "Palafitta": "preistoria",
+				"Ascia di pietra": "preistoria", "Menhir": "preistoria", "Vaso di terracotta grezza": "preistoria",
+				"Osso inciso": "preistoria", "Prima ruota di legno": "preistoria",
+				"Colosseo": "antichità", "Anfora romana": "antichità", "Partenone": "antichità",
+				"Ziggurat": "antichità", "Sarcofago egizio": "antichità", "Elmo greco": "antichità",
+				"Acquedotto": "antichità", "Mosaico pompeiano": "antichità",
+				"Castello": "medioevo", "Cattedrale gotica": "medioevo", "Armatura da cavaliere": "medioevo",
+				"Manoscritto miniato": "medioevo", "Mulino ad acqua": "medioevo", "Torre di avvistamento": "medioevo",
+				"Blasone nobiliare": "medioevo", "Spada da crociato": "medioevo"}},
+		# Le civiltà come contenitori: qui il materiale «una civiltà, molte opere»
+		# trova casa. Nell'abbinamento non poteva crescere — con quattro civiltà e
+		# venti opere due voci si sarebbero contese la stessa risposta.
+		{"topic": "civilta", "minLevel": 2, "draw": 6, "prompt": "Smista ogni opera nella civiltà che l'ha realizzata.",
+			"categories": ["Egizi", "Greci", "Romani", "Sumeri"],
+			"assignments": {
+				"Piramidi di Giza": "Egizi", "Sfinge": "Egizi", "Geroglifici": "Egizi",
+				"Papiro come supporto": "Egizi", "Mummificazione": "Egizi", "Calendario solare": "Egizi",
+				"Partenone": "Greci", "Democrazia": "Greci", "Giochi olimpici": "Greci",
+				"Teatro tragico": "Greci", "Filosofia": "Greci", "Colonne doriche": "Greci",
+				"Colosseo": "Romani", "Acquedotti": "Romani", "Strade lastricate": "Romani",
+				"Diritto romano": "Romani", "Terme pubbliche": "Romani", "Arco di trionfo": "Romani",
+				"Scrittura cuneiforme": "Sumeri", "Ziggurat": "Sumeri", "Prime città-stato": "Sumeri",
+				"Ruota a raggi": "Sumeri", "Codice di leggi inciso": "Sumeri", "Aratro tirato da animali": "Sumeri"}},
 	],
 	"geografia": [
-		{"topic": "continenti", "prompt": "Smista ogni Paese nel suo continente.",
+		{"topic": "continenti", "draw": 8, "prompt": "Smista ogni Paese nel suo continente.",
 			"categories": ["Africa", "Europa", "Asia", "America"],
-			"assignments": {"Egitto": "Africa", "Kenya": "Africa", "Italia": "Europa", "Francia": "Europa", "Giappone": "Asia", "Cina": "Asia", "Brasile": "America", "Canada": "America"}},
-		{"topic": "geografia-fisica", "prompt": "Smista ogni elemento: d'acqua o di terra?",
+			"assignments": {
+				"Egitto": "Africa", "Kenya": "Africa", "Marocco": "Africa", "Nigeria": "Africa",
+				"Sudafrica": "Africa", "Etiopia": "Africa", "Tunisia": "Africa", "Senegal": "Africa",
+				"Italia": "Europa", "Francia": "Europa", "Spagna": "Europa", "Germania": "Europa",
+				"Grecia": "Europa", "Norvegia": "Europa", "Polonia": "Europa", "Portogallo": "Europa",
+				"Giappone": "Asia", "Cina": "Asia", "India": "Asia", "Vietnam": "Asia",
+				"Thailandia": "Asia", "Corea del Sud": "Asia", "Nepal": "Asia", "Indonesia": "Asia",
+				"Brasile": "America", "Canada": "America", "Messico": "America", "Argentina": "America",
+				"Perù": "America", "Cile": "America", "Cuba": "America", "Stati Uniti": "America"}},
+		{"topic": "geografia-fisica", "draw": 6, "prompt": "Smista ogni elemento: d'acqua o di terra?",
 			"categories": ["acqua", "terra"],
-			"assignments": {"Fiume": "acqua", "Lago": "acqua", "Mare": "acqua", "Montagna": "terra", "Pianura": "terra", "Collina": "terra"}},
-		{"topic": "climi", "minLevel": 4, "prompt": "Smista ogni luogo nel suo clima.",
+			"assignments": {
+				"Fiume": "acqua", "Lago": "acqua", "Mare": "acqua", "Oceano": "acqua",
+				"Golfo": "acqua", "Torrente": "acqua", "Cascata": "acqua", "Ghiacciaio": "acqua",
+				"Laguna": "acqua", "Stretto": "acqua", "Sorgente": "acqua", "Palude": "acqua",
+				"Montagna": "terra", "Pianura": "terra", "Collina": "terra", "Altopiano": "terra",
+				"Deserto": "terra", "Vulcano": "terra", "Isola": "terra", "Penisola": "terra",
+				"Valle": "terra", "Promontorio": "terra", "Dune": "terra", "Canyon": "terra"}},
+		{"topic": "climi", "minLevel": 4, "draw": 6, "prompt": "Smista ogni luogo nel suo clima.",
 			"categories": ["caldo", "temperato", "freddo"],
-			"assignments": {"Sahara": "caldo", "Equatore": "caldo", "Italia": "temperato", "California": "temperato", "Polo Nord": "freddo", "Siberia": "freddo"}},
+			"assignments": {
+				"Sahara": "caldo", "Equatore": "caldo", "Amazzonia": "caldo", "Congo": "caldo",
+				"Arabia": "caldo", "Borneo": "caldo", "Deserto del Kalahari": "caldo", "India del Sud": "caldo",
+				"Italia": "temperato", "California": "temperato", "Grecia": "temperato", "Portogallo": "temperato",
+				"Francia": "temperato", "Giappone centrale": "temperato", "Cile centrale": "temperato", "Turchia": "temperato",
+				"Polo Nord": "freddo", "Siberia": "freddo", "Groenlandia": "freddo", "Antartide": "freddo",
+				"Alaska": "freddo", "Islanda": "freddo", "Lapponia": "freddo", "Patagonia meridionale": "freddo"}},
 		# Scuola media — i grandi paesaggi d'Italia.
-		{"topic": "italia-fisica", "minLevel": 5, "prompt": "Smista ogni elemento nel suo paesaggio italiano.",
+		{"topic": "italia-fisica", "minLevel": 5, "draw": 6, "prompt": "Smista ogni elemento nel suo paesaggio italiano.",
 			"categories": ["montagna", "pianura", "mare"],
-			"assignments": {"Alpi": "montagna", "Appennini": "montagna", "Pianura Padana": "pianura", "Tavoliere": "pianura", "Mar Adriatico": "mare", "Mar Tirreno": "mare"}},
+			"assignments": {
+				"Alpi": "montagna", "Appennini": "montagna", "Dolomiti": "montagna", "Monte Bianco": "montagna",
+				"Gran Sasso": "montagna", "Etna": "montagna", "Vesuvio": "montagna", "Monte Rosa": "montagna",
+				"Pianura Padana": "pianura", "Tavoliere delle Puglie": "pianura", "Maremma": "pianura", "Agro Pontino": "pianura",
+				"Valle Padana orientale": "pianura", "Piana di Catania": "pianura", "Campidano": "pianura", "Valdarno": "pianura",
+				"Mar Adriatico": "mare", "Mar Tirreno": "mare", "Mar Ionio": "mare", "Mar Ligure": "mare",
+				"Golfo di Napoli": "mare", "Stretto di Messina": "mare", "Canale di Sicilia": "mare", "Golfo di Trieste": "mare"}},
 	],
 	"matematica": [
-		{"topic": "numeri", "prompt": "Smista i numeri in pari e dispari.",
+		{"topic": "numeri", "draw": 6, "prompt": "Smista i numeri in pari e dispari.",
 			"categories": ["pari", "dispari"],
-			"assignments": {"4": "pari", "8": "pari", "12": "pari", "7": "dispari", "15": "dispari", "21": "dispari"}},
-		{"topic": "calcolo", "prompt": "Smista ogni numero: minore di 10 oppure 10 o più.",
-			"categories": ["minore di 10", "10 o più"],
-			"assignments": {"3": "minore di 10", "6": "minore di 10", "9": "minore di 10", "10": "10 o più", "14": "10 o più", "23": "10 o più"}},
+			"assignments": {
+				"4": "pari", "8": "pari", "12": "pari", "26": "pari", "34": "pari", "50": "pari",
+				"78": "pari", "96": "pari", "114": "pari", "130": "pari", "248": "pari", "306": "pari",
+				"7": "dispari", "15": "dispari", "21": "dispari", "33": "dispari", "47": "dispari", "59": "dispari",
+				"85": "dispari", "91": "dispari", "107": "dispari", "123": "dispari", "251": "dispari", "399": "dispari"}},
+		{"topic": "calcolo", "draw": 6, "prompt": "Smista ogni risultato: minore di 100 oppure 100 o più.",
+			"categories": ["minore di 100", "100 o più"],
+			"assignments": {
+				"12 × 7": "minore di 100", "45 + 38": "minore di 100", "150 ÷ 2": "minore di 100",
+				"9 × 9": "minore di 100", "120 - 45": "minore di 100", "13 × 6": "minore di 100",
+				"240 ÷ 4": "minore di 100", "88 + 9": "minore di 100", "300 - 215": "minore di 100",
+				"7 × 13": "minore di 100", "196 ÷ 4": "minore di 100", "60 + 35": "minore di 100",
+				"12 × 9": "100 o più", "87 + 96": "100 o più", "500 ÷ 4": "100 o più",
+				"11 × 11": "100 o più", "300 - 155": "100 o più", "24 × 6": "100 o più",
+				"960 ÷ 8": "100 o più", "108 + 97": "100 o più", "1000 - 375": "100 o più",
+				"16 × 7": "100 o più", "444 ÷ 4": "100 o più", "55 + 66": "100 o più"}},
 		# Il segno "=" come bilancia: l'uguaglianza è vera o falsa? (misconcezione classica)
-		{"topic": "uguaglianze", "minLevel": 2, "prompt": "Ogni uguaglianza è vera o falsa?",
+		{"topic": "uguaglianze", "minLevel": 2, "draw": 6, "prompt": "Ogni uguaglianza è vera o falsa?",
 			"categories": ["vera", "falsa"],
-			"assignments": {"3 + 4 = 7": "vera", "10 - 6 = 4": "vera", "2 × 5 = 10": "vera", "5 + 3 = 9": "falsa", "12 ÷ 3 = 5": "falsa", "6 × 2 = 10": "falsa"}},
-		{"topic": "multipli", "minLevel": 3, "prompt": "Smista: è multiplo di 3 oppure no?",
+			"assignments": {
+				"3 + 4 = 7": "vera", "10 - 6 = 4": "vera", "2 × 5 = 10": "vera", "24 ÷ 6 = 4": "vera",
+				"9 + 8 = 17": "vera", "7 × 6 = 42": "vera", "100 - 45 = 55": "vera", "144 ÷ 12 = 12": "vera",
+				"15 + 27 = 42": "vera", "8 × 9 = 72": "vera", "3 + 4 = 4 + 3": "vera", "2 × (3 + 4) = 14": "vera",
+				"5 + 3 = 9": "falsa", "12 ÷ 3 = 5": "falsa", "6 × 2 = 10": "falsa", "20 - 7 = 14": "falsa",
+				"11 + 12 = 24": "falsa", "9 × 7 = 61": "falsa", "81 ÷ 9 = 8": "falsa", "50 - 23 = 33": "falsa",
+				"13 + 19 = 31": "falsa", "6 × 8 = 46": "falsa", "2 + 3 × 4 = 20": "falsa", "100 ÷ 4 = 20": "falsa"}},
+		{"topic": "multipli", "minLevel": 3, "draw": 6, "prompt": "Smista: è multiplo di 3 oppure no?",
 			"categories": ["multiplo di 3", "non multiplo"],
-			"assignments": {"9": "multiplo di 3", "12": "multiplo di 3", "15": "multiplo di 3", "7": "non multiplo", "10": "non multiplo", "14": "non multiplo"}},
+			"assignments": {
+				"9": "multiplo di 3", "12": "multiplo di 3", "15": "multiplo di 3", "27": "multiplo di 3",
+				"36": "multiplo di 3", "48": "multiplo di 3", "51": "multiplo di 3", "63": "multiplo di 3",
+				"72": "multiplo di 3", "81": "multiplo di 3", "111": "multiplo di 3", "123": "multiplo di 3",
+				"7": "non multiplo", "10": "non multiplo", "14": "non multiplo", "22": "non multiplo",
+				"25": "non multiplo", "34": "non multiplo", "41": "non multiplo", "50": "non multiplo",
+				"64": "non multiplo", "70": "non multiplo", "97": "non multiplo", "115": "non multiplo"}},
 		# Scuola media — numeri primi, frazioni rispetto a 1/2, interi.
-		{"topic": "primi", "minLevel": 5, "prompt": "Smista ogni numero: primo o composto?",
+		{"topic": "primi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni numero: primo o composto?",
 			"categories": ["primo", "composto"],
-			"assignments": {"2": "primo", "5": "primo", "7": "primo", "4": "composto", "6": "composto", "9": "composto"}},
-		{"topic": "frazioni", "minLevel": 6, "prompt": "Smista ogni frazione rispetto a 1/2.",
+			"assignments": {
+				"2": "primo", "5": "primo", "7": "primo", "11": "primo", "13": "primo", "17": "primo",
+				"19": "primo", "23": "primo", "29": "primo", "31": "primo", "37": "primo", "41": "primo",
+				"4": "composto", "6": "composto", "9": "composto", "15": "composto", "21": "composto", "25": "composto",
+				"27": "composto", "33": "composto", "35": "composto", "39": "composto", "49": "composto", "51": "composto"}},
+		{"topic": "frazioni", "minLevel": 6, "draw": 6, "prompt": "Smista ogni frazione rispetto a 1/2.",
 			"categories": ["minore di 1/2", "uguale a 1/2", "maggiore di 1/2"],
-			"assignments": {"1/4": "minore di 1/2", "1/3": "minore di 1/2", "2/4": "uguale a 1/2", "3/6": "uguale a 1/2", "3/4": "maggiore di 1/2", "5/6": "maggiore di 1/2"}},
-		{"topic": "interi", "minLevel": 6, "prompt": "Smista ogni numero intero: positivo o negativo?",
+			"assignments": {
+				"1/4": "minore di 1/2", "1/3": "minore di 1/2", "2/5": "minore di 1/2", "3/8": "minore di 1/2",
+				"1/6": "minore di 1/2", "4/10": "minore di 1/2", "2/9": "minore di 1/2", "5/12": "minore di 1/2",
+				"2/4": "uguale a 1/2", "3/6": "uguale a 1/2", "4/8": "uguale a 1/2", "5/10": "uguale a 1/2",
+				"6/12": "uguale a 1/2", "7/14": "uguale a 1/2", "8/16": "uguale a 1/2", "9/18": "uguale a 1/2",
+				"3/4": "maggiore di 1/2", "5/6": "maggiore di 1/2", "3/5": "maggiore di 1/2", "5/8": "maggiore di 1/2",
+				"7/10": "maggiore di 1/2", "7/12": "maggiore di 1/2", "5/9": "maggiore di 1/2", "9/16": "maggiore di 1/2"}},
+		# Le proporzioni erano promesse dalla lezione del mondo 13 ma servite solo dal
+		# banco a scelta multipla. Con la tavolozza più ricca della Fase 1 le campate
+		# di banco vengono sostituite più spesso, e l'argomento è sparito del tutto:
+		# preso da `content_depth_audit`. La cura non è iniettare meno minigiochi — è
+		# dare ai minigiochi l'argomento che il mondo promette.
+		{"topic": "proporzioni", "minLevel": 13, "draw": 6, "prompt": "Ogni proporzione è vera o falsa?",
+			"categories": ["vera", "falsa"],
+			"assignments": {
+				"2 : 4 = 3 : 6": "vera", "1 : 3 = 5 : 15": "vera", "4 : 6 = 6 : 9": "vera",
+				"3 : 5 = 12 : 20": "vera", "2 : 7 = 6 : 21": "vera", "5 : 8 = 15 : 24": "vera",
+				"9 : 12 = 3 : 4": "vera", "10 : 25 = 2 : 5": "vera", "7 : 14 = 4 : 8": "vera",
+				"6 : 10 = 9 : 15": "vera", "8 : 12 = 10 : 15": "vera", "14 : 21 = 2 : 3": "vera",
+				"2 : 4 = 3 : 5": "falsa", "1 : 3 = 4 : 15": "falsa", "4 : 6 = 6 : 10": "falsa",
+				"3 : 5 = 12 : 18": "falsa", "2 : 7 = 6 : 20": "falsa", "5 : 8 = 15 : 25": "falsa",
+				"9 : 12 = 3 : 5": "falsa", "10 : 25 = 2 : 6": "falsa", "7 : 14 = 4 : 9": "falsa",
+				"6 : 10 = 9 : 16": "falsa", "8 : 12 = 10 : 14": "falsa", "14 : 21 = 2 : 4": "falsa"}},
+		{"topic": "interi", "minLevel": 6, "draw": 6, "prompt": "Smista ogni numero intero: positivo o negativo?",
 			"categories": ["positivo", "negativo"],
-			"assignments": {"5": "positivo", "12": "positivo", "3": "positivo", "-3": "negativo", "-8": "negativo", "-1": "negativo"}},
+			"assignments": {
+				"5": "positivo", "12": "positivo", "3": "positivo", "27": "positivo", "48": "positivo", "101": "positivo",
+				"+9": "positivo", "+16": "positivo", "+35": "positivo", "74": "positivo", "6": "positivo", "19": "positivo",
+				"-3": "negativo", "-8": "negativo", "-1": "negativo", "-15": "negativo", "-24": "negativo", "-40": "negativo",
+				"-7": "negativo", "-52": "negativo", "-11": "negativo", "-99": "negativo", "-6": "negativo", "-30": "negativo"}},
 	],
 	"fisica": [
-		{"topic": "energia", "prompt": "Smista ogni situazione per l'energia prevalente.",
+		{"topic": "energia", "draw": 6, "prompt": "Smista ogni situazione per l'energia prevalente.",
 			"categories": ["potenziale", "cinetica"],
-			"assignments": {"Palla in cima a una rampa": "potenziale", "Molla compressa": "potenziale", "Palla che rotola": "cinetica", "Auto in corsa": "cinetica"}},
-		{"topic": "materia", "prompt": "Smista ogni materiale nel suo stato.",
+			"assignments": {
+				"Palla in cima a una rampa": "potenziale", "Molla compressa": "potenziale",
+				"Arco teso": "potenziale", "Acqua ferma dietro una diga": "potenziale",
+				"Libro sullo scaffale alto": "potenziale", "Elastico tirato": "potenziale",
+				"Sciatore fermo in cima": "potenziale", "Pendolo nel punto più alto": "potenziale",
+				"Sasso sul bordo del dirupo": "potenziale", "Altalena ferma in alto": "potenziale",
+				"Molla di un orologio caricata": "potenziale", "Palloncino gonfiato": "potenziale",
+				"Palla che rotola": "cinetica", "Auto in corsa": "cinetica",
+				"Freccia in volo": "cinetica", "Acqua che scende dalla diga": "cinetica",
+				"Libro che cade": "cinetica", "Elastico appena lasciato": "cinetica",
+				"Sciatore in discesa": "cinetica", "Pendolo nel punto più basso": "cinetica",
+				"Sasso in caduta": "cinetica", "Altalena a metà corsa": "cinetica",
+				"Lancetta che gira": "cinetica", "Aria che esce dal palloncino": "cinetica"}},
+		{"topic": "materia", "draw": 6, "prompt": "Smista ogni materiale nel suo stato a temperatura ambiente.",
 			"categories": ["solido", "liquido", "gassoso"],
-			"assignments": {"Ghiaccio": "solido", "Ferro": "solido", "Acqua": "liquido", "Latte": "liquido", "Vapore": "gassoso", "Aria": "gassoso"}},
+			"assignments": {
+				"Ghiaccio": "solido", "Ferro": "solido", "Legno": "solido", "Vetro": "solido",
+				"Sale": "solido", "Rame": "solido", "Plastica": "solido", "Marmo": "solido",
+				"Acqua": "liquido", "Latte": "liquido", "Olio": "liquido", "Alcol": "liquido",
+				"Mercurio": "liquido", "Benzina": "liquido", "Miele": "liquido", "Aceto": "liquido",
+				"Vapore": "gassoso", "Aria": "gassoso", "Ossigeno": "gassoso", "Elio": "gassoso",
+				"Azoto": "gassoso", "Metano": "gassoso", "Anidride carbonica": "gassoso", "Idrogeno": "gassoso"}},
 		# Scuola media — forze di contatto o a distanza, e la luce nei materiali.
-		{"topic": "forze", "minLevel": 5, "prompt": "Smista ogni forza: agisce per contatto o a distanza?",
+		{"topic": "forze", "minLevel": 5, "draw": 6, "prompt": "Smista ogni forza: agisce per contatto o a distanza?",
 			"categories": ["contatto", "a distanza"],
-			"assignments": {"Attrito": "contatto", "Spinta": "contatto", "Tensione della fune": "contatto", "Gravità": "a distanza", "Magnetismo": "a distanza"}},
-		{"topic": "luce", "minLevel": 6, "prompt": "Smista ogni materiale per come lascia passare la luce.",
+			"assignments": {
+				"Attrito": "contatto", "Spinta": "contatto", "Tensione della fune": "contatto",
+				"Resistenza dell'aria": "contatto", "Urto fra due palline": "contatto", "Compressione di una molla": "contatto",
+				"Attrito volvente della ruota": "contatto", "Spinta di Archimede": "contatto",
+				"Trazione di un rimorchio": "contatto", "Pressione del vento sulla vela": "contatto",
+				"Reazione del pavimento": "contatto", "Spinta del remo sull'acqua": "contatto",
+				"Gravità": "a distanza", "Magnetismo": "a distanza", "Forza elettrica": "a distanza",
+				"Attrazione fra Terra e Luna": "a distanza", "Calamita che attira un chiodo": "a distanza",
+				"Peso di un corpo": "a distanza", "Repulsione fra due poli nord": "a distanza",
+				"Attrazione del Sole sui pianeti": "a distanza", "Elettrizzazione per strofinio": "a distanza",
+				"Ago della bussola che ruota": "a distanza", "Fulmine fra nuvola e suolo": "a distanza",
+				"Caduta di una mela": "a distanza"}},
+		{"topic": "luce", "minLevel": 6, "draw": 6, "prompt": "Smista ogni materiale per come lascia passare la luce.",
 			"categories": ["trasparente", "opaco", "translucido"],
-			"assignments": {"Vetro": "trasparente", "Aria": "trasparente", "Muro": "opaco", "Legno": "opaco", "Carta velina": "translucido", "Vetro smerigliato": "translucido"}},
+			"assignments": {
+				"Vetro": "trasparente", "Aria": "trasparente", "Acqua limpida": "trasparente",
+				"Plastica trasparente": "trasparente", "Cristallo": "trasparente", "Cellophane": "trasparente",
+				"Vetro di finestra": "trasparente", "Ghiaccio limpido": "trasparente",
+				"Muro": "opaco", "Legno": "opaco", "Metallo": "opaco", "Cartone": "opaco",
+				"Pietra": "opaco", "Stoffa spessa": "opaco", "Terra": "opaco", "Libro chiuso": "opaco",
+				"Carta velina": "translucido", "Vetro smerigliato": "translucido", "Carta da forno": "translucido",
+				"Nebbia": "translucido", "Tenda leggera": "translucido", "Plastica opalina": "translucido",
+				"Acqua torbida": "translucido", "Ghiaccio opaco": "translucido"}},
 	],
 	"musica": [
-		{"topic": "strumenti", "prompt": "Smista ogni strumento nella sua famiglia.",
+		{"topic": "strumenti", "draw": 6, "prompt": "Smista ogni strumento nella sua famiglia.",
 			"categories": ["corde", "fiati", "percussioni"],
-			"assignments": {"Chitarra": "corde", "Violino": "corde", "Flauto": "fiati", "Tromba": "fiati", "Tamburo": "percussioni", "Timpani": "percussioni"}},
-		{"topic": "timbro", "prompt": "Smista ogni strumento: acustico o elettronico?",
+			"assignments": {
+				"Chitarra": "corde", "Violino": "corde", "Viola": "corde", "Violoncello": "corde",
+				"Contrabbasso": "corde", "Arpa": "corde", "Mandolino": "corde", "Banjo": "corde",
+				"Flauto": "fiati", "Tromba": "fiati", "Clarinetto": "fiati", "Sassofono": "fiati",
+				"Oboe": "fiati", "Trombone": "fiati", "Corno": "fiati", "Fagotto": "fiati",
+				"Tamburo": "percussioni", "Timpani": "percussioni", "Piatti": "percussioni", "Xilofono": "percussioni",
+				"Triangolo": "percussioni", "Maracas": "percussioni", "Grancassa": "percussioni", "Tamburello": "percussioni"}},
+		{"topic": "timbro", "draw": 6, "prompt": "Smista ogni strumento: acustico o elettronico?",
 			"categories": ["acustico", "elettronico"],
-			"assignments": {"Violino": "acustico", "Chitarra classica": "acustico", "Pianoforte": "acustico", "Sintetizzatore": "elettronico", "Tastiera elettronica": "elettronico", "Batteria elettronica": "elettronico"}},
+			"assignments": {
+				"Violino": "acustico", "Chitarra classica": "acustico", "Pianoforte": "acustico",
+				"Flauto traverso": "acustico", "Arpa": "acustico", "Tromba": "acustico",
+				"Fisarmonica": "acustico", "Violoncello": "acustico", "Clarinetto": "acustico",
+				"Tamburo a mano": "acustico", "Organo a canne": "acustico", "Xilofono": "acustico",
+				"Sintetizzatore": "elettronico", "Tastiera elettronica": "elettronico", "Batteria elettronica": "elettronico",
+				"Chitarra elettrica": "elettronico", "Basso elettrico": "elettronico", "Theremin": "elettronico",
+				"Campionatore": "elettronico", "Drum machine": "elettronico", "Organo elettrico": "elettronico",
+				"Vocoder": "elettronico", "Piano digitale": "elettronico", "Sequencer": "elettronico"}},
 		# Altezza del suono: strumenti acuti o gravi.
-		{"topic": "intervalli", "minLevel": 4, "prompt": "Smista ogni strumento per l'altezza del suono.",
+		{"topic": "intervalli", "minLevel": 4, "draw": 6, "prompt": "Smista ogni strumento per l'altezza del suono.",
 			"categories": ["acuto", "grave"],
-			"assignments": {"Flauto": "acuto", "Ottavino": "acuto", "Violino": "acuto", "Violoncello": "grave", "Contrabbasso": "grave", "Tuba": "grave"}},
+			"assignments": {
+				"Flauto": "acuto", "Ottavino": "acuto", "Violino": "acuto", "Tromba": "acuto",
+				"Oboe": "acuto", "Clarinetto piccolo": "acuto", "Triangolo": "acuto", "Glockenspiel": "acuto",
+				"Mandolino": "acuto", "Soprano": "acuto", "Campanelli": "acuto", "Sassofono contralto": "acuto",
+				"Violoncello": "grave", "Contrabbasso": "grave", "Tuba": "grave", "Fagotto": "grave",
+				"Trombone": "grave", "Grancassa": "grave", "Timpani": "grave", "Basso elettrico": "grave",
+				"Corno": "grave", "Sassofono baritono": "grave", "Organo (canne lunghe)": "grave", "Basso": "grave"}},
 	],
 	"elettronica": [
-		{"topic": "conduttori", "prompt": "Smista ogni materiale: conduttore o isolante?",
+		{"topic": "conduttori", "draw": 6, "prompt": "Smista ogni materiale: conduttore o isolante?",
 			"categories": ["conduttore", "isolante"],
-			"assignments": {"Rame": "conduttore", "Ferro": "conduttore", "Alluminio": "conduttore", "Plastica": "isolante", "Legno": "isolante", "Gomma": "isolante"}},
-		{"topic": "componenti", "prompt": "Smista ogni componente: dà energia o la usa?",
+			"assignments": {
+				"Rame": "conduttore", "Ferro": "conduttore", "Alluminio": "conduttore", "Argento": "conduttore",
+				"Oro": "conduttore", "Acciaio": "conduttore", "Ottone": "conduttore", "Grafite": "conduttore",
+				"Acqua salata": "conduttore", "Stagno": "conduttore", "Nichel": "conduttore", "Zinco": "conduttore",
+				"Plastica": "isolante", "Legno secco": "isolante", "Gomma": "isolante", "Vetro": "isolante",
+				"Ceramica": "isolante", "Carta": "isolante", "Aria secca": "isolante", "Porcellana": "isolante",
+				"Silicone": "isolante", "Stoffa": "isolante", "Sughero": "isolante", "Acqua distillata": "isolante"}},
+		{"topic": "componenti", "draw": 6, "prompt": "Smista ogni componente: dà energia o la usa?",
 			"categories": ["fornisce energia", "usa energia"],
-			"assignments": {"Pila": "fornisce energia", "Batteria": "fornisce energia", "LED": "usa energia", "Motorino": "usa energia", "Lampadina": "usa energia", "Cella solare": "fornisce energia"}},
+			"assignments": {
+				"Pila": "fornisce energia", "Batteria": "fornisce energia", "Cella solare": "fornisce energia",
+				"Dinamo": "fornisce energia", "Alternatore": "fornisce energia", "Generatore a manovella": "fornisce energia",
+				"Accumulatore carico": "fornisce energia", "Pila a bottone": "fornisce energia",
+				"Powerbank": "fornisce energia", "Turbina eolica": "fornisce energia",
+				"LED": "usa energia", "Motorino": "usa energia", "Lampadina": "usa energia",
+				"Cicalino": "usa energia", "Ventola": "usa energia", "Resistore": "usa energia",
+				"Altoparlante": "usa energia", "Display": "usa energia", "Elettrocalamita": "usa energia",
+				"Riscaldatore": "usa energia", "Pompa elettrica": "usa energia", "Schermo LCD": "usa energia"}},
 		# Ruolo nel circuito: sorgente, conduttore, isolante o carico.
-		{"topic": "ruoli", "minLevel": 4, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
+		{"topic": "ruoli", "minLevel": 4, "draw": 8, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
 			"categories": ["sorgente", "conduttore", "isolante", "carico"],
-			"assignments": {"Pila": "sorgente", "Batteria": "sorgente", "Rame": "conduttore", "Filo": "conduttore", "Plastica": "isolante", "Gomma": "isolante", "LED": "carico", "Lampadina": "carico"}},
+			"assignments": {
+				"Pila": "sorgente", "Batteria": "sorgente", "Cella solare": "sorgente",
+				"Dinamo": "sorgente", "Powerbank": "sorgente", "Generatore": "sorgente",
+				"Rame": "conduttore", "Filo elettrico": "conduttore", "Piste del circuito stampato": "conduttore",
+				"Morsetto metallico": "conduttore", "Alluminio": "conduttore", "Stagno di saldatura": "conduttore",
+				"Plastica": "isolante", "Gomma": "isolante", "Guaina del cavo": "isolante",
+				"Basetta di vetronite": "isolante", "Ceramica": "isolante", "Nastro isolante": "isolante",
+				"LED": "carico", "Lampadina": "carico", "Motorino": "carico",
+				"Cicalino": "carico", "Ventola": "carico", "Resistore di potenza": "carico"}},
 	],
 	"inglese": [
-		{"topic": "categorie", "prompt": "Sort each word into its category.",
+		{"topic": "categorie", "draw": 8, "prompt": "Sort each word into its category.",
 			"categories": ["animals", "food", "colours", "actions"],
-			"assignments": {"dog": "animals", "cat": "animals", "apple": "food", "bread": "food", "red": "colours", "blue": "colours", "run": "actions", "jump": "actions"}},
-		{"topic": "home-family", "prompt": "Sort each word: family, school or nature.",
+			"assignments": {
+				"dog": "animals", "cat": "animals", "horse": "animals", "bird": "animals",
+				"fish": "animals", "sheep": "animals", "mouse": "animals", "bear": "animals",
+				"apple": "food", "bread": "food", "cheese": "food", "rice": "food",
+				"milk": "food", "soup": "food", "cake": "food", "honey": "food",
+				"red": "colours", "blue": "colours", "green": "colours", "yellow": "colours",
+				"black": "colours", "white": "colours", "purple": "colours", "grey": "colours",
+				"run": "actions", "jump": "actions", "swim": "actions", "write": "actions",
+				"sing": "actions", "read": "actions", "climb": "actions", "listen": "actions"}},
+		{"topic": "home-family", "draw": 6, "prompt": "Sort each word: family, school or nature.",
 			"categories": ["family", "school", "nature"],
-			"assignments": {"mother": "family", "father": "family", "teacher": "school", "book": "school", "tree": "nature", "river": "nature"}},
+			"assignments": {
+				"mother": "family", "father": "family", "sister": "family", "brother": "family",
+				"grandmother": "family", "uncle": "family", "cousin": "family", "aunt": "family",
+				"teacher": "school", "book": "school", "pencil": "school", "desk": "school",
+				"classroom": "school", "homework": "school", "blackboard": "school", "schoolbag": "school",
+				"tree": "nature", "river": "nature", "mountain": "nature", "forest": "nature",
+				"cloud": "nature", "flower": "nature", "beach": "nature", "valley": "nature"}},
 		# Articolo a/an secondo il suono iniziale: regola tipica dell'inglese.
-		{"topic": "articles", "minLevel": 5, "prompt": "Sort each word: does it take 'a' or 'an'?",
+		# Attenzione: la regola è sul SUONO, non sulla lettera — «a university»,
+		# «an hour». Le voci trabocchetto sono deliberate: è lì che si impara.
+		{"topic": "articles", "minLevel": 5, "draw": 6, "prompt": "Sort each word: does it take 'a' or 'an'?",
 			"categories": ["a", "an"],
-			"assignments": {"apple": "an", "orange": "an", "umbrella": "an", "dog": "a", "car": "a", "book": "a"}},
-		{"topic": "parts-of-speech", "minLevel": 6, "prompt": "Sort each word into its part of speech.",
+			"assignments": {
+				"apple": "an", "orange": "an", "umbrella": "an", "elephant": "an",
+				"island": "an", "hour": "an", "onion": "an", "artist": "an",
+				"idea": "an", "egg": "an", "engine": "an", "honest man": "an",
+				"dog": "a", "car": "a", "book": "a", "university": "a",
+				"table": "a", "house": "a", "European city": "a", "friend": "a",
+				"uniform": "a", "window": "a", "garden": "a", "yellow bird": "a"}},
+		{"topic": "parts-of-speech", "minLevel": 6, "draw": 6, "prompt": "Sort each word into its part of speech.",
 			"categories": ["noun", "verb", "adjective"],
-			"assignments": {"dog": "noun", "house": "noun", "run": "verb", "eat": "verb", "big": "adjective", "red": "adjective"}},
+			"assignments": {
+				"dog": "noun", "house": "noun", "river": "noun", "teacher": "noun",
+				"bottle": "noun", "friendship": "noun", "mountain": "noun", "window": "noun",
+				"run": "verb", "eat": "verb", "build": "verb", "listen": "verb",
+				"forget": "verb", "choose": "verb", "arrive": "verb", "explain": "verb",
+				"big": "adjective", "red": "adjective", "quiet": "adjective", "heavy": "adjective",
+				"ancient": "adjective", "friendly": "adjective", "narrow": "adjective", "brave": "adjective"}},
 		# Scuola media — verbi regolari/irregolari e nomi numerabili/non numerabili.
-		{"topic": "verbs", "minLevel": 8, "prompt": "Sort each past-tense verb: regular or irregular?",
+		{"topic": "verbs", "minLevel": 8, "draw": 6, "prompt": "Sort each past-tense verb: regular or irregular?",
 			"categories": ["regular", "irregular"],
-			"assignments": {"played": "regular", "walked": "regular", "watched": "regular", "went": "irregular", "ate": "irregular", "saw": "irregular"}},
-		{"topic": "nouns", "minLevel": 9, "prompt": "Sort each noun: countable or uncountable?",
+			"assignments": {
+				"played": "regular", "walked": "regular", "watched": "regular", "opened": "regular",
+				"listened": "regular", "arrived": "regular", "studied": "regular", "helped": "regular",
+				"cleaned": "regular", "carried": "regular", "wanted": "regular", "stopped": "regular",
+				"went": "irregular", "ate": "irregular", "saw": "irregular", "took": "irregular",
+				"wrote": "irregular", "drank": "irregular", "began": "irregular", "brought": "irregular",
+				"caught": "irregular", "chose": "irregular", "slept": "irregular", "spoke": "irregular"}},
+		{"topic": "nouns", "minLevel": 9, "draw": 6, "prompt": "Sort each noun: countable or uncountable?",
 			"categories": ["countable", "uncountable"],
-			"assignments": {"apple": "countable", "book": "countable", "car": "countable", "water": "uncountable", "milk": "uncountable", "rice": "uncountable"}},
+			"assignments": {
+				"apple": "countable", "book": "countable", "car": "countable", "chair": "countable",
+				"idea": "countable", "song": "countable", "bottle": "countable", "child": "countable",
+				"city": "countable", "coin": "countable", "letter": "countable", "tree": "countable",
+				"water": "uncountable", "milk": "uncountable", "rice": "uncountable", "bread": "uncountable",
+				"money": "uncountable", "music": "uncountable", "advice": "uncountable", "information": "uncountable",
+				"sugar": "uncountable", "homework": "uncountable", "furniture": "uncountable", "weather": "uncountable"}},
 	],
 	"latino": [
-		{"topic": "vocabolario", "prompt": "Smista ogni parola latina per campo di significato.",
+		# In latino l'ordine è convenzione pura — i casi si recitano in quell'ordine
+		# perché così li recita il libro, non perché uno sia «maggiore» di un altro.
+		# Quindi l'ordinamento qui resta a dato fisso, e tutta la profondità deve
+		# venire da smistamento e abbinamento. È il caso opposto a storia e fisica.
+		{"topic": "vocabolario", "draw": 6, "prompt": "Smista ogni parola latina per campo di significato.",
 			"categories": ["natura", "persone", "animali"],
-			"assignments": {"aqua": "natura", "silva": "natura", "terra": "natura", "puella": "persone", "poeta": "persone", "lupus": "animali", "equus": "animali"}},
-		{"topic": "casi", "minLevel": 5, "prompt": "Smista ogni parola latina nel suo genere.",
+			"assignments": {
+				"aqua": "natura", "silva": "natura", "terra": "natura", "stella": "natura",
+				"luna": "natura", "mare": "natura", "flumen": "natura", "arbor": "natura",
+				"ventus": "natura", "sol": "natura", "campus": "natura", "mons": "natura",
+				"puella": "persone", "poeta": "persone", "agricola": "persone", "nauta": "persone",
+				"miles": "persone", "rex": "persone", "magister": "persone", "puer": "persone",
+				"lupus": "animali", "equus": "animali", "canis": "animali", "avis": "animali",
+				"taurus": "animali", "piscis": "animali", "ursus": "animali", "aquila": "animali"}},
+		{"topic": "casi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni parola latina nel suo genere.",
 			"categories": ["maschile", "femminile", "neutro"],
-			"assignments": {"lupus": "maschile", "poeta": "maschile", "puella": "femminile", "rosa": "femminile", "templum": "neutro", "bellum": "neutro"}},
+			"assignments": {
+				"lupus": "maschile", "poeta": "maschile", "servus": "maschile", "dominus": "maschile",
+				"agricola": "maschile", "nauta": "maschile", "hortus": "maschile", "amicus": "maschile",
+				"puella": "femminile", "rosa": "femminile", "silva": "femminile", "aqua": "femminile",
+				"terra": "femminile", "stella": "femminile", "regina": "femminile", "porta": "femminile",
+				"templum": "neutro", "bellum": "neutro", "donum": "neutro", "verbum": "neutro",
+				"oppidum": "neutro", "vinum": "neutro", "signum": "neutro", "regnum": "neutro"}},
 		# Scuola media — riconoscere la declinazione di appartenenza.
-		{"topic": "declinazioni-base", "minLevel": 6, "prompt": "Smista ogni parola nella sua declinazione.",
+		{"topic": "declinazioni-base", "minLevel": 6, "draw": 6, "prompt": "Smista ogni parola nella sua declinazione.",
 			"categories": ["1ª declinazione", "2ª declinazione", "3ª declinazione"],
-			"assignments": {"rosa": "1ª declinazione", "puella": "1ª declinazione", "lupus": "2ª declinazione", "templum": "2ª declinazione", "rex": "3ª declinazione", "miles": "3ª declinazione"}},
+			"assignments": {
+				"rosa": "1ª declinazione", "puella": "1ª declinazione", "silva": "1ª declinazione", "aqua": "1ª declinazione",
+				"terra": "1ª declinazione", "stella": "1ª declinazione", "regina": "1ª declinazione", "porta": "1ª declinazione",
+				"lupus": "2ª declinazione", "templum": "2ª declinazione", "servus": "2ª declinazione", "donum": "2ª declinazione",
+				"hortus": "2ª declinazione", "bellum": "2ª declinazione", "amicus": "2ª declinazione", "verbum": "2ª declinazione",
+				"rex": "3ª declinazione", "miles": "3ª declinazione", "flumen": "3ª declinazione", "mare": "3ª declinazione",
+				"consul": "3ª declinazione", "corpus": "3ª declinazione", "civis": "3ª declinazione", "nomen": "3ª declinazione"}},
 	],
 	"logica": [
-		{"topic": "esclusioni", "prompt": "Smista ogni elemento nel suo insieme.",
+		# In logica la profondità non può venire da PIÙ ELEMENTI: un insieme di
+		# trenta cani e trenta rose non rende il ragionamento più ricco, solo più
+		# lungo. Deve venire da più REGOLE — quantificatori diversi, negazioni,
+		# affermazioni vere per ragioni diverse. Perciò qui gli insiemi sono grandi
+		# ma le voci sono scelte perché ciascuna chiede un passo di ragionamento suo.
+		{"topic": "esclusioni", "draw": 6, "prompt": "Smista ogni elemento nel suo insieme.",
 			"categories": ["animale", "pianta"],
-			"assignments": {"Cane": "animale", "Aquila": "animale", "Gatto": "animale", "Rosa": "pianta", "Quercia": "pianta", "Tulipano": "pianta"}},
-		{"topic": "verita", "minLevel": 4, "prompt": "Ogni affermazione: è vera o falsa?",
+			"assignments": {
+				"Cane": "animale", "Aquila": "animale", "Gatto": "animale", "Lombrico": "animale",
+				"Ape": "animale", "Delfino": "animale", "Ragno": "animale", "Corallo": "animale",
+				"Spugna di mare": "animale", "Medusa": "animale", "Pipistrello": "animale", "Formica": "animale",
+				"Rosa": "pianta", "Quercia": "pianta", "Tulipano": "pianta", "Felce": "pianta",
+				"Muschio": "pianta", "Cactus": "pianta", "Girasole": "pianta", "Trifoglio": "pianta",
+				"Bambù": "pianta", "Edera": "pianta", "Grano": "pianta", "Pino": "pianta"}},
+		{"topic": "verita", "minLevel": 4, "draw": 6, "prompt": "Ogni affermazione: è vera o falsa?",
 			"categories": ["vera", "falsa"],
-			"assignments": {"Tutti i quadrati hanno 4 lati": "vera", "Alcuni uccelli volano": "vera", "Ogni numero pari è divisibile per 2": "vera", "Tutti i pesci volano": "falsa", "Un triangolo ha 4 lati": "falsa", "Nessun cane è un animale": "falsa"}},
+			"assignments": {
+				"Tutti i quadrati hanno 4 lati": "vera", "Alcuni uccelli volano": "vera",
+				"Ogni numero pari è divisibile per 2": "vera", "Nessun triangolo ha 4 lati": "vera",
+				"Alcuni mammiferi vivono nell'acqua": "vera", "Tutti i cani sono animali": "vera",
+				"Alcuni numeri primi sono pari": "vera", "Nessun quadrato è un cerchio": "vera",
+				"Tutti i cerchi hanno un raggio": "vera", "Alcuni rettangoli sono quadrati": "vera",
+				"Ogni multiplo di 4 è pari": "vera", "Non tutti gli uccelli volano": "vera",
+				"Tutti i pesci volano": "falsa", "Un triangolo ha 4 lati": "falsa",
+				"Nessun cane è un animale": "falsa", "Tutti i numeri dispari sono primi": "falsa",
+				"Ogni animale che vola è un uccello": "falsa", "Tutti i quadrati sono cerchi": "falsa",
+				"Nessun numero pari è divisibile per 2": "falsa", "Tutti i rettangoli sono quadrati": "falsa",
+				"Alcuni triangoli hanno quattro angoli": "falsa", "Ogni pianta è verde": "falsa",
+				"Nessun mammifero depone uova": "falsa", "Tutti i numeri maggiori di 2 sono primi": "falsa"}},
 		# Scuola media — ragionamento sui quantificatori.
-		{"topic": "quantificatori", "minLevel": 6, "prompt": "Ogni cosa accade sempre, a volte o mai?",
+		{"topic": "quantificatori", "minLevel": 6, "draw": 6, "prompt": "Ogni cosa accade sempre, a volte o mai?",
 			"categories": ["sempre", "a volte", "mai"],
-			"assignments": {"Un triangolo ha 3 lati": "sempre", "Il ghiaccio è freddo": "sempre", "Piove": "a volte", "Un bambino dorme": "a volte", "Un cerchio ha spigoli": "mai", "2 è un numero dispari": "mai"}},
-		{"topic": "insiemi", "minLevel": 3, "prompt": "Smista ogni elemento nel suo insieme.",
+			"assignments": {
+				"Un triangolo ha 3 lati": "sempre", "Il ghiaccio è freddo": "sempre",
+				"La somma di due numeri pari è pari": "sempre", "Il quadrato di un numero è positivo o zero": "sempre",
+				"Un quadrato ha i lati uguali": "sempre", "L'acqua bagna": "sempre",
+				"Un numero diviso per sé stesso fa 1": "sempre", "Il Sole sorge a est": "sempre",
+				"Piove": "a volte", "Un bambino dorme": "a volte",
+				"Un numero pari è anche multiplo di 4": "a volte", "Un rettangolo è un quadrato": "a volte",
+				"Fa freddo a settembre": "a volte", "Un animale che vola è un uccello": "a volte",
+				"La neve arriva a dicembre": "a volte", "Una parola lunga è difficile": "a volte",
+				"Un cerchio ha spigoli": "mai", "2 è un numero dispari": "mai",
+				"Un triangolo ha due angoli retti": "mai", "La somma di due numeri pari è dispari": "mai",
+				"Un quadrato ha cinque lati": "mai", "Un numero è maggiore di sé stesso": "mai",
+				"Il ghiaccio è più caldo del vapore": "mai", "Un pesce vive fuori dall'acqua per sempre": "mai"}},
+		{"topic": "insiemi", "minLevel": 3, "draw": 6, "prompt": "Smista ogni elemento nel suo insieme.",
 			"categories": ["colori", "forme", "numeri"],
-			"assignments": {"Rosso": "colori", "Blu": "colori", "Cerchio": "forme", "Quadrato": "forme", "Uno": "numeri", "Due": "numeri"}},
+			"assignments": {
+				"Rosso": "colori", "Blu": "colori", "Verde": "colori", "Giallo": "colori",
+				"Viola": "colori", "Arancione": "colori", "Turchese": "colori", "Magenta": "colori",
+				"Cerchio": "forme", "Quadrato": "forme", "Triangolo": "forme", "Rombo": "forme",
+				"Trapezio": "forme", "Esagono": "forme", "Pentagono": "forme", "Ellisse": "forme",
+				"Uno": "numeri", "Due": "numeri", "Sette": "numeri", "Dodici": "numeri",
+				"Venti": "numeri", "Cento": "numeri", "Tre quarti": "numeri", "Zero": "numeri"}},
 	],
 }
 
@@ -983,6 +1825,11 @@ const CODE_DEBUG := {
 ## autorate in `ORDERING` come le altre dieci materie.
 const NUMERIC_ORDERING_SUBJECTS := ["matematica"]
 
+## Denominatori delle frazioni generate. Costante di classe (non locale) perché la
+## profondità combinatoria si calcola su questi stessi valori: la misura deve
+## leggere il dato che il generatore usa davvero, non una copia che può divergere.
+const FRACTION_DENOMINATORS := [2, 3, 4, 5, 6, 8, 10, 12]
+
 ## Argomenti serviti dal generatore quantitativo, che NON compare in nessuna
 ## tabella. Dichiararli qui è obbligatorio: `topics_for()` si costruisce dalle
 ## tabelle, quindi un generatore procedurale non dichiarato resta **invisibile a
@@ -1009,6 +1856,189 @@ static func topics_for(subject: String) -> Array:
 		topics[str(topic)] = true
 	return topics.keys()
 
+# --- Specifiche a insieme: quante voci si pescano, e quanto sono profonde -------
+#
+# Queste funzioni sono la SORGENTE UNICA della politica di estrazione: le usano sia
+# i costruttori di nodi (per pescare) sia gli audit (per dichiarare la profondità).
+# Tenerle separate significherebbe misurare una cosa e giocarne un'altra.
+
+# Campi che devono restare distinti dentro una prova, per non renderla ambigua.
+const MATCHING_UNIQUE := [0, 1]              # coppie [sinistra, destra]
+const ORDERING_UNIQUE := ["label", "value"]  # voci {label, value}
+
+const FORMATS := ["matching", "ordering", "classification", "graph", "circuit", "code_debug"]
+
+static func table_for(fmt: String) -> Dictionary:
+	match fmt:
+		"matching": return MATCHING
+		"ordering": return ORDERING
+		"classification": return CLASSIFICATION
+		"graph": return GRAPH
+		"circuit": return CIRCUIT
+		"code_debug": return CODE_DEBUG
+	return {}
+
+## Le specifiche che questo livello può davvero incontrare. Il gate `minLevel` non
+## è un dettaglio della misura: ai livelli bassi lascia spesso UNA specifica per
+## formato, ed è lì che nasce la ripetizione peggiore.
+static func eligible_specs(subject: String, fmt: String, level: int) -> Array:
+	var out: Array = []
+	for spec in Array(table_for(fmt).get(subject, [])):
+		if int((spec as Dictionary).get("minLevel", 0)) <= level:
+			out.append(spec)
+	return out
+
+## GRADIENTE DI DIFFICOLTÀ dentro la sessione.
+##
+## Fino alla Fase 4 ogni minigioco di un mondo aveva la STESSA identica
+## difficoltà, quella del livello: al mondo 3 tutto a 1, al mondo 20 tutto a 4.
+## Una sessione piatta non è solo monotona, è didatticamente peggiore — si entra
+## senza scaldarsi e si esce senza essere stati messi alla prova.
+##
+## Ora la prima campata scende di un gradino e l'ultima sale: riscaldamento,
+## corpo, sfida. La media resta quella del livello, quindi la progressione della
+## campagna non cambia; cambia il profilo dentro il mondo. Effetto collaterale
+## voluto: la banda 4 comincia a comparire dal mondo 13 invece che dal 19, e la
+## banda 1 non sparisce di colpo al mondo 6.
+static func gradient_step(idx: int, total: int) -> int:
+	if total < 3:
+		return 0   # con una o due campate un gradiente non ha senso
+	if idx == 0:
+		return -1
+	if idx >= total - 1:
+		return 1
+	return 0
+
+static func difficulty_of(level: int, step: int) -> int:
+	return clampi(ContentManager.target_difficulty(level) + step, 1, 4)
+
+static func difficulty_for(level: int, idx: int, total: int) -> int:
+	return difficulty_of(level, gradient_step(idx, total))
+
+## Quante voci si pescano: ora dipende dalla DIFFICOLTÀ della campata, non dal
+## livello. È la stessa cosa nella media (la difficoltà viene dal livello) ma
+## rende reale il gradiente: la campata di riscaldamento ha davvero meno tessere
+## da tenere a mente di quella finale.
+##
+## Il numero di voci segue il PASSO DEL GRADIENTE (−1 riscaldamento, +1 finale),
+## non la difficoltà assoluta.
+##
+## Provato prima nell'altro modo, e misurato: legandolo alla difficoltà assoluta
+## la profondità del primo mondo crollava da 200.000 a 15.000 e le ripetizioni
+## risalivano dal 17% al 23% — perché al mondo 1 *ogni* campata pescava meno, non
+## solo quella di riscaldamento. Il gradiente deve variare dentro la sessione,
+## non spostare tutta la campagna verso il basso: il numero di tessere che una
+## materia ha scelto resta quello del mondo, e il riscaldamento ne toglie una.
+const MIN_SEQUENCE_DRAW := 3
+const MAX_SEQUENCE_DRAW := 5
+const DEFAULT_SEQUENCE_DRAW := 5
+
+## La BASE resta legata al livello per le specifiche che non dichiarano `draw`:
+## al mondo 1 un abbinamento mostra tre coppie, al 24 cinque. Averla tolta per un
+## momento — facendo pescare cinque coppie anche al primo mondo — ha fatto
+## risalire le ripetizioni di musica e storia a ×6, perché con otto coppie in
+## tutto pescarne cinque lascia pochissime combinazioni. Il gradiente si somma
+## alla progressione della campagna, non la sostituisce.
+static func _sequence_draw(spec: Dictionary, base: int, step: int, available: int) -> int:
+	var wanted := base
+	if spec.has(ExercisePool.DRAW_KEY):
+		wanted = int(spec[ExercisePool.DRAW_KEY])
+	return clampi(wanted + step, MIN_SEQUENCE_DRAW, mini(MAX_SEQUENCE_DRAW, available))
+
+static func matching_draw(spec: Dictionary, level: int, step: int = 0) -> int:
+	var base := clampi(3 + int(level / 8.0), MIN_SEQUENCE_DRAW, MAX_SEQUENCE_DRAW)
+	return _sequence_draw(spec, base, step, ExercisePool.entries(spec, "pairs").size())
+
+static func ordering_draw(spec: Dictionary, level: int, step: int = 0) -> int:
+	var available := ExercisePool.entries(spec, "correctOrder").size()
+	if not ExercisePool.is_pool(spec):
+		return available   # forma statica: la sequenza è tutta la prova
+	var base := clampi(3 + int(level / 9.0), MIN_SEQUENCE_DRAW, MAX_SEQUENCE_DRAW)
+	return _sequence_draw(spec, base, step, available)
+
+## Lo smistamento ha bidoni da riempire, quindi il minimo non è 3 ma il numero di
+## categorie: sotto quello una tessera per bidone non ci sta e la prova è rotta.
+static func classification_draw(spec: Dictionary, step: int = 0) -> int:
+	var assignments := spec.get("assignments", {}) as Dictionary
+	if not spec.has(ExercisePool.DRAW_KEY):
+		return assignments.size()
+	var base := int(spec[ExercisePool.DRAW_KEY])
+	var floor_value := maxi(2, Array(spec.get("categories", [])).size())
+	return clampi(base + step, floor_value, assignments.size())
+
+## PROFONDITÀ COMBINATORIA: quante prove distinte questa specifica può produrre.
+##
+## È la misura che mancava. Le ripetizioni osservate (`variety_audit`) dicono se
+## oggi va male; la profondità dice **quando una materia è finita** — senza, si
+## aggiunge contenuto senza sapere se basta.
+## `difficulty` è quella della campata centrale del livello: è la stima
+## CONSERVATIVA. Il gradiente pesca anche a ±1, quindi la varietà reale è la somma
+## di tre estrazioni diverse — misurarne una sola non gonfia mai il numero, e un
+## pavimento gonfiato sarebbe peggio di nessun pavimento.
+static func spec_depth(fmt: String, spec: Dictionary, level: int, step: int = 0) -> int:
+	match fmt:
+		"matching":
+			return ExercisePool.combinations(
+				ExercisePool.entries(spec, "pairs").size(), matching_draw(spec, level, step))
+		"ordering":
+			if not ExercisePool.is_pool(spec):
+				return 1
+			return ExercisePool.combinations(
+				ExercisePool.entries(spec).size(), ordering_draw(spec, level, step))
+		"classification":
+			var assignments := spec.get("assignments", {}) as Dictionary
+			var count := classification_draw(spec, step)
+			if count >= assignments.size():
+				return 1
+			var sizes: Dictionary = {}
+			for key in assignments.keys():
+				var category := str(assignments[key])
+				sizes[category] = int(sizes.get(category, 0)) + 1
+			return ExercisePool.covering_combinations(sizes.values(), count)
+	# Grafico, circuito e caccia all'errore sono ancora dati fissi: una specifica,
+	# una prova. Il rimescolamento delle righe cambia la presentazione, non la
+	# prova (vedi `ExerciseSignature`), quindi non conta come profondità.
+	return 1
+
+static func format_depth(subject: String, fmt: String, level: int) -> int:
+	var total := 0
+	# Si misura al passo CENTRALE del gradiente: il riscaldamento pesca una voce in
+	# meno e il finale una in più, quindi la varietà reale è la somma di tre
+	# estrazioni diverse. Misurarne una sola non gonfia mai il numero, e un
+	# pavimento gonfiato sarebbe peggio di nessun pavimento.
+	for spec in eligible_specs(subject, fmt, level):
+		total += spec_depth(fmt, spec as Dictionary, level, 0)
+	if fmt == "ordering" and NUMERIC_ORDERING_SUBJECTS.has(subject):
+		total += numeric_ordering_depth(level)
+	return total
+
+## Profondità del generatore quantitativo di matematica, che non sta a tabella.
+## Va contata comunque: è l'unica sorgente già combinatoria del progetto, e
+## ometterla farebbe sembrare matematica più povera di quanto sia.
+static func numeric_ordering_depth(level: int) -> int:
+	# Passo centrale del gradiente (0), come per tutte le altre misure.
+	var count := clampi(4 + int(level / 9.0), 4, 5)
+	if level <= 12:
+		# Carte "a × b" con prodotti tutti diversi: si sceglie fra i prodotti distinti.
+		var products: Dictionary = {}
+		for a in range(2, 11):
+			for b in range(2, 11):
+				products[a * b] = true
+		return ExercisePool.combinations(products.size(), count) * 2   # ×2: crescente/decrescente
+	return _fraction_depth(0, count) * 2
+
+## Frazioni: denominatori tutti diversi, quindi si sceglie un sottoinsieme di
+## denominatori e per ciascuno un numeratore. Stima per eccesso di poco: scarta
+## solo le estrazioni con due valori equivalenti (1/2 e 2/4), che il generatore
+## rifiuta.
+static func _fraction_depth(index: int, remaining: int) -> int:
+	if remaining <= 0:
+		return 1
+	if index >= FRACTION_DENOMINATORS.size():
+		return 0
+	var d := int(FRACTION_DENOMINATORS[index])
+	return (d - 1) * _fraction_depth(index + 1, remaining - 1) + _fraction_depth(index + 1, remaining)
+
 func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
 	var generator := rng
 	if generator == null:
@@ -1018,26 +2048,30 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	var has_order := ORDERING.has(subject)
 	var has_classify := CLASSIFICATION.has(subject)
 	var numeric := NUMERIC_ORDERING_SUBJECTS.has(subject)
-	var nodes: Array = []
-	# Primo nodo: preferisci un abbinamento (più ricco); ripiega su ordinamento.
+	# Si decide PRIMA quali formati comporranno la sessione, poi si costruisce.
+	# Serve per il gradiente di difficoltà: la difficoltà di una campata dipende da
+	# quante ce ne sono in tutto, e un builder che non sa di essere l'ultimo non può
+	# saperlo. Prima la sequenza si scopriva costruendo, quindi non era possibile.
+	var plan: Array = []
+	# Prima campata: preferisci un abbinamento (più ricco); ripiega su ordinamento.
 	if has_match:
-		nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator, level), level, generator, 0))
+		plan.append("matching")
 	elif numeric:
-		nodes.append(_numeric_ordering_node(subject, level, generator, 0))
+		plan.append("numeric")
 	elif has_order:
-		nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator, level), level, generator, 0))
-	# Secondo nodo: preferisci un formato DIVERSO per varietà.
+		plan.append("ordering")
+	# Seconda campata: preferisci un formato DIVERSO per varietà.
 	if numeric:
-		nodes.append(_numeric_ordering_node(subject, level, generator, 1))
+		plan.append("numeric")
 	elif has_order:
-		nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator, level), level, generator, 1))
+		plan.append("ordering")
 	elif has_match:
-		nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator, level), level, generator, 1))
-	# Terzo nodo (se disponibile): smistamento drag-to-sort — il formato più
+		plan.append("matching")
+	# Terza campata (se disponibile): smistamento drag-to-sort — il formato più
 	# distante da abbinamento/ordinamento, per esercizi davvero vari (#11).
 	if has_classify:
-		nodes.append(_classification_node(subject, _pick(CLASSIFICATION[subject], generator, level), level, generator, 2))
-	# Quarto nodo (formato SPECIALISTA): grafico/circuito/code-debug se la materia
+		plan.append("classification")
+	# Quarta campata (formato SPECIALISTA): grafico/circuito/code-debug se la materia
 	# ne ha — leggere dati, schemi o codice: la competenza come sfida visuale.
 	# Quando una materia ne ha più d'uno (es. italiano: arco narrativo + caccia
 	# all'errore) si ruota a caso, così le missioni non ripetono sempre lo stesso.
@@ -1052,16 +2086,32 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	if CODE_DEBUG.has(subject) and _has_eligible(CODE_DEBUG[subject], level):
 		specialists.append("code_debug")
 	if not specialists.is_empty():
-		var pick_fmt := str(specialists[generator.randi_range(0, specialists.size() - 1)])
-		if pick_fmt == "graph":
-			nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator, level), level, generator, 3))
-		elif pick_fmt == "circuit":
-			nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator, level), level, generator, 3))
-		else:
-			nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator, level), level, generator, 3))
-	if nodes.is_empty():
-		# Fallback generico: un abbinamento numerico sempre valido.
-		nodes.append(_numeric_ordering_node(subject, level, generator, 0))
+		plan.append(str(specialists[generator.randi_range(0, specialists.size() - 1)]))
+	if plan.is_empty():
+		# Fallback generico: un ordinamento numerico sempre valido.
+		plan.append("numeric")
+
+	var nodes: Array = []
+	var total := plan.size()
+	for idx in total:
+		var fmt := str(plan[idx])
+		var step := gradient_step(idx, total)
+		var difficulty := difficulty_of(level, step)
+		match fmt:
+			"matching":
+				nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator, level), level, step, generator, idx))
+			"ordering":
+				nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator, level), level, step, generator, idx))
+			"numeric":
+				nodes.append(_numeric_ordering_node(subject, level, step, generator, idx))
+			"classification":
+				nodes.append(_classification_node(subject, _pick(CLASSIFICATION[subject], generator, level), level, step, generator, idx))
+			"graph":
+				nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator, level), difficulty, generator, idx))
+			"circuit":
+				nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator, level), difficulty, generator, idx))
+			"code_debug":
+				nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator, level), difficulty, generator, idx))
 	return {
 		"sessionId": "minigame-%s-lvl%d" % [subject, level],
 		"kind": "minigame",
@@ -1094,48 +2144,66 @@ func _has_eligible(list: Array, level: int) -> bool:
 			return true
 	return false
 
-func _matching_node(subject: String, group: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
-	var all: Array = (group["pairs"] as Array).duplicate()
-	_shuffle(all, rng)
-	var take := clampi(3 + int(level / 8.0), 3, mini(5, all.size()))
+## L'abbinamento è sempre stato un'estrazione: pesca 3–5 coppie fra quelle
+## dichiarate. Ora passa da `ExercisePool` come tutti gli altri, così la stessa
+## regola vale per le specifiche statiche e per quelle a insieme — ed è la stessa
+## funzione che dichiara la profondità agli audit, invece di due conti separati
+## che possono divergere.
+func _matching_node(subject: String, group: Dictionary, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	# Lati sinistri e destri tutti distinti: un abbinamento con due destre uguali
+	# non ha una soluzione sola (lo stesso vincolo che `validate` pretende dopo).
+	var drawn := ExercisePool.draw(group, "pairs", matching_draw(group, level, step), rng, MATCHING_UNIQUE)
 	var pairs: Array = []
-	for i in take:
-		var p: Array = all[i]
+	for entry in drawn:
+		var p: Array = entry
 		pairs.append({"left": str(p[0]), "right": str(p[1])})
 	return {
 		"id": "minigame-match-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": str(group["topic"]),
-		"difficulty": ContentManager.target_difficulty(level),
+		"difficulty": difficulty_of(level, step),
 		"format": "matching",
 		"prompt": "Abbina ogni elemento alla sua coppia.",
 		"pairs": pairs,
 		"explanation": "Collega ogni elemento a sinistra con quello giusto a destra.",
 	}
 
-func _classification_node(subject: String, spec: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+## Smistamento. Una specifica che dichiara `draw` diventa un insieme: si pescano
+## `draw` tessere fra quelle disponibili, garantendo **almeno una per categoria** —
+## un contenitore vuoto non è una prova più facile, è una prova rotta.
+func _classification_node(subject: String, spec: Dictionary, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var assignments: Dictionary = spec["assignments"]
-	var items: Array = assignments.keys()
-	_shuffle(items, rng)
+	var categories: Array = Array(spec["categories"])
+	var count := classification_draw(spec, step)
+	var items: Array = []
+	if count < assignments.size():
+		items = ExercisePool.draw_covering(assignments, categories, count, rng)
+		var subset: Dictionary = {}
+		for key in items:
+			subset[key] = assignments[key]
+		assignments = subset
+	else:
+		items = assignments.keys()
+		_shuffle(items, rng)
 	return {
 		"id": "minigame-classify-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": str(spec["topic"]),
-		"difficulty": ContentManager.target_difficulty(level),
+		"difficulty": difficulty_of(level, step),
 		"format": "classification",
 		"prompt": str(spec["prompt"]),
 		"items": items,
-		"categories": Array(spec["categories"]).duplicate(),
+		"categories": categories.duplicate(),
 		"assignments": assignments.duplicate(true),
 		"explanation": "Ogni tessera va nel gruppo giusto secondo la sua proprietà.",
 	}
 
-func _graph_node(subject: String, spec: Dictionary, level: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
+func _graph_node(subject: String, spec: Dictionary, difficulty: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	return {
 		"id": "minigame-graph-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": str(spec["topic"]),
-		"difficulty": ContentManager.target_difficulty(level),
+		"difficulty": difficulty,
 		"format": "graph",
 		"prompt": str(spec["prompt"]),
 		"points": (spec["points"] as Array).duplicate(true),
@@ -1145,12 +2213,12 @@ func _graph_node(subject: String, spec: Dictionary, level: int, _rng: RandomNumb
 		"explanation": str(spec["explanation"]),
 	}
 
-func _circuit_node(subject: String, spec: Dictionary, level: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
+func _circuit_node(subject: String, spec: Dictionary, difficulty: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	return {
 		"id": "minigame-circuit-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": str(spec["topic"]),
-		"difficulty": ContentManager.target_difficulty(level),
+		"difficulty": difficulty,
 		"format": "circuit",
 		"prompt": str(spec["prompt"]),
 		"components": (spec["components"] as Array).duplicate(true),
@@ -1165,7 +2233,7 @@ func _circuit_node(subject: String, spec: Dictionary, level: int, _rng: RandomNu
 ## *sempre* la terza — bastava impararlo per superare la prova senza leggerla.
 ## Dove invece l'ordine porta significato (codice, passaggi di un calcolo, premesse
 ## di un sillogismo) le righe non si toccano: mescolarle distruggerebbe l'esercizio.
-func _code_debug_node(subject: String, spec: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+func _code_debug_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var lines: Array = (spec["codeLines"] as Array).duplicate()
 	var answer_line := int(spec["answerLine"])
 	var explanation := str(spec["explanation"])
@@ -1188,7 +2256,7 @@ func _code_debug_node(subject: String, spec: Dictionary, level: int, rng: Random
 		"id": "minigame-code-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": str(spec["topic"]),
-		"difficulty": ContentManager.target_difficulty(level),
+		"difficulty": difficulty,
 		"format": "code_debug",
 		"prompt": str(spec["prompt"]),
 		"codeLines": lines,
@@ -1206,8 +2274,24 @@ func _renumber_explanation(explanation: String, answer_line: int) -> String:
 		return explanation
 	return regex.sub(explanation, "Riga %d" % answer_line)
 
-func _ordering_node(subject: String, spec: Dictionary, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
-	var correct: Array = (spec["correctOrder"] as Array).duplicate()
+## Ordinamento. Forma statica: `correctOrder` è la sequenza, sempre la stessa —
+## profondità 1. Forma a insieme: `pool` elenca voci `{label, value}` e si pescano
+## `draw` elementi, ordinati per VALORE (mai per etichetta: "10/12" viene dopo
+## "1/2" per valore ma prima in ordine alfabetico). Le due forme convivono, così la
+## migrazione di una materia alla volta non rompe le altre.
+func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var correct: Array = []
+	if ExercisePool.is_pool(spec):
+		# Etichette e valori tutti distinti: due voci con lo stesso valore
+		# renderebbero l'ordine ambiguo, due con la stessa etichetta impossibile.
+		var drawn := ExercisePool.draw(spec, "", ordering_draw(spec, level, step), rng, ORDERING_UNIQUE)
+		drawn.sort_custom(func(a, b): return float((a as Dictionary)["value"]) < float((b as Dictionary)["value"]))
+		if bool(spec.get("descending", false)):
+			drawn.reverse()
+		for entry in drawn:
+			correct.append(str((entry as Dictionary)["label"]))
+	else:
+		correct = (spec["correctOrder"] as Array).duplicate()
 	var items := correct.duplicate()
 	# Mai presentare gli elementi già ordinati: sarebbe una prova che si risolve
 	# premendo in fila (misurato: capitava a un ordinamento su ventuno).
@@ -1216,7 +2300,7 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, rng: RandomNu
 		"id": "minigame-order-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": str(spec["topic"]),
-		"difficulty": ContentManager.target_difficulty(level),
+		"difficulty": difficulty_of(level, step),
 		"format": "ordering",
 		"prompt": str(spec["prompt"]),
 		"items": items,
@@ -1246,8 +2330,8 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, rng: RandomNu
 ##
 ## Ora l'argomento è quello che il mondo dichiara: `tabelline` fino al 12,
 ## `frazioni` dal 13.
-func _numeric_ordering_node(subject: String, level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
-	var count := clampi(4 + int(level / 9.0), 4, 5)
+func _numeric_ordering_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var count := clampi(4 + int(level / 9.0) + step, 4, 5)
 	var ascending := rng.randf() < 0.5
 	var quantitative := level <= 12
 	var topic := "tabelline" if quantitative else "frazioni"
@@ -1286,7 +2370,7 @@ func _numeric_ordering_node(subject: String, level: int, rng: RandomNumberGenera
 		"id": "minigame-numorder-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": topic,
-		"difficulty": ContentManager.target_difficulty(level),
+		"difficulty": difficulty_of(level, step),
 		"format": "ordering",
 		"prompt": prompt,
 		"items": items,
@@ -1329,14 +2413,13 @@ func _multiplication_cards(count: int, rng: RandomNumberGenerator) -> Array:
 ## Confrontarle richiede denominatore comune: è l'argomento che i mondi alti di
 ## matematica dichiarano davvero.
 func _fraction_cards(count: int, rng: RandomNumberGenerator) -> Array:
-	const DENOMINATORS := [2, 3, 4, 5, 6, 8, 10, 12]
 	var cards: Array = []
 	var used_denominators: Dictionary = {}
 	var seen_values: Dictionary = {}
 	var guard := 0
 	while cards.size() < count and guard < 600:
 		guard += 1
-		var d := int(DENOMINATORS[rng.randi_range(0, DENOMINATORS.size() - 1)])
+		var d := int(FRACTION_DENOMINATORS[rng.randi_range(0, FRACTION_DENOMINATORS.size() - 1)])
 		if used_denominators.has(d):
 			continue
 		var n := rng.randi_range(1, d - 1)

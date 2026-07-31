@@ -11,42 +11,57 @@ func _init() -> void:
 	var prog := ProgressionManager.new(save, content)  # content: dimensione copertura
 	save.data["energy"] = 200  # energia iniziale per pagare gli ingressi
 
-	var gate := prog.current_gate()
-	var subject := str(gate["subject"])
+	var host := ApparatusConfig.world_subject(save.level())
 	assert(save.level() == 1)
-	assert(not prog.can_repair())
+	assert(not prog.can_level_up(), "un profilo nuovo non deve poter salire di livello")
+	assert(not prog.can_repair_apparatus(host), "un profilo nuovo non deve poter riparare")
 
-	# 1) Missioni native (tutte corrette) finché il gate non si apre. Usa la
-	# variante a formati VARI (≤⅓ scelta multipla), la stessa del percorso live:
-	# così l'audit gioca davvero abbina/ordina/classifica attraverso il player.
+	# 1) Missioni sulle TRE materie del nucleo finché il livello non si apre. Il gate
+	# non conta più i giri (decisione del 30 luglio): si sale con padronanza,
+	# copertura e ritenzione su italiano, matematica e inglese.
 	var missions := 0
-	while not prog.can_repair() and missions < 200:
-		var mission := content.build_varied_mission(subject, save.level(), 3)
-		assert(not Array(mission["nodes"]).is_empty(), "banco mancante: node scripts/build-exercise-banks.mjs")
-		assert(save.spend_energy(3), "energia sufficiente per la missione")
-		var res := _play(mission, true)
-		assert(bool(res["passed"]), "missione con tutte corrette deve passare")
-		assert(int(res["energyGained"]) > 0, "risposte corrette danno energia")
-		prog.record_mission(subject, int(res["correct"]), int(res["total"]), int(res["energyGained"]), true)
-		prog.record_topic_stats(subject, res.get("topicStats", {}))
-		missions += 1
-	assert(prog.can_repair(), "il gate deve aprirsi dopo missioni + padronanza")
+	while not prog.can_level_up() and missions < 400:
+		for subject_data in ApparatusConfig.CORE_SUBJECTS:
+			var subject := str(subject_data)
+			var mission := content.build_varied_mission(subject, save.level(), 3)
+			assert(not Array(mission["nodes"]).is_empty(), "banco mancante: node scripts/build-exercise-banks.mjs")
+			save.add_energy(3)
+			assert(save.spend_energy(3), "energia sufficiente per la missione")
+			var res := _play(mission, true)
+			assert(bool(res["passed"]), "missione con tutte corrette deve passare")
+			assert(int(res["energyGained"]) > 0, "risposte corrette danno energia")
+			prog.record_mission(subject, int(res["correct"]), int(res["total"]), int(res["energyGained"]), true)
+			prog.record_topic_stats(subject, res.get("topicStats", {}))
+			missions += 1
+	assert(prog.can_level_up(), "il livello deve aprirsi con la padronanza del nucleo")
 
-	# 2) Esame finale → riparazione → salita di livello.
+	# 2) L'apparato si ripara con la padronanza della SUA materia, ed è un atto
+	# distinto dal salire di livello: prima erano la stessa cosa.
 	var level_before := save.level()
-	var exam := content.build_final_exam(subject, save.level(), 3)
+	var exam_missions := 0
+	while not prog.can_repair_apparatus(host) and exam_missions < 200:
+		var host_mission := content.build_varied_mission(host, save.level(), 3)
+		var host_res := _play(host_mission, true)
+		prog.record_mission(host, int(host_res["correct"]), int(host_res["total"]), 0, true)
+		prog.record_topic_stats(host, host_res.get("topicStats", {}))
+		exam_missions += 1
+	assert(prog.can_repair_apparatus(host), "l'apparato deve aprirsi con la padronanza della sua materia")
+
+	var exam := content.build_final_exam(host, save.level(), 3)
 	assert(str(exam.get("kind", "")) == "final_exam")
 	var exam_res := _play(exam, true)
 	assert(bool(exam_res["passed"]), "esame con tutte corrette deve passare")
-	if int(exam_res["energyGained"]) > 0:
-		save.add_energy(int(exam_res["energyGained"]))
-	assert(prog.repair_and_advance(true), "riparazione deve avanzare di livello")
-	assert(save.level() == level_before + 1)
-	assert(save.missions_toward_gate(subject) == 0, "progresso-verso-gate azzerato dal consume (cumulativo preservato)")
-	assert(int(save.data["apparatus"][str(gate["apparatus"])]["repairedLevel"]) == level_before)
+	assert(prog.repair_apparatus(host, true), "l'esame superato deve riparare l'apparato")
+	assert(save.level() == level_before, "riparare un apparato NON deve far salire di livello")
+	assert(int(save.data["apparatus"][ApparatusConfig.apparatus_of(host)]["repairedLevel"]) == level_before)
+	assert(prog.repaired_apparatus_count() == 1, "una stanza accesa")
 
-	# 3) Missione fallita (tutte sbagliate): non passa e non fa avanzare indebitamente.
-	var next_subject := str(prog.current_gate()["subject"])
+	# 3) La salita di livello è un atto a sé.
+	assert(prog.advance_level(), "col nucleo pronto si deve poter salire")
+	assert(save.level() == level_before + 1)
+
+	# 4) Missione fallita (tutte sbagliate): non passa.
+	var next_subject := ApparatusConfig.world_subject(save.level())
 	var fail_mission := content.build_mission(next_subject, save.level(), 3)
 	if not Array(fail_mission["nodes"]).is_empty():
 		var fail_res := _play(fail_mission, false)

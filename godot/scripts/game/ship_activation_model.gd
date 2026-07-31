@@ -12,12 +12,22 @@ const STAGES := [
 	{"id": "full_power", "title": "PIENA POTENZA", "short": "●", "minimum": 0.999},
 ]
 
+## I nodi di una stanza: un nodo per ogni livello la cui materia ospite appartiene
+## a quella stanza. Usa `world_subject()` e non il gate del livello — dal 30 luglio
+## il gate è il nucleo per tutti i livelli, quindi ricavarne la stanza darebbe
+## sempre le stesse tre.
 static func gates_for_room(room_id: String) -> Array:
 	var gates: Array = []
 	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
-		var gate := ApparatusConfig.level_gate(level)
-		if ShipRoomCatalog.room_for_apparatus(str(gate.get("apparatus", ""))) == room_id:
-			gates.append(gate)
+		var subject := ApparatusConfig.world_subject(level)
+		var apparatus := ApparatusConfig.apparatus_of(subject)
+		if ShipRoomCatalog.room_for_apparatus(apparatus) == room_id:
+			gates.append({
+				"level": level,
+				"subject": subject,
+				"apparatus": apparatus,
+				"masteryThreshold": ApparatusConfig.mastery_threshold(level),
+			})
 	return gates
 
 static func activation_for_room(save, room_id: String) -> Dictionary:
@@ -33,14 +43,15 @@ static func activation_for_room(save, room_id: String) -> Dictionary:
 	var current_gate := ApparatusConfig.level_gate(save.level())
 	if save.level() <= ApparatusConfig.MAX_LEVEL \
 	and ShipRoomCatalog.room_for_apparatus(str(current_gate.get("apparatus", ""))) == room_id:
-		var subject := str(current_gate.get("subject", "matematica"))
-		# Progresso VERSO il gate corrente (non il cumulativo): a un ciclo successivo
-		# il nodo non deve apparire già pieno per il lavoro del ciclo precedente.
-		var mission_ratio := clampf(float(save.missions_toward_gate(subject)) / float(maxi(1, int(current_gate.get("missionsRequired", 1)))), 0.0, 1.0)
-		var mastery_ratio := clampf(save.mastery_of(subject) / maxf(0.001, float(current_gate.get("masteryThreshold", 0.7))), 0.0, 1.0)
+		var subject := ApparatusConfig.world_subject(save.level())
+		# Il conteggio missioni non fa più parte del gate: l'avanzamento della tacca
+		# è la sola padronanza della materia della stanza.
+		var mastery_ratio := clampf(
+			save.mastery_of(subject) / maxf(0.001, float(current_gate.get("masteryThreshold", 0.7))),
+			0.0, 1.0)
 		# Il gate pronto arriva all'85% della propria tacca: l'ultimo impulso viene
 		# concesso soltanto dall'esame superato.
-		partial = minf(mission_ratio, mastery_ratio) * 0.85
+		partial = mastery_ratio * 0.85
 
 	var total := gates.size()
 	var ratio := clampf((float(completed) + partial) / float(maxi(1, total)), 0.0, 1.0)

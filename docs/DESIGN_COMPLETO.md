@@ -75,15 +75,71 @@ Niente più missioni sparse nelle stanze: la nave contiene **solo** gli apparati
   materie con difficoltà crescente, così ogni disciplina torna più volte, sempre
   più su.
 
-### Requisiti per riparare l'apparato del livello L (materia S)
-1. **Missioni esterne**: aver superato almeno **N missioni di S** (calibrate su L).
-2. **Padronanza**: mastery di S ≥ **soglia del livello** (es. 70–80%).
-3. **Esercizio finale**: superare l'esame cumulativo di S al livello L (l'atto di
-   riparazione, nella nave).
+### Nucleo e satelliti (decisione del 30 luglio)
 
-Superato → **apparato riparato**, **livello completato**, si sale a **L+1**.
-Il nuovo livello apre anche il relativo **WorldProfile**; i mondi precedenti
-restano visitabili per ripasso, collezione e contenuti secondari.
+**Si sale di livello con tre materie; si finisce il gioco con dodici.**
+
+| | Materie | Ruolo |
+|---|---|---|
+| **Nucleo** | italiano, matematica, inglese | **Gatano il livello.** Sono le competenze *abilitanti*: leggere, calcolare, comunicare. Le altre nove ci poggiano sopra |
+| **Satelliti** | le altre nove | **Non gatano il livello.** Danno ricompense, accendono le stanze della nave e **sono obbligatorie per il finale** |
+
+Due assi che prima erano uno solo:
+
+| Asse | Governato da | Cosa fa |
+|---|---|---|
+| **Livello** (1→24) | il nucleo | Sale con le tre strumentali; tara la difficoltà di tutto |
+| **Apparati** (12 stanze) | ogni materia, quando si vuole | Si riparano a padronanza sufficiente. I tre del nucleo si accendono lungo la strada; i nove satelliti sono la collezione |
+| **Mondi** (24) | la materia che li abita | Invariati: lezione, landmark, abitanti, trasformazione. È il posto dove quella materia *vive*, non ciò che sblocca il livello |
+
+Questo è possibile **solo** perché ogni mondo ospita tutte e dodici le materie
+(decisione dello stesso giorno): prima il nucleo non era praticabile nel mondo 7.
+
+### Requisiti per salire dal livello L a L+1
+
+Per **ciascuna** delle tre materie del nucleo, **niente conteggio di missioni** —
+si sale quando la competenza c'è, non quando si sono fatti abbastanza giri:
+
+1. **Accuratezza**: mastery ≥ soglia del livello.
+2. **Copertura**: abbastanza argomenti distinti incontrati (non basta ripetere il
+   più facile).
+3. **Ritenzione**: nessun argomento arretrato nel ripasso spaziato.
+
+Le dimensioni 2 e 3 non sono un contorno: **senza il conteggio sono loro a
+impedire che una serie fortunata apra il gate.** Chi fatica non resta bloccato,
+perché la difficoltà adattiva abbassa gli item finché l'accuratezza risale.
+
+### Requisiti per riparare l'apparato della materia S
+
+1. **Padronanza**: mastery di S ≥ soglia.
+2. **Esercizio finale**: superare l'esame cumulativo di S (l'atto di riparazione,
+   nella nave).
+
+Riparare un apparato **non fa più salire di livello**: accende una stanza. I tre
+del nucleo si riparano naturalmente avanzando; i nove satelliti quando si vuole.
+
+### Come si garantisce che tutte le competenze vengano acquisite
+
+Rendere opzionali nove materie è il modo più diretto per non farle fare mai: i
+premi sono motivatori più deboli dei gate. Quattro leve, in ordine di forza reale:
+
+1. **Il finale le richiede tutte.** Il Cuore accende dodici sistemi: si apre con
+   **dodici stanze accese**, non con ventiquattro livelli. È l'unica garanzia
+   strutturale, e sblocca il Secondo Viaggio.
+   **Vincolo che ne discende**: la nave deve dichiararlo fin dall'inizio,
+   altrimenti si arriva al livello 24 senza latino e si trova una prova a dodici
+   sistemi impossibile — un vicolo cieco creato da questa stessa decisione.
+2. **La nave visibilmente incompleta.** Nove stanze buie motivano più di
+   qualunque contatore. La nave era già la barra di progresso diegetica: ora è
+   anche la lista di ciò che manca.
+3. **Bonus crescente sulle materie trascurate.** Una materia non toccata da N
+   livelli offre ricompense che salgono: pressione **positiva e autocorrettiva**,
+   mai una penalità.
+4. **Il Custode come collezione.** Facce, combinelle e accessori sbloccati
+   toccando materie diverse — l'«esploratore completo» promesso da §3.
+
+Vincoli invariati: nessun premio scavalca una prova di competenza, e nessuno è
+punito per non aver fatto i satelliti.
 
 ### Argomento CONSOLIDATO (≠ requisito del gate)
 Un argomento è dichiarato **consolidato** con **tre risposte corrette in sessioni

@@ -59,8 +59,8 @@ static func sync_from_progress(save) -> void:
 	# livello, lo stesso criterio usato da ShipActivationModel.
 	var repaired := 0
 	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
-		var gate := ApparatusConfig.level_gate(level)
-		var apparatus := str(gate.get("apparatus", ""))
+		# Quale apparato appartiene a questo livello: identità, non regola di gate.
+		var apparatus := ApparatusConfig.apparatus_of(ApparatusConfig.world_subject(level))
 		var repaired_level := int(save.data.get("apparatus", {}).get(apparatus, {}).get("repairedLevel", 0))
 		if repaired_level >= level:
 			repaired += 1

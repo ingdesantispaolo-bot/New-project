@@ -7,7 +7,7 @@ extends SceneTree
 
 func _context_for(level: int) -> Dictionary:
 	return {
-		"missionsRequired": int(ApparatusConfig.level_gate(level).get("missionsRequired", 5)),
+		"missionsRequired": MissionEventDirector.HOST_EVENTS,
 		"weakTopics": ["alpha", "beta"],
 		"dueTopics": ["ripasso-1"],
 		"recentFormats": ["multiple_choice"],

@@ -69,13 +69,20 @@ func _prepare_final_gate(save: GameSaveManager, content: ContentManager) -> void
 	save.set_level(24)
 	save.data["worlds"] = {"unlocked": range(1, 25), "current": 24}
 	for level in range(1, 24):
-		var old_gate := ApparatusConfig.level_gate(level)
+		var old_gate := ApparatusConfig.apparatus_gate(ApparatusConfig.world_subject(level), level)
 		save.set_apparatus_repaired(str(old_gate["apparatus"]), level)
-	var gate := ApparatusConfig.level_gate(24)
-	var subject := str(gate["subject"])
-	for _mission in int(gate["missionsRequired"]):
+	var subject := ApparatusConfig.world_subject(24)
+	var gate := ApparatusConfig.apparatus_gate(subject, 24)
+	for _mission in 5:
 		save.add_mission(subject)
 	save.set_mastery(subject, float(gate["masteryThreshold"]))
+	# Il livello si apre col NUCLEO: senza, l'esame accenderebbe la stanza ma la
+	# nave non eseguirebbe la regia finale, che scatta sulla salita di livello.
+	for core_data in ApparatusConfig.CORE_SUBJECTS:
+		var core_subject := str(core_data)
+		save.set_mastery(core_subject, float(gate["masteryThreshold"]))
+		for core_topic in ["nucleo-a", "nucleo-b", "nucleo-c"]:
+			save.set_topic_mastery(core_subject, core_topic, 1.0)
 	var topic_target := GateReadiness.coverage_target(content.subject_topic_count(subject))
 	for index in maxi(topic_target, 1):
 		save.set_topic_mastery(subject, "gate-e2-topic-%d" % index, 1.0)
@@ -91,7 +98,9 @@ func _assert_live_finale() -> void:
 	_prepare_final_gate(save, content)
 	var controller: HubController = hub.get("controller")
 	controller.refresh()
-	assert(controller.progression.can_repair(), "gate 24 non pronto nella fixture live")
+	assert(
+		controller.progression.can_repair_apparatus(ApparatusConfig.world_subject(24)),
+		"gate 24 non pronto nella fixture live")
 	hub.call("_start_exam")
 	var player: ExercisePlayer = hub.get("exercise_player")
 	assert(player.visible and bool(player.session.get("transversal", false)))

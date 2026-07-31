@@ -20,8 +20,8 @@ func _run() -> void:
 	save.reset_missions()
 	var progression: ProgressionManager = world.get("progression_manager")
 	var gate := progression.current_gate()
-	var subject := str(gate.get("subject", "matematica"))
-	for index in range(int(gate.get("missionsRequired", 1))):
+	var subject := ApparatusConfig.world_subject(save.level())
+	for index in range(5):
 		save.add_mission(subject)
 	save.set_mastery(subject, float(gate.get("masteryThreshold", 0.7)))
 	# Evidenza per-argomento: la readiness del gate richiede anche COPERTURA.

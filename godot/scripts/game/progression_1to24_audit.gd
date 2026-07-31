@@ -57,12 +57,16 @@ func _init() -> void:
 
 	while not prog.is_complete():
 		var lvl := save.level()
-		var gate := prog.current_gate()
-		var subject := str(gate["subject"])
+		var subject := ApparatusConfig.world_subject(lvl)
 
+		# Il livello si apre col NUCLEO, l'apparato con la materia del mondo: si
+		# allenano entrambi. Prima bastava la materia del mondo perché era la stessa
+		# cosa; da quando sono due assi distinti serve allenarli tutti e due.
 		var guard := 0
-		while not prog.can_repair() and guard < 500:
+		while (not prog.can_repair() or not prog.can_level_up()) and guard < 500:
 			_play_mission(save, content, prog, subject)
+			for core_data in ApparatusConfig.CORE_SUBJECTS:
+				_play_mission(save, content, prog, str(core_data))
 			total_missions += 1
 			guard += 1
 		assert(prog.can_repair(), "livello %d (%s): il gate deve aprirsi da solo (%s)" % [lvl, subject, str(prog.readiness().get("reasons", []))])

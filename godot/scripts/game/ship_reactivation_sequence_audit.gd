@@ -15,28 +15,31 @@ func _run() -> void:
 	await process_frame
 	var save: GameSaveManager = hub.get("save")
 	save.data = GameSaveManager._default_data()
-	var gate := ApparatusConfig.level_gate(1)
-	for _index in int(gate["missionsRequired"]):
-		save.add_mission(str(gate["subject"]))
-	save.set_mastery(str(gate["subject"]), float(gate["masteryThreshold"]))
+	var host := ApparatusConfig.world_subject(1)
+	var gate := ApparatusConfig.apparatus_gate(host, 1)
+	save.add_mission(host)
+	save.set_mastery(host, float(gate["masteryThreshold"]))
 	# Il gate P0 usa quattro dimensioni: oltre a confidenza e accuratezza,
 	# l'audit deve preparare anche una copertura reale di topic. La ritenzione è
 	# soddisfatta perché il save nuovo non contiene ripassi arretrati.
 	for topic in ["audit-a", "audit-b", "audit-c"]:
-		save.set_topic_mastery(str(gate["subject"]), topic, 1.0)
+		save.set_topic_mastery(host, topic, 1.0)
 	var controller: HubController = hub.get("controller")
 	controller.refresh()
-	assert(controller.progression.can_repair(),
+	assert(controller.progression.can_repair_apparatus(host),
 		"fixture nave incompleta: il gate a quattro dimensioni non è pronto")
 	await hub.call("_on_exam_finished", {
 		"passed": true,
-		"subject": str(gate["subject"]),
+		"subject": host,
 		"correct": 3,
 		"total": 3,
 		"seconds": 1.0,
 	})
 	var activation := ShipActivationModel.activation_for_room(save, "central")
-	assert(save.level() == 2, "l'esame non ha avanzato il livello")
+	# L'esame accende la stanza; il livello lo apre il nucleo, allenato altrove.
+	assert(
+		int(save.data.get("apparatus", {}).get(ApparatusConfig.apparatus_of(host), {}).get("repairedLevel", 0)) == 1,
+		"l'esame deve accendere la stanza")
 	assert(int(activation["completed"]) == 1, "la sequenza non ha acceso il nodo del ponte")
 	var celebration := hub.find_child("ActivationCelebration", true, false) as Control
 	assert(celebration != null and not celebration.visible, "overlay celebrativo rimasto visibile")

@@ -663,14 +663,17 @@ func _apply_state(state: Dictionary) -> void:
 	activation_segments.text = "%s   %d/%d NODI" % [str(activation.get("segments", "")), int(activation.get("completed", 0)), int(activation.get("total", 0))]
 
 	if is_current_gate:
-		var subject := str(current_gate.get("subject", "matematica"))
-		var done := save.missions_toward_gate(subject)
-		var required := int(current_gate.get("missionsRequired", 1))
+		var subject := ApparatusConfig.world_subject(save.level())
 		var mastery := save.mastery_of(subject)
 		var threshold := float(current_gate.get("masteryThreshold", 0.7))
-		requirements_label.text = "%s · Missioni %d/%d\nPadronanza %.0f%% / %.0f%%" % [subject.capitalize(), done, required, mastery * 100.0, threshold * 100.0]
-		mission_bar.max_value = maxi(required, 1)
-		mission_bar.value = done
+		# La barra che prima contava le missioni ora mostra il nucleo: è quello che
+		# apre il livello. La padronanza della materia della stanza apre l'apparato.
+		var core := GateReadiness.evaluate_core(save, threshold)
+		requirements_label.text = "%s · padronanza %.0f%% / %.0f%%\nNucleo (ita·mat·ing) %.0f%%" % [
+			subject.capitalize(), mastery * 100.0, threshold * 100.0,
+			float(core["progress"]) * 100.0]
+		mission_bar.max_value = 100
+		mission_bar.value = float(core["progress"]) * 100.0
 		mastery_bar.value = mastery * 100.0
 		repair_button.text = "AVVIA ESAME FINALE" if bool(state.get("ready", false)) else "COMPLETA LE MISSIONI NEL MONDO"
 		repair_button.disabled = not bool(state.get("ready", false))
@@ -718,7 +721,19 @@ func _start_exam() -> void:
 	var gate := controller.progression.current_gate()
 	var subject := str(gate.get("subject", "matematica"))
 	var session: Dictionary
-	if save.level() == ApparatusConfig.MAX_LEVEL:
+	if save.level() >= ApparatusConfig.MAX_LEVEL:
+		# Il Cuore accende dodici sistemi: senza dodici stanze la prova sarebbe
+		# impossibile. Meglio non aprirla e dire cosa manca.
+		if not controller.progression.can_open_heart():
+			var missing: Array = controller.progression.missing_apparatus_subjects()
+			var names: Array = []
+			for missing_subject in missing:
+				names.append(str(missing_subject).capitalize())
+			nora_line.text = (
+				"NORA: Il Cuore accende dodici sistemi, e %d sono ancora spenti. "
+				% missing.size()
+				+ "Mancano: %s." % ", ".join(PackedStringArray(names)))
+			return
 		var mastery_by_subject: Dictionary = {}
 		for system_subject in ApparatusConfig.SUBJECT_CYCLE:
 			mastery_by_subject[str(system_subject)] = save.mastery_of(str(system_subject))
@@ -753,7 +768,9 @@ func _complete_release_smoke_exam() -> void:
 
 func _on_exam_finished(exam_result: Dictionary) -> void:
 	exercise_player.visible = false
-	var repaired_gate := controller.progression.current_gate()
+	# La stanza riparata è quella della materia che abita il mondo corrente.
+	var repaired_subject := ApparatusConfig.world_subject(save.level())
+	var repaired_gate := ApparatusConfig.apparatus_gate(repaired_subject, save.level())
 	var repaired_room := ShipRoomCatalog.room_for_apparatus(str(repaired_gate.get("apparatus", "nucleo")))
 	var activation_before := ShipActivationModel.activation_for_room(save, repaired_room)
 	if bool(exam_result.get("passed", false)):

@@ -62,6 +62,11 @@ var _cache: Dictionary = {}  # subject -> Array item
 var _difficulty_ranges: Dictionary = {}  # subject -> Vector2i(min,max) difficoltà nel banco
 var _topic_counts: Dictionary = {}  # subject -> int argomenti distinti (cache copertura)
 var _recent_math_signatures: Array = []
+
+## Finestra anti-ripetizione delle prove NON a scelta multipla. Ampia quanto basta
+## a coprire una manciata di missioni consecutive: è lì che la ripetizione si nota.
+const RECENT_NODE_WINDOW := 24
+var _recent_node_signatures: Array = []
 # Sorgente di nodi NON a scelta multipla (abbina/ordina) per diversificare i
 # formati (O-P3, policy "scelta multipla non dominante") ed esami multi-formato.
 var minigame_manager := MinigameManager.new()
@@ -293,15 +298,37 @@ func _session(subject: String, level: int, nodes: Array) -> Dictionary:
 	}
 
 # Sposta item unici da `pool` in `chosen` (fino a node_count), marcando il ripasso.
+## A parità di priorità si preferisce un ARGOMENTO non ancora presente nella
+## sessione. Due domande sullo stesso argomento in una missione da tre campate
+## sono la stessa richiesta a un minuto di distanza, anche quando il testo è
+## diverso: è il residuo che `format_mix_audit` continuava a contare dopo che i
+## minigiochi erano stati sistemati, e veniva tutto dal banco.
+##
+## Preferenza, non divieto: se restano solo item di argomenti già usati la
+## missione si riempie comunque. Una missione corta è un difetto peggiore di una
+## missione un po' ripetitiva.
 func _drain_into(chosen: Array, pool: Array, node_count: int, generator: RandomNumberGenerator, review: bool) -> void:
 	var work := pool.duplicate()
+	var used_topics: Dictionary = {}
+	for node in chosen:
+		used_topics[str((node as Dictionary).get("topic", ""))] = true
 	while chosen.size() < node_count and not work.is_empty():
-		var idx := generator.randi_range(0, work.size() - 1)
+		var idx := _pick_fresh_topic(work, used_topics, generator)
 		var item: Dictionary = work[idx].duplicate()
 		work.remove_at(idx)
 		if review:
 			item["review"] = true
+		used_topics[str(item.get("topic", ""))] = true
 		chosen.append(item)
+
+func _pick_fresh_topic(work: Array, used_topics: Dictionary, generator: RandomNumberGenerator) -> int:
+	var fresh: Array = []
+	for i in work.size():
+		if not used_topics.has(str((work[i] as Dictionary).get("topic", ""))):
+			fresh.append(i)
+	if fresh.is_empty():
+		return generator.randi_range(0, work.size() - 1)
+	return int(fresh[generator.randi_range(0, fresh.size() - 1)])
 
 # Tema visivo dell'enigma per materia: la logica è identica, cambia solo la
 # "costruzione" che Codex rende (ponte, cristalli, porta…). Default: "ponte".
@@ -473,18 +500,44 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 	# ripetere lo stesso esercizio due volte: la ripetizione non insegna nulla.
 	var palette: Dictionary = {}   # format -> Array[Dictionary] prove distinte
 	var seen: Dictionary = {}      # firma prova -> true
+	var stale: Dictionary = {}     # format -> prove già viste di recente
 	for draw in range(PALETTE_DRAWS):
 		for n in minigame_manager.build_minigame(subject, level, rng).get("nodes", []):
 			if ExerciseInteraction.is_multiple_choice(n):
 				continue
-			var signature := "%s|%s" % [str(n.get("format", "")), str(n.get("prompt", ""))]
-			if seen.has(signature):
+			# DUE chiavi, per due scopi diversi — e questa volta la distinzione è
+			# deliberata e dichiarata, non un incidente come lo era prima della Fase 0.
+			#
+			# `session_key` (formato + argomento) governa l'unicità DENTRO la sessione.
+			# Non basta che due prove siano diverse: se sono lo stesso argomento nello
+			# stesso formato, il bambino legge due volte la stessa consegna a un minuto
+			# di distanza e la percepisce come una ripetizione, anche se i dati sono
+			# altri. Con gli insiemi profondi il problema è PEGGIORATO invece di
+			# migliorare — due estrazioni dello stesso insieme non sono più identiche,
+			# quindi non venivano più scartate: misurato salire da 141 a 184 sessioni.
+			#
+			# `content_key` (identità di contenuto) governa la memoria FRA le sessioni,
+			# dove invece conta solo se è letteralmente la stessa prova.
+			var session_key := "%s|%s" % [str(n.get("format", "")), str(n.get("topic", ""))]
+			var content_key := ExerciseSignature.of(n)
+			if seen.has(session_key):
 				continue
-			seen[signature] = true
+			seen[session_key] = true
 			var f := str(n.get("format", ""))
-			var queue: Array = palette.get(f, [])
-			queue.append(n)
-			palette[f] = queue
+			# Le prove viste di recente finiscono in fondo, non fuori: con due sole
+			# specifiche per formato escluderle svuoterebbe la tavolozza.
+			if _recent_node_signatures.has(content_key):
+				var back: Array = stale.get(f, [])
+				back.append(n)
+				stale[f] = back
+			else:
+				var queue: Array = palette.get(f, [])
+				queue.append(n)
+				palette[f] = queue
+	for f in stale.keys():
+		var queue: Array = palette.get(f, [])
+		queue.append_array(stale[f])
+		palette[f] = queue
 	if palette.is_empty():
 		return nodes
 	var out := nodes.duplicate()
@@ -497,17 +550,53 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 			continue
 		# Solo i formati con una prova ancora disponibile restano nella scelta.
 		var available: Array = []
+		var fresh: Array = []
 		for f in palette.keys():
-			if not (palette[f] as Array).is_empty():
-				available.append(f)
+			var pool: Array = palette[f]
+			if pool.is_empty():
+				continue
+			available.append(f)
+			# Formato la cui prossima prova NON è stata vista di recente.
+			if not _recent_node_signatures.has(_node_signature(pool[0])):
+				fresh.append(f)
 		if available.is_empty():
 			break
+		# Si preferisce un formato con materiale nuovo. Serve perché ai livelli bassi
+		# il gate `minLevel` lascia spesso UNA SOLA specifica per formato: lì la
+		# memoria non può ruotare, e l'unico modo di non ripetere è cambiare formato.
+		# Meglio un abbinamento nuovo che il quinto identico grafico.
+		if not fresh.is_empty():
+			available = fresh
 		var fmt := _pick_weighted_format(available, used, rng)
 		var queue: Array = palette[fmt]
-		out[i] = (queue.pop_front() as Dictionary).duplicate(true)
+		var chosen_node: Dictionary = (queue.pop_front() as Dictionary).duplicate(true)
+		out[i] = chosen_node
+		_remember_node(_node_signature(chosen_node))
 		used[fmt] = int(used.get(fmt, 0)) + 1
 		injected += 1
 	return out
+
+## Firma di una prova iniettata. Delega a `ExerciseSignature`, che è la sola
+## definizione di «stessa prova» del progetto: dedup di sessione, memoria delle
+## prove recenti e misura di varietà devono usare la stessa, altrimenti misurano
+## tre cose diverse e nessuna delle tre è quella che il bambino vede.
+func _node_signature(node: Dictionary) -> String:
+	return ExerciseSignature.of(node)
+
+## Memoria anti-ripetizione delle prove iniettate, l'equivalente di quella che la
+## matematica generata aveva già (`_recent_math_signatures`) e che ai formati
+## specialisti mancava del tutto.
+##
+## È il difetto segnalato il 31 luglio: la tavolozza deduplicava DENTRO una
+## sessione ma non FRA sessioni, e con due-quattro specifiche autorate per formato
+## la stessa prova tornava fino a nove volte su trenta. Aggravato dalla decisione
+## del 29 luglio, che portando la scelta multipla al 20% ha instradato l'80% delle
+## campate proprio su quelle tabelle piccole: una correzione della varietà dei
+## FORMATI aveva peggiorato la varietà dei CONTENUTI.
+func _remember_node(signature: String) -> void:
+	_recent_node_signatures.append(signature)
+	while _recent_node_signatures.size() > RECENT_NODE_WINDOW:
+		_recent_node_signatures.pop_front()
 
 # Sceglie un formato tra quelli disponibili con probabilità proporzionale al peso,
 # smorzando i formati già usati in questa missione (varietà dentro la singola

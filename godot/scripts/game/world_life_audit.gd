@@ -26,7 +26,7 @@ func _run() -> void:
 	var life = world.get("world_life")
 	var actors: Array = world.get("npc_actors")
 	assert(life != null, "regia WorldLife non montata")
-	assert(actors.size() == 3 and actors.size() <= 4, "budget abitanti del mondo 1 violato")
+	assert(actors.size() == 4, "cast del mondo 1 senza itinerante o oltre il budget")
 	assert(life.debug_state().get("actorCount") == actors.size(), "cast e regia non concordano")
 
 	var anchors: Dictionary = life.get("anchors")

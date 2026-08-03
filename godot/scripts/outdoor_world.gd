@@ -20,11 +20,18 @@ const EQUIPMENT_GATE_SCRIPT := preload("res://scripts/visual/equipment_gate.gd")
 const WORLD_ENEMY_SCRIPT := preload("res://scripts/world_enemy.gd")
 const NPC_ACTOR_SCRIPT := preload("res://scripts/game/npc_actor.gd")
 const NPC_CATALOG := preload("res://scripts/game/npc_catalog.gd")
+const ITINERANT_CATALOG := preload("res://scripts/game/itinerant_catalog.gd")
+const MAESTRI_CATALOG := preload("res://scripts/game/maestri_catalog.gd")
+const TEACHING_CATALOG := preload("res://scripts/game/teaching_catalog.gd")
 const MISSION_OWNERSHIP_FLOW_SCRIPT := preload("res://scripts/game/mission_ownership_flow.gd")
 const BUILDING_CATALOG := preload("res://scripts/game/building_catalog.gd")
 const BUILDING_ACTOR_SCRIPT := preload("res://scripts/game/building_actor.gd")
 const WORLD_LIFE_SCRIPT := preload("res://scripts/game/world_life.gd")
+const THIRTEENTH_DIRECTOR_SCRIPT := preload("res://scripts/game/thirteenth.gd")
+const MYSTERY_CATALOG := preload("res://scripts/game/mystery_catalog.gd")
+const MYSTERY_ARTIFACT_SCRIPT := preload("res://scripts/game/mystery_artifact.gd")
 const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
+const TEACHING_CHOICE_PANEL_SCRIPT := preload("res://scripts/ui/teaching_choice_panel.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -129,6 +136,12 @@ var npc_dialogue_cursors: Dictionary = {}
 var mission_ownership_flow
 var world_buildings: Array[Node2D] = []
 var world_life
+var thirteenth_director
+var thirteenth_forgotten_npc := ""
+var teaching_choice_panel: Control
+var vera_teaching_pending := false
+var vera_teaching_used := false
+var vera_topic_key := ""
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -193,6 +206,7 @@ delete document.documentElement.dataset.eliExam;
 	_create_profile_landmark()
 	_create_profile_events()
 	_create_world_buildings()
+	_create_mystery_artifacts()
 	_create_world_npcs()
 	_create_world_life()
 	_create_world_enemies()
@@ -208,6 +222,7 @@ delete document.documentElement.dataset.eliExam;
 	chunks.update_stream(player.position)
 	var lesson_briefing := WORLD_LESSON_CATALOG.briefing(world_level)
 	_set_nora_feedback(lesson_briefing if lesson_briefing != "" else str(gameplay.runtime_state().get("narrative", "")))
+	_create_thirteenth_presence()
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_environment", "day")
@@ -494,7 +509,33 @@ func _on_gameplay_session_requested(session: Dictionary) -> void:
 		"highContrast": high_contrast,
 		"reducedMotion": reduced_motion,
 	}
+	var maestro_voice := _maestro_voice_for_session(accessible_session)
+	if not maestro_voice.is_empty():
+		accessible_session["maestroVoice"] = maestro_voice
 	exercise_player.start_session(accessible_session)
+
+func _maestro_voice_for_session(session: Dictionary) -> Dictionary:
+	var subject := str(session.get("subject", _world_subject()))
+	var maestro := MAESTRI_CATALOG.maestro_of(subject)
+	if maestro.is_empty():
+		return {}
+	var repaired: Array = []
+	for apparatus_id in Dictionary(game_save.data.get("apparatus", {})).keys():
+		if int(Dictionary(game_save.data["apparatus"][apparatus_id]).get("repairedLevel", 0)) > 0:
+			repaired.append(str(apparatus_id))
+	var narrative: Dictionary = game_save.data.get("narrative", {})
+	var thirteenth: Dictionary = narrative.get("thirteenth", {})
+	var available := MAESTRI_CATALOG.voices_for(repaired, bool(thirteenth.get("nameRestored", false)))
+	var maestro_id := str(maestro.get("id", ""))
+	if not available.has(maestro_id):
+		return {}
+	var out := {"id": maestro_id, "name": str(maestro.get("nome", "NORA"))}
+	var salt := str(session.get("sessionId", "%s:%d" % [world_seed, world_level]))
+	for pool in ["apertura", "rilancio", "chiusura"]:
+		var lines := MAESTRI_CATALOG.lines_of(maestro_id, pool)
+		if not lines.is_empty():
+			out[pool] = str(lines[posmod(hash("%s:%s" % [salt, pool]), lines.size())])
+	return out
 
 func _process(delta: float) -> void:
 	if is_instance_valid(pet_companion):
@@ -1315,6 +1356,102 @@ func _create_world_buildings() -> void:
 		world_layer.add_child(actor)
 		world_buildings.append(actor)
 
+func _create_mystery_artifacts() -> void:
+	var ruin: Node2D = null
+	for building in world_buildings:
+		if is_instance_valid(building) and str(building.get_meta("building_role", "")) == "first_ruin":
+			ruin = building
+			break
+	if ruin == null:
+		return
+	var trace: Dictionary = MYSTERY_CATALOG.traccia_for(world_level)
+	if not trace.is_empty():
+		var trace_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
+		trace_area.configure("trace", "trace-%02d" % world_level, trace, high_contrast)
+		trace_area.position = Vector2(0, 112)
+		ruin.add_child(trace_area)
+		_bind_mystery_artifact(trace_area)
+	var seeds: Array = []
+	for raw_seed in MYSTERY_CATALOG.SEMI:
+		var seed_data: Dictionary = raw_seed
+		if int(seed_data.get("world", 0)) == world_level:
+			seeds.append(seed_data.duplicate(true))
+	for index in seeds.size():
+		var seed_data: Dictionary = seeds[index]
+		var seed_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
+		seed_area.configure("seed", "seed-%02d-%d" % [world_level, index], seed_data, high_contrast)
+		var angle := -PI * 0.82 + float(index) * PI * 0.64
+		seed_area.position = Vector2.RIGHT.rotated(angle) * 146.0
+		ruin.add_child(seed_area)
+		_bind_mystery_artifact(seed_area)
+
+func _bind_mystery_artifact(area: Area2D) -> void:
+	area.body_entered.connect(func(body): on_interactable_entered(area, body))
+	area.body_exited.connect(func(body): on_interactable_exited(area, body))
+
+func _mystery_seen_list(key: String) -> Array:
+	var narrative: Dictionary = game_save.data.get("narrative", {})
+	return Array(narrative.get(key, [])).duplicate()
+
+func _mark_mystery_seen(key: String, id: String) -> void:
+	var narrative: Dictionary = game_save.data.get("narrative", {})
+	var seen: Array = Array(narrative.get(key, [])).duplicate()
+	if not seen.has(id):
+		seen.append(id)
+		narrative[key] = seen
+		game_save.data["narrative"] = narrative
+		if bool(request.get("loadLocalSave", true)):
+			game_save.save()
+
+func _open_mystery_artifact(target: Area2D) -> void:
+	var kind := str(target.get_meta("kind", ""))
+	var id := str(target.get_meta("id", ""))
+	var payload: Dictionary = target.get_meta("payload", {})
+	var pages: Array = []
+	var speaker := "Indizio"
+	var role := "Seme del mistero"
+	if kind == "mystery_trace":
+		pages = Array(payload.get("testo", [])).duplicate()
+		speaker = str(payload.get("oggetto", "Traccia dei Primi"))
+		role = "Rovina dei Primi · Traccia %d" % world_level
+		_mark_mystery_seen("tracesSeen", str(world_level))
+	else:
+		pages = [str(payload.get("cosa", ""))]
+		speaker = str(payload.get("dove", "dettaglio")).capitalize()
+		role = "Seme · %s" % str(payload.get("colpo", "mistero")).replace("-", " ")
+		_mark_mystery_seen("seedsSeen", id)
+	if pages.is_empty() or str(pages[0]).strip_edges() == "":
+		return
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", id, speaker, role, pages)
+	_refresh_interaction_button(null)
+
+func _show_decisive_fallback_if_needed() -> bool:
+	if not MYSTERY_CATALOG.tracce_decisive().has(world_level):
+		return false
+	if _mystery_seen_list("tracesSeen").has(str(world_level)):
+		return false
+	if _mystery_seen_list("fallbacksSeen").has(str(world_level)):
+		return false
+	var trace := MYSTERY_CATALOG.traccia_for(world_level)
+	var fallback := str(trace.get("ripiego", "")).strip_edges()
+	if fallback == "":
+		return false
+	_mark_mystery_seen("fallbacksSeen", str(world_level))
+	if fallback.begins_with("NORA:"):
+		fallback = fallback.trim_prefix("NORA:").strip_edges()
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", "mystery-fallback-%d" % world_level, "NORA", "Beat di ripiego", [fallback])
+	return true
+
 func _building_position(role: String, index: int, occupied: Array) -> Vector2:
 	if role == "first_ruin":
 		return _hero_landmark_position()
@@ -1380,6 +1517,23 @@ func _create_world_npcs() -> void:
 		actor.body_entered.connect(func(body): on_interactable_entered(actor, body))
 		actor.body_exited.connect(func(body): on_interactable_exited(actor, body))
 		npc_actors.append(actor)
+	# Un solo volto ricorrente per mondo. Residenti (2) + Bislacco (1) +
+	# itinerante (1) rispettano il budget assoluto di quattro presenze.
+	if npc_actors.size() < 4:
+		var itinerant_id := ITINERANT_CATALOG.itinerant_for(hash(world_seed), world_level)
+		var itinerant_data := ITINERANT_CATALOG.itinerant(itinerant_id)
+		if not itinerant_data.is_empty():
+			var actor_data := itinerant_data.duplicate(true)
+			actor_data["ruolo"] = str(itinerant_data.get("funzione", "itinerante")).capitalize()
+			var itinerant: Area2D = NPC_ACTOR_SCRIPT.new()
+			itinerant.call("configure", itinerant_id, actor_data, reduced_motion)
+			itinerant.call("set_high_contrast", high_contrast)
+			itinerant.position = _npc_spawn_position(npc_actors.size(), occupied)
+			occupied.append(itinerant.position)
+			world_layer.add_child(itinerant)
+			itinerant.body_entered.connect(func(body): on_interactable_entered(itinerant, body))
+			itinerant.body_exited.connect(func(body): on_interactable_exited(itinerant, body))
+			npc_actors.append(itinerant)
 
 func _npc_spawn_position(index: int, occupied: Array) -> Vector2:
 	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
@@ -1464,7 +1618,90 @@ func _create_dialogue_box() -> void:
 	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
 	dialogue_box.connect("dialogue_closed", _on_dialogue_closed)
 
+func _create_thirteenth_presence() -> void:
+	thirteenth_director = THIRTEENTH_DIRECTOR_SCRIPT.new()
+	var narrative: Dictionary = game_save.data.get("narrative", {})
+	var persistent: Dictionary = narrative.get("thirteenth", {})
+	thirteenth_director.setup(
+		world_level,
+		world_seed,
+		Array(persistent.get("forgottenResidents", [])),
+		_active_mission_owner())
+	if not thirteenth_director.is_present():
+		return
+	var action_id: String = thirteenth_director.ambient_action()
+	var action: Dictionary = thirteenth_director.action_data(action_id)
+	match action_id:
+		"scrive":
+			for building in world_buildings:
+				if not is_instance_valid(building):
+					continue
+				var sign := Label.new()
+				sign.name = "ThirteenthWord"
+				sign.text = str(action.get("parola", ""))
+				sign.position = Vector2(-90, -112)
+				sign.size = Vector2(180, 34)
+				sign.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				sign.add_theme_font_size_override("font_size", 22)
+				sign.add_theme_color_override("font_color", Color.WHITE)
+				sign.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.96))
+				sign.add_theme_constant_override("shadow_offset_x", 3)
+				sign.add_theme_constant_override("shadow_offset_y", 3)
+				sign.accessibility_name = sign.text
+				building.add_child(sign)
+		"risbiadisce":
+			if not world_buildings.is_empty():
+				var index := posmod(hash("%s:%d:risbiadisce" % [world_seed, world_level]), world_buildings.size())
+				var faded = world_buildings[index]
+				if is_instance_valid(faded):
+					faded.modulate = Color(0.58, 0.61, 0.64, 1.0)
+		"smemora":
+			var cast: Dictionary = NPC_CATALOG.for_world(world_level)
+			thirteenth_director.active_owner = _active_mission_owner()
+			thirteenth_forgotten_npc = thirteenth_director.choose_forgotten_resident(
+				Array(cast.get("residents", [])))
+			if thirteenth_forgotten_npc != "":
+				persistent["forgottenResidents"] = thirteenth_director.forgotten_residents.duplicate()
+				narrative["thirteenth"] = persistent
+				game_save.data["narrative"] = narrative
+				if bool(request.get("loadLocalSave", true)):
+					game_save.save()
+		"chiude":
+			# Il mondo aperto offre un solo portale: nessuna falsa chiusura. La
+			# regia la autorizzera' nelle sale nave solo con una seconda rotta.
+			thirteenth_director.choose_closed_route([], str(runtime.get("apparatus", "")))
+	if not action.is_empty() and action_id != "chiude":
+		_present_feedback(str(action.get("manifestazione", "")), "thirteenth")
+	var voice: Dictionary = thirteenth_director.next_voice()
+	if not voice.is_empty():
+		var pages := PackedStringArray(Array(voice.get("dice", [])))
+		get_tree().create_timer(5.0).timeout.connect(func():
+			if is_inside_tree() and not _blocking_panel_visible():
+				_present_feedback("\n".join(pages), "thirteenth")
+		)
+
+func _active_mission_owner() -> String:
+	if mission_ownership_flow == null:
+		return ""
+	var route: Dictionary = mission_ownership_flow.navigation()
+	var phase := str(route.get("phase", ""))
+	if phase == "mission":
+		return mission_ownership_flow.owner_of(str(route.get("id", "")))
+	if phase == "return":
+		return str(route.get("id", ""))
+	return ""
+
 func _open_npc_dialogue(npc_id: String) -> void:
+	if npc_id == thirteenth_forgotten_npc:
+		var owner_now := _active_mission_owner()
+		if owner_now == npc_id:
+			# La missione ha avuto la precedenza dopo l'ingresso nel mondo: la
+			# scena di memoria si annulla invece di colpire il suo proprietario.
+			thirteenth_forgotten_npc = ""
+		else:
+			var manifestation := ThirteenthCatalog.action("smemora")
+			_present_feedback(str(manifestation.get("manifestazione", "")), "thirteenth")
+			thirteenth_forgotten_npc = ""
 	var data := NPC_CATALOG.resident(npc_id)
 	var lines: Array = []
 	var mission_pool := ""
@@ -1487,6 +1724,22 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	else:
 		data = NPC_CATALOG.bislacco(npc_id)
 		lines = Array(data.get("battute", []))
+		if data.is_empty():
+			data = ITINERANT_CATALOG.itinerant(npc_id)
+			if not data.is_empty():
+				data["ruolo"] = str(data.get("funzione", "itinerante")).capitalize()
+				var pools: Dictionary = data.get("battute", {})
+				for pool_name in ["saluto", str(data.get("funzione", "")), "riempimento", "congedo"]:
+					if pool_name != "":
+						lines.append_array(Array(pools.get(pool_name, [])))
+				if npc_id == "itin-vera" and not vera_teaching_used:
+					vera_topic_key = _vera_applied_topic()
+					if vera_topic_key != "":
+						var teaching_lines := ITINERANT_CATALOG.lines_of(npc_id, "rispiegamelo")
+						if not teaching_lines.is_empty():
+							lines = teaching_lines
+							mission_pool = "rispiegamelo"
+							vera_teaching_pending = true
 	if data.is_empty() or lines.is_empty():
 		return
 	var cursor_key := "%s:%s" % [npc_id, mission_pool if mission_pool != "" else "ordinary"]
@@ -1515,8 +1768,74 @@ func _npc_story_stage() -> int:
 func _on_dialogue_closed(_npc_id: String) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(true)
+	if vera_teaching_pending:
+		vera_teaching_pending = false
+		_open_vera_teaching_choice()
+		return
 	_update_ship_navigation()
 	_refresh_prompt()
+
+func _vera_applied_topic() -> String:
+	var codex: Dictionary = game_save.data.get("codex", {})
+	var narrative: Dictionary = game_save.data.get("narrative", {})
+	var explained: Dictionary = narrative.get("veraExplainedOn", {})
+	var today := Time.get_date_string_from_system()
+	var eligible: Array = []
+	for key in codex.keys():
+		if str(codex[key]) in ["applied", "consolidated"] and str(explained.get(key, "")) != today:
+			eligible.append(str(key))
+	eligible.sort()
+	return str(eligible[0]) if not eligible.is_empty() else ""
+
+func _open_vera_teaching_choice() -> void:
+	if vera_topic_key == "":
+		return
+	if not is_instance_valid(teaching_choice_panel):
+		teaching_choice_panel = TEACHING_CHOICE_PANEL_SCRIPT.new()
+		teaching_choice_panel.name = "TeachingChoicePanel"
+		ui_layer.add_child(teaching_choice_panel)
+		teaching_choice_panel.connect("choice_made", _on_vera_teaching_choice)
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	var topic := vera_topic_key.get_slice(":", 1) if vera_topic_key.contains(":") else vera_topic_key
+	teaching_choice_panel.call("open", topic, TEACHING_CATALOG.rispiegamelo_options())
+
+func _on_vera_teaching_choice(_option_id: String, correct: bool) -> void:
+	vera_teaching_used = true
+	var pool := "capito" if correct else "non_capito"
+	var responses := ITINERANT_CATALOG.lines_of("itin-vera", pool)
+	var pages: Array = []
+	if not responses.is_empty():
+		var index := posmod(hash("%s:%s" % [world_seed, vera_topic_key]), responses.size())
+		pages = Array(responses[index]).duplicate()
+	if correct:
+		_record_vera_retention()
+	if pages.is_empty():
+		if is_instance_valid(player):
+			player.set_physics_process(true)
+		return
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", "itin-vera-result", "Vera", "Consolidamento · zero energia", pages)
+
+func _record_vera_retention() -> void:
+	var narrative: Dictionary = game_save.data.get("narrative", {})
+	var explained: Dictionary = narrative.get("veraExplainedOn", {})
+	explained[vera_topic_key] = Time.get_date_string_from_system()
+	narrative["veraExplainedOn"] = explained
+	game_save.data["narrative"] = narrative
+	var repetition: Dictionary = game_save.data.get("spacedRepetition", {})
+	var history: Array = Array(repetition.get("history", [])).duplicate()
+	history.append({
+		"type": "vera-explanation",
+		"topicKey": vera_topic_key,
+		"sessionClock": int(repetition.get("sessionClock", 0)),
+	})
+	if history.size() > 200:
+		history = history.slice(history.size() - 200)
+	repetition["history"] = history
+	game_save.data["spacedRepetition"] = repetition
+	if bool(request.get("loadLocalSave", true)):
+		game_save.save()
 
 func _create_world_enemies() -> void:
 	if mission_events.is_empty() or chunks == null or chunks.composition == null:
@@ -2447,6 +2766,7 @@ func _blocking_panel_visible() -> bool:
 		or (is_instance_valid(shop_panel) and shop_panel.visible) \
 		or (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible) \
 		or (is_instance_valid(dialogue_box) and dialogue_box.visible) \
+		or (is_instance_valid(teaching_choice_panel) and teaching_choice_panel.visible) \
 		or (is_instance_valid(pet_screen) and pet_screen.visible)
 
 ## Consegna il primo Custode: gratuito, e alla prima missione superata. Il volto
@@ -2692,6 +3012,8 @@ func _input(event: InputEvent) -> void:
 	# Durante un esercizio lasciamo invece tutto l'input alla sua UI.
 	if is_instance_valid(dialogue_box) and dialogue_box.visible:
 		return
+	if is_instance_valid(teaching_choice_panel) and teaching_choice_panel.visible:
+		return
 	if is_instance_valid(pet_screen) and pet_screen.visible:
 		if event.is_action_pressed("leave_portal") and not event.is_echo():
 			pet_screen.call("close_screen")
@@ -2883,6 +3205,13 @@ func _refresh_prompt() -> void:
 			str(npc_payload.get("label", "abitante")),
 			str(npc_payload.get("role", "abitante"))])
 
+	elif kind == "mystery_trace":
+		var trace_payload: Dictionary = target.get_meta("payload", {})
+		_set_feedback("Leggi la Traccia: %s" % str(trace_payload.get("oggetto", "reperto dei Primi")))
+	elif kind == "mystery_seed":
+		var seed_payload: Dictionary = target.get_meta("payload", {})
+		_set_feedback("Osserva il seme: %s" % str(seed_payload.get("dove", "dettaglio")))
+
 func _refresh_interaction_button(target: Area2D) -> void:
 	if not is_instance_valid(interaction_button):
 		return
@@ -2948,6 +3277,10 @@ func _interaction_action_text(target: Area2D) -> String:
 			return "AVVIA MISSIONE"
 		"npc":
 			return "PARLA"
+		"mystery_trace":
+			return "LEGGI LA TRACCIA"
+		"mystery_seed":
+			return "OSSERVA IL SEME"
 	return "INTERAGISCI"
 
 func _interaction_is_completed(target: Area2D) -> bool:
@@ -2987,7 +3320,12 @@ func _interact() -> void:
 	if kind == "npc":
 		_open_npc_dialogue(id)
 		return
+	if kind == "mystery_trace" or kind == "mystery_seed":
+		_open_mystery_artifact(target)
+		return
 	if kind == "portal":
+		if _show_decisive_fallback_if_needed():
+			return
 		_set_feedback("Ingresso nave attivo: salvataggio in corso…")
 		_leave_world()
 		return
@@ -3082,6 +3420,14 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 		_announce_pet_unlocks(unlocked)
 		_grant_pet_if_needed()
 	_pet_react("session_passed" if session_passed else "session_failed")
+	var finished_voice := _maestro_voice_for_session({
+		"subject": str(exercise_result.get("subject", _world_subject())),
+		"sessionId": str(exercise_result.get("sessionId", "finished")),
+	})
+	if session_passed and not finished_voice.is_empty():
+		_set_nora_feedback("%s · %s" % [
+			str(finished_voice.get("name", "Maestro")),
+			str(finished_voice.get("chiusura", ""))])
 	_refresh_economy()
 	_update_ship_navigation()
 	_refresh_prompt()
@@ -3357,12 +3703,14 @@ func _present_feedback(message: String, source: String = "system") -> void:
 	if is_instance_valid(feedback_source_label):
 		feedback_source_label.text = (
 			"NORA" if source == "nora"
+			else "TREDICESIMO" if source == "thirteenth"
 			else "RICALIBRAZIONE" if source == "warning"
 			else "SISTEMA"
 		)
 		feedback_source_label.add_theme_color_override(
 			"font_color",
 			Color("6be7d6") if source == "nora"
+			else Color("d7dbe0") if source == "thirteenth"
 			else Color("f6a85f") if source == "warning"
 			else Color("9fc4bb"))
 	if message != "" and source == "nora" and is_instance_valid(nora_portrait):

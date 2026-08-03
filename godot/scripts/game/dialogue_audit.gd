@@ -64,8 +64,8 @@ func _test_world_one_fixture() -> void:
 	await process_frame
 
 	var actors := get_nodes_in_group("npc_actor")
-	assert(actors.size() == 3 and actors.size() <= 4,
-		"mondo 1: attesi Tobia, Ersilia e Puccio, mai più di quattro NPC")
+	assert(actors.size() == 4,
+		"mondo 1: attesi tre abitanti e un itinerante, mai più di quattro NPC")
 	var expected := ["w01-ersilia", "w01-puccio", "w01-tobia"]
 	var found: Array = []
 	var chunks := world.get("chunks") as OutdoorChunkManager
@@ -80,7 +80,10 @@ func _test_world_one_fixture() -> void:
 		assert(chunks.composition.raw_water_weight(actor.position) < 0.28,
 			"NPC collocato in acqua")
 	found.sort()
-	assert(found == expected, "cast mondo 1 incompleto: %s" % str(found))
+	for npc_id in expected:
+		assert(found.has(npc_id), "cast mondo 1 incompleto: manca %s" % npc_id)
+	var itinerants := found.filter(func(npc_id): return str(npc_id).begins_with("itin-"))
+	assert(itinerants.size() == 1, "mondo 1: atteso un solo itinerante, trovati %s" % str(itinerants))
 
 	var player := world.get("player") as OutdoorPlayerController
 	var target := actors[0] as Area2D

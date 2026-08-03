@@ -54,6 +54,7 @@ var _reviewed_ok: Array = []  # topic di ripasso risolti correttamente
 var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per-topic)
 var _topic_correct: Dictionary = {}  # topic -> risposte corrette
 var _wrong_attempts: Dictionary = {}  # topic -> tentativi errati nella sessione
+var _maestro_voice: Dictionary = {}
 var _learning_emitted: Dictionary = {}
 var _systems_resolved: Dictionary = {}
 
@@ -101,6 +102,7 @@ func configure_accessibility(use_high_contrast: bool, use_reduced_motion: bool) 
 
 func start_session(new_session: Dictionary) -> void:
 	session = new_session
+	_maestro_voice = Dictionary(session.get("maestroVoice", {})).duplicate(true)
 	var accessibility: Dictionary = session.get("accessibility", {})
 	if not accessibility.is_empty():
 		configure_accessibility(
@@ -137,6 +139,11 @@ func start_session(new_session: Dictionary) -> void:
 		audio.call("set_focus", true)
 	_build_ui()
 	_show_current()
+	if not _maestro_voice.is_empty() and is_instance_valid(_feedback):
+		_feedback.add_theme_color_override("font_color", Color("9fded8"))
+		_feedback.text = "NORA · %s: %s" % [
+			str(_maestro_voice.get("name", "Maestro")),
+			str(_maestro_voice.get("apertura", ""))]
 	_show_teaching_overlay()
 
 func _build_ui() -> void:
@@ -530,7 +537,12 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		if topic != "":
 			_missed.append(topic)
 		_feedback.add_theme_color_override("font_color", Color("ffb3ba"))
-		_feedback.text = "Non completato. %s" % str(item.get("explanation", ""))
+		_feedback.text = (
+			"NORA · %s: %s" % [
+				str(_maestro_voice.get("name", "Maestro")),
+				str(_maestro_voice.get("rilancio", ""))]
+			if not _maestro_voice.is_empty()
+			else "Non completato. %s" % str(item.get("explanation", "")))
 		_offer_concept_help(item)
 	# La costruzione avanza di una campata per ogni nodo risolto (built = _correct);
 	# su errore resta ferma, senza mai regredire.

@@ -20,10 +20,13 @@ Portare il percorso Godot alla qualità di consegna: apprendimento, missioni,
 mondi abitati, NORA e riattivazione della nave come un unico ciclo leggibile,
 accessibile, performante e pubblicabile su desktop, tablet e Web.
 
-**Dove siamo**: la parte didattica è finita e misurata (88 audit verdi, 184 test,
-33 milioni di prove distinte, 23 mondi su 24 abitati con 803 battute). La parte
-narrativa è a metà. **Nessun bambino ha ancora giocato**, e questo resta il
-rischio numero uno: nessun audit lo sostituisce.
+**Dove siamo**: la parte didattica è finita e misurata (184 test, 33 milioni di
+prove distinte). Da oggi anche **la parte narrativa è scritta per intero**: 23
+mondi abitati, 46 residenti e 23 Bislacchi con oltre 1000 battute, 69
+conversazioni al Ritrovo, 6 itineranti, 24 Tracce, 28 semi, 24 beat, il
+Tredicesimo e le 12 voci dei Maestri. Manca **tutto il cablaggio**, e manca la
+cosa che conta di più: **nessun bambino ha ancora giocato**. Nessun audit lo
+sostituisce.
 
 ---
 
@@ -82,20 +85,87 @@ scritto nel documento abitanti e va tenuto per tutto.
 | **A1 · Ossatura dialoghi** | forma della battuta (1–3 schermate), ritratto, nome | ✅ pronto |
 | **A2 · Proprietà missioni** | regola `ownerNpc` + richiesta/consolazione | ✅ **completo: 46 residenti su 46** |
 | **A3 · Edifici** | niente | ✅ pronto |
-| **A5 · Vita di mondo** | conversazioni al Ritrovo del mondo 1 | ✅ **consegnate oggi** |
+| **A4 · Itineranti** | i 6 personaggi, la rotazione, «rispiegamelo» | ✅ **consegnato** |
+| **A5 · Vita di mondo** | conversazioni al Ritrovo | ✅ **69 scene, tutti i mondi abitati** |
 | **P1–P3 · Custode** | mappa segnale → espressione | ✅ pronto (già in `pet_expression_engine.gd`) |
-| **A7a · Il Tredicesimo** | le 5 azioni e le sue battute | ⏳ dopo |
+| **A7a · Il Tredicesimo** | le 5 azioni e le sue battute | ✅ **consegnato** |
 | **A7b · Sbiaditi** | niente | ✅ pronto |
+| **A7 · Mistero e finale** | 24 Tracce, semi dei 7 colpi, 24 beat | ✅ **consegnato** |
+| **Voci dei Maestri in NORA** | le 12 inflessioni | ✅ **consegnato** |
 | **Cablaggio formati visuali** | niente: i cataloghi sono scritti e validati | ✅ pronto |
 
-**Codex ha sei cose pronte da fare subito**: il cablaggio dei formati visuali,
-A1, A2, A3, A5, A7b e tutto il **Custode**. Lunica che ancora mi aspetta è A7a,
-il Tredicesimo — ed è la prossima che scrivo.
+**Nessun sistema di Codex aspetta più contenuto da me, e il volume è finito.**
+Le 66 conversazioni al Ritrovo mancanti e i sei itineranti sono scritti: i passi
+1–6 del giro dei mondi qui sotto sono completi per tutti i mondi abitati. Quello
+che resta è tutto runtime.
 
 *(Correzione del 3 agosto: avevo elencato la mappa segnale → espressione fra le
 cose che Codex aspettava da me. È già scritta in `pet_expression_engine.gd`, con
 il guardrail «nessuna faccia negativa» imposto da `pet_expression_audit`. Il
 blocco non c'era: l'avevo messo io nel piano per errore.)*
+
+---
+
+## Il giro dei mondi — come si fa un mondo, passo passo
+
+Ventiquattro mondi non si fanno «tutti insieme»: si fa **un mondo intero**, lo si
+gioca, e poi si fa il successivo con quello che si è imparato. Il rischio da
+evitare è quello che abbiamo già corso una volta: scrivere ottocento battute su
+una formula che nessuno ha ancora provato.
+
+**Undici passi, e chi li fa.** Un mondo è finito quando li ha fatti tutti:
+
+| # | Passo | Chi | Fatto per quanti mondi |
+|---|---|---|---|
+| 1 | Cast: specialista + testimone + Bislacco, con registro, tic, convinzione, arco | Claude | **23 / 23** |
+| 2 | Le 15 battute per residente (3 per stadio, 3 reazione, 3 riempimento) | Claude | **23 / 23** |
+| 3 | Richiesta e consolazione (flusso missioni A2) | Claude | **23 / 23** |
+| 4 | Traccia della Rovina + semi dei colpi che passano di lì | Claude | **24 / 24** |
+| 5 | Le 3 conversazioni al Ritrovo (stadio 0, 1, 2) | Claude | **23 / 23** |
+| 6 | Beat del mondo | Claude | **24 / 24** |
+| 7 | Edifici vestiti per `artKit`, finestre per stadio, Rovina sul landmark eroe | Codex | 0 / 24 |
+| 8 | Routine di vita a tre ancoraggi + regia delle conversazioni | Codex | 0 / 24 |
+| 9 | Collocazione fisica di Traccia e semi: fuori da `safeRadius`, mai sulla `safeRoute`, mai in acqua | Codex | 0 / 24 |
+| 10 | Immagini del mondo e loro pipeline | Codex | dipende dal kit |
+| 11 | Verifica: audit verdi + un playthrough di quel mondo | entrambi | — |
+
+I passi 1–6 sono **contenuto** e non dipendono da niente: li scrivo io e li
+consegno a lotti. I passi 7–10 sono **runtime** e dipendono solo dal passo
+corrispondente, non dall'intero lotto: Codex può vestire il mondo 2 mentre io
+scrivo il Ritrovo del mondo 5.
+
+### L'ordine dei lotti
+
+Non in ordine di numero: **in ordine di quanto insegnano**.
+
+| Lotto | Mondi | Perché questi, e in questo momento |
+|---|---|---|
+| **L0** | 1 | Già completo lato contenuto. **Va giocato prima di tutto il resto**: è la fixture su cui è tarato tutto |
+| **L1** | 2, 3, 4 | I primi tre dopo la fixture. Se il ritmo dei dialoghi è sbagliato, si scopre qui e si corregge su quattro mondi, non su ventiquattro |
+| **L2** | 5, 8 | I due mondi con un colpo di scena in Atto I. Provano la parte più delicata: che una Traccia regga il peso di una rivelazione |
+| **L3** | 6, 7, 9, 10, 11 | Il resto dell'Atto I e l'inizio del II, a regime |
+| **L4** | 12, 16 | I due colpi dell'Atto II, incluso quello di metà campagna |
+| **L5** | 13, 14, 15 | Il resto dell'Atto II |
+| **L6** | 17, 18, 19, 20 | Entra in scena il Tredicesimo: prima volta che un'azione narrativa tocca un mondo già restaurato |
+| **L7** | 21, 22, 23 | La discesa verso il colpo 6 |
+| **L8** | 24 | Il Cuore: convergenza, nodo di sintesi, finale. Si fa per ultimo perché usa tutto |
+
+**Regola del lotto**: non si apre il lotto successivo finché quello in corso non
+ha i suoi audit verdi *e* qualcuno non l'ha giocato. Un lotto è piccolo apposta —
+tre o quattro mondi si giocano in una sera.
+
+### Definizione di «mondo finito»
+
+Undici passi fatti, e queste cinque cose vere:
+
+1. i due residenti hanno stadio 0, 1 e 2 **distinti**, e allo stadio 2 uno dei
+   due insegna qualcosa all'altro;
+2. c'è **almeno un personaggio che fa ridere** (il Bislacco basta), e nessuna
+   battuta comica ha come bersaglio il giocatore;
+3. la Traccia si legge in ≤3 schermate e **non è raccontata da nessuno**;
+4. il Ritrovo ha le tre conversazioni, e in nessuna qualcuno parla due volte di
+   fila o saluta Eli prima della fine;
+5. il mondo è giocabile **anche saltando ogni dialogo**.
 
 ---
 
@@ -170,6 +240,10 @@ Re-theme di `world_enemy.gd`: comportamento e resa degli Sbiaditi.
 Routine a tre ancoraggi guidate dalla fase giorno/notte, spostamenti fuori
 inquadratura, regia delle conversazioni al Ritrovo.
 
+**69 scene: tutti e 23 i mondi abitati hanno i tre stadi.** Il mondo 24 non ne ha
+di suo — al Cuore convergono gli itineranti e i residenti portati allo stadio 2,
+ed è una scena di finale, non di Ritrovo.
+
 `RitrovoCatalog.scene_for(world, stadio)` dà la scena;
 `RitrovoCatalog.lines_of(id, con_notizia)` dà le battute nell'ordine, con quella
 che cita il giocatore già sostituita al posto giusto quando c'è una notizia in
@@ -202,7 +276,82 @@ volto a riposo, album, combinelle, regali.
 Nessuna combinella durante sessione, esame o beat, con la sola eccezione dello
 starnuto autorato.
 
-### C8 · Contenuti STEM ancora aperti
+### C8 · A7a · Il Tredicesimo — *sbloccato*
+
+`thirteenth_catalog.gd`: le **5 azioni** con il costo dichiarato e il ripristino
+(`scrive`, `risbiadisce`, `smemora`, `chiude`, `parla`), **17 battute** dal mondo
+18 al 24, la scena della restituzione del nome e le **due uscite**, nessuna delle
+quali è punita. `thirteenth_audit.gd` è verde e verifica ciò che serve davvero:
+nessuna minaccia al giocatore, nessuna azione irreversibile, nessuna formula di
+morte, e che il nome esca **davvero** dalla conta del mondo 1 — il controllo
+confronta `ThirteenthCatalog.SILLABE` con `NpcCatalog.CONTA_ERSILIA`, così il
+finale non poggia su una coincidenza scritta in due file che nessuno confronta.
+
+Quello che manca è tuo: `thirteenth.gd`, cioè **quando** le azioni scattano e
+come si vedono. Due vincoli che il catalogo dà per scontati:
+
+- `smemora` non tocca mai il proprietario di una missione in corso, e mai due
+  volte lo stesso abitante;
+- `chiude` non può mai essere l'unica strada: il percorso alternativo esiste
+  sempre, e la porta si riapre al livello dopo.
+
+### C9 · A7 · Mistero, Tracce e beat — *sbloccato*
+
+`mystery_catalog.gd`: i **7 colpi**, **28 semi** (quattro per colpo, tutti in
+mondi precedenti e mai tutti dello stesso tipo) e le **24 Tracce**, una per
+Rovina. `narrative_manager.gd` ha i 24 beat nuovi e il beat finale — **contratto
+invariato**, `beat_for_level` non si accorge di niente.
+
+`mystery_audit.gd` è verde e verifica i semi, l'ordine dei colpi, il limite delle
+schermate e che **nessun testo dica che qualcuno è morto** (§10.1) — con le
+negazioni gestite, perché «nessuno è morto qui» è una frase che il gioco *deve*
+poter dire.
+
+Tuo: la **collocazione fisica** delle Tracce e dei semi (passo 9 del giro dei
+mondi). L'audit del testo non può controllarla — serve `world_life_audit`, che ha
+le posizioni.
+
+Le **tre Tracce decisive** (mondi 12, 16, 19) hanno un beat di ripiego: chi non
+entra in nessuna Rovina capisce il finale lo stesso. Va cablato, altrimenti la
+Rovina diventa obbligatoria e viola §10.2.
+
+### C10 · Le dodici voci di NORA — *sbloccato*
+
+`maestri_catalog.gd`: 12 Maestri, una materia ciascuno, e per ognuno le battute
+di **apertura**, **rilancio** e **chiusura** — 12 × 8. Il rilancio è il gruppo
+che conta: è cosa dice NORA *al posto* della risposta, ed è diverso per materia
+perché non si rilancia in matematica come si rilancia in storia.
+
+`MaestriCatalog.voices_for(apparati_riparati, nome_restituito)` risponde **11
+prima** della restituzione del nome e **12 dopo**: il buco della logica è nel
+codice, non solo nel documento.
+
+`teaching_catalog.gd` porta i due contratti dello spiegare: «Rispiegamelo» di
+Vera (3 opzioni, 1 giusta, **ricompensa sociale e zero energia**) e la Diagnosi
+del Secondo Viaggio (4 opzioni, nessuna punita, «dille la risposta» sempre
+disponibile). E `TeachingCatalog.error_step()`, che colloca il passo sbagliato:
+misurato dall'audit, esce **33/33/33** su tre passi e **25/25/25/25** su quattro,
+e non si ripete mai fra due tentativi consecutivi sullo stesso argomento.
+
+### C10b · A4 · Itineranti — *sbloccato*
+
+`itinerant_catalog.gd`: i sei personaggi ricorrenti, sei registri diversi e sei
+funzioni di gioco, **82 battute**, e la rotazione in
+`ItinerantCatalog.itinerant_for(seme, livello)`.
+
+La rotazione è un **mescolamento a blocchi di sei**, non una progressione:
+l'audit misura 5 semi × 24 mondi e verifica che compaiano tutti e sei, che
+nessuno esca meno di tre volte e che **non se ne ripeta uno due mondi di fila**.
+Ci ero arrivato prima con un passo moltiplicativo ed era sbagliato — con sei
+elementi un passo di 3 percorre due sole facce su ventiquattro mondi. L'ha visto
+l'audit, che misura invece di credere.
+
+Vera è quella che ti serve per prima: la sua meccanica «rispiegamelo» ha il
+contratto in `teaching_catalog.gd` e le battute (richiesta, capito, non capito)
+nel catalogo. **Il non-capito non contiene mai una delusione**, come le
+consolazioni dei residenti.
+
+### C11 · Contenuti STEM ancora aperti
 
 - **banda 4 dei banchi STEM**: elettronica ha 9 item a difficoltà 4 su tre
   argomenti, fisica 8 su sei. I mondi 19–24 sono un quarto della campagna;
@@ -218,7 +367,7 @@ starnuto autorato.
   avanti contenuto esistente non è contenuto nuovo*: impoverisce i mondi bassi.
   Va misurato prima e dopo su entrambi gli estremi.
 
-### C9 · Accessibilità dei formati visuali — *da decidere insieme*
+### C12 · Accessibilità dei formati visuali — *da decidere insieme*
 
 Le etichette dei bersagli identificano senza descrivere («Segnaposto A», «Primo
 reperto da sinistra»), come già fanno i grafici con «A, B, C»: è l'unica scelta
@@ -230,33 +379,30 @@ tre formati in più. Va deciso, non subìto.
 
 ## Coda di Claude
 
-Ordinata per **quanto sblocca**, non per dimensione.
+**È vuota, e questo è il punto.** Non c'è più niente che Codex debba aspettare da
+me: tutti i cataloghi di contenuto sono scritti, hanno un'API e un audit verde
+che li tiene. Da qui in poi il mio lavoro è **reagire** — al playtest, alle
+revisioni, ai buchi che si vedranno cablando.
 
-### O1 · Il Tredicesimo — *sblocca A7a*
+### O1 · Reagire al playtest del mondo 1 — *aspetta te*
 
-Le 5 azioni (scrive, cancella, aspetta, avverte, supplica) e le sue battute.
-**Non minaccia mai Eli**: chiede, avverte, supplica. E il suo nome è nella conta
-di nonna Ersilia, già scritta: «sca · la · re» sono «Scala, re-», cioè il nome
-più l'inizio di «resta».
+È l'unica voce che conta finché qualcuno non gioca. Ottocento battute e settanta
+conversazioni sono scritte su una formula che nessun bambino ha ancora provato:
+se il ritmo è sbagliato, si corregge **prima** che qualcosa venga vestito, non
+dopo. Quando avrai giocato, la lista di cosa riscrivere la faccio in un'ora.
 
-### O2 · I sei itineranti
+### O2 · Contenuti dei formati visuali — *aspetta una decisione, non me*
 
-Il cast fisso, quello a cui ci si affeziona: rotazione deterministica da seme +
-livello, una funzione di gioco e un registro distinto ciascuno. **Da fare dopo
-che avrai giocato il mondo 1**: sono i personaggi che si incontrano più spesso di
-tutti, e se il ritmo dei dialoghi va corretto conviene correggerlo prima di
-scriverne altri sei.
+La carta muta ha tre bersagli e l'atlante dei reperti quattro: sono i due
+cataloghi più poveri che esistano nel gioco. Servono appennini, alpi, tirreno,
+adriatico, tevere, una carta d'Europa e un secondo foglio di reperti. **Li scrivo
+appena C1 è cablato**: prima sarebbe contenuto che nessuno può vedere.
 
-### O3 · I 24 beat + beat finale, le 24 Tracce, i semi dei sette colpi
+### O3 · Revisione incrociata del lavoro di Codex
 
-I semi vanno collocati nei mondi *precedenti* al colpo. Tre per colpo, minimo.
-
-### O4 · Le 12 inflessioni dei Maestri, «Rispiegamelo» di Vera, Secondo Viaggio
-
-Terne di spiegazioni per topic (mirata / analogia / dal principio) e il contratto
-dei ragionamenti a passi con posizione dell'errore variabile.
-
-### O5 · Le 69 conversazioni al Ritrovo restanti
+Quando A1–A7 sono cablati, rileggo i dialoghi *in scena* invece che in tabella.
+Un catalogo verde e una conversazione che funziona non sono la stessa cosa, e la
+differenza si vede solo a schermo.
 
 ---
 

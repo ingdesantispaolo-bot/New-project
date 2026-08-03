@@ -264,16 +264,44 @@ static func maestro_of(materia: String) -> Dictionary:
 
 ## Le inflessioni disponibili: un apparato riparato = una voce in più. La logica
 ## non entra finché il nome non è restituito, ed è il buco che si deve sentire.
-static func voices_for(repaired: Array, name_restored: bool = false) -> Array:
+##
+## `subjects_met` è il cancello che serve perché **gli apparati tengono due
+## Maestri**: `ponte-comando` ha Leva (fisica) e Bussola (geografia), `data-core`
+## ha Stilo (italiano) e Faro (inglese). Ripararlo al mondo 5 per la fisica
+## accenderebbe anche la voce della geografia, che il giocatore incontra al
+## mondo 9 — NORA parlerebbe da cartografa di un mestiere che non ha ancora visto
+## fare a nessuno. Con la lista delle materie incontrate, la voce arriva **quando
+## serve**: l'apparato la libera, la materia la chiama.
+##
+## Lista vuota = nessun filtro, per i chiamanti che non hanno quel dato.
+static func voices_for(repaired: Array, name_restored: bool = false, subjects_met: Array = []) -> Array:
 	var out: Array = []
 	for key in MAESTRI.keys():
 		var entry := MAESTRI[key] as Dictionary
 		if bool(entry.get("silente", false)) and not name_restored:
 			continue
-		if repaired.has(str(entry.get("apparato", ""))):
-			out.append(str(key))
+		if not repaired.has(str(entry.get("apparato", ""))):
+			continue
+		if not subjects_met.is_empty() and not subjects_met.has(str(entry.get("materia", ""))):
+			continue
+		out.append(str(key))
 	out.sort()
 	return out
+
+## Gli apparati che ospitano più di un Maestro. Diagnostico: serve a ricordare
+## che riparare non basta a decidere quale voce parla.
+static func shared_apparatuses() -> Dictionary:
+	var per_apparatus: Dictionary = {}
+	for key in MAESTRI.keys():
+		var apparatus := str((MAESTRI[key] as Dictionary).get("apparato", ""))
+		var here: Array = per_apparatus.get(apparatus, [])
+		here.append(str(key))
+		per_apparatus[apparatus] = here
+	var shared: Dictionary = {}
+	for apparatus in per_apparatus.keys():
+		if (per_apparatus[apparatus] as Array).size() > 1:
+			shared[apparatus] = per_apparatus[apparatus]
+	return shared
 
 static func lines_of(maestro_id: String, pool: String) -> Array:
 	var entry := MAESTRI.get(maestro_id, {}) as Dictionary

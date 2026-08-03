@@ -13,8 +13,20 @@ extends SceneTree
 const MIN_LINES := 4
 const MAX_LINES := 6
 
+## Quante volte lo stesso modo di chiamare il giocatore può ripetersi in tutte e
+## ventiquattro le mappe.
+##
+## Non è una raffinatezza: fino al 3 agosto **66 notizie su 66** dicevano «la
+## ragazzina». Un giocatore che gira sei mondi sente sei paesi diversi, che non
+## si sono mai parlati, usare la stessa identica formula — e a quel punto non è
+## più un paese che commenta, è il narratore travestito da abitante. Il campo
+## `chiama` obbliga a decidere *come lo direbbe questo qui*, e questo tetto
+## impedisce che la comodità torni da sola.
+const MAX_STESSA_DESIGNAZIONE := 4
+
 func _init() -> void:
 	var failures: Array = []
+	var designazioni: Dictionary = {}
 	print("Conversazioni al Ritrovo — forma e alternanza\n")
 
 	var ids: Array = RitrovoCatalog.SCENES.keys()
@@ -94,6 +106,16 @@ func _init() -> void:
 					failures.append("%s: la notizia si rivolge al giocatore («%s»)" % [
 						scene_id, pronoun.strip_edges()])
 
+			# Come lo chiama, e quanto spesso quel modo torna altrove.
+			var chiama := str(news.get("chiama", "")).strip_edges()
+			if chiama == "":
+				failures.append("%s: la notizia non dichiara come chiama il giocatore" % scene_id)
+			else:
+				if not text.to_lower().contains(chiama.to_lower()):
+					failures.append("%s: dichiara di chiamarlo «%s» e nella battuta non c'è" % [
+						scene_id, chiama])
+				designazioni[chiama] = int(designazioni.get(chiama, 0)) + 1
+
 		# Il congedo arriva alla fine, e lo dice qualcuno che è in scena.
 		if not data.has("congedo"):
 			failures.append("%s: manca il congedo" % scene_id)
@@ -107,6 +129,16 @@ func _init() -> void:
 		print("%-8s mondo %-3d stadio %d   %d battute · %s" % [
 			scene_id, world, stadio, lines.size(),
 			", ".join(PackedStringArray(cast))])
+
+	var piu_usata := 0
+	for chiama in designazioni.keys():
+		var quante := int(designazioni[chiama])
+		piu_usata = maxi(piu_usata, quante)
+		if quante > MAX_STESSA_DESIGNAZIONE:
+			failures.append("«%s» è il modo in cui lo chiamano in %d scene (massimo %d): non è più un paese che commenta, è il narratore" % [
+				chiama, quante, MAX_STESSA_DESIGNAZIONE])
+	print("\nmodi di chiamare il giocatore: %d distinti · il più frequente in %d scene su %d" % [
+		designazioni.size(), piu_usata, RitrovoCatalog.SCENES.size()])
 
 	var complete := RitrovoCatalog.complete_worlds()
 	print("\nmondi con tutte e tre le scene: %d su 24 (%s)" % [

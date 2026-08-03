@@ -19,6 +19,7 @@ var _temperament: OptionButton
 var _resting: OptionButton
 var _palette_row: HBoxContainer
 var _album: Label
+var _face_gallery: GridContainer
 var _collections: Label
 
 func _ready() -> void:
@@ -141,10 +142,20 @@ func _build() -> void:
 	_resting.item_selected.connect(_choose_resting)
 	content.add_child(_section("VOLTO A RIPOSO", _resting))
 
+	var album_box := VBoxContainer.new()
+	album_box.add_theme_constant_override("separation", 8)
+	_face_gallery = GridContainer.new()
+	_face_gallery.name = "PetFaceGallery"
+	_face_gallery.columns = 5
+	_face_gallery.add_theme_constant_override("h_separation", 12)
+	_face_gallery.add_theme_constant_override("v_separation", 8)
+	album_box.add_child(_face_gallery)
 	_album = Label.new()
 	_album.name = "PetFaceAlbum"
 	_album.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	content.add_child(_section("ALBUM DELLE FACCE", _album))
+	_album.add_theme_color_override("font_color", Color("9fc4bb"))
+	album_box.add_child(_album)
+	content.add_child(_section("ALBUM DELLE FACCE", album_box))
 	_collections = Label.new()
 	_collections.name = "PetCollections"
 	_collections.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -177,10 +188,30 @@ func _refresh() -> void:
 		_resting.add_item(str(face).capitalize())
 	var resting_index := unlocked.find(STATE.resting_face(_save))
 	_resting.select(maxi(0, resting_index))
-	var face_lines: Array[String] = []
+	for child in _face_gallery.get_children():
+		child.queue_free()
+	var locked_faces: Array[String] = []
 	for face in STATE.all_faces():
-		face_lines.append("✓ %s" % str(face).capitalize() if unlocked.has(face) else "◇ Sagoma bloccata")
-	_album.text = "  ·  ".join(face_lines)
+		if unlocked.has(face):
+			var card := VBoxContainer.new()
+			card.custom_minimum_size = Vector2(86, 106)
+			var preview := FACE_WIDGET.new()
+			preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			preview.configure("", STATE.livery(_save), STATE.temperament(_save), str(face), STATE.bond(_save), unlocked, true)
+			preview.set_preview_face(str(face))
+			card.add_child(preview)
+			var caption := Label.new()
+			caption.text = str(face).capitalize()
+			caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			caption.add_theme_font_size_override("font_size", 11)
+			caption.add_theme_color_override("font_color", Color("dff7f2"))
+			card.add_child(caption)
+			_face_gallery.add_child(card)
+		else:
+			locked_faces.append(str(face).capitalize())
+	_album.text = (
+		"Da scoprire: %s" % ", ".join(PackedStringArray(locked_faces))
+		if not locked_faces.is_empty() else "Album completo")
 	var antics_count := STATE.antics(_save).size()
 	var gifts := STATE.gifts(_save)
 	_collections.text = "Legame %d%% · %d sessioni insieme\nCombinelle viste: %d · Cose che ti ha portato: %d" % [

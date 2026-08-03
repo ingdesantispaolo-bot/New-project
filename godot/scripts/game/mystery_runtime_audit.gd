@@ -39,8 +39,12 @@ func _run() -> void:
 			ruin = building
 	assert(ruin != null, "Rovina dei Primi assente")
 	for artifact in artifacts:
-		assert(artifact.get_parent() == ruin, "Traccia o seme fuori dalla Rovina")
-		assert(artifact.position.length() <= 150.0, "Traccia o seme troppo lontano dalla Rovina")
+		assert(artifact.global_position.distance_to(ruin.global_position) <= 520.0,
+			"Traccia o seme troppo lontano dalla Rovina")
+		assert(not world.get("chunks").composition.is_protected(artifact.global_position, 40.0),
+			"Traccia o seme dentro safeRadius o safeRoute")
+		assert(world.get("chunks").composition.raw_water_weight(artifact.global_position) < 0.24,
+			"Traccia o seme in acqua")
 
 	assert(world.call("_show_decisive_fallback_if_needed"),
 		"beat di ripiego decisivo non mostrato quando la Traccia e' saltata")

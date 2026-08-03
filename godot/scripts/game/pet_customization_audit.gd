@@ -77,6 +77,19 @@ func _test_world_screen() -> void:
 	var style := panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(style != null and style.border_width_left >= 4 and style.border_color == Color.WHITE,
 		"contrasto elevato non applicato alla schermata Custode")
+	var gallery := screen.find_child("PetFaceGallery", true, false) as GridContainer
+	assert(gallery != null and gallery.get_child_count() == PetState.faces(world.get("game_save")).size(),
+		"l'album non mostra una faccetta per ogni espressione sbloccata")
+	var preview_faces: Array = []
+	for card in gallery.get_children():
+		var preview := card.get_child(0) as PetFaceWidget
+		assert(preview != null, "anteprima faccetta assente dall'album")
+		preview_faces.append(preview.current_face())
+	var unique_faces: Dictionary = {}
+	for face_id in preview_faces:
+		unique_faces[str(face_id)] = true
+	assert(preview_faces.size() == 5 and unique_faces.size() == preview_faces.size(),
+		"l'album ripete la stessa espressione al posto delle faccette distinte")
 
 	var save := world.get("game_save") as GameSaveManager
 	var energy_before: int = save.energy()

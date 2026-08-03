@@ -11,8 +11,12 @@ func _init() -> void:
 
 func _request_for(level: int) -> Dictionary:
 	var initial := GameSaveManager._default_data()
-	initial["level"] = 24
-	initial["worlds"] = {"unlocked": range(1, 25), "current": level}
+	var first_arrival := OS.get_environment("ELI_CAPTURE_FIRST_ARRIVAL") == "1"
+	initial["level"] = level if first_arrival else 24
+	initial["worlds"] = {
+		"unlocked": range(1, level + 1) if first_arrival else range(1, 25),
+		"current": level,
+	}
 	var request := NativeWorldState.default_request("world-profile-capture")
 	request["loadLocalSave"] = false
 	request["initialSave"] = initial
@@ -81,7 +85,18 @@ func _run() -> void:
 	# con acqua autorata (4/6/8/9/10/16/17/22) e i due mondi di Storia (11/23).
 	# HUD compatto verifica la leggibilità giocata; tavola desktop pulita rende
 	# osservabili acqua, densità, anomalie, prop e coerenza d'art direction.
-	for level in [1, 4, 6, 7, 8, 9, 10, 11, 13, 16, 17, 19, 20, 21, 22, 23, 24]:
+	var levels: Array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 16, 17, 19, 20, 21, 22, 23, 24]
+	# Una tranche puo' rigenerare soltanto i mondi appena vestiti senza perdere
+	# il campione completo usato dalla release.
+	var requested := OS.get_environment("ELI_CAPTURE_LEVELS").strip_edges()
+	if requested != "":
+		levels = []
+		for token in requested.split(",", false):
+			var level := int(token.strip_edges())
+			if level >= 1 and level <= WorldProfileCatalog.MAX_LEVEL and not levels.has(level):
+				levels.append(level)
+		levels.sort()
+	for level in levels:
 		for capture in [
 			{"size": Vector2i(1440, 900), "suffix": "-desktop-clean", "hud": false, "landmark": false},
 			{"size": Vector2i(900, 600), "suffix": "-compact-hud", "hud": true, "landmark": false},
@@ -90,7 +105,9 @@ func _run() -> void:
 				push_error("WORLD PROFILE RENDER probe: cattura fallita al livello %d (%s)" % [level, str(capture["suffix"])])
 				quit(2)
 				return
-		if level in [11, 23, 24]:
+		# Ogni mondo cablato deve avere anche una tavola centrata sul landmark:
+		# è qui che diventano visibili collisioni fra Rovina, Traccia, semi e cast.
+		if level in range(1, WorldProfileCatalog.MAX_LEVEL + 1):
 			if await _capture_profile(level, Vector2i(1440, 900), "-landmark-clean", false, true) != OK:
 				push_error("WORLD PROFILE RENDER probe: cattura landmark fallita al livello %d" % level)
 				quit(2)

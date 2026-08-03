@@ -126,6 +126,22 @@ func _check_maestri() -> Array:
 		out.append("la voce della logica non torna nemmeno dopo la restituzione del nome")
 	print("\nvoci con tutti gli apparati riparati: %d prima del nome, %d dopo" % [
 		senza_nome.size(), con_nome.size()])
+
+	# Gli apparati condivisi: riparare non basta a decidere quale voce parla.
+	# Senza il cancello sulle materie, la voce della geografia si accenderebbe al
+	# mondo 5 insieme a quella della fisica.
+	var shared := MaestriCatalog.shared_apparatuses()
+	for apparatus in shared.keys():
+		var abitanti: Array = shared[apparatus]
+		var materie: Array = []
+		for maestro_id in abitanti:
+			materie.append(str((MaestriCatalog.MAESTRI[maestro_id] as Dictionary).get("materia", "")))
+		# Con una sola materia incontrata deve rispondere una voce sola.
+		var solo_una := MaestriCatalog.voices_for([str(apparatus)], true, [str(materie[0])])
+		if solo_una.size() != 1:
+			out.append("apparato «%s»: con una materia incontrata rispondono %d voci invece di 1" % [
+				apparatus, solo_una.size()])
+		print("apparato condiviso: %-16s %s" % [str(apparatus), ", ".join(PackedStringArray(materie))])
 	return out
 
 func _check_rispiegamelo() -> Array:

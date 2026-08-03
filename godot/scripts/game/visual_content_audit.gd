@@ -50,14 +50,15 @@ func _init() -> void:
 
 	# Ogni nuovo specialista deve essere producibile dal selettore reale. Si usa
 	# un ventaglio di seed perché la materia ruota anche altri specialisti.
-	for expected in [["musica", "notation"], ["geografia", "map"], ["storia", "hotspot"]]:
+	for expected in [["musica", "notation", 6], ["geografia", "map", 9], ["storia", "hotspot", 11]]:
 		var subject := str(expected[0])
 		var fmt := str(expected[1])
+		var introduction_level := int(expected[2])
 		var reached := false
 		for seed in 128:
 			var rng := RandomNumberGenerator.new()
 			rng.seed = 20000 + seed
-			var session := manager.build_minigame(subject, 24, rng)
+			var session := manager.build_minigame(subject, introduction_level, rng)
 			for node_data in session.get("nodes", []):
 				if str((node_data as Dictionary).get("format", "")) == fmt:
 					reached = true
@@ -65,7 +66,7 @@ func _init() -> void:
 			if reached:
 				break
 		if not reached:
-			failures.append("%s: formato %s irraggiungibile nella rotazione reale" % [subject, fmt])
+			failures.append("%s: formato %s irraggiungibile al mondo %d" % [subject, fmt, introduction_level])
 
 	if not failures.is_empty():
 		printerr("CONTENUTO VISUALE NON VALIDO — %d problemi:" % failures.size())

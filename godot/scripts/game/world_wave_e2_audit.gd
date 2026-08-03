@@ -63,6 +63,23 @@ func _assert_world_24(world: Node) -> void:
 	assert(texture != null)
 	var image := texture.get_image()
 	assert(image != null and image.get_pixel(0, 0).a < 0.05, "landmark senza alpha reale")
+	var actors: Array = world.get("npc_actors")
+	assert(actors.size() == FinaleCatalog.MAX_IN_SCENA,
+		"il Cuore deve aprirsi con quattro presenze, anche senza residenti allo stadio 2")
+	var met: Array = []
+	for actor in actors.duplicate():
+		assert(bool(actor.get_meta("finale_convergence", false)), "comparsa non appartenente alla convergenza")
+		var npc_id := str(actor.get_meta("id", ""))
+		met.append(npc_id)
+		world.call("_on_dialogue_closed", npc_id)
+	assert(int(world.get("finale_convergence_wave")) == 1, "le presenze del Cuore non ruotano dopo aver parlato")
+	actors = world.get("npc_actors")
+	assert(actors.size() == FinaleCatalog.MAX_IN_SCENA, "la seconda ondata supera o perde il budget di quattro")
+	for actor in actors:
+		var npc_id := str(actor.get_meta("id", ""))
+		if not met.has(npc_id):
+			met.append(npc_id)
+	assert(met.size() == FinaleCatalog.ITINERANTI.size(), "non convergono tutti i sei itineranti")
 
 func _prepare_final_gate(save: GameSaveManager, content: ContentManager) -> void:
 	save.data = GameSaveManager._default_data()
@@ -143,6 +160,21 @@ func _assert_live_finale() -> void:
 		and bool(hub.get_meta("last_milestone_complete", false)),
 		"convergenza e rivelazione finale non completate")
 	assert(save.current_world() == 24 and save.is_world_unlocked(24))
+	assert(str(hub.get_meta("finale_epilogue_phase", "")) == "cattedra",
+		"la Cattedra non si apre dopo il nodo di sintesi")
+	var finale_dialogue: DialogueBox = hub.get("finale_dialogue_box")
+	assert(finale_dialogue != null and finale_dialogue.visible, "scena della Cattedra non visibile")
+	var safety := 0
+	while finale_dialogue.visible and safety < 24:
+		finale_dialogue.close_dialogue()
+		safety += 1
+	assert(str(hub.get_meta("finale_epilogue_phase", "")) == "choice",
+		"restituzione del nome e scelta non seguono la Cattedra")
+	assert(bool(hub.get("finale_choice_panel").visible), "le due uscite finali non sono presentate")
+	hub.call("_on_finale_choice", "resta")
+	assert(str(save.data.get("narrative", {}).get("thirteenth", {}).get("finaleChoice", "")) == "resta")
+	finale_dialogue.close_dialogue()
+	assert(str(hub.get_meta("finale_epilogue_phase", "")) == "complete")
 
 	hub.call("_return_to_world")
 	for _frame in 12:

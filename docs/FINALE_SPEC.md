@@ -43,8 +43,20 @@ leggere soltanto il contatore.
 
 ## 4 · Beat conclusivo di NORA e riattivazione della nave
 
-- Beat livello 24 poi **beat finale**: `NarrativeManager.FINAL_BEAT`
-  («La nave è viva e la rotta è aperta… da equipaggio»).
+- Beat livello 24 poi **beat finale**: `NarrativeManager.FINAL_BEAT`.
+
+  > *Aggiornato il 3 agosto 2026*: il beat finale non è più «la nave è viva e la
+  > rotta è aperta… da equipaggio». Adesso la nave **assegna il tredicesimo
+  > posto** a Eli, e il beat dichiara esplicitamente che le undici sorelle e
+  > Meridiana **sono vive** — è il guard-rail §10.4 della trama, e apre il
+  > Secondo Viaggio. Il testo autoritativo è in `narrative_manager.gd`; non
+  > ricopiarlo qui, che invecchia.
+
+- La **convergenza dei personaggi** al Cuore è in `FinaleCatalog`: i sei
+  itineranti sempre, più i residenti portati allo stadio 2, massimo quattro in
+  scena a rotazione. Con zero residenti allo stadio 2 il Cuore **non è vuoto**.
+- L'assegnazione del tredicesimo posto (`FinaleCatalog.CATTEDRA`) si innesca
+  **dopo** il nodo di sintesi, non all'ingresso: il posto va a chi l'ha risolto.
 - Riattivazione **completa** della nave: `ProgressionManager.repair_and_advance`
   porta il livello oltre `MAX_LEVEL` → `is_complete()` vero; tutti i nodi apparato
   risultano riparati. `NoraState.integrity` → 1.0.

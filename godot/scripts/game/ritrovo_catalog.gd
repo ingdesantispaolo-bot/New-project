@@ -42,11 +42,7 @@ const SCENES := {
 			{"chi": "w01-tobia", "dice": "La tua canzone non è contare, nonna."},
 			{"chi": "w01-ersilia", "dice": "No? «Sette, quattordici, ventuno…» Boh. Mia madre la faceva così."},
 		],
-		"notizia": {
-			"indice": 1,
-			"chi": "w01-ersilia",
-			"dice": "Dicono che quella ragazzina nuova abbia contato il filare est in tre respiri.",
-		},
+		"notizia": {"indice": 1, "chi": "w01-ersilia", "dice": "Dicono che quella ragazzina nuova abbia contato il filare est in tre respiri.", "chiama": "quella ragazzina"},
 		"congedo": {"chi": "w01-ersilia", "dice": "Oh! Cuore, eri lì? Vieni, che il pane è ancora caldo."},
 	},
 	"w01-s1": {
@@ -60,11 +56,7 @@ const SCENES := {
 			{"chi": "w01-ersilia", "dice": "…e allora? È sempre andata così."},
 			{"chi": "w01-tobia", "dice": "E allora niente. Solo che io conto a uno a uno e ci metto un'ora, e uno."},
 		],
-		"notizia": {
-			"indice": 3,
-			"chi": "w01-ersilia",
-			"dice": "Quella ragazzina l'ha rifatto stamattina, al deposito. Senza nemmeno fermarsi, cuore.",
-		},
+		"notizia": {"indice": 3, "chi": "w01-ersilia", "dice": "Quella ragazzina l'ha rifatto stamattina, al deposito. Senza nemmeno fermarsi, cuore.", "chiama": "quella ragazzina"},
 		"congedo": {"chi": "w01-tobia", "dice": "…tu. Da quanto ascolti? Niente, ho perso il segno lo stesso, e uno."},
 	},
 	"w01-s2": {
@@ -78,11 +70,7 @@ const SCENES := {
 			{"chi": "w01-tobia", "dice": "Perché qualcuno te l'ha insegnata e poi ha smesso di dirti il perché."},
 			{"chi": "w01-ersilia", "dice": "…Mah. Cantiamo il nove, adesso?"},
 		],
-		"notizia": {
-			"indice": 2,
-			"chi": "w01-ersilia",
-			"dice": "Da quando è arrivata quella ragazzina, qui si fanno i conti cantando, cuore.",
-		},
+		"notizia": {"indice": 2, "chi": "w01-ersilia", "dice": "Da quando è arrivata quella ragazzina, qui si fanno i conti cantando, cuore.", "chiama": "quella ragazzina"},
 		"congedo": {"chi": "w01-ersilia", "dice": "Cuore! Siamo qui a contare in musica. Vieni a sentire."},
 	},
 	"w02-s0": {
@@ -96,7 +84,7 @@ const SCENES := {
 			{"chi": "w02-bruno", "dice": "Io la chiamo «serpescaffale». Perché gira."},
 			{"chi": "w02-corinna", "dice": "Non esiste. Misuro con le dita e misuro cose che esistono."},
 		],
-		"notizia": {"indice": 1, "chi": "w02-bruno", "dice": "Quella ragazzina nuova ha trovato tre schede senza cercarle. E questa come la chiami, se non fortuna?"},
+		"notizia": {"indice": 1, "chi": "w02-bruno", "dice": "La Scopritutto ha trovato tre schede senza cercarle. E questa come la chiami, se non fortuna?", "chiama": "la Scopritutto"},
 		"congedo": {"chi": "w02-corinna", "dice": "Oh. Eri lì. Vieni, che ti mostro come si misura una scheda con le dita."},
 	},
 	"w02-s1": {
@@ -110,7 +98,7 @@ const SCENES := {
 			{"chi": "w02-corinna", "dice": "…stanno insieme perché parlano della stessa cosa. Non perché sono lunghe uguali."},
 			{"chi": "w02-bruno", "dice": "Ecco. E allora perché le tieni in scaffali diversi?"},
 		],
-		"notizia": {"indice": 3, "chi": "w02-corinna", "dice": "La ragazzina ha rimesso in fila le schede per quello che servono a fare. Con le dita non l'avrei trovato mai."},
+		"notizia": {"indice": 3, "chi": "w02-corinna", "dice": "La lettrice nuova ha rimesso in fila le schede per quello che servono a fare. Con le dita non l'avrei trovato mai.", "chiama": "la lettrice nuova"},
 		"congedo": {"chi": "w02-bruno", "dice": "Ehi! Da quanto sei lì? E questa come la chiami, spiare o imparare?"},
 	},
 	"w02-s2": {
@@ -124,7 +112,7 @@ const SCENES := {
 			{"chi": "w02-bruno", "dice": "Allora scrivila nel catalogo. Fra cent'anni sarà vera."},
 			{"chi": "w02-corinna", "dice": "Le concedo una riga a matita. Una."},
 		],
-		"notizia": {"indice": 2, "chi": "w02-bruno", "dice": "Da quando è passata quella ragazzina, Corinna scrive a matita. Prima scriveva solo a penna."},
+		"notizia": {"indice": 2, "chi": "w02-bruno", "dice": "Da quando è passata la Scopritutto, Corinna scrive a matita. Prima scriveva solo a penna.", "chiama": "la Scopritutto"},
 		"congedo": {"chi": "w02-corinna", "dice": "Sei qui. Bene: mi serve un parere su una parola che non esiste ancora."},
 	},
 	"w03-s0": {
@@ -137,7 +125,7 @@ const SCENES := {
 			{"chi": "w03-ruggine", "dice": "Perché cento. Ci siamo presentati tre volte oggi."},
 			{"chi": "w03-sesto", "dice": "Ah. Allora perché cento?"},
 		],
-		"notizia": {"indice": 3, "chi": "w03-sesto", "dice": "Piacere! Dicono che c'è una ragazzina che ha fatto girare la pompa senza contare fino a cento."},
+		"notizia": {"indice": 3, "chi": "w03-sesto", "dice": "Piacere! Dicono che quella lì, come si chiama, ha fatto girare la pompa senza contare fino a cento.", "chiama": "quella lì, come si chiama"},
 		"congedo": {"chi": "w03-ruggine", "dice": "(soffia) Tu. Sei arrivata alla novantesima e non ho sentito niente."},
 	},
 	"w03-s1": {
@@ -151,7 +139,7 @@ const SCENES := {
 			{"chi": "w03-ruggine", "dice": "(soffia sulla chiave) …non me la ricordo. La rifaccio e basta."},
 			{"chi": "w03-sesto", "dice": "Allora siamo uguali, solo che tu ti stanchi di più."},
 		],
-		"notizia": {"indice": 1, "chi": "w03-ruggine", "dice": "Quella ragazzina ha scritto la cosa una volta sola e la macchina l'ha rifatta cento. Ci penso da ieri."},
+		"notizia": {"indice": 1, "chi": "w03-ruggine", "dice": "Quella scesa dalla nave ha scritto la cosa una volta sola e la macchina l'ha rifatta cento. Ci penso da ieri.", "chiama": "quella scesa dalla nave"},
 		"congedo": {"chi": "w03-sesto", "dice": "Piacere, Se— ah, sei tu. Ci eravamo già presentati stamattina, vero?"},
 	},
 	"w03-s2": {
@@ -165,7 +153,7 @@ const SCENES := {
 			{"chi": "w03-sesto", "dice": "Quindi anche io potrei dire una cosa una volta e ricordarmela cento."},
 			{"chi": "w03-ruggine", "dice": "Non funziona così per le persone. Ma il quaderno sì. Prova."},
 		],
-		"notizia": {"indice": 4, "chi": "w03-ruggine", "dice": "L'ha imparato da quella ragazzina: scrivi una volta, ripeti cento. E adesso Sesto ha un quaderno."},
+		"notizia": {"indice": 4, "chi": "w03-ruggine", "dice": "L'ho imparato da quella scesa dalla nave: scrivi una volta, ripeti cento. E adesso Sesto ha un quaderno.", "chiama": "quella scesa dalla nave"},
 		"congedo": {"chi": "w03-ruggine", "dice": "(soffia sugli attrezzi) Sei qui. Bene, sto insegnando a uno che dimentica. Serve pazienza in due."},
 	},
 	"w04-s0": {
@@ -178,7 +166,7 @@ const SCENES := {
 			{"chi": "w04-marea", "dice": "Ma dice gatti."},
 			{"chi": "w04-lino", "dice": "E io dico «piove che Dio la manda» e non manda niente nessuno."},
 		],
-		"notizia": {"indice": 2, "chi": "w04-marea", "dice": "(sussurra) Dicono che la ragazzina abbia risposto al faro senza tradurre parola per parola."},
+		"notizia": {"indice": 2, "chi": "w04-marea", "dice": "(sussurra) Dicono che la voce nuova abbia risposto al faro senza tradurre parola per parola.", "chiama": "la voce nuova"},
 		"congedo": {"chi": "w04-lino", "dice": "Ehi, captain! Da quanto sei sul molo? Vieni che qui si discute di gatti."},
 	},
 	"w04-s1": {
@@ -192,7 +180,7 @@ const SCENES := {
 			{"chi": "w04-marea", "dice": "E come hai fatto?"},
 			{"chi": "w04-lino", "dice": "Ho detto «good boat, good price, my friend» e ho sorriso, captain."},
 		],
-		"notizia": {"indice": 3, "chi": "w04-lino", "dice": "La ragazzina ha fatto come me: quattro parole e una faccia sicura. Ha funzionato, captain."},
+		"notizia": {"indice": 3, "chi": "w04-lino", "dice": "La captain nuova ha fatto come me: quattro parole e una faccia sicura. Ha funzionato.", "chiama": "la captain nuova"},
 		"congedo": {"chi": "w04-marea", "dice": "(sussurra) …sei qui. Non ti ho sentita arrivare. Vieni, oggi si impara dal Vecchio Lino."},
 	},
 	"w04-s2": {
@@ -206,7 +194,7 @@ const SCENES := {
 			{"chi": "w04-lino", "dice": "Ecco, i nodi li capisco. Dimmene un'altra, captain."},
 			{"chi": "w04-marea", "dice": "«Under the weather». Vuol dire che non ti senti bene."},
 		],
-		"notizia": {"indice": 1, "chi": "w04-marea", "dice": "(sussurra) L'ha spiegato la ragazzina: le frasi fatte non si smontano, si imparano intere."},
+		"notizia": {"indice": 1, "chi": "w04-marea", "dice": "(sussurra) L'ha spiegato la voce nuova: le frasi fatte non si smontano, si imparano intere.", "chiama": "la voce nuova"},
 		"congedo": {"chi": "w04-lino", "dice": "Captain! Arrivi giusta: mi stanno insegnando a non augurare gambe rotte."},
 	},
 	"w05-s0": {
@@ -219,7 +207,7 @@ const SCENES := {
 			{"chi": "w05-gerbo", "dice": "No."},
 			{"chi": "w05-tilla", "dice": "Ok. Te lo faccio vedere domani, allora."},
 		],
-		"notizia": {"indice": 3, "chi": "w05-tilla", "dice": "Quella ragazzina ha spostato la trave da sola. Te lo faccio vedere dove ha messo il sasso sotto?"},
+		"notizia": {"indice": 3, "chi": "w05-tilla", "dice": "Quella che guarda davvero ha spostato la trave da sola. Te lo faccio vedere dove ha messo il sasso sotto?", "chiama": "quella che guarda davvero"},
 		"congedo": {"chi": "w05-gerbo", "dice": "(si asciuga le mani) Tu. Non startene lì impalata: guarda come si fa a sbagliare."},
 	},
 	"w05-s1": {
@@ -232,7 +220,7 @@ const SCENES := {
 			{"chi": "w05-tilla", "dice": "E la trave no? Te lo faccio vedere: sono uguali, solo che una è più lunga."},
 			{"chi": "w05-gerbo", "dice": "(si guarda le mani) …fammi vedere. Una volta sola."},
 		],
-		"notizia": {"indice": 1, "chi": "w05-gerbo", "dice": "Ho visto quella ragazzina fare come dici tu. E la trave si è mossa. Con un dito."},
+		"notizia": {"indice": 1, "chi": "w05-gerbo", "dice": "Ho visto quella della leva fare come dici tu. E la trave si è mossa. Con un dito.", "chiama": "quella della leva"},
 		"congedo": {"chi": "w05-tilla", "dice": "Sei arrivata! Guarda: sta per dire che è un gioco, e poi guarda cosa fa."},
 	},
 	"w05-s2": {
@@ -246,7 +234,7 @@ const SCENES := {
 			{"chi": "w05-tilla", "dice": "No. Non serve."},
 			{"chi": "w05-gerbo", "dice": "Vent'anni di schiena, e bastava spostare un sasso."},
 		],
-		"notizia": {"indice": 4, "chi": "w05-gerbo", "dice": "Me l'ha fatto capire quella ragazzina, mica io. Io spingevo e basta."},
+		"notizia": {"indice": 4, "chi": "w05-gerbo", "dice": "Me l'ha fatto capire quella della leva, mica io. Io spingevo e basta.", "chiama": "quella della leva"},
 		"congedo": {"chi": "w05-tilla", "dice": "Oh, ci sei anche tu! Te lo faccio vedere di nuovo? A lui è servito guardarlo due volte."},
 	},
 	"w06-s0": {
@@ -259,7 +247,7 @@ const SCENES := {
 			{"chi": "w06-ambra", "dice": "Sì! Mmh… ma non so dirti perché."},
 			{"chi": "w06-oreste", "dice": "Io non ho bisogno del perché. Ho la mano."},
 		],
-		"notizia": {"indice": 2, "chi": "w06-ambra", "dice": "Mmh. Dicono che la ragazzina abbia messo un nome a quello che sentiamo. Un nome vero."},
+		"notizia": {"indice": 2, "chi": "w06-ambra", "dice": "Mmh. Dicono che quella che dà i nomi abbia messo una parola su quello che sentiamo. Una parola vera.", "chiama": "quella che dà i nomi"},
 		"congedo": {"chi": "w06-oreste", "dice": "(alza la mano dalla cassa) C'è qualcuno. Ho sentito il pavimento. Vieni."},
 	},
 	"w06-s1": {
@@ -273,7 +261,7 @@ const SCENES := {
 			{"chi": "w06-ambra", "dice": "Mmh… allora quello che sento io e quello che tocchi tu sono la stessa cosa?"},
 			{"chi": "w06-oreste", "dice": "(mano sulla corda) Lo stai chiedendo a me?"},
 		],
-		"notizia": {"indice": 3, "chi": "w06-ambra", "dice": "La ragazzina ha misurato le corde del salice. Mmh. I numeri e le mie orecchie dicevano la stessa cosa."},
+		"notizia": {"indice": 3, "chi": "w06-ambra", "dice": "Quella che dà i nomi ha misurato le corde del salice. Mmh. I numeri e le mie orecchie dicevano la stessa cosa.", "chiama": "quella che dà i nomi"},
 		"congedo": {"chi": "w06-ambra", "dice": "Mmh! Sei qui. Vieni: stiamo scoprendo che sentiamo la stessa cosa in due modi."},
 	},
 	"w06-s2": {
@@ -288,7 +276,7 @@ const SCENES := {
 			{"chi": "w06-ambra", "dice": "Mmh. Chi te l'ha detto?"},
 			{"chi": "w06-oreste", "dice": "C'era scritto sulla custodia di un diapason. L'ho letto con le dita."},
 		],
-		"notizia": {"indice": 4, "chi": "w06-oreste", "dice": "(mano sullo strumento) La ragazzina ha letto quella custodia prima di me. Mi ha detto cosa c'era scritto."},
+		"notizia": {"indice": 4, "chi": "w06-oreste", "dice": "(mano sullo strumento) Chi ha letto la custodia lo sapeva prima di me. Mi ha detto cosa c'era scritto.", "chiama": "chi ha letto la custodia"},
 		"congedo": {"chi": "w06-ambra", "dice": "Mmh, sei arrivata! Oreste ha appena detto una cosa che voglio farti sentire."},
 	},
 	"w07-s0": {
@@ -302,7 +290,7 @@ const SCENES := {
 			{"chi": "w07-zeno", "dice": "Però l'hai scritta duecento volte. Non ti è mai venuta voglia?"},
 			{"chi": "w07-livia", "dice": "(soffia sull'inchiostro) La voglia non c'entra con la precisione."},
 		],
-		"notizia": {"indice": 1, "chi": "w07-zeno", "dice": "La ragazzina nuova ha letto tre parole del muro senza copiarle. E questa di chi è parente, si è chiesta."},
+		"notizia": {"indice": 1, "chi": "w07-zeno", "dice": "La parente forestiera ha letto tre parole del muro senza copiarle. E questa di chi è parente, si è chiesta.", "chiama": "la parente forestiera"},
 		"congedo": {"chi": "w07-zeno", "dice": "Ehi! Eri lì dietro. E questa di chi è parente, una che ascolta senza farsi vedere?"},
 	},
 	"w07-s1": {
@@ -317,7 +305,7 @@ const SCENES := {
 			{"chi": "w07-zeno", "dice": "Quindi il mio gioco a volte sbaglia."},
 			{"chi": "w07-livia", "dice": "Il tuo gioco a volte sbaglia. Il mio non prova nemmeno."},
 		],
-		"notizia": {"indice": 4, "chi": "w07-livia", "dice": "La ragazzina ha trovato una parola che sembrava parente e non lo era. (soffia sull'inchiostro) Nemmeno io l'avrei vista."},
+		"notizia": {"indice": 4, "chi": "w07-livia", "dice": "La lettrice del muro ha trovato una parola che sembrava parente e non lo era. (soffia sull'inchiostro) Nemmeno io l'avrei vista.", "chiama": "la lettrice del muro"},
 		"congedo": {"chi": "w07-livia", "dice": "(soffia sull'inchiostro fresco) Sei arrivata. Bene: ho bisogno di qualcuno che sappia dubitare."},
 	},
 	"w07-s2": {
@@ -331,7 +319,7 @@ const SCENES := {
 			{"chi": "w07-zeno", "dice": "E questa di chi è parente, «conservare»?"},
 			{"chi": "w07-livia", "dice": "(soffia sull'inchiostro) Di «servare», tenere. Vedi? Lo sto facendo anch'io."},
 		],
-		"notizia": {"indice": 2, "chi": "w07-zeno", "dice": "L'ha letta grazie alla ragazzina. Vent'anni a copiarla e non l'aveva mai letta, capisci?"},
+		"notizia": {"indice": 2, "chi": "w07-zeno", "dice": "L'ha letta grazie alla parente forestiera. Vent'anni a copiarla e non l'aveva mai letta, capisci?", "chiama": "la parente forestiera"},
 		"congedo": {"chi": "w07-zeno", "dice": "Sei qui! E questa di chi è parente: una copista che di colpo legge?"},
 	},
 	"w08-s0": {
@@ -345,7 +333,7 @@ const SCENES := {
 			{"chi": "w08-doria", "dice": "L'acqua del canale, sai, cambia strada ogni primavera."},
 			{"chi": "w08-ciro", "dice": "L'acqua è acqua. Questi sono nodi."},
 		],
-		"notizia": {"indice": 3, "chi": "w08-doria", "dice": "Dicono che la ragazzina abbia acceso la lampada da una strada nuova. L'acqua fa lo stesso, quando può."},
+		"notizia": {"indice": 3, "chi": "w08-doria", "dice": "Dicono che quella arrivata con la corrente abbia acceso la lampada da una strada nuova. L'acqua fa lo stesso, quando può.", "chiama": "quella arrivata con la corrente"},
 		"congedo": {"chi": "w08-ciro", "dice": "Sei tu! Vieni, conta i nodi con me: da solo mi perdo sempre al quarto."},
 	},
 	"w08-s1": {
@@ -359,7 +347,7 @@ const SCENES := {
 			{"chi": "w08-ciro", "dice": "…uno, due, tre. Aspetta."},
 			{"chi": "w08-doria", "dice": "Prenditi il tempo. L'acqua ha aspettato me per trent'anni."},
 		],
-		"notizia": {"indice": 1, "chi": "w08-ciro", "dice": "La ragazzina l'ha detto prima di te: stretto e veloce, largo e piano. Contavo i nodi e non ci arrivavo."},
+		"notizia": {"indice": 1, "chi": "w08-ciro", "dice": "La ragazza dei nodi l'ha detto prima: stretto e veloce, largo e piano. Contavo i nodi e non ci arrivavo.", "chiama": "la ragazza dei nodi"},
 		"congedo": {"chi": "w08-doria", "dice": "C'è qualcuno alla porta. L'acqua lo sa prima di me: la superficie si muove. Entra."},
 	},
 	"w08-s2": {
@@ -373,7 +361,7 @@ const SCENES := {
 			{"chi": "w08-doria", "dice": "Ecco. Adesso somigli all'acqua."},
 			{"chi": "w08-ciro", "dice": "Non so se è un complimento, ma me lo tengo."},
 		],
-		"notizia": {"indice": 2, "chi": "w08-doria", "dice": "È stata la ragazzina a chiederglielo: non dov'è il nodo, cosa fa. L'acqua chiede sempre così."},
+		"notizia": {"indice": 2, "chi": "w08-doria", "dice": "È stata quella arrivata con la corrente a chiederglielo: non dov'è il nodo, cosa fa. L'acqua chiede sempre così.", "chiama": "quella arrivata con la corrente"},
 		"congedo": {"chi": "w08-ciro", "dice": "Ah, sei arrivata! Uno, due, tre nodi — e stavolta so dirti a cosa servono."},
 	},
 	"w09-s0": {
@@ -386,7 +374,7 @@ const SCENES := {
 			{"chi": "w09-alma", "dice": "Metà arcipelago non è disegnato. È diverso."},
 			{"chi": "w09-remo", "dice": "La rotta del nord la conosco a memoria e non è su nessuna carta. Anche lei è diversa?"},
 		],
-		"notizia": {"indice": 2, "chi": "w09-remo", "dice": "Dicono che la ragazzina abbia trovato un'isola partendo da due numeri. La rotta, quella, non l'ha chiesta a nessuno."},
+		"notizia": {"indice": 2, "chi": "w09-remo", "dice": "Dicono che quella senza rotta abbia trovato un'isola partendo da due numeri. E la rotta non l'ha chiesta a nessuno.", "chiama": "quella senza rotta"},
 		"congedo": {"chi": "w09-alma", "dice": "(bagna la matita) Sei lì da un po'. Vieni: mi serve qualcuno che abbia visto il promontorio est."},
 	},
 	"w09-s1": {
@@ -400,7 +388,7 @@ const SCENES := {
 			{"chi": "w09-alma", "dice": "(bagna la matita) …ci arrivo. Ci arriva chiunque, anche chi non ti ha mai sentito parlare."},
 			{"chi": "w09-remo", "dice": "Ecco perché voglio scriverla. Ogni rotta deve sopravvivere a chi la sa."},
 		],
-		"notizia": {"indice": 3, "chi": "w09-alma", "dice": "La ragazzina ha messo i numeri sulla carta e la rotta è comparsa. (bagna la matita) I numeri sono posti, a quanto pare."},
+		"notizia": {"indice": 3, "chi": "w09-alma", "dice": "La nuova del molo ha messo i numeri sulla carta e la rotta è comparsa. (bagna la matita) I numeri sono posti, a quanto pare.", "chiama": "la nuova del molo"},
 		"congedo": {"chi": "w09-remo", "dice": "Ehi. La rotta di chi entra piano è quella dei curiosi. Siediti."},
 	},
 	"w09-s2": {
@@ -414,7 +402,7 @@ const SCENES := {
 			{"chi": "w09-remo", "dice": "Allora è giusta così: la rotta ha bisogno di tutte e due le cose."},
 			{"chi": "w09-alma", "dice": "Su questo non discuto. Ho scritto anche i tuoi nomi, in fondo."},
 		],
-		"notizia": {"indice": 1, "chi": "w09-remo", "dice": "L'ha cominciata la ragazzina, quella carta. Poi Alma non si è più fermata."},
+		"notizia": {"indice": 1, "chi": "w09-remo", "dice": "L'ha cominciata quella senza rotta, quella carta. Poi Alma non si è più fermata.", "chiama": "quella senza rotta"},
 		"congedo": {"chi": "w09-alma", "dice": "(bagna la matita) Arrivi giusta. Guarda: la rotta di Remo, su carta, che non si perde più."},
 	},
 	"w10-s0": {
@@ -427,7 +415,7 @@ const SCENES := {
 			{"chi": "w10-ortensia", "dice": "Tutte e tre insieme, immagino. Le piante non si lamentano."},
 			{"chi": "w10-mirta", "dice": "Le mie non si lamentavano mai. E infatti non ho capito niente per vent'anni."},
 		],
-		"notizia": {"indice": 1, "chi": "w10-mirta", "dice": "Bevi la tisana. Dicono che la ragazzina abbia cambiato una cosa sola, e che si sia visto subito."},
+		"notizia": {"indice": 1, "chi": "w10-mirta", "dice": "Bevi la tisana. Dicono che la piccola nuova abbia cambiato una cosa sola, e che si sia visto subito.", "chiama": "la piccola nuova"},
 		"congedo": {"chi": "w10-mirta", "dice": "Oh, piccola, sei qui. Siediti che la tisana è appena pronta."},
 	},
 	"w10-s1": {
@@ -441,7 +429,7 @@ const SCENES := {
 			{"chi": "w10-ortensia", "dice": "È esattamente scienza. Ti manca solo il nome."},
 			{"chi": "w10-mirta", "dice": "Prendi la tisana e non dire sciocchezze."},
 		],
-		"notizia": {"indice": 3, "chi": "w10-ortensia", "dice": "La ragazzina ha messo i quaderni in fila e ha visto la curva. Anche le piante l'avevano vista."},
+		"notizia": {"indice": 3, "chi": "w10-ortensia", "dice": "Quella della serra ha messo i quaderni in fila e ha visto la curva. Anche le piante l'avevano vista.", "chiama": "quella della serra"},
 		"congedo": {"chi": "w10-ortensia", "dice": "Ah, ci sei. Vieni: sto convincendo Mirta di essere una scienziata da quarant'anni."},
 	},
 	"w10-s2": {
@@ -455,7 +443,7 @@ const SCENES := {
 			{"chi": "w10-mirta", "dice": "Allora tieni, la tisana della terza prova. È la più buona."},
 			{"chi": "w10-ortensia", "dice": "Le piante approvano. Me l'hanno detto stamattina."},
 		],
-		"notizia": {"indice": 2, "chi": "w10-mirta", "dice": "Bevi, piccola. La ragazzina gliel'ha fatto scrivere sul vetro, così non se lo dimentica più."},
+		"notizia": {"indice": 2, "chi": "w10-mirta", "dice": "Bevi, piccola. La piccola nuova gliel'ha fatto scrivere sul vetro, così non se lo dimentica più.", "chiama": "la piccola nuova"},
 		"congedo": {"chi": "w10-mirta", "dice": "Piccola! Arrivi giusta per la tisana e per la buona notizia."},
 	},
 	"w11-s0": {
@@ -468,7 +456,7 @@ const SCENES := {
 			{"chi": "w11-danio", "dice": "Me l'hanno detto in tre. Tre persone diverse!"},
 			{"chi": "w11-vesta", "dice": "Anche le cronache si copiano fra loro. Tre copie non fanno tre testimoni."},
 		],
-		"notizia": {"indice": 3, "chi": "w11-vesta", "dice": "Dicono che la ragazzina abbia chiesto a ciascuno dove l'avesse sentito. Tutte e tre le cronache portavano allo stesso tale."},
+		"notizia": {"indice": 3, "chi": "w11-vesta", "dice": "Dicono che la forestiera abbia chiesto a ciascuno dove l'avesse sentito. Tutte e tre le cronache portavano allo stesso tale.", "chiama": "la forestiera"},
 		"congedo": {"chi": "w11-danio", "dice": "Oh, sei tu! Scommetto che hai sentito tutto. Scommetto anche che hai ragione tu."},
 	},
 	"w11-s1": {
@@ -482,7 +470,7 @@ const SCENES := {
 			{"chi": "w11-danio", "dice": "…e allora la scommessa non si vince contando le teste."},
 			{"chi": "w11-vesta", "dice": "No. E non si vince nemmeno bruciando una delle due cronache."},
 		],
-		"notizia": {"indice": 2, "chi": "w11-danio", "dice": "Scommetto che è stata la ragazzina a chiederlo: non quanti lo dicono, chi lo dice. Ho perso una moneta e ho imparato una cosa."},
+		"notizia": {"indice": 2, "chi": "w11-danio", "dice": "Scommetto che è stata la cliente nuova a chiederlo: non quanti lo dicono, chi lo dice. Ho perso una moneta e ho imparato una cosa.", "chiama": "la cliente nuova"},
 		"congedo": {"chi": "w11-vesta", "dice": "(posa le cronache) C'è qualcuno. Avvicinati: si stava discutendo di prove."},
 	},
 	"w11-s2": {
@@ -496,7 +484,7 @@ const SCENES := {
 			{"chi": "w11-vesta", "dice": "Le cronache si controllano allo stesso modo: si guarda chi le ha firmate."},
 			{"chi": "w11-danio", "dice": "Sto imparando a perdere le scommesse. È più utile di quanto sembri."},
 		],
-		"notizia": {"indice": 1, "chi": "w11-vesta", "dice": "Gliel'ha insegnato la ragazzina, guardando il fondo di un vaso. Le cronache hanno un fondo anche loro."},
+		"notizia": {"indice": 1, "chi": "w11-vesta", "dice": "Gliel'ha insegnato la forestiera, guardando il fondo di un vaso. Le cronache hanno un fondo anche loro.", "chiama": "la forestiera"},
 		"congedo": {"chi": "w11-danio", "dice": "Ehi! Scommetto che vuoi vedere il bollo. Vieni, te lo mostro."},
 	},
 	"w12-s0": {
@@ -509,7 +497,7 @@ const SCENES := {
 			{"chi": "w12-quinto", "dice": "Non si spostano."},
 			{"chi": "w12-isa", "dice": "Stamattina si sono spostati. E i tuoi passi sono diventati duecentonovanta."},
 		],
-		"notizia": {"indice": 3, "chi": "w12-isa", "dice": "E se invece fosse come dice la ragazzina? Lei non conta i passi: segna i bivi e torna indietro."},
+		"notizia": {"indice": 3, "chi": "w12-isa", "dice": "E se invece fosse come dice quella col filo? Non conta i passi: segna i bivi e torna indietro.", "chiama": "quella col filo"},
 		"congedo": {"chi": "w12-quinto", "dice": "Tu. Quanti passi hai fatto per arrivare fin qui senza che ti sentissi?"},
 	},
 	"w12-s1": {
@@ -523,7 +511,7 @@ const SCENES := {
 			{"chi": "w12-quinto", "dice": "…ho contato i passi per trent'anni."},
 			{"chi": "w12-isa", "dice": "Lo so. Per questo te lo dico piano."},
 		],
-		"notizia": {"indice": 1, "chi": "w12-quinto", "dice": "La ragazzina ha usato il filo di Isa e ha fatto meno passi di me. Molti meno."},
+		"notizia": {"indice": 1, "chi": "w12-quinto", "dice": "Quella che fa meno passi ha usato il filo di Isa. Molti meno dei miei.", "chiama": "quella che fa meno passi"},
 		"congedo": {"chi": "w12-isa", "dice": "Oh, sei arrivata! E se invece provassimo il filo in tre?"},
 	},
 	"w12-s2": {
@@ -537,7 +525,7 @@ const SCENES := {
 			{"chi": "w12-isa", "dice": "Il tuo metodo ha un nome, sai. Me l'hanno detto."},
 			{"chi": "w12-quinto", "dice": "Il *tuo* metodo, Isa. Io l'ho solo imparato."},
 		],
-		"notizia": {"indice": 3, "chi": "w12-isa", "dice": "Gliel'ha detto la ragazzina: il mio trucco ha un nome anche fuori dal Labirinto. E se invece fosse sempre stato un metodo?"},
+		"notizia": {"indice": 3, "chi": "w12-isa", "dice": "Gliel'ha detto quella col filo: il mio trucco ha un nome anche fuori dal Labirinto. E se invece fosse sempre stato un metodo?", "chiama": "quella col filo"},
 		"congedo": {"chi": "w12-quinto", "dice": "Sei qui. Guarda: ho fatto quaranta passi invece di trecento, e non ho contato nemmeno uno."},
 	},
 	"w13-s0": {
@@ -550,7 +538,7 @@ const SCENES := {
 			{"chi": "w13-solano", "dice": "Questo non è misurare. È indovinare."},
 			{"chi": "w13-duna", "dice": "Sarà. Però ci arrivo, e tu sei fermo qui."},
 		],
-		"notizia": {"indice": 3, "chi": "w13-duna", "dice": "Dicono che la ragazzina abbia dato una risposta con lo strumento rotto. E che fosse vicina a quella vera."},
+		"notizia": {"indice": 3, "chi": "w13-duna", "dice": "Dicono che quella che cammina lontano abbia dato una risposta con lo strumento rotto. E che fosse vicina a quella vera.", "chiama": "quella che cammina lontano"},
 		"congedo": {"chi": "w13-solano", "dice": "(pulisce le lenti) C'è qualcuno. Bene: mi serve un giudice imparziale."},
 	},
 	"w13-s1": {
@@ -565,7 +553,7 @@ const SCENES := {
 			{"chi": "w13-duna", "dice": "E che differenza fa?"},
 			{"chi": "w13-solano", "dice": "Che un dono non si insegna. Una stima sì."},
 		],
-		"notizia": {"indice": 2, "chi": "w13-solano", "dice": "La ragazzina ha misurato quello che Duna indovinava. I due numeri erano quasi lo stesso numero."},
+		"notizia": {"indice": 2, "chi": "w13-solano", "dice": "La nuova dell'osservatorio ha misurato quello che Duna indovinava. I due numeri erano quasi lo stesso numero.", "chiama": "la nuova dell'osservatorio"},
 		"congedo": {"chi": "w13-duna", "dice": "(mano tesa verso di te) Eccoti. Sei a dieci passi, e non ho bisogno di contarli."},
 	},
 	"w13-s2": {
@@ -579,7 +567,7 @@ const SCENES := {
 			{"chi": "w13-duna", "dice": "Due ore e mezzo di cammino. Controlla domani con lo strumento nuovo."},
 			{"chi": "w13-solano", "dice": "Lo farò. E se torna, avrò imparato una cosa che credevo impossibile."},
 		],
-		"notizia": {"indice": 4, "chi": "w13-duna", "dice": "(mano tesa) È la ragazzina che ha detto a Solano di provare. Lui non l'avrebbe mai fatto da solo."},
+		"notizia": {"indice": 4, "chi": "w13-duna", "dice": "(mano tesa) È quella che cammina lontano ad aver detto a Solano di provare. Da solo non l'avrebbe fatto mai.", "chiama": "quella che cammina lontano"},
 		"congedo": {"chi": "w13-solano", "dice": "(pulisce le lenti) Sei arrivata. Guarda l'astronomo che indovina, e non ridere."},
 	},
 	"w14-s0": {
@@ -592,7 +580,7 @@ const SCENES := {
 			{"chi": "w14-elmo", "dice": "Non è nel testo."},
 			{"chi": "w14-ottavia", "dice": "È nel modo in cui la vecchia lo racconta. Il finale è lo stesso, la storia no."},
 		],
-		"notizia": {"indice": 3, "chi": "w14-ottavia", "dice": "(cambia voce) «Quella ragazzina!» Ha chiesto alla vecchia del ponte di raccontarla lei. Ed era un'altra storia."},
+		"notizia": {"indice": 3, "chi": "w14-ottavia", "dice": "(cambia voce) «Quella che ascolta due volte!» Ha chiesto alla vecchia del ponte di raccontarla lei. Ed era un'altra storia.", "chiama": "quella che ascolta due volte"},
 		"congedo": {"chi": "w14-elmo", "dice": "(taglia l'aria) Chiudo qui. Tu, vieni: mi serve qualcuno che legga anche la parte di mezzo."},
 	},
 	"w14-s1": {
@@ -606,7 +594,7 @@ const SCENES := {
 			{"chi": "w14-elmo", "dice": "(taglia l'aria) …e questo, in un riassunto, dove lo metto?"},
 			{"chi": "w14-ottavia", "dice": "Ecco. Adesso hai fatto una domanda da narratore."},
 		],
-		"notizia": {"indice": 1, "chi": "w14-elmo", "dice": "La ragazzina me l'ha chiesto ieri: chi lo racconta? Ci ho pensato tutta la notte."},
+		"notizia": {"indice": 1, "chi": "w14-elmo", "dice": "Quella che legge in mezzo me l'ha chiesto ieri: chi lo racconta? Ci ho pensato tutta la notte.", "chiama": "quella che legge in mezzo"},
 		"congedo": {"chi": "w14-ottavia", "dice": "(cambia voce) «Chi va là?» …ah, sei tu. Entra, entra."},
 	},
 	"w14-s2": {
@@ -620,7 +608,7 @@ const SCENES := {
 			{"chi": "w14-ottavia", "dice": "No, dai, è una bella notizia. Rileggilo."},
 			{"chi": "w14-elmo", "dice": "…«il ponte crolla, e ognuno dei tre pensa che sia colpa sua». Ecco."},
 		],
-		"notizia": {"indice": 4, "chi": "w14-ottavia", "dice": "(cambia voce) «Merito mio!» No: della ragazzina. Gli ha chiesto in che punto il testimone cambia idea."},
+		"notizia": {"indice": 4, "chi": "w14-ottavia", "dice": "(cambia voce) «Merito mio!» No: di quella che ascolta due volte. Gli ha chiesto in che punto il testimone cambia idea.", "chiama": "quella che ascolta due volte"},
 		"congedo": {"chi": "w14-elmo", "dice": "(taglia l'aria) Sei arrivata. Siediti: c'è una cosa che ho capito tardi e voglio dirla bene."},
 	},
 	"w15-s0": {
@@ -633,7 +621,7 @@ const SCENES := {
 			{"chi": "w15-gru", "dice": "Adesso. Che domanda è?"},
 			{"chi": "w15-pila", "dice": "È una domanda importante. Io le scrivo tutte, le ore."},
 		],
-		"notizia": {"indice": 3, "chi": "w15-pila", "dice": "E quando è successo? Alle undici, dice la ragazzina. Come martedì scorso, e come quello prima."},
+		"notizia": {"indice": 3, "chi": "w15-pila", "dice": "E quando è successo? Alle undici, dice quella dell'orologio. Come martedì scorso, e come quello prima.", "chiama": "quella dell'orologio"},
 		"congedo": {"chi": "w15-gru", "dice": "(colpetto al banco) Oh, sei qui! Guarda che macchina testarda mi tocca."},
 	},
 	"w15-s1": {
@@ -647,7 +635,7 @@ const SCENES := {
 			{"chi": "w15-gru", "dice": "Allora non è sfortuna. La sfortuna non guarda il calendario."},
 			{"chi": "w15-pila", "dice": "Ecco. È quello che dico da un anno e nessuno mi ascolta."},
 		],
-		"notizia": {"indice": 4, "chi": "w15-gru", "dice": "La ragazzina ha letto il quaderno di Pila prima di me. (colpetto) Un anno che ce l'avevo sotto il naso."},
+		"notizia": {"indice": 4, "chi": "w15-gru", "dice": "La nuova dell'officina ha letto il quaderno di Pila prima di me. (colpetto) Un anno che ce l'avevo sotto il naso.", "chiama": "la nuova dell'officina"},
 		"congedo": {"chi": "w15-pila", "dice": "Sei tu! E quando è successo che sei arrivata? Devo scriverlo."},
 	},
 	"w15-s2": {
@@ -661,7 +649,7 @@ const SCENES := {
 			{"chi": "w15-pila", "dice": "…allora il mio quaderno serve davvero."},
 			{"chi": "w15-gru", "dice": "(colpetto affettuoso al quaderno) Serve più di me, direi."},
 		],
-		"notizia": {"indice": 2, "chi": "w15-pila", "dice": "E quando è successo il cambiamento? Da quando la ragazzina ha detto a Gru di leggere invece di picchiare."},
+		"notizia": {"indice": 2, "chi": "w15-pila", "dice": "E quando è successo il cambiamento? Da quando quella dell'orologio ha detto a Gru di leggere invece di picchiare.", "chiama": "quella dell'orologio"},
 		"congedo": {"chi": "w15-gru", "dice": "(colpetto alla macchina) Arrivi giusta! Guarda: due settimane senza un guasto."},
 	},
 	"w16-s0": {
@@ -674,7 +662,7 @@ const SCENES := {
 			{"chi": "w16-talia", "dice": "L'ambasciatore ha chiesto di che lupo si trattava. Scusa, davvero."},
 			{"chi": "w16-marco", "dice": "(conta sulle dita) Io in sei lingue non ho mai nominato un lupo. Cinque. Sette."},
 		],
-		"notizia": {"indice": 1, "chi": "w16-marco", "dice": "Dicono che la ragazzina abbia trovato la frase giusta senza tradurre le parole. Chissà in quante lingue si può fare."},
+		"notizia": {"indice": 1, "chi": "w16-marco", "dice": "Dicono che la ragazza del valico abbia trovato la frase giusta senza tradurre le parole. Chissà in quante lingue si può fare.", "chiama": "la ragazza del valico"},
 		"congedo": {"chi": "w16-talia", "dice": "Oh, scusa, non ti avevo vista. Scusa. Entra pure."},
 	},
 	"w16-s1": {
@@ -688,7 +676,7 @@ const SCENES := {
 			{"chi": "w16-talia", "dice": "Si stringono la mano e dicono «bevuto». Perché si beve sopra l'accordo."},
 			{"chi": "w16-marco", "dice": "(conta sulle dita) Sei lingue e non lo sapevo. Sette. Comunque non lo sapevo."},
 		],
-		"notizia": {"indice": 3, "chi": "w16-talia", "dice": "Scusa, ma devo dirlo: la ragazzina l'ha capito guardando cosa facevano, non cosa dicevano."},
+		"notizia": {"indice": 3, "chi": "w16-talia", "dice": "Scusa, ma devo dirlo: quella che ascolta prima l'ha capito guardando cosa facevano, non cosa dicevano.", "chiama": "quella che ascolta prima"},
 		"congedo": {"chi": "w16-marco", "dice": "Ehi! (conta sulle dita) Arrivi in tempo per la lingua numero otto. O sei."},
 	},
 	"w16-s2": {
@@ -702,7 +690,7 @@ const SCENES := {
 			{"chi": "w16-marco", "dice": "…giusto. Ecco perché stavolta l'ho fatto leggere a te."},
 			{"chi": "w16-talia", "dice": "Grazie. Scusa. Cioè: grazie."},
 		],
-		"notizia": {"indice": 2, "chi": "w16-marco", "dice": "La ragazzina gli ha detto di guardare la clausola in tutte e due le lingue. (conta sulle dita) Una cosa da nove lingue."},
+		"notizia": {"indice": 2, "chi": "w16-marco", "dice": "La ragazza del valico gli ha detto di guardare la clausola in tutte e due le lingue. (conta sulle dita) Una cosa da nove lingue.", "chiama": "la ragazza del valico"},
 		"congedo": {"chi": "w16-talia", "dice": "Sei arrivata! Scusa il disordine. Guarda: due colonne che finalmente dicono la stessa cosa."},
 	},
 	"w17-s0": {
@@ -715,7 +703,7 @@ const SCENES := {
 			{"chi": "w17-nerea", "dice": "Tu hai smesso, Coral."},
 			{"chi": "w17-coral", "dice": "Ho smesso di scendere. Non di fare i numeri."},
 		],
-		"notizia": {"indice": 3, "chi": "w17-coral", "dice": "Quei numeri lì la ragazzina se li è letti tutti. Quattro quaderni. Non li aveva aperti mai nessuno."},
+		"notizia": {"indice": 3, "chi": "w17-coral", "dice": "Quei numeri lì quella che legge i quaderni se li è letti tutti. Quattro quaderni. Non li aveva aperti mai nessuno.", "chiama": "quella che legge i quaderni"},
 		"congedo": {"chi": "w17-nerea", "dice": "(riprende fiato) Ah, ci sei. Vieni: si discute di quanto si può stare sotto."},
 	},
 	"w17-s1": {
@@ -729,7 +717,7 @@ const SCENES := {
 			{"chi": "w17-nerea", "dice": "Se lo leggo, vuol dire che il corpo non basta."},
 			{"chi": "w17-coral", "dice": "Il corpo ti porta giù. I numeri ti riportano su."},
 		],
-		"notizia": {"indice": 2, "chi": "w17-coral", "dice": "La ragazzina ha rifatto il conto della sosta e le è tornato uguale al mio. Numeri di trent'anni fa."},
+		"notizia": {"indice": 2, "chi": "w17-coral", "dice": "Quella che rifà i conti ha ricalcolato la sosta e le è tornata uguale alla mia. Numeri di trent'anni fa.", "chiama": "quella che rifà i conti"},
 		"congedo": {"chi": "w17-coral", "dice": "C'è qualcuno lì. Avanti: se sei venuta per i numeri sei nel posto giusto."},
 	},
 	"w17-s2": {
@@ -743,7 +731,7 @@ const SCENES := {
 			{"chi": "w17-coral", "dice": "Ecco. Quei numeri servivano a questo."},
 			{"chi": "w17-nerea", "dice": "Insegnamelo per bene. Voglio scendere ancora, e voglio tornare su ogni volta."},
 		],
-		"notizia": {"indice": 1, "chi": "w17-coral", "dice": "Gliel'ha fatto fare la ragazzina: prima il conto, poi l'acqua. Adesso Nerea legge i miei numeri prima di ogni discesa."},
+		"notizia": {"indice": 1, "chi": "w17-coral", "dice": "Gliel'ha fatto fare quella che risale piano: prima il conto, poi l'acqua. Adesso Nerea legge i miei numeri prima di ogni discesa.", "chiama": "quella che risale piano"},
 		"congedo": {"chi": "w17-nerea", "dice": "(riprende fiato) Sei tu! Vieni a sentire dove sono arrivata. E come sono tornata."},
 	},
 	"w18-s0": {
@@ -756,7 +744,7 @@ const SCENES := {
 			{"chi": "w18-silo", "dice": "Il piano qui non si sente."},
 			{"chi": "w18-bea", "dice": "La navata è una ficcanaso, mica sorda."},
 		],
-		"notizia": {"indice": 3, "chi": "w18-bea", "dice": "La ragazzina ha cantato piano sotto il pulpito e l'ha sentita anche il fondo della navata. La ficcanaso ha fatto tutto il resto."},
+		"notizia": {"indice": 3, "chi": "w18-bea", "dice": "Quella del punto magico ha cantato piano sotto il pulpito e l'ha sentita anche il fondo della navata. La ficcanaso ha fatto il resto.", "chiama": "quella del punto magico"},
 		"congedo": {"chi": "w18-silo", "dice": "(apre gli occhi) C'è qualcuno in fondo. Il riverbero è cambiato. Vieni avanti."},
 	},
 	"w18-s1": {
@@ -770,7 +758,7 @@ const SCENES := {
 			{"chi": "w18-silo", "dice": "(conta il riverbero) Quattro secondi. E si capisce ogni parola."},
 			{"chi": "w18-bea", "dice": "Se suoni forte, i quattro secondi si accavallano e diventano fango."},
 		],
-		"notizia": {"indice": 1, "chi": "w18-silo", "dice": "(conta il riverbero) La ragazzina è stata in fondo e mi ha detto dove le parole si impastavano. Da qui non lo sentivo."},
+		"notizia": {"indice": 1, "chi": "w18-silo", "dice": "(conta il riverbero) Chi era in fondo alla navata mi ha detto dove le parole si impastavano. Da qui non lo sentivo.", "chiama": "chi era in fondo alla navata"},
 		"congedo": {"chi": "w18-bea", "dice": "Ehi, sei arrivata! Vieni sul punto magico, che la navata ti fa uno scherzo."},
 	},
 	"w18-s2": {
@@ -784,7 +772,7 @@ const SCENES := {
 			{"chi": "w18-bea", "dice": "Guarda che io la prendo in giro da vent'anni e adesso mi tocca ringraziarla."},
 			{"chi": "w18-silo", "dice": "Ringrazia la tua mappa. Io ci suono sopra da stasera."},
 		],
-		"notizia": {"indice": 4, "chi": "w18-bea", "dice": "La ragazzina ha preso sul serio la mia mappa dell'eco. Da allora la navata si comporta bene."},
+		"notizia": {"indice": 4, "chi": "w18-bea", "dice": "Quella del punto magico ha preso sul serio la mia mappa dell'eco. Da allora la navata si comporta bene.", "chiama": "quella del punto magico"},
 		"congedo": {"chi": "w18-silo", "dice": "(conta il riverbero) Sei entrata. Resta: stasera si prova col piano."},
 	},
 	"w19-s0": {
@@ -797,7 +785,7 @@ const SCENES := {
 			{"chi": "w19-numa", "dice": "È un nome da contadini."},
 			{"chi": "w19-fiorina", "dice": "Sarà. Però è scritto lì, sulla tua lapide, sotto la polvere."},
 		],
-		"notizia": {"indice": 3, "chi": "w19-fiorina", "dice": "La ragazzina ha letto quel nome sulla pietra. Io lo chiamo così da sempre e non l'avevo mai visto scritto."},
+		"notizia": {"indice": 3, "chi": "w19-fiorina", "dice": "Quella che legge le pietre ha trovato quel nome inciso. Io lo chiamo così da sempre e non l'avevo mai visto scritto.", "chiama": "quella che legge le pietre"},
 		"congedo": {"chi": "w19-numa", "dice": "(lucida la pietra) Sei arrivata. Vieni a leggere: c'è una cosa che mi dà fastidio."},
 	},
 	"w19-s1": {
@@ -811,7 +799,7 @@ const SCENES := {
 			{"chi": "w19-numa", "dice": "Tu chiami le piante con quello che ne è rimasto. Che non è la stessa cosa. E non è peggio."},
 			{"chi": "w19-fiorina", "dice": "Io le chiamo e basta. Non sapevo di portare niente."},
 		],
-		"notizia": {"indice": 1, "chi": "w19-numa", "dice": "(lucida la lapide) La ragazzina ha messo i due nomi uno accanto all'altro. Trent'anni che li avevo davanti."},
+		"notizia": {"indice": 1, "chi": "w19-numa", "dice": "(lucida la lapide) La nuova della Necropoli ha messo i due nomi uno accanto all'altro. Trent'anni che li avevo davanti.", "chiama": "la nuova della Necropoli"},
 		"congedo": {"chi": "w19-fiorina", "dice": "Oh, ci sei. Vieni, che oggi chiamo le piante e Numa fa finta di non ascoltare."},
 	},
 	"w19-s2": {
@@ -825,7 +813,7 @@ const SCENES := {
 			{"chi": "w19-fiorina", "dice": "Allora i nomi che chiamo non me li sono inventati."},
 			{"chi": "w19-numa", "dice": "Te li hanno passati. E tu li stai passando avanti senza accorgertene."},
 		],
-		"notizia": {"indice": 4, "chi": "w19-fiorina", "dice": "L'ha detto la ragazzina per prima: i nomi si tramandano anche quando nessuno sa di tramandarli."},
+		"notizia": {"indice": 4, "chi": "w19-fiorina", "dice": "L'ha detto quella che legge le pietre per prima: i nomi si tramandano anche quando nessuno sa di tramandarli.", "chiama": "quella che legge le pietre"},
 		"congedo": {"chi": "w19-numa", "dice": "(lucida la lapide) Eccoti. Siediti: ho una parola in mezzo che ti riguarda."},
 	},
 	"w20-s0": {
@@ -838,7 +826,7 @@ const SCENES := {
 			{"chi": "w20-sferza", "dice": "Bello. E il mio sensore?"},
 			{"chi": "w20-quieto", "dice": "Bruciato, immagino. Come gli altri due, in cinque secondi."},
 		],
-		"notizia": {"indice": 3, "chi": "w20-quieto", "dice": "Cinque secondi, sempre. La ragazzina li ha contati con me e le tornavano gli stessi."},
+		"notizia": {"indice": 3, "chi": "w20-quieto", "dice": "Cinque secondi, sempre. Quella che conta con me li ha contati e le tornavano gli stessi.", "chiama": "quella che conta con me"},
 		"congedo": {"chi": "w20-sferza", "dice": "(nocche sul banco) Ehi, sei tu! Vieni, che qui si brucia roba e si impara poco."},
 	},
 	"w20-s1": {
@@ -852,7 +840,7 @@ const SCENES := {
 			{"chi": "w20-sferza", "dice": "Cinque secondi. Detto così sembra poco."},
 			{"chi": "w20-quieto", "dice": "È tutto quello che serve, di solito."},
 		],
-		"notizia": {"indice": 1, "chi": "w20-sferza", "dice": "(nocche sul quadro) La ragazzina ha misurato prima di toccare. Il sensore è ancora vivo, guarda."},
+		"notizia": {"indice": 1, "chi": "w20-sferza", "dice": "(nocche sul quadro) La ragazza dei sensori ha misurato prima di toccare. Il sensore è ancora vivo, guarda.", "chiama": "la ragazza dei sensori"},
 		"congedo": {"chi": "w20-quieto", "dice": "Uno. Due. Tre. Sei entrata al terzo secondo. Benvenuta."},
 	},
 	"w20-s2": {
@@ -866,7 +854,7 @@ const SCENES := {
 			{"chi": "w20-quieto", "dice": "Allora te la insegno tutta, la lettura dei lampi. Uno, due, tre secondi: tre chilometri."},
 			{"chi": "w20-sferza", "dice": "Aspetta che prendo da scrivere. Non voglio perderla."},
 		],
-		"notizia": {"indice": 3, "chi": "w20-quieto", "dice": "È la ragazzina che ha convinto Sferza a contare i secondi. Adesso posso lasciare a qualcuno la lettura dei lampi."},
+		"notizia": {"indice": 3, "chi": "w20-quieto", "dice": "È quella che conta con me ad aver convinto Sferza. Adesso posso lasciare a qualcuno la lettura dei lampi.", "chiama": "quella che conta con me"},
 		"congedo": {"chi": "w20-sferza", "dice": "(nocche sul quadro, piano) Arrivi giusta: sto imparando a contare invece che a spingere."},
 	},
 	"w21-s0": {
@@ -879,7 +867,7 @@ const SCENES := {
 			{"chi": "w21-terza", "dice": "Una filastrocca non è uno studio."},
 			{"chi": "w21-mino", "dice": "No. Però copre tutto l'anno, e i tuoi undici studi coprono undici posti."},
 		],
-		"notizia": {"indice": 3, "chi": "w21-mino", "dice": "Mangia il formaggio. La ragazzina ha messo i versi di mio nonno accanto ai fogli di Terza, e qualcosa combaciava."},
+		"notizia": {"indice": 3, "chi": "w21-mino", "dice": "Mangia il formaggio. La ragazza del pascolo ha messo i versi di mio nonno accanto ai fogli di Terza, e qualcosa combaciava.", "chiama": "la ragazza del pascolo"},
 		"congedo": {"chi": "w21-terza", "dice": "(batte i fogli sul tavolo) Sei qui. Bene: mi serve qualcuno che regga una filastrocca."},
 	},
 	"w21-s1": {
@@ -893,7 +881,7 @@ const SCENES := {
 			{"chi": "w21-terza", "dice": "(allinea i fogli) Il mio studio del versante nord dice la stessa cosa. In quattordici pagine."},
 			{"chi": "w21-mino", "dice": "Il nonno ci metteva otto parole. Però il nonno non sapeva perché."},
 		],
-		"notizia": {"indice": 1, "chi": "w21-terza", "dice": "(allinea i fogli) La ragazzina ha chiesto se qualcuno dei miei undici posti si parlasse con gli altri. Non me l'ero mai chiesto."},
+		"notizia": {"indice": 1, "chi": "w21-terza", "dice": "(allinea i fogli) La nuova dell'Atlante ha chiesto se qualcuno dei miei undici posti si parlasse con gli altri. Non me l'ero mai chiesto.", "chiama": "la nuova dell'Atlante"},
 		"congedo": {"chi": "w21-mino", "dice": "Oh! Formaggio? C'è sempre formaggio. Siediti, che si parla di mesi."},
 	},
 	"w21-s2": {
@@ -908,7 +896,7 @@ const SCENES := {
 			{"chi": "w21-terza", "dice": "Esatto. E la tua filastrocca me lo ha fatto vedere prima dei miei undici studi."},
 			{"chi": "w21-mino", "dice": "Tieni il formaggio. Te lo sei guadagnato, dottoressa."},
 		],
-		"notizia": {"indice": 2, "chi": "w21-mino", "dice": "Prendi il formaggio. È stata la ragazzina a mettere insieme i versi e i numeri, mica noi."},
+		"notizia": {"indice": 2, "chi": "w21-mino", "dice": "Prendi il formaggio. È stata la ragazza del pascolo a mettere insieme i versi e i numeri, mica noi.", "chiama": "la ragazza del pascolo"},
 		"congedo": {"chi": "w21-terza", "dice": "(allinea i fogli) Arrivi giusta. Guarda cosa esce da una filastrocca e undici studi."},
 	},
 	"w22-s0": {
@@ -921,7 +909,7 @@ const SCENES := {
 			{"chi": "w22-vesca", "dice": "È piccolo e non mangia nessuno."},
 			{"chi": "w22-fondo", "dice": "Guarda quanto ce n'è."},
 		],
-		"notizia": {"indice": 3, "chi": "w22-fondo", "dice": "Guarda: la ragazzina ha contato chi mangia chi. E ha disegnato le frecce, non i nomi."},
+		"notizia": {"indice": 3, "chi": "w22-fondo", "dice": "Guarda: quella che è scesa in fondo ha contato chi mangia chi. E ha disegnato le frecce, non i nomi.", "chiama": "quella che è scesa in fondo"},
 		"congedo": {"chi": "w22-vesca", "dice": "(annusa l'aria) C'è qualcuno. Odore di fuori. Vieni, che qui si discute di forza."},
 	},
 	"w22-s1": {
@@ -935,7 +923,7 @@ const SCENES := {
 			{"chi": "w22-vesca", "dice": "…e allora chi dei due vince?"},
 			{"chi": "w22-fondo", "dice": "Guarda meglio. Nessuno dei due, ed è per questo che sono ovunque."},
 		],
-		"notizia": {"indice": 1, "chi": "w22-vesca", "dice": "(annusa il campione) La ragazzina l'ha visto al microscopio prima di me: due cose che stanno insieme e nessuna comanda."},
+		"notizia": {"indice": 1, "chi": "w22-vesca", "dice": "(annusa il campione) La nuova della caverna l'ha visto al microscopio prima di me: due cose che stanno insieme e nessuna comanda.", "chiama": "la nuova della caverna"},
 		"congedo": {"chi": "w22-fondo", "dice": "Guarda chi c'è. (indica lo sgabello) Siediti là."},
 	},
 	"w22-s2": {
@@ -949,7 +937,7 @@ const SCENES := {
 			{"chi": "w22-fondo", "dice": "Guarda quella. È l'unica cosa qua sotto che non mangia e non viene mangiata."},
 			{"chi": "w22-vesca", "dice": "Una domanda. Qualcuno ha inciso una domanda e ha aspettato."},
 		],
-		"notizia": {"indice": 2, "chi": "w22-fondo", "dice": "Guarda: la ragazzina l'ha letta ad alta voce. Era la prima volta in quattrocento anni."},
+		"notizia": {"indice": 2, "chi": "w22-fondo", "dice": "Guarda: quella che è scesa in fondo l'ha letta ad alta voce. Era la prima volta in quattrocento anni.", "chiama": "quella che è scesa in fondo"},
 		"congedo": {"chi": "w22-vesca", "dice": "(annusa l'aria) Sei tu. Vieni in fondo: c'è una cosa che devi leggere."},
 	},
 	"w23-s0": {
@@ -962,7 +950,7 @@ const SCENES := {
 			{"chi": "w23-cronia", "dice": "Le carte non hanno freddo, Ovidio."},
 			{"chi": "w23-ovidio", "dice": "Allora diciamo che ce l'ho io, e che le tengo al caldo lo stesso."},
 		],
-		"notizia": {"indice": 3, "chi": "w23-ovidio", "dice": "Le carte lo sanno: la ragazzina ne ha lette tre versioni e non ne ha buttata nessuna."},
+		"notizia": {"indice": 3, "chi": "w23-ovidio", "dice": "Le carte lo sanno: quella che ha chiesto le carte ne ha lette tre versioni e non ne ha buttata nessuna.", "chiama": "quella che ha chiesto le carte"},
 		"congedo": {"chi": "w23-cronia", "dice": "(timbra) C'è qualcuno. Avanti. E non toccare i faldoni sul tavolo."},
 	},
 	"w23-s1": {
@@ -976,7 +964,7 @@ const SCENES := {
 			{"chi": "w23-cronia", "dice": "…quarant'anni."},
 			{"chi": "w23-ovidio", "dice": "Non per disobbedire. Perché sparivano, e qualcuno doveva tenerle."},
 		],
-		"notizia": {"indice": 1, "chi": "w23-cronia", "dice": "(timbra) La ragazzina mi ha chiesto da quale fonte lo sapessi. Non me l'aveva mai chiesto nessuno."},
+		"notizia": {"indice": 1, "chi": "w23-cronia", "dice": "(timbra) La ricercatrice nuova mi ha chiesto da quale fonte lo sapessi. Non me l'aveva mai chiesto nessuno.", "chiama": "la ricercatrice nuova"},
 		"congedo": {"chi": "w23-ovidio", "dice": "Oh, sei arrivata. Piano con la porta: le carte si spaventano."},
 	},
 	"w23-s2": {
@@ -990,7 +978,7 @@ const SCENES := {
 			{"chi": "w23-ovidio", "dice": "Allora non era disobbedienza, la mia. Era conservazione."},
 			{"chi": "w23-cronia", "dice": "Era il tuo lavoro, Ovidio. L'ho capito con quarant'anni di ritardo."},
 		],
-		"notizia": {"indice": 2, "chi": "w23-ovidio", "dice": "Le carte respirano meglio da quando è passata la ragazzina. Ha chiesto di vedere anche quelle scomode."},
+		"notizia": {"indice": 2, "chi": "w23-ovidio", "dice": "Le carte respirano meglio da quando è passata quella che ha chiesto le carte. Ha voluto vedere anche quelle scomode.", "chiama": "quella che ha chiesto le carte"},
 		"congedo": {"chi": "w23-cronia", "dice": "(timbra) Sei tu. Vieni: c'è un vuoto di quattro secoli e adesso abbiamo di che riempirlo."},
 	},
 }

@@ -31,6 +31,24 @@ const MIN_TIC_SHARE := 0.34
 ## Ogni battuta già vista, con chi la dice: serve al controllo fra personaggi.
 var _lines_everywhere: Dictionary = {}
 
+## Quante **persone diverse** possono aprire una battuta con le stesse due
+## parole, dentro lo stesso gruppo.
+##
+## Contare le battute ripetute non bastava, e per mesi non ha visto niente: le
+## battute erano tutte diverse e il gioco suonava lo stesso uguale. Il 3 agosto la
+## misura giusta ha detto che **diciassette residenti** che non si sono mai
+## incontrati cominciavano con «Mi serve», quattordici con «Non è», e dieci
+## nominavano Sesto con la stessa perifrasi. Un personaggio che ripete sé stesso è
+## in carattere; dieci che ripetono la stessa apertura sono la voce di chi scrive
+## che esce da sotto.
+##
+## Il tetto è a sette perché oggi il caso peggiore è sei: un posto di margine, e
+## non uno di più.
+const MAX_STESSA_APERTURA := 7
+
+## opener → { pool → { npc_id } }
+var _aperture: Dictionary = {}
+
 func _init() -> void:
 	var failures: Array = []
 	var worlds: Dictionary = {}
@@ -105,6 +123,7 @@ func _init() -> void:
 					other, world, str(pair_of[world])])
 
 	failures.append_array(_check_conta())
+	failures.append_array(_check_openers())
 
 	print("\nresidenti: %d · bislacchi: %d · mondi coperti: %d su 24" % [
 		NpcCatalog.RESIDENTS.size(), NpcCatalog.BISLACCHI.size(), levels.size()])
@@ -148,6 +167,7 @@ func _check_pools(npc_id: String, npc: Dictionary) -> Array:
 		if lines.size() < MIN_PER_POOL:
 			out.append("%s: «%s» ha %d battute, minimo %d" % [
 				npc_id, pool, lines.size(), MIN_PER_POOL])
+		_record_openers(npc_id, str(pool), lines)
 		all_lines.append_array(lines)
 	if all_lines.size() < MIN_LINES_RESIDENT:
 		out.append("%s: %d battute in tutto, minimo %d" % [
@@ -171,6 +191,7 @@ func _check_pools(npc_id: String, npc: Dictionary) -> Array:
 			if lines.size() < minimum:
 				out.append("%s: «%s» ha %d battute, minimo %d" % [
 					npc_id, pool, lines.size(), minimum])
+			_record_openers(npc_id, str(pool), lines)
 			all_lines.append_array(lines)
 
 	out.append_array(_check_screens(npc_id, all_lines))
@@ -190,6 +211,38 @@ func _check_pools(npc_id: String, npc: Dictionary) -> Array:
 			out.append("%s: dice la stessa battuta di %s" % [npc_id, str(_lines_everywhere[key])])
 		else:
 			_lines_everywhere[key] = npc_id
+	return out
+
+## Le prime due parole della prima schermata, ripulite: è quello che il
+## giocatore sente per primo, ed è la parte che si ripete senza accorgersene.
+func _record_openers(npc_id: String, pool: String, lines: Array) -> void:
+	for line_data in lines:
+		var screens: Array = line_data
+		if screens.is_empty():
+			continue
+		var words := str(screens[0]).to_lower().split(" ", false)
+		if words.size() < 2:
+			continue
+		var opener := ("%s %s" % [words[0], words[1]]).strip_edges().trim_suffix(",").trim_suffix(".")
+		var key := "%s|%s" % [pool, opener]
+		var speakers: Dictionary = _aperture.get(key, {})
+		speakers[npc_id] = true
+		_aperture[key] = speakers
+
+func _check_openers() -> Array:
+	var out: Array = []
+	var worst := 0
+	var worst_key := ""
+	for key in _aperture.keys():
+		var speakers: Dictionary = _aperture[key]
+		if speakers.size() > worst:
+			worst = speakers.size()
+			worst_key = str(key)
+		if speakers.size() > MAX_STESSA_APERTURA:
+			var parts := str(key).split("|")
+			out.append("in «%s» ci sono %d personaggi diversi che aprono con «%s» (massimo %d): non è più il loro modo di parlare, è il mio" % [
+				parts[0], speakers.size(), parts[1], MAX_STESSA_APERTURA])
+	print("apertura più condivisa: %d personaggi (%s)" % [worst, worst_key])
 	return out
 
 func _check_screens(npc_id: String, lines: Array) -> Array:

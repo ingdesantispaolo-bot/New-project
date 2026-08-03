@@ -72,11 +72,17 @@ func _accept_owner_request(world: Node, area: Area2D) -> void:
 	var owner_id := str(Dictionary(area.get_meta("payload", {})).get("ownerNpc", ""))
 	if owner_id == "":
 		return
-	world.call("_open_npc_dialogue", owner_id)
 	var request_box := world.get("dialogue_box") as Control
-	assert(request_box.visible, "richiesta del testimone non mostrata per %s" % str(area.get_meta("id", "")))
-	request_box.call("close_dialogue")
-	await process_frame
+	var encounter_id := str(area.get_meta("id", ""))
+	# Un preludio autoriale può precedere la richiesta (nel mondo 1 è la conta di
+	# Ersilia). Lo si conclude e si parla di nuovo, senza aggirare il proprietario.
+	for attempt in 2:
+		world.call("_open_npc_dialogue", owner_id)
+		assert(request_box.visible, "dialogo del testimone non mostrato per %s" % encounter_id)
+		request_box.call("close_dialogue")
+		await process_frame
+		if bool(world.get("mission_ownership_flow").can_start(encounter_id)):
+			break
 	assert(bool(world.get("mission_ownership_flow").can_start(str(area.get_meta("id", "")))),
 		"enigma ancora bloccato dopo la richiesta")
 

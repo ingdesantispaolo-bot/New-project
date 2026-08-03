@@ -131,6 +131,24 @@ func _learning_level() -> int:
 func is_revisit() -> bool:
 	return _learning_level() != int(game_save.level())
 
+## Stato relazionale semantico di un mondo. La scena usa questo dato per
+## scegliere chi puo' convergere al Cuore, senza ricalcolare i progressi.
+func relationship_stage(world_level: int) -> int:
+	var bucket := game_save.world_progress(str(world_level))
+	var completed := Array(bucket.get("completedEncounterIds", [])).size()
+	if completed >= 3:
+		return 2
+	if completed >= 1:
+		return 1
+	return 0
+
+func stage2_worlds() -> Array:
+	var out: Array = []
+	for world_level in range(1, ApparatusConfig.MAX_LEVEL):
+		if relationship_stage(world_level) >= 2:
+			out.append(world_level)
+	return out
+
 # Fonde nel `result` di sessione gli id già risolti nel save canonico del mondo.
 func _hydrate_world_progress() -> void:
 	var bucket := game_save.world_progress(_world_id())
@@ -213,6 +231,7 @@ func runtime_state() -> Dictionary:
 		"fragments": game_save.fragments(),
 		"phase": current_phase,
 		"sessionActive": session_active(),
+		"stage2Worlds": stage2_worlds(),
 		"narrative": current_narrative,
 		"progressReport": progress_report.summary(),
 		# Bottega (C-14): catalogo statico in RewardCatalog.CATALOG, qui solo lo

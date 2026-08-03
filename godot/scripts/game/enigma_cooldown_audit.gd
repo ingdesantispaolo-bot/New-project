@@ -65,9 +65,18 @@ func _run() -> void:
 	if owner_id != "":
 		world.call("_open_npc_dialogue", owner_id)
 		var request_box := world.get("dialogue_box") as Control
-		assert(request_box.visible, "richiesta del testimone non mostrata")
+		assert(request_box.visible, "dialogo del testimone non mostrato")
 		request_box.call("close_dialogue")
 		await process_frame
+		# Nel mondo 1 la conta di Ersilia ha precedenza narrativa sul primo
+		# incontro. La richiesta arriva al dialogo successivo, senza rendere
+		# l'enigma obbligatorio né saltare la chiave del finale.
+		var route: Dictionary = world.get("mission_ownership_flow").navigation()
+		if str(route.get("phase", "")) != "mission":
+			world.call("_open_npc_dialogue", owner_id)
+			assert(request_box.visible, "richiesta del testimone non mostrata dopo la conta")
+			request_box.call("close_dialogue")
+			await process_frame
 
 	player.global_position = area.global_position
 	world.call("on_interactable_entered", area, player)

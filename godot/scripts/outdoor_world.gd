@@ -21,6 +21,7 @@ const WORLD_ENEMY_SCRIPT := preload("res://scripts/world_enemy.gd")
 const NPC_ACTOR_SCRIPT := preload("res://scripts/game/npc_actor.gd")
 const NPC_CATALOG := preload("res://scripts/game/npc_catalog.gd")
 const ITINERANT_CATALOG := preload("res://scripts/game/itinerant_catalog.gd")
+const FINALE_CATALOG := preload("res://scripts/game/finale_catalog.gd")
 const MAESTRI_CATALOG := preload("res://scripts/game/maestri_catalog.gd")
 const TEACHING_CATALOG := preload("res://scripts/game/teaching_catalog.gd")
 const MISSION_OWNERSHIP_FLOW_SCRIPT := preload("res://scripts/game/mission_ownership_flow.gd")
@@ -142,6 +143,9 @@ var teaching_choice_panel: Control
 var vera_teaching_pending := false
 var vera_teaching_used := false
 var vera_topic_key := ""
+var ersilia_count_pending := false
+var finale_convergence_wave := 0
+var finale_wave_heard: Array[String] = []
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -525,7 +529,16 @@ func _maestro_voice_for_session(session: Dictionary) -> Dictionary:
 			repaired.append(str(apparatus_id))
 	var narrative: Dictionary = game_save.data.get("narrative", {})
 	var thirteenth: Dictionary = narrative.get("thirteenth", {})
-	var available := MAESTRI_CATALOG.voices_for(repaired, bool(thirteenth.get("nameRestored", false)))
+	var subjects_met: Array = []
+	for unlocked_level in game_save.unlocked_worlds():
+		var subject_met := ApparatusConfig.world_subject(int(unlocked_level))
+		if not subjects_met.has(subject_met):
+			subjects_met.append(subject_met)
+	var available := MAESTRI_CATALOG.voices_for(
+		repaired,
+		bool(thirteenth.get("nameRestored", false)),
+		subjects_met
+	)
 	var maestro_id := str(maestro.get("id", ""))
 	if not available.has(maestro_id):
 		return {}
@@ -1365,11 +1378,17 @@ func _create_mystery_artifacts() -> void:
 	if ruin == null:
 		return
 	var trace: Dictionary = MYSTERY_CATALOG.traccia_for(world_level)
+	var occupied: Array = []
+	var seed_count := 0
+	for raw_seed in MYSTERY_CATALOG.SEMI:
+		if int((raw_seed as Dictionary).get("world", 0)) == world_level:
+			seed_count += 1
 	if not trace.is_empty():
 		var trace_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
 		trace_area.configure("trace", "trace-%02d" % world_level, trace, high_contrast)
-		trace_area.position = Vector2(0, 112)
-		ruin.add_child(trace_area)
+		trace_area.position = _mystery_artifact_position(ruin.global_position, 0, seed_count + 1, occupied)
+		occupied.append(trace_area.position)
+		world_layer.add_child(trace_area)
 		_bind_mystery_artifact(trace_area)
 	var seeds: Array = []
 	for raw_seed in MYSTERY_CATALOG.SEMI:
@@ -1380,10 +1399,40 @@ func _create_mystery_artifacts() -> void:
 		var seed_data: Dictionary = seeds[index]
 		var seed_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
 		seed_area.configure("seed", "seed-%02d-%d" % [world_level, index], seed_data, high_contrast)
-		var angle := -PI * 0.82 + float(index) * PI * 0.64
-		seed_area.position = Vector2.RIGHT.rotated(angle) * 146.0
-		ruin.add_child(seed_area)
+		seed_area.position = _mystery_artifact_position(
+			ruin.global_position, index + 1, seeds.size() + 1, occupied)
+		occupied.append(seed_area.position)
+		world_layer.add_child(seed_area)
 		_bind_mystery_artifact(seed_area)
+
+func _mystery_artifact_position(base: Vector2, index: int, total: int, occupied: Array) -> Vector2:
+	var phase := float(posmod(hash("%s:%d:mystery" % [world_seed, world_level]), 6283)) / 1000.0
+	for attempt in 48:
+		var ring := attempt / 12
+		var angle := phase + TAU * float(index) / maxf(float(total), 1.0) + TAU * float(attempt % 12) / 12.0
+		# I landmark più grandi (Cuore del Labirinto, sigilli, cupole) coprono la
+		# prima corona da 180 px: la Traccia risultava presente ma nascosta sotto
+		# l'illustrazione. Quattro corone entro 510 px la tengono fuori dalla
+		# sagoma e comunque nella stessa schermata di esplorazione.
+		var radius := 360.0 + float(ring) * 50.0
+		var candidate := chunks.clamp_to_world(base + Vector2.RIGHT.rotated(angle) * radius)
+		if absf(candidate.y - base.y) > 300.0:
+			continue
+		if chunks.composition != null:
+			if chunks.composition.is_protected(candidate, 40.0):
+				continue
+			if chunks.composition.raw_water_weight(candidate) >= 0.24:
+				continue
+		var overlaps := false
+		for used in occupied:
+			if candidate.distance_to(used as Vector2) < 112.0:
+				overlaps = true
+				break
+		if not overlaps:
+			return candidate
+	# Fallback di sola sicurezza: la Rovina resta leggibile anche se un profilo
+	# futuro esaurisce tutti i candidati; l'audit L1 impedisce che accada oggi.
+	return chunks.clamp_to_world(base + Vector2(420, 0).rotated(phase + index))
 
 func _bind_mystery_artifact(area: Area2D) -> void:
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
@@ -1492,6 +1541,9 @@ func ritrovo_position() -> Vector2:
 	return world_profile.get("spawn", Vector2.ZERO)
 
 func _create_world_npcs() -> void:
+	if world_level == WorldProfileCatalog.MAX_LEVEL:
+		_create_finale_convergence_cast()
+		return
 	var cast := NPC_CATALOG.for_world(world_level)
 	var ids: Array = Array(cast.get("residents", [])).duplicate()
 	ids.append_array(Array(cast.get("bislacchi", [])))
@@ -1535,6 +1587,61 @@ func _create_world_npcs() -> void:
 			itinerant.body_exited.connect(func(body): on_interactable_exited(itinerant, body))
 			npc_actors.append(itinerant)
 
+func _finale_stage2_residents() -> Array:
+	var out: Array = []
+	if not is_instance_valid(gameplay):
+		return out
+	for completed_world in gameplay.stage2_worlds():
+		var world_cast := NPC_CATALOG.for_world(int(completed_world))
+		for npc_id in Array(world_cast.get("residents", [])):
+			if FINALE_CATALOG.RESIDENTI.has(str(npc_id)):
+				out.append(str(npc_id))
+	return out
+
+func _create_finale_convergence_cast() -> void:
+	var ids := FINALE_CATALOG.cast_for(_finale_stage2_residents(), finale_convergence_wave)
+	finale_wave_heard.clear()
+	var occupied: Array = []
+	for index in ids.size():
+		var npc_id := str(ids[index])
+		var data := NPC_CATALOG.resident(npc_id)
+		if data.is_empty():
+			data = ITINERANT_CATALOG.itinerant(npc_id)
+			if not data.is_empty():
+				data["ruolo"] = str(data.get("funzione", "itinerante")).capitalize()
+		if data.is_empty():
+			continue
+		var actor: Area2D = NPC_ACTOR_SCRIPT.new()
+		actor.call("configure", npc_id, data, reduced_motion)
+		actor.call("set_high_contrast", high_contrast)
+		actor.set_meta("finale_convergence", true)
+		actor.position = _npc_spawn_position(index, occupied)
+		occupied.append(actor.position)
+		world_layer.add_child(actor)
+		actor.body_entered.connect(func(body): on_interactable_entered(actor, body))
+		actor.body_exited.connect(func(body): on_interactable_exited(actor, body))
+		npc_actors.append(actor)
+
+func _advance_finale_convergence_wave() -> void:
+	var current_ids: Array[String] = []
+	for actor in npc_actors:
+		if is_instance_valid(actor) and bool(actor.get_meta("finale_convergence", false)):
+			current_ids.append(str(actor.get_meta("id", "")))
+	for npc_id in current_ids:
+		if not finale_wave_heard.has(npc_id):
+			return
+	var total_waves := FINALE_CATALOG.waves_needed(_finale_stage2_residents())
+	if finale_convergence_wave + 1 >= total_waves:
+		return
+	finale_convergence_wave += 1
+	for actor in npc_actors.duplicate():
+		if is_instance_valid(actor) and bool(actor.get_meta("finale_convergence", false)):
+			nearby.erase(actor)
+			npc_actors.erase(actor)
+			actor.queue_free()
+	_create_finale_convergence_cast()
+	_refresh_prompt()
+
 func _npc_spawn_position(index: int, occupied: Array) -> Vector2:
 	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
 	var anchors := [Vector2(-430, -250), Vector2(430, -220), Vector2(390, 170), Vector2(-420, 180)]
@@ -1556,11 +1663,17 @@ func _npc_spawn_position(index: int, occupied: Array) -> Vector2:
 				blocked = true
 				break
 		if not blocked:
+			for artifact in get_tree().get_nodes_in_group("mystery_artifact"):
+				if artifact is Node2D and is_ancestor_of(artifact) \
+					and candidate.distance_to((artifact as Node2D).global_position) < 170.0:
+					blocked = true
+					break
+		if not blocked:
 			return candidate
 	return chunks.clamp_to_world(base)
 
 func _create_world_life() -> void:
-	if npc_actors.is_empty():
+	if npc_actors.is_empty() or world_level == WorldProfileCatalog.MAX_LEVEL:
 		return
 	var anchor_map: Dictionary = {}
 	var work_center := _building_role_position("work_home")
@@ -1692,6 +1805,9 @@ func _active_mission_owner() -> String:
 	return ""
 
 func _open_npc_dialogue(npc_id: String) -> void:
+	if world_level == WorldProfileCatalog.MAX_LEVEL and not FINALE_CATALOG.lines_for(npc_id).is_empty():
+		_open_finale_convergence_dialogue(npc_id)
+		return
 	if npc_id == thirteenth_forgotten_npc:
 		var owner_now := _active_mission_owner()
 		if owner_now == npc_id:
@@ -1707,7 +1823,12 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	var mission_pool := ""
 	var pending_return: Dictionary = {}
 	if not data.is_empty():
-		if mission_ownership_flow != null:
+		var narrative: Dictionary = game_save.data.get("narrative", {})
+		if npc_id == "w01-ersilia" and not bool(narrative.get("ersiliaCountHeard", false)):
+			lines = [_ersilia_count_pages()]
+			mission_pool = "conta"
+			ersilia_count_pending = true
+		elif mission_ownership_flow != null:
 			pending_return = mission_ownership_flow.pending_return_for(npc_id)
 			if not pending_return.is_empty():
 				mission_pool = "reazione" if bool(pending_return.get("passed", false)) else "consolazione"
@@ -1757,6 +1878,34 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	_update_ship_navigation()
 	_refresh_interaction_button(null)
 
+func _open_finale_convergence_dialogue(npc_id: String) -> void:
+	var data := NPC_CATALOG.resident(npc_id)
+	if data.is_empty():
+		data = ITINERANT_CATALOG.itinerant(npc_id)
+		if not data.is_empty():
+			data["ruolo"] = str(data.get("funzione", "itinerante")).capitalize()
+	var pages := FINALE_CATALOG.lines_for(npc_id)
+	if data.is_empty() or pages.is_empty():
+		return
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", npc_id, str(data.get("nome", npc_id)), str(data.get("ruolo", "equipaggio")), pages)
+	_update_ship_navigation()
+	_refresh_interaction_button(null)
+
+func _ersilia_count_pages() -> Array:
+	var verses: Array = Array(NPC_CATALOG.CONTA_ERSILIA.get("versi", []))
+	if verses.is_empty():
+		return []
+	return [
+		"\n".join(verses.slice(0, 4)),
+		"\n".join(verses.slice(4, 7)),
+		"\n".join(verses.slice(7)),
+	]
+
 func _npc_story_stage() -> int:
 	var completed := Array(result.get("completedEncounterIds", [])).size()
 	if completed >= 3:
@@ -1765,13 +1914,24 @@ func _npc_story_stage() -> int:
 		return 1
 	return 0
 
-func _on_dialogue_closed(_npc_id: String) -> void:
+func _on_dialogue_closed(npc_id: String) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(true)
+	if npc_id == "w01-ersilia" and ersilia_count_pending:
+		ersilia_count_pending = false
+		var narrative: Dictionary = game_save.data.get("narrative", {})
+		narrative["ersiliaCountHeard"] = true
+		game_save.data["narrative"] = narrative
+		if bool(request.get("loadLocalSave", true)):
+			game_save.save()
 	if vera_teaching_pending:
 		vera_teaching_pending = false
 		_open_vera_teaching_choice()
 		return
+	if world_level == WorldProfileCatalog.MAX_LEVEL and not FINALE_CATALOG.lines_for(npc_id).is_empty():
+		if not finale_wave_heard.has(npc_id):
+			finale_wave_heard.append(npc_id)
+		_advance_finale_convergence_wave()
 	_update_ship_navigation()
 	_refresh_prompt()
 

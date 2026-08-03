@@ -47,11 +47,11 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["Il filare est non torna.", "L'ho contato tre volte e mi dà tre numeri diversi.", "Ci vai tu? Io ricomincio da capo, e uno."],
-				["Mi serve una mano al deposito.", "C'è un mucchio che non finisce mai. O finisce e io perdo il segno, e uno."],
+				["Al deposito da solo non ce la faccio.", "C'è un mucchio che non finisce mai. O finisce e io perdo il segno, e uno."],
 				["Vai a vedere i cristalli del bordo?", "Sono quaranta. Dovrebbero essere quaranta, e uno."],
 			],
 			"consolazione": [
-				["Non è tornato neanche a te?", "Allora non ero solo io a non capire. Riproviamo insieme, e uno."],
+				["Neanche a te è tornato?", "Allora non ero solo io a non capire. Riproviamo insieme, e uno."],
 				["Va bene così.", "Io ci ho messo quarant'anni a non capirlo. Tu ci stai mettendo un pomeriggio, e uno."],
 			],
 			"stadio0": [
@@ -61,7 +61,7 @@ const RESIDENTS := {
 			],
 			"stadio1": [
 				["Eli. Ti ho vista.", "Hai contato quel mucchio in tre respiri.", "Io ci metto un quarto d'ora. Come fai, e uno?"],
-				["Ho provato a fare come te. Ho preso i cristalli a gruppi.", "Mi sono sentito un imbroglione.", "Però il numero tornava. Tornava lo stesso, e uno."],
+				["L'ho fatto come te. Ho preso i cristalli a gruppi.", "Mi sono sentito un imbroglione.", "Però il numero tornava. Tornava lo stesso, e uno."],
 				["Dimmi una cosa, Eli. Se raggruppo e il numero è giusto…", "…dove sarebbe l'inganno?", "L'ho cercato tutta la notte e non l'ho trovato, e uno."],
 			],
 			"stadio2": [
@@ -106,7 +106,7 @@ const RESIDENTS := {
 			],
 			"consolazione": [
 				["Vieni qui, cuore. Siediti.", "Prima si mangia. Poi, se ti va, ci riproviamo insieme."],
-				["Non è andata? Pazienza.", "La mia conta l'ho cantata sessant'anni prima di capirla, cuore."],
+				["Pazienza, cuore.", "La mia conta l'ho cantata sessant'anni prima di capirla, cuore."],
 			],
 			"stadio0": [
 				["Vieni qui, cuore. Hai la faccia di chi non ha fatto colazione.", "Tieni. Pane con i semi di girasole."],
@@ -153,11 +153,11 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["Lo scaffale nord è un disastro.", "L'ho ordinato per lunghezza, dito per dito, e nessuno trova più niente.", "Vacci tu, e dimmi con che criterio lo rimetteresti."],
-				["Mi serve una verifica sul catalogo delle voci brevi.", "Sono duecento schede e le ho misurate tutte con le dita.", "Duecento volte. Voglio sapere se è servito a qualcosa."],
-				["C'è una cassa di schede che nessuno ha mai classificato.", "Io non so da che parte prenderla: non hanno lunghezza uguale né simile.", "Prendile tu. Poi mi spieghi l'ordine che ne è uscito."],
+				["Il catalogo delle voci brevi va verificato.", "Sono duecento schede e le ho misurate tutte con le dita.", "Duecento volte. Voglio sapere se è servito a qualcosa."],
+				["Una cassa di schede giace lì da anni, non classificata.", "Io non so da che parte prenderla: non hanno lunghezza uguale né simile.", "Prendile tu. Poi mi spieghi l'ordine che ne è uscito."],
 			],
 			"consolazione": [
-				["Non è venuto. Bene.", "Un catalogo sbagliato al primo tentativo è ancora un catalogo: si riordina.", "Ricominciamo dalla prima scheda."],
+				["Bene così.", "Un catalogo sbagliato al primo tentativo è ancora un catalogo: si riordina.", "Ricominciamo dalla prima scheda."],
 				["Ho misurato per vent'anni la cosa sbagliata, con queste dita.", "Tu ci hai messo un pomeriggio a scoprire che era sbagliata.", "Non chiamarlo fallimento davanti a me."],
 			],
 			"stadio0": [
@@ -167,7 +167,7 @@ const RESIDENTS := {
 			],
 			"stadio1": [
 				["Eli. Tu quella parola l'hai trovata in tre respiri.", "Io ci avrei messo mezza giornata a misurare scaffale per scaffale.", "Come sapevi dove guardare?"],
-				["Ho provato a mettere insieme i verbi. Tutti i verbi.", "Le mie dita non servivano a niente: sono lunghi diversi.", "Eppure li ritrovavo. Li ritrovavo subito."],
+				["Li ho messi insieme, i verbi. Tutti quanti.", "Le mie dita non servivano a niente: sono lunghi diversi.", "Eppure li ritrovavo. Li ritrovavo subito."],
 				["Se ordino per quello che le parole *fanno*…", "…non lo posso più controllare con le dita.", "E allora su cosa mi baso? Dimmelo tu, che io non dormo."],
 			],
 			"stadio2": [
@@ -205,11 +205,11 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["Nell'Archivio vecchio c'è una parete di parole che non ho mai sentito.", "E questa come la chiami, una parete che parla?", "Vacci. Se ne capisci una, torna a dirmela."],
-				["C'è una porta con sopra tre parole storte.", "Sembrano inventate, come le mie. Ma sono incise nella pietra.", "E questa come la chiami, una parola inventata da qualcuno che è morto?"],
+				["Su una porta hanno scritto tre parole storte.", "Sembrano inventate, come le mie. Ma sono incise nella pietra.", "E questa come la chiami, una parola inventata da qualcuno che è morto?"],
 				["La Rovina ha un elenco che finisce a metà.", "Io l'ho letto e mi è venuto da ridere e poi da piangere.", "Vallo a leggere e dimmi se ho capito bene."],
 			],
 			"consolazione": [
-				["Non è uscita? Pazienza.", "A me le parole escono storte otto volte su dieci. E questa come la chiami, se non allenamento?"],
+				["Vabbè!", "A me le parole escono storte otto volte su dieci. E questa come la chiami, se non allenamento?"],
 				["Aspetta, resta un attimo.", "Anche i grandi sbagliano e nessuno glielo dice. Io lo dico a te: si riprova."],
 			],
 			"stadio0": [
@@ -229,7 +229,7 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Sei stata tu a far ripartire l'apparato?", "Ha detto una parola che non conoscevo. L'ho scritta.", "E questa come la chiami? Io per adesso la chiamo «mia»."],
-				["Hai finito la missione dell'Archivio!", "Corinna ha sorriso. Non l'avevo mai vista farlo, giuro."],
+				["La missione dell'Archivio è chiusa!", "Corinna ha sorriso. Non l'avevo mai vista farlo, giuro."],
 				["Hai portato Sesto a ripassare. Bravo Sesto.", "Anche lui inventa parole, ma per sbaglio."],
 			],
 			"riempimento": [
@@ -257,7 +257,7 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(soffia sulla chiave inglese) La pompa del cratere.", "Cento colpi di manovella per un giro d'acqua. Cento.", "Vai a vederla e dimmi se c'è un modo che non sia cento."],
-				["Mi serve qualcuno che guardi il braccio meccanico.", "Ripete lo stesso gesto e io ho scritto lo stesso comando quaranta volte.", "Quaranta righe uguali. Anche a te sembra una cosa da persone serie?"],
+				["Il braccio meccanico vuole due occhi che non siano i miei.", "Ripete lo stesso gesto e io ho scritto lo stesso comando quaranta volte.", "Quaranta righe uguali. Anche a te sembra una cosa da persone serie?"],
 				["(soffia sulle dita) Il nastro della macina si è inceppato.", "Ho contato: si inceppa sempre al dodicesimo passaggio.", "Va' a vedere cosa succede al dodicesimo."],
 			],
 			"consolazione": [
@@ -281,7 +281,7 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["L'apparato è ripartito. (soffia) L'ho sentito dal fondo del cratere.", "Fa un rumore pulito. Non lo faceva nemmeno da nuovo, scommetto."],
-				["Missione chiusa. Bene.", "(soffia sugli attrezzi) Non aspettarti che ti ringrazi due volte."],
+				["Chiuso. (soffia sulla chiave) Bene.", "(soffia sugli attrezzi) Non aspettarti che ti ringrazi due volte."],
 				["Sesto è tornato in sé.", "Gli ho dato una chiave inglese. Adesso soffia anche lui. Contagioso."],
 			],
 			"riempimento": [
@@ -310,11 +310,11 @@ const RESIDENTS := {
 			"richiesta": [
 				["Piacere, Sesto. Ci siamo già presentati? Non importa.", "Nella Rovina c'è una sala dove mi ricordo tutto. Tutto, capisci?", "Vieni con me. Anzi, vacci tu e poi raccontamelo, che io me lo scordo."],
 				["Piacere! Senti una cosa.", "Là dentro c'è una macchina che ripete un gesto, e io so finire quel gesto.", "Io. Non so come. Va' a guardarla e dimmi cosa fa."],
-				["C'è un pannello con dei segni che si ripetono a gruppi.", "Io li guardo e mi vengono le lacrime, e non so perché.", "Piacere, comunque. Vacci tu, che ti reggi meglio."],
+				["Su un pannello dei segni si ripetono a gruppi.", "Io li guardo e mi vengono le lacrime, e non so perché.", "Piacere, comunque. Vacci tu, che ti reggi meglio."],
 			],
 			"consolazione": [
 				["Piacere, Sest— ah, sì, ci conosciamo.", "Vedi? Anche io sbaglio ogni cinque minuti. Poi ricomincio da capo e non è mica una tragedia."],
-				["Non è andata? Beh.", "Io ho dimenticato una cosa che sapevo fare benissimo. Tu la stai imparando adesso. Siamo pari, quasi."],
+				["Beh.", "Io ho dimenticato una cosa che sapevo fare benissimo. Tu la stai imparando adesso. Siamo pari, quasi."],
 			],
 			"stadio0": [
 				["Sesto. Piacere.", "…te l'ho già detto, vero?", "Lo faccio sempre. Sesto. Piacere."],
@@ -333,7 +333,7 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Hai acceso l'apparato! L'ho visto! Io!", "Sesto, piacere — no, aspetta, quello l'ho già fatto."],
-				["Missione finita. Ero lì. Mi ricordo di esserci stato.", "Mi ricordo, capisci? Piacere, comunque."],
+				["È finita! Ero là. Mi ricordo di esserci stato, e non mi capita spesso.", "Mi ricordo, capisci? Piacere, comunque."],
 				["Mi hai portato a ripassare.", "Non ho capito tutto. Ma ho capito più di ieri, e ieri più di prima."],
 			],
 			"riempimento": [
@@ -375,7 +375,7 @@ const RESIDENTS := {
 			],
 			"stadio1": [
 				["Eli, guarda questo. «It's raining cats and dogs».", "(sussurra) Piovono gatti e cani…", "Parola per parola è una sciocchezza. Ma il marinaio rideva. Perché rideva?"],
-				["Ho provato a chiedermi cosa VOLEVA dire, invece di cosa diceva.", "(sussurra) Mi è sembrato di barare. Poi il messaggio aveva senso."],
+				["(sussurra) Me lo sono chiesta: cosa VOLEVA dire, invece di cosa diceva.", "(sussurra) Mi è sembrato di barare. Poi il messaggio aveva senso."],
 				["Se traduco il senso e non le parole, chi mi dice che non sto inventando?", "Ho paura di inventare. È la mia paura, quella."],
 			],
 			"stadio2": [
@@ -384,8 +384,8 @@ const RESIDENTS := {
 				["Le lingue non si incastrano parola su parola.", "Si toccano nel senso, e nel senso si trovano. (sussurra) Che sollievo."],
 			],
 			"reazione": [
-				["L'apparato ha mandato un segnale.", "(sussurra) Era in due lingue. Le stesse parole, dette in due modi diversi."],
-				["Missione chiusa. L'ho segnata nel registro dei transiti.", "Grazie. (sussurra) Grazie davvero."],
+				["(sussurra) È ripartito un segnale, da dentro.", "(sussurra) Era in due lingue. Le stesse parole, dette in due modi diversi."],
+				["Fatto. L'ho segnata nel registro dei transiti.", "Grazie. (sussurra) Grazie davvero."],
 				["Il vecchio Lino dice che parli bene.", "Da lui è un complimento enorme. Lui dice che parlano bene solo i pesci."],
 			],
 			"riempimento": [
@@ -414,7 +414,7 @@ const RESIDENTS := {
 			"richiesta": [
 				["Captain! Vieni qua.", "Sul relitto del faro c'è una targa in inglese che nessuno ha mai letto.", "Io ci arrivo a metà. Poi le mie venti parole finiscono."],
 				["Captain, sai leggere le sigle?", "Sulla boa grande ce n'è una che i vecchi chiamavano «il saluto».", "Vacci a vedere. Poi mi dici se era un saluto o un avvertimento."],
-				["Mi serve una cosa per la lettera, captain.", "C'è un vecchio quaderno di bordo nella Rovina, pieno di frasi fatte.", "Io ne voglio una. Una che dica «mi manchi» senza dire «mi manchi»."],
+				["Per la lettera manca ancora un pezzo, captain.", "C'è un vecchio quaderno di bordo nella Rovina, pieno di frasi fatte.", "Io ne voglio una. Una che dica «mi manchi» senza dire «mi manchi»."],
 			],
 			"consolazione": [
 				["Ehi. Captain.", "Io parlo inglese da quarant'anni e sbaglio ancora tutti i verbi. Nessuno è mai annegato per un verbo."],
@@ -427,7 +427,7 @@ const RESIDENTS := {
 			],
 			"stadio1": [
 				["Captain, ho un problema e non è il pesce.", "Devo scrivere a un amico dall'altra parte del mare. È malato."],
-				["Ho provato con le mie venti parole.", "Viene fuori: «amico. male. triste. io.»", "Non è quello che voglio dirgli, captain. Non ci somiglia nemmeno."],
+				["Ci ho dato dentro con le mie venti parole, captain.", "Viene fuori: «amico. male. triste. io.»", "Non è quello che voglio dirgli, captain. Non ci somiglia nemmeno."],
 				["Insegnami una parola sola, captain. Quella per dire che mi manca.", "Una parola per il molo non serve. Per una lettera sì."],
 			],
 			"stadio2": [
@@ -466,7 +466,7 @@ const RESIDENTS := {
 			"richiesta": [
 				["Il masso della chiusa. Non si muove.", "Io ci ho messo queste mani per due giorni. Due.", "Vieni a vedere se c'è un altro modo, che io non lo trovo."],
 				["(si sputa sulle mani) La trave del capannone.", "Devo alzarla da un lato solo e non ho abbastanza braccia.", "Portami qualcosa che alzi al posto mio. Se esiste."],
-				["C'è una carrucola vecchia buttata dietro l'officina.", "I Primi la usavano. Io non l'ho mai toccata: mi sembrava barare.", "Vacci tu. Guardala e dimmi come funziona."],
+				["Dietro l'officina è buttata una carrucola vecchia.", "I Primi la usavano. Io non l'ho mai toccata: mi sembrava barare.", "Vacci tu. Guardala e dimmi come funziona."],
 			],
 			"consolazione": [
 				["Non si è mosso neanche a te. Bene.", "Allora non era la forza. Era proprio la cosa. Ricominciamo da lì."],
@@ -479,7 +479,7 @@ const RESIDENTS := {
 			],
 			"stadio1": [
 				["Quella ragazzina ha alzato la pietra della chiusa.", "Con un palo e un sasso sotto. Lei. Da sola.", "(si sputa sulle mani) Io con due uomini non ci riesco."],
-				["Ho provato il palo. Si è alzata.", "Mi aspettavo di sentirmi debole. Mi sono sentito solo… stupito."],
+				["Il palo. L'ho messo sotto e si è alzata.", "Mi aspettavo di sentirmi debole. Mi sono sentito solo… stupito."],
 				["Dov'è il trucco, Eli? Perché un trucco ci sarà.", "Il peso non sparisce. Dove va a finire?"],
 			],
 			"stadio2": [
@@ -489,7 +489,7 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["L'apparato gira. Si sente dal ponte.", "(si sputa sulle mani) Vado a vedere se ha bisogno di braccia. Spero di no, ormai."],
-				["Missione chiusa. Segnato.", "Non ti abbracci. Non lo faccio con nessuno."],
+				["Finito. Segnato.", "Non ti abbracci. Non lo faccio con nessuno."],
 				["Hai fatto ripassare Sesto?", "Quel ragazzo ha due mani buone. Digli di venire qui, che gli insegno."],
 			],
 			"riempimento": [
@@ -518,7 +518,7 @@ const RESIDENTS := {
 			"richiesta": [
 				["Te lo faccio vedere? Vieni, dai.", "Sull'altalena c'è un punto in cui sollevo mio fratello che pesa il doppio di me.", "Un punto solo. Vieni a guardare dov'è."],
 				["Nella Rovina c'è un disegno di un'asse con un sasso sotto.", "È la mia altalena. Disegnata da qualcuno di mille anni fa.", "Te lo faccio vedere dove sta? Voglio che lo guardi davvero."],
-				["C'è una bilancia rotta nel deposito.", "Se sposto il piatto piccolo lontano, pesa come quello grande. Non è magia.", "Vacci. Poi mi dici se ho ragione io o i grandi."],
+				["Nel deposito è rimasta una bilancia rotta.", "Se sposto il piatto piccolo lontano, pesa come quello grande. Non è magia.", "Vacci. Poi mi dici se ho ragione io o i grandi."],
 			],
 			"consolazione": [
 				["Non ti è venuto? Ok, ma non andare via.", "Te lo faccio vedere di nuovo, più piano. A me nessuno l'ha fatto vedere due volte."],
@@ -540,8 +540,8 @@ const RESIDENTS := {
 				["Adesso lo insegno agli altri bambini del molo.", "Te lo faccio vedere? Abbiamo alzato una barca. Una barca vera."],
 			],
 			"reazione": [
-				["L'apparato ha una leva grande così dentro!", "Te lo faccio vedere sul disegno? L'ho copiato tutto."],
-				["Hai finito la missione. Ero dietro il masso a guardare.", "Guardo sempre. È così che ho imparato."],
+				["Là dentro c'è una leva grande così! Te lo faccio vedere?", "Te lo faccio vedere sul disegno? L'ho copiato tutto."],
+				["Chiusa! Ero dietro il masso a guardare.", "Guardo sempre. È così che ho imparato."],
 				["Sesto mi ha chiesto di spiegargli il fulcro.", "Se l'è dimenticato subito. Gliel'ho fatto vedere di nuovo. Va bene lo stesso."],
 			],
 			"riempimento": [
@@ -582,7 +582,7 @@ const RESIDENTS := {
 				["Questa corda vuole scendere. Mmh.", "Come faccio a saperlo? Lo vuole e basta."],
 			],
 			"stadio1": [
-				["Ho provato a spiegare a Oreste come sale quel suono.", "Mmh… gli ho fatto sentire con le mani. Ma sentire non è dire."],
+				["Mmh. Ci ho provato, a spiegare a Oreste come sale quel suono.", "Mmh… gli ho fatto sentire con le mani. Ma sentire non è dire."],
 				["Lui mi ha chiesto: «di quanto sale?»", "E io non lo so dire. Mmh. Lo so fare e non lo so dire.", "È la prima volta che mi manca una parola."],
 				["Se questo intervallo avesse un nome…", "…potrei mandarlo a qualcuno che non è nella stanza. Mmh.", "Non ci avevo mai pensato."],
 			],
@@ -592,8 +592,8 @@ const RESIDENTS := {
 				["Un suono senza nome resta mio.", "Un suono con un nome posso regalarlo. Mmh… avevo paura di perderlo, e invece si moltiplica."],
 			],
 			"reazione": [
-				["L'apparato ha dato una nota. Mmh… un la, credo.", "Un la vero, non un la per modo di dire. Sto imparando a dirlo."],
-				["Missione finita. Mmh.", "Il giardino è più intonato di ieri. Non è una metafora."],
+				["È uscita una nota, da lì dentro. Mmh… un la, credo.", "Un la vero, non un la per modo di dire. Sto imparando a dirlo."],
+				["È andata. Mmh.", "Il giardino è più intonato di ieri. Non è una metafora."],
 				["Hai portato Sesto a ripassare?", "Canta stonatissimo. Mmh… ma canta forte, e quello conta."],
 			],
 			"riempimento": [
@@ -646,7 +646,7 @@ const RESIDENTS := {
 			"reazione": [
 				["(mano sul pilastro) L'apparato vibra di nuovo.", "Nota lunga, tenuta, pulita. La sento fino ai gomiti."],
 				["Hai chiuso la missione del Giardino.", "(mano sulla spalla, un istante) Grazie."],
-				["Il ragazzo che si presenta sempre è passato di qui.", "Gli ho fatto toccare una corda grave. È rimasto zitto per un minuto intero."],
+				["È passato quel ragazzo che ricomincia da capo ogni volta.", "Gli ho fatto toccare una corda grave. È rimasto zitto per un minuto intero."],
 			],
 			"riempimento": [
 				["(mano sul legno stagionato) Questo abete ha aspettato trent'anni.", "Gli strumenti buoni sono fatti di pazienza, prima che di legno."],
@@ -673,7 +673,7 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(soffia sull'inchiostro) Ho copiato questa tavola alla perfezione.", "Ogni segno al suo posto. E il senso non c'è.", "Vieni a guardarla con me: forse l'errore non è mio, è di chi ha scritto."],
-				["Mi serve una collazione della tavola quarta.", "Ne esistono due copie e differiscono in un punto solo.", "Va' a leggerle. Poi dimmi quale delle due ha senso, non quale è più bella."],
+				["La tavola quarta va collazionata.", "Ne esistono due copie e differiscono in un punto solo.", "Va' a leggerle. Poi dimmi quale delle due ha senso, non quale è più bella."],
 				["Nella sala bassa c'è un'iscrizione che ho rifiutato di copiare.", "(soffia sull'inchiostro) Ha una parola che non esiste in nessun lessico.", "Vacci tu. Io ho paura di trascriverla e renderla vera."],
 			],
 			"consolazione": [
@@ -696,9 +696,9 @@ const RESIDENTS := {
 				["Insegno a Zeno la mano ferma. Lui insegna a me le radici.", "(soffia sull'inchiostro) È il baratto migliore che abbia mai fatto."],
 			],
 			"reazione": [
-				["L'apparato ha inciso da solo una riga sulla pietra.", "(soffia sull'inchiostro per abitudine) In latino. E l'ho letta."],
+				["Una riga si è incisa da sola sulla pietra.", "(soffia sull'inchiostro per abitudine) In latino. E l'ho letta."],
 				["Missione conclusa. L'ho annotata nel registro.", "Con la data e il tuo nome, che è quello che si fa con le cose che contano."],
-				["Il ragazzo smemorato ha ripassato con te.", "Gli ho fatto copiare tre glifi. Li ha copiati bene. Non se lo ricorda."],
+				["Ha ripassato con te, quel ragazzo smemorato.", "Gli ho fatto copiare tre glifi. Li ha copiati bene. Non se lo ricorda."],
 			],
 			"riempimento": [
 				["(soffia sull'inchiostro) L'inchiostro dei Primi non è mai scolorito.", "Il mio dopo trent'anni ingiallisce. Sapevano qualcosa che non so."],
@@ -726,7 +726,7 @@ const RESIDENTS := {
 			"richiesta": [
 				["Guarda questa parola sul muro. E questa di chi è parente?", "Somiglia a una che diciamo tutti i giorni, ma è vecchia di mille anni.", "Va' a vedere le altre tre sul pilastro. Facciamo la famiglia intera."],
 				["Nella sala crollata c'è un elenco di nomi di mestieri.", "Ne ho riconosciuti due. Due su venti.", "Vacci tu, che sai le regole. E questa di chi è parente, poi me lo dici?"],
-				["C'è una parola incisa due volte, scritta in due modi diversi.", "Stessa parola, secoli diversi. È come vedere qualcuno da bambino e da vecchio.", "Vai a guardarla. Voglio sapere quale delle due è venuta prima."],
+				["Una parola è incisa due volte, in due modi diversi.", "Stessa parola, secoli diversi. È come vedere qualcuno da bambino e da vecchio.", "Vai a guardarla. Voglio sapere quale delle due è venuta prima."],
 			],
 			"consolazione": [
 				["Non l'hai trovata? Vabbè.", "Anch'io indovino e sbaglio. E questa di chi è parente? Non lo so mai al primo colpo."],
@@ -748,8 +748,8 @@ const RESIDENTS := {
 				["Ho insegnato il gioco ai piccoli del villaggio.", "E questa di chi è parente? Adesso me lo chiedono loro a me."],
 			],
 			"reazione": [
-				["L'apparato ha scritto una parola che non conoscevo!", "Ma era parente di tre che conosco. L'ho capita lo stesso."],
-				["Missione finita! Ero sulle scale a guardare.", "E questa di chi è parente, la tua faccia contenta? Della mia."],
+				["È comparsa una parola che non conoscevo! E questa di chi è parente?", "Ma era parente di tre che conosco. L'ho capita lo stesso."],
+				["Fatto! Ero sulle scale a guardare.", "E questa di chi è parente, la tua faccia contenta? Della mia."],
 				["Sesto ha ripassato con te.", "Gli ho chiesto di chi fosse parente il suo nome. Ha detto: «di cinque e sette». Ci sta."],
 			],
 			"riempimento": [
@@ -777,8 +777,8 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["Uno, due, tre nodi… no, quattro. Il Delta ne ha uno in più di ieri.", "Non è possibile e invece è così.", "Vieni a contarli con me, che io non mi fido più della mia testa."],
-				["Mi serve una mano al quadro di monte.", "La corrente arriva e non arriva. Ho controllato i nodi tre volte.", "Vacci tu, con occhi nuovi. I miei sanno già cosa vogliono vedere."],
-				["C'è una derivazione che non ho mai capito.", "Due strade per la stessa lampada. Perché due? Chi le ha fatte lo sapeva.", "Va' a guardarla e poi torna a spiegarmelo, per favore."],
+				["Al quadro di monte ci vorrebbe un aiuto.", "La corrente arriva e non arriva. Ho controllato i nodi tre volte.", "Vacci tu, con occhi nuovi. I miei sanno già cosa vogliono vedere."],
+				["Una derivazione, laggiù, non l'ho mai capita.", "Due strade per la stessa lampada. Perché due? Chi le ha fatte lo sapeva.", "Va' a guardarla e poi torna a spiegarmelo, per favore."],
 			],
 			"consolazione": [
 				["Vieni qua, siediti.", "Non si è acceso? Bene: adesso sappiamo una cosa in più di prima."],
@@ -801,7 +801,7 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["L'apparato si è riacceso e ha ridisegnato il circuito da solo!", "Sette nodi. Li ho contati. Ma li ho anche capiti."],
-				["Missione chiusa. Bevi qualcosa, sei tutta polvere.", "No, insisto. Qui sotto si perde più acqua di quanta se ne pensi."],
+				["Tutto a posto. Bevi qualcosa, sei tutta polvere.", "No, insisto. Qui sotto si perde più acqua di quanta se ne pensi."],
 				["Sesto è passato a ripassare.", "Gli ho fatto contare i nodi. Si è fermato al sei e ha chiesto come mi chiamo."],
 			],
 			"riempimento": [
@@ -834,7 +834,7 @@ const RESIDENTS := {
 			],
 			"consolazione": [
 				["L'acqua ti torna indietro quando forzi la chiusa. Lo sapevi?", "Aspetti, riapri piano, e passa. Fai lo stesso."],
-				["Non è andata. E allora?", "Anche il fiume sbaglia strada, e si chiama meandro. Nessuno lo sgrida."],
+				["E allora?", "Anche il fiume sbaglia strada, e si chiama meandro. Nessuno lo sgrida."],
 			],
 			"stadio0": [
 				["Vuoi passare? Prima dimmi: dove va l'acqua quando chiudo questa paratia.", "Se non lo sai, la chiusa te lo insegnerà."],
@@ -852,9 +852,9 @@ const RESIDENTS := {
 				["Vieni a vedere il sigillo dell'equipaggio, nella Rovina.", "Contali, i posti. Poi conta i nomi.", "…poi torna e dimmi se l'acqua ti sembra ancora l'unica cosa strana di questo Delta."],
 			],
 			"reazione": [
-				["L'apparato ha aperto tutte le paratie insieme.", "L'acqua è andata dove doveva. Chi l'ha progettato conosceva i fiumi."],
+				["Tutte le paratie si sono aperte insieme. Come una piena.", "L'acqua è andata dove doveva. Chi l'ha progettato conosceva i fiumi."],
 				["Hai chiuso la missione.", "Sai qual è la domanda giusta adesso? Dove va l'acqua che hai liberato."],
-				["Il ragazzo che si dimentica è passato di qui.", "Gli ho chiesto dove va l'acqua. Ha risposto «in giù». Non è una risposta stupida."],
+				["È passato il ragazzo che si perde per strada dentro le frasi.", "Gli ho chiesto dove va l'acqua. Ha risposto «in giù». Non è una risposta stupida."],
 			],
 			"riempimento": [
 				["Di notte le chiuse cantano. È l'acqua che passa stretta.", "Dal tono capisco l'apertura senza guardare."],
@@ -881,7 +881,7 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(bagna la punta della matita) Devo disegnare un'isola dove non sono mai stata.", "Ho solo due numeri, e i numeri non sono posti.", "Vai al porto, chiedi a Remo dove finiscono quei due numeri."],
-				["Mi serve un rilievo del promontorio est.", "La mia matita arriva fin dove arriva la mia barca, e quella non ci arriva.", "Vacci tu. Segna tutto, anche quello che ti sembra inutile."],
+				["Il promontorio est non l'ha mai rilevato nessuno.", "La mia matita arriva fin dove arriva la mia barca, e quella non ci arriva.", "Vacci tu. Segna tutto, anche quello che ti sembra inutile."],
 				["Ho tre carte dello stesso tratto di costa e sono diverse.", "(bagna la matita) Diverse in modo interessante, non in modo sbagliato.", "Va' a controllare quale delle tre è ancora vera."],
 			],
 			"consolazione": [
@@ -904,8 +904,8 @@ const RESIDENTS := {
 				["Remo mi detta le rotte, io le disegno.", "(bagna la matita) La sua memoria e la mia mano. Insieme siamo una carta intera."],
 			],
 			"reazione": [
-				["L'apparato ha proiettato una carta.", "(bagna la matita) Copiava la mia. Con dentro i pezzi che mi mancavano."],
-				["Missione chiusa. Segno il punto e la data.", "Le carte servono a questo: dire dov'eri e quando."],
+				["È comparsa una carta, proiettata in aria.", "(bagna la matita) Copiava la mia. Con dentro i pezzi che mi mancavano."],
+				["Fatto. (bagna la matita) Segno il punto e la data.", "Le carte servono a questo: dire dov'eri e quando."],
 				["Hai fatto ripassare Sesto?", "Quel ragazzo ha disegnato un'isola a memoria. Sbagliata, ma disegnata bene."],
 			],
 			"riempimento": [
@@ -933,7 +933,7 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["La rotta del nord è vecchia e stanca, come me.", "Non me la ricordo più tutta. Mi manca un pezzo in mezzo.", "Vieni in barca. Se la riconosci tu, io la scrivo."],
-				["C'è una rotta che tutti chiamavano «la bugiarda».", "Sembra più corta e ci metti il doppio. Nessuno mi ha mai spiegato perché.", "Va' a vedere le secche. La risposta è lì sotto, credo."],
+				["Una rotta, i vecchi, la chiamavano «la bugiarda».", "Sembra più corta e ci metti il doppio. Nessuno mi ha mai spiegato perché.", "Va' a vedere le secche. La risposta è lì sotto, credo."],
 				["Sulla stele del molo vecchio ci sono dei numeri a coppie.", "Io li leggo come nomi di rotte, ma sono numeri.", "Vacci tu e chiedi ad Alma. Le mie rotte vorrei lasciarle a qualcuno."],
 			],
 			"consolazione": [
@@ -956,8 +956,8 @@ const RESIDENTS := {
 				["Un ragazzo del molo ha preso la mia rotta numero nove.", "L'ha fatta senza di me. È la cosa più bella che mi sia capitata."],
 			],
 			"reazione": [
-				["L'apparato ha acceso una luce sul terzo braccio.", "Proprio dove gira la rotta vecchia. Se ne ricordava anche lui."],
-				["Hai finito. Ti traghetto dove vuoi, oggi non prendo niente."],
+				["Si è accesa una luce sul terzo braccio. Come un fanale su una rotta.", "Proprio dove gira la rotta vecchia. Se ne ricordava anche lui."],
+				["Finita. Ti traghetto dove vuoi, oggi non prendo niente."],
 				["Sesto è salito sulla mia barca.", "Si è presentato quattro volte. Bella rotta anche la sua, a modo suo."],
 			],
 			"riempimento": [
@@ -985,11 +985,11 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["Le piante del riquadro tre stanno benissimo e io non so perché.", "Ho cambiato acqua, luce e terra tutte insieme. Tutte e tre.", "Vieni a rifarlo con me cambiando una cosa sola."],
-				["Mi serve un secondo paio di occhi sulla serra bassa.", "Le piante lì dentro parlano fra loro, te lo dico da collega.", "Va' a vedere quali stanno vicine e quali si evitano."],
-				["C'è un esperimento nel diario di Mirta che io non riesco a ripetere.", "Quarant'anni fa le riusciva. A me no.", "Vacci tu e leggilo per intero. Anche le pagine noiose."],
+				["Sulla serra bassa ci vorrebbe un secondo paio di occhi.", "Le piante lì dentro parlano fra loro, te lo dico da collega.", "Va' a vedere quali stanno vicine e quali si evitano."],
+				["Nel diario di Mirta un esperimento riusciva a lei e a me no.", "Quarant'anni fa le riusciva. A me no.", "Vacci tu e leggilo per intero. Anche le pagine noiose."],
 			],
 			"consolazione": [
-				["Non è venuto? Perfetto, sul serio.", "Un esperimento che fallisce ti dice una cosa; uno che riesce per caso non ti dice niente."],
+				["Perfetto, sul serio.", "Un esperimento che fallisce ti dice una cosa; uno che riesce per caso non ti dice niente."],
 				["Vieni, le piante ci guardano.", "Le mie sono morte a decine prima che ne capissi una. Riproviamo cambiando una cosa alla volta."],
 			],
 			"stadio0": [
@@ -1008,8 +1008,8 @@ const RESIDENTS := {
 				["Sto copiando il metodo di Mirta e lei non se n'è ancora accorta.", "(alle piante) Non ditele niente."],
 			],
 			"reazione": [
-				["L'apparato ha regolato la luce della serra da solo.", "(alle piante) Ha cambiato una cosa sola. Ha imparato prima di me."],
-				["Missione finita! Vieni, ti faccio vedere il germoglio nuovo."],
+				["La luce della serra si è regolata da sola.", "(alle piante) Ha cambiato una cosa sola. Ha imparato prima di me."],
+				["Riuscita! Vieni, ti faccio vedere il germoglio nuovo."],
 				["Sesto ha innaffiato tutto due volte.", "(alle piante) Sopravvivrete. Ha buone intenzioni."],
 			],
 			"riempimento": [
@@ -1038,7 +1038,7 @@ const RESIDENTS := {
 			"richiesta": [
 				["Siediti, piccola, che la tisana è pronta.", "Nel quaderno del terzo anno c'è una pagina che non torna con le altre.", "Vacci a guardare tu. Io non ho più gli occhi per i confronti."],
 				["Ortensia mi ha chiesto un quaderno vecchio, e io ne ho dato uno solo.", "Gli altri undici sono ancora nella cassa, piccola.", "Va' a prenderli. Poi mi dici se dodici quaderni dicono la stessa cosa di uno."],
-				["C'è una data che ho segnato per quarant'anni: la prima gemma.", "Ogni anno un po' prima. Un po' prima, un po' prima.", "Bevi la tisana e poi va' a controllare se è successo anche quest'anno."],
+				["Una data l'ho segnata per quarant'anni: la prima gemma.", "Ogni anno un po' prima. Un po' prima, un po' prima.", "Bevi la tisana e poi va' a controllare se è successo anche quest'anno."],
 			],
 			"consolazione": [
 				["Vieni qui, piccola. Prima la tisana, poi i pensieri.", "Le cose che non riescono si rimettono in fondo alla lista, non nel cestino."],
@@ -1061,8 +1061,8 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Ho sentito la Serra respirare diverso.", "L'ho scritto sul quaderno, con l'ora. Siediti, piccola."],
-				["Missione finita? Allora si festeggia con la tisana buona, quella con il miele."],
-				["È passato quel ragazzo che si presenta sempre.", "Gli ho dato una tisana e si è presentato di nuovo. Caro."],
+				["È andata bene, piccola? Allora si festeggia con la tisana buona, quella con il miele."],
+				["È passato il ragazzo che si presenta due volte per merenda.", "Gli ho dato una tisana e si è presentato di nuovo. Caro."],
 			],
 			"riempimento": [
 				["Tisana di melissa oggi. La melissa cresce dove le pare, mai dove la pianti."],
@@ -1112,8 +1112,8 @@ const RESIDENTS := {
 				["Anticaglia vende falsi e lo dice.", "Quello è onesto. Scommetto che vende più di me."],
 			],
 			"reazione": [
-				["L'apparato ha datato un reperto da solo!", "Scommetto che ci azzecca più di me. …ho perso la scommessa."],
-				["Missione chiusa! Offro io. No, davvero: scommetto che non mi credi."],
+				["Un reperto si è datato da solo! Scommetto che nessuno mi crede.", "Scommetto che ci azzecca più di me. …ho perso la scommessa."],
+				["Vinta! Offro io. No, davvero: scommetto che non mi credi."],
 				["Sesto mi ha venduto una pietra dicendo che era antica.", "Non lo sapeva neanche lui. Scommetto che se l'era dimenticato."],
 			],
 			"riempimento": [
@@ -1146,7 +1146,7 @@ const RESIDENTS := {
 			],
 			"consolazione": [
 				["Poso la penna. Ascoltami.", "Una cronaca sbagliata non si brucia: si annota a margine. Vale anche per gli errori delle persone."],
-				["Non è il verdetto che conta oggi.", "Conta che hai pesato le cose invece di scegliere la più comoda. Riprendiamo domani."],
+				["Il verdetto, oggi, non è la cosa che conta.", "Conta che hai pesato le cose invece di scegliere la più comoda. Riprendiamo domani."],
 			],
 			"stadio0": [
 				["Due cronache dello stesso giorno. Dicono cose diverse.", "Una mente. Devo scoprire quale e bruciarla."],
@@ -1164,9 +1164,9 @@ const RESIDENTS := {
 				["(soppesa una cronaca nuova) Danio me ne porta due per volta, adesso.", "Ha imparato in fretta, per essere uno che scommette."],
 			],
 			"reazione": [
-				["L'apparato ha aperto un registro che non conoscevo.", "(soppesa il foglio) Una terza cronaca. E concorda con nessuna delle due."],
+				["Si è aperto un registro che non conoscevo. Una cronaca in più.", "(soppesa il foglio) Una terza cronaca. E concorda con nessuna delle due."],
 				["Hai concluso. Lo annoto, con la data e le due versioni di come è andata."],
-				["Il ragazzo smemorato ha raccontato la stessa storia tre volte.", "Tre versioni diverse. Le ho trascritte tutte."],
+				["Ha raccontato la stessa storia tre volte, quel ragazzo smemorato.", "Tre versioni diverse. Le ho trascritte tutte."],
 			],
 			"riempimento": [
 				["(soppesa una cronaca) Le cronache dei Primi sono scritte fitte.", "Chi ha poco tempo scrive piccolo."],
@@ -1193,7 +1193,7 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["Duecentododici passi fino alla sala rossa. Erano duecentododici.", "Stamattina sono duecentonovanta e la sala non c'è.", "Vieni con me. Serve un modo che non sia contare i passi."],
-				["Mi serve qualcuno nel braccio ovest.", "Io lì dentro giro in tondo da due giorni. Sempre lo stesso corridoio.", "Va' tu e segna qualcosa. Non so cosa. Qualcosa."],
+				["Il braccio ovest è senza nessuno da due giorni.", "Io lì dentro giro in tondo da due giorni. Sempre lo stesso corridoio.", "Va' tu e segna qualcosa. Non so cosa. Qualcosa."],
 				["Isa dice di avere un trucco col filo.", "Io conto i passi da trent'anni e non voglio sentire parlare di trucchi.", "Vacci tu. Guarda cosa fa e poi torna a dirmelo con parole mie."],
 			],
 			"consolazione": [
@@ -1216,9 +1216,9 @@ const RESIDENTS := {
 				["Ricordare una strada è utile finché la strada sta ferma.", "Qui niente sta fermo. Neanche noi, a pensarci."],
 			],
 			"reazione": [
-				["L'apparato ha spento le luci del settore est.", "Ho contato i passi al buio per abitudine. Poi ho usato il filo."],
-				["Missione chiusa. Bene. Non ti accompagno all'uscita: la trovi da sola, ormai."],
-				["Il ragazzo che si dimenticava è entrato nel Labirinto.", "Ha usato il filo. Non ricorda perché funzioni, ma lo usa."],
+				["Le luci del settore est si sono spente. Trentadue passi al buio.", "Ho contato i passi al buio per abitudine. Poi ho usato il filo."],
+				["Fatto. Bene. Non ti accompagno all'uscita: la trovi da sola, ormai."],
+				["È entrato nel Labirinto, quel ragazzo senza segno.", "Ha usato il filo. Non ricorda perché funzioni, ma lo usa."],
 			],
 			"riempimento": [
 				["Quattrocentododici. Ancora mi viene da contarli.", "È come una canzone che non ti esce dalla testa."],
@@ -1245,11 +1245,11 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["E se invece di ricordarti la strada, la segnassi?", "Ho lasciato dei fili nel braccio nord. Vai a vedere come li ho messi."],
-				["C'è una stanza con quattro porte uguali.", "Io ci ho provato: la prima a sinistra, sempre. Sempre la stessa regola.", "E se invece funzionasse davvero? Vacci a controllare."],
+				["Da qualche parte lì dentro, quattro porte uguali.", "Io ci ho provato: la prima a sinistra, sempre. Sempre la stessa regola.", "E se invece funzionasse davvero? Vacci a controllare."],
 				["Nella Rovina c'è un pavimento con dei segni a bivio.", "Somigliano ai miei fili, ma sono di pietra e vecchissimi.", "Va' a guardarli. Voglio sapere se il mio trucco ce l'aveva già qualcuno."],
 			],
 			"consolazione": [
-				["Non è uscito? E se invece riprovassimo da metà strada?", "Non serve rifare tutto: solo il pezzo dove il filo si è rotto."],
+				["E se invece riprovassimo da metà strada?", "Non serve rifare tutto: solo il pezzo dove il filo si è rotto."],
 				["Aspetta, non buttare via il foglio.", "Anche i miei fili si aggrovigliano. Li sbroglio e ricomincio, e nessuno mi guarda."],
 			],
 			"stadio0": [
@@ -1269,7 +1269,7 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Hai acceso l'apparato! E se invece adesso il labirinto smette di spostarsi?", "Sarebbe un peccato, quasi."],
-				["Missione finita! Ti ho seguita col filo da lontano. Non te la prendere."],
+				["Uscita! Ti ho seguita col filo da lontano. Non te la prendere."],
 				["Sesto si perde anche con il filo.", "E se invece gli dessi due fili? Ci sto pensando."],
 			],
 			"riempimento": [
@@ -1311,7 +1311,7 @@ const RESIDENTS := {
 			],
 			"stadio1": [
 				["Lo strumento si è rotto e dovevo dare una distanza.", "Duna l'ha detta a occhio. Sbagliava del tre per cento.", "(pulisce le lenti) Tre per cento, Eli. A occhio."],
-				["Ho provato a stimare. Mi sono sentito un ciarlatano.", "Poi ho misurato: ero vicino. Molto vicino."],
+				["Ci ho provato, a stimare. Mi sono sentito un ciarlatano.", "Poi ho misurato: ero vicino. Molto vicino."],
 				["Se la stima è vicina alla misura…", "(pulisce le lenti) …a cosa serve la stima, se poi misuro comunque?"],
 			],
 			"stadio2": [
@@ -1363,7 +1363,7 @@ const RESIDENTS := {
 			],
 			"stadio1": [
 				["Solano mi ha chiesto COME faccio.", "Non me l'aveva mai chiesto nessuno. (mano tesa) Mi sono bloccata."],
-				["Ho provato a rispondergli piano.", "Prima guardo una cosa di cui so la misura. Poi conto quante ci stanno.", "…l'ho detto e mi sono spaventata: sono passaggi."],
+				["Gli ho risposto piano, per una volta.", "Prima guardo una cosa di cui so la misura. Poi conto quante ci stanno.", "…l'ho detto e mi sono spaventata: sono passaggi."],
 				["Se ci sono dei passaggi, allora non è una dote.", "(mano tesa) E se non è una dote, cosa sono io?"],
 			],
 			"stadio2": [
@@ -1373,8 +1373,8 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["(mano tesa) L'apparato ha mandato una luce fin oltre la terza duna.", "Duemilaquattrocento passi. A occhio."],
-				["Hai finito? Vieni, ti mostro il punto dove il deserto sembra piatto e non lo è."],
-				["Il ragazzo che si presenta sempre ha provato con la mano tesa.", "Ha detto «lontano». (mano tesa) È un inizio."],
+				["Chiusa? Vieni, ti mostro il punto dove il deserto sembra piatto e non lo è."],
+				["Ha provato con la mano tesa, quel ragazzo che arriva sempre nuovo.", "Ha detto «lontano». (mano tesa) È un inizio."],
 			],
 			"riempimento": [
 				["(mano tesa) Il pollice largo un dito, il braccio teso: quello è il mio strumento.", "Costa niente e non si rompe."],
@@ -1401,7 +1401,7 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(taglia l'aria con la mano) Questa cronaca. Trecento pagine.", "So come finisce. E non ho capito niente.", "Leggila tu e dimmi cosa succede in mezzo."],
-				["Mi serve un riassunto della deposizione del secondo testimone.", "Non il finale. Il finale ce l'ho.", "Voglio sapere in che punto cambia idea."],
+				["La deposizione del secondo testimone va riassunta.", "Non il finale. Il finale ce l'ho.", "Voglio sapere in che punto cambia idea."],
 				["Ottavia racconta la stessa storia in un altro modo e sembra un'altra storia.", "(taglia l'aria) Non è possibile e succede.", "Va' ad ascoltarla. Poi tornerai a spiegarmi cosa cambia se i fatti sono uguali."],
 			],
 			"consolazione": [
@@ -1424,9 +1424,9 @@ const RESIDENTS := {
 				["Ottavia racconta la stessa storia da tre punti di vista, di mestiere.", "L'ho sempre trovato un vezzo. Era una tecnica."],
 			],
 			"reazione": [
-				["L'apparato ha letto ad alta voce un verbale.", "(taglia l'aria) Tredici voci registrate. Ne ho contate tredici, e i presenti erano dodici."],
-				["Missione chiusa. La riassumo in una riga? No. Merita tre."],
-				["Il ragazzo che si presenta sempre mi ha raccontato la sua giornata.", "(taglia l'aria) Quattro volte. Ogni volta diversa. Utilissimo, in realtà."],
+				["Si è messo a leggere un verbale ad alta voce.", "(taglia l'aria) Tredici voci registrate. Ne ho contate tredici, e i presenti erano dodici."],
+				["Fatto. (taglia l'aria) La riassumo in una riga? No. Merita tre."],
+				["Sai chi è passato? Quello che comincia sempre dall'inizio. Mi ha raccontato la giornata.", "(taglia l'aria) Quattro volte. Ogni volta diversa. Utilissimo, in realtà."],
 			],
 			"riempimento": [
 				["(taglia l'aria) La Biblioteca ha ottomila voci e nessun indice.", "Ci sto lavorando. Ci lavoro da nove anni."],
@@ -1477,8 +1477,8 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Hai svegliato l'apparato! (cambia voce) «E la macchina disse: mi ricordo tutto.»", "Battuta mia. L'apparato non ha detto niente."],
-				["Missione finita! Te la racconto in tre voci? …va bene, in una."],
-				["Il ragazzo che si presenta sempre è il mio pubblico preferito.", "(cambia voce) Ogni volta è la prima volta. Per lui e quindi anche per me."],
+				["(cambia voce) «Riuscita!» Te la racconto in tre voci? …va bene, in una."],
+				["(cambia voce) «Piacere, Sesto!» Quello lì è il mio pubblico preferito.", "(cambia voce) Ogni volta è la prima volta. Per lui e quindi anche per me."],
 			],
 			"riempimento": [
 				["(cambia voce) «Nella Biblioteca» — no, aspetta, questa comincia male."],
@@ -1506,7 +1506,7 @@ const RESIDENTS := {
 			"richiesta": [
 				["(dà un colpetto alla macchina) Questa qua si guasta ogni martedì.", "Ogni. Martedì. Non è sfortuna, è un appuntamento.", "Vieni a guardarla di martedì, che io da solo mi arrabbio."],
 				["Il nastro tre si ferma dopo un po'. Non so dopo quanto.", "Gli do un colpetto e riparte. Poi si ferma di nuovo.", "Va' a segnare a che ora si ferma. Tre volte, non una."],
-				["C'è un pannello di comandi con una riga barrata.", "Qualcuno prima di me sapeva cos'era e l'ha cancellata.", "Vacci tu. Se leggi cosa c'era sotto, siamo a cavallo."],
+				["Su un pannello di comandi una riga è barrata.", "Qualcuno prima di me sapeva cos'era e l'ha cancellata.", "Vacci tu. Se leggi cosa c'era sotto, siamo a cavallo."],
 			],
 			"consolazione": [
 				["(colpetto alla panca) Non è ripartita? Normale.", "Le macchine sono testarde come le persone. Ci si riprova con più calma."],
@@ -1529,8 +1529,8 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["L'apparato si è acceso senza colpetti!", "(colpetto lo stesso) Scusa. Riflesso."],
-				["Missione finita! Segno la data. Ho un quaderno adesso, come Pila."],
-				["Il ragazzo che si presenta sempre ha dato un colpetto a una macchina.", "(colpetto) Gli ho detto di leggere prima. Se lo è dimenticato, ma ci ha provato."],
+				["È andata! Segno la data. Ho un quaderno adesso, come Pila."],
+				["Il tipo che si ripresenta ogni cinque minuti ha dato un colpetto a una macchina.", "(colpetto) Gli ho detto di leggere prima. Se lo è dimenticato, ma ci ha provato."],
 			],
 			"riempimento": [
 				["La Città Macchina ha settori che nessuno visita da secoli.", "(colpetto a un tubo) Questo suona pieno. Non dovrebbe."],
@@ -1561,7 +1561,7 @@ const RESIDENTS := {
 				["Nella Rovina c'è una parete piena di tacche a colonne.", "Sembra il mio quaderno ma è di pietra.", "Vacci. Voglio sapere se anche loro scrivevano quando succedevano le cose."],
 			],
 			"consolazione": [
-				["Non è andata? Ok. E quando è successo, esattamente?", "Se me lo dici lo scrivo, e la prossima volta lo sappiamo prima."],
+				["Ok. E quando è successo, esattamente?", "Se me lo dici lo scrivo, e la prossima volta lo sappiamo prima."],
 				["Aspetta. Non è colpa tua.", "Nel mio quaderno le prime venti pagine sono tutte sbagliate e le tengo lo stesso."],
 			],
 			"stadio0": [
@@ -1581,8 +1581,8 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Hai acceso l'apparato! E quando è successo? Adesso! L'ho scritto: «adesso»."],
-				["Missione finita! Numero, data, causa, esito. Tutto segnato."],
-				["Il ragazzo che si dimentica mi ha detto tre volte la stessa cosa.", "E quando è successo? Tre volte oggi. L'ho scritto tre volte."],
+				["Fatto! Numero, data, causa, esito. E quando è successo: tutto segnato."],
+				["Tre volte la stessa cosa, me l'ha detta il ragazzo senza quaderno.", "E quando è successo? Tre volte oggi. L'ho scritto tre volte."],
 			],
 			"riempimento": [
 				["Rumore strano numero dodici: un fischio dal condotto est.", "E quando è successo? Sempre alle undici."],
@@ -1632,9 +1632,9 @@ const RESIDENTS := {
 				["Una parola ha una traduzione dentro una frase.", "Fuori dalla frase ha solo delle possibilità."],
 			],
 			"reazione": [
-				["L'apparato ha parlato in due lingue insieme.", "Scusa, mi sono commossa. Diceva la stessa cosa in due modi diversi, e tutti e due giusti."],
-				["Missione chiusa. Scusa se te lo dico piano: sono contenta."],
-				["Il ragazzo che si presenta sempre ha imparato «hello».", "Lo dice a tutti. Scusa, ma lo trovo bellissimo."],
+				["Ha parlato in due lingue insieme, lì dentro. Scusa, mi trema la voce.", "Scusa, mi sono commossa. Diceva la stessa cosa in due modi diversi, e tutti e due giusti."],
+				["È andata. Scusa se te lo dico piano: sono contenta."],
+				["Scusa: quel ragazzo che si presenta e riscusa ha imparato «hello».", "Lo dice a tutti. Scusa, ma lo trovo bellissimo."],
 			],
 			"riempimento": [
 				["Alla Frontiera passano sei lingue al giorno.", "Scusa, sette. Ho dimenticato quella dei pastori."],
@@ -1684,9 +1684,9 @@ const RESIDENTS := {
 				["Talia non si scusa più a ogni frase.", "(conta sulle dita) Le ho detto: una scusa ogni sei. Come le lingue."],
 			],
 			"reazione": [
-				["L'apparato ha detto una cosa in una lingua che non conosco!", "(conta sulle dita) …sette. Adesso sono sette."],
+				["Ha detto una cosa in una lingua che non conosco! (conta sulle dita) La numero sette.", "(conta sulle dita) …sette. Adesso sono sette."],
 				["Affare fatto! Cioè, missione. (conta sulle dita) Per me è lo stesso."],
-				["Il ragazzo che si presenta sempre mi ha venduto un sasso.", "In tre lingue. (conta sulle dita) Gliel'ho pagato, per il coraggio."],
+				["Un sasso! Me l'ha venduto quello con la memoria corta.", "In tre lingue. (conta sulle dita) Gliel'ho pagato, per il coraggio."],
 			],
 			"riempimento": [
 				["Al valico si impara la lingua che serve, non quella che piace.", "(conta sulle dita) Nessuna di queste sei mi piace, tra l'altro."],
@@ -1713,8 +1713,8 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(trattiene il fiato) Il relitto profondo. Ci sono arrivata a metà.", "Poi il petto mi si è stretto e sono risalita.", "Vieni a vedere lo strumento di Coral. Io i suoi numeri non li leggo."],
-				["Mi serve una discesa di prova sul banco basso.", "Segna la profondità a ogni sosta. Anche se ti sembra inutile, segnala.", "Io a scendere sono brava. A scrivere no."],
-				["C'è una campana da palombaro nella secca est.", "Dentro ci resta l'aria. Sott'acqua. Non chiedermi come.", "Vacci e guarda fin dove arriva l'acqua dentro la campana."],
+				["Sul banco basso ci vuole una discesa di prova.", "Segna la profondità a ogni sosta. Anche se ti sembra inutile, segnala.", "Io a scendere sono brava. A scrivere no."],
+				["Nella secca est riposa una campana da palombaro.", "Dentro ci resta l'aria. Sott'acqua. Non chiedermi come.", "Vacci e guarda fin dove arriva l'acqua dentro la campana."],
 			],
 			"consolazione": [
 				["(riprende fiato) Sei risalita. È la cosa giusta.", "Chi risale può riprovare. È l'unica regola che conta qua sotto."],
@@ -1736,9 +1736,9 @@ const RESIDENTS := {
 				["Ho insegnato la tabella a due ragazzi del molo.", "(trattiene il fiato) Se svengo io almeno non svengono loro."],
 			],
 			"reazione": [
-				["L'apparato ha misurato la pressione della fossa.", "(trattiene il fiato) Il numero che ha dato è quello che avevo calcolato. A meno di due."],
-				["Missione chiusa! Vieni, ti presto la muta piccola."],
-				["Quel ragazzo che si presenta sempre è sceso di tre metri.", "(trattiene il fiato) Poi si è dimenticato di risalire. L'ho tirato su io."],
+				["Ha misurato la pressione della fossa, da solo.", "(trattiene il fiato) Il numero che ha dato è quello che avevo calcolato. A meno di due."],
+				["(riprende fiato) Risalita, e chiusa. Vieni, ti presto la muta piccola."],
+				["È sceso di tre metri, quello per cui ogni volta è la prima volta.", "(trattiene il fiato) Poi si è dimenticato di risalire. L'ho tirato su io."],
 			],
 			"riempimento": [
 				["(trattiene il fiato) Le insegne del molo si sono sbiancate tutte.", "Tranne una parola, che è rimasta. Non ti dico quale: vai a vederla."],
@@ -1788,9 +1788,9 @@ const RESIDENTS := {
 				["Non sono «uno che ha smesso».", "Sono uno che è tornato indietro con le misure. È diverso."],
 			],
 			"reazione": [
-				["L'apparato ha stampato una tabella di decompressione.", "Uguale alla mia. Con due numeri più prudenti. Aveva ragione lui."],
+				["È uscita una tabella di decompressione. Numeri, finalmente.", "Uguale alla mia. Con due numeri più prudenti. Aveva ragione lui."],
 				["Finito? Bene. Prendi la tabella piccola, quella plastificata. Regalo."],
-				["Il ragazzo che si presenta a ripetizione ha imparato una riga della tabella.", "Una. Ma è la riga che salva la vita, quindi va bene."],
+				["Una riga della tabella l'ha imparata quello che non tiene il conto di niente.", "Una. Ma è la riga che salva la vita, quindi va bene."],
 			],
 			"riempimento": [
 				["I numeri non ti vogliono bene e non ti odiano.", "Per questo di loro ti puoi fidare."],
@@ -1817,12 +1817,12 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["Stasera accompagno una voce sola e l'organo la copre sempre.", "Ho contato il riverbero: quattro secondi buoni sotto la volta.", "Vieni in cantoria. Voglio provare con te ad ascoltare, non a suonare."],
-				["Mi serve qualcuno in fondo alla navata.", "Io suono, tu stai laggiù e mi dici quando le parole si impastano.", "Il riverbero da qui non lo sento: sono dentro al suono."],
-				["C'è una registrazione di cent'anni fa nella cripta.", "Un solo cantore, nessun organo. E si sente ogni parola.", "Vacci ad ascoltarla. Poi mi spieghi perché a loro riusciva."],
+				["In fondo alla navata non c'è nessuno ad ascoltare.", "Io suono, tu stai laggiù e mi dici quando le parole si impastano.", "Il riverbero da qui non lo sento: sono dentro al suono."],
+				["Nella cripta dorme una registrazione di cent'anni fa.", "Un solo cantore, nessun organo. E si sente ogni parola.", "Vacci ad ascoltarla. Poi mi spieghi perché a loro riusciva."],
 			],
 			"consolazione": [
 				["(chiude gli occhi) Contiamo il riverbero insieme. Uno… due… tre… quattro.", "Ecco: è passato. Anche l'errore passa così. Riprendiamo dalla battuta prima."],
-				["Non è la nota che hai sbagliato.", "È il silenzio che non hai lasciato. Si impara, e ci vogliono anni. Hai tempo."],
+				["La nota non è la cosa che hai sbagliato.", "È il silenzio che non hai lasciato. Si impara, e ci vogliono anni. Hai tempo."],
 			],
 			"stadio0": [
 				["Sette secondi di riverbero. Sette.", "In sette secondi un pianissimo muore prima di arrivare in fondo."],
@@ -1840,9 +1840,9 @@ const RESIDENTS := {
 				["Accompagno Bea adesso. (conta il riverbero) Sotto la sua voce, non sopra."],
 			],
 			"reazione": [
-				["L'apparato ha fatto suonare la canna maggiore.", "(conta il riverbero) Nove secondi. Nove. Non era mai successo."],
+				["Ha fatto suonare la canna maggiore. Sei secondi di riverbero.", "(conta il riverbero) Nove secondi. Nove. Non era mai successo."],
 				["Hai concluso. Suono qualcosa per te? Piano, però. Ci tengo a farlo piano."],
-				["Il ragazzo che si ripresenta è entrato durante le prove.", "Ha ascoltato in silenzio per un'ora. (conta il riverbero) Sette secondi per sessanta minuti."],
+				["È venuto alle prove quello che entra sempre come se fosse la prima volta.", "Ha ascoltato in silenzio per un'ora. (conta il riverbero) Sette secondi per sessanta minuti."],
 			],
 			"riempimento": [
 				["(conta il riverbero) Le pietre della navata sono di due epoche diverse.", "Si sente. Restituiscono in modo diverso."],
@@ -1869,11 +1869,11 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["La navata è una gran ficcanaso: ti ripete tutto addosso.", "Ho fatto una mappa dei punti dove l'eco sparisce.", "Vieni a provarli con me. Uno per uno."],
-				["C'è un punto sotto il pulpito dove puoi sussurrare e ti sente il fondo.", "Un punto! Grande come un piede!", "Vacci e prova. Poi torna a dirmi se sono matta io o la navata."],
+				["Sotto il pulpito, un punto solo: sussurri lì e ti sente il fondo.", "Un punto! Grande come un piede!", "Vacci e prova. Poi torna a dirmi se sono matta io o la navata."],
 				["Nella cripta c'è un disegno della volta con dei cerchi sopra.", "Secondo me qualcuno l'eco l'aveva già mappata prima di me.", "Va' a guardarlo. Se è così, la navata mi deve delle scuse."],
 			],
 			"consolazione": [
-				["Non è venuta? Colpa della navata, sicuro. È sempre colpa sua.", "Dai, si riprova due passi più in là."],
+				["Colpa della navata, sicuro. È sempre colpa sua.", "Dai, si riprova due passi più in là."],
 				["Ehi, ascolta.", "Io ho girato questa chiesa per un anno prima di trovare il primo punto buono. Un anno. Tu sei alla prima settimana."],
 			],
 			"stadio0": [
@@ -1893,8 +1893,8 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Hai svegliato l'apparato! La navata ha risuonato tutta insieme.", "Mai sentita così: sembrava contenta anche lei."],
-				["Missione finita! Ti canto una nota nel punto sette? È il mio preferito."],
-				["Quel ragazzo si è presentato a metà del canto.", "Tre volte. La navata gliel'ha rimandato indietro tre volte."],
+				["Chiusa! Ti canto una nota nel punto sette della navata? È il mio preferito."],
+				["Si è presentato a metà del canto, quel tale.", "Tre volte. La navata gliel'ha rimandato indietro tre volte."],
 			],
 			"riempimento": [
 				["Punto quattro: sotto il rosone. Ci sussurri e ti sentono in sacrestia.", "La navata fa la pettegola."],
@@ -1921,7 +1921,7 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(lucida la lapide) Questa iscrizione va datata e io non ci riesco.", "Le parole non sono né vecchie né nuove. Sono in mezzo.", "Vieni a leggerla. Forse tu non hai i miei pregiudizi."],
-				["Mi serve un confronto fra tre lapidi del settore basso.", "Stessa parola, tre forme diverse. Una delle tre è quella «pura», immagino.", "Va' a copiarle tutte e tre. Poi ne parliamo."],
+				["Tre lapidi del settore basso vanno confrontate.", "Stessa parola, tre forme diverse. Una delle tre è quella «pura», immagino.", "Va' a copiarle tutte e tre. Poi ne parliamo."],
 				["C'è un'iscrizione che ho lasciato indietro per rabbia.", "(lucida la pietra) È scritta in una lingua storpiata, di quelle che disprezzo.", "Vacci tu. E dimmi se la capisci meglio di quelle giuste."],
 			],
 			"consolazione": [
@@ -1944,9 +1944,9 @@ const RESIDENTS := {
 				["Fiorina chiama le piante con nomi di ottocento anni fa e non lo sa.", "(lucida la lapide) La lingua vecchia non è morta: sta nel suo orto."],
 			],
 			"reazione": [
-				["L'apparato ha inciso una firma nella pietra.", "(lucida la lapide) Un nome cancellato e un posto: il tredicesimo. Non chiedermi altro."],
+				["Una firma si è incisa nella pietra.", "(lucida la lapide) Un nome cancellato e un posto: il tredicesimo. Non chiedermi altro."],
 				["Missione conclusa. Ti pulisco una lapide in tuo onore. È il massimo che offro."],
-				["Il ragazzo che si presenta sempre ha letto un'epigrafe.", "(lucida la lapide) Male. Ma l'ha letta, e nessuno gliel'aveva chiesto."],
+				["Un'epigrafe l'ha letta quello che si rinomina da solo.", "(lucida la lapide) Male. Ma l'ha letta, e nessuno gliel'aveva chiesto."],
 			],
 			"riempimento": [
 				["(lucida la lapide) Il muschio protegge la pietra e cancella le lettere.", "Salva e distrugge insieme. Come tante cose qui."],
@@ -1973,11 +1973,11 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["Io la chiamo «erba del sonno». Nessuno la chiama più così.", "Ma sulla lapide del settore nord c'è scritto un nome che le somiglia.", "Vacci a vedere. Ho paura di andarci io."],
-				["C'è una pianta che chiamo con un nome che non mi ha insegnato nessuno.", "Nessuno, capisci? E allora da dove mi è venuto?", "Va' nell'erbario vecchio e cercalo. Voglio sapere se esisteva prima di me."],
+				["Una pianta la chiamo con un nome che non mi ha insegnato nessuno.", "Nessuno, capisci? E allora da dove mi è venuto?", "Va' nell'erbario vecchio e cercalo. Voglio sapere se esisteva prima di me."],
 				["Nella Necropoli crescono tre erbe che io chiamo come sorelle.", "Hanno nomi che fanno lo stesso suono in fondo.", "Vacci e guarda se anche i vecchi le mettevano insieme."],
 			],
 			"consolazione": [
-				["Non è venuto. Vieni a sederti fra le radici.", "Le cose che non tornano subito le chiamo «da riprovare». Anche questa."],
+				["Vieni a sederti fra le radici.", "Le cose che non tornano subito le chiamo «da riprovare». Anche questa."],
 				["Ti dico un segreto.", "Io sbaglio i nomi ogni giorno e le piante non si sono mai offese. Riprova con calma."],
 			],
 			"stadio0": [
@@ -1996,9 +1996,9 @@ const RESIDENTS := {
 				["Non sono l'ultima. Sono quella che è arrivata fin qui portandoli.", "Che è un'altra cosa, e molto più bella."],
 			],
 			"reazione": [
-				["L'apparato ha detto un nome di pianta che conosco!", "L'ho chiamata così tutta la vita. Lui pure."],
-				["Hai finito? Ti do una talea di sanguinella. Chiamala come vuoi, ma chiamala."],
-				["Il ragazzo che si dimentica mi ha chiesto il nome di una pianta.", "Gliel'ho detto tre volte. La quarta l'ha detto lui."],
+				["Ha detto un nome di pianta che conosco! Proprio come lo chiamo io.", "L'ho chiamata così tutta la vita. Lui pure."],
+				["Finita? Ti do una talea di sanguinella. Chiamala come vuoi, ma chiamala."],
+				["Mi ha chiesto come chiamo quella pianta, quello che perde i nomi.", "Gliel'ho detto tre volte. La quarta l'ha detto lui."],
 			],
 			"riempimento": [
 				["Nel settore chiuso cresce una pianta che chiamo «guardiana».", "Sta lì sopra un disegno inciso. Non ci vado più."],
@@ -2025,8 +2025,8 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(batte le nocche sul quadro) Questo qui non legge più niente.", "Ho spinto e ho bruciato il terzo sensore in una settimana. Il terzo!", "Vieni a guardarlo prima che io ci dia un'altra nocca."],
-				["Mi serve una misura sul quadro di riserva.", "Io se non legge spingo. Tu invece guarda cosa dice mentre spingo piano.", "Segna tutto, anche i numeri piccoli."],
-				["C'è un quadro dei Primi nella sala fulmini.", "Ha una specie di valvola che si stacca da sola quando si esagera.", "Vacci a vedere. Se capisci come fa, io smetto di bruciare roba."],
+				["Il quadro di riserva non l'ha mai misurato nessuno.", "Io se non legge spingo. Tu invece guarda cosa dice mentre spingo piano.", "Segna tutto, anche i numeri piccoli."],
+				["Nella sala fulmini è rimasto un quadro dei Primi.", "Ha una specie di valvola che si stacca da sola quando si esagera.", "Vacci a vedere. Se capisci come fa, io smetto di bruciare roba."],
 			],
 			"consolazione": [
 				["(nocche sul tavolo) Bruciato? Buono. Adesso sai un limite in più."],
@@ -2048,9 +2048,9 @@ const RESIDENTS := {
 				["Quieto mi ha insegnato a guardare prima di toccare.", "(nocche, piano) È la cosa più difficile che ho imparato."],
 			],
 			"reazione": [
-				["L'apparato ha retto la scarica senza saltare!", "(batte le nocche sul quadro) Ha abbassato la potenza da solo. Da solo, capisci?"],
-				["Missione chiusa! Ti regalo un sensore. Non bruciato, giuro."],
-				["Il ragazzo che si presenta sempre ha battuto le nocche su un quadro.", "Mi ha imitata. (nocche) Devo smettere, io."],
+				["Ha retto la scarica senza saltare! (batte le nocche) E non l'ho toccato.", "(batte le nocche sul quadro) Ha abbassato la potenza da solo. Da solo, capisci?"],
+				["Andata! Ti regalo un sensore. Non bruciato, giuro."],
+				["Ha battuto le nocche su un quadro, quello che si ripresenta a raffica.", "Mi ha imitata. (nocche) Devo smettere, io."],
 			],
 			"riempimento": [
 				["(nocche) Durante la tempesta i quadri cantano.", "È bruttissimo, ma è un canto."],
@@ -2100,9 +2100,9 @@ const RESIDENTS := {
 				["(conta i secondi) Se domani non ci fossi, la tempesta la leggerebbe qualcun altro.", "Non mi era mai capitato di pensarlo senza tristezza."],
 			],
 			"reazione": [
-				["L'apparato ha previsto la scarica prima di me.", "(conta i secondi) Di due secondi. Solo due. Ma prima."],
+				["Ha previsto la scarica prima di me. Di due secondi buoni.", "(conta i secondi) Di due secondi. Solo due. Ma prima."],
 				["Hai concluso. Resta un momento: sta arrivando un lampo a ventaglio, e sono belli."],
-				["Il ragazzo che si presenta sempre ha contato i secondi con me.", "Si è fermato al tre e ha ricominciato da uno. (conta i secondi) Va bene lo stesso."],
+				["Ha contato i secondi con me quello che ogni volta ricomincia.", "Si è fermato al tre e ha ricominciato da uno. (conta i secondi) Va bene lo stesso."],
 			],
 			"riempimento": [
 				["(conta i secondi) La tempesta qui non finisce mai. Cambia solo intensità."],
@@ -2129,7 +2129,7 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(batte i fogli sul tavolo) Undici studi locali. Tutti giusti.", "E nessuna spiegazione che li tenga insieme.", "Prendili e leggili di fila. Voglio sapere se vedi una cosa che io non vedo."],
-				["Mi serve la serie delle piogge del versante nord.", "Sta in fondo all'archivio, in una cassa che non apro da tre anni.", "Vacci tu. Se la porti qui, io la metto in colonna con le altre."],
+				["La serie delle piogge del versante nord mi manca.", "Sta in fondo all'archivio, in una cassa che non apro da tre anni.", "Vacci tu. Se la porti qui, io la metto in colonna con le altre."],
 				["Mino dice che il calendario di suo nonno prevede il tempo.", "(allinea i fogli) Io ho undici studi e lui ha una filastrocca.", "Va' a farsela dire tutta. Poi la mettiamo accanto ai miei numeri."],
 			],
 			"consolazione": [
@@ -2152,9 +2152,9 @@ const RESIDENTS := {
 				["Mino aveva ragione da sei generazioni.", "(allinea i fogli) Il suo calendario è un modello. Fatto senza saperlo, ma è un modello."],
 			],
 			"reazione": [
-				["L'apparato ha proiettato tutte le valli insieme.", "(allinea i fogli) Le correnti passano da una all'altra. È ovvio adesso. Non lo era ieri."],
-				["Missione chiusa. Segnata, con l'ora e le condizioni meteo."],
-				["Il ragazzo che si presenta sempre mi ha chiesto se domani piove.", "(allinea i fogli) Gli ho detto di sì. Non è piovuto. Succede."],
+				["Ha proiettato tutte le valli insieme. (allinea i fogli) Tutte.", "(allinea i fogli) Le correnti passano da una all'altra. È ovvio adesso. Non lo era ieri."],
+				["Fatto. Segnata, con l'ora e le condizioni meteo."],
+				["Mi ha chiesto se domani piove, quello che si presenta a ogni foglio.", "(allinea i fogli) Gli ho detto di sì. Non è piovuto. Succede."],
 			],
 			"riempimento": [
 				["(allinea i fogli) L'Atlante è fratturato perché le carte vecchie non combaciano.", "Sono giuste tutte. Sono solo di anni diversi."],
@@ -2204,9 +2204,9 @@ const RESIDENTS := {
 				["Terza viene a controllare le greggi con me, il giovedì.", "Dice che i suoi strumenti sbagliano meno se guarda anche le pecore. Formaggio?"],
 			],
 			"reazione": [
-				["L'apparato ha annunciato la pioggia per venerdì!", "Anche il mio calendario. Siamo d'accordo. Assaggia il formaggio della festa."],
-				["Hai finito? Siediti. Prima si mangia."],
-				["Il ragazzo che si presenta sempre ha mangiato tre volte.", "Perché ogni volta credeva di essere appena arrivato. Formaggio ce n'è."],
+				["Ha annunciato la pioggia per venerdì! Come diceva mio nonno.", "Anche il mio calendario. Siamo d'accordo. Assaggia il formaggio della festa."],
+				["Chiusa? Siediti. Prima si mangia."],
+				["Ha mangiato tre volte, quello che saluta sempre come la prima volta.", "Perché ogni volta credeva di essere appena arrivato. Formaggio ce n'è."],
 			],
 			"riempimento": [
 				["Le pecore sentono il temporale sei ore prima.", "Il calendario dice le stesse cose, ma con più anticipo. Formaggio?"],
@@ -2233,8 +2233,8 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(annusa l'aria) In questa caverna c'è un odore che non riconosco.", "Cerco l'organismo che comanda qua sotto e non lo trovo.", "Vieni a cercarlo con me. Dev'esserci per forza."],
-				["Mi serve un conteggio nella sala dei funghi.", "Chi mangia chi. Segna le frecce, non i nomi.", "Poi torna e annusiamo il risultato insieme."],
-				["C'è un lichene che è due cose insieme e io non capisco quale vince.", "(lo annusa) Odora di alga e di fungo nello stesso momento.", "Va' a guardarlo al microscopio della sala bassa."],
+				["Nella sala dei funghi va contato chi mangia chi.", "Chi mangia chi. Segna le frecce, non i nomi.", "Poi torna e annusiamo il risultato insieme."],
+				["Un lichene è due cose insieme e non capisco quale vinca.", "(lo annusa) Odora di alga e di fungo nello stesso momento.", "Va' a guardarlo al microscopio della sala bassa."],
 			],
 			"consolazione": [
 				["(annusa il tuo quaderno) Sa di tentativo. Buon segno.", "Chi non prova non puzza di niente. Si ricomincia dal campione due."],
@@ -2256,9 +2256,9 @@ const RESIDENTS := {
 				["Cercavo il campione della caverna.", "(annusa) La caverna non fa gare. Fa incastri."],
 			],
 			"reazione": [
-				["L'apparato ha illuminato la grotta madre!", "(annusa) Odore di roccia bagnata e di qualcosa di vivo che non ho ancora classificato."],
-				["Missione finita! Vieni, ti faccio annusare una cosa incredibile."],
-				["Il ragazzo che si presenta sempre ha annusato un fungo.", "(annusa) Gli ho detto di non farlo. Poi l'ho fatto anch'io."],
+				["Si è illuminata la grotta madre! (annusa) E l'aria è cambiata.", "(annusa) Odore di roccia bagnata e di qualcosa di vivo che non ho ancora classificato."],
+				["Riuscita! Vieni, ti faccio annusare una cosa incredibile."],
+				["Ha annusato un fungo, quello che sa di chi cammina molto.", "(annusa) Gli ho detto di non farlo. Poi l'ho fatto anch'io."],
 			],
 			"riempimento": [
 				["(annusa) Ogni ramo della caverna ha il suo odore.", "Con gli occhi chiusi so dove sono."],
@@ -2309,8 +2309,8 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Guarda in alto. L'apparato ha acceso le vene di quarzo.", "Quattrocento anni che non succedeva. Guarda, e non dire niente."],
-				["Hai finito? Guarda: da qui si vede tutta la caverna madre. Volevo che la vedessi."],
-				["Quel ragazzo che si presenta sempre.", "Gli ho indicato una cosa quattro volte. Guarda… la quarta l'ha vista."],
+				["Guarda: da qui si vede tutta la caverna madre. Volevo che la vedessi."],
+				["È tornato. Quello che arriva sempre da capo.", "Gli ho indicato una cosa quattro volte. Guarda… la quarta l'ha vista."],
 			],
 			"riempimento": [
 				["Guarda l'acqua: dove è ferma è vecchia, dove trema c'è un passaggio."],
@@ -2337,8 +2337,8 @@ const RESIDENTS := {
 		"battute": {
 			"richiesta": [
 				["(timbra il faldone) Quattro secoli di vuoto nella cronologia ufficiale.", "Quattro. E io devo spiegarli entro la fine del mese.", "Va' nel deposito e portami tutto quello che copre quegli anni."],
-				["Mi serve la collazione delle tre versioni del decreto.", "Ho sempre conservato solo l'ufficiale. (timbra) Solo quella."],
-				["C'è una cassa che ho fatto sigillare io, anni fa.", "Dentro ci sono fonti che davano fastidio. Non le ho distrutte: le ho nascoste.", "Vacci tu e aprila. Non riesco a farlo da sola."],
+				["Le tre versioni del decreto vanno messe a confronto.", "Ho sempre conservato solo l'ufficiale. (timbra) Solo quella."],
+				["Una cassa, anni fa, l'ho fatta sigillare io.", "Dentro ci sono fonti che davano fastidio. Non le ho distrutte: le ho nascoste.", "Vacci tu e aprila. Non riesco a farlo da sola."],
 			],
 			"consolazione": [
 				["(timbra un foglio bianco) Ecco: annullato.", "Un documento sbagliato si annulla e si riscrive. Non si brucia. Vale anche per i tentativi."],
@@ -2360,9 +2360,9 @@ const RESIDENTS := {
 				["(timbra) C'è un registro del mondo 2. Una allieva di undici anni, partita e mai tornata.", "E mai registrata come perduta. Questo non lo timbro: lo lascio aperto sul tavolo."],
 			],
 			"reazione": [
-				["L'apparato ha aperto l'archivio sigillato.", "(timbra) Quattrocento spirali, di mani tutte diverse. Non ho parole, e io ho sempre parole."],
+				["Si è aperto l'archivio sigillato. (timbra) Registro anche questo.", "(timbra) Quattrocento spirali, di mani tutte diverse. Non ho parole, e io ho sempre parole."],
 				["Missione conclusa. (timbra) Con data, ora e le tre versioni dei fatti."],
-				["Il ragazzo che si presenta sempre ha chiesto di vedere l'archivio.", "(timbra) Gliel'ho mostrato. Tre volte. Ogni volta si è stupito uguale."],
+				["Quel giovane senza scheda, che si annuncia ogni volta, ha chiesto di vedere l'archivio.", "(timbra) Gliel'ho mostrato. Tre volte. Ogni volta si è stupito uguale."],
 			],
 			"riempimento": [
 				["(timbra) Timbro anche i documenti già timbrati. Lo so. Non riesco a smettere."],
@@ -2394,7 +2394,7 @@ const RESIDENTS := {
 			],
 			"consolazione": [
 				["Vieni, siediti fra gli scaffali. Qui le carte non giudicano nessuno."],
-				["Non è andata? Non fa niente.", "Anche una copia sbagliata conserva qualcosa. Si rifà il foglio, non si butta la giornata."],
+				["Non fa niente.", "Anche una copia sbagliata conserva qualcosa. Si rifà il foglio, non si butta la giornata."],
 			],
 			"stadio0": [
 				["Le carte scartate le ho… sistemate.", "Non dico dove. Stanno bene, questo sì."],
@@ -2413,8 +2413,8 @@ const RESIDENTS := {
 			],
 			"reazione": [
 				["Hai aperto l'archivio sigillato!", "Ci sono quattrocento spirali dentro. Mani diverse, tutte. Le carte hanno aspettato tanto."],
-				["Missione finita. Ti ho copiato una pagina in bella grafia. Tienila."],
-				["Il ragazzo che si presenta sempre mi ha aiutato a spostare una scatola.", "Tre volte la stessa scatola. Le carte non se ne sono avute a male."],
+				["È andata. Ti ho copiato una pagina in bella grafia. Tienila: le carte sono contente."],
+				["Mi ha aiutato con una scatola quello che dimentica tutto tranne la gentilezza.", "Tre volte la stessa scatola. Le carte non se ne sono avute a male."],
 			],
 			"riempimento": [
 				["Nelle carte scartate c'è un registro del mondo 2.", "Una bambina di undici anni. Non ti dico altro: leggilo tu."],

@@ -89,6 +89,17 @@ func react_to(game_signal: String) -> void:
 func current_face() -> String:
 	return _face
 
+## Anteprima statica per l'album: non passa dall'isteresi perché non rappresenta
+## una reazione di gioco e non modifica lo stato del Custode.
+func set_preview_face(face: String) -> void:
+	if not PetExpressionEngine.is_known(face):
+		return
+	_face = face
+	_resting = face
+	_elapsed = 0.0
+	_reduced_motion = true
+	queue_redraw()
+
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mouse := event as InputEventMouseButton
@@ -142,11 +153,24 @@ func _draw() -> void:
 			Color(_secondary, 0.95), 3.0, true)
 
 	var radius := SIZE * 0.36 * breath
-	draw_circle(center, radius + 2.0, Color(0.02, 0.07, 0.08, 0.92))
+	# Ombra, bordo e riflesso danno volume anche nei 76 px dell'HUD.
+	draw_circle(center + Vector2(0, radius * 0.12), radius * 1.10, Color(0.01, 0.035, 0.045, 0.28))
+	draw_circle(center, radius + 2.5, Color(0.02, 0.07, 0.08, 0.94))
 	_draw_ears(center, radius)
 	draw_circle(center, radius, _primary)
-	draw_circle(center - Vector2(0, radius * 0.22), radius * 0.78, _primary.lightened(0.10))
+	draw_circle(center - Vector2(0, radius * 0.23), radius * 0.78, _primary.lightened(0.11))
+	draw_circle(center + Vector2(0, radius * 0.31), radius * 0.43, Color(_secondary, 0.42))
+	draw_colored_polygon(PackedVector2Array([
+		center + Vector2(-radius * 0.18, -radius * 0.82),
+		center + Vector2(0, -radius * 1.06),
+		center + Vector2(radius * 0.12, -radius * 0.80),
+	]), _secondary)
 	_draw_eyes(center, radius)
+	draw_colored_polygon(PackedVector2Array([
+		center + Vector2(-radius * 0.075, radius * 0.16),
+		center + Vector2(radius * 0.075, radius * 0.16),
+		center + Vector2(0, radius * 0.24),
+	]), Color(0.10, 0.14, 0.15))
 	_draw_mouth(center, radius)
 	_draw_flourish(center, radius)
 
@@ -183,8 +207,10 @@ func _draw_ears(center: Vector2, radius: float) -> void:
 		var base := center + Vector2(sin(angle), -cos(angle)) * radius * 0.86
 		var tip := center + Vector2(sin(angle), -cos(angle)) * radius * 1.42
 		var side := Vector2(cos(angle), sin(angle)) * radius * 0.22
-		draw_colored_polygon(
-			PackedVector2Array([base - side, tip, base + side]), _primary.darkened(0.16))
+		draw_colored_polygon(PackedVector2Array([base - side, tip, base + side]), _primary.darkened(0.19))
+		draw_colored_polygon(PackedVector2Array([
+			base - side * 0.52, tip.lerp(base, 0.24), base + side * 0.52,
+		]), Color(_secondary, 0.82))
 
 func _draw_eyes(center: Vector2, radius: float) -> void:
 	var offset := radius * 0.34
@@ -193,38 +219,55 @@ func _draw_eyes(center: Vector2, radius: float) -> void:
 	for direction in [-1.0, 1.0]:
 		var eye := Vector2(center.x + offset * direction, eye_y)
 		match _face:
-			"beato", "festa":
+			"beato":
 				# Occhi chiusi felici: un arco verso l'alto.
-				draw_arc(eye + Vector2(0, 1.5), radius * 0.16, PI, TAU, 10, ink, 2.0, true)
+				draw_arc(eye + Vector2(0, 1.5), radius * 0.17, PI, TAU, 10, ink, 2.4, true)
+			"festa":
+				draw_arc(eye + Vector2(0, 3.0), radius * 0.20, PI + 0.10, TAU - 0.10, 12, ink, 2.8, true)
 			"concentrato":
-				# Fessure orizzontali: sta guardando il problema, non te.
-				draw_line(eye - Vector2(radius * 0.15, 0), eye + Vector2(radius * 0.15, 0), ink, 2.4)
+				draw_circle(eye, radius * 0.115, ink)
+				draw_line(eye + Vector2(-radius * 0.18 * direction, -radius * 0.19), eye + Vector2(radius * 0.12 * direction, -radius * 0.10), ink, 2.3)
 			"offeso":
 				# Occhi chiusi e girati: una linea inclinata.
-				draw_line(
-					eye - Vector2(radius * 0.14, -radius * 0.05),
-					eye + Vector2(radius * 0.14, -radius * 0.05), ink, 2.2)
+				draw_line(eye - Vector2(radius * 0.15, radius * 0.04 * direction), eye + Vector2(radius * 0.15, radius * 0.04 * direction), ink, 2.5)
 			"attento":
-				draw_circle(eye, radius * 0.19, ink)
-				draw_circle(eye, radius * 0.07, Color(1, 1, 1, 0.9))
+				draw_circle(eye, radius * 0.205, Color(_secondary, 0.92))
+				draw_circle(eye, radius * 0.125, ink)
+				draw_circle(eye - Vector2(radius * 0.04, radius * 0.05), radius * 0.045, Color.WHITE)
 			"impicciato":
 				# Pupille spostate di lato: lo sguardo in camera dopo la figuraccia.
 				draw_circle(eye, radius * 0.17, ink)
-				draw_circle(eye + Vector2(radius * 0.07, 0), radius * 0.05, Color(1, 1, 1, 0.9))
+				draw_circle(eye + Vector2(radius * 0.08, radius * 0.02), radius * 0.05, Color.WHITE)
+			"curioso":
+				draw_circle(eye, radius * 0.19, Color(_secondary, 0.95))
+				draw_circle(eye + Vector2(radius * 0.045, -radius * 0.035), radius * 0.105, ink)
+			"orgoglioso":
+				draw_arc(eye + Vector2(0, radius * 0.02), radius * 0.16, PI, TAU, 10, ink, 2.3, true)
+			"incoraggiante":
+				draw_circle(eye, radius * 0.16, ink)
+				draw_circle(eye - Vector2(radius * 0.06, radius * 0.06), radius * 0.055, Color.WHITE)
+				draw_line(eye + Vector2(-radius * 0.15, -radius * 0.19), eye + Vector2(radius * 0.10, -radius * 0.15), ink, 1.8)
 			_:
 				draw_circle(eye, radius * 0.15, ink)
 				draw_circle(eye - Vector2(radius * 0.05, radius * 0.05), radius * 0.05, Color(1, 1, 1, 0.9))
 
 func _draw_mouth(center: Vector2, radius: float) -> void:
-	var mouth := center + Vector2(0, radius * 0.34)
+	var mouth := center + Vector2(0, radius * 0.38)
 	var ink := Color(0.04, 0.10, 0.12)
 	match _face:
 		"festa":
-			draw_circle(mouth, radius * 0.16, ink)
+			draw_circle(mouth, radius * 0.19, ink)
+			draw_arc(mouth + Vector2(0, radius * 0.08), radius * 0.10, PI, TAU, 8, Color("ff8fa3"), 3.0, true)
 		"orgoglioso":
-			draw_arc(mouth - Vector2(0, radius * 0.10), radius * 0.22, 0.25, PI - 0.25, 12, ink, 2.4, true)
-		"incoraggiante", "sereno", "beato":
+			draw_arc(mouth - Vector2(0, radius * 0.10), radius * 0.24, 0.12, PI - 0.12, 12, ink, 2.7, true)
+			draw_line(mouth + Vector2(radius * 0.10, radius * 0.03), mouth + Vector2(radius * 0.23, -radius * 0.05), ink, 2.0)
+		"incoraggiante":
+			draw_arc(mouth - Vector2(0, radius * 0.07), radius * 0.18, 0.25, PI - 0.25, 12, ink, 2.5, true)
+		"sereno":
 			draw_arc(mouth - Vector2(0, radius * 0.06), radius * 0.15, 0.35, PI - 0.35, 10, ink, 2.0, true)
+		"beato":
+			draw_arc(mouth - Vector2(radius * 0.08, radius * 0.07), radius * 0.09, 0.15, PI - 0.10, 8, ink, 2.0, true)
+			draw_arc(mouth + Vector2(radius * 0.08, -radius * 0.07), radius * 0.09, 0.10, PI - 0.15, 8, ink, 2.0, true)
 		"concentrato", "attento":
 			draw_line(mouth - Vector2(radius * 0.12, 0), mouth + Vector2(radius * 0.12, 0), ink, 2.2)
 		"offeso":
@@ -238,7 +281,8 @@ func _draw_mouth(center: Vector2, radius: float) -> void:
 				points.append(mouth + Vector2(lerpf(-radius * 0.18, radius * 0.18, t), sin(t * TAU) * radius * 0.05))
 			draw_polyline(points, ink, 2.0)
 		"curioso":
-			draw_circle(mouth, radius * 0.08, ink)
+			draw_circle(mouth, radius * 0.09, ink)
+			draw_circle(mouth - Vector2(radius * 0.025, radius * 0.03), radius * 0.025, Color.WHITE)
 		_:
 			draw_arc(mouth, radius * 0.14, 0.35, PI - 0.35, 10, ink, 2.0, true)
 

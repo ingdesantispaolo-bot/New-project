@@ -7,6 +7,8 @@ const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const SHIP_POWER_OVERLAY_SCRIPT := preload("res://scripts/ui/ship_power_overlay.gd")
 const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
+const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
+const FINALE_CATALOG := preload("res://scripts/game/finale_catalog.gd")
 
 var controller: HubController
 var content: ContentManager
@@ -55,6 +57,13 @@ var world_map_grid: GridContainer
 var world_map_summary: Label
 var launch_save_override: Dictionary = {}
 var release_smoke_exam_button: Button
+var finale_dialogue_box: DialogueBox
+var finale_sequence: Array = []
+var finale_sequence_index := 0
+var finale_choice_panel: Control
+var finale_choice_buttons: VBoxContainer
+var finale_cattedra_entries := 0
+var finale_choice_committed := false
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -511,6 +520,7 @@ func _build_exercise_overlay() -> void:
 	log_dialog.title = "DIARIO DI BORDO · SOLO LOCALE"
 	log_dialog.min_size = Vector2i(620, 420)
 	exercise_layer.add_child(log_dialog)
+	_build_finale_overlay(exercise_layer)
 	if NativeWorldState.release_smoke_enabled():
 		release_smoke_exam_button = Button.new()
 		release_smoke_exam_button.name = "ReleaseSmokeCompleteExam"
@@ -528,6 +538,56 @@ func _build_exercise_overlay() -> void:
 		release_smoke_exam_button.pressed.connect(_complete_release_smoke_exam)
 		exercise_layer.add_child(release_smoke_exam_button)
 	_build_activation_celebration()
+
+func _build_finale_overlay(parent: CanvasLayer) -> void:
+	finale_choice_panel = Control.new()
+	finale_choice_panel.name = "FinaleChoicePanel"
+	finale_choice_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	finale_choice_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	finale_choice_panel.visible = false
+	parent.add_child(finale_choice_panel)
+	var veil := ColorRect.new()
+	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	veil.color = Color(0.005, 0.02, 0.035, 0.90)
+	finale_choice_panel.add_child(veil)
+	var panel := PanelContainer.new()
+	panel.anchor_left = 0.16
+	panel.anchor_right = 0.84
+	panel.anchor_top = 0.14
+	panel.anchor_bottom = 0.86
+	panel.add_theme_stylebox_override("panel", _panel_style(Color(0.008, 0.045, 0.065, 0.98), Color("f7d37a"), 18))
+	finale_choice_panel.add_child(panel)
+	var margin := MarginContainer.new()
+	for side in ["left", "top", "right", "bottom"]:
+		margin.add_theme_constant_override("margin_%s" % side, 22)
+	panel.add_child(margin)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 16)
+	margin.add_child(column)
+	var title := Label.new()
+	title.name = "FinaleChoiceQuestion"
+	title.text = str((ThirteenthCatalog.SCELTA as Dictionary).get("domanda", ""))
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_size_override("font_size", 25)
+	title.add_theme_color_override("font_color", Color("f7d37a"))
+	column.add_child(title)
+	finale_choice_buttons = VBoxContainer.new()
+	finale_choice_buttons.name = "FinaleChoiceButtons"
+	finale_choice_buttons.add_theme_constant_override("separation", 12)
+	column.add_child(finale_choice_buttons)
+	for raw_option in Array((ThirteenthCatalog.SCELTA as Dictionary).get("opzioni", [])):
+		var option: Dictionary = raw_option
+		var button := Button.new()
+		button.text = str(option.get("titolo", option.get("id", "")))
+		button.tooltip_text = str(option.get("conseguenza", ""))
+		button.custom_minimum_size = Vector2(0, 72)
+		button.add_theme_font_size_override("font_size", 17)
+		button.pressed.connect(_on_finale_choice.bind(str(option.get("id", ""))))
+		finale_choice_buttons.add_child(button)
+	finale_dialogue_box = DIALOGUE_BOX_SCRIPT.new()
+	finale_dialogue_box.name = "FinaleDialogueBox"
+	finale_dialogue_box.dialogue_closed.connect(_on_finale_dialogue_closed)
+	parent.add_child(finale_dialogue_box)
 
 func _build_activation_celebration() -> void:
 	var layer := CanvasLayer.new()
@@ -755,12 +815,16 @@ func _complete_release_smoke_exam() -> void:
 	release_smoke_exam_button.visible = false
 	JavaScriptBridge.eval("delete document.documentElement.dataset.eliExercise;")
 	var subject := str(exercise_player.session.get("subject", "matematica"))
+	var transversal := bool(exercise_player.session.get("transversal", false))
+	var total := Array(exercise_player.session.get("nodes", [])).size()
 	_on_exam_finished({
 		"kind": "final_exam",
 		"subject": subject,
-		"correct": 3,
-		"total": 3,
+		"correct": total if transversal else 3,
+		"total": total if transversal else 3,
 		"passed": true,
+		"systemsResolved": Array(ApparatusConfig.SUBJECT_CYCLE).duplicate() if transversal else [],
+		"synthesisResolved": transversal,
 		"energyGained": 30,
 		"seconds": 1.0,
 		"topicStats": {},
@@ -768,12 +832,16 @@ func _complete_release_smoke_exam() -> void:
 
 func _on_exam_finished(exam_result: Dictionary) -> void:
 	exercise_player.visible = false
+	var completed_finale := false
+	var exam_passed := bool(exam_result.get("passed", false))
+	if save.level() >= ApparatusConfig.MAX_LEVEL:
+		exam_passed = exam_passed and bool(exam_result.get("synthesisResolved", false))
 	# La stanza riparata è quella della materia che abita il mondo corrente.
 	var repaired_subject := ApparatusConfig.world_subject(save.level())
 	var repaired_gate := ApparatusConfig.apparatus_gate(repaired_subject, save.level())
 	var repaired_room := ShipRoomCatalog.room_for_apparatus(str(repaired_gate.get("apparatus", "nucleo")))
 	var activation_before := ShipActivationModel.activation_for_room(save, repaired_room)
-	if bool(exam_result.get("passed", false)):
+	if exam_passed:
 		var advanced := controller.progression.repair_and_advance(true)
 		if advanced:
 			var subject := str(repaired_gate.get("subject", exam_result.get("subject", "matematica")))
@@ -787,6 +855,7 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 			await _play_reactivation_sequence(repaired_room, activation_before, activation_after)
 			if controller.progression.is_complete():
 				NoraState.sync_from_progress(save)
+				completed_finale = bool(exam_result.get("synthesisResolved", false))
 		else:
 			nora_line.text = "NORA: Il protocollo non può essere applicato. Verifica i requisiti."
 	else:
@@ -795,12 +864,79 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 	save.save()
 	controller.refresh()
 	_apply_state(controller.state())
+	if completed_finale:
+		_start_finale_epilogue()
 	if NativeWorldState.release_smoke_enabled():
 		JavaScriptBridge.eval(
 			"document.documentElement.dataset.eliExam = %s;" %
-			JSON.stringify("passed" if bool(exam_result.get("passed", false)) else "failed")
+			JSON.stringify("passed" if exam_passed else "failed")
 		)
 		call_deferred("_publish_release_smoke_hub_state")
+
+func _start_finale_epilogue() -> void:
+	if not is_instance_valid(finale_dialogue_box):
+		return
+	finale_sequence.clear()
+	finale_sequence.append_array(Array((FINALE_CATALOG.CATTEDRA as Dictionary).get("scena", [])).duplicate(true))
+	finale_cattedra_entries = finale_sequence.size()
+	finale_sequence.append_array(Array((ThirteenthCatalog.RESTITUZIONE as Dictionary).get("scena", [])).duplicate(true))
+	finale_sequence_index = 0
+	finale_choice_committed = false
+	set_meta("finale_epilogue_phase", "cattedra")
+	_show_finale_sequence_entry()
+
+func _show_finale_sequence_entry() -> void:
+	if finale_sequence_index >= finale_sequence.size():
+		var narrative_state: Dictionary = save.data.get("narrative", {})
+		var thirteenth_state: Dictionary = narrative_state.get("thirteenth", {})
+		thirteenth_state["nameRestored"] = true
+		narrative_state["thirteenth"] = thirteenth_state
+		save.data["narrative"] = narrative_state
+		save.save()
+		set_meta("finale_epilogue_phase", "choice")
+		finale_choice_panel.visible = true
+		if finale_choice_buttons.get_child_count() > 0:
+			(finale_choice_buttons.get_child(0) as Button).grab_focus()
+		return
+	if finale_sequence_index == finale_cattedra_entries:
+		set_meta("finale_epilogue_phase", "restituzione")
+	var entry: Dictionary = finale_sequence[finale_sequence_index]
+	var speaker_id := str(entry.get("chi", ""))
+	var pages := Array(entry.get("dice", [])).duplicate()
+	finale_dialogue_box.configure_accessibility(
+		bool(save.data.get("accessibility", {}).get("highContrast", false)),
+		bool(save.data.get("accessibility", {}).get("reducedMotion", false)))
+	finale_dialogue_box.show_dialogue(speaker_id, speaker_id.capitalize(), "", pages)
+
+func _on_finale_dialogue_closed(_speaker_id: String) -> void:
+	if finale_choice_committed:
+		set_meta("finale_epilogue_phase", "complete")
+		return
+	finale_sequence_index += 1
+	_show_finale_sequence_entry()
+
+func _on_finale_choice(option_id: String) -> void:
+	var selected: Dictionary = {}
+	for raw_option in Array((ThirteenthCatalog.SCELTA as Dictionary).get("opzioni", [])):
+		var option: Dictionary = raw_option
+		if str(option.get("id", "")) == option_id:
+			selected = option
+			break
+	if selected.is_empty():
+		return
+	finale_choice_panel.visible = false
+	var narrative_state: Dictionary = save.data.get("narrative", {})
+	var thirteenth_state: Dictionary = narrative_state.get("thirteenth", {})
+	thirteenth_state["finaleChoice"] = option_id
+	thirteenth_state["nameRestored"] = true
+	narrative_state["thirteenth"] = thirteenth_state
+	save.data["narrative"] = narrative_state
+	save.save()
+	finale_choice_committed = true
+	set_meta("finale_epilogue_phase", "choice_result")
+	var pages := Array(selected.get("dice", [])).duplicate()
+	pages.append(str(selected.get("conseguenza", "")))
+	finale_dialogue_box.show_dialogue("tredicesimo", "tredicesimo".capitalize(), "", pages)
 
 func _play_reactivation_sequence(room_id: String, before: Dictionary, after: Dictionary) -> void:
 	if not is_instance_valid(celebration_root) or not is_instance_valid(background_material):

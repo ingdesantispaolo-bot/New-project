@@ -66,6 +66,18 @@ var _next_button: Button
 var _help_button: Button
 var _input: LineEdit
 var _input_submit: Button
+## Tastierino numerico disegnato dal gioco.
+##
+## Serve perché su tablet il `LineEdit` da solo **non si riempie**: la tastiera
+## di sistema nella build Web arriva solo se l'export ha
+## `html/experimental_virtual_keyboard`, e anche con quella accesa dipende dal
+## browser. Un esercizio a risposta numerica che non si può rispondere blocca il
+## giocatore, e finora non c'era nemmeno un modo per uscirne.
+##
+## Questo tastierino non dipende da niente: è fatto di bottoni, funziona
+## identico su desktop, tablet e Web, e su uno schermo tattile è comunque il
+## modo più comodo di scrivere un numero.
+var _numpad: GridContainer
 var _convergence_display: FinalConvergenceDisplay
 var _exercise_panel: PanelContainer
 var _options_scroll: ScrollContainer
@@ -223,8 +235,13 @@ func _build_ui() -> void:
 	_input = LineEdit.new()
 	_input.placeholder_text = "Scrivi la risposta"
 	_input.visible = false
+	# Dove la tastiera di sistema c'è, che sia quella dei numeri e non quella
+	# intera: è il caso 2 di `GodotDisplayVK`, cioè `inputmode="numeric"`.
+	_input.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER
 	_input.text_submitted.connect(func(text): _answer(text))
 	box.add_child(_input)
+	_numpad = _build_numpad()
+	box.add_child(_numpad)
 	_input_submit = Button.new()
 	_input_submit.name = "TextAnswerSubmit"
 	_input_submit.text = "CONFERMA RISPOSTA"
@@ -299,6 +316,54 @@ func _apply_format_layout(format: String) -> void:
 	# Lo scroll deve continuare a ricevere l'altezza residua: matching e
 	# classificazione includono il CTA verifica nello stesso contenitore.
 	_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+
+## Dieci cifre, il segno meno, la virgola e la cancellazione. Niente di più:
+## le risposte numeriche del gioco sono interi, decimali o negativi.
+##
+## I tasti sono da 56 px perché sotto i 44 un dito di bambino sbaglia bersaglio,
+## e il tasto di cancellazione sta lontano dallo zero per lo stesso motivo.
+func _build_numpad() -> GridContainer:
+	var grid := GridContainer.new()
+	grid.name = "NumericPad"
+	grid.columns = 5
+	grid.visible = false
+	grid.add_theme_constant_override("h_separation", 6)
+	grid.add_theme_constant_override("v_separation", 6)
+	for key in ["7", "8", "9", "−", "C", "4", "5", "6", ",", "←", "1", "2", "3", "0", "OK"]:
+		var button := Button.new()
+		button.name = "Numpad_%s" % key
+		button.text = key
+		button.custom_minimum_size = Vector2(0, 56)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 22)
+		button.add_theme_color_override("font_color", Color("06272a"))
+		var fill := Color("6be7d6") if key == "OK" else Color("bfeee6")
+		button.add_theme_stylebox_override("normal", _exercise_button_style(fill, Color("d8fff8")))
+		button.pressed.connect(_numpad_press.bind(key))
+		grid.add_child(button)
+	return grid
+
+func _numpad_press(key: String) -> void:
+	if not is_instance_valid(_input):
+		return
+	match key:
+		"OK":
+			_answer(_input.text)
+			return
+		"C":
+			_input.text = ""
+		"←":
+			_input.text = _input.text.substr(0, maxi(0, _input.text.length() - 1))
+		"−":
+			# Il meno solo in testa, e come interruttore: premerlo due volte lo
+			# toglie invece di lasciare «−−5».
+			_input.text = _input.text.substr(1) if _input.text.begins_with("-") else "-" + _input.text
+		",":
+			if not _input.text.contains(","):
+				_input.text += ","
+		_:
+			_input.text += key
+	_input.caret_column = _input.text.length()
 
 func _exercise_button_style(fill: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -409,10 +474,20 @@ func _dismiss_teaching_overlay(overlay: Control) -> void:
 	if is_instance_valid(_input) and _input.visible:
 		_input.grab_focus()
 
+## Vero se la risposta attesa è un numero: intero, decimale (virgola o punto) o
+## negativo. Tutto il resto è testo e vuole la tastiera, non il tastierino.
+func _answer_is_numeric(answer: String) -> bool:
+	var trimmed := answer.strip_edges()
+	if trimmed == "":
+		return false
+	return RegEx.create_from_string("^-?[0-9]+([.,][0-9]+)?$").search(trimmed) != null
+
 func _show_current() -> void:
 	_answered = false
 	_feedback.text = ""
 	_next_button.visible = false
+	if is_instance_valid(_numpad):
+		_numpad.visible = false
 	if is_instance_valid(_help_button):
 		_help_button.visible = false
 	_mg_expected = 0
@@ -479,6 +554,10 @@ func _show_current() -> void:
 			_input.text = ""
 			_input.editable = true
 			_input_submit.visible = true
+			# Il tastierino solo dove la risposta è un numero: per una parola
+			# sarebbe d'intralcio, e lì la tastiera di sistema serve davvero.
+			if is_instance_valid(_numpad):
+				_numpad.visible = _answer_is_numeric(str(item.get("answer", "")))
 			if is_inside_tree():
 				_input.grab_focus()
 
@@ -1346,6 +1425,11 @@ func _finish() -> void:
 	var total := _nodes.size()
 	var minimum_correct := int(session.get("minimumCorrect", ceili(float(total) * 0.5)))
 	var passed := _shields > 0 and _correct >= minimum_correct
+	# Nel finale la soglia numerica non basta: il tredicesimo posto viene
+	# assegnato a chi ha risolto il nodo di sintesi. Senza questo vincolo si
+	# potrebbe completare la campagna sbagliando proprio l'ultimo nodo.
+	if bool(session.get("transversal", false)):
+		passed = passed and is_instance_valid(_convergence_display) and _convergence_display.synthesis_resolved
 	var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 	if audio != null:
 		audio.call("set_focus", false)

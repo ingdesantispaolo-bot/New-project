@@ -35,5 +35,16 @@ func _run() -> void:
 	await create_timer(0.12).timeout
 	var image := root.get_texture().get_image()
 	image.save_png(ProjectSettings.globalize_path("%s/customization-tablet.png" % OUTPUT))
-	print("PET SCREEN RENDER probe OK — 900x600")
+	var screen := world.get("pet_screen") as Control
+	var scroll: ScrollContainer
+	for node in screen.find_children("*", "ScrollContainer", true, false):
+		scroll = node as ScrollContainer
+		break
+	if scroll != null:
+		scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value)
+		await process_frame
+		await process_frame
+		image = root.get_texture().get_image()
+		image.save_png(ProjectSettings.globalize_path("%s/faces-album-tablet.png" % OUTPUT))
+	print("PET SCREEN RENDER probe OK — 900x600, personalizzazione + album")
 	quit(0)

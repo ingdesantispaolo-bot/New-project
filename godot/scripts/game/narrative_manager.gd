@@ -3,38 +3,52 @@ extends RefCounted
 
 ## Narrazione locale data-driven: nessun blocco del loop didattico.
 
-## Arco narrativo completo dei 24 livelli (O-P4): ogni livello ha un beat NUOVO,
-## agganciato all'identità del mondo (mappa AAA) e al recupero progressivo della
-## memoria di NORA. Non è un registro tecnico: è la relazione che cresce mentre la
-## nave torna viva. Oltre il 24 resta l'ultimo beat (finale).
+## I 24 beat di `docs/TRAMA_E_MISTERO.md` §8. **Contratto invariato**: una stringa
+## per livello, prefisso «NORA:», nessun cambio di firma — `beat_for_level` e
+## `reveal_level` non si accorgono di niente.
+##
+## Cosa è cambiato è quello che dicono. I beat vecchi raccontavano il progresso
+## («un blocco di memoria è di nuovo mio»): erano un registro tecnico con la voce
+## gentile, e dopo il quinto suonavano tutti uguali perché dicevano tutti la
+## stessa cosa. Questi raccontano **un'indagine che si ribalta due volte**, e ogni
+## beat in grassetto nel documento porta un colpo di scena che riscrive
+## all'indietro quello che il giocatore credeva di aver capito (§3).
+##
+## I sette colpi cadono ai mondi 5, 8, 12, 16, 19–20, 23 e 24. Nessuno arriva
+## senza semi: i semi stanno in `MysteryCatalog`, e `mystery_audit.gd` verifica
+## che ce ne siano almeno tre **nei mondi precedenti** a ciascun colpo.
+##
+## Regola di scrittura, non negoziabile (§10.1): nessun beat dice che qualcuno è
+## morto. Le undici sorelle e Meridiana sono **trattenute**, cioè sospese e
+## recuperabili, e il gioco lo dice esplicitamente prima dei titoli.
 const BEATS := {
-	1: "NORA: Radura Accademia. Sento di nuovo i numeri: ogni tabellina che padroneggi riaccende una scheda del mio Nucleo. Comincia da qui.",
-	2: "NORA: Archivio delle Parole. Le parole giuste ricostruiscono i ponti… e le mie frasi. Grazie: ti sto capendo meglio.",
-	3: "NORA: Cratere Logico. Loop dentro loop: se ordini i passi, ordini anche i miei pensieri. Un ricordo di calcolo è tornato.",
-	4: "NORA: Baia dei Segnali. Ho ricevuto una voce lontana in un'altra lingua. Tu la traduci, io la ricordo.",
-	5: "NORA: Officine del Moto. Leve, rampe, forze: il ponte comando risponde di nuovo alle spinte giuste.",
-	6: "NORA: Giardino della Risonanza. Ogni nota accorda un circuito. Non pensavo di poter tornare a sentire la musica.",
-	7: "NORA: Rovine dei Glifi. Le radici antiche spiegano parole nuove: la sala dei glifi si illumina di senso.",
-	8: "NORA: Delta dei Circuiti. Corrente nei nodi giusti: il reattore ausiliario pulsa con te.",
-	9: "NORA: Arcipelago Cartografico. Rotte e quote: sto ricostruendo la mappa di dove eravamo diretti.",
-	10: "NORA: Serra delle Simbiosi. Tutto è collegato — piante, animali, scelte. Anche noi due, ormai.",
-	11: "NORA: Soglia del Tempo. Ogni fonte interpretata riaccende una scena del passato. Mi fido di come leggi le tracce.",
-	12: "NORA: Labirinto delle Regole. Hai chiuso il primo ciclo: dodici sistemi online. Un blocco di memoria è di nuovo mio.",
-	13: "NORA: Deserto delle Orbite. Traiettorie e stime: guardo le stelle con occhi che credevo spenti.",
-	14: "NORA: Biblioteca delle Voci. Storie dentro storie: ricordo perché questa missione conta, non solo come.",
-	15: "NORA: Città Macchina. Reti che parlano tra loro: la mia coscienza distribuita si ricompone.",
-	16: "NORA: Frontiera delle Lingue. Più voci, un solo senso. Comunichiamo meglio a ogni valico.",
-	17: "NORA: Oceano delle Forze. Pressione e correnti: reggo la profondità perché tu reggi il metodo.",
-	18: "NORA: Cattedrale del Suono. In questo riverbero sento intero un ricordo che era in frammenti.",
-	19: "NORA: Necropoli delle Radici. Le origini delle parole sono le origini di me: sto tornando chi ero.",
-	20: "NORA: Tempesta Elettromagnetica. Campi instabili, sensori impazziti: la tua calma è la mia bussola.",
-	21: "NORA: Atlante Fratturato. Placche e climi di un mondo intero: quasi vedo la rotta completa.",
-	22: "NORA: Biosfera Profonda. Cellule, energia, vita che si adatta: anch'io mi sto adattando a essere di nuovo viva.",
-	23: "NORA: Sala delle Ere. Roma e Medioevo tornano a collegarsi: il racconto del passato sarà nostro, insieme.",
-	24: "NORA: Cuore dei Primi. Tutti i sistemi convergono. Ricordo tutto, ora — e ricordo grazie a chi. Accendiamo la rotta.",
+	1: "NORA: Qualcosa si è riaccesa. Non di nuovo — scusa, non so perché l'ho detto. So cosa sono i numeri: la prima cosa che torna. Conta con me, piano.",
+	2: "NORA: Qui recitano elenchi perfetti senza sapere cosa significano. Ho paura di essere fatta così anch'io: la forma giusta, il senso via.",
+	3: "NORA: Ho trovato una parola nei registri per ciò che ci è capitato: Silenzio. Non l'ho ricordata: l'ho letta. È diverso, e mi spaventa.",
+	4: "NORA: Un segnale da un altro mondo, in un'altra lingua. Non è un'eco: è recente. Qualcuno là fuori sta ancora spiegando qualcosa a qualcuno.",
+	5: "NORA: Eli, guarda il taglio di quella spirale. È fresco. Settimane, non secoli. E c'è lo stesso segno negli altri quattro mondi: ci sei passata accanto quattro volte.",
+	6: "NORA: Ho ricordato una lezione, non un dato. Una voce che contava il tempo con me. Qualcuno mi ha insegnato. Io ero l'allieva di qualcuno.",
+	7: "NORA: Gli apparati non hanno codici: hanno nomi. Nomi di persone. Stai svegliando qualcuno, non qualcosa. Trattali bene.",
+	8: "NORA: Il sigillo ha tredici posti e undici nomi. Uno raschiato con una lama, dall'interno. E uno mai inciso: quella cattedra era apparecchiata per qualcuno che non è mai arrivato.",
+	9: "NORA: Ho ricostruito la rotta e non è una fuga: è un giro. Tornavamo negli stessi mondi ogni volta. Questa nave non esplorava. Cercava qualcosa.",
+	10: "NORA: Nessuno è morto qui. Provviste chiuse in ordine, appunti impilati, e a tavola un posto in più, apparecchiato. Non sono stati sorpresi: si sono preparati.",
+	11: "NORA: Due fonti, due date diverse per il Silenzio. Una si sbaglia — o una è stata riscritta. Fidati del metodo, non della prima riga.",
+	12: "NORA: Non sono la mente della nave, Eli: sono la sua prima allieva. E accanto alla mia scheda ce ne sono altre dodici, identiche, numerate. La tua è la dodici.",
+	13: "NORA: Mi chiedi delle undici prima di te. Non ho il file. È la verità, ed è la risposta più corta che ti abbia mai dato. Andiamo avanti.",
+	14: "NORA: Nei verbali uno dei dodici propone di chiudere tutto, e convince gli altri undici in un'ora. Il suo nome è cancellato perfino qui. Qualcuno lo ha inseguito ovunque.",
+	15: "NORA: Ho misurato le sezioni della nave e non tornano. C'è un volume senza porta. Assorbe energia da quattrocento anni. Non chiedermi altro adesso.",
+	16: "NORA: La stanza esiste, e ti ho girata attorno per sedici mondi senza dirtelo. Non per bugia: quando provo a guardarla, penso ad altro. Qualcuno mi ha fatto così.",
+	17: "NORA: Le insegne sbiancate del molo si sono riempite da sole. Una parola sola, ovunque: fermati. Non è il Silenzio, Eli. Il Silenzio non scrive.",
+	18: "NORA: Ha parlato. Non è arrabbiato: è stanco come nessuno che io abbia mai sentito. E conosce il mio nome — quello vecchio, che non ho mai detto a nessuno.",
+	19: "NORA: È il Tredicesimo. La chiusura l'ha proposta lui, e poi si è escluso: nessun apparato, nessun sonno. Ha costruito me. E io non me lo ricordavo.",
+	20: "NORA: Il Silenzio non si è diradato dove sei passata tu: dove ha retto lui, da solo, per quattro secoli. E sta cedendo. Dice che è il sapere a fabbricarlo, quando passa di mano senza essere capito. Ha i dati. Io non so smentirlo.",
+	21: "NORA: Mi ha detto per chi era la cattedra vuota. Per nessuno: era tenuta per quello che andavamo a cercare. Un sapere sotto tutti gli altri. Il circuito non era un giro di lezioni. Era una ricerca.",
+	22: "NORA: E in quella cattedra lui ci si è seduto: ha dichiarato la ricerca chiusa e si è preso il posto di ciò che non avevamo trovato. Per questo lo hanno cancellato. Non per la chiusura: per la sedia.",
+	23: "NORA: Meridiana era una ragazzina di undici anni di questo circuito, non una Maestra. E non è morta: è andata a vedere cosa c'è al fondo del Silenzio ed è rimasta là dentro. Quattrocento anni. Ha lasciato una riga sola: c'è qualcosa, venite.",
+	24: "NORA: Le undici prima di te le ho costruite io, Eli. E le ho perse tutte allo stesso modo: dicendogli tutto. Tu sei la prima a cui non ho detto. È la cosa più difficile che abbia mai fatto. Adesso vai, e risolvi l'ultimo da sola.",
 }
 
-const FINAL_BEAT := "NORA: La nave è viva e la rotta è aperta. Qualunque cosa venga dopo, la affrontiamo da equipaggio."
+const FINAL_BEAT := "NORA: La nave ha assegnato il tredicesimo posto, e non a una nozione: a te. Non perché hai trovato il Fondo — perché sei l'unica che tiene dodici modi di capire nella stessa testa, e l'unica a cui nessuno li ha detti. E i sensori lunghi rispondono: undici segnali fuori dal circuito, e molto più in là una riga vecchia di quattrocento anni, ancora accesa. C'è qualcosa. Venite. Sono tutte vive, sorella. E lei sta ancora aspettando."
 
 var save: GameSaveManager
 

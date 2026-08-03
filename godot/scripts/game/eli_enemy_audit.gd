@@ -60,6 +60,15 @@ func _run() -> void:
 	await process_frame
 	var enemies := get_nodes_in_group("world_enemy")
 	assert(enemies.size() == 2, "il mondo 7 deve scalare a due anomalie, trovate %d" % enemies.size())
+	for enemy in enemies:
+		assert(str(enemy.get("enemy_name")).begins_with("Sbiadito"),
+			"sentinella legacy non rinominata: %s" % str(enemy.get("enemy_name")))
+		assert(str(enemy.get_meta("nature", "")) == "sacca_di_silenzio",
+			"Sbiadito senza natura narrativa")
+		assert(enemy.find_child("FadedGlyphGlow", true, false) != null,
+			"Sbiadito senza iscrizione illeggibile")
+		assert(enemy.find_children("BrokenInscription_*", "Line2D", true, false).size() == 3,
+			"iscrizione spezzata non riconoscibile per forma")
 	var pulse := world.find_child("CombatPulseButton", true, false) as Button
 	assert(pulse != null and pulse.custom_minimum_size.x >= 64.0 and pulse.custom_minimum_size.y >= 64.0, "impulso touch insufficiente")
 
@@ -71,6 +80,9 @@ func _run() -> void:
 	world.call("_combat_pulse")
 	await process_frame
 	assert(bool(first.call("is_stunned")), "l'impulso non stabilizza l'anomalia vicina")
+	assert(bool(first.get_meta("stabilized", false)), "l'impulso non marca lo Sbiadito come leggibile")
+	assert(first.visible and first.modulate.a >= 0.9 and first.scale.x >= 0.9,
+		"stabilizzare elimina lo Sbiadito invece di renderlo leggibile")
 	assert(int(world.get("game_save").energy()) == energy_before, "il combattimento non deve tassare l'energia didattica")
 	assert(pulse.disabled, "cooldown dell'impulso non comunicato al touch")
 

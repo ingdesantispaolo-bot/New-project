@@ -16,6 +16,14 @@ func _run() -> void:
 		for spec in specs:
 			assert(str(spec.get("artKit", "")) == str(profile.get("artKit", "")),
 				"edificio non vestito per artKit nel mondo %d" % level)
+			var role := str(spec.get("role", ""))
+			var label := str(spec.get("label", ""))
+			if level == 1:
+				assert(label == str(BuildingCatalog.WORLD_ONE_NAMES.get(role, "")),
+					"fixture mondo 1 rinominata: %s" % label)
+			else:
+				assert(label != str(BuildingCatalog.WORLD_ONE_NAMES.get(role, "")),
+					"nome del mondo 1 trapelato nel mondo %d: %s" % [level, label])
 	await _test_world_one()
 	print("Building audit OK — 3 ruoli × 24 mondi, finestre a stadio e Rovina allineata")
 	quit(0)

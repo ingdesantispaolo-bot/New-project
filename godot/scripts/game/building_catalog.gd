@@ -15,7 +15,7 @@ const WORLD_ONE_NAMES := {
 static func for_world(world: int, profile: Dictionary) -> Array:
 	var specs: Array = []
 	for role in ROLES:
-		var label := str(WORLD_ONE_NAMES.get(role, _generic_label(role, profile)))
+		var label := str(WORLD_ONE_NAMES.get(role, "")) if world == 1 else _generic_label(role, profile)
 		specs.append({
 			"id": "building-%02d-%s" % [world, role],
 			"world": world,
@@ -25,11 +25,10 @@ static func for_world(world: int, profile: Dictionary) -> Array:
 		})
 	return specs
 
-static func _generic_label(role: String, profile: Dictionary) -> String:
-	var world_name := str(profile.get("title", "il mondo"))
+static func _generic_label(role: String, _profile: Dictionary) -> String:
 	match role:
 		"work_home":
-			return "Casa del mestiere · %s" % world_name
+			return "Casa del mestiere"
 		"ritrovo":
-			return "Ritrovo · %s" % world_name
-	return "Rovina dei Primi · %s" % world_name
+			return "Ritrovo"
+	return "Rovina dei Primi"

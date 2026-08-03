@@ -6,6 +6,7 @@ extends SceneTree
 
 const PLAYER := preload("res://scripts/game/exercise_player.gd")
 const INTERACTION := preload("res://scripts/game/exercise_interaction.gd")
+const SIGNATURE := preload("res://scripts/game/exercise_signature.gd")
 
 var player: Control
 
@@ -86,13 +87,33 @@ func _run() -> void:
 
 	var hotspot := _base("hotspot")
 	hotspot.merge({
-		"hotspots": [
-			{"id": "north", "label": "Nord", "x": 0.5, "y": 0.18},
-			{"id": "south", "label": "Sud", "x": 0.5, "y": 0.82},
+		"assetId": "roman_artifacts",
+		"targets": [
+			{"id": "aqueduct", "label": "Acquedotto romano"},
+			{"id": "column", "label": "Colonna romana"},
+			{"id": "amphora", "label": "Anfora romana"},
+			{"id": "mosaic", "label": "Mosaico romano"},
 		],
-		"answer": "north",
+		"answer": "aqueduct",
 	})
-	await _visual_success(hotspot, "south")
+	await _visual_success(hotspot, "mosaic")
+	var hotspot_button := player.find_child("VisualChoice_aqueduct", true, false) as Button
+	assert(hotspot_button != null and hotspot_button.text == ""
+		and hotspot_button.accessibility_name == "Acquedotto romano"
+		and hotspot_button.custom_minimum_size.x >= 48.0 and hotspot_button.custom_minimum_size.y >= 48.0,
+		"hotspot: bersaglio illustrato deve essere touch-accessibile senza testo sovrapposto")
+	var invalid_atlas := hotspot.duplicate(true)
+	invalid_atlas["assetId"] = "missing_atlas"
+	assert(not bool(INTERACTION.validate(invalid_atlas)["ok"]),
+		"hotspot: un atlante sconosciuto deve essere rifiutato")
+	var invalid_target := hotspot.duplicate(true)
+	invalid_target["targets"][0]["id"] = "missing_target"
+	assert(not bool(INTERACTION.validate(invalid_target)["ok"]),
+		"hotspot: un bersaglio non catalogato deve essere rifiutato")
+	var different_atlas := hotspot.duplicate(true)
+	different_atlas["assetId"] = "roman_artifacts_variant"
+	assert(SIGNATURE.of(hotspot) != SIGNATURE.of(different_atlas),
+		"hotspot: l'atlante deve contribuire alla firma del contenuto")
 
 	var graph := _base("graph")
 	graph.merge({
@@ -115,6 +136,104 @@ func _run() -> void:
 		"answer": "switch",
 	})
 	await _visual_success(circuit, "battery")
+
+	var notation := _base("notation")
+	notation.merge({
+		"staff": {"clef": "treble"},
+		"symbols": [
+			{"id": "do", "kind": "note", "label": "Do centrale, semiminima", "staffStep": -2, "duration": "quarter"},
+			{"id": "mi", "kind": "note", "label": "Mi, minima", "staffStep": 0, "duration": "half"},
+			{"id": "sol", "kind": "note", "label": "Sol, croma", "staffStep": 2, "duration": "eighth"},
+			{"id": "pause", "kind": "rest", "label": "Pausa di semiminima", "staffStep": 4, "duration": "quarter"},
+		],
+		"answer": "sol",
+	})
+	await _visual_success(notation, "pause")
+	var notation_button := player.find_child("VisualChoice_sol", true, false) as Button
+	assert(notation_button != null and notation_button.text == ""
+		and notation_button.accessibility_name == "Sol, croma",
+		"notation: il target deve restare visivo ma avere un nome accessibile")
+	var overcrowded := notation.duplicate(true)
+	for extra_index in range(4):
+		overcrowded["symbols"].append({
+			"id": "extra%d" % extra_index, "kind": "note", "label": "Nota extra %d" % extra_index,
+			"staffStep": extra_index + 3, "duration": "quarter",
+		})
+	var overcrowded_validation := INTERACTION.validate(overcrowded)
+	assert(not bool(overcrowded_validation["ok"])
+		and "target touch" in " ".join(overcrowded_validation["errors"]),
+		"notation: il contratto deve limitare il numero di target touch sul rigo")
+	var different_pitch := notation.duplicate(true)
+	different_pitch["symbols"][0]["staffStep"] = -1
+	assert(SIGNATURE.of(notation) != SIGNATURE.of(different_pitch),
+		"notation: altezze diverse non possono condividere la firma contenuto")
+
+	var map := _base("map")
+	map.merge({
+		"mapId": "italy",
+		"targets": [
+			{"id": "po", "label": "Fiume Po"},
+			{"id": "sicily", "label": "Sicilia"},
+			{"id": "sardinia", "label": "Sardegna"},
+		],
+		"answer": "po",
+	})
+	await _visual_success(map, "sicily")
+	var map_button := player.find_child("VisualChoice_po", true, false) as Button
+	assert(map_button != null and map_button.text == ""
+		and map_button.accessibility_name == "Fiume Po"
+		and map_button.custom_minimum_size.x >= 48.0
+		and map_button.custom_minimum_size.y >= 48.0,
+		"map: bersaglio muto deve avere nome accessibile e target touch sufficiente")
+	var missing_map := map.duplicate(true)
+	missing_map["mapId"] = "atlante-inesistente"
+	assert(not bool(INTERACTION.validate(missing_map)["ok"]),
+		"map: il contratto deve rifiutare carte non presenti nell'atlante")
+	var missing_target := map.duplicate(true)
+	missing_target["targets"][0]["id"] = "fiume-inesistente"
+	missing_target["answer"] = "fiume-inesistente"
+	assert(not bool(INTERACTION.validate(missing_target)["ok"]),
+		"map: il contratto deve rifiutare bersagli senza geometria")
+	var different_map_answer := map.duplicate(true)
+	different_map_answer["answer"] = "sicily"
+	assert(SIGNATURE.of(map) != SIGNATURE.of(different_map_answer),
+		"map: bersagli corretti diversi non possono condividere la firma contenuto")
+	var semantic_map := map.duplicate(true)
+	semantic_map["targets"] = [
+		{"id": "alps", "label": "Alpi"},
+		{"id": "apennines", "label": "Appennini"},
+		{"id": "adriatic_sea", "label": "Mare Adriatico"},
+		{"id": "tyrrhenian_sea", "label": "Mar Tirreno"},
+	]
+	semantic_map["answer"] = "alps"
+	assert(bool(INTERACTION.validate(semantic_map)["ok"]),
+		"map: catene e mari italiani devono essere bersagli semantici disponibili")
+
+	var cycle := _base("cycle")
+	cycle.merge({
+		"stages": [
+			{"id": "pioggia", "label": "Precipitazione", "glyph": "rain"},
+			{"id": "mare", "label": "Raccolta", "glyph": "water"},
+			{"id": "nuvola", "label": "Condensazione", "glyph": "cloud"},
+			{"id": "vapore", "label": "Evaporazione", "glyph": "sun"},
+		],
+		"correctOrder": ["mare", "vapore", "nuvola", "pioggia"],
+	})
+	await _start(cycle)
+	var cycle_diagram := player.find_child("ExerciseDiagram_cycle", true, false)
+	assert(cycle_diagram != null, "cycle: schema mancante")
+	for id in ["pioggia", "nuvola", "vapore", "mare"]:
+		player.call("_cycle_select", id)
+	player.call("_cycle_submit", cycle)
+	assert(str(cycle_diagram.get("cycle_feedback_state")) == "error",
+		"cycle: sequenza errata senza feedback sullo schema")
+	player.call("_cycle_clear")
+	for id in cycle["correctOrder"]:
+		player.call("_cycle_select", str(id))
+	player.call("_cycle_submit", cycle)
+	assert(str(cycle_diagram.get("cycle_feedback_state")) == "correct",
+		"cycle: sequenza corretta non evidenziata")
+	_assert_scored("cycle")
 
 	var code := _base("code_debug")
 	code.merge({"codeLines": ["x = 2", "if x = 2:", "    print(x)"], "answerLine": 2})
@@ -165,7 +284,7 @@ func _run() -> void:
 					child.free()
 		audio.set("_stream_cache", {})
 	await create_timer(0.15).timeout
-	print("EXERCISE RENDERER audit OK — ordering/matching drag+click, classification, hotspot, graph, circuit, code-debug, exam/accessibilità")
+	print("EXERCISE RENDERER audit OK — ordering/matching drag+click, classification, hotspot, graph, circuit, notation, map, cycle, code-debug, exam/accessibilità")
 	quit(0)
 
 func _start(node: Dictionary, kind: String = "mission") -> void:

@@ -79,6 +79,13 @@ func _run() -> void:
 	assert(live != null and live.get_node_or_null("EventMarker") != null, "manca una missione live da completare")
 	var live_id := str(live.get_meta("id", ""))
 	var player := world.get("player") as CharacterBody2D
+	var owner_id := str(Dictionary(live.get_meta("payload", {})).get("ownerNpc", ""))
+	if owner_id != "":
+		world.call("_open_npc_dialogue", owner_id)
+		var request_box := world.get("dialogue_box") as Control
+		assert(request_box.visible, "richiesta del proprietario non mostrata")
+		request_box.call("close_dialogue")
+		await process_frame
 	player.global_position = live.global_position
 	world.call("on_interactable_entered", live, player)
 	world.call("_interact")

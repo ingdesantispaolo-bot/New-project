@@ -6,11 +6,13 @@ const EXERCISE_DRAG_BUTTON := preload("res://scripts/ui/exercise_drag_button.gd"
 const EXERCISE_DROP_BUTTON := preload("res://scripts/ui/exercise_drop_button.gd")
 const EXERCISE_CONNECTION_CANVAS := preload("res://scripts/ui/exercise_connection_canvas.gd")
 const EXERCISE_DIAGRAM := preload("res://scripts/ui/exercise_diagram.gd")
+const MAP_GEOMETRY_CATALOG := preload("res://scripts/visual/map_geometry_catalog.gd")
+const ARTIFACT_ATLAS_CATALOG := preload("res://scripts/visual/artifact_atlas_catalog.gd")
 const FINAL_CONVERGENCE_DISPLAY := preload("res://scripts/ui/final_convergence_display.gd")
 
 ## UI data-driven degli esercizi: riceve una sessione (missione o esame finale) e
 ## la gioca item per item. Supporta scelta/input, ordering, matching,
-## classificazione, hotspot, grafici, circuiti e code-debug. Emette
+## classificazione, hotspot, grafici, circuiti, notazione, carte mute e code-debug. Emette
 ## `session_finished` con l'esito. Vedi docs/DESIGN_COMPLETO.md §6.
 ##
 ## Politica errore: un errore toglie uno scudo e mostra la spiegazione; a scudi
@@ -86,6 +88,7 @@ var _classification_selected := ""
 var _visual_selected := ""
 var _visual_buttons: Dictionary = {}
 var _visual_diagram: Control
+var _cycle_sequence: Array = []
 var _rng: RandomNumberGenerator
 var high_contrast := false
 var reduced_motion := false
@@ -421,6 +424,7 @@ func _show_current() -> void:
 	_visual_selected = ""
 	_visual_buttons = {}
 	_visual_diagram = null
+	_cycle_sequence = []
 	if _index >= _nodes.size():
 		_finish()
 		return
@@ -441,9 +445,12 @@ func _show_current() -> void:
 		"classification":
 			_input.visible = false
 			_build_classification(item)
-		"hotspot", "graph", "circuit":
+		"hotspot", "graph", "circuit", "notation", "map":
 			_input.visible = false
 			_build_visual_selection(item, fmt)
+		"cycle":
+			_input.visible = false
+			_build_cycle(item)
 		"code_debug":
 			_input.visible = false
 			_build_code_debug(item)
@@ -900,45 +907,90 @@ func _classification_submit(item: Dictionary) -> void:
 			break
 	_retryable_result(correct, item, "Alcune tessere sono nella categoria sbagliata: puoi spostarle e riprovare.")
 
-# --- HOTSPOT / GRAFICO / CIRCUITO (selezione su superficie diegetica) ---------
+# --- HOTSPOT / GRAFICO / CIRCUITO / NOTAZIONE / MAPPA (superficie diegetica) --
 func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 	var instruction := Label.new()
 	instruction.text = {
 		"hotspot": "Seleziona il punto corretto nell'immagine.",
 		"graph": "Leggi assi e andamento, poi seleziona il punto richiesto.",
 		"circuit": "Osserva i collegamenti e seleziona il componente richiesto.",
+		"notation": "Leggi il pentagramma e seleziona il simbolo richiesto.",
+		"map": "Leggi la carta muta e seleziona il luogo richiesto.",
 	}.get(fmt, "Seleziona il punto corretto.")
 	instruction.add_theme_color_override("font_color", Color("b8d7dc"))
 	_options.add_child(instruction)
 	var diagram := EXERCISE_DIAGRAM.new()
 	diagram.name = "ExerciseDiagram_%s" % fmt
-	diagram.call("configure", fmt, item)
+	var diagram_model := item.duplicate(true)
+	if fmt == "map":
+		diagram_model["geometry"] = MAP_GEOMETRY_CATALOG.map_data(str(item.get("mapId", "")))
+	elif fmt == "hotspot" and str(item.get("assetId", "")) != "":
+		var atlas := ARTIFACT_ATLAS_CATALOG.atlas_data(str(item.get("assetId", "")))
+		diagram_model["image"] = str(atlas.get("image", ""))
+		var resolved: Array = []
+		var positions := atlas.get("targets", {}) as Dictionary
+		for entry in item.get("targets", []):
+			var target := (entry as Dictionary).duplicate(true)
+			var position := positions.get(str(target.get("id", "")), Vector2(0.5, 0.5)) as Vector2
+			target["x"] = position.x
+			target["y"] = position.y
+			resolved.append(target)
+		diagram_model["hotspots"] = resolved
+	diagram.call("configure", fmt, diagram_model)
 	_visual_diagram = diagram
 	_options.add_child(diagram)
-	var points: Array = item.get("hotspots", []) if fmt == "hotspot" else item.get("points", []) if fmt == "graph" else item.get("components", [])
+	var points: Array = (
+		diagram_model.get("hotspots", []) if fmt == "hotspot"
+		else item.get("points", []) if fmt == "graph"
+		else item.get("components", []) if fmt == "circuit"
+		else item.get("targets", []) if fmt == "map"
+		else item.get("symbols", [])
+	)
 	for point in points:
 		var spec := point as Dictionary
 		var id := str(spec.get("id", ""))
 		var button := Button.new()
 		button.name = "VisualChoice_%s" % id.validate_node_name()
-		button.text = str(spec.get("label", id))
-		button.tooltip_text = str(spec.get("description", button.text))
-		button.custom_minimum_size = Vector2(74, 48)
+		var accessible_label := str(spec.get("label", id))
+		var blank_hit_target := fmt in ["notation", "map"] or (fmt == "hotspot" and str(item.get("assetId", "")) != "")
+		button.text = "" if blank_hit_target else accessible_label
+		button.accessibility_name = accessible_label
+		button.set_meta("visual_label", accessible_label)
+		button.tooltip_text = str(spec.get("description", accessible_label))
+		if fmt == "map":
+			button.set_meta("map_target_id", id)
+		elif fmt == "hotspot" and str(item.get("assetId", "")) != "":
+			button.set_meta("hotspot_target_id", id)
+		button.custom_minimum_size = Vector2(120, 72) if fmt == "hotspot" and blank_hit_target else Vector2(72, 56) if fmt == "map" else Vector2(56, 48) if fmt == "notation" else Vector2(74, 48)
 		button.focus_mode = Control.FOCUS_ALL
 		button.add_theme_font_size_override("font_size", 13)
-		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.03, 0.15, 0.18, 0.96), Color("f6c85f")))
-		var normalized := _diagram_anchor(spec, fmt)
+		if blank_hit_target:
+			button.add_theme_stylebox_override("normal", _notation_hit_style(Color(0, 0, 0, 0)))
+			button.add_theme_stylebox_override("hover", _notation_hit_style(Color(0.42, 0.90, 0.84, 0.22)))
+			button.add_theme_stylebox_override("focus", _notation_hit_style(Color(0.96, 0.78, 0.36, 0.34)))
+		else:
+			button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.03, 0.15, 0.18, 0.96), Color("f6c85f")))
+		var normalized: Vector2 = (
+			diagram.call("map_anchor", id) if fmt == "map"
+			else diagram.call("notation_anchor", id) if fmt == "notation"
+			else diagram.call("hotspot_anchor", id) if fmt == "hotspot" and blank_hit_target
+			else _diagram_anchor(spec, fmt)
+		)
 		button.anchor_left = normalized.x
 		button.anchor_right = normalized.x
 		button.anchor_top = normalized.y
 		button.anchor_bottom = normalized.y
-		button.offset_left = -48
-		button.offset_right = 48
-		button.offset_top = -24
-		button.offset_bottom = 24
+		button.offset_left = -60 if fmt == "hotspot" and blank_hit_target else -36 if fmt == "map" else -28 if fmt == "notation" else -48
+		button.offset_right = 60 if fmt == "hotspot" and blank_hit_target else 36 if fmt == "map" else 28 if fmt == "notation" else 48
+		button.offset_top = -36 if fmt == "hotspot" and blank_hit_target else -28 if fmt == "map" else -24
+		button.offset_bottom = 36 if fmt == "hotspot" and blank_hit_target else 28 if fmt == "map" else 24
 		button.pressed.connect(_visual_select.bind(id))
 		diagram.add_child(button)
 		_visual_buttons[id] = button
+	if fmt == "map":
+		diagram.call_deferred("layout_map_targets")
+	elif fmt == "hotspot" and str(item.get("assetId", "")) != "":
+		diagram.call_deferred("layout_hotspot_targets")
 	_add_interaction_actions(_visual_clear, _visual_submit.bind(item))
 
 func _diagram_anchor(spec: Dictionary, fmt: String) -> Vector2:
@@ -948,6 +1000,14 @@ func _diagram_anchor(spec: Dictionary, fmt: String) -> Vector2:
 		return Vector2(0.12 + x * 0.80, 0.82 - y * 0.68)
 	return Vector2(x, y)
 
+func _notation_hit_style(fill: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.border_color = Color(0.96, 0.78, 0.36, 0.82)
+	style.set_border_width_all(2 if fill.a > 0.0 else 0)
+	style.set_corner_radius_all(12)
+	return style
+
 func _visual_select(id: String) -> void:
 	if _answered:
 		return
@@ -955,7 +1015,9 @@ func _visual_select(id: String) -> void:
 	for key in _visual_buttons.keys():
 		var button := _visual_buttons[key] as Button
 		button.modulate = Color("f6c85f") if str(key) == id else Color.WHITE
-	_flash_feedback("Selezione: %s. Verifica quando sei sicuro." % str((_visual_buttons[id] as Button).text))
+	var selected_button := _visual_buttons[id] as Button
+	var selected_label := str(selected_button.get_meta("visual_label", selected_button.text))
+	_flash_feedback("Selezione: %s. Verifica quando sei sicuro." % selected_label)
 	if is_instance_valid(_visual_diagram):
 		_visual_diagram.call("set_feedback", id, "selected")
 	_causal_feedback("select", _visual_buttons[id], 0.98)
@@ -978,6 +1040,82 @@ func _visual_submit(item: Dictionary) -> void:
 	if correct and str(item.get("format", "")) == "circuit":
 		_causal_feedback("connect", _visual_buttons.get(_visual_selected) as Control, 1.14)
 	_retryable_result(correct, item, "Quel punto non spiega il fenomeno: osserva di nuovo la struttura.")
+
+# --- CICLO VISUALE (costruzione della sequenza sullo schema) -----------------
+func _build_cycle(item: Dictionary) -> void:
+	var instruction := Label.new()
+	instruction.text = "Tocca le fasi nell'ordine corretto: le frecce si costruiscono mentre ragioni."
+	instruction.add_theme_color_override("font_color", Color("b8d7dc"))
+	_options.add_child(instruction)
+	var diagram := EXERCISE_DIAGRAM.new()
+	diagram.name = "ExerciseDiagram_cycle"
+	diagram.call("configure", "cycle", item)
+	_visual_diagram = diagram
+	_options.add_child(diagram)
+	var stages: Array = item.get("stages", [])
+	for index in stages.size():
+		var stage := stages[index] as Dictionary
+		var id := str(stage.get("id", ""))
+		var label := str(stage.get("label", id))
+		var button := Button.new()
+		button.name = "CycleStage_%s" % id.validate_node_name()
+		button.text = ""
+		button.accessibility_name = label
+		button.tooltip_text = label
+		button.set_meta("visual_label", label)
+		button.focus_mode = Control.FOCUS_ALL
+		button.add_theme_stylebox_override("normal", _notation_hit_style(Color(0, 0, 0, 0)))
+		button.add_theme_stylebox_override("hover", _notation_hit_style(Color(0.42, 0.90, 0.84, 0.22)))
+		button.add_theme_stylebox_override("focus", _notation_hit_style(Color(0.96, 0.78, 0.36, 0.34)))
+		var anchor: Vector2 = diagram.call("cycle_anchor", index, stages.size())
+		button.anchor_left = anchor.x
+		button.anchor_right = anchor.x
+		button.anchor_top = anchor.y
+		button.anchor_bottom = anchor.y
+		button.offset_left = -55
+		button.offset_right = 55
+		button.offset_top = -32
+		button.offset_bottom = 58
+		button.custom_minimum_size = Vector2(110, 90)
+		button.pressed.connect(_cycle_select.bind(id))
+		diagram.add_child(button)
+		_visual_buttons[id] = button
+	_add_interaction_actions(_cycle_clear, _cycle_submit.bind(item))
+
+func _cycle_select(id: String) -> void:
+	if _answered:
+		return
+	var existing := _cycle_sequence.find(id)
+	if existing >= 0:
+		_cycle_sequence.resize(existing)
+	else:
+		_cycle_sequence.append(id)
+	for key in _visual_buttons.keys():
+		var selected := _cycle_sequence.has(str(key))
+		(_visual_buttons[key] as Button).modulate = Color("f6c85f") if selected else Color.WHITE
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_cycle_sequence", _cycle_sequence, "")
+	var label := str((_visual_buttons[id] as Button).get_meta("visual_label", id))
+	_flash_feedback("Sequenza aggiornata: %s%s" % [label, "" if existing >= 0 else " è il passo %d." % _cycle_sequence.size()])
+	_causal_feedback("select", _visual_buttons[id], 0.98)
+
+func _cycle_clear() -> void:
+	_cycle_sequence = []
+	for button in _visual_buttons.values():
+		(button as Button).modulate = Color.WHITE
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_cycle_sequence", _cycle_sequence, "")
+	_causal_feedback("cancel", _visual_diagram, 0.92)
+
+func _cycle_submit(item: Dictionary) -> void:
+	var expected: Array = item.get("correctOrder", []).map(func(value): return str(value))
+	if _cycle_sequence.size() != expected.size():
+		_flash_feedback("Completa tutte le fasi prima di verificare.")
+		return
+	var correct := _cycle_sequence == expected
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_cycle_sequence", _cycle_sequence, "correct" if correct else "error")
+	_retryable_result(correct, item, "L'ordine non chiude ancora il ciclo: tocca una fase per correggere da quel punto.")
 
 # --- CODE DEBUG (righe selezionabili, numerate e leggibili da tastiera) --------
 func _build_code_debug(item: Dictionary) -> void:

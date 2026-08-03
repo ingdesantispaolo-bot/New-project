@@ -61,6 +61,13 @@ func _run() -> void:
 	var button := world.find_child("ContextInteractButton", true, false) as Button
 	var fragments_before := save.fragments()
 	var energy_before := save.energy()
+	var owner_id := str(Dictionary(area.get_meta("payload", {})).get("ownerNpc", ""))
+	if owner_id != "":
+		world.call("_open_npc_dialogue", owner_id)
+		var request_box := world.get("dialogue_box") as Control
+		assert(request_box.visible, "richiesta del testimone non mostrata")
+		request_box.call("close_dialogue")
+		await process_frame
 
 	player.global_position = area.global_position
 	world.call("on_interactable_entered", area, player)

@@ -13,6 +13,28 @@ const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd"
 # Coppie da abbinare, per materia → gruppi tematici (topic + lista [sinistra, destra]).
 const MATCHING := {
 	"inglese": [
+		# L10. Il passato irregolare è il primo scoglio vero dell'inglese: non c'è
+		# regola, si impara verbo per verbo. Ventotto coppie a risposta unica.
+		{"topic": "irregular-past", "minLevel": 10, "kind": "pool", "pool": [
+			["go", "went"], ["see", "saw"], ["take", "took"], ["come", "came"],
+			["give", "gave"], ["make", "made"], ["know", "knew"], ["think", "thought"],
+			["find", "found"], ["tell", "told"], ["leave", "left"], ["feel", "felt"],
+			["bring", "brought"], ["begin", "began"], ["keep", "kept"], ["write", "wrote"],
+			["hear", "heard"], ["meet", "met"], ["run", "ran"], ["pay", "paid"],
+			["speak", "spoke"], ["grow", "grew"], ["lose", "lost"], ["fall", "fell"],
+			["build", "built"], ["drink", "drank"], ["eat", "ate"], ["buy", "bought"]]},
+		# L20. Comparativi: quelli regolari seguono una regola, ma good/bad/far non
+		# la seguono affatto — ed è per quelli che serve un insieme.
+		{"topic": "comparatives", "minLevel": 20, "kind": "pool", "pool": [
+			["good", "better"], ["bad", "worse"], ["far", "further"],
+			["many", "more"], ["little", "less"], ["big", "bigger"],
+			["happy", "happier"], ["easy", "easier"], ["hot", "hotter"],
+			["thin", "thinner"], ["young", "younger"], ["old", "older"],
+			["fast", "faster"], ["slow", "slower"], ["strong", "stronger"],
+			["heavy", "heavier"], ["early", "earlier"], ["late", "later"],
+			["beautiful", "more beautiful"], ["expensive", "more expensive"],
+			["difficult", "more difficult"], ["important", "more important"],
+			["dangerous", "more dangerous"], ["interesting", "more interesting"]]},
 		# Tre insiemi di vocabolario già dal primo mondo: al livello 1 si pescano solo
 		# 3 coppie, quindi la profondità di una singola specifica non basta — servono
 		# più insiemi idonei fin da subito, non insiemi più grandi più tardi.
@@ -82,6 +104,19 @@ const MATCHING := {
 			["fish", "fish (invariato)"], ["potato", "potatoes"]]},
 	],
 	"geografia": [
+		# L12. Le capitali europee si incontrano al primo mondo; queste sono quelle
+		# del resto del mondo, che è materia di seconda media.
+		{"topic": "capitali", "minLevel": 12, "kind": "pool", "pool": [
+			["Giappone", "Tokyo"], ["Egitto", "Il Cairo"], ["Brasile", "Brasilia"],
+			["Canada", "Ottawa"], ["Australia", "Canberra"], ["India", "Nuova Delhi"],
+			["Cina", "Pechino"], ["Russia", "Mosca"], ["Messico", "Città del Messico"],
+			["Argentina", "Buenos Aires"], ["Ghana", "Accra"], ["Turchia", "Ankara"],
+			["Marocco", "Rabat"], ["Kenya", "Nairobi"], ["Perù", "Lima"],
+			["Cile", "Santiago"], ["Thailandia", "Bangkok"], ["Vietnam", "Hanoi"],
+			["Corea del Sud", "Seul"], ["Indonesia", "Giacarta"], ["Iran", "Teheran"],
+			["Pakistan", "Islamabad"], ["Nigeria", "Abuja"], ["Etiopia", "Addis Abeba"],
+			["Cuba", "L'Avana"], ["Colombia", "Bogotà"], ["Nuova Zelanda", "Wellington"],
+			["Arabia Saudita", "Riad"]]},
 		{"topic": "capitali", "pairs": [
 			["Italia", "Roma"], ["Francia", "Parigi"], ["Spagna", "Madrid"], ["Germania", "Berlino"],
 			["Portogallo", "Lisbona"], ["Grecia", "Atene"], ["Austria", "Vienna"], ["Belgio", "Bruxelles"],
@@ -114,6 +149,34 @@ const MATCHING := {
 		{"topic": "passaggi-stato", "minLevel": 5, "pairs": [["Fusione", "solido → liquido"], ["Evaporazione", "liquido → gas"], ["Solidificazione", "liquido → solido"], ["Condensazione", "gas → liquido"]]},
 	],
 	"latino": [
+		# L17. Le locuzioni latine che si usano ancora oggi in italiano: è il punto
+		# in cui il latino smette di essere una lingua morta da declinare e diventa
+		# una cosa che si sente parlare.
+		{"topic": "vocabolario", "minLevel": 17, "kind": "pool", "pool": [
+			["Alea iacta est", "Il dado è tratto"],
+			["Veni, vidi, vici", "Venni, vidi, vinsi"],
+			["Errare humanum est", "Sbagliare è umano"],
+			["Repetita iuvant", "Le cose ripetute aiutano"],
+			["Ad maiora", "Verso cose più grandi"],
+			["Cogito ergo sum", "Penso, dunque sono"],
+			["Mens sana in corpore sano", "Mente sana in un corpo sano"],
+			["Divide et impera", "Dividi e comanda"],
+			["Verba volant, scripta manent", "Le parole volano, gli scritti restano"],
+			["Dura lex, sed lex", "La legge è dura, ma è legge"],
+			["In vino veritas", "Nel vino sta la verità"],
+			["Festina lente", "Affrettati lentamente"],
+			["Nomen omen", "Il nome è un presagio"],
+			["Per aspera ad astra", "Attraverso le difficoltà, fino alle stelle"],
+			["Nosce te ipsum", "Conosci te stesso"],
+			["Vox populi, vox Dei", "Voce di popolo, voce di Dio"],
+			["Historia magistra vitae", "La storia è maestra di vita"],
+			["Si vis pacem, para bellum", "Se vuoi la pace, prepara la guerra"],
+			["Panem et circenses", "Pane e giochi del circo"],
+			["Tempus fugit", "Il tempo fugge"],
+			["Carpe diem", "Cogli l'attimo"],
+			["Ubi maior minor cessat", "Dove c'è il più grande, il minore si ritira"],
+			["Primum vivere", "Prima di tutto vivere"],
+			["Ipse dixit", "L'ha detto lui stesso"]]},
 		{"topic": "casi", "pairs": [["Nominativo", "Soggetto"], ["Accusativo", "Oggetto"], ["Genitivo", "Specificazione"], ["Dativo", "Termine"], ["Vocativo", "Invocazione"]]},
 		{"topic": "vocabolario", "pairs": [
 			["aqua", "acqua"], ["silva", "bosco"], ["puella", "fanciulla"], ["lupus", "lupo"],
@@ -232,8 +295,48 @@ const MATCHING := {
 		{"topic": "analisi-logica", "minLevel": 11, "pairs": [["Il gatto", "soggetto"], ["insegue", "predicato verbale"], ["il topo", "complemento oggetto"], ["nel prato", "complemento di luogo"]]},
 	],
 	"storia": [
-		{"topic": "civilta", "pairs": [["Egizi", "Nilo"], ["Romani", "Roma"], ["Greci", "Grecia"], ["Sumeri", "Mesopotamia"]]},
-		{"topic": "invenzioni", "minLevel": 4, "pairs": [["Egizi", "Piramidi"], ["Romani", "Acquedotti"], ["Greci", "Democrazia"], ["Fenici", "Alfabeto"]]},
+		# Al primo mondo storia aveva UNA specifica di abbinamento, quattro coppie
+		# fisse, quattro prove in tutto — e due delle quattro si risolvevano dal
+		# nome senza sapere niente di storia («Romani → Roma», «Greci → Grecia»).
+		#
+		# Ora due insiemi, perché il criterio 5 chiede almeno due specifiche per
+		# (materia, formato, livello): con una sola la consegna è sempre la stessa
+		# anche quando cambiano le tessere.
+		#
+		# Solo civiltà che a dieci anni si sono già incontrate. Un insieme profondo
+		# pesca tre voci qualsiasi, e tre civiltà oscure insieme non fanno una prova
+		# difficile: fanno una prova impossibile. Le altre stanno nell'insieme
+		# gatato qui sotto — è la lezione della Fase 2, non ridurre l'insieme ma
+		# affiancarne uno più facile ai primi mondi.
+		{"topic": "invenzioni", "kind": "pool", "pool": [
+			["Egizi", "le piramidi"], ["Romani", "gli acquedotti"],
+			["Greci", "la democrazia"], ["Fenici", "l'alfabeto"],
+			["Sumeri", "la scrittura cuneiforme"], ["Cinesi", "la carta"],
+			["Vichinghi", "le navi drakkar"], ["Inca", "le strade sulle Ande"],
+			["Aztechi", "gli orti galleggianti"], ["Babilonesi", "le prime leggi scritte"],
+			["Arabi", "i numeri che usiamo oggi"], ["Etruschi", "le tombe dipinte"]]},
+		# Dove viveva ciascuna: nessuna risposta ricavabile dal nome del popolo.
+		{"topic": "civilta", "kind": "pool", "pool": [
+			["Egizi", "lungo il Nilo"], ["Sumeri", "fra Tigri ed Eufrate"],
+			["Fenici", "sulle coste del Libano"], ["Etruschi", "in Toscana"],
+			["Vichinghi", "in Scandinavia"], ["Inca", "sulle Ande"],
+			["Aztechi", "in Messico"], ["Cinesi", "lungo il Fiume Giallo"],
+			["Celti", "in Gallia"], ["Romani", "nel Lazio"],
+			["Cartaginesi", "sulle coste del Nord Africa"], ["Greci", "intorno al Mar Egeo"]]},
+		# Dal mondo 6 l'insieme si allarga ai popoli che si incontrano più tardi.
+		{"topic": "invenzioni", "minLevel": 6, "kind": "pool", "pool": [
+			["Egizi", "le piramidi"], ["Romani", "gli acquedotti"],
+			["Greci", "la democrazia"], ["Fenici", "l'alfabeto"],
+			["Sumeri", "la scrittura cuneiforme"], ["Cinesi", "la carta"],
+			["Vichinghi", "le navi drakkar"], ["Inca", "le strade sulle Ande"],
+			["Aztechi", "gli orti galleggianti"], ["Babilonesi", "le prime leggi scritte"],
+			["Arabi", "i numeri che usiamo oggi"], ["Etruschi", "le tombe dipinte"],
+			["Persiani", "la strada reale"], ["Assiri", "i carri da guerra"],
+			["Ittiti", "la lavorazione del ferro"], ["Micenei", "le maschere d'oro"],
+			["Bizantini", "i mosaici dorati"], ["Longobardi", "i ducati"],
+			["Maya", "il calendario di pietra"], ["Cretesi", "il palazzo di Cnosso"],
+			["Ebrei", "la Bibbia ebraica"], ["Cartaginesi", "il porto circolare"],
+			["Mongoli", "l'arco da cavallo"], ["Normanni", "i castelli in pietra"]]},
 		# Scuola media — personaggi e le loro imprese. Ogni personaggio ha una sola
 		# impresa e ogni impresa un solo personaggio: è la condizione che permette a
 		# un abbinamento di diventare profondo senza diventare ambiguo.
@@ -334,6 +437,14 @@ const MATCHING := {
 		{"topic": "geometria", "minLevel": 5, "pairs": [["Area del quadrato", "lato × lato"], ["Perimetro del rettangolo", "(base + altezza) × 2"], ["Area del triangolo", "base × altezza ÷ 2"], ["Area del cerchio", "π × raggio²"]]},
 	],
 	"logica": [
+		# Una relazione sola per insieme, come deciso nella Fase 3: mescolarne due
+		# renderebbe l'abbinamento indovinabile per associazione invece che per
+		# ragionamento. Qui la relazione è «il piccolo → l'adulto».
+		{"topic": "analogie", "kind": "pool", "pool": [
+			["cucciolo", "cane"], ["puledro", "cavallo"], ["gattino", "gatto"],
+			["agnello", "pecora"], ["pulcino", "gallina"], ["vitello", "mucca"],
+			["cerbiatto", "cervo"], ["anatroccolo", "anatra"], ["leprotto", "lepre"],
+			["capretto", "capra"], ["porcellino", "maiale"], ["girino", "rana"]]},
 		# Ogni insieme è UNA relazione sola, dichiarata nel commento: è questo che lo
 		# rende un esercizio di logica invece che di vocabolario. Mescolare relazioni
 		# diverse nello stesso insieme renderebbe l'abbinamento indovinabile per
@@ -397,6 +508,23 @@ const ORDERING := {
 			{"label": "Balenottera azzurra", "value": 30.0}, {"label": "Sequoia gigante", "value": 85.0}]},
 	],
 	"geografia": [
+		# L21. Estensione degli Stati in milioni di km². Scelti bene distanziati:
+		# ordinare Canada e Stati Uniti sarebbe memoria di un numero, non geografia.
+		{"topic": "geografia-umana", "minLevel": 21, "kind": "pool", "prompt": "Ordina questi Stati per superficie crescente (in milioni di km²).", "pool": [
+			{"label": "Italia", "value": 0.30}, {"label": "Egitto", "value": 1.00},
+			{"label": "Perù", "value": 1.28}, {"label": "Iran", "value": 1.65},
+			{"label": "Messico", "value": 1.96}, {"label": "Algeria", "value": 2.38},
+			{"label": "Argentina", "value": 2.78}, {"label": "India", "value": 3.29},
+			{"label": "Australia", "value": 7.69}, {"label": "Brasile", "value": 8.52},
+			{"label": "Canada", "value": 9.98}, {"label": "Russia", "value": 17.10}]},
+		# L'ordinamento di geografia aveva una specifica sola ai primi due mondi.
+		# Qui l'ordine è una grandezza (la latitudine) ma si ricava dalla carta
+		# mentale dell'Italia, non da un numero da ricordare.
+		{"topic": "italia-fisica", "kind": "pool", "prompt": "Ordina queste città italiane da sud a nord.", "pool": [
+			{"label": "Palermo", "value": 38.1}, {"label": "Cosenza", "value": 39.3},
+			{"label": "Napoli", "value": 40.8}, {"label": "Roma", "value": 41.9},
+			{"label": "Firenze", "value": 43.8}, {"label": "Bologna", "value": 44.5},
+			{"label": "Milano", "value": 45.5}, {"label": "Bolzano", "value": 46.5}]},
 		{"topic": "geografia-umana", "prompt": "Ordina dal più piccolo al più grande", "correctOrder": ["Paese", "Regione", "Nazione", "Continente"]},
 		{"topic": "geografia-fisica", "minLevel": 3, "prompt": "Ordina il corso di un fiume, dalla nascita al mare.", "correctOrder": ["Sorgente", "Torrente", "Fiume", "Foce"]},
 		{"topic": "geografia-umana", "minLevel": 4, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Via", "Quartiere", "Città", "Regione"]},
@@ -427,6 +555,16 @@ const ORDERING := {
 			{"label": "Mississippi", "value": 3770.0}, {"label": "Congo", "value": 4700.0}]},
 	],
 	"musica": [
+		# L22. Gli intervalli misurati in semitoni: qui l'ordine è una grandezza
+		# esatta, e capire che la quarta giusta vale cinque semitoni e non quattro
+		# è il passaggio da «contare i nomi» a «contare le distanze».
+		{"topic": "intervalli", "minLevel": 22, "kind": "pool", "prompt": "Ordina gli intervalli dal più stretto al più ampio (in semitoni).", "pool": [
+			{"label": "Seconda minore", "value": 1.0}, {"label": "Seconda maggiore", "value": 2.0},
+			{"label": "Terza minore", "value": 3.0}, {"label": "Terza maggiore", "value": 4.0},
+			{"label": "Quarta giusta", "value": 5.0}, {"label": "Tritono", "value": 6.0},
+			{"label": "Quinta giusta", "value": 7.0}, {"label": "Sesta minore", "value": 8.0},
+			{"label": "Sesta maggiore", "value": 9.0}, {"label": "Settima minore", "value": 10.0},
+			{"label": "Settima maggiore", "value": 11.0}, {"label": "Ottava", "value": 12.0}]},
 		{"topic": "note", "prompt": "Metti in ordine le note dopo il Do", "correctOrder": ["Re", "Mi", "Fa", "Sol"]},
 		{"topic": "ritmo", "prompt": "Ordina dalla durata più breve alla più lunga", "correctOrder": ["Croma", "Semiminima", "Minima", "Semibreve"]},
 		{"topic": "note", "minLevel": 3, "prompt": "Ordina la scala musicale completa, dal Do.", "correctOrder": ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"]},
@@ -475,11 +613,53 @@ const ORDERING := {
 	],
 	"coding": [
 		{"topic": "algoritmi", "prompt": "Ordina i passi del programma", "correctOrder": ["Chiedi il numero", "Controlla se è pari", "Se è pari stampa 'pari'", "Altrimenti stampa 'dispari'"]},
+		{"topic": "sequenza", "prompt": "Ordina le istruzioni per mostrare il doppio di un numero.", "correctOrder": ["Chiedi un numero", "Salvalo nella variabile n", "Calcola n × 2", "Mostra il risultato"]},
 		# Pensiero computazionale "unplugged": la vita quotidiana come algoritmo.
 		{"topic": "algoritmi", "minLevel": 2, "prompt": "Ordina i passi dell'algoritmo per fare un tè.", "correctOrder": ["Scalda l'acqua", "Metti la bustina nella tazza", "Versa l'acqua calda", "Aspetta due minuti", "Togli la bustina"]},
 		{"topic": "algoritmi", "minLevel": 5, "prompt": "Ordina i passi per trovare il numero più grande in una lista.", "correctOrder": ["Prendi il primo numero come massimo", "Guarda il numero successivo", "Se è più grande, aggiorna il massimo", "Ripeti fino alla fine", "Restituisci il massimo"]},
 	],
 	"storia": [
+		# L14. Il Novecento: l'ordine è una grandezza (l'anno) e i fatti sono quelli
+		# che a tredici anni si studiano davvero.
+		{"topic": "cronologia", "minLevel": 14, "kind": "pool", "prompt": "Ordina gli eventi del Novecento dal più antico al più recente.", "pool": [
+			{"label": "Inizia la prima guerra mondiale", "value": 1914.0},
+			{"label": "Rivoluzione russa", "value": 1917.0},
+			{"label": "Marcia su Roma", "value": 1922.0},
+			{"label": "Crollo della borsa di Wall Street", "value": 1929.0},
+			{"label": "Inizia la seconda guerra mondiale", "value": 1939.0},
+			{"label": "Attacco a Pearl Harbor", "value": 1941.0},
+			{"label": "Sbarco in Normandia", "value": 1944.0},
+			{"label": "Bomba atomica su Hiroshima", "value": 1945.0},
+			{"label": "L'Italia diventa una repubblica", "value": 1946.0},
+			{"label": "Entra in vigore la Costituzione italiana", "value": 1948.0},
+			{"label": "Trattati di Roma", "value": 1957.0},
+			{"label": "Viene costruito il muro di Berlino", "value": 1961.0},
+			{"label": "Primo uomo sulla Luna", "value": 1969.0},
+			{"label": "Cade il muro di Berlino", "value": 1989.0},
+			{"label": "Si scioglie l'Unione Sovietica", "value": 1991.0},
+			{"label": "Nasce l'Unione Europea", "value": 1993.0}]},
+		# L24. L'ultimo mondo: cinque secoli di invenzioni in fila. Chiude il
+		# percorso di storia con la domanda che lo attraversa tutto — cosa è venuto
+		# prima di cosa, e quanto in fretta le cose hanno cominciato ad accelerare.
+		{"topic": "cronologia", "minLevel": 24, "kind": "pool", "prompt": "Ordina le invenzioni dalla più antica alla più recente.", "pool": [
+			{"label": "Stampa a caratteri mobili", "value": 1455.0},
+			{"label": "Telescopio", "value": 1608.0},
+			{"label": "Macchina a vapore", "value": 1712.0},
+			{"label": "Vaccino", "value": 1796.0},
+			{"label": "Treno a vapore", "value": 1825.0},
+			{"label": "Fotografia", "value": 1826.0},
+			{"label": "Telefono", "value": 1876.0},
+			{"label": "Lampadina", "value": 1879.0},
+			{"label": "Automobile", "value": 1886.0},
+			{"label": "Radio", "value": 1895.0},
+			{"label": "Aeroplano", "value": 1903.0},
+			{"label": "Televisione", "value": 1926.0},
+			{"label": "Penicillina", "value": 1928.0},
+			{"label": "Computer elettronico", "value": 1946.0},
+			{"label": "Satellite artificiale", "value": 1957.0},
+			{"label": "Internet", "value": 1969.0},
+			{"label": "Telefono cellulare", "value": 1973.0},
+			{"label": "World Wide Web", "value": 1989.0}]},
 		{"topic": "ere", "prompt": "Ordina le grandi età della storia, dalla più antica.", "correctOrder": ["Preistoria", "Età antica", "Medioevo", "Età moderna", "Età contemporanea"]},
 		# Insieme cronologico PER I PRIMI MONDI. L'insieme grande (28 eventi, più
 		# sotto) parte dal mondo 6 perché contiene date che a dieci anni non si
@@ -547,7 +727,41 @@ const ORDERING := {
 	],
 	"latino": [
 		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
+		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «il contadino ama la terra»", "correctOrder": ["Agricola", "terram", "amat"]},
+		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la regina guarda la luna»", "correctOrder": ["Regina", "lunam", "spectat"]},
 		{"topic": "frasi", "minLevel": 4, "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «il poeta ama la patria»", "correctOrder": ["Poeta", "patriam", "amat"]},
+		# L'ordinamento di latino aveva UNA specifica al primo mondo, cioè una prova
+		# sola: sempre «Puella rosam amat». La Fase 3 aveva concluso che in latino
+		# l'ordine è convenzione pura e quindi non si parametrizza — vero per i casi
+		# e per le parole di una frase, ma non per i NUMERI ROMANI, dove l'ordine è
+		# una grandezza misurabile. È esattamente il criterio del progetto, e qui
+		# vale: da venti numerali escono più di mille prove, tutte sensate.
+		{"topic": "numeri", "kind": "pool", "prompt": "Ordina i numeri romani dal più piccolo al più grande.", "pool": [
+			{"label": "I", "value": 1.0}, {"label": "II", "value": 2.0},
+			{"label": "III", "value": 3.0}, {"label": "IV", "value": 4.0},
+			{"label": "V", "value": 5.0}, {"label": "VI", "value": 6.0},
+			{"label": "VII", "value": 7.0}, {"label": "VIII", "value": 8.0},
+			{"label": "IX", "value": 9.0}, {"label": "X", "value": 10.0},
+			{"label": "XI", "value": 11.0}, {"label": "XII", "value": 12.0},
+			{"label": "XIII", "value": 13.0}, {"label": "XIV", "value": 14.0},
+			{"label": "XV", "value": 15.0}, {"label": "XVI", "value": 16.0},
+			{"label": "XVII", "value": 17.0}, {"label": "XVIII", "value": 18.0},
+			{"label": "XIX", "value": 19.0}, {"label": "XX", "value": 20.0}]},
+		# Dal mondo 5 entrano le cifre alte e le forme sottrattive (XL, XC, CD, CM),
+		# che sono la parte davvero difficile della numerazione romana.
+		{"topic": "numeri", "minLevel": 5, "kind": "pool", "prompt": "Ordina i numeri romani dal più piccolo al più grande.", "pool": [
+			{"label": "IV", "value": 4.0}, {"label": "IX", "value": 9.0},
+			{"label": "XIV", "value": 14.0}, {"label": "XIX", "value": 19.0},
+			{"label": "XXIV", "value": 24.0}, {"label": "XXX", "value": 30.0},
+			{"label": "XXXIX", "value": 39.0}, {"label": "XL", "value": 40.0},
+			{"label": "XLV", "value": 45.0}, {"label": "L", "value": 50.0},
+			{"label": "LX", "value": 60.0}, {"label": "LXX", "value": 70.0},
+			{"label": "LXXX", "value": 80.0}, {"label": "XC", "value": 90.0},
+			{"label": "XCIX", "value": 99.0}, {"label": "C", "value": 100.0},
+			{"label": "CL", "value": 150.0}, {"label": "CC", "value": 200.0},
+			{"label": "CD", "value": 400.0}, {"label": "D", "value": 500.0},
+			{"label": "DC", "value": 600.0}, {"label": "CM", "value": 900.0},
+			{"label": "M", "value": 1000.0}, {"label": "MM", "value": 2000.0}]},
 		# Scuola media — l'ordine tradizionale dei casi (come sul libro).
 		{"topic": "casi", "minLevel": 5, "prompt": "Ordina i casi latini nell'ordine tradizionale.", "correctOrder": ["Nominativo", "Genitivo", "Dativo", "Accusativo", "Vocativo", "Ablativo"]},
 	],
@@ -592,6 +806,8 @@ const ORDERING := {
 			{"label": "Proiettile", "value": 3000.0}, {"label": "Stazione spaziale in orbita", "value": 27600.0},
 			{"label": "Formica", "value": 0.9}, {"label": "Monopattino elettrico", "value": 20.0},
 			{"label": "Delfino che nuota", "value": 40.0}, {"label": "Motocicletta", "value": 160.0}]},
+		{"topic": "moto", "prompt": "Ordina i passi per misurare la velocità media di un oggetto.",
+			"correctOrder": ["Segna il punto di partenza e quello di arrivo", "Misura la distanza fra i due punti", "Misura il tempo impiegato", "Dividi la distanza per il tempo"]},
 		{"topic": "misure", "minLevel": 3, "kind": "pool", "draw": 4, "prompt": "Ordina gli oggetti per massa crescente.", "pool": [
 			{"label": "Piuma", "value": 0.0005}, {"label": "Formica", "value": 0.000005},
 			{"label": "Graffetta", "value": 0.001}, {"label": "Moneta da 1 euro", "value": 0.0075},
@@ -622,6 +838,8 @@ const ORDERING := {
 			{"label": "132 kV", "value": 132000.0}, {"label": "380 kV", "value": 380000.0},
 			{"label": "750 mV", "value": 0.75}, {"label": "6 V", "value": 6.0},
 			{"label": "18 V", "value": 18.0}, {"label": "36 V", "value": 36.0}]},
+		{"topic": "circuito", "prompt": "Partendo dal polo positivo, ordina i componenti attraversati dalla corrente in questo circuito in serie.",
+			"correctOrder": ["Polo positivo della pila", "Interruttore chiuso", "Resistore", "LED", "Polo negativo della pila"]},
 		{"topic": "montaggio", "minLevel": 3, "prompt": "Ordina i passi per costruire un circuito che accende un LED.", "correctOrder": ["Prendi la pila", "Collega il filo al polo +", "Aggiungi l'interruttore", "Collega il LED", "Chiudi il circuito al polo -"]},
 		{"topic": "misure-elettriche", "minLevel": 5, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
 	],
@@ -647,6 +865,38 @@ const ORDERING := {
 # Formato testuale ad alto coinvolgimento, senza asset (playthrough #11).
 const CLASSIFICATION := {
 	"italiano": [
+		# L11. Analisi logica vera: riconoscere il complemento dalla domanda a cui
+		# risponde, non dalla preposizione — «in giardino» è luogo, «in bicicletta»
+		# è mezzo, e la preposizione è la stessa.
+		{"topic": "analisi-logica", "minLevel": 11, "draw": 6, "prompt": "Smista ogni espressione nel suo complemento.",
+			"categories": ["di tempo", "di luogo", "di mezzo", "di compagnia"],
+			"assignments": {
+				"alle otto": "di tempo", "dopo cena": "di tempo", "ogni domenica": "di tempo",
+				"in primavera": "di tempo", "fra due ore": "di tempo", "il mese scorso": "di tempo",
+				"in giardino": "di luogo", "sotto il tavolo": "di luogo", "verso la scuola": "di luogo",
+				"dalla finestra": "di luogo", "in cima al monte": "di luogo", "attraverso il bosco": "di luogo",
+				"con il treno": "di mezzo", "in bicicletta": "di mezzo", "a matita": "di mezzo",
+				"per posta": "di mezzo", "con la calcolatrice": "di mezzo", "in aereo": "di mezzo",
+				"con Marco": "di compagnia", "insieme ai nonni": "di compagnia", "con i compagni": "di compagnia",
+				"con mia sorella": "di compagnia", "insieme al cane": "di compagnia", "con gli amici": "di compagnia"}},
+		# L19. Figure retoriche riconosciute dagli esempi, non dalla definizione. La
+		# similitudine ha sempre il «come»: è l'unico indizio di forma, e serve a
+		# distinguerla dalla metafora, che dice la stessa cosa togliendolo.
+		{"topic": "figure-retoriche", "minLevel": 19, "draw": 6, "prompt": "Smista ogni espressione nella sua figura retorica.",
+			"categories": ["similitudine", "metafora", "personificazione", "iperbole"],
+			"assignments": {
+				"Sei veloce come il vento": "similitudine", "Dorme come un ghiro": "similitudine",
+				"Bianco come la neve": "similitudine", "Forte come un leone": "similitudine",
+				"Leggero come una piuma": "similitudine", "Rosso come un peperone": "similitudine",
+				"Sei un leone in campo": "metafora", "Il mare di grano": "metafora",
+				"Ha un cuore di pietra": "metafora", "La luna è una falce": "metafora",
+				"I suoi capelli d'oro": "metafora", "Un fiume di parole": "metafora",
+				"Il vento sussurra tra gli alberi": "personificazione", "La luna ci guarda": "personificazione",
+				"Le foglie danzano": "personificazione", "Il sole ride": "personificazione",
+				"La città dorme": "personificazione", "Il mare ruggisce": "personificazione",
+				"Te l'ho detto un milione di volte": "iperbole", "Muoio di fame": "iperbole",
+				"Pesa una tonnellata": "iperbole", "Ci metto un secolo": "iperbole",
+				"Ho aspettato un'eternità": "iperbole", "Ti ho chiamato mille volte": "iperbole"}},
 		# --- Insiemi profondi (Fase 1) ---------------------------------------------
 		# Lo smistamento è il formato che regge meglio la profondità: le categorie
 		# restano poche (il bidone si deve poter leggere), ma le tessere possono
@@ -829,6 +1079,16 @@ const CLASSIFICATION := {
 				"1_lista": "non valido", "if": "non valido", "a+b": "non valido", "mio.valore": "non valido"}},
 	],
 	"storia": [
+		{"topic": "fonti", "draw": 6, "prompt": "Smista ogni traccia del passato: fonte scritta o fonte materiale?",
+			"categories": ["fonte scritta", "fonte materiale"],
+			"assignments": {
+				"Papiro": "fonte scritta", "Iscrizione su pietra": "fonte scritta",
+				"Diario di viaggio": "fonte scritta", "Lettera": "fonte scritta",
+				"Cronaca di un monaco": "fonte scritta", "Tavoletta di argilla": "fonte scritta",
+				"Vaso dipinto": "fonte materiale", "Moneta": "fonte materiale",
+				"Punta di freccia": "fonte materiale", "Mosaico": "fonte materiale",
+				"Rovine di una casa": "fonte materiale", "Osso di animale": "fonte materiale"},
+			"explanation": "Le fonti scritte raccontano a parole, quelle materiali sono oggetti che parlano con la loro forma. Servono entrambe: dove nessuno scriveva, restano solo le seconde."},
 		{"topic": "tempo", "draw": 6, "prompt": "Smista ogni oggetto: molto antico o moderno?",
 			"categories": ["molto antico", "moderno"],
 			"assignments": {
@@ -1054,6 +1314,20 @@ const CLASSIFICATION := {
 				"Acqua torbida": "translucido", "Ghiaccio opaco": "translucido"}},
 	],
 	"musica": [
+		# L15. Le famiglie dell'orchestra. Il sassofono è il caso che insegna la
+		# regola: è di ottone ma sta nei legni, perché la famiglia la decide come
+		# nasce il suono — l'ancia — non di che materiale è fatto lo strumento.
+		{"topic": "strumenti", "minLevel": 15, "draw": 6, "prompt": "Smista ogni strumento nella sua famiglia dell'orchestra.",
+			"categories": ["archi", "legni", "ottoni", "percussioni"],
+			"assignments": {
+				"Violino": "archi", "Viola": "archi", "Violoncello": "archi",
+				"Contrabbasso": "archi", "Arpa": "archi",
+				"Flauto": "legni", "Oboe": "legni", "Clarinetto": "legni",
+				"Fagotto": "legni", "Sassofono": "legni",
+				"Tromba": "ottoni", "Trombone": "ottoni", "Corno": "ottoni",
+				"Tuba": "ottoni", "Cornetta": "ottoni",
+				"Timpani": "percussioni", "Grancassa": "percussioni", "Piatti": "percussioni",
+				"Triangolo": "percussioni", "Xilofono": "percussioni"}},
 		{"topic": "strumenti", "draw": 6, "prompt": "Smista ogni strumento nella sua famiglia.",
 			"categories": ["corde", "fiati", "percussioni"],
 			"assignments": {
@@ -1182,6 +1456,14 @@ const CLASSIFICATION := {
 				"sugar": "uncountable", "homework": "uncountable", "furniture": "uncountable", "weather": "uncountable"}},
 	],
 	"latino": [
+		{"topic": "declinazioni-base", "draw": 6, "prompt": "Smista ogni parola latina: singolare o plurale?",
+			"categories": ["singolare", "plurale"],
+			"assignments": {
+				"rosam": "singolare", "puellam": "singolare", "aquam": "singolare",
+				"terram": "singolare", "dominum": "singolare", "lupum": "singolare",
+				"rosas": "plurale", "puellas": "plurale", "aquas": "plurale",
+				"terras": "plurale", "dominos": "plurale", "lupos": "plurale"},
+			"explanation": "Le forme in -am e -um sono singolari, quelle in -as e -os plurali: in latino il numero si legge dalla desinenza, non dall'articolo — che non esiste."},
 		# In latino l'ordine è convenzione pura — i casi si recitano in quell'ordine
 		# perché così li recita il libro, non perché uno sia «maggiore» di un altro.
 		# Quindi l'ordinamento qui resta a dato fisso, e tutta la profondità deve
@@ -1217,6 +1499,69 @@ const CLASSIFICATION := {
 				"consul": "3ª declinazione", "corpus": "3ª declinazione", "civis": "3ª declinazione", "nomen": "3ª declinazione"}},
 	],
 	"logica": [
+		# L16. Tre gradi di verità invece di due: «a volte vera» è la categoria che
+		# costa di più, perché obbliga a cercare sia un caso favorevole sia un
+		# controesempio prima di decidere.
+		{"topic": "verita", "minLevel": 16, "draw": 6, "prompt": "Smista ogni affermazione: sempre vera, a volte vera o mai vera?",
+			"categories": ["sempre vera", "a volte vera", "mai vera"],
+			"assignments": {
+				"Un quadrato ha quattro lati uguali": "sempre vera",
+				"Un numero pari si divide per due": "sempre vera",
+				"Un triangolo ha tre angoli": "sempre vera",
+				"Ogni mese ha almeno 28 giorni": "sempre vera",
+				"Due più due fa quattro": "sempre vera",
+				"Un cerchio ha un solo centro": "sempre vera",
+				"Piove di domenica": "a volte vera",
+				"Un cane è nero": "a volte vera",
+				"Un numero è maggiore di dieci": "a volte vera",
+				"Una porta è aperta": "a volte vera",
+				"Un libro ha le figure": "a volte vera",
+				"Un bambino ha un fratello": "a volte vera",
+				"Un triangolo ha quattro lati": "mai vera",
+				"Un numero pari finisce per sette": "mai vera",
+				"Il sole sorge a ovest": "mai vera",
+				"Due più due fa cinque": "mai vera",
+				"Un mese ha quaranta giorni": "mai vera",
+				"Un numero è più grande di sé stesso": "mai vera"}},
+		# L23. Necessario contro sufficiente, l'ultima distinzione logica del
+		# percorso e la più utile fuori dalla scuola: «avere quattro lati» serve per
+		# essere un quadrato ma non basta, «essere un quadrato» basta per essere un
+		# rettangolo ma non serve.
+		{"topic": "quantificatori", "minLevel": 23, "draw": 6, "prompt": "Smista ogni condizione: basta da sola, oppure serve ma non basta?",
+			"categories": ["basta da sola", "serve ma non basta"],
+			"assignments": {
+				"Finire per zero, per essere divisibile per cinque": "basta da sola",
+				"Essere un quadrato, per essere un rettangolo": "basta da sola",
+				"Piovere, per avere la strada bagnata": "basta da sola",
+				"Essere a Roma, per essere in Italia": "basta da sola",
+				"Essere il 25 dicembre, per essere Natale": "basta da sola",
+				"Essere un cane, per essere un mammifero": "basta da sola",
+				"Nascere a gennaio, per essere nato d'inverno": "basta da sola",
+				"Avere tre lati uguali, per essere un triangolo equilatero": "basta da sola",
+				"Avere quattro lati, per essere un quadrato": "serve ma non basta",
+				"Essere un mammifero, per essere un cane": "serve ma non basta",
+				"Essere in Italia, per essere a Roma": "serve ma non basta",
+				"Avere la strada bagnata, per aver piovuto": "serve ma non basta",
+				"Essere un rettangolo, per essere un quadrato": "serve ma non basta",
+				"Essere dispari, per essere un numero primo": "serve ma non basta",
+				"Avere le ali, per essere un uccello": "serve ma non basta",
+				"Essere d'inverno, per essere gennaio": "serve ma non basta"}},
+		{"topic": "esclusioni", "draw": 6, "prompt": "Smista ogni affermazione: è sempre vera o solo qualche volta?",
+			"categories": ["sempre vera", "non sempre vera"],
+			"assignments": {
+				"Ogni quadrato ha quattro lati": "sempre vera",
+				"Ogni triangolo ha tre angoli": "sempre vera",
+				"Un numero pari si divide per due": "sempre vera",
+				"Ogni mese ha almeno 28 giorni": "sempre vera",
+				"Il ghiaccio è acqua diventata solida": "sempre vera",
+				"Ogni cerchio ha un centro": "sempre vera",
+				"I cani hanno la coda": "non sempre vera",
+				"Gli uccelli volano": "non sempre vera",
+				"D'estate fa caldo": "non sempre vera",
+				"Chi è alto gioca a pallacanestro": "non sempre vera",
+				"I gatti hanno il pelo nero": "non sempre vera",
+				"Le mele sono rosse": "non sempre vera"},
+			"explanation": "«Sempre vera» vuol dire che non esiste nemmeno un caso contrario. Basta un pinguino per far cadere «gli uccelli volano»: in logica un solo controesempio è sufficiente."},
 		# In logica la profondità non può venire da PIÙ ELEMENTI: un insieme di
 		# trenta cani e trenta rose non rende il ragionamento più ricco, solo più
 		# lungo. Deve venire da più REGOLE — quantificatori diversi, negazioni,
@@ -1278,6 +1623,14 @@ const CLASSIFICATION := {
 # richiesto. Nessun asset immagine. `points` in coordinate normalizzate 0..1.
 const GRAPH := {
 	"elettronica": [
+		{"topic": "misure-elettriche", "xLabel": "pile in serie", "yLabel": "tensione", "answer": "D",
+			"prompt": "Aggiungendo pile uguali in serie, in quale punto la tensione totale è maggiore?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.43, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.67, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.91, "label": "D"}],
+			"explanation": "In serie le tensioni delle pile si sommano: con più pile la tensione totale cresce, fino al punto D."},
+		{"topic": "sicurezza", "xLabel": "resistenza", "yLabel": "corrente", "answer": "D",
+			"prompt": "A tensione costante, la corrente diminuisce quando la resistenza aumenta. In quale punto la corrente è minore?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.91, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.40, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
+			"explanation": "Con la stessa tensione, una resistenza maggiore lascia passare meno corrente: il minimo è D."},
 		{"topic": "legge-ohm", "minLevel": 6, "xLabel": "tensione", "yLabel": "corrente", "answer": "D",
 			"prompt": "Il grafico mostra la corrente al crescere della tensione (legge di Ohm): in quale punto la corrente è massima?",
 			"points": [{"id": "A", "x": 0.12, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.42, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
@@ -1286,12 +1639,28 @@ const GRAPH := {
 			"prompt": "Il grafico mostra la carica di una batteria mentre si scarica usandola: in quale punto è più scarica?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.66, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.38, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.12, "label": "D"}],
 			"explanation": "Usandola la carica cala nel tempo: la batteria è più scarica alla fine, nel punto D."},
+		{"topic": "legge-ohm", "minLevel": 12, "xLabel": "tensione", "yLabel": "corrente", "answer": "B",
+			"prompt": "Ogni punto è una misura diversa. Poiché R = V / I, quale punto indica la resistenza maggiore (tensione alta ma corrente bassa)?",
+			"points": [{"id": "A", "x": 0.28, "y": 0.72, "label": "A"}, {"id": "B", "x": 0.72, "y": 0.34, "label": "B"}, {"id": "C", "x": 0.48, "y": 0.80, "label": "C"}, {"id": "D", "x": 0.86, "y": 0.74, "label": "D"}],
+			"explanation": "La resistenza è il rapporto V/I: B combina una tensione alta con una corrente bassa, quindi ha il rapporto maggiore."},
+		{"topic": "segnali", "minLevel": 23, "xLabel": "tempo", "yLabel": "tensione", "answer": "B",
+			"prompt": "Un segnale digitale dovrebbe restare basso o alto. Quale punto è disturbato e cade in una zona intermedia incerta?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.50, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.91, "label": "D"}],
+			"explanation": "A è un livello basso e C-D sono alti; B sta a metà, dove il circuito non legge con sicurezza né 0 né 1."},
+		{"topic": "condensatore", "minLevel": 21, "xLabel": "tempo", "yLabel": "tensione", "answer": "C",
+			"prompt": "Un condensatore si carica rapidamente e poi si avvicina al valore massimo. Quale punto mostra che è quasi carico?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.16, "label": "A"}, {"id": "B", "x": 0.34, "y": 0.66, "label": "B"}, {"id": "C", "x": 0.72, "y": 0.91, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.92, "label": "D"}],
+			"explanation": "La curva ormai è quasi orizzontale e vicina al massimo: in C il condensatore è quasi carico."},
 	],
 	"fisica": [
 		{"topic": "moto", "xLabel": "tempo", "yLabel": "velocità", "answer": "C",
 			"prompt": "Il grafico mostra la velocità nel tempo: in quale punto è massima?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.50, "label": "D"}],
 			"explanation": "La velocità è massima dove la curva è più in alto: il punto C."},
+		{"topic": "temperatura", "xLabel": "tempo", "yLabel": "temperatura", "answer": "A",
+			"prompt": "Una bevanda calda si raffredda sul tavolo. In quale punto è ancora più calda?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.43, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.28, "label": "D"}],
+			"explanation": "All'inizio la bevanda non ha ancora ceduto molto calore all'ambiente: A è il punto più caldo."},
 		{"topic": "moto", "minLevel": 4, "xLabel": "tempo", "yLabel": "distanza", "answer": "D",
 			"prompt": "Il grafico mostra la distanza percorsa nel tempo: in quale punto l'oggetto è più lontano dalla partenza?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.66, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.95, "label": "D"}],
@@ -1300,6 +1669,18 @@ const GRAPH := {
 			"prompt": "Un sasso cade e accelera per gravità: in quale punto va più veloce?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.08, "label": "A"}, {"id": "B", "x": 0.40, "y": 0.28, "label": "B"}, {"id": "C", "x": 0.68, "y": 0.58, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.95, "label": "D"}],
 			"explanation": "Cadendo la velocità cresce sempre di più: è massima alla fine, nel punto D."},
+		{"topic": "dinamica", "minLevel": 12, "xLabel": "massa", "yLabel": "accelerazione", "answer": "D",
+			"prompt": "La stessa spinta agisce su carrelli di massa diversa. Quale punto rappresenta il carrello più pesante, che accelera meno?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.90, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.40, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.20, "label": "D"}],
+			"explanation": "Con la stessa forza, aumentando la massa l'accelerazione diminuisce: D ha massa massima e accelerazione minima."},
+		{"topic": "onde", "minLevel": 23, "xLabel": "tempo", "yLabel": "spostamento", "answer": "C",
+			"prompt": "Il grafico mostra un'oscillazione. Quale punto è il ventre inferiore, cioè lo spostamento massimo sotto l'equilibrio?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.50, "label": "A"}, {"id": "B", "x": 0.34, "y": 0.90, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.10, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.52, "label": "D"}],
+			"explanation": "La linea di equilibrio è a metà: C è il punto più lontano verso il basso, quindi il ventre inferiore."},
+		{"topic": "passaggi-stato", "minLevel": 19, "xLabel": "tempo", "yLabel": "temperatura", "answer": "C",
+			"prompt": "Il ghiaccio viene scaldato. Quale punto ha quasi la stessa temperatura del punto precedente, perché durante la fusione la curva si appiattisce?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.34, "y": 0.48, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.50, "label": "C"}, {"id": "D", "x": 0.86, "y": 0.82, "label": "D"}],
+			"explanation": "B e C sono quasi alla stessa altezza: arrivando a C il calore sta cambiando lo stato, non alzando la temperatura."},
 	],
 	"matematica": [
 		{"topic": "coordinate", "xLabel": "x", "yLabel": "y", "answer": "Q",
@@ -1319,16 +1700,82 @@ const GRAPH := {
 			"prompt": "La retta sale da sinistra a destra: in quale punto tocca l'asse x (y = 0)?",
 			"points": [{"id": "A", "x": 0.15, "y": 0.05, "label": "A"}, {"id": "B", "x": 0.45, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.72, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.90, "label": "D"}],
 			"explanation": "La retta interseca l'asse x dove y vale (quasi) zero: il punto A, in basso."},
+		{"topic": "proporzioni", "minLevel": 12, "xLabel": "quaderni", "yLabel": "costo", "answer": "D",
+			"prompt": "Ogni quaderno costa uguale. Quale punto rappresenta l'acquisto con il costo totale maggiore?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.16, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.66, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.92, "label": "D"}],
+			"explanation": "Se il prezzo unitario è fisso, più quaderni significano un costo maggiore: D è massimo su entrambi gli assi."},
+		{"topic": "funzioni", "minLevel": 23, "xLabel": "x", "yLabel": "y", "answer": "C",
+			"prompt": "Una funzione cresce, raggiunge un massimo e poi diminuisce. Quale punto è il massimo locale?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.24, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.46, "label": "D"}],
+			"explanation": "C è più alto dei punti vicini: la funzione cresce fino a C e poi scende, quindi C è un massimo locale."},
+		{"topic": "statistica", "minLevel": 19, "xLabel": "giorno", "yLabel": "media mobile", "answer": "B",
+			"prompt": "La media mobile attenua gli sbalzi giornalieri. Quale punto indica l'inizio di una tendenza in discesa?",
+			"points": [{"id": "A", "x": 0.14, "y": 0.54, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.82, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.60, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.35, "label": "D"}],
+			"explanation": "B è il massimo locale: dopo B i valori medi calano in C e D, quindi lì comincia la discesa."},
 	],
 	"scienze": [
 		{"topic": "metodo", "xLabel": "giorni", "yLabel": "altezza", "answer": "D",
 			"prompt": "La pianta cresce nel tempo: in quale punto è più alta?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.70, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.95, "label": "D"}],
 			"explanation": "La curva sale sempre: l'ultimo punto D è il più alto."},
+		{"topic": "ecosistemi", "xLabel": "pioggia", "yLabel": "numero di piante", "answer": "D",
+			"prompt": "Nello stesso terreno, più pioggia permette a più piante di crescere. Quale punto mostra il maggior numero di piante?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.41, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.66, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.90, "label": "D"}],
+			"explanation": "Nel caso osservato il numero di piante cresce con la pioggia: il valore massimo è D."},
 		{"topic": "materia", "minLevel": 4, "xLabel": "tempo", "yLabel": "temperatura", "answer": "D",
 			"prompt": "Una tazza di tè si raffredda: in quale punto la temperatura è più bassa?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.38, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
 			"explanation": "La curva scende raffreddandosi: la temperatura è più bassa alla fine, nel punto D."},
+		{"topic": "fotosintesi", "minLevel": 8, "xLabel": "luce", "yLabel": "ossigeno prodotto", "answer": "D",
+			"prompt": "Aumentando la luce, la fotosintesi cresce e poi raggiunge un limite. Quale punto mostra che altra luce cambia pochissimo il risultato?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.68, "y": 0.88, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.90, "label": "D"}],
+			"explanation": "Arrivando a D la luce aumenta molto rispetto a C, ma l'ossigeno quasi no: la pianta è vicina al suo limite."},
+		{"topic": "corpo", "minLevel": 15, "xLabel": "tempo dopo la corsa", "yLabel": "battiti", "answer": "D",
+			"prompt": "Dopo una corsa i battiti tornano gradualmente verso il valore di riposo. In quale punto il recupero è più avanzato?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.68, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.46, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.30, "label": "D"}],
+			"explanation": "Più tempo passa, più i battiti scendono verso il riposo: D è il recupero più avanzato."},
+		{"topic": "ecosistemi", "minLevel": 22, "xLabel": "inquinamento", "yLabel": "numero di specie", "answer": "D",
+			"prompt": "Nel campione osservato, più inquinamento corrisponde a meno specie. Quale punto mostra la biodiversità più bassa?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.68, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.44, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
+			"explanation": "D combina il massimo inquinamento con il minor numero di specie: è la biodiversità più bassa."},
+	],
+	"coding": [
+		{"topic": "variabili", "xLabel": "passo", "yLabel": "valore di x", "answer": "D",
+			"prompt": "Il programma parte da x = 1 e aggiunge 2 a ogni passo. In quale punto x è maggiore?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.42, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.66, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.90, "label": "D"}],
+			"explanation": "Ogni istruzione aumenta x di 2: il valore cresce passo dopo passo ed è massimo in D."},
+		{"topic": "cicli", "xLabel": "giro del ciclo", "yLabel": "elementi stampati", "answer": "C",
+			"prompt": "Un ciclo stampa un elemento a ogni giro. Quale punto indica che sono stati stampati tre elementi?",
+			"points": [{"id": "A", "x": 0.18, "y": 0.25, "label": "A"}, {"id": "B", "x": 0.42, "y": 0.50, "label": "B"}, {"id": "C", "x": 0.66, "y": 0.75, "label": "C"}, {"id": "D", "x": 0.90, "y": 1.00, "label": "D"}],
+			"explanation": "Dopo tre giri sono stati stampati tre elementi: il terzo punto è C."},
+		{"topic": "variabili", "xLabel": "passo", "yLabel": "totale", "answer": "C",
+			"prompt": "Il programma parte da totale = 0 e aggiunge in ordine 2, 3 e 4. In quale punto il totale supera 4 per la prima volta?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.08, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.24, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.56, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
+			"explanation": "Dopo il primo passo il totale è 2; dopo il secondo è 5, quindi C è il primo punto sopra 4. D rappresenta il totale finale 9."},
+		{"topic": "condizioni", "xLabel": "valore letto", "yLabel": "condizione (0/1)", "answer": "C",
+			"prompt": "La condizione vale 0 finché il valore non è positivo e 1 quando valore > 0. Quale punto è il primo in cui diventa vera?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.10, "label": "A"}, {"id": "B", "x": 0.40, "y": 0.10, "label": "B"}, {"id": "C", "x": 0.66, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.90, "label": "D"}],
+			"explanation": "A e B rappresentano valori non positivi; C è il primo valore sopra zero, quindi lì la condizione passa da 0 a 1."},
+		{"topic": "variabili", "xLabel": "passo", "yLabel": "valore di energia", "answer": "D",
+			"prompt": "Il programma parte da energia = 6 e sottrae 2 a ogni passo. In quale punto energia arriva a zero?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.90, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.34, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.06, "label": "D"}],
+			"explanation": "I valori sono 6, 4, 2 e 0: sottraendo 2 tre volte, energia raggiunge zero nel punto D."},
+		{"topic": "condizioni", "minLevel": 8, "xLabel": "temperatura letta", "yLabel": "ventola (0/1)", "answer": "C",
+			"prompt": "La ventola vale 0 fino a 25 °C e 1 sopra 25 °C. Quale punto è il primo in cui la condizione la accende?",
+			"points": [{"id": "A", "x": 0.18, "y": 0.10, "label": "A"}, {"id": "B", "x": 0.42, "y": 0.10, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.88, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.88, "label": "D"}],
+			"explanation": "C è la prima lettura oltre la soglia: lì la condizione diventa vera e l'uscita passa da 0 a 1."},
+		{"topic": "ricerca", "minLevel": 12, "xLabel": "passo", "yLabel": "elementi rimasti", "answer": "D",
+			"prompt": "Una ricerca dimezza ogni volta la parte di elenco ancora da controllare. In quale punto restano meno elementi?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.54, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.30, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.17, "label": "D"}],
+			"explanation": "A ogni passo resta circa metà dell'intervallo precedente: D è il punto con meno elementi da controllare."},
+		{"topic": "sensori", "minLevel": 16, "xLabel": "tempo", "yLabel": "distanza letta", "answer": "B",
+			"prompt": "Un sensore misura una parete ferma. Una sola lettura è un picco anomalo: quale punto andrebbe controllato?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.48, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.92, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.50, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.47, "label": "D"}],
+			"explanation": "A, C e D sono vicini; B è molto distante dagli altri ed è probabilmente una lettura anomala."},
+		{"topic": "efficienza", "minLevel": 20, "xLabel": "dati in ingresso", "yLabel": "operazioni", "answer": "D",
+			"prompt": "Due cicli annidati fanno crescere rapidamente le operazioni. Quale punto mostra il costo maggiore?",
+			"points": [{"id": "A", "x": 0.14, "y": 0.16, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.28, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.55, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
+			"explanation": "Con due cicli annidati, più dati moltiplicano le operazioni: il costo massimo è nel punto D."},
 	],
 	# ITALIANO — "L'arco narrativo": la curva della tensione di un racconto, a forma
 	# di montagna (esposizione A -> complicazione B -> climax C -> scioglimento D ->
@@ -1350,6 +1797,10 @@ const GRAPH := {
 	# LOGICA — riconoscimento di schemi: i punti salgono in linea, ma uno è fuori
 	# posto. Trovare l'intruso è ragionamento visivo puro.
 	"logica": [
+		{"topic": "schemi", "minLevel": 4, "xLabel": "posizione", "yLabel": "valore", "answer": "D",
+			"prompt": "Questi punti salgono a gradini regolari, ma uno resta indietro: quale rompe lo schema?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.50, "y": 0.60, "label": "C"}, {"id": "D", "x": 0.70, "y": 0.42, "label": "D"}, {"id": "E", "x": 0.90, "y": 0.98, "label": "E"}],
+			"explanation": "Da A a C si sale di un gradino uguale ogni volta. D invece scende sotto C: è lui l'intruso, e la E riprende lo schema."},
 		{"topic": "schemi", "minLevel": 4, "xLabel": "posizione", "yLabel": "valore", "answer": "C",
 			"prompt": "Questi punti seguono uno schema che sale in linea, ma uno è fuori posto: quale rompe lo schema?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.35, "label": "B"}, {"id": "C", "x": 0.50, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.70, "y": 0.72, "label": "D"}, {"id": "E", "x": 0.90, "y": 0.92, "label": "E"}],
@@ -1361,6 +1812,12 @@ const GRAPH := {
 	],
 	# GEOGRAFIA — leggere climogrammi e profili altimetrici: competenza cartografica.
 	"geografia": [
+		# Il climogramma si legge su due grandezze, non una: c'era la temperatura,
+		# mancava la pioggia.
+		{"topic": "climi", "minLevel": 4, "xLabel": "mese", "yLabel": "pioggia", "answer": "A",
+			"prompt": "Il diagramma mostra la pioggia caduta mese per mese: in quale punto (mese) ha piovuto di meno?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.88, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.45, "label": "D"}],
+			"explanation": "Il mese più secco è quello con la colonna più bassa: il punto A. Il più piovoso è il C."},
 		{"topic": "climi", "minLevel": 4, "xLabel": "mese", "yLabel": "temperatura", "answer": "C",
 			"prompt": "Il climogramma mostra la temperatura mese per mese: in quale punto (mese) fa più caldo?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.55, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.80, "y": 0.60, "label": "D"}],
@@ -1372,6 +1829,16 @@ const GRAPH := {
 	],
 	# STORIA — leggere un grafico storico: come cambia un dato nei secoli.
 	"storia": [
+		# Fra il mondo 5 e il 17 storia aveva UN solo grafico. Questi due lo
+		# affiancano e coprono anche la seconda metà della campagna.
+		{"topic": "cronologia", "minLevel": 5, "xLabel": "secoli", "yLabel": "chi sa leggere", "answer": "D",
+			"prompt": "Il grafico mostra quante persone sapevano leggere in Europa nei secoli: in quale punto erano di più?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.28, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.52, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.94, "label": "D"}],
+			"explanation": "La curva sale sempre e il punto più alto è l'ultimo, D: leggere e scrivere si è diffuso nel tempo, soprattutto dopo la stampa."},
+		{"topic": "cronologia", "minLevel": 10, "xLabel": "anni", "yLabel": "persone in città", "answer": "B",
+			"prompt": "Il grafico mostra quanta gente viveva in città. In quale punto la crescita è stata più RIPIDA (il salto più grande rispetto al punto prima)?",
+			"points": [{"id": "A", "x": 0.10, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.72, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.80, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.88, "label": "D"}],
+			"explanation": "Non conta essere in alto, conta il salto: da A a B la curva sale di molto, poi si appiattisce. È la rivoluzione industriale."},
 		{"topic": "cronologia", "minLevel": 5, "xLabel": "secoli", "yLabel": "abitanti", "answer": "C",
 			"prompt": "Il grafico mostra gli abitanti di una città nei secoli: in quale punto la città era più popolosa?",
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
@@ -1384,6 +1851,12 @@ const GRAPH := {
 	# MUSICA — il contorno melodico: l'altezza delle note nel tempo. Leggere se il
 	# suono sale o scende è una competenza musicale di base.
 	"musica": [
+		# Il contorno melodico c'era già; qui si legge la DURATA invece dell'altezza,
+		# che è l'altro asse su cui si legge la musica.
+		{"topic": "ritmo", "minLevel": 4, "xLabel": "tempo", "yLabel": "durata", "answer": "B",
+			"prompt": "Il grafico mostra quanto dura ciascuna di quattro note: quale nota dura di più?",
+			"points": [{"id": "A", "x": 0.12, "y": 0.35, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.88, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.52, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.22, "label": "D"}],
+			"explanation": "La nota più lunga è quella che arriva più in alto: il punto B. La D è la più breve."},
 		{"topic": "note", "minLevel": 4, "xLabel": "tempo", "yLabel": "altezza", "answer": "C",
 			"prompt": "Il grafico è il contorno di una melodia (l'altezza delle note nel tempo): in quale punto la nota è più ACUTA (più alta)?",
 			"points": [{"id": "A", "x": 0.12, "y": 0.30, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.40, "label": "D"}],
@@ -1419,11 +1892,41 @@ const CIRCUIT := {
 			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "resistore", "x": 0.50, "y": 0.24, "label": "Resistore"}, {"id": "led", "x": 0.80, "y": 0.50, "label": "LED"}, {"id": "filo", "x": 0.50, "y": 0.78, "label": "Filo"}],
 			"connections": [["pila", "resistore"], ["resistore", "led"], ["led", "filo"], ["filo", "pila"]],
 			"explanation": "Il resistore limita la corrente: protegge il LED dal bruciarsi."},
+		{"topic": "diodo", "minLevel": 12, "answer": "diodo",
+			"prompt": "Quale componente lascia passare la corrente soprattutto in una sola direzione?",
+			"components": [{"id": "pila", "x": 0.18, "y": 0.50, "label": "Pila"}, {"id": "diodo", "x": 0.44, "y": 0.24, "label": "Diodo"}, {"id": "resistore", "x": 0.78, "y": 0.50, "label": "Resistore"}, {"id": "lampada", "x": 0.48, "y": 0.80, "label": "Lampada"}],
+			"connections": [["pila", "diodo"], ["diodo", "resistore"], ["resistore", "lampada"], ["lampada", "pila"]],
+			"explanation": "Il diodo è come una porta a senso unico: conduce in una direzione e ostacola quella opposta."},
+		{"topic": "sensori", "minLevel": 23, "answer": "partitore",
+			"prompt": "Un sensore resistivo cambia resistenza. Quale blocco lo trasforma in una tensione leggibile dal microcontrollore?",
+			"components": [{"id": "sensore", "x": 0.16, "y": 0.50, "label": "Sensore resistivo"}, {"id": "partitore", "x": 0.44, "y": 0.24, "label": "Partitore"}, {"id": "ingresso", "x": 0.78, "y": 0.50, "label": "Ingresso analogico"}, {"id": "massa", "x": 0.46, "y": 0.80, "label": "Massa"}],
+			"connections": [["sensore", "partitore"], ["partitore", "ingresso"], ["partitore", "massa"]],
+			"explanation": "Il partitore converte la variazione di resistenza in una tensione; l'ingresso analogico può così misurarla."},
+		{"topic": "condensatore", "minLevel": 19, "answer": "condensatore",
+			"prompt": "Quale componente può accumulare carica e restituirla per un breve intervallo?",
+			"components": [{"id": "pila", "x": 0.18, "y": 0.50, "label": "Pila"}, {"id": "interruttore", "x": 0.44, "y": 0.22, "label": "Interruttore"}, {"id": "condensatore", "x": 0.80, "y": 0.50, "label": "Condensatore"}, {"id": "led", "x": 0.48, "y": 0.80, "label": "LED"}],
+			"connections": [["pila", "interruttore"], ["interruttore", "condensatore"], ["condensatore", "led"], ["led", "pila"]],
+			"explanation": "Il condensatore accumula separando cariche sulle sue armature e può poi scaricarsi nel circuito."},
 	],
 	# CODING — il renderer nodi+collegamenti diventa un DIAGRAMMA DI FLUSSO: si
 	# legge il percorso di un programma e si sceglie il blocco richiesto. (Codex
 	# potrà poi dare al blocco-decisione la forma a rombo tipica dei flowchart.)
 	"coding": [
+		{"topic": "sequenza", "answer": "secondo",
+			"prompt": "Il programma deve prima leggere un nome, poi salutarlo. Quale blocco viene eseguito per secondo?",
+			"components": [{"id": "inizio", "x": 0.50, "y": 0.12, "label": "Inizio"}, {"id": "primo", "x": 0.50, "y": 0.36, "label": "Leggi nome"}, {"id": "secondo", "x": 0.50, "y": 0.62, "label": "Stampa saluto"}, {"id": "fine", "x": 0.50, "y": 0.88, "label": "Fine"}],
+			"connections": [["inizio", "primo"], ["primo", "secondo"], ["secondo", "fine"]],
+			"explanation": "Il flusso segue le frecce: dopo 'Leggi nome' viene 'Stampa saluto'."},
+		{"topic": "condizioni", "answer": "vero",
+			"prompt": "Se punti > 10 è vero, quale ramo stampa 'Hai vinto'?",
+			"components": [{"id": "test", "x": 0.50, "y": 0.18, "label": "punti > 10?"}, {"id": "vero", "x": 0.24, "y": 0.58, "label": "Hai vinto"}, {"id": "falso", "x": 0.76, "y": 0.58, "label": "Riprova"}, {"id": "fine", "x": 0.50, "y": 0.88, "label": "Fine"}],
+			"connections": [["test", "vero"], ["test", "falso"], ["vero", "fine"], ["falso", "fine"]],
+			"explanation": "Quando la condizione è vera il flusso prende il ramo che porta a 'Hai vinto'."},
+		{"topic": "sensori", "answer": "controllo",
+			"prompt": "Il robot legge la distanza e deve fermarsi solo se trova un ostacolo vicino. Quale blocco decide se attivare l'arresto?",
+			"components": [{"id": "sensore", "x": 0.50, "y": 0.12, "label": "Leggi distanza"}, {"id": "controllo", "x": 0.50, "y": 0.40, "label": "Distanza < 20?"}, {"id": "ferma", "x": 0.24, "y": 0.72, "label": "Ferma motori"}, {"id": "continua", "x": 0.76, "y": 0.72, "label": "Continua"}],
+			"connections": [["sensore", "controllo"], ["controllo", "ferma"], ["controllo", "continua"]],
+			"explanation": "Il blocco 'Distanza < 20?' confronta la lettura con la soglia e sceglie fra fermare i motori e continuare."},
 		{"topic": "diagramma-flusso", "minLevel": 4, "answer": "decisione",
 			"prompt": "Questo è il diagramma di flusso di un programma. Quale blocco DECIDE il percorso (la condizione)?",
 			"components": [{"id": "inizio", "x": 0.50, "y": 0.10, "label": "Inizio"}, {"id": "leggi", "x": 0.50, "y": 0.30, "label": "Leggi n"}, {"id": "decisione", "x": 0.50, "y": 0.52, "label": "n pari?"}, {"id": "pari", "x": 0.24, "y": 0.75, "label": "pari"}, {"id": "dispari", "x": 0.76, "y": 0.75, "label": "dispari"}, {"id": "fine", "x": 0.50, "y": 0.92, "label": "Fine"}],
@@ -1434,10 +1937,35 @@ const CIRCUIT := {
 			"components": [{"id": "inizio", "x": 0.50, "y": 0.10, "label": "Inizio"}, {"id": "init", "x": 0.50, "y": 0.30, "label": "i = 0"}, {"id": "controllo", "x": 0.50, "y": 0.52, "label": "i < 3?"}, {"id": "corpo", "x": 0.24, "y": 0.72, "label": "stampa i"}, {"id": "fine", "x": 0.78, "y": 0.72, "label": "Fine"}],
 			"connections": [["inizio", "init"], ["init", "controllo"], ["controllo", "corpo"], ["corpo", "controllo"], ["controllo", "fine"]],
 			"explanation": "Il blocco 'i < 3?' è la condizione del ciclo: finché è vera si ripete 'stampa i'."},
+		{"topic": "validazione", "minLevel": 12, "answer": "errore",
+			"prompt": "Il programma accetta solo età da 0 a 120. Quale blocco gestisce un valore non valido?",
+			"components": [{"id": "leggi", "x": 0.50, "y": 0.12, "label": "Leggi età"}, {"id": "test", "x": 0.50, "y": 0.40, "label": "0 ≤ età ≤ 120?"}, {"id": "ok", "x": 0.24, "y": 0.72, "label": "Salva"}, {"id": "errore", "x": 0.76, "y": 0.72, "label": "Segnala errore"}],
+			"connections": [["leggi", "test"], ["test", "ok"], ["test", "errore"]],
+			"explanation": "Se l'età è fuori dall'intervallo, la condizione è falsa e il flusso va a 'Segnala errore'."},
+		{"topic": "funzioni", "minLevel": 18, "answer": "ritorno",
+			"prompt": "La funzione calcola un valore e il programma chiamante deve riceverlo. Quale blocco rimanda il risultato al chiamante?",
+			"components": [{"id": "chiamata", "x": 0.16, "y": 0.50, "label": "Chiama funzione"}, {"id": "parametri", "x": 0.42, "y": 0.24, "label": "Leggi parametri"}, {"id": "calcolo", "x": 0.68, "y": 0.50, "label": "Calcola"}, {"id": "ritorno", "x": 0.46, "y": 0.80, "label": "Restituisci valore"}],
+			"connections": [["chiamata", "parametri"], ["parametri", "calcolo"], ["calcolo", "ritorno"], ["ritorno", "chiamata"]],
+			"explanation": "Il blocco di ritorno consegna il risultato al punto che ha chiamato la funzione; senza, il valore resta locale."},
+		{"topic": "cicli-annidati", "minLevel": 23, "answer": "interno",
+			"prompt": "Per ogni riga di una griglia il programma visita tutte le colonne. Quale blocco si ripete più spesso?",
+			"components": [{"id": "righe", "x": 0.50, "y": 0.12, "label": "Per ogni riga"}, {"id": "colonne", "x": 0.50, "y": 0.38, "label": "Per ogni colonna"}, {"id": "interno", "x": 0.50, "y": 0.66, "label": "Visita cella"}, {"id": "fine", "x": 0.82, "y": 0.88, "label": "Fine"}],
+			"connections": [["righe", "colonne"], ["colonne", "interno"], ["interno", "colonne"], ["colonne", "righe"], ["righe", "fine"]],
+			"explanation": "'Visita cella' sta nel ciclo interno: viene eseguito per ogni colonna di ogni riga, quindi più spesso."},
 	],
 	# SCIENZE — il renderer nodi+collegamenti diventa una CATENA ALIMENTARE: si
 	# legge il flusso di energia e si sceglie l'organismo richiesto.
 	"scienze": [
+		{"topic": "ciclo-acqua", "answer": "condensazione",
+			"prompt": "Nel ciclo dell'acqua, quale passaggio trasforma il vapore in piccole gocce che formano le nuvole?",
+			"components": [{"id": "mare", "x": 0.18, "y": 0.82, "label": "Acqua liquida"}, {"id": "evaporazione", "x": 0.28, "y": 0.38, "label": "Evaporazione"}, {"id": "condensazione", "x": 0.64, "y": 0.18, "label": "Condensazione"}, {"id": "pioggia", "x": 0.82, "y": 0.62, "label": "Pioggia"}],
+			"connections": [["mare", "evaporazione"], ["evaporazione", "condensazione"], ["condensazione", "pioggia"], ["pioggia", "mare"]],
+			"explanation": "Raffreddandosi, il vapore condensa in goccioline: insieme formano le nuvole."},
+		{"topic": "ciclo-vita", "answer": "adulto",
+			"prompt": "Nel ciclo della farfalla, quale stadio depone nuove uova e fa ripartire il ciclo?",
+			"components": [{"id": "uovo", "x": 0.18, "y": 0.30, "label": "Uovo"}, {"id": "larva", "x": 0.42, "y": 0.72, "label": "Bruco"}, {"id": "crisalide", "x": 0.70, "y": 0.72, "label": "Crisalide"}, {"id": "adulto", "x": 0.82, "y": 0.28, "label": "Farfalla adulta"}],
+			"connections": [["uovo", "larva"], ["larva", "crisalide"], ["crisalide", "adulto"], ["adulto", "uovo"]],
+			"explanation": "La farfalla adulta si riproduce e depone le uova: così il ciclo ricomincia."},
 		{"topic": "catena", "minLevel": 4, "answer": "erba",
 			"prompt": "In questa catena alimentare l'energia sale da un anello all'altro. Quale organismo è il PRODUTTORE, alla base di tutto?",
 			"components": [{"id": "erba", "x": 0.12, "y": 0.82, "label": "Erba"}, {"id": "cavalletta", "x": 0.32, "y": 0.62, "label": "Cavalletta"}, {"id": "rana", "x": 0.52, "y": 0.44, "label": "Rana"}, {"id": "serpente", "x": 0.72, "y": 0.30, "label": "Serpente"}, {"id": "aquila", "x": 0.90, "y": 0.14, "label": "Aquila"}],
@@ -1448,10 +1976,35 @@ const CIRCUIT := {
 			"components": [{"id": "erba", "x": 0.12, "y": 0.82, "label": "Erba"}, {"id": "cavalletta", "x": 0.32, "y": 0.62, "label": "Cavalletta"}, {"id": "rana", "x": 0.52, "y": 0.44, "label": "Rana"}, {"id": "serpente", "x": 0.72, "y": 0.30, "label": "Serpente"}, {"id": "aquila", "x": 0.90, "y": 0.14, "label": "Aquila"}],
 			"connections": [["erba", "cavalletta"], ["cavalletta", "rana"], ["rana", "serpente"], ["serpente", "aquila"]],
 			"explanation": "L'aquila è il predatore all'apice: in questa catena nessuno la caccia."},
+		{"topic": "ciclo-carbonio", "minLevel": 12, "answer": "pianta",
+			"prompt": "Quale elemento del ciclo assorbe anidride carbonica dall'aria tramite fotosintesi?",
+			"components": [{"id": "atmosfera", "x": 0.50, "y": 0.12, "label": "CO₂ nell'aria"}, {"id": "pianta", "x": 0.20, "y": 0.52, "label": "Pianta"}, {"id": "animale", "x": 0.50, "y": 0.84, "label": "Animale"}, {"id": "decompositori", "x": 0.82, "y": 0.52, "label": "Decompositori"}],
+			"connections": [["atmosfera", "pianta"], ["pianta", "animale"], ["animale", "decompositori"], ["decompositori", "atmosfera"]],
+			"explanation": "Le piante assorbono CO₂ dall'aria e usano il carbonio per costruire sostanze organiche."},
+		{"topic": "fotosintesi", "minLevel": 23, "answer": "glucosio",
+			"prompt": "Segui lo schema della fotosintesi: quale prodotto conserva l'energia della luce in forma chimica?",
+			"components": [{"id": "luce", "x": 0.14, "y": 0.24, "label": "Luce"}, {"id": "acqua", "x": 0.14, "y": 0.76, "label": "Acqua"}, {"id": "co2", "x": 0.42, "y": 0.76, "label": "CO₂"}, {"id": "foglia", "x": 0.50, "y": 0.34, "label": "Foglia"}, {"id": "glucosio", "x": 0.84, "y": 0.28, "label": "Glucosio"}, {"id": "ossigeno", "x": 0.84, "y": 0.72, "label": "Ossigeno"}],
+			"connections": [["luce", "foglia"], ["acqua", "foglia"], ["co2", "foglia"], ["foglia", "glucosio"], ["foglia", "ossigeno"]],
+			"explanation": "La foglia usa luce, acqua e CO₂ per produrre glucosio, dove l'energia resta immagazzinata nei legami chimici; libera anche ossigeno."},
+		{"topic": "rete-alimentare", "minLevel": 19, "answer": "volpe",
+			"prompt": "Nella rete, quale predatore riceve energia sia dal coniglio sia dal topo?",
+			"components": [{"id": "erba", "x": 0.15, "y": 0.75, "label": "Erba"}, {"id": "semi", "x": 0.15, "y": 0.28, "label": "Semi"}, {"id": "coniglio", "x": 0.48, "y": 0.72, "label": "Coniglio"}, {"id": "topo", "x": 0.48, "y": 0.30, "label": "Topo"}, {"id": "volpe", "x": 0.82, "y": 0.52, "label": "Volpe"}],
+			"connections": [["erba", "coniglio"], ["semi", "topo"], ["coniglio", "volpe"], ["topo", "volpe"]],
+			"explanation": "Entrambe le frecce da coniglio e topo arrivano alla volpe: può nutrirsi di entrambe le prede."},
 	],
 	# FISICA — il renderer nodi+collegamenti diventa la CATENA DI TRASFORMAZIONI
 	# dell'energia: si segue come l'energia cambia forma e si sceglie quella giusta.
 	"fisica": [
+		{"topic": "forze", "answer": "movimento",
+			"prompt": "Una mano spinge una scatola ferma. Quale passaggio mostra l'effetto della forza?",
+			"components": [{"id": "ferma", "x": 0.18, "y": 0.50, "label": "Scatola ferma"}, {"id": "spinta", "x": 0.48, "y": 0.26, "label": "Spinta"}, {"id": "movimento", "x": 0.80, "y": 0.50, "label": "Scatola accelera"}, {"id": "attrito", "x": 0.48, "y": 0.80, "label": "Attrito"}],
+			"connections": [["ferma", "spinta"], ["spinta", "movimento"], ["movimento", "attrito"]],
+			"explanation": "Una forza non bilanciata cambia il moto: la spinta fa accelerare la scatola."},
+		{"topic": "suono", "answer": "vibrazione",
+			"prompt": "In una chitarra, quale elemento avvia il suono prima che arrivi all'orecchio?",
+			"components": [{"id": "dito", "x": 0.12, "y": 0.50, "label": "Pizzico"}, {"id": "vibrazione", "x": 0.38, "y": 0.30, "label": "Corda vibra"}, {"id": "aria", "x": 0.64, "y": 0.52, "label": "Aria vibra"}, {"id": "orecchio", "x": 0.90, "y": 0.32, "label": "Orecchio"}],
+			"connections": [["dito", "vibrazione"], ["vibrazione", "aria"], ["aria", "orecchio"]],
+			"explanation": "Il pizzico mette in vibrazione la corda; la vibrazione passa all'aria e poi all'orecchio."},
 		{"topic": "energia", "minLevel": 5, "answer": "potenziale",
 			"prompt": "Una pallina viene sollevata, cade e rimbalza. Quando è ferma in alto, prima di cadere, che energia possiede?",
 			"components": [{"id": "potenziale", "x": 0.18, "y": 0.18, "label": "Ferma in alto"}, {"id": "cinetica", "x": 0.50, "y": 0.72, "label": "Sta cadendo"}, {"id": "elastica", "x": 0.82, "y": 0.88, "label": "Tocca il suolo"}, {"id": "risalita", "x": 0.86, "y": 0.34, "label": "Risale"}],
@@ -1462,10 +2015,62 @@ const CIRCUIT := {
 			"components": [{"id": "potenziale", "x": 0.18, "y": 0.18, "label": "Ferma in alto"}, {"id": "cinetica", "x": 0.50, "y": 0.72, "label": "Sta cadendo"}, {"id": "elastica", "x": 0.82, "y": 0.88, "label": "Tocca il suolo"}, {"id": "risalita", "x": 0.86, "y": 0.34, "label": "Risale"}],
 			"connections": [["potenziale", "cinetica"], ["cinetica", "elastica"], ["elastica", "risalita"]],
 			"explanation": "Mentre cade, l'energia potenziale si è trasformata tutta in cinetica: è il momento più veloce."},
+		{"topic": "leve", "minLevel": 12, "answer": "fulcro",
+			"prompt": "In una leva, quale punto resta fermo e permette all'asta di ruotare?",
+			"components": [{"id": "forza", "x": 0.15, "y": 0.40, "label": "Forza"}, {"id": "fulcro", "x": 0.50, "y": 0.72, "label": "Fulcro"}, {"id": "carico", "x": 0.85, "y": 0.40, "label": "Carico"}, {"id": "asta", "x": 0.50, "y": 0.30, "label": "Asta"}],
+			"connections": [["forza", "asta"], ["asta", "fulcro"], ["asta", "carico"]],
+			"explanation": "Il fulcro è il punto di appoggio attorno al quale l'asta ruota."},
+		{"topic": "elettricita", "minLevel": 23, "answer": "magnetico",
+			"prompt": "In un motore elettrico, quale passaggio trasforma la corrente in una forza che mette in rotazione l'asse?",
+			"components": [{"id": "corrente", "x": 0.14, "y": 0.50, "label": "Corrente"}, {"id": "bobina", "x": 0.40, "y": 0.24, "label": "Bobina"}, {"id": "magnetico", "x": 0.66, "y": 0.50, "label": "Forza magnetica"}, {"id": "rotazione", "x": 0.88, "y": 0.28, "label": "Rotazione"}],
+			"connections": [["corrente", "bobina"], ["bobina", "magnetico"], ["magnetico", "rotazione"]],
+			"explanation": "La corrente nella bobina interagisce con il campo magnetico: nasce una forza che fa ruotare l'asse."},
+		{"topic": "energia", "minLevel": 19, "answer": "calore",
+			"prompt": "Una bicicletta frena: dove finisce gran parte dell'energia di movimento?",
+			"components": [{"id": "cinetica", "x": 0.16, "y": 0.50, "label": "Movimento"}, {"id": "attrito", "x": 0.46, "y": 0.28, "label": "Freni: attrito"}, {"id": "calore", "x": 0.78, "y": 0.50, "label": "Calore"}, {"id": "suono", "x": 0.48, "y": 0.78, "label": "Suono"}],
+			"connections": [["cinetica", "attrito"], ["attrito", "calore"], ["attrito", "suono"]],
+			"explanation": "L'attrito dei freni trasforma soprattutto l'energia cinetica in calore; una piccola parte diventa suono."},
+	],
+	"matematica": [
+		{"topic": "operazioni", "answer": "risultato",
+			"prompt": "La macchina prende 4, aggiunge 3 e poi raddoppia. Quale nodo contiene il risultato finale?",
+			"components": [{"id": "inizio", "x": 0.12, "y": 0.50, "label": "4"}, {"id": "somma", "x": 0.38, "y": 0.30, "label": "+ 3"}, {"id": "doppio", "x": 0.64, "y": 0.50, "label": "× 2"}, {"id": "risultato", "x": 0.90, "y": 0.30, "label": "14"}],
+			"connections": [["inizio", "somma"], ["somma", "doppio"], ["doppio", "risultato"]],
+			"explanation": "Seguendo le frecce: 4 + 3 = 7, poi 7 × 2 = 14. Il nodo finale è 14."},
+		{"topic": "problemi", "answer": "totale",
+			"prompt": "Tre sacchetti contengono 5 biglie ciascuno. Quale nodo rappresenta il totale?",
+			"components": [{"id": "gruppi", "x": 0.18, "y": 0.28, "label": "3 sacchetti"}, {"id": "pergruppo", "x": 0.18, "y": 0.72, "label": "5 per sacchetto"}, {"id": "moltiplica", "x": 0.52, "y": 0.50, "label": "3 × 5"}, {"id": "totale", "x": 0.84, "y": 0.50, "label": "15 biglie"}],
+			"connections": [["gruppi", "moltiplica"], ["pergruppo", "moltiplica"], ["moltiplica", "totale"]],
+			"explanation": "Tre gruppi uguali da cinque si calcolano con 3 × 5: il totale è 15."},
+		{"topic": "frazioni", "minLevel": 7, "answer": "equivalente",
+			"prompt": "Quale nodo mostra una frazione equivalente a 1/2?",
+			"components": [{"id": "partenza", "x": 0.18, "y": 0.50, "label": "1/2"}, {"id": "doppio", "x": 0.48, "y": 0.24, "label": "×2 sopra e sotto"}, {"id": "equivalente", "x": 0.82, "y": 0.28, "label": "2/4"}, {"id": "non_equiv", "x": 0.82, "y": 0.74, "label": "2/3"}],
+			"connections": [["partenza", "doppio"], ["doppio", "equivalente"], ["partenza", "non_equiv"]],
+			"explanation": "Moltiplicare numeratore e denominatore per lo stesso numero non cambia il valore: 1/2 = 2/4."},
+		{"topic": "geometria", "minLevel": 11, "answer": "area",
+			"prompt": "Per un rettangolo, quale nodo usa base e altezza per misurare la superficie interna?",
+			"components": [{"id": "base", "x": 0.16, "y": 0.28, "label": "Base"}, {"id": "altezza", "x": 0.16, "y": 0.72, "label": "Altezza"}, {"id": "area", "x": 0.54, "y": 0.32, "label": "Area = b × h"}, {"id": "perimetro", "x": 0.82, "y": 0.70, "label": "Perimetro = 2(b+h)"}],
+			"connections": [["base", "area"], ["altezza", "area"], ["base", "perimetro"], ["altezza", "perimetro"]],
+			"explanation": "L'area misura la superficie e si ottiene moltiplicando base per altezza; il perimetro misura il contorno."},
+		{"topic": "probabilita", "minLevel": 17, "answer": "due_test",
+			"prompt": "Lanciando due monete, quale esito contiene due teste?",
+			"components": [{"id": "lancio1", "x": 0.50, "y": 0.10, "label": "Prima moneta"}, {"id": "testa1", "x": 0.26, "y": 0.38, "label": "T"}, {"id": "croce1", "x": 0.74, "y": 0.38, "label": "C"}, {"id": "due_test", "x": 0.12, "y": 0.78, "label": "TT"}, {"id": "misto", "x": 0.42, "y": 0.78, "label": "TC"}, {"id": "due_croci", "x": 0.88, "y": 0.78, "label": "CC"}],
+			"connections": [["lancio1", "testa1"], ["lancio1", "croce1"], ["testa1", "due_test"], ["testa1", "misto"], ["croce1", "misto"], ["croce1", "due_croci"]],
+			"explanation": "TT indica testa al primo lancio e testa al secondo: è l'esito con due teste."},
+		{"topic": "funzioni", "minLevel": 20, "answer": "uscita",
+			"prompt": "La funzione prima triplica x e poi sottrae 1. Con x = 4, quale nodo mostra l'uscita?",
+			"components": [{"id": "input", "x": 0.12, "y": 0.50, "label": "x = 4"}, {"id": "triplica", "x": 0.38, "y": 0.28, "label": "3x = 12"}, {"id": "sottrai", "x": 0.64, "y": 0.50, "label": "12 − 1"}, {"id": "uscita", "x": 0.90, "y": 0.28, "label": "11"}],
+			"connections": [["input", "triplica"], ["triplica", "sottrai"], ["sottrai", "uscita"]],
+			"explanation": "Seguendo la composizione: 4 × 3 = 12 e 12 − 1 = 11. L'uscita è 11."},
 	],
 	# LOGICA — il renderer nodi+collegamenti diventa un ALBERO DELLE DECISIONI: si
 	# seguono le risposte sì/no fino alla conclusione giusta.
 	"logica": [
+		{"topic": "insiemi", "minLevel": 5, "answer": "animali",
+			"prompt": "Questi gruppi stanno uno dentro l'altro. Qual è il gruppo che contiene tutti gli altri?",
+			"components": [{"id": "animali", "x": 0.50, "y": 0.14, "label": "Animali"}, {"id": "vertebrati", "x": 0.50, "y": 0.40, "label": "Vertebrati"}, {"id": "mammiferi", "x": 0.50, "y": 0.66, "label": "Mammiferi"}, {"id": "cani", "x": 0.50, "y": 0.90, "label": "Cani"}],
+			"connections": [["animali", "vertebrati"], ["vertebrati", "mammiferi"], ["mammiferi", "cani"]],
+			"explanation": "Ogni cane è un mammifero, ogni mammifero un vertebrato, ogni vertebrato un animale. Il gruppo più grande è quello in cima: gli animali."},
 		{"topic": "albero-decisioni", "minLevel": 5, "answer": "uccello",
 			"prompt": "Segui l'albero: un animale HA le ali. A quale conclusione arrivi?",
 			"components": [{"id": "ali", "x": 0.50, "y": 0.12, "label": "Ha le ali?"}, {"id": "uccello", "x": 0.22, "y": 0.52, "label": "Uccello"}, {"id": "pinne", "x": 0.72, "y": 0.44, "label": "Ha le pinne?"}, {"id": "pesce", "x": 0.55, "y": 0.86, "label": "Pesce"}, {"id": "mammifero", "x": 0.90, "y": 0.86, "label": "Mammifero"}],
@@ -1480,6 +2085,11 @@ const CIRCUIT := {
 	# GEOGRAFIA — il renderer nodi+collegamenti diventa il CORSO DI UN FIUME, con un
 	# affluente che confluisce: si legge dove nasce e dove sfocia.
 	"geografia": [
+		{"topic": "geografia-fisica", "minLevel": 4, "answer": "valico",
+			"prompt": "Due valli sono collegate attraverso la montagna. Qual è il punto da cui si passa dall'una all'altra?",
+			"components": [{"id": "valle-a", "x": 0.12, "y": 0.75, "label": "Valle"}, {"id": "cima", "x": 0.50, "y": 0.12, "label": "Cima"}, {"id": "valico", "x": 0.50, "y": 0.48, "label": "Valico"}, {"id": "valle-b", "x": 0.88, "y": 0.75, "label": "Altra valle"}],
+			"connections": [["valle-a", "valico"], ["valico", "valle-b"], ["cima", "valico"]],
+			"explanation": "Il valico (o passo) è il punto più basso della cresta: si passa da lì, non dalla cima, proprio perché costa meno salita."},
 		{"topic": "fiume", "minLevel": 4, "answer": "foce",
 			"prompt": "Questo è il corso di un fiume. In quale punto sfocia nel mare (la foce)?",
 			"components": [{"id": "sorgente", "x": 0.20, "y": 0.12, "label": "Sorgente"}, {"id": "affluente", "x": 0.72, "y": 0.20, "label": "Affluente"}, {"id": "confluenza", "x": 0.48, "y": 0.50, "label": "Confluenza"}, {"id": "foce", "x": 0.60, "y": 0.90, "label": "Foce"}],
@@ -1494,6 +2104,11 @@ const CIRCUIT := {
 	# STORIA — il renderer nodi+collegamenti diventa una LINEA DEL TEMPO: le ere in
 	# fila, si sceglie la più antica o la più recente.
 	"storia": [
+		{"topic": "roma", "minLevel": 4, "answer": "repubblica",
+			"prompt": "Roma attraversò queste fasi in quest'ordine. Qual era la fase di mezzo?",
+			"components": [{"id": "monarchia", "x": 0.10, "y": 0.50, "label": "Monarchia"}, {"id": "repubblica", "x": 0.37, "y": 0.50, "label": "Repubblica"}, {"id": "impero", "x": 0.64, "y": 0.50, "label": "Impero"}, {"id": "caduta", "x": 0.92, "y": 0.50, "label": "Caduta"}],
+			"connections": [["monarchia", "repubblica"], ["repubblica", "impero"], ["impero", "caduta"]],
+			"explanation": "Roma fu prima monarchia (i re), poi repubblica (i consoli), infine impero. La fase di mezzo è la repubblica."},
 		{"topic": "ere", "minLevel": 4, "answer": "preistoria",
 			"prompt": "Questa è la linea del tempo delle grandi età. Quale era è la più antica, all'inizio di tutto?",
 			"components": [{"id": "preistoria", "x": 0.10, "y": 0.50, "label": "Preistoria"}, {"id": "antica", "x": 0.32, "y": 0.50, "label": "Età antica"}, {"id": "medioevo", "x": 0.55, "y": 0.50, "label": "Medioevo"}, {"id": "moderna", "x": 0.77, "y": 0.50, "label": "Età moderna"}, {"id": "contemporanea", "x": 0.95, "y": 0.50, "label": "Contemporanea"}],
@@ -1508,6 +2123,11 @@ const CIRCUIT := {
 	# MUSICA — il renderer nodi+collegamenti diventa la FORMA DI UNA CANZONE: le
 	# sezioni in fila, si riconosce quella che torna uguale (il ritornello).
 	"musica": [
+		{"topic": "ritmo", "minLevel": 4, "answer": "croma",
+			"prompt": "Le figure musicali sono in fila dalla più lunga alla più breve: qual è la più breve?",
+			"components": [{"id": "semibreve", "x": 0.12, "y": 0.50, "label": "Semibreve"}, {"id": "minima", "x": 0.38, "y": 0.50, "label": "Minima"}, {"id": "semiminima", "x": 0.64, "y": 0.50, "label": "Semiminima"}, {"id": "croma", "x": 0.90, "y": 0.50, "label": "Croma"}],
+			"connections": [["semibreve", "minima"], ["minima", "semiminima"], ["semiminima", "croma"]],
+			"explanation": "Ogni figura vale la metà di quella prima: semibreve 4 battiti, minima 2, semiminima 1, croma mezzo. La più breve è la croma."},
 		{"topic": "lettura", "minLevel": 4, "answer": "ritornello2",
 			"prompt": "Questa è la struttura di una canzone. Quale sezione RIPETE il ritornello già sentito?",
 			"components": [{"id": "strofa1", "x": 0.12, "y": 0.50, "label": "Strofa"}, {"id": "ritornello1", "x": 0.34, "y": 0.50, "label": "Ritornello"}, {"id": "strofa2", "x": 0.56, "y": 0.50, "label": "Strofa 2"}, {"id": "ritornello2", "x": 0.78, "y": 0.50, "label": "Ritornello"}, {"id": "finale", "x": 0.95, "y": 0.50, "label": "Finale"}],
@@ -1523,6 +2143,11 @@ const CIRCUIT := {
 	# radice latina al centro e le parole italiane che ne derivano. Si sceglie la
 	# radice comune: il latino che vive ancora nell'italiano.
 	"latino": [
+		{"topic": "etimologia", "minLevel": 4, "answer": "videre",
+			"prompt": "Queste parole italiane derivano tutte dalla stessa radice latina. Qual è la radice comune?",
+			"components": [{"id": "videre", "x": 0.50, "y": 0.20, "label": "videre"}, {"id": "video", "x": 0.18, "y": 0.65, "label": "video"}, {"id": "evidente", "x": 0.50, "y": 0.85, "label": "evidente"}, {"id": "televisione", "x": 0.82, "y": 0.65, "label": "televisione"}],
+			"connections": [["videre", "video"], ["videre", "evidente"], ["videre", "televisione"]],
+			"explanation": "La radice è «videre», vedere: da lì video, evidente (che si vede bene) e televisione, che significa «vedere lontano»."},
 		{"topic": "etimologia", "minLevel": 4, "answer": "aqua",
 			"prompt": "Queste parole italiane derivano tutte dalla stessa radice latina. Qual è la radice comune?",
 			"components": [{"id": "aqua", "x": 0.50, "y": 0.20, "label": "aqua"}, {"id": "acqua", "x": 0.18, "y": 0.65, "label": "acqua"}, {"id": "acquedotto", "x": 0.50, "y": 0.82, "label": "acquedotto"}, {"id": "acquario", "x": 0.82, "y": 0.65, "label": "acquario"}],
@@ -1538,6 +2163,11 @@ const CIRCUIT := {
 	# parola base e le parole inglesi che ne derivano (morfologia). Si sceglie la
 	# base comune.
 	"inglese": [
+		{"topic": "vocabolario", "minLevel": 5, "answer": "play",
+			"prompt": "These words all grow from the same short word. Which one is the base?",
+			"components": [{"id": "play", "x": 0.50, "y": 0.20, "label": "play"}, {"id": "player", "x": 0.18, "y": 0.65, "label": "player"}, {"id": "playing", "x": 0.50, "y": 0.85, "label": "playing"}, {"id": "playful", "x": 0.82, "y": 0.65, "label": "playful"}],
+			"connections": [["play", "player"], ["play", "playing"], ["play", "playful"]],
+			"explanation": "«play» è la parola base: player, playing e playful sono costruite tutte su di lei aggiungendo un pezzo in fondo."},
 		{"topic": "word-family", "minLevel": 5, "answer": "play",
 			"prompt": "These English words belong to the same family. Which is the base word (the root)?",
 			"components": [{"id": "play", "x": 0.50, "y": 0.20, "label": "play"}, {"id": "player", "x": 0.18, "y": 0.65, "label": "player"}, {"id": "playful", "x": 0.50, "y": 0.82, "label": "playful"}, {"id": "playground", "x": 0.82, "y": 0.65, "label": "playground"}],
@@ -1548,6 +2178,34 @@ const CIRCUIT := {
 			"components": [{"id": "help", "x": 0.50, "y": 0.20, "label": "help"}, {"id": "helper", "x": 0.20, "y": 0.68, "label": "helper"}, {"id": "helpful", "x": 0.52, "y": 0.84, "label": "helpful"}, {"id": "helpless", "x": 0.82, "y": 0.66, "label": "helpless"}],
 			"connections": [["help", "helper"], ["help", "helpful"], ["help", "helpless"]],
 			"explanation": "The base word is 'help': helper, helpful and helpless are built from it."},
+	],
+}
+
+# CICLO VISUALE: le fasi sono dati disciplinari, mentre posizione, frecce e glifi
+# sono composti dal renderer. L'array `stages` non porta coordinate di schermo;
+# il builder lo mescola e `correctOrder` conserva il processo scientifico.
+const CYCLE := {
+	"scienze": [
+		{"topic": "ciclo-acqua",
+			"prompt": "Ricostruisci il ciclo dell'acqua partendo dall'acqua raccolta in mari e laghi.",
+			"stages": [{"id": "raccolta", "label": "Raccolta", "glyph": "water"}, {"id": "evaporazione", "label": "Evaporazione", "glyph": "sun"}, {"id": "condensazione", "label": "Condensazione", "glyph": "cloud"}, {"id": "precipitazione", "label": "Precipitazione", "glyph": "rain"}],
+			"correctOrder": ["raccolta", "evaporazione", "condensazione", "precipitazione"],
+			"explanation": "Il Sole fa evaporare l'acqua raccolta; il vapore condensa nelle nuvole e torna al suolo con le precipitazioni, alimentando di nuovo la raccolta."},
+		{"topic": "ciclo-vita",
+			"prompt": "Ricostruisci il ciclo della farfalla partendo dall'uovo.",
+			"stages": [{"id": "uovo", "label": "Uovo", "glyph": "egg"}, {"id": "larva", "label": "Bruco", "glyph": "larva"}, {"id": "crisalide", "label": "Crisalide", "glyph": "chrysalis"}, {"id": "adulto", "label": "Farfalla", "glyph": "butterfly"}],
+			"correctOrder": ["uovo", "larva", "crisalide", "adulto"],
+			"explanation": "Dall'uovo nasce il bruco; il bruco forma la crisalide e da questa emerge la farfalla adulta, che depone nuove uova."},
+		{"topic": "ciclo-carbonio", "minLevel": 12,
+			"prompt": "Segui una parte del ciclo del carbonio partendo dalla CO₂ nell'atmosfera.",
+			"stages": [{"id": "atmosfera", "label": "CO₂ nell'aria", "glyph": "air"}, {"id": "pianta", "label": "Pianta", "glyph": "plant"}, {"id": "animale", "label": "Animale", "glyph": "animal"}, {"id": "respirazione", "label": "Respirazione", "glyph": "carbon"}],
+			"correctOrder": ["atmosfera", "pianta", "animale", "respirazione"],
+			"explanation": "La pianta assorbe CO₂, l'animale riceve carbonio nutrendosi e la respirazione ne restituisce una parte all'atmosfera."},
+		{"topic": "fotosintesi", "minLevel": 18,
+			"prompt": "Segui il carbonio dalla CO₂ nell'aria fino al suo ritorno con la respirazione.",
+			"stages": [{"id": "co2", "label": "CO₂", "glyph": "carbon"}, {"id": "foglia", "label": "Fotosintesi", "glyph": "leaf"}, {"id": "glucosio", "label": "Glucosio", "glyph": "sugar"}, {"id": "animale", "label": "Nutrimento", "glyph": "animal"}, {"id": "aria", "label": "Respirazione", "glyph": "air"}],
+			"correctOrder": ["co2", "foglia", "glucosio", "animale", "aria"],
+			"explanation": "La fotosintesi incorpora il carbonio della CO₂ nel glucosio; il carbonio passa col nutrimento e la respirazione ne restituisce una parte all'aria."},
 	],
 }
 
@@ -1562,6 +2220,10 @@ const CODE_DEBUG := {
 			"prompt": "Vogliamo salutare solo se il nome NON è vuoto. Quale riga sbaglia?",
 			"codeLines": ["nome = 'Sofia'", "if nome == '':", "    print('Ciao ' + nome)", "# salutare solo se c'è un nome"],
 			"explanation": "Riga 2: controlla se il nome È vuoto. La condizione va invertita: nome != ''."},
+		{"topic": "variabili", "answerLine": 3,
+			"prompt": "Il programma dovrebbe stampare 10. Quale riga contiene l'errore?",
+			"codeLines": ["x = 3", "x = x + 2", "print(x + 2)", "# dopo la seconda riga x vale 5: va raddoppiato"],
+			"explanation": "Riga 3: dopo x = x + 2 il valore è 5; per stampare 10 serve print(x * 2), non aggiungere ancora 2."},
 		{"topic": "confronto", "minLevel": 3, "answerLine": 2,
 			"prompt": "Vogliamo controllare se x vale 5. Quale riga sbaglia?",
 			"codeLines": ["x = 5", "if x = 5:", "    print('cinque')", "# come si confronta in Python?"],
@@ -1574,6 +2236,14 @@ const CODE_DEBUG := {
 			"prompt": "Il totale dovrebbe stamparsi a ogni giro. Quale riga sbaglia?",
 			"codeLines": ["for i in range(3):", "    totale = i * 2", "print(totale)", "# il print deve stare dentro il for"],
 			"explanation": "Riga 3: print(totale) è fuori dal ciclo, quindi stampa una volta sola. Va rientrato dentro il for."},
+		{"topic": "liste", "minLevel": 18, "answerLine": 2,
+			"prompt": "Vogliamo visitare tutti gli elementi della lista senza uscire dai limiti. Quale riga sbaglia?",
+			"codeLines": ["valori = [10, 20, 30]", "for i in range(1, len(valori) + 1):", "    print(valori[i])", "# gli indici validi partono da 0 e finiscono a len - 1"],
+			"explanation": "Riga 2: range(1, len + 1) produce gli indici 1, 2, 3: salta lo 0 e il 3 è fuori lista. Serve range(len(valori))."},
+		{"topic": "strutture-dati", "minLevel": 23, "answerLine": 2,
+			"prompt": "Vogliamo una copia indipendente della lista. Quale riga fa condividere invece lo stesso oggetto?",
+			"codeLines": ["originale = [1, 2]", "copia = originale", "copia.append(3)", "print(originale)", "# originale dovrebbe restare [1, 2]"],
+			"explanation": "Riga 2: assegna alla copia lo stesso riferimento. Serve copia = originale.copy(), così append non modifica anche l'originale."},
 		{"topic": "logica-booleana", "minLevel": 6, "answerLine": 2,
 			"prompt": "Deve essere vero solo se l'età è tra 6 e 10. Quale riga sbaglia?",
 			"codeLines": ["eta = 8", "if eta >= 6 or eta <= 10:", "    print('ok')", "# dentro l'intervallo, non fuori"],
@@ -1584,6 +2254,40 @@ const CODE_DEBUG := {
 			"prompt": "Segui la deduzione: quale passo è sbagliato?",
 			"codeLines": ["Tutti i gatti sono felini.", "Alcuni felini sono neri.", "Quindi tutti i gatti sono neri.", "# dove si rompe il ragionamento?"],
 			"explanation": "La riga 3 generalizza indebitamente: da 'alcuni felini neri' non segue 'tutti i gatti neri'."},
+		# Al primo mondo la caccia all'errore di logica aveva UNA specifica: sempre
+		# questa, sempre con l'errore alla riga 3. Ed è il formato dove non si può
+		# pescare — l'ordine delle righe È il ragionamento — quindi la profondità
+		# qui si autora e basta.
+		#
+		# L'errore è distribuito su tutte e tre le righe di proposito: con l'errore
+		# sempre in fondo si impara a scegliere l'ultima riga invece di leggere.
+		# Ogni caso rompe un anello diverso — premessa falsa, regola letta male,
+		# quantificatore allargato, conto sbagliato — perché è la varietà del TIPO
+		# di errore, non del testo, a insegnare a controllare un ragionamento.
+		{"topic": "insiemi", "answerLine": 2,
+			"prompt": "Segui il ragionamento: quale passo non è valido?",
+			"codeLines": ["Tutti i cani hanno quattro zampe.", "Allora tutti gli animali a quattro zampe sono cani.", "Quindi il gatto è un cane.", "# la relazione vale anche al contrario?"],
+			"explanation": "Riga 2: la relazione vale in un verso solo. Che ogni cane abbia quattro zampe non rende cane ogni animale a quattro zampe — il gatto ne è la prova. La riga 3 sbaglia solo perché si fida della riga 2."},
+		{"topic": "deduzioni", "answerLine": 1,
+			"prompt": "Segui il ragionamento: quale affermazione è falsa?",
+			"codeLines": ["Tutti i numeri pari finiscono per 2.", "Il numero 14 è pari.", "Eppure 14 finisce per 4.", "# quale delle tre non può stare con le altre?"],
+			"explanation": "Riga 1: un numero è pari se finisce per 0, 2, 4, 6 o 8. Le righe 2 e 3 sono vere, ed è proprio la loro verità a smascherare la premessa."},
+		{"topic": "sequenze", "answerLine": 2,
+			"prompt": "Segui la regola della sequenza: quale passo sbaglia?",
+			"codeLines": ["Sequenza: 1, 2, 4, 8, ...", "La regola aggiunge 2 ogni volta", "Il numero dopo l'8 è 16", "# guarda come si passa da 2 a 4"],
+			"explanation": "Riga 2: da 2 si arriva a 4 raddoppiando, non aggiungendo 2 — con +2 dopo il 2 verrebbe 4 ma poi 6, non 8. La regola è «×2», e infatti dopo l'8 viene 16: la riga 3 è giusta."},
+		{"topic": "deduzioni", "answerLine": 3,
+			"prompt": "Segui il conto: quale passo sbaglia?",
+			"codeLines": ["In classe ci sono 12 bambini.", "Metà di loro porta gli occhiali.", "Quindi 8 bambini portano gli occhiali.", "# quanto fa la metà di 12?"],
+			"explanation": "Riga 3: la metà di 12 è 6, non 8. Le prime due righe sono in ordine: l'errore è solo nel conto finale."},
+		{"topic": "deduzioni", "answerLine": 2,
+			"prompt": "Segui il ragionamento: quale passo non è valido?",
+			"codeLines": ["Alcuni fiori sono rossi.", "Allora tutti i fiori sono rossi.", "Quindi anche questa margherita bianca è rossa.", "# «alcuni» e «tutti» dicono la stessa cosa?"],
+			"explanation": "Riga 2: «alcuni» non diventa mai «tutti». La riga 3 arriva a una conclusione assurda proprio perché si appoggia a quel salto."},
+		{"topic": "deduzioni", "answerLine": 1,
+			"prompt": "Segui il ragionamento: quale affermazione è falsa?",
+			"codeLines": ["Tutti i mesi hanno 30 giorni.", "Febbraio è un mese.", "Quindi febbraio ha 30 giorni.", "# tutti i mesi sono lunghi uguale?"],
+			"explanation": "Riga 1: i mesi hanno 28, 29, 30 o 31 giorni. Il ragionamento delle righe 2 e 3 è corretto — è la premessa a essere falsa, e una conclusione sbagliata può nascere da un ragionamento giusto."},
 		{"topic": "sequenze", "minLevel": 3, "answerLine": 3,
 			"prompt": "Segui la regola della sequenza: quale passo sbaglia?",
 			"codeLines": ["Sequenza: 2, 4, 6, 8, ...", "La regola aggiunge 2 ogni volta", "Il numero dopo l'8 è 9", "# controlla la regola"],
@@ -1660,6 +2364,10 @@ const CODE_DEBUG := {
 			"prompt": "Controlla il calcolo passo per passo: quale riga sbaglia?",
 			"codeLines": ["7 + 5 + 6", "= 12 + 6", "= 19", "# controlla ogni passaggio"],
 			"explanation": "Riga 3: 12 + 6 fa 18, non 19. Il primo passaggio (7 + 5 = 12) era giusto."},
+		{"topic": "calcolo", "answerLine": 2,
+			"prompt": "Controlla la sottrazione 52 − 18: quale passaggio sbaglia?",
+			"codeLines": ["52 − 18", "= (50 − 10) + (8 − 2)", "= 34", "# controlla se la scomposizione conserva il valore"],
+			"explanation": "Riga 2: ha invertito le unità, infatti (50 − 10) + (8 − 2) fa 46. Col prestito, 52 diventa 40 + 12: (40 − 10) + (12 − 8) = 30 + 4 = 34. Nei numeri relativi anche 2 − 8 è possibile e vale −6."},
 		{"topic": "espressioni", "minLevel": 3, "answerLine": 2,
 			"prompt": "Calcolo di 2 + 3 × 4 passo per passo: quale riga sbaglia?",
 			"codeLines": ["2 + 3 × 4", "= 5 × 4   (ho sommato 2 + 3)", "= 20", "# le priorità sono rispettate?"],
@@ -1684,6 +2392,14 @@ const CODE_DEBUG := {
 			"prompt": "Calcolo di 12 × 4 passo per passo: quale riga sbaglia?",
 			"codeLines": ["12 × 4", "= (10 × 4) + (2 × 4)", "= 40 + 8 = 46", "# la scomposizione è giusta: e la somma?"],
 			"explanation": "Riga 3: 40 + 8 fa 48, non 46. La scomposizione in decine e unità era corretta."},
+		{"topic": "equazioni", "minLevel": 18, "answerLine": 2,
+			"prompt": "Risolvi 2(x + 3) = 14: qual è il primo passaggio sbagliato?",
+			"codeLines": ["2(x + 3) = 14", "2x + 3 = 14", "2x = 11", "x = 5,5", "# distribuisci 2 a entrambi i termini nella parentesi"],
+			"explanation": "Riga 2: 2 moltiplica sia x sia 3, quindi 2(x + 3) = 2x + 6. Da 2x + 6 = 14 segue x = 4."},
+		{"topic": "probabilita", "minLevel": 23, "answerLine": 4,
+			"prompt": "Un sacchetto ha 3 palline rosse e 2 blu. Controlla la probabilità di estrarre una rossa: quale riga sbaglia?",
+			"codeLines": ["casi possibili = 3 + 2 = 5", "casi favorevoli = 3", "P(rossa) = 3/5 = 0,6", "P(rossa) = 6%", "# trasforma 0,6 in percentuale"],
+			"explanation": "Riga 4: 0,6 corrisponde al 60%, non al 6%. Numeratore, denominatore e frazione dei passaggi precedenti sono corretti."},
 		{"topic": "frazioni", "minLevel": 7, "answerLine": 3,
 			"prompt": "Calcolo di 3/4 di 20: quale riga sbaglia?",
 			"codeLines": ["3/4 di 20", "= 20 : 4 × 3", "= 5 × 3 = 12", "# l'impostazione è giusta: e il conto finale?"],
@@ -1692,6 +2408,10 @@ const CODE_DEBUG := {
 	# INGLESE — "Find the mistake": error correction, il cuore dell'apprendimento
 	# di una lingua straniera. Una frase su tante nasconde lo sbaglio: si clicca.
 	"inglese": [
+		{"topic": "sentence", "answerLine": 2,
+			"prompt": "Find the mistake in this English text.",
+			"codeLines": ["She is my best friend.", "She have a blue bike.", "She goes to school by bus.", "# check the verb"],
+			"explanation": "Riga 2: con she, he e it il verbo diventa «has», non «have». La forma giusta è «She has a blue bike». Le righe 1 e 3 sono corrette."},
 		{"topic": "spelling", "answerLine": 2, "shuffleLines": true,
 			"prompt": "One word is spelled wrong. Which line?",
 			"codeLines": ["I have a cat.", "The sun is yelow.", "She likes books.", "# find the spelling mistake"],
@@ -1720,6 +2440,22 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione sul circuito è falsa. Quale riga?",
 			"codeLines": ["La pila fornisce energia.", "Il LED emette luce.", "Il filo di rame blocca la corrente.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il rame è un conduttore, quindi il filo LASCIA passare la corrente, non la blocca."},
+		{"topic": "circuito", "answerLine": 2,
+			"prompt": "Il LED dovrebbe accendersi: quale passaggio descrive un collegamento sbagliato?",
+			"codeLines": ["Collego il polo + della pila al resistore", "Lascio un'interruzione tra resistore e LED", "Collego il LED al polo − della pila", "# la corrente ha bisogno di un percorso chiuso"],
+			"explanation": "Riga 2: l'interruzione apre il circuito, quindi non scorre corrente. Serve un collegamento continuo tra resistore e LED."},
+		{"topic": "serie-parallelo", "minLevel": 8, "answerLine": 3,
+			"prompt": "Due lampadine sono in serie: quale conclusione sul percorso della corrente è sbagliata?",
+			"codeLines": ["La corrente attraversa la prima lampadina", "Poi attraversa la seconda lampadina", "Può saltare la seconda scegliendo un altro ramo", "# in serie esiste un solo percorso"],
+			"explanation": "Riga 3: in un circuito in serie non ci sono rami alternativi; la stessa corrente attraversa entrambe le lampadine."},
+		{"topic": "potenza", "minLevel": 14, "answerLine": 2,
+			"prompt": "Calcola la potenza con V = 6 V e I = 2 A: quale riga sbaglia?",
+			"codeLines": ["P = V × I", "P = 6 + 2", "P = 8 W", "# nella formula i valori si moltiplicano"],
+			"explanation": "Riga 2: la potenza è 6 × 2 = 12 W. La somma non applica la formula P = V × I."},
+		{"topic": "condensatore", "minLevel": 20, "answerLine": 1,
+			"prompt": "Segui la carica di un condensatore: quale passaggio è sbagliato?",
+			"codeLines": ["Appena collegato è già alla tensione massima", "All'inizio entra corrente e la tensione cresce", "Avvicinandosi al massimo la crescita rallenta", "# la carica richiede un intervallo di tempo"],
+			"explanation": "Riga 1: un condensatore non si carica istantaneamente; la sua tensione cresce nel tempo fino ad avvicinarsi a quella della sorgente."},
 		{"topic": "legge-ohm", "minLevel": 6, "answerLine": 2, "shuffleLines": true,
 			"prompt": "Corrente con V = 10 V e R = 2 Ω: quale riga sbaglia?",
 			"codeLines": ["V = 10 V, R = 2 Ω", "I = V × R", "I = 20 A", "# come si calcola la corrente?"],
@@ -1728,6 +2464,14 @@ const CODE_DEBUG := {
 	# SCIENZE — "Caccia all'errore": fra tre affermazioni una è falsa. Colpisce le
 	# misconcezioni classiche (la Luna, le branchie, il vapore).
 	"scienze": [
+		{"topic": "metodo", "answerLine": 2,
+			"prompt": "Vogliamo capire se la luce cambia la crescita di una pianta. Quale passaggio rende il confronto scorretto?",
+			"codeLines": ["Uso due piante della stessa specie", "Do anche quantità d'acqua diverse", "Cambio soltanto le ore di luce", "# per confrontare, deve cambiare una sola variabile"],
+			"explanation": "Riga 2: se cambiano sia luce sia acqua non sappiamo quale causa la differenza. L'acqua deve restare uguale."},
+		{"topic": "catena", "answerLine": 3,
+			"prompt": "Segui il trasferimento di energia nella catena alimentare: quale riga inverte il verso?",
+			"codeLines": ["L'erba cattura energia dalla luce", "Il coniglio mangia l'erba", "L'erba riceve energia dal coniglio", "# l'energia passa dal cibo a chi lo mangia"],
+			"explanation": "Riga 3: è il coniglio a ricevere energia dall'erba che mangia, non il contrario."},
 		{"topic": "astronomia", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Il Sole è una stella.", "La Terra gira intorno al Sole.", "La Luna produce luce propria.", "# quale affermazione è falsa?"],
@@ -1740,10 +2484,26 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["L'acqua bolle a 100 °C.", "Il ghiaccio è acqua allo stato solido.", "Il vapore è più freddo dell'acqua.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il vapore è più caldo, si forma quando l'acqua bolle a 100 °C."},
+		{"topic": "ciclo-carbonio", "minLevel": 19, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Una sola affermazione sul ciclo del carbonio è falsa. Quale riga?",
+			"codeLines": ["Le piante assorbono CO₂ durante la fotosintesi.", "Gli animali ottengono carbonio nutrendosi.", "La respirazione toglie CO₂ dall'atmosfera.", "# segui dove va il carbonio durante la respirazione"],
+			"explanation": "Riga 3: la respirazione libera CO₂ nell'atmosfera; è la fotosintesi delle piante che la assorbe."},
+		{"topic": "genetica", "minLevel": 24, "answerLine": 1,
+			"prompt": "Segui il ragionamento su geni e ambiente: quale passaggio è troppo assoluto?",
+			"codeLines": ["Un singolo gene decide da solo ogni caratteristica", "Molti caratteri dipendono da più geni", "Anche l'ambiente può influire su come un carattere appare", "# cerca l'affermazione che elimina tutte le altre cause"],
+			"explanation": "Riga 1: molti caratteri dipendono dall'azione di più geni e dall'ambiente; raramente un solo gene decide tutto da solo."},
 	],
 	# FISICA — "Caccia all'errore": affermazione falsa o calcolo sbagliato. Colpisce
 	# le misconcezioni classiche (Galileo, la formula della velocità, l'energia).
 	"fisica": [
+		{"topic": "moto", "answerLine": 3,
+			"prompt": "Una bici percorre 30 km in 2 ore. Quale passaggio sbaglia?",
+			"codeLines": ["velocità = spazio / tempo", "velocità = 30 km / 2 h", "velocità = 60 km/h", "# dividi 30 per 2"],
+			"explanation": "Riga 3: 30 diviso 2 fa 15, quindi la velocità media è 15 km/h, non 60 km/h."},
+		{"topic": "forze", "answerLine": 1,
+			"prompt": "Un libro resta fermo sul tavolo. Quale passaggio interpreta male le forze?",
+			"codeLines": ["Se è fermo, sul libro non agisce alcuna forza", "La gravità tira il libro verso il basso", "Il tavolo esercita una forza verso l'alto", "# due forze opposte possono bilanciarsi"],
+			"explanation": "Riga 1: il libro è fermo perché gravità e reazione del tavolo si bilanciano, non perché le forze sono assenti."},
 		{"topic": "gravita", "minLevel": 4, "answerLine": 1, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Gli oggetti pesanti cadono più veloci di quelli leggeri.", "La gravità attira gli oggetti verso il basso.", "L'attrito dell'aria rallenta la caduta.", "# quale affermazione è falsa?"],
@@ -1756,9 +2516,21 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["La palla in alto ha energia potenziale.", "Cadendo si trasforma in energia cinetica.", "Toccando terra l'energia sparisce nel nulla.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: l'energia non sparisce, si trasforma (in calore, suono, deformazione): è la conservazione dell'energia."},
+		{"topic": "onde", "minLevel": 23, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Una sola affermazione su frequenza e periodo è falsa. Quale riga?",
+			"codeLines": ["La frequenza conta le oscillazioni ogni secondo.", "A frequenza maggiore corrisponde un periodo più breve.", "Raddoppiando la frequenza raddoppia anche il periodo.", "# frequenza e periodo sono inversamente proporzionali"],
+			"explanation": "Riga 3: periodo e frequenza sono inversi. Se la frequenza raddoppia, il periodo si dimezza."},
+		{"topic": "pressione", "minLevel": 19, "answerLine": 2,
+			"prompt": "La stessa forza agisce prima su un'area grande e poi su una piccola. Quale passaggio sbaglia?",
+			"codeLines": ["pressione = forza / area", "Riducendo l'area, la pressione diminuisce", "A parità di forza, un'area minore dà più pressione", "# il denominatore diventa più piccolo"],
+			"explanation": "Riga 2: dividendo la stessa forza per un'area più piccola si ottiene una pressione maggiore, non minore."},
 	],
 	# GEOGRAFIA — "Caccia all'errore": fra tre affermazioni una è falsa.
 	"geografia": [
+		{"topic": "climi", "minLevel": 3, "answerLine": 3,
+			"prompt": "Segui il ragionamento sul clima: quale passo sbaglia?",
+			"codeLines": ["Salendo in montagna la temperatura scende.", "Il rifugio sta a 2000 metri, il paese a 500.", "Quindi al rifugio fa più caldo che in paese.", "# chi dei due sta più in alto?"],
+			"explanation": "Riga 3: il rifugio sta millecinquecento metri più in alto, quindi ci fa più FREDDO, non più caldo. Le prime due righe sono giuste."},
 		{"topic": "mondo", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Roma è la capitale d'Italia.", "Il Nilo è un fiume.", "L'Everest è un oceano.", "# quale affermazione è falsa?"],
@@ -1774,6 +2546,10 @@ const CODE_DEBUG := {
 	],
 	# STORIA — "Caccia all'errore": affermazione falsa o cronologia sbagliata.
 	"storia": [
+		{"topic": "cronologia", "minLevel": 3, "answerLine": 3,
+			"prompt": "Segui la linea del tempo: quale passo sbaglia?",
+			"codeLines": ["Roma fu fondata nel 753 a.C.", "Gli anni «a.C.» si contano all'indietro.", "Quindi il 753 a.C. viene dopo il 500 a.C.", "# quale dei due è più lontano da noi?"],
+			"explanation": "Riga 3: contando all'indietro, il 753 a.C. viene PRIMA del 500 a.C. Più grande è il numero avanti Cristo, più indietro nel tempo si va."},
 		{"topic": "civilta", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Gli Egizi costruirono le piramidi.", "I Romani parlavano latino.", "La Preistoria viene dopo il Medioevo.", "# quale affermazione è falsa?"],
@@ -1789,6 +2565,10 @@ const CODE_DEBUG := {
 	],
 	# MUSICA — "Caccia all'errore": affermazione falsa di teoria musicale.
 	"musica": [
+		{"topic": "ritmo", "minLevel": 3, "answerLine": 2,
+			"prompt": "Conta i battiti della battuta: quale passo sbaglia?",
+			"codeLines": ["In 4/4 ogni battuta vale 4 battiti.", "Una semiminima vale 2 battiti.", "Quindi in una battuta ci stanno 4 semiminime.", "# quanto vale davvero una semiminima?"],
+			"explanation": "Riga 2: la semiminima vale 1 battito, non 2. La riga 3 è giusta proprio perché quattro semiminime da un battito riempiono la battuta."},
 		{"topic": "strumenti", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Il violino è uno strumento a corde.", "La tromba è uno strumento a fiato.", "Il flauto è uno strumento a percussione.", "# quale affermazione è falsa?"],
@@ -1804,6 +2584,10 @@ const CODE_DEBUG := {
 	],
 	# LATINO — "Caccia all'errore": analisi o affermazione sbagliata sul latino.
 	"latino": [
+		{"topic": "casi", "minLevel": 3, "answerLine": 2,
+			"prompt": "Segui l'analisi della frase: quale passo sbaglia?",
+			"codeLines": ["«Puella rosam amat» vuol dire «la fanciulla ama la rosa».", "«rosam» è il soggetto della frase.", "Quindi è la rosa a fare l'azione.", "# quale parola compie l'azione?"],
+			"explanation": "Riga 2: «rosam» finisce in -am, è accusativo, e l'accusativo è il complemento oggetto — la cosa amata. Il soggetto è «puella», in nominativo."},
 		{"topic": "frasi", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Il latino usa i casi per la funzione delle parole.", "'aqua' significa acqua.", "In latino il verbo di solito sta all'inizio della frase.", "# quale affermazione è falsa?"],
@@ -1866,7 +2650,187 @@ static func topics_for(subject: String) -> Array:
 const MATCHING_UNIQUE := [0, 1]              # coppie [sinistra, destra]
 const ORDERING_UNIQUE := ["label", "value"]  # voci {label, value}
 
-const FORMATS := ["matching", "ordering", "classification", "graph", "circuit", "code_debug"]
+# ---------------------------------------------------------------------------
+# Formati visuali: notazione, carta muta, reperti
+# ---------------------------------------------------------------------------
+#
+# Tre superfici che il runtime sa già disegnare (`exercise_diagram.gd`) e
+# validare (`exercise_interaction.gd`), e che fino al 3 agosto 2026 non avevano
+# contenuto: erano renderer vuoti, cioè peso morto nel PCK.
+#
+# Perché servono davvero, e non sono decorazione: la lettura sul pentagramma è
+# una competenza VISIVA, e finora il gioco la chiedeva *descrivendo a parole*
+# dove sta la nota — come insegnare a leggere raccontando le lettere. Stessa
+# cosa per una carta muta: «qual è la capitale» è memoria, «dov'è il Po» è
+# geografia.
+#
+# La posizione orizzontale dei simboli e le coordinate dei bersagli NON stanno
+# qui: le decide il runtime. Il contenuto nomina soltanto `staffStep` (che è
+# musicale, non grafico), `mapId` e bersagli semantici.
+
+## Notazione musicale. `staffStep` conta righe e spazi dal basso: 0, 2, 4, 6, 8
+## sono le cinque righe, i dispari sono gli spazi, e fuori scala servono le
+## linee addizionali. In chiave di violino le righe sono Mi Sol Si Re Fa e gli
+## spazi Fa La Do Mi.
+const NOTATION := {
+	"musica": [
+		{"topic": "lettura",
+			"prompt": "In chiave di violino, quale di queste note è il SOL?",
+			"staff": {"clef": "treble"},
+			"symbols": [
+				{"id": "riga1", "label": "Nota sulla prima riga", "kind": "note", "staffStep": 0, "duration": "quarter"},
+				{"id": "riga2", "label": "Nota sulla seconda riga", "kind": "note", "staffStep": 2, "duration": "quarter"},
+				{"id": "riga3", "label": "Nota sulla terza riga", "kind": "note", "staffStep": 4, "duration": "quarter"}],
+			"answer": "riga2",
+			"explanation": "Le note sulle righe, dal basso, sono Mi, Sol, Si, Re, Fa: il SOL è sulla seconda. Non a caso la chiave di violino si chiama anche «chiave di Sol» — la sua spirale gira proprio intorno a quella riga."},
+		{"topic": "lettura",
+			"prompt": "Quale di queste note sta in uno SPAZIO e non su una riga?",
+			"staff": {"clef": "treble"},
+			"symbols": [
+				{"id": "riga1", "label": "Prima nota", "kind": "note", "staffStep": 0, "duration": "quarter"},
+				{"id": "spazio2", "label": "Seconda nota", "kind": "note", "staffStep": 3, "duration": "quarter"},
+				{"id": "riga3", "label": "Terza nota", "kind": "note", "staffStep": 4, "duration": "quarter"}],
+			"answer": "spazio2",
+			"explanation": "Una nota sta in uno spazio quando il pallino è fra due righe e non ne è attraversato. Le note negli spazi, dal basso, sono Fa, La, Do, Mi: questa è un LA."},
+		{"topic": "ritmo", "minLevel": 3,
+			"prompt": "Quale di queste figure dura di più?",
+			"staff": {"clef": "treble"},
+			"symbols": [
+				{"id": "semiminima", "label": "Nota nera con il gambo", "kind": "note", "staffStep": 4, "duration": "quarter"},
+				{"id": "semibreve", "label": "Nota vuota senza gambo", "kind": "note", "staffStep": 4, "duration": "whole"},
+				{"id": "croma", "label": "Nota nera con la bandierina", "kind": "note", "staffStep": 4, "duration": "eighth"},
+				{"id": "minima", "label": "Nota vuota con il gambo", "kind": "note", "staffStep": 4, "duration": "half"}],
+			"answer": "semibreve",
+			"explanation": "La durata si legge dalla forma: la semibreve è vuota e senza gambo e vale 4 battiti, la minima è vuota col gambo (2), la semiminima è nera col gambo (1), la croma ha la bandierina (mezzo)."},
+		{"topic": "ritmo", "minLevel": 4,
+			"prompt": "Quale di questi simboli indica un silenzio?",
+			"staff": {"clef": "treble"},
+			"symbols": [
+				{"id": "nota-a", "label": "Primo simbolo", "kind": "note", "staffStep": 2, "duration": "quarter"},
+				{"id": "pausa", "label": "Secondo simbolo", "kind": "rest", "staffStep": 4, "duration": "quarter"},
+				{"id": "nota-b", "label": "Terzo simbolo", "kind": "note", "staffStep": 6, "duration": "quarter"}],
+			"answer": "pausa",
+			"explanation": "La pausa è un silenzio, e dura esattamente quanto la nota corrispondente: una pausa di semiminima vale un battito. In musica anche il silenzio si conta."},
+		{"topic": "lettura", "minLevel": 5,
+			"prompt": "Quale di queste alterazioni ALZA la nota di un semitono?",
+			"staff": {"clef": "treble"},
+			"symbols": [
+				{"id": "bemolle", "label": "Primo simbolo", "kind": "accidental", "staffStep": 2, "accidental": "flat"},
+				{"id": "diesis", "label": "Secondo simbolo", "kind": "accidental", "staffStep": 4, "accidental": "sharp"},
+				{"id": "bequadro", "label": "Terzo simbolo", "kind": "accidental", "staffStep": 6, "accidental": "natural"}],
+			"answer": "diesis",
+			"explanation": "Il diesis alza di un semitono, il bemolle abbassa di un semitono, il bequadro annulla l'alterazione e riporta la nota al suo suono naturale."},
+		{"topic": "note", "minLevel": 6,
+			"prompt": "Quale di queste note suona più ACUTA?",
+			"staff": {"clef": "treble"},
+			"symbols": [
+				{"id": "bassa", "label": "Prima nota", "kind": "note", "staffStep": 1, "duration": "quarter"},
+				{"id": "media", "label": "Seconda nota", "kind": "note", "staffStep": 5, "duration": "quarter"},
+				{"id": "alta", "label": "Terza nota", "kind": "note", "staffStep": 8, "duration": "quarter"}],
+			"answer": "alta",
+			"explanation": "Sul pentagramma l'altezza è letterale: più in alto sta il pallino, più il suono è acuto. La più alta qui è sulla quinta riga, il FA."},
+		{"topic": "lettura", "minLevel": 8,
+			"prompt": "Quale nota esce dal pentagramma e ha bisogno di una linea addizionale?",
+			"staff": {"clef": "treble"},
+			"symbols": [
+				{"id": "dentro-a", "label": "Prima nota", "kind": "note", "staffStep": 2, "duration": "quarter"},
+				{"id": "dentro-b", "label": "Seconda nota", "kind": "note", "staffStep": 6, "duration": "quarter"},
+				{"id": "fuori", "label": "Terza nota", "kind": "note", "staffStep": 10, "duration": "quarter"}],
+			"answer": "fuori",
+			"explanation": "Il pentagramma ha cinque righe e basta. Per le note più acute o più gravi si disegnano linee addizionali corte, una per ogni riga che servirebbe in più."},
+		{"topic": "lettura", "minLevel": 10,
+			"prompt": "In chiave di basso, quale di queste note è il FA?",
+			"staff": {"clef": "bass"},
+			"symbols": [
+				{"id": "riga2", "label": "Nota sulla seconda riga", "kind": "note", "staffStep": 2, "duration": "quarter"},
+				{"id": "riga3", "label": "Nota sulla terza riga", "kind": "note", "staffStep": 4, "duration": "quarter"},
+				{"id": "riga4", "label": "Nota sulla quarta riga", "kind": "note", "staffStep": 6, "duration": "quarter"}],
+			"answer": "riga4",
+			"explanation": "La chiave di basso si chiama anche «chiave di Fa»: i suoi due punti stanno sopra e sotto la quarta riga, ed è proprio lì che si trova il FA. Attenzione: in chiave di basso le stesse righe hanno nomi diversi che in chiave di violino."},
+	],
+}
+
+## Carta muta. Il contenuto nomina soltanto `mapId` e bersagli semantici; la
+## proiezione e le coordinate stanno in `map_geometry_catalog.gd`. Le etichette
+## identificano il segnaposto senza descriverlo: «segnaposto sulla pianura del
+## nord» regalerebbe la risposta.
+const MAP_READING := {
+	"geografia": [
+		{"topic": "italia-fisica", "mapId": "italy",
+			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica il fiume Po?",
+			"targets": [
+				{"id": "po", "label": "Segnaposto A"},
+				{"id": "sicily", "label": "Segnaposto B"},
+				{"id": "sardinia", "label": "Segnaposto C"}],
+			"answer": "po",
+			"explanation": "Il Po attraversa da ovest a est la grande pianura del nord, quella che porta il suo nome: è l'unico dei tre segnaposto sulla terraferma."},
+		{"topic": "italia-fisica", "minLevel": 3, "mapId": "italy",
+			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica la Sicilia?",
+			"targets": [
+				{"id": "po", "label": "Segnaposto A"},
+				{"id": "sicily", "label": "Segnaposto B"},
+				{"id": "sardinia", "label": "Segnaposto C"}],
+			"answer": "sicily",
+			"explanation": "La Sicilia è la grande isola triangolare all'estremità sud della penisola, separata dalla Calabria dallo stretto di Messina."},
+		{"topic": "italia-fisica", "minLevel": 5, "mapId": "italy",
+			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica la Sardegna?",
+			"targets": [
+				{"id": "po", "label": "Segnaposto A"},
+				{"id": "sicily", "label": "Segnaposto B"},
+				{"id": "sardinia", "label": "Segnaposto C"}],
+			"answer": "sardinia",
+			"explanation": "La Sardegna è l'isola a ovest della penisola, in mezzo al Mar Tirreno: è la seconda isola del Mediterraneo dopo la Sicilia."},
+	],
+}
+
+## Reperti illustrati. `assetId` nomina un atlante condiviso — un foglio solo con
+## più reperti, mai un file per esercizio — e i bersagli sono semantici: le
+## coordinate stanno in `artifact_atlas_catalog.gd`.
+const HOTSPOT := {
+	"storia": [
+		{"topic": "roma", "assetId": "roman_artifacts",
+			"prompt": "Quale di questi reperti romani serviva a portare l'acqua fino in città?",
+			"targets": [
+				{"id": "aqueduct", "label": "Primo reperto da sinistra"},
+				{"id": "column", "label": "Secondo reperto"},
+				{"id": "amphora", "label": "Terzo reperto"},
+				{"id": "mosaic", "label": "Quarto reperto"}],
+			"answer": "aqueduct",
+			"explanation": "L'acquedotto porta l'acqua da lontano sfruttando una pendenza minima: gli archi servono a tenere il canale sempre alla quota giusta mentre il terreno sale e scende."},
+		{"topic": "roma", "minLevel": 3, "assetId": "roman_artifacts",
+			"prompt": "Quale di questi reperti serviva a conservare e trasportare vino e olio?",
+			"targets": [
+				{"id": "aqueduct", "label": "Primo reperto da sinistra"},
+				{"id": "column", "label": "Secondo reperto"},
+				{"id": "amphora", "label": "Terzo reperto"},
+				{"id": "mosaic", "label": "Quarto reperto"}],
+			"answer": "amphora",
+			"explanation": "L'anfora ha il fondo a punta non per sbaglio: si conficcava nella sabbia o negli appositi sostegni delle navi, e le due anse servivano a sollevarla in due."},
+		{"topic": "roma", "minLevel": 5, "assetId": "roman_artifacts",
+			"prompt": "Quale di questi reperti è un pavimento decorato con piccole tessere colorate?",
+			"targets": [
+				{"id": "aqueduct", "label": "Primo reperto da sinistra"},
+				{"id": "column", "label": "Secondo reperto"},
+				{"id": "amphora", "label": "Terzo reperto"},
+				{"id": "mosaic", "label": "Quarto reperto"}],
+			"answer": "mosaic",
+			"explanation": "Il mosaico è fatto di tessere piccolissime di pietra e vetro. È una fonte materiale preziosa: ci mostra come i Romani si vestivano, cosa mangiavano e a cosa giocavano."},
+		{"topic": "roma", "minLevel": 7, "assetId": "roman_artifacts",
+			"prompt": "Quale di questi reperti sorreggeva il tetto di un tempio?",
+			"targets": [
+				{"id": "aqueduct", "label": "Primo reperto da sinistra"},
+				{"id": "column", "label": "Secondo reperto"},
+				{"id": "amphora", "label": "Terzo reperto"},
+				{"id": "mosaic", "label": "Quarto reperto"}],
+			"answer": "column",
+			"explanation": "La colonna scarica a terra il peso del tetto. Il capitello in cima, qui decorato a foglie d'acanto, è corinzio: dallo stile del capitello si riconosce l'epoca dell'edificio."},
+	],
+}
+
+const FORMATS := [
+	"matching", "ordering", "classification", "graph", "circuit", "cycle",
+	"notation", "map", "hotspot", "code_debug",
+]
 
 static func table_for(fmt: String) -> Dictionary:
 	match fmt:
@@ -1875,6 +2839,10 @@ static func table_for(fmt: String) -> Dictionary:
 		"classification": return CLASSIFICATION
 		"graph": return GRAPH
 		"circuit": return CIRCUIT
+		"cycle": return CYCLE
+		"notation": return NOTATION
+		"map": return MAP_READING
+		"hotspot": return HOTSPOT
 		"code_debug": return CODE_DEBUG
 	return {}
 
@@ -1887,6 +2855,13 @@ static func eligible_specs(subject: String, fmt: String, level: int) -> Array:
 		if int((spec as Dictionary).get("minLevel", 0)) <= level:
 			out.append(spec)
 	return out
+
+## Un formato con una sola consegna idonea non entra ancora nella rotazione:
+## altrimenti ogni visita a quel livello riproporrebbe la stessa prova. I
+## contenuti restano progressivi; è il runtime a non esporre una corsia prima
+## che abbia almeno due alternative reali.
+static func format_available(subject: String, fmt: String, level: int) -> bool:
+	return eligible_specs(subject, fmt, level).size() >= 2
 
 ## GRADIENTE DI DIFFICOLTÀ dentro la sessione.
 ##
@@ -1995,12 +2970,17 @@ static func spec_depth(fmt: String, spec: Dictionary, level: int, step: int = 0)
 				var category := str(assignments[key])
 				sizes[category] = int(sizes.get(category, 0)) + 1
 			return ExercisePool.covering_combinations(sizes.values(), count)
-	# Grafico, circuito e caccia all'errore sono ancora dati fissi: una specifica,
+	# Grafico, circuito, notazione, carta, hotspot e caccia all'errore sono dati fissi: una specifica,
 	# una prova. Il rimescolamento delle righe cambia la presentazione, non la
 	# prova (vedi `ExerciseSignature`), quindi non conta come profondità.
 	return 1
 
 static func format_depth(subject: String, fmt: String, level: int) -> int:
+	# Solo i tre specialisti appena introdotti hanno il gate di attivazione a
+	# due specifiche. `ordering` può avere anche il generatore quantitativo fuori
+	# tabella: azzerarlo in base alla sola tabella perderebbe profondità reale.
+	if fmt in ["notation", "map", "hotspot"] and not format_available(subject, fmt, level):
+		return 0
 	var total := 0
 	# Si misura al passo CENTRALE del gradiente: il riscaldamento pesca una voce in
 	# meno e il finale una in più, quindi la varietà reale è la somma di tre
@@ -2083,6 +3063,14 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		specialists.append("graph")
 	if CIRCUIT.has(subject) and _has_eligible(CIRCUIT[subject], level):
 		specialists.append("circuit")
+	if CYCLE.has(subject) and _has_eligible(CYCLE[subject], level):
+		specialists.append("cycle")
+	if NOTATION.has(subject) and format_available(subject, "notation", level):
+		specialists.append("notation")
+	if MAP_READING.has(subject) and format_available(subject, "map", level):
+		specialists.append("map")
+	if HOTSPOT.has(subject) and format_available(subject, "hotspot", level):
+		specialists.append("hotspot")
 	if CODE_DEBUG.has(subject) and _has_eligible(CODE_DEBUG[subject], level):
 		specialists.append("code_debug")
 	if not specialists.is_empty():
@@ -2110,6 +3098,14 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 				nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator, level), difficulty, generator, idx))
 			"circuit":
 				nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator, level), difficulty, generator, idx))
+			"cycle":
+				nodes.append(_cycle_node(subject, _pick(CYCLE[subject], generator, level), difficulty, generator, idx))
+			"notation":
+				nodes.append(_notation_node(subject, _pick(NOTATION[subject], generator, level), difficulty, generator, idx))
+			"map":
+				nodes.append(_map_node(subject, _pick(MAP_READING[subject], generator, level), difficulty, generator, idx))
+			"hotspot":
+				nodes.append(_hotspot_node(subject, _pick(HOTSPOT[subject], generator, level), difficulty, generator, idx))
 			"code_debug":
 				nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator, level), difficulty, generator, idx))
 	return {
@@ -2223,6 +3219,75 @@ func _circuit_node(subject: String, spec: Dictionary, difficulty: int, _rng: Ran
 		"prompt": str(spec["prompt"]),
 		"components": (spec["components"] as Array).duplicate(true),
 		"connections": (spec["connections"] as Array).duplicate(true),
+		"answer": str(spec["answer"]),
+		"explanation": str(spec["explanation"]),
+	}
+
+func _cycle_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var stages: Array = (spec["stages"] as Array).duplicate(true)
+	var correct: Array = (spec["correctOrder"] as Array).duplicate()
+	_shuffle(stages, rng)
+	var presented := stages.map(func(stage): return str((stage as Dictionary).get("id", "")))
+	if presented == correct and stages.size() >= 2:
+		var first = stages[0]
+		stages[0] = stages[1]
+		stages[1] = first
+	return {
+		"id": "minigame-cycle-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "cycle",
+		"prompt": str(spec["prompt"]),
+		"stages": stages,
+		"correctOrder": correct,
+		"explanation": str(spec["explanation"]),
+	}
+
+func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var symbols: Array = (spec["symbols"] as Array).duplicate(true)
+	_shuffle(symbols, rng)
+	return {
+		"id": "minigame-notation-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "notation",
+		"prompt": str(spec["prompt"]),
+		"staff": (spec["staff"] as Dictionary).duplicate(true),
+		"symbols": symbols,
+		"answer": str(spec["answer"]),
+		"explanation": str(spec["explanation"]),
+	}
+
+func _map_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var targets: Array = (spec["targets"] as Array).duplicate(true)
+	_shuffle(targets, rng)
+	return {
+		"id": "minigame-map-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "map",
+		"prompt": str(spec["prompt"]),
+		"mapId": str(spec["mapId"]),
+		"targets": targets,
+		"answer": str(spec["answer"]),
+		"explanation": str(spec["explanation"]),
+	}
+
+func _hotspot_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var targets: Array = (spec["targets"] as Array).duplicate(true)
+	_shuffle(targets, rng)
+	return {
+		"id": "minigame-hotspot-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "hotspot",
+		"prompt": str(spec["prompt"]),
+		"assetId": str(spec["assetId"]),
+		"targets": targets,
 		"answer": str(spec["answer"]),
 		"explanation": str(spec["explanation"]),
 	}

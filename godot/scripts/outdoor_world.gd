@@ -15,8 +15,16 @@ const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
 const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
 const PET_FACE_WIDGET_SCRIPT := preload("res://scripts/ui/pet_face_widget.gd")
+const PET_SCREEN_SCRIPT := preload("res://scripts/ui/pet_screen.gd")
 const EQUIPMENT_GATE_SCRIPT := preload("res://scripts/visual/equipment_gate.gd")
 const WORLD_ENEMY_SCRIPT := preload("res://scripts/world_enemy.gd")
+const NPC_ACTOR_SCRIPT := preload("res://scripts/game/npc_actor.gd")
+const NPC_CATALOG := preload("res://scripts/game/npc_catalog.gd")
+const MISSION_OWNERSHIP_FLOW_SCRIPT := preload("res://scripts/game/mission_ownership_flow.gd")
+const BUILDING_CATALOG := preload("res://scripts/game/building_catalog.gd")
+const BUILDING_ACTOR_SCRIPT := preload("res://scripts/game/building_actor.gd")
+const WORLD_LIFE_SCRIPT := preload("res://scripts/game/world_life.gd")
+const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -43,6 +51,7 @@ var atmosphere_rect: ColorRect
 var atmosphere_material: ShaderMaterial
 var ui_layer: CanvasLayer
 var pet_face: PetFaceWidget
+var pet_screen: Control
 var pet_naming_panel: PanelContainer
 var _pet_cuddles_this_session := 0
 var feedback_label: Label
@@ -114,6 +123,12 @@ var water_block_feedback_msec := 0
 var pulse_ready_msec := 0
 var high_contrast := false
 var reduced_motion := false
+var dialogue_box: Control
+var npc_actors: Array[Area2D] = []
+var npc_dialogue_cursors: Dictionary = {}
+var mission_ownership_flow
+var world_buildings: Array[Node2D] = []
+var world_life
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -147,6 +162,9 @@ delete document.documentElement.dataset.eliExam;
 	progression_manager = gameplay.progression_manager
 	content_manager = gameplay.content_manager
 	_configure_world_profile()
+	mission_ownership_flow = MISSION_OWNERSHIP_FLOW_SCRIPT.new()
+	mission_ownership_flow.setup(
+		world_level, mission_events, Array(result.get("completedEncounterIds", [])))
 	world_layer = Node2D.new()
 	world_layer.name = "WorldLayer"
 	world_layer.y_sort_enabled = true
@@ -174,11 +192,15 @@ delete document.documentElement.dataset.eliExam;
 	_create_portal()
 	_create_profile_landmark()
 	_create_profile_events()
+	_create_world_buildings()
+	_create_world_npcs()
+	_create_world_life()
 	_create_world_enemies()
 	_sync_profile_environment_transform(false)
 	_create_profile_weather()
 	_create_atmosphere()
 	_create_hud()
+	_create_dialogue_box()
 	_create_exercise_player()
 	if is_instance_valid(knowledge_codex_panel):
 		var lesson := WORLD_LESSON_CATALOG.lesson(world_level)
@@ -449,6 +471,9 @@ func _on_runtime_state(state: Dictionary) -> void:
 	_update_ship_navigation()
 	_refresh_economy()
 	_apply_cosmetic_presentation()
+	_update_building_stages()
+	if world_life != null:
+		world_life.set_stage(_npc_story_stage())
 	if is_instance_valid(portal) and portal.has_method("set_gate_state"):
 		portal.call("set_gate_state", bool(runtime.get("ready", false)), str(runtime.get("apparatus", "nucleo")), bool(runtime.get("complete", false)))
 
@@ -472,6 +497,8 @@ func _on_gameplay_session_requested(session: Dictionary) -> void:
 	exercise_player.start_session(accessible_session)
 
 func _process(delta: float) -> void:
+	if is_instance_valid(pet_companion):
+		pet_companion.set_antics_blocked(_blocking_panel_visible())
 	day_clock = fmod(day_clock + delta, DAY_LENGTH)
 	var daylight := (sin(day_clock / DAY_LENGTH * TAU - PI / 2.0) + 1.0) * 0.5
 	var phase_id := "giorno" if daylight > 0.72 else "alba" if daylight > 0.42 else "notte"
@@ -516,6 +543,13 @@ func _process(delta: float) -> void:
 		_update_pending_touch_interaction()
 		_update_interaction_countdown()
 		_update_pulse_button()
+		if world_life != null:
+			var view_size := get_viewport_rect().size
+			if is_instance_valid(camera):
+				view_size = Vector2(view_size.x / camera.zoom.x, view_size.y / camera.zoom.y)
+			var visible_world := Rect2(player.global_position - view_size * 0.5, view_size)
+			world_life.update(phase_id, player.global_position, visible_world, delta)
+		_update_npc_streaming()
 
 func _enforce_water_traversal() -> void:
 	if not is_instance_valid(player) or chunks == null or chunks.composition == null:
@@ -784,12 +818,22 @@ func _apply_emblem(visual_node: Node2D, visual_data: Dictionary) -> void:
 
 func _spawn_pet(visual_data: Dictionary) -> void:
 	var pet_data = visual_data.get("pet", null)
+	# Il primo Custode non è un acquisto di bottega: dopo la consegna deve avere
+	# un corpo nel mondo anche quando lo slot cosmetico `pet` è vuoto.
+	if typeof(pet_data) != TYPE_DICTIONARY and PetState.is_granted(game_save):
+		pet_data = {"kind": "spark"}
 	if typeof(pet_data) != TYPE_DICTIONARY:
 		return
-	var color := OutdoorVisualFactory.hex_color(int(pet_data.get("color", 0xf6c85f)))
+	var palette := PetState.livery(game_save)
+	var color := OutdoorVisualFactory.hex_color(
+		int(palette[0]) if not palette.is_empty() else int(pet_data.get("color", 0xf6c85f)))
 	pet_companion = OutdoorPetCompanion.new()
 	world_layer.add_child(pet_companion)
-	pet_companion.setup(str(pet_data.get("kind", "spark")), color, player)
+	pet_companion.setup(
+		str(pet_data.get("kind", "spark")), color, player,
+		PetState.temperament(game_save), reduced_motion)
+	pet_companion.configure_antics(PetState.antics(game_save))
+	pet_companion.antic_started.connect(func(_antic_id: String): _pet_react("antic"))
 
 func _create_portal() -> void:
 	portal = PORTAL_VISUAL.new()
@@ -1184,6 +1228,7 @@ func _create_profile_events() -> void:
 			"topicHint": str(event.get("topicHint", "")),
 			"countsForGate": bool(event.get("countsForGate", false)),
 			"directorKind": director_kind,
+			"ownerNpc": NPC_CATALOG.owner_for(world_level, director_kind),
 		}
 		if director_kind == "practice" and world_level >= 2:
 			# Solo deviazioni opzionali: nessuno strumento può bloccare il gate.
@@ -1257,6 +1302,221 @@ func _event_label(event: Dictionary) -> String:
 		"practice":
 			return "evento di pratica · %s" % subject
 	return "tappa di missione · %s" % subject
+
+func _create_world_buildings() -> void:
+	var specs := BUILDING_CATALOG.for_world(world_level, world_profile)
+	var occupied: Array = []
+	for index in specs.size():
+		var spec: Dictionary = specs[index]
+		var actor: Node2D = BUILDING_ACTOR_SCRIPT.new()
+		actor.call("configure", spec, _npc_story_stage(), high_contrast, reduced_motion)
+		actor.position = _building_position(str(spec.get("role", "")), index, occupied)
+		occupied.append(actor.position)
+		world_layer.add_child(actor)
+		world_buildings.append(actor)
+
+func _building_position(role: String, index: int, occupied: Array) -> Vector2:
+	if role == "first_ruin":
+		return _hero_landmark_position()
+	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
+	var base := spawn + (Vector2(-650, 260) if role == "work_home" else Vector2(650, 260))
+	for attempt in 24:
+		var radius := 0.0 if attempt == 0 else 90.0 + 34.0 * floori(float(attempt) / 6.0)
+		var candidate := chunks.clamp_to_world(
+			base + Vector2.RIGHT.rotated(TAU * float(attempt) / 6.0) * radius)
+		if chunks.composition != null:
+			if chunks.composition.is_protected(candidate, 96.0):
+				continue
+			if chunks.composition.raw_water_weight(candidate) >= 0.24:
+				continue
+		var blocked := false
+		for event in mission_events:
+			if candidate.distance_to(event.get("position", Vector2.ZERO)) < 190.0:
+				blocked = true
+				break
+		for used in occupied:
+			if candidate.distance_to(used as Vector2) < 260.0:
+				blocked = true
+				break
+		if not blocked:
+			return candidate
+	return chunks.clamp_to_world(base + Vector2(0, 180.0 * float(index + 1)))
+
+func _update_building_stages() -> void:
+	var current_stage := _npc_story_stage()
+	for building in world_buildings:
+		if is_instance_valid(building):
+			building.call("set_stage", current_stage)
+
+func ritrovo_position() -> Vector2:
+	for building in world_buildings:
+		if is_instance_valid(building) and str(building.get_meta("building_role", "")) == "ritrovo":
+			return building.global_position
+	return world_profile.get("spawn", Vector2.ZERO)
+
+func _create_world_npcs() -> void:
+	var cast := NPC_CATALOG.for_world(world_level)
+	var ids: Array = Array(cast.get("residents", [])).duplicate()
+	ids.append_array(Array(cast.get("bislacchi", [])))
+	if ids.is_empty():
+		return
+	# Il budget globale vieta più di quattro presenze simultanee. La fixture del
+	# mondo 1 ne usa tre; i mondi futuri passeranno dallo stesso limite.
+	ids.resize(mini(ids.size(), 4))
+	var occupied: Array = []
+	for index in ids.size():
+		var npc_id := str(ids[index])
+		var data := NPC_CATALOG.resident(npc_id)
+		if data.is_empty():
+			data = NPC_CATALOG.bislacco(npc_id)
+		if data.is_empty():
+			continue
+		var actor: Area2D = NPC_ACTOR_SCRIPT.new()
+		actor.call("configure", npc_id, data, reduced_motion)
+		actor.call("set_high_contrast", high_contrast)
+		actor.position = _npc_spawn_position(index, occupied)
+		occupied.append(actor.position)
+		world_layer.add_child(actor)
+		actor.body_entered.connect(func(body): on_interactable_entered(actor, body))
+		actor.body_exited.connect(func(body): on_interactable_exited(actor, body))
+		npc_actors.append(actor)
+
+func _npc_spawn_position(index: int, occupied: Array) -> Vector2:
+	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
+	var anchors := [Vector2(-430, -250), Vector2(430, -220), Vector2(390, 170), Vector2(-420, 180)]
+	var base: Vector2 = spawn + anchors[index % anchors.size()]
+	for attempt in 16:
+		var angle := TAU * float(attempt) / 16.0
+		var radius := 0.0 if attempt == 0 else 72.0 + 26.0 * floori(float(attempt) / 4.0)
+		var candidate := chunks.clamp_to_world(base + Vector2.RIGHT.rotated(angle) * radius)
+		if chunks.composition != null:
+			if chunks.composition.is_protected(candidate, 72.0) or chunks.composition.raw_water_weight(candidate) >= 0.28:
+				continue
+		var blocked := candidate.distance_to(_hero_landmark_position()) < 150.0
+		for event in mission_events:
+			if candidate.distance_to(event.get("position", Vector2.ZERO)) < 150.0:
+				blocked = true
+				break
+		for used in occupied:
+			if candidate.distance_to(used as Vector2) < 150.0:
+				blocked = true
+				break
+		if not blocked:
+			return candidate
+	return chunks.clamp_to_world(base)
+
+func _create_world_life() -> void:
+	if npc_actors.is_empty():
+		return
+	var anchor_map: Dictionary = {}
+	var work_center := _building_role_position("work_home")
+	var social_center := ritrovo_position()
+	var work_offsets := [Vector2(-115, 72), Vector2(115, 72), Vector2(-175, 145), Vector2(175, 145)]
+	var social_offsets := [Vector2(-108, 92), Vector2(108, 92), Vector2(0, 164), Vector2(190, 40)]
+	for index in npc_actors.size():
+		var actor := npc_actors[index]
+		var npc_id := str(actor.get_meta("id", ""))
+		anchor_map[npc_id] = {
+			"home": actor.global_position,
+			"work": _safe_world_life_anchor(work_center + work_offsets[index % work_offsets.size()], index),
+			"ritrovo": _safe_world_life_anchor(social_center + social_offsets[index % social_offsets.size()], index + 7),
+		}
+	world_life = WORLD_LIFE_SCRIPT.new()
+	world_life.configure(world_level, npc_actors, anchor_map, _npc_story_stage(), reduced_motion)
+
+func _building_role_position(role: String) -> Vector2:
+	for building in world_buildings:
+		if is_instance_valid(building) and str(building.get_meta("building_role", "")) == role:
+			return building.global_position
+	return world_profile.get("spawn", Vector2.ZERO)
+
+func _safe_world_life_anchor(base: Vector2, salt: int) -> Vector2:
+	for attempt in 24:
+		var radius := 0.0 if attempt == 0 else 42.0 + 28.0 * floori(float(attempt) / 8.0)
+		var angle := TAU * float((attempt + salt * 3) % 8) / 8.0
+		var candidate := chunks.clamp_to_world(base + Vector2.RIGHT.rotated(angle) * radius)
+		if chunks.composition != null:
+			if chunks.composition.is_protected(candidate, 52.0):
+				continue
+			if chunks.composition.raw_water_weight(candidate) >= 0.24:
+				continue
+		var blocks_gate := false
+		for event in mission_events:
+			if candidate.distance_to(event.get("position", Vector2.ZERO)) < 112.0:
+				blocks_gate = true
+				break
+		if not blocks_gate:
+			return candidate
+	return chunks.clamp_to_world(base)
+
+func _update_npc_streaming() -> void:
+	if not is_instance_valid(player):
+		return
+	var stream_distance := float((chunks.active_radius + 1) * OutdoorChunkManager.CHUNK_SIZE)
+	for actor in npc_actors:
+		if is_instance_valid(actor):
+			actor.call("set_stream_active", player.global_position.distance_to(actor.global_position) <= stream_distance)
+
+func _create_dialogue_box() -> void:
+	dialogue_box = DIALOGUE_BOX_SCRIPT.new()
+	dialogue_box.name = "DialogueBox"
+	ui_layer.add_child(dialogue_box)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.connect("dialogue_closed", _on_dialogue_closed)
+
+func _open_npc_dialogue(npc_id: String) -> void:
+	var data := NPC_CATALOG.resident(npc_id)
+	var lines: Array = []
+	var mission_pool := ""
+	var pending_return: Dictionary = {}
+	if not data.is_empty():
+		if mission_ownership_flow != null:
+			pending_return = mission_ownership_flow.pending_return_for(npc_id)
+			if not pending_return.is_empty():
+				mission_pool = "reazione" if bool(pending_return.get("passed", false)) else "consolazione"
+				lines = NPC_CATALOG.mission_lines(npc_id, mission_pool)
+			else:
+				var assignment: Dictionary = mission_ownership_flow.accept_request(npc_id)
+				if not assignment.is_empty():
+					mission_pool = "richiesta"
+					lines = NPC_CATALOG.mission_lines(npc_id, mission_pool)
+		if lines.is_empty():
+			var stage := _npc_story_stage()
+			var pools := data.get("battute", {}) as Dictionary
+			lines = Array(pools.get("stadio%d" % stage, pools.get("riempimento", [])))
+	else:
+		data = NPC_CATALOG.bislacco(npc_id)
+		lines = Array(data.get("battute", []))
+	if data.is_empty() or lines.is_empty():
+		return
+	var cursor_key := "%s:%s" % [npc_id, mission_pool if mission_pool != "" else "ordinary"]
+	var cursor := int(npc_dialogue_cursors.get(cursor_key, 0))
+	var pages: Array = (lines[cursor % lines.size()] as Array).duplicate()
+	npc_dialogue_cursors[cursor_key] = cursor + 1
+	if not pending_return.is_empty():
+		mission_ownership_flow.consume_return(npc_id)
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", npc_id, str(data.get("nome", npc_id)), str(data.get("ruolo", "abitante")), pages)
+	_update_ship_navigation()
+	_refresh_interaction_button(null)
+
+func _npc_story_stage() -> int:
+	var completed := Array(result.get("completedEncounterIds", [])).size()
+	if completed >= 3:
+		return 2
+	if completed >= 1:
+		return 1
+	return 0
+
+func _on_dialogue_closed(_npc_id: String) -> void:
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	_update_ship_navigation()
+	_refresh_prompt()
 
 func _create_world_enemies() -> void:
 	if mission_events.is_empty() or chunks == null or chunks.composition == null:
@@ -2016,6 +2276,15 @@ func _apply_accessibility_settings() -> void:
 			enemy.set("reduced_motion", reduced_motion)
 	if is_instance_valid(exercise_player):
 		exercise_player.configure_accessibility(high_contrast, reduced_motion)
+	if is_instance_valid(dialogue_box):
+		dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	if is_instance_valid(pet_screen):
+		pet_screen.call("configure", game_save, high_contrast, reduced_motion)
+	if is_instance_valid(pet_companion):
+		pet_companion.set_reduced_motion(reduced_motion)
+	for actor in npc_actors:
+		if is_instance_valid(actor):
+			actor.call("set_reduced_motion", reduced_motion)
 	if is_instance_valid(ui_layer):
 		for panel in ui_layer.find_children("*", "PanelContainer", true, false):
 			(panel as PanelContainer).add_theme_stylebox_override("panel", _panel_style())
@@ -2102,7 +2371,14 @@ func _create_pet_face(root: Control) -> void:
 	pet_face.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	pet_face.position = Vector2(-104.0, -122.0)
 	pet_face.cuddled.connect(_on_pet_cuddled)
+	pet_face.screen_requested.connect(_open_pet_screen)
 	root.add_child(pet_face)
+	pet_screen = PET_SCREEN_SCRIPT.new()
+	pet_screen.name = "PetScreen"
+	pet_screen.connect("closed", _on_pet_screen_closed)
+	pet_screen.connect("customization_changed", _on_pet_customization_changed)
+	ui_layer.add_child(pet_screen)
+	pet_screen.call("configure", game_save, high_contrast, reduced_motion)
 	_refresh_pet_face()
 
 func _refresh_pet_face() -> void:
@@ -2139,6 +2415,40 @@ func _on_pet_cuddled() -> void:
 	_pet_react("cuddle")
 	_announce_pet_unlocks(unlocked)
 
+func _open_pet_screen() -> void:
+	if not is_instance_valid(pet_screen) or not is_instance_valid(game_save):
+		return
+	if not PetState.is_granted(game_save):
+		return
+	_cancel_pending_touch_interaction()
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	pet_screen.call("configure", game_save, high_contrast, reduced_motion)
+	pet_screen.call("open_screen")
+
+func _on_pet_screen_closed() -> void:
+	if is_instance_valid(player) and not _blocking_panel_visible():
+		player.set_physics_process(true)
+	_refresh_prompt()
+
+func _on_pet_customization_changed() -> void:
+	_refresh_pet_face()
+	_respawn_pet_companion()
+
+func _respawn_pet_companion() -> void:
+	if is_instance_valid(pet_companion):
+		world_layer.remove_child(pet_companion)
+		pet_companion.queue_free()
+		pet_companion = null
+	_spawn_pet(_resolved_avatar_visual())
+
+func _blocking_panel_visible() -> bool:
+	return (is_instance_valid(exercise_player) and exercise_player.visible) \
+		or (is_instance_valid(shop_panel) and shop_panel.visible) \
+		or (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible) \
+		or (is_instance_valid(dialogue_box) and dialogue_box.visible) \
+		or (is_instance_valid(pet_screen) and pet_screen.visible)
+
 ## Consegna il primo Custode: gratuito, e alla prima missione superata. Il volto
 ## sta sempre in schermo, quindi non si può aspettare il livello 4 e 1500 di
 ## energia guardando un buco. La cornice narrativa (Lucilla che lo affida) arriva
@@ -2150,6 +2460,7 @@ func _grant_pet_if_needed() -> void:
 		return
 	game_save.save()
 	_refresh_pet_face()
+	_respawn_pet_companion()
 	_pet_react("festa")
 	if PetState.needs_name(game_save):
 		_open_pet_naming()
@@ -2379,6 +2690,13 @@ func _input(event: InputEvent) -> void:
 	# un Control visibile/focalizzato puo consumare il tasto e impedire a
 	# `_unhandled_input` di riceverlo: era il motivo per cui E non avviava i POI.
 	# Durante un esercizio lasciamo invece tutto l'input alla sua UI.
+	if is_instance_valid(dialogue_box) and dialogue_box.visible:
+		return
+	if is_instance_valid(pet_screen) and pet_screen.visible:
+		if event.is_action_pressed("leave_portal") and not event.is_echo():
+			pet_screen.call("close_screen")
+			get_viewport().set_input_as_handled()
+		return
 	if is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible:
 		return
 	if is_instance_valid(exercise_player) and exercise_player.visible:
@@ -2399,6 +2717,10 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(dialogue_box) and dialogue_box.visible:
+		return
+	if is_instance_valid(pet_screen) and pet_screen.visible:
+		return
 	if event is InputEventScreenTouch and event.pressed:
 		_handle_world_tap(_to_world(event.position))
 	elif event is InputEventScreenDrag:
@@ -2555,11 +2877,16 @@ func _refresh_prompt() -> void:
 			_set_feedback("Interagisci · missione di %s: %s" % [
 				str(payload.get("subject", "matematica")).capitalize(),
 				str(payload.get("label", "incontro"))])
+	elif kind == "npc":
+		var npc_payload: Dictionary = target.get_meta("payload", {})
+		_set_feedback("Parla con %s · %s" % [
+			str(npc_payload.get("label", "abitante")),
+			str(npc_payload.get("role", "abitante"))])
 
 func _refresh_interaction_button(target: Area2D) -> void:
 	if not is_instance_valid(interaction_button):
 		return
-	var panel_open := (is_instance_valid(exercise_player) and exercise_player.visible) or (is_instance_valid(shop_panel) and shop_panel.visible) or (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible)
+	var panel_open: bool = (is_instance_valid(exercise_player) and exercise_player.visible) or (is_instance_valid(shop_panel) and shop_panel.visible) or (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible) or (is_instance_valid(dialogue_box) and dialogue_box.visible)
 	interaction_button.visible = not panel_open
 	if panel_open:
 		return
@@ -2601,6 +2928,11 @@ func _interaction_action_text(target: Area2D) -> String:
 		return "INTERAGISCI"
 	if not _equipment_requirement_met(target):
 		return "SERVE TORCIA" if _required_tool(target) == "tool-torch" else "SERVE FALCE"
+	var event_id := str(target.get_meta("id", ""))
+	if mission_ownership_flow != null and mission_ownership_flow.requires_request(event_id):
+		var owner_id: String = mission_ownership_flow.owner_of(event_id)
+		var owner_data := NPC_CATALOG.resident(owner_id)
+		return "PARLA CON %s" % str(owner_data.get("nome", owner_id)).to_upper()
 	match str(target.get_meta("kind", "")):
 		"portal":
 			return "ENTRA NELLA NAVE"
@@ -2614,6 +2946,8 @@ func _interaction_action_text(target: Area2D) -> String:
 			return "RACCOGLI"
 		"encounter":
 			return "AVVIA MISSIONE"
+		"npc":
+			return "PARLA"
 	return "INTERAGISCI"
 
 func _interaction_is_completed(target: Area2D) -> bool:
@@ -2650,6 +2984,9 @@ func _interact() -> void:
 	var kind := str(target.get_meta("kind"))
 	var id := str(target.get_meta("id"))
 	var completed: Array = result["completedEncounterIds"]
+	if kind == "npc":
+		_open_npc_dialogue(id)
+		return
 	if kind == "portal":
 		_set_feedback("Ingresso nave attivo: salvataggio in corso…")
 		_leave_world()
@@ -2666,6 +3003,8 @@ func _interact() -> void:
 		var enigma_payload: Dictionary = target.get_meta("payload")
 		if result["completedEncounterIds"].has(id):
 			_set_feedback("%s è già ricostruito." % str(enigma_payload.get("label", "L'enigma")).capitalize())
+			return
+		if _route_to_owner_if_needed(id):
 			return
 		gameplay.try_start_enigma(enigma_payload, id)
 		return
@@ -2704,6 +3043,8 @@ func _interact() -> void:
 		if result["completedEncounterIds"].has(id):
 			_set_feedback("Incontro già completato.")
 			return
+		if _route_to_owner_if_needed(id):
+			return
 		gameplay.try_start_mission(mission_payload, id)
 		return
 
@@ -2715,11 +3056,23 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(true)
 	var session_passed := bool(exercise_result.get("passed", false))
+	var context: Dictionary = {}
 	if is_instance_valid(gameplay):
-		var context := gameplay.active_session_context.duplicate(true)
+		context = gameplay.active_session_context.duplicate(true)
 		gameplay.resolve_session(exercise_result)
-		if session_passed and str(context.get("kind", "")) in ["mission", "enigma"]:
-			_complete_learning_reaction(str(context.get("encounterId", "")))
+		if str(context.get("kind", "")) in ["mission", "enigma"]:
+			var encounter_id := str(context.get("encounterId", ""))
+			if mission_ownership_flow != null:
+				mission_ownership_flow.record_result(encounter_id, session_passed)
+			if session_passed:
+				_complete_learning_reaction(encounter_id)
+				if world_life != null:
+					world_life.enqueue_news({
+						"type": str(context.get("kind", "mission")),
+						"world": world_level,
+						"subject": str(exercise_result.get("subject", _world_subject())),
+						"level": game_save.level(),
+					})
 	# Il legame cresce per aver GIOCATO, superata o no: conta aver provato. Se
 	# dipendesse dall'esito, sbagliare costerebbe anche l'affetto del compagno.
 	if is_instance_valid(game_save):
@@ -2730,6 +3083,7 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 		_grant_pet_if_needed()
 	_pet_react("session_passed" if session_passed else "session_failed")
 	_refresh_economy()
+	_update_ship_navigation()
 	_refresh_prompt()
 
 func _on_exercise_progress(correct: int, total: int) -> void:
@@ -2834,6 +3188,14 @@ func _guide_to_objective() -> void:
 	if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)):
 		_guide_to_ship()
 		return
+	var ownership_route := _ownership_navigation_target()
+	if not ownership_route.is_empty():
+		var route_node := ownership_route.get("node") as Area2D
+		if route_node != null:
+			player.set_touch_target(route_node.global_position)
+			_set_feedback(str(ownership_route.get("message", "Rotta della missione impostata.")))
+			_spawn_touch_ping(route_node.global_position)
+			return
 	var mission := _nearest_available_mission()
 	if mission == null:
 		_set_feedback("Nessuna missione disponibile nei settori vicini. Esplora il sentiero.")
@@ -2860,10 +3222,17 @@ func _update_ship_navigation() -> void:
 	var prefix := "ESAME PRONTO" if bool(runtime.get("ready", false)) else "INGRESSO NAVE"
 	var mission: Area2D = null
 	if not bool(runtime.get("ready", false)) and not bool(runtime.get("complete", false)):
-		mission = _nearest_available_mission()
-		if mission != null:
-			target_position = mission.global_position
-			prefix = "MISSIONE %s" % str(_mission_payload_for(mission).get("subject", _world_subject())).to_upper()
+		var ownership_route := _ownership_navigation_target()
+		if not ownership_route.is_empty():
+			var route_node := ownership_route.get("node") as Area2D
+			if route_node != null:
+				target_position = route_node.global_position
+				prefix = str(ownership_route.get("prefix", "MISSIONE"))
+		else:
+			mission = _nearest_available_mission()
+			if mission != null:
+				target_position = mission.global_position
+				prefix = "MISSIONE %s" % str(_mission_payload_for(mission).get("subject", _world_subject())).to_upper()
 	if bool(runtime.get("complete", false)):
 		prefix = "NAVE RIATTIVATA"
 	var delta := target_position - player.global_position
@@ -2875,7 +3244,62 @@ func _update_ship_navigation() -> void:
 		Color("f6c85f") if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)) else PLAYER_ACCENT
 	)
 	if is_instance_valid(guide_button):
-		guide_button.text = "RAGGIUNGI LA NAVE" if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)) else "TROVA UNA MISSIONE"
+		guide_button.text = "RAGGIUNGI LA NAVE" if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)) else "SEGUI LA MISSIONE"
+
+func _ownership_navigation_target() -> Dictionary:
+	if mission_ownership_flow == null:
+		return {}
+	var route: Dictionary = mission_ownership_flow.navigation()
+	if route.is_empty():
+		return {}
+	var phase := str(route.get("phase", "mission"))
+	if str(route.get("kind", "")) == "npc":
+		var npc_id := str(route.get("id", ""))
+		var actor := _npc_actor_by_id(npc_id)
+		if actor == null:
+			return {}
+		var data := NPC_CATALOG.resident(npc_id)
+		var npc_name := str(data.get("nome", npc_id))
+		return {
+			"node": actor,
+			"prefix": "RITORNA DA %s" % npc_name.to_upper() if phase == "return" else "PARLA CON %s" % npc_name.to_upper(),
+			"message": "Ritorna da %s." % npc_name if phase == "return" else "Prima parla con %s: questa missione è sua." % npc_name,
+		}
+	var event_area := _event_area_by_id(str(route.get("id", "")))
+	if event_area == null:
+		return {}
+	var payload := _mission_payload_for(event_area)
+	return {
+		"node": event_area,
+		"prefix": "MISSIONE %s" % str(payload.get("subject", _world_subject())).to_upper(),
+		"message": "Richiesta ricevuta: raggiungi %s." % str(payload.get("label", "la missione")),
+	}
+
+func _npc_actor_by_id(npc_id: String) -> Area2D:
+	for actor in npc_actors:
+		if is_instance_valid(actor) and str(actor.get_meta("id", "")) == npc_id:
+			return actor
+	return null
+
+func _event_area_by_id(event_id: String) -> Area2D:
+	for node in get_tree().get_nodes_in_group("world_interactable"):
+		if node is Area2D and str(node.get_meta("id", "")) == event_id:
+			return node as Area2D
+	return null
+
+func _route_to_owner_if_needed(event_id: String) -> bool:
+	if mission_ownership_flow == null or not mission_ownership_flow.requires_request(event_id):
+		return false
+	var owner_id: String = mission_ownership_flow.owner_of(event_id)
+	var actor := _npc_actor_by_id(owner_id)
+	var data := NPC_CATALOG.resident(owner_id)
+	var npc_name := str(data.get("nome", owner_id))
+	if actor != null and is_instance_valid(player):
+		player.set_touch_target(actor.global_position)
+		_spawn_touch_ping(actor.global_position)
+	_set_feedback("Prima parla con %s: questa missione è sua." % npc_name)
+	_update_ship_navigation()
+	return true
 
 func _nearest_available_mission() -> Area2D:
 	if not is_instance_valid(player):

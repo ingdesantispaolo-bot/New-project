@@ -55,7 +55,7 @@ const SUBJECT_FORMATS := {
 	"latino": ["matching", "multiple_choice", "ordering", "classification", "circuit", "code_debug"],
 	"elettronica": ["circuit", "matching", "multiple_choice", "ordering", "classification", "graph", "code_debug"],
 	"geografia": ["matching", "multiple_choice", "ordering", "classification", "graph", "circuit", "code_debug"],
-	"scienze": ["matching", "multiple_choice", "ordering", "classification", "graph", "circuit", "code_debug"],
+	"scienze": ["matching", "multiple_choice", "ordering", "classification", "graph", "circuit", "cycle", "code_debug"],
 	"storia": ["multiple_choice", "matching", "ordering", "classification", "graph", "circuit", "code_debug"],
 	"logica": ["ordering", "multiple_choice", "matching", "classification", "graph", "circuit", "code_debug"],
 }

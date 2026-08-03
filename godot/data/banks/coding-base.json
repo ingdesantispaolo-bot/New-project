@@ -1,871 +1,871 @@
 {
-  "schemaVersion": 1,
-  "subject": "coding",
-  "generator": "python-principles-v2",
-  "items": [
-    {
-      "id": "coding-variabili-come-etichette",
-      "subject": "coding",
-      "topic": "variabili",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "punti = 3\npunti = punti + 4\nprint(punti)\n\nChe numero stampa questo programma Python?",
-      "options": [
-        "7",
-        "4",
-        "34",
-        "3"
-      ],
-      "answer": "7",
-      "explanation": "In Python una variabile è un'etichetta attaccata a un valore: 'punti = punti + 4' prende il 3 di prima, aggiunge 4 e riattacca l'etichetta al 7. In Python la variabile non 'contiene' il valore: gli punta. Come un'etichetta su una scatola."
-    },
-    {
-      "id": "coding-stringhe-concatenazione",
-      "subject": "coding",
-      "topic": "stringhe",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "nome = \"Eli\"\nsaluto = \"Ciao \" + nome\nprint(saluto)\n\nCosa stampa il programma?",
-      "options": [
-        "Ciao \" + nome",
-        "Ciao Eli",
-        "Ciao + Eli",
-        "Ciao nome"
-      ],
-      "answer": "Ciao Eli",
-      "explanation": "Il segno + tra due stringhe le unisce (concatenazione). 'Ciao ' ha uno spazio finale, quindi il risultato è 'Ciao Eli'."
-    },
-    {
-      "id": "coding-stringhe-len-",
-      "subject": "coding",
-      "topic": "stringhe",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "parola = \"robot\"\nn = len(parola)\nprint(n)\n\nQuale valore stampa len(parola)?",
-      "options": [
-        "4",
-        "robot",
-        "5",
-        "6"
-      ],
-      "answer": "5",
-      "explanation": "len() conta i caratteri di una stringa. 'robot' ha 5 lettere, quindi len vale 5. len funziona anche con le liste!"
-    },
-    {
-      "id": "coding-tipi-di-dato",
-      "subject": "coding",
-      "topic": "tipi",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "x = 7\ny = \"7\"\nprint(type(y).__name__)\n\nChe tipo è y, che vale \"7\" tra virgolette?",
-      "options": [
-        "int",
-        "float",
-        "bool",
-        "str"
-      ],
-      "answer": "str",
-      "explanation": "Le virgolette rendono 7 una stringa (str), non un numero (int). Per Python \"7\" è testo: non puoi sommarlo a 7 senza convertirlo. \"7\" + \"7\" in Python fa \"77\", non 14! Le stringhe si incollano, non si sommano."
-    },
-    {
-      "id": "coding-liste-indice",
-      "subject": "coding",
-      "topic": "liste",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "numeri = [10, 20, 30]\nprint(numeri[0])\n\nCosa stampa numeri[0]?",
-      "options": [
-        "10",
-        "20",
-        "30",
-        "1"
-      ],
-      "answer": "10",
-      "explanation": "Le liste in Python si contano da 0: l'indice 0 è il primo elemento. Quindi numeri[0] è 10 e numeri[2] sarebbe 30. Quasi tutti i linguaggi contano da 0, non da 1. È una scelta storica che confonde tutti all'inizio!"
-    },
-    {
-      "id": "coding-liste-append-",
-      "subject": "coding",
-      "topic": "liste",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "squadra = [1, 2]\nsquadra.append(3)\nprint(len(squadra))\n\nQuanti elementi ha la lista dopo append(3)?",
-      "options": [
-        "2",
-        "3",
-        "6",
-        "1"
-      ],
-      "answer": "3",
-      "explanation": "append() aggiunge un elemento in fondo alla lista. Da 2 elementi si passa a 3, quindi len(squadra) vale 3."
-    },
-    {
-      "id": "coding-ciclo-for-con-range-",
-      "subject": "coding",
-      "topic": "cicli",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "for i in range(3):\n    print(i)\n\nQuali numeri stampa, in ordine?",
-      "options": [
-        "1 2 3",
-        "0 1 2 3",
-        "0 1 2",
-        "3"
-      ],
-      "answer": "0 1 2",
-      "explanation": "range(3) produce 0, 1, 2: parte da 0 e si ferma PRIMA del 3. Il for ripete il blocco indentato una volta per ciascun valore."
-    },
-    {
-      "id": "coding-condizione-if-else",
-      "subject": "coding",
-      "topic": "condizioni",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "energia = 8\nif energia >= 10:\n    print(\"OK\")\nelse:\n    print(\"BASSA\")\n\nCosa stampa se energia vale 8?",
-      "options": [
-        "OK BASSA",
-        "OK",
-        "8",
-        "BASSA"
-      ],
-      "answer": "BASSA",
-      "explanation": "8 >= 10 è falso, quindi Python salta il ramo if ed esegue il ramo else, stampando BASSA. Solo un ramo viene eseguito."
-    },
-    {
-      "id": "coding-operatori-booleani",
-      "subject": "coding",
-      "topic": "booleani",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "a = True\nb = False\nprint(a and b)\n\nCosa stampa a and b, con a=True e b=False?",
-      "options": [
-        "False",
-        "0",
-        "True",
-        "None"
-      ],
-      "answer": "False",
-      "explanation": "and è vero solo se ENTRAMBI sono veri. Qui b è False, quindi a and b è False. Con or basterebbe uno vero."
-    },
-    {
-      "id": "coding-modulo-pari-o-dispari",
-      "subject": "coding",
-      "topic": "operatori",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "numero = 7\nresto = numero % 2\nprint(resto)\n\nQuanto vale 7 % 2 (il resto della divisione)?",
-      "options": [
-        "3",
-        "1",
-        "0",
-        "3.5"
-      ],
-      "answer": "1",
-      "explanation": "L'operatore % dà il RESTO della divisione: 7 diviso 2 fa 3 con resto 1. Se il resto è 0 il numero è pari, altrimenti dispari."
-    },
-    {
-      "id": "coding-divisione-intera",
-      "subject": "coding",
-      "topic": "operatori",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "print(7 // 2)\n\nCosa stampa 7 // 2 in Python?",
-      "options": [
-        "3.5",
-        "1",
-        "3",
-        "4"
-      ],
-      "answer": "3",
-      "explanation": "// è la divisione INTERA: butta via la parte decimale e tiene solo il quoziente. 7 / 2 farebbe 3.5, ma 7 // 2 fa 3."
-    },
-    {
-      "id": "coding-potenza",
-      "subject": "coding",
-      "topic": "operatori",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "print(2 ** 5)\n\nCosa stampa 2 ** 5 in Python?",
-      "options": [
-        "25",
-        "10",
-        "7",
-        "32"
-      ],
-      "answer": "32",
-      "explanation": "** è l'elevamento a potenza: 2 ** 5 vuol dire 2 moltiplicato per sé stesso 5 volte = 32. Non è la moltiplicazione 2×5."
-    },
-    {
-      "id": "coding-funzioni-def-e-return",
-      "subject": "coding",
-      "topic": "funzioni",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "def doppio(n):\n    return n * 2\nprint(doppio(6))\n\nCosa stampa print(doppio(6))?",
-      "options": [
-        "12",
-        "26",
-        "6",
-        "62"
-      ],
-      "answer": "12",
-      "explanation": "def crea una funzione: doppio(6) esegue return 6*2 e restituisce 12, che print mostra. Le funzioni evitano di ripetere il codice."
-    },
-    {
-      "id": "coding-indentazione-struttura",
-      "subject": "coding",
-      "topic": "stile",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "if True:\nprint(\"ciao\")\n\nPerché questo codice Python dà errore?",
-      "options": [
-        "print è scritto in modo sbagliato",
-        "manca l'indentazione dopo i due punti",
-        "True va scritto tutto minuscolo",
-        "manca un punto e virgola finale"
-      ],
-      "answer": "manca l'indentazione dopo i due punti",
-      "explanation": "In Python gli spazi contano: dopo i due punti la riga dentro l'if DEVE essere indentata (spostata a destra). Senza rientro dà IndentationError. Grazie all'indentazione obbligatoria, il codice Python di persone diverse si assomiglia: più facile da leggere!"
-    },
-    {
-      "id": "coding-commenti",
-      "subject": "coding",
-      "topic": "stile",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "# questo è un commento\npunti = 5\nprint(punti)  # stampa 5\n\nCosa fa Python con le righe che iniziano con #?",
-      "options": [
-        "le esegue due volte di seguito",
-        "dà errore e ferma il programma",
-        "le ignora: sono commenti per gli umani",
-        "le stampa a schermo come testo"
-      ],
-      "answer": "le ignora: sono commenti per gli umani",
-      "explanation": "Tutto ciò che segue # è un commento: Python lo ignora completamente. Serve a spiegare il codice a chi lo legge, non alla macchina."
-    },
-    {
-      "id": "coding-Zen-of-Python-leggibilit-",
-      "subject": "coding",
-      "topic": "stile",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "# Due modi di controllare se la lista è vuota\nnumeri = []\n# quale riga è più 'pythonica'?\n\nQual è il modo più leggibile e pythonico?",
-      "options": [
-        "if numeri.size() == 0:",
-        "if numeri == []:",
-        "if len(numeri) == 0:",
-        "if not numeri:"
-      ],
-      "answer": "if not numeri:",
-      "explanation": "Una lista vuota in Python è già 'falsa', quindi 'if not numeri:' basta e si legge quasi come italiano. Lo Zen of Python dice: 'la leggibilità conta'. Lo Zen of Python è un vero elenco di 19 regole di stile, nascosto dentro Python stesso!"
-    },
-    {
-      "id": "coding-input-e-tipi",
-      "subject": "coding",
-      "topic": "input",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "eta = input(\"Quanti anni hai? \")\nprint(type(eta).__name__)\n\nDi che tipo è ciò che restituisce input()?",
-      "options": [
-        "str",
-        "float",
-        "bool",
-        "int"
-      ],
-      "answer": "str",
-      "explanation": "input() restituisce SEMPRE una stringa (str), anche se digiti un numero. Per farci i conti devi convertirla con int(eta)."
-    },
-    {
-      "id": "coding-liste-ciclo-e-somma",
-      "subject": "coding",
-      "topic": "liste",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "numeri = [2, 4, 6]\ntotale = 0\nfor n in numeri:\n    totale = totale + n\nprint(totale)\n\nCosa stampa questo accumulatore?",
-      "options": [
-        "6",
-        "12",
-        "246",
-        "3"
-      ],
-      "answer": "12",
-      "explanation": "Il for scorre la lista e somma ogni elemento in 'totale': 0+2+4+6 = 12. È il classico schema dell'accumulatore."
-    },
-    {
-      "id": "coding-confronto-vs-",
-      "subject": "coding",
-      "topic": "condizioni",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "x = 5\nprint(x == 5)\n\nCosa stampa print(x == 5) quando x vale 5?",
-      "options": [
-        "5",
-        "False",
-        "True",
-        "5 == 5"
-      ],
-      "answer": "True",
-      "explanation": "Un solo = ASSEGNA un valore; due == CONFRONTANO. Qui x vale 5, quindi x == 5 è vero e stampa True. Confondere = e == è un errore classico."
-    },
-    {
-      "id": "coding-range-come-conteggio",
-      "subject": "coding",
-      "topic": "cicli",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "conta = 0\nfor i in range(5):\n    conta = conta + 1\nprint(conta)\n\nQuante volte gira il ciclo, cioè quanto vale conta?",
-      "options": [
-        "0",
-        "4",
-        "6",
-        "5"
-      ],
-      "answer": "5",
-      "explanation": "range(5) produce 0,1,2,3,4: cinque valori, quindi il blocco gira 5 volte e conta arriva a 5. range(n) ripete esattamente n volte."
-    },
-    {
-      "id": "coding-output-0",
-      "subject": "coding",
-      "topic": "output",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "In Python, quale istruzione mostra un messaggio a schermo?",
-      "options": [
-        "print()",
-        "show()",
-        "display()",
-        "echo()"
-      ],
-      "answer": "print()",
-      "explanation": "print() stampa a schermo ciò che gli passi."
-    },
-    {
-      "id": "coding-output-1",
-      "subject": "coding",
-      "topic": "output",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Cosa stampa: print(3 + 4)?",
-      "options": [
-        "'7'",
-        "7",
-        "34",
-        "3 + 4"
-      ],
-      "answer": "7",
-      "explanation": "Con i numeri, + è la somma: 3 + 4 = 7."
-    },
-    {
-      "id": "coding-output-2",
-      "subject": "coding",
-      "topic": "output",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Cosa stampa: print('3' + '4')?",
-      "options": [
-        "7",
-        "errore",
-        "34",
-        "'34'"
-      ],
-      "answer": "34",
-      "explanation": "Con le stringhe, + le unisce (concatenazione): '3'+'4' = '34'."
-    },
-    {
-      "id": "coding-variabili-3",
-      "subject": "coding",
-      "topic": "variabili",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "In x = 5, che cos'è x?",
-      "options": [
-        "Un errore di scrittura",
-        "Una funzione senza nome",
-        "Un testo fisso tra virgolette",
-        "Una variabile che vale 5"
-      ],
-      "answer": "Una variabile che vale 5",
-      "explanation": "Una variabile è un contenitore con un nome e un valore."
-    },
-    {
-      "id": "coding-variabili-4",
-      "subject": "coding",
-      "topic": "variabili",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Dopo x = 5 e poi x = x + 1, quanto vale x?",
-      "options": [
-        "6",
-        "errore",
-        "51",
-        "5"
-      ],
-      "answer": "6",
-      "explanation": "x + 1 = 5 + 1 = 6, e viene rimesso in x."
-    },
-    {
-      "id": "coding-tipi-5",
-      "subject": "coding",
-      "topic": "tipi",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Di che tipo è il valore 'ciao'?",
-      "options": [
-        "Booleano",
-        "Stringa (testo)",
-        "Numero intero",
-        "Lista"
-      ],
-      "answer": "Stringa (testo)",
-      "explanation": "Il testo tra virgolette è una stringa."
-    },
-    {
-      "id": "coding-tipi-6",
-      "subject": "coding",
-      "topic": "tipi",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Di che tipo è il valore 7?",
-      "options": [
-        "Stringa di testo",
-        "Booleano (vero/falso)",
-        "Numero intero (int)",
-        "Lista di valori"
-      ],
-      "answer": "Numero intero (int)",
-      "explanation": "7 senza virgolette è un numero intero."
-    },
-    {
-      "id": "coding-operatori-7",
-      "subject": "coding",
-      "topic": "operatori",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Cosa calcola 10 % 3 in Python (operatore modulo)?",
-      "options": [
-        "3",
-        "3.33",
-        "30",
-        "1 (il resto)"
-      ],
-      "answer": "1 (il resto)",
-      "explanation": "% dà il resto della divisione: 10 = 3×3 + 1."
-    },
-    {
-      "id": "coding-operatori-8",
-      "subject": "coding",
-      "topic": "operatori",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Cosa calcola 2 ** 3 in Python?",
-      "options": [
-        "8",
-        "5",
-        "9",
-        "6"
-      ],
-      "answer": "8",
-      "explanation": "** è l'elevamento a potenza: 2 alla 3 = 8."
-    },
-    {
-      "id": "coding-condizioni-9",
-      "subject": "coding",
-      "topic": "condizioni",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale parola introduce una condizione in Python?",
-      "options": [
-        "for",
-        "if",
-        "def",
-        "while"
-      ],
-      "answer": "if",
-      "explanation": "if verifica una condizione ed esegue il blocco se è vera."
-    },
-    {
-      "id": "coding-condizioni-10",
-      "subject": "coding",
-      "topic": "condizioni",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Con x = 4, cosa stampa: if x > 3: print('grande')?",
-      "options": [
-        "errore",
-        "4",
-        "grande",
-        "niente"
-      ],
-      "answer": "grande",
-      "explanation": "4 > 3 è vero, quindi esegue print('grande')."
-    },
-    {
-      "id": "coding-condizioni-11",
-      "subject": "coding",
-      "topic": "condizioni",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale operatore verifica se due valori sono uguali?",
-      "options": [
-        "=",
-        "><",
-        "=>",
-        "=="
-      ],
-      "answer": "==",
-      "explanation": "= assegna un valore; == confronta due valori."
-    },
-    {
-      "id": "coding-cicli-12",
-      "subject": "coding",
-      "topic": "cicli",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale istruzione ripete del codice più volte?",
-      "options": [
-        "for (oppure while)",
-        "if (oppure else)",
-        "def (oppure return)",
-        "print (oppure input)"
-      ],
-      "answer": "for (oppure while)",
-      "explanation": "I cicli for e while ripetono un blocco di istruzioni."
-    },
-    {
-      "id": "coding-cicli-13",
-      "subject": "coding",
-      "topic": "cicli",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quante volte stampa: for i in range(3): print(i)?",
-      "options": [
-        "3 volte (1, 2, 3)",
-        "3 volte (0, 1, 2)",
-        "1 volta",
-        "4 volte"
-      ],
-      "answer": "3 volte (0, 1, 2)",
-      "explanation": "range(3) genera 0, 1, 2: tre ripetizioni."
-    },
-    {
-      "id": "coding-liste-14",
-      "subject": "coding",
-      "topic": "liste",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Come si scrive in Python una lista con tre numeri?",
-      "options": [
-        "{1;2;3}",
-        "(1 2 3)",
-        "[1, 2, 3]",
-        "<1,2,3>"
-      ],
-      "answer": "[1, 2, 3]",
-      "explanation": "Le liste si scrivono tra parentesi quadre, con virgole."
-    },
-    {
-      "id": "coding-liste-15",
-      "subject": "coding",
-      "topic": "liste",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Data lista = [10, 20, 30], cosa vale lista[0]?",
-      "options": [
-        "30",
-        "20",
-        "1",
-        "10"
-      ],
-      "answer": "10",
-      "explanation": "Gli indici partono da 0: lista[0] è il primo elemento."
-    },
-    {
-      "id": "coding-funzioni-16",
-      "subject": "coding",
-      "topic": "funzioni",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale parola chiave definisce una funzione in Python?",
-      "options": [
-        "def",
-        "let",
-        "function",
-        "func"
-      ],
-      "answer": "def",
-      "explanation": "def introduce la definizione di una funzione."
-    },
-    {
-      "id": "coding-funzioni-17",
-      "subject": "coding",
-      "topic": "funzioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "A cosa serve soprattutto una funzione?",
-      "options": [
-        "A spegnere il computer da solo",
-        "A riusare un blocco di codice dandogli un nome",
-        "A creare di proposito errori nel codice",
-        "A colorare il testo del programma"
-      ],
-      "answer": "A riusare un blocco di codice dandogli un nome",
-      "explanation": "Le funzioni evitano di ripetere lo stesso codice."
-    },
-    {
-      "id": "coding-booleani-18",
-      "subject": "coding",
-      "topic": "booleani",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quali sono i due valori booleani in Python?",
-      "options": [
-        "On e Off",
-        "1 e 2",
-        "True e False",
-        "Sì e No"
-      ],
-      "answer": "True e False",
-      "explanation": "Un booleano può essere solo True (vero) o False (falso)."
-    },
-    {
-      "id": "coding-booleani-19",
-      "subject": "coding",
-      "topic": "booleani",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Cosa vale l'espressione 5 > 3 in Python?",
-      "options": [
-        "errore",
-        "False",
-        "5",
-        "True"
-      ],
-      "answer": "True",
-      "explanation": "5 è maggiore di 3, quindi il confronto è True."
-    },
-    {
-      "id": "coding-algoritmi-20",
-      "subject": "coding",
-      "topic": "algoritmi",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Che cos'è un algoritmo?",
-      "options": [
-        "Una sequenza di passi per risolvere un problema",
-        "Un linguaggio di programmazione nuovo",
-        "Un errore che blocca il programma",
-        "Un tipo di computer molto potente"
-      ],
-      "answer": "Una sequenza di passi per risolvere un problema",
-      "explanation": "L'algoritmo descrive i passi, come una ricetta."
-    },
-    {
-      "id": "coding-algoritmi-21",
-      "subject": "coding",
-      "topic": "algoritmi",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Cosa significa 'bug' in programmazione?",
-      "options": [
-        "Un tipo di dato nuovo",
-        "Un errore nel programma",
-        "Un comando molto utile",
-        "Una funzione di sistema"
-      ],
-      "answer": "Un errore nel programma",
-      "explanation": "Un bug è un difetto che fa comportare male il programma."
-    },
-    {
-      "id": "coding-algoritmi-che-cosa-distingue-un-algoritmo-da-un-elenco-di-",
-      "subject": "coding",
-      "topic": "algoritmi",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Che cosa distingue un algoritmo da un elenco di istruzioni qualsiasi?",
-      "options": [
-        "Termina sempre dopo passi finiti",
-        "È scritto in un solo linguaggio",
-        "Usa sempre almeno un ciclo",
-        "Contiene almeno una funzione"
-      ],
-      "answer": "Termina sempre dopo passi finiti",
-      "explanation": "Un algoritmo deve essere finito: deve arrivare a una fine."
-    },
-    {
-      "id": "coding-cicli-quante-volte-esegue-il-corpo-il-ciclo-for-i-in-r",
-      "subject": "coding",
-      "topic": "cicli",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Quante volte esegue il corpo il ciclo «for i in range(2, 10, 3)»?",
-      "options": [
-        "Quattro volte",
-        "Tre volte",
-        "Otto volte",
-        "Dieci volte"
-      ],
-      "answer": "Tre volte",
-      "explanation": "I valori sono 2, 5 e 8: si ferma prima di 10, quindi tre giri."
-    },
-    {
-      "id": "coding-liste-che-cosa-restituisce-len-1-2-3-4",
-      "subject": "coding",
-      "topic": "liste",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Che cosa restituisce «len([1, [2, 3], 4])»?",
-      "options": [
-        "4",
-        "2",
-        "3",
-        "5"
-      ],
-      "answer": "3",
-      "explanation": "La lista ha tre elementi: un numero, una lista annidata e un numero."
-    },
-    {
-      "id": "coding-stringhe-che-cosa-stampa-print-abc-1",
-      "subject": "coding",
-      "topic": "stringhe",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Che cosa stampa «print('abc'[1])»?",
-      "options": [
-        "a",
-        "c",
-        "bc",
-        "b"
-      ],
-      "answer": "b",
-      "explanation": "Gli indici partono da zero, quindi la posizione 1 è la lettera b."
-    },
-    {
-      "id": "coding-funzioni-una-funzione-senza-return-esplicito-restituisce",
-      "subject": "coding",
-      "topic": "funzioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Una funzione senza «return» esplicito restituisce...",
-      "options": [
-        "None",
-        "Zero",
-        "Una stringa vuota",
-        "L'ultimo valore calcolato"
-      ],
-      "answer": "None",
-      "explanation": "In Python una funzione che non ritorna nulla restituisce None."
-    },
-    {
-      "id": "coding-booleani-che-valore-ha-not-true-and-false",
-      "subject": "coding",
-      "topic": "booleani",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Che valore ha «not (True and False)»?",
-      "options": [
-        "False",
-        "True",
-        "None",
-        "Zero"
-      ],
-      "answer": "True",
-      "explanation": "True and False dà False, e la negazione di False è True."
-    },
-    {
-      "id": "coding-operatori-che-cosa-restituisce-17-5",
-      "subject": "coding",
-      "topic": "operatori",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Che cosa restituisce «17 % 5»?",
-      "options": [
-        "3",
-        "12",
-        "2",
-        "85"
-      ],
-      "answer": "2",
-      "explanation": "L'operatore % dà il resto: 17 diviso 5 fa 3 con resto 2."
-    },
-    {
-      "id": "coding-operatori-che-cosa-restituisce-17-5-2",
-      "subject": "coding",
-      "topic": "operatori",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Che cosa restituisce «17 // 5»?",
-      "options": [
-        "2",
-        "3.4",
-        "85",
-        "3"
-      ],
-      "answer": "3",
-      "explanation": "La doppia barra dà il quoziente intero, scartando il resto."
-    },
-    {
-      "id": "coding-condizioni-in-un-if-elif-else-quanti-rami-vengono-eseguiti",
-      "subject": "coding",
-      "topic": "condizioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "In un «if / elif / else», quanti rami vengono eseguiti?",
-      "options": [
-        "Esattamente uno",
-        "Tutti quelli veri",
-        "Sempre almeno due",
-        "Nessuno se manca else"
-      ],
-      "answer": "Esattamente uno",
-      "explanation": "La catena si ferma al primo ramo vero: ne esegue uno solo."
-    },
-    {
-      "id": "coding-variabili-dopo-a-3-e-b-a-e-a-7-quanto-vale-b",
-      "subject": "coding",
-      "topic": "variabili",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Dopo «a = 3» e «b = a» e «a = 7», quanto vale b?",
-      "options": [
-        "7",
-        "3",
-        "10",
-        "None"
-      ],
-      "answer": "3",
-      "explanation": "b ha copiato il valore 3 prima che a cambiasse."
-    },
-    {
-      "id": "coding-tipi-che-tipo-restituisce-10-2-in-python-3",
-      "subject": "coding",
-      "topic": "tipi",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Che tipo restituisce «10 / 2» in Python 3?",
-      "options": [
-        "Un numero intero",
-        "Una stringa di testo",
-        "Un numero con la virgola",
-        "Un valore booleano"
-      ],
-      "answer": "Un numero con la virgola",
-      "explanation": "La divisione con una barra sola dà sempre un float: 5.0."
-    },
-    {
-      "id": "coding-stile-perche-conviene-dare-nomi-parlanti-alle-variabil",
-      "subject": "coding",
-      "topic": "stile",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Perché conviene dare nomi parlanti alle variabili?",
-      "options": [
-        "Rende il programma più veloce",
-        "Riduce la memoria occupata",
-        "Evita di dover usare i cicli",
-        "Rende il codice comprensibile"
-      ],
-      "answer": "Rende il codice comprensibile",
-      "explanation": "Il nome giusto spiega il codice senza bisogno di commenti."
-    }
-  ]
+	"schemaVersion": 1,
+	"subject": "coding",
+	"generator": "python-principles-v2",
+	"items": [
+		{
+			"id": "coding-variabili-come-etichette",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "punti = 3\npunti = punti + 4\nprint(punti)\n\nChe numero stampa questo programma Python?",
+			"options": [
+				"7",
+				"4",
+				"34",
+				"3"
+			],
+			"answer": "7",
+			"explanation": "In Python una variabile è un'etichetta attaccata a un valore: 'punti = punti + 4' prende il 3 di prima, aggiunge 4 e riattacca l'etichetta al 7. In Python la variabile non 'contiene' il valore: gli punta. Come un'etichetta su una scatola."
+		},
+		{
+			"id": "coding-stringhe-concatenazione",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "nome = \"Eli\"\nsaluto = \"Ciao \" + nome\nprint(saluto)\n\nCosa stampa il programma?",
+			"options": [
+				"Ciao \" + nome",
+				"Ciao Eli",
+				"Ciao + Eli",
+				"Ciao nome"
+			],
+			"answer": "Ciao Eli",
+			"explanation": "Il segno + tra due stringhe le unisce (concatenazione). 'Ciao ' ha uno spazio finale, quindi il risultato è 'Ciao Eli'."
+		},
+		{
+			"id": "coding-stringhe-len-",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "parola = \"robot\"\nn = len(parola)\nprint(n)\n\nQuale valore stampa len(parola)?",
+			"options": [
+				"4",
+				"robot",
+				"5",
+				"6"
+			],
+			"answer": "5",
+			"explanation": "len() conta i caratteri di una stringa. 'robot' ha 5 lettere, quindi len vale 5. len funziona anche con le liste!"
+		},
+		{
+			"id": "coding-tipi-di-dato",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "x = 7\ny = \"7\"\nprint(type(y).__name__)\n\nChe tipo è y, che vale \"7\" tra virgolette?",
+			"options": [
+				"int",
+				"float",
+				"bool",
+				"str"
+			],
+			"answer": "str",
+			"explanation": "Le virgolette rendono 7 una stringa (str), non un numero (int). Per Python \"7\" è testo: non puoi sommarlo a 7 senza convertirlo. \"7\" + \"7\" in Python fa \"77\", non 14! Le stringhe si incollano, non si sommano."
+		},
+		{
+			"id": "coding-liste-indice",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "numeri = [10, 20, 30]\nprint(numeri[0])\n\nCosa stampa numeri[0]?",
+			"options": [
+				"10",
+				"20",
+				"30",
+				"1"
+			],
+			"answer": "10",
+			"explanation": "Le liste in Python si contano da 0: l'indice 0 è il primo elemento. Quindi numeri[0] è 10 e numeri[2] sarebbe 30. Quasi tutti i linguaggi contano da 0, non da 1. È una scelta storica che confonde tutti all'inizio!"
+		},
+		{
+			"id": "coding-liste-append-",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "squadra = [1, 2]\nsquadra.append(3)\nprint(len(squadra))\n\nQuanti elementi ha la lista dopo append(3)?",
+			"options": [
+				"2",
+				"3",
+				"6",
+				"1"
+			],
+			"answer": "3",
+			"explanation": "append() aggiunge un elemento in fondo alla lista. Da 2 elementi si passa a 3, quindi len(squadra) vale 3."
+		},
+		{
+			"id": "coding-ciclo-for-con-range-",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "for i in range(3):\n    print(i)\n\nQuali numeri stampa, in ordine?",
+			"options": [
+				"1 2 3",
+				"0 1 2 3",
+				"0 1 2",
+				"3"
+			],
+			"answer": "0 1 2",
+			"explanation": "range(3) produce 0, 1, 2: parte da 0 e si ferma PRIMA del 3. Il for ripete il blocco indentato una volta per ciascun valore."
+		},
+		{
+			"id": "coding-condizione-if-else",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "energia = 8\nif energia >= 10:\n    print(\"OK\")\nelse:\n    print(\"BASSA\")\n\nCosa stampa se energia vale 8?",
+			"options": [
+				"OK BASSA",
+				"OK",
+				"8",
+				"BASSA"
+			],
+			"answer": "BASSA",
+			"explanation": "8 >= 10 è falso, quindi Python salta il ramo if ed esegue il ramo else, stampando BASSA. Solo un ramo viene eseguito."
+		},
+		{
+			"id": "coding-operatori-booleani",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "a = True\nb = False\nprint(a and b)\n\nCosa stampa a and b, con a=True e b=False?",
+			"options": [
+				"False",
+				"0",
+				"True",
+				"None"
+			],
+			"answer": "False",
+			"explanation": "and è vero solo se ENTRAMBI sono veri. Qui b è False, quindi a and b è False. Con or basterebbe uno vero."
+		},
+		{
+			"id": "coding-modulo-pari-o-dispari",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "numero = 7\nresto = numero % 2\nprint(resto)\n\nQuanto vale 7 % 2 (il resto della divisione)?",
+			"options": [
+				"3",
+				"1",
+				"0",
+				"3.5"
+			],
+			"answer": "1",
+			"explanation": "L'operatore % dà il RESTO della divisione: 7 diviso 2 fa 3 con resto 1. Se il resto è 0 il numero è pari, altrimenti dispari."
+		},
+		{
+			"id": "coding-divisione-intera",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "print(7 // 2)\n\nCosa stampa 7 // 2 in Python?",
+			"options": [
+				"3.5",
+				"1",
+				"3",
+				"4"
+			],
+			"answer": "3",
+			"explanation": "// è la divisione INTERA: butta via la parte decimale e tiene solo il quoziente. 7 / 2 farebbe 3.5, ma 7 // 2 fa 3."
+		},
+		{
+			"id": "coding-potenza",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "print(2 ** 5)\n\nCosa stampa 2 ** 5 in Python?",
+			"options": [
+				"25",
+				"10",
+				"7",
+				"32"
+			],
+			"answer": "32",
+			"explanation": "** è l'elevamento a potenza: 2 ** 5 vuol dire 2 moltiplicato per sé stesso 5 volte = 32. Non è la moltiplicazione 2×5."
+		},
+		{
+			"id": "coding-funzioni-def-e-return",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "def doppio(n):\n    return n * 2\nprint(doppio(6))\n\nCosa stampa print(doppio(6))?",
+			"options": [
+				"12",
+				"26",
+				"6",
+				"62"
+			],
+			"answer": "12",
+			"explanation": "def crea una funzione: doppio(6) esegue return 6*2 e restituisce 12, che print mostra. Le funzioni evitano di ripetere il codice."
+		},
+		{
+			"id": "coding-indentazione-struttura",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "if True:\nprint(\"ciao\")\n\nPerché questo codice Python dà errore?",
+			"options": [
+				"print è scritto in modo sbagliato",
+				"manca l'indentazione dopo i due punti",
+				"True va scritto tutto minuscolo",
+				"manca un punto e virgola finale"
+			],
+			"answer": "manca l'indentazione dopo i due punti",
+			"explanation": "In Python gli spazi contano: dopo i due punti la riga dentro l'if DEVE essere indentata (spostata a destra). Senza rientro dà IndentationError. Grazie all'indentazione obbligatoria, il codice Python di persone diverse si assomiglia: più facile da leggere!"
+		},
+		{
+			"id": "coding-commenti",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "# questo è un commento\npunti = 5\nprint(punti)  # stampa 5\n\nCosa fa Python con le righe che iniziano con #?",
+			"options": [
+				"le esegue due volte di seguito",
+				"dà errore e ferma il programma",
+				"le ignora: sono commenti per gli umani",
+				"le stampa a schermo come testo"
+			],
+			"answer": "le ignora: sono commenti per gli umani",
+			"explanation": "Tutto ciò che segue # è un commento: Python lo ignora completamente. Serve a spiegare il codice a chi lo legge, non alla macchina."
+		},
+		{
+			"id": "coding-Zen-of-Python-leggibilit-",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "# Due modi di controllare se la lista è vuota\nnumeri = []\n# quale riga è più 'pythonica'?\n\nQual è il modo più leggibile e pythonico?",
+			"options": [
+				"if numeri.size() == 0:",
+				"if numeri == []:",
+				"if len(numeri) == 0:",
+				"if not numeri:"
+			],
+			"answer": "if not numeri:",
+			"explanation": "Una lista vuota in Python è già 'falsa', quindi 'if not numeri:' basta e si legge quasi come italiano. Lo Zen of Python dice: 'la leggibilità conta'. Lo Zen of Python è un vero elenco di 19 regole di stile, nascosto dentro Python stesso!"
+		},
+		{
+			"id": "coding-input-e-tipi",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "eta = input(\"Quanti anni hai? \")\nprint(type(eta).__name__)\n\nDi che tipo è ciò che restituisce input()?",
+			"options": [
+				"str",
+				"float",
+				"bool",
+				"int"
+			],
+			"answer": "str",
+			"explanation": "input() restituisce SEMPRE una stringa (str), anche se digiti un numero. Per farci i conti devi convertirla con int(eta)."
+		},
+		{
+			"id": "coding-liste-ciclo-e-somma",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "numeri = [2, 4, 6]\ntotale = 0\nfor n in numeri:\n    totale = totale + n\nprint(totale)\n\nCosa stampa questo accumulatore?",
+			"options": [
+				"6",
+				"12",
+				"246",
+				"3"
+			],
+			"answer": "12",
+			"explanation": "Il for scorre la lista e somma ogni elemento in 'totale': 0+2+4+6 = 12. È il classico schema dell'accumulatore."
+		},
+		{
+			"id": "coding-confronto-vs-",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "x = 5\nprint(x == 5)\n\nCosa stampa print(x == 5) quando x vale 5?",
+			"options": [
+				"5",
+				"False",
+				"True",
+				"5 == 5"
+			],
+			"answer": "True",
+			"explanation": "Un solo = ASSEGNA un valore; due == CONFRONTANO. Qui x vale 5, quindi x == 5 è vero e stampa True. Confondere = e == è un errore classico."
+		},
+		{
+			"id": "coding-range-come-conteggio",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "conta = 0\nfor i in range(5):\n    conta = conta + 1\nprint(conta)\n\nQuante volte gira il ciclo, cioè quanto vale conta?",
+			"options": [
+				"0",
+				"4",
+				"6",
+				"5"
+			],
+			"answer": "5",
+			"explanation": "range(5) produce 0,1,2,3,4: cinque valori, quindi il blocco gira 5 volte e conta arriva a 5. range(n) ripete esattamente n volte."
+		},
+		{
+			"id": "coding-output-0",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In Python, quale istruzione mostra un messaggio a schermo?",
+			"options": [
+				"print()",
+				"show()",
+				"display()",
+				"echo()"
+			],
+			"answer": "print()",
+			"explanation": "print() stampa a schermo ciò che gli passi."
+		},
+		{
+			"id": "coding-output-1",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa stampa: print(3 + 4)?",
+			"options": [
+				"'7'",
+				"7",
+				"34",
+				"3 + 4"
+			],
+			"answer": "7",
+			"explanation": "Con i numeri, + è la somma: 3 + 4 = 7."
+		},
+		{
+			"id": "coding-output-2",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa stampa: print('3' + '4')?",
+			"options": [
+				"7",
+				"errore",
+				"34",
+				"'34'"
+			],
+			"answer": "34",
+			"explanation": "Con le stringhe, + le unisce (concatenazione): '3'+'4' = '34'."
+		},
+		{
+			"id": "coding-variabili-3",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In x = 5, che cos'è x?",
+			"options": [
+				"Un errore di scrittura",
+				"Una funzione senza nome",
+				"Un testo fisso tra virgolette",
+				"Una variabile che vale 5"
+			],
+			"answer": "Una variabile che vale 5",
+			"explanation": "Una variabile è un contenitore con un nome e un valore."
+		},
+		{
+			"id": "coding-variabili-4",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Dopo x = 5 e poi x = x + 1, quanto vale x?",
+			"options": [
+				"6",
+				"errore",
+				"51",
+				"5"
+			],
+			"answer": "6",
+			"explanation": "x + 1 = 5 + 1 = 6, e viene rimesso in x."
+		},
+		{
+			"id": "coding-tipi-5",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di che tipo è il valore 'ciao'?",
+			"options": [
+				"Booleano",
+				"Stringa (testo)",
+				"Numero intero",
+				"Lista"
+			],
+			"answer": "Stringa (testo)",
+			"explanation": "Il testo tra virgolette è una stringa."
+		},
+		{
+			"id": "coding-tipi-6",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di che tipo è il valore 7?",
+			"options": [
+				"Stringa di testo",
+				"Booleano (vero/falso)",
+				"Numero intero (int)",
+				"Lista di valori"
+			],
+			"answer": "Numero intero (int)",
+			"explanation": "7 senza virgolette è un numero intero."
+		},
+		{
+			"id": "coding-operatori-7",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa calcola 10 % 3 in Python (operatore modulo)?",
+			"options": [
+				"3",
+				"3.33",
+				"30",
+				"1 (il resto)"
+			],
+			"answer": "1 (il resto)",
+			"explanation": "% dà il resto della divisione: 10 = 3×3 + 1."
+		},
+		{
+			"id": "coding-operatori-8",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa calcola 2 ** 3 in Python?",
+			"options": [
+				"8",
+				"5",
+				"9",
+				"6"
+			],
+			"answer": "8",
+			"explanation": "** è l'elevamento a potenza: 2 alla 3 = 8."
+		},
+		{
+			"id": "coding-condizioni-9",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola introduce una condizione in Python?",
+			"options": [
+				"for",
+				"if",
+				"def",
+				"while"
+			],
+			"answer": "if",
+			"explanation": "if verifica una condizione ed esegue il blocco se è vera."
+		},
+		{
+			"id": "coding-condizioni-10",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Con x = 4, cosa stampa: if x > 3: print('grande')?",
+			"options": [
+				"errore",
+				"4",
+				"grande",
+				"niente"
+			],
+			"answer": "grande",
+			"explanation": "4 > 3 è vero, quindi esegue print('grande')."
+		},
+		{
+			"id": "coding-condizioni-11",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale operatore verifica se due valori sono uguali?",
+			"options": [
+				"=",
+				"><",
+				"=>",
+				"=="
+			],
+			"answer": "==",
+			"explanation": "= assegna un valore; == confronta due valori."
+		},
+		{
+			"id": "coding-cicli-12",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale istruzione ripete del codice più volte?",
+			"options": [
+				"for (oppure while)",
+				"if (oppure else)",
+				"def (oppure return)",
+				"print (oppure input)"
+			],
+			"answer": "for (oppure while)",
+			"explanation": "I cicli for e while ripetono un blocco di istruzioni."
+		},
+		{
+			"id": "coding-cicli-13",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quante volte stampa: for i in range(3): print(i)?",
+			"options": [
+				"3 volte (1, 2, 3)",
+				"3 volte (0, 1, 2)",
+				"1 volta",
+				"4 volte"
+			],
+			"answer": "3 volte (0, 1, 2)",
+			"explanation": "range(3) genera 0, 1, 2: tre ripetizioni."
+		},
+		{
+			"id": "coding-liste-14",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si scrive in Python una lista con tre numeri?",
+			"options": [
+				"{1;2;3}",
+				"(1 2 3)",
+				"[1, 2, 3]",
+				"<1,2,3>"
+			],
+			"answer": "[1, 2, 3]",
+			"explanation": "Le liste si scrivono tra parentesi quadre, con virgole."
+		},
+		{
+			"id": "coding-liste-15",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Data lista = [10, 20, 30], cosa vale lista[0]?",
+			"options": [
+				"30",
+				"20",
+				"1",
+				"10"
+			],
+			"answer": "10",
+			"explanation": "Gli indici partono da 0: lista[0] è il primo elemento."
+		},
+		{
+			"id": "coding-funzioni-16",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola chiave definisce una funzione in Python?",
+			"options": [
+				"def",
+				"let",
+				"function",
+				"func"
+			],
+			"answer": "def",
+			"explanation": "def introduce la definizione di una funzione."
+		},
+		{
+			"id": "coding-funzioni-17",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A cosa serve soprattutto una funzione?",
+			"options": [
+				"A spegnere il computer da solo",
+				"A riusare un blocco di codice dandogli un nome",
+				"A creare di proposito errori nel codice",
+				"A colorare il testo del programma"
+			],
+			"answer": "A riusare un blocco di codice dandogli un nome",
+			"explanation": "Le funzioni evitano di ripetere lo stesso codice."
+		},
+		{
+			"id": "coding-booleani-18",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quali sono i due valori booleani in Python?",
+			"options": [
+				"On e Off",
+				"1 e 2",
+				"True e False",
+				"Sì e No"
+			],
+			"answer": "True e False",
+			"explanation": "Un booleano può essere solo True (vero) o False (falso)."
+		},
+		{
+			"id": "coding-booleani-19",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa vale l'espressione 5 > 3 in Python?",
+			"options": [
+				"errore",
+				"False",
+				"5",
+				"True"
+			],
+			"answer": "True",
+			"explanation": "5 è maggiore di 3, quindi il confronto è True."
+		},
+		{
+			"id": "coding-algoritmi-20",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un algoritmo?",
+			"options": [
+				"Una sequenza di passi per risolvere un problema",
+				"Un linguaggio di programmazione nuovo",
+				"Un errore che blocca il programma",
+				"Un tipo di computer molto potente"
+			],
+			"answer": "Una sequenza di passi per risolvere un problema",
+			"explanation": "L'algoritmo descrive i passi, come una ricetta."
+		},
+		{
+			"id": "coding-algoritmi-21",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa significa 'bug' in programmazione?",
+			"options": [
+				"Un tipo di dato nuovo",
+				"Un errore nel programma",
+				"Un comando molto utile",
+				"Una funzione di sistema"
+			],
+			"answer": "Un errore nel programma",
+			"explanation": "Un bug è un difetto che fa comportare male il programma."
+		},
+		{
+			"id": "coding-algoritmi-che-cosa-distingue-un-algoritmo-da-un-elenco-di-",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa distingue un algoritmo da un elenco di istruzioni qualsiasi?",
+			"options": [
+				"Termina sempre dopo passi finiti",
+				"È scritto in un solo linguaggio",
+				"Usa sempre almeno un ciclo",
+				"Contiene almeno una funzione"
+			],
+			"answer": "Termina sempre dopo passi finiti",
+			"explanation": "Un algoritmo deve essere finito: deve arrivare a una fine."
+		},
+		{
+			"id": "coding-cicli-quante-volte-esegue-il-corpo-il-ciclo-for-i-in-r",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quante volte esegue il corpo il ciclo «for i in range(2, 10, 3)»?",
+			"options": [
+				"Quattro volte",
+				"Tre volte",
+				"Otto volte",
+				"Dieci volte"
+			],
+			"answer": "Tre volte",
+			"explanation": "I valori sono 2, 5 e 8: si ferma prima di 10, quindi tre giri."
+		},
+		{
+			"id": "coding-liste-che-cosa-restituisce-len-1-2-3-4",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa restituisce «len([1, [2, 3], 4])»?",
+			"options": [
+				"4",
+				"2",
+				"3",
+				"5"
+			],
+			"answer": "3",
+			"explanation": "La lista ha tre elementi: un numero, una lista annidata e un numero."
+		},
+		{
+			"id": "coding-stringhe-che-cosa-stampa-print-abc-1",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa «print('abc'[1])»?",
+			"options": [
+				"a",
+				"c",
+				"bc",
+				"b"
+			],
+			"answer": "b",
+			"explanation": "Gli indici partono da zero, quindi la posizione 1 è la lettera b."
+		},
+		{
+			"id": "coding-funzioni-una-funzione-senza-return-esplicito-restituisce",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Una funzione senza «return» esplicito restituisce...",
+			"options": [
+				"None",
+				"Zero",
+				"Una stringa vuota",
+				"L'ultimo valore calcolato"
+			],
+			"answer": "None",
+			"explanation": "In Python una funzione che non ritorna nulla restituisce None."
+		},
+		{
+			"id": "coding-booleani-che-valore-ha-not-true-and-false",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che valore ha «not (True and False)»?",
+			"options": [
+				"False",
+				"True",
+				"None",
+				"Zero"
+			],
+			"answer": "True",
+			"explanation": "True and False dà False, e la negazione di False è True."
+		},
+		{
+			"id": "coding-operatori-che-cosa-restituisce-17-5",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa restituisce «17 % 5»?",
+			"options": [
+				"3",
+				"12",
+				"2",
+				"85"
+			],
+			"answer": "2",
+			"explanation": "L'operatore % dà il resto: 17 diviso 5 fa 3 con resto 2."
+		},
+		{
+			"id": "coding-operatori-che-cosa-restituisce-17-5-2",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa restituisce «17 // 5»?",
+			"options": [
+				"2",
+				"3.4",
+				"85",
+				"3"
+			],
+			"answer": "3",
+			"explanation": "La doppia barra dà il quoziente intero, scartando il resto."
+		},
+		{
+			"id": "coding-condizioni-in-un-if-elif-else-quanti-rami-vengono-eseguiti",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In un «if / elif / else», quanti rami vengono eseguiti?",
+			"options": [
+				"Esattamente uno",
+				"Tutti quelli veri",
+				"Sempre almeno due",
+				"Nessuno se manca else"
+			],
+			"answer": "Esattamente uno",
+			"explanation": "La catena si ferma al primo ramo vero: ne esegue uno solo."
+		},
+		{
+			"id": "coding-variabili-dopo-a-3-e-b-a-e-a-7-quanto-vale-b",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Dopo «a = 3» e «b = a» e «a = 7», quanto vale b?",
+			"options": [
+				"7",
+				"3",
+				"10",
+				"None"
+			],
+			"answer": "3",
+			"explanation": "b ha copiato il valore 3 prima che a cambiasse."
+		},
+		{
+			"id": "coding-tipi-che-tipo-restituisce-10-2-in-python-3",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che tipo restituisce «10 / 2» in Python 3?",
+			"options": [
+				"Un numero intero",
+				"Una stringa di testo",
+				"Un numero con la virgola",
+				"Un valore booleano"
+			],
+			"answer": "Un numero con la virgola",
+			"explanation": "La divisione con una barra sola dà sempre un float: 5.0."
+		},
+		{
+			"id": "coding-stile-perche-conviene-dare-nomi-parlanti-alle-variabil",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché conviene dare nomi parlanti alle variabili?",
+			"options": [
+				"Rende il programma più veloce",
+				"Riduce la memoria occupata",
+				"Evita di dover usare i cicli",
+				"Rende il codice comprensibile"
+			],
+			"answer": "Rende il codice comprensibile",
+			"explanation": "Il nome giusto spiega il codice senza bisogno di commenti."
+		}
+	]
 }

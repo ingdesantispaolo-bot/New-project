@@ -141,6 +141,13 @@ Primo responso della misura: **1 coppia (materia, formato) su 67** raggiunge le
 dodici producono fra 6 e 124 prove distinte: la prima partita esaurisce già il
 materiale. Il dettaglio per materia è in [insieme.md](../insieme.md).
 
+> **Nota del 3 agosto 2026.** Questo documento descrive un piano *chiuso*, che
+> aveva un obiettivo solo — non ripetersi. L'obiettivo corrente è più alto
+> (massima qualità per ogni mondo, livello e materia) e il piano vivo è in
+> [insieme.md](../insieme.md), sezione «Massima qualità dei contenuti». Le misure
+> qui sotto restano vere ma sono campionate su **due livelli su ventiquattro**:
+> è il motivo per cui non vedevano che il contenuto smette di crescere al mondo 6.
+
 *Esito: nessun contenuto nuovo, come previsto. La varietà è comunque migliorata
 dove la memoria anti-ripetizione era rotta (fisica ×8 → ×4, scienze ×7 → ×5,
 inglese ×6 → ×2). Suite 79/79.*
@@ -191,8 +198,8 @@ l'insieme, ma affiancarne uno più facile ai primi mondi e gatare il grande con
 latino, geografia, logica. ~600 elementi.
 
 Esito: **geografia 7.791.351**, **latino 297.163**, **logica 133.892**. Dodici
-materie su dodici entro il bersaglio; la più povera (elettronica, 213.551) ha
-millecinquecento volte il fabbisogno di una partita.
+materie su dodici entro il bersaglio; la più povera (storia, 133.313) ha circa
+mille volte il fabbisogno di una partita.
 
 Ogni materia ha richiesto una strategia diversa — è la lezione più utile del
 piano intero:

@@ -18,9 +18,16 @@ static func solve(player, node: Dictionary, correctly: bool) -> void:
 			_solve_matching(player, node, correctly)
 		"classification":
 			_solve_classification(player, node, correctly)
-		"graph", "circuit", "hotspot":
+		"graph", "circuit", "hotspot", "notation", "map":
 			player._visual_select(_visual_pick(node, correctly))
 			player._visual_submit(node)
+		"cycle":
+			var sequence: Array = Array(node.get("correctOrder", [])).duplicate()
+			if not correctly:
+				sequence.reverse()
+			for id in sequence:
+				player._cycle_select(str(id))
+			player._cycle_submit(node)
 		"code_debug":
 			var line := int(node.get("answerLine", 1))
 			if not correctly:
@@ -91,7 +98,7 @@ static func _visual_pick(node: Dictionary, correctly: bool) -> String:
 	if correctly:
 		return answer
 	var fmt := str(node.get("format", ""))
-	var points: Array = node.get("hotspots", []) if fmt == "hotspot" else node.get("points", []) if fmt == "graph" else node.get("components", [])
+	var points: Array = node.get("targets", []) if fmt == "hotspot" and str(node.get("assetId", "")) != "" else node.get("hotspots", []) if fmt == "hotspot" else node.get("points", []) if fmt == "graph" else node.get("components", []) if fmt == "circuit" else node.get("symbols", []) if fmt == "notation" else node.get("targets", [])
 	for p in points:
 		var id := str((p as Dictionary).get("id", ""))
 		if id != answer:

@@ -65,17 +65,50 @@ static func of(node: Dictionary) -> String:
 			sorted_lines.sort()
 			parts.append(";".join(PackedStringArray(sorted_lines)))
 			parts.append("→%s" % solution)
-		"graph", "circuit", "hotspot":
+		"cycle":
+			var stages: Array = []
+			for entry in Array(node.get("stages", [])):
+				var stage := entry as Dictionary
+				stages.append("%s:%s" % [str(stage.get("id", "")), str(stage.get("glyph", ""))])
+			stages.sort()
+			parts.append(";".join(PackedStringArray(stages)))
+			parts.append("→%s" % ";".join(PackedStringArray(_strings(node.get("correctOrder", [])))))
+		"graph", "circuit", "hotspot", "notation", "map":
 			var field := "points"
 			if fmt == "circuit":
 				field = "components"
 			elif fmt == "hotspot":
-				field = "hotspots"
+				field = "targets" if str(node.get("assetId", "")) != "" else "hotspots"
+			elif fmt == "notation":
+				field = "symbols"
+			elif fmt == "map":
+				field = "targets"
 			var ids: Array = []
 			for entry in Array(node.get(field, [])):
 				ids.append(str((entry as Dictionary).get("id", "")))
 			ids.sort()
 			parts.append(";".join(PackedStringArray(ids)))
+			if fmt == "hotspot" and str(node.get("assetId", "")) != "":
+				parts.append("atlas=%s" % str(node.get("assetId", "")))
+			if fmt == "notation":
+				parts.append("clef=%s" % str((node.get("staff", {}) as Dictionary).get("clef", "treble")))
+				var notation_symbols: Array = []
+				for entry in Array(node.get("symbols", [])):
+					var symbol := entry as Dictionary
+					notation_symbols.append("%s:%s:%d:%s:%s" % [
+						str(symbol.get("id", "")), str(symbol.get("kind", "note")),
+						int(symbol.get("staffStep", 0)), str(symbol.get("duration", "")),
+						str(symbol.get("accidental", "")),
+					])
+				notation_symbols.sort()
+				parts.append(";".join(PackedStringArray(notation_symbols)))
+			elif fmt == "map":
+				parts.append(str(node.get("mapId", "")))
+				var map_targets: Array = []
+				for entry in Array(node.get("targets", [])):
+					map_targets.append(str((entry as Dictionary).get("id", "")))
+				map_targets.sort()
+				parts.append(";".join(PackedStringArray(map_targets)))
 			parts.append("→%s" % str(node.get("answer", "")))
 		_:
 			# Scelta multipla, risposta numerica e formati ancora pianificati: le

@@ -16,8 +16,56 @@ func _node(fmt: String, extra: Dictionary) -> Dictionary:
 		"difficulty": 2,
 		"explanation": "La relazione corretta emerge dagli elementi della prova.",
 	}
-	node.merge(extra)
+	node.merge(extra, true)
 	return node
+
+func _notation_node() -> Dictionary:
+	return _node("notation", {
+		"staff": {"clef": "treble"},
+		"symbols": [
+			{"id": "do", "kind": "note", "label": "Do centrale, semiminima", "staffStep": -2, "duration": "quarter"},
+			{"id": "mi", "kind": "note", "label": "Mi, minima", "staffStep": 0, "duration": "half"},
+			{"id": "sol", "kind": "note", "label": "Sol, croma", "staffStep": 2, "duration": "eighth"},
+			{"id": "pausa", "kind": "rest", "label": "Pausa di semiminima", "staffStep": 4, "duration": "quarter"},
+		],
+		"answer": "sol",
+	})
+
+func _cycle_node() -> Dictionary:
+	return _node("cycle", {
+		"stages": [
+			{"id": "pioggia", "label": "Precipitazione", "glyph": "rain"},
+			{"id": "mare", "label": "Raccolta", "glyph": "water"},
+			{"id": "nuvola", "label": "Condensazione", "glyph": "cloud"},
+			{"id": "vapore", "label": "Evaporazione", "glyph": "sun"},
+		],
+		"correctOrder": ["mare", "vapore", "nuvola", "pioggia"],
+	})
+
+func _map_node() -> Dictionary:
+	return _node("map", {
+		"prompt": "Tocca il fiume Po sulla carta muta.",
+		"mapId": "italy",
+		"targets": [
+			{"id": "po", "label": "Fiume Po"},
+			{"id": "sicily", "label": "Sicilia"},
+			{"id": "sardinia", "label": "Sardegna"},
+		],
+		"answer": "po",
+	})
+
+func _hotspot_node() -> Dictionary:
+	return _node("hotspot", {
+		"prompt": "Tocca l'acquedotto romano nell'atlante.",
+		"assetId": "roman_artifacts",
+		"targets": [
+			{"id": "aqueduct", "label": "Acquedotto romano"},
+			{"id": "column", "label": "Colonna romana"},
+			{"id": "amphora", "label": "Anfora romana"},
+			{"id": "mosaic", "label": "Mosaico romano"},
+		],
+		"answer": "aqueduct",
+	})
 
 func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT))
@@ -25,6 +73,33 @@ func _run() -> void:
 	root.size = Vector2i(1280, 720)
 	player = PLAYER.new()
 	root.add_child(player)
+	if "--notation-only" in OS.get_cmdline_user_args():
+		await _capture("notation-tablet", _notation_node(), "mission", Vector2i(900, 600))
+		print("EXERCISE RENDER probe OK — notazione")
+		quit(0)
+		return
+	if "--cycle-only" in OS.get_cmdline_user_args():
+		await _capture("cycle-tablet", _cycle_node(), "mission", Vector2i(900, 600))
+		player.call("_cycle_select", "mare")
+		player.call("_cycle_select", "vapore")
+		await _capture_current("cycle-progress-tablet")
+		print("EXERCISE RENDER probe OK — ciclo")
+		quit(0)
+		return
+	if "--map-only" in OS.get_cmdline_user_args():
+		await _capture("map-italy-tablet", _map_node(), "mission", Vector2i(900, 600))
+		player.call("_visual_select", "po")
+		await _capture_current("map-italy-selected-tablet")
+		print("EXERCISE RENDER probe OK — carta muta Italia")
+		quit(0)
+		return
+	if "--hotspot-only" in OS.get_cmdline_user_args():
+		await _capture("hotspot-roman-atlas-tablet", _hotspot_node(), "mission", Vector2i(900, 600))
+		player.call("_visual_select", "aqueduct")
+		await _capture_current("hotspot-roman-atlas-selected-tablet")
+		print("EXERCISE RENDER probe OK — atlante storico romano")
+		quit(0)
+		return
 	await _capture("ordering-exam-desktop", _node("ordering", {
 		"items": ["Osserva i dati", "Scegli la strategia", "Verifica il risultato"],
 		"correctOrder": ["Osserva i dati", "Scegli la strategia", "Verifica il risultato"],
@@ -74,6 +149,10 @@ func _run() -> void:
 	player.call("_visual_select", "switch")
 	player.call("_visual_submit", circuit)
 	await _capture_current("circuit-connected-desktop")
+	await _capture("notation-tablet", _notation_node(), "mission", Vector2i(900, 600))
+	await _capture("cycle-tablet", _cycle_node(), "mission", Vector2i(900, 600))
+	await _capture("map-italy-tablet", _map_node(), "mission", Vector2i(900, 600))
+	await _capture("hotspot-roman-atlas-tablet", _hotspot_node(), "mission", Vector2i(900, 600))
 	await _capture("code-debug-tablet", _node("code_debug", {
 		"codeLines": ["energia = 3", "if energia = 0:", "    accendi_portale()", "mostra(energia)"],
 		"answerLine": 2,
@@ -88,7 +167,7 @@ func _run() -> void:
 	await create_timer(0.24).timeout
 	await _capture_current("final-convergence-progress-desktop")
 	await _capture_session("final-transversal-tablet", final_session, Vector2i(900, 600))
-	print("EXERCISE RENDER probe OK — 13 capture, inclusa convergenza animata del finale")
+	print("EXERCISE RENDER probe OK — 16 capture, inclusi notazione, carta muta, ciclo e finale animato")
 	quit(0)
 
 func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vector2i) -> void:
@@ -97,7 +176,7 @@ func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vecto
 	player.start_session({
 		"sessionId": name,
 		"kind": kind,
-		"subject": "logica",
+		"subject": "geografia" if str(node.get("format", "")) == "map" else "logica",
 		"nodes": [node],
 		"shields": 3,
 		"pace": "reasoning",

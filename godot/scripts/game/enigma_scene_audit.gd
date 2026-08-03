@@ -68,6 +68,18 @@ func _close_failed_session(world: Node, exercise: ExercisePlayer, encounter_id: 
 	gameplay.game_save.clear_enigma_cooldown(str(gameplay.game_save.current_world()), encounter_id)
 	world.call("_refresh_prompt")
 
+func _accept_owner_request(world: Node, area: Area2D) -> void:
+	var owner_id := str(Dictionary(area.get_meta("payload", {})).get("ownerNpc", ""))
+	if owner_id == "":
+		return
+	world.call("_open_npc_dialogue", owner_id)
+	var request_box := world.get("dialogue_box") as Control
+	assert(request_box.visible, "richiesta del testimone non mostrata per %s" % str(area.get_meta("id", "")))
+	request_box.call("close_dialogue")
+	await process_frame
+	assert(bool(world.get("mission_ownership_flow").can_start(str(area.get_meta("id", "")))),
+		"enigma ancora bloccato dopo la richiesta")
+
 func _test_touch_path(world: Node, area: Area2D) -> void:
 	var player := world.get("player") as CharacterBody2D
 	var exercise := world.get("exercise_player") as ExercisePlayer
@@ -157,6 +169,7 @@ func _run() -> void:
 		var enigma_id := str(area.get_meta("id", ""))
 		assert(enigma_id != "" and not tested_ids.has(enigma_id), "ID enigma non univoco: %s" % enigma_id)
 		tested_ids.append(enigma_id)
+		await _accept_owner_request(world, area)
 		await _test_touch_path(world, area)
 		await _test_context_button(world, area)
 		if level == 1:

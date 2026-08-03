@@ -27,6 +27,14 @@ export type EnglishVocabularyEntry = {
   category: EnglishVocabularyCategory;
   wordClass: EnglishWordClass;
   level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  /**
+   * Spiegazione autorata, quando ripetere l'accoppiata termine → significato non
+   * insegna niente. Per il lessico l'accoppiata È il contenuto e `note` resta
+   * vuota; per una collocazione o un phrasal verb no, perché la cosa da imparare
+   * è proprio che il significato non si ricava dai pezzi. Chi genera esercizi
+   * usa `note` al posto della spiegazione a modello quando c'è.
+   */
+  note?: string;
 };
 
 type CompactRow = readonly [
@@ -34,6 +42,7 @@ type CompactRow = readonly [
   meaning: string,
   wordClass: EnglishWordClass,
   level: EnglishVocabularyEntry["level"],
+  note?: string,
 ];
 
 const rows = <T extends readonly CompactRow[]>(category: EnglishVocabularyCategory, items: T) =>
@@ -69,7 +78,7 @@ const vocabularyRows = [
     ["measure", "misurare", "verb", 2],
     ["compare", "confrontare", "verb", 2],
     ["record", "registrare", "verb", 2],
-    ["report", "riferire / segnalare", "verb", 2],
+    ["to report", "riferire, segnalare", "verb", 2, "Il verbo to report vuol dire riferire, segnalare. Il sostantivo a report è invece una relazione scritta: stessa parola, due usi."],
     ["restart", "riavviare", "verb", 2],
     ["protect", "proteggere", "verb", 2],
     ["avoid", "evitare", "verb", 3],
@@ -143,7 +152,7 @@ const vocabularyRows = [
     ["folder", "cartella", "noun", 3],
     ["supply", "fornitura / scorta", "noun", 4],
     ["crate", "cassa", "noun", 4],
-    ["report", "relazione / report", "noun", 4],
+    ["a report", "una relazione", "noun", 4, "Il sostantivo a report è una relazione, un resoconto scritto. Come verbo, to report vuol dire invece riferire."],
     ["result", "risultato", "noun", 4],
     ["warning", "avviso", "noun", 4],
     ["notice", "avviso scritto", "noun", 4],
@@ -188,11 +197,11 @@ const vocabularyRows = [
     ["range", "intervallo", "noun", 2],
     ["pattern", "schema / andamento", "noun", 2],
     ["above", "sopra", "preposition", 2],
-    ["below", "sotto", "preposition", 2],
+    ["below", "sotto, più in basso in un elenco", "preposition", 2, "below indica una posizione più in basso in un elenco, in una tabella o su una pagina: see the table below. Per «coperto da qualcosa» si usa invece under."],
     ["between", "tra / fra", "preposition", 2],
     ["inside", "dentro", "preposition", 2],
     ["outside", "fuori", "preposition", 2],
-    ["under", "sotto", "preposition", 2],
+    ["under", "sotto, coperto da qualcosa", "preposition", 2, "under indica che una cosa sta sotto un'altra che la copre: the cat is under the table. Per «più in basso in un elenco» si usa invece below."],
     ["over", "sopra / oltre", "preposition", 2],
     ["through", "attraverso un passaggio", "preposition", 3],
     ["across", "attraverso una superficie", "preposition", 3],
@@ -265,7 +274,7 @@ const vocabularyRows = [
     ["relevant", "pertinente", "adjective", 5],
     ["irrelevant", "non pertinente", "adjective", 5],
     ["purpose", "scopo", "noun", 5],
-    ["audience", "destinatari / pubblico", "noun", 5],
+    ["target audience", "i destinatari", "noun", 5, "La target audience è chi deve ricevere il messaggio: i destinatari a cui stai parlando. Da sola, audience vuol dire il pubblico."],
   ]),
   ...rows("connectors", [
     ["and", "e", "connector", 1],
@@ -361,7 +370,7 @@ const everydayVocabularyRows = [
     ["trainers", "scarpe da ginnastica"], ["socks", "calzini"], ["hat", "cappello"], ["scarf", "sciarpa"], ["glasses", "occhiali"],
   ]),
   ...topicRows("food-shopping", "adjective", 2, [
-    ["hungry", "affamato"], ["thirsty", "assetato"], ["fresh", "fresco"], ["sweet", "dolce"], ["salty", "salato"],
+    ["hungry", "affamato"], ["thirsty", "assetato"], ["fresh", "fresco, appena fatto"], ["sweet", "dolce"], ["salty", "salato"],
     ["cheap", "economico"], ["expensive", "costoso"], ["free", "gratuito / libero"], ["available", "disponibile"], ["sold out", "esaurito"],
   ]),
   ...topicRows("time-weather", "noun", 1, [
@@ -376,7 +385,7 @@ const everydayVocabularyRows = [
   ...topicRows("time-weather", "adjective", 1, [
     ["early", "presto / in anticipo"], ["late", "tardi / in ritardo"], ["busy", "occupato / intenso"], ["ready", "pronto"],
     ["sunny", "soleggiato"], ["rainy", "piovoso"], ["cloudy", "nuvoloso"], ["windy", "ventoso"], ["snowy", "nevoso"],
-    ["warm", "caldo / tiepido"], ["cool", "fresco"], ["cold", "freddo"], ["hot", "caldo"], ["dry", "asciutto / secco"],
+    ["warm", "caldo / tiepido"], ["cool", "fresco, di temperatura"], ["cold", "freddo"], ["hot", "caldo"], ["dry", "asciutto / secco"],
     ["wet", "bagnato"], ["usual", "solito"], ["daily", "quotidiano"], ["weekly", "settimanale"],
   ]),
   ...topicRows("travel-places", "noun", 1, [
@@ -400,7 +409,7 @@ const everydayVocabularyRows = [
   // lezione promette e che ai livelli alti mancava (il banco si fermava al livello 1).
   ...topicRows("travel-places", "noun", 6, [
     ["departure", "partenza"], ["arrival", "arrivo"], ["delay", "ritardo"], ["timetable", "orario"], ["fare", "tariffa"],
-    ["route", "percorso / itinerario"], ["connection", "coincidenza"], ["luggage", "bagaglio"], ["suitcase", "valigia"], ["passenger", "passeggero"],
+    ["itinerary", "itinerario"], ["connection", "coincidenza"], ["luggage", "bagaglio"], ["suitcase", "valigia"], ["passenger", "passeggero"],
   ]),
   ...topicRows("travel-places", "noun", 7, [
     ["boarding pass", "carta d'imbarco"], ["customs", "dogana"], ["border", "confine"], ["accommodation", "alloggio"], ["destination", "destinazione"],
@@ -499,45 +508,315 @@ const everydayVocabularyRows = [
   ]),
   ...topicRows("nature-environment", "adjective", 3, [
     ["natural", "naturale"], ["wild", "selvatico"], ["clean", "pulito"], ["dirty", "sporco"], ["green", "verde / ecologico"],
-    ["fresh", "fresco"], ["deep", "profondo"], ["shallow", "poco profondo"], ["wide", "ampio"], ["narrow", "stretto"],
+    ["pure", "puro"], ["deep", "profondo"], ["shallow", "poco profondo"], ["wide", "ampio"], ["narrow", "stretto"],
   ]),
 ] as const;
+
+// Una collocazione NON si traduce a pezzi: è il difetto che questa struttura
+// aveva prima del 3 agosto 2026. Le famiglie erano definite come
+// `verbMeaning + oggetto`, cioè un solo significato del verbo per tutta la
+// famiglia, e il bake incollava i due pezzi. Ne uscivano ottanta traduzioni
+// false — "fare / preparare un errore" per make a mistake, "guardare / sembrare
+// la parola sul dizionario" per look up the word — e metà degli item chiedeva
+// al bambino di tradurre IN inglese partendo da quell'italiano.
+//
+// L'ironia è che erano proprio i phrasal verb e le collocazioni: l'unica
+// famiglia di espressioni che per definizione non è componibile. Ora ogni riga
+// porta il significato italiano INTERO, e `note` dice qual è la trappola —
+// perché è quello, non l'accoppiata, il contenuto che serve davvero.
+type PhraseRow = readonly [object: string, meaning: string, note?: string];
 
 type PhraseGroup = {
   category: EnglishVocabularyCategory;
   verb: string;
-  verbMeaning: string;
   level: EnglishVocabularyEntry["level"];
-  objects: readonly Pair[];
+  objects: readonly PhraseRow[];
 };
 
 const phraseGroups: readonly PhraseGroup[] = [
-  { category: "everyday-phrases", verb: "take", verbMeaning: "prendere / fare", level: 2, objects: [["a photo", "una foto"], ["a bus", "un autobus"], ["a break", "una pausa"], ["notes", "appunti"], ["care", "cura / attenzione"], ["a shower", "una doccia"], ["a seat", "posto a sedere"], ["a test", "un test"], ["a message", "un messaggio"], ["a look", "un'occhiata"]] },
-  { category: "everyday-phrases", verb: "make", verbMeaning: "fare / preparare", level: 2, objects: [["a mistake", "un errore"], ["a plan", "un piano"], ["a list", "una lista"], ["breakfast", "colazione"], ["a choice", "una scelta"], ["a noise", "rumore"], ["a phone call", "una telefonata"], ["a cake", "una torta"], ["progress", "progresso"], ["a decision", "una decisione"]] },
-  { category: "everyday-phrases", verb: "do", verbMeaning: "fare", level: 2, objects: [["homework", "i compiti"], ["exercise", "attività fisica"], ["the dishes", "i piatti"], ["the shopping", "la spesa"], ["research", "una ricerca"], ["a project", "un progetto"], ["a test", "un test"], ["your best", "del proprio meglio"], ["the cleaning", "le pulizie"], ["a favour", "un favore"]] },
-  { category: "everyday-phrases", verb: "go", verbMeaning: "andare", level: 2, objects: [["home", "a casa"], ["shopping", "a fare acquisti"], ["swimming", "a nuotare"], ["online", "online"], ["to school", "a scuola"], ["to work", "al lavoro"], ["by bus", "in autobus"], ["on foot", "a piedi"], ["abroad", "all'estero"], ["out", "fuori"]] },
-  { category: "everyday-phrases", verb: "get", verbMeaning: "ottenere / diventare", level: 3, objects: [["ready", "pronto"], ["better", "meglio"], ["worse", "peggio"], ["home", "a casa"], ["lost", "perso"], ["tired", "stanco"], ["a ticket", "un biglietto"], ["a message", "un messaggio"], ["on the bus", "sull'autobus"], ["off the train", "giù dal treno"]] },
-  { category: "everyday-phrases", verb: "have", verbMeaning: "avere / fare", level: 2, objects: [["breakfast", "colazione"], ["lunch", "pranzo"], ["dinner", "cena"], ["a rest", "un riposo"], ["a problem", "un problema"], ["a headache", "mal di testa"], ["a cold", "raffreddore"], ["fun", "divertimento"], ["a meeting", "una riunione"], ["a lesson", "una lezione"]] },
-  { category: "everyday-phrases", verb: "look", verbMeaning: "guardare / sembrare", level: 3, objects: [["at the screen", "lo schermo"], ["for the key", "la chiave"], ["after a child", "un bambino"], ["like a problem", "un problema"], ["tired", "stanco"], ["carefully", "con attenzione"], ["around the room", "intorno alla stanza"], ["up the word", "la parola sul dizionario"], ["through the window", "attraverso la finestra"], ["forward to the trip", "il viaggio con piacere"]] },
-  { category: "everyday-phrases", verb: "feel", verbMeaning: "sentirsi", level: 3, objects: [["happy", "felice"], ["sad", "triste"], ["ill", "malato"], ["better", "meglio"], ["worse", "peggio"], ["tired", "stanco"], ["nervous", "nervoso"], ["safe", "sicuro"], ["proud", "orgoglioso"], ["alone", "solo"]] },
-  { category: "everyday-phrases", verb: "keep", verbMeaning: "tenere / mantenere", level: 3, objects: [["calm", "la calma"], ["quiet", "il silenzio"], ["safe", "sicuro"], ["clean", "pulito"], ["the receipt", "lo scontrino"], ["a promise", "una promessa"], ["in touch", "i contatti"], ["working", "in funzione"], ["the door closed", "la porta chiusa"], ["the window open", "la finestra aperta"]] },
-  { category: "everyday-phrases", verb: "turn", verbMeaning: "girare / rendere", level: 3, objects: [["left", "a sinistra"], ["right", "a destra"], ["on the light", "la luce accesa"], ["off the phone", "il telefono spento"], ["up the volume", "il volume più alto"], ["down the volume", "il volume più basso"], ["around", "indietro / girarsi"], ["into a problem", "in un problema"], ["green", "verde"], ["red", "rosso"]] },
-  { category: "everyday-phrases", verb: "put", verbMeaning: "mettere", level: 3, objects: [["on a jacket", "una giacca"], ["away the books", "via i libri"], ["down the bag", "giù la borsa"], ["the key in the drawer", "la chiave nel cassetto"], ["the file in the folder", "il file nella cartella"], ["the plate on the table", "il piatto sul tavolo"], ["pressure on someone", "pressione su qualcuno"], ["the rubbish outside", "la spazzatura fuori"], ["a note on the desk", "una nota sul banco"], ["the phone on silent", "il telefono in silenzioso"]] },
-  { category: "everyday-phrases", verb: "give", verbMeaning: "dare", level: 3, objects: [["advice", "un consiglio"], ["an answer", "una risposta"], ["a reason", "una ragione"], ["a warning", "un avviso"], ["permission", "il permesso"], ["feedback", "un riscontro"], ["help", "aiuto"], ["information", "informazioni"], ["a chance", "una possibilità"], ["a presentation", "una presentazione"]] },
-  { category: "everyday-phrases", verb: "ask", verbMeaning: "chiedere", level: 3, objects: [["a question", "una domanda"], ["for help", "aiuto"], ["for directions", "indicazioni"], ["for permission", "il permesso"], ["about the homework", "dei compiti"], ["the teacher", "all'insegnante"], ["for the price", "il prezzo"], ["for a receipt", "lo scontrino"], ["for advice", "un consiglio"], ["someone to wait", "a qualcuno di aspettare"]] },
-  { category: "everyday-phrases", verb: "send", verbMeaning: "inviare", level: 3, objects: [["an email", "una email"], ["a message", "un messaggio"], ["a photo", "una foto"], ["the file", "il file"], ["a warning", "un avviso"], ["the report", "la relazione"], ["a reply", "una risposta"], ["the homework", "i compiti"], ["a link", "un link"], ["the address", "l'indirizzo"]] },
-  { category: "everyday-phrases", verb: "pay", verbMeaning: "pagare", level: 3, objects: [["by card", "con carta"], ["in cash", "in contanti"], ["the bill", "il conto"], ["for the ticket", "il biglietto"], ["attention", "attenzione"], ["the price", "il prezzo"], ["online", "online"], ["at the desk", "allo sportello"], ["less", "meno"], ["more", "di più"]] },
-  { category: "everyday-phrases", verb: "catch", verbMeaning: "prendere / afferrare", level: 4, objects: [["the bus", "l'autobus"], ["the train", "il treno"], ["a cold", "un raffreddore"], ["the ball", "la palla"], ["a mistake", "un errore"], ["the meaning", "il significato"], ["the thief", "il ladro"], ["someone's attention", "l'attenzione di qualcuno"], ["the next flight", "il prossimo volo"], ["up with the class", "il passo della classe"]] },
+  {
+    category: "everyday-phrases",
+    verb: "take",
+    level: 2,
+    objects: [
+      ["a photo", "fare una foto", "take a photo = fare una foto: l'inglese la foto la «prende», l'italiano la «fa»."],
+      ["a bus", "prendere l'autobus", "Qui take è davvero prendere, ma è un caso fortunato: con photo o shower lo stesso take diventa fare."],
+      ["a break", "fare una pausa", "In inglese la pausa si «prende», in italiano si «fa»."],
+      ["notes", "prendere appunti", "Uno dei pochi casi in cui i due verbi coincidono."],
+      ["care", "abbi cura di te", "take care si usa per salutare: abbi cura di te, stammi bene. «Prendi cura» non è italiano."],
+      ["a shower", "fare la doccia", "La doccia in inglese si «prende», in italiano si «fa»."],
+      ["a seat", "accomodarsi", "take a seat è un invito cortese a sedersi: accomodarsi, prego."],
+      ["a test", "fare un test", "Chi «prende» il test in inglese lo «fa» in italiano; chi lo svolge in classe dice do a test."],
+      ["a message", "prendere un messaggio", "Al telefono: prendere un messaggio, cioè annotarlo per qualcun altro."],
+      ["a look", "dare un'occhiata", "L'inglese lo sguardo lo «prende», l'italiano lo «dà»: verbi opposti, stesso significato."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "make",
+    level: 2,
+    objects: [
+      ["a mistake", "fare un errore", "Make vuol dire costruire, produrre, ma con mistake in italiano diventa fare."],
+      ["a plan", "fare un piano", "Con le cose che si progettano l'inglese usa make."],
+      ["a list", "fare una lista", "Make si usa per ciò che prima non esisteva e viene creato."],
+      ["breakfast", "preparare la colazione", "make breakfast è cucinarla; have breakfast è fare colazione, cioè mangiarla."],
+      ["a choice", "fare una scelta", "Si può dire anche choose, con una parola sola."],
+      ["a noise", "fare rumore", "In italiano il rumore non si «prepara»: si fa."],
+      ["a phone call", "fare una telefonata", "Si dice anche call someone, più breve e più comune."],
+      ["a cake", "preparare una torta", "Qui make è davvero il verbo del cucinare."],
+      ["progress", "fare progressi", "In inglese progress è singolare, in italiano il plurale è obbligatorio: «fare progresso» non si dice."],
+      ["a decision", "prendere una decisione", "Qui make non è fare ma prendere: la prova che queste espressioni vanno imparate intere."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "do",
+    level: 2,
+    objects: [
+      ["homework", "fare i compiti", "Con do si svolgono lavori e compiti già stabiliti; con make si crea qualcosa di nuovo."],
+      ["exercise", "fare attività fisica", "exercise qui è l'attività fisica, non l'esercizio di scuola."],
+      ["the dishes", "lavare i piatti", "do the dishes = lavare i piatti. «Fare i piatti» in italiano vorrebbe dire fabbricarli."],
+      ["the shopping", "fare la spesa", "do the shopping è la spesa di tutti i giorni; go shopping è andare per negozi."],
+      ["research", "fare una ricerca"],
+      ["a project", "fare un progetto"],
+      ["a test", "svolgere un test", "do a test lo dice chi il test lo svolge; take a test è farlo, make a test è prepararlo."],
+      ["your best", "fare del proprio meglio", "Il possessivo cambia con la persona: I do my best, you do your best."],
+      ["the cleaning", "fare le pulizie"],
+      ["a favour", "fare un favore", "Si scrive favour in inglese britannico, favor in quello americano."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "go",
+    level: 2,
+    objects: [
+      ["home", "andare a casa", "Con home non ci vuole preposizione: si dice go home, non «go to home»."],
+      ["shopping", "andare a fare acquisti", "go + verbo in -ing indica l'attività per cui ci si sposta."],
+      ["swimming", "andare a nuotare", "Come go shopping: go + -ing per le attività."],
+      ["online", "andare online"],
+      ["to school", "andare a scuola", "Qui la preposizione to serve, a differenza di go home."],
+      ["to work", "andare al lavoro"],
+      ["by bus", "andare in autobus", "by + mezzo indica come ci si sposta: by bus, by train, by car."],
+      ["on foot", "andare a piedi", "A piedi è l'eccezione: non by foot ma on foot."],
+      ["abroad", "andare all'estero", "Anche abroad non vuole preposizione: go abroad."],
+      ["out", "uscire", "go out = uscire, soprattutto per divertirsi la sera."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "get",
+    level: 3,
+    objects: [
+      ["ready", "prepararsi", "get + aggettivo vuol dire diventare: get ready = diventare pronto, cioè prepararsi."],
+      ["better", "migliorare", "Parlando di salute vuol dire guarire, rimettersi."],
+      ["worse", "peggiorare", "get worse = diventare peggio. È il contrario di get better."],
+      ["home", "arrivare a casa", "Con un luogo get non vuol dire ottenere ma arrivare."],
+      ["lost", "perdersi", "get lost = diventare perso. In italiano si usa un verbo riflessivo."],
+      ["tired", "stancarsi", "get + aggettivo indica il passaggio da uno stato all'altro: be tired è invece essere stanco."],
+      ["a ticket", "ricevere un biglietto", "Con un oggetto get torna a voler dire ricevere, ottenere."],
+      ["a message", "ricevere un messaggio", "Chi lo manda usa invece send a message."],
+      ["on the bus", "salire sull'autobus", "get on = salire su un mezzo. La particella cambia tutto."],
+      ["off the train", "scendere dal treno", "get off = scendere da un mezzo, il contrario di get on."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "have",
+    level: 2,
+    objects: [
+      ["breakfast", "fare colazione", "L'inglese il pasto lo «ha», l'italiano lo «fa». Cucinarla è invece make breakfast."],
+      ["lunch", "pranzare", "In italiano basta un verbo solo."],
+      ["dinner", "cenare", "Come per lunch, l'italiano ha un verbo apposta."],
+      ["a rest", "riposarsi", "L'inglese «ha» un riposo, l'italiano usa un verbo riflessivo."],
+      ["a problem", "avere un problema", "Qui i due verbi coincidono davvero."],
+      ["a headache", "avere mal di testa", "Attenzione all'articolo: in inglese ci vuole a, in italiano no."],
+      ["a cold", "avere il raffreddore", "Da non confondere con catch a cold, che vuol dire prenderlo."],
+      ["fun", "divertirsi", "«Avere divertimento» non si dice: l'italiano usa un verbo riflessivo."],
+      ["a meeting", "fare una riunione", "L'inglese la riunione la «ha», l'italiano la «fa»."],
+      ["a lesson", "avere lezione", "In italiano l'articolo di solito cade: avere lezione, non avere una lezione."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "look",
+    level: 3,
+    objects: [
+      ["at the screen", "guardare lo schermo", "look at = guardare, posare lo sguardo. Senza la particella at, look da solo vuol dire sembrare."],
+      ["for the key", "cercare la chiave", "Cambia la particella e cambia il verbo: look at è guardare, look for è cercare."],
+      ["after a child", "prendersi cura di un bambino", "look after = badare a qualcuno. Non ha niente a che vedere con il guardare."],
+      ["like a problem", "sembrare un problema", "look like = sembrare, assomigliare a."],
+      ["tired", "sembrare stanco", "look + aggettivo vuol dire sembrare: chi guarda è un altro."],
+      ["carefully", "guardare con attenzione", "look + avverbio resta il guardare."],
+      ["around the room", "guardarsi intorno nella stanza", "look around = guardarsi intorno, dare un'occhiata in giro."],
+      ["up the word", "cercare la parola sul dizionario", "look up = cercare un'informazione in un dizionario o in un elenco. Il significato non si ricava né da look né da up."],
+      ["through the window", "guardare attraverso la finestra", "look through = guardare attraverso qualcosa di trasparente."],
+      ["forward to the trip", "non vedere l'ora del viaggio", "look forward to = non vedere l'ora di. È l'esempio più netto: nessuna delle tre parole, da sola, porta a questo significato."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "feel",
+    level: 3,
+    objects: [
+      ["happy", "sentirsi felice", "feel + aggettivo = sentirsi in un certo modo."],
+      ["sad", "sentirsi triste"],
+      ["ill", "sentirsi male", "feel ill = sentirsi male, non stare bene."],
+      ["better", "sentirsi meglio", "feel better è come ci si sente; get better è guarire davvero."],
+      ["worse", "sentirsi peggio"],
+      ["tired", "sentirsi stanco", "feel tired è come ci si sente; look tired è come si appare agli altri."],
+      ["nervous", "sentirsi nervoso"],
+      ["safe", "sentirsi al sicuro"],
+      ["proud", "sentirsi orgoglioso"],
+      ["alone", "sentirsi solo", "alone è «da solo»; lonely è «solo e triste»."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "keep",
+    level: 3,
+    objects: [
+      ["calm", "mantenere la calma", "keep + aggettivo vuol dire restare o mantenersi in uno stato."],
+      ["quiet", "fare silenzio", "keep quiet = restare in silenzio, non parlare."],
+      ["safe", "stare al sicuro", "keep safe = restare al riparo."],
+      ["clean", "tenere pulito", "cioè fare in modo che resti pulito."],
+      ["the receipt", "conservare lo scontrino", "Con un oggetto keep vuol dire conservare, non buttare via."],
+      ["a promise", "mantenere una promessa", "Il contrario è break a promise, romperla."],
+      ["in touch", "restare in contatto", "keep in touch = sentirsi ancora. Si dice salutandosi."],
+      ["working", "continuare a lavorare", "keep + verbo in -ing vuol dire continuare a fare qualcosa."],
+      ["the door closed", "tenere la porta chiusa", "keep something closed = fare in modo che resti chiuso."],
+      ["the window open", "tenere la finestra aperta", "È il contrario di keep the door closed."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "turn",
+    level: 3,
+    objects: [
+      ["left", "girare a sinistra", "Nelle indicazioni stradali turn vuol dire girare, svoltare."],
+      ["right", "girare a destra"],
+      ["on the light", "accendere la luce", "turn on = accendere. Con un apparecchio turn non ha niente a che vedere con il girare."],
+      ["off the phone", "spegnere il telefono", "turn off = spegnere, il contrario di turn on."],
+      ["up the volume", "alzare il volume", "turn up = alzare, aumentare. Vale per volume, riscaldamento, musica."],
+      ["down the volume", "abbassare il volume", "turn down = abbassare, il contrario di turn up."],
+      ["around", "girarsi", "turn around = voltarsi dalla parte opposta."],
+      ["into a problem", "trasformarsi in un problema", "turn into = trasformarsi in, diventare un'altra cosa."],
+      ["green", "diventare verde", "turn + colore vuol dire diventare di quel colore: il semaforo, le foglie."],
+      ["red", "diventare rosso", "Parlando di una persona vuol dire arrossire."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "put",
+    level: 3,
+    objects: [
+      ["on a jacket", "mettersi la giacca", "put on = mettersi addosso un capo di vestiario."],
+      ["away the books", "mettere via i libri", "put away = rimettere a posto."],
+      ["down the bag", "posare la borsa", "put down = posare, appoggiare."],
+      ["the key in the drawer", "mettere la chiave nel cassetto"],
+      ["the file in the folder", "mettere il file nella cartella"],
+      ["the plate on the table", "mettere il piatto sul tavolo"],
+      ["pressure on someone", "mettere pressione a qualcuno", "put pressure on = insistere perché qualcuno faccia qualcosa."],
+      ["the rubbish outside", "portare fuori la spazzatura", "rubbish è britannico; in inglese americano si dice garbage o trash."],
+      ["a note on the desk", "mettere un biglietto sul banco", "Qui note è un biglietto scritto, non una nota musicale."],
+      ["the phone on silent", "mettere il telefono in silenzioso"],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "give",
+    level: 3,
+    objects: [
+      ["advice", "dare un consiglio", "advice in inglese è sempre singolare: «advices» non esiste."],
+      ["an answer", "dare una risposta"],
+      ["a reason", "dare una motivazione"],
+      ["a warning", "dare un avvertimento"],
+      ["permission", "dare il permesso"],
+      ["feedback", "dare un riscontro", "feedback si usa anche in italiano, ma «riscontro» è l'equivalente."],
+      ["help", "dare aiuto", "Chi lo chiede dice ask for help."],
+      ["information", "dare informazioni", "information in inglese è singolare: «informations» non esiste."],
+      ["a chance", "dare una possibilità"],
+      ["a presentation", "fare una presentazione", "give a presentation = fare una presentazione: qui give non è dare."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "ask",
+    level: 3,
+    objects: [
+      ["a question", "fare una domanda", "ask a question = fare una domanda. «Chiedere una domanda» non si dice in italiano."],
+      ["for help", "chiedere aiuto", "ask for = chiedere qualcosa; senza for si chiede a qualcuno."],
+      ["for directions", "chiedere indicazioni"],
+      ["for permission", "chiedere il permesso"],
+      ["about the homework", "chiedere informazioni sui compiti", "ask about = chiedere notizie di qualcosa."],
+      ["the teacher", "chiedere all'insegnante", "Senza preposizione, ask + persona vuol dire chiedere a quella persona."],
+      ["for the price", "chiedere il prezzo"],
+      ["for a receipt", "chiedere lo scontrino"],
+      ["for advice", "chiedere un consiglio"],
+      ["someone to wait", "chiedere a qualcuno di aspettare", "ask someone to + verbo = chiedere a qualcuno di fare qualcosa."],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "send",
+    level: 3,
+    objects: [
+      ["an email", "inviare una email"],
+      ["a message", "inviare un messaggio", "Chi lo riceve dice get a message."],
+      ["a photo", "inviare una foto", "Scattarla è invece take a photo."],
+      ["the file", "inviare il file"],
+      ["a warning", "inviare un avvertimento"],
+      ["the report", "inviare la relazione", "Qui report è il sostantivo: una relazione scritta."],
+      ["a reply", "inviare una risposta", "reply è la risposta a un messaggio; answer è la risposta a una domanda."],
+      ["the homework", "inviare i compiti"],
+      ["a link", "inviare un link"],
+      ["the address", "inviare l'indirizzo"],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "pay",
+    level: 3,
+    objects: [
+      ["by card", "pagare con la carta", "by + mezzo di pagamento: by card, by phone."],
+      ["in cash", "pagare in contanti", "Qui la preposizione cambia: non by cash ma in cash."],
+      ["the bill", "pagare il conto", "bill è il conto al ristorante; in inglese americano si dice check."],
+      ["for the ticket", "pagare il biglietto", "pay for = pagare per qualcosa che si riceve in cambio."],
+      ["attention", "fare attenzione", "pay attention = fare attenzione. Qui pay non ha niente a che vedere con il pagare."],
+      ["the price", "pagare il prezzo"],
+      ["online", "pagare online"],
+      ["at the desk", "pagare allo sportello"],
+      ["less", "pagare meno"],
+      ["more", "pagare di più"],
+    ],
+  },
+  {
+    category: "everyday-phrases",
+    verb: "catch",
+    level: 4,
+    objects: [
+      ["the bus", "fare in tempo a prendere l'autobus", "catch a bus non è solo prenderlo: è riuscirci prima che parta. Senza fretta si dice take a bus."],
+      ["the train", "fare in tempo a prendere il treno", "Chi invece lo perde dice miss the train."],
+      ["a cold", "prendere il raffreddore", "catch a cold = ammalarsi. Chi ce l'ha già dice have a cold."],
+      ["the ball", "afferrare la palla", "Qui catch è il verbo concreto: afferrare al volo qualcosa che si muove."],
+      ["a mistake", "notare un errore", "catch a mistake = accorgersene prima che faccia danni."],
+      ["the meaning", "afferrare il significato", "Qui l'italiano usa «afferrare» proprio come l'inglese."],
+      ["the thief", "catturare il ladro", "catch the thief = acciuffarlo."],
+      ["someone's attention", "attirare l'attenzione di qualcuno", "catch someone's attention = farsi notare."],
+      ["the next flight", "riuscire a prendere il volo successivo", "Come catch the bus: c'è dentro l'idea di arrivare in tempo."],
+      ["up with the class", "mettersi in pari con la classe", "catch up with = recuperare il ritardo rispetto a qualcuno."],
+    ],
+  },
 ] as const;
 
 const phraseRows = phraseGroups.flatMap((group) =>
-  group.objects.map(([object, meaning]) => ({
+  group.objects.map(([object, meaning, note]) => ({
     category: group.category,
     item: [
       `${group.verb} ${object}`,
-      `${group.verbMeaning} ${meaning}`,
+      meaning,
       "phrase",
       group.level,
+      note,
     ] as const,
   })),
 );
@@ -558,7 +837,7 @@ const numberedSchoolRows = Array.from({ length: 80 }, (_, index) => {
 const expandedVocabularyRows = [...vocabularyRows, ...everydayVocabularyRows, ...phraseRows, ...numberedSchoolRows] as const;
 
 export const englishVocabularyEntries: EnglishVocabularyEntry[] = expandedVocabularyRows.map(({ category, item }, index) => {
-  const [term, meaning, wordClass, level] = item;
+  const [term, meaning, wordClass, level, note] = item;
   return {
     id: `${category}-${index}-${term.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`,
     term,
@@ -566,6 +845,7 @@ export const englishVocabularyEntries: EnglishVocabularyEntry[] = expandedVocabu
     category,
     wordClass,
     level,
+    ...(note ? { note } : {}),
   };
 });
 

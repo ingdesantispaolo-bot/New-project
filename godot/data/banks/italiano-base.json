@@ -5218,6 +5218,166 @@
 			],
 			"answer": "iperbole",
 			"explanation": "\"iperbole\": esagerazione voluta per dare enfasi."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-0",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Nella frase «Il gatto dorme sul divano», «sul divano» è complemento di…",
+			"options": [
+				"modo",
+				"tempo",
+				"luogo",
+				"mezzo"
+			],
+			"answer": "luogo",
+			"explanation": "Risponde alla domanda «dove?», quindi è complemento di luogo."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-1",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che parte del discorso è «velocemente»?",
+			"options": [
+				"Verbo",
+				"Aggettivo",
+				"Nome",
+				"Avverbio"
+			],
+			"answer": "Avverbio",
+			"explanation": "Gli avverbi in -mente nascono dagli aggettivi e dicono come avviene l'azione: veloce → velocemente."
+		},
+		{
+			"id": "italiano-banda-verbo-2",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Se avessi studiato, avrei passato l'esame», che modo è «avessi studiato»?",
+			"options": [
+				"Congiuntivo",
+				"Indicativo",
+				"Condizionale",
+				"Imperativo"
+			],
+			"answer": "Congiuntivo",
+			"explanation": "Il congiuntivo regge l'ipotesi; «avrei passato» è invece il condizionale, che regge la conseguenza."
+		},
+		{
+			"id": "italiano-banda-sintassi-3",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una proposizione subordinata?",
+			"options": [
+				"Una frase senza verbo",
+				"Una frase che dipende da un'altra",
+				"Una frase che sta in piedi da sola",
+				"Una frase scritta fra virgolette"
+			],
+			"answer": "Una frase che dipende da un'altra",
+			"explanation": "La principale regge da sola; la subordinata ha bisogno di lei per avere senso compiuto."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-4",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Il vento urla fra i rami» è una…",
+			"options": [
+				"similitudine",
+				"iperbole",
+				"personificazione",
+				"metonimia"
+			],
+			"answer": "personificazione",
+			"explanation": "Al vento è attribuita un'azione umana, urlare: è una personificazione."
+		},
+		{
+			"id": "italiano-banda-lessico-5",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa vuol dire «effimero»?",
+			"options": [
+				"Che è difficile da capire",
+				"Che costa molto",
+				"Che si ripete spesso",
+				"Che dura pochissimo"
+			],
+			"answer": "Che dura pochissimo",
+			"explanation": "Un successo effimero passa in fretta: il contrario è duraturo."
+		},
+		{
+			"id": "italiano-banda-lessico-6",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa vuol dire «tacito»?",
+			"options": [
+				"Non detto, sottinteso",
+				"Detto ad alta voce",
+				"Ripetuto due volte",
+				"Scritto a mano"
+			],
+			"answer": "Non detto, sottinteso",
+			"explanation": "Un accordo tacito non è né scritto né pronunciato: si dà per inteso."
+		},
+		{
+			"id": "italiano-banda-ortografia-7",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale forma è corretta?",
+			"options": [
+				"Una amica",
+				"Un'amica",
+				"Un'amico",
+				"Un amica"
+			],
+			"answer": "Un'amica",
+			"explanation": "L'apostrofo va davanti a un nome femminile che comincia per vocale. Al maschile si scrive «un amico», senza apostrofo."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-8",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un narratore in prima persona?",
+			"options": [
+				"Chi racconta è l'autore del libro",
+				"Chi racconta parla solo al presente",
+				"Chi racconta è dentro la storia e dice «io»",
+				"Chi racconta sa tutto di tutti"
+			],
+			"answer": "Chi racconta è dentro la storia e dice «io»",
+			"explanation": "Il narratore in prima persona vede solo quello che vede il personaggio: è un limite che l'autore sceglie apposta."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-9",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A che cosa servono i due punti?",
+			"options": [
+				"A separare due frasi senza legame",
+				"A indicare una domanda",
+				"A chiudere il discorso diretto",
+				"Ad annunciare una spiegazione o un elenco"
+			],
+			"answer": "Ad annunciare una spiegazione o un elenco",
+			"explanation": "I due punti aprono qualcosa: una spiegazione, un elenco o le parole di qualcuno."
 		}
 	]
 }

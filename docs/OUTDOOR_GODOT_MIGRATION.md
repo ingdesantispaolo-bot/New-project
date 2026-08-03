@@ -40,7 +40,7 @@ sono esclusi dal PCK di release.
 Il preset Web usa Godot 4.7.1 Compatibility senza thread. Il comando canonico è:
 
 ```powershell
-& "C:\Users\39351\Godot\Godot_v4.7.1-stable_win64.exe\Godot_v4.7.1-stable_win64_console.exe" `
+& "%USERPROFILE%\Godot_v4.7.1-stable_win64.exe\Godot_v4.7.1-stable_win64_console.exe" `
   --headless --path godot --export-release Web "..\public\godot\outdoor\index.html"
 ```
 

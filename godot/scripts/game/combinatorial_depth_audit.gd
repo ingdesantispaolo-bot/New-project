@@ -31,17 +31,20 @@ const TARGET_DEPTH := 10_000
 const MIN_SUBJECT_DEPTH := 1380
 const MAX_INT := 9223372036854775807
 
-## Livelli campione: il primo mondo (dove `minLevel` lascia meno materiale) e uno
-## alto (dove è tutto sbloccato). La povertà dei livelli bassi è invisibile se si
-## misura solo a fine campagna.
-const SAMPLE_LEVELS := [1, 13]
+## La misura copre l'intera campagna. Campionare soltanto L1 e L13 nascondeva sia
+## i livelli senza nuovi sblocchi sia eventuali cali dovuti al cambio di
+## generatore/difficoltà. Il cricchetto usa il peggiore dei ventiquattro.
+const FIRST_LEVEL := 1
+const LAST_LEVEL := 24
 
 ## Profondità minima misurata, per materia, sommata sui formati. Non è la
 ## profondità ACCETTABILE: è quella raggiunta, congelata perché non scenda. Si
 ## aggiorna solo verso l'alto, e ogni aggiornamento è contenuto consegnato.
 ##
-## Il numero è il PEGGIORE fra i livelli campione: una materia ricca solo in fondo
-## alla campagna è povera dove il bambino comincia.
+## Il numero è il PEGGIORE fra tutti i 24 livelli: una materia ricca solo in fondo
+## alla campagna è povera dove il bambino comincia. Dal 3 agosto 2026 la misura
+## completa sostituisce il vecchio campione L1/L13; questo è l'unico caso in cui
+## il pavimento può essere ricalibrato verso il basso senza perdere contenuto.
 ##
 ## Storia del piano, in due righe. Il 31 luglio 2026 la prima misura onesta trovò
 ## undici materie su dodici fra 6 e 124 prove distinte — con ~138 incontri per
@@ -54,13 +57,13 @@ const DEPTH_FLOOR := {
 	"italiano": 8074778,
 	"geografia": 7791351,
 	"inglese": 7785076,
-	"coding": 7666565,
-	"matematica": 407510,
+	"coding": 7666570,
+	"matematica": 407513,
 	"latino": 297163,
-	"fisica": 248258,
+	"fisica": 248264,
 	"musica": 243781,
-	"scienze": 221329,
-	"elettronica": 213551,
+	"scienze": 221334,
+	"elettronica": 213555,
 	"logica": 133892,
 	"storia": 133313,
 	# Musica sale a 243.781 nella Fase 4: al primo mondo aveva otto abbinamenti
@@ -70,43 +73,52 @@ const DEPTH_FLOOR := {
 func _init() -> void:
 	var failures: Array = []
 	print("Profondità combinatoria — prove distinte producibili per (materia, formato)")
-	print("bersaglio per coppia: %d   ·   L%d = primo mondo, L%d = mondo alto\n" % [
-		TARGET_DEPTH, int(SAMPLE_LEVELS[0]), int(SAMPLE_LEVELS[1])])
+	print("bersaglio per coppia: %d   ·   cricchetto sul peggiore fra L%d e L%d\n" % [
+		TARGET_DEPTH, FIRST_LEVEL, LAST_LEVEL])
 
 	var header := "%-13s" % "MATERIA"
 	for fmt in MinigameManager.FORMATS:
 		header += "%12s" % _short(str(fmt))
-	header += "%14s" % "TOTALE L1"
-	header += "%14s" % "TOTALE L13"
+	header += "%14s" % "TOTALE MIN"
+	header += "%9s" % "LIVELLO"
+	header += "%14s" % "TOTALE L24"
 	print(header)
 
 	var reached := 0
 	var pairs := 0
+	var lowest_by_subject: Dictionary = {}
 	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
 		var subject := str(subject_data)
 		var row := "%-13s" % subject
 		var totals: Dictionary = {}
-		for level_data in SAMPLE_LEVELS:
-			totals[int(level_data)] = 0
+		for level in range(FIRST_LEVEL, LAST_LEVEL + 1):
+			totals[level] = 0
 		for fmt_data in MinigameManager.FORMATS:
 			var fmt := str(fmt_data)
-			var low := MinigameManager.format_depth(subject, fmt, int(SAMPLE_LEVELS[0]))
-			for level_data in SAMPLE_LEVELS:
-				var level := int(level_data)
+			var low := MinigameManager.format_depth(subject, fmt, FIRST_LEVEL)
+			for level in range(FIRST_LEVEL, LAST_LEVEL + 1):
 				totals[level] = int(totals[level]) + MinigameManager.format_depth(subject, fmt, level)
-			var high := MinigameManager.format_depth(subject, fmt, int(SAMPLE_LEVELS[1]))
+			var high := MinigameManager.format_depth(subject, fmt, LAST_LEVEL)
 			if high > 0:
 				pairs += 1
 				if high >= TARGET_DEPTH:
 					reached += 1
 			row += "%12s" % _compact(low if low > 0 else high)
 		var floor_value := int(DEPTH_FLOOR.get(subject, 0))
-		var worst := mini(int(totals[int(SAMPLE_LEVELS[0])]), int(totals[int(SAMPLE_LEVELS[1])]))
+		var worst := MAX_INT
+		var worst_level := FIRST_LEVEL
+		for level in range(FIRST_LEVEL, LAST_LEVEL + 1):
+			var total := int(totals[level])
+			if total < worst:
+				worst = total
+				worst_level = level
+		lowest_by_subject[subject] = worst
 		# I totali si stampano per intero, non abbreviati: sono i numeri che
 		# diventano il pavimento del cricchetto, e un pavimento arrotondato non è
 		# un pavimento.
-		for level_data in SAMPLE_LEVELS:
-			row += "%14d" % int(totals[int(level_data)])
+		row += "%14d" % worst
+		row += "%9s" % ("L%d" % worst_level)
+		row += "%14d" % int(totals[LAST_LEVEL])
 		print(row)
 		if worst < floor_value:
 			failures.append(
@@ -122,12 +134,7 @@ func _init() -> void:
 	# pretendere che ogni materia arrivi ai milioni.
 	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
 		var subject := str(subject_data)
-		var lowest := MAX_INT
-		for level_data in SAMPLE_LEVELS:
-			var total := 0
-			for fmt_data in MinigameManager.FORMATS:
-				total += MinigameManager.format_depth(subject, str(fmt_data), int(level_data))
-			lowest = mini(lowest, total)
+		var lowest := int(lowest_by_subject.get(subject, 0))
 		if lowest < MIN_SUBJECT_DEPTH:
 			failures.append(
 				"%s: solo %d prove distinte producibili (minimo %d) — una partita esaurisce il materiale" % [
@@ -149,6 +156,7 @@ func _short(fmt: String) -> String:
 		"classification": return "smista"
 		"graph": return "grafico"
 		"circuit": return "circuito"
+		"cycle": return "ciclo"
 		"code_debug": return "errore"
 	return fmt
 

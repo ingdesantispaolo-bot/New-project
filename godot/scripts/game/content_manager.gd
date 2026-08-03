@@ -477,7 +477,7 @@ func _stochastic_round(x: float, rng: RandomNumberGenerator) -> int:
 # della stessa materia, presi dal MinigameManager (topic/difficoltà coerenti). I
 # nodi iniettati restano nel contratto comune (ExerciseInteraction): stesso
 # scoring/scudi/mastery. Sostituisce partendo dagli ultimi nodi MC.
-const SPECIALIST_FORMATS := ["graph", "circuit", "code_debug", "hotspot"]
+const SPECIALIST_FORMATS := ["graph", "circuit", "cycle", "code_debug", "hotspot"]
 
 # Peso di ogni formato tra i nodi NON-MC iniettati. Calibrato perché, con MC ~20%,
 # l'esperienza giocata risulti ~20% abbina e ~60% al resto (ordina/classifica +
@@ -485,7 +485,7 @@ const SPECIALIST_FORMATS := ["graph", "circuit", "code_debug", "hotspot"]
 # poche campate restano varie e nessun formato torna a dominare.
 const NONMC_FORMAT_WEIGHTS := {
 	"matching": 20, "ordering": 15, "classification": 13,
-	"graph": 25, "circuit": 25, "code_debug": 25, "hotspot": 18,
+	"graph": 25, "circuit": 25, "cycle": 18, "code_debug": 25, "hotspot": 18,
 }
 
 # Quante costruzioni di minigioco attingere per la tavolozza: con più prove per

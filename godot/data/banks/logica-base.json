@@ -1,807 +1,967 @@
 {
-  "schemaVersion": 1,
-  "subject": "logica",
-  "generator": "logica-generated-v2",
-  "items": [
-    {
-      "id": "logica-arit-2-2",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 2, 4, 6, 8, ?",
-      "options": [
-        "10",
-        "11",
-        "9",
-        "12"
-      ],
-      "answer": "10",
-      "explanation": "Si aggiunge 2 ogni volta: 8 + 2 = 10."
-    },
-    {
-      "id": "logica-arit-1-2",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 1, 3, 5, 7, ?",
-      "options": [
-        "11",
-        "9",
-        "8",
-        "10"
-      ],
-      "answer": "9",
-      "explanation": "Si aggiunge 2 ogni volta: 7 + 2 = 9."
-    },
-    {
-      "id": "logica-arit-3-3",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 3, 6, 9, 12, ?",
-      "options": [
-        "16",
-        "17",
-        "15",
-        "14"
-      ],
-      "answer": "15",
-      "explanation": "Si aggiunge 3 ogni volta: 12 + 3 = 15."
-    },
-    {
-      "id": "logica-arit-5-5",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 5, 10, 15, 20, ?",
-      "options": [
-        "26",
-        "27",
-        "24",
-        "25"
-      ],
-      "answer": "25",
-      "explanation": "Si aggiunge 5 ogni volta: 20 + 5 = 25."
-    },
-    {
-      "id": "logica-arit-4-3",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 4, 7, 10, 13, ?",
-      "options": [
-        "16",
-        "15",
-        "18",
-        "17"
-      ],
-      "answer": "16",
-      "explanation": "Si aggiunge 3 ogni volta: 13 + 3 = 16."
-    },
-    {
-      "id": "logica-arit-7-4",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 7, 11, 15, 19, ?",
-      "options": [
-        "25",
-        "23",
-        "22",
-        "24"
-      ],
-      "answer": "23",
-      "explanation": "Si aggiunge 4 ogni volta: 19 + 4 = 23."
-    },
-    {
-      "id": "logica-arit-10-10",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 10, 20, 30, 40, ?",
-      "options": [
-        "52",
-        "51",
-        "50",
-        "49"
-      ],
-      "answer": "50",
-      "explanation": "Si aggiunge 10 ogni volta: 40 + 10 = 50."
-    },
-    {
-      "id": "logica-arit-6-6",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 6, 12, 18, 24, ?",
-      "options": [
-        "32",
-        "31",
-        "29",
-        "30"
-      ],
-      "answer": "30",
-      "explanation": "Si aggiunge 6 ogni volta: 24 + 6 = 30."
-    },
-    {
-      "id": "logica-arit-2-4",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 2, 6, 10, 14, ?",
-      "options": [
-        "18",
-        "19",
-        "20",
-        "17"
-      ],
-      "answer": "18",
-      "explanation": "Si aggiunge 4 ogni volta: 14 + 4 = 18."
-    },
-    {
-      "id": "logica-arit-9-3",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 9, 12, 15, 18, ?",
-      "options": [
-        "20",
-        "21",
-        "22",
-        "23"
-      ],
-      "answer": "21",
-      "explanation": "Si aggiunge 3 ogni volta: 18 + 3 = 21."
-    },
-    {
-      "id": "logica-geom-1-2",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 1, 2, 4, 8, ?",
-      "options": [
-        "18",
-        "17",
-        "16",
-        "15"
-      ],
-      "answer": "16",
-      "explanation": "Si moltiplica per 2 ogni volta: 8 × 2 = 16."
-    },
-    {
-      "id": "logica-geom-1-3",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 1, 3, 9, 27, ?",
-      "options": [
-        "80",
-        "82",
-        "83",
-        "81"
-      ],
-      "answer": "81",
-      "explanation": "Si moltiplica per 3 ogni volta: 27 × 3 = 81."
-    },
-    {
-      "id": "logica-geom-2-2",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 2, 4, 8, 16, ?",
-      "options": [
-        "32",
-        "34",
-        "33",
-        "31"
-      ],
-      "answer": "32",
-      "explanation": "Si moltiplica per 2 ogni volta: 16 × 2 = 32."
-    },
-    {
-      "id": "logica-geom-3-2",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 3, 6, 12, 24, ?",
-      "options": [
-        "50",
-        "48",
-        "49",
-        "47"
-      ],
-      "answer": "48",
-      "explanation": "Si moltiplica per 2 ogni volta: 24 × 2 = 48."
-    },
-    {
-      "id": "logica-geom-1-4",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 1, 4, 16, 64, ?",
-      "options": [
-        "257",
-        "255",
-        "256",
-        "258"
-      ],
-      "answer": "256",
-      "explanation": "Si moltiplica per 4 ogni volta: 64 × 4 = 256."
-    },
-    {
-      "id": "logica-quadrati",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 1, 4, 9, 16, ?",
-      "options": [
-        "24",
-        "26",
-        "27",
-        "25"
-      ],
-      "answer": "25",
-      "explanation": "Sono i quadrati: 1, 4, 9, 16, 25 (5×5)."
-    },
-    {
-      "id": "logica-alt-2-2-3",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 2, 4, 7, 9, ?",
-      "options": [
-        "12",
-        "14",
-        "11",
-        "13"
-      ],
-      "answer": "12",
-      "explanation": "La serie alterna +2 e +3: 9 + 3 = 12."
-    },
-    {
-      "id": "logica-alt-1-3-1",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 1, 4, 5, 8, ?",
-      "options": [
-        "11",
-        "9",
-        "10",
-        "8"
-      ],
-      "answer": "9",
-      "explanation": "La serie alterna +3 e +1: 8 + 1 = 9."
-    },
-    {
-      "id": "logica-alt-5-1-4",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 5, 6, 10, 11, ?",
-      "options": [
-        "16",
-        "17",
-        "15",
-        "14"
-      ],
-      "answer": "15",
-      "explanation": "La serie alterna +1 e +4: 11 + 4 = 15."
-    },
-    {
-      "id": "logica-odd-2467",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale numero non appartiene al gruppo: 2, 4, 6, 7?",
-      "options": [
-        "6",
-        "4",
-        "2",
-        "7"
-      ],
-      "answer": "7",
-      "explanation": "7 è dispari; gli altri sono pari."
-    },
-    {
-      "id": "logica-odd-3597",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale numero non appartiene al gruppo: 3, 5, 9, 7?",
-      "options": [
-        "9",
-        "3",
-        "5",
-        "7"
-      ],
-      "answer": "9",
-      "explanation": "9 non è primo (3×3); gli altri sono numeri primi."
-    },
-    {
-      "id": "logica-odd-10202530",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale numero non appartiene al gruppo: 10, 20, 25, 30?",
-      "options": [
-        "10",
-        "25",
-        "30",
-        "20"
-      ],
-      "answer": "25",
-      "explanation": "25 non è un multiplo di 10; gli altri sì."
-    },
-    {
-      "id": "logica-dec-20-3",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 20, 17, 14, 11, ?",
-      "options": [
-        "7",
-        "9",
-        "8",
-        "10"
-      ],
-      "answer": "8",
-      "explanation": "Si toglie 3 ogni volta: 11 − 3 = 8."
-    },
-    {
-      "id": "logica-fib",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la serie: 1, 1, 2, 3, ?",
-      "options": [
-        "6",
-        "4",
-        "7",
-        "5"
-      ],
-      "answer": "5",
-      "explanation": "Ogni numero è la somma dei due precedenti: 2 + 3 = 5."
-    },
-    {
-      "id": "logica-wodd-mela",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale parola non appartiene al gruppo: cane, mela, gatto, cavallo?",
-      "options": [
-        "mela",
-        "cavallo",
-        "gatto",
-        "cane"
-      ],
-      "answer": "mela",
-      "explanation": "La mela è un frutto; gli altri sono animali."
-    },
-    {
-      "id": "logica-wodd-quercia",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale parola non appartiene al gruppo: rosa, tulipano, quercia, margherita?",
-      "options": [
-        "tulipano",
-        "quercia",
-        "rosa",
-        "margherita"
-      ],
-      "answer": "quercia",
-      "explanation": "La quercia è un albero; gli altri sono fiori."
-    },
-    {
-      "id": "logica-wodd-tavolo",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Quale parola non appartiene al gruppo: rosso, verde, tavolo, blu?",
-      "options": [
-        "blu",
-        "verde",
-        "tavolo",
-        "rosso"
-      ],
-      "answer": "tavolo",
-      "explanation": "Il tavolo non è un colore."
-    },
-    {
-      "id": "logica-wodd-marzo",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Quale parola non appartiene al gruppo: lunedì, marzo, giovedì, domenica?",
-      "options": [
-        "domenica",
-        "lunedì",
-        "giovedì",
-        "marzo"
-      ],
-      "answer": "marzo",
-      "explanation": "Marzo è un mese; gli altri sono giorni della settimana."
-    },
-    {
-      "id": "logica-analogia-basso",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Grande sta a piccolo come alto sta a…?",
-      "options": [
-        "basso",
-        "veloce",
-        "largo",
-        "lungo"
-      ],
-      "answer": "basso",
-      "explanation": "Sono coppie di contrari: grande/piccolo, alto/basso."
-    },
-    {
-      "id": "logica-analogia-gattino",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 2,
-      "format": "multiple_choice",
-      "prompt": "Cane sta a cucciolo come gatto sta a…?",
-      "options": [
-        "cavallo",
-        "gattino",
-        "agnello",
-        "pulcino"
-      ],
-      "answer": "gattino",
-      "explanation": "Il piccolo del gatto è il gattino."
-    },
-    {
-      "id": "logica-analogia-scarpa",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Mano sta a guanto come piede sta a…?",
-      "options": [
-        "cappello",
-        "cintura",
-        "scarpa",
-        "sciarpa"
-      ],
-      "answer": "scarpa",
-      "explanation": "Il guanto veste la mano, la scarpa il piede."
-    },
-    {
-      "id": "logica-analogia-Luna",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Giorno sta a Sole come notte sta a…?",
-      "options": [
-        "stella cadente",
-        "buio totale",
-        "lampada",
-        "Luna"
-      ],
-      "answer": "Luna",
-      "explanation": "Di giorno splende il Sole, di notte la Luna."
-    },
-    {
-      "id": "logica-analogia-ascoltare",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Libro sta a leggere come musica sta a…?",
-      "options": [
-        "ascoltare",
-        "guardare",
-        "scrivere",
-        "annusare"
-      ],
-      "answer": "ascoltare",
-      "explanation": "Un libro si legge, la musica si ascolta."
-    },
-    {
-      "id": "logica-deduzione-58-ha la coda",
-      "subject": "logica",
-      "topic": "deduzioni",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…",
-      "options": [
-        "è un cane",
-        "ha la coda",
-        "non ha la coda",
-        "forse ha la coda"
-      ],
-      "answer": "ha la coda",
-      "explanation": "Se vale per tutti i gatti e Fufi è un gatto, vale anche per Fufi."
-    },
-    {
-      "id": "logica-deduzione-48-non vola",
-      "subject": "logica",
-      "topic": "deduzioni",
-      "difficulty": 3,
-      "format": "multiple_choice",
-      "prompt": "Nessun pesce vola. Nemo è un pesce. Quindi Nemo…",
-      "options": [
-        "è un uccello",
-        "forse vola",
-        "non vola",
-        "vola"
-      ],
-      "answer": "non vola",
-      "explanation": "Se nessun pesce vola e Nemo è un pesce, allora Nemo non vola."
-    },
-    {
-      "id": "logica-deduzione-68-non sta piovendo",
-      "subject": "logica",
-      "topic": "deduzioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…",
-      "options": [
-        "ha perso l'ombrello",
-        "fa molto caldo",
-        "sta piovendo",
-        "non sta piovendo"
-      ],
-      "answer": "non sta piovendo",
-      "explanation": "Se piovesse avrebbe l'ombrello; non ce l'ha, quindi non piove."
-    },
-    {
-      "id": "logica-deduzione-69-Ugo",
-      "subject": "logica",
-      "topic": "deduzioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?",
-      "options": [
-        "Ugo",
-        "Sara",
-        "Marco",
-        "Sono uguali"
-      ],
-      "answer": "Ugo",
-      "explanation": "Marco > Sara > Ugo: il più basso è Ugo."
-    },
-    {
-      "id": "logica-deduzione-86-blu",
-      "subject": "logica",
-      "topic": "deduzioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…",
-      "options": [
-        "non si può sapere",
-        "blu",
-        "verde",
-        "rossa"
-      ],
-      "answer": "blu",
-      "explanation": "Ci sono solo rosse e blu: se non è rossa, per forza è blu."
-    },
-    {
-      "id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale elemento non appartiene al gruppo: cane, gatto, cavallo, sedia?",
-      "options": [
-        "Sedia",
-        "Cane",
-        "Gatto",
-        "Cavallo"
-      ],
-      "answer": "Sedia",
-      "explanation": "Gli altri tre sono animali, la sedia è un oggetto."
-    },
-    {
-      "id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-rosso-bl",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale elemento non appartiene al gruppo: rosso, blu, verde, tavolo?",
-      "options": [
-        "Rosso",
-        "Tavolo",
-        "Blu",
-        "Verde"
-      ],
-      "answer": "Tavolo",
-      "explanation": "Gli altri tre sono colori, il tavolo è un mobile."
-    },
-    {
-      "id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-mela-per",
-      "subject": "logica",
-      "topic": "esclusioni",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale elemento non appartiene al gruppo: mela, pera, banana, martello?",
-      "options": [
-        "Mela",
-        "Pera",
-        "Martello",
-        "Banana"
-      ],
-      "answer": "Martello",
-      "explanation": "Gli altri tre sono frutti, il martello è un attrezzo."
-    },
-    {
-      "id": "logica-sequenze-quale-numero-continua-la-sequenza-2-4-6-8",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la sequenza: 2, 4, 6, 8, ...?",
-      "options": [
-        "9",
-        "12",
-        "16",
-        "10"
-      ],
-      "answer": "10",
-      "explanation": "Ogni termine aumenta di due: dopo l'8 viene il 10."
-    },
-    {
-      "id": "logica-sequenze-quale-numero-continua-la-sequenza-5-10-15-20",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la sequenza: 5, 10, 15, 20, ...?",
-      "options": [
-        "25",
-        "30",
-        "22",
-        "40"
-      ],
-      "answer": "25",
-      "explanation": "Ogni termine aumenta di cinque: dopo il 20 viene il 25."
-    },
-    {
-      "id": "logica-sequenze-quale-numero-continua-la-sequenza-10-9-8-7",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la sequenza: 10, 9, 8, 7, ...?",
-      "options": [
-        "5",
-        "6",
-        "8",
-        "11"
-      ],
-      "answer": "6",
-      "explanation": "Ogni termine diminuisce di uno: dopo il 7 viene il 6."
-    },
-    {
-      "id": "logica-analogie-il-cane-sta-alla-cuccia-come-l-uccello-sta-al",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Il cane sta alla cuccia come l'uccello sta al...",
-      "options": [
-        "cielo",
-        "becco",
-        "nido",
-        "volo"
-      ],
-      "answer": "nido",
-      "explanation": "In entrambi i casi si tratta del posto in cui l'animale abita."
-    },
-    {
-      "id": "logica-analogie-la-penna-sta-allo-scrivere-come-le-forbici-stann",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "La penna sta allo scrivere come le forbici stanno al...",
-      "options": [
-        "cucire",
-        "misurare",
-        "disegnare",
-        "tagliare"
-      ],
-      "answer": "tagliare",
-      "explanation": "In entrambi i casi si tratta di ciò per cui l'oggetto serve."
-    },
-    {
-      "id": "logica-deduzioni-tutti-i-gatti-sono-felini-micio-e-un-gatto-che-c",
-      "subject": "logica",
-      "topic": "deduzioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Tutti i gatti sono felini. Micio è un gatto. Che cosa segue con certezza?",
-      "options": [
-        "Micio è un felino",
-        "Ogni felino è un gatto",
-        "Micio è un mammifero raro",
-        "Alcuni felini non sono gatti"
-      ],
-      "answer": "Micio è un felino",
-      "explanation": "La conclusione deve stare dentro le premesse: gatto implica felino."
-    },
-    {
-      "id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada-",
-      "subject": "logica",
-      "topic": "deduzioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Se «piove, allora la strada è bagnata» e la strada è bagnata, che cosa segue?",
-      "options": [
-        "Sta piovendo di sicuro",
-        "Nulla di certo",
-        "Non sta piovendo",
-        "Pioverà domani"
-      ],
-      "answer": "Nulla di certo",
-      "explanation": "La strada può essere bagnata per altri motivi: la regola non si inverte."
-    },
-    {
-      "id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada--2",
-      "subject": "logica",
-      "topic": "deduzioni",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Se «piove, allora la strada è bagnata» e la strada è asciutta, che cosa segue?",
-      "options": [
-        "Sta piovendo",
-        "Nulla di certo",
-        "Non sta piovendo",
-        "Pioverà fra poco"
-      ],
-      "answer": "Non sta piovendo",
-      "explanation": "Se piovesse la strada sarebbe bagnata: quindi non piove."
-    },
-    {
-      "id": "logica-sequenze-quale-numero-continua-la-sequenza-3-6-5-10-9",
-      "subject": "logica",
-      "topic": "sequenze",
-      "difficulty": 4,
-      "format": "multiple_choice",
-      "prompt": "Quale numero continua la sequenza: 3, 6, 5, 10, 9, ...?",
-      "options": [
-        "12",
-        "11",
-        "8",
-        "18"
-      ],
-      "answer": "18",
-      "explanation": "La regola alterna: si raddoppia, poi si toglie uno, poi si raddoppia."
-    }
-  ]
+	"schemaVersion": 1,
+	"subject": "logica",
+	"generator": "logica-generated-v2",
+	"items": [
+		{
+			"id": "logica-arit-2-2",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 2, 4, 6, 8, ?",
+			"options": [
+				"10",
+				"11",
+				"9",
+				"12"
+			],
+			"answer": "10",
+			"explanation": "Si aggiunge 2 ogni volta: 8 + 2 = 10."
+		},
+		{
+			"id": "logica-arit-1-2",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 1, 3, 5, 7, ?",
+			"options": [
+				"11",
+				"9",
+				"8",
+				"10"
+			],
+			"answer": "9",
+			"explanation": "Si aggiunge 2 ogni volta: 7 + 2 = 9."
+		},
+		{
+			"id": "logica-arit-3-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 3, 6, 9, 12, ?",
+			"options": [
+				"16",
+				"17",
+				"15",
+				"14"
+			],
+			"answer": "15",
+			"explanation": "Si aggiunge 3 ogni volta: 12 + 3 = 15."
+		},
+		{
+			"id": "logica-arit-5-5",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 5, 10, 15, 20, ?",
+			"options": [
+				"26",
+				"27",
+				"24",
+				"25"
+			],
+			"answer": "25",
+			"explanation": "Si aggiunge 5 ogni volta: 20 + 5 = 25."
+		},
+		{
+			"id": "logica-arit-4-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 4, 7, 10, 13, ?",
+			"options": [
+				"16",
+				"15",
+				"18",
+				"17"
+			],
+			"answer": "16",
+			"explanation": "Si aggiunge 3 ogni volta: 13 + 3 = 16."
+		},
+		{
+			"id": "logica-arit-7-4",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 7, 11, 15, 19, ?",
+			"options": [
+				"25",
+				"23",
+				"22",
+				"24"
+			],
+			"answer": "23",
+			"explanation": "Si aggiunge 4 ogni volta: 19 + 4 = 23."
+		},
+		{
+			"id": "logica-arit-10-10",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 10, 20, 30, 40, ?",
+			"options": [
+				"52",
+				"51",
+				"50",
+				"49"
+			],
+			"answer": "50",
+			"explanation": "Si aggiunge 10 ogni volta: 40 + 10 = 50."
+		},
+		{
+			"id": "logica-arit-6-6",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 6, 12, 18, 24, ?",
+			"options": [
+				"32",
+				"31",
+				"29",
+				"30"
+			],
+			"answer": "30",
+			"explanation": "Si aggiunge 6 ogni volta: 24 + 6 = 30."
+		},
+		{
+			"id": "logica-arit-2-4",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 2, 6, 10, 14, ?",
+			"options": [
+				"18",
+				"19",
+				"20",
+				"17"
+			],
+			"answer": "18",
+			"explanation": "Si aggiunge 4 ogni volta: 14 + 4 = 18."
+		},
+		{
+			"id": "logica-arit-9-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 9, 12, 15, 18, ?",
+			"options": [
+				"20",
+				"21",
+				"22",
+				"23"
+			],
+			"answer": "21",
+			"explanation": "Si aggiunge 3 ogni volta: 18 + 3 = 21."
+		},
+		{
+			"id": "logica-geom-1-2",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 1, 2, 4, 8, ?",
+			"options": [
+				"18",
+				"17",
+				"16",
+				"15"
+			],
+			"answer": "16",
+			"explanation": "Si moltiplica per 2 ogni volta: 8 × 2 = 16."
+		},
+		{
+			"id": "logica-geom-1-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 1, 3, 9, 27, ?",
+			"options": [
+				"80",
+				"82",
+				"83",
+				"81"
+			],
+			"answer": "81",
+			"explanation": "Si moltiplica per 3 ogni volta: 27 × 3 = 81."
+		},
+		{
+			"id": "logica-geom-2-2",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 2, 4, 8, 16, ?",
+			"options": [
+				"32",
+				"34",
+				"33",
+				"31"
+			],
+			"answer": "32",
+			"explanation": "Si moltiplica per 2 ogni volta: 16 × 2 = 32."
+		},
+		{
+			"id": "logica-geom-3-2",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 3, 6, 12, 24, ?",
+			"options": [
+				"50",
+				"48",
+				"49",
+				"47"
+			],
+			"answer": "48",
+			"explanation": "Si moltiplica per 2 ogni volta: 24 × 2 = 48."
+		},
+		{
+			"id": "logica-geom-1-4",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 1, 4, 16, 64, ?",
+			"options": [
+				"257",
+				"255",
+				"256",
+				"258"
+			],
+			"answer": "256",
+			"explanation": "Si moltiplica per 4 ogni volta: 64 × 4 = 256."
+		},
+		{
+			"id": "logica-quadrati",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 1, 4, 9, 16, ?",
+			"options": [
+				"24",
+				"26",
+				"27",
+				"25"
+			],
+			"answer": "25",
+			"explanation": "Sono i quadrati: 1, 4, 9, 16, 25 (5×5)."
+		},
+		{
+			"id": "logica-alt-2-2-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 2, 4, 7, 9, ?",
+			"options": [
+				"12",
+				"14",
+				"11",
+				"13"
+			],
+			"answer": "12",
+			"explanation": "La serie alterna +2 e +3: 9 + 3 = 12."
+		},
+		{
+			"id": "logica-alt-1-3-1",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 1, 4, 5, 8, ?",
+			"options": [
+				"11",
+				"9",
+				"10",
+				"8"
+			],
+			"answer": "9",
+			"explanation": "La serie alterna +3 e +1: 8 + 1 = 9."
+		},
+		{
+			"id": "logica-alt-5-1-4",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 5, 6, 10, 11, ?",
+			"options": [
+				"16",
+				"17",
+				"15",
+				"14"
+			],
+			"answer": "15",
+			"explanation": "La serie alterna +1 e +4: 11 + 4 = 15."
+		},
+		{
+			"id": "logica-odd-2467",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero non appartiene al gruppo: 2, 4, 6, 7?",
+			"options": [
+				"6",
+				"4",
+				"2",
+				"7"
+			],
+			"answer": "7",
+			"explanation": "7 è dispari; gli altri sono pari."
+		},
+		{
+			"id": "logica-odd-3597",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale numero non appartiene al gruppo: 3, 5, 9, 7?",
+			"options": [
+				"9",
+				"3",
+				"5",
+				"7"
+			],
+			"answer": "9",
+			"explanation": "9 non è primo (3×3); gli altri sono numeri primi."
+		},
+		{
+			"id": "logica-odd-10202530",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero non appartiene al gruppo: 10, 20, 25, 30?",
+			"options": [
+				"10",
+				"25",
+				"30",
+				"20"
+			],
+			"answer": "25",
+			"explanation": "25 non è un multiplo di 10; gli altri sì."
+		},
+		{
+			"id": "logica-dec-20-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 20, 17, 14, 11, ?",
+			"options": [
+				"7",
+				"9",
+				"8",
+				"10"
+			],
+			"answer": "8",
+			"explanation": "Si toglie 3 ogni volta: 11 − 3 = 8."
+		},
+		{
+			"id": "logica-fib",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 1, 1, 2, 3, ?",
+			"options": [
+				"6",
+				"4",
+				"7",
+				"5"
+			],
+			"answer": "5",
+			"explanation": "Ogni numero è la somma dei due precedenti: 2 + 3 = 5."
+		},
+		{
+			"id": "logica-wodd-mela",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola non appartiene al gruppo: cane, mela, gatto, cavallo?",
+			"options": [
+				"mela",
+				"cavallo",
+				"gatto",
+				"cane"
+			],
+			"answer": "mela",
+			"explanation": "La mela è un frutto; gli altri sono animali."
+		},
+		{
+			"id": "logica-wodd-quercia",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola non appartiene al gruppo: rosa, tulipano, quercia, margherita?",
+			"options": [
+				"tulipano",
+				"quercia",
+				"rosa",
+				"margherita"
+			],
+			"answer": "quercia",
+			"explanation": "La quercia è un albero; gli altri sono fiori."
+		},
+		{
+			"id": "logica-wodd-tavolo",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola non appartiene al gruppo: rosso, verde, tavolo, blu?",
+			"options": [
+				"blu",
+				"verde",
+				"tavolo",
+				"rosso"
+			],
+			"answer": "tavolo",
+			"explanation": "Il tavolo non è un colore."
+		},
+		{
+			"id": "logica-wodd-marzo",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola non appartiene al gruppo: lunedì, marzo, giovedì, domenica?",
+			"options": [
+				"domenica",
+				"lunedì",
+				"giovedì",
+				"marzo"
+			],
+			"answer": "marzo",
+			"explanation": "Marzo è un mese; gli altri sono giorni della settimana."
+		},
+		{
+			"id": "logica-analogia-basso",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Grande sta a piccolo come alto sta a…?",
+			"options": [
+				"basso",
+				"veloce",
+				"largo",
+				"lungo"
+			],
+			"answer": "basso",
+			"explanation": "Sono coppie di contrari: grande/piccolo, alto/basso."
+		},
+		{
+			"id": "logica-analogia-gattino",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cane sta a cucciolo come gatto sta a…?",
+			"options": [
+				"cavallo",
+				"gattino",
+				"agnello",
+				"pulcino"
+			],
+			"answer": "gattino",
+			"explanation": "Il piccolo del gatto è il gattino."
+		},
+		{
+			"id": "logica-analogia-scarpa",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Mano sta a guanto come piede sta a…?",
+			"options": [
+				"cappello",
+				"cintura",
+				"scarpa",
+				"sciarpa"
+			],
+			"answer": "scarpa",
+			"explanation": "Il guanto veste la mano, la scarpa il piede."
+		},
+		{
+			"id": "logica-analogia-Luna",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Giorno sta a Sole come notte sta a…?",
+			"options": [
+				"stella cadente",
+				"buio totale",
+				"lampada",
+				"Luna"
+			],
+			"answer": "Luna",
+			"explanation": "Di giorno splende il Sole, di notte la Luna."
+		},
+		{
+			"id": "logica-analogia-ascoltare",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Libro sta a leggere come musica sta a…?",
+			"options": [
+				"ascoltare",
+				"guardare",
+				"scrivere",
+				"annusare"
+			],
+			"answer": "ascoltare",
+			"explanation": "Un libro si legge, la musica si ascolta."
+		},
+		{
+			"id": "logica-deduzione-58-ha la coda",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…",
+			"options": [
+				"è un cane",
+				"ha la coda",
+				"non ha la coda",
+				"forse ha la coda"
+			],
+			"answer": "ha la coda",
+			"explanation": "Se vale per tutti i gatti e Fufi è un gatto, vale anche per Fufi."
+		},
+		{
+			"id": "logica-deduzione-48-non vola",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nessun pesce vola. Nemo è un pesce. Quindi Nemo…",
+			"options": [
+				"è un uccello",
+				"forse vola",
+				"non vola",
+				"vola"
+			],
+			"answer": "non vola",
+			"explanation": "Se nessun pesce vola e Nemo è un pesce, allora Nemo non vola."
+		},
+		{
+			"id": "logica-deduzione-68-non sta piovendo",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…",
+			"options": [
+				"ha perso l'ombrello",
+				"fa molto caldo",
+				"sta piovendo",
+				"non sta piovendo"
+			],
+			"answer": "non sta piovendo",
+			"explanation": "Se piovesse avrebbe l'ombrello; non ce l'ha, quindi non piove."
+		},
+		{
+			"id": "logica-deduzione-69-Ugo",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?",
+			"options": [
+				"Ugo",
+				"Sara",
+				"Marco",
+				"Sono uguali"
+			],
+			"answer": "Ugo",
+			"explanation": "Marco > Sara > Ugo: il più basso è Ugo."
+		},
+		{
+			"id": "logica-deduzione-86-blu",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…",
+			"options": [
+				"non si può sapere",
+				"blu",
+				"verde",
+				"rossa"
+			],
+			"answer": "blu",
+			"explanation": "Ci sono solo rosse e blu: se non è rossa, per forza è blu."
+		},
+		{
+			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale elemento non appartiene al gruppo: cane, gatto, cavallo, sedia?",
+			"options": [
+				"Sedia",
+				"Cane",
+				"Gatto",
+				"Cavallo"
+			],
+			"answer": "Sedia",
+			"explanation": "Gli altri tre sono animali, la sedia è un oggetto."
+		},
+		{
+			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-rosso-bl",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale elemento non appartiene al gruppo: rosso, blu, verde, tavolo?",
+			"options": [
+				"Rosso",
+				"Tavolo",
+				"Blu",
+				"Verde"
+			],
+			"answer": "Tavolo",
+			"explanation": "Gli altri tre sono colori, il tavolo è un mobile."
+		},
+		{
+			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-mela-per",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale elemento non appartiene al gruppo: mela, pera, banana, martello?",
+			"options": [
+				"Mela",
+				"Pera",
+				"Martello",
+				"Banana"
+			],
+			"answer": "Martello",
+			"explanation": "Gli altri tre sono frutti, il martello è un attrezzo."
+		},
+		{
+			"id": "logica-sequenze-quale-numero-continua-la-sequenza-2-4-6-8",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la sequenza: 2, 4, 6, 8, ...?",
+			"options": [
+				"9",
+				"12",
+				"16",
+				"10"
+			],
+			"answer": "10",
+			"explanation": "Ogni termine aumenta di due: dopo l'8 viene il 10."
+		},
+		{
+			"id": "logica-sequenze-quale-numero-continua-la-sequenza-5-10-15-20",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la sequenza: 5, 10, 15, 20, ...?",
+			"options": [
+				"25",
+				"30",
+				"22",
+				"40"
+			],
+			"answer": "25",
+			"explanation": "Ogni termine aumenta di cinque: dopo il 20 viene il 25."
+		},
+		{
+			"id": "logica-sequenze-quale-numero-continua-la-sequenza-10-9-8-7",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la sequenza: 10, 9, 8, 7, ...?",
+			"options": [
+				"5",
+				"6",
+				"8",
+				"11"
+			],
+			"answer": "6",
+			"explanation": "Ogni termine diminuisce di uno: dopo il 7 viene il 6."
+		},
+		{
+			"id": "logica-analogie-il-cane-sta-alla-cuccia-come-l-uccello-sta-al",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Il cane sta alla cuccia come l'uccello sta al...",
+			"options": [
+				"cielo",
+				"becco",
+				"nido",
+				"volo"
+			],
+			"answer": "nido",
+			"explanation": "In entrambi i casi si tratta del posto in cui l'animale abita."
+		},
+		{
+			"id": "logica-analogie-la-penna-sta-allo-scrivere-come-le-forbici-stann",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "La penna sta allo scrivere come le forbici stanno al...",
+			"options": [
+				"cucire",
+				"misurare",
+				"disegnare",
+				"tagliare"
+			],
+			"answer": "tagliare",
+			"explanation": "In entrambi i casi si tratta di ciò per cui l'oggetto serve."
+		},
+		{
+			"id": "logica-deduzioni-tutti-i-gatti-sono-felini-micio-e-un-gatto-che-c",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Tutti i gatti sono felini. Micio è un gatto. Che cosa segue con certezza?",
+			"options": [
+				"Micio è un felino",
+				"Ogni felino è un gatto",
+				"Micio è un mammifero raro",
+				"Alcuni felini non sono gatti"
+			],
+			"answer": "Micio è un felino",
+			"explanation": "La conclusione deve stare dentro le premesse: gatto implica felino."
+		},
+		{
+			"id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada-",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Se «piove, allora la strada è bagnata» e la strada è bagnata, che cosa segue?",
+			"options": [
+				"Sta piovendo di sicuro",
+				"Nulla di certo",
+				"Non sta piovendo",
+				"Pioverà domani"
+			],
+			"answer": "Nulla di certo",
+			"explanation": "La strada può essere bagnata per altri motivi: la regola non si inverte."
+		},
+		{
+			"id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada--2",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Se «piove, allora la strada è bagnata» e la strada è asciutta, che cosa segue?",
+			"options": [
+				"Sta piovendo",
+				"Nulla di certo",
+				"Non sta piovendo",
+				"Pioverà fra poco"
+			],
+			"answer": "Non sta piovendo",
+			"explanation": "Se piovesse la strada sarebbe bagnata: quindi non piove."
+		},
+		{
+			"id": "logica-sequenze-quale-numero-continua-la-sequenza-3-6-5-10-9",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la sequenza: 3, 6, 5, 10, 9, ...?",
+			"options": [
+				"12",
+				"11",
+				"8",
+				"18"
+			],
+			"answer": "18",
+			"explanation": "La regola alterna: si raddoppia, poi si toglie uno, poi si raddoppia."
+		},
+		{
+			"id": "logica-banda-quantificatori-0",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Non tutti i gatti sono neri» vuol dire…",
+			"options": [
+				"Esattamente metà dei gatti è nera",
+				"Nessun gatto è nero",
+				"Almeno un gatto non è nero",
+				"Tutti i gatti sono di un altro colore"
+			],
+			"answer": "Almeno un gatto non è nero",
+			"explanation": "La negazione di «tutti» non è «nessuno»: basta un solo controesempio per smentire un «tutti»."
+		},
+		{
+			"id": "logica-banda-quantificatori-1",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Qual è la negazione di «alcuni studenti sono in ritardo»?",
+			"options": [
+				"Non tutti gli studenti sono in ritardo",
+				"Tutti gli studenti sono in ritardo",
+				"Alcuni studenti non sono in ritardo",
+				"Nessuno studente è in ritardo"
+			],
+			"answer": "Nessuno studente è in ritardo",
+			"explanation": "«Alcuni» vuol dire almeno uno: negarlo significa dire zero, cioè nessuno."
+		},
+		{
+			"id": "logica-banda-insiemi-2",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Ogni quadrato è un rombo e ogni rombo è un parallelogramma. Allora…",
+			"options": [
+				"Ogni quadrato è un parallelogramma",
+				"Ogni parallelogramma è un quadrato",
+				"Nessun rombo è un quadrato",
+				"Rombo e quadrato sono la stessa figura"
+			],
+			"answer": "Ogni quadrato è un parallelogramma",
+			"explanation": "La relazione «è un» si trasmette in avanti lungo la catena, mai all'indietro."
+		},
+		{
+			"id": "logica-banda-deduzioni-3",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Se studio, passo l'esame.» Ho passato l'esame. Che cosa segue?",
+			"options": [
+				"Non ho studiato",
+				"Non si può dire se ho studiato",
+				"Ho studiato di sicuro",
+				"L'esame era facile"
+			],
+			"answer": "Non si può dire se ho studiato",
+			"explanation": "Dall'effetto non si risale alla causa: l'esame potrei averlo passato anche senza studiare."
+		},
+		{
+			"id": "logica-banda-deduzioni-4",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Se studio, passo l'esame.» Non ho passato l'esame. Che cosa segue?",
+			"options": [
+				"Ho studiato lo stesso",
+				"Non si può dire niente",
+				"Non ho studiato",
+				"L'esame era troppo difficile"
+			],
+			"answer": "Non ho studiato",
+			"explanation": "Questa volta il passaggio è valido: se manca l'effetto garantito, manca anche la causa che lo garantiva."
+		},
+		{
+			"id": "logica-banda-verita-5",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un'affermazione e la sua negazione possono essere vere tutte e due?",
+			"options": [
+				"Sì, se parlano di cose diverse",
+				"Sì, sempre",
+				"Solo in matematica",
+				"No, mai"
+			],
+			"answer": "No, mai",
+			"explanation": "È il principio di non contraddizione: se «piove» è vera, «non piove» è falsa. Non c'è via di mezzo."
+		},
+		{
+			"id": "logica-banda-analogie-6",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Orologio sta a tempo come termometro sta a…",
+			"options": [
+				"temperatura",
+				"calore",
+				"altezza",
+				"acqua"
+			],
+			"answer": "temperatura",
+			"explanation": "La relazione è «strumento → grandezza che misura». Il calore e la temperatura non sono la stessa cosa."
+		},
+		{
+			"id": "logica-banda-analogie-7",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Ape sta ad alveare come formica sta a…",
+			"options": [
+				"nido",
+				"formicaio",
+				"tana",
+				"favo"
+			],
+			"answer": "formicaio",
+			"explanation": "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica."
+		},
+		{
+			"id": "logica-banda-esclusioni-8",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: quadrato, rombo, cerchio, trapezio?",
+			"options": [
+				"trapezio",
+				"rombo",
+				"cerchio",
+				"quadrato"
+			],
+			"answer": "cerchio",
+			"explanation": "Gli altri tre sono poligoni, cioè hanno i lati dritti. Il cerchio non ne ha nessuno."
+		},
+		{
+			"id": "logica-banda-sequenze-9",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale numero continua la serie: 2, 6, 12, 20, 30, ?",
+			"options": [
+				"36",
+				"44",
+				"40",
+				"42"
+			],
+			"answer": "42",
+			"explanation": "Le differenze crescono di due in due: +4, +6, +8, +10 e poi +12, quindi 30 + 12 = 42."
+		}
+	]
 }

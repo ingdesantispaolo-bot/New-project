@@ -1282,6 +1282,134 @@
 			],
 			"answer": "La fanciulla ama la rosa",
 			"explanation": "'Rosam' è accusativo (oggetto): la fanciulla (soggetto) ama la rosa (oggetto)."
+		},
+		{
+			"id": "latino-banda-verbo-sum-0",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si dice «noi siamo» in latino?",
+			"options": [
+				"Sumus",
+				"Es",
+				"Estis",
+				"Sunt"
+			],
+			"answer": "Sumus",
+			"explanation": "sum, es, est, sumus, estis, sunt."
+		},
+		{
+			"id": "latino-banda-verbo-sum-1",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Estis» significa…",
+			"options": [
+				"(tu) sei",
+				"(voi) siete",
+				"(noi) siamo",
+				"(loro) sono"
+			],
+			"answer": "(voi) siete",
+			"explanation": "«Estis» è la seconda persona plurale di sum."
+		},
+		{
+			"id": "latino-banda-frasi-2",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Magister discipulos laudat» significa…",
+			"options": [
+				"Gli allievi lodano il maestro",
+				"Il maestro chiama gli allievi",
+				"Il maestro loda gli allievi",
+				"Gli allievi ascoltano il maestro"
+			],
+			"answer": "Il maestro loda gli allievi",
+			"explanation": "«Magister» è nominativo (soggetto), «discipulos» accusativo plurale (oggetto): a decidere chi fa l'azione è il caso, non la posizione."
+		},
+		{
+			"id": "latino-banda-casi-3",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché in latino l'ordine delle parole conta meno che in italiano?",
+			"options": [
+				"Perché non esistono gli articoli",
+				"Perché il verbo sta sempre alla fine",
+				"Perché le frasi sono più corte",
+				"Perché il caso dice già la funzione di ogni parola"
+			],
+			"answer": "Perché il caso dice già la funzione di ogni parola",
+			"explanation": "«Rosam puella amat» e «Puella rosam amat» dicono la stessa cosa: in tutte e due -am segna l'oggetto."
+		},
+		{
+			"id": "latino-banda-casi-4",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale caso useresti per dire «con la spada», cioè il mezzo?",
+			"options": [
+				"Ablativo",
+				"Accusativo",
+				"Dativo",
+				"Genitivo"
+			],
+			"answer": "Ablativo",
+			"explanation": "L'ablativo esprime mezzo, causa, modo e stato in luogo: «gladio» vuol dire con la spada."
+		},
+		{
+			"id": "latino-banda-etimologia-5",
+			"subject": "latino",
+			"topic": "etimologia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Da quale verbo latino vengono «scrivere», «scriba» e «manoscritto»?",
+			"options": [
+				"dicere",
+				"scribere",
+				"legere",
+				"ducere"
+			],
+			"answer": "scribere",
+			"explanation": "«Scribere» è scrivere: la stessa radice sta in descrizione, iscrizione e sottoscrivere."
+		},
+		{
+			"id": "latino-banda-etimologia-6",
+			"subject": "latino",
+			"topic": "etimologia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Manuale», «manovra» e «manutenzione» vengono tutte da…",
+			"options": [
+				"mens, la mente",
+				"mons, il monte",
+				"manus, la mano",
+				"munus, il dono"
+			],
+			"answer": "manus, la mano",
+			"explanation": "Un lavoro manuale si fa con le mani, e la manutenzione è ciò che le tiene in efficienza."
+		},
+		{
+			"id": "latino-banda-declinazioni-base-7",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Il genitivo singolare dice a quale declinazione appartiene un nome. «Civis, civis» è di…",
+			"options": [
+				"seconda declinazione",
+				"quarta declinazione",
+				"prima declinazione",
+				"terza declinazione"
+			],
+			"answer": "terza declinazione",
+			"explanation": "Genitivo in -is: terza declinazione. In -ae è la prima, in -i la seconda."
 		}
 	]
 }

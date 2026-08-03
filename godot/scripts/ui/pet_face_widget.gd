@@ -12,8 +12,10 @@ extends Control
 ## Vedi docs/PET_CUSTODE.md §2.
 
 signal cuddled
+signal screen_requested
 
 const SIZE := 76.0
+const LONG_PRESS_SEC := 0.55
 
 var _face := "sereno"
 var _resting := "sereno"
@@ -27,13 +29,14 @@ var _reduced_motion := false
 var _available: Array = []
 var _pulse := 0.0
 var _time := 0.0
+var _press_started_msec := -1
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(SIZE, SIZE + 16.0)
 	# STOP e non IGNORE: il volto si accarezza al tocco. È piccolo e sta in un
 	# angolo, quindi non ruba input al mondo.
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	tooltip_text = "Tocca per una carezza"
+	tooltip_text = "Tocca per una carezza · tieni premuto per aprire"
 	set_process(true)
 
 func configure(
@@ -87,17 +90,30 @@ func current_face() -> String:
 	return _face
 
 func _gui_input(event: InputEvent) -> void:
-	# Tipo esplicito: `event.pressed` su un InputEvent non tipizzato restituisce
-	# Variant, quindi `:=` non riesce a dedurre bool.
-	var tapped: bool = false
 	if event is InputEventMouseButton:
 		var mouse := event as InputEventMouseButton
-		tapped = mouse.pressed and mouse.button_index == MOUSE_BUTTON_LEFT
+		if mouse.button_index != MOUSE_BUTTON_LEFT:
+			return
+		_handle_press_state(mouse.pressed)
 	elif event is InputEventScreenTouch:
-		tapped = (event as InputEventScreenTouch).pressed
-	if tapped:
-		accept_event()
+		_handle_press_state((event as InputEventScreenTouch).pressed)
+
+func _handle_press_state(pressed: bool) -> void:
+	accept_event()
+	if pressed:
+		_press_started_msec = Time.get_ticks_msec()
+		return
+	if _press_started_msec < 0:
+		return
+	var held := float(Time.get_ticks_msec() - _press_started_msec) / 1000.0
+	_press_started_msec = -1
+	if press_action(held) == "screen":
+		screen_requested.emit()
+	else:
 		cuddled.emit()
+
+static func press_action(duration_sec: float) -> String:
+	return "screen" if duration_sec >= LONG_PRESS_SEC else "cuddle"
 
 func _process(delta: float) -> void:
 	_elapsed += delta

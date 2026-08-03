@@ -35,27 +35,36 @@ func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_sign
 		archetypes.push_front("multiplication")
 	var nodes: Array = []
 	var session_signatures: Array = []
+	var session_topic_keys: Dictionary = {}
 	for index in range(count):
 		var preferred := str(archetypes[index % archetypes.size()])
-		var node := _unique_node(preferred, complexity, rng, recent_signatures, session_signatures, index)
+		var node := _unique_node(
+			preferred, complexity, rng, recent_signatures, session_signatures,
+			session_topic_keys, index)
 		if review_topics.has(str(node.get("topic", ""))):
 			node["review"] = true
 		nodes.append(node)
 		session_signatures.append(str(node["signature"]))
+		session_topic_keys[_topic_key(node)] = true
 		recent_signatures.append(str(node["signature"]))
 	while recent_signatures.size() > 28:
 		recent_signatures.pop_front()
 	return nodes
 
-func _unique_node(preferred: String, complexity: int, rng: RandomNumberGenerator, recent: Array, current: Array, index: int) -> Dictionary:
+func _unique_node(preferred: String, complexity: int, rng: RandomNumberGenerator,
+		recent: Array, current: Array, used_topic_keys: Dictionary, index: int) -> Dictionary:
 	var candidate := {}
 	for attempt in range(36):
 		var archetype := preferred if attempt < 12 else str(_eligible_archetypes(complexity)[rng.randi_range(0, _eligible_archetypes(complexity).size() - 1)])
 		candidate = _build_archetype(archetype, complexity, rng, index)
 		var signature := str(candidate.get("signature", ""))
-		if not recent.has(signature) and not current.has(signature):
+		if not recent.has(signature) and not current.has(signature) \
+				and not used_topic_keys.has(_topic_key(candidate)):
 			return candidate
 	return candidate
+
+func _topic_key(node: Dictionary) -> String:
+	return "%s|%s" % [str(node.get("format", "")), str(node.get("topic", ""))]
 
 func _eligible_archetypes(complexity: int) -> Array:
 	var result: Array = ["addition", "subtraction", "multiplication", "sequence", "story_sum", "story_take"]

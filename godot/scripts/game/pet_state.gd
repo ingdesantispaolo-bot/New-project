@@ -46,6 +46,15 @@ const MAX_NAME_LENGTH := 12
 const BOND_PER_SESSION := 0.02
 const BOND_PER_CUDDLE := 0.002
 const CUDDLES_PER_SESSION := 10
+const BASE_ANTICS := ["tail", "pose", "nap", "guard"]
+
+const TEMPERAMENTS := ["vivace", "calmo", "buffo", "serio"]
+const LIVERIES := [
+	[0xf6c85f, 0xffe3a8],
+	[0x6be7d6, 0xcffbf3],
+	[0xc7b8ff, 0xeee9ff],
+	[0xff8fa3, 0xffd6df],
+]
 
 # --- Accesso al salvataggio ----------------------------------------------------
 # Migrazione non distruttiva e idempotente, come `GameSaveManager`: un salvataggio
@@ -100,6 +109,31 @@ static func resting_face(save) -> String:
 static func livery(save) -> Array:
 	return Array(_pet(save).get("livery", DEFAULT["livery"])).duplicate()
 
+static func set_livery(save, value: Array) -> Array:
+	if value.size() < 2:
+		return livery(save)
+	var candidate := [int(value[0]), int(value[1])]
+	var allowed := false
+	for palette in LIVERIES:
+		if Array(palette) == candidate:
+			allowed = true
+			break
+	if allowed:
+		_pet(save)["livery"] = candidate
+	return livery(save)
+
+static func set_temperament(save, value: String) -> String:
+	if TEMPERAMENTS.has(value):
+		_pet(save)["temperament"] = value
+	return temperament(save)
+
+static func set_resting_face(save, value: String) -> String:
+	# Il volto a riposo si può scegliere soltanto fra quelli già sbloccati: la
+	# schermata non è una scorciatoia per il legame.
+	if has_face(save, value):
+		_pet(save)["restingFace"] = value
+	return resting_face(save)
+
 static func bond(save) -> float:
 	return clampf(float(_pet(save).get("bond", 0.0)), 0.0, 1.0)
 
@@ -111,6 +145,16 @@ static func has_face(save, face: String) -> bool:
 
 static func sessions_together(save) -> int:
 	return int(_pet(save).get("sessionsTogether", 0))
+
+static func antics(save) -> Array:
+	var unlocked := Array(_pet(save).get("antics", [])).duplicate(true)
+	for antic_id in BASE_ANTICS:
+		if not unlocked.has(antic_id):
+			unlocked.append(antic_id)
+	return unlocked
+
+static func gifts(save) -> Array:
+	return Array(_pet(save).get("gifts", [])).duplicate(true)
 
 # --- Legame -------------------------------------------------------------------
 ## Aumenta il legame e sblocca le espressioni raggiunte. `amount` negativo viene

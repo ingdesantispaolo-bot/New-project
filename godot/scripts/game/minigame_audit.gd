@@ -18,8 +18,9 @@ func _init() -> void:
 	_test_gioco_ordering()
 	_test_gioco_matching()
 	_test_gioco_specialisti()
+	_test_sottrazione_con_prestito()
 	_test_integrazione_pipeline()
-	print("Minigame audit OK — 6 formati validi, giocabili e integrati nel loop")
+	print("Minigame audit OK — 10 formati validi, giocabili e integrati nel loop")
 	quit(0)
 
 # Ogni materia produce almeno un nodo minigioco ben formato.
@@ -34,10 +35,10 @@ func _test_costruzione_tutte_materie() -> void:
 		assert(str(session.get("kind", "")) == "minigame", "kind errato per %s" % subject)
 		for node in nodes:
 			var fmt := str(node.get("format", ""))
-			assert(fmt in ["matching", "ordering", "classification", "graph", "circuit", "code_debug"], "formato inatteso (%s): %s" % [subject, fmt])
+			assert(fmt in MinigameManager.FORMATS, "formato inatteso (%s): %s" % [subject, fmt])
 			assert(str(node.get("topic", "")) != "", "topic vuoto (%s)" % subject)
 			assert(int(node.get("difficulty", 0)) in [1, 2, 3, 4], "difficoltà invalida (%s)" % subject)
-			if fmt in ["graph", "circuit", "code_debug"]:
+			if fmt in ["graph", "circuit", "cycle", "notation", "map", "hotspot", "code_debug"]:
 				# Formati specialisti: valida col contratto comune.
 				var res := ExerciseInteraction.validate(node)
 				assert(bool(res["ok"]), "nodo %s non valido (%s): %s" % [fmt, subject, str(res["errors"])])
@@ -95,7 +96,7 @@ func _test_gioco_specialisti() -> void:
 	# Alcune materie ora RUOTANO più formati specialisti (es. coding: diagramma di
 	# flusso + caccia all'errore). Cerchiamo il formato su più seed anziché
 	# presumere che un singolo build lo produca sempre.
-	for pair in [["fisica", "graph"], ["matematica", "graph"], ["elettronica", "circuit"], ["coding", "circuit"], ["coding", "code_debug"], ["italiano", "classification"]]:
+	for pair in [["fisica", "graph"], ["matematica", "graph"], ["elettronica", "circuit"], ["coding", "circuit"], ["coding", "code_debug"], ["scienze", "cycle"], ["musica", "notation"], ["geografia", "map"], ["storia", "hotspot"], ["italiano", "classification"]]:
 		var subject := str(pair[0])
 		var fmt := str(pair[1])
 		var node := {}
@@ -109,6 +110,25 @@ func _test_gioco_specialisti() -> void:
 		assert(bool(res.get("passed", false)), "%s risolto bene deve passare" % fmt)
 		var res_fail := _play_single(_wrap_session(subject, "minigame", [node]), false)
 		assert(not bool(res_fail.get("passed", false)), "%s sbagliato non deve passare" % fmt)
+
+## Regressione di contenuto trovata dalla revisione umana: la scomposizione
+## (50 − 10) + (2 − 8) è valida nei relativi e vale 34. La caccia all'errore
+## deve mostrare una riga davvero falsa, senza insegnare che 2 − 8 è impossibile.
+func _test_sottrazione_con_prestito() -> void:
+	var found := false
+	for raw_spec in MinigameManager.CODE_DEBUG.get("matematica", []):
+		var spec := raw_spec as Dictionary
+		if "52 − 18" not in str(spec.get("prompt", "")):
+			continue
+		found = true
+		var lines: Array = spec.get("codeLines", [])
+		assert(int(spec.get("answerLine", 0)) == 2, "sottrazione: deve essere falsa la prima trasformazione")
+		assert(lines.size() >= 2 and "(8 − 2)" in str(lines[1]),
+			"sottrazione: la riga marcata deve contenere l'inversione reale delle unità")
+		assert("non si può fare 2 − 8" not in str(spec.get("explanation", "")),
+			"sottrazione: la spiegazione non deve negare i numeri relativi")
+		break
+	assert(found, "specifica di regressione 52 − 18 mancante")
 
 # try_start_minigame → gioca → resolve: conta come missione e completa l'incontro.
 func _test_integrazione_pipeline() -> void:
@@ -177,8 +197,10 @@ func _play_session(gameplay, session: Dictionary, solve_correctly: bool) -> Dict
 			_solve_matching(player, node, solve_correctly)
 		elif fmt == "classification":
 			_solve_classification(player, node, solve_correctly)
-		elif fmt in ["graph", "circuit", "hotspot"]:
+		elif fmt in ["graph", "circuit", "hotspot", "notation", "map"]:
 			_solve_visual(player, node, solve_correctly)
+		elif fmt == "cycle":
+			_solve_cycle(player, node, solve_correctly)
 		elif fmt == "code_debug":
 			_solve_code(player, node, solve_correctly)
 		else:
@@ -236,13 +258,21 @@ func _solve_visual(player, node: Dictionary, correctly: bool) -> void:
 	var pick := answer
 	if not correctly:
 		var fmt := str(node.get("format", ""))
-		var points: Array = node.get("hotspots", []) if fmt == "hotspot" else node.get("points", []) if fmt == "graph" else node.get("components", [])
+		var points: Array = node.get("targets", []) if fmt in ["hotspot", "map"] else node.get("symbols", []) if fmt == "notation" else node.get("points", []) if fmt == "graph" else node.get("components", [])
 		for p in points:
 			if str((p as Dictionary).get("id", "")) != answer:
 				pick = str((p as Dictionary).get("id", ""))
 				break
 	player._visual_select(pick)
 	player._visual_submit(node)
+
+func _solve_cycle(player, node: Dictionary, correctly: bool) -> void:
+	var sequence: Array = Array(node.get("correctOrder", [])).duplicate()
+	if not correctly:
+		sequence.reverse()
+	for id in sequence:
+		player._cycle_select(str(id))
+	player._cycle_submit(node)
 
 func _solve_code(player, node: Dictionary, correctly: bool) -> void:
 	var line := int(node.get("answerLine", 1))

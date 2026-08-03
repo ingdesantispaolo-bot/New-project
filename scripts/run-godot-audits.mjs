@@ -26,9 +26,19 @@ const root = join(here, "..");
 const projectPath = join(root, "godot");
 const TIMEOUT_MS = Number(process.env.AUDIT_TIMEOUT_MS ?? 240_000);
 
-const GODOT_BIN =
-  process.env.GODOT_BIN ??
-  "C:\\Users\\39351\\Godot\\Godot_v4.7.1-stable_win64.exe\\Godot_v4.7.1-stable_win64_console.exe";
+const GODOT_CANDIDATES = [
+  process.env.GODOT_BIN,
+  process.env.USERPROFILE
+    ? join(
+        process.env.USERPROFILE,
+        "Godot_v4.7.1-stable_win64.exe",
+        "Godot_v4.7.1-stable_win64_console.exe",
+      )
+    : undefined,
+  // Compatibilità con la macchina usata fino al 2 agosto 2026.
+  "C:\\Users\\39351\\Godot\\Godot_v4.7.1-stable_win64.exe\\Godot_v4.7.1-stable_win64_console.exe",
+].filter(Boolean);
+const GODOT_BIN = GODOT_CANDIDATES.find((candidate) => existsSync(candidate));
 
 // Righe che invalidano un audit anche con exit code 0.
 const FAILURE_MARKERS = [/Assertion failed/, /SCRIPT ERROR/, /Parse Error/, /Can't load script/];
@@ -64,8 +74,11 @@ function runAudit(resPath, saveDir) {
   });
 }
 
-if (!existsSync(GODOT_BIN)) {
-  console.error(`Eseguibile Godot non trovato: ${GODOT_BIN}\nImposta GODOT_BIN con il percorso della variante _console.exe.`);
+if (!GODOT_BIN) {
+  console.error(
+    `Eseguibile Godot non trovato. Percorsi provati:\n${GODOT_CANDIDATES.map((candidate) => `  - ${candidate}`).join("\n")}\n` +
+      "Imposta GODOT_BIN con il percorso della variante _console.exe.",
+  );
   process.exit(2);
 }
 

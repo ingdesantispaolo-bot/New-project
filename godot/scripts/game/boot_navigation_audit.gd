@@ -54,11 +54,11 @@ func _run() -> void:
 	assert(not current_scene.has_method("start_final_exam"),
 		"la scena mondo non deve esporre una scorciatoia all'esame finale")
 	var guide_button := current_scene.find_child("GuideToShipButton", true, false) as Button
-	assert(guide_button != null and guide_button.text == "TROVA UNA MISSIONE",
-		"prima del gate l'HUD deve guidare a una missione della materia-focus")
+	assert(guide_button != null and guide_button.text == "SEGUI LA MISSIONE",
+		"prima del gate l'HUD deve esporre la rotta della missione")
 	var ship_navigation := current_scene.find_child("ShipNavigation", true, false) as Label
-	assert(ship_navigation != null and "MISSIONE" in ship_navigation.text,
-		"prima del gate la bussola deve indicare un incontro raggiungibile")
+	assert(ship_navigation != null and "PARLA CON" in ship_navigation.text,
+		"prima della richiesta la bussola deve indicare il proprietario")
 	var mission_nodes := get_nodes_in_group("mission_poi")
 	var max_required := 0
 	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
@@ -76,12 +76,20 @@ func _run() -> void:
 	var context_button := current_scene.find_child("ContextInteractButton", true, false) as Button
 	assert(context_button != null, "il mondo deve esporre il comando touch contestuale")
 	guide_button.pressed.emit()
-	assert(outdoor_player.get("touch_target").distance_to(current_scene.call("_nearest_available_mission").global_position) < 0.01,
-		"TROVA UNA MISSIONE deve impostare una rotta fisica, senza teleport")
+	var owner := current_scene.call("_npc_actor_by_id", "w01-tobia") as Area2D
+	assert(owner != null and outdoor_player.get("touch_target").distance_to(owner.global_position) < 0.01,
+		"SEGUI LA MISSIONE deve portare prima da Tobia, senza teleport")
+	current_scene.call("_open_npc_dialogue", "w01-tobia")
+	var request_box := current_scene.get("dialogue_box") as Control
+	assert(request_box.visible, "la richiesta di Tobia deve precedere la missione")
+	request_box.call("close_dialogue")
+	await process_frame
 	# Tablet: un tap sul POI deve impostare l'avvicinamento e avviare la stessa
 	# interazione del tasto E quando Eli entra nel raggio.
-	var touch_mission: Area2D = current_scene.call("_nearest_available_mission")
-	assert(touch_mission != null, "serve una missione libera per l'audit touch")
+	var assigned_route: Dictionary = current_scene.call("_ownership_navigation_target")
+	var touch_mission := assigned_route.get("node") as Area2D
+	assert(touch_mission != null and str(assigned_route.get("message", "")).begins_with("Richiesta ricevuta"),
+		"serve la missione appena affidata per l'audit touch")
 	var touch_event := InputEventScreenTouch.new()
 	touch_event.pressed = true
 	touch_event.position = current_scene.get_viewport().get_canvas_transform() * touch_mission.global_position

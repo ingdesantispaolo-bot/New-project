@@ -62,6 +62,13 @@ func _run() -> void:
 	assert(not encounter.is_empty(), "il MissionEventDirector deve fornire una tappa ordinaria")
 	var encounter_area := _find_area(scene, "encounter", str(encounter["id"]))
 	assert(encounter_area != null)
+	var owner_id := str(Dictionary(encounter_area.get_meta("payload", {})).get("ownerNpc", ""))
+	if owner_id != "":
+		scene.call("_open_npc_dialogue", owner_id)
+		var request_box := scene.get("dialogue_box") as Control
+		assert(request_box.visible, "il proprietario deve affidare la tappa prima del roundtrip")
+		request_box.call("close_dialogue")
+		await process_frame
 	player.position = encounter["position"]
 	scene.call("on_interactable_entered", encounter_area, player)
 	scene.call("_interact")

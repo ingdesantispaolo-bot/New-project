@@ -11,7 +11,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 2 × 2?",
 			"answer": "4",
-			"explanation": "2 × 2 = 4.",
+			"explanation": "2 × 2 fa 4: è il quadrato di 2. Se non lo ricordi, per 2 basta il doppio: 2 + 2 fa 4.",
 			"format": "multiple_choice",
 			"options": [
 				"2",
@@ -27,7 +27,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 2 × 3?",
 			"answer": "6",
-			"explanation": "2 × 3 = 6.",
+			"explanation": "Se non ricordi 2 × 3, per 2 basta il doppio: 3 + 3 fa 6. E 3 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"4",
@@ -43,7 +43,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 2 × 4?",
 			"answer": "8",
-			"explanation": "2 × 4 = 8.",
+			"explanation": "Se non ricordi 2 × 4, per 2 basta il doppio: 4 + 4 fa 8. E 4 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -59,7 +59,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 2 × 5?",
 			"answer": "10",
-			"explanation": "2 × 5 = 10.",
+			"explanation": "Se non ricordi 2 × 5, per 5 fai la metà di 2 × 10, cioè la metà di 20: fa 10. E 5 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"8",
@@ -75,7 +75,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 3 × 2?",
 			"answer": "6",
-			"explanation": "3 × 2 = 6.",
+			"explanation": "Se non ricordi 3 × 2, per 2 basta il doppio: 3 + 3 fa 6. E 2 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -86,7 +86,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 3 × 3?",
 			"answer": "9",
-			"explanation": "3 × 3 = 9.",
+			"explanation": "3 × 3 fa 9: è il quadrato di 3. Se non lo ricordi, per 3 fai il doppio più il numero: 6 + 3 fa 9.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -97,7 +97,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 3 × 4?",
 			"answer": "12",
-			"explanation": "3 × 4 = 12.",
+			"explanation": "Se non ricordi 3 × 4, per 4 raddoppi due volte: 3 → 6 → 12. E 4 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -108,7 +108,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 3 × 5?",
 			"answer": "15",
-			"explanation": "3 × 5 = 15.",
+			"explanation": "Se non ricordi 3 × 5, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. E 5 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"15",
@@ -124,7 +124,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 4 × 2?",
 			"answer": "8",
-			"explanation": "4 × 2 = 8.",
+			"explanation": "Se non ricordi 4 × 2, per 2 basta il doppio: 4 + 4 fa 8. E 2 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"8",
@@ -140,7 +140,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 4 × 3?",
 			"answer": "12",
-			"explanation": "4 × 3 = 12.",
+			"explanation": "Se non ricordi 4 × 3, per 4 raddoppi due volte: 3 → 6 → 12. E 3 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -156,7 +156,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 4 × 4?",
 			"answer": "16",
-			"explanation": "4 × 4 = 16.",
+			"explanation": "4 × 4 fa 16: è il quadrato di 4. Se non lo ricordi, per 4 raddoppi due volte: 4 → 8 → 16.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -167,7 +167,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 4 × 5?",
 			"answer": "20",
-			"explanation": "4 × 5 = 20.",
+			"explanation": "Se non ricordi 4 × 5, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 5 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"16",
@@ -183,7 +183,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 5 × 2?",
 			"answer": "10",
-			"explanation": "5 × 2 = 10.",
+			"explanation": "Se non ricordi 5 × 2, per 5 fai la metà di 2 × 10, cioè la metà di 20: fa 10. E 2 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -194,7 +194,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 5 × 3?",
 			"answer": "15",
-			"explanation": "5 × 3 = 15.",
+			"explanation": "Se non ricordi 5 × 3, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. E 3 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"18",
@@ -210,7 +210,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 5 × 4?",
 			"answer": "20",
-			"explanation": "5 × 4 = 20.",
+			"explanation": "Se non ricordi 5 × 4, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 4 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -226,7 +226,7 @@
 			"difficulty": 1,
 			"prompt": "Quanto fa 5 × 5?",
 			"answer": "25",
-			"explanation": "5 × 5 = 25.",
+			"explanation": "5 × 5 fa 25: è il quadrato di 5. Se non lo ricordi, per 5 fai la metà di 5 × 10, cioè la metà di 50: fa 25.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -242,7 +242,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 2?",
 			"answer": "4",
-			"explanation": "2 × 2 = 4.",
+			"explanation": "2 × 2 fa 4: è il quadrato di 2. Se non lo ricordi, per 2 basta il doppio: 2 + 2 fa 4.",
 			"format": "multiple_choice",
 			"options": [
 				"4",
@@ -258,7 +258,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 3?",
 			"answer": "6",
-			"explanation": "2 × 3 = 6.",
+			"explanation": "Se non ricordi 2 × 3, per 2 basta il doppio: 3 + 3 fa 6. E 3 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"8",
@@ -274,7 +274,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 4?",
 			"answer": "8",
-			"explanation": "2 × 4 = 8.",
+			"explanation": "Se non ricordi 2 × 4, per 2 basta il doppio: 4 + 4 fa 8. E 4 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -290,7 +290,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 5?",
 			"answer": "10",
-			"explanation": "2 × 5 = 10.",
+			"explanation": "Se non ricordi 2 × 5, per 5 fai la metà di 2 × 10, cioè la metà di 20: fa 10. E 5 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"10",
@@ -306,7 +306,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 6?",
 			"answer": "12",
-			"explanation": "2 × 6 = 12.",
+			"explanation": "Se non ricordi 2 × 6, per 2 basta il doppio: 6 + 6 fa 12. E 6 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -317,7 +317,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 7?",
 			"answer": "14",
-			"explanation": "2 × 7 = 14.",
+			"explanation": "Se non ricordi 2 × 7, per 2 basta il doppio: 7 + 7 fa 14. E 7 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"21",
@@ -333,7 +333,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 8?",
 			"answer": "16",
-			"explanation": "2 × 8 = 16.",
+			"explanation": "Se non ricordi 2 × 8, per 2 basta il doppio: 8 + 8 fa 16. E 8 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"16",
@@ -349,7 +349,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 9?",
 			"answer": "18",
-			"explanation": "2 × 9 = 18.",
+			"explanation": "Se non ricordi 2 × 9, per 2 basta il doppio: 9 + 9 fa 18. E 9 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"20",
@@ -365,7 +365,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 2 × 10?",
 			"answer": "20",
-			"explanation": "2 × 10 = 20.",
+			"explanation": "Se non ricordi 2 × 10, per 10 basta aggiungere uno zero: 2 diventa 20. E 10 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"22",
@@ -381,7 +381,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 2?",
 			"answer": "6",
-			"explanation": "3 × 2 = 6.",
+			"explanation": "Se non ricordi 3 × 2, per 2 basta il doppio: 3 + 3 fa 6. E 2 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"6",
@@ -397,7 +397,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 3?",
 			"answer": "9",
-			"explanation": "3 × 3 = 9.",
+			"explanation": "3 × 3 fa 9: è il quadrato di 3. Se non lo ricordi, per 3 fai il doppio più il numero: 6 + 3 fa 9.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -413,7 +413,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 4?",
 			"answer": "12",
-			"explanation": "3 × 4 = 12.",
+			"explanation": "Se non ricordi 3 × 4, per 4 raddoppi due volte: 3 → 6 → 12. E 4 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -424,7 +424,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 5?",
 			"answer": "15",
-			"explanation": "3 × 5 = 15.",
+			"explanation": "Se non ricordi 3 × 5, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. E 5 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -440,7 +440,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 6?",
 			"answer": "18",
-			"explanation": "3 × 6 = 18.",
+			"explanation": "Se non ricordi 3 × 6, per 3 fai il doppio più il numero: 12 + 6 fa 18. E 6 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -456,7 +456,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 7?",
 			"answer": "21",
-			"explanation": "3 × 7 = 21.",
+			"explanation": "Se non ricordi 3 × 7, per 3 fai il doppio più il numero: 14 + 7 fa 21. E 7 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -467,7 +467,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 8?",
 			"answer": "24",
-			"explanation": "3 × 8 = 24.",
+			"explanation": "Se non ricordi 3 × 8, per 3 fai il doppio più il numero: 16 + 8 fa 24. E 8 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"21",
@@ -483,7 +483,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 9?",
 			"answer": "27",
-			"explanation": "3 × 9 = 27.",
+			"explanation": "Se non ricordi 3 × 9, per 9 fai 3 × 10 meno 3: 30 − 3 fa 27. E 9 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -499,7 +499,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 3 × 10?",
 			"answer": "30",
-			"explanation": "3 × 10 = 30.",
+			"explanation": "Se non ricordi 3 × 10, per 10 basta aggiungere uno zero: 3 diventa 30. E 10 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"40",
@@ -515,7 +515,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 2?",
 			"answer": "8",
-			"explanation": "4 × 2 = 8.",
+			"explanation": "Se non ricordi 4 × 2, per 2 basta il doppio: 4 + 4 fa 8. E 2 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -531,7 +531,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 3?",
 			"answer": "12",
-			"explanation": "4 × 3 = 12.",
+			"explanation": "Se non ricordi 4 × 3, per 4 raddoppi due volte: 3 → 6 → 12. E 3 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -542,7 +542,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 4?",
 			"answer": "16",
-			"explanation": "4 × 4 = 16.",
+			"explanation": "4 × 4 fa 16: è il quadrato di 4. Se non lo ricordi, per 4 raddoppi due volte: 4 → 8 → 16.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -553,7 +553,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 5?",
 			"answer": "20",
-			"explanation": "4 × 5 = 20.",
+			"explanation": "Se non ricordi 4 × 5, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 5 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"16",
@@ -569,7 +569,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 6?",
 			"answer": "24",
-			"explanation": "4 × 6 = 24.",
+			"explanation": "Se non ricordi 4 × 6, per 4 raddoppi due volte: 6 → 12 → 24. E 6 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -580,7 +580,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 7?",
 			"answer": "28",
-			"explanation": "4 × 7 = 28.",
+			"explanation": "Se non ricordi 4 × 7, per 4 raddoppi due volte: 7 → 14 → 28. E 7 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -591,7 +591,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 8?",
 			"answer": "32",
-			"explanation": "4 × 8 = 32.",
+			"explanation": "Se non ricordi 4 × 8, per 4 raddoppi due volte: 8 → 16 → 32. E 8 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -602,7 +602,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 9?",
 			"answer": "36",
-			"explanation": "4 × 9 = 36.",
+			"explanation": "Se non ricordi 4 × 9, per 9 fai 4 × 10 meno 4: 40 − 4 fa 36. E 9 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"32",
@@ -618,7 +618,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 4 × 10?",
 			"answer": "40",
-			"explanation": "4 × 10 = 40.",
+			"explanation": "Se non ricordi 4 × 10, per 10 basta aggiungere uno zero: 4 diventa 40. E 10 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -629,7 +629,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 2?",
 			"answer": "10",
-			"explanation": "5 × 2 = 10.",
+			"explanation": "Se non ricordi 5 × 2, per 5 fai la metà di 2 × 10, cioè la metà di 20: fa 10. E 2 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -640,7 +640,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 3?",
 			"answer": "15",
-			"explanation": "5 × 3 = 15.",
+			"explanation": "Se non ricordi 5 × 3, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. E 3 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -651,7 +651,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 4?",
 			"answer": "20",
-			"explanation": "5 × 4 = 20.",
+			"explanation": "Se non ricordi 5 × 4, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 4 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"20",
@@ -667,7 +667,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 5?",
 			"answer": "25",
-			"explanation": "5 × 5 = 25.",
+			"explanation": "5 × 5 fa 25: è il quadrato di 5. Se non lo ricordi, per 5 fai la metà di 5 × 10, cioè la metà di 50: fa 25.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -683,7 +683,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 6?",
 			"answer": "30",
-			"explanation": "5 × 6 = 30.",
+			"explanation": "Se non ricordi 5 × 6, per 5 fai la metà di 6 × 10, cioè la metà di 60: fa 30. E 6 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -699,7 +699,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 7?",
 			"answer": "35",
-			"explanation": "5 × 7 = 35.",
+			"explanation": "Se non ricordi 5 × 7, per 5 fai la metà di 7 × 10, cioè la metà di 70: fa 35. E 7 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -715,7 +715,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 8?",
 			"answer": "40",
-			"explanation": "5 × 8 = 40.",
+			"explanation": "Se non ricordi 5 × 8, per 5 fai la metà di 8 × 10, cioè la metà di 80: fa 40. E 8 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"45",
@@ -731,7 +731,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 9?",
 			"answer": "45",
-			"explanation": "5 × 9 = 45.",
+			"explanation": "Se non ricordi 5 × 9, per 5 fai la metà di 9 × 10, cioè la metà di 90: fa 45. E 9 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -742,7 +742,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 5 × 10?",
 			"answer": "50",
-			"explanation": "5 × 10 = 50.",
+			"explanation": "Se non ricordi 5 × 10, per 10 basta aggiungere uno zero: 5 diventa 50. E 10 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"60",
@@ -758,7 +758,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 2?",
 			"answer": "12",
-			"explanation": "6 × 2 = 12.",
+			"explanation": "Se non ricordi 6 × 2, per 2 basta il doppio: 6 + 6 fa 12. E 2 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"18",
@@ -774,7 +774,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 3?",
 			"answer": "18",
-			"explanation": "6 × 3 = 18.",
+			"explanation": "Se non ricordi 6 × 3, per 3 fai il doppio più il numero: 12 + 6 fa 18. E 3 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"21",
@@ -790,7 +790,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 4?",
 			"answer": "24",
-			"explanation": "6 × 4 = 24.",
+			"explanation": "Se non ricordi 6 × 4, per 4 raddoppi due volte: 6 → 12 → 24. E 4 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -801,7 +801,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 5?",
 			"answer": "30",
-			"explanation": "6 × 5 = 30.",
+			"explanation": "Se non ricordi 6 × 5, per 5 fai la metà di 6 × 10, cioè la metà di 60: fa 30. E 5 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -817,7 +817,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 6?",
 			"answer": "36",
-			"explanation": "6 × 6 = 36.",
+			"explanation": "6 × 6 fa 36: è il quadrato di 6. Se non lo ricordi, per 6 fai 6 × 5 più 6: 30 + 6 fa 36.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -828,7 +828,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 7?",
 			"answer": "42",
-			"explanation": "6 × 7 = 42.",
+			"explanation": "Se non ricordi 6 × 7, per 6 fai 7 × 5 più 7: 35 + 7 fa 42. E 7 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -844,7 +844,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 8?",
 			"answer": "48",
-			"explanation": "6 × 8 = 48.",
+			"explanation": "Se non ricordi 6 × 8, per 6 fai 8 × 5 più 8: 40 + 8 fa 48. E 8 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"42",
@@ -860,7 +860,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 9?",
 			"answer": "54",
-			"explanation": "6 × 9 = 54.",
+			"explanation": "Se non ricordi 6 × 9, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54. E 9 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -876,7 +876,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 6 × 10?",
 			"answer": "60",
-			"explanation": "6 × 10 = 60.",
+			"explanation": "Se non ricordi 6 × 10, per 10 basta aggiungere uno zero: 6 diventa 60. E 10 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"54",
@@ -892,7 +892,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 2?",
 			"answer": "14",
-			"explanation": "7 × 2 = 14.",
+			"explanation": "Se non ricordi 7 × 2, per 2 basta il doppio: 7 + 7 fa 14. E 2 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"14",
@@ -908,7 +908,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 3?",
 			"answer": "21",
-			"explanation": "7 × 3 = 21.",
+			"explanation": "Se non ricordi 7 × 3, per 3 fai il doppio più il numero: 14 + 7 fa 21. E 3 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"21",
@@ -924,7 +924,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 4?",
 			"answer": "28",
-			"explanation": "7 × 4 = 28.",
+			"explanation": "Se non ricordi 7 × 4, per 4 raddoppi due volte: 7 → 14 → 28. E 4 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -935,7 +935,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 5?",
 			"answer": "35",
-			"explanation": "7 × 5 = 35.",
+			"explanation": "Se non ricordi 7 × 5, per 5 fai la metà di 7 × 10, cioè la metà di 70: fa 35. E 5 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -946,7 +946,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 6?",
 			"answer": "42",
-			"explanation": "7 × 6 = 42.",
+			"explanation": "Se non ricordi 7 × 6, per 6 fai 7 × 5 più 7: 35 + 7 fa 42. E 6 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"42",
@@ -962,7 +962,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 7?",
 			"answer": "49",
-			"explanation": "7 × 7 = 49.",
+			"explanation": "7 × 7 fa 49: è il quadrato di 7. Se non lo ricordi, per 7 fai 7 × 5 più 7 × 2: 35 + 14 fa 49.",
 			"format": "multiple_choice",
 			"options": [
 				"50",
@@ -978,7 +978,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 8?",
 			"answer": "56",
-			"explanation": "7 × 8 = 56.",
+			"explanation": "Se non ricordi 7 × 8, per 8 raddoppi tre volte: 7 → 14 → 28 → 56. E 8 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"56",
@@ -994,7 +994,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 9?",
 			"answer": "63",
-			"explanation": "7 × 9 = 63.",
+			"explanation": "Se non ricordi 7 × 9, per 9 fai 7 × 10 meno 7: 70 − 7 fa 63. E 9 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"63",
@@ -1010,7 +1010,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 7 × 10?",
 			"answer": "70",
-			"explanation": "7 × 10 = 70.",
+			"explanation": "Se non ricordi 7 × 10, per 10 basta aggiungere uno zero: 7 diventa 70. E 10 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"80",
@@ -1026,7 +1026,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 2?",
 			"answer": "16",
-			"explanation": "8 × 2 = 16.",
+			"explanation": "Se non ricordi 8 × 2, per 2 basta il doppio: 8 + 8 fa 16. E 2 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"18",
@@ -1042,7 +1042,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 3?",
 			"answer": "24",
-			"explanation": "8 × 3 = 24.",
+			"explanation": "Se non ricordi 8 × 3, per 3 fai il doppio più il numero: 16 + 8 fa 24. E 3 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -1058,7 +1058,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 4?",
 			"answer": "32",
-			"explanation": "8 × 4 = 32.",
+			"explanation": "Se non ricordi 8 × 4, per 4 raddoppi due volte: 8 → 16 → 32. E 4 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -1074,7 +1074,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 5?",
 			"answer": "40",
-			"explanation": "8 × 5 = 40.",
+			"explanation": "Se non ricordi 8 × 5, per 5 fai la metà di 8 × 10, cioè la metà di 80: fa 40. E 5 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1085,7 +1085,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 6?",
 			"answer": "48",
-			"explanation": "8 × 6 = 48.",
+			"explanation": "Se non ricordi 8 × 6, per 6 fai 8 × 5 più 8: 40 + 8 fa 48. E 6 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"56",
@@ -1101,7 +1101,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 7?",
 			"answer": "56",
-			"explanation": "8 × 7 = 56.",
+			"explanation": "Se non ricordi 8 × 7, per 8 raddoppi tre volte: 7 → 14 → 28 → 56. E 7 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -1117,7 +1117,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 8?",
 			"answer": "64",
-			"explanation": "8 × 8 = 64.",
+			"explanation": "8 × 8 fa 64: è il quadrato di 8. Se non lo ricordi, per 8 raddoppi tre volte: 8 → 16 → 32 → 64.",
 			"format": "multiple_choice",
 			"options": [
 				"56",
@@ -1133,7 +1133,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 9?",
 			"answer": "72",
-			"explanation": "8 × 9 = 72.",
+			"explanation": "Se non ricordi 8 × 9, per 9 fai 8 × 10 meno 8: 80 − 8 fa 72. E 9 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1144,7 +1144,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 8 × 10?",
 			"answer": "80",
-			"explanation": "8 × 10 = 80.",
+			"explanation": "Se non ricordi 8 × 10, per 10 basta aggiungere uno zero: 8 diventa 80. E 10 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"72",
@@ -1160,7 +1160,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 2?",
 			"answer": "18",
-			"explanation": "9 × 2 = 18.",
+			"explanation": "Se non ricordi 9 × 2, per 2 basta il doppio: 9 + 9 fa 18. E 2 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"20",
@@ -1176,7 +1176,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 3?",
 			"answer": "27",
-			"explanation": "9 × 3 = 27.",
+			"explanation": "Se non ricordi 9 × 3, per 9 fai 3 × 10 meno 3: 30 − 3 fa 27. E 3 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"18",
@@ -1192,7 +1192,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 4?",
 			"answer": "36",
-			"explanation": "9 × 4 = 36.",
+			"explanation": "Se non ricordi 9 × 4, per 9 fai 4 × 10 meno 4: 40 − 4 fa 36. E 4 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"45",
@@ -1208,7 +1208,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 5?",
 			"answer": "45",
-			"explanation": "9 × 5 = 45.",
+			"explanation": "Se non ricordi 9 × 5, per 5 fai la metà di 9 × 10, cioè la metà di 90: fa 45. E 5 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"54",
@@ -1224,7 +1224,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 6?",
 			"answer": "54",
-			"explanation": "9 × 6 = 54.",
+			"explanation": "Se non ricordi 9 × 6, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54. E 6 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1235,7 +1235,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 7?",
 			"answer": "63",
-			"explanation": "9 × 7 = 63.",
+			"explanation": "Se non ricordi 9 × 7, per 9 fai 7 × 10 meno 7: 70 − 7 fa 63. E 7 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"70",
@@ -1251,7 +1251,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 8?",
 			"answer": "72",
-			"explanation": "9 × 8 = 72.",
+			"explanation": "Se non ricordi 9 × 8, per 9 fai 8 × 10 meno 8: 80 − 8 fa 72. E 8 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"80",
@@ -1267,7 +1267,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 9?",
 			"answer": "81",
-			"explanation": "9 × 9 = 81.",
+			"explanation": "9 × 9 fa 81: è il quadrato di 9. Se non lo ricordi, per 9 fai 9 × 10 meno 9: 90 − 9 fa 81.",
 			"format": "multiple_choice",
 			"options": [
 				"72",
@@ -1283,7 +1283,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 9 × 10?",
 			"answer": "90",
-			"explanation": "9 × 10 = 90.",
+			"explanation": "Se non ricordi 9 × 10, per 10 basta aggiungere uno zero: 9 diventa 90. E 10 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1294,7 +1294,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 2?",
 			"answer": "20",
-			"explanation": "10 × 2 = 20.",
+			"explanation": "Se non ricordi 10 × 2, per 10 basta aggiungere uno zero: 2 diventa 20. E 2 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1305,7 +1305,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 3?",
 			"answer": "30",
-			"explanation": "10 × 3 = 30.",
+			"explanation": "Se non ricordi 10 × 3, per 10 basta aggiungere uno zero: 3 diventa 30. E 3 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -1321,7 +1321,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 4?",
 			"answer": "40",
-			"explanation": "10 × 4 = 40.",
+			"explanation": "Se non ricordi 10 × 4, per 10 basta aggiungere uno zero: 4 diventa 40. E 4 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"44",
@@ -1337,7 +1337,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 5?",
 			"answer": "50",
-			"explanation": "10 × 5 = 50.",
+			"explanation": "Se non ricordi 10 × 5, per 10 basta aggiungere uno zero: 5 diventa 50. E 5 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"60",
@@ -1353,7 +1353,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 6?",
 			"answer": "60",
-			"explanation": "10 × 6 = 60.",
+			"explanation": "Se non ricordi 10 × 6, per 10 basta aggiungere uno zero: 6 diventa 60. E 6 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1364,7 +1364,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 7?",
 			"answer": "70",
-			"explanation": "10 × 7 = 70.",
+			"explanation": "Se non ricordi 10 × 7, per 10 basta aggiungere uno zero: 7 diventa 70. E 7 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"70",
@@ -1380,7 +1380,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 8?",
 			"answer": "80",
-			"explanation": "10 × 8 = 80.",
+			"explanation": "Se non ricordi 10 × 8, per 10 basta aggiungere uno zero: 8 diventa 80. E 8 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"80",
@@ -1396,7 +1396,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 9?",
 			"answer": "90",
-			"explanation": "10 × 9 = 90.",
+			"explanation": "Se non ricordi 10 × 9, per 10 basta aggiungere uno zero: 9 diventa 90. E 9 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"100",
@@ -1412,7 +1412,7 @@
 			"difficulty": 2,
 			"prompt": "Quanto fa 10 × 10?",
 			"answer": "100",
-			"explanation": "10 × 10 = 100.",
+			"explanation": "10 × 10 fa 100: è il quadrato di 10. Se non lo ricordi, per 10 basta aggiungere uno zero: 10 diventa 100.",
 			"format": "multiple_choice",
 			"options": [
 				"100",
@@ -1428,7 +1428,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 2?",
 			"answer": "6",
-			"explanation": "3 × 2 = 6.",
+			"explanation": "Se non ricordi 3 × 2, per 2 basta il doppio: 3 + 3 fa 6. E 2 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"3",
@@ -1444,7 +1444,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 3?",
 			"answer": "9",
-			"explanation": "3 × 3 = 9.",
+			"explanation": "3 × 3 fa 9: è il quadrato di 3. Se non lo ricordi, per 3 fai il doppio più il numero: 6 + 3 fa 9.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -1460,7 +1460,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 4?",
 			"answer": "12",
-			"explanation": "3 × 4 = 12.",
+			"explanation": "Se non ricordi 3 × 4, per 4 raddoppi due volte: 3 → 6 → 12. E 4 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"16",
@@ -1476,7 +1476,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 5?",
 			"answer": "15",
-			"explanation": "3 × 5 = 15.",
+			"explanation": "Se non ricordi 3 × 5, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. E 5 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"20",
@@ -1492,7 +1492,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 6?",
 			"answer": "18",
-			"explanation": "3 × 6 = 18.",
+			"explanation": "Se non ricordi 3 × 6, per 3 fai il doppio più il numero: 12 + 6 fa 18. E 6 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1503,7 +1503,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 7?",
 			"answer": "21",
-			"explanation": "3 × 7 = 21.",
+			"explanation": "Se non ricordi 3 × 7, per 3 fai il doppio più il numero: 14 + 7 fa 21. E 7 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -1519,7 +1519,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 8?",
 			"answer": "24",
-			"explanation": "3 × 8 = 24.",
+			"explanation": "Se non ricordi 3 × 8, per 3 fai il doppio più il numero: 16 + 8 fa 24. E 8 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1530,7 +1530,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 9?",
 			"answer": "27",
-			"explanation": "3 × 9 = 27.",
+			"explanation": "Se non ricordi 3 × 9, per 9 fai 3 × 10 meno 3: 30 − 3 fa 27. E 9 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"27",
@@ -1546,7 +1546,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 10?",
 			"answer": "30",
-			"explanation": "3 × 10 = 30.",
+			"explanation": "Se non ricordi 3 × 10, per 10 basta aggiungere uno zero: 3 diventa 30. E 10 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"27",
@@ -1562,7 +1562,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 11?",
 			"answer": "33",
-			"explanation": "3 × 11 = 33.",
+			"explanation": "Se non ricordi 3 × 11, per 11 con una cifra sola basta ripeterla: 3 diventa 33. E 11 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"36",
@@ -1578,7 +1578,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 3 × 12?",
 			"answer": "36",
-			"explanation": "3 × 12 = 36.",
+			"explanation": "Se non ricordi 3 × 12, per 3 fai il doppio più il numero: 24 + 12 fa 36. E 12 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"39",
@@ -1594,7 +1594,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 2?",
 			"answer": "8",
-			"explanation": "4 × 2 = 8.",
+			"explanation": "Se non ricordi 4 × 2, per 2 basta il doppio: 4 + 4 fa 8. E 2 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"4",
@@ -1610,7 +1610,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 3?",
 			"answer": "12",
-			"explanation": "4 × 3 = 12.",
+			"explanation": "Se non ricordi 4 × 3, per 4 raddoppi due volte: 3 → 6 → 12. E 3 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -1626,7 +1626,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 4?",
 			"answer": "16",
-			"explanation": "4 × 4 = 16.",
+			"explanation": "4 × 4 fa 16: è il quadrato di 4. Se non lo ricordi, per 4 raddoppi due volte: 4 → 8 → 16.",
 			"format": "multiple_choice",
 			"options": [
 				"17",
@@ -1642,7 +1642,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 5?",
 			"answer": "20",
-			"explanation": "4 × 5 = 20.",
+			"explanation": "Se non ricordi 4 × 5, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 5 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"25",
@@ -1658,7 +1658,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 6?",
 			"answer": "24",
-			"explanation": "4 × 6 = 24.",
+			"explanation": "Se non ricordi 4 × 6, per 4 raddoppi due volte: 6 → 12 → 24. E 6 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"20",
@@ -1674,7 +1674,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 7?",
 			"answer": "28",
-			"explanation": "4 × 7 = 28.",
+			"explanation": "Se non ricordi 4 × 7, per 4 raddoppi due volte: 7 → 14 → 28. E 7 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"35",
@@ -1690,7 +1690,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 8?",
 			"answer": "32",
-			"explanation": "4 × 8 = 32.",
+			"explanation": "Se non ricordi 4 × 8, per 4 raddoppi due volte: 8 → 16 → 32. E 8 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1701,7 +1701,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 9?",
 			"answer": "36",
-			"explanation": "4 × 9 = 36.",
+			"explanation": "Se non ricordi 4 × 9, per 9 fai 4 × 10 meno 4: 40 − 4 fa 36. E 9 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"45",
@@ -1717,7 +1717,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 10?",
 			"answer": "40",
-			"explanation": "4 × 10 = 40.",
+			"explanation": "Se non ricordi 4 × 10, per 10 basta aggiungere uno zero: 4 diventa 40. E 10 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1728,7 +1728,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 11?",
 			"answer": "44",
-			"explanation": "4 × 11 = 44.",
+			"explanation": "Se non ricordi 4 × 11, per 11 con una cifra sola basta ripeterla: 4 diventa 44. E 11 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"55",
@@ -1744,7 +1744,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 4 × 12?",
 			"answer": "48",
-			"explanation": "4 × 12 = 48.",
+			"explanation": "Se non ricordi 4 × 12, per 4 raddoppi due volte: 12 → 24 → 48. E 12 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -1760,7 +1760,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 2?",
 			"answer": "10",
-			"explanation": "5 × 2 = 10.",
+			"explanation": "Se non ricordi 5 × 2, per 5 fai la metà di 2 × 10, cioè la metà di 20: fa 10. E 2 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"15",
@@ -1776,7 +1776,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 3?",
 			"answer": "15",
-			"explanation": "5 × 3 = 15.",
+			"explanation": "Se non ricordi 5 × 3, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. E 3 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1787,7 +1787,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 4?",
 			"answer": "20",
-			"explanation": "5 × 4 = 20.",
+			"explanation": "Se non ricordi 5 × 4, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 4 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -1803,7 +1803,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 5?",
 			"answer": "25",
-			"explanation": "5 × 5 = 25.",
+			"explanation": "5 × 5 fa 25: è il quadrato di 5. Se non lo ricordi, per 5 fai la metà di 5 × 10, cioè la metà di 50: fa 25.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1814,7 +1814,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 6?",
 			"answer": "30",
-			"explanation": "5 × 6 = 30.",
+			"explanation": "Se non ricordi 5 × 6, per 5 fai la metà di 6 × 10, cioè la metà di 60: fa 30. E 6 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"36",
@@ -1830,7 +1830,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 7?",
 			"answer": "35",
-			"explanation": "5 × 7 = 35.",
+			"explanation": "Se non ricordi 5 × 7, per 5 fai la metà di 7 × 10, cioè la metà di 70: fa 35. E 7 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1841,7 +1841,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 8?",
 			"answer": "40",
-			"explanation": "5 × 8 = 40.",
+			"explanation": "Se non ricordi 5 × 8, per 5 fai la metà di 8 × 10, cioè la metà di 80: fa 40. E 8 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"45",
@@ -1857,7 +1857,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 9?",
 			"answer": "45",
-			"explanation": "5 × 9 = 45.",
+			"explanation": "Se non ricordi 5 × 9, per 5 fai la metà di 9 × 10, cioè la metà di 90: fa 45. E 9 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"40",
@@ -1873,7 +1873,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 10?",
 			"answer": "50",
-			"explanation": "5 × 10 = 50.",
+			"explanation": "Se non ricordi 5 × 10, per 10 basta aggiungere uno zero: 5 diventa 50. E 10 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"55",
@@ -1889,7 +1889,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 11?",
 			"answer": "55",
-			"explanation": "5 × 11 = 55.",
+			"explanation": "Se non ricordi 5 × 11, per 5 fai la metà di 11 × 10, cioè la metà di 110: fa 55. E 11 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"60",
@@ -1905,7 +1905,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 5 × 12?",
 			"answer": "60",
-			"explanation": "5 × 12 = 60.",
+			"explanation": "Se non ricordi 5 × 12, per 5 fai la metà di 12 × 10, cioè la metà di 120: fa 60. E 12 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1916,7 +1916,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 2?",
 			"answer": "12",
-			"explanation": "6 × 2 = 12.",
+			"explanation": "Se non ricordi 6 × 2, per 2 basta il doppio: 6 + 6 fa 12. E 2 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1927,7 +1927,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 3?",
 			"answer": "18",
-			"explanation": "6 × 3 = 18.",
+			"explanation": "Se non ricordi 6 × 3, per 3 fai il doppio più il numero: 12 + 6 fa 18. E 3 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -1943,7 +1943,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 4?",
 			"answer": "24",
-			"explanation": "6 × 4 = 24.",
+			"explanation": "Se non ricordi 6 × 4, per 4 raddoppi due volte: 6 → 12 → 24. E 4 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"18",
@@ -1959,7 +1959,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 5?",
 			"answer": "30",
-			"explanation": "6 × 5 = 30.",
+			"explanation": "Se non ricordi 6 × 5, per 5 fai la metà di 6 × 10, cioè la metà di 60: fa 30. E 5 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1970,7 +1970,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 6?",
 			"answer": "36",
-			"explanation": "6 × 6 = 36.",
+			"explanation": "6 × 6 fa 36: è il quadrato di 6. Se non lo ricordi, per 6 fai 6 × 5 più 6: 30 + 6 fa 36.",
 			"format": "multiple_choice",
 			"options": [
 				"37",
@@ -1986,7 +1986,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 7?",
 			"answer": "42",
-			"explanation": "6 × 7 = 42.",
+			"explanation": "Se non ricordi 6 × 7, per 6 fai 7 × 5 più 7: 35 + 7 fa 42. E 7 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -1997,7 +1997,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 8?",
 			"answer": "48",
-			"explanation": "6 × 8 = 48.",
+			"explanation": "Se non ricordi 6 × 8, per 6 fai 8 × 5 più 8: 40 + 8 fa 48. E 8 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -2013,7 +2013,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 9?",
 			"answer": "54",
-			"explanation": "6 × 9 = 54.",
+			"explanation": "Se non ricordi 6 × 9, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54. E 9 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -2029,7 +2029,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 10?",
 			"answer": "60",
-			"explanation": "6 × 10 = 60.",
+			"explanation": "Se non ricordi 6 × 10, per 10 basta aggiungere uno zero: 6 diventa 60. E 10 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"66",
@@ -2045,7 +2045,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 11?",
 			"answer": "66",
-			"explanation": "6 × 11 = 66.",
+			"explanation": "Se non ricordi 6 × 11, per 11 con una cifra sola basta ripeterla: 6 diventa 66. E 11 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2056,7 +2056,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 6 × 12?",
 			"answer": "72",
-			"explanation": "6 × 12 = 72.",
+			"explanation": "Se non ricordi 6 × 12, per 12 fai 6 × 10 più 6 × 2: 60 + 12 fa 72. E 12 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2067,7 +2067,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 2?",
 			"answer": "14",
-			"explanation": "7 × 2 = 14.",
+			"explanation": "Se non ricordi 7 × 2, per 2 basta il doppio: 7 + 7 fa 14. E 2 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"7",
@@ -2083,7 +2083,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 3?",
 			"answer": "21",
-			"explanation": "7 × 3 = 21.",
+			"explanation": "Se non ricordi 7 × 3, per 3 fai il doppio più il numero: 14 + 7 fa 21. E 3 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2094,7 +2094,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 4?",
 			"answer": "28",
-			"explanation": "7 × 4 = 28.",
+			"explanation": "Se non ricordi 7 × 4, per 4 raddoppi due volte: 7 → 14 → 28. E 4 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"32",
@@ -2110,7 +2110,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 5?",
 			"answer": "35",
-			"explanation": "7 × 5 = 35.",
+			"explanation": "Se non ricordi 7 × 5, per 5 fai la metà di 7 × 10, cioè la metà di 70: fa 35. E 5 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2121,7 +2121,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 6?",
 			"answer": "42",
-			"explanation": "7 × 6 = 42.",
+			"explanation": "Se non ricordi 7 × 6, per 6 fai 7 × 5 più 7: 35 + 7 fa 42. E 6 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"49",
@@ -2137,7 +2137,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 7?",
 			"answer": "49",
-			"explanation": "7 × 7 = 49.",
+			"explanation": "7 × 7 fa 49: è il quadrato di 7. Se non lo ricordi, per 7 fai 7 × 5 più 7 × 2: 35 + 14 fa 49.",
 			"format": "multiple_choice",
 			"options": [
 				"42",
@@ -2153,7 +2153,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 8?",
 			"answer": "56",
-			"explanation": "7 × 8 = 56.",
+			"explanation": "Se non ricordi 7 × 8, per 8 raddoppi tre volte: 7 → 14 → 28 → 56. E 8 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"64",
@@ -2169,7 +2169,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 9?",
 			"answer": "63",
-			"explanation": "7 × 9 = 63.",
+			"explanation": "Se non ricordi 7 × 9, per 9 fai 7 × 10 meno 7: 70 − 7 fa 63. E 9 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2180,7 +2180,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 10?",
 			"answer": "70",
-			"explanation": "7 × 10 = 70.",
+			"explanation": "Se non ricordi 7 × 10, per 10 basta aggiungere uno zero: 7 diventa 70. E 10 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"77",
@@ -2196,7 +2196,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 11?",
 			"answer": "77",
-			"explanation": "7 × 11 = 77.",
+			"explanation": "Se non ricordi 7 × 11, per 11 con una cifra sola basta ripeterla: 7 diventa 77. E 11 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"88",
@@ -2212,7 +2212,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 7 × 12?",
 			"answer": "84",
-			"explanation": "7 × 12 = 84.",
+			"explanation": "Se non ricordi 7 × 12, per 12 fai 7 × 10 più 7 × 2: 70 + 14 fa 84. E 12 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"77",
@@ -2228,7 +2228,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 2?",
 			"answer": "16",
-			"explanation": "8 × 2 = 16.",
+			"explanation": "Se non ricordi 8 × 2, per 2 basta il doppio: 8 + 8 fa 16. E 2 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"16",
@@ -2244,7 +2244,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 3?",
 			"answer": "24",
-			"explanation": "8 × 3 = 24.",
+			"explanation": "Se non ricordi 8 × 3, per 3 fai il doppio più il numero: 16 + 8 fa 24. E 3 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -2260,7 +2260,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 4?",
 			"answer": "32",
-			"explanation": "8 × 4 = 32.",
+			"explanation": "Se non ricordi 8 × 4, per 4 raddoppi due volte: 8 → 16 → 32. E 4 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"36",
@@ -2276,7 +2276,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 5?",
 			"answer": "40",
-			"explanation": "8 × 5 = 40.",
+			"explanation": "Se non ricordi 8 × 5, per 5 fai la metà di 8 × 10, cioè la metà di 80: fa 40. E 5 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -2292,7 +2292,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 6?",
 			"answer": "48",
-			"explanation": "8 × 6 = 48.",
+			"explanation": "Se non ricordi 8 × 6, per 6 fai 8 × 5 più 8: 40 + 8 fa 48. E 6 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"40",
@@ -2308,7 +2308,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 7?",
 			"answer": "56",
-			"explanation": "8 × 7 = 56.",
+			"explanation": "Se non ricordi 8 × 7, per 8 raddoppi tre volte: 7 → 14 → 28 → 56. E 7 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -2324,7 +2324,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 8?",
 			"answer": "64",
-			"explanation": "8 × 8 = 64.",
+			"explanation": "8 × 8 fa 64: è il quadrato di 8. Se non lo ricordi, per 8 raddoppi tre volte: 8 → 16 → 32 → 64.",
 			"format": "multiple_choice",
 			"options": [
 				"56",
@@ -2340,7 +2340,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 9?",
 			"answer": "72",
-			"explanation": "8 × 9 = 72.",
+			"explanation": "Se non ricordi 8 × 9, per 9 fai 8 × 10 meno 8: 80 − 8 fa 72. E 9 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"72",
@@ -2356,7 +2356,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 10?",
 			"answer": "80",
-			"explanation": "8 × 10 = 80.",
+			"explanation": "Se non ricordi 8 × 10, per 10 basta aggiungere uno zero: 8 diventa 80. E 10 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2367,7 +2367,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 11?",
 			"answer": "88",
-			"explanation": "8 × 11 = 88.",
+			"explanation": "Se non ricordi 8 × 11, per 11 con una cifra sola basta ripeterla: 8 diventa 88. E 11 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2378,7 +2378,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 8 × 12?",
 			"answer": "96",
-			"explanation": "8 × 12 = 96.",
+			"explanation": "Se non ricordi 8 × 12, per 12 fai 8 × 10 più 8 × 2: 80 + 16 fa 96. E 12 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"96",
@@ -2394,7 +2394,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 2?",
 			"answer": "18",
-			"explanation": "9 × 2 = 18.",
+			"explanation": "Se non ricordi 9 × 2, per 2 basta il doppio: 9 + 9 fa 18. E 2 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2405,7 +2405,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 3?",
 			"answer": "27",
-			"explanation": "9 × 3 = 27.",
+			"explanation": "Se non ricordi 9 × 3, per 9 fai 3 × 10 meno 3: 30 − 3 fa 27. E 3 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"18",
@@ -2421,7 +2421,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 4?",
 			"answer": "36",
-			"explanation": "9 × 4 = 36.",
+			"explanation": "Se non ricordi 9 × 4, per 9 fai 4 × 10 meno 4: 40 − 4 fa 36. E 4 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"36",
@@ -2437,7 +2437,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 5?",
 			"answer": "45",
-			"explanation": "9 × 5 = 45.",
+			"explanation": "Se non ricordi 9 × 5, per 5 fai la metà di 9 × 10, cioè la metà di 90: fa 45. E 5 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"36",
@@ -2453,7 +2453,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 6?",
 			"answer": "54",
-			"explanation": "9 × 6 = 54.",
+			"explanation": "Se non ricordi 9 × 6, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54. E 6 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"45",
@@ -2469,7 +2469,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 7?",
 			"answer": "63",
-			"explanation": "9 × 7 = 63.",
+			"explanation": "Se non ricordi 9 × 7, per 9 fai 7 × 10 meno 7: 70 − 7 fa 63. E 7 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"70",
@@ -2485,7 +2485,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 8?",
 			"answer": "72",
-			"explanation": "9 × 8 = 72.",
+			"explanation": "Se non ricordi 9 × 8, per 9 fai 8 × 10 meno 8: 80 − 8 fa 72. E 8 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"72",
@@ -2501,7 +2501,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 9?",
 			"answer": "81",
-			"explanation": "9 × 9 = 81.",
+			"explanation": "9 × 9 fa 81: è il quadrato di 9. Se non lo ricordi, per 9 fai 9 × 10 meno 9: 90 − 9 fa 81.",
 			"format": "multiple_choice",
 			"options": [
 				"82",
@@ -2517,7 +2517,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 10?",
 			"answer": "90",
-			"explanation": "9 × 10 = 90.",
+			"explanation": "Se non ricordi 9 × 10, per 10 basta aggiungere uno zero: 9 diventa 90. E 10 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2528,7 +2528,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 11?",
 			"answer": "99",
-			"explanation": "9 × 11 = 99.",
+			"explanation": "Se non ricordi 9 × 11, per 9 fai 11 × 10 meno 11: 110 − 11 fa 99. E 11 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"99",
@@ -2544,7 +2544,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 9 × 12?",
 			"answer": "108",
-			"explanation": "9 × 12 = 108.",
+			"explanation": "Se non ricordi 9 × 12, per 9 fai 12 × 10 meno 12: 120 − 12 fa 108. E 12 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"117",
@@ -2560,7 +2560,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 2?",
 			"answer": "20",
-			"explanation": "10 × 2 = 20.",
+			"explanation": "Se non ricordi 10 × 2, per 10 basta aggiungere uno zero: 2 diventa 20. E 2 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"22",
@@ -2576,7 +2576,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 3?",
 			"answer": "30",
-			"explanation": "10 × 3 = 30.",
+			"explanation": "Se non ricordi 10 × 3, per 10 basta aggiungere uno zero: 3 diventa 30. E 3 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"20",
@@ -2592,7 +2592,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 4?",
 			"answer": "40",
-			"explanation": "10 × 4 = 40.",
+			"explanation": "Se non ricordi 10 × 4, per 10 basta aggiungere uno zero: 4 diventa 40. E 4 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -2608,7 +2608,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 5?",
 			"answer": "50",
-			"explanation": "10 × 5 = 50.",
+			"explanation": "Se non ricordi 10 × 5, per 10 basta aggiungere uno zero: 5 diventa 50. E 5 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"60",
@@ -2624,7 +2624,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 6?",
 			"answer": "60",
-			"explanation": "10 × 6 = 60.",
+			"explanation": "Se non ricordi 10 × 6, per 10 basta aggiungere uno zero: 6 diventa 60. E 6 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"66",
@@ -2640,7 +2640,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 7?",
 			"answer": "70",
-			"explanation": "10 × 7 = 70.",
+			"explanation": "Se non ricordi 10 × 7, per 10 basta aggiungere uno zero: 7 diventa 70. E 7 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"80",
@@ -2656,7 +2656,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 8?",
 			"answer": "80",
-			"explanation": "10 × 8 = 80.",
+			"explanation": "Se non ricordi 10 × 8, per 10 basta aggiungere uno zero: 8 diventa 80. E 8 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"88",
@@ -2672,7 +2672,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 9?",
 			"answer": "90",
-			"explanation": "10 × 9 = 90.",
+			"explanation": "Se non ricordi 10 × 9, per 10 basta aggiungere uno zero: 9 diventa 90. E 9 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"80",
@@ -2688,7 +2688,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 10?",
 			"answer": "100",
-			"explanation": "10 × 10 = 100.",
+			"explanation": "10 × 10 fa 100: è il quadrato di 10. Se non lo ricordi, per 10 basta aggiungere uno zero: 10 diventa 100.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2699,7 +2699,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 11?",
 			"answer": "110",
-			"explanation": "10 × 11 = 110.",
+			"explanation": "Se non ricordi 10 × 11, per 10 basta aggiungere uno zero: 11 diventa 110. E 11 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"110",
@@ -2715,7 +2715,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 10 × 12?",
 			"answer": "120",
-			"explanation": "10 × 12 = 120.",
+			"explanation": "Se non ricordi 10 × 12, per 10 basta aggiungere uno zero: 12 diventa 120. E 12 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"132",
@@ -2731,7 +2731,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 2?",
 			"answer": "22",
-			"explanation": "11 × 2 = 22.",
+			"explanation": "Se non ricordi 11 × 2, per 2 basta il doppio: 11 + 11 fa 22. E 2 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2742,7 +2742,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 3?",
 			"answer": "33",
-			"explanation": "11 × 3 = 33.",
+			"explanation": "Se non ricordi 11 × 3, per 11 con una cifra sola basta ripeterla: 3 diventa 33. E 3 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"44",
@@ -2758,7 +2758,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 4?",
 			"answer": "44",
-			"explanation": "11 × 4 = 44.",
+			"explanation": "Se non ricordi 11 × 4, per 11 con una cifra sola basta ripeterla: 4 diventa 44. E 4 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"44",
@@ -2774,7 +2774,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 5?",
 			"answer": "55",
-			"explanation": "11 × 5 = 55.",
+			"explanation": "Se non ricordi 11 × 5, per 5 fai la metà di 11 × 10, cioè la metà di 110: fa 55. E 5 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"44",
@@ -2790,7 +2790,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 6?",
 			"answer": "66",
-			"explanation": "11 × 6 = 66.",
+			"explanation": "Se non ricordi 11 × 6, per 11 con una cifra sola basta ripeterla: 6 diventa 66. E 6 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"77",
@@ -2806,7 +2806,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 7?",
 			"answer": "77",
-			"explanation": "11 × 7 = 77.",
+			"explanation": "Se non ricordi 11 × 7, per 11 con una cifra sola basta ripeterla: 7 diventa 77. E 7 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"84",
@@ -2822,7 +2822,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 8?",
 			"answer": "88",
-			"explanation": "11 × 8 = 88.",
+			"explanation": "Se non ricordi 11 × 8, per 11 con una cifra sola basta ripeterla: 8 diventa 88. E 8 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2833,7 +2833,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 9?",
 			"answer": "99",
-			"explanation": "11 × 9 = 99.",
+			"explanation": "Se non ricordi 11 × 9, per 9 fai 11 × 10 meno 11: 110 − 11 fa 99. E 9 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"99",
@@ -2849,7 +2849,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 10?",
 			"answer": "110",
-			"explanation": "11 × 10 = 110.",
+			"explanation": "Se non ricordi 11 × 10, per 10 basta aggiungere uno zero: 11 diventa 110. E 10 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"99",
@@ -2865,7 +2865,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 11?",
 			"answer": "121",
-			"explanation": "11 × 11 = 121.",
+			"explanation": "11 × 11 fa 121: è il quadrato di 11. Se non lo ricordi, per 11 fai 11 × 10 più 11: 110 + 11 fa 121.",
 			"format": "multiple_choice",
 			"options": [
 				"110",
@@ -2881,7 +2881,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 11 × 12?",
 			"answer": "132",
-			"explanation": "11 × 12 = 132.",
+			"explanation": "Se non ricordi 11 × 12, per 11 fai 12 × 10 più 12: 120 + 12 fa 132. E 12 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"132",
@@ -2897,7 +2897,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 2?",
 			"answer": "24",
-			"explanation": "12 × 2 = 24.",
+			"explanation": "Se non ricordi 12 × 2, per 2 basta il doppio: 12 + 12 fa 24. E 2 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -2908,7 +2908,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 3?",
 			"answer": "36",
-			"explanation": "12 × 3 = 36.",
+			"explanation": "Se non ricordi 12 × 3, per 3 fai il doppio più il numero: 24 + 12 fa 36. E 3 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -2924,7 +2924,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 4?",
 			"answer": "48",
-			"explanation": "12 × 4 = 48.",
+			"explanation": "Se non ricordi 12 × 4, per 4 raddoppi due volte: 12 → 24 → 48. E 4 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"48",
@@ -2940,7 +2940,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 5?",
 			"answer": "60",
-			"explanation": "12 × 5 = 60.",
+			"explanation": "Se non ricordi 12 × 5, per 5 fai la metà di 12 × 10, cioè la metà di 120: fa 60. E 5 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"72",
@@ -2956,7 +2956,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 6?",
 			"answer": "72",
-			"explanation": "12 × 6 = 72.",
+			"explanation": "Se non ricordi 12 × 6, per 12 fai 6 × 10 più 6 × 2: 60 + 12 fa 72. E 6 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"60",
@@ -2972,7 +2972,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 7?",
 			"answer": "84",
-			"explanation": "12 × 7 = 84.",
+			"explanation": "Se non ricordi 12 × 7, per 12 fai 7 × 10 più 7 × 2: 70 + 14 fa 84. E 7 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"91",
@@ -2988,7 +2988,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 8?",
 			"answer": "96",
-			"explanation": "12 × 8 = 96.",
+			"explanation": "Se non ricordi 12 × 8, per 12 fai 8 × 10 più 8 × 2: 80 + 16 fa 96. E 8 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"84",
@@ -3004,7 +3004,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 9?",
 			"answer": "108",
-			"explanation": "12 × 9 = 108.",
+			"explanation": "Se non ricordi 12 × 9, per 9 fai 12 × 10 meno 12: 120 − 12 fa 108. E 9 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3015,7 +3015,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 10?",
 			"answer": "120",
-			"explanation": "12 × 10 = 120.",
+			"explanation": "Se non ricordi 12 × 10, per 10 basta aggiungere uno zero: 12 diventa 120. E 10 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"120",
@@ -3031,7 +3031,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 11?",
 			"answer": "132",
-			"explanation": "12 × 11 = 132.",
+			"explanation": "Se non ricordi 12 × 11, per 11 fai 12 × 10 più 12: 120 + 12 fa 132. E 11 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3042,7 +3042,7 @@
 			"difficulty": 3,
 			"prompt": "Quanto fa 12 × 12?",
 			"answer": "144",
-			"explanation": "12 × 12 = 144.",
+			"explanation": "12 × 12 fa 144: è il quadrato di 12. Se non lo ricordi, per 12 fai 12 × 10 più 12 × 2: 120 + 24 fa 144.",
 			"format": "multiple_choice",
 			"options": [
 				"132",
@@ -3058,7 +3058,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 2?",
 			"answer": "12",
-			"explanation": "6 × 2 = 12.",
+			"explanation": "Se non ricordi 6 × 2, per 2 basta il doppio: 6 + 6 fa 12. E 2 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"12",
@@ -3074,7 +3074,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 3?",
 			"answer": "18",
-			"explanation": "6 × 3 = 18.",
+			"explanation": "Se non ricordi 6 × 3, per 3 fai il doppio più il numero: 12 + 6 fa 18. E 3 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"24",
@@ -3090,7 +3090,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 4?",
 			"answer": "24",
-			"explanation": "6 × 4 = 24.",
+			"explanation": "Se non ricordi 6 × 4, per 4 raddoppi due volte: 6 → 12 → 24. E 4 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -3106,7 +3106,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 5?",
 			"answer": "30",
-			"explanation": "6 × 5 = 30.",
+			"explanation": "Se non ricordi 6 × 5, per 5 fai la metà di 6 × 10, cioè la metà di 60: fa 30. E 5 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3117,7 +3117,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 6?",
 			"answer": "36",
-			"explanation": "6 × 6 = 36.",
+			"explanation": "6 × 6 fa 36: è il quadrato di 6. Se non lo ricordi, per 6 fai 6 × 5 più 6: 30 + 6 fa 36.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3128,7 +3128,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 7?",
 			"answer": "42",
-			"explanation": "6 × 7 = 42.",
+			"explanation": "Se non ricordi 6 × 7, per 6 fai 7 × 5 più 7: 35 + 7 fa 42. E 7 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"36",
@@ -3144,7 +3144,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 8?",
 			"answer": "48",
-			"explanation": "6 × 8 = 48.",
+			"explanation": "Se non ricordi 6 × 8, per 6 fai 8 × 5 più 8: 40 + 8 fa 48. E 8 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3155,7 +3155,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 9?",
 			"answer": "54",
-			"explanation": "6 × 9 = 54.",
+			"explanation": "Se non ricordi 6 × 9, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54. E 9 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"54",
@@ -3171,7 +3171,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 10?",
 			"answer": "60",
-			"explanation": "6 × 10 = 60.",
+			"explanation": "Se non ricordi 6 × 10, per 10 basta aggiungere uno zero: 6 diventa 60. E 10 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"66",
@@ -3187,7 +3187,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 11?",
 			"answer": "66",
-			"explanation": "6 × 11 = 66.",
+			"explanation": "Se non ricordi 6 × 11, per 11 con una cifra sola basta ripeterla: 6 diventa 66. E 11 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3198,7 +3198,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 6 × 12?",
 			"answer": "72",
-			"explanation": "6 × 12 = 72.",
+			"explanation": "Se non ricordi 6 × 12, per 12 fai 6 × 10 più 6 × 2: 60 + 12 fa 72. E 12 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"66",
@@ -3214,7 +3214,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 2?",
 			"answer": "14",
-			"explanation": "7 × 2 = 14.",
+			"explanation": "Se non ricordi 7 × 2, per 2 basta il doppio: 7 + 7 fa 14. E 2 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"21",
@@ -3230,7 +3230,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 3?",
 			"answer": "21",
-			"explanation": "7 × 3 = 21.",
+			"explanation": "Se non ricordi 7 × 3, per 3 fai il doppio più il numero: 14 + 7 fa 21. E 3 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"14",
@@ -3246,7 +3246,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 4?",
 			"answer": "28",
-			"explanation": "7 × 4 = 28.",
+			"explanation": "Se non ricordi 7 × 4, per 4 raddoppi due volte: 7 → 14 → 28. E 4 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"21",
@@ -3262,7 +3262,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 5?",
 			"answer": "35",
-			"explanation": "7 × 5 = 35.",
+			"explanation": "Se non ricordi 7 × 5, per 5 fai la metà di 7 × 10, cioè la metà di 70: fa 35. E 5 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"35",
@@ -3278,7 +3278,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 6?",
 			"answer": "42",
-			"explanation": "7 × 6 = 42.",
+			"explanation": "Se non ricordi 7 × 6, per 6 fai 7 × 5 più 7: 35 + 7 fa 42. E 6 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"49",
@@ -3294,7 +3294,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 7?",
 			"answer": "49",
-			"explanation": "7 × 7 = 49.",
+			"explanation": "7 × 7 fa 49: è il quadrato di 7. Se non lo ricordi, per 7 fai 7 × 5 più 7 × 2: 35 + 14 fa 49.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3305,7 +3305,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 8?",
 			"answer": "56",
-			"explanation": "7 × 8 = 56.",
+			"explanation": "Se non ricordi 7 × 8, per 8 raddoppi tre volte: 7 → 14 → 28 → 56. E 8 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3316,7 +3316,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 9?",
 			"answer": "63",
-			"explanation": "7 × 9 = 63.",
+			"explanation": "Se non ricordi 7 × 9, per 9 fai 7 × 10 meno 7: 70 − 7 fa 63. E 9 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"63",
@@ -3332,7 +3332,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 10?",
 			"answer": "70",
-			"explanation": "7 × 10 = 70.",
+			"explanation": "Se non ricordi 7 × 10, per 10 basta aggiungere uno zero: 7 diventa 70. E 10 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"70",
@@ -3348,7 +3348,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 11?",
 			"answer": "77",
-			"explanation": "7 × 11 = 77.",
+			"explanation": "Se non ricordi 7 × 11, per 11 con una cifra sola basta ripeterla: 7 diventa 77. E 11 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"77",
@@ -3364,7 +3364,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 7 × 12?",
 			"answer": "84",
-			"explanation": "7 × 12 = 84.",
+			"explanation": "Se non ricordi 7 × 12, per 12 fai 7 × 10 più 7 × 2: 70 + 14 fa 84. E 12 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"96",
@@ -3380,7 +3380,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 2?",
 			"answer": "16",
-			"explanation": "8 × 2 = 16.",
+			"explanation": "Se non ricordi 8 × 2, per 2 basta il doppio: 8 + 8 fa 16. E 2 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3391,7 +3391,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 3?",
 			"answer": "24",
-			"explanation": "8 × 3 = 24.",
+			"explanation": "Se non ricordi 8 × 3, per 3 fai il doppio più il numero: 16 + 8 fa 24. E 3 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"16",
@@ -3407,7 +3407,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 4?",
 			"answer": "32",
-			"explanation": "8 × 4 = 32.",
+			"explanation": "Se non ricordi 8 × 4, per 4 raddoppi due volte: 8 → 16 → 32. E 4 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"32",
@@ -3423,7 +3423,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 5?",
 			"answer": "40",
-			"explanation": "8 × 5 = 40.",
+			"explanation": "Se non ricordi 8 × 5, per 5 fai la metà di 8 × 10, cioè la metà di 80: fa 40. E 5 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3434,7 +3434,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 6?",
 			"answer": "48",
-			"explanation": "8 × 6 = 48.",
+			"explanation": "Se non ricordi 8 × 6, per 6 fai 8 × 5 più 8: 40 + 8 fa 48. E 6 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"40",
@@ -3450,7 +3450,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 7?",
 			"answer": "56",
-			"explanation": "8 × 7 = 56.",
+			"explanation": "Se non ricordi 8 × 7, per 8 raddoppi tre volte: 7 → 14 → 28 → 56. E 7 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"56",
@@ -3466,7 +3466,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 8?",
 			"answer": "64",
-			"explanation": "8 × 8 = 64.",
+			"explanation": "8 × 8 fa 64: è il quadrato di 8. Se non lo ricordi, per 8 raddoppi tre volte: 8 → 16 → 32 → 64.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3477,7 +3477,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 9?",
 			"answer": "72",
-			"explanation": "8 × 9 = 72.",
+			"explanation": "Se non ricordi 8 × 9, per 9 fai 8 × 10 meno 8: 80 − 8 fa 72. E 9 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"80",
@@ -3493,7 +3493,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 10?",
 			"answer": "80",
-			"explanation": "8 × 10 = 80.",
+			"explanation": "Se non ricordi 8 × 10, per 10 basta aggiungere uno zero: 8 diventa 80. E 10 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"90",
@@ -3509,7 +3509,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 11?",
 			"answer": "88",
-			"explanation": "8 × 11 = 88.",
+			"explanation": "Se non ricordi 8 × 11, per 11 con una cifra sola basta ripeterla: 8 diventa 88. E 11 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"96",
@@ -3525,7 +3525,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 8 × 12?",
 			"answer": "96",
-			"explanation": "8 × 12 = 96.",
+			"explanation": "Se non ricordi 8 × 12, per 12 fai 8 × 10 più 8 × 2: 80 + 16 fa 96. E 12 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"96",
@@ -3541,7 +3541,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 2?",
 			"answer": "18",
-			"explanation": "9 × 2 = 18.",
+			"explanation": "Se non ricordi 9 × 2, per 2 basta il doppio: 9 + 9 fa 18. E 2 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"20",
@@ -3557,7 +3557,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 3?",
 			"answer": "27",
-			"explanation": "9 × 3 = 27.",
+			"explanation": "Se non ricordi 9 × 3, per 9 fai 3 × 10 meno 3: 30 − 3 fa 27. E 3 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"18",
@@ -3573,7 +3573,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 4?",
 			"answer": "36",
-			"explanation": "9 × 4 = 36.",
+			"explanation": "Se non ricordi 9 × 4, per 9 fai 4 × 10 meno 4: 40 − 4 fa 36. E 4 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"40",
@@ -3589,7 +3589,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 5?",
 			"answer": "45",
-			"explanation": "9 × 5 = 45.",
+			"explanation": "Se non ricordi 9 × 5, per 5 fai la metà di 9 × 10, cioè la metà di 90: fa 45. E 5 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"36",
@@ -3605,7 +3605,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 6?",
 			"answer": "54",
-			"explanation": "9 × 6 = 54.",
+			"explanation": "Se non ricordi 9 × 6, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54. E 6 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3616,7 +3616,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 7?",
 			"answer": "63",
-			"explanation": "9 × 7 = 63.",
+			"explanation": "Se non ricordi 9 × 7, per 9 fai 7 × 10 meno 7: 70 − 7 fa 63. E 7 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"70",
@@ -3632,7 +3632,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 8?",
 			"answer": "72",
-			"explanation": "9 × 8 = 72.",
+			"explanation": "Se non ricordi 9 × 8, per 9 fai 8 × 10 meno 8: 80 − 8 fa 72. E 8 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"63",
@@ -3648,7 +3648,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 9?",
 			"answer": "81",
-			"explanation": "9 × 9 = 81.",
+			"explanation": "9 × 9 fa 81: è il quadrato di 9. Se non lo ricordi, per 9 fai 9 × 10 meno 9: 90 − 9 fa 81.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3659,7 +3659,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 10?",
 			"answer": "90",
-			"explanation": "9 × 10 = 90.",
+			"explanation": "Se non ricordi 9 × 10, per 10 basta aggiungere uno zero: 9 diventa 90. E 10 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"99",
@@ -3675,7 +3675,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 11?",
 			"answer": "99",
-			"explanation": "9 × 11 = 99.",
+			"explanation": "Se non ricordi 9 × 11, per 9 fai 11 × 10 meno 11: 110 − 11 fa 99. E 11 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"110",
@@ -3691,7 +3691,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 9 × 12?",
 			"answer": "108",
-			"explanation": "9 × 12 = 108.",
+			"explanation": "Se non ricordi 9 × 12, per 9 fai 12 × 10 meno 12: 120 − 12 fa 108. E 12 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"117",
@@ -3707,7 +3707,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 2?",
 			"answer": "20",
-			"explanation": "10 × 2 = 20.",
+			"explanation": "Se non ricordi 10 × 2, per 10 basta aggiungere uno zero: 2 diventa 20. E 2 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3718,7 +3718,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 3?",
 			"answer": "30",
-			"explanation": "10 × 3 = 30.",
+			"explanation": "Se non ricordi 10 × 3, per 10 basta aggiungere uno zero: 3 diventa 30. E 3 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"30",
@@ -3734,7 +3734,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 4?",
 			"answer": "40",
-			"explanation": "10 × 4 = 40.",
+			"explanation": "Se non ricordi 10 × 4, per 10 basta aggiungere uno zero: 4 diventa 40. E 4 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"50",
@@ -3750,7 +3750,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 5?",
 			"answer": "50",
-			"explanation": "10 × 5 = 50.",
+			"explanation": "Se non ricordi 10 × 5, per 10 basta aggiungere uno zero: 5 diventa 50. E 5 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"40",
@@ -3766,7 +3766,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 6?",
 			"answer": "60",
-			"explanation": "10 × 6 = 60.",
+			"explanation": "Se non ricordi 10 × 6, per 10 basta aggiungere uno zero: 6 diventa 60. E 6 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"66",
@@ -3782,7 +3782,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 7?",
 			"answer": "70",
-			"explanation": "10 × 7 = 70.",
+			"explanation": "Se non ricordi 10 × 7, per 10 basta aggiungere uno zero: 7 diventa 70. E 7 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3793,7 +3793,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 8?",
 			"answer": "80",
-			"explanation": "10 × 8 = 80.",
+			"explanation": "Se non ricordi 10 × 8, per 10 basta aggiungere uno zero: 8 diventa 80. E 8 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"90",
@@ -3809,7 +3809,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 9?",
 			"answer": "90",
-			"explanation": "10 × 9 = 90.",
+			"explanation": "Se non ricordi 10 × 9, per 10 basta aggiungere uno zero: 9 diventa 90. E 9 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"100",
@@ -3825,7 +3825,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 10?",
 			"answer": "100",
-			"explanation": "10 × 10 = 100.",
+			"explanation": "10 × 10 fa 100: è il quadrato di 10. Se non lo ricordi, per 10 basta aggiungere uno zero: 10 diventa 100.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3836,7 +3836,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 11?",
 			"answer": "110",
-			"explanation": "10 × 11 = 110.",
+			"explanation": "Se non ricordi 10 × 11, per 10 basta aggiungere uno zero: 11 diventa 110. E 11 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3847,7 +3847,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 10 × 12?",
 			"answer": "120",
-			"explanation": "10 × 12 = 120.",
+			"explanation": "Se non ricordi 10 × 12, per 10 basta aggiungere uno zero: 12 diventa 120. E 12 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"130",
@@ -3863,7 +3863,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 2?",
 			"answer": "22",
-			"explanation": "11 × 2 = 22.",
+			"explanation": "Se non ricordi 11 × 2, per 2 basta il doppio: 11 + 11 fa 22. E 2 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3874,7 +3874,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 3?",
 			"answer": "33",
-			"explanation": "11 × 3 = 33.",
+			"explanation": "Se non ricordi 11 × 3, per 11 con una cifra sola basta ripeterla: 3 diventa 33. E 3 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"33",
@@ -3890,7 +3890,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 4?",
 			"answer": "44",
-			"explanation": "11 × 4 = 44.",
+			"explanation": "Se non ricordi 11 × 4, per 11 con una cifra sola basta ripeterla: 4 diventa 44. E 4 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"55",
@@ -3906,7 +3906,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 5?",
 			"answer": "55",
-			"explanation": "11 × 5 = 55.",
+			"explanation": "Se non ricordi 11 × 5, per 5 fai la metà di 11 × 10, cioè la metà di 110: fa 55. E 5 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3917,7 +3917,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 6?",
 			"answer": "66",
-			"explanation": "11 × 6 = 66.",
+			"explanation": "Se non ricordi 11 × 6, per 11 con una cifra sola basta ripeterla: 6 diventa 66. E 6 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -3928,7 +3928,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 7?",
 			"answer": "77",
-			"explanation": "11 × 7 = 77.",
+			"explanation": "Se non ricordi 11 × 7, per 11 con una cifra sola basta ripeterla: 7 diventa 77. E 7 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"66",
@@ -3944,7 +3944,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 8?",
 			"answer": "88",
-			"explanation": "11 × 8 = 88.",
+			"explanation": "Se non ricordi 11 × 8, per 11 con una cifra sola basta ripeterla: 8 diventa 88. E 8 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"77",
@@ -3960,7 +3960,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 9?",
 			"answer": "99",
-			"explanation": "11 × 9 = 99.",
+			"explanation": "Se non ricordi 11 × 9, per 9 fai 11 × 10 meno 11: 110 − 11 fa 99. E 9 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"88",
@@ -3976,7 +3976,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 10?",
 			"answer": "110",
-			"explanation": "11 × 10 = 110.",
+			"explanation": "Se non ricordi 11 × 10, per 10 basta aggiungere uno zero: 11 diventa 110. E 10 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"110",
@@ -3992,7 +3992,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 11?",
 			"answer": "121",
-			"explanation": "11 × 11 = 121.",
+			"explanation": "11 × 11 fa 121: è il quadrato di 11. Se non lo ricordi, per 11 fai 11 × 10 più 11: 110 + 11 fa 121.",
 			"format": "multiple_choice",
 			"options": [
 				"121",
@@ -4008,7 +4008,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 11 × 12?",
 			"answer": "132",
-			"explanation": "11 × 12 = 132.",
+			"explanation": "Se non ricordi 11 × 12, per 11 fai 12 × 10 più 12: 120 + 12 fa 132. E 12 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"143",
@@ -4024,7 +4024,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 2?",
 			"answer": "24",
-			"explanation": "12 × 2 = 24.",
+			"explanation": "Se non ricordi 12 × 2, per 2 basta il doppio: 12 + 12 fa 24. E 2 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"26",
@@ -4040,7 +4040,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 3?",
 			"answer": "36",
-			"explanation": "12 × 3 = 36.",
+			"explanation": "Se non ricordi 12 × 3, per 3 fai il doppio più il numero: 24 + 12 fa 36. E 3 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -4051,7 +4051,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 4?",
 			"answer": "48",
-			"explanation": "12 × 4 = 48.",
+			"explanation": "Se non ricordi 12 × 4, per 4 raddoppi due volte: 12 → 24 → 48. E 4 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -4062,7 +4062,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 5?",
 			"answer": "60",
-			"explanation": "12 × 5 = 60.",
+			"explanation": "Se non ricordi 12 × 5, per 5 fai la metà di 12 × 10, cioè la metà di 120: fa 60. E 5 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"60",
@@ -4078,7 +4078,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 6?",
 			"answer": "72",
-			"explanation": "12 × 6 = 72.",
+			"explanation": "Se non ricordi 12 × 6, per 12 fai 6 × 10 più 6 × 2: 60 + 12 fa 72. E 6 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"60",
@@ -4094,7 +4094,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 7?",
 			"answer": "84",
-			"explanation": "12 × 7 = 84.",
+			"explanation": "Se non ricordi 12 × 7, per 12 fai 7 × 10 più 7 × 2: 70 + 14 fa 84. E 7 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"96",
@@ -4110,7 +4110,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 8?",
 			"answer": "96",
-			"explanation": "12 × 8 = 96.",
+			"explanation": "Se non ricordi 12 × 8, per 12 fai 8 × 10 più 8 × 2: 80 + 16 fa 96. E 8 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "multiple_choice",
 			"options": [
 				"104",
@@ -4126,7 +4126,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 9?",
 			"answer": "108",
-			"explanation": "12 × 9 = 108.",
+			"explanation": "Se non ricordi 12 × 9, per 9 fai 12 × 10 meno 12: 120 − 12 fa 108. E 9 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -4137,7 +4137,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 10?",
 			"answer": "120",
-			"explanation": "12 × 10 = 120.",
+			"explanation": "Se non ricordi 12 × 10, per 10 basta aggiungere uno zero: 12 diventa 120. E 10 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -4148,7 +4148,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 11?",
 			"answer": "132",
-			"explanation": "12 × 11 = 132.",
+			"explanation": "Se non ricordi 12 × 11, per 11 fai 12 × 10 più 12: 120 + 12 fa 132. E 11 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
 			"options": []
 		},
@@ -4159,7 +4159,7 @@
 			"difficulty": 4,
 			"prompt": "Quanto fa 12 × 12?",
 			"answer": "144",
-			"explanation": "12 × 12 = 144.",
+			"explanation": "12 × 12 fa 144: è il quadrato di 12. Se non lo ricordi, per 12 fai 12 × 10 più 12 × 2: 120 + 24 fa 144.",
 			"format": "multiple_choice",
 			"options": [
 				"156",

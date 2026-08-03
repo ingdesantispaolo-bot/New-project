@@ -36,6 +36,7 @@ const MAX_SAME_TOPIC_SESSIONS := 0
 
 var _repeats: Dictionary = {}      # "materia L· tipo" -> sessioni con la STESSA prova due volte
 var _same_topic := 0               # sessioni con lo stesso (formato, argomento) due volte
+var _same_topic_examples: Array = [] # diagnosi: quali sessioni e quale coppia
 var _sessions := 0                 # sessioni totali ricostruite, per dare la scala al numero sopra
 
 func _init() -> void:
@@ -75,7 +76,7 @@ func _init() -> void:
 
 	# --- Report per materia -----------------------------------------------------
 	print("Distribuzione dei formati nell'esperienza giocata (mondi completi, %d ripetizioni)" % REPEATS)
-	print("MATERIA       MONDI    NODI |    MC  ABBIN  ORDIN  CLASS  GRAFI  CIRCU  DEBUG  NUMER | FORMATI  DOMINANTE")
+	print("MATERIA       MONDI    NODI |    MC  ABBIN  ORDIN  CLASS  GRAFI  CIRCU  CICLO  DEBUG  NUMER | FORMATI  DOMINANTE")
 	var failures: Array = []
 	for subject in ApparatusConfig.SUBJECT_CYCLE:
 		var s := str(subject)
@@ -85,11 +86,12 @@ func _init() -> void:
 		var top := _dominant(counts)
 		var top_ratio := float(int(counts.get(str(top), 0))) / float(maxi(1, total))
 		var distinct := counts.size()
-		print("%-13s %-7s %6d | %5s %6s %6s %6s %6s %6s %6s %6s | %5d    %s %.0f%%" % [
+		print("%-13s %-7s %6d | %5s %6s %6s %6s %6s %6s %6s %6s %6s | %5d    %s %.0f%%" % [
 			s, _levels_label(levels_of.get(s, [])), total,
 			_pct(counts, "multiple_choice", total), _pct(counts, "matching", total),
 			_pct(counts, "ordering", total), _pct(counts, "classification", total),
 			_pct(counts, "graph", total), _pct(counts, "circuit", total),
+			_pct(counts, "cycle", total),
 			_pct(counts, "code_debug", total), _pct(counts, "numeric_input", total),
 			distinct, top, top_ratio * 100.0])
 		if mc > MAX_MC_RATIO:
@@ -121,8 +123,9 @@ func _init() -> void:
 		MAX_SAME_TOPIC_SESSIONS])
 	if _same_topic > MAX_SAME_TOPIC_SESSIONS:
 		failures.append(
-			"%d sessioni chiedono due volte lo stesso argomento nello stesso formato (max %d): insiemi troppo poveri" % [
-				_same_topic, MAX_SAME_TOPIC_SESSIONS])
+			"%d sessioni chiedono due volte lo stesso argomento nello stesso formato (max %d): %s" % [
+				_same_topic, MAX_SAME_TOPIC_SESSIONS,
+				", ".join(PackedStringArray(_same_topic_examples))])
 
 	if not failures.is_empty():
 		print("Format mix audit FALLITO — distribuzione fuori policy:")
@@ -174,6 +177,8 @@ func _check_repeats(session: Dictionary, subject: String, level: int, kind: Stri
 		if topics.has(topic_key) and not flagged_topic:
 			flagged_topic = true
 			_same_topic += 1
+			if _same_topic_examples.size() < 10:
+				_same_topic_examples.append("%s L%d %s → %s" % [subject, level, kind, topic_key])
 		topics[topic_key] = true
 
 func _merge(by_subject: Dictionary, subject: String, counts: Dictionary) -> void:

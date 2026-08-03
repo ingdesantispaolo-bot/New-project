@@ -1,6 +1,9 @@
 class_name ExerciseInteraction
 extends RefCounted
 
+const MapGeometryCatalog = preload("res://scripts/visual/map_geometry_catalog.gd")
+const ArtifactAtlasCatalog = preload("res://scripts/visual/artifact_atlas_catalog.gd")
+
 ## Contratto COMUNE degli esercizi (O-P3). Ogni nodo, qualunque sia il formato,
 ## rispetta lo stesso contratto: presentazione (`prompt`), argomento (`topic`),
 ## difficoltà, spiegazione causale e i campi-soluzione del proprio formato. Lo
@@ -16,7 +19,7 @@ extends RefCounted
 # Formati con renderer disponibili nell'ExercisePlayer.
 const IMPLEMENTED := [
 	"multiple_choice", "numeric_input", "ordering", "matching",
-	"classification", "hotspot", "graph", "circuit", "code_debug",
+	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -104,11 +107,17 @@ static func validate(node: Dictionary) -> Dictionary:
 		"classification":
 			_validate_classification(node, errors)
 		"hotspot":
-			_validate_selectable_points(node, "hotspots", errors)
+			_validate_hotspot(node, errors)
 		"graph":
 			_validate_selectable_points(node, "points", errors)
 		"circuit":
 			_validate_circuit(node, errors)
+		"notation":
+			_validate_notation(node, errors)
+		"map":
+			_validate_map(node, errors)
+		"cycle":
+			_validate_cycle(node, errors)
 		"code_debug":
 			_validate_code_debug(node, errors)
 		_:
@@ -215,6 +224,34 @@ static func _validate_selectable_points(node: Dictionary, field: String, errors:
 	if answer == "" or not ids.has(answer):
 		errors.append("risposta non presente in %s: %s" % [field, answer])
 
+static func _validate_hotspot(node: Dictionary, errors: Array) -> void:
+	var atlas_id := str(node.get("assetId", ""))
+	if atlas_id == "":
+		_validate_selectable_points(node, "hotspots", errors)
+		return
+	if not ArtifactAtlasCatalog.has_atlas(atlas_id):
+		errors.append("atlante illustrato sconosciuto: %s" % atlas_id)
+		return
+	var targets: Array = node.get("targets", [])
+	var answer := str(node.get("answer", ""))
+	if targets.size() < 2:
+		errors.append("hotspot semantico con meno di 2 bersagli")
+	var ids: Dictionary = {}
+	for entry in targets:
+		var target := entry as Dictionary
+		var id := str(target.get("id", ""))
+		if id == "":
+			errors.append("bersaglio hotspot con id vuoto")
+		elif ids.has(id):
+			errors.append("bersaglio hotspot duplicato: %s" % id)
+		elif not ArtifactAtlasCatalog.has_target(atlas_id, id):
+			errors.append("bersaglio %s assente dall'atlante %s" % [id, atlas_id])
+		ids[id] = true
+		if str(target.get("label", "")).strip_edges() == "":
+			errors.append("bersaglio hotspot senza etichetta accessibile: %s" % id)
+	if answer == "" or not ids.has(answer):
+		errors.append("risposta hotspot non presente nei bersagli: %s" % answer)
+
 static func _validate_circuit(node: Dictionary, errors: Array) -> void:
 	var components: Array = node.get("components", [])
 	var answer := str(node.get("answer", ""))
@@ -236,6 +273,107 @@ static func _validate_circuit(node: Dictionary, errors: Array) -> void:
 			errors.append("connessione verso componente sconosciuto")
 	if answer == "" or not ids.has(answer):
 		errors.append("risposta circuito non presente: %s" % answer)
+
+static func _validate_notation(node: Dictionary, errors: Array) -> void:
+	var staff := node.get("staff", {}) as Dictionary
+	var clef := str(staff.get("clef", "treble"))
+	if clef not in ["treble", "bass"]:
+		errors.append("chiave musicale non supportata: %s" % clef)
+	var symbols: Array = node.get("symbols", [])
+	var answer := str(node.get("answer", ""))
+	if symbols.size() < 2:
+		errors.append("notazione con meno di 2 simboli selezionabili")
+	if symbols.size() > 7:
+		errors.append("notazione con più di 7 simboli: target touch troppo fitti")
+	var ids: Dictionary = {}
+	for entry in symbols:
+		var symbol := entry as Dictionary
+		var id := str(symbol.get("id", ""))
+		if id == "":
+			errors.append("simbolo musicale con id vuoto")
+		elif ids.has(id):
+			errors.append("simbolo musicale duplicato: %s" % id)
+		ids[id] = true
+		if str(symbol.get("label", "")).strip_edges() == "":
+			errors.append("simbolo musicale senza etichetta accessibile: %s" % id)
+		var kind := str(symbol.get("kind", "note"))
+		if kind not in ["note", "rest", "accidental"]:
+			errors.append("tipo di simbolo musicale non supportato: %s" % kind)
+		var staff_step := int(symbol.get("staffStep", 99))
+		if staff_step < -4 or staff_step > 12:
+			errors.append("staffStep fuori scala -4..12: %s" % id)
+		if kind in ["note", "rest"]:
+			var duration := str(symbol.get("duration", "quarter"))
+			if duration not in ["whole", "half", "quarter", "eighth"]:
+				errors.append("durata musicale non supportata: %s" % duration)
+		elif str(symbol.get("accidental", "")) not in ["sharp", "flat", "natural"]:
+			errors.append("alterazione musicale non supportata: %s" % str(symbol.get("accidental", "")))
+	if answer == "" or not ids.has(answer):
+		errors.append("risposta notazione non presente: %s" % answer)
+
+static func _validate_cycle(node: Dictionary, errors: Array) -> void:
+	var stages: Array = node.get("stages", [])
+	var correct_order: Array = node.get("correctOrder", [])
+	if stages.size() < 3:
+		errors.append("ciclo con meno di 3 fasi")
+	if correct_order.size() != stages.size():
+		errors.append("correctOrder del ciclo di lunghezza diversa dalle fasi")
+	var ids: Dictionary = {}
+	var labels: Dictionary = {}
+	var presented: Array = []
+	for entry in stages:
+		var stage := entry as Dictionary
+		var id := str(stage.get("id", ""))
+		var label := str(stage.get("label", "")).strip_edges()
+		var glyph := str(stage.get("glyph", ""))
+		presented.append(id)
+		if id == "":
+			errors.append("fase del ciclo con id vuoto")
+		elif ids.has(id):
+			errors.append("fase del ciclo duplicata: %s" % id)
+		ids[id] = true
+		if label == "":
+			errors.append("fase del ciclo senza etichetta accessibile: %s" % id)
+		elif labels.has(label):
+			errors.append("etichetta del ciclo duplicata: %s" % label)
+		labels[label] = true
+		if glyph not in ["sun", "water", "cloud", "rain", "plant", "air", "animal", "soil", "leaf", "sugar", "oxygen", "carbon", "egg", "larva", "chrysalis", "butterfly"]:
+			errors.append("glifo del ciclo non supportato: %s" % glyph)
+	var expected := correct_order.map(func(value): return str(value))
+	var sorted_ids: Array = ids.keys()
+	sorted_ids.sort()
+	var sorted_expected: Array = expected.duplicate()
+	sorted_expected.sort()
+	if sorted_ids != sorted_expected:
+		errors.append("correctOrder del ciclo non è una permutazione delle fasi")
+	if stages.size() >= 3 and presented == expected:
+		errors.append("le fasi del ciclo sono già presentate nell'ordine corretto")
+
+static func _validate_map(node: Dictionary, errors: Array) -> void:
+	var map_id := str(node.get("mapId", ""))
+	if not MapGeometryCatalog.has_map(map_id):
+		errors.append("carta muta sconosciuta: %s" % map_id)
+		return
+	var targets: Array = node.get("targets", [])
+	if targets.size() < 2:
+		errors.append("carta muta con meno di 2 bersagli")
+	var available: Array = MapGeometryCatalog.target_ids(map_id)
+	var ids: Dictionary = {}
+	for entry in targets:
+		var target := entry as Dictionary
+		var id := str(target.get("id", ""))
+		if id == "":
+			errors.append("bersaglio carta con id vuoto")
+		elif ids.has(id):
+			errors.append("bersaglio carta duplicato: %s" % id)
+		elif not available.has(id):
+			errors.append("bersaglio %s assente dalla carta %s" % [id, map_id])
+		ids[id] = true
+		if str(target.get("label", "")).strip_edges() == "":
+			errors.append("bersaglio carta senza etichetta accessibile: %s" % id)
+	var answer := str(node.get("answer", ""))
+	if answer == "" or not ids.has(answer):
+		errors.append("risposta carta non presente: %s" % answer)
 
 static func _validate_code_debug(node: Dictionary, errors: Array) -> void:
 	var lines: Array = node.get("codeLines", [])

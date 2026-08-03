@@ -3,6 +3,7 @@ import path from "node:path";
 import sharp from "sharp";
 
 const imageDir = path.resolve("src/assets/images");
+const godotExerciseDir = path.resolve("godot/assets/exercises");
 
 // Fondali storici: crop 1280x720 + varianti webp/avif (comportamento originale).
 const coverBackgrounds = [
@@ -64,6 +65,37 @@ for (const name of largeArt) {
   await sharp(source)
     .resize({ width: 1280, withoutEnlargement: true })
     .webp({ quality: 80, effort: 5 })
+    .toFile(output);
+  await report(source, output);
+}
+
+// Atlanti componibili degli esercizi: il PNG generato resta sorgente fuori
+// dall'export; Godot riceve un solo WebP condiviso, dimensionato per il pannello
+// tablet e non un'immagine per domanda.
+await fs.mkdir(godotExerciseDir, { recursive: true });
+for (const name of ["history-artifacts-atlas-v1"]) {
+  const source = path.join(imageDir, `${name}.png`);
+  const output = path.join(godotExerciseDir, `${name}.webp`);
+  // La sorgente generata e condivisa e una tavola 2x2. Il pannello Godot e
+  // molto largo su tablet: ricomponiamo i quattro reperti in una striscia,
+  // senza duplicare asset e senza deformarli.
+  const crops = [
+    { left: 90, top: 10, width: 690, height: 440 },
+    { left: 1010, top: 10, width: 390, height: 440 },
+    { left: 300, top: 475, width: 350, height: 450 },
+    { left: 955, top: 475, width: 490, height: 440 },
+  ];
+  const panels = await Promise.all(crops.map((crop) =>
+    sharp(source)
+      .extract(crop)
+      .resize({ width: 220, height: 180, fit: "contain", background: "#073742" })
+      .toBuffer()
+  ));
+  await sharp({
+    create: { width: 960, height: 200, channels: 3, background: "#073742" },
+  })
+    .composite(panels.map((input, index) => ({ input, left: 10 + index * 240, top: 10 })))
+    .webp({ quality: 78, effort: 5 })
     .toFile(output);
   await report(source, output);
 }

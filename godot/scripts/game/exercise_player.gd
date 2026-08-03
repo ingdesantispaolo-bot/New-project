@@ -235,9 +235,9 @@ func _build_ui() -> void:
 	_input = LineEdit.new()
 	_input.placeholder_text = "Scrivi la risposta"
 	_input.visible = false
-	# Dove la tastiera di sistema c'è, che sia quella dei numeri e non quella
-	# intera: è il caso 2 di `GodotDisplayVK`, cioè `inputmode="numeric"`.
-	_input.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER
+	# Il tipo viene scelto per il nodo corrente: questo stesso campo serve anche
+	# alle risposte testuali e non deve intrappolarle in una tastiera numerica.
+	_input.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_DEFAULT
 	_input.text_submitted.connect(func(text): _answer(text))
 	box.add_child(_input)
 	_numpad = _build_numpad()
@@ -556,8 +556,12 @@ func _show_current() -> void:
 			_input_submit.visible = true
 			# Il tastierino solo dove la risposta è un numero: per una parola
 			# sarebbe d'intralcio, e lì la tastiera di sistema serve davvero.
+			var numeric_answer := _answer_is_numeric(str(item.get("answer", "")))
+			_input.virtual_keyboard_type = (
+				LineEdit.KEYBOARD_TYPE_NUMBER
+				if numeric_answer else LineEdit.KEYBOARD_TYPE_DEFAULT)
 			if is_instance_valid(_numpad):
-				_numpad.visible = _answer_is_numeric(str(item.get("answer", "")))
+				_numpad.visible = numeric_answer
 			if is_inside_tree():
 				_input.grab_focus()
 

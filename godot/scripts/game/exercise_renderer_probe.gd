@@ -100,6 +100,19 @@ func _run() -> void:
 		print("EXERCISE RENDER probe OK — atlante storico romano")
 		quit(0)
 		return
+	if "--numpad-only" in OS.get_cmdline_user_args():
+		var numeric := _node("numeric_input", {
+			"prompt": "Nocciola raccoglie 25 ghiande e ne usa 7. Quante ne restano?",
+			"answer": "18",
+		})
+		await _capture("numeric-numpad-tablet", numeric, "mission", Vector2i(900, 600))
+		player.call("_numpad_press", "1")
+		player.call("_numpad_press", "8")
+		await _capture_current("numeric-numpad-filled-tablet")
+		await _capture("numeric-numpad-portrait", numeric, "mission", Vector2i(600, 900))
+		print("EXERCISE RENDER probe OK — tastierino numerico landscape + portrait")
+		quit(0)
+		return
 	await _capture("ordering-exam-desktop", _node("ordering", {
 		"items": ["Osserva i dati", "Scegli la strategia", "Verifica il risultato"],
 		"correctOrder": ["Osserva i dati", "Scegli la strategia", "Verifica il risultato"],

@@ -5220,71 +5220,2061 @@
 			"explanation": "\"iperbole\": esagerazione voluta per dare enfasi."
 		},
 		{
-			"id": "italiano-banda-analisi-logica-0",
+			"id": "italiano-banda-ortografia-0",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Come si scrive correttamente «una amica»?",
+			"options": [
+				"una amica",
+				"un amica",
+				"un'amica",
+				"un'amico"
+			],
+			"answer": "un'amica",
+			"explanation": "L'apostrofo serve davanti a parola femminile che comincia per vocale: «una amica» diventa «un'amica». Al maschile si scrive «un amico», senza apostrofo."
+		},
+		{
+			"id": "italiano-banda-ortografia-1",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Si scrive «qual è» o «qual'è»?",
+			"options": [
+				"qualè",
+				"qual'è",
+				"quale è",
+				"qual è"
+			],
+			"answer": "qual è",
+			"explanation": "«Qual» è una forma tronca, non elisa: non vuole l'apostrofo. È una delle regole più tradite in assoluto."
+		},
+		{
+			"id": "italiano-banda-ortografia-2",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si scrive il plurale di «camicia»?",
+			"options": [
+				"camicie",
+				"camice",
+				"camicee",
+				"camici"
+			],
+			"answer": "camicie",
+			"explanation": "Quando la «cia» è preceduta da vocale il plurale tiene la i: camicia→camicie, ciliegia→ciliegie."
+		},
+		{
+			"id": "italiano-banda-ortografia-3",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si scrive il plurale di «arancia»?",
+			"options": [
+				"arancee",
+				"arance",
+				"arancie",
+				"aranci"
+			],
+			"answer": "arance",
+			"explanation": "Qui la «cia» è preceduta da consonante, quindi la i cade: arancia→arance, pioggia→piogge."
+		},
+		{
+			"id": "italiano-banda-ortografia-4",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Si scrive «ho fatto» o «o fatto»?",
+			"options": [
+				"o fatto",
+				"hò fatto",
+				"ho fatto",
+				"ó fatto"
+			],
+			"answer": "ho fatto",
+			"explanation": "«Ho» è voce del verbo avere e vuole l'acca; «o» senza acca è la congiunzione: «pane o pasta»."
+		},
+		{
+			"id": "italiano-banda-ortografia-5",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale frase è scritta correttamente?",
+			"options": [
+				"Non sò se ne ha parlato",
+				"Non so se n'è parlato lui",
+				"Non so se nè ha parlato",
+				"Non so se ne ha parlato"
+			],
+			"answer": "Non so se ne ha parlato",
+			"explanation": "«So» non vuole accento; «ne» pronome non vuole accento; «né» con accento significa «e non»."
+		},
+		{
+			"id": "italiano-banda-ortografia-6",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Si scrive «un po'» o «un pò»?",
+			"options": [
+				"un po'",
+				"un pò",
+				"un po",
+				"un pó"
+			],
+			"answer": "un po'",
+			"explanation": "«Po'» è l'abbreviazione di «poco»: vuole l'apostrofo perché è un troncamento, non un accento."
+		},
+		{
+			"id": "italiano-banda-ortografia-7",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale coppia è scritta correttamente?",
+			"options": [
+				"dà (verbo) e dà (preposizione)",
+				"dà (verbo) e da (preposizione)",
+				"da (verbo) e da (preposizione)",
+				"da (verbo) e dà (preposizione)"
+			],
+			"answer": "dà (verbo) e da (preposizione)",
+			"explanation": "L'accento distingue il verbo dare dalla preposizione: «mi dà un libro» e «vengo da Roma»."
+		},
+		{
+			"id": "italiano-banda-ortografia-8",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si scrive correttamente?",
+			"options": [
+				"loh visto",
+				"l'o visto",
+				"l'ho visto",
+				"lo visto"
+			],
+			"answer": "l'ho visto",
+			"explanation": "«L'ho» è «lo» + «ho»: il pronome si elide e il verbo tiene l'acca."
+		},
+		{
+			"id": "italiano-banda-ortografia-9",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Si scrive «efficiente» o «efficente»?",
+			"options": [
+				"efficente",
+				"efficiente e",
+				"eficiente",
+				"efficiente"
+			],
+			"answer": "efficiente",
+			"explanation": "Si scrive con la i: efficiente, sufficiente, deficiente. Segue la regola dei participi in -ente da verbi in -ire."
+		},
+		{
+			"id": "italiano-banda-ortografia-10",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola è scritta correttamente?",
+			"options": [
+				"coscienza",
+				"coscenza",
+				"cosciensa",
+				"conoscienza"
+			],
+			"answer": "coscienza",
+			"explanation": "«Coscienza» e «conoscenza» sono due parole diverse: la prima con la i, la seconda senza."
+		},
+		{
+			"id": "italiano-banda-ortografia-11",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si scrive il plurale di «farmacia»?",
+			"options": [
+				"farmaci",
+				"farmacie",
+				"farmace",
+				"farmacee"
+			],
+			"answer": "farmacie",
+			"explanation": "Qui la i è accentata e si sente: farmacìa→farmacie. La regola cade quando la i è tonica."
+		},
+		{
+			"id": "italiano-banda-ortografia-12",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Il pronome «se» riflessivo vuole l'accento?",
+			"options": [
+				"sè stesso",
+				"se stesso senza accento mai",
+				"sé stesso",
+				"sé stessó"
+			],
+			"answer": "sé stesso",
+			"explanation": "Il pronome «sé» vuole l'accento acuto. Davanti a «stesso» oggi è ammessa anche la forma senza, ma con accento è sempre corretta."
+		},
+		{
+			"id": "italiano-banda-ortografia-13",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale frase contiene un errore?",
+			"options": [
+				"Che cosa hai fatto?",
+				"Non lo so ancora",
+				"Qual è il tuo nome?",
+				"Qual'è il tuo nome?"
+			],
+			"answer": "Qual'è il tuo nome?",
+			"explanation": "«Qual è» non vuole apostrofo: è l'errore ortografico più diffuso in italiano."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-14",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale segno chiude una domanda?",
+			"options": [
+				"Il punto interrogativo",
+				"I due punti",
+				"Il punto esclamativo",
+				"Il punto e virgola"
+			],
+			"answer": "Il punto interrogativo",
+			"explanation": "Il punto interrogativo segnala una domanda diretta: «Dove vai?». Nelle domande indirette non si mette."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-15",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In «Ho comprato tutto: pane, latte e uova», che cosa annunciano i due punti?",
+			"options": [
+				"Una pausa più lunga della virgola",
+				"Un elenco che spiega quel «tutto»",
+				"Un cambio di argomento nel testo",
+				"La chiusura di un discorso diretto"
+			],
+			"answer": "Un elenco che spiega quel «tutto»",
+			"explanation": "Annunciano quello che viene dopo: «Ho comprato tutto: pane, latte e uova»."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-16",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale frase usa correttamente la virgola?",
+			"options": [
+				"Marco vieni, qui un momento.",
+				"Marco, vieni, qui un momento.",
+				"Marco, vieni qui un momento.",
+				"Marco vieni qui, un momento."
+			],
+			"answer": "Marco, vieni qui un momento.",
+			"explanation": "La virgola isola il vocativo, cioè la persona a cui ci si rivolge. Separare il verbo dal suo oggetto è invece un errore."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-17",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché non si mette mai la virgola fra soggetto e verbo?",
+			"options": [
+				"Perché la virgola serve solo agli elenchi",
+				"Perché il verbo non ammette pause vicine",
+				"Perché il soggetto va sempre per ultimo",
+				"Perché spezza il legame fondamentale della frase"
+			],
+			"answer": "Perché spezza il legame fondamentale della frase",
+			"explanation": "«Il cane, abbaia» è sbagliato: soggetto e verbo formano il nucleo della frase e non vanno separati."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-18",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale segno introduce di solito il discorso diretto?",
+			"options": [
+				"I due punti seguiti dalle virgolette",
+				"La virgola seguita dal trattino",
+				"Il punto e virgola con la parentesi",
+				"Il punto esclamativo con le virgolette"
+			],
+			"answer": "I due punti seguiti dalle virgolette",
+			"explanation": "«Disse: “Arrivo subito”». I due punti annunciano che si sta per riportare una voce."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-19",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A che cosa serve il punto e virgola?",
+			"options": [
+				"A chiudere in modo definitivo un periodo",
+				"A separare parti collegate ma abbastanza autonome",
+				"A segnalare che nella frase manca una parola",
+				"A introdurre sempre e solo un elenco puntato"
+			],
+			"answer": "A separare parti collegate ma abbastanza autonome",
+			"explanation": "È una pausa più forte della virgola e più debole del punto: tiene insieme due frasi che si parlano."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-20",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale frase è punteggiata correttamente?",
+			"options": [
+				"Se, piove resto a casa.",
+				"Se piove, resto, a casa.",
+				"Se piove, resto a casa.",
+				"Se piove resto, a casa."
+			],
+			"answer": "Se piove, resto a casa.",
+			"explanation": "La virgola separa la subordinata anticipata dalla principale: quando la condizione viene prima, la virgola aiuta a leggere."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-21",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa segnalano i puntini di sospensione?",
+			"options": [
+				"La fine definitiva del testo",
+				"Un errore di battitura",
+				"Un elenco che continua a lungo",
+				"Una frase lasciata in sospeso"
+			],
+			"answer": "Una frase lasciata in sospeso",
+			"explanation": "Sono sempre tre e indicano un pensiero interrotto o una reticenza: «Non so se…»."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-22",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A che cosa servono le parentesi?",
+			"options": [
+				"A inserire un'informazione accessoria",
+				"A chiudere un elenco lungo",
+				"A introdurre un discorso diretto",
+				"A segnalare un errore nel testo"
+			],
+			"answer": "A inserire un'informazione accessoria",
+			"explanation": "Quello che sta fra parentesi si può togliere senza rompere la frase: è un inciso."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-23",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Non lo faccio, però ci penso» — che rapporto segnala la virgola?",
+			"options": [
+				"Una causa e il suo effetto",
+				"Un'opposizione fra le due parti",
+				"Una successione nel tempo",
+				"Un elenco di due azioni"
+			],
+			"answer": "Un'opposizione fra le due parti",
+			"explanation": "La virgola prepara il «però»: le due parti si contrappongono invece di sommarsi."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-24",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale frase usa correttamente il punto esclamativo?",
+			"options": [
+				"Non lo so proprio!?",
+				"Dove sei andato!",
+				"Che bella giornata!",
+				"Forse verrò domani!"
+			],
+			"answer": "Che bella giornata!",
+			"explanation": "Segnala sorpresa, gioia o comando. Una domanda vuole il punto interrogativo, anche se detta con enfasi."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-25",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In un elenco «pane, latte e uova», perché prima di «e» non c'è la virgola?",
+			"options": [
+				"Perché l'elenco ha solo tre voci",
+				"Perché le uova sono un plurale",
+				"Perché l'ultimo elemento è più corto",
+				"Perché la congiunzione sostituisce la virgola"
+			],
+			"answer": "Perché la congiunzione sostituisce la virgola",
+			"explanation": "In italiano la virgola prima della «e» conclusiva di solito non si mette: la congiunzione fa già il lavoro."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-26",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa chiude un periodo?",
+			"options": [
+				"Il punto fermo",
+				"Il trattino",
+				"La virgola",
+				"I due punti"
+			],
+			"answer": "Il punto fermo",
+			"explanation": "Il punto fermo segna la fine di un pensiero compiuto; dopo si ricomincia con la maiuscola."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-27",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Luca, che è mio cugino, arriva domani» — che cosa isolano le virgole?",
+			"options": [
+				"Il complemento oggetto",
+				"Un inciso che si può togliere",
+				"Il soggetto della frase",
+				"Il verbo principale"
+			],
+			"answer": "Un inciso che si può togliere",
+			"explanation": "Togliendo l'inciso resta «Luca arriva domani»: la frase regge, quindi quella parte era accessoria."
+		},
+		{
+			"id": "italiano-banda-verbo-28",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale di queste è una voce del verbo essere?",
+			"options": [
+				"vado",
+				"faccio",
+				"sono",
+				"hanno"
+			],
+			"answer": "sono",
+			"explanation": "Essere e avere sono i due verbi ausiliari: «sono» è la prima persona del presente di essere."
+		},
+		{
+			"id": "italiano-banda-verbo-29",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Mangiavo» a quale tempo è coniugato?",
+			"options": [
+				"Passato remoto",
+				"Presente",
+				"Futuro semplice",
+				"Imperfetto"
+			],
+			"answer": "Imperfetto",
+			"explanation": "L'imperfetto descrive un'azione che durava nel passato: «mentre mangiavo, suonò il telefono»."
+		},
+		{
+			"id": "italiano-banda-verbo-30",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Andrò» a quale tempo è coniugato?",
+			"options": [
+				"Futuro semplice",
+				"Presente",
+				"Condizionale",
+				"Passato prossimo"
+			],
+			"answer": "Futuro semplice",
+			"explanation": "Il futuro semplice indica un'azione che deve ancora avvenire."
+		},
+		{
+			"id": "italiano-banda-verbo-31",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è il participio passato di «vedere»?",
+			"options": [
+				"vedeva",
+				"visto",
+				"vedere",
+				"vedendo"
+			],
+			"answer": "visto",
+			"explanation": "«Vedendo» è il gerundio, «vedeva» l'imperfetto: il participio passato serve a formare i tempi composti, «ho visto»."
+		},
+		{
+			"id": "italiano-banda-verbo-32",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «ho mangiato», qual è l'ausiliare?",
+			"options": [
+				"mangiato",
+				"nessuno dei due",
+				"ho",
+				"ho mangiato"
+			],
+			"answer": "ho",
+			"explanation": "L'ausiliare è il verbo che aiuta a formare il tempo composto; il participio porta il significato."
+		},
+		{
+			"id": "italiano-banda-verbo-33",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale frase usa correttamente il congiuntivo?",
+			"options": [
+				"Penso che sarà giusto",
+				"Penso che era giusto",
+				"Penso che è giusto",
+				"Penso che sia giusto"
+			],
+			"answer": "Penso che sia giusto",
+			"explanation": "I verbi di opinione reggono il congiuntivo: penso, credo, ritengo vogliono «che sia», non «che è»."
+		},
+		{
+			"id": "italiano-banda-verbo-34",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Se avessi tempo, verrei» — che modo è «verrei»?",
+			"options": [
+				"Condizionale",
+				"Congiuntivo",
+				"Imperativo",
+				"Indicativo"
+			],
+			"answer": "Condizionale",
+			"explanation": "Nel periodo ipotetico la condizione va al congiuntivo («avessi») e la conseguenza al condizionale («verrei»)."
+		},
+		{
+			"id": "italiano-banda-verbo-35",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale forma è all'imperativo?",
+			"options": [
+				"Sei venuto qui",
+				"Vieni qui!",
+				"Vieni domani?",
+				"Verresti qui?"
+			],
+			"answer": "Vieni qui!",
+			"explanation": "L'imperativo dà un ordine o un invito diretto: non ha la prima persona singolare."
+		},
+		{
+			"id": "italiano-banda-verbo-36",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che differenza c'è fra verbo transitivo e intransitivo?",
+			"options": [
+				"L'intransitivo non ha mai un soggetto",
+				"Il transitivo si usa solo al passato",
+				"Il transitivo può reggere un complemento oggetto",
+				"L'intransitivo si coniuga in modo diverso"
+			],
+			"answer": "Il transitivo può reggere un complemento oggetto",
+			"explanation": "«Mangio la mela» è transitivo; «vado a casa» è intransitivo, perché «a casa» non è un oggetto diretto."
+		},
+		{
+			"id": "italiano-banda-verbo-37",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«La mela è mangiata da Luca» — in quale forma è il verbo?",
+			"options": [
+				"Impersonale",
+				"Riflessiva",
+				"Attiva",
+				"Passiva"
+			],
+			"answer": "Passiva",
+			"explanation": "Nella passiva il soggetto subisce l'azione; chi la compie diventa complemento d'agente, «da Luca»."
+		},
+		{
+			"id": "italiano-banda-verbo-38",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Mi lavo le mani» — che tipo di verbo è «lavarsi»?",
+			"options": [
+				"Riflessivo",
+				"Servile",
+				"Impersonale",
+				"Passivo"
+			],
+			"answer": "Riflessivo",
+			"explanation": "L'azione ricade su chi la compie: il pronome «mi» rimanda al soggetto."
+		},
+		{
+			"id": "italiano-banda-verbo-39",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quali sono le tre coniugazioni dei verbi italiani?",
+			"options": [
+				"-are, -ire, -ure",
+				"-are, -ere, -ire",
+				"-ere, -ire, -ore",
+				"-are, -ere, -ore"
+			],
+			"answer": "-are, -ere, -ire",
+			"explanation": "Si riconoscono dall'infinito: parlare, credere, dormire. I verbi in -urre come «condurre» derivano dalla seconda."
+		},
+		{
+			"id": "italiano-banda-verbo-40",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale voce è al passato prossimo?",
+			"options": [
+				"Parlerò",
+				"Parlavo",
+				"Ho parlato",
+				"Parlerei"
+			],
+			"answer": "Ho parlato",
+			"explanation": "Il passato prossimo è composto: ausiliare al presente più participio passato."
+		},
+		{
+			"id": "italiano-banda-verbo-41",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Bisogna partire presto» — che tipo di costruzione è?",
+			"options": [
+				"Interrogativa",
+				"Passiva",
+				"Riflessiva",
+				"Impersonale"
+			],
+			"answer": "Impersonale",
+			"explanation": "Non c'è un soggetto determinato: nessuno in particolare compie l'azione. Come «piove» o «si dice»."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-42",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che parte del discorso è «bello»?",
+			"options": [
+				"Aggettivo qualificativo",
+				"Nome comune di cosa",
+				"Avverbio di modo",
+				"Verbo transitivo"
+			],
+			"answer": "Aggettivo qualificativo",
+			"explanation": "L'aggettivo qualificativo dice com'è il nome a cui si riferisce e ne segue genere e numero."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-43",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?",
+			"options": [
+				"Preposizioni",
+				"Avverbi",
+				"Aggettivi",
+				"Nomi astratti"
+			],
+			"answer": "Avverbi",
+			"explanation": "Gli avverbi in -mente modificano il verbo e restano invariabili: non cambiano al plurale."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-44",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che parte del discorso è «sopra»?",
+			"options": [
+				"Congiunzione coordinante",
+				"Aggettivo qualificativo",
+				"Preposizione (o avverbio)",
+				"Pronome dimostrativo"
+			],
+			"answer": "Preposizione (o avverbio)",
+			"explanation": "Introduce un complemento: «sopra il tavolo». Usata da sola («sta sopra») funziona da avverbio."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-45",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «il mio libro», che cos'è «mio»?",
+			"options": [
+				"Articolo determinativo",
+				"Pronome possessivo",
+				"Aggettivo dimostrativo",
+				"Aggettivo possessivo"
+			],
+			"answer": "Aggettivo possessivo",
+			"explanation": "Accompagna il nome, quindi è aggettivo. Sarebbe pronome in «il mio è rosso», dove sostituisce il nome."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-46",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «questo è mio», che cos'è «questo»?",
+			"options": [
+				"Pronome dimostrativo",
+				"Aggettivo dimostrativo",
+				"Articolo indeterminativo",
+				"Congiunzione"
+			],
+			"answer": "Pronome dimostrativo",
+			"explanation": "Sta al posto del nome invece di accompagnarlo: la stessa parola cambia categoria secondo l'uso."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-47",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti sono gli articoli determinativi italiani?",
+			"options": [],
+			"answer": "7",
+			"explanation": "il, lo, la, i, gli, le, l' — sette forme fra singolari e plurali, maschili e femminili."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-48",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che parte del discorso è «e» in «pane e latte»?",
+			"options": [
+				"Interiezione",
+				"Congiunzione",
+				"Preposizione",
+				"Avverbio"
+			],
+			"answer": "Congiunzione",
+			"explanation": "Le congiunzioni collegano parole o frasi: «e» somma, «ma» oppone, «perché» spiega."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-49",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che tipo di nome è «coraggio»?",
+			"options": [
+				"Nome collettivo",
+				"Nome proprio",
+				"Nome astratto",
+				"Nome concreto"
+			],
+			"answer": "Nome astratto",
+			"explanation": "Indica qualcosa che non si tocca né si vede: si oppone ai nomi concreti come «tavolo»."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-50",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che tipo di nome è «gregge»?",
+			"options": [
+				"Nome proprio",
+				"Nome astratto",
+				"Nome alterato",
+				"Nome collettivo"
+			],
+			"answer": "Nome collettivo",
+			"explanation": "È singolare ma indica un insieme di individui: come «folla», «sciame», «squadra»."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-51",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «gli parlo domani», che cos'è «gli»?",
+			"options": [
+				"Pronome personale complemento",
+				"Aggettivo possessivo",
+				"Preposizione articolata",
+				"Articolo determinativo plurale"
+			],
+			"answer": "Pronome personale complemento",
+			"explanation": "Qui sostituisce «a lui». La stessa forma è articolo in «gli amici»: conta la funzione, non la grafia."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-52",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è «nella» in «nella scatola»?",
+			"options": [
+				"Preposizione semplice",
+				"Preposizione articolata",
+				"Articolo determinativo",
+				"Avverbio di luogo"
+			],
+			"answer": "Preposizione articolata",
+			"explanation": "È «in» + «la» fuse insieme: preposizione più articolo in una parola sola."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-53",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che parte del discorso è «tre»?",
+			"options": [
+				"Avverbio di quantità",
+				"Articolo partitivo",
+				"Aggettivo numerale",
+				"Nome comune"
+			],
+			"answer": "Aggettivo numerale",
+			"explanation": "I numerali cardinali accompagnano il nome indicandone la quantità esatta."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-54",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola è un'interiezione?",
+			"options": [
+				"Poiché",
+				"Anche",
+				"Presto",
+				"Ahi!"
+			],
+			"answer": "Ahi!",
+			"explanation": "Le interiezioni esprimono un'emozione improvvisa e stanno da sole: ahi, oh, ehi."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-55",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «un po' di pane», che cos'è «di»?",
+			"options": [
+				"Preposizione semplice",
+				"Congiunzione",
+				"Avverbio di quantità",
+				"Articolo partitivo"
+			],
+			"answer": "Preposizione semplice",
+			"explanation": "Le preposizioni semplici sono nove: di, a, da, in, con, su, per, tra, fra."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-56",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In «Luca legge un libro», qual è il soggetto?",
+			"options": [
+				"legge un libro",
+				"Luca",
+				"legge",
+				"un libro"
+			],
+			"answer": "Luca",
+			"explanation": "Il soggetto compie l'azione: si trova chiedendo «chi legge?»."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-57",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In «Luca legge un libro», che cos'è «un libro»?",
+			"options": [
+				"Soggetto",
+				"Predicato nominale",
+				"Complemento oggetto",
+				"Complemento di termine"
+			],
+			"answer": "Complemento oggetto",
+			"explanation": "Risponde a «che cosa?» senza preposizione: è l'oggetto diretto dell'azione."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-58",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Do il libro a Marco», che cos'è «a Marco»?",
+			"options": [
+				"Complemento d'agente",
+				"Complemento di luogo",
+				"Complemento oggetto",
+				"Complemento di termine"
+			],
+			"answer": "Complemento di termine",
+			"explanation": "Risponde a «a chi?»: indica il destinatario dell'azione, e si riconosce dalla preposizione «a»."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-59",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Il quadro è dipinto da Sara», che cos'è «da Sara»?",
+			"options": [
+				"Complemento d'agente",
+				"Complemento di causa",
+				"Complemento di luogo",
+				"Complemento di mezzo"
+			],
+			"answer": "Complemento d'agente",
+			"explanation": "Nelle frasi passive indica chi compie l'azione. Se non è una persona si chiama complemento di causa efficiente."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-60",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Scrivo con la penna», che cos'è «con la penna»?",
+			"options": [
+				"Complemento di modo",
+				"Complemento di mezzo",
+				"Complemento di compagnia",
+				"Complemento di causa"
+			],
+			"answer": "Complemento di mezzo",
+			"explanation": "Risponde a «con che cosa?». Sarebbe di compagnia se fosse una persona: «esco con Marco»."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-61",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Cammino lentamente», che cos'è «lentamente»?",
+			"options": [
+				"Complemento di luogo",
+				"Complemento di tempo",
+				"Complemento di modo",
+				"Complemento di mezzo"
+			],
+			"answer": "Complemento di modo",
+			"explanation": "Risponde a «come?»: descrive il modo in cui si svolge l'azione."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-62",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il predicato verbale?",
+			"options": [
+				"La parte che completa il nome",
+				"L'aggettivo riferito al soggetto",
+				"Il nome che accompagna il soggetto",
+				"Il verbo che esprime l'azione del soggetto"
+			],
+			"answer": "Il verbo che esprime l'azione del soggetto",
+			"explanation": "«Marco corre»: corre è predicato verbale. Con essere più un nome o aggettivo si ha il predicato nominale."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-63",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Marco è simpatico», che cos'è «è simpatico»?",
+			"options": [
+				"Predicato nominale",
+				"Complemento oggetto",
+				"Apposizione",
+				"Predicato verbale"
+			],
+			"answer": "Predicato nominale",
+			"explanation": "Il verbo essere fa da copula e «simpatico» è la parte nominale: insieme dicono com'è il soggetto."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-64",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Torno a settembre», che cos'è «a settembre»?",
+			"options": [
+				"Complemento di termine",
+				"Complemento di tempo",
+				"Complemento di luogo",
+				"Complemento di fine"
+			],
+			"answer": "Complemento di tempo",
+			"explanation": "Risponde a «quando?». La stessa preposizione «a» introduce complementi diversi: conta la domanda a cui risponde."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-65",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Studio per l'esame», che cos'è «per l'esame»?",
+			"options": [
+				"Complemento di mezzo",
+				"Complemento di termine",
+				"Complemento di fine o scopo",
+				"Complemento di causa"
+			],
+			"answer": "Complemento di fine o scopo",
+			"explanation": "Risponde a «per quale scopo?». Sarebbe di causa se rispondesse a «perché?»: «tremo per il freddo»."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-66",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Vengo da Roma», che cos'è «da Roma»?",
+			"options": [
+				"Complemento di moto a luogo",
+				"Complemento di stato in luogo",
+				"Complemento d'agente",
+				"Complemento di moto da luogo"
+			],
+			"answer": "Complemento di moto da luogo",
+			"explanation": "Indica il punto di partenza. «Vado a Roma» sarebbe moto a luogo, «sto a Roma» stato in luogo."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-67",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Giulia, la mia amica, arriva oggi», che cos'è «la mia amica»?",
+			"options": [
+				"Apposizione",
+				"Complemento oggetto",
+				"Attributo",
+				"Predicato nominale"
+			],
+			"answer": "Apposizione",
+			"explanation": "L'apposizione è un nome che precisa un altro nome. L'attributo invece è un aggettivo: «Giulia simpatica»."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-68",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si trova il soggetto di una frase?",
+			"options": [
+				"Prendendo sempre la prima parola",
+				"Chiedendo «chi compie l'azione?»",
+				"Guardando quale nome è al plurale",
+				"Cercando la parola più lunga"
+			],
+			"answer": "Chiedendo «chi compie l'azione?»",
+			"explanation": "Il soggetto non è per forza all'inizio: «Arriva Marco» ha il soggetto in fondo."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-69",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Una frase può avere il soggetto sottinteso?",
+			"options": [
+				"Solo con i verbi al passato",
+				"Solo nelle frasi interrogative",
+				"Sì, quando si capisce dal verbo",
+				"No, il soggetto è sempre scritto"
+			],
+			"answer": "Sì, quando si capisce dal verbo",
+			"explanation": "«Mangio una mela»: il soggetto «io» non è scritto ma la desinenza del verbo lo dice già."
+		},
+		{
+			"id": "italiano-banda-sintassi-70",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una proposizione principale?",
+			"options": [
+				"La frase che contiene il soggetto",
+				"La prima frase di ogni periodo",
+				"La frase più lunga del periodo",
+				"Una frase che sta in piedi da sola"
+			],
+			"answer": "Una frase che sta in piedi da sola",
+			"explanation": "Non dipende da nessun'altra: «Esco» è principale anche se seguita da «perché piove»."
+		},
+		{
+			"id": "italiano-banda-sintassi-71",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Esco perché piove», che cos'è «perché piove»?",
+			"options": [
+				"Proposizione subordinata causale",
+				"Proposizione subordinata finale",
+				"Proposizione principale autonoma",
+				"Proposizione coordinata alla prima"
+			],
+			"answer": "Proposizione subordinata causale",
+			"explanation": "Dipende dalla principale e ne spiega il motivo: risponde a «perché?»."
+		},
+		{
+			"id": "italiano-banda-sintassi-72",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Mangio e bevo», che rapporto c'è fra le due frasi?",
+			"options": [
+				"La prima è subordinata",
+				"Sono coordinate",
+				"Non c'è alcun rapporto",
+				"La seconda è subordinata"
+			],
+			"answer": "Sono coordinate",
+			"explanation": "Le coordinate stanno sullo stesso piano, unite da una congiunzione: nessuna dipende dall'altra."
+		},
+		{
+			"id": "italiano-banda-sintassi-73",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un periodo?",
+			"options": [
+				"Un paragrafo intero di un testo lungo",
+				"Una frase che contiene un solo verbo",
+				"Un insieme di frasi legate fino al punto fermo",
+				"Una frase priva di proposizioni subordinate"
+			],
+			"answer": "Un insieme di frasi legate fino al punto fermo",
+			"explanation": "Il periodo può contenere una sola proposizione o dieci: si chiude con il punto."
+		},
+		{
+			"id": "italiano-banda-sintassi-74",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Spero che tu venga», che tipo di subordinata è?",
+			"options": [
+				"Soggettiva",
+				"Temporale",
+				"Causale",
+				"Oggettiva"
+			],
+			"answer": "Oggettiva",
+			"explanation": "Fa da complemento oggetto della principale: spero che cosa? Che tu venga."
+		},
+		{
+			"id": "italiano-banda-sintassi-75",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Il libro che ho letto è bello», che tipo di subordinata è «che ho letto»?",
+			"options": [
+				"Relativa",
+				"Causale",
+				"Oggettiva",
+				"Consecutiva"
+			],
+			"answer": "Relativa",
+			"explanation": "Le relative sono introdotte da un pronome relativo e precisano un nome della principale."
+		},
+		{
+			"id": "italiano-banda-sintassi-76",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Quando arrivi, chiamami», che cos'è «quando arrivi»?",
+			"options": [
+				"Subordinata causale",
+				"Subordinata temporale",
+				"Proposizione principale",
+				"Subordinata finale"
+			],
+			"answer": "Subordinata temporale",
+			"explanation": "Colloca nel tempo l'azione della principale: risponde a «quando?»."
+		},
+		{
+			"id": "italiano-banda-sintassi-77",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Studio per passare l'esame», che cos'è «per passare l'esame»?",
+			"options": [
+				"Subordinata consecutiva",
+				"Subordinata causale",
+				"Subordinata finale",
+				"Subordinata temporale"
+			],
+			"answer": "Subordinata finale",
+			"explanation": "Indica lo scopo dell'azione principale: risponde a «per fare che cosa?»."
+		},
+		{
+			"id": "italiano-banda-sintassi-78",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Era così stanco che si addormentò», che cos'è la seconda frase?",
+			"options": [
+				"Proposizione coordinata",
+				"Subordinata causale",
+				"Subordinata finale",
+				"Subordinata consecutiva"
+			],
+			"answer": "Subordinata consecutiva",
+			"explanation": "Esprime la conseguenza di quanto detto prima: «così… che» è la coppia tipica."
+		},
+		{
+			"id": "italiano-banda-sintassi-79",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa distingue una frase semplice da un periodo?",
+			"options": [
+				"La frase semplice ha un solo predicato",
+				"Il periodo non ha mai il soggetto",
+				"La frase semplice non ha complementi",
+				"La frase semplice è sempre più corta"
+			],
+			"answer": "La frase semplice ha un solo predicato",
+			"explanation": "Si contano i verbi: un predicato, una proposizione. Due predicati fanno già un periodo."
+		},
+		{
+			"id": "italiano-banda-sintassi-80",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti predicati ha la frase «Marco corre e Anna legge»?",
+			"options": [],
+			"answer": "2",
+			"explanation": "Corre e legge: due predicati, quindi due proposizioni coordinate."
+		},
+		{
+			"id": "italiano-banda-sintassi-81",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Se studi, passerai», che tipo di periodo è?",
+			"options": [
+				"Comparativo",
+				"Ipotetico",
+				"Interrogativo",
+				"Esclamativo"
+			],
+			"answer": "Ipotetico",
+			"explanation": "Un periodo ipotetico ha una condizione (protasi) e la sua conseguenza (apodosi)."
+		},
+		{
+			"id": "italiano-banda-sintassi-82",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una subordinata di primo grado?",
+			"options": [
+				"La prima subordinata che si incontra",
+				"La subordinata più importante del periodo",
+				"Una frase che dipende direttamente dalla principale",
+				"Una subordinata con un solo verbo"
+			],
+			"answer": "Una frase che dipende direttamente dalla principale",
+			"explanation": "Se una subordinata dipende a sua volta da un'altra subordinata, è di secondo grado."
+		},
+		{
+			"id": "italiano-banda-sintassi-83",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché l'ordine delle parole conta in italiano?",
+			"options": [
+				"Perché altrimenti la frase è più lunga",
+				"Perché la grammatica lo impone sempre",
+				"Perché i verbi vanno sempre in fondo",
+				"Perché può cambiare il significato o l'enfasi"
+			],
+			"answer": "Perché può cambiare il significato o l'enfasi",
+			"explanation": "«Solo io l'ho detto» e «io l'ho detto solo» dicono cose diverse: la posizione sposta il fuoco."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-84",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Sei veloce come il vento» è una…",
+			"options": [
+				"Similitudine",
+				"Metafora",
+				"Personificazione",
+				"Iperbole"
+			],
+			"answer": "Similitudine",
+			"explanation": "La similitudine dichiara il paragone con «come»; la metafora lo fa senza dirlo: «sei un fulmine»."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-85",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Quel ragazzo è un leone» è una…",
+			"options": [
+				"Onomatopea",
+				"Metafora",
+				"Anafora",
+				"Similitudine"
+			],
+			"answer": "Metafora",
+			"explanation": "Si sostituisce un termine con un altro senza «come»: il paragone resta implicito."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-86",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Te l'ho detto un milione di volte» è una…",
+			"options": [
+				"Similitudine",
+				"Metafora",
+				"Iperbole",
+				"Litote"
+			],
+			"answer": "Iperbole",
+			"explanation": "L'iperbole esagera di proposito per dare forza: nessuno conta davvero un milione di volte."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-87",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Din don dan» è un esempio di…",
+			"options": [
+				"Anafora",
+				"Metafora",
+				"Allitterazione",
+				"Onomatopea"
+			],
+			"answer": "Onomatopea",
+			"explanation": "L'onomatopea imita un suono reale con le parole: tic tac, bum, fruscio."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-88",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Non è male» detto di una cosa ottima è una…",
+			"options": [
+				"Litote",
+				"Ossimoro",
+				"Iperbole",
+				"Metafora"
+			],
+			"answer": "Litote",
+			"explanation": "La litote afferma negando il contrario: dice meno per far capire di più."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-89",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Ghiaccio bollente» è un…",
+			"options": [
+				"Climax",
+				"Ossimoro",
+				"Onomatopea",
+				"Iperbole"
+			],
+			"answer": "Ossimoro",
+			"explanation": "L'ossimoro accosta due termini che si contraddicono, creando un'immagine forte."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-90",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Sempre caro mi fu quell'ermo colle» — perché l'ordine è insolito?",
+			"options": [
+				"Le parole sono state tradotte male",
+				"È un errore di scrittura dell'autore",
+				"Le parole sono spostate per effetto poetico",
+				"È un dialetto antico ormai scomparso"
+			],
+			"answer": "Le parole sono spostate per effetto poetico",
+			"explanation": "Si chiama anastrofe o iperbato: cambiare l'ordine consueto crea ritmo e mette in rilievo certe parole."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-91",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Ripetere la stessa parola all'inizio di più versi si chiama…",
+			"options": [
+				"Similitudine",
+				"Allitterazione",
+				"Onomatopea",
+				"Anafora"
+			],
+			"answer": "Anafora",
+			"explanation": "L'anafora martella un concetto ripetendolo in apertura: crea insistenza e ritmo."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-92",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Fresche le mie parole ne la sera» — la ripetizione dei suoni si chiama…",
+			"options": [
+				"Allitterazione",
+				"Assonanza finale",
+				"Onomatopea",
+				"Anafora"
+			],
+			"answer": "Allitterazione",
+			"explanation": "L'allitterazione ripete gli stessi suoni consonantici in parole vicine, dando musicalità al verso."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-93",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Il vento urla fra i rami» attribuisce al vento…",
+			"options": [
+				"Un colore vivace",
+				"Una qualità umana",
+				"Una posizione precisa",
+				"Un suono più forte"
+			],
+			"answer": "Una qualità umana",
+			"explanation": "È la personificazione: si attribuiscono a cose o fenomeni comportamenti da esseri viventi."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-94",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché uno scrittore usa le figure retoriche?",
+			"options": [
+				"Per allungare il testo di più",
+				"Per rendere il testo più difficile",
+				"Per rendere più vivo ed efficace il messaggio",
+				"Per rispettare le regole di grammatica"
+			],
+			"answer": "Per rendere più vivo ed efficace il messaggio",
+			"explanation": "Non sono ornamenti: una metafora giusta fa capire in tre parole ciò che richiederebbe un paragrafo."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-95",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale frase contiene una similitudine?",
+			"options": [
+				"È un vero ghiro",
+				"Ghiro dormiglione!",
+				"Dorme moltissimo",
+				"Dorme come un ghiro"
+			],
+			"answer": "Dorme come un ghiro",
+			"explanation": "La presenza di «come» segnala il paragone esplicito. Senza «come» sarebbe una metafora."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-96",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Una serie di termini di intensità crescente si chiama…",
+			"options": [
+				"Climax",
+				"Ossimoro",
+				"Anafora",
+				"Litote"
+			],
+			"answer": "Climax",
+			"explanation": "«Arrivò, vide, vinse» sale di intensità. Se scende si chiama anticlimax."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-97",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«La città dorme» è una…",
+			"options": [
+				"Similitudine",
+				"Personificazione",
+				"Onomatopea",
+				"Allitterazione"
+			],
+			"answer": "Personificazione",
+			"explanation": "Alla città, che non è viva, si attribuisce un'azione umana."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-98",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è la trama di un racconto?",
+			"options": [
+				"Il messaggio dell'autore",
+				"Il luogo in cui si svolge",
+				"La successione dei fatti narrati",
+				"L'insieme dei personaggi"
+			],
+			"answer": "La successione dei fatti narrati",
+			"explanation": "La trama è cosa succede; l'ambientazione è dove, e i personaggi sono chi."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-99",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Chi è il protagonista di un racconto?",
+			"options": [
+				"Il primo personaggio che appare",
+				"Il personaggio più simpatico",
+				"Chi racconta la storia",
+				"Il personaggio principale della vicenda"
+			],
+			"answer": "Il personaggio principale della vicenda",
+			"explanation": "Chi racconta è il narratore, che può anche non essere un personaggio della storia."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-100",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'antagonista?",
+			"options": [
+				"Il personaggio che si oppone al protagonista",
+				"Il personaggio cattivo per definizione",
+				"Il personaggio che appare per ultimo",
+				"Il narratore che giudica i fatti"
+			],
+			"answer": "Il personaggio che si oppone al protagonista",
+			"explanation": "Non deve essere malvagio: può essere una persona in buona fede con un obiettivo incompatibile."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-101",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un narratore che dice «io» e partecipa ai fatti si chiama…",
+			"options": [
+				"Narratore assente",
+				"Narratore interno",
+				"Narratore onnisciente",
+				"Narratore esterno"
+			],
+			"answer": "Narratore interno",
+			"explanation": "Vede solo quello che il personaggio vede: è un punto di vista limitato, e per questo interessante."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-102",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un narratore onnisciente?",
+			"options": [
+				"Un narratore che appare come personaggio",
+				"Un narratore che non prende posizione",
+				"Un narratore che conosce pensieri e futuro di tutti",
+				"Un narratore che racconta solo i dialoghi"
+			],
+			"answer": "Un narratore che conosce pensieri e futuro di tutti",
+			"explanation": "Sa più dei personaggi: può dire cosa pensano tutti e anticipare quello che accadrà."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-103",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un flashback?",
+			"options": [
+				"Un salto in avanti nel futuro",
+				"Un sogno di un personaggio",
+				"La fine anticipata della storia",
+				"Un salto indietro nel tempo del racconto"
+			],
+			"answer": "Un salto indietro nel tempo del racconto",
+			"explanation": "Interrompe l'ordine cronologico per mostrare un fatto passato che spiega il presente."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-104",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'ambientazione?",
+			"options": [
+				"Il tempo e il luogo in cui si svolge la storia",
+				"La descrizione dell'aspetto dei personaggi",
+				"L'atmosfera emotiva che pervade il racconto",
+				"La parte iniziale di un testo narrativo"
+			],
+			"answer": "Il tempo e il luogo in cui si svolge la storia",
+			"explanation": "Dove e quando: una stessa vicenda ambientata oggi o nel Medioevo diventa un'altra storia."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-105",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In quale parte del racconto si scioglie la tensione?",
+			"options": [
+				"Nel momento di massima tensione",
+				"Nello scioglimento, dopo il culmine",
+				"Nella descrizione dei luoghi",
+				"Nell'esposizione iniziale"
+			],
+			"answer": "Nello scioglimento, dopo il culmine",
+			"explanation": "La curva tipica sale dall'esposizione al climax e poi scende verso la conclusione."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-106",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il momento di massima tensione?",
+			"options": [
+				"Esposizione",
+				"Epilogo",
+				"Climax",
+				"Scioglimento"
+			],
+			"answer": "Climax",
+			"explanation": "È il punto in cui il conflitto arriva al massimo e qualcosa deve cambiare."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-107",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la stessa storia raccontata da due personaggi cambia?",
+			"options": [
+				"Perché uno dei due ricorda male",
+				"Perché uno racconta più in fretta",
+				"Perché cambiano i fatti accaduti",
+				"Perché ognuno sa e sente cose diverse"
+			],
+			"answer": "Perché ognuno sa e sente cose diverse",
+			"explanation": "I fatti restano, cambia il punto di vista: cosa sa chi racconta, e cosa gli importa."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-108",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il discorso diretto?",
+			"options": [
+				"Le parole del personaggio riportate esattamente",
+				"Il riassunto di quello che ha detto",
+				"La descrizione del tono con cui parla",
+				"Il pensiero che non viene espresso a voce"
+			],
+			"answer": "Le parole del personaggio riportate esattamente",
+			"explanation": "Si segnala con virgolette o trattini: «Vieni qui», disse. Nel discorso indiretto: disse di venire."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-109",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un personaggio secondario?",
+			"options": [
+				"Un personaggio che appare una sola volta",
+				"Un personaggio che ha un ruolo minore nella vicenda",
+				"Un personaggio senza nome proprio",
+				"Un personaggio inventato dal protagonista"
+			],
+			"answer": "Un personaggio che ha un ruolo minore nella vicenda",
+			"explanation": "Può essere importantissimo pur non essendo al centro: aiuta, ostacola o rivela qualcosa del protagonista."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-110",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il conflitto in una storia?",
+			"options": [
+				"Un litigio acceso fra due personaggi",
+				"Il disaccordo fra l'autore e il lettore",
+				"L'ostacolo fra il protagonista e ciò che vuole",
+				"La parte più violenta di tutto il racconto"
+			],
+			"answer": "L'ostacolo fra il protagonista e ciò che vuole",
+			"explanation": "Senza conflitto non c'è storia: può essere una persona, una circostanza o un dubbio interiore."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-111",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la parte iniziale che presenta la situazione?",
+			"options": [
+				"Scioglimento",
+				"Conflitto",
+				"Climax",
+				"Esposizione"
+			],
+			"answer": "Esposizione",
+			"explanation": "Presenta con calma personaggi e luogo, prima che i problemi comincino."
+		},
+		{
+			"id": "italiano-banda-lessico-112",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa sono i sinonimi?",
+			"options": [
+				"Parole di significato simile",
+				"Parole della stessa famiglia",
+				"Parole di significato opposto",
+				"Parole che si scrivono uguali"
+			],
+			"answer": "Parole di significato simile",
+			"explanation": "«Casa» e «abitazione» sono sinonimi, ma non sempre intercambiabili: cambia il registro."
+		},
+		{
+			"id": "italiano-banda-lessico-113",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa sono i contrari?",
+			"options": [
+				"Parole di origine straniera",
+				"Parole di significato opposto",
+				"Parole di significato simile",
+				"Parole che suonano uguali"
+			],
+			"answer": "Parole di significato opposto",
+			"explanation": "Alto e basso, entrare e uscire: il contrario dipende sempre dal contesto."
+		},
+		{
+			"id": "italiano-banda-lessico-114",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa sono gli omonimi?",
+			"options": [
+				"Parole di origine latina",
+				"Parole simili con lo stesso senso",
+				"Parole uguali con significati diversi",
+				"Parole della stessa famiglia"
+			],
+			"answer": "Parole uguali con significati diversi",
+			"explanation": "«Riso» può essere il cereale o l'atto di ridere: stessa forma, due significati senza parentela."
+		},
+		{
+			"id": "italiano-banda-lessico-115",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è il contrario di «generoso»?",
+			"options": [
+				"Sincero",
+				"Prudente",
+				"Gentile",
+				"Avaro"
+			],
+			"answer": "Avaro",
+			"explanation": "Il contrario si oppone sulla stessa dimensione: qui il dare o il trattenere."
+		},
+		{
+			"id": "italiano-banda-lessico-116",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un prefisso?",
+			"options": [
+				"Una parte che si aggiunge prima della radice",
+				"Un segno che indica il plurale",
+				"Una parte che si aggiunge alla fine",
+				"La parte centrale di una parola"
+			],
+			"answer": "Una parte che si aggiunge prima della radice",
+			"explanation": "In «rifare», «ri-» è il prefisso e indica ripetizione. In fondo si mettono i suffissi."
+		},
+		{
+			"id": "italiano-banda-lessico-117",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «giardiniere», qual è il suffisso?",
+			"options": [
+				"giardin-",
+				"-iere",
+				"-ino",
+				"-are"
+			],
+			"answer": "-iere",
+			"explanation": "Il suffisso «-iere» forma nomi di mestiere: giardiniere, cassiere, portiere."
+		},
+		{
+			"id": "italiano-banda-lessico-118",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un campo semantico?",
+			"options": [
+				"Le parole che si scrivono uguali",
+				"L'insieme delle parole di una lingua",
+				"L'insieme di parole legate a uno stesso tema",
+				"Le parole con la stessa radice"
+			],
+			"answer": "L'insieme di parole legate a uno stesso tema",
+			"explanation": "Mare, onda, barca, scoglio appartengono allo stesso campo: non sono parenti, parlano della stessa cosa."
+		},
+		{
+			"id": "italiano-banda-lessico-119",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una famiglia di parole?",
+			"options": [
+				"Parole con la stessa lunghezza",
+				"Parole che parlano dello stesso tema",
+				"Parole di significato simile",
+				"Parole che condividono la stessa radice"
+			],
+			"answer": "Parole che condividono la stessa radice",
+			"explanation": "Fiore, fioraio, fiorire, infiorata: la radice è la stessa, ed è una parentela di forma prima che di senso."
+		},
+		{
+			"id": "italiano-banda-lessico-120",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un diminutivo?",
+			"options": [
+				"Una forma alterata che indica piccolezza",
+				"Una parola più corta della normale",
+				"Un contrario attenuato",
+				"Un sinonimo poco usato"
+			],
+			"answer": "Una forma alterata che indica piccolezza",
+			"explanation": "Casa→casetta, libro→libretto. Esistono anche accrescitivi, vezzeggiativi e dispregiativi."
+		},
+		{
+			"id": "italiano-banda-lessico-121",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che differenza c'è fra significato letterale e figurato?",
+			"options": [
+				"Il senso letterale si usa solo in poesia",
+				"Il figurato usa la parola oltre il suo senso proprio",
+				"Il senso figurato è sempre più antico",
+				"Il senso figurato vale solo per i verbi"
+			],
+			"answer": "Il figurato usa la parola oltre il suo senso proprio",
+			"explanation": "«Ha il cuore di pietra» non parla di minerali: il senso figurato nasce da un'immagine."
+		},
+		{
+			"id": "italiano-banda-lessico-122",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è un sinonimo di «veloce»?",
+			"options": [
+				"Lento",
+				"Pesante",
+				"Rapido",
+				"Silenzioso"
+			],
+			"answer": "Rapido",
+			"explanation": "Sinonimo significa vicino di significato: rapido e veloce si sostituiscono quasi sempre."
+		},
+		{
+			"id": "italiano-banda-lessico-123",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un termine specialistico?",
+			"options": [
+				"Una parola che ormai non si usa più",
+				"Una parola difficile da pronunciare bene",
+				"Una parola presa da una lingua straniera",
+				"Una parola usata soprattutto in un certo ambito"
+			],
+			"answer": "Una parola usata soprattutto in un certo ambito",
+			"explanation": "«Battuta» in musica significa una cosa precisa: fuori da lì significa altro. Ogni disciplina ha il suo lessico."
+		},
+		{
+			"id": "italiano-banda-lessico-124",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché conoscere più sinonimi aiuta a scrivere?",
+			"options": [
+				"Perché si evitano ripetizioni e si sceglie la sfumatura giusta",
+				"Perché il testo che si scrive diventa molto più lungo",
+				"Perché la grammatica italiana lo richiede espressamente",
+				"Perché si possono usare parole più difficili e ricercate"
+			],
+			"answer": "Perché si evitano ripetizioni e si sceglie la sfumatura giusta",
+			"explanation": "Non è questione di eleganza: fra «casa», «dimora» e «tugurio» cambia quello che il lettore immagina."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-125",
 			"subject": "italiano",
 			"topic": "analisi-logica",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Nella frase «Il gatto dorme sul divano», «sul divano» è complemento di…",
 			"options": [
-				"modo",
 				"tempo",
 				"luogo",
+				"modo",
 				"mezzo"
 			],
 			"answer": "luogo",
 			"explanation": "Risponde alla domanda «dove?», quindi è complemento di luogo."
 		},
 		{
-			"id": "italiano-banda-analisi-grammaticale-1",
+			"id": "italiano-banda-analisi-grammaticale-126",
 			"subject": "italiano",
 			"topic": "analisi-grammaticale",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che parte del discorso è «velocemente»?",
 			"options": [
-				"Verbo",
 				"Aggettivo",
-				"Nome",
-				"Avverbio"
+				"Verbo",
+				"Avverbio",
+				"Nome"
 			],
 			"answer": "Avverbio",
 			"explanation": "Gli avverbi in -mente nascono dagli aggettivi e dicono come avviene l'azione: veloce → velocemente."
 		},
 		{
-			"id": "italiano-banda-verbo-2",
+			"id": "italiano-banda-verbo-127",
 			"subject": "italiano",
 			"topic": "verbo",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "In «Se avessi studiato, avrei passato l'esame», che modo è «avessi studiato»?",
 			"options": [
-				"Congiuntivo",
-				"Indicativo",
+				"Imperativo",
 				"Condizionale",
-				"Imperativo"
+				"Indicativo",
+				"Congiuntivo"
 			],
 			"answer": "Congiuntivo",
 			"explanation": "Il congiuntivo regge l'ipotesi; «avrei passato» è invece il condizionale, che regge la conseguenza."
 		},
 		{
-			"id": "italiano-banda-sintassi-3",
+			"id": "italiano-banda-sintassi-128",
 			"subject": "italiano",
 			"topic": "sintassi",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una proposizione subordinata?",
 			"options": [
-				"Una frase senza verbo",
 				"Una frase che dipende da un'altra",
 				"Una frase che sta in piedi da sola",
+				"Una frase senza verbo",
 				"Una frase scritta fra virgolette"
 			],
 			"answer": "Una frase che dipende da un'altra",
 			"explanation": "La principale regge da sola; la subordinata ha bisogno di lei per avere senso compiuto."
 		},
 		{
-			"id": "italiano-banda-figure-retoriche-4",
+			"id": "italiano-banda-figure-retoriche-129",
 			"subject": "italiano",
 			"topic": "figure-retoriche",
 			"difficulty": 4,
@@ -5292,63 +7282,63 @@
 			"prompt": "«Il vento urla fra i rami» è una…",
 			"options": [
 				"similitudine",
-				"iperbole",
 				"personificazione",
+				"iperbole",
 				"metonimia"
 			],
 			"answer": "personificazione",
 			"explanation": "Al vento è attribuita un'azione umana, urlare: è una personificazione."
 		},
 		{
-			"id": "italiano-banda-lessico-5",
+			"id": "italiano-banda-lessico-130",
 			"subject": "italiano",
 			"topic": "lessico",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cosa vuol dire «effimero»?",
 			"options": [
-				"Che è difficile da capire",
-				"Che costa molto",
 				"Che si ripete spesso",
-				"Che dura pochissimo"
+				"Che costa molto",
+				"Che dura pochissimo",
+				"Che è difficile da capire"
 			],
 			"answer": "Che dura pochissimo",
 			"explanation": "Un successo effimero passa in fretta: il contrario è duraturo."
 		},
 		{
-			"id": "italiano-banda-lessico-6",
+			"id": "italiano-banda-lessico-131",
 			"subject": "italiano",
 			"topic": "lessico",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cosa vuol dire «tacito»?",
 			"options": [
-				"Non detto, sottinteso",
-				"Detto ad alta voce",
 				"Ripetuto due volte",
-				"Scritto a mano"
+				"Detto ad alta voce",
+				"Scritto a mano",
+				"Non detto, sottinteso"
 			],
 			"answer": "Non detto, sottinteso",
 			"explanation": "Un accordo tacito non è né scritto né pronunciato: si dà per inteso."
 		},
 		{
-			"id": "italiano-banda-ortografia-7",
+			"id": "italiano-banda-ortografia-132",
 			"subject": "italiano",
 			"topic": "ortografia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale forma è corretta?",
 			"options": [
-				"Una amica",
 				"Un'amica",
+				"Un amica",
 				"Un'amico",
-				"Un amica"
+				"Una amica"
 			],
 			"answer": "Un'amica",
 			"explanation": "L'apostrofo va davanti a un nome femminile che comincia per vocale. Al maschile si scrive «un amico», senza apostrofo."
 		},
 		{
-			"id": "italiano-banda-testo-narrativo-8",
+			"id": "italiano-banda-testo-narrativo-133",
 			"subject": "italiano",
 			"topic": "testo-narrativo",
 			"difficulty": 4,
@@ -5356,25 +7346,25 @@
 			"prompt": "Che cos'è un narratore in prima persona?",
 			"options": [
 				"Chi racconta è l'autore del libro",
-				"Chi racconta parla solo al presente",
 				"Chi racconta è dentro la storia e dice «io»",
+				"Chi racconta parla solo al presente",
 				"Chi racconta sa tutto di tutti"
 			],
 			"answer": "Chi racconta è dentro la storia e dice «io»",
 			"explanation": "Il narratore in prima persona vede solo quello che vede il personaggio: è un limite che l'autore sceglie apposta."
 		},
 		{
-			"id": "italiano-banda-punteggiatura-9",
+			"id": "italiano-banda-punteggiatura-134",
 			"subject": "italiano",
 			"topic": "punteggiatura",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "A che cosa servono i due punti?",
 			"options": [
-				"A separare due frasi senza legame",
 				"A indicare una domanda",
-				"A chiudere il discorso diretto",
-				"Ad annunciare una spiegazione o un elenco"
+				"A separare due frasi senza legame",
+				"Ad annunciare una spiegazione o un elenco",
+				"A chiudere il discorso diretto"
 			],
 			"answer": "Ad annunciare una spiegazione o un elenco",
 			"explanation": "I due punti aprono qualcosa: una spiegazione, un elenco o le parole di qualcuno."

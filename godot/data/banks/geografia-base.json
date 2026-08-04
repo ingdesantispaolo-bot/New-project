@@ -1636,6 +1636,828 @@
 			"explanation": "La scala dice quante volte le distanze reali sono state rimpicciolite."
 		},
 		{
+			"id": "geografia-mondo-0",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti sono i continenti abitati?",
+			"options": [],
+			"answer": "5",
+			"explanation": "Europa, Asia, Africa, America e Oceania. L'Antartide non ha popolazione stabile."
+		},
+		{
+			"id": "geografia-mondo-1",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è l'oceano più esteso del pianeta?",
+			"options": [
+				"Indiano",
+				"Artico",
+				"Pacifico",
+				"Atlantico"
+			],
+			"answer": "Pacifico",
+			"explanation": "Da solo copre circa un terzo della superficie terrestre: più di tutte le terre emerse messe insieme."
+		},
+		{
+			"id": "geografia-mondo-2",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'equatore?",
+			"options": [
+				"Il punto più caldo di tutto il pianeta",
+				"La linea lungo cui cambiano i fusi orari",
+				"Il confine naturale fra due continenti",
+				"La linea che divide la Terra in due emisferi"
+			],
+			"answer": "La linea che divide la Terra in due emisferi",
+			"explanation": "È il parallelo di latitudine zero: da lì si contano i gradi verso nord e verso sud."
+		},
+		{
+			"id": "geografia-mondo-3",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un meridiano?",
+			"options": [
+				"Una linea che va da polo a polo",
+				"Il confine fra due Stati vicini",
+				"Una linea parallela all'equatore",
+				"La linea che segna il livello del mare"
+			],
+			"answer": "Una linea che va da polo a polo",
+			"explanation": "I meridiani misurano la longitudine; i paralleli, che girano attorno alla Terra, misurano la latitudine."
+		},
+		{
+			"id": "geografia-mondo-4",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché esistono i fusi orari?",
+			"options": [
+				"Perché le stagioni cambiano da luogo a luogo",
+				"Perché la Terra ruota e non è giorno ovunque insieme",
+				"Perché i Paesi hanno leggi diverse",
+				"Perché la Terra non è perfettamente sferica"
+			],
+			"answer": "Perché la Terra ruota e non è giorno ovunque insieme",
+			"explanation": "Ruotando, ogni longitudine incontra il Sole in un momento diverso: servono ore diverse per tenere il mezzogiorno a mezzogiorno."
+		},
+		{
+			"id": "geografia-mondo-5",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è il continente più esteso?",
+			"options": [
+				"America",
+				"Antartide",
+				"Asia",
+				"Africa"
+			],
+			"answer": "Asia",
+			"explanation": "L'Asia copre circa un terzo delle terre emerse e ospita più della metà della popolazione mondiale."
+		},
+		{
+			"id": "geografia-mondo-6",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è la latitudine?",
+			"options": [
+				"La distanza in gradi dal meridiano zero",
+				"La distanza dal Polo Nord in chilometri",
+				"L'altezza sul livello del mare",
+				"La distanza in gradi dall'equatore"
+			],
+			"answer": "La distanza in gradi dall'equatore",
+			"explanation": "Va da 0° all'equatore a 90° ai poli, verso nord o verso sud."
+		},
+		{
+			"id": "geografia-mondo-7",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è la longitudine?",
+			"options": [
+				"La distanza in gradi dal meridiano di Greenwich",
+				"La distanza in gradi dall'equatore",
+				"La lunghezza di un Paese da nord a sud",
+				"La distanza fra due paralleli"
+			],
+			"answer": "La distanza in gradi dal meridiano di Greenwich",
+			"explanation": "Il meridiano fondamentale passa per Greenwich, a Londra: da lì si contano i gradi verso est e verso ovest."
+		},
+		{
+			"id": "geografia-mondo-8",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è il deserto caldo più esteso del mondo?",
+			"options": [
+				"Kalahari",
+				"Sahara",
+				"Gobi",
+				"Atacama"
+			],
+			"answer": "Sahara",
+			"explanation": "Copre gran parte del Nord Africa: da solo è grande quasi quanto tutta l'Europa."
+		},
+		{
+			"id": "geografia-mondo-9",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Su quale continente si trova la foresta amazzonica?",
+			"options": [
+				"Asia sudorientale",
+				"Oceania",
+				"America meridionale",
+				"Africa centrale"
+			],
+			"answer": "America meridionale",
+			"explanation": "Attraversa nove Paesi ed è la più grande foresta pluviale del pianeta."
+		},
+		{
+			"id": "geografia-mondo-10",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Qual è la catena montuosa più alta del mondo?",
+			"options": [
+				"Alpi",
+				"Montagne Rocciose",
+				"Ande",
+				"Himalaya"
+			],
+			"answer": "Himalaya",
+			"explanation": "Vi si trova l'Everest, e nasce dallo scontro fra la placca indiana e quella eurasiatica: cresce ancora."
+		},
+		{
+			"id": "geografia-geografia-umana-11",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un Paese enorme con pochi abitanti ha densità di popolazione…",
+			"options": [
+				"Bassa",
+				"Media",
+				"Alta",
+				"Non calcolabile"
+			],
+			"answer": "Bassa",
+			"explanation": "Un Paese può avere molti abitanti e bassa densità, se è molto esteso: Canada e Bangladesh sono i due estremi."
+		},
+		{
+			"id": "geografia-geografia-umana-12",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'urbanizzazione?",
+			"options": [
+				"La creazione di nuovi parchi dentro le città",
+				"Lo spostamento della popolazione verso le città",
+				"La costruzione di nuovi quartieri residenziali",
+				"L'aumento generale della popolazione mondiale"
+			],
+			"answer": "Lo spostamento della popolazione verso le città",
+			"explanation": "Oggi più di metà dell'umanità vive in città: due secoli fa era meno di un decimo."
+		},
+		{
+			"id": "geografia-geografia-umana-13",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché le città nascono spesso vicino a fiumi o coste?",
+			"options": [
+				"Perché il terreno è più pianeggiante",
+				"Perché il clima è più mite là",
+				"Perché acqua e trasporti facilitano gli scambi",
+				"Perché ci sono più materiali da costruzione"
+			],
+			"answer": "Perché acqua e trasporti facilitano gli scambi",
+			"explanation": "Acqua da bere, terra fertile e una via di comunicazione: sono le tre cose che una città non può inventarsi."
+		},
+		{
+			"id": "geografia-geografia-umana-14",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa si intende per «migrazione»?",
+			"options": [
+				"Lo spostamento stagionale di alcune specie animali",
+				"Un viaggio di vacanza fatto in un altro Paese",
+				"Il trasferimento di merci da uno Stato all'altro",
+				"Lo spostamento stabile di persone da un luogo a un altro"
+			],
+			"answer": "Lo spostamento stabile di persone da un luogo a un altro",
+			"explanation": "Può essere interna, dentro lo stesso Paese, o internazionale, e ha sempre cause economiche, ambientali o politiche."
+		},
+		{
+			"id": "geografia-geografia-umana-15",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il settore primario?",
+			"options": [
+				"Le attività che ricavano risorse dalla natura",
+				"Le attività che trasformano le materie prime",
+				"I servizi come scuola e commercio",
+				"Le attività più importanti di un Paese"
+			],
+			"answer": "Le attività che ricavano risorse dalla natura",
+			"explanation": "Agricoltura, pesca, allevamento, estrazione. Il secondario trasforma, il terziario fornisce servizi."
+		},
+		{
+			"id": "geografia-geografia-umana-16",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il settore terziario?",
+			"options": [
+				"Il terzo Paese più ricco di tutto il mondo",
+				"L'insieme dei servizi come scuola, sanità, commercio",
+				"L'agricoltura, la pesca e l'allevamento",
+				"L'industria pesante e l'artigianato"
+			],
+			"answer": "L'insieme dei servizi come scuola, sanità, commercio",
+			"explanation": "Nei Paesi più sviluppati occupa la maggioranza dei lavoratori: non produce oggetti, fornisce prestazioni."
+		},
+		{
+			"id": "geografia-geografia-umana-17",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una metropoli?",
+			"options": [
+				"Una città con più di mille abitanti",
+				"La capitale di uno Stato",
+				"Una città molto grande e influente",
+				"Una città costruita di recente"
+			],
+			"answer": "Una città molto grande e influente",
+			"explanation": "Non conta solo la dimensione: una metropoli attira lavoro, servizi e persone da un'area vastissima."
+		},
+		{
+			"id": "geografia-geografia-umana-18",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la popolazione mondiale non è distribuita uniformemente?",
+			"options": [
+				"Perché i confini fra Stati sono stati tracciati male",
+				"Perché alcuni Paesi lo vietano con apposite leggi",
+				"Perché le persone preferiscono vivere a nord",
+				"Perché clima, acqua e risorse cambiano da luogo a luogo"
+			],
+			"answer": "Perché clima, acqua e risorse cambiano da luogo a luogo",
+			"explanation": "Deserti, ghiacci e alta montagna ospitano pochissimi abitanti: la gente si concentra dove si può vivere e coltivare."
+		},
+		{
+			"id": "geografia-geografia-umana-19",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un confine?",
+			"options": [
+				"La linea che separa due territori",
+				"La zona più lontana dalla capitale",
+				"Il centro geografico di un Paese",
+				"La costa di uno Stato sul mare"
+			],
+			"answer": "La linea che separa due territori",
+			"explanation": "Può seguire elementi naturali come fiumi e montagne, oppure essere tracciato per accordo: molti confini sono linee dritte disegnate a tavolino."
+		},
+		{
+			"id": "geografia-geografia-umana-20",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è la globalizzazione?",
+			"options": [
+				"L'aumento costante della popolazione mondiale",
+				"La crescente connessione fra economie e culture del mondo",
+				"La creazione di un unico governo per il pianeta",
+				"L'uso di una sola lingua in tutti i Paesi"
+			],
+			"answer": "La crescente connessione fra economie e culture del mondo",
+			"explanation": "Merci, informazioni e persone si spostano più facilmente: crea opportunità e disuguaglianze insieme."
+		},
+		{
+			"id": "geografia-geografia-umana-21",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una capitale?",
+			"options": [
+				"La città più grande di uno Stato",
+				"La città più ricca di uno Stato",
+				"La città sede del governo di uno Stato",
+				"La città più antica di uno Stato"
+			],
+			"answer": "La città sede del governo di uno Stato",
+			"explanation": "Non è sempre la più popolosa: Washington, Canberra e Brasilia sono capitali ma non le città maggiori."
+		},
+		{
+			"id": "geografia-europa-22",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale grande fiume europeo attraversa dieci Paesi diversi?",
+			"options": [
+				"La Senna, in Francia",
+				"Il Reno, in Germania",
+				"Il Volga, in Russia",
+				"Danubio"
+			],
+			"answer": "Danubio",
+			"explanation": "Scorre interamente in Russia e sfocia nel Mar Caspio: il Danubio è il secondo e attraversa dieci Paesi."
+		},
+		{
+			"id": "geografia-europa-23",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale catena montuosa separa l'Europa dall'Asia?",
+			"options": [
+				"Urali",
+				"Alpi",
+				"Carpazi",
+				"Pirenei"
+			],
+			"answer": "Urali",
+			"explanation": "Il confine fra i due continenti è convenzionale e segue gli Urali, il fiume Ural e il Caucaso."
+		},
+		{
+			"id": "geografia-europa-24",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale mare bagna l'Italia a est?",
+			"options": [
+				"Ionio",
+				"Adriatico",
+				"Tirreno",
+				"Ligure"
+			],
+			"answer": "Adriatico",
+			"explanation": "L'Adriatico separa l'Italia dai Balcani; il Tirreno sta a ovest."
+		},
+		{
+			"id": "geografia-europa-25",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'Unione Europea?",
+			"options": [
+				"Un'alleanza militare fra gli Stati membri",
+				"Un accordo che riguarda solo la moneta unica",
+				"Un'unione politica ed economica di Stati europei",
+				"L'insieme di tutti i Paesi del continente europeo"
+			],
+			"answer": "Un'unione politica ed economica di Stati europei",
+			"explanation": "Non tutti gli Stati europei ne fanno parte, e non tutti i membri usano l'euro."
+		},
+		{
+			"id": "geografia-europa-26",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale penisola europea è bagnata da Mediterraneo e Atlantico?",
+			"options": [
+				"Penisola scandinava",
+				"Penisola balcanica",
+				"Penisola italiana",
+				"Penisola iberica"
+			],
+			"answer": "Penisola iberica",
+			"explanation": "Spagna e Portogallo si affacciano sui due mari: è la posizione che ne ha fatto la base delle esplorazioni oceaniche."
+		},
+		{
+			"id": "geografia-europa-27",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché il clima dell'Europa occidentale è più mite di quello atteso alla sua latitudine?",
+			"options": [
+				"Per l'influenza della Corrente del Golfo",
+				"Perché ci sono molte foreste",
+				"Perché è vicina al deserto africano",
+				"Perché le montagne fermano i venti freddi"
+			],
+			"answer": "Per l'influenza della Corrente del Golfo",
+			"explanation": "Una corrente calda dall'Atlantico porta calore fino alle coste britanniche e norvegesi: alla stessa latitudine, il Canada gela."
+		},
+		{
+			"id": "geografia-europa-28",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è lo Stato più esteso interamente in Europa?",
+			"options": [
+				"Spagna",
+				"Ucraina",
+				"Francia",
+				"Germania"
+			],
+			"answer": "Ucraina",
+			"explanation": "La Russia è più grande ma si estende soprattutto in Asia: fra quelli interamente europei l'Ucraina è il maggiore."
+		},
+		{
+			"id": "geografia-europa-29",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale catena montuosa separa Francia e Spagna?",
+			"options": [
+				"Appennini",
+				"Carpazi",
+				"Pirenei",
+				"Alpi"
+			],
+			"answer": "Pirenei",
+			"explanation": "Corrono da un mare all'altro e hanno reso storicamente difficile il passaggio fra i due Paesi."
+		},
+		{
+			"id": "geografia-europa-30",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la Scandinavia ha molti fiordi?",
+			"options": [
+				"Perché il mare ha eroso quella costa per secoli",
+				"Perché il terreno si è spaccato durante i terremoti",
+				"Perché i fiumi vi hanno scavato gole profondissime",
+				"Perché antichi ghiacciai hanno scavato valli poi invase dal mare"
+			],
+			"answer": "Perché antichi ghiacciai hanno scavato valli poi invase dal mare",
+			"explanation": "I ghiacciai scavano valli a U molto profonde: quando il ghiaccio si ritira, il mare entra e resta."
+		},
+		{
+			"id": "geografia-europa-31",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale mare si trova a nord dell'Europa continentale?",
+			"options": [
+				"Mare del Nord",
+				"Mar Caspio",
+				"Mar Mediterraneo",
+				"Mar Nero"
+			],
+			"answer": "Mare del Nord",
+			"explanation": "Bagna Regno Unito, Norvegia, Danimarca, Germania e Paesi Bassi."
+		},
+		{
+			"id": "geografia-climi-32",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la differenza fra tempo meteorologico e clima?",
+			"options": [
+				"Il tempo si misura solo con il termometro",
+				"Il tempo è di oggi, il clima è la media di molti anni",
+				"Il clima riguarda solo l'estate",
+				"Sono la stessa cosa detta in due modi"
+			],
+			"answer": "Il tempo è di oggi, il clima è la media di molti anni",
+			"explanation": "Un giorno freddo d'estate non smentisce il clima: servono decenni di dati per parlare di clima."
+		},
+		{
+			"id": "geografia-climi-33",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa caratterizza il clima mediterraneo?",
+			"options": [
+				"Temperature costanti in ogni stagione",
+				"Inverni molto rigidi e nevosi",
+				"Estati calde e secche, inverni miti e piovosi",
+				"Piogge abbondanti tutto l'anno"
+			],
+			"answer": "Estati calde e secche, inverni miti e piovosi",
+			"explanation": "È tipico delle coste del Mediterraneo, ma si trova anche in California e in Cile centrale."
+		},
+		{
+			"id": "geografia-climi-34",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché in montagna fa più freddo?",
+			"options": [
+				"Perché in quota si è più lontani dal Sole",
+				"Perché in montagna c'è sempre molto più vento",
+				"Perché la neve sul terreno raffredda l'aria",
+				"Perché l'aria si raffredda salendo di quota"
+			],
+			"answer": "Perché l'aria si raffredda salendo di quota",
+			"explanation": "Circa mezzo grado ogni cento metri: l'aria che sale si espande e si raffredda."
+		},
+		{
+			"id": "geografia-climi-35",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un climogramma?",
+			"options": [
+				"Un grafico con temperature e piogge mese per mese",
+				"Uno strumento che serve a misurare il clima",
+				"Un elenco degli eventi meteorologici passati",
+				"Una mappa che mostra i climi del mondo"
+			],
+			"answer": "Un grafico con temperature e piogge mese per mese",
+			"explanation": "Combina due informazioni in un grafico solo: le colonne per le piogge, la linea per le temperature."
+		},
+		{
+			"id": "geografia-climi-36",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché le zone vicine all'equatore sono più calde?",
+			"options": [
+				"Perché quelle zone sono più vicine al Sole",
+				"Perché i raggi del Sole arrivano più perpendicolari",
+				"Perché sopra di esse c'è meno atmosfera",
+				"Perché in quelle zone non ci sono mai nuvole"
+			],
+			"answer": "Perché i raggi del Sole arrivano più perpendicolari",
+			"explanation": "Gli stessi raggi si distribuiscono su una superficie minore: più energia per metro quadrato."
+		},
+		{
+			"id": "geografia-climi-37",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che effetto ha il mare sul clima delle coste?",
+			"options": [
+				"Non ha alcun effetto sul clima",
+				"Lo rende più caldo tutto l'anno",
+				"Lo rende più mite, con meno sbalzi",
+				"Lo rende più freddo tutto l'anno"
+			],
+			"answer": "Lo rende più mite, con meno sbalzi",
+			"explanation": "L'acqua si scalda e si raffredda lentamente: fa da volano termico e smorza gli estremi."
+		},
+		{
+			"id": "geografia-climi-38",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché i deserti si trovano spesso attorno ai tropici?",
+			"options": [
+				"Perché in quelle zone il terreno è già sabbioso",
+				"Perché i venti vi soffiano molto più forte",
+				"Perché ai tropici il Sole è sempre perpendicolare",
+				"Perché lì l'aria scende secca dopo aver perso l'umidità"
+			],
+			"answer": "Perché lì l'aria scende secca dopo aver perso l'umidità",
+			"explanation": "L'aria salita e piovuta all'equatore ridiscende ai tropici ormai asciutta: nasce così la fascia dei grandi deserti."
+		},
+		{
+			"id": "geografia-climi-39",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il clima continentale?",
+			"options": [
+				"Un clima con inverni freddi ed estati calde, lontano dal mare",
+				"Il clima tipico delle zone di alta montagna",
+				"Un clima che resta sempre umido e piovoso",
+				"Il clima che si trova in tutti i grandi continenti"
+			],
+			"answer": "Un clima con inverni freddi ed estati calde, lontano dal mare",
+			"explanation": "Senza l'effetto mitigante del mare, la differenza fra inverno ed estate diventa molto ampia."
+		},
+		{
+			"id": "geografia-climi-40",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché il cambiamento climatico non si dimostra con una singola estate calda?",
+			"options": [
+				"Perché conta solo l'inverno",
+				"Perché il clima si misura su decenni, non su un anno",
+				"Perché i termometri sbagliano spesso",
+				"Perché le estati sono sempre state calde"
+			],
+			"answer": "Perché il clima si misura su decenni, non su un anno",
+			"explanation": "Servono serie storiche lunghe: è la tendenza di fondo a dire qualcosa, non il singolo dato."
+		},
+		{
+			"id": "geografia-geografia-italia-41",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale fiume attraversa la pianura padana da ovest a est?",
+			"options": [
+				"Arno",
+				"Tevere",
+				"Po",
+				"Adige"
+			],
+			"answer": "Po",
+			"explanation": "Attraversa la pianura padana da ovest a est per oltre 650 chilometri."
+		},
+		{
+			"id": "geografia-geografia-italia-42",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è il lago più esteso d'Italia?",
+			"options": [
+				"Lago Trasimeno",
+				"Lago di Como",
+				"Lago Maggiore",
+				"Lago di Garda"
+			],
+			"answer": "Lago di Garda",
+			"explanation": "Si trova fra Lombardia, Veneto e Trentino: è di origine glaciale, come gli altri grandi laghi del nord."
+		},
+		{
+			"id": "geografia-geografia-italia-43",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Quante regioni ha l'Italia?",
+			"options": [],
+			"answer": "20",
+			"explanation": "Venti regioni, di cui cinque a statuto speciale: Sicilia, Sardegna, Trentino-Alto Adige, Friuli-Venezia Giulia e Valle d'Aosta."
+		},
+		{
+			"id": "geografia-geografia-italia-44",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale vulcano si trova in Sicilia?",
+			"options": [
+				"Etna",
+				"Vesuvio",
+				"Stromboli",
+				"Vulture"
+			],
+			"answer": "Etna",
+			"explanation": "È il vulcano attivo più alto d'Europa. Lo Stromboli è siciliano ma sta nelle Eolie, il Vesuvio è in Campania."
+		},
+		{
+			"id": "geografia-geografia-italia-45",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la pianura padana è così fertile?",
+			"options": [
+				"Perché è la zona più calda di tutta l'Italia",
+				"Perché i fiumi vi hanno depositato sedimenti per millenni",
+				"Perché si trova vicina al mare Adriatico",
+				"Perché riceve più pioggia di ogni altra zona"
+			],
+			"answer": "Perché i fiumi vi hanno depositato sedimenti per millenni",
+			"explanation": "Le Alpi e gli Appennini si erodono, i fiumi trasportano il materiale a valle e lo depositano: la pianura è nata così."
+		},
+		{
+			"id": "geografia-geografia-italia-46",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale catena è chiamata la «spina dorsale» della penisola italiana?",
+			"options": [
+				"Alpi",
+				"Dolomiti",
+				"Appennini",
+				"Pirenei"
+			],
+			"answer": "Appennini",
+			"explanation": "Gli Appennini sono la spina dorsale della penisola; le Alpi la chiudono a nord."
+		},
+		{
+			"id": "geografia-geografia-fisica-47",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un delta?",
+			"options": [
+				"Il tratto più stretto del corso di un fiume",
+				"Il lago che si forma lungo il corso di un fiume",
+				"Il punto preciso in cui nasce un fiume",
+				"L'area dove un fiume si divide sfociando in mare"
+			],
+			"answer": "L'area dove un fiume si divide sfociando in mare",
+			"explanation": "Il fiume rallenta, deposita i sedimenti e si divide in più rami: il nome viene dalla lettera greca triangolare."
+		},
+		{
+			"id": "geografia-geografia-fisica-48",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un altopiano?",
+			"options": [
+				"Una zona elevata ma pianeggiante",
+				"Una montagna con la cima piatta",
+				"Una valle molto larga fra due monti",
+				"Una pianura in riva al mare"
+			],
+			"answer": "Una zona elevata ma pianeggiante",
+			"explanation": "Sta in quota come una montagna, ma la superficie è piana: si può coltivare e abitare."
+		},
+		{
+			"id": "geografia-geografia-fisica-49",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come nascono le catene montuose?",
+			"options": [
+				"Dalla caduta di grandi meteoriti",
+				"Dallo scontro fra placche della crosta terrestre",
+				"Dall'accumulo di sabbia nel tempo",
+				"Dall'erosione delle pianure circostanti"
+			],
+			"answer": "Dallo scontro fra placche della crosta terrestre",
+			"explanation": "Quando due placche si spingono, la crosta si corruga e si solleva: le Alpi e l'Himalaya nascono così, e crescono ancora."
+		},
+		{
+			"id": "geografia-geografia-fisica-50",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un ghiacciaio?",
+			"options": [
+				"Una zona che resta sempre coperta di neve",
+				"Un fiume che gela completamente ogni anno",
+				"Una massa di ghiaccio che si muove lentamente",
+				"Un lago che ghiaccia del tutto in inverno"
+			],
+			"answer": "Una massa di ghiaccio che si muove lentamente",
+			"explanation": "Si forma dove la neve non si scioglie mai del tutto: compressa negli anni diventa ghiaccio, e sotto il proprio peso scivola a valle."
+		},
+		{
+			"id": "geografia-geografia-fisica-51",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché l'erosione modifica il paesaggio?",
+			"options": [
+				"Perché le radici delle piante spaccano il terreno",
+				"Perché le rocce si sciolgono al calore del Sole",
+				"Perché il terreno si consuma lentamente da solo",
+				"Perché acqua, vento e ghiaccio asportano materiale"
+			],
+			"answer": "Perché acqua, vento e ghiaccio asportano materiale",
+			"explanation": "È un lavoro lentissimo e continuo: il Grand Canyon è stato scavato da un fiume, un granello alla volta."
+		},
+		{
 			"id": "geografia-banda-climi-0",
 			"subject": "geografia",
 			"topic": "climi",
@@ -1643,9 +2465,9 @@
 			"format": "multiple_choice",
 			"prompt": "Perché all'equatore fa più caldo che ai poli?",
 			"options": [
+				"I raggi del Sole arrivano più diritti",
 				"All'equatore non ci sono mai nuvole",
 				"L'equatore è molto più vicino al Sole",
-				"I raggi del Sole arrivano più diritti",
 				"Ai poli soffia sempre il vento"
 			],
 			"answer": "I raggi del Sole arrivano più diritti",
@@ -1660,9 +2482,9 @@
 			"prompt": "Che cos'è il clima mediterraneo?",
 			"options": [
 				"Freddo e secco tutto l'anno",
+				"Estati calde e secche, inverni miti e piovosi",
 				"Estati fresche e piovose, inverni gelidi",
-				"Caldo e pioggia tutto l'anno",
-				"Estati calde e secche, inverni miti e piovosi"
+				"Caldo e pioggia tutto l'anno"
 			],
 			"answer": "Estati calde e secche, inverni miti e piovosi",
 			"explanation": "È il clima delle coste del Mediterraneo, e per questo ci crescono ulivo, vite e agrumi."
@@ -1675,9 +2497,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa sono i meridiani?",
 			"options": [
-				"Le linee che uniscono i due poli",
 				"I cerchi paralleli all'equatore",
 				"I confini fra gli Stati",
+				"Le linee che uniscono i due poli",
 				"Le rotte seguite dalle navi"
 			],
 			"answer": "Le linee che uniscono i due poli",
@@ -1692,9 +2514,9 @@
 			"prompt": "Che cosa distingue un golfo da una penisola?",
 			"options": [
 				"Il golfo è d'acqua dolce",
-				"Il golfo è mare che entra nella terra, la penisola è terra che entra nel mare",
 				"Sono la stessa cosa vista da lontano",
-				"La penisola è sempre un'isola"
+				"La penisola è sempre un'isola",
+				"Il golfo è mare che entra nella terra, la penisola è terra che entra nel mare"
 			],
 			"answer": "Il golfo è mare che entra nella terra, la penisola è terra che entra nel mare",
 			"explanation": "Sono due forme opposte della stessa costa: uno rientra, l'altra sporge."
@@ -1707,9 +2529,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la densità di popolazione?",
 			"options": [
+				"Quanti abitanti ci sono per chilometro quadrato",
 				"Quanti abitanti ha in tutto uno Stato",
 				"Quanto è grande una città",
-				"Quanti abitanti ci sono per chilometro quadrato",
 				"Quante case ci sono in un quartiere"
 			],
 			"answer": "Quanti abitanti ci sono per chilometro quadrato",
@@ -1724,9 +2546,9 @@
 			"prompt": "Qual è il fiume più lungo d'Europa?",
 			"options": [
 				"Il Reno",
+				"Il Volga",
 				"Il Danubio",
-				"Il Po",
-				"Il Volga"
+				"Il Po"
 			],
 			"answer": "Il Volga",
 			"explanation": "Il Volga scorre in Russia per oltre 3500 km; il Danubio è il secondo."
@@ -1739,9 +2561,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale oceano separa l'Europa dall'America?",
 			"options": [
-				"L'Oceano Atlantico",
 				"L'Oceano Pacifico",
 				"L'Oceano Artico",
+				"L'Oceano Atlantico",
 				"L'Oceano Indiano"
 			],
 			"answer": "L'Oceano Atlantico",
@@ -1756,9 +2578,9 @@
 			"prompt": "Quale catena montuosa separa l'Italia dal resto d'Europa?",
 			"options": [
 				"I Pirenei",
-				"Le Alpi",
 				"I Carpazi",
-				"Gli Appennini"
+				"Gli Appennini",
+				"Le Alpi"
 			],
 			"answer": "Le Alpi",
 			"explanation": "Le Alpi chiudono l'Italia a nord; gli Appennini invece la percorrono da nord a sud."

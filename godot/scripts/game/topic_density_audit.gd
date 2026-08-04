@@ -11,35 +11,26 @@ extends SceneTree
 ## Quindici è la soglia sotto cui un argomento non regge il ripasso spaziato di
 ## una campagna intera, e sopra cui comincia a reggerlo con margine.
 ##
-## **Questo audit non è ancora al suo standard, e lo dice.** Servivano 788 item
-## il 3 agosto; il numero stampato a ogni giro è quello vero di oggi. Nel
-## frattempo fa due cose che valgono già adesso:
-##
-## - **impedisce di peggiorare**: nessuna materia può guadagnare argomenti sotto
-##   soglia né allontanarsi dal traguardo. È il cricchetto;
-## - **pretende lo standard pieno** dalle materie dichiarate complete.
-##
-## La regola del progetto resta quella: prima il contenuto, poi il cricchetto. Qui
-## il cricchetto c'è dal primo giorno, ma stringe sulla distanza dal traguardo,
-## non sul traguardo — così la suite continua a essere un segnale invece di un
-## semaforo rosso fisso.
+## **Lo standard è raggiunto.** Il 3 agosto mancavano 788 item; il 4 agosto sono
+## scritti, e tutte e dodici le materie hanno almeno quindici esercizi per ogni
+## argomento. Da qui in poi l'audit non misura più una distanza: è un cricchetto
+## secco, e un argomento sotto soglia lo fa diventare rosso.
 
 const MIN_PER_TOPIC := 15
 
 ## Materie che hanno già lo standard pieno: qui un argomento sotto 15 è un errore
 ## immediato, non un lavoro da fare.
-const COMPLETATE := ["inglese", "matematica", "coding", "storia", "logica", "musica", "scienze"]
+## Tutte. Lo standard è raggiunto il 4 agosto 2026: da qui in poi un argomento
+## sotto quindici item è un errore, non un lavoro da fare.
+const COMPLETATE := [
+	"matematica", "italiano", "coding", "inglese", "fisica", "musica",
+	"latino", "elettronica", "geografia", "scienze", "storia", "logica",
+]
 
-## Distanza dal traguardo, misurata il 3 agosto. Sono **pavimenti**: possono solo
-## scendere. Se un numero sale, qualcuno ha tolto contenuto o aggiunto un
-## argomento senza riempirlo.
-const PAVIMENTO := {
-	"italiano": {"sotto": 9, "mancanti": 125},
-	"latino": {"sotto": 9, "mancanti": 93},
-	"elettronica": {"sotto": 7, "mancanti": 62},
-	"fisica": {"sotto": 8, "mancanti": 57},
-	"geografia": {"sotto": 6, "mancanti": 52},
-}
+## Nessun pavimento residuo: tutte le materie sono nella lista qui sopra, e per
+## loro la soglia è secca. Se un giorno nascesse un argomento nuovo, andrebbe
+## riempito prima di entrare nel banco.
+const PAVIMENTO := {}
 
 func _init() -> void:
 	var failures: Array = []

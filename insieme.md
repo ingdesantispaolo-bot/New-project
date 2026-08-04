@@ -14,67 +14,30 @@ Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 
 ---
 
-## L'obiettivo: quindici item per argomento, poi il collaudo
+## L'obiettivo: il collaudo
 
-Il gioco è costruito e misurato: 24 mondi cablati, 104 audit verdi, contenuti
-narrativi completi, 123 specifiche di minigioco ognuna con più domande sugli
-stessi dati.
+**Lo standard di densità è raggiunto.** Il 3 agosto mancavano 788 item; il
+4 agosto sono scritti. Tutte e dodici le materie hanno **almeno quindici
+esercizi per ogni argomento**, e `topic_density_audit` non misura più una
+distanza: è un cricchetto secco.
 
-**Quello che manca è densità didattica**, e adesso ha un numero. Decisione del
-3 agosto 2026:
+| materia | item | materia | item |
+|---|---:|---|---:|
+| inglese | 1109 | geografia | 162 |
+| italiano | 461 | storia | 135 |
+| matematica | 284 | elettronica | 130 |
+| coding | 195 | fisica · musica · scienze | 120 |
+| latino | 181 | logica | 116 |
 
-> **Nessun argomento sotto i 15 item.** Sotto quella soglia il ripasso spaziato
-> non regge: il gioco dichiara «consolidato» dopo tre risposte corrette in
-> sessioni distinte, e con un argomento da un item solo — ce n'erano **sette** —
-> il bambino rivede tre volte la stessa schermata. Non è ritenzione, è memoria
-> di una figura.
+**3133 item in totale**, e nessun argomento sotto soglia.
 
-Distanza dal traguardo, misurata: **788 item da scrivere.**
+Quello che manca adesso non si scrive: **si gioca.** Nessun bambino ha mai
+provato niente di tutto questo, e nessuna delle misure qui dentro dice se è
+bello.
 
-| materia | item | argomenti | sotto 15 | mancanti |
-|---|---:|---:|---:|---:|
-| coding | 54 | 13 | 13 | **141** |
-| italiano | 336 | 21 | 9 | **125** |
-| latino | 88 | 11 | 9 | **93** |
-| storia | 62 | 9 | 9 | **73** |
-| scienze | 48 | 8 | 8 | **72** |
-| elettronica | 68 | 8 | 7 | **62** |
-| fisica | 63 | 8 | 8 | **57** |
-| musica | 63 | 8 | 8 | **57** |
-| logica | 60 | 7 | 6 | **56** |
-| geografia | 110 | 8 | 6 | **52** |
-| inglese | 1109 | 18 | 0 | — ✓ |
-| matematica | 284 | 1 | 0 | — ✓ |
-
-`topic_density_audit.gd` tiene lo standard. **Non finge che sia raggiunto**: la
-soglia è dichiarata a 15, e il cricchetto stringe sulla *distanza* — nessuna
-materia può allontanarsi dal traguardo, e chi è dichiarata completa (inglese,
-matematica) fallisce subito se scende sotto. Così la suite resta un segnale
-invece di diventare un semaforo rosso fisso per settimane.
-
-### L'ordine, e perché questo
-
-1. **I 788 item**, materia per materia, dai topic più magri. È il lavoro con il
-   ritorno didattico più alto: oggi il gioco promette un consolidamento che non
-   può mantenere.
-2. **Rompere il monopolio della scelta multipla.** Undici materie su dodici hanno
-   banchi **100% a scelta multipla**: una domanda a quattro opzioni si risolve per
-   esclusione senza sapere niente. Ogni banco al **20–30% di risposta libera** —
-   ora possibile su tablet, perché il tastierino numerico esiste. Fisica,
-   elettronica, musica, geografia e latino la reggono senza forzature.
-3. **Le spiegazioni dell'inglese dove sono dannose.** Su 1109 item solo **137**
-   hanno una nota didattica; gli altri hanno `"check": controllare.`, che ripete
-   la risposta. Non le riscrivo tutte — la decisione «per il lessico rivedere
-   l'accoppiata *è* il ripasso» regge — ma **le ~200 dove l'italiano tira nella
-   direzione sbagliata** sì: `library` non è «libreria», `actually` non è
-   «attualmente». Lì la spiegazione secca insegna l'errore.
-
-**Cosa non si fa**: aggiungere item a inglese o italiano-lessico (già il 62% di
-tutto il contenuto, e la parte generabile a tappeto), e aggiungere altra scelta
-multipla ovunque — peggiorerebbe il punto 2 mentre gonfia i numeri.
-
-Il **collaudo** resta il passo che sblocca più di ogni altro, e non aspetta i 788
-item: la build è esportata e giocabile adesso.
+Le schede che seguono servono a due cose: verificare mondo per mondo che quello
+che è cablato sia quello che era scritto, e riprendere in mano un mondo quando il
+collaudo lo boccia.
 
 ---
 

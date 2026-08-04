@@ -8,14 +8,9 @@
 			"subject": "coding",
 			"topic": "variabili",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "punti = 3\npunti = punti + 4\nprint(punti)\n\nChe numero stampa questo programma Python?",
-			"options": [
-				"7",
-				"4",
-				"34",
-				"3"
-			],
+			"options": [],
 			"answer": "7",
 			"explanation": "In Python una variabile è un'etichetta attaccata a un valore: 'punti = punti + 4' prende il 3 di prima, aggiunge 4 e riattacca l'etichetta al 7. In Python la variabile non 'contiene' il valore: gli punta. Come un'etichetta su una scatola."
 		},
@@ -40,14 +35,9 @@
 			"subject": "coding",
 			"topic": "stringhe",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "parola = \"robot\"\nn = len(parola)\nprint(n)\n\nQuale valore stampa len(parola)?",
-			"options": [
-				"4",
-				"robot",
-				"5",
-				"6"
-			],
+			"options": [],
 			"answer": "5",
 			"explanation": "len() conta i caratteri di una stringa. 'robot' ha 5 lettere, quindi len vale 5. len funziona anche con le liste!"
 		},
@@ -72,14 +62,9 @@
 			"subject": "coding",
 			"topic": "liste",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "numeri = [10, 20, 30]\nprint(numeri[0])\n\nCosa stampa numeri[0]?",
-			"options": [
-				"10",
-				"20",
-				"30",
-				"1"
-			],
+			"options": [],
 			"answer": "10",
 			"explanation": "Le liste in Python si contano da 0: l'indice 0 è il primo elemento. Quindi numeri[0] è 10 e numeri[2] sarebbe 30. Quasi tutti i linguaggi contano da 0, non da 1. È una scelta storica che confonde tutti all'inizio!"
 		},
@@ -88,14 +73,9 @@
 			"subject": "coding",
 			"topic": "liste",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "squadra = [1, 2]\nsquadra.append(3)\nprint(len(squadra))\n\nQuanti elementi ha la lista dopo append(3)?",
-			"options": [
-				"2",
-				"3",
-				"6",
-				"1"
-			],
+			"options": [],
 			"answer": "3",
 			"explanation": "append() aggiunge un elemento in fondo alla lista. Da 2 elementi si passa a 3, quindi len(squadra) vale 3."
 		},
@@ -152,14 +132,9 @@
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "numero = 7\nresto = numero % 2\nprint(resto)\n\nQuanto vale 7 % 2 (il resto della divisione)?",
-			"options": [
-				"3",
-				"1",
-				"0",
-				"3.5"
-			],
+			"options": [],
 			"answer": "1",
 			"explanation": "L'operatore % dà il RESTO della divisione: 7 diviso 2 fa 3 con resto 1. Se il resto è 0 il numero è pari, altrimenti dispari."
 		},
@@ -168,14 +143,9 @@
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "print(7 // 2)\n\nCosa stampa 7 // 2 in Python?",
-			"options": [
-				"3.5",
-				"1",
-				"3",
-				"4"
-			],
+			"options": [],
 			"answer": "3",
 			"explanation": "// è la divisione INTERA: butta via la parte decimale e tiene solo il quoziente. 7 / 2 farebbe 3.5, ma 7 // 2 fa 3."
 		},
@@ -184,14 +154,9 @@
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "print(2 ** 5)\n\nCosa stampa 2 ** 5 in Python?",
-			"options": [
-				"25",
-				"10",
-				"7",
-				"32"
-			],
+			"options": [],
 			"answer": "32",
 			"explanation": "** è l'elevamento a potenza: 2 ** 5 vuol dire 2 moltiplicato per sé stesso 5 volte = 32. Non è la moltiplicazione 2×5."
 		},
@@ -200,14 +165,9 @@
 			"subject": "coding",
 			"topic": "funzioni",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "def doppio(n):\n    return n * 2\nprint(doppio(6))\n\nCosa stampa print(doppio(6))?",
-			"options": [
-				"12",
-				"26",
-				"6",
-				"62"
-			],
+			"options": [],
 			"answer": "12",
 			"explanation": "def crea una funzione: doppio(6) esegue return 6*2 e restituisce 12, che print mostra. Le funzioni evitano di ripetere il codice."
 		},
@@ -280,14 +240,9 @@
 			"subject": "coding",
 			"topic": "liste",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "numeri = [2, 4, 6]\ntotale = 0\nfor n in numeri:\n    totale = totale + n\nprint(totale)\n\nCosa stampa questo accumulatore?",
-			"options": [
-				"6",
-				"12",
-				"246",
-				"3"
-			],
+			"options": [],
 			"answer": "12",
 			"explanation": "Il for scorre la lista e somma ogni elemento in 'totale': 0+2+4+6 = 12. È il classico schema dell'accumulatore."
 		},
@@ -312,14 +267,9 @@
 			"subject": "coding",
 			"topic": "cicli",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "conta = 0\nfor i in range(5):\n    conta = conta + 1\nprint(conta)\n\nQuante volte gira il ciclo, cioè quanto vale conta?",
-			"options": [
-				"0",
-				"4",
-				"6",
-				"5"
-			],
+			"options": [],
 			"answer": "5",
 			"explanation": "range(5) produce 0,1,2,3,4: cinque valori, quindi il blocco gira 5 volte e conta arriva a 5. range(n) ripete esattamente n volte."
 		},
@@ -618,14 +568,9 @@
 			"subject": "coding",
 			"topic": "tipi",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Cosa stampa: print(3 + 2.0)?",
-			"options": [
-				"32.0",
-				"5",
-				"5.0",
-				"errore"
-			],
+			"options": [],
 			"answer": "5.0",
 			"explanation": "Mescolando int e float Python usa il tipo più «largo»: il risultato è un float."
 		},
@@ -1637,14 +1582,9 @@
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Quanto fa 9 / 2 in Python?",
-			"options": [
-				"5",
-				"4,5",
-				"4.5",
-				"4"
-			],
+			"options": [],
 			"answer": "4.5",
 			"explanation": "/ restituisce sempre un float. Per la divisione intera si usa //."
 		},
@@ -1954,14 +1894,9 @@
 			"subject": "coding",
 			"topic": "output",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Cosa stampa: print(10 / 2)?",
-			"options": [
-				"5",
-				"5.0",
-				"10/2",
-				"'5'"
-			],
+			"options": [],
 			"answer": "5.0",
 			"explanation": "In Python la divisione / dà sempre un numero con la virgola, anche quando il risultato è esatto."
 		},
@@ -2420,14 +2355,9 @@
 			"subject": "coding",
 			"topic": "output",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Cosa stampa: print(3 + 4)?",
-			"options": [
-				"'7'",
-				"34",
-				"7",
-				"3 + 4"
-			],
+			"options": [],
 			"answer": "7",
 			"explanation": "Con i numeri, + è la somma: 3 + 4 = 7."
 		},
@@ -2436,14 +2366,9 @@
 			"subject": "coding",
 			"topic": "output",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Cosa stampa: print('3' + '4')?",
-			"options": [
-				"errore",
-				"'34'",
-				"7",
-				"34"
-			],
+			"options": [],
 			"answer": "34",
 			"explanation": "Con le stringhe, + le unisce (concatenazione): '3'+'4' = '34'."
 		},
@@ -2468,14 +2393,9 @@
 			"subject": "coding",
 			"topic": "variabili",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Dopo x = 5 e poi x = x + 1, quanto vale x?",
-			"options": [
-				"5",
-				"6",
-				"51",
-				"errore"
-			],
+			"options": [],
 			"answer": "6",
 			"explanation": "x + 1 = 5 + 1 = 6, e viene rimesso in x."
 		},
@@ -2532,14 +2452,9 @@
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Cosa calcola 2 ** 3 in Python?",
-			"options": [
-				"5",
-				"8",
-				"9",
-				"6"
-			],
+			"options": [],
 			"answer": "8",
 			"explanation": "** è l'elevamento a potenza: 2 alla 3 = 8."
 		},
@@ -2644,14 +2559,9 @@
 			"subject": "coding",
 			"topic": "liste",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Data lista = [10, 20, 30], cosa vale lista[0]?",
-			"options": [
-				"10",
-				"20",
-				"1",
-				"30"
-			],
+			"options": [],
 			"answer": "10",
 			"explanation": "Gli indici partono da 0: lista[0] è il primo elemento."
 		},
@@ -2788,14 +2698,9 @@
 			"subject": "coding",
 			"topic": "liste",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Che cosa restituisce «len([1, [2, 3], 4])»?",
-			"options": [
-				"4",
-				"2",
-				"3",
-				"5"
-			],
+			"options": [],
 			"answer": "3",
 			"explanation": "La lista ha tre elementi: un numero, una lista annidata e un numero."
 		},
@@ -2852,14 +2757,9 @@
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Che cosa restituisce «17 % 5»?",
-			"options": [
-				"3",
-				"12",
-				"2",
-				"85"
-			],
+			"options": [],
 			"answer": "2",
 			"explanation": "L'operatore % dà il resto: 17 diviso 5 fa 3 con resto 2."
 		},
@@ -2868,14 +2768,9 @@
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Che cosa restituisce «17 // 5»?",
-			"options": [
-				"2",
-				"3.4",
-				"85",
-				"3"
-			],
+			"options": [],
 			"answer": "3",
 			"explanation": "La doppia barra dà il quoziente intero, scartando il resto."
 		},
@@ -2900,14 +2795,9 @@
 			"subject": "coding",
 			"topic": "variabili",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Dopo «a = 3» e «b = a» e «a = 7», quanto vale b?",
-			"options": [
-				"7",
-				"3",
-				"10",
-				"None"
-			],
+			"options": [],
 			"answer": "3",
 			"explanation": "b ha copiato il valore 3 prima che a cambiasse."
 		},

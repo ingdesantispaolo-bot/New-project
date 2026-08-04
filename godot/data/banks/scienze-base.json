@@ -1712,6 +1712,474 @@
 			"explanation": "L'eccesso di gas serra trattiene più calore e riscalda il pianeta."
 		},
 		{
+			"id": "scienze-ambiente-108",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la trasformazione dei rifiuti in materiali di nuovo utilizzabili?",
+			"options": [],
+			"answer": "riciclo",
+			"accept": [
+				"riciclaggio"
+			],
+			"explanation": "Ridurre viene prima di riciclare: quello che non si produce non va nemmeno trattato."
+		},
+		{
+			"id": "scienze-ambiente-109",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama una sostanza che sporca e danneggia aria, acqua o suolo?",
+			"options": [],
+			"answer": "inquinante",
+			"accept": [],
+			"explanation": "Molti inquinanti non si vedono: si misurano."
+		},
+		{
+			"id": "scienze-ecosistema-110",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'insieme degli esseri viventi e dell'ambiente in cui vivono, considerati insieme?",
+			"options": [],
+			"answer": "ecosistema",
+			"accept": [],
+			"explanation": "Le due parti non si studiano separate: cambiando l'ambiente cambiano i viventi, e viceversa."
+		},
+		{
+			"id": "scienze-ecosistema-111",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiamano gli organismi che si nutrono di altri esseri viventi?",
+			"options": [],
+			"answer": "consumatori",
+			"accept": [],
+			"explanation": "Non producono il proprio cibo: lo prendono da chi lo ha fabbricato o da chi lo ha già mangiato."
+		},
+		{
+			"id": "scienze-ecosistema-112",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiamano gli organismi che trasformano i resti in sostanze minerali?",
+			"options": [],
+			"answer": "decompositori",
+			"accept": [],
+			"explanation": "Senza di loro le sostanze resterebbero bloccate nei resti e il ciclo si fermerebbe."
+		},
+		{
+			"id": "scienze-ecosistema-113",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la catena che collega chi mangia e chi è mangiato?",
+			"options": [],
+			"answer": "catena alimentare",
+			"accept": [
+				"catena trofica"
+			],
+			"explanation": "Ogni anello passa al successivo solo una parte dell'energia ricevuta."
+		},
+		{
+			"id": "scienze-metodo-114",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la supposizione che l'esperimento deve verificare?",
+			"options": [],
+			"answer": "ipotesi",
+			"accept": [],
+			"explanation": "Si formula prima di guardare i risultati, altrimenti si finisce per confermarsi da soli."
+		},
+		{
+			"id": "scienze-metodo-115",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la prova di confronto in cui non si cambia niente?",
+			"options": [],
+			"answer": "controllo",
+			"accept": [
+				"gruppo di controllo"
+			],
+			"explanation": "Senza il confronto non si sa se l'effetto viene dalla causa studiata o sarebbe successo comunque."
+		},
+		{
+			"id": "scienze-metodo-116",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strumento che ingrandisce ciò che l'occhio non riesce a vedere?",
+			"options": [],
+			"answer": "microscopio",
+			"accept": [],
+			"explanation": "Ha aperto un mondo intero: le cellule si sono scoperte così."
+		},
+		{
+			"id": "scienze-energia-117",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama una fonte di energia che non si esaurisce, come il vento o il sole?",
+			"options": [],
+			"answer": "rinnovabile",
+			"accept": [
+				"fonte rinnovabile"
+			],
+			"explanation": "Rinnovabile non vuol dire senza impatto: vuol dire che la fonte si ricostituisce."
+		},
+		{
+			"id": "scienze-energia-118",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il processo con cui le piante usano la luce per fabbricare zuccheri?",
+			"options": [],
+			"answer": "fotosintesi",
+			"accept": [
+				"fotosintesi clorofilliana"
+			],
+			"explanation": "Prendono anidride carbonica e acqua e restituiscono ossigeno: è l'inizio di quasi tutte le catene alimentari."
+		},
+		{
+			"id": "scienze-terra-universo-119",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il movimento della Terra attorno al proprio asse?",
+			"options": [],
+			"answer": "rotazione",
+			"accept": [],
+			"explanation": "Dura ventiquattro ore e produce il giorno e la notte."
+		},
+		{
+			"id": "scienze-terra-universo-120",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il movimento della Terra attorno al Sole?",
+			"options": [],
+			"answer": "rivoluzione",
+			"accept": [],
+			"explanation": "Dura un anno; insieme all'inclinazione dell'asse produce le stagioni."
+		},
+		{
+			"id": "scienze-terra-universo-121",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la stella attorno a cui gira la Terra?",
+			"options": [],
+			"answer": "Sole",
+			"accept": [],
+			"explanation": "È una stella come tante altre: ci sembra enorme solo perché è vicinissima."
+		},
+		{
+			"id": "scienze-terra-universo-122",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strato di aria che avvolge la Terra?",
+			"options": [],
+			"answer": "atmosfera",
+			"accept": [],
+			"explanation": "Trattiene calore e ferma gran parte delle radiazioni: senza, la vita in superficie non ci sarebbe."
+		},
+		{
+			"id": "scienze-materia-123",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il passaggio dallo stato gassoso a quello liquido?",
+			"options": [],
+			"answer": "condensazione",
+			"accept": [],
+			"explanation": "Le gocce sul vetro freddo si formano così: il vapore dell'aria si raffredda e condensa."
+		},
+		{
+			"id": "scienze-materia-124",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il miscuglio in cui una sostanza si scioglie completamente in un'altra?",
+			"options": [],
+			"answer": "soluzione",
+			"accept": [],
+			"explanation": "Se dopo aver mescolato non distingui più le parti, è una soluzione."
+		},
+		{
+			"id": "scienze-materia-125",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la più piccola parte di una sostanza che ne conserva le proprietà?",
+			"options": [],
+			"answer": "molecola",
+			"accept": [],
+			"explanation": "Spezzando ancora si ottengono atomi, ma la sostanza non è più quella."
+		},
+		{
+			"id": "scienze-corpo-126",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'organo che pompa il sangue in tutto il corpo?",
+			"options": [],
+			"answer": "cuore",
+			"accept": [],
+			"explanation": "Batte senza che tu debba pensarci, circa centomila volte al giorno."
+		},
+		{
+			"id": "scienze-corpo-127",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiamano gli organi in cui il sangue prende ossigeno dall'aria?",
+			"options": [],
+			"answer": "polmoni",
+			"accept": [],
+			"explanation": "Lo scambio avviene negli alveoli, minuscole sacche con una superficie enorme."
+		},
+		{
+			"id": "scienze-corpo-128",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'organo che comanda i movimenti e il pensiero?",
+			"options": [],
+			"answer": "cervello",
+			"accept": [],
+			"explanation": "Riceve informazioni dai sensi e manda ordini ai muscoli, in continuo."
+		},
+		{
+			"id": "scienze-corpo-129",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'insieme delle ossa che sostiene il corpo?",
+			"options": [],
+			"answer": "scheletro",
+			"accept": [],
+			"explanation": "Sostiene, protegge gli organi e dà ai muscoli un punto su cui fare forza."
+		},
+		{
+			"id": "scienze-viventi-130",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte della pianta che assorbe acqua dal terreno?",
+			"options": [],
+			"answer": "radice",
+			"accept": [
+				"radici"
+			],
+			"explanation": "Assorbe e insieme ancora la pianta al suolo."
+		},
+		{
+			"id": "scienze-viventi-131",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'unità più piccola di cui sono fatti tutti gli esseri viventi?",
+			"options": [],
+			"answer": "cellula",
+			"accept": [],
+			"explanation": "Alcuni esseri viventi ne hanno una sola; noi qualche decina di migliaia di miliardi."
+		},
+		{
+			"id": "scienze-viventi-132",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiamano gli animali che allattano i propri piccoli?",
+			"options": [],
+			"answer": "mammiferi",
+			"accept": [],
+			"explanation": "Allattano, hanno peli e temperatura costante: anche la balena è un mammifero."
+		},
+		{
+			"id": "scienze-ambiente-133",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il contenitore in cui si buttano carta e cartone separati dal resto?",
+			"options": [],
+			"answer": "carta",
+			"accept": [
+				"bidone della carta",
+				"contenitore della carta"
+			],
+			"explanation": "Ogni materiale ha il suo contenitore: mescolarli manda tutto in discarica."
+		},
+		{
+			"id": "scienze-viventi-134",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte colorata del fiore che attira gli insetti?",
+			"options": [],
+			"answer": "petalo",
+			"accept": [
+				"petali",
+				"i petali"
+			],
+			"explanation": "Colore e profumo servono a farsi trovare da chi trasporta il polline."
+		},
+		{
+			"id": "scienze-corpo-135",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'organo con cui si sente il suono?",
+			"options": [],
+			"answer": "orecchio",
+			"accept": [
+				"orecchie",
+				"l'orecchio"
+			],
+			"explanation": "Raccoglie le vibrazioni dell'aria e le trasforma in segnali per il cervello."
+		},
+		{
+			"id": "scienze-terra-universo-136",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiamano i corpi celesti che girano attorno al Sole, come la Terra?",
+			"options": [],
+			"answer": "pianeti",
+			"accept": [
+				"pianeta",
+				"i pianeti"
+			],
+			"explanation": "Non brillano di luce propria: riflettono quella del Sole."
+		},
+		{
+			"id": "scienze-ambiente-137",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché ridurre i rifiuti conta più che riciclarli?",
+			"options": [
+				"Perché un rifiuto che non nasce non va nemmeno trattato",
+				"Perché il riciclo funziona bene soltanto con la carta e il vetro",
+				"Perché i rifiuti riciclati costano di più di quelli nuovi",
+				"Perché riciclare è vietato per la maggior parte dei materiali"
+			],
+			"answer": "Perché un rifiuto che non nasce non va nemmeno trattato",
+			"explanation": "Riciclare consuma energia e acqua: meglio non produrre l'oggetto inutile."
+		},
+		{
+			"id": "scienze-viventi-138",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa distingue un essere vivente da un sasso?",
+			"options": [
+				"È fatto di materia, mentre il sasso non lo è affatto",
+				"Si nutre, cresce e può riprodursi",
+				"Si muove da solo da un posto all'altro durante il giorno",
+				"Ha una forma che resta uguale per tutta la sua esistenza"
+			],
+			"answer": "Si nutre, cresce e può riprodursi",
+			"explanation": "Le piante non camminano e certi organismi non respirano ossigeno: il resto vale per tutti."
+		},
+		{
+			"id": "scienze-corpo-139",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché è importante lavarsi le mani prima di mangiare?",
+			"options": [
+				"Perché è una regola di buona educazione senza effetti sulla salute",
+				"Perché l'acqua fredda sulle mani aiuta lo stomaco a digerire",
+				"Perché sulle mani restano microbi che finirebbero nel cibo",
+				"Perché le mani sporche rendono il cibo più difficile da masticare"
+			],
+			"answer": "Perché sulle mani restano microbi che finirebbero nel cibo",
+			"explanation": "Gran parte delle infezioni intestinali passa proprio dalle mani."
+		},
+		{
+			"id": "scienze-ecosistema-140",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede a un ecosistema se sparisce una sola specie?",
+			"options": [
+				"Sparisce subito tutto l'ecosistema nel giro di pochi giorni",
+				"Non cambia niente, perché ogni specie vive per conto suo",
+				"Le altre specie diventano automaticamente più numerose e forti",
+				"Cambiano anche le specie collegate a quella"
+			],
+			"answer": "Cambiano anche le specie collegate a quella",
+			"explanation": "Gli anelli sono legati: togliendone uno la catena si riorganizza, a volte male."
+		},
+		{
+			"id": "scienze-energia-141",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché il Sole è la fonte di quasi tutta l'energia sulla Terra?",
+			"options": [
+				"Perché le piante ne catturano la luce e la passano a tutti gli altri",
+				"Perché scalda direttamente il corpo di ogni animale del pianeta",
+				"Perché la sua luce si trasforma da sola in elettricità nell'aria",
+				"Perché è l'unico corpo celeste visibile durante tutto il giorno"
+			],
+			"answer": "Perché le piante ne catturano la luce e la passano a tutti gli altri",
+			"explanation": "Anche il carbone e il petrolio sono luce solare immagazzinata milioni di anni fa."
+		},
+		{
+			"id": "scienze-materia-142",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché lo zucchero sparisce alla vista quando lo sciogli nell'acqua?",
+			"options": [
+				"Perché evapora subito appena entra in contatto con il liquido",
+				"Perché si divide in parti troppo piccole da vedere, ma resta lì",
+				"Perché si trasforma in acqua e smette del tutto di esistere",
+				"Perché scende sul fondo e si nasconde sotto lo strato d'acqua"
+			],
+			"answer": "Perché si divide in parti troppo piccole da vedere, ma resta lì",
+			"explanation": "L'acqua diventa dolce: la prova che lo zucchero c'è ancora."
+		},
+		{
 			"id": "scienze-serra-luce",
 			"subject": "scienze",
 			"topic": "viventi",
@@ -1719,9 +2187,9 @@
 			"format": "multiple_choice",
 			"prompt": "Nella serra, quale pianta ha bisogno di più luce?",
 			"options": [
+				"Pomodoro Aurora",
 				"Felce Luna",
-				"Cactus di Vetro",
-				"Pomodoro Aurora"
+				"Cactus di Vetro"
 			],
 			"answer": "Cactus di Vetro",
 			"explanation": "Cactus di Vetro: Conserva acqua, vuole luce intensa e non ama radici bagnate."
@@ -1734,9 +2202,9 @@
 			"format": "multiple_choice",
 			"prompt": "Nella serra, quale pianta preferisce la luce più morbida?",
 			"options": [
-				"Pomodoro Aurora",
+				"Felce Luna",
 				"Cactus di Vetro",
-				"Felce Luna"
+				"Pomodoro Aurora"
 			],
 			"answer": "Felce Luna",
 			"explanation": "Felce Luna: Ama luce morbida e terreno umido, ma soffre quando la serra diventa troppo calda."

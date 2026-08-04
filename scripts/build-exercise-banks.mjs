@@ -394,6 +394,37 @@ const LATINO_EXTRA = [
   { topic: "verbo-sum", difficulty: 4, prompt: "'Sunt' significa…", answer: "(loro) sono", distractors: ["(egli) è", "(io) sono", "(noi) siamo"], explanation: "'Sunt' è la terza persona plurale di 'sum'." },
   // Frasi
   { topic: "frasi", difficulty: 4, prompt: "'Puella rosam amat' significa…", answer: "La fanciulla ama la rosa", distractors: ["La rosa ama la fanciulla", "Le fanciulle amano le rose", "La fanciulla guarda la rosa"], explanation: "'Rosam' è accusativo (oggetto): la fanciulla (soggetto) ama la rosa (oggetto)." },
+  { topic: "declinazioni-base", difficulty: 1, format: "short_answer", prompt: "Come si dice in latino «la rosa», al nominativo singolare?", answer: "rosa", explanation: "Prima declinazione: il nominativo singolare esce in -a." },
+  { topic: "declinazioni-base", difficulty: 2, format: "short_answer", prompt: "Qual è il genitivo singolare di «rosa»?", answer: "rosae", explanation: "Il genitivo in -ae è la firma della prima declinazione." },
+  { topic: "declinazione-2m", difficulty: 2, format: "short_answer", prompt: "Qual è il nominativo plurale di «dominus»?", answer: "domini", explanation: "Seconda declinazione maschile: -us al singolare, -i al plurale." },
+  { topic: "declinazione-2m", difficulty: 2, format: "short_answer", prompt: "Qual è l'accusativo singolare di «dominus»?", answer: "dominum", explanation: "L'accusativo singolare della seconda esce in -um." },
+  { topic: "declinazione-2m", difficulty: 3, format: "short_answer", prompt: "Qual è il dativo plurale di «dominus»?", answer: "dominis", explanation: "Dativo e ablativo plurale della seconda coincidono: -is." },
+  { topic: "declinazione-3m", difficulty: 2, format: "short_answer", prompt: "Qual è il genitivo singolare di «consul»?", answer: "consulis", explanation: "Il genitivo in -is dice che il nome è di terza declinazione." },
+  { topic: "declinazione-3m", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «consul»?", answer: "consules", explanation: "Terza declinazione maschile: il nominativo plurale esce in -es." },
+  { topic: "declinazione-3m", difficulty: 3, format: "short_answer", prompt: "Qual è l'accusativo plurale di «consul»?", answer: "consules", explanation: "Nella terza, maschili e femminili hanno nominativo e accusativo plurale uguali." },
+  { topic: "declinazione-3n", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «corpus»?", answer: "corpora", explanation: "Nei neutri della terza il plurale esce in -a: qui il tema è corpor-." },
+  { topic: "declinazione-3n", difficulty: 3, format: "short_answer", prompt: "Qual è il genitivo singolare di «corpus»?", answer: "corporis", explanation: "Il genitivo svela il tema vero: corpor-, non corpus-." },
+  { topic: "declinazione-4", difficulty: 3, format: "short_answer", prompt: "Qual è il genitivo singolare di «manus»?", answer: "manus", explanation: "Quarta declinazione: nominativo e genitivo singolare si scrivono uguali." },
+  { topic: "declinazione-4", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «manus»?", answer: "manus", explanation: "Anche il nominativo plurale è manus: è il contesto a distinguerli." },
+  { topic: "verbo-sum", difficulty: 1, format: "short_answer", prompt: "Come si dice in latino «io sono»?", answer: "sum", explanation: "Prima persona singolare del presente indicativo di sum." },
+  { topic: "verbo-sum", difficulty: 2, format: "short_answer", prompt: "Come si dice in latino «noi siamo»?", answer: "sumus", explanation: "Prima persona plurale: sumus." },
+  { topic: "verbo-sum", difficulty: 2, format: "short_answer", prompt: "Come si dice in latino «essi sono»?", answer: "sunt", explanation: "Terza persona plurale: sunt." },
+  { topic: "verbo-sum", difficulty: 3, format: "short_answer", prompt: "Come si dice in latino «io ero»?", answer: "eram", explanation: "Imperfetto di sum: eram, eras, erat." },
+  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per il soggetto della frase?", answer: "nominativo", explanation: "Il nominativo indica chi compie l'azione o di chi si dice qualcosa." },
+  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per il complemento oggetto?", answer: "accusativo", explanation: "Risponde a «chi? che cosa?» dopo un verbo transitivo." },
+  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per chiamare qualcuno?", answer: "vocativo", explanation: "È il caso del richiamo: quasi sempre uguale al nominativo." },
+  { topic: "casi", difficulty: 3, format: "short_answer", prompt: "Quale caso latino esprime di solito il possesso?", answer: "genitivo", explanation: "«Il libro del maestro»: magistri, genitivo." },
+  { topic: "etimologia", difficulty: 2, format: "short_answer", prompt: "Da quale parola latina viene l'italiano «aqua-» in «acquedotto»?", answer: "aqua", explanation: "Aqua vuol dire acqua; il dotto è il condotto che la porta." },
+  { topic: "etimologia", difficulty: 2, format: "short_answer", prompt: "Da quale parola latina viene l'italiano «terrestre»?", answer: "terra", explanation: "Terra dà terrestre, terreno, terrazzo, sotterraneo." },
+  { topic: "etimologia", difficulty: 3, format: "short_answer", prompt: "Da quale parola latina viene l'italiano «manuale»?", answer: "manus", explanation: "Manus è la mano: manuale è ciò che si fa con le mani." },
+  { topic: "etimologia", difficulty: 3, format: "short_answer", prompt: "Da quale parola latina viene l'italiano «vitale»?", answer: "vita", explanation: "Vita dà vitale, vitamina, vitalità." },
+  { topic: "vocabolario", difficulty: 1, format: "short_answer", prompt: "Che cosa significa in italiano il latino «puella»?", answer: "ragazza", accept: ["fanciulla", "bambina"], explanation: "Puella, prima declinazione: la ragazza, la fanciulla." },
+  { topic: "vocabolario", difficulty: 1, format: "short_answer", prompt: "Che cosa significa in italiano il latino «liber»?", answer: "libro", explanation: "Liber, seconda declinazione: il libro." },
+  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «rex»?", answer: "re", explanation: "Rex, terza declinazione, genitivo regis: da lì regale e regno." },
+  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «bellum»?", answer: "guerra", accept: ["la guerra"], explanation: "Bellum è la guerra, non il bello: da lì bellicoso." },
+  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «magister»?", answer: "maestro", explanation: "Magister è il maestro; da lì magistrale e magistrato." },
+  { topic: "basi", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'insieme delle terminazioni che un nome latino assume nei vari casi?", answer: "declinazione", explanation: "Cinque declinazioni, riconoscibili dal genitivo singolare." },
+  { topic: "frasi", difficulty: 3, format: "short_answer", prompt: "Come si traduce il latino «Roma caput mundi»?", answer: "Roma capitale del mondo", accept: ["Roma è la capitale del mondo"], explanation: "Caput è la testa, e per estensione la capitale." },
 ];
 
 function latinoBank(latinNouns, latinNounForm, distinctiveCases) {
@@ -527,6 +558,35 @@ const ELETTRONICA_EXTRA = [
   // Misure elettriche
   { topic: "misure-elettriche", difficulty: 3, prompt: "Con quale unità si misura la tensione?", answer: "Volt", distractors: ["Watt", "Metri", "Gradi"], explanation: "La tensione si misura in volt (V)." },
   { topic: "misure-elettriche", difficulty: 3, prompt: "Con quale unità si misura la corrente elettrica?", answer: "Ampere", distractors: ["Volt", "Litri", "Secondi"], explanation: "La corrente si misura in ampere (A)." },
+  { topic: "elettricita-base", difficulty: 1, format: "short_answer", prompt: "Qual è l'unità di misura della tensione elettrica?", answer: "volt", explanation: "Si misura fra due punti, mai in un punto solo." },
+  { topic: "elettricita-base", difficulty: 1, format: "short_answer", prompt: "Qual è l'unità di misura della corrente elettrica?", answer: "ampere", explanation: "Dice quanta carica passa in un secondo." },
+  { topic: "elettricita-base", difficulty: 2, format: "short_answer", prompt: "Qual è l'unità di misura della resistenza elettrica?", answer: "ohm", explanation: "Il simbolo è la lettera greca omega." },
+  { topic: "elettricita-base", difficulty: 2, format: "short_answer", prompt: "Qual è l'unità di misura della potenza elettrica?", answer: "watt", explanation: "Tensione per corrente: dice quanta energia si consuma ogni secondo." },
+  { topic: "componenti", difficulty: 1, format: "short_answer", prompt: "Come si chiama il componente che si oppone al passaggio della corrente?", answer: "resistore", accept: ["resistenza"], explanation: "Il valore si legge dalle fasce colorate." },
+  { topic: "componenti", difficulty: 2, format: "short_answer", prompt: "Come si chiama il componente che accumula carica fra due armature?", answer: "condensatore", explanation: "Si carica e si scarica: per questo serve nei filtri e nei temporizzatori." },
+  { topic: "componenti", difficulty: 2, format: "short_answer", prompt: "Come si chiama il componente che lascia passare la corrente in un verso solo?", answer: "diodo", explanation: "Montato al contrario blocca tutto: il verso è indicato da una fascetta." },
+  { topic: "componenti", difficulty: 2, format: "short_answer", prompt: "Come si chiama il diodo che emette luce quando è attraversato dalla corrente?", answer: "LED", accept: ["led", "diodo led"], explanation: "Va sempre alimentato con una resistenza in serie, altrimenti si brucia." },
+  { topic: "componenti", difficulty: 3, format: "short_answer", prompt: "Come si chiama il componente a tre terminali che amplifica o commuta un segnale?", answer: "transistor", accept: ["transistore"], explanation: "Con una corrente piccola comanda una corrente grande: è la base dell'elettronica digitale." },
+  { topic: "componenti", difficulty: 2, format: "short_answer", prompt: "Come si chiama il componente che apre e chiude un circuito a comando?", answer: "interruttore", explanation: "Aperto interrompe il giro: senza giro chiuso non passa corrente." },
+  { topic: "circuito", difficulty: 1, format: "short_answer", prompt: "Come si chiama il percorso chiuso in cui scorre la corrente?", answer: "circuito", explanation: "Se il percorso si interrompe in un punto solo, tutto si ferma." },
+  { topic: "circuito", difficulty: 2, format: "short_answer", prompt: "Come si chiama il collegamento diretto fra i due poli senza carico, che fa passare troppa corrente?", answer: "cortocircuito", explanation: "La corrente sceglie la via senza resistenza: scalda e brucia." },
+  { topic: "circuito", difficulty: 2, format: "short_answer", prompt: "Come si chiama il componente che fornisce energia al circuito?", answer: "generatore", accept: ["pila", "batteria"], explanation: "Pila, alimentatore, dinamo: cambia la forma, non il ruolo." },
+  { topic: "serie-parallelo", difficulty: 2, format: "short_answer", prompt: "Come si chiama il collegamento in cui la corrente ha un solo percorso possibile?", answer: "serie", explanation: "Un componente che si guasta apre il circuito e spegne tutti gli altri." },
+  { topic: "serie-parallelo", difficulty: 2, format: "short_answer", prompt: "Come si chiama il collegamento in cui ogni componente ha la stessa tensione ai capi?", answer: "parallelo", explanation: "Le lampadine di casa sono in parallelo: se una si fulmina, le altre restano accese." },
+  { topic: "misure-elettriche", difficulty: 1, format: "short_answer", prompt: "Come si chiama lo strumento che misura la tensione?", answer: "voltmetro", explanation: "Si collega in parallelo, ai capi del componente da misurare." },
+  { topic: "misure-elettriche", difficulty: 2, format: "short_answer", prompt: "Come si chiama lo strumento che misura la corrente?", answer: "amperometro", explanation: "Si collega in serie: la corrente deve attraversarlo." },
+  { topic: "misure-elettriche", difficulty: 2, format: "short_answer", prompt: "Come si chiama lo strumento che misura tensione, corrente e resistenza?", answer: "multimetro", explanation: "Una manopola sceglie la grandezza: sbagliare portata è l'errore più comune." },
+  { topic: "misure-elettriche", difficulty: 3, format: "short_answer", prompt: "Come si chiama la legge che lega tensione, corrente e resistenza?", answer: "legge di Ohm", accept: ["Ohm", "legge di ohm"], explanation: "V uguale R per I: da lì si ricava qualunque delle tre." },
+  { topic: "conduttori", difficulty: 1, format: "short_answer", prompt: "Come si chiama un materiale che lascia passare bene la corrente?", answer: "conduttore", explanation: "I metalli conducono perché hanno elettroni liberi di muoversi." },
+  { topic: "conduttori", difficulty: 1, format: "short_answer", prompt: "Come si chiama un materiale che non lascia passare la corrente?", answer: "isolante", explanation: "La plastica intorno ai fili è isolante: serve a tenere la corrente dentro il rame." },
+  { topic: "conduttori", difficulty: 2, format: "short_answer", prompt: "Qual è il metallo più usato per i fili elettrici nelle case?", answer: "rame", explanation: "Conduce bene, si piega senza rompersi e costa meno dell'argento." },
+  { topic: "conduttori", difficulty: 3, format: "short_answer", prompt: "Come si chiama un materiale che conduce solo in certe condizioni, come il silicio?", answer: "semiconduttore", explanation: "Su questa proprietà si costruiscono diodi e transistor." },
+  { topic: "sicurezza-elettrica", difficulty: 2, format: "short_answer", prompt: "Come si chiama il collegamento che porta a terra le correnti pericolose?", answer: "messa a terra", accept: ["terra"], explanation: "Offre alla corrente una strada che non passa per le persone." },
+  { topic: "sicurezza-elettrica", difficulty: 2, format: "short_answer", prompt: "Come si chiama il dispositivo che si apre da solo quando passa troppa corrente?", answer: "interruttore magnetotermico", accept: ["magnetotermico", "salvavita"], explanation: "Protegge i fili dal surriscaldamento." },
+  { topic: "sicurezza-elettrica", difficulty: 1, format: "short_answer", prompt: "Come si chiama il filo sottile che si fonde e interrompe il circuito in caso di sovracorrente?", answer: "fusibile", explanation: "Si sacrifica lui al posto dell'impianto: va sostituito con uno dello stesso valore." },
+  { topic: "sicurezza-elettrica", difficulty: 3, format: "short_answer", prompt: "Quale liquido rende molto più pericoloso il contatto con la corrente?", answer: "acqua", accept: ["l'acqua"], explanation: "Con la pelle bagnata la resistenza del corpo crolla e passa più corrente." },
+  { topic: "guasti", difficulty: 2, format: "short_answer", prompt: "Come si chiama un'interruzione del percorso che impedisce alla corrente di scorrere?", answer: "circuito aperto", accept: ["interruzione"], explanation: "Un filo staccato basta: la corrente non salta il vuoto." },
+  { topic: "guasti", difficulty: 3, format: "short_answer", prompt: "Qual è il primo controllo da fare quando un circuito a pila non funziona affatto?", answer: "la pila", accept: ["pila", "l'alimentazione", "alimentazione"], explanation: "Prima di smontare tutto si verifica l'alimentazione: è il guasto più frequente." },
 ];
 
 function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
@@ -1103,6 +1163,15 @@ function curatedTheoryBank(subject, topics, seed) {
 function authoredMcItems(subject, questions, rand) {
   return questions.map((q, i) => {
     const id = `${subject}-${q.topic}-${i}`;
+    if (q.format === "short_answer") {
+      // Risposta libera a testo. `accept` elenca le forme che valgono quanto
+      // la risposta principale: senza, un bambino che scrive «to check»
+      // invece di «check» viene segnato sbagliato pur avendo capito.
+      return { id, subject, topic: q.topic, difficulty: q.difficulty,
+        format: "short_answer", prompt: q.prompt, options: [],
+        answer: String(q.answer), accept: q.accept ?? [],
+        explanation: q.explanation };
+    }
     if (q.format === "numeric_input") {
       return {
         id,
@@ -1200,6 +1269,43 @@ const FISICA_EXTRA = [
   // Onde e luce
   { topic: "onde-luce", difficulty: 2, prompt: "In aria limpida, la luce viaggia…", answer: "In linea retta", distractors: ["A zig-zag sempre", "Solo di notte", "Più lenta del suono"], explanation: "La luce si propaga in linea retta finché non incontra ostacoli." },
   { topic: "onde-luce", difficulty: 3, prompt: "Perché durante un temporale vediamo il lampo prima di sentire il tuono?", answer: "La luce è molto più veloce del suono", distractors: ["Il suono è più veloce", "Sono simultanei", "Il tuono parte dopo il lampo"], explanation: "La luce arriva quasi subito; il suono, più lento, arriva dopo." },
+  { topic: "misure", difficulty: 1, format: "short_answer", prompt: "Come si chiama lo strumento con cui si misura la temperatura?", answer: "termometro", explanation: "Non misura il calore ma la temperatura: sono due grandezze diverse." },
+  { topic: "misure", difficulty: 1, format: "short_answer", prompt: "Qual è l'unità di misura della massa nel Sistema Internazionale?", answer: "chilogrammo", accept: ["kilogrammo", "kg"], explanation: "È l'unica unità di base il cui nome contiene già un prefisso." },
+  { topic: "misure", difficulty: 1, format: "short_answer", prompt: "Qual è l'unità di misura del tempo nel Sistema Internazionale?", answer: "secondo", explanation: "Minuti e ore sono comode, ma l'unità di base resta il secondo." },
+  { topic: "moto", difficulty: 2, format: "short_answer", prompt: "Come si chiama il rapporto fra lo spazio percorso e il tempo impiegato?", answer: "velocità", accept: ["velocita"], explanation: "Stessa strada in metà tempo significa velocità doppia." },
+  { topic: "moto", difficulty: 3, format: "short_answer", prompt: "Come si chiama la variazione della velocità nel tempo?", answer: "accelerazione", explanation: "Se la velocità cambia, anche solo di direzione, c'è accelerazione." },
+  { topic: "moto", difficulty: 2, format: "short_answer", prompt: "Qual è l'unità di misura della velocità nel Sistema Internazionale?", answer: "metri al secondo", accept: ["m/s", "metro al secondo"], explanation: "Si ottiene dividendo l'unità di lunghezza per quella di tempo." },
+  { topic: "onde-luce", difficulty: 2, format: "short_answer", prompt: "Come si chiama il rimbalzo della luce su uno specchio?", answer: "riflessione", explanation: "Il raggio torna indietro con lo stesso angolo con cui è arrivato." },
+  { topic: "onde-luce", difficulty: 3, format: "short_answer", prompt: "Come si chiama la deviazione della luce quando passa dall'aria all'acqua?", answer: "rifrazione", explanation: "Cambiando mezzo la luce cambia velocità, e quindi piega: per questo il bastone nell'acqua sembra spezzato." },
+  { topic: "onde-luce", difficulty: 3, format: "short_answer", prompt: "Come si chiama la distanza fra due creste successive di un'onda?", answer: "lunghezza d'onda", explanation: "È la lunghezza di un'oscillazione completa." },
+  { topic: "forze", difficulty: 1, format: "short_answer", prompt: "Qual è l'unità di misura della forza nel Sistema Internazionale?", answer: "newton", explanation: "Un newton è la forza che dà a un chilogrammo un'accelerazione di un metro al secondo per secondo." },
+  { topic: "forze", difficulty: 2, format: "short_answer", prompt: "Come si chiama la forza che si oppone allo scivolamento fra due superfici a contatto?", answer: "attrito", explanation: "Senza attrito non si cammina: è lui che dà presa alla scarpa." },
+  { topic: "forze", difficulty: 2, format: "short_answer", prompt: "Come si chiama lo strumento che misura una forza allungando una molla?", answer: "dinamometro", explanation: "Più la molla si allunga, più forte è la forza: la scala è già tarata in newton." },
+  { topic: "forze", difficulty: 3, format: "short_answer", prompt: "Come si chiama la spinta verso l'alto che riceve un corpo immerso in un liquido?", answer: "spinta di Archimede", accept: ["Archimede", "spinta idrostatica"], explanation: "Vale quanto il peso del liquido spostato: per questo una nave d'acciaio galleggia." },
+  { topic: "energia", difficulty: 1, format: "short_answer", prompt: "Qual è l'unità di misura dell'energia nel Sistema Internazionale?", answer: "joule", explanation: "La stessa unità vale per il lavoro e per il calore: sono forme della stessa cosa." },
+  { topic: "energia", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'energia che un corpo possiede perché è in movimento?", answer: "cinetica", accept: ["energia cinetica"], explanation: "Dipende dalla massa e dalla velocità: raddoppiando la velocità diventa quattro volte tanto." },
+  { topic: "energia", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'energia che un corpo possiede per il fatto di trovarsi in alto?", answer: "potenziale", accept: ["energia potenziale"], explanation: "È l'energia messa da parte alzando il corpo: torna disponibile quando scende." },
+  { topic: "metodo", difficulty: 2, format: "short_answer", prompt: "Come si chiama la spiegazione provvisoria che un esperimento deve mettere alla prova?", answer: "ipotesi", explanation: "Un'ipotesi vale solo se si può immaginare un risultato che la smentisce." },
+  { topic: "metodo", difficulty: 3, format: "short_answer", prompt: "Come si chiama la grandezza che lo sperimentatore cambia di proposito?", answer: "variabile indipendente", accept: ["indipendente"], explanation: "Si cambia una cosa sola per volta, altrimenti non si sa a chi attribuire l'effetto." },
+  { topic: "materia", difficulty: 2, format: "short_answer", prompt: "Come si chiama il passaggio dallo stato liquido a quello gassoso?", answer: "evaporazione", accept: ["vaporizzazione"], explanation: "Avviene anche sotto la temperatura di ebollizione, solo più lentamente." },
+  { topic: "materia", difficulty: 1, format: "short_answer", prompt: "Come si chiama il passaggio dallo stato solido a quello liquido?", answer: "fusione", explanation: "Il ghiaccio che diventa acqua sta fondendo, non sciogliendosi in qualcos'altro." },
+  { topic: "materia", difficulty: 3, format: "short_answer", prompt: "Come si chiama il rapporto fra la massa di un corpo e il suo volume?", answer: "densità", accept: ["densita"], explanation: "È la ragione per cui un chilo di piombo occupa molto meno spazio di un chilo di piume." },
+  { topic: "calore", difficulty: 2, format: "short_answer", prompt: "Qual è l'unità di misura della temperatura nel Sistema Internazionale?", answer: "kelvin", explanation: "Parte dallo zero assoluto: sotto non si può scendere." },
+  { topic: "calore", difficulty: 3, format: "short_answer", prompt: "Come si chiama il passaggio di calore per contatto diretto fra due corpi?", answer: "conduzione", explanation: "Il cucchiaino di metallo nel tè scotta per conduzione." },
+  { topic: "misure", difficulty: 1, format: "short_answer", prompt: "Come si chiama lo strumento con cui si misura la massa di un oggetto?", answer: "bilancia", accept: ["la bilancia"], explanation: "Misura la massa confrontandola con masse note." },
+  { topic: "moto", difficulty: 1, format: "short_answer", prompt: "Come si chiama il percorso seguito da un corpo che si muove?", answer: "traiettoria", accept: ["la traiettoria"], explanation: "Rettilinea, curva, circolare: dipende dalle forze in gioco." },
+  { topic: "onde-luce", difficulty: 1, format: "short_answer", prompt: "Come si chiama l'ombra che si forma dietro un oggetto colpito dalla luce?", answer: "ombra", accept: ["l'ombra"], explanation: "Si forma perché la luce viaggia in linea retta e l'oggetto la ferma." },
+  { topic: "calore", difficulty: 1, format: "short_answer", prompt: "Come si chiama il passaggio di calore attraverso il movimento di un liquido o di un gas?", answer: "convezione", explanation: "L'acqua calda sale, la fredda scende: la pentola si scalda tutta così." },
+  { topic: "misure", difficulty: 1, prompt: "Perché in fisica una misura si scrive sempre con l'unità accanto al numero?", answer: "Perché senza unità il numero non dice quanto vale la grandezza", distractors: ["Perché è una regola di scrittura senza vere conseguenze pratiche", "Perché il numero da solo risulterebbe troppo corto da leggere", "Perché così si riconosce subito chi ha svolto la misurazione"], explanation: "«3» non vuol dire niente: tre metri, tre secondi e tre chili sono cose diversissime." },
+  { topic: "moto", difficulty: 1, prompt: "Un corpo fermo rispetto alla strada può essere in movimento rispetto a che cosa?", answer: "Rispetto a un altro corpo che si sta muovendo", distractors: ["Rispetto a se stesso in un istante successivo del moto", "Rispetto alla strada, se la si osserva con più attenzione", "Rispetto al proprio peso, che cambia continuamente"], explanation: "Il moto è sempre relativo: chi è fermo in treno si muove rispetto alla banchina." },
+  { topic: "energia", difficulty: 1, prompt: "Che cosa succede all'energia quando una palla che rotola si ferma per l'attrito?", answer: "Si trasforma in calore, non sparisce", distractors: ["Sparisce del tutto nel momento esatto in cui la palla si ferma", "Torna dentro la palla e resta lì immagazzinata per sempre", "Viene assorbita dall'aria e poi restituita alla palla dopo"], explanation: "L'energia non si crea e non si distrugge: cambia forma. La strada e la palla si scaldano un po'." },
+  { topic: "materia", difficulty: 1, prompt: "Perché un palloncino gonfio schiacciato cambia forma ma torna com'era?", answer: "Perché il gas dentro si comprime e poi si riespande", distractors: ["Perché la gomma ricorda la forma che aveva prima di essere gonfiata", "Perché l'aria fuori dal palloncino lo spinge sempre verso l'alto", "Perché il gas dentro si trasforma per un attimo in liquido"], explanation: "I gas si comprimono facilmente: è quello che rende un palloncino elastico." },
+  { topic: "forze", difficulty: 1, prompt: "Perché una cassa pesante è più difficile da spingere di una leggera?", answer: "Perché serve più forza per cambiare la velocità di una massa maggiore", distractors: ["Perché una cassa pesante è quasi sempre anche più grande da afferrare", "Perché la cassa leggera contiene più aria e quindi scivola meglio", "Perché il pavimento sotto una cassa pesante diventa più ruvido"], explanation: "Più massa, più inerzia: più resistenza a mettersi in moto." },
+  { topic: "metodo", difficulty: 1, prompt: "Perché un esperimento va ripetuto più volte prima di trarre conclusioni?", answer: "Perché una volta sola può andare bene o male per caso", distractors: ["Perché la prima misura di uno strumento è sempre sbagliata di principio", "Perché ripetere serve soprattutto a fare pratica con lo strumento", "Perché le regole della scuola chiedono almeno tre prove scritte"], explanation: "Ripetere serve a distinguere l'effetto vero dal caso." },
+  { topic: "calore", difficulty: 1, format: "short_answer", prompt: "Come si chiama il materiale che lascia passare poco calore, come il polistirolo?", answer: "isolante", accept: ["isolante termico"], explanation: "Tiene il caldo dentro o fuori: per questo si usa nelle borse frigo." },
+  { topic: "energia",  difficulty: 1, format: "short_answer", prompt: "Come si chiama la macchina che trasforma il movimento in energia elettrica?", answer: "dinamo", accept: ["la dinamo", "generatore"], explanation: "Quella della bicicletta accende il fanale finché la ruota gira." },
+  { topic: "materia", difficulty: 1, prompt: "Perché l'acqua versata prende la forma del bicchiere?", answer: "Perché un liquido non ha forma propria ma ha volume proprio", distractors: ["Perché il vetro attira il liquido contro le sue pareti interne", "Perché l'acqua si trasforma in un solido appena tocca il vetro", "Perché l'aria dentro il bicchiere spinge il liquido verso i bordi"], explanation: "Il volume resta lo stesso: mezzo litro resta mezzo litro in qualunque recipiente." },
+  { topic: "onde-luce", difficulty: 1, prompt: "Perché di notte in una stanza chiusa non si vede niente?", answer: "Perché senza luce che arriva agli occhi non c'è visione", distractors: ["Perché gli occhi di notte smettono di funzionare del tutto", "Perché il buio è una sostanza che copre gli oggetti nella stanza", "Perché gli oggetti al buio perdono per qualche ora il loro colore"], explanation: "Vediamo la luce che gli oggetti rimandano: senza sorgente non c'è niente da rimandare." },
 ];
 
 const MUSICA_EXTRA = [
@@ -1279,6 +1385,18 @@ const MUSICA_EXTRA = [
   // Dinamica e tempo
   { topic: "dinamica", difficulty: 2, prompt: "In musica 'forte' e 'piano' indicano…", answer: "L'intensità del suono (il volume)", distractors: ["La velocità con cui si suona", "L'altezza (acuto o grave)", "La durata di ogni nota scritta"], explanation: "Le dinamiche dicono quanto suonare forte o piano." },
   { topic: "dinamica", difficulty: 3, prompt: "Il termine che indica quanto è veloce un brano è il…", answer: "Tempo (andamento)", distractors: ["Timbro (colore)", "Volume (intensità)", "Silenzio (pausa)"], explanation: "Il tempo indica la velocità: da lento (adagio) a veloce (allegro)." },
+  { topic: "lettura", difficulty: 1, format: "short_answer", prompt: "Come si chiama il gruppo di cinque righe su cui si scrive la musica?", answer: "pentagramma", explanation: "Cinque righe e quattro spazi: penta vuol dire cinque." },
+  { topic: "lettura", difficulty: 2, format: "short_answer", prompt: "Come si chiama il segno messo all'inizio del pentagramma che fissa l'altezza delle note?", answer: "chiave", explanation: "Senza la chiave le stesse righe direbbero note diverse: è lei a dare il punto di riferimento." },
+  { topic: "note", difficulty: 1, format: "short_answer", prompt: "Qual è la nota che viene subito prima del do?", answer: "si", explanation: "Le sette note girano in cerchio: dopo il si si ricomincia dal do, quindi prima del do c'è il si." },
+  { topic: "note", difficulty: 3, format: "short_answer", prompt: "Come si chiama la distanza fra un do e il do successivo, più acuto?", answer: "ottava", explanation: "Si contano i gradi da un do all'altro e vengono otto: do re mi fa sol la si do." },
+  { topic: "ritmo", difficulty: 2, format: "short_answer", prompt: "Come si chiama la linea verticale che divide il pentagramma in battute?", answer: "stanghetta", explanation: "Ogni stanghetta chiude una battuta: è il modo di scrivere che il tempo torna a contare da uno." },
+  { topic: "ritmo", difficulty: 1, format: "short_answer", prompt: "Come si chiama il segno che indica un silenzio nella musica?", answer: "pausa", explanation: "Il silenzio si scrive come una nota: ha una durata precisa e va contato." },
+  { topic: "intervalli", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'intervallo fra il do e il sol?", answer: "quinta", explanation: "Si contano i gradi partendo dal do: do re mi fa sol, cinque." },
+  { topic: "intervalli", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'intervallo fra il do e il mi?", answer: "terza", explanation: "Do re mi: tre gradi, quindi terza." },
+  { topic: "dinamica", difficulty: 1, format: "short_answer", prompt: "Come si legge per esteso il segno «f» scritto sotto il pentagramma?", answer: "forte", explanation: "La f sta per forte, la p per piano: la dinamica si scrive con le iniziali delle parole italiane." },
+  { topic: "timbro", difficulty: 2, format: "short_answer", prompt: "Come si chiama la qualità del suono che fa riconoscere un violino da un flauto anche sulla stessa nota?", answer: "timbro", explanation: "Stessa altezza, stessa intensità: quello che resta a distinguerli è il timbro." },
+  { topic: "strumenti", difficulty: 1, format: "short_answer", prompt: "Come si chiama chi guida un'orchestra dal podio?", answer: "direttore", explanation: "Non suona: tiene insieme il tempo e l'equilibrio fra le sezioni." },
+  { topic: "tempo", difficulty: 2, format: "short_answer", prompt: "Come si chiama lo strumento che batte il tempo regolare per esercitarsi?", answer: "metronomo", explanation: "Batte una pulsazione uguale a se stessa: serve a non accelerare nei punti facili." },
 ];
 
 function fisicaBank(rand) {
@@ -1482,6 +1600,43 @@ const GEOGRAFIA_EXTRA = [
   { topic: "geografia-fisica", difficulty: 4, prompt: "Come nascono le catene montuose?", answer: "Dallo scontro fra placche della crosta terrestre", distractors: ["Dall'accumulo di sabbia nel tempo","Dall'erosione delle pianure circostanti","Dalla caduta di grandi meteoriti"], explanation: "Quando due placche si spingono, la crosta si corruga e si solleva: le Alpi e l'Himalaya nascono così, e crescono ancora." },
   { topic: "geografia-fisica", difficulty: 3, prompt: "Che cos'è un ghiacciaio?", answer: "Una massa di ghiaccio che si muove lentamente", distractors: ["Un lago che ghiaccia del tutto in inverno","Una zona che resta sempre coperta di neve","Un fiume che gela completamente ogni anno"], explanation: "Si forma dove la neve non si scioglie mai del tutto: compressa negli anni diventa ghiaccio, e sotto il proprio peso scivola a valle." },
   { topic: "geografia-fisica", difficulty: 4, prompt: "Perché l'erosione modifica il paesaggio?", answer: "Perché acqua, vento e ghiaccio asportano materiale", distractors: ["Perché il terreno si consuma lentamente da solo","Perché le rocce si sciolgono al calore del Sole","Perché le radici delle piante spaccano il terreno"], explanation: "È un lavoro lentissimo e continuo: il Grand Canyon è stato scavato da un fiume, un granello alla volta." },
+  { topic: "continenti", difficulty: 1, format: "short_answer", prompt: "Qual è il continente più grande per superficie?", answer: "Asia", accept: ["l'Asia"], explanation: "Copre da sola circa un terzo delle terre emerse." },
+  { topic: "continenti", difficulty: 2, format: "short_answer", prompt: "Qual è il continente più freddo?", answer: "Antartide", accept: ["l'Antartide"], explanation: "È coperto da una calotta di ghiaccio spessa chilometri." },
+  { topic: "continenti", difficulty: 2, format: "short_answer", prompt: "In quale continente si trova il deserto del Sahara?", answer: "Africa", accept: ["l'Africa"], explanation: "Occupa tutta la fascia settentrionale del continente." },
+  { topic: "continenti", difficulty: 1, format: "short_answer", prompt: "In quale continente si trova l'Italia?", answer: "Europa", accept: ["l'Europa"], explanation: "Sporge nel Mediterraneo dalla parte meridionale del continente." },
+  { topic: "capitali", difficulty: 1, format: "short_answer", prompt: "Qual è la capitale della Francia?", answer: "Parigi", explanation: "Sorge sulla Senna." },
+  { topic: "capitali", difficulty: 1, format: "short_answer", prompt: "Qual è la capitale della Spagna?", answer: "Madrid", explanation: "Sta quasi al centro esatto della penisola iberica." },
+  { topic: "capitali", difficulty: 1, format: "short_answer", prompt: "Qual è la capitale della Germania?", answer: "Berlino", explanation: "È stata divisa da un muro fino al 1989." },
+  { topic: "capitali", difficulty: 2, format: "short_answer", prompt: "Qual è la capitale del Portogallo?", answer: "Lisbona", explanation: "Si affaccia sull'oceano Atlantico, alla foce del Tago." },
+  { topic: "capitali", difficulty: 2, format: "short_answer", prompt: "Qual è la capitale della Grecia?", answer: "Atene", explanation: "Sull'Acropoli si trova il Partenone." },
+  { topic: "capitali", difficulty: 2, format: "short_answer", prompt: "Qual è la capitale dell'Austria?", answer: "Vienna", explanation: "Sta sul Danubio, all'incrocio fra l'Europa occidentale e quella orientale." },
+  { topic: "capitali", difficulty: 2, format: "short_answer", prompt: "Qual è la capitale della Polonia?", answer: "Varsavia", explanation: "Ricostruita quasi da zero dopo la seconda guerra mondiale." },
+  { topic: "capitali", difficulty: 3, format: "short_answer", prompt: "Qual è la capitale della Svizzera?", answer: "Berna", explanation: "Non è la città più grande: Zurigo lo è, ma la capitale è Berna." },
+  { topic: "geografia-italia", difficulty: 1, format: "short_answer", prompt: "Qual è il fiume più lungo d'Italia?", answer: "Po", accept: ["il Po"], explanation: "Attraversa la pianura padana da ovest a est." },
+  { topic: "geografia-italia", difficulty: 2, format: "short_answer", prompt: "Come si chiama il mare che bagna la costa orientale dell'Italia?", answer: "Adriatico", accept: ["mare Adriatico", "l'Adriatico"], explanation: "Stretto e poco profondo, chiuso fra l'Italia e la penisola balcanica." },
+  { topic: "geografia-italia", difficulty: 1, format: "short_answer", prompt: "Qual è l'isola più grande d'Italia?", answer: "Sicilia", accept: ["la Sicilia"], explanation: "Poco più estesa della Sardegna." },
+  { topic: "geografia-italia", difficulty: 2, format: "short_answer", prompt: "Come si chiama la catena montuosa che percorre l'Italia da nord a sud?", answer: "Appennini", accept: ["gli Appennini", "Appennino"], explanation: "Fa da spina dorsale alla penisola." },
+  { topic: "geografia-italia", difficulty: 2, format: "short_answer", prompt: "Come si chiama il vulcano attivo che sovrasta Catania?", answer: "Etna", accept: ["l'Etna"], explanation: "È il vulcano attivo più alto d'Europa." },
+  { topic: "geografia-fisica", difficulty: 2, format: "short_answer", prompt: "Come si chiama la pianura più estesa d'Italia?", answer: "pianura padana", accept: ["padana", "Pianura Padana"], explanation: "La costruisce il Po con i detriti che deposita da millenni." },
+  { topic: "geografia-fisica", difficulty: 2, format: "short_answer", prompt: "Come si chiama il punto in cui un fiume si getta nel mare?", answer: "foce", explanation: "Se il fiume deposita molti detriti si forma un delta." },
+  { topic: "geografia-fisica", difficulty: 2, format: "short_answer", prompt: "Come si chiama il punto in cui un fiume nasce?", answer: "sorgente", explanation: "Da lì in poi il fiume raccoglie l'acqua di tutto il bacino." },
+  { topic: "geografia-fisica", difficulty: 3, format: "short_answer", prompt: "Come si chiama una lingua di terra circondata dal mare su tre lati?", answer: "penisola", explanation: "L'Italia ne è l'esempio più noto." },
+  { topic: "geografia-fisica", difficulty: 3, format: "short_answer", prompt: "Come si chiama il braccio di mare stretto fra due terre?", answer: "stretto", explanation: "Lo stretto di Messina separa la Sicilia dalla Calabria." },
+  { topic: "europa", difficulty: 1, format: "short_answer", prompt: "Qual è il fiume che attraversa Parigi?", answer: "Senna", accept: ["la Senna"], explanation: "Divide la città in riva destra e riva sinistra." },
+  { topic: "europa", difficulty: 2, format: "short_answer", prompt: "Come si chiama la catena montuosa che separa l'Italia dalla Francia e dall'Austria?", answer: "Alpi", accept: ["le Alpi"], explanation: "Fa da confine naturale a nord." },
+  { topic: "europa", difficulty: 2, format: "short_answer", prompt: "Qual è la penisola su cui si trovano Spagna e Portogallo?", answer: "penisola iberica", accept: ["iberica"], explanation: "Separata dal resto d'Europa dai Pirenei." },
+  { topic: "europa", difficulty: 3, format: "short_answer", prompt: "Qual è il fiume che attraversa Vienna e Budapest?", answer: "Danubio", accept: ["il Danubio"], explanation: "Nasce in Germania e sfocia nel mar Nero dopo aver toccato dieci Paesi." },
+  { topic: "mondo", difficulty: 1, format: "short_answer", prompt: "Qual è l'oceano più esteso?", answer: "Pacifico", accept: ["oceano Pacifico", "il Pacifico"], explanation: "Da solo copre circa un terzo della superficie del pianeta." },
+  { topic: "mondo", difficulty: 2, format: "short_answer", prompt: "Qual è la montagna più alta del mondo?", answer: "Everest", accept: ["Monte Everest", "l'Everest"], explanation: "Ottomilaottocentoquarantanove metri, sulla catena dell'Himalaya." },
+  { topic: "mondo", difficulty: 2, format: "short_answer", prompt: "Qual è il fiume più lungo dell'Africa?", answer: "Nilo", accept: ["il Nilo"], explanation: "Scorre da sud a nord e sfocia nel Mediterraneo." },
+  { topic: "mondo", difficulty: 3, format: "short_answer", prompt: "Come si chiama la linea immaginaria che divide la Terra in due emisferi uguali?", answer: "equatore", accept: ["l'equatore"], explanation: "È il parallelo di latitudine zero." },
+  { topic: "climi", difficulty: 2, format: "short_answer", prompt: "Come si chiama il clima mite con estati secche e inverni piovosi tipico delle coste italiane?", answer: "mediterraneo", accept: ["clima mediterraneo"], explanation: "Lo rendono possibile il mare e la latitudine." },
+  { topic: "climi", difficulty: 2, format: "short_answer", prompt: "Come si chiama il clima caldo e umido tutto l'anno tipico della fascia equatoriale?", answer: "equatoriale", accept: ["clima equatoriale"], explanation: "Piove quasi ogni giorno e le temperature non cambiano quasi mai." },
+  { topic: "climi", difficulty: 3, format: "short_answer", prompt: "Come si chiama la fascia di clima freddissimo attorno ai poli?", answer: "polare", accept: ["clima polare"], explanation: "Le temperature restano sotto zero per gran parte dell'anno." },
+  { topic: "climi", difficulty: 3, format: "short_answer", prompt: "Come si chiama il vento stagionale che porta grandi piogge nel sud-est asiatico?", answer: "monsone", accept: ["il monsone", "monsoni"], explanation: "Cambia direzione fra estate e inverno." },
+  { topic: "geografia-umana", difficulty: 2, format: "short_answer", prompt: "Come si chiama il numero di abitanti per chilometro quadrato?", answer: "densità di popolazione", accept: ["densita di popolazione", "densità"], explanation: "Dice quanto è affollato un territorio, non quanto è grande." },
+  { topic: "geografia-umana", difficulty: 3, format: "short_answer", prompt: "Come si chiama lo spostamento di persone da un paese a un altro per viverci?", answer: "migrazione", explanation: "Si parla di emigrazione da chi parte e di immigrazione da chi accoglie." },
+  { topic: "geografia-umana", difficulty: 3, format: "short_answer", prompt: "Come si chiama il passaggio di popolazione dalle campagne alle città?", answer: "urbanizzazione", explanation: "È il fenomeno che ha fatto crescere le città nell'ultimo secolo." },
 ];
 
 function geografiaBank() {
@@ -1634,6 +1789,41 @@ const SCIENZE_CORE = [
   { topic: "ambiente", difficulty: 1, prompt: "Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?", answer: "Fare la raccolta differenziata", distractors: ["Buttarli tutti nello stesso sacco", "Bruciarli nel cortile di casa", "Lasciarli per terra dove capita"], explanation: "Separare i rifiuti permette di riciclarli e sprecare meno risorse." },
   { topic: "ambiente", difficulty: 2, prompt: "Perché è importante non sprecare l'acqua?", answer: "È una risorsa preziosa e limitata", distractors: ["Perché è pesante da trasportare", "Perché è di colore trasparente", "Non è importante, ce n'è tanta"], explanation: "L'acqua dolce pulita è limitata: va usata con attenzione." },
   { topic: "ambiente", difficulty: 3, prompt: "Come si chiama l'aumento della temperatura del pianeta legato anche ai gas prodotti dall'uomo?", answer: "Riscaldamento globale", distractors: ["Effetto arcobaleno", "Effetto marea", "Effetto eco"], explanation: "L'eccesso di gas serra trattiene più calore e riscalda il pianeta." },
+  { topic: "ambiente", difficulty: 2, format: "short_answer", prompt: "Come si chiama la trasformazione dei rifiuti in materiali di nuovo utilizzabili?", answer: "riciclo", accept: ["riciclaggio"], explanation: "Ridurre viene prima di riciclare: quello che non si produce non va nemmeno trattato." },
+  { topic: "ambiente", difficulty: 3, format: "short_answer", prompt: "Come si chiama una sostanza che sporca e danneggia aria, acqua o suolo?", answer: "inquinante", explanation: "Molti inquinanti non si vedono: si misurano." },
+  { topic: "ecosistema", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'insieme degli esseri viventi e dell'ambiente in cui vivono, considerati insieme?", answer: "ecosistema", explanation: "Le due parti non si studiano separate: cambiando l'ambiente cambiano i viventi, e viceversa." },
+  { topic: "ecosistema", difficulty: 2, format: "short_answer", prompt: "Come si chiamano gli organismi che si nutrono di altri esseri viventi?", answer: "consumatori", explanation: "Non producono il proprio cibo: lo prendono da chi lo ha fabbricato o da chi lo ha già mangiato." },
+  { topic: "ecosistema", difficulty: 3, format: "short_answer", prompt: "Come si chiamano gli organismi che trasformano i resti in sostanze minerali?", answer: "decompositori", explanation: "Senza di loro le sostanze resterebbero bloccate nei resti e il ciclo si fermerebbe." },
+  { topic: "ecosistema", difficulty: 2, format: "short_answer", prompt: "Come si chiama la catena che collega chi mangia e chi è mangiato?", answer: "catena alimentare", accept: ["catena trofica"], explanation: "Ogni anello passa al successivo solo una parte dell'energia ricevuta." },
+  { topic: "metodo", difficulty: 2, format: "short_answer", prompt: "Come si chiama la supposizione che l'esperimento deve verificare?", answer: "ipotesi", explanation: "Si formula prima di guardare i risultati, altrimenti si finisce per confermarsi da soli." },
+  { topic: "metodo", difficulty: 3, format: "short_answer", prompt: "Come si chiama la prova di confronto in cui non si cambia niente?", answer: "controllo", accept: ["gruppo di controllo"], explanation: "Senza il confronto non si sa se l'effetto viene dalla causa studiata o sarebbe successo comunque." },
+  { topic: "metodo", difficulty: 1, format: "short_answer", prompt: "Come si chiama lo strumento che ingrandisce ciò che l'occhio non riesce a vedere?", answer: "microscopio", explanation: "Ha aperto un mondo intero: le cellule si sono scoperte così." },
+  { topic: "energia", difficulty: 2, format: "short_answer", prompt: "Come si chiama una fonte di energia che non si esaurisce, come il vento o il sole?", answer: "rinnovabile", accept: ["fonte rinnovabile"], explanation: "Rinnovabile non vuol dire senza impatto: vuol dire che la fonte si ricostituisce." },
+  { topic: "energia", difficulty: 3, format: "short_answer", prompt: "Come si chiama il processo con cui le piante usano la luce per fabbricare zuccheri?", answer: "fotosintesi", accept: ["fotosintesi clorofilliana"], explanation: "Prendono anidride carbonica e acqua e restituiscono ossigeno: è l'inizio di quasi tutte le catene alimentari." },
+  { topic: "terra-universo", difficulty: 1, format: "short_answer", prompt: "Come si chiama il movimento della Terra attorno al proprio asse?", answer: "rotazione", explanation: "Dura ventiquattro ore e produce il giorno e la notte." },
+  { topic: "terra-universo", difficulty: 1, format: "short_answer", prompt: "Come si chiama il movimento della Terra attorno al Sole?", answer: "rivoluzione", explanation: "Dura un anno; insieme all'inclinazione dell'asse produce le stagioni." },
+  { topic: "terra-universo", difficulty: 1, format: "short_answer", prompt: "Come si chiama la stella attorno a cui gira la Terra?", answer: "Sole", explanation: "È una stella come tante altre: ci sembra enorme solo perché è vicinissima." },
+  { topic: "terra-universo", difficulty: 2, format: "short_answer", prompt: "Come si chiama lo strato di aria che avvolge la Terra?", answer: "atmosfera", explanation: "Trattiene calore e ferma gran parte delle radiazioni: senza, la vita in superficie non ci sarebbe." },
+  { topic: "materia", difficulty: 2, format: "short_answer", prompt: "Come si chiama il passaggio dallo stato gassoso a quello liquido?", answer: "condensazione", explanation: "Le gocce sul vetro freddo si formano così: il vapore dell'aria si raffredda e condensa." },
+  { topic: "materia", difficulty: 3, format: "short_answer", prompt: "Come si chiama il miscuglio in cui una sostanza si scioglie completamente in un'altra?", answer: "soluzione", explanation: "Se dopo aver mescolato non distingui più le parti, è una soluzione." },
+  { topic: "materia", difficulty: 3, format: "short_answer", prompt: "Come si chiama la più piccola parte di una sostanza che ne conserva le proprietà?", answer: "molecola", explanation: "Spezzando ancora si ottengono atomi, ma la sostanza non è più quella." },
+  { topic: "corpo", difficulty: 1, format: "short_answer", prompt: "Come si chiama l'organo che pompa il sangue in tutto il corpo?", answer: "cuore", explanation: "Batte senza che tu debba pensarci, circa centomila volte al giorno." },
+  { topic: "corpo", difficulty: 1, format: "short_answer", prompt: "Come si chiamano gli organi in cui il sangue prende ossigeno dall'aria?", answer: "polmoni", explanation: "Lo scambio avviene negli alveoli, minuscole sacche con una superficie enorme." },
+  { topic: "corpo", difficulty: 1, format: "short_answer", prompt: "Come si chiama l'organo che comanda i movimenti e il pensiero?", answer: "cervello", explanation: "Riceve informazioni dai sensi e manda ordini ai muscoli, in continuo." },
+  { topic: "corpo", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'insieme delle ossa che sostiene il corpo?", answer: "scheletro", explanation: "Sostiene, protegge gli organi e dà ai muscoli un punto su cui fare forza." },
+  { topic: "viventi", difficulty: 1, format: "short_answer", prompt: "Come si chiama la parte della pianta che assorbe acqua dal terreno?", answer: "radice", accept: ["radici"], explanation: "Assorbe e insieme ancora la pianta al suolo." },
+  { topic: "viventi", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'unità più piccola di cui sono fatti tutti gli esseri viventi?", answer: "cellula", explanation: "Alcuni esseri viventi ne hanno una sola; noi qualche decina di migliaia di miliardi." },
+  { topic: "viventi", difficulty: 1, format: "short_answer", prompt: "Come si chiamano gli animali che allattano i propri piccoli?", answer: "mammiferi", explanation: "Allattano, hanno peli e temperatura costante: anche la balena è un mammifero." },
+  { topic: "ambiente", difficulty: 1, format: "short_answer", prompt: "Come si chiama il contenitore in cui si buttano carta e cartone separati dal resto?", answer: "carta", accept: ["bidone della carta", "contenitore della carta"], explanation: "Ogni materiale ha il suo contenitore: mescolarli manda tutto in discarica." },
+  { topic: "viventi", difficulty: 1, format: "short_answer", prompt: "Come si chiama la parte colorata del fiore che attira gli insetti?", answer: "petalo", accept: ["petali", "i petali"], explanation: "Colore e profumo servono a farsi trovare da chi trasporta il polline." },
+  { topic: "corpo", difficulty: 1, format: "short_answer", prompt: "Come si chiama l'organo con cui si sente il suono?", answer: "orecchio", accept: ["orecchie", "l'orecchio"], explanation: "Raccoglie le vibrazioni dell'aria e le trasforma in segnali per il cervello." },
+  { topic: "terra-universo", difficulty: 1, format: "short_answer", prompt: "Come si chiamano i corpi celesti che girano attorno al Sole, come la Terra?", answer: "pianeti", accept: ["pianeta", "i pianeti"], explanation: "Non brillano di luce propria: riflettono quella del Sole." },
+  { topic: "ambiente", difficulty: 1, prompt: "Perché ridurre i rifiuti conta più che riciclarli?", answer: "Perché un rifiuto che non nasce non va nemmeno trattato", distractors: ["Perché il riciclo funziona bene soltanto con la carta e il vetro", "Perché i rifiuti riciclati costano di più di quelli nuovi", "Perché riciclare è vietato per la maggior parte dei materiali"], explanation: "Riciclare consuma energia e acqua: meglio non produrre l'oggetto inutile." },
+  { topic: "viventi", difficulty: 1, prompt: "Che cosa distingue un essere vivente da un sasso?", answer: "Si nutre, cresce e può riprodursi", distractors: ["Si muove da solo da un posto all'altro durante il giorno", "Ha una forma che resta uguale per tutta la sua esistenza", "È fatto di materia, mentre il sasso non lo è affatto"], explanation: "Le piante non camminano e certi organismi non respirano ossigeno: il resto vale per tutti." },
+  { topic: "corpo", difficulty: 1, prompt: "Perché è importante lavarsi le mani prima di mangiare?", answer: "Perché sulle mani restano microbi che finirebbero nel cibo", distractors: ["Perché le mani sporche rendono il cibo più difficile da masticare", "Perché l'acqua fredda sulle mani aiuta lo stomaco a digerire", "Perché è una regola di buona educazione senza effetti sulla salute"], explanation: "Gran parte delle infezioni intestinali passa proprio dalle mani." },
+  { topic: "ecosistema", difficulty: 1, prompt: "Che cosa succede a un ecosistema se sparisce una sola specie?", answer: "Cambiano anche le specie collegate a quella", distractors: ["Non cambia niente, perché ogni specie vive per conto suo", "Sparisce subito tutto l'ecosistema nel giro di pochi giorni", "Le altre specie diventano automaticamente più numerose e forti"], explanation: "Gli anelli sono legati: togliendone uno la catena si riorganizza, a volte male." },
+  { topic: "energia", difficulty: 1, prompt: "Perché il Sole è la fonte di quasi tutta l'energia sulla Terra?", answer: "Perché le piante ne catturano la luce e la passano a tutti gli altri", distractors: ["Perché scalda direttamente il corpo di ogni animale del pianeta", "Perché è l'unico corpo celeste visibile durante tutto il giorno", "Perché la sua luce si trasforma da sola in elettricità nell'aria"], explanation: "Anche il carbone e il petrolio sono luce solare immagazzinata milioni di anni fa." },
+  { topic: "materia", difficulty: 1, prompt: "Perché lo zucchero sparisce alla vista quando lo sciogli nell'acqua?", answer: "Perché si divide in parti troppo piccole da vedere, ma resta lì", distractors: ["Perché si trasforma in acqua e smette del tutto di esistere", "Perché evapora subito appena entra in contatto con il liquido", "Perché scende sul fondo e si nasconde sotto lo strato d'acqua"], explanation: "L'acqua diventa dolce: la prova che lo zucchero c'è ancora." },
 ];
 
 function scienzeBank(greenhousePlants) {
@@ -1770,6 +1960,38 @@ const STORIA_CORE = [
   { topic: "medioevo", difficulty: 3, prompt: "Chi copiava a mano i libri nei monasteri medievali?", answer: "I monaci amanuensi", distractors: ["I cavalieri armati", "I mercanti stranieri", "I contadini del feudo"], explanation: "I monaci amanuensi ricopiavano a mano i testi, custodendo il sapere." },
   { topic: "medioevo", difficulty: 2, prompt: "Come si chiamavano i guerrieri a cavallo al servizio di un signore?", answer: "Cavalieri", distractors: ["Faraoni", "Consoli", "Legionari"], explanation: "I cavalieri combattevano a cavallo e giuravano fedeltà al loro signore." },
   { topic: "medioevo", difficulty: 3, prompt: "Dove si conservava e si copiava il sapere nell'Alto Medioevo?", answer: "Nei monasteri", distractors: ["Nei supermercati", "Nelle fabbriche", "Nei porti"], explanation: "I monasteri furono centri di cultura: vi si custodivano e copiavano i libri." },
+  { topic: "preistoria", difficulty: 1, format: "short_answer", prompt: "Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?", answer: "paleolitico", explanation: "Paleo vuol dire antico: pietra antica." },
+  { topic: "preistoria", difficulty: 2, format: "short_answer", prompt: "Come si chiama il periodo della preistoria in cui la pietra veniva levigata?", answer: "neolitico", explanation: "Nello stesso periodo nascono agricoltura e allevamento." },
+  { topic: "preistoria", difficulty: 2, format: "short_answer", prompt: "Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?", answer: "fuoco", accept: ["il fuoco"], explanation: "Cambiò alimentazione, difesa e vita notturna insieme." },
+  { topic: "preistoria", difficulty: 3, format: "short_answer", prompt: "Come si chiama l'attività con cui l'uomo iniziò a coltivare la terra?", answer: "agricoltura", accept: ["l'agricoltura"], explanation: "Da nomade l'uomo diventa stanziale: nascono i villaggi." },
+  { topic: "fonti", difficulty: 2, format: "short_answer", prompt: "Come si chiamano le fonti costituite da oggetti, edifici e resti?", answer: "fonti materiali", accept: ["materiali"], explanation: "Non raccontano a parole: vanno interpretate." },
+  { topic: "fonti", difficulty: 2, format: "short_answer", prompt: "Come si chiamano le fonti costituite da testi e documenti?", answer: "fonti scritte", accept: ["scritte"], explanation: "Sono le più esplicite, ma anche le più facili da falsificare." },
+  { topic: "fonti", difficulty: 3, format: "short_answer", prompt: "Come si chiama la scienza che studia il passato scavando nel terreno?", answer: "archeologia", accept: ["l'archeologia"], explanation: "Scava per strati: sotto sta sempre il più antico." },
+  { topic: "cronologia", difficulty: 1, format: "short_answer", prompt: "Come si chiama un periodo di cento anni?", answer: "secolo", explanation: "Il Novecento è il ventesimo secolo." },
+  { topic: "cronologia", difficulty: 2, format: "short_answer", prompt: "Come si chiama un periodo di mille anni?", answer: "millennio", explanation: "Mille anni: la storia scritta ne conta poco più di cinque." },
+  { topic: "cronologia", difficulty: 2, format: "short_answer", prompt: "Come si chiama un periodo di dieci anni?", answer: "decennio", explanation: "Dieci anni: l'unità con cui si raccontano i cambiamenti recenti." },
+  { topic: "civilta", difficulty: 2, format: "short_answer", prompt: "In quale regione fra i fiumi Tigri ed Eufrate nacquero le prime città?", answer: "Mesopotamia", accept: ["la Mesopotamia"], explanation: "Il nome greco vuol dire proprio «terra fra i fiumi»." },
+  { topic: "civilta", difficulty: 3, format: "short_answer", prompt: "Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?", answer: "cuneiforme", accept: ["scrittura cuneiforme"], explanation: "I segni si facevano con un calamo a punta triangolare, il cuneo." },
+  { topic: "civilta", difficulty: 3, format: "short_answer", prompt: "Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?", answer: "Fenici", accept: ["i Fenici"], explanation: "Un alfabeto di poche lettere, molto più facile da imparare." },
+  { topic: "egizi", difficulty: 1, format: "short_answer", prompt: "Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?", answer: "scriba", accept: ["lo scriba"], explanation: "Saper scrivere era un mestiere raro: dava potere e lo esentava dai lavori pesanti." },
+  { topic: "egizi", difficulty: 1, format: "short_answer", prompt: "Quale fiume rendeva fertile l'Egitto con le sue piene?", answer: "Nilo", accept: ["il Nilo"], explanation: "Senza le piene l'Egitto sarebbe stato solo deserto." },
+  { topic: "egizi", difficulty: 2, format: "short_answer", prompt: "Come si chiama la scrittura a immagini degli antichi Egizi?", answer: "geroglifici", accept: ["geroglifico", "scrittura geroglifica"], explanation: "Si decifrarono grazie alla stele di Rosetta." },
+  { topic: "egizi", difficulty: 2, format: "short_answer", prompt: "Come si chiamano le tombe monumentali a base quadrata dei faraoni?", answer: "piramidi", accept: ["piramide"], explanation: "La più grande è quella di Cheope, a Giza." },
+  { topic: "egizi", difficulty: 3, format: "short_answer", prompt: "Come si chiama la pianta con cui gli Egizi fabbricavano fogli su cui scrivere?", answer: "papiro", accept: ["il papiro"], explanation: "Cresceva sulle rive del Nilo: da lì la parola «carta» in molte lingue." },
+  { topic: "grecia", difficulty: 1, format: "short_answer", prompt: "Come si chiamava la piazza principale della città greca, dove si discuteva e si commerciava?", answer: "agorà", accept: ["agora", "l'agorà"], explanation: "Mercato e assemblea nello stesso luogo: a Roma sarà il foro." },
+  { topic: "grecia", difficulty: 2, format: "short_answer", prompt: "Quale città greca era famosa per l'addestramento militare dei suoi cittadini?", answer: "Sparta", explanation: "L'educazione del cittadino era soprattutto militare." },
+  { topic: "grecia", difficulty: 2, format: "short_answer", prompt: "In quale città greca nacque la democrazia?", answer: "Atene", explanation: "Decidevano insieme i cittadini maschi adulti: non tutti gli abitanti." },
+  { topic: "grecia", difficulty: 3, format: "short_answer", prompt: "Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?", answer: "olimpiadi", accept: ["giochi olimpici", "le olimpiadi"], explanation: "Durante i giochi le guerre si sospendevano." },
+  { topic: "roma", difficulty: 1, format: "short_answer", prompt: "Su quale fiume sorge Roma?", answer: "Tevere", accept: ["il Tevere"], explanation: "Un guado sul Tevere: da lì è nata la città." },
+  { topic: "roma", difficulty: 2, format: "short_answer", prompt: "Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?", answer: "senato", accept: ["il senato"], explanation: "Consigliava i magistrati e di fatto guidava la politica." },
+  { topic: "roma", difficulty: 2, format: "short_answer", prompt: "Come si chiamavano i due magistrati eletti ogni anno a capo della repubblica romana?", answer: "consoli", accept: ["console", "i consoli"], explanation: "Erano due, e duravano un anno solo: due freni contro il potere personale." },
+  { topic: "roma", difficulty: 3, format: "short_answer", prompt: "Chi fu il primo imperatore di Roma?", answer: "Augusto", accept: ["Ottaviano", "Ottaviano Augusto"], explanation: "Ottaviano prese il titolo di Augusto nel 27 avanti Cristo." },
+  { topic: "roma", difficulty: 3, format: "short_answer", prompt: "Come si chiamavano le strade lastricate che collegavano Roma alle province?", answer: "strade consolari", accept: ["consolari", "vie consolari"], explanation: "Servivano prima all'esercito, poi ai commerci." },
+  { topic: "medioevo", difficulty: 2, format: "short_answer", prompt: "Come si chiama il sistema in cui il re concedeva terre in cambio di fedeltà e servizio militare?", answer: "feudalesimo", accept: ["sistema feudale"], explanation: "La terra si dava in feudo: da lì il nome." },
+  { topic: "medioevo", difficulty: 2, format: "short_answer", prompt: "Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?", answer: "scriptorium", accept: ["scriptoria", "lo scriptorium"], explanation: "Senza quelle copie molti testi antichi sarebbero andati perduti." },
+  { topic: "medioevo", difficulty: 3, format: "short_answer", prompt: "Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?", answer: "comuni", accept: ["comune", "i comuni"], explanation: "Si reggevano da sé, spesso contro l'imperatore." },
+  { topic: "medioevo", difficulty: 3, format: "short_answer", prompt: "Come si chiama la peste che nel Trecento uccise circa un terzo degli europei?", answer: "peste nera", accept: ["la peste nera", "morte nera"], explanation: "Arrivò dal mar Nero sulle navi mercantili." },
+  { topic: "metodo", difficulty: 3, format: "short_answer", prompt: "Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?", answer: "incrocio delle fonti", accept: ["incrociare le fonti", "confronto delle fonti"], explanation: "Una fonte sola non basta mai: potrebbe avere interesse a raccontarla così." },
 ];
 
 function storiaBank() {
@@ -3922,6 +4144,132 @@ const BAND_EXTRA = {
     { difficulty: 4, topic: "punteggiatura", prompt: "A che cosa servono i due punti?", answer: "Ad annunciare una spiegazione o un elenco",
       distractors: ["A separare due frasi senza legame", "A chiudere il discorso diretto", "A indicare una domanda"],
       explanation: "I due punti aprono qualcosa: una spiegazione, un elenco o le parole di qualcuno." },
+    { topic: "ortografia", difficulty: 1, format: "short_answer", prompt: "Come si scrive il plurale di «amico»?", answer: "amici", explanation: "Davanti alla i il c resta duro: amici si legge con la c di casa." },
+    { topic: "ortografia", difficulty: 2, format: "short_answer", prompt: "Come si scrive il plurale di «valigia»?", answer: "valigie", explanation: "La i si conserva perché prima della g c'è una vocale." },
+    { topic: "ortografia", difficulty: 2, format: "short_answer", prompt: "Come si scrive il plurale di «spiaggia»?", answer: "spiagge", explanation: "Prima della g c'è una consonante: la i cade." },
+    { topic: "ortografia", difficulty: 2, format: "short_answer", prompt: "Come si scrive il plurale di «buccia»?", answer: "bucce", explanation: "Consonante prima della c: la i non serve più." },
+    { topic: "ortografia", difficulty: 3, format: "short_answer", prompt: "Come si scrive il plurale di «ciliegia»?", answer: "ciliegie", accept: ["ciliege"], explanation: "Vocale prima della g: la i resta." },
+    { topic: "ortografia", difficulty: 1, format: "short_answer", prompt: "Qual è il contrario di «regolare» ottenuto aggiungendo un prefisso?", answer: "irregolare", explanation: "Davanti a r il prefisso in- diventa ir-." },
+    { topic: "punteggiatura", difficulty: 1, format: "short_answer", prompt: "Come si chiama il segno che chiude una domanda?", answer: "punto interrogativo", accept: ["punto di domanda"], explanation: "Dopo di lui la frase è finita: si ricomincia con la maiuscola." },
+    { topic: "punteggiatura", difficulty: 2, format: "short_answer", prompt: "Come si chiama il segno che introduce un elenco o una spiegazione?", answer: "due punti", accept: ["i due punti"], explanation: "Aprono: quello che segue spiega quello che precede." },
+    { topic: "punteggiatura", difficulty: 2, format: "short_answer", prompt: "Come si chiama il segno che separa parti collegate ma abbastanza autonome?", answer: "punto e virgola", explanation: "Più della virgola, meno del punto." },
+    { topic: "punteggiatura", difficulty: 3, format: "short_answer", prompt: "Come si chiamano i segni che racchiudono le parole dette da un personaggio?", answer: "virgolette", explanation: "Aprono e chiudono il discorso diretto." },
+    { topic: "punteggiatura", difficulty: 2, format: "short_answer", prompt: "Come si chiama il segno che indica una pausa breve dentro la frase?", answer: "virgola", accept: ["la virgola"], explanation: "Non si mette mai fra soggetto e verbo: spezzerebbe il legame principale." },
+    { topic: "verbo", difficulty: 1, format: "short_answer", prompt: "Qual è l'infinito del verbo nella frase «io corro»?", answer: "correre", explanation: "L'infinito è la forma con cui il verbo si cerca nel vocabolario." },
+    { topic: "verbo", difficulty: 2, format: "short_answer", prompt: "A quale modo del verbo appartiene la forma «correndo»?", answer: "gerundio", explanation: "Il gerundio esprime un'azione contemporanea a un'altra." },
+    { topic: "verbo", difficulty: 2, format: "short_answer", prompt: "A quale modo appartiene la forma «corri!» rivolta a qualcuno?", answer: "imperativo", explanation: "È il modo dell'ordine, dell'invito e della richiesta." },
+    { topic: "verbo", difficulty: 2, format: "short_answer", prompt: "A quale tempo dell'indicativo appartiene «correvo»?", answer: "imperfetto", explanation: "Racconta un'azione che durava o si ripeteva nel passato." },
+    { topic: "verbo", difficulty: 3, format: "short_answer", prompt: "A quale modo appartiene «se io corressi»?", answer: "congiuntivo", explanation: "Il congiuntivo esprime possibilità, dubbio, desiderio." },
+    { topic: "verbo", difficulty: 3, format: "short_answer", prompt: "Come si chiama la parte del verbo che resta uguale in tutte le voci?", answer: "radice", explanation: "Alla radice si attaccano le desinenze: cant-o, cant-avo, cant-erò." },
+    { topic: "verbo", difficulty: 2, format: "short_answer", prompt: "Come si chiama il verbo che regge un complemento oggetto?", answer: "transitivo", explanation: "L'azione passa dal soggetto all'oggetto: transitivo vuol dire che «passa»." },
+    { topic: "analisi-grammaticale", difficulty: 1, format: "short_answer", prompt: "Come si chiama la parte del discorso che indica un'azione o uno stato?", answer: "verbo", explanation: "È il cuore della frase: senza verbo non c'è frase." },
+    { topic: "analisi-grammaticale", difficulty: 1, format: "short_answer", prompt: "Come si chiama la parte del discorso che indica una qualità del nome?", answer: "aggettivo", explanation: "Si accorda con il nome in genere e numero." },
+    { topic: "analisi-grammaticale", difficulty: 2, format: "short_answer", prompt: "Come si chiama la parte del discorso che sostituisce un nome?", answer: "pronome", explanation: "Pro-nome: al posto del nome." },
+    { topic: "analisi-grammaticale", difficulty: 2, format: "short_answer", prompt: "Come si chiama la parte del discorso che precisa un verbo, come «lentamente»?", answer: "avverbio", explanation: "Precisa come, quando, quanto, dove." },
+    { topic: "analisi-grammaticale", difficulty: 2, format: "short_answer", prompt: "Come si chiama la parolina che collega due elementi, come «e» o «ma»?", answer: "congiunzione", explanation: "Unisce parole o intere proposizioni." },
+    { topic: "analisi-grammaticale", difficulty: 3, format: "short_answer", prompt: "Come si chiama la parte invariabile che introduce un complemento, come «di» o «con»?", answer: "preposizione", explanation: "Da sola non dice niente: serve a legare." },
+    { topic: "analisi-grammaticale", difficulty: 1, format: "short_answer", prompt: "Come si chiama la parola che accompagna il nome, come «il» o «una»?", answer: "articolo", explanation: "Determinativo se la cosa è nota, indeterminativo se è generica." },
+    { topic: "analisi-logica", difficulty: 1, format: "short_answer", prompt: "Come si chiama chi compie l'azione nella frase?", answer: "soggetto", explanation: "Risponde a «chi? che cosa?» prima del verbo." },
+    { topic: "analisi-logica", difficulty: 2, format: "short_answer", prompt: "Come si chiama il complemento che risponde a «chi? che cosa?» dopo il verbo?", answer: "complemento oggetto", accept: ["oggetto"], explanation: "Lo reggono solo i verbi transitivi." },
+    { topic: "analisi-logica", difficulty: 2, format: "short_answer", prompt: "Come si chiama il complemento che risponde a «a chi? a che cosa?»?", answer: "complemento di termine", accept: ["termine"], explanation: "È il destinatario dell'azione: «do il libro a Luca»." },
+    { topic: "analisi-logica", difficulty: 2, format: "short_answer", prompt: "Come si chiama il complemento che indica dove si svolge l'azione?", answer: "complemento di luogo", accept: ["luogo"], explanation: "Stato in luogo, moto a luogo, moto da luogo, moto per luogo." },
+    { topic: "analisi-logica", difficulty: 3, format: "short_answer", prompt: "Come si chiama il complemento che indica il mezzo con cui si compie l'azione?", answer: "complemento di mezzo", accept: ["mezzo"], explanation: "«Scrivo con la penna»: la penna è il mezzo." },
+    { topic: "analisi-logica", difficulty: 3, format: "short_answer", prompt: "Come si chiama il complemento che indica chi subisce, introdotto da «da» in una frase passiva?", answer: "complemento d'agente", accept: ["agente"], explanation: "«La lettera è scritta da Luca»: Luca è l'agente." },
+    { topic: "sintassi", difficulty: 2, format: "short_answer", prompt: "Come si chiama la proposizione che regge da sola e non dipende da nessun'altra?", answer: "principale", accept: ["proposizione principale"], explanation: "Sta in piedi anche se togli tutto il resto." },
+    { topic: "sintassi", difficulty: 2, format: "short_answer", prompt: "Come si chiama la proposizione che dipende da un'altra?", answer: "subordinata", accept: ["proposizione subordinata"], explanation: "Da sola non ha senso compiuto." },
+    { topic: "sintassi", difficulty: 3, format: "short_answer", prompt: "Come si chiama il legame fra due proposizioni dello stesso livello unite da «e» o «ma»?", answer: "coordinazione", accept: ["coordinate"], explanation: "Nessuna delle due dipende dall'altra." },
+    { topic: "sintassi", difficulty: 3, format: "short_answer", prompt: "Come si chiama la subordinata introdotta da «perché» che spiega il motivo?", answer: "causale", accept: ["proposizione causale"], explanation: "Dice perché avviene quello che dice la principale." },
+    { topic: "sintassi", difficulty: 3, format: "short_answer", prompt: "Come si chiama la subordinata introdotta da «se»?", answer: "ipotetica", accept: ["condizionale"], explanation: "Pone una condizione: se succede questo, allora quello." },
+    { topic: "figure-retoriche", difficulty: 2, format: "short_answer", prompt: "Come si chiama il paragone fatto senza «come», dicendo che una cosa è un'altra?", answer: "metafora", explanation: "«Sei un leone» non usa il come: è metafora." },
+    { topic: "figure-retoriche", difficulty: 2, format: "short_answer", prompt: "Come si chiama il paragone esplicito introdotto da «come»?", answer: "similitudine", explanation: "«Forte come un leone»: il paragone è dichiarato." },
+    { topic: "figure-retoriche", difficulty: 2, format: "short_answer", prompt: "Come si chiama la figura che attribuisce qualità umane a cose o animali?", answer: "personificazione", explanation: "«Il vento sussurra»: il vento non parla, ma noi lo sentiamo così." },
+    { topic: "figure-retoriche", difficulty: 3, format: "short_answer", prompt: "Come si chiama l'esagerazione voluta, come «te l'ho detto mille volte»?", answer: "iperbole", explanation: "Non mente: esagera per farsi sentire." },
+    { topic: "figure-retoriche", difficulty: 3, format: "short_answer", prompt: "Come si chiama la ripetizione della stessa parola all'inizio di più versi?", answer: "anafora", explanation: "Batte come un tamburo e tiene insieme il testo." },
+    { topic: "figure-retoriche", difficulty: 3, format: "short_answer", prompt: "Come si chiama la parola che imita un suono, come «tic tac»?", answer: "onomatopea", explanation: "Il suono della parola è già il suo significato." },
+    { topic: "testo-narrativo", difficulty: 1, format: "short_answer", prompt: "Come si chiama chi racconta la storia?", answer: "narratore", explanation: "Può essere un personaggio o una voce esterna." },
+    { topic: "testo-narrativo", difficulty: 2, format: "short_answer", prompt: "Come si chiama il personaggio principale di una storia?", answer: "protagonista", explanation: "È quello che vuole qualcosa e si muove per ottenerlo." },
+    { topic: "testo-narrativo", difficulty: 2, format: "short_answer", prompt: "Come si chiama il personaggio che si oppone al protagonista?", answer: "antagonista", explanation: "Senza opposizione non c'è racconto, solo cronaca." },
+    { topic: "testo-narrativo", difficulty: 3, format: "short_answer", prompt: "Come si chiama il momento di massima tensione di una storia?", answer: "climax", explanation: "Da lì in poi la vicenda si scioglie." },
+    { topic: "testo-narrativo", difficulty: 3, format: "short_answer", prompt: "Come si chiama la parte finale in cui i nodi si sciolgono?", answer: "scioglimento", accept: ["epilogo"], explanation: "Risponde alle domande che il racconto aveva aperto." },
+    { topic: "testo-narrativo", difficulty: 2, format: "short_answer", prompt: "Come si chiama il momento in cui la situazione iniziale viene rotta da un fatto nuovo?", answer: "esordio", explanation: "È la scintilla che mette in moto la storia." },
+    { topic: "lessico", difficulty: 1, format: "short_answer", prompt: "Come si chiama una parola che ha lo stesso significato di un'altra?", answer: "sinonimo", explanation: "Casa e abitazione dicono quasi la stessa cosa, con toni diversi." },
+    { topic: "lessico", difficulty: 1, format: "short_answer", prompt: "Come si chiama una parola di significato opposto a un'altra?", answer: "contrario", accept: ["antonimo"], explanation: "Alto e basso, chiaro e scuro." },
+    { topic: "lessico", difficulty: 2, format: "short_answer", prompt: "Come si chiamano due parole che si scrivono uguali ma hanno significati diversi?", answer: "omonimi", accept: ["omonimo"], explanation: "«Riso» è un cereale e anche una risata." },
+    { topic: "lessico", difficulty: 2, format: "short_answer", prompt: "Come si chiama la parte iniziale che si aggiunge a una parola per cambiarne il senso?", answer: "prefisso", explanation: "In-, s-, ri-: piccole aggiunte che ribaltano il significato." },
+    { topic: "lessico", difficulty: 2, format: "short_answer", prompt: "Come si chiama la parte finale che si aggiunge a una radice per formare una parola nuova?", answer: "suffisso", explanation: "Da libro a libreria, da fiore a fiorista." },
+    { topic: "lessico", difficulty: 3, format: "short_answer", prompt: "Come si chiama il significato non letterale di una parola, come «avere le mani bucate»?", answer: "figurato", accept: ["senso figurato", "significato figurato"], explanation: "Le mani non sono bucate davvero: si spende troppo." },
+    { topic: "pensiero-linguaggio", difficulty: 2, format: "short_answer", prompt: "Come si chiama il riassunto in poche righe di un testo lungo?", answer: "sintesi", accept: ["riassunto"], explanation: "Tiene solo quello senza cui il testo non si capirebbe." },
+    { topic: "pensiero-linguaggio", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'idea principale attorno a cui ruota un testo?", answer: "tema", explanation: "Tutto il resto serve a sostenerla o a chiarirla." },
+    { topic: "pensiero-linguaggio", difficulty: 3, format: "short_answer", prompt: "Come si chiama la ragione portata per sostenere una tesi?", answer: "argomento", accept: ["argomentazione"], explanation: "Una tesi senza argomenti è solo un'opinione detta a voce alta." },
+    { topic: "pensiero-linguaggio", difficulty: 3, format: "short_answer", prompt: "Come si chiama l'affermazione che si vuole dimostrare in un testo argomentativo?", answer: "tesi", explanation: "Va enunciata chiaramente, altrimenti non si capisce cosa si sta difendendo." },
+    { topic: "pensiero-linguaggio", difficulty: 2, format: "short_answer", prompt: "Come si chiama la parola che collega due frasi indicando una conseguenza, come «quindi»?", answer: "connettivo", explanation: "I connettivi fanno vedere il ragionamento, non solo le frasi." },
+    { topic: "pensiero-linguaggio", difficulty: 3, format: "short_answer", prompt: "Come si chiama il ragionamento che parte da casi particolari per arrivare a una regola generale?", answer: "induzione", explanation: "È il ragionamento dello scienziato che osserva molti casi." },
+    { topic: "pensiero-linguaggio", difficulty: 3, format: "short_answer", prompt: "Come si chiama il ragionamento che parte da una regola generale per arrivare a un caso particolare?", answer: "deduzione", explanation: "Se la regola è vera, la conclusione è obbligata." },
+    { topic: "pensiero-linguaggio", difficulty: 2, format: "short_answer", prompt: "Come si chiama il paragrafo che apre un testo e ne annuncia il contenuto?", answer: "introduzione", explanation: "Dice al lettore dove sta per andare." },
+    { topic: "pensiero-linguaggio", difficulty: 2, format: "short_answer", prompt: "Come si chiama il paragrafo che chiude un testo tirando le somme?", answer: "conclusione", explanation: "Non aggiunge idee nuove: chiude quelle aperte." },
+    { topic: "casa-famiglia", difficulty: 1, format: "short_answer", prompt: "Come si chiama la stanza in cui si prepara da mangiare?", answer: "cucina", accept: ["la cucina"], explanation: "La stanza prende il nome dall'attività che ci si svolge." },
+    { topic: "casa-famiglia", difficulty: 1, format: "short_answer", prompt: "Come si chiama la stanza in cui si dorme?", answer: "camera", accept: ["camera da letto", "la camera"], explanation: "Camera da letto, per esteso." },
+    { topic: "casa-famiglia", difficulty: 2, format: "short_answer", prompt: "Come si chiama il fratello del padre o della madre?", answer: "zio", accept: ["lo zio"], explanation: "Zio da parte di padre o di madre: il nome è lo stesso." },
+    { topic: "casa-famiglia", difficulty: 2, format: "short_answer", prompt: "Come si chiama il figlio del figlio?", answer: "nipote", accept: ["il nipote"], explanation: "In italiano nipote vale sia per il figlio del figlio sia per il figlio del fratello." },
+    { topic: "casa-famiglia", difficulty: 2, format: "short_answer", prompt: "Come si chiama la parte esterna della casa, aperta e sporgente dal muro?", answer: "balcone", accept: ["il balcone"], explanation: "Se è a livello del terreno si chiama terrazza o giardino." },
+    { topic: "casa-famiglia", difficulty: 3, format: "short_answer", prompt: "Come si chiama l'insieme dei mobili e degli oggetti che arredano una stanza?", answer: "arredamento", explanation: "Dalla stessa radice: arredare, arredo." },
+    { topic: "scuola-studio", difficulty: 1, format: "short_answer", prompt: "Come si chiama la prova scritta che verifica quello che hai studiato?", answer: "verifica", accept: ["compito", "prova"], explanation: "Verifica, compito in classe: la sostanza è la stessa." },
+    { topic: "scuola-studio", difficulty: 1, format: "short_answer", prompt: "Come si chiama il quaderno in cui l'insegnante annota voti e presenze?", answer: "registro", accept: ["il registro"], explanation: "Oggi quasi sempre elettronico." },
+    { topic: "scuola-studio", difficulty: 2, format: "short_answer", prompt: "Come si chiama il periodo di pausa fra due ore di lezione?", answer: "intervallo", accept: ["ricreazione"], explanation: "Serve a staccare: la testa non regge cinque ore di fila." },
+    { topic: "scuola-studio", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'elenco delle materie ora per ora nella settimana?", answer: "orario", accept: ["l'orario"], explanation: "Dice cosa ti serve nello zaino ogni giorno." },
+    { topic: "scuola-studio", difficulty: 2, format: "short_answer", prompt: "Come si chiama chi frequenta una scuola per imparare?", answer: "studente", accept: ["alunno", "lo studente"], explanation: "Alunno e studente sono quasi sinonimi." },
+    { topic: "scuola-studio", difficulty: 3, format: "short_answer", prompt: "Come si chiama il documento che raccoglie i voti alla fine del quadrimestre?", answer: "pagella", accept: ["la pagella"], explanation: "Non racconta tutto, ma resta il resoconto ufficiale." },
+    { topic: "cibo-spesa", difficulty: 1, format: "short_answer", prompt: "Come si chiama il negozio in cui si compra il pane?", answer: "panetteria", accept: ["panificio", "forno"], explanation: "Dal nome del prodotto principale." },
+    { topic: "cibo-spesa", difficulty: 1, format: "short_answer", prompt: "Come si chiama il negozio in cui si compra la carne?", answer: "macelleria", accept: ["la macelleria"], explanation: "Chi ci lavora è il macellaio." },
+    { topic: "cibo-spesa", difficulty: 2, format: "short_answer", prompt: "Come si chiama il foglietto che elenca quello che devi comprare?", answer: "lista", accept: ["lista della spesa"], explanation: "Lista della spesa: si scrive prima di uscire, non al supermercato." },
+    { topic: "cibo-spesa", difficulty: 2, format: "short_answer", prompt: "Come si chiama il foglio che il negozio ti dà a prova del pagamento?", answer: "scontrino", accept: ["lo scontrino"], explanation: "Serve anche per cambiare la merce." },
+    { topic: "cibo-spesa", difficulty: 2, format: "short_answer", prompt: "Come si chiama il pasto che si fa a metà giornata?", answer: "pranzo", accept: ["il pranzo"], explanation: "Fra colazione e cena." },
+    { topic: "cibo-spesa", difficulty: 3, format: "short_answer", prompt: "Come si chiama la data oltre la quale un alimento non va più consumato?", answer: "scadenza", accept: ["data di scadenza"], explanation: "«Da consumarsi entro»: sulla confezione è sempre scritta." },
+    { topic: "tempo-meteo", difficulty: 1, format: "short_answer", prompt: "Come si chiama l'acqua che cade dalle nuvole?", answer: "pioggia", accept: ["la pioggia"], explanation: "Se cade ghiacciata si chiama grandine." },
+    { topic: "tempo-meteo", difficulty: 1, format: "short_answer", prompt: "Come si chiama la neve che cade sotto forma di chicchi di ghiaccio?", answer: "grandine", accept: ["la grandine"], explanation: "Si forma quando le correnti portano le gocce su e giù nella nuvola." },
+    { topic: "tempo-meteo", difficulty: 2, format: "short_answer", prompt: "Come si chiama lo strumento che misura la temperatura dell'aria?", answer: "termometro", explanation: "Va tenuto all'ombra, altrimenti misura il sole e non l'aria." },
+    { topic: "tempo-meteo", difficulty: 2, format: "short_answer", prompt: "Come si chiama la nebbia bassa che si forma nelle notti fredde e serene?", answer: "brina", accept: ["la brina"], explanation: "Si deposita come una polvere bianca sull'erba." },
+    { topic: "tempo-meteo", difficulty: 2, format: "short_answer", prompt: "Come si chiama la previsione del tempo per i giorni successivi?", answer: "previsione", accept: ["previsioni", "previsioni del tempo"], explanation: "Non è una certezza: è una probabilità." },
+    { topic: "tempo-meteo", difficulty: 3, format: "short_answer", prompt: "Come si chiamano le quattro parti in cui si divide l'anno secondo il clima?", answer: "stagioni", accept: ["le stagioni"], explanation: "Nascono dall'inclinazione dell'asse terrestre." },
+    { topic: "viaggi-luoghi", difficulty: 1, format: "short_answer", prompt: "Come si chiama il luogo da cui partono e arrivano i treni?", answer: "stazione", accept: ["la stazione"], explanation: "Stazione ferroviaria, per esteso." },
+    { topic: "viaggi-luoghi", difficulty: 1, format: "short_answer", prompt: "Come si chiama il luogo da cui partono e arrivano gli aerei?", answer: "aeroporto", accept: ["l'aeroporto"], explanation: "Dal greco aer, aria." },
+    { topic: "viaggi-luoghi", difficulty: 2, format: "short_answer", prompt: "Come si chiama il documento che serve per viaggiare all'estero?", answer: "passaporto", accept: ["il passaporto"], explanation: "Certifica chi sei davanti a uno stato che non è il tuo." },
+    { topic: "viaggi-luoghi", difficulty: 2, format: "short_answer", prompt: "Come si chiama il foglio che ti dà diritto a salire su un treno?", answer: "biglietto", accept: ["il biglietto"], explanation: "Va convalidato prima di salire." },
+    { topic: "viaggi-luoghi", difficulty: 2, format: "short_answer", prompt: "Come si chiama la borsa rigida in cui si mettono i vestiti per un viaggio?", answer: "valigia", accept: ["la valigia"], explanation: "Al plurale fa valigie: la i resta." },
+    { topic: "viaggi-luoghi", difficulty: 3, format: "short_answer", prompt: "Come si chiama il percorso previsto di un viaggio, tappa per tappa?", answer: "itinerario", accept: ["l'itinerario"], explanation: "Si decide prima, ma si cambia strada facendo." },
+    { topic: "corpo-salute", difficulty: 1, format: "short_answer", prompt: "Come si chiama il medico che cura i denti?", answer: "dentista", accept: ["il dentista", "odontoiatra"], explanation: "Odontoiatra è il nome tecnico." },
+    { topic: "corpo-salute", difficulty: 1, format: "short_answer", prompt: "Come si chiama il luogo in cui si comprano le medicine?", answer: "farmacia", accept: ["la farmacia"], explanation: "Molte medicine richiedono la ricetta del medico." },
+    { topic: "corpo-salute", difficulty: 2, format: "short_answer", prompt: "Come si chiama il foglio con cui il medico ti prescrive una medicina?", answer: "ricetta", accept: ["la ricetta"], explanation: "Senza, certe medicine non si possono comprare." },
+    { topic: "corpo-salute", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'aumento della temperatura del corpo quando si è malati?", answer: "febbre", accept: ["la febbre"], explanation: "È una difesa: il corpo si scalda per combattere l'infezione." },
+    { topic: "corpo-salute", difficulty: 2, format: "short_answer", prompt: "Come si chiama la visita in cui il medico ti controlla?", answer: "visita", accept: ["visita medica", "controllo"], explanation: "Visita medica, per esteso." },
+    { topic: "corpo-salute", difficulty: 3, format: "short_answer", prompt: "Come si chiama la sostanza che si inietta per rendere il corpo capace di difendersi da una malattia?", answer: "vaccino", accept: ["il vaccino"], explanation: "Insegna al corpo a riconoscere il nemico prima di incontrarlo." },
+    { topic: "emozioni-relazioni", difficulty: 1, format: "short_answer", prompt: "Come si chiama il sentimento che provi quando qualcosa ti spaventa?", answer: "paura", accept: ["la paura"], explanation: "Serve: avvisa che qualcosa non va." },
+    { topic: "emozioni-relazioni", difficulty: 2, format: "short_answer", prompt: "Come si chiama la capacità di capire quello che sente un altro?", answer: "empatia", explanation: "Non è essere d'accordo: è capire da dentro." },
+    { topic: "emozioni-relazioni", difficulty: 2, format: "short_answer", prompt: "Come si chiama il sentimento di dispiacere per un torto che hai fatto?", answer: "rimorso", accept: ["il rimorso"], explanation: "Diverso dal rimpianto, che riguarda quello che non hai fatto." },
+    { topic: "emozioni-relazioni", difficulty: 2, format: "short_answer", prompt: "Come si chiama il legame fra due persone che si vogliono bene e si fidano?", answer: "amicizia", accept: ["l'amicizia"], explanation: "Si costruisce nel tempo, non si dichiara." },
+    { topic: "emozioni-relazioni", difficulty: 3, format: "short_answer", prompt: "Come si chiama la capacità di aspettare senza arrabbiarsi?", answer: "pazienza", accept: ["la pazienza"], explanation: "Serve soprattutto quando non arriva nessun risultato." },
+    { topic: "emozioni-relazioni", difficulty: 3, format: "short_answer", prompt: "Come si chiama il gesto con cui si rinuncia a punire chi ci ha fatto un torto?", answer: "perdono", accept: ["il perdono"], explanation: "Non cancella il torto: scioglie il rancore." },
+    { topic: "digitale-media", difficulty: 1, format: "short_answer", prompt: "Come si chiama la parola segreta che protegge un account?", answer: "password", accept: ["la password", "parola d'ordine"], explanation: "Non si condivide, nemmeno con gli amici." },
+    { topic: "digitale-media", difficulty: 2, format: "short_answer", prompt: "Come si chiama il messaggio ingannevole che cerca di rubarti le credenziali?", answer: "phishing", accept: ["il phishing"], explanation: "Finge di essere la banca o la scuola: pesca con l'esca." },
+    { topic: "digitale-media", difficulty: 2, format: "short_answer", prompt: "Come si chiama il programma che naviga fra i siti internet?", answer: "browser", accept: ["il browser"], explanation: "Chiede la pagina al server e la mostra." },
+    { topic: "digitale-media", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'indirizzo che identifica una pagina web?", answer: "URL", accept: ["url", "indirizzo web"], explanation: "È l'indirizzo esatto della risorsa, non solo del sito." },
+    { topic: "digitale-media", difficulty: 3, format: "short_answer", prompt: "Come si chiama la copia di sicurezza dei propri dati?", answer: "backup", accept: ["il backup", "copia di sicurezza"], explanation: "Un file esiste davvero solo se ne esistono due copie." },
+    { topic: "digitale-media", difficulty: 3, format: "short_answer", prompt: "Come si chiama il comportamento aggressivo ripetuto contro qualcuno online?", answer: "cyberbullismo", accept: ["il cyberbullismo"], explanation: "Si combatte segnalando e salvando le prove, non rispondendo." },
+    { topic: "lavoro-comunita", difficulty: 1, format: "short_answer", prompt: "Come si chiama chi guida un autobus?", answer: "autista", accept: ["l'autista", "conducente"], explanation: "Dal francese: chi conduce il mezzo." },
+    { topic: "lavoro-comunita", difficulty: 1, format: "short_answer", prompt: "Come si chiama chi spegne gli incendi?", answer: "pompiere", accept: ["vigile del fuoco", "il pompiere"], explanation: "Vigile del fuoco è il nome ufficiale." },
+    { topic: "lavoro-comunita", difficulty: 2, format: "short_answer", prompt: "Come si chiama chi è a capo di un comune?", answer: "sindaco", accept: ["il sindaco"], explanation: "Lo eleggono i cittadini del comune." },
+    { topic: "lavoro-comunita", difficulty: 2, format: "short_answer", prompt: "Come si chiama il denaro che si versa allo stato per pagare i servizi pubblici?", answer: "tasse", accept: ["le tasse", "imposte"], explanation: "Con quelle si pagano scuola, ospedali e strade." },
+    { topic: "lavoro-comunita", difficulty: 3, format: "short_answer", prompt: "Come si chiama il lavoro fatto gratuitamente per gli altri?", answer: "volontariato", accept: ["il volontariato"], explanation: "Nessun compenso, e proprio per questo vale." },
+    { topic: "sport-tempo-libero", difficulty: 1, format: "short_answer", prompt: "Come si chiama chi fa rispettare le regole durante una partita?", answer: "arbitro", accept: ["l'arbitro"], explanation: "Le sue decisioni si discutono dopo, non durante." },
+    { topic: "sport-tempo-libero", difficulty: 1, format: "short_answer", prompt: "Come si chiama lo sport che si gioca in cinque per squadra con un canestro?", answer: "pallacanestro", accept: ["basket", "la pallacanestro"], explanation: "Basket è il nome inglese." },
+    { topic: "sport-tempo-libero", difficulty: 2, format: "short_answer", prompt: "Come si chiama la sessione in cui si prova e si migliora prima della gara?", answer: "allenamento", accept: ["l'allenamento"], explanation: "Il risultato si costruisce lì, non il giorno della gara." },
+    { topic: "sport-tempo-libero", difficulty: 2, format: "short_answer", prompt: "Come si chiama chi guida e prepara una squadra?", answer: "allenatore", accept: ["l'allenatore"], explanation: "Sceglie la formazione e la strategia." },
+    { topic: "sport-tempo-libero", difficulty: 3, format: "short_answer", prompt: "Come si chiama il risultato di una partita finita in parità?", answer: "pareggio", accept: ["il pareggio"], explanation: "Nessuna delle due squadre vince." },
+    { topic: "natura-ambiente", difficulty: 1, format: "short_answer", prompt: "Come si chiama un grande bosco fitto di alberi?", answer: "foresta", accept: ["la foresta"], explanation: "Più estesa e fitta di un bosco." },
+    { topic: "natura-ambiente", difficulty: 2, format: "short_answer", prompt: "Come si chiama la separazione dei rifiuti per tipo di materiale?", answer: "raccolta differenziata", accept: ["differenziata"], explanation: "Senza separare, riciclare è quasi impossibile." },
+    { topic: "natura-ambiente", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'aumento della temperatura media del pianeta?", answer: "riscaldamento globale", accept: ["riscaldamento"], explanation: "Lo causano soprattutto i gas serra prodotti bruciando combustibili." },
+    { topic: "natura-ambiente", difficulty: 3, format: "short_answer", prompt: "Come si chiama la varietà di specie viventi in un ambiente?", answer: "biodiversità", accept: ["biodiversita", "la biodiversità"], explanation: "Più è alta, più l'ambiente regge gli imprevisti." },
+    { topic: "natura-ambiente", difficulty: 3, format: "short_answer", prompt: "Come si chiama il taglio massiccio degli alberi di una foresta?", answer: "deforestazione", accept: ["la deforestazione"], explanation: "Toglie insieme ossigeno, suolo e habitat." },
   ],
   "inglese": [
     { difficulty: 4, topic: "false-friends", prompt: "Che cosa significa «actually»?", answer: "In realtà",
@@ -3958,6 +4306,24 @@ for (const [subject, extra] of Object.entries(BAND_EXTRA)) {
     const id = `${subject}-banda-${q.topic}-${index}`;
     // Anche qui la risposta libera: senza, un item con `format: "numeric_input"`
     // arriverebbe a `multipleChoiceItem` senza distrattori e romperebbe il bake.
+    if (q.format === "short_answer") {
+      // Risposta libera a testo. `accept` elenca le forme che valgono quanto
+      // la risposta principale: senza, un bambino che scrive «to check»
+      // invece di «check» viene segnato sbagliato pur avendo capito.
+      bank.items.push({
+        id,
+        subject,
+        topic: q.topic,
+        difficulty: q.difficulty,
+        format: "short_answer",
+        prompt: q.prompt,
+        options: [],
+        answer: String(q.answer),
+        accept: q.accept ?? [],
+        explanation: q.explanation,
+      });
+      return;
+    }
     if (q.format === "numeric_input") {
       bank.items.push({
         id,
@@ -3988,6 +4354,86 @@ for (const [subject, extra] of Object.entries(BAND_EXTRA)) {
       ),
     );
   });
+}
+
+const QUOTA_RISPOSTA_LIBERA = 0.3;
+
+// --- Risposta libera: conversione dei quesiti a risposta di parola ----------
+//
+// Solo domande la cui formulazione determina UNA risposta sola. «Come si dice
+// in inglese: controllare?» ha una risposta e basta; «Quale parola corrisponde
+// a famiglia?» ne ha dieci, e senza le opzioni sarebbe una trappola: la
+// risposta libera deve misurare quello che il bambino sa, non indovinare la
+// parola che avevo in mente io.
+const PROMPT_A_PAROLA = {
+  inglese: [/^Come si dice in inglese/i, /^Cosa significa in italiano/i],
+  latino: [
+    /^Qual è il nominativo plurale di/i, /^Qual è il genitivo singolare di/i,
+    /^Qual è l.accusativo/i, /^Qual è il dativo/i, /^Qual è l.ablativo/i,
+  ],
+  italiano: [/^Come si scrive il plurale di/i],
+};
+
+for (const [name, bank] of Object.entries(BANKS)) {
+  const materia = name.split("-")[0];
+  const schemi = PROMPT_A_PAROLA[materia];
+  if (!schemi) continue;
+  const totale = bank.items.length;
+  const gia = bank.items.filter((i) => i.format !== "multiple_choice").length;
+  let mancanti = Math.floor(totale * QUOTA_RISPOSTA_LIBERA) - gia;
+  if (mancanti <= 0) continue;
+  const candidati = bank.items
+    .filter((i) =>
+      i.format === "multiple_choice" &&
+      schemi.some((r) => r.test(i.prompt)) &&
+      !/\s/.test(String(i.answer).trim()) &&
+      String(i.answer).length <= 20)
+    .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  if (!candidati.length) continue;
+  const passo = Math.max(1, Math.floor(candidati.length / mancanti));
+  for (let k = 0; k < candidati.length && mancanti > 0; k += passo) {
+    const item = candidati[k];
+    item.format = "short_answer";
+    // L'infinito inglese si scrive in due modi: valgono entrambi.
+    if (materia === "inglese" && /^Come si dice in inglese/i.test(item.prompt)) {
+      item.accept = ["to " + item.answer];
+    }
+    item.options = [];
+    mancanti--;
+  }
+}
+
+// --- Risposta libera: conversione dei quesiti a risposta numerica ------------
+//
+// Decisione vincolante del 3 agosto: ogni banco al 20-30% di risposta NON a
+// scelta multipla. Una domanda a quattro opzioni si risolve per esclusione
+// senza sapere niente; scrivere il numero no.
+//
+// Non serve riscrivere gli item: quelli la cui risposta e' gia' un numero
+// diventano `numeric_input` togliendo le opzioni. La scelta e' deterministica
+// (ordinamento per id e passo costante), cosi' due bake danno lo stesso banco.
+const NUMERICA = /^-?\d+([.,]\d+)?$/;
+
+for (const [name, bank] of Object.entries(BANKS)) {
+  const totale = bank.items.length;
+  const gia = bank.items.filter((i) => i.format !== "multiple_choice").length;
+  const bersaglio = Math.floor(totale * QUOTA_RISPOSTA_LIBERA);
+  let mancanti = bersaglio - gia;
+  if (mancanti <= 0) continue;
+  const candidati = bank.items
+    .filter((i) => i.format === "multiple_choice" && NUMERICA.test(String(i.answer).trim()))
+    .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  if (!candidati.length) continue;
+  // Passo costante sull'elenco ordinato: se i candidati sono piu' del
+  // necessario si prendono distribuiti, non i primi in fila — cosi' non si
+  // svuota di scelta multipla un solo argomento.
+  const passo = Math.max(1, Math.floor(candidati.length / mancanti));
+  for (let k = 0; k < candidati.length && mancanti > 0; k += passo) {
+    const item = candidati[k];
+    item.format = "numeric_input";
+    item.options = [];
+    mancanti--;
+  }
 }
 
 await mkdir(outDir, { recursive: true });

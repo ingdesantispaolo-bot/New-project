@@ -1,6 +1,6 @@
 # Eli Quest — Piano di lavoro
 
-Aggiornato al 3 agosto 2026.
+Aggiornato al 4 agosto 2026.
 
 **Questo file contiene solo lavoro da fare.** Niente resoconti: quelli stanno nel
 *Registro dei lavori* di [docs/RELEASE_CANDIDATE.md](docs/RELEASE_CANDIDATE.md).
@@ -21,15 +21,22 @@ Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 esercizi per ogni argomento**, e `topic_density_audit` non misura più una
 distanza: è un cricchetto secco.
 
-| materia | item | materia | item |
-|---|---:|---|---:|
-| inglese | 1109 | geografia | 162 |
-| italiano | 461 | storia | 135 |
-| matematica | 284 | elettronica | 130 |
-| coding | 195 | fisica · musica · scienze | 120 |
-| latino | 181 | logica | 116 |
+**Anche la forbice della risposta libera è raggiunta.** Il 3 agosto undici
+banchi su dodici erano al cento per cento di scelta multipla — cioè risolvibili
+per esclusione senza sapere niente. Oggi ogni banco sta fra il 20% e il 30% di
+domande senza opzioni da cui copiare, e `free_answer_audit` lo tiene.
 
-**3133 item in totale**, e nessun argomento sotto soglia.
+| materia | item | libera | materia | item | libera |
+|---|---:|---:|---|---:|---:|
+| inglese | 1109 | 30% | geografia | 199 | 20% |
+| italiano | 587 | 22% | storia | 167 | 20% |
+| matematica | 284 | 30% | elettronica | 159 | 20% |
+| latino | 212 | 21% | fisica | 157 | 23% |
+| coding | 195 | 30% | scienze | 155 | 21% |
+| musica | 132 | 21% | logica | 116 | 29% |
+
+**3472 item in totale**, nessun argomento sotto quindici, nessun banco fuori
+forbice.
 
 Quello che manca adesso non si scrive: **si gioca.** Nessun bambino ha mai
 provato niente di tutto questo, e nessuna delle misure qui dentro dice se è
@@ -303,9 +310,15 @@ Una proposta che le contraddice va discussa, non implementata.
 9. **Almeno 15 item per argomento** (3 agosto 2026). Sotto quella soglia il
    ripasso spaziato dichiara consolidato ciò che è solo memoria di una schermata.
    Tenuto da `topic_density_audit`.
-10. **Ogni banco al 20–30% di risposta non a scelta multipla.** Una domanda a
-   quattro opzioni si risolve per esclusione senza sapere niente; oggi undici
-   materie su dodici sono al 100% di scelta multipla nei banchi.
+10. **Ogni banco al 20–30% di risposta non a scelta multipla** (4 agosto 2026).
+   Una domanda a quattro opzioni si risolve per esclusione senza sapere niente;
+   scrivere «rifrazione» in un campo vuoto no. Due formati liberi: `numeric_input`
+   per i numeri, `short_answer` per le parole — quest'ultimo accetta le varianti
+   dichiarate in `accept`, perché segnare sbagliata una risposta giusta è il modo
+   più veloce per far smettere di provare. Il tetto del 30% dice l'altra metà:
+   oltre, il banco diventa un dettato, e le domande di ragionamento — dove la
+   risposta è una frase — restano giustamente a scelta multipla.
+   Tenuto da `free_answer_audit`.
 
 ### Guard-rail narrativi (i tre che si rompono per primi)
 

@@ -8,16 +8,14 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"controllare\"?",
-			"options": [
-				"check",
-				"verify",
-				"repair",
-				"save"
-			],
+			"options": [],
 			"answer": "check",
-			"explanation": "\"check\": controllare."
+			"explanation": "\"check\": controllare.",
+			"accept": [
+				"to check"
+			]
 		},
 		{
 			"id": "inglese-actions-1-press",
@@ -40,16 +38,14 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"aprire\"?",
-			"options": [
-				"send",
-				"mark",
-				"open",
-				"scan"
-			],
+			"options": [],
 			"answer": "open",
-			"explanation": "\"open\": aprire."
+			"explanation": "\"open\": aprire.",
+			"accept": [
+				"to open"
+			]
 		},
 		{
 			"id": "inglese-actions-3-close",
@@ -88,14 +84,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"remove\"?",
-			"options": [
-				"accendere",
-				"rimuovere",
-				"aspettare",
-				"prevenire"
-			],
+			"options": [],
 			"answer": "rimuovere",
 			"explanation": "\"remove\": rimuovere."
 		},
@@ -120,14 +111,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"choose\"?",
-			"options": [
-				"chiudere",
-				"proteggere",
-				"rimuovere",
-				"scegliere"
-			],
+			"options": [],
 			"answer": "scegliere",
 			"explanation": "\"choose\": scegliere."
 		},
@@ -152,14 +138,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"turn on\"?",
-			"options": [
-				"prevedere",
-				"accendere",
-				"prevenire",
-				"collegare"
-			],
+			"options": [],
 			"answer": "accendere",
 			"explanation": "\"turn on\": accendere."
 		},
@@ -184,14 +165,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"write down\"?",
-			"options": [
-				"regolare",
-				"riparare",
-				"spegnere",
-				"annotare"
-			],
+			"options": [],
 			"answer": "annotare",
 			"explanation": "\"write down\": annotare."
 		},
@@ -216,14 +192,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"select\"?",
-			"options": [
-				"identificare",
-				"selezionare",
-				"scansionare",
-				"raccogliere"
-			],
+			"options": [],
 			"answer": "selezionare",
 			"explanation": "\"select\": selezionare."
 		},
@@ -248,14 +219,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"disconnect\"?",
-			"options": [
-				"descrivere",
-				"proteggere",
-				"confermare",
-				"scollegare"
-			],
+			"options": [],
 			"answer": "scollegare",
 			"explanation": "\"disconnect\": scollegare."
 		},
@@ -280,14 +246,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"compare\"?",
-			"options": [
-				"ispezionare",
-				"confrontare",
-				"ricaricare",
-				"proteggere"
-			],
+			"options": [],
 			"answer": "confrontare",
 			"explanation": "\"compare\": confrontare."
 		},
@@ -344,14 +305,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"protect\"?",
-			"options": [
-				"ricaricare",
-				"proteggere",
-				"collegare",
-				"confermare"
-			],
+			"options": [],
 			"answer": "proteggere",
 			"explanation": "\"protect\": proteggere."
 		},
@@ -376,14 +332,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"repair\"?",
-			"options": [
-				"annotare",
-				"spegnere",
-				"avvisare",
-				"riparare"
-			],
+			"options": [],
 			"answer": "riparare",
 			"explanation": "\"repair\": riparare."
 		},
@@ -408,14 +359,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"adjust\"?",
-			"options": [
-				"chiudere",
-				"regolare",
-				"misurare",
-				"avvisare"
-			],
+			"options": [],
 			"answer": "regolare",
 			"explanation": "\"adjust\": regolare."
 		},
@@ -440,14 +386,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"inspect\"?",
-			"options": [
-				"aggiornare",
-				"raccogliere",
-				"scansionare",
-				"ispezionare"
-			],
+			"options": [],
 			"answer": "ispezionare",
 			"explanation": "\"inspect\": ispezionare."
 		},
@@ -472,14 +413,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"warn\"?",
-			"options": [
-				"riparare",
-				"avvisare",
-				"misurare",
-				"prendere"
-			],
+			"options": [],
 			"answer": "avvisare",
 			"explanation": "\"warn\": avvisare."
 		},
@@ -488,16 +424,14 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"raccogliere\"?",
-			"options": [
-				"restore",
-				"explain",
-				"collect",
-				"prevent"
-			],
+			"options": [],
 			"answer": "collect",
-			"explanation": "\"collect\": raccogliere."
+			"explanation": "\"collect\": raccogliere.",
+			"accept": [
+				"to collect"
+			]
 		},
 		{
 			"id": "inglese-actions-31-store",
@@ -536,14 +470,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"send\"?",
-			"options": [
-				"rilevare",
-				"inviare",
-				"bloccare",
-				"prendere"
-			],
+			"options": [],
 			"answer": "inviare",
 			"explanation": "\"send\": inviare."
 		},
@@ -568,14 +497,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"lock\"?",
-			"options": [
-				"rilevare",
-				"annotare",
-				"regolare",
-				"bloccare"
-			],
+			"options": [],
 			"answer": "bloccare",
 			"explanation": "\"lock\": bloccare."
 		},
@@ -600,14 +524,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"explain\"?",
-			"options": [
-				"regolare",
-				"spiegare",
-				"inserire",
-				"riparare"
-			],
+			"options": [],
 			"answer": "spiegare",
 			"explanation": "\"explain\": spiegare."
 		},
@@ -632,14 +551,9 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"summarize\"?",
-			"options": [
-				"confermare",
-				"registrare",
-				"verificare",
-				"riassumere"
-			],
+			"options": [],
 			"answer": "riassumere",
 			"explanation": "\"summarize\": riassumere."
 		},
@@ -648,16 +562,14 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"prevedere\"?",
-			"options": [
-				"predict",
-				"restore",
-				"observe",
-				"explain"
-			],
+			"options": [],
 			"answer": "predict",
-			"explanation": "\"predict\": prevedere."
+			"explanation": "\"predict\": prevedere.",
+			"accept": [
+				"to predict"
+			]
 		},
 		{
 			"id": "inglese-actions-41-estimate",
@@ -680,16 +592,14 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"osservare\"?",
-			"options": [
-				"protect",
-				"compare",
-				"observe",
-				"restore"
-			],
+			"options": [],
 			"answer": "observe",
-			"explanation": "\"observe\": osservare."
+			"explanation": "\"observe\": osservare.",
+			"accept": [
+				"to observe"
+			]
 		},
 		{
 			"id": "inglese-actions-43-install",
@@ -712,16 +622,14 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"aggiornare\"?",
-			"options": [
-				"update",
-				"observe",
-				"unlock",
-				"turn on"
-			],
+			"options": [],
 			"answer": "update",
-			"explanation": "\"update\": aggiornare."
+			"explanation": "\"update\": aggiornare.",
+			"accept": [
+				"to update"
+			]
 		},
 		{
 			"id": "inglese-actions-45-recharge",
@@ -744,16 +652,14 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"verificare\"?",
-			"options": [
-				"press",
-				"update",
-				"verify",
-				"adjust"
-			],
+			"options": [],
 			"answer": "verify",
-			"explanation": "\"verify\": verificare."
+			"explanation": "\"verify\": verificare.",
+			"accept": [
+				"to verify"
+			]
 		},
 		{
 			"id": "inglese-actions-47-detect",
@@ -776,16 +682,14 @@
 			"subject": "inglese",
 			"topic": "actions",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"prevenire\"?",
-			"options": [
-				"prevent",
-				"compare",
-				"turn on",
-				"confirm"
-			],
+			"options": [],
 			"answer": "prevent",
-			"explanation": "\"prevent\": prevenire."
+			"explanation": "\"prevent\": prevenire.",
+			"accept": [
+				"to prevent"
+			]
 		},
 		{
 			"id": "inglese-actions-49-restore",
@@ -824,14 +728,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"key\"?",
-			"options": [
-				"valvola",
-				"cassa",
-				"modulo",
-				"chiave"
-			],
+			"options": [],
 			"answer": "chiave",
 			"explanation": "\"key\": chiave."
 		},
@@ -872,16 +771,14 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"scatola\"?",
-			"options": [
-				"pump",
-				"door",
-				"box",
-				"map"
-			],
+			"options": [],
 			"answer": "box",
-			"explanation": "\"box\": scatola."
+			"explanation": "\"box\": scatola.",
+			"accept": [
+				"to box"
+			]
 		},
 		{
 			"id": "inglese-objects-55-desk",
@@ -920,14 +817,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"screen\"?",
-			"options": [
-				"scatola",
-				"schermo",
-				"sensore",
-				"domanda"
-			],
+			"options": [],
 			"answer": "schermo",
 			"explanation": "\"screen\": schermo."
 		},
@@ -952,14 +844,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"map\"?",
-			"options": [
-				"porta",
-				"nucleo",
-				"domanda",
-				"mappa"
-			],
+			"options": [],
 			"answer": "mappa",
 			"explanation": "\"map\": mappa."
 		},
@@ -984,14 +871,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"switch\"?",
-			"options": [
-				"nota / appunto",
-				"interruttore",
-				"scheda / carta",
-				"istruzione"
-			],
+			"options": [],
 			"answer": "interruttore",
 			"explanation": "\"switch\": interruttore."
 		},
@@ -1016,14 +898,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"battery\"?",
-			"options": [
-				"cassetto",
-				"pannello",
-				"sportello",
-				"batteria"
-			],
+			"options": [],
 			"answer": "batteria",
 			"explanation": "\"battery\": batteria."
 		},
@@ -1048,14 +925,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"device\"?",
-			"options": [
-				"diagramma",
-				"dispositivo",
-				"messaggio",
-				"sportello"
-			],
+			"options": [],
 			"answer": "dispositivo",
 			"explanation": "\"device\": dispositivo."
 		},
@@ -1080,14 +952,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"valve\"?",
-			"options": [
-				"esempio",
-				"domanda",
-				"schermo",
-				"valvola"
-			],
+			"options": [],
 			"answer": "valvola",
 			"explanation": "\"valve\": valvola."
 		},
@@ -1112,14 +979,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"source\"?",
-			"options": [
-				"nucleo",
-				"fonte",
-				"modulo",
-				"cassa"
-			],
+			"options": [],
 			"answer": "fonte",
 			"explanation": "\"source\": fonte."
 		},
@@ -1144,14 +1006,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"message\"?",
-			"options": [
-				"diagramma",
-				"risultato",
-				"tesserino",
-				"messaggio"
-			],
+			"options": [],
 			"answer": "messaggio",
 			"explanation": "\"message\": messaggio."
 		},
@@ -1176,14 +1033,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"panel\"?",
-			"options": [
-				"segnale",
-				"pannello",
-				"cassetto",
-				"registro"
-			],
+			"options": [],
 			"answer": "pannello",
 			"explanation": "\"panel\": pannello."
 		},
@@ -1208,14 +1060,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"pump\"?",
-			"options": [
-				"cassa",
-				"mappa",
-				"cavo",
-				"pompa"
-			],
+			"options": [],
 			"answer": "pompa",
 			"explanation": "\"pump\": pompa."
 		},
@@ -1240,14 +1087,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"route\"?",
-			"options": [
-				"risposta",
-				"percorso",
-				"registro",
-				"cassetto"
-			],
+			"options": [],
 			"answer": "percorso",
 			"explanation": "\"route\": percorso."
 		},
@@ -1272,14 +1114,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"instruction\"?",
-			"options": [
-				"diagramma",
-				"strumento",
-				"tesserino",
-				"istruzione"
-			],
+			"options": [],
 			"answer": "istruzione",
 			"explanation": "\"instruction\": istruzione."
 		},
@@ -1304,14 +1141,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"answer\"?",
-			"options": [
-				"segnale",
-				"risposta",
-				"pulsante",
-				"messaggio"
-			],
+			"options": [],
 			"answer": "risposta",
 			"explanation": "\"answer\": risposta."
 		},
@@ -1336,14 +1168,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"diagram\"?",
-			"options": [
-				"cartella",
-				"tastiera",
-				"batteria",
-				"diagramma"
-			],
+			"options": [],
 			"answer": "diagramma",
 			"explanation": "\"diagram\": diagramma."
 		},
@@ -1368,14 +1195,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"graph\"?",
-			"options": [
-				"domanda",
-				"grafico",
-				"valvola",
-				"schermo"
-			],
+			"options": [],
 			"answer": "grafico",
 			"explanation": "\"graph\": grafico."
 		},
@@ -1416,16 +1238,14 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"cartella\"?",
-			"options": [
-				"folder",
-				"device",
-				"supply",
-				"screen"
-			],
+			"options": [],
 			"answer": "folder",
-			"explanation": "\"folder\": cartella."
+			"explanation": "\"folder\": cartella.",
+			"accept": [
+				"to folder"
+			]
 		},
 		{
 			"id": "inglese-objects-89-supply",
@@ -1480,16 +1300,14 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"risultato\"?",
-			"options": [
-				"result",
-				"notice",
-				"answer",
-				"device"
-			],
+			"options": [],
 			"answer": "result",
-			"explanation": "\"result\": risultato."
+			"explanation": "\"result\": risultato.",
+			"accept": [
+				"to result"
+			]
 		},
 		{
 			"id": "inglese-objects-93-warning",
@@ -1512,16 +1330,14 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"avviso scritto\"?",
-			"options": [
-				"module",
-				"switch",
-				"notice",
-				"folder"
-			],
+			"options": [],
 			"answer": "notice",
-			"explanation": "\"notice\": avviso scritto."
+			"explanation": "\"notice\": avviso scritto.",
+			"accept": [
+				"to notice"
+			]
 		},
 		{
 			"id": "inglese-objects-95-equipment",
@@ -1544,16 +1360,14 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"scorciatoia\"?",
-			"options": [
-				"shortcut",
-				"equipment",
-				"folder",
-				"battery"
-			],
+			"options": [],
 			"answer": "shortcut",
-			"explanation": "\"shortcut\": scorciatoia."
+			"explanation": "\"shortcut\": scorciatoia.",
+			"accept": [
+				"to shortcut"
+			]
 		},
 		{
 			"id": "inglese-objects-97-backup",
@@ -1592,14 +1406,9 @@
 			"subject": "inglese",
 			"topic": "objects",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"surface\"?",
-			"options": [
-				"diagramma",
-				"sportello",
-				"strumento",
-				"superficie"
-			],
+			"options": [],
 			"answer": "superficie",
 			"explanation": "\"surface\": superficie."
 		},
@@ -1640,16 +1449,14 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"attento / prudente\"?",
-			"options": [
-				"unstable",
-				"fragile",
-				"careful",
-				"secure"
-			],
+			"options": [],
 			"answer": "careful",
-			"explanation": "\"careful\": attento / prudente."
+			"explanation": "\"careful\": attento / prudente.",
+			"accept": [
+				"to careful"
+			]
 		},
 		{
 			"id": "inglese-safety-103-danger",
@@ -1672,16 +1479,14 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"rischio\"?",
-			"options": [
-				"risk",
-				"helmet",
-				"mask",
-				"gloves"
-			],
+			"options": [],
 			"answer": "risk",
-			"explanation": "\"risk\": rischio."
+			"explanation": "\"risk\": rischio.",
+			"accept": [
+				"to risk"
+			]
 		},
 		{
 			"id": "inglese-safety-105-damage",
@@ -1704,16 +1509,14 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"emergenza\"?",
-			"options": [
-				"hazard",
-				"danger",
-				"emergency",
-				"failure"
-			],
+			"options": [],
 			"answer": "emergency",
-			"explanation": "\"emergency\": emergenza."
+			"explanation": "\"emergency\": emergenza.",
+			"accept": [
+				"to emergency"
+			]
 		},
 		{
 			"id": "inglese-safety-107-gloves",
@@ -1736,16 +1539,14 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"allerta\"?",
-			"options": [
-				"alert",
-				"danger",
-				"helmet",
-				"hazard"
-			],
+			"options": [],
 			"answer": "alert",
-			"explanation": "\"alert\": allerta."
+			"explanation": "\"alert\": allerta.",
+			"accept": [
+				"to alert"
+			]
 		},
 		{
 			"id": "inglese-safety-109-hazard",
@@ -1784,14 +1585,9 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"fragile\"?",
-			"options": [
-				"sicuro",
-				"rotto",
-				"stabile",
-				"fragile"
-			],
+			"options": [],
 			"answer": "fragile",
 			"explanation": "\"fragile\": fragile."
 		},
@@ -1816,14 +1612,9 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"unstable\"?",
-			"options": [
-				"protettivo",
-				"instabile",
-				"allentato",
-				"non sicuro"
-			],
+			"options": [],
 			"answer": "instabile",
 			"explanation": "\"unstable\": instabile."
 		},
@@ -1848,14 +1639,9 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"overheated\"?",
-			"options": [
-				"sicuro / protetto",
-				"danneggiato",
-				"allentato",
-				"surriscaldato"
-			],
+			"options": [],
 			"answer": "surriscaldato",
 			"explanation": "\"overheated\": surriscaldato."
 		},
@@ -1880,14 +1666,9 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"helmet\"?",
-			"options": [
-				"allerta",
-				"casco",
-				"danno",
-				"maschera"
-			],
+			"options": [],
 			"answer": "casco",
 			"explanation": "\"helmet\": casco."
 		},
@@ -1928,16 +1709,14 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"danneggiato\"?",
-			"options": [
-				"damaged",
-				"careful",
-				"blocked",
-				"stable"
-			],
+			"options": [],
 			"answer": "damaged",
-			"explanation": "\"damaged\": danneggiato."
+			"explanation": "\"damaged\": danneggiato.",
+			"accept": [
+				"to damaged"
+			]
 		},
 		{
 			"id": "inglese-safety-121-spare",
@@ -1976,14 +1755,9 @@
 			"subject": "inglese",
 			"topic": "safety",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"loose\"?",
-			"options": [
-				"di ricambio",
-				"stabile",
-				"bloccato",
-				"allentato"
-			],
+			"options": [],
 			"answer": "allentato",
 			"explanation": "\"loose\": allentato."
 		},
@@ -2024,16 +1798,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"numero\"?",
-			"options": [
-				"average",
-				"cause",
-				"number",
-				"pressure"
-			],
+			"options": [],
 			"answer": "number",
-			"explanation": "\"number\": numero."
+			"explanation": "\"number\": numero.",
+			"accept": [
+				"to number"
+			]
 		},
 		{
 			"id": "inglese-data-science-127-value",
@@ -2056,16 +1828,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"totale\"?",
-			"options": [
-				"total",
-				"range",
-				"number",
-				"sample"
-			],
+			"options": [],
 			"answer": "total",
-			"explanation": "\"total\": totale."
+			"explanation": "\"total\": totale.",
+			"accept": [
+				"to total"
+			]
 		},
 		{
 			"id": "inglese-data-science-129-range",
@@ -2088,16 +1858,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"schema / andamento\"?",
-			"options": [
-				"fraction",
-				"value",
-				"pattern",
-				"decrease"
-			],
+			"options": [],
 			"answer": "pattern",
-			"explanation": "\"pattern\": schema / andamento."
+			"explanation": "\"pattern\": schema / andamento.",
+			"accept": [
+				"to pattern"
+			]
 		},
 		{
 			"id": "inglese-data-science-131-above",
@@ -2120,16 +1888,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"sotto, più in basso in un elenco\"?",
-			"options": [
-				"below",
-				"across",
-				"inside",
-				"above"
-			],
+			"options": [],
 			"answer": "below",
-			"explanation": "below indica una posizione più in basso in un elenco, in una tabella o su una pagina: see the table below. Per «coperto da qualcosa» si usa invece under."
+			"explanation": "below indica una posizione più in basso in un elenco, in una tabella o su una pagina: see the table below. Per «coperto da qualcosa» si usa invece under.",
+			"accept": [
+				"to below"
+			]
 		},
 		{
 			"id": "inglese-data-science-133-between",
@@ -2168,14 +1934,9 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"outside\"?",
-			"options": [
-				"sopra / oltre",
-				"sopra",
-				"dentro",
-				"fuori"
-			],
+			"options": [],
 			"answer": "fuori",
 			"explanation": "\"outside\": fuori."
 		},
@@ -2216,16 +1977,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"attraverso un passaggio\"?",
-			"options": [
-				"across",
-				"outside",
-				"through",
-				"inside"
-			],
+			"options": [],
 			"answer": "through",
-			"explanation": "\"through\": attraverso un passaggio."
+			"explanation": "\"through\": attraverso un passaggio.",
+			"accept": [
+				"to through"
+			]
 		},
 		{
 			"id": "inglese-data-science-139-across",
@@ -2264,14 +2023,9 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"reliable\"?",
-			"options": [
-				"più alto",
-				"affidabile",
-				"diverso",
-				"più basso"
-			],
+			"options": [],
 			"answer": "affidabile",
 			"explanation": "\"reliable\": affidabile."
 		},
@@ -2296,14 +2050,9 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"exact\"?",
-			"options": [
-				"simile",
-				"diverso",
-				"casuale",
-				"esatto"
-			],
+			"options": [],
 			"answer": "esatto",
 			"explanation": "\"exact\": esatto."
 		},
@@ -2328,14 +2077,9 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"different\"?",
-			"options": [
-				"più alto",
-				"diverso",
-				"probabile",
-				"casuale"
-			],
+			"options": [],
 			"answer": "diverso",
 			"explanation": "\"different\": diverso."
 		},
@@ -2376,16 +2120,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"abbastanza / sufficiente\"?",
-			"options": [
-				"enough",
-				"actually",
-				"roughly",
-				"either"
-			],
+			"options": [],
 			"answer": "enough",
-			"explanation": "\"enough\": abbastanza / sufficiente."
+			"explanation": "\"enough\": abbastanza / sufficiente.",
+			"accept": [
+				"to enough"
+			]
 		},
 		{
 			"id": "inglese-data-science-149-few",
@@ -2408,16 +2150,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"diversi / parecchi\"?",
-			"options": [
-				"higher",
-				"accurate",
-				"several",
-				"likely"
-			],
+			"options": [],
 			"answer": "several",
-			"explanation": "\"several\": diversi / parecchi."
+			"explanation": "\"several\": diversi / parecchi.",
+			"accept": [
+				"to several"
+			]
 		},
 		{
 			"id": "inglese-data-science-151-temperature",
@@ -2440,16 +2180,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"pressione\"?",
-			"options": [
-				"pressure",
-				"decrease",
-				"variable",
-				"evidence"
-			],
+			"options": [],
 			"answer": "pressure",
-			"explanation": "\"pressure\": pressione."
+			"explanation": "\"pressure\": pressione.",
+			"accept": [
+				"to pressure"
+			]
 		},
 		{
 			"id": "inglese-data-science-153-threshold",
@@ -2472,16 +2210,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"media\"?",
-			"options": [
-				"effect",
-				"pattern",
-				"average",
-				"evidence"
-			],
+			"options": [],
 			"answer": "average",
-			"explanation": "\"average\": media."
+			"explanation": "\"average\": media.",
+			"accept": [
+				"to average"
+			]
 		},
 		{
 			"id": "inglese-data-science-155-percentage",
@@ -2504,16 +2240,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"frazione\"?",
-			"options": [
-				"fraction",
-				"percentage",
-				"conclusion",
-				"sample"
-			],
+			"options": [],
 			"answer": "fraction",
-			"explanation": "\"fraction\": frazione."
+			"explanation": "\"fraction\": frazione.",
+			"accept": [
+				"to fraction"
+			]
 		},
 		{
 			"id": "inglese-data-science-157-increase",
@@ -2552,14 +2286,9 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"cause\"?",
-			"options": [
-				"soglia",
-				"effetto",
-				"frazione",
-				"causa"
-			],
+			"options": [],
 			"answer": "causa",
 			"explanation": "\"cause\": causa."
 		},
@@ -2600,16 +2329,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"misurazione\"?",
-			"options": [
-				"calibration",
-				"fraction",
-				"measurement",
-				"increase"
-			],
+			"options": [],
 			"answer": "measurement",
-			"explanation": "\"measurement\": misurazione."
+			"explanation": "\"measurement\": misurazione.",
+			"accept": [
+				"to measurement"
+			]
 		},
 		{
 			"id": "inglese-data-science-163-conclusion",
@@ -2632,16 +2359,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"calibrazione\"?",
-			"options": [
-				"calibration",
-				"fraction",
-				"measurement",
-				"decrease"
-			],
+			"options": [],
 			"answer": "calibration",
-			"explanation": "\"calibration\": calibrazione."
+			"explanation": "\"calibration\": calibrazione.",
+			"accept": [
+				"to calibration"
+			]
 		},
 		{
 			"id": "inglese-data-science-165-consistent",
@@ -2696,16 +2421,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"suggerire / indicare\"?",
-			"options": [
-				"suggest",
-				"compare",
-				"confirm",
-				"set off"
-			],
+			"options": [],
 			"answer": "suggest",
-			"explanation": "\"suggest\": suggerire / indicare."
+			"explanation": "\"suggest\": suggerire / indicare.",
+			"accept": [
+				"to suggest"
+			]
 		},
 		{
 			"id": "inglese-data-science-169-prove",
@@ -2728,16 +2451,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"campione\"?",
-			"options": [
-				"number",
-				"decrease",
-				"sample",
-				"trend"
-			],
+			"options": [],
 			"answer": "sample",
-			"explanation": "\"sample\": campione."
+			"explanation": "\"sample\": campione.",
+			"accept": [
+				"to sample"
+			]
 		},
 		{
 			"id": "inglese-data-science-171-trend",
@@ -2760,16 +2481,14 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"variabile\"?",
-			"options": [
-				"variable",
-				"increase",
-				"decrease",
-				"effect"
-			],
+			"options": [],
 			"answer": "variable",
-			"explanation": "\"variable\": variabile."
+			"explanation": "\"variable\": variabile.",
+			"accept": [
+				"to variable"
+			]
 		},
 		{
 			"id": "inglese-data-science-173-accurately",
@@ -2808,14 +2527,9 @@
 			"subject": "inglese",
 			"topic": "data-science",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"likely\"?",
-			"options": [
-				"affidabile",
-				"casuale",
-				"esatto",
-				"probabile"
-			],
+			"options": [],
 			"answer": "probabile",
 			"explanation": "\"likely\": probabile."
 		},
@@ -2824,16 +2538,14 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"lezione\"?",
-			"options": [
-				"lesson",
-				"reply",
-				"summary",
-				"request"
-			],
+			"options": [],
 			"answer": "lesson",
-			"explanation": "\"lesson\": lezione."
+			"explanation": "\"lesson\": lezione.",
+			"accept": [
+				"to lesson"
+			]
 		},
 		{
 			"id": "inglese-school-communication-177-subject",
@@ -2888,16 +2600,14 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"insegnante\"?",
-			"options": [
-				"teacher",
-				"chapter",
-				"mistake",
-				"opinion"
-			],
+			"options": [],
 			"answer": "teacher",
-			"explanation": "\"teacher\": insegnante."
+			"explanation": "\"teacher\": insegnante.",
+			"accept": [
+				"to teacher"
+			]
 		},
 		{
 			"id": "inglese-school-communication-181-assignment",
@@ -2936,14 +2646,9 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"chapter\"?",
-			"options": [
-				"annuncio",
-				"richiesta",
-				"dettaglio",
-				"capitolo"
-			],
+			"options": [],
 			"answer": "capitolo",
 			"explanation": "\"chapter\": capitolo."
 		},
@@ -2968,14 +2673,9 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"summary\"?",
-			"options": [
-				"dettaglio",
-				"riassunto",
-				"compiti",
-				"scadenza"
-			],
+			"options": [],
 			"answer": "riassunto",
 			"explanation": "\"summary\": riassunto."
 		},
@@ -3000,14 +2700,9 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"opinion\"?",
-			"options": [
-				"lezione",
-				"riassunto",
-				"annuncio",
-				"opinione"
-			],
+			"options": [],
 			"answer": "opinione",
 			"explanation": "\"opinion\": opinione."
 		},
@@ -3032,14 +2727,9 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"detail\"?",
-			"options": [
-				"annuncio",
-				"dettaglio",
-				"compiti",
-				"insegnante"
-			],
+			"options": [],
 			"answer": "dettaglio",
 			"explanation": "\"detail\": dettaglio."
 		},
@@ -3080,16 +2770,14 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"correzione\"?",
-			"options": [
-				"correction",
-				"subject",
-				"paragraph",
-				"summary"
-			],
+			"options": [],
 			"answer": "correction",
-			"explanation": "\"correction\": correzione."
+			"explanation": "\"correction\": correzione.",
+			"accept": [
+				"to correction"
+			]
 		},
 		{
 			"id": "inglese-school-communication-193-feedback",
@@ -3128,14 +2816,9 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"announcement\"?",
-			"options": [
-				"lezione",
-				"richiesta",
-				"opinione",
-				"annuncio"
-			],
+			"options": [],
 			"answer": "annuncio",
 			"explanation": "\"announcement\": annuncio."
 		},
@@ -3176,16 +2859,14 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"formale\"?",
-			"options": [
-				"brief",
-				"clear",
-				"formal",
-				"polite"
-			],
+			"options": [],
 			"answer": "formal",
-			"explanation": "\"formal\": formale."
+			"explanation": "\"formal\": formale.",
+			"accept": [
+				"to formal"
+			]
 		},
 		{
 			"id": "inglese-school-communication-199-informal",
@@ -3208,16 +2889,14 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"educato / cortese\"?",
-			"options": [
-				"polite",
-				"brief",
-				"unclear",
-				"clear"
-			],
+			"options": [],
 			"answer": "polite",
-			"explanation": "\"polite\": educato / cortese."
+			"explanation": "\"polite\": educato / cortese.",
+			"accept": [
+				"to polite"
+			]
 		},
 		{
 			"id": "inglese-school-communication-201-brief",
@@ -3240,16 +2919,14 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"chiaro\"?",
-			"options": [
-				"unclear",
-				"formal",
-				"clear",
-				"polite"
-			],
+			"options": [],
 			"answer": "clear",
-			"explanation": "\"clear\": chiaro."
+			"explanation": "\"clear\": chiaro.",
+			"accept": [
+				"to clear"
+			]
 		},
 		{
 			"id": "inglese-school-communication-203-unclear",
@@ -3304,16 +2981,14 @@
 			"subject": "inglese",
 			"topic": "school-communication",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"scopo\"?",
-			"options": [
-				"request",
-				"summary",
-				"purpose",
-				"mistake"
-			],
+			"options": [],
 			"answer": "purpose",
-			"explanation": "\"purpose\": scopo."
+			"explanation": "\"purpose\": scopo.",
+			"accept": [
+				"to purpose"
+			]
 		},
 		{
 			"id": "inglese-school-communication-207-target-audience",
@@ -3336,16 +3011,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"e\"?",
-			"options": [
-				"and",
-				"when",
-				"while",
-				"then"
-			],
+			"options": [],
 			"answer": "and",
-			"explanation": "\"and\": e."
+			"explanation": "\"and\": e.",
+			"accept": [
+				"to and"
+			]
 		},
 		{
 			"id": "inglese-connectors-209-but",
@@ -3368,16 +3041,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"oppure\"?",
-			"options": [
-				"when",
-				"until",
-				"or",
-				"but"
-			],
+			"options": [],
 			"answer": "or",
-			"explanation": "\"or\": oppure."
+			"explanation": "\"or\": oppure.",
+			"accept": [
+				"to or"
+			]
 		},
 		{
 			"id": "inglese-connectors-211-then",
@@ -3400,16 +3071,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"perché / poiché\"?",
-			"options": [
-				"because",
-				"while",
-				"so that",
-				"since"
-			],
+			"options": [],
 			"answer": "because",
-			"explanation": "\"because\": perché / poiché."
+			"explanation": "\"because\": perché / poiché.",
+			"accept": [
+				"to because"
+			]
 		},
 		{
 			"id": "inglese-connectors-213-if",
@@ -3432,16 +3101,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"quando\"?",
-			"options": [
-				"and",
-				"while",
-				"when",
-				"after"
-			],
+			"options": [],
 			"answer": "when",
-			"explanation": "\"when\": quando."
+			"explanation": "\"when\": quando.",
+			"accept": [
+				"to when"
+			]
 		},
 		{
 			"id": "inglese-connectors-215-before",
@@ -3464,16 +3131,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"dopo\"?",
-			"options": [
-				"after",
-				"while",
-				"since",
-				"when"
-			],
+			"options": [],
 			"answer": "after",
-			"explanation": "\"after\": dopo."
+			"explanation": "\"after\": dopo.",
+			"accept": [
+				"to after"
+			]
 		},
 		{
 			"id": "inglese-connectors-217-while",
@@ -3496,16 +3161,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"finché / fino a quando\"?",
-			"options": [
-				"since",
-				"before",
-				"until",
-				"when"
-			],
+			"options": [],
 			"answer": "until",
-			"explanation": "\"until\": finché / fino a quando."
+			"explanation": "\"until\": finché / fino a quando.",
+			"accept": [
+				"to until"
+			]
 		},
 		{
 			"id": "inglese-connectors-219-unless",
@@ -3560,16 +3223,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"perciò / quindi\"?",
-			"options": [
-				"however",
-				"although",
-				"therefore",
-				"in order to"
-			],
+			"options": [],
 			"answer": "therefore",
-			"explanation": "\"therefore\": perciò / quindi."
+			"explanation": "\"therefore\": perciò / quindi.",
+			"accept": [
+				"to therefore"
+			]
 		},
 		{
 			"id": "inglese-connectors-223-instead",
@@ -3592,16 +3253,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"uno dei due / o l'uno o l'altro\"?",
-			"options": [
-				"either",
-				"neither",
-				"both",
-				"instead"
-			],
+			"options": [],
 			"answer": "either",
-			"explanation": "\"either\": uno dei due / o l'uno o l'altro."
+			"explanation": "\"either\": uno dei due / o l'uno o l'altro.",
+			"accept": [
+				"to either"
+			]
 		},
 		{
 			"id": "inglese-connectors-225-neither",
@@ -3656,16 +3315,14 @@
 			"subject": "inglese",
 			"topic": "connectors",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"tranne / eccetto\"?",
-			"options": [
-				"except",
-				"behind",
-				"outside",
-				"through"
-			],
+			"options": [],
 			"answer": "except",
-			"explanation": "\"except\": tranne / eccetto."
+			"explanation": "\"except\": tranne / eccetto.",
+			"accept": [
+				"to except"
+			]
 		},
 		{
 			"id": "inglese-connectors-229-since",
@@ -3784,16 +3441,14 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"alla fine\"?",
-			"options": [
-				"eventually",
-				"accurately",
-				"roughly",
-				"instead"
-			],
+			"options": [],
 			"answer": "eventually",
-			"explanation": "\"eventually\": alla fine."
+			"explanation": "\"eventually\": alla fine.",
+			"accept": [
+				"to eventually"
+			]
 		},
 		{
 			"id": "inglese-false-friends-237-sensible",
@@ -3816,16 +3471,14 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"sensibile / delicato\"?",
-			"options": [
-				"convenient",
-				"terrific",
-				"sensitive",
-				"eventual"
-			],
+			"options": [],
 			"answer": "sensitive",
-			"explanation": "\"sensitive\": sensibile / delicato."
+			"explanation": "\"sensitive\": sensibile / delicato.",
+			"accept": [
+				"to sensitive"
+			]
 		},
 		{
 			"id": "inglese-false-friends-239-library",
@@ -3848,16 +3501,14 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"libreria / negozio di libri\"?",
-			"options": [
-				"bookshop",
-				"factory",
-				"relative",
-				"education"
-			],
+			"options": [],
 			"answer": "bookshop",
-			"explanation": "\"bookshop\": libreria / negozio di libri."
+			"explanation": "\"bookshop\": libreria / negozio di libri.",
+			"accept": [
+				"to bookshop"
+			]
 		},
 		{
 			"id": "inglese-false-friends-241-factory",
@@ -3880,16 +3531,14 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"discussione / argomento\"?",
-			"options": [
-				"lecture",
-				"parents",
-				"argument",
-				"relative"
-			],
+			"options": [],
 			"answer": "argument",
-			"explanation": "\"argument\": discussione / argomento."
+			"explanation": "\"argument\": discussione / argomento.",
+			"accept": [
+				"to argument"
+			]
 		},
 		{
 			"id": "inglese-false-friends-243-parents",
@@ -3912,16 +3561,14 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"parente / relativo\"?",
-			"options": [
-				"relative",
-				"bookshop",
-				"argument",
-				"education"
-			],
+			"options": [],
 			"answer": "relative",
-			"explanation": "\"relative\": parente / relativo."
+			"explanation": "\"relative\": parente / relativo.",
+			"accept": [
+				"to relative"
+			]
 		},
 		{
 			"id": "inglese-false-friends-245-comprehensive",
@@ -3976,16 +3623,14 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"coraggioso\"?",
-			"options": [
-				"brave",
-				"terrific",
-				"eventual",
-				"actual"
-			],
+			"options": [],
 			"answer": "brave",
-			"explanation": "\"brave\": coraggioso."
+			"explanation": "\"brave\": coraggioso.",
+			"accept": [
+				"to brave"
+			]
 		},
 		{
 			"id": "inglese-false-friends-249-camera",
@@ -4040,16 +3685,14 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"rendersi conto\"?",
-			"options": [
-				"realize",
-				"set off",
-				"restart",
-				"connect"
-			],
+			"options": [],
 			"answer": "realize",
-			"explanation": "\"realize\": rendersi conto."
+			"explanation": "\"realize\": rendersi conto.",
+			"accept": [
+				"to realize"
+			]
 		},
 		{
 			"id": "inglese-false-friends-253-convenient",
@@ -4104,16 +3747,14 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"finale / definitivo\"?",
-			"options": [
-				"eventual",
-				"terrific",
-				"sensitive",
-				"convenient"
-			],
+			"options": [],
 			"answer": "eventual",
-			"explanation": "\"eventual\": finale / definitivo."
+			"explanation": "\"eventual\": finale / definitivo.",
+			"accept": [
+				"to eventual"
+			]
 		},
 		{
 			"id": "inglese-false-friends-257-preservative",
@@ -4136,30 +3777,23 @@
 			"subject": "inglese",
 			"topic": "false-friends",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"morbilità\"?",
-			"options": [
-				"factory",
-				"education",
-				"morbidity",
-				"bookshop"
-			],
+			"options": [],
 			"answer": "morbidity",
-			"explanation": "\"morbidity\": morbilità."
+			"explanation": "\"morbidity\": morbilità.",
+			"accept": [
+				"to morbidity"
+			]
 		},
 		{
 			"id": "inglese-home-family-259-family",
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"family\"?",
-			"options": [
-				"coltello",
-				"mensola",
-				"soggiorno",
-				"famiglia"
-			],
+			"options": [],
 			"answer": "famiglia",
 			"explanation": "\"family\": famiglia."
 		},
@@ -4184,14 +3818,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"father\"?",
-			"options": [
-				"sedia",
-				"padre",
-				"letto",
-				"tetto"
-			],
+			"options": [],
 			"answer": "padre",
 			"explanation": "\"father\": padre."
 		},
@@ -4216,14 +3845,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"sister\"?",
-			"options": [
-				"marito",
-				"mensola",
-				"giardino",
-				"sorella"
-			],
+			"options": [],
 			"answer": "sorella",
 			"explanation": "\"sister\": sorella."
 		},
@@ -4248,14 +3872,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"son\"?",
-			"options": [
-				"divano",
-				"figlio",
-				"doccia",
-				"cucina"
-			],
+			"options": [],
 			"answer": "figlio",
 			"explanation": "\"son\": figlio."
 		},
@@ -4296,16 +3915,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"bambini / figli\"?",
-			"options": [
-				"children",
-				"pillow",
-				"kitchen",
-				"bedroom"
-			],
+			"options": [],
 			"answer": "children",
-			"explanation": "\"children\": bambini / figli."
+			"explanation": "\"children\": bambini / figli.",
+			"accept": [
+				"to children"
+			]
 		},
 		{
 			"id": "inglese-home-family-269-grandmother",
@@ -4328,16 +3945,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"nonno\"?",
-			"options": [
-				"bathroom",
-				"grandmother",
-				"grandfather",
-				"daughter"
-			],
+			"options": [],
 			"answer": "grandfather",
-			"explanation": "\"grandfather\": nonno."
+			"explanation": "\"grandfather\": nonno.",
+			"accept": [
+				"to grandfather"
+			]
 		},
 		{
 			"id": "inglese-home-family-271-aunt",
@@ -4360,16 +3975,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"zio\"?",
-			"options": [
-				"uncle",
-				"table",
-				"chair",
-				"plate"
-			],
+			"options": [],
 			"answer": "uncle",
-			"explanation": "\"uncle\": zio."
+			"explanation": "\"uncle\": zio.",
+			"accept": [
+				"to uncle"
+			]
 		},
 		{
 			"id": "inglese-home-family-273-cousin",
@@ -4408,14 +4021,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"husband\"?",
-			"options": [
-				"garage",
-				"cucina",
-				"parete",
-				"marito"
-			],
+			"options": [],
 			"answer": "marito",
 			"explanation": "\"husband\": marito."
 		},
@@ -4440,14 +4048,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"friend\"?",
-			"options": [
-				"padre",
-				"amico",
-				"bagno",
-				"letto"
-			],
+			"options": [],
 			"answer": "amico",
 			"explanation": "\"friend\": amico."
 		},
@@ -4472,14 +4075,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"house\"?",
-			"options": [
-				"sedia",
-				"forno",
-				"nonno",
-				"casa"
-			],
+			"options": [],
 			"answer": "casa",
 			"explanation": "\"house\": casa."
 		},
@@ -4504,14 +4102,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"room\"?",
-			"options": [
-				"tavolo",
-				"stanza",
-				"divano",
-				"parete"
-			],
+			"options": [],
 			"answer": "stanza",
 			"explanation": "\"room\": stanza."
 		},
@@ -4536,14 +4129,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"bathroom\"?",
-			"options": [
-				"sedia",
-				"amico",
-				"letto",
-				"bagno"
-			],
+			"options": [],
 			"answer": "bagno",
 			"explanation": "\"bathroom\": bagno."
 		},
@@ -4568,14 +4156,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"living room\"?",
-			"options": [
-				"indirizzo",
-				"soggiorno",
-				"forchetta",
-				"specchio"
-			],
+			"options": [],
 			"answer": "soggiorno",
 			"explanation": "\"living room\": soggiorno."
 		},
@@ -4600,14 +4183,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"garage\"?",
-			"options": [
-				"parete",
-				"divano",
-				"marito",
-				"garage"
-			],
+			"options": [],
 			"answer": "garage",
 			"explanation": "\"garage\": garage."
 		},
@@ -4648,16 +4226,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"parete\"?",
-			"options": [
-				"soap",
-				"lamp",
-				"wall",
-				"aunt"
-			],
+			"options": [],
 			"answer": "wall",
-			"explanation": "\"wall\": parete."
+			"explanation": "\"wall\": parete.",
+			"accept": [
+				"to wall"
+			]
 		},
 		{
 			"id": "inglese-home-family-291-window",
@@ -4680,16 +4256,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"tetto\"?",
-			"options": [
-				"roof",
-				"wall",
-				"wife",
-				"oven"
-			],
+			"options": [],
 			"answer": "roof",
-			"explanation": "\"roof\": tetto."
+			"explanation": "\"roof\": tetto.",
+			"accept": [
+				"to roof"
+			]
 		},
 		{
 			"id": "inglese-home-family-293-gate",
@@ -4712,16 +4286,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"letto\"?",
-			"options": [
-				"bag",
-				"room",
-				"bed",
-				"fork"
-			],
+			"options": [],
 			"answer": "bed",
-			"explanation": "\"bed\": letto."
+			"explanation": "\"bed\": letto.",
+			"accept": [
+				"to bed"
+			]
 		},
 		{
 			"id": "inglese-home-family-295-chair",
@@ -4744,16 +4316,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"divano\"?",
-			"options": [
-				"sofa",
-				"oven",
-				"fork",
-				"aunt"
-			],
+			"options": [],
 			"answer": "sofa",
-			"explanation": "\"sofa\": divano."
+			"explanation": "\"sofa\": divano.",
+			"accept": [
+				"to sofa"
+			]
 		},
 		{
 			"id": "inglese-home-family-297-table",
@@ -4776,16 +4346,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"armadio / credenza\"?",
-			"options": [
-				"blanket",
-				"bathroom",
-				"cupboard",
-				"fridge"
-			],
+			"options": [],
 			"answer": "cupboard",
-			"explanation": "\"cupboard\": armadio / credenza."
+			"explanation": "\"cupboard\": armadio / credenza.",
+			"accept": [
+				"to cupboard"
+			]
 		},
 		{
 			"id": "inglese-home-family-299-shelf",
@@ -4808,16 +4376,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"specchio\"?",
-			"options": [
-				"mirror",
-				"cousin",
-				"fridge",
-				"father"
-			],
+			"options": [],
 			"answer": "mirror",
-			"explanation": "\"mirror\": specchio."
+			"explanation": "\"mirror\": specchio.",
+			"accept": [
+				"to mirror"
+			]
 		},
 		{
 			"id": "inglese-home-family-301-shower",
@@ -4840,16 +4406,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"gabinetto\"?",
-			"options": [
-				"friend",
-				"carpet",
-				"toilet",
-				"parent"
-			],
+			"options": [],
 			"answer": "toilet",
-			"explanation": "\"toilet\": gabinetto."
+			"explanation": "\"toilet\": gabinetto.",
+			"accept": [
+				"to toilet"
+			]
 		},
 		{
 			"id": "inglese-home-family-303-sink",
@@ -4872,16 +4436,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"asciugamano\"?",
-			"options": [
-				"towel",
-				"child",
-				"chair",
-				"uncle"
-			],
+			"options": [],
 			"answer": "towel",
-			"explanation": "\"towel\": asciugamano."
+			"explanation": "\"towel\": asciugamano.",
+			"accept": [
+				"to towel"
+			]
 		},
 		{
 			"id": "inglese-home-family-305-soap",
@@ -4904,16 +4466,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"coperta\"?",
-			"options": [
-				"cupboard",
-				"garden",
-				"blanket",
-				"father"
-			],
+			"options": [],
 			"answer": "blanket",
-			"explanation": "\"blanket\": coperta."
+			"explanation": "\"blanket\": coperta.",
+			"accept": [
+				"to blanket"
+			]
 		},
 		{
 			"id": "inglese-home-family-307-pillow",
@@ -4936,16 +4496,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"tappeto\"?",
-			"options": [
-				"carpet",
-				"garage",
-				"mirror",
-				"sister"
-			],
+			"options": [],
 			"answer": "carpet",
-			"explanation": "\"carpet\": tappeto."
+			"explanation": "\"carpet\": tappeto.",
+			"accept": [
+				"to carpet"
+			]
 		},
 		{
 			"id": "inglese-home-family-309-lamp",
@@ -4968,16 +4526,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"frigorifero\"?",
-			"options": [
-				"parent",
-				"family",
-				"fridge",
-				"mother"
-			],
+			"options": [],
 			"answer": "fridge",
-			"explanation": "\"fridge\": frigorifero."
+			"explanation": "\"fridge\": frigorifero.",
+			"accept": [
+				"to fridge"
+			]
 		},
 		{
 			"id": "inglese-home-family-311-oven",
@@ -5000,16 +4556,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"piatto\"?",
-			"options": [
-				"plate",
-				"glass",
-				"uncle",
-				"chair"
-			],
+			"options": [],
 			"answer": "plate",
-			"explanation": "\"plate\": piatto."
+			"explanation": "\"plate\": piatto.",
+			"accept": [
+				"to plate"
+			]
 		},
 		{
 			"id": "inglese-home-family-313-glass",
@@ -5032,16 +4586,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"tazza\"?",
-			"options": [
-				"wife",
-				"fork",
-				"cup",
-				"gate"
-			],
+			"options": [],
 			"answer": "cup",
-			"explanation": "\"cup\": tazza."
+			"explanation": "\"cup\": tazza.",
+			"accept": [
+				"to cup"
+			]
 		},
 		{
 			"id": "inglese-home-family-315-fork",
@@ -5064,16 +4616,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"coltello\"?",
-			"options": [
-				"knife",
-				"uncle",
-				"child",
-				"house"
-			],
+			"options": [],
 			"answer": "knife",
-			"explanation": "\"knife\": coltello."
+			"explanation": "\"knife\": coltello.",
+			"accept": [
+				"to knife"
+			]
 		},
 		{
 			"id": "inglese-home-family-317-spoon",
@@ -5096,16 +4646,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"bottiglia\"?",
-			"options": [
-				"toilet",
-				"parent",
-				"bottle",
-				"stairs"
-			],
+			"options": [],
 			"answer": "bottle",
-			"explanation": "\"bottle\": bottiglia."
+			"explanation": "\"bottle\": bottiglia.",
+			"accept": [
+				"to bottle"
+			]
 		},
 		{
 			"id": "inglese-home-family-319-bag",
@@ -5144,14 +4692,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"pocket\"?",
-			"options": [
-				"amico",
-				"tasca",
-				"tazza",
-				"letto"
-			],
+			"options": [],
 			"answer": "tasca",
 			"explanation": "\"pocket\": tasca."
 		},
@@ -5176,14 +4719,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"surname\"?",
-			"options": [
-				"cuscino",
-				"moglie",
-				"figlia",
-				"cognome"
-			],
+			"options": [],
 			"answer": "cognome",
 			"explanation": "\"surname\": cognome."
 		},
@@ -5224,16 +4762,14 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"sposato\"?",
-			"options": [
-				"clean",
-				"young",
-				"married",
-				"empty"
-			],
+			"options": [],
 			"answer": "married",
-			"explanation": "\"married\": sposato."
+			"explanation": "\"married\": sposato.",
+			"accept": [
+				"to married"
+			]
 		},
 		{
 			"id": "inglese-home-family-327-single",
@@ -5272,14 +4808,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"dirty\"?",
-			"options": [
-				"comodo",
-				"sporco",
-				"vuoto",
-				"sposato"
-			],
+			"options": [],
 			"answer": "sporco",
 			"explanation": "\"dirty\": sporco."
 		},
@@ -5304,14 +4835,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"untidy\"?",
-			"options": [
-				"ordinato",
-				"silenzioso",
-				"sposato",
-				"disordinato"
-			],
+			"options": [],
 			"answer": "disordinato",
 			"explanation": "\"untidy\": disordinato."
 		},
@@ -5336,14 +4862,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"noisy\"?",
-			"options": [
-				"sposato",
-				"rumoroso",
-				"silenzioso",
-				"giovane"
-			],
+			"options": [],
 			"answer": "rumoroso",
 			"explanation": "\"noisy\": rumoroso."
 		},
@@ -5368,14 +4889,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"empty\"?",
-			"options": [
-				"pulito",
-				"sporco",
-				"privato",
-				"vuoto"
-			],
+			"options": [],
 			"answer": "vuoto",
 			"explanation": "\"empty\": vuoto."
 		},
@@ -5400,14 +4916,9 @@
 			"subject": "inglese",
 			"topic": "home-family",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"private\"?",
-			"options": [
-				"pulito",
-				"privato",
-				"giovane",
-				"sposato"
-			],
+			"options": [],
 			"answer": "privato",
 			"explanation": "\"private\": privato."
 		},
@@ -5416,16 +4927,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"cibo\"?",
-			"options": [
-				"fish",
-				"shop",
-				"food",
-				"milk"
-			],
+			"options": [],
 			"answer": "food",
-			"explanation": "\"food\": cibo."
+			"explanation": "\"food\": cibo.",
+			"accept": [
+				"to food"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-339-meal",
@@ -5448,16 +4957,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"colazione\"?",
-			"options": [
-				"breakfast",
-				"trainers",
-				"discount",
-				"ingredient"
-			],
+			"options": [],
 			"answer": "breakfast",
-			"explanation": "\"breakfast\": colazione."
+			"explanation": "\"breakfast\": colazione.",
+			"accept": [
+				"to breakfast"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-341-lunch",
@@ -5480,16 +4987,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"cena\"?",
-			"options": [
-				"potato",
-				"market",
-				"dinner",
-				"jacket"
-			],
+			"options": [],
 			"answer": "dinner",
-			"explanation": "\"dinner\": cena."
+			"explanation": "\"dinner\": cena.",
+			"accept": [
+				"to dinner"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-343-snack",
@@ -5512,16 +5017,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"pane\"?",
-			"options": [
-				"bread",
-				"dress",
-				"lunch",
-				"scarf"
-			],
+			"options": [],
 			"answer": "bread",
-			"explanation": "\"bread\": pane."
+			"explanation": "\"bread\": pane.",
+			"accept": [
+				"to bread"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-345-rice",
@@ -5544,16 +5047,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"pasta\"?",
-			"options": [
-				"sugar",
-				"bread",
-				"pasta",
-				"price"
-			],
+			"options": [],
 			"answer": "pasta",
-			"explanation": "\"pasta\": pasta."
+			"explanation": "\"pasta\": pasta.",
+			"accept": [
+				"to pasta"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-347-meat",
@@ -5576,16 +5077,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"pesce\"?",
-			"options": [
-				"fish",
-				"meal",
-				"soup",
-				"meat"
-			],
+			"options": [],
 			"answer": "fish",
-			"explanation": "\"fish\": pesce."
+			"explanation": "\"fish\": pesce.",
+			"accept": [
+				"to fish"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-349-egg",
@@ -5608,16 +5107,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"formaggio\"?",
-			"options": [
-				"market",
-				"pepper",
-				"cheese",
-				"butter"
-			],
+			"options": [],
 			"answer": "cheese",
-			"explanation": "\"cheese\": formaggio."
+			"explanation": "\"cheese\": formaggio.",
+			"accept": [
+				"to cheese"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-351-milk",
@@ -5640,16 +5137,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"burro\"?",
-			"options": [
-				"butter",
-				"pepper",
-				"cheese",
-				"dinner"
-			],
+			"options": [],
 			"answer": "butter",
-			"explanation": "\"butter\": burro."
+			"explanation": "\"butter\": burro.",
+			"accept": [
+				"to butter"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-353-fruit",
@@ -5672,16 +5167,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"mela\"?",
-			"options": [
-				"lunch",
-				"socks",
-				"apple",
-				"water"
-			],
+			"options": [],
 			"answer": "apple",
-			"explanation": "\"apple\": mela."
+			"explanation": "\"apple\": mela.",
+			"accept": [
+				"to apple"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-355-banana",
@@ -5704,16 +5197,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"arancia\"?",
-			"options": [
-				"orange",
-				"coffee",
-				"market",
-				"colour"
-			],
+			"options": [],
 			"answer": "orange",
-			"explanation": "\"orange\": arancia."
+			"explanation": "\"orange\": arancia.",
+			"accept": [
+				"to orange"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-357-vegetable",
@@ -5736,16 +5227,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"patata\"?",
-			"options": [
-				"coffee",
-				"butter",
-				"potato",
-				"jacket"
-			],
+			"options": [],
 			"answer": "potato",
-			"explanation": "\"potato\": patata."
+			"explanation": "\"potato\": patata.",
+			"accept": [
+				"to potato"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-359-tomato",
@@ -5768,16 +5257,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"insalata\"?",
-			"options": [
-				"salad",
-				"fruit",
-				"shoes",
-				"skirt"
-			],
+			"options": [],
 			"answer": "salad",
-			"explanation": "\"salad\": insalata."
+			"explanation": "\"salad\": insalata.",
+			"accept": [
+				"to salad"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-361-soup",
@@ -5800,16 +5287,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"torta\"?",
-			"options": [
-				"shop",
-				"salt",
-				"cake",
-				"meal"
-			],
+			"options": [],
 			"answer": "cake",
-			"explanation": "\"cake\": torta."
+			"explanation": "\"cake\": torta.",
+			"accept": [
+				"to cake"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-363-sugar",
@@ -5832,16 +5317,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"sale\"?",
-			"options": [
-				"salt",
-				"meal",
-				"food",
-				"size"
-			],
+			"options": [],
 			"answer": "salt",
-			"explanation": "\"salt\": sale."
+			"explanation": "\"salt\": sale.",
+			"accept": [
+				"to salt"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-365-pepper",
@@ -5864,16 +5347,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"acqua\"?",
-			"options": [
-				"skirt",
-				"salad",
-				"water",
-				"dress"
-			],
+			"options": [],
 			"answer": "water",
-			"explanation": "\"water\": acqua."
+			"explanation": "\"water\": acqua.",
+			"accept": [
+				"to water"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-367-juice",
@@ -5896,16 +5377,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"tè\"?",
-			"options": [
-				"tea",
-				"meal",
-				"coin",
-				"cake"
-			],
+			"options": [],
 			"answer": "tea",
-			"explanation": "\"tea\": tè."
+			"explanation": "\"tea\": tè.",
+			"accept": [
+				"to tea"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-369-coffee",
@@ -5928,16 +5407,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"menù\"?",
-			"options": [
-				"bill",
-				"meat",
-				"menu",
-				"milk"
-			],
+			"options": [],
 			"answer": "menu",
-			"explanation": "\"menu\": menù."
+			"explanation": "\"menu\": menù.",
+			"accept": [
+				"to menu"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-371-recipe",
@@ -5960,16 +5437,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"ingrediente\"?",
-			"options": [
-				"ingredient",
-				"glasses",
-				"receipt",
-				"clothes"
-			],
+			"options": [],
 			"answer": "ingredient",
-			"explanation": "\"ingredient\": ingrediente."
+			"explanation": "\"ingredient\": ingrediente.",
+			"accept": [
+				"to ingredient"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-373-shop",
@@ -5992,16 +5467,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"mercato\"?",
-			"options": [
-				"jacket",
-				"banana",
-				"market",
-				"orange"
-			],
+			"options": [],
 			"answer": "market",
-			"explanation": "\"market\": mercato."
+			"explanation": "\"market\": mercato.",
+			"accept": [
+				"to market"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-375-supermarket",
@@ -6024,16 +5497,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"cliente\"?",
-			"options": [
-				"customer",
-				"T-shirt",
-				"receipt",
-				"vegetable"
-			],
+			"options": [],
 			"answer": "customer",
-			"explanation": "\"customer\": cliente."
+			"explanation": "\"customer\": cliente.",
+			"accept": [
+				"to customer"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-377-shop-assistant",
@@ -6056,16 +5527,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"prezzo\"?",
-			"options": [
-				"sugar",
-				"shirt",
-				"price",
-				"juice"
-			],
+			"options": [],
 			"answer": "price",
-			"explanation": "\"price\": prezzo."
+			"explanation": "\"price\": prezzo.",
+			"accept": [
+				"to price"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-379-money",
@@ -6088,16 +5557,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"contanti\"?",
-			"options": [
-				"cash",
-				"food",
-				"bill",
-				"coat"
-			],
+			"options": [],
 			"answer": "cash",
-			"explanation": "\"cash\": contanti."
+			"explanation": "\"cash\": contanti.",
+			"accept": [
+				"to cash"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-381-coin",
@@ -6120,16 +5587,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"banconota / conto\"?",
-			"options": [
-				"cash",
-				"milk",
-				"bill",
-				"meal"
-			],
+			"options": [],
 			"answer": "bill",
-			"explanation": "\"bill\": banconota / conto."
+			"explanation": "\"bill\": banconota / conto.",
+			"accept": [
+				"to bill"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-383-receipt",
@@ -6152,16 +5617,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"sconto\"?",
-			"options": [
-				"discount",
-				"trousers",
-				"vegetable",
-				"pepper"
-			],
+			"options": [],
 			"answer": "discount",
-			"explanation": "\"discount\": sconto."
+			"explanation": "\"discount\": sconto.",
+			"accept": [
+				"to discount"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-385-sale",
@@ -6200,14 +5663,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"colour\"?",
-			"options": [
-				"sconto",
-				"patata",
-				"prezzo",
-				"colore"
-			],
+			"options": [],
 			"answer": "colore",
 			"explanation": "\"colour\": colore."
 		},
@@ -6232,14 +5690,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"shirt\"?",
-			"options": [
-				"arancia",
-				"camicia",
-				"mercato",
-				"cliente"
-			],
+			"options": [],
 			"answer": "camicia",
 			"explanation": "\"shirt\": camicia."
 		},
@@ -6264,14 +5717,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"trousers\"?",
-			"options": [
-				"cappello",
-				"commesso",
-				"insalata",
-				"pantaloni"
-			],
+			"options": [],
 			"answer": "pantaloni",
 			"explanation": "\"trousers\": pantaloni."
 		},
@@ -6296,14 +5744,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"skirt\"?",
-			"options": [
-				"acqua",
-				"gonna",
-				"pasta",
-				"succo"
-			],
+			"options": [],
 			"answer": "gonna",
 			"explanation": "\"skirt\": gonna."
 		},
@@ -6328,14 +5771,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"jacket\"?",
-			"options": [
-				"banana",
-				"sconto",
-				"denaro",
-				"giacca"
-			],
+			"options": [],
 			"answer": "giacca",
 			"explanation": "\"jacket\": giacca."
 		},
@@ -6360,14 +5798,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"shoes\"?",
-			"options": [
-				"moneta",
-				"scarpe",
-				"denaro",
-				"frutta"
-			],
+			"options": [],
 			"answer": "scarpe",
 			"explanation": "\"shoes\": scarpe."
 		},
@@ -6392,14 +5825,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"socks\"?",
-			"options": [
-				"vestito",
-				"camicia",
-				"ricetta",
-				"calzini"
-			],
+			"options": [],
 			"answer": "calzini",
 			"explanation": "\"socks\": calzini."
 		},
@@ -6424,14 +5852,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"scarf\"?",
-			"options": [
-				"mercato",
-				"sciarpa",
-				"ricetta",
-				"vestiti"
-			],
+			"options": [],
 			"answer": "sciarpa",
 			"explanation": "\"scarf\": sciarpa."
 		},
@@ -6456,14 +5879,9 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"hungry\"?",
-			"options": [
-				"salato",
-				"esaurito",
-				"assetato",
-				"affamato"
-			],
+			"options": [],
 			"answer": "affamato",
 			"explanation": "\"hungry\": affamato."
 		},
@@ -6504,16 +5922,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"dolce\"?",
-			"options": [
-				"free",
-				"hungry",
-				"sweet",
-				"fresh"
-			],
+			"options": [],
 			"answer": "sweet",
-			"explanation": "\"sweet\": dolce."
+			"explanation": "\"sweet\": dolce.",
+			"accept": [
+				"to sweet"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-407-salty",
@@ -6536,16 +5952,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"economico\"?",
-			"options": [
-				"cheap",
-				"fresh",
-				"salty",
-				"free"
-			],
+			"options": [],
 			"answer": "cheap",
-			"explanation": "\"cheap\": economico."
+			"explanation": "\"cheap\": economico.",
+			"accept": [
+				"to cheap"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-409-expensive",
@@ -6568,16 +5982,14 @@
 			"subject": "inglese",
 			"topic": "food-shopping",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"gratuito / libero\"?",
-			"options": [
-				"sweet",
-				"hungry",
-				"free",
-				"fresh"
-			],
+			"options": [],
 			"answer": "free",
-			"explanation": "\"free\": gratuito / libero."
+			"explanation": "\"free\": gratuito / libero.",
+			"accept": [
+				"to free"
+			]
 		},
 		{
 			"id": "inglese-food-shopping-411-available",
@@ -6648,14 +6060,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"minute\"?",
-			"options": [
-				"nebbia",
-				"nuvola",
-				"cielo",
-				"minuto"
-			],
+			"options": [],
 			"answer": "minuto",
 			"explanation": "\"minute\": minuto."
 		},
@@ -6680,14 +6087,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"day\"?",
-			"options": [
-				"estate",
-				"giorno",
-				"vento",
-				"mattina"
-			],
+			"options": [],
 			"answer": "giorno",
 			"explanation": "\"day\": giorno."
 		},
@@ -6712,14 +6114,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"month\"?",
-			"options": [
-				"grado",
-				"clima",
-				"neve",
-				"mese"
-			],
+			"options": [],
 			"answer": "mese",
 			"explanation": "\"month\": mese."
 		},
@@ -6744,14 +6141,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"morning\"?",
-			"options": [
-				"nebbia",
-				"mattina",
-				"estate",
-				"nuvola"
-			],
+			"options": [],
 			"answer": "mattina",
 			"explanation": "\"morning\": mattina."
 		},
@@ -6776,14 +6168,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"evening\"?",
-			"options": [
-				"anno",
-				"grado",
-				"sole",
-				"sera"
-			],
+			"options": [],
 			"answer": "sera",
 			"explanation": "\"evening\": sera."
 		},
@@ -6808,14 +6195,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"today\"?",
-			"options": [
-				"clima",
-				"oggi",
-				"sole",
-				"notte"
-			],
+			"options": [],
 			"answer": "oggi",
 			"explanation": "\"today\": oggi."
 		},
@@ -6840,14 +6222,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"yesterday\"?",
-			"options": [
-				"vento",
-				"neve",
-				"cielo",
-				"ieri"
-			],
+			"options": [],
 			"answer": "ieri",
 			"explanation": "\"yesterday\": ieri."
 		},
@@ -6888,16 +6265,14 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"stagione\"?",
-			"options": [
-				"second",
-				"summer",
-				"season",
-				"spring"
-			],
+			"options": [],
 			"answer": "season",
-			"explanation": "\"season\": stagione."
+			"explanation": "\"season\": stagione.",
+			"accept": [
+				"to season"
+			]
 		},
 		{
 			"id": "inglese-time-weather-431-spring",
@@ -6920,16 +6295,14 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"estate\"?",
-			"options": [
-				"summer",
-				"second",
-				"winter",
-				"minute"
-			],
+			"options": [],
 			"answer": "summer",
-			"explanation": "\"summer\": estate."
+			"explanation": "\"summer\": estate.",
+			"accept": [
+				"to summer"
+			]
 		},
 		{
 			"id": "inglese-time-weather-433-autumn",
@@ -6952,16 +6325,14 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"inverno\"?",
-			"options": [
-				"today",
-				"second",
-				"winter",
-				"summer"
-			],
+			"options": [],
 			"answer": "winter",
-			"explanation": "\"winter\": inverno."
+			"explanation": "\"winter\": inverno.",
+			"accept": [
+				"to winter"
+			]
 		},
 		{
 			"id": "inglese-time-weather-435-weather",
@@ -7000,14 +6371,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"rain\"?",
-			"options": [
-				"stagione",
-				"pioggia",
-				"nebbia",
-				"nuvola"
-			],
+			"options": [],
 			"answer": "pioggia",
 			"explanation": "\"rain\": pioggia."
 		},
@@ -7032,14 +6398,9 @@
 			"subject": "inglese",
 			"topic": "time-weather",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"wind\"?",
-			"options": [
-				"sole",
-				"mese",
-				"oggi",
-				"vento"
-			],
+			"options": [],
 			"answer": "vento",
 			"explanation": "\"wind\": vento."
 		},
@@ -8920,14 +8281,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"head\"?",
-			"options": [
-				"cuore",
-				"testa",
-				"denti",
-				"tosse"
-			],
+			"options": [],
 			"answer": "testa",
 			"explanation": "\"head\": testa."
 		},
@@ -8952,14 +8308,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"eye\"?",
-			"options": [
-				"testa",
-				"pillola",
-				"dente",
-				"occhio"
-			],
+			"options": [],
 			"answer": "occhio",
 			"explanation": "\"eye\": occhio."
 		},
@@ -8984,14 +8335,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"nose\"?",
-			"options": [
-				"piedi",
-				"naso",
-				"corpo",
-				"gamba"
-			],
+			"options": [],
 			"answer": "naso",
 			"explanation": "\"nose\": naso."
 		},
@@ -9016,14 +8362,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"tooth\"?",
-			"options": [
-				"cuore",
-				"pelle",
-				"testa",
-				"dente"
-			],
+			"options": [],
 			"answer": "dente",
 			"explanation": "\"tooth\": dente."
 		},
@@ -9048,14 +8389,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"hair\"?",
-			"options": [
-				"salute",
-				"capelli",
-				"febbre",
-				"pillola"
-			],
+			"options": [],
 			"answer": "capelli",
 			"explanation": "\"hair\": capelli."
 		},
@@ -9080,14 +8416,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"arm\"?",
-			"options": [
-				"capelli",
-				"medicina",
-				"pillola",
-				"braccio"
-			],
+			"options": [],
 			"answer": "braccio",
 			"explanation": "\"arm\": braccio."
 		},
@@ -9112,14 +8443,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"foot\"?",
-			"options": [
-				"tosse",
-				"piede",
-				"pelle",
-				"viso"
-			],
+			"options": [],
 			"answer": "piede",
 			"explanation": "\"foot\": piede."
 		},
@@ -9144,14 +8470,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"back\"?",
-			"options": [
-				"paziente",
-				"salute",
-				"febbre",
-				"schiena"
-			],
+			"options": [],
 			"answer": "schiena",
 			"explanation": "\"back\": schiena."
 		},
@@ -9176,14 +8497,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"heart\"?",
-			"options": [
-				"bocca",
-				"cuore",
-				"denti",
-				"gamba"
-			],
+			"options": [],
 			"answer": "cuore",
 			"explanation": "\"heart\": cuore."
 		},
@@ -9208,14 +8524,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"skin\"?",
-			"options": [
-				"dente",
-				"denti",
-				"cuore",
-				"pelle"
-			],
+			"options": [],
 			"answer": "pelle",
 			"explanation": "\"skin\": pelle."
 		},
@@ -9240,14 +8551,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"doctor\"?",
-			"options": [
-				"braccio",
-				"dottore",
-				"febbre",
-				"pillola"
-			],
+			"options": [],
 			"answer": "dottore",
 			"explanation": "\"doctor\": dottore."
 		},
@@ -9272,14 +8578,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"patient\"?",
-			"options": [
-				"capelli",
-				"braccio",
-				"pillola",
-				"paziente"
-			],
+			"options": [],
 			"answer": "paziente",
 			"explanation": "\"patient\": paziente."
 		},
@@ -9304,14 +8605,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"pill\"?",
-			"options": [
-				"dolore",
-				"pillola",
-				"paziente",
-				"occhio"
-			],
+			"options": [],
 			"answer": "pillola",
 			"explanation": "\"pill\": pillola."
 		},
@@ -9352,16 +8648,14 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"mal di denti\"?",
-			"options": [
-				"toothache",
-				"injury",
-				"medicine",
-				"headache"
-			],
+			"options": [],
 			"answer": "toothache",
-			"explanation": "\"toothache\": mal di denti."
+			"explanation": "\"toothache\": mal di denti.",
+			"accept": [
+				"to toothache"
+			]
 		},
 		{
 			"id": "inglese-body-health-585-stomach-ache",
@@ -9400,14 +8694,9 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"cough\"?",
-			"options": [
-				"gamba",
-				"dente",
-				"cuore",
-				"tosse"
-			],
+			"options": [],
 			"answer": "tosse",
 			"explanation": "\"cough\": tosse."
 		},
@@ -9448,16 +8737,14 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"febbre / temperatura\"?",
-			"options": [
-				"headache",
-				"sore throat",
-				"temperature",
-				"stomach"
-			],
+			"options": [],
 			"answer": "temperature",
-			"explanation": "\"temperature\": febbre / temperatura."
+			"explanation": "\"temperature\": febbre / temperatura.",
+			"accept": [
+				"to temperature"
+			]
 		},
 		{
 			"id": "inglese-body-health-591-accident",
@@ -9480,16 +8767,14 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"ferita / infortunio\"?",
-			"options": [
-				"injury",
-				"nurse",
-				"patient",
-				"heart"
-			],
+			"options": [],
 			"answer": "injury",
-			"explanation": "\"injury\": ferita / infortunio."
+			"explanation": "\"injury\": ferita / infortunio.",
+			"accept": [
+				"to injury"
+			]
 		},
 		{
 			"id": "inglese-body-health-593-bandage",
@@ -9512,16 +8797,14 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"appuntamento\"?",
-			"options": [
-				"doctor",
-				"medicine",
-				"appointment",
-				"headache"
-			],
+			"options": [],
 			"answer": "appointment",
-			"explanation": "\"appointment\": appuntamento."
+			"explanation": "\"appointment\": appuntamento.",
+			"accept": [
+				"to appointment"
+			]
 		},
 		{
 			"id": "inglese-body-health-595-exercise",
@@ -9576,16 +8859,14 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"sano\"?",
-			"options": [
-				"sleepy",
-				"strong",
-				"healthy",
-				"worse"
-			],
+			"options": [],
 			"answer": "healthy",
-			"explanation": "\"healthy\": sano."
+			"explanation": "\"healthy\": sano.",
+			"accept": [
+				"to healthy"
+			]
 		},
 		{
 			"id": "inglese-body-health-599-tired",
@@ -9608,16 +8889,14 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"meglio\"?",
-			"options": [
-				"better",
-				"tired",
-				"healthy",
-				"worse"
-			],
+			"options": [],
 			"answer": "better",
-			"explanation": "\"better\": meglio."
+			"explanation": "\"better\": meglio.",
+			"accept": [
+				"to better"
+			]
 		},
 		{
 			"id": "inglese-body-health-601-worse",
@@ -9640,16 +8919,14 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"debole\"?",
-			"options": [
-				"worse",
-				"sick",
-				"weak",
-				"ill"
-			],
+			"options": [],
 			"answer": "weak",
-			"explanation": "\"weak\": debole."
+			"explanation": "\"weak\": debole.",
+			"accept": [
+				"to weak"
+			]
 		},
 		{
 			"id": "inglese-body-health-603-strong",
@@ -9672,16 +8949,14 @@
 			"subject": "inglese",
 			"topic": "body-health",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"in forma\"?",
-			"options": [
-				"fit",
-				"weak",
-				"worse",
-				"sick"
-			],
+			"options": [],
 			"answer": "fit",
-			"explanation": "\"fit\": in forma."
+			"explanation": "\"fit\": in forma.",
+			"accept": [
+				"to fit"
+			]
 		},
 		{
 			"id": "inglese-body-health-605-sleepy",
@@ -9720,14 +8995,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"sad\"?",
-			"options": [
-				"pigro",
-				"felice",
-				"onesto",
-				"triste"
-			],
+			"options": [],
 			"answer": "triste",
 			"explanation": "\"sad\": triste."
 		},
@@ -9752,14 +9022,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"worried\"?",
-			"options": [
-				"divertente",
-				"preoccupato",
-				"maleducato",
-				"impossibile"
-			],
+			"options": [],
 			"answer": "preoccupato",
 			"explanation": "\"worried\": preoccupato."
 		},
@@ -9784,14 +9049,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"scared\"?",
-			"options": [
-				"impossibile",
-				"amichevole",
-				"necessario",
-				"spaventato"
-			],
+			"options": [],
 			"answer": "spaventato",
 			"explanation": "\"scared\": spaventato."
 		},
@@ -9816,14 +9076,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"interested\"?",
-			"options": [
-				"importante",
-				"interessato",
-				"sicuro di sé",
-				"preoccupato"
-			],
+			"options": [],
 			"answer": "interessato",
 			"explanation": "\"interested\": interessato."
 		},
@@ -9848,14 +9103,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"surprised\"?",
-			"options": [
-				"annoiato",
-				"timido",
-				"gentile",
-				"sorpreso"
-			],
+			"options": [],
 			"answer": "sorpreso",
 			"explanation": "\"surprised\": sorpreso."
 		},
@@ -9880,14 +9130,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"shy\"?",
-			"options": [
-				"nervoso",
-				"timido",
-				"serio",
-				"inutile"
-			],
+			"options": [],
 			"answer": "timido",
 			"explanation": "\"shy\": timido."
 		},
@@ -9912,14 +9157,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"friendly\"?",
-			"options": [
-				"impossibile",
-				"importante",
-				"arrabbiato",
-				"amichevole"
-			],
+			"options": [],
 			"answer": "amichevole",
 			"explanation": "\"friendly\": amichevole."
 		},
@@ -9944,14 +9184,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"funny\"?",
-			"options": [
-				"emozionato",
-				"divertente",
-				"brillante",
-				"spaventato"
-			],
+			"options": [],
 			"answer": "divertente",
 			"explanation": "\"funny\": divertente."
 		},
@@ -9976,14 +9211,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"clever\"?",
-			"options": [
-				"preoccupato",
-				"impossibile",
-				"interessato",
-				"intelligente"
-			],
+			"options": [],
 			"answer": "intelligente",
 			"explanation": "\"clever\": intelligente."
 		},
@@ -10008,14 +9238,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"lazy\"?",
-			"options": [
-				"triste",
-				"pigro",
-				"gentile",
-				"inutile"
-			],
+			"options": [],
 			"answer": "pigro",
 			"explanation": "\"lazy\": pigro."
 		},
@@ -10040,14 +9265,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"popular\"?",
-			"options": [
-				"inutile",
-				"brillante",
-				"sorpreso",
-				"popolare"
-			],
+			"options": [],
 			"answer": "popolare",
 			"explanation": "\"popular\": popolare."
 		},
@@ -10072,14 +9292,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"calm\"?",
-			"options": [
-				"pigro",
-				"calmo",
-				"inutile",
-				"popolare"
-			],
+			"options": [],
 			"answer": "calmo",
 			"explanation": "\"calm\": calmo."
 		},
@@ -10120,16 +9335,14 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"onesto\"?",
-			"options": [
-				"honest",
-				"scared",
-				"bored",
-				"useful"
-			],
+			"options": [],
 			"answer": "honest",
-			"explanation": "\"honest\": onesto."
+			"explanation": "\"honest\": onesto.",
+			"accept": [
+				"to honest"
+			]
 		},
 		{
 			"id": "inglese-feelings-opinions-633-fair",
@@ -10168,14 +9381,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"useful\"?",
-			"options": [
-				"pigro",
-				"triste",
-				"nervoso",
-				"utile"
-			],
+			"options": [],
 			"answer": "utile",
 			"explanation": "\"useful\": utile."
 		},
@@ -10200,14 +9408,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"important\"?",
-			"options": [
-				"emozionato",
-				"importante",
-				"impossibile",
-				"arrabbiato"
-			],
+			"options": [],
 			"answer": "importante",
 			"explanation": "\"important\": importante."
 		},
@@ -10232,14 +9435,9 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"possible\"?",
-			"options": [
-				"arrabbiato",
-				"amichevole",
-				"spaventato",
-				"possibile"
-			],
+			"options": [],
 			"answer": "possibile",
 			"explanation": "\"possible\": possibile."
 		},
@@ -10280,16 +9478,14 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"idea\"?",
-			"options": [
-				"truth",
-				"dream",
-				"idea",
-				"plan"
-			],
+			"options": [],
 			"answer": "idea",
-			"explanation": "\"idea\": idea."
+			"explanation": "\"idea\": idea.",
+			"accept": [
+				"to idea"
+			]
 		},
 		{
 			"id": "inglese-feelings-opinions-643-opinion",
@@ -10312,16 +9508,14 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"scelta\"?",
-			"options": [
-				"choice",
-				"opinion",
-				"truth",
-				"failure"
-			],
+			"options": [],
 			"answer": "choice",
-			"explanation": "\"choice\": scelta."
+			"explanation": "\"choice\": scelta.",
+			"accept": [
+				"to choice"
+			]
 		},
 		{
 			"id": "inglese-feelings-opinions-645-plan",
@@ -10344,16 +9538,14 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"problema\"?",
-			"options": [
-				"solution",
-				"chance",
-				"problem",
-				"opinion"
-			],
+			"options": [],
 			"answer": "problem",
-			"explanation": "\"problem\": problema."
+			"explanation": "\"problem\": problema.",
+			"accept": [
+				"to problem"
+			]
 		},
 		{
 			"id": "inglese-feelings-opinions-647-solution",
@@ -10376,16 +9568,14 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"errore\"?",
-			"options": [
-				"mistake",
-				"success",
-				"solution",
-				"choice"
-			],
+			"options": [],
 			"answer": "mistake",
-			"explanation": "\"mistake\": errore."
+			"explanation": "\"mistake\": errore.",
+			"accept": [
+				"to mistake"
+			]
 		},
 		{
 			"id": "inglese-feelings-opinions-649-chance",
@@ -10408,16 +9598,14 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"speranza\"?",
-			"options": [
-				"choice",
-				"plan",
-				"hope",
-				"idea"
-			],
+			"options": [],
 			"answer": "hope",
-			"explanation": "\"hope\": speranza."
+			"explanation": "\"hope\": speranza.",
+			"accept": [
+				"to hope"
+			]
 		},
 		{
 			"id": "inglese-feelings-opinions-651-fear",
@@ -10440,16 +9628,14 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"sogno\"?",
-			"options": [
-				"dream",
-				"hope",
-				"idea",
-				"truth"
-			],
+			"options": [],
 			"answer": "dream",
-			"explanation": "\"dream\": sogno."
+			"explanation": "\"dream\": sogno.",
+			"accept": [
+				"to dream"
+			]
 		},
 		{
 			"id": "inglese-feelings-opinions-653-success",
@@ -10472,16 +9658,14 @@
 			"subject": "inglese",
 			"topic": "feelings-opinions",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"fallimento\"?",
-			"options": [
-				"solution",
-				"opinion",
-				"failure",
-				"problem"
-			],
+			"options": [],
 			"answer": "failure",
-			"explanation": "\"failure\": fallimento."
+			"explanation": "\"failure\": fallimento.",
+			"accept": [
+				"to failure"
+			]
 		},
 		{
 			"id": "inglese-feelings-opinions-655-truth",
@@ -10520,14 +9704,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"laptop\"?",
-			"options": [
-				"messaggio",
-				"portatile",
-				"telefono",
-				"cartella"
-			],
+			"options": [],
 			"answer": "portatile",
 			"explanation": "\"laptop\": portatile."
 		},
@@ -10552,14 +9731,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"phone\"?",
-			"options": [
-				"sito web",
-				"internet",
-				"password",
-				"telefono"
-			],
+			"options": [],
 			"answer": "telefono",
 			"explanation": "\"phone\": telefono."
 		},
@@ -10584,14 +9758,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"charger\"?",
-			"options": [
-				"commento",
-				"caricatore",
-				"password",
-				"nome utente"
-			],
+			"options": [],
 			"answer": "caricatore",
 			"explanation": "\"charger\": caricatore."
 		},
@@ -10616,14 +9785,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"speaker\"?",
-			"options": [
-				"fotocamera",
-				"file scaricato",
-				"cartella",
-				"altoparlante"
-			],
+			"options": [],
 			"answer": "altoparlante",
 			"explanation": "\"speaker\": altoparlante."
 		},
@@ -10648,14 +9812,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"printer\"?",
-			"options": [
-				"fotocamera",
-				"stampante",
-				"cartella",
-				"messaggio"
-			],
+			"options": [],
 			"answer": "stampante",
 			"explanation": "\"printer\": stampante."
 		},
@@ -10680,14 +9839,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"photo\"?",
-			"options": [
-				"gioco",
-				"account",
-				"cuffie",
-				"foto"
-			],
+			"options": [],
 			"answer": "foto",
 			"explanation": "\"photo\": foto."
 		},
@@ -10728,16 +9882,14 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"pagina\"?",
-			"options": [
-				"video",
-				"photo",
-				"page",
-				"phone"
-			],
+			"options": [],
 			"answer": "page",
-			"explanation": "\"page\": pagina."
+			"explanation": "\"page\": pagina.",
+			"accept": [
+				"to page"
+			]
 		},
 		{
 			"id": "inglese-digital-media-671-link",
@@ -10792,16 +9944,14 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"account\"?",
-			"options": [
-				"website",
-				"username",
-				"account",
-				"tablet"
-			],
+			"options": [],
 			"answer": "account",
-			"explanation": "\"account\": account."
+			"explanation": "\"account\": account.",
+			"accept": [
+				"to account"
+			]
 		},
 		{
 			"id": "inglese-digital-media-675-app",
@@ -10824,16 +9974,14 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"gioco\"?",
-			"options": [
-				"game",
-				"phone",
-				"post",
-				"page"
-			],
+			"options": [],
 			"answer": "game",
-			"explanation": "\"game\": gioco."
+			"explanation": "\"game\": gioco.",
+			"accept": [
+				"to game"
+			]
 		},
 		{
 			"id": "inglese-digital-media-677-message",
@@ -10856,16 +10004,14 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"chat\"?",
-			"options": [
-				"game",
-				"video",
-				"chat",
-				"file"
-			],
+			"options": [],
 			"answer": "chat",
-			"explanation": "\"chat\": chat."
+			"explanation": "\"chat\": chat.",
+			"accept": [
+				"to chat"
+			]
 		},
 		{
 			"id": "inglese-digital-media-679-post",
@@ -10888,16 +10034,14 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"commento\"?",
-			"options": [
-				"comment",
-				"password",
-				"charger",
-				"speaker"
-			],
+			"options": [],
 			"answer": "comment",
-			"explanation": "\"comment\": commento."
+			"explanation": "\"comment\": commento.",
+			"accept": [
+				"to comment"
+			]
 		},
 		{
 			"id": "inglese-digital-media-681-news",
@@ -10920,16 +10064,14 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"articolo\"?",
-			"options": [
-				"internet",
-				"account",
-				"article",
-				"website"
-			],
+			"options": [],
 			"answer": "article",
-			"explanation": "\"article\": articolo."
+			"explanation": "\"article\": articolo.",
+			"accept": [
+				"to article"
+			]
 		},
 		{
 			"id": "inglese-digital-media-683-search-result",
@@ -11000,14 +10142,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"folder\"?",
-			"options": [
-				"password",
-				"articolo",
-				"telefono",
-				"cartella"
-			],
+			"options": [],
 			"answer": "cartella",
 			"explanation": "\"folder\": cartella."
 		},
@@ -11032,14 +10169,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"keyboard\"?",
-			"options": [
-				"account",
-				"tastiera",
-				"notizia",
-				"commento"
-			],
+			"options": [],
 			"answer": "tastiera",
 			"explanation": "\"keyboard\": tastiera."
 		},
@@ -11064,14 +10196,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"click\"?",
-			"options": [
-				"accedere",
-				"digitare",
-				"stampare",
-				"cliccare"
-			],
+			"options": [],
 			"answer": "cliccare",
 			"explanation": "\"click\": cliccare."
 		},
@@ -11096,14 +10223,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"print\"?",
-			"options": [
-				"spegnere",
-				"stampare",
-				"accendere",
-				"accedere"
-			],
+			"options": [],
 			"answer": "stampare",
 			"explanation": "\"print\": stampare."
 		},
@@ -11128,14 +10250,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"delete\"?",
-			"options": [
-				"scaricare",
-				"accedere",
-				"digitare",
-				"cancellare"
-			],
+			"options": [],
 			"answer": "cancellare",
 			"explanation": "\"delete\": cancellare."
 		},
@@ -11160,14 +10277,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"paste\"?",
-			"options": [
-				"digitare",
-				"incollare",
-				"cliccare",
-				"stampare"
-			],
+			"options": [],
 			"answer": "incollare",
 			"explanation": "\"paste\": incollare."
 		},
@@ -11192,14 +10304,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"search\"?",
-			"options": [
-				"digitare",
-				"stampare",
-				"salvare",
-				"cercare"
-			],
+			"options": [],
 			"answer": "cercare",
 			"explanation": "\"search\": cercare."
 		},
@@ -11288,14 +10395,9 @@
 			"subject": "inglese",
 			"topic": "digital-media",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"switch off\"?",
-			"options": [
-				"accedere",
-				"spegnere",
-				"stampare",
-				"accendere"
-			],
+			"options": [],
 			"answer": "spegnere",
 			"explanation": "\"switch off\": spegnere."
 		},
@@ -11320,14 +10422,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"work\"?",
-			"options": [
-				"attore",
-				"azienda",
-				"soldato",
-				"lavoro"
-			],
+			"options": [],
 			"answer": "lavoro",
 			"explanation": "\"work\": lavoro."
 		},
@@ -11352,14 +10449,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"manager\"?",
-			"options": [
-				"volontario",
-				"responsabile",
-				"scienziato",
-				"cameriere"
-			],
+			"options": [],
 			"answer": "responsabile",
 			"explanation": "\"manager\": responsabile."
 		},
@@ -11384,14 +10476,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"driver\"?",
-			"options": [
-				"progetto",
-				"azienda",
-				"artista",
-				"autista"
-			],
+			"options": [],
 			"answer": "autista",
 			"explanation": "\"driver\": autista."
 		},
@@ -11416,14 +10503,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"waiter\"?",
-			"options": [
-				"musicista",
-				"cameriere",
-				"ingegnere",
-				"volontario"
-			],
+			"options": [],
 			"answer": "cameriere",
 			"explanation": "\"waiter\": cameriere."
 		},
@@ -11464,16 +10546,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"ingegnere\"?",
-			"options": [
-				"engineer",
-				"scientist",
-				"musician",
-				"customer"
-			],
+			"options": [],
 			"answer": "engineer",
-			"explanation": "\"engineer\": ingegnere."
+			"explanation": "\"engineer\": ingegnere.",
+			"accept": [
+				"to engineer"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-717-scientist",
@@ -11496,16 +10576,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"artista\"?",
-			"options": [
-				"waiter",
-				"project",
-				"artist",
-				"salary"
-			],
+			"options": [],
 			"answer": "artist",
-			"explanation": "\"artist\": artista."
+			"explanation": "\"artist\": artista.",
+			"accept": [
+				"to artist"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-719-musician",
@@ -11528,16 +10606,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"attore\"?",
-			"options": [
-				"actor",
-				"shift",
-				"farmer",
-				"office"
-			],
+			"options": [],
 			"answer": "actor",
-			"explanation": "\"actor\": attore."
+			"explanation": "\"actor\": attore.",
+			"accept": [
+				"to actor"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-721-writer",
@@ -11560,16 +10636,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"giornalista\"?",
-			"options": [
-				"interview",
-				"appointment",
-				"journalist",
-				"mechanic"
-			],
+			"options": [],
 			"answer": "journalist",
-			"explanation": "\"journalist\": giornalista."
+			"explanation": "\"journalist\": giornalista.",
+			"accept": [
+				"to journalist"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-723-police-officer",
@@ -11592,16 +10666,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"vigile del fuoco\"?",
-			"options": [
-				"firefighter",
-				"interview",
-				"mechanic",
-				"shop assistant"
-			],
+			"options": [],
 			"answer": "firefighter",
-			"explanation": "\"firefighter\": vigile del fuoco."
+			"explanation": "\"firefighter\": vigile del fuoco.",
+			"accept": [
+				"to firefighter"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-725-soldier",
@@ -11624,16 +10696,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"ufficio\"?",
-			"options": [
-				"worker",
-				"salary",
-				"office",
-				"artist"
-			],
+			"options": [],
 			"answer": "office",
-			"explanation": "\"office\": ufficio."
+			"explanation": "\"office\": ufficio.",
+			"accept": [
+				"to office"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-727-factory",
@@ -11656,16 +10726,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"fattoria\"?",
-			"options": [
-				"farm",
-				"task",
-				"waiter",
-				"work"
-			],
+			"options": [],
 			"answer": "farm",
-			"explanation": "\"farm\": fattoria."
+			"explanation": "\"farm\": fattoria.",
+			"accept": [
+				"to farm"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-729-company",
@@ -11688,16 +10756,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"squadra\"?",
-			"options": [
-				"task",
-				"club",
-				"team",
-				"actor"
-			],
+			"options": [],
 			"answer": "team",
-			"explanation": "\"team\": squadra."
+			"explanation": "\"team\": squadra.",
+			"accept": [
+				"to team"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-731-meeting",
@@ -11720,16 +10786,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"progetto\"?",
-			"options": [
-				"project",
-				"charity",
-				"college",
-				"soldier"
-			],
+			"options": [],
 			"answer": "project",
-			"explanation": "\"project\": progetto."
+			"explanation": "\"project\": progetto.",
+			"accept": [
+				"to project"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-733-task",
@@ -11752,16 +10816,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"servizio\"?",
-			"options": [
-				"charity",
-				"citizen",
-				"service",
-				"soldier"
-			],
+			"options": [],
 			"answer": "service",
-			"explanation": "\"service\": servizio."
+			"explanation": "\"service\": servizio.",
+			"accept": [
+				"to service"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-735-community",
@@ -11800,14 +10862,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"school\"?",
-			"options": [
-				"soldato",
-				"scuola",
-				"attore",
-				"compito"
-			],
+			"options": [],
 			"answer": "scuola",
 			"explanation": "\"school\": scuola."
 		},
@@ -11832,14 +10889,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"club\"?",
-			"options": [
-				"cuoco",
-				"lavoro",
-				"cliente",
-				"club"
-			],
+			"options": [],
 			"answer": "club",
 			"explanation": "\"club\": club."
 		},
@@ -11864,14 +10916,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"local\"?",
-			"options": [
-				"pubblico",
-				"locale",
-				"temporaneo",
-				"occupato"
-			],
+			"options": [],
 			"answer": "locale",
 			"explanation": "\"local\": locale."
 		},
@@ -11896,14 +10943,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"private\"?",
-			"options": [
-				"occupato",
-				"temporaneo",
-				"part-time",
-				"privato"
-			],
+			"options": [],
 			"answer": "privato",
 			"explanation": "\"private\": privato."
 		},
@@ -11928,14 +10970,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"responsible\"?",
-			"options": [
-				"part-time",
-				"responsabile",
-				"professionale",
-				"temporaneo"
-			],
+			"options": [],
 			"answer": "responsabile",
 			"explanation": "\"responsible\": responsabile."
 		},
@@ -11976,16 +11013,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"part-time\"?",
-			"options": [
-				"part-time",
-				"full-time",
-				"private",
-				"responsible"
-			],
+			"options": [],
 			"answer": "part-time",
-			"explanation": "\"part-time\": part-time."
+			"explanation": "\"part-time\": part-time.",
+			"accept": [
+				"to part-time"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-749-busy",
@@ -12008,16 +11043,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"disponibile\"?",
-			"options": [
-				"temporary",
-				"private",
-				"available",
-				"part-time"
-			],
+			"options": [],
 			"answer": "available",
-			"explanation": "\"available\": disponibile."
+			"explanation": "\"available\": disponibile.",
+			"accept": [
+				"to available"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-751-interview",
@@ -12040,16 +11073,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"stipendio\"?",
-			"options": [
-				"salary",
-				"project",
-				"writer",
-				"charity"
-			],
+			"options": [],
 			"answer": "salary",
-			"explanation": "\"salary\": stipendio."
+			"explanation": "\"salary\": stipendio.",
+			"accept": [
+				"to salary"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-753-shift",
@@ -12072,16 +11103,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"collega\"?",
-			"options": [
-				"journalist",
-				"soldier",
-				"colleague",
-				"mechanic"
-			],
+			"options": [],
 			"answer": "colleague",
-			"explanation": "\"colleague\": collega."
+			"explanation": "\"colleague\": collega.",
+			"accept": [
+				"to colleague"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-755-customer",
@@ -12104,16 +11133,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"appuntamento\"?",
-			"options": [
-				"appointment",
-				"interview",
-				"community",
-				"colleague"
-			],
+			"options": [],
 			"answer": "appointment",
-			"explanation": "\"appointment\": appuntamento."
+			"explanation": "\"appointment\": appuntamento.",
+			"accept": [
+				"to appointment"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-757-council",
@@ -12168,16 +11195,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"volontario\"?",
-			"options": [
-				"volunteer",
-				"engineer",
-				"scientist",
-				"soldier"
-			],
+			"options": [],
 			"answer": "volunteer",
-			"explanation": "\"volunteer\": volontario."
+			"explanation": "\"volunteer\": volontario.",
+			"accept": [
+				"to volunteer"
+			]
 		},
 		{
 			"id": "inglese-jobs-community-761-apply-for",
@@ -12216,14 +11241,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"earn\"?",
-			"options": [
-				"collaborare",
-				"riparare",
-				"consegnare",
-				"guadagnare"
-			],
+			"options": [],
 			"answer": "guadagnare",
 			"explanation": "\"earn\": guadagnare."
 		},
@@ -12248,14 +11268,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"deliver\"?",
-			"options": [
-				"assumere",
-				"consegnare",
-				"riparare",
-				"collaborare"
-			],
+			"options": [],
 			"answer": "consegnare",
 			"explanation": "\"deliver\": consegnare."
 		},
@@ -12280,14 +11295,9 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"serve\"?",
-			"options": [
-				"gestire",
-				"consegnare",
-				"guadagnare",
-				"servire"
-			],
+			"options": [],
 			"answer": "servire",
 			"explanation": "\"serve\": servire."
 		},
@@ -12328,16 +11338,14 @@
 			"subject": "inglese",
 			"topic": "jobs-community",
 			"difficulty": 4,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"collaborare\"?",
-			"options": [
-				"apply for",
-				"deliver",
-				"cooperate",
-				"manage"
-			],
+			"options": [],
 			"answer": "cooperate",
-			"explanation": "\"cooperate\": collaborare."
+			"explanation": "\"cooperate\": collaborare.",
+			"accept": [
+				"to cooperate"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-771-sport",
@@ -12360,16 +11368,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"calcio\"?",
-			"options": [
-				"football",
-				"cycling",
-				"running",
-				"painting"
-			],
+			"options": [],
 			"answer": "football",
-			"explanation": "\"football\": calcio."
+			"explanation": "\"football\": calcio.",
+			"accept": [
+				"to football"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-773-basketball",
@@ -12392,16 +11398,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"tennis\"?",
-			"options": [
-				"ticket",
-				"dance",
-				"tennis",
-				"player"
-			],
+			"options": [],
 			"answer": "tennis",
-			"explanation": "\"tennis\": tennis."
+			"explanation": "\"tennis\": tennis.",
+			"accept": [
+				"to tennis"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-775-volleyball",
@@ -12424,16 +11428,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"nuoto\"?",
-			"options": [
-				"swimming",
-				"magazine",
-				"painting",
-				"cartoon"
-			],
+			"options": [],
 			"answer": "swimming",
-			"explanation": "\"swimming\": nuoto."
+			"explanation": "\"swimming\": nuoto.",
+			"accept": [
+				"to swimming"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-777-running",
@@ -12456,16 +11458,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"ciclismo\"?",
-			"options": [
-				"ticket",
-				"painting",
-				"cycling",
-				"magazine"
-			],
+			"options": [],
 			"answer": "cycling",
-			"explanation": "\"cycling\": ciclismo."
+			"explanation": "\"cycling\": ciclismo.",
+			"accept": [
+				"to cycling"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-779-dance",
@@ -12488,16 +11488,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"musica\"?",
-			"options": [
-				"music",
-				"race",
-				"story",
-				"hobby"
-			],
+			"options": [],
 			"answer": "music",
-			"explanation": "\"music\": musica."
+			"explanation": "\"music\": musica.",
+			"accept": [
+				"to music"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-781-song",
@@ -12520,16 +11518,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"film\"?",
-			"options": [
-				"song",
-				"race",
-				"film",
-				"score"
-			],
+			"options": [],
 			"answer": "film",
-			"explanation": "\"film\": film."
+			"explanation": "\"film\": film.",
+			"accept": [
+				"to film"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-783-movie",
@@ -12552,16 +11548,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"cartone animato\"?",
-			"options": [
-				"cartoon",
-				"festival",
-				"drawing",
-				"running"
-			],
+			"options": [],
 			"answer": "cartoon",
-			"explanation": "\"cartoon\": cartone animato."
+			"explanation": "\"cartoon\": cartone animato.",
+			"accept": [
+				"to cartoon"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-785-book",
@@ -12584,16 +11578,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"storia / racconto\"?",
-			"options": [
-				"match",
-				"comic",
-				"story",
-				"tennis"
-			],
+			"options": [],
 			"answer": "story",
-			"explanation": "\"story\": storia / racconto."
+			"explanation": "\"story\": storia / racconto.",
+			"accept": [
+				"to story"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-787-magazine",
@@ -12616,16 +11608,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"fumetto\"?",
-			"options": [
-				"comic",
-				"team",
-				"hobby",
-				"dance"
-			],
+			"options": [],
 			"answer": "comic",
-			"explanation": "\"comic\": fumetto."
+			"explanation": "\"comic\": fumetto.",
+			"accept": [
+				"to comic"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-789-drawing",
@@ -12648,16 +11638,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"dipinto\"?",
-			"options": [
-				"football",
-				"ticket",
-				"painting",
-				"swimming"
-			],
+			"options": [],
 			"answer": "painting",
-			"explanation": "\"painting\": dipinto."
+			"explanation": "\"painting\": dipinto.",
+			"accept": [
+				"to painting"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-791-hobby",
@@ -12696,14 +11684,9 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"competition\"?",
-			"options": [
-				"tennis",
-				"gara",
-				"musica",
-				"premio"
-			],
+			"options": [],
 			"answer": "gara",
 			"explanation": "\"competition\": gara."
 		},
@@ -12744,16 +11727,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"punteggio\"?",
-			"options": [
-				"score",
-				"movie",
-				"hobby",
-				"film"
-			],
+			"options": [],
 			"answer": "score",
-			"explanation": "\"score\": punteggio."
+			"explanation": "\"score\": punteggio.",
+			"accept": [
+				"to score"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-797-team",
@@ -12776,16 +11757,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"giocatore\"?",
-			"options": [
-				"cycling",
-				"prize",
-				"player",
-				"dance"
-			],
+			"options": [],
 			"answer": "player",
-			"explanation": "\"player\": giocatore."
+			"explanation": "\"player\": giocatore.",
+			"accept": [
+				"to player"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-799-winner",
@@ -12808,16 +11787,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"premio\"?",
-			"options": [
-				"prize",
-				"movie",
-				"sport",
-				"ticket"
-			],
+			"options": [],
 			"answer": "prize",
-			"explanation": "\"prize\": premio."
+			"explanation": "\"prize\": premio.",
+			"accept": [
+				"to prize"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-801-concert",
@@ -12840,16 +11817,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"festival\"?",
-			"options": [
-				"audience",
-				"cycling",
-				"festival",
-				"cartoon"
-			],
+			"options": [],
 			"answer": "festival",
-			"explanation": "\"festival\": festival."
+			"explanation": "\"festival\": festival.",
+			"accept": [
+				"to festival"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-803-exhibition",
@@ -12872,16 +11847,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"biglietto\"?",
-			"options": [
-				"ticket",
-				"dance",
-				"concert",
-				"drawing"
-			],
+			"options": [],
 			"answer": "ticket",
-			"explanation": "\"ticket\": biglietto."
+			"explanation": "\"ticket\": biglietto.",
+			"accept": [
+				"to ticket"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-805-audience",
@@ -12904,16 +11877,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"interessante\"?",
-			"options": [
-				"terrible",
-				"popular",
-				"interesting",
-				"creative"
-			],
+			"options": [],
 			"answer": "interesting",
-			"explanation": "\"interesting\": interessante."
+			"explanation": "\"interesting\": interessante.",
+			"accept": [
+				"to interesting"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-807-boring",
@@ -12936,16 +11907,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"divertente\"?",
-			"options": [
-				"fun",
-				"famous",
-				"boring",
-				"popular"
-			],
+			"options": [],
 			"answer": "fun",
-			"explanation": "\"fun\": divertente."
+			"explanation": "\"fun\": divertente.",
+			"accept": [
+				"to fun"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-809-amazing",
@@ -12968,16 +11937,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"terribile\"?",
-			"options": [
-				"amazing",
-				"popular",
-				"terrible",
-				"modern"
-			],
+			"options": [],
 			"answer": "terrible",
-			"explanation": "\"terrible\": terribile."
+			"explanation": "\"terrible\": terribile.",
+			"accept": [
+				"to terrible"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-811-popular",
@@ -13000,16 +11967,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"tradizionale\"?",
-			"options": [
-				"traditional",
-				"creative",
-				"amazing",
-				"terrible"
-			],
+			"options": [],
 			"answer": "traditional",
-			"explanation": "\"traditional\": tradizionale."
+			"explanation": "\"traditional\": tradizionale.",
+			"accept": [
+				"to traditional"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-813-modern",
@@ -13032,16 +11997,14 @@
 			"subject": "inglese",
 			"topic": "leisure-culture",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"creativo\"?",
-			"options": [
-				"terrible",
-				"boring",
-				"creative",
-				"popular"
-			],
+			"options": [],
 			"answer": "creative",
-			"explanation": "\"creative\": creativo."
+			"explanation": "\"creative\": creativo.",
+			"accept": [
+				"to creative"
+			]
 		},
 		{
 			"id": "inglese-leisure-culture-815-famous",
@@ -13064,16 +12027,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"animale\"?",
-			"options": [
-				"animal",
-				"ocean",
-				"beach",
-				"plastic"
-			],
+			"options": [],
 			"answer": "animal",
-			"explanation": "\"animal\": animale."
+			"explanation": "\"animal\": animale.",
+			"accept": [
+				"to animal"
+			]
 		},
 		{
 			"id": "inglese-nature-environment-817-bird",
@@ -13096,16 +12057,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"gatto\"?",
-			"options": [
-				"lake",
-				"bird",
-				"cat",
-				"dog"
-			],
+			"options": [],
 			"answer": "cat",
-			"explanation": "\"cat\": gatto."
+			"explanation": "\"cat\": gatto.",
+			"accept": [
+				"to cat"
+			]
 		},
 		{
 			"id": "inglese-nature-environment-819-dog",
@@ -13128,16 +12087,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"cavallo\"?",
-			"options": [
-				"horse",
-				"field",
-				"ocean",
-				"earth"
-			],
+			"options": [],
 			"answer": "horse",
-			"explanation": "\"horse\": cavallo."
+			"explanation": "\"horse\": cavallo.",
+			"accept": [
+				"to horse"
+			]
 		},
 		{
 			"id": "inglese-nature-environment-821-fish",
@@ -13160,16 +12117,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"albero\"?",
-			"options": [
-				"lake",
-				"fish",
-				"tree",
-				"rock"
-			],
+			"options": [],
 			"answer": "tree",
-			"explanation": "\"tree\": albero."
+			"explanation": "\"tree\": albero.",
+			"accept": [
+				"to tree"
+			]
 		},
 		{
 			"id": "inglese-nature-environment-823-flower",
@@ -13192,16 +12147,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"pianta\"?",
-			"options": [
-				"plant",
-				"grass",
-				"horse",
-				"stone"
-			],
+			"options": [],
 			"answer": "plant",
-			"explanation": "\"plant\": pianta."
+			"explanation": "\"plant\": pianta.",
+			"accept": [
+				"to plant"
+			]
 		},
 		{
 			"id": "inglese-nature-environment-825-grass",
@@ -13224,16 +12177,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"foresta\"?",
-			"options": [
-				"field",
-				"beach",
-				"forest",
-				"horse"
-			],
+			"options": [],
 			"answer": "forest",
-			"explanation": "\"forest\": foresta."
+			"explanation": "\"forest\": foresta.",
+			"accept": [
+				"to forest"
+			]
 		},
 		{
 			"id": "inglese-nature-environment-827-wood",
@@ -13272,14 +12223,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"farm\"?",
-			"options": [
-				"ambiente",
-				"fattoria",
-				"plastica",
-				"roccia"
-			],
+			"options": [],
 			"answer": "fattoria",
 			"explanation": "\"farm\": fattoria."
 		},
@@ -13304,14 +12250,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"mountain\"?",
-			"options": [
-				"foresta",
-				"plastica",
-				"fattoria",
-				"montagna"
-			],
+			"options": [],
 			"answer": "montagna",
 			"explanation": "\"mountain\": montagna."
 		},
@@ -13336,14 +12277,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"river\"?",
-			"options": [
-				"pesce",
-				"fiume",
-				"fuoco",
-				"aria"
-			],
+			"options": [],
 			"answer": "fiume",
 			"explanation": "\"river\": fiume."
 		},
@@ -13368,14 +12304,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"ocean\"?",
-			"options": [
-				"pianta",
-				"sabbia",
-				"spazio",
-				"oceano"
-			],
+			"options": [],
 			"answer": "oceano",
 			"explanation": "\"ocean\": oceano."
 		},
@@ -13400,14 +12331,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"beach\"?",
-			"options": [
-				"cavallo",
-				"spiaggia",
-				"uccello",
-				"pietra"
-			],
+			"options": [],
 			"answer": "spiaggia",
 			"explanation": "\"beach\": spiaggia."
 		},
@@ -13432,14 +12358,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"stone\"?",
-			"options": [
-				"spazio",
-				"uccello",
-				"oceano",
-				"pietra"
-			],
+			"options": [],
 			"answer": "pietra",
 			"explanation": "\"stone\": pietra."
 		},
@@ -13464,14 +12385,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"air\"?",
-			"options": [
-				"fuoco",
-				"aria",
-				"lago",
-				"erba"
-			],
+			"options": [],
 			"answer": "aria",
 			"explanation": "\"air\": aria."
 		},
@@ -13496,14 +12412,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"fire\"?",
-			"options": [
-				"albero",
-				"campo",
-				"gatto",
-				"fuoco"
-			],
+			"options": [],
 			"answer": "fuoco",
 			"explanation": "\"fire\": fuoco."
 		},
@@ -13528,14 +12439,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"space\"?",
-			"options": [
-				"sabbia",
-				"spazio",
-				"collina",
-				"terra"
-			],
+			"options": [],
 			"answer": "spazio",
 			"explanation": "\"space\": spazio."
 		},
@@ -13560,14 +12466,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"pollution\"?",
-			"options": [
-				"plastica",
-				"energia",
-				"uccello",
-				"inquinamento"
-			],
+			"options": [],
 			"answer": "inquinamento",
 			"explanation": "\"pollution\": inquinamento."
 		},
@@ -13592,14 +12493,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 1,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"plastic\"?",
-			"options": [
-				"fattoria",
-				"plastica",
-				"animale",
-				"spazio"
-			],
+			"options": [],
 			"answer": "plastica",
 			"explanation": "\"plastic\": plastica."
 		},
@@ -13624,14 +12520,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"natural\"?",
-			"options": [
-				"stretto",
-				"profondo",
-				"selvatico",
-				"naturale"
-			],
+			"options": [],
 			"answer": "naturale",
 			"explanation": "\"natural\": naturale."
 		},
@@ -13656,14 +12547,9 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"clean\"?",
-			"options": [
-				"ampio",
-				"pulito",
-				"profondo",
-				"stretto"
-			],
+			"options": [],
 			"answer": "pulito",
 			"explanation": "\"clean\": pulito."
 		},
@@ -13704,16 +12590,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"puro\"?",
-			"options": [
-				"pure",
-				"wide",
-				"dirty",
-				"wild"
-			],
+			"options": [],
 			"answer": "pure",
-			"explanation": "\"pure\": puro."
+			"explanation": "\"pure\": puro.",
+			"accept": [
+				"to pure"
+			]
 		},
 		{
 			"id": "inglese-nature-environment-857-deep",
@@ -13736,16 +12620,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"poco profondo\"?",
-			"options": [
-				"narrow",
-				"natural",
-				"shallow",
-				"clean"
-			],
+			"options": [],
 			"answer": "shallow",
-			"explanation": "\"shallow\": poco profondo."
+			"explanation": "\"shallow\": poco profondo.",
+			"accept": [
+				"to shallow"
+			]
 		},
 		{
 			"id": "inglese-nature-environment-859-wide",
@@ -13768,16 +12650,14 @@
 			"subject": "inglese",
 			"topic": "nature-environment",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si dice in inglese: \"stretto\"?",
-			"options": [
-				"narrow",
-				"dirty",
-				"natural",
-				"green"
-			],
+			"options": [],
 			"answer": "narrow",
-			"explanation": "\"narrow\": stretto."
+			"explanation": "\"narrow\": stretto.",
+			"accept": [
+				"to narrow"
+			]
 		},
 		{
 			"id": "inglese-everyday-phrases-861-take-a-photo",
@@ -14424,14 +13304,9 @@
 			"subject": "inglese",
 			"topic": "everyday-phrases",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"get ready\"?",
-			"options": [
-				"stancarsi",
-				"prepararsi",
-				"peggiorare",
-				"dare aiuto"
-			],
+			"options": [],
 			"answer": "prepararsi",
 			"explanation": "get + aggettivo vuol dire diventare: get ready = diventare pronto, cioè prepararsi."
 		},
@@ -14488,14 +13363,9 @@
 			"subject": "inglese",
 			"topic": "everyday-phrases",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"get lost\"?",
-			"options": [
-				"dare aiuto",
-				"perdersi",
-				"girarsi",
-				"prepararsi"
-			],
+			"options": [],
 			"answer": "perdersi",
 			"explanation": "get lost = diventare perso. In italiano si usa un verbo riflessivo."
 		},
@@ -15320,14 +14190,9 @@
 			"subject": "inglese",
 			"topic": "everyday-phrases",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Cosa significa in italiano \"turn around\"?",
-			"options": [
-				"dare aiuto",
-				"girarsi",
-				"cenare",
-				"riposarsi"
-			],
+			"options": [],
 			"answer": "girarsi",
 			"explanation": "turn around = voltarsi dalla parte opposta."
 		},

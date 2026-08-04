@@ -5256,14 +5256,9 @@
 			"subject": "italiano",
 			"topic": "ortografia",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si scrive il plurale di «camicia»?",
-			"options": [
-				"camicie",
-				"camice",
-				"camicee",
-				"camici"
-			],
+			"options": [],
 			"answer": "camicie",
 			"explanation": "Quando la «cia» è preceduta da vocale il plurale tiene la i: camicia→camicie, ciliegia→ciliegie."
 		},
@@ -5272,14 +5267,9 @@
 			"subject": "italiano",
 			"topic": "ortografia",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si scrive il plurale di «arancia»?",
-			"options": [
-				"arancee",
-				"arance",
-				"arancie",
-				"aranci"
-			],
+			"options": [],
 			"answer": "arance",
 			"explanation": "Qui la «cia» è preceduta da consonante, quindi la i cade: arancia→arance, pioggia→piogge."
 		},
@@ -5400,14 +5390,9 @@
 			"subject": "italiano",
 			"topic": "ortografia",
 			"difficulty": 3,
-			"format": "multiple_choice",
+			"format": "short_answer",
 			"prompt": "Come si scrive il plurale di «farmacia»?",
-			"options": [
-				"farmaci",
-				"farmacie",
-				"farmace",
-				"farmacee"
-			],
+			"options": [],
 			"answer": "farmacie",
 			"explanation": "Qui la i è accentata e si sente: farmacìa→farmacie. La regola cade quando la i è tonica."
 		},
@@ -7368,6 +7353,1694 @@
 			],
 			"answer": "Ad annunciare una spiegazione o un elenco",
 			"explanation": "I due punti aprono qualcosa: una spiegazione, un elenco o le parole di qualcuno."
+		},
+		{
+			"id": "italiano-banda-ortografia-135",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si scrive il plurale di «amico»?",
+			"options": [],
+			"answer": "amici",
+			"accept": [],
+			"explanation": "Davanti alla i il c resta duro: amici si legge con la c di casa."
+		},
+		{
+			"id": "italiano-banda-ortografia-136",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si scrive il plurale di «valigia»?",
+			"options": [],
+			"answer": "valigie",
+			"accept": [],
+			"explanation": "La i si conserva perché prima della g c'è una vocale."
+		},
+		{
+			"id": "italiano-banda-ortografia-137",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si scrive il plurale di «spiaggia»?",
+			"options": [],
+			"answer": "spiagge",
+			"accept": [],
+			"explanation": "Prima della g c'è una consonante: la i cade."
+		},
+		{
+			"id": "italiano-banda-ortografia-138",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si scrive il plurale di «buccia»?",
+			"options": [],
+			"answer": "bucce",
+			"accept": [],
+			"explanation": "Consonante prima della c: la i non serve più."
+		},
+		{
+			"id": "italiano-banda-ortografia-139",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si scrive il plurale di «ciliegia»?",
+			"options": [],
+			"answer": "ciliegie",
+			"accept": [
+				"ciliege"
+			],
+			"explanation": "Vocale prima della g: la i resta."
+		},
+		{
+			"id": "italiano-banda-ortografia-140",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è il contrario di «regolare» ottenuto aggiungendo un prefisso?",
+			"options": [],
+			"answer": "irregolare",
+			"accept": [],
+			"explanation": "Davanti a r il prefisso in- diventa ir-."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-141",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il segno che chiude una domanda?",
+			"options": [],
+			"answer": "punto interrogativo",
+			"accept": [
+				"punto di domanda"
+			],
+			"explanation": "Dopo di lui la frase è finita: si ricomincia con la maiuscola."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-142",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il segno che introduce un elenco o una spiegazione?",
+			"options": [],
+			"answer": "due punti",
+			"accept": [
+				"i due punti"
+			],
+			"explanation": "Aprono: quello che segue spiega quello che precede."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-143",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il segno che separa parti collegate ma abbastanza autonome?",
+			"options": [],
+			"answer": "punto e virgola",
+			"accept": [],
+			"explanation": "Più della virgola, meno del punto."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-144",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiamano i segni che racchiudono le parole dette da un personaggio?",
+			"options": [],
+			"answer": "virgolette",
+			"accept": [],
+			"explanation": "Aprono e chiudono il discorso diretto."
+		},
+		{
+			"id": "italiano-banda-punteggiatura-145",
+			"subject": "italiano",
+			"topic": "punteggiatura",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il segno che indica una pausa breve dentro la frase?",
+			"options": [],
+			"answer": "virgola",
+			"accept": [
+				"la virgola"
+			],
+			"explanation": "Non si mette mai fra soggetto e verbo: spezzerebbe il legame principale."
+		},
+		{
+			"id": "italiano-banda-verbo-146",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è l'infinito del verbo nella frase «io corro»?",
+			"options": [],
+			"answer": "correre",
+			"accept": [],
+			"explanation": "L'infinito è la forma con cui il verbo si cerca nel vocabolario."
+		},
+		{
+			"id": "italiano-banda-verbo-147",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "A quale modo del verbo appartiene la forma «correndo»?",
+			"options": [],
+			"answer": "gerundio",
+			"accept": [],
+			"explanation": "Il gerundio esprime un'azione contemporanea a un'altra."
+		},
+		{
+			"id": "italiano-banda-verbo-148",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "A quale modo appartiene la forma «corri!» rivolta a qualcuno?",
+			"options": [],
+			"answer": "imperativo",
+			"accept": [],
+			"explanation": "È il modo dell'ordine, dell'invito e della richiesta."
+		},
+		{
+			"id": "italiano-banda-verbo-149",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "A quale tempo dell'indicativo appartiene «correvo»?",
+			"options": [],
+			"answer": "imperfetto",
+			"accept": [],
+			"explanation": "Racconta un'azione che durava o si ripeteva nel passato."
+		},
+		{
+			"id": "italiano-banda-verbo-150",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "A quale modo appartiene «se io corressi»?",
+			"options": [],
+			"answer": "congiuntivo",
+			"accept": [],
+			"explanation": "Il congiuntivo esprime possibilità, dubbio, desiderio."
+		},
+		{
+			"id": "italiano-banda-verbo-151",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte del verbo che resta uguale in tutte le voci?",
+			"options": [],
+			"answer": "radice",
+			"accept": [],
+			"explanation": "Alla radice si attaccano le desinenze: cant-o, cant-avo, cant-erò."
+		},
+		{
+			"id": "italiano-banda-verbo-152",
+			"subject": "italiano",
+			"topic": "verbo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il verbo che regge un complemento oggetto?",
+			"options": [],
+			"answer": "transitivo",
+			"accept": [],
+			"explanation": "L'azione passa dal soggetto all'oggetto: transitivo vuol dire che «passa»."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-153",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte del discorso che indica un'azione o uno stato?",
+			"options": [],
+			"answer": "verbo",
+			"accept": [],
+			"explanation": "È il cuore della frase: senza verbo non c'è frase."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-154",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte del discorso che indica una qualità del nome?",
+			"options": [],
+			"answer": "aggettivo",
+			"accept": [],
+			"explanation": "Si accorda con il nome in genere e numero."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-155",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte del discorso che sostituisce un nome?",
+			"options": [],
+			"answer": "pronome",
+			"accept": [],
+			"explanation": "Pro-nome: al posto del nome."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-156",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte del discorso che precisa un verbo, come «lentamente»?",
+			"options": [],
+			"answer": "avverbio",
+			"accept": [],
+			"explanation": "Precisa come, quando, quanto, dove."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-157",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parolina che collega due elementi, come «e» o «ma»?",
+			"options": [],
+			"answer": "congiunzione",
+			"accept": [],
+			"explanation": "Unisce parole o intere proposizioni."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-158",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte invariabile che introduce un complemento, come «di» o «con»?",
+			"options": [],
+			"answer": "preposizione",
+			"accept": [],
+			"explanation": "Da sola non dice niente: serve a legare."
+		},
+		{
+			"id": "italiano-banda-analisi-grammaticale-159",
+			"subject": "italiano",
+			"topic": "analisi-grammaticale",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parola che accompagna il nome, come «il» o «una»?",
+			"options": [],
+			"answer": "articolo",
+			"accept": [],
+			"explanation": "Determinativo se la cosa è nota, indeterminativo se è generica."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-160",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama chi compie l'azione nella frase?",
+			"options": [],
+			"answer": "soggetto",
+			"accept": [],
+			"explanation": "Risponde a «chi? che cosa?» prima del verbo."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-161",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il complemento che risponde a «chi? che cosa?» dopo il verbo?",
+			"options": [],
+			"answer": "complemento oggetto",
+			"accept": [
+				"oggetto"
+			],
+			"explanation": "Lo reggono solo i verbi transitivi."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-162",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il complemento che risponde a «a chi? a che cosa?»?",
+			"options": [],
+			"answer": "complemento di termine",
+			"accept": [
+				"termine"
+			],
+			"explanation": "È il destinatario dell'azione: «do il libro a Luca»."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-163",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il complemento che indica dove si svolge l'azione?",
+			"options": [],
+			"answer": "complemento di luogo",
+			"accept": [
+				"luogo"
+			],
+			"explanation": "Stato in luogo, moto a luogo, moto da luogo, moto per luogo."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-164",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il complemento che indica il mezzo con cui si compie l'azione?",
+			"options": [],
+			"answer": "complemento di mezzo",
+			"accept": [
+				"mezzo"
+			],
+			"explanation": "«Scrivo con la penna»: la penna è il mezzo."
+		},
+		{
+			"id": "italiano-banda-analisi-logica-165",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il complemento che indica chi subisce, introdotto da «da» in una frase passiva?",
+			"options": [],
+			"answer": "complemento d'agente",
+			"accept": [
+				"agente"
+			],
+			"explanation": "«La lettera è scritta da Luca»: Luca è l'agente."
+		},
+		{
+			"id": "italiano-banda-sintassi-166",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la proposizione che regge da sola e non dipende da nessun'altra?",
+			"options": [],
+			"answer": "principale",
+			"accept": [
+				"proposizione principale"
+			],
+			"explanation": "Sta in piedi anche se togli tutto il resto."
+		},
+		{
+			"id": "italiano-banda-sintassi-167",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la proposizione che dipende da un'altra?",
+			"options": [],
+			"answer": "subordinata",
+			"accept": [
+				"proposizione subordinata"
+			],
+			"explanation": "Da sola non ha senso compiuto."
+		},
+		{
+			"id": "italiano-banda-sintassi-168",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il legame fra due proposizioni dello stesso livello unite da «e» o «ma»?",
+			"options": [],
+			"answer": "coordinazione",
+			"accept": [
+				"coordinate"
+			],
+			"explanation": "Nessuna delle due dipende dall'altra."
+		},
+		{
+			"id": "italiano-banda-sintassi-169",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la subordinata introdotta da «perché» che spiega il motivo?",
+			"options": [],
+			"answer": "causale",
+			"accept": [
+				"proposizione causale"
+			],
+			"explanation": "Dice perché avviene quello che dice la principale."
+		},
+		{
+			"id": "italiano-banda-sintassi-170",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la subordinata introdotta da «se»?",
+			"options": [],
+			"answer": "ipotetica",
+			"accept": [
+				"condizionale"
+			],
+			"explanation": "Pone una condizione: se succede questo, allora quello."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-171",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il paragone fatto senza «come», dicendo che una cosa è un'altra?",
+			"options": [],
+			"answer": "metafora",
+			"accept": [],
+			"explanation": "«Sei un leone» non usa il come: è metafora."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-172",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il paragone esplicito introdotto da «come»?",
+			"options": [],
+			"answer": "similitudine",
+			"accept": [],
+			"explanation": "«Forte come un leone»: il paragone è dichiarato."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-173",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la figura che attribuisce qualità umane a cose o animali?",
+			"options": [],
+			"answer": "personificazione",
+			"accept": [],
+			"explanation": "«Il vento sussurra»: il vento non parla, ma noi lo sentiamo così."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-174",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'esagerazione voluta, come «te l'ho detto mille volte»?",
+			"options": [],
+			"answer": "iperbole",
+			"accept": [],
+			"explanation": "Non mente: esagera per farsi sentire."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-175",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la ripetizione della stessa parola all'inizio di più versi?",
+			"options": [],
+			"answer": "anafora",
+			"accept": [],
+			"explanation": "Batte come un tamburo e tiene insieme il testo."
+		},
+		{
+			"id": "italiano-banda-figure-retoriche-176",
+			"subject": "italiano",
+			"topic": "figure-retoriche",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parola che imita un suono, come «tic tac»?",
+			"options": [],
+			"answer": "onomatopea",
+			"accept": [],
+			"explanation": "Il suono della parola è già il suo significato."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-177",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama chi racconta la storia?",
+			"options": [],
+			"answer": "narratore",
+			"accept": [],
+			"explanation": "Può essere un personaggio o una voce esterna."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-178",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il personaggio principale di una storia?",
+			"options": [],
+			"answer": "protagonista",
+			"accept": [],
+			"explanation": "È quello che vuole qualcosa e si muove per ottenerlo."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-179",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il personaggio che si oppone al protagonista?",
+			"options": [],
+			"answer": "antagonista",
+			"accept": [],
+			"explanation": "Senza opposizione non c'è racconto, solo cronaca."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-180",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il momento di massima tensione di una storia?",
+			"options": [],
+			"answer": "climax",
+			"accept": [],
+			"explanation": "Da lì in poi la vicenda si scioglie."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-181",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte finale in cui i nodi si sciolgono?",
+			"options": [],
+			"answer": "scioglimento",
+			"accept": [
+				"epilogo"
+			],
+			"explanation": "Risponde alle domande che il racconto aveva aperto."
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-182",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il momento in cui la situazione iniziale viene rotta da un fatto nuovo?",
+			"options": [],
+			"answer": "esordio",
+			"accept": [],
+			"explanation": "È la scintilla che mette in moto la storia."
+		},
+		{
+			"id": "italiano-banda-lessico-183",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama una parola che ha lo stesso significato di un'altra?",
+			"options": [],
+			"answer": "sinonimo",
+			"accept": [],
+			"explanation": "Casa e abitazione dicono quasi la stessa cosa, con toni diversi."
+		},
+		{
+			"id": "italiano-banda-lessico-184",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama una parola di significato opposto a un'altra?",
+			"options": [],
+			"answer": "contrario",
+			"accept": [
+				"antonimo"
+			],
+			"explanation": "Alto e basso, chiaro e scuro."
+		},
+		{
+			"id": "italiano-banda-lessico-185",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiamano due parole che si scrivono uguali ma hanno significati diversi?",
+			"options": [],
+			"answer": "omonimi",
+			"accept": [
+				"omonimo"
+			],
+			"explanation": "«Riso» è un cereale e anche una risata."
+		},
+		{
+			"id": "italiano-banda-lessico-186",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte iniziale che si aggiunge a una parola per cambiarne il senso?",
+			"options": [],
+			"answer": "prefisso",
+			"accept": [],
+			"explanation": "In-, s-, ri-: piccole aggiunte che ribaltano il significato."
+		},
+		{
+			"id": "italiano-banda-lessico-187",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte finale che si aggiunge a una radice per formare una parola nuova?",
+			"options": [],
+			"answer": "suffisso",
+			"accept": [],
+			"explanation": "Da libro a libreria, da fiore a fiorista."
+		},
+		{
+			"id": "italiano-banda-lessico-188",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il significato non letterale di una parola, come «avere le mani bucate»?",
+			"options": [],
+			"answer": "figurato",
+			"accept": [
+				"senso figurato",
+				"significato figurato"
+			],
+			"explanation": "Le mani non sono bucate davvero: si spende troppo."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-189",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il riassunto in poche righe di un testo lungo?",
+			"options": [],
+			"answer": "sintesi",
+			"accept": [
+				"riassunto"
+			],
+			"explanation": "Tiene solo quello senza cui il testo non si capirebbe."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-190",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'idea principale attorno a cui ruota un testo?",
+			"options": [],
+			"answer": "tema",
+			"accept": [],
+			"explanation": "Tutto il resto serve a sostenerla o a chiarirla."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-191",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la ragione portata per sostenere una tesi?",
+			"options": [],
+			"answer": "argomento",
+			"accept": [
+				"argomentazione"
+			],
+			"explanation": "Una tesi senza argomenti è solo un'opinione detta a voce alta."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-192",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'affermazione che si vuole dimostrare in un testo argomentativo?",
+			"options": [],
+			"answer": "tesi",
+			"accept": [],
+			"explanation": "Va enunciata chiaramente, altrimenti non si capisce cosa si sta difendendo."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-193",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parola che collega due frasi indicando una conseguenza, come «quindi»?",
+			"options": [],
+			"answer": "connettivo",
+			"accept": [],
+			"explanation": "I connettivi fanno vedere il ragionamento, non solo le frasi."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-194",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il ragionamento che parte da casi particolari per arrivare a una regola generale?",
+			"options": [],
+			"answer": "induzione",
+			"accept": [],
+			"explanation": "È il ragionamento dello scienziato che osserva molti casi."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-195",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il ragionamento che parte da una regola generale per arrivare a un caso particolare?",
+			"options": [],
+			"answer": "deduzione",
+			"accept": [],
+			"explanation": "Se la regola è vera, la conclusione è obbligata."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-196",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il paragrafo che apre un testo e ne annuncia il contenuto?",
+			"options": [],
+			"answer": "introduzione",
+			"accept": [],
+			"explanation": "Dice al lettore dove sta per andare."
+		},
+		{
+			"id": "italiano-banda-pensiero-linguaggio-197",
+			"subject": "italiano",
+			"topic": "pensiero-linguaggio",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il paragrafo che chiude un testo tirando le somme?",
+			"options": [],
+			"answer": "conclusione",
+			"accept": [],
+			"explanation": "Non aggiunge idee nuove: chiude quelle aperte."
+		},
+		{
+			"id": "italiano-banda-casa-famiglia-198",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la stanza in cui si prepara da mangiare?",
+			"options": [],
+			"answer": "cucina",
+			"accept": [
+				"la cucina"
+			],
+			"explanation": "La stanza prende il nome dall'attività che ci si svolge."
+		},
+		{
+			"id": "italiano-banda-casa-famiglia-199",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la stanza in cui si dorme?",
+			"options": [],
+			"answer": "camera",
+			"accept": [
+				"camera da letto",
+				"la camera"
+			],
+			"explanation": "Camera da letto, per esteso."
+		},
+		{
+			"id": "italiano-banda-casa-famiglia-200",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il fratello del padre o della madre?",
+			"options": [],
+			"answer": "zio",
+			"accept": [
+				"lo zio"
+			],
+			"explanation": "Zio da parte di padre o di madre: il nome è lo stesso."
+		},
+		{
+			"id": "italiano-banda-casa-famiglia-201",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il figlio del figlio?",
+			"options": [],
+			"answer": "nipote",
+			"accept": [
+				"il nipote"
+			],
+			"explanation": "In italiano nipote vale sia per il figlio del figlio sia per il figlio del fratello."
+		},
+		{
+			"id": "italiano-banda-casa-famiglia-202",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parte esterna della casa, aperta e sporgente dal muro?",
+			"options": [],
+			"answer": "balcone",
+			"accept": [
+				"il balcone"
+			],
+			"explanation": "Se è a livello del terreno si chiama terrazza o giardino."
+		},
+		{
+			"id": "italiano-banda-casa-famiglia-203",
+			"subject": "italiano",
+			"topic": "casa-famiglia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'insieme dei mobili e degli oggetti che arredano una stanza?",
+			"options": [],
+			"answer": "arredamento",
+			"accept": [],
+			"explanation": "Dalla stessa radice: arredare, arredo."
+		},
+		{
+			"id": "italiano-banda-scuola-studio-204",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la prova scritta che verifica quello che hai studiato?",
+			"options": [],
+			"answer": "verifica",
+			"accept": [
+				"compito",
+				"prova"
+			],
+			"explanation": "Verifica, compito in classe: la sostanza è la stessa."
+		},
+		{
+			"id": "italiano-banda-scuola-studio-205",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il quaderno in cui l'insegnante annota voti e presenze?",
+			"options": [],
+			"answer": "registro",
+			"accept": [
+				"il registro"
+			],
+			"explanation": "Oggi quasi sempre elettronico."
+		},
+		{
+			"id": "italiano-banda-scuola-studio-206",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il periodo di pausa fra due ore di lezione?",
+			"options": [],
+			"answer": "intervallo",
+			"accept": [
+				"ricreazione"
+			],
+			"explanation": "Serve a staccare: la testa non regge cinque ore di fila."
+		},
+		{
+			"id": "italiano-banda-scuola-studio-207",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'elenco delle materie ora per ora nella settimana?",
+			"options": [],
+			"answer": "orario",
+			"accept": [
+				"l'orario"
+			],
+			"explanation": "Dice cosa ti serve nello zaino ogni giorno."
+		},
+		{
+			"id": "italiano-banda-scuola-studio-208",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama chi frequenta una scuola per imparare?",
+			"options": [],
+			"answer": "studente",
+			"accept": [
+				"alunno",
+				"lo studente"
+			],
+			"explanation": "Alunno e studente sono quasi sinonimi."
+		},
+		{
+			"id": "italiano-banda-scuola-studio-209",
+			"subject": "italiano",
+			"topic": "scuola-studio",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il documento che raccoglie i voti alla fine del quadrimestre?",
+			"options": [],
+			"answer": "pagella",
+			"accept": [
+				"la pagella"
+			],
+			"explanation": "Non racconta tutto, ma resta il resoconto ufficiale."
+		},
+		{
+			"id": "italiano-banda-cibo-spesa-210",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il negozio in cui si compra il pane?",
+			"options": [],
+			"answer": "panetteria",
+			"accept": [
+				"panificio",
+				"forno"
+			],
+			"explanation": "Dal nome del prodotto principale."
+		},
+		{
+			"id": "italiano-banda-cibo-spesa-211",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il negozio in cui si compra la carne?",
+			"options": [],
+			"answer": "macelleria",
+			"accept": [
+				"la macelleria"
+			],
+			"explanation": "Chi ci lavora è il macellaio."
+		},
+		{
+			"id": "italiano-banda-cibo-spesa-212",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il foglietto che elenca quello che devi comprare?",
+			"options": [],
+			"answer": "lista",
+			"accept": [
+				"lista della spesa"
+			],
+			"explanation": "Lista della spesa: si scrive prima di uscire, non al supermercato."
+		},
+		{
+			"id": "italiano-banda-cibo-spesa-213",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il foglio che il negozio ti dà a prova del pagamento?",
+			"options": [],
+			"answer": "scontrino",
+			"accept": [
+				"lo scontrino"
+			],
+			"explanation": "Serve anche per cambiare la merce."
+		},
+		{
+			"id": "italiano-banda-cibo-spesa-214",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il pasto che si fa a metà giornata?",
+			"options": [],
+			"answer": "pranzo",
+			"accept": [
+				"il pranzo"
+			],
+			"explanation": "Fra colazione e cena."
+		},
+		{
+			"id": "italiano-banda-cibo-spesa-215",
+			"subject": "italiano",
+			"topic": "cibo-spesa",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la data oltre la quale un alimento non va più consumato?",
+			"options": [],
+			"answer": "scadenza",
+			"accept": [
+				"data di scadenza"
+			],
+			"explanation": "«Da consumarsi entro»: sulla confezione è sempre scritta."
+		},
+		{
+			"id": "italiano-banda-tempo-meteo-216",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'acqua che cade dalle nuvole?",
+			"options": [],
+			"answer": "pioggia",
+			"accept": [
+				"la pioggia"
+			],
+			"explanation": "Se cade ghiacciata si chiama grandine."
+		},
+		{
+			"id": "italiano-banda-tempo-meteo-217",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la neve che cade sotto forma di chicchi di ghiaccio?",
+			"options": [],
+			"answer": "grandine",
+			"accept": [
+				"la grandine"
+			],
+			"explanation": "Si forma quando le correnti portano le gocce su e giù nella nuvola."
+		},
+		{
+			"id": "italiano-banda-tempo-meteo-218",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strumento che misura la temperatura dell'aria?",
+			"options": [],
+			"answer": "termometro",
+			"accept": [],
+			"explanation": "Va tenuto all'ombra, altrimenti misura il sole e non l'aria."
+		},
+		{
+			"id": "italiano-banda-tempo-meteo-219",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la nebbia bassa che si forma nelle notti fredde e serene?",
+			"options": [],
+			"answer": "brina",
+			"accept": [
+				"la brina"
+			],
+			"explanation": "Si deposita come una polvere bianca sull'erba."
+		},
+		{
+			"id": "italiano-banda-tempo-meteo-220",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la previsione del tempo per i giorni successivi?",
+			"options": [],
+			"answer": "previsione",
+			"accept": [
+				"previsioni",
+				"previsioni del tempo"
+			],
+			"explanation": "Non è una certezza: è una probabilità."
+		},
+		{
+			"id": "italiano-banda-tempo-meteo-221",
+			"subject": "italiano",
+			"topic": "tempo-meteo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiamano le quattro parti in cui si divide l'anno secondo il clima?",
+			"options": [],
+			"answer": "stagioni",
+			"accept": [
+				"le stagioni"
+			],
+			"explanation": "Nascono dall'inclinazione dell'asse terrestre."
+		},
+		{
+			"id": "italiano-banda-viaggi-luoghi-222",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il luogo da cui partono e arrivano i treni?",
+			"options": [],
+			"answer": "stazione",
+			"accept": [
+				"la stazione"
+			],
+			"explanation": "Stazione ferroviaria, per esteso."
+		},
+		{
+			"id": "italiano-banda-viaggi-luoghi-223",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il luogo da cui partono e arrivano gli aerei?",
+			"options": [],
+			"answer": "aeroporto",
+			"accept": [
+				"l'aeroporto"
+			],
+			"explanation": "Dal greco aer, aria."
+		},
+		{
+			"id": "italiano-banda-viaggi-luoghi-224",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il documento che serve per viaggiare all'estero?",
+			"options": [],
+			"answer": "passaporto",
+			"accept": [
+				"il passaporto"
+			],
+			"explanation": "Certifica chi sei davanti a uno stato che non è il tuo."
+		},
+		{
+			"id": "italiano-banda-viaggi-luoghi-225",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il foglio che ti dà diritto a salire su un treno?",
+			"options": [],
+			"answer": "biglietto",
+			"accept": [
+				"il biglietto"
+			],
+			"explanation": "Va convalidato prima di salire."
+		},
+		{
+			"id": "italiano-banda-viaggi-luoghi-226",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la borsa rigida in cui si mettono i vestiti per un viaggio?",
+			"options": [],
+			"answer": "valigia",
+			"accept": [
+				"la valigia"
+			],
+			"explanation": "Al plurale fa valigie: la i resta."
+		},
+		{
+			"id": "italiano-banda-viaggi-luoghi-227",
+			"subject": "italiano",
+			"topic": "viaggi-luoghi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il percorso previsto di un viaggio, tappa per tappa?",
+			"options": [],
+			"answer": "itinerario",
+			"accept": [
+				"l'itinerario"
+			],
+			"explanation": "Si decide prima, ma si cambia strada facendo."
+		},
+		{
+			"id": "italiano-banda-corpo-salute-228",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il medico che cura i denti?",
+			"options": [],
+			"answer": "dentista",
+			"accept": [
+				"il dentista",
+				"odontoiatra"
+			],
+			"explanation": "Odontoiatra è il nome tecnico."
+		},
+		{
+			"id": "italiano-banda-corpo-salute-229",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il luogo in cui si comprano le medicine?",
+			"options": [],
+			"answer": "farmacia",
+			"accept": [
+				"la farmacia"
+			],
+			"explanation": "Molte medicine richiedono la ricetta del medico."
+		},
+		{
+			"id": "italiano-banda-corpo-salute-230",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il foglio con cui il medico ti prescrive una medicina?",
+			"options": [],
+			"answer": "ricetta",
+			"accept": [
+				"la ricetta"
+			],
+			"explanation": "Senza, certe medicine non si possono comprare."
+		},
+		{
+			"id": "italiano-banda-corpo-salute-231",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'aumento della temperatura del corpo quando si è malati?",
+			"options": [],
+			"answer": "febbre",
+			"accept": [
+				"la febbre"
+			],
+			"explanation": "È una difesa: il corpo si scalda per combattere l'infezione."
+		},
+		{
+			"id": "italiano-banda-corpo-salute-232",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la visita in cui il medico ti controlla?",
+			"options": [],
+			"answer": "visita",
+			"accept": [
+				"visita medica",
+				"controllo"
+			],
+			"explanation": "Visita medica, per esteso."
+		},
+		{
+			"id": "italiano-banda-corpo-salute-233",
+			"subject": "italiano",
+			"topic": "corpo-salute",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la sostanza che si inietta per rendere il corpo capace di difendersi da una malattia?",
+			"options": [],
+			"answer": "vaccino",
+			"accept": [
+				"il vaccino"
+			],
+			"explanation": "Insegna al corpo a riconoscere il nemico prima di incontrarlo."
+		},
+		{
+			"id": "italiano-banda-emozioni-relazioni-234",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il sentimento che provi quando qualcosa ti spaventa?",
+			"options": [],
+			"answer": "paura",
+			"accept": [
+				"la paura"
+			],
+			"explanation": "Serve: avvisa che qualcosa non va."
+		},
+		{
+			"id": "italiano-banda-emozioni-relazioni-235",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la capacità di capire quello che sente un altro?",
+			"options": [],
+			"answer": "empatia",
+			"accept": [],
+			"explanation": "Non è essere d'accordo: è capire da dentro."
+		},
+		{
+			"id": "italiano-banda-emozioni-relazioni-236",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il sentimento di dispiacere per un torto che hai fatto?",
+			"options": [],
+			"answer": "rimorso",
+			"accept": [
+				"il rimorso"
+			],
+			"explanation": "Diverso dal rimpianto, che riguarda quello che non hai fatto."
+		},
+		{
+			"id": "italiano-banda-emozioni-relazioni-237",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il legame fra due persone che si vogliono bene e si fidano?",
+			"options": [],
+			"answer": "amicizia",
+			"accept": [
+				"l'amicizia"
+			],
+			"explanation": "Si costruisce nel tempo, non si dichiara."
+		},
+		{
+			"id": "italiano-banda-emozioni-relazioni-238",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la capacità di aspettare senza arrabbiarsi?",
+			"options": [],
+			"answer": "pazienza",
+			"accept": [
+				"la pazienza"
+			],
+			"explanation": "Serve soprattutto quando non arriva nessun risultato."
+		},
+		{
+			"id": "italiano-banda-emozioni-relazioni-239",
+			"subject": "italiano",
+			"topic": "emozioni-relazioni",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il gesto con cui si rinuncia a punire chi ci ha fatto un torto?",
+			"options": [],
+			"answer": "perdono",
+			"accept": [
+				"il perdono"
+			],
+			"explanation": "Non cancella il torto: scioglie il rancore."
+		},
+		{
+			"id": "italiano-banda-digitale-media-240",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la parola segreta che protegge un account?",
+			"options": [],
+			"answer": "password",
+			"accept": [
+				"la password",
+				"parola d'ordine"
+			],
+			"explanation": "Non si condivide, nemmeno con gli amici."
+		},
+		{
+			"id": "italiano-banda-digitale-media-241",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il messaggio ingannevole che cerca di rubarti le credenziali?",
+			"options": [],
+			"answer": "phishing",
+			"accept": [
+				"il phishing"
+			],
+			"explanation": "Finge di essere la banca o la scuola: pesca con l'esca."
+		},
+		{
+			"id": "italiano-banda-digitale-media-242",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il programma che naviga fra i siti internet?",
+			"options": [],
+			"answer": "browser",
+			"accept": [
+				"il browser"
+			],
+			"explanation": "Chiede la pagina al server e la mostra."
+		},
+		{
+			"id": "italiano-banda-digitale-media-243",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'indirizzo che identifica una pagina web?",
+			"options": [],
+			"answer": "URL",
+			"accept": [
+				"url",
+				"indirizzo web"
+			],
+			"explanation": "È l'indirizzo esatto della risorsa, non solo del sito."
+		},
+		{
+			"id": "italiano-banda-digitale-media-244",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la copia di sicurezza dei propri dati?",
+			"options": [],
+			"answer": "backup",
+			"accept": [
+				"il backup",
+				"copia di sicurezza"
+			],
+			"explanation": "Un file esiste davvero solo se ne esistono due copie."
+		},
+		{
+			"id": "italiano-banda-digitale-media-245",
+			"subject": "italiano",
+			"topic": "digitale-media",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il comportamento aggressivo ripetuto contro qualcuno online?",
+			"options": [],
+			"answer": "cyberbullismo",
+			"accept": [
+				"il cyberbullismo"
+			],
+			"explanation": "Si combatte segnalando e salvando le prove, non rispondendo."
+		},
+		{
+			"id": "italiano-banda-lavoro-comunita-246",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama chi guida un autobus?",
+			"options": [],
+			"answer": "autista",
+			"accept": [
+				"l'autista",
+				"conducente"
+			],
+			"explanation": "Dal francese: chi conduce il mezzo."
+		},
+		{
+			"id": "italiano-banda-lavoro-comunita-247",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama chi spegne gli incendi?",
+			"options": [],
+			"answer": "pompiere",
+			"accept": [
+				"vigile del fuoco",
+				"il pompiere"
+			],
+			"explanation": "Vigile del fuoco è il nome ufficiale."
+		},
+		{
+			"id": "italiano-banda-lavoro-comunita-248",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama chi è a capo di un comune?",
+			"options": [],
+			"answer": "sindaco",
+			"accept": [
+				"il sindaco"
+			],
+			"explanation": "Lo eleggono i cittadini del comune."
+		},
+		{
+			"id": "italiano-banda-lavoro-comunita-249",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il denaro che si versa allo stato per pagare i servizi pubblici?",
+			"options": [],
+			"answer": "tasse",
+			"accept": [
+				"le tasse",
+				"imposte"
+			],
+			"explanation": "Con quelle si pagano scuola, ospedali e strade."
+		},
+		{
+			"id": "italiano-banda-lavoro-comunita-250",
+			"subject": "italiano",
+			"topic": "lavoro-comunita",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il lavoro fatto gratuitamente per gli altri?",
+			"options": [],
+			"answer": "volontariato",
+			"accept": [
+				"il volontariato"
+			],
+			"explanation": "Nessun compenso, e proprio per questo vale."
+		},
+		{
+			"id": "italiano-banda-sport-tempo-libero-251",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama chi fa rispettare le regole durante una partita?",
+			"options": [],
+			"answer": "arbitro",
+			"accept": [
+				"l'arbitro"
+			],
+			"explanation": "Le sue decisioni si discutono dopo, non durante."
+		},
+		{
+			"id": "italiano-banda-sport-tempo-libero-252",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo sport che si gioca in cinque per squadra con un canestro?",
+			"options": [],
+			"answer": "pallacanestro",
+			"accept": [
+				"basket",
+				"la pallacanestro"
+			],
+			"explanation": "Basket è il nome inglese."
+		},
+		{
+			"id": "italiano-banda-sport-tempo-libero-253",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la sessione in cui si prova e si migliora prima della gara?",
+			"options": [],
+			"answer": "allenamento",
+			"accept": [
+				"l'allenamento"
+			],
+			"explanation": "Il risultato si costruisce lì, non il giorno della gara."
+		},
+		{
+			"id": "italiano-banda-sport-tempo-libero-254",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama chi guida e prepara una squadra?",
+			"options": [],
+			"answer": "allenatore",
+			"accept": [
+				"l'allenatore"
+			],
+			"explanation": "Sceglie la formazione e la strategia."
+		},
+		{
+			"id": "italiano-banda-sport-tempo-libero-255",
+			"subject": "italiano",
+			"topic": "sport-tempo-libero",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il risultato di una partita finita in parità?",
+			"options": [],
+			"answer": "pareggio",
+			"accept": [
+				"il pareggio"
+			],
+			"explanation": "Nessuna delle due squadre vince."
+		},
+		{
+			"id": "italiano-banda-natura-ambiente-256",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama un grande bosco fitto di alberi?",
+			"options": [],
+			"answer": "foresta",
+			"accept": [
+				"la foresta"
+			],
+			"explanation": "Più estesa e fitta di un bosco."
+		},
+		{
+			"id": "italiano-banda-natura-ambiente-257",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la separazione dei rifiuti per tipo di materiale?",
+			"options": [],
+			"answer": "raccolta differenziata",
+			"accept": [
+				"differenziata"
+			],
+			"explanation": "Senza separare, riciclare è quasi impossibile."
+		},
+		{
+			"id": "italiano-banda-natura-ambiente-258",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'aumento della temperatura media del pianeta?",
+			"options": [],
+			"answer": "riscaldamento globale",
+			"accept": [
+				"riscaldamento"
+			],
+			"explanation": "Lo causano soprattutto i gas serra prodotti bruciando combustibili."
+		},
+		{
+			"id": "italiano-banda-natura-ambiente-259",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la varietà di specie viventi in un ambiente?",
+			"options": [],
+			"answer": "biodiversità",
+			"accept": [
+				"biodiversita",
+				"la biodiversità"
+			],
+			"explanation": "Più è alta, più l'ambiente regge gli imprevisti."
+		},
+		{
+			"id": "italiano-banda-natura-ambiente-260",
+			"subject": "italiano",
+			"topic": "natura-ambiente",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il taglio massiccio degli alberi di una foresta?",
+			"options": [],
+			"answer": "deforestazione",
+			"accept": [
+				"la deforestazione"
+			],
+			"explanation": "Toglie insieme ossigeno, suolo e habitat."
 		}
 	]
 }

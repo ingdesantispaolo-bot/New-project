@@ -18,7 +18,7 @@ const ArtifactAtlasCatalog = preload("res://scripts/visual/artifact_atlas_catalo
 
 # Formati con renderer disponibili nell'ExercisePlayer.
 const IMPLEMENTED := [
-	"multiple_choice", "numeric_input", "ordering", "matching",
+	"multiple_choice", "numeric_input", "short_answer", "ordering", "matching",
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
@@ -74,6 +74,22 @@ static func normalize_answer(value: String) -> String:
 static func answers_equivalent(a: String, b: String) -> bool:
 	return normalize_answer(a) == normalize_answer(b)
 
+## Vera se la risposta data vale per questo nodo, contando anche le forme
+## alternative dichiarate in `accept`.
+##
+## Serve alla risposta libera a testo: «to check» e «check» sono la stessa
+## risposta, e un bambino che scrive la prima ha capito esattamente quanto uno
+## che scrive la seconda. Segnare sbagliata una risposta giusta è il modo più
+## veloce per far smettere di provare — vale più della comodità di confrontare
+## una stringa sola.
+static func answer_accepted(given: String, node: Dictionary) -> bool:
+	if answers_equivalent(given, str(node.get("answer", ""))):
+		return true
+	for alternativa in Array(node.get("accept", [])):
+		if answers_equivalent(given, str(alternativa)):
+			return true
+	return false
+
 # Valida un nodo. Ritorna {ok: bool, errors: Array[String]}.
 static func validate(node: Dictionary) -> Dictionary:
 	var errors: Array = []
@@ -100,6 +116,16 @@ static func validate(node: Dictionary) -> Dictionary:
 		"numeric_input":
 			if str(node.get("answer", "")).strip_edges() == "":
 				errors.append("risposta mancante (numeric_input)")
+		"short_answer":
+			# Risposta libera a testo: una parola o poco più, scritta dal
+			# giocatore. Serve alla decisione «ogni banco al 20-30% di non
+			# scelta multipla» nelle materie in cui la risposta non è un numero.
+			if str(node.get("answer", "")).strip_edges() == "":
+				errors.append("risposta mancante (short_answer)")
+			# Una risposta lunga non si può digitare senza sbagliare: sotto i
+			# trenta caratteri si scrive, sopra si copia a memoria.
+			if str(node.get("answer", "")).length() > 30:
+				errors.append("risposta troppo lunga per essere digitata (%d caratteri)" % str(node.get("answer", "")).length())
 		"ordering":
 			_validate_ordering(node, errors)
 		"matching":

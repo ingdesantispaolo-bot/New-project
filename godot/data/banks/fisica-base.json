@@ -1322,14 +1322,9 @@
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 2,
-			"format": "multiple_choice",
+			"format": "numeric_input",
 			"prompt": "Quanti centimetri sono 1 metro?",
-			"options": [
-				"50",
-				"10",
-				"100",
-				"1000"
-			],
+			"options": [],
 			"answer": "100",
 			"explanation": "1 metro = 100 centimetri."
 		},
@@ -1556,6 +1551,514 @@
 			],
 			"answer": "La luce è molto più veloce del suono",
 			"explanation": "La luce arriva quasi subito; il suono, più lento, arriva dopo."
+		},
+		{
+			"id": "fisica-misure-73",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strumento con cui si misura la temperatura?",
+			"options": [],
+			"answer": "termometro",
+			"accept": [],
+			"explanation": "Non misura il calore ma la temperatura: sono due grandezze diverse."
+		},
+		{
+			"id": "fisica-misure-74",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura della massa nel Sistema Internazionale?",
+			"options": [],
+			"answer": "chilogrammo",
+			"accept": [
+				"kilogrammo",
+				"kg"
+			],
+			"explanation": "È l'unica unità di base il cui nome contiene già un prefisso."
+		},
+		{
+			"id": "fisica-misure-75",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura del tempo nel Sistema Internazionale?",
+			"options": [],
+			"answer": "secondo",
+			"accept": [],
+			"explanation": "Minuti e ore sono comode, ma l'unità di base resta il secondo."
+		},
+		{
+			"id": "fisica-moto-76",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il rapporto fra lo spazio percorso e il tempo impiegato?",
+			"options": [],
+			"answer": "velocità",
+			"accept": [
+				"velocita"
+			],
+			"explanation": "Stessa strada in metà tempo significa velocità doppia."
+		},
+		{
+			"id": "fisica-moto-77",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la variazione della velocità nel tempo?",
+			"options": [],
+			"answer": "accelerazione",
+			"accept": [],
+			"explanation": "Se la velocità cambia, anche solo di direzione, c'è accelerazione."
+		},
+		{
+			"id": "fisica-moto-78",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura della velocità nel Sistema Internazionale?",
+			"options": [],
+			"answer": "metri al secondo",
+			"accept": [
+				"m/s",
+				"metro al secondo"
+			],
+			"explanation": "Si ottiene dividendo l'unità di lunghezza per quella di tempo."
+		},
+		{
+			"id": "fisica-onde-luce-79",
+			"subject": "fisica",
+			"topic": "onde-luce",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il rimbalzo della luce su uno specchio?",
+			"options": [],
+			"answer": "riflessione",
+			"accept": [],
+			"explanation": "Il raggio torna indietro con lo stesso angolo con cui è arrivato."
+		},
+		{
+			"id": "fisica-onde-luce-80",
+			"subject": "fisica",
+			"topic": "onde-luce",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la deviazione della luce quando passa dall'aria all'acqua?",
+			"options": [],
+			"answer": "rifrazione",
+			"accept": [],
+			"explanation": "Cambiando mezzo la luce cambia velocità, e quindi piega: per questo il bastone nell'acqua sembra spezzato."
+		},
+		{
+			"id": "fisica-onde-luce-81",
+			"subject": "fisica",
+			"topic": "onde-luce",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la distanza fra due creste successive di un'onda?",
+			"options": [],
+			"answer": "lunghezza d'onda",
+			"accept": [],
+			"explanation": "È la lunghezza di un'oscillazione completa."
+		},
+		{
+			"id": "fisica-forze-82",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura della forza nel Sistema Internazionale?",
+			"options": [],
+			"answer": "newton",
+			"accept": [],
+			"explanation": "Un newton è la forza che dà a un chilogrammo un'accelerazione di un metro al secondo per secondo."
+		},
+		{
+			"id": "fisica-forze-83",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la forza che si oppone allo scivolamento fra due superfici a contatto?",
+			"options": [],
+			"answer": "attrito",
+			"accept": [],
+			"explanation": "Senza attrito non si cammina: è lui che dà presa alla scarpa."
+		},
+		{
+			"id": "fisica-forze-84",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strumento che misura una forza allungando una molla?",
+			"options": [],
+			"answer": "dinamometro",
+			"accept": [],
+			"explanation": "Più la molla si allunga, più forte è la forza: la scala è già tarata in newton."
+		},
+		{
+			"id": "fisica-forze-85",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la spinta verso l'alto che riceve un corpo immerso in un liquido?",
+			"options": [],
+			"answer": "spinta di Archimede",
+			"accept": [
+				"Archimede",
+				"spinta idrostatica"
+			],
+			"explanation": "Vale quanto il peso del liquido spostato: per questo una nave d'acciaio galleggia."
+		},
+		{
+			"id": "fisica-energia-86",
+			"subject": "fisica",
+			"topic": "energia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura dell'energia nel Sistema Internazionale?",
+			"options": [],
+			"answer": "joule",
+			"accept": [],
+			"explanation": "La stessa unità vale per il lavoro e per il calore: sono forme della stessa cosa."
+		},
+		{
+			"id": "fisica-energia-87",
+			"subject": "fisica",
+			"topic": "energia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'energia che un corpo possiede perché è in movimento?",
+			"options": [],
+			"answer": "cinetica",
+			"accept": [
+				"energia cinetica"
+			],
+			"explanation": "Dipende dalla massa e dalla velocità: raddoppiando la velocità diventa quattro volte tanto."
+		},
+		{
+			"id": "fisica-energia-88",
+			"subject": "fisica",
+			"topic": "energia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'energia che un corpo possiede per il fatto di trovarsi in alto?",
+			"options": [],
+			"answer": "potenziale",
+			"accept": [
+				"energia potenziale"
+			],
+			"explanation": "È l'energia messa da parte alzando il corpo: torna disponibile quando scende."
+		},
+		{
+			"id": "fisica-metodo-89",
+			"subject": "fisica",
+			"topic": "metodo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la spiegazione provvisoria che un esperimento deve mettere alla prova?",
+			"options": [],
+			"answer": "ipotesi",
+			"accept": [],
+			"explanation": "Un'ipotesi vale solo se si può immaginare un risultato che la smentisce."
+		},
+		{
+			"id": "fisica-metodo-90",
+			"subject": "fisica",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la grandezza che lo sperimentatore cambia di proposito?",
+			"options": [],
+			"answer": "variabile indipendente",
+			"accept": [
+				"indipendente"
+			],
+			"explanation": "Si cambia una cosa sola per volta, altrimenti non si sa a chi attribuire l'effetto."
+		},
+		{
+			"id": "fisica-materia-91",
+			"subject": "fisica",
+			"topic": "materia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il passaggio dallo stato liquido a quello gassoso?",
+			"options": [],
+			"answer": "evaporazione",
+			"accept": [
+				"vaporizzazione"
+			],
+			"explanation": "Avviene anche sotto la temperatura di ebollizione, solo più lentamente."
+		},
+		{
+			"id": "fisica-materia-92",
+			"subject": "fisica",
+			"topic": "materia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il passaggio dallo stato solido a quello liquido?",
+			"options": [],
+			"answer": "fusione",
+			"accept": [],
+			"explanation": "Il ghiaccio che diventa acqua sta fondendo, non sciogliendosi in qualcos'altro."
+		},
+		{
+			"id": "fisica-materia-93",
+			"subject": "fisica",
+			"topic": "materia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il rapporto fra la massa di un corpo e il suo volume?",
+			"options": [],
+			"answer": "densità",
+			"accept": [
+				"densita"
+			],
+			"explanation": "È la ragione per cui un chilo di piombo occupa molto meno spazio di un chilo di piume."
+		},
+		{
+			"id": "fisica-calore-94",
+			"subject": "fisica",
+			"topic": "calore",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura della temperatura nel Sistema Internazionale?",
+			"options": [],
+			"answer": "kelvin",
+			"accept": [],
+			"explanation": "Parte dallo zero assoluto: sotto non si può scendere."
+		},
+		{
+			"id": "fisica-calore-95",
+			"subject": "fisica",
+			"topic": "calore",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il passaggio di calore per contatto diretto fra due corpi?",
+			"options": [],
+			"answer": "conduzione",
+			"accept": [],
+			"explanation": "Il cucchiaino di metallo nel tè scotta per conduzione."
+		},
+		{
+			"id": "fisica-misure-96",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strumento con cui si misura la massa di un oggetto?",
+			"options": [],
+			"answer": "bilancia",
+			"accept": [
+				"la bilancia"
+			],
+			"explanation": "Misura la massa confrontandola con masse note."
+		},
+		{
+			"id": "fisica-moto-97",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il percorso seguito da un corpo che si muove?",
+			"options": [],
+			"answer": "traiettoria",
+			"accept": [
+				"la traiettoria"
+			],
+			"explanation": "Rettilinea, curva, circolare: dipende dalle forze in gioco."
+		},
+		{
+			"id": "fisica-onde-luce-98",
+			"subject": "fisica",
+			"topic": "onde-luce",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'ombra che si forma dietro un oggetto colpito dalla luce?",
+			"options": [],
+			"answer": "ombra",
+			"accept": [
+				"l'ombra"
+			],
+			"explanation": "Si forma perché la luce viaggia in linea retta e l'oggetto la ferma."
+		},
+		{
+			"id": "fisica-calore-99",
+			"subject": "fisica",
+			"topic": "calore",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il passaggio di calore attraverso il movimento di un liquido o di un gas?",
+			"options": [],
+			"answer": "convezione",
+			"accept": [],
+			"explanation": "L'acqua calda sale, la fredda scende: la pentola si scalda tutta così."
+		},
+		{
+			"id": "fisica-misure-100",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché in fisica una misura si scrive sempre con l'unità accanto al numero?",
+			"options": [
+				"Perché così si riconosce subito chi ha svolto la misurazione",
+				"Perché senza unità il numero non dice quanto vale la grandezza",
+				"Perché il numero da solo risulterebbe troppo corto da leggere",
+				"Perché è una regola di scrittura senza vere conseguenze pratiche"
+			],
+			"answer": "Perché senza unità il numero non dice quanto vale la grandezza",
+			"explanation": "«3» non vuol dire niente: tre metri, tre secondi e tre chili sono cose diversissime."
+		},
+		{
+			"id": "fisica-moto-101",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Un corpo fermo rispetto alla strada può essere in movimento rispetto a che cosa?",
+			"options": [
+				"Rispetto a se stesso in un istante successivo del moto",
+				"Rispetto al proprio peso, che cambia continuamente",
+				"Rispetto a un altro corpo che si sta muovendo",
+				"Rispetto alla strada, se la si osserva con più attenzione"
+			],
+			"answer": "Rispetto a un altro corpo che si sta muovendo",
+			"explanation": "Il moto è sempre relativo: chi è fermo in treno si muove rispetto alla banchina."
+		},
+		{
+			"id": "fisica-energia-102",
+			"subject": "fisica",
+			"topic": "energia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede all'energia quando una palla che rotola si ferma per l'attrito?",
+			"options": [
+				"Torna dentro la palla e resta lì immagazzinata per sempre",
+				"Sparisce del tutto nel momento esatto in cui la palla si ferma",
+				"Viene assorbita dall'aria e poi restituita alla palla dopo",
+				"Si trasforma in calore, non sparisce"
+			],
+			"answer": "Si trasforma in calore, non sparisce",
+			"explanation": "L'energia non si crea e non si distrugge: cambia forma. La strada e la palla si scaldano un po'."
+		},
+		{
+			"id": "fisica-materia-103",
+			"subject": "fisica",
+			"topic": "materia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché un palloncino gonfio schiacciato cambia forma ma torna com'era?",
+			"options": [
+				"Perché il gas dentro si comprime e poi si riespande",
+				"Perché il gas dentro si trasforma per un attimo in liquido",
+				"Perché l'aria fuori dal palloncino lo spinge sempre verso l'alto",
+				"Perché la gomma ricorda la forma che aveva prima di essere gonfiata"
+			],
+			"answer": "Perché il gas dentro si comprime e poi si riespande",
+			"explanation": "I gas si comprimono facilmente: è quello che rende un palloncino elastico."
+		},
+		{
+			"id": "fisica-forze-104",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché una cassa pesante è più difficile da spingere di una leggera?",
+			"options": [
+				"Perché la cassa leggera contiene più aria e quindi scivola meglio",
+				"Perché serve più forza per cambiare la velocità di una massa maggiore",
+				"Perché una cassa pesante è quasi sempre anche più grande da afferrare",
+				"Perché il pavimento sotto una cassa pesante diventa più ruvido"
+			],
+			"answer": "Perché serve più forza per cambiare la velocità di una massa maggiore",
+			"explanation": "Più massa, più inerzia: più resistenza a mettersi in moto."
+		},
+		{
+			"id": "fisica-metodo-105",
+			"subject": "fisica",
+			"topic": "metodo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché un esperimento va ripetuto più volte prima di trarre conclusioni?",
+			"options": [
+				"Perché le regole della scuola chiedono almeno tre prove scritte",
+				"Perché la prima misura di uno strumento è sempre sbagliata di principio",
+				"Perché una volta sola può andare bene o male per caso",
+				"Perché ripetere serve soprattutto a fare pratica con lo strumento"
+			],
+			"answer": "Perché una volta sola può andare bene o male per caso",
+			"explanation": "Ripetere serve a distinguere l'effetto vero dal caso."
+		},
+		{
+			"id": "fisica-calore-106",
+			"subject": "fisica",
+			"topic": "calore",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il materiale che lascia passare poco calore, come il polistirolo?",
+			"options": [],
+			"answer": "isolante",
+			"accept": [
+				"isolante termico"
+			],
+			"explanation": "Tiene il caldo dentro o fuori: per questo si usa nelle borse frigo."
+		},
+		{
+			"id": "fisica-energia-107",
+			"subject": "fisica",
+			"topic": "energia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama la macchina che trasforma il movimento in energia elettrica?",
+			"options": [],
+			"answer": "dinamo",
+			"accept": [
+				"la dinamo",
+				"generatore"
+			],
+			"explanation": "Quella della bicicletta accende il fanale finché la ruota gira."
+		},
+		{
+			"id": "fisica-materia-108",
+			"subject": "fisica",
+			"topic": "materia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché l'acqua versata prende la forma del bicchiere?",
+			"options": [
+				"Perché l'acqua si trasforma in un solido appena tocca il vetro",
+				"Perché il vetro attira il liquido contro le sue pareti interne",
+				"Perché l'aria dentro il bicchiere spinge il liquido verso i bordi",
+				"Perché un liquido non ha forma propria ma ha volume proprio"
+			],
+			"answer": "Perché un liquido non ha forma propria ma ha volume proprio",
+			"explanation": "Il volume resta lo stesso: mezzo litro resta mezzo litro in qualunque recipiente."
+		},
+		{
+			"id": "fisica-onde-luce-109",
+			"subject": "fisica",
+			"topic": "onde-luce",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché di notte in una stanza chiusa non si vede niente?",
+			"options": [
+				"Perché senza luce che arriva agli occhi non c'è visione",
+				"Perché gli occhi di notte smettono di funzionare del tutto",
+				"Perché gli oggetti al buio perdono per qualche ora il loro colore",
+				"Perché il buio è una sostanza che copre gli oggetti nella stanza"
+			],
+			"answer": "Perché senza luce che arriva agli occhi non c'è visione",
+			"explanation": "Vediamo la luce che gli oggetti rimandano: senza sorgente non c'è niente da rimandare."
 		},
 		{
 			"id": "fisica-misure-con-quale-strumento-si-misura-la-lunghezza",

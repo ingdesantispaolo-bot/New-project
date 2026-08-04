@@ -168,13 +168,8 @@
 			"prompt": "Quanto fa 4 × 5?",
 			"answer": "20",
 			"explanation": "Se non ricordi 4 × 5, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 5 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"16",
-				"25",
-				"20",
-				"24"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-5x2-d1",
@@ -877,13 +872,8 @@
 			"prompt": "Quanto fa 6 × 10?",
 			"answer": "60",
 			"explanation": "Se non ricordi 6 × 10, per 10 basta aggiungere uno zero: 6 diventa 60. E 10 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"54",
-				"70",
-				"66",
-				"60"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-7x2-d2",
@@ -1413,13 +1403,8 @@
 			"prompt": "Quanto fa 10 × 10?",
 			"answer": "100",
 			"explanation": "10 × 10 fa 100: è il quadrato di 10. Se non lo ricordi, per 10 basta aggiungere uno zero: 10 diventa 100.",
-			"format": "multiple_choice",
-			"options": [
-				"100",
-				"110",
-				"101",
-				"90"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-3x2-d3",
@@ -1563,13 +1548,8 @@
 			"prompt": "Quanto fa 3 × 11?",
 			"answer": "33",
 			"explanation": "Se non ricordi 3 × 11, per 11 con una cifra sola basta ripeterla: 3 diventa 33. E 11 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"36",
-				"44",
-				"30",
-				"33"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-3x12-d3",
@@ -2197,13 +2177,8 @@
 			"prompt": "Quanto fa 7 × 11?",
 			"answer": "77",
 			"explanation": "Se non ricordi 7 × 11, per 11 con una cifra sola basta ripeterla: 7 diventa 77. E 11 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"88",
-				"84",
-				"70",
-				"77"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-7x12-d3",
@@ -2529,13 +2504,8 @@
 			"prompt": "Quanto fa 9 × 11?",
 			"answer": "99",
 			"explanation": "Se non ricordi 9 × 11, per 9 fai 11 × 10 meno 11: 110 − 11 fa 99. E 11 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"99",
-				"90",
-				"110",
-				"108"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-9x12-d3",
@@ -2925,13 +2895,8 @@
 			"prompt": "Quanto fa 12 × 4?",
 			"answer": "48",
 			"explanation": "Se non ricordi 12 × 4, per 4 raddoppi due volte: 12 → 24 → 48. E 4 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"48",
-				"52",
-				"36",
-				"60"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-12x5-d3",
@@ -3510,13 +3475,8 @@
 			"prompt": "Quanto fa 8 × 11?",
 			"answer": "88",
 			"explanation": "Se non ricordi 8 × 11, per 11 con una cifra sola basta ripeterla: 8 diventa 88. E 11 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"96",
-				"88",
-				"80",
-				"99"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-8x12-d4",
@@ -3810,13 +3770,8 @@
 			"prompt": "Quanto fa 10 × 9?",
 			"answer": "90",
 			"explanation": "Se non ricordi 10 × 9, per 10 basta aggiungere uno zero: 9 diventa 90. E 9 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"100",
-				"80",
-				"99",
-				"90"
-			]
+			"format": "numeric_input",
+			"options": []
 		},
 		{
 			"id": "math-times-10x10-d4",

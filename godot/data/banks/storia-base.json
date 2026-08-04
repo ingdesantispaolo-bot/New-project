@@ -1642,6 +1642,450 @@
 			"explanation": "I monasteri furono centri di cultura: vi si custodivano e copiavano i libri."
 		},
 		{
+			"id": "storia-preistoria-103",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?",
+			"options": [],
+			"answer": "paleolitico",
+			"accept": [],
+			"explanation": "Paleo vuol dire antico: pietra antica."
+		},
+		{
+			"id": "storia-preistoria-104",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il periodo della preistoria in cui la pietra veniva levigata?",
+			"options": [],
+			"answer": "neolitico",
+			"accept": [],
+			"explanation": "Nello stesso periodo nascono agricoltura e allevamento."
+		},
+		{
+			"id": "storia-preistoria-105",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?",
+			"options": [],
+			"answer": "fuoco",
+			"accept": [
+				"il fuoco"
+			],
+			"explanation": "Cambiò alimentazione, difesa e vita notturna insieme."
+		},
+		{
+			"id": "storia-preistoria-106",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'attività con cui l'uomo iniziò a coltivare la terra?",
+			"options": [],
+			"answer": "agricoltura",
+			"accept": [
+				"l'agricoltura"
+			],
+			"explanation": "Da nomade l'uomo diventa stanziale: nascono i villaggi."
+		},
+		{
+			"id": "storia-fonti-107",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiamano le fonti costituite da oggetti, edifici e resti?",
+			"options": [],
+			"answer": "fonti materiali",
+			"accept": [
+				"materiali"
+			],
+			"explanation": "Non raccontano a parole: vanno interpretate."
+		},
+		{
+			"id": "storia-fonti-108",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiamano le fonti costituite da testi e documenti?",
+			"options": [],
+			"answer": "fonti scritte",
+			"accept": [
+				"scritte"
+			],
+			"explanation": "Sono le più esplicite, ma anche le più facili da falsificare."
+		},
+		{
+			"id": "storia-fonti-109",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la scienza che studia il passato scavando nel terreno?",
+			"options": [],
+			"answer": "archeologia",
+			"accept": [
+				"l'archeologia"
+			],
+			"explanation": "Scava per strati: sotto sta sempre il più antico."
+		},
+		{
+			"id": "storia-cronologia-110",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama un periodo di cento anni?",
+			"options": [],
+			"answer": "secolo",
+			"accept": [],
+			"explanation": "Il Novecento è il ventesimo secolo."
+		},
+		{
+			"id": "storia-cronologia-111",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama un periodo di mille anni?",
+			"options": [],
+			"answer": "millennio",
+			"accept": [],
+			"explanation": "Mille anni: la storia scritta ne conta poco più di cinque."
+		},
+		{
+			"id": "storia-cronologia-112",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama un periodo di dieci anni?",
+			"options": [],
+			"answer": "decennio",
+			"accept": [],
+			"explanation": "Dieci anni: l'unità con cui si raccontano i cambiamenti recenti."
+		},
+		{
+			"id": "storia-civilta-113",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "In quale regione fra i fiumi Tigri ed Eufrate nacquero le prime città?",
+			"options": [],
+			"answer": "Mesopotamia",
+			"accept": [
+				"la Mesopotamia"
+			],
+			"explanation": "Il nome greco vuol dire proprio «terra fra i fiumi»."
+		},
+		{
+			"id": "storia-civilta-114",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?",
+			"options": [],
+			"answer": "cuneiforme",
+			"accept": [
+				"scrittura cuneiforme"
+			],
+			"explanation": "I segni si facevano con un calamo a punta triangolare, il cuneo."
+		},
+		{
+			"id": "storia-civilta-115",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?",
+			"options": [],
+			"answer": "Fenici",
+			"accept": [
+				"i Fenici"
+			],
+			"explanation": "Un alfabeto di poche lettere, molto più facile da imparare."
+		},
+		{
+			"id": "storia-egizi-116",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?",
+			"options": [],
+			"answer": "scriba",
+			"accept": [
+				"lo scriba"
+			],
+			"explanation": "Saper scrivere era un mestiere raro: dava potere e lo esentava dai lavori pesanti."
+		},
+		{
+			"id": "storia-egizi-117",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Quale fiume rendeva fertile l'Egitto con le sue piene?",
+			"options": [],
+			"answer": "Nilo",
+			"accept": [
+				"il Nilo"
+			],
+			"explanation": "Senza le piene l'Egitto sarebbe stato solo deserto."
+		},
+		{
+			"id": "storia-egizi-118",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la scrittura a immagini degli antichi Egizi?",
+			"options": [],
+			"answer": "geroglifici",
+			"accept": [
+				"geroglifico",
+				"scrittura geroglifica"
+			],
+			"explanation": "Si decifrarono grazie alla stele di Rosetta."
+		},
+		{
+			"id": "storia-egizi-119",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiamano le tombe monumentali a base quadrata dei faraoni?",
+			"options": [],
+			"answer": "piramidi",
+			"accept": [
+				"piramide"
+			],
+			"explanation": "La più grande è quella di Cheope, a Giza."
+		},
+		{
+			"id": "storia-egizi-120",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la pianta con cui gli Egizi fabbricavano fogli su cui scrivere?",
+			"options": [],
+			"answer": "papiro",
+			"accept": [
+				"il papiro"
+			],
+			"explanation": "Cresceva sulle rive del Nilo: da lì la parola «carta» in molte lingue."
+		},
+		{
+			"id": "storia-grecia-121",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiamava la piazza principale della città greca, dove si discuteva e si commerciava?",
+			"options": [],
+			"answer": "agorà",
+			"accept": [
+				"agora",
+				"l'agorà"
+			],
+			"explanation": "Mercato e assemblea nello stesso luogo: a Roma sarà il foro."
+		},
+		{
+			"id": "storia-grecia-122",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Quale città greca era famosa per l'addestramento militare dei suoi cittadini?",
+			"options": [],
+			"answer": "Sparta",
+			"accept": [],
+			"explanation": "L'educazione del cittadino era soprattutto militare."
+		},
+		{
+			"id": "storia-grecia-123",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "In quale città greca nacque la democrazia?",
+			"options": [],
+			"answer": "Atene",
+			"accept": [],
+			"explanation": "Decidevano insieme i cittadini maschi adulti: non tutti gli abitanti."
+		},
+		{
+			"id": "storia-grecia-124",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?",
+			"options": [],
+			"answer": "olimpiadi",
+			"accept": [
+				"giochi olimpici",
+				"le olimpiadi"
+			],
+			"explanation": "Durante i giochi le guerre si sospendevano."
+		},
+		{
+			"id": "storia-roma-125",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Su quale fiume sorge Roma?",
+			"options": [],
+			"answer": "Tevere",
+			"accept": [
+				"il Tevere"
+			],
+			"explanation": "Un guado sul Tevere: da lì è nata la città."
+		},
+		{
+			"id": "storia-roma-126",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?",
+			"options": [],
+			"answer": "senato",
+			"accept": [
+				"il senato"
+			],
+			"explanation": "Consigliava i magistrati e di fatto guidava la politica."
+		},
+		{
+			"id": "storia-roma-127",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiamavano i due magistrati eletti ogni anno a capo della repubblica romana?",
+			"options": [],
+			"answer": "consoli",
+			"accept": [
+				"console",
+				"i consoli"
+			],
+			"explanation": "Erano due, e duravano un anno solo: due freni contro il potere personale."
+		},
+		{
+			"id": "storia-roma-128",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Chi fu il primo imperatore di Roma?",
+			"options": [],
+			"answer": "Augusto",
+			"accept": [
+				"Ottaviano",
+				"Ottaviano Augusto"
+			],
+			"explanation": "Ottaviano prese il titolo di Augusto nel 27 avanti Cristo."
+		},
+		{
+			"id": "storia-roma-129",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiamavano le strade lastricate che collegavano Roma alle province?",
+			"options": [],
+			"answer": "strade consolari",
+			"accept": [
+				"consolari",
+				"vie consolari"
+			],
+			"explanation": "Servivano prima all'esercito, poi ai commerci."
+		},
+		{
+			"id": "storia-medioevo-130",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il sistema in cui il re concedeva terre in cambio di fedeltà e servizio militare?",
+			"options": [],
+			"answer": "feudalesimo",
+			"accept": [
+				"sistema feudale"
+			],
+			"explanation": "La terra si dava in feudo: da lì il nome."
+		},
+		{
+			"id": "storia-medioevo-131",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?",
+			"options": [],
+			"answer": "scriptorium",
+			"accept": [
+				"scriptoria",
+				"lo scriptorium"
+			],
+			"explanation": "Senza quelle copie molti testi antichi sarebbero andati perduti."
+		},
+		{
+			"id": "storia-medioevo-132",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?",
+			"options": [],
+			"answer": "comuni",
+			"accept": [
+				"comune",
+				"i comuni"
+			],
+			"explanation": "Si reggevano da sé, spesso contro l'imperatore."
+		},
+		{
+			"id": "storia-medioevo-133",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la peste che nel Trecento uccise circa un terzo degli europei?",
+			"options": [],
+			"answer": "peste nera",
+			"accept": [
+				"la peste nera",
+				"morte nera"
+			],
+			"explanation": "Arrivò dal mar Nero sulle navi mercantili."
+		},
+		{
+			"id": "storia-metodo-134",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?",
+			"options": [],
+			"answer": "incrocio delle fonti",
+			"accept": [
+				"incrociare le fonti",
+				"confronto delle fonti"
+			],
+			"explanation": "Una fonte sola non basta mai: potrebbe avere interesse a raccontarla così."
+		},
+		{
 			"id": "storia-metodo-che-cosa-studia-la-storia",
 			"subject": "storia",
 			"topic": "metodo",

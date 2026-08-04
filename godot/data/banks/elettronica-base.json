@@ -1781,6 +1781,380 @@
 			"explanation": "La corrente si misura in ampere (A)."
 		},
 		{
+			"id": "elettronica-elettricita-base-78",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura della tensione elettrica?",
+			"options": [],
+			"answer": "volt",
+			"accept": [],
+			"explanation": "Si misura fra due punti, mai in un punto solo."
+		},
+		{
+			"id": "elettronica-elettricita-base-79",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura della corrente elettrica?",
+			"options": [],
+			"answer": "ampere",
+			"accept": [],
+			"explanation": "Dice quanta carica passa in un secondo."
+		},
+		{
+			"id": "elettronica-elettricita-base-80",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura della resistenza elettrica?",
+			"options": [],
+			"answer": "ohm",
+			"accept": [],
+			"explanation": "Il simbolo è la lettera greca omega."
+		},
+		{
+			"id": "elettronica-elettricita-base-81",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Qual è l'unità di misura della potenza elettrica?",
+			"options": [],
+			"answer": "watt",
+			"accept": [],
+			"explanation": "Tensione per corrente: dice quanta energia si consuma ogni secondo."
+		},
+		{
+			"id": "elettronica-componenti-82",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente che si oppone al passaggio della corrente?",
+			"options": [],
+			"answer": "resistore",
+			"accept": [
+				"resistenza"
+			],
+			"explanation": "Il valore si legge dalle fasce colorate."
+		},
+		{
+			"id": "elettronica-componenti-83",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente che accumula carica fra due armature?",
+			"options": [],
+			"answer": "condensatore",
+			"accept": [],
+			"explanation": "Si carica e si scarica: per questo serve nei filtri e nei temporizzatori."
+		},
+		{
+			"id": "elettronica-componenti-84",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente che lascia passare la corrente in un verso solo?",
+			"options": [],
+			"answer": "diodo",
+			"accept": [],
+			"explanation": "Montato al contrario blocca tutto: il verso è indicato da una fascetta."
+		},
+		{
+			"id": "elettronica-componenti-85",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il diodo che emette luce quando è attraversato dalla corrente?",
+			"options": [],
+			"answer": "LED",
+			"accept": [
+				"led",
+				"diodo led"
+			],
+			"explanation": "Va sempre alimentato con una resistenza in serie, altrimenti si brucia."
+		},
+		{
+			"id": "elettronica-componenti-86",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente a tre terminali che amplifica o commuta un segnale?",
+			"options": [],
+			"answer": "transistor",
+			"accept": [
+				"transistore"
+			],
+			"explanation": "Con una corrente piccola comanda una corrente grande: è la base dell'elettronica digitale."
+		},
+		{
+			"id": "elettronica-componenti-87",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente che apre e chiude un circuito a comando?",
+			"options": [],
+			"answer": "interruttore",
+			"accept": [],
+			"explanation": "Aperto interrompe il giro: senza giro chiuso non passa corrente."
+		},
+		{
+			"id": "elettronica-circuito-88",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il percorso chiuso in cui scorre la corrente?",
+			"options": [],
+			"answer": "circuito",
+			"accept": [],
+			"explanation": "Se il percorso si interrompe in un punto solo, tutto si ferma."
+		},
+		{
+			"id": "elettronica-circuito-89",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il collegamento diretto fra i due poli senza carico, che fa passare troppa corrente?",
+			"options": [],
+			"answer": "cortocircuito",
+			"accept": [],
+			"explanation": "La corrente sceglie la via senza resistenza: scalda e brucia."
+		},
+		{
+			"id": "elettronica-circuito-90",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente che fornisce energia al circuito?",
+			"options": [],
+			"answer": "generatore",
+			"accept": [
+				"pila",
+				"batteria"
+			],
+			"explanation": "Pila, alimentatore, dinamo: cambia la forma, non il ruolo."
+		},
+		{
+			"id": "elettronica-serie-parallelo-91",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il collegamento in cui la corrente ha un solo percorso possibile?",
+			"options": [],
+			"answer": "serie",
+			"accept": [],
+			"explanation": "Un componente che si guasta apre il circuito e spegne tutti gli altri."
+		},
+		{
+			"id": "elettronica-serie-parallelo-92",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il collegamento in cui ogni componente ha la stessa tensione ai capi?",
+			"options": [],
+			"answer": "parallelo",
+			"accept": [],
+			"explanation": "Le lampadine di casa sono in parallelo: se una si fulmina, le altre restano accese."
+		},
+		{
+			"id": "elettronica-misure-elettriche-93",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strumento che misura la tensione?",
+			"options": [],
+			"answer": "voltmetro",
+			"accept": [],
+			"explanation": "Si collega in parallelo, ai capi del componente da misurare."
+		},
+		{
+			"id": "elettronica-misure-elettriche-94",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strumento che misura la corrente?",
+			"options": [],
+			"answer": "amperometro",
+			"accept": [],
+			"explanation": "Si collega in serie: la corrente deve attraversarlo."
+		},
+		{
+			"id": "elettronica-misure-elettriche-95",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo strumento che misura tensione, corrente e resistenza?",
+			"options": [],
+			"answer": "multimetro",
+			"accept": [],
+			"explanation": "Una manopola sceglie la grandezza: sbagliare portata è l'errore più comune."
+		},
+		{
+			"id": "elettronica-misure-elettriche-96",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la legge che lega tensione, corrente e resistenza?",
+			"options": [],
+			"answer": "legge di Ohm",
+			"accept": [
+				"Ohm",
+				"legge di ohm"
+			],
+			"explanation": "V uguale R per I: da lì si ricava qualunque delle tre."
+		},
+		{
+			"id": "elettronica-conduttori-97",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama un materiale che lascia passare bene la corrente?",
+			"options": [],
+			"answer": "conduttore",
+			"accept": [],
+			"explanation": "I metalli conducono perché hanno elettroni liberi di muoversi."
+		},
+		{
+			"id": "elettronica-conduttori-98",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama un materiale che non lascia passare la corrente?",
+			"options": [],
+			"answer": "isolante",
+			"accept": [],
+			"explanation": "La plastica intorno ai fili è isolante: serve a tenere la corrente dentro il rame."
+		},
+		{
+			"id": "elettronica-conduttori-99",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Qual è il metallo più usato per i fili elettrici nelle case?",
+			"options": [],
+			"answer": "rame",
+			"accept": [],
+			"explanation": "Conduce bene, si piega senza rompersi e costa meno dell'argento."
+		},
+		{
+			"id": "elettronica-conduttori-100",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama un materiale che conduce solo in certe condizioni, come il silicio?",
+			"options": [],
+			"answer": "semiconduttore",
+			"accept": [],
+			"explanation": "Su questa proprietà si costruiscono diodi e transistor."
+		},
+		{
+			"id": "elettronica-sicurezza-elettrica-101",
+			"subject": "elettronica",
+			"topic": "sicurezza-elettrica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il collegamento che porta a terra le correnti pericolose?",
+			"options": [],
+			"answer": "messa a terra",
+			"accept": [
+				"terra"
+			],
+			"explanation": "Offre alla corrente una strada che non passa per le persone."
+		},
+		{
+			"id": "elettronica-sicurezza-elettrica-102",
+			"subject": "elettronica",
+			"topic": "sicurezza-elettrica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il dispositivo che si apre da solo quando passa troppa corrente?",
+			"options": [],
+			"answer": "interruttore magnetotermico",
+			"accept": [
+				"magnetotermico",
+				"salvavita"
+			],
+			"explanation": "Protegge i fili dal surriscaldamento."
+		},
+		{
+			"id": "elettronica-sicurezza-elettrica-103",
+			"subject": "elettronica",
+			"topic": "sicurezza-elettrica",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il filo sottile che si fonde e interrompe il circuito in caso di sovracorrente?",
+			"options": [],
+			"answer": "fusibile",
+			"accept": [],
+			"explanation": "Si sacrifica lui al posto dell'impianto: va sostituito con uno dello stesso valore."
+		},
+		{
+			"id": "elettronica-sicurezza-elettrica-104",
+			"subject": "elettronica",
+			"topic": "sicurezza-elettrica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Quale liquido rende molto più pericoloso il contatto con la corrente?",
+			"options": [],
+			"answer": "acqua",
+			"accept": [
+				"l'acqua"
+			],
+			"explanation": "Con la pelle bagnata la resistenza del corpo crolla e passa più corrente."
+		},
+		{
+			"id": "elettronica-guasti-105",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama un'interruzione del percorso che impedisce alla corrente di scorrere?",
+			"options": [],
+			"answer": "circuito aperto",
+			"accept": [
+				"interruzione"
+			],
+			"explanation": "Un filo staccato basta: la corrente non salta il vuoto."
+		},
+		{
+			"id": "elettronica-guasti-106",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Qual è il primo controllo da fare quando un circuito a pila non funziona affatto?",
+			"options": [],
+			"answer": "la pila",
+			"accept": [
+				"pila",
+				"l'alimentazione",
+				"alimentazione"
+			],
+			"explanation": "Prima di smontare tutto si verifica l'alimentazione: è il guasto più frequente."
+		},
+		{
 			"id": "elettronica-elettricita-base-che-cosa-fornisce-l-energia-in-un-circuito-con-l",
 			"subject": "elettronica",
 			"topic": "elettricita-base",

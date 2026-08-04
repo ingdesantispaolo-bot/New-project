@@ -577,7 +577,7 @@ func _answer(given: String) -> void:
 	if _answered:
 		return
 	var item: Dictionary = _nodes[_index]
-	var is_correct := ExerciseInteraction.answers_equivalent(given, str(item.get("answer", "")))
+	var is_correct := ExerciseInteraction.answer_accepted(given, item)
 	if not is_correct:
 		_spend_shield()
 		_register_wrong_attempt(item)

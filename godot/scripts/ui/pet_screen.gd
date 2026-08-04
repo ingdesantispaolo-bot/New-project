@@ -214,8 +214,27 @@ func _refresh() -> void:
 		if not locked_faces.is_empty() else "Album completo")
 	var antics_count := STATE.antics(_save).size()
 	var gifts := STATE.gifts(_save)
-	_collections.text = "Legame %d%% · %d sessioni insieme\nCombinelle viste: %d · Cose che ti ha portato: %d" % [
-		roundi(STATE.bond(_save) * 100.0), STATE.sessions_together(_save), antics_count, gifts.size()]
+	_collections.text = "Legame %d%% · %d sessioni insieme\nCombinelle: %d su %d · Cose che ti ha portato: %d%s" % [
+		roundi(STATE.bond(_save) * 100.0), STATE.sessions_together(_save),
+		antics_count, PetAntics.total_count(), gifts.size(), _gift_list(gifts)]
+
+## «Cose che ti ha portato», con il mondo in cui è successo.
+##
+## Non è un inventario: nessuno di questi oggetti si usa. È il diario del viaggio
+## scritto da qualcun altro, e per questo si legge dall'ultimo arrivato indietro
+## fino al sasso che vi siete portati dietro dal primo mondo.
+func _gift_list(gifts: Array) -> String:
+	if gifts.is_empty():
+		return ""
+	var righe: Array = []
+	for i in range(gifts.size() - 1, maxi(-1, gifts.size() - 9), -1):
+		var voce := gifts[i] as Dictionary
+		righe.append("· %s — mondo %d" % [
+			PetGifts.label_of(str(voce.get("id", ""))), int(voce.get("world", 0))])
+	var resto := gifts.size() - righe.size()
+	if resto > 0:
+		righe.append("· e altre %d cose" % resto)
+	return "\n" + "\n".join(PackedStringArray(righe))
 
 func _save_name() -> void:
 	if _save == null:

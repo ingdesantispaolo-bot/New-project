@@ -47,6 +47,9 @@ var _correct := 0
 var _shields := 3
 var _energy := 0
 var _energy_per_correct := 10
+## Costo dell'uscita anticipata, letto dalla sessione. Vedi `_build_exit_row()`.
+var _abandon_cost := 3
+var _abandon_armed := false
 var _started_at_msec := 0
 var _answered := false
 var _missed: Array = []       # topic sbagliati → ripasso spaziato
@@ -64,6 +67,9 @@ var _feedback: Label
 var _status: Label
 var _next_button: Button
 var _help_button: Button
+var _exit_button: Button
+var _exit_stay_button: Button
+var _exit_notice: Label
 var _input: LineEdit
 var _input_submit: Button
 ## Tastierino numerico disegnato dal gioco.
@@ -131,6 +137,8 @@ func start_session(new_session: Dictionary) -> void:
 	_correct = 0
 	_shields = int(session.get("shields", 3))
 	_energy = 0
+	_abandon_armed = false
+	_abandon_cost = int(session.get("abandonCost", 3))
 	_started_at_msec = Time.get_ticks_msec()
 	_missed = []
 	_reviewed_ok = []
@@ -282,6 +290,85 @@ func _build_ui() -> void:
 	_next_button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.16, 0.32, 0.30, 0.98), Color(0.96, 0.78, 0.36, 0.72)))
 	_next_button.pressed.connect(_advance)
 	box.add_child(_next_button)
+
+	_build_exit_row(box)
+
+## L'uscita dalla prova.
+##
+## Fino al 4 agosto 2026 da un esercizio non si usciva: nessun pulsante, nessun
+## `ui_cancel`. Bastava un campo che non si riempiva — ed è successo davvero, su
+## tablet — perché il bambino restasse chiuso lì dentro senza via d'uscita. Un
+## gioco che si studia non può avere stanze senza porta.
+##
+## Ma la porta ha un prezzo, e deve averlo: senza costo, uscire e rientrare
+## diventa il modo più veloce di ripescare domande finché non capitano quelle
+## facili, e la prova smette di misurare qualcosa. Il prezzo è dichiarato prima,
+## in cifre, e la conferma è un secondo tocco: nessun bambino perde energia per
+## un dito storto.
+##
+## Quello che il prezzo NON tocca è ciò che è stato imparato. Gli argomenti visti
+## restano nel Codex anche se la prova non viene consegnata: il gioco non ha mai
+## tolto sapere a nessuno, e non comincia qui.
+func _build_exit_row(box: VBoxContainer) -> void:
+	_exit_notice = Label.new()
+	_exit_notice.name = "ExitNotice"
+	_exit_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_exit_notice.visible = false
+	_exit_notice.add_theme_font_size_override("font_size", 13)
+	_exit_notice.add_theme_color_override("font_color", Color("f6c85f"))
+	box.add_child(_exit_notice)
+
+	var row := HBoxContainer.new()
+	row.name = "ExitRow"
+	row.add_theme_constant_override("separation", 8)
+	box.add_child(row)
+
+	_exit_button = Button.new()
+	_exit_button.name = "ExerciseExitButton"
+	_exit_button.text = "ESCI DALLA PROVA"
+	_exit_button.custom_minimum_size = Vector2(0, 48)
+	_exit_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_exit_button.add_theme_font_size_override("font_size", 14)
+	_exit_button.add_theme_color_override("font_color", Color(0.78, 0.90, 0.88, 0.92))
+	_exit_button.add_theme_stylebox_override(
+		"normal", _exercise_button_style(Color(0.06, 0.14, 0.16, 0.85), Color(0.42, 0.70, 0.68, 0.35)))
+	_exit_button.pressed.connect(_on_exit_pressed)
+	row.add_child(_exit_button)
+
+	_exit_stay_button = Button.new()
+	_exit_stay_button.name = "ExerciseStayButton"
+	_exit_stay_button.text = "RESTO"
+	_exit_stay_button.visible = false
+	_exit_stay_button.custom_minimum_size = Vector2(120, 48)
+	_exit_stay_button.add_theme_font_size_override("font_size", 14)
+	_exit_stay_button.add_theme_color_override("font_color", Color("06272a"))
+	_exit_stay_button.add_theme_stylebox_override(
+		"normal", _exercise_button_style(Color("6be7d6"), Color("d8fff8")))
+	_exit_stay_button.pressed.connect(_disarm_exit)
+	row.add_child(_exit_stay_button)
+
+## Primo tocco: chiede conferma e dice il prezzo. Secondo tocco: esce.
+func _on_exit_pressed() -> void:
+	if not _abandon_armed:
+		_abandon_armed = true
+		_exit_button.text = "ESCO DAVVERO"
+		_exit_stay_button.visible = true
+		_exit_notice.visible = true
+		_exit_notice.text = (
+			"Uscire costa %d energia, e l'energia di questa prova non viene consegnata. "
+			+ "Quello che hai già imparato resta nel Codex."
+		) % _abandon_cost
+		return
+	_abandon()
+
+func _disarm_exit() -> void:
+	_abandon_armed = false
+	if is_instance_valid(_exit_button):
+		_exit_button.text = "ESCI DALLA PROVA"
+	if is_instance_valid(_exit_stay_button):
+		_exit_stay_button.visible = false
+	if is_instance_valid(_exit_notice):
+		_exit_notice.visible = false
 
 func _exercise_panel_style(is_exam: bool = false) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -1424,6 +1511,46 @@ func _advance() -> void:
 		return
 	_index += 1
 	_show_current()
+
+## Uscita anticipata. La prova non è consegnata: niente esito, niente incontro
+## completato, nessuna energia dalla sessione. Restano gli argomenti visti, che
+## il chiamante gira al Codex esattamente come per una prova conclusa.
+func _abandon() -> void:
+	var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
+	if audio != null:
+		audio.call("set_focus", false)
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("delete document.documentElement.dataset.eliExercise;")
+	session_finished.emit({
+		"sessionId": str(session.get("sessionId", "")),
+		"kind": str(session.get("kind", "mission")),
+		"correct": _correct,
+		"total": _nodes.size(),
+		"passed": false,
+		"abandoned": true,
+		"abandonCost": _abandon_cost,
+		# Zero: l'energia di una prova non consegnata non arriva. È questo, non
+		# una penale aggiuntiva, a togliere convenienza all'uscire e rientrare
+		# finché non capitano le domande facili.
+		"energyGained": 0,
+		"shieldsLeft": _shields,
+		"subject": str(session.get("subject", "")),
+		"seconds": maxf(0.0, float(Time.get_ticks_msec() - _started_at_msec) / 1000.0),
+		"missed": _missed.duplicate(),
+		"reviewedOk": _reviewed_ok.duplicate(),
+		"systemsResolved": _systems_resolved.keys(),
+		"synthesisResolved": false,
+		"topicStats": _build_topic_stats(),
+	})
+
+## Il tasto indietro del tablet e l'Esc della tastiera fanno la stessa cosa del
+## pulsante: armano la conferma, non escono di colpo.
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible or not is_instance_valid(_exit_button):
+		return
+	if event.is_action_pressed("ui_cancel"):
+		_on_exit_pressed()
+		get_viewport().set_input_as_handled()
 
 func _finish() -> void:
 	var total := _nodes.size()

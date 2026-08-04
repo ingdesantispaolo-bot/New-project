@@ -233,9 +233,12 @@ Nessuna si scrive: vogliono un **asset** o una **tua decisione**.
   descrivere («Segnaposto A»), che è l'unica scelta che non regala la risposta.
   Ma chi usa un lettore di schermo **non può rispondere a una carta muta**. Vale
   già per grafici e circuiti. Va deciso, non subìto.
-- **Uscita dall'esercizio** — oggi non esiste: nessun pulsante di abbandono,
-  nessun `ui_cancel`. Un difetto di input diventa un blocco totale. Aggiungerla è
-  però una scelta di design: un bambino potrebbe usarla per saltare tutto.
+- **Il Custode al terzo errore** — quando un bambino sbaglia tre volte lo stesso
+  argomento, il compagno oggi fa *incoraggiante* ogni volta, che alla terza è
+  rumore. La proposta è che **sdrammatizzi**: starnuto o faccia impicciata, senza
+  aiutare. Tocca il ciclo dell'esercizio nel punto più delicato, e la differenza
+  fra «mi ha fatto ridere quando ero fermo» e «mi ha distratto mentre pensavo» la
+  dice il collaudo. Vedi [studio sul Custode](docs/CUSTODE_LIVELLO_AVANZATO.md).
 
 ---
 
@@ -319,6 +322,20 @@ Una proposta che le contraddice va discussa, non implementata.
    oltre, il banco diventa un dettato, e le domande di ragionamento — dove la
    risposta è una frase — restano giustamente a scelta multipla.
    Tenuto da `free_answer_audit`.
+
+11. **Da una prova si esce sempre, e uscire costa** (4 agosto 2026). Un difetto
+   di input non deve poter diventare un blocco totale: su tablet è già successo.
+   La porta chiede conferma a due tocchi e costa 3 energie — quanto l'ingresso —
+   e l'energia della prova non consegnata non arriva: senza prezzo, uscire e
+   rientrare sarebbe il modo più veloce di ripescare domande finché non capitano
+   le facili. Con zero energia si esce lo stesso. Gli argomenti visti restano nel
+   Codex: il gioco non toglie a nessuno quello che ha imparato.
+   Tenuto da `exercise_exit_audit`.
+
+12. **Il Custode avanza in carattere, mai in potere** (4 agosto 2026). Nessun
+   aiuto, nessun indizio, nessuna energia, nessuno sconto sul gate. Nel momento
+   in cui il compagno diventa utile il bambino comincia a ottimizzarlo, e un
+   compagno ottimizzato non è più un compagno. Tenuto da `pet_advanced_audit`.
 
 ### Guard-rail narrativi (i tre che si rompono per primi)
 

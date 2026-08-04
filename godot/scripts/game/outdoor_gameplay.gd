@@ -19,6 +19,14 @@ const ENIGMA_RETRY_COOLDOWN_SECONDS := 20
 
 const EXERCISE_ENERGY_COST := 3
 
+## Costo dell'uscita anticipata da una prova. Uguale all'ingresso: uscire e
+## rientrare costa il doppio di restare, che è esattamente la differenza che
+## serve perché ripescare le domande non convenga.
+##
+## Non blocca mai: se l'energia non basta si prende quella che c'è e si arriva a
+## zero. Una porta che si apre solo se hai i soldi non è una porta.
+const EXERCISE_ABANDON_COST := 3
+
 const BIOME_ENCOUNTER_SUBJECTS := {
 	"academy:times": "matematica",
 	"academy:mental": "italiano",
@@ -92,6 +100,27 @@ func _practice_feedback(advanced: Array, gained: int) -> String:
 	var coda := " e altri %d" % altri if altri > 0 else ""
 	return "%s Nel manuale: %s%s. +%d energia" % [
 		nora_voice.line("solve"), ", ".join(PackedStringArray(parts)), coda, gained]
+
+## Il messaggio dopo un'uscita anticipata.
+##
+## Non rimprovera e non consola: dice il fatto e quello che resta. NORA non è
+## mai delusa da Eli — è un guard-rail narrativo del gioco — e uscire da una
+## prova è una cosa che si può fare, non un fallimento da commentare.
+func _abandon_feedback(costo: int, advanced: Array) -> String:
+	var testa := "Prova chiusa."
+	if costo > 0:
+		testa = "Prova chiusa. −%d energia." % costo
+	if advanced.is_empty():
+		return "%s Quello che hai visto resta nel manuale. Quando vuoi si ricomincia." % testa
+	var parts: Array = []
+	for entry in advanced.slice(0, 2):
+		var row := entry as Dictionary
+		parts.append("«%s» ora è %s" % [
+			str(row["topic"]).replace("-", " "),
+			KnowledgeCodex.state_label(str(row["a"])),
+		])
+	return "%s Nel manuale però qualcosa è rimasto: %s." % [
+		testa, ", ".join(PackedStringArray(parts))]
 
 func _present_feedback(message: String, source: String = "system") -> void:
 	feedback.emit(message)
@@ -315,6 +344,9 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject}
 	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session))))
 	_present_feedback(nora_line, "nora")
+	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
+	# la cifra mostrata al bambino e quella addebitata sono la stessa.
+	session["abandonCost"] = EXERCISE_ABANDON_COST
 	session_requested.emit(session)
 	_emit_state()
 	return true
@@ -345,6 +377,9 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
 	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session))))
 	_present_feedback(nora_line, "nora")
+	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
+	# la cifra mostrata al bambino e quella addebitata sono la stessa.
+	session["abandonCost"] = EXERCISE_ABANDON_COST
 	session_requested.emit(session)
 	# Stato iniziale della costruzione (0 campate) così la resa parte da "rotto".
 	enigma_progress.emit(0, int(session.get("stages", session.get("nodes", []).size())), theme, encounter_id)
@@ -401,6 +436,9 @@ func try_start_minigame(payload: Dictionary, encounter_id: String) -> bool:
 	_charge_exercise_entry()
 	active_session_context = {"kind": "minigame", "encounterId": encounter_id, "subject": subject}
 	_present_feedback(NoraContextEngine.open_line(subject, false), "nora")
+	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
+	# la cifra mostrata al bambino e quella addebitata sono la stessa.
+	session["abandonCost"] = EXERCISE_ABANDON_COST
 	session_requested.emit(session)
 	_emit_state()
 	return true
@@ -432,6 +470,9 @@ func try_start_final_exam() -> bool:
 		"subject": subject,
 		"apparatus": ApparatusConfig.apparatus_of(subject),
 	}
+	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
+	# la cifra mostrata al bambino e quella addebitata sono la stessa.
+	session["abandonCost"] = EXERCISE_ABANDON_COST
 	session_requested.emit(session)
 	_emit_state()
 	return true
@@ -460,6 +501,20 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	var passed := bool(exercise_result.get("passed", false))
 	var energy_before := game_save.energy()
 	var kind := str(context.get("kind", "mission"))
+
+	# Prova abbandonata: si paga l'uscita, non si registra alcun esito e non si
+	# completa niente. Gli argomenti visti vanno comunque al Codex — quello che
+	# il bambino ha imparato non gli viene tolto perché ha chiuso la porta.
+	if bool(exercise_result.get("abandoned", false)):
+		var costo := mini(EXERCISE_ABANDON_COST, game_save.energy())
+		if costo > 0 and game_save.spend_energy(costo):
+			result["energySpent"] = int(result.get("energySpent", 0)) + costo
+		var usciti_avanzati: Array = progression_manager.record_topic_stats(
+			subject, exercise_result.get("topicStats", {}))
+		_update_spaced_repetition(subject, exercise_result)
+		_present_feedback(_abandon_feedback(costo, usciti_avanzati), "nora")
+		_emit_state()
+		return
 	# I minigiochi sono PRATICA ripetibile: allenano padronanza ed energia ma non
 	# contano per il gate (nessun add_mission) e non completano un incontro.
 	if kind == "minigame":

@@ -55,6 +55,10 @@ const SIGNAL_FACES := {
 	# Lettura del mondo
 	"near_unexplored": "curioso",
 	"near_faded": "attento",
+	# Il Custode riconosce un abitante (docs/PET_CUSTODE.md §3.4)
+	"meet_beloved": "festa",
+	"meet_shy": "impicciato",
+	"meet_fond": "beato",
 	# Relazione
 	"cuddle": "beato",
 	"antic": "impicciato",
@@ -68,7 +72,8 @@ const GAME_SIGNALS := [
 	"session_failed", "mission_complete", "apparatus_repaired",
 	"topic_consolidated", "learning:perseverance", "learning:improvement",
 	"learning:transfer", "learning:help_request", "learning:recurring_error",
-	"near_unexplored", "near_faded", "cuddle", "antic", "idle",
+	"near_unexplored", "near_faded", "meet_beloved", "meet_shy", "meet_fond",
+	"cuddle", "antic", "idle",
 ]
 
 ## Segnali che rappresentano un esito negativo per il giocatore. Nessuno di questi

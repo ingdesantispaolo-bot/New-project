@@ -62,6 +62,10 @@ var pet_face: PetFaceWidget
 var pet_screen: Control
 var pet_naming_panel: PanelContainer
 var _pet_cuddles_this_session := 0
+var _pet_gift_rng: RandomNumberGenerator = null
+var _pet_greeted: Dictionary = {}
+var _pet_antic_count := 0
+var _pet_antic_line_cursor := 0
 var feedback_label: Label
 var feedback_source_label: Label
 var feedback_panel: PanelContainer
@@ -887,7 +891,7 @@ func _spawn_pet(visual_data: Dictionary) -> void:
 		str(pet_data.get("kind", "spark")), color, player,
 		PetState.temperament(game_save), reduced_motion)
 	pet_companion.configure_antics(PetState.antics(game_save))
-	pet_companion.antic_started.connect(func(_antic_id: String): _pet_react("antic"))
+	pet_companion.antic_started.connect(_on_pet_antic)
 
 func _create_portal() -> void:
 	portal = PORTAL_VISUAL.new()
@@ -1805,6 +1809,7 @@ func _active_mission_owner() -> String:
 	return ""
 
 func _open_npc_dialogue(npc_id: String) -> void:
+	_pet_greet(npc_id)
 	if world_level == WorldProfileCatalog.MAX_LEVEL and not FINALE_CATALOG.lines_for(npc_id).is_empty():
 		_open_finale_convergence_dialogue(npc_id)
 		return
@@ -3576,6 +3581,11 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	if is_instance_valid(game_save):
 		var unlocked := PetState.register_session(game_save)
 		_pet_cuddles_this_session = 0
+		# Il legame può aver sbloccato una combinella nuova: senza questo, il
+		# repertorio restava quello del momento in cui il Custode è comparso.
+		if is_instance_valid(pet_companion):
+			pet_companion.configure_antics(PetState.antics(game_save))
+		_maybe_pet_gift()
 		game_save.save()
 		_announce_pet_unlocks(unlocked)
 		_grant_pet_if_needed()
@@ -3591,6 +3601,105 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	_refresh_economy()
 	_update_ship_navigation()
 	_refresh_prompt()
+
+## Ogni tanto, a fine sessione, il Custode ha portato qualcosa.
+##
+## Arriva da solo: non si chiede, non si cerca, non dipende dall'esito. Un
+## bambino che ha appena sbagliato una prova riceve lo stesso il suo sasso, ed è
+## metà del motivo per cui il regalo esiste.
+##
+## NORA lo commenta come un rapporto tecnico. È affetto travestito da inventario:
+## non lo sgrida mai e non lo chiama stupido — è un guard-rail del personaggio.
+func _maybe_pet_gift() -> void:
+	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
+		return
+	if _pet_gift_rng == null:
+		_pet_gift_rng = RandomNumberGenerator.new()
+		_pet_gift_rng.randomize()
+	if not PetGifts.rolls_gift(_pet_gift_rng):
+		return
+	var gift_id := PetGifts.pick(_pet_gift_rng)
+	var voce := PetState.register_gift(game_save, gift_id, world_level)
+	if voce.is_empty():
+		return
+	var quanti := PetState.gifts(game_save).size()
+	_pet_react("antic")
+	_set_nora_feedback(_nora_gift_line(gift_id, quanti))
+
+## Il Custode ha fatto una combinella. Faccia impicciata, e ogni tanto NORA la
+## registra. Vedi docs/PET_CUSTODE.md §3.5.
+##
+## Non ogni volta: una combinella che NORA commenta sempre diventa una didascalia,
+## e il tempo comico si perde. Una su tre, e le battute non si ripetono finché non
+## sono finite tutte.
+func _on_pet_antic(antic_id: String) -> void:
+	_pet_react("antic")
+	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
+		return
+	_pet_antic_count += 1
+	if _pet_antic_count % 3 != 0:
+		return
+	var battute: Array = NORA_SU_COMBINELLA.get(antic_id, NORA_SU_COMBINELLA["_qualsiasi"])
+	var scelta := str(battute[_pet_antic_line_cursor % battute.size()])
+	_pet_antic_line_cursor += 1
+	_set_nora_feedback("NORA · %s" % (scelta % PetState.name_of(game_save)))
+
+## Il duetto. NORA non lo sgrida mai e non lo chiama stupido: è affetto travestito
+## da rapporto tecnico, ed è un guard-rail del personaggio, non uno stile.
+const NORA_SU_COMBINELLA := {
+	"tail": [
+		"Confermo: %s si è di nuovo stupito della propria coda. Registro l'evento come nuovo, per rispetto.",
+	],
+	"nap": [
+		"%s dorme in piedi e sostiene di no. Non ho elementi per contraddirlo.",
+	],
+	"guard": [
+		"%s sorveglia un sasso da quattro minuti. Non commento.",
+	],
+	"sneeze": [
+		"Ha starnutito. Stavo per dire una cosa importante. Ora non la ricordo. Forse era meglio così.",
+	],
+	"stare": [
+		"%s fissa un punto vuoto del muro. Ho controllato: è vuoto. Lui insiste.",
+	],
+	"echo": [
+		"%s ha risposto al proprio eco. Entrambi sembravano convinti.",
+	],
+	"_qualsiasi": [
+		"Registro il comportamento di %s. Nessuna funzione nota.",
+		"%s ha fatto una cosa. Trascrivo senza interpretare.",
+		"Nota: %s ha di nuovo agito prima di pensare. Coerenza: alta.",
+		"Osservazione su %s: nessun progresso, nessun peggioramento. Stabile.",
+	],
+}
+
+## Il Custode riconosce un abitante. Vedi docs/PET_CUSTODE.md §3.4.
+##
+## Una volta per abitante per sessione di gioco: la reazione è fissa apposta —
+## è quello che la rende un riconoscimento invece di una battuta a caso — ma
+## ripeterla a ogni singolo dialogo la trasformerebbe in rumore.
+func _pet_greet(npc_id: String) -> void:
+	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
+		return
+	if _pet_greeted.has(npc_id):
+		return
+	var opinione := PetAntics.opinion_for(npc_id)
+	if opinione.is_empty():
+		return
+	_pet_greeted[npc_id] = true
+	_pet_react(str(opinione.get("signal", "meet_shy")))
+	_present_feedback(str(opinione.get("line", "")) % PetState.name_of(game_save), "pet")
+
+## Il duetto NORA/Custode su un regalo. Vedi docs/PET_CUSTODE.md §3.5.
+func _nora_gift_line(gift_id: String, quanti: int) -> String:
+	var nome := PetState.name_of(game_save)
+	var cosa := PetGifts.label_of(gift_id).to_lower()
+	if quanti == 1:
+		return "NORA · %s ha portato %s. Apro una voce di inventario. Non so ancora per cosa." % [nome, cosa]
+	if gift_id.begins_with("sasso"):
+		return "NORA · %s ha portato %s. È il %d° oggetto. Tengo il conto io perché qualcuno deve." % [
+			nome, cosa, quanti]
+	return "NORA · %s ha portato %s. Registro. Nessuna funzione nota." % [nome, cosa]
 
 func _on_exercise_progress(correct: int, total: int) -> void:
 	if not is_instance_valid(gameplay):

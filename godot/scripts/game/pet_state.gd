@@ -156,6 +156,25 @@ static func antics(save) -> Array:
 static func gifts(save) -> Array:
 	return Array(_pet(save).get("gifts", [])).duplicate(true)
 
+## Registra una cosa che il Custode ha portato: cosa, dove e quando.
+##
+## Nessun regalo si perde e nessuno scade: la lista cresce e basta. Il mondo e la
+## data non servono al gioco — servono a chi la rilegge a fine campagna, perché
+## «un sasso, mondo 7» è un ricordo e «un sasso» non lo è.
+static func register_gift(save, gift_id: String, world_id: int) -> Dictionary:
+	if not PetGifts.CATALOG.has(gift_id):
+		return {}
+	var pet := _pet(save)
+	var lista: Array = Array(pet.get("gifts", []))
+	var voce := {
+		"id": gift_id,
+		"world": world_id,
+		"date": Time.get_date_string_from_system(),
+	}
+	lista.append(voce)
+	pet["gifts"] = lista
+	return voce
+
 # --- Legame -------------------------------------------------------------------
 ## Aumenta il legame e sblocca le espressioni raggiunte. `amount` negativo viene
 ## ignorato: il legame è monotono per contratto, non per convenzione.
@@ -165,6 +184,11 @@ static func add_bond(save, amount: float) -> Array:
 		return []
 	var pet := _pet(save)
 	pet["bond"] = clampf(float(pet.get("bond", 0.0)) + amount, 0.0, 1.0)
+	# Le combinelle si sbloccano insieme alle facce. Il valore di ritorno resta
+	# l'elenco delle sole espressioni: la celebrazione a schermo parla di quelle,
+	# mentre una combinella nuova si deve scoprire vedendola, non leggendola in
+	# un avviso.
+	_sync_antics(save)
 	return _sync_faces(save)
 
 ## Una sessione giocata con impegno, superata o no: conta aver provato. Il legame
@@ -177,6 +201,22 @@ static func register_session(save) -> Array:
 
 static func register_cuddle(save) -> Array:
 	return add_bond(save, BOND_PER_CUDDLE)
+
+## Combinelle raggiunte dal legame corrente. Il catalogo e le soglie vivono in
+## `PetAntics`: qui si legge soltanto, così un repertorio nuovo non richiede di
+## toccare il salvataggio.
+static func _sync_antics(save) -> Array:
+	var pet := _pet(save)
+	var current: Array = Array(pet.get("antics", []))
+	var unlocked: Array = []
+	var value := float(pet.get("bond", 0.0))
+	for step in PetAntics.BOND_UNLOCKS:
+		var antic := str(step["antic"])
+		if value + 0.0001 >= float(step["bond"]) and not current.has(antic):
+			current.append(antic)
+			unlocked.append(antic)
+	pet["antics"] = current
+	return unlocked
 
 static func _sync_faces(save) -> Array:
 	var pet := _pet(save)

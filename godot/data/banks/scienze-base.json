@@ -4,7 +4,1139 @@
 	"generator": "scienze-authored-v1",
 	"items": [
 		{
-			"id": "scienze-metodo-0",
+			"id": "scienze-ambiente-0",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è la biodiversità?",
+			"options": [
+				"La varietà di specie viventi in un ambiente",
+				"Il numero totale di animali presenti",
+				"La superficie occupata da un bosco",
+				"La quantità di piante di una specie"
+			],
+			"answer": "La varietà di specie viventi in un ambiente",
+			"explanation": "Non conta quanti individui ci sono, ma quante specie diverse: un ambiente vario resiste meglio ai cambiamenti."
+		},
+		{
+			"id": "scienze-ambiente-1",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché gli alberi sono importanti per l'aria che respiriamo?",
+			"options": [
+				"Perché filtrano la pioggia prima che tocchi il suolo",
+				"Perché assorbono anidride carbonica e liberano ossigeno",
+				"Perché fermano il vento quando soffia troppo forte",
+				"Perché abbassano di molto la temperatura dell'aria"
+			],
+			"answer": "Perché assorbono anidride carbonica e liberano ossigeno",
+			"explanation": "Con la fotosintesi prendono CO₂ e restituiscono ossigeno: sono il polmone di ogni ecosistema terrestre."
+		},
+		{
+			"id": "scienze-ambiente-2",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede a un ecosistema se sparisce una specie chiave?",
+			"options": [
+				"L'ambiente si ricostruisce in pochi giorni",
+				"Non cambia nulla per le altre specie",
+				"Può cambiare l'equilibrio di molte altre specie",
+				"Le altre specie diventano più numerose"
+			],
+			"answer": "Può cambiare l'equilibrio di molte altre specie",
+			"explanation": "Le specie sono collegate: togliere un predatore fa esplodere le sue prede, che a loro volta consumano più piante."
+		},
+		{
+			"id": "scienze-ambiente-3",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché la plastica dispersa è un problema per il mare?",
+			"options": [
+				"Perché toglie ossigeno ai pesci",
+				"Perché fa aumentare la temperatura",
+				"Perché rende l'acqua più salata",
+				"Perché impiega secoli a degradarsi"
+			],
+			"answer": "Perché impiega secoli a degradarsi",
+			"explanation": "Si spezza in pezzi sempre più piccoli senza sparire: le microplastiche entrano nella catena alimentare."
+		},
+		{
+			"id": "scienze-ambiente-4",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una fonte di energia rinnovabile?",
+			"options": [
+				"Una fonte che si rigenera in tempi brevi",
+				"Una fonte che non produce energia",
+				"Una fonte che non costa niente",
+				"Una fonte che si trova sottoterra"
+			],
+			"answer": "Una fonte che si rigenera in tempi brevi",
+			"explanation": "Sole, vento e acqua si rinnovano di continuo; carbone e petrolio hanno impiegato milioni di anni a formarsi."
+		},
+		{
+			"id": "scienze-ambiente-5",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale di queste è una fonte di energia rinnovabile?",
+			"options": [
+				"Il carbone",
+				"Il vento",
+				"Il petrolio",
+				"Il gas naturale"
+			],
+			"answer": "Il vento",
+			"explanation": "Il vento soffia di continuo e non si esaurisce; le altre tre sono riserve fossili che finiscono."
+		},
+		{
+			"id": "scienze-ambiente-6",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché fare la raccolta differenziata riduce l'uso di materie prime?",
+			"options": [
+				"Perché le discariche diventano più ordinate",
+				"Perché i rifiuti pesano complessivamente meno",
+				"Perché il materiale riciclato sostituisce quello nuovo",
+				"Perché si producono meno rifiuti in totale"
+			],
+			"answer": "Perché il materiale riciclato sostituisce quello nuovo",
+			"explanation": "Una lattina riciclata risparmia l'alluminio che si sarebbe dovuto estrarre, e insieme l'energia per estrarlo."
+		},
+		{
+			"id": "scienze-ambiente-7",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'effetto serra?",
+			"options": [
+				"Le serre agricole riscaldano l'atmosfera",
+				"Il Sole scalda di più in certe stagioni",
+				"L'aria si riscalda salendo verso l'alto",
+				"Alcuni gas trattengono il calore vicino alla Terra"
+			],
+			"answer": "Alcuni gas trattengono il calore vicino alla Terra",
+			"explanation": "Senza effetto serra la Terra sarebbe gelida: il problema nasce quando quei gas aumentano troppo e il calore trattenuto cresce."
+		},
+		{
+			"id": "scienze-ambiente-8",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché il consumo di suolo preoccupa gli scienziati?",
+			"options": [
+				"Perché il terreno fertile impiega secoli a formarsi",
+				"Perché le città diventano troppo affollate",
+				"Perché il terreno cementificato costa di più",
+				"Perché il suolo si sposta con il vento"
+			],
+			"answer": "Perché il terreno fertile impiega secoli a formarsi",
+			"explanation": "Servono centinaia di anni per formare pochi centimetri di suolo fertile, e coprirlo di cemento lo rende irrecuperabile."
+		},
+		{
+			"id": "scienze-ambiente-9",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa «specie a rischio di estinzione»?",
+			"options": [
+				"Una specie che vive in pochi luoghi",
+				"Una specie che rischia di sparire per sempre",
+				"Una specie che si riproduce lentamente",
+				"Una specie che si sposta ogni anno"
+			],
+			"answer": "Una specie che rischia di sparire per sempre",
+			"explanation": "Estinzione significa che non ne resta più nessun individuo: è una perdita che non si può annullare."
+		},
+		{
+			"id": "scienze-ambiente-10",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché l'acqua dolce è una risorsa preziosa?",
+			"options": [
+				"Perché evapora molto più lentamente di quella salata",
+				"Perché si trova soltanto dentro i ghiacciai polari",
+				"Perché è una piccolissima parte dell'acqua terrestre",
+				"Perché è più pesante e densa dell'acqua salata"
+			],
+			"answer": "Perché è una piccolissima parte dell'acqua terrestre",
+			"explanation": "Quasi tutta l'acqua del pianeta è salata; di quella dolce, gran parte è ghiacciata: ne resta pochissima disponibile."
+		},
+		{
+			"id": "scienze-ambiente-11",
+			"subject": "scienze",
+			"topic": "ambiente",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una specie invasiva?",
+			"options": [
+				"Una specie che si riproduce molto in fretta",
+				"Una specie che caccia di notte in gruppo",
+				"Una specie che vive in ambienti diversi",
+				"Una specie portata altrove che danneggia l'ambiente"
+			],
+			"answer": "Una specie portata altrove che danneggia l'ambiente",
+			"explanation": "Fuori dal suo ambiente d'origine può non avere predatori: si moltiplica senza freni e soffoca le specie locali."
+		},
+		{
+			"id": "scienze-metodo-12",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un'ipotesi scientifica?",
+			"options": [
+				"Una risposta possibile ancora da verificare",
+				"Una domanda a cui non si può rispondere",
+				"Un'opinione personale del ricercatore",
+				"Una conclusione già dimostrata"
+			],
+			"answer": "Una risposta possibile ancora da verificare",
+			"explanation": "L'ipotesi si formula prima dell'esperimento, e l'esperimento serve proprio a metterla alla prova."
+		},
+		{
+			"id": "scienze-metodo-13",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché in un esperimento si cambia una sola variabile per volta?",
+			"options": [
+				"Perché due variabili non si possono misurare",
+				"Per sapere quale ha causato il risultato",
+				"Per fare l'esperimento più in fretta",
+				"Per risparmiare materiale da laboratorio"
+			],
+			"answer": "Per sapere quale ha causato il risultato",
+			"explanation": "Se cambi tre cose insieme e qualcosa succede, non sai a quale delle tre attribuirlo."
+		},
+		{
+			"id": "scienze-metodo-14",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A che cosa serve il gruppo di controllo?",
+			"options": [
+				"A ripetere lo stesso esperimento due volte",
+				"A misurare gli strumenti prima dell'uso",
+				"A confrontare con ciò che accade senza intervento",
+				"A verificare i calcoli fatti alla fine"
+			],
+			"answer": "A confrontare con ciò che accade senza intervento",
+			"explanation": "Senza un termine di paragone non sai se il cambiamento sarebbe avvenuto comunque."
+		},
+		{
+			"id": "scienze-metodo-15",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché un esperimento va ripetuto più volte?",
+			"options": [
+				"Perché lo richiedono i regolamenti",
+				"Perché così si consuma meno materiale",
+				"Perché la prima volta si sbaglia sempre",
+				"Perché un risultato singolo può essere un caso"
+			],
+			"answer": "Perché un risultato singolo può essere un caso",
+			"explanation": "La ripetizione distingue un effetto reale da una coincidenza: se succede una volta sola, non prova niente."
+		},
+		{
+			"id": "scienze-metodo-16",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un'ipotesi che non si può smentire in nessun modo è…",
+			"options": [
+				"Inutile dal punto di vista scientifico",
+				"La più solida di tutte le ipotesi",
+				"Vera fino a prova contraria",
+				"Difficile ma comunque verificabile"
+			],
+			"answer": "Inutile dal punto di vista scientifico",
+			"explanation": "Se nessun risultato possibile potrebbe contraddirla, l'esperimento non aggiunge nulla: non è un'ipotesi scientifica."
+		},
+		{
+			"id": "scienze-metodo-17",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che differenza c'è fra osservare e interpretare?",
+			"options": [
+				"L'interpretazione si fa con gli strumenti",
+				"L'osservazione registra, l'interpretazione spiega",
+				"L'osservazione è più lenta da eseguire",
+				"Non c'è differenza fra le due cose"
+			],
+			"answer": "L'osservazione registra, l'interpretazione spiega",
+			"explanation": "«La pianta è gialla» è un'osservazione; «le manca acqua» è un'interpretazione, e va verificata."
+		},
+		{
+			"id": "scienze-metodo-18",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché gli scienziati pubblicano i loro dati?",
+			"options": [
+				"Perché i dati occupano troppo spazio",
+				"Perché così diventano più famosi",
+				"Perché altri possano ripetere e controllare",
+				"Perché lo impongono le università"
+			],
+			"answer": "Perché altri possano ripetere e controllare",
+			"explanation": "Un risultato che nessuno può verificare non entra nella conoscenza condivisa: la controllabilità è il cuore del metodo."
+		},
+		{
+			"id": "scienze-metodo-19",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una variabile in un esperimento?",
+			"options": [
+				"Un errore commesso durante una misurazione",
+				"Uno strumento che si usa dentro il laboratorio",
+				"Un risultato che cambia a ogni ripetizione",
+				"Un fattore che può cambiare e influenzare il risultato"
+			],
+			"answer": "Un fattore che può cambiare e influenzare il risultato",
+			"explanation": "Luce, acqua, temperatura: sono variabili. Sapere quali controllare è metà del lavoro."
+		},
+		{
+			"id": "scienze-metodo-20",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un esperimento smentisce l'ipotesi. Che cosa hai imparato?",
+			"options": [
+				"Che quell'ipotesi non funziona, ed è un risultato",
+				"Che la domanda di partenza era mal posta",
+				"Che gli strumenti usati erano sbagliati",
+				"Niente: l'esperimento è tutto da rifare"
+			],
+			"answer": "Che quell'ipotesi non funziona, ed è un risultato",
+			"explanation": "Escludere una spiegazione restringe il campo: è progresso, anche se non è la risposta che si sperava."
+		},
+		{
+			"id": "scienze-metodo-21",
+			"subject": "scienze",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la misura di un solo studente vale meno di dieci misure?",
+			"options": [
+				"Perché uno studente misura più lentamente",
+				"Perché più misure riducono l'effetto degli errori",
+				"Perché servono dieci strumenti diversi",
+				"Perché una misura sola non è mai leggibile"
+			],
+			"answer": "Perché più misure riducono l'effetto degli errori",
+			"explanation": "Ogni misura porta un piccolo errore casuale: mediando molte misure gli errori tendono a compensarsi."
+		},
+		{
+			"id": "scienze-ecosistema-22",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un ecosistema?",
+			"options": [
+				"La zona protetta di un parco naturale",
+				"L'insieme delle piante di una regione",
+				"L'insieme dei viventi e dell'ambiente in cui stanno",
+				"Il gruppo di animali di una stessa specie"
+			],
+			"answer": "L'insieme dei viventi e dell'ambiente in cui stanno",
+			"explanation": "Comprende sia gli esseri viventi sia l'acqua, il suolo, il clima: tutto ciò che interagisce in quel luogo."
+		},
+		{
+			"id": "scienze-ecosistema-23",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In una catena alimentare, chi sono i produttori?",
+			"options": [
+				"I funghi che decompongono i resti",
+				"Gli animali che cacciano le prede",
+				"Gli animali che mangiano le piante",
+				"Le piante, che si fabbricano il nutrimento"
+			],
+			"answer": "Le piante, che si fabbricano il nutrimento",
+			"explanation": "I produttori usano la luce del Sole per costruire sostanze nutritive: tutta l'energia della catena comincia da loro."
+		},
+		{
+			"id": "scienze-ecosistema-24",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che ruolo hanno i decompositori?",
+			"options": [
+				"Trasformano i resti in sostanze riutilizzabili",
+				"Cacciano gli animali più deboli",
+				"Trasportano i semi da un luogo all'altro",
+				"Producono nutrimento con la luce"
+			],
+			"answer": "Trasformano i resti in sostanze riutilizzabili",
+			"explanation": "Funghi e batteri chiudono il ciclo: senza di loro le sostanze resterebbero bloccate nei resti e il suolo si esaurirebbe."
+		},
+		{
+			"id": "scienze-ecosistema-25",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché in una catena alimentare i predatori sono meno numerosi delle prede?",
+			"options": [
+				"Perché i predatori sono animali più grandi",
+				"Perché a ogni passaggio si perde molta energia",
+				"Perché le prede si riproducono in fretta",
+				"Perché i predatori vivono più a lungo"
+			],
+			"answer": "Perché a ogni passaggio si perde molta energia",
+			"explanation": "Solo una piccola parte dell'energia passa da un anello all'altro: in cima ne resta poca, e sostiene pochi individui."
+		},
+		{
+			"id": "scienze-ecosistema-26",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una rete alimentare?",
+			"options": [
+				"L'insieme dei soli animali carnivori",
+				"Una catena alimentare molto lunga",
+				"Più catene alimentari collegate fra loro",
+				"Il percorso che il cibo fa nel corpo"
+			],
+			"answer": "Più catene alimentari collegate fra loro",
+			"explanation": "Nella realtà un animale mangia più cose e viene mangiato da più predatori: le catene si intrecciano in una rete."
+		},
+		{
+			"id": "scienze-ecosistema-27",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è la simbiosi?",
+			"options": [
+				"La migrazione stagionale di una specie",
+				"La caccia praticata in gruppo",
+				"La competizione fra due specie simili",
+				"Una convivenza stretta fra due specie diverse"
+			],
+			"answer": "Una convivenza stretta fra due specie diverse",
+			"explanation": "Può giovare a entrambi, come per le api e i fiori, oppure a uno solo: l'importante è che la convivenza sia stabile."
+		},
+		{
+			"id": "scienze-ecosistema-28",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'habitat di una specie?",
+			"options": [
+				"Il luogo con le condizioni adatte a viverci",
+				"Il territorio che difende dai rivali",
+				"Il gruppo con cui si sposta di solito",
+				"Il periodo dell'anno in cui si riproduce"
+			],
+			"answer": "Il luogo con le condizioni adatte a viverci",
+			"explanation": "È l'indirizzo di casa: temperatura, cibo e riparo devono essere quelli che quella specie tollera."
+		},
+		{
+			"id": "scienze-ecosistema-29",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché due specie che mangiano la stessa cosa raramente convivono a lungo?",
+			"options": [
+				"Perché non riescono a comunicare fra loro",
+				"Perché competono e una prevale sull'altra",
+				"Perché consumano l'ambiente troppo in fretta",
+				"Perché si accoppiano fra specie diverse"
+			],
+			"answer": "Perché competono e una prevale sull'altra",
+			"explanation": "Se la risorsa è la stessa e limitata, la specie che la sfrutta meglio finisce per escludere l'altra, o la costringe a cambiare abitudini."
+		},
+		{
+			"id": "scienze-ecosistema-30",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un animale che mangia solo piante si chiama…",
+			"options": [
+				"Carnivoro",
+				"Decompositore",
+				"Erbivoro",
+				"Onnivoro"
+			],
+			"answer": "Erbivoro",
+			"explanation": "Erbivoro mangia vegetali, carnivoro carne, onnivoro entrambi. I decompositori si nutrono di resti."
+		},
+		{
+			"id": "scienze-ecosistema-31",
+			"subject": "scienze",
+			"topic": "ecosistema",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?",
+			"options": [],
+			"answer": "3",
+			"explanation": "Ogni freccia è un passaggio: erba-cavalletta, cavalletta-rana, rana-serpente. A ogni passaggio si perde energia."
+		},
+		{
+			"id": "scienze-energia-32",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa dice il principio di conservazione dell'energia?",
+			"options": [
+				"L'energia si conserva soltanto alle basse temperature",
+				"L'energia diminuisce un poco a ogni passaggio",
+				"L'energia si può creare usando certe macchine",
+				"L'energia non si crea né si distrugge, si trasforma"
+			],
+			"answer": "L'energia non si crea né si distrugge, si trasforma",
+			"explanation": "Cambia forma continuamente — movimento, calore, luce — ma la quantità totale resta la stessa."
+		},
+		{
+			"id": "scienze-energia-33",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quando accendi una lampadina, l'energia elettrica diventa…",
+			"options": [
+				"Luce e calore",
+				"Solo calore, senza luce",
+				"Movimento e suono",
+				"Solo luce, senza altro"
+			],
+			"answer": "Luce e calore",
+			"explanation": "Nessuna trasformazione è perfetta: una parte dell'energia finisce sempre in calore, anche quando non serve."
+		},
+		{
+			"id": "scienze-energia-34",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'energia potenziale?",
+			"options": [
+				"L'energia che un corpo ha per il movimento",
+				"L'energia che un corpo ha per la sua posizione",
+				"L'energia che un corpo può ancora creare",
+				"L'energia che si produce con il calore"
+			],
+			"answer": "L'energia che un corpo ha per la sua posizione",
+			"explanation": "Un sasso in cima a una collina ha energia proprio perché sta in alto: appena può, la trasforma in movimento."
+		},
+		{
+			"id": "scienze-energia-35",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Da dove viene quasi tutta l'energia che usiamo sulla Terra?",
+			"options": [
+				"Dal calore interno del pianeta",
+				"Dalle centrali costruite dall'uomo",
+				"Dal Sole, direttamente o indirettamente",
+				"Dal movimento delle maree"
+			],
+			"answer": "Dal Sole, direttamente o indirettamente",
+			"explanation": "Il vento nasce dal Sole che scalda l'aria; il petrolio da piante antiche cresciute grazie al Sole. Perfino il cibo."
+		},
+		{
+			"id": "scienze-energia-36",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché nessuna macchina può funzionare all'infinito da sola?",
+			"options": [
+				"Perché l'energia si crea troppo lentamente",
+				"Perché i materiali si consumano subito",
+				"Perché manca sempre qualcuno che la accenda",
+				"Perché parte dell'energia si disperde in calore"
+			],
+			"answer": "Perché parte dell'energia si disperde in calore",
+			"explanation": "Attriti e resistenze trasformano energia utile in calore disperso: non torna indietro, e la macchina si ferma."
+		},
+		{
+			"id": "scienze-energia-37",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è l'energia cinetica?",
+			"options": [
+				"L'energia che ha un corpo perché si muove",
+				"L'energia che un corpo emette come calore",
+				"L'energia che ha un corpo perché è in alto",
+				"L'energia contenuta negli alimenti"
+			],
+			"answer": "L'energia che ha un corpo perché si muove",
+			"explanation": "Più un corpo è veloce e pesante, più energia cinetica ha: è per questo che un'auto veloce frena in più spazio."
+		},
+		{
+			"id": "scienze-energia-38",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In una centrale idroelettrica, quale trasformazione avviene per prima?",
+			"options": [
+				"L'acqua diventa direttamente elettricità",
+				"L'acqua in alto diventa acqua in movimento",
+				"Il calore dell'acqua diventa movimento",
+				"Il movimento diventa energia chimica"
+			],
+			"answer": "L'acqua in alto diventa acqua in movimento",
+			"explanation": "L'acqua cade e acquista velocità, poi fa girare la turbina, e solo alla fine l'alternatore produce elettricità."
+		},
+		{
+			"id": "scienze-energia-39",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che tipo di energia contiene il cibo che mangi?",
+			"options": [
+				"Energia cinetica",
+				"Energia elettrica",
+				"Energia chimica",
+				"Energia luminosa"
+			],
+			"answer": "Energia chimica",
+			"explanation": "È immagazzinata nei legami fra le molecole: il corpo li spezza e ne ricava movimento e calore."
+		},
+		{
+			"id": "scienze-energia-40",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché una pallina che rimbalza non torna mai all'altezza di partenza?",
+			"options": [
+				"Perché la gravità aumenta a ogni rimbalzo",
+				"Perché l'aria la spinge verso il basso",
+				"Perché la pallina diventa più leggera",
+				"Perché parte dell'energia si disperde a ogni urto"
+			],
+			"answer": "Perché parte dell'energia si disperde a ogni urto",
+			"explanation": "A ogni rimbalzo un po' di energia diventa calore e suono: quella che resta non basta a risalire fino in cima."
+		},
+		{
+			"id": "scienze-energia-41",
+			"subject": "scienze",
+			"topic": "energia",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Quante trasformazioni di energia ci sono in «pila → lampadina accesa»?",
+			"options": [],
+			"answer": "2",
+			"explanation": "Chimica in elettrica dentro la pila, elettrica in luce e calore nella lampadina: due passaggi."
+		},
+		{
+			"id": "scienze-terra-universo-42",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanto tempo impiega la Terra a girare su sé stessa?",
+			"options": [],
+			"answer": "24",
+			"explanation": "Ventiquattro ore: è la rotazione, e produce il giorno e la notte."
+		},
+		{
+			"id": "scienze-terra-universo-43",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa causa l'alternarsi del giorno e della notte?",
+			"options": [
+				"La rotazione della Terra su sé stessa",
+				"L'inclinazione dell'asse terrestre",
+				"Lo spostamento della Luna nel cielo",
+				"Il movimento della Terra attorno al Sole"
+			],
+			"answer": "La rotazione della Terra su sé stessa",
+			"explanation": "Il Sole non si sposta: siamo noi a girare, e ogni punto passa alternativamente in luce e in ombra."
+		},
+		{
+			"id": "scienze-terra-universo-44",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa causa le stagioni?",
+			"options": [
+				"La rotazione della Terra su sé stessa",
+				"L'inclinazione dell'asse terrestre",
+				"La distanza variabile dal Sole",
+				"Il passaggio della Luna davanti al Sole"
+			],
+			"answer": "L'inclinazione dell'asse terrestre",
+			"explanation": "L'asse inclinato fa arrivare i raggi più o meno obliqui secondo il periodo: non è la distanza dal Sole a decidere."
+		},
+		{
+			"id": "scienze-terra-universo-45",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché vediamo la Luna cambiare forma?",
+			"options": [
+				"Perché a volte è coperta dalle nuvole",
+				"Perché si allontana e si avvicina",
+				"Perché ne vediamo illuminata una parte diversa",
+				"Perché la Luna cambia davvero forma"
+			],
+			"answer": "Perché ne vediamo illuminata una parte diversa",
+			"explanation": "La Luna è sempre una sfera per metà illuminata: cambia solo quanta di quella metà è rivolta verso di noi."
+		},
+		{
+			"id": "scienze-terra-universo-46",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una galassia?",
+			"options": [
+				"Lo spazio vuoto fra due sistemi solari",
+				"Una stella molto più grande delle altre",
+				"Un gruppo di pianeti attorno a una stella",
+				"Un enorme insieme di stelle, gas e polveri"
+			],
+			"answer": "Un enorme insieme di stelle, gas e polveri",
+			"explanation": "La nostra si chiama Via Lattea e contiene centinaia di miliardi di stelle: il Sole è una di quelle."
+		},
+		{
+			"id": "scienze-terra-universo-47",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché di giorno non vediamo le stelle?",
+			"options": [
+				"Perché la luce del Sole diffusa nell'aria le copre",
+				"Perché le stelle si spengono di giorno",
+				"Perché si spostano dietro il Sole",
+				"Perché la Terra le nasconde con l'ombra"
+			],
+			"answer": "Perché la luce del Sole diffusa nell'aria le copre",
+			"explanation": "Le stelle ci sono anche di giorno: è l'atmosfera illuminata a diventare troppo luminosa perché si vedano."
+		},
+		{
+			"id": "scienze-terra-universo-48",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale pianeta è il più vicino al Sole?",
+			"options": [
+				"Saturno",
+				"Mercurio",
+				"Nettuno",
+				"Venere"
+			],
+			"answer": "Mercurio",
+			"explanation": "L'ordine è Mercurio, Venere, Terra, Marte: Mercurio è il primo e compie il giro più breve."
+		},
+		{
+			"id": "scienze-terra-universo-49",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un'eclissi di Sole?",
+			"options": [
+				"Il Sole si spegne del tutto per qualche minuto",
+				"L'ombra della Terra cade sopra la Luna piena",
+				"La Luna si mette fra la Terra e il Sole",
+				"Una nube molto densa copre il Sole per un istante"
+			],
+			"answer": "La Luna si mette fra la Terra e il Sole",
+			"explanation": "L'ombra della Luna cade sulla Terra: dove passa, il Sole appare coperto. Nell'eclissi di Luna è la Terra a fare ombra."
+		},
+		{
+			"id": "scienze-terra-universo-50",
+			"subject": "scienze",
+			"topic": "terra-universo",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti pianeti ci sono nel Sistema Solare?",
+			"options": [],
+			"answer": "8",
+			"explanation": "Otto: Mercurio, Venere, Terra, Marte, Giove, Saturno, Urano, Nettuno. Plutone dal 2006 è un pianeta nano."
+		},
+		{
+			"id": "scienze-materia-51",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale stato la materia ha forma e volume propri?",
+			"options": [
+				"Nessuno dei tre",
+				"Gassoso",
+				"Liquido",
+				"Solido"
+			],
+			"answer": "Solido",
+			"explanation": "Il solido tiene la sua forma; il liquido prende quella del recipiente; il gas riempie tutto lo spazio disponibile."
+		},
+		{
+			"id": "scienze-materia-52",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il passaggio da liquido a gassoso?",
+			"options": [
+				"Evaporazione",
+				"Fusione",
+				"Solidificazione",
+				"Condensazione"
+			],
+			"answer": "Evaporazione",
+			"explanation": "La condensazione fa il contrario; la fusione è da solido a liquido."
+		},
+		{
+			"id": "scienze-materia-53",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede alle particelle quando un solido si scalda e fonde?",
+			"options": [
+				"Si fermano completamente sul posto",
+				"Si muovono di più e perdono la posizione fissa",
+				"Si moltiplicano formando altra materia",
+				"Diventano più grandi e pesanti"
+			],
+			"answer": "Si muovono di più e perdono la posizione fissa",
+			"explanation": "Il calore aumenta il movimento: superata una certa soglia le particelle non restano più al loro posto e il solido diventa liquido."
+		},
+		{
+			"id": "scienze-materia-54",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un miscuglio?",
+			"options": [
+				"Due sostanze legate chimicamente",
+				"Un liquido che contiene solo acqua",
+				"Più sostanze mescolate ma non combinate",
+				"Una sostanza pura molto fine"
+			],
+			"answer": "Più sostanze mescolate ma non combinate",
+			"explanation": "Nel miscuglio le sostanze restano quelle di prima e spesso si possono separare: sabbia e sale, per esempio."
+		},
+		{
+			"id": "scienze-materia-55",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché l'acqua ghiacciata occupa più spazio dell'acqua liquida?",
+			"options": [
+				"Perché il ghiaccio pesa più dell'acqua",
+				"Perché il freddo aggiunge nuova materia",
+				"Perché entra aria fra le molecole",
+				"Perché le molecole si dispongono più distanziate"
+			],
+			"answer": "Perché le molecole si dispongono più distanziate",
+			"explanation": "Congelandosi le molecole formano una struttura ordinata e più aperta: stessa materia, più volume. Per questo il ghiaccio galleggia."
+		},
+		{
+			"id": "scienze-materia-56",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si può separare il sale dall'acqua salata?",
+			"options": [
+				"Facendo evaporare l'acqua",
+				"Mescolando molto energicamente",
+				"Raffreddando fino a congelare",
+				"Filtrando con un panno fitto"
+			],
+			"answer": "Facendo evaporare l'acqua",
+			"explanation": "Il sale è sciolto, quindi il filtro non lo trattiene: bisogna far andare via l'acqua e lasciarlo depositato."
+		},
+		{
+			"id": "scienze-materia-57",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è la densità di un materiale?",
+			"options": [
+				"Quanto spazio occupa un oggetto",
+				"Quanta massa c'è in un certo volume",
+				"Quanto pesa un oggetto in totale",
+				"Quanto è duro un materiale al tatto"
+			],
+			"answer": "Quanta massa c'è in un certo volume",
+			"explanation": "Un chilo di piombo e uno di piume pesano uguale, ma il piombo sta in molto meno spazio: ha densità maggiore."
+		},
+		{
+			"id": "scienze-materia-58",
+			"subject": "scienze",
+			"topic": "materia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale stato le particelle sono più libere di muoversi?",
+			"options": [
+				"Liquido",
+				"Solido",
+				"Gassoso",
+				"Sono uguali in tutti"
+			],
+			"answer": "Gassoso",
+			"explanation": "Nel gas le particelle sono lontane e veloci: per questo un gas riempie tutto lo spazio disponibile."
+		},
+		{
+			"id": "scienze-corpo-59",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa trasporta l'ossigeno dai polmoni al resto del corpo?",
+			"options": [
+				"I muscoli",
+				"La linfa",
+				"I nervi",
+				"Il sangue"
+			],
+			"answer": "Il sangue",
+			"explanation": "L'ossigeno passa negli alveoli, entra nel sangue e viaggia nelle arterie fino a ogni cellula."
+		},
+		{
+			"id": "scienze-corpo-60",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A che cosa servono i polmoni?",
+			"options": [
+				"A scambiare ossigeno e anidride carbonica",
+				"A produrre le cellule del sangue",
+				"A digerire il cibo che mangiamo",
+				"A filtrare il sangue dalle scorie"
+			],
+			"answer": "A scambiare ossigeno e anidride carbonica",
+			"explanation": "Nell'inspirazione entra ossigeno e nell'espirazione esce anidride carbonica: lo scambio avviene negli alveoli."
+		},
+		{
+			"id": "scienze-corpo-61",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Dove comincia la digestione?",
+			"options": [
+				"Nello stomaco, con i succhi gastrici",
+				"In bocca, con la masticazione e la saliva",
+				"Nell'esofago, durante la deglutizione",
+				"Nell'intestino, con l'assorbimento"
+			],
+			"answer": "In bocca, con la masticazione e la saliva",
+			"explanation": "La saliva contiene già sostanze che cominciano a smontare gli amidi: masticare bene aiuta tutto il resto."
+		},
+		{
+			"id": "scienze-corpo-62",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa fa lo scheletro oltre a sostenere il corpo?",
+			"options": [
+				"Regola la temperatura di tutto il corpo",
+				"Trasporta i segnali nervosi al cervello",
+				"Protegge gli organi e produce cellule del sangue",
+				"Digerisce le sostanze più dure del cibo"
+			],
+			"answer": "Protegge gli organi e produce cellule del sangue",
+			"explanation": "Cranio e costole fanno da armatura, e dentro le ossa lunghe il midollo produce le cellule del sangue."
+		},
+		{
+			"id": "scienze-corpo-63",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si muovono le ossa?",
+			"options": [
+				"Grazie al sangue che le spinge",
+				"Perché le articolazioni si gonfiano",
+				"Perché si allungano da sole",
+				"Grazie ai muscoli che le tirano"
+			],
+			"answer": "Grazie ai muscoli che le tirano",
+			"explanation": "I muscoli si accorciano e tirano il tendine attaccato all'osso: le ossa da sole non possono muoversi."
+		},
+		{
+			"id": "scienze-corpo-64",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché quando corri il respiro accelera?",
+			"options": [
+				"Perché i muscoli chiedono più ossigeno",
+				"Perché aumenta la temperatura esterna",
+				"Perché il cuore diventa più grande",
+				"Perché i polmoni si riempiono d'acqua"
+			],
+			"answer": "Perché i muscoli chiedono più ossigeno",
+			"explanation": "Lavorando, i muscoli consumano più ossigeno e producono più anidride carbonica: respiro e battito aumentano per stare al passo."
+		},
+		{
+			"id": "scienze-corpo-65",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è il compito dei reni?",
+			"options": [
+				"Assorbire i nutrienti dal cibo",
+				"Filtrare il sangue e produrre l'urina",
+				"Pompare il sangue nelle arterie",
+				"Immagazzinare le riserve di zucchero"
+			],
+			"answer": "Filtrare il sangue e produrre l'urina",
+			"explanation": "Ripuliscono il sangue dalle sostanze di scarto, che vengono eliminate con l'urina."
+		},
+		{
+			"id": "scienze-corpo-66",
+			"subject": "scienze",
+			"topic": "corpo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché è importante dormire abbastanza?",
+			"options": [
+				"Perché i muscoli riescono a crescere soltanto al buio",
+				"Perché il cuore si ferma qualche istante per riposare",
+				"Perché durante il sonno il corpo si ripara e consolida la memoria",
+				"Perché durante la notte si consuma molto meno cibo"
+			],
+			"answer": "Perché durante il sonno il corpo si ripara e consolida la memoria",
+			"explanation": "Nel sonno avvengono riparazioni dei tessuti e il cervello riorganizza ciò che ha imparato durante il giorno."
+		},
+		{
+			"id": "scienze-viventi-67",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'hanno in comune tutti gli esseri viventi?",
+			"options": [
+				"Hanno tutti bisogno di luce solare",
+				"Si muovono da un posto all'altro",
+				"Sono formati da molte cellule",
+				"Nascono, crescono, si riproducono e muoiono"
+			],
+			"answer": "Nascono, crescono, si riproducono e muoiono",
+			"explanation": "Anche una pianta, che non si sposta, compie il ciclo vitale. È quello a definire un vivente."
+		},
+		{
+			"id": "scienze-viventi-68",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è l'unità di base di tutti gli esseri viventi?",
+			"options": [
+				"La cellula",
+				"L'organo",
+				"Il tessuto",
+				"La molecola"
+			],
+			"answer": "La cellula",
+			"explanation": "Ogni vivente è fatto di cellule: alcuni ne hanno una sola, altri miliardi."
+		},
+		{
+			"id": "scienze-viventi-69",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che differenza c'è fra un vertebrato e un invertebrato?",
+			"options": [
+				"Il vertebrato è sempre più grande",
+				"Il vertebrato ha una colonna vertebrale",
+				"L'invertebrato vive soltanto in acqua",
+				"L'invertebrato non ha organi interni"
+			],
+			"answer": "Il vertebrato ha una colonna vertebrale",
+			"explanation": "La colonna vertebrale è lo scheletro interno: la maggior parte degli animali, in realtà, ne è priva."
+		},
+		{
+			"id": "scienze-viventi-70",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un adattamento?",
+			"options": [
+				"Uno spostamento verso un clima migliore",
+				"Un cambiamento deciso dall'animale stesso",
+				"Una caratteristica che aiuta a vivere in un ambiente",
+				"Una malattia che si trasmette ai figli"
+			],
+			"answer": "Una caratteristica che aiuta a vivere in un ambiente",
+			"explanation": "Il collo lungo della giraffa o le foglie a spina del cactus: caratteristiche selezionate perché in quell'ambiente funzionano."
+		},
+		{
+			"id": "scienze-viventi-71",
+			"subject": "scienze",
+			"topic": "viventi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché i funghi non sono considerati piante?",
+			"options": [
+				"Perché crescono soltanto all'ombra",
+				"Perché non hanno bisogno di acqua",
+				"Perché si spostano lentamente nel suolo",
+				"Perché non fanno la fotosintesi"
+			],
+			"answer": "Perché non fanno la fotosintesi",
+			"explanation": "Le piante si costruiscono il nutrimento con la luce; i funghi lo assorbono da materia già esistente, viva o morta."
+		},
+		{
+			"id": "scienze-metodo-72",
 			"subject": "scienze",
 			"topic": "metodo",
 			"difficulty": 1,
@@ -12,47 +1144,47 @@
 			"prompt": "In un esperimento controllato, quante variabili cambi per volta?",
 			"options": [
 				"Una sola",
-				"Tutte insieme",
 				"Nessuna",
+				"Tutte insieme",
 				"Almeno tre"
 			],
 			"answer": "Una sola",
 			"explanation": "Cambiando una sola variabile capisci quale causa l'effetto."
 		},
 		{
-			"id": "scienze-metodo-1",
+			"id": "scienze-metodo-73",
 			"subject": "scienze",
 			"topic": "metodo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Cosa distingue un'ipotesi da una conclusione?",
 			"options": [
-				"Sono la stessa cosa",
+				"L'ipotesi arriva dopo i dati",
 				"L'ipotesi è una previsione da verificare",
-				"La conclusione precede l'esperimento",
-				"L'ipotesi arriva dopo i dati"
+				"Sono la stessa cosa",
+				"La conclusione precede l'esperimento"
 			],
 			"answer": "L'ipotesi è una previsione da verificare",
 			"explanation": "Prima l'ipotesi (previsione), poi i dati, infine la conclusione."
 		},
 		{
-			"id": "scienze-metodo-2",
+			"id": "scienze-metodo-74",
 			"subject": "scienze",
 			"topic": "metodo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "A cosa serve un 'gruppo di controllo' in un esperimento?",
 			"options": [
+				"A cambiare più cose insieme e vedere",
 				"A saltare qualche misura per fare prima",
-				"A rendere l'esperimento molto più lungo del solito",
 				"A confrontare con qualcosa che non è stato cambiato",
-				"A cambiare più cose insieme e vedere"
+				"A rendere l'esperimento molto più lungo del solito"
 			],
 			"answer": "A confrontare con qualcosa che non è stato cambiato",
 			"explanation": "Il gruppo di controllo mostra cosa succede senza la variabile che stai studiando."
 		},
 		{
-			"id": "scienze-metodo-3",
+			"id": "scienze-metodo-75",
 			"subject": "scienze",
 			"topic": "metodo",
 			"difficulty": 4,
@@ -68,7 +1200,7 @@
 			"explanation": "Cambiando due variabili insieme non puoi isolare la causa: vanno provate separatamente."
 		},
 		{
-			"id": "scienze-materia-4",
+			"id": "scienze-materia-76",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 1,
@@ -76,55 +1208,55 @@
 			"prompt": "Quali sono i tre stati principali della materia?",
 			"options": [
 				"Solido, liquido, gassoso",
-				"Duro, molle, liquido",
 				"Caldo, freddo, tiepido",
+				"Duro, molle, liquido",
 				"Pieno, vuoto, misto"
 			],
 			"answer": "Solido, liquido, gassoso",
 			"explanation": "Solido, liquido e gassoso sono i tre stati fondamentali."
 		},
 		{
-			"id": "scienze-materia-5",
+			"id": "scienze-materia-77",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'acqua allo stato solido?",
 			"options": [
-				"Vapore",
-				"Ghiaccio",
 				"Rugiada",
-				"Nuvola"
+				"Ghiaccio",
+				"Nuvola",
+				"Vapore"
 			],
 			"answer": "Ghiaccio",
 			"explanation": "L'acqua solida è il ghiaccio; allo stato gassoso è vapore."
 		},
 		{
-			"id": "scienze-materia-6",
+			"id": "scienze-materia-78",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio dell'acqua da liquido a vapore?",
 			"options": [
+				"Condensazione",
 				"Solidificazione",
-				"Fusione",
 				"Evaporazione",
-				"Condensazione"
+				"Fusione"
 			],
 			"answer": "Evaporazione",
 			"explanation": "Nell'evaporazione il liquido diventa gas; nella condensazione avviene il contrario."
 		},
 		{
-			"id": "scienze-materia-7",
+			"id": "scienze-materia-79",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio da gas (vapore) a liquido?",
 			"options": [
-				"Fusione",
 				"Evaporazione",
+				"Fusione",
 				"Sublimazione",
 				"Condensazione"
 			],
@@ -132,7 +1264,7 @@
 			"explanation": "La condensazione forma le goccioline: è il contrario dell'evaporazione."
 		},
 		{
-			"id": "scienze-materia-8",
+			"id": "scienze-materia-80",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 3,
@@ -140,39 +1272,39 @@
 			"prompt": "Come si chiama il passaggio da solido a liquido?",
 			"options": [
 				"Fusione",
-				"Sublimazione",
+				"Solidificazione",
 				"Evaporazione",
-				"Solidificazione"
+				"Sublimazione"
 			],
 			"answer": "Fusione",
 			"explanation": "Il ghiaccio che diventa acqua è fusione."
 		},
 		{
-			"id": "scienze-materia-9",
+			"id": "scienze-materia-81",
 			"subject": "scienze",
 			"topic": "materia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio diretto da solido a gas, senza passare per il liquido?",
 			"options": [
-				"Fusione",
-				"Sublimazione",
 				"Condensazione",
-				"Evaporazione"
+				"Sublimazione",
+				"Evaporazione",
+				"Fusione"
 			],
 			"answer": "Sublimazione",
 			"explanation": "Nella sublimazione un solido diventa gas direttamente (es. la neve che 'sparisce' senza sciogliersi)."
 		},
 		{
-			"id": "scienze-viventi-10",
+			"id": "scienze-viventi-82",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale parte della pianta assorbe l'acqua dal terreno?",
 			"options": [
-				"I frutti",
 				"Le foglie",
+				"I frutti",
 				"Le radici",
 				"I fiori"
 			],
@@ -180,23 +1312,23 @@
 			"explanation": "Le radici assorbono acqua e sali minerali dal suolo."
 		},
 		{
-			"id": "scienze-viventi-11",
+			"id": "scienze-viventi-83",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Di cosa hanno bisogno le piante per fare la fotosintesi?",
 			"options": [
-				"Soltanto acqua abbondante",
-				"Buio completo e freddo",
 				"Soltanto terra da giardino",
+				"Buio completo e freddo",
+				"Soltanto acqua abbondante",
 				"Luce, acqua e anidride carbonica"
 			],
 			"answer": "Luce, acqua e anidride carbonica",
 			"explanation": "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno."
 		},
 		{
-			"id": "scienze-viventi-12",
+			"id": "scienze-viventi-84",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 2,
@@ -204,31 +1336,31 @@
 			"prompt": "Quale gas rilasciano le piante durante la fotosintesi?",
 			"options": [
 				"Ossigeno",
-				"Idrogeno",
+				"Anidride carbonica",
 				"Azoto",
-				"Anidride carbonica"
+				"Idrogeno"
 			],
 			"answer": "Ossigeno",
 			"explanation": "Le piante assorbono CO2 e liberano ossigeno."
 		},
 		{
-			"id": "scienze-viventi-13",
+			"id": "scienze-viventi-85",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamano gli animali che si nutrono solo di piante?",
 			"options": [
-				"Predatori",
+				"Onnivori",
 				"Erbivori",
-				"Carnivori",
-				"Onnivori"
+				"Predatori",
+				"Carnivori"
 			],
 			"answer": "Erbivori",
 			"explanation": "Gli erbivori mangiano vegetali; i carnivori altri animali."
 		},
 		{
-			"id": "scienze-viventi-14",
+			"id": "scienze-viventi-86",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 3,
@@ -244,7 +1376,7 @@
 			"explanation": "Gli onnivori (come l'orso o l'uomo) si nutrono di tutto."
 		},
 		{
-			"id": "scienze-viventi-15",
+			"id": "scienze-viventi-87",
 			"subject": "scienze",
 			"topic": "viventi",
 			"difficulty": 4,
@@ -252,15 +1384,15 @@
 			"prompt": "Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?",
 			"options": [
 				"Evaporazione rapida",
-				"Digestione lenta",
 				"Fotosintesi",
+				"Digestione lenta",
 				"Respirazione cellulare"
 			],
 			"answer": "Respirazione cellulare",
 			"explanation": "La respirazione cellulare libera l'energia del cibo; la fotosintesi invece la immagazzina nelle piante."
 		},
 		{
-			"id": "scienze-ecosistema-16",
+			"id": "scienze-ecosistema-88",
 			"subject": "scienze",
 			"topic": "ecosistema",
 			"difficulty": 2,
@@ -268,63 +1400,63 @@
 			"prompt": "In una catena alimentare, chi mangia gli erbivori?",
 			"options": [
 				"I carnivori",
+				"I produttori",
 				"Le piante",
-				"Il Sole",
-				"I produttori"
+				"Il Sole"
 			],
 			"answer": "I carnivori",
 			"explanation": "I carnivori si nutrono di altri animali, come gli erbivori."
 		},
 		{
-			"id": "scienze-ecosistema-17",
+			"id": "scienze-ecosistema-89",
 			"subject": "scienze",
 			"topic": "ecosistema",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In una catena alimentare, chi produce il proprio nutrimento?",
 			"options": [
-				"I decompositori",
-				"Le piante (produttori)",
 				"I predatori (carnivori)",
-				"Gli erbivori"
+				"Le piante (produttori)",
+				"Gli erbivori",
+				"I decompositori"
 			],
 			"answer": "Le piante (produttori)",
 			"explanation": "Le piante sono i produttori: creano nutrimento con la fotosintesi."
 		},
 		{
-			"id": "scienze-ecosistema-18",
+			"id": "scienze-ecosistema-90",
 			"subject": "scienze",
 			"topic": "ecosistema",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?",
 			"options": [
-				"Erbivori",
 				"Produttori",
+				"Predatori",
 				"Decompositori",
-				"Predatori"
+				"Erbivori"
 			],
 			"answer": "Decompositori",
 			"explanation": "I decompositori riciclano la materia, restituendo sostanze utili al terreno."
 		},
 		{
-			"id": "scienze-ecosistema-19",
+			"id": "scienze-ecosistema-91",
 			"subject": "scienze",
 			"topic": "ecosistema",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?",
 			"options": [
-				"Aumenterebbero di numero",
-				"Non cambierebbe proprio nulla",
 				"Diventerebbero tutti carnivori",
+				"Non cambierebbe proprio nulla",
+				"Aumenterebbero di numero",
 				"Diminuirebbero per mancanza di cibo"
 			],
 			"answer": "Diminuirebbero per mancanza di cibo",
 			"explanation": "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono."
 		},
 		{
-			"id": "scienze-corpo-20",
+			"id": "scienze-corpo-92",
 			"subject": "scienze",
 			"topic": "corpo",
 			"difficulty": 1,
@@ -332,31 +1464,31 @@
 			"prompt": "Quale organo ci permette di pensare e comandare il corpo?",
 			"options": [
 				"Il cervello",
-				"I muscoli",
+				"Il cuore",
 				"Lo stomaco",
-				"Il cuore"
+				"I muscoli"
 			],
 			"answer": "Il cervello",
 			"explanation": "Il cervello dirige il corpo e ci fa pensare."
 		},
 		{
-			"id": "scienze-corpo-21",
+			"id": "scienze-corpo-93",
 			"subject": "scienze",
 			"topic": "corpo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "A cosa serve lo scheletro?",
 			"options": [
-				"A digerire il cibo più in fretta",
+				"A vedere meglio i colori",
 				"A sostenere e proteggere il corpo",
 				"A respirare più a lungo",
-				"A vedere meglio i colori"
+				"A digerire il cibo più in fretta"
 			],
 			"answer": "A sostenere e proteggere il corpo",
 			"explanation": "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello)."
 		},
 		{
-			"id": "scienze-corpo-22",
+			"id": "scienze-corpo-94",
 			"subject": "scienze",
 			"topic": "corpo",
 			"difficulty": 2,
@@ -364,15 +1496,15 @@
 			"prompt": "Quale organo pompa il sangue nel corpo?",
 			"options": [
 				"Il fegato",
-				"Lo stomaco",
+				"I polmoni",
 				"Il cuore",
-				"I polmoni"
+				"Lo stomaco"
 			],
 			"answer": "Il cuore",
 			"explanation": "Il cuore spinge il sangue in tutto il corpo."
 		},
 		{
-			"id": "scienze-corpo-23",
+			"id": "scienze-corpo-95",
 			"subject": "scienze",
 			"topic": "corpo",
 			"difficulty": 3,
@@ -380,15 +1512,15 @@
 			"prompt": "In quale organo avviene lo scambio di ossigeno con il sangue?",
 			"options": [
 				"I reni",
-				"Il cuore",
 				"L'intestino",
+				"Il cuore",
 				"I polmoni"
 			],
 			"answer": "I polmoni",
 			"explanation": "Nei polmoni il sangue prende ossigeno e cede anidride carbonica."
 		},
 		{
-			"id": "scienze-corpo-24",
+			"id": "scienze-corpo-96",
 			"subject": "scienze",
 			"topic": "corpo",
 			"difficulty": 4,
@@ -396,15 +1528,15 @@
 			"prompt": "In quale organo il cibo digerito viene assorbito nel sangue?",
 			"options": [
 				"L'intestino",
-				"I polmoni",
+				"Il cuore",
 				"I reni",
-				"Il cuore"
+				"I polmoni"
 			],
 			"answer": "L'intestino",
 			"explanation": "Nell'intestino le sostanze nutritive passano nel sangue."
 		},
 		{
-			"id": "scienze-energia-25",
+			"id": "scienze-energia-97",
 			"subject": "scienze",
 			"topic": "energia",
 			"difficulty": 2,
@@ -420,39 +1552,39 @@
 			"explanation": "Il Sole è la fonte principale di luce e calore per la Terra."
 		},
 		{
-			"id": "scienze-energia-26",
+			"id": "scienze-energia-98",
 			"subject": "scienze",
 			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'energia prodotta dal vento che fa girare le pale?",
 			"options": [
-				"Energia solare",
 				"Energia idroelettrica",
+				"Energia nucleare",
 				"Energia eolica",
-				"Energia nucleare"
+				"Energia solare"
 			],
 			"answer": "Energia eolica",
 			"explanation": "L'energia eolica sfrutta il vento; quella idroelettrica l'acqua che scorre."
 		},
 		{
-			"id": "scienze-energia-27",
+			"id": "scienze-energia-99",
 			"subject": "scienze",
 			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "L'energia dell'acqua che scorre e fa girare le turbine si chiama…",
 			"options": [
+				"Energia eolica",
 				"Energia geotermica",
 				"Energia solare",
-				"Energia eolica",
 				"Energia idroelettrica"
 			],
 			"answer": "Energia idroelettrica",
 			"explanation": "Le dighe sfruttano l'acqua in movimento per produrre elettricità."
 		},
 		{
-			"id": "scienze-energia-28",
+			"id": "scienze-energia-100",
 			"subject": "scienze",
 			"topic": "energia",
 			"difficulty": 4,
@@ -460,31 +1592,31 @@
 			"prompt": "Quali fonti di energia non si esauriscono e inquinano poco?",
 			"options": [
 				"Sole, vento e acqua (rinnovabili)",
-				"Carbone e petrolio estratti",
+				"Gas e benzina dei motori",
 				"Plastica bruciata negli inceneritori",
-				"Gas e benzina dei motori"
+				"Carbone e petrolio estratti"
 			],
 			"answer": "Sole, vento e acqua (rinnovabili)",
 			"explanation": "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili."
 		},
 		{
-			"id": "scienze-terra-universo-29",
+			"id": "scienze-terra-universo-101",
 			"subject": "scienze",
 			"topic": "terra-universo",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Attorno a cosa gira la Terra?",
 			"options": [
-				"La Luna",
-				"Il Sole",
 				"Una cometa",
+				"Il Sole",
+				"La Luna",
 				"Marte"
 			],
 			"answer": "Il Sole",
 			"explanation": "La Terra orbita intorno al Sole in circa un anno."
 		},
 		{
-			"id": "scienze-terra-universo-30",
+			"id": "scienze-terra-universo-102",
 			"subject": "scienze",
 			"topic": "terra-universo",
 			"difficulty": 2,
@@ -492,15 +1624,15 @@
 			"prompt": "Come si chiama il satellite naturale della Terra?",
 			"options": [
 				"Marte",
-				"Venere",
+				"Il Sole",
 				"La Luna",
-				"Il Sole"
+				"Venere"
 			],
 			"answer": "La Luna",
 			"explanation": "La Luna gira intorno alla Terra."
 		},
 		{
-			"id": "scienze-terra-universo-31",
+			"id": "scienze-terra-universo-103",
 			"subject": "scienze",
 			"topic": "terra-universo",
 			"difficulty": 2,
@@ -516,7 +1648,7 @@
 			"explanation": "Ruotando su se stessa, ogni punto della Terra si affaccia al Sole e poi all'ombra."
 		},
 		{
-			"id": "scienze-terra-universo-32",
+			"id": "scienze-terra-universo-104",
 			"subject": "scienze",
 			"topic": "terra-universo",
 			"difficulty": 4,
@@ -524,15 +1656,15 @@
 			"prompt": "Cosa provoca soprattutto l'alternarsi delle stagioni?",
 			"options": [
 				"L'inclinazione della Terra mentre gira intorno al Sole",
-				"Il vento che soffia da nord per tutto l'anno",
+				"La distanza che cambia dalla Luna",
 				"Le maree provocate dalla Luna",
-				"La distanza che cambia dalla Luna"
+				"Il vento che soffia da nord per tutto l'anno"
 			],
 			"answer": "L'inclinazione della Terra mentre gira intorno al Sole",
 			"explanation": "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno."
 		},
 		{
-			"id": "scienze-ambiente-33",
+			"id": "scienze-ambiente-105",
 			"subject": "scienze",
 			"topic": "ambiente",
 			"difficulty": 1,
@@ -548,23 +1680,23 @@
 			"explanation": "Separare i rifiuti permette di riciclarli e sprecare meno risorse."
 		},
 		{
-			"id": "scienze-ambiente-34",
+			"id": "scienze-ambiente-106",
 			"subject": "scienze",
 			"topic": "ambiente",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché è importante non sprecare l'acqua?",
 			"options": [
+				"Perché è di colore trasparente",
 				"Perché è pesante da trasportare",
-				"Non è importante, ce n'è tanta",
 				"È una risorsa preziosa e limitata",
-				"Perché è di colore trasparente"
+				"Non è importante, ce n'è tanta"
 			],
 			"answer": "È una risorsa preziosa e limitata",
 			"explanation": "L'acqua dolce pulita è limitata: va usata con attenzione."
 		},
 		{
-			"id": "scienze-ambiente-35",
+			"id": "scienze-ambiente-107",
 			"subject": "scienze",
 			"topic": "ambiente",
 			"difficulty": 3,
@@ -572,8 +1704,8 @@
 			"prompt": "Come si chiama l'aumento della temperatura del pianeta legato anche ai gas prodotti dall'uomo?",
 			"options": [
 				"Effetto eco",
-				"Effetto arcobaleno",
 				"Effetto marea",
+				"Effetto arcobaleno",
 				"Riscaldamento globale"
 			],
 			"answer": "Riscaldamento globale",
@@ -602,8 +1734,8 @@
 			"format": "multiple_choice",
 			"prompt": "Nella serra, quale pianta preferisce la luce più morbida?",
 			"options": [
-				"Cactus di Vetro",
 				"Pomodoro Aurora",
+				"Cactus di Vetro",
 				"Felce Luna"
 			],
 			"answer": "Felce Luna",

@@ -612,6 +612,882 @@
 			"explanation": "Ci sono solo rosse e blu: se non è rossa, per forza è blu."
 		},
 		{
+			"id": "logica-insiemi-0",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Tutti i cani sono mammiferi. Allora l'insieme dei cani…",
+			"options": [
+				"Coincide con quello dei mammiferi",
+				"Non ha punti in comune con esso",
+				"È contenuto in quello dei mammiferi",
+				"Contiene quello dei mammiferi"
+			],
+			"answer": "È contenuto in quello dei mammiferi",
+			"explanation": "Ogni cane è un mammifero, ma non ogni mammifero è un cane: il gruppo più piccolo sta dentro quello più grande."
+		},
+		{
+			"id": "logica-insiemi-1",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?",
+			"options": [
+				"I pinguini e gli struzzi",
+				"I pipistrelli e le farfalle",
+				"Tutti gli animali con le ali",
+				"Gli uccelli che volano"
+			],
+			"answer": "Gli uccelli che volano",
+			"explanation": "L'intersezione contiene solo ciò che soddisfa entrambe le condizioni: i pipistrelli volano ma non hanno piume."
+		},
+		{
+			"id": "logica-insiemi-2",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa contiene l'unione di due insiemi?",
+			"options": [
+				"Tutti gli elementi dell'uno e dell'altro",
+				"Solo gli elementi che stanno in uno solo",
+				"Solo gli elementi del primo insieme",
+				"Solo gli elementi comuni ai due"
+			],
+			"answer": "Tutti gli elementi dell'uno e dell'altro",
+			"explanation": "L'unione mette insieme tutto; l'intersezione tiene solo quello che appartiene a entrambi."
+		},
+		{
+			"id": "logica-insiemi-3",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa contiene l'intersezione di «numeri pari» e «numeri maggiori di 10»?",
+			"options": [
+				"Tutti i numeri pari esistenti",
+				"12, 14, 16 e così via",
+				"Nessun numero, è vuota",
+				"Tutti i numeri maggiori di dieci"
+			],
+			"answer": "12, 14, 16 e così via",
+			"explanation": "Servono entrambe le proprietà insieme: pari E sopra il dieci. Il 12 le ha tutte e due, l'11 no e l'8 nemmeno."
+		},
+		{
+			"id": "logica-insiemi-4",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "L'insieme dei quadrati è contenuto in quello dei rettangoli. Perché?",
+			"options": [
+				"Perché entrambi hanno quattro lati",
+				"Perché ogni rettangolo ha i lati uguali",
+				"Perché ogni quadrato ha quattro angoli retti",
+				"Perché hanno sempre la stessa area"
+			],
+			"answer": "Perché ogni quadrato ha quattro angoli retti",
+			"explanation": "Un rettangolo è un quadrilatero con quattro angoli retti: il quadrato lo è, e in più ha i lati uguali."
+		},
+		{
+			"id": "logica-insiemi-5",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un insieme vuoto?",
+			"options": [
+				"Un insieme con un solo elemento",
+				"Un insieme di cui non si sa il contenuto",
+				"Un insieme uguale a tutti gli altri",
+				"Un insieme che non contiene alcun elemento"
+			],
+			"answer": "Un insieme che non contiene alcun elemento",
+			"explanation": "Per esempio «i numeri pari dispari»: la condizione non può essere soddisfatta da nessuno."
+		},
+		{
+			"id": "logica-insiemi-6",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Due insiemi non hanno nessun elemento in comune. Come si dicono?",
+			"options": [
+				"Disgiunti",
+				"Coincidenti",
+				"Complementari",
+				"Contenuti"
+			],
+			"answer": "Disgiunti",
+			"explanation": "Insiemi disgiunti hanno intersezione vuota: per esempio i numeri pari e i numeri dispari."
+		},
+		{
+			"id": "logica-insiemi-7",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nel gruppo degli strumenti musicali, quello degli archi è…",
+			"options": [
+				"Un insieme più grande",
+				"Un sottoinsieme",
+				"L'insieme complementare",
+				"Un insieme disgiunto"
+			],
+			"answer": "Un sottoinsieme",
+			"explanation": "Ogni arco è uno strumento, ma esistono strumenti che non sono archi: la parte sta dentro il tutto."
+		},
+		{
+			"id": "logica-insiemi-8",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "In una classe, 12 fanno nuoto, 8 fanno musica, 3 fanno entrambe. Quanti ragazzi in tutto fanno almeno una delle due?",
+			"options": [],
+			"answer": "17",
+			"explanation": "12 + 8 fa 20, ma i 3 che fanno entrambe sono stati contati due volte: 20 − 3 = 17."
+		},
+		{
+			"id": "logica-insiemi-9",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Se A è contenuto in B e B è contenuto in C, allora…",
+			"options": [
+				"C è contenuto in A",
+				"A e C sono disgiunti",
+				"A è contenuto in C",
+				"A e C sono lo stesso insieme"
+			],
+			"answer": "A è contenuto in C",
+			"explanation": "L'inclusione si trasmette: se ogni A è un B e ogni B è un C, allora ogni A è un C."
+		},
+		{
+			"id": "logica-insiemi-10",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?",
+			"options": [
+				"Mammiferi soltanto",
+				"Cani e vertebrati",
+				"Vertebrati e mammiferi",
+				"Animali"
+			],
+			"answer": "Animali",
+			"explanation": "La scala va dal più ampio al più stretto: animali, vertebrati, mammiferi, cani."
+		},
+		{
+			"id": "logica-insiemi-11",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il complementare di un insieme?",
+			"options": [
+				"Tutto ciò che sta fuori da quell'insieme",
+				"La metà mancante dell'insieme",
+				"L'insieme con gli stessi elementi",
+				"L'insieme che gli assomiglia di più"
+			],
+			"answer": "Tutto ciò che sta fuori da quell'insieme",
+			"explanation": "Dentro un gruppo di riferimento: il complementare dei pari, fra i numeri interi, sono i dispari."
+		},
+		{
+			"id": "logica-insiemi-12",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Alcuni musicisti sono chitarristi» descrive due insiemi che…",
+			"options": [
+				"Sono completamente separati",
+				"Si sovrappongono in parte",
+				"Coincidono perfettamente",
+				"Non hanno alcun elemento"
+			],
+			"answer": "Si sovrappongono in parte",
+			"explanation": "Una parte dei musicisti suona la chitarra, un'altra no: gli insiemi si intersecano senza contenersi."
+		},
+		{
+			"id": "logica-insiemi-13",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "In un gruppo di 20 persone, 15 hanno il cane. Quante NON hanno il cane?",
+			"options": [],
+			"answer": "5",
+			"explanation": "È il complementare dentro il gruppo: 20 − 15 = 5."
+		},
+		{
+			"id": "logica-verita-14",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Piove E fa freddo» è vera quando…",
+			"options": [
+				"Fa freddo, anche se non piove",
+				"Almeno una delle due è vera",
+				"Piove e fa freddo insieme",
+				"Piove, anche se non fa freddo"
+			],
+			"answer": "Piove e fa freddo insieme",
+			"explanation": "La E richiede entrambe: basta che una sia falsa e tutta l'affermazione è falsa."
+		},
+		{
+			"id": "logica-verita-15",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Piove O fa freddo» è falsa quando…",
+			"options": [
+				"Fa freddo ma non piove",
+				"Piove ma non fa freddo",
+				"Piove e fa freddo insieme",
+				"Non piove e non fa freddo"
+			],
+			"answer": "Non piove e non fa freddo",
+			"explanation": "La O si accontenta di una: perché sia falsa devono essere false tutte e due."
+		},
+		{
+			"id": "logica-verita-16",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Se «tutti i gatti dormono» è falsa, che cosa è sicuramente vero?",
+			"options": [
+				"Almeno un gatto non dorme",
+				"Nessun gatto dorme",
+				"Tutti i gatti sono svegli",
+				"Metà dei gatti dorme"
+			],
+			"answer": "Almeno un gatto non dorme",
+			"explanation": "Per smentire un «tutti» basta un solo controesempio: non serve che sia vero il contrario di tutti."
+		},
+		{
+			"id": "logica-verita-17",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la negazione di «nessuno è arrivato»?",
+			"options": [
+				"Tutti sono arrivati",
+				"Almeno uno è arrivato",
+				"Nessuno è partito",
+				"Molti sono arrivati"
+			],
+			"answer": "Almeno uno è arrivato",
+			"explanation": "Negare un «nessuno» significa dire che ce n'è almeno uno, non che ci sono tutti."
+		},
+		{
+			"id": "logica-verita-18",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?",
+			"options": [
+				"Non si può concludere niente",
+				"Ho dimenticato l'ombrello",
+				"Non pioveva",
+				"Pioveva comunque"
+			],
+			"answer": "Non pioveva",
+			"explanation": "Se l'effetto manca, manca anche la causa che lo garantiva: è la forma corretta del ragionamento."
+		},
+		{
+			"id": "logica-verita-19",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Se piove, prendo l'ombrello.» Ho preso l'ombrello. Cosa si conclude?",
+			"options": [
+				"Che sicuramente non stava piovendo per niente",
+				"Che pioverà sicuramente nel corso della giornata",
+				"Che sicuramente stava piovendo in quel momento",
+				"Niente di certo: poteva esserci un altro motivo"
+			],
+			"answer": "Niente di certo: poteva esserci un altro motivo",
+			"explanation": "L'ombrello si può prendere anche per il sole o per abitudine: la regola non dice che sia l'unica ragione possibile."
+		},
+		{
+			"id": "logica-verita-20",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la negazione di «tutti i cigni sono bianchi»?",
+			"options": [
+				"Esiste almeno un cigno non bianco",
+				"Nessun cigno è bianco",
+				"Tutti i cigni sono neri",
+				"Quasi tutti i cigni sono bianchi"
+			],
+			"answer": "Esiste almeno un cigno non bianco",
+			"explanation": "Un'affermazione universale cade con un solo caso contrario: basta un cigno nero."
+		},
+		{
+			"id": "logica-verita-21",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Non è vero che non piove» significa…",
+			"options": [
+				"Ha smesso di piovere",
+				"Piove",
+				"Forse piove",
+				"Non piove"
+			],
+			"answer": "Piove",
+			"explanation": "Due negazioni si annullano: negare la negazione riporta all'affermazione di partenza."
+		},
+		{
+			"id": "logica-verita-22",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?",
+			"options": [
+				"Non si può dire niente",
+				"Marco non ha animali",
+				"Marco ha un gatto",
+				"Marco ha anche un cane"
+			],
+			"answer": "Marco ha un gatto",
+			"explanation": "La O richiede almeno una delle due: se una è esclusa, l'altra deve valere."
+		},
+		{
+			"id": "logica-verita-23",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un'affermazione e la sua negazione possono essere entrambe vere?",
+			"options": [
+				"Sì, in certi casi particolari",
+				"Dipende da chi le dice",
+				"Sì, se sono complicate",
+				"No, mai"
+			],
+			"answer": "No, mai",
+			"explanation": "È il principio di non contraddizione: se una è vera l'altra è falsa, senza eccezioni."
+		},
+		{
+			"id": "logica-verita-24",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?",
+			"options": [
+				"La regola di partenza",
+				"Nessuna delle due cose",
+				"Il risultato dell'esame",
+				"Il fatto di aver studiato"
+			],
+			"answer": "La regola di partenza",
+			"explanation": "Un solo caso in cui la premessa è vera e la conclusione falsa basta a smentire la regola."
+		},
+		{
+			"id": "logica-verita-25",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quante possibilità ci sono per il valore di verità di un'affermazione?",
+			"options": [],
+			"answer": "2",
+			"explanation": "Vero o falso: in logica classica non esistono vie di mezzo."
+		},
+		{
+			"id": "logica-verita-26",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Ho preso il gelato E la torta» è falsa. Cosa si conclude?",
+			"options": [
+				"Non ho preso nessuna delle due",
+				"Almeno una delle due non l'ho presa",
+				"Ho preso solo il gelato",
+				"Ho preso solo la torta"
+			],
+			"answer": "Almeno una delle due non l'ho presa",
+			"explanation": "Per far cadere una E basta che uno dei due pezzi sia falso: non serve che lo siano entrambi."
+		},
+		{
+			"id": "logica-verita-27",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché «questa frase è falsa» crea un problema?",
+			"options": [
+				"Perché parla di sé stessa senza dati",
+				"Perché è scritta in modo scorretto",
+				"Perché se è vera è falsa, e viceversa",
+				"Perché manca il soggetto della frase"
+			],
+			"answer": "Perché se è vera è falsa, e viceversa",
+			"explanation": "È il paradosso del mentitore: una frase che parla della propria verità può non avere alcun valore coerente."
+		},
+		{
+			"id": "logica-quantificatori-28",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola indica che vale per ogni singolo caso?",
+			"options": [
+				"Molti",
+				"Quasi tutti",
+				"Alcuni",
+				"Tutti"
+			],
+			"answer": "Tutti",
+			"explanation": "«Tutti» non ammette eccezioni: basta un caso contrario per renderlo falso."
+		},
+		{
+			"id": "logica-quantificatori-29",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Alcuni uccelli non volano» significa che…",
+			"options": [
+				"Almeno uno non vola",
+				"Nessun uccello vola",
+				"La maggior parte non vola",
+				"Tutti gli uccelli volano"
+			],
+			"answer": "Almeno uno non vola",
+			"explanation": "In logica «alcuni» significa «almeno uno», anche se nel parlare comune suggerisce «parecchi»."
+		},
+		{
+			"id": "logica-quantificatori-30",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Da «tutti i cani abbaiano» si può dedurre che…",
+			"options": [
+				"Soltanto i cani sanno abbaiare",
+				"Almeno un cane abbaia, se i cani esistono",
+				"Chiunque abbaia dev'essere un cane",
+				"Alcuni cani non abbaiano affatto"
+			],
+			"answer": "Almeno un cane abbaia, se i cani esistono",
+			"explanation": "Da un «tutti» si scende ad «alcuni», ma non si può girare la frase: altri animali potrebbero abbaiare."
+		},
+		{
+			"id": "logica-quantificatori-31",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Nessuno studente è arrivato in ritardo» è smentita da…",
+			"options": [
+				"Tutti gli studenti in ritardo",
+				"Nessun controesempio possibile",
+				"Un solo studente in ritardo",
+				"Metà degli studenti in ritardo"
+			],
+			"answer": "Un solo studente in ritardo",
+			"explanation": "Le affermazioni universali, positive o negative, cadono con un unico controesempio."
+		},
+		{
+			"id": "logica-quantificatori-32",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Tutti i quadrati sono rettangoli» permette di dire che…",
+			"options": [
+				"Tutti i rettangoli sono quadrati",
+				"Nessun rettangolo è un quadrato",
+				"I due gruppi sono separati",
+				"Alcuni rettangoli sono quadrati"
+			],
+			"answer": "Alcuni rettangoli sono quadrati",
+			"explanation": "Girando un «tutti» si ottiene solo un «alcuni»: l'inclusione vale in una direzione sola."
+		},
+		{
+			"id": "logica-quantificatori-33",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è il contrario di «tutti»?",
+			"options": [
+				"Non tutti",
+				"Quasi nessuno",
+				"Pochi",
+				"Nessuno"
+			],
+			"answer": "Non tutti",
+			"explanation": "«Nessuno» è molto più forte: negare «tutti» richiede solo che ce ne sia uno fuori."
+		},
+		{
+			"id": "logica-quantificatori-34",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…",
+			"options": [
+				"La stessa cosa in due modi",
+				"Due cose diverse",
+				"Due cose sempre vere",
+				"Due cose sempre false"
+			],
+			"answer": "Due cose diverse",
+			"explanation": "Nella prima ogni chiave ha la sua porta; nella seconda esiste una porta che tutte le chiavi aprono. L'ordine dei quantificatori conta."
+		},
+		{
+			"id": "logica-quantificatori-35",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…",
+			"options": [
+				"Meno di due studenti",
+				"Esattamente due studenti",
+				"Due o più studenti",
+				"Tutti gli studenti"
+			],
+			"answer": "Due o più studenti",
+			"explanation": "«Almeno» fissa un minimo, non un numero esatto: tre, quattro o venti la rendono ugualmente vera."
+		},
+		{
+			"id": "logica-quantificatori-36",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?",
+			"options": [
+				"Dipende da quanti gatti sono neri",
+				"Sì, se i gatti sono pochi",
+				"Sì, se non ci sono controesempi",
+				"No, in nessun caso"
+			],
+			"answer": "No, in nessun caso",
+			"explanation": "Da un caso particolare non si sale a una regola generale: è il salto che rende sbagliati molti ragionamenti."
+		},
+		{
+			"id": "logica-quantificatori-37",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Nessun pesce vola» e «tutti i pesci non volano»…",
+			"options": [
+				"Dicono la stessa cosa",
+				"La prima è più debole",
+				"Dicono cose opposte",
+				"La seconda è sempre falsa"
+			],
+			"answer": "Dicono la stessa cosa",
+			"explanation": "Sono due modi di esprimere la stessa negazione universale."
+		},
+		{
+			"id": "logica-quantificatori-38",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Per dimostrare che «tutti i numeri pari sono divisibili per 2», quanti esempi bastano?",
+			"options": [],
+			"answer": "0",
+			"explanation": "Nessun numero di esempi dimostra un «tutti»: serve una dimostrazione generale. Gli esempi possono solo smentirlo."
+		},
+		{
+			"id": "logica-quantificatori-39",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Qualche volta il treno è in ritardo» equivale a…",
+			"options": [
+				"Il treno è sempre in ritardo",
+				"Non sempre il treno è puntuale",
+				"Il treno non è mai puntuale",
+				"Il treno è quasi sempre in ritardo"
+			],
+			"answer": "Non sempre il treno è puntuale",
+			"explanation": "«Qualche volta» nega il «sempre» senza affermare nulla sulla frequenza."
+		},
+		{
+			"id": "logica-quantificatori-40",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In una scatola ci sono solo palline rosse. È vero che «tutte le palline blu nella scatola sono grandi»?",
+			"options": [
+				"Solo se sono davvero grandi",
+				"Non si può stabilire",
+				"Sì, perché non ce ne sono",
+				"No, perché non ce ne sono"
+			],
+			"answer": "Sì, perché non ce ne sono",
+			"explanation": "Un'affermazione su un insieme vuoto non ha controesempi possibili, quindi è considerata vera. Si dice vera «a vuoto»."
+		},
+		{
+			"id": "logica-analogie-41",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Penna sta a scrivere come forbici sta a…",
+			"options": [
+				"Cucire",
+				"Misurare",
+				"Incollare",
+				"Tagliare"
+			],
+			"answer": "Tagliare",
+			"explanation": "La relazione è «strumento → azione che compie»: si cerca la stessa relazione, non una parola simile."
+		},
+		{
+			"id": "logica-analogie-42",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Medico sta a ospedale come insegnante sta a…",
+			"options": [
+				"Scuola",
+				"Studente",
+				"Lezione",
+				"Libro"
+			],
+			"answer": "Scuola",
+			"explanation": "La relazione è «chi lavora → luogo di lavoro»: lo studente è una persona, la lezione un'attività."
+		},
+		{
+			"id": "logica-analogie-43",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Freddo sta a caldo come buio sta a…",
+			"options": [
+				"Notte",
+				"Luce",
+				"Nero",
+				"Paura"
+			],
+			"answer": "Luce",
+			"explanation": "La relazione è di opposizione. «Notte» è associata al buio ma non è il suo contrario."
+		},
+		{
+			"id": "logica-analogie-44",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Chilometro sta a distanza come chilogrammo sta a…",
+			"options": [
+				"Grandezza",
+				"Peso di una persona",
+				"Massa",
+				"Bilancia"
+			],
+			"answer": "Massa",
+			"explanation": "La relazione è «unità → grandezza misurata». La bilancia è lo strumento, non la grandezza."
+		},
+		{
+			"id": "logica-analogie-45",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cucciolo sta a cane come puledro sta a…",
+			"options": [
+				"Fieno",
+				"Stalla",
+				"Corsa",
+				"Cavallo"
+			],
+			"answer": "Cavallo",
+			"explanation": "La relazione è «piccolo → animale adulto della stessa specie»."
+		},
+		{
+			"id": "logica-analogie-46",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Pagina sta a libro come fotogramma sta a…",
+			"options": [
+				"Film",
+				"Cinema",
+				"Macchina fotografica",
+				"Attore"
+			],
+			"answer": "Film",
+			"explanation": "La relazione è «parte → intero di cui fa parte». Il cinema è il luogo, non l'opera."
+		},
+		{
+			"id": "logica-deduzioni-47",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Tutti i musicisti leggono le note. Sara legge le note. Sara è musicista?",
+			"options": [
+				"Sì, sicuramente",
+				"Non necessariamente",
+				"No, di certo non lo è",
+				"Solo se suona uno strumento"
+			],
+			"answer": "Non necessariamente",
+			"explanation": "La regola dice che i musicisti leggono le note, non che solo loro lo fanno: girarla è un errore classico."
+		},
+		{
+			"id": "logica-deduzioni-48",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nessun rettile ha le piume. Kiwi ha le piume. Kiwi è un rettile?",
+			"options": [
+				"Solo se non vola",
+				"Non si può stabilire",
+				"No, di sicuro",
+				"Sì, potrebbe esserlo"
+			],
+			"answer": "No, di sicuro",
+			"explanation": "Se nessun rettile ha piume e Kiwi le ha, Kiwi sta fuori dall'insieme dei rettili."
+		},
+		{
+			"id": "logica-deduzioni-49",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Se A è più alto di B e B è più alto di C, allora…",
+			"options": [
+				"Non si può stabilire",
+				"A e C sono uguali",
+				"C è più alto di A",
+				"A è più alto di C"
+			],
+			"answer": "A è più alto di C",
+			"explanation": "«Più alto di» è una relazione transitiva: si trasmette lungo la catena."
+		},
+		{
+			"id": "logica-deduzioni-50",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Marta è più giovane di Luca. Luca è più giovane di Sara. Chi è il più vecchio?",
+			"options": [
+				"Sara",
+				"Marta",
+				"Luca",
+				"Non si può dire"
+			],
+			"answer": "Sara",
+			"explanation": "Mettendo in fila: Marta, Luca, Sara. L'ultima della catena è la più grande."
+		},
+		{
+			"id": "logica-deduzioni-51",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Se il semaforo è verde, si passa.» Il semaforo è rosso. Si passa?",
+			"options": [
+				"Sì, la regola lo permette comunque",
+				"La regola non dice niente su questo caso",
+				"No, la regola lo vieta esplicitamente",
+				"Solo se non arrivano altre auto"
+			],
+			"answer": "La regola non dice niente su questo caso",
+			"explanation": "La regola copre il caso «verde»: sul rosso non si pronuncia. Serve un'altra regola per saperlo."
+		},
+		{
+			"id": "logica-esclusioni-52",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: violino, viola, violoncello, flauto?",
+			"options": [
+				"Violoncello",
+				"Viola",
+				"Flauto",
+				"Violino"
+			],
+			"answer": "Flauto",
+			"explanation": "Gli altri tre sono strumenti ad arco; il flauto è a fiato. Non conta la somiglianza del nome."
+		},
+		{
+			"id": "logica-esclusioni-53",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: Roma, Parigi, Berlino, Sicilia?",
+			"options": [
+				"Parigi",
+				"Berlino",
+				"Roma",
+				"Sicilia"
+			],
+			"answer": "Sicilia",
+			"explanation": "Le altre tre sono capitali; la Sicilia è un'isola, non una città."
+		},
+		{
+			"id": "logica-esclusioni-54",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: 2, 3, 5, 9?",
+			"options": [
+				"9",
+				"3",
+				"2",
+				"5"
+			],
+			"answer": "9",
+			"explanation": "Gli altri sono numeri primi; 9 si divide anche per 3. Non basta guardare se sono dispari."
+		},
+		{
+			"id": "logica-esclusioni-55",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: quadrato, cerchio, triangolo, rettangolo?",
+			"options": [
+				"Rettangolo",
+				"Cerchio",
+				"Triangolo",
+				"Quadrato"
+			],
+			"answer": "Cerchio",
+			"explanation": "Gli altri sono poligoni, cioè figure con i lati dritti; il cerchio è delimitato da una curva."
+		},
+		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",
 			"subject": "logica",
 			"topic": "esclusioni",

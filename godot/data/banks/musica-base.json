@@ -228,7 +228,874 @@
 			"explanation": "La croma vale mezzo battito, non uno. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento."
 		},
 		{
-			"id": "musica-note-0",
+			"id": "musica-lettura-0",
+			"subject": "musica",
+			"topic": "lettura",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa indica una linea aggiunta sopra il pentagramma?",
+			"options": [
+				"Che la nota va tenuta più a lungo",
+				"Che si deve suonare più forte",
+				"Una nota più acuta di quelle che ci stanno",
+				"Che il brano finisce a quel punto"
+			],
+			"answer": "Una nota più acuta di quelle che ci stanno",
+			"explanation": "Il pentagramma ha cinque righe: per le note che escono dall'alto o dal basso si aggiungono trattini corti, uno per grado."
+		},
+		{
+			"id": "musica-ritmo-1",
+			"subject": "musica",
+			"topic": "ritmo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un punto di valore messo dopo una nota?",
+			"options": [
+				"Segnala che la nota va ripetuta",
+				"Raddoppia esattamente la durata",
+				"Indica di suonare quella nota staccata",
+				"Allunga la nota della metà del suo valore"
+			],
+			"answer": "Allunga la nota della metà del suo valore",
+			"explanation": "Una minima vale due movimenti; con il punto ne vale tre, cioè due più la metà di due."
+		},
+		{
+			"id": "musica-tempo-2",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il tempo in musica?",
+			"options": [
+				"La pulsazione regolare che scandisce il brano",
+				"La velocità con cui si legge lo spartito",
+				"La durata totale della canzone",
+				"Il momento in cui entra il cantante"
+			],
+			"answer": "La pulsazione regolare che scandisce il brano",
+			"explanation": "È il battito costante sotto la musica: quello che ti fa battere il piede senza pensarci."
+		},
+		{
+			"id": "musica-tempo-3",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "In un tempo di 4/4, quanti movimenti ci sono in una battuta?",
+			"options": [],
+			"answer": "4",
+			"explanation": "Il numero in alto dice quanti movimenti stanno in ogni battuta: quattro."
+		},
+		{
+			"id": "musica-tempo-4",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "In un tempo di 3/4, quanti movimenti ci sono in una battuta?",
+			"options": [],
+			"answer": "3",
+			"explanation": "Tre movimenti per battuta: è il tempo del valzer, un-due-tre, un-due-tre."
+		},
+		{
+			"id": "musica-tempo-5",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa indica il numero in basso di un tempo come 4/4?",
+			"options": [
+				"Quanto forte si deve suonare",
+				"Quale figura vale un movimento",
+				"Quanti strumenti servono",
+				"Quante battute ha il brano"
+			],
+			"answer": "Quale figura vale un movimento",
+			"explanation": "Il 4 in basso significa che la semiminima (un quarto) vale un movimento."
+		},
+		{
+			"id": "musica-tempo-6",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una battuta?",
+			"options": [
+				"Un colpo secco dato sul tamburo",
+				"La nota più forte di tutto il brano",
+				"Il gruppo di movimenti fra due stanghette",
+				"L'inizio di una nuova strofa cantata"
+			],
+			"answer": "Il gruppo di movimenti fra due stanghette",
+			"explanation": "Le stanghette verticali dividono lo spartito in battute, tutte con lo stesso numero di movimenti."
+		},
+		{
+			"id": "musica-tempo-7",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa fa un metronomo?",
+			"options": [
+				"Conta le battute già suonate",
+				"Misura quanto è acuto un suono",
+				"Indica quale nota si sta suonando",
+				"Batte una pulsazione costante e regolabile"
+			],
+			"answer": "Batte una pulsazione costante e regolabile",
+			"explanation": "Serve a tenere il tempo mentre si studia: si imposta quanti battiti al minuto e lui non sbaglia mai."
+		},
+		{
+			"id": "musica-tempo-8",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un brano a 120 battiti al minuto rispetto a uno a 60 è…",
+			"options": [
+				"Il doppio più veloce",
+				"Un quarto più veloce",
+				"Il doppio più lento",
+				"Della stessa velocità"
+			],
+			"answer": "Il doppio più veloce",
+			"explanation": "Il doppio dei battiti nello stesso minuto significa che ogni battito dura la metà."
+		},
+		{
+			"id": "musica-tempo-9",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa «andante» su uno spartito?",
+			"options": [
+				"Un volume che cresce di continuo",
+				"Un'andatura moderata, come camminando",
+				"Un'andatura molto veloce e concitata",
+				"Un'andatura molto lenta e distesa"
+			],
+			"answer": "Un'andatura moderata, come camminando",
+			"explanation": "Le indicazioni italiane di tempo si usano in tutto il mondo: adagio è lento, allegro veloce, andante sta a metà."
+		},
+		{
+			"id": "musica-tempo-10",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa «allegro»?",
+			"options": [
+				"Lento e solenne",
+				"Con volume crescente",
+				"Veloce e vivace",
+				"Con volume calante"
+			],
+			"answer": "Veloce e vivace",
+			"explanation": "Indica la velocità, non l'umore: un brano allegro può anche essere in tonalità minore e suonare triste."
+		},
+		{
+			"id": "musica-tempo-11",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "In 4/4, quante semiminime riempiono una battuta?",
+			"options": [],
+			"answer": "4",
+			"explanation": "In 4/4 la semiminima vale un movimento, e i movimenti sono quattro."
+		},
+		{
+			"id": "musica-tempo-12",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "In 4/4, quante minime riempiono una battuta?",
+			"options": [],
+			"answer": "2",
+			"explanation": "La minima vale due movimenti: due minime fanno quattro movimenti, cioè una battuta piena."
+		},
+		{
+			"id": "musica-tempo-13",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il levare (o anacrusi)?",
+			"options": [
+				"Una pausa messa all'inizio della battuta",
+				"Il momento esatto in cui si accelera",
+				"L'ultima nota che chiude tutto il brano",
+				"Una o più note prima della prima battuta piena"
+			],
+			"answer": "Una o più note prima della prima battuta piena",
+			"explanation": "Molte canzoni cominciano prima del tempo forte: «Tan-ti au-GU-ri» parte in levare."
+		},
+		{
+			"id": "musica-tempo-14",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa fa un rallentando?",
+			"options": [
+				"Il tempo diventa progressivamente più lento",
+				"Il brano si interrompe improvvisamente",
+				"Le note diventano via via più gravi",
+				"Il volume diventa via via più debole"
+			],
+			"answer": "Il tempo diventa progressivamente più lento",
+			"explanation": "Riguarda la velocità, non l'intensità: si usa spesso per preparare la fine di un brano."
+		},
+		{
+			"id": "musica-tempo-15",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Nel tempo di 4/4, su quale movimento cade di solito l'accento più forte?",
+			"options": [],
+			"answer": "1",
+			"explanation": "Il primo movimento della battuta è il tempo forte: è quello che ti fa capire dove sei nella musica."
+		},
+		{
+			"id": "musica-timbro-16",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il timbro di un suono?",
+			"options": [
+				"Quanto a lungo dura una singola nota scritta",
+				"Il colore che distingue uno strumento da un altro",
+				"Quanto è forte oppure debole un certo suono",
+				"Quanto è acuto oppure grave un certo suono"
+			],
+			"answer": "Il colore che distingue uno strumento da un altro",
+			"explanation": "Un la del violino e un la del flauto hanno la stessa altezza e la stessa durata, ma non si confondono: è il timbro."
+		},
+		{
+			"id": "musica-timbro-17",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Due strumenti suonano la stessa nota alla stessa intensità. Cosa li distingue?",
+			"options": [
+				"Il tempo del brano",
+				"La durata della nota",
+				"Il timbro",
+				"L'altezza del suono"
+			],
+			"answer": "Il timbro",
+			"explanation": "Tolte altezza, durata e intensità, quello che resta è la qualità del suono: il timbro."
+		},
+		{
+			"id": "musica-timbro-18",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché la stessa canzone cantata da due persone suona diversa?",
+			"options": [
+				"Perché cambiano le note della melodia",
+				"Perché cambia il volume della voce",
+				"Perché cambia il tempo dell'esecuzione",
+				"Perché ogni voce ha il suo timbro"
+			],
+			"answer": "Perché ogni voce ha il suo timbro",
+			"explanation": "La voce è uno strumento, e come ogni strumento ha un colore che dipende dal corpo che la produce."
+		},
+		{
+			"id": "musica-timbro-19",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Da che cosa dipende soprattutto il timbro di uno strumento?",
+			"options": [
+				"Dal materiale e dalla forma del corpo",
+				"Dal prezzo dello strumento",
+				"Dalla bravura di chi lo suona",
+				"Dal numero di note che può fare"
+			],
+			"answer": "Dal materiale e dalla forma del corpo",
+			"explanation": "Legno o metallo, cassa grande o piccola: il corpo dello strumento colora il suono in modo caratteristico."
+		},
+		{
+			"id": "musica-timbro-20",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché una chitarra acustica e una elettrica suonano diverse anche sulla stessa nota?",
+			"options": [
+				"Perché l'elettrica suona sempre più forte",
+				"Perché il suono viene amplificato in modi diversi",
+				"Perché usano note completamente diverse",
+				"Perché hanno un numero diverso di corde"
+			],
+			"answer": "Perché il suono viene amplificato in modi diversi",
+			"explanation": "Nell'acustica risuona la cassa di legno; nell'elettrica il segnale passa da magneti e altoparlante, e il colore cambia."
+		},
+		{
+			"id": "musica-timbro-21",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Riconosci un pianoforte da una tromba anche a occhi chiusi. Grazie a cosa?",
+			"options": [
+				"Alla diversa altezza delle note",
+				"Alla maggiore velocità del piano",
+				"Al timbro dei due strumenti",
+				"Al volume più alto della tromba"
+			],
+			"answer": "Al timbro dei due strumenti",
+			"explanation": "Il timbro è la carta d'identità sonora: permette di riconoscere una fonte senza vederla."
+		},
+		{
+			"id": "musica-timbro-22",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In un'orchestra, che cosa permette di distinguere i violini dai fiati?",
+			"options": [
+				"La posizione sul palco",
+				"Il numero di musicisti",
+				"L'altezza delle note suonate",
+				"Il timbro delle due famiglie"
+			],
+			"answer": "Il timbro delle due famiglie",
+			"explanation": "Anche suonando la stessa melodia all'unisono, archi e fiati restano riconoscibili."
+		},
+		{
+			"id": "musica-timbro-23",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede al timbro se copri una tromba con una sordina?",
+			"options": [
+				"Cambia colore e diventa più nasale",
+				"Il tempo del brano rallenta",
+				"Diventa soltanto più debole",
+				"Le note diventano più acute"
+			],
+			"answer": "Cambia colore e diventa più nasale",
+			"explanation": "La sordina non abbassa solo il volume: modifica quali componenti del suono passano, cioè il timbro."
+		},
+		{
+			"id": "musica-timbro-24",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Uno stesso pianoforte suona diverso in una chiesa e in una stanza piccola. Perché?",
+			"options": [
+				"Perché le note cambiano la loro altezza",
+				"Perché l'ambiente aggiunge il suo riverbero",
+				"Perché cambia il tempo con cui si suona",
+				"Perché lo strumento si scorda con l'umidità"
+			],
+			"answer": "Perché l'ambiente aggiunge il suo riverbero",
+			"explanation": "Il suono che arriva all'orecchio è quello dello strumento più quello che l'ambiente gli restituisce."
+		},
+		{
+			"id": "musica-timbro-25",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale coppia di strumenti ha il timbro più simile?",
+			"options": [
+				"Flauto e pianoforte",
+				"Violino e tamburo",
+				"Violino e viola",
+				"Tromba e arpa"
+			],
+			"answer": "Violino e viola",
+			"explanation": "Appartengono alla stessa famiglia e producono il suono allo stesso modo: corde sfregate da un archetto."
+		},
+		{
+			"id": "musica-timbro-26",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la voce di una persona raffreddata cambia?",
+			"options": [
+				"Perché si sbagliano le note",
+				"Perché si parla sempre più piano",
+				"Perché le corde vocali si accorciano",
+				"Perché cambiano le cavità che risuonano"
+			],
+			"answer": "Perché cambiano le cavità che risuonano",
+			"explanation": "Naso e gola fanno da cassa di risonanza: se sono ostruiti, il colore del suono cambia."
+		},
+		{
+			"id": "musica-timbro-27",
+			"subject": "musica",
+			"topic": "timbro",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa NON dipende dal timbro?",
+			"options": [
+				"Se una nota è acuta o grave",
+				"La differenza fra due voci",
+				"Il colore di un suono",
+				"Il riconoscere uno strumento"
+			],
+			"answer": "Se una nota è acuta o grave",
+			"explanation": "Acuto e grave sono l'altezza, che è un'altra caratteristica del suono: il timbro riguarda il colore."
+		},
+		{
+			"id": "musica-strumenti-28",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A quale famiglia appartiene il violoncello?",
+			"options": [
+				"Tastiere",
+				"Archi",
+				"Percussioni",
+				"Fiati"
+			],
+			"answer": "Archi",
+			"explanation": "Il suono nasce sfregando le corde con l'archetto: è la famiglia degli archi."
+		},
+		{
+			"id": "musica-strumenti-29",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A quale famiglia appartiene il clarinetto?",
+			"options": [
+				"Archi",
+				"Percussioni",
+				"Fiati",
+				"Corde pizzicate"
+			],
+			"answer": "Fiati",
+			"explanation": "Il suono nasce dall'aria soffiata che fa vibrare un'ancia: è un fiato."
+		},
+		{
+			"id": "musica-strumenti-30",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché il pianoforte è considerato anche uno strumento a corde?",
+			"options": [
+				"Perché si accorda esattamente come una chitarra",
+				"Perché si suona usando tutte e due le mani",
+				"Perché tiene le corde soltanto per decorazione",
+				"Perché i tasti fanno battere martelletti sulle corde"
+			],
+			"answer": "Perché i tasti fanno battere martelletti sulle corde",
+			"explanation": "Premendo un tasto un martelletto colpisce una corda: c'è una tastiera, ma il suono lo fanno le corde."
+		},
+		{
+			"id": "musica-strumenti-31",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale strumento produce il suono percuotendo una pelle tesa?",
+			"options": [
+				"Il tamburo",
+				"La chitarra",
+				"Il violino",
+				"Il flauto"
+			],
+			"answer": "Il tamburo",
+			"explanation": "Nelle percussioni a membrana il suono nasce dalla vibrazione di una pelle colpita."
+		},
+		{
+			"id": "musica-strumenti-32",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che differenza c'è fra chitarra e violino nel produrre il suono?",
+			"options": [
+				"La chitarra non ha cassa di risonanza",
+				"La chitarra si pizzica, il violino si sfrega",
+				"Il violino è sempre più acuto",
+				"La chitarra ha più corde del violino"
+			],
+			"answer": "La chitarra si pizzica, il violino si sfrega",
+			"explanation": "Pizzicare dà un suono che decade subito; l'archetto può tenerlo lungo quanto si vuole."
+		},
+		{
+			"id": "musica-strumenti-33",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché un contrabbasso suona più grave di un violino?",
+			"options": [
+				"Perché ha più corde del violino",
+				"Perché si suona stando in piedi",
+				"Perché le corde sono più lunghe e grosse",
+				"Perché è fatto di un legno diverso"
+			],
+			"answer": "Perché le corde sono più lunghe e grosse",
+			"explanation": "Corde più lunghe e pesanti vibrano più lentamente, e una vibrazione lenta dà un suono grave."
+		},
+		{
+			"id": "musica-strumenti-34",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale gruppo di strumenti apre di solito l'orchestra sinfonica?",
+			"options": [
+				"Gli ottoni, al centro del palco",
+				"Le tastiere, davanti a tutti",
+				"Le percussioni, in prima fila",
+				"Gli archi, davanti al direttore"
+			],
+			"answer": "Gli archi, davanti al direttore",
+			"explanation": "Gli archi sono i più numerosi e stanno davanti; fiati e percussioni si dispongono dietro, in ordine di potenza sonora."
+		},
+		{
+			"id": "musica-strumenti-35",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa hanno in comune organo, fisarmonica e flauto?",
+			"options": [
+				"Il suono nasce dall'aria in movimento",
+				"Hanno tutti corde da far vibrare",
+				"Si suonano tutti con una tastiera",
+				"Si portano tutti a tracolla"
+			],
+			"answer": "Il suono nasce dall'aria in movimento",
+			"explanation": "In tutti e tre è una colonna d'aria a vibrare, anche se il modo di metterla in moto è molto diverso."
+		},
+		{
+			"id": "musica-strumenti-36",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale strumento non appartiene alla famiglia degli archi?",
+			"options": [
+				"Contrabbasso",
+				"Tromba",
+				"Viola",
+				"Violino"
+			],
+			"answer": "Tromba",
+			"explanation": "La tromba è un ottone: il suono nasce dalle labbra che vibrano nel bocchino, non da una corda."
+		},
+		{
+			"id": "musica-dinamica-37",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa indica la dinamica in musica?",
+			"options": [
+				"Quanto veloce si suona",
+				"Quali note si devono suonare",
+				"Quanto forte o piano si suona",
+				"Quanto dura ogni nota"
+			],
+			"answer": "Quanto forte o piano si suona",
+			"explanation": "È l'intensità del suono, indipendente dalla velocità e dall'altezza delle note."
+		},
+		{
+			"id": "musica-dinamica-38",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa il segno «p» su uno spartito?",
+			"options": [
+				"Presto, cioè veloce",
+				"Pieno, cioè con tutti gli strumenti",
+				"Pausa, cioè silenzio",
+				"Piano, cioè debole"
+			],
+			"answer": "Piano, cioè debole",
+			"explanation": "Piano e forte sono i due estremi di base; da lì nascono pianissimo e fortissimo."
+		},
+		{
+			"id": "musica-dinamica-39",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa fa un crescendo?",
+			"options": [
+				"Il volume aumenta a poco a poco",
+				"Le note diventano sempre più acute",
+				"Il tempo accelera a poco a poco",
+				"Entrano sempre più strumenti"
+			],
+			"answer": "Il volume aumenta a poco a poco",
+			"explanation": "Riguarda l'intensità: un crescendo può avvenire anche restando alla stessa velocità e sulle stesse note."
+		},
+		{
+			"id": "musica-dinamica-40",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa fa un diminuendo?",
+			"options": [
+				"Il tempo rallenta a poco a poco",
+				"Il volume cala a poco a poco",
+				"Le note diventano sempre più gravi",
+				"Le battute diventano più corte"
+			],
+			"answer": "Il volume cala a poco a poco",
+			"explanation": "È l'opposto del crescendo: si scende di intensità gradualmente, non di colpo."
+		},
+		{
+			"id": "musica-dinamica-41",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la dinamica rende una musica espressiva?",
+			"options": [
+				"Perché fa suonare tutti quanti insieme",
+				"Perché rende il brano molto più lungo",
+				"Perché il contrasto fra piano e forte crea tensione",
+				"Perché aiuta i musicisti a ricordare le note"
+			],
+			"answer": "Perché il contrasto fra piano e forte crea tensione",
+			"explanation": "Una musica sempre allo stesso volume stanca: sono i cambi a far respirare e a colpire."
+		},
+		{
+			"id": "musica-dinamica-42",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Fra «pp» e «p», quale è più debole?",
+			"options": [
+				"Dipende dallo strumento",
+				"Sono uguali",
+				"p",
+				"pp"
+			],
+			"answer": "pp",
+			"explanation": "Raddoppiare la lettera intensifica: pp è pianissimo, ff è fortissimo."
+		},
+		{
+			"id": "musica-dinamica-43",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un'orchestra intera suona «pianissimo». Che cosa vuol dire?",
+			"options": [
+				"Tutti suonano molto piano insieme",
+				"Si suona molto lentamente",
+				"Metà orchestra resta in silenzio",
+				"Suona un solo strumento alla volta"
+			],
+			"answer": "Tutti suonano molto piano insieme",
+			"explanation": "La dinamica riguarda l'intensità di chi suona, non quanti suonano: cento musicisti possono fare pianissimo."
+		},
+		{
+			"id": "musica-dinamica-44",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa NON cambia durante un crescendo?",
+			"options": [
+				"L'intensità del suono",
+				"L'altezza delle note",
+				"L'energia dell'esecuzione",
+				"La percezione di tensione"
+			],
+			"answer": "L'altezza delle note",
+			"explanation": "Le note restano le stesse: cresce solo quanto forte vengono suonate."
+		},
+		{
+			"id": "musica-intervalli-45",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un intervallo musicale?",
+			"options": [
+				"Il volume fra due suoni",
+				"Il tempo fra due battute",
+				"La distanza fra due note",
+				"La pausa fra due brani"
+			],
+			"answer": "La distanza fra due note",
+			"explanation": "Si misura contando i gradi da una nota all'altra, estremi compresi."
+		},
+		{
+			"id": "musica-intervalli-46",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Quanti gradi ci sono nell'intervallo da do a sol?",
+			"options": [],
+			"answer": "5",
+			"explanation": "Do, re, mi, fa, sol: si contano tutte e cinque le note, compresa quella di partenza. È una quinta."
+		},
+		{
+			"id": "musica-intervalli-47",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama l'intervallo fra do e do successivo?",
+			"options": [
+				"Quinta",
+				"Terza",
+				"Settima",
+				"Ottava"
+			],
+			"answer": "Ottava",
+			"explanation": "Si contano otto gradi: do, re, mi, fa, sol, la, si, do. Le due note hanno lo stesso nome e suonano «uguali ma più alte»."
+		},
+		{
+			"id": "musica-intervalli-48",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Quanti gradi ci sono nell'intervallo da do a mi?",
+			"options": [],
+			"answer": "3",
+			"explanation": "Do, re, mi: tre gradi. È una terza, l'intervallo che dà il carattere maggiore o minore a un accordo."
+		},
+		{
+			"id": "musica-intervalli-49",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Due note suonate insieme a distanza di ottava…",
+			"options": [
+				"Si fondono e sembrano quasi la stessa nota",
+				"Suonano come note lontanissime",
+				"Creano una forte dissonanza",
+				"Non possono essere suonate insieme"
+			],
+			"answer": "Si fondono e sembrano quasi la stessa nota",
+			"explanation": "L'ottava è l'intervallo più consonante che esista dopo l'unisono: per questo uomini e bambini possono cantare «la stessa» melodia."
+		},
+		{
+			"id": "musica-intervalli-50",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la quinta è considerata un intervallo molto stabile?",
+			"options": [
+				"Perché è l'intervallo più ampio possibile",
+				"Perché le due frequenze si accordano semplicemente",
+				"Perché si suona soltanto sulle note basse",
+				"Perché usa sempre e solo le note bianche"
+			],
+			"answer": "Perché le due frequenze si accordano semplicemente",
+			"explanation": "Il rapporto fra le due frequenze è semplice, e l'orecchio percepisce come consonante ciò che è semplice."
+		},
+		{
+			"id": "musica-note-51",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quante sono le note musicali di base?",
+			"options": [],
+			"answer": "7",
+			"explanation": "Do, re, mi, fa, sol, la, si: sette, e poi si ricomincia un'ottava sopra."
+		},
+		{
+			"id": "musica-note-52",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale nota viene subito dopo il sol?",
+			"options": [
+				"Si",
+				"Re",
+				"La",
+				"Mi"
+			],
+			"answer": "La",
+			"explanation": "L'ordine è do, re, mi, fa, sol, la, si: dopo sol viene la."
+		},
+		{
+			"id": "musica-note-53",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa distingue una nota acuta da una grave?",
+			"options": [
+				"L'intensità con cui si suona",
+				"La durata della nota scritta",
+				"Lo strumento che la produce",
+				"La frequenza con cui vibra il suono"
+			],
+			"answer": "La frequenza con cui vibra il suono",
+			"explanation": "Più veloce è la vibrazione, più il suono è acuto. Il timbro e il volume sono altre caratteristiche."
+		},
+		{
+			"id": "musica-note-54",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Su quante righe si scrivono le note nel pentagramma?",
+			"options": [],
+			"answer": "5",
+			"explanation": "«Penta» significa cinque: cinque righe e quattro spazi, più eventuali linee aggiunte sopra e sotto."
+		},
+		{
+			"id": "musica-note-55",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché due note con lo stesso nome, a un'ottava di distanza, suonano «la stessa»?",
+			"options": [
+				"Perché una vibra al doppio della velocità dell'altra",
+				"Perché hanno sempre lo stesso identico timbro",
+				"Perché durano tutte e due lo stesso tempo",
+				"Perché si scrivono esattamente nello stesso punto"
+			],
+			"answer": "Perché una vibra al doppio della velocità dell'altra",
+			"explanation": "Il rapporto esatto di 2 a 1 fra le frequenze è ciò che il nostro orecchio riconosce come «stessa nota, più alta»."
+		},
+		{
+			"id": "musica-note-56",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa indica la chiave all'inizio del pentagramma?",
+			"options": [
+				"Quanti strumenti devono suonare",
+				"Quale nota corrisponde a quale riga",
+				"Con quale velocità si comincia",
+				"Quanto forte si deve suonare"
+			],
+			"answer": "Quale nota corrisponde a quale riga",
+			"explanation": "Senza chiave le righe non hanno un nome: la chiave di violino fissa il sol sulla seconda riga, e tutto il resto ne discende."
+		},
+		{
+			"id": "musica-note-57",
 			"subject": "musica",
 			"topic": "note",
 			"difficulty": 1,
@@ -244,23 +1111,23 @@
 			"explanation": "Do, Re, Mi, Fa, Sol, La, Si: sette note."
 		},
 		{
-			"id": "musica-note-1",
+			"id": "musica-note-58",
 			"subject": "musica",
 			"topic": "note",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale nota viene subito dopo il Do?",
 			"options": [
-				"Fa",
-				"Mi",
 				"Si",
+				"Mi",
+				"Fa",
 				"Re"
 			],
 			"answer": "Re",
 			"explanation": "L'ordine è Do, Re, Mi, Fa, Sol, La, Si."
 		},
 		{
-			"id": "musica-note-2",
+			"id": "musica-note-59",
 			"subject": "musica",
 			"topic": "note",
 			"difficulty": 2,
@@ -268,15 +1135,15 @@
 			"prompt": "Dopo il Sol, quale nota viene?",
 			"options": [
 				"La",
+				"Do",
 				"Mi",
-				"Fa",
-				"Do"
+				"Fa"
 			],
 			"answer": "La",
 			"explanation": "…Sol, La, Si, poi si ricomincia da Do."
 		},
 		{
-			"id": "musica-lettura-3",
+			"id": "musica-lettura-60",
 			"subject": "musica",
 			"topic": "lettura",
 			"difficulty": 2,
@@ -285,46 +1152,46 @@
 			"options": [
 				"Sulla tastiera del pc",
 				"Sul pentagramma",
-				"Su un foglio bianco",
-				"Su un foglio a quadretti"
+				"Su un foglio a quadretti",
+				"Su un foglio bianco"
 			],
 			"answer": "Sul pentagramma",
 			"explanation": "Il pentagramma ha 5 righe e 4 spazi."
 		},
 		{
-			"id": "musica-lettura-4",
+			"id": "musica-lettura-61",
 			"subject": "musica",
 			"topic": "lettura",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quante righe ha il pentagramma?",
 			"options": [
+				"7",
 				"4",
-				"6",
 				"5",
-				"7"
+				"6"
 			],
 			"answer": "5",
 			"explanation": "Penta- significa cinque: cinque righe."
 		},
 		{
-			"id": "musica-ritmo-5",
+			"id": "musica-ritmo-62",
 			"subject": "musica",
 			"topic": "ritmo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale figura musicale dura di più?",
 			"options": [
-				"La semiminima",
-				"La croma",
 				"La minima",
+				"La croma",
+				"La semiminima",
 				"La semibreve"
 			],
 			"answer": "La semibreve",
 			"explanation": "La semibreve vale 4 battiti: più di minima, semiminima e croma."
 		},
 		{
-			"id": "musica-ritmo-6",
+			"id": "musica-ritmo-63",
 			"subject": "musica",
 			"topic": "ritmo",
 			"difficulty": 3,
@@ -332,15 +1199,15 @@
 			"prompt": "In 4/4, quanti battiti ci sono in una battuta?",
 			"options": [
 				"4",
-				"8",
 				"2",
+				"8",
 				"3"
 			],
 			"answer": "4",
 			"explanation": "Il 4 in alto indica quattro battiti per battuta."
 		},
 		{
-			"id": "musica-ritmo-7",
+			"id": "musica-ritmo-64",
 			"subject": "musica",
 			"topic": "ritmo",
 			"difficulty": 3,
@@ -349,14 +1216,14 @@
 			"options": [
 				"Il triplo",
 				"Il doppio",
-				"La metà",
-				"Uguale"
+				"Uguale",
+				"La metà"
 			],
 			"answer": "Il doppio",
 			"explanation": "La minima vale 2 battiti, la semiminima 1: il doppio."
 		},
 		{
-			"id": "musica-intervalli-8",
+			"id": "musica-intervalli-65",
 			"subject": "musica",
 			"topic": "intervalli",
 			"difficulty": 3,
@@ -364,31 +1231,31 @@
 			"prompt": "L'intervallo da Do a Sol (contando le note) è una…",
 			"options": [
 				"Terza",
-				"Quarta",
+				"Ottava",
 				"Quinta",
-				"Ottava"
+				"Quarta"
 			],
 			"answer": "Quinta",
 			"explanation": "Do-Re-Mi-Fa-Sol: cinque note, quindi una quinta."
 		},
 		{
-			"id": "musica-strumenti-9",
+			"id": "musica-strumenti-66",
 			"subject": "musica",
 			"topic": "strumenti",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale di questi è uno strumento a corde?",
 			"options": [
-				"La tromba",
 				"Il tamburo",
 				"Il flauto",
+				"La tromba",
 				"La chitarra"
 			],
 			"answer": "La chitarra",
 			"explanation": "La chitarra produce suono con le corde."
 		},
 		{
-			"id": "musica-strumenti-10",
+			"id": "musica-strumenti-67",
 			"subject": "musica",
 			"topic": "strumenti",
 			"difficulty": 2,
@@ -397,55 +1264,55 @@
 			"options": [
 				"Fiato",
 				"Tastiera",
-				"Percussione",
-				"Corde"
+				"Corde",
+				"Percussione"
 			],
 			"answer": "Fiato",
 			"explanation": "Il flauto suona soffiando aria: è uno strumento a fiato."
 		},
 		{
-			"id": "musica-timbro-11",
+			"id": "musica-timbro-68",
 			"subject": "musica",
 			"topic": "timbro",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Cosa ci fa distinguere un pianoforte da una chitarra sulla stessa nota?",
 			"options": [
-				"Il tempo",
-				"Il timbro",
 				"La durata",
-				"Il volume"
+				"Il timbro",
+				"Il volume",
+				"Il tempo"
 			],
 			"answer": "Il timbro",
 			"explanation": "Il timbro è il 'colore' del suono, diverso per ogni strumento."
 		},
 		{
-			"id": "musica-dinamica-12",
+			"id": "musica-dinamica-69",
 			"subject": "musica",
 			"topic": "dinamica",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "In musica 'forte' e 'piano' indicano…",
 			"options": [
-				"La durata di ogni nota scritta",
+				"La velocità con cui si suona",
 				"L'altezza (acuto o grave)",
 				"L'intensità del suono (il volume)",
-				"La velocità con cui si suona"
+				"La durata di ogni nota scritta"
 			],
 			"answer": "L'intensità del suono (il volume)",
 			"explanation": "Le dinamiche dicono quanto suonare forte o piano."
 		},
 		{
-			"id": "musica-dinamica-13",
+			"id": "musica-dinamica-70",
 			"subject": "musica",
 			"topic": "dinamica",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Il termine che indica quanto è veloce un brano è il…",
 			"options": [
-				"Timbro (colore)",
-				"Silenzio (pausa)",
 				"Volume (intensità)",
+				"Silenzio (pausa)",
+				"Timbro (colore)",
 				"Tempo (andamento)"
 			],
 			"answer": "Tempo (andamento)",

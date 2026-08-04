@@ -4,119 +4,1277 @@
 	"generator": "storia-authored-v1",
 	"items": [
 		{
-			"id": "storia-metodo-0",
+			"id": "storia-fonti-0",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una fonte storica?",
+			"options": [
+				"Qualsiasi traccia che ci dice qualcosa del passato",
+				"Una data importante da ricordare",
+				"Il racconto di chi ha studiato la storia",
+				"Soltanto un libro scritto dagli storici"
+			],
+			"answer": "Qualsiasi traccia che ci dice qualcosa del passato",
+			"explanation": "Una moneta, un muro, una lettera, un rifiuto sepolto: tutto ciò che è arrivato fino a noi può parlare del passato."
+		},
+		{
+			"id": "storia-fonti-1",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un vaso trovato in uno scavo è una fonte…",
+			"options": [
+				"Iconografica",
+				"Materiale",
+				"Scritta",
+				"Orale"
+			],
+			"answer": "Materiale",
+			"explanation": "Le fonti materiali sono oggetti: si studiano guardandoli e misurandoli, non leggendoli."
+		},
+		{
+			"id": "storia-fonti-2",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Il diario di un soldato è una fonte…",
+			"options": [
+				"Materiale",
+				"Orale",
+				"Scritta",
+				"Archeologica"
+			],
+			"answer": "Scritta",
+			"explanation": "Le fonti scritte si leggono, e portano con sé anche il punto di vista di chi ha scritto."
+		},
+		{
+			"id": "storia-fonti-3",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una fonte primaria?",
+			"options": [
+				"La fonte scoperta per prima in ordine",
+				"Un documento sempre vero e affidabile",
+				"Il libro di storia più importante",
+				"Un documento prodotto nell'epoca studiata"
+			],
+			"answer": "Un documento prodotto nell'epoca studiata",
+			"explanation": "Primaria significa «di prima mano»: nasce nel periodo di cui parla, non secoli dopo."
+		},
+		{
+			"id": "storia-fonti-4",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Il manuale che usi a scuola è una fonte…",
+			"options": [
+				"Secondaria",
+				"Primaria",
+				"Materiale",
+				"Orale"
+			],
+			"answer": "Secondaria",
+			"explanation": "È secondaria perché racconta il passato basandosi su fonti primarie studiate da altri."
+		},
+		{
+			"id": "storia-fonti-5",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché una fonte scritta va sempre datata e attribuita?",
+			"options": [
+				"Perché le fonti antiche valgono di più",
+				"Perché chi scrive e quando cambia ciò che dice",
+				"Perché lo richiede la legge sugli archivi",
+				"Perché altrimenti non si può conservare"
+			],
+			"answer": "Perché chi scrive e quando cambia ciò che dice",
+			"explanation": "La stessa battaglia raccontata dal vincitore o dallo sconfitto, subito o cent'anni dopo, non è la stessa battaglia."
+		},
+		{
+			"id": "storia-fonti-6",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Due fonti primarie dello stesso evento si contraddicono. Cosa fa uno storico?",
+			"options": [
+				"Ne fa una media e passa oltre",
+				"Scarta la più recente e tiene l'antica",
+				"Le confronta e cerca perché differiscono",
+				"Sceglie quella scritta in modo più chiaro"
+			],
+			"answer": "Le confronta e cerca perché differiscono",
+			"explanation": "La contraddizione non è un fastidio: è un indizio. Dice che qualcuno aveva un interesse, o una prospettiva diversa."
+		},
+		{
+			"id": "storia-fonti-7",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un'intervista a chi ha vissuto un evento è una fonte…",
+			"options": [
+				"Materiale",
+				"Secondaria",
+				"Iconografica",
+				"Orale"
+			],
+			"answer": "Orale",
+			"explanation": "Le fonti orali raccolgono ricordi. Sono preziose e fragili: la memoria cambia con il tempo."
+		},
+		{
+			"id": "storia-fonti-8",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché anche una fonte falsa può essere utile allo storico?",
+			"options": [
+				"Perché dice cosa qualcuno voleva far credere",
+				"Perché è più antica delle altre fonti",
+				"Perché è più facile da conservare",
+				"Perché contiene comunque dati esatti"
+			],
+			"answer": "Perché dice cosa qualcuno voleva far credere",
+			"explanation": "Un falso non racconta il fatto, ma racconta il falsario: chi l'ha fatto, quando, e a chi giovava."
+		},
+		{
+			"id": "storia-fonti-9",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un affresco che mostra una scena di caccia è una fonte…",
+			"options": [
+				"Orale e indiretta",
+				"Iconografica",
+				"Scritta e narrativa",
+				"Numerica e statistica"
+			],
+			"answer": "Iconografica",
+			"explanation": "Le fonti iconografiche sono immagini: dipinti, mosaici, incisioni. Si «leggono» guardandole."
+		},
+		{
+			"id": "storia-fonti-10",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Di un evento non resta nessuna fonte. Cosa può dire lo storico?",
+			"options": [
+				"Può ricostruirlo per analogia",
+				"Può darlo per non avvenuto",
+				"Poco o niente, e deve ammetterlo",
+				"Può dedurlo dai secoli vicini"
+			],
+			"answer": "Poco o niente, e deve ammetterlo",
+			"explanation": "Il silenzio delle fonti non è una prova. Dire «non lo sappiamo» è una risposta storica legittima."
+		},
+		{
+			"id": "storia-fonti-11",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un archivio?",
+			"options": [
+				"Il libro che raccoglie le date importanti",
+				"Lo scavo dove si trovano i reperti",
+				"Il museo che espone gli oggetti antichi",
+				"Il luogo dove si conservano i documenti"
+			],
+			"answer": "Il luogo dove si conservano i documenti",
+			"explanation": "Negli archivi finiscono registri, lettere e atti: la materia prima con cui si scrive la storia."
+		},
+		{
+			"id": "storia-fonti-12",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché gli scarti e i rifiuti antichi interessano gli archeologi?",
+			"options": [
+				"Perché raccontano la vita di tutti i giorni",
+				"Perché contengono oggetti di valore",
+				"Perché sono più facili da datare",
+				"Perché sono i resti meglio conservati"
+			],
+			"answer": "Perché raccontano la vita di tutti i giorni",
+			"explanation": "Nessuno decide come farsi ricordare buttando l'immondizia: per questo dice la verità sul cibo, sui mestieri, sulla povertà."
+		},
+		{
+			"id": "storia-fonti-13",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Una moneta antica dice allo storico soprattutto…",
+			"options": [
+				"Che lingua parlava la gente comune",
+				"Chi comandava e cosa voleva mostrare",
+				"Quanto era ricca quella popolazione",
+				"Quante persone vivevano in città"
+			],
+			"answer": "Chi comandava e cosa voleva mostrare",
+			"explanation": "Sulle monete si mettevano il volto del sovrano e i simboli del potere: erano il manifesto più diffuso che esistesse."
+		},
+		{
+			"id": "storia-civilta-14",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa hanno in comune le prime grandi civiltà?",
+			"options": [
+				"Sono nate in cima alle montagne",
+				"Sono nate tutte nello stesso anno",
+				"Sono nate vicino a grandi fiumi",
+				"Sono nate lontano dall'acqua"
+			],
+			"answer": "Sono nate vicino a grandi fiumi",
+			"explanation": "Nilo, Tigri, Eufrate, Indo, Fiume Giallo: l'acqua permetteva di coltivare e di spostarsi."
+		},
+		{
+			"id": "storia-civilta-15",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale invenzione segna il passaggio dalla preistoria alla storia?",
+			"options": [
+				"L'agricoltura",
+				"Il fuoco",
+				"La ruota",
+				"La scrittura"
+			],
+			"answer": "La scrittura",
+			"explanation": "Con la scrittura gli uomini cominciano a lasciare documenti: da lì possiamo leggere il loro racconto."
+		},
+		{
+			"id": "storia-civilta-16",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In quale zona nacquero Sumeri e Babilonesi?",
+			"options": [
+				"Mesopotamia",
+				"Valle del Nilo",
+				"Penisola italiana",
+				"Isola di Creta"
+			],
+			"answer": "Mesopotamia",
+			"explanation": "Mesopotamia significa «terra fra i fiumi»: Tigri ed Eufrate, l'attuale Iraq."
+		},
+		{
+			"id": "storia-civilta-17",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché la nascita dell'agricoltura cambiò tutto?",
+			"options": [
+				"Perché portò a scoprire i primi metalli",
+				"Perché permise di restare fermi in un luogo",
+				"Perché richiedeva molte meno persone",
+				"Perché rese il cibo molto più saporito"
+			],
+			"answer": "Perché permise di restare fermi in un luogo",
+			"explanation": "Chi coltiva resta: nascono i villaggi, le case stabili, le proprietà e i primi conflitti su di esse."
+		},
+		{
+			"id": "storia-civilta-18",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A cosa servivano i primi segni di scrittura in Mesopotamia?",
+			"options": [
+				"A raccontare le guerre vinte",
+				"A insegnare ai bambini a leggere",
+				"A registrare merci e magazzini",
+				"A scrivere poesie e canzoni"
+			],
+			"answer": "A registrare merci e magazzini",
+			"explanation": "La scrittura nasce come contabilità: quante pecore, quanto grano, di chi. La letteratura arriva molto dopo."
+		},
+		{
+			"id": "storia-civilta-19",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'era il codice di Hammurabi?",
+			"options": [
+				"Un trattato di pace fra regni",
+				"Un elenco di divinità babilonesi",
+				"Un manuale di costruzione",
+				"Una raccolta di leggi scritte"
+			],
+			"answer": "Una raccolta di leggi scritte",
+			"explanation": "Scrivere le leggi significa renderle uguali per tutti e non modificabili a piacere: è un passo enorme."
+		},
+		{
+			"id": "storia-civilta-20",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la ruota fu importante quanto l'aratro?",
+			"options": [
+				"Perché permise di trasportare pesi lontano",
+				"Perché serviva a costruire i templi",
+				"Perché rese più belle le città",
+				"Perché sostituì la forza animale"
+			],
+			"answer": "Perché permise di trasportare pesi lontano",
+			"explanation": "Coltivare di più serve a poco se non puoi spostare il raccolto: produzione e trasporto crescono insieme."
+		},
+		{
+			"id": "storia-civilta-21",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale civiltà antica si sviluppò lungo il fiume Indo?",
+			"options": [
+				"La civiltà minoica di Creta",
+				"La civiltà della valle dell'Indo",
+				"La civiltà egizia del Nilo",
+				"La civiltà cinese degli Shang"
+			],
+			"answer": "La civiltà della valle dell'Indo",
+			"explanation": "Città come Mohenjo-daro avevano strade regolari e fognature: erano pianificate, non cresciute a caso."
+		},
+		{
+			"id": "storia-civilta-22",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una civiltà, in senso storico?",
+			"options": [
+				"Un popolo che vive in modo educato",
+				"Una popolazione numerosa e in crescita",
+				"Una società con città, scrittura e organizzazione",
+				"Un gruppo che possiede molte ricchezze"
+			],
+			"answer": "Una società con città, scrittura e organizzazione",
+			"explanation": "Non è un giudizio di valore: è un insieme di caratteristiche osservabili, come vivere in città e amministrare per iscritto."
+		},
+		{
+			"id": "storia-civilta-23",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché le prime città avevano bisogno di magazzini?",
+			"options": [
+				"Per tenerci gli strumenti dei contadini",
+				"Per esporre gli oggetti più preziosi",
+				"Per ospitare i viaggiatori di passaggio",
+				"Per conservare il cibo e superare le carestie"
+			],
+			"answer": "Per conservare il cibo e superare le carestie",
+			"explanation": "Un raccolto abbondante serve a poco se marcisce: chi sa conservare sopravvive agli anni cattivi."
+		},
+		{
+			"id": "storia-civilta-24",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché nelle prime civiltà nacquero classi sociali diverse?",
+			"options": [
+				"Perché non tutti dovevano più produrre cibo",
+				"Perché il territorio era troppo grande",
+				"Perché lo imponevano le divinità",
+				"Perché alcuni erano più intelligenti"
+			],
+			"answer": "Perché non tutti dovevano più produrre cibo",
+			"explanation": "Con un surplus agricolo qualcuno può fare altro: il sacerdote, lo scriba, il soldato. Da lì nascono le differenze."
+		},
+		{
+			"id": "storia-civilta-25",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa sono le ziggurat mesopotamiche?",
+			"options": [
+				"Magazzini per conservare il grano",
+				"Templi a gradoni dedicati alle divinità",
+				"Tombe reali sotterranee",
+				"Mura di difesa delle città"
+			],
+			"answer": "Templi a gradoni dedicati alle divinità",
+			"explanation": "Salivano verso il cielo perché lì si pensava abitassero gli dèi: la religione era al centro della città."
+		},
+		{
+			"id": "storia-civilta-26",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché il bronzo cambiò la vita delle prime civiltà?",
+			"options": [
+				"Perché era più bello da guardare dell'oro",
+				"Perché era leggerissimo da trasportare",
+				"Perché diede attrezzi e armi più resistenti",
+				"Perché si trovava dappertutto in natura"
+			],
+			"answer": "Perché diede attrezzi e armi più resistenti",
+			"explanation": "Il bronzo è più duro del rame puro. E poiché serve lo stagno, spesso lontano, nascono le grandi rotte commerciali."
+		},
+		{
+			"id": "storia-civilta-27",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la scrittura cuneiforme si chiama così?",
+			"options": [
+				"Perché veniva incisa sui cunei di legno",
+				"Perché si leggeva partendo da un angolo",
+				"Perché la inventò un popolo detto cuneo",
+				"Perché i segni hanno forma di cuneo"
+			],
+			"answer": "Perché i segni hanno forma di cuneo",
+			"explanation": "Si imprimeva su tavolette d'argilla morbida con uno stilo a punta triangolare: ogni segno resta a forma di chiodo."
+		},
+		{
+			"id": "storia-egizi-28",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché il Nilo era essenziale per gli Egizi?",
+			"options": [
+				"Perché le sue piene rendevano fertile la terra",
+				"Perché conteneva molti pesci pregiati",
+				"Perché segnava il confine con i nemici",
+				"Perché era l'unica via per il deserto"
+			],
+			"answer": "Perché le sue piene rendevano fertile la terra",
+			"explanation": "Ogni anno la piena depositava limo: senza quel fango il deserto sarebbe arrivato fino alle case."
+		},
+		{
+			"id": "storia-egizi-29",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiamava la scrittura sacra degli Egizi?",
+			"options": [
+				"Cuneiforme",
+				"Geroglifica",
+				"Ideografica cinese",
+				"Alfabetica"
+			],
+			"answer": "Geroglifica",
+			"explanation": "Geroglifico significa «incisione sacra»: si usava sui monumenti e nei testi religiosi."
+		},
+		{
+			"id": "storia-egizi-30",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A che cosa servivano le piramidi?",
+			"options": [
+				"Erano templi per le cerimonie",
+				"Erano magazzini per il grano",
+				"Erano tombe monumentali dei faraoni",
+				"Erano fortezze contro i nemici"
+			],
+			"answer": "Erano tombe monumentali dei faraoni",
+			"explanation": "Servivano a proteggere il corpo e il corredo del faraone per la vita dopo la morte."
+		},
+		{
+			"id": "storia-egizi-31",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché gli Egizi praticavano la mummificazione?",
+			"options": [
+				"Per risparmiare spazio nelle tombe",
+				"Per evitare il diffondersi di malattie",
+				"Per riconoscere i defunti importanti",
+				"Per conservare il corpo per l'aldilà"
+			],
+			"answer": "Per conservare il corpo per l'aldilà",
+			"explanation": "Credevano che l'anima avesse bisogno del corpo per continuare a esistere: conservarlo era un atto religioso."
+		},
+		{
+			"id": "storia-egizi-32",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è la stele di Rosetta?",
+			"options": [
+				"Una pietra con lo stesso testo in tre scritture",
+				"La mappa del corso completo del Nilo",
+				"Una lastra con le leggi del faraone",
+				"Il primo calendario egizio conosciuto"
+			],
+			"answer": "Una pietra con lo stesso testo in tre scritture",
+			"explanation": "Avendo lo stesso testo in greco e in egizio, permise finalmente di decifrare i geroglifici."
+		},
+		{
+			"id": "storia-egizi-33",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Chi era il faraone per gli antichi Egizi?",
+			"options": [
+				"Il sacerdote più anziano del tempio",
+				"Un sovrano considerato anche divino",
+				"Il capo dell'esercito eletto ogni anno",
+				"Il proprietario di tutte le terre coltivate"
+			],
+			"answer": "Un sovrano considerato anche divino",
+			"explanation": "Non era solo un re: era il legame fra gli dèi e gli uomini, e questo giustificava il suo potere assoluto."
+		},
+		{
+			"id": "storia-egizi-34",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché gli Egizi svilupparono la geometria?",
+			"options": [
+				"Per orientare le navi sul fiume",
+				"Per decorare meglio i loro templi",
+				"Per ridisegnare i campi dopo ogni piena",
+				"Per contare le tasse dei mercanti"
+			],
+			"answer": "Per ridisegnare i campi dopo ogni piena",
+			"explanation": "La piena cancellava i confini dei terreni ogni anno: bisognava misurarli di nuovo, e da lì nasce la «misura della terra»."
+		},
+		{
+			"id": "storia-egizi-35",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Su quale materiale scrivevano principalmente gli Egizi?",
+			"options": [
+				"Tavolette d'argilla",
+				"Tavolette di cera",
+				"Pergamena di pelle",
+				"Papiro"
+			],
+			"answer": "Papiro",
+			"explanation": "Il papiro si ricavava da una pianta che cresceva lungo il Nilo: leggero, arrotolabile, ed è la radice della parola «carta»."
+		},
+		{
+			"id": "storia-metodo-36",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa vuol dire contestualizzare una fonte?",
+			"options": [
+				"Capire in che epoca e situazione è nata",
+				"Confrontarla con il libro di testo",
+				"Riassumerla nei suoi punti chiave",
+				"Tradurla nella lingua di oggi"
+			],
+			"answer": "Capire in che epoca e situazione è nata",
+			"explanation": "Una frase può cambiare senso a seconda di chi la dice, quando e a chi: senza contesto si legge male."
+		},
+		{
+			"id": "storia-metodo-37",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Uno storico trova un solo documento su un fatto. Cosa può concludere?",
+			"options": [
+				"Una verità certa, perché è scritta",
+				"Una ricostruzione provvisoria, da verificare",
+				"Che il documento è sicuramente falso",
+				"Che il fatto non è mai avvenuto"
+			],
+			"answer": "Una ricostruzione provvisoria, da verificare",
+			"explanation": "Una fonte sola può bastare a formulare un'ipotesi, non a chiuderla: serve incrocio con altre testimonianze."
+		},
+		{
+			"id": "storia-metodo-38",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché si dice che la storia si riscrive?",
+			"options": [
+				"Perché i libri vanno aggiornati per legge",
+				"Perché gli storici non sono mai d'accordo",
+				"Perché nuove fonti cambiano le ricostruzioni",
+				"Perché ogni epoca inventa il suo passato"
+			],
+			"answer": "Perché nuove fonti cambiano le ricostruzioni",
+			"explanation": "Non cambiano i fatti: cambia quello che sappiamo. Uno scavo nuovo può ribaltare una certezza di cent'anni."
+		},
+		{
+			"id": "storia-metodo-39",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un anacronismo?",
+			"options": [
+				"Raccontare i fatti in ordine sbagliato",
+				"Usare una fonte non affidabile",
+				"Confondere due date molto vicine",
+				"Attribuire a un'epoca qualcosa che non aveva"
+			],
+			"answer": "Attribuire a un'epoca qualcosa che non aveva",
+			"explanation": "Un romano con l'orologio da polso è un anacronismo evidente; giudicarne le scelte con la nostra morale è un anacronismo più sottile."
+		},
+		{
+			"id": "storia-metodo-40",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché lo storico deve dichiarare le proprie fonti?",
+			"options": [
+				"Perché altri possano controllare il lavoro",
+				"Perché lo impongono i regolamenti degli archivi",
+				"Perché così il testo risulta più lungo",
+				"Perché è una regola di cortesia fra studiosi"
+			],
+			"answer": "Perché altri possano controllare il lavoro",
+			"explanation": "Una ricostruzione senza fonti dichiarate non è verificabile, e ciò che non si può controllare non si può correggere."
+		},
+		{
+			"id": "storia-metodo-41",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che differenza c'è fra un fatto e un'interpretazione?",
+			"options": [
+				"Il fatto è scritto, l'interpretazione è orale",
+				"Il fatto è accaduto, l'interpretazione lo spiega",
+				"Non c'è differenza, sono sinonimi",
+				"Il fatto è antico, l'interpretazione recente"
+			],
+			"answer": "Il fatto è accaduto, l'interpretazione lo spiega",
+			"explanation": "Che Roma sia caduta nel 476 è un fatto; perché sia caduta è interpretazione, e su quella gli storici discutono ancora."
+		},
+		{
+			"id": "storia-metodo-42",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché è utile studiare anche la storia della gente comune?",
+			"options": [
+				"Perché i re non lasciano documenti",
+				"Perché è più facile da ricostruire",
+				"Perché racconta come si viveva davvero",
+				"Perché ci sono più fonti disponibili"
+			],
+			"answer": "Perché racconta come si viveva davvero",
+			"explanation": "La storia dei soli sovrani spiega le decisioni, non la vita: il cibo, il lavoro e le case dicono il resto."
+		},
+		{
+			"id": "storia-preistoria-43",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché il periodo prima della scrittura si chiama preistoria?",
+			"options": [
+				"Perché non esistevano ancora le città",
+				"Perché gli uomini non pensavano ancora",
+				"Perché non era ancora nata l'agricoltura",
+				"Perché mancano documenti scritti da studiare"
+			],
+			"answer": "Perché mancano documenti scritti da studiare",
+			"explanation": "Lo studiamo solo con le fonti materiali: ossa, strumenti, pitture. Nessuno ci ha lasciato il proprio racconto."
+		},
+		{
+			"id": "storia-preistoria-44",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?",
+			"options": [
+				"Il fuoco",
+				"Il bronzo",
+				"La ruota",
+				"L'arco"
+			],
+			"answer": "Il fuoco",
+			"explanation": "Il fuoco allunga la giornata, rende il cibo digeribile e tiene lontani gli animali: cambia tutto."
+		},
+		{
+			"id": "storia-preistoria-45",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa distingue il Paleolitico dal Neolitico?",
+			"options": [
+				"Nel Neolitico si scopre l'uso del fuoco",
+				"Nel Neolitico nascono agricoltura e allevamento",
+				"Nel Paleolitico si lavora già il ferro",
+				"Nel Paleolitico si vive già nelle città"
+			],
+			"answer": "Nel Neolitico nascono agricoltura e allevamento",
+			"explanation": "Paleolitico significa «pietra antica»: si caccia e si raccoglie. Nel Neolitico si produce il cibo, e si diventa stanziali."
+		},
+		{
+			"id": "storia-preistoria-46",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché gli uomini del Paleolitico erano nomadi?",
+			"options": [
+				"Perché cercavano metalli preziosi",
+				"Perché il clima era sempre uguale",
+				"Perché seguivano gli animali e le stagioni",
+				"Perché temevano le altre tribù"
+			],
+			"answer": "Perché seguivano gli animali e le stagioni",
+			"explanation": "Chi vive di caccia e raccolta deve spostarsi dove c'è cibo: restare fermi diventa possibile solo coltivando."
+		},
+		{
+			"id": "storia-preistoria-47",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A che cosa servivano probabilmente le pitture rupestri?",
+			"options": [
+				"A segnare i confini fra i gruppi",
+				"A insegnare a disegnare ai bambini",
+				"A decorare le pareti delle case",
+				"Avevano un valore rituale e simbolico"
+			],
+			"answer": "Avevano un valore rituale e simbolico",
+			"explanation": "Stanno spesso in grotte profonde e scomode, non nei luoghi in cui si viveva: la spiegazione decorativa non basta."
+		},
+		{
+			"id": "storia-preistoria-48",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un menhir?",
+			"options": [
+				"Una grande pietra piantata verticalmente",
+				"Un utensile per lavorare la pelle",
+				"Una capanna di pietra e paglia",
+				"Una tomba scavata nella roccia"
+			],
+			"answer": "Una grande pietra piantata verticalmente",
+			"explanation": "Erigerlo richiedeva molte persone coordinate: dice che quei gruppi sapevano organizzarsi per uno scopo comune."
+		},
+		{
+			"id": "storia-preistoria-49",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la lavorazione dei metalli segna una svolta?",
+			"options": [
+				"Perché fa nascere subito la scrittura",
+				"Perché dà strumenti migliori e nuovi scambi",
+				"Perché elimina le guerre fra gruppi",
+				"Perché rende inutile l'agricoltura"
+			],
+			"answer": "Perché dà strumenti migliori e nuovi scambi",
+			"explanation": "Gli attrezzi di metallo durano e tagliano meglio; e poiché i minerali sono in pochi luoghi, nascono commerci a lunga distanza."
+		},
+		{
+			"id": "storia-grecia-50",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'era una polis greca?",
+			"options": [
+				"Un'assemblea di soli anziani",
+				"Un tempio dedicato agli dèi",
+				"Una città-stato indipendente",
+				"Una piazza per il mercato"
+			],
+			"answer": "Una città-stato indipendente",
+			"explanation": "Ogni polis aveva leggi, monete ed esercito propri: la Grecia era un insieme di città, non uno Stato unico."
+		},
+		{
+			"id": "storia-grecia-51",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In quale città nacque la democrazia antica?",
+			"options": [
+				"Corinto",
+				"Tebe",
+				"Sparta",
+				"Atene"
+			],
+			"answer": "Atene",
+			"explanation": "Ad Atene i cittadini decidevano in assemblea. «Cittadini» però escludeva donne, schiavi e stranieri."
+		},
+		{
+			"id": "storia-grecia-52",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa la parola «democrazia»?",
+			"options": [
+				"Governo del popolo",
+				"Governo di uno solo",
+				"Governo dei più ricchi",
+				"Governo dei sacerdoti"
+			],
+			"answer": "Governo del popolo",
+			"explanation": "Da «demos» (popolo) e «kratos» (potere). Il nome dice il principio: le decisioni spettano ai cittadini."
+		},
+		{
+			"id": "storia-grecia-53",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Per che cosa era famosa Sparta?",
+			"options": [
+				"Per i commerci con tutto il Mediterraneo",
+				"Per l'educazione militare durissima",
+				"Per i suoi teatri e le sue commedie",
+				"Per le scuole di filosofia e matematica"
+			],
+			"answer": "Per l'educazione militare durissima",
+			"explanation": "A Sparta il cittadino era prima di tutto un soldato: l'addestramento cominciava da bambini e durava tutta la vita."
+		},
+		{
+			"id": "storia-grecia-54",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché i Greci fondarono colonie nel Mediterraneo?",
+			"options": [
+				"Perché cercavano nuovi dèi da adorare",
+				"Perché fuggivano da un'epidemia",
+				"Perché la terra coltivabile in patria era poca",
+				"Perché volevano conquistare Roma"
+			],
+			"answer": "Perché la terra coltivabile in patria era poca",
+			"explanation": "Il territorio greco è montuoso e povero: chi non aveva terra partiva. Così nacque anche la Magna Grecia in Italia."
+		},
+		{
+			"id": "storia-grecia-55",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa erano i Giochi olimpici antichi?",
+			"options": [
+				"Feste per il raccolto dell'anno",
+				"Prove per scegliere i governanti",
+				"Battaglie simulate fra due città",
+				"Gare sportive in onore di Zeus"
+			],
+			"answer": "Gare sportive in onore di Zeus",
+			"explanation": "Si tenevano a Olimpia ogni quattro anni, e durante i giochi le guerre fra le poleis venivano sospese."
+		},
+		{
+			"id": "storia-grecia-56",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché il teatro era importante nella Grecia antica?",
+			"options": [
+				"Perché faceva discutere la città sui suoi problemi",
+				"Perché era riservato ai sacerdoti",
+				"Perché sostituiva le assemblee politiche",
+				"Perché serviva solo a far divertire"
+			],
+			"answer": "Perché faceva discutere la città sui suoi problemi",
+			"explanation": "Le tragedie mettevano in scena giustizia, potere e destino davanti a migliaia di cittadini: era spettacolo e riflessione pubblica."
+		},
+		{
+			"id": "storia-cronologia-57",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A quale secolo appartiene l'anno 1789?",
+			"options": [
+				"XVII secolo",
+				"XVIII secolo",
+				"XVI secolo",
+				"XIX secolo"
+			],
+			"answer": "XVIII secolo",
+			"explanation": "Gli anni dal 1701 al 1800 formano il XVIII secolo: si prendono le centinaia e si aggiunge uno."
+		},
+		{
+			"id": "storia-cronologia-58",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale anno viene prima: 300 a.C. o 100 a.C.?",
+			"options": [
+				"Non è determinabile",
+				"100 a.C.",
+				"300 a.C.",
+				"Sono contemporanei"
+			],
+			"answer": "300 a.C.",
+			"explanation": "Prima di Cristo si conta all'indietro: più il numero è grande, più l'anno è lontano nel passato."
+		},
+		{
+			"id": "storia-cronologia-59",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Quanti anni passano fra il 50 a.C. e il 50 d.C.?",
+			"options": [],
+			"answer": "100",
+			"explanation": "Cinquanta prima e cinquanta dopo, senza anno zero fra i due sistemi: un secolo esatto."
+		},
+		{
+			"id": "storia-cronologia-60",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti secoli ci sono in un millennio?",
+			"options": [],
+			"answer": "10",
+			"explanation": "Mille anni divisi in secoli da cento: dieci secoli fanno un millennio."
+		},
+		{
+			"id": "storia-cronologia-61",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In quale secolo si colloca l'anno 1900?",
+			"options": [
+				"XX secolo",
+				"XVIII secolo",
+				"XXI secolo",
+				"XIX secolo"
+			],
+			"answer": "XIX secolo",
+			"explanation": "Il 1900 chiude il XIX secolo: il XX comincia con il 1901, perché si conta da 1 e non da 0."
+		},
+		{
+			"id": "storia-cronologia-62",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una linea del tempo?",
+			"options": [
+				"Uno schema che mette gli eventi in ordine",
+				"L'elenco delle date più importanti",
+				"Il racconto di un secolo intero",
+				"La durata di una singola epoca"
+			],
+			"answer": "Uno schema che mette gli eventi in ordine",
+			"explanation": "Serve a vedere la successione e le distanze: quali fatti sono vicini, quali lontani, cosa è avvenuto insieme."
+		},
+		{
+			"id": "storia-roma-63",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Chi poteva votare nella Roma repubblicana?",
+			"options": [
+				"Chiunque avesse prestato servizio",
+				"Solo i cittadini maschi liberi",
+				"Soltanto i senatori e i loro figli",
+				"Tutti gli abitanti della città"
+			],
+			"answer": "Solo i cittadini maschi liberi",
+			"explanation": "Donne, schiavi e stranieri restavano fuori. E il voto pesava di più per i cittadini più ricchi."
+		},
+		{
+			"id": "storia-roma-64",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A che cosa serviva una via consolare romana?",
+			"options": [
+				"A segnare i confini dell'impero",
+				"A collegare i templi principali",
+				"A spostare rapidamente eserciti e merci",
+				"A far defluire l'acqua piovana"
+			],
+			"answer": "A spostare rapidamente eserciti e merci",
+			"explanation": "Strade dritte e lastricate significano legioni che arrivano prima: l'impero si teneva insieme anche così."
+		},
+		{
+			"id": "storia-roma-65",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché la cittadinanza romana era così ambita?",
+			"options": [
+				"Perché esentava da qualsiasi tassa",
+				"Perché permetteva di non fare il soldato",
+				"Perché consentiva di possedere schiavi",
+				"Perché dava diritti e protezione legale"
+			],
+			"answer": "Perché dava diritti e protezione legale",
+			"explanation": "Un cittadino non poteva essere condannato senza processo e poteva appellarsi: era una garanzia enorme per l'epoca."
+		},
+		{
+			"id": "storia-roma-66",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'erano le terme romane?",
+			"options": [
+				"Bagni pubblici e luogo di incontro",
+				"Magazzini per conservare le derrate",
+				"Palestre riservate ai soldati",
+				"Templi dedicati alle divinità dell'acqua"
+			],
+			"answer": "Bagni pubblici e luogo di incontro",
+			"explanation": "Ci si lavava, ma soprattutto si parlava d'affari e di politica: erano il centro della vita sociale."
+		},
+		{
+			"id": "storia-roma-67",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché l'impero romano riuscì a durare secoli?",
+			"options": [
+				"Perché non ebbe mai nemici veri",
+				"Per l'organizzazione di leggi, strade ed esercito",
+				"Perché tutti parlavano la stessa lingua",
+				"Perché il territorio era piccolo"
+			],
+			"answer": "Per l'organizzazione di leggi, strade ed esercito",
+			"explanation": "Non bastava conquistare: servivano un diritto comune, vie di comunicazione e un esercito stabile per tenere insieme il tutto."
+		},
+		{
+			"id": "storia-medioevo-68",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Chi lavorava la terra del feudo?",
+			"options": [
+				"I soldati del signore quando non combattevano",
+				"I monaci che vivevano nei monasteri vicini",
+				"I contadini, in gran parte servi della gleba",
+				"Gli abitanti liberi delle città vicine"
+			],
+			"answer": "I contadini, in gran parte servi della gleba",
+			"explanation": "I servi della gleba erano legati alla terra: non potevano lasciarla, e passavano al signore successivo insieme al campo."
+		},
+		{
+			"id": "storia-medioevo-69",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa facevano i monaci amanuensi?",
+			"options": [
+				"Insegnavano nelle scuole cittadine",
+				"Curavano i malati negli ospedali",
+				"Costruivano le grandi cattedrali",
+				"Copiavano a mano i libri antichi"
+			],
+			"answer": "Copiavano a mano i libri antichi",
+			"explanation": "Prima della stampa ogni copia era scritta a mano: senza quel lavoro paziente molti testi antichi sarebbero andati perduti."
+		},
+		{
+			"id": "storia-medioevo-70",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché nel Basso Medioevo rinascono le città?",
+			"options": [
+				"Perché ripartono commerci e artigianato",
+				"Perché la popolazione smette di crescere",
+				"Perché i signori le fanno costruire",
+				"Perché i castelli vengono abbandonati"
+			],
+			"answer": "Perché ripartono commerci e artigianato",
+			"explanation": "Con più scambi servono luoghi dove vendere e produrre: nascono i mercati, le corporazioni e i Comuni."
+		},
+		{
+			"id": "storia-medioevo-71",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'era un Comune medievale italiano?",
+			"options": [
+				"Un accordo fra due signori vicini",
+				"Una città che si governava da sé",
+				"Un territorio dato alla Chiesa",
+				"Un villaggio di contadini liberi"
+			],
+			"answer": "Una città che si governava da sé",
+			"explanation": "I cittadini si organizzavano per decidere da soli, spesso in conflitto con l'imperatore o con il vescovo."
+		},
+		{
+			"id": "storia-medioevo-72",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale invenzione della metà del Quattrocento cambiò la diffusione del sapere?",
+			"options": [
+				"L'orologio meccanico da torre",
+				"Gli occhiali da lettura",
+				"La stampa a caratteri mobili",
+				"La bussola per la navigazione"
+			],
+			"answer": "La stampa a caratteri mobili",
+			"explanation": "Copiare un libro richiedeva mesi; stamparne centinaia diventa questione di giorni. Le idee cominciano a viaggiare."
+		},
+		{
+			"id": "storia-metodo-73",
 			"subject": "storia",
 			"topic": "metodo",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Chi studia il passato usando le tracce che ci ha lasciato?",
 			"options": [
-				"Lo storico",
 				"L'astronomo",
+				"Il meteorologo",
 				"Il geologo",
-				"Il meteorologo"
+				"Lo storico"
 			],
 			"answer": "Lo storico",
 			"explanation": "Lo storico ricostruisce il passato interpretando le fonti."
 		},
 		{
-			"id": "storia-metodo-1",
+			"id": "storia-metodo-74",
 			"subject": "storia",
 			"topic": "metodo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Che cosa sono le fonti storiche?",
 			"options": [
-				"Le previsioni sul futuro lontano",
 				"Le tracce che ci parlano del passato",
 				"Le sorgenti d'acqua di montagna",
-				"Soltanto i libri stampati oggi"
+				"Soltanto i libri stampati oggi",
+				"Le previsioni sul futuro lontano"
 			],
 			"answer": "Le tracce che ci parlano del passato",
 			"explanation": "Documenti, oggetti, resti e racconti sono fonti: ci fanno conoscere il passato."
 		},
 		{
-			"id": "storia-metodo-2",
+			"id": "storia-metodo-75",
 			"subject": "storia",
 			"topic": "metodo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Una piramide egizia è un esempio di fonte…",
 			"options": [
-				"scritta",
-				"orale",
+				"immaginaria",
 				"materiale",
-				"immaginaria"
+				"orale",
+				"scritta"
 			],
 			"answer": "materiale",
 			"explanation": "Le fonti materiali sono oggetti e costruzioni; quelle scritte sono i testi."
 		},
 		{
-			"id": "storia-cronologia-3",
+			"id": "storia-cronologia-76",
 			"subject": "storia",
 			"topic": "cronologia",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quanti anni dura un secolo?",
 			"options": [
-				"Mille",
-				"Cinquanta",
 				"Dieci",
-				"Cento"
+				"Cinquanta",
+				"Cento",
+				"Mille"
 			],
 			"answer": "Cento",
 			"explanation": "Un secolo è un periodo di cento anni."
 		},
 		{
-			"id": "storia-cronologia-4",
+			"id": "storia-cronologia-77",
 			"subject": "storia",
 			"topic": "cronologia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si indicano gli anni prima della nascita di Cristo?",
 			"options": [
-				"a.C.",
-				"d.C.",
+				"d.o.c.",
 				"km",
-				"d.o.c."
+				"d.C.",
+				"a.C."
 			],
 			"answer": "a.C.",
 			"explanation": "a.C. significa 'avanti Cristo'; d.C. significa 'dopo Cristo'."
 		},
 		{
-			"id": "storia-cronologia-5",
+			"id": "storia-cronologia-78",
 			"subject": "storia",
 			"topic": "cronologia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "A quale secolo appartiene l'anno 1492?",
 			"options": [
-				"XIII secolo",
 				"XV secolo",
-				"XVI secolo",
-				"XIV secolo"
+				"XIV secolo",
+				"XIII secolo",
+				"XVI secolo"
 			],
 			"answer": "XV secolo",
 			"explanation": "Gli anni dal 1401 al 1500 formano il XV secolo (il '400)."
 		},
 		{
-			"id": "storia-preistoria-6",
+			"id": "storia-preistoria-79",
 			"subject": "storia",
 			"topic": "preistoria",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Che cosa distingue la Preistoria dalla Storia?",
 			"options": [
-				"L'assenza del Sole",
-				"L'assenza degli animali",
+				"L'assenza del fuoco",
 				"L'assenza della scrittura",
-				"L'assenza del fuoco"
+				"L'assenza del Sole",
+				"L'assenza degli animali"
 			],
 			"answer": "L'assenza della scrittura",
 			"explanation": "La Storia inizia con l'invenzione della scrittura; prima c'è la Preistoria."
 		},
 		{
-			"id": "storia-preistoria-7",
+			"id": "storia-preistoria-80",
 			"subject": "storia",
 			"topic": "preistoria",
 			"difficulty": 2,
@@ -124,111 +1282,111 @@
 			"prompt": "Di che cosa viveva soprattutto l'uomo del Paleolitico?",
 			"options": [
 				"Agricoltura intensiva",
-				"Allevamento in stalla",
 				"Commercio con l'estero",
-				"Caccia e raccolta"
+				"Caccia e raccolta",
+				"Allevamento in stalla"
 			],
 			"answer": "Caccia e raccolta",
 			"explanation": "Nel Paleolitico l'uomo era nomade e viveva di caccia, pesca e raccolta."
 		},
 		{
-			"id": "storia-preistoria-8",
+			"id": "storia-preistoria-81",
 			"subject": "storia",
 			"topic": "preistoria",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale grande scoperta segnò il passaggio al Neolitico?",
 			"options": [
-				"L'agricoltura",
-				"L'elettricità",
 				"La stampa",
-				"La ruota a motore"
+				"L'elettricità",
+				"La ruota a motore",
+				"L'agricoltura"
 			],
 			"answer": "L'agricoltura",
 			"explanation": "Con l'agricoltura l'uomo diventò sedentario e nacquero i primi villaggi."
 		},
 		{
-			"id": "storia-preistoria-9",
+			"id": "storia-preistoria-82",
 			"subject": "storia",
 			"topic": "preistoria",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Da quale metallo prende il nome l'Età del Bronzo?",
 			"options": [
-				"Dall'oro",
 				"Dal bronzo",
 				"Dal ferro",
-				"Dall'argento"
+				"Dall'argento",
+				"Dall'oro"
 			],
 			"answer": "Dal bronzo",
 			"explanation": "Il bronzo è una lega di rame e stagno: diede il nome a quell'età."
 		},
 		{
-			"id": "storia-egizi-10",
+			"id": "storia-egizi-83",
 			"subject": "storia",
 			"topic": "egizi",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamava il re dell'antico Egitto?",
 			"options": [
-				"Console",
-				"Doge",
+				"Imperatore",
 				"Faraone",
-				"Imperatore"
+				"Console",
+				"Doge"
 			],
 			"answer": "Faraone",
 			"explanation": "Il faraone era il sovrano dell'Egitto, considerato quasi un dio."
 		},
 		{
-			"id": "storia-egizi-11",
+			"id": "storia-egizi-84",
 			"subject": "storia",
 			"topic": "egizi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Lungo quale fiume nacque la civiltà egizia?",
 			"options": [
-				"Il Po",
 				"Il Danubio",
 				"Il Tevere",
-				"Il Nilo"
+				"Il Nilo",
+				"Il Po"
 			],
 			"answer": "Il Nilo",
 			"explanation": "La civiltà egizia fiorì lungo le rive del Nilo."
 		},
 		{
-			"id": "storia-egizi-12",
+			"id": "storia-egizi-85",
 			"subject": "storia",
 			"topic": "egizi",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Perché il Nilo era fondamentale per gli Egizi?",
 			"options": [
-				"Perché con le piene rendeva fertili i campi",
-				"Perché era sempre gelato tutto l'anno",
 				"Perché era pieno di pepite d'oro",
-				"Perché non aveva mai una goccia d'acqua"
+				"Perché non aveva mai una goccia d'acqua",
+				"Perché era sempre gelato tutto l'anno",
+				"Perché con le piene rendeva fertili i campi"
 			],
 			"answer": "Perché con le piene rendeva fertili i campi",
 			"explanation": "Le piene del Nilo lasciavano fango fertile: permettevano l'agricoltura."
 		},
 		{
-			"id": "storia-egizi-13",
+			"id": "storia-egizi-86",
 			"subject": "storia",
 			"topic": "egizi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamava la scrittura degli antichi Egizi?",
 			"options": [
-				"Braille",
 				"Geroglifici",
+				"Numeri romani",
 				"Alfabeto latino",
-				"Numeri romani"
+				"Braille"
 			],
 			"answer": "Geroglifici",
 			"explanation": "Gli Egizi scrivevano con i geroglifici, piccoli disegni-simbolo."
 		},
 		{
-			"id": "storia-grecia-14",
+			"id": "storia-grecia-87",
 			"subject": "storia",
 			"topic": "grecia",
 			"difficulty": 2,
@@ -236,79 +1394,79 @@
 			"prompt": "Quale città greca era famosa per i suoi guerrieri e la disciplina?",
 			"options": [
 				"Atene",
-				"Tebe",
 				"Sparta",
+				"Tebe",
 				"Corinto"
 			],
 			"answer": "Sparta",
 			"explanation": "A Sparta l'educazione era tutta rivolta alla vita militare."
 		},
 		{
-			"id": "storia-grecia-15",
+			"id": "storia-grecia-88",
 			"subject": "storia",
 			"topic": "grecia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In quale città greca nacque la democrazia?",
 			"options": [
-				"Micene",
 				"Olimpia",
-				"Sparta",
-				"Atene"
+				"Micene",
+				"Atene",
+				"Sparta"
 			],
 			"answer": "Atene",
 			"explanation": "Ad Atene i cittadini partecipavano alle decisioni: nacque la democrazia."
 		},
 		{
-			"id": "storia-grecia-16",
+			"id": "storia-grecia-89",
 			"subject": "storia",
 			"topic": "grecia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamavano le città-stato indipendenti della Grecia antica?",
 			"options": [
-				"Pòleis",
-				"Province",
 				"Regioni",
-				"Contee"
+				"Province",
+				"Contee",
+				"Pòleis"
 			],
 			"answer": "Pòleis",
 			"explanation": "La Grecia era divisa in tante pòleis, città-stato indipendenti."
 		},
 		{
-			"id": "storia-grecia-17",
+			"id": "storia-grecia-90",
 			"subject": "storia",
 			"topic": "grecia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "In quale luogo si tenevano gli antichi Giochi Olimpici?",
 			"options": [
-				"Ad Alessandria",
 				"A Olimpia",
-				"A Cartagine",
-				"A Roma"
+				"Ad Alessandria",
+				"A Roma",
+				"A Cartagine"
 			],
 			"answer": "A Olimpia",
 			"explanation": "I Giochi si svolgevano a Olimpia, in onore del dio Zeus."
 		},
 		{
-			"id": "storia-roma-18",
+			"id": "storia-roma-91",
 			"subject": "storia",
 			"topic": "roma",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale lingua parlavano gli antichi Romani?",
 			"options": [
-				"L'italiano",
-				"L'inglese",
+				"Il greco",
 				"Il latino",
-				"Il greco"
+				"L'italiano",
+				"L'inglese"
 			],
 			"answer": "Il latino",
 			"explanation": "I Romani parlavano latino, da cui deriva anche l'italiano."
 		},
 		{
-			"id": "storia-roma-19",
+			"id": "storia-roma-92",
 			"subject": "storia",
 			"topic": "roma",
 			"difficulty": 2,
@@ -317,38 +1475,38 @@
 			"options": [
 				"Annibale",
 				"Cesare",
-				"Enea",
-				"Romolo"
+				"Romolo",
+				"Enea"
 			],
 			"answer": "Romolo",
 			"explanation": "La leggenda narra che Roma fu fondata da Romolo, con il fratello Remo."
 		},
 		{
-			"id": "storia-roma-20",
+			"id": "storia-roma-93",
 			"subject": "storia",
 			"topic": "roma",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In quale anno la tradizione colloca la fondazione di Roma?",
 			"options": [
-				"753 a.C.",
 				"476 d.C.",
 				"1492 d.C.",
-				"100 d.C."
+				"100 d.C.",
+				"753 a.C."
 			],
 			"answer": "753 a.C.",
 			"explanation": "La tradizione fissa la nascita di Roma nel 753 a.C."
 		},
 		{
-			"id": "storia-roma-21",
+			"id": "storia-roma-94",
 			"subject": "storia",
 			"topic": "roma",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Dopo la monarchia, quale forma di governo ebbe Roma?",
 			"options": [
-				"La democrazia diretta",
 				"La repubblica",
+				"La democrazia diretta",
 				"Il feudalesimo",
 				"L'anarchia"
 			],
@@ -356,129 +1514,129 @@
 			"explanation": "Cacciato l'ultimo re, Roma diventò una repubblica guidata dai consoli."
 		},
 		{
-			"id": "storia-roma-22",
+			"id": "storia-roma-95",
 			"subject": "storia",
 			"topic": "roma",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamava l'assemblea dei senatori a Roma?",
 			"options": [
-				"Il Colosseo",
 				"La Curia dei re",
 				"Il Senato",
+				"Il Colosseo",
 				"Il Foro"
 			],
 			"answer": "Il Senato",
 			"explanation": "Il Senato riuniva i patrizi e consigliava chi governava Roma."
 		},
 		{
-			"id": "storia-roma-23",
+			"id": "storia-roma-96",
 			"subject": "storia",
 			"topic": "roma",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Chi guidava l'Impero Romano?",
 			"options": [
-				"Il presidente",
-				"Il faraone",
 				"Il doge",
-				"L'imperatore"
+				"Il presidente",
+				"L'imperatore",
+				"Il faraone"
 			],
 			"answer": "L'imperatore",
 			"explanation": "Dopo la repubblica, Roma fu guidata da un imperatore, il primo fu Augusto."
 		},
 		{
-			"id": "storia-medioevo-24",
+			"id": "storia-medioevo-97",
 			"subject": "storia",
 			"topic": "medioevo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale evento segna l'inizio del Medioevo?",
 			"options": [
-				"La caduta dell'Impero Romano d'Occidente",
 				"L'unità d'Italia con i Savoia",
 				"La scoperta dell'America nel 1492",
-				"La fondazione della città di Roma"
+				"La fondazione della città di Roma",
+				"La caduta dell'Impero Romano d'Occidente"
 			],
 			"answer": "La caduta dell'Impero Romano d'Occidente",
 			"explanation": "Il Medioevo inizia nel 476 d.C., con la caduta dell'Impero Romano d'Occidente."
 		},
 		{
-			"id": "storia-medioevo-25",
+			"id": "storia-medioevo-98",
 			"subject": "storia",
 			"topic": "medioevo",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?",
 			"options": [
-				"Impero",
 				"Feudalesimo",
 				"Democrazia",
-				"Repubblica"
+				"Repubblica",
+				"Impero"
 			],
 			"answer": "Feudalesimo",
 			"explanation": "Nel feudalesimo il signore concedeva un feudo in cambio di fedeltà e aiuto militare."
 		},
 		{
-			"id": "storia-medioevo-26",
+			"id": "storia-medioevo-99",
 			"subject": "storia",
 			"topic": "medioevo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "A che cosa serviva soprattutto un castello medievale?",
 			"options": [
-				"A coltivare il grano nei campi",
 				"A conservare l'acqua piovana",
 				"A difendersi dagli attacchi",
-				"A fare gare sportive fra nobili"
+				"A fare gare sportive fra nobili",
+				"A coltivare il grano nei campi"
 			],
 			"answer": "A difendersi dagli attacchi",
 			"explanation": "Il castello, con mura e torri, proteggeva il signore e gli abitanti."
 		},
 		{
-			"id": "storia-medioevo-27",
+			"id": "storia-medioevo-100",
 			"subject": "storia",
 			"topic": "medioevo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Chi copiava a mano i libri nei monasteri medievali?",
 			"options": [
-				"I cavalieri armati",
 				"I contadini del feudo",
 				"I mercanti stranieri",
-				"I monaci amanuensi"
+				"I monaci amanuensi",
+				"I cavalieri armati"
 			],
 			"answer": "I monaci amanuensi",
 			"explanation": "I monaci amanuensi ricopiavano a mano i testi, custodendo il sapere."
 		},
 		{
-			"id": "storia-medioevo-28",
+			"id": "storia-medioevo-101",
 			"subject": "storia",
 			"topic": "medioevo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamavano i guerrieri a cavallo al servizio di un signore?",
 			"options": [
-				"Cavalieri",
-				"Faraoni",
+				"Legionari",
 				"Consoli",
-				"Legionari"
+				"Faraoni",
+				"Cavalieri"
 			],
 			"answer": "Cavalieri",
 			"explanation": "I cavalieri combattevano a cavallo e giuravano fedeltà al loro signore."
 		},
 		{
-			"id": "storia-medioevo-29",
+			"id": "storia-medioevo-102",
 			"subject": "storia",
 			"topic": "medioevo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Dove si conservava e si copiava il sapere nell'Alto Medioevo?",
 			"options": [
-				"Nei supermercati",
 				"Nei monasteri",
 				"Nei porti",
-				"Nelle fabbriche"
+				"Nelle fabbriche",
+				"Nei supermercati"
 			],
 			"answer": "Nei monasteri",
 			"explanation": "I monasteri furono centri di cultura: vi si custodivano e copiavano i libri."
@@ -812,8 +1970,8 @@
 			"prompt": "A quale secolo appartiene l'anno 1215?",
 			"options": [
 				"XI secolo",
-				"XII secolo",
 				"XIII secolo",
+				"XII secolo",
 				"XIV secolo"
 			],
 			"answer": "XIII secolo",
@@ -829,8 +1987,8 @@
 			"options": [
 				"Le scarta tutte e due",
 				"Sceglie la più antica e basta",
-				"Sceglie la più lunga",
-				"Le confronta e ne cerca altre"
+				"Le confronta e ne cerca altre",
+				"Sceglie la più lunga"
 			],
 			"answer": "Le confronta e ne cerca altre",
 			"explanation": "Il confronto fra fonti è il mestiere dello storico: una fonte sola non basta mai."
@@ -843,10 +2001,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa vuol dire che una fonte è «di parte»?",
 			"options": [
-				"Racconta i fatti dal punto di vista di chi la scrive",
 				"Contiene almeno un errore di data o di nome",
 				"È stata scritta molti secoli dopo i fatti",
-				"Racconta soltanto le battaglie e le guerre"
+				"Racconta soltanto le battaglie e le guerre",
+				"Racconta i fatti dal punto di vista di chi la scrive"
 			],
 			"answer": "Racconta i fatti dal punto di vista di chi la scrive",
 			"explanation": "Una fonte di parte non è per forza falsa: va letta sapendo chi l'ha scritta e perché."
@@ -859,8 +2017,8 @@
 			"format": "multiple_choice",
 			"prompt": "Perché un'iscrizione su pietra arriva fino a noi più spesso di un papiro?",
 			"options": [
-				"I papiri venivano distrutti apposta dai nemici",
 				"La pietra resiste all'acqua, al fuoco e al tempo",
+				"I papiri venivano distrutti apposta dai nemici",
 				"Sulla pietra si scriveva con più attenzione",
 				"Le iscrizioni venivano copiate in molte copie"
 			],
@@ -876,8 +2034,8 @@
 			"prompt": "In che anno cadde l'Impero Romano d'Occidente?",
 			"options": [
 				"753 a.C.",
-				"800 d.C.",
 				"476 d.C.",
+				"800 d.C.",
 				"1492"
 			],
 			"answer": "476 d.C.",
@@ -893,8 +2051,8 @@
 			"options": [
 				"Un tempio dedicato a Zeus",
 				"Una grande piazza del mercato",
-				"Una nave da guerra",
-				"Una città-stato indipendente"
+				"Una città-stato indipendente",
+				"Una nave da guerra"
 			],
 			"answer": "Una città-stato indipendente",
 			"explanation": "Ogni polis aveva leggi e governo propri: Atene e Sparta erano due polis molto diverse fra loro."
@@ -907,10 +2065,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa distingueva Sparta da Atene?",
 			"options": [
-				"Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica",
 				"Sparta viveva di commercio marittimo, Atene di agricoltura",
 				"Sparta sorgeva sul mare, Atene in mezzo alle montagne dell'interno",
-				"Sparta era governata dal popolo intero, Atene da un solo re"
+				"Sparta era governata dal popolo intero, Atene da un solo re",
+				"Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica"
 			],
 			"answer": "Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica",
 			"explanation": "Due modi opposti di stare al mondo: a Sparta si cresceva per combattere, ad Atene per discutere in assemblea."
@@ -923,8 +2081,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'era il feudo?",
 			"options": [
-				"Un castello costruito in cima a una collina",
 				"Una terra concessa da un signore in cambio di fedeltà",
+				"Un castello costruito in cima a una collina",
 				"Una moneta d'oro coniata dall'imperatore stesso",
 				"Una tassa che i contadini pagavano sul sale"
 			],
@@ -940,8 +2098,8 @@
 			"prompt": "Che cosa furono i Comuni in Italia?",
 			"options": [
 				"Porti concessi in uso dall'imperatore",
-				"Monasteri costruiti fuori dalle mura",
 				"Città che si diedero un governo proprio",
+				"Monasteri costruiti fuori dalle mura",
 				"Eserciti di soldati pagati dai signori"
 			],
 			"answer": "Città che si diedero un governo proprio",
@@ -957,8 +2115,8 @@
 			"options": [
 				"A curare le malattie con le erbe del Nilo",
 				"A misurare il tempo con le stagioni del Nilo",
-				"A trasportare i corpi fino alle piramidi",
-				"A conservare il corpo per la vita dopo la morte"
+				"A conservare il corpo per la vita dopo la morte",
+				"A trasportare i corpi fino alle piramidi"
 			],
 			"answer": "A conservare il corpo per la vita dopo la morte",
 			"explanation": "Gli Egizi credevano che l'anima avesse bisogno del corpo anche dopo la morte."
@@ -971,10 +2129,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa cambia con la nascita dell'agricoltura nel Neolitico?",
 			"options": [
-				"Gli uomini smettono di spostarsi e nascono i villaggi",
 				"Nascono i primi imperi con un re e un esercito",
 				"Gli uomini imparano ad accendere il fuoco",
-				"Si impara a fondere il ferro e a forgiare le armi"
+				"Si impara a fondere il ferro e a forgiare le armi",
+				"Gli uomini smettono di spostarsi e nascono i villaggi"
 			],
 			"answer": "Gli uomini smettono di spostarsi e nascono i villaggi",
 			"explanation": "Coltivare obbliga a restare: da nomadi si diventa stanziali, ed è da lì che nascono i villaggi."
@@ -987,8 +2145,8 @@
 			"format": "multiple_choice",
 			"prompt": "Perché le prime civiltà nacquero lungo i grandi fiumi?",
 			"options": [
-				"I fiumi segnavano i confini",
 				"L'acqua permetteva di coltivare e di spostarsi",
+				"I fiumi segnavano i confini",
 				"I fiumi erano più facili da difendere",
 				"Vicino ai fiumi non pioveva mai"
 			],

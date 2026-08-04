@@ -14,21 +14,67 @@ Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 
 ---
 
-## L'obiettivo: il collaudo
+## L'obiettivo: quindici item per argomento, poi il collaudo
 
-**Il gioco è costruito.** Contenuti, narrativa e cablaggio sono fatti e misurati:
-2321 item nei banchi, 123 specifiche di minigioco, 24 mondi con cast, Tracce,
-beat e conversazioni, sette colpi di scena con 35 semi, e **104 audit verdi**.
+Il gioco è costruito e misurato: 24 mondi cablati, 104 audit verdi, contenuti
+narrativi completi, 123 specifiche di minigioco ognuna con più domande sugli
+stessi dati.
 
-Quello che manca non si scrive: **si gioca.** Nessun bambino ha mai provato
-niente di tutto questo, e nessuna delle misure qui dentro dice se è bello.
+**Quello che manca è densità didattica**, e adesso ha un numero. Decisione del
+3 agosto 2026:
 
-**Il prossimo passo è tuo**: esportare e giocare. Cosa guardare, in ordine di
-quanto cambia il lavoro dopo, sta in «Coda tua» più sotto.
+> **Nessun argomento sotto i 15 item.** Sotto quella soglia il ripasso spaziato
+> non regge: il gioco dichiara «consolidato» dopo tre risposte corrette in
+> sessioni distinte, e con un argomento da un item solo — ce n'erano **sette** —
+> il bambino rivede tre volte la stessa schermata. Non è ritenzione, è memoria
+> di una figura.
 
-Le schede che seguono restano perché servono a due cose: verificare mondo per
-mondo che quello che è cablato sia quello che era scritto, e riprendere in mano
-un mondo quando il collaudo lo boccia.
+Distanza dal traguardo, misurata: **788 item da scrivere.**
+
+| materia | item | argomenti | sotto 15 | mancanti |
+|---|---:|---:|---:|---:|
+| coding | 54 | 13 | 13 | **141** |
+| italiano | 336 | 21 | 9 | **125** |
+| latino | 88 | 11 | 9 | **93** |
+| storia | 62 | 9 | 9 | **73** |
+| scienze | 48 | 8 | 8 | **72** |
+| elettronica | 68 | 8 | 7 | **62** |
+| fisica | 63 | 8 | 8 | **57** |
+| musica | 63 | 8 | 8 | **57** |
+| logica | 60 | 7 | 6 | **56** |
+| geografia | 110 | 8 | 6 | **52** |
+| inglese | 1109 | 18 | 0 | — ✓ |
+| matematica | 284 | 1 | 0 | — ✓ |
+
+`topic_density_audit.gd` tiene lo standard. **Non finge che sia raggiunto**: la
+soglia è dichiarata a 15, e il cricchetto stringe sulla *distanza* — nessuna
+materia può allontanarsi dal traguardo, e chi è dichiarata completa (inglese,
+matematica) fallisce subito se scende sotto. Così la suite resta un segnale
+invece di diventare un semaforo rosso fisso per settimane.
+
+### L'ordine, e perché questo
+
+1. **I 788 item**, materia per materia, dai topic più magri. È il lavoro con il
+   ritorno didattico più alto: oggi il gioco promette un consolidamento che non
+   può mantenere.
+2. **Rompere il monopolio della scelta multipla.** Undici materie su dodici hanno
+   banchi **100% a scelta multipla**: una domanda a quattro opzioni si risolve per
+   esclusione senza sapere niente. Ogni banco al **20–30% di risposta libera** —
+   ora possibile su tablet, perché il tastierino numerico esiste. Fisica,
+   elettronica, musica, geografia e latino la reggono senza forzature.
+3. **Le spiegazioni dell'inglese dove sono dannose.** Su 1109 item solo **137**
+   hanno una nota didattica; gli altri hanno `"check": controllare.`, che ripete
+   la risposta. Non le riscrivo tutte — la decisione «per il lessico rivedere
+   l'accoppiata *è* il ripasso» regge — ma **le ~200 dove l'italiano tira nella
+   direzione sbagliata** sì: `library` non è «libreria», `actually` non è
+   «attualmente». Lì la spiegazione secca insegna l'errore.
+
+**Cosa non si fa**: aggiungere item a inglese o italiano-lessico (già il 62% di
+tutto il contenuto, e la parte generabile a tappeto), e aggiungere altra scelta
+multipla ovunque — peggiorerebbe il punto 2 mentre gonfia i numeri.
+
+Il **collaudo** resta il passo che sblocca più di ogni altro, e non aspetta i 788
+item: la build è esportata e giocabile adesso.
 
 ---
 
@@ -208,122 +254,18 @@ accorto rileggendo il diff: me l'ha detto `minigame_audit`.
 
 ---
 
-## Il giro dei mondi — quando un mondo è finito
+## Le altre voci aperte
 
-Undici passi. I primi sei sono contenuto e **sono fatti per tutti e 24 i mondi**;
-gli altri sono runtime e si fanno un mondo alla volta.
+Nessuna si scrive: vogliono un **asset** o una **tua decisione**.
 
-| # | Passo | Chi | Stato |
-|---|---|---|---|
-| 1 | Cast: specialista, testimone, Bislacco | Claude | ✅ 23/23 abitati |
-| 2 | Le 15 battute per residente | Claude | ✅ 23/23 |
-| 3 | Richiesta e consolazione (A2) | Claude | ✅ 46 residenti su 46 |
-| 4 | Traccia + semi | Claude | ✅ 24/24 · 28 semi |
-| 5 | Le 3 conversazioni al Ritrovo | Claude | ✅ 69 scene |
-| 6 | Beat del mondo | Claude | ✅ 24 + beat finale |
-| 6b | Convergenza al Cuore (solo mondo 24) | Claude | ✅ 52 battute |
-| 7 | Edifici vestiti per `artKit`, finestre per stadio, Rovina sul landmark | Codex | 2 e 3 in corso |
-| 8 | Routine di vita + regia delle conversazioni | Codex | — |
-| 9 | Collocazione fisica di Traccia e semi | Codex | — |
-| 10 | Immagini del mondo | Codex | dipende dal kit |
-| 11 | Audit verdi + un playthrough di quel mondo | entrambi | — |
-
-**Un mondo è finito** quando gli undici passi sono fatti e queste cinque cose
-sono vere:
-
-1. i due residenti hanno stadio 0, 1 e 2 **distinti**, e allo stadio 2 uno dei
-   due insegna qualcosa all'altro;
-2. c'è **almeno un personaggio che fa ridere**, e nessuna battuta comica ha come
-   bersaglio il giocatore;
-3. la Traccia si legge in ≤3 schermate e **non è raccontata da nessuno**;
-4. il Ritrovo ha le tre conversazioni, e in nessuna qualcuno parla due volte di
-   fila o saluta Eli prima della fine;
-5. il mondo è giocabile **saltando ogni dialogo**.
-
----
-
-## La coda — cosa manca davvero
-
-**Il cablaggio è fatto.** Verificato il 3 agosto file per file: tutti e otto i
-cataloghi sono usati dal runtime, e ognuno ha un audit che gira nella suite.
-
-| sistema | dove vive | audit |
-|---|---|---|
-| Dialoghi (A1) | `dialogue_box.gd`, `npc_actor.gd`, cablati in `outdoor_world` | `dialogue_audit` |
-| Edifici (A3) | `building_catalog.gd`, `building_actor.gd` | `building_audit` |
-| Proprietà missioni (A2) | `mission_ownership_flow.gd` | `mission_ownership_audit` |
-| Vita di mondo e Ritrovo (A5) | `world_life.gd` → `ritrovo_catalog.gd` | `world_life_audit` |
-| Itineranti (A4) | `outdoor_world.gd` → `itinerant_catalog.gd` | `itinerant_audit` |
-| Tracce e semi (A7) | `outdoor_world.gd` → `mystery_catalog.gd` | `mystery_runtime_audit` |
-| Il Tredicesimo (A7a) | `thirteenth.gd` | `thirteenth_runtime_audit` |
-| Voci dei Maestri | `outdoor_world.gd` → `maestri_catalog.gd` | `maestri_audit` |
-| Finale e Cuore | `hub_scene.gd` → `finale_catalog.gd` | `finale_content_audit` |
-| Custode (P1–P7) | `pet_*.gd` | `pet_expression_audit` |
-| Formati visuali | `FORMATS` include notation, map, hotspot | `visual_content_audit` |
-
-**Suite: 104 audit, tutti verdi, 119 secondi.**
-
-*(Nota su come l'ho verificato, perché è il modo in cui mi ero sbagliato: avevo
-cercato i `class_name` e concluso che cinque cataloghi non li usasse nessuno. È
-falso — il progetto li carica con `preload`, e il riferimento è la costante, non
-il nome di classe. La misura giusta è cercare **il percorso del file**.)*
-
-### Quello che resta, ed è poco
-
-1. **Carta d'Europa e secondo foglio di reperti**: servono asset nuovi, non testo.
-2. **Accessibilità dei formati visuali** — da decidere, vedi sotto.
-3. **Uscita dall'esercizio**: decisione di design, non ancora presa.
-
-*(Fatti il 3 agosto: banda 4 di elettronica e fisica — tutti e otto gli
-argomenti coperti in entrambe — e le domande variabili su **tutte e 123 le
-specifiche a dato fisso**, 234 domande aggiunte.)*
-
-### L11 · Accessibilità dei formati visuali — *da decidere*
-
-Le etichette dei bersagli identificano senza descrivere («Segnaposto A»), che è
-l'unica scelta che non regala la risposta. Ma vuol dire che **chi usa un lettore
-di schermo non può rispondere a una carta muta**. Vale già per grafici e
-circuiti. Va deciso, non subìto.
-
----
-
-## Le dodici materie in ogni mondo — vincolo, e come si regge
-
-Vincolo didattico dichiarato il 3 agosto: **tutte le materie presenti in ogni
-mondo**. Misurato: **è già così**, e da oggi è un contratto invece che una
-fortuna.
-
-Diciotto eventi per mondo: **sette della materia ospite** (missioni ed enigmi,
-contano per il gate) e **undici di pratica, uno per ciascuna delle altre**. Li
-produce `MissionEventDirector.other_subjects()`, che restituisce l'intero ciclo.
-
-`subject_presence_audit.gd` (nuovo, verde) verifica per tutti e 24 i mondi:
-dodici materie presenti, ≥ undici raggiungibili, **esattamente un evento di
-pratica per ognuna delle altre undici**, nessun doppione sull'ospite. Serviva
-perché la proprietà era emergente: bastava aggiungere un filtro sensato — «solo
-le materie già sbloccate» — per perderla senza che nulla diventasse rosso.
-
-**Da sistemare, ed è tuo, Codex**: al **mondo 8** una materia su dodici cade
-oltre il raggio raggiungibile. Il direttore distribuisce le pratiche fino a
-`reach + 350`, quindi qualcuna può finire fuori. Presente ma non raggiungibile è
-come assente, per un bambino. 23 mondi su 24 sono a 12/12.
-
-**Correzione, e me la scrivo qui perché l'avevo messa nel piano al contrario**:
-avevo segnalato come difetto grave che «la prima lezione di storia è a difficoltà
-3». Falso. Avevo letto la colonna «prima comparsa» di `content_depth_audit` come
-*primo incontro del bambino con la materia*, mentre è la prima volta che quella
-materia fa da **ospite**. La storia si incontra al mondo 1, a banda 1.
-
----
-
-## Cosa resta lato contenuti
-
-**Niente che si scriva.** Le due voci rimaste hanno bisogno di **asset** (carta
-d'Europa, secondo foglio di reperti) o di una **decisione** (accessibilità,
-uscita dall'esercizio).
-
-Dopo che avrai giocato resta la voce senza dimensione nota: **riscrivere quello
-che il collaudo boccia.** È l'unica che può valere mille battute.
+- **Carta d'Europa e secondo foglio di reperti** — servono immagini nuove.
+- **Accessibilità dei formati visuali** — le etichette identificano senza
+  descrivere («Segnaposto A»), che è l'unica scelta che non regala la risposta.
+  Ma chi usa un lettore di schermo **non può rispondere a una carta muta**. Vale
+  già per grafici e circuiti. Va deciso, non subìto.
+- **Uscita dall'esercizio** — oggi non esiste: nessun pulsante di abbandono,
+  nessun `ui_cancel`. Un difetto di input diventa un blocco totale. Aggiungerla è
+  però una scelta di design: un bambino potrebbe usarla per saltare tutto.
 
 ---
 
@@ -395,6 +337,12 @@ Una proposta che le contraddice va discussa, non implementata.
    nuovo a ogni livello, fedele al registro della materia. Cinque criteri su
    sette hanno un cricchetto; «vero» e «alla portata» li può verificare solo una
    rilettura umana.
+9. **Almeno 15 item per argomento** (3 agosto 2026). Sotto quella soglia il
+   ripasso spaziato dichiara consolidato ciò che è solo memoria di una schermata.
+   Tenuto da `topic_density_audit`.
+10. **Ogni banco al 20–30% di risposta non a scelta multipla.** Una domanda a
+   quattro opzioni si risolve per esclusione senza sapere niente; oggi undici
+   materie su dodici sono al 100% di scelta multipla nei banchi.
 
 ### Guard-rail narrativi (i tre che si rompono per primi)
 
@@ -421,8 +369,9 @@ Una proposta che le contraddice va discussa, non implementata.
 ## Rischi noti
 
 1. **Nessun bambino ha mai giocato.** Tutte le misure sono strutturali: dicono
-   che l'esperienza è corretta, varia e onesta, non che è bella. È il motivo per
-   cui si cabla a lotti invece che tutto insieme.
+   che l'esperienza è corretta, varia e onesta, non che è bella. La build è
+   esportata e giocabile: da qui in poi questo rischio si chiude solo giocando,
+   e ogni giorno che passa senza collaudo è lavoro fatto su un'ipotesi.
 2. **L'export invecchia più in fretta del codice.** Nulla di quanto scritto oggi
    è giocabile finché non si esporta.
 3. **Il mondo 1 è già stretto sui budget**: 2667/3500 nodi e 468/500 ms, ed è

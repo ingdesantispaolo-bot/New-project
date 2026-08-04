@@ -324,23 +324,2099 @@
 			"explanation": "range(5) produce 0,1,2,3,4: cinque valori, quindi il blocco gira 5 volte e conta arriva a 5. range(n) ripete esattamente n volte."
 		},
 		{
-			"id": "coding-output-0",
+			"id": "coding-variabili-0",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale di questi è un nome di variabile valido in Python?",
+			"options": [
+				"punti_totali",
+				"2punti",
+				"punti-totali",
+				"punti totali"
+			],
+			"answer": "punti_totali",
+			"explanation": "Un nome può avere lettere, cifre e underscore, ma non può iniziare con una cifra né contenere spazi o trattini."
+		},
+		{
+			"id": "coding-variabili-1",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "a = 3\nb = a\na = 10\nprint(b)\n\nCosa stampa?",
+			"options": [],
+			"answer": "3",
+			"explanation": "b ha copiato il valore di a nel momento dell'assegnazione: cambiare a dopo non tocca b."
+		},
+		{
+			"id": "coding-variabili-2",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In Python, il simbolo = serve a…",
+			"options": [
+				"Definire una funzione",
+				"Mettere un valore dentro una variabile",
+				"Verificare se due valori sono uguali",
+				"Stampare un valore"
+			],
+			"answer": "Mettere un valore dentro una variabile",
+			"explanation": "= assegna, cioè scrive un valore nella variabile a sinistra. Per confrontare serve ==."
+		},
+		{
+			"id": "coding-variabili-3",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "punti = 0\npunti = punti + 5\npunti = punti + 5\nprint(punti)\n\nCosa stampa?",
+			"options": [],
+			"answer": "10",
+			"explanation": "Ogni riga rilegge il valore attuale e ne scrive uno nuovo: 0, poi 5, poi 10."
+		},
+		{
+			"id": "coding-variabili-4",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale scrittura è più breve per punti = punti + 1?",
+			"options": [
+				"punti ++",
+				"punti =+ 1",
+				"punti += 1",
+				"punti = ++1"
+			],
+			"answer": "punti += 1",
+			"explanation": "+= aggiunge al valore esistente. Python non ha l'operatore ++ di altri linguaggi."
+		},
+		{
+			"id": "coding-variabili-5",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché conviene chiamare una variabile punti_vita invece di p?",
+			"options": [
+				"Perché in Python i nomi di una lettera sola sono vietati",
+				"Perché i nomi lunghi rendono il programma più veloce",
+				"Perché un nome corto fa occupare meno memoria",
+				"Perché rileggendo il codice si capisce cosa contiene"
+			],
+			"answer": "Perché rileggendo il codice si capisce cosa contiene",
+			"explanation": "Il codice si legge molte più volte di quante si scriva: un nome che spiega sé stesso fa risparmiare tempo dopo."
+		},
+		{
+			"id": "coding-variabili-6",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "x = 5\nprint(y)\n\nPerché questo programma si ferma?",
+			"options": [
+				"y non è mai stata definita",
+				"manca il punto e virgola",
+				"x e y devono avere lo stesso valore",
+				"print accetta solo testo"
+			],
+			"answer": "y non è mai stata definita",
+			"explanation": "Una variabile esiste solo dopo che le si è assegnato qualcosa: prima Python non sa cosa sia y."
+		},
+		{
+			"id": "coding-variabili-7",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "a = 2\nb = 5\na, b = b, a\nprint(a)\n\nCosa stampa?",
+			"options": [],
+			"answer": "5",
+			"explanation": "Python valuta prima la destra e poi assegna: i due valori si scambiano in una riga sola."
+		},
+		{
+			"id": "coding-variabili-8",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In Python, PUNTI e punti sono…",
+			"options": [
+				"Un errore di sintassi",
+				"Due variabili diverse",
+				"La stessa variabile",
+				"Sinonimi automatici"
+			],
+			"answer": "Due variabili diverse",
+			"explanation": "Python distingue maiuscole e minuscole: sono due nomi diversi, ed è una fonte di errori molto comune."
+		},
+		{
+			"id": "coding-variabili-9",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa contiene una variabile subito dopo nome = 'Eli'?",
+			"options": [
+				"La lettera n",
+				"Il numero 3",
+				"La stringa Eli",
+				"Niente, va assegnata due volte"
+			],
+			"answer": "La stringa Eli",
+			"explanation": "L'assegnazione è immediata: da quel momento la variabile nome vale 'Eli'."
+		},
+		{
+			"id": "coding-variabili-10",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "totale = 0\nfor n in [2, 3, 5]:\n    totale += n\nprint(totale)\n\nCosa stampa?",
+			"options": [],
+			"answer": "10",
+			"explanation": "La variabile accumula: 0+2=2, poi +3=5, poi +5=10. È lo schema dell'accumulatore."
+		},
+		{
+			"id": "coding-tipi-11",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di che tipo è il valore True?",
+			"options": [
+				"Stringa",
+				"Lista",
+				"Numero intero",
+				"Booleano"
+			],
+			"answer": "Booleano",
+			"explanation": "True e False sono i due valori booleani: rappresentano vero e falso, e si scrivono con la maiuscola."
+		},
+		{
+			"id": "coding-tipi-12",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di che tipo è il valore 3.5?",
+			"options": [
+				"Numero con la virgola (float)",
+				"Booleano, cioè vero o falso",
+				"Stringa di testo fra virgolette",
+				"Numero intero senza decimali (int)"
+			],
+			"answer": "Numero con la virgola (float)",
+			"explanation": "Un numero con la parte decimale è un float. In Python il separatore è il punto, non la virgola."
+		},
+		{
+			"id": "coding-tipi-13",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la differenza fra 7 e '7'?",
+			"options": [
+				"Nessuna: Python li tratta allo stesso modo",
+				"Il primo è un numero, il secondo è testo",
+				"Il secondo non è una scrittura valida",
+				"Sono entrambi numeri, scritti in due modi"
+			],
+			"answer": "Il primo è un numero, il secondo è testo",
+			"explanation": "Le virgolette cambiano il tipo: con 7 si può fare aritmetica, con '7' si può solo unire ad altro testo."
+		},
+		{
+			"id": "coding-tipi-14",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Cosa restituisce int('12')?",
+			"options": [],
+			"answer": "12",
+			"explanation": "int() converte una stringa che contiene cifre nel numero corrispondente."
+		},
+		{
+			"id": "coding-tipi-15",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Cosa succede con int('ciao')?",
+			"options": [
+				"Restituisce la lunghezza",
+				"Restituisce 0",
+				"Un errore: non è un numero",
+				"Restituisce 'ciao'"
+			],
+			"answer": "Un errore: non è un numero",
+			"explanation": "int() converte solo stringhe che rappresentano un numero: su un testo qualsiasi si ferma."
+		},
+		{
+			"id": "coding-tipi-16",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale funzione dice di che tipo è un valore?",
+			"options": [
+				"kind()",
+				"class()",
+				"typeof()",
+				"type()"
+			],
+			"answer": "type()",
+			"explanation": "type(x) restituisce il tipo di x: utile quando un programma si comporta in modo inatteso."
+		},
+		{
+			"id": "coding-tipi-17",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa restituisce str(9)?",
+			"options": [
+				"La stringa '9'",
+				"Il numero 9",
+				"Il booleano True",
+				"Un errore"
+			],
+			"answer": "La stringa '9'",
+			"explanation": "str() trasforma un valore in testo: serve quando si vuole unirlo ad altre stringhe."
+		},
+		{
+			"id": "coding-tipi-18",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Cosa restituisce int(7.9)?",
+			"options": [],
+			"answer": "7",
+			"explanation": "int() taglia la parte decimale, non arrotonda: 7.9 diventa 7. Per arrotondare serve round()."
+		},
+		{
+			"id": "coding-tipi-19",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di che tipo è [1, 2, 3]?",
+			"options": [
+				"Numero",
+				"Lista",
+				"Stringa",
+				"Booleano"
+			],
+			"answer": "Lista",
+			"explanation": "Le parentesi quadre con valori separati da virgole formano una lista."
+		},
+		{
+			"id": "coding-tipi-20",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Cosa stampa: print(3 + 2.0)?",
+			"options": [
+				"32.0",
+				"5",
+				"5.0",
+				"errore"
+			],
+			"answer": "5.0",
+			"explanation": "Mescolando int e float Python usa il tipo più «largo»: il risultato è un float."
+		},
+		{
+			"id": "coding-tipi-21",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché serve convertire il risultato di input() prima di fare calcoli?",
+			"options": [
+				"Perché i calcoli vanno fatti a fine programma",
+				"Perché input() restituisce sempre un float",
+				"Perché altrimenti il programma è lento",
+				"Perché input() restituisce sempre testo"
+			],
+			"answer": "Perché input() restituisce sempre testo",
+			"explanation": "Anche quando l'utente scrive 42, il programma riceve la stringa '42': senza conversione i calcoli non funzionano."
+		},
+		{
+			"id": "coding-booleani-22",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quali sono i due soli valori booleani in Python?",
+			"options": [
+				"True e False",
+				"Le parole Sì e No",
+				"Soltanto i numeri 1 e 0",
+				"Vero e Falso, in italiano"
+			],
+			"answer": "True e False",
+			"explanation": "Si scrivono in inglese e con l'iniziale maiuscola: true minuscolo darebbe errore."
+		},
+		{
+			"id": "coding-booleani-23",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 5 > 3?",
+			"options": [
+				"5",
+				"True",
+				"'True'",
+				"False"
+			],
+			"answer": "True",
+			"explanation": "Un confronto non restituisce un numero: restituisce vero o falso."
+		},
+		{
+			"id": "coding-booleani-24",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale (4 > 2) and (1 > 5)?",
+			"options": [
+				"4",
+				"True",
+				"False",
+				"Errore"
+			],
+			"answer": "False",
+			"explanation": "and è vero solo se lo sono entrambe le parti: la seconda è falsa, quindi tutto è falso."
+		},
+		{
+			"id": "coding-booleani-25",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale (4 > 2) or (1 > 5)?",
+			"options": [
+				"2",
+				"False",
+				"Errore",
+				"True"
+			],
+			"answer": "True",
+			"explanation": "or basta che una parte sia vera: la prima lo è."
+		},
+		{
+			"id": "coding-booleani-26",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale not True?",
+			"options": [
+				"False",
+				"0",
+				"Errore",
+				"True"
+			],
+			"answer": "False",
+			"explanation": "not capovolge il valore: rende falso ciò che è vero e viceversa."
+		},
+		{
+			"id": "coding-booleani-27",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 3 == 3.0?",
+			"options": [
+				"False",
+				"True",
+				"Errore",
+				"3"
+			],
+			"answer": "True",
+			"explanation": "== confronta i valori, non i tipi: tre intero e tre virgola zero valgono lo stesso."
+		},
+		{
+			"id": "coding-booleani-28",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale operatore verifica che due valori siano DIVERSI?",
+			"options": [
+				"<>",
+				"not =",
+				"!=",
+				"=/="
+			],
+			"answer": "!=",
+			"explanation": "!= si legge «diverso da» e restituisce True quando i due valori non coincidono."
+		},
+		{
+			"id": "coding-booleani-29",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "eta = 12\nprint(10 <= eta <= 14)\n\nCosa stampa?",
+			"options": [
+				"False",
+				"Errore",
+				"12",
+				"True"
+			],
+			"answer": "True",
+			"explanation": "Python permette di concatenare i confronti: legge «eta è fra 10 e 14, estremi compresi»."
+		},
+		{
+			"id": "coding-booleani-30",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A cosa serve un valore booleano in un programma?",
+			"options": [
+				"A decidere quale strada prendere",
+				"A dare un nome alle variabili",
+				"A contare gli elementi",
+				"A stampare a schermo"
+			],
+			"answer": "A decidere quale strada prendere",
+			"explanation": "if e while lavorano su valori booleani: sono loro a decidere se un blocco si esegue o si ripete."
+		},
+		{
+			"id": "coding-booleani-31",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché if x = 5: dà errore mentre if x == 5: funziona?",
+			"options": [
+				"Il secondo funziona solo con i numeri",
+				"Il primo assegna invece di confrontare",
+				"Il primo confronta troppo lentamente",
+				"Nessuna differenza, sono uguali"
+			],
+			"answer": "Il primo assegna invece di confrontare",
+			"explanation": "Un solo uguale scrive nella variabile; il doppio uguale fa una domanda. È l'errore più comune di chi comincia."
+		},
+		{
+			"id": "coding-booleani-32",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale not (2 > 5)?",
+			"options": [
+				"2",
+				"Errore",
+				"True",
+				"False"
+			],
+			"answer": "True",
+			"explanation": "2 > 5 è falso; not lo capovolge e restituisce vero."
+		},
+		{
+			"id": "coding-funzioni-33",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A che cosa serve definire una funzione?",
+			"options": [
+				"A creare nuove variabili senza assegnarle",
+				"A rendere il programma più veloce da eseguire",
+				"A stampare più cose insieme in una riga",
+				"A dare un nome a un pezzo di codice riutilizzabile"
+			],
+			"answer": "A dare un nome a un pezzo di codice riutilizzabile",
+			"explanation": "Scritta una volta, si richiama quante volte serve: meno codice ripetuto significa meno posti dove sbagliare."
+		},
+		{
+			"id": "coding-funzioni-34",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "def saluta(nome):\n    print('Ciao', nome)\n\nCome si chiama la funzione con il nome Eli?",
+			"options": [
+				"saluta('Eli')",
+				"def saluta('Eli')",
+				"saluta Eli",
+				"print(saluta, 'Eli')"
+			],
+			"answer": "saluta('Eli')",
+			"explanation": "Si scrive il nome della funzione e fra parentesi i valori da passarle."
+		},
+		{
+			"id": "coding-funzioni-35",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In def somma(a, b):, come si chiamano a e b?",
+			"options": [
+				"Variabili globali",
+				"Parametri",
+				"Condizioni",
+				"Risultati"
+			],
+			"answer": "Parametri",
+			"explanation": "I parametri sono i posti vuoti che la funzione riempie con i valori ricevuti a ogni chiamata."
+		},
+		{
+			"id": "coding-funzioni-36",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola restituisce un valore al codice che ha chiamato la funzione?",
+			"options": [
+				"def",
+				"give",
+				"return",
+				"print"
+			],
+			"answer": "return",
+			"explanation": "print mostra a schermo; return consegna il valore a chi ha chiamato, che può usarlo o metterlo in una variabile."
+		},
+		{
+			"id": "coding-funzioni-37",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "def doppio(n):\n    return n * 2\nprint(doppio(6))\n\nCosa stampa?",
+			"options": [],
+			"answer": "12",
+			"explanation": "La funzione riceve 6, restituisce 12, e print stampa il valore restituito."
+		},
+		{
+			"id": "coding-funzioni-38",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "def doppio(n):\n    print(n * 2)\nx = doppio(4)\nprint(x)\n\nCosa stampa la seconda print?",
+			"options": [
+				"8",
+				"4",
+				"Errore",
+				"None"
+			],
+			"answer": "None",
+			"explanation": "La funzione stampa ma non restituisce niente: senza return, x riceve None."
+		},
+		{
+			"id": "coding-funzioni-39",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale parola introduce la definizione di una funzione?",
+			"options": [
+				"def",
+				"function",
+				"fun",
+				"define"
+			],
+			"answer": "def",
+			"explanation": "def sta per «define»: dopo di essa vengono il nome, i parametri fra parentesi e i due punti."
+		},
+		{
+			"id": "coding-funzioni-40",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa segna il corpo di una funzione in Python?",
+			"options": [
+				"Il punto e virgola a fine riga",
+				"L'indentazione, cioè lo spazio a sinistra",
+				"Le parentesi graffe attorno al blocco",
+				"La parola end alla fine del blocco"
+			],
+			"answer": "L'indentazione, cioè lo spazio a sinistra",
+			"explanation": "In Python il rientro non è estetica: è la sintassi che dice quali righe appartengono alla funzione."
+		},
+		{
+			"id": "coding-funzioni-41",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "def somma(a, b):\n    return a + b\nprint(somma(3, 4) + somma(1, 1))\n\nCosa stampa?",
+			"options": [],
+			"answer": "9",
+			"explanation": "Le due chiamate restituiscono 7 e 2, e i due valori si sommano: 9."
+		},
+		{
+			"id": "coding-funzioni-42",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché una funzione dovrebbe fare una cosa sola?",
+			"options": [
+				"Perché una funzione corta viene eseguita prima",
+				"Perché Python rifiuta le funzioni troppo lunghe",
+				"Perché è più facile capirla e correggerla",
+				"Perché così il programma occupa meno memoria"
+			],
+			"answer": "Perché è più facile capirla e correggerla",
+			"explanation": "Una funzione che fa cinque cose si può riusare solo quando servono tutte e cinque, e quando sbaglia non si sa quale delle cinque."
+		},
+		{
+			"id": "coding-funzioni-43",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Quante volte viene eseguito il corpo di una funzione che nessuno chiama?",
+			"options": [],
+			"answer": "0",
+			"explanation": "def non esegue niente: definisce soltanto. Il corpo gira solo alla chiamata."
+		},
+		{
+			"id": "coding-stile-44",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A che cosa serve un commento nel codice?",
+			"options": [
+				"A nascondere le righe che danno errore",
+				"A far andare il programma un po' più veloce",
+				"A dare un nome alle variabili usate sotto",
+				"A spiegare a chi legge perché il codice fa così"
+			],
+			"answer": "A spiegare a chi legge perché il codice fa così",
+			"explanation": "Il computer li ignora; servono alle persone, compreso te fra sei mesi."
+		},
+		{
+			"id": "coding-stile-45",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Con quale simbolo comincia un commento in Python?",
+			"options": [
+				"#",
+				"/*",
+				"//",
+				"--"
+			],
+			"answer": "#",
+			"explanation": "Tutto ciò che segue # sulla stessa riga viene ignorato dall'interprete."
+		},
+		{
+			"id": "coding-stile-46",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è il commento più utile?",
+			"options": [
+				"# questa riga dichiara una nuova variabile",
+				"# arrotondo per difetto: i punti sono sempre interi",
+				"# qui metto la variabile x uguale a cinque",
+				"# da qui comincia il programma principale"
+			],
+			"answer": "# arrotondo per difetto: i punti sono sempre interi",
+			"explanation": "Un buon commento dice il PERCHÉ, non ripete quello che il codice già dice da solo."
+		},
+		{
+			"id": "coding-stile-47",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché l'indentazione in Python non è solo questione di ordine?",
+			"options": [
+				"Perché è l'editor di testo a richiederlo",
+				"Perché il rientro serve solo dentro i commenti",
+				"Perché decide quali righe stanno dentro un blocco",
+				"Perché rende il file da salvare più piccolo"
+			],
+			"answer": "Perché decide quali righe stanno dentro un blocco",
+			"explanation": "In altri linguaggi si usano le graffe; in Python il rientro È la struttura, e sbagliarlo cambia il programma."
+		},
+		{
+			"id": "coding-stile-48",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale nome di variabile è scritto nello stile di Python?",
+			"options": [
+				"puntiVita",
+				"PuntiVita",
+				"PUNTIVITA",
+				"punti_vita"
+			],
+			"answer": "punti_vita",
+			"explanation": "In Python le variabili si scrivono minuscole con l'underscore fra le parole: si chiama snake_case."
+		},
+		{
+			"id": "coding-stile-49",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un programma funziona ma nessuno riesce a modificarlo. È un buon programma?",
+			"options": [
+				"No: il codice si legge più di quanto si scriva",
+				"Sì: l'unica cosa che conta è che funzioni",
+				"Sì, purché venga eseguito abbastanza in fretta",
+				"Dipende solo da quanto è lungo il programma"
+			],
+			"answer": "No: il codice si legge più di quanto si scriva",
+			"explanation": "Un programma vive anni e viene modificato molte volte: se non si capisce, ogni modifica è un rischio."
+		},
+		{
+			"id": "coding-stile-50",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede se in Python indenti una riga in più per sbaglio?",
+			"options": [
+				"Il codice viene eseguito un po' più in fretta",
+				"Il programma può cambiare comportamento o dare errore",
+				"Niente: in Python gli spazi vengono ignorati",
+				"Python se ne accorge e corregge da solo"
+			],
+			"answer": "Il programma può cambiare comportamento o dare errore",
+			"explanation": "Il rientro determina i blocchi: una riga rientrata di troppo finisce dentro un if o un ciclo a cui non apparteneva."
+		},
+		{
+			"id": "coding-stile-51",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Meglio una riga lunghissima o tre righe brevi che fanno lo stesso?",
+			"options": [
+				"È indifferente",
+				"Sempre la riga lunga, è più elegante",
+				"Tre righe brevi, se si leggono meglio",
+				"Sempre la riga lunga, è più efficiente"
+			],
+			"answer": "Tre righe brevi, se si leggono meglio",
+			"explanation": "La velocità non cambia; la comprensibilità sì, ed è quella a costare tempo quando qualcosa va storto."
+		},
+		{
+			"id": "coding-stile-52",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Hai lo stesso blocco di cinque righe copiato in tre punti. Cosa conviene fare?",
+			"options": [
+				"Cancellarne due",
+				"Lasciarlo così, funziona",
+				"Copiarlo una quarta volta per sicurezza",
+				"Metterlo in una funzione e chiamarla tre volte"
+			],
+			"answer": "Metterlo in una funzione e chiamarla tre volte",
+			"explanation": "Codice duplicato significa correzioni duplicate: se scopri un errore devi ricordarti di sistemarlo in tutti e tre i punti."
+		},
+		{
+			"id": "coding-stile-53",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché è utile scrivere righe vuote fra parti diverse del programma?",
+			"options": [
+				"Perché separano visivamente i blocchi di ragionamento",
+				"Perché servono a rendere il file più leggibile al computer",
+				"Perché velocizzano l'esecuzione del programma",
+				"Perché Python le richiede fra un blocco e l'altro"
+			],
+			"answer": "Perché separano visivamente i blocchi di ragionamento",
+			"explanation": "Come i paragrafi in un testo: aiutano l'occhio a capire dove finisce un'idea e ne comincia un'altra."
+		},
+		{
+			"id": "coding-stile-54",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un nome come x va bene…",
+			"options": [
+				"Solo per le stringhe",
+				"Per un contatore breve dentro un ciclo",
+				"Mai, va sempre evitato",
+				"Sempre, i nomi corti sono migliori"
+			],
+			"answer": "Per un contatore breve dentro un ciclo",
+			"explanation": "Dove la variabile vive due righe e il suo ruolo è ovvio, un nome corto è chiaro. Per un valore che attraversa il programma, no."
+		},
+		{
+			"id": "coding-cicli-55",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quante volte gira: for i in range(5)?",
+			"options": [],
+			"answer": "5",
+			"explanation": "range(5) produce 0, 1, 2, 3, 4: cinque valori, cinque giri."
+		},
+		{
+			"id": "coding-cicli-56",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Qual è il primo valore prodotto da range(4)?",
+			"options": [],
+			"answer": "0",
+			"explanation": "range parte da zero se non gli si dice altrimenti: 0, 1, 2, 3."
+		},
+		{
+			"id": "coding-cicli-57",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Quante volte gira: for i in range(2, 6)?",
+			"options": [],
+			"answer": "4",
+			"explanation": "Da 2 fino a 6 escluso: 2, 3, 4, 5. L'estremo finale non è mai compreso."
+		},
+		{
+			"id": "coding-cicli-58",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quando si usa while invece di for?",
+			"options": [
+				"Quando le ripetizioni da fare sono più di dieci",
+				"Quando si deve lavorare con stringhe invece che numeri",
+				"Quando non si sa in anticipo quante ripetizioni servono",
+				"Quando dentro il ciclo serve chiamare una funzione"
+			],
+			"answer": "Quando non si sa in anticipo quante ripetizioni servono",
+			"explanation": "for scorre una sequenza nota; while continua finché una condizione resta vera, anche senza sapere per quanto."
+		},
+		{
+			"id": "coding-cicli-59",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "totale = 0\nfor i in range(1, 5):\n    totale += i\nprint(totale)\n\nCosa stampa?",
+			"options": [],
+			"answer": "10",
+			"explanation": "Somma 1+2+3+4: il 5 non entra perché range si ferma prima dell'estremo."
+		},
+		{
+			"id": "coding-cicli-60",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede se in un while la condizione non diventa mai falsa?",
+			"options": [
+				"Il ciclo gira una volta sola",
+				"Python lo interrompe da solo dopo poco",
+				"Viene segnalato un errore di sintassi",
+				"Il programma non finisce più"
+			],
+			"answer": "Il programma non finisce più",
+			"explanation": "È il ciclo infinito: bisogna assicurarsi che dentro il corpo qualcosa avvicini la condizione al falso."
+		},
+		{
+			"id": "coding-cicli-61",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola interrompe subito un ciclo?",
+			"options": [
+				"break",
+				"return",
+				"stop",
+				"exit"
+			],
+			"answer": "break",
+			"explanation": "break esce dal ciclo immediatamente, senza completare i giri rimanenti."
+		},
+		{
+			"id": "coding-cicli-62",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale parola salta al giro successivo senza eseguire il resto del corpo?",
+			"options": [
+				"next",
+				"continue",
+				"resume",
+				"skip"
+			],
+			"answer": "continue",
+			"explanation": "continue abbandona il giro corrente e riparte dal successivo; break invece esce dal ciclo del tutto."
+		},
+		{
+			"id": "coding-cicli-63",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "for i in range(3):\n    for j in range(2):\n        print('x')\n\nQuante x stampa?",
+			"options": [],
+			"answer": "6",
+			"explanation": "Il ciclo interno gira due volte per ognuno dei tre giri esterni: 3 × 2 = 6."
+		},
+		{
+			"id": "coding-cicli-64",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "for lettera in 'ciao':\n\nSu che cosa sta girando questo ciclo?",
+			"options": [
+				"Sulle righe del file",
+				"Sulle parole della frase",
+				"Sui caratteri della stringa",
+				"Sui numeri da 0 a 4"
+			],
+			"answer": "Sui caratteri della stringa",
+			"explanation": "Un for può scorrere qualsiasi sequenza: una stringa viene percorsa un carattere alla volta."
+		},
+		{
+			"id": "coding-liste-65",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "numeri = [4, 8, 15]\nprint(numeri[0])\n\nCosa stampa?",
+			"options": [],
+			"answer": "4",
+			"explanation": "Gli indici partono da zero: il primo elemento è numeri[0]."
+		},
+		{
+			"id": "coding-liste-66",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "numeri = [4, 8, 15]\nprint(len(numeri))\n\nCosa stampa?",
+			"options": [],
+			"answer": "3",
+			"explanation": "len() conta gli elementi, non i caratteri: la lista ne contiene tre."
+		},
+		{
+			"id": "coding-liste-67",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale metodo aggiunge un elemento in fondo a una lista?",
+			"options": [
+				"push()",
+				"insert_end()",
+				"add()",
+				"append()"
+			],
+			"answer": "append()",
+			"explanation": "lista.append(x) mette x come ultimo elemento, allungando la lista di uno."
+		},
+		{
+			"id": "coding-liste-68",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "numeri = [1, 2]\nnumeri.append(3)\nprint(len(numeri))\n\nCosa stampa?",
+			"options": [],
+			"answer": "3",
+			"explanation": "append aggiunge un elemento: da due si passa a tre."
+		},
+		{
+			"id": "coding-liste-69",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si prende l'ultimo elemento di una lista senza sapere quanti sono?",
+			"options": [
+				"lista[-1]",
+				"lista[len]",
+				"lista[fine]",
+				"lista[ultimo]"
+			],
+			"answer": "lista[-1]",
+			"explanation": "Gli indici negativi contano dal fondo: -1 è l'ultimo, -2 il penultimo."
+		},
+		{
+			"id": "coding-liste-70",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Cosa succede con numeri = [1, 2, 3] e poi print(numeri[3])?",
+			"options": [
+				"Stampa 3, cioè l'ultimo elemento",
+				"Errore: l'indice è fuori dalla lista",
+				"Stampa None perché la posizione è vuota",
+				"Stampa una lista vuota senza errori"
+			],
+			"answer": "Errore: l'indice è fuori dalla lista",
+			"explanation": "Con tre elementi gli indici validi sono 0, 1 e 2: il 3 non esiste."
+		},
+		{
+			"id": "coding-liste-71",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In una lista si possono mettere valori di tipo diverso?",
+			"options": [
+				"Solo se la lista è vuota",
+				"Solo se sono tutti numeri",
+				"Sì, per esempio numeri e stringhe insieme",
+				"No, devono essere tutti dello stesso tipo"
+			],
+			"answer": "Sì, per esempio numeri e stringhe insieme",
+			"explanation": "Python non lo vieta. Spesso però una lista omogenea è più facile da usare senza sbagliare."
+		},
+		{
+			"id": "coding-liste-72",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "voti = [6, 7, 8]\nprint(sum(voti))\n\nCosa stampa?",
+			"options": [],
+			"answer": "21",
+			"explanation": "sum() somma tutti gli elementi numerici della lista: 6+7+8."
+		},
+		{
+			"id": "coding-liste-73",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Come si scorre una lista senza usare gli indici?",
+			"options": [
+				"while lista:",
+				"for lista in elemento:",
+				"for i in len(lista):",
+				"for elemento in lista:"
+			],
+			"answer": "for elemento in lista:",
+			"explanation": "Il for su una lista dà direttamente ogni elemento: più corto e senza il rischio di sbagliare gli indici."
+		},
+		{
+			"id": "coding-condizioni-74",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa deve esserci alla fine della riga di un if?",
+			"options": [
+				"I due punti",
+				"Una parentesi graffa",
+				"Niente",
+				"Il punto e virgola"
+			],
+			"answer": "I due punti",
+			"explanation": "I due punti annunciano il blocco che segue, e il blocco va rientrato."
+		},
+		{
+			"id": "coding-condizioni-75",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale parola indica cosa fare quando la condizione è falsa?",
+			"options": [
+				"not",
+				"else",
+				"elif",
+				"otherwise"
+			],
+			"answer": "else",
+			"explanation": "else copre tutti i casi in cui l'if non è verificato; elif serve a porre un'altra domanda."
+		},
+		{
+			"id": "coding-condizioni-76",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A che cosa serve elif?",
+			"options": [
+				"A definire una funzione dentro l'if",
+				"A ripetere il blocco finché è vero",
+				"A porre una seconda domanda se la prima è falsa",
+				"A chiudere il programma dopo il controllo"
+			],
+			"answer": "A porre una seconda domanda se la prima è falsa",
+			"explanation": "elif significa «else if»: si usa quando i casi possibili sono più di due."
+		},
+		{
+			"id": "coding-condizioni-77",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "x = 7\nif x > 10:\n    print('a')\nelif x > 5:\n    print('b')\nelse:\n    print('c')\n\nCosa stampa?",
+			"options": [
+				"a",
+				"c",
+				"ab",
+				"b"
+			],
+			"answer": "b",
+			"explanation": "La prima condizione è falsa, la seconda vera: si esegue quel ramo e si salta tutto il resto."
+		},
+		{
+			"id": "coding-condizioni-78",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "In una catena if / elif / else, quanti rami vengono eseguiti?",
+			"options": [],
+			"answer": "1",
+			"explanation": "Appena una condizione risulta vera si esegue quel ramo e la catena finisce lì."
+		},
+		{
+			"id": "coding-condizioni-79",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si scrive «x è fra 1 e 10»?",
+			"options": [
+				"if 1 <= x <= 10:",
+				"if x >= 1 and 10:",
+				"if 1 <= x or x <= 10:",
+				"if x fra 1 e 10:"
+			],
+			"answer": "if 1 <= x <= 10:",
+			"explanation": "Python permette il confronto concatenato; l'alternativa corretta sarebbe x >= 1 and x <= 10."
+		},
+		{
+			"id": "coding-condizioni-80",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "if punti > 100:\n    print('bravo')\nprint('fine')\n\nCon punti = 3, cosa stampa?",
+			"options": [
+				"bravo",
+				"fine",
+				"bravo fine",
+				"niente"
+			],
+			"answer": "fine",
+			"explanation": "print('fine') non è rientrata: sta fuori dall'if e viene eseguita sempre."
+		},
+		{
+			"id": "coding-condizioni-81",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa valuta un if?",
+			"options": [
+				"Un numero qualsiasi",
+				"Una stringa di testo",
+				"Una condizione vera o falsa",
+				"Il nome di una variabile"
+			],
+			"answer": "Una condizione vera o falsa",
+			"explanation": "L'if decide in base a un valore booleano: se è vero esegue il blocco, altrimenti lo salta."
+		},
+		{
+			"id": "coding-condizioni-82",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché conviene mettere per prima la condizione più restrittiva in una catena if/elif?",
+			"options": [
+				"Perché Python richiede quest'ordine preciso",
+				"Perché la catena viene eseguita più in fretta",
+				"Perché in quest'ordine si usa meno memoria",
+				"Perché altrimenti un caso più generale la intercetta prima"
+			],
+			"answer": "Perché altrimenti un caso più generale la intercetta prima",
+			"explanation": "Se metti prima «x > 5», il caso «x > 10» non verrà mai raggiunto: l'ordine dei rami cambia il risultato."
+		},
+		{
+			"id": "coding-operatori-83",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanto fa 7 // 2 in Python?",
+			"options": [],
+			"answer": "3",
+			"explanation": "// è la divisione intera: tiene la parte intera e scarta il resto."
+		},
+		{
+			"id": "coding-operatori-84",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Quanto fa 7 % 2 in Python?",
+			"options": [],
+			"answer": "1",
+			"explanation": "% dà il resto: 7 diviso 2 fa 3 con resto 1. Serve spessissimo a capire se un numero è pari."
+		},
+		{
+			"id": "coding-operatori-85",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si verifica che un numero n sia pari?",
+			"options": [
+				"n % 2 == 0",
+				"n * 2 == 0",
+				"n // 2 == 0",
+				"n / 2 == 0"
+			],
+			"answer": "n % 2 == 0",
+			"explanation": "Un numero è pari quando il resto della divisione per due è zero."
+		},
+		{
+			"id": "coding-operatori-86",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Quanto fa 2 + 3 * 4 in Python?",
+			"options": [],
+			"answer": "14",
+			"explanation": "La moltiplicazione viene prima della somma, come in matematica: 3×4=12, poi +2."
+		},
+		{
+			"id": "coding-operatori-87",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Quanto fa (2 + 3) * 4?",
+			"options": [],
+			"answer": "20",
+			"explanation": "Le parentesi cambiano l'ordine: prima la somma, poi la moltiplicazione."
+		},
+		{
+			"id": "coding-operatori-88",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quale operatore unisce due stringhe?",
+			"options": [
+				".",
+				"+",
+				"*",
+				"&"
+			],
+			"answer": "+",
+			"explanation": "Fra stringhe + concatena. Fra numeri lo stesso simbolo somma: il significato dipende dai tipi."
+		},
+		{
+			"id": "coding-operatori-89",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa 9 / 2 in Python?",
+			"options": [
+				"5",
+				"4,5",
+				"4.5",
+				"4"
+			],
+			"answer": "4.5",
+			"explanation": "/ restituisce sempre un float. Per la divisione intera si usa //."
+		},
+		{
+			"id": "coding-operatori-90",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "punti = 10\npunti -= 3\nprint(punti)\n\nCosa stampa?",
+			"options": [],
+			"answer": "7",
+			"explanation": "-= toglie al valore esistente, come += aggiunge: 10 − 3 = 7."
+		},
+		{
+			"id": "coding-input-91",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale istruzione chiede un dato a chi usa il programma?",
+			"options": [
+				"ask()",
+				"print()",
+				"read()",
+				"input()"
+			],
+			"answer": "input()",
+			"explanation": "input() ferma il programma, aspetta che l'utente scriva e restituisce quello che ha scritto."
+		},
+		{
+			"id": "coding-input-92",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "nome = input('Come ti chiami? ')\n\nDove finisce quello che l'utente scrive?",
+			"options": [
+				"Nella variabile nome",
+				"Direttamente a schermo",
+				"In un file sul disco",
+				"Da nessuna parte, va perso"
+			],
+			"answer": "Nella variabile nome",
+			"explanation": "input() restituisce un valore, e l'assegnazione lo mette dentro la variabile a sinistra dell'uguale."
+		},
+		{
+			"id": "coding-input-93",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Il testo scritto dentro input('...') a cosa serve?",
+			"options": [
+				"A decidere il tipo del dato",
+				"A mostrare una domanda prima di leggere",
+				"A limitare quanto si può scrivere",
+				"A dare un nome alla variabile"
+			],
+			"answer": "A mostrare una domanda prima di leggere",
+			"explanation": "È il messaggio che appare all'utente: senza, il programma sembrerebbe bloccato senza motivo."
+		},
+		{
+			"id": "coding-input-94",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "n = input('Numero: ')\nprint(n + 1)\n\nCosa succede se l'utente scrive 5?",
+			"options": [
+				"Stampa 6, cioè cinque più uno",
+				"Stampa 51, mettendo il testo in fila",
+				"Un errore: non si somma testo e numero",
+				"Stampa 5, ignorando la somma"
+			],
+			"answer": "Un errore: non si somma testo e numero",
+			"explanation": "input() restituisce sempre una stringa: '5' + 1 mette insieme testo e numero, e Python si ferma."
+		},
+		{
+			"id": "coding-input-95",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si trasforma in numero intero ciò che restituisce input()?",
+			"options": [
+				"str(input('...'))",
+				"input(int('...'))",
+				"num(input('...'))",
+				"int(input('...'))"
+			],
+			"answer": "int(input('...'))",
+			"explanation": "int() converte la stringa in numero intero. Va messo attorno a input(), non dentro."
+		},
+		{
+			"id": "coding-input-96",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "n = int(input('Numero: '))\nprint(n * 2)\n\nSe l'utente scrive 7, cosa stampa?",
+			"options": [],
+			"answer": "14",
+			"explanation": "int() trasforma '7' nel numero 7, e 7 × 2 fa 14. Senza int() avresti ottenuto '77'."
+		},
+		{
+			"id": "coding-input-97",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "a = input('Primo: ')\nb = input('Secondo: ')\n\nQuante volte il programma si ferma ad aspettare?",
+			"options": [],
+			"answer": "2",
+			"explanation": "Ogni input() aspetta una risposta: due input() significano due attese, una dopo l'altra."
+		},
+		{
+			"id": "coding-input-98",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Vuoi leggere un prezzo con la virgola, come 3.50. Quale conversione usi?",
+			"options": [
+				"float(input('...'))",
+				"str(input('...'))",
+				"int(input('...'))",
+				"bool(input('...'))"
+			],
+			"answer": "float(input('...'))",
+			"explanation": "int() accetta solo interi e su '3.50' darebbe errore; float() gestisce i numeri con la parte decimale."
+		},
+		{
+			"id": "coding-input-99",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "eta = input('Età: ')\nif eta > 10:\n    print('grande')\n\nPerché questo programma dà errore?",
+			"options": [
+				"Manca la parentesi in print",
+				"Confronta una stringa con un numero",
+				"if non si usa con le variabili",
+				"eta non è un nome valido"
+			],
+			"answer": "Confronta una stringa con un numero",
+			"explanation": "eta è testo, 10 è un numero: Python non sa dire se un testo è maggiore di un numero. Serve int()."
+		},
+		{
+			"id": "coding-input-100",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Un programma chiede tre voti e ne fa la media. Quanti int(input()) servono?",
+			"options": [],
+			"answer": "3",
+			"explanation": "Un input per ogni voto, ciascuno convertito in numero: tre letture e poi la media."
+		},
+		{
+			"id": "coding-input-101",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "risposta = input('Continuare? ')\n\nSe l'utente preme Invio senza scrivere niente, cosa contiene risposta?",
+			"options": [
+				"Un errore",
+				"Il valore None",
+				"Una stringa vuota",
+				"Uno zero"
+			],
+			"answer": "Una stringa vuota",
+			"explanation": "Non aver scritto niente è comunque una risposta: input() restituisce '' (stringa vuota)."
+		},
+		{
+			"id": "coding-input-102",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché è meglio scrivere input('Nome: ') invece di input()?",
+			"options": [
+				"Perché la variabile prende un nome",
+				"Perché il programma è più veloce",
+				"Perché altrimenti Python dà errore",
+				"Perché l'utente capisce cosa deve scrivere"
+			],
+			"answer": "Perché l'utente capisce cosa deve scrivere",
+			"explanation": "Funzionano entrambi, ma senza messaggio l'utente vede un cursore che lampeggia e non sa cosa fare."
+		},
+		{
+			"id": "coding-input-103",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "n = int(input())\nprint(n + n)\n\nL'utente scrive 12. Cosa stampa?",
+			"options": [],
+			"answer": "24",
+			"explanation": "int() rende 12 un numero, quindi n + n è una somma: 24. Con le stringhe sarebbe stato '1212'."
+		},
+		{
+			"id": "coding-input-104",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In che ordine avvengono le cose in nome = input('Chi sei? ')?",
+			"options": [
+				"Mostra la domanda, aspetta, poi assegna",
+				"Mostra la domanda e assegna insieme",
+				"Aspetta, poi mostra la domanda",
+				"Assegna, poi mostra la domanda"
+			],
+			"answer": "Mostra la domanda, aspetta, poi assegna",
+			"explanation": "Prima appare il messaggio, poi il programma si ferma; solo quando l'utente ha scritto il valore finisce nella variabile."
+		},
+		{
+			"id": "coding-output-105",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "print('ciao')\nprint('mondo')\n\nSu quante righe appare il risultato?",
+			"options": [],
+			"answer": "2",
+			"explanation": "Ogni print() va a capo da solo: due print, due righe."
+		},
+		{
+			"id": "coding-output-106",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa stampa: print('ciao', 'mondo')?",
+			"options": [
+				"ciaomondo",
+				"ciao mondo",
+				"'ciao' 'mondo'",
+				"ciao,mondo"
+			],
+			"answer": "ciao mondo",
+			"explanation": "Separando con la virgola, print() mette automaticamente uno spazio fra i due valori."
+		},
+		{
+			"id": "coding-output-107",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Cosa stampa: print(2 * 3)?",
+			"options": [],
+			"answer": "6",
+			"explanation": "Senza virgolette Python calcola prima e stampa il risultato: 2 × 3 = 6."
+		},
+		{
+			"id": "coding-output-108",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa stampa: print('2 * 3')?",
+			"options": [
+				"errore",
+				"'2 * 3'",
+				"2 * 3",
+				"6"
+			],
+			"answer": "2 * 3",
+			"explanation": "Tra virgolette è testo: Python non calcola niente e stampa i caratteri così come sono."
+		},
+		{
+			"id": "coding-output-109",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "x = 4\nprint('x')\n\nCosa stampa?",
+			"options": [
+				"4",
+				"'x'",
+				"errore",
+				"x"
+			],
+			"answer": "x",
+			"explanation": "'x' fra virgolette è la lettera x, non la variabile. Senza virgolette avrebbe stampato 4."
+		},
+		{
+			"id": "coding-output-110",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "eta = 11\nprint('Ho', eta, 'anni')\n\nCosa stampa?",
+			"options": [
+				"Ho 11 anni",
+				"Ho eta anni",
+				"Ho11anni",
+				"Ho, 11, anni"
+			],
+			"answer": "Ho 11 anni",
+			"explanation": "Le virgole separano i pezzi e print() li unisce con uno spazio, sostituendo il valore della variabile."
+		},
+		{
+			"id": "coding-output-111",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa stampa: print(10 / 2)?",
+			"options": [
+				"5",
+				"5.0",
+				"10/2",
+				"'5'"
+			],
+			"answer": "5.0",
+			"explanation": "In Python la divisione / dà sempre un numero con la virgola, anche quando il risultato è esatto."
+		},
+		{
+			"id": "coding-output-112",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Cosa stampa: print(10 // 3)?",
+			"options": [],
+			"answer": "3",
+			"explanation": "// è la divisione intera: tiene solo la parte intera del risultato e butta il resto."
+		},
+		{
+			"id": "coding-output-113",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale simbolo racchiude il testo da stampare?",
+			"options": [
+				"Le graffe",
+				"Le parentesi quadre",
+				"Le virgolette",
+				"I due punti"
+			],
+			"answer": "Le virgolette",
+			"explanation": "Le virgolette (singole o doppie) dicono a Python che quello è testo e non un nome di variabile."
+		},
+		{
+			"id": "coding-output-114",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "print('somma:', 3 + 4)\n\nCosa stampa?",
+			"options": [
+				"somma:7",
+				"somma: 3 + 4",
+				"somma: 34",
+				"somma: 7"
+			],
+			"answer": "somma: 7",
+			"explanation": "Il testo resta testo, ma 3 + 4 è fuori dalle virgolette: Python lo calcola prima di stampare."
+		},
+		{
+			"id": "coding-output-115",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "print('a')\nprint('b', end='')\nprint('c')\n\nQuante righe escono?",
+			"options": [],
+			"answer": "2",
+			"explanation": "end='' toglie l'a capo dopo 'b', quindi b e c finiscono sulla stessa riga: due righe in tutto."
+		},
+		{
+			"id": "coding-output-116",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché print(x) e print('x') danno risultati diversi?",
+			"options": [
+				"Il primo stampa il valore, il secondo la lettera",
+				"Sono identici: cambia soltanto lo stile di scrittura",
+				"Il secondo modo dà sempre un errore di sintassi",
+				"Il primo modo funziona soltanto con i numeri"
+			],
+			"answer": "Il primo stampa il valore, il secondo la lettera",
+			"explanation": "Le virgolette trasformano tutto in testo: senza, Python cerca una variabile con quel nome."
+		},
+		{
+			"id": "coding-stringhe-117",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti caratteri ha la stringa 'ciao'?",
+			"options": [],
+			"answer": "4",
+			"explanation": "len('ciao') vale 4: si contano tutte le lettere, spazi compresi quando ci sono."
+		},
+		{
+			"id": "coding-stringhe-118",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale funzione dice quanto è lunga una stringa?",
+			"options": [
+				"count()",
+				"len()",
+				"length()",
+				"size()"
+			],
+			"answer": "len()",
+			"explanation": "len() restituisce il numero di caratteri. Funziona anche con le liste."
+		},
+		{
+			"id": "coding-stringhe-119",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "s = 'python'\nprint(s[0])\n\nCosa stampa?",
+			"options": [
+				"y",
+				"python",
+				"p",
+				"errore"
+			],
+			"answer": "p",
+			"explanation": "Gli indici partono da zero: s[0] è il primo carattere, non il secondo."
+		},
+		{
+			"id": "coding-stringhe-120",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "s = 'ciao'\nCon quale indice si prende l'ultima lettera?",
+			"options": [
+				"s[4]",
+				"s[fine]",
+				"s[ultimo]",
+				"s[-1]"
+			],
+			"answer": "s[-1]",
+			"explanation": "Gli indici negativi contano dalla fine: -1 è l'ultimo. s[4] darebbe errore, perché gli indici vanno da 0 a 3."
+		},
+		{
+			"id": "coding-stringhe-121",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cosa stampa: print('ab' * 3)?",
+			"options": [
+				"ababab",
+				"ab3",
+				"errore",
+				"abababab"
+			],
+			"answer": "ababab",
+			"explanation": "Con una stringa e un numero, * ripete: 'ab' tre volte di fila."
+		},
+		{
+			"id": "coding-stringhe-122",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Cosa fa .upper() su una stringa?",
+			"options": [
+				"La rende tutta minuscola",
+				"La rende tutta maiuscola",
+				"Ne conta i caratteri",
+				"La mette al contrario"
+			],
+			"answer": "La rende tutta maiuscola",
+			"explanation": "'ciao'.upper() dà 'CIAO'. La stringa originale non cambia: .upper() ne restituisce una nuova."
+		},
+		{
+			"id": "coding-stringhe-123",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "s = 'ciao'\ns.upper()\nprint(s)\n\nCosa stampa?",
+			"options": [
+				"errore",
+				"Ciao",
+				"ciao",
+				"CIAO"
+			],
+			"answer": "ciao",
+			"explanation": "Le stringhe non si modificano: .upper() restituisce una nuova stringa, e senza assegnarla il risultato si perde."
+		},
+		{
+			"id": "coding-stringhe-124",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si unisce nome = 'Eli' con ' Quest'?",
+			"options": [
+				"nome & ' Quest'",
+				"nome, ' Quest'",
+				"nome . ' Quest'",
+				"nome + ' Quest'"
+			],
+			"answer": "nome + ' Quest'",
+			"explanation": "Con le stringhe l'operatore + concatena, cioè attacca la seconda in coda alla prima."
+		},
+		{
+			"id": "coding-stringhe-125",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Cosa stampa: print(len('Eli Quest'))?",
+			"options": [],
+			"answer": "9",
+			"explanation": "Si contano anche gli spazi: 3 + 1 + 5 fa 9 caratteri."
+		},
+		{
+			"id": "coding-stringhe-126",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché print('5' + '5') dà 55 e non 10?",
+			"options": [
+				"Perché sono stringhe e + le unisce",
+				"Perché Python sbaglia le somme",
+				"Perché mancano le parentesi",
+				"Perché 5 non è un numero valido"
+			],
+			"answer": "Perché sono stringhe e + le unisce",
+			"explanation": "Le virgolette rendono i due 5 testo: con il testo + significa «attacca», non «somma»."
+		},
+		{
+			"id": "coding-stringhe-127",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "s = 'ciao'\nprint(s[1:3])\n\nCosa stampa?",
+			"options": [
+				"iao",
+				"ia",
+				"ci",
+				"cia"
+			],
+			"answer": "ia",
+			"explanation": "s[1:3] prende dall'indice 1 fino a 3 escluso: i caratteri 1 e 2, cioè 'ia'."
+		},
+		{
+			"id": "coding-stringhe-128",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale scrittura è una stringa valida?",
+			"options": [
+				"[ciao]",
+				"ciao",
+				"'ciao'",
+				"(ciao)"
+			],
+			"answer": "'ciao'",
+			"explanation": "Serve una coppia di virgolette. Senza, Python cerca una variabile di nome ciao."
+		},
+		{
+			"id": "coding-algoritmi-129",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché una ricetta di cucina somiglia a un algoritmo?",
+			"options": [
+				"Perché elenca gli ingredienti da usare",
+				"Perché è stata scritta da una persona",
+				"Perché seguendola ci si può sbagliare",
+				"Perché è una sequenza di passi precisi in ordine"
+			],
+			"answer": "Perché è una sequenza di passi precisi in ordine",
+			"explanation": "Un algoritmo è fatto della stessa sostanza: passi definiti, in un ordine che conta, che portano a un risultato prevedibile."
+		},
+		{
+			"id": "coding-algoritmi-130",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In un algoritmo, cambiare l'ordine dei passi…",
+			"options": [
+				"Può cambiare il risultato",
+				"Fa sempre errore",
+				"Non cambia mai niente",
+				"Rende il programma più veloce"
+			],
+			"answer": "Può cambiare il risultato",
+			"explanation": "Prima si versa il latte o prima i cereali? L'ordine conta: è il primo motivo per cui un programma non funziona."
+		},
+		{
+			"id": "coding-algoritmi-131",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Per trovare il numero più grande in una lista, quale idea funziona?",
+			"options": [
+				"Contare quanti numeri ci sono in tutto",
+				"Tenere da parte il maggiore visto finora",
+				"Prendere sempre l'ultimo della lista",
+				"Sommare tutti i numeri della lista"
+			],
+			"answer": "Tenere da parte il maggiore visto finora",
+			"explanation": "Si scorre la lista una volta sola confrontando ogni numero con il record: alla fine il record è il massimo."
+		},
+		{
+			"id": "coding-algoritmi-132",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cercare una parola in un dizionario di carta aprendo a metà è un esempio di…",
+			"options": [
+				"Conteggio",
+				"Ricerca a caso",
+				"Ricerca binaria",
+				"Ordinamento"
+			],
+			"answer": "Ricerca binaria",
+			"explanation": "Ogni apertura scarta metà del dizionario: bastano pochi passi anche con migliaia di pagine."
+		},
+		{
+			"id": "coding-algoritmi-133",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Con la ricerca binaria, quante volte si può dimezzare 16 prima di arrivare a 1?",
+			"options": [],
+			"answer": "4",
+			"explanation": "16 → 8 → 4 → 2 → 1: quattro dimezzamenti. È per questo che la ricerca binaria è così veloce."
+		},
+		{
+			"id": "coding-algoritmi-134",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un algoritmo deve avere una fine. Come si chiama un ciclo che non finisce mai?",
+			"options": [
+				"Ciclo vuoto",
+				"Ciclo annidato",
+				"Ciclo perfetto",
+				"Ciclo infinito"
+			],
+			"answer": "Ciclo infinito",
+			"explanation": "Se la condizione non diventa mai falsa il programma resta bloccato: è uno degli errori più comuni."
+		},
+		{
+			"id": "coding-algoritmi-135",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa vuol dire scomporre un problema?",
+			"options": [
+				"Dividerlo in problemi più piccoli",
+				"Renderlo più difficile",
+				"Cancellarlo e ricominciare",
+				"Risolverlo a caso"
+			],
+			"answer": "Dividerlo in problemi più piccoli",
+			"explanation": "Un problema grande diventa affrontabile quando si spezza in pezzi che si risolvono uno alla volta."
+		},
+		{
+			"id": "coding-algoritmi-136",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Per ordinare 5 carte in mano, l'idea più semplice è…",
+			"options": [
+				"Contare quante carte si hanno prima di cominciare",
+				"Inserire ogni carta al posto giusto fra quelle già ordinate",
+				"Mescolarle di nuovo finché non risultano in ordine",
+				"Guardare soltanto la prima e l'ultima della mano"
+			],
+			"answer": "Inserire ogni carta al posto giusto fra quelle già ordinate",
+			"explanation": "È l'ordinamento per inserimento: lo facciamo tutti con le carte senza sapere che ha un nome."
+		},
+		{
+			"id": "coding-algoritmi-137",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Un algoritmo scorre una lista di 100 elementi una volta sola. Quanti confronti fa, all'incirca?",
+			"options": [],
+			"answer": "100",
+			"explanation": "Una passata sola significa un confronto per elemento: cento. Un algoritmo che confrontasse tutti con tutti ne farebbe diecimila."
+		},
+		{
+			"id": "coding-algoritmi-138",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è lo pseudocodice?",
+			"options": [
+				"Un programma pieno di errori da correggere",
+				"Un linguaggio inventato che nessun computer esegue",
+				"Un algoritmo scritto in italiano, prima del codice vero",
+				"Il codice scritto in modo disordinato e confuso"
+			],
+			"answer": "Un algoritmo scritto in italiano, prima del codice vero",
+			"explanation": "Serve a ragionare sui passi senza preoccuparsi della grammatica del linguaggio: si traduce dopo."
+		},
+		{
+			"id": "coding-algoritmi-139",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Due algoritmi risolvono lo stesso problema. Come si sceglie il migliore?",
+			"options": [
+				"Sono sempre equivalenti",
+				"Si sceglie quello con più variabili",
+				"Si sceglie quello più corto da scrivere",
+				"Si guarda quanti passi fa al crescere dei dati"
+			],
+			"answer": "Si guarda quanti passi fa al crescere dei dati",
+			"explanation": "Con dieci dati la differenza non si vede; con un milione uno finisce in un secondo e l'altro non finisce."
+		},
+		{
+			"id": "coding-algoritmi-140",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché un algoritmo deve essere preciso e senza ambiguità?",
+			"options": [
+				"Perché il computer non può intuire cosa intendevi",
+				"Perché un algoritmo vago occupa più memoria",
+				"Perché è il linguaggio Python a richiederlo",
+				"Perché altrimenti viene eseguito più lentamente"
+			],
+			"answer": "Perché il computer non può intuire cosa intendevi",
+			"explanation": "Una persona capisce «aggiungi un po' di sale»; un computer no. Ogni passo deve avere un solo significato possibile."
+		},
+		{
+			"id": "coding-output-141",
 			"subject": "coding",
 			"topic": "output",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "In Python, quale istruzione mostra un messaggio a schermo?",
 			"options": [
+				"echo()",
 				"print()",
-				"show()",
 				"display()",
-				"echo()"
+				"show()"
 			],
 			"answer": "print()",
 			"explanation": "print() stampa a schermo ciò che gli passi."
 		},
 		{
-			"id": "coding-output-1",
+			"id": "coding-output-142",
 			"subject": "coding",
 			"topic": "output",
 			"difficulty": 2,
@@ -348,63 +2424,63 @@
 			"prompt": "Cosa stampa: print(3 + 4)?",
 			"options": [
 				"'7'",
-				"7",
 				"34",
+				"7",
 				"3 + 4"
 			],
 			"answer": "7",
 			"explanation": "Con i numeri, + è la somma: 3 + 4 = 7."
 		},
 		{
-			"id": "coding-output-2",
+			"id": "coding-output-143",
 			"subject": "coding",
 			"topic": "output",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Cosa stampa: print('3' + '4')?",
 			"options": [
-				"7",
 				"errore",
-				"34",
-				"'34'"
+				"'34'",
+				"7",
+				"34"
 			],
 			"answer": "34",
 			"explanation": "Con le stringhe, + le unisce (concatenazione): '3'+'4' = '34'."
 		},
 		{
-			"id": "coding-variabili-3",
+			"id": "coding-variabili-144",
 			"subject": "coding",
 			"topic": "variabili",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "In x = 5, che cos'è x?",
 			"options": [
-				"Un errore di scrittura",
-				"Una funzione senza nome",
+				"Una variabile che vale 5",
 				"Un testo fisso tra virgolette",
-				"Una variabile che vale 5"
+				"Una funzione senza nome",
+				"Un errore di scrittura"
 			],
 			"answer": "Una variabile che vale 5",
 			"explanation": "Una variabile è un contenitore con un nome e un valore."
 		},
 		{
-			"id": "coding-variabili-4",
+			"id": "coding-variabili-145",
 			"subject": "coding",
 			"topic": "variabili",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Dopo x = 5 e poi x = x + 1, quanto vale x?",
 			"options": [
+				"5",
 				"6",
-				"errore",
 				"51",
-				"5"
+				"errore"
 			],
 			"answer": "6",
 			"explanation": "x + 1 = 5 + 1 = 6, e viene rimesso in x."
 		},
 		{
-			"id": "coding-tipi-5",
+			"id": "coding-tipi-146",
 			"subject": "coding",
 			"topic": "tipi",
 			"difficulty": 2,
@@ -412,55 +2488,55 @@
 			"prompt": "Di che tipo è il valore 'ciao'?",
 			"options": [
 				"Booleano",
-				"Stringa (testo)",
 				"Numero intero",
+				"Stringa (testo)",
 				"Lista"
 			],
 			"answer": "Stringa (testo)",
 			"explanation": "Il testo tra virgolette è una stringa."
 		},
 		{
-			"id": "coding-tipi-6",
+			"id": "coding-tipi-147",
 			"subject": "coding",
 			"topic": "tipi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Di che tipo è il valore 7?",
 			"options": [
-				"Stringa di testo",
 				"Booleano (vero/falso)",
-				"Numero intero (int)",
-				"Lista di valori"
+				"Lista di valori",
+				"Stringa di testo",
+				"Numero intero (int)"
 			],
 			"answer": "Numero intero (int)",
 			"explanation": "7 senza virgolette è un numero intero."
 		},
 		{
-			"id": "coding-operatori-7",
+			"id": "coding-operatori-148",
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Cosa calcola 10 % 3 in Python (operatore modulo)?",
 			"options": [
-				"3",
-				"3.33",
-				"30",
-				"1 (il resto)"
+				"1 (il resto)",
+				"30 (il prodotto)",
+				"3.33 (la divisione)",
+				"3 (il quoziente)"
 			],
 			"answer": "1 (il resto)",
 			"explanation": "% dà il resto della divisione: 10 = 3×3 + 1."
 		},
 		{
-			"id": "coding-operatori-8",
+			"id": "coding-operatori-149",
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Cosa calcola 2 ** 3 in Python?",
 			"options": [
-				"8",
 				"5",
+				"8",
 				"9",
 				"6"
 			],
@@ -468,23 +2544,23 @@
 			"explanation": "** è l'elevamento a potenza: 2 alla 3 = 8."
 		},
 		{
-			"id": "coding-condizioni-9",
+			"id": "coding-condizioni-150",
 			"subject": "coding",
 			"topic": "condizioni",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale parola introduce una condizione in Python?",
 			"options": [
+				"while",
 				"for",
 				"if",
-				"def",
-				"while"
+				"def"
 			],
 			"answer": "if",
 			"explanation": "if verifica una condizione ed esegue il blocco se è vera."
 		},
 		{
-			"id": "coding-condizioni-10",
+			"id": "coding-condizioni-151",
 			"subject": "coding",
 			"topic": "condizioni",
 			"difficulty": 3,
@@ -492,39 +2568,39 @@
 			"prompt": "Con x = 4, cosa stampa: if x > 3: print('grande')?",
 			"options": [
 				"errore",
+				"niente",
 				"4",
-				"grande",
-				"niente"
+				"grande"
 			],
 			"answer": "grande",
 			"explanation": "4 > 3 è vero, quindi esegue print('grande')."
 		},
 		{
-			"id": "coding-condizioni-11",
+			"id": "coding-condizioni-152",
 			"subject": "coding",
 			"topic": "condizioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale operatore verifica se due valori sono uguali?",
 			"options": [
-				"=",
-				"><",
+				"==",
 				"=>",
-				"=="
+				"=",
+				"><"
 			],
 			"answer": "==",
 			"explanation": "= assegna un valore; == confronta due valori."
 		},
 		{
-			"id": "coding-cicli-12",
+			"id": "coding-cicli-153",
 			"subject": "coding",
 			"topic": "cicli",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale istruzione ripete del codice più volte?",
 			"options": [
-				"for (oppure while)",
 				"if (oppure else)",
+				"for (oppure while)",
 				"def (oppure return)",
 				"print (oppure input)"
 			],
@@ -532,7 +2608,7 @@
 			"explanation": "I cicli for e while ripetono un blocco di istruzioni."
 		},
 		{
-			"id": "coding-cicli-13",
+			"id": "coding-cicli-154",
 			"subject": "coding",
 			"topic": "cicli",
 			"difficulty": 3,
@@ -540,137 +2616,137 @@
 			"prompt": "Quante volte stampa: for i in range(3): print(i)?",
 			"options": [
 				"3 volte (1, 2, 3)",
-				"3 volte (0, 1, 2)",
 				"1 volta",
+				"3 volte (0, 1, 2)",
 				"4 volte"
 			],
 			"answer": "3 volte (0, 1, 2)",
 			"explanation": "range(3) genera 0, 1, 2: tre ripetizioni."
 		},
 		{
-			"id": "coding-liste-14",
+			"id": "coding-liste-155",
 			"subject": "coding",
 			"topic": "liste",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si scrive in Python una lista con tre numeri?",
 			"options": [
+				"<1,2,3>",
 				"{1;2;3}",
 				"(1 2 3)",
-				"[1, 2, 3]",
-				"<1,2,3>"
+				"[1, 2, 3]"
 			],
 			"answer": "[1, 2, 3]",
 			"explanation": "Le liste si scrivono tra parentesi quadre, con virgole."
 		},
 		{
-			"id": "coding-liste-15",
+			"id": "coding-liste-156",
 			"subject": "coding",
 			"topic": "liste",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Data lista = [10, 20, 30], cosa vale lista[0]?",
 			"options": [
-				"30",
+				"10",
 				"20",
 				"1",
-				"10"
+				"30"
 			],
 			"answer": "10",
 			"explanation": "Gli indici partono da 0: lista[0] è il primo elemento."
 		},
 		{
-			"id": "coding-funzioni-16",
+			"id": "coding-funzioni-157",
 			"subject": "coding",
 			"topic": "funzioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale parola chiave definisce una funzione in Python?",
 			"options": [
+				"function",
 				"def",
 				"let",
-				"function",
 				"func"
 			],
 			"answer": "def",
 			"explanation": "def introduce la definizione di una funzione."
 		},
 		{
-			"id": "coding-funzioni-17",
+			"id": "coding-funzioni-158",
 			"subject": "coding",
 			"topic": "funzioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "A cosa serve soprattutto una funzione?",
 			"options": [
+				"A colorare il testo del programma",
 				"A spegnere il computer da solo",
 				"A riusare un blocco di codice dandogli un nome",
-				"A creare di proposito errori nel codice",
-				"A colorare il testo del programma"
+				"A creare di proposito errori nel codice"
 			],
 			"answer": "A riusare un blocco di codice dandogli un nome",
 			"explanation": "Le funzioni evitano di ripetere lo stesso codice."
 		},
 		{
-			"id": "coding-booleani-18",
+			"id": "coding-booleani-159",
 			"subject": "coding",
 			"topic": "booleani",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quali sono i due valori booleani in Python?",
 			"options": [
-				"On e Off",
 				"1 e 2",
-				"True e False",
-				"Sì e No"
+				"Sì e No",
+				"On e Off",
+				"True e False"
 			],
 			"answer": "True e False",
 			"explanation": "Un booleano può essere solo True (vero) o False (falso)."
 		},
 		{
-			"id": "coding-booleani-19",
+			"id": "coding-booleani-160",
 			"subject": "coding",
 			"topic": "booleani",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Cosa vale l'espressione 5 > 3 in Python?",
 			"options": [
+				"True",
 				"errore",
-				"False",
 				"5",
-				"True"
+				"False"
 			],
 			"answer": "True",
 			"explanation": "5 è maggiore di 3, quindi il confronto è True."
 		},
 		{
-			"id": "coding-algoritmi-20",
+			"id": "coding-algoritmi-161",
 			"subject": "coding",
 			"topic": "algoritmi",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un algoritmo?",
 			"options": [
+				"Un tipo di computer molto potente",
 				"Una sequenza di passi per risolvere un problema",
-				"Un linguaggio di programmazione nuovo",
 				"Un errore che blocca il programma",
-				"Un tipo di computer molto potente"
+				"Un linguaggio di programmazione nuovo"
 			],
 			"answer": "Una sequenza di passi per risolvere un problema",
 			"explanation": "L'algoritmo descrive i passi, come una ricetta."
 		},
 		{
-			"id": "coding-algoritmi-21",
+			"id": "coding-algoritmi-162",
 			"subject": "coding",
 			"topic": "algoritmi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Cosa significa 'bug' in programmazione?",
 			"options": [
-				"Un tipo di dato nuovo",
-				"Un errore nel programma",
+				"Una funzione di sistema",
 				"Un comando molto utile",
-				"Una funzione di sistema"
+				"Un errore nel programma",
+				"Un tipo di dato nuovo"
 			],
 			"answer": "Un errore nel programma",
 			"explanation": "Un bug è un difetto che fa comportare male il programma."

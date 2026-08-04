@@ -35,6 +35,7 @@ func _init() -> void:
 	print("Il Tredicesimo — chiede, avverte, supplica. Mai minaccia.\n")
 
 	failures.append_array(_check_azioni())
+	failures.append_array(_check_presagi())
 	failures.append_array(_check_battute())
 	failures.append_array(_check_nome())
 	failures.append_array(_check_scelta())
@@ -75,6 +76,46 @@ func _check_azioni() -> Array:
 		print("%-13s dal mondo %d   costo: %-9s %s" % [
 			action_id, world, costo,
 			"reversibile" if bool(action.get("reversibile", false)) else "IRREVERSIBILE"])
+	return out
+
+## I presagi: pochi, silenziosi, e solo con le azioni che non costano niente.
+func _check_presagi() -> Array:
+	var out: Array = []
+	var presagi: Array = ThirteenthCatalog.PRESAGI
+	if presagi.size() > 2:
+		out.append("i presagi sono %d: più di due e l'antagonista non è più un presagio, è già in scena" % presagi.size())
+	for entry in presagi:
+		var presagio := entry as Dictionary
+		var world := int(presagio.get("world", 0))
+		var azione := str(presagio.get("azione", ""))
+		if not ThirteenthCatalog.AZIONI.has(azione):
+			out.append("presagio al mondo %d: azione «%s» inesistente" % [world, azione])
+			continue
+		if world >= ThirteenthCatalog.PRIMO_MONDO_AZIONE:
+			out.append("presagio al mondo %d: non è un presagio, è già dentro l'atto III" % world)
+		if world < 9:
+			out.append("presagio al mondo %d: troppo presto, il primo atto deve restare senza nessuno dall'altra parte" % world)
+		# Solo azioni a costo nullo o estetico: un presagio che toglie qualcosa
+		# prima che il giocatore sappia chi gliela toglie è una punizione anonima.
+		var costo := str((ThirteenthCatalog.AZIONI[azione] as Dictionary).get("costo", ""))
+		if not costo in ["nessuno", "estetico"]:
+			out.append("presagio al mondo %d: l'azione «%s» costa «%s» — troppo, per qualcuno che non ha ancora un nome" % [
+				world, azione, costo])
+		if bool(presagio.get("commentato", true)):
+			out.append("presagio al mondo %d: se qualcuno lo commenta diventa trama, e al mondo 17 NORA non può più stupirsi" % world)
+		if str(presagio.get("dove", "")).strip_edges() == "":
+			out.append("presagio al mondo %d: non dice dove accade" % world)
+		# La voce resta all'atto III, sempre.
+		if azione == "parla":
+			out.append("presagio al mondo %d: la voce non si anticipa" % world)
+		if ThirteenthCatalog.action_allowed_at(azione, world) == false:
+			out.append("presagio al mondo %d: la regola non lo ammette" % world)
+	var mondi: Array = presagi.map(func(p): return str(int((p as Dictionary)["world"])))
+	print("presagi: %d (mondi %s) — nessuno commentato" % [
+		presagi.size(), ", ".join(PackedStringArray(mondi))])
+	# E la regola non deve aprire le porte a tutto il resto.
+	if ThirteenthCatalog.action_allowed_at("chiude", 13):
+		out.append("la regola dei presagi ammette «chiude» al mondo 13: era un'eccezione, non un cancello aperto")
 	return out
 
 func _check_battute() -> Array:

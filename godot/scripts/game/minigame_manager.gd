@@ -1625,155 +1625,299 @@ const GRAPH := {
 	"elettronica": [
 		{"topic": "misure-elettriche", "xLabel": "pile in serie", "yLabel": "tensione", "answer": "D",
 			"prompt": "Aggiungendo pile uguali in serie, in quale punto la tensione totale è maggiore?",
+			"domande": [
+				{"prompt": "In quale punto tensione scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico tensione cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di tensione?", "answer": "C", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in C."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.43, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.67, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.91, "label": "D"}],
 			"explanation": "In serie le tensioni delle pile si sommano: con più pile la tensione totale cresce, fino al punto D."},
 		{"topic": "sicurezza", "xLabel": "resistenza", "yLabel": "corrente", "answer": "D",
 			"prompt": "A tensione costante, la corrente diminuisce quando la resistenza aumenta. In quale punto la corrente è minore?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove corrente tocca il valore più alto?", "answer": "A", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è A. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto è il più vicino alla metà strada fra minimo e massimo di corrente?", "answer": "B", "explanation": "Si guarda il valore più basso e il più alto, si pensa alla metà fra i due e si cerca il punto più vicino a quell'altezza: è B."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.91, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.40, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
 			"explanation": "Con la stessa tensione, una resistenza maggiore lascia passare meno corrente: il minimo è D."},
 		{"topic": "legge-ohm", "minLevel": 6, "xLabel": "tensione", "yLabel": "corrente", "answer": "D",
 			"prompt": "Il grafico mostra la corrente al crescere della tensione (legge di Ohm): in quale punto la corrente è massima?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di corrente più basso di tutti?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico corrente cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "Fra due punti vicini, dove corrente cresce di più? Indica il punto in cui arriva.", "answer": "B", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in B."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.42, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
 			"explanation": "La corrente cresce in modo proporzionale alla tensione: è massima all'ultimo punto, D."},
 		{"topic": "misure-elettriche", "minLevel": 5, "xLabel": "tempo", "yLabel": "carica", "answer": "D",
 			"prompt": "Il grafico mostra la carica di una batteria mentre si scarica usandola: in quale punto è più scarica?",
+			"domande": [
+				{"prompt": "In quale punto carica arriva al massimo?", "answer": "A", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è A. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Guardando il grafico, dove carica tocca il valore più basso?", "answer": "D", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico carica cresce verso l'alto, quindi il punto più basso è D."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.66, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.38, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.12, "label": "D"}],
 			"explanation": "Usandola la carica cala nel tempo: la batteria è più scarica alla fine, nel punto D."},
 		{"topic": "legge-ohm", "minLevel": 12, "xLabel": "tensione", "yLabel": "corrente", "answer": "B",
 			"prompt": "Ogni punto è una misura diversa. Poiché R = V / I, quale punto indica la resistenza maggiore (tensione alta ma corrente bassa)?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove corrente tocca il valore più basso?", "answer": "B", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico corrente cresce verso l'alto, quindi il punto più basso è B."},
+				{"prompt": "Dove corrente fa il balzo verso l'alto più netto? Indica il punto d'arrivo.", "answer": "C", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in C."},
+			],
 			"points": [{"id": "A", "x": 0.28, "y": 0.72, "label": "A"}, {"id": "B", "x": 0.72, "y": 0.34, "label": "B"}, {"id": "C", "x": 0.48, "y": 0.80, "label": "C"}, {"id": "D", "x": 0.86, "y": 0.74, "label": "D"}],
 			"explanation": "La resistenza è il rapporto V/I: B combina una tensione alta con una corrente bassa, quindi ha il rapporto maggiore."},
 		{"topic": "segnali", "minLevel": 23, "xLabel": "tempo", "yLabel": "tensione", "answer": "B",
 			"prompt": "Un segnale digitale dovrebbe restare basso o alto. Quale punto è disturbato e cade in una zona intermedia incerta?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di tensione più alto di tutti?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "In quale punto tensione scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico tensione cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.50, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.91, "label": "D"}],
 			"explanation": "A è un livello basso e C-D sono alti; B sta a metà, dove il circuito non legge con sicurezza né 0 né 1."},
 		{"topic": "condensatore", "minLevel": 21, "xLabel": "tempo", "yLabel": "tensione", "answer": "C",
 			"prompt": "Un condensatore si carica rapidamente e poi si avvicina al valore massimo. Quale punto mostra che è quasi carico?",
+			"domande": [
+				{"prompt": "In quale punto tensione scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico tensione cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di tensione?", "answer": "B", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in B."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.16, "label": "A"}, {"id": "B", "x": 0.34, "y": 0.66, "label": "B"}, {"id": "C", "x": 0.72, "y": 0.91, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.92, "label": "D"}],
 			"explanation": "La curva ormai è quasi orizzontale e vicina al massimo: in C il condensatore è quasi carico."},
 	],
 	"fisica": [
 		{"topic": "moto", "xLabel": "tempo", "yLabel": "velocità", "answer": "C",
 			"prompt": "Il grafico mostra la velocità nel tempo: in quale punto è massima?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove velocità tocca il valore più basso?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico velocità cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "Dove velocità fa il balzo verso l'alto più netto? Indica il punto d'arrivo.", "answer": "C", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in C."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.50, "label": "D"}],
 			"explanation": "La velocità è massima dove la curva è più in alto: il punto C."},
 		{"topic": "temperatura", "xLabel": "tempo", "yLabel": "temperatura", "answer": "A",
 			"prompt": "Una bevanda calda si raffredda sul tavolo. In quale punto è ancora più calda?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di temperatura più basso di tutti?", "answer": "D", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico temperatura cresce verso l'alto, quindi il punto più basso è D."},
+				{"prompt": "Fra due punti vicini, dove temperatura cresce di più? Indica il punto in cui arriva.", "answer": "D", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in D."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.43, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.28, "label": "D"}],
 			"explanation": "All'inizio la bevanda non ha ancora ceduto molto calore all'ambiente: A è il punto più caldo."},
 		{"topic": "moto", "minLevel": 4, "xLabel": "tempo", "yLabel": "distanza", "answer": "D",
 			"prompt": "Il grafico mostra la distanza percorsa nel tempo: in quale punto l'oggetto è più lontano dalla partenza?",
+			"domande": [
+				{"prompt": "In quale punto distanza arriva al massimo?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Guardando il grafico, dove distanza tocca il valore più basso?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico distanza cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.66, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.95, "label": "D"}],
 			"explanation": "La distanza cresce sempre: l'oggetto è più lontano alla fine, nel punto D."},
 		{"topic": "caduta", "minLevel": 6, "xLabel": "tempo", "yLabel": "velocità", "answer": "D",
 			"prompt": "Un sasso cade e accelera per gravità: in quale punto va più veloce?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove velocità tocca il valore più basso?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico velocità cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "Dove velocità fa il balzo verso l'alto più netto? Indica il punto d'arrivo.", "answer": "D", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in D."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.08, "label": "A"}, {"id": "B", "x": 0.40, "y": 0.28, "label": "B"}, {"id": "C", "x": 0.68, "y": 0.58, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.95, "label": "D"}],
 			"explanation": "Cadendo la velocità cresce sempre di più: è massima alla fine, nel punto D."},
 		{"topic": "dinamica", "minLevel": 12, "xLabel": "massa", "yLabel": "accelerazione", "answer": "D",
 			"prompt": "La stessa spinta agisce su carrelli di massa diversa. Quale punto rappresenta il carrello più pesante, che accelera meno?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di accelerazione più alto di tutti?", "answer": "A", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è A. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha accelerazione più o meno a metà fra il minimo e il massimo?", "answer": "B", "explanation": "Si guarda il valore più basso e il più alto, si pensa alla metà fra i due e si cerca il punto più vicino a quell'altezza: è B."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.90, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.40, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.20, "label": "D"}],
 			"explanation": "Con la stessa forza, aumentando la massa l'accelerazione diminuisce: D ha massa massima e accelerazione minima."},
 		{"topic": "onde", "minLevel": 23, "xLabel": "tempo", "yLabel": "spostamento", "answer": "C",
 			"prompt": "Il grafico mostra un'oscillazione. Quale punto è il ventre inferiore, cioè lo spostamento massimo sotto l'equilibrio?",
+			"domande": [
+				{"prompt": "In quale punto spostamento scende al minimo?", "answer": "C", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico spostamento cresce verso l'alto, quindi il punto più basso è C."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di spostamento?", "answer": "D", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in D."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.50, "label": "A"}, {"id": "B", "x": 0.34, "y": 0.90, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.10, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.52, "label": "D"}],
 			"explanation": "La linea di equilibrio è a metà: C è il punto più lontano verso il basso, quindi il ventre inferiore."},
 		{"topic": "passaggi-stato", "minLevel": 19, "xLabel": "tempo", "yLabel": "temperatura", "answer": "C",
 			"prompt": "Il ghiaccio viene scaldato. Quale punto ha quasi la stessa temperatura del punto precedente, perché durante la fusione la curva si appiattisce?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove temperatura tocca il valore più alto?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha il valore di temperatura più basso di tutti?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico temperatura cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.34, "y": 0.48, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.50, "label": "C"}, {"id": "D", "x": 0.86, "y": 0.82, "label": "D"}],
 			"explanation": "B e C sono quasi alla stessa altezza: arrivando a C il calore sta cambiando lo stato, non alzando la temperatura."},
 	],
 	"matematica": [
 		{"topic": "coordinate", "xLabel": "x", "yLabel": "y", "answer": "Q",
 			"prompt": "Quale punto si trova più in alto (ordinata y maggiore)?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di y più basso di tutti?", "answer": "P", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico y cresce verso l'alto, quindi il punto più basso è P."},
+				{"prompt": "Fra due punti vicini, dove y cresce di più? Indica il punto in cui arriva.", "answer": "Q", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in Q."},
+			],
 			"points": [{"id": "P", "x": 0.20, "y": 0.35, "label": "P"}, {"id": "Q", "x": 0.50, "y": 0.85, "label": "Q"}, {"id": "R", "x": 0.80, "y": 0.55, "label": "R"}],
 			"explanation": "Il punto Q ha l'ordinata (y) più grande."},
 		# Lettura di grafici: competenza chiave di dati e statistica.
 		{"topic": "dati", "xLabel": "ora", "yLabel": "temperatura", "answer": "C",
 			"prompt": "Il grafico mostra la temperatura durante il giorno: in quale punto è massima?",
+			"domande": [
+				{"prompt": "In quale punto temperatura scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico temperatura cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di temperatura?", "answer": "B", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in B."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.25, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.60, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.55, "label": "D"}],
 			"explanation": "La temperatura è massima dove la curva è più in alto: il punto C."},
 		{"topic": "dati", "xLabel": "settimana", "yLabel": "risparmi", "answer": "A",
 			"prompt": "Il grafico mostra i risparmi settimana per settimana: in quale punto sono minimi?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove risparmi tocca il valore più alto?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto è il più vicino alla metà strada fra minimo e massimo di risparmi?", "answer": "B", "explanation": "Si guarda il valore più basso e il più alto, si pensa alla metà fra i due e si cerca il punto più vicino a quell'altezza: è B."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.40, "y": 0.45, "label": "B"}, {"id": "C", "x": 0.68, "y": 0.70, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.92, "label": "D"}],
 			"explanation": "I risparmi sono minimi dove la curva è più in basso: il punto A."},
 		{"topic": "funzioni", "minLevel": 6, "xLabel": "x", "yLabel": "y", "answer": "A",
 			"prompt": "La retta sale da sinistra a destra: in quale punto tocca l'asse x (y = 0)?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di y più alto di tutti?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "In quale punto y scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico y cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.15, "y": 0.05, "label": "A"}, {"id": "B", "x": 0.45, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.72, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.92, "y": 0.90, "label": "D"}],
 			"explanation": "La retta interseca l'asse x dove y vale (quasi) zero: il punto A, in basso."},
 		{"topic": "proporzioni", "minLevel": 12, "xLabel": "quaderni", "yLabel": "costo", "answer": "D",
 			"prompt": "Ogni quaderno costa uguale. Quale punto rappresenta l'acquisto con il costo totale maggiore?",
+			"domande": [
+				{"prompt": "In quale punto costo scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico costo cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di costo?", "answer": "C", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in C."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.16, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.66, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.92, "label": "D"}],
 			"explanation": "Se il prezzo unitario è fisso, più quaderni significano un costo maggiore: D è massimo su entrambi gli assi."},
 		{"topic": "funzioni", "minLevel": 23, "xLabel": "x", "yLabel": "y", "answer": "C",
 			"prompt": "Una funzione cresce, raggiunge un massimo e poi diminuisce. Quale punto è il massimo locale?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove y tocca il valore più basso?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico y cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "Dove y fa il balzo verso l'alto più netto? Indica il punto d'arrivo.", "answer": "B", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in B."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.24, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.46, "label": "D"}],
 			"explanation": "C è più alto dei punti vicini: la funzione cresce fino a C e poi scende, quindi C è un massimo locale."},
 		{"topic": "statistica", "minLevel": 19, "xLabel": "giorno", "yLabel": "media mobile", "answer": "B",
 			"prompt": "La media mobile attenua gli sbalzi giornalieri. Quale punto indica l'inizio di una tendenza in discesa?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di media mobile più alto di tutti?", "answer": "B", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è B. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "In quale punto media mobile scende al minimo?", "answer": "D", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico media mobile cresce verso l'alto, quindi il punto più basso è D."},
+			],
 			"points": [{"id": "A", "x": 0.14, "y": 0.54, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.82, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.60, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.35, "label": "D"}],
 			"explanation": "B è il massimo locale: dopo B i valori medi calano in C e D, quindi lì comincia la discesa."},
 	],
 	"scienze": [
 		{"topic": "metodo", "xLabel": "giorni", "yLabel": "altezza", "answer": "D",
 			"prompt": "La pianta cresce nel tempo: in quale punto è più alta?",
+			"domande": [
+				{"prompt": "In quale punto altezza scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico altezza cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di altezza?", "answer": "C", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in C."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.60, "y": 0.70, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.95, "label": "D"}],
 			"explanation": "La curva sale sempre: l'ultimo punto D è il più alto."},
 		{"topic": "ecosistemi", "xLabel": "pioggia", "yLabel": "numero di piante", "answer": "D",
 			"prompt": "Nello stesso terreno, più pioggia permette a più piante di crescere. Quale punto mostra il maggior numero di piante?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove numero di piante tocca il valore più alto?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha il valore di numero di piante più basso di tutti?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico numero di piante cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.41, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.66, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.90, "label": "D"}],
 			"explanation": "Nel caso osservato il numero di piante cresce con la pioggia: il valore massimo è D."},
 		{"topic": "materia", "minLevel": 4, "xLabel": "tempo", "yLabel": "temperatura", "answer": "D",
 			"prompt": "Una tazza di tè si raffredda: in quale punto la temperatura è più bassa?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di temperatura più alto di tutti?", "answer": "A", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è A. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha temperatura più o meno a metà fra il minimo e il massimo?", "answer": "B", "explanation": "Si guarda il valore più basso e il più alto, si pensa alla metà fra i due e si cerca il punto più vicino a quell'altezza: è B."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.38, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
 			"explanation": "La curva scende raffreddandosi: la temperatura è più bassa alla fine, nel punto D."},
 		{"topic": "fotosintesi", "minLevel": 8, "xLabel": "luce", "yLabel": "ossigeno prodotto", "answer": "D",
 			"prompt": "Aumentando la luce, la fotosintesi cresce e poi raggiunge un limite. Quale punto mostra che altra luce cambia pochissimo il risultato?",
+			"domande": [
+				{"prompt": "In quale punto ossigeno prodotto arriva al massimo?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Guardando il grafico, dove ossigeno prodotto tocca il valore più basso?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico ossigeno prodotto cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.68, "y": 0.88, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.90, "label": "D"}],
 			"explanation": "Arrivando a D la luce aumenta molto rispetto a C, ma l'ossigeno quasi no: la pianta è vicina al suo limite."},
 		{"topic": "corpo", "minLevel": 15, "xLabel": "tempo dopo la corsa", "yLabel": "battiti", "answer": "D",
 			"prompt": "Dopo una corsa i battiti tornano gradualmente verso il valore di riposo. In quale punto il recupero è più avanzato?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove battiti tocca il valore più alto?", "answer": "A", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è A. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha il valore di battiti più basso di tutti?", "answer": "D", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico battiti cresce verso l'alto, quindi il punto più basso è D."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.68, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.46, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.30, "label": "D"}],
 			"explanation": "Più tempo passa, più i battiti scendono verso il riposo: D è il recupero più avanzato."},
 		{"topic": "ecosistemi", "minLevel": 22, "xLabel": "inquinamento", "yLabel": "numero di specie", "answer": "D",
 			"prompt": "Nel campione osservato, più inquinamento corrisponde a meno specie. Quale punto mostra la biodiversità più bassa?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di numero di specie più alto di tutti?", "answer": "A", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è A. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha numero di specie più o meno a metà fra il minimo e il massimo?", "answer": "C", "explanation": "Si guarda il valore più basso e il più alto, si pensa alla metà fra i due e si cerca il punto più vicino a quell'altezza: è C."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.68, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.44, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
 			"explanation": "D combina il massimo inquinamento con il minor numero di specie: è la biodiversità più bassa."},
 	],
 	"coding": [
 		{"topic": "variabili", "xLabel": "passo", "yLabel": "valore di x", "answer": "D",
 			"prompt": "Il programma parte da x = 1 e aggiunge 2 a ogni passo. In quale punto x è maggiore?",
+			"domande": [
+				{"prompt": "In quale punto valore di x scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico valore di x cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di valore di x?", "answer": "C", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in C."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.42, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.66, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.90, "label": "D"}],
 			"explanation": "Ogni istruzione aumenta x di 2: il valore cresce passo dopo passo ed è massimo in D."},
 		{"topic": "cicli", "xLabel": "giro del ciclo", "yLabel": "elementi stampati", "answer": "C",
 			"prompt": "Un ciclo stampa un elemento a ogni giro. Quale punto indica che sono stati stampati tre elementi?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove elementi stampati tocca il valore più alto?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha il valore di elementi stampati più basso di tutti?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico elementi stampati cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.18, "y": 0.25, "label": "A"}, {"id": "B", "x": 0.42, "y": 0.50, "label": "B"}, {"id": "C", "x": 0.66, "y": 0.75, "label": "C"}, {"id": "D", "x": 0.90, "y": 1.00, "label": "D"}],
 			"explanation": "Dopo tre giri sono stati stampati tre elementi: il terzo punto è C."},
 		{"topic": "variabili", "xLabel": "passo", "yLabel": "totale", "answer": "C",
 			"prompt": "Il programma parte da totale = 0 e aggiunge in ordine 2, 3 e 4. In quale punto il totale supera 4 per la prima volta?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di totale più alto di tutti?", "answer": "D", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è D. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "In quale punto totale scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico totale cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.08, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.24, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.56, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
 			"explanation": "Dopo il primo passo il totale è 2; dopo il secondo è 5, quindi C è il primo punto sopra 4. D rappresenta il totale finale 9."},
 		{"topic": "condizioni", "xLabel": "valore letto", "yLabel": "condizione (0/1)", "answer": "C",
 			"prompt": "La condizione vale 0 finché il valore non è positivo e 1 quando valore > 0. Quale punto è il primo in cui diventa vera?",
+			"domande": [
+				{"prompt": "In quale punto condizione (0/1) arriva al massimo?", "answer": "C", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è C. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Guardando il grafico, dove condizione (0/1) tocca il valore più basso?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico condizione (0/1) cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.10, "label": "A"}, {"id": "B", "x": 0.40, "y": 0.10, "label": "B"}, {"id": "C", "x": 0.66, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.90, "label": "D"}],
 			"explanation": "A e B rappresentano valori non positivi; C è il primo valore sopra zero, quindi lì la condizione passa da 0 a 1."},
 		{"topic": "variabili", "xLabel": "passo", "yLabel": "valore di energia", "answer": "D",
 			"prompt": "Il programma parte da energia = 6 e sottrae 2 a ogni passo. In quale punto energia arriva a zero?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove valore di energia tocca il valore più alto?", "answer": "A", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è A. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha il valore di valore di energia più basso di tutti?", "answer": "D", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico valore di energia cresce verso l'alto, quindi il punto più basso è D."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.90, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.34, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.06, "label": "D"}],
 			"explanation": "I valori sono 6, 4, 2 e 0: sottraendo 2 tre volte, energia raggiunge zero nel punto D."},
 		{"topic": "condizioni", "minLevel": 8, "xLabel": "temperatura letta", "yLabel": "ventola (0/1)", "answer": "C",
 			"prompt": "La ventola vale 0 fino a 25 °C e 1 sopra 25 °C. Quale punto è il primo in cui la condizione la accende?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di ventola (0/1) più alto di tutti?", "answer": "C", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è C. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "In quale punto ventola (0/1) scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico ventola (0/1) cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.18, "y": 0.10, "label": "A"}, {"id": "B", "x": 0.42, "y": 0.10, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.88, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.88, "label": "D"}],
 			"explanation": "C è la prima lettura oltre la soglia: lì la condizione diventa vera e l'uscita passa da 0 a 1."},
 		{"topic": "ricerca", "minLevel": 12, "xLabel": "passo", "yLabel": "elementi rimasti", "answer": "D",
 			"prompt": "Una ricerca dimezza ogni volta la parte di elenco ancora da controllare. In quale punto restano meno elementi?",
+			"domande": [
+				{"prompt": "In quale punto elementi rimasti arriva al massimo?", "answer": "A", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è A. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Fra il valore più basso e quello più alto di elementi rimasti, quale punto sta in mezzo?", "answer": "B", "explanation": "Si guarda il valore più basso e il più alto, si pensa alla metà fra i due e si cerca il punto più vicino a quell'altezza: è B."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.54, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.30, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.17, "label": "D"}],
 			"explanation": "A ogni passo resta circa metà dell'intervallo precedente: D è il punto con meno elementi da controllare."},
 		{"topic": "sensori", "minLevel": 16, "xLabel": "tempo", "yLabel": "distanza letta", "answer": "B",
 			"prompt": "Un sensore misura una parete ferma. Una sola lettura è un picco anomalo: quale punto andrebbe controllato?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove distanza letta tocca il valore più alto?", "answer": "B", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è B. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "Quale punto ha il valore di distanza letta più basso di tutti?", "answer": "D", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico distanza letta cresce verso l'alto, quindi il punto più basso è D."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.48, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.92, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.50, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.47, "label": "D"}],
 			"explanation": "A, C e D sono vicini; B è molto distante dagli altri ed è probabilmente una lettura anomala."},
 		{"topic": "efficienza", "minLevel": 20, "xLabel": "dati in ingresso", "yLabel": "operazioni", "answer": "D",
 			"prompt": "Due cicli annidati fanno crescere rapidamente le operazioni. Quale punto mostra il costo maggiore?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di operazioni più basso di tutti?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico operazioni cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "Fra due punti vicini, dove operazioni cresce di più? Indica il punto in cui arriva.", "answer": "D", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in D."},
+			],
 			"points": [{"id": "A", "x": 0.14, "y": 0.16, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.28, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.55, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
 			"explanation": "Con due cicli annidati, più dati moltiplicano le operazioni: il costo massimo è nel punto D."},
 	],
@@ -1783,14 +1927,23 @@ const GRAPH := {
 	"italiano": [
 		{"topic": "testo-narrativo", "xLabel": "tempo del racconto", "yLabel": "tensione", "answer": "C",
 			"prompt": "La curva mostra la tensione di un racconto dall'inizio (A) alla fine (E). In quale punto c'è il climax, la massima suspense?",
+			"domande": [
+				{"prompt": "Sulla curva della tensione, in quale punto la storia è più calma?", "answer": "A", "explanation": "A è il punto più basso: l'inizio, prima che la tensione salga."},
+			],
 			"points": [{"id": "A", "x": 0.08, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.52, "label": "B"}, {"id": "C", "x": 0.52, "y": 0.94, "label": "C"}, {"id": "D", "x": 0.75, "y": 0.46, "label": "D"}, {"id": "E", "x": 0.93, "y": 0.16, "label": "E"}],
 			"explanation": "Il climax è il punto più alto della tensione: C. Dopo, la storia si avvia allo scioglimento."},
 		{"topic": "testo-narrativo", "xLabel": "tempo del racconto", "yLabel": "tensione", "answer": "A",
 			"prompt": "In quale punto la storia presenta con calma personaggi e luogo, prima che arrivino i problemi (l'esposizione)?",
+			"domande": [
+				{"prompt": "Dopo l'esposizione la tensione comincia a crescere: quale punto è il primo a salire?", "answer": "B", "explanation": "B è il primo punto più alto di A: lì comincia la complicazione."},
+			],
 			"points": [{"id": "A", "x": 0.08, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.52, "label": "B"}, {"id": "C", "x": 0.52, "y": 0.94, "label": "C"}, {"id": "D", "x": 0.75, "y": 0.46, "label": "D"}, {"id": "E", "x": 0.93, "y": 0.16, "label": "E"}],
 			"explanation": "L'esposizione è l'inizio calmo, con tensione bassa: il punto A."},
 		{"topic": "testo-narrativo", "xLabel": "tempo del racconto", "yLabel": "tensione", "answer": "D",
 			"prompt": "Superato il climax (C), la tensione cala e i nodi si sciolgono: quale punto è lo scioglimento?",
+			"domande": [
+				{"prompt": "Sulla curva del racconto, quale punto è il momento di massima tensione?", "answer": "C", "explanation": "C è il punto più alto della curva: il climax."},
+			],
 			"points": [{"id": "A", "x": 0.08, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.52, "label": "B"}, {"id": "C", "x": 0.52, "y": 0.94, "label": "C"}, {"id": "D", "x": 0.75, "y": 0.46, "label": "D"}, {"id": "E", "x": 0.93, "y": 0.16, "label": "E"}],
 			"explanation": "Lo scioglimento è la discesa dopo il climax: il punto D, prima della situazione finale E."},
 	],
@@ -1799,14 +1952,23 @@ const GRAPH := {
 	"logica": [
 		{"topic": "schemi", "minLevel": 4, "xLabel": "posizione", "yLabel": "valore", "answer": "D",
 			"prompt": "Questi punti salgono a gradini regolari, ma uno resta indietro: quale rompe lo schema?",
+			"domande": [
+				{"prompt": "Se tutti i punti seguissero lo schema a gradini, quale sarebbe l'ULTIMO a rispettarlo?", "answer": "C", "explanation": "Lo schema regge fino a C; è da D in poi che il gradino non torna."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.40, "label": "B"}, {"id": "C", "x": 0.50, "y": 0.60, "label": "C"}, {"id": "D", "x": 0.70, "y": 0.42, "label": "D"}, {"id": "E", "x": 0.90, "y": 0.98, "label": "E"}],
 			"explanation": "Da A a C si sale di un gradino uguale ogni volta. D invece scende sotto C: è lui l'intruso, e la E riprende lo schema."},
 		{"topic": "schemi", "minLevel": 4, "xLabel": "posizione", "yLabel": "valore", "answer": "C",
 			"prompt": "Questi punti seguono uno schema che sale in linea, ma uno è fuori posto: quale rompe lo schema?",
+			"domande": [
+				{"prompt": "La linea sale in modo regolare tranne un punto: quale sarebbe al posto giusto se lo schema valesse per tutti?", "answer": "C", "explanation": "C è proprio il punto fuori linea: rimetterlo sulla retta è ciò che ripara lo schema."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.30, "y": 0.35, "label": "B"}, {"id": "C", "x": 0.50, "y": 0.90, "label": "C"}, {"id": "D", "x": 0.70, "y": 0.72, "label": "D"}, {"id": "E", "x": 0.90, "y": 0.92, "label": "E"}],
 			"explanation": "Gli altri salgono in modo regolare; il punto C schizza troppo in alto: è l'intruso fuori schema."},
 		{"topic": "schemi", "minLevel": 5, "xLabel": "posizione", "yLabel": "valore", "answer": "B",
 			"prompt": "Questi punti scendono in modo regolare, ma uno è fuori posto: quale rompe lo schema?",
+			"domande": [
+				{"prompt": "Questi punti scendono a passo costante: quale punto rompe la discesa?", "answer": "B", "explanation": "B non rispetta il passo di discesa degli altri: è l'intruso."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.90, "label": "A"}, {"id": "B", "x": 0.34, "y": 0.22, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.52, "label": "C"}, {"id": "D", "x": 0.86, "y": 0.30, "label": "D"}],
 			"explanation": "Gli altri scendono in modo regolare; il punto B crolla troppo in basso: è l'intruso fuori schema."},
 	],
@@ -1816,14 +1978,26 @@ const GRAPH := {
 		# mancava la pioggia.
 		{"topic": "climi", "minLevel": 4, "xLabel": "mese", "yLabel": "pioggia", "answer": "A",
 			"prompt": "Il diagramma mostra la pioggia caduta mese per mese: in quale punto (mese) ha piovuto di meno?",
+			"domande": [
+				{"prompt": "Nel diagramma delle piogge, in quale mese ha piovuto di PIÙ?", "answer": "C", "explanation": "C è la colonna più alta: il mese più piovoso."},
+				{"prompt": "Fra il mese più secco e quello più piovoso, quale mese sta circa a metà?", "answer": "D", "explanation": "Il minimo è A e il massimo è C: D sta all'incirca a metà strada fra i due."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.62, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.88, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.45, "label": "D"}],
 			"explanation": "Il mese più secco è quello con la colonna più bassa: il punto A. Il più piovoso è il C."},
 		{"topic": "climi", "minLevel": 4, "xLabel": "mese", "yLabel": "temperatura", "answer": "C",
 			"prompt": "Il climogramma mostra la temperatura mese per mese: in quale punto (mese) fa più caldo?",
+			"domande": [
+				{"prompt": "Nel climogramma, in quale mese fa più FREDDO?", "answer": "A", "explanation": "A è il punto più basso della curva delle temperature: il mese più freddo."},
+				{"prompt": "Dopo il mese più caldo la temperatura scende: quale mese viene subito dopo il culmine?", "answer": "D", "explanation": "Il culmine è C; D lo segue ed è più basso: la temperatura ha già cominciato a calare."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.55, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.80, "y": 0.60, "label": "D"}],
 			"explanation": "Il punto più in alto è il mese più caldo (l'estate): il punto C."},
 		{"topic": "geografia-fisica", "minLevel": 5, "xLabel": "percorso", "yLabel": "altitudine", "answer": "C",
 			"prompt": "Il profilo altimetrico mostra l'altitudine lungo un percorso: quale punto è la vetta più alta?",
+			"domande": [
+				{"prompt": "Nel profilo altimetrico, quale punto è il più BASSO del percorso?", "answer": "A", "explanation": "A è il punto più basso del profilo: il fondovalle di partenza."},
+				{"prompt": "Sul profilo altimetrico, fra quali due punti consecutivi si sale di più?", "answer": "C", "explanation": "Da B a C il dislivello è il maggiore fra due punti vicini: è il tratto più ripido, e C ne è la cima."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.30, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.60, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
 			"explanation": "La vetta è il punto più in alto del profilo: il punto C."},
 	],
@@ -1833,18 +2007,34 @@ const GRAPH := {
 		# affiancano e coprono anche la seconda metà della campagna.
 		{"topic": "cronologia", "minLevel": 5, "xLabel": "secoli", "yLabel": "chi sa leggere", "answer": "D",
 			"prompt": "Il grafico mostra quante persone sapevano leggere in Europa nei secoli: in quale punto erano di più?",
+			"domande": [
+				{"prompt": "In quale punto chi sa leggere scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico chi sa leggere cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di chi sa leggere?", "answer": "D", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in D."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.12, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.28, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.52, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.94, "label": "D"}],
 			"explanation": "La curva sale sempre e il punto più alto è l'ultimo, D: leggere e scrivere si è diffuso nel tempo, soprattutto dopo la stampa."},
 		{"topic": "cronologia", "minLevel": 10, "xLabel": "anni", "yLabel": "persone in città", "answer": "B",
 			"prompt": "Il grafico mostra quanta gente viveva in città. In quale punto la crescita è stata più RIPIDA (il salto più grande rispetto al punto prima)?",
+			"domande": [
+				{"prompt": "Guardando il grafico, dove persone in città tocca il valore più basso?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico persone in città cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "Dove persone in città fa il balzo verso l'alto più netto? Indica il punto d'arrivo.", "answer": "B", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in B."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.18, "label": "A"}, {"id": "B", "x": 0.36, "y": 0.72, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.80, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.88, "label": "D"}],
 			"explanation": "Non conta essere in alto, conta il salto: da A a B la curva sale di molto, poi si appiattisce. È la rivoluzione industriale."},
 		{"topic": "cronologia", "minLevel": 5, "xLabel": "secoli", "yLabel": "abitanti", "answer": "C",
 			"prompt": "Il grafico mostra gli abitanti di una città nei secoli: in quale punto la città era più popolosa?",
+			"domande": [
+				{"prompt": "Quale punto ha il valore di abitanti più alto di tutti?", "answer": "C", "explanation": "Il massimo è il punto più in ALTO del grafico: qui è C. La posizione orizzontale non conta, conta solo l'altezza."},
+				{"prompt": "In quale punto abitanti scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico abitanti cresce verso l'alto, quindi il punto più basso è A."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.45, "label": "D"}],
 			"explanation": "La città era più popolosa dove la curva è più in alto: il punto C. Poi la popolazione è calata."},
 		{"topic": "roma", "minLevel": 18, "xLabel": "secoli", "yLabel": "estensione", "answer": "C",
 			"prompt": "Il grafico mostra l'estensione dell'Impero Romano nei secoli: in quale punto era più vasto (al massimo)?",
+			"domande": [
+				{"prompt": "In quale punto estensione scende al minimo?", "answer": "A", "explanation": "Il minimo si trova guardando chi sta più in BASSO, non chi sta più a sinistra: su questo grafico estensione cresce verso l'alto, quindi il punto più basso è A."},
+				{"prompt": "In quale punto si arriva dopo il salto in alto più grande di estensione?", "answer": "B", "explanation": "Non conta quanto è alto un punto, ma quanto SALE rispetto a quello prima: il tratto più ripido arriva in B."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.25, "label": "A"}, {"id": "B", "x": 0.35, "y": 0.60, "label": "B"}, {"id": "C", "x": 0.58, "y": 0.95, "label": "C"}, {"id": "D", "x": 0.85, "y": 0.35, "label": "D"}],
 			"explanation": "L'Impero era più vasto al culmine (punto C); poi si ridusse fino alla caduta."},
 	],
@@ -1855,14 +2045,26 @@ const GRAPH := {
 		# che è l'altro asse su cui si legge la musica.
 		{"topic": "ritmo", "minLevel": 4, "xLabel": "tempo", "yLabel": "durata", "answer": "B",
 			"prompt": "Il grafico mostra quanto dura ciascuna di quattro note: quale nota dura di più?",
+			"domande": [
+				{"prompt": "Guarda le durate delle quattro note: quale dura di MENO?", "answer": "D", "explanation": "D è il punto più basso: la nota più corta delle quattro."},
+				{"prompt": "Fra le quattro note, quale dura circa la metà della più lunga?", "answer": "C", "explanation": "La più lunga è B; C sta a poco più della metà della sua altezza."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.35, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.88, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.52, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.22, "label": "D"}],
 			"explanation": "La nota più lunga è quella che arriva più in alto: il punto B. La D è la più breve."},
 		{"topic": "note", "minLevel": 4, "xLabel": "tempo", "yLabel": "altezza", "answer": "C",
 			"prompt": "Il grafico è il contorno di una melodia (l'altezza delle note nel tempo): in quale punto la nota è più ACUTA (più alta)?",
+			"domande": [
+				{"prompt": "Nel contorno della melodia, in quale punto la nota è più GRAVE (più bassa)?", "answer": "A", "explanation": "A è il punto più basso del contorno: la nota più grave."},
+				{"prompt": "La melodia sale fino al culmine e poi ricade: in quale punto comincia a scendere?", "answer": "D", "explanation": "Dopo il culmine in C, D è più basso: lì la melodia ha già cominciato a ricadere."},
+			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.30, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.55, "label": "B"}, {"id": "C", "x": 0.62, "y": 0.92, "label": "C"}, {"id": "D", "x": 0.88, "y": 0.40, "label": "D"}],
 			"explanation": "La nota più acuta è dove la linea è più in alto: il punto C. Più in basso = più grave."},
 		{"topic": "dinamica", "minLevel": 5, "xLabel": "tempo", "yLabel": "volume", "answer": "D",
 			"prompt": "Il grafico mostra il volume in un diminuendo: in quale punto il suono è più DEBOLE?",
+			"domande": [
+				{"prompt": "Nel diminuendo, da quale punto parte il suono più FORTE?", "answer": "A", "explanation": "Un diminuendo parte forte e cala: A è il punto più alto, l'inizio."},
+				{"prompt": "Nel diminuendo, quale punto ha ancora circa metà del volume iniziale?", "answer": "C", "explanation": "A vale il massimo; C sta a poco meno della metà di A: è il punto di mezzo del calo."},
+			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.40, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.12, "label": "D"}],
 			"explanation": "Nel diminuendo il volume cala nel tempo: è più debole alla fine, dove la linea è più in basso, il punto D."},
 	],
@@ -1874,36 +2076,64 @@ const CIRCUIT := {
 	"elettronica": [
 		{"topic": "circuito", "answer": "interruttore",
 			"prompt": "Quale componente apre e chiude il passaggio della corrente?",
+			"domande": [
+				{"prompt": "Quale componente fornisce l'energia che fa muovere la corrente?", "answer": "pila", "explanation": "La pila è la sorgente: spinge la corrente lungo l'anello. Senza di lei nel circuito non si muove niente."},
+				{"prompt": "Quale componente serve a limitare la corrente e proteggere il LED?", "answer": "resistore", "explanation": "Il resistore fa da freno: senza, il LED riceverebbe troppa corrente e si brucerebbe."},
+			],
 			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "interruttore", "x": 0.50, "y": 0.22, "label": "Interruttore"}, {"id": "resistore", "x": 0.80, "y": 0.50, "label": "Resistore"}, {"id": "led", "x": 0.50, "y": 0.78, "label": "LED"}],
 			"connections": [["pila", "interruttore"], ["interruttore", "resistore"], ["resistore", "led"], ["led", "pila"]],
 			"explanation": "L'interruttore apre e chiude il circuito: accende o spegne il LED."},
 		{"topic": "componenti", "answer": "led",
 			"prompt": "Quale componente emette luce quando la corrente lo attraversa?",
+			"domande": [
+				{"prompt": "Quale elemento serve soltanto a collegare, senza trasformare niente?", "answer": "filo", "explanation": "Il filo è la strada: porta la corrente da un componente all'altro senza cambiarla."},
+				{"prompt": "Quale componente è la sorgente di energia del circuito?", "answer": "pila", "explanation": "La pila mette in moto la corrente: è l'unico componente che fornisce energia invece di consumarla."},
+			],
 			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "resistore", "x": 0.50, "y": 0.24, "label": "Resistore"}, {"id": "led", "x": 0.80, "y": 0.50, "label": "LED"}, {"id": "filo", "x": 0.50, "y": 0.78, "label": "Filo"}],
 			"connections": [["pila", "resistore"], ["resistore", "led"], ["led", "filo"], ["filo", "pila"]],
 			"explanation": "Il LED emette luce quando è attraversato dalla corrente."},
 		{"topic": "sorgente", "answer": "pila",
 			"prompt": "Quale componente fornisce l'energia a tutto il circuito?",
+			"domande": [
+				{"prompt": "Quale componente permette di accendere e spegnere senza staccare i fili?", "answer": "interruttore", "explanation": "L'interruttore apre e chiude la strada della corrente: aperto, il circuito è interrotto."},
+				{"prompt": "Quale componente si accende quando la corrente lo attraversa?", "answer": "led", "explanation": "Il LED trasforma la corrente in luce. È l'unico dei quattro che si vede funzionare."},
+			],
 			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "interruttore", "x": 0.50, "y": 0.22, "label": "Interruttore"}, {"id": "resistore", "x": 0.80, "y": 0.50, "label": "Resistore"}, {"id": "led", "x": 0.50, "y": 0.78, "label": "LED"}],
 			"connections": [["pila", "interruttore"], ["interruttore", "resistore"], ["resistore", "led"], ["led", "pila"]],
 			"explanation": "La pila è la sorgente: spinge la corrente in tutto il circuito."},
 		{"topic": "protezione", "minLevel": 3, "answer": "resistore",
 			"prompt": "Quale componente limita la corrente così il LED non si brucia?",
+			"domande": [
+				{"prompt": "Quale componente trasforma la corrente in luce?", "answer": "led", "explanation": "Il LED è il componente che emette luce: la resistenza lo protegge, la pila lo alimenta."},
+				{"prompt": "Quale componente sarebbe inutile se togliessi tutti gli altri?", "answer": "pila", "explanation": "La pila è la sorgente: gli altri componenti esistono per usare l'energia che lei fornisce."},
+			],
 			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "resistore", "x": 0.50, "y": 0.24, "label": "Resistore"}, {"id": "led", "x": 0.80, "y": 0.50, "label": "LED"}, {"id": "filo", "x": 0.50, "y": 0.78, "label": "Filo"}],
 			"connections": [["pila", "resistore"], ["resistore", "led"], ["led", "filo"], ["filo", "pila"]],
 			"explanation": "Il resistore limita la corrente: protegge il LED dal bruciarsi."},
 		{"topic": "diodo", "minLevel": 12, "answer": "diodo",
 			"prompt": "Quale componente lascia passare la corrente soprattutto in una sola direzione?",
+			"domande": [
+				{"prompt": "Quale componente si illumina scaldandosi al passaggio della corrente?", "answer": "lampada", "explanation": "La lampada emette luce perché il filamento si scalda: è diverso dal LED, che scalda pochissimo."},
+				{"prompt": "Quale componente fornisce l'energia a questo circuito?", "answer": "pila", "explanation": "La pila è la sorgente: il diodo indirizza, la resistenza frena, la lampada consuma."},
+			],
 			"components": [{"id": "pila", "x": 0.18, "y": 0.50, "label": "Pila"}, {"id": "diodo", "x": 0.44, "y": 0.24, "label": "Diodo"}, {"id": "resistore", "x": 0.78, "y": 0.50, "label": "Resistore"}, {"id": "lampada", "x": 0.48, "y": 0.80, "label": "Lampada"}],
 			"connections": [["pila", "diodo"], ["diodo", "resistore"], ["resistore", "lampada"], ["lampada", "pila"]],
 			"explanation": "Il diodo è come una porta a senso unico: conduce in una direzione e ostacola quella opposta."},
 		{"topic": "sensori", "minLevel": 23, "answer": "partitore",
 			"prompt": "Un sensore resistivo cambia resistenza. Quale blocco lo trasforma in una tensione leggibile dal microcontrollore?",
+			"domande": [
+				{"prompt": "Quale elemento cambia il proprio comportamento quando cambia l'ambiente?", "answer": "sensore", "explanation": "Il sensore resistivo cambia resistenza al variare di luce, calore o umidità: è lui a «sentire»."},
+				{"prompt": "Quale elemento fa da riferimento comune a cui tutto il circuito si appoggia?", "answer": "massa", "explanation": "La massa è il riferimento: tutte le tensioni si misurano rispetto a lei."},
+			],
 			"components": [{"id": "sensore", "x": 0.16, "y": 0.50, "label": "Sensore resistivo"}, {"id": "partitore", "x": 0.44, "y": 0.24, "label": "Partitore"}, {"id": "ingresso", "x": 0.78, "y": 0.50, "label": "Ingresso analogico"}, {"id": "massa", "x": 0.46, "y": 0.80, "label": "Massa"}],
 			"connections": [["sensore", "partitore"], ["partitore", "ingresso"], ["partitore", "massa"]],
 			"explanation": "Il partitore converte la variazione di resistenza in una tensione; l'ingresso analogico può così misurarla."},
 		{"topic": "condensatore", "minLevel": 19, "answer": "condensatore",
 			"prompt": "Quale componente può accumulare carica e restituirla per un breve intervallo?",
+			"domande": [
+				{"prompt": "Quale componente apre e chiude il passaggio in questo circuito?", "answer": "interruttore", "explanation": "L'interruttore comanda il passaggio: chiuso lascia scorrere la corrente, aperto la ferma."},
+				{"prompt": "Quale componente mostra a occhio che la carica accumulata si sta scaricando?", "answer": "led", "explanation": "Il LED si accende e poi si spegne piano piano: è così che si vede il condensatore che si svuota."},
+			],
 			"components": [{"id": "pila", "x": 0.18, "y": 0.50, "label": "Pila"}, {"id": "interruttore", "x": 0.44, "y": 0.22, "label": "Interruttore"}, {"id": "condensatore", "x": 0.80, "y": 0.50, "label": "Condensatore"}, {"id": "led", "x": 0.48, "y": 0.80, "label": "LED"}],
 			"connections": [["pila", "interruttore"], ["interruttore", "condensatore"], ["condensatore", "led"], ["led", "pila"]],
 			"explanation": "Il condensatore accumula separando cariche sulle sue armature e può poi scaricarsi nel circuito."},
@@ -1914,41 +2144,73 @@ const CIRCUIT := {
 	"coding": [
 		{"topic": "sequenza", "answer": "secondo",
 			"prompt": "Il programma deve prima leggere un nome, poi salutarlo. Quale blocco viene eseguito per secondo?",
+			"domande": [
+				{"prompt": "Quale blocco legge il nome, cioè viene per primo dopo l'avvio?", "answer": "primo", "explanation": "L'ordine conta: prima si legge il nome, poi lo si può salutare. Un programma esegue le istruzioni in fila."},
+				{"prompt": "Quale blocco segna la fine dell'esecuzione?", "answer": "fine", "explanation": "Il blocco di fine chiude il programma: dopo di lui non viene eseguito più niente."},
+			],
 			"components": [{"id": "inizio", "x": 0.50, "y": 0.12, "label": "Inizio"}, {"id": "primo", "x": 0.50, "y": 0.36, "label": "Leggi nome"}, {"id": "secondo", "x": 0.50, "y": 0.62, "label": "Stampa saluto"}, {"id": "fine", "x": 0.50, "y": 0.88, "label": "Fine"}],
 			"connections": [["inizio", "primo"], ["primo", "secondo"], ["secondo", "fine"]],
 			"explanation": "Il flusso segue le frecce: dopo 'Leggi nome' viene 'Stampa saluto'."},
 		{"topic": "condizioni", "answer": "vero",
 			"prompt": "Se punti > 10 è vero, quale ramo stampa 'Hai vinto'?",
+			"domande": [
+				{"prompt": "Se punti > 10 è FALSO, quale ramo viene eseguito?", "answer": "falso", "explanation": "Ogni condizione ha due uscite: quando il test è falso si prende il ramo «Riprova»."},
+				{"prompt": "Quale blocco pone la domanda che decide la strada?", "answer": "test", "explanation": "Il blocco di test è il bivio: confronta punti con 10 e manda su un ramo o sull'altro."},
+			],
 			"components": [{"id": "test", "x": 0.50, "y": 0.18, "label": "punti > 10?"}, {"id": "vero", "x": 0.24, "y": 0.58, "label": "Hai vinto"}, {"id": "falso", "x": 0.76, "y": 0.58, "label": "Riprova"}, {"id": "fine", "x": 0.50, "y": 0.88, "label": "Fine"}],
 			"connections": [["test", "vero"], ["test", "falso"], ["vero", "fine"], ["falso", "fine"]],
 			"explanation": "Quando la condizione è vera il flusso prende il ramo che porta a 'Hai vinto'."},
 		{"topic": "sensori", "answer": "controllo",
 			"prompt": "Il robot legge la distanza e deve fermarsi solo se trova un ostacolo vicino. Quale blocco decide se attivare l'arresto?",
+			"domande": [
+				{"prompt": "Quale blocco agisce sui motori quando l'ostacolo è vicino?", "answer": "ferma", "explanation": "Il blocco «Ferma motori» è l'azione: viene eseguito solo se il controllo ha dato esito vero."},
+				{"prompt": "Quale blocco raccoglie il dato dal mondo esterno?", "answer": "sensore", "explanation": "Leggere la distanza è il primo passo: senza quel dato il controllo non avrebbe niente da confrontare."},
+			],
 			"components": [{"id": "sensore", "x": 0.50, "y": 0.12, "label": "Leggi distanza"}, {"id": "controllo", "x": 0.50, "y": 0.40, "label": "Distanza < 20?"}, {"id": "ferma", "x": 0.24, "y": 0.72, "label": "Ferma motori"}, {"id": "continua", "x": 0.76, "y": 0.72, "label": "Continua"}],
 			"connections": [["sensore", "controllo"], ["controllo", "ferma"], ["controllo", "continua"]],
 			"explanation": "Il blocco 'Distanza < 20?' confronta la lettura con la soglia e sceglie fra fermare i motori e continuare."},
 		{"topic": "diagramma-flusso", "minLevel": 4, "answer": "decisione",
 			"prompt": "Questo è il diagramma di flusso di un programma. Quale blocco DECIDE il percorso (la condizione)?",
+			"domande": [
+				{"prompt": "Quale blocco raccoglie il numero da esaminare?", "answer": "leggi", "explanation": "Prima si legge n, poi lo si può controllare: senza il dato la decisione non ha su cosa lavorare."},
+				{"prompt": "Se n è divisibile per due, in quale blocco arriva il programma?", "answer": "pari", "explanation": "La decisione ha due uscite: quando la risposta è sì si prende il ramo «pari»."},
+			],
 			"components": [{"id": "inizio", "x": 0.50, "y": 0.10, "label": "Inizio"}, {"id": "leggi", "x": 0.50, "y": 0.30, "label": "Leggi n"}, {"id": "decisione", "x": 0.50, "y": 0.52, "label": "n pari?"}, {"id": "pari", "x": 0.24, "y": 0.75, "label": "pari"}, {"id": "dispari", "x": 0.76, "y": 0.75, "label": "dispari"}, {"id": "fine", "x": 0.50, "y": 0.92, "label": "Fine"}],
 			"connections": [["inizio", "leggi"], ["leggi", "decisione"], ["decisione", "pari"], ["decisione", "dispari"], ["pari", "fine"], ["dispari", "fine"]],
 			"explanation": "Il blocco 'n pari?' è la condizione: da lì il flusso si divide in due strade."},
 		{"topic": "diagramma-flusso", "minLevel": 5, "answer": "controllo",
 			"prompt": "In questo diagramma di flusso, quale blocco controlla quante volte si ripete il ciclo?",
+			"domande": [
+				{"prompt": "Quale blocco prepara il contatore prima che il ciclo cominci?", "answer": "init", "explanation": "Mettere i = 0 è l'inizializzazione: senza, il contatore non partirebbe da un valore noto."},
+				{"prompt": "Quale blocco viene ripetuto a ogni giro del ciclo?", "answer": "corpo", "explanation": "Il corpo è la parte che si ripete: il controllo decide quante volte, il corpo dice cosa fare."},
+			],
 			"components": [{"id": "inizio", "x": 0.50, "y": 0.10, "label": "Inizio"}, {"id": "init", "x": 0.50, "y": 0.30, "label": "i = 0"}, {"id": "controllo", "x": 0.50, "y": 0.52, "label": "i < 3?"}, {"id": "corpo", "x": 0.24, "y": 0.72, "label": "stampa i"}, {"id": "fine", "x": 0.78, "y": 0.72, "label": "Fine"}],
 			"connections": [["inizio", "init"], ["init", "controllo"], ["controllo", "corpo"], ["corpo", "controllo"], ["controllo", "fine"]],
 			"explanation": "Il blocco 'i < 3?' è la condizione del ciclo: finché è vera si ripete 'stampa i'."},
 		{"topic": "validazione", "minLevel": 12, "answer": "errore",
 			"prompt": "Il programma accetta solo età da 0 a 120. Quale blocco gestisce un valore non valido?",
+			"domande": [
+				{"prompt": "Se l'età inserita è valida, in quale blocco arriva il programma?", "answer": "ok", "explanation": "Quando il test è vero il dato è accettabile e si passa al salvataggio."},
+				{"prompt": "Quale blocco pone la condizione che divide i dati buoni da quelli sbagliati?", "answer": "test", "explanation": "Il test è il filtro: confronta l'età con l'intervallo ammesso e decide la strada."},
+			],
 			"components": [{"id": "leggi", "x": 0.50, "y": 0.12, "label": "Leggi età"}, {"id": "test", "x": 0.50, "y": 0.40, "label": "0 ≤ età ≤ 120?"}, {"id": "ok", "x": 0.24, "y": 0.72, "label": "Salva"}, {"id": "errore", "x": 0.76, "y": 0.72, "label": "Segnala errore"}],
 			"connections": [["leggi", "test"], ["test", "ok"], ["test", "errore"]],
 			"explanation": "Se l'età è fuori dall'intervallo, la condizione è falsa e il flusso va a 'Segnala errore'."},
 		{"topic": "funzioni", "minLevel": 18, "answer": "ritorno",
 			"prompt": "La funzione calcola un valore e il programma chiamante deve riceverlo. Quale blocco rimanda il risultato al chiamante?",
+			"domande": [
+				{"prompt": "Quale blocco riceve i valori su cui la funzione deve lavorare?", "answer": "parametri", "explanation": "I parametri sono i dati in ingresso: la funzione li legge prima di calcolare."},
+				{"prompt": "Quale blocco fa il lavoro vero e proprio della funzione?", "answer": "calcolo", "explanation": "Il calcolo è il cuore della funzione: prende i parametri e produce il valore che verrà restituito."},
+			],
 			"components": [{"id": "chiamata", "x": 0.16, "y": 0.50, "label": "Chiama funzione"}, {"id": "parametri", "x": 0.42, "y": 0.24, "label": "Leggi parametri"}, {"id": "calcolo", "x": 0.68, "y": 0.50, "label": "Calcola"}, {"id": "ritorno", "x": 0.46, "y": 0.80, "label": "Restituisci valore"}],
 			"connections": [["chiamata", "parametri"], ["parametri", "calcolo"], ["calcolo", "ritorno"], ["ritorno", "chiamata"]],
 			"explanation": "Il blocco di ritorno consegna il risultato al punto che ha chiamato la funzione; senza, il valore resta locale."},
 		{"topic": "cicli-annidati", "minLevel": 23, "answer": "interno",
 			"prompt": "Per ogni riga di una griglia il programma visita tutte le colonne. Quale blocco si ripete più spesso?",
+			"domande": [
+				{"prompt": "Quale ciclo si ripete più volte per ogni singolo giro dell'altro?", "answer": "colonne", "explanation": "Il ciclo delle colonne sta dentro quello delle righe: per ogni riga percorre tutte le colonne."},
+				{"prompt": "Quale ciclo scorre le righe della griglia?", "answer": "righe", "explanation": "Il ciclo esterno è quello delle righe: ne prende una alla volta e passa il lavoro a quello interno."},
+			],
 			"components": [{"id": "righe", "x": 0.50, "y": 0.12, "label": "Per ogni riga"}, {"id": "colonne", "x": 0.50, "y": 0.38, "label": "Per ogni colonna"}, {"id": "interno", "x": 0.50, "y": 0.66, "label": "Visita cella"}, {"id": "fine", "x": 0.82, "y": 0.88, "label": "Fine"}],
 			"connections": [["righe", "colonne"], ["colonne", "interno"], ["interno", "colonne"], ["colonne", "righe"], ["righe", "fine"]],
 			"explanation": "'Visita cella' sta nel ciclo interno: viene eseguito per ogni colonna di ogni riga, quindi più spesso."},
@@ -1958,36 +2220,64 @@ const CIRCUIT := {
 	"scienze": [
 		{"topic": "ciclo-acqua", "answer": "condensazione",
 			"prompt": "Nel ciclo dell'acqua, quale passaggio trasforma il vapore in piccole gocce che formano le nuvole?",
+			"domande": [
+				{"prompt": "Nel ciclo dell'acqua, quale passaggio trasforma l'acqua liquida in vapore?", "answer": "evaporazione", "explanation": "Il calore del sole fa evaporare l'acqua: da liquida diventa vapore e sale."},
+				{"prompt": "Quale passaggio riporta l'acqua a terra?", "answer": "pioggia", "explanation": "Quando le goccioline diventano abbastanza pesanti cadono: è la pioggia che chiude il ciclo."},
+			],
 			"components": [{"id": "mare", "x": 0.18, "y": 0.82, "label": "Acqua liquida"}, {"id": "evaporazione", "x": 0.28, "y": 0.38, "label": "Evaporazione"}, {"id": "condensazione", "x": 0.64, "y": 0.18, "label": "Condensazione"}, {"id": "pioggia", "x": 0.82, "y": 0.62, "label": "Pioggia"}],
 			"connections": [["mare", "evaporazione"], ["evaporazione", "condensazione"], ["condensazione", "pioggia"], ["pioggia", "mare"]],
 			"explanation": "Raffreddandosi, il vapore condensa in goccioline: insieme formano le nuvole."},
 		{"topic": "ciclo-vita", "answer": "adulto",
 			"prompt": "Nel ciclo della farfalla, quale stadio depone nuove uova e fa ripartire il ciclo?",
+			"domande": [
+				{"prompt": "Nel ciclo della farfalla, quale stadio esce dall'uovo e mangia in continuazione?", "answer": "larva", "explanation": "Il bruco è lo stadio di crescita: mangia moltissimo per accumulare le riserve della trasformazione."},
+				{"prompt": "In quale stadio l'animale sembra fermo ma dentro si sta trasformando?", "answer": "crisalide", "explanation": "Nella crisalide non si vede movimento, ma è lì che il bruco diventa farfalla."},
+			],
 			"components": [{"id": "uovo", "x": 0.18, "y": 0.30, "label": "Uovo"}, {"id": "larva", "x": 0.42, "y": 0.72, "label": "Bruco"}, {"id": "crisalide", "x": 0.70, "y": 0.72, "label": "Crisalide"}, {"id": "adulto", "x": 0.82, "y": 0.28, "label": "Farfalla adulta"}],
 			"connections": [["uovo", "larva"], ["larva", "crisalide"], ["crisalide", "adulto"], ["adulto", "uovo"]],
 			"explanation": "La farfalla adulta si riproduce e depone le uova: così il ciclo ricomincia."},
 		{"topic": "catena", "minLevel": 4, "answer": "erba",
 			"prompt": "In questa catena alimentare l'energia sale da un anello all'altro. Quale organismo è il PRODUTTORE, alla base di tutto?",
+			"domande": [
+				{"prompt": "In questa catena, quale animale mangia direttamente l'erba?", "answer": "cavalletta", "explanation": "La cavalletta è il primo consumatore: si nutre del produttore, cioè della pianta."},
+				{"prompt": "Quale animale mangia la rana ed è a sua volta mangiato?", "answer": "serpente", "explanation": "Il serpente sta in mezzo: è predatore della rana e preda dell'aquila."},
+			],
 			"components": [{"id": "erba", "x": 0.12, "y": 0.82, "label": "Erba"}, {"id": "cavalletta", "x": 0.32, "y": 0.62, "label": "Cavalletta"}, {"id": "rana", "x": 0.52, "y": 0.44, "label": "Rana"}, {"id": "serpente", "x": 0.72, "y": 0.30, "label": "Serpente"}, {"id": "aquila", "x": 0.90, "y": 0.14, "label": "Aquila"}],
 			"connections": [["erba", "cavalletta"], ["cavalletta", "rana"], ["rana", "serpente"], ["serpente", "aquila"]],
 			"explanation": "L'erba è il produttore: crea energia con la fotosintesi e tutti gli altri dipendono da lei."},
 		{"topic": "catena", "minLevel": 5, "answer": "aquila",
 			"prompt": "In questa catena alimentare, quale organismo è il predatore al vertice, che nessuno mangia?",
+			"domande": [
+				{"prompt": "In questa catena, quale organismo produce da sé il proprio nutrimento?", "answer": "erba", "explanation": "L'erba è il produttore: usa la luce del sole e non mangia nessuno."},
+				{"prompt": "Quale animale mangia la cavalletta?", "answer": "rana", "explanation": "La rana è il secondo consumatore: mangia la cavalletta, che a sua volta ha mangiato l'erba."},
+			],
 			"components": [{"id": "erba", "x": 0.12, "y": 0.82, "label": "Erba"}, {"id": "cavalletta", "x": 0.32, "y": 0.62, "label": "Cavalletta"}, {"id": "rana", "x": 0.52, "y": 0.44, "label": "Rana"}, {"id": "serpente", "x": 0.72, "y": 0.30, "label": "Serpente"}, {"id": "aquila", "x": 0.90, "y": 0.14, "label": "Aquila"}],
 			"connections": [["erba", "cavalletta"], ["cavalletta", "rana"], ["rana", "serpente"], ["serpente", "aquila"]],
 			"explanation": "L'aquila è il predatore all'apice: in questa catena nessuno la caccia."},
 		{"topic": "ciclo-carbonio", "minLevel": 12, "answer": "pianta",
 			"prompt": "Quale elemento del ciclo assorbe anidride carbonica dall'aria tramite fotosintesi?",
+			"domande": [
+				{"prompt": "Quale elemento del ciclo restituisce carbonio al terreno smontando ciò che resta?", "answer": "decompositori", "explanation": "I decompositori chiudono il ciclo: smontano resti e materia morta e liberano il carbonio."},
+				{"prompt": "Dove si trova il carbonio prima che la pianta lo catturi?", "answer": "atmosfera", "explanation": "Il carbonio è nell'aria sotto forma di anidride carbonica: la pianta lo prende da lì."},
+			],
 			"components": [{"id": "atmosfera", "x": 0.50, "y": 0.12, "label": "CO₂ nell'aria"}, {"id": "pianta", "x": 0.20, "y": 0.52, "label": "Pianta"}, {"id": "animale", "x": 0.50, "y": 0.84, "label": "Animale"}, {"id": "decompositori", "x": 0.82, "y": 0.52, "label": "Decompositori"}],
 			"connections": [["atmosfera", "pianta"], ["pianta", "animale"], ["animale", "decompositori"], ["decompositori", "atmosfera"]],
 			"explanation": "Le piante assorbono CO₂ dall'aria e usano il carbonio per costruire sostanze organiche."},
 		{"topic": "fotosintesi", "minLevel": 23, "answer": "glucosio",
 			"prompt": "Segui lo schema della fotosintesi: quale prodotto conserva l'energia della luce in forma chimica?",
+			"domande": [
+				{"prompt": "Nella fotosintesi, quale sostanza viene liberata nell'aria come prodotto di scarto?", "answer": "ossigeno", "explanation": "L'ossigeno è ciò che la pianta rilascia: per noi è essenziale, per lei è un residuo."},
+				{"prompt": "Che cosa fornisce l'energia che fa partire la fotosintesi?", "answer": "luce", "explanation": "Senza luce la fotosintesi non parte: è l'energia che permette di costruire il glucosio."},
+			],
 			"components": [{"id": "luce", "x": 0.14, "y": 0.24, "label": "Luce"}, {"id": "acqua", "x": 0.14, "y": 0.76, "label": "Acqua"}, {"id": "co2", "x": 0.42, "y": 0.76, "label": "CO₂"}, {"id": "foglia", "x": 0.50, "y": 0.34, "label": "Foglia"}, {"id": "glucosio", "x": 0.84, "y": 0.28, "label": "Glucosio"}, {"id": "ossigeno", "x": 0.84, "y": 0.72, "label": "Ossigeno"}],
 			"connections": [["luce", "foglia"], ["acqua", "foglia"], ["co2", "foglia"], ["foglia", "glucosio"], ["foglia", "ossigeno"]],
 			"explanation": "La foglia usa luce, acqua e CO₂ per produrre glucosio, dove l'energia resta immagazzinata nei legami chimici; libera anche ossigeno."},
 		{"topic": "rete-alimentare", "minLevel": 19, "answer": "volpe",
 			"prompt": "Nella rete, quale predatore riceve energia sia dal coniglio sia dal topo?",
+			"domande": [
+				{"prompt": "Nella rete, quale organismo sta alla base e nutre gli altri?", "answer": "erba", "explanation": "L'erba è il produttore: tutta l'energia della rete comincia da lì."},
+				{"prompt": "Quale animale si nutre dei semi?", "answer": "topo", "explanation": "Il topo mangia i semi: è un consumatore, e a sua volta è preda della volpe."},
+			],
 			"components": [{"id": "erba", "x": 0.15, "y": 0.75, "label": "Erba"}, {"id": "semi", "x": 0.15, "y": 0.28, "label": "Semi"}, {"id": "coniglio", "x": 0.48, "y": 0.72, "label": "Coniglio"}, {"id": "topo", "x": 0.48, "y": 0.30, "label": "Topo"}, {"id": "volpe", "x": 0.82, "y": 0.52, "label": "Volpe"}],
 			"connections": [["erba", "coniglio"], ["semi", "topo"], ["coniglio", "volpe"], ["topo", "volpe"]],
 			"explanation": "Entrambe le frecce da coniglio e topo arrivano alla volpe: può nutrirsi di entrambe le prede."},
@@ -1997,36 +2287,64 @@ const CIRCUIT := {
 	"fisica": [
 		{"topic": "forze", "answer": "movimento",
 			"prompt": "Una mano spinge una scatola ferma. Quale passaggio mostra l'effetto della forza?",
+			"domande": [
+				{"prompt": "Che cosa rallenta la scatola mentre si muove?", "answer": "attrito", "explanation": "L'attrito è la forza che si oppone al movimento: agisce fra scatola e pavimento."},
+				{"prompt": "Quale passaggio rappresenta la forza applicata dalla mano?", "answer": "spinta", "explanation": "La spinta è la forza: è la causa, il movimento è l'effetto."},
+			],
 			"components": [{"id": "ferma", "x": 0.18, "y": 0.50, "label": "Scatola ferma"}, {"id": "spinta", "x": 0.48, "y": 0.26, "label": "Spinta"}, {"id": "movimento", "x": 0.80, "y": 0.50, "label": "Scatola accelera"}, {"id": "attrito", "x": 0.48, "y": 0.80, "label": "Attrito"}],
 			"connections": [["ferma", "spinta"], ["spinta", "movimento"], ["movimento", "attrito"]],
 			"explanation": "Una forza non bilanciata cambia il moto: la spinta fa accelerare la scatola."},
 		{"topic": "suono", "answer": "vibrazione",
 			"prompt": "In una chitarra, quale elemento avvia il suono prima che arrivi all'orecchio?",
+			"domande": [
+				{"prompt": "Che cosa porta il suono dalla corda fino all'orecchio?", "answer": "aria", "explanation": "L'aria trasmette la vibrazione: senza un mezzo, il suono non viaggia."},
+				{"prompt": "Dove arriva il suono alla fine del percorso?", "answer": "orecchio", "explanation": "L'orecchio è il punto d'arrivo: riceve la vibrazione dell'aria e la trasforma in sensazione."},
+			],
 			"components": [{"id": "dito", "x": 0.12, "y": 0.50, "label": "Pizzico"}, {"id": "vibrazione", "x": 0.38, "y": 0.30, "label": "Corda vibra"}, {"id": "aria", "x": 0.64, "y": 0.52, "label": "Aria vibra"}, {"id": "orecchio", "x": 0.90, "y": 0.32, "label": "Orecchio"}],
 			"connections": [["dito", "vibrazione"], ["vibrazione", "aria"], ["aria", "orecchio"]],
 			"explanation": "Il pizzico mette in vibrazione la corda; la vibrazione passa all'aria e poi all'orecchio."},
 		{"topic": "energia", "minLevel": 5, "answer": "potenziale",
 			"prompt": "Una pallina viene sollevata, cade e rimbalza. Quando è ferma in alto, prima di cadere, che energia possiede?",
+			"domande": [
+				{"prompt": "In quale fase la pallina deforma il suolo e accumula energia elastica?", "answer": "elastica", "explanation": "Nel momento del contatto l'energia si accumula nella deformazione: è energia elastica."},
+				{"prompt": "In quale fase la pallina risale dopo il rimbalzo?", "answer": "risalita", "explanation": "Nella risalita l'energia elastica torna movimento e poi altezza."},
+			],
 			"components": [{"id": "potenziale", "x": 0.18, "y": 0.18, "label": "Ferma in alto"}, {"id": "cinetica", "x": 0.50, "y": 0.72, "label": "Sta cadendo"}, {"id": "elastica", "x": 0.82, "y": 0.88, "label": "Tocca il suolo"}, {"id": "risalita", "x": 0.86, "y": 0.34, "label": "Risale"}],
 			"connections": [["potenziale", "cinetica"], ["cinetica", "elastica"], ["elastica", "risalita"]],
 			"explanation": "Ferma in alto la pallina ha energia potenziale (di posizione); cadendo diventa cinetica."},
 		{"topic": "energia", "minLevel": 6, "answer": "cinetica",
 			"prompt": "Segui la trasformazione dell'energia della pallina: in quale fase l'energia è tutta cinetica (di movimento)?",
+			"domande": [
+				{"prompt": "In quale fase l'energia è tutta dovuta all'altezza, senza movimento?", "answer": "potenziale", "explanation": "Ferma in alto la pallina non si muove: tutta la sua energia dipende da quanto è in alto."},
+				{"prompt": "In quale fase l'energia elastica si trasforma di nuovo in movimento?", "answer": "risalita", "explanation": "Nel rimbalzo la deformazione si ricompone e rilancia la pallina verso l'alto."},
+			],
 			"components": [{"id": "potenziale", "x": 0.18, "y": 0.18, "label": "Ferma in alto"}, {"id": "cinetica", "x": 0.50, "y": 0.72, "label": "Sta cadendo"}, {"id": "elastica", "x": 0.82, "y": 0.88, "label": "Tocca il suolo"}, {"id": "risalita", "x": 0.86, "y": 0.34, "label": "Risale"}],
 			"connections": [["potenziale", "cinetica"], ["cinetica", "elastica"], ["elastica", "risalita"]],
 			"explanation": "Mentre cade, l'energia potenziale si è trasformata tutta in cinetica: è il momento più veloce."},
 		{"topic": "leve", "minLevel": 12, "answer": "fulcro",
 			"prompt": "In una leva, quale punto resta fermo e permette all'asta di ruotare?",
+			"domande": [
+				{"prompt": "In una leva, dove si trova il peso da sollevare?", "answer": "carico", "explanation": "Il carico è ciò che si vuole spostare: sta da una parte del fulcro."},
+				{"prompt": "In una leva, dove si applica lo sforzo di chi la usa?", "answer": "forza", "explanation": "La forza è dove si spinge o si tira: più è lontana dal fulcro, meno se ne serve."},
+			],
 			"components": [{"id": "forza", "x": 0.15, "y": 0.40, "label": "Forza"}, {"id": "fulcro", "x": 0.50, "y": 0.72, "label": "Fulcro"}, {"id": "carico", "x": 0.85, "y": 0.40, "label": "Carico"}, {"id": "asta", "x": 0.50, "y": 0.30, "label": "Asta"}],
 			"connections": [["forza", "asta"], ["asta", "fulcro"], ["asta", "carico"]],
 			"explanation": "Il fulcro è il punto di appoggio attorno al quale l'asta ruota."},
 		{"topic": "elettricita", "minLevel": 23, "answer": "magnetico",
 			"prompt": "In un motore elettrico, quale passaggio trasforma la corrente in una forza che mette in rotazione l'asse?",
+			"domande": [
+				{"prompt": "In un motore elettrico, quale elemento diventa un magnete quando lo attraversa la corrente?", "answer": "bobina", "explanation": "La bobina è filo avvolto: percorsa dalla corrente si comporta come un magnete."},
+				{"prompt": "Qual è il risultato finale della catena, ciò che il motore produce?", "answer": "rotazione", "explanation": "La rotazione è l'effetto utile: è per questo che il motore esiste."},
+			],
 			"components": [{"id": "corrente", "x": 0.14, "y": 0.50, "label": "Corrente"}, {"id": "bobina", "x": 0.40, "y": 0.24, "label": "Bobina"}, {"id": "magnetico", "x": 0.66, "y": 0.50, "label": "Forza magnetica"}, {"id": "rotazione", "x": 0.88, "y": 0.28, "label": "Rotazione"}],
 			"connections": [["corrente", "bobina"], ["bobina", "magnetico"], ["magnetico", "rotazione"]],
 			"explanation": "La corrente nella bobina interagisce con il campo magnetico: nasce una forza che fa ruotare l'asse."},
 		{"topic": "energia", "minLevel": 19, "answer": "calore",
 			"prompt": "Una bicicletta frena: dove finisce gran parte dell'energia di movimento?",
+			"domande": [
+				{"prompt": "Che cosa rallenta la bicicletta quando si frena?", "answer": "attrito", "explanation": "I freni sfregano sul cerchione: l'attrito è ciò che toglie movimento."},
+				{"prompt": "Da quale forma di energia si parte prima di frenare?", "answer": "cinetica", "explanation": "La bicicletta in corsa ha energia di movimento: è quella che i freni trasformano."},
+			],
 			"components": [{"id": "cinetica", "x": 0.16, "y": 0.50, "label": "Movimento"}, {"id": "attrito", "x": 0.46, "y": 0.28, "label": "Freni: attrito"}, {"id": "calore", "x": 0.78, "y": 0.50, "label": "Calore"}, {"id": "suono", "x": 0.48, "y": 0.78, "label": "Suono"}],
 			"connections": [["cinetica", "attrito"], ["attrito", "calore"], ["attrito", "suono"]],
 			"explanation": "L'attrito dei freni trasforma soprattutto l'energia cinetica in calore; una piccola parte diventa suono."},
@@ -2034,31 +2352,55 @@ const CIRCUIT := {
 	"matematica": [
 		{"topic": "operazioni", "answer": "risultato",
 			"prompt": "La macchina prende 4, aggiunge 3 e poi raddoppia. Quale nodo contiene il risultato finale?",
+			"domande": [
+				{"prompt": "In questa macchina di calcolo, quale nodo aggiunge 3?", "answer": "somma", "explanation": "L'ordine conta: prima si aggiunge 3 a 4 ottenendo 7, e solo dopo si raddoppia."},
+				{"prompt": "Quale nodo raddoppia il numero?", "answer": "doppio", "explanation": "Il raddoppio arriva per secondo: si applica al risultato della somma, non al numero di partenza."},
+			],
 			"components": [{"id": "inizio", "x": 0.12, "y": 0.50, "label": "4"}, {"id": "somma", "x": 0.38, "y": 0.30, "label": "+ 3"}, {"id": "doppio", "x": 0.64, "y": 0.50, "label": "× 2"}, {"id": "risultato", "x": 0.90, "y": 0.30, "label": "14"}],
 			"connections": [["inizio", "somma"], ["somma", "doppio"], ["doppio", "risultato"]],
 			"explanation": "Seguendo le frecce: 4 + 3 = 7, poi 7 × 2 = 14. Il nodo finale è 14."},
 		{"topic": "problemi", "answer": "totale",
 			"prompt": "Tre sacchetti contengono 5 biglie ciascuno. Quale nodo rappresenta il totale?",
+			"domande": [
+				{"prompt": "Quale nodo dice quante biglie ci sono in ogni sacchetto?", "answer": "pergruppo", "explanation": "«5 per sacchetto» è la quantità di un gruppo: moltiplicata per il numero di gruppi dà il totale."},
+				{"prompt": "Quale nodo dice quanti sacchetti ci sono?", "answer": "gruppi", "explanation": "Tre sacchetti è il numero di gruppi: è uno dei due fattori della moltiplicazione."},
+			],
 			"components": [{"id": "gruppi", "x": 0.18, "y": 0.28, "label": "3 sacchetti"}, {"id": "pergruppo", "x": 0.18, "y": 0.72, "label": "5 per sacchetto"}, {"id": "moltiplica", "x": 0.52, "y": 0.50, "label": "3 × 5"}, {"id": "totale", "x": 0.84, "y": 0.50, "label": "15 biglie"}],
 			"connections": [["gruppi", "moltiplica"], ["pergruppo", "moltiplica"], ["moltiplica", "totale"]],
 			"explanation": "Tre gruppi uguali da cinque si calcolano con 3 × 5: il totale è 15."},
 		{"topic": "frazioni", "minLevel": 7, "answer": "equivalente",
 			"prompt": "Quale nodo mostra una frazione equivalente a 1/2?",
+			"domande": [
+				{"prompt": "Quale nodo mostra una frazione che NON è equivalente a 1/2?", "answer": "non_equiv", "explanation": "In 2/3 il sopra e il sotto non sono stati moltiplicati per lo stesso numero: vale più di un mezzo."},
+				{"prompt": "Quale nodo mostra l'operazione che crea una frazione equivalente?", "answer": "doppio", "explanation": "Moltiplicare sopra e sotto per lo stesso numero non cambia il valore: è la regola delle frazioni equivalenti."},
+			],
 			"components": [{"id": "partenza", "x": 0.18, "y": 0.50, "label": "1/2"}, {"id": "doppio", "x": 0.48, "y": 0.24, "label": "×2 sopra e sotto"}, {"id": "equivalente", "x": 0.82, "y": 0.28, "label": "2/4"}, {"id": "non_equiv", "x": 0.82, "y": 0.74, "label": "2/3"}],
 			"connections": [["partenza", "doppio"], ["doppio", "equivalente"], ["partenza", "non_equiv"]],
 			"explanation": "Moltiplicare numeratore e denominatore per lo stesso numero non cambia il valore: 1/2 = 2/4."},
 		{"topic": "geometria", "minLevel": 11, "answer": "area",
 			"prompt": "Per un rettangolo, quale nodo usa base e altezza per misurare la superficie interna?",
+			"domande": [
+				{"prompt": "Per un rettangolo, quale nodo misura il contorno invece della superficie?", "answer": "perimetro", "explanation": "Il perimetro è la lunghezza del bordo: si sommano i lati, non si moltiplicano."},
+				{"prompt": "Quale nodo indica il lato che appoggia sotto la figura?", "answer": "base", "explanation": "La base è uno dei due lati che servono per l'area: l'altro è l'altezza."},
+			],
 			"components": [{"id": "base", "x": 0.16, "y": 0.28, "label": "Base"}, {"id": "altezza", "x": 0.16, "y": 0.72, "label": "Altezza"}, {"id": "area", "x": 0.54, "y": 0.32, "label": "Area = b × h"}, {"id": "perimetro", "x": 0.82, "y": 0.70, "label": "Perimetro = 2(b+h)"}],
 			"connections": [["base", "area"], ["altezza", "area"], ["base", "perimetro"], ["altezza", "perimetro"]],
 			"explanation": "L'area misura la superficie e si ottiene moltiplicando base per altezza; il perimetro misura il contorno."},
 		{"topic": "probabilita", "minLevel": 17, "answer": "due_test",
 			"prompt": "Lanciando due monete, quale esito contiene due teste?",
+			"domande": [
+				{"prompt": "Lanciando due monete, quale esito contiene due croci?", "answer": "due_croci", "explanation": "CC significa croce su entrambe le monete: è uno dei quattro esiti possibili."},
+				{"prompt": "Quale esito ha una testa e una croce?", "answer": "misto", "explanation": "TC è l'esito misto: capita più spesso degli altri, perché può uscire in due modi."},
+			],
 			"components": [{"id": "lancio1", "x": 0.50, "y": 0.10, "label": "Prima moneta"}, {"id": "testa1", "x": 0.26, "y": 0.38, "label": "T"}, {"id": "croce1", "x": 0.74, "y": 0.38, "label": "C"}, {"id": "due_test", "x": 0.12, "y": 0.78, "label": "TT"}, {"id": "misto", "x": 0.42, "y": 0.78, "label": "TC"}, {"id": "due_croci", "x": 0.88, "y": 0.78, "label": "CC"}],
 			"connections": [["lancio1", "testa1"], ["lancio1", "croce1"], ["testa1", "due_test"], ["testa1", "misto"], ["croce1", "misto"], ["croce1", "due_croci"]],
 			"explanation": "TT indica testa al primo lancio e testa al secondo: è l'esito con due teste."},
 		{"topic": "funzioni", "minLevel": 20, "answer": "uscita",
 			"prompt": "La funzione prima triplica x e poi sottrae 1. Con x = 4, quale nodo mostra l'uscita?",
+			"domande": [
+				{"prompt": "Con x = 4, quale nodo mostra il risultato dopo aver triplicato?", "answer": "triplica", "explanation": "Prima si triplica: 3 × 4 fa 12. La sottrazione viene dopo."},
+				{"prompt": "Quale nodo contiene il valore di partenza?", "answer": "input", "explanation": "x = 4 è l'ingresso: è il numero su cui la funzione lavora."},
+			],
 			"components": [{"id": "input", "x": 0.12, "y": 0.50, "label": "x = 4"}, {"id": "triplica", "x": 0.38, "y": 0.28, "label": "3x = 12"}, {"id": "sottrai", "x": 0.64, "y": 0.50, "label": "12 − 1"}, {"id": "uscita", "x": 0.90, "y": 0.28, "label": "11"}],
 			"connections": [["input", "triplica"], ["triplica", "sottrai"], ["sottrai", "uscita"]],
 			"explanation": "Seguendo la composizione: 4 × 3 = 12 e 12 − 1 = 11. L'uscita è 11."},
@@ -2068,16 +2410,28 @@ const CIRCUIT := {
 	"logica": [
 		{"topic": "insiemi", "minLevel": 5, "answer": "animali",
 			"prompt": "Questi gruppi stanno uno dentro l'altro. Qual è il gruppo che contiene tutti gli altri?",
+			"domande": [
+				{"prompt": "Fra questi gruppi, qual è il più piccolo, quello contenuto in tutti gli altri?", "answer": "cani", "explanation": "I cani stanno dentro i mammiferi, che stanno dentro i vertebrati, che stanno dentro gli animali."},
+				{"prompt": "Quale gruppo contiene i cani ma è contenuto nei vertebrati?", "answer": "mammiferi", "explanation": "I mammiferi sono un sottoinsieme dei vertebrati e contengono i cani: sta nel mezzo della scala."},
+			],
 			"components": [{"id": "animali", "x": 0.50, "y": 0.14, "label": "Animali"}, {"id": "vertebrati", "x": 0.50, "y": 0.40, "label": "Vertebrati"}, {"id": "mammiferi", "x": 0.50, "y": 0.66, "label": "Mammiferi"}, {"id": "cani", "x": 0.50, "y": 0.90, "label": "Cani"}],
 			"connections": [["animali", "vertebrati"], ["vertebrati", "mammiferi"], ["mammiferi", "cani"]],
 			"explanation": "Ogni cane è un mammifero, ogni mammifero un vertebrato, ogni vertebrato un animale. Il gruppo più grande è quello in cima: gli animali."},
 		{"topic": "albero-decisioni", "minLevel": 5, "answer": "uccello",
 			"prompt": "Segui l'albero: un animale HA le ali. A quale conclusione arrivi?",
+			"domande": [
+				{"prompt": "Segui l'albero: un animale NON ha le ali ma ha le pinne. A quale conclusione arrivi?", "answer": "pesce", "explanation": "Niente ali, sì pinne: il ramo porta al pesce."},
+				{"prompt": "Segui l'albero: un animale non ha né ali né pinne. Dove arrivi?", "answer": "mammifero", "explanation": "Quando entrambe le domande danno no, resta l'ultima conclusione dell'albero."},
+			],
 			"components": [{"id": "ali", "x": 0.50, "y": 0.12, "label": "Ha le ali?"}, {"id": "uccello", "x": 0.22, "y": 0.52, "label": "Uccello"}, {"id": "pinne", "x": 0.72, "y": 0.44, "label": "Ha le pinne?"}, {"id": "pesce", "x": 0.55, "y": 0.86, "label": "Pesce"}, {"id": "mammifero", "x": 0.90, "y": 0.86, "label": "Mammifero"}],
 			"connections": [["ali", "uccello"], ["ali", "pinne"], ["pinne", "pesce"], ["pinne", "mammifero"]],
 			"explanation": "Ha le ali → sì → il ramo porta a 'Uccello'."},
 		{"topic": "albero-decisioni", "minLevel": 6, "answer": "quadrato",
 			"prompt": "Segui l'albero: una figura ha 4 lati UGUALI e 4 angoli retti. Dove arrivi?",
+			"domande": [
+				{"prompt": "Segui l'albero: una figura NON ha 4 lati. Dove arrivi?", "answer": "triangolo", "explanation": "La prima domanda separa: se i lati non sono quattro, il ramo porta al triangolo."},
+				{"prompt": "Segui l'albero: una figura ha 4 lati ma NON tutti uguali. Dove arrivi?", "answer": "rettangolo", "explanation": "Quattro lati sì, ma non uguali: il ramo porta al rettangolo."},
+			],
 			"components": [{"id": "quattro", "x": 0.50, "y": 0.12, "label": "Ha 4 lati?"}, {"id": "triangolo", "x": 0.20, "y": 0.52, "label": "Triangolo"}, {"id": "uguali", "x": 0.70, "y": 0.44, "label": "Lati uguali?"}, {"id": "quadrato", "x": 0.55, "y": 0.86, "label": "Quadrato"}, {"id": "rettangolo", "x": 0.90, "y": 0.86, "label": "Rettangolo"}],
 			"connections": [["quattro", "triangolo"], ["quattro", "uguali"], ["uguali", "quadrato"], ["uguali", "rettangolo"]],
 			"explanation": "4 lati → sì → lati uguali → sì → il ramo porta a 'Quadrato'."},
@@ -2087,16 +2441,27 @@ const CIRCUIT := {
 	"geografia": [
 		{"topic": "geografia-fisica", "minLevel": 4, "answer": "valico",
 			"prompt": "Due valli sono collegate attraverso la montagna. Qual è il punto da cui si passa dall'una all'altra?",
+			"domande": [
+				{"prompt": "In questo profilo, qual è il punto più alto della montagna?", "answer": "cima", "explanation": "La cima è il punto più elevato: il valico invece è l'insellatura più bassa da cui si passa."},
+			],
 			"components": [{"id": "valle-a", "x": 0.12, "y": 0.75, "label": "Valle"}, {"id": "cima", "x": 0.50, "y": 0.12, "label": "Cima"}, {"id": "valico", "x": 0.50, "y": 0.48, "label": "Valico"}, {"id": "valle-b", "x": 0.88, "y": 0.75, "label": "Altra valle"}],
 			"connections": [["valle-a", "valico"], ["valico", "valle-b"], ["cima", "valico"]],
 			"explanation": "Il valico (o passo) è il punto più basso della cresta: si passa da lì, non dalla cima, proprio perché costa meno salita."},
 		{"topic": "fiume", "minLevel": 4, "answer": "foce",
 			"prompt": "Questo è il corso di un fiume. In quale punto sfocia nel mare (la foce)?",
+			"domande": [
+				{"prompt": "In questo corso d'acqua, dove il fiume secondario si unisce a quello principale?", "answer": "confluenza", "explanation": "La confluenza è il punto d'incontro fra due corsi d'acqua."},
+				{"prompt": "Quale elemento è il corso d'acqua minore che si unisce al fiume principale?", "answer": "affluente", "explanation": "L'affluente è il fiume che porta la sua acqua a un altro: si unisce nella confluenza."},
+			],
 			"components": [{"id": "sorgente", "x": 0.20, "y": 0.12, "label": "Sorgente"}, {"id": "affluente", "x": 0.72, "y": 0.20, "label": "Affluente"}, {"id": "confluenza", "x": 0.48, "y": 0.50, "label": "Confluenza"}, {"id": "foce", "x": 0.60, "y": 0.90, "label": "Foce"}],
 			"connections": [["sorgente", "confluenza"], ["affluente", "confluenza"], ["confluenza", "foce"]],
 			"explanation": "La foce è dove il fiume finisce nel mare, il punto più in basso del corso."},
 		{"topic": "fiume", "minLevel": 5, "answer": "sorgente",
 			"prompt": "In questo corso d'acqua, dove nasce il fiume principale (la sorgente)?",
+			"domande": [
+				{"prompt": "In questo corso d'acqua, dove il fiume finisce nel mare?", "answer": "foce", "explanation": "La foce è il punto d'arrivo del fiume, dove si getta nel mare."},
+				{"prompt": "Qual è il corso d'acqua che si unisce al principale portandogli altra acqua?", "answer": "affluente", "explanation": "L'affluente non arriva al mare da solo: confluisce nel fiume principale."},
+			],
 			"components": [{"id": "sorgente", "x": 0.20, "y": 0.12, "label": "Sorgente"}, {"id": "affluente", "x": 0.72, "y": 0.20, "label": "Affluente"}, {"id": "confluenza", "x": 0.48, "y": 0.50, "label": "Confluenza"}, {"id": "foce", "x": 0.60, "y": 0.90, "label": "Foce"}],
 			"connections": [["sorgente", "confluenza"], ["affluente", "confluenza"], ["confluenza", "foce"]],
 			"explanation": "La sorgente è dove il fiume nasce, in alto: da lì l'acqua scende verso la foce."},
@@ -2106,16 +2471,28 @@ const CIRCUIT := {
 	"storia": [
 		{"topic": "roma", "minLevel": 4, "answer": "repubblica",
 			"prompt": "Roma attraversò queste fasi in quest'ordine. Qual era la fase di mezzo?",
+			"domande": [
+				{"prompt": "Con quale forma di governo cominciò la storia di Roma?", "answer": "monarchia", "explanation": "Roma nacque come monarchia, con i re: solo dopo divenne repubblica."},
+				{"prompt": "Quale fase venne dopo la repubblica?", "answer": "impero", "explanation": "Dopo la repubblica Roma divenne impero, con un solo capo al potere."},
+			],
 			"components": [{"id": "monarchia", "x": 0.10, "y": 0.50, "label": "Monarchia"}, {"id": "repubblica", "x": 0.37, "y": 0.50, "label": "Repubblica"}, {"id": "impero", "x": 0.64, "y": 0.50, "label": "Impero"}, {"id": "caduta", "x": 0.92, "y": 0.50, "label": "Caduta"}],
 			"connections": [["monarchia", "repubblica"], ["repubblica", "impero"], ["impero", "caduta"]],
 			"explanation": "Roma fu prima monarchia (i re), poi repubblica (i consoli), infine impero. La fase di mezzo è la repubblica."},
 		{"topic": "ere", "minLevel": 4, "answer": "preistoria",
 			"prompt": "Questa è la linea del tempo delle grandi età. Quale era è la più antica, all'inizio di tutto?",
+			"domande": [
+				{"prompt": "In questa linea del tempo, in quale età si colloca il Medioevo?", "answer": "medioevo", "explanation": "Il Medioevo sta fra l'età antica e quella moderna: è la terza delle cinque."},
+				{"prompt": "Quale età viene subito dopo il Medioevo?", "answer": "moderna", "explanation": "L'età moderna segue il Medioevo e precede quella contemporanea."},
+			],
 			"components": [{"id": "preistoria", "x": 0.10, "y": 0.50, "label": "Preistoria"}, {"id": "antica", "x": 0.32, "y": 0.50, "label": "Età antica"}, {"id": "medioevo", "x": 0.55, "y": 0.50, "label": "Medioevo"}, {"id": "moderna", "x": 0.77, "y": 0.50, "label": "Età moderna"}, {"id": "contemporanea", "x": 0.95, "y": 0.50, "label": "Contemporanea"}],
 			"connections": [["preistoria", "antica"], ["antica", "medioevo"], ["medioevo", "moderna"], ["moderna", "contemporanea"]],
 			"explanation": "La Preistoria è la più antica: è la prima era, prima ancora della scrittura."},
 		{"topic": "ere", "minLevel": 5, "answer": "contemporanea",
 			"prompt": "In questa linea del tempo, quale era è la più recente, quella in cui viviamo?",
+			"domande": [
+				{"prompt": "Quale età viene subito dopo la preistoria?", "answer": "antica", "explanation": "L'età antica comincia con la scrittura e chiude la preistoria."},
+				{"prompt": "Quale età sta fra l'antica e la moderna?", "answer": "medioevo", "explanation": "Il Medioevo è l'età di mezzo: il nome stesso lo dice."},
+			],
 			"components": [{"id": "preistoria", "x": 0.10, "y": 0.50, "label": "Preistoria"}, {"id": "antica", "x": 0.32, "y": 0.50, "label": "Età antica"}, {"id": "medioevo", "x": 0.55, "y": 0.50, "label": "Medioevo"}, {"id": "moderna", "x": 0.77, "y": 0.50, "label": "Età moderna"}, {"id": "contemporanea", "x": 0.95, "y": 0.50, "label": "Contemporanea"}],
 			"connections": [["preistoria", "antica"], ["antica", "medioevo"], ["medioevo", "moderna"], ["moderna", "contemporanea"]],
 			"explanation": "L'Età contemporanea è l'ultima della linea: è quella in cui viviamo oggi."},
@@ -2125,16 +2502,28 @@ const CIRCUIT := {
 	"musica": [
 		{"topic": "ritmo", "minLevel": 4, "answer": "croma",
 			"prompt": "Le figure musicali sono in fila dalla più lunga alla più breve: qual è la più breve?",
+			"domande": [
+				{"prompt": "Fra queste figure musicali, qual è la più lunga?", "answer": "semibreve", "explanation": "La semibreve è la più lunga della fila: ogni figura successiva dura la metà della precedente."},
+				{"prompt": "Quale figura dura la metà della semibreve?", "answer": "minima", "explanation": "La minima vale metà semibreve: la scala procede sempre dimezzando."},
+			],
 			"components": [{"id": "semibreve", "x": 0.12, "y": 0.50, "label": "Semibreve"}, {"id": "minima", "x": 0.38, "y": 0.50, "label": "Minima"}, {"id": "semiminima", "x": 0.64, "y": 0.50, "label": "Semiminima"}, {"id": "croma", "x": 0.90, "y": 0.50, "label": "Croma"}],
 			"connections": [["semibreve", "minima"], ["minima", "semiminima"], ["semiminima", "croma"]],
 			"explanation": "Ogni figura vale la metà di quella prima: semibreve 4 battiti, minima 2, semiminima 1, croma mezzo. La più breve è la croma."},
 		{"topic": "lettura", "minLevel": 4, "answer": "ritornello2",
 			"prompt": "Questa è la struttura di una canzone. Quale sezione RIPETE il ritornello già sentito?",
+			"domande": [
+				{"prompt": "In questa struttura, quale sezione chiude la canzone?", "answer": "finale", "explanation": "Il finale è l'ultima sezione: chiude il brano dopo l'ultimo ritornello."},
+				{"prompt": "Quale sezione apre la canzone raccontando la storia?", "answer": "strofa1", "explanation": "La strofa è la parte che racconta e cambia parole a ogni ripetizione."},
+			],
 			"components": [{"id": "strofa1", "x": 0.12, "y": 0.50, "label": "Strofa"}, {"id": "ritornello1", "x": 0.34, "y": 0.50, "label": "Ritornello"}, {"id": "strofa2", "x": 0.56, "y": 0.50, "label": "Strofa 2"}, {"id": "ritornello2", "x": 0.78, "y": 0.50, "label": "Ritornello"}, {"id": "finale", "x": 0.95, "y": 0.50, "label": "Finale"}],
 			"connections": [["strofa1", "ritornello1"], ["ritornello1", "strofa2"], ["strofa2", "ritornello2"], ["ritornello2", "finale"]],
 			"explanation": "Il ritornello è la parte che torna uguale: qui è il secondo 'Ritornello', che ripete il primo."},
 		{"topic": "lettura", "minLevel": 5, "answer": "ponte",
 			"prompt": "In questa struttura, quale sezione è il PONTE, quella diversa che appare una volta sola tra due ritornelli?",
+			"domande": [
+				{"prompt": "In questa struttura, quale sezione torna uguale dopo il ponte?", "answer": "ritornello2", "explanation": "Il ritornello ritorna sempre uguale: è la parte che si ricorda e si canta."},
+				{"prompt": "Quale sezione chiude il brano?", "answer": "finale", "explanation": "Il finale è l'ultima sezione della struttura."},
+			],
 			"components": [{"id": "strofa", "x": 0.10, "y": 0.50, "label": "Strofa"}, {"id": "ritornello1", "x": 0.32, "y": 0.50, "label": "Ritornello"}, {"id": "ponte", "x": 0.55, "y": 0.50, "label": "Ponte"}, {"id": "ritornello2", "x": 0.78, "y": 0.50, "label": "Ritornello"}, {"id": "finale", "x": 0.95, "y": 0.50, "label": "Finale"}],
 			"connections": [["strofa", "ritornello1"], ["ritornello1", "ponte"], ["ponte", "ritornello2"], ["ritornello2", "finale"]],
 			"explanation": "Il ponte è la sezione nuova che compare una sola volta, tra i due ritornelli: crea varietà."},
@@ -2145,16 +2534,28 @@ const CIRCUIT := {
 	"latino": [
 		{"topic": "etimologia", "minLevel": 4, "answer": "videre",
 			"prompt": "Queste parole italiane derivano tutte dalla stessa radice latina. Qual è la radice comune?",
+			"domande": [
+				{"prompt": "Fra queste parole, qual è la più recente, nata con un'invenzione moderna?", "answer": "televisione", "explanation": "«Televisione» è composta di recente unendo il greco «tele» (lontano) alla radice latina di «videre»."},
+				{"prompt": "Quale parola significa «che si vede chiaramente»?", "answer": "evidente", "explanation": "«Evidente» viene da «videre»: è ciò che si mostra alla vista senza bisogno di spiegazioni."},
+			],
 			"components": [{"id": "videre", "x": 0.50, "y": 0.20, "label": "videre"}, {"id": "video", "x": 0.18, "y": 0.65, "label": "video"}, {"id": "evidente", "x": 0.50, "y": 0.85, "label": "evidente"}, {"id": "televisione", "x": 0.82, "y": 0.65, "label": "televisione"}],
 			"connections": [["videre", "video"], ["videre", "evidente"], ["videre", "televisione"]],
 			"explanation": "La radice è «videre», vedere: da lì video, evidente (che si vede bene) e televisione, che significa «vedere lontano»."},
 		{"topic": "etimologia", "minLevel": 4, "answer": "aqua",
 			"prompt": "Queste parole italiane derivano tutte dalla stessa radice latina. Qual è la radice comune?",
+			"domande": [
+				{"prompt": "Quale parola indica la costruzione che porta l'acqua da lontano?", "answer": "acquedotto", "explanation": "«Acquedotto» unisce «aqua» e «ducere» (condurre): è ciò che conduce l'acqua."},
+				{"prompt": "Quale parola indica il recipiente dove vivono i pesci?", "answer": "acquario", "explanation": "«Acquario» viene da «aqua»: è il luogo dell'acqua."},
+			],
 			"components": [{"id": "aqua", "x": 0.50, "y": 0.20, "label": "aqua"}, {"id": "acqua", "x": 0.18, "y": 0.65, "label": "acqua"}, {"id": "acquedotto", "x": 0.50, "y": 0.82, "label": "acquedotto"}, {"id": "acquario", "x": 0.82, "y": 0.65, "label": "acquario"}],
 			"connections": [["aqua", "acqua"], ["aqua", "acquedotto"], ["aqua", "acquario"]],
 			"explanation": "La radice è 'aqua' (acqua in latino): da lì nascono acqua, acquedotto, acquario."},
 		{"topic": "etimologia", "minLevel": 6, "answer": "terra",
 			"prompt": "Anche queste parole italiane vengono dalla stessa radice latina. Qual è la radice comune?",
+			"domande": [
+				{"prompt": "Quale parola indica ciò che sta sotto la superficie del suolo?", "answer": "sotterraneo", "explanation": "«Sotterraneo» unisce «sotto» e la radice di «terra»."},
+				{"prompt": "Quale parola indica una porzione di terra che appartiene a qualcuno?", "answer": "territorio", "explanation": "«Territorio» viene da «terra»: è l'estensione di terra di uno Stato o di un gruppo."},
+			],
 			"components": [{"id": "terra", "x": 0.50, "y": 0.20, "label": "terra"}, {"id": "territorio", "x": 0.18, "y": 0.65, "label": "territorio"}, {"id": "terrestre", "x": 0.50, "y": 0.82, "label": "terrestre"}, {"id": "sotterraneo", "x": 0.82, "y": 0.65, "label": "sotterraneo"}],
 			"connections": [["terra", "territorio"], ["terra", "terrestre"], ["terra", "sotterraneo"]],
 			"explanation": "La radice è 'terra': da lì nascono territorio, terrestre e sotterraneo."},
@@ -2165,16 +2566,28 @@ const CIRCUIT := {
 	"inglese": [
 		{"topic": "vocabolario", "minLevel": 5, "answer": "play",
 			"prompt": "These words all grow from the same short word. Which one is the base?",
+			"domande": [
+				{"prompt": "Which word means the person who plays?", "answer": "player", "explanation": "«Player» is «play» plus «-er»: the ending «-er» turns an action into the person who does it."},
+				{"prompt": "Which word is the «-ing» form of the verb?", "answer": "playing", "explanation": "«Playing» is «play» plus «-ing»: it describes the action while it is happening."},
+			],
 			"components": [{"id": "play", "x": 0.50, "y": 0.20, "label": "play"}, {"id": "player", "x": 0.18, "y": 0.65, "label": "player"}, {"id": "playing", "x": 0.50, "y": 0.85, "label": "playing"}, {"id": "playful", "x": 0.82, "y": 0.65, "label": "playful"}],
 			"connections": [["play", "player"], ["play", "playing"], ["play", "playful"]],
 			"explanation": "«play» è la parola base: player, playing e playful sono costruite tutte su di lei aggiungendo un pezzo in fondo."},
 		{"topic": "word-family", "minLevel": 5, "answer": "play",
 			"prompt": "These English words belong to the same family. Which is the base word (the root)?",
+			"domande": [
+				{"prompt": "Which word names a place where children play?", "answer": "playground", "explanation": "«Playground» joins «play» and «ground»: it is a compound word, not just an ending."},
+				{"prompt": "Which word describes someone full of fun?", "answer": "playful", "explanation": "«Playful» is «play» plus «-ful»: the ending «-ful» means «full of»."},
+			],
 			"components": [{"id": "play", "x": 0.50, "y": 0.20, "label": "play"}, {"id": "player", "x": 0.18, "y": 0.65, "label": "player"}, {"id": "playful", "x": 0.50, "y": 0.82, "label": "playful"}, {"id": "playground", "x": 0.82, "y": 0.65, "label": "playground"}],
 			"connections": [["play", "player"], ["play", "playful"], ["play", "playground"]],
 			"explanation": "The base word is 'play': player, playful and playground all come from it."},
 		{"topic": "word-family", "minLevel": 6, "answer": "help",
 			"prompt": "These words share the same root. Which is the base word?",
+			"domande": [
+				{"prompt": "Which word means the person who helps?", "answer": "helper", "explanation": "«Helper» is «help» plus «-er»: the ending «-er» names the person who does the action."},
+				{"prompt": "Which word means «without help»?", "answer": "helpless", "explanation": "«Helpless» is «help» plus «-less»: the ending «-less» means «without»."},
+			],
 			"components": [{"id": "help", "x": 0.50, "y": 0.20, "label": "help"}, {"id": "helper", "x": 0.20, "y": 0.68, "label": "helper"}, {"id": "helpful", "x": 0.52, "y": 0.84, "label": "helpful"}, {"id": "helpless", "x": 0.82, "y": 0.66, "label": "helpless"}],
 			"connections": [["help", "helper"], ["help", "helpful"], ["help", "helpless"]],
 			"explanation": "The base word is 'help': helper, helpful and helpless are built from it."},
@@ -2676,6 +3089,10 @@ const NOTATION := {
 	"musica": [
 		{"topic": "lettura",
 			"prompt": "In chiave di violino, quale di queste note è il SOL?",
+			"domande": [
+				{"prompt": "In chiave di violino, quale di queste tre note è la più GRAVE, cioè la più in basso sul pentagramma?", "answer": "riga1", "explanation": "Più una nota sta in basso sul pentagramma, più è grave: la nota sulla prima riga è la più bassa delle tre."},
+				{"prompt": "Fra queste note sulle righe, quale è la più ACUTA?", "answer": "riga3", "explanation": "Più si sale sul pentagramma, più il suono è acuto: la nota sulla terza riga è la più alta delle tre."},
+			],
 			"staff": {"clef": "treble"},
 			"symbols": [
 				{"id": "riga1", "label": "Nota sulla prima riga", "kind": "note", "staffStep": 0, "duration": "quarter"},
@@ -2685,6 +3102,9 @@ const NOTATION := {
 			"explanation": "Le note sulle righe, dal basso, sono Mi, Sol, Si, Re, Fa: il SOL è sulla seconda. Non a caso la chiave di violino si chiama anche «chiave di Sol» — la sua spirale gira proprio intorno a quella riga."},
 		{"topic": "lettura",
 			"prompt": "Quale di queste note sta in uno SPAZIO e non su una riga?",
+			"domande": [
+				{"prompt": "Quale di queste note ha una riga che le passa in mezzo al pallino?", "answer": "riga1", "explanation": "Una nota sta SU una riga quando la riga attraversa il pallino. Questa è la prima riga del pentagramma."},
+			],
 			"staff": {"clef": "treble"},
 			"symbols": [
 				{"id": "riga1", "label": "Prima nota", "kind": "note", "staffStep": 0, "duration": "quarter"},
@@ -2694,6 +3114,10 @@ const NOTATION := {
 			"explanation": "Una nota sta in uno spazio quando il pallino è fra due righe e non ne è attraversato. Le note negli spazi, dal basso, sono Fa, La, Do, Mi: questa è un LA."},
 		{"topic": "ritmo", "minLevel": 3,
 			"prompt": "Quale di queste figure dura di più?",
+			"domande": [
+				{"prompt": "Fra queste figure musicali, quale dura di MENO?", "answer": "croma", "explanation": "La croma è la più breve delle quattro: ogni figura vale la metà di quella prima di lei, e la croma è l'ultima della scala."},
+				{"prompt": "Quale figura dura esattamente la metà della semibreve?", "answer": "minima", "explanation": "La minima vale metà semibreve. La semiminima ne vale un quarto e la croma un ottavo."},
+			],
 			"staff": {"clef": "treble"},
 			"symbols": [
 				{"id": "semiminima", "label": "Nota nera con il gambo", "kind": "note", "staffStep": 4, "duration": "quarter"},
@@ -2704,6 +3128,9 @@ const NOTATION := {
 			"explanation": "La durata si legge dalla forma: la semibreve è vuota e senza gambo e vale 4 battiti, la minima è vuota col gambo (2), la semiminima è nera col gambo (1), la croma ha la bandierina (mezzo)."},
 		{"topic": "ritmo", "minLevel": 4,
 			"prompt": "Quale di questi simboli indica un silenzio?",
+			"domande": [
+				{"prompt": "Fra questi simboli, quale indica un suono da eseguire e non un silenzio?", "answer": "nota-a", "explanation": "Le note hanno il pallino sul rigo e si suonano; la pausa è il segno che dice di tacere per quella durata."},
+			],
 			"staff": {"clef": "treble"},
 			"symbols": [
 				{"id": "nota-a", "label": "Primo simbolo", "kind": "note", "staffStep": 2, "duration": "quarter"},
@@ -2713,6 +3140,10 @@ const NOTATION := {
 			"explanation": "La pausa è un silenzio, e dura esattamente quanto la nota corrispondente: una pausa di semiminima vale un battito. In musica anche il silenzio si conta."},
 		{"topic": "lettura", "minLevel": 5,
 			"prompt": "Quale di queste alterazioni ALZA la nota di un semitono?",
+			"domande": [
+				{"prompt": "Quale di queste alterazioni ABBASSA la nota di un semitono?", "answer": "bemolle", "explanation": "Il bemolle abbassa di un semitono. Il diesis fa il contrario, il bequadro annulla l'alterazione precedente."},
+				{"prompt": "Quale simbolo CANCELLA un diesis o un bemolle messo prima?", "answer": "bequadro", "explanation": "Il bequadro riporta la nota al suo suono naturale: non alza e non abbassa, toglie l'alterazione."},
+			],
 			"staff": {"clef": "treble"},
 			"symbols": [
 				{"id": "bemolle", "label": "Primo simbolo", "kind": "accidental", "staffStep": 2, "accidental": "flat"},
@@ -2722,6 +3153,10 @@ const NOTATION := {
 			"explanation": "Il diesis alza di un semitono, il bemolle abbassa di un semitono, il bequadro annulla l'alterazione e riporta la nota al suo suono naturale."},
 		{"topic": "note", "minLevel": 6,
 			"prompt": "Quale di queste note suona più ACUTA?",
+			"domande": [
+				{"prompt": "Fra queste tre note, quale suona più GRAVE?", "answer": "bassa", "explanation": "Più una nota sta in basso sul pentagramma, più il suono è grave: qui la più bassa delle tre."},
+				{"prompt": "Quale di queste note sta a metà fra la più grave e la più acuta?", "answer": "media", "explanation": "Sul pentagramma l'altezza si legge dalla posizione: questa nota sta fra le altre due."},
+			],
 			"staff": {"clef": "treble"},
 			"symbols": [
 				{"id": "bassa", "label": "Prima nota", "kind": "note", "staffStep": 1, "duration": "quarter"},
@@ -2731,6 +3166,10 @@ const NOTATION := {
 			"explanation": "Sul pentagramma l'altezza è letterale: più in alto sta il pallino, più il suono è acuto. La più alta qui è sulla quinta riga, il FA."},
 		{"topic": "lettura", "minLevel": 8,
 			"prompt": "Quale nota esce dal pentagramma e ha bisogno di una linea addizionale?",
+			"domande": [
+				{"prompt": "Fra queste note, quale sta comodamente dentro le cinque righe del pentagramma?", "answer": "dentro-a", "explanation": "Il pentagramma ha cinque righe: le note che ci stanno dentro non hanno bisogno di linee aggiunte."},
+				{"prompt": "Quale nota, pur restando dentro il pentagramma, è la più acuta delle due interne?", "answer": "dentro-b", "explanation": "Fra le due note interne, quella più in alto è la più acuta: sul pentagramma l'altezza è la posizione."},
+			],
 			"staff": {"clef": "treble"},
 			"symbols": [
 				{"id": "dentro-a", "label": "Prima nota", "kind": "note", "staffStep": 2, "duration": "quarter"},
@@ -2740,6 +3179,10 @@ const NOTATION := {
 			"explanation": "Il pentagramma ha cinque righe e basta. Per le note più acute o più gravi si disegnano linee addizionali corte, una per ogni riga che servirebbe in più."},
 		{"topic": "lettura", "minLevel": 10,
 			"prompt": "In chiave di basso, quale di queste note è il FA?",
+			"domande": [
+				{"prompt": "In chiave di basso, quale di queste note è la più GRAVE?", "answer": "riga2", "explanation": "In qualsiasi chiave la nota più in basso sul pentagramma è la più grave: cambia il nome, non la regola."},
+				{"prompt": "In chiave di basso, quale nota sta fra le altre due?", "answer": "riga3", "explanation": "La posizione verticale dice l'altezza: questa nota sta in mezzo alle altre due."},
+			],
 			"staff": {"clef": "bass"},
 			"symbols": [
 				{"id": "riga2", "label": "Nota sulla seconda riga", "kind": "note", "staffStep": 2, "duration": "quarter"},
@@ -2758,6 +3201,10 @@ const MAP_READING := {
 	"geografia": [
 		{"topic": "italia-fisica", "mapId": "italy",
 			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica il fiume Po?",
+			"domande": [
+				{"prompt": "Sulla carta muta dell'Italia, quale segnaposto NON indica un'isola?", "answer": "po", "explanation": "Il Po è un fiume e scorre sulla terraferma: Sicilia e Sardegna sono invece le due grandi isole."},
+				{"prompt": "Quale segnaposto indica l'isola più grande del Mediterraneo?", "answer": "sicily", "explanation": "La Sicilia è la maggiore isola del Mediterraneo, separata dalla Calabria dallo stretto di Messina."},
+			],
 			"targets": [
 				{"id": "po", "label": "Segnaposto A"},
 				{"id": "sicily", "label": "Segnaposto B"},
@@ -2766,14 +3213,69 @@ const MAP_READING := {
 			"explanation": "Il Po attraversa da ovest a est la grande pianura del nord, quella che porta il suo nome: è l'unico dei tre segnaposto sulla terraferma."},
 		{"topic": "italia-fisica", "minLevel": 3, "mapId": "italy",
 			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica la Sicilia?",
+			"domande": [
+				{"prompt": "Sulla carta muta, quale segnaposto indica l'isola a ovest della penisola?", "answer": "sardinia", "explanation": "La Sardegna sta a ovest, in mezzo al Mar Tirreno: la Sicilia invece è a sud."},
+				{"prompt": "Quale segnaposto indica il corso d'acqua che attraversa la pianura del nord?", "answer": "po", "explanation": "Il Po attraversa da ovest a est la pianura che porta il suo nome."},
+			],
 			"targets": [
 				{"id": "po", "label": "Segnaposto A"},
 				{"id": "sicily", "label": "Segnaposto B"},
 				{"id": "sardinia", "label": "Segnaposto C"}],
 			"answer": "sicily",
 			"explanation": "La Sicilia è la grande isola triangolare all'estremità sud della penisola, separata dalla Calabria dallo stretto di Messina."},
+		# Cinque carte nuove sulle ancore che il catalogo di geometria aveva gia'
+		# e che nessuna prova usava: alpi, appennini e i mari. La carta muta aveva
+		# TRE bersagli in tutto, quindi tre domande possibili in tutta la
+		# campagna; qui i bersagli diventano nove e le domande dodici.
+		#
+		# Le etichette restano "Segnaposto A/B/C": identificano senza descrivere,
+		# che e' l'unica scelta che non regala la risposta a chi legge le etichette.
+		{"topic": "italia-fisica", "minLevel": 4, "mapId": "italy",
+			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica la catena delle Alpi?",
+			"targets": [
+				{"id": "alps", "label": "Segnaposto A"},
+				{"id": "apennines", "label": "Segnaposto B"},
+				{"id": "po", "label": "Segnaposto C"}],
+			"answer": "alps",
+			"explanation": "Le Alpi chiudono l'Italia a nord, sopra la pianura del Po: sono l'arco montuoso piu' settentrionale, al confine con gli altri Paesi.",
+			"domande": [
+				{"prompt": "Sulla carta muta, quale segnaposto indica la catena che percorre la penisola da nord a sud?", "answer": "apennines",
+					"explanation": "Gli Appennini corrono lungo tutta la penisola come una spina dorsale, dal nord fino alla Calabria."},
+				{"prompt": "Fra questi tre segnaposto, quale NON indica una catena di montagne?", "answer": "po",
+					"explanation": "Il Po e' un fiume: scorre nella pianura, non e' un rilievo. Gli altri due sono Alpi e Appennini."},
+			]},
+		{"topic": "italia-fisica", "minLevel": 6, "mapId": "italy",
+			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica il Mar Tirreno?",
+			"targets": [
+				{"id": "tyrrhenian_sea", "label": "Segnaposto A"},
+				{"id": "adriatic_sea", "label": "Segnaposto B"},
+				{"id": "ligurian_sea", "label": "Segnaposto C"}],
+			"answer": "tyrrhenian_sea",
+			"explanation": "Il Tirreno sta a ovest della penisola, fra la costa, la Sardegna e la Sicilia.",
+			"domande": [
+				{"prompt": "Sulla carta muta, quale segnaposto indica il mare a EST della penisola, verso i Balcani?", "answer": "adriatic_sea",
+					"explanation": "L'Adriatico e' il mare lungo e stretto a est dell'Italia, fra la penisola e la costa balcanica."},
+				{"prompt": "Quale segnaposto indica il mare piccolo a nord-ovest, davanti alla Liguria?", "answer": "ligurian_sea",
+					"explanation": "Il Mar Ligure e' il tratto a nord-ovest, davanti all'arco costiero della Liguria."},
+			]},
+		{"topic": "italia-fisica", "minLevel": 8, "mapId": "italy",
+			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica il Mar Ionio?",
+			"targets": [
+				{"id": "ionian_sea", "label": "Segnaposto A"},
+				{"id": "adriatic_sea", "label": "Segnaposto B"},
+				{"id": "sicily", "label": "Segnaposto C"}],
+			"answer": "ionian_sea",
+			"explanation": "Lo Ionio sta a sud-est, fra la punta della Calabria, la Puglia e la Grecia: e' il mare dentro l'arco del \"tacco\" e della \"punta\".",
+			"domande": [
+				{"prompt": "Fra questi tre segnaposto, quale indica una TERRA e non un mare?", "answer": "sicily",
+					"explanation": "La Sicilia e' un'isola: gli altri due segnaposto indicano lo Ionio e l'Adriatico, che sono mari."},
+			]},
 		{"topic": "italia-fisica", "minLevel": 5, "mapId": "italy",
 			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica la Sardegna?",
+			"domande": [
+				{"prompt": "Sulla carta muta, quale segnaposto indica l'isola a sud della penisola?", "answer": "sicily", "explanation": "La Sicilia è la grande isola triangolare all'estremità sud dell'Italia."},
+				{"prompt": "Quale dei tre segnaposto indica qualcosa che non è terra emersa?", "answer": "po", "explanation": "Il Po è un fiume: gli altri due segnaposto indicano isole, cioè terra."},
+			],
 			"targets": [
 				{"id": "po", "label": "Segnaposto A"},
 				{"id": "sicily", "label": "Segnaposto B"},
@@ -2790,6 +3292,10 @@ const HOTSPOT := {
 	"storia": [
 		{"topic": "roma", "assetId": "roman_artifacts",
 			"prompt": "Quale di questi reperti romani serviva a portare l'acqua fino in città?",
+			"domande": [
+				{"prompt": "Quale di questi reperti sorreggeva il tetto di un edificio, non conteneva niente?", "answer": "column", "explanation": "La colonna è un elemento portante: regge il peso del tetto. Gli altri tre servono a trasportare acqua, a contenere liquidi o a decorare un pavimento."},
+				{"prompt": "Fra questi quattro reperti, quale si CAMMINA sopra?", "answer": "mosaic", "explanation": "Il mosaico è un pavimento: le tessere formano il disegno su cui si cammina. Gli altri stanno in piedi o si trasportano."},
+			],
 			"targets": [
 				{"id": "aqueduct", "label": "Primo reperto da sinistra"},
 				{"id": "column", "label": "Secondo reperto"},
@@ -2799,6 +3305,9 @@ const HOTSPOT := {
 			"explanation": "L'acquedotto porta l'acqua da lontano sfruttando una pendenza minima: gli archi servono a tenere il canale sempre alla quota giusta mentre il terreno sale e scende."},
 		{"topic": "roma", "minLevel": 3, "assetId": "roman_artifacts",
 			"prompt": "Quale di questi reperti serviva a conservare e trasportare vino e olio?",
+			"domande": [
+				{"prompt": "Quale di questi reperti si spostava da un posto all'altro, e non stava fermo dov'era costruito?", "answer": "amphora", "explanation": "L'anfora è l'unico oggetto mobile: aveva due anse proprio per essere sollevata e caricata sulle navi. Acquedotto, colonna e mosaico si costruiscono sul posto."},
+			],
 			"targets": [
 				{"id": "aqueduct", "label": "Primo reperto da sinistra"},
 				{"id": "column", "label": "Secondo reperto"},
@@ -2808,6 +3317,9 @@ const HOTSPOT := {
 			"explanation": "L'anfora ha il fondo a punta non per sbaglio: si conficcava nella sabbia o negli appositi sostegni delle navi, e le due anse servivano a sollevarla in due."},
 		{"topic": "roma", "minLevel": 5, "assetId": "roman_artifacts",
 			"prompt": "Quale di questi reperti è un pavimento decorato con piccole tessere colorate?",
+			"domande": [
+				{"prompt": "Quale di questi reperti è fatto di tante piccolissime parti uguali messe insieme?", "answer": "mosaic", "explanation": "Il mosaico nasce dall'accostare migliaia di tessere: il disegno esiste solo guardando l'insieme, non la singola tessera."},
+			],
 			"targets": [
 				{"id": "aqueduct", "label": "Primo reperto da sinistra"},
 				{"id": "column", "label": "Secondo reperto"},
@@ -2817,6 +3329,10 @@ const HOTSPOT := {
 			"explanation": "Il mosaico è fatto di tessere piccolissime di pietra e vetro. È una fonte materiale preziosa: ci mostra come i Romani si vestivano, cosa mangiavano e a cosa giocavano."},
 		{"topic": "roma", "minLevel": 7, "assetId": "roman_artifacts",
 			"prompt": "Quale di questi reperti sorreggeva il tetto di un tempio?",
+			"domande": [
+				{"prompt": "Quale di questi reperti veniva costruito con una pendenza minima per far scorrere l'acqua?", "answer": "aqueduct", "explanation": "L'acquedotto funziona grazie a una pendenza piccolissima e costante: gli archi servono a mantenerla mentre il terreno cambia quota."},
+				{"prompt": "Quale di questi reperti si poteva riempire e trasportare?", "answer": "amphora", "explanation": "L'anfora è un contenitore: aveva due anse per essere sollevata e il fondo a punta per essere infilata nella sabbia o nei sostegni delle navi."},
+			],
 			"targets": [
 				{"id": "aqueduct", "label": "Primo reperto da sinistra"},
 				{"id": "column", "label": "Secondo reperto"},
@@ -2970,10 +3486,50 @@ static func spec_depth(fmt: String, spec: Dictionary, level: int, step: int = 0)
 				var category := str(assignments[key])
 				sizes[category] = int(sizes.get(category, 0)) + 1
 			return ExercisePool.covering_combinations(sizes.values(), count)
-	# Grafico, circuito, notazione, carta, hotspot e caccia all'errore sono dati fissi: una specifica,
-	# una prova. Il rimescolamento delle righe cambia la presentazione, non la
-	# prova (vedi `ExerciseSignature`), quindi non conta come profondità.
-	return 1
+	# Grafico, circuito, notazione, carta, hotspot e caccia all'errore hanno dati
+	# fissi. Il rimescolamento delle righe cambia la presentazione, non la prova
+	# (vedi `ExerciseSignature`), quindi non conta come profondità — **ma una
+	# domanda diversa sugli stessi dati sì**, ed è una prova a tutti gli effetti:
+	# risposta diversa, spiegazione diversa, ragionamento diverso.
+	#
+	# È il rimedio con la resa più alta che esista qui dentro, perché non aggiunge
+	# dati: usa meglio quelli che ci sono. Un grafico letto solo per «dov'è il
+	# massimo?» insegna a cercare il punto più alto; lo stesso grafico che a volte
+	# chiede «di quanto sale fra B e C?» insegna a leggerlo.
+	# Lettura diretta e non `ExercisePool.entries`: quella darebbe la precedenza
+	# al pool della specifica, e qui il pool non c'entra niente.
+	#
+	# `domande` si SOMMA alla domanda scritta a livello di specifica, non la
+	# sostituisce. Prima la sostituiva, e una specifica con una domanda in piu'
+	# restava profonda uno: aggiungere contenuto non contava niente. Se ne e'
+	# accorto il probe che misura la profondita' al livello 24, non la rilettura.
+	return 1 + Array(spec.get("domande", [])).size()
+
+## La domanda scelta per questa comparsa, fra quelle che la specifica dichiara.
+##
+## Deterministica sull'indice, non casuale: due partite con lo stesso seme fanno
+## le stesse domande, ed è un contratto del progetto. Senza `domande` restituisce
+## la domanda unica scritta a livello di specifica, quindi tutte le specifiche
+## esistenti continuano a funzionare senza toccarle.
+static func question_of(spec: Dictionary, idx: int) -> Dictionary:
+	var domande := Array(spec.get("domande", []))
+	var base := {
+		"prompt": str(spec.get("prompt", "")),
+		"answer": str(spec.get("answer", "")),
+		"explanation": str(spec.get("explanation", "")),
+	}
+	if domande.is_empty():
+		return base
+	# Indice 0 = la domanda della specifica; le altre vengono dopo.
+	var slot := posmod(idx, domande.size() + 1)
+	if slot == 0:
+		return base
+	var chosen := domande[slot - 1] as Dictionary
+	return {
+		"prompt": str(chosen.get("prompt", spec.get("prompt", ""))),
+		"answer": str(chosen.get("answer", spec.get("answer", ""))),
+		"explanation": str(chosen.get("explanation", spec.get("explanation", ""))),
+	}
 
 static func format_depth(subject: String, fmt: String, level: int) -> int:
 	# Solo i tre specialisti appena introdotti hanno il gate di attivazione a
@@ -3195,32 +3751,34 @@ func _classification_node(subject: String, spec: Dictionary, level: int, step: i
 	}
 
 func _graph_node(subject: String, spec: Dictionary, difficulty: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
 	return {
 		"id": "minigame-graph-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": str(spec["topic"]),
 		"difficulty": difficulty,
 		"format": "graph",
-		"prompt": str(spec["prompt"]),
+		"prompt": str(question["prompt"]),
 		"points": (spec["points"] as Array).duplicate(true),
 		"xLabel": str(spec.get("xLabel", "x")),
 		"yLabel": str(spec.get("yLabel", "y")),
-		"answer": str(spec["answer"]),
-		"explanation": str(spec["explanation"]),
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
 	}
 
 func _circuit_node(subject: String, spec: Dictionary, difficulty: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
 	return {
 		"id": "minigame-circuit-%s-%d" % [subject, idx],
 		"subject": subject,
 		"topic": str(spec["topic"]),
 		"difficulty": difficulty,
 		"format": "circuit",
-		"prompt": str(spec["prompt"]),
+		"prompt": str(question["prompt"]),
 		"components": (spec["components"] as Array).duplicate(true),
 		"connections": (spec["connections"] as Array).duplicate(true),
-		"answer": str(spec["answer"]),
-		"explanation": str(spec["explanation"]),
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
 	}
 
 func _cycle_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
@@ -3245,6 +3803,7 @@ func _cycle_node(subject: String, spec: Dictionary, difficulty: int, rng: Random
 	}
 
 func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
 	var symbols: Array = (spec["symbols"] as Array).duplicate(true)
 	_shuffle(symbols, rng)
 	return {
@@ -3253,14 +3812,15 @@ func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: Ran
 		"topic": str(spec["topic"]),
 		"difficulty": difficulty,
 		"format": "notation",
-		"prompt": str(spec["prompt"]),
+		"prompt": str(question["prompt"]),
 		"staff": (spec["staff"] as Dictionary).duplicate(true),
 		"symbols": symbols,
-		"answer": str(spec["answer"]),
-		"explanation": str(spec["explanation"]),
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
 	}
 
 func _map_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
 	var targets: Array = (spec["targets"] as Array).duplicate(true)
 	_shuffle(targets, rng)
 	return {
@@ -3269,14 +3829,15 @@ func _map_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNu
 		"topic": str(spec["topic"]),
 		"difficulty": difficulty,
 		"format": "map",
-		"prompt": str(spec["prompt"]),
+		"prompt": str(question["prompt"]),
 		"mapId": str(spec["mapId"]),
 		"targets": targets,
-		"answer": str(spec["answer"]),
-		"explanation": str(spec["explanation"]),
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
 	}
 
 func _hotspot_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
 	var targets: Array = (spec["targets"] as Array).duplicate(true)
 	_shuffle(targets, rng)
 	return {
@@ -3285,11 +3846,11 @@ func _hotspot_node(subject: String, spec: Dictionary, difficulty: int, rng: Rand
 		"topic": str(spec["topic"]),
 		"difficulty": difficulty,
 		"format": "hotspot",
-		"prompt": str(spec["prompt"]),
+		"prompt": str(question["prompt"]),
 		"assetId": str(spec["assetId"]),
 		"targets": targets,
-		"answer": str(spec["answer"]),
-		"explanation": str(spec["explanation"]),
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
 	}
 
 ## Caccia all'errore. Dove le righe sono AFFERMAZIONI INDIPENDENTI (`shuffleLines`)

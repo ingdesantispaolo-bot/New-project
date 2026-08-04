@@ -34,6 +34,52 @@ const FRASE_DEL_MAESTRO := "Io non concludo mai al posto tuo."
 const PRIMO_MONDO_AZIONE := 17
 const PRIMO_MONDO_VOCE := 18
 
+## I **presagi**: due eccezioni dichiarate alla regola del mondo 17.
+##
+## Il difetto che risolvono è di ritmo, ed era misurabile: per **sedici mondi** il
+## giocatore non ha nessuno dall'altra parte. Ci sono cose da capire, mai qualcuno
+## che si opponga. L'atto II — otto mondi interi — è tutto rivelazione e nessuna
+## pressione, e quando l'antagonista finalmente arriva deve costruirsi da zero una
+## presenza che avrebbe potuto avere da tempo.
+##
+## Un presagio non è un'azione ridotta: è la stessa azione, **una volta sola, su
+## un bersaglio solo, e senza che nessuno la commenti**. È la regola che li rende
+## efficaci: se NORA li notasse diventerebbero trama, e al mondo 17 lei non
+## potrebbe più dire «le insegne si sono riempite da sole» come una novità.
+## Devono restare una cosa che il giocatore ha visto e nessuno ha spiegato.
+const PRESAGI := [
+	{
+		"world": 13,
+		"azione": "scrive",
+		"dove": "Una sola targa, dietro l'osservatorio, dove non passa nessuno.",
+		"cosa": "FERMATI",
+		"commentato": false,
+		"nota": "Al mondo 17 la stessa parola sarà su ogni insegna di un'area. Qui è una.",
+	},
+	{
+		"world": 15,
+		"azione": "risbiadisce",
+		"dove": "Un vicolo già restaurato della Città Macchina, per una visita sola.",
+		"cosa": "",
+		"commentato": false,
+		"nota": "Si ripristina rientrando. Nessun abitante lo nomina: se qualcuno lo dicesse, diventerebbe un evento invece di un dubbio.",
+	},
+]
+
+## Il mondo in cui una azione può comparire: quello dichiarato dall'azione,
+## oppure uno dei due presagi.
+static func action_allowed_at(action_id: String, world: int) -> bool:
+	var action := AZIONI.get(action_id, {}) as Dictionary
+	if action.is_empty():
+		return false
+	if world >= int(action.get("dal_mondo", 99)):
+		return true
+	for entry in PRESAGI:
+		var presagio := entry as Dictionary
+		if int(presagio["world"]) == world and str(presagio["azione"]) == action_id:
+			return true
+	return false
+
 ## Le cinque azioni (§5.2). `costo` è dichiarato qui perché sia verificabile:
 ## l'audit rifiuta qualunque costo che non sia in questa lista chiusa, e
 ## qualunque azione non reversibile.

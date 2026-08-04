@@ -70,6 +70,29 @@ var active_session_context: Dictionary = {}
 var base_fragments := 0
 var current_phase := "giorno"
 
+## Il messaggio di fine pratica. Nomina al massimo **due** argomenti: tre righe
+## di elenco su una sessione di quattro esercizi si leggono come un registro
+## contabile, e il punto è il contrario.
+##
+## Se nessun argomento è avanzato — capita, quando erano già tutti applicati —
+## non si inventa un premio: si dice che il manuale è già a posto su quelle cose.
+## Una ricompensa finta la si riconosce subito, e svaluta quelle vere.
+func _practice_feedback(advanced: Array, gained: int) -> String:
+	if advanced.is_empty():
+		return "%s Il manuale su questo era già a posto: hai tenuto allenato quello che sai. +%d energia" % [
+			nora_voice.line("solve"), gained]
+	var parts: Array = []
+	for entry in advanced.slice(0, 2):
+		var row := entry as Dictionary
+		parts.append("«%s» ora è %s" % [
+			str(row["topic"]).replace("-", " "),
+			KnowledgeCodex.state_label(str(row["a"])),
+		])
+	var altri := advanced.size() - parts.size()
+	var coda := " e altri %d" % altri if altri > 0 else ""
+	return "%s Nel manuale: %s%s. +%d energia" % [
+		nora_voice.line("solve"), ", ".join(PackedStringArray(parts)), coda, gained]
+
 func _present_feedback(message: String, source: String = "system") -> void:
 	feedback.emit(message)
 	feedback_presented.emit(message, source)
@@ -443,14 +466,23 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		progression_manager.record_practice(subject, correct, total, gained)
 	else:
 		progression_manager.record_mission(subject, correct, total, gained, passed)
-	progression_manager.record_topic_stats(subject, exercise_result.get("topicStats", {}))
+	var codex_advanced: Array = progression_manager.record_topic_stats(
+		subject, exercise_result.get("topicStats", {}))
 	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
 	_update_spaced_repetition(subject, exercise_result)
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
 	if kind == "minigame":
 		# Pratica: nessun gate, nessun completamento persistente → rigiocabile.
+		#
+		# Il messaggio nomina il **Codex**, non l'energia. La pratica non apre
+		# apparati e non fa salire di livello: l'unica cosa che lascia è un
+		# argomento che avanza nel manuale di NORA. Dirlo con l'energia in testa
+		# insegnava al bambino che la pratica serve a fare punti — e la prima
+		# volta che i punti non gli servono, smette. Dirlo col Codex insegna che
+		# serve a sapere una cosa in più, che è vero ed è il motivo per cui gli
+		# eventi di pratica esistono.
 		if passed:
-			_present_feedback("%s +%d energia · pratica completata" % [nora_voice.line("solve"), gained], "nora")
+			_present_feedback(_practice_feedback(codex_advanced, gained), "nora")
 		else:
 			_present_feedback(nora_voice.line("defeat"), "nora")
 	elif kind == "mission" or kind == "enigma":

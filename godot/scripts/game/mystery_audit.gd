@@ -38,6 +38,8 @@ func _init() -> void:
 	print("Il mistero — semi, Tracce, e nessuno che muore\n")
 
 	failures.append_array(_check_colpi())
+	failures.append_array(_check_sbiadito())
+	failures.append_array(_check_conta())
 	failures.append_array(_check_tracce())
 	failures.append_array(_check_beats())
 
@@ -100,6 +102,69 @@ func _check_colpi() -> Array:
 		print("colpo %d · mondo %-3d %-42s semi: %d (mondi %s)" % [
 			numero, world, str(colpo["titolo"]), prima.size(),
 			", ".join(PackedStringArray(prima.map(func(w): return str(w))))])
+	return out
+
+## Lo Sbiadito che ripete NORA: **uno solo**, mai spiegato, e la frase deve
+## essere davvero una che il giocatore ha già sentito.
+func _check_sbiadito() -> Array:
+	var out: Array = []
+	var s := MysteryCatalog.SBIADITO_RICONOSCIBILE as Dictionary
+	var world := int(s.get("world", 0))
+	var frase := str(s.get("frase", "")).strip_edges()
+	if frase == "":
+		out.append("lo Sbiadito riconoscibile non ha una frase")
+	if bool(s.get("commentato", true)):
+		out.append("lo Sbiadito riconoscibile è commentato: diventerebbe un indizio da seguire invece di un ricordo")
+	if world < 12 or world > 23:
+		out.append("lo Sbiadito riconoscibile sta al mondo %d: troppo presto per pesare, o troppo tardi per essere ricordato al 24" % world)
+
+	# La frase deve venire davvero da un beat che il giocatore ha sentito prima.
+	var trovata := 0
+	var da_quale := 0
+	for level in NarrativeManager.BEATS.keys():
+		if str(NarrativeManager.BEATS[level]).contains(frase):
+			trovata += 1
+			da_quale = int(level)
+	if trovata == 0:
+		out.append("«%s» non compare in nessun beat: il giocatore non l'ha mai sentita da NORA" % frase)
+	elif da_quale >= world:
+		out.append("«%s» viene dal beat del mondo %d, ma lo Sbiadito sta al %d: si sentirebbe l'eco prima della voce" % [
+			frase, da_quale, world])
+	else:
+		print("Sbiadito al mondo %d: ripete una frase del beat %d — «%s»" % [world, da_quale, frase])
+	return out
+
+## La conta di nonna Ersilia è la chiave del mondo 24 e non può sentirsi una
+## volta sola: se un bambino salta quel dialogo, il finale resta senza serratura.
+func _check_conta() -> Array:
+	var out: Array = []
+	var occorrenze := NpcCatalog.conta_occurrences()
+	if occorrenze < 3:
+		out.append("le tre sillabe si sentono in %d punti: troppo pochi per una chiave che serve venti mondi dopo" % occorrenze)
+
+	var sillabe: Array = (NpcCatalog.CONTA_ERSILIA as Dictionary).get("sillabe", [])
+	var mondi: Array = []
+	for entry in NpcCatalog.RIAFFIORAMENTI_CONTA:
+		var eco := entry as Dictionary
+		var testo := str(eco.get("testo", "")).to_lower()
+		mondi.append(int(eco.get("world", 0)))
+		for sillaba in sillabe:
+			if not testo.contains(str(sillaba)):
+				out.append("il riaffioramento del mondo %d non contiene la sillaba «%s»" % [
+					int(eco.get("world", 0)), str(sillaba)])
+		# Se qualcuno spiega la conta, l'enigma del nome è già risolto.
+		if bool(eco.get("spiegato", true)):
+			out.append("il riaffioramento del mondo %d è spiegato: risolverebbe l'enigma al posto del giocatore" % int(eco.get("world", 0)))
+		if str(eco.get("dove", "")).strip_edges() == "":
+			out.append("un riaffioramento non dice dove accade")
+
+	# Distribuiti, non ammucchiati: uno per atto almeno.
+	mondi.sort()
+	if not mondi.is_empty() and int(mondi[mondi.size() - 1]) - int(mondi[0]) < 6:
+		out.append("i riaffioramenti stanno tutti a %d mondi di distanza: vanno distribuiti lungo la campagna" % (
+			int(mondi[mondi.size() - 1]) - int(mondi[0])))
+	print("conta: %d occorrenze (mondo 1 + riaffioramenti ai mondi %s), nessuna spiegata" % [
+		occorrenze, ", ".join(PackedStringArray(mondi.map(func(w): return str(w))))])
 	return out
 
 func _check_tracce() -> Array:

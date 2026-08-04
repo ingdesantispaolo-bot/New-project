@@ -45,7 +45,16 @@ func record_practice(subject: String, correct: int, total: int, energy_gained: i
 # (`topic_stats` = {topic: {"seen", "correct"}}). Media mobile un po' più reattiva
 # di quella per-materia (0.34 vs 0.25): i campioni per topic sono più radi. Al
 # primo incontro (topic sconosciuto) la mastery parte dall'accuratezza osservata.
-func record_topic_stats(subject: String, topic_stats: Dictionary) -> void:
+## Restituisce gli **avanzamenti nel Codex** prodotti da questa sessione:
+## `[{topic, da, a}]`, in ordine di argomento.
+##
+## Prima restituiva `void` e l'avanzamento restava un fatto privato del save. Ma
+## il Codex è l'unica ricompensa che la **pratica** produce — gli eventi di
+## pratica non contano per il gate — e una ricompensa che il giocatore non vede
+## non è una ricompensa: è una riga di JSON. Chi chiama può finalmente dire al
+## bambino *cosa ha imparato*, con quelle parole.
+func record_topic_stats(subject: String, topic_stats: Dictionary) -> Array:
+	var advanced: Array = []
 	for topic in topic_stats.keys():
 		var entry: Dictionary = topic_stats[topic]
 		var seen := int(entry.get("seen", 0))
@@ -55,6 +64,7 @@ func record_topic_stats(subject: String, topic_stats: Dictionary) -> void:
 		var prev: float = float(save.topic_mastery_of(subject, str(topic)))
 		var updated: float = accuracy if prev < 0.0 else lerpf(prev, accuracy, 0.34)
 		save.set_topic_mastery(subject, str(topic), updated)
+		var state_before := KnowledgeCodex.state_of(save, subject, str(topic))
 		# Manuale NORA (O-P4): avanza lo stato di conoscenza dell'argomento e nutre
 		# la fiducia sul MIGLIORAMENTO (non sulla singola risposta giusta).
 		KnowledgeCodex.advance_state(save, subject, str(topic), "seen")
@@ -72,6 +82,15 @@ func record_topic_stats(subject: String, topic_stats: Dictionary) -> void:
 			KnowledgeCodex.advance_state(save, subject, str(topic), "consolidated")
 		if prev >= 0.0 and updated > prev + 0.05:
 			NoraState.register(save, "improvement")
+		var state_after := KnowledgeCodex.state_of(save, subject, str(topic))
+		if state_after != state_before:
+			advanced.append({
+				"topic": str(topic),
+				"da": state_before,
+				"a": state_after,
+			})
+	advanced.sort_custom(func(a, b): return str(a["topic"]) < str(b["topic"]))
+	return advanced
 
 func current_gate() -> Dictionary:
 	return ApparatusConfig.level_gate(save.level())

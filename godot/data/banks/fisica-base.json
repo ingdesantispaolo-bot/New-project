@@ -834,6 +834,182 @@
 			],
 			"answer": "solido",
 			"explanation": "Sotto lo zero l'acqua si solidifica e diventa ghiaccio."
+		},
+		{
+			"id": "fisica-banda-misure-0",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Misuri lo stesso oggetto cinque volte e trovi valori un po' diversi. Qual è la cosa più corretta da fare?",
+			"options": [
+				"tenere quella che ti aspettavi",
+				"tenere la misura più grande",
+				"calcolare la media delle cinque misure",
+				"tenere la prima misura"
+			],
+			"answer": "calcolare la media delle cinque misure",
+			"explanation": "Ogni misura porta un piccolo errore casuale, in più o in meno. La media li compensa e si avvicina al valore vero."
+		},
+		{
+			"id": "fisica-banda-misure-1",
+			"subject": "fisica",
+			"topic": "misure",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un righello ha le tacche ogni millimetro. Come ha senso scrivere una lunghezza misurata con quel righello?",
+			"options": [
+				"con tutte le cifre che dà la calcolatrice",
+				"al centesimo di millimetro",
+				"sempre in numeri interi di centimetri",
+				"al millimetro, per esempio 12,4 cm"
+			],
+			"answer": "al millimetro, per esempio 12,4 cm",
+			"explanation": "Uno strumento non può dire più di quanto è fine: scrivere cifre in più non aggiunge precisione, la finge."
+		},
+		{
+			"id": "fisica-banda-metodo-2",
+			"subject": "fisica",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Vuoi scoprire se una pianta cresce di più con più luce. Fra i due vasi che cosa cambi?",
+			"options": [
+				"solo la luce, tenendo uguale tutto il resto",
+				"luce, acqua e terra insieme",
+				"la specie della pianta",
+				"il momento in cui li osservi"
+			],
+			"answer": "solo la luce, tenendo uguale tutto il resto",
+			"explanation": "Se cambi più cose insieme e qualcosa succede, non sai quale l'ha causato. Una variabile per volta."
+		},
+		{
+			"id": "fisica-banda-metodo-3",
+			"subject": "fisica",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "L'esperimento dà un risultato che non conferma la tua ipotesi. Che cosa fai?",
+			"options": [
+				"butti via la misura sbagliata",
+				"annoti il risultato e cambi l'ipotesi",
+				"ripeti finché non viene quello che pensavi",
+				"cambi la domanda di partenza"
+			],
+			"answer": "annoti il risultato e cambi l'ipotesi",
+			"explanation": "Un risultato che smentisce è un risultato utile: dice qualcosa di vero sul mondo. Tenere solo le prove che ti danno ragione non è più un esperimento."
+		},
+		{
+			"id": "fisica-banda-moto-4",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un'auto percorre 90 km in un'ora e mezza. Qual è la sua velocità media?",
+			"options": [
+				"90 km/h",
+				"45 km/h",
+				"60 km/h",
+				"135 km/h"
+			],
+			"answer": "60 km/h",
+			"explanation": "Velocità media = spazio diviso tempo: 90 km diviso 1,5 ore fa 60 km/h."
+		},
+		{
+			"id": "fisica-banda-moto-5",
+			"subject": "fisica",
+			"topic": "moto",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Sei seduto su un treno che viaggia liscio a velocità costante. Rispetto al vagone, tu…",
+			"options": [
+				"ti muovi all'indietro",
+				"ti muovi a 100 km/h",
+				"acceleri di continuo",
+				"sei fermo"
+			],
+			"answer": "sei fermo",
+			"explanation": "Il movimento è sempre rispetto a qualcosa: rispetto al vagone non ti sposti, rispetto ai binari corri con il treno."
+		},
+		{
+			"id": "fisica-banda-forze-6",
+			"subject": "fisica",
+			"topic": "forze",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Su un'asse con il fulcro al centro devi sollevare un peso. Se ti allontani al doppio della distanza dal fulcro, la forza che ti serve…",
+			"options": [
+				"si dimezza",
+				"raddoppia",
+				"diventa quattro volte più grande",
+				"resta la stessa"
+			],
+			"answer": "si dimezza",
+			"explanation": "Su una leva conta forza per distanza dal fulcro: raddoppiando la distanza basta metà forza per fare lo stesso effetto."
+		},
+		{
+			"id": "fisica-banda-energia-7",
+			"subject": "fisica",
+			"topic": "energia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Una palla cade da un tavolo. Mentre scende, l'energia che aveva per la sua altezza…",
+			"options": [
+				"si trasforma tutta in calore",
+				"diventa energia di movimento",
+				"aumenta insieme all'altezza",
+				"sparisce"
+			],
+			"answer": "diventa energia di movimento",
+			"explanation": "L'energia non sparisce, cambia forma: quella dovuta all'altezza diventa energia di movimento, e la palla arriva in basso veloce."
+		},
+		{
+			"id": "fisica-banda-calore-8",
+			"subject": "fisica",
+			"topic": "calore",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché il manico di metallo di una pentola scotta e quello di legno no?",
+			"options": [
+				"perché il metallo è più vicino al fuoco",
+				"perché il legno è più freddo di partenza",
+				"perché il metallo conduce bene il calore e il legno male",
+				"perché il metallo è più pesante"
+			],
+			"answer": "perché il metallo conduce bene il calore e il legno male",
+			"explanation": "Il calore si sposta facilmente dentro i metalli e fatica ad attraversare il legno: per questo i manici si fanno di legno o di plastica."
+		},
+		{
+			"id": "fisica-banda-onde-luce-9",
+			"subject": "fisica",
+			"topic": "onde-luce",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Durante un temporale vedi il lampo e solo dopo senti il tuono. Perché?",
+			"options": [
+				"perché il lampo avviene prima del tuono",
+				"perché l'aria ferma il suono e non la luce",
+				"perché il suono parte da più lontano",
+				"perché la luce viaggia molto più veloce del suono"
+			],
+			"answer": "perché la luce viaggia molto più veloce del suono",
+			"explanation": "Lampo e tuono nascono insieme, ma la luce arriva quasi subito mentre il suono impiega circa tre secondi per ogni chilometro."
+		},
+		{
+			"id": "fisica-banda-materia-10",
+			"subject": "fisica",
+			"topic": "materia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché un cubetto di ghiaccio galleggia nell'acqua?",
+			"options": [
+				"perché il ghiaccio è meno denso dell'acqua liquida",
+				"perché è più freddo dell'acqua",
+				"perché contiene aria al suo interno",
+				"perché il ghiaccio è più leggero di qualsiasi cosa"
+			],
+			"answer": "perché il ghiaccio è meno denso dell'acqua liquida",
+			"explanation": "Congelandosi l'acqua occupa più spazio a parità di materia: il ghiaccio pesa meno dell'acqua che sposta, e galleggia. È un caso raro in natura."
 		}
 	]
 }

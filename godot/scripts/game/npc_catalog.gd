@@ -2805,6 +2805,47 @@ const CONTA_ERSILIA := {
 	"sillabe": ["sca", "la", "re"],
 }
 
+## Dove la conta **riaffiora**. Aggiunto il 3 agosto, e chiude un buco serio.
+##
+## Le tre sillabe della conta sono la chiave del mondo 24: senza, il Tredicesimo
+## non riavrà mai il suo nome. Ma la conta si sentiva **una volta sola**, nei
+## primi cinque minuti di gioco, in un dialogo saltabile. Le tre Tracce decisive
+## hanno un beat di ripiego proprio per non rendere obbligatorio un contenuto;
+## la conta, che è più importante di tutte e tre, non ne aveva nessuno.
+##
+## Non risolvo con una spiegazione — sarebbe peggio del problema: se qualcuno
+## dice «ricordati queste sillabe», l'enigma è già risolto. Risolvo con la
+## ripetizione: la stessa filastrocca torna storpiata in bocca a chi non sa cosa
+## sta cantando, che è anche il modo in cui una cosa attraversa quattro secoli.
+const RIAFFIORAMENTI_CONTA := [
+	{
+		"world": 6,
+		"dove": "Zufolo, il Bislacco del Giardino della Risonanza",
+		"forma": "canticchiata storpiata, con le sillabe al posto giusto",
+		"testo": "Quarantanove — sca — cinquantasei — la — sessantatré — re — e poi non mi ricordo come fa.",
+		"spiegato": false,
+	},
+	{
+		"world": 12,
+		"dove": "Inciso su un muro del Labirinto delle Regole, a un bivio",
+		"forma": "tre sillabe sole, come una firma",
+		"testo": "sca · la · re",
+		"spiegato": false,
+	},
+	{
+		"world": 19,
+		"dove": "Su una lapide della Necropoli, sotto il nome raschiato",
+		"forma": "le sillabe separate da punti, come si incide un nome",
+		"testo": "sca · la · re — «e chi conta se ne va»",
+		"spiegato": false,
+	},
+]
+
+## In quanti punti della campagna il giocatore può sentire le tre sillabe.
+## Uno solo non basta: è la chiave del finale.
+static func conta_occurrences() -> int:
+	return 1 + RIAFFIORAMENTI_CONTA.size()
+
 ## CHI POSSIEDE QUALE EVENTO (sblocca C-P7 · A2)
 ##
 ## A2 dice «Codex non decide chi possiede cosa». Non lo decido nemmeno io evento

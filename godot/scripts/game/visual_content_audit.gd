@@ -30,8 +30,23 @@ func _init() -> void:
 			var report := INTERACTION.validate(node)
 			if not bool(report.get("ok", false)):
 				failures.append("%s/%s: %s" % [fmt, str(spec.get("topic", "")), ", ".join(PackedStringArray(report.get("errors", [])))])
-			if MinigameManager.spec_depth(fmt, spec, 12) != 1:
-				failures.append("%s/%s: profondità spec diversa da 1" % [fmt, str(spec.get("topic", ""))])
+			# La profondità di una specifica a dato fisso è **una prova per
+			# domanda**: quella della specifica più quelle dichiarate in
+			# `domande`. Fino al 3 agosto la regola era «esattamente 1», ed era
+			# giusta quando una specifica poteva porre una domanda sola; adesso
+			# la stessa figura ne può porre più d'una, e ognuna è una prova vera
+			# (risposta diversa, spiegazione diversa, ragionamento diverso).
+			#
+			# Il controllo resta **stretto**: non «almeno 1», ma il numero esatto.
+			# Serve a impedire la cosa che la regola vecchia impediva, cioè che
+			# qualcuno gonfi la profondità dichiarando un pool su un formato che
+			# un pool non ce l'ha.
+			var attesa := 1 + Array(spec.get("domande", [])).size()
+			if MinigameManager.spec_depth(fmt, spec, 12) != attesa:
+				failures.append("%s/%s: profondità %d, attesa %d (1 + %d domande)" % [
+					fmt, str(spec.get("topic", "")),
+					MinigameManager.spec_depth(fmt, spec, 12), attesa,
+					Array(spec.get("domande", [])).size()])
 			if (node.get(shuffled_field, []) as Array).is_empty():
 				failures.append("%s/%s: campo presentazione vuoto" % [fmt, str(spec.get("topic", ""))])
 

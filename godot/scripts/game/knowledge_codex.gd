@@ -156,6 +156,23 @@ static func _rank(state: String) -> int:
 	var i := STATE_ORDER.find(state)
 	return i if i >= 0 else 0
 
+## Come si chiama uno stato quando lo si dice a un bambino di dieci anni.
+##
+## Gli identificatori interni sono inglesi e vanno benissimo nel codice; nel
+## momento in cui una di queste parole compare a schermo deve essere italiana e
+## deve dire una cosa che si capisce senza spiegazione. «Applicato» un bambino lo
+## capisce; `applied` no.
+const STATE_LABELS := {
+	STATE_UNKNOWN: "da scoprire",
+	STATE_ENCOUNTERED: "incontrato",
+	STATE_CONSULTED: "consultato",
+	STATE_APPLIED: "applicato",
+	STATE_CONSOLIDATED: "consolidato",
+}
+
+static func state_label(state: String) -> String:
+	return str(STATE_LABELS.get(state, state))
+
 # Fa AVANZARE lo stato (mai regredire) verso il minimo coerente con l'evento:
 #   "seen"→incontrato, "consulted"→consultato, "correct"→applicato,
 #   "consolidated"→consolidato.

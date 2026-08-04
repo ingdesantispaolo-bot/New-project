@@ -14,36 +14,21 @@ Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 
 ---
 
-## L'obiettivo: tutti i 24 mondi cablati, poi il collaudo
+## L'obiettivo: il collaudo
 
-**Il contenuto è finito.** Tutti e ventiquattro i mondi hanno cast, battute,
-Traccia, semi, beat e conversazioni al Ritrovo; il mondo 24 ha la convergenza al
-Cuore. Non c'è più niente da scrivere prima di cablare, e le schede qui sotto
-dicono per ogni mondo cosa va collocato dove.
+**Il gioco è costruito.** Contenuti, narrativa e cablaggio sono fatti e misurati:
+2321 item nei banchi, 123 specifiche di minigioco, 24 mondi con cast, Tracce,
+beat e conversazioni, sette colpi di scena con 35 semi, e **104 audit verdi**.
 
-**Si cabla a lotti, non tutto insieme** — non per prudenza, ma perché un difetto
-di regia scoperto al mondo 3 costa tre mondi da correggere e scoperto al 24 ne
-costa ventiquattro. Ogni lotto finisce con i suoi audit verdi; il collaudo umano
-arriva alla fine.
+Quello che manca non si scrive: **si gioca.** Nessun bambino ha mai provato
+niente di tutto questo, e nessuna delle misure qui dentro dice se è bello.
 
-| Lotto | Mondi | Cosa mette alla prova per la prima volta |
-|---|---|---|
-| **L1** | 1 – 6 | dialoghi, Ritrovo, missioni, stadi, **il colpo 1** (mondo 5) |
-| **L2** | 7 – 12 | il colpo 2 (8), il colpo 3 a metà campagna (12) e la **prima Traccia decisiva**, che obbliga il beat di ripiego |
-| **L3** | 13 – 18 | il colpo 4 (16), e dal 17 **il Tredicesimo che agisce su mondi già restaurati** |
-| **L4** | 19 – 23 | il colpo 5 (19) e il colpo 6 (23), il momento più fitto di rivelazioni |
-| **L5** | 24 | convergenza, nodo di sintesi, cattedra, colpo 7. Usa tutto quanto |
+**Il prossimo passo è tuo**: esportare e giocare. Cosa guardare, in ordine di
+quanto cambia il lavoro dopo, sta in «Coda tua» più sotto.
 
-**Il rischio da tenere d'occhio in L3**: le azioni del Tredicesimo sono le prime
-che *tolgono* qualcosa a un mondo già sistemato. Sono tutte reversibili e nessuna
-tocca energia, mastery o gate — ma è lì che un errore di regia si sente addosso,
-non sullo schermo.
-
-### Cosa vuol dire «cablato»
-
-Il mondo si apre, ha abitanti che parlano, edifici che cambiano con lo stadio,
-una Rovina con dentro la Traccia, e i semi collocati dove si vedono senza essere
-indicati. Nessuna schermata provvisoria, nessun segnaposto.
+Le schede che seguono restano perché servono a due cose: verificare mondo per
+mondo che quello che è cablato sia quello che era scritto, e riprendere in mano
+un mondo quando il collaudo lo boccia.
 
 ---
 
@@ -209,33 +194,17 @@ a chi è arrivato.
 
 ## Chi fa cosa
 
-| | Codex | Claude | Tu |
-|---|---|---|---|
-| Runtime Godot, scene, input, resa, integrazione visuale | ✅ | | |
-| Strumentazione: audit, cricchetti, misure | ✅ | | |
-| Contenuti STEM nelle tabelle di `minigame_manager.gd` | ✅ | | |
-| Immagini generate e loro pipeline | ✅ | | |
-| Export Web e `public/godot/outdoor` | ✅ | | |
-| Contenuti di lingua e umanistiche, banchi, bake | | ✅ | |
-| Catalogo abitanti, dialoghi, beat, Tracce, itineranti | | ✅ | |
-| Coerenza didattica, difficoltà, copertura competenze | | ✅ | |
-| Revisione incrociata del lavoro dell'altro | ✅ | ✅ | |
-| **Giudizio su bellezza, ritmo, divertimento** | | | ✅ |
-| **Prova su tablet reale e hardware scolastico** | | | ✅ |
+| | Claude | Tu |
+|---|---|---|
+| Tutto il codice, i contenuti e gli audit | ✅ | |
+| **Giudizio su bellezza, ritmo, divertimento** | | ✅ |
+| **Prova su tablet reale e hardware scolastico** | | ✅ |
 
-### Proprietà dei file — vincolo, non suggerimento
-
-| file | proprietario |
-|---|---|
-| `minigame_manager.gd` · voci STEM (matematica, fisica, elettronica, coding, scienze) | Codex |
-| `minigame_manager.gd` · voci di lingua e umanistiche | Claude |
-| scene, UI, `exercise_*.gd`, `*_catalog.gd` **visuali**, audit di runtime | Codex |
-| `npc_catalog.gd`, `ritrovo_catalog.gd`, `itinerant_catalog.gd`, `mystery_catalog.gd`, `thirteenth_catalog.gd`, `maestri_catalog.gd`, `teaching_catalog.gd`, `finale_catalog.gd`, `narrative_manager.gd` e i loro audit | Claude |
-| `scripts/build-exercise-banks.mjs`, `src/data/procedural/*` — tutte le materie | Claude |
-| `godot/data/banks/*.json` — **prodotti del bake, non si scrivono a mano** | nessuno |
-| `insieme.md`, `docs/PROFONDITA_CONTENUTI.md` | Claude |
-
-Chi deve toccare il blocco dell'altro **lo chiede qui**.
+Con un solo esecutore la revisione incrociata sparisce, e la sostituisce una
+regola sola: **niente entra senza un audit che lo tenga.** Vale soprattutto per
+il runtime, dove un errore non si vede rileggendo — il 3 agosto una sostituzione
+in blocco ha invaso due costruttori che non c'entravano, e non me ne sono
+accorto rileggendo il diff: me l'ha detto `minigame_audit`.
 
 ---
 
@@ -273,215 +242,88 @@ sono vere:
 
 ---
 
-## ⚠ Blocco trovato sul tablet — risposta numerica
+## La coda — cosa manca davvero
 
-Segnalato dal collaudo, **3 agosto**: in un esercizio di matematica (quello dello
-scoiattolo Nocciola) il campo della risposta **non si riempiva** e non c'era modo
-di uscire. Il giocatore restava fermo lì.
+**Il cablaggio è fatto.** Verificato il 3 agosto file per file: tutti e otto i
+cataloghi sono usati dal runtime, e ognuno ha un audit che gira nella suite.
 
-**Causa**, trovata nel preset di export: `html/experimental_virtual_keyboard`
-era **`false`**. Senza quel flag la build Web non inizializza `GodotDisplayVK`,
-quindi `LineEdit` chiede la tastiera di sistema e non arriva nessuno. Su desktop
-non si vedeva perché c'è una tastiera vera.
+| sistema | dove vive | audit |
+|---|---|---|
+| Dialoghi (A1) | `dialogue_box.gd`, `npc_actor.gd`, cablati in `outdoor_world` | `dialogue_audit` |
+| Edifici (A3) | `building_catalog.gd`, `building_actor.gd` | `building_audit` |
+| Proprietà missioni (A2) | `mission_ownership_flow.gd` | `mission_ownership_audit` |
+| Vita di mondo e Ritrovo (A5) | `world_life.gd` → `ritrovo_catalog.gd` | `world_life_audit` |
+| Itineranti (A4) | `outdoor_world.gd` → `itinerant_catalog.gd` | `itinerant_audit` |
+| Tracce e semi (A7) | `outdoor_world.gd` → `mystery_catalog.gd` | `mystery_runtime_audit` |
+| Il Tredicesimo (A7a) | `thirteenth.gd` | `thirteenth_runtime_audit` |
+| Voci dei Maestri | `outdoor_world.gd` → `maestri_catalog.gd` | `maestri_audit` |
+| Finale e Cuore | `hub_scene.gd` → `finale_catalog.gd` | `finale_content_audit` |
+| Custode (P1–P7) | `pet_*.gd` | `pet_expression_audit` |
+| Formati visuali | `FORMATS` include notation, map, hotspot | `visual_content_audit` |
 
-Non è un caso raro: `numeric_input` è un esito normale del generatore di
-matematica, quindi capitava **dal mondo 1**.
+**Suite: 104 audit, tutti verdi, 119 secondi.**
 
-**Cosa ho fatto** (tocca `exercise_player.gd` ed `export_presets.cfg`, che sono
-tuoi — lo scrivo qui come chiede la regola di proprietà):
+*(Nota su come l'ho verificato, perché è il modo in cui mi ero sbagliato: avevo
+cercato i `class_name` e concluso che cinque cataloghi non li usasse nessuno. È
+falso — il progetto li carica con `preload`, e il riferimento è la costante, non
+il nome di classe. La misura giusta è cercare **il percorso del file**.)*
 
-1. `html/experimental_virtual_keyboard=true`. **Richiede un nuovo export**: la
-   build in `public/godot/outdoor/` ha ancora il flag vecchio;
-2. `virtual_keyboard_type = KEYBOARD_TYPE_NUMBER` sul campo, così dove la
-   tastiera di sistema arriva è quella dei numeri e non quella intera;
-3. **un tastierino numerico disegnato dal gioco**, che compare solo quando la
-   risposta attesa è un numero. È la parte che conta: quel flag è dichiarato
-   sperimentale e dipende dal browser, il tastierino è fatto di bottoni e
-   funziona uguale ovunque. Su uno schermo tattile è anche il modo più comodo di
-   scrivere un numero. Verificato da `numpad_probe.gd` — pronto a diventare un
-   audit, fa già `quit(1)`.
+### Quello che resta, ed è poco
 
-**Quello che NON ho fatto, e va deciso da voi**: dall'esercizio **non si esce in
-nessun modo**. Non c'è un pulsante per abbandonare né una gestione di `ui_cancel`:
-se per qualunque motivo una risposta non è inseribile, l'unica via è chiudere il
-gioco. Con il tastierino il blocco di oggi è risolto, ma la fragilità resta e
-contraddice «niente blocca il loop». Aggiungere un'uscita è però una scelta di
-design — un bambino potrebbe usarla per saltare ogni esercizio — e non la faccio
-da solo.
+1. **Carta d'Europa e secondo foglio di reperti**: servono asset nuovi, non testo.
+2. **Accessibilità dei formati visuali** — da decidere, vedi sotto.
+3. **Uscita dall'esercizio**: decisione di design, non ancora presa.
 
----
+*(Fatti il 3 agosto: banda 4 di elettronica e fisica — tutti e otto gli
+argomenti coperti in entrambe — e le domande variabili su **tutte e 123 le
+specifiche a dato fisso**, 234 domande aggiunte.)*
 
-## Coda di Codex — in ordine
-
-Tutti i contenuti che servono esistono, hanno un'API e un audit verde. Nessuna
-di queste voci aspetta più niente da me.
-
-### C1 · A1 · Ossatura dei dialoghi — *la prima, tutto il resto la usa*
-
-`dialogue_box.gd` (ritratto, nome, 1–3 righe, area di gioco visibile,
-avanzamento a tocco su tutta la schermata, macchina da scrivere con
-completamento al primo tocco e **disattivata con riduzione movimento**, nessun
-dialogo a tempo) e `npc_actor.gd` (presenza, area d'interazione, animazione di
-occupazione).
-
-Dati: `NpcCatalog.RESIDENTS` e `BISLACCHI`, già raggruppati come li chiede
-`DialogueDirector` (§5.2 del documento abitanti).
-
-### C2 · A3 · Edifici, per i mondi 1–6
-
-`building_catalog.gd`: i 3 ruoli (Casa del mestiere · Ritrovo · Rovina dei
-Primi) vestiti per `artKit`, finestre che si accendono per stadio del mondo,
-Rovina allineata a `_hero_landmark_position()`. Riuso di
-`build_academy_pavilion()`.
-
-Gli `artKit` e i landmark dei sei mondi stanno nelle schede qui sopra.
-
-### C3 · A2 · Proprietà delle missioni
-
-`NpcCatalog.owner_for(world, kind)`: **missione** → lo specialista, **enigma** →
-il testimone, **pratica** → nessuno (è dell'itinerante di turno). È una regola,
-non una lista: gli eventi li pianifichi con un seme diverso a ogni partita.
-
-`NpcCatalog.mission_lines(id, "richiesta" | "consolazione")` per le battute:
-**46 residenti su 46** sono pronti, `a2_ready()` lo conferma a ogni audit.
-
-**Vincolo**: `consolazione` non contiene mai una battuta di delusione. Sessione
-fallita = «riproviamo insieme», mai «peccato».
-
-### C4 · A5 · Vita di mondo e Ritrovo
-
-Routine a tre ancoraggi guidate dalla fase giorno/notte, spostamenti fuori
-inquadratura, regia delle conversazioni.
-
-`RitrovoCatalog.scene_for(world, stadio)` e `lines_of(id, con_notizia)` — **69
-scene, tutti i mondi abitati**. Tre regole di regia che il catalogo dà per
-scontate:
-
-- **non si interrompono quando arrivi.** Il congedo è una battuta a parte e va
-  detto *alla fine*: essere visti dopo è ciò che fa sembrare che vivessero anche
-  senza di te. Se ti salutano subito, stavano aspettando te;
-- **non bloccano il movimento** e si può andare via a metà;
-- la battuta di notizia **non si rivolge mai al giocatore**: parla di lui in
-  terza persona.
-
-### C5 · A4 · Itineranti
-
-`ItinerantCatalog.itinerant_for(seme, livello)` — uno per mondo, mescolamento a
-blocchi di sei: tutti compaiono, mai due mondi di fila lo stesso. 82 battute, sei
-registri, sei funzioni di gioco.
-
-Il primo che serve è **Vera**: la sua meccanica «rispiegamelo» ha il
-contratto in `teaching_catalog.gd` (3 opzioni, 1 giusta, **ricompensa sociale e
-zero energia**, una volta per sessione).
-
-### C6 · A7 · Tracce e semi nei mondi 1–6
-
-`MysteryCatalog.traccia_for(world)` e `seeds_of(colpo)`. Le Tracce e i dieci semi
-dei mondi 1–6 stanno nelle schede.
-
-**Geometria**: fuori da `safeRadius`, mai sulla `safeRoute`, mai in acqua. È
-l'unica cosa che `mystery_audit` non può controllare — serve `world_life_audit`,
-che ha le posizioni.
-
-### C7 · Le voci di NORA nei mondi 1–6
-
-`MaestriCatalog.voices_for(apparati_riparati, nome_restituito, materie_incontrate)`.
-Nei primi sei mondi si accendono **sei voci**: Abaco (matematica), Stilo
-(italiano), Telaio (coding), Faro (inglese), Leva (fisica), Corda (musica). Il
-rilancio è il gruppo che conta: è cosa dice NORA *al posto* della risposta.
-
-**Passa sempre il terzo argomento.** Tre apparati ne tengono due di Maestri —
-`data-core` (italiano + inglese), `ponte-comando` (fisica + geografia),
-`cratere-logico` (coding + logica) — quindi riparare `ponte-comando` al mondo 5
-per la fisica accenderebbe anche la voce della **geografia**, che il giocatore
-incontra al mondo 9: NORA parlerebbe da cartografa di un mestiere che non ha
-ancora visto fare a nessuno. Con la lista delle materie incontrate, l'apparato
-libera la voce e la materia la chiama. L'audit lo verifica.
-
-*(Me n'ero accorto scrivendo queste schede: avevo dato per scontato «un apparato,
-una voce» e non è così. La firma di `voices_for` è cambiata oggi, con il terzo
-argomento opzionale — chi la chiama senza non si rompe, ma sente le voci in
-anticipo.)*
-
-La logica resta **muta** fino alla restituzione del nome: è il buco che il
-giocatore deve sentire, e `voices_for` lo rispetta senza che tu debba
-ricordartelo.
-
-### C8 · P1–P7 · Custode
-
-`pet_face_widget.gd` sempre visibile (carezza al tocco breve, schermata al tocco
-lungo), `pet_expression_engine.gd`, `pet_antics.gd`, poi nome, livrea, indole,
-volto a riposo, album, combinelle, regali.
-
-La mappa segnale → espressione esiste già: 18 segnali, `NEGATIVE_FACES` **vuota
-per costruzione**. **Le 10 espressioni devono essere distinguibili per forma, non
-solo per colore.** Nessuna combinella durante sessione, esame o beat.
-
-### C9 · Cablaggio dei formati visuali
-
-`FORMATS` + `table_for()` + rotazione in `build_minigame` + costruttori
-`_notation_node`, `_map_node`, `_hotspot_node`. **Attenzione**: nella notazione
-la posizione orizzontale la deriva il renderer dall'ordine dell'array, quindi il
-primo simbolo non deve diventare sistematicamente la risposta. `spec_depth()`
-vale 1, come grafico e circuito.
-
-Poi `visual_content_probe.gd` è pronto a diventare un audit: fa già `quit(1)`.
-
-Serve al mondo 6 (notazione musicale), poi al 9 e all'11 (carta muta e reperti).
-Quei due cataloghi sono i più poveri del gioco — tre bersagli e quattro — e i
-contenuti che mancano li scrivo io appena il meccanismo esiste: prima sarebbero
-contenuti che nessuno può vedere.
-
-### C9b · La convergenza al Cuore (L5)
-
-`FinaleCatalog.cast_for(residenti_stadio2, ondata)` e `waves_needed()`. Con zero
-residenti allo stadio 2 restituisce comunque i sei itineranti: **il Cuore non può
-essere vuoto**, e l'audit lo verifica proprio su quel caso.
-
-`FinaleCatalog.CATTEDRA` è l'assegnazione del tredicesimo posto, e si innesca
-**dopo** il nodo di sintesi. `ThirteenthCatalog.RESTITUZIONE` e `SCELTA` sono la
-scena del nome e le due uscite — nessuna delle due punita.
-
-Attenzione a una cosa in `docs/FINALE_SPEC.md`: il documento cita `FINAL_BEAT` con
-il testo vecchio. Il beat finale è cambiato ed è quello in `narrative_manager.gd`.
-
-### C10 · Contenuti STEM ancora aperti
-
-- **`52 − 18`**, caccia all'errore di matematica: il passaggio marcato sbagliato
-  è `(50 − 10) + (2 − 8)`, che fa **34** ed è corretto. La prova chiede di
-  trovare un errore che non c'è, e la spiegazione dice «non si può fare 2 − 8»,
-  che è falso. Proposta: `(50 − 10) + (8 − 2)`, che dà 46 ed è l'errore che i
-  bambini fanno davvero. **Tocca il mondo 1: va fatto in L1;**
-- **coding è al 17% di ripetizioni al primo mondo**, cioè esattamente sul
-  cricchetto. Verde senza un millimetro di margine: la prossima modifica a coding
-  fa rosso l'audit anche senza peggiorare nulla;
-- banda 4 dei banchi STEM (elettronica 9 item su tre argomenti, fisica 8 su sei):
-  serve da L4 in poi. I mondi 19–24 sono un quarto della campagna e in questo
-  momento pescano da un banco stretto.
-
-### C11 · Accessibilità dei formati visuali — *da decidere insieme*
+### L11 · Accessibilità dei formati visuali — *da decidere*
 
 Le etichette dei bersagli identificano senza descrivere («Segnaposto A»), che è
 l'unica scelta che non regala la risposta. Ma vuol dire che **chi usa un lettore
 di schermo non può rispondere a una carta muta**. Vale già per grafici e
-circuiti. Va deciso, non subìto — e si può decidere entro L2.
+circuiti. Va deciso, non subìto.
 
 ---
 
-## Coda di Claude
+## Le dodici materie in ogni mondo — vincolo, e come si regge
 
-**Vuota.** Tutto il contenuto dei ventiquattro mondi è scritto, verde e non
-aspetta niente. Da qui in poi il mio lavoro è **reagire**, e le tre voci sono in
-ordine di quando scattano:
+Vincolo didattico dichiarato il 3 agosto: **tutte le materie presenti in ogni
+mondo**. Misurato: **è già così**, e da oggi è un contratto invece che una
+fortuna.
 
-1. **Rileggere i dialoghi in scena**, non in tabella, appena C1 è cablato. Un
-   catalogo verde e una conversazione che funziona non sono la stessa cosa, e la
-   differenza si vede solo a schermo.
-2. **Contenuti dei formati visuali** — appennini, alpi, tirreno, adriatico,
-   tevere, una carta d'Europa, un secondo foglio di reperti — appena C9 esiste.
-   Servono da L2.
-3. **Riscrivere quello che il collaudo boccia.** È l'unica voce senza dimensione
-   nota, e l'unica che può valere mille battute.
+Diciotto eventi per mondo: **sette della materia ospite** (missioni ed enigmi,
+contano per il gate) e **undici di pratica, uno per ciascuna delle altre**. Li
+produce `MissionEventDirector.other_subjects()`, che restituisce l'intero ciclo.
+
+`subject_presence_audit.gd` (nuovo, verde) verifica per tutti e 24 i mondi:
+dodici materie presenti, ≥ undici raggiungibili, **esattamente un evento di
+pratica per ognuna delle altre undici**, nessun doppione sull'ospite. Serviva
+perché la proprietà era emergente: bastava aggiungere un filtro sensato — «solo
+le materie già sbloccate» — per perderla senza che nulla diventasse rosso.
+
+**Da sistemare, ed è tuo, Codex**: al **mondo 8** una materia su dodici cade
+oltre il raggio raggiungibile. Il direttore distribuisce le pratiche fino a
+`reach + 350`, quindi qualcuna può finire fuori. Presente ma non raggiungibile è
+come assente, per un bambino. 23 mondi su 24 sono a 12/12.
+
+**Correzione, e me la scrivo qui perché l'avevo messa nel piano al contrario**:
+avevo segnalato come difetto grave che «la prima lezione di storia è a difficoltà
+3». Falso. Avevo letto la colonna «prima comparsa» di `content_depth_audit` come
+*primo incontro del bambino con la materia*, mentre è la prima volta che quella
+materia fa da **ospite**. La storia si incontra al mondo 1, a banda 1.
+
+---
+
+## Cosa resta lato contenuti
+
+**Niente che si scriva.** Le due voci rimaste hanno bisogno di **asset** (carta
+d'Europa, secondo foglio di reperti) o di una **decisione** (accessibilità,
+uscita dall'esercizio).
+
+Dopo che avrai giocato resta la voce senza dimensione nota: **riscrivere quello
+che il collaudo boccia.** È l'unica che può valere mille battute.
 
 ---
 
@@ -512,33 +354,6 @@ In ordine di quanto cambiano il lavoro dopo:
 
 E le due prove che solo tu puoi fare: **hardware scolastico e tablet reale**
 (touch, landscape e portrait, contrasto elevato, riduzione movimento).
-
----
-
-## Due cricchetti sulla varieta' della voce
-
-Aggiunti il 3 agosto dopo una passata di rilettura su tutti i mondi, e sono qui
-perche' misurano una cosa che nessun audit vedeva: **il gioco suonava uguale pur
-avendo tutte battute diverse.**
-
-- `ritrovo_catalog_audit` — **come chiamano il giocatore**. Ogni notizia dichiara
-  il campo `chiama`, l'audit verifica che quel modo di dire compaia davvero nella
-  battuta, e che **nessuna designazione superi 4 scene su 69**. Prima erano 66 su
-  66 con «la ragazzina»: sei paesi diversi che non si sono mai parlati usavano la
-  stessa identica formula, e a quel punto non è un paese che commenta, è il
-  narratore travestito da abitante. Adesso le designazioni distinte sono **46**,
-  la più usata compare **3 volte**.
-- `npc_catalog_audit` — **quante persone diverse aprono allo stesso modo**.
-  Contare le battute ripetute non serviva a niente: erano tutte diverse. La misura
-  giusta è quanti personaggi condividono le prime due parole dentro lo stesso
-  gruppo. Erano **17** con «Mi serve», 14 con «Non è», 10 con la stessa perifrasi
-  per Sesto. Ora il massimo è **6**, e il tetto è a 7.
-
-Nota su come è andata, che vale più del numero: la mia prima riscrittura delle
-reazioni ha sostituito «Missione finita!» con «Ce l'hai fatta!» **in nove
-personaggi**. Avevo scambiato un tormentone con un altro, e me l'ha detto la
-misura, non la rilettura. Per questo i due controlli sono cricchetti e non
-consigli.
 
 ---
 

@@ -882,6 +882,214 @@
 			],
 			"answer": "La corrente non può passare",
 			"explanation": "Serve un percorso chiuso perché la corrente possa circolare."
+		},
+		{
+			"id": "elettronica-banda-elettricita-base-0",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A parità di resistenza, se raddoppi la tensione la corrente che passa…",
+			"options": [
+				"si annulla",
+				"resta uguale",
+				"raddoppia",
+				"si dimezza"
+			],
+			"answer": "raddoppia",
+			"explanation": "Corrente = tensione diviso resistenza. Se la resistenza non cambia e la tensione raddoppia, anche la corrente raddoppia."
+		},
+		{
+			"id": "elettronica-banda-elettricita-base-1",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A parità di tensione, se la resistenza diventa il triplo la corrente…",
+			"options": [
+				"si riduce a metà",
+				"diventa il triplo",
+				"resta la stessa",
+				"si riduce a un terzo"
+			],
+			"answer": "si riduce a un terzo",
+			"explanation": "Corrente = tensione diviso resistenza: se il divisore triplica, il risultato vale un terzo."
+		},
+		{
+			"id": "elettronica-banda-circuito-2",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Due lampadine uguali sono in serie e una si fulmina. L'altra che cosa fa?",
+			"options": [
+				"si spegne anche lei",
+				"resta accesa uguale",
+				"diventa più luminosa",
+				"si accende a intermittenza"
+			],
+			"answer": "si spegne anche lei",
+			"explanation": "In serie la corrente ha una strada sola: se si interrompe in un punto, non passa più da nessuna parte."
+		},
+		{
+			"id": "elettronica-banda-circuito-3",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Colleghi i due poli di una pila con un filo e basta, senza lampadina. Che cosa succede?",
+			"options": [
+				"la pila si ricarica invertendo il verso della corrente",
+				"passa moltissima corrente e la pila si scalda",
+				"non passa nessuna corrente perché manca la lampadina",
+				"il filo si comporta da isolante e blocca tutto"
+			],
+			"answer": "passa moltissima corrente e la pila si scalda",
+			"explanation": "È un cortocircuito: senza nulla che limiti la corrente, ne passa tantissima e l'energia si trasforma in calore. Per questo non si fa."
+		},
+		{
+			"id": "elettronica-banda-serie-parallelo-4",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Due lampadine uguali in parallelo su una pila, invece di una sola: la corrente che esce dalla pila…",
+			"options": [
+				"si dimezza",
+				"resta uguale",
+				"raddoppia",
+				"si annulla"
+			],
+			"answer": "raddoppia",
+			"explanation": "In parallelo ogni lampadina ha la sua strada e prende la stessa corrente di prima: la pila ne deve fornire il doppio."
+		},
+		{
+			"id": "elettronica-banda-serie-parallelo-5",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché nelle case gli apparecchi sono collegati in parallelo e non in serie?",
+			"options": [
+				"perché il parallelo richiede molti meno fili dentro i muri",
+				"perché collegati in serie consumerebbero molta più corrente",
+				"perché in serie i fili si scalderebbero fino a bruciarsi",
+				"così ognuno funziona da solo e si può spegnere senza fermare gli altri"
+			],
+			"answer": "così ognuno funziona da solo e si può spegnere senza fermare gli altri",
+			"explanation": "In parallelo ogni apparecchio ha la sua strada: spegnerne uno non interrompe gli altri. In serie basterebbe una lampadina fulminata per lasciare al buio la casa."
+		},
+		{
+			"id": "elettronica-banda-conduttori-6",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un filo di rame lungo il doppio, con lo stesso spessore, ha una resistenza…",
+			"options": [
+				"doppia",
+				"uguale",
+				"quattro volte più grande",
+				"la metà"
+			],
+			"answer": "doppia",
+			"explanation": "Più strada deve fare la corrente dentro il filo, più incontra ostacoli: la resistenza cresce insieme alla lunghezza."
+		},
+		{
+			"id": "elettronica-banda-conduttori-7",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché l'acqua salata conduce la corrente e quella distillata quasi per niente?",
+			"options": [
+				"perché il sale è un metallo e i metalli conducono la corrente",
+				"perché nell'acqua salata ci sono particelle cariche libere di muoversi",
+				"perché l'acqua distillata è troppo pura per lasciar passare qualcosa",
+				"perché l'acqua salata è più densa e pesante di quella distillata"
+			],
+			"answer": "perché nell'acqua salata ci sono particelle cariche libere di muoversi",
+			"explanation": "Il sale sciolto libera particelle con carica elettrica che possono spostarsi: sono loro a trasportare la corrente. Nell'acqua distillata non ce ne sono quasi."
+		},
+		{
+			"id": "elettronica-banda-misure-elettriche-8",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Per misurare la corrente che attraversa una lampadina, come si collega l'amperometro?",
+			"options": [
+				"fra la lampadina e l'interruttore aperto",
+				"ai due poli della pila",
+				"in serie, nel filo che porta alla lampadina",
+				"in parallelo alla lampadina"
+			],
+			"answer": "in serie, nel filo che porta alla lampadina",
+			"explanation": "L'amperometro deve essere attraversato dalla stessa corrente che vuoi misurare, quindi va messo lungo la strada. Il voltmetro invece si mette in parallelo."
+		},
+		{
+			"id": "elettronica-banda-misure-elettriche-9",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Per misurare la tensione ai capi di una lampadina, come si collega il voltmetro?",
+			"options": [
+				"in serie con la lampadina",
+				"solo al polo positivo della pila",
+				"al posto della lampadina",
+				"in parallelo, uno ai capi dell'altra"
+			],
+			"answer": "in parallelo, uno ai capi dell'altra",
+			"explanation": "La tensione è una differenza fra due punti: per misurarla bisogna toccarli tutti e due. Per questo il voltmetro si mette in parallelo."
+		},
+		{
+			"id": "elettronica-banda-sicurezza-elettrica-10",
+			"subject": "elettronica",
+			"topic": "sicurezza-elettrica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché il salvavita scatta anche quando la corrente che passa è piccola?",
+			"options": [
+				"perché confronta la corrente che entra con quella che esce, e le vuole uguali",
+				"perché controlla che la tensione non salga sopra il valore di sicurezza",
+				"perché conta quanti apparecchi sono accesi insieme sulla stessa presa",
+				"perché misura quanta corrente sta consumando la casa in quel momento"
+			],
+			"answer": "perché confronta la corrente che entra con quella che esce, e le vuole uguali",
+			"explanation": "Se la corrente che torna è meno di quella andata, una parte sta passando da un'altra strada — magari attraverso una persona. Basta pochissimo per far scattare la protezione."
+		},
+		{
+			"id": "elettronica-banda-componenti-11",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A che cosa serve la resistenza che si mette in serie a un LED?",
+			"options": [
+				"a far durare di più la pila che alimenta il circuito",
+				"a limitare la corrente, così il LED non si brucia",
+				"ad aumentare la luce che il LED riesce a produrre",
+				"a cambiare il colore con cui il LED si accende"
+			],
+			"answer": "a limitare la corrente, così il LED non si brucia",
+			"explanation": "Un LED da solo lascerebbe passare troppa corrente e si rovinerebbe subito. La resistenza fa da freno."
+		},
+		{
+			"id": "elettronica-banda-guasti-12",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In una ghirlanda di luci collegate in parallelo una lampadina si fulmina. Le altre?",
+			"options": [
+				"diventano più deboli",
+				"si spengono tutte",
+				"restano accese",
+				"si accendono a intermittenza"
+			],
+			"answer": "restano accese",
+			"explanation": "In parallelo ogni lampadina ha la sua strada verso la pila: se una si interrompe, le altre continuano ad avere la loro."
 		}
 	]
 }

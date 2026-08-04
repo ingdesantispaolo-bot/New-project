@@ -130,8 +130,20 @@ const SEMI := [
 		"cosa": "Il turno di guardia inciso nella cattedrale: quattrocento anni, nessun cambio, una firma sola e illeggibile."},
 
 	# --- colpo 6 · Meridiana (mondo 23) ---------------------------------------
+	#
+	# Tre semi aggiunti il 3 agosto nell'atto I. Il difetto che risolvono:
+	# Meridiana regge il colpo 6 e il Secondo Viaggio intero, ma aveva quattro
+	# semi e tre stavano oltre il mondo 20. Chi finiva il gioco la incontrava come
+	# una notizia, non come una persona. Adesso ha lasciato tracce da subito, e
+	# sono tutte del tipo che al primo giro non si capisce e al secondo è ovvio.
 	{"colpo": "meridiana", "world": 2, "dove": "dettaglio",
 		"cosa": "Nell'Archivio la spirale più vecchia è incisa in basso, all'altezza di una bambina in piedi."},
+	{"colpo": "meridiana", "world": 4, "dove": "oggetto",
+		"cosa": "Sul registro del faro, alla riga di un giorno qualunque di quattrocento anni fa: «passata una allieva del posto, diretta a nord. Non iscritta all'equipaggio». Nessun nome, e la grafia è frettolosa."},
+	{"colpo": "meridiana", "world": 6, "dove": "dialogo",
+		"cosa": "Nonna Ersilia — o chi canta al Giardino — dice che la conta gliel'ha insegnata «una ragazzina che passava», non sua nonna. Poi si corregge e dice che si confonde."},
+	{"colpo": "meridiana", "world": 7, "dove": "oggetto",
+		"cosa": "Su una colonna delle Rovine, sotto le iscrizioni ufficiali, una frase graffiata da mano inesperta: «se il senso finisce da qualche parte, quel posto esiste». Nessuna firma, ortografia da bambina."},
 	{"colpo": "meridiana", "world": 9, "dove": "dialogo",
 		"cosa": "Remo parla di una rotta che «nessuno ha mai fatto tornare», e precisa: non affondata. Non tornata."},
 	{"colpo": "meridiana", "world": 21, "dove": "dialogo",
@@ -148,7 +160,31 @@ const SEMI := [
 		"cosa": "Un registro di manutenzione con undici voci cancellate e la dodicesima aperta oggi. Cancellate a mano, tutte con lo stesso tratto."},
 	{"colpo": "undici-quaderni", "world": 22, "dove": "oggetto",
 		"cosa": "La domanda che un Maestro lasciò a NORA e a cui non ha mai risposto: «e se glielo dicessi tutto, cosa imparerebbe?»"},
+	{"colpo": "undici-quaderni", "world": 14, "dove": "dettaglio",
+		"cosa": "Uno Sbiadito, alla Biblioteca, mormora una frase e non la varia mai: «Conta con me, piano». È la prima cosa che NORA ha detto a Eli, al mondo 1."},
 ]
+
+## Lo **Sbiadito che ripete NORA**. È un solo caso in tutta la campagna, e sta
+## qui perché è il seme più importante del colpo 7.
+##
+## Il difetto che risolve: il mondo 24 dice «le undici prima di te le ho perse
+## io» e dovrebbe fare male, ma il giocatore non ne ha mai incontrata nessuna —
+## sono un numero. Gli Sbiaditi esistono già come nemici del mondo; ne basta
+## **uno** che si comporti diversamente.
+##
+## Le regole che lo rendono efficace, e sono tutte negative:
+##
+## - **nessuno lo spiega.** Non NORA, non gli abitanti, non un beat;
+## - **non è un nemico speciale**: stessa resa, stesso comportamento degli altri;
+## - **ripete una frase che il giocatore ha sentito da NORA nei primi minuti di
+##   gioco**, identica, fuori contesto. Al colpo 7 quel ricordo torna da solo.
+const SBIADITO_RICONOSCIBILE := {
+	"world": 14,
+	"frase": "Conta con me, piano.",
+	"origine": "beat del mondo 1, detta da NORA a Eli",
+	"commentato": false,
+	"nota": "Se qualcuno lo nota o lo commenta, diventa un indizio da seguire invece di una cosa che si ricorda dopo dieci mondi.",
+}
 
 ## Le 24 Tracce. Una per mondo, dentro la Rovina dei Primi. `decisiva` marca le
 ## tre senza le quali il finale non si capisce: quelle, e solo quelle, hanno un

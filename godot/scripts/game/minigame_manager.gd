@@ -3131,6 +3131,88 @@ const ORDERING_UNIQUE := ["label", "value"]  # voci {label, value}
 ## sono le cinque righe, i dispari sono gli spazi, e fuori scala servono le
 ## linee addizionali. In chiave di violino le righe sono Mi Sol Si Re Fa e gli
 ## spazi Fa La Do Mi.
+# BILANCIA: due cose diverse che pesano uguale.
+#
+# È l'unico formato che MOSTRA l'equivalenza invece di chiederla — un'equazione
+# è una bilancia — e fino al 5 agosto 2026 nessun formato la rendeva visibile.
+#
+# La struttura si adatta cambiando che cosa significa «pesare»: in matematica il
+# valore, in fisica il momento (peso per distanza), in elettronica la resistenza
+# in serie, in logica la cardinalità, in musica la DURATA — dove pareggiare vuol
+# dire riempire esattamente la battuta, e avanzare spazio è sbagliato quanto
+# traboccare.
+#
+# `exercise_interaction._validate_balance` verifica l'aritmetica, non la forma:
+# la risposta deve pareggiare davvero e gli altri candidati no.
+const BALANCE := {
+	"matematica": [
+		{"topic": "calcolo", "minLevel": 5, "prompt": "Che cosa manca perché i due piatti pesino uguale?",
+			"left": [{"label": "7", "value": 7.0}, {"label": "5", "value": 5.0}],
+			"right": [{"label": "9", "value": 9.0}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "1", "value": 1.0}, {"id": "b", "label": "3", "value": 3.0}, {"id": "c", "label": "5", "value": 5.0}],
+			"answer": "b",
+			"explanation": "A sinistra ci sono 12, a destra 9: manca esattamente la differenza. Un'equazione è una bilancia, e «togliere da una parte» significa sempre togliere anche dall'altra."},
+		{"topic": "calcolo", "minLevel": 9, "prompt": "Che cosa manca perché i due piatti pesino uguale?",
+			"left": [{"label": "4 × 3", "value": 12.0}],
+			"right": [{"label": "8", "value": 8.0}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "2", "value": 2.0}, {"id": "b", "label": "4", "value": 4.0}, {"id": "c", "label": "6", "value": 6.0}],
+			"answer": "b",
+			"explanation": "Due espressioni scritte in modo diverso possono pesare uguale: 4 × 3 vale 12 come 8 + 4. È questo che vuol dire «uguale» in matematica — stesso valore, non stessa forma."},
+		{"topic": "frazioni", "minLevel": 12, "prompt": "Che cosa manca perché i due piatti pesino uguale?",
+			"left": [{"label": "1", "value": 1.0}],
+			"right": [{"label": "1/2", "value": 0.5}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "1/4", "value": 0.25}, {"id": "b", "label": "1/2", "value": 0.5}, {"id": "c", "label": "3/4", "value": 0.75}],
+			"answer": "b",
+			"explanation": "Due mezzi fanno un intero. Sulla bilancia si vede che 1/2 + 1/2 pesa quanto 1, senza dover ridurre allo stesso denominatore."},
+	],
+	"fisica": [
+		{"topic": "forze", "minLevel": 8, "prompt": "La leva è in equilibrio. Quale peso manca a destra, a 1 metro dal fulcro?",
+			"left": [{"label": "2 kg a 3 m", "value": 6.0}],
+			"right": [],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "2 kg", "value": 2.0}, {"id": "b", "label": "4 kg", "value": 4.0}, {"id": "c", "label": "6 kg", "value": 6.0}],
+			"answer": "c",
+			"explanation": "Su una leva non conta il peso ma il momento: peso per distanza. Due chili a tre metri fanno sei, e per pareggiare a un solo metro servono sei chili. È il motivo per cui un bambino può sollevare un adulto stando più lontano dal fulcro."},
+	],
+	"elettronica": [
+		{"topic": "serie-parallelo", "minLevel": 10, "prompt": "Le due serie devono avere la stessa resistenza totale. Quale resistore manca?",
+			"left": [{"label": "100 Ω", "value": 100.0}, {"label": "220 Ω", "value": 220.0}],
+			"right": [{"label": "150 Ω", "value": 150.0}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "100 Ω", "value": 100.0}, {"id": "b", "label": "150 Ω", "value": 150.0}, {"id": "c", "label": "170 Ω", "value": 170.0}],
+			"answer": "c",
+			"explanation": "In serie le resistenze si sommano e basta: 100 + 220 fa 320, e per arrivarci da 150 ne mancano 170. In parallelo invece il totale è più piccolo del più piccolo — è l'errore più comune."},
+	],
+	"musica": [
+		{"topic": "ritmo", "minLevel": 6, "prompt": "La battuta di 4/4 deve essere piena. Quale figura la completa?",
+			"left": [{"label": "battuta 4/4", "value": 4.0}],
+			"right": [{"label": "minima", "value": 2.0}, {"label": "semiminima", "value": 1.0}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "croma", "value": 0.5}, {"id": "b", "label": "semiminima", "value": 1.0}, {"id": "c", "label": "minima", "value": 2.0}],
+			"answer": "b",
+			"explanation": "Qui «pareggiare» vuol dire riempire la battuta: né una figura in meno né una in più. Minima più semiminima fanno tre movimenti su quattro, quindi manca una semiminima. Se avanzasse spazio la battuta sarebbe sbagliata quanto se traboccasse."},
+		{"topic": "ritmo", "minLevel": 12, "prompt": "La battuta di 3/4 deve essere piena. Quale figura la completa?",
+			"left": [{"label": "battuta 3/4", "value": 3.0}],
+			"right": [{"label": "semiminima puntata", "value": 1.5}, {"label": "croma", "value": 0.5}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "croma", "value": 0.5}, {"id": "b", "label": "semiminima", "value": 1.0}, {"id": "c", "label": "minima", "value": 2.0}],
+			"answer": "b",
+			"explanation": "Il punto aggiunge la metà: la semiminima puntata vale 1,5 movimenti. Con la croma si arriva a 2, e per chiudere il 3/4 manca una semiminima intera."},
+	],
+	"logica": [
+		{"topic": "insiemi", "minLevel": 7, "prompt": "I due gruppi devono avere lo stesso numero di elementi. Quanti ne mancano a destra?",
+			"left": [{"label": "7 elementi", "value": 7.0}],
+			"right": [{"label": "4 elementi", "value": 4.0}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "1 elemento", "value": 1.0}, {"id": "b", "label": "3 elementi", "value": 3.0}, {"id": "c", "label": "5 elementi", "value": 5.0}],
+			"answer": "b",
+			"explanation": "Confrontare due insiemi non richiede di contarli entrambi da capo: basta la differenza. È lo stesso ragionamento che permette di dire «ce ne sono di più» senza sapere quanti."},
+	],
+}
+
 # RETTA NUMERICA: un numero smette di essere un simbolo e diventa una posizione.
 #
 # Aggiunta il 5 agosto 2026 perché a livello 1 matematica non aveva NESSUN
@@ -3432,7 +3514,7 @@ const HOTSPOT := {
 
 const FORMATS := [
 	"matching", "ordering", "classification", "graph", "circuit", "cycle",
-	"notation", "map", "hotspot", "code_debug", "number_line",
+	"notation", "map", "hotspot", "code_debug", "number_line", "balance",
 ]
 
 static func table_for(fmt: String) -> Dictionary:
@@ -3446,6 +3528,7 @@ static func table_for(fmt: String) -> Dictionary:
 		"notation": return NOTATION
 		"map": return MAP_READING
 		"number_line": return NUMBER_LINE
+		"balance": return BALANCE
 		"hotspot": return HOTSPOT
 		"code_debug": return CODE_DEBUG
 	return {}
@@ -3714,6 +3797,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		specialists.append("cycle")
 	if NOTATION.has(subject) and format_available(subject, "notation", level):
 		specialists.append("notation")
+	if BALANCE.has(subject) and _has_eligible(BALANCE[subject], level):
+		specialists.append("balance")
 	if NUMBER_LINE.has(subject) and _has_eligible(NUMBER_LINE[subject], level):
 		specialists.append("number_line")
 	if MAP_READING.has(subject) and format_available(subject, "map", level):
@@ -3758,6 +3843,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 				nodes.append(_cycle_node(subject, _pick(CYCLE[subject], generator, level), difficulty, generator, idx))
 			"notation":
 				nodes.append(_notation_node(subject, _pick(NOTATION[subject], generator, level), difficulty, generator, idx))
+			"balance":
+				nodes.append(_balance_node(subject, _pick(BALANCE[subject], generator, level), difficulty, generator, idx))
 			"number_line":
 				nodes.append(_number_line_node(subject, _pick(NUMBER_LINE[subject], generator, level), difficulty, generator, idx))
 			"map":
@@ -3925,6 +4012,25 @@ func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: Ran
 		"prompt": str(question["prompt"]),
 		"staff": (spec["staff"] as Dictionary).duplicate(true),
 		"symbols": symbols,
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
+	}
+
+func _balance_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
+	var targets: Array = (spec["targets"] as Array).duplicate(true)
+	_shuffle(targets, rng)
+	return {
+		"id": "minigame-balance-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "balance",
+		"prompt": str(question["prompt"]),
+		"left": (spec.get("left", []) as Array).duplicate(true),
+		"right": (spec.get("right", []) as Array).duplicate(true),
+		"gapSide": str(spec.get("gapSide", "right")),
+		"targets": targets,
 		"answer": str(question["answer"]),
 		"explanation": str(question["explanation"]),
 	}

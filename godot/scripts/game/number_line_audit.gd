@@ -1,6 +1,6 @@
 extends SceneTree
 
-## **La retta numerica.** (5 agosto 2026)
+## **La retta numerica e la bilancia.** (5 agosto 2026)
 ##
 ## Perché è stata aggiunta: `format_shape_probe` ha misurato che a livello 1
 ## matematica non aveva **nessun formato visuale** — solo abbinamenti,
@@ -94,7 +94,26 @@ func _init() -> void:
 		failures.append("rispondere giusto sulla retta non è stato contato come giusto")
 	player.queue_free()
 
+	# --- 4. La bilancia: il controllo è ARITMETICO -----------------------------
+	# La validazione ricalcola i due piatti e pretende che UN SOLO candidato
+	# pareggi. Qui si verifica che ogni specifica scritta lo rispetti davvero:
+	# una bilancia che non pareggia insegna un'equivalenza falsa, che è peggio
+	# di non insegnare niente.
+	var bilance := 0
+	for materia in MinigameManager.BALANCE.keys():
+		for spec_data in Array(MinigameManager.BALANCE[materia]):
+			var spec := spec_data as Dictionary
+			bilance += 1
+			var nodo := mg._balance_node(str(materia), spec, 2, rng, 0)
+			var esito := ExerciseInteraction.validate(nodo)
+			if not bool(esito.get("ok", false)):
+				failures.append("bilancia %s/%s: %s" % [
+					str(materia), str(spec.get("topic", "?")), str(esito.get("errors", []))])
+	if bilance < 5:
+		failures.append("solo %d bilance: troppo poche per entrare nella rotazione" % bilance)
+
 	if failures.is_empty():
+		print("BILANCE: %d specifiche, aritmetica verificata" % bilance)
 		print("NUMBER LINE audit OK — %d specifiche, %d nodi costruiti e giocabili" % [quante, costruiti])
 		quit(0)
 	else:

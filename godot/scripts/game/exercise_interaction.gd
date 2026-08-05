@@ -20,7 +20,7 @@ const ArtifactAtlasCatalog = preload("res://scripts/visual/artifact_atlas_catalo
 const IMPLEMENTED := [
 	"multiple_choice", "numeric_input", "short_answer", "ordering", "matching",
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
-	"number_line",
+	"number_line", "balance",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -156,6 +156,8 @@ static func validate(node: Dictionary) -> Dictionary:
 			_validate_cycle(node, errors)
 		"number_line":
 			_validate_number_line(node, errors)
+		"balance":
+			_validate_balance(node, errors)
 		"code_debug":
 			_validate_code_debug(node, errors)
 		_:
@@ -319,6 +321,58 @@ static func _validate_circuit(node: Dictionary, errors: Array) -> void:
 ## impossibile da toccare. Il secondo: due bersagli non possono avere lo stesso
 ## valore, perché occuperebbero lo stesso punto e la domanda avrebbe due
 ## risposte sovrapposte a schermo.
+## La bilancia. Il controllo che vale non è di forma: è **aritmetico**.
+##
+## La risposta giusta deve pareggiare davvero i due piatti, e le altre no. Senza
+## questa verifica una specifica scritta male passerebbe tutti i controlli
+## strutturali e insegnerebbe un'equivalenza falsa — che è peggio di non
+## insegnare niente. È lo stesso genere di controllo che il 3 agosto ha scoperto
+## 94 domande finite sulla specifica sbagliata: la forma era perfetta, i dati no.
+static func _validate_balance(node: Dictionary, errors: Array) -> void:
+	var sinistra := _somma_piatto(node.get("left", []))
+	var destra := _somma_piatto(node.get("right", []))
+	var lato := str(node.get("gapSide", "right"))
+	if lato not in ["left", "right"]:
+		errors.append("lato del posto vuoto sconosciuto: %s" % lato)
+	var targets: Array = node.get("targets", [])
+	if targets.size() < 2:
+		errors.append("bilancia con meno di 2 candidati")
+	if targets.size() > 5:
+		errors.append("bilancia con più di 5 candidati: la fila non ci sta a schermo")
+	var ids: Dictionary = {}
+	var giusti := 0
+	for entry in targets:
+		var candidato := entry as Dictionary
+		var id := str(candidato.get("id", ""))
+		if id == "":
+			errors.append("candidato della bilancia con id vuoto")
+		elif ids.has(id):
+			errors.append("candidato duplicato: %s" % id)
+		ids[id] = true
+		if str(candidato.get("label", "")).strip_edges() == "":
+			errors.append("candidato senza etichetta accessibile: %s" % id)
+		var valore := float(candidato.get("value", 0.0))
+		var pareggia := (
+			is_equal_approx(sinistra, destra + valore) if lato == "right"
+			else is_equal_approx(sinistra + valore, destra))
+		if pareggia:
+			giusti += 1
+			if id != str(node.get("answer", "")):
+				errors.append("il candidato «%s» pareggia la bilancia ma non è la risposta" % id)
+		elif id == str(node.get("answer", "")):
+			errors.append("la risposta «%s» NON pareggia: %s contro %s" % [
+				id, sinistra, destra + valore if lato == "right" else sinistra + valore])
+	if giusti != 1:
+		errors.append("la bilancia ha %d candidati che pareggiano: ne serve esattamente uno" % giusti)
+	if not ids.has(str(node.get("answer", ""))):
+		errors.append("la risposta della bilancia non è fra i candidati")
+
+static func _somma_piatto(voci) -> float:
+	var totale := 0.0
+	for entry in Array(voci):
+		totale += float((entry as Dictionary).get("value", 0.0))
+	return totale
+
 static func _validate_number_line(node: Dictionary, errors: Array) -> void:
 	var minimo := float(node.get("min", 0.0))
 	var massimo := float(node.get("max", 0.0))

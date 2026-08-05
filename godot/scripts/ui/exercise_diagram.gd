@@ -99,6 +99,8 @@ func _draw() -> void:
 			_draw_cycle(bounds)
 		"number_line":
 			_draw_number_line(bounds)
+		"balance":
+			_draw_balance(bounds)
 		_:
 			_draw_hotspot(bounds)
 	_draw_selection_feedback()
@@ -483,6 +485,59 @@ func _draw_number_line(bounds: Rect2) -> void:
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("9fc4bb"))
 
 ## Posizione normalizzata di un bersaglio sulla retta.
+## La bilancia. Due piatti, un fulcro, e un piatto incompleto.
+##
+## È l'unico formato che mostra **l'equivalenza** invece di chiederla: due cose
+## diverse che pesano uguale. È il cuore dell'algebra — un'equazione è una
+## bilancia — e finora nessun formato la rendeva visibile.
+##
+## Si adatta cambiando che cosa significa «pesare»: in matematica il valore, in
+## fisica il momento (peso per distanza), in elettronica la resistenza in serie,
+## in musica la **durata** — dove pareggiare vuol dire riempire esattamente la
+## battuta, né più né meno.
+func _draw_balance(bounds: Rect2) -> void:
+	var ink := Color("d8fff8")
+	var centro := Vector2(bounds.position.x + bounds.size.x * 0.5, bounds.position.y + bounds.size.y * 0.30)
+	# Colonna e fulcro.
+	draw_line(centro, centro + Vector2(0, bounds.size.y * 0.46), ink, 3.0, true)
+	draw_colored_polygon(PackedVector2Array([
+		centro + Vector2(0, bounds.size.y * 0.46), centro + Vector2(-24, bounds.size.y * 0.56),
+		centro + Vector2(24, bounds.size.y * 0.56)]), Color("9299a8"))
+	# Giogo: sempre orizzontale. La bilancia si disegna GIÀ in equilibrio perché
+	# la domanda è «che cosa la tiene così», non «da che parte pende».
+	var braccio := bounds.size.x * 0.30
+	draw_line(centro + Vector2(-braccio, 0), centro + Vector2(braccio, 0), ink, 3.4, true)
+	var font := ThemeDB.fallback_font
+	for lato in [-1.0, 1.0]:
+		var gancio := centro + Vector2(braccio * lato, 0)
+		draw_line(gancio, gancio + Vector2(0, 26), ink, 2.0, true)
+		draw_arc(gancio + Vector2(0, 40), 26.0, 0.0, PI, 20, ink, 2.6, true)
+		var voci: Array = Array(model.get("left" if lato < 0.0 else "right", []))
+		var testi: Array = []
+		for voce in voci:
+			testi.append(str((voce as Dictionary).get("label", "?")))
+		var riga := " + ".join(PackedStringArray(testi))
+		draw_string(font, gancio + Vector2(-riga.length() * 4.0, 84.0), riga,
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color("f6c85f"))
+	# Il posto vuoto, dichiarato dal contenuto: è lì che va la risposta.
+	var lato_vuoto := 1.0 if str(model.get("gapSide", "right")) == "right" else -1.0
+	var vuoto := centro + Vector2(braccio * lato_vuoto, 108.0)
+	draw_rect(Rect2(vuoto - Vector2(26, 16), Vector2(52, 32)), Color(0.42, 0.90, 0.84, 0.16))
+	draw_rect(Rect2(vuoto - Vector2(26, 16), Vector2(52, 32)), Color("6be7d6"), false, 2.0)
+	draw_string(font, vuoto + Vector2(-5, 6), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("6be7d6"))
+
+## I candidati stanno in fila sotto la bilancia: sono oggetti da provare, non
+## punti di un disegno, e allinearli rende leggibile il confronto fra loro.
+func balance_anchor(target_id: String) -> Vector2:
+	var voci: Array = Array(model.get("targets", []))
+	var indice := 0
+	for i in voci.size():
+		if str((voci[i] as Dictionary).get("id", "")) == target_id:
+			indice = i
+			break
+	var x := 0.5 if voci.size() <= 1 else lerpf(0.18, 0.82, float(indice) / float(voci.size() - 1))
+	return Vector2(x, 0.88)
+
 func number_line_anchor(target_id: String) -> Vector2:
 	for voce in Array(model.get("targets", [])):
 		var bersaglio := voce as Dictionary

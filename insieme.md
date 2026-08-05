@@ -147,20 +147,65 @@ inventato:
 
 **3 · Tre formati nuovi**, tutti a disegno procedurale:
 
-- **retta numerica** (L1+, matematica) — **fatta il 5 agosto.** Sei specifiche,
-  da «quale punto sta sul 7» ai negativi e ai decimali, tenute da
-  `number_line_audit`: i bersagli devono cadere dentro la scala disegnata e non
-  possono condividere un valore, o si sovrappongono a schermo;
+- **retta numerica** (L1+, matematica) — **fatta.** Sei specifiche, dal «quale
+  punto sta sul 7» ai negativi e ai decimali;
+- **bilancia** (L5+) — **fatta**, e adattata nella *meccanica* prima che nel
+  contenuto: «pareggiare» significa il valore in matematica, il **momento**
+  (peso × distanza) in fisica, la resistenza in serie in elettronica, la
+  cardinalità in logica, e in musica la **durata** — dove pareggiare vuol dire
+  riempire esattamente la battuta, e avanzare spazio è sbagliato quanto
+  traboccare. `_validate_balance` verifica l'**aritmetica**, non la forma: una
+  bilancia che non pareggia insegnerebbe un'equivalenza falsa;
 - **linea del tempo** (L8+, storia · musica · italiano) — **da fare.** Diversa
-  dall'ordinamento perché conta la *distanza* fra gli eventi, non solo l'ordine;
-- **bilancia** (L5+, matematica · fisica · logica · elettronica) — **da fare.**
-  Si pareggiano i due piatti trascinando termini. Insegna l'equivalenza, che è
-  il cuore dell'algebra e oggi non ha nessun formato che la mostri.
+  dall'ordinamento perché conta la *distanza* fra gli eventi, non solo l'ordine.
 
-I due che restano hanno lo stesso costo della retta: una modalità di disegno in
-`exercise_diagram`, una validazione, una tabella di specifiche e un audit. Li ho
-lasciati indietro di proposito invece di consegnarne tre a metà — è il difetto
-che questo progetto ha già pagato quattro volte.
+### Tre strutture nuove da progettare
+
+Non varianti di quelle che ci sono: **verbi di interazione** che il gioco oggi
+non ha. Oggi si sa appaiare, mettere in fila, smistare, toccare un punto,
+trovare l'errore, rispondere. Manca costruire, eseguire e indagare.
+
+**Il compositore vincolato** — *scegliere i pezzi*, non riordinare quelli dati.
+Esistono pezzi sbagliati, ed è lì che sta l'insegnamento.
+
+| materia | che cosa si costruisce | i pezzi sbagliati sono |
+|---|---|---|
+| italiano | una frase | accordi errati di genere e numero |
+| latino | una forma declinata | desinenze di un'altra declinazione |
+| inglese | una domanda | l'ausiliare al posto sbagliato |
+| coding | un'istruzione | due punti e parentesi mancanti |
+| musica | un accordo | note vicine ma fuori dall'accordo |
+| matematica | un'espressione che dà un risultato | operazioni nell'ordine sbagliato |
+
+**Il tracciatore** — *eseguire passo per passo* e dichiarare lo stato finale. È
+il formato che insegna la cosa più difficile da insegnare a parole: che una
+sequenza si simula, non si indovina.
+
+| materia | che cosa si traccia |
+|---|---|
+| coding | la tabella di traccia: dopo tre giri, quanto vale il contatore? |
+| matematica | una catena di operazioni applicata a un numero di partenza |
+| elettronica | dove arriva la corrente dopo che quell'interruttore si apre |
+| geografia | dove finisce l'acqua che cade in questo punto |
+| logica | chi resta dopo aver applicato le eliminazioni in ordine |
+
+**L'indiziario** — *chiedere indizi per identificare*, e ogni indizio costa. È
+l'unica struttura che introduce una **scelta strategica**: si può indovinare
+subito rischiando, o comprare sicurezza. È anche l'unica che rende visibile una
+competenza vera — quale domanda conviene fare.
+
+| materia | si identifica | e gli indizi sono |
+|---|---|---|
+| storia | un personaggio | epoca, luogo, cosa fece |
+| geografia | un Paese | continente, confini, clima |
+| scienze | un vivente | classe, ambiente, alimentazione |
+| inglese | una parola | classe grammaticale, campo, iniziale |
+| logica | la soluzione di un indovinello | vincoli, uno per volta |
+
+Ognuna costa quanto la retta numerica: una modalità di disegno in
+`exercise_diagram`, una validazione, una tabella di specifiche e un audit. Vanno
+fatte **una per volta e finite** — consegnarne tre a metà è il difetto che
+questo progetto ha già pagato quattro volte.
 
 **4 · Reperti e carta.** Qui ho corretto una convinzione sbagliata scrivendo il
 punto: **solo i reperti hanno bisogno di un disegno.** La carta d'Italia è

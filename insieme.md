@@ -1,6 +1,6 @@
 # Eli Quest — Piano di lavoro
 
-Aggiornato al 4 agosto 2026.
+Aggiornato al 5 agosto 2026.
 
 **Questo file contiene solo lavoro da fare.** Niente resoconti: quelli stanno nel
 *Registro dei lavori* di [docs/RELEASE_CANDIDATE.md](docs/RELEASE_CANDIDATE.md).
@@ -10,24 +10,80 @@ Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 [Design](docs/DESIGN_COMPLETO.md) · [Trama](docs/TRAMA_E_MISTERO.md) ·
 [Abitanti](docs/ABITANTI_E_LUOGHI.md) · [Custode](docs/PET_CUSTODE.md) ·
 [Secondo Viaggio](docs/SECONDO_VIAGGIO.md) ·
-[Architettura](docs/ARCHITETTURA_FULL_GODOT.md) · [Finale](docs/FINALE_SPEC.md)
+[Architettura](docs/ARCHITETTURA_FULL_GODOT.md) · [Finale](docs/FINALE_SPEC.md) ·
+[Custode avanzato](docs/CUSTODE_LIVELLO_AVANZATO.md)
 
 ---
 
-## L'obiettivo: il collaudo
+## Dove ci orientiamo — misurato il 5 agosto 2026
 
-**Lo standard di densità è raggiunto.** Il 3 agosto mancavano 788 item; il
-4 agosto sono scritti. Tutte e dodici le materie hanno **almeno quindici
-esercizi per ogni argomento**, e `topic_density_audit` non misura più una
-distanza: è un cricchetto secco.
+Tre direzioni possibili, e non si equivalgono. Le ho misurate invece di sceglierle
+a intuito.
 
-**Anche la forbice della risposta libera è raggiunta.** Il 3 agosto undici
-banchi su dodici erano al cento per cento di scelta multipla — cioè risolvibili
-per esclusione senza sapere niente. Oggi ogni banco sta fra il 20% e il 30% di
-domande senza opzioni da cui copiare, e `free_answer_audit` lo tiene.
+**Profondità degli esercizi — non è il collo di bottiglia.** Nell'esperienza
+*giocata* (13 504 nodi su 24 mondi) la scelta multipla è all'**8%**, ogni materia
+usa da 8 a 10 formati diversi, e le sessioni che ripropongono lo stesso argomento
+nello stesso formato sono **0 su 3 648**. I banchi contano 3 472 item, almeno 15
+per argomento, dal 20 al 30% a risposta libera. Qui il lavoro è fatto.
 
-| materia | item | libera | materia | item | libera |
-|---|---:|---:|---|---:|---:|
+**Le spiegazioni — è qui il buco, ed è grosso.** I tre formati dominanti coprono
+il **62% di tutto quello che un bambino gioca**, e nessuno dei tre spiega niente:
+
+| formato | quota del giocato | cosa restituisce dopo la risposta |
+|---|---:|---|
+| abbinamento | 22% | «Collega ogni elemento a sinistra con quello giusto a destra» |
+| ordinamento | 20% | «Ordine giusto: A, B, C» |
+| classificazione | 20% | «Ogni tessera va nel gruppo giusto secondo la sua proprietà» |
+
+Le prime e le terze sono **istruzioni**, identiche in ogni materia e in ogni
+mondo. La seconda **ripete la risposta**. Nessuna dice un perché. In più, nei
+banchi, **1 210 spiegazioni su 3 472 stanno sotto i 40 caratteri**, e 968 di
+queste sono l'inglese, dove la spiegazione è tautologica: alla domanda «come si
+dice *controllare*?» la spiegazione è «*check*: controllare».
+
+Dove invece le spiegazioni sono state scritte a mano — grafici, circuiti,
+notazione, carte — sono ottime: *«Il minimo si trova guardando chi sta più in
+BASSO, non chi sta più a sinistra»*. È la prova che il problema non è la capacità
+di scriverle: è che per tre formati su dieci non le ha mai scritte nessuno.
+
+**Il divertimento — non si può ancora toccare.** Non esiste una misura, e
+soprattutto **nessun bambino ha ancora giocato**. Qualunque modifica fatta adesso
+sarebbe indovinare. È l'unica delle tre che richiede il collaudo *prima*, non
+dopo.
+
+### La scelta
+
+**Prima le spiegazioni.** È il 62% del vissuto, è misurabile, è cricchettabile, ed
+è il cuore della promessa didattica: un gioco che dice «giusto» e «sbagliato»
+senza dire *perché* sta misurando, non insegnando. Il divertimento viene subito
+dopo il tuo collaudo, con i dati veri in mano.
+
+---
+
+## Il piano — le spiegazioni
+
+**Regola unica**: dopo la risposta il gioco dice *perché*, non *cosa fare*. Una
+spiegazione che si potrebbe incollare identica su un altro esercizio non è una
+spiegazione.
+
+| Lotto | Cosa | Quanto |
+|---|---|---:|
+| **1** | I tre formati dominanti: ogni specifica dice perché quella è la risposta | **199** (75 abbinamento, 70 classificazione, 54 ordinamento) |
+| **2** | Inglese: sostituire le spiegazioni tautologiche | 968 |
+| **3** | Il resto sotto i 40 caratteri, fuori dall'inglese | 242 |
+
+Sul lotto 1 una cautela che mi porto dietro dal lavoro sui banchi: per il
+vocabolario **non esiste un perché**. `dog`/`cane` è arbitrario, e inventare una
+ragione sarebbe peggio del silenzio. Lì la spiegazione dice cosa hanno in comune
+gli elementi di *quell'insieme* e cosa conviene notare — che è la cosa vera da
+imparare quando la parola singola non ha logica.
+
+Il cricchetto arriva **dopo** il contenuto, come sempre: `explanation_quality_audit`
+respingerà le spiegazioni ripetute identiche su specifiche diverse e quelle sotto
+una soglia di lunghezza. Scriverlo prima significherebbe solo un audit rosso per
+settimane.
+
+---|---:|---:|---|---:|---:|
 | inglese | 1109 | 30% | geografia | 199 | 20% |
 | italiano | 587 | 22% | storia | 167 | 20% |
 | matematica | 284 | 30% | elettronica | 159 | 20% |
@@ -48,114 +104,19 @@ collaudo lo boccia.
 
 ---
 
-## Le schede — L1, mondi 1–6
+## Le cose da guardare giocando
 
-Tutto il contenuto delle colonne «cast», «Traccia» e «semi» è già scritto e
-verde. Le schede servono a Codex per sapere **cosa va collocato dove**. I mondi
-7–24 hanno la loro tabella più sotto, con lo stesso significato.
+Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il
+5 agosto 2026: quel lavoro è fatto, è verde e lo tengono gli audit. Riscriverlo
+in un piano di lavoro significava rileggere ogni volta istruzioni per qualcosa
+di già costruito.
 
-### Mondo 1 · Radura Accademia · matematica
-- `artKit` **natura-rovine** · landmark **obelisco-dei-numeri**
-- Cast: **Tobia** (specialista, burbero, «…e uno») · **Nonna Ersilia**
-  (testimone, caloroso, «cuore») · Bislacco **Puccio**
-- Traccia: **bastone da conteggio**, tacche a gruppi di dieci
-- Semi da collocare: **1** — colpo 1, oggetto: la spirale piccola sul fianco del
-  bastone, incisa dopo le tacche e con i bordi netti
-- Da non sbagliare: la **conta di nonna Ersilia** va sentita nei primi cinque
-  minuti. È la tabellina del 7 e contiene il nome del Tredicesimo. Se il
-  giocatore la salta, al mondo 24 non ha la chiave in mano.
+Resta quello che **solo giocando** si può giudicare. Sono i punti in cui una resa
+sbagliata non rompe niente e toglie tutto il significato.
 
-### Mondo 2 · Archivio delle Parole · italiano
-- `artKit` **carta-e-foglie** · landmark **ponte-delle-frasi**
-- Cast: **Corinna** (specialista, solenne, misura con le dita) · **Bruno**
-  (testimone, curioso, «e questa come la chiami?») · Bislacco **Ditino**
-- Traccia: **catalogo dei Primi**, ordinato per funzione e non per forma
-- Semi da collocare: **3** — colpo 1 (dialogo di Bruno sul «ricciolo» che non si
-  cancella) · colpo 2 (oggetto: il catalogo ha 13 sezioni e 11 intestazioni) ·
-  colpo 6 (dettaglio: la spirale più vecchia è incisa **all'altezza di una
-  bambina in piedi**)
-- Il seme del colpo 6 è il più lontano di tutti: paga al mondo 23. Va messo dove
-  si vede senza essere indicato.
-
-### Mondo 3 · Cratere Logico · coding
-- `artKit` **macchine-e-loop** · landmark **macchina-a-cicli**
-- Cast: **Ruggine** (specialista, burbero, soffia sugli attrezzi) · **Sesto**
-  (testimone, buffo, si ripresenta ogni volta) · Bislacco **Manetta**
-- Traccia: **schema di telaio** — «ripetere non è fatica, è un'istruzione»
-- Semi da collocare: **2** — colpo 1 (dettaglio: qualcuno ha soffiato via la
-  polvere da una pietra) · colpo 2 (dialogo: Sesto si presenta come «il
-  dodicesimo» e non sa spiegare perché)
-- Sesto è anche **itinerante**: qui torna sé stesso e da qui in poi lo si
-  incontra ovunque. È l'unico personaggio che sta nei due cataloghi
-  (`w03-sesto` e `itin-sesto`).
-
-### Mondo 4 · Baia dei Segnali · inglese
-- `artKit` **segnali-e-onde** · landmark **faro-dei-messaggi**
-- Cast: **Marea** (specialista, sognante, sussurra prima di parlare) ·
-  **Vecchio Lino** (testimone, divertente, «captain») · Bislacco **Boa**
-- Traccia: **quaderno bilingue**, la stessa lezione su due colonne che non si
-  corrispondono riga per riga
-- Semi da collocare: **1** — colpo 1, oggetto: sulla boa grande, sotto la
-  ruggine, un ricciolo che il sale non ha ancora mangiato
-
-### Mondo 5 · Officine del Moto · fisica — ⟡ **colpo 1**
-- `artKit` **leve-e-carrelli** · landmark **grande-leva**
-- Cast: **Gerbo** (specialista, burbero, si sputa sulle mani) · **Tilla**
-  (testimone, curioso, «te lo faccio vedere?») · Bislacco **Peso**
-- Traccia: **la spirale aperta**, e il taglio è fresco di settimane
-- Semi da collocare: nessuno. Qui si **incassa**.
-- È il mondo che prova la cosa più delicata di tutte: che una Traccia letta in
-  silenzio regga il peso di una rivelazione. Se il colpo 1 non funziona, non
-  funzionerà nessuno dei sette, e conviene saperlo adesso.
-
-### Mondo 6 · Giardino della Risonanza · musica
-- `artKit` **cristalli-vibranti** · landmark **albero-risonante**
-- Cast: **Ambra** (specialista, sognante, canticchia le risposte) · **Oreste**
-  (testimone, solenne, sordo, legge con le mani sulle corde) · Bislacco
-  **Zufolo**
-- Traccia: **diapason dei Primi** — «un suono con un nome si può regalare»
-- Semi da collocare: **3** — colpo 2 (oggetto: rastrelliera con 13 sedi, 11
-  occupate, una vuota e pulita, una vuota e impolverata) · colpo 3 (dettaglio:
-  NORA dice dove tenevano il diapason, in un mondo che dichiara di non aver mai
-  visto) · colpo 7 (dettaglio: NORA ricorda **una lezione e non un dato**)
-- **Oreste è sordo**: non reagisce ai suoni, reagisce alle vibrazioni e a chi
-  gli entra nel campo visivo. Se la regia lo fa girare al richiamo vocale, il
-  personaggio è smontato.
-
----
-
-## Le schede — L2…L5, mondi 7–24
-
-Stesse colonne. Il **tic** fra parentesi è la stringa che l'audit cerca: se una
-battuta in scena non la contiene, il personaggio suona come un narratore.
-
-| # · mondo · materia | `artKit` · landmark | cast (specialista / testimone / bislacco) | Traccia | semi |
-|---|---|---|---|---|
-| **7 · Rovine dei Glifi · latino** | `pietra-e-iscrizioni` · arco-dei-glifi | Livia (inchiostro) / Zeno (parente) / Postilla | Dizionario delle radici | 1 · colpo 2, dettaglio |
-| **8 · Delta dei Circuiti · elettronica** ⟡ | `generatori-e-cavi` · nodo-centrale | Ciro (nodi) / Doria (acqua) / Scintilla | **Sigillo d'equipaggio** | — |
-| **9 · Arcipelago · geografia** | `mappe-e-quote` · torre-cartografica | Alma (matita) / Remo (rotta) / Bora | Carta della rotta | 3 · colpi 3, 4, 6 |
-| **10 · Serra delle Simbiosi · scienze** | `flora-e-fauna` · cupola-vivente | Ortensia (piante) / Mirta (tisana) / Terriccio | La dispensa in ordine | 2 · colpi 3, 7 |
-| **11 · Soglia del Tempo · storia** | `reperti-e-prime-civiltà` · portale-delle-epoche | Danio (scommett) / Vesta (cronac) / Anticaglia | Due datazioni discordanti | 2 · colpi 3, 5 |
-| **12 · Labirinto delle Regole · logica** ⟡ | `muri-mobili` · cuore-del-labirinto | Quinto (passi) / Isa (e se invece) / Svolta | **Le schede delle unità** — *decisiva* | — |
-| **13 · Deserto delle Orbite · matematica** | `strumenti-astrali` · osservatorio | Solano (lenti) / Duna (mano tesa) / Miraggio | Registro di manutenzione | 2 · colpi 4, 7 |
-| **14 · Biblioteca delle Voci · italiano** | `libri-e-eco` · sala-delle-voci | Elmo (taglia l'aria) / Ottavia ((cambia voce)) / Prefazio | I verbali della seduta | 2 · colpi 4, 5 |
-| **15 · Città Macchina · coding** | `automi-e-cavi` · torre-di-controllo | Gru (colpetto) / Pila (quando è successo) / Ronzino | Le sezioni della nave | 1 · colpo 4 |
-| **16 · Frontiera delle Lingue · inglese** ⟡ | `insegne-multilingua` · porta-delle-lingue | Talia (scus) / Marco dei Valichi (lingue) / Tuttolingue | **La mappa vera** — *decisiva* | — |
-| **17 · Oceano delle Forze · fisica** | `pressione-e-flussi` · cattedrale-sottomarina | Nerea (fiato) / Coral (numer) / Scafandro | Le insegne del molo | 1 · colpo 5 |
-| **18 · Cattedrale del Suono · musica** | `canne-e-archi` · grande-organo | Silo (riverbero) / Bea (navata) / Controcanto | Il turno di guardia | 1 · colpo 5 |
-| **19 · Necropoli delle Radici · latino** ⟡ | `epigrafi-e-radici` · albero-delle-radici | Numa (lapid) / Fiorina (chiamo) / Lapidario | **Il progetto di NORA** — *decisiva* | — |
-| **20 · Tempesta EM · elettronica** ⟡ | `sensori-e-scariche` · torre-di-campo | Sferza (nocche) / Quieto (second) / Parafulmine | Le misure della quarantena | — |
-| **21 · Atlante Fratturato · geografia** | `strati-e-climi` · pilastro-tettonico | Terza (fogli) / Mino (formaggio) / Meteora | La tesi per esteso | 1 · colpo 6 |
-| **22 · Biosfera Profonda · scienze** | `cellule-e-energia` · nucleo-vivente | Vesca (annus) / Fondo (guarda) / Muffa | La domanda mai risposta | 2 · colpi 6, 7 |
-| **23 · Sala delle Ere · storia** ⟡ | `mosaici-manoscritti-e-fonti` · archivio-delle-ere | Cronia (timbr) / Ovidio (carte) / Errata | **Il registro del mondo 2** | — |
-| **24 · Cuore dei Primi · trasversale** ⟡ | `sintesi-di-tutti` · cuore-dei-primi | *nessun residente* — vedi «Il mondo 24» | Gli undici quaderni | — |
-
-⟡ = il mondo porta un colpo di scena.
-
-### Le trappole, mondo per mondo
-
-Solo dove ce n'è una. Sono le cose che si sbagliano cablando, non scrivendo.
-
+- **1 · la conta di nonna Ersilia** va sentita nei primi cinque minuti. È la
+  tabellina del 7 e contiene il nome del Tredicesimo. Se il giocatore la salta,
+  al mondo 24 non ha la chiave in mano.
 - **8 · il sigillo**: tredici alloggiamenti, undici nomi. Il dodicesimo è
   raschiato e **i graffi vanno verso l'interno** — l'ha fatto qualcuno seduto al
   tavolo. Se la resa non mostra la direzione dei graffi, il colpo 2 perde metà
@@ -238,9 +199,13 @@ Nessuna si scrive: vogliono un **asset** o una **tua decisione**.
 
 ## Coda tua — il collaudo
 
-Quando i mondi sono cablati ed esportati, **gioca dall'inizio senza saltare
+I mondi sono cablati, verdi ed esportati: **gioca dall'inizio senza saltare
 niente**. Non serve arrivare in fondo al primo giro: quello che cambia il lavoro
 si vede nei primi sei mondi, e le ultime due domande si possono rimandare.
+
+È anche l'unico modo per aprire la terza direzione: **il divertimento non si
+misura da qui**, e finché non hai giocato qualunque modifica su quel fronte
+sarebbe indovinare.
 
 In ordine di quanto cambiano il lavoro dopo:
 

@@ -298,29 +298,6 @@ func update_phase(phase: String) -> void:
 		current_phase = phase
 		_emit_state()
 
-func apparatus_prompt() -> String:
-	var progress := progression_manager.repair_progress()
-	if bool(progress.get("complete", false)):
-		return "Nave completamente riattivata · tutti i 24 nodi sono online"
-	# Il Cuore si apre con dodici stanze accese: si dice DALL'INIZIO, non al mondo
-	# 24. Un obiettivo scoperto alla fine è un vicolo cieco travestito da sorpresa.
-	var repaired := int(progress.get("apparatusRepaired", 0))
-	var total_rooms := int(progress.get("apparatusTotal", 12))
-	var rooms := " · Cuore %d/%d stanze" % [repaired, total_rooms]
-	if bool(progress.get("ready", false)):
-		return "Interagisci con il Nucleo per affrontare l'esame finale%s" % rooms
-	# Si dice che cosa manca, non quanti giri restano: il gate è competenza.
-	var missing := Array(progress.get("missing", []))
-	if missing.is_empty():
-		return "Nucleo pronto"
-	var names: Array = []
-	for subject in missing:
-		names.append(str(subject).capitalize())
-	return "Per salire di livello: %s · padronanza ≥ %.0f%%%s" % [
-		", ".join(PackedStringArray(names)),
-		float(progress.get("masteryThreshold", 0.0)) * 100.0,
-		rooms]
-
 # ---------------------------------------------------------------------------
 # Ciclo delle sessioni
 # ---------------------------------------------------------------------------

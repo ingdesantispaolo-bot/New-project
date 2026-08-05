@@ -761,25 +761,6 @@ static func build_academy_fountain() -> Node2D:
 	]), Color("a7ffe7", 0.84)))
 	return root
 
-static func build_academy_bridge() -> Node2D:
-	var root := Node2D.new()
-	root.add_child(make_shadow(48, 13, 0.22, 8))
-	root.add_child(make_polygon(PackedVector2Array([
-		Vector2(-46, -9), Vector2(46, -9), Vector2(46, 9), Vector2(-46, 9),
-	]), Color("9a6636")))
-	for i in range(7):
-		var x := -38.0 + float(i) * 12.7
-		root.add_child(make_polygon(PackedVector2Array([
-			Vector2(x, -9), Vector2(x + 2, -9), Vector2(x + 2, 9), Vector2(x, 9),
-		]), Color("6b4329")))
-	root.add_child(make_polygon(PackedVector2Array([
-		Vector2(-48, -12), Vector2(48, -12), Vector2(48, -9), Vector2(-48, -9),
-	]), Color("d09a57")))
-	root.add_child(make_polygon(PackedVector2Array([
-		Vector2(-48, 9), Vector2(48, 9), Vector2(48, 12), Vector2(-48, 12),
-	]), Color("d09a57")))
-	return root
-
 # ---------------------------------------------------------------------------
 # Landmark
 # ---------------------------------------------------------------------------
@@ -2107,26 +2088,6 @@ static func build_landmark(kind: String, label: String, accent_rgb: int) -> Node
 	root.add_child(text)
 	return root
 
-## Landmark canonico per bioma: mantiene la stessa scala percettiva e cambia
-## solo silhouette/accento. Utile ai chunk periferici e alla scena nave.
-static func build_biome_landmark(biome: String, label: String = "") -> Node2D:
-	var key := biome.to_lower()
-	match key:
-		"academy", "radura", "radura_accademia":
-			return build_landmark("skyTree", label if label != "" else "Albero della Radura", 0x8fe0a4)
-		"wild", "bosco":
-			return build_landmark("skyTree", label if label != "" else "Sentiero del Bosco", 0x72d39a)
-		"geo", "dorsale", "dorsale_geografica":
-			return build_landmark("atlasGate", label if label != "" else "Passo delle Mappe", 0x80c7ff)
-		"logic", "cratere", "cratere_logico":
-			return build_landmark("logicSpire", label if label != "" else "Spira del Cratere", 0xb9a2ff)
-		"ruins", "rovine":
-			return build_landmark("ancientCore", label if label != "" else "Nucleo delle Rovine", 0xe0a37a)
-		"crystal", "cristallo":
-			return build_landmark("crystalNest", label if label != "" else "Nido di Cristallo", 0x9be7ff)
-		_:
-			return build_landmark("ancientCore", label, 0x6be7d6)
-
 # ---------------------------------------------------------------------------
 # Interagibili
 # ---------------------------------------------------------------------------
@@ -2327,21 +2288,3 @@ static func build_apparatus_terminal(state: String = "broken", accent: Color = C
 		root.add_child(label_node)
 	return root
 
-static func build_ship_room_backdrop(room_id: String, accent: Color = Color("6be7d6")) -> Node2D:
-	var root := Node2D.new()
-	root.name = "ShipRoomBackdrop_%s" % room_id
-	root.add_child(make_polygon(PackedVector2Array([
-		Vector2(-420, 150), Vector2(-360, -150), Vector2(360, -150), Vector2(420, 150),
-	]), Color("102a31")))
-	root.add_child(make_polygon(PackedVector2Array([
-		Vector2(-390, 148), Vector2(-330, 88), Vector2(330, 88), Vector2(390, 148),
-	]), Color("1c4144")))
-	for x in [-270.0, -90.0, 90.0, 270.0]:
-		root.add_child(make_polygon(PackedVector2Array([
-			Vector2(x - 3, 82), Vector2(x + 3, 82), Vector2(x + 3, -108), Vector2(x - 3, -108),
-		]), Color(0.35, 0.68, 0.65, 0.18)))
-	var crest := make_glow(90, accent, 0.12)
-	crest.position = Vector2(0, -80)
-	crest.add_to_group("night_glow")
-	root.add_child(crest)
-	return root

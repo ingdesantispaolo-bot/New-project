@@ -3403,9 +3403,6 @@ static func gradient_step(idx: int, total: int) -> int:
 static func difficulty_of(level: int, step: int) -> int:
 	return clampi(ContentManager.target_difficulty(level) + step, 1, 4)
 
-static func difficulty_for(level: int, idx: int, total: int) -> int:
-	return difficulty_of(level, gradient_step(idx, total))
-
 ## Quante voci si pescano: ora dipende dalla DIFFICOLTÀ della campata, non dal
 ## livello. È la stessa cosa nella media (la difficoltà viene dal livello) ma
 ## rende reale il gradiente: la campata di riscaldamento ha davvero meno tessere
@@ -3422,7 +3419,6 @@ static func difficulty_for(level: int, idx: int, total: int) -> int:
 ## materia ha scelto resta quello del mondo, e il riscaldamento ne toglie una.
 const MIN_SEQUENCE_DRAW := 3
 const MAX_SEQUENCE_DRAW := 5
-const DEFAULT_SEQUENCE_DRAW := 5
 
 ## La BASE resta legata al livello per le specifiche che non dichiarano `draw`:
 ## al mondo 1 un abbinamento mostra tre coppie, al 24 cinque. Averla tolta per un

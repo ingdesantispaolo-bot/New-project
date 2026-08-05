@@ -1,7 +1,6 @@
 extends Button
 
 signal drag_started
-signal drag_finished
 
 ## Sorgente drag accessibile: il click resta sempre disponibile per touch e
 ## tastiera, mentre mouse/touch con trascinamento ricevono una preview esplicita.
@@ -41,4 +40,3 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_END:
 		scale = Vector2.ONE
 		modulate = Color.WHITE
-		drag_finished.emit()

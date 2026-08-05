@@ -24,9 +24,6 @@ signal session_finished(result: Dictionary)
 ## ambientale per far crescere la costruzione nel mondo (una campata per risposta
 ## corretta). Le sessioni normali possono ignorarlo.
 signal progress_changed(built: int, total: int)
-## Emesso dal solo esame trasversale: ogni nodo completato accende il sistema
-## corrispondente, indipendentemente dall'esito usato poi per il punteggio.
-signal system_resolved(system: String, correct: bool, resolved: int, total_systems: int)
 ## Richiesta esplicita di aiuto sul concetto corrente. La scena apre il Manuale
 ## NORA sopra la sessione senza ricrearla; negli esami il pulsante non compare.
 signal concept_help_requested(subject: String, topic: String)
@@ -738,7 +735,6 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 				var total_systems := maxi(1, int(Array(session.get("systems", [])).size()))
 				var stage_pitch := lerpf(0.90, 1.16, float(_systems_resolved.size()) / float(total_systems))
 				convergence_audio.call("play_event", "enigmaProgress", stage_pitch)
-		system_resolved.emit(system, is_correct, _systems_resolved.size(), int(Array(session.get("systems", [])).size()))
 	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
 	_next_button.visible = true
 

@@ -11,7 +11,6 @@ extends RefCounted
 ## godot/scripts/fixture_audit.gd.
 
 const CHUNK_SIZE := 896
-const WORLD_CHUNKS := 8
 const RNG := preload("res://scripts/deterministic_rng.gd")
 
 const BIOME_STYLE := {

@@ -651,38 +651,6 @@ func _biome_material_weights(biome: String) -> Vector4:
 		"logic", "crystal": return Vector4(0, 0, 0, 1)
 		_: return Vector4(1, 0, 0, 0)
 
-func _build_world_path_ribbons(size: float) -> void:
-	if composition == null:
-		return
-	var world_origin := Vector2(float(chunk.get("worldX", 0)), float(chunk.get("worldY", 0)))
-	var world_rect := Rect2(world_origin, Vector2.ONE * size).grow(96.0)
-	var layer := Node2D.new()
-	layer.name = "PainterlyPathRibbons"
-	layer.z_index = -5
-	add_child(layer)
-	for path in composition.paths:
-		var source_points: PackedVector2Array = path.get("points", PackedVector2Array())
-		if source_points.size() < 2:
-			continue
-		var width := clampf(float(path.get("width", 64.0)) * 0.39, 20.0, 29.0)
-		if not world_rect.intersects(_points_bounds(source_points).grow(width * 2.0)):
-			continue
-		var steps_per_segment := 7
-		var curved_world := _catmull_rom_polyline(source_points, steps_per_segment)
-		# Ogni segmento ha un unico chunk proprietario. Prima tutti i chunk che lo
-		# vedevano ridisegnavano l'intera spline, sommando opacita e saturazione.
-		for segment_index in range(source_points.size() - 1):
-			var midpoint := source_points[segment_index].lerp(source_points[segment_index + 1], 0.5)
-			var owner := Vector2i(floori(midpoint.x / size), floori(midpoint.y / size))
-			if owner != Vector2i(int(chunk.get("chunkX", 0)), int(chunk.get("chunkY", 0))):
-				continue
-			var segment_world := PackedVector2Array()
-			var first := segment_index * steps_per_segment
-			var last := mini(first + steps_per_segment, curved_world.size() - 1)
-			for point_index in range(first, last + 1):
-				segment_world.append(curved_world[point_index])
-			_add_path_ribbon(layer, _offset_points(segment_world, -world_origin), width)
-
 func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -> void:
 	if curved.size() < 2:
 		return
@@ -802,18 +770,6 @@ func _add_path_ribbon(layer: Node2D, curved: PackedVector2Array, width: float) -
 	highlight.default_color = highlight_color
 	highlight.antialiased = true
 	layer.add_child(highlight)
-
-func _curved_segment(a: Vector2, b: Vector2, world_origin: Vector2, segment_index: int) -> PackedVector2Array:
-	var points := PackedVector2Array()
-	var delta := b - a
-	var normal := Vector2(-delta.y, delta.x).normalized()
-	var phase := sin((a.x * 0.0067) + (a.y * 0.0049) + float(segment_index) * 1.71)
-	var bend := phase * minf(delta.length() * 0.10, 82.0)
-	for step in range(13):
-		var t := float(step) / 12.0
-		var easing := 4.0 * t * (1.0 - t)
-		points.append(a.lerp(b, t) + normal * bend * easing - world_origin)
-	return points
 
 func _build_world_water_features(size: float) -> void:
 	if composition == null:
@@ -1188,22 +1144,6 @@ func _draw_composition_surface(_size: float) -> void:
 	# Keeping this hook makes legacy calls harmless while removing circle splats.
 	pass
 
-func _draw_owned_global_features(world_rect: Rect2, world_origin: Vector2) -> void:
-	# Ogni feature globale ha un solo chunk proprietario e può debordare nel
-	# vicino: niente duplicazione alpha e nessuna giunzione sul confine.
-	for water in composition.waters:
-		var center: Vector2 = water["position"]
-		var radii: Vector2 = water["radii"]
-		var water_bounds := Rect2(center - radii * 1.18, radii * 2.36)
-		if not world_rect.grow(32.0).intersects(water_bounds):
-			continue
-		var local := center - world_origin
-		draw_set_transform(local, -0.08, Vector2(radii.x / 120.0, radii.y / 120.0))
-		draw_circle(Vector2.ZERO, 132.0, Color(0.24, 0.31, 0.20, 0.30))
-		draw_circle(Vector2.ZERO, 120.0, Color(0.13, 0.55, 0.58, 0.88))
-		draw_circle(Vector2(-22, -24), 78.0, Color(0.45, 0.85, 0.77, 0.30))
-		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-
 func _draw_academy_peripheral_composition(size: float, tint: Color, accent: Color) -> void:
 	# Fascia di raccordo per i chunk non hero: colori caldi, radure morbide e
 	# piccoli gruppi naturali. È solo pittura sul terreno, senza collisioni.
@@ -1232,21 +1172,6 @@ func _draw_academy_peripheral_composition(size: float, tint: Color, accent: Colo
 	draw_rect(Rect2(size - 16, 0, 34, size), Color(0.62, 0.54, 0.28, 0.12))
 	draw_rect(Rect2(0, -18, size, 34), Color(0.62, 0.54, 0.28, 0.08))
 	draw_rect(Rect2(0, size - 16, size, 34), Color(0.62, 0.54, 0.28, 0.08))
-
-func _draw_academy_focus_transition(size: float) -> void:
-	# Il fondale hero è più luminoso dei chunk procedurali. Quattro fasce
-	# sovrapposte, decrescenti verso il centro, trasformano il bordo tecnico in
-	# una vignetta naturale senza introdurre una linea visibile.
-	var edge := Color(0.09, 0.18, 0.16, 0.0)
-	for i in range(5):
-		var t := float(i) / 4.0
-		var alpha := 0.15 - t * 0.11
-		var inset := float(i) * 16.0
-		edge.a = alpha
-		draw_rect(Rect2(-18.0 + inset, -18.0, 18.0, size + 36.0), edge)
-		draw_rect(Rect2(size - inset - 18.0, -18.0, 18.0, size + 36.0), edge)
-		draw_rect(Rect2(-18.0, -18.0 + inset, size + 36.0, 18.0), edge)
-		draw_rect(Rect2(-18.0, size - inset - 18.0, size + 36.0, 18.0), edge)
 
 func _is_academy_neighbor() -> bool:
 	var x := int(chunk.get("chunkX", 99))

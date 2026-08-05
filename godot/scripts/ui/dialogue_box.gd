@@ -2,7 +2,6 @@ class_name DialogueBox
 extends Control
 
 signal dialogue_closed(npc_id: String)
-signal screen_changed(index: int, total: int)
 
 const PORTRAIT := preload("res://scripts/ui/npc_portrait.gd")
 const CHARACTERS_PER_SECOND := 42.0
@@ -82,7 +81,6 @@ func _show_screen() -> void:
 		"continuare" if reduced_motion else "completare il testo",
 	]
 	set_process(not reduced_motion)
-	screen_changed.emit(screen_index, screens.size())
 
 func _process(delta: float) -> void:
 	if not visible or reduced_motion:

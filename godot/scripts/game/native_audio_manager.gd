@@ -210,17 +210,6 @@ func play(key: String, pitch_scale: float = 1.0) -> void:
 	_play_count += 1
 	call_deferred("_publish_web_state")
 
-func set_bus_volume(bus_name: String, linear: float) -> void:
-	var index := AudioServer.get_bus_index(bus_name)
-	if index >= 0:
-		AudioServer.set_bus_volume_db(index, linear_to_db(clampf(linear, 0.0, 1.0)))
-
-func set_muted(muted: bool) -> void:
-	var master := AudioServer.get_bus_index("Master")
-	if master >= 0:
-		AudioServer.set_bus_mute(master, muted)
-	_publish_web_state()
-
 func _publish_web_state() -> void:
 	if not OS.has_feature("web"):
 		return

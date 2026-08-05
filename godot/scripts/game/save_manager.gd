@@ -43,7 +43,6 @@ static func _default_data() -> Dictionary:
 		"worlds": {"unlocked": [1], "current": 1},
 		"worldProgress": {},        # "level" -> {completedEncounterIds, collectedTreasureIds, clearedHazardIds, enigmaCooldowns}
 		"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []},
-		"modules": {"owned": [], "equipped": []},
 		"narrative": {"seen": [], "beats": {}},
 		"progressReport": {"events": []},
 		"daily": {"date": "", "missions": 0, "streak": 0},
@@ -235,14 +234,8 @@ func _mark_world_id(world_id: String, field: String, id: String) -> bool:
 func mark_encounter_completed(world_id: String, encounter_id: String) -> bool:
 	return _mark_world_id(world_id, "completedEncounterIds", encounter_id)
 
-func is_encounter_completed(world_id: String, encounter_id: String) -> bool:
-	return Array(_world_bucket(world_id)["completedEncounterIds"]).has(encounter_id)
-
 func mark_treasure_collected(world_id: String, treasure_id: String) -> bool:
 	return _mark_world_id(world_id, "collectedTreasureIds", treasure_id)
-
-func mark_hazard_cleared(world_id: String, hazard_id: String) -> bool:
-	return _mark_world_id(world_id, "clearedHazardIds", hazard_id)
 
 func set_enigma_cooldown(
 	world_id: String,

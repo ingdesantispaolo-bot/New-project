@@ -148,12 +148,6 @@ static func profile(level: int) -> Dictionary:
 		"performanceBudget": performance_budget(),
 	}
 
-static func all_profiles() -> Array:
-	var out: Array = []
-	for lvl in range(1, MAX_LEVEL + 1):
-		out.append(profile(lvl))
-	return out
-
 # --- Validatore ---------------------------------------------------------------
 # Ritorna {ok: bool, errors: Array[String]}. Verifica presenza campi, coerenza
 # del focus con la scala, geometria dell'ingresso (spawn fuori dal raggio nave,

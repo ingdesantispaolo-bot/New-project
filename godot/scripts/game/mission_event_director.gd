@@ -29,7 +29,6 @@ const GATE_SURPLUS := 2            # eventi-gate oltre il minimo (offre scelta)
 ## del gate — dal 30 luglio il livello non conta le missioni — ma quanto la materia
 ## ospite è presente: è la sua dominanza, resa in numero di POI.
 const HOST_EVENTS := 5
-const PRACTICE_COUNT := 3          # eventi liberi di pratica (non contano al gate)
 
 # Semina deterministica dal seed del mondo + livello.
 static func _make_rng(world_seed: String, level: int) -> RandomNumberGenerator:

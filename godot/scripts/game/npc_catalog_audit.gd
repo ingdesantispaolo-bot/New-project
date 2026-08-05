@@ -122,6 +122,8 @@ func _init() -> void:
 				failures.append("mondi %d e %d hanno la stessa coppia di registri (%s): serve distanza di almeno tre" % [
 					other, world, str(pair_of[world])])
 
+	failures.append_array(_check_registri_usati())
+	failures.append_array(_check_registro_non_predice_qualita())
 	failures.append_array(_check_conta())
 	failures.append_array(_check_openers())
 
@@ -141,6 +143,73 @@ func _init() -> void:
 		return
 	print("Npc catalog audit OK — registri mescolati, battute sufficienti, tic presenti")
 	quit(0)
+
+## Regola 4 di §2.2: ogni registro compare almeno due volte nei 24 mondi.
+##
+## Un registro usato una volta sola è decorativo: costa quanto gli altri da
+## scrivere e non costruisce nessuna aspettativa nel bambino. Il senso degli otto
+## registri è che si imparino a riconoscere — e si riconosce quello che torna.
+func _check_registri_usati() -> Array:
+	var out: Array = []
+	var quante: Dictionary = {}
+	for registro in NpcCatalog.REGISTRI:
+		quante[str(registro)] = 0
+	for npc_id in NpcCatalog.RESIDENTS.keys():
+		var registro := str((NpcCatalog.RESIDENTS[npc_id] as Dictionary).get("registro", ""))
+		if quante.has(registro):
+			quante[registro] = int(quante[registro]) + 1
+	for registro in NpcCatalog.REGISTRI:
+		var n := int(quante[str(registro)])
+		if n < 2:
+			out.append("registro «%s» usato %d volta: sotto le due previste dalla regola 4" % [
+				str(registro), n])
+	return out
+
+## Regola 5 di §2.2: un registro cambia **come** si dice una cosa, mai **cosa**
+## si insegna. «Un buffo e un solenne che spiegano lo stesso concetto lo spiegano
+## ugualmente bene.»
+##
+## Che il contenuto sia ugualmente buono non lo può misurare una macchina. Quello
+## che si può misurare è il sintomo più probabile del contrario: se un registro
+## avesse sistematicamente meno materiale degli altri — meno battute, pool più
+## poveri — allora il registro predirebbe la qualità della spiegazione, ed è
+## esattamente ciò che la regola vieta. Qui si controlla che nessun registro
+## scenda sotto il 75% della media di battute per residente.
+##
+## È una guardia sul sospetto, non una prova di bellezza: quella la dà chi gioca.
+const QUOTA_MINIMA_BATTUTE := 0.75
+
+func _check_registro_non_predice_qualita() -> Array:
+	var out: Array = []
+	var battute: Dictionary = {}
+	var residenti: Dictionary = {}
+	for registro in NpcCatalog.REGISTRI:
+		battute[str(registro)] = 0
+		residenti[str(registro)] = 0
+	var totale := 0
+	for npc_id in NpcCatalog.RESIDENTS.keys():
+		var npc := NpcCatalog.RESIDENTS[npc_id] as Dictionary
+		var registro := str(npc.get("registro", ""))
+		if not battute.has(registro):
+			continue
+		var n := NpcCatalog.line_count(npc_id)
+		battute[registro] = int(battute[registro]) + n
+		residenti[registro] = int(residenti[registro]) + 1
+		totale += n
+	if NpcCatalog.RESIDENTS.is_empty():
+		return out
+	var media := float(totale) / float(NpcCatalog.RESIDENTS.size())
+	for registro in NpcCatalog.REGISTRI:
+		var quanti := int(residenti[str(registro)])
+		if quanti == 0:
+			continue
+		var media_registro := float(battute[str(registro)]) / float(quanti)
+		if media_registro < media * QUOTA_MINIMA_BATTUTE:
+			out.append(
+				"registro «%s»: %.1f battute per residente contro una media di %.1f — "
+				% [str(registro), media_registro, media]
+				+ "il registro sta predicendo quanto materiale ha un personaggio (regola 5)")
+	return out
 
 func _check_fields(npc_id: String, npc: Dictionary) -> Array:
 	var out: Array = []

@@ -351,6 +351,15 @@ Una proposta che le contraddice va discussa, non implementata.
    ha già deciso che non punisce chi torna dopo tre giorni. `streak` resta nello
    schema e non si mostra. Tenuto da `diary_audit` e `diary_panel_audit`.
 
+14. **Una chiave del salvataggio senza lettori è un errore** (5 agosto 2026).
+   Lo stesso difetto si è ripetuto quattro volte: `gifts`, `daily`, `modules` e
+   (fuori dal salvataggio) i segnali `near_unexplored`/`near_faded` erano
+   dichiarati insieme al progetto e costruiti solo a metà. Sembravano vivi
+   perché stavano nello schema, e tutto ciò che li nominava era coerente con se
+   stesso. Ora `save_schema_audit` pretende che ogni chiave compaia in almeno un
+   file di produzione fuori dalla dichiarazione: le fixture degli audit non
+   contano — `modules` stava in sette audit e in zero righe di gioco.
+
 ### Guard-rail narrativi (i tre che si rompono per primi)
 
 - **Non muore nessuno. Mai.** Né in scena, né fuori campo, né nel passato. Chi

@@ -62,14 +62,6 @@ func configure(
 		_face = _resting
 	queue_redraw()
 
-func set_bond(value: float) -> void:
-	_bond = clampf(value, 0.0, 1.0)
-	queue_redraw()
-
-func set_available_faces(faces: Array) -> void:
-	_available = faces.duplicate()
-	queue_redraw()
-
 ## Riceve un SEGNALE DI GIOCO, non una faccia: la traduzione è del motore, così la
 ## UI non può inventare espressioni né scavalcare le priorità.
 func react_to(game_signal: String) -> void:

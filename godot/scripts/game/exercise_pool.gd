@@ -41,14 +41,6 @@ static func entries(spec: Dictionary, legacy_key: String = "") -> Array:
 		return Array(spec.get(legacy_key, []))
 	return []
 
-## Quante voci pescare: quanto dichiarato, altrimenti quanto chiede il chiamante,
-## comunque mai più di quante ce ne sono.
-static func draw_count(spec: Dictionary, wanted: int, available: int) -> int:
-	var count := wanted
-	if spec.has(DRAW_KEY):
-		count = int(spec[DRAW_KEY])
-	return mini(count, available)
-
 ## Estrazione senza collisioni. `unique_fields` elenca i campi che devono restare
 ## distinti dentro la prova: indici interi per voci-lista (`[sinistra, destra]` →
 ## `[0, 1]`), nomi per voci-dizionario (`{"label":…, "value":…}`).

@@ -325,6 +325,3 @@ static func all_lines() -> Array:
 			out.append((entry as Dictionary).duplicate(true))
 	return out
 
-## Vero se la scelta finale è disponibile: solo dopo la restituzione del nome.
-static func choice_available(name_restored: bool) -> bool:
-	return name_restored

@@ -439,11 +439,17 @@ Nessuna condizione nuova: sono tutte già in `runtime_state()`.
 
 ### 7.1 Nuovi moduli
 
+> **Aggiornato al 5 agosto 2026.** Questa tabella descriveva moduli previsti
+> (`npc_director.gd`, `dialogue_director.gd`) che non sono mai stati scritti:
+> la funzionalità è stata realizzata, ma distribuita diversamente. Qui sotto c'è
+> dove vive **davvero**, non dove era stato progettato che vivesse.
+
+
 | Modulo | Tipo | Responsabilità | Non fa |
 |---|---|---|---|
-| `npc_catalog.gd` | dati (`RefCounted`) | 48 residenti + 6 itineranti, con i 5 campi + pool di battute | Non calcola stati |
-| `npc_director.gd` | logica | Chi è presente, dove, in che stadio; assegna `ownerNpc` agli eventi | Non tocca mastery, energia, gate |
-| `dialogue_director.gd` | logica pura | Sceglie la battuta secondo la priorità §5.2 | Non scrive nel save (tranne "vista") |
+| `npc_catalog.gd` | dati + logica di scelta | 46 residenti (i 2 del mondo 24 stanno in `finale_catalog.gd`) + 6 itineranti, con i 5 campi e i pool di battute; `owner_for()` assegna `ownerNpc` agli eventi, `mission_lines()` sceglie la battuta | Non tocca mastery, energia, gate |
+| `mission_ownership_flow.gd` | logica pura | Stadio della relazione, richiesta accettata, esito, ritorno | Non scrive ricompense |
+| `outdoor_world.gd` | scena | Chi è presente e dove: `_create_npc_actors()`, streaming, apertura dei dialoghi | — |
 | `world_life.gd` | logica | Routine, notizie, conversazioni al Ritrovo | Nessuna simulazione continua |
 | `building_catalog.gd` | dati | 3 edifici × 24 mondi: ruolo, posizione, artKit, stato | Non decide progressione |
 | `dialogue_box.gd` | UI | Ritratto, testo, avanzamento, accessibilità | Non decide cosa dire |
@@ -486,7 +492,7 @@ salvataggio senza queste chiavi parte da vuoto e gioca normalmente.
 | Audit | Verifica |
 |---|---|
 | `npc_catalog_audit.gd` | 2 residenti + 1 bislacco per mondo; ogni residente ha ruolo/registro/tic/convinzione/bisogno/3 stadi; ≥12 battute (≥4 per un bislacco); id unici; nessun tic duplicato nello stesso mondo |
-| `register_mix_audit.gd` | Le 5 regole di mescolanza di §2.2: registri diversi tra i due residenti; almeno un comico per mondo; nessuna coppia di registri ripetuta su tre mondi consecutivi; ogni registro usato ≥2 volte; nessun registro correlato alla qualità della spiegazione |
+| ~~`register_mix_audit.gd`~~ → **dentro `npc_catalog_audit.gd`** | Le 5 regole di mescolanza di §2.2, tutte coperte dal 5 agosto 2026: registri diversi tra i due residenti; almeno un comico per mondo; nessuna coppia ripetuta su tre mondi consecutivi; ogni registro usato ≥2 volte; nessun registro che predice quanto materiale ha un personaggio (proxy misurabile della regola 5 — la qualità vera la giudica chi gioca) |
 | `dialogue_audit.gd` | Nessuna battuta oltre il limite di caratteri; nessun duplicato in un pool; anti-ripetizione efficace su 200 estrazioni; determinismo a parità di seed |
 | `world_life_audit.gd` | Ogni mondo ha ≥1 conversazione per stadio; abitanti mai in acqua/`safeRadius`/`safeRoute`; ≤4 attivi; le notizie decadono |
 | `building_audit.gd` | 3 edifici per mondo con ruoli distinti; Rovina allineata al landmark eroe; nessuna collisione con POI del gate |

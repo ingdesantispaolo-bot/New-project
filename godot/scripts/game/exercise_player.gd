@@ -33,6 +33,11 @@ signal concept_help_requested(subject: String, topic: String)
 ## Segnali di apprendimento/relazione privi di effetti economici. Il consumer
 ## semantico decide come persisterli nello stato NORA.
 signal learning_signal(signal_name: String)
+## Terzo errore sullo stesso argomento, in QUESTA sessione, emesso una sola
+## volta. Non è un segnale di apprendimento verso NORA: è per il Custode, che
+## sdrammatizza senza aiutare e senza che NORA lo commenti. Vedi
+## docs/CUSTODE_LIVELLO_AVANZATO.md §Asse B.
+signal topic_struggle(topic: String)
 
 ## Esito di una singola risposta. I `learning_signal` sono una-volta-per-argomento
 ## (perseveranza, trasferimento, errore ricorrente): servono alla relazione con
@@ -57,6 +62,7 @@ var _reviewed_ok: Array = []  # topic di ripasso risolti correttamente
 var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per-topic)
 var _topic_correct: Dictionary = {}  # topic -> risposte corrette
 var _wrong_attempts: Dictionary = {}  # topic -> tentativi errati nella sessione
+var _struggle_emitted: Dictionary = {}  # topic -> già segnalato in questa sessione
 var _maestro_voice: Dictionary = {}
 var _learning_emitted: Dictionary = {}
 var _systems_resolved: Dictionary = {}
@@ -145,6 +151,7 @@ func start_session(new_session: Dictionary) -> void:
 	_topic_seen = {}
 	_topic_correct = {}
 	_wrong_attempts = {}
+	_struggle_emitted = {}
 	_learning_emitted = {}
 	_systems_resolved = {}
 	_convergence_display = null
@@ -1487,6 +1494,13 @@ func _register_wrong_attempt(item: Dictionary) -> void:
 	_wrong_attempts[topic] = int(_wrong_attempts.get(topic, 0)) + 1
 	if int(_wrong_attempts[topic]) >= 2:
 		_emit_learning_once("recurring_error:%s" % topic, "recurring_error")
+	# Al terzo errore sullo stesso argomento, una volta sola: il conteggio vive
+	# e muore con la sessione, non con l'argomento. Un bambino che sbaglia la
+	# stessa cosa in tre sessioni diverse, su tre giorni diversi, non sta
+	# ripetendo un errore — sta ancora imparando, ed è normale.
+	if int(_wrong_attempts[topic]) >= 3 and not _struggle_emitted.has(topic):
+		_struggle_emitted[topic] = true
+		topic_struggle.emit(topic)
 
 func _emit_learning_once(key: String, signal_name: String) -> void:
 	if _learning_emitted.has(key):

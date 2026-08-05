@@ -110,7 +110,7 @@ E ha un arco: allo stadio *Che confessa*, NORA smette di fingere.
 | 2 | **I regali inutili**: raccolta, data, mondo, album | piccolo sistema | alta e crescente nel tempo | **fatto** |
 | 3 | **Il duetto con NORA** su combinella e regalo | testo | alta | **fatto** |
 | 4 | **Le opinioni sugli abitanti** all'apertura del dialogo | testo | media-alta | **fatto** |
-| 5 | **Sdrammatizza al terzo errore** sullo stesso argomento | piccolo | alta ma delicata | da fare |
+| 5 | **Sdrammatizza al terzo errore** sullo stesso argomento | piccolo | alta ma delicata | **fatto** |
 | 6 | **Lettura del mondo**: *curioso* e *attento* su POI e sbiadito | medio | media | da fare |
 
 I primi quattro sono in `pet_antics.gd`, `pet_gifts.gd`, `pet_state.gd` e
@@ -119,10 +119,54 @@ raggiungibili, sedici regali, sette opinioni, legame monotono, e dentro una
 prova solo lo starnuto. L'audit è stato provato togliendo `sneeze` dal catalogo:
 diventa rosso su quattro righe.
 
-Il 5 e il 6 restano aperti di proposito. Il 5 tocca il ciclo dell'esercizio nel
-punto più delicato — un bambino bloccato — e la differenza fra «mi ha fatto
-ridere quando ero fermo» e «mi ha distratto mentre pensavo» la dice il collaudo,
-non un audit.
+Il 6 resta aperto di proposito: a rischio più basso del 5, e in coda.
+
+### 3.1 Il punto 5, come è stato deciso e cosa ha rivelato
+
+Quattro decisioni prese col committente il 5 agosto 2026:
+
+- **Reazione**: lo starnuto (`sneeze`), non un'animazione nuova. Riusa la
+  combinella già scritta per i momenti solenni.
+- **Conteggio**: tre errori sullo stesso argomento, ma **solo dentro la
+  sessione corrente**. Tre sessioni diverse su tre giorni diversi non sono un
+  «errore ricorrente», sono normale apprendimento.
+- **NORA**: silenzio. Non commenta — è lo stesso guard-rail per cui NORA non
+  commenta mai un errore, esteso al gesto che nasce da un errore.
+- **Punto 6**: rimandato. Il punto 5 tocca il momento più delicato del ciclo
+  dell'esercizio e merita di essere isolato prima di aggiungere altro.
+
+Wiring: `ExercisePlayer.topic_struggle(topic)` si emette una sola volta a
+sessione, alla terza risposta sbagliata sullo stesso argomento
+(`exercise_player.gd`). `outdoor_world._on_pet_struggle()` chiama
+`pet_companion.force_sneeze()` — un ingresso diretto in `PetAntics`, non la
+rotazione ambientale — e arma un flag che consuma il *solo* prossimo evento del
+duetto generale sulle combinelle, senza toccare le altre.
+
+**Cosa ha rivelato l'implementazione**: lo starnuto durante una prova non era
+morto per un motivo solo. `sneeze` mancava dal catalogo (sistemato al punto 1),
+ma anche con il catalogo corretto sarebbe morto lo stesso — `outdoor_world`
+chiama `pet_companion.set_antics_blocked(true)` **a ogni fotogramma** finché un
+pannello resta aperto, e `set_blocked()` interrompeva `_active` a ogni singola
+chiamata, non solo alla transizione: uno starnuto avviato durante un esercizio
+sarebbe morto un fotogramma dopo essere partito, sempre, anche nel codice di
+prima. `pet_antics.gd` ora ignora le chiamate che non cambiano lo stato
+bloccato. Senza scrivere un audit che facesse *davvero* partire uno starnuto
+dentro una prova, questo secondo difetto sarebbe rimasto invisibile quanto il
+primo.
+
+Un'ambiguità emersa e lasciata così: la faccia del Custode, dopo il terzo
+errore, non diventa *impicciato* (la faccia delle combinelle). Resta
+*incoraggiante* — la faccia standard di ogni risposta sbagliata — perché ha
+priorità più alta nel motore delle espressioni, e lo starnuto arriva comunque
+come gesto fisico sotto. È corretto così: forzare la faccia a *impicciato*
+avrebbe reso il terzo errore visivamente diverso dagli altri due, cioè
+esattamente il contrario di «sdrammatizzare senza segnalare».
+
+`pet_struggle_relief_audit` prova entrambi i livelli — il conteggio isolato
+(`ExercisePlayer`, senza scena) e l'integrazione nel mondo (il Custode parte
+davvero, NORA resta zitta anche quando il conteggio del duetto generale
+cadrebbe esattamente sul terzo evento). Verificato disattivando il silenzio: il
+duetto commenta, l'audit diventa rosso.
 
 ---
 

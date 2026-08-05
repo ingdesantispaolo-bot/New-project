@@ -233,12 +233,10 @@ Nessuna si scrive: vogliono un **asset** o una **tua decisione**.
   descrivere («Segnaposto A»), che è l'unica scelta che non regala la risposta.
   Ma chi usa un lettore di schermo **non può rispondere a una carta muta**. Vale
   già per grafici e circuiti. Va deciso, non subìto.
-- **Il Custode al terzo errore** — quando un bambino sbaglia tre volte lo stesso
-  argomento, il compagno oggi fa *incoraggiante* ogni volta, che alla terza è
-  rumore. La proposta è che **sdrammatizzi**: starnuto o faccia impicciata, senza
-  aiutare. Tocca il ciclo dell'esercizio nel punto più delicato, e la differenza
-  fra «mi ha fatto ridere quando ero fermo» e «mi ha distratto mentre pensavo» la
-  dice il collaudo. Vedi [studio sul Custode](docs/CUSTODE_LIVELLO_AVANZATO.md).
+- **Lettura del mondo** — il Custode dichiara di reagire a punti d'interesse non
+  esplorati (*curioso*) e zone sbiadite (*attento*), ma niente li innesca:
+  `near_unexplored`/`near_faded` non sono mai emessi. Resa media, nessun rischio
+  sul ciclo dell'esercizio. Vedi [studio sul Custode](docs/CUSTODE_LIVELLO_AVANZATO.md).
 
 ---
 
@@ -336,6 +334,13 @@ Una proposta che le contraddice va discussa, non implementata.
    aiuto, nessun indizio, nessuna energia, nessuno sconto sul gate. Nel momento
    in cui il compagno diventa utile il bambino comincia a ottimizzarlo, e un
    compagno ottimizzato non è più un compagno. Tenuto da `pet_advanced_audit`.
+   Include il terzo errore: al terzo errore sullo stesso argomento nella
+   sessione corrente il Custode starnutisce — non aiuta, e NORA non lo commenta,
+   perché lei non commenta mai un errore. Tenuto da `pet_struggle_relief_audit`,
+   che ha già preso un doppio difetto: `sneeze` mancava dal catalogo, e
+   `set_blocked()` interrompeva qualunque combinella a ogni fotogramma in cui un
+   pannello restava aperto, non solo alla transizione — quindi anche uno
+   starnuto avviato durante una prova sarebbe morto un fotogramma dopo.
 
 ### Guard-rail narrativi (i tre che si rompono per primi)
 

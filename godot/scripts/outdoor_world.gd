@@ -66,6 +66,7 @@ var _pet_gift_rng: RandomNumberGenerator = null
 var _pet_greeted: Dictionary = {}
 var _pet_antic_count := 0
 var _pet_antic_line_cursor := 0
+var _pet_silent_antic := false
 var feedback_label: Label
 var feedback_source_label: Label
 var feedback_panel: PanelContainer
@@ -2324,6 +2325,7 @@ func _create_exercise_player() -> void:
 	exercise_player.session_finished.connect(_on_exercise_finished)
 	exercise_player.concept_help_requested.connect(_open_contextual_codex)
 	exercise_player.learning_signal.connect(_on_nora_learning_signal)
+	exercise_player.topic_struggle.connect(_on_pet_struggle)
 	exercise_player.answer_resolved.connect(_on_pet_answer_resolved)
 	# La costruzione dell'enigma avanza in tempo reale: inoltro il progresso alla
 	# logica, che rilancia `enigma_progress` (con tema) per la resa di Codex.
@@ -3626,6 +3628,20 @@ func _maybe_pet_gift() -> void:
 	_pet_react("antic")
 	_set_nora_feedback(_nora_gift_line(gift_id, quanti))
 
+## Il Custode sdrammatizza al terzo errore sullo stesso argomento nella
+## sessione corrente. Non aiuta — non deve, è vietato dai guard-rail del
+## Custode — e non lo fa sempre: se lo starnuto non è ancora sbloccato dal
+## legame, o il Custode sta già facendo qualcos'altro, non succede niente.
+## Vedi docs/CUSTODE_LIVELLO_AVANZATO.md §Asse B.
+func _on_pet_struggle(_topic: String) -> void:
+	if not is_instance_valid(pet_companion) or not is_instance_valid(game_save):
+		return
+	if not PetState.is_granted(game_save):
+		return
+	_pet_silent_antic = true
+	if not pet_companion.force_sneeze():
+		_pet_silent_antic = false
+
 ## Il Custode ha fatto una combinella. Faccia impicciata, e ogni tanto NORA la
 ## registra. Vedi docs/PET_CUSTODE.md §3.5.
 ##
@@ -3634,6 +3650,13 @@ func _maybe_pet_gift() -> void:
 ## sono finite tutte.
 func _on_pet_antic(antic_id: String) -> void:
 	_pet_react("antic")
+	# Lo starnuto sollecitato dal terzo errore consuma qui il proprio silenzio:
+	# la faccia reagisce (sopra), ma NORA non lo commenta. È un guard-rail
+	# dell'intervento, non solo uno stile — coerente con «NORA non commenta mai
+	# un errore», e qui l'errore è la ragione per cui il Custode si è mosso.
+	if _pet_silent_antic:
+		_pet_silent_antic = false
+		return
 	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
 		return
 	_pet_antic_count += 1

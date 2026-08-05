@@ -114,6 +114,11 @@ func configure_antics(unlocked: Array) -> void:
 	if is_instance_valid(_antics):
 		_antics.configure(_unlocked_antics, _reduced_motion)
 
+## Fa starnutire il Custode adesso, a prescindere dal turno delle combinelle
+## ambientali. Vero se è partito davvero.
+func force_sneeze() -> bool:
+	return is_instance_valid(_antics) and str(_antics.force_sneeze()) == "sneeze"
+
 func set_antics_blocked(value: bool) -> void:
 	if is_instance_valid(_antics):
 		_antics.set_blocked(value)

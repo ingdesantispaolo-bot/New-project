@@ -122,7 +122,15 @@ func configure(unlocked: Array, reduced_motion: bool) -> void:
 	_reduced_motion = reduced_motion
 	set_process(not _unlocked.is_empty())
 
+## Il chiamante lo richiama a ogni fotogramma finché un pannello resta aperto
+## (`outdoor_world._process`), non solo al momento in cui si apre. Senza la
+## guardia sulla TRANSIZIONE, ogni chiamata con `value=true` interromperebbe
+## anche una combinella appena avviata con `authorized_sneeze` — uccidendo lo
+## starnuto un fotogramma dopo averlo fatto partire. È il secondo motivo, oltre
+## al catalogo mancante, per cui lo starnuto non era mai comparso.
 func set_blocked(value: bool) -> void:
+	if _blocked == value:
+		return
 	_blocked = value
 	if _blocked and _active != "":
 		var interrupted := _active
@@ -149,6 +157,22 @@ func _process(delta: float) -> void:
 	_elapsed += delta
 	if _elapsed >= MIN_INTERVAL_SEC:
 		try_start("world")
+
+## Avvia lo starnuto senza passare dal turno del catalogo. `try_start` sceglie
+## la prossima combinella per rotazione: va bene per il caso ambientale, in cui
+## non importa quale tocchi, ma qui non è il caso a decidere il momento — è il
+## gioco, al terzo errore sullo stesso argomento, per rompere la spirale senza
+## aiutare. Se lo starnuto non è ancora sbloccato dal legame, o il Custode sta
+## già facendo altro, non succede niente: meglio silenzio che una combinella
+## a caso al posto sbagliato.
+func force_sneeze() -> String:
+	if _active != "" or not _unlocked.has("sneeze"):
+		return ""
+	_elapsed = 0.0
+	_active = "sneeze"
+	_remaining = float(Dictionary(CATALOG["sneeze"]).get("duration", 1.6))
+	antic_started.emit(_active, _remaining)
+	return _active
 
 func try_start(context: String, authorized_sneeze := false) -> String:
 	if _active != "" or _unlocked.is_empty():

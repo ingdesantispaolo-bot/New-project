@@ -524,6 +524,8 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	var codex_advanced: Array = progression_manager.record_topic_stats(
 		subject, exercise_result.get("topicStats", {}))
 	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
+	if passed:
+		PlayDiary.register_passed_today(game_save)
 	_update_spaced_repetition(subject, exercise_result)
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
 	if kind == "minigame":

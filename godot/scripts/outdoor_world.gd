@@ -14,6 +14,7 @@ const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
 const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
+const DIARY_PANEL_SCRIPT := preload("res://scripts/ui/diary_panel.gd")
 const PET_FACE_WIDGET_SCRIPT := preload("res://scripts/ui/pet_face_widget.gd")
 const PET_SCREEN_SCRIPT := preload("res://scripts/ui/pet_screen.gd")
 const EQUIPMENT_GATE_SCRIPT := preload("res://scripts/visual/equipment_gate.gd")
@@ -110,6 +111,8 @@ var reward_bar: ProgressBar
 var reward_remaining_label: Label
 var exercise_player: ExercisePlayer
 var knowledge_codex_panel: KnowledgeCodexPanel
+var diary_panel: DiaryPanel
+var diary_button: Button
 var shop_panel: Control
 var reward_cost := 0
 var reward_name := ""
@@ -177,6 +180,10 @@ delete document.documentElement.dataset.eliExam;
 	gameplay.enigma_progress.connect(_on_enigma_progress)
 	gameplay.setup(request, result, bool(request.get("loadLocalSave", true)))
 	game_save = gameplay.game_save
+	# Entrare in un mondo È aver giocato oggi. Idempotente entro la giornata:
+	# rientrare dieci volte in un pomeriggio conta un giorno solo.
+	if bool(request.get("loadLocalSave", true)) and PlayDiary.register_day(game_save):
+		game_save.save()
 	var saved_accessibility: Dictionary = game_save.data.get("accessibility", {})
 	if not bool(request.get("accessibilityExplicit", false)) and bool(request.get("loadLocalSave", true)):
 		high_contrast = bool(saved_accessibility.get("highContrast", false))
@@ -2360,6 +2367,10 @@ func _create_exercise_player() -> void:
 	knowledge_codex_panel.setup(game_save, content_manager)
 	knowledge_codex_panel.panel_closed.connect(_on_codex_closed)
 	ui_layer.add_child(knowledge_codex_panel)
+	diary_panel = DIARY_PANEL_SCRIPT.new()
+	diary_panel.setup(game_save, high_contrast)
+	diary_panel.panel_closed.connect(_on_diary_closed)
+	ui_layer.add_child(diary_panel)
 
 func _panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -2536,6 +2547,20 @@ void fragment() {
 	manual_button.pressed.connect(_open_codex)
 	manual_button.visible = false
 	root.add_child(manual_button)
+	diary_button = Button.new()
+	diary_button.name = "OpenDiaryButton"
+	diary_button.text = "DIARIO"
+	diary_button.anchor_left = 1.0
+	diary_button.anchor_right = 1.0
+	diary_button.offset_left = -164.0
+	diary_button.offset_right = -16.0
+	diary_button.offset_top = 268.0
+	diary_button.offset_bottom = 314.0
+	diary_button.custom_minimum_size.y = 46
+	diary_button.add_theme_color_override("font_color", Color("f6c85f"))
+	diary_button.pressed.connect(_open_diary)
+	diary_button.visible = false
+	root.add_child(diary_button)
 	_create_touch_controls_customizer(root)
 	_load_touch_controls_settings()
 	_apply_touch_controls_layout()
@@ -2737,6 +2762,8 @@ func _set_utility_menu_visible(value: bool) -> void:
 		shop_button.visible = value
 	if is_instance_valid(manual_button):
 		manual_button.visible = value
+	if is_instance_valid(diary_button):
+		diary_button.visible = value
 	if is_instance_valid(touch_controls_button):
 		touch_controls_button.visible = value
 	if is_instance_valid(utility_menu_button):
@@ -2867,6 +2894,26 @@ func _open_contextual_codex(subject: String, topic: String) -> void:
 		game_save.save()
 	knowledge_codex_panel.open_codex(subject, topic, use_context)
 
+## Il diario: quanto hai giocato, quante prove hai superato, cosa sai adesso.
+## Vedi `play_diary.gd` — in particolare il perché dei giorni cumulativi al posto
+## di una serie che si azzera.
+func _open_diary() -> void:
+	if not is_instance_valid(diary_panel):
+		return
+	_cancel_pending_touch_interaction()
+	if is_instance_valid(interaction_button):
+		interaction_button.visible = false
+	if is_instance_valid(touch_controls_panel):
+		touch_controls_panel.visible = false
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	diary_panel.open_diary()
+
+func _on_diary_closed() -> void:
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	_refresh_prompt()
+
 func _on_codex_closed() -> void:
 	if is_instance_valid(player) and not (is_instance_valid(exercise_player) and exercise_player.visible) and not (is_instance_valid(shop_panel) and shop_panel.visible):
 		player.set_physics_process(true)
@@ -2959,7 +3006,7 @@ func _blocking_panel_visible() -> bool:
 		or (is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible) \
 		or (is_instance_valid(dialogue_box) and dialogue_box.visible) \
 		or (is_instance_valid(teaching_choice_panel) and teaching_choice_panel.visible) \
-		or (is_instance_valid(pet_screen) and pet_screen.visible)
+		or (is_instance_valid(pet_screen) and pet_screen.visible) 		or (is_instance_valid(diary_panel) and diary_panel.visible)
 
 ## Consegna il primo Custode: gratuito, e alla prima missione superata. Il volto
 ## sta sempre in schermo, quindi non si può aspettare il livello 4 e 1500 di

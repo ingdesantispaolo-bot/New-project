@@ -343,6 +343,14 @@ Una proposta che le contraddice va discussa, non implementata.
    primo giorno e mai emessi finché non sono stati agganciati. Tenuto da
    `pet_world_awareness_audit`.
 
+13. **Il diario racconta, non giudica** (5 agosto 2026). Mostra giorni giocati,
+   prove superate e cosa sai adesso; non mostra percentuali di errore, non mette
+   le materie in classifica e non dà obiettivi. **I giorni giocati sono
+   cumulativi e non scendono mai**, come il legame del Custode: una serie che si
+   azzera è una minaccia sul domani, non un resoconto di ieri, e questo progetto
+   ha già deciso che non punisce chi torna dopo tre giorni. `streak` resta nello
+   schema e non si mostra. Tenuto da `diary_audit` e `diary_panel_audit`.
+
 ### Guard-rail narrativi (i tre che si rompono per primi)
 
 - **Non muore nessuno. Mai.** Né in scena, né fuori campo, né nel passato. Chi

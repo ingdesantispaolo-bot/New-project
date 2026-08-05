@@ -15,7 +15,7 @@ const MATCHING := {
 	"inglese": [
 		# L10. Il passato irregolare è il primo scoglio vero dell'inglese: non c'è
 		# regola, si impara verbo per verbo. Ventotto coppie a risposta unica.
-		{"topic": "irregular-past", "minLevel": 10, "kind": "pool", "pool": [
+		{"explanation": "I verbi irregolari non seguono la regola del -ed: ognuno cambia a modo suo e si impara uno per uno. Questi sono fra i più usati, ed è per questo che l'inglese non li ha mai regolarizzati.", "topic": "irregular-past", "minLevel": 10, "kind": "pool", "pool": [
 			["go", "went"], ["see", "saw"], ["take", "took"], ["come", "came"],
 			["give", "gave"], ["make", "made"], ["know", "knew"], ["think", "thought"],
 			["find", "found"], ["tell", "told"], ["leave", "left"], ["feel", "felt"],
@@ -25,7 +25,7 @@ const MATCHING := {
 			["build", "built"], ["drink", "drank"], ["eat", "ate"], ["buy", "bought"]]},
 		# L20. Comparativi: quelli regolari seguono una regola, ma good/bad/far non
 		# la seguono affatto — ed è per quelli che serve un insieme.
-		{"topic": "comparatives", "minLevel": 20, "kind": "pool", "pool": [
+		{"explanation": "Alcuni comparativi non si formano con -er o con more: good, bad e far cambiano parola del tutto. Sono pochissimi, e proprio per questo si imparano a memoria.", "topic": "comparatives", "minLevel": 20, "kind": "pool", "pool": [
 			["good", "better"], ["bad", "worse"], ["far", "further"],
 			["many", "more"], ["little", "less"], ["big", "bigger"],
 			["happy", "happier"], ["easy", "easier"], ["hot", "hotter"],
@@ -38,7 +38,7 @@ const MATCHING := {
 		# Tre insiemi di vocabolario già dal primo mondo: al livello 1 si pescano solo
 		# 3 coppie, quindi la profondità di una singola specifica non basta — servono
 		# più insiemi idonei fin da subito, non insiemi più grandi più tardi.
-		{"topic": "vocabolario", "pairs": [
+		{"explanation": "Parole di tutti i giorni: nessuna somiglia all'italiano, quindi non c'è nessuna regola da dedurre. Vanno riconosciute a memoria, e queste sono le prime che tornano utili.", "topic": "vocabolario", "pairs": [
 			["dog", "cane"], ["cat", "gatto"], ["sun", "sole"], ["house", "casa"],
 			["water", "acqua"], ["book", "libro"], ["tree", "albero"], ["red", "rosso"],
 			["moon", "luna"], ["star", "stella"], ["bread", "pane"], ["milk", "latte"],
@@ -47,14 +47,14 @@ const MATCHING := {
 			["city", "città"], ["river", "fiume"], ["mountain", "montagna"], ["sea", "mare"],
 			["bird", "uccello"], ["horse", "cavallo"], ["flower", "fiore"], ["key", "chiave"],
 			["road", "strada"], ["cloud", "nuvola"], ["snow", "neve"], ["fire", "fuoco"]]},
-		{"topic": "vocabolario", "pairs": [
+		{"explanation": "I numeri da uno a dieci. Tornano in date, ore, prezzi e in quasi ogni conversazione: sono le parole che si riusano di più in assoluto.", "topic": "vocabolario", "pairs": [
 			["one", "uno"], ["two", "due"], ["three", "tre"], ["four", "quattro"],
 			["five", "cinque"], ["six", "sei"], ["seven", "sette"], ["eight", "otto"],
 			["nine", "nove"], ["ten", "dieci"], ["eleven", "undici"], ["twelve", "dodici"],
 			["thirteen", "tredici"], ["fifteen", "quindici"], ["twenty", "venti"], ["thirty", "trenta"],
 			["forty", "quaranta"], ["fifty", "cinquanta"], ["hundred", "cento"], ["thousand", "mille"]]},
 		# Verbi di uso quotidiano: il terzo insieme disponibile dal mondo 1.
-		{"topic": "vocabolario", "pairs": [
+		{"explanation": "Verbi di azione quotidiana. In inglese l'infinito si riconosce dal «to» davanti: to run, to eat, to drink.", "topic": "vocabolario", "pairs": [
 			["to run", "correre"], ["to eat", "mangiare"], ["to drink", "bere"], ["to sleep", "dormire"],
 			["to read", "leggere"], ["to write", "scrivere"], ["to play", "giocare"], ["to sing", "cantare"],
 			["to walk", "camminare"], ["to swim", "nuotare"], ["to laugh", "ridere"], ["to cry", "piangere"],
@@ -63,7 +63,7 @@ const MATCHING := {
 			["to teach", "insegnare"], ["to build", "costruire"], ["to find", "trovare"], ["to lose", "perdere"],
 			["to give", "dare"], ["to take", "prendere"], ["to bring", "portare"], ["to answer", "rispondere"],
 			["to ask", "chiedere"], ["to wait", "aspettare"]]},
-		{"topic": "opposites", "minLevel": 3, "pairs": [
+		{"explanation": "Gli opposti conviene impararli in coppia: ricordarne uno tira su anche l'altro, e dimezza la fatica.", "topic": "opposites", "minLevel": 3, "pairs": [
 			["hot", "cold"], ["big", "small"], ["fast", "slow"], ["happy", "sad"],
 			["old", "new"], ["long", "short"], ["high", "low"], ["light", "heavy"],
 			["full", "empty"], ["open", "shut"], ["clean", "dirty"], ["easy", "hard"],
@@ -72,7 +72,7 @@ const MATCHING := {
 			["day", "night"], ["summer", "winter"], ["inside", "outside"], ["above", "below"],
 			["always", "never"], ["everything", "nothing"]]},
 		# Conversazione: micro-scambi domanda -> risposta.
-		{"topic": "conversation", "minLevel": 5, "pairs": [
+		{"explanation": "Micro-scambi domanda-risposta. La risposta riusa le parole della domanda: è il trucco che permette di rispondere anche quando non si è capito tutto.", "topic": "conversation", "minLevel": 5, "pairs": [
 			["What's your name?", "I'm Anna"], ["How old are you?", "I'm ten"],
 			["Where are you from?", "From Italy"], ["How are you?", "I'm fine, thanks"],
 			["What time is it?", "It's half past four"], ["Where do you live?", "In a small town"],
@@ -83,20 +83,20 @@ const MATCHING := {
 			["Would you like some tea?", "No, thank you"], ["See you tomorrow!", "See you!"],
 			["How do you go to school?", "By bus"], ["Whose book is this?", "It's mine"]]},
 		# Scuola media — le forme che l'inglese non regolarizza.
-		{"topic": "contractions", "minLevel": 6, "pairs": [
+		{"explanation": "Le contrazioni uniscono due parole togliendone una parte, e l'apostrofo segna il posto di quello che manca.", "topic": "contractions", "minLevel": 6, "pairs": [
 			["I am", "I'm"], ["you are", "you're"], ["do not", "don't"], ["cannot", "can't"],
 			["it is", "it's"], ["she is", "she's"], ["they are", "they're"], ["we are", "we're"],
 			["does not", "doesn't"], ["did not", "didn't"], ["is not", "isn't"], ["are not", "aren't"],
 			["was not", "wasn't"], ["were not", "weren't"], ["will not", "won't"], ["would not", "wouldn't"],
 			["has not", "hasn't"], ["have not", "haven't"], ["I will", "I'll"], ["I have", "I've"]]},
-		{"topic": "irregular-past", "minLevel": 7, "pairs": [
+		{"explanation": "Passati irregolari: la forma non si costruisce, si ricorda. Sono i verbi usati più spesso, e le lingue non regolarizzano mai quello che si dice tutti i giorni.", "topic": "irregular-past", "minLevel": 7, "pairs": [
 			["go", "went"], ["eat", "ate"], ["see", "saw"], ["have", "had"], ["make", "made"],
 			["take", "took"], ["give", "gave"], ["come", "came"], ["write", "wrote"], ["read", "read /red/"],
 			["run", "ran"], ["swim", "swam"], ["sing", "sang"], ["drink", "drank"], ["begin", "began"],
 			["buy", "bought"], ["bring", "brought"], ["think", "thought"], ["teach", "taught"], ["catch", "caught"],
 			["find", "found"], ["lose", "lost"], ["sleep", "slept"], ["keep", "kept"], ["leave", "left"],
 			["speak", "spoke"], ["break", "broke"], ["choose", "chose"]]},
-		{"topic": "irregular-plural", "minLevel": 8, "pairs": [
+		{"explanation": "Plurali che non prendono la -s: sono resti di forme antiche, sopravvissuti perché sono parole usatissime.", "topic": "irregular-plural", "minLevel": 8, "pairs": [
 			["child", "children"], ["man", "men"], ["foot", "feet"], ["mouse", "mice"],
 			["tooth", "teeth"], ["woman", "women"], ["goose", "geese"], ["person", "people"],
 			["knife", "knives"], ["leaf", "leaves"], ["wife", "wives"], ["shelf", "shelves"],
@@ -106,7 +106,7 @@ const MATCHING := {
 	"geografia": [
 		# L12. Le capitali europee si incontrano al primo mondo; queste sono quelle
 		# del resto del mondo, che è materia di seconda media.
-		{"topic": "capitali", "minLevel": 12, "kind": "pool", "pool": [
+		{"explanation": "La capitale è la città dove sta il governo, non per forza la più grande: Brasilia è stata costruita apposta, lontano dalla costa affollata.", "topic": "capitali", "minLevel": 12, "kind": "pool", "pool": [
 			["Giappone", "Tokyo"], ["Egitto", "Il Cairo"], ["Brasile", "Brasilia"],
 			["Canada", "Ottawa"], ["Australia", "Canberra"], ["India", "Nuova Delhi"],
 			["Cina", "Pechino"], ["Russia", "Mosca"], ["Messico", "Città del Messico"],
@@ -117,7 +117,7 @@ const MATCHING := {
 			["Pakistan", "Islamabad"], ["Nigeria", "Abuja"], ["Etiopia", "Addis Abeba"],
 			["Cuba", "L'Avana"], ["Colombia", "Bogotà"], ["Nuova Zelanda", "Wellington"],
 			["Arabia Saudita", "Riad"]]},
-		{"topic": "capitali", "pairs": [
+		{"explanation": "Capitali europee. Quasi tutte sorgono su un fiume o vicino al mare: le città nascono dove si può arrivare e commerciare.", "topic": "capitali", "pairs": [
 			["Italia", "Roma"], ["Francia", "Parigi"], ["Spagna", "Madrid"], ["Germania", "Berlino"],
 			["Portogallo", "Lisbona"], ["Grecia", "Atene"], ["Austria", "Vienna"], ["Belgio", "Bruxelles"],
 			["Paesi Bassi", "Amsterdam"], ["Danimarca", "Copenaghen"], ["Svezia", "Stoccolma"], ["Norvegia", "Oslo"],
@@ -126,8 +126,8 @@ const MATCHING := {
 			["Egitto", "Il Cairo"], ["Marocco", "Rabat"], ["Kenya", "Nairobi"], ["Giappone", "Tokyo"],
 			["Cina", "Pechino"], ["India", "Nuova Delhi"], ["Brasile", "Brasilia"], ["Argentina", "Buenos Aires"],
 			["Messico", "Città del Messico"], ["Canada", "Ottawa"], ["Australia", "Canberra"], ["Perù", "Lima"]]},
-		{"topic": "continenti", "pairs": [["Egitto", "Africa"], ["Brasile", "America del Sud"], ["Giappone", "Asia"], ["Italia", "Europa"], ["Australia", "Oceania"]]},
-		{"topic": "monumenti", "minLevel": 3, "pairs": [
+		{"explanation": "Un Paese sta nel continente su cui poggia la sua terra. L'Egitto è in Africa anche se una piccola parte sta oltre il canale di Suez.", "topic": "continenti", "pairs": [["Egitto", "Africa"], ["Brasile", "America del Sud"], ["Giappone", "Asia"], ["Italia", "Europa"], ["Australia", "Oceania"]]},
+		{"explanation": "Ogni monumento dice chi l'ha costruito: riconoscerlo significa riconoscere un popolo e un'epoca, non solo un edificio.", "topic": "monumenti", "minLevel": 3, "pairs": [
 			["Colosseo", "Italia"], ["Tour Eiffel", "Francia"], ["Piramidi di Giza", "Egitto"],
 			["Statua della Libertà", "Stati Uniti"], ["Big Ben", "Regno Unito"], ["Sagrada Família", "Spagna"],
 			["Partenone", "Grecia"], ["Muraglia cinese", "Cina"], ["Taj Mahal", "India"],
@@ -137,22 +137,22 @@ const MATCHING := {
 			["Chichén Itzá", "Messico"], ["Angkor Wat", "Cambogia"], ["Torre di Pisa", "Italia"],
 			["Fiordi di Geiranger", "Norvegia"], ["Cascate Vittoria", "Zambia"], ["Colosso di Rodi (rovine)", "Grecia"]]},
 		# Scuola media — monete del mondo ed elementi fisici d'Italia.
-		{"topic": "monete", "minLevel": 5, "pairs": [["Italia", "Euro"], ["Stati Uniti", "Dollaro"], ["Giappone", "Yen"], ["Regno Unito", "Sterlina"]]},
-		{"topic": "italia-fisica", "minLevel": 4, "pairs": [["Po", "Fiume"], ["Etna", "Vulcano"], ["Garda", "Lago"], ["Alpi", "Catena montuosa"]]},
+		{"explanation": "Ogni Stato batte la propria moneta. L'Euro è l'eccezione: è condiviso da Paesi che hanno scelto di usarlo insieme.", "topic": "monete", "minLevel": 5, "pairs": [["Italia", "Euro"], ["Stati Uniti", "Dollaro"], ["Giappone", "Yen"], ["Regno Unito", "Sterlina"]]},
+		{"explanation": "Ogni nome appartiene a un tipo di elemento — fiume, vulcano, lago. Riconoscere il tipo è il primo passo per collocarlo sulla carta.", "topic": "italia-fisica", "minLevel": 4, "pairs": [["Po", "Fiume"], ["Etna", "Vulcano"], ["Garda", "Lago"], ["Alpi", "Catena montuosa"]]},
 	],
 	"scienze": [
-		{"topic": "corpo", "pairs": [["Cuore", "Pompa il sangue"], ["Polmoni", "Respirazione"], ["Cervello", "Comanda il corpo"], ["Stomaco", "Digestione"], ["Occhi", "Vista"]]},
-		{"topic": "viventi", "pairs": [["Erbivoro", "Mangia piante"], ["Carnivoro", "Mangia animali"], ["Onnivoro", "Mangia tutto"], ["Decompositore", "Ricicla i resti"]]},
-		{"topic": "classi", "minLevel": 5, "pairs": [["Rana", "Anfibio"], ["Serpente", "Rettile"], ["Aquila", "Uccello"], ["Balena", "Mammifero"], ["Trota", "Pesce"]]},
+		{"explanation": "Ogni organo ha un compito solo, e il corpo funziona proprio perché nessuno fa il lavoro di un altro.", "topic": "corpo", "pairs": [["Cuore", "Pompa il sangue"], ["Polmoni", "Respirazione"], ["Cervello", "Comanda il corpo"], ["Stomaco", "Digestione"], ["Occhi", "Vista"]]},
+		{"explanation": "Il nome dipende da cosa mangia l'animale, non da quanto è grande o feroce: il panda è erbivoro, l'orso onnivoro.", "topic": "viventi", "pairs": [["Erbivoro", "Mangia piante"], ["Carnivoro", "Mangia animali"], ["Onnivoro", "Mangia tutto"], ["Decompositore", "Ricicla i resti"]]},
+		{"explanation": "La classe si riconosce da pelle, respirazione e riproduzione, non dall'aspetto: la balena vive in acqua ma non è un pesce.", "topic": "classi", "minLevel": 5, "pairs": [["Rana", "Anfibio"], ["Serpente", "Rettile"], ["Aquila", "Uccello"], ["Balena", "Mammifero"], ["Trota", "Pesce"]]},
 		# Scuola media — sistemi del corpo e passaggi di stato.
-		{"topic": "sistemi", "minLevel": 6, "pairs": [["Cuore", "Sistema circolatorio"], ["Polmoni", "Sistema respiratorio"], ["Stomaco", "Sistema digerente"], ["Cervello", "Sistema nervoso"]]},
-		{"topic": "passaggi-stato", "minLevel": 5, "pairs": [["Fusione", "solido → liquido"], ["Evaporazione", "liquido → gas"], ["Solidificazione", "liquido → solido"], ["Condensazione", "gas → liquido"]]},
+		{"explanation": "Ogni organo lavora dentro un sistema, e il sistema prende il nome dal lavoro che fa, non dall'organo più grande.", "topic": "sistemi", "minLevel": 6, "pairs": [["Cuore", "Sistema circolatorio"], ["Polmoni", "Sistema respiratorio"], ["Stomaco", "Sistema digerente"], ["Cervello", "Sistema nervoso"]]},
+		{"explanation": "Ogni passaggio di stato ha un nome proprio e un verso preciso: fusione e solidificazione sono lo stesso confine percorso nei due sensi.", "topic": "passaggi-stato", "minLevel": 5, "pairs": [["Fusione", "solido → liquido"], ["Evaporazione", "liquido → gas"], ["Solidificazione", "liquido → solido"], ["Condensazione", "gas → liquido"]]},
 	],
 	"latino": [
 		# L17. Le locuzioni latine che si usano ancora oggi in italiano: è il punto
 		# in cui il latino smette di essere una lingua morta da declinare e diventa
 		# una cosa che si sente parlare.
-		{"topic": "vocabolario", "minLevel": 17, "kind": "pool", "pool": [
+		{"explanation": "Frasi latine ancora vive nell'italiano di oggi. Si citano intere perché dicono in tre parole quello che a noi ne costa dieci.", "topic": "vocabolario", "minLevel": 17, "kind": "pool", "pool": [
 			["Alea iacta est", "Il dado è tratto"],
 			["Veni, vidi, vici", "Venni, vidi, vinsi"],
 			["Errare humanum est", "Sbagliare è umano"],
@@ -177,8 +177,8 @@ const MATCHING := {
 			["Ubi maior minor cessat", "Dove c'è il più grande, il minore si ritira"],
 			["Primum vivere", "Prima di tutto vivere"],
 			["Ipse dixit", "L'ha detto lui stesso"]]},
-		{"topic": "casi", "pairs": [["Nominativo", "Soggetto"], ["Accusativo", "Oggetto"], ["Genitivo", "Specificazione"], ["Dativo", "Termine"], ["Vocativo", "Invocazione"]]},
-		{"topic": "vocabolario", "pairs": [
+		{"explanation": "Il caso dice che ruolo ha la parola nella frase. In latino lo dice la desinenza; in italiano lo dicono la posizione e le preposizioni.", "topic": "casi", "pairs": [["Nominativo", "Soggetto"], ["Accusativo", "Oggetto"], ["Genitivo", "Specificazione"], ["Dativo", "Termine"], ["Vocativo", "Invocazione"]]},
+		{"explanation": "Parole della prima declinazione: molte sono rimaste quasi identiche in italiano, e riconoscerle è la via più veloce per tradurre.", "topic": "vocabolario", "pairs": [
 			["aqua", "acqua"], ["silva", "bosco"], ["puella", "fanciulla"], ["lupus", "lupo"],
 			["terra", "terra"], ["stella", "stella"], ["luna", "luna"], ["sol", "sole"],
 			["mare", "mare"], ["flumen", "fiume"], ["arbor", "albero"], ["ventus", "vento"],
@@ -188,44 +188,44 @@ const MATCHING := {
 			["piscis", "pesce"], ["aquila", "aquila"], ["templum", "tempio"], ["bellum", "guerra"],
 			["donum", "dono"], ["liber", "libro"], ["porta", "porta"], ["hortus", "giardino"]]},
 		# Le radici latine vive nell'italiano: aggancio culturale forte.
-		{"topic": "etimologia", "minLevel": 4, "pairs": [
+		{"explanation": "Dalla stessa radice latina nascono parole italiane diverse. Conoscere la radice fa indovinare il senso di parole mai viste prima.", "topic": "etimologia", "minLevel": 4, "pairs": [
 			["aqua", "acquedotto"], ["terra", "territorio"], ["liber", "libreria"], ["schola", "scuola"],
 			["bellum", "bellicoso"], ["navis", "navigare"], ["manus", "manuale"], ["pes", "pedone"],
 			["oculus", "oculista"], ["dens", "dentista"], ["cor", "cordiale"], ["caput", "capitale"],
 			["ignis", "ignifugo"], ["lux", "lucido"], ["nox", "notturno"], ["annus", "annuale"],
 			["dies", "diario"], ["via", "viadotto"], ["urbs", "urbano"], ["ager", "agricoltura"],
 			["populus", "popolare"], ["civis", "civile"], ["vox", "vocale"], ["tempus", "temporale"]]},
-		{"topic": "verbo-sum", "minLevel": 5, "pairs": [["sum", "io sono"], ["es", "tu sei"], ["est", "egli è"], ["sumus", "noi siamo"]]},
+		{"explanation": "Il verbo essere è irregolare in latino come in italiano: le sue forme non si costruiscono, si sanno.", "topic": "verbo-sum", "minLevel": 5, "pairs": [["sum", "io sono"], ["es", "tu sei"], ["est", "egli è"], ["sumus", "noi siamo"]]},
 		# Scuola media — la prima declinazione (rosa): desinenza -> caso.
-		{"topic": "declinazioni-base", "minLevel": 6, "pairs": [["rosa", "Nominativo"], ["rosam", "Accusativo"], ["rosae", "Genitivo"], ["rosā", "Ablativo"]]},
+		{"explanation": "La stessa parola cambia finale secondo il ruolo: rosa fa il soggetto, rosam l'oggetto, rosae il complemento di specificazione.", "topic": "declinazioni-base", "minLevel": 6, "pairs": [["rosa", "Nominativo"], ["rosam", "Accusativo"], ["rosae", "Genitivo"], ["rosā", "Ablativo"]]},
 	],
 	"musica": [
 		# Al primo mondo musica aveva otto abbinamenti possibili in tutto: due
 		# specifiche da quattro coppie. Era la materia con la ripetizione peggiore
 		# rimasta, e la cura non è pescare meno ma avere più materiale con risposte
 		# uniche — durata in battiti, nome internazionale, modo di produrre il suono.
-		{"topic": "ritmo", "pairs": [
+		{"explanation": "Ogni figura vale il doppio della successiva. Il punto aggiunge la metà del valore: per questo la minima puntata vale tre e non quattro.", "topic": "ritmo", "pairs": [
 			["Breve", "8 battiti"], ["Semibreve", "4 battiti"], ["Minima puntata", "3 battiti"],
 			["Minima", "2 battiti"], ["Semiminima puntata", "1 battito e mezzo"], ["Semiminima", "1 battito"],
 			["Croma puntata", "tre quarti di battito"], ["Croma", "mezzo battito"],
 			["Semicroma", "un quarto di battito"], ["Biscroma", "un ottavo di battito"]]},
 		# I nomi internazionali delle note: si trovano su ogni spartito e su ogni
 		# accordo di chitarra, quindi non è nozionismo ma alfabeto pratico.
-		{"topic": "note", "pairs": [
+		{"explanation": "Il sistema anglosassone usa lettere al posto dei nomi: si parte dal La = A e si prosegue in ordine alfabetico.", "topic": "note", "pairs": [
 			["Do", "C"], ["Re", "D"], ["Mi", "E"], ["Fa", "F"],
 			["Sol", "G"], ["La", "A"], ["Si", "B"]]},
-		{"topic": "strumenti", "pairs": [
+		{"explanation": "Gli strumenti a corda si distinguono per come la corda viene messa in vibrazione: pizzicata, sfregata o percossa.", "topic": "strumenti", "pairs": [
 			["Chitarra", "corde pizzicate con le dita"], ["Violino", "corde sfregate con l'archetto"],
 			["Pianoforte", "corde percosse da martelletti"], ["Flauto", "aria soffiata in un tubo"],
 			["Tromba", "labbra che vibrano nel bocchino"], ["Tamburo", "pelle tesa percossa"],
 			["Xilofono", "lamine di legno percosse"], ["Arpa", "corde pizzicate a mano libera"],
 			["Organo a canne", "aria spinta dentro le canne"], ["Fisarmonica", "ance mosse dal mantice"],
 			["Maracas", "semi che sbattono dentro il guscio"], ["Triangolo", "barra di metallo percossa"]]},
-		{"topic": "dinamica", "minLevel": 3, "pairs": [["forte (f)", "suonare forte"], ["piano (p)", "suonare piano"], ["crescendo", "aumentare a poco a poco"], ["staccato", "note staccate e brevi"]]},
+		{"explanation": "La dinamica dice quanto forte suonare, non quanto veloce. Sono due cose diverse e si scrivono con segni diversi.", "topic": "dinamica", "minLevel": 3, "pairs": [["forte (f)", "suonare forte"], ["piano (p)", "suonare piano"], ["crescendo", "aumentare a poco a poco"], ["staccato", "note staccate e brevi"]]},
 		# Termini italiani di tempo (usati in tutto il mondo).
-		{"topic": "tempo", "minLevel": 4, "pairs": [["Adagio", "lento"], ["Andante", "camminando, moderato"], ["Allegro", "veloce e vivace"], ["Presto", "molto veloce"]]},
+		{"explanation": "I termini di tempo sono in italiano perché la notazione moderna è nata in Italia, e si usano uguali in tutto il mondo.", "topic": "tempo", "minLevel": 4, "pairs": [["Adagio", "lento"], ["Andante", "camminando, moderato"], ["Allegro", "veloce e vivace"], ["Presto", "molto veloce"]]},
 		# Scuola media — compositori e opere celebri.
-		{"topic": "compositori", "minLevel": 6, "pairs": [["Beethoven", "Quinta Sinfonia"], ["Vivaldi", "Le Quattro Stagioni"], ["Mozart", "Il Flauto Magico"], ["Verdi", "Aida"]]},
+		{"explanation": "Ogni opera porta la firma di chi l'ha scritta: riconoscere la coppia autore-opera è il primo passo per orientarsi nella musica classica.", "topic": "compositori", "minLevel": 6, "pairs": [["Beethoven", "Quinta Sinfonia"], ["Vivaldi", "Le Quattro Stagioni"], ["Mozart", "Il Flauto Magico"], ["Verdi", "Aida"]]},
 	],
 	"italiano": [
 		# --- Insiemi profondi (Fase 1) ---------------------------------------------
@@ -234,7 +234,7 @@ const MATCHING := {
 		# «a categoria» (classe grammaticale, tempo verbale) non possono crescere
 		# qui — con quattro risposte per venti voci l'abbinamento sarebbe ambiguo:
 		# quelli stanno nello smistamento, che è fatto apposta.
-		{"topic": "contrari", "pairs": [
+		{"explanation": "I contrari si oppongono sulla stessa qualità — altezza, dimensione, luce — non su cose diverse. Per questo si imparano in coppia.", "topic": "contrari", "pairs": [
 			["alto", "basso"], ["grande", "piccolo"], ["giorno", "notte"], ["caldo", "freddo"],
 			["veloce", "lento"], ["pieno", "vuoto"], ["aperto", "chiuso"], ["ricco", "povero"],
 			["pulito", "sporco"], ["forte", "debole"], ["chiaro", "scuro"], ["dolce", "amaro"],
@@ -243,8 +243,8 @@ const MATCHING := {
 			["iniziare", "finire"], ["vincere", "perdere"], ["dare", "ricevere"], ["sopra", "sotto"],
 			["davanti", "dietro"], ["dentro", "fuori"], ["prima", "dopo"], ["sempre", "mai"],
 			["giovane", "vecchio"], ["asciutto", "bagnato"], ["liscio", "ruvido"], ["utile", "inutile"]]},
-		{"topic": "categorie", "pairs": [["correre", "verbo"], ["gatto", "nome"], ["rosso", "aggettivo"], ["velocemente", "avverbio"]]},
-		{"topic": "sinonimi", "pairs": [
+		{"explanation": "La parte del discorso dipende da cosa fa la parola, non da come finisce: correre è verbo perché indica un'azione.", "topic": "categorie", "pairs": [["correre", "verbo"], ["gatto", "nome"], ["rosso", "aggettivo"], ["velocemente", "avverbio"]]},
+		{"explanation": "I sinonimi dicono quasi la stessa cosa, ma non sempre si possono scambiare: cambiano il tono, non il significato.", "topic": "sinonimi", "pairs": [
 			["felice", "contento"], ["veloce", "rapido"], ["bello", "stupendo"], ["triste", "malinconico"],
 			["furbo", "astuto"], ["grande", "enorme"], ["minuto", "minuscolo"], ["difficile", "arduo"],
 			["facile", "semplice"], ["silenzioso", "quieto"], ["coraggioso", "valoroso"], ["stanco", "spossato"],
@@ -253,7 +253,7 @@ const MATCHING := {
 			["guardare", "osservare"], ["parlare", "conversare"], ["camminare", "passeggiare"], ["capire", "comprendere"],
 			["sbagliare", "errare"], ["aiutare", "soccorrere"], ["nascondere", "celare"], ["scoprire", "svelare"],
 			["urlare", "gridare"], ["saltare", "balzare"]]},
-		{"topic": "definizioni", "minLevel": 7, "pairs": [
+		{"explanation": "Parole poco comuni ma precise. Usarne una al posto di tre parole generiche è ciò che rende un testo chiaro.", "topic": "definizioni", "minLevel": 7, "pairs": [
 			["effimero", "che dura pochissimo"], ["arduo", "molto difficile"], ["placido", "calmo e tranquillo"],
 			["arguto", "acuto e spiritoso"], ["tenace", "che non si arrende"], ["esiguo", "molto scarso"],
 			["mendace", "che dice il falso"], ["magnanimo", "generoso e nobile d'animo"], ["ostinato", "che non cambia idea"],
@@ -263,7 +263,7 @@ const MATCHING := {
 			["prolisso", "che si dilunga troppo"], ["temerario", "audace fino all'imprudenza"], ["candido", "innocente e sincero"],
 			["arcigno", "dall'aria severa e scontrosa"], ["solerte", "svelto e diligente"], ["vetusto", "molto antico"],
 			["mite", "dolce e non violento"], ["astruso", "difficile da capire"]]},
-		{"topic": "modi-di-dire", "minLevel": 6, "pairs": [
+		{"explanation": "I modi di dire non si capiscono parola per parola: il significato sta nell'insieme, e va imparato tutto intero.", "topic": "modi-di-dire", "minLevel": 6, "pairs": [
 			["In bocca al lupo", "Buona fortuna"], ["Tagliare la corda", "Scappare via"],
 			["Avere le mani in pasta", "Essere coinvolti"], ["Costare un occhio", "Essere carissimo"],
 			["Perdere la testa", "Agitarsi o innamorarsi"], ["Prendere due piccioni con una fava", "Risolvere due cose insieme"],
@@ -277,7 +277,7 @@ const MATCHING := {
 			["Restare a bocca aperta", "Stupirsi moltissimo"], ["Vuotare il sacco", "Confessare tutto"],
 			["Fare il passo più lungo della gamba", "Pretendere troppo da sé"], ["Essere un pesce fuor d'acqua", "Sentirsi a disagio"],
 			["Battere il ferro finché è caldo", "Approfittare del momento giusto"], ["Andare a gonfie vele", "Procedere benissimo"]]},
-		{"topic": "figure-retoriche", "minLevel": 8, "pairs": [
+		{"explanation": "Si riconoscono dalla forma: la similitudine ha il «come», la personificazione dà azioni umane alle cose, l'iperbole esagera di proposito.", "topic": "figure-retoriche", "minLevel": 8, "pairs": [
 			["Veloce come il vento", "Similitudine"], ["Il sole sorride nel cielo", "Personificazione"],
 			["Ho un mare di compiti", "Iperbole"], ["Che silenzio assordante", "Ossimoro"],
 			["Sei un leone in campo", "Metafora"], ["Il tic tac dell'orologio", "Onomatopea"],
@@ -285,14 +285,14 @@ const MATCHING := {
 			["Non temo, non tremo, non cedo", "Anafora"], ["Bianco di neve, nero di pece", "Antitesi"],
 			["Non è forte: è fortissimo, è invincibile", "Climax"], ["Le vele lasciarono il porto", "Sineddoche"]]},
 		# Scuola media — analisi grammaticale: ogni parola alla sua parte del discorso.
-		{"topic": "analisi-grammaticale", "minLevel": 8, "pairs": [["il", "articolo"], ["gatto", "nome"], ["dorme", "verbo"], ["pigro", "aggettivo"], ["sotto", "preposizione"]]},
+		{"explanation": "L'analisi grammaticale guarda la parola da sola: che cosa è, non che ruolo ha nella frase.", "topic": "analisi-grammaticale", "minLevel": 8, "pairs": [["il", "articolo"], ["gatto", "nome"], ["dorme", "verbo"], ["pigro", "aggettivo"], ["sotto", "preposizione"]]},
 		# Scuola media — modi e tempi del verbo (terminologia esplicita).
-		{"topic": "modi-verbali", "minLevel": 9, "pairs": [["io leggo", "indicativo"], ["che io legga", "congiuntivo"], ["io leggerei", "condizionale"], ["leggi!", "imperativo"]]},
-		{"topic": "tempi-indicativo", "minLevel": 9, "pairs": [["ho letto", "passato prossimo"], ["leggevo", "imperfetto"], ["leggerò", "futuro semplice"], ["lessi", "passato remoto"]]},
-		{"topic": "modi-indefiniti", "minLevel": 10, "pairs": [["leggere", "infinito"], ["leggendo", "gerundio"], ["letto", "participio"]]},
+		{"explanation": "Il modo dice come si presenta l'azione: certa con l'indicativo, possibile col congiuntivo, legata a una condizione col condizionale.", "topic": "modi-verbali", "minLevel": 9, "pairs": [["io leggo", "indicativo"], ["che io legga", "congiuntivo"], ["io leggerei", "condizionale"], ["leggi!", "imperativo"]]},
+		{"explanation": "Il tempo dice quando: il passato prossimo indica un fatto concluso, l'imperfetto un'azione che durava o si ripeteva.", "topic": "tempi-indicativo", "minLevel": 9, "pairs": [["ho letto", "passato prossimo"], ["leggevo", "imperfetto"], ["leggerò", "futuro semplice"], ["lessi", "passato remoto"]]},
+		{"explanation": "I modi indefiniti non dicono chi compie l'azione: per saperlo serve il resto della frase.", "topic": "modi-indefiniti", "minLevel": 10, "pairs": [["leggere", "infinito"], ["leggendo", "gerundio"], ["letto", "participio"]]},
 		# Scuola media — analisi logica: ogni sintagma alla sua funzione.
 		# Frase: "Il gatto insegue il topo nel prato".
-		{"topic": "analisi-logica", "minLevel": 11, "pairs": [["Il gatto", "soggetto"], ["insegue", "predicato verbale"], ["il topo", "complemento oggetto"], ["nel prato", "complemento di luogo"]]},
+		{"explanation": "L'analisi logica guarda il ruolo nella frase, non la parola: «il gatto» è soggetto perché è lui a compiere l'azione.", "topic": "analisi-logica", "minLevel": 11, "pairs": [["Il gatto", "soggetto"], ["insegue", "predicato verbale"], ["il topo", "complemento oggetto"], ["nel prato", "complemento di luogo"]]},
 	],
 	"storia": [
 		# Al primo mondo storia aveva UNA specifica di abbinamento, quattro coppie
@@ -308,7 +308,7 @@ const MATCHING := {
 		# difficile: fanno una prova impossibile. Le altre stanno nell'insieme
 		# gatato qui sotto — è la lezione della Fase 2, non ridurre l'insieme ma
 		# affiancarne uno più facile ai primi mondi.
-		{"topic": "invenzioni", "kind": "pool", "pool": [
+		{"explanation": "Ogni popolo lascia ciò che sapeva fare meglio, e sapeva fare ciò di cui aveva bisogno dove viveva.", "topic": "invenzioni", "kind": "pool", "pool": [
 			["Egizi", "le piramidi"], ["Romani", "gli acquedotti"],
 			["Greci", "la democrazia"], ["Fenici", "l'alfabeto"],
 			["Sumeri", "la scrittura cuneiforme"], ["Cinesi", "la carta"],
@@ -316,7 +316,7 @@ const MATCHING := {
 			["Aztechi", "gli orti galleggianti"], ["Babilonesi", "le prime leggi scritte"],
 			["Arabi", "i numeri che usiamo oggi"], ["Etruschi", "le tombe dipinte"]]},
 		# Dove viveva ciascuna: nessuna risposta ricavabile dal nome del popolo.
-		{"topic": "civilta", "kind": "pool", "pool": [
+		{"explanation": "Le prime civiltà nascono tutte vicino all'acqua: senza fiume non c'è agricoltura, e senza agricoltura non c'è città.", "topic": "civilta", "kind": "pool", "pool": [
 			["Egizi", "lungo il Nilo"], ["Sumeri", "fra Tigri ed Eufrate"],
 			["Fenici", "sulle coste del Libano"], ["Etruschi", "in Toscana"],
 			["Vichinghi", "in Scandinavia"], ["Inca", "sulle Ande"],
@@ -324,7 +324,7 @@ const MATCHING := {
 			["Celti", "in Gallia"], ["Romani", "nel Lazio"],
 			["Cartaginesi", "sulle coste del Nord Africa"], ["Greci", "intorno al Mar Egeo"]]},
 		# Dal mondo 6 l'insieme si allarga ai popoli che si incontrano più tardi.
-		{"topic": "invenzioni", "minLevel": 6, "kind": "pool", "pool": [
+		{"explanation": "Un'invenzione resta legata al popolo che l'ha resa comune, non a chi l'ha pensata per primo.", "topic": "invenzioni", "minLevel": 6, "kind": "pool", "pool": [
 			["Egizi", "le piramidi"], ["Romani", "gli acquedotti"],
 			["Greci", "la democrazia"], ["Fenici", "l'alfabeto"],
 			["Sumeri", "la scrittura cuneiforme"], ["Cinesi", "la carta"],
@@ -340,7 +340,7 @@ const MATCHING := {
 		# Scuola media — personaggi e le loro imprese. Ogni personaggio ha una sola
 		# impresa e ogni impresa un solo personaggio: è la condizione che permette a
 		# un abbinamento di diventare profondo senza diventare ambiguo.
-		{"topic": "personaggi", "minLevel": 18, "pairs": [
+		{"explanation": "Ogni nome si ricorda per un fatto solo: è quel fatto a fissarlo nella memoria, non la biografia intera.", "topic": "personaggi", "minLevel": 18, "pairs": [
 			["Romolo", "Fondò Roma secondo la leggenda"], ["Giulio Cesare", "Conquistò la Gallia"],
 			["Cristoforo Colombo", "Arrivò in America nel 1492"], ["Marco Polo", "Viaggiò fino alla Cina"],
 			["Alessandro Magno", "Conquistò l'impero persiano"], ["Augusto", "Fu il primo imperatore romano"],
@@ -353,7 +353,7 @@ const MATCHING := {
 			["Costantino", "Rese lecito il cristianesimo"], ["Attila", "Guidò gli Unni in Europa"],
 			["Cleopatra", "Fu l'ultima regina d'Egitto"], ["Erodoto", "È detto il padre della storia"],
 			["Solone", "Diede ad Atene le prime leggi scritte"], ["Traiano", "Portò Roma alla massima estensione"]]},
-		{"topic": "cronologia", "minLevel": 5, "pairs": [
+		{"explanation": "Le date si tengono insieme con i punti fermi. Prima di Cristo si conta all'indietro, dopo in avanti: per questo il 753 a.C. viene prima del 476 d.C.", "topic": "cronologia", "minLevel": 5, "pairs": [
 			["Fondazione di Roma", "753 a.C."], ["Nascita di Cristo", "Anno 0"],
 			["Caduta di Roma d'Occidente", "476 d.C."], ["Scoperta dell'America", "1492"],
 			["Primi Giochi olimpici", "776 a.C."], ["Eruzione di Pompei", "79 d.C."],
@@ -364,40 +364,40 @@ const MATCHING := {
 			["Sbarco sulla Luna", "1969"], ["Democrazia ad Atene", "508 a.C."],
 			["Costruzione del Partenone", "447 a.C."], ["Cesare in Gallia", "52 a.C."],
 			["Augusto imperatore", "27 a.C."], ["Codice di Hammurabi", "1750 a.C."]]},
-		{"topic": "civilta", "minLevel": 6, "pairs": [["Colosseo", "Romani"], ["Partenone", "Greci"], ["Piramidi", "Egizi"], ["Ziggurat", "Sumeri"]]},
+		{"explanation": "L'architettura racconta la civiltà: l'arco e il cemento sono romani, le colonne dei templi greche, la piramide egizia.", "topic": "civilta", "minLevel": 6, "pairs": [["Colosseo", "Romani"], ["Partenone", "Greci"], ["Piramidi", "Egizi"], ["Ziggurat", "Sumeri"]]},
 	],
 	"coding": [
-		{"topic": "tipi", "pairs": [["7", "intero"], ["'ciao'", "stringa"], ["True", "booleano"], ["[1, 2, 3]", "lista"]]},
-		{"topic": "operatori", "pairs": [["+", "somma"], ["*", "moltiplicazione"], ["%", "resto"], ["**", "potenza"]]},
-		{"topic": "concetti", "minLevel": 3, "pairs": [["variabile", "contenitore di un valore"], ["ciclo", "ripete istruzioni"], ["funzione", "blocco riutilizzabile"], ["condizione", "sceglie un percorso"]]},
-		{"topic": "simboli", "minLevel": 4, "pairs": [["==", "uguale a"], ["!=", "diverso da"], [">=", "maggiore o uguale"], ["=", "assegnazione"]]},
+		{"explanation": "Il tipo dipende da come è scritto il valore: le virgolette fanno una stringa, True e False sono booleani, un numero nudo è un intero.", "topic": "tipi", "pairs": [["7", "intero"], ["'ciao'", "stringa"], ["True", "booleano"], ["[1, 2, 3]", "lista"]]},
+		{"explanation": "Ogni operatore fa una cosa sola. Il % non è una percentuale: è il resto della divisione.", "topic": "operatori", "pairs": [["+", "somma"], ["*", "moltiplicazione"], ["%", "resto"], ["**", "potenza"]]},
+		{"explanation": "Sono i tre mattoni di ogni programma: conservare un valore, ripetere istruzioni, riusare un blocco già scritto.", "topic": "concetti", "minLevel": 3, "pairs": [["variabile", "contenitore di un valore"], ["ciclo", "ripete istruzioni"], ["funzione", "blocco riutilizzabile"], ["condizione", "sceglie un percorso"]]},
+		{"explanation": "In programmazione == confronta e = assegna. Sono due cose diverse, ed è l'errore più comune di chi comincia.", "topic": "simboli", "minLevel": 4, "pairs": [["==", "uguale a"], ["!=", "diverso da"], [">=", "maggiore o uguale"], ["=", "assegnazione"]]},
 		# Prevedi l'output: leggere il codice come lo legge il computer.
-		{"topic": "output", "minLevel": 5, "pairs": [["print(2 + 3)", "5"], ["print('ab' * 2)", "abab"], ["print(10 // 3)", "3"], ["len('ciao')", "4"]]},
+		{"explanation": "Per sapere cosa stampa un programma lo si esegue con la testa, un passo per volta: * su un testo lo ripete, // divide e butta via il resto.", "topic": "output", "minLevel": 5, "pairs": [["print(2 + 3)", "5"], ["print('ab' * 2)", "abab"], ["print(10 // 3)", "3"], ["len('ciao')", "4"]]},
 		# Scuola media — numeri binari (fondamenti dell'informatica). Prefisso 0b
 		# come in Python: chiarisce che è binario e insegna il letterale reale.
-		{"topic": "binario", "minLevel": 7, "pairs": [["0b10", "2"], ["0b11", "3"], ["0b100", "4"], ["0b101", "5"], ["0b1000", "8"]]},
+		{"explanation": "In binario ogni posizione vale il doppio della precedente: 0b100 è 4 perché il terzo posto vale quattro.", "topic": "binario", "minLevel": 7, "pairs": [["0b10", "2"], ["0b11", "3"], ["0b100", "4"], ["0b101", "5"], ["0b1000", "8"]]},
 	],
 	"elettronica": [
-		{"topic": "componenti", "pairs": [["Pila", "Fornisce energia"], ["Interruttore", "Apre e chiude"], ["Resistore", "Limita la corrente"], ["LED", "Emette luce"]]},
-		{"topic": "misure-elettriche", "pairs": [["Tensione", "Volt"], ["Corrente", "Ampere"], ["Resistenza", "Ohm"]]},
-		{"topic": "grandezze", "minLevel": 3, "pairs": [["Potenza", "Watt"], ["Energia", "Joule"], ["Frequenza", "Hertz"]]},
+		{"explanation": "Ogni componente ha un ruolo solo: chi fornisce energia, chi lascia passare la corrente o la interrompe, chi la limita.", "topic": "componenti", "pairs": [["Pila", "Fornisce energia"], ["Interruttore", "Apre e chiude"], ["Resistore", "Limita la corrente"], ["LED", "Emette luce"]]},
+		{"explanation": "Ogni grandezza ha la sua unità e il suo strumento. Confonderle significa collegare lo strumento nel modo sbagliato.", "topic": "misure-elettriche", "pairs": [["Tensione", "Volt"], ["Corrente", "Ampere"], ["Resistenza", "Ohm"]]},
+		{"explanation": "Le unità portano il nome di chi le ha studiate: Watt, Joule e Hertz erano persone.", "topic": "grandezze", "minLevel": 3, "pairs": [["Potenza", "Watt"], ["Energia", "Joule"], ["Frequenza", "Hertz"]]},
 		# Scuola media — legge di Ohm e prefissi delle unità.
-		{"topic": "legge-ohm", "minLevel": 6, "pairs": [["Tensione (V)", "R × I"], ["Corrente (I)", "V / R"], ["Resistenza (R)", "V / I"]]},
-		{"topic": "prefissi", "minLevel": 7, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
+		{"explanation": "Dalla legge di Ohm si ricavano tutte e tre le formule: conoscendo due grandezze si trova sempre la terza.", "topic": "legge-ohm", "minLevel": 6, "pairs": [["Tensione (V)", "R × I"], ["Corrente (I)", "V / R"], ["Resistenza (R)", "V / I"]]},
+		{"explanation": "I prefissi valgono mille per volta: k moltiplica per mille, m divide per mille.", "topic": "prefissi", "minLevel": 7, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
 	],
 	"fisica": [
-		{"topic": "misure", "pairs": [["Lunghezza", "Metro"], ["Massa", "Chilogrammo"], ["Tempo", "Secondo"], ["Temperatura", "Grado"]]},
-		{"topic": "energia", "pairs": [["Palla in alto", "Energia potenziale"], ["Palla che cade", "Energia cinetica"], ["Cibo", "Energia chimica"], ["Lampadina accesa", "Energia luminosa"]]},
-		{"topic": "strumenti", "minLevel": 3, "pairs": [["Righello", "lunghezza"], ["Bilancia", "massa"], ["Cronometro", "tempo"], ["Termometro", "temperatura"]]},
-		{"topic": "forze", "minLevel": 4, "pairs": [["Attrito", "Rallenta il moto"], ["Gravità", "Attira verso il basso"], ["Spinta", "Mette in moto"], ["Magnetismo", "Attira il ferro"]]},
+		{"explanation": "Sono tre delle sette unità di base del Sistema Internazionale: tutte le altre si costruiscono a partire da queste.", "topic": "misure", "pairs": [["Lunghezza", "Metro"], ["Massa", "Chilogrammo"], ["Tempo", "Secondo"], ["Temperatura", "Grado"]]},
+		{"explanation": "L'energia cambia forma e non sparisce: ferma in alto è potenziale, mentre cade diventa cinetica.", "topic": "energia", "pairs": [["Palla in alto", "Energia potenziale"], ["Palla che cade", "Energia cinetica"], ["Cibo", "Energia chimica"], ["Lampadina accesa", "Energia luminosa"]]},
+		{"explanation": "Ogni strumento misura una grandezza sola: sbagliare strumento significa misurare un'altra cosa.", "topic": "strumenti", "minLevel": 3, "pairs": [["Righello", "lunghezza"], ["Bilancia", "massa"], ["Cronometro", "tempo"], ["Termometro", "temperatura"]]},
+		{"explanation": "Una forza si riconosce da cosa fa al moto: lo avvia, lo rallenta o lo devia.", "topic": "forze", "minLevel": 4, "pairs": [["Attrito", "Rallenta il moto"], ["Gravità", "Attira verso il basso"], ["Spinta", "Mette in moto"], ["Magnetismo", "Attira il ferro"]]},
 		# Scuola media — macchine semplici e formule.
-		{"topic": "macchine", "minLevel": 6, "pairs": [["Leva", "Solleva con meno forza"], ["Carrucola", "Cambia direzione alla forza"], ["Piano inclinato", "Riduce lo sforzo in salita"], ["Ruota", "Riduce l'attrito"]]},
-		{"topic": "formule", "minLevel": 7, "pairs": [["Velocità", "spazio / tempo"], ["Densità", "massa / volume"], ["Forza peso", "massa × gravità"]]},
+		{"explanation": "Le macchine semplici non riducono il lavoro: lo rendono più comodo, distribuendolo su più spazio o cambiandone la direzione.", "topic": "macchine", "minLevel": 6, "pairs": [["Leva", "Solleva con meno forza"], ["Carrucola", "Cambia direzione alla forza"], ["Piano inclinato", "Riduce lo sforzo in salita"], ["Ruota", "Riduce l'attrito"]]},
+		{"explanation": "Ogni formula è una divisione o una moltiplicazione fra grandezze: leggerla dice già che cosa dipende da che cosa.", "topic": "formule", "minLevel": 7, "pairs": [["Velocità", "spazio / tempo"], ["Densità", "massa / volume"], ["Forza peso", "massa × gravità"]]},
 	],
 	"matematica": [
 		# Prodotti tutti DIVERSI dentro l'insieme: due voci con lo stesso risultato
 		# renderebbero l'abbinamento ambiguo appena capitassero insieme.
-		{"topic": "tabelline", "pairs": [
+		{"explanation": "Sapere una tabellina significa averla pronta senza contare: è il tempo risparmiato che serve poi per tutto il resto.", "topic": "tabelline", "pairs": [
 			["3 × 4", "12"], ["6 × 7", "42"], ["8 × 5", "40"], ["9 × 3", "27"],
 			["7 × 8", "56"], ["6 × 9", "54"], ["4 × 7", "28"], ["8 × 8", "64"],
 			["9 × 7", "63"], ["6 × 6", "36"], ["8 × 9", "72"], ["4 × 6", "24"],
@@ -406,7 +406,7 @@ const MATCHING := {
 			["11 × 4", "44"], ["12 × 3", "33"], ["11 × 6", "66"], ["11 × 7", "77"],
 			["4 × 4", "16"], ["9 × 2", "18"], ["7 × 2", "14"], ["12 × 5", "60"],
 			["11 × 9", "99"], ["12 × 7", "84"], ["11 × 8", "88"], ["12 × 9", "108"]]},
-		{"topic": "calcolo", "pairs": [
+		{"explanation": "Le quattro operazioni di base. La divisione disfa la moltiplicazione e la sottrazione disfa l'addizione: per questo si controllano a vicenda.", "topic": "calcolo", "pairs": [
 			["10 + 5", "15"], ["20 - 8", "12"], ["18 ÷ 3", "6"], ["7 + 6", "13"],
 			["25 + 17", "42"], ["63 - 28", "35"], ["196 ÷ 14", "14"], ["17 × 3", "51"],
 			["350 ÷ 7", "50"], ["45 + 38", "83"], ["100 - 47", "53"], ["23 × 4", "92"],
@@ -416,31 +416,31 @@ const MATCHING := {
 			["729 ÷ 9", "81"], ["108 + 97", "205"], ["500 - 264", "236"], ["32 × 8", "256"],
 			["441 ÷ 21", "21"], ["76 + 88", "164"], ["1000 - 375", "625"], ["45 × 12", "540"]]},
 		# Fluenza tra rappresentazioni: la stessa quantità in forme diverse (idea CPA).
-		{"topic": "frazioni", "minLevel": 4, "pairs": [
+		{"explanation": "Una frazione è una divisione: 1/2 è uno diviso due, cioè 0,5.", "topic": "frazioni", "minLevel": 4, "pairs": [
 			["1/2", "0,5"], ["1/4", "0,25"], ["3/4", "0,75"], ["1/5", "0,2"],
 			["1/10", "0,1"], ["3/10", "0,3"], ["7/10", "0,7"], ["1/8", "0,125"],
 			["3/8", "0,375"], ["5/8", "0,625"], ["1/20", "0,05"], ["3/5", "0,6"],
 			["2/5", "0,4"], ["4/5", "0,8"], ["1/100", "0,01"], ["9/10", "0,9"],
 			["7/8", "0,875"], ["1/25", "0,04"], ["11/10", "1,1"], ["5/2", "2,5"]]},
-		{"topic": "percentuali", "minLevel": 5, "pairs": [
+		{"explanation": "Una percentuale è una frazione con cento sotto: 1/4 vale 25 su 100, cioè 25%.", "topic": "percentuali", "minLevel": 5, "pairs": [
 			["1/2", "50%"], ["1/4", "25%"], ["1/5", "20%"], ["3/4", "75%"],
 			["1/10", "10%"], ["3/10", "30%"], ["7/10", "70%"], ["9/10", "90%"],
 			["2/5", "40%"], ["3/5", "60%"], ["4/5", "80%"], ["1/20", "5%"],
 			["1/100", "1%"], ["1/1", "100%"], ["1/8", "12,5%"], ["3/8", "37,5%"]]},
 		# Scuola media — potenze e formule di geometria.
-		{"topic": "potenze", "minLevel": 6, "pairs": [
+		{"explanation": "La potenza dice quante volte moltiplicare il numero per se stesso: 2³ è 2×2×2, non 2×3.", "topic": "potenze", "minLevel": 6, "pairs": [
 			["2³", "8"], ["3²", "9"], ["5²", "25"], ["10³", "1000"],
 			["2⁴", "16"], ["2⁵", "32"], ["3³", "27"], ["4³", "64"],
 			["6²", "36"], ["7²", "49"], ["2⁷", "128"], ["9²", "81"],
 			["11²", "121"], ["12²", "144"], ["10²", "100"], ["10⁴", "10000"],
 			["5³", "125"], ["4⁴", "256"], ["6³", "216"], ["1⁹", "1"]]},
-		{"topic": "geometria", "minLevel": 5, "pairs": [["Area del quadrato", "lato × lato"], ["Perimetro del rettangolo", "(base + altezza) × 2"], ["Area del triangolo", "base × altezza ÷ 2"], ["Area del cerchio", "π × raggio²"]]},
+		{"explanation": "Ogni formula segue la forma: l'area del triangolo è la metà di quella del rettangolo che lo contiene.", "topic": "geometria", "minLevel": 5, "pairs": [["Area del quadrato", "lato × lato"], ["Perimetro del rettangolo", "(base + altezza) × 2"], ["Area del triangolo", "base × altezza ÷ 2"], ["Area del cerchio", "π × raggio²"]]},
 	],
 	"logica": [
 		# Una relazione sola per insieme, come deciso nella Fase 3: mescolarne due
 		# renderebbe l'abbinamento indovinabile per associazione invece che per
 		# ragionamento. Qui la relazione è «il piccolo → l'adulto».
-		{"topic": "analogie", "kind": "pool", "pool": [
+		{"explanation": "L'analogia si risolve trovando la relazione: qui è «il piccolo di». Trovata quella, la coppia si completa da sé.", "topic": "analogie", "kind": "pool", "pool": [
 			["cucciolo", "cane"], ["puledro", "cavallo"], ["gattino", "gatto"],
 			["agnello", "pecora"], ["pulcino", "gallina"], ["vitello", "mucca"],
 			["cerbiatto", "cervo"], ["anatroccolo", "anatra"], ["leprotto", "lepre"],
@@ -450,29 +450,29 @@ const MATCHING := {
 		# diverse nello stesso insieme renderebbe l'abbinamento indovinabile per
 		# associazione, che è il contrario di quello che la materia allena.
 		# Relazione: «chi ci abita».
-		{"topic": "analogie", "pairs": [
+		{"explanation": "La relazione è «dove abita». In un'analogia conta il legame fra le due parole, non la somiglianza fra loro.", "topic": "analogie", "pairs": [
 			["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acquario"],
 			["Cavallo", "Stalla"], ["Topo", "Tana"], ["Formica", "Formicaio"], ["Ragno", "Ragnatela"],
 			["Coniglio", "Conigliera"], ["Maiale", "Porcile"], ["Aquila", "Nido d'aquila"], ["Castoro", "Diga"],
 			["Volpe", "Tana scavata"], ["Gallina", "Pollaio"], ["Pecora", "Ovile"], ["Orso", "Caverna"],
 			["Talpa", "Galleria"], ["Lumaca", "Guscio"], ["Termite", "Termitaio"], ["Marmotta", "Cunicolo"]]},
 		# Relazione: «a che cosa serve».
-		{"topic": "analogie", "minLevel": 3, "pairs": [
+		{"explanation": "La relazione è «a che cosa serve»: ogni oggetto va con la sua funzione.", "topic": "analogie", "minLevel": 3, "pairs": [
 			["Penna", "Scrivere"], ["Forbici", "Tagliare"], ["Martello", "Battere"], ["Chiave", "Aprire"],
 			["Scopa", "Spazzare"], ["Ago", "Cucire"], ["Pettine", "Pettinare"], ["Termometro", "Misurare la febbre"],
 			["Bussola", "Orientarsi"], ["Ombrello", "Ripararsi dalla pioggia"], ["Bilancia", "Pesare"], ["Telescopio", "Osservare lontano"],
 			["Lente", "Ingrandire"], ["Remo", "Spingere la barca"], ["Sega", "Segare"], ["Freno", "Fermare"],
 			["Setaccio", "Separare"], ["Imbuto", "Travasare"], ["Livella", "Verificare l'orizzontale"], ["Pinza", "Afferrare"]]},
-		{"topic": "categorie", "minLevel": 4, "pairs": [["Rosa", "Fiore"], ["Cane", "Animale"], ["Mela", "Frutto"], ["Tavolo", "Mobile"]]},
+		{"explanation": "Ogni elemento va con la categoria che lo contiene: la rosa è un fiore, e «fiore» è più ampio di «rosa».", "topic": "categorie", "minLevel": 4, "pairs": [["Rosa", "Fiore"], ["Cane", "Animale"], ["Mela", "Frutto"], ["Tavolo", "Mobile"]]},
 		# Relazione: «parte di».
-		{"topic": "analogie", "minLevel": 4, "pairs": [
+		{"explanation": "La relazione è «parte di»: la ruota fa parte dell'automobile come la pagina fa parte del libro.", "topic": "analogie", "minLevel": 4, "pairs": [
 			["Ruota", "Automobile"], ["Foglia", "Albero"], ["Pagina", "Libro"], ["Dito", "Mano"],
 			["Tasto", "Pianoforte"], ["Petalo", "Fiore"], ["Corda", "Chitarra"], ["Gradino", "Scala"],
 			["Ala", "Uccello"], ["Radice", "Pianta"], ["Nota", "Melodia"], ["Mattone", "Muro"],
 			["Stanza", "Casa"], ["Capitolo", "Romanzo"], ["Isola", "Arcipelago"], ["Vagone", "Treno"],
 			["Lettera", "Parola"], ["Cellula", "Tessuto"], ["Fotogramma", "Film"], ["Stella", "Costellazione"]]},
 		# Relazione: «il contrario di».
-		{"topic": "opposti", "minLevel": 5, "pairs": [
+		{"explanation": "Gli opposti stanno sulla stessa scala, ai due estremi: giorno e notte sono i due capi della stessa giornata.", "topic": "opposti", "minLevel": 5, "pairs": [
 			["Giorno", "Notte"], ["Salita", "Discesa"], ["Pieno", "Vuoto"], ["Inizio", "Fine"],
 			["Vittoria", "Sconfitta"], ["Silenzio", "Rumore"], ["Ordine", "Disordine"], ["Verità", "Menzogna"],
 			["Domanda", "Risposta"], ["Entrata", "Uscita"], ["Ricordo", "Oblio"], ["Guerra", "Pace"],
@@ -484,17 +484,17 @@ const MATCHING := {
 # Sequenze da ordinare, per materia (l'ordine dato è quello CORRETTO).
 const ORDERING := {
 	"scienze": [
-		{"topic": "viventi", "prompt": "Metti in ordine le fasi della farfalla", "correctOrder": ["Uovo", "Bruco", "Crisalide", "Farfalla"]},
-		{"topic": "materia", "prompt": "Ordina per temperatura crescente", "correctOrder": ["Ghiaccio", "Acqua fredda", "Acqua calda", "Vapore"]},
-		{"topic": "ciclo-acqua", "minLevel": 3, "prompt": "Ordina le fasi del ciclo dell'acqua.", "correctOrder": ["Evaporazione", "Condensazione", "Precipitazione", "Raccolta nei fiumi"]},
-		{"topic": "catena", "minLevel": 4, "prompt": "Ordina la catena alimentare, da chi produce energia a chi la mangia.", "correctOrder": ["Erba", "Cavalletta", "Rana", "Serpente", "Aquila"]},
-		{"topic": "metodo", "minLevel": 4, "prompt": "Ordina i passi del metodo scientifico.", "correctOrder": ["Fai una domanda", "Formula un'ipotesi", "Fai l'esperimento", "Osserva i risultati", "Trai la conclusione"]},
+		{"explanation": "La metamorfosi va in un verso solo e non torna indietro: ogni fase prepara la successiva, e l'insetto adulto è l'ultimo stadio, non il primo.", "topic": "viventi", "prompt": "Metti in ordine le fasi della farfalla", "correctOrder": ["Uovo", "Bruco", "Crisalide", "Farfalla"]},
+		{"explanation": "Si ordina per temperatura, non per quanto «sembra caldo»: il ghiaccio che fonde sta a zero gradi, l'acqua che bolle a cento.", "topic": "materia", "prompt": "Ordina per temperatura crescente", "correctOrder": ["Ghiaccio", "Acqua fredda", "Acqua calda", "Vapore"]},
+		{"explanation": "Il ciclo dell'acqua è un anello: il calore fa evaporare, l'aria fredda condensa, la pioggia restituisce l'acqua e si ricomincia.", "topic": "ciclo-acqua", "minLevel": 3, "prompt": "Ordina le fasi del ciclo dell'acqua.", "correctOrder": ["Evaporazione", "Condensazione", "Precipitazione", "Raccolta nei fiumi"]},
+		{"explanation": "L'energia entra dalle piante e sale di anello in anello: si parte sempre da chi la produce, mai da chi la mangia.", "topic": "catena", "minLevel": 4, "prompt": "Ordina la catena alimentare, da chi produce energia a chi la mangia.", "correctOrder": ["Erba", "Cavalletta", "Rana", "Serpente", "Aquila"]},
+		{"explanation": "Il metodo scientifico ha un ordine obbligato: prima si osserva, poi si suppone, poi si prova. Cambiare l'ordine significa cercare conferme invece di verità.", "topic": "metodo", "minLevel": 4, "prompt": "Ordina i passi del metodo scientifico.", "correctOrder": ["Fai una domanda", "Formula un'ipotesi", "Fai l'esperimento", "Osserva i risultati", "Trai la conclusione"]},
 		# Scuola media — livelli di organizzazione dei viventi.
-		{"topic": "organizzazione", "minLevel": 7, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Cellula", "Tessuto", "Organo", "Sistema", "Organismo"]},
+		{"explanation": "Ogni livello contiene il precedente: la cellula sta nel tessuto, il tessuto nell'organo. Si sale per contenimento, non per importanza.", "topic": "organizzazione", "minLevel": 7, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Cellula", "Tessuto", "Organo", "Sistema", "Organismo"]},
 		# Insieme a estrazione sulle dimensioni reali dei viventi (`value` in metri).
 		# Ordinare esseri viventi per grandezza è biologia, non aritmetica: costringe
 		# a farsi un'idea di scala, che è ciò che i numeri da soli non insegnano.
-		{"topic": "organizzazione", "minLevel": 7, "kind": "pool", "draw": 4, "prompt": "Ordina questi viventi dal più piccolo al più grande.", "pool": [
+		{"explanation": "Si confrontano le dimensioni reali, non quanto se ne parla: un virus è centinaia di volte più piccolo di un batterio, e il batterio più piccolo di una cellula.", "topic": "organizzazione", "minLevel": 7, "kind": "pool", "draw": 4, "prompt": "Ordina questi viventi dal più piccolo al più grande.", "pool": [
 			{"label": "Virus", "value": 0.0000001}, {"label": "Batterio", "value": 0.000002},
 			{"label": "Globulo rosso", "value": 0.000007}, {"label": "Cellula vegetale", "value": 0.00005},
 			{"label": "Acaro della polvere", "value": 0.0003}, {"label": "Pulce", "value": 0.002},
@@ -510,7 +510,7 @@ const ORDERING := {
 	"geografia": [
 		# L21. Estensione degli Stati in milioni di km². Scelti bene distanziati:
 		# ordinare Canada e Stati Uniti sarebbe memoria di un numero, non geografia.
-		{"topic": "geografia-umana", "minLevel": 21, "kind": "pool", "prompt": "Ordina questi Stati per superficie crescente (in milioni di km²).", "pool": [
+		{"explanation": "Si guarda la superficie in chilometri quadrati, non la popolazione né la fama: un Paese può essere piccolo e importante.", "topic": "geografia-umana", "minLevel": 21, "kind": "pool", "prompt": "Ordina questi Stati per superficie crescente (in milioni di km²).", "pool": [
 			{"label": "Italia", "value": 0.30}, {"label": "Egitto", "value": 1.00},
 			{"label": "Perù", "value": 1.28}, {"label": "Iran", "value": 1.65},
 			{"label": "Messico", "value": 1.96}, {"label": "Algeria", "value": 2.38},
@@ -520,18 +520,18 @@ const ORDERING := {
 		# L'ordinamento di geografia aveva una specifica sola ai primi due mondi.
 		# Qui l'ordine è una grandezza (la latitudine) ma si ricava dalla carta
 		# mentale dell'Italia, non da un numero da ricordare.
-		{"topic": "italia-fisica", "kind": "pool", "prompt": "Ordina queste città italiane da sud a nord.", "pool": [
+		{"explanation": "Si guarda la latitudine sulla carta, non la distanza percorsa in strada: da sud a nord si risale la penisola.", "topic": "italia-fisica", "kind": "pool", "prompt": "Ordina queste città italiane da sud a nord.", "pool": [
 			{"label": "Palermo", "value": 38.1}, {"label": "Cosenza", "value": 39.3},
 			{"label": "Napoli", "value": 40.8}, {"label": "Roma", "value": 41.9},
 			{"label": "Firenze", "value": 43.8}, {"label": "Bologna", "value": 44.5},
 			{"label": "Milano", "value": 45.5}, {"label": "Bolzano", "value": 46.5}]},
-		{"topic": "geografia-umana", "prompt": "Ordina dal più piccolo al più grande", "correctOrder": ["Paese", "Regione", "Nazione", "Continente"]},
-		{"topic": "geografia-fisica", "minLevel": 3, "prompt": "Ordina il corso di un fiume, dalla nascita al mare.", "correctOrder": ["Sorgente", "Torrente", "Fiume", "Foce"]},
-		{"topic": "geografia-umana", "minLevel": 4, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Via", "Quartiere", "Città", "Regione"]},
+		{"explanation": "Si confronta la stessa grandezza per tutti, dall'unità più piccola alla più grande: cambiare unità a metà confronto è l'errore da evitare.", "topic": "geografia-umana", "prompt": "Ordina dal più piccolo al più grande", "correctOrder": ["Paese", "Regione", "Nazione", "Continente"]},
+		{"explanation": "Un fiume ha un verso obbligato: nasce in alto alla sorgente, raccoglie affluenti scendendo e finisce alla foce, dove incontra il mare.", "topic": "geografia-fisica", "minLevel": 3, "prompt": "Ordina il corso di un fiume, dalla nascita al mare.", "correctOrder": ["Sorgente", "Torrente", "Fiume", "Foce"]},
+		{"explanation": "Si ordina per estensione, confrontando la stessa unità di misura per ogni elemento.", "topic": "geografia-umana", "minLevel": 4, "prompt": "Ordina dal più piccolo al più grande.", "correctOrder": ["Via", "Quartiere", "Città", "Regione"]},
 		# Insiemi a estrazione: in geografia quasi ogni ordine è una GRANDEZZA —
 		# altezza in metri, lunghezza in chilometri, abitanti. È lo stesso motivo per
 		# cui la cronologia funziona in storia: c'è un numero vero sotto l'etichetta.
-		{"topic": "italia-fisica", "minLevel": 6, "kind": "pool", "draw": 4, "prompt": "Ordina le cime per altezza crescente (in metri).", "pool": [
+		{"explanation": "Si confrontano le quote in metri: la cima più alta non è per forza la più famosa né la più difficile.", "topic": "italia-fisica", "minLevel": 6, "kind": "pool", "draw": 4, "prompt": "Ordina le cime per altezza crescente (in metri).", "pool": [
 			{"label": "Monte Bianco", "value": 4808.0}, {"label": "Monte Rosa", "value": 4634.0},
 			{"label": "Cervino", "value": 4478.0}, {"label": "Gran Paradiso", "value": 4061.0},
 			{"label": "Ortles", "value": 3905.0}, {"label": "Marmolada", "value": 3343.0},
@@ -542,7 +542,7 @@ const ORDERING := {
 			{"label": "Vulture", "value": 1326.0}, {"label": "Monte Baldo", "value": 2218.0},
 			{"label": "Punta La Marmora", "value": 1834.0}, {"label": "Monte Pollino", "value": 2248.0},
 			{"label": "Monte Velino", "value": 2487.0}, {"label": "Monte Grappa", "value": 1775.0}]},
-		{"topic": "geografia-fisica", "minLevel": 5, "kind": "pool", "draw": 4, "prompt": "Ordina i fiumi per lunghezza crescente (in chilometri).", "pool": [
+		{"explanation": "Si confronta la lunghezza del corso in chilometri, non la portata d'acqua né l'importanza storica.", "topic": "geografia-fisica", "minLevel": 5, "kind": "pool", "draw": 4, "prompt": "Ordina i fiumi per lunghezza crescente (in chilometri).", "pool": [
 			{"label": "Arno", "value": 241.0}, {"label": "Tevere", "value": 405.0},
 			{"label": "Po", "value": 652.0}, {"label": "Adige", "value": 410.0},
 			{"label": "Piave", "value": 220.0}, {"label": "Ticino", "value": 248.0},
@@ -558,22 +558,22 @@ const ORDERING := {
 		# L22. Gli intervalli misurati in semitoni: qui l'ordine è una grandezza
 		# esatta, e capire che la quarta giusta vale cinque semitoni e non quattro
 		# è il passaggio da «contare i nomi» a «contare le distanze».
-		{"topic": "intervalli", "minLevel": 22, "kind": "pool", "prompt": "Ordina gli intervalli dal più stretto al più ampio (in semitoni).", "pool": [
+		{"explanation": "L'ampiezza di un intervallo si conta in semitoni, non in nomi di nota: fra due note vicine può esserci un semitono o due.", "topic": "intervalli", "minLevel": 22, "kind": "pool", "prompt": "Ordina gli intervalli dal più stretto al più ampio (in semitoni).", "pool": [
 			{"label": "Seconda minore", "value": 1.0}, {"label": "Seconda maggiore", "value": 2.0},
 			{"label": "Terza minore", "value": 3.0}, {"label": "Terza maggiore", "value": 4.0},
 			{"label": "Quarta giusta", "value": 5.0}, {"label": "Tritono", "value": 6.0},
 			{"label": "Quinta giusta", "value": 7.0}, {"label": "Sesta minore", "value": 8.0},
 			{"label": "Sesta maggiore", "value": 9.0}, {"label": "Settima minore", "value": 10.0},
 			{"label": "Settima maggiore", "value": 11.0}, {"label": "Ottava", "value": 12.0}]},
-		{"topic": "note", "prompt": "Metti in ordine le note dopo il Do", "correctOrder": ["Re", "Mi", "Fa", "Sol"]},
-		{"topic": "ritmo", "prompt": "Ordina dalla durata più breve alla più lunga", "correctOrder": ["Croma", "Semiminima", "Minima", "Semibreve"]},
-		{"topic": "note", "minLevel": 3, "prompt": "Ordina la scala musicale completa, dal Do.", "correctOrder": ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"]},
+		{"explanation": "Le sette note girano sempre nello stesso ordine e poi ricominciano: è un anello, non una fila che finisce.", "topic": "note", "prompt": "Metti in ordine le note dopo il Do", "correctOrder": ["Re", "Mi", "Fa", "Sol"]},
+		{"explanation": "Ogni figura vale la metà della precedente: il rapporto fra le durate è sempre di due, mai di uno.", "topic": "ritmo", "prompt": "Ordina dalla durata più breve alla più lunga", "correctOrder": ["Croma", "Semiminima", "Minima", "Semibreve"]},
+		{"explanation": "La scala procede per gradi vicini, senza salti: è questo che la rende una scala e non un arpeggio.", "topic": "note", "minLevel": 3, "prompt": "Ordina la scala musicale completa, dal Do.", "correctOrder": ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"]},
 		# Scuola media — dinamiche dal più piano al più forte, tempi dal più lento.
-		{"topic": "dinamica", "minLevel": 5, "prompt": "Ordina le dinamiche dal più piano al più forte.", "correctOrder": ["pianissimo", "piano", "mezzoforte", "forte", "fortissimo"]},
+		{"explanation": "La dinamica cresce per gradi con nomi propri: dal pianissimo al fortissimo si passa sempre per i valori intermedi.", "topic": "dinamica", "minLevel": 5, "prompt": "Ordina le dinamiche dal più piano al più forte.", "correctOrder": ["pianissimo", "piano", "mezzoforte", "forte", "fortissimo"]},
 		# I termini italiani di tempo hanno un valore vero: i battiti al minuto. Sono
 		# la stessa scala che il metronomo mostra, quindi ordinarli è leggere una
 		# grandezza, non ricordare un elenco.
-		{"topic": "tempo", "minLevel": 5, "kind": "pool", "draw": 4, "prompt": "Ordina i tempi dal più lento al più veloce.", "pool": [
+		{"explanation": "I termini di tempo formano una scala continua dal più lento al più veloce: sono parole italiane usate in tutto il mondo proprio per non doverle tradurre.", "topic": "tempo", "minLevel": 5, "kind": "pool", "draw": 4, "prompt": "Ordina i tempi dal più lento al più veloce.", "pool": [
 			{"label": "Grave", "value": 40.0}, {"label": "Largo", "value": 50.0},
 			{"label": "Lento", "value": 55.0}, {"label": "Adagio", "value": 66.0},
 			{"label": "Larghetto", "value": 63.0}, {"label": "Andante", "value": 80.0},
@@ -590,7 +590,7 @@ const ORDERING := {
 		# motivo per cui i valori sono scritti a mano invece che calcolati: qui
 		# l'ordine alfabetico è il CONTENUTO della prova, quindi va autorato e
 		# controllato, non dedotto a runtime da una funzione di confronto.
-		{"topic": "ortografia", "kind": "pool", "draw": 4, "prompt": "Metti le parole in ordine alfabetico.", "pool": [
+		{"explanation": "L'ordine alfabetico si decide sulla prima lettera diversa: se le prime coincidono si passa alla seconda, e così via.", "topic": "ortografia", "kind": "pool", "draw": 4, "prompt": "Metti le parole in ordine alfabetico.", "pool": [
 			{"label": "albero", "value": 1.0}, {"label": "amico", "value": 2.0},
 			{"label": "barca", "value": 3.0}, {"label": "bosco", "value": 4.0},
 			{"label": "casa", "value": 5.0}, {"label": "chiave", "value": 6.0},
@@ -607,21 +607,21 @@ const ORDERING := {
 			{"label": "sole", "value": 27.0}, {"label": "strada", "value": 28.0},
 			{"label": "tempo", "value": 29.0}, {"label": "torre", "value": 30.0},
 			{"label": "vento", "value": 31.0}, {"label": "voce", "value": 32.0}]},
-		{"topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Il", "gatto", "dorme", "sul", "divano"]},
-		{"topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Domani", "andremo", "tutti", "al", "mare"]},
-		{"topic": "testo-narrativo", "prompt": "Metti in ordine gli eventi della storia.", "correctOrder": ["C'era una volta un re", "Il re partì per un lungo viaggio", "Incontrò un drago feroce", "Con astuzia lo sconfisse", "Tornò a casa vittorioso"]},
+		{"explanation": "In italiano l'ordine normale è soggetto, verbo, complemento. Si può cambiare per dare enfasi, ma la frase base segue questo.", "topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Il", "gatto", "dorme", "sul", "divano"]},
+		{"explanation": "Si parte dal soggetto e si cerca il verbo che gli si accorda: il resto della frase si dispone attorno a quei due.", "topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Domani", "andremo", "tutti", "al", "mare"]},
+		{"explanation": "Una storia ha un ordine di causa: ogni evento è possibile solo perché è successo quello prima. Se si può scambiare, non era una storia.", "topic": "testo-narrativo", "prompt": "Metti in ordine gli eventi della storia.", "correctOrder": ["C'era una volta un re", "Il re partì per un lungo viaggio", "Incontrò un drago feroce", "Con astuzia lo sconfisse", "Tornò a casa vittorioso"]},
 	],
 	"coding": [
-		{"topic": "algoritmi", "prompt": "Ordina i passi del programma", "correctOrder": ["Chiedi il numero", "Controlla se è pari", "Se è pari stampa 'pari'", "Altrimenti stampa 'dispari'"]},
-		{"topic": "sequenza", "prompt": "Ordina le istruzioni per mostrare il doppio di un numero.", "correctOrder": ["Chiedi un numero", "Salvalo nella variabile n", "Calcola n × 2", "Mostra il risultato"]},
+		{"explanation": "Un programma esegue una riga per volta dall'alto in basso: un'istruzione che usa un valore deve venire dopo quella che lo crea.", "topic": "algoritmi", "prompt": "Ordina i passi del programma", "correctOrder": ["Chiedi il numero", "Controlla se è pari", "Se è pari stampa 'pari'", "Altrimenti stampa 'dispari'"]},
+		{"explanation": "Prima si prende il dato, poi lo si trasforma, infine si mostra il risultato: leggere, calcolare, stampare.", "topic": "sequenza", "prompt": "Ordina le istruzioni per mostrare il doppio di un numero.", "correctOrder": ["Chiedi un numero", "Salvalo nella variabile n", "Calcola n × 2", "Mostra il risultato"]},
 		# Pensiero computazionale "unplugged": la vita quotidiana come algoritmo.
-		{"topic": "algoritmi", "minLevel": 2, "prompt": "Ordina i passi dell'algoritmo per fare un tè.", "correctOrder": ["Scalda l'acqua", "Metti la bustina nella tazza", "Versa l'acqua calda", "Aspetta due minuti", "Togli la bustina"]},
-		{"topic": "algoritmi", "minLevel": 5, "prompt": "Ordina i passi per trovare il numero più grande in una lista.", "correctOrder": ["Prendi il primo numero come massimo", "Guarda il numero successivo", "Se è più grande, aggiorna il massimo", "Ripeti fino alla fine", "Restituisci il massimo"]},
+		{"explanation": "Un algoritmo va scritto in un ordine eseguibile davvero: non si versa l'acqua prima di averla scaldata.", "topic": "algoritmi", "minLevel": 2, "prompt": "Ordina i passi dell'algoritmo per fare un tè.", "correctOrder": ["Scalda l'acqua", "Metti la bustina nella tazza", "Versa l'acqua calda", "Aspetta due minuti", "Togli la bustina"]},
+		{"explanation": "Per trovare il massimo si parte da un candidato e lo si confronta con tutti gli altri, sostituendolo ogni volta che se ne trova uno più grande.", "topic": "algoritmi", "minLevel": 5, "prompt": "Ordina i passi per trovare il numero più grande in una lista.", "correctOrder": ["Prendi il primo numero come massimo", "Guarda il numero successivo", "Se è più grande, aggiorna il massimo", "Ripeti fino alla fine", "Restituisci il massimo"]},
 	],
 	"storia": [
 		# L14. Il Novecento: l'ordine è una grandezza (l'anno) e i fatti sono quelli
 		# che a tredici anni si studiano davvero.
-		{"topic": "cronologia", "minLevel": 14, "kind": "pool", "prompt": "Ordina gli eventi del Novecento dal più antico al più recente.", "pool": [
+		{"explanation": "Si ordina per data, dalla più lontana alla più vicina a noi: la cronologia non guarda l'importanza dei fatti.", "topic": "cronologia", "minLevel": 14, "kind": "pool", "prompt": "Ordina gli eventi del Novecento dal più antico al più recente.", "pool": [
 			{"label": "Inizia la prima guerra mondiale", "value": 1914.0},
 			{"label": "Rivoluzione russa", "value": 1917.0},
 			{"label": "Marcia su Roma", "value": 1922.0},
@@ -641,7 +641,7 @@ const ORDERING := {
 		# L24. L'ultimo mondo: cinque secoli di invenzioni in fila. Chiude il
 		# percorso di storia con la domanda che lo attraversa tutto — cosa è venuto
 		# prima di cosa, e quanto in fretta le cose hanno cominciato ad accelerare.
-		{"topic": "cronologia", "minLevel": 24, "kind": "pool", "prompt": "Ordina le invenzioni dalla più antica alla più recente.", "pool": [
+		{"explanation": "Ogni invenzione poggia su quelle prima: il telescopio ha bisogno delle lenti, la macchina a vapore della metallurgia.", "topic": "cronologia", "minLevel": 24, "kind": "pool", "prompt": "Ordina le invenzioni dalla più antica alla più recente.", "pool": [
 			{"label": "Stampa a caratteri mobili", "value": 1455.0},
 			{"label": "Telescopio", "value": 1608.0},
 			{"label": "Macchina a vapore", "value": 1712.0},
@@ -660,14 +660,14 @@ const ORDERING := {
 			{"label": "Internet", "value": 1969.0},
 			{"label": "Telefono cellulare", "value": 1973.0},
 			{"label": "World Wide Web", "value": 1989.0}]},
-		{"topic": "ere", "prompt": "Ordina le grandi età della storia, dalla più antica.", "correctOrder": ["Preistoria", "Età antica", "Medioevo", "Età moderna", "Età contemporanea"]},
+		{"explanation": "Le grandi età si succedono per fatti precisi che le aprono e le chiudono, non per durata: alcune durano millenni, altre pochi secoli.", "topic": "ere", "prompt": "Ordina le grandi età della storia, dalla più antica.", "correctOrder": ["Preistoria", "Età antica", "Medioevo", "Età moderna", "Età contemporanea"]},
 		# Insieme cronologico PER I PRIMI MONDI. L'insieme grande (28 eventi, più
 		# sotto) parte dal mondo 6 perché contiene date che a dieci anni non si
 		# possono conoscere: pescandone tre a caso poteva uscire «Hammurabi, prima
 		# crociata, peste nera», che non è una prova difficile ma una prova
 		# impossibile. Qui gli eventi sono pochi, notissimi e molto distanti fra
 		# loro: l'ordine si ricava dal senso storico, non dalla memoria delle date.
-		{"topic": "cronologia", "kind": "pool", "draw": 3,
+		{"explanation": "Si va dal più lontano al più vicino: davanti sta ciò che è successo prima, anche quando lo conosciamo peggio.", "topic": "cronologia", "kind": "pool", "draw": 3,
 			"prompt": "Ordina questi eventi dal più antico al più recente.", "pool": [
 			{"label": "Gli uomini vivevano nelle caverne", "value": -30000.0},
 			{"label": "Nascono l'agricoltura e i primi villaggi", "value": -9000.0},
@@ -685,8 +685,8 @@ const ORDERING := {
 			{"label": "Si costruiscono le prime automobili", "value": 1890.0},
 			{"label": "Scoppia la Prima guerra mondiale", "value": 1914.0},
 			{"label": "L'uomo cammina sulla Luna", "value": 1969.0}]},
-		{"topic": "preistoria", "minLevel": 4, "prompt": "Ordina i periodi della preistoria, dal più antico.", "correctOrder": ["Paleolitico", "Neolitico", "Età dei metalli"]},
-		{"topic": "roma", "minLevel": 18, "prompt": "Ordina le fasi della storia di Roma.", "correctOrder": ["Monarchia", "Repubblica", "Impero"]},
+		{"explanation": "I periodi della preistoria si distinguono da come veniva lavorata la pietra: prima scheggiata, poi levigata, poi sostituita dai metalli.", "topic": "preistoria", "minLevel": 4, "prompt": "Ordina i periodi della preistoria, dal più antico.", "correctOrder": ["Paleolitico", "Neolitico", "Età dei metalli"]},
+		{"explanation": "Roma cambia forma di governo tre volte: prima i re, poi la repubblica, infine l'impero. L'ordine è quello, e ogni passaggio nasce dalla crisi del precedente.", "topic": "roma", "minLevel": 18, "prompt": "Ordina le fasi della storia di Roma.", "correctOrder": ["Monarchia", "Repubblica", "Impero"]},
 		# Scuola media — ordinare eventi lontani per data.
 		#
 		# Il caso in cui l'ordinamento si parametrizza meglio di ogni altro: l'ordine
@@ -694,7 +694,7 @@ const ORDERING := {
 		# (l'anno). Ventotto eventi danno C(28,4) = 20.475 prove diverse, e ogni
 		# estrazione è una domanda storica sensata perché la linea del tempo è una
 		# sola. `value` è l'anno con segno: negativo prima di Cristo.
-		{"topic": "cronologia", "minLevel": 6, "kind": "pool", "draw": 4,
+		{"explanation": "Si confrontano le date fra loro: quando mancano i numeri esatti si ragiona su cosa rese possibile cosa.", "topic": "cronologia", "minLevel": 6, "kind": "pool", "draw": 4,
 			"prompt": "Ordina questi eventi dal più antico al più recente.", "pool": [
 			{"label": "Prime pitture rupestri", "value": -30000.0},
 			{"label": "Nascita dell'agricoltura", "value": -9000.0},
@@ -726,17 +726,17 @@ const ORDERING := {
 			{"label": "Primo uomo sulla Luna", "value": 1969.0}]},
 	],
 	"latino": [
-		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
-		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «il contadino ama la terra»", "correctOrder": ["Agricola", "terram", "amat"]},
-		{"topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la regina guarda la luna»", "correctOrder": ["Regina", "lunam", "spectat"]},
-		{"topic": "frasi", "minLevel": 4, "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «il poeta ama la patria»", "correctOrder": ["Poeta", "patriam", "amat"]},
+		{"explanation": "In latino il verbo va di solito in fondo: la frase si costruisce soggetto, oggetto, verbo, ed è la differenza più visibile rispetto all'italiano.", "topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
+		{"explanation": "Il verbo chiude la frase latina. Il caso dice già chi fa e chi subisce, quindi l'ordine può permettersi di essere diverso dal nostro.", "topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «il contadino ama la terra»", "correctOrder": ["Agricola", "terram", "amat"]},
+		{"explanation": "Soggetto in nominativo, oggetto in accusativo, verbo alla fine: le desinenze reggono il senso, la posizione lo conferma.", "topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la regina guarda la luna»", "correctOrder": ["Regina", "lunam", "spectat"]},
+		{"explanation": "L'ordine tipico è soggetto, oggetto, verbo. In latino spostare le parole cambia l'enfasi, non chi fa che cosa: a quello pensano i casi.", "topic": "frasi", "minLevel": 4, "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «il poeta ama la patria»", "correctOrder": ["Poeta", "patriam", "amat"]},
 		# L'ordinamento di latino aveva UNA specifica al primo mondo, cioè una prova
 		# sola: sempre «Puella rosam amat». La Fase 3 aveva concluso che in latino
 		# l'ordine è convenzione pura e quindi non si parametrizza — vero per i casi
 		# e per le parole di una frase, ma non per i NUMERI ROMANI, dove l'ordine è
 		# una grandezza misurabile. È esattamente il criterio del progetto, e qui
 		# vale: da venti numerali escono più di mille prove, tutte sensate.
-		{"topic": "numeri", "kind": "pool", "prompt": "Ordina i numeri romani dal più piccolo al più grande.", "pool": [
+		{"explanation": "I numeri romani si leggono sommando, ma un simbolo minore prima di uno maggiore si sottrae: IV è cinque meno uno.", "topic": "numeri", "kind": "pool", "prompt": "Ordina i numeri romani dal più piccolo al più grande.", "pool": [
 			{"label": "I", "value": 1.0}, {"label": "II", "value": 2.0},
 			{"label": "III", "value": 3.0}, {"label": "IV", "value": 4.0},
 			{"label": "V", "value": 5.0}, {"label": "VI", "value": 6.0},
@@ -749,7 +749,7 @@ const ORDERING := {
 			{"label": "XIX", "value": 19.0}, {"label": "XX", "value": 20.0}]},
 		# Dal mondo 5 entrano le cifre alte e le forme sottrattive (XL, XC, CD, CM),
 		# che sono la parte davvero difficile della numerazione romana.
-		{"topic": "numeri", "minLevel": 5, "kind": "pool", "prompt": "Ordina i numeri romani dal più piccolo al più grande.", "pool": [
+		{"explanation": "Con numeri più grandi la regola resta: si sottrae solo il simbolo che precede uno maggiore, e mai più di uno per volta.", "topic": "numeri", "minLevel": 5, "kind": "pool", "prompt": "Ordina i numeri romani dal più piccolo al più grande.", "pool": [
 			{"label": "IV", "value": 4.0}, {"label": "IX", "value": 9.0},
 			{"label": "XIV", "value": 14.0}, {"label": "XIX", "value": 19.0},
 			{"label": "XXIV", "value": 24.0}, {"label": "XXX", "value": 30.0},
@@ -763,15 +763,15 @@ const ORDERING := {
 			{"label": "DC", "value": 600.0}, {"label": "CM", "value": 900.0},
 			{"label": "M", "value": 1000.0}, {"label": "MM", "value": 2000.0}]},
 		# Scuola media — l'ordine tradizionale dei casi (come sul libro).
-		{"topic": "casi", "minLevel": 5, "prompt": "Ordina i casi latini nell'ordine tradizionale.", "correctOrder": ["Nominativo", "Genitivo", "Dativo", "Accusativo", "Vocativo", "Ablativo"]},
+		{"explanation": "L'ordine tradizionale dei casi non è casuale: mette vicini quelli che spesso hanno la stessa forma, e per questo si impara in fila.", "topic": "casi", "minLevel": 5, "prompt": "Ordina i casi latini nell'ordine tradizionale.", "correctOrder": ["Nominativo", "Genitivo", "Dativo", "Accusativo", "Vocativo", "Ablativo"]},
 	],
 	"inglese": [
-		{"topic": "everyday-phrases", "prompt": "Order the words to make a sentence", "correctOrder": ["I", "like", "green", "apples"]},
+		{"explanation": "In inglese l'ordine è rigido: soggetto, verbo, complemento. Non essendoci i casi, è la posizione a dire chi fa che cosa.", "topic": "everyday-phrases", "prompt": "Order the words to make a sentence", "correctOrder": ["I", "like", "green", "apples"]},
 		# Insieme a estrazione: i numeri scritti a parole, ordinati per valore.
 		# Ventiquattro voci → C(24,4) = 10.626 prove. Il riordino di una frase non
 		# si può parametrizzare (l'ordine è quello di QUELLA frase); i numeri sì, e
 		# sono contenuto d'inglese vero quanto il word order.
-		{"topic": "vocabolario", "kind": "pool", "draw": 4, "prompt": "Order the numbers from the smallest to the largest.", "pool": [
+		{"explanation": "Si confrontano i valori numerici, non la lunghezza della parola: «one» è corta e vale meno di «six».", "topic": "vocabolario", "kind": "pool", "draw": 4, "prompt": "Order the numbers from the smallest to the largest.", "pool": [
 			{"label": "one", "value": 1.0}, {"label": "three", "value": 3.0},
 			{"label": "four", "value": 4.0}, {"label": "six", "value": 6.0},
 			{"label": "seven", "value": 7.0}, {"label": "nine", "value": 9.0},
@@ -785,17 +785,17 @@ const ORDERING := {
 			{"label": "seventy", "value": 70.0}, {"label": "eighty-one", "value": 81.0},
 			{"label": "ninety", "value": 90.0}, {"label": "one hundred", "value": 100.0}]},
 		# Word order inglese: soggetto-verbo-oggetto e adjective prima del nome.
-		{"topic": "sentence", "minLevel": 3, "prompt": "Order the words to make a sentence.", "correctOrder": ["She", "reads", "a", "book"]},
-		{"topic": "negative", "minLevel": 5, "prompt": "Order the words to make a negative sentence.", "correctOrder": ["He", "does", "not", "play"]},
+		{"explanation": "Soggetto, verbo, complemento: in inglese l'ordine non si può cambiare senza cambiare il senso della frase.", "topic": "sentence", "minLevel": 3, "prompt": "Order the words to make a sentence.", "correctOrder": ["She", "reads", "a", "book"]},
+		{"explanation": "La negazione si costruisce con l'ausiliare più «not», e va fra il soggetto e il verbo principale.", "topic": "negative", "minLevel": 5, "prompt": "Order the words to make a negative sentence.", "correctOrder": ["He", "does", "not", "play"]},
 		# Domande: inversione dell'ausiliare (diverso dall'italiano).
-		{"topic": "question", "minLevel": 5, "prompt": "Order the words to make a question.", "correctOrder": ["Do", "you", "like", "pizza?"]},
-		{"topic": "wh-question", "minLevel": 6, "prompt": "Order the words to make a question.", "correctOrder": ["Where", "do", "you", "live?"]},
+		{"explanation": "Nella domanda l'ausiliare passa davanti al soggetto: è l'inversione a rendere interrogativa la frase, non solo il punto di domanda.", "topic": "question", "minLevel": 5, "prompt": "Order the words to make a question.", "correctOrder": ["Do", "you", "like", "pizza?"]},
+		{"explanation": "Nelle domande con wh- la parola interrogativa va per prima, poi l'ausiliare, poi il soggetto.", "topic": "wh-question", "minLevel": 6, "prompt": "Order the words to make a question.", "correctOrder": ["Where", "do", "you", "live?"]},
 	],
 	"fisica": [
 		# Insiemi a estrazione: in fisica l'ordine NON è una convenzione da ricordare,
 		# è una grandezza. `value` è la grandezza vera (km/h, kg), quindi ogni
 		# estrazione è una domanda sensata e la risposta è verificabile.
-		{"topic": "moto", "kind": "pool", "draw": 4, "prompt": "Ordina per velocità crescente.", "pool": [
+		{"explanation": "Si confrontano le velocità reali, non la taglia dell'animale: conta lo spazio percorso nello stesso tempo.", "topic": "moto", "kind": "pool", "draw": 4, "prompt": "Ordina per velocità crescente.", "pool": [
 			{"label": "Lumaca", "value": 0.05}, {"label": "Tartaruga", "value": 0.3},
 			{"label": "Persona che cammina", "value": 5.0}, {"label": "Corridore", "value": 15.0},
 			{"label": "Bicicletta", "value": 25.0}, {"label": "Cavallo al galoppo", "value": 55.0},
@@ -806,9 +806,9 @@ const ORDERING := {
 			{"label": "Proiettile", "value": 3000.0}, {"label": "Stazione spaziale in orbita", "value": 27600.0},
 			{"label": "Formica", "value": 0.9}, {"label": "Monopattino elettrico", "value": 20.0},
 			{"label": "Delfino che nuota", "value": 40.0}, {"label": "Motocicletta", "value": 160.0}]},
-		{"topic": "moto", "prompt": "Ordina i passi per misurare la velocità media di un oggetto.",
+		{"explanation": "Per misurare una velocità serve prima definire il percorso, poi cronometrare, e solo alla fine dividere: invertire i passi rende la misura senza senso.", "topic": "moto", "prompt": "Ordina i passi per misurare la velocità media di un oggetto.",
 			"correctOrder": ["Segna il punto di partenza e quello di arrivo", "Misura la distanza fra i due punti", "Misura il tempo impiegato", "Dividi la distanza per il tempo"]},
-		{"topic": "misure", "minLevel": 3, "kind": "pool", "draw": 4, "prompt": "Ordina gli oggetti per massa crescente.", "pool": [
+		{"explanation": "Si confrontano le masse, non i volumi: una piuma è grande e leggerissima, una graffetta è piccola e pesa di più.", "topic": "misure", "minLevel": 3, "kind": "pool", "draw": 4, "prompt": "Ordina gli oggetti per massa crescente.", "pool": [
 			{"label": "Piuma", "value": 0.0005}, {"label": "Formica", "value": 0.000005},
 			{"label": "Graffetta", "value": 0.001}, {"label": "Moneta da 1 euro", "value": 0.0075},
 			{"label": "Uovo", "value": 0.06}, {"label": "Mela", "value": 0.15},
@@ -820,13 +820,13 @@ const ORDERING := {
 			{"label": "Pianoforte a coda", "value": 400.0}, {"label": "Cavallo", "value": 500.0},
 			{"label": "Automobile", "value": 1300.0}, {"label": "Elefante africano", "value": 6000.0},
 			{"label": "Autobus", "value": 12000.0}, {"label": "Balenottera azzurra", "value": 150000.0}]},
-		{"topic": "materia", "minLevel": 5, "prompt": "Ordina gli stati per energia delle particelle, dal minore al maggiore.", "correctOrder": ["Solido", "Liquido", "Gassoso"]},
+		{"explanation": "Le particelle si muovono sempre di più passando da solido a liquido a gas: è l'energia a slegarle, non la temperatura in sé.", "topic": "materia", "minLevel": 5, "prompt": "Ordina gli stati per energia delle particelle, dal minore al maggiore.", "correctOrder": ["Solido", "Liquido", "Gassoso"]},
 	],
 	"elettronica": [
 		# Tensioni reali, dalla pila a bottone alla linea ad alta tensione: qui il
 		# valore da ordinare è scritto sull'etichetta, quindi l'esercizio allena a
 		# leggere gli ordini di grandezza (mV, V, kV) invece di ricordare una lista.
-		{"topic": "misure-elettriche", "kind": "pool", "draw": 4, "prompt": "Ordina le tensioni dalla più piccola alla più grande.", "pool": [
+		{"explanation": "Si porta tutto alla stessa unità prima di confrontare: 300 mV sono 0,3 V, quindi meno di 1,2 V.", "topic": "misure-elettriche", "kind": "pool", "draw": 4, "prompt": "Ordina le tensioni dalla più piccola alla più grande.", "pool": [
 			{"label": "50 mV", "value": 0.05}, {"label": "300 mV", "value": 0.3},
 			{"label": "1,2 V", "value": 1.2}, {"label": "1,5 V", "value": 1.5},
 			{"label": "3 V", "value": 3.0}, {"label": "3,7 V", "value": 3.7},
@@ -838,25 +838,25 @@ const ORDERING := {
 			{"label": "132 kV", "value": 132000.0}, {"label": "380 kV", "value": 380000.0},
 			{"label": "750 mV", "value": 0.75}, {"label": "6 V", "value": 6.0},
 			{"label": "18 V", "value": 18.0}, {"label": "36 V", "value": 36.0}]},
-		{"topic": "circuito", "prompt": "Partendo dal polo positivo, ordina i componenti attraversati dalla corrente in questo circuito in serie.",
+		{"explanation": "La corrente percorre un anello chiuso: parte dal polo positivo, attraversa i componenti in fila e torna al negativo. In serie l'ordine è obbligato.", "topic": "circuito", "prompt": "Partendo dal polo positivo, ordina i componenti attraversati dalla corrente in questo circuito in serie.",
 			"correctOrder": ["Polo positivo della pila", "Interruttore chiuso", "Resistore", "LED", "Polo negativo della pila"]},
-		{"topic": "montaggio", "minLevel": 3, "prompt": "Ordina i passi per costruire un circuito che accende un LED.", "correctOrder": ["Prendi la pila", "Collega il filo al polo +", "Aggiungi l'interruttore", "Collega il LED", "Chiudi il circuito al polo -"]},
-		{"topic": "misure-elettriche", "minLevel": 5, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
+		{"explanation": "Si monta il circuito prima di dargli corrente: collegare l'alimentazione per ultima è ciò che evita di bruciare il LED.", "topic": "montaggio", "minLevel": 3, "prompt": "Ordina i passi per costruire un circuito che accende un LED.", "correctOrder": ["Prendi la pila", "Collega il filo al polo +", "Aggiungi l'interruttore", "Collega il LED", "Chiudi il circuito al polo -"]},
+		{"explanation": "Si confrontano i valori nella stessa unità: l'ordine delle fasce colorate dice il numero, non la grandezza.", "topic": "misure-elettriche", "minLevel": 5, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
 	],
 	# Logica (mondi 12 e 24). Prima di queste specifiche la logica riceveva
 	# l'ordinamento procedurale di numeri nudi, che dichiarava `topic: "sequenze"`
 	# senza avere nessuna regola da scoprire: sequenza è "trova la regola che
 	# genera i termini", non "ordina tre interi". Qui l'ordine È il ragionamento.
 	"logica": [
-		{"topic": "sequenze", "prompt": "Ordina i passi per scoprire la regola di una sequenza.", "correctOrder": ["Confronta due termini vicini", "Di' a parole che cosa cambia", "Verifica la regola su un altro termine", "Applica la regola al termine dopo"]},
-		{"topic": "deduzioni", "prompt": "Ordina la deduzione: prima le premesse, poi la conclusione.", "correctOrder": ["Tutti i pianeti girano attorno a una stella", "La Terra è un pianeta", "Allora la Terra gira attorno a una stella"]},
-		{"topic": "analogie", "prompt": "Ordina i passi per risolvere un'analogia.", "correctOrder": ["Guarda la prima coppia", "Di' a parole come sono legate", "Cerca lo stesso legame nella seconda coppia", "Scegli la parola che lo completa"]},
+		{"explanation": "Per scoprire una regola si guardano prima le differenze fra termini vicini, poi si prova l'ipotesi su un termine noto: indovinare senza verificare non è trovare la regola.", "topic": "sequenze", "prompt": "Ordina i passi per scoprire la regola di una sequenza.", "correctOrder": ["Confronta due termini vicini", "Di' a parole che cosa cambia", "Verifica la regola su un altro termine", "Applica la regola al termine dopo"]},
+		{"explanation": "In una deduzione le premesse vengono prima e la conclusione dopo: se la conclusione arriva per prima non si sta deducendo, si sta cercando di giustificarla.", "topic": "deduzioni", "prompt": "Ordina la deduzione: prima le premesse, poi la conclusione.", "correctOrder": ["Tutti i pianeti girano attorno a una stella", "La Terra è un pianeta", "Allora la Terra gira attorno a una stella"]},
+		{"explanation": "Prima si trova la relazione fra la prima coppia, poi la si applica alla seconda: saltare il primo passo significa indovinare.", "topic": "analogie", "prompt": "Ordina i passi per risolvere un'analogia.", "correctOrder": ["Guarda la prima coppia", "Di' a parole come sono legate", "Cerca lo stesso legame nella seconda coppia", "Scegli la parola che lo completa"]},
 		# Una sequenza che NON si risolve ordinando per grandezza: la regola
 		# alterna ×2 e −1, quindi i termini salgono e scendono. È la prova che
 		# distingue "so applicare una regola" da "so confrontare due numeri".
-		{"topic": "sequenze", "minLevel": 18, "prompt": "La regola è: ×2, poi −1, poi ×2, poi −1. Rimetti i termini nell'ordine giusto partendo da 3.", "correctOrder": ["3", "6", "5", "10", "9"]},
-		{"topic": "deduzioni", "minLevel": 20, "prompt": "Ordina i passi per risolvere un indovinello a eliminazione.", "correctOrder": ["Elenca tutti i casi possibili", "Applica il primo indizio e scarta", "Applica il secondo indizio e scarta", "Controlla che resti un solo caso", "Scrivi la conclusione"]},
-		{"topic": "analogie", "minLevel": 20, "prompt": "Ordina le relazioni dalla più stretta alla più ampia.", "correctOrder": ["Cucciolo : cane", "Cane : mammifero", "Mammifero : animale", "Animale : vivente"]},
+		{"explanation": "Si applica la regola un passo per volta, sempre nello stesso ordine: cambiarlo dà una successione diversa anche partendo dallo stesso numero.", "topic": "sequenze", "minLevel": 18, "prompt": "La regola è: ×2, poi −1, poi ×2, poi −1. Rimetti i termini nell'ordine giusto partendo da 3.", "correctOrder": ["3", "6", "5", "10", "9"]},
+		{"explanation": "In un indovinello a eliminazione si scartano prima i casi impossibili: quello che resta è la risposta, anche se non si è mai dimostrato direttamente.", "topic": "deduzioni", "minLevel": 20, "prompt": "Ordina i passi per risolvere un indovinello a eliminazione.", "correctOrder": ["Elenca tutti i casi possibili", "Applica il primo indizio e scarta", "Applica il secondo indizio e scarta", "Controlla che resti un solo caso", "Scrivi la conclusione"]},
+		{"explanation": "Le relazioni si ordinano per ampiezza: ogni insieme contiene il precedente, dal più specifico al più generale.", "topic": "analogie", "minLevel": 20, "prompt": "Ordina le relazioni dalla più stretta alla più ampia.", "correctOrder": ["Cucciolo : cane", "Cane : mammifero", "Mammifero : animale", "Animale : vivente"]},
 	],
 }
 
@@ -868,7 +868,7 @@ const CLASSIFICATION := {
 		# L11. Analisi logica vera: riconoscere il complemento dalla domanda a cui
 		# risponde, non dalla preposizione — «in giardino» è luogo, «in bicicletta»
 		# è mezzo, e la preposizione è la stessa.
-		{"topic": "analisi-logica", "minLevel": 11, "draw": 6, "prompt": "Smista ogni espressione nel suo complemento.",
+		{"explanation": "Il complemento si riconosce dalla domanda a cui risponde, non dalla preposizione: «in giardino» è luogo e «in bicicletta» è mezzo, con la stessa «in».", "topic": "analisi-logica", "minLevel": 11, "draw": 6, "prompt": "Smista ogni espressione nel suo complemento.",
 			"categories": ["di tempo", "di luogo", "di mezzo", "di compagnia"],
 			"assignments": {
 				"alle otto": "di tempo", "dopo cena": "di tempo", "ogni domenica": "di tempo",
@@ -882,7 +882,7 @@ const CLASSIFICATION := {
 		# L19. Figure retoriche riconosciute dagli esempi, non dalla definizione. La
 		# similitudine ha sempre il «come»: è l'unico indizio di forma, e serve a
 		# distinguerla dalla metafora, che dice la stessa cosa togliendolo.
-		{"topic": "figure-retoriche", "minLevel": 19, "draw": 6, "prompt": "Smista ogni espressione nella sua figura retorica.",
+		{"explanation": "Ogni figura si riconosce dalla forma: la similitudine ha sempre il «come», la metafora dice la stessa cosa togliendolo, la personificazione dà azioni umane alle cose, l'iperbole esagera apposta.", "topic": "figure-retoriche", "minLevel": 19, "draw": 6, "prompt": "Smista ogni espressione nella sua figura retorica.",
 			"categories": ["similitudine", "metafora", "personificazione", "iperbole"],
 			"assignments": {
 				"Sei veloce come il vento": "similitudine", "Dorme come un ghiro": "similitudine",
@@ -902,7 +902,7 @@ const CLASSIFICATION := {
 		# restano poche (il bidone si deve poter leggere), ma le tessere possono
 		# essere trenta. `draw` dice quante se ne pescano; l'estrazione garantisce
 		# almeno una tessera per bidone, altrimenti la prova sarebbe rotta.
-		{"topic": "categorie", "draw": 8, "prompt": "Smista ogni parola nella sua classe grammaticale.",
+		{"explanation": "La parte del discorso dipende da che lavoro fa la parola, non da come finisce: si guarda se nomina, se dice un'azione, se descrive o se precisa.", "topic": "categorie", "draw": 8, "prompt": "Smista ogni parola nella sua classe grammaticale.",
 			"categories": ["nome", "verbo", "aggettivo", "avverbio"],
 			"assignments": {
 				"gatto": "nome", "casa": "nome", "montagna": "nome", "quaderno": "nome",
@@ -913,7 +913,7 @@ const CLASSIFICATION := {
 				"antico": "aggettivo", "buio": "aggettivo", "leggero": "aggettivo", "curioso": "aggettivo",
 				"velocemente": "avverbio", "lentamente": "avverbio", "domani": "avverbio", "sempre": "avverbio",
 				"forse": "avverbio", "bene": "avverbio", "quasi": "avverbio", "altrove": "avverbio"}},
-		{"topic": "pensiero-linguaggio", "draw": 6, "prompt": "Smista ogni parola: singolare o plurale?",
+		{"explanation": "Il plurale non si riconosce dalla vocale finale ma dal confronto con il singolare: «città» non cambia mai, e resta l'articolo a dirlo.", "topic": "pensiero-linguaggio", "draw": 6, "prompt": "Smista ogni parola: singolare o plurale?",
 			"categories": ["singolare", "plurale"],
 			"assignments": {
 				"libro": "singolare", "fiore": "singolare", "casa": "singolare", "città": "singolare",
@@ -922,7 +922,7 @@ const CLASSIFICATION := {
 				"libri": "plurale", "fiori": "plurale", "case": "plurale", "uova": "plurale",
 				"braccia": "plurale", "amici": "plurale", "problemi": "plurale", "dita": "plurale",
 				"lenzuola": "plurale", "valigie": "plurale", "camicie": "plurale", "ciliegie": "plurale"}},
-		{"topic": "verbo", "draw": 6, "prompt": "Smista ogni verbo nel suo tempo.",
+		{"explanation": "Il tempo si legge nella desinenza, non nel senso della frase: «mangiai» e «avete visto» sono entrambi passati, con forme lontanissime.", "topic": "verbo", "draw": 6, "prompt": "Smista ogni verbo nel suo tempo.",
 			"categories": ["passato", "presente", "futuro"],
 			"assignments": {
 				"ho letto": "passato", "mangiai": "passato", "correvo": "passato", "avete visto": "passato",
@@ -931,7 +931,7 @@ const CLASSIFICATION := {
 				"dormono": "presente", "capisci": "presente", "costruisce": "presente", "aspettate": "presente",
 				"andrò": "futuro", "vedremo": "futuro", "partirai": "futuro", "saranno": "futuro",
 				"dormirà": "futuro", "leggerete": "futuro", "capiremo": "futuro", "costruiranno": "futuro"}},
-		{"topic": "lessico", "draw": 6, "prompt": "Smista ogni nome: concreto o astratto?",
+		{"explanation": "Concreto è ciò che si può toccare o percepire con i sensi; astratto è ciò che esiste solo nel pensiero — un'idea, un sentimento, una qualità.", "topic": "lessico", "draw": 6, "prompt": "Smista ogni nome: concreto o astratto?",
 			"categories": ["concreto", "astratto"],
 			"assignments": {
 				"tavolo": "concreto", "cane": "concreto", "montagna": "concreto", "chiave": "concreto",
@@ -941,7 +941,7 @@ const CLASSIFICATION := {
 				"giustizia": "astratto", "speranza": "astratto", "noia": "astratto", "pazienza": "astratto",
 				"silenzio": "astratto", "fantasia": "astratto", "amicizia": "astratto", "orgoglio": "astratto"}},
 		# Scuola media — tempi dell'indicativo con i loro nomi.
-		{"topic": "tempi-indicativo", "minLevel": 9, "draw": 8, "prompt": "Smista ogni voce verbale nel suo tempo dell'indicativo.",
+		{"explanation": "I quattro tempi dell'indicativo dicono momenti diversi: il presente ora, l'imperfetto un'azione che durava, il passato prossimo un fatto concluso, il futuro ciò che deve ancora accadere.", "topic": "tempi-indicativo", "minLevel": 9, "draw": 8, "prompt": "Smista ogni voce verbale nel suo tempo dell'indicativo.",
 			"categories": ["presente", "imperfetto", "passato prossimo", "futuro"],
 			"assignments": {
 				"mangio": "presente", "leggo": "presente", "parti": "presente", "costruiamo": "presente",
@@ -953,20 +953,20 @@ const CLASSIFICATION := {
 				"mangerò": "futuro", "leggerò": "futuro", "partirai": "futuro", "costruiremo": "futuro",
 				"dormirete": "futuro", "capiranno": "futuro"}},
 		# Scuola media — modi finiti del verbo.
-		{"topic": "modi-verbali", "minLevel": 10, "prompt": "Smista ogni voce verbale nel suo modo.",
+		{"explanation": "Il modo dice come si presenta l'azione: certa nell'indicativo, possibile o dubbia nel congiuntivo, legata a una condizione nel condizionale, ordinata nell'imperativo.", "topic": "modi-verbali", "minLevel": 10, "prompt": "Smista ogni voce verbale nel suo modo.",
 			"categories": ["indicativo", "congiuntivo", "condizionale", "imperativo"],
 			"assignments": {"io canto": "indicativo", "tu cantavi": "indicativo", "che io canti": "congiuntivo", "che tu cantassi": "congiuntivo", "io canterei": "condizionale", "tu canteresti": "condizionale", "canta!": "imperativo", "cantate!": "imperativo"}},
 		# Scuola media — analisi grammaticale: parti del discorso.
-		{"topic": "analisi-grammaticale", "minLevel": 8, "prompt": "Smista ogni parola nella sua parte del discorso.",
+		{"explanation": "L'analisi grammaticale guarda la parola isolata: che cosa è di suo, senza chiedersi che ruolo abbia nella frase.", "topic": "analisi-grammaticale", "minLevel": 8, "prompt": "Smista ogni parola nella sua parte del discorso.",
 			"categories": ["articolo", "nome", "verbo", "preposizione"],
 			"assignments": {"il": "articolo", "la": "articolo", "cane": "nome", "sole": "nome", "corre": "verbo", "salta": "verbo", "con": "preposizione", "tra": "preposizione"}},
 		# Scuola media — analisi logica: riconoscere i complementi.
-		{"topic": "analisi-logica", "minLevel": 11, "prompt": "Smista ogni espressione nel suo complemento.",
+		{"explanation": "Si guarda la domanda: dove? è luogo, quando? è tempo, con che cosa? è mezzo. La preposizione da sola non basta mai a decidere.", "topic": "analisi-logica", "minLevel": 11, "prompt": "Smista ogni espressione nel suo complemento.",
 			"categories": ["compl. di luogo", "compl. di tempo", "compl. di mezzo"],
 			"assignments": {"a Roma": "compl. di luogo", "in giardino": "compl. di luogo", "alle otto": "compl. di tempo", "di sera": "compl. di tempo", "con la penna": "compl. di mezzo", "in treno": "compl. di mezzo"}},
 	],
 	"scienze": [
-		{"topic": "viventi", "draw": 6, "prompt": "Smista ogni animale per come si nutre.",
+		{"explanation": "Il gruppo dipende da che cosa mangia l'animale, non da quanto è grande: il coniglio e la giraffa stanno insieme perché mangiano entrambi piante.", "topic": "viventi", "draw": 6, "prompt": "Smista ogni animale per come si nutre.",
 			"categories": ["erbivoro", "carnivoro", "onnivoro"],
 			"assignments": {
 				"Mucca": "erbivoro", "Coniglio": "erbivoro", "Cavallo": "erbivoro", "Giraffa": "erbivoro",
@@ -975,7 +975,7 @@ const CLASSIFICATION := {
 				"Ragno": "carnivoro", "Coccodrillo": "carnivoro", "Gufo": "carnivoro", "Ghepardo": "carnivoro",
 				"Orso": "onnivoro", "Maiale": "onnivoro", "Cinghiale": "onnivoro", "Corvo": "onnivoro",
 				"Riccio": "onnivoro", "Scimpanzé": "onnivoro", "Gabbiano": "onnivoro", "Volpe": "onnivoro"}},
-		{"topic": "ecosistema", "draw": 6, "prompt": "Smista ogni animale nel suo ambiente.",
+		{"explanation": "L'ambiente è dove l'animale vive e respira abitualmente, non dove capita di vederlo: il delfino vive in acqua pur respirando aria.", "topic": "ecosistema", "draw": 6, "prompt": "Smista ogni animale nel suo ambiente.",
 			"categories": ["acqua", "aria", "terra"],
 			"assignments": {
 				"Pesce": "acqua", "Delfino": "acqua", "Polpo": "acqua", "Granchio": "acqua",
@@ -984,7 +984,7 @@ const CLASSIFICATION := {
 				"Farfalla": "aria", "Gabbiano": "aria", "Ape": "aria", "Falco": "aria",
 				"Talpa": "terra", "Lombrico": "terra", "Formica": "terra", "Lupo": "terra",
 				"Scoiattolo": "terra", "Serpente": "terra", "Tasso": "terra", "Riccio": "terra"}},
-		{"topic": "viventi", "minLevel": 2, "draw": 6, "prompt": "Smista ogni cosa: vivente o non vivente?",
+		{"explanation": "È vivente ciò che nasce, si nutre, cresce e può riprodursi. Muoversi non basta: l'acqua di un fiume si muove e non è viva.", "topic": "viventi", "minLevel": 2, "draw": 6, "prompt": "Smista ogni cosa: vivente o non vivente?",
 			"categories": ["vivente", "non vivente"],
 			"assignments": {
 				"Cane": "vivente", "Albero": "vivente", "Fiore": "vivente", "Fungo": "vivente",
@@ -993,7 +993,7 @@ const CLASSIFICATION := {
 				"Roccia": "non vivente", "Acqua": "non vivente", "Nuvola": "non vivente", "Sabbia": "non vivente",
 				"Vento": "non vivente", "Cristallo di sale": "non vivente", "Fuoco": "non vivente", "Ghiaccio": "non vivente",
 				"Vetro": "non vivente", "Ferro": "non vivente", "Fulmine": "non vivente", "Argilla": "non vivente"}},
-		{"topic": "materia", "minLevel": 3, "draw": 6, "prompt": "Smista ogni sostanza nel suo stato a temperatura ambiente.",
+		{"explanation": "Lo stato dipende da forma e volume: il solido tiene entrambi, il liquido tiene il volume e prende la forma del recipiente, il gas non tiene né l'uno né l'altra.", "topic": "materia", "minLevel": 3, "draw": 6, "prompt": "Smista ogni sostanza nel suo stato a temperatura ambiente.",
 			"categories": ["solido", "liquido", "gassoso"],
 			"assignments": {
 				"Ghiaccio": "solido", "Ferro": "solido", "Legno": "solido", "Sale": "solido",
@@ -1002,7 +1002,7 @@ const CLASSIFICATION := {
 				"Alcol": "liquido", "Succo": "liquido", "Mercurio": "liquido", "Aceto": "liquido",
 				"Vapore": "gassoso", "Aria": "gassoso", "Ossigeno": "gassoso", "Anidride carbonica": "gassoso",
 				"Elio": "gassoso", "Azoto": "gassoso", "Metano": "gassoso", "Vapore acqueo": "gassoso"}},
-		{"topic": "classi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni animale: vertebrato o invertebrato?",
+		{"explanation": "Il confine è la colonna vertebrale: i vertebrati hanno uno scheletro interno con la spina dorsale, gli invertebrati no.", "topic": "classi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni animale: vertebrato o invertebrato?",
 			"categories": ["vertebrato", "invertebrato"],
 			"assignments": {
 				"Cane": "vertebrato", "Uccello": "vertebrato", "Pesce": "vertebrato", "Rana": "vertebrato",
@@ -1012,7 +1012,7 @@ const CLASSIFICATION := {
 				"Medusa": "invertebrato", "Granchio": "invertebrato", "Lumaca": "invertebrato", "Ape": "invertebrato",
 				"Formica": "invertebrato", "Stella marina": "invertebrato", "Scorpione": "invertebrato", "Cozza": "invertebrato"}},
 		# Scuola media — ruoli nella rete trofica.
-		{"topic": "ecosistema", "minLevel": 6, "draw": 6, "prompt": "Smista ogni organismo per il suo ruolo nell'ecosistema.",
+		{"explanation": "Il ruolo dipende da come l'organismo si procura energia: i produttori la fabbricano con la luce, i consumatori la prendono mangiando, i decompositori la ricavano dai resti.", "topic": "ecosistema", "minLevel": 6, "draw": 6, "prompt": "Smista ogni organismo per il suo ruolo nell'ecosistema.",
 			"categories": ["produttore", "consumatore", "decompositore"],
 			"assignments": {
 				"Erba": "produttore", "Albero": "produttore", "Alga": "produttore", "Felce": "produttore",
@@ -1023,7 +1023,7 @@ const CLASSIFICATION := {
 				"Scarabeo stercorario": "decompositore", "Millepiedi": "decompositore", "Lievito": "decompositore", "Termite del legno morto": "decompositore"}},
 	],
 	"coding": [
-		{"topic": "tipi", "draw": 8, "prompt": "Smista ogni valore nel suo tipo di dato.",
+		{"explanation": "Il tipo si legge da come è scritto il valore: le virgolette fanno una stringa, True e False sono booleani, le parentesi quadre una lista, un numero nudo un intero.", "topic": "tipi", "draw": 8, "prompt": "Smista ogni valore nel suo tipo di dato.",
 			"categories": ["intero", "stringa", "booleano", "lista"],
 			"assignments": {
 				"7": "intero", "42": "intero", "-5": "intero", "0": "intero",
@@ -1037,7 +1037,7 @@ const CLASSIFICATION := {
 		# Insieme volutamente SBILANCIATO: Python ha tre soli operatori logici, e
 		# inventarne altri cinque per fare simmetria sarebbe contenuto falso.
 		# L'estrazione garantisce comunque almeno una voce per famiglia.
-		{"topic": "operatori", "draw": 6, "prompt": "Smista ogni operatore nella sua famiglia.",
+		{"explanation": "Gli aritmetici calcolano un numero, quelli di confronto rispondono vero o falso, i logici combinano più condizioni.", "topic": "operatori", "draw": 6, "prompt": "Smista ogni operatore nella sua famiglia.",
 			"categories": ["aritmetico", "confronto", "logico"],
 			"assignments": {
 				"+": "aritmetico", "*": "aritmetico", "-": "aritmetico", "/": "aritmetico",
@@ -1046,7 +1046,7 @@ const CLASSIFICATION := {
 				">=": "confronto", "<=": "confronto", "is": "confronto", "in": "confronto",
 				"and": "logico", "or": "logico", "not": "logico"}},
 		# Valuta l'espressione come il computer: è vera o falsa?
-		{"topic": "booleani", "minLevel": 4, "draw": 6, "prompt": "Ogni espressione: è True o False?",
+		{"explanation": "Un'espressione booleana ha solo due esiti possibili: o è vera o è falsa, non esiste una via di mezzo.", "topic": "booleani", "minLevel": 4, "draw": 6, "prompt": "Ogni espressione: è True o False?",
 			"categories": ["True", "False"],
 			"assignments": {
 				"5 > 3": "True", "2 == 2": "True", "7 != 4": "True", "10 >= 10": "True",
@@ -1055,7 +1055,7 @@ const CLASSIFICATION := {
 				"10 < 1": "False", "'a' == 'b'": "False", "4 != 4": "False", "3 >= 7": "False",
 				"5 in [1, 2, 3]": "False", "not True": "False", "len('ciao') == 5": "False", "2 ** 3 == 6": "False",
 				"9 % 2 == 0": "False", "True and False": "False", "False or False": "False", "'B' == 'b'": "False"}},
-		{"topic": "controllo", "minLevel": 5, "draw": 6, "prompt": "Smista ogni riga nella sua struttura di controllo.",
+		{"explanation": "Il ciclo ripete, la condizione sceglie, la funzione raccoglie istruzioni per riusarle: si riconoscono dalla parola chiave che apre la riga.", "topic": "controllo", "minLevel": 5, "draw": 6, "prompt": "Smista ogni riga nella sua struttura di controllo.",
 			"categories": ["ciclo", "condizione", "funzione"],
 			"assignments": {
 				"for i in range(3):": "ciclo", "while x > 0:": "ciclo", "for nome in lista:": "ciclo",
@@ -1068,7 +1068,7 @@ const CLASSIFICATION := {
 				"return risultato": "funzione", "def massimo(lista):": "funzione", "def stampa(testo):": "funzione",
 				"return a + b": "funzione", "def conta(parola):": "funzione"}},
 		# Scuola media — regole dei nomi di variabile (Python).
-		{"topic": "nomi", "minLevel": 6, "draw": 6, "prompt": "Smista ogni nome di variabile: valido o no?",
+		{"explanation": "Un nome di variabile non può cominciare con un numero, contenere spazi o essere una parola riservata del linguaggio.", "topic": "nomi", "minLevel": 6, "draw": 6, "prompt": "Smista ogni nome di variabile: valido o no?",
 			"categories": ["valido", "non valido"],
 			"assignments": {
 				"nome": "valido", "x1": "valido", "_temp": "valido", "conta_righe": "valido",
@@ -1089,7 +1089,7 @@ const CLASSIFICATION := {
 				"Punta di freccia": "fonte materiale", "Mosaico": "fonte materiale",
 				"Rovine di una casa": "fonte materiale", "Osso di animale": "fonte materiale"},
 			"explanation": "Le fonti scritte raccontano a parole, quelle materiali sono oggetti che parlano con la loro forma. Servono entrambe: dove nessuno scriveva, restano solo le seconde."},
-		{"topic": "tempo", "draw": 6, "prompt": "Smista ogni oggetto: molto antico o moderno?",
+		{"explanation": "Si ordina per distanza da oggi: più uno strumento è semplice e fatto di materiali naturali, più è probabile che sia antico.", "topic": "tempo", "draw": 6, "prompt": "Smista ogni oggetto: molto antico o moderno?",
 			"categories": ["molto antico", "moderno"],
 			"assignments": {
 				"Piramide": "molto antico", "Anfora": "molto antico", "Ruota di pietra": "molto antico",
@@ -1101,7 +1101,7 @@ const CLASSIFICATION := {
 				"Aereo di linea": "moderno", "Frigorifero": "moderno", "Televisore": "moderno",
 				"Vaccino": "moderno", "Satellite": "moderno", "Bicicletta": "moderno",
 				"Macchina fotografica": "moderno", "Lampadina elettrica": "moderno", "Ascensore": "moderno"}},
-		{"topic": "fonti", "minLevel": 3, "draw": 6, "prompt": "Smista ogni fonte storica nel suo tipo.",
+		{"explanation": "Le fonti si dividono per come arrivano fino a noi: un oggetto è materiale, un documento è scritto, un racconto tramandato a voce è orale.", "topic": "fonti", "minLevel": 3, "draw": 6, "prompt": "Smista ogni fonte storica nel suo tipo.",
 			"categories": ["materiale", "scritta", "orale"],
 			"assignments": {
 				"Piramide": "materiale", "Vaso antico": "materiale", "Moneta romana": "materiale",
@@ -1114,7 +1114,7 @@ const CLASSIFICATION := {
 				"Filastrocca antica": "orale", "Intervista a un testimone": "orale", "Proverbio del paese": "orale",
 				"Fiaba raccontata a voce": "orale", "Ninna nanna tradizionale": "orale"}},
 		# Scuola media — collocare oggetti e monumenti nella loro epoca.
-		{"topic": "epoca", "minLevel": 5, "draw": 6, "prompt": "Smista ogni cosa nella sua epoca storica.",
+		{"explanation": "Le epoche si separano da fatti precisi: la scrittura chiude la preistoria, la caduta di Roma d'Occidente apre il medioevo.", "topic": "epoca", "minLevel": 5, "draw": 6, "prompt": "Smista ogni cosa nella sua epoca storica.",
 			"categories": ["preistoria", "antichità", "medioevo"],
 			"assignments": {
 				"Pittura rupestre": "preistoria", "Selce scheggiata": "preistoria", "Palafitta": "preistoria",
@@ -1129,7 +1129,7 @@ const CLASSIFICATION := {
 		# Le civiltà come contenitori: qui il materiale «una civiltà, molte opere»
 		# trova casa. Nell'abbinamento non poteva crescere — con quattro civiltà e
 		# venti opere due voci si sarebbero contese la stessa risposta.
-		{"topic": "civilta", "minLevel": 2, "draw": 6, "prompt": "Smista ogni opera nella civiltà che l'ha realizzata.",
+		{"explanation": "Ogni popolo si riconosce da ciò che ha costruito e dal modo in cui scriveva: sono le due tracce che restano più a lungo.", "topic": "civilta", "minLevel": 2, "draw": 6, "prompt": "Smista ogni opera nella civiltà che l'ha realizzata.",
 			"categories": ["Egizi", "Greci", "Romani", "Sumeri"],
 			"assignments": {
 				"Piramidi di Giza": "Egizi", "Sfinge": "Egizi", "Geroglifici": "Egizi",
@@ -1142,7 +1142,7 @@ const CLASSIFICATION := {
 				"Ruota a raggi": "Sumeri", "Codice di leggi inciso": "Sumeri", "Aratro tirato da animali": "Sumeri"}},
 	],
 	"geografia": [
-		{"topic": "continenti", "draw": 8, "prompt": "Smista ogni Paese nel suo continente.",
+		{"explanation": "Un Paese sta nel continente su cui poggia la sua terra, non in quello a cui somiglia per lingua o cultura.", "topic": "continenti", "draw": 8, "prompt": "Smista ogni Paese nel suo continente.",
 			"categories": ["Africa", "Europa", "Asia", "America"],
 			"assignments": {
 				"Egitto": "Africa", "Kenya": "Africa", "Marocco": "Africa", "Nigeria": "Africa",
@@ -1153,7 +1153,7 @@ const CLASSIFICATION := {
 				"Thailandia": "Asia", "Corea del Sud": "Asia", "Nepal": "Asia", "Indonesia": "Asia",
 				"Brasile": "America", "Canada": "America", "Messico": "America", "Argentina": "America",
 				"Perù": "America", "Cile": "America", "Cuba": "America", "Stati Uniti": "America"}},
-		{"topic": "geografia-fisica", "draw": 6, "prompt": "Smista ogni elemento: d'acqua o di terra?",
+		{"explanation": "Si guarda che cosa copre la superficie: mari, oceani, laghi e fiumi da una parte; pianure, monti, isole e deserti dall'altra.", "topic": "geografia-fisica", "draw": 6, "prompt": "Smista ogni elemento: d'acqua o di terra?",
 			"categories": ["acqua", "terra"],
 			"assignments": {
 				"Fiume": "acqua", "Lago": "acqua", "Mare": "acqua", "Oceano": "acqua",
@@ -1162,7 +1162,7 @@ const CLASSIFICATION := {
 				"Montagna": "terra", "Pianura": "terra", "Collina": "terra", "Altopiano": "terra",
 				"Deserto": "terra", "Vulcano": "terra", "Isola": "terra", "Penisola": "terra",
 				"Valle": "terra", "Promontorio": "terra", "Dune": "terra", "Canyon": "terra"}},
-		{"topic": "climi", "minLevel": 4, "draw": 6, "prompt": "Smista ogni luogo nel suo clima.",
+		{"explanation": "La fascia climatica dipende soprattutto dalla distanza dall'equatore: più ci si allontana, meno calore diretto arriva dal Sole.", "topic": "climi", "minLevel": 4, "draw": 6, "prompt": "Smista ogni luogo nel suo clima.",
 			"categories": ["caldo", "temperato", "freddo"],
 			"assignments": {
 				"Sahara": "caldo", "Equatore": "caldo", "Amazzonia": "caldo", "Congo": "caldo",
@@ -1172,7 +1172,7 @@ const CLASSIFICATION := {
 				"Polo Nord": "freddo", "Siberia": "freddo", "Groenlandia": "freddo", "Antartide": "freddo",
 				"Alaska": "freddo", "Islanda": "freddo", "Lapponia": "freddo", "Patagonia meridionale": "freddo"}},
 		# Scuola media — i grandi paesaggi d'Italia.
-		{"topic": "italia-fisica", "minLevel": 5, "draw": 6, "prompt": "Smista ogni elemento nel suo paesaggio italiano.",
+		{"explanation": "Si guarda la forma del rilievo: la montagna sale ripida, la pianura resta bassa e distesa, il mare è l'acqua che le chiude.", "topic": "italia-fisica", "minLevel": 5, "draw": 6, "prompt": "Smista ogni elemento nel suo paesaggio italiano.",
 			"categories": ["montagna", "pianura", "mare"],
 			"assignments": {
 				"Alpi": "montagna", "Appennini": "montagna", "Dolomiti": "montagna", "Monte Bianco": "montagna",
@@ -1183,14 +1183,14 @@ const CLASSIFICATION := {
 				"Golfo di Napoli": "mare", "Stretto di Messina": "mare", "Canale di Sicilia": "mare", "Golfo di Trieste": "mare"}},
 	],
 	"matematica": [
-		{"topic": "numeri", "draw": 6, "prompt": "Smista i numeri in pari e dispari.",
+		{"explanation": "Un numero è pari se finisce per 0, 2, 4, 6 o 8: basta guardare l'ultima cifra, non serve dividere.", "topic": "numeri", "draw": 6, "prompt": "Smista i numeri in pari e dispari.",
 			"categories": ["pari", "dispari"],
 			"assignments": {
 				"4": "pari", "8": "pari", "12": "pari", "26": "pari", "34": "pari", "50": "pari",
 				"78": "pari", "96": "pari", "114": "pari", "130": "pari", "248": "pari", "306": "pari",
 				"7": "dispari", "15": "dispari", "21": "dispari", "33": "dispari", "47": "dispari", "59": "dispari",
 				"85": "dispari", "91": "dispari", "107": "dispari", "123": "dispari", "251": "dispari", "399": "dispari"}},
-		{"topic": "calcolo", "draw": 6, "prompt": "Smista ogni risultato: minore di 100 oppure 100 o più.",
+		{"explanation": "Si confronta con cento guardando quante cifre ha il numero e, a parità di cifre, la prima da sinistra.", "topic": "calcolo", "draw": 6, "prompt": "Smista ogni risultato: minore di 100 oppure 100 o più.",
 			"categories": ["minore di 100", "100 o più"],
 			"assignments": {
 				"12 × 7": "minore di 100", "45 + 38": "minore di 100", "150 ÷ 2": "minore di 100",
@@ -1202,7 +1202,7 @@ const CLASSIFICATION := {
 				"960 ÷ 8": "100 o più", "108 + 97": "100 o più", "1000 - 375": "100 o più",
 				"16 × 7": "100 o più", "444 ÷ 4": "100 o più", "55 + 66": "100 o più"}},
 		# Il segno "=" come bilancia: l'uguaglianza è vera o falsa? (misconcezione classica)
-		{"topic": "uguaglianze", "minLevel": 2, "draw": 6, "prompt": "Ogni uguaglianza è vera o falsa?",
+		{"explanation": "Si calcolano i due lati dell'uguale separatamente e si confrontano i risultati: se coincidono l'uguaglianza è vera.", "topic": "uguaglianze", "minLevel": 2, "draw": 6, "prompt": "Ogni uguaglianza è vera o falsa?",
 			"categories": ["vera", "falsa"],
 			"assignments": {
 				"3 + 4 = 7": "vera", "10 - 6 = 4": "vera", "2 × 5 = 10": "vera", "24 ÷ 6 = 4": "vera",
@@ -1211,7 +1211,7 @@ const CLASSIFICATION := {
 				"5 + 3 = 9": "falsa", "12 ÷ 3 = 5": "falsa", "6 × 2 = 10": "falsa", "20 - 7 = 14": "falsa",
 				"11 + 12 = 24": "falsa", "9 × 7 = 61": "falsa", "81 ÷ 9 = 8": "falsa", "50 - 23 = 33": "falsa",
 				"13 + 19 = 31": "falsa", "6 × 8 = 46": "falsa", "2 + 3 × 4 = 20": "falsa", "100 ÷ 4 = 20": "falsa"}},
-		{"topic": "multipli", "minLevel": 3, "draw": 6, "prompt": "Smista: è multiplo di 3 oppure no?",
+		{"explanation": "Un numero è multiplo di 3 se la somma delle sue cifre è divisibile per 3: è una prova che si fa a mente, senza dividere.", "topic": "multipli", "minLevel": 3, "draw": 6, "prompt": "Smista: è multiplo di 3 oppure no?",
 			"categories": ["multiplo di 3", "non multiplo"],
 			"assignments": {
 				"9": "multiplo di 3", "12": "multiplo di 3", "15": "multiplo di 3", "27": "multiplo di 3",
@@ -1221,14 +1221,14 @@ const CLASSIFICATION := {
 				"25": "non multiplo", "34": "non multiplo", "41": "non multiplo", "50": "non multiplo",
 				"64": "non multiplo", "70": "non multiplo", "97": "non multiplo", "115": "non multiplo"}},
 		# Scuola media — numeri primi, frazioni rispetto a 1/2, interi.
-		{"topic": "primi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni numero: primo o composto?",
+		{"explanation": "Un numero è primo se ha esattamente due divisori, uno e se stesso. L'1 non è primo, perché di divisori ne ha uno solo.", "topic": "primi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni numero: primo o composto?",
 			"categories": ["primo", "composto"],
 			"assignments": {
 				"2": "primo", "5": "primo", "7": "primo", "11": "primo", "13": "primo", "17": "primo",
 				"19": "primo", "23": "primo", "29": "primo", "31": "primo", "37": "primo", "41": "primo",
 				"4": "composto", "6": "composto", "9": "composto", "15": "composto", "21": "composto", "25": "composto",
 				"27": "composto", "33": "composto", "35": "composto", "39": "composto", "49": "composto", "51": "composto"}},
-		{"topic": "frazioni", "minLevel": 6, "draw": 6, "prompt": "Smista ogni frazione rispetto a 1/2.",
+		{"explanation": "Per confrontare con 1/2 si guarda se il numeratore è più o meno della metà del denominatore: in 3/8 la metà di 8 è 4, e 3 è meno.", "topic": "frazioni", "minLevel": 6, "draw": 6, "prompt": "Smista ogni frazione rispetto a 1/2.",
 			"categories": ["minore di 1/2", "uguale a 1/2", "maggiore di 1/2"],
 			"assignments": {
 				"1/4": "minore di 1/2", "1/3": "minore di 1/2", "2/5": "minore di 1/2", "3/8": "minore di 1/2",
@@ -1242,7 +1242,7 @@ const CLASSIFICATION := {
 		# di banco vengono sostituite più spesso, e l'argomento è sparito del tutto:
 		# preso da `content_depth_audit`. La cura non è iniettare meno minigiochi — è
 		# dare ai minigiochi l'argomento che il mondo promette.
-		{"topic": "proporzioni", "minLevel": 13, "draw": 6, "prompt": "Ogni proporzione è vera o falsa?",
+		{"explanation": "Una proporzione è vera se i prodotti incrociati coincidono: si moltiplicano gli estremi e i medi e si confrontano.", "topic": "proporzioni", "minLevel": 13, "draw": 6, "prompt": "Ogni proporzione è vera o falsa?",
 			"categories": ["vera", "falsa"],
 			"assignments": {
 				"2 : 4 = 3 : 6": "vera", "1 : 3 = 5 : 15": "vera", "4 : 6 = 6 : 9": "vera",
@@ -1253,7 +1253,7 @@ const CLASSIFICATION := {
 				"3 : 5 = 12 : 18": "falsa", "2 : 7 = 6 : 20": "falsa", "5 : 8 = 15 : 25": "falsa",
 				"9 : 12 = 3 : 5": "falsa", "10 : 25 = 2 : 6": "falsa", "7 : 14 = 4 : 9": "falsa",
 				"6 : 10 = 9 : 16": "falsa", "8 : 12 = 10 : 14": "falsa", "14 : 21 = 2 : 4": "falsa"}},
-		{"topic": "interi", "minLevel": 6, "draw": 6, "prompt": "Smista ogni numero intero: positivo o negativo?",
+		{"explanation": "Il segno dice da che parte dello zero sta il numero: i positivi a destra, i negativi a sinistra.", "topic": "interi", "minLevel": 6, "draw": 6, "prompt": "Smista ogni numero intero: positivo o negativo?",
 			"categories": ["positivo", "negativo"],
 			"assignments": {
 				"5": "positivo", "12": "positivo", "3": "positivo", "27": "positivo", "48": "positivo", "101": "positivo",
@@ -1262,7 +1262,7 @@ const CLASSIFICATION := {
 				"-7": "negativo", "-52": "negativo", "-11": "negativo", "-99": "negativo", "-6": "negativo", "-30": "negativo"}},
 	],
 	"fisica": [
-		{"topic": "energia", "draw": 6, "prompt": "Smista ogni situazione per l'energia prevalente.",
+		{"explanation": "L'energia potenziale è immagazzinata dalla posizione, la cinetica è quella del movimento in corso: cadendo la prima diventa la seconda.", "topic": "energia", "draw": 6, "prompt": "Smista ogni situazione per l'energia prevalente.",
 			"categories": ["potenziale", "cinetica"],
 			"assignments": {
 				"Palla in cima a una rampa": "potenziale", "Molla compressa": "potenziale",
@@ -1277,7 +1277,7 @@ const CLASSIFICATION := {
 				"Sciatore in discesa": "cinetica", "Pendolo nel punto più basso": "cinetica",
 				"Sasso in caduta": "cinetica", "Altalena a metà corsa": "cinetica",
 				"Lancetta che gira": "cinetica", "Aria che esce dal palloncino": "cinetica"}},
-		{"topic": "materia", "draw": 6, "prompt": "Smista ogni materiale nel suo stato a temperatura ambiente.",
+		{"explanation": "Lo stato si riconosce da forma e volume: il solido tiene entrambi, il liquido solo il volume, il gas nessuno dei due.", "topic": "materia", "draw": 6, "prompt": "Smista ogni materiale nel suo stato a temperatura ambiente.",
 			"categories": ["solido", "liquido", "gassoso"],
 			"assignments": {
 				"Ghiaccio": "solido", "Ferro": "solido", "Legno": "solido", "Vetro": "solido",
@@ -1287,7 +1287,7 @@ const CLASSIFICATION := {
 				"Vapore": "gassoso", "Aria": "gassoso", "Ossigeno": "gassoso", "Elio": "gassoso",
 				"Azoto": "gassoso", "Metano": "gassoso", "Anidride carbonica": "gassoso", "Idrogeno": "gassoso"}},
 		# Scuola media — forze di contatto o a distanza, e la luce nei materiali.
-		{"topic": "forze", "minLevel": 5, "draw": 6, "prompt": "Smista ogni forza: agisce per contatto o a distanza?",
+		{"explanation": "Le forze di contatto hanno bisogno di toccare, quelle a distanza agiscono attraverso lo spazio vuoto — come la gravità e il magnetismo.", "topic": "forze", "minLevel": 5, "draw": 6, "prompt": "Smista ogni forza: agisce per contatto o a distanza?",
 			"categories": ["contatto", "a distanza"],
 			"assignments": {
 				"Attrito": "contatto", "Spinta": "contatto", "Tensione della fune": "contatto",
@@ -1301,7 +1301,7 @@ const CLASSIFICATION := {
 				"Attrazione del Sole sui pianeti": "a distanza", "Elettrizzazione per strofinio": "a distanza",
 				"Ago della bussola che ruota": "a distanza", "Fulmine fra nuvola e suolo": "a distanza",
 				"Caduta di una mela": "a distanza"}},
-		{"topic": "luce", "minLevel": 6, "draw": 6, "prompt": "Smista ogni materiale per come lascia passare la luce.",
+		{"explanation": "Trasparente lascia passare la luce e vedere le forme, translucido lascia passare la luce ma non le forme, opaco non lascia passare niente.", "topic": "luce", "minLevel": 6, "draw": 6, "prompt": "Smista ogni materiale per come lascia passare la luce.",
 			"categories": ["trasparente", "opaco", "translucido"],
 			"assignments": {
 				"Vetro": "trasparente", "Aria": "trasparente", "Acqua limpida": "trasparente",
@@ -1317,7 +1317,7 @@ const CLASSIFICATION := {
 		# L15. Le famiglie dell'orchestra. Il sassofono è il caso che insegna la
 		# regola: è di ottone ma sta nei legni, perché la famiglia la decide come
 		# nasce il suono — l'ancia — non di che materiale è fatto lo strumento.
-		{"topic": "strumenti", "minLevel": 15, "draw": 6, "prompt": "Smista ogni strumento nella sua famiglia dell'orchestra.",
+		{"explanation": "Nell'orchestra le famiglie si dividono per come nasce il suono: sfregando corde, soffiando in un tubo di legno o di metallo, percuotendo.", "topic": "strumenti", "minLevel": 15, "draw": 6, "prompt": "Smista ogni strumento nella sua famiglia dell'orchestra.",
 			"categories": ["archi", "legni", "ottoni", "percussioni"],
 			"assignments": {
 				"Violino": "archi", "Viola": "archi", "Violoncello": "archi",
@@ -1328,7 +1328,7 @@ const CLASSIFICATION := {
 				"Tuba": "ottoni", "Cornetta": "ottoni",
 				"Timpani": "percussioni", "Grancassa": "percussioni", "Piatti": "percussioni",
 				"Triangolo": "percussioni", "Xilofono": "percussioni"}},
-		{"topic": "strumenti", "draw": 6, "prompt": "Smista ogni strumento nella sua famiglia.",
+		{"explanation": "Il gruppo dipende da che cosa vibra: una corda, una colonna d'aria o una superficie colpita.", "topic": "strumenti", "draw": 6, "prompt": "Smista ogni strumento nella sua famiglia.",
 			"categories": ["corde", "fiati", "percussioni"],
 			"assignments": {
 				"Chitarra": "corde", "Violino": "corde", "Viola": "corde", "Violoncello": "corde",
@@ -1337,7 +1337,7 @@ const CLASSIFICATION := {
 				"Oboe": "fiati", "Trombone": "fiati", "Corno": "fiati", "Fagotto": "fiati",
 				"Tamburo": "percussioni", "Timpani": "percussioni", "Piatti": "percussioni", "Xilofono": "percussioni",
 				"Triangolo": "percussioni", "Maracas": "percussioni", "Grancassa": "percussioni", "Tamburello": "percussioni"}},
-		{"topic": "timbro", "draw": 6, "prompt": "Smista ogni strumento: acustico o elettronico?",
+		{"explanation": "Acustico è ciò che suona da sé, per vibrazione di un materiale; elettronico è ciò che ha bisogno di corrente per produrre il suono.", "topic": "timbro", "draw": 6, "prompt": "Smista ogni strumento: acustico o elettronico?",
 			"categories": ["acustico", "elettronico"],
 			"assignments": {
 				"Violino": "acustico", "Chitarra classica": "acustico", "Pianoforte": "acustico",
@@ -1349,7 +1349,7 @@ const CLASSIFICATION := {
 				"Campionatore": "elettronico", "Drum machine": "elettronico", "Organo elettrico": "elettronico",
 				"Vocoder": "elettronico", "Piano digitale": "elettronico", "Sequencer": "elettronico"}},
 		# Altezza del suono: strumenti acuti o gravi.
-		{"topic": "intervalli", "minLevel": 4, "draw": 6, "prompt": "Smista ogni strumento per l'altezza del suono.",
+		{"explanation": "L'altezza dipende dalla frequenza della vibrazione: più rapida è, più il suono è acuto. Non c'entra quanto è forte.", "topic": "intervalli", "minLevel": 4, "draw": 6, "prompt": "Smista ogni strumento per l'altezza del suono.",
 			"categories": ["acuto", "grave"],
 			"assignments": {
 				"Flauto": "acuto", "Ottavino": "acuto", "Violino": "acuto", "Tromba": "acuto",
@@ -1360,7 +1360,7 @@ const CLASSIFICATION := {
 				"Corno": "grave", "Sassofono baritono": "grave", "Organo (canne lunghe)": "grave", "Basso": "grave"}},
 	],
 	"elettronica": [
-		{"topic": "conduttori", "draw": 6, "prompt": "Smista ogni materiale: conduttore o isolante?",
+		{"explanation": "I conduttori hanno elettroni liberi di muoversi — quasi tutti i metalli; gli isolanti no, e per questo si usano per rivestire.", "topic": "conduttori", "draw": 6, "prompt": "Smista ogni materiale: conduttore o isolante?",
 			"categories": ["conduttore", "isolante"],
 			"assignments": {
 				"Rame": "conduttore", "Ferro": "conduttore", "Alluminio": "conduttore", "Argento": "conduttore",
@@ -1369,7 +1369,7 @@ const CLASSIFICATION := {
 				"Plastica": "isolante", "Legno secco": "isolante", "Gomma": "isolante", "Vetro": "isolante",
 				"Ceramica": "isolante", "Carta": "isolante", "Aria secca": "isolante", "Porcellana": "isolante",
 				"Silicone": "isolante", "Stoffa": "isolante", "Sughero": "isolante", "Acqua distillata": "isolante"}},
-		{"topic": "componenti", "draw": 6, "prompt": "Smista ogni componente: dà energia o la usa?",
+		{"explanation": "Si guarda il verso dell'energia: la pila e la cella solare la mettono nel circuito, la lampadina e il motore la prelevano per fare qualcosa.", "topic": "componenti", "draw": 6, "prompt": "Smista ogni componente: dà energia o la usa?",
 			"categories": ["fornisce energia", "usa energia"],
 			"assignments": {
 				"Pila": "fornisce energia", "Batteria": "fornisce energia", "Cella solare": "fornisce energia",
@@ -1381,7 +1381,7 @@ const CLASSIFICATION := {
 				"Altoparlante": "usa energia", "Display": "usa energia", "Elettrocalamita": "usa energia",
 				"Riscaldatore": "usa energia", "Pompa elettrica": "usa energia", "Schermo LCD": "usa energia"}},
 		# Ruolo nel circuito: sorgente, conduttore, isolante o carico.
-		{"topic": "ruoli", "minLevel": 4, "draw": 8, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
+		{"explanation": "Ogni elemento del circuito ha un ruolo solo: chi fornisce energia, chi la trasporta, chi la ferma, chi la consuma facendo un lavoro.", "topic": "ruoli", "minLevel": 4, "draw": 8, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
 			"categories": ["sorgente", "conduttore", "isolante", "carico"],
 			"assignments": {
 				"Pila": "sorgente", "Batteria": "sorgente", "Cella solare": "sorgente",
@@ -1394,7 +1394,7 @@ const CLASSIFICATION := {
 				"Cicalino": "carico", "Ventola": "carico", "Resistore di potenza": "carico"}},
 	],
 	"inglese": [
-		{"topic": "categorie", "draw": 8, "prompt": "Sort each word into its category.",
+		{"explanation": "Ogni parola va nel campo di significato a cui appartiene: è il modo in cui il cervello archivia il lessico, per gruppi e non alla rinfusa.", "topic": "categorie", "draw": 8, "prompt": "Sort each word into its category.",
 			"categories": ["animals", "food", "colours", "actions"],
 			"assignments": {
 				"dog": "animals", "cat": "animals", "horse": "animals", "bird": "animals",
@@ -1405,7 +1405,7 @@ const CLASSIFICATION := {
 				"black": "colours", "white": "colours", "purple": "colours", "grey": "colours",
 				"run": "actions", "jump": "actions", "swim": "actions", "write": "actions",
 				"sing": "actions", "read": "actions", "climb": "actions", "listen": "actions"}},
-		{"topic": "home-family", "draw": 6, "prompt": "Sort each word: family, school or nature.",
+		{"explanation": "Le parole si raggruppano per ambito di vita: la famiglia, la scuola, la natura. Impararle in gruppo le rende più facili da richiamare.", "topic": "home-family", "draw": 6, "prompt": "Sort each word: family, school or nature.",
 			"categories": ["family", "school", "nature"],
 			"assignments": {
 				"mother": "family", "father": "family", "sister": "family", "brother": "family",
@@ -1417,7 +1417,7 @@ const CLASSIFICATION := {
 		# Articolo a/an secondo il suono iniziale: regola tipica dell'inglese.
 		# Attenzione: la regola è sul SUONO, non sulla lettera — «a university»,
 		# «an hour». Le voci trabocchetto sono deliberate: è lì che si impara.
-		{"topic": "articles", "minLevel": 5, "draw": 6, "prompt": "Sort each word: does it take 'a' or 'an'?",
+		{"explanation": "Si usa «an» davanti a suono vocalico e «a» davanti a suono consonantico: conta come si pronuncia la parola, non come si scrive.", "topic": "articles", "minLevel": 5, "draw": 6, "prompt": "Sort each word: does it take 'a' or 'an'?",
 			"categories": ["a", "an"],
 			"assignments": {
 				"apple": "an", "orange": "an", "umbrella": "an", "elephant": "an",
@@ -1426,7 +1426,7 @@ const CLASSIFICATION := {
 				"dog": "a", "car": "a", "book": "a", "university": "a",
 				"table": "a", "house": "a", "European city": "a", "friend": "a",
 				"uniform": "a", "window": "a", "garden": "a", "yellow bird": "a"}},
-		{"topic": "parts-of-speech", "minLevel": 6, "draw": 6, "prompt": "Sort each word into its part of speech.",
+		{"explanation": "La parte del discorso dipende dal lavoro che la parola fa: nomina qualcosa, dice un'azione o la descrive.", "topic": "parts-of-speech", "minLevel": 6, "draw": 6, "prompt": "Sort each word into its part of speech.",
 			"categories": ["noun", "verb", "adjective"],
 			"assignments": {
 				"dog": "noun", "house": "noun", "river": "noun", "teacher": "noun",
@@ -1436,7 +1436,7 @@ const CLASSIFICATION := {
 				"big": "adjective", "red": "adjective", "quiet": "adjective", "heavy": "adjective",
 				"ancient": "adjective", "friendly": "adjective", "narrow": "adjective", "brave": "adjective"}},
 		# Scuola media — verbi regolari/irregolari e nomi numerabili/non numerabili.
-		{"topic": "verbs", "minLevel": 8, "draw": 6, "prompt": "Sort each past-tense verb: regular or irregular?",
+		{"explanation": "I verbi regolari fanno il passato in -ed; gli irregolari cambiano forma e vanno imparati uno per uno.", "topic": "verbs", "minLevel": 8, "draw": 6, "prompt": "Sort each past-tense verb: regular or irregular?",
 			"categories": ["regular", "irregular"],
 			"assignments": {
 				"played": "regular", "walked": "regular", "watched": "regular", "opened": "regular",
@@ -1445,7 +1445,7 @@ const CLASSIFICATION := {
 				"went": "irregular", "ate": "irregular", "saw": "irregular", "took": "irregular",
 				"wrote": "irregular", "drank": "irregular", "began": "irregular", "brought": "irregular",
 				"caught": "irregular", "chose": "irregular", "slept": "irregular", "spoke": "irregular"}},
-		{"topic": "nouns", "minLevel": 9, "draw": 6, "prompt": "Sort each noun: countable or uncountable?",
+		{"explanation": "I nomi numerabili si possono contare uno, due, tre; quelli non numerabili si misurano ma non si contano — acqua, riso, denaro.", "topic": "nouns", "minLevel": 9, "draw": 6, "prompt": "Sort each noun: countable or uncountable?",
 			"categories": ["countable", "uncountable"],
 			"assignments": {
 				"apple": "countable", "book": "countable", "car": "countable", "chair": "countable",
@@ -1468,7 +1468,7 @@ const CLASSIFICATION := {
 		# perché così li recita il libro, non perché uno sia «maggiore» di un altro.
 		# Quindi l'ordinamento qui resta a dato fisso, e tutta la profondità deve
 		# venire da smistamento e abbinamento. È il caso opposto a storia e fisica.
-		{"topic": "vocabolario", "draw": 6, "prompt": "Smista ogni parola latina per campo di significato.",
+		{"explanation": "Le parole si raggruppano per campo di significato, come in italiano: è così che si costruisce un vocabolario che resta.", "topic": "vocabolario", "draw": 6, "prompt": "Smista ogni parola latina per campo di significato.",
 			"categories": ["natura", "persone", "animali"],
 			"assignments": {
 				"aqua": "natura", "silva": "natura", "terra": "natura", "stella": "natura",
@@ -1478,7 +1478,7 @@ const CLASSIFICATION := {
 				"miles": "persone", "rex": "persone", "magister": "persone", "puer": "persone",
 				"lupus": "animali", "equus": "animali", "canis": "animali", "avis": "animali",
 				"taurus": "animali", "piscis": "animali", "ursus": "animali", "aquila": "animali"}},
-		{"topic": "casi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni parola latina nel suo genere.",
+		{"explanation": "Il genere in latino si riconosce dalla desinenza e va imparato con la parola: «poeta» finisce in -a ed è maschile.", "topic": "casi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni parola latina nel suo genere.",
 			"categories": ["maschile", "femminile", "neutro"],
 			"assignments": {
 				"lupus": "maschile", "poeta": "maschile", "servus": "maschile", "dominus": "maschile",
@@ -1488,7 +1488,7 @@ const CLASSIFICATION := {
 				"templum": "neutro", "bellum": "neutro", "donum": "neutro", "verbum": "neutro",
 				"oppidum": "neutro", "vinum": "neutro", "signum": "neutro", "regnum": "neutro"}},
 		# Scuola media — riconoscere la declinazione di appartenenza.
-		{"topic": "declinazioni-base", "minLevel": 6, "draw": 6, "prompt": "Smista ogni parola nella sua declinazione.",
+		{"explanation": "La declinazione si riconosce dal genitivo singolare, non dal nominativo: è l'unica desinenza che non si ripete fra declinazioni diverse.", "topic": "declinazioni-base", "minLevel": 6, "draw": 6, "prompt": "Smista ogni parola nella sua declinazione.",
 			"categories": ["1ª declinazione", "2ª declinazione", "3ª declinazione"],
 			"assignments": {
 				"rosa": "1ª declinazione", "puella": "1ª declinazione", "silva": "1ª declinazione", "aqua": "1ª declinazione",
@@ -1502,7 +1502,7 @@ const CLASSIFICATION := {
 		# L16. Tre gradi di verità invece di due: «a volte vera» è la categoria che
 		# costa di più, perché obbliga a cercare sia un caso favorevole sia un
 		# controesempio prima di decidere.
-		{"topic": "verita", "minLevel": 16, "draw": 6, "prompt": "Smista ogni affermazione: sempre vera, a volte vera o mai vera?",
+		{"explanation": "«Sempre vera» vuol dire che non esiste nemmeno un caso contrario. Basta un pinguino per far cadere «gli uccelli volano»: un solo controesempio è sufficiente.", "topic": "verita", "minLevel": 16, "draw": 6, "prompt": "Smista ogni affermazione: sempre vera, a volte vera o mai vera?",
 			"categories": ["sempre vera", "a volte vera", "mai vera"],
 			"assignments": {
 				"Un quadrato ha quattro lati uguali": "sempre vera",
@@ -1527,7 +1527,7 @@ const CLASSIFICATION := {
 		# percorso e la più utile fuori dalla scuola: «avere quattro lati» serve per
 		# essere un quadrato ma non basta, «essere un quadrato» basta per essere un
 		# rettangolo ma non serve.
-		{"topic": "quantificatori", "minLevel": 23, "draw": 6, "prompt": "Smista ogni condizione: basta da sola, oppure serve ma non basta?",
+		{"explanation": "Una condizione che basta da sola porta sempre alla conclusione; una che serve ma non basta è necessaria e va accompagnata da altro.", "topic": "quantificatori", "minLevel": 23, "draw": 6, "prompt": "Smista ogni condizione: basta da sola, oppure serve ma non basta?",
 			"categories": ["basta da sola", "serve ma non basta"],
 			"assignments": {
 				"Finire per zero, per essere divisibile per cinque": "basta da sola",
@@ -1567,7 +1567,7 @@ const CLASSIFICATION := {
 		# lungo. Deve venire da più REGOLE — quantificatori diversi, negazioni,
 		# affermazioni vere per ragioni diverse. Perciò qui gli insiemi sono grandi
 		# ma le voci sono scelte perché ciascuna chiede un passo di ragionamento suo.
-		{"topic": "esclusioni", "draw": 6, "prompt": "Smista ogni elemento nel suo insieme.",
+		{"explanation": "Si smista per categoria di appartenenza, non per somiglianza d'aspetto: un fungo non è una pianta, anche se sta fermo nel terreno.", "topic": "esclusioni", "draw": 6, "prompt": "Smista ogni elemento nel suo insieme.",
 			"categories": ["animale", "pianta"],
 			"assignments": {
 				"Cane": "animale", "Aquila": "animale", "Gatto": "animale", "Lombrico": "animale",
@@ -1576,7 +1576,7 @@ const CLASSIFICATION := {
 				"Rosa": "pianta", "Quercia": "pianta", "Tulipano": "pianta", "Felce": "pianta",
 				"Muschio": "pianta", "Cactus": "pianta", "Girasole": "pianta", "Trifoglio": "pianta",
 				"Bambù": "pianta", "Edera": "pianta", "Grano": "pianta", "Pino": "pianta"}},
-		{"topic": "verita", "minLevel": 4, "draw": 6, "prompt": "Ogni affermazione: è vera o falsa?",
+		{"explanation": "Si verifica il fatto, non l'impressione: una frase è vera se corrisponde a come stanno le cose, anche quando suona strana.", "topic": "verita", "minLevel": 4, "draw": 6, "prompt": "Ogni affermazione: è vera o falsa?",
 			"categories": ["vera", "falsa"],
 			"assignments": {
 				"Tutti i quadrati hanno 4 lati": "vera", "Alcuni uccelli volano": "vera",
@@ -1592,7 +1592,7 @@ const CLASSIFICATION := {
 				"Alcuni triangoli hanno quattro angoli": "falsa", "Ogni pianta è verde": "falsa",
 				"Nessun mammifero depone uova": "falsa", "Tutti i numeri maggiori di 2 sono primi": "falsa"}},
 		# Scuola media — ragionamento sui quantificatori.
-		{"topic": "quantificatori", "minLevel": 6, "draw": 6, "prompt": "Ogni cosa accade sempre, a volte o mai?",
+		{"explanation": "«Sempre» non ammette eccezioni, «a volte» ne ammette, «mai» le esclude tutte: la differenza sta nel quantificatore, non nel fatto.", "topic": "quantificatori", "minLevel": 6, "draw": 6, "prompt": "Ogni cosa accade sempre, a volte o mai?",
 			"categories": ["sempre", "a volte", "mai"],
 			"assignments": {
 				"Un triangolo ha 3 lati": "sempre", "Il ghiaccio è freddo": "sempre",
@@ -1607,7 +1607,7 @@ const CLASSIFICATION := {
 				"Un triangolo ha due angoli retti": "mai", "La somma di due numeri pari è dispari": "mai",
 				"Un quadrato ha cinque lati": "mai", "Un numero è maggiore di sé stesso": "mai",
 				"Il ghiaccio è più caldo del vapore": "mai", "Un pesce vive fuori dall'acqua per sempre": "mai"}},
-		{"topic": "insiemi", "minLevel": 3, "draw": 6, "prompt": "Smista ogni elemento nel suo insieme.",
+		{"explanation": "Ogni elemento va nell'insieme che lo contiene per proprietà, non per come è scritto: il blu è un colore anche se la parola è corta.", "topic": "insiemi", "minLevel": 3, "draw": 6, "prompt": "Smista ogni elemento nel suo insieme.",
 			"categories": ["colori", "forme", "numeri"],
 			"assignments": {
 				"Rosso": "colori", "Blu": "colori", "Verde": "colori", "Giallo": "colori",
@@ -3713,7 +3713,13 @@ func _matching_node(subject: String, group: Dictionary, level: int, step: int, r
 		"format": "matching",
 		"prompt": "Abbina ogni elemento alla sua coppia.",
 		"pairs": pairs,
-		"explanation": "Collega ogni elemento a sinistra con quello giusto a destra.",
+		# La spiegazione viene dal GRUPPO, non dal formato. Fino al 5 agosto 2026
+		# qui c'era una stringa sola, identica in ogni materia e in ogni mondo:
+		# «Collega ogni elemento a sinistra con quello giusto a destra». Non è una
+		# spiegazione, è l'istruzione di come si gioca — ripetuta dopo che il
+		# bambino ha già giocato. L'abbinamento è il 22% di tutto ciò che si
+		# gioca: era il 22% del gioco che non insegnava niente dopo la risposta.
+		"explanation": str(group.get("explanation", "")),
 	}
 
 ## Smistamento. Una specifica che dichiara `draw` diventa un insieme: si pescano
@@ -3743,7 +3749,9 @@ func _classification_node(subject: String, spec: Dictionary, level: int, step: i
 		"items": items,
 		"categories": categories.duplicate(),
 		"assignments": assignments.duplicate(true),
-		"explanation": "Ogni tessera va nel gruppo giusto secondo la sua proprietà.",
+		# Come per l'abbinamento: la ragione sta nella specifica, perché è lì che
+		# si sa PERCHÉ quelle tessere stanno in quei gruppi.
+		"explanation": str(spec.get("explanation", "")),
 	}
 
 func _graph_node(subject: String, spec: Dictionary, difficulty: int, _rng: RandomNumberGenerator, idx: int) -> Dictionary:
@@ -3927,7 +3935,10 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rn
 		"prompt": str(spec["prompt"]),
 		"items": items,
 		"correctOrder": correct,
-		"explanation": "Ordine giusto: %s." % ", ".join(PackedStringArray(correct)),
+		# L'ordine giusto resta — è informazione utile — ma da solo non spiegava
+		# niente: diceva *cosa*, mai *perché quello*. Il criterio dell'ordinamento
+		# viene dalla specifica e va davanti, perché è la parte che si porta via.
+		"explanation": _spiegazione_ordinamento(spec, correct),
 	}
 
 ## Ordinamento QUANTITATIVO di matematica. Non ordina numeri nudi: ordina il
@@ -3952,6 +3963,13 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rn
 ##
 ## Ora l'argomento è quello che il mondo dichiara: `tabelline` fino al 12,
 ## `frazioni` dal 13.
+## Criterio + ordine. Se la specifica non dichiara un criterio resta il solo
+## elenco, ed è esattamente il caso che `minigame_explanation_audit` vieta.
+func _spiegazione_ordinamento(spec: Dictionary, correct: Array) -> String:
+	var elenco := "Ordine giusto: %s." % ", ".join(PackedStringArray(correct))
+	var criterio := str(spec.get("explanation", "")).strip_edges()
+	return elenco if criterio == "" else "%s %s" % [criterio, elenco]
+
 func _numeric_ordering_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var count := clampi(4 + int(level / 9.0) + step, 4, 5)
 	var ascending := rng.randf() < 0.5
@@ -3999,7 +4017,9 @@ func _numeric_ordering_node(subject: String, level: int, step: int, rng: RandomN
 		"correctOrder": correct,
 		# La spiegazione mostra i valori calcolati: chi sbaglia vede il confronto,
 		# non solo la sequenza giusta.
-		"explanation": "Ordine giusto: %s." % ", ".join(PackedStringArray(worked)),
+		"explanation": "Si confrontano i valori uno per uno, dal più piccolo al più grande: "
+			+ "il numero di cifre non basta, conta quanto vale. Ordine giusto: %s."
+			% ", ".join(PackedStringArray(worked)),
 	}
 
 ## Carte "a × b" con prodotti tutti DIVERSI e almeno due primi fattori distinti.

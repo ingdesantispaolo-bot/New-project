@@ -66,11 +66,17 @@ dopo il tuo collaudo, con i dati veri in mano.
 spiegazione che si potrebbe incollare identica su un altro esercizio non è una
 spiegazione.
 
-| Lotto | Cosa | Quanto |
-|---|---|---:|
-| **1** | I tre formati dominanti: ogni specifica dice perché quella è la risposta | **199** (75 abbinamento, 70 classificazione, 54 ordinamento) |
-| **2** | Inglese: sostituire le spiegazioni tautologiche | 968 |
-| **3** | Il resto sotto i 40 caratteri, fuori dall'inglese | 242 |
+| Lotto | Cosa | Quanto | Stato |
+|---|---|---:|---|
+| **1** | I tre formati dominanti: ogni specifica dice perché quella è la risposta | **207** (79 abbinamento, 66 classificazione, 62 ordinamento) | **fatto** |
+| **2** | Inglese: sostituire le spiegazioni tautologiche | 968 | da fare |
+| **3** | Il resto sotto i 40 caratteri, fuori dall'inglese | 242 | da fare |
+
+Il lotto 1 è chiuso il 5 agosto 2026: **207 spiegazioni distinte**, nessuna sotto
+i 40 caratteri, e `minigame_explanation_audit` verifica anche che arrivino ai
+**nodi giocati** — una tabella perfetta che il costruttore ignora varrebbe quanto
+una spiegazione assente. Tre specifiche avevano già una spiegazione propria,
+migliore di quella che avevo scritto io: ho tenuto le loro.
 
 Sul lotto 1 una cautela che mi porto dietro dal lavoro sui banchi: per il
 vocabolario **non esiste un perché**. `dog`/`cane` è arbitrario, e inventare una

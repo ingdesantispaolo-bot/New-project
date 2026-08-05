@@ -2620,6 +2620,52 @@ const CYCLE := {
 			"correctOrder": ["co2", "foglia", "glucosio", "animale", "aria"],
 			"explanation": "La fotosintesi incorpora il carbonio della CO₂ nel glucosio; il carbonio passa col nutrimento e la respirazione ne restituisce una parte all'aria."},
 	],
+	"coding": [
+		{"topic": "algoritmi", "minLevel": 3, "prompt": "Ricostruisci il giro di un ciclo, partendo da quando la variabile viene preparata.",
+			"stages": [{"id": "inizializza", "label": "Prepara il contatore", "glyph": "pen"}, {"id": "condizione", "label": "Controlla la condizione", "glyph": "question"}, {"id": "corpo", "label": "Esegue le istruzioni", "glyph": "gear"}, {"id": "incremento", "label": "Aggiorna il contatore", "glyph": "arrow"}],
+			"correctOrder": ["inizializza", "condizione", "corpo", "incremento"],
+			"explanation": "Il controllo viene PRIMA del corpo: se la condizione è già falsa il ciclo non gira nemmeno una volta. E senza l'aggiornamento finale la condizione resta vera per sempre — è il ciclo infinito."},
+		{"topic": "sequenza", "minLevel": 6, "prompt": "Ricostruisci il giro che un programma fa su ogni dato, partendo dalla lettura.",
+			"stages": [{"id": "leggi", "label": "Legge il dato", "glyph": "book"}, {"id": "controlla", "label": "Verifica che sia valido", "glyph": "question"}, {"id": "trasforma", "label": "Lo trasforma", "glyph": "gear"}, {"id": "scrivi", "label": "Scrive il risultato", "glyph": "check"}],
+			"correctOrder": ["leggi", "controlla", "trasforma", "scrivi"],
+			"explanation": "Il controllo sta subito dopo la lettura, non alla fine: trasformare un dato sbagliato costa lavoro e produce un risultato sbagliato con sicurezza."},
+	],
+	"matematica": [
+		{"topic": "numeri", "minLevel": 6, "prompt": "Sull'orologio a 12 ore, ricostruisci il giro partendo dalle 9.",
+			"stages": [{"id": "nove", "label": "Ore 9", "glyph": "clock"}, {"id": "dodici", "label": "Ore 12", "glyph": "clock"}, {"id": "tre", "label": "Ore 3", "glyph": "clock"}, {"id": "sei", "label": "Ore 6", "glyph": "clock"}],
+			"correctOrder": ["nove", "dodici", "tre", "sei"],
+			"explanation": "Dopo il 12 non si arriva al 13: si torna a 1. È l'aritmetica dell'orologio, e funziona così ogni volta che si conta «a giro» — i giorni della settimana, i mesi, i resti di una divisione."},
+	],
+	"fisica": [
+		{"topic": "energia", "minLevel": 8, "prompt": "Segui l'energia di un pendolo, partendo dal punto più alto.",
+			"stages": [{"id": "alto", "label": "Ferma in alto", "glyph": "arrow"}, {"id": "scende", "label": "Scende e accelera", "glyph": "bolt"}, {"id": "basso", "label": "Veloce in basso", "glyph": "fire"}, {"id": "risale", "label": "Risale e rallenta", "glyph": "arrow"}],
+			"correctOrder": ["alto", "scende", "basso", "risale"],
+			"explanation": "L'energia non si consuma, cambia forma: potenziale in alto, cinetica in basso, e di nuovo potenziale. Il pendolo si ferma solo perché l'attrito ne trasforma un po' in calore a ogni giro."},
+	],
+	"geografia": [
+		{"topic": "geografia-fisica", "minLevel": 10, "prompt": "Ricostruisci il ciclo delle rocce partendo dal magma.",
+			"stages": [{"id": "magma", "label": "Magma", "glyph": "fire"}, {"id": "ignea", "label": "Roccia ignea", "glyph": "rock"}, {"id": "sedimento", "label": "Sedimento", "glyph": "soil"}, {"id": "metamorfica", "label": "Roccia metamorfica", "glyph": "rock"}],
+			"correctOrder": ["magma", "ignea", "sedimento", "metamorfica"],
+			"explanation": "Nessuna roccia è per sempre: il magma raffreddandosi diventa ignea, l'erosione la riduce in sedimenti, pressione e calore li trasformano ancora, e in profondità tutto può rifondersi."},
+	],
+	"italiano": [
+		{"topic": "testo-narrativo", "minLevel": 4, "prompt": "Ricostruisci come nasce un testo, partendo dall'idea.",
+			"stages": [{"id": "idea", "label": "L'idea", "glyph": "question"}, {"id": "scaletta", "label": "La scaletta", "glyph": "book"}, {"id": "stesura", "label": "La stesura", "glyph": "pen"}, {"id": "revisione", "label": "La revisione", "glyph": "check"}],
+			"correctOrder": ["idea", "scaletta", "stesura", "revisione"],
+			"explanation": "La scaletta viene prima di scrivere, non dopo: serve a decidere l'ordine quando è ancora facile cambiarlo. E la revisione non è un extra — è dove un testo diventa leggibile."},
+	],
+	"storia": [
+		{"topic": "metodo", "minLevel": 7, "prompt": "Ricostruisci il lavoro dello storico, partendo dalla domanda.",
+			"stages": [{"id": "domanda", "label": "La domanda", "glyph": "question"}, {"id": "fonti", "label": "La ricerca delle fonti", "glyph": "book"}, {"id": "confronto", "label": "Il confronto", "glyph": "gear"}, {"id": "tesi", "label": "La tesi", "glyph": "check"}],
+			"correctOrder": ["domanda", "fonti", "confronto", "tesi"],
+			"explanation": "La domanda viene prima delle fonti: senza, si raccolgono documenti a caso. E la tesi viene ultima, dopo il confronto — chi la decide all'inizio poi cerca solo le fonti che gli danno ragione."},
+	],
+	"musica": [
+		{"topic": "intervalli", "minLevel": 16, "prompt": "Ricostruisci un tratto del circolo delle quinte partendo da Do.",
+			"stages": [{"id": "do", "label": "Do", "glyph": "note"}, {"id": "sol", "label": "Sol", "glyph": "note"}, {"id": "re", "label": "Re", "glyph": "note"}, {"id": "la", "label": "La", "glyph": "note"}],
+			"correctOrder": ["do", "sol", "re", "la"],
+			"explanation": "Salendo di una quinta ogni volta si tocca ogni tonalità e si torna al punto di partenza. È il motivo per cui il circolo si chiama così: continuando, dopo dodici quinte si ritorna al Do."},
+	],
 }
 
 # CODE-DEBUG (righe numerate selezionabili): trova la riga con l'errore. Testo puro.
@@ -3085,6 +3131,47 @@ const ORDERING_UNIQUE := ["label", "value"]  # voci {label, value}
 ## sono le cinque righe, i dispari sono gli spazi, e fuori scala servono le
 ## linee addizionali. In chiave di violino le righe sono Mi Sol Si Re Fa e gli
 ## spazi Fa La Do Mi.
+# RETTA NUMERICA: un numero smette di essere un simbolo e diventa una posizione.
+#
+# Aggiunta il 5 agosto 2026 perché a livello 1 matematica non aveva NESSUN
+# formato visuale: solo abbinamenti, ordinamenti e smistamenti, tutti di testo.
+# È anche il posto in cui frazioni, decimali e negativi diventano confrontabili
+# a occhio invece che a regola.
+const NUMBER_LINE := {
+	"matematica": [
+		{"topic": "numeri", "prompt": "Quale punto sta sul 7?", "min": 0.0, "max": 10.0, "tick": 1.0,
+			"labels": [{"value": 0.0, "text": "0"}, {"value": 5.0, "text": "5"}, {"value": 10.0, "text": "10"}],
+			"targets": [{"id": "a", "label": "Punto sul 3", "value": 3.0}, {"id": "b", "label": "Punto sul 7", "value": 7.0}, {"id": "c", "label": "Punto sul 9", "value": 9.0}],
+			"answer": "b",
+			"explanation": "Il 7 sta fra il 5 e il 10, più vicino al 5. Contare le tacche dal riferimento più vicino è più rapido che contarle da zero."},
+		{"topic": "numeri", "prompt": "Quale punto sta esattamente a metà fra 0 e 10?", "min": 0.0, "max": 10.0, "tick": 1.0,
+			"labels": [{"value": 0.0, "text": "0"}, {"value": 10.0, "text": "10"}],
+			"targets": [{"id": "a", "label": "Punto sul 4", "value": 4.0}, {"id": "b", "label": "Punto sul 5", "value": 5.0}, {"id": "c", "label": "Punto sul 6", "value": 6.0}],
+			"answer": "b",
+			"explanation": "La metà si trova sommando gli estremi e dividendo per due: (0 + 10) / 2 = 5. Sulla retta è il punto equidistante dai due capi."},
+		{"topic": "frazioni", "minLevel": 4, "prompt": "Quale punto corrisponde a 1/2?", "min": 0.0, "max": 2.0, "tick": 0.5,
+			"labels": [{"value": 0.0, "text": "0"}, {"value": 1.0, "text": "1"}, {"value": 2.0, "text": "2"}],
+			"targets": [{"id": "a", "label": "Punto su un mezzo", "value": 0.5}, {"id": "b", "label": "Punto su uno e mezzo", "value": 1.5}, {"id": "c", "label": "Punto su due", "value": 2.0}],
+			"answer": "a",
+			"explanation": "Una frazione minore di 1 sta fra lo zero e l'uno: 1/2 è a metà di quel primo tratto, non a metà di tutta la retta."},
+		{"topic": "frazioni", "minLevel": 6, "prompt": "Quale punto corrisponde a 3/4?", "min": 0.0, "max": 1.0, "tick": 0.25,
+			"labels": [{"value": 0.0, "text": "0"}, {"value": 0.5, "text": "1/2"}, {"value": 1.0, "text": "1"}],
+			"targets": [{"id": "a", "label": "Punto su un quarto", "value": 0.25}, {"id": "b", "label": "Punto su un mezzo", "value": 0.5}, {"id": "c", "label": "Punto su tre quarti", "value": 0.75}],
+			"answer": "c",
+			"explanation": "Diviso il tratto in quattro parti uguali, 3/4 è la terza tacca: più di 1/2 e meno di 1. Confrontare le frazioni sulla retta evita di doverle ridurre allo stesso denominatore."},
+		{"topic": "numeri", "minLevel": 8, "prompt": "Quale punto sta su −3?", "min": -5.0, "max": 5.0, "tick": 1.0,
+			"labels": [{"value": -5.0, "text": "-5"}, {"value": 0.0, "text": "0"}, {"value": 5.0, "text": "5"}],
+			"targets": [{"id": "a", "label": "Punto su meno tre", "value": -3.0}, {"id": "b", "label": "Punto su zero", "value": 0.0}, {"id": "c", "label": "Punto su tre", "value": 3.0}],
+			"answer": "a",
+			"explanation": "I negativi stanno a sinistra dello zero, e più il numero è grande più si va lontano: −3 è più a sinistra di −1, anche se «tre» è più di «uno»."},
+		{"topic": "numeri", "minLevel": 10, "prompt": "Quale punto corrisponde a 2,5?", "min": 0.0, "max": 5.0, "tick": 0.5,
+			"labels": [{"value": 0.0, "text": "0"}, {"value": 2.0, "text": "2"}, {"value": 5.0, "text": "5"}],
+			"targets": [{"id": "a", "label": "Punto su due", "value": 2.0}, {"id": "b", "label": "Punto su due e cinque", "value": 2.5}, {"id": "c", "label": "Punto su tre", "value": 3.0}],
+			"answer": "b",
+			"explanation": "Il decimale sta fra due interi: 2,5 è la tacca a metà fra 2 e 3. È lo stesso punto che occupa la frazione 5/2."},
+	],
+}
+
 const NOTATION := {
 	"musica": [
 		{"topic": "lettura",
@@ -3345,7 +3432,7 @@ const HOTSPOT := {
 
 const FORMATS := [
 	"matching", "ordering", "classification", "graph", "circuit", "cycle",
-	"notation", "map", "hotspot", "code_debug",
+	"notation", "map", "hotspot", "code_debug", "number_line",
 ]
 
 static func table_for(fmt: String) -> Dictionary:
@@ -3358,6 +3445,7 @@ static func table_for(fmt: String) -> Dictionary:
 		"cycle": return CYCLE
 		"notation": return NOTATION
 		"map": return MAP_READING
+		"number_line": return NUMBER_LINE
 		"hotspot": return HOTSPOT
 		"code_debug": return CODE_DEBUG
 	return {}
@@ -3585,24 +3673,31 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	# quante ce ne sono in tutto, e un builder che non sa di essere l'ultimo non può
 	# saperlo. Prima la sequenza si scopriva costruendo, quindi non era possibile.
 	var plan: Array = []
-	# Prima campata: preferisci un abbinamento (più ricco); ripiega su ordinamento.
+	# I tre formati di base, in ordine RUOTATO.
+	#
+	# Fino al 5 agosto 2026 l'ordine era cablato: abbinamento, ordinamento,
+	# classificazione. `format_shape_probe` ha misurato 288 sessioni — dodici
+	# materie per quattro livelli — e **288 su 288 aprivano con le stesse tre
+	# mosse nello stesso ordine**, dal mondo 1 al mondo 24. Le forme di sessione
+	# esistenti in tutto il gioco erano otto, e differivano solo nell'ultima
+	# campata. Nessun formato nuovo avrebbe riparato questo.
+	#
+	# La rotazione dipende da materia e livello, non dal caso: due materie dello
+	# stesso mondo aprono in modo diverso, e la stessa materia rivisitata dodici
+	# mondi dopo apre in modo diverso da prima. Restando deterministica, una
+	# sessione rigiocata con lo stesso seme resta identica e gli audit reggono.
+	var base: Array = []
 	if has_match:
-		plan.append("matching")
-	elif numeric:
-		plan.append("numeric")
-	elif has_order:
-		plan.append("ordering")
-	# Seconda campata: preferisci un formato DIVERSO per varietà.
+		base.append("matching")
 	if numeric:
-		plan.append("numeric")
+		base.append("numeric")
 	elif has_order:
-		plan.append("ordering")
-	elif has_match:
-		plan.append("matching")
-	# Terza campata (se disponibile): smistamento drag-to-sort — il formato più
-	# distante da abbinamento/ordinamento, per esercizi davvero vari (#11).
+		base.append("ordering")
 	if has_classify:
-		plan.append("classification")
+		base.append("classification")
+	var giro := posmod(hash(subject) + level, maxi(1, base.size()))
+	for i in base.size():
+		plan.append(base[(giro + i) % base.size()])
 	# Quarta campata (formato SPECIALISTA): grafico/circuito/code-debug se la materia
 	# ne ha — leggere dati, schemi o codice: la competenza come sfida visuale.
 	# Quando una materia ne ha più d'uno (es. italiano: arco narrativo + caccia
@@ -3619,6 +3714,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		specialists.append("cycle")
 	if NOTATION.has(subject) and format_available(subject, "notation", level):
 		specialists.append("notation")
+	if NUMBER_LINE.has(subject) and _has_eligible(NUMBER_LINE[subject], level):
+		specialists.append("number_line")
 	if MAP_READING.has(subject) and format_available(subject, "map", level):
 		specialists.append("map")
 	if HOTSPOT.has(subject) and format_available(subject, "hotspot", level):
@@ -3626,7 +3723,14 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	if CODE_DEBUG.has(subject) and _has_eligible(CODE_DEBUG[subject], level):
 		specialists.append("code_debug")
 	if not specialists.is_empty():
-		plan.append(str(specialists[generator.randi_range(0, specialists.size() - 1)]))
+		var scelto := str(specialists[generator.randi_range(0, specialists.size() - 1)])
+		# Lo specialista non è più per forza l'ultimo. È il formato con più
+		# carattere della sessione — il grafico, il circuito, il ciclo — e
+		# tenerlo sempre in coda significava che le prime tre campate erano
+		# sempre le tre generiche. La posizione dipende da livello e materia,
+		# come la rotazione qui sopra.
+		var posto := posmod(hash(subject) * 3 + level, plan.size() + 1)
+		plan.insert(posto, scelto)
 	if plan.is_empty():
 		# Fallback generico: un ordinamento numerico sempre valido.
 		plan.append("numeric")
@@ -3654,6 +3758,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 				nodes.append(_cycle_node(subject, _pick(CYCLE[subject], generator, level), difficulty, generator, idx))
 			"notation":
 				nodes.append(_notation_node(subject, _pick(NOTATION[subject], generator, level), difficulty, generator, idx))
+			"number_line":
+				nodes.append(_number_line_node(subject, _pick(NUMBER_LINE[subject], generator, level), difficulty, generator, idx))
 			"map":
 				nodes.append(_map_node(subject, _pick(MAP_READING[subject], generator, level), difficulty, generator, idx))
 			"hotspot":
@@ -3819,6 +3925,26 @@ func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: Ran
 		"prompt": str(question["prompt"]),
 		"staff": (spec["staff"] as Dictionary).duplicate(true),
 		"symbols": symbols,
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
+	}
+
+func _number_line_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
+	var targets: Array = (spec["targets"] as Array).duplicate(true)
+	_shuffle(targets, rng)
+	return {
+		"id": "minigame-numline-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "number_line",
+		"prompt": str(question["prompt"]),
+		"min": float(spec.get("min", 0.0)),
+		"max": float(spec.get("max", 10.0)),
+		"tick": float(spec.get("tick", 1.0)),
+		"labels": (spec.get("labels", []) as Array).duplicate(true),
+		"targets": targets,
 		"answer": str(question["answer"]),
 		"explanation": str(question["explanation"]),
 	}

@@ -97,6 +97,8 @@ func _draw() -> void:
 			_draw_map(bounds)
 		"cycle":
 			_draw_cycle(bounds)
+		"number_line":
+			_draw_number_line(bounds)
 		_:
 			_draw_hotspot(bounds)
 	_draw_selection_feedback()
@@ -358,6 +360,49 @@ func _draw_cycle_glyph(center: Vector2, glyph: String, ink: Color) -> void:
 			draw_rect(Rect2(center + Vector2(-18, -12), Vector2(36, 25)), Color("d4b17a"))
 			for y in [-5.0, 4.0]:
 				draw_line(center + Vector2(-15, y), center + Vector2(15, y), Color("72563b"), 2.0, true)
+		"gear":
+			draw_arc(center, 11.0, 0.0, TAU, 20, ink, 3.0, true)
+			for dente in range(8):
+				var d := Vector2.RIGHT.rotated(TAU * float(dente) / 8.0)
+				draw_line(center + d * 12.0, center + d * 18.0, ink, 3.0, true)
+		"arrow":
+			draw_line(center + Vector2(-16, 0), center + Vector2(10, 0), ink, 3.0, true)
+			draw_colored_polygon(PackedVector2Array([
+				center + Vector2(18, 0), center + Vector2(6, -8), center + Vector2(6, 8)]), ink)
+		"check":
+			draw_line(center + Vector2(-13, 1), center + Vector2(-4, 11), Color("91dc72"), 3.4, true)
+			draw_line(center + Vector2(-4, 11), center + Vector2(14, -11), Color("91dc72"), 3.4, true)
+		"clock":
+			draw_arc(center, 16.0, 0.0, TAU, 24, ink, 2.6, true)
+			draw_line(center, center + Vector2(0, -10), ink, 2.6, true)
+			draw_line(center, center + Vector2(7, 3), ink, 2.6, true)
+		"rock":
+			draw_colored_polygon(PackedVector2Array([
+				center + Vector2(-16, 8), center + Vector2(-8, -12), center + Vector2(9, -13),
+				center + Vector2(17, 3), center + Vector2(4, 14)]), Color("9299a8"))
+		"fire":
+			draw_colored_polygon(PackedVector2Array([
+				center + Vector2(0, -18), center + Vector2(11, 2), center + Vector2(5, 15),
+				center + Vector2(-5, 15), center + Vector2(-11, 2)]), Color("ff8f5e"))
+		"pen":
+			draw_line(center + Vector2(-12, 13), center + Vector2(11, -12), ink, 3.4, true)
+			draw_colored_polygon(PackedVector2Array([
+				center + Vector2(13, -15), center + Vector2(8, -8), center + Vector2(15, -9)]), Color("f6c85f"))
+		"note":
+			draw_circle(center + Vector2(-5, 10), 7.0, ink)
+			draw_line(center + Vector2(2, 10), center + Vector2(2, -14), ink, 2.6, true)
+			draw_line(center + Vector2(2, -14), center + Vector2(14, -10), ink, 2.6, true)
+		"book":
+			draw_rect(Rect2(center + Vector2(-15, -12), Vector2(30, 24)), ink, false, 2.6)
+			draw_line(center + Vector2(0, -12), center + Vector2(0, 12), ink, 2.2, true)
+		"question":
+			draw_arc(center + Vector2(0, -5), 9.0, PI, TAU + PI * 0.4, 18, ink, 3.0, true)
+			draw_line(center + Vector2(3, 3), center + Vector2(1, 8), ink, 3.0, true)
+			draw_circle(center + Vector2(1, 15), 2.6, ink)
+		"bolt":
+			draw_colored_polygon(PackedVector2Array([
+				center + Vector2(2, -18), center + Vector2(-9, 2), center + Vector2(-1, 2),
+				center + Vector2(-3, 18), center + Vector2(10, -3), center + Vector2(1, -3)]), Color("f6c85f"))
 		"sugar":
 			var hexagon := PackedVector2Array()
 			for point in range(6):
@@ -393,6 +438,62 @@ func _notation_position(symbol: Dictionary) -> Vector2:
 ## La posizione verticale è musicale: ogni `staffStep` avanza di uno spazio o
 ## di una riga (0,2,4,6,8 sono le cinque righe dal basso). Quella orizzontale è
 ## resa: deriva dall'ordine di presentazione, mai da coordinate nel contenuto.
+## La retta numerica. Tutta disegnata: una linea, le tacche, le etichette dei
+## soli estremi e dei riferimenti dichiarati. Niente immagini.
+##
+## Perché serve: a livello 1 matematica non aveva nessun formato visuale — solo
+## abbinamenti, ordinamenti e smistamenti di testo. La retta è il primo posto in
+## cui un numero smette di essere un simbolo e diventa una posizione, ed è quello
+## che rende visibili le frazioni, i decimali e i negativi.
+func _draw_number_line(bounds: Rect2) -> void:
+	var ink := Color("d8fff8")
+	var y := bounds.position.y + bounds.size.y * 0.58
+	var x0 := bounds.position.x + bounds.size.x * 0.10
+	var x1 := bounds.position.x + bounds.size.x * 0.90
+	draw_line(Vector2(x0, y), Vector2(x1, y), ink, 2.6, true)
+	# Le punte: dicono che la retta continua oltre ciò che si vede.
+	for verso in [-1.0, 1.0]:
+		var punta := Vector2(x1 if verso > 0.0 else x0, y)
+		draw_colored_polygon(PackedVector2Array([
+			punta + Vector2(9.0 * verso, 0), punta + Vector2(-2.0 * verso, -6),
+			punta + Vector2(-2.0 * verso, 6)]), ink)
+
+	var minimo := float(model.get("min", 0.0))
+	var massimo := float(model.get("max", 10.0))
+	var passo := maxf(0.0001, float(model.get("tick", 1.0)))
+	var estensione := maxf(0.0001, massimo - minimo)
+	var valore := minimo
+	while valore <= massimo + 0.0001:
+		var frazione := (valore - minimo) / estensione
+		var x := lerpf(x0, x1, frazione)
+		var alta := absf(valore - minimo) < 0.0001 or absf(valore - massimo) < 0.0001
+		draw_line(Vector2(x, y - (13.0 if alta else 7.0)), Vector2(x, y + (13.0 if alta else 7.0)),
+			ink, 2.4 if alta else 1.6, true)
+		valore += passo
+
+	# Solo gli estremi e i riferimenti dichiarati portano un numero scritto: una
+	# retta con tutte le etichette si legge come una tabella, e allora non serve.
+	var font := ThemeDB.fallback_font
+	for voce in Array(model.get("labels", [])):
+		var etichetta := voce as Dictionary
+		var v := float(etichetta.get("value", 0.0))
+		var x := lerpf(x0, x1, (v - minimo) / estensione)
+		var testo := str(etichetta.get("text", ""))
+		draw_string(font, Vector2(x - testo.length() * 3.4, y + 32.0), testo,
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("9fc4bb"))
+
+## Posizione normalizzata di un bersaglio sulla retta.
+func number_line_anchor(target_id: String) -> Vector2:
+	for voce in Array(model.get("targets", [])):
+		var bersaglio := voce as Dictionary
+		if str(bersaglio.get("id", "")) != target_id:
+			continue
+		var minimo := float(model.get("min", 0.0))
+		var massimo := float(model.get("max", 10.0))
+		var frazione := (float(bersaglio.get("value", 0.0)) - minimo) / maxf(0.0001, massimo - minimo)
+		return Vector2(lerpf(0.10, 0.90, clampf(frazione, 0.0, 1.0)), 0.58)
+	return Vector2(0.5, 0.58)
+
 func notation_anchor(symbol_id: String) -> Vector2:
 	var symbols: Array = model.get("symbols", [])
 	var index := 0

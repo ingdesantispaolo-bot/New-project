@@ -20,6 +20,7 @@ const ArtifactAtlasCatalog = preload("res://scripts/visual/artifact_atlas_catalo
 const IMPLEMENTED := [
 	"multiple_choice", "numeric_input", "short_answer", "ordering", "matching",
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
+	"number_line",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -91,6 +92,15 @@ static func answer_accepted(given: String, node: Dictionary) -> bool:
 	return false
 
 # Valida un nodo. Ritorna {ok: bool, errors: Array[String]}.
+## Glifi disegnabili da `exercise_diagram._draw_cycle_glyph`. Chi ne aggiunge
+## uno alla lista deve aggiungerlo anche lì, o la fase resta muta a schermo.
+const CYCLE_GLYPHS := [
+	"sun", "water", "cloud", "rain", "plant", "air", "animal", "soil", "leaf",
+	"sugar", "oxygen", "carbon", "egg", "larva", "chrysalis", "butterfly",
+	"gear", "arrow", "check", "clock", "rock", "fire", "pen", "note", "book",
+	"question", "bolt",
+]
+
 static func validate(node: Dictionary) -> Dictionary:
 	var errors: Array = []
 	var fmt := format_of(node)
@@ -144,6 +154,8 @@ static func validate(node: Dictionary) -> Dictionary:
 			_validate_map(node, errors)
 		"cycle":
 			_validate_cycle(node, errors)
+		"number_line":
+			_validate_number_line(node, errors)
 		"code_debug":
 			_validate_code_debug(node, errors)
 		_:
@@ -300,6 +312,47 @@ static func _validate_circuit(node: Dictionary, errors: Array) -> void:
 	if answer == "" or not ids.has(answer):
 		errors.append("risposta circuito non presente: %s" % answer)
 
+## La retta numerica: due o più posizioni sulla stessa scala, una sola giusta.
+##
+## I controlli che contano sono due. Il primo: ogni bersaglio deve cadere DENTRO
+## la scala disegnata, altrimenti finisce fuori dal riquadro e diventa
+## impossibile da toccare. Il secondo: due bersagli non possono avere lo stesso
+## valore, perché occuperebbero lo stesso punto e la domanda avrebbe due
+## risposte sovrapposte a schermo.
+static func _validate_number_line(node: Dictionary, errors: Array) -> void:
+	var minimo := float(node.get("min", 0.0))
+	var massimo := float(node.get("max", 0.0))
+	if massimo <= minimo:
+		errors.append("retta numerica con scala vuota o rovesciata (%s → %s)" % [minimo, massimo])
+	if float(node.get("tick", 0.0)) <= 0.0:
+		errors.append("retta numerica senza passo delle tacche")
+	var targets: Array = node.get("targets", [])
+	if targets.size() < 2:
+		errors.append("retta numerica con meno di 2 posizioni selezionabili")
+	if targets.size() > 6:
+		errors.append("retta numerica con più di 6 posizioni: bersagli troppo fitti per un dito")
+	var ids: Dictionary = {}
+	var valori: Dictionary = {}
+	for entry in targets:
+		var bersaglio := entry as Dictionary
+		var id := str(bersaglio.get("id", ""))
+		if id == "":
+			errors.append("posizione della retta con id vuoto")
+		elif ids.has(id):
+			errors.append("posizione della retta duplicata: %s" % id)
+		ids[id] = true
+		if str(bersaglio.get("label", "")).strip_edges() == "":
+			errors.append("posizione della retta senza etichetta accessibile: %s" % id)
+		var v := float(bersaglio.get("value", 0.0))
+		if v < minimo or v > massimo:
+			errors.append("posizione «%s» fuori dalla scala: %s non sta fra %s e %s" % [id, v, minimo, massimo])
+		var chiave := "%.4f" % v
+		if valori.has(chiave):
+			errors.append("due posizioni sullo stesso valore (%s): si sovrappongono a schermo" % v)
+		valori[chiave] = true
+	if not ids.has(str(node.get("answer", ""))):
+		errors.append("la risposta della retta non è una delle posizioni offerte")
+
 static func _validate_notation(node: Dictionary, errors: Array) -> void:
 	var staff := node.get("staff", {}) as Dictionary
 	var clef := str(staff.get("clef", "treble"))
@@ -363,7 +416,10 @@ static func _validate_cycle(node: Dictionary, errors: Array) -> void:
 		elif labels.has(label):
 			errors.append("etichetta del ciclo duplicata: %s" % label)
 		labels[label] = true
-		if glyph not in ["sun", "water", "cloud", "rain", "plant", "air", "animal", "soil", "leaf", "sugar", "oxygen", "carbon", "egg", "larva", "chrysalis", "butterfly"]:
+		# I glifi sono tutti DISEGNATI in `exercise_diagram.gd`, non immagini:
+		# aggiungerne uno costa qualche riga di `draw_*` e nessun asset. È la
+		# ragione per cui il ciclo si è potuto estendere da una materia a otto.
+		if glyph not in CYCLE_GLYPHS:
 			errors.append("glifo del ciclo non supportato: %s" % glyph)
 	var expected := correct_order.map(func(value): return str(value))
 	var sorted_ids: Array = ids.keys()

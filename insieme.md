@@ -121,12 +121,16 @@ un bambino continua. Nessun formato nuovo ripara questo: il piano è cablato in
 
 ### Cosa fare, in ordine di resa per costo
 
-**1 · La forma della sessione.** Nessun formato nuovo, nessun contenuto nuovo:
-si sceglie l'apertura in base a livello e materia, e lo specialista non è per
-forza l'ultimo. È l'intervento che cambia di più la sensazione di varietà, e
-costa una funzione.
+**1 · La forma della sessione — fatto il 5 agosto.** Le forme di sessione sono
+passate da **8 a 52**, e l'apertura che prima copriva 288 sessioni su 288 ora ne
+copre 24. È costato una funzione. Ha scoperto anche un fondo troppo corto in
+logica ai primi livelli (il ripasso ripescava lo stesso item quattro volte in
+dieci missioni): allargato il fondo con venti item, non la soglia.
 
-**2 · Il `ciclo` a sette materie.** Il formato è già costruito e i suoi glifi
+**2 · Il `ciclo` a sette materie — fatto il 5 agosto.** Il formato è passato da
+**una materia a otto**, con undici glifi nuovi tutti disegnati.
+Impostazione originale conservata qui sotto perché la scala dei livelli resta
+valida.  Il formato è già costruito e i suoi glifi
 sono **disegnati proceduralmente**, non immagini: estenderlo non tocca la
 pipeline degli asset. Sette materie hanno un ciclo vero da ricomporre, non
 inventato:
@@ -143,17 +147,26 @@ inventato:
 
 **3 · Tre formati nuovi**, tutti a disegno procedurale:
 
-- **bilancia** (L5+, matematica · fisica · logica · elettronica): si pareggiano
-  i due piatti trascinando termini. Insegna l'equivalenza, che è il cuore
-  dell'algebra e non ha oggi nessun formato che la mostri;
-- **retta numerica** (L1+, matematica): collocare frazioni, decimali e negativi.
-  Serve **subito**, perché a livello 1 matematica non ha niente di visuale;
-- **linea del tempo** (L8+, storia · musica · italiano): diversa
-  dall'ordinamento, perché conta la *distanza* fra gli eventi, non solo l'ordine.
+- **retta numerica** (L1+, matematica) — **fatta il 5 agosto.** Sei specifiche,
+  da «quale punto sta sul 7» ai negativi e ai decimali, tenute da
+  `number_line_audit`: i bersagli devono cadere dentro la scala disegnata e non
+  possono condividere un valore, o si sovrappongono a schermo;
+- **linea del tempo** (L8+, storia · musica · italiano) — **da fare.** Diversa
+  dall'ordinamento perché conta la *distanza* fra gli eventi, non solo l'ordine;
+- **bilancia** (L5+, matematica · fisica · logica · elettronica) — **da fare.**
+  Si pareggiano i due piatti trascinando termini. Insegna l'equivalenza, che è
+  il cuore dell'algebra e oggi non ha nessun formato che la mostri.
 
-**4 · Bloccati da un asset**, e restano dove sono: portare *reperti* e *carta*
-ad altre materie richiede immagini nuove — sono già fra [le voci
-aperte](#le-altre-voci-aperte).
+I due che restano hanno lo stesso costo della retta: una modalità di disegno in
+`exercise_diagram`, una validazione, una tabella di specifiche e un audit. Li ho
+lasciati indietro di proposito invece di consegnarne tre a metà — è il difetto
+che questo progetto ha già pagato quattro volte.
+
+**4 · Reperti e carta.** Qui ho corretto una convinzione sbagliata scrivendo il
+punto: **solo i reperti hanno bisogno di un disegno.** La carta d'Italia è
+geometria vettoriale da Natural Earth, non un'immagine, quindi la carta
+d'Europa è un lavoro di *dati* — estrarre i poligoni dallo stesso dataset
+pubblico — e non aspetta un illustratore.
 
 ### La scala per livello
 
@@ -254,7 +267,14 @@ accorto rileggendo il diff: me l'ha detto `minigame_audit`.
 
 Nessuna si scrive: vogliono un **asset** o una **tua decisione**.
 
-- **Carta d'Europa e secondo foglio di reperti** — servono immagini nuove.
+- **Secondo foglio di reperti** — serve un'immagine nuova: gli atlanti dei
+  reperti sono `.webp` (`artifact_atlas_catalog.gd`), e senza un disegno il
+  formato non si estende.
+- **Carta d'Europa** — **non serve un disegno.** Verificato il 5 agosto: la
+  carta d'Italia è geometria vettoriale derivata da Natural Earth, dominio
+  pubblico (`map_geometry_catalog.gd`), non un'immagine. Per l'Europa servono
+  le coordinate dei poligoni dallo stesso dataset — un lavoro di dati, non
+  d'arte, e quindi qualcosa che posso fare io se mi dai il via.
 - **Accessibilità dei formati visuali** — le etichette identificano senza
   descrivere («Segnaposto A»), che è l'unica scelta che non regala la risposta.
   Ma chi usa un lettore di schermo **non può rispondere a una carta muta**. Vale

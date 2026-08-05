@@ -618,7 +618,7 @@ func _show_current() -> void:
 		"classification":
 			_input.visible = false
 			_build_classification(item)
-		"hotspot", "graph", "circuit", "notation", "map":
+		"hotspot", "graph", "circuit", "notation", "map", "number_line":
 			_input.visible = false
 			_build_visual_selection(item, fmt)
 		"cycle":
@@ -1101,6 +1101,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		"circuit": "Osserva i collegamenti e seleziona il componente richiesto.",
 		"notation": "Leggi il pentagramma e seleziona il simbolo richiesto.",
 		"map": "Leggi la carta muta e seleziona il luogo richiesto.",
+		"number_line": "Guarda dove cadono i valori sulla retta e scegli il punto richiesto.",
 	}.get(fmt, "Seleziona il punto corretto.")
 	instruction.add_theme_color_override("font_color", Color("b8d7dc"))
 	_options.add_child(instruction)
@@ -1128,7 +1129,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		diagram_model.get("hotspots", []) if fmt == "hotspot"
 		else item.get("points", []) if fmt == "graph"
 		else item.get("components", []) if fmt == "circuit"
-		else item.get("targets", []) if fmt == "map"
+		else item.get("targets", []) if fmt in ["map", "number_line"]
 		else item.get("symbols", [])
 	)
 	for point in points:
@@ -1137,7 +1138,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		var button := Button.new()
 		button.name = "VisualChoice_%s" % id.validate_node_name()
 		var accessible_label := str(spec.get("label", id))
-		var blank_hit_target := fmt in ["notation", "map"] or (fmt == "hotspot" and str(item.get("assetId", "")) != "")
+		var blank_hit_target := fmt in ["notation", "map", "number_line"] or (fmt == "hotspot" and str(item.get("assetId", "")) != "")
 		button.text = "" if blank_hit_target else accessible_label
 		button.accessibility_name = accessible_label
 		button.set_meta("visual_label", accessible_label)
@@ -1157,6 +1158,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 			button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.03, 0.15, 0.18, 0.96), Color("f6c85f")))
 		var normalized: Vector2 = (
 			diagram.call("map_anchor", id) if fmt == "map"
+			else diagram.call("number_line_anchor", id) if fmt == "number_line"
 			else diagram.call("notation_anchor", id) if fmt == "notation"
 			else diagram.call("hotspot_anchor", id) if fmt == "hotspot" and blank_hit_target
 			else _diagram_anchor(spec, fmt)

@@ -1363,6 +1363,306 @@
 			"explanation": "Gli altri sono poligoni, cioè figure con i lati dritti; il cerchio è delimitato da una curva."
 		},
 		{
+			"id": "logica-sequenze-56",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?",
+			"options": [
+				"triangolo",
+				"nessuna delle due",
+				"cerchio",
+				"quadrato"
+			],
+			"answer": "cerchio",
+			"explanation": "La serie alterna due figure: dopo il quadrato tocca di nuovo al cerchio. Una regola che si ripete a coppie si scopre guardando due passi, non uno."
+		},
+		{
+			"id": "logica-sequenze-57",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quale numero continua la serie: 2, 4, 6, 8, ?",
+			"options": [],
+			"answer": "10",
+			"explanation": "Fra un numero e il successivo ci sono sempre due: la regola è «+2», e vale anche fra 8 e il termine dopo."
+		},
+		{
+			"id": "logica-sequenze-58",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quale numero continua la serie: 10, 9, 8, 7, ?",
+			"options": [],
+			"answer": "6",
+			"explanation": "Qui la serie scende di uno per volta: le regole possono anche togliere, non solo aggiungere."
+		},
+		{
+			"id": "logica-sequenze-59",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quale numero continua la serie: 1, 2, 4, 8, ?",
+			"options": [],
+			"answer": "16",
+			"explanation": "Ogni numero è il doppio del precedente. Quando i salti crescono in fretta conviene provare a moltiplicare, non ad aggiungere."
+		},
+		{
+			"id": "logica-sequenze-60",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale lettera continua la serie: A, C, E, G, ?",
+			"options": [
+				"F",
+				"L",
+				"I",
+				"H"
+			],
+			"answer": "I",
+			"explanation": "Si salta una lettera ogni volta: A, (B), C, (D), E… Dopo la G si salta la H e si arriva alla I."
+		},
+		{
+			"id": "logica-esclusioni-61",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: cane, gatto, cavallo, sedia?",
+			"options": [
+				"cane",
+				"cavallo",
+				"gatto",
+				"sedia"
+			],
+			"answer": "sedia",
+			"explanation": "Tre sono animali e uno è un oggetto. Per trovare l'intruso si cerca la proprietà che hanno TUTTI gli altri, non quella che manca a uno solo."
+		},
+		{
+			"id": "logica-esclusioni-62",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: lunedì, martedì, gennaio, giovedì?",
+			"options": [
+				"gennaio",
+				"giovedì",
+				"martedì",
+				"lunedì"
+			],
+			"answer": "gennaio",
+			"explanation": "Tre sono giorni della settimana, gennaio è un mese: appartengono a due scale di tempo diverse."
+		},
+		{
+			"id": "logica-esclusioni-63",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quale non appartiene al gruppo: 2, 4, 7, 8?",
+			"options": [],
+			"answer": "7",
+			"explanation": "Tre sono pari e il 7 è dispari. Con i numeri l'intruso si cerca fra le proprietà — pari, dispari, primo — non fra le cifre."
+		},
+		{
+			"id": "logica-esclusioni-64",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: martello, cacciavite, pinza, mela?",
+			"options": [
+				"martello",
+				"pinza",
+				"mela",
+				"cacciavite"
+			],
+			"answer": "mela",
+			"explanation": "Tre servono a lavorare, la mela si mangia: la categoria è l'uso, non la forma."
+		},
+		{
+			"id": "logica-analogie-65",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Caldo sta a freddo come alto sta a…?",
+			"options": [
+				"veloce",
+				"lungo",
+				"grande",
+				"basso"
+			],
+			"answer": "basso",
+			"explanation": "La relazione è «il contrario di». Trovata la relazione nella prima coppia, si applica identica alla seconda."
+		},
+		{
+			"id": "logica-analogie-66",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Uccello sta a volare come pesce sta a…?",
+			"options": [
+				"nuotare",
+				"saltare",
+				"correre",
+				"camminare"
+			],
+			"answer": "nuotare",
+			"explanation": "La relazione è «come si sposta»: ogni animale va con il movimento del suo ambiente."
+		},
+		{
+			"id": "logica-analogie-67",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Libro sta a leggere come cibo sta a…?",
+			"options": [
+				"servire",
+				"mangiare",
+				"cucinare",
+				"comprare"
+			],
+			"answer": "mangiare",
+			"explanation": "La relazione è «che cosa se ne fa»: del libro si legge, del cibo si mangia. Cucinare viene prima, non è l'uso finale."
+		},
+		{
+			"id": "logica-analogie-68",
+			"subject": "logica",
+			"topic": "analogie",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Medico sta a ospedale come insegnante sta a…?",
+			"options": [
+				"studente",
+				"lavagna",
+				"scuola",
+				"libro"
+			],
+			"answer": "scuola",
+			"explanation": "La relazione è «dove lavora». Lavagna e studente stanno nella scuola, ma non sono il luogo."
+		},
+		{
+			"id": "logica-insiemi-69",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Tutti i quadrati sono rettangoli. Allora un quadrato è anche…",
+			"options": [
+				"nessuna delle due",
+				"un triangolo",
+				"un cerchio",
+				"un rettangolo"
+			],
+			"answer": "un rettangolo",
+			"explanation": "Se un insieme è dentro un altro, tutto ciò che sta nel piccolo sta anche nel grande. Non vale al contrario: non tutti i rettangoli sono quadrati."
+		},
+		{
+			"id": "logica-insiemi-70",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…",
+			"options": [
+				"gioca a pallavolo",
+				"non gioca a niente",
+				"gioca a entrambi",
+				"non si può sapere"
+			],
+			"answer": "gioca a pallavolo",
+			"explanation": "«O l'uno o l'altro» copre tutti: escluso il primo resta per forza il secondo. Funziona solo perché la frase dice TUTTI."
+		},
+		{
+			"id": "logica-verita-71",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "«Tutti i gatti hanno quattro zampe.» Per smentirla basta…",
+			"options": [
+				"guardare anche i cani",
+				"trovare un gatto senza quattro zampe",
+				"chiedere a un veterinario",
+				"contare molti gatti con quattro zampe"
+			],
+			"answer": "trovare un gatto senza quattro zampe",
+			"explanation": "Una frase con «tutti» cade con un solo controesempio. Trovare mille casi favorevoli non la dimostra; trovarne uno contrario la abbatte."
+		},
+		{
+			"id": "logica-verita-72",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Qualche uccello non vola.» Per dimostrarla basta…",
+			"options": [
+				"trovare molti uccelli che volano",
+				"dimostrare che nessuno vola",
+				"trovare un uccello che non vola",
+				"contare tutti gli uccelli"
+			],
+			"answer": "trovare un uccello che non vola",
+			"explanation": "«Qualche» chiede un solo caso: il pinguino basta. È il rovescio di «tutti», che invece un solo caso lo distrugge."
+		},
+		{
+			"id": "logica-quantificatori-73",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è il contrario di «tutti i cani abbaiano»?",
+			"options": [
+				"qualche cane abbaia",
+				"tutti i cani tacciono",
+				"nessun cane abbaia",
+				"almeno un cane non abbaia"
+			],
+			"answer": "almeno un cane non abbaia",
+			"explanation": "Negare «tutti» non dà «nessuno»: dà «almeno uno no». Sono due frasi molto diverse, e scambiarle è l'errore più comune."
+		},
+		{
+			"id": "logica-quantificatori-74",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Nessuno studente è arrivato in ritardo.» Se ne trovi uno in ritardo, la frase è…",
+			"options": [
+				"falsa",
+				"ancora vera",
+				"non si può dire",
+				"vera a metà"
+			],
+			"answer": "falsa",
+			"explanation": "«Nessuno» non ammette eccezioni: un solo caso contrario la rende falsa, senza vie di mezzo."
+		},
+		{
+			"id": "logica-deduzioni-75",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Tutti i cuochi sanno cucinare. Anna è una cuoca. Quindi Anna…",
+			"options": [
+				"forse sa cucinare",
+				"sa cucinare",
+				"cucina solo dolci",
+				"non sa cucinare"
+			],
+			"answer": "sa cucinare",
+			"explanation": "Se la regola vale per tutti e Anna sta nel gruppo, la conclusione è obbligata: non è probabile, è certa."
+		},
+		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",
 			"subject": "logica",
 			"topic": "esclusioni",

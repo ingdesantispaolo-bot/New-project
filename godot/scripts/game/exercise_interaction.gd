@@ -20,7 +20,7 @@ const ArtifactAtlasCatalog = preload("res://scripts/visual/artifact_atlas_catalo
 const IMPLEMENTED := [
 	"multiple_choice", "numeric_input", "short_answer", "ordering", "matching",
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
-	"number_line", "balance", "timeline", "compose", "trace", "clue",
+	"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -166,6 +166,8 @@ static func validate(node: Dictionary) -> Dictionary:
 			_validate_trace(node, errors)
 		"clue":
 			_validate_clue(node, errors)
+		"swipe":
+			_validate_swipe(node, errors)
 		"code_debug":
 			_validate_code_debug(node, errors)
 		_:
@@ -354,6 +356,59 @@ const TIMELINE_MIN_SEPARAZIONE := 0.02
 ## Quello che una macchina NON può controllare è che ogni indizio sia davvero
 ## più stringente del precedente: lo giudica chi legge. L'audit lo dice invece
 ## di fingere di verificarlo.
+## LO SCORRIMENTO. Tre controlli, e il primo è il più importante.
+##
+## **1. Solo su argomenti fluency.** Il cronometro misura una competenza reale
+## dove la risposta deve essere automatica — coniugare, le tabelline, un vocabolo
+## — e misura ansia dappertutto altrove. `ContentManager.FLUENCY_TOPICS` decide,
+## e un argomento non elencato lì non può avere un round a tempo.
+##
+## **2. Abbastanza affermazioni.** Una prova binaria si indovina al cinquanta per
+## cento: su sei affermazioni la fortuna basta a passare, su sedici no. È la
+## lunghezza a rendere onesto il formato, non la difficoltà delle singole frasi.
+##
+## **3. Vere e false in equilibrio.** Se le corrette fossero tre su sedici, la
+## strategia vincente sarebbe rispondere sempre «sbagliato» senza leggere.
+const SWIPE_MIN_FRASI := 10
+const SWIPE_MIN_QUOTA_VERE := 0.35
+
+static func _validate_swipe(node: Dictionary, errors: Array) -> void:
+	var subject := str(node.get("subject", ""))
+	var topic := str(node.get("topic", ""))
+	if not ContentManager.is_fluency_topic(subject, topic):
+		errors.append("«%s/%s» non è un argomento fluency: il cronometro qui misurerebbe ansia" % [
+			subject, topic])
+	var frasi: Array = node.get("statements", [])
+	if frasi.size() < SWIPE_MIN_FRASI:
+		errors.append("scorrimento con %d affermazioni: sotto %d si passa tirando a indovinare" % [
+			frasi.size(), SWIPE_MIN_FRASI])
+	var vere := 0
+	var viste: Dictionary = {}
+	for entry in frasi:
+		var frase := entry as Dictionary
+		var testo := str(frase.get("text", "")).strip_edges()
+		if testo == "":
+			errors.append("affermazione vuota")
+			continue
+		if viste.has(testo):
+			errors.append("affermazione ripetuta: «%s»" % testo)
+		viste[testo] = true
+		if typeof(frase.get("correct")) != TYPE_BOOL:
+			errors.append("affermazione senza verdetto vero/falso: «%s»" % testo)
+		elif bool(frase["correct"]):
+			vere += 1
+	if not frasi.is_empty():
+		var quota := float(vere) / float(frasi.size())
+		if quota < SWIPE_MIN_QUOTA_VERE or quota > 1.0 - SWIPE_MIN_QUOTA_VERE:
+			errors.append(
+				"solo il %d%% di affermazioni vere: sbilanciato, conviene rispondere sempre uguale"
+				% int(round(quota * 100.0)))
+	var soglia := float(node.get("minAccuracy", 0.0))
+	if soglia < 0.6 or soglia > 0.95:
+		errors.append("soglia di precisione fuori scala (%s): sotto 0,6 passa il caso" % soglia)
+	if float(node.get("seconds", 0.0)) < 20.0:
+		errors.append("meno di 20 secondi: non è fluenza, è fretta")
+
 static func _validate_clue(node: Dictionary, errors: Array) -> void:
 	var clues: Array = node.get("clues", [])
 	if clues.size() < 3:

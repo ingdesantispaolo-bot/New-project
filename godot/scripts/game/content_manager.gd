@@ -40,6 +40,41 @@ static func subject_pace(subject: String) -> String:
 static func is_untimed(subject: String) -> bool:
 	return subject_pace(subject) != PACE_FLUENCY
 
+## **La fluency è una proprietà dell'ARGOMENTO, non della materia.** (5 agosto 2026)
+##
+## Fino a oggi la regola era per materia: la matematica poteva essere
+## cronometrata, tutte le altre no. È una semplificazione che regge finché il
+## gioco misura solo il ragionamento — ma dentro una materia di ragionamento
+## esistono automatismi veri. Coniugare «loro corrono» o riconoscere «un'amica»
+## non è ragionare: è sapere o non sapere, e la velocità *è* la misura. Al
+## contrario l'analisi logica non diventa fluency nemmeno in matematica.
+##
+## Serve a distinguere dove il cronometro insegna qualcosa da dove fa solo
+## ansia. Un argomento non elencato qui resta senza tempo: è la scelta prudente,
+## come lo era il ritmo di default per le materie nuove.
+const FLUENCY_TOPICS := {
+	"matematica": ["tabelline", "calcolo", "frazioni", "percentuali", "potenze", "numeri"],
+	# Nota: «analisi-grammaticale» è stata tolta da qui. Riconoscere che «gatto»
+	# è un nome sembra automatico, ma il confine con l'analisi vera è sottile e
+	# la scelta prudente vale più della copertura: un argomento in dubbio resta
+	# senza tempo.
+	"italiano": ["verbo", "ortografia", "tempi-indicativo", "modi-verbali"],
+	"inglese": ["irregular-past", "irregular-plural", "contractions", "vocabolario", "opposites"],
+	"latino": ["declinazioni-base", "declinazione-2m", "verbo-sum", "vocabolario", "casi"],
+	"musica": ["note", "ritmo", "lettura"],
+	"geografia": ["capitali", "continenti"],
+	"elettronica": ["misure-elettriche", "componenti"],
+	"scienze": ["classi", "corpo"],
+	"logica": ["sequenze", "analogie"],
+	"storia": ["cronologia"],
+	"coding": ["tipi", "operatori"],
+	"fisica": ["misure"],
+}
+
+## Vero se su questo argomento il cronometro misura una competenza reale.
+static func is_fluency_topic(subject: String, topic: String) -> bool:
+	return Array(FLUENCY_TOPICS.get(subject, [])).has(topic)
+
 const BANKS := {
 	"matematica": "res://data/banks/matematica-tabelline.json",
 	"italiano": "res://data/banks/italiano-base.json",

@@ -226,6 +226,32 @@ geometria vettoriale da Natural Earth, non un'immagine, quindi la carta
 d'Europa è un lavoro di *dati* — estrarre i poligoni dallo stesso dataset
 pubblico — e non aspetta un illustratore.
 
+### Lo scorrimento — e la regola che ha cambiato
+
+Proposta del committente, e ha spostato un guard-rail. Il gioco classificava la
+**fluency per materia**: solo matematica poteva essere cronometrata, tutte le
+altre no. Ma dentro una materia di ragionamento esistono automatismi veri —
+coniugare «loro corrono», riconoscere «un'amica» — dove la velocità *è* la
+misura. Dal 5 agosto la fluency è una proprietà dell'**argomento**
+(`ContentManager.FLUENCY_TOPICS`), e `guardrails_audit` verifica due cose:
+nessuna **missione** è mai cronometrata, e nessun argomento di analisi o
+comprensione può essere dichiarato fluency.
+
+Tre scelte che rendono il formato onesto:
+
+- **una prova binaria si indovina al 50%**, quindi è la *lunghezza* a renderla
+  seria, non la difficoltà: minimo dieci affermazioni, vere e false in
+  equilibrio (fra il 35% e il 65%), soglia di precisione ben sopra il caso;
+- **la serie si ferma, non si azzera.** Il moltiplicatore riparte da uno, i
+  punti restano, nessun messaggio negativo — la stessa regola del legame del
+  Custode e dei giorni del diario;
+- **lo swipe non è l'unico comando**: due zone da toccare grandi mezzo schermo e
+  le frecce della tastiera. Un gioco che si comanda solo con un gesto esclude
+  chi usa una tastiera o un lettore di schermo.
+
+Le affermazioni false non sono numeri a caso: sono gli errori che i bambini
+fanno davvero — 3³ = 9, *un'amico*, *eated*, Barcellona capitale della Spagna.
+
 ### La scala per livello
 
 Oggi i singoli esercizi sono graduati (`minLevel` per specifica), i **formati**

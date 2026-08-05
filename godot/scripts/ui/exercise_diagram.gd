@@ -13,6 +13,13 @@ var cycle_sequence: Array = []
 ## Quanti indizi il giocatore ha scoperto. Vive qui e non nel contenuto perché
 ## cambia mentre si gioca, non fra una specifica e l'altra.
 var clues_revealed := 0
+## Stato del minigioco a scorrimento, aggiornato mentre si gioca.
+var swipe_index := 0
+var swipe_streak := 0
+var swipe_best := 0
+var swipe_score := 0
+var swipe_seconds := 0.0
+var swipe_flash := ""   # "" | "right" | "wrong" 
 var cycle_feedback_state := ""
 
 func configure(kind: String, data: Dictionary) -> void:
@@ -22,6 +29,12 @@ func configure(kind: String, data: Dictionary) -> void:
 	background_texture = load(background_path) as Texture2D if background_path != "" and ResourceLoader.exists(background_path) else null
 	cycle_sequence = []
 	clues_revealed = 0
+	swipe_index = 0
+	swipe_streak = 0
+	swipe_best = 0
+	swipe_score = 0
+	swipe_seconds = 0.0
+	swipe_flash = ""
 	cycle_feedback_state = ""
 	custom_minimum_size = Vector2(0, 230)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -40,6 +53,15 @@ func set_feedback(id: String, state: String) -> void:
 	selected_id = id
 	feedback_state = state
 	feedback_started_msec = Time.get_ticks_msec()
+	queue_redraw()
+
+func set_swipe_state(index: int, streak: int, best: int, score: int, seconds: float, flash: String) -> void:
+	swipe_index = index
+	swipe_streak = streak
+	swipe_best = best
+	swipe_score = score
+	swipe_seconds = seconds
+	swipe_flash = flash
 	queue_redraw()
 
 func set_clues_revealed(quanti: int) -> void:
@@ -117,6 +139,8 @@ func _draw() -> void:
 			_draw_trace(bounds)
 		"clue":
 			_draw_clue(bounds)
+		"swipe":
+			_draw_swipe(bounds)
 		_:
 			_draw_hotspot(bounds)
 	_draw_selection_feedback()
@@ -613,6 +637,64 @@ func _draw_clue(bounds: Rect2) -> void:
 	# vede il numero.
 	draw_string(font, Vector2(x, y + 18.0), "Indizi scoperti: %d su %d" % [
 		clues_revealed, indizi.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("f6c85f"))
+
+## LO SCORRIMENTO. Una affermazione grande al centro, due lati che dicono dove
+## mandarla, il tempo che scende e la serie che sale.
+##
+## È l'unico formato che misura la **fluenza** invece del ragionamento: non «sai
+## arrivarci» ma «lo riconosci senza doverci pensare». Per questo vive solo su
+## argomenti dichiarati fluency in `ContentManager.FLUENCY_TOPICS` — su
+## un'analisi logica il cronometro non misurerebbe competenza, misurerebbe ansia.
+##
+## La serie **si ferma, non si azzera**: il moltiplicatore riparte da uno e i
+## punti restano. Un contatore che crolla a zero con un effetto sonoro è la
+## meccanica che questo progetto ha già rifiutato due volte — il legame del
+## Custode e i giorni del diario — perché punisce invece di misurare.
+func _draw_swipe(bounds: Rect2) -> void:
+	var font := ThemeDB.fallback_font
+	var frasi: Array = Array(model.get("statements", []))
+	var centro := bounds.position + bounds.size * 0.5
+
+	# I due lati, sempre visibili: sono il contratto del gioco.
+	var lato := bounds.size.x * 0.22
+	var sinistra := Rect2(bounds.position + Vector2(6, 6), Vector2(lato, bounds.size.y - 12))
+	# Rosso tenue a sinistra (sbagliato), verde tenue a destra (corretto).
+	draw_rect(sinistra, Color(0.86, 0.35, 0.32, 0.20 if swipe_flash != "wrong" else 0.45))
+	var destra := Rect2(
+		Vector2(bounds.position.x + bounds.size.x - lato - 6, bounds.position.y + 6),
+		Vector2(lato, bounds.size.y - 12))
+	draw_rect(destra, Color(0.35, 0.82, 0.55, 0.20 if swipe_flash != "right" else 0.45))
+	draw_string(font, sinistra.position + Vector2(14, 34), "◀ SBAGLIATO",
+		HORIZONTAL_ALIGNMENT_LEFT, lato - 20, 16, Color("ffd0c8"))
+	draw_string(font, destra.position + Vector2(14, 34), "CORRETTO ▶",
+		HORIZONTAL_ALIGNMENT_LEFT, lato - 20, 16, Color("c8ffd8"))
+
+	# L'affermazione corrente, grande al centro.
+	if swipe_index < frasi.size():
+		var testo := str((frasi[swipe_index] as Dictionary).get("text", ""))
+		draw_string(font, Vector2(bounds.position.x + lato + 24, centro.y),
+			testo, HORIZONTAL_ALIGNMENT_CENTER, bounds.size.x - 2.0 * lato - 48, 30, Color("e7fff8"))
+	else:
+		draw_string(font, Vector2(bounds.position.x + lato + 24, centro.y),
+			"Finito", HORIZONTAL_ALIGNMENT_CENTER, bounds.size.x - 2.0 * lato - 48, 28, Color("6be7d6"))
+
+	# Tempo, serie, punteggio: in alto, piccoli, senza mai un numero che scende.
+	var alto := bounds.position + Vector2(lato + 24, 32)
+	draw_string(font, alto, "Tempo %d\"" % int(ceil(swipe_seconds)),
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color("f6c85f"))
+	draw_string(font, alto + Vector2(120, 0), "Serie ×%d" % maxi(1, swipe_streak),
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color("6be7d6"))
+	draw_string(font, alto + Vector2(250, 0), "Punti %d" % swipe_score,
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color("d8fff8"))
+	if swipe_best > 1:
+		draw_string(font, alto + Vector2(0, 26), "Serie migliore: ×%d" % swipe_best,
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("9fc4bb"))
+	# Quante ne restano: una barra, non un numero che cala.
+	if not frasi.is_empty():
+		var fatte := float(swipe_index) / float(frasi.size())
+		var barra := Rect2(Vector2(bounds.position.x + lato + 24, bounds.position.y + bounds.size.y - 26),
+			Vector2((bounds.size.x - 2.0 * lato - 48) * fatte, 6))
+		draw_rect(barra, Color(0.42, 0.90, 0.84, 0.7))
 
 func clue_anchor(target_id: String) -> Vector2:
 	var voci: Array = Array(model.get("targets", []))

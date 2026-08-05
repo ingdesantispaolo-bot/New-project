@@ -3131,6 +3131,196 @@ const ORDERING_UNIQUE := ["label", "value"]  # voci {label, value}
 ## sono le cinque righe, i dispari sono gli spazi, e fuori scala servono le
 ## linee addizionali. In chiave di violino le righe sono Mi Sol Si Re Fa e gli
 ## spazi Fa La Do Mi.
+# SCORRIMENTO: a sinistra se è sbagliato, a destra se è corretto. A tempo.
+#
+# È l'unico formato che misura la FLUENZA invece del ragionamento: non «sai
+# arrivarci» ma «lo riconosci senza doverci pensare». Vive solo su argomenti
+# dichiarati fluency in `ContentManager.FLUENCY_TOPICS` — su un'analisi logica
+# il cronometro non misurerebbe competenza, misurerebbe ansia.
+#
+# Una prova binaria si indovina al cinquanta per cento: è la LUNGHEZZA a
+# renderla onesta, non la difficoltà delle singole frasi. Dieci affermazioni
+# come minimo, vere e false in equilibrio, e una soglia di precisione ben sopra
+# il caso — tutto verificato da `_validate_swipe`.
+#
+# Le affermazioni false non sono a caso: sono gli errori che i bambini fanno
+# davvero (3³ = 9, un'amico, eated, Barcellona capitale di Spagna).
+const SWIPE := {
+	"matematica": [
+		{"topic": "tabelline", "prompt": "Scorri: a destra se il calcolo è giusto, a sinistra se è sbagliato.", "seconds": 45.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "6 × 7 = 42", "correct": true},
+				{"text": "8 × 4 = 34", "correct": false},
+				{"text": "9 × 3 = 27", "correct": true},
+				{"text": "7 × 7 = 49", "correct": true},
+				{"text": "5 × 6 = 35", "correct": false},
+				{"text": "8 × 8 = 64", "correct": true},
+				{"text": "4 × 9 = 36", "correct": true},
+				{"text": "6 × 6 = 32", "correct": false},
+				{"text": "3 × 8 = 24", "correct": true},
+				{"text": "7 × 5 = 40", "correct": false},
+				{"text": "9 × 9 = 81", "correct": true},
+				{"text": "8 × 6 = 48", "correct": true},
+				{"text": "7 × 8 = 54", "correct": false}],
+			"explanation": "Le tabelline si misurano a tempo perché servono automatiche: rallentare qui rallenta ogni divisione, ogni frazione e ogni problema che le contiene. Gli errori messi qui sono quelli veri — 8 × 4 confuso con 34, 6 × 6 con 32."},
+		{"topic": "potenze", "minLevel": 8, "prompt": "Scorri: a destra se la potenza è giusta, a sinistra se è sbagliata.", "seconds": 50.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "2³ = 8", "correct": true},
+				{"text": "3² = 9", "correct": true},
+				{"text": "2⁴ = 8", "correct": false},
+				{"text": "5² = 25", "correct": true},
+				{"text": "4² = 16", "correct": true},
+				{"text": "3³ = 9", "correct": false},
+				{"text": "10² = 100", "correct": true},
+				{"text": "2⁵ = 32", "correct": true},
+				{"text": "6² = 36", "correct": true},
+				{"text": "4³ = 12", "correct": false},
+				{"text": "10³ = 1000", "correct": true},
+				{"text": "5³ = 125", "correct": true},
+				{"text": "2² = 4 e 4² = 8", "correct": false},
+				{"text": "7² = 47", "correct": false}],
+			"explanation": "L'errore più comune è moltiplicare la base per l'esponente invece di elevarla: 3³ non è 9 ma 27, 4³ non è 12 ma 64. Riconoscerlo a colpo d'occhio è ciò che distingue chi ha capito le potenze da chi le ricalcola ogni volta."},
+		{"topic": "frazioni", "minLevel": 10, "prompt": "Scorri: a destra se l'uguaglianza è giusta, a sinistra se è sbagliata.", "seconds": 55.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "1/2 = 0,5", "correct": true},
+				{"text": "1/4 = 0,4", "correct": false},
+				{"text": "3/4 = 0,75", "correct": true},
+				{"text": "1/5 = 0,2", "correct": true},
+				{"text": "2/4 = 1/2", "correct": true},
+				{"text": "1/3 = 0,3", "correct": false},
+				{"text": "2/5 = 0,4", "correct": true},
+				{"text": "5/10 = 0,5", "correct": true},
+				{"text": "3/5 = 0,35", "correct": false},
+				{"text": "1/10 = 0,1", "correct": true},
+				{"text": "4/4 = 1", "correct": true},
+				{"text": "2/3 = 0,6", "correct": false},
+				{"text": "3/4 = 0,34", "correct": false}],
+			"explanation": "Le trappole sono le frazioni che «sembrano» decimali: 1/4 non è 0,4 e 1/3 non è 0,3. Confonderle è l'errore che sopravvive più a lungo, perché la cifra del denominatore somiglia a quella del decimale."},
+		{"topic": "percentuali", "minLevel": 12, "prompt": "Scorri: a destra se la percentuale è giusta, a sinistra se è sbagliata.", "seconds": 55.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "50% di 80 = 40", "correct": true},
+				{"text": "25% di 40 = 12", "correct": false},
+				{"text": "10% di 90 = 9", "correct": true},
+				{"text": "20% di 50 = 10", "correct": true},
+				{"text": "75% di 40 = 30", "correct": true},
+				{"text": "30% di 60 = 20", "correct": false},
+				{"text": "100% di 37 = 37", "correct": true},
+				{"text": "5% di 200 = 10", "correct": true},
+				{"text": "40% di 25 = 12", "correct": false},
+				{"text": "1% di 500 = 5", "correct": true},
+				{"text": "50% di 15 = 7,5", "correct": true},
+				{"text": "25% di 80 = 20", "correct": true},
+				{"text": "10% di 45 = 4", "correct": false},
+				{"text": "50% di 90 = 40", "correct": false}],
+			"explanation": "Il 10% si trova spostando la virgola di un posto, e da lì si costruisce tutto: il 20% è il doppio, il 5% la metà. Chi lo fa a mente riconosce un prezzo sbagliato prima di finire il conto."},
+	],
+	"italiano": [
+		{"topic": "verbo", "minLevel": 3, "prompt": "Scorri: a destra se la frase è corretta, a sinistra se è sbagliata.", "seconds": 50.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "Le bambine corrono in giardino.", "correct": true},
+				{"text": "I ragazzi mangia la merenda.", "correct": false},
+				{"text": "Noi andiamo al mare.", "correct": true},
+				{"text": "Tu sei arrivato tardi.", "correct": true},
+				{"text": "Loro ha finito i compiti.", "correct": false},
+				{"text": "Voi avete capito bene.", "correct": true},
+				{"text": "Il cane abbaiano forte.", "correct": false},
+				{"text": "Io ho visto un film.", "correct": true},
+				{"text": "Le foglie cade in autunno.", "correct": false},
+				{"text": "Marco e Luca giocano insieme.", "correct": true},
+				{"text": "Lei è andata a scuola.", "correct": true},
+				{"text": "Gli studenti studiano molto.", "correct": true},
+				{"text": "I bambini è andati a casa.", "correct": false}],
+			"explanation": "L'accordo fra soggetto e verbo si sente prima di saperlo spiegare, ed è per questo che si misura a tempo: qui non si analizza la frase, si riconosce se «suona». Gli sbagli messi qui sono singolare e plurale scambiati, l'errore che resta anche a chi scrive bene."},
+		{"topic": "ortografia", "minLevel": 5, "prompt": "Scorri: a destra se la parola è scritta bene, a sinistra se è sbagliata.", "seconds": 50.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "un'amica", "correct": true},
+				{"text": "un'amico", "correct": false},
+				{"text": "qual è", "correct": true},
+				{"text": "qual'è", "correct": false},
+				{"text": "scienza", "correct": true},
+				{"text": "coscenza", "correct": false},
+				{"text": "efficiente", "correct": true},
+				{"text": "propio", "correct": false},
+				{"text": "acqua", "correct": true},
+				{"text": "soqquadro", "correct": true},
+				{"text": "ce n'è", "correct": true},
+				{"text": "cé", "correct": false}],
+			"explanation": "Sono le forme che si sbagliano scrivendo in fretta, ed è in fretta che vanno riconosciute. «Un'amico» è l'errore più diffuso in assoluto: l'apostrofo va solo davanti al femminile, perché «uno» maschile perde la o senza bisogno di segnalarlo."},
+	],
+	"inglese": [
+		{"topic": "irregular-past", "minLevel": 6, "prompt": "Scorri: a destra se il passato è giusto, a sinistra se è sbagliato.", "seconds": 50.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "go → went", "correct": true},
+				{"text": "eat → eated", "correct": false},
+				{"text": "see → saw", "correct": true},
+				{"text": "take → took", "correct": true},
+				{"text": "make → maked", "correct": false},
+				{"text": "come → came", "correct": true},
+				{"text": "give → gave", "correct": true},
+				{"text": "run → runned", "correct": false},
+				{"text": "write → wrote", "correct": true},
+				{"text": "buy → buyed", "correct": false},
+				{"text": "find → found", "correct": true},
+				{"text": "know → knew", "correct": true},
+				{"text": "think → thinked", "correct": false}],
+			"explanation": "I verbi irregolari non seguono la regola del -ed, e sono proprio quelli che si usano di più: le lingue non regolarizzano mai ciò che si dice ogni giorno. Le forme false qui sono quelle che un bambino costruirebbe applicando la regola — ed è giusto che sembrino plausibili."},
+	],
+	"latino": [
+		{"topic": "declinazioni-base", "minLevel": 7, "prompt": "Scorri: a destra se il caso è giusto, a sinistra se è sbagliato.", "seconds": 55.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "rosa = nominativo singolare", "correct": true},
+				{"text": "rosam = genitivo singolare", "correct": false},
+				{"text": "rosae = genitivo singolare", "correct": true},
+				{"text": "rosas = accusativo plurale", "correct": true},
+				{"text": "rosis = nominativo plurale", "correct": false},
+				{"text": "rosarum = genitivo plurale", "correct": true},
+				{"text": "rosa = accusativo singolare", "correct": false},
+				{"text": "rosae = nominativo plurale", "correct": true},
+				{"text": "rosam = accusativo singolare", "correct": true},
+				{"text": "rosis = dativo plurale", "correct": true},
+				{"text": "rosarum = accusativo plurale", "correct": false},
+				{"text": "rosa = ablativo singolare", "correct": true},
+				{"text": "rosarum = dativo singolare", "correct": false}],
+			"explanation": "Riconoscere un caso dalla desinenza deve diventare immediato: è la chiave che apre ogni frase latina. Le forme sbagliate qui sono desinenze vere messe sul caso sbagliato — l'errore che si fa davvero traducendo di fretta."},
+	],
+	"musica": [
+		{"topic": "ritmo", "minLevel": 6, "prompt": "Scorri: a destra se la durata è giusta, a sinistra se è sbagliata.", "seconds": 50.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "La semibreve vale 4 movimenti", "correct": true},
+				{"text": "La minima vale 3 movimenti", "correct": false},
+				{"text": "La semiminima vale 1 movimento", "correct": true},
+				{"text": "La croma vale mezzo movimento", "correct": true},
+				{"text": "La minima vale 2 movimenti", "correct": true},
+				{"text": "La semicroma vale 1 movimento", "correct": false},
+				{"text": "Il punto aggiunge metà del valore", "correct": true},
+				{"text": "La semibreve vale 2 movimenti", "correct": false},
+				{"text": "Due crome fanno una semiminima", "correct": true},
+				{"text": "La semicroma vale un quarto di movimento", "correct": true},
+				{"text": "Il punto raddoppia il valore della nota", "correct": false},
+				{"text": "Quattro semiminime fanno una minima", "correct": false}],
+			"explanation": "Le durate stanno fra loro in rapporto di due, sempre: ogni figura vale la metà della precedente. Chi lo ha automatico legge un ritmo a prima vista; chi lo ricalcola si ferma a ogni battuta."},
+	],
+	"geografia": [
+		{"topic": "capitali", "minLevel": 4, "prompt": "Scorri: a destra se la capitale è giusta, a sinistra se è sbagliata.", "seconds": 50.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "Francia → Parigi", "correct": true},
+				{"text": "Spagna → Barcellona", "correct": false},
+				{"text": "Germania → Berlino", "correct": true},
+				{"text": "Portogallo → Lisbona", "correct": true},
+				{"text": "Svizzera → Zurigo", "correct": false},
+				{"text": "Grecia → Atene", "correct": true},
+				{"text": "Austria → Vienna", "correct": true},
+				{"text": "Turchia → Istanbul", "correct": false},
+				{"text": "Polonia → Varsavia", "correct": true},
+				{"text": "Italia → Roma", "correct": true},
+				{"text": "Regno Unito → Londra", "correct": true},
+				{"text": "Belgio → Bruxelles", "correct": true},
+				{"text": "Paesi Bassi → Rotterdam", "correct": false},
+				{"text": "Stati Uniti → New York", "correct": false}],
+			"explanation": "Gli errori qui non sono a caso: Barcellona, Zurigo e Istanbul sono le città più grandi o più famose dei loro Paesi, ma la capitale è dove sta il governo. È la confusione più comune, e riconoscerla al volo vale più di ripetere l'elenco."},
+	],
+}
+
 # INDIZIARIO: si chiedono indizi per identificare, e si sceglie quando fermarsi.
 #
 # È l'unico formato con una SCELTA STRATEGICA dentro: rispondere presto
@@ -3716,7 +3906,7 @@ const HOTSPOT := {
 const FORMATS := [
 	"matching", "ordering", "classification", "graph", "circuit", "cycle",
 	"notation", "map", "hotspot", "code_debug", "number_line", "balance",
-	"timeline", "compose", "trace", "clue",
+	"timeline", "compose", "trace", "clue", "swipe",
 ]
 
 static func table_for(fmt: String) -> Dictionary:
@@ -3735,6 +3925,7 @@ static func table_for(fmt: String) -> Dictionary:
 		"compose": return COMPOSE
 		"trace": return TRACE
 		"clue": return CLUE
+		"swipe": return SWIPE
 		"hotspot": return HOTSPOT
 		"code_debug": return CODE_DEBUG
 	return {}
@@ -4009,6 +4200,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		specialists.append("timeline")
 	if CLUE.has(subject) and _has_eligible(CLUE[subject], level):
 		specialists.append("clue")
+	if SWIPE.has(subject) and _has_eligible(SWIPE[subject], level):
+		specialists.append("swipe")
 	if COMPOSE.has(subject) and _has_eligible(COMPOSE[subject], level):
 		specialists.append("compose")
 	if TRACE.has(subject) and _has_eligible(TRACE[subject], level):
@@ -4057,6 +4250,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 				nodes.append(_cycle_node(subject, _pick(CYCLE[subject], generator, level), difficulty, generator, idx))
 			"notation":
 				nodes.append(_notation_node(subject, _pick(NOTATION[subject], generator, level), difficulty, generator, idx))
+			"swipe":
+				nodes.append(_swipe_node(subject, _pick(SWIPE[subject], generator, level), difficulty, generator, idx))
 			"clue":
 				nodes.append(_clue_node(subject, _pick(CLUE[subject], generator, level), difficulty, generator, idx))
 			"timeline":
@@ -4236,6 +4431,25 @@ func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: Ran
 		"symbols": symbols,
 		"answer": str(question["answer"]),
 		"explanation": str(question["explanation"]),
+	}
+
+func _swipe_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var frasi: Array = (spec["statements"] as Array).duplicate(true)
+	_shuffle(frasi, rng)
+	return {
+		"id": "minigame-swipe-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "swipe",
+		"prompt": str(spec["prompt"]),
+		"seconds": float(spec.get("seconds", 45.0)),
+		"minAccuracy": float(spec.get("minAccuracy", 0.75)),
+		# Le affermazioni si mescolano: l'ordine non è contenuto, e un round
+		# rigiocato che ripropone la stessa fila si impara a memoria.
+		"statements": frasi,
+		"answer": "",
+		"explanation": str(spec["explanation"]),
 	}
 
 func _clue_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:

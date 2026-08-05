@@ -117,7 +117,7 @@ func _init() -> void:
 	# Ognuno ha un controllo che gli altri non hanno: gli eventi non possono
 	# sovrapporsi sulla scala, le caselle vuote devono essere esattamente una,
 	# e il buco della traccia deve stare solo alla fine.
-	var contati := {"timeline": 0, "compose": 0, "trace": 0, "clue": 0}
+	var contati := {"timeline": 0, "compose": 0, "trace": 0, "clue": 0, "swipe": 0}
 	for nome in contati.keys():
 		var tabella: Dictionary = MinigameManager.table_for(str(nome))
 		for materia in tabella.keys():
@@ -132,13 +132,19 @@ func _init() -> void:
 						str(nome), str(materia), str(spec.get("topic", "?")), str(esito.get("errors", []))])
 				if str(nodo.get("explanation", "")).strip_edges() == "":
 					failures.append("%s %s: senza spiegazione" % [str(nome), str(materia)])
+				# Lo scorrimento vive solo dove il cronometro misura competenza.
+				if str(nome) == "swipe" and not ContentManager.is_fluency_topic(
+						str(materia), str(spec.get("topic", ""))):
+					failures.append("scorrimento su «%s/%s», che non è fluency" % [
+						str(materia), str(spec.get("topic", ""))])
 		if int(contati[nome]) < 3:
 			failures.append("solo %d specifiche di «%s»: troppo poche per la rotazione" % [
 				int(contati[nome]), str(nome)])
 
 	if failures.is_empty():
-		print("SELEZIONE: linea del tempo %d · compositore %d · tracciatore %d · indiziario %d" % [
-			int(contati["timeline"]), int(contati["compose"]), int(contati["trace"]), int(contati["clue"])])
+		print("SELEZIONE: linea del tempo %d · compositore %d · tracciatore %d · indiziario %d · scorrimento %d" % [
+			int(contati["timeline"]), int(contati["compose"]), int(contati["trace"]),
+			int(contati["clue"]), int(contati["swipe"])])
 		print("BILANCE: %d specifiche, aritmetica verificata" % bilance)
 		print("NUMBER LINE audit OK — %d specifiche, %d nodi costruiti e giocabili" % [quante, costruiti])
 		quit(0)

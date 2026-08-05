@@ -115,6 +115,15 @@ var _cycle_sequence: Array = []
 ## nodo, come gli scudi si azzerano a ogni sessione.
 var _clues_revealed := 0
 var _clue_button: Button
+## Stato del minigioco a scorrimento. Vive nel player e non nel contenuto
+## perché cambia mentre si gioca.
+var _swipe_index := 0
+var _swipe_streak := 0
+var _swipe_best := 0
+var _swipe_score := 0
+var _swipe_right := 0
+var _swipe_seconds := 0.0
+var _swipe_item: Dictionary = {}
 var _rng: RandomNumberGenerator
 var high_contrast := false
 var reduced_motion := false
@@ -405,6 +414,14 @@ func _apply_format_layout(format: String) -> void:
 	var compact := format in ["multiple_choice", "matching", "classification"]
 	if bool(session.get("transversal", false)):
 		compact = false
+	# Lo scorrimento occupa tutto: è un minigioco di reazione, e un riquadro
+	# piccolo con due lati stretti non si colpisce di slancio.
+	if format == "swipe":
+		_exercise_panel.anchor_top = 0.0
+		_exercise_panel.anchor_bottom = 1.0
+		_exercise_panel.custom_minimum_size.y = 0.0
+		_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		return
 	_exercise_panel.anchor_top = 0.06 if compact else 0.04
 	_exercise_panel.anchor_bottom = 0.74 if compact else 0.96
 	_exercise_panel.custom_minimum_size.y = 400.0 if compact else 480.0
@@ -604,6 +621,14 @@ func _show_current() -> void:
 	_cycle_sequence = []
 	_clues_revealed = 0
 	_clue_button = null
+	_swipe_index = 0
+	_swipe_streak = 0
+	_swipe_best = 0
+	_swipe_score = 0
+	_swipe_right = 0
+	_swipe_seconds = 0.0
+	_swipe_item = {}
+	set_process(false)
 	if _index >= _nodes.size():
 		_finish()
 		return
@@ -633,6 +658,9 @@ func _show_current() -> void:
 		"code_debug":
 			_input.visible = false
 			_build_code_debug(item)
+		"swipe":
+			_input.visible = false
+			_build_swipe(item)
 		"multiple_choice":
 			_input.visible = false
 			for option in item.get("options", []):
@@ -1507,6 +1535,113 @@ func _offer_concept_help(item: Dictionary) -> void:
 ## contratto non punisce, il prezzo è soltanto la soddisfazione in meno di
 ## averne usati pochi — e il rischio, che c'è già: rispondere presto e sbagliare
 ## costa uno scudo come qualunque altro errore.
+## LO SCORRIMENTO. Affermazioni una dopo l'altra: a sinistra se è sbagliata, a
+## destra se è corretta, finché il tempo regge.
+##
+## Tre alternative allo swipe, e non sono un ripiego: due zone da toccare grandi
+## quanto mezzo schermo, le frecce della tastiera, e il focus per chi naviga a
+## tabulazione. Un gioco che si comanda solo con un gesto esclude chi usa un
+## lettore di schermo o una tastiera — e qui il gesto non è il contenuto, è solo
+## il modo più rapido di dire due cose.
+func _build_swipe(item: Dictionary) -> void:
+	_swipe_item = item
+	_swipe_index = 0
+	_swipe_streak = 0
+	_swipe_best = 0
+	_swipe_score = 0
+	_swipe_right = 0
+	_swipe_seconds = float(item.get("seconds", 45.0))
+
+	var diagram := EXERCISE_DIAGRAM.new()
+	diagram.name = "ExerciseDiagram_swipe"
+	diagram.call("configure", "swipe", item)
+	diagram.custom_minimum_size = Vector2(0, 320)
+	diagram.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_visual_diagram = diagram
+	_options.add_child(diagram)
+
+	var riga := HBoxContainer.new()
+	riga.name = "SwipeButtons"
+	riga.add_theme_constant_override("separation", 12)
+	riga.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_options.add_child(riga)
+	for dati in [
+		{"nome": "SwipeWrongButton", "testo": "◀  SBAGLIATO", "giusto": false, "colore": Color("ff8f7e")},
+		{"nome": "SwipeRightButton", "testo": "CORRETTO  ▶", "giusto": true, "colore": Color("91dc72")},
+	]:
+		var b := Button.new()
+		b.name = str(dati["nome"])
+		b.text = str(dati["testo"])
+		b.custom_minimum_size = Vector2(0, 72)
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		b.focus_mode = Control.FOCUS_ALL
+		b.add_theme_font_size_override("font_size", 19)
+		b.add_theme_color_override("font_color", Color("06272a"))
+		b.add_theme_stylebox_override("normal", _exercise_button_style(dati["colore"], Color("d8fff8")))
+		b.pressed.connect(_swipe_judge.bind(bool(dati["giusto"])))
+		riga.add_child(b)
+	_push_swipe_state("")
+	set_process(true)
+
+func _process(delta: float) -> void:
+	if _answered or str(_swipe_item.get("format", "")) != "swipe":
+		return
+	_swipe_seconds = maxf(0.0, _swipe_seconds - delta)
+	_push_swipe_state("")
+	if _swipe_seconds <= 0.0:
+		_finish_swipe()
+
+## Giudizio su un'affermazione. La serie **si ferma, non si azzera**: il
+## moltiplicatore riparte da uno e i punti già presi restano. Nessun messaggio
+## negativo, nessun contatore che crolla — è la stessa regola del legame del
+## Custode e dei giorni del diario.
+func _swipe_judge(detto_corretto: bool) -> void:
+	if _answered:
+		return
+	var frasi: Array = Array(_swipe_item.get("statements", []))
+	if _swipe_index >= frasi.size():
+		return
+	var vera := bool((frasi[_swipe_index] as Dictionary).get("correct", false))
+	var indovinato := detto_corretto == vera
+	if indovinato:
+		_swipe_right += 1
+		_swipe_streak += 1
+		_swipe_best = maxi(_swipe_best, _swipe_streak)
+		# Il moltiplicatore cresce ma non esplode: oltre il cinque il punteggio
+		# diventerebbe una lotteria sull'ultima serie invece che sulla precisione.
+		_swipe_score += 10 * mini(5, _swipe_streak)
+	else:
+		_swipe_streak = 0
+	_swipe_index += 1
+	_push_swipe_state("right" if indovinato else "wrong")
+	if _swipe_index >= frasi.size():
+		_finish_swipe()
+
+func _push_swipe_state(flash: String) -> void:
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_swipe_state",
+			_swipe_index, _swipe_streak, _swipe_best, _swipe_score, _swipe_seconds, flash)
+
+## Il round finisce quando le affermazioni sono esaurite o il tempo è scaduto.
+## Il nodo è superato se la precisione raggiunge la soglia dichiarata: giudicare
+## a caso dà il cinquanta per cento, e la soglia sta sopra apposta — è il motivo
+## per cui una prova binaria può essere onesta, purché sia lunga.
+func _finish_swipe() -> void:
+	if _answered:
+		return
+	set_process(false)
+	var frasi: Array = Array(_swipe_item.get("statements", []))
+	var giudicate := maxi(1, _swipe_index)
+	var precisione := float(_swipe_right) / float(giudicate)
+	var soglia := float(_swipe_item.get("minAccuracy", 0.75))
+	var superato := precisione >= soglia and _swipe_index >= int(ceil(float(frasi.size()) * 0.6))
+	_push_swipe_state("")
+	_flash_feedback("%d giuste su %d · serie migliore ×%d · %d punti" % [
+		_swipe_right, giudicate, maxi(1, _swipe_best), _swipe_score])
+	if not superato:
+		_spend_shield()
+	_score_current(superato, _swipe_item)
+
 func _build_clue_button(item: Dictionary) -> void:
 	_clues_revealed = 1
 	if is_instance_valid(_visual_diagram):
@@ -1625,6 +1760,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		_on_exit_pressed()
 		get_viewport().set_input_as_handled()
+		return
+	# Frecce: l'alternativa da tastiera ai due lati dello scorrimento.
+	if str(_swipe_item.get("format", "")) == "swipe" and not _answered:
+		if event.is_action_pressed("ui_left"):
+			_swipe_judge(false)
+			get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("ui_right"):
+			_swipe_judge(true)
+			get_viewport().set_input_as_handled()
 
 func _finish() -> void:
 	var total := _nodes.size()

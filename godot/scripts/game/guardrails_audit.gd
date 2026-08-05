@@ -11,16 +11,23 @@ const LearningConfig = preload("res://scripts/game/learning_config.gd")
 func _init() -> void:
 	var content := ContentManager.new()
 
-	# 1) Ragionamento SENZA tempo: tutte le materie tranne la matematica (fluency)
-	# sono non cronometrate, e nessuna sessione è timed oggi.
+	# 1) Ragionamento SENZA tempo. Dal 5 agosto 2026 la fluency è una proprietà
+	# dell'ARGOMENTO, non della materia: coniugare un verbo è automatismo anche
+	# dentro italiano, l'analisi logica non lo è nemmeno in matematica. Quello
+	# che resta invariante è il vincolo vero: **nessuna missione è cronometrata**.
+	# Il cronometro esiste solo nel minigioco a scorrimento, e solo su argomenti
+	# dichiarati fluency.
 	for subject in ApparatusConfig.SUBJECT_CYCLE:
-		var untimed := ContentManager.is_untimed(str(subject))
-		if str(subject) == "matematica":
-			assert(not untimed, "la matematica è l'unica fluency")
-		else:
-			assert(untimed, "%s (ragionamento) non deve avere limite di tempo" % subject)
 		var session := content.build_mission(str(subject), 1, 3)
-		assert(not bool(session.get("timed", false)), "nessuna sessione deve essere cronometrata (%s)" % subject)
+		assert(not bool(session.get("timed", false)), "nessuna missione deve essere cronometrata (%s)" % subject)
+		# Nessun argomento di sola comprensione o analisi può essere fluency: lì
+		# la velocità non misura competenza, misura ansia.
+		for topic in Array(ContentManager.FLUENCY_TOPICS.get(str(subject), [])):
+			var t := str(topic)
+			assert(
+				not (t.begins_with("analisi") or t.contains("testo") or t.contains("pensiero")
+					or t.contains("comprensione") or t.contains("figure")),
+				"«%s/%s» non può essere fluency: è ragionamento" % [subject, t])
 
 	# 2) Anti-grinding: la PRATICA (minigiochi) non conta per il gate. Ripeterla
 	# non fa avanzare il progresso-verso-gate né apre il gate.

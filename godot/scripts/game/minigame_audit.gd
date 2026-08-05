@@ -45,7 +45,7 @@ func _test_costruzione_tutte_materie() -> void:
 				# scritto ogni formato non-abbinamento era di sequenza: senza
 				# questa riga un formato a selezione ci finiva dentro e l'audit
 				# lo dichiarava «sequenza troppo corta».
-				"number_line", "balance", "timeline", "compose", "trace", "clue",
+				"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe",
 			]:
 				# Formati specialisti: valida col contratto comune.
 				var res := ExerciseInteraction.validate(node)

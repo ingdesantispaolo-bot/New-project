@@ -1469,7 +1469,7 @@
 				"I muscoli"
 			],
 			"answer": "Il cervello",
-			"explanation": "Il cervello dirige il corpo e ci fa pensare."
+			"explanation": "Riceve i segnali dai sensi e manda ordini ai muscoli in continuo: lavora anche mentre dormi."
 		},
 		{
 			"id": "scienze-corpo-93",
@@ -1501,7 +1501,7 @@
 				"Lo stomaco"
 			],
 			"answer": "Il cuore",
-			"explanation": "Il cuore spinge il sangue in tutto il corpo."
+			"explanation": "È un muscolo che si contrae da solo, circa centomila volte al giorno, senza che tu debba pensarci."
 		},
 		{
 			"id": "scienze-corpo-95",
@@ -1629,7 +1629,7 @@
 				"Venere"
 			],
 			"answer": "La Luna",
-			"explanation": "La Luna gira intorno alla Terra."
+			"explanation": "Le mostra sempre la stessa faccia, perché impiega lo stesso tempo a girare su di sé e attorno a noi."
 		},
 		{
 			"id": "scienze-terra-universo-103",

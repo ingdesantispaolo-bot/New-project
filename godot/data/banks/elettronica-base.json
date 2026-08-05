@@ -369,7 +369,7 @@
 				"Condensatore scarico"
 			],
 			"answer": "Filo mancante",
-			"explanation": "Segui il filo: se la strada si interrompe, la corrente non torna alla batteria."
+			"explanation": "Si segue il giro con il dito partendo dal positivo: dove il dito si ferma, manca il collegamento."
 		},
 		{
 			"id": "elettronica-guasto-open-switch",
@@ -385,7 +385,7 @@
 				"Interruttore aperto"
 			],
 			"answer": "Interruttore aperto",
-			"explanation": "L'interruttore è come un ponte: se è aperto, la corrente si ferma."
+			"explanation": "Si prova a ponticellare i due morsetti dell'interruttore: se il circuito riparte, era lui aperto."
 		},
 		{
 			"id": "elettronica-guasto-missing-resistor",
@@ -401,7 +401,7 @@
 				"Ritorno instabile"
 			],
 			"answer": "Resistenza assente",
-			"explanation": "La resistenza protegge il LED: senza di lei la corrente è troppo forte."
+			"explanation": "Senza resistore il LED riceve tutta la tensione della pila: si accende fortissimo per un istante e poi resta spento per sempre."
 		},
 		{
 			"id": "elettronica-guasto-reversed-led",
@@ -417,7 +417,7 @@
 				"Sensore senza energia"
 			],
 			"answer": "LED girato al contrario",
-			"explanation": "Il LED ha un verso: se è girato al contrario, non lascia passare corrente."
+			"explanation": "Il catodo va al negativo e si riconosce dal piedino più corto o dalla smussatura sul bordo. Basta girarlo."
 		},
 		{
 			"id": "elettronica-guasto-wrong-resistor-value",
@@ -433,7 +433,7 @@
 				"Componente scollegato"
 			],
 			"answer": "Resistenza sbagliata",
-			"explanation": "La resistenza c'è, ma il suo valore non protegge bene il LED."
+			"explanation": "Si rileggono le fasce colorate e si confronta il valore con quello previsto: troppo alto spegne, troppo basso brucia."
 		},
 		{
 			"id": "elettronica-guasto-disconnected-component",
@@ -449,7 +449,7 @@
 				"Componente scollegato"
 			],
 			"answer": "Componente scollegato",
-			"explanation": "Un pezzo può essere presente ma fuori dal giro della corrente."
+			"explanation": "Essere sulla basetta non basta: si controlla che i piedini siano nella stessa fila di contatti del resto del giro."
 		},
 		{
 			"id": "elettronica-guasto-sensor-unpowered",
@@ -465,7 +465,7 @@
 				"Condensatore scarico"
 			],
 			"answer": "Sensore senza energia",
-			"explanation": "Un sensore misura solo se riceve energia e ha un ritorno."
+			"explanation": "Si misura la tensione fra i due pin di alimentazione del sensore: se è zero, il sensore non sta nemmeno lavorando."
 		},
 		{
 			"id": "elettronica-guasto-parallel-branch-open",
@@ -481,7 +481,7 @@
 				"Componente scollegato"
 			],
 			"answer": "Ramo parallelo aperto",
-			"explanation": "In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona."
+			"explanation": "Si prova un ramo per volta scollegando l'altro: quello che resta spento da solo è il ramo interrotto."
 		},
 		{
 			"id": "elettronica-guasto-capacitor-discharged",
@@ -497,7 +497,7 @@
 				"Ramo parallelo aperto"
 			],
 			"answer": "Condensatore scarico",
-			"explanation": "Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco."
+			"explanation": "Si misura la tensione ai suoi capi mentre il circuito lavora: se resta a zero, non si sta caricando."
 		},
 		{
 			"id": "elettronica-guasto-short-circuit",
@@ -513,7 +513,7 @@
 				"Corto circuito"
 			],
 			"answer": "Corto circuito",
-			"explanation": "Nel corto la corrente trova una scorciatoia e salta i componenti utili."
+			"explanation": "Si stacca l'alimentazione e si misura la resistenza fra i due poli: vicino a zero significa che c'è una scorciatoia."
 		},
 		{
 			"id": "elettronica-guasto-loose-ground",
@@ -529,7 +529,7 @@
 				"Condensatore scarico"
 			],
 			"answer": "Ritorno instabile",
-			"explanation": "Il ritorno al polo negativo deve essere stabile, non funzionare a tratti."
+			"explanation": "Si muove piano il collegamento di massa a circuito acceso: se l'anomalia va e viene, il contatto non è stabile."
 		},
 		{
 			"id": "elettronica-guasto-relay-not-armed",
@@ -545,7 +545,7 @@
 				"Condensatore scarico"
 			],
 			"answer": "Relè non attivato",
-			"explanation": "Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico."
+			"explanation": "Si ascolta lo scatto: senza il «click» la bobina non è alimentata, e il carico non può partire."
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-0",
@@ -1762,7 +1762,7 @@
 				"Volt"
 			],
 			"answer": "Volt",
-			"explanation": "La tensione si misura in volt (V)."
+			"explanation": "Il volt misura la differenza fra due punti: per questo si parla di tensione FRA due punti, mai in uno solo."
 		},
 		{
 			"id": "elettronica-misure-elettriche-77",
@@ -1778,7 +1778,7 @@
 				"Volt"
 			],
 			"answer": "Ampere",
-			"explanation": "La corrente si misura in ampere (A)."
+			"explanation": "Un ampere è una quantità di carica che passa ogni secondo: la corrente è un flusso, non una quantità ferma."
 		},
 		{
 			"id": "elettronica-elettricita-base-78",

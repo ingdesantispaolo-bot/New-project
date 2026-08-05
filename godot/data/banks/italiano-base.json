@@ -17,7 +17,7 @@
 				"parente"
 			],
 			"answer": "famiglia",
-			"explanation": "\"famiglia\": insieme delle persone legate da parentela o vita comune."
+			"explanation": "\"famiglia\": insieme delle persone legate da parentela o vita comune. Stesso gruppo: genitore = undefined, fratello = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-genitore-1",
@@ -33,7 +33,7 @@
 				"balcone"
 			],
 			"answer": "genitore",
-			"explanation": "\"genitore\": madre o padre rispetto ai figli."
+			"explanation": "\"genitore\": madre o padre rispetto ai figli. Stesso gruppo: fratello = undefined, sorella = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-fratello-2",
@@ -49,7 +49,7 @@
 				"bolletta"
 			],
 			"answer": "fratello",
-			"explanation": "\"fratello\": figlio degli stessi genitori."
+			"explanation": "\"fratello\": figlio degli stessi genitori. Stesso gruppo: sorella = undefined, parente = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-sorella-3",
@@ -65,7 +65,7 @@
 				"sorella"
 			],
 			"answer": "sorella",
-			"explanation": "\"sorella\": figlia degli stessi genitori."
+			"explanation": "\"sorella\": figlia degli stessi genitori. Stesso gruppo: parente = undefined, vicino = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-parente-4",
@@ -81,7 +81,7 @@
 				"sorella"
 			],
 			"answer": "parente",
-			"explanation": "\"parente\": persona legata da parentela."
+			"explanation": "\"parente\": persona legata da parentela. Stesso gruppo: vicino = undefined, ospite = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-vicino-5",
@@ -97,7 +97,7 @@
 				"camera"
 			],
 			"answer": "vicino",
-			"explanation": "\"vicino\": persona che abita accanto o molto vicino."
+			"explanation": "\"vicino\": persona che abita accanto o molto vicino. Stesso gruppo: ospite = undefined, cucina = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-ospite-6",
@@ -113,7 +113,7 @@
 				"vicino"
 			],
 			"answer": "ospite",
-			"explanation": "\"ospite\": persona accolta in casa."
+			"explanation": "\"ospite\": persona accolta in casa. Stesso gruppo: cucina = undefined, soggiorno = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-cucina-7",
@@ -129,7 +129,7 @@
 				"cucina"
 			],
 			"answer": "cucina",
-			"explanation": "\"cucina\": stanza in cui si preparano i pasti."
+			"explanation": "\"cucina\": stanza in cui si preparano i pasti. Stesso gruppo: soggiorno = undefined, camera = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-soggiorno-8",
@@ -145,7 +145,7 @@
 				"balcone"
 			],
 			"answer": "soggiorno",
-			"explanation": "\"soggiorno\": stanza della casa usata per stare insieme."
+			"explanation": "\"soggiorno\": stanza della casa usata per stare insieme. Stesso gruppo: camera = undefined, bagno = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-camera-9",
@@ -161,7 +161,7 @@
 				"sorella"
 			],
 			"answer": "camera",
-			"explanation": "\"camera\": stanza in cui si dorme o si studia."
+			"explanation": "\"camera\": stanza in cui si dorme o si studia. Stesso gruppo: bagno = undefined, balcone = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-bagno-10",
@@ -177,7 +177,7 @@
 				"camera"
 			],
 			"answer": "bagno",
-			"explanation": "\"bagno\": stanza per lavarsi e curare l'igiene."
+			"explanation": "\"bagno\": stanza per lavarsi e curare l'igiene. Stesso gruppo: balcone = undefined, tavolo = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-balcone-11",
@@ -193,7 +193,7 @@
 				"balcone"
 			],
 			"answer": "balcone",
-			"explanation": "\"balcone\": spazio esterno collegato a una stanza."
+			"explanation": "\"balcone\": spazio esterno collegato a una stanza. Stesso gruppo: tavolo = undefined, sedia = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-tavolo-12",
@@ -209,7 +209,7 @@
 				"ospite"
 			],
 			"answer": "tavolo",
-			"explanation": "\"tavolo\": mobile con piano usato per mangiare o lavorare."
+			"explanation": "\"tavolo\": mobile con piano usato per mangiare o lavorare. Stesso gruppo: sedia = undefined, armadio = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-sedia-13",
@@ -225,7 +225,7 @@
 				"sorella"
 			],
 			"answer": "sedia",
-			"explanation": "\"sedia\": sedile con schienale."
+			"explanation": "\"sedia\": sedile con schienale. Stesso gruppo: armadio = undefined, mensola = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-armadio-14",
@@ -241,7 +241,7 @@
 				"chiave"
 			],
 			"answer": "armadio",
-			"explanation": "\"armadio\": mobile in cui si tengono vestiti o oggetti."
+			"explanation": "\"armadio\": mobile in cui si tengono vestiti o oggetti. Stesso gruppo: mensola = undefined, cassetto = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-mensola-15",
@@ -257,7 +257,7 @@
 				"mensola"
 			],
 			"answer": "mensola",
-			"explanation": "\"mensola\": ripiano fissato alla parete."
+			"explanation": "\"mensola\": ripiano fissato alla parete. Stesso gruppo: cassetto = undefined, chiave = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-cassetto-16",
@@ -273,7 +273,7 @@
 				"bolletta"
 			],
 			"answer": "cassetto",
-			"explanation": "\"cassetto\": vano estraibile di un mobile."
+			"explanation": "\"cassetto\": vano estraibile di un mobile. Stesso gruppo: chiave = undefined, campanello = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-chiave-17",
@@ -289,7 +289,7 @@
 				"cucina"
 			],
 			"answer": "chiave",
-			"explanation": "\"chiave\": oggetto usato per aprire una serratura."
+			"explanation": "\"chiave\": oggetto usato per aprire una serratura. Stesso gruppo: campanello = undefined, bolletta = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-campanello-18",
@@ -305,7 +305,7 @@
 				"famiglia"
 			],
 			"answer": "campanello",
-			"explanation": "\"campanello\": dispositivo per avvisare chi è in casa."
+			"explanation": "\"campanello\": dispositivo per avvisare chi è in casa. Stesso gruppo: bolletta = undefined, famiglia = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-bolletta-19",
@@ -321,7 +321,7 @@
 				"bolletta"
 			],
 			"answer": "bolletta",
-			"explanation": "\"bolletta\": documento con il costo di un servizio domestico."
+			"explanation": "\"bolletta\": documento con il costo di un servizio domestico. Stesso gruppo: famiglia = undefined, genitore = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-ordinato-20",
@@ -337,7 +337,7 @@
 				"rumoroso"
 			],
 			"answer": "ordinato",
-			"explanation": "\"ordinato\": messo al posto giusto."
+			"explanation": "\"ordinato\": messo al posto giusto. Stesso gruppo: disordinato = undefined, pulito = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-disordinato-21",
@@ -353,7 +353,7 @@
 				"ordinato"
 			],
 			"answer": "disordinato",
-			"explanation": "\"disordinato\": senza ordine o organizzazione."
+			"explanation": "\"disordinato\": senza ordine o organizzazione. Stesso gruppo: pulito = undefined, sporco = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-pulito-22",
@@ -369,7 +369,7 @@
 				"comodo"
 			],
 			"answer": "pulito",
-			"explanation": "\"pulito\": privo di sporco."
+			"explanation": "\"pulito\": privo di sporco. Stesso gruppo: sporco = undefined, accogliente = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-sporco-23",
@@ -385,7 +385,7 @@
 				"sporco"
 			],
 			"answer": "sporco",
-			"explanation": "\"sporco\": non pulito."
+			"explanation": "\"sporco\": non pulito. Stesso gruppo: accogliente = undefined, rumoroso = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-accogliente-24",
@@ -401,7 +401,7 @@
 				"silenzioso"
 			],
 			"answer": "accogliente",
-			"explanation": "\"accogliente\": che fa sentire a proprio agio."
+			"explanation": "\"accogliente\": che fa sentire a proprio agio. Stesso gruppo: rumoroso = undefined, silenzioso = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-rumoroso-25",
@@ -417,7 +417,7 @@
 				"pulito"
 			],
 			"answer": "rumoroso",
-			"explanation": "\"rumoroso\": pieno di rumore."
+			"explanation": "\"rumoroso\": pieno di rumore. Stesso gruppo: silenzioso = undefined, comodo = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-silenzioso-26",
@@ -433,7 +433,7 @@
 				"ordinato"
 			],
 			"answer": "silenzioso",
-			"explanation": "\"silenzioso\": con poco o nessun rumore."
+			"explanation": "\"silenzioso\": con poco o nessun rumore. Stesso gruppo: comodo = undefined, ordinato = undefined."
 		},
 		{
 			"id": "italiano-casa-famiglia-comodo-27",
@@ -449,7 +449,7 @@
 				"comodo"
 			],
 			"answer": "comodo",
-			"explanation": "\"comodo\": facile o piacevole da usare."
+			"explanation": "\"comodo\": facile o piacevole da usare. Stesso gruppo: ordinato = undefined, disordinato = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-quaderno-28",
@@ -465,7 +465,7 @@
 				"compito"
 			],
 			"answer": "quaderno",
-			"explanation": "\"quaderno\": fascicolo su cui si scrive a scuola."
+			"explanation": "\"quaderno\": fascicolo su cui si scrive a scuola. Stesso gruppo: diario = undefined, zaino = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-diario-29",
@@ -481,7 +481,7 @@
 				"lezione"
 			],
 			"answer": "diario",
-			"explanation": "\"diario\": agenda scolastica per compiti e comunicazioni."
+			"explanation": "\"diario\": agenda scolastica per compiti e comunicazioni. Stesso gruppo: zaino = undefined, astuccio = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-zaino-30",
@@ -497,7 +497,7 @@
 				"voto"
 			],
 			"answer": "zaino",
-			"explanation": "\"zaino\": borsa da portare sulle spalle."
+			"explanation": "\"zaino\": borsa da portare sulle spalle. Stesso gruppo: astuccio = undefined, lavagna = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-astuccio-31",
@@ -513,7 +513,7 @@
 				"astuccio"
 			],
 			"answer": "astuccio",
-			"explanation": "\"astuccio\": contenitore per penne e matite."
+			"explanation": "\"astuccio\": contenitore per penne e matite. Stesso gruppo: lavagna = undefined, lezione = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-lavagna-32",
@@ -529,7 +529,7 @@
 				"astuccio"
 			],
 			"answer": "lavagna",
-			"explanation": "\"lavagna\": superficie su cui l'insegnante scrive."
+			"explanation": "\"lavagna\": superficie su cui l'insegnante scrive. Stesso gruppo: lezione = undefined, compito = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-lezione-33",
@@ -545,7 +545,7 @@
 				"schema"
 			],
 			"answer": "lezione",
-			"explanation": "\"lezione\": momento in cui si spiega o si impara un argomento."
+			"explanation": "\"lezione\": momento in cui si spiega o si impara un argomento. Stesso gruppo: compito = undefined, verifica = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-compito-34",
@@ -561,7 +561,7 @@
 				"quaderno"
 			],
 			"answer": "compito",
-			"explanation": "\"compito\": esercizio da svolgere a scuola o a casa."
+			"explanation": "\"compito\": esercizio da svolgere a scuola o a casa. Stesso gruppo: verifica = undefined, interrogazione = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-verifica-35",
@@ -577,7 +577,7 @@
 				"verifica"
 			],
 			"answer": "verifica",
-			"explanation": "\"verifica\": prova per controllare ciò che si sa."
+			"explanation": "\"verifica\": prova per controllare ciò che si sa. Stesso gruppo: interrogazione = undefined, voto = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-interrogazione-36",
@@ -593,7 +593,7 @@
 				"quaderno"
 			],
 			"answer": "interrogazione",
-			"explanation": "\"interrogazione\": prova orale su un argomento."
+			"explanation": "\"interrogazione\": prova orale su un argomento. Stesso gruppo: voto = undefined, argomento = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-voto-37",
@@ -609,7 +609,7 @@
 				"metodo"
 			],
 			"answer": "voto",
-			"explanation": "\"voto\": valutazione espressa con un numero o giudizio."
+			"explanation": "\"voto\": valutazione espressa con un numero o giudizio. Stesso gruppo: argomento = undefined, paragrafo = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-argomento-38",
@@ -625,7 +625,7 @@
 				"paragrafo"
 			],
 			"answer": "argomento",
-			"explanation": "\"argomento\": tema di cui si parla o si studia."
+			"explanation": "\"argomento\": tema di cui si parla o si studia. Stesso gruppo: paragrafo = undefined, riassunto = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-paragrafo-39",
@@ -641,7 +641,7 @@
 				"paragrafo"
 			],
 			"answer": "paragrafo",
-			"explanation": "\"paragrafo\": parte di un testo separata dalle altre."
+			"explanation": "\"paragrafo\": parte di un testo separata dalle altre. Stesso gruppo: riassunto = undefined, schema = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-riassunto-40",
@@ -657,7 +657,7 @@
 				"compito"
 			],
 			"answer": "riassunto",
-			"explanation": "\"riassunto\": testo breve che conserva le informazioni principali."
+			"explanation": "\"riassunto\": testo breve che conserva le informazioni principali. Stesso gruppo: schema = undefined, mappa = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-schema-41",
@@ -673,7 +673,7 @@
 				"zaino"
 			],
 			"answer": "schema",
-			"explanation": "\"schema\": rappresentazione ordinata di idee o dati."
+			"explanation": "\"schema\": rappresentazione ordinata di idee o dati. Stesso gruppo: mappa = undefined, fonte = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-mappa-42",
@@ -689,7 +689,7 @@
 				"compito"
 			],
 			"answer": "mappa",
-			"explanation": "\"mappa\": schema che collega concetti."
+			"explanation": "\"mappa\": schema che collega concetti. Stesso gruppo: fonte = undefined, esempio = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-fonte-43",
@@ -705,7 +705,7 @@
 				"fonte"
 			],
 			"answer": "fonte",
-			"explanation": "\"fonte\": origine di un'informazione."
+			"explanation": "\"fonte\": origine di un'informazione. Stesso gruppo: esempio = undefined, domanda = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-esempio-44",
@@ -721,7 +721,7 @@
 				"domanda"
 			],
 			"answer": "esempio",
-			"explanation": "\"esempio\": caso concreto che chiarisce una regola."
+			"explanation": "\"esempio\": caso concreto che chiarisce una regola. Stesso gruppo: domanda = undefined, risposta = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-domanda-45",
@@ -737,7 +737,7 @@
 				"lezione"
 			],
 			"answer": "domanda",
-			"explanation": "\"domanda\": frase con cui si chiede qualcosa."
+			"explanation": "\"domanda\": frase con cui si chiede qualcosa. Stesso gruppo: risposta = undefined, metodo = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-risposta-46",
@@ -753,7 +753,7 @@
 				"astuccio"
 			],
 			"answer": "risposta",
-			"explanation": "\"risposta\": informazione data a una domanda."
+			"explanation": "\"risposta\": informazione data a una domanda. Stesso gruppo: metodo = undefined, quaderno = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-metodo-47",
@@ -769,7 +769,7 @@
 				"metodo"
 			],
 			"answer": "metodo",
-			"explanation": "\"metodo\": modo ordinato di lavorare o studiare."
+			"explanation": "\"metodo\": modo ordinato di lavorare o studiare. Stesso gruppo: quaderno = undefined, diario = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-studiare-48",
@@ -785,7 +785,7 @@
 				"dimostrare"
 			],
 			"answer": "studiare",
-			"explanation": "\"studiare\": imparare un argomento con attenzione."
+			"explanation": "\"studiare\": imparare un argomento con attenzione. Stesso gruppo: ripassare = undefined, sottolineare = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-ripassare-49",
@@ -801,7 +801,7 @@
 				"correggere"
 			],
 			"answer": "ripassare",
-			"explanation": "\"ripassare\": rivedere ciò che si è già studiato."
+			"explanation": "\"ripassare\": rivedere ciò che si è già studiato. Stesso gruppo: sottolineare = undefined, riassumere = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-sottolineare-50",
@@ -817,7 +817,7 @@
 				"correggere"
 			],
 			"answer": "sottolineare",
-			"explanation": "\"sottolineare\": segnare una parte importante del testo."
+			"explanation": "\"sottolineare\": segnare una parte importante del testo. Stesso gruppo: riassumere = undefined, spiegare = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-riassumere-51",
@@ -833,7 +833,7 @@
 				"riassumere"
 			],
 			"answer": "riassumere",
-			"explanation": "\"riassumere\": dire o scrivere solo le idee essenziali."
+			"explanation": "\"riassumere\": dire o scrivere solo le idee essenziali. Stesso gruppo: spiegare = undefined, confrontare = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-spiegare-52",
@@ -849,7 +849,7 @@
 				"studiare"
 			],
 			"answer": "spiegare",
-			"explanation": "\"spiegare\": rendere chiaro un contenuto."
+			"explanation": "\"spiegare\": rendere chiaro un contenuto. Stesso gruppo: confrontare = undefined, verificare = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-confrontare-53",
@@ -865,7 +865,7 @@
 				"verificare"
 			],
 			"answer": "confrontare",
-			"explanation": "\"confrontare\": mettere due elementi a paragone."
+			"explanation": "\"confrontare\": mettere due elementi a paragone. Stesso gruppo: verificare = undefined, correggere = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-verificare-54",
@@ -881,7 +881,7 @@
 				"ripassare"
 			],
 			"answer": "verificare",
-			"explanation": "\"verificare\": controllare se una cosa è corretta."
+			"explanation": "\"verificare\": controllare se una cosa è corretta. Stesso gruppo: correggere = undefined, dimostrare = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-correggere-55",
@@ -897,7 +897,7 @@
 				"correggere"
 			],
 			"answer": "correggere",
-			"explanation": "\"correggere\": eliminare un errore."
+			"explanation": "\"correggere\": eliminare un errore. Stesso gruppo: dimostrare = undefined, argomentare = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-dimostrare-56",
@@ -913,7 +913,7 @@
 				"correggere"
 			],
 			"answer": "dimostrare",
-			"explanation": "\"dimostrare\": mostrare con prove che una cosa è vera."
+			"explanation": "\"dimostrare\": mostrare con prove che una cosa è vera. Stesso gruppo: argomentare = undefined, studiare = undefined."
 		},
 		{
 			"id": "italiano-scuola-studio-argomentare-57",
@@ -929,7 +929,7 @@
 				"sottolineare"
 			],
 			"answer": "argomentare",
-			"explanation": "\"argomentare\": sostenere un'idea con ragioni e prove."
+			"explanation": "\"argomentare\": sostenere un'idea con ragioni e prove. Stesso gruppo: studiare = undefined, ripassare = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-colazione-58",
@@ -945,7 +945,7 @@
 				"spuntino"
 			],
 			"answer": "colazione",
-			"explanation": "\"colazione\": pasto del mattino."
+			"explanation": "\"colazione\": pasto del mattino. Stesso gruppo: pranzo = undefined, cena = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-pranzo-59",
@@ -961,7 +961,7 @@
 				"pranzo"
 			],
 			"answer": "pranzo",
-			"explanation": "\"pranzo\": pasto principale di metà giornata."
+			"explanation": "\"pranzo\": pasto principale di metà giornata. Stesso gruppo: cena = undefined, spuntino = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-cena-60",
@@ -977,7 +977,7 @@
 				"pesce"
 			],
 			"answer": "cena",
-			"explanation": "\"cena\": pasto della sera."
+			"explanation": "\"cena\": pasto della sera. Stesso gruppo: spuntino = undefined, ricetta = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-spuntino-61",
@@ -993,7 +993,7 @@
 				"colazione"
 			],
 			"answer": "spuntino",
-			"explanation": "\"spuntino\": piccolo pasto tra due pasti principali."
+			"explanation": "\"spuntino\": piccolo pasto tra due pasti principali. Stesso gruppo: ricetta = undefined, ingrediente = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-ricetta-62",
@@ -1009,7 +1009,7 @@
 				"verdura"
 			],
 			"answer": "ricetta",
-			"explanation": "\"ricetta\": istruzioni per preparare un piatto."
+			"explanation": "\"ricetta\": istruzioni per preparare un piatto. Stesso gruppo: ingrediente = undefined, pane = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-ingrediente-63",
@@ -1025,7 +1025,7 @@
 				"ingrediente"
 			],
 			"answer": "ingrediente",
-			"explanation": "\"ingrediente\": alimento usato in una ricetta."
+			"explanation": "\"ingrediente\": alimento usato in una ricetta. Stesso gruppo: pane = undefined, pasta = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-pane-64",
@@ -1041,7 +1041,7 @@
 				"prezzo"
 			],
 			"answer": "pane",
-			"explanation": "\"pane\": alimento base fatto con farina e acqua."
+			"explanation": "\"pane\": alimento base fatto con farina e acqua. Stesso gruppo: pasta = undefined, verdura = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-pasta-65",
@@ -1057,7 +1057,7 @@
 				"frutta"
 			],
 			"answer": "pasta",
-			"explanation": "\"pasta\": alimento tipico formato da farina e acqua."
+			"explanation": "\"pasta\": alimento tipico formato da farina e acqua. Stesso gruppo: verdura = undefined, frutta = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-verdura-66",
@@ -1073,7 +1073,7 @@
 				"prezzo"
 			],
 			"answer": "verdura",
-			"explanation": "\"verdura\": alimento vegetale usato nei pasti."
+			"explanation": "\"verdura\": alimento vegetale usato nei pasti. Stesso gruppo: frutta = undefined, formaggio = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-frutta-67",
@@ -1089,7 +1089,7 @@
 				"frutta"
 			],
 			"answer": "frutta",
-			"explanation": "\"frutta\": alimento dolce prodotto dalle piante."
+			"explanation": "\"frutta\": alimento dolce prodotto dalle piante. Stesso gruppo: formaggio = undefined, carne = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-formaggio-68",
@@ -1105,7 +1105,7 @@
 				"colazione"
 			],
 			"answer": "formaggio",
-			"explanation": "\"formaggio\": alimento derivato dal latte."
+			"explanation": "\"formaggio\": alimento derivato dal latte. Stesso gruppo: carne = undefined, pesce = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-carne-69",
@@ -1121,7 +1121,7 @@
 				"verdura"
 			],
 			"answer": "carne",
-			"explanation": "\"carne\": alimento ricavato da animali allevati."
+			"explanation": "\"carne\": alimento ricavato da animali allevati. Stesso gruppo: pesce = undefined, prezzo = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-pesce-70",
@@ -1137,7 +1137,7 @@
 				"pasta"
 			],
 			"answer": "pesce",
-			"explanation": "\"pesce\": alimento che viene dal mare o dall'acqua dolce."
+			"explanation": "\"pesce\": alimento che viene dal mare o dall'acqua dolce. Stesso gruppo: prezzo = undefined, scontrino = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-prezzo-71",
@@ -1153,7 +1153,7 @@
 				"prezzo"
 			],
 			"answer": "prezzo",
-			"explanation": "\"prezzo\": quantità di denaro richiesta per comprare qualcosa."
+			"explanation": "\"prezzo\": quantità di denaro richiesta per comprare qualcosa. Stesso gruppo: scontrino = undefined, resto = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-scontrino-72",
@@ -1169,7 +1169,7 @@
 				"frutta"
 			],
 			"answer": "scontrino",
-			"explanation": "\"scontrino\": documento che prova un acquisto."
+			"explanation": "\"scontrino\": documento che prova un acquisto. Stesso gruppo: resto = undefined, offerta = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-resto-73",
@@ -1185,7 +1185,7 @@
 				"ricetta"
 			],
 			"answer": "resto",
-			"explanation": "\"resto\": denaro restituito dopo un pagamento."
+			"explanation": "\"resto\": denaro restituito dopo un pagamento. Stesso gruppo: offerta = undefined, carrello = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-offerta-74",
@@ -1201,7 +1201,7 @@
 				"carne"
 			],
 			"answer": "offerta",
-			"explanation": "\"offerta\": prezzo ridotto per un prodotto."
+			"explanation": "\"offerta\": prezzo ridotto per un prodotto. Stesso gruppo: carrello = undefined, colazione = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-carrello-75",
@@ -1217,7 +1217,7 @@
 				"carrello"
 			],
 			"answer": "carrello",
-			"explanation": "\"carrello\": contenitore con ruote usato al supermercato."
+			"explanation": "\"carrello\": contenitore con ruote usato al supermercato. Stesso gruppo: colazione = undefined, pranzo = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-fresco-76",
@@ -1233,7 +1233,7 @@
 				"scaduto"
 			],
 			"answer": "fresco",
-			"explanation": "\"fresco\": appena preparato o non rovinato."
+			"explanation": "\"fresco\": appena preparato o non rovinato. Stesso gruppo: scaduto = undefined, economico = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-scaduto-77",
@@ -1249,7 +1249,7 @@
 				"fresco"
 			],
 			"answer": "scaduto",
-			"explanation": "\"scaduto\": oltre la data entro cui un prodotto va consumato."
+			"explanation": "\"scaduto\": oltre la data entro cui un prodotto va consumato. Stesso gruppo: economico = undefined, costoso = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-economico-78",
@@ -1265,7 +1265,7 @@
 				"scaduto"
 			],
 			"answer": "economico",
-			"explanation": "\"economico\": che costa poco."
+			"explanation": "\"economico\": che costa poco. Stesso gruppo: costoso = undefined, salato = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-costoso-79",
@@ -1281,7 +1281,7 @@
 				"costoso"
 			],
 			"answer": "costoso",
-			"explanation": "\"costoso\": che costa molto."
+			"explanation": "\"costoso\": che costa molto. Stesso gruppo: salato = undefined, dolce = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-salato-80",
@@ -1297,7 +1297,7 @@
 				"dolce"
 			],
 			"answer": "salato",
-			"explanation": "\"salato\": con molto sale."
+			"explanation": "\"salato\": con molto sale. Stesso gruppo: dolce = undefined, amaro = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-dolce-81",
@@ -1313,7 +1313,7 @@
 				"costoso"
 			],
 			"answer": "dolce",
-			"explanation": "\"dolce\": con sapore zuccherino."
+			"explanation": "\"dolce\": con sapore zuccherino. Stesso gruppo: amaro = undefined, nutriente = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-amaro-82",
@@ -1329,7 +1329,7 @@
 				"salato"
 			],
 			"answer": "amaro",
-			"explanation": "\"amaro\": con sapore forte non dolce."
+			"explanation": "\"amaro\": con sapore forte non dolce. Stesso gruppo: nutriente = undefined, fresco = undefined."
 		},
 		{
 			"id": "italiano-cibo-spesa-nutriente-83",
@@ -1345,7 +1345,7 @@
 				"nutriente"
 			],
 			"answer": "nutriente",
-			"explanation": "\"nutriente\": che fornisce energia e sostanze utili."
+			"explanation": "\"nutriente\": che fornisce energia e sostanze utili. Stesso gruppo: fresco = undefined, scaduto = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-minuto-84",
@@ -1361,7 +1361,7 @@
 				"vento"
 			],
 			"answer": "minuto",
-			"explanation": "\"minuto\": unità di tempo pari a sessanta secondi."
+			"explanation": "\"minuto\": unità di tempo pari a sessanta secondi. Stesso gruppo: ora = undefined, giorno = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-ora-85",
@@ -1377,7 +1377,7 @@
 				"mattina"
 			],
 			"answer": "ora",
-			"explanation": "\"ora\": unità di tempo pari a sessanta minuti."
+			"explanation": "\"ora\": unità di tempo pari a sessanta minuti. Stesso gruppo: giorno = undefined, settimana = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-giorno-86",
@@ -1393,7 +1393,7 @@
 				"pioggia"
 			],
 			"answer": "giorno",
-			"explanation": "\"giorno\": periodo di ventiquattro ore."
+			"explanation": "\"giorno\": periodo di ventiquattro ore. Stesso gruppo: settimana = undefined, mese = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-settimana-87",
@@ -1409,7 +1409,7 @@
 				"settimana"
 			],
 			"answer": "settimana",
-			"explanation": "\"settimana\": periodo di sette giorni."
+			"explanation": "\"settimana\": periodo di sette giorni. Stesso gruppo: mese = undefined, stagione = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-mese-88",
@@ -1425,7 +1425,7 @@
 				"ora"
 			],
 			"answer": "mese",
-			"explanation": "\"mese\": parte dell'anno."
+			"explanation": "\"mese\": parte dell'anno. Stesso gruppo: stagione = undefined, mattina = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-stagione-89",
@@ -1441,7 +1441,7 @@
 				"mattina"
 			],
 			"answer": "stagione",
-			"explanation": "\"stagione\": periodo dell'anno con clima simile."
+			"explanation": "\"stagione\": periodo dell'anno con clima simile. Stesso gruppo: mattina = undefined, pomeriggio = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-mattina-90",
@@ -1457,7 +1457,7 @@
 				"anticipo"
 			],
 			"answer": "mattina",
-			"explanation": "\"mattina\": prima parte del giorno."
+			"explanation": "\"mattina\": prima parte del giorno. Stesso gruppo: pomeriggio = undefined, sera = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-pomeriggio-91",
@@ -1473,7 +1473,7 @@
 				"pomeriggio"
 			],
 			"answer": "pomeriggio",
-			"explanation": "\"pomeriggio\": parte del giorno dopo il pranzo."
+			"explanation": "\"pomeriggio\": parte del giorno dopo il pranzo. Stesso gruppo: sera = undefined, scadenza = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-sera-92",
@@ -1489,7 +1489,7 @@
 				"minuto"
 			],
 			"answer": "sera",
-			"explanation": "\"sera\": parte finale del giorno."
+			"explanation": "\"sera\": parte finale del giorno. Stesso gruppo: scadenza = undefined, ritardo = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-scadenza-93",
@@ -1505,7 +1505,7 @@
 				"ritardo"
 			],
 			"answer": "scadenza",
-			"explanation": "\"scadenza\": termine entro cui fare qualcosa."
+			"explanation": "\"scadenza\": termine entro cui fare qualcosa. Stesso gruppo: ritardo = undefined, anticipo = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-ritardo-94",
@@ -1521,7 +1521,7 @@
 				"stagione"
 			],
 			"answer": "ritardo",
-			"explanation": "\"ritardo\": arrivo o azione dopo l'orario previsto."
+			"explanation": "\"ritardo\": arrivo o azione dopo l'orario previsto. Stesso gruppo: anticipo = undefined, pioggia = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-anticipo-95",
@@ -1537,7 +1537,7 @@
 				"anticipo"
 			],
 			"answer": "anticipo",
-			"explanation": "\"anticipo\": arrivo o azione prima dell'orario previsto."
+			"explanation": "\"anticipo\": arrivo o azione prima dell'orario previsto. Stesso gruppo: pioggia = undefined, vento = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-pioggia-96",
@@ -1553,7 +1553,7 @@
 				"nebbia"
 			],
 			"answer": "pioggia",
-			"explanation": "\"pioggia\": acqua che cade dalle nuvole."
+			"explanation": "\"pioggia\": acqua che cade dalle nuvole. Stesso gruppo: vento = undefined, nebbia = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-vento-97",
@@ -1569,7 +1569,7 @@
 				"nebbia"
 			],
 			"answer": "vento",
-			"explanation": "\"vento\": aria in movimento."
+			"explanation": "\"vento\": aria in movimento. Stesso gruppo: nebbia = undefined, temporale = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-nebbia-98",
@@ -1585,7 +1585,7 @@
 				"stagione"
 			],
 			"answer": "nebbia",
-			"explanation": "\"nebbia\": vapore che riduce la visibilità."
+			"explanation": "\"nebbia\": vapore che riduce la visibilità. Stesso gruppo: temporale = undefined, minuto = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-temporale-99",
@@ -1601,7 +1601,7 @@
 				"temporale"
 			],
 			"answer": "temporale",
-			"explanation": "\"temporale\": pioggia forte con tuoni e lampi."
+			"explanation": "\"temporale\": pioggia forte con tuoni e lampi. Stesso gruppo: minuto = undefined, ora = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-puntuale-100",
@@ -1617,7 +1617,7 @@
 				"nuvoloso"
 			],
 			"answer": "puntuale",
-			"explanation": "\"puntuale\": che arriva o agisce all'orario previsto."
+			"explanation": "\"puntuale\": che arriva o agisce all'orario previsto. Stesso gruppo: tardivo = undefined, soleggiato = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-tardivo-101",
@@ -1633,7 +1633,7 @@
 				"puntuale"
 			],
 			"answer": "tardivo",
-			"explanation": "\"tardivo\": che avviene troppo tardi."
+			"explanation": "\"tardivo\": che avviene troppo tardi. Stesso gruppo: soleggiato = undefined, nuvoloso = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-soleggiato-102",
@@ -1649,7 +1649,7 @@
 				"nuvoloso"
 			],
 			"answer": "soleggiato",
-			"explanation": "\"soleggiato\": con molto sole."
+			"explanation": "\"soleggiato\": con molto sole. Stesso gruppo: nuvoloso = undefined, piovoso = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-nuvoloso-103",
@@ -1665,7 +1665,7 @@
 				"nuvoloso"
 			],
 			"answer": "nuvoloso",
-			"explanation": "\"nuvoloso\": coperto da nuvole."
+			"explanation": "\"nuvoloso\": coperto da nuvole. Stesso gruppo: piovoso = undefined, ventoso = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-piovoso-104",
@@ -1681,7 +1681,7 @@
 				"nuvoloso"
 			],
 			"answer": "piovoso",
-			"explanation": "\"piovoso\": con molta pioggia."
+			"explanation": "\"piovoso\": con molta pioggia. Stesso gruppo: ventoso = undefined, freddo = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-ventoso-105",
@@ -1697,7 +1697,7 @@
 				"piovoso"
 			],
 			"answer": "ventoso",
-			"explanation": "\"ventoso\": con molto vento."
+			"explanation": "\"ventoso\": con molto vento. Stesso gruppo: freddo = undefined, caldo = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-freddo-106",
@@ -1713,7 +1713,7 @@
 				"caldo"
 			],
 			"answer": "freddo",
-			"explanation": "\"freddo\": con temperatura bassa."
+			"explanation": "\"freddo\": con temperatura bassa. Stesso gruppo: caldo = undefined, puntuale = undefined."
 		},
 		{
 			"id": "italiano-tempo-meteo-caldo-107",
@@ -1729,7 +1729,7 @@
 				"caldo"
 			],
 			"answer": "caldo",
-			"explanation": "\"caldo\": con temperatura alta."
+			"explanation": "\"caldo\": con temperatura alta. Stesso gruppo: puntuale = undefined, tardivo = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-strada-108",
@@ -1745,7 +1745,7 @@
 				"semaforo"
 			],
 			"answer": "strada",
-			"explanation": "\"strada\": via per spostarsi a piedi o con mezzi."
+			"explanation": "\"strada\": via per spostarsi a piedi o con mezzi. Stesso gruppo: incrocio = undefined, marciapiede = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-incrocio-109",
@@ -1761,7 +1761,7 @@
 				"ospedale"
 			],
 			"answer": "incrocio",
-			"explanation": "\"incrocio\": punto in cui si incontrano due strade."
+			"explanation": "\"incrocio\": punto in cui si incontrano due strade. Stesso gruppo: marciapiede = undefined, semaforo = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-marciapiede-110",
@@ -1777,7 +1777,7 @@
 				"municipio"
 			],
 			"answer": "marciapiede",
-			"explanation": "\"marciapiede\": parte della strada riservata ai pedoni."
+			"explanation": "\"marciapiede\": parte della strada riservata ai pedoni. Stesso gruppo: semaforo = undefined, fermata = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-semaforo-111",
@@ -1793,7 +1793,7 @@
 				"semaforo"
 			],
 			"answer": "semaforo",
-			"explanation": "\"semaforo\": segnale luminoso che regola il traffico."
+			"explanation": "\"semaforo\": segnale luminoso che regola il traffico. Stesso gruppo: fermata = undefined, stazione = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-fermata-112",
@@ -1809,7 +1809,7 @@
 				"binario"
 			],
 			"answer": "fermata",
-			"explanation": "\"fermata\": punto in cui si aspetta un mezzo pubblico."
+			"explanation": "\"fermata\": punto in cui si aspetta un mezzo pubblico. Stesso gruppo: stazione = undefined, binario = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-stazione-113",
@@ -1825,7 +1825,7 @@
 				"farmacia"
 			],
 			"answer": "stazione",
-			"explanation": "\"stazione\": luogo da cui partono treni o autobus."
+			"explanation": "\"stazione\": luogo da cui partono treni o autobus. Stesso gruppo: binario = undefined, biglietto = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-binario-114",
@@ -1841,7 +1841,7 @@
 				"ospedale"
 			],
 			"answer": "binario",
-			"explanation": "\"binario\": linea da cui parte o arriva un treno."
+			"explanation": "\"binario\": linea da cui parte o arriva un treno. Stesso gruppo: biglietto = undefined, orario = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-biglietto-115",
@@ -1857,7 +1857,7 @@
 				"biglietto"
 			],
 			"answer": "biglietto",
-			"explanation": "\"biglietto\": documento che permette di viaggiare o entrare."
+			"explanation": "\"biglietto\": documento che permette di viaggiare o entrare. Stesso gruppo: orario = undefined, percorso = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-orario-116",
@@ -1873,7 +1873,7 @@
 				"percorso"
 			],
 			"answer": "orario",
-			"explanation": "\"orario\": tabella con tempi di partenza o attività."
+			"explanation": "\"orario\": tabella con tempi di partenza o attività. Stesso gruppo: percorso = undefined, indirizzo = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-percorso-117",
@@ -1889,7 +1889,7 @@
 				"ospedale"
 			],
 			"answer": "percorso",
-			"explanation": "\"percorso\": strada da seguire per arrivare."
+			"explanation": "\"percorso\": strada da seguire per arrivare. Stesso gruppo: indirizzo = undefined, quartiere = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-indirizzo-118",
@@ -1905,7 +1905,7 @@
 				"percorso"
 			],
 			"answer": "indirizzo",
-			"explanation": "\"indirizzo\": informazione che indica dove si trova un luogo."
+			"explanation": "\"indirizzo\": informazione che indica dove si trova un luogo. Stesso gruppo: quartiere = undefined, biblioteca = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-quartiere-119",
@@ -1921,7 +1921,7 @@
 				"quartiere"
 			],
 			"answer": "quartiere",
-			"explanation": "\"quartiere\": zona di una città."
+			"explanation": "\"quartiere\": zona di una città. Stesso gruppo: biblioteca = undefined, farmacia = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-biblioteca-120",
@@ -1937,7 +1937,7 @@
 				"municipio"
 			],
 			"answer": "biblioteca",
-			"explanation": "\"biblioteca\": luogo dove si leggono o prendono libri."
+			"explanation": "\"biblioteca\": luogo dove si leggono o prendono libri. Stesso gruppo: farmacia = undefined, ospedale = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-farmacia-121",
@@ -1953,7 +1953,7 @@
 				"incrocio"
 			],
 			"answer": "farmacia",
-			"explanation": "\"farmacia\": negozio dove si comprano medicine."
+			"explanation": "\"farmacia\": negozio dove si comprano medicine. Stesso gruppo: ospedale = undefined, municipio = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-ospedale-122",
@@ -1969,7 +1969,7 @@
 				"incrocio"
 			],
 			"answer": "ospedale",
-			"explanation": "\"ospedale\": luogo dove si curano persone malate."
+			"explanation": "\"ospedale\": luogo dove si curano persone malate. Stesso gruppo: municipio = undefined, strada = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-municipio-123",
@@ -1985,7 +1985,7 @@
 				"municipio"
 			],
 			"answer": "municipio",
-			"explanation": "\"municipio\": sede amministrativa di un comune."
+			"explanation": "\"municipio\": sede amministrativa di un comune. Stesso gruppo: strada = undefined, incrocio = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-di-fronte-a-124",
@@ -2001,7 +2001,7 @@
 				"a sinistra"
 			],
 			"answer": "di fronte a",
-			"explanation": "\"di fronte a\": nella posizione opposta rispetto a qualcosa."
+			"explanation": "\"di fronte a\": nella posizione opposta rispetto a qualcosa. Stesso gruppo: accanto a = undefined, dietro a = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-accanto-a-125",
@@ -2017,7 +2017,7 @@
 				"davanti a"
 			],
 			"answer": "accanto a",
-			"explanation": "\"accanto a\": vicino sul lato."
+			"explanation": "\"accanto a\": vicino sul lato. Stesso gruppo: dietro a = undefined, davanti a = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-dietro-a-126",
@@ -2033,7 +2033,7 @@
 				"in fondo"
 			],
 			"answer": "dietro a",
-			"explanation": "\"dietro a\": nella parte posteriore."
+			"explanation": "\"dietro a\": nella parte posteriore. Stesso gruppo: davanti a = undefined, a destra = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-davanti-a-127",
@@ -2049,7 +2049,7 @@
 				"davanti a"
 			],
 			"answer": "davanti a",
-			"explanation": "\"davanti a\": nella parte anteriore."
+			"explanation": "\"davanti a\": nella parte anteriore. Stesso gruppo: a destra = undefined, a sinistra = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-a-destra-128",
@@ -2065,7 +2065,7 @@
 				"dietro a"
 			],
 			"answer": "a destra",
-			"explanation": "\"a destra\": sul lato destro."
+			"explanation": "\"a destra\": sul lato destro. Stesso gruppo: a sinistra = undefined, in fondo = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-a-sinistra-129",
@@ -2081,7 +2081,7 @@
 				"davanti a"
 			],
 			"answer": "a sinistra",
-			"explanation": "\"a sinistra\": sul lato sinistro."
+			"explanation": "\"a sinistra\": sul lato sinistro. Stesso gruppo: in fondo = undefined, all'angolo = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-in-fondo-130",
@@ -2097,7 +2097,7 @@
 				"davanti a"
 			],
 			"answer": "in fondo",
-			"explanation": "\"in fondo\": alla fine di uno spazio o percorso."
+			"explanation": "\"in fondo\": alla fine di uno spazio o percorso. Stesso gruppo: all'angolo = undefined, di fronte a = undefined."
 		},
 		{
 			"id": "italiano-viaggi-luoghi-all-angolo-131",
@@ -2113,7 +2113,7 @@
 				"all'angolo"
 			],
 			"answer": "all'angolo",
-			"explanation": "\"all'angolo\": nel punto in cui si incontrano due lati o strade."
+			"explanation": "\"all'angolo\": nel punto in cui si incontrano due lati o strade. Stesso gruppo: di fronte a = undefined, accanto a = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-testa-132",
@@ -2129,7 +2129,7 @@
 				"febbre"
 			],
 			"answer": "testa",
-			"explanation": "\"testa\": parte superiore del corpo."
+			"explanation": "\"testa\": parte superiore del corpo. Stesso gruppo: occhio = undefined, orecchio = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-occhio-133",
@@ -2145,7 +2145,7 @@
 				"cerotto"
 			],
 			"answer": "occhio",
-			"explanation": "\"occhio\": organo con cui si vede."
+			"explanation": "\"occhio\": organo con cui si vede. Stesso gruppo: orecchio = undefined, bocca = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-orecchio-134",
@@ -2161,7 +2161,7 @@
 				"medicina"
 			],
 			"answer": "orecchio",
-			"explanation": "\"orecchio\": organo con cui si sente."
+			"explanation": "\"orecchio\": organo con cui si sente. Stesso gruppo: bocca = undefined, mano = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-bocca-135",
@@ -2177,7 +2177,7 @@
 				"bocca"
 			],
 			"answer": "bocca",
-			"explanation": "\"bocca\": parte del viso usata per parlare e mangiare."
+			"explanation": "\"bocca\": parte del viso usata per parlare e mangiare. Stesso gruppo: mano = undefined, schiena = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-mano-136",
@@ -2193,7 +2193,7 @@
 				"bocca"
 			],
 			"answer": "mano",
-			"explanation": "\"mano\": parte del corpo usata per afferrare."
+			"explanation": "\"mano\": parte del corpo usata per afferrare. Stesso gruppo: schiena = undefined, ginocchio = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-schiena-137",
@@ -2209,7 +2209,7 @@
 				"occhio"
 			],
 			"answer": "schiena",
-			"explanation": "\"schiena\": parte posteriore del busto."
+			"explanation": "\"schiena\": parte posteriore del busto. Stesso gruppo: ginocchio = undefined, respiro = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-ginocchio-138",
@@ -2225,7 +2225,7 @@
 				"medicina"
 			],
 			"answer": "ginocchio",
-			"explanation": "\"ginocchio\": articolazione della gamba."
+			"explanation": "\"ginocchio\": articolazione della gamba. Stesso gruppo: respiro = undefined, febbre = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-respiro-139",
@@ -2241,7 +2241,7 @@
 				"respiro"
 			],
 			"answer": "respiro",
-			"explanation": "\"respiro\": atto di prendere e mandare fuori aria."
+			"explanation": "\"respiro\": atto di prendere e mandare fuori aria. Stesso gruppo: febbre = undefined, tosse = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-febbre-140",
@@ -2257,7 +2257,7 @@
 				"testa"
 			],
 			"answer": "febbre",
-			"explanation": "\"febbre\": aumento della temperatura corporea."
+			"explanation": "\"febbre\": aumento della temperatura corporea. Stesso gruppo: tosse = undefined, raffreddore = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-tosse-141",
@@ -2273,7 +2273,7 @@
 				"ferita"
 			],
 			"answer": "tosse",
-			"explanation": "\"tosse\": colpo d'aria espulso dalla gola."
+			"explanation": "\"tosse\": colpo d'aria espulso dalla gola. Stesso gruppo: raffreddore = undefined, ferita = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-raffreddore-142",
@@ -2289,7 +2289,7 @@
 				"ginocchio"
 			],
 			"answer": "raffreddore",
-			"explanation": "\"raffreddore\": malessere con naso chiuso o che cola."
+			"explanation": "\"raffreddore\": malessere con naso chiuso o che cola. Stesso gruppo: ferita = undefined, cerotto = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-ferita-143",
@@ -2305,7 +2305,7 @@
 				"ferita"
 			],
 			"answer": "ferita",
-			"explanation": "\"ferita\": lesione della pelle o del corpo."
+			"explanation": "\"ferita\": lesione della pelle o del corpo. Stesso gruppo: cerotto = undefined, medicina = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-cerotto-144",
@@ -2321,7 +2321,7 @@
 				"occhio"
 			],
 			"answer": "cerotto",
-			"explanation": "\"cerotto\": piccola protezione adesiva per una ferita."
+			"explanation": "\"cerotto\": piccola protezione adesiva per una ferita. Stesso gruppo: medicina = undefined, visita = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-medicina-145",
@@ -2337,7 +2337,7 @@
 				"orecchio"
 			],
 			"answer": "medicina",
-			"explanation": "\"medicina\": sostanza usata per curare."
+			"explanation": "\"medicina\": sostanza usata per curare. Stesso gruppo: visita = undefined, appuntamento = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-visita-146",
@@ -2353,7 +2353,7 @@
 				"schiena"
 			],
 			"answer": "visita",
-			"explanation": "\"visita\": controllo fatto da un medico."
+			"explanation": "\"visita\": controllo fatto da un medico. Stesso gruppo: appuntamento = undefined, testa = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-appuntamento-147",
@@ -2369,7 +2369,7 @@
 				"appuntamento"
 			],
 			"answer": "appuntamento",
-			"explanation": "\"appuntamento\": incontro fissato a un'ora precisa."
+			"explanation": "\"appuntamento\": incontro fissato a un'ora precisa. Stesso gruppo: testa = undefined, occhio = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-stanco-148",
@@ -2385,7 +2385,7 @@
 				"riposo"
 			],
 			"answer": "stanco",
-			"explanation": "\"stanco\": con poca energia."
+			"explanation": "\"stanco\": con poca energia. Stesso gruppo: sano = undefined, malato = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-sano-149",
@@ -2401,7 +2401,7 @@
 				"idratato"
 			],
 			"answer": "sano",
-			"explanation": "\"sano\": in buona salute."
+			"explanation": "\"sano\": in buona salute. Stesso gruppo: malato = undefined, dolorante = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-malato-150",
@@ -2417,7 +2417,7 @@
 				"prudente"
 			],
 			"answer": "malato",
-			"explanation": "\"malato\": non in buona salute."
+			"explanation": "\"malato\": non in buona salute. Stesso gruppo: dolorante = undefined, allergico = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-dolorante-151",
@@ -2433,7 +2433,7 @@
 				"dolorante"
 			],
 			"answer": "dolorante",
-			"explanation": "\"dolorante\": che provoca o sente dolore."
+			"explanation": "\"dolorante\": che provoca o sente dolore. Stesso gruppo: allergico = undefined, prudente = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-allergico-152",
@@ -2449,7 +2449,7 @@
 				"dolorante"
 			],
 			"answer": "allergico",
-			"explanation": "\"allergico\": sensibile a una sostanza."
+			"explanation": "\"allergico\": sensibile a una sostanza. Stesso gruppo: prudente = undefined, idratato = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-prudente-153",
@@ -2465,7 +2465,7 @@
 				"stanco"
 			],
 			"answer": "prudente",
-			"explanation": "\"prudente\": che evita rischi inutili."
+			"explanation": "\"prudente\": che evita rischi inutili. Stesso gruppo: idratato = undefined, riposo = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-idratato-154",
@@ -2481,7 +2481,7 @@
 				"malato"
 			],
 			"answer": "idratato",
-			"explanation": "\"idratato\": con abbastanza acqua nel corpo."
+			"explanation": "\"idratato\": con abbastanza acqua nel corpo. Stesso gruppo: riposo = undefined, stanco = undefined."
 		},
 		{
 			"id": "italiano-corpo-salute-riposo-155",
@@ -2497,7 +2497,7 @@
 				"riposo"
 			],
 			"answer": "riposo",
-			"explanation": "\"riposo\": non attivo o in pausa."
+			"explanation": "\"riposo\": non attivo o in pausa. Stesso gruppo: stanco = undefined, sano = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-gioia-156",
@@ -2513,7 +2513,7 @@
 				"scusa"
 			],
 			"answer": "gioia",
-			"explanation": "\"gioia\": emozione positiva e intensa."
+			"explanation": "\"gioia\": emozione positiva e intensa. Stesso gruppo: tristezza = undefined, rabbia = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-tristezza-157",
@@ -2529,7 +2529,7 @@
 				"fiducia"
 			],
 			"answer": "tristezza",
-			"explanation": "\"tristezza\": emozione legata a perdita o delusione."
+			"explanation": "\"tristezza\": emozione legata a perdita o delusione. Stesso gruppo: rabbia = undefined, paura = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-rabbia-158",
@@ -2545,7 +2545,7 @@
 				"rimpianto"
 			],
 			"answer": "rabbia",
-			"explanation": "\"rabbia\": emozione di forte irritazione."
+			"explanation": "\"rabbia\": emozione di forte irritazione. Stesso gruppo: paura = undefined, sorpresa = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-paura-159",
@@ -2561,7 +2561,7 @@
 				"paura"
 			],
 			"answer": "paura",
-			"explanation": "\"paura\": emozione davanti a un pericolo."
+			"explanation": "\"paura\": emozione davanti a un pericolo. Stesso gruppo: sorpresa = undefined, fiducia = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-sorpresa-160",
@@ -2577,7 +2577,7 @@
 				"nostalgia"
 			],
 			"answer": "sorpresa",
-			"explanation": "\"sorpresa\": reazione a qualcosa di inatteso."
+			"explanation": "\"sorpresa\": reazione a qualcosa di inatteso. Stesso gruppo: fiducia = undefined, rispetto = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-fiducia-161",
@@ -2593,7 +2593,7 @@
 				"empatia"
 			],
 			"answer": "fiducia",
-			"explanation": "\"fiducia\": sicurezza verso qualcuno o qualcosa."
+			"explanation": "\"fiducia\": sicurezza verso qualcuno o qualcosa. Stesso gruppo: rispetto = undefined, gentilezza = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-rispetto-162",
@@ -2609,7 +2609,7 @@
 				"fiducia"
 			],
 			"answer": "rispetto",
-			"explanation": "\"rispetto\": atteggiamento corretto verso gli altri."
+			"explanation": "\"rispetto\": atteggiamento corretto verso gli altri. Stesso gruppo: gentilezza = undefined, collaborazione = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-gentilezza-163",
@@ -2625,7 +2625,7 @@
 				"gentilezza"
 			],
 			"answer": "gentilezza",
-			"explanation": "\"gentilezza\": modo cortese di trattare qualcuno."
+			"explanation": "\"gentilezza\": modo cortese di trattare qualcuno. Stesso gruppo: collaborazione = undefined, disaccordo = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-collaborazione-164",
@@ -2641,7 +2641,7 @@
 				"malinconia"
 			],
 			"answer": "collaborazione",
-			"explanation": "\"collaborazione\": lavoro fatto insieme."
+			"explanation": "\"collaborazione\": lavoro fatto insieme. Stesso gruppo: disaccordo = undefined, promessa = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-disaccordo-165",
@@ -2657,7 +2657,7 @@
 				"risentimento"
 			],
 			"answer": "disaccordo",
-			"explanation": "\"disaccordo\": mancanza di accordo."
+			"explanation": "\"disaccordo\": mancanza di accordo. Stesso gruppo: promessa = undefined, scusa = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-promessa-166",
@@ -2673,7 +2673,7 @@
 				"gentilezza"
 			],
 			"answer": "promessa",
-			"explanation": "\"promessa\": impegno a fare qualcosa."
+			"explanation": "\"promessa\": impegno a fare qualcosa. Stesso gruppo: scusa = undefined, empatia = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-scusa-167",
@@ -2689,7 +2689,7 @@
 				"scusa"
 			],
 			"answer": "scusa",
-			"explanation": "\"scusa\": parola o gesto per riconoscere un errore."
+			"explanation": "\"scusa\": parola o gesto per riconoscere un errore. Stesso gruppo: empatia = undefined, nostalgia = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-felice-168",
@@ -2705,7 +2705,7 @@
 				"paziente"
 			],
 			"answer": "felice",
-			"explanation": "\"felice\": che prova gioia."
+			"explanation": "\"felice\": che prova gioia. Stesso gruppo: triste = undefined, preoccupato = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-triste-169",
@@ -2721,7 +2721,7 @@
 				"paziente"
 			],
 			"answer": "triste",
-			"explanation": "\"triste\": che prova tristezza."
+			"explanation": "\"triste\": che prova tristezza. Stesso gruppo: preoccupato = undefined, arrabbiato = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-preoccupato-170",
@@ -2737,7 +2737,7 @@
 				"timido"
 			],
 			"answer": "preoccupato",
-			"explanation": "\"preoccupato\": che teme un problema."
+			"explanation": "\"preoccupato\": che teme un problema. Stesso gruppo: arrabbiato = undefined, sereno = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-arrabbiato-171",
@@ -2753,7 +2753,7 @@
 				"arrabbiato"
 			],
 			"answer": "arrabbiato",
-			"explanation": "\"arrabbiato\": che prova rabbia."
+			"explanation": "\"arrabbiato\": che prova rabbia. Stesso gruppo: sereno = undefined, timido = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-sereno-172",
@@ -2769,7 +2769,7 @@
 				"timido"
 			],
 			"answer": "sereno",
-			"explanation": "\"sereno\": calmo e tranquillo."
+			"explanation": "\"sereno\": calmo e tranquillo. Stesso gruppo: timido = undefined, coraggioso = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-timido-173",
@@ -2785,7 +2785,7 @@
 				"felice"
 			],
 			"answer": "timido",
-			"explanation": "\"timido\": che si espone con difficoltà."
+			"explanation": "\"timido\": che si espone con difficoltà. Stesso gruppo: coraggioso = undefined, leale = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-coraggioso-174",
@@ -2801,7 +2801,7 @@
 				"impulsivo"
 			],
 			"answer": "coraggioso",
-			"explanation": "\"coraggioso\": che affronta una difficoltà."
+			"explanation": "\"coraggioso\": che affronta una difficoltà. Stesso gruppo: leale = undefined, paziente = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-leale-175",
@@ -2817,7 +2817,7 @@
 				"leale"
 			],
 			"answer": "leale",
-			"explanation": "\"leale\": fedele e corretto verso gli altri."
+			"explanation": "\"leale\": fedele e corretto verso gli altri. Stesso gruppo: paziente = undefined, impulsivo = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-paziente-176",
@@ -2833,7 +2833,7 @@
 				"coraggioso"
 			],
 			"answer": "paziente",
-			"explanation": "\"paziente\": capace di aspettare senza agitarsi."
+			"explanation": "\"paziente\": capace di aspettare senza agitarsi. Stesso gruppo: impulsivo = undefined, felice = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-impulsivo-177",
@@ -2849,7 +2849,7 @@
 				"coraggioso"
 			],
 			"answer": "impulsivo",
-			"explanation": "\"impulsivo\": che agisce senza riflettere abbastanza."
+			"explanation": "\"impulsivo\": che agisce senza riflettere abbastanza. Stesso gruppo: felice = undefined, triste = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-telefono-178",
@@ -2865,7 +2865,7 @@
 				"ricerca"
 			],
 			"answer": "telefono",
-			"explanation": "\"telefono\": dispositivo per chiamare e comunicare."
+			"explanation": "\"telefono\": dispositivo per chiamare e comunicare. Stesso gruppo: computer = undefined, tablet = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-computer-179",
@@ -2881,7 +2881,7 @@
 				"computer"
 			],
 			"answer": "computer",
-			"explanation": "\"computer\": macchina elettronica per lavorare con dati."
+			"explanation": "\"computer\": macchina elettronica per lavorare con dati. Stesso gruppo: tablet = undefined, app = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-tablet-180",
@@ -2897,7 +2897,7 @@
 				"privacy"
 			],
 			"answer": "tablet",
-			"explanation": "\"tablet\": dispositivo portatile con schermo tattile."
+			"explanation": "\"tablet\": dispositivo portatile con schermo tattile. Stesso gruppo: app = undefined, password = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-app-181",
@@ -2913,7 +2913,7 @@
 				"tablet"
 			],
 			"answer": "app",
-			"explanation": "\"app\": programma usato su telefono o tablet."
+			"explanation": "\"app\": programma usato su telefono o tablet. Stesso gruppo: password = undefined, profilo = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-password-182",
@@ -2929,7 +2929,7 @@
 				"profilo"
 			],
 			"answer": "password",
-			"explanation": "\"password\": parola segreta per accedere."
+			"explanation": "\"password\": parola segreta per accedere. Stesso gruppo: profilo = undefined, messaggio = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-profilo-183",
@@ -2945,7 +2945,7 @@
 				"profilo"
 			],
 			"answer": "profilo",
-			"explanation": "\"profilo\": spazio personale in un servizio digitale."
+			"explanation": "\"profilo\": spazio personale in un servizio digitale. Stesso gruppo: messaggio = undefined, notifica = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-messaggio-184",
@@ -2961,7 +2961,7 @@
 				"cartella"
 			],
 			"answer": "messaggio",
-			"explanation": "\"messaggio\": testo inviato a qualcuno."
+			"explanation": "\"messaggio\": testo inviato a qualcuno. Stesso gruppo: notifica = undefined, allegato = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-notifica-185",
@@ -2977,7 +2977,7 @@
 				"telefono"
 			],
 			"answer": "notifica",
-			"explanation": "\"notifica\": avviso mostrato da un'app."
+			"explanation": "\"notifica\": avviso mostrato da un'app. Stesso gruppo: allegato = undefined, cartella = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-allegato-186",
@@ -2993,7 +2993,7 @@
 				"ricerca"
 			],
 			"answer": "allegato",
-			"explanation": "\"allegato\": file aggiunto a un messaggio."
+			"explanation": "\"allegato\": file aggiunto a un messaggio. Stesso gruppo: cartella = undefined, schermo = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-cartella-187",
@@ -3009,7 +3009,7 @@
 				"cartella"
 			],
 			"answer": "cartella",
-			"explanation": "\"cartella\": spazio in cui organizzare file."
+			"explanation": "\"cartella\": spazio in cui organizzare file. Stesso gruppo: schermo = undefined, tastiera = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-schermo-188",
@@ -3025,7 +3025,7 @@
 				"tastiera"
 			],
 			"answer": "schermo",
-			"explanation": "\"schermo\": superficie che mostra immagini o testi."
+			"explanation": "\"schermo\": superficie che mostra immagini o testi. Stesso gruppo: tastiera = undefined, ricerca = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-tastiera-189",
@@ -3041,7 +3041,7 @@
 				"telefono"
 			],
 			"answer": "tastiera",
-			"explanation": "\"tastiera\": insieme di tasti per scrivere."
+			"explanation": "\"tastiera\": insieme di tasti per scrivere. Stesso gruppo: ricerca = undefined, link = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-ricerca-190",
@@ -3057,7 +3057,7 @@
 				"password"
 			],
 			"answer": "ricerca",
-			"explanation": "\"ricerca\": azione di cercare informazioni."
+			"explanation": "\"ricerca\": azione di cercare informazioni. Stesso gruppo: link = undefined, fonte = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-link-191",
@@ -3073,7 +3073,7 @@
 				"link"
 			],
 			"answer": "link",
-			"explanation": "\"link\": collegamento a una pagina o risorsa."
+			"explanation": "\"link\": collegamento a una pagina o risorsa. Stesso gruppo: fonte = undefined, privacy = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-fonte-192",
@@ -3089,7 +3089,7 @@
 				"privacy"
 			],
 			"answer": "fonte",
-			"explanation": "\"fonte\": origine di una notizia o informazione."
+			"explanation": "\"fonte\": origine di una notizia o informazione. Stesso gruppo: privacy = undefined, telefono = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-privacy-193",
@@ -3105,7 +3105,7 @@
 				"schermo"
 			],
 			"answer": "privacy",
-			"explanation": "\"privacy\": protezione dei dati personali."
+			"explanation": "\"privacy\": protezione dei dati personali. Stesso gruppo: telefono = undefined, computer = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-salvare-194",
@@ -3121,7 +3121,7 @@
 				"bloccare"
 			],
 			"answer": "salvare",
-			"explanation": "\"salvare\": conservare un file o un dato."
+			"explanation": "\"salvare\": conservare un file o un dato. Stesso gruppo: caricare = undefined, scaricare = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-caricare-195",
@@ -3137,7 +3137,7 @@
 				"caricare"
 			],
 			"answer": "caricare",
-			"explanation": "\"caricare\": inviare un file online o fornire energia."
+			"explanation": "\"caricare\": inviare un file online o fornire energia. Stesso gruppo: scaricare = undefined, condividere = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-scaricare-196",
@@ -3153,7 +3153,7 @@
 				"caricare"
 			],
 			"answer": "scaricare",
-			"explanation": "\"scaricare\": ricevere un file da internet."
+			"explanation": "\"scaricare\": ricevere un file da internet. Stesso gruppo: condividere = undefined, inoltrare = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-condividere-197",
@@ -3169,7 +3169,7 @@
 				"scaricare"
 			],
 			"answer": "condividere",
-			"explanation": "\"condividere\": mettere qualcosa a disposizione di altri."
+			"explanation": "\"condividere\": mettere qualcosa a disposizione di altri. Stesso gruppo: inoltrare = undefined, aggiornare = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-inoltrare-198",
@@ -3185,7 +3185,7 @@
 				"aggiornare"
 			],
 			"answer": "inoltrare",
-			"explanation": "\"inoltrare\": mandare a un'altra persona un messaggio ricevuto."
+			"explanation": "\"inoltrare\": mandare a un'altra persona un messaggio ricevuto. Stesso gruppo: aggiornare = undefined, bloccare = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-aggiornare-199",
@@ -3201,7 +3201,7 @@
 				"aggiornare"
 			],
 			"answer": "aggiornare",
-			"explanation": "\"aggiornare\": portare alla versione più recente."
+			"explanation": "\"aggiornare\": portare alla versione più recente. Stesso gruppo: bloccare = undefined, proteggere = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-bloccare-200",
@@ -3217,7 +3217,7 @@
 				"salvare"
 			],
 			"answer": "bloccare",
-			"explanation": "\"bloccare\": impedire un accesso o un'azione."
+			"explanation": "\"bloccare\": impedire un accesso o un'azione. Stesso gruppo: proteggere = undefined, salvare = undefined."
 		},
 		{
 			"id": "italiano-digitale-media-proteggere-201",
@@ -3233,7 +3233,7 @@
 				"scaricare"
 			],
 			"answer": "proteggere",
-			"explanation": "\"proteggere\": mettere al sicuro da rischi."
+			"explanation": "\"proteggere\": mettere al sicuro da rischi. Stesso gruppo: salvare = undefined, caricare = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-mestiere-202",
@@ -3249,7 +3249,7 @@
 				"comunità"
 			],
 			"answer": "mestiere",
-			"explanation": "\"mestiere\": attività lavorativa abituale."
+			"explanation": "\"mestiere\": attività lavorativa abituale. Stesso gruppo: collega = undefined, turno = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-collega-203",
@@ -3265,7 +3265,7 @@
 				"collega"
 			],
 			"answer": "collega",
-			"explanation": "\"collega\": persona con cui si lavora."
+			"explanation": "\"collega\": persona con cui si lavora. Stesso gruppo: turno = undefined, responsabile = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-turno-204",
@@ -3281,7 +3281,7 @@
 				"ufficio"
 			],
 			"answer": "turno",
-			"explanation": "\"turno\": periodo di lavoro assegnato."
+			"explanation": "\"turno\": periodo di lavoro assegnato. Stesso gruppo: responsabile = undefined, cliente = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-responsabile-205",
@@ -3297,7 +3297,7 @@
 				"comunità"
 			],
 			"answer": "responsabile",
-			"explanation": "\"responsabile\": persona che guida o controlla un'attività."
+			"explanation": "\"responsabile\": persona che guida o controlla un'attività. Stesso gruppo: cliente = undefined, servizio = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-cliente-206",
@@ -3313,7 +3313,7 @@
 				"regola"
 			],
 			"answer": "cliente",
-			"explanation": "\"cliente\": persona che compra o riceve un servizio."
+			"explanation": "\"cliente\": persona che compra o riceve un servizio. Stesso gruppo: servizio = undefined, ufficio = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-servizio-207",
@@ -3329,7 +3329,7 @@
 				"servizio"
 			],
 			"answer": "servizio",
-			"explanation": "\"servizio\": attività svolta per aiutare o rispondere a un bisogno."
+			"explanation": "\"servizio\": attività svolta per aiutare o rispondere a un bisogno. Stesso gruppo: ufficio = undefined, negozio = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-ufficio-208",
@@ -3345,7 +3345,7 @@
 				"negozio"
 			],
 			"answer": "ufficio",
-			"explanation": "\"ufficio\": luogo in cui si lavora con documenti o servizi."
+			"explanation": "\"ufficio\": luogo in cui si lavora con documenti o servizi. Stesso gruppo: negozio = undefined, posta = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-negozio-209",
@@ -3361,7 +3361,7 @@
 				"servizio"
 			],
 			"answer": "negozio",
-			"explanation": "\"negozio\": luogo in cui si vendono prodotti."
+			"explanation": "\"negozio\": luogo in cui si vendono prodotti. Stesso gruppo: posta = undefined, regola = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-posta-210",
@@ -3377,7 +3377,7 @@
 				"diritto"
 			],
 			"answer": "posta",
-			"explanation": "\"posta\": servizio per inviare lettere e pacchi."
+			"explanation": "\"posta\": servizio per inviare lettere e pacchi. Stesso gruppo: regola = undefined, diritto = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-regola-211",
@@ -3393,7 +3393,7 @@
 				"regola"
 			],
 			"answer": "regola",
-			"explanation": "\"regola\": indicazione da rispettare."
+			"explanation": "\"regola\": indicazione da rispettare. Stesso gruppo: diritto = undefined, dovere = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-diritto-212",
@@ -3409,7 +3409,7 @@
 				"comunità"
 			],
 			"answer": "diritto",
-			"explanation": "\"diritto\": cosa che una persona può pretendere giustamente."
+			"explanation": "\"diritto\": cosa che una persona può pretendere giustamente. Stesso gruppo: dovere = undefined, volontario = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-dovere-213",
@@ -3425,7 +3425,7 @@
 				"posta"
 			],
 			"answer": "dovere",
-			"explanation": "\"dovere\": azione che una persona deve compiere."
+			"explanation": "\"dovere\": azione che una persona deve compiere. Stesso gruppo: volontario = undefined, comunità = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-volontario-214",
@@ -3441,7 +3441,7 @@
 				"diritto"
 			],
 			"answer": "volontario",
-			"explanation": "\"volontario\": persona che aiuta senza essere obbligata."
+			"explanation": "\"volontario\": persona che aiuta senza essere obbligata. Stesso gruppo: comunità = undefined, mestiere = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-comunita-215",
@@ -3457,7 +3457,7 @@
 				"comunità"
 			],
 			"answer": "comunità",
-			"explanation": "\"comunità\": gruppo di persone legate da luogo o scopo."
+			"explanation": "\"comunità\": gruppo di persone legate da luogo o scopo. Stesso gruppo: mestiere = undefined, collega = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-responsabile-216",
@@ -3473,7 +3473,7 @@
 				"privato"
 			],
 			"answer": "responsabile",
-			"explanation": "\"responsabile\": che agisce pensando alle conseguenze."
+			"explanation": "\"responsabile\": che agisce pensando alle conseguenze. Stesso gruppo: affidabile = undefined, pubblico = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-affidabile-217",
@@ -3489,7 +3489,7 @@
 				"responsabile"
 			],
 			"answer": "affidabile",
-			"explanation": "\"affidabile\": di cui ci si può fidare."
+			"explanation": "\"affidabile\": di cui ci si può fidare. Stesso gruppo: pubblico = undefined, privato = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-pubblico-218",
@@ -3505,7 +3505,7 @@
 				"disponibile"
 			],
 			"answer": "pubblico",
-			"explanation": "\"pubblico\": aperto o appartenente alla comunità."
+			"explanation": "\"pubblico\": aperto o appartenente alla comunità. Stesso gruppo: privato = undefined, urgente = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-privato-219",
@@ -3521,7 +3521,7 @@
 				"privato"
 			],
 			"answer": "privato",
-			"explanation": "\"privato\": personale o non pubblico."
+			"explanation": "\"privato\": personale o non pubblico. Stesso gruppo: urgente = undefined, disponibile = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-urgente-220",
@@ -3537,7 +3537,7 @@
 				"privato"
 			],
 			"answer": "urgente",
-			"explanation": "\"urgente\": che va fatto presto."
+			"explanation": "\"urgente\": che va fatto presto. Stesso gruppo: disponibile = undefined, responsabile = undefined."
 		},
 		{
 			"id": "italiano-lavoro-comunita-disponibile-221",
@@ -3553,7 +3553,7 @@
 				"urgente"
 			],
 			"answer": "disponibile",
-			"explanation": "\"disponibile\": pronto ad aiutare o utilizzabile."
+			"explanation": "\"disponibile\": pronto ad aiutare o utilizzabile. Stesso gruppo: responsabile = undefined, affidabile = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-allenamento-222",
@@ -3569,7 +3569,7 @@
 				"piscina"
 			],
 			"answer": "allenamento",
-			"explanation": "\"allenamento\": esercizio svolto per migliorare."
+			"explanation": "\"allenamento\": esercizio svolto per migliorare. Stesso gruppo: squadra = undefined, partita = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-squadra-223",
@@ -3585,7 +3585,7 @@
 				"squadra"
 			],
 			"answer": "squadra",
-			"explanation": "\"squadra\": gruppo che gioca o lavora insieme."
+			"explanation": "\"squadra\": gruppo che gioca o lavora insieme. Stesso gruppo: partita = undefined, punteggio = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-partita-224",
@@ -3601,7 +3601,7 @@
 				"squadra"
 			],
 			"answer": "partita",
-			"explanation": "\"partita\": gara tra due squadre o persone."
+			"explanation": "\"partita\": gara tra due squadre o persone. Stesso gruppo: punteggio = undefined, regola = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-punteggio-225",
@@ -3617,7 +3617,7 @@
 				"palestra"
 			],
 			"answer": "punteggio",
-			"explanation": "\"punteggio\": numero di punti ottenuti."
+			"explanation": "\"punteggio\": numero di punti ottenuti. Stesso gruppo: regola = undefined, arbitro = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-regola-226",
@@ -3633,7 +3633,7 @@
 				"canzone"
 			],
 			"answer": "regola",
-			"explanation": "\"regola\": norma che stabilisce come giocare."
+			"explanation": "\"regola\": norma che stabilisce come giocare. Stesso gruppo: arbitro = undefined, palestra = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-arbitro-227",
@@ -3649,7 +3649,7 @@
 				"arbitro"
 			],
 			"answer": "arbitro",
-			"explanation": "\"arbitro\": persona che controlla una gara."
+			"explanation": "\"arbitro\": persona che controlla una gara. Stesso gruppo: palestra = undefined, piscina = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-palestra-228",
@@ -3665,7 +3665,7 @@
 				"canzone"
 			],
 			"answer": "palestra",
-			"explanation": "\"palestra\": luogo in cui ci si allena."
+			"explanation": "\"palestra\": luogo in cui ci si allena. Stesso gruppo: piscina = undefined, bicicletta = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-piscina-229",
@@ -3681,7 +3681,7 @@
 				"arbitro"
 			],
 			"answer": "piscina",
-			"explanation": "\"piscina\": luogo in cui si nuota."
+			"explanation": "\"piscina\": luogo in cui si nuota. Stesso gruppo: bicicletta = undefined, passeggiata = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-bicicletta-230",
@@ -3697,7 +3697,7 @@
 				"passeggiata"
 			],
 			"answer": "bicicletta",
-			"explanation": "\"bicicletta\": mezzo a due ruote mosso pedalando."
+			"explanation": "\"bicicletta\": mezzo a due ruote mosso pedalando. Stesso gruppo: passeggiata = undefined, film = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-passeggiata-231",
@@ -3713,7 +3713,7 @@
 				"passeggiata"
 			],
 			"answer": "passeggiata",
-			"explanation": "\"passeggiata\": camminata fatta per piacere o salute."
+			"explanation": "\"passeggiata\": camminata fatta per piacere o salute. Stesso gruppo: film = undefined, canzone = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-film-232",
@@ -3729,7 +3729,7 @@
 				"canzone"
 			],
 			"answer": "film",
-			"explanation": "\"film\": opera audiovisiva da guardare."
+			"explanation": "\"film\": opera audiovisiva da guardare. Stesso gruppo: canzone = undefined, romanzo = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-canzone-233",
@@ -3745,7 +3745,7 @@
 				"partita"
 			],
 			"answer": "canzone",
-			"explanation": "\"canzone\": brano musicale cantato."
+			"explanation": "\"canzone\": brano musicale cantato. Stesso gruppo: romanzo = undefined, fumetto = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-romanzo-234",
@@ -3761,7 +3761,7 @@
 				"fumetto"
 			],
 			"answer": "romanzo",
-			"explanation": "\"romanzo\": libro narrativo lungo."
+			"explanation": "\"romanzo\": libro narrativo lungo. Stesso gruppo: fumetto = undefined, allenamento = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-fumetto-235",
@@ -3777,7 +3777,7 @@
 				"fumetto"
 			],
 			"answer": "fumetto",
-			"explanation": "\"fumetto\": storia raccontata con disegni e parole."
+			"explanation": "\"fumetto\": storia raccontata con disegni e parole. Stesso gruppo: allenamento = undefined, squadra = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-allenarsi-236",
@@ -3793,7 +3793,7 @@
 				"correre"
 			],
 			"answer": "allenarsi",
-			"explanation": "\"allenarsi\": fare esercizio per migliorare."
+			"explanation": "\"allenarsi\": fare esercizio per migliorare. Stesso gruppo: giocare = undefined, vincere = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-giocare-237",
@@ -3809,7 +3809,7 @@
 				"perdere"
 			],
 			"answer": "giocare",
-			"explanation": "\"giocare\": praticare un gioco o uno sport."
+			"explanation": "\"giocare\": praticare un gioco o uno sport. Stesso gruppo: vincere = undefined, perdere = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-vincere-238",
@@ -3825,7 +3825,7 @@
 				"suonare"
 			],
 			"answer": "vincere",
-			"explanation": "\"vincere\": ottenere il risultato migliore."
+			"explanation": "\"vincere\": ottenere il risultato migliore. Stesso gruppo: perdere = undefined, nuotare = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-perdere-239",
@@ -3841,7 +3841,7 @@
 				"perdere"
 			],
 			"answer": "perdere",
-			"explanation": "\"perdere\": non vincere una gara."
+			"explanation": "\"perdere\": non vincere una gara. Stesso gruppo: nuotare = undefined, correre = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-nuotare-240",
@@ -3857,7 +3857,7 @@
 				"vincere"
 			],
 			"answer": "nuotare",
-			"explanation": "\"nuotare\": muoversi nell'acqua."
+			"explanation": "\"nuotare\": muoversi nell'acqua. Stesso gruppo: correre = undefined, disegnare = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-correre-241",
@@ -3873,7 +3873,7 @@
 				"perdere"
 			],
 			"answer": "correre",
-			"explanation": "\"correre\": muoversi velocemente a piedi."
+			"explanation": "\"correre\": muoversi velocemente a piedi. Stesso gruppo: disegnare = undefined, suonare = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-disegnare-242",
@@ -3889,7 +3889,7 @@
 				"correre"
 			],
 			"answer": "disegnare",
-			"explanation": "\"disegnare\": rappresentare con linee o colori."
+			"explanation": "\"disegnare\": rappresentare con linee o colori. Stesso gruppo: suonare = undefined, allenarsi = undefined."
 		},
 		{
 			"id": "italiano-sport-tempo-libero-suonare-243",
@@ -3905,7 +3905,7 @@
 				"suonare"
 			],
 			"answer": "suonare",
-			"explanation": "\"suonare\": produrre musica con uno strumento."
+			"explanation": "\"suonare\": produrre musica con uno strumento. Stesso gruppo: allenarsi = undefined, giocare = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-albero-244",
@@ -3921,7 +3921,7 @@
 				"prato"
 			],
 			"answer": "albero",
-			"explanation": "\"albero\": pianta con tronco e rami."
+			"explanation": "\"albero\": pianta con tronco e rami. Stesso gruppo: fiore = undefined, foglia = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-fiore-245",
@@ -3937,7 +3937,7 @@
 				"fiume"
 			],
 			"answer": "fiore",
-			"explanation": "\"fiore\": parte colorata di molte piante."
+			"explanation": "\"fiore\": parte colorata di molte piante. Stesso gruppo: foglia = undefined, bosco = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-foglia-246",
@@ -3953,7 +3953,7 @@
 				"albero"
 			],
 			"answer": "foglia",
-			"explanation": "\"foglia\": parte verde della pianta."
+			"explanation": "\"foglia\": parte verde della pianta. Stesso gruppo: bosco = undefined, prato = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-bosco-247",
@@ -3969,7 +3969,7 @@
 				"bosco"
 			],
 			"answer": "bosco",
-			"explanation": "\"bosco\": luogo con molti alberi."
+			"explanation": "\"bosco\": luogo con molti alberi. Stesso gruppo: prato = undefined, fiume = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-prato-248",
@@ -3985,7 +3985,7 @@
 				"energia"
 			],
 			"answer": "prato",
-			"explanation": "\"prato\": terreno coperto d'erba."
+			"explanation": "\"prato\": terreno coperto d'erba. Stesso gruppo: fiume = undefined, mare = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-fiume-249",
@@ -4001,7 +4001,7 @@
 				"mare"
 			],
 			"answer": "fiume",
-			"explanation": "\"fiume\": corso d'acqua naturale."
+			"explanation": "\"fiume\": corso d'acqua naturale. Stesso gruppo: mare = undefined, montagna = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-mare-250",
@@ -4017,7 +4017,7 @@
 				"prato"
 			],
 			"answer": "mare",
-			"explanation": "\"mare\": grande distesa d'acqua salata."
+			"explanation": "\"mare\": grande distesa d'acqua salata. Stesso gruppo: montagna = undefined, spiaggia = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-montagna-251",
@@ -4033,7 +4033,7 @@
 				"montagna"
 			],
 			"answer": "montagna",
-			"explanation": "\"montagna\": rilievo alto del terreno."
+			"explanation": "\"montagna\": rilievo alto del terreno. Stesso gruppo: spiaggia = undefined, rifiuto = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-spiaggia-252",
@@ -4049,7 +4049,7 @@
 				"risorsa"
 			],
 			"answer": "spiaggia",
-			"explanation": "\"spiaggia\": zona di sabbia o ciottoli vicino al mare."
+			"explanation": "\"spiaggia\": zona di sabbia o ciottoli vicino al mare. Stesso gruppo: rifiuto = undefined, raccolta = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-rifiuto-253",
@@ -4065,7 +4065,7 @@
 				"ambiente"
 			],
 			"answer": "rifiuto",
-			"explanation": "\"rifiuto\": oggetto da buttare o riciclare."
+			"explanation": "\"rifiuto\": oggetto da buttare o riciclare. Stesso gruppo: raccolta = undefined, energia = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-raccolta-254",
@@ -4081,7 +4081,7 @@
 				"spiaggia"
 			],
 			"answer": "raccolta",
-			"explanation": "\"raccolta\": azione di riunire o separare materiali."
+			"explanation": "\"raccolta\": azione di riunire o separare materiali. Stesso gruppo: energia = undefined, risorsa = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-energia-255",
@@ -4097,7 +4097,7 @@
 				"energia"
 			],
 			"answer": "energia",
-			"explanation": "\"energia\": capacità di produrre movimento, calore o lavoro."
+			"explanation": "\"energia\": capacità di produrre movimento, calore o lavoro. Stesso gruppo: risorsa = undefined, ambiente = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-risorsa-256",
@@ -4113,7 +4113,7 @@
 				"montagna"
 			],
 			"answer": "risorsa",
-			"explanation": "\"risorsa\": mezzo utile ma non infinito."
+			"explanation": "\"risorsa\": mezzo utile ma non infinito. Stesso gruppo: ambiente = undefined, albero = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-ambiente-257",
@@ -4129,7 +4129,7 @@
 				"rifiuto"
 			],
 			"answer": "ambiente",
-			"explanation": "\"ambiente\": insieme dei luoghi e condizioni in cui viviamo."
+			"explanation": "\"ambiente\": insieme dei luoghi e condizioni in cui viviamo. Stesso gruppo: albero = undefined, fiore = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-naturale-258",
@@ -4145,7 +4145,7 @@
 				"riciclabile"
 			],
 			"answer": "naturale",
-			"explanation": "\"naturale\": che appartiene alla natura."
+			"explanation": "\"naturale\": che appartiene alla natura. Stesso gruppo: inquinato = undefined, riciclabile = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-inquinato-259",
@@ -4161,7 +4161,7 @@
 				"inquinato"
 			],
 			"answer": "inquinato",
-			"explanation": "\"inquinato\": reso sporco o dannoso."
+			"explanation": "\"inquinato\": reso sporco o dannoso. Stesso gruppo: riciclabile = undefined, sostenibile = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-riciclabile-260",
@@ -4177,7 +4177,7 @@
 				"rinnovabile"
 			],
 			"answer": "riciclabile",
-			"explanation": "\"riciclabile\": che può essere trasformato e riutilizzato."
+			"explanation": "\"riciclabile\": che può essere trasformato e riutilizzato. Stesso gruppo: sostenibile = undefined, rinnovabile = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-sostenibile-261",
@@ -4193,7 +4193,7 @@
 				"inquinato"
 			],
 			"answer": "sostenibile",
-			"explanation": "\"sostenibile\": che rispetta risorse e futuro."
+			"explanation": "\"sostenibile\": che rispetta risorse e futuro. Stesso gruppo: rinnovabile = undefined, secco = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-rinnovabile-262",
@@ -4209,7 +4209,7 @@
 				"riciclabile"
 			],
 			"answer": "rinnovabile",
-			"explanation": "\"rinnovabile\": che si rigenera o non si esaurisce facilmente."
+			"explanation": "\"rinnovabile\": che si rigenera o non si esaurisce facilmente. Stesso gruppo: secco = undefined, naturale = undefined."
 		},
 		{
 			"id": "italiano-natura-ambiente-secco-263",
@@ -4225,7 +4225,7 @@
 				"secco"
 			],
 			"answer": "secco",
-			"explanation": "\"secco\": senza acqua o umidità."
+			"explanation": "\"secco\": senza acqua o umidità. Stesso gruppo: naturale = undefined, inquinato = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-fatto-264",
@@ -4241,7 +4241,7 @@
 				"causa"
 			],
 			"answer": "fatto",
-			"explanation": "\"fatto\": dato osservabile o verificabile."
+			"explanation": "\"fatto\": dato osservabile o verificabile. Stesso gruppo: opinione = undefined, ipotesi = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-opinione-265",
@@ -4257,7 +4257,7 @@
 				"coerenza"
 			],
 			"answer": "opinione",
-			"explanation": "\"opinione\": giudizio personale."
+			"explanation": "\"opinione\": giudizio personale. Stesso gruppo: ipotesi = undefined, prova = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-ipotesi-266",
@@ -4273,7 +4273,7 @@
 				"analogia"
 			],
 			"answer": "ipotesi",
-			"explanation": "\"ipotesi\": spiegazione possibile da verificare."
+			"explanation": "\"ipotesi\": spiegazione possibile da verificare. Stesso gruppo: prova = undefined, tesi = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-prova-267",
@@ -4289,7 +4289,7 @@
 				"prova"
 			],
 			"answer": "prova",
-			"explanation": "\"prova\": dato che sostiene una conclusione."
+			"explanation": "\"prova\": dato che sostiene una conclusione. Stesso gruppo: tesi = undefined, argomento = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-tesi-268",
@@ -4305,7 +4305,7 @@
 				"causa"
 			],
 			"answer": "tesi",
-			"explanation": "\"tesi\": idea principale da sostenere."
+			"explanation": "\"tesi\": idea principale da sostenere. Stesso gruppo: argomento = undefined, causa = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-argomento-269",
@@ -4321,7 +4321,7 @@
 				"analogia"
 			],
 			"answer": "argomento",
-			"explanation": "\"argomento\": ragione usata per sostenere una tesi."
+			"explanation": "\"argomento\": ragione usata per sostenere una tesi. Stesso gruppo: causa = undefined, effetto = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-causa-270",
@@ -4337,7 +4337,7 @@
 				"ipotesi"
 			],
 			"answer": "causa",
-			"explanation": "\"causa\": motivo per cui accade qualcosa."
+			"explanation": "\"causa\": motivo per cui accade qualcosa. Stesso gruppo: effetto = undefined, conclusione = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-effetto-271",
@@ -4353,7 +4353,7 @@
 				"effetto"
 			],
 			"answer": "effetto",
-			"explanation": "\"effetto\": conseguenza osservabile di una causa."
+			"explanation": "\"effetto\": conseguenza osservabile di una causa. Stesso gruppo: conclusione = undefined, contraddizione = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-conclusione-272",
@@ -4369,7 +4369,7 @@
 				"reticenza"
 			],
 			"answer": "conclusione",
-			"explanation": "\"conclusione\": risultato di un ragionamento."
+			"explanation": "\"conclusione\": risultato di un ragionamento. Stesso gruppo: contraddizione = undefined, ambiguità = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-contraddizione-273",
@@ -4385,7 +4385,7 @@
 				"sottotesto"
 			],
 			"answer": "contraddizione",
-			"explanation": "\"contraddizione\": presenza di informazioni incompatibili."
+			"explanation": "\"contraddizione\": presenza di informazioni incompatibili. Stesso gruppo: ambiguità = undefined, sintesi = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-ambiguita-274",
@@ -4401,7 +4401,7 @@
 				"allegoria"
 			],
 			"answer": "ambiguità",
-			"explanation": "\"ambiguità\": possibilità di interpretare in più modi."
+			"explanation": "\"ambiguità\": possibilità di interpretare in più modi. Stesso gruppo: sintesi = undefined, dettaglio = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-sintesi-275",
@@ -4417,7 +4417,7 @@
 				"sintesi"
 			],
 			"answer": "sintesi",
-			"explanation": "\"sintesi\": versione breve con le informazioni essenziali."
+			"explanation": "\"sintesi\": versione breve con le informazioni essenziali. Stesso gruppo: dettaglio = undefined, contesto = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-dettaglio-276",
@@ -4433,7 +4433,7 @@
 				"eufemismo"
 			],
 			"answer": "dettaglio",
-			"explanation": "\"dettaglio\": informazione piccola o secondaria."
+			"explanation": "\"dettaglio\": informazione piccola o secondaria. Stesso gruppo: contesto = undefined, registro = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-contesto-277",
@@ -4449,7 +4449,7 @@
 				"premessa"
 			],
 			"answer": "contesto",
-			"explanation": "\"contesto\": situazione che aiuta a capire una frase."
+			"explanation": "\"contesto\": situazione che aiuta a capire una frase. Stesso gruppo: registro = undefined, coerenza = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-registro-278",
@@ -4465,7 +4465,7 @@
 				"iperbole"
 			],
 			"answer": "registro",
-			"explanation": "\"registro\": modo di esprimersi adatto alla situazione."
+			"explanation": "\"registro\": modo di esprimersi adatto alla situazione. Stesso gruppo: coerenza = undefined, inferenza = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-coerenza-279",
@@ -4481,7 +4481,7 @@
 				"coerenza"
 			],
 			"answer": "coerenza",
-			"explanation": "\"coerenza\": accordo logico tra le parti di un testo."
+			"explanation": "\"coerenza\": accordo logico tra le parti di un testo. Stesso gruppo: inferenza = undefined, premessa = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-perche-280",
@@ -4497,7 +4497,7 @@
 				"finché"
 			],
 			"answer": "perché",
-			"explanation": "\"perché\": introduce una causa o una spiegazione."
+			"explanation": "\"perché\": introduce una causa o una spiegazione. Stesso gruppo: quindi = undefined, però = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-quindi-281",
@@ -4513,7 +4513,7 @@
 				"perché"
 			],
 			"answer": "quindi",
-			"explanation": "\"quindi\": introduce una conseguenza."
+			"explanation": "\"quindi\": introduce una conseguenza. Stesso gruppo: però = undefined, tuttavia = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-pero-282",
@@ -4529,7 +4529,7 @@
 				"perché"
 			],
 			"answer": "però",
-			"explanation": "\"però\": introduce un contrasto."
+			"explanation": "\"però\": introduce un contrasto. Stesso gruppo: tuttavia = undefined, infatti = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-tuttavia-283",
@@ -4545,7 +4545,7 @@
 				"tuttavia"
 			],
 			"answer": "tuttavia",
-			"explanation": "\"tuttavia\": introduce un contrasto in registro più formale."
+			"explanation": "\"tuttavia\": introduce un contrasto in registro più formale. Stesso gruppo: infatti = undefined, inoltre = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-infatti-284",
@@ -4561,7 +4561,7 @@
 				"inoltre"
 			],
 			"answer": "infatti",
-			"explanation": "\"infatti\": introduce una conferma o spiegazione."
+			"explanation": "\"infatti\": introduce una conferma o spiegazione. Stesso gruppo: inoltre = undefined, sebbene = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-inoltre-285",
@@ -4577,7 +4577,7 @@
 				"sebbene"
 			],
 			"answer": "inoltre",
-			"explanation": "\"inoltre\": aggiunge un'informazione."
+			"explanation": "\"inoltre\": aggiunge un'informazione. Stesso gruppo: sebbene = undefined, affinché = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-sebbene-286",
@@ -4593,7 +4593,7 @@
 				"quindi"
 			],
 			"answer": "sebbene",
-			"explanation": "\"sebbene\": introduce una concessione."
+			"explanation": "\"sebbene\": introduce una concessione. Stesso gruppo: affinché = undefined, finché = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-affinche-287",
@@ -4609,7 +4609,7 @@
 				"affinché"
 			],
 			"answer": "affinché",
-			"explanation": "\"affinché\": introduce uno scopo."
+			"explanation": "\"affinché\": introduce uno scopo. Stesso gruppo: finché = undefined, dunque = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-finche-288",
@@ -4625,7 +4625,7 @@
 				"quindi"
 			],
 			"answer": "finché",
-			"explanation": "\"finché\": introduce un limite temporale."
+			"explanation": "\"finché\": introduce un limite temporale. Stesso gruppo: dunque = undefined, perché = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-dunque-289",
@@ -4641,7 +4641,7 @@
 				"sebbene"
 			],
 			"answer": "dunque",
-			"explanation": "\"dunque\": introduce una conclusione."
+			"explanation": "\"dunque\": introduce una conclusione. Stesso gruppo: perché = undefined, quindi = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-inferenza-290",
@@ -4657,7 +4657,7 @@
 				"dettaglio"
 			],
 			"answer": "inferenza",
-			"explanation": "\"inferenza\": conclusione tratta da indizi non detti esplicitamente."
+			"explanation": "\"inferenza\": conclusione tratta da indizi non detti esplicitamente. Stesso gruppo: premessa = undefined, sfumatura = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-premessa-291",
@@ -4673,7 +4673,7 @@
 				"premessa"
 			],
 			"answer": "premessa",
-			"explanation": "\"premessa\": affermazione da cui parte un ragionamento."
+			"explanation": "\"premessa\": affermazione da cui parte un ragionamento. Stesso gruppo: sfumatura = undefined, paradosso = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-sfumatura-292",
@@ -4689,7 +4689,7 @@
 				"ambiguità"
 			],
 			"answer": "sfumatura",
-			"explanation": "\"sfumatura\": differenza sottile di significato."
+			"explanation": "\"sfumatura\": differenza sottile di significato. Stesso gruppo: paradosso = undefined, analogia = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-paradosso-293",
@@ -4705,7 +4705,7 @@
 				"analogia"
 			],
 			"answer": "paradosso",
-			"explanation": "\"paradosso\": affermazione che sembra contraddirsi ma ha un senso."
+			"explanation": "\"paradosso\": affermazione che sembra contraddirsi ma ha un senso. Stesso gruppo: analogia = undefined, presupposto = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-analogia-294",
@@ -4721,7 +4721,7 @@
 				"registro"
 			],
 			"answer": "analogia",
-			"explanation": "\"analogia\": somiglianza usata per spiegare un'idea."
+			"explanation": "\"analogia\": somiglianza usata per spiegare un'idea. Stesso gruppo: presupposto = undefined, connotazione = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-presupposto-295",
@@ -4737,7 +4737,7 @@
 				"presupposto"
 			],
 			"answer": "presupposto",
-			"explanation": "\"presupposto\": ciò che si dà per scontato in un discorso."
+			"explanation": "\"presupposto\": ciò che si dà per scontato in un discorso. Stesso gruppo: connotazione = undefined, denotazione = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-empatia-296",
@@ -4753,7 +4753,7 @@
 				"gioia"
 			],
 			"answer": "empatia",
-			"explanation": "\"empatia\": capacità di sentire ciò che prova un altro."
+			"explanation": "\"empatia\": capacità di sentire ciò che prova un altro. Stesso gruppo: nostalgia = undefined, risentimento = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-nostalgia-297",
@@ -4769,7 +4769,7 @@
 				"rispetto"
 			],
 			"answer": "nostalgia",
-			"explanation": "\"nostalgia\": rimpianto affettuoso per ciò che è passato."
+			"explanation": "\"nostalgia\": rimpianto affettuoso per ciò che è passato. Stesso gruppo: risentimento = undefined, gratitudine = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-risentimento-298",
@@ -4785,7 +4785,7 @@
 				"indignazione"
 			],
 			"answer": "risentimento",
-			"explanation": "\"risentimento\": rancore trattenuto per un torto subito."
+			"explanation": "\"risentimento\": rancore trattenuto per un torto subito. Stesso gruppo: gratitudine = undefined, insofferenza = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-gratitudine-299",
@@ -4801,7 +4801,7 @@
 				"gratitudine"
 			],
 			"answer": "gratitudine",
-			"explanation": "\"gratitudine\": riconoscenza per un bene ricevuto."
+			"explanation": "\"gratitudine\": riconoscenza per un bene ricevuto. Stesso gruppo: insofferenza = undefined, tenerezza = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-insofferenza-300",
@@ -4817,7 +4817,7 @@
 				"indignazione"
 			],
 			"answer": "insofferenza",
-			"explanation": "\"insofferenza\": difficoltà a sopportare qualcosa o qualcuno."
+			"explanation": "\"insofferenza\": difficoltà a sopportare qualcosa o qualcuno. Stesso gruppo: tenerezza = undefined, malinconia = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-tenerezza-301",
@@ -4833,7 +4833,7 @@
 				"disaccordo"
 			],
 			"answer": "tenerezza",
-			"explanation": "\"tenerezza\": affetto delicato e protettivo."
+			"explanation": "\"tenerezza\": affetto delicato e protettivo. Stesso gruppo: malinconia = undefined, indignazione = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-ambiguo-302",
@@ -4849,7 +4849,7 @@
 				"plausibile"
 			],
 			"answer": "ambiguo",
-			"explanation": "\"ambiguo\": che si può interpretare in più modi."
+			"explanation": "\"ambiguo\": che si può interpretare in più modi. Stesso gruppo: pertinente = undefined, implicito = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-pertinente-303",
@@ -4865,7 +4865,7 @@
 				"pertinente"
 			],
 			"answer": "pertinente",
-			"explanation": "\"pertinente\": attinente e adatto all'argomento."
+			"explanation": "\"pertinente\": attinente e adatto all'argomento. Stesso gruppo: implicito = undefined, plausibile = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-implicito-304",
@@ -4881,7 +4881,7 @@
 				"esplicito"
 			],
 			"answer": "implicito",
-			"explanation": "\"implicito\": sottinteso, non espresso apertamente."
+			"explanation": "\"implicito\": sottinteso, non espresso apertamente. Stesso gruppo: plausibile = undefined, contraddittorio = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-plausibile-305",
@@ -4897,7 +4897,7 @@
 				"implicito"
 			],
 			"answer": "plausibile",
-			"explanation": "\"plausibile\": credibile, che può essere vero."
+			"explanation": "\"plausibile\": credibile, che può essere vero. Stesso gruppo: contraddittorio = undefined, esplicito = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-contraddittorio-306",
@@ -4913,7 +4913,7 @@
 				"implicito"
 			],
 			"answer": "contraddittorio",
-			"explanation": "\"contraddittorio\": che afferma cose incompatibili tra loro."
+			"explanation": "\"contraddittorio\": che afferma cose incompatibili tra loro. Stesso gruppo: esplicito = undefined, ambiguo = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-esplicito-307",
@@ -4929,7 +4929,7 @@
 				"esplicito"
 			],
 			"answer": "esplicito",
-			"explanation": "\"esplicito\": detto in modo chiaro e diretto."
+			"explanation": "\"esplicito\": detto in modo chiaro e diretto. Stesso gruppo: ambiguo = undefined, pertinente = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-connotazione-308",
@@ -4945,7 +4945,7 @@
 				"prospettiva"
 			],
 			"answer": "connotazione",
-			"explanation": "\"connotazione\": significato affettivo o evocativo di una parola."
+			"explanation": "\"connotazione\": significato affettivo o evocativo di una parola. Stesso gruppo: denotazione = undefined, metafora = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-denotazione-309",
@@ -4961,7 +4961,7 @@
 				"presupposto"
 			],
 			"answer": "denotazione",
-			"explanation": "\"denotazione\": significato letterale e oggettivo di una parola."
+			"explanation": "\"denotazione\": significato letterale e oggettivo di una parola. Stesso gruppo: metafora = undefined, ironia = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-metafora-310",
@@ -4977,7 +4977,7 @@
 				"argomento"
 			],
 			"answer": "metafora",
-			"explanation": "\"metafora\": figura che trasferisce un significato per somiglianza."
+			"explanation": "\"metafora\": figura che trasferisce un significato per somiglianza. Stesso gruppo: ironia = undefined, retorica = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-ironia-311",
@@ -4993,7 +4993,7 @@
 				"ironia"
 			],
 			"answer": "ironia",
-			"explanation": "\"ironia\": dire il contrario di ciò che si pensa, per far riflettere."
+			"explanation": "\"ironia\": dire il contrario di ciò che si pensa, per far riflettere. Stesso gruppo: retorica = undefined, prospettiva = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-retorica-312",
@@ -5009,7 +5009,7 @@
 				"opinione"
 			],
 			"answer": "retorica",
-			"explanation": "\"retorica\": arte di usare il linguaggio per convincere."
+			"explanation": "\"retorica\": arte di usare il linguaggio per convincere. Stesso gruppo: prospettiva = undefined, sottotesto = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-prospettiva-313",
@@ -5025,7 +5025,7 @@
 				"eufemismo"
 			],
 			"answer": "prospettiva",
-			"explanation": "\"prospettiva\": punto di vista da cui si racconta o si giudica."
+			"explanation": "\"prospettiva\": punto di vista da cui si racconta o si giudica. Stesso gruppo: sottotesto = undefined, allegoria = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-malinconia-314",
@@ -5041,7 +5041,7 @@
 				"tristezza"
 			],
 			"answer": "malinconia",
-			"explanation": "\"malinconia\": tristezza dolce e senza una causa precisa."
+			"explanation": "\"malinconia\": tristezza dolce e senza una causa precisa. Stesso gruppo: indignazione = undefined, rassegnazione = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-indignazione-315",
@@ -5057,7 +5057,7 @@
 				"indignazione"
 			],
 			"answer": "indignazione",
-			"explanation": "\"indignazione\": sdegno di fronte a un'ingiustizia."
+			"explanation": "\"indignazione\": sdegno di fronte a un'ingiustizia. Stesso gruppo: rassegnazione = undefined, ambivalenza = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-rassegnazione-316",
@@ -5073,7 +5073,7 @@
 				"compassione"
 			],
 			"answer": "rassegnazione",
-			"explanation": "\"rassegnazione\": accettazione passiva di ciò che non si può cambiare."
+			"explanation": "\"rassegnazione\": accettazione passiva di ciò che non si può cambiare. Stesso gruppo: ambivalenza = undefined, rimpianto = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-ambivalenza-317",
@@ -5089,7 +5089,7 @@
 				"disaccordo"
 			],
 			"answer": "ambivalenza",
-			"explanation": "\"ambivalenza\": presenza di sentimenti opposti insieme."
+			"explanation": "\"ambivalenza\": presenza di sentimenti opposti insieme. Stesso gruppo: rimpianto = undefined, compassione = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-rimpianto-318",
@@ -5105,7 +5105,7 @@
 				"empatia"
 			],
 			"answer": "rimpianto",
-			"explanation": "\"rimpianto\": dispiacere per qualcosa che non si è fatto."
+			"explanation": "\"rimpianto\": dispiacere per qualcosa che non si è fatto. Stesso gruppo: compassione = undefined, gioia = undefined."
 		},
 		{
 			"id": "italiano-emozioni-relazioni-compassione-319",
@@ -5121,7 +5121,7 @@
 				"compassione"
 			],
 			"answer": "compassione",
-			"explanation": "\"compassione\": partecipazione al dolore di un altro."
+			"explanation": "\"compassione\": partecipazione al dolore di un altro. Stesso gruppo: gioia = undefined, tristezza = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-sottotesto-320",
@@ -5137,7 +5137,7 @@
 				"reticenza"
 			],
 			"answer": "sottotesto",
-			"explanation": "\"sottotesto\": significato nascosto sotto le parole."
+			"explanation": "\"sottotesto\": significato nascosto sotto le parole. Stesso gruppo: allegoria = undefined, reticenza = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-allegoria-321",
@@ -5153,7 +5153,7 @@
 				"eufemismo"
 			],
 			"answer": "allegoria",
-			"explanation": "\"allegoria\": racconto che rappresenta un'idea con immagini."
+			"explanation": "\"allegoria\": racconto che rappresenta un'idea con immagini. Stesso gruppo: reticenza = undefined, verosimiglianza = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-reticenza-322",
@@ -5169,7 +5169,7 @@
 				"dettaglio"
 			],
 			"answer": "reticenza",
-			"explanation": "\"reticenza\": il tacere volutamente qualcosa."
+			"explanation": "\"reticenza\": il tacere volutamente qualcosa. Stesso gruppo: verosimiglianza = undefined, eufemismo = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-verosimiglianza-323",
@@ -5185,7 +5185,7 @@
 				"verosimiglianza"
 			],
 			"answer": "verosimiglianza",
-			"explanation": "\"verosimiglianza\": apparenza di verità in un racconto."
+			"explanation": "\"verosimiglianza\": apparenza di verità in un racconto. Stesso gruppo: eufemismo = undefined, iperbole = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-eufemismo-324",
@@ -5201,7 +5201,7 @@
 				"inferenza"
 			],
 			"answer": "eufemismo",
-			"explanation": "\"eufemismo\": parola più delicata al posto di una cruda."
+			"explanation": "\"eufemismo\": parola più delicata al posto di una cruda. Stesso gruppo: iperbole = undefined, fatto = undefined."
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-iperbole-325",
@@ -5217,7 +5217,7 @@
 				"opinione"
 			],
 			"answer": "iperbole",
-			"explanation": "\"iperbole\": esagerazione voluta per dare enfasi."
+			"explanation": "\"iperbole\": esagerazione voluta per dare enfasi. Stesso gruppo: fatto = undefined, opinione = undefined."
 		},
 		{
 			"id": "italiano-banda-ortografia-0",
@@ -8642,7 +8642,7 @@
 				"visita medica",
 				"controllo"
 			],
-			"explanation": "Visita medica, per esteso."
+			"explanation": "Il medico controlla anche quando non c'è niente che non va: si chiama visita di controllo, e serve proprio a non aspettare i sintomi."
 		},
 		{
 			"id": "italiano-banda-corpo-salute-233",

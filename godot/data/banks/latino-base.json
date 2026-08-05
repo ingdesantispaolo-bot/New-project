@@ -2437,7 +2437,7 @@
 				"I Celti"
 			],
 			"answer": "I Romani",
-			"explanation": "Il latino era la lingua degli antichi Romani."
+			"explanation": "Nata nel Lazio, si diffuse con l'impero: da lì vengono italiano, spagnolo, francese, portoghese e rumeno."
 		},
 		{
 			"id": "latino-basi-94",
@@ -2501,7 +2501,7 @@
 				"Dativo"
 			],
 			"answer": "Accusativo",
-			"explanation": "L'accusativo indica di solito il complemento oggetto."
+			"explanation": "Risponde alla domanda «chi? che cosa?» dopo il verbo, e in latino lo segnala la desinenza, non la posizione."
 		},
 		{
 			"id": "latino-casi-98",
@@ -2608,7 +2608,7 @@
 				"Terra"
 			],
 			"answer": "Acqua",
-			"explanation": "'Aqua' significa acqua."
+			"explanation": "Prima declinazione. Da questa radice l'italiano ha acquedotto, acquario e acquerello."
 		},
 		{
 			"id": "latino-vocabolario-105",
@@ -2624,7 +2624,7 @@
 				"Casa"
 			],
 			"answer": "Fanciulla, ragazza",
-			"explanation": "'Puella' è la fanciulla."
+			"explanation": "Prima declinazione, come rosa e silva: il femminile in -a è il gruppo più regolare del latino."
 		},
 		{
 			"id": "latino-vocabolario-106",

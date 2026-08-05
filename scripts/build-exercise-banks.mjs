@@ -182,7 +182,34 @@ function levelToDifficulty(level) {
 // parole italiane (della stessa classe grammaticale), non parole inglesi — altrimenti
 // la risposta è l'unica nella lingua giusta e diventa banale. `promptFor` indica con
 // `field` da quale campo pescare i distrattori; qui costruiamo un pool per campo.
+// Due parole dello stesso gruppo, diverse dalla voce stessa. Deterministiche:
+// dipendono dall'ordine della tabella, non dal generatore casuale, così due
+// bake danno lo stesso banco.
+function vocabularyExplanation(entry, defField, neighbours) {
+  const base = `"${entry.term}": ${entry[defField]}.`;
+  // Le vicine RUOTANO con la posizione della voce nel gruppo. Prendendo sempre
+  // le prime due, in un gruppo di ottanta parole la stessa coda comparirebbe
+  // ottanta volte: dopo la terza smette di essere informazione e diventa
+  // rumore. Ruotando, ogni item mostra una coppia diversa e nell'arco del
+  // gruppo si vede tutto il campo semantico.
+  const gruppo = neighbours.get(`${entry.wordClass}::${entry.category}`) ?? [];
+  const mia = gruppo.findIndex((altra) => altra.id === entry.id);
+  const vicine = gruppo.length < 3
+    ? gruppo.filter((altra) => altra.id !== entry.id).slice(0, 2)
+    : [gruppo[(mia + 1) % gruppo.length], gruppo[(mia + 2) % gruppo.length]];
+  if (vicine.length < 2) return base;
+  const elenco = vicine.map((v) => `${v.term} = ${v.meaning}`).join(", ");
+  return `${base} Stesso gruppo: ${elenco}.`;
+}
+
 function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
+  // Vicine per (classe grammaticale + area di significato): lo stesso criterio
+  // con cui si scelgono i distrattori, perché è lo stesso il campo semantico.
+  const neighbours = new Map();
+  for (const entry of entries) {
+    const chiave = `${entry.wordClass}::${entry.category}`;
+    neighbours.set(chiave, [...(neighbours.get(chiave) ?? []), entry]);
+  }
   const rand = rng(subject === "italiano" ? 20260721 : 20260722);
   // Due pool per campo: uno per (classe grammaticale + AREA di significato) e uno
   // per sola classe grammaticale. I distrattori migliori vengono dalla stessa area
@@ -221,12 +248,18 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
           prompt,
           answer,
           distractors,
-          // La spiegazione a modello ripete l'accoppiata termine → significato.
-          // Per il lessico va bene: rivedere la coppia È il ripasso. Per una
-          // collocazione o un phrasal verb no — lì la cosa da imparare è che il
-          // significato NON si ricava dai pezzi, e va detta. Quando la voce
-          // porta una `note` autorata, quella vince sul modello.
-          explanation: entry.note ?? `"${entry.term}": ${entry[defField]}.`,
+          // Quando la voce porta una `note` autorata, quella vince: è il caso
+          // dei falsi amici, dove ripetere la coppia è addirittura dannoso
+          // («library: biblioteca» non avverte che NON è la libreria).
+          //
+          // Altrimenti alla coppia si aggiungono due parole vicine dello stesso
+          // campo. Fino al 5 agosto 2026 la spiegazione era la sola coppia —
+          // «"check": controllare» dopo la domanda «come si dice controllare?»
+          // — cioè la ripetizione di quello che il bambino aveva appena
+          // risposto: 968 item su 1109 non insegnavano niente. Le vicine invece
+          // sono informazione nuova, cambiano per ogni item, e il lessico si
+          // fissa per campi di significato, non parola per parola isolata.
+          explanation: entry.note ?? vocabularyExplanation(entry, defField, neighbours),
         },
         rand,
       ),
@@ -371,12 +404,12 @@ const LATINO_EXTRA = [
   { topic: "vocabolario", difficulty: 4, prompt: "Che cosa significa «schola»?", answer: "Tempo libero dedicato allo studio", distractors: ["Edificio con molte aule","Gruppo di allievi","Lezione del maestro"], explanation: "Dal greco «scholé», che significava proprio ozio, tempo libero: studiare era ciò che si faceva quando non si lavorava." },
   { topic: "vocabolario", difficulty: 3, prompt: "Che cosa significa «rex»?", answer: "Re", distractors: ["Regola","Regno","Console"], explanation: "Da «rex, regis» vengono regale, reggia, e anche «regola», perché il re è chi dirige." },
   // Basi e storia
-  { topic: "basi", difficulty: 1, prompt: "Il latino era la lingua di quale antico popolo?", answer: "I Romani", distractors: ["I Greci", "Gli Egizi", "I Celti"], explanation: "Il latino era la lingua degli antichi Romani." },
+  { topic: "basi", difficulty: 1, prompt: "Il latino era la lingua di quale antico popolo?", answer: "I Romani", distractors: ["I Greci", "Gli Egizi", "I Celti"], explanation: "Nata nel Lazio, si diffuse con l'impero: da lì vengono italiano, spagnolo, francese, portoghese e rumeno." },
   { topic: "basi", difficulty: 1, prompt: "Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?", answer: "Il latino", distractors: ["Il greco", "L'inglese", "L'arabo"], explanation: "Sono lingue 'romanze', nate dal latino." },
   { topic: "basi", difficulty: 2, prompt: "Cosa significa l'espressione latina 'Carpe diem'?", answer: "Cogli l'attimo", distractors: ["Vivi a lungo", "Sii coraggioso", "Studia ogni giorno"], explanation: "Invita a vivere e apprezzare il presente." },
   // Funzione dei casi
   { topic: "casi", difficulty: 2, prompt: "In latino, il caso del soggetto è il…", answer: "Nominativo", distractors: ["Accusativo", "Genitivo", "Ablativo"], explanation: "Il nominativo indica il soggetto della frase." },
-  { topic: "casi", difficulty: 2, prompt: "Il complemento oggetto in latino si esprime con l'…", answer: "Accusativo", distractors: ["Nominativo", "Dativo", "Vocativo"], explanation: "L'accusativo indica di solito il complemento oggetto." },
+  { topic: "casi", difficulty: 2, prompt: "Il complemento oggetto in latino si esprime con l'…", answer: "Accusativo", distractors: ["Nominativo", "Dativo", "Vocativo"], explanation: "Risponde alla domanda «chi? che cosa?» dopo il verbo, e in latino lo segnala la desinenza, non la posizione." },
   { topic: "casi", difficulty: 3, prompt: "Il complemento di specificazione (il 'di chi, di cosa') usa il…", answer: "Genitivo", distractors: ["Dativo", "Ablativo", "Accusativo"], explanation: "Il genitivo indica la specificazione (es. il libro di Marco)." },
   { topic: "casi", difficulty: 3, prompt: "Il complemento di termine (a chi, per chi) usa il…", answer: "Dativo", distractors: ["Genitivo", "Accusativo", "Nominativo"], explanation: "Il dativo indica il termine (es. dono a Giulia)." },
   { topic: "casi", difficulty: 4, prompt: "Quale caso serve per chiamare o invocare qualcuno?", answer: "Vocativo", distractors: ["Nominativo", "Dativo", "Ablativo"], explanation: "Il vocativo si usa per rivolgersi direttamente a qualcuno." },
@@ -385,8 +418,8 @@ const LATINO_EXTRA = [
   { topic: "declinazioni-base", difficulty: 3, prompt: "I nomi come 'rosa, rosae' appartengono alla…", answer: "Prima declinazione", distractors: ["Seconda declinazione", "Terza declinazione", "Quinta declinazione"], explanation: "La prima declinazione ha genitivo singolare in -ae." },
   { topic: "declinazioni-base", difficulty: 3, prompt: "I nomi come 'lupus, lupi' appartengono alla…", answer: "Seconda declinazione", distractors: ["Prima declinazione", "Terza declinazione", "Quarta declinazione"], explanation: "La seconda declinazione ha genitivo singolare in -i." },
   // Vocabolario
-  { topic: "vocabolario", difficulty: 1, prompt: "Cosa significa 'aqua' in italiano?", answer: "Acqua", distractors: ["Aria", "Fuoco", "Terra"], explanation: "'Aqua' significa acqua." },
-  { topic: "vocabolario", difficulty: 1, prompt: "Cosa significa 'puella' in italiano?", answer: "Fanciulla, ragazza", distractors: ["Ragazzo", "Casa", "Cane"], explanation: "'Puella' è la fanciulla." },
+  { topic: "vocabolario", difficulty: 1, prompt: "Cosa significa 'aqua' in italiano?", answer: "Acqua", distractors: ["Aria", "Fuoco", "Terra"], explanation: "Prima declinazione. Da questa radice l'italiano ha acquedotto, acquario e acquerello." },
+  { topic: "vocabolario", difficulty: 1, prompt: "Cosa significa 'puella' in italiano?", answer: "Fanciulla, ragazza", distractors: ["Ragazzo", "Casa", "Cane"], explanation: "Prima declinazione, come rosa e silva: il femminile in -a è il gruppo più regolare del latino." },
   { topic: "vocabolario", difficulty: 2, prompt: "Cosa significa 'silva' in italiano?", answer: "Bosco, selva", distractors: ["Città", "Fiume", "Strada"], explanation: "'Silva' è il bosco (da cui 'selva')." },
   // Verbo essere (sum)
   { topic: "verbo-sum", difficulty: 3, prompt: "Come si dice 'io sono' in latino?", answer: "Sum", distractors: ["Est", "Sunt", "Es"], explanation: "'Sum' = io sono; 'es' = tu sei; 'est' = egli è." },
@@ -556,8 +589,8 @@ const ELETTRONICA_EXTRA = [
   { topic: "componenti", difficulty: 2, prompt: "A cosa serve un resistore in un circuito?", answer: "A limitare la corrente", distractors: ["A produrre corrente", "A spegnere il computer", "A illuminare sempre"], explanation: "Il resistore riduce la corrente, proteggendo gli altri componenti." },
   { topic: "componenti", difficulty: 2, prompt: "Un LED si accende solo se collegato…", answer: "Nel verso giusto (ha una polarità)", distractors: ["In qualsiasi verso, non importa", "Solo al buio completo", "Solo con l'acqua vicino"], explanation: "Il LED conduce in un solo verso: va rispettata la polarità." },
   // Misure elettriche
-  { topic: "misure-elettriche", difficulty: 3, prompt: "Con quale unità si misura la tensione?", answer: "Volt", distractors: ["Watt", "Metri", "Gradi"], explanation: "La tensione si misura in volt (V)." },
-  { topic: "misure-elettriche", difficulty: 3, prompt: "Con quale unità si misura la corrente elettrica?", answer: "Ampere", distractors: ["Volt", "Litri", "Secondi"], explanation: "La corrente si misura in ampere (A)." },
+  { topic: "misure-elettriche", difficulty: 3, prompt: "Con quale unità si misura la tensione?", answer: "Volt", distractors: ["Watt", "Metri", "Gradi"], explanation: "Il volt misura la differenza fra due punti: per questo si parla di tensione FRA due punti, mai in uno solo." },
+  { topic: "misure-elettriche", difficulty: 3, prompt: "Con quale unità si misura la corrente elettrica?", answer: "Ampere", distractors: ["Volt", "Litri", "Secondi"], explanation: "Un ampere è una quantità di carica che passa ogni secondo: la corrente è un flusso, non una quantità ferma." },
   { topic: "elettricita-base", difficulty: 1, format: "short_answer", prompt: "Qual è l'unità di misura della tensione elettrica?", answer: "volt", explanation: "Si misura fra due punti, mai in un punto solo." },
   { topic: "elettricita-base", difficulty: 1, format: "short_answer", prompt: "Qual è l'unità di misura della corrente elettrica?", answer: "ampere", explanation: "Dice quanta carica passa in un secondo." },
   { topic: "elettricita-base", difficulty: 2, format: "short_answer", prompt: "Qual è l'unità di misura della resistenza elettrica?", answer: "ohm", explanation: "Il simbolo è la lettera greca omega." },
@@ -588,6 +621,23 @@ const ELETTRONICA_EXTRA = [
   { topic: "guasti", difficulty: 2, format: "short_answer", prompt: "Come si chiama un'interruzione del percorso che impedisce alla corrente di scorrere?", answer: "circuito aperto", accept: ["interruzione"], explanation: "Un filo staccato basta: la corrente non salta il vuoto." },
   { topic: "guasti", difficulty: 3, format: "short_answer", prompt: "Qual è il primo controllo da fare quando un circuito a pila non funziona affatto?", answer: "la pila", accept: ["pila", "l'alimentazione", "alimentazione"], explanation: "Prima di smontare tutto si verifica l'alimentazione: è il guasto più frequente." },
 ];
+
+// Come si CONTROLLA un guasto, una volta sospettato. Identificarlo è metà del
+// lavoro: l'altra metà è sapere dove mettere le mani, e nessun indizio la dice.
+const VERIFICA_GUASTO = {
+  "missing-wire": "Si segue il giro con il dito partendo dal positivo: dove il dito si ferma, manca il collegamento.",
+  "open-switch": "Si prova a ponticellare i due morsetti dell'interruttore: se il circuito riparte, era lui aperto.",
+  "missing-resistor": "Senza resistore il LED riceve tutta la tensione della pila: si accende fortissimo per un istante e poi resta spento per sempre.",
+  "reversed-led": "Il catodo va al negativo e si riconosce dal piedino più corto o dalla smussatura sul bordo. Basta girarlo.",
+  "wrong-resistor-value": "Si rileggono le fasce colorate e si confronta il valore con quello previsto: troppo alto spegne, troppo basso brucia.",
+  "disconnected-component": "Essere sulla basetta non basta: si controlla che i piedini siano nella stessa fila di contatti del resto del giro.",
+  "sensor-unpowered": "Si misura la tensione fra i due pin di alimentazione del sensore: se è zero, il sensore non sta nemmeno lavorando.",
+  "parallel-branch-open": "Si prova un ramo per volta scollegando l'altro: quello che resta spento da solo è il ramo interrotto.",
+  "capacitor-discharged": "Si misura la tensione ai suoi capi mentre il circuito lavora: se resta a zero, non si sta caricando.",
+  "short-circuit": "Si stacca l'alimentazione e si misura la resistenza fra i due poli: vicino a zero significa che c'è una scorciatoia.",
+  "loose-ground": "Si muove piano il collegamento di massa a circuito acceso: se l'anomalia va e viene, il contatto non è stabile.",
+  "relay-not-armed": "Si ascolta lo scatto: senza il «click» la bobina non è alimentata, e il carico non può partire.",
+};
 
 function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
   const rand = rng(20260724);
@@ -646,7 +696,10 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
           prompt: `Quale guasto corrisponde a questo indizio: "${fault.hint}"?`,
           answer: fault.label,
           distractors,
-          explanation: fault.hint,
+          // NON `fault.hint`: quello è già citato dentro la domanda, e come
+          // spiegazione faceva rileggere al bambino la stessa identica frase.
+          // Qui serve il passo dopo — come si verifica quel guasto sul banco.
+          explanation: VERIFICA_GUASTO[fault.type] ?? fault.hint,
         },
         rand,
       ),
@@ -905,7 +958,7 @@ const FISICA_TOPICS = [
     watchOut: ["Un grafico non è un disegno del percorso.", "Peso e massa non sono la stessa grandezza."] },
   { id: "fisica-onde-ottica", title: "Onde e ottica", area: "Modelli fisici", levelRange: [5, 8],
     definition: "Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
-    example: { prompt: "Onda con lambda = 2 m e f = 3 Hz.", steps: ["v = lambda x f", "2 x 3 = 6"], answer: "6 m/s" },
+    example: { prompt: "Onda con lambda = 2 m e f = 3 Hz.", why: "La velocità di un'onda è quanto è lunga ogni oscillazione per quante ne passano ogni secondo.", steps: ["v = lambda x f", "2 x 3 = 6"], answer: "6 m/s" },
     watchOut: ["Frequenza e periodo sono inversi.", "La normale non è lo specchio: è la linea perpendicolare."] },
   { id: "fisica-moto-grafici", title: "Moto e grafici", area: "Cinematica", levelRange: [3, 8],
     definition: "Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
@@ -925,7 +978,7 @@ const FISICA_TOPICS = [
     watchOut: ["Cambiare due cose insieme rende il risultato inutile.", "Un'ipotesi non è ancora una conclusione: servono i dati."] },
   { id: "fisica-densita-pressione", title: "Densità e pressione", area: "Fluidi e materia", levelRange: [4, 8],
     definition: "La densità è massa per volume; la pressione è forza per area.",
-    example: { prompt: "Massa 200 g, volume 100 cm3. Trova la densità.", steps: ["densità = massa / volume", "200 / 100", "2 g/cm3"], answer: "2 g/cm3" },
+    example: { prompt: "Massa 200 g, volume 100 cm3. Trova la densità.", why: "La densità dice quanta materia sta in ogni centimetro cubo, e non cambia se tagli l'oggetto a metà.", steps: ["densità = massa / volume", "200 / 100", "2 g/cm3"], answer: "2 g/cm3" },
     watchOut: ["Non confondere densità e pressione: hanno formule diverse.", "Ridurre l'area aumenta la pressione a parità di forza."] },
   { id: "fisica-calore-temperatura", title: "Calore e temperatura", area: "Termologia", levelRange: [4, 8],
     definition: "La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo.",
@@ -1122,7 +1175,12 @@ function curatedTheoryBank(subject, topics, seed) {
             prompt: topic.example.prompt,
             answer: topic.example.answer,
             distractors: exDistractors,
-            explanation: topic.example.steps.join(" → ") + ".",
+            // I passi soli mostrano il calcolo e tacciono la regola: chi non
+            // sapeva la formula rilegge dei numeri. `why`, quando c'è, dice a
+            // parole che cosa lega le grandezze — ed è la parte che resta
+            // quando i numeri dell'esercizio sono cambiati.
+            explanation: (topic.example.why ? topic.example.why + " " : "")
+              + topic.example.steps.join(" → ") + ".",
           },
           rand,
         ),
@@ -1249,10 +1307,10 @@ const FISICA_EXTRA = [
   { topic: "calore", difficulty: 3, prompt: "Che cosa succede a un metallo quando si scalda?", answer: "Si dilata, cioè aumenta di volume", distractors: ["Si contrae, cioè si restringe","Cambia colore in modo permanente","Diventa più leggero"], explanation: "Per questo i binari e i ponti hanno giunti di dilatazione: senza, d'estate si deformerebbero." },
   // Misure
   { topic: "misure", difficulty: 1, prompt: "Con quale strumento misuri la lunghezza di un banco?", answer: "Il metro (righello)", distractors: ["La bilancia da cucina", "Il termometro", "L'orologio da polso"], explanation: "Il metro misura le lunghezze; la bilancia le masse." },
-  { topic: "misure", difficulty: 2, prompt: "Quanti centimetri sono 1 metro?", answer: "100", distractors: ["10", "1000", "50"], explanation: "1 metro = 100 centimetri." },
+  { topic: "misure", difficulty: 2, prompt: "Quanti centimetri sono 1 metro?", answer: "100", distractors: ["10", "1000", "50"], explanation: "Il prefisso «centi-» vale un centesimo: vale per tutte le unità, non solo per il metro." },
   { topic: "misure", difficulty: 3, prompt: "Per misurare quanto pesi useresti…", answer: "Una bilancia", distractors: ["Un metro", "Un termometro", "Un cronometro"], explanation: "La bilancia misura la massa/peso; il termometro la temperatura." },
   // Moto
-  { topic: "moto", difficulty: 1, prompt: "Un oggetto che non cambia posizione è…", answer: "Fermo", distractors: ["Veloce", "Lento", "In caduta"], explanation: "Se la posizione non cambia, l'oggetto è fermo." },
+  { topic: "moto", difficulty: 1, prompt: "Un oggetto che non cambia posizione è…", answer: "Fermo", distractors: ["Veloce", "Lento", "In caduta"], explanation: "Fermo rispetto a che cosa, però: chi siede in treno è fermo rispetto al vagone e in corsa rispetto alla banchina." },
   { topic: "moto", difficulty: 2, prompt: "Se un'auto percorre più strada nello stesso tempo, è…", answer: "Più veloce", distractors: ["Più lenta", "Ferma", "Più pesante"], explanation: "Più spazio nello stesso tempo significa maggiore velocità." },
   { topic: "moto", difficulty: 3, prompt: "In un grafico spazio-tempo, una linea più ripida indica…", answer: "Una velocità maggiore", distractors: ["Un oggetto fermo", "Una salita reale in collina", "Un peso maggiore"], explanation: "La pendenza del grafico rappresenta la velocità, non un percorso in salita." },
   // Forze
@@ -1519,7 +1577,7 @@ const GEO_FACTS = [
   // --- Geografia dell'Italia ---
   { topic: "geografia-italia", difficulty: 1, prompt: "Qual è la capitale d'Italia?", answer: "Roma", distractors: ["Milano", "Napoli", "Torino"], explanation: "Roma è la capitale della Repubblica Italiana." },
   { topic: "geografia-italia", difficulty: 1, prompt: "Qual è il fiume più lungo d'Italia?", answer: "Po", distractors: ["Tevere", "Arno", "Adige"], explanation: "Il Po, che attraversa la Pianura Padana, è il fiume più lungo d'Italia." },
-  { topic: "geografia-italia", difficulty: 2, prompt: "Quali sono le due isole più grandi d'Italia?", answer: "Sicilia e Sardegna", distractors: ["Sicilia ed Elba", "Sardegna e Capri", "Elba e Ischia"], explanation: "Sicilia e Sardegna sono le due isole maggiori italiane." },
+  { topic: "geografia-italia", difficulty: 2, prompt: "Quali sono le due isole più grandi d'Italia?", answer: "Sicilia e Sardegna", distractors: ["Sicilia ed Elba", "Sardegna e Capri", "Elba e Ischia"], explanation: "La Sicilia supera la Sardegna di poco. Sono anche le due isole più grandi di tutto il Mediterraneo." },
   { topic: "geografia-italia", difficulty: 2, prompt: "Qual è il vulcano attivo più grande d'Europa, in Sicilia?", answer: "Etna", distractors: ["Vesuvio", "Stromboli", "Vulcano"], explanation: "L'Etna, in Sicilia, è il maggiore vulcano attivo europeo." },
   { topic: "geografia-italia", difficulty: 2, prompt: "Qual è il lago più grande d'Italia?", answer: "Lago di Garda", distractors: ["Lago di Como", "Lago Maggiore", "Lago Trasimeno"], explanation: "Il Lago di Garda è il maggiore lago italiano per superficie." },
   { topic: "geografia-italia", difficulty: 3, prompt: "Quale catena montuosa percorre l'Italia da nord a sud?", answer: "Appennini", distractors: ["Alpi", "Pirenei", "Dolomiti"], explanation: "Gli Appennini attraversano la penisola; le Alpi chiudono l'Italia a nord." },
@@ -1770,9 +1828,9 @@ const SCIENZE_CORE = [
   { topic: "ecosistema", difficulty: 3, prompt: "Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?", answer: "Decompositori", distractors: ["Produttori", "Predatori", "Erbivori"], explanation: "I decompositori riciclano la materia, restituendo sostanze utili al terreno." },
   { topic: "ecosistema", difficulty: 4, prompt: "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?", answer: "Diminuirebbero per mancanza di cibo", distractors: ["Aumenterebbero di numero", "Non cambierebbe proprio nulla", "Diventerebbero tutti carnivori"], explanation: "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono." },
   // --- Corpo umano ---
-  { topic: "corpo", difficulty: 1, prompt: "Quale organo ci permette di pensare e comandare il corpo?", answer: "Il cervello", distractors: ["Il cuore", "Lo stomaco", "I muscoli"], explanation: "Il cervello dirige il corpo e ci fa pensare." },
+  { topic: "corpo", difficulty: 1, prompt: "Quale organo ci permette di pensare e comandare il corpo?", answer: "Il cervello", distractors: ["Il cuore", "Lo stomaco", "I muscoli"], explanation: "Riceve i segnali dai sensi e manda ordini ai muscoli in continuo: lavora anche mentre dormi." },
   { topic: "corpo", difficulty: 2, prompt: "A cosa serve lo scheletro?", answer: "A sostenere e proteggere il corpo", distractors: ["A digerire il cibo più in fretta", "A respirare più a lungo", "A vedere meglio i colori"], explanation: "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello)." },
-  { topic: "corpo", difficulty: 2, prompt: "Quale organo pompa il sangue nel corpo?", answer: "Il cuore", distractors: ["I polmoni", "Il fegato", "Lo stomaco"], explanation: "Il cuore spinge il sangue in tutto il corpo." },
+  { topic: "corpo", difficulty: 2, prompt: "Quale organo pompa il sangue nel corpo?", answer: "Il cuore", distractors: ["I polmoni", "Il fegato", "Lo stomaco"], explanation: "È un muscolo che si contrae da solo, circa centomila volte al giorno, senza che tu debba pensarci." },
   { topic: "corpo", difficulty: 3, prompt: "In quale organo avviene lo scambio di ossigeno con il sangue?", answer: "I polmoni", distractors: ["Il cuore", "I reni", "L'intestino"], explanation: "Nei polmoni il sangue prende ossigeno e cede anidride carbonica." },
   { topic: "corpo", difficulty: 4, prompt: "In quale organo il cibo digerito viene assorbito nel sangue?", answer: "L'intestino", distractors: ["I polmoni", "Il cuore", "I reni"], explanation: "Nell'intestino le sostanze nutritive passano nel sangue." },
   // --- Energia (nuovo topic) ---
@@ -1782,7 +1840,7 @@ const SCIENZE_CORE = [
   { topic: "energia", difficulty: 4, prompt: "Quali fonti di energia non si esauriscono e inquinano poco?", answer: "Sole, vento e acqua (rinnovabili)", distractors: ["Carbone e petrolio estratti", "Gas e benzina dei motori", "Plastica bruciata negli inceneritori"], explanation: "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili." },
   // --- Terra e universo (nuovo topic) ---
   { topic: "terra-universo", difficulty: 1, prompt: "Attorno a cosa gira la Terra?", answer: "Il Sole", distractors: ["La Luna", "Marte", "Una cometa"], explanation: "La Terra orbita intorno al Sole in circa un anno." },
-  { topic: "terra-universo", difficulty: 2, prompt: "Come si chiama il satellite naturale della Terra?", answer: "La Luna", distractors: ["Marte", "Il Sole", "Venere"], explanation: "La Luna gira intorno alla Terra." },
+  { topic: "terra-universo", difficulty: 2, prompt: "Come si chiama il satellite naturale della Terra?", answer: "La Luna", distractors: ["Marte", "Il Sole", "Venere"], explanation: "Le mostra sempre la stessa faccia, perché impiega lo stesso tempo a girare su di sé e attorno a noi." },
   { topic: "terra-universo", difficulty: 2, prompt: "Cosa provoca l'alternarsi del giorno e della notte?", answer: "La rotazione della Terra su se stessa", distractors: ["La Terra che gira intorno al Sole", "Le nuvole", "La Luna che si sposta"], explanation: "Ruotando su se stessa, ogni punto della Terra si affaccia al Sole e poi all'ombra." },
   { topic: "terra-universo", difficulty: 4, prompt: "Cosa provoca soprattutto l'alternarsi delle stagioni?", answer: "L'inclinazione della Terra mentre gira intorno al Sole", distractors: ["La distanza che cambia dalla Luna", "Il vento che soffia da nord per tutto l'anno", "Le maree provocate dalla Luna"], explanation: "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno." },
   // --- Ambiente (nuovo topic) ---
@@ -1928,7 +1986,7 @@ const STORIA_CORE = [
   { topic: "metodo", difficulty: 2, prompt: "Che cosa sono le fonti storiche?", answer: "Le tracce che ci parlano del passato", distractors: ["Le sorgenti d'acqua di montagna", "Soltanto i libri stampati oggi", "Le previsioni sul futuro lontano"], explanation: "Documenti, oggetti, resti e racconti sono fonti: ci fanno conoscere il passato." },
   { topic: "metodo", difficulty: 3, prompt: "Una piramide egizia è un esempio di fonte…", answer: "materiale", distractors: ["scritta", "orale", "immaginaria"], explanation: "Le fonti materiali sono oggetti e costruzioni; quelle scritte sono i testi." },
   // --- cronologia ---
-  { topic: "cronologia", difficulty: 1, prompt: "Quanti anni dura un secolo?", answer: "Cento", distractors: ["Dieci", "Mille", "Cinquanta"], explanation: "Un secolo è un periodo di cento anni." },
+  { topic: "cronologia", difficulty: 1, prompt: "Quanti anni dura un secolo?", answer: "Cento", distractors: ["Dieci", "Mille", "Cinquanta"], explanation: "Attenzione al conto: il Novecento è il ventesimo secolo, perché il primo comprende gli anni dall'1 al 100." },
   { topic: "cronologia", difficulty: 2, prompt: "Come si indicano gli anni prima della nascita di Cristo?", answer: "a.C.", distractors: ["d.C.", "km", "d.o.c."], explanation: "a.C. significa 'avanti Cristo'; d.C. significa 'dopo Cristo'." },
   { topic: "cronologia", difficulty: 3, prompt: "A quale secolo appartiene l'anno 1492?", answer: "XV secolo", distractors: ["XIV secolo", "XVI secolo", "XIII secolo"], explanation: "Gli anni dal 1401 al 1500 formano il XV secolo (il '400)." },
   // --- preistoria ---
@@ -1949,7 +2007,7 @@ const STORIA_CORE = [
   // --- roma ---
   { topic: "roma", difficulty: 1, prompt: "Quale lingua parlavano gli antichi Romani?", answer: "Il latino", distractors: ["Il greco", "L'italiano", "L'inglese"], explanation: "I Romani parlavano latino, da cui deriva anche l'italiano." },
   { topic: "roma", difficulty: 2, prompt: "Secondo la leggenda, chi fondò Roma?", answer: "Romolo", distractors: ["Enea", "Cesare", "Annibale"], explanation: "La leggenda narra che Roma fu fondata da Romolo, con il fratello Remo." },
-  { topic: "roma", difficulty: 3, prompt: "In quale anno la tradizione colloca la fondazione di Roma?", answer: "753 a.C.", distractors: ["1492 d.C.", "476 d.C.", "100 d.C."], explanation: "La tradizione fissa la nascita di Roma nel 753 a.C." },
+  { topic: "roma", difficulty: 3, prompt: "In quale anno la tradizione colloca la fondazione di Roma?", answer: "753 a.C.", distractors: ["1492 d.C.", "476 d.C.", "100 d.C."], explanation: "È una data di leggenda, non di scavo: serviva ai Romani per darsi un inizio preciso da cui contare gli anni." },
   { topic: "roma", difficulty: 3, prompt: "Dopo la monarchia, quale forma di governo ebbe Roma?", answer: "La repubblica", distractors: ["L'anarchia", "Il feudalesimo", "La democrazia diretta"], explanation: "Cacciato l'ultimo re, Roma diventò una repubblica guidata dai consoli." },
   { topic: "roma", difficulty: 3, prompt: "Come si chiamava l'assemblea dei senatori a Roma?", answer: "Il Senato", distractors: ["Il Colosseo", "Il Foro", "La Curia dei re"], explanation: "Il Senato riuniva i patrizi e consigliava chi governava Roma." },
   { topic: "roma", difficulty: 2, prompt: "Chi guidava l'Impero Romano?", answer: "L'imperatore", distractors: ["Il faraone", "Il doge", "Il presidente"], explanation: "Dopo la repubblica, Roma fu guidata da un imperatore, il primo fu Augusto." },
@@ -2167,7 +2225,7 @@ function logicaBank() {
     { difficulty: 3, prompt: "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…", answer: "ha la coda", distractors: ["non ha la coda", "forse ha la coda", "è un cane"], explanation: "Se vale per tutti i gatti e Fufi è un gatto, vale anche per Fufi." },
     { difficulty: 3, prompt: "Nessun pesce vola. Nemo è un pesce. Quindi Nemo…", answer: "non vola", distractors: ["vola", "forse vola", "è un uccello"], explanation: "Se nessun pesce vola e Nemo è un pesce, allora Nemo non vola." },
     { difficulty: 4, prompt: "Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…", answer: "non sta piovendo", distractors: ["sta piovendo", "ha perso l'ombrello", "fa molto caldo"], explanation: "Se piovesse avrebbe l'ombrello; non ce l'ha, quindi non piove." },
-    { difficulty: 4, prompt: "Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?", answer: "Ugo", distractors: ["Marco", "Sara", "Sono uguali"], explanation: "Marco > Sara > Ugo: il più basso è Ugo." },
+    { difficulty: 4, prompt: "Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?", answer: "Ugo", distractors: ["Marco", "Sara", "Sono uguali"], explanation: "Due confronti si incatenano quando hanno un termine in comune: qui è Sara. Messa in fila la catena, il più basso sta all'ultimo posto." },
     { difficulty: 4, prompt: "Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…", answer: "blu", distractors: ["rossa", "verde", "non si può sapere"], explanation: "Ci sono solo rosse e blu: se non è rossa, per forza è blu." },
   ];
   for (const q of deduzioni) {
@@ -4241,7 +4299,7 @@ const BAND_EXTRA = {
     { topic: "corpo-salute", difficulty: 1, format: "short_answer", prompt: "Come si chiama il luogo in cui si comprano le medicine?", answer: "farmacia", accept: ["la farmacia"], explanation: "Molte medicine richiedono la ricetta del medico." },
     { topic: "corpo-salute", difficulty: 2, format: "short_answer", prompt: "Come si chiama il foglio con cui il medico ti prescrive una medicina?", answer: "ricetta", accept: ["la ricetta"], explanation: "Senza, certe medicine non si possono comprare." },
     { topic: "corpo-salute", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'aumento della temperatura del corpo quando si è malati?", answer: "febbre", accept: ["la febbre"], explanation: "È una difesa: il corpo si scalda per combattere l'infezione." },
-    { topic: "corpo-salute", difficulty: 2, format: "short_answer", prompt: "Come si chiama la visita in cui il medico ti controlla?", answer: "visita", accept: ["visita medica", "controllo"], explanation: "Visita medica, per esteso." },
+    { topic: "corpo-salute", difficulty: 2, format: "short_answer", prompt: "Come si chiama la visita in cui il medico ti controlla?", answer: "visita", accept: ["visita medica", "controllo"], explanation: "Il medico controlla anche quando non c'è niente che non va: si chiama visita di controllo, e serve proprio a non aspettare i sintomi." },
     { topic: "corpo-salute", difficulty: 3, format: "short_answer", prompt: "Come si chiama la sostanza che si inietta per rendere il corpo capace di difendersi da una malattia?", answer: "vaccino", accept: ["il vaccino"], explanation: "Insegna al corpo a riconoscere il nemico prima di incontrarlo." },
     { topic: "emozioni-relazioni", difficulty: 1, format: "short_answer", prompt: "Come si chiama il sentimento che provi quando qualcosa ti spaventa?", answer: "paura", accept: ["la paura"], explanation: "Serve: avvisa che qualcosa non va." },
     { topic: "emozioni-relazioni", difficulty: 2, format: "short_answer", prompt: "Come si chiama la capacità di capire quello che sente un altro?", answer: "empatia", explanation: "Non è essere d'accordo: è capire da dentro." },

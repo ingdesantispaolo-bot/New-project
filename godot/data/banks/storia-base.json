@@ -1223,7 +1223,7 @@
 				"Mille"
 			],
 			"answer": "Cento",
-			"explanation": "Un secolo è un periodo di cento anni."
+			"explanation": "Attenzione al conto: il Novecento è il ventesimo secolo, perché il primo comprende gli anni dall'1 al 100."
 		},
 		{
 			"id": "storia-cronologia-77",
@@ -1495,7 +1495,7 @@
 				"753 a.C."
 			],
 			"answer": "753 a.C.",
-			"explanation": "La tradizione fissa la nascita di Roma nel 753 a.C."
+			"explanation": "È una data di leggenda, non di scavo: serviva ai Romani per darsi un inizio preciso da cui contare gli anni."
 		},
 		{
 			"id": "storia-roma-94",

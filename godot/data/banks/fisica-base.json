@@ -113,7 +113,7 @@
 				"Nel tratto piatto il corpo è fermo."
 			],
 			"answer": "6 m/s",
-			"explanation": "v = lambda x f → 2 x 3 = 6."
+			"explanation": "La velocità di un'onda è quanto è lunga ogni oscillazione per quante ne passano ogni secondo. v = lambda x f → 2 x 3 = 6."
 		},
 		{
 			"id": "fisica-onde-ottica-attenzione",
@@ -353,7 +353,7 @@
 				"6 m/s"
 			],
 			"answer": "2 g/cm3",
-			"explanation": "densità = massa / volume → 200 / 100 → 2 g/cm3."
+			"explanation": "La densità dice quanta materia sta in ogni centimetro cubo, e non cambia se tagli l'oggetto a metà. densità = massa / volume → 200 / 100 → 2 g/cm3."
 		},
 		{
 			"id": "fisica-densita-pressione-attenzione",
@@ -1326,7 +1326,7 @@
 			"prompt": "Quanti centimetri sono 1 metro?",
 			"options": [],
 			"answer": "100",
-			"explanation": "1 metro = 100 centimetri."
+			"explanation": "Il prefisso «centi-» vale un centesimo: vale per tutte le unità, non solo per il metro."
 		},
 		{
 			"id": "fisica-misure-59",
@@ -1358,7 +1358,7 @@
 				"Veloce"
 			],
 			"answer": "Fermo",
-			"explanation": "Se la posizione non cambia, l'oggetto è fermo."
+			"explanation": "Fermo rispetto a che cosa, però: chi siede in treno è fermo rispetto al vagone e in corsa rispetto alla banchina."
 		},
 		{
 			"id": "fisica-moto-61",

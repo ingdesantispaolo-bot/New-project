@@ -69,8 +69,8 @@ spiegazione.
 | Lotto | Cosa | Quanto | Stato |
 |---|---|---:|---|
 | **1** | I tre formati dominanti: ogni specifica dice perché quella è la risposta | **207** (79 abbinamento, 66 classificazione, 62 ordinamento) | **fatto** |
-| **2** | Inglese: sostituire le spiegazioni tautologiche | 968 | da fare |
-| **3** | Il resto sotto i 40 caratteri, fuori dall'inglese | 242 | da fare |
+| **2** | Inglese: sostituire le spiegazioni tautologiche | 968 | **fatto** |
+| **3** | Le spiegazioni circolari, misurate bene | 31 (non 242) | **fatto** |
 
 Il lotto 1 è chiuso il 5 agosto 2026: **207 spiegazioni distinte**, nessuna sotto
 i 40 caratteri, e `minigame_explanation_audit` verifica anche che arrivino ai
@@ -84,10 +84,20 @@ ragione sarebbe peggio del silenzio. Lì la spiegazione dice cosa hanno in comun
 gli elementi di *quell'insieme* e cosa conviene notare — che è la cosa vera da
 imparare quando la parola singola non ha logica.
 
-Il cricchetto arriva **dopo** il contenuto, come sempre: `explanation_quality_audit`
-respingerà le spiegazioni ripetute identiche su specifiche diverse e quelle sotto
-una soglia di lunghezza. Scriverlo prima significherebbe solo un audit rosso per
-settimane.
+**Il lotto 3 era mal misurato, e l'ho corretto scrivendolo.** Il piano contava
+242 spiegazioni «sotto i 40 caratteri», ma la lunghezza era la metrica sbagliata:
+la maggioranza di quelle corte era ottima — «Pro-nome: al posto del nome»,
+«*Riso* è un cereale e anche una risata», «Sorge sulla Senna». Corte perché
+precise. Allungarle le avrebbe peggiorate. Il difetto vero è **circolare**, non
+corto: la spiegazione che ripete la domanda e la risposta senza aggiungere
+niente. Misurate così erano **31**, ed è quelle che ho riscritto.
+
+Due cricchetti, entrambi dopo il contenuto: `minigame_explanation_audit` per le
+specifiche giocate, `bank_explanation_audit` per i banchi. Nessuno dei due misura
+la lunghezza, per la ragione sopra: controllano che la spiegazione esista, che
+non sia circolare e soprattutto che **nessuna singola frase copra più di venti
+item** — una spiegazione buona per mezzo banco descrive il formato, non quel
+banco.
 
 ---|---:|---:|---|---:|---:|
 | inglese | 1109 | 30% | geografia | 199 | 20% |

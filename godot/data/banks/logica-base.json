@@ -473,7 +473,7 @@
 				"Sono uguali"
 			],
 			"answer": "Ugo",
-			"explanation": "Marco > Sara > Ugo: il più basso è Ugo."
+			"explanation": "Due confronti si incatenano quando hanno un termine in comune: qui è Sara. Messa in fila la catena, il più basso sta all'ultimo posto."
 		},
 		{
 			"id": "logica-deduzione-86-blu",

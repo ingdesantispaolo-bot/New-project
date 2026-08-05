@@ -155,7 +155,7 @@ const vocabularyRows = [
     ["a report", "una relazione", "noun", 4, "Il sostantivo a report è una relazione, un resoconto scritto. Come verbo, to report vuol dire invece riferire."],
     ["result", "risultato", "noun", 4],
     ["warning", "avviso", "noun", 4],
-    ["notice", "avviso scritto", "noun", 4],
+    ["notice", "avviso scritto", "noun", 4, "Come verbo è «notare», come nome è un avviso affisso. Non è la «notizia», che è *news*."],
     ["equipment", "attrezzatura", "noun", 5],
     ["shortcut", "scorciatoia", "noun", 5],
     ["backup", "riserva / copia di sicurezza", "noun", 5],
@@ -232,9 +232,9 @@ const vocabularyRows = [
     ["calibration", "calibrazione", "noun", 5],
     ["consistent", "coerente / costante", "adjective", 5],
     ["approximate", "approssimativo", "adjective", 5],
-    ["therefore", "perciò / quindi", "connector", 5],
-    ["suggest", "suggerire / indicare", "verb", 5],
-    ["prove", "dimostrare", "verb", 5],
+    ["therefore", "perciò / quindi", "connector", 5, "Introduce la conseguenza di quello che si è appena detto. Sta all'inizio della frase, spesso dopo il punto."],
+    ["suggest", "suggerire / indicare", "verb", 5, "Proporre un'idea senza imporla. Regge la forma in -ing: *I suggest waiting*, non *to wait*."],
+    ["prove", "dimostrare", "verb", 5, "Dimostrare che qualcosa è vero, con le prove. Non è «provare» nel senso di tentare: quello è *try*."],
     ["sample", "campione", "noun", 6],
     ["trend", "tendenza", "noun", 6],
     ["variable", "variabile", "noun", 6],
@@ -297,39 +297,39 @@ const vocabularyRows = [
     ["neither", "nessuno dei due / né", "adverb", 4],
     ["both", "entrambi", "adverb", 4],
     ["only", "solo / soltanto", "adverb", 2],
-    ["except", "tranne / eccetto", "preposition", 5],
+    ["except", "tranne / eccetto", "preposition", 5, "Toglie un elemento da un insieme appena nominato: tutti tranne quello."],
     ["since", "poiché / da quando", "connector", 5],
     ["so that", "in modo che", "connector", 5],
-    ["despite", "nonostante", "preposition", 6],
+    ["despite", "nonostante", "preposition", 6, "Introduce un ostacolo che non ha fermato niente. Si usa senza «of»: *despite the rain*, mai *despite of*."],
     ["as soon as", "appena / non appena", "connector", 6],
     ["in order to", "per / allo scopo di", "connector", 6],
   ]),
   ...rows("false-friends", [
-    ["actual", "reale / effettivo", "adjective", 5],
-    ["actually", "in realtà", "adverb", 5],
-    ["eventually", "alla fine", "adverb", 5],
-    ["sensible", "ragionevole", "adjective", 5],
-    ["sensitive", "sensibile / delicato", "adjective", 5],
-    ["library", "biblioteca", "noun", 3],
-    ["bookshop", "libreria / negozio di libri", "noun", 3],
-    ["factory", "fabbrica", "noun", 3],
-    ["argument", "discussione / argomento", "noun", 5],
-    ["parents", "genitori", "noun", 3],
-    ["relative", "parente / relativo", "noun", 5],
-    ["comprehensive", "completo / esauriente", "adjective", 6],
-    ["pretend", "fingere", "verb", 5],
-    ["assist", "aiutare / assistere", "verb", 5],
-    ["brave", "coraggioso", "adjective", 4],
-    ["camera", "macchina fotografica / videocamera", "noun", 3],
-    ["education", "istruzione", "noun", 4],
-    ["terrific", "fantastico / enorme", "adjective", 5],
-    ["realize", "rendersi conto", "verb", 5],
-    ["convenient", "comodo / conveniente", "adjective", 5],
+    ["actual", "reale / effettivo", "adjective", 5, "Non vuol dire «attuale»: quello è *current*. «Actual» dice ciò che è vero davvero, non ciò che accade adesso."],
+    ["actually", "in realtà", "adverb", 5, "Non è «attualmente» (*currently*): introduce una correzione — «in realtà, veramente»."],
+    ["eventually", "alla fine", "adverb", 5, "Non è «eventualmente» (*possibly*): dice che alla fine è successo per certo, non che potrebbe succedere."],
+    ["sensible", "ragionevole", "adjective", 5, "Non è «sensibile» (*sensitive*): descrive chi ragiona bene e sceglie con buon senso."],
+    ["sensitive", "sensibile / delicato", "adjective", 5, "Questo sì è «sensibile» nel senso di delicato. Da non scambiare con *sensible*, che invece è ragionevole."],
+    ["library", "biblioteca", "noun", 3, "Non è la «libreria» dove si comprano i libri (*bookshop*): è dove si prendono in prestito."],
+    ["bookshop", "libreria / negozio di libri", "noun", 3, "È il negozio, cioè la «libreria» italiana. La biblioteca è *library*: le due parole sono incrociate rispetto all'italiano."],
+    ["factory", "fabbrica", "noun", 3, "Non è la «fattoria» (*farm*): è lo stabilimento dove si producono le cose."],
+    ["argument", "discussione / argomento", "noun", 5, "Spesso è un litigio, non un «argomento» di discorso: quello è *topic*."],
+    ["parents", "genitori", "noun", 3, "Non sono i «parenti» (*relatives*): sono soltanto la madre e il padre."],
+    ["relative", "parente / relativo", "noun", 5, "Questo è il «parente». *Parents* invece sono solo i genitori: l'italiano fa il contrario e confonde."],
+    ["comprehensive", "completo / esauriente", "adjective", 6, "Non vuol dire «comprensivo» nel senso di indulgente: dice che comprende tutto, che non lascia fuori niente."],
+    ["pretend", "fingere", "verb", 5, "Non è «pretendere» (*demand*): è fare finta."],
+    ["assist", "aiutare / assistere", "verb", 5, "Vuol dire aiutare attivamente, non «assistere» nel senso di guardare: quello è *attend* o *watch*."],
+    ["brave", "coraggioso", "adjective", 4, "Non è «bravo» (*good at*): è coraggioso."],
+    ["camera", "macchina fotografica / videocamera", "noun", 3, "Non è la «camera» da letto (*bedroom*): è l'apparecchio per fotografare."],
+    ["education", "istruzione", "noun", 4, "È l'istruzione scolastica in generale; «educazione» come buone maniere è *manners*."],
+    ["terrific", "fantastico / enorme", "adjective", 5, "Nonostante somigli a «terrificante», è un complimento: vuol dire fantastico."],
+    ["realize", "rendersi conto", "verb", 5, "Prima di tutto è «accorgersi». «Realizzare» un progetto si dice *carry out* o *achieve*."],
+    ["convenient", "comodo / conveniente", "adjective", 5, "Dice che è comodo e pratico, non che costa poco: quello è *cheap*."],
     ["notice", "avviso / notare", "noun", 4],
-    ["lecture", "lezione universitaria / conferenza", "noun", 6],
-    ["eventual", "finale / definitivo", "adjective", 6],
-    ["preservative", "conservante", "noun", 6],
-    ["morbidity", "morbilità", "noun", 8],
+    ["lecture", "lezione universitaria / conferenza", "noun", 6, "Non è la «lettura» (*reading*): è una lezione tenuta parlando davanti a un pubblico."],
+    ["eventual", "finale / definitivo", "adjective", 6, "Come *eventually*, dice ciò che accade alla fine per certo, non ciò che è possibile."],
+    ["preservative", "conservante", "noun", 6, "Non è il «preservativo»: è la sostanza che conserva i cibi."],
+    ["morbidity", "morbilità", "noun", 8, "Termine tecnico: quanta malattia c'è in una popolazione. Non ha il senso di «morbosità»."],
   ]),
 ] as const;
 
@@ -821,20 +821,18 @@ const phraseRows = phraseGroups.flatMap((group) =>
   })),
 );
 
-const numberedSchoolRows = Array.from({ length: 80 }, (_, index) => {
-  const number = index + 1;
-  return {
-    category: "school-communication" as const,
-    item: [
-      `page ${number}`,
-      `pagina ${number}`,
-      "phrase",
-      number <= 20 ? 1 : number <= 50 ? 2 : 3,
-    ] as const,
-  };
-});
+// RIMOSSO il 5 agosto 2026: ottanta voci generate a macchina, «page 1» … «page
+// 80» con il significato «pagina 1» … «pagina 80».
+//
+// Erano riempitivo. «Cosa significa in italiano *page 47*?» non insegna niente
+// a nessuno: chi sa che «page» è «pagina» sa già tutte e ottanta le voci, e chi
+// non lo sa non impara il numero. Facevano volume — quaranta item, un terzo
+// dell'argomento `school-communication` — e il volume conta negli audit di
+// densità, che così misuravano una profondità che non c'era.
+//
+// Tolti restano 73 item su quell'argomento, molto sopra la soglia di quindici.
 
-const expandedVocabularyRows = [...vocabularyRows, ...everydayVocabularyRows, ...phraseRows, ...numberedSchoolRows] as const;
+const expandedVocabularyRows = [...vocabularyRows, ...everydayVocabularyRows, ...phraseRows] as const;
 
 export const englishVocabularyEntries: EnglishVocabularyEntry[] = expandedVocabularyRows.map(({ category, item }, index) => {
   const [term, meaning, wordClass, level, note] = item;

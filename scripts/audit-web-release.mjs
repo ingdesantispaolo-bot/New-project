@@ -1,4 +1,4 @@
-import { readFile, stat } from "node:fs/promises";
+import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
@@ -66,6 +66,60 @@ for (const [needle, label] of [
   ["gzip", "Gzip"],
 ]) {
   if (!compressionSource.includes(needle)) failures.push(`compressione Vite: manca ${label}`);
+}
+
+// --- L'export è più vecchio dei sorgenti? -------------------------------------
+//
+// Il 5 agosto 2026 quattro «build» di fila sono state dichiarate verdi mentre il
+// PCK servito era fermo al giorno prima: l'export era finito in
+// `public/godot/` invece che in `public/godot/outdoor/`, e nessuno se n'è
+// accorto perché tutti e quattro i valori confrontati qui sopra combaciavano fra
+// loro. Erano coerenti con l'artefatto SBAGLIATO.
+//
+// Il confronto mancante era con la realtà: se un file di gioco è più recente del
+// PCK, quel PCK non contiene quel file. È l'unico controllo che distingue «ho
+// esportato» da «ho detto di aver esportato».
+const SORGENTI = [
+  path.join(root, "godot", "scripts"),
+  path.join(root, "godot", "data", "banks"),
+  path.join(root, "godot", "scenes"),
+];
+
+async function piuRecente(dir) {
+  let ultimo = { mtimeMs: 0, file: "" };
+  let voci = [];
+  try {
+    voci = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return ultimo;
+  }
+  for (const voce of voci) {
+    const completo = path.join(dir, voce.name);
+    if (voce.isDirectory()) {
+      const dentro = await piuRecente(completo);
+      if (dentro.mtimeMs > ultimo.mtimeMs) ultimo = dentro;
+      continue;
+    }
+    // I `.uid` li riscrive Godot all'import: non sono contenuto di gioco e
+    // farebbero scattare l'allarme senza che sia cambiato niente.
+    if (voce.name.endsWith(".uid")) continue;
+    const info = await stat(completo);
+    if (info.mtimeMs > ultimo.mtimeMs) ultimo = { mtimeMs: info.mtimeMs, file: completo };
+  }
+  return ultimo;
+}
+
+let sorgentePiuRecente = { mtimeMs: 0, file: "" };
+for (const dir of SORGENTI) {
+  const trovato = await piuRecente(dir);
+  if (trovato.mtimeMs > sorgentePiuRecente.mtimeMs) sorgentePiuRecente = trovato;
+}
+if (sorgentePiuRecente.mtimeMs > pck.mtimeMs) {
+  failures.push(
+    `export più vecchio dei sorgenti: ${path.relative(root, sorgentePiuRecente.file)} `
+    + `è cambiato dopo l'ultimo PCK. Riesporta in public/godot/outdoor/ — `
+    + `stai giudicando la build precedente.`,
+  );
 }
 
 if (failures.length > 0) {

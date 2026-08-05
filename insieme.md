@@ -51,72 +51,121 @@ soprattutto **nessun bambino ha ancora giocato**. Qualunque modifica fatta adess
 sarebbe indovinare. È l'unica delle tre che richiede il collaudo *prima*, non
 dopo.
 
-### La scelta
+### La scelta, e dove siamo
 
-**Prima le spiegazioni.** È il 62% del vissuto, è misurabile, è cricchettabile, ed
-è il cuore della promessa didattica: un gioco che dice «giusto» e «sbagliato»
-senza dire *perché* sta misurando, non insegnando. Il divertimento viene subito
-dopo il tuo collaudo, con i dati veri in mano.
+**Prima le spiegazioni** — fatto il 5 agosto. Era il 62% del vissuto, misurabile
+e cricchettabile, ed è il cuore della promessa didattica: un gioco che dice
+«giusto» e «sbagliato» senza dire *perché* sta misurando, non insegnando.
+
+**Poi la varietà delle prove**, che è la parte del divertimento misurabile senza
+aver giocato: quante forme diverse ha una sessione. Il resto del divertimento —
+il ritmo, il piacere, la voglia di continuare — resta dietro al tuo collaudo, e
+nessuna misura lo anticipa.
 
 ---
 
-## Il piano — le spiegazioni
+## Le spiegazioni — chiuso il 5 agosto 2026
 
-**Regola unica**: dopo la risposta il gioco dice *perché*, non *cosa fare*. Una
-spiegazione che si potrebbe incollare identica su un altro esercizio non è una
-spiegazione.
+Tutti e tre i lotti fatti: **3392 item, 3172 spiegazioni distinte, media 86
+caratteri** (era 56). I tre formati dominanti hanno 207 spiegazioni proprie,
+l'inglese non ripete più la risposta appena data, e le 31 circolari sono
+riscritte. Tenuto da `minigame_explanation_audit` e `bank_explanation_audit`.
 
-| Lotto | Cosa | Quanto | Stato |
-|---|---|---:|---|
-| **1** | I tre formati dominanti: ogni specifica dice perché quella è la risposta | **207** (79 abbinamento, 66 classificazione, 62 ordinamento) | **fatto** |
-| **2** | Inglese: sostituire le spiegazioni tautologiche | 968 | **fatto** |
-| **3** | Le spiegazioni circolari, misurate bene | 31 (non 242) | **fatto** |
+Resta qui una lezione, perché costa ogni volta che la si dimentica: **la
+lunghezza è la metrica sbagliata.** Il piano prevedeva di allungare 242
+spiegazioni «sotto i 40 caratteri»; misurandole, quasi tutte erano ottime —
+«Pro-nome: al posto del nome», «*Riso* è un cereale e anche una risata». Corte
+perché precise. Il difetto vero era essere **circolari**, e misurate così erano
+31. I due audit infatti non guardano la lunghezza: guardano che la spiegazione
+esista, che non ripeta domanda e risposta, e che **nessuna singola frase copra
+più di venti item**.
 
-Il lotto 1 è chiuso il 5 agosto 2026: **207 spiegazioni distinte**, nessuna sotto
-i 40 caratteri, e `minigame_explanation_audit` verifica anche che arrivino ai
-**nodi giocati** — una tabella perfetta che il costruttore ignora varrebbe quanto
-una spiegazione assente. Tre specifiche avevano già una spiegazione propria,
-migliore di quella che avevo scritto io: ho tenuto le loro.
+---
 
-Sul lotto 1 una cautela che mi porto dietro dal lavoro sui banchi: per il
-vocabolario **non esiste un perché**. `dog`/`cane` è arbitrario, e inventare una
-ragione sarebbe peggio del silenzio. Lì la spiegazione dice cosa hanno in comune
-gli elementi di *quell'insieme* e cosa conviene notare — che è la cosa vera da
-imparare quando la parola singola non ha logica.
+## Il piano — la varietà delle prove (misurato il 5 agosto 2026)
 
-**Il lotto 3 era mal misurato, e l'ho corretto scrivendolo.** Il piano contava
-242 spiegazioni «sotto i 40 caratteri», ma la lunghezza era la metrica sbagliata:
-la maggioranza di quelle corte era ottima — «Pro-nome: al posto del nome»,
-«*Riso* è un cereale e anche una risata», «Sorge sulla Senna». Corte perché
-precise. Allungarle le avrebbe peggiorate. Il difetto vero è **circolare**, non
-corto: la spiegazione che ripete la domanda e la risposta senza aggiungere
-niente. Misurate così erano **31**, ed è quelle che ho riscritto.
+Le spiegazioni sono chiuse. La domanda successiva era: **quali minigiochi
+aggiungere per rendere le prove più divertenti?** Misurando, la risposta non è
+quella che sembrava.
 
-Due cricchetti, entrambi dopo il contenuto: `minigame_explanation_audit` per le
-specifiche giocate, `bank_explanation_audit` per i banchi. Nessuno dei due misura
-la lunghezza, per la ragione sopra: controllano che la spiegazione esista, che
-non sia circolare e soprattutto che **nessuna singola frase copra più di venti
-item** — una spiegazione buona per mezzo banco descrive il formato, non quel
-banco.
+### Cosa c'è
 
----|---:|---:|---|---:|---:|
-| inglese | 1109 | 30% | geografia | 199 | 20% |
-| italiano | 587 | 22% | storia | 167 | 20% |
-| matematica | 284 | 30% | elettronica | 159 | 20% |
-| latino | 212 | 21% | fisica | 157 | 23% |
-| coding | 195 | 30% | scienze | 155 | 21% |
-| musica | 132 | 21% | logica | 116 | 29% |
+Dieci formati, ma di due specie molto diverse:
 
-**3472 item in totale**, nessun argomento sotto quindici, nessun banco fuori
-forbice.
+| specie | formati | materie servite |
+|---|---|---|
+| **universali** | abbinamento, ordinamento, classificazione, grafico, circuito, caccia all'errore | 10–12 ciascuno |
+| **distintivi** | notazione, carta, reperti, ciclo | **una sola materia ciascuno** |
 
-Quello che manca adesso non si scrive: **si gioca.** Nessun bambino ha mai
-provato niente di tutto questo, e nessuna delle misure qui dentro dice se è
-bello.
+I quattro belli — il pentagramma, la carta, i reperti da toccare, il ciclo da
+ricomporre — li vede **una materia sola**. Musica ha il pentagramma, geografia
+la carta, storia i reperti, scienze il ciclo. Le altre otto materie non li
+incontrano mai.
 
-Le schede che seguono servono a due cose: verificare mondo per mondo che quello
-che è cablato sia quello che era scritto, e riprendere in mano un mondo quando il
-collaudo lo boccia.
+### Il problema vero non è quanti formati ci sono
+
+`format_shape_probe` costruisce 288 sessioni, dodici materie per quattro livelli
+per sei estrazioni. Il risultato:
+
+- **288 su 288 aprono con `abbinamento → ordinamento → classificazione`.**
+  Sempre. Ogni materia, ogni livello, dal mondo 1 al mondo 24;
+- in tutto il gioco esistono **otto forme di sessione**, e differiscono solo
+  nella quarta campata;
+- **a livello 1 sei materie su dodici hanno una forma fissa al 100%**: latino,
+  geografia e storia non hanno nemmeno la quarta campata; inglese, musica e
+  logica hanno sempre lo stesso specialista.
+
+Le prime tre mosse sono le stesse tre mosse, sempre, nelle ore che decidono se
+un bambino continua. Nessun formato nuovo ripara questo: il piano è cablato in
+`build_minigame`.
+
+### Cosa fare, in ordine di resa per costo
+
+**1 · La forma della sessione.** Nessun formato nuovo, nessun contenuto nuovo:
+si sceglie l'apertura in base a livello e materia, e lo specialista non è per
+forza l'ultimo. È l'intervento che cambia di più la sensazione di varietà, e
+costa una funzione.
+
+**2 · Il `ciclo` a sette materie.** Il formato è già costruito e i suoi glifi
+sono **disegnati proceduralmente**, non immagini: estenderlo non tocca la
+pipeline degli asset. Sette materie hanno un ciclo vero da ricomporre, non
+inventato:
+
+| materia | il ciclo | da |
+|---|---|---|
+| coding | inizializza → condizione → corpo → incremento | L3 |
+| matematica | l'aritmetica dell'orologio (modulo) | L6 |
+| fisica | potenziale → cinetica → termica | L8 |
+| geografia | il ciclo delle rocce | L10 |
+| italiano | idea → scaletta → stesura → revisione | L4 |
+| storia | domanda → fonti → confronto → tesi | L7 |
+| musica | il circolo delle quinte | L16 |
+
+**3 · Tre formati nuovi**, tutti a disegno procedurale:
+
+- **bilancia** (L5+, matematica · fisica · logica · elettronica): si pareggiano
+  i due piatti trascinando termini. Insegna l'equivalenza, che è il cuore
+  dell'algebra e non ha oggi nessun formato che la mostri;
+- **retta numerica** (L1+, matematica): collocare frazioni, decimali e negativi.
+  Serve **subito**, perché a livello 1 matematica non ha niente di visuale;
+- **linea del tempo** (L8+, storia · musica · italiano): diversa
+  dall'ordinamento, perché conta la *distanza* fra gli eventi, non solo l'ordine.
+
+**4 · Bloccati da un asset**, e restano dove sono: portare *reperti* e *carta*
+ad altre materie richiede immagini nuove — sono già fra [le voci
+aperte](#le-altre-voci-aperte).
+
+### La scala per livello
+
+Oggi i singoli esercizi sono graduati (`minLevel` per specifica), i **formati**
+no. La scala proposta segue la difficoltà cognitiva, non la materia:
+
+| livelli | che cosa si chiede | formati |
+|---|---|---|
+| **1–4** | riconoscere e appaiare | abbinamento, classificazione, retta numerica |
+| **5–10** | mettere in processo | ordinamento, ciclo, bilancia |
+| **11–17** | leggere una rappresentazione | grafico, circuito, carta, notazione, linea del tempo |
+| **18–24** | manipolare rispettando vincoli | caccia all'errore, bilancia con incognite, reperti |
 
 ---
 

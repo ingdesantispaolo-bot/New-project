@@ -106,6 +106,32 @@ func _practice_feedback(advanced: Array, gained: int) -> String:
 ## Non rimprovera e non consola: dice il fatto e quello che resta. NORA non è
 ## mai delusa da Eli — è un guard-rail narrativo del gioco — e uscire da una
 ## prova è una cosa che si può fare, non un fallimento da commentare.
+## Che cosa manca per salire di livello, detto per nome.
+##
+## L'apparato si ripara con la materia del mondo; il LIVELLO si apre col nucleo
+## — italiano, matematica e inglese insieme. Sono due cose diverse, ed è giusto
+## che lo siano: si può accendere una stanza senza essere pronti ad andare
+## avanti. Ma se il gioco non lo dice, superare l'esame e restare fermi sembra
+## un difetto invece di un traguardo parziale.
+##
+## Il messaggio nomina le materie mancanti e dove si allenano, perché «ti manca
+## il nucleo» non dice a un bambino che cosa fare adesso.
+func _manca_per_salire(subject: String) -> String:
+	var testa := "Apparato di %s riparato: una stanza della nave è accesa." % subject
+	var stato: Dictionary = progression_manager.readiness()
+	var mancanti: Array = Array(stato.get("missing", []))
+	if mancanti.is_empty():
+		return "%s Il livello si aprirà appena il nucleo è pronto." % testa
+	var pezzi: Array = []
+	for materia_data in mancanti:
+		var materia := str(materia_data)
+		var dettaglio: Dictionary = Dictionary(stato.get("subjects", {})).get(materia, {})
+		var motivi: Array = Array(dettaglio.get("reasons", []))
+		pezzi.append("%s (%s)" % [materia, ", ".join(PackedStringArray(motivi))] if not motivi.is_empty() else materia)
+	return ("%s Per salire di livello serve anche il nucleo: manca %s. "
+		+ "Le trovi negli incontri di pratica sparsi in questo mondo — quelli che non contano per il gate.") % [
+		testa, ", ".join(PackedStringArray(pezzi))]
+
 func _abandon_feedback(costo: int, advanced: Array) -> String:
 	var testa := "Prova chiusa."
 	if costo > 0:
@@ -254,6 +280,10 @@ func runtime_state() -> Dictionary:
 		"coreSubjects": Array(progress.get("coreSubjects", [])).duplicate(),
 		"core": core,
 		"coreProgress": float(progress.get("progress", 0.0)),
+		# Le materie del nucleo che mancano per SALIRE DI LIVELLO. Era qui dal
+		# principio e non la leggeva nessuno: l'HUD mostrava «apparato pronto» e
+		# taceva che il livello dipende da altro. Un bambino ha superato l'esame
+		# del mondo 1 e non ha capito perché il mondo 2 restasse chiuso.
 		"coreMissing": Array(progress.get("missing", [])).duplicate(),
 		# Missioni svolte nella materia del mondo. **Non sono più un requisito**: il
 		# livello si apre con la padronanza del nucleo. Restano come informazione —
@@ -548,14 +578,24 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			else:
 				_present_feedback(nora_voice.line("defeat"), "nora")
 	else:
-		if passed and progression_manager.repair_and_advance(true):
+		if passed:
+			# `repair_and_advance` risponde «riparato OPPURE salito»: le due cose
+			# sono separate da quando l'apparato e il livello sono assi distinti.
+			# Prima si guardava solo quel booleano e si annunciava «Livello N» —
+			# con N invariato quando il livello non era salito. Un bambino ha
+			# superato l'esame del mondo 1, ha letto «Livello 1» come una
+			# vittoria, e non ha capito perché il mondo 2 restasse chiuso.
+			var livello_prima := game_save.level()
+			progression_manager.repair_and_advance(true)
+			var salito := game_save.level() > livello_prima
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
 			_award_fragments(4)
-			_present_feedback("%s Livello %d." % [nora_voice.line("victory"), game_save.level()], "nora")
-			current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
-		elif passed:
-			_present_feedback("Il gate non è più disponibile: riprova le missioni richieste.", "system")
+			if salito:
+				_present_feedback("%s Livello %d." % [nora_voice.line("victory"), game_save.level()], "nora")
+				current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
+			else:
+				_present_feedback(_manca_per_salire(subject), "nora")
 		else:
 			_present_feedback(nora_voice.line("defeat"), "nora")
 	game_save.save()

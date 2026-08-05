@@ -4106,6 +4106,15 @@ func _update_objective() -> void:
 	elif bool(runtime.get("ready", false)):
 		objective_label.text = "LIVELLO %d · %s\n%s PRONTO\nRaggiungi la nave per l’esame finale" % [
 			int(runtime.get("level", 1)), subject, apparatus.to_upper()]
+		# L'apparato pronto NON significa livello pronto: sono due gate distinti.
+		# Dirlo QUI, prima dell'esame, evita che il bambino lo superi aspettando
+		# il mondo successivo — che è esattamente quello che è successo al primo
+		# collaudo vero, sul mondo 1. `coreMissing` era nello stato runtime dal
+		# principio e non lo leggeva nessuno.
+		var mancano: Array = Array(runtime.get("coreMissing", []))
+		if not mancano.is_empty():
+			objective_label.text += "\nPer il MONDO successivo serve anche il nucleo: manca %s" % (
+				", ".join(PackedStringArray(mancano)))
 	elif world_level != int(runtime.get("level", 1)):
 		objective_label.text = "MONDO %d · %s · RIVISITA\nFocus locale: %s · Frontiera: livello %d, %s\nLe missioni qui allenano %s; usa la nave per cambiare rotta" % [
 			world_level, str(world_profile.get("title", "")), profile_subject,

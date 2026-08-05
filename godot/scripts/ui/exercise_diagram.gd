@@ -10,6 +10,9 @@ var selected_id := ""
 var feedback_state := ""
 var feedback_started_msec := 0
 var cycle_sequence: Array = []
+## Quanti indizi il giocatore ha scoperto. Vive qui e non nel contenuto perché
+## cambia mentre si gioca, non fra una specifica e l'altra.
+var clues_revealed := 0
 var cycle_feedback_state := ""
 
 func configure(kind: String, data: Dictionary) -> void:
@@ -18,6 +21,7 @@ func configure(kind: String, data: Dictionary) -> void:
 	var background_path := str(model.get("image", ""))
 	background_texture = load(background_path) as Texture2D if background_path != "" and ResourceLoader.exists(background_path) else null
 	cycle_sequence = []
+	clues_revealed = 0
 	cycle_feedback_state = ""
 	custom_minimum_size = Vector2(0, 230)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -36,6 +40,10 @@ func set_feedback(id: String, state: String) -> void:
 	selected_id = id
 	feedback_state = state
 	feedback_started_msec = Time.get_ticks_msec()
+	queue_redraw()
+
+func set_clues_revealed(quanti: int) -> void:
+	clues_revealed = maxi(0, quanti)
 	queue_redraw()
 
 func set_cycle_sequence(sequence: Array, state: String = "") -> void:
@@ -107,6 +115,8 @@ func _draw() -> void:
 			_draw_compose(bounds)
 		"trace":
 			_draw_trace(bounds)
+		"clue":
+			_draw_clue(bounds)
 		_:
 			_draw_hotspot(bounds)
 	_draw_selection_feedback()
@@ -566,6 +576,53 @@ func _draw_timeline(bounds: Rect2) -> void:
 		var cima := y + (-46.0 if alto else 46.0)
 		draw_line(Vector2(x, y), Vector2(x, cima), Color("6be7d6"), 1.8, true)
 		draw_circle(Vector2(x, cima), 6.0, Color("6be7d6"))
+
+## L'INDIZIARIO. Carte coperte che si scoprono una per volta.
+##
+## È l'unico formato con una **scelta strategica** dentro: si può rispondere
+## subito rischiando, o scoprire un altro indizio e andare sul sicuro. E rende
+## visibile una competenza che nessun altro formato tocca — non «sai la
+## risposta», ma «sai quanto ti basta per essere sicuro».
+##
+## Nessun indizio costa energia né punti. In un gioco che per contratto non
+## punisce, il prezzo di un indizio in più è soltanto la soddisfazione in meno
+## di averne usati pochi — e il rischio, che c'è già: rispondere presto e
+## sbagliare costa uno scudo come ogni altro errore.
+func _draw_clue(bounds: Rect2) -> void:
+	var indizi: Array = Array(model.get("clues", []))
+	if indizi.is_empty():
+		return
+	var font := ThemeDB.fallback_font
+	var alta := minf(52.0, (bounds.size.y * 0.62) / float(indizi.size()))
+	var y := bounds.position.y + bounds.size.y * 0.10
+	var x := bounds.position.x + bounds.size.x * 0.07
+	var larga := bounds.size.x * 0.86
+	for i in indizi.size():
+		var scoperto := i < clues_revealed
+		var rect := Rect2(Vector2(x, y), Vector2(larga, alta - 8.0))
+		draw_rect(rect, Color(0.03, 0.15, 0.18, 0.92) if scoperto else Color(0.06, 0.10, 0.13, 0.9))
+		draw_rect(rect, Color(0.42, 0.90, 0.84, 0.55) if scoperto else Color(0.42, 0.90, 0.84, 0.22), false, 2.0)
+		var testo := (
+			str((indizi[i] as Dictionary).get("text", "")) if scoperto
+			else "Indizio %d — coperto" % (i + 1))
+		draw_string(font, rect.position + Vector2(14.0, alta * 0.58), testo,
+			HORIZONTAL_ALIGNMENT_LEFT, larga - 28.0, 15,
+			Color("d8fff8") if scoperto else Color(0.42, 0.90, 0.84, 0.45))
+		y += alta
+	# Il contatore: la soddisfazione di averne usati pochi si sente solo se si
+	# vede il numero.
+	draw_string(font, Vector2(x, y + 18.0), "Indizi scoperti: %d su %d" % [
+		clues_revealed, indizi.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("f6c85f"))
+
+func clue_anchor(target_id: String) -> Vector2:
+	var voci: Array = Array(model.get("targets", []))
+	var indice := 0
+	for i in voci.size():
+		if str((voci[i] as Dictionary).get("id", "")) == target_id:
+			indice = i
+			break
+	var x := 0.5 if voci.size() <= 1 else lerpf(0.16, 0.84, float(indice) / float(voci.size() - 1))
+	return Vector2(x, 0.90)
 
 func timeline_anchor(target_id: String) -> Vector2:
 	var voci: Array = Array(model.get("targets", []))

@@ -117,7 +117,7 @@ func _init() -> void:
 	# Ognuno ha un controllo che gli altri non hanno: gli eventi non possono
 	# sovrapporsi sulla scala, le caselle vuote devono essere esattamente una,
 	# e il buco della traccia deve stare solo alla fine.
-	var contati := {"timeline": 0, "compose": 0, "trace": 0}
+	var contati := {"timeline": 0, "compose": 0, "trace": 0, "clue": 0}
 	for nome in contati.keys():
 		var tabella: Dictionary = MinigameManager.table_for(str(nome))
 		for materia in tabella.keys():
@@ -137,8 +137,8 @@ func _init() -> void:
 				int(contati[nome]), str(nome)])
 
 	if failures.is_empty():
-		print("SELEZIONE: linea del tempo %d · compositore %d · tracciatore %d" % [
-			int(contati["timeline"]), int(contati["compose"]), int(contati["trace"])])
+		print("SELEZIONE: linea del tempo %d · compositore %d · tracciatore %d · indiziario %d" % [
+			int(contati["timeline"]), int(contati["compose"]), int(contati["trace"]), int(contati["clue"])])
 		print("BILANCE: %d specifiche, aritmetica verificata" % bilance)
 		print("NUMBER LINE audit OK — %d specifiche, %d nodi costruiti e giocabili" % [quante, costruiti])
 		quit(0)

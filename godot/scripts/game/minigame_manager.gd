@@ -3131,6 +3131,65 @@ const ORDERING_UNIQUE := ["label", "value"]  # voci {label, value}
 ## sono le cinque righe, i dispari sono gli spazi, e fuori scala servono le
 ## linee addizionali. In chiave di violino le righe sono Mi Sol Si Re Fa e gli
 ## spazi Fa La Do Mi.
+# INDIZIARIO: si chiedono indizi per identificare, e si sceglie quando fermarsi.
+#
+# È l'unico formato con una SCELTA STRATEGICA dentro: rispondere presto
+# rischiando, o scoprire un'altra carta e andare sul sicuro. E rende visibile una
+# competenza che nessun altro formato tocca — non «sai la risposta», ma «sai
+# quanto ti basta per essere sicuro».
+#
+# Gli indizi vanno in ORDINE DI FORZA, dal vago al decisivo. Il primo è già
+# scoperto quando la prova comincia: partire da zero non è una scelta, è un
+# tocco obbligato prima di poter pensare. Che ogni indizio sia più stringente
+# del precedente non lo può verificare una macchina: lo giudica chi legge, e
+# `_validate_clue` lo dice invece di fingere il contrario.
+#
+# Nessun indizio costa energia o punti: in un gioco che per contratto non
+# punisce, il prezzo di una carta in più è la soddisfazione in meno di averne
+# usate poche.
+const CLUE := {
+	"storia": [
+		{"topic": "roma", "minLevel": 6, "prompt": "Chi è il personaggio? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "Visse nell'antica Roma e cambiò per sempre il modo in cui era governata."}, {"text": "Conquistò la Gallia e ne scrisse il racconto di suo pugno."}, {"text": "Attraversò il Rubicone con l'esercito, e non si poteva tornare indietro."}, {"text": "Fu ucciso alle Idi di marzo del 44 a.C."}],
+			"targets": [{"id": "a", "label": "Giulio Cesare"}, {"id": "b", "label": "Augusto"}, {"id": "c", "label": "Romolo"}, {"id": "d", "label": "Nerone"}],
+			"answer": "a",
+			"explanation": "Il primo indizio vale per tutti e quattro: serve a cominciare, non a decidere. La Gallia già restringe a uno solo — chi lo sapeva poteva rispondere lì e risparmiarsi gli altri due."},
+		{"topic": "civilta", "minLevel": 11, "prompt": "Quale civiltà è? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "Nacque lungo un grande fiume e dipendeva dalle sue piene."}, {"text": "Scriveva con segni che rappresentavano cose e suoni insieme."}, {"text": "Costruì tombe monumentali a base quadrata per i suoi re."}, {"text": "Il suo fiume scorre da sud a nord e sfocia nel Mediterraneo."}],
+			"targets": [{"id": "a", "label": "Sumeri"}, {"id": "b", "label": "Egizi"}, {"id": "c", "label": "Fenici"}, {"id": "d", "label": "Greci"}],
+			"answer": "b",
+			"explanation": "Il primo indizio lascia in gioco Sumeri ed Egizi: entrambi nascono su un fiume. È il terzo a chiudere la questione, ma chi ricorda che il Nilo è l'unico grande fiume che scorre verso nord poteva arrivarci con il quarto."},
+	],
+	"geografia": [
+		{"topic": "europa", "minLevel": 7, "prompt": "Quale Paese è? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "Si trova in Europa e ha una costa sul mare."}, {"text": "Confina con la Francia via terra, ma non con la Germania."}, {"text": "Occupa gran parte di una penisola che condivide con un altro Paese."}, {"text": "La sua capitale sta quasi al centro esatto del territorio."}],
+			"targets": [{"id": "a", "label": "Italia"}, {"id": "b", "label": "Spagna"}, {"id": "c", "label": "Portogallo"}, {"id": "d", "label": "Grecia"}],
+			"answer": "b",
+			"explanation": "Il secondo indizio esclude l'Italia, che confina anche con l'Austria e la Svizzera. Il terzo lascia Spagna e Portogallo; il quarto decide, perché Madrid è al centro e Lisbona è sulla costa."},
+	],
+	"scienze": [
+		{"topic": "viventi", "minLevel": 5, "prompt": "Quale animale è? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "È un vertebrato e vive in ambienti caldi e umidi."}, {"text": "Da piccolo respira nell'acqua, da adulto anche fuori."}, {"text": "La sua pelle è nuda e umida, senza squame né peli."}, {"text": "Da uovo diventa girino prima di avere le zampe."}],
+			"targets": [{"id": "a", "label": "Rana"}, {"id": "b", "label": "Serpente"}, {"id": "c", "label": "Pesce rosso"}, {"id": "d", "label": "Tartaruga"}],
+			"answer": "a",
+			"explanation": "Il secondo indizio è già decisivo: cambiare modo di respirare crescendo è la definizione stessa di anfibio. Gli altri due lo confermano, e servono a chi non aveva colto il primo segnale."},
+	],
+	"inglese": [
+		{"topic": "parts-of-speech", "minLevel": 9, "prompt": "Quale parola è? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "È un sostantivo inglese di uso comune, non un verbo."}, {"text": "Somiglia a una parola italiana ma non significa la stessa cosa."}, {"text": "Chi la traduce a orecchio pensa a un negozio, e sbaglia."}, {"text": "Il posto giusto dove tradurla è quello in cui i libri si prendono in prestito."}],
+			"targets": [{"id": "a", "label": "bookshop"}, {"id": "b", "label": "library"}, {"id": "c", "label": "factory"}, {"id": "d", "label": "camera"}],
+			"answer": "b",
+			"explanation": "Il terzo indizio è quello che conta: «library» somiglia a «libreria» e invece è la biblioteca. È il falso amico che fa sbagliare più spesso, ed è per questo che qui si arriva scartando, non ricordando."},
+	],
+	"logica": [
+		{"topic": "deduzioni", "minLevel": 8, "prompt": "Chi ha vinto la gara? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "I concorrenti erano quattro: Ada, Bruno, Carla e Dino."}, {"text": "Bruno si è ritirato prima della partenza, quindi non può aver vinto."}, {"text": "Il vincitore ha tagliato il traguardo pochi secondi prima di Carla."}, {"text": "Ada è arrivata subito dopo il vincitore, ma prima di Carla."}],
+			"targets": [{"id": "a", "label": "Ada"}, {"id": "b", "label": "Bruno"}, {"id": "c", "label": "Carla"}, {"id": "d", "label": "Dino"}],
+			"answer": "d",
+			"explanation": "Ogni indizio toglie esattamente un nome: il secondo Bruno, il terzo Carla (che arriva dopo il vincitore), il quarto Ada (che arriva dopo anche lei). Resta Dino. In un'eliminazione non serve mai una prova diretta del vincitore: basta chiudere tutte le altre porte."},
+	],
+}
+
 # LINEA DEL TEMPO: conta la DISTANZA, non solo l'ordine.
 #
 # Un ordinamento mette in fila due fatti a dieci anni e due a quattro secoli
@@ -3657,7 +3716,7 @@ const HOTSPOT := {
 const FORMATS := [
 	"matching", "ordering", "classification", "graph", "circuit", "cycle",
 	"notation", "map", "hotspot", "code_debug", "number_line", "balance",
-	"timeline", "compose", "trace",
+	"timeline", "compose", "trace", "clue",
 ]
 
 static func table_for(fmt: String) -> Dictionary:
@@ -3675,6 +3734,7 @@ static func table_for(fmt: String) -> Dictionary:
 		"timeline": return TIMELINE
 		"compose": return COMPOSE
 		"trace": return TRACE
+		"clue": return CLUE
 		"hotspot": return HOTSPOT
 		"code_debug": return CODE_DEBUG
 	return {}
@@ -3947,6 +4007,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		specialists.append("balance")
 	if TIMELINE.has(subject) and _has_eligible(TIMELINE[subject], level):
 		specialists.append("timeline")
+	if CLUE.has(subject) and _has_eligible(CLUE[subject], level):
+		specialists.append("clue")
 	if COMPOSE.has(subject) and _has_eligible(COMPOSE[subject], level):
 		specialists.append("compose")
 	if TRACE.has(subject) and _has_eligible(TRACE[subject], level):
@@ -3995,6 +4057,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 				nodes.append(_cycle_node(subject, _pick(CYCLE[subject], generator, level), difficulty, generator, idx))
 			"notation":
 				nodes.append(_notation_node(subject, _pick(NOTATION[subject], generator, level), difficulty, generator, idx))
+			"clue":
+				nodes.append(_clue_node(subject, _pick(CLUE[subject], generator, level), difficulty, generator, idx))
 			"timeline":
 				nodes.append(_timeline_node(subject, _pick(TIMELINE[subject], generator, level), difficulty, generator, idx))
 			"compose":
@@ -4170,6 +4234,26 @@ func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: Ran
 		"prompt": str(question["prompt"]),
 		"staff": (spec["staff"] as Dictionary).duplicate(true),
 		"symbols": symbols,
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
+	}
+
+func _clue_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
+	var targets: Array = (spec["targets"] as Array).duplicate(true)
+	_shuffle(targets, rng)
+	return {
+		"id": "minigame-clue-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "clue",
+		"prompt": str(question["prompt"]),
+		# Gli indizi NON si mescolano: l'ordine è il contenuto. Mescolarli
+		# renderebbe la prima carta decisiva una volta su quattro, e la scelta
+		# di quando fermarsi diventerebbe fortuna.
+		"clues": (spec.get("clues", []) as Array).duplicate(true),
+		"targets": targets,
 		"answer": str(question["answer"]),
 		"explanation": str(question["explanation"]),
 	}

@@ -20,7 +20,7 @@ const ArtifactAtlasCatalog = preload("res://scripts/visual/artifact_atlas_catalo
 const IMPLEMENTED := [
 	"multiple_choice", "numeric_input", "short_answer", "ordering", "matching",
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
-	"number_line", "balance", "timeline", "compose", "trace",
+	"number_line", "balance", "timeline", "compose", "trace", "clue",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -164,6 +164,8 @@ static func validate(node: Dictionary) -> Dictionary:
 			_validate_compose(node, errors)
 		"trace":
 			_validate_trace(node, errors)
+		"clue":
+			_validate_clue(node, errors)
 		"code_debug":
 			_validate_code_debug(node, errors)
 		_:
@@ -339,6 +341,32 @@ static func _validate_circuit(node: Dictionary, errors: Array) -> void:
 ## anno di distanza diventano lo stesso pixel, e la domanda smette di avere una
 ## risposta toccabile.
 const TIMELINE_MIN_SEPARAZIONE := 0.02
+
+## L'INDIZIARIO. I controlli propri sono due, e riguardano entrambi il fatto
+## che gli indizi vanno **in ordine di forza**.
+##
+## Il primo indizio è già scoperto quando la prova comincia, quindi da solo non
+## deve bastare: se restringesse già a una sola risposta, tutti gli altri
+## sarebbero decorazione e la scelta strategica sparirebbe. Per questo si chiede
+## che gli indizi siano almeno tre — con due, «il primo non basta» significa
+## «il secondo decide», che è una domanda a due passi, non un'indagine.
+##
+## Quello che una macchina NON può controllare è che ogni indizio sia davvero
+## più stringente del precedente: lo giudica chi legge. L'audit lo dice invece
+## di fingere di verificarlo.
+static func _validate_clue(node: Dictionary, errors: Array) -> void:
+	var clues: Array = node.get("clues", [])
+	if clues.size() < 3:
+		errors.append("indiziario con %d indizi: sotto i tre non c'è nessuna scelta da fare" % clues.size())
+	if clues.size() > 5:
+		errors.append("indiziario con più di 5 indizi: le carte non ci stanno a schermo")
+	for i in clues.size():
+		var testo := str((clues[i] as Dictionary).get("text", "")).strip_edges()
+		if testo == "":
+			errors.append("indizio %d vuoto" % (i + 1))
+		elif testo.length() < 12:
+			errors.append("indizio %d troppo corto per dire qualcosa: «%s»" % [i + 1, testo])
+	_valida_candidati(node, errors, "indiziario", 3, 5)
 
 static func _validate_timeline(node: Dictionary, errors: Array) -> void:
 	var minimo := float(node.get("min", 0.0))

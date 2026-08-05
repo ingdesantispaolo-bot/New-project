@@ -204,10 +204,14 @@ competenza vera — quale domanda conviene fare.
 | inglese | una parola | classe grammaticale, campo, iniziale |
 | logica | la soluzione di un indovinello | vincoli, uno per volta |
 
-Compositore e tracciatore sono **fatti** (7 e 6 specifiche); l'indiziario
-resta, ed è l'unico che chiede un'interazione nuova invece di una selezione:
-gli indizi si scoprono uno per volta e ognuno costa, quindi il pannello deve
-tenere uno stato fra un tocco e l'altro.
+Tutte e tre **fatte**: compositore 7 specifiche, tracciatore 6, indiziario 6.
+
+L'indiziario è l'unico con una vera scelta strategica — rispondere presto
+rischiando, o scoprire un'altra carta. Nessun indizio costa energia o punti: in
+un gioco che per contratto non punisce, il prezzo di una carta in più è la
+soddisfazione in meno di averne usate poche, e il rischio c'è già (rispondere
+presto e sbagliare costa uno scudo come ogni altro errore). Gli indizi non si
+mescolano: l'ordine dal vago al decisivo **è** il contenuto.
 
 Ogni formato ha un controllo che gli altri non hanno, ed è lì che sta il valore
 dell'audit: la bilancia verifica **l'aritmetica**, la linea del tempo che due

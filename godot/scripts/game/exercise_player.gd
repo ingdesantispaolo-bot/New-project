@@ -111,6 +111,10 @@ var _visual_selected := ""
 var _visual_buttons: Dictionary = {}
 var _visual_diagram: Control
 var _cycle_sequence: Array = []
+## Quanti indizi il giocatore ha chiesto sul nodo corrente. Si azzera a ogni
+## nodo, come gli scudi si azzerano a ogni sessione.
+var _clues_revealed := 0
+var _clue_button: Button
 var _rng: RandomNumberGenerator
 var high_contrast := false
 var reduced_motion := false
@@ -598,6 +602,8 @@ func _show_current() -> void:
 	_visual_buttons = {}
 	_visual_diagram = null
 	_cycle_sequence = []
+	_clues_revealed = 0
+	_clue_button = null
 	if _index >= _nodes.size():
 		_finish()
 		return
@@ -618,7 +624,7 @@ func _show_current() -> void:
 		"classification":
 			_input.visible = false
 			_build_classification(item)
-		"hotspot", "graph", "circuit", "notation", "map", "number_line", "balance", "timeline", "compose", "trace":
+		"hotspot", "graph", "circuit", "notation", "map", "number_line", "balance", "timeline", "compose", "trace", "clue":
 			_input.visible = false
 			_build_visual_selection(item, fmt)
 		"cycle":
@@ -1106,6 +1112,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		"timeline": "Guarda quanto distano fra loro gli eventi e scegli quello richiesto.",
 		"compose": "Guarda i pezzi già al posto giusto e scegli quello che completa.",
 		"trace": "Segui i passi uno per volta e scegli lo stato finale.",
+		"clue": "Scopri gli indizi che ti servono, poi scegli. Meno ne usi, meglio è.",
 	}.get(fmt, "Seleziona il punto corretto.")
 	instruction.add_theme_color_override("font_color", Color("b8d7dc"))
 	_options.add_child(instruction)
@@ -1129,11 +1136,13 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 	diagram.call("configure", fmt, diagram_model)
 	_visual_diagram = diagram
 	_options.add_child(diagram)
+	if fmt == "clue":
+		_build_clue_button(item)
 	var points: Array = (
 		diagram_model.get("hotspots", []) if fmt == "hotspot"
 		else item.get("points", []) if fmt == "graph"
 		else item.get("components", []) if fmt == "circuit"
-		else item.get("targets", []) if fmt in ["map", "number_line", "balance", "timeline", "compose", "trace"]
+		else item.get("targets", []) if fmt in ["map", "number_line", "balance", "timeline", "compose", "trace", "clue"]
 		else item.get("symbols", [])
 	)
 	for point in points:
@@ -1167,6 +1176,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 			else diagram.call("timeline_anchor", id) if fmt == "timeline"
 			else diagram.call("compose_anchor", id) if fmt == "compose"
 			else diagram.call("trace_anchor", id) if fmt == "trace"
+			else diagram.call("clue_anchor", id) if fmt == "clue"
 			else diagram.call("notation_anchor", id) if fmt == "notation"
 			else diagram.call("hotspot_anchor", id) if fmt == "hotspot" and blank_hit_target
 			else _diagram_anchor(spec, fmt)
@@ -1486,6 +1496,50 @@ func _offer_concept_help(item: Dictionary) -> void:
 		return
 	# In esame la soluzione corrente non deve essere raggiungibile dalla prova.
 	_help_button.visible = str(session.get("kind", "mission")) != "final_exam" and str(item.get("topic", "")) != ""
+
+## Il pulsante che scopre l'indizio successivo.
+##
+## Il primo indizio è già scoperto quando la prova comincia: partire da zero
+## informazioni non è una scelta strategica, è solo un tocco obbligato prima di
+## poter cominciare a pensare.
+##
+## Scoprire un indizio NON costa energia e non toglie punti. In un gioco che per
+## contratto non punisce, il prezzo è soltanto la soddisfazione in meno di
+## averne usati pochi — e il rischio, che c'è già: rispondere presto e sbagliare
+## costa uno scudo come qualunque altro errore.
+func _build_clue_button(item: Dictionary) -> void:
+	_clues_revealed = 1
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_clues_revealed", _clues_revealed)
+	var totale := Array(item.get("clues", [])).size()
+	_clue_button = Button.new()
+	_clue_button.name = "RevealClueButton"
+	_clue_button.custom_minimum_size = Vector2(0, 48)
+	_clue_button.focus_mode = Control.FOCUS_ALL
+	_clue_button.add_theme_font_size_override("font_size", 15)
+	_clue_button.add_theme_color_override("font_color", Color("06272a"))
+	_clue_button.add_theme_stylebox_override(
+		"normal", _exercise_button_style(Color("6be7d6"), Color("d8fff8")))
+	_clue_button.pressed.connect(_reveal_clue.bind(totale))
+	_options.add_child(_clue_button)
+	_refresh_clue_button(totale)
+
+func _reveal_clue(totale: int) -> void:
+	if _answered or _clues_revealed >= totale:
+		return
+	_clues_revealed += 1
+	if is_instance_valid(_visual_diagram):
+		_visual_diagram.call("set_clues_revealed", _clues_revealed)
+	_refresh_clue_button(totale)
+
+func _refresh_clue_button(totale: int) -> void:
+	if not is_instance_valid(_clue_button):
+		return
+	var restano := totale - _clues_revealed
+	_clue_button.disabled = restano <= 0
+	_clue_button.text = (
+		"CHIEDI UN INDIZIO (ne restano %d)" % restano if restano > 0
+		else "NESSUN ALTRO INDIZIO")
 
 func _request_concept_help() -> void:
 	if _index < 0 or _index >= _nodes.size():

@@ -119,8 +119,6 @@ raggiungibili, sedici regali, sette opinioni, legame monotono, e dentro una
 prova solo lo starnuto. L'audit è stato provato togliendo `sneeze` dal catalogo:
 diventa rosso su quattro righe.
 
-Il 6 resta aperto di proposito: a rischio più basso del 5, e in coda.
-
 ### 3.1 Il punto 5, come è stato deciso e cosa ha rivelato
 
 Quattro decisioni prese col committente il 5 agosto 2026:
@@ -167,6 +165,41 @@ esattamente il contrario di «sdrammatizzare senza segnalare».
 davvero, NORA resta zitta anche quando il conteggio del duetto generale
 cadrebbe esattamente sul terzo evento). Verificato disattivando il silenzio: il
 duetto commenta, l'audit diventa rosso.
+
+### 3.2 Il punto 6
+
+`near_unexplored`/`near_faded` erano dichiarati in `pet_expression_engine.gd`
+dal primo giorno del Custode e non erano mai stati emessi — due segnali morti
+quanto lo starnuto lo era prima del punto 5, per lo stesso motivo di fondo:
+nessuno aveva mai provato a farli succedere davvero.
+
+**Curioso**, su un incontro non esplorato: riusa il sistema di ingresso già
+esistente (`on_interactable_entered`), fisico e non a polling — nessuna
+struttura nuova. Filtra per `kind` in `["encounter", "enigma", "minigame"]`:
+portali, landmark e abitanti sono sempre lì, non sono un'esplorazione.
+
+**Attento**, vicino a uno Sbiadito: un controllo ogni due secondi (non ogni
+fotogramma) su un raggio più largo del contatto che respinge Eli — un avviso
+atmosferico prima del rimbalzo, non un'informazione nuova: lo Sbiadito è già
+visibile a schermo.
+
+**Cosa ha rivelato l'implementazione**: `curioso` e `attento` erano dichiarate
+a durata indefinita (`0.0` = restano finché qualcosa non le sostituisce) da
+quando i segnali sono stati progettati. Senza un segnale esplicito di «te ne
+sei allontanato», la prima occhiata curiosa sarebbe rimasta incollata in
+faccia per il resto della sessione. Cambiate a durata finita (3,0s e 2,5s): si
+puliscono da sole, come ogni altra faccia del catalogo.
+
+Un'altra cosa emersa provando: un Custode appena concesso non può mostrare né
+l'una né l'altra. `curioso` sblocca a legame 0,25, `attento` a 0,65
+(`PetState.BOND_UNLOCKS`) — è la stessa logica «avanza in carattere» degli
+altri sblocchi, non un'eccezione per questo intervento.
+
+`pet_world_awareness_audit` prova: nessuna reazione senza Custode concesso;
+nessuna reazione a portali/landmark/abitanti; la reazione parte su un incontro
+vero e su uno Sbiadito vicino; entrambe si puliscono da sole passata la
+durata. Verificato disattivando ciascun percorso separatamente: l'audit
+diventa rosso su entrambi.
 
 ---
 

@@ -23,8 +23,14 @@ const NEGATIVE_FACES: Array = []
 const CATALOG := {
 	"sereno": {"priority": 0, "duration": 0.0},
 	"offeso": {"priority": 10, "duration": 3.0},
-	"curioso": {"priority": 20, "duration": 0.0},
-	"attento": {"priority": 30, "duration": 0.0},
+	# «curioso» e «attento» erano indefinite (0.0 = restano finché qualcosa non
+	# le sostituisce) da quando i segnali sono stati dichiarati — ma finché
+	# `near_unexplored`/`near_faded` non erano mai emessi, nessuno se n'era
+	# accorto: senza un segnale esplicito di «te ne sei allontanato», la faccia
+	# sarebbe rimasta incollata alla prima occhiata curiosa per il resto della
+	# sessione. Una durata finita si pulisce da sola.
+	"curioso": {"priority": 20, "duration": 3.0},
+	"attento": {"priority": 30, "duration": 2.5},
 	"concentrato": {"priority": 40, "duration": 0.0},
 	"impicciato": {"priority": 50, "duration": 2.0},
 	"orgoglioso": {"priority": 60, "duration": 2.2},

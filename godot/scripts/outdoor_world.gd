@@ -555,9 +555,22 @@ func _maestro_voice_for_session(session: Dictionary) -> Dictionary:
 			out[pool] = str(lines[posmod(hash("%s:%s" % [salt, pool]), lines.size())])
 	return out
 
+## Sensore ambientale, non un contatto: raggio più largo di `EnemyContact` (che
+## respinge Eli), controllato ogni due secondi e non a ogni fotogramma — quattro
+## nemici al massimo per mondo, ma non c'è motivo di ricalcolare le distanze
+## sessanta volte al secondo per un avviso puramente atmosferico. Lo Sbiadito è
+## già visibile a schermo: la faccia non rivela nulla che il bambino non veda.
+const PET_FADED_SENSE_RADIUS := 110.0
+const PET_FADED_CHECK_INTERVAL := 2.0
+var _pet_faded_check_elapsed := 0.0
+
 func _process(delta: float) -> void:
 	if is_instance_valid(pet_companion):
 		pet_companion.set_antics_blocked(_blocking_panel_visible())
+	_pet_faded_check_elapsed += delta
+	if _pet_faded_check_elapsed >= PET_FADED_CHECK_INTERVAL:
+		_pet_faded_check_elapsed = 0.0
+		_pet_check_faded_proximity()
 	day_clock = fmod(day_clock + delta, DAY_LENGTH)
 	var daylight := (sin(day_clock / DAY_LENGTH * TAU - PI / 2.0) + 1.0) * 0.5
 	var phase_id := "giorno" if daylight > 0.72 else "alba" if daylight > 0.42 else "notte"
@@ -2029,6 +2042,18 @@ func _create_world_enemies() -> void:
 		enemy.reduced_motion = reduced_motion
 		world_layer.add_child(enemy)
 
+## Il Custode si irrigidisce vicino a uno Sbiadito, prima ancora del contatto
+## che respinge Eli. Vedi docs/CUSTODE_LIVELLO_AVANZATO.md §Asse B.
+func _pet_check_faded_proximity() -> void:
+	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
+		return
+	if not enemy_gameplay_active():
+		return
+	for enemy in get_tree().get_nodes_in_group("world_enemy"):
+		if enemy is Node2D and player.global_position.distance_to((enemy as Node2D).global_position) <= PET_FADED_SENSE_RADIUS:
+			_pet_react("near_faded")
+			return
+
 func enemy_gameplay_active() -> bool:
 	return (
 		is_instance_valid(player)
@@ -3296,7 +3321,22 @@ func on_interactable_entered(area: Area2D, body: Node) -> void:
 		return
 	if not nearby.has(area):
 		nearby.append(area)
+		_pet_notice_poi(area)
 	_refresh_prompt()
+
+## Le uniche destinazioni che contano come «da esplorare»: un incontro, un
+## enigma o un minigioco non ancora completato — per costruzione, quelli
+## completati non arrivano mai qui (l'area smette di monitorare all'ingresso).
+## Portali, landmark e abitanti sono sempre lì e non sono un'esplorazione.
+## Vedi docs/CUSTODE_LIVELLO_AVANZATO.md §Asse B.
+const PET_POI_KINDS := ["encounter", "enigma", "minigame"]
+
+func _pet_notice_poi(area: Area2D) -> void:
+	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
+		return
+	if not PET_POI_KINDS.has(str(area.get_meta("kind", ""))):
+		return
+	_pet_react("near_unexplored")
 
 func on_interactable_exited(area: Area2D, body: Node) -> void:
 	if not body.is_in_group("player"):

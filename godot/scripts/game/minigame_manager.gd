@@ -3131,6 +3131,148 @@ const ORDERING_UNIQUE := ["label", "value"]  # voci {label, value}
 ## sono le cinque righe, i dispari sono gli spazi, e fuori scala servono le
 ## linee addizionali. In chiave di violino le righe sono Mi Sol Si Re Fa e gli
 ## spazi Fa La Do Mi.
+# LINEA DEL TEMPO: conta la DISTANZA, non solo l'ordine.
+#
+# Un ordinamento mette in fila due fatti a dieci anni e due a quattro secoli
+# esattamente allo stesso modo. Sulla linea del tempo no — e quella differenza
+# è tutta la storia.
+const TIMELINE := {
+	"storia": [
+		{"topic": "cronologia", "minLevel": 8, "prompt": "Quale evento è il più vicino nel tempo alla caduta dell'Impero romano d'Occidente?",
+			"min": -800.0, "max": 1500.0,
+			"labels": [{"value": -800.0, "text": "800 a.C."}, {"value": 0.0, "text": "0"}, {"value": 476.0, "text": "476"}, {"value": 1500.0, "text": "1500"}],
+			"targets": [{"id": "a", "label": "Fondazione di Roma (753 a.C.)", "value": -753.0}, {"id": "b", "label": "Nascita di Augusto imperatore (27 a.C.)", "value": -27.0}, {"id": "c", "label": "Editto di Costantino (313)", "value": 313.0}, {"id": "d", "label": "Scoperta dell'America (1492)", "value": 1492.0}],
+			"answer": "c",
+			"explanation": "Sulla linea del tempo si vede quello che una fila non mostra: fra l'editto e la caduta passano 163 anni, fra la caduta e Colombo più di mille. Erano vicine solo nell'elenco."},
+		{"topic": "cronologia", "minLevel": 14, "prompt": "Quale evento cade nel mezzo fra gli altri due estremi?",
+			"min": 1400.0, "max": 1950.0,
+			"labels": [{"value": 1400.0, "text": "1400"}, {"value": 1700.0, "text": "1700"}, {"value": 1950.0, "text": "1950"}],
+			"targets": [{"id": "a", "label": "Stampa a caratteri mobili (1455)", "value": 1455.0}, {"id": "b", "label": "Rivoluzione francese (1789)", "value": 1789.0}, {"id": "c", "label": "Prima guerra mondiale (1914)", "value": 1914.0}],
+			"answer": "b",
+			"explanation": "Il 1789 sta quasi a metà fra il 1455 e il 1914. Guardare le distanze invece dell'ordine cambia il senso: fra stampa e rivoluzione passano più di tre secoli, fra rivoluzione e guerra poco più di uno."},
+	],
+	"musica": [
+		{"topic": "compositori", "minLevel": 16, "prompt": "Quale compositore è vissuto più lontano nel tempo dagli altri due?",
+			"min": 1650.0, "max": 1950.0,
+			"labels": [{"value": 1650.0, "text": "1650"}, {"value": 1800.0, "text": "1800"}, {"value": 1950.0, "text": "1950"}],
+			"targets": [{"id": "a", "label": "Vivaldi (1678)", "value": 1678.0}, {"id": "b", "label": "Beethoven (1770)", "value": 1770.0}, {"id": "c", "label": "Debussy (1862)", "value": 1862.0}],
+			"answer": "a",
+			"explanation": "Vivaldi è barocco, Beethoven a cavallo fra classico e romantico, Debussy quasi novecentesco. Le distanze sulla linea sono anche distanze di linguaggio musicale."},
+	],
+	"italiano": [
+		{"topic": "testo-narrativo", "minLevel": 10, "prompt": "Quale opera è la più antica?",
+			"min": 1250.0, "max": 1900.0,
+			"labels": [{"value": 1300.0, "text": "1300"}, {"value": 1600.0, "text": "1600"}, {"value": 1900.0, "text": "1900"}],
+			"targets": [{"id": "a", "label": "Divina Commedia (1321)", "value": 1321.0}, {"id": "b", "label": "Orlando furioso (1532)", "value": 1532.0}, {"id": "c", "label": "I promessi sposi (1827)", "value": 1827.0}],
+			"answer": "a",
+			"explanation": "Fra Dante e Manzoni passano cinquecento anni: la lingua italiana in mezzo cambia più di quanto sia cambiata dal 1827 a oggi."},
+	],
+}
+
+# COMPOSITORE: si SCELGONO i pezzi, non si riordinano quelli dati.
+#
+# La differenza con l'ordinamento è che qui esistono pezzi sbagliati, ed è lì
+# l'insegnamento: la concordanza che non torna, la desinenza presa dalla
+# declinazione sbagliata, l'ausiliare che in inglese va prima del soggetto, i
+# due punti che in Python aprono il blocco.
+const COMPOSE := {
+	"italiano": [
+		{"topic": "analisi-grammaticale", "minLevel": 3, "prompt": "Completa la frase scegliendo la forma che concorda.",
+			"slots": [{"text": "Le"}, {"text": "bambine"}, {"text": ""}, {"text": "in giardino"}],
+			"targets": [{"id": "a", "label": "corre"}, {"id": "b", "label": "corrono"}, {"id": "c", "label": "correva"}],
+			"answer": "b",
+			"explanation": "Il soggetto è plurale, quindi il verbo va al plurale: «le bambine corrono». Gli altri due sono verbi giusti con l'accordo sbagliato — ed è l'accordo, non il verbo, che questa prova chiede."},
+		{"topic": "ortografia", "minLevel": 6, "prompt": "Completa la frase con la forma corretta.",
+			"slots": [{"text": "Non so"}, {"text": ""}, {"text": "ne abbia parlato"}],
+			"targets": [{"id": "a", "label": "se"}, {"id": "b", "label": "sé"}, {"id": "c", "label": "s'è"}],
+			"answer": "a",
+			"explanation": "Qui «se» introduce una domanda indiretta e non vuole accento. «Sé» è il pronome riflessivo, «s'è» sta per «si è»: tre parole diverse che suonano identiche."},
+	],
+	"latino": [
+		{"topic": "declinazioni-base", "minLevel": 5, "prompt": "Completa la forma: accusativo singolare di «rosa».",
+			"slots": [{"text": "ros"}, {"text": ""}],
+			"targets": [{"id": "a", "label": "-am"}, {"id": "b", "label": "-ae"}, {"id": "c", "label": "-is"}],
+			"answer": "a",
+			"explanation": "L'accusativo singolare della prima declinazione esce in -am. «-ae» è genitivo o nominativo plurale, «-is» appartiene alla terza: le desinenze sbagliate qui sono vere desinenze, prese dal posto sbagliato."},
+	],
+	"inglese": [
+		{"topic": "question", "minLevel": 7, "prompt": "Completa la domanda mettendo l'ausiliare al posto giusto.",
+			"slots": [{"text": "Where"}, {"text": ""}, {"text": "you live?"}],
+			"targets": [{"id": "a", "label": "do"}, {"id": "b", "label": "are"}, {"id": "c", "label": "does"}],
+			"answer": "a",
+			"explanation": "In inglese la domanda inverte: dopo il «where» viene l'ausiliare e poi il soggetto. Con «you» l'ausiliare è «do» — «does» vale solo per lui, lei, esso."},
+	],
+	"coding": [
+		{"topic": "sequenza", "minLevel": 4, "prompt": "Completa la riga perché il ciclo sia sintatticamente valido.",
+			"slots": [{"text": "for i in range(5)"}, {"text": ""}],
+			"targets": [{"id": "a", "label": ":"}, {"id": "b", "label": ";"}, {"id": "c", "label": "niente"}],
+			"answer": "a",
+			"explanation": "In Python i due punti aprono il blocco: senza, l'interprete non sa dove comincia il corpo del ciclo. Il punto e virgola non serve, ed è l'abitudine che arriva da altri linguaggi."},
+	],
+	"musica": [
+		{"topic": "intervalli", "minLevel": 12, "prompt": "Completa l'accordo di Do maggiore.",
+			"slots": [{"text": "Do"}, {"text": ""}, {"text": "Sol"}],
+			"targets": [{"id": "a", "label": "Mi"}, {"id": "b", "label": "Fa"}, {"id": "c", "label": "Re"}],
+			"answer": "a",
+			"explanation": "L'accordo maggiore è fondamentale, terza maggiore e quinta: Do-Mi-Sol. Fa e Re sono note vicinissime, e proprio per questo sono l'errore che si fa davvero."},
+	],
+	"matematica": [
+		{"topic": "calcolo", "minLevel": 6, "prompt": "Completa l'espressione perché il risultato sia 20.",
+			"slots": [{"text": "4"}, {"text": ""}, {"text": "5"}],
+			"targets": [{"id": "a", "label": "×"}, {"id": "b", "label": "+"}, {"id": "c", "label": "−"}],
+			"answer": "a",
+			"explanation": "Quattro per cinque fa venti. Scegliere l'operazione invece di eseguirla obbliga a ragionare al contrario, partendo dal risultato — che è quello che serve per risolvere un problema."},
+	],
+}
+
+# TRACCIATORE: si ESEGUE passo per passo e si dichiara lo stato finale.
+#
+# Insegna la cosa più difficile da dire a parole — che una sequenza si simula,
+# non si indovina. È la tabella di traccia di chi programma, ed è lo stesso
+# gesto con cui si segue la corrente in un circuito o l'acqua in un bacino.
+const TRACE := {
+	"coding": [
+		{"topic": "algoritmi", "minLevel": 5, "prompt": "Segui il ciclo: quanto vale il contatore alla fine?",
+			"steps": [{"label": "i = 0", "state": "0"}, {"label": "primo giro: i = i + 3", "state": "3"}, {"label": "secondo giro: i = i + 3", "state": "6"}, {"label": "terzo giro: i = i + 3", "state": ""}],
+			"targets": [{"id": "a", "label": "6"}, {"id": "b", "label": "9"}, {"id": "c", "label": "12"}],
+			"answer": "b",
+			"explanation": "Ogni giro aggiunge tre: 0, 3, 6, 9. È la tabella di traccia, e si compila una riga per volta — provare a indovinare il risultato finale senza scriverlo è dove si sbaglia."},
+		{"topic": "algoritmi", "minLevel": 11, "prompt": "Segui il ciclo: quanto vale il totale alla fine?",
+			"steps": [{"label": "totale = 1", "state": "1"}, {"label": "totale = totale × 2", "state": "2"}, {"label": "totale = totale × 2", "state": "4"}, {"label": "totale = totale × 2", "state": ""}],
+			"targets": [{"id": "a", "label": "6"}, {"id": "b", "label": "8"}, {"id": "c", "label": "16"}],
+			"answer": "b",
+			"explanation": "Raddoppiando tre volte da 1 si arriva a 8, non a 6: moltiplicare ripetutamente non è sommare. È la differenza fra crescita lineare ed esponenziale, vista su tre righe."},
+	],
+	"matematica": [
+		{"topic": "calcolo", "minLevel": 4, "prompt": "Applica le operazioni in ordine: che numero esce?",
+			"steps": [{"label": "parti da 7", "state": "7"}, {"label": "aggiungi 5", "state": "12"}, {"label": "dividi per 3", "state": "4"}, {"label": "moltiplica per 10", "state": ""}],
+			"targets": [{"id": "a", "label": "40"}, {"id": "b", "label": "34"}, {"id": "c", "label": "120"}],
+			"answer": "a",
+			"explanation": "Quattro per dieci fa quaranta. L'ordine conta: cambiando l'ultimo passo con il secondo il risultato sarebbe diverso, ed è la ragione per cui le operazioni si eseguono una per volta."},
+	],
+	"elettronica": [
+		{"topic": "circuito", "minLevel": 9, "prompt": "Segui la corrente: che cosa succede alla lampadina?",
+			"steps": [{"label": "la pila fornisce tensione", "state": "corrente presente"}, {"label": "l'interruttore è chiuso", "state": "corrente passa"}, {"label": "il secondo interruttore si apre", "state": ""}],
+			"targets": [{"id": "a", "label": "resta accesa"}, {"id": "b", "label": "si spegne"}, {"id": "c", "label": "diventa più forte"}],
+			"answer": "b",
+			"explanation": "In serie basta un'interruzione qualunque per fermare tutto: non conta che il primo interruttore sia chiuso. È il motivo per cui le vecchie file di lucine si spegnevano tutte insieme."},
+	],
+	"geografia": [
+		{"topic": "geografia-fisica", "minLevel": 8, "prompt": "Segui l'acqua che cade sulle Alpi: dove finisce?",
+			"steps": [{"label": "pioggia sulle Alpi", "state": "torrente"}, {"label": "il torrente scende a valle", "state": "affluente"}, {"label": "l'affluente entra nel Po", "state": "fiume"}, {"label": "il Po arriva alla fine del suo corso", "state": ""}],
+			"targets": [{"id": "a", "label": "mar Tirreno"}, {"id": "b", "label": "mare Adriatico"}, {"id": "c", "label": "lago di Garda"}],
+			"answer": "b",
+			"explanation": "Il Po scorre da ovest a est e sfocia nell'Adriatico. Seguire l'acqua passo per passo è anche il modo in cui si legge un bacino idrografico su una carta."},
+	],
+	"logica": [
+		{"topic": "deduzioni", "minLevel": 7, "prompt": "Applica le eliminazioni in ordine: chi resta?",
+			"steps": [{"label": "in gara: Ada, Bruno, Carla, Dino", "state": "4 rimasti"}, {"label": "non è un maschio", "state": "Ada, Carla"}, {"label": "il nome non finisce per -a", "state": ""}],
+			"targets": [{"id": "a", "label": "Ada"}, {"id": "b", "label": "Carla"}, {"id": "c", "label": "nessuno"}],
+			"answer": "c",
+			"explanation": "Dopo la prima eliminazione restano due nomi che finiscono entrambi per -a: la seconda condizione li toglie tutti. Un indovinello può non avere soluzione, e accorgersene è parte del ragionamento."},
+	],
+}
+
 # BILANCIA: due cose diverse che pesano uguale.
 #
 # È l'unico formato che MOSTRA l'equivalenza invece di chiederla — un'equazione
@@ -3515,6 +3657,7 @@ const HOTSPOT := {
 const FORMATS := [
 	"matching", "ordering", "classification", "graph", "circuit", "cycle",
 	"notation", "map", "hotspot", "code_debug", "number_line", "balance",
+	"timeline", "compose", "trace",
 ]
 
 static func table_for(fmt: String) -> Dictionary:
@@ -3529,6 +3672,9 @@ static func table_for(fmt: String) -> Dictionary:
 		"map": return MAP_READING
 		"number_line": return NUMBER_LINE
 		"balance": return BALANCE
+		"timeline": return TIMELINE
+		"compose": return COMPOSE
+		"trace": return TRACE
 		"hotspot": return HOTSPOT
 		"code_debug": return CODE_DEBUG
 	return {}
@@ -3799,6 +3945,12 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		specialists.append("notation")
 	if BALANCE.has(subject) and _has_eligible(BALANCE[subject], level):
 		specialists.append("balance")
+	if TIMELINE.has(subject) and _has_eligible(TIMELINE[subject], level):
+		specialists.append("timeline")
+	if COMPOSE.has(subject) and _has_eligible(COMPOSE[subject], level):
+		specialists.append("compose")
+	if TRACE.has(subject) and _has_eligible(TRACE[subject], level):
+		specialists.append("trace")
 	if NUMBER_LINE.has(subject) and _has_eligible(NUMBER_LINE[subject], level):
 		specialists.append("number_line")
 	if MAP_READING.has(subject) and format_available(subject, "map", level):
@@ -3843,6 +3995,12 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 				nodes.append(_cycle_node(subject, _pick(CYCLE[subject], generator, level), difficulty, generator, idx))
 			"notation":
 				nodes.append(_notation_node(subject, _pick(NOTATION[subject], generator, level), difficulty, generator, idx))
+			"timeline":
+				nodes.append(_timeline_node(subject, _pick(TIMELINE[subject], generator, level), difficulty, generator, idx))
+			"compose":
+				nodes.append(_compose_node(subject, _pick(COMPOSE[subject], generator, level), difficulty, generator, idx))
+			"trace":
+				nodes.append(_trace_node(subject, _pick(TRACE[subject], generator, level), difficulty, generator, idx))
 			"balance":
 				nodes.append(_balance_node(subject, _pick(BALANCE[subject], generator, level), difficulty, generator, idx))
 			"number_line":
@@ -4012,6 +4170,59 @@ func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: Ran
 		"prompt": str(question["prompt"]),
 		"staff": (spec["staff"] as Dictionary).duplicate(true),
 		"symbols": symbols,
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
+	}
+
+func _timeline_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
+	var targets: Array = (spec["targets"] as Array).duplicate(true)
+	_shuffle(targets, rng)
+	return {
+		"id": "minigame-timeline-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "timeline",
+		"prompt": str(question["prompt"]),
+		"min": float(spec.get("min", 0.0)),
+		"max": float(spec.get("max", 100.0)),
+		"labels": (spec.get("labels", []) as Array).duplicate(true),
+		"targets": targets,
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
+	}
+
+func _compose_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
+	var targets: Array = (spec["targets"] as Array).duplicate(true)
+	_shuffle(targets, rng)
+	return {
+		"id": "minigame-compose-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "compose",
+		"prompt": str(question["prompt"]),
+		"slots": (spec.get("slots", []) as Array).duplicate(true),
+		"targets": targets,
+		"answer": str(question["answer"]),
+		"explanation": str(question["explanation"]),
+	}
+
+func _trace_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var question := question_of(spec, idx)
+	var targets: Array = (spec["targets"] as Array).duplicate(true)
+	_shuffle(targets, rng)
+	return {
+		"id": "minigame-trace-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": str(spec["topic"]),
+		"difficulty": difficulty,
+		"format": "trace",
+		"prompt": str(question["prompt"]),
+		"steps": (spec.get("steps", []) as Array).duplicate(true),
+		"targets": targets,
 		"answer": str(question["answer"]),
 		"explanation": str(question["explanation"]),
 	}

@@ -38,7 +38,15 @@ func _test_costruzione_tutte_materie() -> void:
 			assert(fmt in MinigameManager.FORMATS, "formato inatteso (%s): %s" % [subject, fmt])
 			assert(str(node.get("topic", "")) != "", "topic vuoto (%s)" % subject)
 			assert(int(node.get("difficulty", 0)) in [1, 2, 3, 4], "difficoltà invalida (%s)" % subject)
-			if fmt in ["graph", "circuit", "cycle", "notation", "map", "hotspot", "code_debug"]:
+			if fmt in [
+				"graph", "circuit", "cycle", "notation", "map", "hotspot", "code_debug",
+				# I formati a SELEZIONE aggiunti il 5 agosto 2026. Il ramo `else`
+				# qui sotto pretende un `correctOrder`, perché quando è stato
+				# scritto ogni formato non-abbinamento era di sequenza: senza
+				# questa riga un formato a selezione ci finiva dentro e l'audit
+				# lo dichiarava «sequenza troppo corta».
+				"number_line", "balance", "timeline", "compose", "trace",
+			]:
 				# Formati specialisti: valida col contratto comune.
 				var res := ExerciseInteraction.validate(node)
 				assert(bool(res["ok"]), "nodo %s non valido (%s): %s" % [fmt, subject, str(res["errors"])])

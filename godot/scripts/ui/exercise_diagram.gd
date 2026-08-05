@@ -101,6 +101,12 @@ func _draw() -> void:
 			_draw_number_line(bounds)
 		"balance":
 			_draw_balance(bounds)
+		"timeline":
+			_draw_timeline(bounds)
+		"compose":
+			_draw_compose(bounds)
+		"trace":
+			_draw_trace(bounds)
 		_:
 			_draw_hotspot(bounds)
 	_draw_selection_feedback()
@@ -528,6 +534,124 @@ func _draw_balance(bounds: Rect2) -> void:
 
 ## I candidati stanno in fila sotto la bilancia: sono oggetti da provare, non
 ## punti di un disegno, e allinearli rende leggibile il confronto fra loro.
+## LINEA DEL TEMPO. Come la retta numerica, ma la scala sono gli anni e i
+## bersagli portano un'etichetta scritta: qui conta la **distanza** fra gli
+## eventi, non solo il loro ordine. Due fatti a dieci anni uno dall'altro e due
+## a quattro secoli si mettono in fila allo stesso modo in un ordinamento;
+## sulla linea del tempo no, e la differenza è tutta la storia.
+func _draw_timeline(bounds: Rect2) -> void:
+	var ink := Color("d8fff8")
+	var y := bounds.position.y + bounds.size.y * 0.46
+	var x0 := bounds.position.x + bounds.size.x * 0.09
+	var x1 := bounds.position.x + bounds.size.x * 0.91
+	draw_line(Vector2(x0, y), Vector2(x1, y), ink, 2.6, true)
+	var minimo := float(model.get("min", 0.0))
+	var massimo := float(model.get("max", 100.0))
+	var estensione := maxf(0.0001, massimo - minimo)
+	var font := ThemeDB.fallback_font
+	for voce in Array(model.get("labels", [])):
+		var etichetta := voce as Dictionary
+		var x := lerpf(x0, x1, (float(etichetta.get("value", 0.0)) - minimo) / estensione)
+		draw_line(Vector2(x, y - 12.0), Vector2(x, y + 12.0), Color("f6c85f"), 2.2, true)
+		var testo := str(etichetta.get("text", ""))
+		draw_string(font, Vector2(x - testo.length() * 3.6, y + 32.0), testo,
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("9fc4bb"))
+	# I bersagli: un gambo che li stacca dall'asse, così etichette vicine non si
+	# accavallano e restano toccabili anche quando due date sono a un anno.
+	var voci: Array = Array(model.get("targets", []))
+	for i in voci.size():
+		var b := voci[i] as Dictionary
+		var x := lerpf(x0, x1, (float(b.get("value", 0.0)) - minimo) / estensione)
+		var alto := (i % 2) == 0
+		var cima := y + (-46.0 if alto else 46.0)
+		draw_line(Vector2(x, y), Vector2(x, cima), Color("6be7d6"), 1.8, true)
+		draw_circle(Vector2(x, cima), 6.0, Color("6be7d6"))
+
+func timeline_anchor(target_id: String) -> Vector2:
+	var voci: Array = Array(model.get("targets", []))
+	for i in voci.size():
+		var b := voci[i] as Dictionary
+		if str(b.get("id", "")) != target_id:
+			continue
+		var minimo := float(model.get("min", 0.0))
+		var massimo := float(model.get("max", 100.0))
+		var frazione := (float(b.get("value", 0.0)) - minimo) / maxf(0.0001, massimo - minimo)
+		return Vector2(lerpf(0.09, 0.91, clampf(frazione, 0.0, 1.0)), 0.30 if (i % 2) == 0 else 0.62)
+	return Vector2(0.5, 0.46)
+
+## COMPOSITORE. Le caselle di ciò che si sta costruendo, una vuota. I candidati
+## stanno sotto e alcuni sono **sbagliati di proposito**: è lì l'insegnamento —
+## la concordanza che non torna, la desinenza di un'altra declinazione, i due
+## punti che mancano.
+func _draw_compose(bounds: Rect2) -> void:
+	var ink := Color("d8fff8")
+	var pezzi: Array = Array(model.get("slots", []))
+	if pezzi.is_empty():
+		return
+	var larghezza := minf(150.0, (bounds.size.x * 0.86) / float(pezzi.size()))
+	var totale := larghezza * float(pezzi.size())
+	var x := bounds.position.x + (bounds.size.x - totale) * 0.5
+	var y := bounds.position.y + bounds.size.y * 0.34
+	var font := ThemeDB.fallback_font
+	for voce in pezzi:
+		var casella := voce as Dictionary
+		var testo := str(casella.get("text", ""))
+		var vuota := testo == ""
+		var rect := Rect2(Vector2(x + 5.0, y), Vector2(larghezza - 10.0, 52.0))
+		draw_rect(rect, Color(0.42, 0.90, 0.84, 0.16) if vuota else Color(0.03, 0.15, 0.18, 0.9))
+		draw_rect(rect, Color("6be7d6") if vuota else Color(0.42, 0.90, 0.84, 0.45), false, 2.0)
+		var mostrato := "?" if vuota else testo
+		draw_string(font, rect.position + Vector2(maxf(8.0, (rect.size.x - mostrato.length() * 8.0) * 0.5), 33.0),
+			mostrato, HORIZONTAL_ALIGNMENT_LEFT, -1, 17,
+			Color("6be7d6") if vuota else ink)
+		x += larghezza
+
+func compose_anchor(target_id: String) -> Vector2:
+	var voci: Array = Array(model.get("targets", []))
+	var indice := 0
+	for i in voci.size():
+		if str((voci[i] as Dictionary).get("id", "")) == target_id:
+			indice = i
+			break
+	var x := 0.5 if voci.size() <= 1 else lerpf(0.16, 0.84, float(indice) / float(voci.size() - 1))
+	return Vector2(x, 0.80)
+
+## TRACCIATORE. I passi già eseguiti con lo stato dopo ognuno, e l'ultimo
+## coperto. Insegna la cosa più difficile da dire a parole: che una sequenza
+## **si simula**, non si indovina.
+func _draw_trace(bounds: Rect2) -> void:
+	var ink := Color("d8fff8")
+	var passi: Array = Array(model.get("steps", []))
+	if passi.is_empty():
+		return
+	var font := ThemeDB.fallback_font
+	var y := bounds.position.y + bounds.size.y * 0.16
+	var passo_y := minf(46.0, (bounds.size.y * 0.52) / float(passi.size()))
+	var x := bounds.position.x + bounds.size.x * 0.10
+	for i in passi.size():
+		var p := passi[i] as Dictionary
+		var stato := str(p.get("state", ""))
+		var coperto := stato == ""
+		draw_circle(Vector2(x, y + 8.0), 5.0, Color("6be7d6") if coperto else ink)
+		if i < passi.size() - 1:
+			draw_line(Vector2(x, y + 14.0), Vector2(x, y + passo_y + 2.0), Color(0.42, 0.90, 0.84, 0.5), 1.8, true)
+		draw_string(font, Vector2(x + 16.0, y + 14.0), str(p.get("label", "")),
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 15, ink)
+		var destra := bounds.position.x + bounds.size.x * 0.72
+		draw_string(font, Vector2(destra, y + 14.0), "?" if coperto else stato,
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("6be7d6") if coperto else Color("f6c85f"))
+		y += passo_y
+
+func trace_anchor(target_id: String) -> Vector2:
+	var voci: Array = Array(model.get("targets", []))
+	var indice := 0
+	for i in voci.size():
+		if str((voci[i] as Dictionary).get("id", "")) == target_id:
+			indice = i
+			break
+	var x := 0.5 if voci.size() <= 1 else lerpf(0.18, 0.82, float(indice) / float(voci.size() - 1))
+	return Vector2(x, 0.88)
+
 func balance_anchor(target_id: String) -> Vector2:
 	var voci: Array = Array(model.get("targets", []))
 	var indice := 0

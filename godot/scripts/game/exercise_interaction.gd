@@ -20,7 +20,7 @@ const ArtifactAtlasCatalog = preload("res://scripts/visual/artifact_atlas_catalo
 const IMPLEMENTED := [
 	"multiple_choice", "numeric_input", "short_answer", "ordering", "matching",
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
-	"number_line", "balance",
+	"number_line", "balance", "timeline", "compose", "trace",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -158,6 +158,12 @@ static func validate(node: Dictionary) -> Dictionary:
 			_validate_number_line(node, errors)
 		"balance":
 			_validate_balance(node, errors)
+		"timeline":
+			_validate_timeline(node, errors)
+		"compose":
+			_validate_compose(node, errors)
+		"trace":
+			_validate_trace(node, errors)
 		"code_debug":
 			_validate_code_debug(node, errors)
 		_:
@@ -328,6 +334,97 @@ static func _validate_circuit(node: Dictionary, errors: Array) -> void:
 ## strutturali e insegnerebbe un'equivalenza falsa — che è peggio di non
 ## insegnare niente. È lo stesso genere di controllo che il 3 agosto ha scoperto
 ## 94 domande finite sulla specifica sbagliata: la forma era perfetta, i dati no.
+## LINEA DEL TEMPO. Il controllo proprio: due eventi non possono cadere così
+## vicini da sovrapporsi a schermo. Su una scala di quattro secoli due date a un
+## anno di distanza diventano lo stesso pixel, e la domanda smette di avere una
+## risposta toccabile.
+const TIMELINE_MIN_SEPARAZIONE := 0.02
+
+static func _validate_timeline(node: Dictionary, errors: Array) -> void:
+	var minimo := float(node.get("min", 0.0))
+	var massimo := float(node.get("max", 0.0))
+	var estensione := massimo - minimo
+	if estensione <= 0.0:
+		errors.append("linea del tempo con scala vuota o rovesciata")
+		return
+	var targets: Array = node.get("targets", [])
+	if targets.size() < 2:
+		errors.append("linea del tempo con meno di 2 eventi")
+	if targets.size() > 6:
+		errors.append("linea del tempo con più di 6 eventi: troppo fitta per un dito")
+	var ids: Dictionary = {}
+	var posizioni: Array = []
+	for entry in targets:
+		var b := entry as Dictionary
+		var id := str(b.get("id", ""))
+		if id == "" or ids.has(id):
+			errors.append("evento con id vuoto o duplicato: %s" % id)
+		ids[id] = true
+		if str(b.get("label", "")).strip_edges() == "":
+			errors.append("evento senza etichetta accessibile: %s" % id)
+		var v := float(b.get("value", 0.0))
+		if v < minimo or v > massimo:
+			errors.append("evento «%s» fuori scala: %s" % [id, v])
+		posizioni.append((v - minimo) / estensione)
+	posizioni.sort()
+	for i in range(1, posizioni.size()):
+		if absf(float(posizioni[i]) - float(posizioni[i - 1])) < TIMELINE_MIN_SEPARAZIONE:
+			errors.append("due eventi troppo vicini sulla scala: si sovrappongono a schermo")
+			break
+	if not ids.has(str(node.get("answer", ""))):
+		errors.append("la risposta della linea del tempo non è fra gli eventi")
+
+## COMPOSITORE. Il controllo proprio: deve esserci **esattamente una** casella
+## vuota. Zero e non c'è niente da fare; due e la risposta non è più una sola.
+static func _validate_compose(node: Dictionary, errors: Array) -> void:
+	var slots: Array = node.get("slots", [])
+	if slots.size() < 2:
+		errors.append("composizione con meno di 2 caselle")
+	var vuote := 0
+	for entry in slots:
+		if str((entry as Dictionary).get("text", "")).strip_edges() == "":
+			vuote += 1
+	if vuote != 1:
+		errors.append("la composizione ha %d caselle vuote: ne serve esattamente una" % vuote)
+	_valida_candidati(node, errors, "composizione", 2, 5)
+
+## TRACCIATORE. Il controllo proprio: l'ultimo passo deve essere quello coperto,
+## e tutti gli altri devono mostrare il proprio stato. Un buco a metà catena
+## renderebbe la simulazione impossibile invece che difficile.
+static func _validate_trace(node: Dictionary, errors: Array) -> void:
+	var steps: Array = node.get("steps", [])
+	if steps.size() < 3:
+		errors.append("traccia con meno di 3 passi: non c'è niente da simulare")
+	for i in steps.size():
+		var vuoto := str((steps[i] as Dictionary).get("state", "")).strip_edges() == ""
+		if vuoto and i != steps.size() - 1:
+			errors.append("passo %d senza stato: il buco deve stare solo alla fine" % i)
+		if not vuoto and i == steps.size() - 1:
+			errors.append("l'ultimo passo mostra già lo stato: non c'è domanda")
+		if str((steps[i] as Dictionary).get("label", "")).strip_edges() == "":
+			errors.append("passo %d senza descrizione" % i)
+	_valida_candidati(node, errors, "traccia", 2, 5)
+
+## Candidati offerti sotto un disegno: ids unici, etichette accessibili, e la
+## risposta deve essere uno di loro. Comune a composizione e traccia.
+static func _valida_candidati(node: Dictionary, errors: Array, nome: String, minimo: int, massimo: int) -> void:
+	var targets: Array = node.get("targets", [])
+	if targets.size() < minimo:
+		errors.append("%s con meno di %d candidati" % [nome, minimo])
+	if targets.size() > massimo:
+		errors.append("%s con più di %d candidati: la fila non ci sta" % [nome, massimo])
+	var ids: Dictionary = {}
+	for entry in targets:
+		var b := entry as Dictionary
+		var id := str(b.get("id", ""))
+		if id == "" or ids.has(id):
+			errors.append("%s: candidato con id vuoto o duplicato «%s»" % [nome, id])
+		ids[id] = true
+		if str(b.get("label", "")).strip_edges() == "":
+			errors.append("%s: candidato senza etichetta accessibile «%s»" % [nome, id])
+	if not ids.has(str(node.get("answer", ""))):
+		errors.append("%s: la risposta non è fra i candidati" % nome)
+
 static func _validate_balance(node: Dictionary, errors: Array) -> void:
 	var sinistra := _somma_piatto(node.get("left", []))
 	var destra := _somma_piatto(node.get("right", []))

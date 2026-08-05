@@ -156,10 +156,12 @@ inventato:
   riempire esattamente la battuta, e avanzare spazio è sbagliato quanto
   traboccare. `_validate_balance` verifica l'**aritmetica**, non la forma: una
   bilancia che non pareggia insegnerebbe un'equivalenza falsa;
-- **linea del tempo** (L8+, storia · musica · italiano) — **da fare.** Diversa
-  dall'ordinamento perché conta la *distanza* fra gli eventi, non solo l'ordine.
+- **linea del tempo** (L8+, storia · musica · italiano) — **fatta.** Conta la
+  *distanza*, non solo l'ordine: fra l'editto di Costantino e la caduta di Roma
+  passano 163 anni, fra la caduta e Colombo più di mille — in un ordinamento
+  sono due passi identici.
 
-### Tre strutture nuove da progettare
+### Tre strutture nuove — fatte il 5 agosto
 
 Non varianti di quelle che ci sono: **verbi di interazione** che il gioco oggi
 non ha. Oggi si sa appaiare, mettere in fila, smistare, toccare un punto,
@@ -202,10 +204,17 @@ competenza vera — quale domanda conviene fare.
 | inglese | una parola | classe grammaticale, campo, iniziale |
 | logica | la soluzione di un indovinello | vincoli, uno per volta |
 
-Ognuna costa quanto la retta numerica: una modalità di disegno in
-`exercise_diagram`, una validazione, una tabella di specifiche e un audit. Vanno
-fatte **una per volta e finite** — consegnarne tre a metà è il difetto che
-questo progetto ha già pagato quattro volte.
+Compositore e tracciatore sono **fatti** (7 e 6 specifiche); l'indiziario
+resta, ed è l'unico che chiede un'interazione nuova invece di una selezione:
+gli indizi si scoprono uno per volta e ognuno costa, quindi il pannello deve
+tenere uno stato fra un tocco e l'altro.
+
+Ogni formato ha un controllo che gli altri non hanno, ed è lì che sta il valore
+dell'audit: la bilancia verifica **l'aritmetica**, la linea del tempo che due
+eventi non si sovrappongano sulla scala, il compositore che le caselle vuote
+siano **esattamente una**, il tracciatore che il buco stia **solo alla fine** —
+un buco a metà catena renderebbe la simulazione impossibile invece che
+difficile. Tutti provati rompendoli.
 
 **4 · Reperti e carta.** Qui ho corretto una convinzione sbagliata scrivendo il
 punto: **solo i reperti hanno bisogno di un disegno.** La carta d'Italia è

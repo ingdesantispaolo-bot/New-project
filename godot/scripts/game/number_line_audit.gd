@@ -1,6 +1,7 @@
 extends SceneTree
 
-## **La retta numerica e la bilancia.** (5 agosto 2026)
+## **I formati a selezione**: retta numerica, bilancia, linea del tempo,
+## compositore, tracciatore. (5 agosto 2026)
 ##
 ## Perché è stata aggiunta: `format_shape_probe` ha misurato che a livello 1
 ## matematica non aveva **nessun formato visuale** — solo abbinamenti,
@@ -112,7 +113,32 @@ func _init() -> void:
 	if bilance < 5:
 		failures.append("solo %d bilance: troppo poche per entrare nella rotazione" % bilance)
 
+	# --- 5. Linea del tempo, compositore, tracciatore -------------------------
+	# Ognuno ha un controllo che gli altri non hanno: gli eventi non possono
+	# sovrapporsi sulla scala, le caselle vuote devono essere esattamente una,
+	# e il buco della traccia deve stare solo alla fine.
+	var contati := {"timeline": 0, "compose": 0, "trace": 0}
+	for nome in contati.keys():
+		var tabella: Dictionary = MinigameManager.table_for(str(nome))
+		for materia in tabella.keys():
+			for spec_data in Array(tabella[materia]):
+				var spec := spec_data as Dictionary
+				contati[nome] = int(contati[nome]) + 1
+				var costruttore := "_%s_node" % str(nome)
+				var nodo: Dictionary = mg.call(costruttore, str(materia), spec, 2, rng, 0)
+				var esito := ExerciseInteraction.validate(nodo)
+				if not bool(esito.get("ok", false)):
+					failures.append("%s %s/%s: %s" % [
+						str(nome), str(materia), str(spec.get("topic", "?")), str(esito.get("errors", []))])
+				if str(nodo.get("explanation", "")).strip_edges() == "":
+					failures.append("%s %s: senza spiegazione" % [str(nome), str(materia)])
+		if int(contati[nome]) < 3:
+			failures.append("solo %d specifiche di «%s»: troppo poche per la rotazione" % [
+				int(contati[nome]), str(nome)])
+
 	if failures.is_empty():
+		print("SELEZIONE: linea del tempo %d · compositore %d · tracciatore %d" % [
+			int(contati["timeline"]), int(contati["compose"]), int(contati["trace"])])
 		print("BILANCE: %d specifiche, aritmetica verificata" % bilance)
 		print("NUMBER LINE audit OK — %d specifiche, %d nodi costruiti e giocabili" % [quante, costruiti])
 		quit(0)

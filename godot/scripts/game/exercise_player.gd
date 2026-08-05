@@ -618,7 +618,7 @@ func _show_current() -> void:
 		"classification":
 			_input.visible = false
 			_build_classification(item)
-		"hotspot", "graph", "circuit", "notation", "map", "number_line", "balance":
+		"hotspot", "graph", "circuit", "notation", "map", "number_line", "balance", "timeline", "compose", "trace":
 			_input.visible = false
 			_build_visual_selection(item, fmt)
 		"cycle":
@@ -1103,6 +1103,9 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		"map": "Leggi la carta muta e seleziona il luogo richiesto.",
 		"number_line": "Guarda dove cadono i valori sulla retta e scegli il punto richiesto.",
 		"balance": "I due piatti devono pesare uguale: scegli che cosa manca.",
+		"timeline": "Guarda quanto distano fra loro gli eventi e scegli quello richiesto.",
+		"compose": "Guarda i pezzi già al posto giusto e scegli quello che completa.",
+		"trace": "Segui i passi uno per volta e scegli lo stato finale.",
 	}.get(fmt, "Seleziona il punto corretto.")
 	instruction.add_theme_color_override("font_color", Color("b8d7dc"))
 	_options.add_child(instruction)
@@ -1130,7 +1133,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		diagram_model.get("hotspots", []) if fmt == "hotspot"
 		else item.get("points", []) if fmt == "graph"
 		else item.get("components", []) if fmt == "circuit"
-		else item.get("targets", []) if fmt in ["map", "number_line", "balance"]
+		else item.get("targets", []) if fmt in ["map", "number_line", "balance", "timeline", "compose", "trace"]
 		else item.get("symbols", [])
 	)
 	for point in points:
@@ -1139,7 +1142,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 		var button := Button.new()
 		button.name = "VisualChoice_%s" % id.validate_node_name()
 		var accessible_label := str(spec.get("label", id))
-		var blank_hit_target := fmt in ["notation", "map", "number_line"] or (fmt == "hotspot" and str(item.get("assetId", "")) != "")
+		var blank_hit_target := fmt in ["notation", "map", "number_line", "timeline"] or (fmt == "hotspot" and str(item.get("assetId", "")) != "")
 		button.text = "" if blank_hit_target else accessible_label
 		button.accessibility_name = accessible_label
 		button.set_meta("visual_label", accessible_label)
@@ -1161,6 +1164,9 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 			diagram.call("map_anchor", id) if fmt == "map"
 			else diagram.call("number_line_anchor", id) if fmt == "number_line"
 			else diagram.call("balance_anchor", id) if fmt == "balance"
+			else diagram.call("timeline_anchor", id) if fmt == "timeline"
+			else diagram.call("compose_anchor", id) if fmt == "compose"
+			else diagram.call("trace_anchor", id) if fmt == "trace"
 			else diagram.call("notation_anchor", id) if fmt == "notation"
 			else diagram.call("hotspot_anchor", id) if fmt == "hotspot" and blank_hit_target
 			else _diagram_anchor(spec, fmt)

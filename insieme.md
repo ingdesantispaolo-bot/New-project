@@ -421,6 +421,43 @@ regime non si raggiunge giocando.
 
 ---
 
+## Rigiocare da capo: quanto si trova di nuovo (6 agosto 2026)
+
+Domanda: chi ricomincia dal primo livello trova almeno qualche prova inedita?
+Simulata una campagna intera due volte, sul percorso vero — la materia ospite
+dalle missioni, le altre undici dalla pratica.
+
+| mondo | prima | dopo |
+|---|---:|---:|
+| **1** | **13% inediti** | **50%** |
+| 2–4 | 33–47% | 48–66% |
+| 5–6 | 25–26% | 61% |
+| campagna | **33%** | **59%** |
+
+Il mondo 1 era il peggiore, cioè proprio quello che incontra per primo chi
+ricomincia.
+
+**La causa non era la scarsità di contenuto.** Misurando i due serbatoi
+separatamente, al livello 1: il catalogo interattivo offre **5–16** quesiti
+distinti per materia, i banchi **53–508**. La pratica pescava dal pozzo piccolo
+avendo quello grande accanto — i banchi entravano solo come ripiego, quando il
+catalogo era esaurito *dentro la finestra di memoria*. Al secondo viaggio la
+memoria è vuota, quindi si ripartiva sempre dagli stessi cinque.
+
+**La riparazione è un tetto, non una sostituzione**: al massimo metà sessione
+viene dal catalogo, il resto dai banchi. Abbinare, ordinare e classificare sono
+il motivo per cui la pratica esiste — un allenamento di sole domande a risposta
+sarebbe un compito — ma la varietà deve arrivare da dove ce n'è.
+
+Il cricchetto in `practice_variety_audit` pretende **35% di inediti** rigiocando
+con salvataggio pulito, che è il caso peggiore: memoria vuota, nessun aiuto.
+
+Se un giorno servisse spingere oltre il 59%, la leva non è abbassare ancora il
+tetto — eroderebbe la forma — ma **allargare il catalogo interattivo ai primi
+livelli**, dove ha da 5 a 16 voci contro le 19–32 dei livelli avanzati.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

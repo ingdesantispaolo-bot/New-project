@@ -486,6 +486,19 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 ## visto. Sei bastano: il repertorio di una materia si satura molto prima.
 const PRACTICE_RIESTRAZIONI := 6
 
+## Quanta parte di una sessione di pratica può venire dal catalogo interattivo.
+##
+## Misurato il 6 agosto 2026: al livello 1 il catalogo offre da 5 a 16 quesiti
+## distinti per materia, i banchi da 53 a 508. La pratica pescava dal pozzo
+## piccolo avendo quello grande accanto, e chi rigiocava il primo mondo trovava
+## solo il 13% di esercizi inediti.
+##
+## Non si sostituisce il catalogo: abbinare, ordinare e classificare sono il
+## motivo per cui la pratica esiste, e un allenamento fatto di sole domande a
+## risposta sarebbe un compito. Si mette un tetto — metà sessione — così la forma
+## interattiva resta e la varietà arriva da dove ce n'è.
+const PRACTICE_QUOTA_CATALOGO := 0.5
+
 ## Una sessione di pratica fatta di quesiti che il bambino NON ha appena visto.
 ##
 ## Nasce da una segnalazione di gioco del 6 agosto 2026: lo studente rifaceva la
@@ -537,19 +550,30 @@ func _build_practice_session(subject: String) -> Dictionary:
 			visti_qui[impronta] = true
 			tenuti.append(nodo)
 
-	raccogli.call(Array(session.get("nodes", [])))
+	# Il catalogo per primo, ma fino al tetto: è la forma interattiva che dà
+	# valore alla pratica, non la quantità.
+	var tetto := maxi(1, int(ceil(float(voluti) * PRACTICE_QUOTA_CATALOGO)))
+	raccogli.call(Array(session.get("nodes", [])).slice(0, tetto))
 	var tentativi := 0
-	while tenuti.size() < voluti and tentativi < PRACTICE_RIESTRAZIONI:
+	while tenuti.size() < tetto and tentativi < PRACTICE_RIESTRAZIONI:
 		tentativi += 1
-		raccogli.call(Array(minigame_manager.build_minigame(subject, livello).get("nodes", [])))
+		raccogli.call(Array(minigame_manager.build_minigame(subject, livello).get("nodes", [])).slice(0, tetto))
 
 	if tenuti.size() < voluti:
-		# Il catalogo interattivo è esaurito: si va ai banchi.
+		# Il resto dai banchi, che di fondo ne hanno. Si chiede con abbondanza
+		# perché il filtro dei già visti ne scarterà una parte.
 		var mancano := voluti - tenuti.size()
 		var missione := content_manager.build_mission(
 			subject, livello, mancano * 3, _due(),
 			null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 		raccogli.call(Array(missione.get("nodes", [])))
+
+	# Se i banchi non sono bastati si torna al catalogo senza tetto: meglio un
+	# abbinamento in più che una sessione corta.
+	tentativi = 0
+	while tenuti.size() < voluti and tentativi < PRACTICE_RIESTRAZIONI:
+		tentativi += 1
+		raccogli.call(Array(minigame_manager.build_minigame(subject, livello).get("nodes", [])))
 
 	# Ultima risorsa: si riammettono i già visti, i più vecchi per primi. Non
 	# capita quasi mai, e quando capita è meglio di una sessione vuota.

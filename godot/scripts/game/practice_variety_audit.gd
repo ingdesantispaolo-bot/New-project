@@ -38,6 +38,17 @@ const GIRI_PULITI := 5
 const GIRI_FONDO := 12
 const FONDO_MINIMO := 25
 
+## Quota di quesiti INEDITI che deve trovare chi rigioca un mondo già fatto.
+##
+## Misurata il 6 agosto 2026 su una campagna simulata due volte: era il **13%**
+## nel mondo 1 — chi ricominciava rivedeva quasi tutto, proprio nel mondo che
+## incontra per primo. La causa: la pratica pescava dal catalogo interattivo
+## (5-16 quesiti per casella al livello 1) avendo accanto i banchi (53-508).
+## Mettendo un tetto alla quota di catalogo è salita al 50% nel mondo 1 e al 59%
+## sull'intera campagna. La soglia qui è 35: sotto il misurato, sopra il
+## «rivedo sempre le stesse cose» che l'ha fatta nascere.
+const INEDITI_MINIMI := 0.35
+
 func _init() -> void:
 	var save := GameSaveManager.new()
 	save.data = GameSaveManager._default_data()
@@ -49,6 +60,7 @@ func _init() -> void:
 
 	_prova_memoria(save)
 	_prova_varieta(gameplay, save)
+	_prova_rigiocata(gameplay, save)
 	gameplay.queue_free()
 	print("PRACTICE VARIETY audit OK — %d giri consecutivi senza ripetizioni, fondo >= %d" % [
 		GIRI_PULITI, FONDO_MINIMO])
@@ -120,3 +132,47 @@ func _prova_varieta(gameplay: OutdoorGameplay, save: GameSaveManager) -> void:
 			assert(visti.size() >= FONDO_MINIMO,
 				"%s L%d offre solo %d quesiti distinti in %d giri: il fondo è tornato sottile" % [
 					subject, livello, visti.size(), GIRI_FONDO])
+
+
+## Chi rigioca deve trovare roba nuova.
+##
+## Due passaggi sullo stesso livello con salvataggi diversi — cioè il caso
+## peggiore, quello in cui la memoria del già visto non aiuta perché è vuota. Se
+## regge questo, regge anche la rivisitazione con la memoria piena.
+func _prova_rigiocata(gameplay: OutdoorGameplay, save: GameSaveManager) -> void:
+	var primo: Dictionary = {}
+	for livello in [1, 2]:
+		for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+			var subject := str(subject_data)
+			save.data["recentPractice"] = {}
+			save.data["level"] = livello
+			for _giro in range(3):
+				var testi: Array = []
+				for n in Array(gameplay._build_practice_session(subject).get("nodes", [])):
+					var p := "%s|%d|%s" % [subject, livello, str((n as Dictionary).get("prompt", ""))]
+					primo[p] = true
+					testi.append(str((n as Dictionary).get("prompt", "")))
+				save.remember_practice(subject, testi)
+
+	# Secondo viaggio: salvataggio pulito, come un bambino che ricomincia.
+	var totale := 0
+	var inediti := 0
+	for livello in [1, 2]:
+		for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+			var subject := str(subject_data)
+			save.data["recentPractice"] = {}
+			save.data["level"] = livello
+			for _giro in range(3):
+				var testi: Array = []
+				for n in Array(gameplay._build_practice_session(subject).get("nodes", [])):
+					var testo := str((n as Dictionary).get("prompt", ""))
+					totale += 1
+					if not primo.has("%s|%d|%s" % [subject, livello, testo]):
+						inediti += 1
+					testi.append(testo)
+				save.remember_practice(subject, testi)
+
+	var quota := float(inediti) / maxf(1.0, float(totale))
+	assert(quota >= INEDITI_MINIMI,
+		"chi rigioca trova solo il %.0f%% di esercizi inediti (minimo %.0f%%): il fondo si e ristretto" % [
+			quota * 100.0, INEDITI_MINIMI * 100.0])

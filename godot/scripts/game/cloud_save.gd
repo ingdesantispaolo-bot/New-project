@@ -104,11 +104,17 @@ static func messaggio_errore(stato: int, azione: String) -> String:
 		0:
 			return "Non riesco a raggiungere il cloud. Controlla la connessione: intanto si gioca lo stesso, la partita resta su questo tablet."
 		400:
+			if azione == "gruppo" or azione == "scheda":
+				return "Il codice del gruppo non è scritto bene. Sono tre lettere, un trattino e tre numeri."
 			return "Il codice non è scritto bene. Sono quattro lettere, un trattino e quattro numeri."
 		404:
 			if azione == "scarica":
 				return "Nessuna partita salvata con questo codice. Controlla di averlo ricopiato bene."
+			if azione == "gruppo":
+				return "Non esiste nessun gruppo con questo codice. Controlla di averlo ricopiato bene, oppure creane uno nuovo."
 			return "Il cloud non ha trovato l'indirizzo. Riprova più tardi."
+		409:
+			return "Questo gruppo è pieno: non può accogliere altri giocatori."
 		413:
 			return "Il salvataggio è troppo grande per il cloud."
 		_:
@@ -124,14 +130,14 @@ func occupato() -> bool:
 func scarica(codice: String) -> void:
 	if not _inizia("scarica", codice):
 		return
-	_richiedi(HTTPClient.METHOD_GET, codice, "")
+	_richiedi(HTTPClient.METHOD_GET, "/save/%s" % codice, "")
 
 ## Manda la partita in cloud, sovrascrivendo quella del codice.
 func carica(codice: String, dati: Dictionary, nome: String) -> void:
 	if not _inizia("carica", codice):
 		return
 	_corpo = incarta(dati, nome)
-	_richiedi(HTTPClient.METHOD_PUT, codice, _corpo)
+	_richiedi(HTTPClient.METHOD_PUT, "/save/%s" % codice, _corpo)
 
 ## Trova un codice LIBERO e lo restituisce. Non lo scrive nel profilo: quello lo
 ## fa chi ha chiamato, così un codice non risulta assegnato se poi il caricamento
@@ -143,6 +149,22 @@ func riserva_codice(rng: RandomNumberGenerator = null) -> void:
 	_tentativi_rimasti = TENTATIVI_CODICE
 	_prova_un_codice()
 
+## Legge il registro di un gruppo. Restituisce le schede degli altri: numeri e
+## nomi, mai salvataggi.
+func leggi_gruppo(codice: String) -> void:
+	if not _inizia("gruppo", codice):
+		return
+	_richiedi(HTTPClient.METHOD_GET, "/group/%s" % _codice, "")
+
+## Aggiorna la PROPRIA riga nel registro. La sigla di membro decide quale riga:
+## non essendo il codice di ripristino, nessuno può riscrivere quella di un
+## altro bambino nemmeno conoscendo il codice del gruppo.
+func manda_scheda(codice: String, membro: String, scheda: Dictionary) -> void:
+	if not _inizia("scheda", codice):
+		return
+	_corpo = JSON.stringify(scheda)
+	_richiedi(HTTPClient.METHOD_PUT, "/group/%s/%s" % [_codice, membro.to_upper()], _corpo)
+
 func _prova_un_codice() -> void:
 	var codice := PlayerProfiles.generate_code(_rng)
 	if codice.is_empty():
@@ -150,14 +172,22 @@ func _prova_un_codice() -> void:
 			"errore": "Non riesco a creare un codice nuovo."})
 		return
 	_codice = codice
-	_richiedi(HTTPClient.METHOD_GET, codice, "")
+	_richiedi(HTTPClient.METHOD_GET, "/save/%s" % codice, "")
 
 func _inizia(azione: String, codice: String) -> bool:
 	if occupato():
 		# Una richiesta alla volta: HTTPRequest ne regge una sola, e due tocchi
 		# rapidi sullo stesso pulsante non devono produrre due caricamenti.
 		return false
-	if azione != "riserva" and not PlayerProfiles.is_valid_code(codice):
+	var forma_ok := true
+	match azione:
+		"riserva":
+			forma_ok = true
+		"gruppo", "scheda":
+			forma_ok = PlayerProfiles.is_valid_group_code(codice)
+		_:
+			forma_ok = PlayerProfiles.is_valid_code(codice)
+	if not forma_ok:
 		call_deferred("_concludi", {"ok": false, "azione": azione, "codice": codice,
 			"errore": messaggio_errore(400, azione)})
 		return false
@@ -165,14 +195,14 @@ func _inizia(azione: String, codice: String) -> bool:
 	_codice = codice.to_upper().strip_edges()
 	return true
 
-func _richiedi(metodo: int, codice: String, corpo: String) -> void:
+func _richiedi(metodo: int, percorso: String, corpo: String) -> void:
 	var errore := _http.request(
-		"%s/save/%s" % [ENDPOINT, codice],
+		"%s%s" % [ENDPOINT, percorso],
 		["Content-Type: application/json"],
 		metodo,
 		corpo)
 	if errore != OK:
-		_concludi({"ok": false, "azione": _azione, "codice": codice,
+		_concludi({"ok": false, "azione": _azione, "codice": _codice,
 			"errore": messaggio_errore(0, _azione)})
 
 func _on_risposta(risultato: int, stato: int, _headers: PackedStringArray, corpo: PackedByteArray) -> void:
@@ -214,12 +244,39 @@ func _on_risposta(risultato: int, stato: int, _headers: PackedStringArray, corpo
 			_concludi({"ok": true, "azione": azione, "codice": _codice,
 				"dati": busta["dati"],
 				"meta": {"nome": busta["nome"], "salvatoIl": busta["salvatoIl"]}})
+		"gruppo":
+			if stato != 200:
+				_concludi({"ok": false, "azione": azione, "codice": _codice,
+					"errore": messaggio_errore(stato, azione)})
+				return
+			# Quello che arriva da un gruppo è scritto da altri tablet: si tiene
+			# solo ciò che ha la forma di una scheda. Una riga malformata non
+			# deve poter rompere la tabella per tutti gli altri.
+			_concludi({"ok": true, "azione": azione, "codice": _codice,
+				"meta": {"membri": schede_valide(testo)}})
 		_:
 			if stato != 200:
 				_concludi({"ok": false, "azione": azione, "codice": _codice,
 					"errore": messaggio_errore(stato, azione)})
 				return
 			_concludi({"ok": true, "azione": azione, "codice": _codice})
+
+## Le schede leggibili dentro una risposta di gruppo, scartando il resto.
+static func schede_valide(testo: String) -> Array:
+	var parsed = JSON.parse_string(testo)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return []
+	# `membri` deve essere una lista. Un tipo diverso non è un caso teorico: la
+	# chiave del gruppo è condivisa, e basta una risposta malformata perché il
+	# cast diretto interrompa la lettura per tutti invece di scartare una riga.
+	var membri = Dictionary(parsed).get("membri", [])
+	if typeof(membri) != TYPE_ARRAY:
+		return []
+	var out: Array = []
+	for voce in Array(membri):
+		if typeof(voce) == TYPE_DICTIONARY and ProgressBoard.scheda_valida(voce):
+			out.append(voce)
+	return out
 
 func _concludi(esito: Dictionary) -> void:
 	_azione = ""

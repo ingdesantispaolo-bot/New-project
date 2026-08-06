@@ -33,7 +33,22 @@ const DEFAULT := {
 	"days": 0,        # giorni distinti giocati — cumulativo, non scende mai
 	"missions": 0,    # prove superate oggi (si azzera a ogni nuovo giorno)
 	"streak": 0,      # mantenuto per lo schema, MAI mostrato: vedi sopra
+	# Gli ultimi giorni giocati, uno per voce: [{"d": "2026-08-06", "n": 3}].
+	# Serve alla gara della settimana nel registro dei giocatori (6 agosto 2026):
+	# senza, l'unico confronto possibile sarebbe su numeri cumulativi, e chi
+	# comincia un mese dopo resta indietro per sempre senza poter recuperare.
+	#
+	# È una CODA CORTA, non uno storico: quattordici voci, cioè il doppio della
+	# finestra che serve. Tenerne di più gonfierebbe ogni salvataggio (e ogni
+	# copia in cloud) per un dato che nessuno guarda.
+	"recent": [],
 }
+
+## Quanti giorni copre la gara della settimana.
+const FINESTRA_GIORNI := 7
+## Quante voci si conservano. Il doppio della finestra: basta a coprirla anche
+## con giorni saltati, e non cresce.
+const RECENT_MAX := 14
 
 # --- Accesso al salvataggio ----------------------------------------------------
 # Migrazione non distruttiva e idempotente, come `PetState`: un salvataggio
@@ -44,7 +59,14 @@ static func _daily(save) -> Dictionary:
 	var daily: Dictionary = save.data["daily"]
 	for key in DEFAULT.keys():
 		if not daily.has(key):
-			daily[key] = DEFAULT[key]
+			# `duplicate` e non assegnazione diretta: in Godot 4 un array o un
+			# dizionario dentro una `const` è di SOLA LETTURA, e il salvataggio
+			# ne erediterebbe il riferimento. Il primo `append` fallirebbe in
+			# silenzio — la coda dei giorni resterebbe sempre vuota, e la gara
+			# della settimana leggerebbe zero per tutti senza dare errore.
+			var valore = DEFAULT[key]
+			var tipo := typeof(valore)
+			daily[key] = valore.duplicate(true) if tipo == TYPE_ARRAY or tipo == TYPE_DICTIONARY else valore
 	return daily
 
 ## Registra che oggi si è giocato. Idempotente entro la giornata: chiamarla dieci
@@ -59,6 +81,15 @@ static func register_day(save, today: String = "") -> bool:
 		return false
 	if str(daily.get("firstDate", "")) == "":
 		daily["firstDate"] = giorno
+	# Il giorno che si chiude entra nella coda PRIMA di essere sostituito:
+	# altrimenti il conteggio di ieri sparirebbe nel momento in cui serve.
+	var giorno_uscente := str(daily.get("date", ""))
+	if giorno_uscente != "":
+		var coda: Array = Array(daily.get("recent", []))
+		coda.append({"d": giorno_uscente, "n": int(daily.get("missions", 0))})
+		while coda.size() > RECENT_MAX:
+			coda.remove_at(0)
+		daily["recent"] = coda
 	daily["date"] = giorno
 	daily["days"] = int(daily.get("days", 0)) + 1
 	# Le prove superate sono un contatore del giorno: riparte con la giornata.
@@ -81,6 +112,34 @@ static func register_passed_today(save) -> void:
 
 static func passed_today(save) -> int:
 	return int(_daily(save).get("missions", 0))
+
+## Prove superate negli ultimi sette giorni, oggi compreso.
+##
+## È la misura che permette a chiunque di tornare in testa: riparte da sé, senza
+## azzerare niente e senza rimproverare nessuno. Chi salta tre giorni non perde
+## un traguardo — semplicemente quella settimana ha lavorato meno, il che è un
+## fatto e non una punizione. Vedi il guard-rail in cima al file.
+static func passed_this_week(save, today: String = "") -> int:
+	var oggi := today if today != "" else Time.get_date_string_from_system()
+	var limite := _giorno_unix(oggi) - float(FINESTRA_GIORNI - 1) * 86400.0
+	var daily := _daily(save)
+	var totale := 0
+	for voce in Array(daily.get("recent", [])):
+		var riga := voce as Dictionary
+		if _giorno_unix(str(riga.get("d", ""))) >= limite:
+			totale += int(riga.get("n", 0))
+	# Il giorno corrente non è nella coda: ci finisce solo quando si chiude.
+	if _giorno_unix(str(daily.get("date", ""))) >= limite:
+		totale += int(daily.get("missions", 0))
+	return totale
+
+## Una data ISO come numero di secondi. Una stringa vuota o malformata vale
+## meno di qualunque limite, quindi resta fuori dalla finestra invece di
+## entrarci per caso.
+static func _giorno_unix(iso: String) -> float:
+	if iso.strip_edges().is_empty():
+		return -1.0
+	return float(Time.get_unix_time_from_datetime_string(iso))
 
 # --- Il riepilogo --------------------------------------------------------------
 

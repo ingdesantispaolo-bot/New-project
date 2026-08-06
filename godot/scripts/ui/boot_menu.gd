@@ -12,6 +12,7 @@ var second_journey_status: Label
 var second_journey_bar: ProgressBar
 var player_label: Label
 var profile_panel: ProfilePanel
+var board_panel: ProgressBoardPanel
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -151,8 +152,29 @@ func _build_player_row() -> Control:
 	cambia.pressed.connect(_open_profiles)
 	riga.add_child(cambia)
 
+	var registro := Button.new()
+	registro.name = "BoardButton"
+	registro.text = "REGISTRO"
+	registro.tooltip_text = "Come vanno gli altri giocatori"
+	registro.custom_minimum_size = Vector2(0, 40)
+	registro.add_theme_font_size_override("font_size", 14)
+	registro.pressed.connect(_open_board)
+	riga.add_child(registro)
+
 	_refresh_player_row()
 	return riga
+
+func _open_board() -> void:
+	if is_instance_valid(board_panel):
+		return
+	board_panel = ProgressBoardPanel.new()
+	board_panel.name = "ProgressBoardPanel"
+	board_panel.closed.connect(func():
+		if is_instance_valid(board_panel):
+			board_panel.queue_free()
+			board_panel = null
+		play_button.grab_focus())
+	add_child(board_panel)
 
 func _refresh_player_row() -> void:
 	if not is_instance_valid(player_label):

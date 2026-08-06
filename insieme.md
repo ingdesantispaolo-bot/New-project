@@ -339,6 +339,40 @@ primo profilo *adotta* la partita già in corso invece di ripartire dal livello 
 
 ---
 
+## Il registro dei giocatori (6 agosto 2026)
+
+Una tabella per confrontarsi, «per dare un po' di sfida». Sembra una funzione
+innocua ed è il posto dove questo gioco può farsi più male da solo: una
+classifica per livello premia chi ha cominciato prima, e chi arriva un mese dopo
+è ultimo per sempre senza poterci fare niente. Subito dopo aver legato la
+progressione alla padronanza invece che alla velocità, sarebbe un contrordine.
+
+Da qui tre famiglie di misure che convivono:
+
+| | che cosa misura | si recupera? |
+|---|---|---|
+| **La settimana** | prove superate negli ultimi 7 giorni | **sì**, riparte da sé |
+| Il viaggio · Le cose sapute · I giorni | livello, argomenti consolidati, giorni giocati | no, raccontano la strada fatta |
+| Le dodici materie | padronanza per materia | dodici classifiche invece di una |
+
+La classifica che si apre per prima è **la settimana**: la lettura di apertura è
+quella che resta. E sotto la tabella ci sono le **medaglie** — in che cosa guida
+ciascuno: con dodici materie è raro che qualcuno non guidi niente, e chi non
+guida niente non compare affatto invece di leggere «nessuna medaglia».
+
+Due schede. **CASA** sono le caselle di questo tablet: nessuna rete, funziona
+sempre. **GRUPPO** è un codice condiviso fra più tablet — una classe, dei
+cugini. Nel gruppo viaggia solo un riepilogo di numeri: mai il salvataggio, mai
+il codice di ripristino, perché quello sovrascrive una partita e nel registro lo
+vedrebbe tutta la classe.
+
+Regole che non si toccano, tutte ereditate dal guard-rail del Custode e del
+diario: **nessuna misura scende per un'assenza**, niente serie da spezzare, e a
+parità di valore l'ordine è alfabetico — se dipendesse dall'ordine di lettura,
+due bambini a pari merito si scavalcherebbero a turno senza aver fatto niente.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

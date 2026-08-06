@@ -29,7 +29,8 @@ func _init() -> void:
 	_prova_limite()
 	_prova_nomi()
 	_prova_codici()
-	print("PROFILES audit OK — profili isolati, salvataggio storico adottato, codici non collidenti")
+	_prova_gruppo()
+	print("PROFILES audit OK — profili isolati, salvataggio storico adottato, codici non collidenti, gruppo separato")
 	quit(0)
 
 func _pulisci() -> void:
@@ -187,3 +188,31 @@ func _prova_codici() -> void:
 	for _i in range(50):
 		var nuovo := PlayerProfiles.generate_code(rng)
 		assert(nuovo != "ABCD-1234", "generato un codice già in uso su questo dispositivo")
+
+## Il gruppo: un codice per il dispositivo, una sigla per ogni casella.
+##
+## La sigla di membro è la difesa che permette a più bambini di condividere una
+## tabella senza potersi toccare le partite: chi conosce il codice del gruppo
+## vede tutti, ma può riscrivere solo la riga della propria sigla — e la sigla
+## non è il codice di ripristino.
+func _prova_gruppo() -> void:
+	assert(PlayerProfiles.group_code().is_empty(), "esiste un gruppo prima che qualcuno lo crei")
+	assert(not PlayerProfiles.set_group_code("ABCD-1234"),
+		"un codice di ripristino è stato accettato come codice gruppo")
+	assert(PlayerProfiles.set_group_code("abc-123"), "codice gruppo minuscolo rifiutato")
+	assert(PlayerProfiles.group_code() == "ABC-123", "il codice gruppo non è normalizzato")
+
+	var sigla := PlayerProfiles.member_id_of("p1")
+	assert(sigla.length() == 8, "la sigla di membro non ha otto caratteri: %s" % sigla)
+	# Fissa: se cambiasse a ogni lettura, ogni aggiornamento creerebbe una riga
+	# nuova nel registro e lo stesso bambino comparirebbe dieci volte.
+	assert(PlayerProfiles.member_id_of("p1") == sigla, "la sigla di membro cambia a ogni chiamata")
+	assert(PlayerProfiles.member_id_of("p2") != sigla, "due caselle condividono la sigla di membro")
+	# E non deve essere il codice di ripristino, che sovrascrive un salvataggio.
+	assert(sigla != PlayerProfiles.code_of("p1"),
+		"la sigla di membro è il codice di ripristino: il gruppo lo vedrebbe tutto")
+
+	PlayerProfiles.clear_group_code()
+	assert(PlayerProfiles.group_code().is_empty(), "uscire dal gruppo non ha tolto il codice")
+	# Uscire non tocca le partite né le sigle: rientrando si torna la stessa riga.
+	assert(PlayerProfiles.member_id_of("p1") == sigla, "uscire dal gruppo ha perso la sigla")

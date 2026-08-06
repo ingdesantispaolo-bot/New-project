@@ -147,6 +147,39 @@ Durante la partita la copia si rinfresca da sola, al massimo ogni tre minuti, e
 subito quando si sale di livello. In silenzio: se il cloud non risponde non
 succede niente e si continua a giocare.
 
+## Il registro dei giocatori (6 agosto 2026)
+
+Rotte nuove, accanto a quelle dei salvataggi:
+
+```
+GET /group/ABC-123           -> { "membri": [scheda, ...] }
+PUT /group/ABC-123/AB12CD34  -> aggiorna la scheda di UN membro
+```
+
+Il codice del gruppo è **più corto** di quello di ripristino — tre lettere e tre
+cifre invece di quattro e quattro — e non per risparmiare caratteri: i due campi
+di testo stanno nella stessa schermata e fanno l'opposto. Uno **sovrascrive** un
+salvataggio, l'altro apre una tabella. Con forme diverse, un codice scambiato non
+passa nemmeno il controllo.
+
+Nel gruppo viaggia un **riepilogo**: nome, livello, mondi, giorni, prove della
+settimana, argomenti consolidati, padronanza per materia. Mai il salvataggio,
+mai il codice di ripristino. La sigla di otto caratteri nell'URL identifica una
+riga: chi conosce il codice del gruppo vede tutti, ma può riscrivere solo la
+propria — e non essendo la sigla il codice di ripristino, nessuno può toccare la
+partita di un altro bambino.
+
+Un limite dichiarato: **un gruppo intero vive in una chiave sola**, quindi due
+tablet che scrivono nello stesso istante si sovrascrivono e una scheda resta
+indietro fino al rinfresco successivo. Per un registro che si riaggiorna a ogni
+apertura è un difetto che si ripara da sé; per un dato che non si può perdere non
+basterebbe, ed è il motivo per cui i salvataggi veri stanno altrove, una chiave
+per ciascuno.
+
+**Serve un `npx.cmd wrangler deploy`** perché queste rotte esistano: finché non
+si fa, la scheda GRUPPO risponde «rotta sconosciuta» e quella CASA funziona lo
+stesso, perché non passa dalla rete.
+
 ## Il passo dopo
 
 

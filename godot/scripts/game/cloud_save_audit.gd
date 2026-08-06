@@ -22,7 +22,8 @@ func _init() -> void:
 	_prova_busta()
 	_prova_busta_rifiuta()
 	_prova_messaggi()
-	print("CLOUD SAVE audit OK — busta chiusa, estranei rifiutati, messaggi leggibili")
+	_prova_registro_gruppo()
+	print("CLOUD SAVE audit OK — busta chiusa, estranei rifiutati, messaggi leggibili, gruppo filtrato")
 	quit(0)
 
 func _prova_indirizzo() -> void:
@@ -109,3 +110,51 @@ func _prova_messaggi() -> void:
 		"il messaggio di rete assente non rassicura sulla partita locale: %s" % offline)
 	assert(CloudSave.messaggio_errore(400, "scarica").to_lower().contains("lettere"),
 		"il messaggio di codice malformato non spiega la forma del codice")
+
+## Il registro di gruppo riceve righe scritte da ALTRI tablet: non è mai da
+## credere sulla parola.
+##
+## E le due forme di codice devono restare distinguibili. I due campi di testo
+## stanno nella stessa schermata e fanno l'opposto: un codice di ripristino
+## SOVRASCRIVE un salvataggio, un codice gruppo apre una tabella. Se un codice
+## gruppo passasse per codice di ripristino, il primo scambio sarebbe
+## irreversibile.
+func _prova_registro_gruppo() -> void:
+	var buona := {"nome": "Eli", "livello": 3, "settimana": 5, "giorni": 2,
+		"consolidati": 1, "materie": {"matematica": 0.5}}
+	var risposta := JSON.stringify({"membri": [
+		buona,
+		{"nome": "", "livello": 1, "settimana": 0, "giorni": 0, "consolidati": 0},
+		{"non": "una scheda"},
+		"nemmeno questa",
+		42,
+	]})
+	var schede := CloudSave.schede_valide(risposta)
+	assert(schede.size() == 1, "il filtro del gruppo ha accettato righe rotte: %d" % schede.size())
+	assert(str(Dictionary(schede[0])["nome"]) == "Eli", "il filtro ha tenuto la riga sbagliata")
+
+	for spazzatura in ["", "non json", "[]", "null", '{"membri":"stringa"}', '{"altro":[]}']:
+		assert(CloudSave.schede_valide(str(spazzatura)).is_empty(),
+			"il filtro ha prodotto righe da: %s" % str(spazzatura))
+
+	# Le due forme non devono sovrapporsi, in nessuna delle due direzioni.
+	assert(not PlayerProfiles.is_valid_code("ABC-123"),
+		"un codice gruppo passa per codice di ripristino: uno scambio sovrascriverebbe una partita")
+	assert(not PlayerProfiles.is_valid_group_code("ABCD-1234"),
+		"un codice di ripristino passa per codice gruppo")
+	assert(PlayerProfiles.is_valid_group_code("ABC-123"), "un codice gruppo valido è stato rifiutato")
+
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 77
+	for _i in range(100):
+		var g := PlayerProfiles.generate_group_code(rng)
+		assert(PlayerProfiles.is_valid_group_code(g), "codice gruppo generato non valido: %s" % g)
+		assert(not PlayerProfiles.is_valid_code(g), "codice gruppo generato confondibile: %s" % g)
+		var lettere := g.substr(0, 3)
+		assert(not lettere.contains("I") and not lettere.contains("O"),
+			"il codice gruppo contiene una lettera ambigua: %s" % g)
+
+	assert(CloudSave.messaggio_errore(409, "scheda").to_lower().contains("pieno"),
+		"il gruppo pieno non è spiegato")
+	assert(CloudSave.messaggio_errore(400, "gruppo").to_lower().contains("tre"),
+		"il messaggio del codice gruppo non spiega la forma giusta")

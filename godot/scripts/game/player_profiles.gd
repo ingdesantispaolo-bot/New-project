@@ -261,6 +261,84 @@ static func generate_code(rng: RandomNumberGenerator = null) -> String:
 static func code_of(id: String) -> String:
 	return str(find(id).get("code", ""))
 
+# ---------------------------------------------------------------- gruppo
+
+## Il codice del GRUPPO (registro dei giocatori) è più corto di quello di
+## ripristino — tre lettere e tre cifre — e non per risparmiare caratteri: i due
+## campi di testo stanno vicini nella stessa schermata, e le due cose fanno
+## l'opposto. Un codice di ripristino SOVRASCRIVE un salvataggio; un codice
+## gruppo mostra una tabella. Con la stessa forma, un bambino li scambierebbe e
+## il primo errore sarebbe irreversibile. Con forme diverse, un codice sbagliato
+## non passa nemmeno il controllo.
+static func is_valid_group_code(codice: String) -> bool:
+	var regex := RegEx.new()
+	regex.compile("^[A-Z]{3}-[0-9]{3}$")
+	return regex.search(codice.to_upper()) != null
+
+static func generate_group_code(rng: RandomNumberGenerator = null) -> String:
+	var r := rng
+	if r == null:
+		r = RandomNumberGenerator.new()
+		r.randomize()
+	var codice := ""
+	for _i in range(3):
+		codice += ALPHABET[r.randi_range(0, ALPHABET.length() - 1)]
+	codice += "-"
+	for _i in range(3):
+		codice += str(r.randi_range(0, 9))
+	return codice
+
+## Il gruppo è del DISPOSITIVO, non del singolo bambino: due fratelli sullo
+## stesso tablet stanno nello stesso registro di classe o di famiglia. Ognuno ci
+## compare con la propria scheda, perché la sigla di membro è per profilo.
+static func group_code() -> String:
+	return str(_read().get("group", ""))
+
+static func set_group_code(codice: String) -> bool:
+	var pulito := codice.to_upper().strip_edges()
+	if not is_valid_group_code(pulito):
+		return false
+	bootstrap()
+	var d := _read()
+	d["group"] = pulito
+	_write(d)
+	return true
+
+static func clear_group_code() -> void:
+	var d := _read()
+	if d.is_empty():
+		return
+	d["group"] = ""
+	_write(d)
+
+## La sigla con cui un profilo compare nel gruppo. Otto caratteri opachi, creati
+## al primo bisogno e poi fissi: è ciò che permette a un bambino di aggiornare la
+## PROPRIA riga senza poter toccare quella degli altri.
+##
+## Non è il codice di ripristino, e non deve diventarlo mai: quello apre e
+## sovrascrive un salvataggio, e nel registro lo vedrebbe tutta la classe.
+static func member_id_of(id: String) -> String:
+	var esistente := str(find(id).get("member", ""))
+	if not esistente.is_empty():
+		return esistente
+	var r := RandomNumberGenerator.new()
+	r.randomize()
+	var alfabeto := "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	var sigla := ""
+	for _i in range(8):
+		sigla += alfabeto[r.randi_range(0, alfabeto.length() - 1)]
+	var d := _read()
+	var profili: Array = Array(d.get("profiles", []))
+	for i in range(profili.size()):
+		var p: Dictionary = profili[i]
+		if str(p.get("id", "")) == id:
+			p["member"] = sigla
+			profili[i] = p
+			d["profiles"] = profili
+			_write(d)
+			return sigla
+	return ""
+
 ## Assegna un codice a un profilo. Rifiuta una forma non valida e rifiuta un
 ## codice già in uso da un ALTRO profilo locale: due caselle sullo stesso tablet
 ## che puntano allo stesso salvataggio in cloud si sovrascriverebbero a vicenda

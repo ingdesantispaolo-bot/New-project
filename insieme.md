@@ -765,6 +765,66 @@ la penalita' colpisce chi si specializza, non chi gioca tutte le materie.
 
 ---
 
+## Come i minigiochi completano la gamma (misurato il 6 agosto 2026)
+
+Indagine su tutte e dodici le materie e sette livelli, confrontando che cosa
+porta il BANCO e che cosa porta il CATALOGO interattivo.
+
+### Sui formati: complementarita' totale
+
+I due insiemi sono **perfettamente disgiunti**, in ogni materia:
+
+| sorgente | formati | che cosa misura |
+|---|---|---|
+| banco | scelta multipla, numerico, risposta breve | **sapere**: si chiede e si risponde |
+| minigiochi | abbinamento, ordinamento, classificazione, grafico, circuito, bilancia, caccia all'errore, linea del tempo, compositore, tracciatore, indiziario, scorrimento… | **fare**: si manipola qualcosa |
+
+Non e' una ripartizione casuale: e' la ragione per cui i minigiochi esistono. Un
+gioco fatto dei soli banchi sarebbe un questionario.
+
+### Sugli argomenti: complementarita' disuguale, e il motivo e' interessante
+
+Su 241 etichette di argomento: **45 solo banco, 92 comuni, 104 solo minigioco**.
+
+Guardando dentro, il rapporto cambia da materia a materia e non a caso:
+
+- **inglese** (21 argomenti solo-minigioco) e' il caso piu' chiaro. I due
+  vocabolari sono ortogonali per costruzione: il banco copre i **campi
+  semantici** (food-shopping, travel-places, body-health, jobs-community), i
+  minigiochi coprono la **grammatica** (articles, comparatives, contractions,
+  irregular-past, third-person, wh-question). Lessico da una parte, strutture
+  dall'altra;
+- **coding** (14) aggiunge concetti che il banco non tocca mai: logica
+  booleana, diagramma di flusso, indentazione, efficienza, validazione, binario.
+  Il banco in cambio porta solo `stile` e `stringhe`;
+- **musica** e **latino** (1) sono quasi sovrapposti: li' il minigioco aggiunge
+  la forma, non l'argomento.
+
+### Il difetto che l'indagine ha fatto emergere
+
+La dimensione COPERTURA del gate conta gli argomenti **toccati**, e il bersaglio
+si calcola su `reachable_topic_count`, che campiona il **banco**. Ma la pratica
+marca anche argomenti che esistono **solo** nel catalogo interattivo — 104 su
+241.
+
+Conseguenza: in inglese, coding, scienze, fisica ed elettronica un bambino puo'
+soddisfare la copertura del livello toccando argomenti che **l'esame non
+verifichera' mai**, perche' l'esame nasce dal banco. Il bersaglio e' calcolato su
+un insieme e il conteggio su un altro.
+
+Non e' grave dove i vocabolari coincidono (musica, latino), ed e' massimo dove
+divergono di piu' — che sono proprio le materie in cui i minigiochi danno il
+contributo migliore. Le due riparazioni possibili:
+
+1. **contare per la copertura solo gli argomenti del banco** — semplice, ma
+   butta via il fatto che la grammatica inglese imparata nei minigiochi e'
+   apprendimento vero;
+2. **allineare i vocabolari**, cioe' portare nel banco gli argomenti che oggi
+   vivono solo nei minigiochi. Piu' lavoro, ma e' quello giusto: se un argomento
+   vale per la copertura, deve poter comparire in un esame.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

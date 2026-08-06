@@ -19,10 +19,26 @@ extends RefCounted
 ##   - `apparatus`        → stato della nave (nodi riparati).
 ##   - `worldProgress`    → stato persistente di ogni mondo (incontri/tesori).
 
+## Percorso storico, usato quando nessun profilo è stato ancora creato. Dal
+## 6 agosto 2026 il file non è più uno solo: ogni profilo ha il suo (vedi
+## `player_profiles.gd`). Questa costante resta il caso «un solo giocatore», che
+## è anche quello di tutti gli audit.
 const SAVE_PATH := "user://eli-quest-save.json"
 const SCHEMA_VERSION := 3
 
 var data: Dictionary = _default_data()
+
+## Su quale file lavora QUESTA istanza. Deciso una volta alla costruzione e mai
+## più: un manager che cambiasse file sotto i piedi scriverebbe metà partita in
+## un profilo e metà in un altro.
+var path: String = SAVE_PATH
+
+## Senza argomenti segue il profilo attivo — e senza profili è il percorso
+## storico, quindi il comportamento è identico a prima del multi-profilo.
+## Il percorso esplicito serve a chi deve leggere un profilo che non è quello
+## attivo, come l'elenco di avvio che mostra il livello di ciascun bambino.
+func _init(save_path: String = "") -> void:
+	path = save_path if not save_path.is_empty() else PlayerProfiles.active_save_path()
 
 static func _default_data() -> Dictionary:
 	return {
@@ -83,9 +99,9 @@ static func _default_data() -> Dictionary:
 	}
 
 func load_save() -> void:
-	if not FileAccess.file_exists(SAVE_PATH):
+	if not FileAccess.file_exists(path):
 		return
-	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	var file := FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		return
 	var parsed = JSON.parse_string(file.get_as_text())
@@ -93,7 +109,7 @@ func load_save() -> void:
 		data = migrate_legacy_save(parsed)
 
 func save() -> void:
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file != null:
 		file.store_string(JSON.stringify(data, "\t"))
 

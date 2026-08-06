@@ -139,6 +139,20 @@ const MATCHING := {
 		# Scuola media — monete del mondo ed elementi fisici d'Italia.
 		{"explanation": "Ogni Stato batte la propria moneta. L'Euro è l'eccezione: è condiviso da Paesi che hanno scelto di usarlo insieme.", "topic": "monete", "minLevel": 5, "pairs": [["Italia", "Euro"], ["Stati Uniti", "Dollaro"], ["Giappone", "Yen"], ["Regno Unito", "Sterlina"]]},
 		{"explanation": "Ogni nome appartiene a un tipo di elemento — fiume, vulcano, lago. Riconoscere il tipo è il primo passo per collocarlo sulla carta.", "topic": "italia-fisica", "minLevel": 4, "pairs": [["Po", "Fiume"], ["Etna", "Vulcano"], ["Garda", "Lago"], ["Alpi", "Catena montuosa"]]},
+		# --- Mondo 1: due ricette in più (tappa 2, 6 agosto 2026) ---------------
+		{"explanation": "Il capoluogo è la città dove sta l'amministrazione della regione: non sempre è la più famosa, e in Italia quasi mai la più centrale.", "topic": "geografia-italia", "kind": "pool", "pool": [
+			["Lombardia", "Milano"], ["Veneto", "Venezia"], ["Piemonte", "Torino"],
+			["Liguria", "Genova"], ["Toscana", "Firenze"], ["Lazio", "Roma"],
+			["Campania", "Napoli"], ["Sicilia", "Palermo"], ["Sardegna", "Cagliari"],
+			["Puglia", "Bari"], ["Calabria", "Catanzaro"], ["Emilia-Romagna", "Bologna"],
+			["Marche", "Ancona"], ["Umbria", "Perugia"], ["Abruzzo", "L'Aquila"],
+			["Molise", "Campobasso"], ["Basilicata", "Potenza"], ["Friuli-Venezia Giulia", "Trieste"],
+			["Trentino-Alto Adige", "Trento"], ["Valle d'Aosta", "Aosta"]]},
+		{"explanation": "Le montagne non stanno da sole: appartengono a una catena, cioè a una piega della crosta terrestre lunga migliaia di chilometri.", "topic": "geografia-fisica", "pairs": [
+			["Monte Bianco", "Alpi"], ["Gran Sasso", "Appennini"], ["Everest", "Himalaya"],
+			["Aconcagua", "Ande"], ["Elbrus", "Caucaso"], ["Kilimangiaro", "Tanzania"],
+			["Monte Fuji", "Giappone"], ["Etna", "Sicilia"], ["Vesuvio", "Campania"],
+			["Teide", "Canarie"], ["Denali", "Alaska"], ["Monte Rosa", "Alpi Pennine"]]},
 	],
 	"scienze": [
 		{"explanation": "Ogni organo ha un compito solo, e il corpo funziona proprio perché nessuno fa il lavoro di un altro.", "topic": "corpo", "pairs": [["Cuore", "Pompa il sangue"], ["Polmoni", "Respirazione"], ["Cervello", "Comanda il corpo"], ["Stomaco", "Digestione"], ["Occhi", "Vista"]]},
@@ -365,6 +379,12 @@ const MATCHING := {
 			["Costruzione del Partenone", "447 a.C."], ["Cesare in Gallia", "52 a.C."],
 			["Augusto imperatore", "27 a.C."], ["Codice di Hammurabi", "1750 a.C."]]},
 		{"explanation": "L'architettura racconta la civiltà: l'arco e il cemento sono romani, le colonne dei templi greche, la piramide egizia.", "topic": "civilta", "minLevel": 6, "pairs": [["Colosseo", "Romani"], ["Partenone", "Greci"], ["Piramidi", "Egizi"], ["Ziggurat", "Sumeri"]]},
+		# --- Mondo 1: una ricetta in più (tappa 2, 6 agosto 2026) ---------------
+		{"explanation": "Le prime civiltà nascono sull'acqua: un fiume dà da bere, irriga i campi e serve da strada. Dove l'acqua manca, un impero non si regge.", "topic": "civilta", "pairs": [
+			["Egizi", "Nilo"], ["Sumeri", "Tigri ed Eufrate"], ["Romani", "Tevere"],
+			["Greci", "mar Egeo"], ["civiltà dell'Indo", "Indo"], ["Cinesi antichi", "Fiume Giallo"],
+			["Fenici", "coste del Libano"], ["Etruschi", "Toscana"], ["Maya", "Yucatán"],
+			["Inca", "Ande"], ["Aztechi", "altopiano del Messico"], ["Cartaginesi", "coste della Tunisia"]]},
 	],
 	"coding": [
 		{"explanation": "Il tipo dipende da come è scritto il valore: le virgolette fanno una stringa, True e False sono booleani, un numero nudo è un intero.", "topic": "tipi", "pairs": [["7", "intero"], ["'ciao'", "stringa"], ["True", "booleano"], ["[1, 2, 3]", "lista"]]},
@@ -1166,6 +1186,40 @@ const CLASSIFICATION := {
 				"Diritto romano": "Romani", "Terme pubbliche": "Romani", "Arco di trionfo": "Romani",
 				"Scrittura cuneiforme": "Sumeri", "Ziggurat": "Sumeri", "Prime città-stato": "Sumeri",
 				"Ruota a raggi": "Sumeri", "Codice di leggi inciso": "Sumeri", "Aratro tirato da animali": "Sumeri"}},
+		# --- Mondo 1: tre ricette in più (tappa 2, 6 agosto 2026) ---------------
+		{"explanation": "Le fonti si distinguono da come sono arrivate fino a noi: scritte se qualcuno le ha messe su carta o pietra, materiali se sono cose, orali se sono passate di bocca in bocca.", "topic": "fonti", "draw": 6, "prompt": "Smista ogni traccia del passato: che tipo di fonte è?",
+			"categories": ["scritta", "materiale", "orale"],
+			"assignments": {
+				"un diario di viaggio": "scritta", "una lettera di un soldato": "scritta",
+				"un'iscrizione su una lapide": "scritta", "un registro di battesimi": "scritta",
+				"una cronaca di monastero": "scritta",
+				"una moneta romana": "materiale", "un vaso greco": "materiale",
+				"le fondamenta di una casa": "materiale", "un'arma di bronzo": "materiale",
+				"un osso lavorato": "materiale",
+				"una leggenda raccontata dai nonni": "orale", "una canzone popolare tramandata": "orale",
+				"il racconto di un testimone": "orale", "un proverbio di paese": "orale",
+				"una filastrocca antica": "orale"}},
+		{"explanation": "Gli anni prima di Cristo si contano all'indietro: più il numero è grande, più l'evento è antico. È l'unica numerazione della storia che va al contrario.", "topic": "cronologia", "draw": 6, "prompt": "Smista ogni evento: prima o dopo la nascita di Cristo?",
+			"categories": ["prima di Cristo", "dopo Cristo"],
+			"assignments": {
+				"la fondazione di Roma": "prima di Cristo", "le piramidi di Giza": "prima di Cristo",
+				"la morte di Giulio Cesare": "prima di Cristo", "la battaglia di Maratona": "prima di Cristo",
+				"la guerra di Troia": "prima di Cristo", "l'impero di Alessandro Magno": "prima di Cristo",
+				"la caduta dell'Impero romano d'Occidente": "dopo Cristo",
+				"l'incoronazione di Carlo Magno": "dopo Cristo",
+				"la scoperta dell'America": "dopo Cristo", "la Rivoluzione francese": "dopo Cristo",
+				"l'Unità d'Italia": "dopo Cristo", "lo sbarco sulla Luna": "dopo Cristo"}},
+		{"explanation": "Le quattro età non hanno confini naturali: sono tagli decisi dagli storici su avvenimenti che hanno cambiato tutto, come la caduta di Roma o la scoperta dell'America.", "topic": "civilta", "draw": 6, "prompt": "Smista ogni avvenimento nella sua età.",
+			"categories": ["antichità", "medioevo", "età moderna", "età contemporanea"],
+			"assignments": {
+				"le piramidi d'Egitto": "antichità", "la democrazia di Atene": "antichità",
+				"l'impero di Augusto": "antichità", "la guerra di Troia": "antichità",
+				"i castelli e i feudi": "medioevo", "le crociate": "medioevo",
+				"i monasteri copiano i libri a mano": "medioevo", "l'incoronazione di Carlo Magno": "medioevo",
+				"la scoperta dell'America": "età moderna", "la stampa di Gutenberg": "età moderna",
+				"Galileo e il telescopio": "età moderna", "la Riforma di Lutero": "età moderna",
+				"la Rivoluzione francese": "età contemporanea", "l'Unità d'Italia": "età contemporanea",
+				"le due guerre mondiali": "età contemporanea", "lo sbarco sulla Luna": "età contemporanea"}},
 	],
 	"geografia": [
 		{"explanation": "Un Paese sta nel continente su cui poggia la sua terra, non in quello a cui somiglia per lingua o cultura.", "topic": "continenti", "draw": 8, "prompt": "Smista ogni Paese nel suo continente.",
@@ -1207,6 +1261,25 @@ const CLASSIFICATION := {
 				"Valle Padana orientale": "pianura", "Piana di Catania": "pianura", "Campidano": "pianura", "Valdarno": "pianura",
 				"Mar Adriatico": "mare", "Mar Tirreno": "mare", "Mar Ionio": "mare", "Mar Ligure": "mare",
 				"Golfo di Napoli": "mare", "Stretto di Messina": "mare", "Canale di Sicilia": "mare", "Golfo di Trieste": "mare"}},
+		# --- Mondo 1: due ricette in più (tappa 2, 6 agosto 2026) ---------------
+		{"explanation": "Gli oceani sono cinque e circondano i continenti; i mari sono più piccoli e stanno incassati fra le terre. È una questione di dimensione e di chiusura, non di salinità.", "topic": "geografia-fisica", "draw": 6, "prompt": "Smista ogni distesa d'acqua: oceano o mare?",
+			"categories": ["oceano", "mare"],
+			"assignments": {
+				"Pacifico": "oceano", "Atlantico": "oceano", "Indiano": "oceano",
+				"Artico": "oceano", "Antartico": "oceano",
+				"Mediterraneo": "mare", "Adriatico": "mare", "Tirreno": "mare",
+				"Ionio": "mare", "Egeo": "mare", "mar Rosso": "mare",
+				"mar Nero": "mare", "Baltico": "mare", "mare del Nord": "mare",
+				"mar dei Caraibi": "mare"}},
+		{"explanation": "Il clima dipende soprattutto da quanto si è lontani dall'equatore: più ci si allontana, meno sole arriva dall'alto e più le stagioni si sentono.", "topic": "climi", "draw": 6, "prompt": "Smista ogni luogo per il suo clima.",
+			"categories": ["caldo", "temperato", "freddo"],
+			"assignments": {
+				"Sahara": "caldo", "Amazzonia": "caldo", "bacino del Congo": "caldo",
+				"deserto arabico": "caldo", "Yucatán": "caldo",
+				"Roma": "temperato", "Parigi": "temperato", "Lisbona": "temperato",
+				"Tokyo": "temperato", "Buenos Aires": "temperato",
+				"Siberia": "freddo", "Groenlandia": "freddo", "Antartide": "freddo",
+				"Alaska": "freddo", "Lapponia": "freddo"}},
 	],
 	"matematica": [
 		{"explanation": "Un numero è pari se finisce per 0, 2, 4, 6 o 8: basta guardare l'ultima cifra, non serve dividere.", "topic": "numeri", "draw": 6, "prompt": "Smista i numeri in pari e dispari.",

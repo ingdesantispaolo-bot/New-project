@@ -28,54 +28,49 @@ solo questo: il ponte manca o ha l'ID sbagliato.
 
 ---
 
-## Strada A — tutto dal pannello, senza installare niente
+## I tre comandi
 
-È la più semplice se non hai mai usato la riga di comando. Non serve `wrangler`,
-non serve Node, non si scarica nulla.
+Il pannello Cloudflare permette di scrivere il codice **solo** se il Worker è
+nato come «Worker semplice»: se è nato da un template con Git, il pulsante
+*Edit code* non c'è, e la finestra «Connect your Worker to KV» che il pannello
+propone è **solo documentazione** — mostra un esempio, non il tuo codice.
 
-1. Nel pannello Cloudflare vai su **Workers & Pages → Create → Worker**.
-2. Dagli il nome `eli-quest-save` e premi **Deploy** (per ora pubblica il Worker
-   di esempio: va bene, lo sostituiamo fra un attimo).
-3. Premi **Edit code**. Cancella tutto quello che c'è nell'editor e incolla il
-   contenuto di [`index.ts`](index.ts). Premi **Deploy**.
-4. Torna alla pagina del Worker e vai su **Settings → Bindings → Add binding**:
-   - tipo: **KV namespace**
-   - **Variable name**: `SAVES` ← *questo è il nome che il codice si aspetta*
-   - **KV namespace**: scegli `Eli_game` dall'elenco
-   - **Deploy** / **Save**
-5. In alto trovi l'indirizzo del Worker, del tipo
-   `https://eli-quest-save.<tuo-sottodominio>.workers.dev`.
-   **Quello è l'indirizzo che serve al gioco: segnalo.**
+Questa strada funziona in entrambi i casi e non dipende da come è nato il Worker.
 
-Il punto 4 è quello che non si può saltare: senza il binding il codice non trova
-`env.SAVES` e ogni chiamata risponde errore.
+**1.** Apri `cloud/wrangler.jsonc` e sostituisci
+`INCOLLA_QUI_IL_NAMESPACE_ID_DI_Eli_game` con il **Namespace ID** di `Eli_game`
+(pannello → *Storage & Databases* → *KV*, la stringa lunga accanto al nome).
 
----
-
-## Strada B — dai file che il pannello ti ha dato
-
-Se hai premuto **connect** sullo spazio KV, Cloudflare ti ha mostrato `index.ts`
-e `wrangler.jsonc`. In quel caso:
-
-1. Metti in quella cartella i due file di qui: [`index.ts`](index.ts) e
-   [`wrangler.jsonc`](wrangler.jsonc).
-2. Apri `wrangler.jsonc` e sostituisci `INCOLLA_QUI_IL_NAMESPACE_ID_DI_Eli_game`
-   con il **Namespace ID** che vedi nel pannello accanto a `Eli_game`
-   (è una stringa lunga di lettere e numeri).
-3. Dalla riga di comando, in quella cartella:
+**2.** Dalla cartella `cloud/`:
 
 ```bash
-npx wrangler login     # apre il browser, autorizzi il tuo account
+npx wrangler login
+```
+
+Si apre il browser e ti chiede di autorizzare. Una volta sola.
+
+**3.** Sempre da `cloud/`:
+
+```bash
 npx wrangler deploy
 ```
 
-Alla fine stampa l'indirizzo del Worker. **Segnalo.**
+Alla fine stampa qualcosa come:
 
-> Nella cartella ci sono anche `worker.js` e `wrangler.toml`: sono la stessa
-> cosa nel formato vecchio. Serve **una coppia sola** — o `index.ts` +
-> `wrangler.jsonc`, o `worker.js` + `wrangler.toml`. Non entrambe.
+```
+Uploaded eli-quest-save (1.2 sec)
+Published eli-quest-save (0.3 sec)
+  https://eli-quest-save.tuo-sottodominio.workers.dev
+```
 
----
+**Quell'indirizzo è quello che serve al gioco.**
+
+`wrangler deploy` fa da solo tutto quello che il pannello chiederebbe a mano:
+carica il codice **e** collega lo spazio KV, perché il collegamento è scritto
+nel `wrangler.jsonc`. Non serve toccare *Settings → Bindings*.
+
+> Se il Worker `eli-quest-save` esiste già, questo comando lo **sostituisce**:
+> è quello che vogliamo, il template di esempio non serve.
 
 ## Verifica che funzioni
 

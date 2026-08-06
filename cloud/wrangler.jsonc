@@ -1,7 +1,7 @@
 {
-  // Configurazione del Worker nel formato che usa il pannello Cloudflare
-  // quando crea `index.ts`. Se invece hai `worker.js`, usa `wrangler.toml`:
-  // dicono la stessa cosa in due formati, e ne serve UNO SOLO.
+  // Configurazione del Worker. Deve restare l'UNICO file di configurazione in
+  // questa cartella: con un `wrangler.toml` accanto, wrangler si rifiuta di
+  // partire perché non sa quale dei due leggere.
 
   "name": "eli-quest-save",
   "main": "index.ts",
@@ -12,9 +12,12 @@
   //   "binding" -> come lo vede il codice: `env.SAVES`
   //   "id"      -> quale spazio KV è, preso dal pannello
   //
-  // Sono due nomi diversi di proposito. Nel pannello il tuo spazio si chiama
+  // Sono due nomi diversi di proposito. Nel pannello lo spazio si chiama
   // `Eli_game`; qui dentro lo chiamiamo `SAVES`. Cambiare `binding` significa
   // cambiare anche `env.SAVES` in `index.ts`.
+  //
+  // L'ID si copia dal pannello: Storage & Databases -> KV -> accanto a
+  // `Eli_game`. È una stringa lunga di lettere e numeri.
   "kv_namespaces": [
     {
       "binding": "SAVES",

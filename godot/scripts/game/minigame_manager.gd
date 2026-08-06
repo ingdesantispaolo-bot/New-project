@@ -435,6 +435,32 @@ const MATCHING := {
 			["11²", "121"], ["12²", "144"], ["10²", "100"], ["10⁴", "10000"],
 			["5³", "125"], ["4⁴", "256"], ["6³", "216"], ["1⁹", "1"]]},
 		{"explanation": "Ogni formula segue la forma: l'area del triangolo è la metà di quella del rettangolo che lo contiene.", "topic": "geometria", "minLevel": 5, "pairs": [["Area del quadrato", "lato × lato"], ["Perimetro del rettangolo", "(base + altezza) × 2"], ["Area del triangolo", "base × altezza ÷ 2"], ["Area del cerchio", "π × raggio²"]]},
+		# --- Mondo 1: altre tre ricette (6 agosto 2026) --------------------------
+		# Il livello 1 aveva quattro sole specifiche, e due erano la STESSA
+		# esperienza: espressione da calcolare, risultato da abbinare. Un bambino
+		# le esauriva in due sessioni e da lì in poi vedeva sempre le stesse
+		# consegne con dentro numeri diversi — la segnalazione di gioco del
+		# 6 agosto nasce da qui. Queste chiedono azioni mentali diverse, non
+		# altra aritmetica.
+		{"explanation": "Ogni operazione ne ha una che la disfa: è il modo per controllare un conto senza rifarlo uguale, e se non torna l'errore è nel primo.", "topic": "operazioni-inverse", "pairs": [
+			["aggiungere 7", "togliere 7"], ["moltiplicare per 3", "dividere per 3"],
+			["il doppio", "la metà"], ["aggiungere 25", "togliere 25"],
+			["moltiplicare per 10", "dividere per 10"], ["il triplo", "un terzo"],
+			["togliere 12", "aggiungere 12"], ["dividere per 4", "moltiplicare per 4"],
+			["salire di 100", "scendere di 100"], ["moltiplicare per 5", "dividere per 5"],
+			["aggiungere 9", "togliere 9"], ["dividere per 2", "moltiplicare per 2"]]},
+		{"explanation": "Il nome di un poligono dice quanti lati ha: penta cinque, esa sei, otta otto. Sono le stesse radici greche dei numeri.", "topic": "geometria", "pairs": [
+			["triangolo", "3 lati"], ["quadrilatero", "4 lati"], ["pentagono", "5 lati"],
+			["esagono", "6 lati"], ["ettagono", "7 lati"], ["ottagono", "8 lati"],
+			["ennagono", "9 lati"], ["decagono", "10 lati"], ["dodecagono", "12 lati"],
+			["cerchio", "nessun lato"]]},
+		{"explanation": "Una sequenza si riconosce dal passo: si guarda che cosa succede da un numero al successivo, e si controlla che valga anche dopo.", "topic": "sequenze", "pairs": [
+			["2, 4, 6, 8", "si aggiunge 2"], ["5, 10, 15, 20", "si aggiunge 5"],
+			["3, 6, 12, 24", "si raddoppia"], ["100, 90, 80, 70", "si toglie 10"],
+			["1, 3, 9, 27", "si moltiplica per 3"], ["50, 45, 40, 35", "si toglie 5"],
+			["7, 14, 21, 28", "si aggiunge 7"], ["64, 32, 16, 8", "si dimezza"],
+			["1, 4, 9, 16", "i quadrati"], ["11, 22, 33, 44", "si aggiunge 11"],
+			["1000, 100, 10, 1", "si divide per 10"], ["9, 18, 27, 36", "si aggiunge 9"]]},
 	],
 	"logica": [
 		# Una relazione sola per insieme, come deciso nella Fase 3: mescolarne due
@@ -1260,6 +1286,36 @@ const CLASSIFICATION := {
 				"+9": "positivo", "+16": "positivo", "+35": "positivo", "74": "positivo", "6": "positivo", "19": "positivo",
 				"-3": "negativo", "-8": "negativo", "-1": "negativo", "-15": "negativo", "-24": "negativo", "-40": "negativo",
 				"-7": "negativo", "-52": "negativo", "-11": "negativo", "-99": "negativo", "-6": "negativo", "-30": "negativo"}},
+		# --- Mondo 1: altre tre ricette (6 agosto 2026) --------------------------
+		{"explanation": "Una divisione è esatta quando non avanza niente. Se il dividendo sta nella tabellina del divisore, il resto è zero: si vede prima di dividere.", "topic": "divisioni", "draw": 6, "prompt": "Smista le divisioni: esatte oppure con resto.",
+			"categories": ["esatta", "con resto"],
+			"assignments": {
+				"12 ÷ 4": "esatta", "36 ÷ 6": "esatta", "45 ÷ 9": "esatta", "56 ÷ 8": "esatta",
+				"81 ÷ 9": "esatta", "100 ÷ 5": "esatta", "144 ÷ 12": "esatta", "63 ÷ 7": "esatta",
+				"13 ÷ 4": "con resto", "38 ÷ 6": "con resto", "47 ÷ 9": "con resto", "59 ÷ 8": "con resto",
+				"85 ÷ 9": "con resto", "103 ÷ 5": "con resto", "150 ÷ 12": "con resto", "67 ÷ 7": "con resto"}},
+		{"explanation": "La parola del problema dice l'operazione: «in tutto» somma, «resta» sottrae, «ciascuno» divide, «ogni... per» moltiplica. Riconoscerla è metà del lavoro.", "topic": "problemi", "draw": 6, "prompt": "Quale operazione serve per risolvere?",
+			"categories": ["addizione", "sottrazione", "moltiplicazione", "divisione"],
+			"assignments": {
+				"Ho 12 figurine e ne ricevo 7: quante in tutto?": "addizione",
+				"In classe ci sono 14 maschi e 11 femmine: quanti alunni?": "addizione",
+				"Al mattino 8 gradi, a mezzogiorno 9 in più: quanti gradi?": "addizione",
+				"Avevo 50 euro e ne spendo 18: quanti me ne restano?": "sottrazione",
+				"Il libro ha 200 pagine, ne ho lette 74: quante mancano?": "sottrazione",
+				"Sono partito con 30 caramelle, ora ne ho 12: quante ne ho date?": "sottrazione",
+				"6 scatole con 8 penne ciascuna: quante penne?": "moltiplicazione",
+				"Un biglietto costa 7 euro, siamo in 5: quanto spendiamo?": "moltiplicazione",
+				"Ogni giorno leggo 15 pagine per 4 giorni: quante pagine?": "moltiplicazione",
+				"48 biscotti divisi fra 6 bambini: quanti a testa?": "divisione",
+				"Ho 60 euro e ogni quaderno costa 5: quanti ne compro?": "divisione",
+				"90 sedie in file da 15: quante file?": "divisione"}},
+		{"explanation": "Un numero si legge da sinistra: prima le migliaia, poi le centinaia. A parità di cifre vince la prima che è diversa, non l'ultima.", "topic": "numeri", "draw": 6, "prompt": "Smista i numeri: sopra o sotto mille?",
+			"categories": ["sotto mille", "mille o più"],
+			"assignments": {
+				"342": "sotto mille", "87": "sotto mille", "999": "sotto mille", "706": "sotto mille",
+				"5": "sotto mille", "480": "sotto mille", "913": "sotto mille", "268": "sotto mille",
+				"1000": "mille o più", "1204": "mille o più", "3560": "mille o più", "10000": "mille o più",
+				"1001": "mille o più", "2450": "mille o più", "7890": "mille o più", "12500": "mille o più"}},
 	],
 	"fisica": [
 		{"explanation": "L'energia potenziale è immagazzinata dalla posizione, la cinetica è quella del movimento in corso: cadendo la prima diventa la seconda.", "topic": "energia", "draw": 6, "prompt": "Smista ogni situazione per l'energia prevalente.",

@@ -11,7 +11,7 @@ func _init() -> void:
 	var host := ApparatusConfig.world_subject(1)
 	var gate := ApparatusConfig.apparatus_gate(host, 1)
 	save.add_mission(host)
-	save.set_mastery(host, float(gate["masteryThreshold"]))
+	save.set_mastery(host, ApparatusConfig.subject_mastery_threshold(host, save.level()))
 	var ready := ShipActivationModel.activation_for_room(save, "central")
 	assert(float(ready["ratio"]) > 0.0, "lo studio deve illuminare progressivamente il ponte")
 	assert(int(ready["completed"]) == 0, "il gate pronto non equivale all'esame superato")

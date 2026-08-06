@@ -55,14 +55,20 @@ const MIN_TOPICS_UNKNOWN := 2
 ## all'ultimo quasi tutta la materia. È questo che rende vero «padroneggiare le
 ## materie a quel grado di difficoltà»: ogni mondo chiede una fetta più larga di
 ## programma, in tutte e dodici.
-static func coverage_target(total_topics: int, level: int = 1) -> int:
+## `core` allarga la copertura di un argomento: le tre materie del nucleo
+## chiedono una fetta di programma più larga a ogni livello. Uno solo, non due:
+## la copertura si conta PER LIVELLO e un livello propone una fetta limitata del
+## banco — chiederne troppi renderebbe il gate impossibile invece che severo,
+## errore già commesso e misurato su italiano al livello 2.
+static func coverage_target(total_topics: int, level: int = 1, core: bool = false) -> int:
+	var extra := 1 if core else 0
 	if total_topics <= 0:
-		return MIN_TOPICS_UNKNOWN
+		return MIN_TOPICS_UNKNOWN + extra
 	# Il primo mondo chiede un argomento per materia: dodici materie da zero
 	# sono già il lavoro più grosso della campagna, e aggiungere ampiezza lì
 	# significa solo allontanare il momento in cui il bambino vede il mondo 2.
 	if level <= 1:
-		return 1
+		return mini(1 + extra, total_topics)
 	var passo := clampf(float(clampi(level, 1, 24) - 1) / 23.0, 0.0, 1.0)
 	var frazione := lerpf(COVERAGE_FRACTION, COVERAGE_FRACTION_MAX, passo)
 	var richiesti := int(ceil(frazione * float(total_topics)))
@@ -71,23 +77,32 @@ static func coverage_target(total_topics: int, level: int = 1) -> int:
 	# solo una fetta del banco. Senza tetto il gate chiedeva otto argomenti dove
 	# la selezione ne offriva quattro: non difficile, **impossibile**.
 	# Misurato su italiano al livello 2 prima di questo limite.
-	return clampi(richiesti, 1, mini(COVERAGE_PER_LEVEL_CAP, total_topics))
+	return clampi(richiesti + extra, 1, mini(COVERAGE_PER_LEVEL_CAP + extra, total_topics))
 
 # Valuta la prontezza. Ritorna ogni dimensione (bool + dettaglio numerico), la
 # lista dei motivi non soddisfatti e il verdetto complessivo `ready`.
 static func evaluate_subject(
 	save, subject: String, mastery_threshold: float, total_topics: int = -1
 ) -> Dictionary:
+	# L'asticella del NUCLEO sta più in alto. Il bonus si applica QUI, dove passa
+	# ogni valutazione di materia, invece che nei chiamanti: così l'HUD, il
+	# portale, il report e gli audit leggono tutti la stessa soglia senza doverla
+	# ricalcolare, ed è impossibile che due punti del gioco dissentano su quanto
+	# serve per essere pronti.
+	var soglia := mastery_threshold
+	var nucleo := ApparatusConfig.is_core(subject)
+	if nucleo:
+		soglia = minf(soglia + ApparatusConfig.CORE_MASTERY_BONUS, ApparatusConfig.MASTERY_CEILING)
 	var mastery := float(save.mastery_of(subject))
 	# Copertura DI QUESTO LIVELLO, non cumulativa: si contano gli argomenti
 	# visti da quando il livello è cominciato. Prima era il totale di sempre, e
 	# la conseguenza misurata era che dopo il primo mondo il gate non chiedeva
 	# più niente — 24 livelli al prezzo di uno.
 	var seen := int(save.topics_seen_this_level(subject))
-	var target := coverage_target(total_topics, int(save.level()))
+	var target := coverage_target(total_topics, int(save.level()), nucleo)
 	var overdue := int(SpacedRepetition.subject_overdue_count(save, subject))
 
-	var accuracy_ok := mastery >= mastery_threshold
+	var accuracy_ok := mastery >= soglia
 	var coverage_ok := seen >= target
 	var retention_ok := overdue == 0
 
@@ -108,9 +123,12 @@ static func evaluate_subject(
 		"retention": retention_ok,
 		# Dettagli per HUD/report (letti, non ricalcolati, dalla presentazione).
 		"mastery": mastery,
-		"masteryThreshold": mastery_threshold,
+		# La soglia EFFETTIVA di questa materia, non quella di base: chi la
+		# mostra al bambino deve dire il numero vero.
+		"masteryThreshold": soglia,
+		"core": nucleo,
 		# Quanto manca, già normalizzato 0..1: chi disegna non deve dividere a mano.
-		"progress": clampf(mastery / maxf(mastery_threshold, 0.01), 0.0, 1.0),
+		"progress": clampf(mastery / maxf(soglia, 0.01), 0.0, 1.0),
 		"topicsSeen": seen,
 		"topicsTarget": target,
 		"topicsOverdue": overdue,

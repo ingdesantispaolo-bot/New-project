@@ -31,15 +31,46 @@ const SUBJECT_CYCLE := [
 	"latino", "elettronica", "geografia", "scienze", "storia", "logica",
 ]
 
-## Materie del NUCLEO: le uniche che gatano il livello (decisione del 30 luglio).
-## Sono le competenze abilitanti — leggere, calcolare, comunicare — su cui le
-## altre nove poggiano. Le satelliti danno ricompense, accendono le stanze della
-## nave e restano obbligatorie per il finale, ma non fermano la progressione.
-## Vedi docs/DESIGN_COMPLETO.md §2.
+## Materie del NUCLEO: leggere, calcolare, comunicare. Le competenze abilitanti
+## su cui poggiano le altre nove.
+##
+## Il loro rango è cambiato due volte, e la storia serve a non rifarlo una terza.
+## Fino al 5 agosto erano **le uniche** a gatare il livello: un bambino saliva in
+## dieci minuti e nove materie poteva non toccarle mai. Dal 5 agosto il gate le
+## chiede tutte e dodici, e il nucleo è rimasto una dichiarazione senza
+## conseguenze.
+##
+## Dal 6 agosto 2026 il rango non è più «quali materie fermano la progressione»
+## ma **quanto alta è l'asticella**. Tutte e dodici restano obbligatorie — è ciò
+## che impedisce di fare il minimo — e queste tre ne chiedono di più: soglia di
+## padronanza più alta, copertura più ampia, presenza in ogni esame.
+## Vedi docs/DESIGN_COMPLETO.md §2 e insieme.md.
 const CORE_SUBJECTS := ["italiano", "matematica", "inglese"]
+
+## Quanto più alta sta l'asticella del nucleo. Otto centesimi: al primo mondo
+## 0,78 contro 0,70.
+##
+## Scelto per essere **percepibile ma non escludente**. Più in basso (0,04) il
+## bambino non si accorge della differenza e il rango torna una dichiarazione;
+## molto più in alto (0,15) chi è debole proprio in queste tre resta fermo, e
+## sono le tre materie in cui essere deboli è più comune.
+const CORE_MASTERY_BONUS := 0.08
+
+## Tetto assoluto: nemmeno il nucleo all'ultimo mondo può chiedere la
+## perfezione. Una soglia a 1,0 si raggiunge solo non sbagliando mai, e
+## misurerebbe la fortuna dell'ultima sessione invece della competenza.
+const MASTERY_CEILING := 0.95
 
 static func is_core(subject: String) -> bool:
 	return CORE_SUBJECTS.has(subject)
+
+## La soglia di QUESTA materia a QUESTO livello: base per tutte, più il bonus
+## per le tre del nucleo.
+static func subject_mastery_threshold(subject: String, level: int) -> float:
+	var base := mastery_threshold(level)
+	if is_core(subject):
+		return minf(base + CORE_MASTERY_BONUS, MASTERY_CEILING)
+	return base
 
 ## Materia che ABITA il mondo del livello: ne determina lezione, landmark,
 ## abitanti e trasformazione ambientale.

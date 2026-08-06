@@ -18,7 +18,7 @@ func _run() -> void:
 	var host := ApparatusConfig.world_subject(1)
 	var gate := ApparatusConfig.apparatus_gate(host, 1)
 	save.add_mission(host)
-	save.set_mastery(host, float(gate["masteryThreshold"]))
+	save.set_mastery(host, ApparatusConfig.subject_mastery_threshold(host, save.level()))
 	# Il gate P0 usa quattro dimensioni: oltre a confidenza e accuratezza,
 	# l'audit deve preparare anche una copertura reale di topic. La ritenzione è
 	# soddisfatta perché il save nuovo non contiene ripassi arretrati.

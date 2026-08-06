@@ -473,6 +473,18 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 	var exam := build_mission(subject, level, nodi_esame, {}, generator, mastery, topic_mastery)
 	# Diversifica: garantisci almeno un formato oltre la scelta multipla.
 	exam["nodes"] = inject_non_mc(exam.get("nodes", []), subject, level, 1, generator)
+	# La PROVA DI NUCLEO. (6 agosto 2026)
+	#
+	# L'esame era solo della materia che abita il mondo: in ventuno mondi su
+	# ventiquattro italiano, matematica e inglese non comparivano nel momento
+	# decisivo. Un bambino impara che cosa conta da dove viene interrogato, non
+	# da quello che gli si dice — e il gioco gli stava dicendo che il nucleo
+	# conta solo tre volte su ventiquattro.
+	#
+	# Due nodi, non di più: l'esame resta della materia del mondo, e trasformarlo
+	# in un esame generale cancellerebbe il senso di riparare QUELLA stanza.
+	exam["nodes"] = _aggiungi_prova_di_nucleo(
+		Array(exam.get("nodes", [])), subject, level, generator, topic_mastery)
 	_flag_transfer_node(exam.get("nodes", []))
 	exam["sessionId"] = "final-exam-%s-lvl%d" % [subject, level]
 	exam["kind"] = "final_exam"
@@ -480,6 +492,43 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 	exam["minimumCorrect"] = int(ceil(float(Array(exam.get("nodes", [])).size()) * EXAM_PASS_RATIO))
 	exam["rewards"] = {"energyPerCorrect": 12, "onComplete": {"energy": 40, "fragments": 4}}
 	return exam
+
+## I nodi di nucleo da aggiungere a un esame di mondo.
+##
+## Si pescano dalle materie del nucleo DIVERSE da quella del mondo: se il mondo
+## ospita già matematica, arrivano da italiano e inglese. Un esame di matematica
+## con dentro altra matematica non direbbe niente di nuovo.
+##
+## `CORE_EXAM_NODES` è due. Uno solo si perderebbe fra i cinque della materia
+## ospite; tre sposterebbero il baricentro dell'esame e renderebbero possibile
+## bocciare su una materia che quel mondo non ha insegnato.
+const CORE_EXAM_NODES := 2
+
+func _aggiungi_prova_di_nucleo(
+	nodes: Array, subject: String, level: int, rng: RandomNumberGenerator,
+	topic_mastery: Dictionary = {}
+) -> Array:
+	var candidate: Array = []
+	for core_data in ApparatusConfig.CORE_SUBJECTS:
+		var core := str(core_data)
+		if core != subject:
+			candidate.append(core)
+	if candidate.is_empty():
+		return nodes
+	var out := nodes.duplicate()
+	# Una materia per nodo, a rotazione: due nodi di italiano di fila
+	# somiglierebbero a un esame di italiano appiccicato in fondo.
+	for i in range(CORE_EXAM_NODES):
+		var core := str(candidate[i % candidate.size()])
+		var pezzo := build_mission(core, level, 1, {}, rng, -1.0, topic_mastery)
+		for n in Array(pezzo.get("nodes", [])):
+			var nodo: Dictionary = n
+			# Marcato, perché la resa possa dirlo: il bambino deve capire perché
+			# gli arriva una domanda di un'altra materia.
+			nodo["coreCheck"] = true
+			out.append(nodo)
+			break
+	return out
 
 ## Esame FINALE TRASVERSALE del mondo 24 (Gate E2 — struttura congelata da Opus):
 ## i DODICI SISTEMI convergono. Una prova per ciascuna delle 12 materie, in ordine

@@ -343,8 +343,10 @@ func _prepare_release_smoke_save() -> void:
 	for subject_data in prepared:
 		var subject := str(subject_data)
 		save.add_mission(subject)
-		save.set_mastery(subject, threshold)
-		var topic_target := GateReadiness.coverage_target(content.subject_topic_count(subject))
+		save.set_mastery(subject, ApparatusConfig.subject_mastery_threshold(subject, save.level()))
+		var topic_target := GateReadiness.coverage_target(
+			content.subject_topic_count(subject), save.level(),
+			ApparatusConfig.is_core(subject))
 		for index in range(maxi(topic_target, 1)):
 			save.set_topic_mastery(subject, "release-smoke-topic-%d" % index, 1.0)
 	save.data["accessibility"] = {

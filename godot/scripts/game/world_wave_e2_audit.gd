@@ -94,12 +94,13 @@ func _prepare_final_gate(save: GameSaveManager, content: ContentManager) -> void
 	var gate := ApparatusConfig.apparatus_gate(subject, 24)
 	for _mission in 5:
 		save.add_mission(subject)
-	save.set_mastery(subject, float(gate["masteryThreshold"]))
+	save.set_mastery(subject, ApparatusConfig.subject_mastery_threshold(subject, save.level()))
 	# Il livello si apre col NUCLEO: senza, l'esame accenderebbe la stanza ma la
 	# nave non eseguirebbe la regia finale, che scatta sulla salita di livello.
 	for core_data in ApparatusConfig.SUBJECT_CYCLE:
 		var core_subject := str(core_data)
-		save.set_mastery(core_subject, float(gate["masteryThreshold"]))
+		save.set_mastery(core_subject, ApparatusConfig.subject_mastery_threshold(
+			core_subject, save.level()))
 		# La copertura richiesta cresce col livello e scala con la materia dal
 		# 5 agosto 2026: al livello 24 tre argomenti non bastano più.
 		for core_topic in range(24):

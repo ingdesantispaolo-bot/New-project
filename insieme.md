@@ -515,6 +515,60 @@ sessanta.
 
 ---
 
+## Il rango del nucleo: italiano, matematica, inglese (6 agosto 2026)
+
+Direzione decisa dal committente: queste tre devono contare piu' delle altre
+nove, in contenuto, in prove e nel gioco.
+
+**La tensione da governare, detta subito.** Il 5 agosto il gate era passato da
+tre materie a dodici, per impedire di salire facendo il minimo. Rimettere le tre
+al centro rischiava di riportare il problema. La soluzione non e' **quali**
+materie fermano la progressione — restano tutte e dodici — ma **quanto alta e'
+l'asticella di ciascuna**.
+
+| | soglia al mondo 1 | copertura per livello |
+|---|---:|---:|
+| nucleo (italiano, matematica, inglese) | **0,78** | base **+1 argomento** |
+| le altre nove | 0,70 | base |
+
+Il bonus e' `ApparatusConfig.CORE_MASTERY_BONUS`, e vale ovunque perche' e'
+applicato dentro `GateReadiness.evaluate_subject`, cioe' nell'unico punto da cui
+passa ogni valutazione: HUD, portale, report e audit leggono tutti lo stesso
+numero e non possono dissentire.
+
+Perche' 0,08 e non 0,15: piu' in basso il bambino non si accorge della
+differenza e il rango torna una dichiarazione; molto piu' in alto chi e' debole
+proprio in queste tre resta fermo — e sono le tre materie in cui essere deboli
+e' piu' comune.
+
+**La prova di nucleo.** L'esame di un mondo era solo della materia ospite: in
+ventuno mondi su ventiquattro il nucleo non compariva nel momento decisivo. Un
+bambino impara che cosa conta da dove viene interrogato, non da quello che gli
+si dice. Ora ogni esame porta **due nodi** dalle materie del nucleo diverse da
+quella del mondo. Due e non tre: l'esame resta della materia del mondo, e
+trasformarlo in un esame generale cancellerebbe il senso di riparare QUELLA
+stanza.
+
+**Costo misurato:** campagna da 20 a **21,1 ore**, mondo piu' lungo da 62 a 72
+minuti. Avevo previsto un aumento del 30-40%: era **+5%**. Seconda previsione a
+occhio smentita dalla misura in due giorni — la regola resta misurare prima.
+
+**Leve studiate e NON attivate** (restano qui, con il loro perche'):
+
+- *presenza nel mondo*: due luoghi invece di uno per le tre quando non sono
+  ospiti, da 16 a 19 per mondo. Tocca il direttore degli eventi e va rimisurato
+  il tempo per mondo;
+- *ripasso piu' stretto* per gli argomenti del nucleo: poco visibile subito,
+  molto efficace sulla ritenzione a distanza;
+- *voce del gioco*: NORA nomina per prime le tre, le loro stanze sono il cuore
+  della nave, il registro mostra il nucleo a parte;
+- *contenuto*: il giro a 15 ricette parte dalle tre, e un cricchetto che
+  pretenda per loro un fondo di banco piu' alto — oggi e' gia' vero di fatto
+  (matematica 498, inglese 508, italiano 365 quesiti a L1 contro 53-144 delle
+  altre) ma niente lo protegge.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

@@ -76,6 +76,10 @@ static func _default_data() -> Dictionary:
 		# Il massimo storico di padronanza per materia: è il riferimento del
 		# pavimento sotto cui il decadimento non scende.
 		"masteryPeak": {},          # subject -> float 0..1
+		# Mondi di cui è già stata letta la schermata di benvenuto. Si mostra una
+		# volta sola: riproporla a ogni rientro la trasformerebbe in una porta da
+		# chiudere, e una cosa che si impara a chiudere non si legge più.
+		"worldIntroSeen": [],       # [livelli]
 		"apparatus": {},            # id -> {repairedLevel:int}
 		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
 		# mondo attualmente giocato. Il rango `level` è la frontiera di
@@ -551,6 +555,20 @@ func sessions_since(subject: String, orologio: int) -> int:
 	if not tutte.has(subject):
 		return -1
 	return maxi(0, orologio - int(tutte[subject]))
+
+## Vero se questo mondo non ha ancora mostrato la sua soglia. Segna e risponde
+## in un colpo solo: due chiamanti che chiedessero prima e segnassero poi
+## potrebbero mostrarla due volte in un rientro rapido.
+func claim_world_intro(level: int) -> bool:
+	var visti: Array = Array(data.get("worldIntroSeen", []))
+	if visti.has(level):
+		return false
+	visti.append(level)
+	data["worldIntroSeen"] = visti
+	return true
+
+func world_intro_seen(level: int) -> bool:
+	return Array(data.get("worldIntroSeen", [])).has(level)
 
 func mastery_peak(subject: String) -> float:
 	return float(Dictionary(data.get("masteryPeak", {})).get(subject, 0.0))

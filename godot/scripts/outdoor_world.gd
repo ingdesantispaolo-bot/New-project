@@ -245,6 +245,47 @@ delete document.documentElement.dataset.eliExam;
 		audio.call("configure_world_soundscape", str(world_profile.get("soundscape", "")))
 		audio.call("play_subject", _world_subject())
 	_publish_web_accessibility_state()
+	_mostra_soglia_del_mondo()
+
+## La schermata di benvenuto del mondo, una volta sola per mondo.
+##
+## `claim_world_intro` chiede e segna in un colpo solo: due chiamate separate —
+## prima «l'ho già vista?» e poi «segnala» — potrebbero mostrarla due volte in un
+## rientro rapido, e una schermata che ricompare insegna a chiuderla senza
+## leggerla.
+##
+## Se il pannello non si potesse costruire non succede niente: una schermata di
+## benvenuto non deve poter impedire di entrare in un mondo.
+func _mostra_soglia_del_mondo() -> void:
+	if not is_instance_valid(game_save) or not is_instance_valid(ui_layer):
+		return
+	# Non quando il mondo è pilotato da qualcun altro.
+	#
+	# `launch_request_override` lo impostano le prove di scena, mai il gioco
+	# vero — che stagia la richiesta via NativeWorldState. Una schermata modale
+	# che ferma Eli mandava in timeout gli audit che guidano il mondo, e lo
+	# facevano con un messaggio incomprensibile («l'impulso non stabilizza
+	# l'anomalia»): il difetto era due strati più in là del sintomo.
+	#
+	# Il contenuto della soglia resta verificato da `world_intro_audit`, che lo
+	# controlla per tutti e ventiquattro i mondi senza costruire la scena.
+	if not launch_request_override.is_empty():
+		return
+	if not game_save.claim_world_intro(world_level):
+		return
+	var pannello := WorldIntroPanel.new()
+	pannello.name = "WorldIntroPanel"
+	pannello.livello = world_level
+	pannello.chiusa.connect(func():
+		if is_instance_valid(pannello):
+			pannello.queue_free()
+		if is_instance_valid(player):
+			player.set_physics_process(true))
+	ui_layer.add_child(pannello)
+	# Eli si ferma mentre si legge: farla camminare sotto una schermata a tutto
+	# schermo la fa finire chissà dove mentre il bambino legge.
+	if is_instance_valid(player):
+		player.set_physics_process(false)
 
 func _configure_world_profile() -> void:
 	var frontier := clampi(game_save.level(), 1, WorldProfileCatalog.MAX_LEVEL)

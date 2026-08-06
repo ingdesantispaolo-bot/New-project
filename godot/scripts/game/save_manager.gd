@@ -60,6 +60,15 @@ static func _default_data() -> Dictionary:
 		# già noti. È la differenza fra chiedere di imparare altro e chiedere di
 		# tenere allenato ciò che si sa: la seconda si può fare a ogni livello.
 		"coverageThisLevel": {},    # subject -> [argomenti toccati in questo livello]
+		# Impronte dei quesiti di PRATICA già visti di recente, materia per
+		# materia. Nasce da una segnalazione di gioco del 6 agosto 2026: lo
+		# studente rifaceva la stessa location e ritrovava gli stessi quesiti
+		# identici, guadagnando padronanza senza imparare niente.
+		#
+		# Sono numeri, non testi: l'impronta del testo della domanda. Serve solo a
+		# rispondere «questo l'ha già visto?», e conservare le domande per esteso
+		# gonfierebbe ogni salvataggio e ogni copia in cloud.
+		"recentPractice": {},       # subject -> [impronte, dalla più vecchia]
 		"apparatus": {},            # id -> {repairedLevel:int}
 		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
 		# mondo attualmente giocato. Il rango `level` è la frontiera di
@@ -449,6 +458,44 @@ func _migrate_spaced_repetition(migrated: Dictionary) -> Dictionary:
 		"history": sr.get("history", []),
 	}
 	return migrated
+
+# --- Pratica già vista (6 agosto 2026) ----------------------------------------
+
+## Quante impronte si conservano per materia.
+##
+## Una sessione di pratica ne consuma quattro o cinque, e il repertorio più
+## sottile misurato ne contiene cinque in tutto: ricordarne troppe lascerebbe la
+## materia senza NIENTE di ammissibile e il filtro dovrebbe arrendersi sempre.
+## Ventiquattro coprono circa cinque sessioni, che è la distanza oltre la quale
+## rivedere un esercizio è ripasso e non ripetizione.
+const RECENT_PRACTICE_MAX := 24
+
+## L'impronta di un quesito è il suo TESTO, non il suo identificativo: due nodi
+## generati con id diverso ma stessa domanda sono lo stesso esercizio per il
+## bambino, ed è quello che conta.
+static func practice_fingerprint(prompt: String) -> int:
+	return hash(prompt.strip_edges().to_lower())
+
+func remember_practice(subject: String, prompts: Array) -> void:
+	var tutte: Dictionary = data.get("recentPractice", {})
+	var coda: Array = Array(tutte.get(subject, []))
+	for p in prompts:
+		var impronta := practice_fingerprint(str(p))
+		# Riportare in fondo un'impronta già presente, invece di duplicarla:
+		# un esercizio rivisto ora è «visto ora», non «visto tre sessioni fa».
+		coda.erase(impronta)
+		coda.append(impronta)
+	while coda.size() > RECENT_PRACTICE_MAX:
+		coda.remove_at(0)
+	tutte[subject] = coda
+	data["recentPractice"] = tutte
+
+## Le impronte da evitare, come insieme per la ricerca rapida.
+func recent_practice(subject: String) -> Dictionary:
+	var out: Dictionary = {}
+	for impronta in Array(Dictionary(data.get("recentPractice", {})).get(subject, [])):
+		out[int(impronta)] = true
+	return out
 
 func snapshot() -> Dictionary:
 	return data.duplicate(true)

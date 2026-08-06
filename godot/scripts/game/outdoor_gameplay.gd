@@ -482,6 +482,85 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 	_persist()
 	return session
 
+## Quante estrazioni tentare prima di rassegnarsi a riproporre qualcosa di già
+## visto. Sei bastano: il repertorio di una materia si satura molto prima.
+const PRACTICE_RIESTRAZIONI := 6
+
+## Una sessione di pratica fatta di quesiti che il bambino NON ha appena visto.
+##
+## Nasce da una segnalazione di gioco del 6 agosto 2026: lo studente rifaceva la
+## stessa location e ritrovava gli stessi quesiti identici, salendo di padronanza
+## senza imparare niente. Misurato prima di intervenire: rigiocando dieci volte,
+## **il 55% dei quesiti di pratica erano gli stessi** (fino all'83% in geografia
+## al livello 1), contro il 13% delle missioni — che è normale sovrapposizione
+## d'estrazione.
+##
+## La causa non era il caso: i due costruttori estraggono davvero a sorte. Era il
+## **fondo**. Il repertorio dei minigiochi per geografia e storia al livello 1
+## conta cinque quesiti distinti in tutto, e una sessione ne consuma quattro o
+## cinque: la seconda volta non poteva che essere la prima.
+##
+## Quindi si procede in tre passi, in ordine di preferenza:
+##
+##   1. si scartano i quesiti già visti di recente (memoria nel salvataggio);
+##   2. si riestrae dal catalogo dei minigiochi per rimpiazzarli, perché la
+##      forma interattiva è il motivo per cui la pratica esiste;
+##   3. quando il catalogo è esaurito si attinge ai **banchi**, che di fondo ne
+##      hanno (dai 23 ai 30 esercizi distinti per casella, misurati). Meglio un
+##      quesito di forma più semplice ma nuovo che un abbinamento già fatto.
+##
+## Se anche i banchi non bastano si riempie con quello che c'è: una sessione
+## vuota sarebbe un vicolo cieco, e un vicolo cieco è peggio di una ripetizione.
+func _build_practice_session(subject: String) -> Dictionary:
+	var livello := _learning_level()
+	var session := minigame_manager.build_minigame(subject, livello)
+	var voluti := Array(session.get("nodes", [])).size()
+	if voluti == 0:
+		return session
+
+	var evita := game_save.recent_practice(subject)
+	var visti_qui: Dictionary = {}      # niente doppioni dentro la stessa sessione
+	var tenuti: Array = []
+	var scartati: Array = []
+
+	var raccogli := func(nodi: Array) -> void:
+		for n in nodi:
+			if tenuti.size() >= voluti:
+				return
+			var nodo: Dictionary = n
+			var impronta := GameSaveManager.practice_fingerprint(str(nodo.get("prompt", "")))
+			if visti_qui.has(impronta):
+				continue
+			if evita.has(impronta):
+				scartati.append(nodo)
+				continue
+			visti_qui[impronta] = true
+			tenuti.append(nodo)
+
+	raccogli.call(Array(session.get("nodes", [])))
+	var tentativi := 0
+	while tenuti.size() < voluti and tentativi < PRACTICE_RIESTRAZIONI:
+		tentativi += 1
+		raccogli.call(Array(minigame_manager.build_minigame(subject, livello).get("nodes", [])))
+
+	if tenuti.size() < voluti:
+		# Il catalogo interattivo è esaurito: si va ai banchi.
+		var mancano := voluti - tenuti.size()
+		var missione := content_manager.build_mission(
+			subject, livello, mancano * 3, _due(),
+			null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
+		raccogli.call(Array(missione.get("nodes", [])))
+
+	# Ultima risorsa: si riammettono i già visti, i più vecchi per primi. Non
+	# capita quasi mai, e quando capita è meglio di una sessione vuota.
+	var i := 0
+	while tenuti.size() < voluti and i < scartati.size():
+		tenuti.append(scartati[i])
+		i += 1
+
+	session["nodes"] = tenuti
+	return session
+
 # Minigioco: un incontro risolto con formati interattivi (abbina/ordina) della
 # materia. Stessa pipeline delle missioni — conta per il gate dell'apparato,
 # aggiorna mastery per-topic ed energia; cambia solo la resa dei nodi.
@@ -492,12 +571,22 @@ func try_start_minigame(payload: Dictionary, encounter_id: String) -> bool:
 		_present_feedback("Minigioco già completato.", "system")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := minigame_manager.build_minigame(subject, _learning_level())
+	var session := _build_practice_session(subject)
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Minigioco non disponibile per %s." % subject, "system")
 		return false
 	_charge_exercise_entry()
-	active_session_context = {"kind": "minigame", "encounterId": encounter_id, "subject": subject}
+	# I testi dei quesiti viaggiano nel contesto: alla chiusura finiscono nella
+	# memoria della pratica, così la prossima palestra non li ripropone. Il
+	# player non li restituisce, e leggerli qui è l'unico punto in cui esistono
+	# di sicuro.
+	var prompts: Array = []
+	for n in Array(session.get("nodes", [])):
+		prompts.append(str((n as Dictionary).get("prompt", "")))
+	active_session_context = {
+		"kind": "minigame", "encounterId": encounter_id, "subject": subject,
+		"prompts": prompts,
+	}
 	_present_feedback(NoraContextEngine.open_line(subject, false), "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
@@ -581,8 +670,9 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		_present_feedback(_abandon_feedback(costo, usciti_avanzati), "nora")
 		_emit_state()
 		return
-	# I minigiochi sono PRATICA ripetibile: allenano padronanza ed energia ma non
-	# contano per il gate (nessun add_mission) e non completano un incontro.
+	# I minigiochi sono PRATICA: allenano padronanza ed energia ma non contano per
+	# il gate (nessun add_mission). Dal 6 agosto 2026 una palestra SUPERATA si
+	# chiude, perché rifarla identica era diventata una scorciatoia.
 	if kind == "minigame":
 		progression_manager.record_practice(subject, correct, total, gained)
 	else:
@@ -604,7 +694,33 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		# volta che i punti non gli servono, smette. Dirlo col Codex insegna che
 		# serve a sapere una cosa in più, che è vero ed è il motivo per cui gli
 		# eventi di pratica esistono.
+		# Quello che ha appena visto non deve tornare alla prossima palestra. Si
+		# ricorda SEMPRE, superata o no: rifare identici gli esercizi sbagliati è
+		# la scorciatoia più tentante di tutte — si impara la risposta, non la
+		# regola.
+		var visti: Array = []
+		for n in Array(context.get("prompts", [])):
+			visti.append(str(n))
+		game_save.remember_practice(subject, visti)
+
 		if passed:
+			# Superata: QUESTA location è finita e sparisce dalla mappa.
+			#
+			# Segnalazione di gioco del 6 agosto 2026: lo studente rifaceva la
+			# stessa palestra all'infinito per far salire la padronanza. Il ramo
+			# che chiude un incontro esisteva solo per missioni ed enigmi — la
+			# pratica non veniva mai chiusa, e il controllo in `try_start_minigame`
+			# leggeva una lista che nessuno riempiva: era codice morto.
+			#
+			# La pratica resta comunque disponibile: il direttore ne rigenera una
+			# altrove al rientro nel mondo (vedi `mission_event_director.gd`), e
+			# ogni materia ne ha una propria. Chiudere questa non chiude la strada.
+			var practice_id := str(context.get("encounterId", ""))
+			if practice_id != "":
+				var chiusi: Array = result["completedEncounterIds"]
+				if not chiusi.has(practice_id):
+					chiusi.append(practice_id)
+				game_save.mark_encounter_completed(_world_id(), practice_id)
 			_present_feedback(_practice_feedback(codex_advanced, gained), "nora")
 		else:
 			_present_feedback(nora_voice.line("defeat"), "nora")

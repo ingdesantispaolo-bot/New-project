@@ -248,11 +248,17 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		var fmt2 := _next_format(other_formats, fmt_index, last_format, recent_formats)
 		last_format = fmt2
 		fmt_index += 1
+		# Il GIRO di pratica: quante palestre di questa materia sono già state
+		# chiuse in questo mondo. Entra nell'identificativo — così la palestra
+		# nuova non è quella vecchia — e nella posizione, perché deve nascere
+		# ALTROVE: ritrovarla nello stesso punto sarebbe la stessa location, e la
+		# segnalazione di gioco del 6 agosto nasce proprio da lì.
+		var giro := int(Dictionary(context.get("practiceRound", {})).get(other, 0))
 		var pos: Vector2 = _distributed_position(
-			rng, composition, spawn, ship, safe_radius, idx, t2,
+			rng, composition, spawn, ship, safe_radius, idx + giro * 5, t2,
 			GATE_MAX_R, reach + 350.0, half_extent, events)
 		events.append({
-			"id": "evt-%d-practice-%s" % [level, other],
+			"id": "evt-%d-practice-%s-r%d" % [level, other, giro],
 			"kind": "practice",
 			"subject": other,
 			"format": fmt2,

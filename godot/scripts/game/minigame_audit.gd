@@ -152,11 +152,27 @@ func _test_integrazione_pipeline() -> void:
 	assert(str(session.get("kind", "")) == "minigame", "kind minigame")
 	var res := _play_session(gameplay, session, true)
 	gameplay.resolve_session(res)
-	# Pratica: NON conta per il gate e NON completa un incontro (rigiocabile).
+	# Pratica: NON conta per il gate, ma da adesso una palestra SUPERATA si chiude.
+	#
+	# Fino al 6 agosto 2026 era rigiocabile all'infinito, e questa prova lo
+	# pretendeva. Una segnalazione di gioco ha mostrato il prezzo di quella
+	# scelta: lo studente rifaceva la stessa location e ritrovava gli stessi
+	# quesiti — misurati, il 55% identici — salendo di padronanza senza imparare
+	# niente. Non è pigrizia del bambino: è una scorciatoia che il gioco offriva.
+	#
+	# La pratica resta disponibile: il direttore pianta la palestra successiva
+	# ALTROVE, con un identificativo nuovo (`-r1`, `-r2`, …). Quello che sparisce
+	# è la possibilità di rifare LA STESSA.
 	assert(int(gameplay.runtime_state()["missionsDone"]) == missions_before, "la pratica non deve contare per il gate")
-	assert(not Array(result["completedEncounterIds"]).has("mg-1"), "la pratica non deve completare un incontro")
 	assert(gameplay.game_save.mastery_of(subject) > mastery_before, "la pratica deve migliorare la padronanza")
-	assert(gameplay.try_start_minigame({"subject": subject}, "mg-1"), "la Palestra deve essere ripetibile")
+	assert(Array(result["completedEncounterIds"]).has("mg-1"),
+		"una palestra superata deve chiudersi: rifarla identica era la scorciatoia")
+	assert(not gameplay.try_start_minigame({"subject": subject}, "mg-1"),
+		"la stessa palestra si è riaperta dopo essere stata superata")
+	# Una palestra DIVERSA resta apribile: chiudere quella fatta non chiude la
+	# strada, altrimenti il gate a dodici materie diventerebbe irraggiungibile.
+	assert(gameplay.try_start_minigame({"subject": subject}, "mg-2"),
+		"chiusa una palestra, nessun'altra si apre più")
 	gameplay.queue_free()
 
 # --- helper ------------------------------------------------------------------

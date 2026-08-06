@@ -307,6 +307,25 @@ func _profile_in_scene_coordinates(profile: Dictionary) -> Dictionary:
 	mapped["safeRoute"] = route
 	return mapped
 
+## Per ogni materia, quante palestre sono già state chiuse in QUESTO mondo.
+## Si legge dal salvataggio e non da `result`, perché il piano degli eventi si
+## costruisce prima che il delta di sessione sia idratato.
+func _practice_rounds() -> Dictionary:
+	var out: Dictionary = {}
+	if not is_instance_valid(game_save):
+		return out
+	var chiusi: Array = Array(
+		game_save.world_progress(str(world_level)).get("completedEncounterIds", []))
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_data)
+		var prefisso := "evt-%d-practice-%s-r" % [world_level, subject]
+		var giri := 0
+		for id in chiusi:
+			if str(id).begins_with(prefisso):
+				giri += 1
+		out[subject] = giri
+	return out
+
 func _planned_world_events() -> Array:
 	var subject := _world_subject()
 	# Argomenti deboli e in scadenza per OGNI materia, non solo per quella del
@@ -341,6 +360,11 @@ func _planned_world_events() -> Array:
 		# restano sopra quando non c'è ripasso in sospeso.
 		"lessonTopics": WORLD_LESSON_CATALOG.topics(world_level),
 		"recentFormats": [],
+		# Quante palestre di questa materia sono già state chiuse in questo mondo.
+		# Dal 6 agosto 2026 una palestra superata sparisce, e la successiva nasce
+		# ALTROVE con un identificativo nuovo: senza questo conteggio la materia
+		# resterebbe senza pratica per sempre dopo la prima volta.
+		"practiceRound": _practice_rounds(),
 	}
 	var planned := MissionEventDirector.plan(world_profile, context, world_seed)
 	# Il tetto deve lasciar passare TUTTE le materie: troncare qui farebbe sparire
@@ -1275,103 +1299,138 @@ func _sync_profile_environment_transform(animate: bool) -> void:
 
 func _create_profile_events() -> void:
 	for event_data in mission_events:
-		var event: Dictionary = event_data
-		var director_kind := str(event.get("kind", "mission"))
-		var scene_kind := "encounter" if director_kind == "mission" else "minigame" if director_kind == "practice" else "enigma"
-		var event_id := str(event.get("id", ""))
-		var completed := (
-			director_kind != "practice"
-			and Array(result.get("completedEncounterIds", [])).has(event_id)
-		)
-		var area := Area2D.new()
-		area.name = "MissionEvent_%s" % event_id.replace("-", "_")
-		area.position = event.get("position", Vector2.ZERO)
-		area.monitoring = not completed
-		area.monitorable = not completed
-		area.set_meta("completed", completed)
-		if not completed:
-			area.add_to_group("world_interactable")
-			if bool(event.get("countsForGate", false)):
-				area.add_to_group("mission_poi")
-			if director_kind == "enigma":
-				area.add_to_group("enigma_poi")
-			elif director_kind == "practice":
-				area.add_to_group("minigame_poi")
-		area.set_meta("kind", scene_kind)
-		area.set_meta("id", event_id)
-		area.set_meta("directorEvent", event.duplicate(true))
-		var payload := {
-			"subject": str(event.get("subject", _world_subject())),
-			"label": _event_label(event),
-			"format": str(event.get("format", "multiple_choice")),
-			"topicHint": str(event.get("topicHint", "")),
-			"countsForGate": bool(event.get("countsForGate", false)),
-			"directorKind": director_kind,
-			"ownerNpc": NPC_CATALOG.owner_for(world_level, director_kind),
-		}
-		if director_kind == "practice" and world_level >= 2:
-			# Solo deviazioni opzionali: nessuno strumento può bloccare il gate.
-			payload["requiredTool"] = (
-				"tool-torch" if posmod(hash(event_id), 2) == 0 else "tool-scythe"
-			)
-		area.set_meta("payload", payload)
-		var shape := CollisionShape2D.new()
-		shape.name = "EventCollision"
-		var circle := CircleShape2D.new()
-		circle.radius = INTERACTION_DISTANCE
-		shape.shape = circle
-		shape.disabled = completed
-		area.add_child(shape)
+		_create_profile_event(event_data as Dictionary)
+
+## La palestra successiva di una materia, piantata altrove a mondo già costruito.
+##
+## Il piano degli eventi si ricalcola: `_practice_rounds()` legge dal salvataggio
+## quante palestre di questa materia sono già chiuse — e quella appena superata
+## lo è — quindi il direttore restituisce il giro successivo, con identificativo
+## nuovo e posizione nuova. Nessuna posizione inventata qui: la stessa funzione
+## che dispone gli eventi alla nascita del mondo dispone anche questo.
+func _respawn_practice_event(subject: String) -> void:
+	if subject.is_empty():
+		return
+	var atteso := "evt-%d-practice-%s-r" % [world_level, subject]
+	for evento in _planned_world_events():
+		var e: Dictionary = evento
+		if str(e.get("kind", "")) != "practice" or str(e.get("subject", "")) != subject:
+			continue
+		var id := str(e.get("id", ""))
+		if not id.begins_with(atteso):
+			continue
+		if Array(result.get("completedEncounterIds", [])).has(id):
+			continue
+		# Già sulla mappa: può capitare se il piano viene ricalcolato due volte.
+		for nodo in get_tree().get_nodes_in_group("world_interactable"):
+			if nodo is Area2D and str(nodo.get_meta("id", "")) == id:
+				return
+		mission_events.append(e)
+		_create_profile_event(e)
+		return
+
+## Un solo evento, disegnato sulla mappa.
+##
+## Estratta dal ciclo il 6 agosto 2026 perché serviva chiamarla anche a mondo
+## già costruito: quando una palestra viene superata sparisce, e la successiva
+## deve comparire subito altrove invece di aspettare il rientro nel mondo.
+func _create_profile_event(event: Dictionary) -> void:
+	var director_kind := str(event.get("kind", "mission"))
+	var scene_kind := "encounter" if director_kind == "mission" else "minigame" if director_kind == "practice" else "enigma"
+	var event_id := str(event.get("id", ""))
+	# Fino al 6 agosto 2026 la pratica era esclusa da questo controllo, e una
+	# palestra restava sulla mappa per sempre: lo studente la rifaceva
+	# all'infinito guadagnando padronanza sugli STESSI quesiti.
+	var completed := Array(result.get("completedEncounterIds", [])).has(event_id)
+	var area := Area2D.new()
+	area.name = "MissionEvent_%s" % event_id.replace("-", "_")
+	area.position = event.get("position", Vector2.ZERO)
+	area.monitoring = not completed
+	area.monitorable = not completed
+	area.set_meta("completed", completed)
+	if not completed:
+		area.add_to_group("world_interactable")
+		if bool(event.get("countsForGate", false)):
+			area.add_to_group("mission_poi")
 		if director_kind == "enigma":
-			var visual := ENIGMA_STRUCTURE.new()
-			visual.name = "EnigmaStructureVisual"
-			# La struttura antepone già "ENIGMA": il titolo deve contenere solo
-			# la materia, altrimenti appare "ENIGMA · ENIGMA DI …".
-			visual.setup(
-				"ponte" if event.has("bridgeCenter") else ContentManager.enigma_theme(str(payload["subject"])),
-				str(payload["subject"]).capitalize())
-			if event.has("bridgeCenter"):
-				var bridge_center: Vector2 = event.get("bridgeCenter", area.position)
-				var bridge_normal: Vector2 = event.get("bridgeNormal", Vector2.RIGHT)
-				visual.position = bridge_center - area.position
-				visual.rotation = bridge_normal.angle()
-				var water_gate_sign := _make_water_gate_sign(completed)
-				water_gate_sign.name = "WaterGateObjective"
-				area.add_child(water_gate_sign)
-			visual.set_stage(4 if completed else 0, 4)
-			area.add_child(visual)
+			area.add_to_group("enigma_poi")
 		elif director_kind == "practice":
-			area.add_child(_make_minigame_marker())
-			var equipment_gate := EQUIPMENT_GATE_SCRIPT.new()
-			equipment_gate.name = "EquipmentGate"
-			area.add_child(equipment_gate)
-			equipment_gate.configure(str(payload.get("requiredTool", "")), equipped_field_tool())
-		elif not completed:
-			var marker := OutdoorVisualFactory.build_encounter(
-				_event_visual_kind(str(payload["subject"])),
-				clampi(floori(float(world_level) / 4.0) + 1, 1, 7))
-			marker.name = "EventMarker"
-			area.add_child(marker)
-		var reaction := LEARNING_REACTION_SCRIPT.new()
-		reaction.setup(
-			_learning_reaction_theme(),
-			director_kind,
-			OutdoorVisualFactory.hex_color(_profile_accent_rgb()),
-			environment_transform)
-		reaction.position = Vector2(0, 28)
-		reaction.set_complete(completed)
-		area.add_child(reaction)
-		# EnigmaStructureVisual possiede già un titolo contestuale leggibile:
-		# aggiungerne un secondo produceva etichette sovrapposte su tablet.
-		# Una missione già conclusa conserva la trasformazione ambientale, ma non
-		# la sfera/caption che la facevano sembrare ancora disponibile.
-		if director_kind != "enigma" and not completed:
-			var caption := _make_event_caption(director_kind, str(payload["subject"]))
-			caption.name = "EventCaption"
-			area.add_child(caption)
-		world_layer.add_child(area)
-		area.body_entered.connect(func(body): on_interactable_entered(area, body))
-		area.body_exited.connect(func(body): on_interactable_exited(area, body))
+			area.add_to_group("minigame_poi")
+	area.set_meta("kind", scene_kind)
+	area.set_meta("id", event_id)
+	area.set_meta("directorEvent", event.duplicate(true))
+	var payload := {
+		"subject": str(event.get("subject", _world_subject())),
+		"label": _event_label(event),
+		"format": str(event.get("format", "multiple_choice")),
+		"topicHint": str(event.get("topicHint", "")),
+		"countsForGate": bool(event.get("countsForGate", false)),
+		"directorKind": director_kind,
+		"ownerNpc": NPC_CATALOG.owner_for(world_level, director_kind),
+	}
+	if director_kind == "practice" and world_level >= 2:
+		# Solo deviazioni opzionali: nessuno strumento può bloccare il gate.
+		payload["requiredTool"] = (
+			"tool-torch" if posmod(hash(event_id), 2) == 0 else "tool-scythe"
+		)
+	area.set_meta("payload", payload)
+	var shape := CollisionShape2D.new()
+	shape.name = "EventCollision"
+	var circle := CircleShape2D.new()
+	circle.radius = INTERACTION_DISTANCE
+	shape.shape = circle
+	shape.disabled = completed
+	area.add_child(shape)
+	if director_kind == "enigma":
+		var visual := ENIGMA_STRUCTURE.new()
+		visual.name = "EnigmaStructureVisual"
+		# La struttura antepone già "ENIGMA": il titolo deve contenere solo
+		# la materia, altrimenti appare "ENIGMA · ENIGMA DI …".
+		visual.setup(
+			"ponte" if event.has("bridgeCenter") else ContentManager.enigma_theme(str(payload["subject"])),
+			str(payload["subject"]).capitalize())
+		if event.has("bridgeCenter"):
+			var bridge_center: Vector2 = event.get("bridgeCenter", area.position)
+			var bridge_normal: Vector2 = event.get("bridgeNormal", Vector2.RIGHT)
+			visual.position = bridge_center - area.position
+			visual.rotation = bridge_normal.angle()
+			var water_gate_sign := _make_water_gate_sign(completed)
+			water_gate_sign.name = "WaterGateObjective"
+			area.add_child(water_gate_sign)
+		visual.set_stage(4 if completed else 0, 4)
+		area.add_child(visual)
+	elif director_kind == "practice":
+		area.add_child(_make_minigame_marker())
+		var equipment_gate := EQUIPMENT_GATE_SCRIPT.new()
+		equipment_gate.name = "EquipmentGate"
+		area.add_child(equipment_gate)
+		equipment_gate.configure(str(payload.get("requiredTool", "")), equipped_field_tool())
+	elif not completed:
+		var marker := OutdoorVisualFactory.build_encounter(
+			_event_visual_kind(str(payload["subject"])),
+			clampi(floori(float(world_level) / 4.0) + 1, 1, 7))
+		marker.name = "EventMarker"
+		area.add_child(marker)
+	var reaction := LEARNING_REACTION_SCRIPT.new()
+	reaction.setup(
+		_learning_reaction_theme(),
+		director_kind,
+		OutdoorVisualFactory.hex_color(_profile_accent_rgb()),
+		environment_transform)
+	reaction.position = Vector2(0, 28)
+	reaction.set_complete(completed)
+	area.add_child(reaction)
+	# EnigmaStructureVisual possiede già un titolo contestuale leggibile:
+	# aggiungerne un secondo produceva etichette sovrapposte su tablet.
+	# Una missione già conclusa conserva la trasformazione ambientale, ma non
+	# la sfera/caption che la facevano sembrare ancora disponibile.
+	if director_kind != "enigma" and not completed:
+		var caption := _make_event_caption(director_kind, str(payload["subject"]))
+		caption.name = "EventCaption"
+		area.add_child(caption)
+	world_layer.add_child(area)
+	area.body_entered.connect(func(body): on_interactable_entered(area, body))
+	area.body_exited.connect(func(body): on_interactable_exited(area, body))
 
 func _event_label(event: Dictionary) -> String:
 	var subject := str(event.get("subject", _world_subject())).capitalize()
@@ -3652,6 +3711,17 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	if is_instance_valid(gameplay):
 		context = gameplay.active_session_context.duplicate(true)
 		gameplay.resolve_session(exercise_result)
+		if str(context.get("kind", "")) == "minigame" and session_passed:
+			# La palestra superata sparisce dalla mappa all'istante, non al
+			# rientro: il punto della segnalazione era proprio che si poteva
+			# rifarla lì per lì. Non passa dal registro di proprietà — la
+			# pratica non ha un proprietario, per contratto.
+			_complete_learning_reaction(str(context.get("encounterId", "")))
+			# E subito ne nasce un'altra ALTROVE. Senza questo, una materia
+			# offrirebbe una sola pratica per visita e per allenarne dodici si
+			# dovrebbe tornare alla nave quattro volte per mondo: la
+			# ripetizione sparirebbe, ma al posto suo arriverebbe una corvée.
+			_respawn_practice_event(str(context.get("subject", "")))
 		if str(context.get("kind", "")) in ["mission", "enigma"]:
 			var encounter_id := str(context.get("encounterId", ""))
 			if mission_ownership_flow != null:

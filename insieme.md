@@ -373,6 +373,54 @@ due bambini a pari merito si scavalcherebbero a turno senza aver fatto niente.
 
 ---
 
+## La pratica ripeteva gli stessi quesiti (6 agosto 2026)
+
+Segnalazione di gioco: «lo studente supera le prove di una location, è tentato
+di rifare la stessa location, e ritrova gli stessi quesiti identici».
+
+Misurato prima di toccare niente, rigiocando dieci volte:
+
+| | quesiti identici al primo giro | distinti per casella |
+|---|---:|---:|
+| **pratica** (minigiochi) | **55%**, fino all'83% in geografia L1 | 5–19 |
+| missioni (banchi) | 13% — normale sovrapposizione | 23–30 |
+
+La causa non era il caso: entrambi i costruttori estraggono davvero a sorte. Era
+il **fondo**. Geografia e storia al livello 1 avevano cinque quesiti distinti in
+tutto, e una sessione ne consuma quattro: la seconda volta non poteva che essere
+la prima.
+
+Sotto, un secondo difetto che nessuno aveva notato: in `resolve_session` il ramo
+che chiude un incontro era `mission or enigma`. **La pratica non veniva mai
+chiusa**, e il controllo in `try_start_minigame` leggeva una lista che nessuno
+riempiva — codice morto dal giorno in cui è stato scritto.
+
+Tre riparazioni:
+
+1. **la palestra superata si chiude e sparisce dalla mappa**, subito, non al
+   rientro;
+2. **la successiva nasce altrove**, con identificativo `-r1`, `-r2`… Senza,
+   una materia avrebbe offerto una pratica per visita e per allenarne dodici si
+   sarebbe dovuto tornare alla nave quattro volte per mondo: la ripetizione
+   sparisce, ma al posto suo arriva una corvée;
+3. **i quesiti già visti non tornano**: il salvataggio ne ricorda le impronte, e
+   quando il catalogo interattivo si esaurisce la composizione attinge ai
+   **banchi**, che di fondo ne hanno. Meglio un quesito di forma più semplice ma
+   nuovo che un abbinamento già fatto.
+
+Misurato dopo: **55% → 20%** su dieci giri, fondo per casella da 5–19 a **27–33**,
+e **almeno sette giri consecutivi interamente nuovi** ovunque. Il cricchetto in
+`practice_variety_audit` ne pretende cinque: sotto il misurato per non diventare
+rosso a ogni oscillazione, sopra il vissuto realistico — una materia ha una
+palestra per mondo, non sette.
+
+Resta un limite dichiarato: oltre i dodici giri consecutivi sulla stessa materia
+allo stesso livello la ripetizione è **aritmetica**, non un difetto. Trenta
+quesiti non bastano a cinquanta estrazioni. Con le palestre che si chiudono, quel
+regime non si raggiunge giocando.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

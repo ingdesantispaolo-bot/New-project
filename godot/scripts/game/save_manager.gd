@@ -35,6 +35,15 @@ static func _default_data() -> Dictionary:
 		"masteryByTopic": {},       # "subject:topic" -> float 0..1 (adattività fine)
 		"missionsBySubject": {},    # subject -> int CUMULATIVO (mai azzerato, O-P0.3)
 		"gateConsumed": {},         # subject -> int già speso ai gate passati
+		# Argomenti PRATICATI in questo livello, materia per materia. Si azzera
+		# salendo di livello.
+		#
+		# Non conta gli argomenti «nuovi»: quelli finiscono — una materia ne ha
+		# otto o venti — e un gate che ne chiede sempre di inediti diventa
+		# impossibile al terzo giro. Conta quelli **toccati adesso**, anche se
+		# già noti. È la differenza fra chiedere di imparare altro e chiedere di
+		# tenere allenato ciò che si sa: la seconda si può fare a ogni livello.
+		"coverageThisLevel": {},    # subject -> [argomenti toccati in questo livello]
 		"apparatus": {},            # id -> {repairedLevel:int}
 		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
 		# mondo attualmente giocato. Il rango `level` è la frontiera di
@@ -138,6 +147,11 @@ func set_topic_mastery(subject: String, topic: String, value: float) -> void:
 	if not data.has("masteryByTopic"):
 		data["masteryByTopic"] = {}
 	data["masteryByTopic"][topic_key(subject, topic)] = clampf(value, 0.0, 1.0)
+	# Aver aggiornato la padronanza di un argomento SIGNIFICA averlo toccato in
+	# questo livello: la copertura si registra qui, nell'unico punto che ogni
+	# percorso attraversa. Tenerla solo in `record_topic_stats` la faceva
+	# mancare a chiunque costruisse uno stato per altra via.
+	mark_topic_this_level(subject, topic)
 
 # Mappa topic -> mastery per una materia (solo i topic già incontrati). Serve alla
 # selezione per privilegiare gli argomenti più deboli e alla copertura del gate.
@@ -152,6 +166,26 @@ func topic_masteries(subject: String) -> Dictionary:
 # Numero di argomenti DISTINTI della materia già incontrati (copertura vissuta).
 func topics_seen_count(subject: String) -> int:
 	return topic_masteries(subject).size()
+
+## Segna che in questo livello si è lavorato su questo argomento.
+func mark_topic_this_level(subject: String, topic: String) -> void:
+	if not data.has("coverageThisLevel"):
+		data["coverageThisLevel"] = {}
+	var per_materia: Dictionary = data["coverageThisLevel"]
+	var elenco: Array = Array(per_materia.get(subject, []))
+	if not elenco.has(topic):
+		elenco.append(topic)
+	per_materia[subject] = elenco
+
+## Quanti argomenti distinti sono stati toccati in questa materia DA QUANDO è
+## cominciato il livello. È questa la copertura che il gate misura.
+func topics_seen_this_level(subject: String) -> int:
+	return Array(data.get("coverageThisLevel", {}).get(subject, [])).size()
+
+## Azzera il conteggio del livello. Si chiama salendo: il livello nuovo
+## ricomincia a contare, mentre padronanza e argomenti conosciuti restano.
+func reset_coverage_this_level() -> void:
+	data["coverageThisLevel"] = {}
 
 func add_mission(subject: String) -> void:
 	data["missionsBySubject"][subject] = missions_of(subject) + 1

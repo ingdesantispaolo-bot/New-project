@@ -72,7 +72,7 @@ func _test_esame_al_rango_del_giocatore() -> void:
 	var guard := 0
 	while not progression.can_repair() and guard < 40:
 		progression.record_mission(subject, 3, 3, 0, true)
-		progression.record_topic_stats(subject, {"a": {"seen": 1, "correct": 1}, "b": {"seen": 1, "correct": 1}, "c": {"seen": 1, "correct": 1}})
+		progression.record_topic_stats(subject, {"t0": {"seen": 1, "correct": 1}, "t1": {"seen": 1, "correct": 1}, "t2": {"seen": 1, "correct": 1}, "t3": {"seen": 1, "correct": 1}, "t4": {"seen": 1, "correct": 1}, "t5": {"seen": 1, "correct": 1}, "t6": {"seen": 1, "correct": 1}, "t7": {"seen": 1, "correct": 1}, "t8": {"seen": 1, "correct": 1}, "t9": {"seen": 1, "correct": 1}, "t10": {"seen": 1, "correct": 1}, "t11": {"seen": 1, "correct": 1}, "t12": {"seen": 1, "correct": 1}, "t13": {"seen": 1, "correct": 1}, "t14": {"seen": 1, "correct": 1}, "t15": {"seen": 1, "correct": 1}, "t16": {"seen": 1, "correct": 1}, "t17": {"seen": 1, "correct": 1}, "t18": {"seen": 1, "correct": 1}, "t19": {"seen": 1, "correct": 1}, "t20": {"seen": 1, "correct": 1}, "t21": {"seen": 1, "correct": 1}, "t22": {"seen": 1, "correct": 1}, "t23": {"seen": 1, "correct": 1}})
 		guard += 1
 	assert(progression.can_repair(), "il gate deve potersi aprire anche mentre si ripassa")
 	var requested := {"session": {}}

@@ -39,6 +39,16 @@ func _play_mission(save: GameSaveManager, content: ContentManager, prog: Progres
 	prog.record_topic_stats(subject, _topic_stats(nodes))
 	return total
 
+## Pratica di una materia che il mondo non ospita: alza padronanza e argomenti,
+## non conta per il gate dell'apparato. È tutto quello che il giocatore può fare
+## sulle altre undici materie mentre è in questo mondo.
+func _play_practice(save: GameSaveManager, content: ContentManager, prog: ProgressionManager, subject: String) -> void:
+	var mission := content.build_mission(subject, save.level(), 3, {}, null,
+		save.mastery_of(subject), save.topic_masteries(subject))
+	var nodes: Array = mission.get("nodes", [])
+	prog.record_practice(subject, nodes.size(), nodes.size(), nodes.size() * 10)
+	prog.record_topic_stats(subject, _topic_stats(nodes))
+
 func _init() -> void:
 	var save := GameSaveManager.new()
 	var content := ContentManager.new()
@@ -62,11 +72,22 @@ func _init() -> void:
 		# Il livello si apre col NUCLEO, l'apparato con la materia del mondo: si
 		# allenano entrambi. Prima bastava la materia del mondo perché era la stessa
 		# cosa; da quando sono due assi distinti serve allenarli tutti e due.
+		# Dal 5 agosto 2026 il livello si apre con TUTTE le materie a quel grado,
+		# non con le tre strumentali. E si allenano come le allena il giocatore:
+		# **missioni** per la materia che il mondo ospita (le uniche che il mondo
+		# offre contando per il gate), **pratica** per le altre undici.
+		#
+		# Prima questo ciclo giocava missioni delle tre del nucleo a ogni livello:
+		# simulava un giocatore che non può esistere, perché quelle missioni in
+		# quel mondo non ci sono. È il difetto che ha lasciato passare il blocco
+		# del mondo 1 fino al primo collaudo vero.
 		var guard := 0
 		while (not prog.can_repair() or not prog.can_level_up()) and guard < 500:
 			_play_mission(save, content, prog, subject)
-			for core_data in ApparatusConfig.CORE_SUBJECTS:
-				_play_mission(save, content, prog, str(core_data))
+			for altra_data in ApparatusConfig.SUBJECT_CYCLE:
+				var altra := str(altra_data)
+				if altra != subject:
+					_play_practice(save, content, prog, altra)
 			total_missions += 1
 			guard += 1
 		assert(prog.can_repair(), "livello %d (%s): il gate deve aprirsi da solo (%s)" % [lvl, subject, str(prog.readiness().get("reasons", []))])
@@ -86,9 +107,22 @@ func _init() -> void:
 		if lvl == 1:
 			math_consumed_at_1 = save.gate_consumed_of("matematica")
 
-	# Cross-ciclo: la matematica ricompare al livello 13 e ha richiesto missioni
-	# NUOVE oltre a quelle già consumate al livello 1 (niente doppio conteggio).
-	assert(save.missions_of("matematica") > math_consumed_at_1, "il 2° ciclo di matematica richiede missioni nuove")
+	# Cross-ciclo: niente doppio conteggio quando una materia ritorna.
+	#
+	# Fino al 5 agosto 2026 qui si pretendeva che il 2° ciclo di matematica
+	# richiedesse missioni NUOVE. Con il gate a tre materie era vero; con il gate
+	# a dodici non lo è più, e non per un difetto: praticando ogni materia a ogni
+	# livello, al mondo 13 la matematica è già sopra soglia e il gate si apre
+	# senza lavoro aggiuntivo. È il comportamento giusto — chi ha mantenuto una
+	# competenza non deve ridimostrarla da zero — ma va detto invece di
+	# pretendere il contrario.
+	#
+	# Quello che deve restare vero è l'invariante contro il doppio conteggio: le
+	# missioni già spese a un gate non possono riaprirne un altro.
+	assert(save.gate_consumed_of("matematica") >= math_consumed_at_1,
+		"il consumo del gate non può diminuire")
+	assert(save.missions_toward_gate("matematica") <= save.missions_of("matematica"),
+		"il progresso-verso-gate non può superare il cumulativo")
 	assert(save.level() == ApparatusConfig.MAX_LEVEL + 1)
 	assert(prog.is_complete())
 

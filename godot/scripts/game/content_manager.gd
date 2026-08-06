@@ -33,6 +33,12 @@ const SUBJECT_PACE := {
 
 # Ritmo della materia (default: ragionamento, cioè senza tempo — la scelta prudente
 # per ogni materia nuova finché non è deliberatamente marcata "fluency").
+## L'esame finale: quanti nodi e quale quota per passarlo.
+const EXAM_NODES := 5
+## Per passare: tre quarti. Su quattro nodi significa un errore concesso; un
+## esame che non perdona nulla misura la tensione, non la competenza.
+const EXAM_PASS_RATIO := 0.75
+
 static func subject_pace(subject: String) -> String:
 	return str(SUBJECT_PACE.get(subject, PACE_REASONING))
 
@@ -174,8 +180,43 @@ func subject_difficulty_range(subject: String) -> Vector2i:
 # runtime, il banco statico può non elencare topic: in tal caso torna 0 e la
 # copertura ripiega sul minimo assoluto (la copertura vissuta la traccia comunque
 # `masteryByTopic`, popolato dai topic del generatore).
+## Cache condivisa da tutte le istanze: la prontezza si valuta a ogni
+## fotogramma dell'HUD e ogni `ContentManager` nuovo ripagherebbe il conto.
+static var _reachable_cache: Dictionary = {}
+
 func subject_topic_count(subject: String) -> int:
 	return bank_topics(subject).size()
+
+## Argomenti effettivamente RAGGIUNGIBILI a questo livello.
+##
+## Serve alla copertura del gate, e la differenza non è teorica: italiano ha 21
+## argomenti in tutto, ma al livello 2 la selezione ne rende disponibili quattro
+## (difficoltà e `ERA_GATED_TOPICS` filtrano il resto). Chiedere una frazione dei
+## 21 rendeva il gate **impossibile** invece che difficile — misurato: copertura
+## ferma a 4 su 8 richiesti, per sempre.
+func reachable_topic_count(subject: String, level: int) -> int:
+	var chiave := "%s@%d" % [subject, level]
+	if _reachable_cache.has(chiave):
+		return int(_reachable_cache[chiave])
+	# Si CHIEDE al costruttore di missioni, invece di reimplementare la sua
+	# selezione. Filtrare il banco «attorno alla difficoltà» sembrava
+	# equivalente e non lo era: dava 21 argomenti per italiano al livello 2,
+	# dove la selezione ne propone quattro. Il gate chiedeva otto, e restava
+	# impossibile per sempre.
+	#
+	# Cinque estrazioni con semi fissi: deterministico, e il risultato si tiene
+	# in cache perché la prontezza si valuta a ogni fotogramma dell'HUD. Con
+	# dodici il primo calcolo costruiva 144 missioni e faceva scadere i test di
+	# scena: il numero di argomenti distinti si stabilizza molto prima.
+	var topics: Dictionary = {}
+	for seme in range(5):
+		var rng := RandomNumberGenerator.new()
+		rng.seed = seme * 7919 + level
+		for node in Array(build_mission(subject, level, 3, {}, rng).get("nodes", [])):
+			topics[str((node as Dictionary).get("topic", ""))] = true
+	var quanti := maxi(1, topics.size())
+	_reachable_cache[chiave] = quanti
+	return quanti
 
 # Argomenti DISTINTI presenti nel banco statico della materia (cache). Per la
 # matematica, generata a runtime, il banco statico può elencarne pochi: i topic
@@ -415,13 +456,28 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 	if generator == null:
 		generator = RandomNumberGenerator.new()
 		generator.randomize()
-	var exam := build_mission(subject, level, node_count, {}, generator, mastery, topic_mastery)
+	# L'esame è più lungo e più severo di una missione. (5 agosto 2026)
+	#
+	# Era una missione da tre nodi con due scudi, costruita con la stessa logica:
+	# poteva cadere sugli stessi argomenti appena praticati e si superava
+	# sbagliandone uno. Misurava l'ultima mezz'ora, non la materia.
+	#
+	# Ora: cinque nodi, e per passare ne servono quattro. Sbagliarne uno è
+	# ammesso — un esame che non perdona nessun errore misura la tensione, non la
+	# competenza — ma due no.
+	# Mai più nodi degli argomenti che il livello propone: con cinque nodi su una
+	# materia che ne offre tre, la selezione era costretta a ripetere lo stesso
+	# argomento nello stesso formato — 89 sessioni su 3648, e `format_mix_audit`
+	# lo vieta a ragione. Dove la materia è ricca l'esame resta lungo.
+	var nodi_esame := clampi(reachable_topic_count(subject, level), node_count, EXAM_NODES)
+	var exam := build_mission(subject, level, nodi_esame, {}, generator, mastery, topic_mastery)
 	# Diversifica: garantisci almeno un formato oltre la scelta multipla.
 	exam["nodes"] = inject_non_mc(exam.get("nodes", []), subject, level, 1, generator)
 	_flag_transfer_node(exam.get("nodes", []))
 	exam["sessionId"] = "final-exam-%s-lvl%d" % [subject, level]
 	exam["kind"] = "final_exam"
 	exam["shields"] = 2
+	exam["minimumCorrect"] = int(ceil(float(Array(exam.get("nodes", [])).size()) * EXAM_PASS_RATIO))
 	exam["rewards"] = {"energyPerCorrect": 12, "onComplete": {"energy": 40, "fragments": 4}}
 	return exam
 

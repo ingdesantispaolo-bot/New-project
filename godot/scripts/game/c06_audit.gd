@@ -3,6 +3,18 @@ extends SceneTree
 ## Audit C-06: HubController espone il gate e guida il loop di riparazione
 ## (missioni → gate → esame richiesto → riparazione → livello → gate richiuso).
 
+# Il gate del livello chiede TUTTE le materie dal 5 agosto 2026: allenare le
+# tre strumentali non basta più, e questo audit descriveva la regola vecchia.
+## Evidenza su abbastanza argomenti da soddisfare la COPERTURA a qualunque
+## livello. Dal 5 agosto 2026 la copertura richiesta cresce col livello e scala
+## con la materia (prima c'era un tetto fisso di tre): una fixture con tre
+## argomenti non basta più, e falliva senza che ci fosse niente di rotto.
+func _evidenza_larga() -> Dictionary:
+	var stats: Dictionary = {}
+	for i in range(24):
+		stats["t%d" % (i + 1)] = {"seen": 3, "correct": 3}
+	return stats
+
 func _init() -> void:
 	var save := GameSaveManager.new()
 	save.data["energy"] = 200
@@ -21,7 +33,13 @@ func _init() -> void:
 	for _i in range(5):
 		progression.record_mission("matematica", 3, 3, 0, true)
 		# Evidenza per-argomento per la dimensione COPERTURA del gate.
-		progression.record_topic_stats("matematica", {"tabelline": {"seen": 3, "correct": 3}})
+		# La copertura si conta PER LIVELLO dal 5 agosto 2026: un argomento solo
+		# non la soddisfa più, e non perché il gate sia rotto — perché chiede di
+		# toccare più argomenti in questo livello.
+		progression.record_topic_stats("matematica", {
+			"tabelline": {"seen": 3, "correct": 3}, "calcolo": {"seen": 3, "correct": 3},
+			"frazioni": {"seen": 3, "correct": 3}, "numeri": {"seen": 3, "correct": 3},
+			"potenze": {"seen": 3, "correct": 3}})
 	assert(bool(hub.state()["ready"]), "gate pronto dopo missioni + padronanza + copertura")
 	assert(hub.request_exam(), "esame disponibile dopo il gate")
 	assert(exam_signals["count"] == 1, "request_exam deve emettere exam_requested")
@@ -31,13 +49,11 @@ func _init() -> void:
 	# Riparare accende una stanza; per salire di livello serve il nucleo.
 	assert(progression.repair_apparatus(ApparatusConfig.world_subject(level_before), true))
 	assert(int(save.data["apparatus"]["nucleo"]["repairedLevel"]) == level_before)
-	for core_data in ApparatusConfig.CORE_SUBJECTS:
+	for core_data in ApparatusConfig.SUBJECT_CYCLE:
 		var core_subject := str(core_data)
 		for _round in range(6):
 			progression.record_mission(core_subject, 3, 3, 0, true)
-			progression.record_topic_stats(core_subject, {
-				"t1": {"seen": 3, "correct": 3}, "t2": {"seen": 3, "correct": 3},
-				"t3": {"seen": 3, "correct": 3}})
+			progression.record_topic_stats(core_subject, _evidenza_larga())
 	assert(progression.advance_level(), "col nucleo pronto si deve salire")
 	assert(int(hub.state()["level"]) == level_before + 1)
 	assert(progression.repaired_apparatus_count() == 1, "una sola stanza accesa dopo la prima riparazione")

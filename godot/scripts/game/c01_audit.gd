@@ -5,6 +5,8 @@ extends SceneTree
 ## usando l'ExercisePlayer reale simulando le risposte.
 ## Uso: godot --headless --path godot --script res://scripts/game/c01_audit.gd
 
+# Il gate del livello chiede TUTTE le materie dal 5 agosto 2026: allenare le
+# tre strumentali non basta più, e questo audit descriveva la regola vecchia.
 func _init() -> void:
 	var save := GameSaveManager.new()
 	var content := ContentManager.new()
@@ -21,7 +23,7 @@ func _init() -> void:
 	# copertura e ritenzione su italiano, matematica e inglese.
 	var missions := 0
 	while not prog.can_level_up() and missions < 400:
-		for subject_data in ApparatusConfig.CORE_SUBJECTS:
+		for subject_data in ApparatusConfig.SUBJECT_CYCLE:
 			var subject := str(subject_data)
 			var mission := content.build_varied_mission(subject, save.level(), 3)
 			assert(not Array(mission["nodes"]).is_empty(), "banco mancante: node scripts/build-exercise-banks.mjs")

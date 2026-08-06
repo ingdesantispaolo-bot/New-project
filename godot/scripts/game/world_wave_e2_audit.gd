@@ -7,6 +7,8 @@ extends SceneTree
 const WORLD_SCENE := "res://scenes/outdoor_world.tscn"
 const HUB_SCENE := "res://scenes/hub.tscn"
 
+# Il gate del livello chiede TUTTE le materie dal 5 agosto 2026: allenare le
+# tre strumentali non basta più, e questo audit descriveva la regola vecchia.
 func _init() -> void:
 	call_deferred("_run")
 
@@ -95,12 +97,14 @@ func _prepare_final_gate(save: GameSaveManager, content: ContentManager) -> void
 	save.set_mastery(subject, float(gate["masteryThreshold"]))
 	# Il livello si apre col NUCLEO: senza, l'esame accenderebbe la stanza ma la
 	# nave non eseguirebbe la regia finale, che scatta sulla salita di livello.
-	for core_data in ApparatusConfig.CORE_SUBJECTS:
+	for core_data in ApparatusConfig.SUBJECT_CYCLE:
 		var core_subject := str(core_data)
 		save.set_mastery(core_subject, float(gate["masteryThreshold"]))
-		for core_topic in ["nucleo-a", "nucleo-b", "nucleo-c"]:
-			save.set_topic_mastery(core_subject, core_topic, 1.0)
-	var topic_target := GateReadiness.coverage_target(content.subject_topic_count(subject))
+		# La copertura richiesta cresce col livello e scala con la materia dal
+		# 5 agosto 2026: al livello 24 tre argomenti non bastano più.
+		for core_topic in range(24):
+			save.set_topic_mastery(core_subject, "nucleo-%d" % core_topic, 1.0)
+	var topic_target := GateReadiness.coverage_target(content.subject_topic_count(subject), 24)
 	for index in maxi(topic_target, 1):
 		save.set_topic_mastery(subject, "gate-e2-topic-%d" % index, 1.0)
 

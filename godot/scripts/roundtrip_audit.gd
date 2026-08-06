@@ -104,17 +104,16 @@ func _run() -> void:
 		progression.record_mission(focus_subject, 3, 3, 0, true)
 		# Evidenza per-argomento (dimensione COPERTURA): tre topic distinti coprono
 		# qualsiasi materia-focus indipendentemente dalla dimensione del suo banco.
-		progression.record_topic_stats(focus_subject, {"a": {"seen": 1, "correct": 1}, "b": {"seen": 1, "correct": 1}, "c": {"seen": 1, "correct": 1}})
+		progression.record_topic_stats(focus_subject, {"t0": {"seen": 1, "correct": 1}, "t1": {"seen": 1, "correct": 1}, "t2": {"seen": 1, "correct": 1}, "t3": {"seen": 1, "correct": 1}, "t4": {"seen": 1, "correct": 1}, "t5": {"seen": 1, "correct": 1}, "t6": {"seen": 1, "correct": 1}, "t7": {"seen": 1, "correct": 1}, "t8": {"seen": 1, "correct": 1}, "t9": {"seen": 1, "correct": 1}, "t10": {"seen": 1, "correct": 1}, "t11": {"seen": 1, "correct": 1}, "t12": {"seen": 1, "correct": 1}, "t13": {"seen": 1, "correct": 1}, "t14": {"seen": 1, "correct": 1}, "t15": {"seen": 1, "correct": 1}, "t16": {"seen": 1, "correct": 1}, "t17": {"seen": 1, "correct": 1}, "t18": {"seen": 1, "correct": 1}, "t19": {"seen": 1, "correct": 1}, "t20": {"seen": 1, "correct": 1}, "t21": {"seen": 1, "correct": 1}, "t22": {"seen": 1, "correct": 1}, "t23": {"seen": 1, "correct": 1}})
 		guard += 1
 	assert(progression.can_repair(), "il gate dell'apparato deve aprirsi con padronanza e copertura")
 	# Il portale segnala la prontezza del LIVELLO, che dipende dal nucleo.
-	for core_data in ApparatusConfig.CORE_SUBJECTS:
+	# Il livello si apre con TUTTE le materie dal 5 agosto 2026.
+	for core_data in ApparatusConfig.SUBJECT_CYCLE:
 		var core_subject := str(core_data)
 		for _round in range(8):
 			progression.record_mission(core_subject, 3, 3, 0, true)
-			progression.record_topic_stats(core_subject, {
-				"a": {"seen": 1, "correct": 1}, "b": {"seen": 1, "correct": 1},
-				"c": {"seen": 1, "correct": 1}})
+			progression.record_topic_stats(core_subject, {"t0": {"seen": 1, "correct": 1}, "t1": {"seen": 1, "correct": 1}, "t2": {"seen": 1, "correct": 1}, "t3": {"seen": 1, "correct": 1}, "t4": {"seen": 1, "correct": 1}, "t5": {"seen": 1, "correct": 1}, "t6": {"seen": 1, "correct": 1}, "t7": {"seen": 1, "correct": 1}, "t8": {"seen": 1, "correct": 1}, "t9": {"seen": 1, "correct": 1}, "t10": {"seen": 1, "correct": 1}, "t11": {"seen": 1, "correct": 1}, "t12": {"seen": 1, "correct": 1}, "t13": {"seen": 1, "correct": 1}, "t14": {"seen": 1, "correct": 1}, "t15": {"seen": 1, "correct": 1}, "t16": {"seen": 1, "correct": 1}, "t17": {"seen": 1, "correct": 1}, "t18": {"seen": 1, "correct": 1}, "t19": {"seen": 1, "correct": 1}, "t20": {"seen": 1, "correct": 1}, "t21": {"seen": 1, "correct": 1}, "t22": {"seen": 1, "correct": 1}, "t23": {"seen": 1, "correct": 1}})
 	assert(progression.can_level_up(), "il nucleo allenato deve aprire il livello")
 	assert(not scene.has_method("start_final_exam"), "il mondo non deve esporre l'esame finale")
 	scene.get("gameplay").call("_emit_state")

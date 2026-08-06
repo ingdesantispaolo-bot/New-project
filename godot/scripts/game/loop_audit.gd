@@ -15,6 +15,18 @@ func _topic_stats(nodes: Array) -> Dictionary:
 		stats[topic] = e
 	return stats
 
+# Il gate del livello chiede TUTTE le materie dal 5 agosto 2026: allenare le
+# tre strumentali non basta più, e questo audit descriveva la regola vecchia.
+## Evidenza su abbastanza argomenti da soddisfare la COPERTURA a qualunque
+## livello. Dal 5 agosto 2026 la copertura richiesta cresce col livello e scala
+## con la materia (prima c'era un tetto fisso di tre): una fixture con tre
+## argomenti non basta più, e falliva senza che ci fosse niente di rotto.
+func _evidenza_larga() -> Dictionary:
+	var stats: Dictionary = {}
+	for i in range(24):
+		stats["t%d" % (i + 1)] = {"seen": 3, "correct": 3}
+	return stats
+
 func _init() -> void:
 	var save := GameSaveManager.new()
 	var content := ContentManager.new()
@@ -49,13 +61,11 @@ func _init() -> void:
 	# Il livello si apre col nucleo, che qui va allenato a parte.
 	assert(prog.repair_apparatus(subject, true), "l'esame superato deve riparare l'apparato")
 	assert(save.level() == level_before, "la riparazione non deve far salire di livello")
-	for core_data in ApparatusConfig.CORE_SUBJECTS:
+	for core_data in ApparatusConfig.SUBJECT_CYCLE:
 		var core_subject := str(core_data)
 		for _round in range(6):
 			prog.record_mission(core_subject, 3, 3, 0, true)
-			prog.record_topic_stats(core_subject, {
-				"t1": {"seen": 3, "correct": 3}, "t2": {"seen": 3, "correct": 3},
-				"t3": {"seen": 3, "correct": 3}})
+			prog.record_topic_stats(core_subject, _evidenza_larga())
 	assert(prog.can_level_up(), "il nucleo allenato deve aprire il livello")
 	# Si misura qui: la salita consuma il progresso-VERSO-gate, non il cumulativo.
 	var cumulative_before := save.missions_of(subject)

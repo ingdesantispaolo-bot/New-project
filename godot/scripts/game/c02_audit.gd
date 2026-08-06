@@ -15,6 +15,8 @@ const RUNTIME_KEYS := [
 	"masteryProgress", "ready", "energy", "fragments", "phase", "sessionActive",
 ]
 
+# Il gate del livello chiede TUTTE le materie dal 5 agosto 2026: allenare le
+# tre strumentali non basta più, e questo audit descriveva la regola vecchia.
 func _init() -> void:
 	var gameplay := OutdoorGameplay.new()
 	root.add_child(gameplay)
@@ -56,7 +58,7 @@ func _init() -> void:
 	var played := 0
 	while not bool(gameplay.runtime_state()["ready"]) and played < 200:
 		requested["session"] = {}
-		var turn_subject := str(ApparatusConfig.CORE_SUBJECTS[played % ApparatusConfig.CORE_SUBJECTS.size()])
+		var turn_subject := str(ApparatusConfig.SUBJECT_CYCLE[played % ApparatusConfig.SUBJECT_CYCLE.size()])
 		assert(gameplay.try_start_mission({"subject": turn_subject}, "enc-%d" % played), "missione avviabile")
 		assert(bool(gameplay.runtime_state()["sessionActive"]), "sessione attiva dopo l'avvio")
 		var session: Dictionary = requested["session"]

@@ -27,11 +27,15 @@ func _core_ready_save(level: int) -> GameSaveManager:
 	var save := GameSaveManager.new()
 	save.set_level(level)
 	var threshold := ApparatusConfig.mastery_threshold(level)
-	for subject in ApparatusConfig.CORE_SUBJECTS:
+	# Dal 5 agosto 2026 il livello si apre con TUTTE le materie, non con le tre
+	# strumentali: per costruire un salvataggio «pronto a salire» vanno portate
+	# sopra soglia tutte e dodici. E con abbastanza argomenti, perché la
+	# copertura richiesta cresce col livello e scala con la materia.
+	for subject in ApparatusConfig.SUBJECT_CYCLE:
 		var s := str(subject)
 		save.set_mastery(s, maxf(threshold, 0.95))
-		for topic in ["a", "b", "c"]:
-			save.set_topic_mastery(s, topic, 1.0)
+		for i in range(24):
+			save.set_topic_mastery(s, "t%d" % i, 1.0)
 	return save
 
 func _repair(save: GameSaveManager, subjects: Array) -> void:

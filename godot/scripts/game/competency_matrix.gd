@@ -29,7 +29,7 @@ func _init() -> void:
 		# Competenze = obiettivi della lezione; evidenze = dimensioni del gate.
 		var competencies: Array = lesson["objectives"]
 		var topics: Array = lesson["topics"]
-		var coverage_target := GateReadiness.coverage_target(content.subject_topic_count(subject))
+		var coverage_target := GateReadiness.coverage_target(content.subject_topic_count(subject), level)
 		# Il gate non conta più le missioni: padronanza, copertura e ritenzione.
 		var evidence := "padronanza ≥ %s · copertura ≥ %d argomenti · ritenzione (ripasso saldato)" % [
 			_pct(float(gate["masteryThreshold"])), coverage_target]

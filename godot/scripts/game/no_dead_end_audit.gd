@@ -102,7 +102,7 @@ func _init() -> void:
 	for livello in range(1, ApparatusConfig.MAX_LEVEL + 1):
 		var materia := ApparatusConfig.world_subject(livello)
 		var argomenti := cm.subject_topic_count(materia)
-		var richiesti := GateReadiness.coverage_target(argomenti)
+		var richiesti := GateReadiness.coverage_target(argomenti, livello)
 		if argomenti < richiesti:
 			failures.append("mondo %d (%s): %d argomenti nel banco, ne servono %d per la copertura" % [
 				livello, materia, argomenti, richiesti])

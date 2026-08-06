@@ -127,7 +127,8 @@ func _run() -> void:
 		save.add_mission(ready_subject)
 		save.set_mastery(ready_subject, ready_threshold)
 		# La readiness richiede anche COPERTURA per argomento.
-		for topic in ["a", "b", "c"]:
+		# La copertura richiesta scala col livello e con la materia.
+		for topic in ["t0","t1","t2","t3","t4","t5","t6","t7","t8","t9","t10","t11","t12","t13","t14","t15","t16","t17","t18","t19","t20","t21","t22","t23"]:
 			save.set_topic_mastery(ready_subject, topic, ready_threshold)
 	gameplay.call("_emit_state")
 	await process_frame

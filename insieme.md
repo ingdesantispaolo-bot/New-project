@@ -266,6 +266,42 @@ no. La scala proposta segue la difficoltà cognitiva, non la materia:
 
 ---
 
+## Il gate: dodici materie, copertura per livello (6 agosto 2026)
+
+Nasce da due segnalazioni di gioco. La prima: «superato l'esame del primo mondo,
+non riesco ad accedere al secondo». La seconda, tua: lo studente fa il minimo
+indispensabile e sale senza aver faticato.
+
+Misurato prima di toccare niente: aprire il mondo 1 costava **18 esercizi su 3
+argomenti**, circa dieci minuti. E dopo il primo mondo il gate non chiedeva più
+nulla — la padronanza non decade e la copertura era cumulativa, quindi
+ventitré livelli si aprivano da soli.
+
+Tre regole nuove:
+
+1. **Il livello si apre con tutte e dodici le materie**, non con le tre
+   strumentali. La pratica smette di essere un extra e diventa la strada:
+   è l'unico modo di allenare le materie che il mondo non ospita.
+2. **La copertura si conta per livello**, non da sempre. Non chiede argomenti
+   *nuovi* — quelli finiscono — ma argomenti *toccati adesso*: tenere allenato
+   ciò che si sa, a ogni livello, in ogni materia.
+3. **L'esame è più severo**: fino a cinque nodi invece di tre, e per passare ne
+   servono tre quarti. Il numero di nodi si adatta agli argomenti che il livello
+   propone, perché chiederne più di quelli disponibili obbligava a ripetere lo
+   stesso argomento nello stesso formato.
+
+| | prima | dopo |
+|---|---:|---:|
+| mondo 1 | 18 esercizi | **185** |
+| campagna intera | 552 esercizi (~3 h) | **2712 (~15 h)** |
+| mondi che costano lavoro | 1 su 24 | **24 su 24** |
+
+E NORA dice che cosa manca — non il Custode, che per contratto non dà mai
+vantaggi di gioco: nomina le tre materie più vicine al traguardo, il motivo
+(accuratezza, copertura o ritenzione) e dove allenarle.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

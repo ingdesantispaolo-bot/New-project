@@ -122,15 +122,26 @@ func _manca_per_salire(subject: String) -> String:
 	var mancanti: Array = Array(stato.get("missing", []))
 	if mancanti.is_empty():
 		return "%s Il livello si aprirà appena il nucleo è pronto." % testa
+	# Con dodici materie l'elenco completo sarebbe illeggibile: si nominano le
+	# tre più vicine al traguardo, perché sono quelle su cui conviene tornare
+	# adesso, e si dice quante ne restano in tutto.
+	var ordinate := mancanti.duplicate()
+	ordinate.sort_custom(func(a, b):
+		var da: Dictionary = Dictionary(stato.get("subjects", {})).get(str(a), {})
+		var db: Dictionary = Dictionary(stato.get("subjects", {})).get(str(b), {})
+		return float(da.get("progress", 0.0)) > float(db.get("progress", 0.0)))
 	var pezzi: Array = []
-	for materia_data in mancanti:
+	for materia_data in ordinate.slice(0, 3):
 		var materia := str(materia_data)
 		var dettaglio: Dictionary = Dictionary(stato.get("subjects", {})).get(materia, {})
 		var motivi: Array = Array(dettaglio.get("reasons", []))
 		pezzi.append("%s (%s)" % [materia, ", ".join(PackedStringArray(motivi))] if not motivi.is_empty() else materia)
-	return ("%s Per salire di livello serve anche il nucleo: manca %s. "
-		+ "Le trovi negli incontri di pratica sparsi in questo mondo — quelli che non contano per il gate.") % [
-		testa, ", ".join(PackedStringArray(pezzi))]
+	var coda := ""
+	if ordinate.size() > pezzi.size():
+		coda = " e altre %d" % (ordinate.size() - pezzi.size())
+	return ("%s Per salire di livello servono TUTTE le materie a questo grado. "
+		+ "Più vicine: %s%s. Si allenano negli incontri di pratica sparsi nel mondo.") % [
+		testa, ", ".join(PackedStringArray(pezzi)), coda]
 
 func _abandon_feedback(costo: int, advanced: Array) -> String:
 	var testa := "Prova chiusa."

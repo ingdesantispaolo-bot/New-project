@@ -61,18 +61,23 @@ static func apparatus_of(subject: String) -> String:
 static func mastery_threshold(level: int) -> float:
 	return minf(0.70 + float(clampi(level, 1, MAX_LEVEL) - 1) * 0.007, 0.90)
 
-## Gate del LIVELLO: le tre materie del nucleo, con la soglia di padronanza.
+## Gate del LIVELLO: **tutte** le materie, con la soglia di padronanza.
 ##
 ## Non contiene più `subject` né `missionsRequired`. Prima il gate era «una materia
 ## e N missioni»; dal 30 luglio si sale con la competenza nelle tre strumentali e
 ## **senza conteggio di giri**. Chi cerca «quale materia abita il mondo N» usa
 ## `world_subject()`: sono due domande diverse, e tenerle nella stessa funzione
 ## faceva dipendere l'identità dei mondi dalla regola di progressione.
+##
+## Dal 5 agosto 2026 le materie sono dodici, non tre. Questo descrittore era
+## rimasto a tre mentre la regola era già cambiata: chi lo leggeva per sapere
+## «che cosa serve per salire» otteneva una risposta vecchia — e il portale, che
+## la usa per accendersi, non si accendeva mai.
 static func level_gate(level: int) -> Dictionary:
 	var lvl := clampi(level, 1, MAX_LEVEL)
 	return {
 		"level": lvl,
-		"coreSubjects": Array(CORE_SUBJECTS).duplicate(),
+		"coreSubjects": Array(SUBJECT_CYCLE).duplicate(),
 		"masteryThreshold": mastery_threshold(lvl),
 	}
 

@@ -63,6 +63,7 @@ func record_topic_stats(subject: String, topic_stats: Dictionary) -> Array:
 		var accuracy := float(int(entry.get("correct", 0))) / float(seen)
 		var prev: float = float(save.topic_mastery_of(subject, str(topic)))
 		var updated: float = accuracy if prev < 0.0 else lerpf(prev, accuracy, 0.34)
+		# `set_topic_mastery` registra anche la copertura di questo livello.
 		save.set_topic_mastery(subject, str(topic), updated)
 		var state_before := KnowledgeCodex.state_of(save, subject, str(topic))
 		# Manuale NORA (O-P4): avanza lo stato di conoscenza dell'argomento e nutre
@@ -114,17 +115,19 @@ func campaign_progress() -> Dictionary:
 		"complete": is_complete(),
 	}
 
-# Numero di argomenti che la materia corrente può proporre (dal banco), o -1 se
-# non è disponibile un ContentManager. Alimenta la dimensione COPERTURA del gate.
+# Argomenti RAGGIUNGIBILI a questo livello, non tutti quelli del banco: la
+# copertura deve chiedere una fetta di ciò che il livello propone davvero.
+# Contare tutto il banco rendeva il gate impossibile ai primi livelli.
 func _total_topics(subject: String) -> int:
 	if content == null:
 		return -1
-	return content.subject_topic_count(subject)
+	return content.reachable_topic_count(subject, save.level())
 
-# Numero di argomenti proponibili per ciascuna materia del nucleo (per la copertura).
+# Argomenti proponibili per OGNI materia: dal 5 agosto 2026 il gate le chiede
+# tutte, non solo le tre strumentali.
 func _core_topic_counts() -> Dictionary:
 	var out: Dictionary = {}
-	for subject in ApparatusConfig.CORE_SUBJECTS:
+	for subject in GateReadiness.GATE_SUBJECTS:
 		out[str(subject)] = _total_topics(str(subject))
 	return out
 
@@ -240,6 +243,10 @@ func advance_level() -> bool:
 		save.consume_gate(str(subject))
 	var next_level: int = int(save.level()) + 1
 	save.set_level(next_level)
+	# Il nuovo livello ricomincia a contare la copertura da qui: quello che si
+	# sa resta, ma per il gate successivo servono argomenti NUOVI. È ciò che
+	# impedisce che un livello superato apra da solo tutti quelli dopo.
+	save.reset_coverage_this_level()
 	if next_level <= ApparatusConfig.MAX_LEVEL:
 		save.unlock_world(next_level)
 		save.set_current_world(next_level)

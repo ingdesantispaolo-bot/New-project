@@ -470,17 +470,47 @@ func _migrate_spaced_repetition(migrated: Dictionary) -> Dictionary:
 ## rivedere un esercizio è ripasso e non ripetizione.
 const RECENT_PRACTICE_MAX := 24
 
-## L'impronta di un quesito è il suo TESTO, non il suo identificativo: due nodi
-## generati con id diverso ma stessa domanda sono lo stesso esercizio per il
-## bambino, ed è quello che conta.
+## L'impronta di un quesito è il suo CONTENUTO, non il suo identificativo.
+##
+## Prima versione (6 agosto 2026, mattina): era il solo `prompt`. Sbagliata, e in
+## un modo che si vedeva solo leggendo i costruttori — nei formati interattivi il
+## prompt è una **costante**: ogni abbinamento del gioco dice «Abbina ogni
+## elemento alla sua coppia», qualunque siano le coppie. Con quell'impronta due
+## abbinamenti completamente diversi risultavano lo stesso esercizio, e la
+## memoria del già visto, dopo UN abbinamento, scartava tutti gli abbinamenti
+## successivi. La pratica finiva spinta verso i banchi non perché il catalogo
+## fosse esaurito, ma perché il filtro non sapeva distinguerlo.
+##
+## Ora si guarda quello che il bambino vede davvero: il testo E il contenuto —
+## le coppie, le tessere, le opzioni. Fuori restano `id` (cambia a ogni
+## estrazione senza che cambi niente) e `difficulty` (è una proprietà della
+## sessione, non del quesito).
+const IMPRONTA_IGNORA := ["id", "difficulty"]
+
 static func practice_fingerprint(prompt: String) -> int:
 	return hash(prompt.strip_edges().to_lower())
 
+static func practice_node_fingerprint(node: Dictionary) -> int:
+	var pulito: Dictionary = {}
+	for chiave in node.keys():
+		if IMPRONTA_IGNORA.has(str(chiave)):
+			continue
+		pulito[str(chiave)] = node[chiave]
+	return hash(JSON.stringify(pulito))
+
 func remember_practice(subject: String, prompts: Array) -> void:
+	var impronte: Array = []
+	for p in prompts:
+		impronte.append(practice_fingerprint(str(p)))
+	remember_practice_prints(subject, impronte)
+
+## Come sopra, ma con le impronte già calcolate: è la via che usa il gioco, dove
+## i nodi ci sono per intero e non serve ridurli al solo testo.
+func remember_practice_prints(subject: String, impronte: Array) -> void:
 	var tutte: Dictionary = data.get("recentPractice", {})
 	var coda: Array = Array(tutte.get(subject, []))
-	for p in prompts:
-		var impronta := practice_fingerprint(str(p))
+	for grezza in impronte:
+		var impronta := int(grezza)
 		# Riportare in fondo un'impronta già presente, invece di duplicarla:
 		# un esercizio rivisto ora è «visto ora», non «visto tre sessioni fa».
 		coda.erase(impronta)

@@ -105,30 +105,32 @@ func _prova_varieta(gameplay: OutdoorGameplay, save: GameSaveManager) -> void:
 				var nodi := Array(gameplay._build_practice_session(subject).get("nodes", []))
 				assert(not nodi.is_empty(),
 					"pratica vuota per %s L%d: sarebbe un vicolo cieco" % [subject, livello])
-				var prompts: Array = []
+				var impronte: Array = []
 				for n in nodi:
-					var p := str((n as Dictionary).get("prompt", ""))
-					assert(not p.strip_edges().is_empty(),
-						"quesito senza testo in %s L%d: la memoria non potrebbe riconoscerlo" % [
-							subject, livello])
-					# Il cuore: niente di già visto, né in questa sessione né
-					# nelle precedenti.
-					assert(not visti.has(p),
+					var nodo: Dictionary = n
+					assert(not str(nodo.get("prompt", "")).strip_edges().is_empty(),
+						"quesito senza testo in %s L%d" % [subject, livello])
+					# L'identità è il CONTENUTO, non il testo: nei formati
+					# interattivi il testo è una costante, e misurare con quello
+					# faceva sembrare uguali due abbinamenti diversissimi.
+					var impronta := GameSaveManager.practice_node_fingerprint(nodo)
+					assert(not visti.has(impronta),
 						"%s L%d, giro %d: quesito già visto — «%s»" % [
-							subject, livello, giro + 1, p.substr(0, 60)])
-					visti[p] = true
-					prompts.append(p)
-				save.remember_practice(subject, prompts)
+							subject, livello, giro + 1,
+							str(nodo.get("prompt", "")).substr(0, 50)])
+					visti[impronta] = true
+					impronte.append(impronta)
+				save.remember_practice_prints(subject, impronte)
 			# Il fondo: si continua a giocare, stavolta ammettendo ripetizioni, e
 			# si conta quanti quesiti DIVERSI la casella sa produrre in tutto.
 			for _giro in range(GIRI_FONDO - GIRI_PULITI):
 				var altri := Array(gameplay._build_practice_session(subject).get("nodes", []))
-				var testi: Array = []
+				var altre_impronte: Array = []
 				for n in altri:
-					var p := str((n as Dictionary).get("prompt", ""))
-					visti[p] = true
-					testi.append(p)
-				save.remember_practice(subject, testi)
+					var f := GameSaveManager.practice_node_fingerprint(n as Dictionary)
+					visti[f] = true
+					altre_impronte.append(f)
+				save.remember_practice_prints(subject, altre_impronte)
 			assert(visti.size() >= FONDO_MINIMO,
 				"%s L%d offre solo %d quesiti distinti in %d giri: il fondo è tornato sottile" % [
 					subject, livello, visti.size(), GIRI_FONDO])
@@ -147,12 +149,12 @@ func _prova_rigiocata(gameplay: OutdoorGameplay, save: GameSaveManager) -> void:
 			save.data["recentPractice"] = {}
 			save.data["level"] = livello
 			for _giro in range(3):
-				var testi: Array = []
+				var impronte: Array = []
 				for n in Array(gameplay._build_practice_session(subject).get("nodes", [])):
-					var p := "%s|%d|%s" % [subject, livello, str((n as Dictionary).get("prompt", ""))]
-					primo[p] = true
-					testi.append(str((n as Dictionary).get("prompt", "")))
-				save.remember_practice(subject, testi)
+					var f := GameSaveManager.practice_node_fingerprint(n as Dictionary)
+					primo["%s|%d|%d" % [subject, livello, f]] = true
+					impronte.append(f)
+				save.remember_practice_prints(subject, impronte)
 
 	# Secondo viaggio: salvataggio pulito, come un bambino che ricomincia.
 	var totale := 0
@@ -163,14 +165,14 @@ func _prova_rigiocata(gameplay: OutdoorGameplay, save: GameSaveManager) -> void:
 			save.data["recentPractice"] = {}
 			save.data["level"] = livello
 			for _giro in range(3):
-				var testi: Array = []
+				var impronte: Array = []
 				for n in Array(gameplay._build_practice_session(subject).get("nodes", [])):
-					var testo := str((n as Dictionary).get("prompt", ""))
+					var f := GameSaveManager.practice_node_fingerprint(n as Dictionary)
 					totale += 1
-					if not primo.has("%s|%d|%s" % [subject, livello, testo]):
+					if not primo.has("%s|%d|%d" % [subject, livello, f]):
 						inediti += 1
-					testi.append(testo)
-				save.remember_practice(subject, testi)
+					impronte.append(f)
+				save.remember_practice_prints(subject, impronte)
 
 	var quota := float(inediti) / maxf(1.0, float(totale))
 	assert(quota >= INEDITI_MINIMI,

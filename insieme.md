@@ -421,40 +421,53 @@ regime non si raggiunge giocando.
 
 ---
 
-## Rigiocare da capo: quanto si trova di nuovo (6 agosto 2026)
+## Rigiocare da capo, e una misura sbagliata (6 agosto 2026)
 
-Domanda: chi ricomincia dal primo livello trova almeno qualche prova inedita?
-Simulata una campagna intera due volte, sul percorso vero — la materia ospite
-dalle missioni, le altre undici dalla pratica.
+Domanda: chi ricomincia dal primo livello trova prove inedite?
 
-| mondo | prima | dopo |
+**Prima risposta, sbagliata.** Misurando, il mondo 1 risultava al 13% di inediti
+e il catalogo interattivo sembrava avere 5–16 quesiti per materia contro i
+53–508 dei banchi. Conclusione: la pratica pesca dal pozzo piccolo. Messo un
+tetto — metà sessione dai banchi — il numero saliva al 50%.
+
+**Perché era sbagliata.** L'identità di un quesito era il suo `prompt`. Ma nei
+formati interattivi il prompt è una **costante**: ogni abbinamento del gioco dice
+«Abbina ogni elemento alla sua coppia», qualunque siano le coppie. Contando i
+testi, tutti gli abbinamenti erano un esercizio solo — e la stessa svista era
+dentro la memoria del già visto, che dopo UN abbinamento scartava tutti gli
+abbinamenti successivi.
+
+**Misura vera, contando il contenuto:**
+
+| | prompt (sbagliato) | contenuto (giusto) |
 |---|---:|---:|
-| **1** | **13% inediti** | **50%** |
-| 2–4 | 33–47% | 48–66% |
-| 5–6 | 25–26% | 61% |
-| campagna | **33%** | **59%** |
+| catalogo a L1 | 5–16 | **354–826** |
+| inediti al 2° viaggio | 33% | **91%** |
+| ripetizioni nel 1° viaggio | — | **zero** su 540 |
 
-Il mondo 1 era il peggiore, cioè proprio quello che incontra per primo chi
-ricomincia.
+Col tetto o senza, gli inediti restano al 91%: il tetto non serviva a niente e
+costava metà della forma interattiva. Rimosso.
 
-**La causa non era la scarsità di contenuto.** Misurando i due serbatoi
-separatamente, al livello 1: il catalogo interattivo offre **5–16** quesiti
-distinti per materia, i banchi **53–508**. La pratica pescava dal pozzo piccolo
-avendo quello grande accanto — i banchi entravano solo come ripiego, quando il
-catalogo era esaurito *dentro la finestra di memoria*. Al secondo viaggio la
-memoria è vuota, quindi si ripartiva sempre dagli stessi cinque.
+**Quello che resta vero della segnalazione.** Il bambino non contava i contenuti:
+vedeva la stessa consegna, lo stesso argomento, la stessa spiegazione, con coppie
+che si sovrappongono. Il numero magro non è quello dei nodi ma quello delle
+**specifiche** ammesse ai primi livelli:
 
-**La riparazione è un tetto, non una sostituzione**: al massimo metà sessione
-viene dal catalogo, il resto dai banchi. Abbinare, ordinare e classificare sono
-il motivo per cui la pratica esiste — un allenamento di sole domande a risposta
-sarebbe un compito — ma la varietà deve arrivare da dove ce n'è.
+| materia | specifiche a L1 | a L10 |
+|---|---:|---:|
+| matematica | **4** | 13 |
+| coding · fisica · elettronica · geografia · scienze · storia | **6** | 12–18 |
+| inglese · musica · logica | 7 | 14–21 |
+| latino | 8 | 16 |
+| italiano | 11 | 21 |
 
-Il cricchetto in `practice_variety_audit` pretende **35% di inediti** rigiocando
-con salvataggio pulito, che è il caso peggiore: memoria vuota, nessun aiuto.
+È lì che si allarga il catalogo, ed è lavoro di contenuto: più angolazioni e più
+argomenti nei primi mondi, non più coppie dentro le stesse specifiche.
 
-Se un giorno servisse spingere oltre il 59%, la leva non è abbassare ancora il
-tetto — eroderebbe la forma — ma **allargare il catalogo interattivo ai primi
-livelli**, dove ha da 5 a 16 voci contro le 19–32 dei livelli avanzati.
+**La lezione, che costa ogni volta che la si dimentica:** una metrica che sembra
+ovvia può misurare un'altra cosa. Il prompt sembrava l'identità di un esercizio
+ed era l'etichetta del formato. Prima di riparare su un numero, guardare da dove
+viene quel numero.
 
 ---
 

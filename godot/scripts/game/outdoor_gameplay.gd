@@ -486,18 +486,26 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 ## visto. Sei bastano: il repertorio di una materia si satura molto prima.
 const PRACTICE_RIESTRAZIONI := 6
 
-## Quanta parte di una sessione di pratica può venire dal catalogo interattivo.
+## Nessun tetto al catalogo interattivo — e la storia di questa costante vale
+## più del suo valore.
 ##
-## Misurato il 6 agosto 2026: al livello 1 il catalogo offre da 5 a 16 quesiti
-## distinti per materia, i banchi da 53 a 508. La pratica pescava dal pozzo
-## piccolo avendo quello grande accanto, e chi rigiocava il primo mondo trovava
-## solo il 13% di esercizi inediti.
+## Il 6 agosto 2026 ci avevo messo 0.5, cioè metà sessione dai banchi, per
+## riparare una scarsità che avevo misurato: «al livello 1 il catalogo offre da
+## 5 a 16 quesiti distinti». Quel numero era **sbagliato**, e in un modo che si
+## vedeva solo leggendo i costruttori: nei formati interattivi il `prompt` è una
+## COSTANTE — ogni abbinamento del gioco dice «Abbina ogni elemento alla sua
+## coppia», qualunque siano le coppie. Contando i testi, tutti gli abbinamenti
+## risultavano un esercizio solo.
 ##
-## Non si sostituisce il catalogo: abbinare, ordinare e classificare sono il
-## motivo per cui la pratica esiste, e un allenamento fatto di sole domande a
-## risposta sarebbe un compito. Si mette un tetto — metà sessione — così la forma
-## interattiva resta e la varietà arriva da dove ce n'è.
-const PRACTICE_QUOTA_CATALOGO := 0.5
+## Contando il CONTENUTO, il catalogo produce da 354 a 826 nodi distinti già al
+## livello 1. Rimisurata la rigiocata con l'identità giusta: 91% di inediti al
+## secondo viaggio, **con o senza il tetto, identico**. Il tetto non serviva a
+## niente e costava metà della forma interattiva, che è il motivo per cui la
+## pratica esiste.
+##
+## Resta a 1.0 come promemoria: se un giorno servisse davvero un tetto, prima si
+## misura con `practice_node_fingerprint`, non con i testi.
+const PRACTICE_QUOTA_CATALOGO := 1.0
 
 ## Una sessione di pratica fatta di quesiti che il bambino NON ha appena visto.
 ##
@@ -541,7 +549,7 @@ func _build_practice_session(subject: String) -> Dictionary:
 			if tenuti.size() >= voluti:
 				return
 			var nodo: Dictionary = n
-			var impronta := GameSaveManager.practice_fingerprint(str(nodo.get("prompt", "")))
+			var impronta := GameSaveManager.practice_node_fingerprint(nodo)
 			if visti_qui.has(impronta):
 				continue
 			if evita.has(impronta):
@@ -604,12 +612,12 @@ func try_start_minigame(payload: Dictionary, encounter_id: String) -> bool:
 	# memoria della pratica, così la prossima palestra non li ripropone. Il
 	# player non li restituisce, e leggerli qui è l'unico punto in cui esistono
 	# di sicuro.
-	var prompts: Array = []
+	var impronte: Array = []
 	for n in Array(session.get("nodes", [])):
-		prompts.append(str((n as Dictionary).get("prompt", "")))
+		impronte.append(GameSaveManager.practice_node_fingerprint(n as Dictionary))
 	active_session_context = {
 		"kind": "minigame", "encounterId": encounter_id, "subject": subject,
-		"prompts": prompts,
+		"impronte": impronte,
 	}
 	_present_feedback(NoraContextEngine.open_line(subject, false), "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
@@ -722,10 +730,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		# ricorda SEMPRE, superata o no: rifare identici gli esercizi sbagliati è
 		# la scorciatoia più tentante di tutte — si impara la risposta, non la
 		# regola.
-		var visti: Array = []
-		for n in Array(context.get("prompts", [])):
-			visti.append(str(n))
-		game_save.remember_practice(subject, visti)
+		game_save.remember_practice_prints(subject, Array(context.get("impronte", [])))
 
 		if passed:
 			# Superata: QUESTA location è finita e sparisce dalla mappa.

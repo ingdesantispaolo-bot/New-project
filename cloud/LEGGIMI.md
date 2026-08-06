@@ -37,33 +37,37 @@ propone è **solo documentazione** — mostra un esempio, non il tuo codice.
 
 Questa strada funziona in entrambi i casi e non dipende da come è nato il Worker.
 
-**1.** Apri `cloud/wrangler.jsonc` e sostituisci
-`INCOLLA_QUI_IL_NAMESPACE_ID_DI_Eli_game` con il **Namespace ID** di `Eli_game`
-(pannello → *Storage & Databases* → *KV*, la stringa lunga accanto al nome).
+**1.** Apri `cloud/wrangler.jsonc` e metti nel campo `id` il **Namespace ID** di
+`Eli_game` (pannello → *Storage & Databases* → *KV*, la stringa lunga accanto al
+nome). Non è un segreto: identifica lo spazio, non dà accesso.
 
 **2.** Dalla cartella `cloud/`:
 
 ```bash
-npx wrangler login
+npx.cmd wrangler login
 ```
 
 Si apre il browser e ti chiede di autorizzare. Una volta sola.
 
+> Su Windows serve `npx.cmd`, non `npx`: PowerShell blocca gli script `.ps1`
+> per impostazione predefinita, e `npx` in PowerShell passa proprio da lì
+> (*L'esecuzione di script è disabilitata nel sistema in uso*). Il `.cmd`
+> aggira la regola senza doverla cambiare.
+
 **3.** Sempre da `cloud/`:
 
 ```bash
-npx wrangler deploy
+npx.cmd wrangler deploy
 ```
 
-Alla fine stampa qualcosa come:
+Controlla la riga `env.SAVES` che stampa: se accanto c'è l'ID del namespace, il
+collegamento è fatto. È la verifica che conta.
+
+**Fatto il 6 agosto 2026.** L'indirizzo attivo è:
 
 ```
-Uploaded eli-quest-save (1.2 sec)
-Published eli-quest-save (0.3 sec)
-  https://eli-quest-save.tuo-sottodominio.workers.dev
+https://eli-quest-save.ing-desantis-paolo.workers.dev
 ```
-
-**Quell'indirizzo è quello che serve al gioco.**
 
 `wrangler deploy` fa da solo tutto quello che il pannello chiederebbe a mano:
 carica il codice **e** collega lo spazio KV, perché il collegamento è scritto
@@ -99,7 +103,8 @@ Deve restituire `{"prova":true}`.
 
 | messaggio | che cosa significa |
 |---|---|
-| `binding SAVES not found` | manca il collegamento del punto 4 (strada A) o l'ID nel `wrangler.jsonc` (strada B) |
+| `binding SAVES not found` | l'ID nel `wrangler.jsonc` manca o è sbagliato |
+| `Impossibile caricare il file npx.ps1` | usa `npx.cmd` invece di `npx` |
 | `codice non valido` | il codice deve essere quattro lettere, trattino, quattro cifre: `PROV-0001` |
 | `nessun salvataggio` | è un 404 giusto: quel codice non ha ancora niente salvato |
 | errore CORS dal gioco | l'indirizzo del sito non è in `ORIGINI_AMMESSE`, in cima a `index.ts` |

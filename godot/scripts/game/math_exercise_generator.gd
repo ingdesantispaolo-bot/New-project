@@ -78,12 +78,65 @@ func _eligible_archetypes(complexity: int) -> Array:
 	if complexity >= 8: result.append_array(["quadratic_root", "weighted_average", "logic_chain"])
 	return result
 
+## La spiegazione di una somma dice la STRATEGIA, non il risultato.
+##
+## Difetto trovato il 6 agosto 2026 misurando tutte le spiegazioni del gioco:
+## qui c'era «8 + 11 = 19», cioè la risposta riscritta col segno di uguale. È il
+## formato più frequente di tutta la matematica generata, ed era anche l'unico
+## che non insegnava niente — la stessa regola per cui il 5 agosto sono state
+## riscritte le spiegazioni dei banchi: una spiegazione deve dire un PERCHÉ o un
+## COME, mai ripetere quello che il bambino ha appena letto.
+##
+## Le tre strategie sono quelle che si insegnano davvero alle elementari, scelte
+## in base ai numeri di QUEL calcolo e non a caso: se non si applicano si ripiega
+## sulla scomposizione in decine, che vale sempre.
+func _spiega_somma(a: int, b: int) -> String:
+	var totale := a + b
+	# 1) Arrivare alla decina: la strategia più utile, quando manca poco.
+	var manca := (10 - a % 10) % 10
+	if manca > 0 and manca <= b and a % 10 != 0:
+		return "Conviene arrivare prima alla decina: %d + %d = %d, poi restano %d da aggiungere. Fa %d." % [
+			a, manca, a + manca, b - manca, totale]
+	# 2) Il doppio: due numeri uguali si riconoscono a colpo d'occhio.
+	if a == b:
+		return "Sono due numeri uguali: basta raddoppiare. Il doppio di %d fa %d." % [a, totale]
+	# 3) Decine e unità separate, che è la scomposizione di base.
+	var da := a / 10 * 10
+	var ua := a % 10
+	var db := b / 10 * 10
+	var ub := b % 10
+	if da > 0 or db > 0:
+		return "Si separano decine e unità: %d + %d fa %d, %d + %d fa %d, e insieme %d." % [
+			da, db, da + db, ua, ub, ua + ub, totale]
+	return "Si parte dal numero più grande e si contano in avanti gli altri: da %d, %d passi. Fa %d." % [
+		maxi(a, b), mini(a, b), totale]
+
+## La percentuale spiegata come FRAZIONE, che è il modo in cui si calcola a mente.
+##
+## Prima diceva «25% di 52 equivale a 13»: il risultato, di nuovo. Le percentuali
+## comuni hanno tutte una frazione semplice dietro, ed è quella che rende il
+## conto possibile senza carta.
+func _spiega_percentuale(percent: int, whole: int, answer: int) -> String:
+	var frazioni := {50: ["metà", 2], 25: ["un quarto", 4], 20: ["un quinto", 5],
+		10: ["un decimo", 10], 75: ["tre quarti", 4]}
+	if frazioni.has(percent):
+		var voce: Array = frazioni[percent]
+		var nome := str(voce[0])
+		var divisore := int(voce[1])
+		if percent == 75:
+			return "Il 75%% è tre quarti: si divide per 4 (%d ÷ 4 = %d) e si prende tre volte. Fa %d." % [
+				whole, whole / divisore, answer]
+		return "Il %d%% è %s: basta dividere per %d. %d ÷ %d fa %d." % [
+			percent, nome, divisore, whole, divisore, answer]
+	return "Si passa dall'1%%: %d ÷ 100 fa %s, e se ne prendono %d. Fa %d." % [
+		whole, String.num(float(whole) / 100.0, 2), percent, answer]
+
 func _build_archetype(archetype: String, complexity: int, rng: RandomNumberGenerator, index: int) -> Dictionary:
 	match archetype:
 		"addition":
 			var a := rng.randi_range(3, 12 + complexity * 7)
 			var b := rng.randi_range(2, 10 + complexity * 6)
-			return _node("calcolo", complexity, "Quanto fa %d + %d?" % [a, b], a + b, [a + b - 2, a + b + 2, a + b + 10], "%d + %d = %d." % [a, b, a + b], rng, index)
+			return _node("calcolo", complexity, "Quanto fa %d + %d?" % [a, b], a + b, [a + b - 2, a + b + 2, a + b + 10], _spiega_somma(a, b), rng, index)
 		"subtraction":
 			var b := rng.randi_range(2, 8 + complexity * 3)
 			var answer := rng.randi_range(3, 12 + complexity * 5)
@@ -150,7 +203,7 @@ func _build_archetype(archetype: String, complexity: int, rng: RandomNumberGener
 			var base_unit := 10 if percent in [10, 20] else 4 if percent == 25 else 2
 			var whole := base_unit * rng.randi_range(3, 12 + complexity)
 			var answer := floori(float(whole * percent) / 100.0)
-			return _node("percentuali", complexity, "Calcola il %d%% di %d." % [percent, whole], answer, [whole - answer, answer + base_unit, floori(float(whole * percent) / 10.0)], "%d%% di %d equivale a %d." % [percent, whole, answer], rng, index)
+			return _node("percentuali", complexity, "Calcola il %d%% di %d." % [percent, whole], answer, [whole - answer, answer + base_unit, floori(float(whole * percent) / 10.0)], _spiega_percentuale(percent, whole, answer), rng, index)
 		"linear_equation":
 			var answer := rng.randi_range(2, 8 + complexity)
 			var coefficient := rng.randi_range(2, 5 + floori(float(complexity) / 2.0))

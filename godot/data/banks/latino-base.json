@@ -2872,7 +2872,7 @@
 			"options": [],
 			"answer": "sumus",
 			"accept": [],
-			"explanation": "Prima persona plurale: sumus."
+			"explanation": "La desinenza -mus segna sempre il «noi»: sum diventa sumus, come amo diventa amamus."
 		},
 		{
 			"id": "latino-verbo-sum-125",
@@ -2884,7 +2884,7 @@
 			"options": [],
 			"answer": "sunt",
 			"accept": [],
-			"explanation": "Terza persona plurale: sunt."
+			"explanation": "La desinenza -nt segna sempre il «essi»: sum diventa sunt, come amo diventa amant."
 		},
 		{
 			"id": "latino-verbo-sum-126",

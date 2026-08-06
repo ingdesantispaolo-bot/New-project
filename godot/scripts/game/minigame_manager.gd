@@ -161,6 +161,17 @@ const MATCHING := {
 		# Scuola media — sistemi del corpo e passaggi di stato.
 		{"explanation": "Ogni organo lavora dentro un sistema, e il sistema prende il nome dal lavoro che fa, non dall'organo più grande.", "topic": "sistemi", "minLevel": 6, "pairs": [["Cuore", "Sistema circolatorio"], ["Polmoni", "Sistema respiratorio"], ["Stomaco", "Sistema digerente"], ["Cervello", "Sistema nervoso"]]},
 		{"explanation": "Ogni passaggio di stato ha un nome proprio e un verso preciso: fusione e solidificazione sono lo stesso confine percorso nei due sensi.", "topic": "passaggi-stato", "minLevel": 5, "pairs": [["Fusione", "solido → liquido"], ["Evaporazione", "liquido → gas"], ["Solidificazione", "liquido → solido"], ["Condensazione", "gas → liquido"]]},
+		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
+		{"explanation": "Gli organi non lavorano da soli: stanno in squadre che si chiamano apparati, e ogni squadra ha un compito solo per tutto il corpo.", "topic": "corpo", "pairs": [
+			["cuore", "apparato circolatorio"], ["polmoni", "apparato respiratorio"],
+			["stomaco", "apparato digerente"], ["reni", "apparato escretore"],
+			["cervello", "sistema nervoso"], ["ossa", "apparato scheletrico"],
+			["muscoli", "apparato muscolare"], ["pelle", "rivestimento del corpo"]]},
+		{"explanation": "Gli animali si raggruppano per come sono fatti, non per dove vivono: la balena vive in mare ma respira aria e allatta, quindi è un mammifero.", "topic": "viventi", "pairs": [
+			["rana", "anfibio"], ["serpente", "rettile"], ["aquila", "uccello"],
+			["balena", "mammifero"], ["trota", "pesce"], ["ape", "insetto"],
+			["ragno", "aracnide"], ["lumaca", "mollusco"], ["granchio", "crostaceo"],
+			["stella marina", "echinoderma"]]},
 	],
 	"latino": [
 		# L17. Le locuzioni latine che si usano ancora oggi in italiano: è il punto
@@ -396,6 +407,14 @@ const MATCHING := {
 		# Scuola media — numeri binari (fondamenti dell'informatica). Prefisso 0b
 		# come in Python: chiarisce che è binario e insegna il letterale reale.
 		{"explanation": "In binario ogni posizione vale il doppio della precedente: 0b100 è 4 perché il terzo posto vale quattro.", "topic": "binario", "minLevel": 7, "pairs": [["0b10", "2"], ["0b11", "3"], ["0b100", "4"], ["0b101", "5"], ["0b1000", "8"]]},
+		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
+		{"explanation": "Ogni istruzione fa una cosa sola, e il nome quasi sempre lo dice. Il tranello è «=» contro «==»: uno assegna, l'altro chiede se due cose sono uguali.", "topic": "algoritmi", "pairs": [
+			["print", "mostra a schermo"], ["input", "chiede un dato a chi usa il programma"],
+			["if", "sceglie fra due strade"], ["while", "ripete finché una cosa è vera"],
+			["for", "ripete un numero noto di volte"], ["def", "definisce una funzione"],
+			["return", "restituisce un risultato"], ["len", "conta quanti elementi ci sono"],
+			["append", "aggiunge in fondo a una lista"], ["=", "assegna un valore"],
+			["==", "chiede se due valori sono uguali"], ["#", "scrive una nota per chi legge"]]},
 	],
 	"elettronica": [
 		{"explanation": "Ogni componente ha un ruolo solo: chi fornisce energia, chi lascia passare la corrente o la interrompe, chi la limita.", "topic": "componenti", "pairs": [["Pila", "Fornisce energia"], ["Interruttore", "Apre e chiude"], ["Resistore", "Limita la corrente"], ["LED", "Emette luce"]]},
@@ -404,6 +423,19 @@ const MATCHING := {
 		# Scuola media — legge di Ohm e prefissi delle unità.
 		{"explanation": "Dalla legge di Ohm si ricavano tutte e tre le formule: conoscendo due grandezze si trova sempre la terza.", "topic": "legge-ohm", "minLevel": 6, "pairs": [["Tensione (V)", "R × I"], ["Corrente (I)", "V / R"], ["Resistenza (R)", "V / I"]]},
 		{"explanation": "I prefissi valgono mille per volta: k moltiplica per mille, m divide per mille.", "topic": "prefissi", "minLevel": 7, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
+		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
+		{"explanation": "L'elettricità si capisce meglio pensando all'acqua nei tubi: è un paragone, non la verità, ma regge abbastanza da farci ragionare sui circuiti.", "topic": "elettricita-base", "pairs": [
+			["la pila", "la pompa che spinge"], ["la tensione", "la pressione dell'acqua"],
+			["la corrente", "quanta acqua passa al secondo"], ["la resistenza", "il tubo stretto"],
+			["l'interruttore", "il rubinetto"], ["il filo", "il tubo"],
+			["il condensatore", "il serbatoio che si riempie"]]},
+		{"explanation": "Un guasto si trova ragionando, non provando a caso: ogni sintomo restringe il campo, e il primo controllo è sempre se il circuito è chiuso.", "topic": "guasti", "pairs": [
+			["la lampadina non si accende", "il circuito è interrotto"],
+			["i fili scaldano troppo", "passa più corrente del dovuto"],
+			["la pila si scarica in pochi minuti", "c'è un cortocircuito"],
+			["la luce è debole", "la pila è quasi scarica"],
+			["il motore gira al contrario", "i poli sono invertiti"],
+			["funziona solo muovendo il filo", "un contatto è allentato"]]},
 	],
 	"fisica": [
 		{"explanation": "Sono tre delle sette unità di base del Sistema Internazionale: tutte le altre si costruiscono a partire da queste.", "topic": "misure", "pairs": [["Lunghezza", "Metro"], ["Massa", "Chilogrammo"], ["Tempo", "Secondo"], ["Temperatura", "Grado"]]},
@@ -413,6 +445,16 @@ const MATCHING := {
 		# Scuola media — macchine semplici e formule.
 		{"explanation": "Le macchine semplici non riducono il lavoro: lo rendono più comodo, distribuendolo su più spazio o cambiandone la direzione.", "topic": "macchine", "minLevel": 6, "pairs": [["Leva", "Solleva con meno forza"], ["Carrucola", "Cambia direzione alla forza"], ["Piano inclinato", "Riduce lo sforzo in salita"], ["Ruota", "Riduce l'attrito"]]},
 		{"explanation": "Ogni formula è una divisione o una moltiplicazione fra grandezze: leggerla dice già che cosa dipende da che cosa.", "topic": "formule", "minLevel": 7, "pairs": [["Velocità", "spazio / tempo"], ["Densità", "massa / volume"], ["Forza peso", "massa × gravità"]]},
+		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
+		{"explanation": "Una forza non si vede: si vede quello che fa. Si riconosce dall'effetto, cioè da come cambia il movimento o la forma di una cosa.", "topic": "forze", "pairs": [
+			["gravità", "fa cadere le cose verso il basso"], ["attrito", "rallenta e scalda"],
+			["spinta di Archimede", "fa galleggiare"], ["forza elastica", "riporta la molla indietro"],
+			["forza magnetica", "attira il ferro a distanza"], ["forza muscolare", "muove il corpo"],
+			["resistenza dell'aria", "frena il paracadute"], ["forza centripeta", "tiene in curva"]]},
+		{"explanation": "I passaggi di stato hanno un nome per ogni direzione: la stessa strada percorsa al contrario è un fenomeno diverso, e serve o libera calore.", "topic": "materia", "pairs": [
+			["fusione", "da solido a liquido"], ["solidificazione", "da liquido a solido"],
+			["evaporazione", "da liquido a gas"], ["condensazione", "da gas a liquido"],
+			["sublimazione", "da solido a gas"], ["brinamento", "da gas a solido"]]},
 	],
 	"matematica": [
 		# Prodotti tutti DIVERSI dentro l'insieme: due voci con lo stesso risultato
@@ -1067,6 +1109,31 @@ const CLASSIFICATION := {
 				"Cervo": "consumatore", "Rana": "consumatore", "Volpe": "consumatore", "Pesce": "consumatore",
 				"Fungo": "decompositore", "Batterio": "decompositore", "Muffa": "decompositore", "Lombrico": "decompositore",
 				"Scarabeo stercorario": "decompositore", "Millepiedi": "decompositore", "Lievito": "decompositore", "Termite del legno morto": "decompositore"}},
+		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
+		{"explanation": "Il metodo scientifico è un ordine: prima si guarda, poi si immagina una spiegazione, poi si prova, e solo alla fine si dice che cosa si è capito. Saltare un passo fa dire cose false con sicurezza.", "topic": "metodo", "draw": 6, "prompt": "Smista ogni frase nel passo del metodo scientifico.",
+			"categories": ["osservazione", "ipotesi", "esperimento", "conclusione"],
+			"assignments": {
+				"le piante sul davanzale sono più alte di quelle nell'angolo": "osservazione",
+				"il ghiaccio nel bicchiere si scioglie in venti minuti": "osservazione",
+				"la palla rossa arriva sempre prima di quella blu": "osservazione",
+				"forse crescono di più perché ricevono più luce": "ipotesi",
+				"potrebbe dipendere dal peso della palla": "ipotesi",
+				"immagino che l'acqua calda sciolga prima lo zucchero": "ipotesi",
+				"metto due piante uguali, una al buio e una alla luce": "esperimento",
+				"peso il sale prima e dopo averlo sciolto": "esperimento",
+				"lascio cadere le due palle dalla stessa altezza": "esperimento",
+				"quindi la luce fa crescere le piante di più": "conclusione",
+				"il peso non cambia il tempo di caduta": "conclusione",
+				"lo zucchero si scioglie prima nell'acqua calda": "conclusione"}},
+		{"explanation": "Una stella produce luce da sola, un pianeta la riflette e gira attorno a una stella, un satellite gira attorno a un pianeta. È una questione di chi gira attorno a chi.", "topic": "terra-universo", "draw": 6, "prompt": "Smista ogni corpo celeste.",
+			"categories": ["stella", "pianeta", "satellite"],
+			"assignments": {
+				"Sole": "stella", "Sirio": "stella", "Proxima Centauri": "stella",
+				"Betelgeuse": "stella", "Vega": "stella",
+				"Marte": "pianeta", "Terra": "pianeta", "Giove": "pianeta",
+				"Venere": "pianeta", "Saturno": "pianeta",
+				"Luna": "satellite", "Ganimede": "satellite", "Titano": "satellite",
+				"Io": "satellite", "Europa (di Giove)": "satellite"}},
 	],
 	"coding": [
 		{"explanation": "Il tipo si legge da come è scritto il valore: le virgolette fanno una stringa, True e False sono booleani, le parentesi quadre una lista, un numero nudo un intero.", "topic": "tipi", "draw": 8, "prompt": "Smista ogni valore nel suo tipo di dato.",
@@ -1123,6 +1190,38 @@ const CLASSIFICATION := {
 				"2cose": "non valido", "mia var": "non valido", "3x": "non valido", "nome-utente": "non valido",
 				"class": "non valido", "prezzo€": "non valido", "for": "non valido", "totale!": "non valido",
 				"1_lista": "non valido", "if": "non valido", "a+b": "non valido", "mio.valore": "non valido"}},
+		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
+		{"explanation": "Una condizione è una domanda che ha una risposta sola: sì o no. Il computer non sa fare «forse», e per questo un programma è prevedibile.", "topic": "condizioni", "draw": 6, "prompt": "Smista ogni condizione: è vera o falsa?",
+			"categories": ["vera", "falsa"],
+			"assignments": {
+				"5 > 3": "vera", "10 == 10": "vera", "7 != 2": "vera",
+				"4 < 9": "vera", "12 >= 12": "vera", "0 < 1": "vera",
+				"2 > 8": "falsa", "3 == 5": "falsa", "6 != 6": "falsa",
+				"15 < 9": "falsa", "4 >= 7": "falsa", "1 == 0": "falsa"}},
+		{"explanation": "Il ciclo serve quando la stessa cosa va rifatta più volte. Scriverla dieci volte a mano funziona, ma quando le volte diventano mille non funziona più.", "topic": "cicli", "draw": 6, "prompt": "Serve un ciclo, oppure basta un'istruzione sola?",
+			"categories": ["serve un ciclo", "basta un'istruzione"],
+			"assignments": {
+				"scrivere i numeri da 1 a 100": "serve un ciclo",
+				"salutare ogni nome di una lista": "serve un ciclo",
+				"sommare tutti i voti della classe": "serve un ciclo",
+				"controllare una per una le lettere di una parola": "serve un ciclo",
+				"chiedere la password finché non è giusta": "serve un ciclo",
+				"disegnare i quattro lati di un quadrato": "serve un ciclo",
+				"scrivere «Ciao» a schermo": "basta un'istruzione",
+				"sommare due numeri": "basta un'istruzione",
+				"chiedere il nome all'utente": "basta un'istruzione",
+				"mettere 10 dentro una variabile": "basta un'istruzione",
+				"controllare se un numero è positivo": "basta un'istruzione",
+				"calcolare il doppio di un numero": "basta un'istruzione"}},
+		{"explanation": "Un programma prende dati e ne restituisce: quello che entra viene da fuori, quello che esce va verso chi guarda. Confonderli è l'errore più comune all'inizio.", "topic": "input", "draw": 6, "prompt": "Smista ogni operazione: il dato entra o esce?",
+			"categories": ["entra", "esce"],
+			"assignments": {
+				"chiedere il nome a chi gioca": "entra", "leggere la temperatura da un sensore": "entra",
+				"ricevere il clic di un pulsante": "entra", "leggere una riga da un file": "entra",
+				"registrare il tasto premuto": "entra", "ricevere un messaggio dalla rete": "entra",
+				"scrivere il risultato a schermo": "esce", "accendere una lampadina": "esce",
+				"salvare i punti in un file": "esce", "far suonare un avviso": "esce",
+				"disegnare una figura": "esce", "mandare un messaggio in rete": "esce"}},
 	],
 	"storia": [
 		{"topic": "fonti", "draw": 6, "prompt": "Smista ogni traccia del passato: fonte scritta o fonte materiale?",
@@ -1441,6 +1540,27 @@ const CLASSIFICATION := {
 				"Carta velina": "translucido", "Vetro smerigliato": "translucido", "Carta da forno": "translucido",
 				"Nebbia": "translucido", "Tenda leggera": "translucido", "Plastica opalina": "translucido",
 				"Acqua torbida": "translucido", "Ghiaccio opaco": "translucido"}},
+		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
+		{"explanation": "Ogni grandezza ha la sua unità: misurare una lunghezza in chilogrammi non è un errore di conto, è una domanda senza senso.", "topic": "misure", "draw": 6, "prompt": "Con quale unità si misura?",
+			"categories": ["metro", "chilogrammo", "secondo", "grado"],
+			"assignments": {
+				"la lunghezza di un banco": "metro", "l'altezza di una porta": "metro",
+				"la distanza fra due città": "metro", "la profondità di una piscina": "metro",
+				"la massa di una mela": "chilogrammo", "quanto pesa uno zaino": "chilogrammo",
+				"la massa di un sacco di farina": "chilogrammo", "quanto pesa un gatto": "chilogrammo",
+				"la durata di una corsa": "secondo", "quanto dura una canzone": "secondo",
+				"il tempo di caduta di un sasso": "secondo", "quanto dura una lezione": "secondo",
+				"la temperatura dell'acqua": "grado", "quanto è caldo il forno": "grado",
+				"la febbre di un bambino": "grado", "la temperatura di oggi": "grado"}},
+		{"explanation": "Alcune forze hanno bisogno di toccare, altre no: gravità e magnetismo agiscono attraverso lo spazio vuoto, ed è la cosa che ha stupito di più chi le ha studiate.", "topic": "forze", "draw": 6, "prompt": "Smista ogni forza: agisce a contatto o a distanza?",
+			"categories": ["a contatto", "a distanza"],
+			"assignments": {
+				"attrito fra ruota e strada": "a contatto", "spinta di una mano": "a contatto",
+				"tensione di una corda": "a contatto", "resistenza dell'aria": "a contatto",
+				"forza elastica di una molla": "a contatto", "urto fra due palline": "a contatto",
+				"gravità della Terra": "a distanza", "attrazione di una calamita": "a distanza",
+				"forza fra due cariche elettriche": "a distanza", "attrazione fra Terra e Luna": "a distanza",
+				"campo magnetico che devia la bussola": "a distanza", "gravità del Sole sui pianeti": "a distanza"}},
 	],
 	"musica": [
 		# L15. Le famiglie dell'orchestra. Il sassofono è il caso che insegna la
@@ -1521,6 +1641,37 @@ const CLASSIFICATION := {
 				"Basetta di vetronite": "isolante", "Ceramica": "isolante", "Nastro isolante": "isolante",
 				"LED": "carico", "Lampadina": "carico", "Motorino": "carico",
 				"Cicalino": "carico", "Ventola": "carico", "Resistore di potenza": "carico"}},
+		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
+		{"explanation": "In serie la corrente ha una strada sola, quindi se si interrompe si spegne tutto. In parallelo ognuno ha la sua strada, ed è il motivo per cui in casa è cablato così.", "topic": "serie-parallelo", "draw": 6, "prompt": "Smista ogni descrizione: serie o parallelo?",
+			"categories": ["serie", "parallelo"],
+			"assignments": {
+				"se una lampadina si brucia si spengono tutte": "serie",
+				"la corrente ha una strada sola": "serie",
+				"più lampadine ci sono, più sono deboli": "serie",
+				"le vecchie luci dell'albero di Natale": "serie",
+				"le resistenze si sommano": "serie",
+				"basta un filo staccato e non funziona niente": "serie",
+				"ogni lampadina ha il suo percorso": "parallelo",
+				"se una si brucia le altre restano accese": "parallelo",
+				"le prese di casa": "parallelo",
+				"ognuna riceve la stessa tensione": "parallelo",
+				"si può spegnere una luce sola": "parallelo",
+				"la corrente si divide fra i rami": "parallelo"}},
+		{"explanation": "La corrente cerca sempre la strada più facile per tornare indietro, e il corpo umano è una strada. Le regole di sicurezza servono tutte a non diventarlo.", "topic": "sicurezza-elettrica", "draw": 6, "prompt": "Smista ogni comportamento: prudente o pericoloso?",
+			"categories": ["prudente", "pericoloso"],
+			"assignments": {
+				"staccare la spina prima di aprire un apparecchio": "prudente",
+				"usare cacciaviti con il manico isolato": "prudente",
+				"asciugarsi le mani prima di toccare una presa": "prudente",
+				"far riparare un filo scoperto da un adulto": "prudente",
+				"spegnere l'interruttore generale prima di lavorare": "prudente",
+				"usare una pila da 4,5 volt per un esperimento": "prudente",
+				"toccare una presa con le mani bagnate": "pericoloso",
+				"infilare oggetti di metallo in una presa": "pericoloso",
+				"usare un filo con la guaina rotta": "pericoloso",
+				"collegare i due poli della pila con un filo nudo": "pericoloso",
+				"attaccare troppe spine alla stessa presa": "pericoloso",
+				"aprire un apparecchio ancora collegato": "pericoloso"}},
 	],
 	"inglese": [
 		{"explanation": "Ogni parola va nel campo di significato a cui appartiene: è il modo in cui il cervello archivia il lessico, per gruppi e non alla rinfusa.", "topic": "categorie", "draw": 8, "prompt": "Sort each word into its category.",

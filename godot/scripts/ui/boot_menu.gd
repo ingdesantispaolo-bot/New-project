@@ -9,6 +9,9 @@ const BACKDROP := preload("res://assets/radura-accademia-hero-backdrop-v2.png")
 var play_button: Button
 var second_journey_button: Button
 var second_journey_status: Label
+var second_journey_bar: ProgressBar
+var player_label: Label
+var profile_panel: ProfilePanel
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -94,6 +97,8 @@ func _build_interface() -> void:
 	spacer.custom_minimum_size.y = 8
 	column.add_child(spacer)
 
+	column.add_child(_build_player_row())
+
 	play_button = Button.new()
 	play_button.name = "PlayButton"
 	play_button.text = "GIOCA"
@@ -118,6 +123,77 @@ func _build_interface() -> void:
 	column.add_child(hint)
 
 	column.add_child(_build_second_journey_card())
+
+## Chi sta per giocare, e come cambiarlo.
+##
+## La riga compare SEMPRE, anche quando il giocatore è uno solo: un bambino che
+## non sa di poter avere una casella sua non la cercherà mai, e continuerà a
+## giocare sopra la partita del fratello. Ma l'elenco dei profili viene creato
+## solo quando qualcuno apre davvero il pannello — finché nessuno lo fa, il
+## gioco resta sul salvataggio storico come ha sempre fatto.
+func _build_player_row() -> Control:
+	var riga := HBoxContainer.new()
+	riga.name = "PlayerRow"
+	riga.add_theme_constant_override("separation", 8)
+
+	player_label = Label.new()
+	player_label.name = "PlayerName"
+	player_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	player_label.add_theme_font_size_override("font_size", 15)
+	player_label.add_theme_color_override("font_color", Color("d4e7e9"))
+	riga.add_child(player_label)
+
+	var cambia := Button.new()
+	cambia.name = "ChangePlayerButton"
+	cambia.text = "CAMBIA"
+	cambia.custom_minimum_size = Vector2(0, 40)
+	cambia.add_theme_font_size_override("font_size", 14)
+	cambia.pressed.connect(_open_profiles)
+	riga.add_child(cambia)
+
+	_refresh_player_row()
+	return riga
+
+func _refresh_player_row() -> void:
+	if not is_instance_valid(player_label):
+		return
+	var nome := "Giocatore 1"
+	if PlayerProfiles.has_profiles():
+		nome = str(PlayerProfiles.active().get("name", nome))
+	player_label.text = "Giochi come: %s" % nome
+
+func _open_profiles() -> void:
+	if is_instance_valid(profile_panel):
+		return
+	profile_panel = ProfilePanel.new()
+	profile_panel.name = "ProfilePanel"
+	profile_panel.chosen.connect(_on_profile_chosen)
+	add_child(profile_panel)
+
+func _on_profile_chosen(_id: String) -> void:
+	if is_instance_valid(profile_panel):
+		profile_panel.queue_free()
+		profile_panel = null
+	_refresh_player_row()
+	# Il Secondo Viaggio dipende dalla campagna di CHI gioca: cambiando bambino
+	# la voce deve rileggere il suo salvataggio, non restare su quella di prima.
+	_refresh_second_journey()
+	play_button.grab_focus()
+
+func _refresh_second_journey() -> void:
+	if not is_instance_valid(second_journey_status) or not is_instance_valid(second_journey_button):
+		return
+	var progress := _campaign_progress()
+	var unlocked := bool(progress.get("complete", false))
+	var completed := int(progress.get("worldsCompleted", 0))
+	var total := int(progress.get("worldsTotal", 24))
+	second_journey_status.text = (
+		"Rotta aperta" if unlocked else "Rotta chiusa · %d/%d" % [completed, total])
+	second_journey_button.disabled = not unlocked
+	second_journey_button.text = "ROTTA APERTA" if unlocked else "ROTTA CHIUSA"
+	if is_instance_valid(second_journey_bar):
+		second_journey_bar.max_value = float(maxi(total, 1))
+		second_journey_bar.value = float(completed)
 
 ## Voce del Secondo Viaggio: presente e BLOCCATA dal primo avvio, con il
 ## contatore dei mondi completati.
@@ -169,6 +245,7 @@ func _build_second_journey_card() -> Control:
 	box.add_child(second_journey_status)
 
 	var bar := ProgressBar.new()
+	second_journey_bar = bar
 	bar.name = "SecondJourneyProgress"
 	bar.show_percentage = false
 	bar.min_value = 0.0
@@ -217,6 +294,10 @@ func _campaign_progress() -> Dictionary:
 func _play() -> void:
 	play_button.disabled = true
 	play_button.text = "AVVIO…"
+	# Segna che questa casella ha giocato adesso: serve all'elenco a mostrare per
+	# prima quella usata di recente. Silenzioso se i profili non esistono ancora.
+	if PlayerProfiles.has_profiles():
+		PlayerProfiles.touch(PlayerProfiles.active_id())
 	if NativeWorldState.release_smoke_enabled():
 		_prepare_release_smoke_save()
 	get_tree().change_scene_to_file(WORLD_SCENE)

@@ -302,6 +302,43 @@ vantaggi di gioco: nomina le tre materie più vicine al traguardo, il motivo
 
 ---
 
+## Chi gioca, e dove vive la partita (6 agosto 2026)
+
+Due guasti diversi con la stessa conseguenza — venti ore che spariscono — e una
+sola causa: il salvataggio era **un file solo, a percorso fisso**.
+
+| | che cosa succedeva | ora |
+|---|---|---|
+| due fratelli, un tablet | giocavano lo stesso salvataggio senza saperlo | una casella per ciascuno, fino a sei |
+| stesso bambino, tablet diverso | niente da fare: l'export Web vive in IndexedDB, legato a quel browser | un **codice di ripristino** per casella |
+
+Il Worker in cloud è in linea dal 6 agosto
+(`https://eli-quest-save.ing-desantis-paolo.workers.dev`, sorgente in `cloud/`).
+Nessun account, nessuna email: la chiave è un codice di otto caratteri, che non
+identifica nessuno — un gioco per bambini di 10-13 anni che chiedesse un dato
+personale si porterebbe dietro un obbligo di consenso.
+
+Le tre regole che governano il codice, e il motivo di ciascuna:
+
+1. **Il locale è la verità, il cloud è una copia.** Se il Worker non risponde
+   non succede niente e si continua a giocare.
+2. **Non si scarica mai da soli.** Il Worker non fonde due salvataggi: l'ultimo
+   che scrive vince. Un caricamento automatico all'avvio potrebbe sostituire la
+   partita buona con una vecchia. Prima di sostituire, il gioco mostra che cosa
+   arriva e che cosa se ne va.
+3. **Un codice si occupa solo se è libero.** Prima di assegnarlo si chiede al
+   cloud se esiste già. Senza, due bambini potrebbero finire sullo stesso
+   salvataggio: l'unico incidente davvero grave qui.
+
+Due scelte che sembrano mancanze e non lo sono. **Non si cancella un profilo**:
+butterebbe via il lavoro di un bambino con un tocco, sul dispositivo di un
+altro, in sua assenza — chi vuole riusare una casella la rinomina. E **senza
+l'elenco dei profili tutto si comporta come prima**, sul percorso storico: è per
+questo che il cambiamento non ha toccato nessuna delle prove esistenti, e che il
+primo profilo *adotta* la partita già in corso invece di ripartire dal livello 1.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

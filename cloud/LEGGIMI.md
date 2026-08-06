@@ -127,8 +127,33 @@ dentro.
   giocare offline, e se il Worker non risponde non succede niente.
 - **Un anno di inattività e il salvataggio scade.**
 
+## Come lo vede un bambino
+
+Dal menu di avvio, riga **«Giochi come: …»** → *CAMBIA*.
+
+- **Le caselle dei giocatori.** Ognuna ha nome e livello, e un salvataggio tutto
+  suo: due fratelli sullo stesso tablet non si sovrascrivono più. Sei caselle al
+  massimo. Non si cancellano — si rinominano, e la partita dentro resta.
+- **☁ Codice di ripristino.** *CREA IL CODICE* trova un codice libero (chiede al
+  Worker se è già occupato, e ne prova un altro se lo è) e manda subito la
+  partita: un codice scritto su un foglio che non contiene niente sarebbe
+  peggio di nessun codice.
+- **RIPRISTINA.** Si scrive il codice di un altro tablet. Prima di sostituire
+  qualcosa il gioco mostra **che cosa arriva e che cosa se ne va** — nome,
+  livello e data da una parte, nome e livello di qui dall'altra. Poi decide un
+  umano.
+
+Durante la partita la copia si rinfresca da sola, al massimo ogni tre minuti, e
+subito quando si sale di livello. In silenzio: se il cloud non risponde non
+succede niente e si continua a giocare.
+
 ## Il passo dopo
 
-Quando l'indirizzo del Worker esiste, resta il lato gioco: generazione del
-codice, pannello «Codice di ripristino», caricamento su richiesta e invio a fine
-sessione. È un lotto separato.
+
+Il lato gioco è fatto. Restano due cose che solo il collaudo può dire:
+
+- se tre minuti fra una copia e l'altra siano troppi o troppo pochi. Il limite
+  vero è il piano gratuito (mille scritture al giorno), non la tecnica;
+- se `ORIGINI_AMMESSE`, in cima a `index.ts`, contenga davvero l'indirizzo da
+  cui giocano i bambini. Un'origine mancante non dà errore visibile: il
+  salvataggio in cloud smette di funzionare e basta.

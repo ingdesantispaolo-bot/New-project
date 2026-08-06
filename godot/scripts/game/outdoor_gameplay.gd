@@ -19,6 +19,12 @@ const ENIGMA_RETRY_COOLDOWN_SECONDS := 20
 
 const EXERCISE_ENERGY_COST := 3
 
+## Ogni quanto la copia in cloud può rifarsi. Il piano gratuito di Cloudflare
+## regge mille scritture al giorno: senza un freno, sette punti di salvataggio
+## in una sessione lunga lo consumerebbero per un errore di progettazione, non
+## per uso. Tre minuti perdono al massimo tre minuti di gioco.
+const CLOUD_MIRROR_INTERVAL_MS := 180000
+
 ## Costo dell'uscita anticipata da una prova. Uguale all'ingresso: uscire e
 ## rientrare costa il doppio di restare, che è esattamente la differenza che
 ## serve perché ripescare le domande non convenga.
@@ -77,6 +83,10 @@ var result: Dictionary                           # delta della sessione mondo co
 var active_session_context: Dictionary = {}
 var base_fragments := 0
 var current_phase := "giorno"
+## Copia di sicurezza in cloud: nasce alla prima occasione utile e resta nulla
+## finché il profilo attivo non ha un codice — cioè sempre, negli audit.
+var _cloud: CloudSave = null
+var _ultimo_specchio_ms := 0
 
 ## Il messaggio di fine pratica. Nomina al massimo **due** argomenti: tre righe
 ## di elenco su una sessione di quattro esercizi si leggono come un registro
@@ -189,8 +199,43 @@ func setup(request: Dictionary, session_result: Dictionary, load_local_save: boo
 	# corrente (merge additivo: aggiunge solo id già risolti, non ne toglie mai),
 	# così ciò che era già stato completato non viene riproposto dopo un reboot.
 	_hydrate_world_progress()
-	game_save.save()
+	_persist()
 	_emit_state()
+
+## Salva su disco e, quando ha senso, rispecchia in cloud.
+##
+## Il disco è la verità e non ha condizioni: si scrive sempre. Il cloud è una
+## copia, e vale la regola che tiene in piedi tutto il resto — se non risponde,
+## non succede niente e si continua a giocare. Nessun esito viene mostrato al
+## bambino: una copia di sicurezza che interrompe la partita per annunciarsi ha
+## sbagliato mestiere.
+func _persist(forza_cloud: bool = false) -> void:
+	game_save.save()
+	_mirror_cloud(forza_cloud)
+
+func _mirror_cloud(forza: bool) -> void:
+	# Senza profili non esiste codice, quindi non esiste copia in cloud: è lo
+	# stato di un'installazione appena avviata e di tutti gli audit.
+	if not PlayerProfiles.has_profiles():
+		return
+	var id := PlayerProfiles.active_id()
+	var codice := PlayerProfiles.code_of(id)
+	if codice.is_empty():
+		return
+	var ora := Time.get_ticks_msec()
+	if not forza and ora - _ultimo_specchio_ms < CLOUD_MIRROR_INTERVAL_MS:
+		return
+	if _cloud == null:
+		_cloud = CloudSave.new()
+		_cloud.name = "CloudMirror"
+		add_child(_cloud)
+	if _cloud.occupato():
+		return
+	# Il tempo si segna adesso, non a risposta arrivata: se il cloud è
+	# irraggiungibile, riprovare a ogni salvataggio riempirebbe la sessione di
+	# richieste destinate a fallire.
+	_ultimo_specchio_ms = ora
+	_cloud.carica(codice, game_save.data, str(PlayerProfiles.find(id).get("name", "")))
 
 # ID del mondo visitato nel save persistente. È distinto dal rango `level`:
 # dalla nave si può tornare in un mondo già sbloccato senza contaminare incontri,
@@ -434,7 +479,7 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 	session["teachingLine"] = KnowledgeCodex.teach_line(moment)
 	session["teachingLesson"] = lesson
 	KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
-	game_save.save()
+	_persist()
 	return session
 
 # Minigioco: un incontro risolto con formati interattivi (abbina/ordina) della
@@ -519,6 +564,9 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	var passed := bool(exercise_result.get("passed", false))
 	var energy_before := game_save.energy()
 	var kind := str(context.get("kind", "mission"))
+	# Dichiarata qui e non nel ramo dell'esame: serve in fondo alla funzione, per
+	# decidere se la copia in cloud debba partire subito invece di aspettare.
+	var salito_di_livello := false
 
 	# Prova abbandonata: si paga l'uscita, non si registra alcun esito e non si
 	# completa niente. Gli argomenti visti vanno comunque al Codex — quello che
@@ -598,18 +646,20 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			# vittoria, e non ha capito perché il mondo 2 restasse chiuso.
 			var livello_prima := game_save.level()
 			progression_manager.repair_and_advance(true)
-			var salito := game_save.level() > livello_prima
+			salito_di_livello = game_save.level() > livello_prima
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
 			_award_fragments(4)
-			if salito:
+			if salito_di_livello:
 				_present_feedback("%s Livello %d." % [nora_voice.line("victory"), game_save.level()], "nora")
 				current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
 			else:
 				_present_feedback(_manca_per_salire(subject), "nora")
 		else:
 			_present_feedback(nora_voice.line("defeat"), "nora")
-	game_save.save()
+	# Forzato: salire di livello è il momento che fa più male perdere, ed è anche
+	# raro — non consuma il piano gratuito come farebbe una copia a ogni prova.
+	_persist(salito_di_livello)
 	_emit_state()
 
 # ---------------------------------------------------------------------------
@@ -630,7 +680,7 @@ func try_purchase_cosmetic(id: String) -> bool:
 		return false
 	result["energySpent"] = int(result.get("energySpent", 0)) + cost
 	reward_manager.unlock_and_equip(id)
-	game_save.save()
+	_persist()
 	_present_feedback("Acquistato: %s" % str(cosmetic.get("name", id)), "system")
 	_emit_state()
 	return true
@@ -638,13 +688,13 @@ func try_purchase_cosmetic(id: String) -> bool:
 func equip_cosmetic(id: String) -> bool:
 	if not reward_manager.equip(id):
 		return false
-	game_save.save()
+	_persist()
 	_emit_state()
 	return true
 
 func unequip_cosmetic(slot: String) -> void:
 	reward_manager.unequip(slot)
-	game_save.save()
+	_persist()
 	_emit_state()
 
 # Raccolta tesoro: solo frammenti (l'energia si guadagna con gli esercizi). Il
@@ -655,7 +705,7 @@ func collect_treasure(payload: Dictionary, treasure_id: String = "") -> void:
 	if id != "" and not game_save.mark_treasure_collected(_world_id(), id):
 		return  # già raccolto in questo mondo: nessuna doppia ricompensa
 	_award_fragments(int(payload.get("rewardFragments", 0)))
-	game_save.save()
+	_persist()
 	_emit_state()
 
 # Concede frammenti aggiornando SIA il delta di sessione (riepilogo/HUD) SIA il

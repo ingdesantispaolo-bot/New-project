@@ -212,6 +212,26 @@ func _build_header(parent: VBoxContainer) -> void:
 	level_label.custom_minimum_size.x = 96
 	row.add_child(level_label)
 
+	# **Il ritorno al menu.** (6 agosto 2026)
+	#
+	# Fino a oggi non esisteva: mondo → nave → mondo, e il menu principale si
+	# rivedeva solo riavviando l'applicazione. Chi voleva cambiare giocatore,
+	# guardare il registro dei progressi o ricominciare doveva chiudere il gioco
+	# — su tablet, dove un'applicazione non si chiude quasi mai davvero, questo
+	# significava «non si può».
+	#
+	# Sta qui e non nel mondo di proposito: la nave è la base a cui si torna da
+	# ogni mondo, ed è il posto in cui ci si ferma. Un'uscita in mezzo a una
+	# passeggiata sarebbe una porta di troppo accanto a una prova.
+	var menu_button := Button.new()
+	menu_button.name = "MainMenuButton"
+	menu_button.text = "MENU"
+	menu_button.tooltip_text = "Cambia giocatore, guarda i progressi, ricomincia"
+	menu_button.custom_minimum_size = Vector2(92, 48)
+	menu_button.add_theme_font_size_override("font_size", 12)
+	menu_button.pressed.connect(_torna_al_menu)
+	row.add_child(menu_button)
+
 	var log_button := Button.new()
 	log_button.name = "ShipLogButton"
 	log_button.text = "MANUALE"
@@ -1041,6 +1061,17 @@ func _set_activation_burst(value: float) -> void:
 	background_material.set_shader_parameter("transition_burst", value)
 	if is_instance_valid(power_overlay):
 		power_overlay.burst = value
+
+## Salva e torna al menu principale.
+##
+## Il salvataggio esplicito PRIMA del cambio di scena non è prudenza generica:
+## uscire è il momento in cui un bambino si aspetta di meno di perdere
+## qualcosa, ed è anche l'unico in cui il gioco non ha un'altra occasione per
+## scrivere.
+func _torna_al_menu() -> void:
+	if is_instance_valid(save):
+		save.save()
+	get_tree().change_scene_to_file("res://scenes/boot_menu.tscn")
 
 func _show_ship_log() -> void:
 	if not is_instance_valid(knowledge_codex_panel):

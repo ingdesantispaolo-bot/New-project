@@ -1,5 +1,9 @@
 extends SceneTree
 
+## Nomi di edificio già incontrati: due mondi con lo stesso nome renderebbero
+## indistinguibili due posti, ed è il difetto da cui nasce il catalogo esteso.
+var _nomi_visti: Dictionary = {}
+
 const WORLD_SCENE := preload("res://scenes/outdoor_world.tscn")
 
 func _init() -> void:
@@ -18,12 +22,24 @@ func _run() -> void:
 				"edificio non vestito per artKit nel mondo %d" % level)
 			var role := str(spec.get("role", ""))
 			var label := str(spec.get("label", ""))
-			if level == 1:
-				assert(label == str(BuildingCatalog.WORLD_ONE_NAMES.get(role, "")),
-					"fixture mondo 1 rinominata: %s" % label)
-			else:
-				assert(label != str(BuildingCatalog.WORLD_ONE_NAMES.get(role, "")),
-					"nome del mondo 1 trapelato nel mondo %d: %s" % [level, label])
+			# **Ogni mondo ha i suoi tre nomi.** (6 agosto 2026)
+			#
+			# Prima i nomi esistevano solo per il mondo 1 e gli altri ventitre
+			# ricevevano «Casa del mestiere», «Ritrovo», «Rovina dei Primi» —
+			# identiche ovunque. Questa prova chiedeva soltanto che i nomi del
+			# mondo 1 non trapelassero altrove, ed era verde mentre ventitre
+			# mondi condividevano le stesse tre etichette: guardava la cosa
+			# sbagliata.
+			assert(label.strip_edges().length() > 4,
+				"edificio senza nome nel mondo %d (ruolo %s)" % [level, role])
+			for generico in ["Casa del mestiere", "Ritrovo", "Rovina dei Primi"]:
+				assert(label != generico,
+					"il mondo %d usa ancora l'etichetta generica «%s»" % [level, generico])
+			var chiave := "%s|%s" % [label, role]
+			assert(not _nomi_visti.has(label),
+				"il nome «%s» compare in due mondi: %d e %d" % [
+					label, int(_nomi_visti.get(label, 0)), level])
+			_nomi_visti[label] = level
 	await _test_world_one()
 	print("Building audit OK — 3 ruoli × 24 mondi, finestre a stadio e Rovina allineata")
 	quit(0)

@@ -627,6 +627,76 @@ mondo 19, appena scoperto che il Tredicesimo l'ha costruita, NORA diceva ancora
 
 ---
 
+## Oggetti, bottega e i cinque epiloghi (6 agosto 2026)
+
+### Il difetto trovato negli oggetti
+
+Quattro «upgrade» promettevano meccaniche **che non esistono** in questo loop:
+«il primo indizio di ogni run non consuma aiuti», «gli impulsi NORA si
+caricano», «una carica NORA puo' recuperare due vite». Aiuti, impulsi e vite
+sono del prototipo Phaser: qui non c'e' niente di tutto cio'. Costavano da 360 a
+1600 frammenti e non facevano nulla. Riscritti su cio' che sono davvero — pezzi
+della nave che si accendono — e `endings_audit` ora vieta a qualunque oggetto di
+promettere una meccanica inesistente.
+
+### Il valore degli oggetti: la provenienza
+
+Un cosmetico non puo' dare vantaggi nelle prove, per contratto didattico. Allora
+il suo unico valore possibile e' **da dove viene**. Tutti e 55 gli oggetti hanno
+ora una `origine` mostrata in bottega: chi lo aveva, in quale mondo, perche' lo
+ha lasciato.
+
+Prima: «Bit Lime — Verde acido brillante per il tuo compagno.» Un colore.
+Adesso, sotto: «Vernice avanzata dai segnavia della radura: Tobia ne aveva un
+barattolo di troppo.»
+
+### Il Lascito, e la regola che lo governa
+
+`LegacyScore` pesa cinque dimensioni: padronanza (30%, con il nucleo che conta
+doppio), ritenzione (25%), mondo (20%), rotta (15%), indagine (10%).
+
+**Non pesano frammenti, cosmetici, ore giocate ne' velocita'.** Se pesassero, un
+bambino potrebbe **comprarsi un finale migliore**, e un gioco che si studia non
+puo' vendere il proprio epilogo. E' la prova piu' importante dell'audit: si
+riempie un salvataggio di ricchezza, acquisti e ore e si verifica che il Lascito
+non si muova di un centesimo.
+
+### I cinque epiloghi
+
+**Nessuno e' un finale brutto.** Cambiano per *che cosa* hai fatto, non per
+*quanto vali*, e nessuna riga nomina cio' che il giocatore NON ha fatto — un
+epilogo che dicesse «hai fatto poco» a un bambino dopo venti ore sarebbe la cosa
+peggiore che questo gioco possa fare.
+
+| epilogo | si apre quando | che cosa dice |
+|---|---|---|
+| **ROTTA APERTA** | profilo equilibrato | hai rimesso in moto una cosa ferma |
+| **IL REGISTRO CHE RESTA** | domina la ritenzione | il sapere che tieni smentisce la tesi del Silenzio |
+| **IL CIRCUITO** | domina il mondo | dodici mondi tornano a parlarsi, e non per merito della nave |
+| **SULLA SOGLIA** | domina l'indagine | il Tredicesimo ti dice l'ultima cosa che gli restava |
+| **LA TREDICESIMA CATTEDRA** | domina la padronanza | il posto va a chi tiene dodici modi di capire insieme |
+| **C'E' QUALCOSA. VENITE.** | Lascito >= 0,82 | non si aspetta Meridiana: si va a prenderla |
+
+Il sesto non e' «il migliore»: e' **il piu' lungo**, e non aggiunge una
+ricompensa — aggiunge una partenza. La dominante si calcola sullo scarto dalla
+media e non sul valore assoluto: senza quella normalizzazione vincerebbe sempre
+la ROTTA, che sale da sola avanzando.
+
+### Cosa manca, dichiarato
+
+`FinaleCatalog` — le 46 battute del Cuore dei Primi e il cast condizionale — e'
+letto **solo da un audit**: nessuna scena lo mostra. Gli epiloghi nuovi sono
+allo stesso stadio: dati e selezione pronti, regia da fare. E' un lotto di
+scena, non di contenuto.
+
+I **consumabili** non sono stati aggiunti: in un gioco che si studia un
+consumabile utile diventa una scorciatoia per non sapere, e uno inutile e' un
+altro oggetto bugiardo. Se servono, l'unica forma difendibile e' estetica e
+temporanea (l'aspetto di un mondo per una sessione), mai qualcosa che tocchi una
+prova.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

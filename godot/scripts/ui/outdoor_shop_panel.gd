@@ -568,7 +568,18 @@ func _refresh_detail(cosmetic: Dictionary) -> void:
 	_detail_rarity.text = str(rarity["label"])
 	_detail_rarity.add_theme_color_override("font_color", rarity["color"])
 	_detail_name.text = str(cosmetic.get("name", id))
-	_detail_description.text = str(cosmetic.get("description", ""))
+	# Descrizione più PROVENIENZA. (6 agosto 2026)
+	#
+	# Prima c'era solo la descrizione, e diceva com'è fatto l'oggetto: «Verde
+	# acido brillante per il tuo compagno». Un colore. La provenienza dice da
+	# dove viene — chi lo aveva, in quale mondo, perché lo ha lasciato — e
+	# trasforma un cosmetico in un ricordo di una cosa che il bambino ha
+	# davvero fatto. È l'unico valore che questi oggetti possono avere: per
+	# contratto didattico non danno nessun vantaggio nelle prove.
+	var origine := str(cosmetic.get("origine", ""))
+	_detail_description.text = (
+		str(cosmetic.get("description", "")) if origine.is_empty()
+		else "%s\n\n%s" % [str(cosmetic.get("description", "")), origine])
 	_detail_impact.text = "IMPATTO\n%s" % str(SLOT_META[_slot]["impact"])
 	_detail_requirements.text = _detail_requirement_text(cost, min_level, owned, active)
 	_detail_requirements.add_theme_color_override("font_color", _requirement_color(cosmetic))

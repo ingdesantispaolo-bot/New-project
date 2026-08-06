@@ -697,6 +697,74 @@ prova.
 
 ---
 
+## La svolta severa (6 agosto 2026, seconda passata)
+
+Indicazione del committente: «possiamo essere un pochino severi, lasciandoci un
+buonismo completo alle spalle… se il gioco e' troppo facile non stimola».
+
+**Il principio applicato, perche' non tutta la severita' funziona:** severi verso
+il **lavoro**, mai verso la **persona**. «Tre sistemi restano spenti e il
+Tredicesimo torna alla diga» e' duro ed e' un motivo per tornare. «Non sei stato
+all'altezza» e' altrettanto duro e chiude il gioco. Il primo parla del mondo, il
+secondo del bambino: `endings_audit` vieta il secondo e permette il primo.
+
+### Gli epiloghi: da sei a otto, e due sono incompleti
+
+Prima ogni profilo riceveva un epilogo dignitoso e la differenza era solo di
+sapore: l'esito non dipendeva mai da quanto avevi imparato.
+
+| epilogo | soglia | che cosa dice |
+|---|---|---|
+| **IL SILENZIO TIENE** | Lascito < 0,22 | tre sistemi accesi su dodici, i sensori lunghi non rispondono, il Tredicesimo torna a tenere |
+| **IL CIRCUITO INCOMPLETO** | < 0,38 | la nave rifiuta la rotta lunga: «sei arrivata piu' vicino di tutte. Vicino non basta a chi aspetta da quattrocento anni» |
+| rotta · registro · circuito · soglia · cattedra | fascia media | per dominante |
+| **C'E' QUALCOSA. VENITE.** | >= 0,82 | si va a prendere Meridiana |
+
+Un salvataggio appena cominciato riceve ora IL SILENZIO TIENE, non ROTTA APERTA.
+
+**La coda di curriculum.** Ogni epilogo chiude nominando le materie vere di quel
+giocatore: «7 sistemi su 12 in linea. Matematica ci ha portati fin qui;
+geografia e' rimasta al buio, e la nave se ne accorge.» Nomina **sempre anche la
+forza**: un bilancio che dice solo la mancanza non e' severita', e' una nota sul
+registro.
+
+### La penalita' meccanica: la padronanza decade
+
+Il difetto vero era questo. La padronanza non scendeva mai: un bambino portava
+una materia sopra soglia **una volta** e non la toccava piu' per venti mondi. Il
+gate a dodici materie chiedeva lavoro la prima volta e mai piu'.
+
+Ora decade, **misurata in sessioni giocate e non in giorni reali**: colpisce la
+scelta di ignorare una materia mentre si continua a giocare, non l'assenza di
+chi torna dopo una settimana. Chi chiude il gioco per un mese ritrova quello che
+aveva.
+
+Tre difese, ognuna contro un modo di rendere stupida la penalita':
+
+- **franchigia** di dodici sessioni: alternare fra materie e' cio' che il gioco
+  chiede, punirlo sarebbe punire chi fa la cosa giusta;
+- **pavimento** a meta' del proprio massimo: una spirale da cui non si risale
+  non e' severita', e' un vicolo cieco travestito;
+- **mai praticata non decade**: una materia non ancora incontrata non e'
+  trascurata, e l'ordine dei mondi non lo decide il bambino.
+
+Misurato da `decay_audit`: duecento sessioni ignorando geografia la riportano
+**sotto la soglia del gate** — il livello si richiude finche' non la si riprende
+— e dodici sessioni la recuperano. Costo della campagna invariato (21,1 ore):
+la penalita' colpisce chi si specializza, non chi gioca tutte le materie.
+
+### Cosa NON e' stato reso severo, e perche'
+
+- **il diario e il legame col Custode** restano senza serie da spezzare: sono
+  misure di presenza, e punire l'assenza produce senso di colpa, che spegne
+  l'apprendimento invece di stimolarlo;
+- **il costo d'uscita** da una prova resta fisso: e' gia' il doppio di restare;
+- **nessun vicolo cieco**, in nessun epilogo: la nave riparte sempre e la
+  partita resta rigiocabile. E' l'unica cosa del guard-rail vecchio rimasta in
+  piedi.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

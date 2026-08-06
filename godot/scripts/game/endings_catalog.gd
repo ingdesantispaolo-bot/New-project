@@ -3,12 +3,25 @@ extends RefCounted
 
 ## **I cinque epiloghi.** Scelti da `LegacyScore`, dopo il beat finale di NORA.
 ##
-## La regola che li governa, e senza la quale sarebbero dannosi: **nessuno è un
-## finale brutto**. Cambiano per *che cosa* hai fatto, non per *quanto vali*.
-## Un epilogo che dicesse «hai fatto poco» a un bambino di undici anni dopo venti
-## ore sarebbe la cosa peggiore che questo gioco può fare, e nessuna di queste
-## righe nomina ciò che il giocatore **non** ha fatto — è lo stesso guard-rail
-## del Cuore dei Primi in `finale_catalog.gd`.
+## **La regola, riscritta il 6 agosto 2026 (seconda passata).** Il committente ha
+## chiesto severità: «lasciandoci un buonismo completo alle spalle… se il gioco è
+## troppo facile non stimola». Aveva ragione sul difetto: prima ogni profilo
+## riceveva un epilogo dignitoso e la differenza era solo di sapore, quindi
+## l'esito non dipendeva mai da quanto avevi imparato.
+##
+## Ora due epiloghi sono **incompleti**, e dicono a chiare lettere che cosa resta
+## indietro: sistemi spenti, sensori muti, una diga che qualcun altro deve
+## continuare a reggere.
+##
+## Ma la severità ha una direzione, ed è tutta la differenza fra un gioco
+## difficile e un gioco che si smette: **severi verso il lavoro, mai verso la
+## persona**. «Tre sistemi restano spenti e il Tredicesimo torna alla diga» è
+## duro, è vero, ed è un motivo per tornare. «Non sei stato all'altezza» è
+## altrettanto duro e chiude il gioco. Il primo parla del mondo, il secondo del
+## bambino — e `endings_audit` vieta il secondo, non il primo.
+##
+## Resta in piedi una cosa sola del guard-rail vecchio: **nessun vicolo cieco**.
+## Anche l'epilogo più magro lascia la nave in moto e la partita rigiocabile.
 ##
 ## Quattro epiloghi rispondono alla domanda «che cosa ti è rimasto in mano»:
 ##
@@ -29,6 +42,29 @@ extends RefCounted
 ## sconfitto — viene sollevato.
 
 const EPILOGHI := {
+	"silenzio": {
+		"titolo": "IL SILENZIO TIENE",
+		"sottotitolo": "l'epilogo di chi è arrivato in fondo senza portare abbastanza",
+		"righe": [
+			"NORA: I motori girano. Girano su tre sistemi, e gli altri nove sono al minimo — la nave si muove come si muove uno che cammina appoggiandosi al muro.",
+			"NORA: I sensori lunghi non rispondono. Non perché non ci sia niente: perché per sentire a quella distanza servono dodici sistemi accesi, e non li abbiamo.",
+			"Il Tredicesimo si è alzato per un istante. Ha guardato i quadri, ha contato le luci, e si è rimesso seduto contro la paratia. Non ha detto niente. È tornato a tenere.",
+			"NORA: Non è finita male, Eli. È finita **presto**. C'è una differenza, e da qui si vede tutta.",
+			"NORA: La rotta resta. I mondi restano. Quando vuoi torniamo, e stavolta accendiamo quello che è rimasto al buio.",
+		],
+	},
+	"incompleto": {
+		"titolo": "IL CIRCUITO INCOMPLETO",
+		"sottotitolo": "l'epilogo di chi ha aperto la rotta lasciando indietro dei pezzi",
+		"righe": [
+			"NORA: Nave in linea. Non tutta: ci sono stanze in cui la luce fa quella cosa che fa quando l'impianto regge appena.",
+			"NORA: Ho provato a impostare la rotta lunga e la nave l'ha rifiutata. Non è un guasto — chiede una taratura che i sistemi bassi non sanno dare.",
+			"Il Tredicesimo ti ha guardata a lungo. «Sei arrivata più vicino di tutte», ha detto. «Vicino non basta a chi aspetta da quattrocento anni.»",
+			"NORA: Poi si è rimesso al suo posto. Non per rimprovero: perché finché la rotta non si apre, qualcuno deve tenere.",
+			"NORA: Undici segnali sono là fuori e li sentiamo appena. Sappiamo dove sono. Ci manca il come.",
+			"NORA: Si torna quando vuoi. Non ricominciamo da capo: ricominciamo da dove si è fermato.",
+		],
+	},
 	"rotta": {
 		"titolo": "ROTTA APERTA",
 		"sottotitolo": "l'epilogo di chi ha rimesso in moto una cosa ferma",
@@ -98,9 +134,39 @@ const EPILOGHI := {
 	},
 }
 
-## Il titolo e le righe dell'epilogo, dato il salvataggio.
+## Il titolo, le righe e la **coda di curriculum**: due frasi che nominano le
+## materie vere di QUEL giocatore.
+##
+## È la parte che rende l'epilogo suo invece che generico, ed è anche la parte
+## più delicata: dire «geografia è rimasta indietro» è severo e utile, dire «sei
+## debole in geografia» è un giudizio sulla persona. La differenza è che la prima
+## parla di una materia e indica dove tornare — la seconda parla del bambino.
 static func per_save(save) -> Dictionary:
-	return per_id(str(LegacyScore.valuta(save).get("finale", "rotta")))
+	var e := per_id(str(LegacyScore.valuta(save).get("finale", "rotta")))
+	var c := LegacyScore.curriculum(save)
+	var righe: Array = e["righe"]
+	righe.append(_coda_curriculum(c))
+	e["righe"] = righe
+	e["curriculum"] = c
+	return e
+
+## Due frasi: che cosa ti ha portato fin qui, e quale sistema è rimasto al buio.
+##
+## Sempre in quest'ordine, e mai solo la seconda: un bilancio che nomina la
+## mancanza senza nominare la forza non è severità, è una nota sul registro.
+static func _coda_curriculum(c: Dictionary) -> String:
+	var forte := str(c.get("forte", ""))
+	var debole := str(c.get("debole", ""))
+	var in_linea := int(c.get("inLinea", 0))
+	var totali := int(c.get("totali", 12))
+	if forte.is_empty():
+		return "NORA: Registro di bordo aggiornato. Alla prossima."
+	if in_linea >= totali:
+		return "NORA: Dodici sistemi su dodici in linea, e %s è quello che ha tenuto più di tutti. Non ho niente da aggiungere: è tutto acceso." % forte
+	if in_linea <= 0:
+		return "NORA: Nessun sistema ha raggiunto la sua taratura. %s è quello che ci è andato più vicino, e da lì conviene ricominciare." % forte.capitalize()
+	return "NORA: %d sistemi su %d in linea. %s ci ha portati fin qui; %s è rimasta al buio, e la nave se ne accorge." % [
+		in_linea, totali, forte.capitalize(), debole]
 
 static func per_id(id: String) -> Dictionary:
 	var voce: Dictionary = EPILOGHI.get(id, EPILOGHI["rotta"])
@@ -110,4 +176,4 @@ static func per_id(id: String) -> Dictionary:
 
 ## Tutti gli identificativi, in ordine di lettura per chi scrive o verifica.
 static func tutti() -> Array:
-	return ["rotta", "registro", "circuito", "soglia", "cattedra", "fondo"]
+	return ["silenzio", "incompleto", "rotta", "registro", "circuito", "soglia", "cattedra", "fondo"]

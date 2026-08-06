@@ -69,6 +69,13 @@ static func _default_data() -> Dictionary:
 		# rispondere «questo l'ha già visto?», e conservare le domande per esteso
 		# gonfierebbe ogni salvataggio e ogni copia in cloud.
 		"recentPractice": {},       # subject -> [impronte, dalla più vecchia]
+		# Quando ogni materia è stata praticata l'ultima volta, in SESSIONI
+		# giocate (non in giorni reali). Serve al decadimento della padronanza:
+		# vedi `ProgressionManager.applica_decadimento`.
+		"masteryTouchedAt": {},     # subject -> orologio di sessione
+		# Il massimo storico di padronanza per materia: è il riferimento del
+		# pavimento sotto cui il decadimento non scende.
+		"masteryPeak": {},          # subject -> float 0..1
 		"apparatus": {},            # id -> {repairedLevel:int}
 		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
 		# mondo attualmente giocato. Il rango `level` è la frontiera di
@@ -526,6 +533,34 @@ func recent_practice(subject: String) -> Dictionary:
 	for impronta in Array(Dictionary(data.get("recentPractice", {})).get(subject, [])):
 		out[int(impronta)] = true
 	return out
+
+# --- Trascuratezza (6 agosto 2026, svolta severa) -----------------------------
+
+## Segna che una materia è stata praticata adesso.
+func touch_subject(subject: String, orologio: int) -> void:
+	var tutte: Dictionary = data.get("masteryTouchedAt", {})
+	tutte[subject] = orologio
+	data["masteryTouchedAt"] = tutte
+
+## Da quante sessioni una materia non viene praticata. Una materia mai toccata
+## non è «trascurata»: non è ancora cominciata, e va trattata come tale — punire
+## chi non ha ancora incontrato una materia sarebbe punirlo per l'ordine dei
+## mondi, che non decide lui.
+func sessions_since(subject: String, orologio: int) -> int:
+	var tutte: Dictionary = data.get("masteryTouchedAt", {})
+	if not tutte.has(subject):
+		return -1
+	return maxi(0, orologio - int(tutte[subject]))
+
+func mastery_peak(subject: String) -> float:
+	return float(Dictionary(data.get("masteryPeak", {})).get(subject, 0.0))
+
+func set_mastery_peak(subject: String, value: float) -> void:
+	var tutti: Dictionary = data.get("masteryPeak", {})
+	# Solo verso l'alto: è un massimo storico, e un massimo che scende non è un
+	# massimo — sarebbe un pavimento che insegue la caduta.
+	tutti[subject] = maxf(float(tutti.get(subject, 0.0)), clampf(value, 0.0, 1.0))
+	data["masteryPeak"] = tutti
 
 func snapshot() -> Dictionary:
 	return data.duplicate(true)

@@ -128,13 +128,38 @@ static func dominante(d: Dictionary) -> String:
 		return ""
 	return migliore
 
-## Quale finale. `SOGLIA_PIENO` apre l'epilogo lungo; sotto, l'epilogo prende la
-## forma di ciò che il giocatore ha fatto di più.
+## Le soglie degli epiloghi.
+##
+## **Cambiate il 6 agosto 2026, seconda passata**, su indicazione del committente:
+## «possiamo essere un pochino severi, lasciandoci un buonismo completo alle
+## spalle». Prima ogni profilo riceveva un epilogo dignitoso e la differenza era
+## solo di sapore — l'esito non dipendeva mai da quanto avevi imparato, e un
+## gioco in cui il finale arriva comunque non chiede niente.
+##
+## Ora ci sono due esiti **incompleti** sotto le soglie, e non sono una punizione
+## travestita: sono la conseguenza nella finzione. La nave riparte lo stesso — non
+## esiste il vicolo cieco — ma i sistemi spenti restano spenti, i sensori lunghi
+## non rispondono e il Tredicesimo torna alla diga perché non c'è ancora nessuno
+## che possa dargli il cambio.
+##
+## La regola che tiene tutto in piedi: **severi verso il lavoro, mai verso la
+## persona**. «Tre sistemi restano spenti» spinge a tornare; «non sei stato
+## all'altezza» fa smettere. Sono entrambe severe, ma solo una motiva, ed è
+## quella che `endings_audit` protegge.
 const SOGLIA_PIENO := 0.82
+## Sotto questa il circuito resta incompleto.
+const SOGLIA_COMPLETO := 0.38
+## Sotto questa la rotta lunga non si apre affatto.
+const SOGLIA_MINIMA := 0.22
 
 static func finale_di(d: Dictionary) -> String:
-	if float(d.get("totale", 0.0)) >= SOGLIA_PIENO:
+	var totale := float(d.get("totale", 0.0))
+	if totale >= SOGLIA_PIENO:
 		return "fondo"
+	if totale < SOGLIA_MINIMA:
+		return "silenzio"
+	if totale < SOGLIA_COMPLETO:
+		return "incompleto"
 	var dom := dominante(d)
 	match dom:
 		"ritenzione":
@@ -147,3 +172,42 @@ static func finale_di(d: Dictionary) -> String:
 			return "cattedra"
 		_:
 			return "rotta"
+
+# ---------------------------------------------------------------- il curriculum
+
+## La materia più alta e la più bassa, con i loro valori.
+##
+## Servono all'epilogo: un finale che **nomina** le materie che ti hanno portato
+## fin qui e quelle rimaste indietro rispetta il percorso di quello studente
+## invece di raccontare una storia generica. È la differenza fra un epilogo e una
+## pagella — e la differenza sta in COME si dice, non in SE si dice.
+static func curriculum(save) -> Dictionary:
+	var forte := ""
+	var debole := ""
+	var alto := -1.0
+	var basso := 2.0
+	# Ordine fisso del ciclo: a parità di valore vince sempre la stessa materia,
+	# invece di dipendere dall'iterazione di un dizionario.
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_data)
+		var m := _clamp01(float(save.mastery_of(subject)))
+		if m > alto:
+			alto = m
+			forte = subject
+		if m < basso:
+			basso = m
+			debole = subject
+	# Quante materie hanno raggiunto la loro soglia di gate: è il numero che
+	# l'epilogo può dire ad alta voce senza offendere nessuno.
+	var in_linea := 0
+	var livello := int(save.level())
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_data)
+		if float(save.mastery_of(subject)) >= ApparatusConfig.subject_mastery_threshold(subject, livello):
+			in_linea += 1
+	return {
+		"forte": forte, "forteValore": maxf(alto, 0.0),
+		"debole": debole, "deboleValore": maxf(basso, 0.0),
+		"inLinea": in_linea,
+		"totali": ApparatusConfig.SUBJECT_CYCLE.size(),
+	}

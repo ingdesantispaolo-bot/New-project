@@ -36,6 +36,27 @@ func _init(save_manager, content_manager = null) -> void:
 ## serve a smorzare il caso, ed è giusta quando c'è già una storia da smorzare.
 const PRUDENZA_PRIMO_CONTATTO := 0.85
 
+# --- Decadimento per trascuratezza (6 agosto 2026) ----------------------------
+#
+# **Il difetto.** La padronanza non scendeva mai per il passare del tempo. Un
+# bambino poteva portare una materia sopra soglia una volta e non toccarla più
+# per venti mondi: il gate a dodici materie chiedeva lavoro la prima volta e mai
+# più. Su indicazione del committente — «se il gioco è troppo facile non
+# stimola» — quella rendita finisce.
+#
+# **Misurato in SESSIONI, non in giorni.** È la differenza che rende la penalità
+# accettabile: colpisce la *scelta* di ignorare una materia mentre si continua a
+# giocare, non l'*assenza* di chi torna dopo una settimana. Chi chiude il gioco
+# per un mese ritrova esattamente quello che aveva.
+#
+# **Con una franchigia e un pavimento.** Le prime sessioni non tolgono niente
+# (si può alternare senza essere puniti), e non si scende mai sotto metà del
+# proprio massimo: una spirale da cui non si risale non è severità, è un vicolo
+# cieco travestito.
+const DECADIMENTO_FRANCHIGIA := 12    # sessioni di tolleranza prima di calare
+const DECADIMENTO_PER_SESSIONE := 0.004
+const DECADIMENTO_PAVIMENTO := 0.5    # frazione del picco sotto cui non si scende
+
 func _padronanza_aggiornata(subject: String, accuracy: float) -> float:
 	if save.mastery_never_set(subject):
 		return clampf(accuracy * PRUDENZA_PRIMO_CONTATTO, 0.0, 1.0)
@@ -48,6 +69,7 @@ func record_mission(subject: String, correct: int, total: int, energy_gained: in
 	save.set_mastery(subject, _padronanza_aggiornata(subject, accuracy))
 	if energy_gained > 0:
 		save.add_energy(energy_gained)
+	_dopo_una_sessione(subject)
 
 # PRATICA ripetibile (minigiochi): allena padronanza ed energia SENZA contare per
 # il gate dell'apparato (nessun add_mission) — così la pratica è rigiocabile e
@@ -58,6 +80,54 @@ func record_practice(subject: String, correct: int, total: int, energy_gained: i
 	save.set_mastery(subject, _padronanza_aggiornata(subject, accuracy))
 	if energy_gained > 0:
 		save.add_energy(energy_gained)
+	_dopo_una_sessione(subject)
+
+## Chiusa una sessione: la materia giocata torna «fresca», le altre invecchiano.
+##
+## Sta qui, e non nei chiamanti, perché missioni e pratica sono i due soli modi
+## di allenare una materia: agganciarlo altrove significherebbe che una delle due
+## strade non fa invecchiare niente, e la strada dimenticata diventerebbe la
+## scorciatoia.
+func _dopo_una_sessione(subject: String) -> void:
+	var orologio := int(SpacedRepetition.session_clock(save))
+	save.touch_subject(subject, orologio)
+	applica_decadimento(orologio)
+
+## Fa calare la padronanza delle materie trascurate.
+##
+## Tre difese, e ognuna evita un modo di rendere la penalità stupida:
+##
+##   FRANCHIGIA   le prime dodici sessioni non tolgono niente. Alternare fra
+##                materie è il comportamento che il gioco chiede; punirlo
+##                sarebbe punire chi fa la cosa giusta;
+##   PAVIMENTO    non si scende mai sotto metà del proprio massimo. Una spirale
+##                da cui non si risale non è severità, è un vicolo cieco;
+##   MAI TOCCATA  una materia che il bambino non ha ancora incontrato non
+##                decade. Non è trascurata: non è cominciata, e l'ordine dei
+##                mondi non lo decide lui.
+##
+## Il picco si conserva perché il pavimento sia stabile: senza, il pavimento
+## scenderebbe insieme alla padronanza e il decadimento arriverebbe a zero un
+## passo alla volta.
+func applica_decadimento(orologio: int) -> void:
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_data)
+		var ritardo := int(save.sessions_since(subject, orologio))
+		if ritardo < 0:
+			continue   # mai praticata: non è trascuratezza
+		var oltre := ritardo - DECADIMENTO_FRANCHIGIA
+		if oltre <= 0:
+			continue
+		var attuale := float(save.mastery_of(subject))
+		var picco := maxf(float(save.mastery_peak(subject)), attuale)
+		save.set_mastery_peak(subject, picco)
+		var pavimento := picco * DECADIMENTO_PAVIMENTO
+		if attuale <= pavimento:
+			continue
+		# Si toglie solo l'ULTIMO passo, non tutto l'arretrato: questa funzione
+		# gira a ogni sessione, e ricalcolare l'intero ritardo ogni volta
+		# toglierebbe la stessa cosa molte volte.
+		save.set_mastery(subject, maxf(pavimento, attuale - DECADIMENTO_PER_SESSIONE))
 
 # Aggiorna la padronanza PER-ARGOMENTO dagli esiti della sessione
 # (`topic_stats` = {topic: {"seen", "correct"}}). Media mobile un po' più reattiva

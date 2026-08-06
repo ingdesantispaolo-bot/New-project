@@ -23,6 +23,7 @@ func _init() -> void:
 	_prova_non_si_compra()
 	_prova_non_scende()
 	_prova_epiloghi()
+	_prova_curriculum()
 	_prova_oggetti_onesti()
 	print("ENDINGS audit OK — %d epiloghi, nessuno comprabile, nessuno punitivo" % EndingsCatalog.tutti().size())
 	quit(0)
@@ -45,8 +46,13 @@ func _prova_dimensioni() -> void:
 	var vuoto := LegacyScore.valuta(_nuovo())
 	assert(float(vuoto["totale"]) < 0.02,
 		"un salvataggio nuovo parte già alto: %.3f" % float(vuoto["totale"]))
-	assert(str(vuoto["finale"]) == "rotta",
-		"chi non ha ancora fatto niente non riceve l'epilogo di base")
+	# **Chi non ha fatto niente riceve l'epilogo piu' magro**, e dal 6 agosto
+	# (seconda passata) e' voluto: prima riceveva ROTTA APERTA come tutti, quindi
+	# il finale non dipendeva da quanto avevi imparato e il gioco non chiedeva
+	# niente. IL SILENZIO TIENE non insulta nessuno — dice che i sistemi sono
+	# spenti e che il Tredicesimo e' tornato alla diga.
+	assert(str(vuoto["finale"]) == "silenzio",
+		"chi non ha ancora fatto niente riceve gia' un epilogo pieno")
 
 	# Il nucleo pesa doppio: è la direzione presa il 6 agosto, e deve vedersi.
 	var solo_nucleo := _nuovo()
@@ -130,9 +136,16 @@ func _prova_non_scende() -> void:
 		precedente = ora
 
 func _prova_epiloghi() -> void:
+	# **Che cosa resta vietato dopo la svolta severa.** Non le frasi negative —
+	# quelle adesso servono — ma il **giudizio sulla persona**. La differenza e'
+	# tutta qui: «tre sistemi restano spenti» parla del mondo ed e' un motivo per
+	# tornare; «non sei stato all'altezza» parla del bambino e chiude il gioco.
+	# Restano fuori anche pieta' e consolazione, che sono l'altra faccia del
+	# buonismo: un epilogo severo non compatisce.
 	var proibite := [
-		"non hai", "non sei riuscit", "avresti potuto", "peccato",
-		"purtroppo", "solo il", "ti sei fermat", "troppo poco",
+		"non sei stato", "non sei stata", "non sei all'altezza", "non vali",
+		"hai fallito", "sei incapace", "sei pigr", "deludente", "delusione",
+		"peccato", "purtroppo", "mi dispiace per te",
 	]
 	for id_data in EndingsCatalog.tutti():
 		var id := str(id_data)
@@ -173,15 +186,58 @@ func _prova_epiloghi() -> void:
 	# Ogni epilogo dev'essere raggiungibile: uno scritto e mai mostrato è
 	# contenuto morto, ed è il difetto che questo progetto trova più spesso.
 	var raggiunti: Dictionary = {}
+	# I quattro epiloghi "per dominante" vivono nella fascia di mezzo: sotto
+	# SOGLIA_COMPLETO comanda la fascia, non la specializzazione. Costruirli a
+	# totale basso — come faceva la prima versione di questa prova — li rendeva
+	# irraggiungibili senza che nessuno se ne accorgesse.
 	for dominante in ["ritenzione", "mondo", "indagine", "padronanza"]:
-		var d := {"padronanza": 0.2, "ritenzione": 0.2, "mondo": 0.2, "rotta": 0.2, "indagine": 0.2, "totale": 0.2}
-		d[dominante] = 0.9
+		var d := {"padronanza": 0.5, "ritenzione": 0.5, "mondo": 0.5, "rotta": 0.5, "indagine": 0.5, "totale": 0.5}
+		d[dominante] = 0.95
 		raggiunti[LegacyScore.finale_di(d)] = true
+	var equilibrato := {"padronanza": 0.5, "ritenzione": 0.5, "mondo": 0.5, "rotta": 0.5, "indagine": 0.5, "totale": 0.5}
+	raggiunti[LegacyScore.finale_di(equilibrato)] = true
 	raggiunti[LegacyScore.finale_di({"totale": 0.0})] = true
+	raggiunti[LegacyScore.finale_di({"totale": 0.30})] = true
 	raggiunti[LegacyScore.finale_di({"totale": 1.0})] = true
+
+	# Le fasce nell'ordine giusto: un profilo migliore non puo' ricevere un
+	# epilogo piu' magro di uno peggiore.
+	assert(str(LegacyScore.finale_di({"totale": 0.10})) == "silenzio", "fascia bassa sbagliata")
+	assert(str(LegacyScore.finale_di({"totale": 0.30})) == "incompleto", "fascia media-bassa sbagliata")
+	assert(str(LegacyScore.finale_di({"totale": 0.95})) == "fondo", "fascia alta sbagliata")
 	for id_data in EndingsCatalog.tutti():
 		assert(raggiunti.has(str(id_data)),
 			"l'epilogo «%s» non è raggiungibile da nessun profilo di gioco" % str(id_data))
+
+## La coda di curriculum: l'epilogo deve nominare le materie di QUEL giocatore.
+##
+## E' la parte che lo rende suo invece che generico. Deve nominare sempre anche
+## la materia forte: un bilancio che dice solo la mancanza non e' severita', e'
+## una nota sul registro.
+func _prova_curriculum() -> void:
+	var save := _nuovo()
+	# Tutte le materie a meta', poi una alta e una bassa: senza impostarle tutte
+	# le altre varrebbero zero e la "piu' bassa" sarebbe una qualsiasi di quelle,
+	# non quella scelta. E' un errore da fixture, ed e' lo stesso che rende
+	# inutili molte prove: preparare uno stato che non e' quello che si vuole
+	# misurare.
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		save.data["mastery"][str(subject_data)] = 0.5
+	save.data["mastery"]["matematica"] = 0.9
+	save.data["mastery"]["geografia"] = 0.05
+	var e := EndingsCatalog.per_save(save)
+	var coda := str(Array(e["righe"])[Array(e["righe"]).size() - 1])
+	assert(coda.to_lower().contains("matematica"),
+		"la coda non nomina la materia che ha portato il giocatore fin qui: «%s»" % coda)
+	assert(coda.to_lower().contains("geografia"),
+		"la coda non nomina la materia rimasta indietro: «%s»" % coda)
+	assert(Dictionary(e["curriculum"]).has("inLinea"), "la coda non riporta i sistemi in linea")
+
+	# Con tutto in linea la coda cambia tono: non si inventa una mancanza.
+	var pieno := _pieno()
+	var coda_piena := str(Array(EndingsCatalog.per_save(pieno)["righe"]).pop_back())
+	assert(coda_piena.to_lower().contains("dodici sistemi"),
+		"con tutto acceso la coda non lo dice: «%s»" % coda_piena)
 
 ## Nessun oggetto può promettere ciò che il gioco non fa.
 func _prova_oggetti_onesti() -> void:

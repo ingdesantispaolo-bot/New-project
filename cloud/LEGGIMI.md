@@ -1,4 +1,4 @@
-# Salvataggio in cloud — configurazione passo passo
+# Salvataggio in cloud — guida passo passo
 
 Oggi il salvataggio vive in `user://eli-quest-save.json`, che nell'export Web è
 **IndexedDB del browser**: legato a quel dispositivo e a quel browser. Svuotare i
@@ -10,95 +10,112 @@ account, senza email, senza password.
 
 ---
 
-## 1. Crea lo spazio KV
+## La cosa che confonde tutti, detta subito
 
-Nella cartella `cloud/`:
+Ci sono **due nomi diversi**, e non sono la stessa cosa:
 
-```bash
-npm install -g wrangler      # se non ce l'hai
-wrangler login               # apre il browser, autorizzi il tuo account
-wrangler kv namespace create SAVES
-wrangler kv namespace create SAVES --preview
-```
+| | dove sta | esempio |
+|---|---|---|
+| **nome dello spazio KV** | nel pannello Cloudflare | `Eli_game` |
+| **nome del collegamento** (*binding*) | dentro il codice | `SAVES` |
 
-Ogni comando stampa una riga come questa:
+Il codice scrive `env.SAVES`. La configurazione dice «lo spazio che nel pannello
+si chiama `Eli_game`, per il codice si chiama `SAVES`». Serve un ponte fra i due,
+e quel ponte è il `wrangler.jsonc` (oppure la schermata *Bindings* nel pannello).
 
-```
-{ binding = "SAVES", id = "a1b2c3d4e5f6..." }
-```
+Se un giorno leggi l'errore **`binding SAVES not found`**, vuol dire sempre e
+solo questo: il ponte manca o ha l'ID sbagliato.
 
-Copia i due `id` dentro `wrangler.toml`, al posto dei segnaposto:
-il primo in `id`, quello con `--preview` in `preview_id`.
+---
 
-> **Se hai già creato lo spazio KV dal pannello web**: apri
-> *Workers & Pages → KV*, e l'ID è la stringa lunga accanto al nome. Va bene
-> uguale, non serve ricrearlo.
+## Strada A — tutto dal pannello, senza installare niente
 
-## 2. Controlla le origini ammesse
+È la più semplice se non hai mai usato la riga di comando. Non serve `wrangler`,
+non serve Node, non si scarica nulla.
 
-In `worker.js`, in cima, c'è `ORIGINI_AMMESSE`. Deve contenere l'indirizzo da
-cui il gioco viene servito:
+1. Nel pannello Cloudflare vai su **Workers & Pages → Create → Worker**.
+2. Dagli il nome `eli-quest-save` e premi **Deploy** (per ora pubblica il Worker
+   di esempio: va bene, lo sostituiamo fra un attimo).
+3. Premi **Edit code**. Cancella tutto quello che c'è nell'editor e incolla il
+   contenuto di [`index.ts`](index.ts). Premi **Deploy**.
+4. Torna alla pagina del Worker e vai su **Settings → Bindings → Add binding**:
+   - tipo: **KV namespace**
+   - **Variable name**: `SAVES` ← *questo è il nome che il codice si aspetta*
+   - **KV namespace**: scegli `Eli_game` dall'elenco
+   - **Deploy** / **Save**
+5. In alto trovi l'indirizzo del Worker, del tipo
+   `https://eli-quest-save.<tuo-sottodominio>.workers.dev`.
+   **Quello è l'indirizzo che serve al gioco: segnalo.**
 
-```js
-const ORIGINI_AMMESSE = [
-  "https://ingdesantispaolo-bot.github.io",
-  "http://localhost:5173",
-  "http://localhost:4173",
-];
-```
+Il punto 4 è quello che non si può saltare: senza il binding il codice non trova
+`env.SAVES` e ogni chiamata risponde errore.
 
-Se pubblichi altrove, aggiungi quell'indirizzo. **Non mettere `"*"`**: con
-l'asterisco qualunque pagina del web potrebbe leggere un salvataggio conoscendo
-il codice.
+---
 
-## 3. Prova in locale
+## Strada B — dai file che il pannello ti ha dato
 
-```bash
-wrangler dev
-```
+Se hai premuto **connect** sullo spazio KV, Cloudflare ti ha mostrato `index.ts`
+e `wrangler.jsonc`. In quel caso:
 
-In un altro terminale:
-
-```bash
-curl -X PUT http://localhost:8787/save/TEST-0001 \
-  -H "Content-Type: application/json" -d '{"level":3}'
-
-curl http://localhost:8787/save/TEST-0001
-```
-
-Il secondo comando deve restituire `{"level":3}`. Se dice
-`binding SAVES not found`, gli ID nel `wrangler.toml` non sono a posto.
-
-## 4. Pubblica
+1. Metti in quella cartella i due file di qui: [`index.ts`](index.ts) e
+   [`wrangler.jsonc`](wrangler.jsonc).
+2. Apri `wrangler.jsonc` e sostituisci `INCOLLA_QUI_IL_NAMESPACE_ID_DI_Eli_game`
+   con il **Namespace ID** che vedi nel pannello accanto a `Eli_game`
+   (è una stringa lunga di lettere e numeri).
+3. Dalla riga di comando, in quella cartella:
 
 ```bash
-wrangler deploy
+npx wrangler login     # apre il browser, autorizzi il tuo account
+npx wrangler deploy
 ```
 
-Alla fine stampa l'indirizzo, del tipo:
+Alla fine stampa l'indirizzo del Worker. **Segnalo.**
 
-```
-https://eli-quest-save.<tuo-sottodominio>.workers.dev
-```
+> Nella cartella ci sono anche `worker.js` e `wrangler.toml`: sono la stessa
+> cosa nel formato vecchio. Serve **una coppia sola** — o `index.ts` +
+> `wrangler.jsonc`, o `worker.js` + `wrangler.toml`. Non entrambe.
 
-**Quello è l'indirizzo che serve al gioco.** Segnalo.
+---
 
-## 5. Verifica che sia vivo
+## Verifica che funzioni
+
+Sostituisci l'indirizzo con il tuo e lancia:
 
 ```bash
 curl -X PUT https://eli-quest-save.<tuo-sottodominio>.workers.dev/save/PROV-0001 \
-  -H "Content-Type: application/json" -d '{"prova":true}'
+  -H "Content-Type: application/json" -d "{\"prova\":true}"
 ```
 
-Deve rispondere `{"ok":true,"codice":"PROV-0001"}`.
+Deve rispondere:
+
+```json
+{"ok":true,"codice":"PROV-0001"}
+```
+
+Poi rileggilo:
+
+```bash
+curl https://eli-quest-save.<tuo-sottodominio>.workers.dev/save/PROV-0001
+```
+
+Deve restituire `{"prova":true}`.
+
+### Se qualcosa non va
+
+| messaggio | che cosa significa |
+|---|---|
+| `binding SAVES not found` | manca il collegamento del punto 4 (strada A) o l'ID nel `wrangler.jsonc` (strada B) |
+| `codice non valido` | il codice deve essere quattro lettere, trattino, quattro cifre: `PROV-0001` |
+| `nessun salvataggio` | è un 404 giusto: quel codice non ha ancora niente salvato |
+| errore CORS dal gioco | l'indirizzo del sito non è in `ORIGINI_AMMESSE`, in cima a `index.ts` |
 
 ---
 
 ## Costi
 
-Il piano gratuito di Cloudflare copre 100 000 letture e 1 000 scritture al
-giorno. Il gioco scrive a fine sessione e al cambio di mondo: una classe intera
-resta ampiamente dentro.
+Il piano gratuito copre 100 000 letture e 1 000 scritture al giorno. Il gioco
+scrive a fine sessione e al cambio di mondo: una classe intera resta ampiamente
+dentro.
 
 ## Cosa fa e cosa non fa
 
@@ -108,11 +125,10 @@ resta ampiamente dentro.
   quel salvataggio. Va bene per il progresso di un gioco.
 - **Il locale resta la verità.** Il cloud è una copia di sicurezza: si continua a
   giocare offline, e se il Worker non risponde non succede niente.
-- **Un anno di inattività e il salvataggio scade.** Nessuno ricorda un codice
-  dopo un anno, e i dati abbandonati non devono restare per sempre.
+- **Un anno di inattività e il salvataggio scade.**
 
 ## Il passo dopo
 
-Il Worker da solo non basta: serve il lato gioco — generazione del codice,
-pannello «Codice di ripristino», caricamento su richiesta e invio a fine
-sessione. È un lotto separato, da fare quando l'indirizzo del punto 4 esiste.
+Quando l'indirizzo del Worker esiste, resta il lato gioco: generazione del
+codice, pannello «Codice di ripristino», caricamento su richiesta e invio a fine
+sessione. È un lotto separato.

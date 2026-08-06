@@ -58,6 +58,18 @@ static func apparatus_of(subject: String) -> String:
 	return str(SUBJECT_APPARATUS.get(subject, "nucleo"))
 
 ## Soglia di padronanza del livello: cresce piano lungo la scala.
+## Soglia di padronanza del gate: 0,70 al primo mondo, 0,90 all'ultimo.
+##
+## Il 6 agosto 2026 ho provato ad aggiungere una rampa di avvio più bassa sui
+## primi mondi, perché uscire dal mondo 1 costava 128 minuti contro i 33 del
+## secondo. Non serviva a niente: misurata, la rampa spostava il costo di
+## quattro decimi di minuto. Il collo di bottiglia era altrove — la padronanza
+## partiva da zero e la media mobile impiegava cinque sessioni perfette a
+## raggiungere la soglia, anche rispondendo sempre giusto.
+##
+## Corretto quello (`ProgressionManager._padronanza_aggiornata`), il mondo 1 è
+## sceso a 27 minuti da solo. La rampa è stata tolta invece di restare come
+## manopola che non muove niente.
 static func mastery_threshold(level: int) -> float:
 	return minf(0.70 + float(clampi(level, 1, MAX_LEVEL) - 1) * 0.007, 0.90)
 

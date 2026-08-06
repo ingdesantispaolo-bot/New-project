@@ -58,6 +58,11 @@ const MIN_TOPICS_UNKNOWN := 2
 static func coverage_target(total_topics: int, level: int = 1) -> int:
 	if total_topics <= 0:
 		return MIN_TOPICS_UNKNOWN
+	# Il primo mondo chiede un argomento per materia: dodici materie da zero
+	# sono già il lavoro più grosso della campagna, e aggiungere ampiezza lì
+	# significa solo allontanare il momento in cui il bambino vede il mondo 2.
+	if level <= 1:
+		return 1
 	var passo := clampf(float(clampi(level, 1, 24) - 1) / 23.0, 0.0, 1.0)
 	var frazione := lerpf(COVERAGE_FRACTION, COVERAGE_FRACTION_MAX, passo)
 	var richiesti := int(ceil(frazione * float(total_topics)))

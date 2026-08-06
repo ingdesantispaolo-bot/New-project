@@ -109,6 +109,12 @@ func fragments() -> int:
 func mastery_of(subject: String) -> float:
 	return float(data["mastery"].get(subject, 0.0))
 
+## Vero se questa materia non è mai stata giocata. Serve a distinguere «zero
+## perché non l'hai mai vista» da «zero perché sbagli tutto»: sono due stati
+## molto diversi e la media mobile non li distingueva.
+func mastery_never_set(subject: String) -> bool:
+	return not Dictionary(data.get("mastery", {})).has(subject)
+
 # Missioni CUMULATIVE superate per materia (mai azzerate). Usare
 # `missions_toward_gate` per il progresso verso il gate corrente.
 func missions_of(subject: String) -> int:

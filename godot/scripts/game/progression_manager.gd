@@ -23,11 +23,29 @@ func _init(save_manager, content_manager = null) -> void:
 # superata), padronanza (media mobile verso l'accuratezza) ed energia. Il
 # conteggio è CUMULATIVO e non viene mai azzerato: il progresso verso il gate è
 # la differenza con quanto già consumato (vedi GameSaveManager).
+## La padronanza dopo una sessione.
+##
+## La media mobile parte da zero, e al PRIMO contatto con una materia questo
+## dava un risultato falso: un bambino che risponde tre su tre veniva modellato
+## come «competente al 25%», e servivano cinque sessioni perfette per arrivare a
+## 0,70. Moltiplicato per dodici materie, era il costo del mondo 1 — misurato in
+## 128 minuti contro i 33 del secondo.
+##
+## Alla prima sessione la padronanza vale quanto la prestazione, un po'
+## prudenzialmente. Dalla seconda in poi la media mobile riprende come prima:
+## serve a smorzare il caso, ed è giusta quando c'è già una storia da smorzare.
+const PRUDENZA_PRIMO_CONTATTO := 0.85
+
+func _padronanza_aggiornata(subject: String, accuracy: float) -> float:
+	if save.mastery_never_set(subject):
+		return clampf(accuracy * PRUDENZA_PRIMO_CONTATTO, 0.0, 1.0)
+	return lerpf(save.mastery_of(subject), accuracy, 0.25)
+
 func record_mission(subject: String, correct: int, total: int, energy_gained: int, session_passed: bool = true) -> void:
 	var accuracy := float(correct) / float(maxi(total, 1))
 	if session_passed and accuracy >= 0.5:
 		save.add_mission(subject)
-	save.set_mastery(subject, lerpf(save.mastery_of(subject), accuracy, 0.25))
+	save.set_mastery(subject, _padronanza_aggiornata(subject, accuracy))
 	if energy_gained > 0:
 		save.add_energy(energy_gained)
 
@@ -37,7 +55,7 @@ func record_mission(subject: String, correct: int, total: int, energy_gained: in
 # con record_topic_stats, come per le missioni.
 func record_practice(subject: String, correct: int, total: int, energy_gained: int) -> void:
 	var accuracy := float(correct) / float(maxi(total, 1))
-	save.set_mastery(subject, lerpf(save.mastery_of(subject), accuracy, 0.25))
+	save.set_mastery(subject, _padronanza_aggiornata(subject, accuracy))
 	if energy_gained > 0:
 		save.add_energy(energy_gained)
 

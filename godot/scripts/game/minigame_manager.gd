@@ -102,6 +102,13 @@ const MATCHING := {
 			["knife", "knives"], ["leaf", "leaves"], ["wife", "wives"], ["shelf", "shelves"],
 			["life", "lives"], ["city", "cities"], ["baby", "babies"], ["sheep", "sheep (invariato)"],
 			["fish", "fish (invariato)"], ["potato", "potatoes"]]},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
+		{"explanation": "Nelle domande di tutti i giorni la risposta ricalca la domanda: «How old...?» chiede un'età e la risposta comincia con «I'm». Impararle a coppie è più veloce che impararle una per volta.", "topic": "everyday-phrases", "pairs": [
+			["What's your name?", "My name is Anna."], ["How old are you?", "I'm eleven."],
+			["Where are you from?", "I'm from Italy."], ["How are you?", "I'm fine, thanks."],
+			["What time is it?", "It's half past three."], ["Can I help you?", "Yes, please."],
+			["What's the weather like?", "It's sunny."], ["How much is it?", "Five euros."],
+			["Where do you live?", "In a small town."], ["What's your favourite subject?", "Science."]]},
 	],
 	"geografia": [
 		# L12. Le capitali europee si incontrano al primo mondo; queste sono quelle
@@ -223,6 +230,12 @@ const MATCHING := {
 		{"explanation": "Il verbo essere è irregolare in latino come in italiano: le sue forme non si costruiscono, si sanno.", "topic": "verbo-sum", "minLevel": 5, "pairs": [["sum", "io sono"], ["es", "tu sei"], ["est", "egli è"], ["sumus", "noi siamo"]]},
 		# Scuola media — la prima declinazione (rosa): desinenza -> caso.
 		{"explanation": "La stessa parola cambia finale secondo il ruolo: rosa fa il soggetto, rosam l'oggetto, rosae il complemento di specificazione.", "topic": "declinazioni-base", "minLevel": 6, "pairs": [["rosa", "Nominativo"], ["rosam", "Accusativo"], ["rosae", "Genitivo"], ["rosā", "Ablativo"]]},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
+		{"explanation": "Il latino non è finito: è dentro l'italiano di tutti i giorni. Riconoscere la radice serve anche a indovinare parole che non si sono mai sentite.", "topic": "etimologia", "pairs": [
+			["aqua", "acquario"], ["liber", "libreria"], ["schola", "scolaro"],
+			["manus", "manuale"], ["terra", "terrestre"], ["bellum", "bellico"],
+			["nox", "notturno"], ["pes", "pedone"], ["oculus", "oculista"],
+			["caput", "capitale"], ["ignis", "igneo"], ["tempus", "temporale"]]},
 	],
 	"musica": [
 		# Al primo mondo musica aveva otto abbinamenti possibili in tutto: due
@@ -251,6 +264,25 @@ const MATCHING := {
 		{"explanation": "I termini di tempo sono in italiano perché la notazione moderna è nata in Italia, e si usano uguali in tutto il mondo.", "topic": "tempo", "minLevel": 4, "pairs": [["Adagio", "lento"], ["Andante", "camminando, moderato"], ["Allegro", "veloce e vivace"], ["Presto", "molto veloce"]]},
 		# Scuola media — compositori e opere celebri.
 		{"explanation": "Ogni opera porta la firma di chi l'ha scritta: riconoscere la coppia autore-opera è il primo passo per orientarsi nella musica classica.", "topic": "compositori", "minLevel": 6, "pairs": [["Beethoven", "Quinta Sinfonia"], ["Vivaldi", "Le Quattro Stagioni"], ["Mozart", "Il Flauto Magico"], ["Verdi", "Aida"]]},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
+		{"explanation": "I segni di dinamica non dicono come suonare le note, ma quanto forte: è la differenza fra leggere un testo e leggerlo sussurrando o gridando.", "topic": "dinamica", "pairs": [
+			["p", "piano, cioè debole"], ["f", "forte"], ["pp", "pianissimo, appena udibile"],
+			["ff", "fortissimo, con tutta la forza"], ["mf", "mezzo forte"],
+			["crescendo", "sempre più forte"], ["diminuendo", "sempre più piano"],
+			["sforzando", "un colpo improvviso su una nota sola"],
+			["mp", "mezzo piano"], ["ppp", "il più debole che si riesca"],
+			["fff", "il più forte che si riesca"], ["accento", "una nota più marcata delle altre"],
+			["morendo", "spegnendosi fino al silenzio"], ["sotto voce", "trattenuto, quasi sussurrato"],
+			["rinforzando", "rinforzando di colpo un breve tratto"], ["calando", "insieme più piano e più lento"]]},
+		{"explanation": "Le indicazioni di andamento sono parole italiane, e le usano i musicisti di tutto il mondo: dicono la velocità ma anche il carattere del brano.", "topic": "tempo", "pairs": [
+			["Largo", "molto lento e ampio"], ["Adagio", "lento e disteso"],
+			["Andante", "come chi cammina"], ["Moderato", "né lento né veloce"],
+			["Allegro", "svelto e brillante"], ["Vivace", "vivo, pieno di slancio"],
+			["Presto", "molto veloce"], ["Prestissimo", "il più veloce possibile"],
+			["Grave", "lentissimo e solenne"], ["Larghetto", "poco meno lento del Largo"],
+			["Andantino", "poco più mosso dell'Andante"], ["Allegretto", "poco meno svelto dell'Allegro"],
+			["Sostenuto", "trattenuto, senza correre"], ["Con moto", "con un po' di spinta in avanti"],
+			["Accelerando", "andando via via più veloce"], ["Rallentando", "andando via via più lento"]]},
 	],
 	"italiano": [
 		# --- Insiemi profondi (Fase 1) ---------------------------------------------
@@ -566,6 +598,14 @@ const MATCHING := {
 			["Domanda", "Risposta"], ["Entrata", "Uscita"], ["Ricordo", "Oblio"], ["Guerra", "Pace"],
 			["Partenza", "Arrivo"], ["Luce", "Buio"], ["Coraggio", "Paura"], ["Successo", "Fallimento"],
 			["Presenza", "Assenza"], ["Movimento", "Quiete"], ["Nascita", "Morte"], ["Certezza", "Dubbio"]]},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
+		{"explanation": "Una deduzione è valida quando la conclusione è già dentro le premesse: non aggiunge niente di nuovo, tira fuori quello che c'era. Per questo è sicura.", "topic": "deduzioni", "pairs": [
+			["Tutti i gatti sono felini. Micio è un gatto.", "Micio è un felino."],
+			["Se piove la strada si bagna. Piove.", "La strada si bagna."],
+			["Nessun pesce vola. Il tonno è un pesce.", "Il tonno non vola."],
+			["Tutti i quadrati hanno quattro lati. Questa figura è un quadrato.", "Questa figura ha quattro lati."],
+			["Se studio passo l'esame. Ho studiato.", "Ho passato l'esame."],
+			["Tutti i numeri pari finiscono con una cifra pari. 38 è pari.", "38 finisce con una cifra pari."]]},
 	],
 }
 
@@ -1607,6 +1647,18 @@ const CLASSIFICATION := {
 				"Violoncello": "grave", "Contrabbasso": "grave", "Tuba": "grave", "Fagotto": "grave",
 				"Trombone": "grave", "Grancassa": "grave", "Timpani": "grave", "Basso elettrico": "grave",
 				"Corno": "grave", "Sassofono baritono": "grave", "Organo (canne lunghe)": "grave", "Basso": "grave"}},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
+		{"explanation": "Un suono è acuto quando l'aria vibra tante volte al secondo, e questo succede negli strumenti piccoli e corti. I grandi vibrano piano e suonano gravi.", "topic": "note", "draw": 6, "prompt": "Smista ogni voce o strumento: suono acuto o grave?",
+			"categories": ["acuto", "grave"],
+			"assignments": {
+				"ottavino": "acuto", "flauto": "acuto", "violino": "acuto",
+				"triangolo": "acuto", "voce di soprano": "acuto", "campanelli": "acuto",
+				"tromba": "acuto", "glockenspiel": "acuto", "flauto dolce": "acuto",
+				"voce di bambino": "acuto", "mandolino": "acuto",
+				"contrabbasso": "grave", "tuba": "grave", "violoncello": "grave",
+				"grancassa": "grave", "voce di basso": "grave", "fagotto": "grave",
+				"trombone": "grave", "corno": "grave", "timpani": "grave",
+				"contrafagotto": "grave", "gong": "grave"}},
 	],
 	"elettronica": [
 		{"explanation": "I conduttori hanno elettroni liberi di muoversi — quasi tutti i metalli; gli isolanti no, e per questo si usano per rivestire.", "topic": "conduttori", "draw": 6, "prompt": "Smista ogni materiale: conduttore o isolante?",
@@ -1734,6 +1786,20 @@ const CLASSIFICATION := {
 				"water": "uncountable", "milk": "uncountable", "rice": "uncountable", "bread": "uncountable",
 				"money": "uncountable", "music": "uncountable", "advice": "uncountable", "information": "uncountable",
 				"sugar": "uncountable", "homework": "uncountable", "furniture": "uncountable", "weather": "uncountable"}},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
+		{"explanation": "Si sceglie «an» davanti a un SUONO di vocale, non a una lettera vocale: «hour» comincia per h muta e vuole «an», «university» si legge «iu» e vuole «a».", "topic": "everyday-phrases", "draw": 6, "prompt": "Sort each word: does it take «a» or «an»?",
+			"categories": ["a", "an"],
+			"assignments": {
+				"book": "a", "car": "a", "dog": "a", "university": "a",
+				"European city": "a", "house": "a", "table": "a", "uniform": "a",
+				"apple": "an", "orange": "an", "elephant": "an", "hour": "an",
+				"honest boy": "an", "umbrella": "an", "island": "an", "egg": "an"}},
+		{"explanation": "I giorni finiscono in -day, i mesi cominciano con la maiuscola come i giorni, le stagioni no: sono le uniche tre parole di questo gruppo che si scrivono minuscole.", "topic": "time-weather", "draw": 6, "prompt": "Sort each word: day, month or season.",
+			"categories": ["day", "month", "season"],
+			"assignments": {
+				"Monday": "day", "Wednesday": "day", "Friday": "day", "Sunday": "day", "Thursday": "day",
+				"January": "month", "April": "month", "July": "month", "October": "month", "December": "month",
+				"spring": "season", "summer": "season", "autumn": "season", "winter": "season"}},
 	],
 	"latino": [
 		{"topic": "declinazioni-base", "draw": 6, "prompt": "Smista ogni parola latina: singolare o plurale?",
@@ -1777,6 +1843,18 @@ const CLASSIFICATION := {
 				"hortus": "2ª declinazione", "bellum": "2ª declinazione", "amicus": "2ª declinazione", "verbum": "2ª declinazione",
 				"rex": "3ª declinazione", "miles": "3ª declinazione", "flumen": "3ª declinazione", "mare": "3ª declinazione",
 				"consul": "3ª declinazione", "corpus": "3ª declinazione", "civis": "3ª declinazione", "nomen": "3ª declinazione"}},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
+		{"explanation": "In latino non è l'ordine delle parole a dire chi fa che cosa, ma la desinenza: il caso è il mestiere che la parola svolge nella frase.", "topic": "casi", "draw": 6, "prompt": "Smista ogni funzione nel caso che le corrisponde.",
+			"categories": ["nominativo", "genitivo", "dativo", "accusativo"],
+			"assignments": {
+				"chi compie l'azione": "nominativo", "il soggetto della frase": "nominativo",
+				"di chi si parla": "nominativo",
+				"di chi è una cosa": "genitivo", "il complemento di specificazione": "genitivo",
+				"«il libro DI Marco»": "genitivo",
+				"a chi si dà qualcosa": "dativo", "il complemento di termine": "dativo",
+				"«scrivo A mia sorella»": "dativo",
+				"chi subisce l'azione": "accusativo", "il complemento oggetto": "accusativo",
+				"«vedo LA CASA»": "accusativo"}},
 	],
 	"logica": [
 		# L16. Tre gradi di verità invece di due: «a volte vera» è la categoria che
@@ -1896,6 +1974,32 @@ const CLASSIFICATION := {
 				"Trapezio": "forme", "Esagono": "forme", "Pentagono": "forme", "Ellisse": "forme",
 				"Uno": "numeri", "Due": "numeri", "Sette": "numeri", "Dodici": "numeri",
 				"Venti": "numeri", "Cento": "numeri", "Tre quarti": "numeri", "Zero": "numeri"}},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
+		{"explanation": "«Tutti», «qualcuno» e «nessuno» dicono QUANTI, e cambiare quello cambia tutto: negare «tutti» non dà «nessuno», dà «qualcuno no».", "topic": "quantificatori", "draw": 6, "prompt": "Smista ogni frase: parla di tutti, di qualcuno o di nessuno?",
+			"categories": ["tutti", "qualcuno", "nessuno"],
+			"assignments": {
+				"Ogni quadrato ha quattro lati": "tutti",
+				"Tutti i cani sono animali": "tutti",
+				"Ciascun numero pari è divisibile per due": "tutti",
+				"Qualche uccello non vola": "qualcuno",
+				"Alcuni numeri pari sono anche primi": "qualcuno",
+				"C'è almeno un pianeta con gli anelli": "qualcuno",
+				"Nessun triangolo ha quattro lati": "nessuno",
+				"Nessun mammifero ha le piume": "nessuno",
+				"Non esiste un numero pari dispari": "nessuno"}},
+		{"explanation": "Per dire che una frase con «tutti» è falsa basta UN caso contrario; per dire che una con «qualcuno» è falsa bisogna controllarli tutti. Non costano la stessa fatica.", "topic": "verita", "draw": 6, "prompt": "Smista ogni affermazione: vera o falsa?",
+			"categories": ["vera", "falsa"],
+			"assignments": {
+				"Tutti i cani sono animali": "vera",
+				"Alcuni uccelli non volano": "vera",
+				"Ogni numero pari è divisibile per due": "vera",
+				"Nessun triangolo ha quattro lati": "vera",
+				"Qualche numero primo è pari": "vera",
+				"Tutti gli animali sono cani": "falsa",
+				"Ogni numero pari è divisibile per tre": "falsa",
+				"Nessun uccello vola": "falsa",
+				"Tutti i numeri primi sono dispari": "falsa",
+				"Ogni rettangolo è un quadrato": "falsa"}},
 	],
 }
 

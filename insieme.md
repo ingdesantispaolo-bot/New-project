@@ -471,6 +471,50 @@ viene quel numero.
 
 ---
 
+## Il catalogo delle ricette (6 agosto 2026)
+
+Una **ricetta** (`spec`) e' un tipo di esercizio: un argomento, una consegna, una
+spiegazione e un serbatoio di contenuti da cui pescare. Il bambino percepisce la
+varieta' qui, non nei contenuti: mille coppie dentro la stessa ricetta restano
+«la stessa domanda».
+
+Al mondo 1 le ricette ammesse erano da 4 a 11 per materia, e in matematica due
+delle quattro erano perfino la STESSA esperienza — espressione da calcolare,
+risultato da abbinare. Quattro tappe le hanno portate tutte a **dieci**:
+
+| materia | prima | dopo |
+|---|---:|---:|
+| matematica | 4 | 10 |
+| coding, fisica, elettronica, geografia, scienze, storia | 6 | 10 |
+| inglese, musica, logica | 7 | 10 |
+| latino | 8 | 10 |
+| italiano | 11 | 11 |
+
+Il criterio non era «piu' esercizi» ma **azioni mentali che mancavano**:
+
+- coding non aveva ne' condizioni ne' cicli, le due idee che distinguono un
+  programma da un elenco di ordini;
+- fisica non aveva le forze, che sono meta' del programma;
+- elettronica non aveva ne' la diagnosi di un guasto ne' la sicurezza;
+- scienze non aveva il METODO, che e' la materia stessa;
+- storia non aveva le FONTI, cioe' il mestiere dello storico invece dell'elenco
+  delle date;
+- latino non aveva l'ETIMOLOGIA, che a quell'eta' e' il motivo per studiarlo.
+
+**Lezione della tappa 4**, pagata con una prova rossa: le tre ricette di musica
+erano nate con serbatoi da otto voci contro le venti-trenta di quelle vicine, e
+`variety_audit` ha visto salire musica L1 al 23% di ripetizioni (massimo 17%).
+Una ricetta nuova con un serbatoio piccolo puo' PEGGIORARE la varieta' invece di
+migliorarla. Regola: un serbatoio nuovo si allinea a quelli della materia, non
+al minimo che basta a far girare il codice.
+
+**Prossimo giro, gia' deciso: portare tutte le materie a 15 ricette al mondo 1.**
+Vale la pena farlo dopo un collaudo vero — sei materie del mondo 1 sono cambiate
+molto, e conviene sapere se la differenza si sente prima di scriverne altre
+sessanta.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

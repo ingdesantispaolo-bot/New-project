@@ -862,6 +862,12 @@ func _award_fragments(amount: int) -> void:
 	game_save.add_fragments(amount)
 
 func _emit_state() -> void:
+	# L'atto in cui parla NORA. Qui e non nei punti di chiamata: `_emit_state`
+	# passa dopo ogni cosa che può far salire di livello, quindi la voce non può
+	# restare indietro di un mondo — e restare indietro non darebbe errore, si
+	# sentirebbe soltanto come una NORA che non ha ancora scoperto quello che ha
+	# appena detto al giocatore.
+	nora_voice.level = game_save.level()
 	runtime_state_changed.emit(runtime_state())
 
 # Vero se la sessione contiene almeno un item in ripasso spaziato (marcato

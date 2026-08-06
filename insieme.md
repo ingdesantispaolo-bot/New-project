@@ -569,6 +569,64 @@ occhio smentita dalla misura in due giorni — la regola resta misurare prima.
 
 ---
 
+## I personaggi: analisi e riparazione della voce (6 agosto 2026)
+
+Analisi fatta sui file, non sui documenti. Il cast e' grosso e ben costruito:
+
+| chi | quanti | battute | carattere dichiarato |
+|---|---:|---:|---|
+| Residenti | 46 (2 per mondo) | ~2231 | ruolo, tic, arco, registro, convinzione, bisogno |
+| Ritrovo (parlano fra loro) | - | 1029 righe | - |
+| Bislacchi | 23 (1 per mondo) | 4 ciascuno | ruolo, tic, registro |
+| Itineranti | 6 ricorrenti | 139 | funzione di gioco |
+| Il Tredicesimo | 1 | 327 righe | antagonista |
+| **NORA** | 1 | **53 in tutto** | **nessuno** |
+| Custode | 1 | 0 (muto per contratto) | espressioni |
+| Eli | 1 | 0 | - |
+
+**Quello che gia' funziona.** L'arco narrativo e' la parte migliore del
+progetto: 24 beat, sette ribaltamenti, e `mystery_audit` che pretende almeno
+tre semi nei mondi precedenti a ogni colpo di scena — e' raro che una
+rivelazione sia verificata da un test. Il Tredicesimo e' un antagonista che non
+attacca: chiede, avverte, supplica, ed e' stanco invece che cattivo. I Dodici
+Maestri non sono dodici personaggi ma dodici inflessioni di NORA, una per
+materia: progressione narrativa senza un cast in piu' da gestire.
+
+**Il difetto trovato: la voce era distribuita al contrario.** NORA parla dopo
+ogni prova — venti o venticinque volte per mondo — e aveva dodici battute in
+tutto; un Bislacco di sfondo, incontrato una volta sola, ne ha quattro. Chi
+parlava di piu' aveva il repertorio piu' piccolo. Ed era l'unico personaggio del
+gioco senza carattere dichiarato.
+
+Terzo difetto, il piu' sottile: **l'arco e il momento non si parlavano**. Al
+mondo 19, appena scoperto che il Tredicesimo l'ha costruita, NORA diceva ancora
+«Sistema stabilizzato! Hai seguito il metodo» — la stessa frase del mondo 1.
+
+**Riparato in quattro punti:**
+
+1. carattere dichiarato come per ogni residente. Il tic non e' inventato: e' gia'
+   nel primo beat («Non di nuovo — scusa, non so perche' l'ho detto») e al mondo
+   16. NORA si interrompe e si corregge perche' ha una memoria manomessa, quindi
+   il tic **e'** la trama;
+2. repertorio in **tre atti** (1-8, 9-16, 17-24) allineati ai ribaltamenti: da
+   12 battute a **68**, e le battute di un atto non compaiono negli altri;
+3. i **ricordi**: una volta su quattro, dopo una prova risolta, NORA si
+   interrompe e dice una cosa che c'entra con la storia e non con l'esercizio.
+   Non esistono nell'atto primo — la' non ha ancora scoperto niente, e sarebbe
+   il gioco che si anticipa da solo;
+4. `nora_voice_audit` come cricchetto: nessun pozzo sotto le quattro battute,
+   atti disgiunti, nessun ricordo nel primo atto, e nessuna lode alla PERSONA
+   invece che all'azione.
+
+**Restano aperte due cose, dichiarate:**
+
+- **Eli non parla mai.** Legittimo, ma con NORA che le si rivolge di continuo il
+  rischio e' che il bambino si senta spiegato invece che interpellato;
+- **il Custode e' muto per contratto** (non deve dare vantaggi di gioco) ed e'
+  l'unico personaggio sempre presente che non puo' commentare niente.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

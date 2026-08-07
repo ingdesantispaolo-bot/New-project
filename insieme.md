@@ -976,6 +976,107 @@ nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
 
 ---
 
+## Le minimissioni: piano (7 agosto 2026)
+
+Nasce dalla domanda rimasta aperta dopo il collaudo — «cosa puo' succedere sulla
+mappa che non sia un esercizio?» — e dalla risposta del committente: minimissioni
+che **cambiano la mappa**. Liberare degli animali, spegnere un incendio,
+aggiustare un faro, riparare un mulino.
+
+### Il ribaltamento, in una riga
+
+Oggi l'esercizio e' il **fine** e il luogo e' la cornice. Nelle minimissioni
+l'esercizio e' il **mezzo** e il cambiamento del mondo e' il fine. Non e' una
+sfumatura: e' la differenza fra «fai tre esercizi e la barra sale» e «l'incendio
+si sta allargando, tre risposte giuste e lo spegni». Lo sforzo e' identico, il
+motivo no — ed e' il motivo che il collaudo ha trovato mancante.
+
+### Cosa esiste gia', e va riusato invece di rifatto
+
+| pezzo | dove | a cosa serve qui |
+|---|---|---|
+| **l'enigma a campate** | `enigma_progress`, `EnigmaStructureVisual` | E' **gia' una minimissione**: ogni risposta giusta costruisce una campata del ponte, e alla fine il ponte c'e'. E' il prototipo funzionante di tutto il lotto |
+| `LearningReaction` | su ogni POI | il luogo reagisce alla singola risposta, non solo alla fine |
+| `environment_transform` | `world_lesson.gd` | ogni mondo dichiara gia' come cambia quando la lezione e' fatta |
+| guadi e sbarramenti | `crossings` | una prova che apre fisicamente un passaggio: gia' in piedi |
+| gradi di potenza | `world_light.gd` | la forza acquisita, che oggi serve solo contro le sacche |
+
+**L'enigma va guardato bene**: e' l'unico posto del gioco dove una prova produce
+gia' un oggetto nel mondo. Le minimissioni sono quello, generalizzato a cinque o
+sei forme invece di una.
+
+### Le forme, e perche' queste
+
+Quattro archetipi bastano a coprire ventiquattro mondi senza ripetersi, perche'
+ognuno chiede un'**azione mentale** diversa e non solo una scenografia diversa:
+
+- **SPEGNERE** (incendio, falla, cortocircuito) — c'e' un timer: se non arrivi
+  in tempo il danno si estende. E' l'archetipo del RISCHIO, ed e' l'unico con
+  una pressione temporale;
+- **LIBERARE** (animali in gabbia, un ponte crollato su qualcuno, una porta
+  bloccata) — nessun timer, ma il numero di prove dipende da quanti sono. E'
+  l'archetipo della RICOMPENSA VISIBILE: gli animali restano nel mondo;
+- **RIPARARE** (mulino, faro, pompa, telaio) — a campate, come l'enigma: ogni
+  risposta rimette un pezzo, e la macchina alla fine **funziona** e fa qualcosa
+  (il mulino macina, il faro illumina un tratto di mappa);
+- **RIACCENDERE** (un quartiere, una serra, una linea) — la piu' legata alla
+  luce: l'area attorno si scopre in modo permanente.
+
+### Dove sta l'imprevedibilita', e dove NON deve stare
+
+**Procedurale il QUANDO e il DOVE, autoriale il COSA.** Gli eventi compaiono a
+sorpresa (un incendio si accende, degli animali scappano) in punti che dipendono
+dal seme del mondo; ma il testo, la materia e il numero di prove sono scritti a
+mano per mondo, perche' e' la parte che porta la storia.
+
+Il contrario — testi generati, posizioni fisse — darebbe varieta' dove non serve
+e ripetizione dove fa male. E' la stessa lezione delle ricette: la varieta' che
+conta e' quella delle **azioni**, non quella dei parametri.
+
+### Il rischio, e come lega alla forza
+
+La forza acquisita oggi serve solo a non farsi mordere. Nelle minimissioni serve
+a **poter provare**:
+
+- una minimissione ha un grado richiesto: sotto quel grado si puo' tentare, ma
+  il tempo concesso e' minore e il costo d'ingresso maggiore;
+- fallire non punisce: l'evento **resta li'** e si puo' tornare piu' forti. E'
+  la differenza fra un gioco difficile e un gioco che si smette — e vale il
+  guard-rail di sempre, **niente sulla mappa puo' fermare la progressione**;
+- riuscire sotto il grado richiesto e' il momento migliore del gioco, e va
+  celebrato: e' la storia che un bambino racconta a voce.
+
+### La storia che le tiene insieme
+
+Non ventiquattro incarichi scollegati: **le riparazioni che i Dodici hanno
+lasciato a meta'**. Quando il Silenzio e' arrivato, ognuno ha abbandonato una
+cosa a meta' — e in ogni mondo quella cosa e' ancora li', ferma da quattrocento
+anni. E' il filo che lega gia' le pergamene (la voce dei Dodici) e gli apparati
+della nave (le stanze da riaccendere): le minimissioni sono la **terza faccia**
+della stessa vicenda, quella che si tocca con le mani.
+
+Il finale ne guadagna gratis: il Lascito puo' pesare quante ne hai chiuse, e gli
+epiloghi possono nominarle.
+
+### Le tappe
+
+1. **una forma sola, un mondo solo** — RIPARARE al mondo 1, riusando la
+   meccanica a campate dell'enigma. Serve a misurare il tempo che aggiunge e a
+   vedere se il collaudo la sente diversa da un esercizio;
+2. **le altre tre forme**, un mondo ciascuna;
+3. **l'imprevedibilita'**: comparsa procedurale, timer dello SPEGNERE, grado
+   richiesto;
+4. **ventiquattro incarichi scritti**, uno per mondo, legati alle pergamene;
+5. **il Lascito e gli epiloghi** ne tengono conto.
+
+**Da misurare prima di allargare** (tappa 1 -> 2): quanto allunga il mondo. La
+campagna sta a 21,1 ore e il collaudo ha gia' detto «faticoso»: se una
+minimissione aggiunge dieci minuti per mondo, sono quattro ore in piu'. La
+risposta giusta e' probabilmente **sostituire**, non aggiungere — una
+minimissione al posto di N prove sparse, non in piu'.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

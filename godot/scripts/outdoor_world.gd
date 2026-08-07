@@ -648,7 +648,17 @@ func _process(delta: float) -> void:
 	if _pet_faded_check_elapsed >= PET_FADED_CHECK_INTERVAL:
 		_pet_faded_check_elapsed = 0.0
 		_pet_check_faded_proximity()
-	day_clock = fmod(day_clock + delta, DAY_LENGTH)
+	# **Niente alternanza giorno/notte.** (7 agosto 2026)
+	#
+	# Il mondo adesso nasce coperto e si illumina man mano che le prove vengono
+	# superate: due sorgenti di buio che si muovono da sole si contraddicono, e
+	# un bambino non puo' capire se e' scuro perche' non ha ancora lavorato o
+	# perche' e' calata la notte. La luce deve dipendere da UNA cosa sola, e
+	# quella cosa e' il lavoro fatto.
+	#
+	# L'orologio resta fermo sull'ora scelta dal profilo del mondo — ogni mondo
+	# ha la sua luce d'autore, e quella si tiene.
+	pass
 	var daylight := (sin(day_clock / DAY_LENGTH * TAU - PI / 2.0) + 1.0) * 0.5
 	var phase_id := "giorno" if daylight > 0.72 else "alba" if daylight > 0.42 else "notte"
 	if is_instance_valid(day_light):

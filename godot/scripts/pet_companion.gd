@@ -47,9 +47,75 @@ func setup(
 		global_position = target.global_position + offset
 	_bob = randf() * TAU
 
+## **La freccia del Custode.** (7 agosto 2026)
+##
+## Segnalazione di gioco: «il pallino giallo che segue il personaggio non sembra
+## significare qualcosa». Era vero — seguiva Eli e basta — e nella stessa
+## segnalazione c'era anche «e' noioso girovagare senza uno scopo». Le due cose
+## si rispondono a vicenda: il compagno diventa la **bussola**.
+##
+## Punta verso la prova non ancora fatta piu' vicina. Non ci porta e non la
+## nomina: indica una direzione, e la scelta resta di Eli. Un compagno che
+## decidesse la strada trasformerebbe l'esplorazione in un corridoio, che e'
+## esattamente il difetto da cui veniamo.
+##
+## Il Custode non da' MAI vantaggi di gioco (contratto di `pet_state.gd`): una
+## direzione non e' un vantaggio, e' un'informazione che la mappa gia' contiene —
+## la stessa che si otterrebbe girando in tondo, ma senza la noia di girare in
+## tondo.
+var _freccia: Polygon2D
+
+func _crea_freccia() -> void:
+	_freccia = Polygon2D.new()
+	_freccia.name = "GuideArrow"
+	_freccia.polygon = PackedVector2Array([
+		Vector2(0, -13), Vector2(6, 5), Vector2(0, 1), Vector2(-6, 5)])
+	_freccia.color = Color(1.0, 0.86, 0.42, 0.88)
+	_freccia.position = Vector2(0, -26)
+	_freccia.visible = false
+	add_child(_freccia)
+
+## L'obiettivo piu' vicino fra quelli ancora aperti. `Vector2.INF` se non ce ne
+## sono: a quel punto la freccia sparisce invece di puntare a caso.
+func _obiettivo_piu_vicino() -> Vector2:
+	if not is_instance_valid(target):
+		return Vector2.INF
+	var migliore := Vector2.INF
+	var distanza := INF
+	for nodo in get_tree().get_nodes_in_group("world_interactable"):
+		if not (nodo is Node2D):
+			continue
+		if bool((nodo as Node).get_meta("completed", false)):
+			continue
+		var d: float = target.global_position.distance_to((nodo as Node2D).global_position)
+		if d < distanza:
+			distanza = d
+			migliore = (nodo as Node2D).global_position
+	return migliore
+
+func _aggiorna_freccia() -> void:
+	if not is_instance_valid(_freccia) or not is_instance_valid(target):
+		return
+	var meta := _obiettivo_piu_vicino()
+	if meta == Vector2.INF:
+		_freccia.visible = false
+		return
+	# Sotto una certa distanza la freccia si spegne: sei arrivato, e una freccia
+	# che punta a due passi e' rumore.
+	var d: float = target.global_position.distance_to(meta)
+	if d < 190.0:
+		_freccia.visible = false
+		return
+	_freccia.visible = true
+	var verso: Vector2 = meta - target.global_position
+	_freccia.rotation = verso.angle() + PI * 0.5
+
 func _process(delta: float) -> void:
 	if not _reduced_motion:
 		_bob += delta
+	if _freccia == null:
+		_crea_freccia()
+	_aggiorna_freccia()
 	if is_instance_valid(target):
 		# il pet resta sul lato opposto alla direzione di marcia
 		var side := signf(offset.x)

@@ -283,6 +283,27 @@ func _assembly_accent_kind(biome: String, archetype: int) -> String:
 		return ["pebble_bank", "stepping_stones", "rune_pebbles", "crystal_moss"][archetype]
 	return ["rune_pebbles", "glow_flowers", "crystal_moss", "stepping_stones"][archetype]
 
+## Il punto asciutto piu' vicino, o `Vector2.INF` se non ce n'e' nessuno.
+##
+## Senza composizione non si puo' verificare niente: si restituisce il punto
+## com'e' invece di scartarlo, perche' negare tutti i tesori sarebbe peggio del
+## difetto che stiamo riparando.
+func _punto_asciutto(punto: Vector2) -> Vector2:
+	if composition == null:
+		return punto
+	if not _bagnato(punto):
+		return punto
+	for raggio_data in [70.0, 130.0, 200.0]:
+		var raggio := float(raggio_data)
+		for passo in range(8):
+			var candidato: Vector2 = punto + Vector2.RIGHT.rotated(TAU * float(passo) / 8.0) * raggio
+			if not _bagnato(candidato):
+				return candidato
+	return Vector2.INF
+
+func _bagnato(punto: Vector2) -> bool:
+	return composition.raw_water_weight(punto) >= 0.4 or composition.is_protected(punto, 40.0)
+
 func _local(px, py) -> Vector2:
 	return Vector2(float(px) - float(chunk["worldX"]), float(py) - float(chunk["worldY"]))
 
@@ -405,8 +426,23 @@ func _build_treasures() -> void:
 		# piÃ¹ una raccolta di energia, la cassa contiene frammenti.
 		if treasure_label.to_lower().contains("energia"):
 			treasure_label = "scrigno frammenti"
+		# **Il forziere deve stare su terra.** (7 agosto 2026)
+		#
+		# Segnalazione di gioco: «alcuni forzieri non sono raggiungibili». Erano
+		# piazzati alle coordinate del campo procedurale **senza controllare
+		# niente**: chi cadeva in un fiume o dentro una zona protetta restava li'
+		# a farsi guardare. Un premio che si vede e non si prende e' peggio di un
+		# premio che non c'e'.
+		#
+		# Si cerca un punto asciutto vicino, in cerchi concentrici. Se non se ne
+		# trova nessuno il forziere si SALTA: meglio un tesoro in meno che uno
+		# irraggiungibile, perche' il secondo il bambino lo cerca per dieci minuti.
+		var mondiale := Vector2(float(treasure["x"]), float(treasure["y"]))
+		var buono := _punto_asciutto(mondiale)
+		if buono == Vector2.INF:
+			continue
 		var node := OutdoorVisualFactory.build_treasure(treasure_label)
-		node.position = _local(treasure["x"], treasure["y"])
+		node.position = _local(buono.x, buono.y)
 		add_child(node)
 		var required_tool := str(treasure.get("requiredTool", ""))
 		if required_tool != "":

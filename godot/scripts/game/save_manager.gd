@@ -84,6 +84,12 @@ static func _default_data() -> Dictionary:
 		# quello di chi c'era — e nessuna e' obbligatoria: chi non esplora
 		# finisce il gioco lo stesso, gli manca il perche' e non il cosa.
 		"parchments": [],           # [livelli]
+		# La luce riconquistata in ogni mondo e la potenza cumulativa di Eli.
+		# Nascono dal collaudo del 7 agosto 2026: il ciclo di ricompensa durava
+		# mezz'ora, e queste due misure lo riportano a una prova. Vedi
+		# `world_light.gd`.
+		"worldLight": {},           # "livello" -> prove superate li'
+		"powerRuns": 0,             # prove superate in tutta la partita
 		"apparatus": {},            # id -> {repairedLevel:int}
 		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
 		# mondo attualmente giocato. Il rango `level` è la frontiera di

@@ -69,6 +69,9 @@ signal feedback_presented(message: String, source: String)
 ## La scena inoltra qui il segnale `progress_changed` dell'ExercisePlayer via
 ## `notify_progress`; la grafica si abbona SOLO a questo (gate I-01).
 signal enigma_progress(built: int, total: int, theme: String, encounter_id: String)
+## Luce del mondo (0..1), grado di potenza, e se QUESTA prova ha fatto salire di
+## grado. La scena disegna; qui non si sa niente di nebbie e di aure.
+signal world_light_changed(luce: float, grado: int, salito: bool)
 
 var game_save: GameSaveManager
 var content_manager: ContentManager
@@ -772,6 +775,13 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
 	if passed:
 		PlayDiary.register_passed_today(game_save)
+		# **La ricompensa immediata.** Ogni prova superata scopre un pezzo di
+		# mondo e fa crescere la potenza: e' il ciclo che il collaudo ha trovato
+		# mancante: prima l'unico momento in cui succedeva qualcosa era l'esame,
+		# a mezz'ora di distanza.
+		var luce := WorldLight.accendi(game_save, _world_id())
+		var salito_grado := WorldLight.avanza_potenza(game_save)
+		world_light_changed.emit(luce, WorldLight.grado(game_save), salito_grado)
 	_update_spaced_repetition(subject, exercise_result)
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
 	if kind == "minigame":

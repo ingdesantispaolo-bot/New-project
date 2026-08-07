@@ -175,6 +175,7 @@ delete document.documentElement.dataset.eliExam;
 	gameplay.name = "OutdoorGameplay"
 	add_child(gameplay)
 	gameplay.runtime_state_changed.connect(_on_runtime_state)
+	gameplay.world_light_changed.connect(_on_world_light_changed)
 	gameplay.session_requested.connect(_on_gameplay_session_requested)
 	gameplay.feedback_presented.connect(_present_feedback)
 	gameplay.enigma_progress.connect(_on_enigma_progress)
@@ -248,6 +249,7 @@ delete document.documentElement.dataset.eliExam;
 	_crea_hazard()
 	_crea_sbarramenti()
 	_crea_camera_chiusa()
+	_crea_velo_di_nebbia()
 	_mostra_soglia_del_mondo()
 
 ## La schermata di benvenuto del mondo, una volta sola per mondo.
@@ -2495,6 +2497,29 @@ func _touch_action_style(background: Color, border: Color) -> StyleBoxFlat:
 	style.shadow_size = 8
 	return style
 
+## La barra della potenza nell'HUD: il traguardo di medio periodo sempre in
+## vista. Senza, il grado si scoprirebbe solo quando arriva, e una ricompensa
+## che non si vede avvicinare non tira.
+func _crea_barra_potenza(genitore: Control) -> void:
+	var scatola := VBoxContainer.new()
+	scatola.name = "PowerBox"
+	scatola.add_theme_constant_override("separation", 2)
+
+	etichetta_potenza = Label.new()
+	etichetta_potenza.name = "PowerLabel"
+	etichetta_potenza.add_theme_font_size_override("font_size", 11)
+	etichetta_potenza.add_theme_color_override("font_color", Color("cfe6e2"))
+	scatola.add_child(etichetta_potenza)
+
+	barra_potenza = ProgressBar.new()
+	barra_potenza.name = "PowerBar"
+	barra_potenza.show_percentage = false
+	barra_potenza.custom_minimum_size = Vector2(150, 8)
+	scatola.add_child(barra_potenza)
+
+	genitore.add_child(scatola)
+	_aggiorna_barra_potenza()
+
 func _create_hud() -> void:
 	ui_layer = CanvasLayer.new()
 	ui_layer.name = "UILayer"
@@ -2554,6 +2579,7 @@ void fragment() {
 	objective_label.add_theme_color_override("font_color", Color("f6c85f"))
 	objective_label.add_theme_font_size_override("font_size", 13)
 	info.add_child(objective_label)
+	_crea_barra_potenza(info)
 	_update_objective()
 	ship_navigation_label = Label.new()
 	ship_navigation_label.name = "ShipNavigation"
@@ -2960,6 +2986,107 @@ func _publish_web_accessibility_state() -> void:
 		"saveMarker": str(game_save.data.get("releaseSmokeMarker", "")) if is_instance_valid(game_save) else "",
 		"nearestMission": nearest_mission,
 	}))
+
+## **La nebbia che si dirada.** (7 agosto 2026)
+##
+## Il mondo comincia coperto e ogni prova superata ne scopre un pezzo. E' la
+## ricompensa immediata che il collaudo ha trovato mancante: prima l'unico
+## momento in cui il gioco cambiava era l'esame, a mezz'ora di distanza.
+##
+## **Segno positivo, e conta.** L'alternativa era un fronte di Silenzio che
+## avanza; il committente l'ha invertita, e aveva ragione: in un gioco che si
+## studia la nebbia che si dirada premia, il fronte che avanza rimprovera.
+##
+## Non nasconde mai del tutto — resta un velo, non un muro nero: un bambino deve
+## vedere dove sta andando, e una mappa illeggibile e' un ostacolo, non un
+## mistero. E non torna mai indietro: un mondo scoperto resta scoperto anche se
+## la prova dopo va male.
+const NEBBIA_MASSIMA := 0.66
+
+var velo_nebbia: ColorRect
+var barra_potenza: ProgressBar
+var etichetta_potenza: Label
+
+func _crea_velo_di_nebbia() -> void:
+	if not is_instance_valid(game_save) or not is_instance_valid(atmosphere_layer):
+		return
+	velo_nebbia = ColorRect.new()
+	velo_nebbia.name = "FogVeil"
+	velo_nebbia.set_anchors_preset(Control.PRESET_FULL_RECT)
+	velo_nebbia.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	velo_nebbia.color = Color(0.05, 0.07, 0.11, 0.0)
+	atmosphere_layer.add_child(velo_nebbia)
+	_aggiorna_nebbia(WorldLight.luce(game_save, _world_id_scena()), false)
+
+func _world_id_scena() -> String:
+	return str(world_level)
+
+func _aggiorna_nebbia(luce: float, animata: bool) -> void:
+	if not is_instance_valid(velo_nebbia):
+		return
+	var alfa := NEBBIA_MASSIMA * (1.0 - clampf(luce, 0.0, 1.0))
+	var meta := Color(0.05, 0.07, 0.11, alfa)
+	if animata and not reduced_motion:
+		var tween := create_tween()
+		tween.tween_property(velo_nebbia, "color", meta, 0.7).set_trans(Tween.TRANS_SINE)
+	else:
+		velo_nebbia.color = meta
+
+## Una prova e' andata bene: il mondo si scopre, la barra sale, e se il grado e'
+## cambiato lo si dice. Tre ricompense diverse su tre orizzonti diversi —
+## immediata, di sessione, di partita.
+func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
+	_aggiorna_nebbia(luce, true)
+	_aggiorna_barra_potenza()
+	_applica_grado_al_personaggio(grado)
+	if salito:
+		var scheda := WorldLight.scheda_grado(game_save)
+		_set_feedback("Sei salita a %s. La luce che porti adesso arriva piu' lontano." % str(scheda.get("nome", "")))
+		_spawn_gain_popup(str(scheda.get("nome", "")).to_upper(), Color(str(scheda.get("colore", "8ff6d2"))))
+	elif luce < 1.0:
+		_spawn_gain_popup("+luce", Color("8ff6d2"))
+
+## Il grado si vede addosso a Eli: un alone che cambia colore e cresce.
+##
+## E' l'unica ricompensa puramente estetica del gioco che non si compra — si
+## guadagna facendo prove, e per questo dice qualcosa di vero su chi la porta.
+func _applica_grado_al_personaggio(grado: int) -> void:
+	if not is_instance_valid(player):
+		return
+	var scheda := WorldLight.scheda_grado(game_save)
+	var alone := player.get_node_or_null("PowerAura") as Node2D
+	if alone == null:
+		var nuovo := Line2D.new()
+		nuovo.name = "PowerAura"
+		nuovo.width = 4.0
+		nuovo.closed = true
+		for indice in range(19):
+			nuovo.add_point(Vector2.RIGHT.rotated(TAU * float(indice) / 18.0) * 26.0)
+		nuovo.z_index = -1
+		player.add_child(nuovo)
+		alone = nuovo
+	var linea := alone as Line2D
+	linea.default_color = Color(str(scheda.get("colore", "8ff6d2")))
+	linea.default_color.a = 0.20 + 0.14 * float(grado)
+	linea.scale = Vector2.ONE * (1.0 + 0.13 * float(grado))
+	linea.visible = grado > 0
+
+func _aggiorna_barra_potenza() -> void:
+	if not is_instance_valid(barra_potenza) or not is_instance_valid(game_save):
+		return
+	var stato := WorldLight.verso_il_prossimo(game_save)
+	var scheda := WorldLight.scheda_grado(game_save)
+	if bool(stato.get("completo", false)):
+		barra_potenza.max_value = 1.0
+		barra_potenza.value = 1.0
+		etichetta_potenza.text = "%s · al massimo" % str(scheda.get("nome", ""))
+		return
+	barra_potenza.max_value = float(maxi(1, int(stato.get("servono", 1))))
+	barra_potenza.value = float(stato.get("fatte", 0))
+	# La barra dice sempre quanto manca: una barra che non lo dice e' una
+	# decorazione, e il bambino non sa se conviene fare un'altra prova adesso.
+	etichetta_potenza.text = "%s · %d prove a %s" % [
+		str(scheda.get("nome", "")), int(stato.get("mancano", 0)), str(stato.get("prossimo", ""))]
 
 ## **La camera chiusa.** (7 agosto 2026)
 ##

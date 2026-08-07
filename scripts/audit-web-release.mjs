@@ -159,7 +159,12 @@ try {
       .map((r) => r.trim())
       // Il file della versione e il suo `.uid` non contano: cambiano PER
       // definizione fra il commit marchiato e quello che porta la build.
-      .filter((r) => r !== "" && !r.includes("build_version.gd"));
+      // I `.uid` sono identificativi di risorsa generati dall'importazione:
+      // deterministici dal file che accompagnano, e senza nessun effetto su cosa
+      // il gioco esegue. Contarli faceva gridare al lupo proprio quando il lotto
+      // era corretto — e un controllo che si sbaglia si impara a ignorare, che e'
+      // il modo peggiore di perdere quello che serve davvero.
+      .filter((r) => r !== "" && !r.includes("build_version.gd") && !r.endsWith(".uid"));
     if (cambiati.length > 0) {
       failures.push(
         `la versione mostrata (${sha}) non e' quella del codice: da allora sono `

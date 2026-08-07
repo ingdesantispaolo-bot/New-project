@@ -247,6 +247,7 @@ delete document.documentElement.dataset.eliExam;
 	_publish_web_accessibility_state()
 	_crea_hazard()
 	_crea_sbarramenti()
+	_crea_camera_chiusa()
 	_mostra_soglia_del_mondo()
 
 ## La schermata di benvenuto del mondo, una volta sola per mondo.
@@ -2960,6 +2961,137 @@ func _publish_web_accessibility_state() -> void:
 		"nearestMission": nearest_mission,
 	}))
 
+## **La camera chiusa.** (7 agosto 2026)
+##
+## L'unico posto del gioco in cui una zona e' **davvero inaccessibile**, e si puo'
+## fare per una ragione precisa: **dentro non c'e' niente che serva a
+## progredire**. Il rischio del vicolo cieco — quello che tiene gli sbarramenti
+## a forma di segmento aggirabile — qui non esiste, perche' chi non entra
+## finisce il gioco lo stesso.
+##
+## Dentro c'e' il tesoro speciale del mondo e la **pergamena dei Dodici**:
+## l'altro lato della storia, scritto quattrocento anni prima da chi c'era.
+## NORA deduce, i Dodici testimoniano — e chi esplora ottiene la meta' che il
+## resto del gioco non racconta.
+##
+## Si apre con la **serratura**, una prova dedicata della materia del mondo, a
+## costo d'ingresso pieno: e' un premio, e un premio che non costa niente non e'
+## un premio.
+const CAMERA_RAGGIO := 190.0
+const CAMERA_MURI := 16
+
+func _crea_camera_chiusa() -> void:
+	if not is_instance_valid(game_save) or chunks == null or chunks.composition == null:
+		return
+	if not ParchmentCatalog.esiste(world_level):
+		return
+	if game_save.has_parchment(world_level):
+		return   # gia' aperta: la camera resta aperta per sempre
+
+	var centro := _posizione_camera()
+	if centro == Vector2.ZERO:
+		return
+
+	var nodo := Node2D.new()
+	nodo.name = "CameraChiusa"
+	nodo.position = centro
+	nodo.add_to_group("world_vault")
+	world_layer.add_child(nodo)
+
+	# L'anello: chiuso davvero, con un solo punto — la serratura — che lo apre.
+	var corpo := StaticBody2D.new()
+	corpo.name = "VaultWall"
+	for indice in range(CAMERA_MURI):
+		var angolo := TAU * float(indice) / float(CAMERA_MURI)
+		var forma := CollisionShape2D.new()
+		var cerchio := CircleShape2D.new()
+		cerchio.radius = 42.0
+		forma.shape = cerchio
+		forma.position = Vector2.RIGHT.rotated(angolo) * CAMERA_RAGGIO
+		corpo.add_child(forma)
+	nodo.add_child(corpo)
+
+	var anello := Line2D.new()
+	anello.name = "VaultArt"
+	anello.width = 20.0
+	anello.default_color = Color(0.42, 0.34, 0.52, 0.95)
+	anello.closed = true
+	for indice in range(CAMERA_MURI + 1):
+		anello.add_point(Vector2.RIGHT.rotated(TAU * float(indice) / float(CAMERA_MURI)) * CAMERA_RAGGIO)
+	nodo.add_child(anello)
+
+	# La serratura: si tocca da FUORI, quindi sta sul bordo.
+	var serratura := Area2D.new()
+	serratura.name = "VaultLock"
+	serratura.position = Vector2.DOWN * CAMERA_RAGGIO
+	serratura.set_meta("kind", "vault_lock")
+	serratura.set_meta("id", "camera-%d" % world_level)
+	var sforma := CollisionShape2D.new()
+	var scerchio := CircleShape2D.new()
+	scerchio.radius = INTERACTION_DISTANCE
+	sforma.shape = scerchio
+	serratura.add_child(sforma)
+	serratura.add_to_group("world_interactable")
+	var glifo := Label.new()
+	glifo.text = "✦ CAMERA SIGILLATA"
+	glifo.add_theme_font_size_override("font_size", 13)
+	glifo.add_theme_color_override("font_color", Color("d9c8ff"))
+	glifo.position = Vector2(-70, -46)
+	serratura.add_child(glifo)
+	nodo.add_child(serratura)
+	serratura.body_entered.connect(func(body): on_interactable_entered(serratura, body))
+	serratura.body_exited.connect(func(body): on_interactable_exited(serratura, body))
+
+## Un punto lontano dai POI e dall'acqua: la camera non deve inghiottire un
+## incontro del gate, perche' quello si', chiuderebbe la strada.
+func _posizione_camera() -> Vector2:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash("camera-%d" % world_level)
+	for _tentativo in range(24):
+		var angolo := rng.randf() * TAU
+		var raggio := rng.randf_range(900.0, 1700.0)
+		var punto := chunks.clamp_to_world(
+			WorldProfileCatalog.SPAWN + Vector2.RIGHT.rotated(angolo) * raggio)
+		if chunks.composition.is_protected(punto, CAMERA_RAGGIO + 80.0):
+			continue
+		if chunks.composition.raw_water_weight(punto) >= 0.35:
+			continue
+		var libero := true
+		for evento in mission_events:
+			var pos: Vector2 = Dictionary(evento).get("position", Vector2.ZERO)
+			if pos.distance_to(punto) < CAMERA_RAGGIO + 160.0:
+				libero = false
+				break
+		if libero:
+			return punto
+	return Vector2.ZERO
+
+## La serratura: una prova dedicata della materia del mondo.
+func _apri_camera() -> void:
+	if not is_instance_valid(gameplay) or gameplay.session_active():
+		return
+	if gameplay.try_start_minigame(
+			{"subject": _world_subject()}, "serratura-%d" % world_level):
+		_set_feedback("La serratura chiede la materia di questo mondo. Aprila.")
+
+## Superata la serratura: l'anello cade, la pergamena si legge, il tesoro e' preso.
+func _sciogli_camera() -> void:
+	if not is_instance_valid(game_save) or not game_save.claim_parchment(world_level):
+		return
+	for nodo in get_tree().get_nodes_in_group("world_vault"):
+		nodo.queue_free()
+	if is_instance_valid(gameplay):
+		gameplay.collect_treasure({"rewardFragments": 12}, "camera-%d" % world_level)
+	game_save.save()
+	_mostra_pergamena()
+
+func _mostra_pergamena() -> void:
+	var testo := ParchmentCatalog.testo_completo(world_level)
+	if testo == "":
+		return
+	_set_feedback("Pergamena %d di %d — %s" % [
+		game_save.parchment_count(), ApparatusConfig.MAX_LEVEL, testo.replace("\n\n", " ")])
+
 ## **Gli sbarramenti di terra.** (7 agosto 2026)
 ##
 ## Diciotto mondi su ventiquattro non hanno torrenti, quindi non avevano nessun
@@ -3906,6 +4038,9 @@ func _interact() -> void:
 	if kind == "hazard":
 		_sgombra_hazard(target)
 		return
+	if kind == "vault_lock":
+		_apri_camera()
+		return
 	if kind == "landmark":
 		var landmark_payload: Dictionary = target.get_meta("payload", {})
 		_set_feedback("%s: %s. Completa le tappe indicate sulla mappa per trasformarlo." % [
@@ -3975,6 +4110,9 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	if is_instance_valid(gameplay):
 		context = gameplay.active_session_context.duplicate(true)
 		gameplay.resolve_session(exercise_result)
+		if str(context.get("kind", "")) == "minigame" and session_passed \
+				and str(context.get("encounterId", "")).begins_with("serratura-"):
+			_sciogli_camera()
 		if str(context.get("kind", "")) == "minigame" and session_passed:
 			# La palestra superata sparisce dalla mappa all'istante, non al
 			# rientro: il punto della segnalazione era proprio che si poteva

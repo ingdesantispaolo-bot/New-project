@@ -941,6 +941,41 @@ registrato come misura — se scende, la generazione e' cambiata senza dirlo.
 
 ---
 
+## La camera sigillata e le pergamene dei Dodici (7 agosto 2026)
+
+Idea del committente, e migliore di quella che avevo proposto io: invece di uno
+sbarramento aggirabile, una **zona davvero inaccessibile**, apribile solo con una
+prova dedicata, e dentro un tesoro speciale con una **pergamena della storia**.
+
+**Perche' qui chiudere e' sicuro, e altrove no.** Il rischio del vicolo cieco —
+quello che tiene gli sbarramenti a forma di segmento — sparisce quando **dentro
+non c'e' niente che serva a progredire**. Chi non entra finisce il gioco lo
+stesso: gli manca il perche', non il cosa. E' l'unico posto del gioco in cui una
+zona e' chiusa davvero, ed e' anche l'unico in cui si puo' fare.
+
+**La storia adattata.** Le ventiquattro pergamene sono l'**altro lato** della
+vicenda. I beat di NORA la raccontano dal suo, al presente, mentre accade; le
+pergamene sono la voce dei Dodici, scritta quattrocento anni prima da chi c'era.
+NORA deduce, i Dodici testimoniano — e ogni tanto si contraddicono fra loro, che
+e' la stessa lezione di metodo che il gioco insegna in storia: due fonti che
+dicono cose diverse, e bisogna scegliere di quale fidarsi.
+
+L'arco delle pergamene attraversa la trama e la incrocia senza doppiarla: dal
+verbale della Prima Cattedra («una cattedra in piu' che nessuno ha voluto
+occupare») fino alla riga incisa dall'interno al mondo 24 («avevamo torto su una
+cosa sola: che non sarebbe venuto nessuno»). In mezzo, l'undicesima che annota
+due date diverse senza dire a quale crede, la dodicesima che conta tredici
+schede vuote, e il verbale finale di mano ignota — undici voti a favore, uno
+contrario, e il contrario era il suo.
+
+Vale la regola di trama §10.1: **nessuno e' morto**, e le pergamene, essendo piu'
+antiche, non potrebbero comunque saperlo — dicono quello che sapevano allora.
+
+`parchment_audit` tiene: ventiquattro pergamene distinte, ognuna con un autore,
+nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

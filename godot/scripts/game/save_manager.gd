@@ -80,6 +80,10 @@ static func _default_data() -> Dictionary:
 		# volta sola: riproporla a ogni rientro la trasformerebbe in una porta da
 		# chiudere, e una cosa che si impara a chiudere non si legge più.
 		"worldIntroSeen": [],       # [livelli]
+		# Le pergamene dei Dodici gia' trovate. Sono l'altro lato della storia —
+		# quello di chi c'era — e nessuna e' obbligatoria: chi non esplora
+		# finisce il gioco lo stesso, gli manca il perche' e non il cosa.
+		"parchments": [],           # [livelli]
 		"apparatus": {},            # id -> {repairedLevel:int}
 		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
 		# mondo attualmente giocato. Il rango `level` è la frontiera di
@@ -582,6 +586,22 @@ func mark_hazard_cleared(world_id: String, hazard_id: String) -> bool:
 	tutti[world_id] = progresso
 	data["worldProgress"] = tutti
 	return true
+
+## Segna una pergamena come trovata. Ritorna falso se c'era gia': la camera si
+## apre una volta sola, e il tesoro dentro non si raccoglie due volte.
+func claim_parchment(level: int) -> bool:
+	var trovate: Array = Array(data.get("parchments", []))
+	if trovate.has(level):
+		return false
+	trovate.append(level)
+	data["parchments"] = trovate
+	return true
+
+func has_parchment(level: int) -> bool:
+	return Array(data.get("parchments", [])).has(level)
+
+func parchment_count() -> int:
+	return Array(data.get("parchments", [])).size()
 
 func mastery_peak(subject: String) -> float:
 	return float(Dictionary(data.get("masteryPeak", {})).get(subject, 0.0))

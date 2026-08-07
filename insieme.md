@@ -825,6 +825,83 @@ contributo migliore. Le due riparazioni possibili:
 
 ---
 
+## Dare senso al girovagare: studio (6 agosto 2026)
+
+Richiesta: la mappa sembra solo un modo per accedere agli esercizi. Si vorrebbe
+esplorare evitando pericoli, trovando tesori, liberando percorsi con prove
+speciali, e edifici che offrano un minigioco proprio (la bottega che fa
+guadagnare energia).
+
+**La scoperta dello studio: quasi tutta questa macchina esiste gia'.** Non
+serve costruirla — serve accenderla e collegarla. Inventario misurato:
+
+### Vivo e funzionante
+
+| cosa | dove | stato |
+|---|---|---|
+| **tesori** | `chunk_visual._build_treasures` | piazzati per chunk. Dal mondo 2, **un terzo richiede la torcia e un terzo la falce**: «tesori nascosti che chiedono uno strumento» c'e' gia' |
+| **strumenti** | `EquipmentGate` | torcia e falce cancellano deviazioni opzionali. Per contratto **non bloccano mai il gate**: chi non esplora non resta indietro nella progressione |
+| **passaggi che si aprono** | `WorldCompositionData.crossings` | un guado con un `eventId`: superato quell'enigma, l'acqua diventa attraversabile. «Liberare percorsi con una prova speciale» **c'e' gia'** |
+| **nemici** | `world_enemy.gd` | presenti e piazzati nel mondo |
+| **edifici** | tre per mondo, ora con 72 nomi propri | |
+| **bottega** | `outdoor_shop_panel` (817 righe) | funziona |
+
+### Morto o scollegato — ed e' qui che sta il lavoro
+
+1. **Gli `hazard` non esistono.** Il salvataggio ha `clearedHazardIds`, e la
+   parola «hazard» compare in **tutto l'albero degli script una volta sola**:
+   in `save_manager`. Nessuno li crea, nessuno li legge. E' un campo di
+   salvataggio senza produttore ne' consumatore — il quarto caso di questa
+   specie trovato in due giorni.
+2. **Gli edifici non sono interagibili.** `building_actor` imposta i metadati
+   ma non entra mai nel gruppo `world_interactable` e non ha un'area di
+   collisione: sono scenografia. I settantadue nomi nuovi si leggono e basta.
+3. **La bottega e' un pulsante dell'HUD, non un luogo.** Si apre da
+   `_open_shop`, agganciato a un bottone in alto. Il mondo ha una `work_home` e
+   un `ritrovo` con un nome proprio, e la bottega non sta ne' nell'uno ne'
+   nell'altro.
+4. **Un solo guado per mondo.** `data.crossings` e' un array di un elemento.
+   La meccanica piu' interessante che il gioco possiede — una prova che apre
+   fisicamente una parte di mappa — accade una volta per mondo.
+
+### La proposta, in ordine di resa per costo
+
+**Tappa A — gli edifici diventano luoghi.** Aggiungere a `building_actor`
+l'area di interazione che gia' hanno i POI, e dare a ciascuno dei tre ruoli una
+funzione:
+
+- **work_home** → il minigioco della materia del mondo, a costo d'energia
+  ridotto: e' la casa del mestiere, allenarsi li' costa meno che in mezzo al
+  campo;
+- **ritrovo** → le conversazioni fra abitanti (`ritrovo_catalog`, 1029 righe
+  gia' scritte) e la **bottega**: si compra dove la gente si incontra, che e'
+  come funziona una piazza;
+- **first_ruin** → un frammento di trama del circuito. Non un esercizio: una
+  riga che si aggiunge al Codex. E' la rovina dei Primi, e le ventiquattro
+  messe in fila raccontano che qualcuno e' passato di qui prima.
+
+**Tappa B — la bottega guadagna energia con un minigioco.** Oggi la bottega
+spende soltanto. Un minigioco specifico — «conta il resto», «pesa la merce» —
+con ricompensa in energia da' un motivo per tornarci che non sia comprare.
+
+**Tappa C — gli hazard, finalmente.** Il campo di salvataggio c'e' gia'. Un
+hazard e' un tratto che costa energia ad attraversare, oppure che chiede una
+prova lampo per essere superato: e' la parte «evitando pericoli» della
+richiesta, ed e' l'unica che va costruita da zero.
+
+**Tappa D — piu' di un guado.** Portare i passaggi da uno a due o tre per
+mondo, e legarli a prove speciali diverse. E' la meccanica che rende la mappa
+una cosa che si apre invece di una cosa che si attraversa.
+
+**Il rischio da tenere d'occhio**, ed e' il motivo per cui A viene prima di C:
+ogni cosa che costa energia sulla mappa toglie prove fatte. Il costo della
+campagna e' oggi 21,1 ore misurate; una mappa piena di pedaggi la allunga senza
+insegnare niente di piu'. Gli strumenti esistenti seguono gia' la regola giusta
+— **niente sulla mappa puo' bloccare il gate** — e le tappe nuove devono
+rispettarla.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

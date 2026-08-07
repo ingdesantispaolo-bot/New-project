@@ -2188,7 +2188,22 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 	player.velocity = Vector2.ZERO
 	player.touch_target = Vector2.INF
 	last_traversable_position = target
-	_set_feedback("%s blocca il percorso · usa IMPULSO per stabilizzarlo." % str(enemy.get("enemy_name")))
+	# **Il morso.** La sacca costa energia solo per quanto supera il grado di
+	# Eli: chi si e' allenato passa senza pagare, ed e' il motivo per cui la
+	# barra della potenza esiste. Non blocca mai — se l'energia non basta si
+	# paga quel che c'e' e si passa lo stesso.
+	var grado_sacca := int(enemy.get("tier"))
+	var grado_eli := WorldLight.grado(game_save)
+	var scarto := maxi(0, grado_sacca - grado_eli)
+	var costo := mini(scarto * WorldEnemy.COSTO_PER_GRADO, game_save.energy())
+	if costo > 0:
+		game_save.spend_energy(costo)
+		game_save.save()
+		_spawn_gain_popup("−%d" % costo, Color("ff9b8a"))
+		_set_feedback("%s ti respinge. −%d energia: e' piu' forte di te di %d gradi. Allenati, o usa IMPULSO." % [
+			str(enemy.get("enemy_name")), costo, scarto])
+	else:
+		_set_feedback("%s ti respinge, ma non ti scalfisce: sei abbastanza forte." % str(enemy.get("enemy_name")))
 	if is_instance_valid(player_presentation):
 		if reduced_motion:
 			player_presentation.modulate = Color.WHITE

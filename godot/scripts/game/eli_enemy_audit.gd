@@ -89,9 +89,27 @@ func _run() -> void:
 	var second: Node2D = enemies[1]
 	second.global_position = player.global_position - Vector2(28, 0)
 	var before_contact := player.global_position
+	var save_prima: GameSaveManager = world.get("game_save")
+	var materia := str(world.call("_world_subject"))
+	var mastery_before := float(save_prima.mastery_of(materia))
 	world.call("_on_enemy_contact", second, player)
 	assert(player.global_position.distance_to(before_contact) > 40.0, "il nemico non ostacola/respinge Eli")
-	assert(int(world.get("game_save").energy()) == energy_before, "il contatto non deve togliere energia o mastery")
+	# **Il contatto costa, dal 7 agosto 2026.** Questa prova pretendeva che non
+	# costasse niente, e con quella regola le sacche erano un ostacolo scenico:
+	# il grado di potenza non serviva a niente contro di loro, e la barra era un
+	# indicatore invece che un desiderio.
+	#
+	# Cio' che resta vero, e che va tenuto: il morso tocca solo l'ENERGIA, mai la
+	# padronanza — una sacca non puo' farti disimparare — e non blocca mai il
+	# passaggio.
+	var save_dopo: GameSaveManager = world.get("game_save")
+	assert(save_dopo.energy() <= energy_before,
+		"il contatto ha REGALATO energia")
+	assert(is_equal_approx(save_dopo.mastery_of(materia), mastery_before),
+		"il contatto ha toccato la padronanza: una sacca non puo' farti disimparare")
+	# Non blocca: Eli e' stata respinta, non fermata.
+	assert(player.global_position.distance_to(before_contact) > 40.0,
+		"dopo il morso Eli e' rimasta ferma invece di essere respinta")
 
 	world.queue_free()
 	await process_frame

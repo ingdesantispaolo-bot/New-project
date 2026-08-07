@@ -1,9 +1,31 @@
 class_name WorldEnemy
 extends CharacterBody2D
 
-## Ostacolo esplorativo non punitivo: pattuglia, insegue a breve raggio e
-## respinge Eli, ma non tocca energia/mastery. L'impulso lo stabilizza per alcuni
-## secondi, aprendo una finestra per raggiungere il POI.
+## **Le sacche di Silenzio.** Pattugliano, inseguono e respingono Eli.
+##
+## **Cattive sul serio dal 7 agosto 2026**, su indicazione del committente dopo
+## un collaudo: «devono essere sempre piu' cattivi man mano che saliamo di
+## livello». Prima erano un ostacolo puramente scenico — respingevano e basta,
+## e il grado di potenza appena introdotto non serviva a niente contro di loro.
+##
+## Adesso il contatto **costa energia**, e la cifra e' la differenza fra quanto
+## e' forte la sacca e quanto e' forte Eli:
+##
+##     costo = (grado della sacca − grado di Eli) × COSTO_PER_GRADO
+##
+## Che e' il punto di tutto il lotto precedente: **la barra della potenza serve a
+## qualcosa**. Chi si allena passa in mezzo alle sacche senza pagare; chi non si
+## allena le paga tutte. E siccome il grado si guadagna facendo prove, la strada
+## per diventare piu' forti e' la stessa che il gioco vuole insegnare.
+##
+## **Non blocca mai.** Se l'energia non basta si paga quel che c'e' e si passa
+## lo stesso: e' la regola di tutta la mappa — niente che sta qui puo' fermare
+## la progressione. L'impulso continua a stabilizzarle, e resta la via gratuita
+## per chi preferisce pensare invece di incassare.
+
+## Quanta energia costa ogni grado di scarto. Due: un incontro sfortunato si
+## assorbe, una traversata fatta di sacche no.
+const COSTO_PER_GRADO := 2
 
 var world: Node
 var anchor := Vector2.ZERO
@@ -22,7 +44,11 @@ func setup(world_ref: Node, start: Vector2, level: int, subject: String, color: 
 	world = world_ref
 	anchor = start
 	position = start
-	tier = clampi(1 + floori(float(level - 1) / 6.0), 1, 4)
+	# Il grado cresce ogni TRE mondi invece che ogni sei: a ventiquattro mondi
+	# la scala arriva a otto invece che a quattro, e la differenza fra il mondo 3
+	# e il mondo 21 si sente. Prima due mondi lontanissimi avevano la stessa
+	# sacca.
+	tier = clampi(1 + floori(float(level - 1) / 3.0), 1, 8)
 	accent = color
 	phase = float(index) * 1.73
 	enemy_name = _name_for_subject(subject, tier)
@@ -36,7 +62,7 @@ func _build_collision() -> void:
 	body_shape = CollisionShape2D.new()
 	body_shape.name = "EnemyBodyCollision"
 	var body_circle := CircleShape2D.new()
-	body_circle.radius = 22.0 + float(tier) * 2.0
+	body_circle.radius = 22.0 + float(mini(tier, 4)) * 2.0
 	body_shape.shape = body_circle
 	add_child(body_shape)
 	contact_area = Area2D.new()
@@ -154,7 +180,7 @@ func _physics_process(delta: float) -> void:
 		var distance := global_position.distance_to(player.global_position)
 		if distance < 250.0 + tier * 20.0:
 			target = player.global_position
-	var speed := 74.0 + float(tier) * 14.0
+	var speed := 74.0 + float(tier) * 11.0
 	velocity = global_position.direction_to(target) * speed
 	if global_position.distance_to(target) < 8.0:
 		velocity = Vector2.ZERO
@@ -205,4 +231,5 @@ func _name_for_subject(subject: String, rank: int) -> String:
 		"geografia": "Sbiadito delle Mappe", "scienze": "Sbiadito delle Forme",
 		"storia": "Sbiadito delle Memorie", "logica": "Sbiadito delle Regole",
 	}
-	return "%s %s" % [str(names.get(subject, "Sbiadito")), ["I", "II", "III", "IV"][rank - 1]]
+	var romani := ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+	return "%s %s" % [str(names.get(subject, "Sbiadito")), romani[clampi(rank, 1, romani.size()) - 1]]

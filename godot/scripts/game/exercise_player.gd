@@ -75,6 +75,12 @@ var _exit_stay_button: Button
 var _exit_notice: Label
 var _input: LineEdit
 var _input_submit: Button
+## L'indizio delle domande aperte: dà la forma della risposta, mai la risposta.
+var _hint_button: Button
+## Quanti indizi sono già stati scoperti su QUESTA domanda. Riparte a ogni nodo:
+## un contatore che non riparte trasformerebbe il terzo indizio in un premio per
+## chi ha sbagliato molto prima, che non c'entra niente.
+var _hint_level := 0
 ## Tastierino numerico disegnato dal gioco.
 ##
 ## Serve perché su tablet il `LineEdit` da solo **non si riempie**: la tastiera
@@ -281,6 +287,26 @@ func _build_ui() -> void:
 	_input_submit.pressed.connect(func(): _answer(_input.text))
 	box.add_child(_input_submit)
 
+	# **L'indizio, disponibile SUBITO.** (7 agosto 2026)
+	#
+	# Segnalazione di gioco: «le domande aperte non hanno indizi o aiuti». Era
+	# vero: `SPIEGA CON NORA` compariva solo DOPO una risposta sbagliata, quindi
+	# su una domanda aperta il bambino trovava un campo vuoto e nessun appiglio.
+	# Nelle domande a scelta multipla le alternative sono già un aiuto — si
+	# ragiona per esclusione; in una domanda aperta non c'è niente.
+	#
+	# L'indizio non dà la risposta: dà la sua FORMA — quante cifre, che lettera
+	# iniziale, quanto è lunga. È lo stesso principio delle spiegazioni: si
+	# insegna il metodo, non il risultato. E chi non ne ha bisogno non lo tocca.
+	_hint_button = Button.new()
+	_hint_button.name = "FreeAnswerHintButton"
+	_hint_button.text = "INDIZIO"
+	_hint_button.visible = false
+	_hint_button.custom_minimum_size = Vector2(0, 48)
+	_hint_button.add_theme_font_size_override("font_size", 15)
+	_hint_button.pressed.connect(_mostra_indizio)
+	box.add_child(_hint_button)
+
 	_feedback = Label.new()
 	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_feedback.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -302,6 +328,8 @@ func _build_ui() -> void:
 	if is_instance_valid(_input_submit):
 		_input_submit.visible = false
 		_input_submit.disabled = false
+	if is_instance_valid(_hint_button):
+		_hint_button.visible = false
 	_next_button.custom_minimum_size = Vector2(0, 48)
 	_next_button.add_theme_font_size_override("font_size", 16)
 	_next_button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.16, 0.32, 0.30, 0.98), Color(0.96, 0.78, 0.36, 0.72)))
@@ -679,6 +707,12 @@ func _show_current() -> void:
 			_input.text = ""
 			_input.editable = true
 			_input_submit.visible = true
+			_hint_level = 0
+			if is_instance_valid(_hint_button):
+				# In esame no: lì la prova deve misurare quello che si sa.
+				_hint_button.visible = str(session.get("kind", "mission")) != "final_exam"
+				_hint_button.disabled = false
+				_hint_button.text = "INDIZIO"
 			# Il tastierino solo dove la risposta è un numero: per una parola
 			# sarebbe d'intralcio, e lì la tastiera di sistema serve davvero.
 			var numeric_answer := _answer_is_numeric(str(item.get("answer", "")))
@@ -1675,6 +1709,50 @@ func _refresh_clue_button(totale: int) -> void:
 	_clue_button.text = (
 		"CHIEDI UN INDIZIO (ne restano %d)" % restano if restano > 0
 		else "NESSUN ALTRO INDIZIO")
+
+## L'indizio: la FORMA della risposta, mai la risposta.
+##
+## Tre gradi, dal più discreto al più esplicito, perché un indizio unico o è
+## troppo poco per chi è bloccato o è troppo per chi ci era quasi. Si tocca il
+## pulsante una volta in più e si scopre un pezzo in più.
+##
+## Non svela mai l'ultima lettera né l'ultima cifra: da lì in poi non sarebbe un
+## indizio, sarebbe la soluzione scritta a rate.
+func _mostra_indizio() -> void:
+	if _index < 0 or _index >= _nodes.size():
+		return
+	var item: Dictionary = _nodes[_index]
+	var risposta := str(item.get("answer", "")).strip_edges()
+	if risposta.is_empty():
+		return
+	_hint_level += 1
+	var testo := ""
+	if _answer_is_numeric(risposta):
+		match _hint_level:
+			1:
+				testo = "È un numero di %d cifre." % risposta.length()
+			2:
+				testo = "Comincia per %s, e ha %d cifre." % [risposta.substr(0, 1), risposta.length()]
+			_:
+				# Il primo e l'ultimo estremo di una decina: restringe senza dire.
+				var valore := float(risposta)
+				var decina: float = floor(valore / 10.0) * 10.0
+				testo = "Sta fra %d e %d." % [int(decina), int(decina) + 10]
+	else:
+		match _hint_level:
+			1:
+				testo = "Comincia per «%s»." % risposta.substr(0, 1).to_upper()
+			2:
+				testo = "Comincia per «%s» ed è lunga %d lettere." % [
+					risposta.substr(0, 1).to_upper(), risposta.length()]
+			_:
+				var quante := maxi(1, int(floor(float(risposta.length()) / 2.0)))
+				testo = "Comincia con «%s…» ed è lunga %d lettere." % [
+					risposta.substr(0, quante), risposta.length()]
+	if _hint_level >= 3 and is_instance_valid(_hint_button):
+		_hint_button.disabled = true
+		_hint_button.text = "INDIZIO ESAURITO"
+	_flash_feedback("Indizio: %s" % testo)
 
 func _request_concept_help() -> void:
 	if _index < 0 or _index >= _nodes.size():

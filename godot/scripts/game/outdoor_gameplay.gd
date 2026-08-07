@@ -596,7 +596,42 @@ func _build_practice_session(subject: String) -> Dictionary:
 # Minigioco: un incontro risolto con formati interattivi (abbina/ordina) della
 # materia. Stessa pipeline delle missioni — conta per il gate dell'apparato,
 # aggiorna mastery per-topic ed energia; cambia solo la resa dei nodi.
-func try_start_minigame(payload: Dictionary, encounter_id: String) -> bool:
+## Energia guadagnata superando un lavoretto in bottega.
+##
+## La bottega finora sapeva solo SPENDERE: si entrava per comprare e si usciva
+## piu' poveri. Un luogo che toglie e basta non e' un posto dove si torna.
+## Il lavoretto e' l'unica prova del gioco che PAGA invece di costare, e per
+## questo non conta per il gate: se contasse, diventerebbe la strada piu' comoda
+## e nessuno andrebbe piu' a praticare nel mondo.
+const LAVORETTO_PAGA := 9
+
+## Un turno di lavoro in bottega: si gioca la materia del mondo e si viene
+## pagati. Ingresso gratuito — un lavoro che si paga per fare non e' un lavoro.
+func try_start_lavoretto(subject: String, encounter_id: String) -> bool:
+	if session_active():
+		return false
+	var session := _build_practice_session(subject)
+	if Array(session.get("nodes", [])).is_empty():
+		return false
+	var impronte: Array = []
+	for n in Array(session.get("nodes", [])):
+		impronte.append(GameSaveManager.practice_node_fingerprint(n as Dictionary))
+	active_session_context = {
+		"kind": "lavoretto", "encounterId": encounter_id, "subject": subject,
+		"impronte": impronte,
+	}
+	session["abandonCost"] = EXERCISE_ABANDON_COST
+	session_requested.emit(session)
+	_emit_state()
+	return true
+
+## `sconto` dimezza il costo d'ingresso: lo usa la casa del mestiere.
+##
+## Lo sconto non e' una ricompensa, e' informazione. Un bambino che paga meno in
+## un certo edificio capisce da solo a che cosa serve quell'edificio, senza che
+## nessuno glielo spieghi — ed e' il modo piu' economico di dare un senso a un
+## luogo sulla mappa.
+func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool = false) -> bool:
 	if session_active():
 		return false
 	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
@@ -607,7 +642,7 @@ func try_start_minigame(payload: Dictionary, encounter_id: String) -> bool:
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Minigioco non disponibile per %s." % subject, "system")
 		return false
-	_charge_exercise_entry()
+	_charge_exercise_entry(0.5 if sconto else 1.0)
 	# I testi dei quesiti viaggiano nel contesto: alla chiusura finiscono nella
 	# memoria della pratica, così la prossima palestra non li ripropone. Il
 	# player non li restituisce, e leggerli qui è l'unico punto in cui esistono
@@ -665,13 +700,19 @@ func try_start_final_exam() -> bool:
 ## applica il costo normale; sotto soglia l'ingresso diventa di recupero e non
 ## consuma il residuo. In questo modo un profilo nuovo o un acquisto in bottega
 ## non possono bloccare per sempre l'unico modo di riguadagnare energia.
-func _charge_exercise_entry() -> int:
-	if game_save.energy() < EXERCISE_ENERGY_COST:
+## `fattore` scala il costo d'ingresso: 1.0 ovunque, 0.5 nella casa del
+## mestiere. Il minimo resta 1 quando il fattore non e' zero — un ingresso
+## gratuito non e' uno sconto, e' un'altra cosa.
+func _charge_exercise_entry(fattore: float = 1.0) -> int:
+	var costo := maxi(1, int(round(float(EXERCISE_ENERGY_COST) * fattore))) if fattore > 0.0 else 0
+	if costo <= 0:
 		return 0
-	if not game_save.spend_energy(EXERCISE_ENERGY_COST):
+	if game_save.energy() < costo:
 		return 0
-	result["energySpent"] = int(result.get("energySpent", 0)) + EXERCISE_ENERGY_COST
-	return EXERCISE_ENERGY_COST
+	if not game_save.spend_energy(costo):
+		return 0
+	result["energySpent"] = int(result.get("energySpent", 0)) + costo
+	return costo
 
 # Risolve la sessione conclusa dall'ExercisePlayer: aggiorna save, progressione,
 # ricompense e (per l'esame) ripara l'apparato salendo di livello.
@@ -702,6 +743,23 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		_present_feedback(_abandon_feedback(costo, usciti_avanzati), "nora")
 		_emit_state()
 		return
+	# Il LAVORETTO in bottega: paga e non conta per niente altro. Allena la
+	# padronanza come la pratica — le domande sono le stesse — ma non chiude
+	# incontri e non apre apparati.
+	if kind == "lavoretto":
+		progression_manager.record_practice(subject, correct, total, 0)
+		if passed:
+			var paga := LAVORETTO_PAGA
+			game_save.add_energy(paga)
+			result["energyEarned"] = int(result.get("energyEarned", 0)) + paga
+			game_save.remember_practice_prints(subject, Array(context.get("impronte", [])))
+			_present_feedback("Turno finito. +%d energia, e il banco è in ordine." % paga, "system")
+		else:
+			_present_feedback("Turno saltato: niente paga, ma niente danni.", "system")
+		_persist()
+		_emit_state()
+		return
+
 	# I minigiochi sono PRATICA: allenano padronanza ed energia ma non contano per
 	# il gate (nessun add_mission). Dal 6 agosto 2026 una palestra SUPERATA si
 	# chiude, perché rifarla identica era diventata una scorciatoia.

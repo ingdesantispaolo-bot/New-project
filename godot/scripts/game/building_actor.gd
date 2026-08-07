@@ -9,6 +9,48 @@ var reduced_motion := false
 var visual: Node2D
 var window_glows: Array[CanvasItem] = []
 
+## Quanto largo e' l'ingresso di un edificio. Piu' generoso di un POI (88): un
+## edificio e' grande, e doverne cercare il punto esatto trasforma un luogo in
+## un bersaglio.
+const RAGGIO_INGRESSO := 120.0
+
+## **Gli edifici diventano luoghi.** (6 agosto 2026)
+##
+## Fino a oggi erano scenografia: `building_actor` impostava i metadati ma non
+## entrava mai nel gruppo `world_interactable` e non aveva un'area di
+## collisione. I settantadue nomi propri scritti poche ore prima si potevano
+## leggere e basta.
+##
+## Ogni ruolo ha adesso una funzione, e non e' decorativa:
+##
+##   work_home    la casa del mestiere: il minigioco della materia del mondo, a
+##                costo d'energia RIDOTTO. Allenarsi dove si lavora costa meno
+##                che in mezzo al campo, ed e' anche il modo di dire a un
+##                bambino a che cosa serve quell'edificio;
+##   ritrovo      dove la gente si incontra: le conversazioni degli abitanti e
+##                la BOTTEGA. Si compra in piazza, non da un menu;
+##   first_ruin   cio' che i Primi hanno lasciato: un frammento di trama, non un
+##                esercizio. Le ventiquattro rovine messe in fila raccontano che
+##                qualcuno e' passato di qui prima.
+func _rendi_luogo(spec: Dictionary) -> void:
+	var area := Area2D.new()
+	area.name = "BuildingDoor"
+	area.set_meta("kind", "building")
+	area.set_meta("id", building_id)
+	area.set_meta("payload", {
+		"role": role,
+		"label": str(spec.get("label", "")),
+		"world": int(spec.get("world", 1)),
+	})
+	var forma := CollisionShape2D.new()
+	forma.name = "BuildingCollision"
+	var cerchio := CircleShape2D.new()
+	cerchio.radius = RAGGIO_INGRESSO
+	forma.shape = cerchio
+	area.add_child(forma)
+	area.add_to_group("world_interactable")
+	add_child(area)
+
 func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_reduced_motion: bool) -> void:
 	building_id = str(spec.get("id", "building"))
 	role = str(spec.get("role", "work_home"))
@@ -19,6 +61,7 @@ func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_
 	set_meta("building_role", role)
 	set_meta("artKit", str(spec.get("artKit", "")))
 	add_to_group("world_building")
+	_rendi_luogo(spec)
 
 	if role == "first_ruin":
 		visual = Node2D.new()

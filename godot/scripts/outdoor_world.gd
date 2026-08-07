@@ -245,6 +245,7 @@ delete document.documentElement.dataset.eliExam;
 		audio.call("configure_world_soundscape", str(world_profile.get("soundscape", "")))
 		audio.call("play_subject", _world_subject())
 	_publish_web_accessibility_state()
+	_crea_hazard()
 	_mostra_soglia_del_mondo()
 
 ## La schermata di benvenuto del mondo, una volta sola per mondo.
@@ -2958,6 +2959,130 @@ func _publish_web_accessibility_state() -> void:
 		"nearestMission": nearest_mission,
 	}))
 
+## **Gli hazard.** (6 agosto 2026)
+##
+## `clearedHazardIds` stava nel salvataggio dal primo giorno e la parola
+## «hazard» compariva in tutto l'albero degli script **una volta sola**: li'.
+## Nessuno li creava, nessuno li leggeva — quarto campo di questa specie.
+##
+## Un hazard e' un tratto che costa energia ad attraversare, e si «pulisce» una
+## volta sola: pagato il pedaggio, quella strada resta aperta per sempre. Non
+## blocca mai — si attraversa anche a zero energia — perche' vale la regola di
+## tutta la mappa: **niente che sta qui puo' fermare la progressione**.
+const HAZARD_COSTO := 2
+const HAZARD_PER_MONDO := 3
+
+func _crea_hazard() -> void:
+	if not is_instance_valid(game_save) or not is_instance_valid(chunks):
+		return
+	var puliti: Array = Array(
+		game_save.world_progress(str(world_level)).get("clearedHazardIds", []))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash("hazard-%d" % world_level)
+	for indice in range(HAZARD_PER_MONDO):
+		var id := "hazard-%d-%d" % [world_level, indice]
+		if puliti.has(id):
+			continue
+		var angolo := rng.randf() * TAU
+		var raggio := rng.randf_range(600.0, 1500.0)
+		var posizione := WorldProfileCatalog.SPAWN + Vector2.RIGHT.rotated(angolo) * raggio
+		posizione = chunks.clamp_to_world(posizione)
+		if chunks.composition.is_protected(posizione, 60.0):
+			continue
+		if chunks.composition.raw_water_weight(posizione) >= 0.4:
+			continue
+		var area := Area2D.new()
+		area.name = "Hazard_%d" % indice
+		area.position = posizione
+		area.set_meta("kind", "hazard")
+		area.set_meta("id", id)
+		area.set_meta("payload", {"cost": HAZARD_COSTO})
+		var forma := CollisionShape2D.new()
+		var cerchio := CircleShape2D.new()
+		cerchio.radius = INTERACTION_DISTANCE
+		forma.shape = cerchio
+		area.add_child(forma)
+		area.add_to_group("world_interactable")
+		area.add_child(_make_hazard_marker())
+		world_layer.add_child(area)
+		area.body_entered.connect(func(body): on_interactable_entered(area, body))
+		area.body_exited.connect(func(body): on_interactable_exited(area, body))
+
+func _make_hazard_marker() -> Node2D:
+	var nodo := Node2D.new()
+	nodo.name = "HazardMarker"
+	var glifo := Label.new()
+	glifo.text = "⚠"
+	glifo.add_theme_font_size_override("font_size", 30)
+	glifo.add_theme_color_override("font_color", Color("ffb35c"))
+	glifo.position = Vector2(-10, -34)
+	nodo.add_child(glifo)
+	return nodo
+
+## Sgombrare un hazard: si paga una volta e la strada resta aperta.
+func _sgombra_hazard(target: Area2D) -> void:
+	var id := str(target.get_meta("id", ""))
+	var costo := int(Dictionary(target.get_meta("payload", {})).get("cost", HAZARD_COSTO))
+	var pagato := mini(costo, game_save.energy())
+	if pagato > 0:
+		game_save.spend_energy(pagato)
+	game_save.mark_hazard_cleared(str(world_level), id)
+	game_save.save()
+	_set_feedback("Passaggio sgombrato%s. Da qui si passa, e non costerà di nuovo." % (
+		" (−%d energia)" % pagato if pagato > 0 else ""))
+	target.queue_free()
+
+## Entrare in un edificio. Tre ruoli, tre cose diverse.
+func _entra_nell_edificio(target: Area2D) -> void:
+	var payload: Dictionary = target.get_meta("payload", {})
+	var ruolo := str(payload.get("role", ""))
+	var nome := str(payload.get("label", "questo posto"))
+	match ruolo:
+		"ritrovo":
+			# La bottega vive qui, non piu' in un pulsante dell'HUD: si compra
+			# dove la gente si incontra. E si puo' anche LAVORARE: e' l'unico
+			# posto del gioco in cui una prova paga invece di costare.
+			if is_instance_valid(gameplay) and game_save.energy() < OutdoorGameplay.EXERCISE_ENERGY_COST * 2:
+				# Senza energia comprare non serve e praticare non si puo': il
+				# lavoretto e' l'uscita da quel vicolo, e va offerta proprio
+				# quando serve invece di stare nascosta in un menu.
+				if gameplay.try_start_lavoretto(_world_subject(), "lavoretto-%d" % world_level):
+					_set_feedback("%s: c'e' un turno da fare, e si viene pagati." % nome)
+					return
+			_set_feedback("%s: qui si scambia e si chiacchiera." % nome)
+			_open_shop()
+		"work_home":
+			_allenati_in_casa(nome)
+		_:
+			_leggi_la_rovina(nome)
+
+## La casa del mestiere: il minigioco della materia del mondo, a costo ridotto.
+##
+## Lo sconto non e' una ricompensa: e' l'informazione. Un bambino che paga meno
+## qui capisce da solo che quell'edificio serve ad allenarsi, senza che nessuno
+## glielo spieghi.
+func _allenati_in_casa(nome: String) -> void:
+	if not is_instance_valid(gameplay) or gameplay.session_active():
+		return
+	var materia := _world_subject()
+	if gameplay.try_start_minigame({"subject": materia}, "casa-%d-%s" % [world_level, materia], true):
+		_set_feedback("%s: si lavora %s, e qui l'ingresso costa meno." % [nome, materia])
+
+## La rovina dei Primi: una riga di trama, mai un esercizio.
+##
+## E' l'unico dei tre edifici che appartiene alla STORIA e non al mondo, e la
+## riga cambia con il livello perche' l'indagine avanza.
+func _leggi_la_rovina(nome: String) -> void:
+	var atto := NoraVoice.atto_di(world_level)
+	var riga := "Pietra dei Primi. Nessuna iscrizione leggibile, ma il taglio e' recente."
+	if atto == "atto2":
+		riga = "Qui c'e' un segno inciso, e lo stesso segno l'hai gia' visto altrove. Non e' un ornamento: e' una firma."
+	elif atto == "atto3":
+		riga = "Questa e' una delle dodici. Le altre le hai attraversate senza saperlo, e insieme dicono da che parte andavano."
+	_set_feedback("%s — %s" % [nome, riga])
+	if is_instance_valid(game_save):
+		game_save.mark_encounter_completed(str(world_level), "rovina-%d" % world_level)
+
 func _open_shop() -> void:
 	if not is_instance_valid(shop_panel):
 		return
@@ -3682,6 +3807,12 @@ func _interact() -> void:
 			return
 		_set_feedback("Ingresso nave attivo: salvataggio in corso…")
 		_leave_world()
+		return
+	if kind == "building":
+		_entra_nell_edificio(target)
+		return
+	if kind == "hazard":
+		_sgombra_hazard(target)
 		return
 	if kind == "landmark":
 		var landmark_payload: Dictionary = target.get_meta("payload", {})

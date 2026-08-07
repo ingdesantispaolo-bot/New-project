@@ -1237,23 +1237,42 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 ## Sceglie il corso d'acqua più vicino all'asse della nave (i canali esterni
 ## restano confini naturali) e vi definisce un solo varco costruibile. La scena
 ## lega il varco al primo enigma senza spostare missioni obbligatorie.
+## **Piu' di un guado per mondo.** (6 agosto 2026)
+##
+## Fino a oggi `data.crossings` era un array di UN elemento: la meccanica piu'
+## interessante che il gioco possiede — una prova che apre fisicamente una parte
+## di mappa — accadeva una volta per mondo, e il resto del girovagare era solo
+## un modo di raggiungere gli esercizi.
+##
+## Ora si sceglie fino a tre torrenti, ordinati per vicinanza alla rotta della
+## nave: il primo resta esattamente dov'era (nessun mondo cambia forma), gli
+## altri aggiungono passaggi da aprire. Tre e non di piu': ogni guado chiuso e'
+## una strada in meno, e una mappa con sei sbarramenti non e' da esplorare, e'
+## da subire.
+const GUADI_MAX := 3
+
 static func _author_stream_crossing(data: WorldCompositionData, spawn: Vector2, ship: Vector2) -> void:
-	var selected: Dictionary = {}
-	var best_distance := INF
+	var candidati: Array = []
 	for water_data in data.waters:
 		var water: Dictionary = water_data
 		if str(water.get("kind", "")) != "stream":
 			continue
-		var points: PackedVector2Array = water.get("points", PackedVector2Array())
-		if points.size() < 2:
+		var points_c: PackedVector2Array = water.get("points", PackedVector2Array())
+		if points_c.size() < 2:
 			continue
-		var middle := points[floori(float(points.size()) * 0.5)]
+		var middle := points_c[floori(float(points_c.size()) * 0.5)]
 		var distance := absf(middle.x - ship.x) + absf(middle.y - (ship.y + 1100.0)) * 0.18
-		if distance < best_distance:
-			best_distance = distance
-			selected = water
-	if selected.is_empty():
+		candidati.append({"water": water, "d": distance})
+	if candidati.is_empty():
 		return
+	# Ordine per vicinanza, stabile: il primo guado resta quello di sempre.
+	candidati.sort_custom(func(a, b): return float(a["d"]) < float(b["d"]))
+	for indice in range(mini(GUADI_MAX, candidati.size())):
+		_author_single_crossing(data, spawn, Dictionary(candidati[indice])["water"], indice)
+
+static func _author_single_crossing(
+	data: WorldCompositionData, spawn: Vector2, selected: Dictionary, indice: int
+) -> void:
 	var points: PackedVector2Array = selected.get("points", PackedVector2Array())
 	var segment := clampi(floori(float(points.size() - 1) * 0.5), 0, points.size() - 2)
 	var a := points[segment]
@@ -1267,8 +1286,8 @@ static func _author_stream_crossing(data: WorldCompositionData, spawn: Vector2, 
 	var approach := bank_a if spawn.distance_to(bank_a) <= spawn.distance_to(bank_b) else bank_b
 	if approach == bank_b:
 		normal = -normal
-	data.crossings = [{
-		"id": "%s-crossing" % str(selected.get("id", "stream")),
+	data.crossings.append({
+		"id": "%s-crossing-%d" % [str(selected.get("id", "stream")), indice],
 		"waterId": str(selected.get("id", "stream")),
 		"position": center,
 		"approach": approach,
@@ -1276,7 +1295,7 @@ static func _author_stream_crossing(data: WorldCompositionData, spawn: Vector2, 
 		"normal": normal,
 		"halfWidth": half_width,
 		"eventId": "",
-	}]
+	})
 
 static func _profile_hero_position(ship: Vector2, level: int) -> Vector2:
 	if level == 1:

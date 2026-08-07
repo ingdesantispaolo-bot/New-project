@@ -25,7 +25,19 @@ func _run() -> void:
 	await process_frame
 
 	var composition: WorldCompositionData = world.get("chunks").composition
-	assert(composition.crossings.size() == 1, "il profilo acquatico deve avere un varco principale")
+	# **Da uno a tre varchi.** (6 agosto 2026)
+	#
+	# Questa prova pretendeva esattamente UN varco, ed era la regola vecchia: la
+	# meccanica piu' interessante del gioco — una prova che apre fisicamente una
+	# parte di mappa — accadeva una volta per mondo. Ora se ne aprono fino a tre.
+	#
+	# Cio' che deve restare vero e' che il varco PRINCIPALE esista e sia quello
+	# di sempre: i candidati si ordinano per vicinanza alla rotta della nave, e
+	# il primo e' lo stesso di prima. Nessun mondo cambia forma.
+	assert(composition.crossings.size() >= 1,
+		"il profilo acquatico deve avere almeno il varco principale")
+	assert(composition.crossings.size() <= WorldCompositionGenerator.GUADI_MAX,
+		"troppi varchi (%d): una mappa piena di sbarramenti non si esplora, si subisce" % composition.crossings.size())
 	var crossing: Dictionary = composition.crossings[0]
 	var event_id := str(crossing.get("eventId", ""))
 	assert(event_id != "", "il varco non è legato a un enigma")

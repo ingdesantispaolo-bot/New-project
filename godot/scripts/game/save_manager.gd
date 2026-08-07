@@ -570,6 +570,19 @@ func claim_world_intro(level: int) -> bool:
 func world_intro_seen(level: int) -> bool:
 	return Array(data.get("worldIntroSeen", [])).has(level)
 
+## Un hazard sgombrato resta sgombrato: il pedaggio si paga una volta sola.
+func mark_hazard_cleared(world_id: String, hazard_id: String) -> bool:
+	var progresso := world_progress(world_id)
+	var puliti: Array = Array(progresso.get("clearedHazardIds", []))
+	if puliti.has(hazard_id):
+		return false
+	puliti.append(hazard_id)
+	progresso["clearedHazardIds"] = puliti
+	var tutti: Dictionary = data.get("worldProgress", {})
+	tutti[world_id] = progresso
+	data["worldProgress"] = tutti
+	return true
+
 func mastery_peak(subject: String) -> float:
 	return float(Dictionary(data.get("masteryPeak", {})).get(subject, 0.0))
 

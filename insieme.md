@@ -902,6 +902,35 @@ rispettarla.
 
 ---
 
+## I meccanismi di mappa su tutti i mondi (7 agosto 2026)
+
+Le tappe A-D erano state scritte guardando il mondo 1. Misurate su tutti e
+ventiquattro, due incoerenze:
+
+1. **Gli hazard dipendevano dal primo dado.** Il piazzamento provava UNA
+   posizione e, se cadeva in acqua o in zona protetta, rinunciava: otto mondi ne
+   ricevevano meno di tre, due (L17, L21) ne ricevevano uno. Il numero di
+   pericoli variava per niente. **Riparato**: dodici tentativi, come gia' faceva
+   il piazzamento dei nemici dieci righe piu' su nello stesso file.
+2. **Diciotto mondi su ventiquattro non hanno nessun guado**, perche' non hanno
+   torrenti. Non e' un difetto del codice — un guado senza acqua non esiste — ma
+   e' un limite grosso: la meccanica che apre fisicamente la mappa, quella che
+   ho appena portato da uno a tre, **vive in sei mondi su ventiquattro**.
+
+Mondi con almeno un guado: 4, 8, 9, 16, 17, 22.
+
+**Il lotto aperto che ne segue.** Perche' «liberare percorsi con una prova
+speciale» valga ovunque servirebbe uno sbarramento che non sia acqua — una frana,
+un cancello, una parete — con la stessa struttura dati del guado. E' lavoro di
+composizione del mondo, non una riparazione, ed e' il pezzo mancante piu' grosso
+dell'esplorazione.
+
+`world_mechanics_audit` tiene tutto questo: tre hazard e tre edifici piazzabili
+in ogni mondo, guadi mai oltre il tetto, e il numero di mondi con acqua
+registrato come misura — se scende, la generazione e' cambiata senza dirlo.
+
+---
+
 ## Le cose da guardare giocando
 
 Le schede di cablaggio (artKit, landmark, cast, tic) sono uscite da qui il

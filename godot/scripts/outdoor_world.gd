@@ -2983,13 +2983,25 @@ func _crea_hazard() -> void:
 		var id := "hazard-%d-%d" % [world_level, indice]
 		if puliti.has(id):
 			continue
-		var angolo := rng.randf() * TAU
-		var raggio := rng.randf_range(600.0, 1500.0)
-		var posizione := WorldProfileCatalog.SPAWN + Vector2.RIGHT.rotated(angolo) * raggio
-		posizione = chunks.clamp_to_world(posizione)
-		if chunks.composition.is_protected(posizione, 60.0):
-			continue
-		if chunks.composition.raw_water_weight(posizione) >= 0.4:
+		# **Si RIPROVA invece di arrendersi.** Misurato su tutti e ventiquattro i
+		# mondi: con un solo tentativo, otto mondi ne ricevevano meno di tre e
+		# due ne ricevevano uno. Il numero di pericoli dipendeva da dove cadeva
+		# il primo dado, cioe' da niente. E' lo stesso schema che il
+		# piazzamento dei nemici usa gia' da tempo, dieci righe piu' su.
+		var posizione := Vector2.ZERO
+		var trovata := false
+		for tentativo in range(12):
+			var angolo := rng.randf() * TAU
+			var raggio := rng.randf_range(600.0, 1500.0)
+			posizione = chunks.clamp_to_world(
+				WorldProfileCatalog.SPAWN + Vector2.RIGHT.rotated(angolo) * raggio)
+			if chunks.composition.is_protected(posizione, 60.0):
+				continue
+			if chunks.composition.raw_water_weight(posizione) >= 0.4:
+				continue
+			trovata = true
+			break
+		if not trovata:
 			continue
 		var area := Area2D.new()
 		area.name = "Hazard_%d" % indice

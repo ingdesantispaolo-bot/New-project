@@ -634,6 +634,9 @@ const ORDERING := {
 			{"label": "Essere umano", "value": 1.7}, {"label": "Cavallo", "value": 2.4},
 			{"label": "Giraffa", "value": 5.5}, {"label": "Elefante africano", "value": 3.3},
 			{"label": "Balenottera azzurra", "value": 30.0}, {"label": "Sequoia gigante", "value": 85.0}]},
+		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "Un vivente cresce mettendo insieme pezzi sempre piu' grandi: le cellule fanno i tessuti, i tessuti gli organi, gli organi l'individuo. Saltare un gradino non si puo'.", "topic": "viventi", "prompt": "Ordina dal piu' piccolo al piu' grande.", "correctOrder": ["Cellula", "Tessuto", "Organo", "Organismo"]},
+		{"explanation": "Il giorno e la notte non dipendono dal Sole che si muove ma dalla Terra che gira su se' stessa: e' sempre la stessa faccia a illuminarsi e a spegnersi.", "topic": "terra-universo", "prompt": "Ordina i momenti della giornata.", "correctOrder": ["Alba", "Mezzogiorno", "Tramonto", "Notte"]},
 	],
 	"geografia": [
 		# L21. Estensione degli Stati in milioni di km². Scelti bene distanziati:
@@ -681,6 +684,8 @@ const ORDERING := {
 			{"label": "Mekong", "value": 4350.0}, {"label": "Yangtze", "value": 6300.0},
 			{"label": "Nilo", "value": 6650.0}, {"label": "Rio delle Amazzoni", "value": 6400.0},
 			{"label": "Mississippi", "value": 3770.0}, {"label": "Congo", "value": 4700.0}]},
+		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "Le divisioni del territorio stanno una dentro l'altra come scatole: ogni livello contiene tutti quelli piu' piccoli.", "topic": "geografia-italia", "prompt": "Ordina dal piu' piccolo al piu' grande.", "correctOrder": ["Comune", "Provincia", "Regione", "Stato"]},
 	],
 	"musica": [
 		# L22. Gli intervalli misurati in semitoni: qui l'ordine è una grandezza
@@ -710,6 +715,8 @@ const ORDERING := {
 			{"label": "Vivace", "value": 150.0}, {"label": "Presto", "value": 175.0},
 			{"label": "Prestissimo", "value": 200.0}, {"label": "Adagietto", "value": 72.0},
 			{"label": "Allegro molto", "value": 140.0}, {"label": "Largamente", "value": 46.0}]},
+		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "Le figure musicali si dimezzano l'una dopo l'altra: ogni durata vale la meta' di quella prima, ed e' per questo che si incastrano sempre in una battuta.", "topic": "ritmo", "prompt": "Ordina le figure dalla piu' lunga alla piu' breve.", "correctOrder": ["Semibreve", "Minima", "Semiminima", "Croma"]},
 	],
 	"italiano": [
 		# Insieme a estrazione: si pescano 4 parole fra trentadue e si ordinano per
@@ -745,6 +752,8 @@ const ORDERING := {
 		# Pensiero computazionale "unplugged": la vita quotidiana come algoritmo.
 		{"explanation": "Un algoritmo va scritto in un ordine eseguibile davvero: non si versa l'acqua prima di averla scaldata.", "topic": "algoritmi", "minLevel": 2, "prompt": "Ordina i passi dell'algoritmo per fare un tè.", "correctOrder": ["Scalda l'acqua", "Metti la bustina nella tazza", "Versa l'acqua calda", "Aspetta due minuti", "Togli la bustina"]},
 		{"explanation": "Per trovare il massimo si parte da un candidato e lo si confronta con tutti gli altri, sostituendolo ogni volta che se ne trova uno più grande.", "topic": "algoritmi", "minLevel": 5, "prompt": "Ordina i passi per trovare il numero più grande in una lista.", "correctOrder": ["Prendi il primo numero come massimo", "Guarda il numero successivo", "Se è più grande, aggiorna il massimo", "Ripeti fino alla fine", "Restituisci il massimo"]},
+		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "Un programma si scrive in quest'ordine perche' ogni passo ha bisogno del precedente: senza il dato non c'e' niente da calcolare, e senza il calcolo non c'e' niente da mostrare.", "topic": "algoritmi", "prompt": "Ordina i passi di un programma che saluta chi lo usa.", "correctOrder": ["Chiedi il nome", "Salva il nome in una variabile", "Componi il saluto", "Mostra il saluto"]},
 	],
 	"storia": [
 		# L14. Il Novecento: l'ordine è una grandezza (l'anno) e i fatti sono quelli
@@ -852,6 +861,8 @@ const ORDERING := {
 			{"label": "Unità d'Italia", "value": 1861.0},
 			{"label": "Prima guerra mondiale", "value": 1914.0},
 			{"label": "Primo uomo sulla Luna", "value": 1969.0}]},
+		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "Le eta' della preistoria prendono il nome dal materiale che si sapeva lavorare: ogni passaggio e' una tecnica nuova, non un capriccio degli storici.", "topic": "preistoria", "prompt": "Ordina le eta' della preistoria, dalla piu' antica.", "correctOrder": ["Pietra antica", "Pietra nuova", "Eta' del rame", "Eta' del bronzo", "Eta' del ferro"]},
 	],
 	"latino": [
 		{"explanation": "In latino il verbo va di solito in fondo: la frase si costruisce soggetto, oggetto, verbo, ed è la differenza più visibile rispetto all'italiano.", "topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
@@ -918,6 +929,8 @@ const ORDERING := {
 		# Domande: inversione dell'ausiliare (diverso dall'italiano).
 		{"explanation": "Nella domanda l'ausiliare passa davanti al soggetto: è l'inversione a rendere interrogativa la frase, non solo il punto di domanda.", "topic": "question", "minLevel": 5, "prompt": "Order the words to make a question.", "correctOrder": ["Do", "you", "like", "pizza?"]},
 		{"explanation": "Nelle domande con wh- la parola interrogativa va per prima, poi l'ausiliare, poi il soggetto.", "topic": "wh-question", "minLevel": 6, "prompt": "Order the words to make a question.", "correctOrder": ["Where", "do", "you", "live?"]},
+		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "In inglese l'ordine delle parole porta il significato, perche' le parole non cambiano forma: soggetto, verbo, oggetto, e poi il resto.", "topic": "sentence", "prompt": "Order the words to make a sentence.", "correctOrder": ["I", "read", "a book", "every evening"]},
 	],
 	"fisica": [
 		# Insiemi a estrazione: in fisica l'ordine NON è una convenzione da ricordare,
@@ -949,6 +962,8 @@ const ORDERING := {
 			{"label": "Automobile", "value": 1300.0}, {"label": "Elefante africano", "value": 6000.0},
 			{"label": "Autobus", "value": 12000.0}, {"label": "Balenottera azzurra", "value": 150000.0}]},
 		{"explanation": "Le particelle si muovono sempre di più passando da solido a liquido a gas: è l'energia a slegarle, non la temperatura in sé.", "topic": "materia", "minLevel": 5, "prompt": "Ordina gli stati per energia delle particelle, dal minore al maggiore.", "correctOrder": ["Solido", "Liquido", "Gassoso"]},
+		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "Prima si guarda, poi si misura, e solo alla fine si calcola: invertire l'ordine porta a calcolare una cosa che non si e' capita.", "topic": "metodo", "prompt": "Ordina i passi per misurare quanto e' veloce un oggetto.", "correctOrder": ["Segna il punto di partenza", "Misura la distanza", "Cronometra il tempo", "Dividi distanza per tempo"]},
 	],
 	"elettronica": [
 		# Tensioni reali, dalla pila a bottone alla linea ad alta tensione: qui il
@@ -970,6 +985,8 @@ const ORDERING := {
 			"correctOrder": ["Polo positivo della pila", "Interruttore chiuso", "Resistore", "LED", "Polo negativo della pila"]},
 		{"explanation": "Si monta il circuito prima di dargli corrente: collegare l'alimentazione per ultima è ciò che evita di bruciare il LED.", "topic": "montaggio", "minLevel": 3, "prompt": "Ordina i passi per costruire un circuito che accende un LED.", "correctOrder": ["Prendi la pila", "Collega il filo al polo +", "Aggiungi l'interruttore", "Collega il LED", "Chiudi il circuito al polo -"]},
 		{"explanation": "Si confrontano i valori nella stessa unità: l'ordine delle fasce colorate dice il numero, non la grandezza.", "topic": "misure-elettriche", "minLevel": 5, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
+		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "Si lavora sempre dal generatore verso l'utilizzatore: seguire la corrente nel suo verso e' il modo per non perdersi in un circuito grande.", "topic": "circuito", "prompt": "Ordina i passi per costruire un circuito che accende una lampadina.", "correctOrder": ["Prendi la pila", "Collega il primo filo al polo positivo", "Collega la lampadina", "Chiudi il circuito sul polo negativo"]},
 	],
 	# Logica (mondi 12 e 24). Prima di queste specifiche la logica riceveva
 	# l'ordinamento procedurale di numeri nudi, che dichiarava `topic: "sequenze"`
@@ -1855,6 +1872,14 @@ const CLASSIFICATION := {
 				"«scrivo A mia sorella»": "dativo",
 				"chi subisce l'azione": "accusativo", "il complemento oggetto": "accusativo",
 				"«vedo LA CASA»": "accusativo"}},
+		# --- Terzo smistamento al mondo 1 (7 agosto 2026) ----------------------
+		{"explanation": "Il numero si legge dalla desinenza, non dal senso: -a e -ae distinguono una rosa da molte rose senza bisogno di articoli.", "topic": "declinazioni-base", "draw": 6, "prompt": "Smista ogni forma: singolare o plurale?",
+			"categories": ["singolare", "plurale"],
+			"assignments": {
+				"rosa": "singolare", "puella": "singolare", "silva": "singolare",
+				"aqua": "singolare", "terra": "singolare", "stella": "singolare",
+				"rosae": "plurale", "puellae": "plurale", "silvae": "plurale",
+				"aquae": "plurale", "terrae": "plurale", "stellae": "plurale"}},
 	],
 	"logica": [
 		# L16. Tre gradi di verità invece di due: «a volte vera» è la categoria che

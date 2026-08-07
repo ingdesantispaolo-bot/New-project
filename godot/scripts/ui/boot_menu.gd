@@ -125,6 +125,17 @@ func _build_interface() -> void:
 
 	column.add_child(_build_second_journey_card())
 
+	# La versione, sotto tutto. Serve quando arriva una segnalazione di gioco:
+	# la prima domanda e' sempre «su quale build», e senza questo numero la
+	# risposta e' una ricostruzione a memoria.
+	var versione := Label.new()
+	versione.name = "BuildVersionLabel"
+	versione.text = BuildVersion.etichetta()
+	versione.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	versione.add_theme_font_size_override("font_size", 11)
+	versione.add_theme_color_override("font_color", Color("6f868a"))
+	column.add_child(versione)
+
 ## Chi sta per giocare, e come cambiarlo.
 ##
 ## La riga compare SEMPRE, anche quando il giocatore è uno solo: un bambino che

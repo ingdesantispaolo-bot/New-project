@@ -31,7 +31,28 @@ func _init() -> void:
 		assert(comp.crossings.size() <= WorldCompositionGenerator.GUADI_MAX,
 			"il mondo %d ha %d guadi: una mappa piena di sbarramenti non si esplora" % [
 				livello, comp.crossings.size()])
-		if comp.crossings.size() > 0:
+		# **Ogni mondo ha almeno un passaggio da aprire.** (7 agosto 2026)
+		#
+		# Era la promessa mancata della tappa D: diciotto mondi su ventiquattro
+		# non avevano torrenti, quindi non avevano niente da aprire. Ora dove
+		# manca l'acqua la composizione mette uno sbarramento di terra — una
+		# frana, un cancello, una parete — con la stessa struttura dati.
+		assert(comp.crossings.size() >= 1,
+			"il mondo %d non ha nessun passaggio da aprire, ne d'acqua ne di terra" % livello)
+		var acqua := 0
+		var terra := 0
+		for voce in comp.crossings:
+			if str(Dictionary(voce).get("kind", "")) == "barrier":
+				terra += 1
+				assert(str(Dictionary(voce).get("label", "")).strip_edges() != "",
+					"sbarramento senza nome nel mondo %d" % livello)
+			else:
+				acqua += 1
+		# I due tipi non convivono: dove c'e' l'acqua comanda l'acqua, altrimenti
+		# un mondo avrebbe sia guadi sia muri e la lettura si confonderebbe.
+		assert(acqua == 0 or terra == 0,
+			"il mondo %d mescola guadi d'acqua e sbarramenti di terra" % livello)
+		if acqua > 0:
 			con_guado += 1
 
 		# --- hazard: tre piazzabili ovunque, con i dodici tentativi
@@ -73,5 +94,6 @@ func _init() -> void:
 		"solo %d mondi hanno un guado, erano %d: la generazione dell'acqua è cambiata" % [
 			con_guado, MONDI_CON_GUADO_MIN])
 
-	print("WORLD MECHANICS audit OK — 24 mondi: 3 hazard e 3 edifici ovunque, guadi in %d" % con_guado)
+	print("WORLD MECHANICS audit OK — 24 mondi: un passaggio da aprire ovunque (%d d'acqua, %d di terra), 3 hazard, 3 edifici" % [
+		con_guado, ApparatusConfig.MAX_LEVEL - con_guado])
 	quit(0)

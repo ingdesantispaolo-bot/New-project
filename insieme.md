@@ -919,11 +919,21 @@ ventiquattro, due incoerenze:
 
 Mondi con almeno un guado: 4, 8, 9, 16, 17, 22.
 
-**Il lotto aperto che ne segue.** Perche' «liberare percorsi con una prova
-speciale» valga ovunque servirebbe uno sbarramento che non sia acqua — una frana,
-un cancello, una parete — con la stessa struttura dati del guado. E' lavoro di
-composizione del mondo, non una riparazione, ed e' il pezzo mancante piu' grosso
-dell'esplorazione.
+**Chiuso il 7 agosto 2026.** Dove manca l'acqua la composizione mette uno
+sbarramento di terra — una frana, un cancello dei Primi, una parete incisa — con
+la **stessa struttura dati** del guado: l'enigma ci si aggancia senza che nessuna
+riga a monte cambi. Ora ogni mondo ha almeno un passaggio da aprire: **sei
+d'acqua, diciotto di terra**.
+
+I due tipi non convivono mai nello stesso mondo — dove c'e' l'acqua comanda
+l'acqua — perche' guadi e muri insieme renderebbero illeggibile che cosa apre
+che cosa.
+
+**Il muro e' un segmento, non un anello**: si puo' sempre girargli attorno.
+Aprirlo e' una scorciatoia, non un permesso. E' l'unico modo di rispettare la
+regola di tutta la mappa — niente che sta qui puo' fermare la progressione — e
+un muro che chiudesse davvero rischierebbe di isolare un POI del gate, difetto
+che scoprirebbe un bambino e non un audit.
 
 `world_mechanics_audit` tiene tutto questo: tre hazard e tre edifici piazzabili
 in ogni mondo, guadi mai oltre il tetto, e il numero di mondi con acqua

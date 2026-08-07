@@ -246,6 +246,7 @@ delete document.documentElement.dataset.eliExam;
 		audio.call("play_subject", _world_subject())
 	_publish_web_accessibility_state()
 	_crea_hazard()
+	_crea_sbarramenti()
 	_mostra_soglia_del_mondo()
 
 ## La schermata di benvenuto del mondo, una volta sola per mondo.
@@ -2959,6 +2960,85 @@ func _publish_web_accessibility_state() -> void:
 		"nearestMission": nearest_mission,
 	}))
 
+## **Gli sbarramenti di terra.** (7 agosto 2026)
+##
+## Diciotto mondi su ventiquattro non hanno torrenti, quindi non avevano nessun
+## passaggio da aprire: la prova che apre fisicamente la mappa viveva in sei
+## mondi. La composizione ora vi mette una frana, un cancello o una parete, con
+## la stessa struttura dati del guado — e l'enigma ci si aggancia senza che
+## nessuna riga a monte cambi.
+##
+## **Il muro e' un segmento, non un anello**: si puo' sempre girargli attorno.
+## Aprirlo e' una scorciatoia, non un permesso. E' l'unico modo di rispettare la
+## regola di tutta la mappa — niente che sta qui puo' fermare la progressione —
+## perche' un muro che chiude davvero rischierebbe di isolare un POI del gate, e
+## quel difetto lo scoprirebbe un bambino, non un audit.
+func _crea_sbarramenti() -> void:
+	if chunks == null or chunks.composition == null:
+		return
+	var chiusi: Array = Array(result.get("completedEncounterIds", []))
+	for voce in chunks.composition.crossings:
+		var barriera: Dictionary = voce
+		if str(barriera.get("kind", "")) != "barrier":
+			continue
+		var evento := str(barriera.get("eventId", ""))
+		if evento != "" and chiusi.has(evento):
+			continue   # gia' aperto: la scorciatoia resta aperta per sempre
+		world_layer.add_child(_costruisci_sbarramento(barriera))
+
+func _costruisci_sbarramento(barriera: Dictionary) -> Node2D:
+	var nodo := Node2D.new()
+	nodo.name = "Sbarramento_%s" % str(barriera.get("id", "x")).replace("-", "_")
+	nodo.position = barriera.get("position", Vector2.ZERO)
+	nodo.add_to_group("world_barrier")
+	nodo.set_meta("eventId", str(barriera.get("eventId", "")))
+
+	var tangente: Vector2 = barriera.get("tangent", Vector2.RIGHT)
+	var meta_larghezza := float(barriera.get("halfWidth", 150.0))
+
+	# Il muro: cerchi in fila lungo la tangente, come fa gia' il blocco d'erba
+	# dell'EquipmentGate. Piu' semplice di un rettangolo ruotato, e il giocatore
+	# vede dove finisce.
+	var corpo := StaticBody2D.new()
+	corpo.name = "BarrierBody"
+	var passi := 7
+	for indice in range(passi):
+		var t_lineare := -1.0 + 2.0 * float(indice) / float(passi - 1)
+		var forma := CollisionShape2D.new()
+		var cerchio := CircleShape2D.new()
+		cerchio.radius = 34.0
+		forma.shape = cerchio
+		forma.position = tangente * (t_lineare * meta_larghezza)
+		corpo.add_child(forma)
+	nodo.add_child(corpo)
+
+	var disegno := Line2D.new()
+	disegno.name = "BarrierArt"
+	disegno.width = 26.0
+	disegno.default_color = Color(0.36, 0.30, 0.26, 0.95)
+	disegno.add_point(tangente * -meta_larghezza)
+	disegno.add_point(tangente * meta_larghezza)
+	nodo.add_child(disegno)
+
+	var etichetta := Label.new()
+	etichetta.name = "BarrierLabel"
+	etichetta.text = str(barriera.get("label", "lo sbarramento")).to_upper()
+	etichetta.add_theme_font_size_override("font_size", 13)
+	etichetta.add_theme_color_override("font_color", Color("ffd7a8"))
+	etichetta.position = Vector2(-60, -56)
+	nodo.add_child(etichetta)
+	return nodo
+
+## Quando la prova legata a uno sbarramento e' superata, il muro se ne va.
+func _apri_sbarramento(event_id: String) -> void:
+	if event_id == "":
+		return
+	for nodo in get_tree().get_nodes_in_group("world_barrier"):
+		if str(nodo.get_meta("eventId", "")) == event_id:
+			_set_feedback("Il passaggio si apre: da qui si accorcia.")
+			nodo.queue_free()
+			return
+
 ## **Gli hazard.** (6 agosto 2026)
 ##
 ## `clearedHazardIds` stava nel salvataggio dal primo giorno e la parola
@@ -3912,6 +3992,8 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 				mission_ownership_flow.record_result(encounter_id, session_passed)
 			if session_passed:
 				_complete_learning_reaction(encounter_id)
+				# Se quella prova reggeva uno sbarramento, il muro cade adesso.
+				_apri_sbarramento(encounter_id)
 				if world_life != null:
 					world_life.enqueue_news({
 						"type": str(context.get("kind", "mission")),

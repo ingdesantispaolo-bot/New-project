@@ -1228,7 +1228,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		{"id": "spawn", "position": spawn, "radius": 180.0},
 		{"id": "hero-landmark", "position": _profile_hero_position(ship, level), "radius": 210.0},
 	]
-	_author_stream_crossing(data, spawn, ship)
+	_author_passages(data, spawn, ship)
 	# Mantiene il seed semanticamente visibile negli strumenti di debug senza
 	# usarlo per prendere decisioni didattiche.
 	data.seed = "%s::%s" % [seed, profile_id]
@@ -1269,6 +1269,61 @@ static func _author_stream_crossing(data: WorldCompositionData, spawn: Vector2, 
 	candidati.sort_custom(func(a, b): return float(a["d"]) < float(b["d"]))
 	for indice in range(mini(GUADI_MAX, candidati.size())):
 		_author_single_crossing(data, spawn, Dictionary(candidati[indice])["water"], indice)
+
+## **Sbarramenti di terra, per i mondi senza acqua.** (7 agosto 2026)
+##
+## Misurato: **diciotto mondi su ventiquattro non hanno torrenti**, quindi non
+## avevano nessun passaggio da aprire. La meccanica piu' interessante del gioco —
+## una prova che apre fisicamente una parte di mappa — viveva in sei mondi.
+##
+## Un guado senza acqua non esiste, ma uno SBARRAMENTO si': una frana, un
+## cancello, una parete. Entra nella stessa struttura `crossings`, con
+## `kind: "barrier"`, cosi' l'enigma ci si aggancia esattamente come faceva con
+## l'acqua e nessuna riga a monte cambia.
+##
+## **Non chiude mai una strada, la allunga.** Il muro e' un segmento, non un
+## anello: si puo' sempre girargli attorno. Aprirlo e' una scorciatoia, non un
+## permesso — ed e' l'unico modo di rispettare la regola di tutta la mappa,
+## niente che sta qui puo' fermare la progressione. Un muro che chiude davvero
+## rischierebbe di isolare un POI del gate, e nessun collaudo lo scoprirebbe
+## prima di un bambino.
+const SBARRAMENTO_META_LARGHEZZA := 150.0
+
+static func _author_land_barriers(data: WorldCompositionData, spawn: Vector2, ship: Vector2) -> void:
+	if not data.crossings.is_empty():
+		return   # dove c'e' l'acqua comanda l'acqua
+	var verso := (ship - spawn)
+	if verso.length() < 1.0:
+		verso = Vector2.UP
+	verso = verso.normalized()
+	var etichette := ["la frana", "il cancello dei Primi", "la parete incisa"]
+	for indice in range(GUADI_MAX):
+		# Distribuiti lungo la rotta spawn->nave, a distanze diverse e con una
+		# rotazione: tre muri in fila sullo stesso raggio sarebbero un corridoio.
+		var direzione := verso.rotated(deg_to_rad(-34.0 + 34.0 * float(indice)))
+		var centro := spawn + direzione * (760.0 + 330.0 * float(indice))
+		if data.is_protected(centro, 90.0):
+			continue
+		if data.raw_water_weight(centro) >= 0.4:
+			continue
+		var tangente := Vector2(-direzione.y, direzione.x)
+		data.crossings.append({
+			"id": "barrier-%d" % indice,
+			"kind": "barrier",
+			"label": str(etichette[indice % etichette.size()]),
+			"waterId": "",
+			"position": centro,
+			"approach": centro - direzione * 130.0,
+			"tangent": tangente,
+			"normal": direzione,
+			"halfWidth": SBARRAMENTO_META_LARGHEZZA,
+			"eventId": "",
+		})
+
+## Chiama gli sbarramenti dopo i guadi: se l'acqua c'e', vince l'acqua.
+static func _author_passages(data: WorldCompositionData, spawn: Vector2, ship: Vector2) -> void:
+	_author_stream_crossing(data, spawn, ship)
+	_author_land_barriers(data, spawn, ship)
 
 static func _author_single_crossing(
 	data: WorldCompositionData, spawn: Vector2, selected: Dictionary, indice: int

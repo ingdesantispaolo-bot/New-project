@@ -703,6 +703,7 @@ func _process(delta: float) -> void:
 		_update_pending_touch_interaction()
 		_update_interaction_countdown()
 		_update_pulse_button()
+		_assegna_guardiani()
 		if world_life != null:
 			var view_size := get_viewport_rect().size
 			if is_instance_valid(camera):
@@ -2323,6 +2324,185 @@ func _record_vera_retention() -> void:
 	game_save.data["spacedRepetition"] = repetition
 	if bool(request.get("loadLocalSave", true)):
 		game_save.save()
+
+# ---------------------------------------------------------------------------
+# **I guardiani dei forzieri e il varco.** (7 agosto 2026)
+#
+# Richiesta del committente: gli Sbiaditi devono essere un pericolo vero,
+# devono sorvegliare i bauli, e si devono poter eliminare con un minigioco di
+# riflessi tarato sul progresso del personaggio.
+#
+# Le tre cose sono una sola meccanica. Prima le sacche pattugliavano il vuoto:
+# facevano perdere energia a chi passava di li' per caso, il che e' una tassa,
+# non un pericolo. Un pericolo e' qualcosa che sta **fra te e una cosa che
+# vuoi** — e allora avvicinarsi diventa una decisione invece che un incidente.
+# ---------------------------------------------------------------------------
+
+## Ogni quanto si controlla se sono comparsi forzieri da sorvegliare. I pezzi di
+## mappa entrano ed escono mentre Eli cammina: fare questa scansione a ogni
+## fotogramma sarebbe sprecato, farla una volta sola lascerebbe scoperti tutti i
+## forzieri caricati dopo.
+const GUARDIA_OGNI_MSEC := 900
+
+## **Non tutti i forzieri sono sorvegliati, e non tutti insieme.**
+##
+## Misurato prima di decidere: mettendo una guardiana su ogni forziere scoperto
+## ne comparivano **da otto a quindici in vista contemporaneamente**. Non e' un
+## pericolo, e' un assedio — e un assedio non si affronta, si evita, che e'
+## esattamente il contrario di quello che serviva.
+##
+## Quindi due limiti. Uno su QUALI forzieri: circa uno su tre, scelto
+## dall'identificativo, quindi sempre lo stesso per lo stesso forziere — un
+## premio che a volte e' difeso e a volte no insegnerebbe solo a riprovare. E uno
+## su QUANTI ne sono vivi insieme: quattro. Gli altri forzieri restano liberi, e
+## la scelta fra prendere quello facile o guadagnarsi quello difeso e' il gioco.
+const GUARDIA_UNO_SU := 3
+const GUARDIANI_VIVI_MAX := 4
+## Quanto lontano dallo spawn comincia il territorio dei guardiani: entrare in un
+## mondo e trovarsi una sacca addosso non e' una sfida, e' un'imboscata.
+const GUARDIA_DISTANZA_MINIMA := 420.0
+
+var _guardia_prossima_msec := 0
+## Le sacche gia' create, per identificativo: senza, ogni giro ne creerebbe
+## un'altra sullo stesso forziere.
+var _guardiani: Dictionary = {}
+var duel_panel: ReflexDuelPanel
+
+## Mette una guardiana su ogni forziere scoperto e ancora chiuso.
+func _assegna_guardiani() -> void:
+	var ora := Time.get_ticks_msec()
+	if ora < _guardia_prossima_msec:
+		return
+	_guardia_prossima_msec = ora + GUARDIA_OGNI_MSEC
+	if not is_instance_valid(game_save) or chunks == null or chunks.composition == null:
+		return
+	var raccolti: Array = Array(result.get("collectedTreasureIds", []))
+	for nodo in get_tree().get_nodes_in_group("world_interactable"):
+		if not (nodo is Area2D) or str(nodo.get_meta("kind", "")) != "treasure":
+			continue
+		var id := str(nodo.get_meta("id", ""))
+		if id.is_empty() or raccolti.has(id):
+			continue
+		# Uno su tre, deciso dall'identificativo del forziere: stabile fra una
+		# partita e l'altra, e diverso da forziere a forziere.
+		if posmod(hash(id), GUARDIA_UNO_SU) != 0:
+			continue
+		var guardia_id := "guardia-%s" % id
+		if _guardiani.has(guardia_id):
+			# Se la sacca e' stata sciolta il riferimento resta ma non e' piu'
+			# valido: non se ne ricrea un'altra, ed e' il punto.
+			continue
+		if game_save.enemy_defeated(str(world_level), guardia_id):
+			continue
+		var posto: Vector2 = (nodo as Area2D).global_position
+		if posto.distance_to(WorldProfileCatalog.SPAWN) < GUARDIA_DISTANZA_MINIMA:
+			continue
+		if _guardiani_vivi() >= GUARDIANI_VIVI_MAX:
+			# Il tetto vale sui VIVI, non sui creati: scioglierne una fa spazio
+			# alla successiva, e la mappa resta popolata senza mai affollarsi.
+			return
+		var sacca := WORLD_ENEMY_SCRIPT.new()
+		sacca.name = "Guardiano_%s" % guardia_id.replace("-", "_")
+		var accento := chunks.composition.blended_accent(posto)
+		# La guardiana nasce accanto al forziere, non sopra: sopra coprirebbe il
+		# forziere e un premio che non si vede non si desidera.
+		sacca.setup(self, posto + Vector2(0, -54), world_level, _world_subject(), accento, _guardiani.size())
+		sacca.reduced_motion = reduced_motion
+		sacca.sorveglia(id)
+		sacca.set_meta("guardId", guardia_id)
+		world_layer.add_child(sacca)
+		_guardiani[guardia_id] = sacca
+		_rendi_sfidabile(sacca)
+
+func _guardiani_vivi() -> int:
+	var quante := 0
+	for sacca in _guardiani.values():
+		if is_instance_valid(sacca):
+			quante += 1
+	return quante
+
+## La sacca diventa avvicinabile come qualunque altra cosa della mappa: stesso
+## gesto, stesso pulsante contestuale. Senza questo si potrebbe solo subirla.
+func _rendi_sfidabile(sacca: Node2D) -> void:
+	var area := Area2D.new()
+	area.name = "EnemyChallenge"
+	area.set_meta("kind", "enemy")
+	area.set_meta("id", str(sacca.get_meta("guardId", "")))
+	area.add_to_group("world_interactable")
+	var forma := CollisionShape2D.new()
+	var cerchio := CircleShape2D.new()
+	cerchio.radius = INTERACTION_DISTANCE
+	forma.shape = cerchio
+	area.add_child(forma)
+	sacca.add_child(area)
+	area.body_entered.connect(func(body): on_interactable_entered(area, body))
+	area.body_exited.connect(func(body): on_interactable_exited(area, body))
+
+## La guardiana viva di un forziere, se c'e'.
+func _guardiano_di(treasure_id: String) -> Node2D:
+	var sacca = _guardiani.get("guardia-%s" % treasure_id, null)
+	return sacca as Node2D if is_instance_valid(sacca) else null
+
+## **Il varco.** Si apre il duello con le regole calcolate sul grado di Eli e su
+## quello della sacca: e' l'unico posto in cui la potenza accumulata cambia le
+## regole invece del prezzo.
+func _sfida_guardiano(sacca: Node2D) -> void:
+	if not is_instance_valid(sacca) or is_instance_valid(duel_panel):
+		return
+	if is_instance_valid(exercise_player) and exercise_player.visible:
+		return
+	var tier := int(sacca.get("tier"))
+	var grado := WorldLight.grado(game_save)
+	var regole := ReflexDuel.regole(tier, grado)
+	duel_panel = ReflexDuelPanel.new()
+	duel_panel.name = "ReflexDuelPanel"
+	duel_panel.risolto.connect(func(vinto: bool): _chiudi_varco(sacca, vinto))
+	ui_layer.add_child(duel_panel)
+	duel_panel.avvia(regole, str(sacca.get("enemy_name")), reduced_motion)
+	# Eli si ferma: il duello e' modale, e lasciarla camminare sotto un pannello
+	# a tutto schermo la fa finire chissa' dove.
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+
+func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
+	if is_instance_valid(duel_panel):
+		duel_panel.queue_free()
+		duel_panel = null
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	if not is_instance_valid(sacca):
+		return
+	var tier := int(sacca.get("tier"))
+	var grado := WorldLight.grado(game_save)
+	if vinto:
+		var guardia_id := str(sacca.get_meta("guardId", ""))
+		if guardia_id != "":
+			game_save.mark_enemy_defeated(str(world_level), guardia_id)
+		var premio := ReflexDuel.premio_frammenti(tier)
+		gameplay.collect_treasure({"rewardFragments": premio}, "varco-%s" % guardia_id)
+		sacca.call("elimina")
+		game_save.save()
+		_set_feedback("Sciolta. Il forziere è libero, e restano %d frammenti nel varco." % premio)
+		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
+		_refresh_economy()
+		if is_instance_valid(pet_companion):
+			pet_companion.react()
+	else:
+		# **Perdere non chiude niente.** La sacca resta, il forziere resta, si
+		# torna quando si e' piu' forti. Il costo e' lo stesso del morso: chi ci
+		# prova e sbaglia non deve stare peggio di chi gira alla larga.
+		var costo := mini(ReflexDuel.costo_sconfitta(tier, grado), game_save.energy())
+		if costo > 0:
+			game_save.spend_energy(costo)
+			game_save.save()
+			_spawn_gain_popup("−%d" % costo, Color("ff9b8a"))
+			_refresh_economy()
+		# Un attimo di respiro: senza, la sacca e' addosso a Eli nell'istante in
+		# cui il pannello si chiude e il duello ricomincia da solo.
+		sacca.call("stun", 2.5)
+		_set_feedback("Il varco si è chiuso%s. La sacca è ancora lì: torna più forte." % (
+			" (−%d energia)" % costo if costo > 0 else ""))
+	_refresh_prompt()
 
 func _create_world_enemies() -> void:
 	if mission_events.is_empty() or chunks == null or chunks.composition == null:
@@ -4332,6 +4512,8 @@ func _interaction_action_text(target: Area2D) -> String:
 			return str(Dictionary(target.get_meta("payload", {})).get("verbo", "RIPARA"))
 		"minigame":
 			return "ALLENATI"
+		"enemy":
+			return "AFFRONTA"
 		"treasure":
 			return "RACCOGLI"
 		"encounter":
@@ -4396,6 +4578,11 @@ func _interact() -> void:
 	if kind == "hazard":
 		_sgombra_hazard(target)
 		return
+	if kind == "enemy":
+		var sacca := target.get_parent()
+		if is_instance_valid(sacca):
+			_sfida_guardiano(sacca)
+		return
 	if kind == "vault_lock":
 		_apri_camera()
 		return
@@ -4436,6 +4623,15 @@ func _interact() -> void:
 		var payload: Dictionary = target.get_meta("payload")
 		if not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
+			return
+		# **Il forziere e' sorvegliato.** Richiesta del committente: gli Sbiaditi
+		# proteggono i bauli. Finche' la guardiana e' viva la cassa non si apre —
+		# e siccome dentro ci sono frammenti, cioe' cosmetici, questa e' l'unica
+		# cosa del gioco che una prova di abilita' puo' lecitamente chiudere.
+		var guardiano := _guardiano_di(id)
+		if is_instance_valid(guardiano):
+			_set_feedback("%s sorveglia questo forziere. Affrontalo nel varco per scioglierlo." % str(guardiano.get("enemy_name")))
+			_sfida_guardiano(guardiano)
 			return
 		var collected: Array = result["collectedTreasureIds"]
 		if collected.has(id):

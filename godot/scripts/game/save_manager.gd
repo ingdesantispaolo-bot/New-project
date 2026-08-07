@@ -599,6 +599,25 @@ func mark_hazard_cleared(world_id: String, hazard_id: String) -> bool:
 	data["worldProgress"] = tutti
 	return true
 
+## Una sacca sciolta nel varco resta sciolta: chi ha vinto il duello non deve
+## rigiocarlo per lo stesso forziere. Vive nel progresso del mondo insieme agli
+## hazard sgombrati, che e' la stessa specie di fatto: una cosa che era li' e non
+## c'e' piu'.
+func mark_enemy_defeated(world_id: String, enemy_id: String) -> bool:
+	var progresso := world_progress(world_id)
+	var sciolte: Array = Array(progresso.get("defeatedEnemyIds", []))
+	if sciolte.has(enemy_id):
+		return false
+	sciolte.append(enemy_id)
+	progresso["defeatedEnemyIds"] = sciolte
+	var tutti: Dictionary = data.get("worldProgress", {})
+	tutti[world_id] = progresso
+	data["worldProgress"] = tutti
+	return true
+
+func enemy_defeated(world_id: String, enemy_id: String) -> bool:
+	return Array(world_progress(world_id).get("defeatedEnemyIds", [])).has(enemy_id)
+
 ## Segna una pergamena come trovata. Ritorna falso se c'era gia': la camera si
 ## apre una volta sola, e il tesoro dentro non si raccoglie due volte.
 func claim_parchment(level: int) -> bool:

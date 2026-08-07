@@ -976,6 +976,51 @@ nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
 
 ---
 
+## Gli Sbiaditi diventano un pericolo: i guardiani e il varco (7 agosto 2026)
+
+Richiesta del committente: «i nemici devono essere un pericolo e rendere
+sfidante muoversi nella mappa, i nemici proteggono i bauli con i frammenti.
+Sarebbe interessante poterli eliminare con un minigioco di riflessi ed in base
+al progresso del personaggio».
+
+**Perche' prima non erano un pericolo.** Le sacche pattugliavano il vuoto e
+facevano perdere energia a chi passava di li'. Quella e' una **tassa**, non un
+pericolo: non c'era niente da difendere e quindi niente da conquistare. Un
+pericolo e' qualcosa che sta **fra te e una cosa che vuoi** — e allora
+avvicinarsi diventa una decisione invece che un incidente.
+
+**Cosa sorvegliano, e perche' proprio quello.** I forzieri contengono
+frammenti, cioe' cosmetici: **niente che serva a progredire**. E' la condizione
+che rende lecito mettere una prova di abilita' davanti a un premio in un gioco
+che si studia — chi non vuole giocare di riflessi finisce la campagna
+esattamente come prima, e si perde solo i vestiti. Se un giorno qualcosa di
+necessario finisse dietro una sacca, questa riga e' la prova che e' un errore.
+
+**Il varco.** Un cursore corre su una pista, un tratto e' il varco, si colpisce
+quando ci passa dentro. Tre leve si muovono col grado di potenza di Eli: il
+varco e' **piu' largo**, il cursore va **piu' piano**, si possono sbagliare
+**piu' colpi**. Tutte e tre si muovono al contrario col grado della sacca. Una
+sacca molto piu' forte diventa cosi' *oggettivamente difficile* invece che
+semplicemente costosa: e' la differenza fra un pedaggio e un pericolo.
+
+**La misura che ha cambiato il progetto in corsa.** Alla prima versione ogni
+forziere aveva la sua guardiana: **da otto a quindici in vista insieme**. Non e'
+un pericolo, e' un assedio — e un assedio non si affronta, si evita. Ora ne e'
+difeso circa **uno su tre**, deciso dall'identificativo del forziere (stabile:
+un premio a volte difeso e a volte no insegnerebbe solo a riprovare), con un
+tetto di **quattro guardiani vivi** e un raggio franco attorno allo spawn.
+Misurato dopo: da uno a quattro. La scelta fra prendere il forziere facile o
+guadagnarsi quello difeso e' il gioco.
+
+**Due regole che l'audit protegge** (`reflex_duel_audit`): nessuna combinazione
+di gradi produce un varco sotto il 5% della pista (a quel punto non e'
+difficile, e' casuale) ne' sopra il 50% (a quel punto e' un regalo); e
+**perdere il duello non costa mai piu' di un morso** — se costasse di piu', la
+scelta razionale sarebbe girare alla larga, e il minigioco non lo giocherebbe
+nessuno.
+
+---
+
 ## Le minimissioni: piano ed esecuzione (7 agosto 2026)
 
 Nasce dalla domanda rimasta aperta dopo il collaudo — «cosa puo' succedere sulla

@@ -27,6 +27,18 @@ extends CharacterBody2D
 ## assorbe, una traversata fatta di sacche no.
 const COSTO_PER_GRADO := 2
 
+## **Il forziere che questa sacca sorveglia**, vuoto se pattuglia e basta.
+##
+## Richiesta del committente del 7 agosto 2026: «i nemici proteggono i bauli con
+## i frammenti». Una guardiana non si allontana mai dal suo forziere: il suo
+## raggio di inseguimento e' piu' corto ma dentro quel raggio e' molto piu'
+## aggressiva, e finche' e' viva il forziere non si apre.
+##
+## Il forziere contiene frammenti, cioe' cosmetici: **niente che serva a
+## progredire**. E' la condizione che rende lecito metterci davanti una prova di
+## abilita' in un gioco che si studia.
+var treasure_id := ""
+
 var world: Node
 var anchor := Vector2.ZERO
 var tier := 1
@@ -178,9 +190,19 @@ func _physics_process(delta: float) -> void:
 	var player := world.get("player") as CharacterBody2D
 	if is_instance_valid(player):
 		var distance := global_position.distance_to(player.global_position)
-		if distance < 250.0 + tier * 20.0:
+		# La guardiana ha un guinzaglio corto e una soglia bassa: non insegue per
+		# mezza mappa — sarebbe fastidio, non pericolo — ma chi si avvicina al
+		# forziere se la trova addosso subito.
+		var soglia := 190.0 + tier * 12.0 if treasure_id != "" else 250.0 + tier * 20.0
+		if distance < soglia:
 			target = player.global_position
+		if treasure_id != "" and anchor.distance_to(target) > 260.0:
+			target = anchor
 	var speed := 74.0 + float(tier) * 11.0
+	if treasure_id != "":
+		# Una guardiana e' piu' svelta dentro il suo territorio: e' li' che deve
+		# essere un pericolo, ed e' li' che c'e' qualcosa da difendere.
+		speed += 26.0
 	velocity = global_position.direction_to(target) * speed
 	if global_position.distance_to(target) < 8.0:
 		velocity = Vector2.ZERO
@@ -200,6 +222,35 @@ func stun(seconds: float = 5.0) -> void:
 	tween.set_parallel(true)
 	tween.tween_property(self, "modulate", Color(0.78, 0.98, 1.0, 0.96), 0.18)
 	tween.tween_property(self, "scale", Vector2.ONE * 0.94, 0.18)
+
+## Mette questa sacca di guardia a un forziere. Si chiama DOPO `setup`, perche'
+## chi crea le sacche scopre i forzieri solo quando il pezzo di mappa che li
+## contiene e' stato costruito.
+func sorveglia(id: String) -> void:
+	treasure_id = id
+	var label := get_node_or_null("EnemyLabel") as Label
+	if label != null:
+		label.text = "GUARDIANO · T%d" % tier
+		label.accessibility_name = "%s, guardiano di un forziere; si scioglie vincendo il varco" % enemy_name
+
+## **Sciolta per sempre.** Non e' uno stordimento: la sacca sparisce, il
+## forziere che sorvegliava si apre, e rientrando nel mondo non la si ritrova.
+## Chi ha vinto il duello non deve rigiocarlo per lo stesso premio.
+func elimina() -> void:
+	set_meta("stabilized", true)
+	remove_from_group("world_enemy")
+	if is_instance_valid(body_shape):
+		body_shape.set_deferred("disabled", true)
+	if is_instance_valid(contact_area):
+		contact_area.set_deferred("monitoring", false)
+	if reduced_motion:
+		queue_free()
+		return
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "modulate:a", 0.0, 0.45)
+	tween.tween_property(self, "scale", Vector2.ONE * 0.3, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tween.chain().tween_callback(queue_free)
 
 func is_stunned() -> bool:
 	return Time.get_ticks_msec() < stunned_until_msec

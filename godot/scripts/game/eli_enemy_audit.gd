@@ -58,8 +58,29 @@ func _run() -> void:
 	root.add_child(world)
 	await process_frame
 	await process_frame
-	var enemies := get_nodes_in_group("world_enemy")
-	assert(enemies.size() == 2, "il mondo 7 deve scalare a due anomalie, trovate %d" % enemies.size())
+	# **Due popolazioni, non una.** (7 agosto 2026)
+	#
+	# Le sacche che pattugliano scalano col mondo, e quella regola resta. Dal
+	# 7 agosto ce ne sono anche di GUARDIANE, una per forziere scoperto: quelle
+	# non seguono il conteggio del mondo — seguono i forzieri, che compaiono e
+	# spariscono mentre la mappa scorre. Contarle insieme faceva fallire questo
+	# audit su una regola che non e' mai stata violata.
+	var tutte := get_nodes_in_group("world_enemy")
+	var enemies: Array = []
+	var guardiani: Array = []
+	for sacca in tutte:
+		if str(sacca.get("treasure_id")).is_empty():
+			enemies.append(sacca)
+		else:
+			guardiani.append(sacca)
+	assert(enemies.size() == 2, "il mondo 7 deve scalare a due anomalie in pattuglia, trovate %d" % enemies.size())
+	# Una guardiana senza forziere sarebbe una sacca piazzata a caso con
+	# un'etichetta diversa: il legame col premio e' tutto il senso della cosa.
+	for guardia in guardiani:
+		assert(not str(guardia.get("treasure_id")).is_empty(),
+			"guardiano senza forziere da sorvegliare")
+		assert(guardia.find_child("EnemyChallenge", true, false) != null,
+			"guardiano che non si puo' affrontare: si potrebbe solo subire")
 	for enemy in enemies:
 		assert(str(enemy.get("enemy_name")).begins_with("Sbiadito"),
 			"sentinella legacy non rinominata: %s" % str(enemy.get("enemy_name")))

@@ -15,6 +15,7 @@ extends SceneTree
 func _init() -> void:
 	_prova_contenuto()
 	_prova_una_volta_sola()
+	await _prova_pannello()
 	print("PARCHMENT audit OK — 24 pergamene distinte, camera apribile una volta sola")
 	quit(0)
 
@@ -57,3 +58,41 @@ func _prova_una_volta_sola() -> void:
 	assert(save.parchment_count() == 1, "il conteggio delle pergamene è sbagliato")
 	assert(save.claim_parchment(7), "aprire una camera ha consumato quella di un altro mondo")
 	assert(save.parchment_count() == 2, "il conteggio non segue le camere aperte")
+
+
+## Il pannello: la pergamena si legge, non si perde in una riga di HUD.
+##
+## E' lo stesso difetto gia' commesso col briefing dei mondi, che finiva nella
+## riga dei costi d'energia e veniva sostituito dal primo messaggio successivo.
+func _prova_pannello() -> void:
+	for livello in [1, 12, 24]:
+		var pannello := ParchmentPanel.new()
+		pannello.livello = livello
+		pannello.trovate = 3
+		pannello.totali = ApparatusConfig.MAX_LEVEL
+		get_root().add_child(pannello)
+		# Un frame: in uno script SceneTree `_ready` del pannello non e' ancora
+		# passato quando `add_child` ritorna, e i figli non esistono. E' lo
+		# stesso motivo per cui le altre prove di scena aspettano.
+		await process_frame
+
+		var autore := pannello.find_child("ParchmentAuthor", true, false) as Label
+		var testo := pannello.find_child("ParchmentText", true, false) as Label
+		var conteggio := pannello.find_child("ParchmentCount", true, false) as Label
+		var chiudi := pannello.find_child("CloseButton", true, false) as Button
+
+		assert(autore != null and autore.text.strip_edges() != "",
+			"il pannello del mondo %d non mostra l'autore" % livello)
+		assert(testo != null and testo.text.length() > 80,
+			"il pannello del mondo %d non mostra il testo della pergamena" % livello)
+		assert(str(ParchmentCatalog.per_world(livello).get("testo", "")) in testo.text,
+			"il pannello del mondo %d mostra un testo che non e' la sua pergamena" % livello)
+		assert(conteggio != null and conteggio.text.contains("3"),
+			"il pannello non dice quante pergamene sono state trovate")
+		# Richiudibile: senza il pulsante il pannello sarebbe una trappola a
+		# schermo intero, e Eli resterebbe ferma per sempre.
+		assert(chiudi != null, "il pannello della pergamena non si puo' chiudere")
+		assert(chiudi.custom_minimum_size.y >= 48.0,
+			"il pulsante di chiusura e' sotto il bersaglio minimo per un dito")
+
+		pannello.queue_free()

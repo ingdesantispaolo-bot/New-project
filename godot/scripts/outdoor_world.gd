@@ -3085,12 +3085,28 @@ func _sciogli_camera() -> void:
 	game_save.save()
 	_mostra_pergamena()
 
+## La pergamena ha un pannello suo, e non la riga di feedback dell'HUD.
+##
+## In quella riga finiva il briefing dei mondi, e lì veniva sostituito dal
+## primo messaggio successivo: è un difetto già commesso una volta in questo
+## progetto, e la pergamena è il testo più denso che il gioco consegni fuori da
+## una lezione. Eli si ferma mentre si legge, come alla soglia di un mondo.
 func _mostra_pergamena() -> void:
-	var testo := ParchmentCatalog.testo_completo(world_level)
-	if testo == "":
+	if not ParchmentCatalog.esiste(world_level) or not is_instance_valid(ui_layer):
 		return
-	_set_feedback("Pergamena %d di %d — %s" % [
-		game_save.parchment_count(), ApparatusConfig.MAX_LEVEL, testo.replace("\n\n", " ")])
+	var pannello := ParchmentPanel.new()
+	pannello.name = "ParchmentPanel"
+	pannello.livello = world_level
+	pannello.trovate = game_save.parchment_count()
+	pannello.totali = ApparatusConfig.MAX_LEVEL
+	pannello.chiusa.connect(func():
+		if is_instance_valid(pannello):
+			pannello.queue_free()
+		if is_instance_valid(player):
+			player.set_physics_process(true))
+	ui_layer.add_child(pannello)
+	if is_instance_valid(player):
+		player.set_physics_process(false)
 
 ## **Gli sbarramenti di terra.** (7 agosto 2026)
 ##

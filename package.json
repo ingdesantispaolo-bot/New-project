@@ -24,7 +24,8 @@
     "audit:mission-layout": "node scripts/audit-mission-layout.mjs",
     "preview": "vite preview --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "preview:lan": "vite preview --config vite.config.mjs --configLoader native --host 0.0.0.0",
-    "audit:godot": "node scripts/run-godot-audits.mjs"
+    "audit:godot": "node scripts/run-godot-audits.mjs",
+    "version:stamp": "python scripts/stamp-version.py"
   },
   "devDependencies": {
     "@types/howler": "^2.2.12",

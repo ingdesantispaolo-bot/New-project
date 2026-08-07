@@ -122,6 +122,58 @@ if (sorgentePiuRecente.mtimeMs > pck.mtimeMs) {
   );
 }
 
+// --- La versione mostrata deve essere quella del codice esportato ----------
+//
+// Aggiunto il 7 agosto 2026 su richiesta: «assicuriamoci che facendo push la
+// versione online sia aggiornata».
+//
+// Il difetto che intercetta e' reale ed era gia' successo: si marchia la
+// versione con il commit corrente, si esporta, e poi si committa tutto — il
+// commit nuovo contiene una build che dichiara il commit PRECEDENTE. Finche' fra
+// i due non e' cambiato nessun sorgente, e' solo contabilita'. Se invece nel
+// frattempo il codice e' cambiato, la build online mente su cosa sta eseguendo,
+// ed e' esattamente il numero che serve quando arriva una segnalazione di gioco.
+//
+// Il controllo non pretende che il commit marchiato sia HEAD — impossibile,
+// perche' il commit che porta la build non esiste ancora quando si marchia.
+// Pretende che **fra il commit marchiato e HEAD non sia cambiato nessun
+// sorgente del gioco**.
+try {
+  const versione = await readFile(path.join(root, "godot/scripts/game/build_version.gd"), "utf8");
+  const sha = versione.match(/const COMMIT := "([0-9a-f]+)"/)?.[1] ?? "";
+  if (sha === "") {
+    failures.push(
+      "godot/scripts/game/build_version.gd non dichiara nessun commit: "
+      + "lancia `npm run version:stamp` prima di esportare.",
+    );
+  } else {
+    const { execSync } = await import("node:child_process");
+    // Niente redirezioni di shell: `execSync` usa cmd.exe su Windows, dove
+    // `2>/dev/null` non esiste e fa fallire il comando con un messaggio che
+    // non c'entra niente. Gli errori li prende il try/catch qui attorno.
+    const cambiati = execSync(
+      `git diff --name-only ${sha} HEAD -- godot/ scripts/`,
+      { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+    )
+      .split("\n")
+      .map((r) => r.trim())
+      // Il file della versione e il suo `.uid` non contano: cambiano PER
+      // definizione fra il commit marchiato e quello che porta la build.
+      .filter((r) => r !== "" && !r.includes("build_version.gd"));
+    if (cambiati.length > 0) {
+      failures.push(
+        `la versione mostrata (${sha}) non e' quella del codice: da allora sono `
+        + `cambiati ${cambiati.length} file, fra cui ${cambiati[0]}. `
+        + "Lancia `npm run version:stamp`, riesporta e risincronizza prima del push.",
+      );
+    }
+  }
+} catch (errore) {
+  // Fuori da un repository git il controllo non si puo' fare, e non deve
+  // bloccare una build: si dichiara invece di fallire in silenzio.
+  console.log(`        (versione non verificata: ${errore.code ?? errore.message})`);
+}
+
 if (failures.length > 0) {
   console.error(`WEB RELEASE audit ROSSO\n- ${failures.join("\n- ")}`);
   process.exitCode = 1;

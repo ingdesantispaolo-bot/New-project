@@ -26,8 +26,12 @@ const STATE_ORDER := [STATE_UNKNOWN, STATE_ENCOUNTERED, STATE_CONSULTED, STATE_A
 # Argomenti prodotti dal generatore di matematica (il banco statico ha solo
 # "tabelline"): concetti scolastici noti, autorati brevemente.
 const MATH_CONCEPTS := {
-	"tabelline": {"short": "Moltiplicare è contare gruppi uguali: 4×3 sono quattro gruppi da tre.", "example": "6 × 7 = 42", "error": "Sommare invece di moltiplicare (6+7=13).", "why": "La moltiplicazione ripete un gruppo, non lo aggiunge una volta sola."},
-	"calcolo": {"short": "Un passo alla volta, rispettando l'ordine delle operazioni.", "example": "12 + 3 × 2 = 12 + 6 = 18", "error": "Fare 12+3 prima di 3×2.", "why": "Moltiplicazioni e divisioni vengono prima di somme e sottrazioni."},
+	# `prompt` e `answer` separati: l'esempio svolto deve mostrare la DOMANDA e
+	# poi la risposta, altrimenti la scheda dice «Risultato: 6 × 7 = 42» senza
+	# aver mai posto la domanda — e un esempio senza domanda non insegna il
+	# procedimento, mostra un fatto.
+	"tabelline": {"short": "Moltiplicare è contare gruppi uguali: 4×3 sono quattro gruppi da tre.", "prompt": "Quanto fa 6 × 7?", "example": "42", "error": "Sommare invece di moltiplicare (6+7=13).", "why": "La moltiplicazione ripete un gruppo, non lo aggiunge una volta sola.", "how": "Sei gruppi da sette: 7, 14, 21, 28, 35, 42."},
+	"calcolo": {"short": "Un passo alla volta, rispettando l'ordine delle operazioni.", "prompt": "Quanto fa 12 + 3 × 2?", "example": "18", "error": "Fare 12+3 prima di 3×2.", "why": "Moltiplicazioni e divisioni vengono prima di somme e sottrazioni.", "how": "Prima 3 × 2 = 6, poi 12 + 6 = 18."},
 	"divisioni": "Dividere è distribuire in parti uguali o vedere quante volte una quantità sta in un'altra.",
 	"frazioni": "Una frazione indica parti di un intero: il denominatore quante parti, il numeratore quante ne prendi.",
 	"percentuali": "La percentuale è una frazione su 100: 25% significa 25 ogni 100.",
@@ -98,7 +102,15 @@ func entry_for(subject: String, topic: String) -> Dictionary:
 		var example := "" if typeof(mc) != TYPE_DICTIONARY else str(mc.get("example", ""))
 		var err := "" if typeof(mc) != TYPE_DICTIONARY else str(mc.get("error", ""))
 		var why := "" if typeof(mc) != TYPE_DICTIONARY else str(mc.get("why", ""))
-		return _entry(subject, topic, 1, short_text, {"prompt": "", "answer": example, "explanation": short_text}, {"wrong": err, "why": why}, strategy)
+		var domanda := "" if typeof(mc) != TYPE_DICTIONARY else str(mc.get("prompt", ""))
+		var come := "" if typeof(mc) != TYPE_DICTIONARY else str(mc.get("how", ""))
+		if domanda.is_empty():
+			# Concetti senza esempio autorato: l'esempio e' la spiegazione stessa,
+			# ed e' meglio dirlo che fingere un procedimento che non c'e'.
+			domanda = "Guardiamo un caso: %s" % short_text
+		return _entry(subject, topic, 1, short_text,
+			{"prompt": domanda, "answer": example, "explanation": come if not come.is_empty() else short_text},
+			{"wrong": err, "why": why}, strategy)
 
 	# 2) Raccolta dal banco: usa l'item più semplice come esempio svolto.
 	var item := _sample_item(subject, topic)

@@ -976,6 +976,81 @@ nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
 
 ---
 
+## Insegnare prima di chiedere (7 agosto 2026)
+
+Segnalazione del committente, ed e' un richiamo alla promessa del prodotto:
+«gli esercizi di fisica e circuiti interrogano su argomenti di non competenza
+per un bambino di 10 anni. Lo scopo del programma e' didattico non
+interrogatorio su argomenti mai visti. Ripeto: dobbiamo insegnare e non testare
+competenze che il bambino non ha mai visto».
+
+### La misura, che ha dato ragione alla segnalazione e l'ha allargata
+
+Il meccanismo «NORA spiega prima di chiedere» esisteva da tempo. Leggeva pero'
+il topic del **primo nodo** della sessione e si fermava li' — e una sessione ha
+tre nodi, spesso su argomenti diversi.
+
+Misurato su 1440 nodi in dodici materie: **il 60,6% delle domande arrivava su un
+argomento mai spiegato in quella sessione**. E in modo uniforme: matematica 68,
+italiano 77, fisica 73, elettronica 73. Non era un difetto di fisica — era la
+regola, e fisica ed elettronica lo facevano solo notare di piu' perche' i loro
+argomenti sono i piu' lontani dall'esperienza di un bambino.
+
+**Dopo la correzione: 0,1%**, e i pochi residui erano un difetto del mio
+controllo (due nodi sullo stesso argomento: la lezione sta sul primo, ed e'
+giusto cosi').
+
+### Che cosa e' cambiato
+
+| | |
+|---|---|
+| la lezione copre **ogni** argomento nuovo | `outdoor_gameplay.gd`, `_decorate_teaching_session` |
+| la scheda compare **davanti alla sua domanda**, non tutta in testa | `exercise_player.gd`, lezione sul nodo |
+| il manuale e' raggiungibile **prima** di sbagliare | `SPIEGA CON NORA` sempre visibile fuori dall'esame |
+| l'esempio svolto di matematica aveva la risposta ma non la domanda | `knowledge_codex.gd`, `prompt`/`answer` separati |
+| il controllo che tiene tutto | `teach_before_ask_audit` |
+
+Tre spiegazioni di fila all'inizio si leggono come un muro e non se ne ricorda
+nessuna: la scheda compare quando serve, ed e' il motivo per cui la lezione
+viaggia sul nodo invece che sulla sessione.
+
+### I quesiti che non insegnavano niente
+
+Quarantotto item su 3412 erano generati da modelli: «Quale affermazione descrive
+correttamente <etichetta>?» e «Lavorando su <etichetta>, quale errore bisogna
+evitare?». Chiedono di riconoscere la definizione di un'**etichetta**, con
+distrattori «veri ma di un altro argomento» — non si puo' rispondere senza aver
+letto quella frase esatta, e la spiegazione lo ammetteva: «le altre sono vere ma
+parlano d'altro».
+
+I **26** di fisica e musica sono stati riscritti in domande concrete: il chilo di
+piombo e il chilo di piume, le racchette da neve, il lampo e il tuono, la battuta
+di 4/4 con dentro una minima. La spiegazione adesso dice il **procedimento**, non
+il verdetto.
+
+Riscrivendoli avevo messo la risposta giusta sempre in prima posizione, e le
+opzioni **non vengono rimescolate a runtime**: sarebbe stato un regalo. Ora la
+posizione e' distribuita in modo uniforme e deterministico dall'id.
+
+### Quello che NON e' stato fatto, e quanto costa
+
+La richiesta contiene una seconda meta' che e' un programma, non una
+correzione: **«minigiochi che insegnino i concetti, e domande a scelta multipla
+solo nell'esame di livello»**.
+
+Misurato: la scelta multipla e' il **70-80% di ogni banco**, in tutte e dodici le
+materie (2545 item su 3412). Toglierla fuori dall'esame vuol dire che le forme
+interattive devono reggere **quattro esercizi su cinque** invece di uno su
+cinque. Non e' una modifica: e' il ribaltamento del programma di contenuto, e
+farlo a meta' lascerebbe i mondi senza niente da estrarre.
+
+Restano aperte, dichiarate: i **22 quesiti sui componenti elettronici** (rele',
+condensatore) — li' il problema non e' la forma della domanda ma il fatto che un
+decenne non ha mai visto l'oggetto, e la risposta giusta e' un minigioco che
+glielo faccia montare; e i **dialoghi con NORA** che spieghino i concetti.
+
+---
+
 ## Gli Sbiaditi diventano un pericolo: i guardiani e il varco (7 agosto 2026)
 
 Richiesta del committente: «i nemici devono essere un pericolo e rendere

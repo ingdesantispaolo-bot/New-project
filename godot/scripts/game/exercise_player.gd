@@ -57,6 +57,10 @@ var _answered := false
 var _missed: Array = []       # topic sbagliati → ripasso spaziato
 var _reviewed_ok: Array = []  # topic di ripasso risolti correttamente
 var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per-topic)
+## Gli argomenti gia' spiegati in QUESTA sessione. Due nodi sullo stesso
+## argomento non devono far leggere la stessa scheda due volte: la seconda si
+## chiude senza guardarla, e da li' in poi si chiudono tutte.
+var _lezioni_mostrate: Dictionary = {}
 var _topic_correct: Dictionary = {}  # topic -> risposte corrette
 var _wrong_attempts: Dictionary = {}  # topic -> tentativi errati nella sessione
 var _struggle_emitted: Dictionary = {}  # topic -> già segnalato in questa sessione
@@ -165,6 +169,7 @@ func start_session(new_session: Dictionary) -> void:
 	_missed = []
 	_reviewed_ok = []
 	_topic_seen = {}
+	_lezioni_mostrate = {}
 	_topic_correct = {}
 	_wrong_attempts = {}
 	_struggle_emitted = {}
@@ -518,11 +523,37 @@ func _exercise_button_style(fill: Color, border: Color) -> StyleBoxFlat:
 ## integralmente l'esercizio e lo rende raggiungibile soltanto dopo che lo
 ## studente ha letto la spiegazione. Il layout è scrollabile e il CTA è alto
 ## 56 px, quindi resta usabile anche su tablet.
+## **Una spiegazione per ogni argomento nuovo, davanti alla sua domanda.**
+## (7 agosto 2026)
+##
+## Prima questa scheda compariva una volta sola, all'apertura della sessione, e
+## spiegava l'argomento del PRIMO nodo. Gli altri due arrivavano nudi: misurato,
+## il 60,6% delle domande cadeva su un argomento mai spiegato li' dentro.
+##
+## Adesso la lezione viaggia sul nodo e la scheda compare **subito prima della
+## domanda a cui serve**. Metterle tutte in testa sarebbe stato piu' semplice da
+## scrivere e peggio da leggere: tre spiegazioni di fila si leggono come un muro
+## e non se ne ricorda nessuna. Una spiegazione serve quando serve.
 func _show_teaching_overlay() -> void:
 	var lesson: Dictionary = session.get("teachingLesson", {})
 	var moment := str(session.get("teachingMoment", "none"))
+	var linea := str(session.get("teachingLine", ""))
+	if _index >= 0 and _index < _nodes.size():
+		var nodo: Dictionary = _nodes[_index]
+		if nodo.has("teachingLesson"):
+			lesson = nodo.get("teachingLesson", {})
+			moment = str(nodo.get("teachingMoment", "none"))
+			linea = str(nodo.get("teachingLine", ""))
+		elif _index > 0:
+			# Nodo senza lezione oltre il primo: niente da mostrare. Senza questo
+			# ramo il nodo 2 e 3 riproporrebbero la scheda del nodo 1, che e' il
+			# difetto opposto e altrettanto fastidioso.
+			return
 	if lesson.is_empty() or moment == "none":
 		return
+	if _lezioni_mostrate.has(str(lesson.get("topic", ""))):
+		return
+	_lezioni_mostrate[str(lesson.get("topic", ""))] = true
 	var overlay := Control.new()
 	overlay.name = "TeachingOverlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -555,7 +586,7 @@ func _show_teaching_overlay() -> void:
 	eyebrow.add_theme_font_size_override("font_size", 16)
 	eyebrow.add_theme_color_override("font_color", Color("6be7d6"))
 	box.add_child(eyebrow)
-	_add_teaching_text(box, str(session.get("teachingLine", "")), Color("f6c85f"), 20)
+	_add_teaching_text(box, linea, Color("f6c85f"), 20)
 	_add_teaching_text(box, str(lesson.get("intro", "")), Color("e7fffb"), 17)
 
 	var example: Dictionary = lesson.get("workedExample", {})
@@ -629,7 +660,19 @@ func _show_current() -> void:
 	if is_instance_valid(_numpad):
 		_numpad.visible = false
 	if is_instance_valid(_help_button):
-		_help_button.visible = false
+		# **La pagina del manuale e' raggiungibile PRIMA di sbagliare.**
+		# (7 agosto 2026)
+		#
+		# Richiesta del committente: le spiegazioni del manuale devono essere
+		# «linkate direttamente agli esercizi corrispondenti». Il collegamento
+		# c'era gia' — il pulsante apre il manuale sull'argomento di QUESTA
+		# domanda — ma compariva solo dopo una risposta sbagliata: era un
+		# premio di consolazione, non uno strumento.
+		#
+		# Un bambino che non sa una cosa deve poterla andare a leggere mentre la
+		# sta guardando, non dopo aver preso l'errore. In esame no: li' la prova
+		# misura quello che si sa.
+		_help_button.visible = str(session.get("kind", "mission")) != "final_exam"
 	_mg_expected = 0
 	_mg_selected_left = -1
 	_mg_matched = 0
@@ -1798,6 +1841,9 @@ func _advance() -> void:
 		return
 	_index += 1
 	_show_current()
+	# La spiegazione dell'argomento nuovo, se questo nodo ne porta una: prima
+	# della domanda, non dopo l'errore.
+	_show_teaching_overlay()
 
 ## Uscita anticipata. La prova non è consegnata: niente esito, niente incontro
 ## completato, nessuna energia dalla sessione. Restano gli argomenti visti, che

@@ -585,26 +585,60 @@ func enigma_retry_seconds(encounter_id: String) -> int:
 ## registrato qui, quando la lezione è effettivamente consegnata al renderer.
 func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictionary:
 	var session := source.duplicate(true)
-	var topic := ""
-	for raw_node in Array(session.get("nodes", [])):
-		var node: Dictionary = raw_node
-		topic = str(node.get("topic", "")).strip_edges()
-		if topic != "":
-			break
-	if topic == "":
+	var nodi: Array = session.get("nodes", [])
+	if nodi.is_empty():
 		return session
-	var moment := KnowledgeCodex.teaching_moment(game_save, subject, topic)
-	if moment == "none":
-		return session
-	var lesson := KnowledgeCodex.new(content_manager).mini_lesson(subject, topic)
-	if lesson.is_empty():
-		return session
-	session["teachingMoment"] = moment
-	session["teachingTopic"] = topic
-	session["teachingLine"] = KnowledgeCodex.teach_line(moment)
-	session["teachingLesson"] = lesson
-	KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
-	_persist()
+	# **La lezione copre OGNI argomento nuovo, non solo il primo.**
+	# (7 agosto 2026)
+	#
+	# Fino a stamattina questa funzione leggeva il topic del **primo nodo** e si
+	# fermava li'. Una sessione ne ha tre, spesso su argomenti diversi: il
+	# secondo e il terzo arrivavano senza che nessuno li avesse mai spiegati.
+	#
+	# Misurato prima di intervenire, su 1440 nodi in dodici materie: **il 60,6%
+	# delle domande arrivava su un argomento mai insegnato in quella sessione**,
+	# e in modo uniforme su tutte e dodici — non era un difetto di fisica o di
+	# elettronica, era la regola.
+	#
+	# E' esattamente la segnalazione del committente: «lo scopo del programma e'
+	# didattico non interrogatorio su argomenti mai visti». La riparazione non e'
+	# togliere domande difficili: e' **mettere la spiegazione davanti a
+	# ciascuna**, dove prima ce n'era una sola per tre.
+	#
+	# La lezione viaggia sul NODO, non sulla sessione: cosi' compare subito prima
+	# della domanda a cui serve, invece che tutta in testa — tre spiegazioni di
+	# fila all'inizio si leggono come un muro, e non se ne ricorda nessuna.
+	var codex := KnowledgeCodex.new(content_manager)
+	var gia_insegnati: Dictionary = {}
+	var qualcosa_da_insegnare := false
+	for indice in range(nodi.size()):
+		var nodo: Dictionary = nodi[indice]
+		var topic := str(nodo.get("topic", "")).strip_edges()
+		if topic == "" or gia_insegnati.has(topic):
+			continue
+		var moment := KnowledgeCodex.teaching_moment(game_save, subject, topic)
+		if moment == "none":
+			continue
+		var lesson := codex.mini_lesson(subject, topic)
+		if lesson.is_empty():
+			continue
+		gia_insegnati[topic] = true
+		nodo["teachingMoment"] = moment
+		nodo["teachingLesson"] = lesson
+		nodo["teachingLine"] = KnowledgeCodex.teach_line(moment)
+		nodi[indice] = nodo
+		KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
+		if not qualcosa_da_insegnare:
+			# Il primo resta anche sulla sessione: la scena e alcuni controlli
+			# leggono ancora li', e la riga d'apertura di NORA nasce da qui.
+			session["teachingMoment"] = moment
+			session["teachingTopic"] = topic
+			session["teachingLine"] = str(nodo["teachingLine"])
+			session["teachingLesson"] = lesson
+			qualcosa_da_insegnare = true
+	session["nodes"] = nodi
+	if qualcosa_da_insegnare:
+		_persist()
 	return session
 
 ## Quante estrazioni tentare prima di rassegnarsi a riproporre qualcosa di già

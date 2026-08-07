@@ -976,6 +976,78 @@ nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
 
 ---
 
+## Elettronica: si impara facendo (7 agosto 2026)
+
+Prima materia portata fino in fondo sulla direttiva «minigiochi che insegnano,
+scelta multipla solo nell'esame». Elettronica perche' e' quella da cui e' nata
+la segnalazione, e perche' e' il caso peggiore: un decenne non ha mai visto un
+rele' ne' un condensatore.
+
+### Una correzione a quello che avevo detto io
+
+Avevo riferito «la scelta multipla e' il 70-80% di ogni banco, toglierla e' il
+ribaltamento del programma di contenuto». Il numero era giusto ma descriveva la
+cosa sbagliata: e' la composizione del **banco**, non dell'**esperienza**.
+Misurata l'esperienza, il costruttore di sessioni mescolava gia' pesantemente
+con le forme interattive: **la scelta multipla era il ~20%**. Il lavoro da fare
+era un quinto di quello che avevo stimato.
+
+### Che cosa e' cambiato
+
+La manopola c'era gia' (`MC_TARGET_RATIO`, 0,20 per tutti): ora e' per materia,
+e per elettronica vale **zero**.
+
+Portata a zero la scelta multipla, il posto se l'e' preso la **risposta
+aperta**: 36-38%. Guardando che cosa chiedeva — «come si chiama il componente
+che accumula carica fra due armature?» — e' **peggio** della scelta multipla a
+quest'eta': quella la parola almeno te la mostra. Sono domande di nomenclatura,
+e sapere che si dice «condensatore» non e' aver capito che cosa fa. Fuori
+dall'esame sono uscite anche quelle.
+
+Misurato dopo, su otto livelli: **0% di domande secche** nelle sessioni di
+apprendimento, tutto portato da abbina, classifica, ordina, costruisci il
+circuito, trova il guasto, leggi il grafico. L'**esame** resta al 65-72% di
+domande dirette, ed e' voluto: misurare e' un'altra attivita' dall'imparare.
+
+Vale solo per elettronica. In italiano e in inglese una risposta aperta e'
+esattamente la prova giusta — si scrive la parola perche' l'obiettivo E' saperla
+scrivere — e toglierla li' sarebbe un danno.
+
+### Le spiegazioni, riviste
+
+Uscita la scelta multipla, **le spiegazioni dei minigiochi SONO la lezione**.
+Rilette tutte e 67. Le venti di circuito, guasti e classificazione erano buone:
+dicono il perche' e nominano l'errore tipico.
+
+Il punto debole erano i **grafici**: undici spiegazioni su ventuno erano la
+stessa frase ripetuta («il minimo si trova guardando chi sta piu' in BASSO…»),
+e insegnavano a leggere un grafico, non elettronica. Riscritte: il metodo di
+lettura resta, ma adesso ognuna dice anche che cosa significa quel punto in un
+circuito — «poca corrente vuol dire poca carica che passa ogni secondo: il LED
+illumina meno».
+
+### Il controllo che tiene
+
+`elettronica_hands_on_audit` verifica tre cose, e la terza tiene in piedi le
+altre due: zero domande secche fuori dall'esame a otto livelli; l'esame che
+misura ancora; e almeno quattro formati diversi con **nessuno sopra il 50%** —
+sostituire la scelta multipla con un unico minigioco ripetuto sarebbe lo stesso
+difetto con un altro nome.
+
+Serve perche' il mix nasce da una tavolozza: se un giorno si assottiglia — un
+`minLevel` spostato, una specifica tolta — la sostituzione non trova piu'
+materiale e **le domande secche tornano da sole**, senza che nessuno lo abbia
+deciso.
+
+### Estenderla alle altre undici
+
+Il costo vero e' la **tavolozza dei minigiochi**: elettronica ce l'aveva gia'
+profonda (ventuno argomenti coperti, sette formati). Dove e' piu' magra, portare
+la scelta multipla a zero lascerebbe buchi — e l'audit lo direbbe subito, che e'
+il motivo per cui e' scritto sui formati e non solo sulla percentuale.
+
+---
+
 ## Insegnare prima di chiedere (7 agosto 2026)
 
 Segnalazione del committente, ed e' un richiamo alla promessa del prodotto:

@@ -584,6 +584,48 @@ func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: R
 ## Frazione bersaglio di scelta multipla nell'esperienza giocata (~20%).
 const MC_TARGET_RATIO := 0.20
 
+## **Elettronica: nessuna scelta multipla fuori dall'esame.** (7 agosto 2026)
+##
+## Direttiva del committente: «dobbiamo creare minigiochi che insegnino i
+## concetti e lasciare le domande a scelta multipla solo nell'esame di livello».
+## Elettronica e' la materia da cui e' partita la segnalazione, ed e' quella su
+## cui la direttiva si prova prima di estenderla alle altre undici.
+##
+## **Perche' proprio qui.** Un decenne non ha mai visto un rele' ne' un
+## condensatore. Una domanda a scelta multipla su un oggetto mai visto misura se
+## ha letto la riga giusta; montarlo in un circuito glielo fa capire. Le forme
+## interattive — abbina, classifica, costruisci il circuito, trova il guasto —
+## chiedono di FARE la cosa, ed e' l'unico modo in cui questa materia si impara.
+##
+## L'esame resta a scelta multipla apposta: li' si misura, e misurare e' un'altra
+## attivita' dall'imparare. Vedi `build_final_exam`, che non passa di qui.
+const MC_TARGET_PER_MATERIA := {
+	"elettronica": 0.0,
+}
+
+static func mc_target_for(subject: String) -> float:
+	return float(MC_TARGET_PER_MATERIA.get(subject, MC_TARGET_RATIO))
+
+## **Anche le risposte aperte, in elettronica.** (7 agosto 2026)
+##
+## Portata la scelta multipla a zero, il posto se l'e' preso la risposta aperta:
+## misurato, il 36-38% dei nodi. E guardando che cosa chiede — «come si chiama il
+## componente che accumula carica fra due armature?» — e' **peggio** della scelta
+## multipla per questa eta': la scelta multipla la parola almeno te la mostra.
+##
+## Sono domande di NOMENCLATURA: sapere che si dice «condensatore» non e' aver
+## capito che cosa fa un condensatore. Fuori dall'esame vanno via anche quelle.
+##
+## Vale solo per elettronica. In italiano e in inglese una risposta aperta e'
+## esattamente la prova giusta — si scrive la parola perche' l'obiettivo E'
+## saperla scrivere — e toglierla li' sarebbe un danno.
+const FORMATI_DA_SOSTITUIRE := {
+	"elettronica": ["multiple_choice", "short_answer"],
+}
+
+static func formati_da_sostituire(subject: String) -> Array:
+	return Array(FORMATI_DA_SOSTITUIRE.get(subject, ["multiple_choice"]))
+
 ## build_mission ma con la scelta multipla portata al ~20% dei nodi iniettando
 ## nodi non-MC (abbina/ordina/classifica + specialisti) della materia. Dal gate
 ## C-P3 questa è la variante usata dal percorso live delle missioni esterne.
@@ -598,10 +640,11 @@ func build_varied_mission(subject: String, level: int, node_count: int = 3, revi
 	# classifica, grafico, circuito, caccia-all'errore). Con poche campate per
 	# missione l'arrotondamento è stocastico per centrare la media sull'insieme.
 	var nodes: Array = session.get("nodes", [])
-	var target_mc := _stochastic_round(MC_TARGET_RATIO * float(nodes.size()), generator)
+	var target_mc := _stochastic_round(mc_target_for(subject) * float(nodes.size()), generator)
+	var da_sostituire := formati_da_sostituire(subject)
 	var mc_count := 0
 	for n in nodes:
-		if ExerciseInteraction.is_multiple_choice(n):
+		if str(Dictionary(n).get("format", "")) in da_sostituire:
 			mc_count += 1
 	var to_replace := maxi(0, mc_count - target_mc)
 	session["nodes"] = inject_non_mc(nodes, subject, level, to_replace, generator)
@@ -680,12 +723,13 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 	if palette.is_empty():
 		return nodes
 	var out := nodes.duplicate()
+	var sostituibili := formati_da_sostituire(subject)
 	var used: Dictionary = {}
 	var injected := 0
 	for i in range(out.size() - 1, -1, -1):
 		if injected >= count:
 			break
-		if not ExerciseInteraction.is_multiple_choice(out[i]):
+		if not (str(Dictionary(out[i]).get("format", "")) in sostituibili):
 			continue
 		# Solo i formati con una prova ancora disponibile restano nella scelta.
 		var available: Array = []

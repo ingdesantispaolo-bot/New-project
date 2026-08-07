@@ -40,8 +40,15 @@ func _first_enigma(world: Node) -> Area2D:
 	for node in get_nodes_in_group("enigma_poi"):
 		# La scena corrente è l'unico mondo vivo; il controllo sul parent evita
 		# comunque di accettare nodi in coda di eliminazione.
-		if node is Area2D and not node.is_queued_for_deletion() and world.is_ancestor_of(node):
-			return node as Area2D
+		if not (node is Area2D) or node.is_queued_for_deletion() or not world.is_ancestor_of(node):
+			continue
+		# Dal 7 agosto 2026 il gruppo "enigma_poi" ospita anche le minimissioni,
+		# che condividono la meccanica a campate ma non il tipo di sessione. Qui
+		# serve un enigma vero: senza questo filtro l'audit dipendeva dall'ordine
+		# di inserimento nel gruppo, cioè da niente.
+		if str((node as Area2D).get_meta("kind", "")) != "enigma":
+			continue
+		return node as Area2D
 	assert(false, "mondo %d senza enigma del MissionEventDirector" % profile_level)
 	return null
 

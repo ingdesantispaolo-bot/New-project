@@ -179,6 +179,7 @@ delete document.documentElement.dataset.eliExam;
 	gameplay.session_requested.connect(_on_gameplay_session_requested)
 	gameplay.feedback_presented.connect(_present_feedback)
 	gameplay.enigma_progress.connect(_on_enigma_progress)
+	gameplay.minimission_completed.connect(_on_minimission_completed)
 	gameplay.setup(request, result, bool(request.get("loadLocalSave", true)))
 	game_save = gameplay.game_save
 	# Entrare in un mondo È aver giocato oggi. Idempotente entro la giornata:
@@ -1392,7 +1393,11 @@ func _respawn_practice_event(subject: String) -> void:
 ## deve comparire subito altrove invece di aspettare il rientro nel mondo.
 func _create_profile_event(event: Dictionary) -> void:
 	var director_kind := str(event.get("kind", "mission"))
-	var scene_kind := "encounter" if director_kind == "mission" else "minigame" if director_kind == "practice" else "enigma"
+	var scene_kind := (
+		"encounter" if director_kind == "mission"
+		else "minigame" if director_kind == "practice"
+		else "minimission" if director_kind == "minimission"
+		else "enigma")
 	var event_id := str(event.get("id", ""))
 	# Fino al 6 agosto 2026 la pratica era esclusa da questo controllo, e una
 	# palestra restava sulla mappa per sempre: lo studente la rifaceva
@@ -1408,7 +1413,10 @@ func _create_profile_event(event: Dictionary) -> void:
 		area.add_to_group("world_interactable")
 		if bool(event.get("countsForGate", false)):
 			area.add_to_group("mission_poi")
-		if director_kind == "enigma":
+		if director_kind == "enigma" or director_kind == "minimission":
+			# Le minimissioni si costruiscono a campate come gli enigmi: stanno
+			# nello stesso gruppo perché `_on_enigma_progress` le aggiorni senza
+			# un secondo instradamento identico al primo.
 			area.add_to_group("enigma_poi")
 		elif director_kind == "practice":
 			area.add_to_group("minigame_poi")
@@ -1424,6 +1432,14 @@ func _create_profile_event(event: Dictionary) -> void:
 		"directorKind": director_kind,
 		"ownerNpc": NPC_CATALOG.owner_for(world_level, director_kind),
 	}
+	if director_kind == "minimission":
+		# Il testo autoriale viaggia INTERO nel payload: la logica di gioco non
+		# conosce il catalogo, e la scena non riscrive niente di suo. Se un
+		# giorno l'incarico del mondo cambia, cambia in un posto solo.
+		var incarico := MinimissionCatalog.incarico(world_level)
+		for chiave in ["forma", "titolo", "apertura", "esito", "verbo", "glifo", "colore", "gradoRichiesto"]:
+			payload[chiave] = incarico.get(chiave, "")
+		payload["campate"] = int(event.get("campate", incarico.get("campate", 4)))
 	if director_kind == "practice" and world_level >= 2:
 		# Solo deviazioni opzionali: nessuno strumento può bloccare il gate.
 		payload["requiredTool"] = (
@@ -1437,7 +1453,9 @@ func _create_profile_event(event: Dictionary) -> void:
 	shape.shape = circle
 	shape.disabled = completed
 	area.add_child(shape)
-	if director_kind == "enigma":
+	if director_kind == "minimission":
+		_disegna_incarico(area, payload, completed)
+	elif director_kind == "enigma":
 		var visual := ENIGMA_STRUCTURE.new()
 		visual.name = "EnigmaStructureVisual"
 		# La struttura antepone già "ENIGMA": il titolo deve contenere solo
@@ -1480,7 +1498,7 @@ func _create_profile_event(event: Dictionary) -> void:
 	# aggiungerne un secondo produceva etichette sovrapposte su tablet.
 	# Una missione già conclusa conserva la trasformazione ambientale, ma non
 	# la sfera/caption che la facevano sembrare ancora disponibile.
-	if director_kind != "enigma" and not completed:
+	if not (director_kind in ["enigma", "minimission"]) and not completed:
 		var caption := _make_event_caption(director_kind, str(payload["subject"]))
 		caption.name = "EventCaption"
 		area.add_child(caption)
@@ -1491,11 +1509,179 @@ func _create_profile_event(event: Dictionary) -> void:
 func _event_label(event: Dictionary) -> String:
 	var subject := str(event.get("subject", _world_subject())).capitalize()
 	match str(event.get("kind", "mission")):
+		"minimission":
+			# Il titolo dell'incarico, non la materia: è l'unica cosa che
+			# distingue questo POI da una missione qualsiasi.
+			return str(event.get("titolo", MinimissionCatalog.etichetta(world_level)))
 		"enigma":
 			return "enigma di %s" % subject
 		"practice":
 			return "evento di pratica · %s" % subject
 	return "tappa di missione · %s" % subject
+
+# ---------------------------------------------------------------------------
+# **Le riparazioni dei Dodici.** (7 agosto 2026)
+#
+# Un incarico ha due stati e vanno disegnati **tutti e due**: rotto e riparato.
+# Il secondo è il motivo per cui il lotto esiste — se al rientro nel mondo il
+# posto tornasse com'era, la minimissione sarebbe stata un esercizio con una
+# didascalia sopra, e il collaudo direbbe di nuovo «girovagare senza uno scopo».
+#
+# Il catalogo (`MinimissionCatalog`) dice che cosa; qui si dice soltanto come si
+# vede. Nessun testo nasce in questo file.
+# ---------------------------------------------------------------------------
+
+## Il POI di una riparazione: il guasto se è ancora aperta, l'esito se è chiusa.
+func _disegna_incarico(area: Area2D, payload: Dictionary, completed: bool) -> void:
+	var forma := str(payload.get("forma", MinimissionCatalog.FORMA_RIPARARE))
+	var colore := Color(str(payload.get("colore", "ffd75e")))
+	if completed:
+		area.add_child(_esito_visivo(forma, colore))
+		return
+	# Il guasto: il glifo della forma, che pulsa piano perché si veda da lontano
+	# che lì c'è qualcosa che non va, più le campate dell'enigma — la stessa
+	# meccanica, ed è giusto che si assomiglino.
+	var guasto := Node2D.new()
+	guasto.name = "IncaricoGuasto"
+	var glifo := Label.new()
+	glifo.text = str(payload.get("glifo", "⚙"))
+	glifo.add_theme_font_size_override("font_size", 34)
+	glifo.add_theme_color_override("font_color", colore)
+	glifo.position = Vector2(-12, -52)
+	guasto.add_child(glifo)
+	var titolo := Label.new()
+	titolo.text = str(payload.get("titolo", "")).to_upper()
+	titolo.add_theme_font_size_override("font_size", 13)
+	titolo.add_theme_color_override("font_color", colore)
+	titolo.position = Vector2(-96, -76)
+	titolo.custom_minimum_size = Vector2(192, 0)
+	titolo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	titolo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	guasto.add_child(titolo)
+	area.add_child(guasto)
+	if not reduced_motion:
+		var tween := create_tween().set_loops()
+		tween.tween_property(glifo, "modulate:a", 0.45, 0.8).set_trans(Tween.TRANS_SINE)
+		tween.tween_property(glifo, "modulate:a", 1.0, 0.8).set_trans(Tween.TRANS_SINE)
+	var visual := ENIGMA_STRUCTURE.new()
+	visual.name = "EnigmaStructureVisual"
+	visual.setup(forma, str(payload.get("subject", "")).capitalize())
+	visual.set_stage(0, int(payload.get("campate", 4)))
+	area.add_child(visual)
+
+## Come si vede un posto **dopo**. Quattro forme, quattro cose diverse — e tutte
+## e quattro devono essere riconoscibili da lontano senza leggere niente.
+func _esito_visivo(forma: String, colore: Color) -> Node2D:
+	var nodo := Node2D.new()
+	nodo.name = "IncaricoEsito"
+	match forma:
+		MinimissionCatalog.FORMA_LIBERARE:
+			# Quello che era chiuso RESTA nel mondo: cinque creature che si
+			# muovono attorno al posto in cui erano rinchiuse. È la ricompensa
+			# che si vede, ed è l'unica che non serve a niente e vale di più.
+			for i in range(5):
+				var bestia := Polygon2D.new()
+				bestia.polygon = PackedVector2Array([
+					Vector2(-6, 0), Vector2(0, -7), Vector2(6, 0), Vector2(0, 5)])
+				bestia.color = colore
+				var angolo := TAU * float(i) / 5.0
+				bestia.position = Vector2.RIGHT.rotated(angolo) * 46.0
+				nodo.add_child(bestia)
+				if reduced_motion:
+					continue
+				var giro := create_tween().set_loops()
+				giro.tween_property(bestia, "position",
+					Vector2.RIGHT.rotated(angolo + 1.4) * 62.0, 2.6 + 0.3 * i
+					).set_trans(Tween.TRANS_SINE)
+				giro.tween_property(bestia, "position",
+					Vector2.RIGHT.rotated(angolo) * 46.0, 2.6 + 0.3 * i
+					).set_trans(Tween.TRANS_SINE)
+		MinimissionCatalog.FORMA_SPEGNERE:
+			# Dove bruciava adesso ricresce: la macchia scura resta, il verde
+			# ci sta sopra. Cancellare del tutto il segno del fuoco toglierebbe
+			# la prova che lì è successo qualcosa.
+			var bruciato := Polygon2D.new()
+			bruciato.polygon = _cerchio(52.0, 16)
+			bruciato.color = Color(0.16, 0.13, 0.12, 0.85)
+			nodo.add_child(bruciato)
+			var ripresa := Polygon2D.new()
+			ripresa.polygon = _cerchio(34.0, 14)
+			ripresa.color = Color(0.35, 0.66, 0.38, 0.9)
+			nodo.add_child(ripresa)
+		MinimissionCatalog.FORMA_RIPARARE:
+			# La macchina FUNZIONA: quattro pale che girano. Un ingranaggio fermo
+			# e uno riparato hanno lo stesso aspetto — è il movimento che dice
+			# che è finita.
+			var mozzo := Polygon2D.new()
+			mozzo.polygon = _cerchio(11.0, 10)
+			mozzo.color = colore
+			nodo.add_child(mozzo)
+			var pale := Node2D.new()
+			pale.name = "Pale"
+			for i in range(4):
+				var pala := Polygon2D.new()
+				pala.polygon = PackedVector2Array([
+					Vector2(-4, 0), Vector2(4, 0), Vector2(6, -44), Vector2(-6, -44)])
+				pala.color = colore
+				pala.rotation = TAU * float(i) / 4.0
+				pale.add_child(pala)
+			nodo.add_child(pale)
+			if not reduced_motion:
+				var rotazione := create_tween().set_loops()
+				rotazione.tween_property(pale, "rotation", TAU, 6.0).from(0.0)
+		_:
+			# RIACCENDERE: un'aureola stabile. La luce vera la fa il velo che si
+			# alza (vedi `_on_minimission_completed`); questa dice DOVE è stata
+			# riaccesa, che altrimenti sarebbe un effetto senza un posto.
+			for raggio in [64.0, 44.0, 26.0]:
+				var alone := Polygon2D.new()
+				alone.polygon = _cerchio(raggio, 18)
+				alone.color = Color(colore.r, colore.g, colore.b, 0.14)
+				nodo.add_child(alone)
+	return nodo
+
+func _cerchio(raggio: float, lati: int) -> PackedVector2Array:
+	var punti := PackedVector2Array()
+	for i in range(lati):
+		punti.append(Vector2.RIGHT.rotated(TAU * float(i) / float(lati)) * raggio)
+	return punti
+
+## La riparazione è finita: il mondo cambia, adesso e per sempre.
+##
+## «Per sempre» è la parte che costa: l'evento risulta completato nel salvataggio
+## (`completedEncounterIds`), quindi al rientro `_create_profile_event` ridisegna
+## direttamente l'esito. Qui si fa solo la transizione che si vede accadere.
+func _on_minimission_completed(forma: String, encounter_id: String, _esito: String) -> void:
+	for area in get_tree().get_nodes_in_group("enigma_poi"):
+		if not (area is Area2D) or str(area.get_meta("id", "")) != encounter_id:
+			continue
+		var poi := area as Area2D
+		var payload: Dictionary = poi.get_meta("payload", {})
+		var colore := Color(str(payload.get("colore", "ffd75e")))
+		for figlio in poi.get_children():
+			if figlio.name in ["IncaricoGuasto", "EnigmaStructureVisual"]:
+				figlio.queue_free()
+		var esito_nodo := _esito_visivo(forma, colore)
+		poi.add_child(esito_nodo)
+		if not reduced_motion:
+			esito_nodo.scale = Vector2.ONE * 0.4
+			var entrata := create_tween()
+			entrata.tween_property(esito_nodo, "scale", Vector2.ONE, 0.5).set_trans(
+				Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		break
+	if forma == MinimissionCatalog.FORMA_RIACCENDERE:
+		# Riaccendere fa quello che dice: tre prove di luce in un colpo, cioè un
+		# quarto del mondo. È l'unica forma che tocca il velo, ed è il motivo per
+		# cui esiste come forma a sé.
+		var luce := 0.0
+		for _i in range(3):
+			luce = WorldLight.accendi(game_save, _world_id_scena())
+		_aggiorna_nebbia(luce, true)
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play_event", "enigmaProgress", 1.18)
+	_update_objective()
+	_refresh_prompt()
 
 func _create_world_buildings() -> void:
 	var specs := BUILDING_CATALOG.for_world(world_level, world_profile)
@@ -3993,7 +4179,7 @@ func on_interactable_entered(area: Area2D, body: Node) -> void:
 ## completati non arrivano mai qui (l'area smette di monitorare all'ingresso).
 ## Portali, landmark e abitanti sono sempre lì e non sono un'esplorazione.
 ## Vedi docs/CUSTODE_LIVELLO_AVANZATO.md §Asse B.
-const PET_POI_KINDS := ["encounter", "enigma", "minigame"]
+const PET_POI_KINDS := ["encounter", "enigma", "minigame", "minimission"]
 
 func _pet_notice_poi(area: Area2D) -> void:
 	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
@@ -4140,6 +4326,10 @@ func _interaction_action_text(target: Area2D) -> String:
 			return "SCOPRI LA FUNZIONE"
 		"enigma":
 			return "RICOSTRUISCI"
+		"minimission":
+			# Il verbo lo decide la forma: «SPEGNI» davanti a un incendio dice
+			# in una parola tutto quello che serve sapere.
+			return str(Dictionary(target.get_meta("payload", {})).get("verbo", "RIPARA"))
 		"minigame":
 			return "ALLENATI"
 		"treasure":
@@ -4159,7 +4349,7 @@ func _interaction_is_completed(target: Area2D) -> bool:
 	var id := str(target.get_meta("id", ""))
 	if kind == "treasure":
 		return Array(result.get("collectedTreasureIds", [])).has(id)
-	if kind == "encounter" or kind == "enigma":
+	if kind == "encounter" or kind == "enigma" or kind == "minimission":
 		return Array(result.get("completedEncounterIds", [])).has(id)
 	return false
 
@@ -4216,6 +4406,15 @@ func _interact() -> void:
 			str(landmark_payload.get("purpose", "reagisce ai progressi")),
 		])
 		_guide_to_objective()
+		return
+	if kind == "minimission":
+		var incarico_payload: Dictionary = target.get_meta("payload")
+		if result["completedEncounterIds"].has(id):
+			_set_feedback("%s: già fatto." % str(incarico_payload.get("titolo", "L'incarico")))
+			return
+		if _route_to_owner_if_needed(id):
+			return
+		gameplay.try_start_minimission(incarico_payload, id)
 		return
 	if kind == "enigma":
 		var enigma_payload: Dictionary = target.get_meta("payload")
@@ -4292,7 +4491,7 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 			# dovrebbe tornare alla nave quattro volte per mondo: la
 			# ripetizione sparirebbe, ma al posto suo arriverebbe una corvée.
 			_respawn_practice_event(str(context.get("subject", "")))
-		if str(context.get("kind", "")) in ["mission", "enigma"]:
+		if str(context.get("kind", "")) in ["mission", "enigma", "minimission"]:
 			var encounter_id := str(context.get("encounterId", ""))
 			if mission_ownership_flow != null:
 				mission_ownership_flow.record_result(encounter_id, session_passed)

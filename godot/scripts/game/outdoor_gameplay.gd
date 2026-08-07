@@ -72,6 +72,10 @@ signal enigma_progress(built: int, total: int, theme: String, encounter_id: Stri
 ## Luce del mondo (0..1), grado di potenza, e se QUESTA prova ha fatto salire di
 ## grado. La scena disegna; qui non si sa niente di nebbie e di aure.
 signal world_light_changed(luce: float, grado: int, salito: bool)
+## Una riparazione dei Dodici e' stata portata a termine: la scena cambia il
+## mondo. `forma` dice COME (spegnere/liberare/riparare/riaccendere), l'id dice
+## DOVE. Qui non si sa niente di fuochi e di animali: si sa che e' fatta.
+signal minimission_completed(forma: String, encounter_id: String, esito: String)
 
 var game_save: GameSaveManager
 var content_manager: ContentManager
@@ -452,6 +456,124 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	_emit_state()
 	return true
 
+## **La riparazione lasciata a metà.** (7 agosto 2026)
+##
+## Meccanicamente è un enigma: campate che si costruiscono rispondendo. La
+## differenza sta in che cosa resta quando finisce — non un ponte generico, ma
+## la cosa nominata dall'incarico, e in permanenza.
+##
+## **Il rischio, e come si lega alla forza.** Ogni incarico ha un grado
+## consigliato. Sotto quel grado si può tentare lo stesso — non esiste il vicolo
+## cieco — ma l'ingresso costa una volta e mezzo, e per la forma SPEGNERE ogni
+## errore fa allargare il danno. Riuscire sotto il grado consigliato è il
+## momento migliore del gioco, ed è per questo che non lo si vieta.
+func try_start_minimission(payload: Dictionary, encounter_id: String) -> bool:
+	if session_active():
+		return false
+	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
+		_present_feedback("Questa riparazione è già stata fatta.", "system")
+		return false
+	var retry_seconds := enigma_retry_seconds(encounter_id)
+	if retry_seconds > 0:
+		_present_feedback(
+			"Serve ancora un momento prima di riprovare · %d s" % retry_seconds, "warning")
+		return false
+	var subject := _subject_for_payload(payload)
+	var forma := str(payload.get("forma", MinimissionCatalog.FORMA_RIPARARE))
+	var campate := clampi(int(payload.get("campate", 4)), 2, 6)
+	var session := content_manager.build_enigma(
+		subject, _learning_level(), campate, _due(), null,
+		game_save.mastery_of(subject), game_save.topic_masteries(subject))
+	if Array(session.get("nodes", [])).is_empty():
+		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
+		return false
+	session = _decorate_teaching_session(session, subject)
+	# Il tema della resa è la FORMA, non il ponte: l'ExercisePlayer mostra quella
+	# parola mentre si risponde, e «ponte» su un incendio sarebbe una bugia.
+	session["theme"] = forma
+	var grado := WorldLight.grado(game_save)
+	var richiesto := int(payload.get("gradoRichiesto", 0))
+	var impreparata := grado < richiesto
+	_charge_exercise_entry(1.5 if impreparata else 1.0)
+	active_session_context = {
+		"kind": "minimission",
+		"encounterId": encounter_id,
+		"subject": subject,
+		"theme": forma,
+		"forma": forma,
+		"titolo": str(payload.get("titolo", "")),
+		"esito": str(payload.get("esito", "")),
+		"impreparata": impreparata,
+	}
+	# Prima l'incarico, poi la lezione: si deve sapere PERCHÉ si sta rispondendo
+	# prima di vedere la prima domanda, altrimenti è di nuovo un esercizio.
+	var apertura := str(payload.get("apertura", "")).strip_edges()
+	if apertura != "":
+		_present_feedback(apertura, "nora")
+	if impreparata:
+		_present_feedback(
+			"Ci vorrebbe più forza per questa (%s). Si può provare lo stesso: costa di più, e non perdona." %
+			_nome_grado(richiesto), "warning")
+	session["abandonCost"] = EXERCISE_ABANDON_COST
+	session_requested.emit(session)
+	enigma_progress.emit(0, int(session.get("stages", campate)), forma, encounter_id)
+	_emit_state()
+	return true
+
+## L'esito di una riparazione.
+##
+## **Fallire non punisce.** L'evento resta sulla mappa e si può tornare più
+## forti: è la differenza fra un gioco difficile e un gioco che si smette. La
+## sola conseguenza è la ricalibrazione già in uso per gli enigmi.
+##
+## **Il danno che si allarga.** Solo per la forma SPEGNERE, e solo se si è
+## entrati sotto il grado consigliato: ogni risposta sbagliata costa un'energia
+## in più. È il rischio che il committente ha chiesto, ed è messo qui invece che
+## in un cronometro apposta — un timer mentre si legge una domanda misura la
+## velocità di lettura, che in un gioco che si studia è l'ultima cosa da punire.
+func _risolvi_minimissione(
+		context: Dictionary, passed: bool, encounter_id: String,
+		correct: int, total: int) -> void:
+	var forma := str(context.get("forma", MinimissionCatalog.FORMA_RIPARARE))
+	var titolo := str(context.get("titolo", "la riparazione"))
+	if forma == MinimissionCatalog.FORMA_SPEGNERE and bool(context.get("impreparata", false)):
+		var sbagliate := maxi(0, total - correct)
+		if sbagliate > 0:
+			var bruciato := mini(sbagliate, game_save.energy())
+			if bruciato > 0:
+				game_save.spend_energy(bruciato)
+				result["energySpent"] = int(result.get("energySpent", 0)) + bruciato
+				_present_feedback(
+					"Il fuoco si è allargato mentre cercavi: −%d energia." % bruciato, "warning")
+	if not passed:
+		game_save.set_enigma_cooldown(_world_id(), encounter_id, ENIGMA_RETRY_COOLDOWN_SECONDS)
+		_present_feedback(
+			"%s resta com'era. Nessun danno permanente: si torna quando si è pronti." % titolo,
+			"warning")
+		return
+	game_save.clear_enigma_cooldown(_world_id(), encounter_id)
+	# Il MONDO, non il livello di contenuto: `_learning_level` può valere il rango
+	# quando si gioca sulla frontiera, e segnerebbe la riparazione sbagliata.
+	game_save.claim_minimission(int(game_save.current_world()))
+	enigma_progress.emit(total, total, forma, encounter_id)
+	var esito := str(context.get("esito", ""))
+	minimission_completed.emit(forma, encounter_id, esito)
+	# **Chi la finisce sotto il grado consigliato merita di sentirselo dire.**
+	# È la storia che un bambino racconta a voce, e un gioco che non la riconosce
+	# la spreca.
+	if bool(context.get("impreparata", false)):
+		_present_feedback("Fatta, e non era ancora alla tua portata. %s" % esito, "nora")
+	elif esito != "":
+		_present_feedback(esito, "nora")
+	else:
+		_present_feedback("%s: fatto." % titolo, "nora")
+
+func _nome_grado(tier: int) -> String:
+	for voce in WorldLight.SOGLIE:
+		if int(Dictionary(voce)["tier"]) == tier:
+			return str(Dictionary(voce)["nome"])
+	return "Scintilla"
+
 func enigma_retry_seconds(encounter_id: String) -> int:
 	if game_save == null or encounter_id == "":
 		return 0
@@ -669,7 +791,10 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 # `progress_changed`): rilancia `enigma_progress` con tema ed encounter_id solo
 # durante un enigma, ignorando le sessioni normali.
 func notify_progress(built: int, total: int) -> void:
-	if str(active_session_context.get("kind", "")) != "enigma":
+	# Le minimissioni si costruiscono a campate esattamente come gli enigmi: sono
+	# nate da quella meccanica, ed è l'unico punto del gioco in cui una risposta
+	# giusta lascia un oggetto nel mondo.
+	if not (str(active_session_context.get("kind", "")) in ["enigma", "minimission"]):
 		return
 	enigma_progress.emit(built, total, str(active_session_context.get("theme", "ponte")), str(active_session_context.get("encounterId", "")))
 
@@ -821,7 +946,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			_present_feedback(_practice_feedback(codex_advanced, gained), "nora")
 		else:
 			_present_feedback(nora_voice.line("defeat"), "nora")
-	elif kind == "mission" or kind == "enigma":
+	elif kind == "mission" or kind == "enigma" or kind == "minimission":
 		var encounter_id := str(context.get("encounterId", ""))
 		if passed and encounter_id != "":
 			var completed: Array = result["completedEncounterIds"]
@@ -829,8 +954,10 @@ func resolve_session(exercise_result: Dictionary) -> void:
 				completed.append(encounter_id)
 			# Incontro persistente nel save canonico del mondo (O-P0.4).
 			game_save.mark_encounter_completed(_world_id(), encounter_id)
-			_award_fragments(3 if kind == "enigma" else 2)
-		if kind == "enigma":
+			_award_fragments(3 if kind != "mission" else 2)
+		if kind == "minimission":
+			_risolvi_minimissione(context, passed, encounter_id, correct, total)
+		elif kind == "enigma":
 			# La costruzione si completa solo se l'enigma è superato; altrimenti
 			# resta alle campate raggiunte e la scena la ripristina alla ripetizione.
 			if passed:

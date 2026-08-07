@@ -49,7 +49,9 @@ func _run() -> void:
 
 	var area: Area2D = null
 	for node in get_nodes_in_group("enigma_poi"):
-		if node is Area2D and world.is_ancestor_of(node):
+		# Un enigma vero: dal 7 agosto 2026 il gruppo ospita anche le
+		# minimissioni, che hanno un tipo di sessione tutto loro.
+		if node is Area2D and world.is_ancestor_of(node) and str(node.get_meta("kind", "")) == "enigma":
 			area = node as Area2D
 			break
 	assert(area != null, "enigma live assente")

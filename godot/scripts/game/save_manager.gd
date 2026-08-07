@@ -84,6 +84,12 @@ static func _default_data() -> Dictionary:
 		# quello di chi c'era — e nessuna e' obbligatoria: chi non esplora
 		# finisce il gioco lo stesso, gli manca il perche' e non il cosa.
 		"parchments": [],           # [livelli]
+		# Le riparazioni dei Dodici portate a termine: una per mondo. A differenza
+		# delle pergamene queste NON sono facoltative — prendono il posto di un
+		# evento-gate, quindi contano per aprire l'apparato — ma restano segnate a
+		# parte perche' il Lascito le pesa piu' di un incontro qualsiasi: sono i
+		# posti che il giocatore ha davvero cambiato.
+		"minimissions": [],         # [livelli]
 		# La luce riconquistata in ogni mondo e la potenza cumulativa di Eli.
 		# Nascono dal collaudo del 7 agosto 2026: il ciclo di ricompensa durava
 		# mezz'ora, e queste due misure lo riportano a una prova. Vedi
@@ -608,6 +614,23 @@ func has_parchment(level: int) -> bool:
 
 func parchment_count() -> int:
 	return Array(data.get("parchments", [])).size()
+
+## Segna come chiusa la riparazione di un mondo. Ritorna falso se c'era gia': il
+## mondo si cambia una volta sola, e ripagarla al rientro sarebbe la stessa
+## scorciatoia della palestra ripetuta.
+func claim_minimission(level: int) -> bool:
+	var fatte: Array = Array(data.get("minimissions", []))
+	if fatte.has(level):
+		return false
+	fatte.append(level)
+	data["minimissions"] = fatte
+	return true
+
+func has_minimission(level: int) -> bool:
+	return Array(data.get("minimissions", [])).has(level)
+
+func minimission_count() -> int:
+	return Array(data.get("minimissions", [])).size()
 
 func mastery_peak(subject: String) -> float:
 	return float(Dictionary(data.get("masteryPeak", {})).get(subject, 0.0))

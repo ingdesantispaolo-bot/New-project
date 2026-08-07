@@ -198,8 +198,32 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 	var enigma_count := 0
 	if enigma_weight > 0:
 		enigma_count = clampi(int(round(float(gate_total) * float(enigma_weight) / float(maxi(1, int(grammar.get("mission", 3)) + enigma_weight)))), 1, maxi(1, gate_total - missions_required + 1))
+	# **La minimissione prende il POSTO del primo evento-gate.** (7 agosto 2026)
+	#
+	# Direttiva esplicita del committente — «accolgo sostituire e non aggiungere»
+	# — e la misura le dava ragione: la campagna sta a 21,1 ore e il collaudo
+	# l'aveva già definita faticosa. Se l'incarico si fosse aggiunto agli eventi
+	# esistenti avremmo risposto a «è noioso» con «è più lungo», che è
+	# esattamente l'errore che ha prodotto quel verdetto.
+	#
+	# Quindi: l'incarico prende l'**ultimo** slot-gate, che è sempre una missione,
+	# e ne eredita le tre campate. Il conto degli esercizi del mondo non cambia
+	# di uno.
+	#
+	# **Perché l'ultimo e non il primo.** Il primo tentativo prendeva lo slot 0,
+	# che è un enigma quando il mondo ne ha uno: nei mondi con un enigma solo
+	# l'incarico lo cancellava, e il mondo perdeva una meccanica invece di
+	# guadagnarne una. Se ne sono accorti `enigma_cooldown_audit` e
+	# `enigma_scene_audit`, che pretendono un enigma vivo in ogni mondo — ed
+	# è una pretesa giusta: l'enigma e l'incarico si assomigliano nel gesto ma
+	# raccontano due cose diverse, e servono tutti e due.
+	var mini_level := level if MinimissionCatalog.ha(level) else -1
+	var mini_slot := gate_total - 1
+	var mini_campate := 3
 	for i in range(gate_total):
 		var kind := "enigma" if i < enigma_count else "mission"
+		if i == mini_slot and mini_level > 0:
+			kind = "minimission"
 		var t := float(i) / float(maxi(1, gate_total - 1))
 		var fmt := _next_format(formats, fmt_index, last_format, recent_formats)
 		last_format = fmt
@@ -207,7 +231,7 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		var event_position := _distributed_position(
 			rng, composition, spawn, ship, safe_radius, i, t,
 			GATE_MIN_R, GATE_MAX_R, half_extent, events)
-		events.append({
+		var voce := {
 			"id": "evt-%d-gate-%d" % [level, i],
 			"kind": kind,
 			"subject": subject,
@@ -220,7 +244,17 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 			"navigationSector": posmod(i, 6),
 			"countsForGate": true,
 			"reachable": true,
-		})
+		}
+		if kind == "minimission":
+			# La forma e il testo vengono dal catalogo autoriale; qui viaggiano
+			# solo i pochi campi che servono a disegnare il POI e ad aprire la
+			# sessione, così la scena non deve conoscere il catalogo.
+			var incarico := MinimissionCatalog.incarico(mini_level)
+			voce["forma"] = incarico["forma"]
+			voce["titolo"] = incarico["titolo"]
+			voce["gradoRichiesto"] = incarico["gradoRichiesto"]
+			voce["campate"] = mini_campate
+		events.append(voce)
 
 	# --- Eventi di VARIETÀ: uno per ogni ALTRA materia -------------------------
 	# Decisione dell'utente (30 luglio): **un mondo è un LIVELLO, non una materia.**

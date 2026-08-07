@@ -976,12 +976,52 @@ nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
 
 ---
 
-## Le minimissioni: piano (7 agosto 2026)
+## Le minimissioni: piano ed esecuzione (7 agosto 2026)
 
 Nasce dalla domanda rimasta aperta dopo il collaudo — «cosa puo' succedere sulla
 mappa che non sia un esercizio?» — e dalla risposta del committente: minimissioni
 che **cambiano la mappa**. Liberare degli animali, spegnere un incendio,
 aggiustare un faro, riparare un mulino.
+
+### Che cosa e' stato costruito, e che cosa e' stato misurato
+
+Il piano qui sotto e' stato eseguito nella stessa giornata, dopo la direttiva
+esplicita del committente: **«accolgo sostituire e non aggiungere»**.
+
+| pezzo | dove |
+|---|---|
+| i ventiquattro incarichi scritti | `minimission_catalog.gd` |
+| la sostituzione | `mission_event_director.gd`: l'incarico prende l'**ultimo** slot-gate |
+| la sessione, il grado e il rischio | `outdoor_gameplay.gd`, `try_start_minimission` |
+| il mondo che cambia | `outdoor_world.gd`, `_disegna_incarico` / `_esito_visivo` |
+| il Lascito che le pesa | `legacy_score.gd`: una riparazione vale tre incontri |
+| i due controlli | `minimission_audit` (catalogo, forme, sostituzione) e `minimission_scene_audit` (si apre, cambia, **resta cambiato**) |
+
+**La misura che conta.** `time_cost_probe` prima: **21,1 ore**. Dopo: **21,1
+ore**. La sostituzione ha tenuto al minuto — l'incarico eredita le tre campate
+della missione che ha preso il posto, e il conto degli esercizi del mondo non
+cambia di uno. Non e' una previsione: e' la stessa sonda, prima e dopo.
+
+**Una correzione in corsa che vale la pena ricordare.** Il primo tentativo
+metteva l'incarico allo slot 0, che e' un enigma quando il mondo ne ha uno: nei
+mondi con un enigma solo l'incarico **lo cancellava**, e il mondo perdeva una
+meccanica invece di guadagnarne una. L'hanno detto `enigma_cooldown_audit` e
+`enigma_scene_audit` diventando rossi, ed e' esattamente il mestiere loro:
+sostituire e' giusto, ma va sostituita la cosa giusta.
+
+**Una deviazione dichiarata.** Il piano prevedeva un **timer** per la forma
+SPEGNERE. Non c'e': un cronometro mentre si legge una domanda misura la
+velocita' di lettura, che in un gioco che si studia — e che ha fra i suoi vincoli
+la dislessia — e' l'ultima cosa da punire. Il rischio e' stato messo altrove e
+solo per chi entra sotto il grado consigliato: **ogni risposta sbagliata fa
+allargare il danno** e costa un'energia in piu'. Stessa pressione, e non colpisce
+chi legge piano.
+
+**Quello che resta da fare** e' la comparsa procedurale (oggi l'incarico c'e' dal
+primo ingresso, in un punto deciso dal seme; non «si accende» mentre giochi) e
+gli epiloghi che le **nominano** una per una: oggi le contano soltanto.
+
+---
 
 ### Il ribaltamento, in una riga
 

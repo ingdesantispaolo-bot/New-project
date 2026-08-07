@@ -77,7 +77,19 @@ static func mondo(save) -> float:
 	var risolti := 0
 	for progresso in Dictionary(save.data.get("worldProgress", {})).values():
 		risolti += Array(Dictionary(progresso).get("completedEncounterIds", [])).size()
-	return _clamp01(float(risolti) / float(META_INCONTRI))
+	# **Una riparazione vale tre incontri.** (7 agosto 2026)
+	#
+	# Questa dimensione dice «i luoghi che hai effettivamente cambiato», e fino a
+	# ieri era una promessa un po' larga: un incontro risolto lasciava padronanza,
+	# non lasciava un posto diverso. Le minimissioni sì — l'incendio è spento, gli
+	# animali sono fuori — e sono le uniche del gioco a farlo.
+	#
+	# Il peso è tre e non dieci perché ce n'è **una sola per mondo**: a
+	# ventiquattro chiuse fanno 72 punti su 90, cioè un giocatore che le fa tutte
+	# e nient'altro non riempie comunque la dimensione. Chiudere ventiquattro
+	# riparazioni deve contare molto; non deve bastare.
+	var riparazioni := Array(save.data.get("minimissions", [])).size()
+	return _clamp01(float(risolti + riparazioni * 3) / float(META_INCONTRI))
 
 static func rotta(save) -> float:
 	var aperti := Array(Dictionary(save.data.get("worlds", {})).get("unlocked", [])).size()

@@ -29,6 +29,15 @@ self.addEventListener("message", (event) => {
   }
   if (event.data?.type === "GET_BUILD_ID" && event.ports?.[0]) {
     event.ports[0].postMessage({ buildId: BUILD_ID, cacheVersion: CACHE_VERSION });
+    return;
+  }
+  // Svuotamento su richiesta: lo chiede il lanciatore quando si accorge che la
+  // build e' cambiata. Cancellare le cache dalla pagina si potrebbe anche fare
+  // da fuori, ma farlo qui e' l'unico modo di essere sicuri che accada PRIMA
+  // che il worker risponda alla prossima richiesta con quello che ha in mano.
+  if (event.data?.type === "PURGE") {
+    event.waitUntil?.(purgeAll());
+    purgeAll();
   }
 });
 
@@ -77,12 +86,26 @@ async function networkFirst(request) {
   }
 }
 
+async function purgeAll() {
+  const keys = await caches.keys();
+  await Promise.all(
+    keys.filter((key) => key.startsWith("eli-quest-")).map((key) => caches.delete(key)),
+  );
+}
+
 async function cacheFirst(request) {
   const cached = await caches.match(request);
   if (cached) {
     return cached;
   }
-  const response = await fetch(request);
+  // **`reload` e non `default`.** Un fallimento di cache qui succede una volta
+  // sola per build: subito dopo un aggiornamento, quando le cache vecchie sono
+  // state cancellate. Se in quel momento si lasciasse decidere alla cache HTTP
+  // del browser, `index.pck` — che ha SEMPRE lo stesso indirizzo — potrebbe
+  // arrivare identico a ieri, e il giocatore riscaricherebbe la copia vecchia
+  // credendo di aggiornare. E' il buco che rendeva il controllo di versione una
+  // formalita'.
+  const response = await fetch(request, { cache: "reload" });
   if (isCacheable(response)) {
     const cache = await caches.open(RUNTIME_CACHE);
     await cache.put(request, response.clone());

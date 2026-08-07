@@ -13,6 +13,9 @@ var second_journey_bar: ProgressBar
 var player_label: Label
 var profile_panel: ProfilePanel
 var board_panel: ProgressBoardPanel
+## L'avviso di copia vecchia: esiste sempre, si vede quasi mai.
+var avviso_versione: VBoxContainer
+var avviso_testo: Label
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -135,6 +138,65 @@ func _build_interface() -> void:
 	versione.add_theme_font_size_override("font_size", 11)
 	versione.add_theme_color_override("font_color", Color("6f868a"))
 	column.add_child(versione)
+
+	# **La copia vecchia.** Sotto la versione, e vuota quasi sempre.
+	#
+	# Richiesta del committente: online il gioco deve accorgersi da solo di stare
+	# girando una copia superata, e riscaricarsi. Il controllo vive in
+	# `WebVersionGuard`; qui c'e' solo il posto in cui la risposta si vede.
+	avviso_versione = VBoxContainer.new()
+	avviso_versione.name = "StaleBuildNotice"
+	avviso_versione.visible = false
+	avviso_versione.add_theme_constant_override("separation", 6)
+	column.add_child(avviso_versione)
+	avviso_testo = Label.new()
+	avviso_testo.name = "StaleBuildLabel"
+	avviso_testo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	avviso_testo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	avviso_testo.add_theme_font_size_override("font_size", 12)
+	avviso_testo.add_theme_color_override("font_color", Color("f4cf69"))
+	avviso_versione.add_child(avviso_testo)
+	var riscarica := Button.new()
+	riscarica.name = "ReloadBuildButton"
+	riscarica.text = "SCARICA LA VERSIONE NUOVA"
+	riscarica.custom_minimum_size = Vector2(0, 46)
+	riscarica.add_theme_font_size_override("font_size", 14)
+	riscarica.pressed.connect(_riscarica_versione)
+	avviso_versione.add_child(riscarica)
+	_controlla_versione_pubblicata()
+
+## **Il controllo della versione online.** (7 agosto 2026)
+##
+## Parte all'apertura del menu e non fa aspettare nessuno: la richiesta va, il
+## menu e' gia' usabile, e se la risposta arriva e dice che siamo indietro
+## compare l'avviso. Se non arriva — offline, server lento, build nativa — non
+## succede niente, che e' la risposta giusta a «non lo so».
+func _controlla_versione_pubblicata() -> void:
+	if not WebVersionGuard.sul_web():
+		return
+	WebVersionGuard.chiedi_versione_pubblicata()
+	var scaduto := Time.get_ticks_msec() + int(WebVersionGuard.ATTESA_MASSIMA_SEC * 1000.0)
+	while Time.get_ticks_msec() < scaduto:
+		await get_tree().create_timer(0.2).timeout
+		if not is_inside_tree():
+			return
+		var remoto := WebVersionGuard.commit_ricevuto()
+		if remoto.is_empty():
+			continue
+		if WebVersionGuard.deve_riscaricare(BuildVersion.COMMIT, remoto):
+			_mostra_avviso_versione(remoto)
+		return
+
+func _mostra_avviso_versione(remoto: String) -> void:
+	if not is_instance_valid(avviso_versione) or not is_instance_valid(avviso_testo):
+		return
+	avviso_testo.text = WebVersionGuard.avviso(remoto)
+	avviso_versione.visible = true
+
+## Riscaricare non e' ricaricare la pagina: si svuotano le cache e si disiscrive
+## il service worker, altrimenti il worker vecchio riservirebbe gli stessi file.
+func _riscarica_versione() -> void:
+	WebVersionGuard.riscarica()
 
 ## Chi sta per giocare, e come cambiarlo.
 ##

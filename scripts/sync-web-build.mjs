@@ -32,12 +32,20 @@ const checkOnly = args.includes("--check");
 const slugIndex = args.indexOf("--slug");
 const requestedSlug = slugIndex >= 0 ? args[slugIndex + 1] : null;
 
-const [manifestSource, workerSource, pck, wasm] = await Promise.all([
+const [manifestSource, workerSource, versionSource, pck, wasm] = await Promise.all([
   readFile(manifestPath, "utf8"),
   readFile(workerPath, "utf8"),
+  readFile(path.join(root, "godot/scripts/game/build_version.gd"), "utf8"),
   stat(path.join(exportRoot, "index.pck")),
   stat(path.join(exportRoot, "index.wasm")),
 ]);
+
+// Il commit marchiato DENTRO il pacchetto esportato. Finisce nel manifesto
+// perche' e' l'unico modo che il gioco ha di chiedersi «sto girando la versione
+// giusta?»: confronta il proprio `BuildVersion.COMMIT` con questo. Il `buildId`
+// non serviva allo scopo — dice quando e' stato costruito il *guscio*, non quale
+// codice c'e' dentro.
+const exportedCommit = versionSource.match(/const COMMIT := "([0-9a-f]+)"/)?.[1] ?? "";
 
 const manifest = JSON.parse(manifestSource);
 
@@ -66,7 +74,8 @@ const inSync =
   manifest.pckBytes === pck.size &&
   manifest.wasmBytes === wasm.size &&
   manifest.buildId === workerSource.match(/const BUILD_ID = "([^"]+)"/)?.[1] &&
-  manifest.cacheVersion === workerSource.match(/const CACHE_VERSION = "([^"]+)"/)?.[1];
+  manifest.cacheVersion === workerSource.match(/const CACHE_VERSION = "([^"]+)"/)?.[1] &&
+  manifest.commit === exportedCommit;
 
 if (checkOnly) {
   if (inSync) {
@@ -81,6 +90,7 @@ if (checkOnly) {
   const nextManifest = {
     buildId: nextBuildId,
     cacheVersion: nextCacheVersion,
+    commit: exportedCommit,
     pckBytes: pck.size,
     wasmBytes: wasm.size,
   };

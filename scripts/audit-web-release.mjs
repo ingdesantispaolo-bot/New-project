@@ -6,13 +6,14 @@ const root = process.cwd();
 const publicRoot = path.join(root, "public");
 const exportRoot = path.join(publicRoot, "godot", "outdoor");
 
-const [manifestSource, workerSource, launcherSource, godotHtml, viteSource, compressionSource, pck, wasm] = await Promise.all([
+const [manifestSource, workerSource, launcherSource, godotHtml, viteSource, compressionSource, versionSource, pck, wasm] = await Promise.all([
   readFile(path.join(publicRoot, "build.json"), "utf8"),
   readFile(path.join(publicRoot, "sw.js"), "utf8"),
   readFile(path.join(root, "index.html"), "utf8"),
   readFile(path.join(exportRoot, "index.html"), "utf8"),
   readFile(path.join(root, "vite.config.mjs"), "utf8"),
   readFile(path.join(root, "scripts", "vite-godot-compression.mjs"), "utf8"),
+  readFile(path.join(root, "godot/scripts/game/build_version.gd"), "utf8"),
   stat(path.join(exportRoot, "index.pck")),
   stat(path.join(exportRoot, "index.wasm")),
 ]);
@@ -43,10 +44,35 @@ if (manifest.pckBytes !== pck.size || godotPck !== pck.size) {
 if (manifest.wasmBytes !== wasm.size || godotWasm !== wasm.size) {
   failures.push(`index.wasm disallineato: file=${wasm.size}, build.json=${manifest.wasmBytes}, Godot HTML=${godotWasm}`);
 }
+// --- La catena della versione, anello per anello -----------------------------
+//
+// Aggiunto il 7 agosto 2026 su richiesta: «all'avvio del programma online questo
+// controlli se sta girando la versione aggiornata, se non e' cosi' va
+// riscaricata». Il controllo che c'era verificava il *service worker*; questi
+// verificano che la catena arrivi fino al gioco.
+const stampedCommit = versionSource.match(/const COMMIT := "([0-9a-f]+)"/)?.[1] ?? "";
+if (!manifest.commit) {
+  failures.push("build.json non dichiara il commit: il gioco non puo' sapere se e' aggiornato");
+} else if (manifest.commit !== stampedCommit) {
+  failures.push(
+    `commit disallineato: build.json=${manifest.commit}, pacchetto=${stampedCommit}. `
+    + "Il gioco si direbbe vecchio a ogni avvio.",
+  );
+}
+if (!workerSource.includes('cache: "reload"')) {
+  failures.push(
+    "service worker: un fallimento di cache rilegge dalla cache HTTP del browser, "
+    + "quindi puo' riscaricare la copia vecchia dallo stesso indirizzo",
+  );
+}
+if (!workerSource.includes('"PURGE"')) {
+  failures.push("service worker: manca lo svuotamento su richiesta");
+}
 for (const [needle, label] of [
   ["GET_BUILD_ID", "handshake versione"],
   ["controllerchange", "attesa nuovo service worker"],
   ["build.json?check=", "controllo manifest senza cache"],
+  ["purgeCaches", "svuotamento cache quando la build cambia"],
 ]) {
   if (!launcherSource.includes(needle)) failures.push(`launcher: manca ${label}`);
 }

@@ -216,9 +216,31 @@ func _build_ui() -> void:
 	var is_exam := str(session.get("kind", "mission")) == "final_exam"
 	_exercise_panel.add_theme_stylebox_override("panel", _exercise_panel_style(is_exam))
 	add_child(_exercise_panel)
+	# **Il riquadro dell'esercizio deve poter scorrere.** (8 agosto 2026)
+	#
+	# Segnalazione di gioco: «rispondendo correttamente alla domanda il programma
+	# si blocca». Non si bloccava: il pulsante AVANTI finiva **sotto il bordo
+	# dello schermo**, e da lì non si poteva più andare avanti — che per chi
+	# gioca è la stessa cosa.
+	#
+	# La causa strutturale era qui: questa colonna stava dentro un PanelContainer
+	# senza nessuno scorrimento. Con una domanda lunga, il tastierino numerico e
+	# quattro pulsanti in fila, il contenuto superava l'altezza del riquadro e
+	# quello che sporgeva non era raggiungibile in nessun modo. È la stessa causa
+	# della segnalazione rimasta aperta sulle domande aperte («non permettono di
+	# confermare la risposta»): stesso difetto, due sintomi.
+	#
+	# Adesso, se il contenuto non ci sta, si scorre. Una schermata che scorre è
+	# un compromesso; una schermata da cui non si può uscire è un difetto.
+	var box_scroll := ScrollContainer.new()
+	box_scroll.name = "ExerciseContentScroll"
+	box_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_exercise_panel.add_child(box_scroll)
 	var box := VBoxContainer.new()
+	box.name = "ExerciseContent"
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", 14)
-	_exercise_panel.add_child(box)
+	box_scroll.add_child(box)
 
 	var heading := Label.new()
 	heading.name = "ExerciseHeading"
@@ -328,6 +350,9 @@ func _build_ui() -> void:
 	box.add_child(_help_button)
 
 	_next_button = Button.new()
+	# Un nome, perché è il pulsante da cui dipende «si può proseguire»: senza,
+	# `exercise_reachability_audit` non potrebbe verificare che sia raggiungibile.
+	_next_button.name = "ExerciseNextButton"
 	_next_button.text = "Avanti"
 	_next_button.visible = false
 	if is_instance_valid(_input_submit):
@@ -461,6 +486,22 @@ func _apply_format_layout(format: String) -> void:
 	# Lo scroll deve continuare a ricevere l'altezza residua: matching e
 	# classificazione includono il CTA verifica nello stesso contenitore.
 	_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	# **Un contenitore vuoto non occupa spazio.** (8 agosto 2026)
+	#
+	# Nelle risposte numeriche e in quelle scritte l'interazione non vive qui —
+	# il campo, il tastierino e il pulsante di conferma sono fratelli di questo
+	# riquadro, non figli. Ma il riquadro restava comunque espanso e con 180 px
+	# di minimo: si prendeva tutta l'altezza avanzata pur essendo **vuoto**, e
+	# spingeva tastierino e pulsanti oltre il bordo dello schermo.
+	#
+	# Si vedeva a occhio nudo — un buco di seicento pixel fra la domanda e il
+	# tastierino — ed è la causa diretta della segnalazione «il programma si
+	# blocca»: non si bloccava, AVANTI era fuori schermo.
+	if format in ["numeric_input", "short_answer", "free_text"]:
+		_options_scroll.size_flags_vertical = Control.SIZE_FILL
+		_options_scroll.custom_minimum_size.y = 0.0
+	else:
+		_options_scroll.custom_minimum_size.y = 180.0
 
 ## Dieci cifre, il segno meno, la virgola e la cancellazione. Niente di più:
 ## le risposte numeriche del gioco sono interi, decimali o negativi.
@@ -1843,7 +1884,13 @@ func _advance() -> void:
 	_show_current()
 	# La spiegazione dell'argomento nuovo, se questo nodo ne porta una: prima
 	# della domanda, non dopo l'errore.
-	_show_teaching_overlay()
+	#
+	# **Mai dopo l'ultimo nodo.** `_show_current` chiude la sessione quando
+	# l'indice supera i nodi: senza questo controllo si aggiungeva una scheda
+	# modale a prova già consegnata — un pannello a tutto schermo che mangia i
+	# tocchi sopra una sessione che non esiste più.
+	if _index < _nodes.size():
+		_show_teaching_overlay()
 
 ## Uscita anticipata. La prova non è consegnata: niente esito, niente incontro
 ## completato, nessuna energia dalla sessione. Restano gli argomenti visti, che

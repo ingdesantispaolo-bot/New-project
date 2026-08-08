@@ -83,6 +83,9 @@ var shop_button: Button
 var manual_button: Button
 var interaction_button: Button
 var pulse_button: Button
+## Il quadro degli obiettivi e il pulsante che lo apre.
+var objective_button: Button
+var objective_panel: ObjectivePanel
 var touch_controls_button: Button
 var touch_controls_panel: PanelContainer
 var touch_side_button: Button
@@ -2970,6 +2973,22 @@ void fragment() {
 	objective_label.add_theme_color_override("font_color", Color("f6c85f"))
 	objective_label.add_theme_font_size_override("font_size", 13)
 	info.add_child(objective_label)
+	# **«E adesso che faccio?»** (7 agosto 2026)
+	#
+	# Segnalazione del committente: bisogna spiegare meglio che cosa fare e che
+	# cosa manca per il mondo successivo. La risposta breve sta nell'etichetta
+	# qui sopra; questo pulsante apre quella lunga — le dodici materie con
+	# quanto manca a ciascuna.
+	#
+	# Sta accanto all'obiettivo e non in un menu: la domanda nasce guardando
+	# l'obiettivo, e la risposta deve stare a un dito di distanza.
+	objective_button = Button.new()
+	objective_button.name = "OpenObjectiveButton"
+	objective_button.text = "CHE COSA DEVO FARE?"
+	objective_button.custom_minimum_size = Vector2(0, 40)
+	objective_button.add_theme_font_size_override("font_size", 13)
+	objective_button.pressed.connect(_apri_obiettivi)
+	info.add_child(objective_button)
 	_crea_barra_potenza(info)
 	_update_objective()
 	ship_navigation_label = Label.new()
@@ -5132,6 +5151,30 @@ func _present_feedback(message: String, source: String = "system") -> void:
 	if message != "" and source == "nora" and is_instance_valid(nora_portrait):
 		nora_portrait.speak(message)
 
+## Apre il quadro degli obiettivi. Eli si ferma: e' una schermata a tutto
+## schermo, e lasciarla camminare sotto la manderebbe chissa' dove.
+func _apri_obiettivi() -> void:
+	if is_instance_valid(objective_panel):
+		return
+	if not is_instance_valid(gameplay) or not is_instance_valid(ui_layer):
+		return
+	objective_panel = ObjectivePanel.new()
+	objective_panel.name = "ObjectivePanel"
+	objective_panel.chiuso.connect(_chiudi_obiettivi)
+	ui_layer.add_child(objective_panel)
+	objective_panel.apri(
+		ObjectiveBriefing.passo(runtime, gameplay.progression_manager),
+		ObjectiveBriefing.percorso(gameplay.progression_manager))
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+
+func _chiudi_obiettivi() -> void:
+	if is_instance_valid(objective_panel):
+		objective_panel.queue_free()
+		objective_panel = null
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+
 func _update_objective() -> void:
 	if not is_instance_valid(objective_label) or runtime.is_empty():
 		return
@@ -5157,19 +5200,22 @@ func _update_objective() -> void:
 			world_level, str(world_profile.get("title", "")), profile_subject,
 			int(runtime.get("level", 1)), subject, profile_subject]
 	else:
-		# Il livello si apre col nucleo; l'apparato con la materia del mondo.
-		var core_parts: Array = []
-		for entry_data in Array(runtime.get("core", [])):
-			var entry: Dictionary = entry_data
-			core_parts.append("%s %.0f%%" % [
-				str(entry.get("subject", "")).substr(0, 3).to_upper(),
-				float(entry.get("progress", 0.0)) * 100.0])
-		objective_label.text = "Livello %d · Materia %s\nApparato: %s · padronanza %.0f%%/%.0f%%\nNucleo: %s · stanze %d/%d" % [
-			int(runtime.get("level", 1)), subject, apparatus,
-			float(runtime.get("mastery", 0.0)) * 100.0,
-			float(runtime.get("masteryThreshold", 0.0)) * 100.0,
-			" · ".join(PackedStringArray(core_parts)),
-			int(runtime.get("apparatusRepaired", 0)), int(runtime.get("apparatusTotal", 12))]
+		# **Un'istruzione, non un cruscotto.** (7 agosto 2026)
+		#
+		# Qui c'era: «Livello 1 · Materia matematica / Apparato: nucleo ·
+		# padronanza 34%/45% / Nucleo: MAT 60% · ITA 20% · ING 0% · stanze 1/12».
+		# Sei numeri e nessun verbo. Un bambino di undici anni non ne ricava che
+		# cosa toccare adesso — e il gate vero chiede dodici materie per tre
+		# condizioni, quindi quei numeri non lo dicevano nemmeno tutto.
+		#
+		# Adesso l'etichetta porta **una cosa sola da fare**; il conto lungo sta
+		# dietro il pulsante «CHE COSA DEVO FARE?», per chi lo vuole.
+		var passo := ObjectiveBriefing.passo(runtime, gameplay.progression_manager)
+		objective_label.text = "%s\n%s" % [
+			str(passo.get("titolo", "")), str(passo.get("azione", ""))]
+		var dove := str(passo.get("dove", "")).strip_edges()
+		if not dove.is_empty():
+			objective_label.text += "\nDove: %s" % dove
 	for event_data in mission_events:
 		var event: Dictionary = event_data
 		if (

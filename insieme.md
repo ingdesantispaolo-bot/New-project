@@ -976,6 +976,64 @@ nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
 
 ---
 
+## «E adesso che faccio?» (7 agosto 2026)
+
+Segnalazione del committente: «dobbiamo spiegare meglio al giocatore cosa deve
+fare, e cosa manca per passare di livello al mondo successivo».
+
+### Il difetto non era la scrittura
+
+L'HUD diceva: «Livello 1 · Materia matematica / Apparato: nucleo · padronanza
+34%/45% / Nucleo: MAT 60% · ITA 20% · ING 0% · stanze 1/12». Sei numeri e
+nessun verbo.
+
+Ma il problema vero e' piu' profondo di una frase scritta male: il gate del
+livello chiede **dodici materie per tre condizioni** — accuratezza, copertura,
+ritenzione — cioe' **trentasei condizioni insieme**. Riassumerle in due
+percentuali non e' una spiegazione corta: e' una spiegazione assente. Un
+bambino di undici anni non poteva ricavarne che cosa toccare, perche' i numeri
+mostrati non erano nemmeno quelli che il gate guardava.
+
+### Due forme per due domande diverse
+
+| | |
+|---|---|
+| **IL PASSO** | una frase, **una cosa sola da fare**, con dove farla. Sta nell'HUD e non chiede di essere aperta |
+| **IL PERCORSO** | le dodici materie ordinate dalla piu' vicina, con quanto manca a ciascuna. Dietro il pulsante «CHE COSA DEVO FARE?» |
+
+Il pulsante sta **accanto all'obiettivo**, non in un menu: la domanda nasce
+guardando l'obiettivo, e la risposta deve stare a un dito.
+
+### Le due regole di scrittura, e sono l'unica cosa che conta
+
+**Mai un numero senza un'azione.** «Padronanza 34%» dice uno stato; «sei al 40%
+e serve il 78%: circa 10 prove da superare» dice che cosa fare. Per questo la
+distanza si mostra **in prove**, non in percentuale: una percentuale non dice
+quanto lavoro manca, un conteggio si'.
+
+**Mai piu' di una cosa alla volta.** Con trentasei condizioni aperte la
+tentazione e' elencarle: sarebbe onesto e inutile. Si nomina la materia piu'
+vicina al traguardo — quella su cui il prossimo quarto d'ora rende di piu'.
+
+E una terza, nel quadro: **detto una volta, non dodici**. Leggendolo la prima
+volta la domanda vera non e' «quanto manca a latino», e' «e dove si fa latino,
+se questo mondo e' di matematica?». La risposta e' la stessa per undici materie
+su dodici, quindi c'e' una riga sola in cima all'elenco.
+
+### L'errore che ho trovato leggendo, non controllando
+
+La prima versione stampava «Ti mancano 2 argomenti **nuovoi**»: componevo
+«nuovo» + «i» per il plurale. Tutti i controlli passavano — la frase aveva un
+verbo ed era della lunghezza giusta — e l'ho visto solo stampando quello che il
+bambino avrebbe letto.
+
+Il primo rimedio cercava sequenze di vocali «impossibili» in italiano: sbagliato
+due volte, perche' «Hai» e «Sei» sono parole normali e perche' non si indovina
+la morfologia di una lingua con un elenco di digrammi. Ora l'audit confronta le
+frasi con quelle **attese per esteso**: nessun falso allarme, e niente passa.
+
+---
+
 ## Elettronica: si impara facendo (7 agosto 2026)
 
 Prima materia portata fino in fondo sulla direttiva «minigiochi che insegnano,

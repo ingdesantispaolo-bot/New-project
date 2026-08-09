@@ -2170,7 +2170,14 @@ func _open_npc_dialogue(npc_id: String) -> void:
 					mission_pool = "richiesta"
 					lines = NPC_CATALOG.mission_lines(npc_id, mission_pool)
 		if lines.is_empty():
-			var stage := _npc_story_stage()
+			# **Lo stadio è di QUESTO personaggio, e dipende da quanto hai
+			# imparato nella SUA materia.** (8 agosto 2026)
+			#
+			# Prima veniva da `_npc_story_stage()`, che contava gli incontri
+			# chiusi in quella visita: tutti i residenti del mondo cambiavano
+			# insieme, e cambiavano perché avevi toccato delle cose. Un coro che
+			# reagisce all'orologio, non delle persone che imparano.
+			var stage := NpcArc.stadio(gameplay.progression_manager, npc_id)
 			var pools := data.get("battute", {}) as Dictionary
 			lines = Array(pools.get("stadio%d" % stage, pools.get("riempimento", [])))
 	else:
@@ -2198,6 +2205,32 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	var cursor := int(npc_dialogue_cursors.get(cursor_key, 0))
 	var pages: Array = (lines[cursor % lines.size()] as Array).duplicate()
 	npc_dialogue_cursors[cursor_key] = cursor + 1
+	# **Prima di sentirlo parlare, lo si guarda.** (8 agosto 2026)
+	#
+	# L'arco del residente — tre righe scritte per quarantasei personaggi — non
+	# era letto da nessuno tranne il suo audit. È il pezzo di catalogo che
+	# racconta come cambia, ed è scritto in terza persona apposta: non è una
+	# battuta, è quello che il bambino OSSERVA. Le persone non annunciano di
+	# essere cambiate.
+	#
+	# Sta in testa alle pagine perché è il contesto in cui va letto tutto il
+	# resto: la stessa battuta detta da chi conta uno per uno e da chi ha appena
+	# imparato a raggruppare non vuol dire la stessa cosa.
+	#
+	# **Solo nel dialogo ordinario.** Quando il residente sta chiedendo una
+	# missione, o reagendo a come è andata, l'osservazione davanti è rumore: si
+	# è lì per un'altra ragione, e una pagina in più allunga uno scambio che
+	# deve restare svelto. Se ne è accorto `world_l1_readiness_audit`, che
+	# pretende che la conta di Ersilia stia in tre schermate — ed è una pretesa
+	# giusta: quelle pagine le legge un bambino in piedi davanti a qualcuno.
+	if mission_pool == "" and NpcArc.ha_arco(npc_id):
+		var osservazione := NpcArc.osservazione(gameplay.progression_manager, npc_id)
+		if osservazione != "":
+			var apertura: Array = [osservazione]
+			var traguardo := NpcArc.nota_di_traguardo(gameplay.progression_manager, npc_id)
+			if traguardo != "":
+				apertura.append(traguardo)
+			pages.insert(0, "\n".join(PackedStringArray(apertura)))
 	if not pending_return.is_empty():
 		mission_ownership_flow.consume_return(npc_id)
 	if is_instance_valid(player):

@@ -976,6 +976,72 @@ nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
 
 ---
 
+## I personaggi cambiano perche' tu impari (8 agosto 2026)
+
+Richiesta del committente: «diamo sostanza alla vita dei mondi, curiamo
+carattere e comportamento dei personaggi dandogli un significato anche
+didattico».
+
+### Il carattere c'era gia', e non usciva
+
+Quarantasei residenti hanno nel catalogo `registro`, `tic`, `convinzione`,
+`bisogno` e un **arco in tre stadi**. Cercando chi li leggesse: **nessuno,
+tranne il loro stesso audit**. Contenuto scritto, verificato e mai pronunciato —
+la stessa specie di difetto dei `clearedHazardIds`, la parola che compariva una
+volta sola in tutto l'albero.
+
+### E gli archi sono la cosa migliore del catalogo
+
+Hanno tutti la stessa forma, ed e' la forma del **cambiamento concettuale**:
+
+1. **abitudine cieca** — «conta uno per uno perche' cosi' ha sempre fatto, e non
+   sa piu' perche'»;
+2. **dissonanza** — «ha visto Eli contare a gruppi e il numero tornava lo
+   stesso: cerca l'inganno e non lo trova»;
+3. **metodo compreso** — «conta a gruppi di dieci e lo insegna a Puccio».
+
+E' come si impara davvero. Vedere qualcuno spiegare a un altro una cosa che poco
+fa non sapeva e' la dimostrazione, dentro la finzione, che imparare succede: un
+bambino che lo guarda sta guardando se' stesso.
+
+### Che cosa e' cambiato
+
+Lo stadio veniva da `_npc_story_stage()`, che contava **gli incontri chiusi in
+quella visita al mondo**. Due difetti in uno: il personaggio cambiava perche'
+avevi *toccato* delle cose, non perche' avevi *capito*; ed era una misura sola
+per tutto il mondo, quindi tutti i residenti cambiavano insieme — un coro, non
+delle persone.
+
+Adesso lo stadio di ciascuno dipende da **quanto il bambino ha imparato nella
+materia di quel personaggio**, letto dalla stessa prontezza che governa il gate.
+Tobia il contatore cambia quando tu impari a contare; se non la tocchi, resta
+dov'e' — e ha ragione a restarci. E incontrandolo si legge prima **quello che sta
+facendo**, che e' il contesto in cui va letto tutto il resto: la stessa battuta,
+detta da chi conta uno per uno e da chi ha appena imparato a raggruppare, non
+vuol dire la stessa cosa.
+
+### Una regola che ho scritto e poi tolto
+
+Avevo preteso che il terzo stadio contenesse un verbo di trasmissione —
+«insegna», «spiega» — per garantire che il metodo passasse a un altro.
+Diciotto residenti su quarantasei sono diventati rossi, e **aveva torto la
+regola**: «Stima prima e misura poi: la stima gli dice se la misura ha senso» e
+«Cambia una variabile per volta e per la prima volta puo' ripetere un successo»
+sono cambiamenti concettuali pieni, semplicemente non consegnati a nessun altro.
+
+E due personaggi — Lino, Marco — **non cambiano apposta**: restano convinti di
+aver ragione, ed e' scrittura onesta. Applicare la regola avrebbe voluto dire
+riscrivere diciotto righe buone per soddisfare un criterio inventato da me. E'
+lo stesso errore dell'elenco di digrammi per l'ortografia italiana: indovinare
+il significato da un elenco di parole.
+
+Per la stessa ragione la nota che accompagna il terzo stadio non dice piu' «ha
+imparato e adesso lo spiega a qualcun altro» — per quei due sarebbe una bugia —
+ma **«non e' piu' quello di prima: e' cambiato mentre tu imparavi <materia>»**,
+che e' l'unica cosa che il gioco sa con certezza.
+
+---
+
 ## «E adesso che faccio?» (7 agosto 2026)
 
 Segnalazione del committente: «dobbiamo spiegare meglio al giocatore cosa deve

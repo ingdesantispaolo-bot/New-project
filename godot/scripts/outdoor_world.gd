@@ -2279,6 +2279,13 @@ func _open_npc_dialogue(npc_id: String) -> void:
 		var osservazione := NpcArc.osservazione(gameplay.progression_manager, npc_id)
 		if osservazione != "":
 			var apertura: Array = [osservazione]
+			# La cosa che crede, sulla STESSA pagina: è il contesto
+			# dell'osservazione, non un capitolo a parte. E aggiungere una
+			# seconda pagina allungherebbe uno scambio che deve restare svelto —
+			# `world_l1_readiness_audit` pretende tre schermate, e ha ragione.
+			var credenza := NpcArc.riga_di_credenza(gameplay.progression_manager, npc_id)
+			if credenza != "":
+				apertura.append(credenza)
 			var traguardo := NpcArc.nota_di_traguardo(gameplay.progression_manager, npc_id)
 			if traguardo != "":
 				apertura.append(traguardo)

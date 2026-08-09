@@ -99,6 +99,53 @@ static func materia_di(npc_id: String) -> String:
 static func ha_arco(npc_id: String) -> bool:
 	return Array(NpcCatalog.resident(npc_id).get("arco", [])).size() >= STADI
 
+## **La cosa che crede, e che smetterà di credere.** (9 agosto 2026)
+##
+## È il pezzo più prezioso del catalogo, e anche questo non usciva: ogni
+## residente ha una `convinzione` e un `bisogno`. Lette in fila, le quarantasei
+## convinzioni sono un elenco di **misconcezioni** vere, precise e specifiche per
+## materia — «Contare in fretta è barare», «I cicli sono per i pigri», «Capire è
+## tradurre parola per parola», «L'ordine giusto è quello che si vede».
+##
+## Sono esattamente gli errori di ragionamento che un bambino di quell'età fa
+## davvero, e il `bisogno` è la situazione concreta in cui quella convinzione
+## smette di funzionare — che è il solo modo in cui una misconcezione si smonta:
+## non dicendo che è sbagliata, ma mettendola davanti a un caso che non regge.
+##
+## **Perché mostrarla ha valore didattico e non è colore.** Un bambino che legge
+## «Tobia crede che contare in fretta sia barare» riconosce un pensiero che ha
+## avuto anche lui. E quando, più avanti, quella stessa riga compare come
+## «CREDEVA che… adesso non più», vede una cosa che il gioco non può insegnare in
+## nessun altro modo: **le idee si cambiano, e cambiarle è come si impara**.
+##
+## La convinzione non viene mai commentata dal gioco. Non si dice «sbagliava»:
+## si mostra prima, e poi si mostra che non la pensa più così. Chi guarda tira
+## la conclusione da solo, ed è l'unico modo in cui quella conclusione resta.
+static func credenza(progression, npc_id: String) -> Dictionary:
+	var dati := NpcCatalog.resident(npc_id)
+	var convinzione := str(dati.get("convinzione", "")).strip_edges()
+	if convinzione.is_empty():
+		return {}
+	return {
+		"convinzione": convinzione,
+		"bisogno": str(dati.get("bisogno", "")).strip_edges(),
+		"superata": stadio(progression, npc_id) >= STADI - 1,
+	}
+
+## La riga da mostrare accanto all'osservazione. Vuota se non c'è niente da dire.
+static func riga_di_credenza(progression, npc_id: String) -> String:
+	var c := credenza(progression, npc_id)
+	if c.is_empty():
+		return ""
+	if bool(c["superata"]):
+		return "Credeva che: «%s» — adesso non più." % str(c["convinzione"])
+	var riga := "Crede che: «%s»" % str(c["convinzione"])
+	var bisogno := str(c.get("bisogno", ""))
+	if not bisogno.is_empty():
+		riga += "
+%s" % bisogno
+	return riga
+
 ## **Che cosa si vede fare da lontano.** (8 agosto 2026)
 ##
 ## Tre parole sopra la testa, una per stadio. Servono perché il cambiamento

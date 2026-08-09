@@ -58,6 +58,7 @@ func _init() -> void:
 	_lo_stadio_segue_l_apprendimento()
 	_non_torna_mai_indietro()
 	_si_vede_camminando()
+	_le_convinzioni_sono_misconcezioni()
 	if errori.is_empty():
 		print(OK)
 	else:
@@ -192,6 +193,59 @@ func _si_vede_camminando() -> void:
 		for verbo in ["insegna", "spiega", "ha capito", "ha imparato"]:
 			if str(testo).to_lower().contains(verbo):
 				_fallisci("l'attivita' «%s» promette qualcosa che per due personaggi non e' vero" % testo)
+
+## **Quarantasei misconcezioni, tutte diverse.** (9 agosto 2026)
+##
+## La `convinzione` di ogni residente e' l'errore di ragionamento che quel
+## personaggio incarna, e il `bisogno` e' la situazione concreta in cui quella
+## convinzione smette di funzionare. E' il pezzo di catalogo con piu' valore
+## didattico, perche' e' l'unico che nomina **un modo sbagliato di pensare**
+## invece di un contenuto da sapere.
+##
+## Tre cose, e la prima e' quella che ne fa un patrimonio invece che un vezzo:
+## devono essere **tutte diverse**. Due personaggi che credono la stessa cosa
+## sono un personaggio scritto due volte, e una misconcezione ripetuta insegna
+## meta' di quello che insegnano due misconcezioni distinte.
+func _le_convinzioni_sono_misconcezioni() -> void:
+	var digiuno: ProgressionManager = _progressione(0.0, 0)
+	var pieno: ProgressionManager = _progressione(1.0, 40)
+	var viste: Dictionary = {}
+	var quante := 0
+	for npc_id_data in NpcCatalog.RESIDENTS.keys():
+		var npc_id := str(npc_id_data)
+		if not NpcArc.ha_arco(npc_id):
+			continue
+		var c := NpcArc.credenza(digiuno, npc_id)
+		if c.is_empty():
+			_fallisci("%s: nessuna convinzione — il personaggio non crede niente" % npc_id)
+			continue
+		quante += 1
+		var conv := str(c["convinzione"])
+		if viste.has(conv):
+			_fallisci("%s e %s credono la stessa cosa: «%s»" % [viste[conv], npc_id, conv])
+		viste[conv] = npc_id
+		if str(c.get("bisogno", "")).strip_edges().is_empty():
+			_fallisci("%s: crede una cosa ma non ha nessuna situazione che la metta alla prova" % npc_id)
+		# **Prima si crede, poi non piu'.** E' tutto il valore della cosa: un
+		# bambino vede un'idea cambiare, e quella e' la lezione.
+		if bool(c["superata"]):
+			_fallisci("%s: la convinzione risulta gia' superata senza aver imparato niente" % npc_id)
+		if not bool(NpcArc.credenza(pieno, npc_id).get("superata", false)):
+			_fallisci("%s: la convinzione non viene mai superata" % npc_id)
+		var prima := NpcArc.riga_di_credenza(digiuno, npc_id)
+		var dopo := NpcArc.riga_di_credenza(pieno, npc_id)
+		if prima == dopo:
+			_fallisci("%s: la riga della convinzione non cambia mai" % npc_id)
+		# **Il gioco non giudica.** Non si dice mai che sbagliava: si mostra
+		# prima, e poi si mostra che non la pensa piu' cosi'. La conclusione la
+		# tira chi guarda, ed e' l'unico modo in cui resta.
+		for testo in [prima, dopo]:
+			for giudizio in ["sbagliava", "aveva torto", "si sbagliava", "era un errore"]:
+				if testo.to_lower().contains(giudizio):
+					_fallisci("%s: il gioco giudica il personaggio invece di mostrarlo — «%s»" % [
+						npc_id, testo])
+	if quante < 40:
+		_fallisci("solo %d convinzioni sui residenti con arco" % quante)
 
 ## Una progressione finta con la padronanza voluta in tutte le materie.
 func _progressione(padronanza: float, argomenti: int) -> ProgressionManager:

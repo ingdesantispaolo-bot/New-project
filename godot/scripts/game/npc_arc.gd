@@ -99,6 +99,38 @@ static func materia_di(npc_id: String) -> String:
 static func ha_arco(npc_id: String) -> bool:
 	return Array(NpcCatalog.resident(npc_id).get("arco", [])).size() >= STADI
 
+## **Che cosa si vede fare da lontano.** (8 agosto 2026)
+##
+## Tre parole sopra la testa, una per stadio. Servono perché il cambiamento
+## finora si leggeva soltanto parlandoci: attraversando il mondo, un personaggio
+## che ha capito e uno che non ha capito erano identici.
+##
+## Sono generiche apposta, e vale la pena dire perché. La tentazione era di
+## scriverne una su misura per ciascuno dei quarantasei — sarebbe più bello e
+## sarebbe **falso** per due di loro: Lino e Marco arrivano in fondo restando
+## convinti di aver ragione. «Insegna quello che ha capito» sopra la testa di
+## Lino sarebbe una bugia scritta a caratteri grandi.
+##
+## Queste tre valgono per tutti, compresi quei due: dicono che qualcosa si è
+## mosso, senza dire che cosa. Il che cosa lo si scopre parlandoci, ed è giusto
+## che costi l'avvicinarsi.
+const ATTIVITA := [
+	"come ha sempre fatto",
+	"qualcosa non gli torna",
+	"non è più quello di prima",
+]
+
+static func attivita(progression, npc_id: String) -> String:
+	if not ha_arco(npc_id):
+		return ""
+	return str(ATTIVITA[clampi(stadio(progression, npc_id), 0, ATTIVITA.size() - 1)])
+
+## Vero quando il personaggio ha completato il suo arco: è il momento in cui la
+## scena lo avvicina a qualcun altro, perché una cosa capita da soli e una cosa
+## capita insieme si vedono diverse anche da lontano.
+static func in_fondo_all_arco(progression, npc_id: String) -> bool:
+	return ha_arco(npc_id) and stadio(progression, npc_id) >= STADI - 1
+
 ## La riga che accompagna l'osservazione allo stadio più alto.
 ##
 ## Solo al terzo stadio, e solo lì. Agli altri il gioco non commenta —

@@ -57,6 +57,7 @@ func _init() -> void:
 	_ogni_arco_e_completo()
 	_lo_stadio_segue_l_apprendimento()
 	_non_torna_mai_indietro()
+	_si_vede_camminando()
 	if errori.is_empty():
 		print(OK)
 	else:
@@ -149,6 +150,48 @@ func _non_torna_mai_indietro() -> void:
 					npc_id, quota * 100.0, stadio, precedente])
 				break
 			precedente = stadio
+
+## **Il cambiamento si vede da lontano.**
+##
+## Un arco che si legge solo aprendo un dialogo e' un arco che quasi nessuno
+## vedra': la maggior parte dei personaggi si attraversa senza parlarci. Qui si
+## controlla che l'attivita' sopra la testa esista, cambi con lo stadio, e non
+## dica mai piu' di quello che il gioco sa.
+func _si_vede_camminando() -> void:
+	var digiuno: ProgressionManager = _progressione(0.0, 0)
+	var pieno: ProgressionManager = _progressione(1.0, 40)
+	var viste: Dictionary = {}
+	for npc_id_data in NpcCatalog.RESIDENTS.keys():
+		var npc_id := str(npc_id_data)
+		if not NpcArc.ha_arco(npc_id):
+			continue
+		var prima := NpcArc.attivita(digiuno, npc_id)
+		var dopo := NpcArc.attivita(pieno, npc_id)
+		if prima.strip_edges().is_empty():
+			_fallisci("%s: nessuna attivita' visibile da lontano" % npc_id)
+		if prima == dopo:
+			_fallisci("%s: l'attivita' non cambia mai — il cambiamento resta invisibile" % npc_id)
+		# Sopra la testa ci stanno poche parole: oltre, l'etichetta non si legge
+		# e copre il personaggio invece di descriverlo.
+		for testo in [prima, dopo]:
+			if testo.length() > 34:
+				_fallisci("%s: attivita' troppo lunga per stare sopra la testa (%d caratteri)" % [
+					npc_id, testo.length()])
+		viste[prima] = true
+		viste[dopo] = true
+		if not NpcArc.in_fondo_all_arco(pieno, npc_id):
+			_fallisci("%s: con la materia in linea non risulta in fondo all'arco" % npc_id)
+		if NpcArc.in_fondo_all_arco(digiuno, npc_id):
+			_fallisci("%s: risulta in fondo all'arco senza aver imparato niente" % npc_id)
+	# **Nessuna attivita' puo' promettere un insegnamento.** Due residenti
+	# arrivano in fondo restando convinti di aver ragione: una scritta come
+	# «insegna quello che ha capito» sopra la loro testa sarebbe una bugia a
+	# caratteri grandi. E' la stessa ragione per cui e' stata tolta la regola sui
+	# verbi di trasmissione.
+	for testo in viste.keys():
+		for verbo in ["insegna", "spiega", "ha capito", "ha imparato"]:
+			if str(testo).to_lower().contains(verbo):
+				_fallisci("l'attivita' «%s» promette qualcosa che per due personaggi non e' vero" % testo)
 
 ## Una progressione finta con la padronanza voluta in tutte le materie.
 func _progressione(padronanza: float, argomenti: int) -> ProgressionManager:

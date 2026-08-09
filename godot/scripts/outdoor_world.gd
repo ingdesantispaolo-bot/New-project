@@ -1899,6 +1899,7 @@ func _create_world_npcs() -> void:
 		actor.body_entered.connect(func(body): on_interactable_entered(actor, body))
 		actor.body_exited.connect(func(body): on_interactable_exited(actor, body))
 		npc_actors.append(actor)
+	_metti_in_scena_gli_archi()
 	# Un solo volto ricorrente per mondo. Residenti (2) + Bislacco (1) +
 	# itinerante (1) rispettano il budget assoluto di quattro presenze.
 	if npc_actors.size() < 4:
@@ -2053,6 +2054,57 @@ func _update_npc_streaming() -> void:
 	for actor in npc_actors:
 		if is_instance_valid(actor):
 			actor.call("set_stream_active", player.global_position.distance_to(actor.global_position) <= stream_distance)
+
+## **Il cambiamento si deve vedere camminando.** (8 agosto 2026)
+##
+## Passo successivo di «i personaggi cambiano perché tu impari»: finora lo
+## stadio dell'arco si leggeva soltanto parlandoci. Attraversando il mondo, un
+## residente che ha completato il suo arco e uno che non l'ha nemmeno cominciato
+## erano identici — e un cambiamento che si vede solo aprendo un dialogo è un
+## cambiamento che quasi nessuno vedrà.
+##
+## Due segni, e sono diversi apposta:
+##
+##   - **l'attività sotto il nome**: tre parole, leggibili da lontano, che dicono
+##     che qualcosa si è mosso senza dire che cosa (il che cosa costa
+##     l'avvicinarsi, ed è giusto);
+##   - **la vicinanza**: chi è arrivato in fondo al suo arco lo si trova accanto
+##     a un altro residente. È il segno più forte perché non è scritto: due
+##     persone che prima stavano ai due capi della radura adesso stanno insieme,
+##     e non serve leggere niente per accorgersene.
+func _metti_in_scena_gli_archi() -> void:
+	if not is_instance_valid(gameplay):
+		return
+	var progressione = gameplay.progression_manager
+	var in_fondo: Array = []
+	for attore in npc_actors:
+		if not is_instance_valid(attore):
+			continue
+		var npc_id := str(attore.get_meta("id", ""))
+		if npc_id == "":
+			continue
+		if attore.has_method("set_activity"):
+			attore.call("set_activity", NpcArc.attivita(progressione, npc_id))
+		if NpcArc.in_fondo_all_arco(progressione, npc_id):
+			in_fondo.append(attore)
+	# Serve qualcuno a cui stare accanto: con un solo residente arrivato in fondo
+	# lo si avvicina a un altro qualsiasi del mondo. Da soli non si insegna.
+	if in_fondo.is_empty() or npc_actors.size() < 2:
+		return
+	for attore in in_fondo:
+		var compagno: Area2D = null
+		for altro in npc_actors:
+			if is_instance_valid(altro) and altro != attore:
+				compagno = altro
+				break
+		if compagno == null:
+			continue
+		# Accanto, non addosso: a centoventi pixel si leggono come due persone
+		# che stanno parlando, e restano due bersagli distinti da toccare.
+		var verso := compagno.position.direction_to(attore.position)
+		if verso.length_squared() < 0.01:
+			verso = Vector2.RIGHT
+		attore.position = chunks.clamp_to_world(compagno.position + verso * 120.0)
 
 func _create_dialogue_box() -> void:
 	dialogue_box = DIALOGUE_BOX_SCRIPT.new()

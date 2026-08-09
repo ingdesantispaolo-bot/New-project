@@ -46,6 +46,38 @@ func configure(id: String, data: Dictionary, use_reduced_motion: bool = false) -
 		label.add_theme_constant_override("shadow_offset_y", 2)
 		label.accessibility_name = "%s, %s" % [display_name, role]
 		add_child(label)
+	# **Che cosa sta facendo**, sotto il nome. (8 agosto 2026)
+	#
+	# Finora il cambiamento di un personaggio si leggeva solo parlandoci:
+	# attraversando il mondo, chi aveva capito e chi non aveva capito erano
+	# identici. Tre parole bastano a farlo vedere da lontano — e la scelta di
+	# quali tre sta in `NpcArc.ATTIVITA`, dove c'e' anche il motivo per cui sono
+	# generiche.
+	if get_node_or_null("NpcActivity") == null:
+		var attivita := Label.new()
+		attivita.name = "NpcActivity"
+		attivita.text = ""
+		attivita.position = Vector2(-82, 70)
+		attivita.size = Vector2(164, 22)
+		attivita.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		attivita.add_theme_font_size_override("font_size", 11)
+		attivita.add_theme_color_override("font_color", Color("9fded8"))
+		attivita.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.9))
+		attivita.add_theme_constant_override("shadow_offset_x", 2)
+		attivita.add_theme_constant_override("shadow_offset_y", 2)
+		add_child(attivita)
+
+## Che cosa il bambino vede fare a questo personaggio, adesso. Vuoto = niente da
+## dire, e allora non si scrive niente: una riga vuota sotto il nome sarebbe
+## rumore, non informazione.
+func set_activity(testo: String) -> void:
+	var riga := get_node_or_null("NpcActivity") as Label
+	if riga == null:
+		return
+	riga.text = testo
+	riga.visible = not testo.strip_edges().is_empty()
+	if riga.visible:
+		riga.accessibility_name = "%s: %s" % [display_name, testo]
 	if get_node_or_null("WorldSpeech") == null:
 		var bubble := Label.new()
 		bubble.name = "WorldSpeech"

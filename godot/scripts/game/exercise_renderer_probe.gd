@@ -73,6 +73,11 @@ func _run() -> void:
 	root.size = Vector2i(1280, 720)
 	player = PLAYER.new()
 	root.add_child(player)
+	if "--all-formats" in OS.get_cmdline_user_args():
+		await _capture_all_formats()
+		print("EXERCISE RENDER probe OK - 17 formati / 19 varianti tablet")
+		quit(0)
+		return
 	if "--notation-only" in OS.get_cmdline_user_args():
 		await _capture("notation-tablet", _notation_node(), "mission", Vector2i(900, 600))
 		print("EXERCISE RENDER probe OK — notazione")
@@ -218,3 +223,41 @@ func _capture_current(name: String) -> void:
 	await create_timer(0.10).timeout
 	var image := root.get_texture().get_image()
 	image.save_png(ProjectSettings.globalize_path("%s/%s.png" % [OUTPUT, name]))
+
+func _capture_all_formats() -> void:
+	var manager := MinigameManager.new()
+	var cases := [
+		["matching", "italiano", "matching", 8, ""],
+		["ordering", "coding", "ordering", 8, ""],
+		["classification", "scienze", "classification", 8, ""],
+		["graph", "fisica", "graph", 8, ""],
+		["circuit", "elettronica", "circuit", 8, ""],
+		["cycle", "scienze", "cycle", 8, ""],
+		["notation", "musica", "notation", 8, ""],
+		["map", "geografia", "map", 8, ""],
+		["hotspot", "storia", "hotspot", 8, ""],
+		["code-debug", "coding", "code_debug", 8, ""],
+		["number-line", "matematica", "number_line", 8, ""],
+		["balance", "matematica", "balance", 8, ""],
+		["timeline", "storia", "timeline", 8, ""],
+		["compose", "italiano", "compose", 8, ""],
+		["trace", "matematica", "trace", 8, ""],
+		["clue", "scienze", "clue", 8, ""],
+		["swipe-fractions", "matematica", "swipe", 13, "frazioni"],
+		["swipe-verb-times", "italiano", "swipe", 12, "tempi-indicativo"],
+		["swipe-verb-modes", "italiano", "swipe", 12, "modi-verbali"],
+	]
+	for case_data in cases:
+		var name := str(case_data[0])
+		var subject := str(case_data[1])
+		var fmt := str(case_data[2])
+		var level := int(case_data[3])
+		var topic := str(case_data[4])
+		var rng := RandomNumberGenerator.new()
+		rng.seed = hash("renderer:%s" % name)
+		var session := manager.build_guided_minigame(subject, topic, fmt, level, rng)
+		for node_data in Array(session.get("nodes", [])):
+			var node: Dictionary = node_data
+			if str(node.get("format", "")) == fmt:
+				await _capture("all-%s-tablet" % name, node, "mission", Vector2i(900, 600))
+				break

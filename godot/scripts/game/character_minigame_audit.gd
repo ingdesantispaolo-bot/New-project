@@ -1,0 +1,122 @@
+extends SceneTree
+
+## **Il minigioco del personaggio, verificato dove conta.** (9 agosto 2026)
+##
+## Richiesta del committente: un minigioco per personaggio, difficoltà adatta al
+## mondo, coerente col personaggio e con la storia, alcuni di velocità e altri di
+## riflessione.
+##
+## La qualità di un minigioco — se diverte — non si verifica con un audit: si
+## verifica giocandoci. Qui si tiene solo quello che si può misurare, e sono le
+## tre cose che, se cedono, rendono inutile il divertimento:
+##
+##   1. **la strategia vecchia deve fallire, e quella nuova riuscire.** È la
+##      regola del lotto: il minigioco fa cadere la CONVINZIONE del personaggio,
+##      non interroga il bambino. Se contando uno per uno si arrivasse in tempo,
+##      Tobia avrebbe ragione e il gioco non insegnerebbe niente;
+##   2. **la difficoltà cresce col mondo**, e cresce nel modo giusto: il tempo
+##      aumenta meno della quantità, altrimenti la strategia vecchia continuerebbe
+##      a funzionare per sempre;
+##   3. **la consegna non svela la strategia.** Scoprirla è il gioco: dire
+##      «raggruppa per dieci» trasformerebbe una scoperta in un'istruzione da
+##      eseguire — la stessa azione, con dentro zero.
+
+const OK := "CHARACTER MINIGAME audit VERDE"
+## Quanto ci mette un bambino a toccare un pezzo alla volta, in secondi. Non è
+## un numero di comodo: sotto i 0,45 s per tocco si sta misurando la velocità
+## delle dita, che è l'ultima cosa da premiare qui.
+const SECONDI_PER_TOCCO := 0.45
+## Le parole che svelerebbero la strategia. Se compaiono nella consegna, la
+## scoperta è già stata regalata.
+const PAROLE_CHE_SVELANO := ["raggrupp", "decin", "per dieci", "a gruppi", "insieme di dieci"]
+
+var errori: Array = []
+
+func _fallisci(messaggio: String) -> void:
+	errori.append(messaggio)
+
+func _init() -> void:
+	_ogni_gioco_e_coerente()
+	_la_strategia_vecchia_fallisce()
+	_la_difficolta_segue_il_mondo()
+	if errori.is_empty():
+		print(OK)
+	else:
+		printerr("CHARACTER MINIGAME audit ROSSO")
+		for e in errori:
+			printerr("  - %s" % e)
+	quit(0 if errori.is_empty() else 1)
+
+## Coerenza col personaggio e con la storia: il gioco appartiene a un residente
+## vero, e bersaglia la convinzione che quel residente ha davvero nel catalogo.
+func _ogni_gioco_e_coerente() -> void:
+	for npc_id_data in CharacterMinigameCatalog.GIOCHI.keys():
+		var npc_id := str(npc_id_data)
+		var dati := NpcCatalog.resident(npc_id)
+		if dati.is_empty():
+			_fallisci("%s: minigioco di un personaggio che non esiste" % npc_id)
+			continue
+		var scheda := CharacterMinigameCatalog.scheda(npc_id)
+		var bersaglio := str(scheda.get("convinzioneBersaglio", ""))
+		var convinzione := str(dati.get("convinzione", ""))
+		if bersaglio != convinzione:
+			_fallisci("%s: il gioco bersaglia «%s» ma il personaggio crede «%s»" % [
+				npc_id, bersaglio, convinzione])
+		for campo in ["titolo", "consegna", "vittoria", "sconfitta"]:
+			if str(scheda.get(campo, "")).strip_edges().is_empty():
+				_fallisci("%s: manca «%s»" % [npc_id, campo])
+		if not str(scheda.get("forma", "")) in [
+				CharacterMinigameCatalog.FORMA_VELOCITA,
+				CharacterMinigameCatalog.FORMA_RIFLESSIONE]:
+			_fallisci("%s: forma sconosciuta «%s»" % [npc_id, scheda.get("forma", "")])
+		# La consegna non svela la strategia.
+		var consegna := str(scheda.get("consegna", "")).to_lower()
+		for parola in PAROLE_CHE_SVELANO:
+			if consegna.contains(str(parola)):
+				_fallisci("%s: la consegna regala la strategia («%s»)" % [npc_id, parola])
+		if Dictionary(scheda.get("parametri", {})).is_empty():
+			_fallisci("%s: nessun parametro per l'archetipo «%s»" % [npc_id, scheda.get("archetipo", "")])
+
+## **La regola del lotto, in numeri.** Per ogni mondo: contare uno per uno non
+## deve bastare, e raggruppare deve bastare con margine. Senza margine il gioco
+## sarebbe vinto dalla fretta invece che dalla strategia.
+func _la_strategia_vecchia_fallisce() -> void:
+	for world in [1, 6, 12, 18, 24]:
+		var p := CharacterMinigameCatalog.parametri(
+			CharacterMinigameCatalog.ARCHETIPO_MUCCHIO, world)
+		var pezzi := int(p["pezzi"])
+		var gruppo := int(p["gruppo"])
+		var secondi := float(p["secondi"])
+		var uno_per_uno := float(pezzi) * SECONDI_PER_TOCCO
+		# **Non basta che il metodo vecchio perda: deve perdere con margine.**
+		# Alla prima taratura mancava il 4 per mille — 13,5 s contro 13,4 — e con
+		# uno scarto cosi' un bambino veloce vince contando uno per uno, cioe' la
+		# convinzione del personaggio esce CONFERMATA dal gioco che doveva
+		# smontarla. Il 30% e' il minimo perche' l'esito non dipenda dalle dita.
+		if uno_per_uno <= secondi * 1.3:
+			_fallisci("mondo %d: contare uno per uno quasi basta (%.1f s su %.1f) — la convinzione non cade" % [
+				world, uno_per_uno, secondi])
+		# Con i gruppi servono tanti tocchi quante sono le file piene, più i resti.
+		var tocchi := int(floor(float(pezzi) / float(gruppo))) + posmod(pezzi, gruppo)
+		var a_gruppi := float(tocchi) * SECONDI_PER_TOCCO
+		if a_gruppi > secondi * 0.7:
+			_fallisci("mondo %d: anche a gruppi si arriva al pelo (%.1f s su %.1f) — vince la fretta, non l'idea" % [
+				world, a_gruppi, secondi])
+
+## La difficoltà cresce col mondo, e il tempo cresce **meno** della quantità:
+## è ciò che rende la strategia vecchia sempre meno sufficiente.
+func _la_difficolta_segue_il_mondo() -> void:
+	var precedente := {}
+	for world in range(1, 25):
+		var p := CharacterMinigameCatalog.parametri(
+			CharacterMinigameCatalog.ARCHETIPO_MUCCHIO, world)
+		if precedente.is_empty():
+			precedente = p
+			continue
+		if int(p["pezzi"]) <= int(precedente["pezzi"]):
+			_fallisci("mondo %d: il mucchio non cresce" % world)
+		var crescita_pezzi := float(p["pezzi"]) / float(precedente["pezzi"])
+		var crescita_tempo := float(p["secondi"]) / float(precedente["secondi"])
+		if crescita_tempo >= crescita_pezzi:
+			_fallisci("mondo %d: il tempo cresce quanto il mucchio — contare uno per uno resterebbe possibile" % world)
+		precedente = p

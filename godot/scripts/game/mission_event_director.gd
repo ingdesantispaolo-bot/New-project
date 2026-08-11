@@ -12,7 +12,8 @@ extends RefCounted
 ##  - il focus del livello ha SEMPRE ≥ `missionsRequired` eventi che contano per il
 ##    gate ENTRO distanza raggiungibile (nessun blocco della progressione);
 ##  - nessun evento cade dentro `shipEntrance.safeRadius` (zona nave protetta);
-##  - i formati non si ripetono tra eventi consecutivi ed evitano quelli recenti;
+##  - i formati non si ripetono tra eventi consecutivi della stessa materia;
+##    le palestre di materie diverse percorrono invece la propria rotazione completa;
 ##  - un minigioco/pratica aggiorna mastery e ripasso ma NON il conteggio del gate.
 ##
 ## Un evento:
@@ -278,8 +279,16 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		var t2 := 0.55 + 0.45 * float(j) / float(maxi(1, others.size()))
 		# I formati seguono la materia dell'EVENTO, non quella del mondo: una prova
 		# di latino non può usare il repertorio della matematica.
-		var other_formats: Array = WorldProfileCatalog.formats_for(other)
-		var fmt2 := _next_format(other_formats, fmt_index, last_format, recent_formats)
+		var giro := int(Dictionary(context.get("practiceRound", {})).get(other, 0))
+		# La tavolozza viene dal generatore reale; il giro cambia indice, cosi una
+		# palestra completata riappare altrove con una meccanica diversa.
+		var other_formats := MinigameManager.runtime_formats_for(other, level)
+		if other_formats.is_empty():
+			other_formats = WorldProfileCatalog.formats_for(other)
+		# Materie diverse possono condividere la stessa meccanica consecutivamente:
+		# evitarlo qui saltava per sempre una casella della rotazione di ciascuna
+		# materia. L'indice del giro percorre invece l'intera tavolozza.
+		var fmt2 := str(other_formats[posmod(idx + giro, other_formats.size())])
 		last_format = fmt2
 		fmt_index += 1
 		# Il GIRO di pratica: quante palestre di questa materia sono già state
@@ -287,7 +296,6 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		# nuova non è quella vecchia — e nella posizione, perché deve nascere
 		# ALTROVE: ritrovarla nello stesso punto sarebbe la stessa location, e la
 		# segnalazione di gioco del 6 agosto nasce proprio da lì.
-		var giro := int(Dictionary(context.get("practiceRound", {})).get(other, 0))
 		var pos: Vector2 = _distributed_position(
 			rng, composition, spawn, ship, safe_radius, idx + giro * 5, t2,
 			GATE_MAX_R, reach + 350.0, half_extent, events)

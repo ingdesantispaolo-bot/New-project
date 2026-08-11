@@ -691,9 +691,14 @@ const PRACTICE_QUOTA_CATALOGO := 1.0
 ##
 ## Se anche i banchi non bastano si riempie con quello che c'è: una sessione
 ## vuota sarebbe un vicolo cieco, e un vicolo cieco è peggio di una ripetizione.
-func _build_practice_session(subject: String) -> Dictionary:
+func _catalog_practice_session(subject: String, level: int, topic_hint: String, format_hint: String) -> Dictionary:
+	if topic_hint != "" or format_hint != "":
+		return minigame_manager.build_guided_minigame(subject, topic_hint, format_hint, level)
+	return minigame_manager.build_minigame(subject, level)
+
+func _build_practice_session(subject: String, topic_hint: String = "", format_hint: String = "") -> Dictionary:
 	var livello := _learning_level()
-	var session := minigame_manager.build_minigame(subject, livello)
+	var session := _catalog_practice_session(subject, livello, topic_hint, format_hint)
 	var voluti := Array(session.get("nodes", [])).size()
 	if voluti == 0:
 		return session
@@ -724,7 +729,7 @@ func _build_practice_session(subject: String) -> Dictionary:
 	var tentativi := 0
 	while tenuti.size() < tetto and tentativi < PRACTICE_RIESTRAZIONI:
 		tentativi += 1
-		raccogli.call(Array(minigame_manager.build_minigame(subject, livello).get("nodes", [])).slice(0, tetto))
+		raccogli.call(Array(_catalog_practice_session(subject, livello, topic_hint, format_hint).get("nodes", [])).slice(0, tetto))
 
 	if tenuti.size() < voluti:
 		# Il resto dai banchi, che di fondo ne hanno. Si chiede con abbondanza
@@ -740,7 +745,7 @@ func _build_practice_session(subject: String) -> Dictionary:
 	tentativi = 0
 	while tenuti.size() < voluti and tentativi < PRACTICE_RIESTRAZIONI:
 		tentativi += 1
-		raccogli.call(Array(minigame_manager.build_minigame(subject, livello).get("nodes", [])))
+		raccogli.call(Array(_catalog_practice_session(subject, livello, topic_hint, format_hint).get("nodes", [])))
 
 	# Ultima risorsa: si riammettono i già visti, i più vecchi per primi. Non
 	# capita quasi mai, e quando capita è meglio di una sessione vuota.
@@ -797,7 +802,9 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 		_present_feedback("Minigioco già completato.", "system")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := _build_practice_session(subject)
+	var topic_hint := str(payload.get("topicHint", ""))
+	var format_hint := str(payload.get("format", ""))
+	var session := _build_practice_session(subject, topic_hint, format_hint)
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Minigioco non disponibile per %s." % subject, "system")
 		return false
@@ -811,7 +818,7 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 		impronte.append(GameSaveManager.practice_node_fingerprint(n as Dictionary))
 	active_session_context = {
 		"kind": "minigame", "encounterId": encounter_id, "subject": subject,
-		"impronte": impronte,
+		"topicHint": topic_hint, "formatHint": format_hint, "impronte": impronte,
 	}
 	_present_feedback(NoraContextEngine.open_line(subject, false), "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così

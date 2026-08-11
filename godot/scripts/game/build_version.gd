@@ -15,7 +15,7 @@ extends RefCounted
 ## chiamarlo mostrerebbe una versione vuota proprio dove serve di piu'.
 ## Rigenerato da `scripts/stamp-version.mjs`.
 
-const COMMIT := "26fd4d2"
+const COMMIT := "4d2b786"
 const DATA := "09/08/2026 21:14"
 
 ## La riga da mostrare. Corta di proposito: sta sotto il titolo e non deve

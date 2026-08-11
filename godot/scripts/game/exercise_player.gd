@@ -479,6 +479,10 @@ func _apply_format_layout(format: String) -> void:
 		_exercise_panel.anchor_bottom = 1.0
 		_exercise_panel.custom_minimum_size.y = 0.0
 		_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		# La plancia d'azione è alta 320 px e sotto ospita due grandi comandi
+		# touch. Conservare il minimo generico da 180 px mostrava solo una striscia
+		# della forgia/corsa e nascondeva proprio la parte da padroneggiare.
+		_options_scroll.custom_minimum_size.y = 420.0
 		return
 	_exercise_panel.anchor_top = 0.06 if compact else 0.04
 	_exercise_panel.anchor_bottom = 0.74 if compact else 0.96
@@ -500,6 +504,15 @@ func _apply_format_layout(format: String) -> void:
 	if format in ["numeric_input", "short_answer", "free_text"]:
 		_options_scroll.size_flags_vertical = Control.SIZE_FILL
 		_options_scroll.custom_minimum_size.y = 0.0
+	elif format in [
+		"hotspot", "graph", "circuit", "notation", "map", "cycle",
+		"number_line", "balance", "timeline", "compose", "trace", "clue",
+	]:
+		# Nei formati visuali il campo e i bersagli sono il gioco, non una
+		# miniatura fra domanda e comandi. A 180 px il diagramma (230 px) veniva
+		# tagliato dal suo stesso ScrollContainer. Il pannello esterno resta
+		# scorrevole: aiuti e uscita rimangono raggiungibili sotto la plancia.
+		_options_scroll.custom_minimum_size.y = 320.0
 	else:
 		_options_scroll.custom_minimum_size.y = 180.0
 
@@ -1280,6 +1293,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 			resolved.append(target)
 		diagram_model["hotspots"] = resolved
 	diagram.call("configure", fmt, diagram_model)
+	diagram.custom_minimum_size.y = 286.0
 	_visual_diagram = diagram
 	_options.add_child(diagram)
 	if fmt == "clue":
@@ -1696,6 +1710,26 @@ func _build_swipe(item: Dictionary) -> void:
 		b.add_theme_font_size_override("font_size", 19)
 		b.add_theme_color_override("font_color", Color("06272a"))
 		b.add_theme_stylebox_override("normal", _exercise_button_style(dati["colore"], Color("d8fff8")))
+		var action_theme := str(item.get("actionTheme", ""))
+		if action_theme != "":
+			if bool(dati["giusto"]):
+				if action_theme == "math_dash":
+					b.text = "APRI VARCO  >"
+				elif action_theme == "fraction_forge":
+					b.text = "STABILIZZA  >"
+				elif action_theme == "verb_time_race":
+					b.text = "TEMPO GIUSTO  >"
+				elif action_theme == "verb_mode_factory":
+					b.text = "COMANDO CALIBRATO  >"
+				else:
+					b.text = "COLPISCI  >"
+			else:
+				if action_theme == "fraction_forge":
+					b.text = "<  RIFONDI"
+				elif action_theme in ["verb_time_race", "verb_mode_factory"]:
+					b.text = "<  CORREGGI"
+				else:
+					b.text = "<  DEVIA"
 		b.pressed.connect(_swipe_judge.bind(bool(dati["giusto"])))
 		riga.add_child(b)
 	_push_swipe_state("")

@@ -86,6 +86,8 @@ var pulse_button: Button
 ## Il quadro degli obiettivi e il pulsante che lo apre.
 var objective_button: Button
 var objective_panel: ObjectivePanel
+## Il minigioco del personaggio che si sta affrontando, se ce n'e' uno aperto.
+var minigame_panel: PileMinigamePanel
 var touch_controls_button: Button
 var touch_controls_panel: PanelContainer
 var touch_side_button: Button
@@ -2337,9 +2339,53 @@ func _npc_story_stage() -> int:
 		return 1
 	return 0
 
+## **Il minigioco del personaggio.** (9 agosto 2026)
+##
+## Si apre chiudendo il dialogo di chi ne ha uno: e' il momento giusto, perche'
+## si e' appena letto che cosa quella persona crede — e il gioco serve proprio a
+## mettere quella convinzione alla prova.
+##
+## Vincerlo non regala progressione: lascia frammenti e fa avanzare la storia di
+## quel personaggio. La padronanza si guadagna con le prove, e un minigioco di
+## velocita' non e' una prova di matematica.
+func _apri_minigioco_personaggio(npc_id: String) -> void:
+	if is_instance_valid(minigame_panel) or not CharacterMinigameCatalog.ha_gioco(npc_id):
+		return
+	if not is_instance_valid(ui_layer):
+		return
+	minigame_panel = PileMinigamePanel.new()
+	minigame_panel.name = "PileMinigamePanel"
+	minigame_panel.risolto.connect(func(vinto: bool, presi: int, totale: int):
+		_chiudi_minigioco_personaggio(npc_id, vinto, presi, totale))
+	ui_layer.add_child(minigame_panel)
+	minigame_panel.avvia(CharacterMinigameCatalog.scheda(npc_id), reduced_motion)
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+
+func _chiudi_minigioco_personaggio(npc_id: String, vinto: bool, presi: int, totale: int) -> void:
+	if is_instance_valid(minigame_panel):
+		minigame_panel.queue_free()
+		minigame_panel = null
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	var scheda := CharacterMinigameCatalog.scheda(npc_id)
+	if vinto:
+		var premio := 4
+		gameplay.collect_treasure({"rewardFragments": premio}, "gioco-%s" % npc_id)
+		_refresh_economy()
+		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
+		_set_feedback(str(scheda.get("vittoria", "Fatto.")))
+	else:
+		# Perdere non toglie niente: si e' fermato il tempo, non il percorso.
+		_set_feedback("%s (%d su %d)" % [str(scheda.get("sconfitta", "Non stavolta.")), presi, totale])
+	_refresh_prompt()
+
 func _on_dialogue_closed(npc_id: String) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(true)
+	if CharacterMinigameCatalog.ha_gioco(npc_id):
+		_apri_minigioco_personaggio(npc_id)
+		return
 	if npc_id == "w01-ersilia" and ersilia_count_pending:
 		ersilia_count_pending = false
 		var narrative: Dictionary = game_save.data.get("narrative", {})
@@ -3699,8 +3745,12 @@ func _posizione_camera() -> Vector2:
 func _apri_camera() -> void:
 	if not is_instance_valid(gameplay) or gameplay.session_active():
 		return
-	if gameplay.try_start_minigame(
-			{"subject": _world_subject()}, "serratura-%d" % world_level):
+	var subject := _world_subject()
+	var payload := {"subject": subject}
+	var formats := MinigameManager.runtime_formats_for(subject, world_level)
+	if not formats.is_empty():
+		payload["format"] = formats[posmod(world_level + 1, formats.size())]
+	if gameplay.try_start_minigame(payload, "serratura-%d" % world_level):
 		_set_feedback("La serratura chiede la materia di questo mondo. Aprila.")
 
 ## Superata la serratura: l'anello cade, la pergamena si legge, il tesoro e' preso.
@@ -3934,7 +3984,16 @@ func _allenati_in_casa(nome: String) -> void:
 	if not is_instance_valid(gameplay) or gameplay.session_active():
 		return
 	var materia := _world_subject()
-	if gameplay.try_start_minigame({"subject": materia}, "casa-%d-%s" % [world_level, materia], true):
+	var payload := {"subject": materia}
+	var formats := MinigameManager.runtime_formats_for(materia, world_level)
+	if not formats.is_empty():
+		payload["format"] = formats[posmod(world_level, formats.size())]
+	# Nel Deserto delle Orbite (mondo 13) la lezione promette esplicitamente le
+	# frazioni: la casa della matematica apre quindi la Forgia, invece di affidare
+	# il tema principale del mondo a un'estrazione casuale.
+	if materia == "matematica" and WORLD_LESSON_CATALOG.topics(world_level).has("frazioni"):
+		payload["topicHint"] = "frazioni"
+	if gameplay.try_start_minigame(payload, "casa-%d-%s" % [world_level, materia], true):
 		_set_feedback("%s: si lavora %s, e qui l'ingresso costa meno." % [nome, materia])
 
 ## La rovina dei Primi: una riga di trama, mai un esercizio.

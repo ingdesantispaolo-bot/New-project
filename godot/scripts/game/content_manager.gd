@@ -59,7 +59,7 @@ static func is_untimed(subject: String) -> bool:
 ## ansia. Un argomento non elencato qui resta senza tempo: è la scelta prudente,
 ## come lo era il ritmo di default per le materie nuove.
 const FLUENCY_TOPICS := {
-	"matematica": ["tabelline", "calcolo", "frazioni", "percentuali", "potenze", "numeri"],
+	"matematica": ["tabelline", "calcolo", "multipli", "frazioni", "percentuali", "potenze", "numeri"],
 	# Nota: «analisi-grammaticale» è stata tolta da qui. Riconoscere che «gatto»
 	# è un nome sembra automatico, ma il confine con l'analisi vera è sottile e
 	# la scelta prudente vale più della copertura: un argomento in dubbio resta

@@ -976,6 +976,92 @@ nessuna che dica che qualcuno e' morto, e la camera che si apre una volta sola.
 
 ---
 
+## Un minigioco per personaggio: piano (9 agosto 2026)
+
+Richiesta del committente: «rendere la storia piu' guidata e credibile, far
+vivere allo studente una storia viva e meno astratta, adatta a un bambino di
+undici anni. L'interazione con i personaggi deve essere stimolante e
+didatticamente valida attraverso **minigiochi, uno per personaggio**, con i
+quali procedere nella storia. Devono essere originali e divertenti, nascondendo
+la parte didattica dentro una dinamica giocosa».
+
+### Il pezzo che manca, e perche' adesso e' finalmente costruibile
+
+Nelle ultime giornate i personaggi hanno preso tre cose che prima non avevano:
+uno **stadio** che avanza con quello che il bambino impara, un'**osservazione**
+che si legge camminando, e soprattutto una **convinzione** — una misconcezione
+precisa, diversa per tutti e quarantasei.
+
+Manca l'unica cosa che le tiene insieme: **il momento in cui quella convinzione
+viene messa alla prova**. Oggi cade da sola quando la materia va in linea, il che
+e' onesto ma indiretto — il bambino non vede il colpo, vede solo il prima e il
+dopo. Il minigioco del personaggio E' quel colpo.
+
+### La regola che decide se un minigioco e' buono
+
+**Il minigioco deve far fallire la convinzione del personaggio, non
+interrogare il bambino.**
+
+Tobia crede che «contare in fretta e' barare». Il suo minigioco non chiede
+quanto fa 6x7: mette davanti un mucchio che **non si riesce a contare uno per
+uno nel tempo dato**, e lascia scoprire che a gruppi di dieci il conto torna. La
+didattica non e' nascosta perche' e' travestita: e' nascosta perche' **e' la
+meccanica**. Chi gioca non sta rispondendo, sta risolvendo.
+
+Tre prove per riconoscere un buon minigioco, e vanno passate tutte:
+
+1. **si puo' perdere per il motivo giusto**: si fallisce facendo la cosa che il
+   personaggio farebbe, non per lentezza di dita;
+2. **la strategia giusta si scopre giocando**, non leggendo le istruzioni. Se
+   serve una spiegazione prima, il minigioco sta interrogando;
+3. **funziona anche senza la materia**: un adulto che non sa niente di quella
+   materia ci si diverte lo stesso. Se non regge questa, e' un esercizio con una
+   grafica sopra.
+
+### Le tappe, e che cosa si misura in ciascuna
+
+1. **uno solo, fino in fondo** — Tobia, mondo 1, matematica. Serve a misurare
+   quanto costa costruirne uno e se il collaudo lo sente diverso da un esercizio;
+2. **tre archetipi su tre personaggi diversi** in tre materie lontane
+   (matematica, italiano, elettronica): serve a capire se la forma si generalizza
+   o se ogni personaggio ne vuole una sua;
+3. **i dodici del nucleo di ciascun mondo**, uno per mondo;
+4. **i restanti trentaquattro**.
+
+**Da misurare fra la 1 e la 2**, e la lezione delle minimissioni vale identica:
+la campagna sta a 21,1 ore e il collaudo l'ha gia' definita faticosa. Un
+minigioco per personaggio che si **aggiunge** sono altre ore; uno che
+**sostituisce** una tappa di missione no. Si decide col numero in mano, non
+prima.
+
+### Compiti per Codex (arte generativa)
+
+Il committente ha autorizzato ad affidare a Codex la parte grafica attraverso
+questo file. Le richieste vanno tenute **separate dalla meccanica**: il
+minigioco deve essere giocabile con forme piene e colori piatti prima che
+esista un solo disegno, altrimenti l'arte diventa un prerequisito e il lotto si
+ferma ad aspettarla.
+
+**C-ART-1 · Il mucchio di Tobia.** Serve un mucchio di cristalli della radura
+componibile per quantita' (da 12 a 120 pezzi), in cui i pezzi si possano
+raggruppare visivamente in decine senza cambiare disegno: stesso sprite,
+disposizione diversa. Tavolozza della Radura Accademia (`prato-luminoso`,
+accento oro). **Vincolo che conta piu' dell'estetica**: dieci pezzi affiancati
+devono leggersi come «dieci» a colpo d'occhio, senza contarli.
+
+**C-ART-2 · I ritratti dei quarantasei residenti.** Mezzo busto, stile coerente
+col fondale della radura gia' in uso. Ogni ritratto in **tre versioni**, una per
+stadio dell'arco: la stessa persona, con una postura che cambia. Non serve che
+si capisca «ha imparato» — serve che si veda che **non e' piu' ferma nella
+stessa posa**.
+
+**C-ART-3 · Il segno della convinzione.** Un glifo che accompagni la riga «crede
+che…» e che si possa mostrare **spezzato** quando la convinzione e' superata.
+Uno solo, riusato da tutti: e' un segno di stato, e un segno di stato che cambia
+disegno da un personaggio all'altro non si impara.
+
+---
+
 ## I personaggi cambiano perche' tu impari (8 agosto 2026)
 
 Richiesta del committente: «diamo sostanza alla vita dei mondi, curiamo

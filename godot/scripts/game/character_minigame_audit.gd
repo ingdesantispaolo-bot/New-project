@@ -39,6 +39,7 @@ func _init() -> void:
 	_ogni_gioco_e_coerente()
 	_la_strategia_vecchia_fallisce()
 	_la_difficolta_segue_il_mondo()
+	_le_due_famiglie_esistono_entrambe()
 	if errori.is_empty():
 		print(OK)
 	else:
@@ -102,6 +103,33 @@ func _la_strategia_vecchia_fallisce() -> void:
 		if a_gruppi > secondi * 0.7:
 			_fallisci("mondo %d: anche a gruppi si arriva al pelo (%.1f s su %.1f) — vince la fretta, non l'idea" % [
 				world, a_gruppi, secondi])
+
+## **Velocita' E riflessione, non una sola.**
+##
+## Le due famiglie premiano bambini diversi: tutto velocita' esclude chi pensa
+## piano — che spesso e' chi pensa meglio — e tutto riflessione annoia chi ha
+## bisogno di muovere le mani. La regola vale gia' adesso che i giochi sono due,
+## e proprio adesso e' il momento in cui serve: e' scrivendo il terzo e il quarto
+## che si scivola nella famiglia che si sa costruire meglio.
+##
+## Il gioco di riflessione non puo' avere un cronometro. Non e' una preferenza:
+## mettere fretta a chi deve accorgersi di una regola misura l'ansia, non l'idea.
+func _le_due_famiglie_esistono_entrambe() -> void:
+	var conta := CharacterMinigameCatalog.conteggio_forme()
+	for forma in [CharacterMinigameCatalog.FORMA_VELOCITA,
+			CharacterMinigameCatalog.FORMA_RIFLESSIONE]:
+		if int(conta.get(forma, 0)) <= 0:
+			_fallisci("nessun minigioco di «%s»: meta' dei bambini resta fuori" % forma)
+	for npc_id_data in CharacterMinigameCatalog.GIOCHI.keys():
+		var scheda := CharacterMinigameCatalog.scheda(str(npc_id_data))
+		if str(scheda.get("forma", "")) != CharacterMinigameCatalog.FORMA_RIFLESSIONE:
+			continue
+		var secondi := float(Dictionary(scheda.get("parametri", {})).get("secondi", 0.0))
+		if secondi > 0.0:
+			_fallisci("%s: gioco di riflessione con un cronometro (%.0f s)" % [npc_id_data, secondi])
+		var errori := int(Dictionary(scheda.get("parametri", {})).get("errori", 0))
+		if errori < 2:
+			_fallisci("%s: %d errori concessi — il primo tocco decide tutto" % [npc_id_data, errori])
 
 ## La difficoltà cresce col mondo, e il tempo cresce **meno** della quantità:
 ## è ciò che rende la strategia vecchia sempre meno sufficiente.

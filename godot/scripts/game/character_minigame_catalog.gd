@@ -36,6 +36,7 @@ const FORMA_RIFLESSIONE := "riflessione"
 ## la lezione delle ricette e delle minimissioni — la varietà che conta è quella
 ## delle azioni.
 const ARCHETIPO_MUCCHIO := "mucchio"          # velocità · raggruppare per contare
+const ARCHETIPO_SCAFFALE := "scaffale"        # riflessione · ordinare per una regola che non si vede
 
 ## I minigiochi scritti finora.
 ##
@@ -55,6 +56,31 @@ const GIOCHI := {
 		"convinzioneBersaglio": "Contare in fretta è barare.",
 		"vittoria": "Il conto torna, e ci è voluto meno tempo. Tobia guarda le tue mani, non il numero.",
 		"sconfitta": "Il deposito ha chiuso. Tobia ricomincia da capo, e uno.",
+	},
+	# **Il secondo, e di proposito dell'altra famiglia.**
+	#
+	# La tappa 2 del piano serviva a scoprire se la forma si generalizza. Corinna
+	# e' il caso opposto a Tobia sotto ogni aspetto utile: altro mondo, altra
+	# materia, e soprattutto **niente cronometro**. La sua convinzione non si
+	# smonta con la fretta — si smonta con una regola che non si vede.
+	"w02-corinna": {
+		"archetipo": ARCHETIPO_SCAFFALE,
+		"forma": FORMA_RIFLESSIONE,
+		"titolo": "Lo scaffale che non si vede",
+		"consegna": "Corinna ha svuotato uno scaffale e non sa più dove va ogni parola. Rimettile a posto.",
+		"convinzioneBersaglio": "L'ordine giusto è quello che si vede.",
+		"vittoria": "Lo scaffale sta in piedi, e nessuna parola è al posto per via di quanto è lunga.",
+		"sconfitta": "Lo scaffale è di nuovo un mucchio. Corinna le rimette in fila per lunghezza, per intanto.",
+		# **Le parole arrivano ordinate per LUNGHEZZA**, che e' l'ordine di
+		# Corinna: e' l'esca. Chi la segue sbaglia, perche' la lunghezza non dice
+		# niente sulla funzione — ed e' esattamente la cosa da capire.
+		"scaffali": ["COSE", "AZIONI"],
+		"parole": [
+			["re", 0], ["va", 1], ["sole", 0], ["corre", 1], ["porta", 0],
+			["salta", 1], ["nave", 0], ["scrive", 1], ["albero", 0], ["dormire", 1],
+			["finestra", 0], ["cantare", 1], ["montagna", 0], ["ascoltare", 1],
+			["biblioteca", 0], ["costruire", 1],
+		],
 	},
 }
 
@@ -82,6 +108,18 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 				# sistema numerico, e cambiarla da un mondo all'altro
 				# insegnerebbe che è una convenzione arbitraria del gioco.
 				"gruppo": 10,
+			}
+		ARCHETIPO_SCAFFALE:
+			# Nessun cronometro: e' un gioco di riflessione, e mettere fretta a chi
+			# deve capire una regola invisibile misurerebbe l'ansia, non l'idea.
+			#
+			# Gli errori concessi calano salendo di mondo, ma non scendono mai a
+			# zero: una prova in cui il primo tocco decide tutto non si gioca, si
+			# subisce.
+			return {
+				"parole": clampi(6 + int(floor(float(livello) / 3.0)) * 2, 6, 16),
+				"errori": clampi(4 - int(floor(float(livello) / 8.0)), 2, 4),
+				"secondi": 0.0,
 			}
 	return {}
 

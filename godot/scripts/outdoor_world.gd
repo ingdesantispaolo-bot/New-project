@@ -87,7 +87,7 @@ var pulse_button: Button
 var objective_button: Button
 var objective_panel: ObjectivePanel
 ## Il minigioco del personaggio che si sta affrontando, se ce n'e' uno aperto.
-var minigame_panel: PileMinigamePanel
+var minigame_panel: Control
 var touch_controls_button: Button
 var touch_controls_panel: PanelContainer
 var touch_side_button: Button
@@ -2353,12 +2353,19 @@ func _apri_minigioco_personaggio(npc_id: String) -> void:
 		return
 	if not is_instance_valid(ui_layer):
 		return
-	minigame_panel = PileMinigamePanel.new()
-	minigame_panel.name = "PileMinigamePanel"
+	# Un pannello per archetipo: la meccanica cambia, il contorno no. Il
+	# catalogo dice quale, e la scena non conosce nessuna regola di gioco.
+	var scheda_gioco := CharacterMinigameCatalog.scheda(npc_id)
+	if str(scheda_gioco.get("archetipo", "")) == CharacterMinigameCatalog.ARCHETIPO_SCAFFALE:
+		minigame_panel = ShelfMinigamePanel.new()
+		minigame_panel.name = "ShelfMinigamePanel"
+	else:
+		minigame_panel = PileMinigamePanel.new()
+		minigame_panel.name = "PileMinigamePanel"
 	minigame_panel.risolto.connect(func(vinto: bool, presi: int, totale: int):
 		_chiudi_minigioco_personaggio(npc_id, vinto, presi, totale))
 	ui_layer.add_child(minigame_panel)
-	minigame_panel.avvia(CharacterMinigameCatalog.scheda(npc_id), reduced_motion)
+	minigame_panel.avvia(scheda_gioco, reduced_motion)
 	if is_instance_valid(player):
 		player.set_physics_process(false)
 

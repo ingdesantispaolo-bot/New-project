@@ -2378,6 +2378,9 @@ func _apri_minigioco_personaggio(npc_id: String) -> void:
 		CharacterMinigameCatalog.ARCHETIPO_LEVA:
 			minigame_panel = LeverMinigamePanel.new()
 			minigame_panel.name = "LeverMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_ALTALENA:
+			minigame_panel = preload("res://scripts/ui/seesaw_minigame_panel.gd").new()
+			minigame_panel.name = "SeesawMinigamePanel"
 		CharacterMinigameCatalog.ARCHETIPO_PROVA:
 			minigame_panel = ControlledTrialMinigamePanel.new()
 			minigame_panel.name = "ControlledTrialMinigamePanel"

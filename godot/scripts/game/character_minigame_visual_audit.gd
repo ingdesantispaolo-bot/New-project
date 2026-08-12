@@ -29,6 +29,7 @@ const BANCHI := [
 	{"archetipo": "mercato", "script": "res://scripts/ui/market_minigame_panel.gd", "prefisso": "Market", "npc": "w04-lino"},
 	{"archetipo": "circuito", "script": "res://scripts/ui/circuit_minigame_panel.gd", "prefisso": "Circuit", "npc": "w08-ciro"},
 	{"archetipo": "leva", "script": "res://scripts/ui/lever_minigame_panel.gd", "prefisso": "Lever", "npc": "w05-gerbo"},
+	{"archetipo": "altalena", "script": "res://scripts/ui/seesaw_minigame_panel.gd", "prefisso": "Seesaw", "npc": "w05-tilla"},
 	{"archetipo": "prova", "script": "res://scripts/ui/controlled_trial_minigame_panel.gd", "prefisso": "Trial", "npc": "w10-ortensia"},
 	{"archetipo": "stima", "script": "res://scripts/ui/estimate_minigame_panel.gd", "prefisso": "Estimate", "npc": "w13-solano"},
 ]

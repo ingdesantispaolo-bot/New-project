@@ -17,6 +17,8 @@ func _esegui() -> void:
 	await _cattura("corinna-tablet-portrait.png", ShelfMinigamePanel.new(), "w02-corinna", Vector2i(600, 900))
 	await _cattura("ciro-tablet-landscape.png", CircuitMinigamePanel.new(), "w08-ciro", Vector2i(1024, 600), true)
 	await _cattura("ciro-tablet-portrait.png", CircuitMinigamePanel.new(), "w08-ciro", Vector2i(600, 900), true)
+	await _cattura("gerbo-tablet-landscape.png", LeverMinigamePanel.new(), "w05-gerbo", Vector2i(1024, 600))
+	await _cattura("gerbo-tablet-portrait.png", LeverMinigamePanel.new(), "w05-gerbo", Vector2i(600, 900))
 	print("CHARACTER MINIGAME render probe OK")
 	quit()
 

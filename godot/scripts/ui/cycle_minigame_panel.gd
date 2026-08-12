@@ -1,6 +1,8 @@
 class_name CycleMinigamePanel
 extends Control
 
+const CYCLE_STAGE := preload("res://scripts/ui/cycle_minigame_stage.gd")
+
 ## **Cento giri, tre mosse**: l'archetipo del ciclo. (12 agosto 2026)
 ##
 ## **Che cosa c'era di rotto, e perché era rotto nel punto peggiore.** La prima
@@ -64,8 +66,10 @@ var _secondi := 30.0
 var _attivo := false
 var _reduced_motion := false
 var _messaggio := ""
+var _tema_musica := false
 
 var _nastro: Label
+var _palcoscenico
 var _pezzo_in_mano: Label
 var _slot: Label
 var _stato: Label
@@ -82,6 +86,7 @@ func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	if _comandi.size() != 3:
 		_comandi = COMANDI_PREDEFINITI
 	_nome_pezzo = str(_scheda.get("pezzo", "pezzo"))
+	_tema_musica = str(_scheda.get("materia", "")) == "musica"
 	_obiettivo = int(parametri.get("pezzi", 12))
 	_in_coda = _obiettivo
 	_capienza = int(parametri.get("capienza", 24))
@@ -169,6 +174,11 @@ func _costruisci() -> void:
 	_cronometro.add_theme_color_override("font_color", Color("ffca78"))
 	colonna.add_child(_cronometro)
 
+	_palcoscenico = CYCLE_STAGE.new()
+	_palcoscenico.name = "CycleStage"
+	_palcoscenico.configura("musica" if _tema_musica else "officina", _reduced_motion)
+	colonna.add_child(_palcoscenico)
+
 	_nastro = Label.new()
 	_nastro.name = "CycleBelt"
 	_nastro.custom_minimum_size = Vector2(0, 58)
@@ -227,7 +237,7 @@ func _costruisci() -> void:
 	colonna.add_child(riga)
 	var registra := Button.new()
 	registra.name = "CycleRecordButton"
-	registra.text = "REGISTRA IL GESTO CHE HAI IN MANO"
+	registra.text = "AFFIDA IL GESTO ALLA STAFFETTA" if _tema_musica else "REGISTRA IL GESTO CHE HAI IN MANO"
 	registra.custom_minimum_size = Vector2(330, 50)
 	registra.pressed.connect(_registra)
 	riga.add_child(registra)
@@ -243,7 +253,7 @@ func _costruisci() -> void:
 
 	_avvia = Button.new()
 	_avvia.name = "CycleRunButton"
-	_avvia.text = "AVVIA IL BRACCIO"
+	_avvia.text = "AVVIA LA STAFFETTA" if _tema_musica else "AVVIA IL BRACCIO"
 	_avvia.custom_minimum_size = Vector2(0, 52)
 	_avvia.pressed.connect(_esegui)
 	colonna.add_child(_avvia)
@@ -316,7 +326,7 @@ func _esegui() -> void:
 	for pulsante in _pulsanti_gesto:
 		pulsante.disabled = true
 	_avvia.disabled = true
-	_aggiorna("Il braccio ha preso il giro e continua da solo.")
+	_aggiorna("La staffetta ha preso il motivo e lo porta da sola." if _tema_musica else "Il braccio ha preso il giro e continua da solo.")
 
 func _process(delta: float) -> void:
 	if not _attivo:
@@ -335,7 +345,7 @@ func _process(delta: float) -> void:
 		_dall_ultimo_arrivo -= _arrivo
 		_in_coda += 1
 		if _in_coda >= _capienza:
-			_aggiorna("Il nastro ha traboccato.")
+			_aggiorna("Troppe lanterne aspettano il motivo." if _tema_musica else "Il nastro ha traboccato.")
 			_chiudi(false)
 			return
 	if _braccio_acceso and _in_coda > 0:
@@ -348,7 +358,7 @@ func _process(delta: float) -> void:
 			return
 	if _secondi <= 0.0:
 		_secondi = 0.0
-		_aggiorna("Il turno è finito e il nastro è ancora pieno.")
+		_aggiorna("Il segnale si è spento prima dell'ultima lanterna." if _tema_musica else "Il turno è finito e il nastro è ancora pieno.")
 		_chiudi(false)
 		return
 	_aggiorna("")
@@ -358,7 +368,7 @@ func _controlla_fine() -> bool:
 		return false
 	if is_instance_valid(_glifo):
 		_glifo.imposta_spezzato(true)
-	_aggiorna("Nastro vuoto.")
+	_aggiorna("Tutte le lanterne hanno ricevuto il motivo." if _tema_musica else "Nastro vuoto.")
 	_chiudi(true)
 	return true
 
@@ -375,10 +385,12 @@ func _aggiorna(messaggio: String = "") -> void:
 	if is_instance_valid(_cronometro):
 		_cronometro.text = "%.0f secondi di turno" % maxf(0.0, _secondi)
 	if is_instance_valid(_nastro):
-		_nastro.text = "NASTRO: %d %s in attesa  ·  capienza %d" % [_in_coda, _nome_pezzo, _capienza]
+		_nastro.text = ("LANTERNE: %d %s in attesa  ·  capacità %d" if _tema_musica else "NASTRO: %d %s in attesa  ·  capienza %d") % [_in_coda, _nome_pezzo, _capienza]
+	if is_instance_valid(_palcoscenico):
+		_palcoscenico.aggiorna(_in_coda, _lavorati, _capienza, _braccio_acceso)
 	if is_instance_valid(_pezzo_in_mano):
 		if _braccio_acceso:
-			_pezzo_in_mano.text = "Il braccio ripete da solo. Lavorati: %d" % _lavorati
+			_pezzo_in_mano.text = ("La staffetta ripete da sola. Inviati: %d" if _tema_musica else "Il braccio ripete da solo. Lavorati: %d") % _lavorati
 		elif _in_coda <= 0:
 			_pezzo_in_mano.text = "Nessun %s in attesa." % _nome_pezzo
 		else:
@@ -390,7 +402,7 @@ func _aggiorna(messaggio: String = "") -> void:
 			parole.append(str(_comandi[comando]))
 		while parole.size() < _comandi.size():
 			parole.append("▢")
-		_slot.text = "IL BRACCIO RIPETE:   " + "   ".join(parole)
+		_slot.text = ("LA STAFFETTA RIPETE:   " if _tema_musica else "IL BRACCIO RIPETE:   ") + "   ".join(parole)
 	if is_instance_valid(_stato):
 		_stato.text = _messaggio
 

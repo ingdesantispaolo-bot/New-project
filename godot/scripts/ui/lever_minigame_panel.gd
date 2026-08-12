@@ -1,6 +1,8 @@
 class_name LeverMinigamePanel
 extends Control
 
+const LEVER_MINIGAME_BOARD := preload("res://scripts/ui/lever_minigame_board.gd")
+
 ## **Fulcro!**: l'archetipo della leva. (12 agosto 2026)
 ##
 ## Gerbo crede che «le leve sono trucchi da deboli». Il gioco non gli chiede che
@@ -38,8 +40,9 @@ var _secondi := 22.0
 var _penalita := 1.6
 var _attivo := false
 var _messaggio := ""
+var _reduced_motion := false
 
-var _trave: Label
+var _trave
 var _cronometro: Label
 var _stato: Label
 var _glifo: ConvictionGlyph
@@ -47,6 +50,7 @@ var _pulsanti: Array[Button] = []
 
 func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	_scheda = scheda.duplicate(true)
+	_reduced_motion = reduced_motion
 	var parametri: Dictionary = _scheda.get("parametri", {})
 	_peso = float(parametri.get("peso", 20.0))
 	_da_sollevare = int(parametri.get("massi", 3))
@@ -140,17 +144,11 @@ func _costruisci() -> void:
 	_cronometro.add_theme_color_override("font_color", Color("ffca78"))
 	colonna.add_child(_cronometro)
 
-	# La trave disegnata a caratteri: il masso a sinistra, le mani a destra, il
-	# cuneo dove lo si è messo. Nessun numero, nessuna formula — la distanza si
-	# vede, ed è quello che deve entrare in testa.
-	_trave = Label.new()
+	# La tavola è vettoriale: la distanza fra masso, cuneo e mani si legge senza
+	# formule e rimane nitida su qualunque densità di schermo.
+	_trave = LEVER_MINIGAME_BOARD.new()
 	_trave.name = "LeverBeam"
-	_trave.custom_minimum_size = Vector2(0, 74)
-	_trave.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_trave.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_trave.add_theme_font_size_override("font_size", 22)
-	_trave.add_theme_color_override("font_color", Color("ffe2aa"))
-	_trave.add_theme_stylebox_override("normal", _stile(Color("3a2b18", 0.96), Color("b98b4c", 0.8), 14, 2))
+	_trave.configura(_peso, _fulcro, _reduced_motion)
 	colonna.add_child(_trave)
 
 	var etichetta := Label.new()
@@ -174,6 +172,9 @@ func _costruisci() -> void:
 		b.focus_mode = Control.FOCUS_ALL
 		b.tooltip_text = "Appoggia il cuneo a %d passi dal masso" % posizione
 		b.pressed.connect(_sposta.bind(posizione))
+		b.add_theme_stylebox_override("normal", _stile(Color("3b2a18"), Color("8e683b"), 9, 1))
+		b.add_theme_stylebox_override("hover", _stile(Color("634525"), Color("f4cf69"), 9, 2))
+		b.add_theme_stylebox_override("focus", _stile(Color("594020"), Color("fff0a8"), 9, 3))
 		riga.add_child(b)
 		_pulsanti.append(b)
 
@@ -206,6 +207,8 @@ func _sposta(posizione: int) -> void:
 	if not _attivo:
 		return
 	_fulcro = posizione
+	if is_instance_valid(_trave):
+		_trave.imposta_fulcro(_fulcro)
 	_aggiorna("Cuneo a %d." % posizione)
 
 func _spingi() -> void:
@@ -213,9 +216,13 @@ func _spingi() -> void:
 		return
 	if not solleva(_peso, _fulcro):
 		_secondi -= _penalita
+		if is_instance_valid(_trave):
+			_trave.mostra_esito(false)
 		_aggiorna("La trave non si muove. Il masso rotola indietro.")
 		return
 	_sollevati += 1
+	if is_instance_valid(_trave):
+		_trave.mostra_esito(true)
 	# Il cuneo torna dov'era: il gesto va rifatto, e diventa un gesto.
 	_fulcro = FULCRO_INIZIALE
 	if _sollevati >= _da_sollevare:
@@ -224,6 +231,8 @@ func _spingi() -> void:
 		_aggiorna("Su. Tutti.")
 		_chiudi(true)
 		return
+	if is_instance_valid(_trave):
+		_trave.imposta_fulcro(_fulcro)
 	_aggiorna("Su! E ne arriva un altro.")
 
 func _process(delta: float) -> void:
@@ -249,18 +258,13 @@ func _aggiorna(messaggio: String = "") -> void:
 		_messaggio = messaggio
 	if is_instance_valid(_cronometro):
 		_cronometro.text = "%.0f secondi" % maxf(0.0, _secondi)
-	if is_instance_valid(_trave):
-		var disegno := ""
-		for posizione in range(POSIZIONI + 1):
-			if posizione == 0:
-				disegno += "▣"
-			elif posizione == POSIZIONI:
-				disegno += "✋"
-			elif posizione == _fulcro:
-				disegno += "▲"
-			else:
-				disegno += "─"
-		_trave.text = disegno
+	for i in _pulsanti.size():
+		var selezionato := i + 1 == _fulcro
+		_pulsanti[i].add_theme_color_override("font_color", Color("16231f") if selezionato else Color("f7dfb1"))
+		if selezionato:
+			_pulsanti[i].add_theme_stylebox_override("normal", _stile(Color("f1c85e"), Color("fff3b0"), 9, 3))
+		else:
+			_pulsanti[i].add_theme_stylebox_override("normal", _stile(Color("3b2a18"), Color("8e683b"), 9, 1))
 	if is_instance_valid(_stato):
 		_stato.text = "%s   ·   sollevati %d/%d" % [_messaggio, _sollevati, _da_sollevare]
 

@@ -57,6 +57,7 @@ const ARCHETIPO_RADIO := "radio"          # velocità · le parole cambiano, il 
 const ARCHETIPO_MERCATO := "mercato"      # riflessione · richieste quasi uguali, un dettaglio decide
 const ARCHETIPO_CIRCUITO := "circuito"    # riflessione · segui il flusso, non la fotografia
 const ARCHETIPO_LEVA := "leva"            # velocità · la forza è fissa, il punto d'appoggio no
+const ARCHETIPO_ALTALENA := "altalena"    # riflessione · una previsione resta vera senza spettatori
 const ARCHETIPO_PROVA := "prova"          # riflessione · una causa si isola, non si indovina
 const ARCHETIPO_STIMA := "stima"          # velocità · stimare converge, indovinare no
 
@@ -154,6 +155,15 @@ const GIOCHI := {
 		"convinzioneBersaglio": "Le leve sono trucchi da deboli.",
 		"vittoria": "Su tutti, e senza spingere più forte di prima. Gerbo guarda il cuneo e sta zitto.",
 		"sconfitta": "I massi sono ancora lì. Gerbo si sputa sulle mani e ci riprova.",
+	},
+	"w05-tilla": {
+		"archetipo": ARCHETIPO_ALTALENA,
+		"forma": FORMA_RIFLESSIONE,
+		"titolo": "L'altalena delle prove",
+		"consegna": "Sposta la cesta, prevedi che cosa succederà e prova a tenere l'asse in equilibrio.",
+		"convinzioneBersaglio": "Se nessuno mi dà retta, vuol dire che ho torto.",
+		"vittoria": "Tre equilibri, anche senza spettatori. Tilla aveva ragione prima che qualcuno guardasse.",
+		"sconfitta": "L'altalena resta qui. Tilla rimette le ceste a terra e potete riprovare.",
 	},
 	# -- Mondo 6 · musica -------------------------------------------------------
 	"w06-ambra": {
@@ -638,6 +648,13 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 				"massi": 3 + int(floor(float(livello) / 6.0)),
 				"secondi": 20.0 + float(livello) * 0.5,
 				"penalita": 1.6,
+			}
+		ARCHETIPO_ALTALENA:
+			return {
+				"prove": clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5),
+				"errori": 5,
+				"distanze": 4,
+				"secondi": 0.0,
 			}
 		ARCHETIPO_PROVA:
 			# Le prove concesse sono **esattamente quante ne servono cambiando una

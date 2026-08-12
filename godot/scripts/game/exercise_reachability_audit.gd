@@ -93,6 +93,45 @@ func _run() -> void:
 					_fallisci("%s: «%s» sta fuori dalla zona scorrevole: se sborda è perduto" % [
 						formato, nome])
 
+		# **1-bis · il riquadro deve stare dentro lo schermo, sbagliando.**
+		#
+		# Questa regola mancava, e la sua assenza e' costata una seconda
+		# segnalazione: «il programma si blocca se si sbaglia esercizio». L'audit
+		# era verde mentre il difetto c'era, perche' controllava che i pulsanti
+		# stessero nella zona scorrevole — ed era vero — ma non che la zona
+		# scorrevole stesse nella FINESTRA. Il riquadro cresceva col contenuto e
+		# usciva dal basso portandosi via i pulsanti.
+		#
+		# Si prova con la risposta SBAGLIATA apposta: e' il momento in cui il
+		# contenuto e' piu' alto, perche' al riscontro si aggiunge la spiegazione
+		# dell'esercizio. Rispondendo giusto si legge una riga sola e spesso ci
+		# si sta dentro lo stesso — ed e' esattamente per questo che lo studente
+		# ha visto il blocco solo quando sbagliava.
+		var nodo_corrente := _nodo(formato)
+		player.call("_score_current", false, nodo_corrente)
+		await process_frame
+		await process_frame
+		# **Il metro e' la viewport vera, non un numero che ho scritto io.**
+		#
+		# Al primo tentativo confrontavo con una costante di 560 px, convinto di
+		# aver rimpicciolito la finestra con `root.get_window().size`. In headless
+		# quella riga non ha effetto: la viewport restava quella di progetto, e
+		# l'audit dichiarava un difetto misurando contro un'altezza inventata.
+		# Stavo per "riparare" un guasto sulla base di un metro sbagliato.
+		var altezza := root.get_visible_rect().size.y
+		var pannello := player.find_child("ExercisePanel", true, false) as Control
+		if pannello != null:
+			var fondo := pannello.get_global_rect().end.y
+			if fondo > altezza + 1.0:
+				_fallisci("%s: sbagliando, il riquadro finisce a y=%.0f su una viewport alta %.0f" % [
+					formato, fondo, altezza])
+		var avanti := player.find_child("ExerciseNextButton", true, false) as Button
+		if avanti != null and avanti.visible:
+			var giu := avanti.get_global_rect().end.y
+			if giu > altezza + 1.0:
+				_fallisci("%s: sbagliando, AVANTI finisce a y=%.0f (viewport %.0f) — da li' non si prosegue" % [
+					formato, giu, altezza])
+
 		# 2 · un contenitore vuoto non occupa spazio.
 		var opzioni := player.find_child("ExerciseOptionsScroll", true, false) as Control
 		if opzioni != null and formato in FUORI_DALLE_OPZIONI:

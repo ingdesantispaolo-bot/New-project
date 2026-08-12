@@ -98,7 +98,7 @@ var _hint_level := 0
 ## modo più comodo di scrivere un numero.
 var _numpad: GridContainer
 var _convergence_display: FinalConvergenceDisplay
-var _exercise_panel: PanelContainer
+var _exercise_panel: Panel
 var _options_scroll: ScrollContainer
 
 # Stato dei minigiochi interattivi (formati "ordering" e "matching"). Ogni nodo
@@ -207,12 +207,38 @@ func _build_ui() -> void:
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
 
-	_exercise_panel = PanelContainer.new()
+	# **Un Panel, non un PanelContainer.** (12 agosto 2026)
+	#
+	# Segnalazione di uno studente al mondo 1: «il programma si blocca se si
+	# sbaglia esercizio». Riprodotto: in una finestra da 560 px il pulsante
+	# AVANTI finiva a y=722 con una risposta numerica — fuori schermo, come nella
+	# segnalazione precedente, ma per una causa DIVERSA e piu' profonda.
+	#
+	# Ieri avevo reso scorrevole il contenuto e creduto di aver chiuso il caso.
+	# Non bastava: un `PanelContainer` **impone al figlio la propria dimensione
+	# minima e ne eredita il minimo**, e uno ScrollContainer riporta come minimo
+	# quello del suo contenuto. Risultato: piu' cresceva il contenuto, piu'
+	# cresceva il pannello — cioe' proprio la cosa che lo scorrimento doveva
+	# evitare. Scorreva, ma il riquadro sbordava dallo schermo insieme al testo.
+	#
+	# Un `Panel` semplice non impone niente: lo scorrimento ancorato dentro resta
+	# grande quanto il riquadro, e il riquadro resta dentro lo schermo.
+	#
+	# **Perche' proprio sbagliando.** La risposta sbagliata aggiunge la
+	# spiegazione dell'esercizio al riquadro del riscontro: e' il momento in cui
+	# il contenuto e' piu' alto. Rispondendo giusto si legge «Giusto! +10
+	# energia» e spesso ci si sta dentro — ed e' per questo che lo studente ha
+	# visto il blocco solo sbagliando.
+	_exercise_panel = Panel.new()
+	_exercise_panel.name = "ExercisePanel"
 	_exercise_panel.anchor_left = 0.08
 	_exercise_panel.anchor_top = 0.04
 	_exercise_panel.anchor_right = 0.92
 	_exercise_panel.anchor_bottom = 0.96
-	_exercise_panel.custom_minimum_size = Vector2(640, 480)
+	# Nessun minimo verticale: e' quello che faceva sbordare il riquadro quando
+	# il contenuto cresceva. La larghezza resta, l altezza la decidono gli
+	# ancoraggi — cioe la finestra, che e l unica cosa che non si puo superare.
+	_exercise_panel.custom_minimum_size = Vector2(640, 0)
 	var is_exam := str(session.get("kind", "mission")) == "final_exam"
 	_exercise_panel.add_theme_stylebox_override("panel", _exercise_panel_style(is_exam))
 	add_child(_exercise_panel)
@@ -236,6 +262,13 @@ func _build_ui() -> void:
 	box_scroll.name = "ExerciseContentScroll"
 	box_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_exercise_panel.add_child(box_scroll)
+	# Ancorato al riquadro: lo scorrimento occupa il pannello e non un pixel di
+	# piu'. E' questa riga a impedire che il contenuto detti l'altezza.
+	box_scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	box_scroll.offset_left = 18.0
+	box_scroll.offset_right = -18.0
+	box_scroll.offset_top = 16.0
+	box_scroll.offset_bottom = -16.0
 	var box := VBoxContainer.new()
 	box.name = "ExerciseContent"
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -486,7 +519,10 @@ func _apply_format_layout(format: String) -> void:
 		return
 	_exercise_panel.anchor_top = 0.06 if compact else 0.04
 	_exercise_panel.anchor_bottom = 0.74 if compact else 0.96
-	_exercise_panel.custom_minimum_size.y = 400.0 if compact else 480.0
+	# Anche qui nessun minimo verticale: gli ancoraggi qui sopra decidono quanto
+	# e alto il riquadro, e un minimo piu grande della finestra lo farebbe
+	# sbordare comunque — che e il difetto appena riparato.
+	_exercise_panel.custom_minimum_size.y = 0.0
 	# Lo scroll deve continuare a ricevere l'altezza residua: matching e
 	# classificazione includono il CTA verifica nello stesso contenitore.
 	_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL

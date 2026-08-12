@@ -1020,15 +1020,21 @@ Tre prove per riconoscere un buon minigioco, e vanno passate tutte:
 
 ### Le tappe, e che cosa si misura in ciascuna
 
-1. **uno solo, fino in fondo** — Tobia, mondo 1, matematica. Serve a misurare
-   quanto costa costruirne uno e se il collaudo lo sente diverso da un esercizio;
-2. **tre archetipi su tre personaggi diversi** in tre materie lontane
-   (matematica, italiano, elettronica): serve a capire se la forma si generalizza
-   o se ogni personaggio ne vuole una sua;
-3. **i dodici del nucleo di ciascun mondo**, uno per mondo;
-4. **i restanti trentaquattro**.
+La matrice autoriale dei quarantasei giochi, con alternanza 23 velocità / 23
+riflessione e curva di replay per mondo, è in
+[`docs/MINIGIOCHI_PERSONAGGI.md`](docs/MINIGIOCHI_PERSONAGGI.md). Qui restano
+solo ordine e lavoro ancora aperto.
 
-**Da misurare fra la 1 e la 2**, e la lezione delle minimissioni vale identica:
+1. **collaudare i tre pilot giocabili** — Tobia (velocità), Corinna e Ciro
+   (riflessione): durata, voglia di riprovare e sensazione di gioco rispetto a
+   un esercizio. Le catture sono in `artifacts/character-minigames`;
+2. **i venti specialisti restanti**, uno per mondo, seguendo la matrice; il
+   Ruggine (velocità) e Sesto (riflessione), mondo 3, sono fatti e verificati.
+   Il prossimo è Marea, mondo 4, con «Radio di burrasca»;
+3. **i ventitré testimoni**;
+4. **Tavolo giochi globale** per il replay con difficoltà del mondo corrente.
+
+**Da misurare prima della 2**, e la lezione delle minimissioni vale identica:
 la campagna sta a 21,1 ore e il collaudo l'ha gia' definita faticosa. Un
 minigioco per personaggio che si **aggiunge** sono altre ore; uno che
 **sostituisce** una tappa di missione no. Si decide col numero in mano, non
@@ -1042,23 +1048,11 @@ minigioco deve essere giocabile con forme piene e colori piatti prima che
 esista un solo disegno, altrimenti l'arte diventa un prerequisito e il lotto si
 ferma ad aspettarla.
 
-**C-ART-1 · Il mucchio di Tobia.** Serve un mucchio di cristalli della radura
-componibile per quantita' (da 12 a 120 pezzi), in cui i pezzi si possano
-raggruppare visivamente in decine senza cambiare disegno: stesso sprite,
-disposizione diversa. Tavolozza della Radura Accademia (`prato-luminoso`,
-accento oro). **Vincolo che conta piu' dell'estetica**: dieci pezzi affiancati
-devono leggersi come «dieci» a colpo d'occhio, senza contarli.
-
 **C-ART-2 · I ritratti dei quarantasei residenti.** Mezzo busto, stile coerente
 col fondale della radura gia' in uso. Ogni ritratto in **tre versioni**, una per
 stadio dell'arco: la stessa persona, con una postura che cambia. Non serve che
 si capisca «ha imparato» — serve che si veda che **non e' piu' ferma nella
 stessa posa**.
-
-**C-ART-3 · Il segno della convinzione.** Un glifo che accompagni la riga «crede
-che…» e che si possa mostrare **spezzato** quando la convinzione e' superata.
-Uno solo, riusato da tutti: e' un segno di stato, e un segno di stato che cambia
-disegno da un personaggio all'altro non si impara.
 
 ---
 

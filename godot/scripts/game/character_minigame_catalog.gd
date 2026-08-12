@@ -37,6 +37,9 @@ const FORMA_RIFLESSIONE := "riflessione"
 ## delle azioni.
 const ARCHETIPO_MUCCHIO := "mucchio"          # velocità · raggruppare per contare
 const ARCHETIPO_SCAFFALE := "scaffale"        # riflessione · ordinare per una regola che non si vede
+const ARCHETIPO_CIRCUITO := "circuito"         # riflessione · seguire il flusso quando lo schema cambia
+const ARCHETIPO_CICLO := "ciclo"                # velocità · registrare una breve sequenza e riusarla
+const ARCHETIPO_TRACCIA := "traccia"             # riflessione · fissare segnali esterni prima che spariscano
 
 ## I minigiochi scritti finora.
 ##
@@ -82,6 +85,42 @@ const GIOCHI := {
 			["biblioteca", 0], ["costruire", 1],
 		],
 	},
+	# Ruggine riavvia la macchina a mano ed è fiera di farlo. Il nastro non le
+	# chiede di chiamare un ciclo: mostra che una sequenza fissata una volta
+	# continua a lavorare anche quando i pezzi arrivano tutti insieme.
+	"w03-ruggine": {
+		"archetipo": ARCHETIPO_CICLO,
+		"forma": FORMA_VELOCITA,
+		"titolo": "Cento giri, tre mosse",
+		"consegna": "Il nastro si riempie. Prepara il braccio e lascia passare i pezzi.",
+		"convinzioneBersaglio": "I cicli sono per i pigri.",
+		"vittoria": "Il braccio ripete senza stancarsi. Ruggine smette di chiamarlo pigrizia.",
+		"sconfitta": "Il nastro ha traboccato. Ruggine riporta i pezzi all'inizio, uno per uno.",
+	},
+	"w03-sesto": {
+		"archetipo": ARCHETIPO_TRACCIA,
+		"forma": FORMA_RIFLESSIONE,
+		"titolo": "La traccia fuori dalla testa",
+		"consegna": "La stanza si velarà. Lascia una traccia che dica al braccio dove andare.",
+		"convinzioneBersaglio": "Se non me lo ricordo, vuol dire che non l'ho mai saputo.",
+		"vittoria": "La stanza è nascosta, ma la traccia resta. Sesto riconosce il gesto delle sue mani.",
+		"sconfitta": "La nebbia ha coperto la stanza. Sesto lascia i segnali al loro posto e potete riprovare.",
+	},
+	# **Il terzo archetipo: la stessa funzione, una forma che muta.**
+	#
+	# Ciro sa riprodurre una fotografia del circuito. Il Delta gli toglie proprio
+	# quella scorciatoia: a ogni accensione i collegamenti cambiano posto, mentre
+	# batteria, interruttori e lampada continuano a fare la stessa cosa. Non si
+	# chiede di nominare un componente; si segue energia visibile dentro una rete.
+	"w08-ciro": {
+		"archetipo": ARCHETIPO_CIRCUITO,
+		"forma": FORMA_RIFLESSIONE,
+		"titolo": "Il circuito mutante",
+		"consegna": "Il Delta ha spostato tutti i nodi. Accendi la lampada ogni volta che lo schema si ricompone.",
+		"convinzioneBersaglio": "Basta ricordare lo schema giusto.",
+		"vittoria": "Tre schemi diversi, la stessa corrente. Ciro smette di contare i nodi e segue il lampo.",
+		"sconfitta": "Il Delta si spegne senza danni. Ciro ridisegna i collegamenti: adesso sapete dove non passa.",
+	},
 }
 
 ## Quanti pezzi ha il mucchio, e quanto tempo c'è: la difficoltà del mondo.
@@ -119,6 +158,30 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 			return {
 				"parole": clampi(6 + int(floor(float(livello) / 3.0)) * 2, 6, 16),
 				"errori": clampi(4 - int(floor(float(livello) / 8.0)), 2, 4),
+				"secondi": 0.0,
+			}
+		ARCHETIPO_CIRCUITO:
+			# Due grandezze indipendenti: quante volte lo schema muta e quanti
+			# interruttori vanno letti in ciascuno. Nessuna delle due restringe i
+			# bersagli e nessuna introduce un cronometro.
+			return {
+				"schemi": clampi(2 + int(floor(float(livello - 1) / 6.0)), 2, 5),
+				"passaggi": clampi(2 + int(floor(float(livello - 1) / 5.0)), 2, 6),
+				"errori": clampi(5 - int(floor(float(livello - 1) / 8.0)), 3, 5),
+				"secondi": 0.0,
+			}
+		ARCHETIPO_CICLO:
+			# Il gesto resta una breve programmazione. Salendo di mondo cresce
+			# quanto a lungo il braccio deve ripeterla, non la precisione richiesta.
+			return {
+				"ripetizioni": clampi(3 + int(floor(float(livello - 1) / 6.0)), 3, 6),
+				"secondi": 15.0 + float(livello) * 0.8,
+				"mosse": 3,
+			}
+		ARCHETIPO_TRACCIA:
+			return {
+				"segnali": clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5),
+				"errori": clampi(4 - int(floor(float(livello - 1) / 10.0)), 2, 4),
 				"secondi": 0.0,
 			}
 	return {}

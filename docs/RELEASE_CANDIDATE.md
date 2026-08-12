@@ -1062,3 +1062,35 @@ Costo: due item in meno, ed erano i due ambigui — `fisica-moto-forze-energia`
 **Esito complessivo: il ×4 è sparito.** Peggiore ripetizione del gioco ×3, le tre
 materie a ×2. Profondità: coppie (materia, formato) sopra le 10.000 da 23 a 25 su
 69. Suite 82/82 Godot, 184/184 TypeScript.
+
+## Minigiochi-personaggio — tre pilot e contratto completo (11–12 agosto)
+
+Lavoro condiviso Opus/Codex a partire da `insieme.md`:
+
+- **Tobia**: `Il mucchio che non finisce`, velocità e raggruppamento in decine;
+  cristallo generativo trasparente, file leggibili 5+5, vassoi visivi e bersagli
+  da 40 px;
+- **Corinna**: `Lo scaffale che non si vede`, riflessione senza cronometro;
+  carta-parola, scaffali da 92 px, feedback d'errore non punitivo e movimento
+  disattivabile;
+- **Ciro**: `Il circuito mutante`, tre reti riconfigurate e tre nodi per rete al
+  mondo 8; corrente animata, incroci non connessi, errore locale senza reset e
+  difficoltà crescente per schemi/passaggi anziché per tempo;
+- glifo unico della convinzione, disegnato dal motore e predisposto nello stato
+  intatto/spezzato;
+- prima vittoria resa un momento narrativo unico: il gioco resta riprovabile
+  dopo una sconfitta, ma non si riapre più a ogni saluto dopo il successo;
+- matrice completa dei **46 residenti**, bilanciata 23 velocità / 23 riflessione,
+  in `docs/MINIGIOCHI_PERSONAGGI.md`;
+- layout verticale dei tre pilot ingrandito dopo il layout Godot: a 600×900 il
+  circuito occupa quasi tutta la larghezza e conserva bersagli fisici di circa
+  45 px. Catture riproducibili in `artifacts/character-minigames`.
+
+Verifiche: `character_minigame_audit` verde,
+`character_minigame_visual_audit` verde e `circuit_minigame_audit` verde; la
+prova giocata attraversa un errore e tutte e tre le riconfigurazioni. Caricamento progetto e export Godot
+senza errori di script. Export Web `2026.08.11-web-loader-6`, cache
+`v96-web-loader`, PCK 25,39 MiB e core 63,07 MiB; `audit:web` e build Vite
+verdi. Lo smoke Chrome non è partito in due tentativi perché DevTools non ha
+risposto a `Page.enable` entro 30 secondi: errore precedente al caricamento del
+gioco, da ripetere quando il canale browser è disponibile.

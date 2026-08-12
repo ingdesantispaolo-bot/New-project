@@ -331,6 +331,19 @@ try {
   }
   if (!enteredWorld) throw new Error("Il tap sul pulsante GIOCA non ha aperto il mondo.");
 
+  // Un profilo Chrome nuovo vede correttamente la soglia didattica del primo
+  // mondo. Lo smoke deve attraversarla come farebbe lo studente: lasciarla
+  // aperta blocca la fisica di Eli e trasforma il successivo test della nave in
+  // un falso timeout. Il pulsante ENTRA occupa tutta la larghezza utile e resta
+  // ancorato a questa quota anche quando il canvas è letterboxed.
+  await delay(500);
+  const introY = canvas.top + canvas.height * 0.68;
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x, y: introY, radiusX: 2, radiusY: 2, force: 1 }],
+  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+
   const worldMs = Math.round(performance.now() - startedAt);
   await delay(2_000);
   await capture(cdp, sessionId, path.join(outputRoot, "smoke-world.png"));
@@ -463,6 +476,15 @@ try {
   }, sessionId);
   await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
   await waitForScene(cdp, sessionId, "world", 12_000);
+  // Anche il mondo appena sbloccato presenta la propria soglia didattica una
+  // volta sola. Attraversala prima di guidare Eli verso il POI: finché è aperta
+  // la fisica è sospesa e il tap cadrebbe sul pannello, non sulla missione.
+  await delay(500);
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x, y: introY, radiusX: 2, radiusY: 2, force: 1 }],
+  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
   const roundTripMs = Math.round(performance.now() - startedAt);
   await delay(1_500);
   await capture(cdp, sessionId, path.join(outputRoot, "smoke-world-return.png"));
@@ -475,28 +497,51 @@ try {
   if (returnedState?.worldLevel !== 2 || returnedState?.saveMarker !== "web-release-save-v1") {
     throw new Error("Il ritorno post-esame non ha conservato mondo successivo e marcatore del save.");
   }
-  // Tocca davvero il POI più vicino nella stessa trasformazione canvas usata
-  // dal giocatore; il grande pulsante contestuale conferma poi l'ingresso.
-  const missionPoint = returnedState.nearestMission;
-  if (!Number.isFinite(missionPoint?.x) || !Number.isFinite(missionPoint?.y)) {
-    throw new Error("Il mondo 2 non espone una missione disponibile al touch.");
-  }
-  const guideX = canvas.left
-    + missionPoint.x * (canvas.width / returnedState.viewportWidth);
-  const guideY = canvas.top
-    + missionPoint.y * (canvas.height / returnedState.viewportHeight);
+  // Segue il flusso reale di proprietà della missione: il residente la affida,
+  // poi SEGUI LA MISSIONE conduce al suo POI. Puntare subito il POI aggirava la
+  // richiesta e il gioco rispondeva correttamente «parla con Corinna» senza
+  // aprire alcun esercizio.
+  const guideX = canvas.left + canvas.width * 0.92;
+  const guideY = canvas.top + canvas.height * 0.055;
   await cdp.call("Input.dispatchTouchEvent", {
     type: "touchStart",
     touchPoints: [{ x: guideX, y: guideY, radiusX: 2, radiusY: 2, force: 1 }],
   }, sessionId);
   await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
-  await delay(6_000);
-  let exerciseFormat = "";
-  for (const actionRatio of [0.79, 0.82, 0.76]) {
-    const contextualY = canvas.top + canvas.height * actionRatio;
+  await delay(7_000);
+
+  // Apre il dialogo di richiesta del residente.
+  const contextualY = canvas.top + canvas.height * 0.79;
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: actionX, y: contextualY, radiusX: 2, radiusY: 2, force: 1 }],
+  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+  await delay(500);
+  // Le richieste dei residenti hanno tre pagine; il profilo riduce le
+  // animazioni, quindi ogni tocco avanza esattamente di una pagina.
+  for (let page = 0; page < 3; page += 1) {
     await cdp.call("Input.dispatchTouchEvent", {
       type: "touchStart",
       touchPoints: [{ x: actionX, y: contextualY, radiusX: 2, radiusY: 2, force: 1 }],
+    }, sessionId);
+    await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+    await delay(250);
+  }
+
+  // Ora la stessa guida punta all'evento appena accettato.
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: guideX, y: guideY, radiusX: 2, radiusY: 2, force: 1 }],
+  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+  await delay(9_000);
+  let exerciseFormat = "";
+  for (const actionRatio of [0.79, 0.82, 0.76]) {
+    const missionActionY = canvas.top + canvas.height * actionRatio;
+    await cdp.call("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: actionX, y: missionActionY, radiusX: 2, radiusY: 2, force: 1 }],
     }, sessionId);
     await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
     const attemptDeadline = Date.now() + 3_000;

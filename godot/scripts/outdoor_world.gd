@@ -2356,12 +2356,22 @@ func _apri_minigioco_personaggio(npc_id: String) -> void:
 	# Un pannello per archetipo: la meccanica cambia, il contorno no. Il
 	# catalogo dice quale, e la scena non conosce nessuna regola di gioco.
 	var scheda_gioco := CharacterMinigameCatalog.scheda(npc_id)
-	if str(scheda_gioco.get("archetipo", "")) == CharacterMinigameCatalog.ARCHETIPO_SCAFFALE:
-		minigame_panel = ShelfMinigamePanel.new()
-		minigame_panel.name = "ShelfMinigamePanel"
-	else:
-		minigame_panel = PileMinigamePanel.new()
-		minigame_panel.name = "PileMinigamePanel"
+	match str(scheda_gioco.get("archetipo", "")):
+		CharacterMinigameCatalog.ARCHETIPO_SCAFFALE:
+			minigame_panel = ShelfMinigamePanel.new()
+			minigame_panel.name = "ShelfMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_CICLO:
+			minigame_panel = preload("res://scripts/ui/cycle_minigame_panel.gd").new()
+			minigame_panel.name = "CycleMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_TRACCIA:
+			minigame_panel = preload("res://scripts/ui/trace_minigame_panel.gd").new()
+			minigame_panel.name = "TraceMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_CIRCUITO:
+			minigame_panel = CircuitMinigamePanel.new()
+			minigame_panel.name = "CircuitMinigamePanel"
+		_:
+			minigame_panel = PileMinigamePanel.new()
+			minigame_panel.name = "PileMinigamePanel"
 	minigame_panel.risolto.connect(func(vinto: bool, presi: int, totale: int):
 		_chiudi_minigioco_personaggio(npc_id, vinto, presi, totale))
 	ui_layer.add_child(minigame_panel)
@@ -2378,7 +2388,15 @@ func _chiudi_minigioco_personaggio(npc_id: String, vinto: bool, presi: int, tota
 	var scheda := CharacterMinigameCatalog.scheda(npc_id)
 	if vinto:
 		var premio := 4
-		gameplay.collect_treasure({"rewardFragments": premio}, "gioco-%s" % npc_id)
+		var gioco_id := "gioco-%s" % npc_id
+		# Lo stesso id che rende unico il premio rende unico anche il momento
+		# narrativo. Senza rispecchiarlo nel risultato di sessione, il pannello si
+		# riapriva a ogni saluto fino al prossimo riavvio del mondo.
+		var raccolti: Array = Array(result.get("collectedTreasureIds", []))
+		if not raccolti.has(gioco_id):
+			raccolti.append(gioco_id)
+			result["collectedTreasureIds"] = raccolti
+		gameplay.collect_treasure({"rewardFragments": premio}, gioco_id)
 		_refresh_economy()
 		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
 		_set_feedback(str(scheda.get("vittoria", "Fatto.")))
@@ -2387,10 +2405,13 @@ func _chiudi_minigioco_personaggio(npc_id: String, vinto: bool, presi: int, tota
 		_set_feedback("%s (%d su %d)" % [str(scheda.get("sconfitta", "Non stavolta.")), presi, totale])
 	_refresh_prompt()
 
+func _minigioco_personaggio_superato(npc_id: String) -> bool:
+	return Array(result.get("collectedTreasureIds", [])).has("gioco-%s" % npc_id)
+
 func _on_dialogue_closed(npc_id: String) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(true)
-	if CharacterMinigameCatalog.ha_gioco(npc_id):
+	if CharacterMinigameCatalog.ha_gioco(npc_id) and not _minigioco_personaggio_superato(npc_id):
 		_apri_minigioco_personaggio(npc_id)
 		return
 	if npc_id == "w01-ersilia" and ersilia_count_pending:

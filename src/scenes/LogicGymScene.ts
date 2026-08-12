@@ -152,6 +152,20 @@ export class LogicGymScene extends Phaser.Scene {
   private mentalStatus?: Phaser.GameObjects.Text;
   private mentalTimeText?: Phaser.GameObjects.Text;
 
+  // Minigiochi d'azione matematica
+  private actionRound = 0;
+  private actionCorrect = 0;
+  private actionErrors = 0;
+  private actionCombo = 0;
+  private actionBestCombo = 0;
+  private actionTotal = 7;
+  private actionLocked = false;
+  private actionPlayerX = 640;
+  private actionLane = 2;
+  private actionTicker?: Phaser.Time.TimerEvent;
+  private actionKeys?: { left: Phaser.Input.Keyboard.Key; right: Phaser.Input.Keyboard.Key };
+  private actionWaveTargetsLeft = 0;
+
   // Geografia capitali/continenti
   private geoRound = 0;
   private geoCorrect = 0;
@@ -325,6 +339,8 @@ export class LogicGymScene extends Phaser.Scene {
     const starts: Record<GymActivityKey, () => void> = {
       tables: () => this.startTables(),
       mental: () => this.startMental(),
+      mathDash: () => this.startMathDash(),
+      multipleDefense: () => this.startMultipleDefense(),
       geo: () => this.startGeo(),
       geoPhysical: () => this.startPhysical(),
       simon: () => this.startSimon(),
@@ -367,6 +383,7 @@ export class LogicGymScene extends Phaser.Scene {
     this.mentalTimerEvent = undefined;
     this.mentalStatus = undefined;
     this.mentalTimeText = undefined;
+    this.clearActionControls();
     this.geoTimerEvent?.remove(false);
     this.geoTimerEvent = undefined;
     this.geoStatus = undefined;
@@ -467,6 +484,7 @@ export class LogicGymScene extends Phaser.Scene {
       flashGridSize: this.flashGridSize(),
       firewallRoundCount: this.firewallRoundCount(),
       firewallRuleCount: this.firewallRuleCount(),
+      actionWaveCount: this.actionTotalForLevel(),
     };
   }
 
@@ -1220,6 +1238,212 @@ export class LogicGymScene extends Phaser.Scene {
 
   private mentalTimeLimitForLevel(): number {
     return Math.max(7_000, 16_500 - this.gymLevel * 980);
+  }
+
+  // -- Corsa Numerica / Difesa dei Multipli ------------------------------
+
+  private actionTotalForLevel(): number {
+    return this.gymLevel >= 6 ? 9 : this.gymLevel >= 3 ? 8 : 7;
+  }
+
+  private clearActionControls(): void {
+    this.actionTicker?.remove(false);
+    this.actionTicker = undefined;
+    this.actionKeys?.left.removeAllListeners();
+    this.actionKeys?.right.removeAllListeners();
+    this.actionKeys = undefined;
+  }
+
+  private resetActionRun(): void {
+    this.actionRound = 0;
+    this.actionCorrect = 0;
+    this.actionErrors = 0;
+    this.actionCombo = 0;
+    this.actionBestCombo = 0;
+    this.actionLocked = false;
+    this.actionLane = 2;
+    this.actionPlayerX = 640;
+  }
+
+  private startMathDash(): void {
+    this.resetActionRun();
+    this.actionTotal = this.actionTotalForLevel();
+    audioManager.playContext("math");
+    this.nextMathDashWave();
+  }
+
+  private nextMathDashWave(): void {
+    this.clearScreen();
+    if (this.actionRound >= this.actionTotal) {
+      const accuracy = accuracyPercent(this.actionCorrect, this.actionTotal);
+      const score = timedActivityScore({ correct: this.actionCorrect, total: this.actionTotal, bestCombo: this.actionBestCombo, timeBonus: Math.max(0, this.actionTotal - this.actionErrors) * 2, level: this.gymLevel, comboWeight: 10, levelWeight: 5 });
+      const award = activityAward({ correct: this.actionCorrect, bestCombo: this.actionBestCombo, level: this.gymLevel });
+      this.finishActivity("mathDash", "Corsa Numerica", score, ["matematica.calcolo", "matematica.operazioni", "pensieroCritico"], award, `Varchi superati: ${this.actionCorrect}/${this.actionTotal}, precisione ${accuracy}%, combo migliore x${this.actionBestCombo}.`);
+      return;
+    }
+
+    const random = new Random(`math-dash-${Date.now()}-${this.gymLevel}-${this.actionRound}`);
+    const factorMax = Math.max(5, this.tablesMaxFactor());
+    const a = random.integer(2, factorMax);
+    const b = random.integer(2, factorMax);
+    const answer = a * b;
+    const answers = this.tablesOptions(answer, random, "product", a, b).slice(0, 5);
+    if (!answers.includes(answer)) answers[0] = answer;
+    const laneAnswers = random.shuffle(answers);
+    const correctLane = laneAnswers.indexOf(answer);
+    const lanes = [260, 450, 640, 830, 1020];
+    const accent = 0xff6d8d;
+    this.actionLocked = false;
+
+    this.drawActionArena(accent, "Corsa Numerica", `Prendi solo: ${a} x ${b} = ?`, `Varco ${this.actionRound + 1}/${this.actionTotal} · frecce o touch`);
+    const laneLines = this.t(this.add.graphics());
+    laneLines.lineStyle(2, accent, 0.28);
+    lanes.forEach((x) => laneLines.lineBetween(x, 155, x, 590));
+    const player = this.t(this.add.container(this.actionPlayerX, 574));
+    const engine = this.add.rectangle(0, 0, 54, 28, 0x18364a, 0.98).setStrokeStyle(2, 0x9ff5e9, 0.9);
+    const canopy = this.add.triangle(0, -17, -16, 0, 16, 0, 0, -20, 0x5ec8ff, 0.82).setStrokeStyle(1, 0xf5fbff, 0.6);
+    const flame = this.add.triangle(0, 25, -10, 8, 10, 8, 0, 31, accent, 0.8);
+    player.add([flame, engine, canopy]);
+    const playerGlow = this.t(this.add.circle(this.actionPlayerX, 574, 46, accent, 0.08).setStrokeStyle(2, accent, 0.36));
+    const gates = laneAnswers.map((value, index) => {
+      const gate = this.t(this.add.container(lanes[index], 146));
+      const outer = this.add.rectangle(0, 0, 114, 62, 0x13283a, 0.98).setStrokeStyle(3, value === answer ? 0x70d68a : 0xf6c85f, 0.88);
+      const valueText = this.add.text(0, -4, String(value), { fontFamily: "Inter, Arial", fontSize: "28px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5);
+      const marker = this.add.text(0, 24, "VARCO", { fontFamily: "Inter, Arial", fontSize: "9px", color: "#9ff5e9", fontStyle: "bold" }).setOrigin(0.5);
+      gate.add([outer, valueText, marker]);
+      return gate;
+    });
+    const movePlayer = (delta: number): void => {
+      if (this.actionLocked) return;
+      this.actionLane = Phaser.Math.Clamp(this.actionLane + delta, 0, lanes.length - 1);
+      this.actionPlayerX = lanes[this.actionLane];
+      this.tweens.add({ targets: [player, playerGlow], x: this.actionPlayerX, duration: settingsSystem.effectsReduced() ? 80 : 130, ease: "Sine.easeOut" });
+      audioManager.play("uiSelect");
+    };
+    this.actionKeys = this.input.keyboard ? this.input.keyboard.addKeys({ left: "LEFT", right: "RIGHT" }) as { left: Phaser.Input.Keyboard.Key; right: Phaser.Input.Keyboard.Key } : undefined;
+    this.actionTicker = this.time.addEvent({ delay: 16, loop: true, callback: () => {
+      if (this.actionKeys && Phaser.Input.Keyboard.JustDown(this.actionKeys.left)) movePlayer(-1);
+      if (this.actionKeys && Phaser.Input.Keyboard.JustDown(this.actionKeys.right)) movePlayer(1);
+      gates.forEach((gate) => { gate.y += settingsSystem.effectsReduced() ? 1.7 : 2.25; });
+      const correctGate = gates[correctLane];
+      if (correctGate.y >= 535 && correctGate.y <= 600 && this.actionLane === correctLane) this.resolveMathDash(true, correctGate, gates);
+      else if (correctGate.y > 620) this.resolveMathDash(false, correctGate, gates);
+    }});
+    this.t(new Button(this, 488, 660, "← corsia", () => movePlayer(-1), { width: 170, height: 42, fill: 0x24394a, stroke: accent, fontSize: 15 }));
+    this.t(new Button(this, 792, 660, "corsia →", () => movePlayer(1), { width: 170, height: 42, fill: 0x24394a, stroke: accent, fontSize: 15 }));
+    this.backBar(() => this.startMathDash());
+  }
+
+  private resolveMathDash(correct: boolean, gate: Phaser.GameObjects.Container, gates: Phaser.GameObjects.Container[]): void {
+    if (this.actionLocked) return;
+    this.actionLocked = true;
+    this.clearActionControls();
+    gates.forEach((item) => this.tweens.killTweensOf(item));
+    const tone = correct ? 0x70d68a : 0xff5d7a;
+    if (correct) {
+      this.actionCorrect += 1;
+      this.actionCombo += 1;
+      this.actionBestCombo = Math.max(this.actionBestCombo, this.actionCombo);
+      audioManager.play("mathKey");
+    } else {
+      this.actionErrors += 1;
+      this.actionCombo = 0;
+      audioManager.play("error");
+    }
+    gate.setScale(1.28);
+    this.t(this.add.text(640, 622, correct ? `Aggancio perfetto! Combo x${this.actionCombo}` : "Il varco giusto e passato: riposizionati e riprova.", { fontFamily: "Inter, Arial", fontSize: "16px", color: correct ? "#9ff5c0" : "#ffd0da", fontStyle: "bold" }).setOrigin(0.5));
+    this.time.delayedCall(correct ? 600 : 900, () => { this.actionRound += 1; this.nextMathDashWave(); });
+  }
+
+  private startMultipleDefense(): void {
+    this.resetActionRun();
+    this.actionTotal = this.actionTotalForLevel() * 2;
+    audioManager.playContext("math");
+    this.nextMultipleDefenseWave();
+  }
+
+  private nextMultipleDefenseWave(): void {
+    this.clearScreen();
+    const waveCount = this.actionTotalForLevel();
+    if (this.actionRound >= waveCount) {
+      const accuracy = accuracyPercent(this.actionCorrect, this.actionTotal);
+      const score = timedActivityScore({ correct: this.actionCorrect, total: this.actionTotal, bestCombo: this.actionBestCombo, timeBonus: Math.max(0, waveCount - this.actionErrors) * 2, level: this.gymLevel, comboWeight: 11, levelWeight: 5 });
+      const award = activityAward({ correct: this.actionCorrect, bestCombo: this.actionBestCombo, level: this.gymLevel });
+      this.finishActivity("multipleDefense", "Difesa dei Multipli", score, ["matematica.multipliDivisori", "matematica.calcolo", "pensieroCritico"], award, `Nucleo difeso: ${this.actionCorrect}/${this.actionTotal} bersagli validi, precisione ${accuracy}%, combo migliore x${this.actionBestCombo}.`);
+      return;
+    }
+    const random = new Random(`multiple-defense-${Date.now()}-${this.gymLevel}-${this.actionRound}`);
+    const divisor = random.pick(this.gymLevel >= 5 ? [3, 4, 5, 6, 8, 9] : [2, 3, 4, 5]);
+    const valid = [random.integer(2, 8) * divisor, random.integer(9, 16) * divisor];
+    const decoys = [valid[0] + 1, valid[1] - 1, valid[0] + (divisor === 2 ? 3 : 2)];
+    const values = random.shuffle([...valid, ...decoys]);
+    this.actionLocked = false;
+    this.actionWaveTargetsLeft = valid.length;
+    const accent = 0x9f8cff;
+    this.drawActionArena(accent, "Difesa dei Multipli", `Colpisci i multipli di ${divisor}`, `Ondata ${this.actionRound + 1}/${waveCount} · clicca solo i bersagli validi`);
+    const core = this.t(this.add.circle(640, 570, 66, 0x9f8cff, 0.13).setStrokeStyle(3, accent, 0.78));
+    this.t(this.add.circle(640, 570, 30, 0x5ec8ff, 0.55).setStrokeStyle(2, 0xf5fbff, 0.72));
+    this.t(this.add.text(640, 570, "NORA", { fontFamily: "Inter, Arial", fontSize: "12px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    if (!settingsSystem.effectsReduced()) this.tweens.add({ targets: core, scale: { from: 0.95, to: 1.08 }, alpha: { from: 0.2, to: 0.55 }, duration: 680, yoyo: true, repeat: -1 });
+    const spots = [[250, 254], [510, 334], [790, 248], [1030, 370], [350, 500]];
+    values.forEach((value, index) => {
+      const [x, y] = spots[index];
+      const target = this.t(this.add.container(x, y));
+      const validTarget = valid.includes(value);
+      const body = this.add.circle(0, 0, 48, validTarget ? 0x26364f : 0x362438, 0.96).setStrokeStyle(3, validTarget ? 0x70d68a : 0xff6d8d, 0.88).setInteractive({ useHandCursor: true });
+      const number = this.add.text(0, -3, String(value), { fontFamily: "Inter, Arial", fontSize: "26px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5);
+      const tag = this.add.text(0, 24, "SEGNale", { fontFamily: "Inter, Arial", fontSize: "8px", color: "#c7dce7" }).setOrigin(0.5);
+      target.add([body, number, tag]);
+      body.on("pointerdown", () => this.hitMultipleTarget(validTarget, target, body));
+      if (!settingsSystem.effectsReduced()) this.tweens.add({ targets: target, x: x + (index % 2 === 0 ? 34 : -34), y: y + (index % 2 === 0 ? 18 : -18), duration: 700 + index * 90, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+    });
+    this.actionTicker = this.time.addEvent({ delay: Math.max(3500, 6100 - this.gymLevel * 260), callback: () => this.finishMultipleDefenseWave() });
+    this.backBar(() => this.startMultipleDefense());
+  }
+
+  private hitMultipleTarget(valid: boolean, target: Phaser.GameObjects.Container, body: Phaser.GameObjects.Arc): void {
+    if (this.actionLocked || !body.input?.enabled) return;
+    body.disableInteractive();
+    if (!valid) {
+      this.actionErrors += 1;
+      this.actionCombo = 0;
+      target.setAlpha(0.34);
+      audioManager.play("error");
+      return;
+    }
+    this.actionCorrect += 1;
+    this.actionCombo += 1;
+    this.actionBestCombo = Math.max(this.actionBestCombo, this.actionCombo);
+    this.actionWaveTargetsLeft -= 1;
+    target.setScale(1.22);
+    audioManager.play("mathKey");
+    if (this.actionWaveTargetsLeft <= 0) this.finishMultipleDefenseWave();
+  }
+
+  private finishMultipleDefenseWave(): void {
+    if (this.actionLocked) return;
+    this.actionLocked = true;
+    this.clearActionControls();
+    if (this.actionWaveTargetsLeft > 0) {
+      this.actionErrors += 1;
+      this.actionCombo = 0;
+      audioManager.play("error");
+    }
+    this.t(this.add.text(640, 650, this.actionWaveTargetsLeft <= 0 ? "Ondata respinta!" : "Alcuni multipli hanno raggiunto il nucleo.", { fontFamily: "Inter, Arial", fontSize: "16px", color: this.actionWaveTargetsLeft <= 0 ? "#9ff5c0" : "#ffd0da", fontStyle: "bold" }).setOrigin(0.5));
+    this.time.delayedCall(700, () => { this.actionRound += 1; this.nextMultipleDefenseWave(); });
+  }
+
+  private drawActionArena(accent: number, title: string, prompt: string, subtitle: string): void {
+    this.t(this.add.rectangle(640, 360, 1280, 720, 0x050d18, 0.9));
+    const grid = this.t(this.add.graphics());
+    grid.lineStyle(1, accent, 0.1);
+    for (let x = 50; x < 1280; x += 64) grid.lineBetween(x, 112, x, 638);
+    for (let y = 116; y < 640; y += 44) grid.lineBetween(38, y, 1242, y);
+    grid.lineStyle(3, accent, 0.42).strokeRoundedRect(38, 112, 1204, 526, 20);
+    this.t(this.add.text(56, 28, `${title} · Profondita ${this.gymLevel}`, { fontFamily: "Inter, Arial", fontSize: "28px", color: "#f5fbff", fontStyle: "bold" }));
+    this.t(this.add.text(640, 164, prompt, { fontFamily: "Inter, Arial", fontSize: "32px", color: "#f5fbff", fontStyle: "bold" }).setOrigin(0.5));
+    this.t(this.add.text(640, 204, subtitle, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#9ff5e9" }).setOrigin(0.5));
+    this.t(this.add.text(1080, 42, `Combo x${this.actionCombo} · difesa ${Math.max(0, 100 - this.actionErrors * 12)}%`, { fontFamily: "Inter, Arial", fontSize: "13px", color: "#f7d37a", fontStyle: "bold" }).setOrigin(0.5));
   }
 
   // -- Geo Atlante (capitals, countries, continents) ---------------------

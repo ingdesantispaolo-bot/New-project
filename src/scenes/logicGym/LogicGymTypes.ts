@@ -1,4 +1,4 @@
-export type GymActivityKey = "tables" | "mental" | "geo" | "geoPhysical" | "simon" | "memory" | "code" | "seq" | "balance" | "flash" | "firewall";
+export type GymActivityKey = "tables" | "mental" | "mathDash" | "multipleDefense" | "geo" | "geoPhysical" | "simon" | "memory" | "code" | "seq" | "balance" | "flash" | "firewall";
 
 export type LogicGymActivityDefinition = {
   key: GymActivityKey;

@@ -99,6 +99,7 @@ func _costruisci() -> void:
 	carta.add_theme_stylebox_override("panel", _stile_pannello(
 		Color("092b28", 0.98), Color("e6bd55", 0.82), 22, 2))
 	centro.add_child(carta)
+	call_deferred("_adatta_verticale", carta)
 	var margine := MarginContainer.new()
 	margine.add_theme_constant_override("margin_left", 28)
 	margine.add_theme_constant_override("margin_right", 28)
@@ -110,13 +111,21 @@ func _costruisci() -> void:
 	colonna.add_theme_constant_override("separation", 12)
 	margine.add_child(colonna)
 
+	var testata := HBoxContainer.new()
+	testata.alignment = BoxContainer.ALIGNMENT_CENTER
+	testata.add_theme_constant_override("separation", 8)
+	colonna.add_child(testata)
+	var glifo := ConvictionGlyph.new()
+	glifo.name = "PileConvictionGlyph"
+	testata.add_child(glifo)
+
 	var titolo := Label.new()
 	titolo.name = "PileTitle"
 	titolo.text = str(_scheda.get("titolo", "Il mucchio"))
 	titolo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	titolo.add_theme_font_size_override("font_size", 24)
 	titolo.add_theme_color_override("font_color", Color("f4cf69"))
-	colonna.add_child(titolo)
+	testata.add_child(titolo)
 
 	var consegna := Label.new()
 	consegna.name = "PileBrief"
@@ -219,6 +228,14 @@ func _stile_pannello(sfondo: Color, bordo: Color, raggio: int, spessore: int) ->
 	stile.set_border_width_all(spessore)
 	stile.set_corner_radius_all(raggio)
 	return stile
+
+func _adatta_verticale(carta: Control) -> void:
+	await get_tree().process_frame
+	var viewport_size := get_viewport_rect().size
+	if viewport_size.y <= viewport_size.x or not is_instance_valid(carta):
+		return
+	carta.pivot_offset = carta.size * 0.5
+	carta.scale = Vector2(2.0, 2.0)
 
 ## **Il gesto che cambia tutto.**
 ##

@@ -40,6 +40,8 @@ func _init() -> void:
 	_la_strategia_vecchia_fallisce()
 	_la_difficolta_segue_il_mondo()
 	_le_due_famiglie_esistono_entrambe()
+	_il_circuito_muta_senza_mettere_fretta()
+	_il_ciclo_premia_la_sequenza_ripetuta()
 	if errori.is_empty():
 		print(OK)
 	else:
@@ -148,3 +150,52 @@ func _la_difficolta_segue_il_mondo() -> void:
 		if crescita_tempo >= crescita_pezzi:
 			_fallisci("mondo %d: il tempo cresce quanto il mucchio — contare uno per uno resterebbe possibile" % world)
 		precedente = p
+
+## **Il terzo archetipo deve crescere cambiando il problema, non il dito.**
+## Schemi e passaggi aumentano o restano stabili lungo i mondi; il tempo resta
+## zero e i tentativi non scendono sotto tre. Al mondo di Ciro ci devono essere
+## almeno tre riconfigurazioni: una sola immagine non potrebbe smentire chi la
+## impara a memoria.
+func _il_circuito_muta_senza_mettere_fretta() -> void:
+	var ciro := CharacterMinigameCatalog.scheda("w08-ciro")
+	if ciro.is_empty():
+		_fallisci("Ciro non ha il suo terzo pilot")
+		return
+	if str(ciro.get("archetipo", "")) != CharacterMinigameCatalog.ARCHETIPO_CIRCUITO:
+		_fallisci("Ciro non usa il Circuito mutante")
+	var al_delta: Dictionary = ciro.get("parametri", {})
+	if int(al_delta.get("schemi", 0)) < 3:
+		_fallisci("Ciro vede meno di tre schemi: può ancora imparare una fotografia")
+	var precedente := CharacterMinigameCatalog.parametri(
+		CharacterMinigameCatalog.ARCHETIPO_CIRCUITO, 1)
+	for world in range(2, 25):
+		var corrente := CharacterMinigameCatalog.parametri(
+			CharacterMinigameCatalog.ARCHETIPO_CIRCUITO, world)
+		if int(corrente.get("schemi", 0)) < int(precedente.get("schemi", 0)):
+			_fallisci("mondo %d: il circuito perde riconfigurazioni" % world)
+		if int(corrente.get("passaggi", 0)) < int(precedente.get("passaggi", 0)):
+			_fallisci("mondo %d: il circuito perde passaggi" % world)
+		if float(corrente.get("secondi", -1.0)) != 0.0:
+			_fallisci("mondo %d: il circuito di riflessione ha un cronometro" % world)
+		if int(corrente.get("errori", 0)) < 3:
+			_fallisci("mondo %d: il circuito concede meno di tre errori" % world)
+		precedente = corrente
+
+## Ruggine deve avere una sequenza breve da impostare una volta, ma abbastanza
+## giri da rendere visibile il vantaggio della ripetizione; la fretta cresce
+## senza trasformare i pulsanti in bersagli più piccoli.
+func _il_ciclo_premia_la_sequenza_ripetuta() -> void:
+	var ruggine := CharacterMinigameCatalog.scheda("w03-ruggine")
+	if ruggine.is_empty() or str(ruggine.get("archetipo", "")) != CharacterMinigameCatalog.ARCHETIPO_CICLO:
+		_fallisci("Ruggine non usa il ciclo ripetuto")
+		return
+	var precedente := CharacterMinigameCatalog.parametri(CharacterMinigameCatalog.ARCHETIPO_CICLO, 1)
+	for world in range(1, 25):
+		var corrente := CharacterMinigameCatalog.parametri(CharacterMinigameCatalog.ARCHETIPO_CICLO, world)
+		if int(corrente.get("mosse", 0)) != 3:
+			_fallisci("mondo %d: il ciclo non è una sequenza breve di tre mosse" % world)
+		if int(corrente.get("ripetizioni", 0)) < 3:
+			_fallisci("mondo %d: il braccio non ripete abbastanza da smentire il lavoro manuale" % world)
+		if world > 1 and int(corrente.get("ripetizioni", 0)) < int(precedente.get("ripetizioni", 0)):
+			_fallisci("mondo %d: il ciclo perde ripetizioni" % world)
+		precedente = corrente

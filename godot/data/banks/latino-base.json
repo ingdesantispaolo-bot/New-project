@@ -17,7 +17,7 @@
 				"genitivo plurale"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "«dominus» è nominativo (spesso soggetto), singolare: la desinenza «-us» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-dominus-accusativo-singolare",
@@ -33,7 +33,7 @@
 				"genitivo plurale"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«dominum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-dominus-genitivo-plurale",
@@ -49,7 +49,7 @@
 				"accusativo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«dominorum» è genitivo (specificazione), plurale: la desinenza «-orum» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-dominus-accusativo-plurale",
@@ -65,7 +65,7 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo plurale",
-			"explanation": "accusativo (spesso oggetto), plurale."
+			"explanation": "«dominos» è accusativo (spesso oggetto), plurale: la desinenza «-os» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-servus-nominativo-singolare",
@@ -81,7 +81,7 @@
 				"accusativo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "«servus» è nominativo (spesso soggetto), singolare: la desinenza «-us» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-servus-accusativo-singolare",
@@ -97,7 +97,7 @@
 				"nominativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«servum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-servus-genitivo-plurale",
@@ -113,7 +113,7 @@
 				"accusativo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«servorum» è genitivo (specificazione), plurale: la desinenza «-orum» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-servus-accusativo-plurale",
@@ -129,7 +129,7 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo plurale",
-			"explanation": "accusativo (spesso oggetto), plurale."
+			"explanation": "«servos» è accusativo (spesso oggetto), plurale: la desinenza «-os» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-amicus-nominativo-singolare",
@@ -145,7 +145,7 @@
 				"genitivo plurale"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "«amicus» è nominativo (spesso soggetto), singolare: la desinenza «-us» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-amicus-accusativo-singolare",
@@ -161,7 +161,7 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«amicum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-amicus-genitivo-plurale",
@@ -177,7 +177,7 @@
 				"accusativo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«amicorum» è genitivo (specificazione), plurale: la desinenza «-orum» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-amicus-accusativo-plurale",
@@ -193,7 +193,7 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo plurale",
-			"explanation": "accusativo (spesso oggetto), plurale."
+			"explanation": "«amicos» è accusativo (spesso oggetto), plurale: la desinenza «-os» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-populus-nominativo-singolare",
@@ -209,7 +209,7 @@
 				"accusativo plurale"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "«populus» è nominativo (spesso soggetto), singolare: la desinenza «-us» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-populus-accusativo-singolare",
@@ -225,7 +225,7 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«populum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-populus-genitivo-plurale",
@@ -241,7 +241,7 @@
 				"nominativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«populorum» è genitivo (specificazione), plurale: la desinenza «-orum» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-populus-accusativo-plurale",
@@ -257,7 +257,7 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo plurale",
-			"explanation": "accusativo (spesso oggetto), plurale."
+			"explanation": "«populos» è accusativo (spesso oggetto), plurale: la desinenza «-os» lo segnala nella seconda declinazione."
 		},
 		{
 			"id": "latino-rex-nominativo-singolare",
@@ -273,7 +273,7 @@
 				"genitivo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «regis»."
 		},
 		{
 			"id": "latino-rex-genitivo-singolare",
@@ -289,7 +289,7 @@
 				"accusativo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«regis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-rex-dativo-singolare",
@@ -305,7 +305,7 @@
 				"accusativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«regi» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-rex-accusativo-singolare",
@@ -321,7 +321,7 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«regem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-rex-ablativo-singolare",
@@ -337,7 +337,7 @@
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«rege» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-rex-genitivo-plurale",
@@ -353,7 +353,7 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«regum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-consul-nominativo-singolare",
@@ -369,7 +369,7 @@
 				"dativo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «consulis»."
 		},
 		{
 			"id": "latino-consul-genitivo-singolare",
@@ -385,7 +385,7 @@
 				"genitivo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«consulis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-consul-dativo-singolare",
@@ -401,7 +401,7 @@
 				"accusativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«consuli» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-consul-accusativo-singolare",
@@ -417,7 +417,7 @@
 				"genitivo plurale"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«consulem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-consul-ablativo-singolare",
@@ -433,7 +433,7 @@
 				"nominativo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«consule» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-consul-genitivo-plurale",
@@ -449,7 +449,7 @@
 				"genitivo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«consulum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-miles-nominativo-singolare",
@@ -465,7 +465,7 @@
 				"accusativo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «militis»."
 		},
 		{
 			"id": "latino-miles-genitivo-singolare",
@@ -481,7 +481,7 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«militis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-miles-dativo-singolare",
@@ -497,7 +497,7 @@
 				"genitivo plurale"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«militi» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-miles-accusativo-singolare",
@@ -513,7 +513,7 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«militem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-miles-ablativo-singolare",
@@ -529,7 +529,7 @@
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«milite» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-miles-genitivo-plurale",
@@ -545,7 +545,7 @@
 				"dativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«militum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-virtus-nominativo-singolare",
@@ -561,7 +561,7 @@
 				"genitivo plurale"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «virtutis»."
 		},
 		{
 			"id": "latino-virtus-genitivo-singolare",
@@ -577,7 +577,7 @@
 				"genitivo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«virtutis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-virtus-dativo-singolare",
@@ -593,7 +593,7 @@
 				"ablativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«virtuti» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-virtus-accusativo-singolare",
@@ -609,7 +609,7 @@
 				"nominativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«virtutem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-virtus-ablativo-singolare",
@@ -625,7 +625,7 @@
 				"genitivo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«virtute» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-virtus-genitivo-plurale",
@@ -641,7 +641,7 @@
 				"genitivo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«virtutum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-lex-nominativo-singolare",
@@ -657,7 +657,7 @@
 				"dativo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «legis»."
 		},
 		{
 			"id": "latino-lex-genitivo-singolare",
@@ -673,7 +673,7 @@
 				"nominativo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«legis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-lex-dativo-singolare",
@@ -689,7 +689,7 @@
 				"genitivo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«legi» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-lex-accusativo-singolare",
@@ -705,7 +705,7 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«legem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-lex-ablativo-singolare",
@@ -721,7 +721,7 @@
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«lege» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-lex-genitivo-plurale",
@@ -737,7 +737,7 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«legum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione."
 		},
 		{
 			"id": "latino-corpus-genitivo-singolare",
@@ -753,7 +753,7 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«corporis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione (neutri)."
 		},
 		{
 			"id": "latino-corpus-dativo-singolare",
@@ -769,7 +769,7 @@
 				"dativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«corpori» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione (neutri)."
 		},
 		{
 			"id": "latino-corpus-ablativo-singolare",
@@ -785,7 +785,7 @@
 				"dativo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«corpore» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione (neutri)."
 		},
 		{
 			"id": "latino-corpus-genitivo-plurale",
@@ -801,7 +801,7 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«corporum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione (neutri)."
 		},
 		{
 			"id": "latino-tempus-genitivo-singolare",
@@ -817,7 +817,7 @@
 				"genitivo plurale"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«temporis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione (neutri)."
 		},
 		{
 			"id": "latino-tempus-dativo-singolare",
@@ -833,7 +833,7 @@
 				"dativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«tempori» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione (neutri)."
 		},
 		{
 			"id": "latino-tempus-ablativo-singolare",
@@ -849,7 +849,7 @@
 				"dativo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«tempore» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione (neutri)."
 		},
 		{
 			"id": "latino-tempus-genitivo-plurale",
@@ -865,7 +865,7 @@
 				"dativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«temporum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione (neutri)."
 		},
 		{
 			"id": "latino-manus-dativo-singolare",
@@ -881,7 +881,7 @@
 				"ablativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«manui» è dativo (termine), singolare: la desinenza «-ui» lo segnala nella quarta declinazione."
 		},
 		{
 			"id": "latino-manus-accusativo-singolare",
@@ -897,7 +897,7 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«manum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella quarta declinazione."
 		},
 		{
 			"id": "latino-manus-ablativo-singolare",
@@ -913,7 +913,7 @@
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«manu» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-u» lo segnala nella quarta declinazione."
 		},
 		{
 			"id": "latino-manus-genitivo-plurale",
@@ -929,7 +929,7 @@
 				"accusativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«manuum» è genitivo (specificazione), plurale: la desinenza «-uum» lo segnala nella quarta declinazione."
 		},
 		{
 			"id": "latino-exercitus-dativo-singolare",
@@ -945,7 +945,7 @@
 				"genitivo plurale"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«exercitui» è dativo (termine), singolare: la desinenza «-ui» lo segnala nella quarta declinazione."
 		},
 		{
 			"id": "latino-exercitus-accusativo-singolare",
@@ -961,7 +961,7 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«exercitum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella quarta declinazione."
 		},
 		{
 			"id": "latino-exercitus-ablativo-singolare",
@@ -977,7 +977,7 @@
 				"dativo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«exercitu» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-u» lo segnala nella quarta declinazione."
 		},
 		{
 			"id": "latino-exercitus-genitivo-plurale",
@@ -993,7 +993,7 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«exercituum» è genitivo (specificazione), plurale: la desinenza «-uum» lo segnala nella quarta declinazione."
 		},
 		{
 			"id": "latino-declinazioni-base-0",

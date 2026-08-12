@@ -198,7 +198,7 @@ function vocabularyExplanation(entry, defField, neighbours) {
     ? gruppo.filter((altra) => altra.id !== entry.id).slice(0, 2)
     : [gruppo[(mia + 1) % gruppo.length], gruppo[(mia + 2) % gruppo.length]];
   if (vicine.length < 2) return base;
-  const elenco = vicine.map((v) => `${v.term} = ${v.meaning}`).join(", ");
+  const elenco = vicine.map((v) => `${v.term} = ${v[defField]}`).join(", ");
   return `${base} Stesso gruppo: ${elenco}.`;
 }
 
@@ -306,6 +306,33 @@ const CASE_LABEL = {
   ablativo: "ablativo (mezzo, causa, modo o stato)",
   vocativo: "vocativo (invocazione)",
 };
+
+const DECL_NAME = {
+  "2m": "seconda declinazione",
+  "3m": "terza declinazione",
+  "3n": "terza declinazione (neutri)",
+  "4": "quarta declinazione",
+};
+
+// Nominativo e vocativo singolare della terza non hanno una desinenza fissa
+// (ENDINGS["3m"|"3n"].sg[0] e [5] sono null in latinCurriculum.ts): la forma è
+// il nomSg imparato a memoria, non stem+desinenza. Ogni altra combinazione
+// invece esce con una desinenza regolare, ed è quella desinenza — non
+// un'etichetta della funzione già data dalla risposta — a spiegare perché la
+// parola è quel caso.
+const NOM_VOC_IRREGOLARE = new Set(["3m", "3n"]);
+
+function declensionExplanation(noun, combo, form) {
+  if (combo.number === "singolare" && (combo.kase === "nominativo" || combo.kase === "vocativo")
+      && NOM_VOC_IRREGOLARE.has(noun.type)) {
+    return `Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «${noun.stem}is».`;
+  }
+  const desinenza = form.startsWith(noun.stem) ? form.slice(noun.stem.length) : "";
+  if (!desinenza) {
+    return `${CASE_LABEL[combo.kase]}, ${combo.number}.`;
+  }
+  return `«${form}» è ${CASE_LABEL[combo.kase]}, ${combo.number}: la desinenza «-${desinenza}» lo segnala nella ${DECL_NAME[noun.type] ?? noun.type}.`;
+}
 
 // Nucleo curato di latino: oltre al riconoscimento di caso/numero (generato),
 // dà basi, funzione dei casi, declinazioni, vocabolario, verbo "sum" e frasi.
@@ -482,7 +509,7 @@ function latinoBank(latinNouns, latinNounForm, distinctiveCases) {
             prompt: `Che caso e numero ha "${form}" (da "${noun.nomSg}", ${noun.it})?`,
             answer,
             distractors,
-            explanation: `${CASE_LABEL[combo.kase]}, ${combo.number}.`,
+            explanation: declensionExplanation(noun, combo, form),
           },
           rand,
         ),

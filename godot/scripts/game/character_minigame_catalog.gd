@@ -40,6 +40,8 @@ const ARCHETIPO_SCAFFALE := "scaffale"        # riflessione · ordinare per una 
 const ARCHETIPO_CIRCUITO := "circuito"         # riflessione · seguire il flusso quando lo schema cambia
 const ARCHETIPO_CICLO := "ciclo"                # velocità · registrare una breve sequenza e riusarla
 const ARCHETIPO_TRACCIA := "traccia"             # riflessione · fissare segnali esterni prima che spariscano
+const ARCHETIPO_RADIO := "radio"                 # velocità · riconoscere l'intenzione oltre le parole
+const ARCHETIPO_MERCATO := "mercato"             # riflessione · distinguere richieste quasi uguali
 
 ## I minigiochi scritti finora.
 ##
@@ -105,6 +107,24 @@ const GIOCHI := {
 		"convinzioneBersaglio": "Se non me lo ricordo, vuol dire che non l'ho mai saputo.",
 		"vittoria": "La stanza è nascosta, ma la traccia resta. Sesto riconosce il gesto delle sue mani.",
 		"sconfitta": "La nebbia ha coperto la stanza. Sesto lascia i segnali al loro posto e potete riprovare.",
+	},
+	"w04-marea": {
+		"archetipo": ARCHETIPO_RADIO,
+		"forma": FORMA_VELOCITA,
+		"titolo": "Radio di burrasca",
+		"consegna": "La radio è disturbata. Invia ogni messaggio alla luce che gli serve.",
+		"convinzioneBersaglio": "Capire è tradurre parola per parola.",
+		"vittoria": "Le parole erano diverse, ma le luci hanno capito tutte. Marea ascolta il senso.",
+		"sconfitta": "La burrasca ha inghiottito l'ultima chiamata. Marea riaccende la radio e potete riprovare.",
+	},
+	"w04-lino": {
+		"archetipo": ARCHETIPO_MERCATO,
+		"forma": FORMA_RIFLESSIONE,
+		"titolo": "Il mercato delle venti parole",
+		"consegna": "I clienti parlano quasi uguale. Dai a ciascuno quello che ha chiesto.",
+		"convinzioneBersaglio": "Per farsi capire bastano venti parole.",
+		"vittoria": "Ogni richiesta aveva un dettaglio che cambiava tutto. Lino prende nota, captain.",
+		"sconfitta": "Il banco resta aperto. Lino rimette in ordine le cassette e potete riprovare.",
 	},
 	# **Il terzo archetipo: la stessa funzione, una forma che muta.**
 	#
@@ -184,6 +204,14 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 				"errori": clampi(4 - int(floor(float(livello - 1) / 10.0)), 2, 4),
 				"secondi": 0.0,
 			}
+		ARCHETIPO_RADIO:
+			return {
+				"messaggi": clampi(5 + int(floor(float(livello - 1) / 5.0)), 5, 9),
+				"secondi": 4.8 + float(livello) * 0.15,
+				"errori": 2,
+			}
+		ARCHETIPO_MERCATO:
+			return {"richieste": clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5), "errori": 3, "secondi": 0.0}
 	return {}
 
 static func ha_gioco(npc_id: String) -> bool:

@@ -1029,8 +1029,8 @@ solo ordine e lavoro ancora aperto.
    (riflessione): durata, voglia di riprovare e sensazione di gioco rispetto a
    un esercizio. Le catture sono in `artifacts/character-minigames`;
 2. **i venti specialisti restanti**, uno per mondo, seguendo la matrice; il
-   Ruggine (velocità) e Sesto (riflessione), mondo 3, sono fatti e verificati.
-   Il prossimo è Marea, mondo 4, con «Radio di burrasca»;
+   Ruggine e Sesto, mondo 3, e Marea e Vecchio Lino, mondo 4, sono fatti e
+   verificati. Il prossimo è Gerbo, mondo 5, con «Fulcro!»;
 3. **i ventitré testimoni**;
 4. **Tavolo giochi globale** per il replay con difficoltà del mondo corrente.
 
@@ -1053,6 +1053,69 @@ col fondale della radura gia' in uso. Ogni ritratto in **tre versioni**, una per
 stadio dell'arco: la stessa persona, con una postura che cambia. Non serve che
 si capisca «ha imparato» — serve che si veda che **non e' piu' ferma nella
 stessa posa**.
+
+### Valutazione dei cinque giochi consegnati (12 agosto 2026)
+
+Passati alla regola del lotto — *fa fallire la convinzione, o interroga?* — e
+alle tre prove qui sopra. Gli audit erano **tutti verdi prima e dopo**, che è il
+dato interessante: misuravano che il gioco si può vincere, non che vincerlo
+richieda l'idea.
+
+**Il circuito di Ciro regge.** La fotografia dello schema smette di servire
+perché lo schema muta; la corrente si vede scorrere solo dove passa davvero.
+Passa tutte e tre le prove.
+
+**La radio di Marea regge come meccanica.** Nove messaggi che chiedono la stessa
+cosa con parole diverse: tradurre parola per parola manda alla luce sbagliata,
+che è esattamente la convinzione da smontare. Due difetti trovati e corretti:
+il riscontro dell'errore veniva cancellato dal cronometro dopo **un
+fotogramma** (invisibile), e la consegna aveva un errore d'italiano.
+
+**Il mercato di Lino era rotto nel punto decisivo, corretto.** Le cassette
+ripetevano la parola della richiesta — «Three silver fish, please» contro
+«THREE silver fish» — e **tutte e cinque le richieste si servivano accoppiando
+le lettere, senza sapere una parola d'inglese**. Il gioco non smentiva Lino:
+gli dava ragione. Adesso le cassette dicono in italiano e in cifre *che cosa
+c'è dentro*, e `market_minigame_audit` vieta la sovrapposizione di parole.
+
+**Il ciclo di Ruggine non regge, e va rifatto.** Ruggine crede che «i cicli sono
+per i pigri» e il suo arco dice che *riavvia la macchina a mano cento volte al
+giorno e ne è fiera*. Nel gioco **non esiste il modo manuale**: non si può
+azionare il braccio a mano, quindi non si sente mai quanto costa, e le
+ripetizioni risparmiate sono un numero dichiarato (`_fatti = _ripetizioni`), non
+una cosa che accade. Resta indovinare quale delle sei permutazioni di
+PRENDI/GIRA/POSA è quella buona, senza indizi e col cronometro: al mondo 3 è
+l'ordine ovvio e si vince in cinque secondi, negli altri mondi diventa una
+lotteria. Fallisce la prova 1 (non si può perdere per il motivo giusto).
+
+**La traccia di Sesto è debole, non rotta.** La stanza resta visibile mentre si
+compone la striscia: si copia, non si ricorda. Sesto crede che «se non me lo
+ricordo, non l'ho mai saputo» — per smentirlo bisogna prima *provare a
+ricordare e non riuscirci*. Basta velare la stanza **prima** della composizione,
+lasciando lo sguardo iniziale a tempo.
+
+### Compiti aperti, in ordine di peso
+
+**C-MG-1 · Rifare il ciclo di Ruggine.** Serve il braccio manuale: un pulsante
+per gesto, un pezzo per volta, mentre il nastro continua a riempirsi. Si deve
+poter *provare a stare dietro* e non riuscirci. Solo dopo si apre il registratore
+di sequenza, e le ripetizioni vanno **mostrate mentre accadono**.
+
+**C-MG-2 · Velare la stanza di Sesto prima della composizione.**
+
+**C-MG-3 · La lingua della radio.** Marea sta al mondo 4, la cui materia è
+**inglese**, e i nove messaggi sono tutti in italiano: il gioco è giusto, il
+materiale no. Passarli all'inglese cambia però la difficoltà in modo serio,
+soprattutto con cinque secondi di segnale. **Decisione del committente**, non da
+prendere in autonomia.
+
+**C-MG-4 · Adattamento in verticale.** `_adatta_verticale` sta solo in mucchio,
+scaffale e circuito: ciclo, traccia, radio e mercato su tablet in verticale
+restano a metà misura. Sette copie della stessa funzione sono già troppe —
+conviene una sola, condivisa.
+
+**C-MG-5 · Copertura del `character_minigame_visual_audit`.** Guarda solo i tre
+pilot. Ciclo, traccia, radio e mercato non hanno nessun controllo strutturale.
 
 ---
 

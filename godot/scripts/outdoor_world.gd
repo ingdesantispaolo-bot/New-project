@@ -2366,6 +2366,12 @@ func _apri_minigioco_personaggio(npc_id: String) -> void:
 		CharacterMinigameCatalog.ARCHETIPO_TRACCIA:
 			minigame_panel = preload("res://scripts/ui/trace_minigame_panel.gd").new()
 			minigame_panel.name = "TraceMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_RADIO:
+			minigame_panel = preload("res://scripts/ui/radio_minigame_panel.gd").new()
+			minigame_panel.name = "RadioMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_MERCATO:
+			minigame_panel = preload("res://scripts/ui/market_minigame_panel.gd").new()
+			minigame_panel.name = "MarketMinigamePanel"
 		CharacterMinigameCatalog.ARCHETIPO_CIRCUITO:
 			minigame_panel = CircuitMinigamePanel.new()
 			minigame_panel.name = "CircuitMinigamePanel"

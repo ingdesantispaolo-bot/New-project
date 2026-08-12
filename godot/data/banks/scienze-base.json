@@ -1213,7 +1213,7 @@
 				"Pieno, vuoto, misto"
 			],
 			"answer": "Solido, liquido, gassoso",
-			"explanation": "Solido, liquido e gassoso sono i tre stati fondamentali."
+			"explanation": "Sono le stesse particelle, legate in modo diverso: ferme e strette nel solido, vicine ma libere di scorrere nel liquido, lontane e indipendenti nel gassoso."
 		},
 		{
 			"id": "scienze-materia-77",

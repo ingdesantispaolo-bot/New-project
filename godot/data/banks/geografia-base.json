@@ -1292,7 +1292,7 @@
 				"Torino"
 			],
 			"answer": "Roma",
-			"explanation": "Roma è la capitale della Repubblica Italiana."
+			"explanation": "Roma non lo è sempre stata: l'Italia unita nacque nel 1861 con capitale Torino, poi Firenze; Roma lo diventò solo nel 1871."
 		},
 		{
 			"id": "geografia-geografia-italia-81",
@@ -1340,7 +1340,7 @@
 				"Etna"
 			],
 			"answer": "Etna",
-			"explanation": "L'Etna, in Sicilia, è il maggiore vulcano attivo europeo."
+			"explanation": "Erutta più spesso di quasi ogni altro vulcano al mondo perché sta proprio dove la placca africana spinge contro quella euroasiatica."
 		},
 		{
 			"id": "geografia-geografia-italia-84",
@@ -1436,7 +1436,7 @@
 				"Clima desertico"
 			],
 			"answer": "Clima mediterraneo",
-			"explanation": "Il clima mediterraneo ha estati asciutte e inverni miti e piovosi."
+			"explanation": "Il mare vicino smorza gli sbalzi di temperatura, e d'estate un'alta pressione stabile tiene lontane le piogge: qui, al contrario del resto d'Europa, l'estate è la stagione più secca."
 		},
 		{
 			"id": "geografia-climi-90",
@@ -1580,7 +1580,7 @@
 				"Canale di Panama"
 			],
 			"answer": "Canale di Suez",
-			"explanation": "Il Canale di Suez, in Egitto, collega Mediterraneo e Mar Rosso."
+			"explanation": "Scavato nell'Ottocento per non dover circumnavigare tutta l'Africa: da allora una nave fra Europa e Asia risparmia settimane di viaggio."
 		},
 		{
 			"id": "geografia-geografia-umana-99",

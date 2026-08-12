@@ -177,7 +177,7 @@
 				"usa un comando debole per chiudere un circuito di potenza"
 			],
 			"answer": "accumula carica e la rilascia per stabilizzare impulsi",
-			"explanation": "Condensatore: accumula una piccola carica e la rilascia per stabilizzare impulsi brevi."
+			"explanation": "Condensatore: si carica piano e si scarica di colpo: per questo smorza i picchi improvvisi invece di seguirli."
 		},
 		{
 			"id": "elettronica-attenzione-capacitor",
@@ -1746,7 +1746,7 @@
 				"Solo con l'acqua vicino"
 			],
 			"answer": "Nel verso giusto (ha una polarità)",
-			"explanation": "Il LED conduce in un solo verso: va rispettata la polarità."
+			"explanation": "È fatto di due materiali diversi uniti insieme: la corrente passa da uno all'altro come per una valvola, ma non torna indietro."
 		},
 		{
 			"id": "elettronica-misure-elettriche-76",

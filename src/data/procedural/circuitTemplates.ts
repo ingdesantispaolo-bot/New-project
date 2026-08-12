@@ -86,7 +86,7 @@ export const circuitComponentGuide = [
   {
     id: "capacitor",
     label: "Condensatore",
-    role: "accumula una piccola carica e la rilascia per stabilizzare impulsi brevi",
+    role: "si carica piano e si scarica di colpo: per questo smorza i picchi improvvisi invece di seguirli",
     check: "se è scarico, il LED può fare un lampo debole o ritardato",
     symbolName: "due piastre uguali affiancate",
     functionSummary: "accumula carica e la rilascia per stabilizzare impulsi",
